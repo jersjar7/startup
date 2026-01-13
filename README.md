@@ -29,11 +29,18 @@ Studying for the FE (Fundamentals of Engineering) Exam is a challenge. You need 
 
 ### Design
 
-![Design image](placeholder.png)
+![Login Page](Slide1.png)
+*Login/Register page with simple authentication form*
 
-Design sketches coming soon. 
+![Topics Dashboard](Slide2.png)
+*Dashboard showing FE exam topics with progress tracking and live activity*
 
-The application will include a login page, topic selection dashboard, study view with embedded content, and practice problems interface.
+![Study View](Slide3.png)
+*Study materials with key concepts and embedded YouTube tutorial*
+
+![Practice Problems](Slide4.png)
+*Practice problems interface with solutions and completion tracking*
+
 ```mermaid
 sequenceDiagram
     actor Student
