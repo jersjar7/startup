@@ -46,7 +46,7 @@
 ### My Server Details
 
 **Server IP Address**: 50.19.107.220  
-**Server URL**: http://50.19.107.220
+**Server URL**: http://50.19.107.220  
 **Instance Name**: jerson-feforraccoons-server  
 **Instance Type**: t3.micro (Free tier eligible)  
 **Key Pair**: jerson-cs260-key
@@ -87,10 +87,8 @@ ssh -i /Users/jerson/secrets/aws/cs260_feforraccoons/jerson-cs260-key.pem ubuntu
 - Elastic IP recommended to keep same IP address even if server restarts
 - Server takes 2-3 minutes to fully boot after launching
 
-```markdown
 **Elastic IP Address**
 - Permanent IP: 50.19.107.220
 - Allocation ID: eipalloc-071cfa12cf30b5228
 - Free as long as server is running
 - Will persist even if server stops/restarts
-```
