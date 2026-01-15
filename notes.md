@@ -40,3 +40,49 @@
 ```
 
 **Key Insight**: Plan the technology stack early to avoid realizing you forgot a requirement halfway through.
+
+## 2. AWS Server Setup
+
+### My Server Details
+
+**Server IP Address**: 23.23.64.81  
+**Server URL**: http://23.23.64.81  
+**Instance Name**: jerson-feforraccoons-server  
+**Instance Type**: t3.micro (Free tier eligible)  
+**Key Pair**: jerson-cs260-key
+
+### SSH Command
+```bash
+ssh -i /Users/jerson/secrets/aws/cs260_feforraccoons/jerson-cs260-key.pem ubuntu@23.23.64.81
+```
+
+### What I Learned
+
+**AWS EC2 Basics**
+- EC2 = Elastic Compute Cloud (virtual servers in the cloud)
+- AMI = Amazon Machine Image (pre-configured server template)
+- Used class AMI: `ami-094c4a0be0b642a24` (Web Programming 260 Server v8)
+- Includes: Ubuntu, Node.js, NVM, Caddy Server, PM2
+
+**Security Groups**
+- Firewall rules that control traffic to server
+- Need 3 rules for web server:
+  - SSH (port 22): for remote terminal access
+  - HTTP (port 80): for web traffic
+  - HTTPS (port 443): for secure web traffic
+- All set to "Anywhere" so website is publicly accessible
+
+**Key Pair (.pem file)**
+- Acts like a password for SSH access
+- Stored at: `/Users/jerson/developer/secrets/aws/cs260_feforraccoons/`
+- NEVER commit to GitHub or share publicly
+- Need it every time I SSH into server
+
+**T3 Instance Credit Specification**
+- Set to "Unlimited" to prevent server from freezing if CPU maxes out
+- Minimal cost (pennies per hour) vs. server dying
+
+**Important Notes**
+- Region must be US East (N. Virginia) for class AMI
+- Elastic IP recommended to keep same IP address even if server restarts
+- Server takes 2-3 minutes to fully boot after launching
