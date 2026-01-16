@@ -108,3 +108,34 @@ ssh -i /Users/jerson/secrets/aws/cs260_feforraccoons/jerson-cs260-key.pem ubuntu
 **Caddyfile Location:** `~/Caddyfile` on server
 - Configured to serve static files from `/usr/share/caddy`
 - Configured reverse proxy for startup (port 4000) and simon (port 3000)
+
+## 3. HTML Structure
+
+### What I Learned
+
+**HTML Structure Elements**
+- Block elements (div, p, section, header, footer, main, aside, nav) - create distinct blocks
+- Inline elements (span, a, b, img) - flow within block content without disrupting layout
+- Block elements stack vertically, inline elements flow horizontally
+
+**Common Structural Hierarchy**
+```
+body
+├── header (page header with nav)
+├── main (primary content)
+│   ├── section (content blocks)
+│   └── aside (supplementary content)
+└── footer (page footer)
+```
+
+**Key Elements Used**
+- `<a href="url">text</a>` - hyperlinks (inline)
+- `<img src="url" width="200">` - images (inline)
+- `<h1>` to `<h6>` - headings (block)
+- `<ul>` + `<li>` - unordered lists (block)
+- `<table>` + `<tr>` + `<td>`/`<th>` - tables (block)
+- `<nav>` - navigation container (block)
+- `<section>` - thematic content grouping (block)
+- `<aside>` - tangential content (block)
+
+**Remember**: Use semantic HTML elements (header, nav, main, footer, aside) instead of generic divs when possible - helps with SEO and accessibility.
