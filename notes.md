@@ -92,3 +92,19 @@ ssh -i /Users/jerson/secrets/aws/cs260_feforraccoons/jerson-cs260-key.pem ubuntu
 - Allocation ID: eipalloc-071cfa12cf30b5228
 - Free as long as server is running
 - Will persist even if server stops/restarts
+
+**HTTPS Configuration**
+- Configured Caddy to use domain name instead of :80
+- Caddy automatically requests SSL certificates from Let's Encrypt
+- All traffic now uses HTTPS (secure connection)
+- HTTP requests automatically redirect to HTTPS
+- Certificate renewal happens automatically
+
+**Working URLs:**
+- https://fe4raccoons.click (main site - shows secure padlock)
+- https://startup.fe4raccoons.click (for course project)
+- https://simon.fe4raccoons.click (for Simon practice app)
+
+**Caddyfile Location:** `~/Caddyfile` on server
+- Configured to serve static files from `/usr/share/caddy`
+- Configured reverse proxy for startup (port 4000) and simon (port 3000)
