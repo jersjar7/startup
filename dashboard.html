@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FE for Raccoons - Dashboard</title>
+    <link rel="icon" href="favicon.ico">
+</head>
+<body>
+    <header>
+        <h1>FE for Raccoons</h1>
+        <button class="btn-logout" onclick="window.location.href='index.html'">Logout</button>
+    </header>
+
+    <main>
+        <h2>Select a Topic to Study</h2>
+        
+        <section class="topics-grid">
+            <div class="topic-card" onclick="window.location.href='study.html?topic=analytic-geometry'">
+                <h3>Analytic Geometry</h3>
+                <p>3/10 problems</p>
+            </div>
+            
+            <div class="topic-card" onclick="window.location.href='study.html?topic=dynamics'">
+                <h3>Dynamics</h3>
+                <p>0/8 problems</p>
+            </div>
+            
+            <div class="topic-card" onclick="window.location.href='study.html?topic=fluid-mechanics'">
+                <h3>Fluid Mechanics</h3>
+                <p>5/12 problems</p>
+            </div>
+            
+            <div class="topic-card" onclick="window.location.href='study.html?topic=thermodynamics'">
+                <h3>Soils</h3>
+                <p>2/9 problems</p>
+            </div>
+            
+            <div class="topic-card" onclick="window.location.href='study.html?topic=materials'">
+                <h3>Materials</h3>
+                <p>1/7 problems</p>
+            </div>
+            
+            <div class="topic-card" onclick="window.location.href='study.html?topic=circuits'">
+                <h3>Transportation</h3>
+                <p>0/10 problems</p>
+            </div>
+        </section>
+
+        <section class="live-activity">
+            <h3>Live Activity</h3>
+            <ul>
+                <li>5 users studying Analytic Geometry</li>
+                <li>3 users studying Dynamics</li>
+                <li>2 users studying Fluids</li>
+            </ul>
+            <p><em>WebSocket data will be displayed here in real-time</em></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Created by Jerson J. Garcia</p>
+        <p>
+            <a href="https://github.com/jersjar7/startup" target="_blank">GitHub Repository</a>
+        </p>
+    </footer>
+</body>
+</html>
