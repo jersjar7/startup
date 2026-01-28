@@ -139,3 +139,36 @@ body
 - `<aside>` - tangential content (block)
 
 **Remember**: Use semantic HTML elements (header, nav, main, footer, aside) instead of generic divs when possible - helps with SEO and accessibility.
+
+## 4. HTML Deliverable
+
+### What I Learned
+
+**HTML Page Creation Strategy**
+- Build pages in order of complexity: Login → Dashboard → Study → Problems
+- Start simple to establish structure patterns that later pages reuse
+- Follow user flow: each page naturally links to the next
+
+**Semantic HTML vs Generic Divs**
+- Use semantic elements (header, nav, main, section, footer) instead of divs
+- Improves accessibility and SEO
+- Makes code more readable and maintainable
+
+**Key HTML Elements Used**
+- `<details>` + `<summary>` - Collapsible content (perfect for solutions)
+- `<form action="page.html">` - Simple navigation without JavaScript
+- `onclick="window.location.href"` - Alternative navigation method
+- `<label>` + `<input type="checkbox">` - Proper form association
+
+**Placeholder Strategy**
+- Added placeholders for all future deliverables (DB, WebSocket, API)
+- Makes it clear what functionality will be added later
+- Helps with planning subsequent deliverables
+
+**Navigation Patterns**
+- Consistent header structure across all pages
+- Back links for easy navigation
+- Logout button always in top right
+- Forms can use `action` attribute to navigate on submit
+
+**Key Insight**: Following wireframes closely during HTML creation makes CSS styling much easier later.
