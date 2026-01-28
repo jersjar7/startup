@@ -53,7 +53,7 @@
 
 ### SSH Command
 ```bash
-ssh -i /Users/jerson/secrets/aws/cs260_feforraccoons/jerson-cs260-key.pem ubuntu@50.19.107.220
+ssh -i /Users/jerson/developer/secrets/aws/cs260_feforraccoons/jerson-cs260-key.pem ubuntu@50.19.107.220
 ```
 
 ### What I Learned
