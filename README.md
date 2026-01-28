@@ -86,15 +86,15 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [x] **HTML pages** - I did not complete this part of the deliverable.
-- [x] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [x] **Links** - I did not complete this part of the deliverable.
-- [x] **Text** - I did not complete this part of the deliverable.
-- [x] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [x] **Images** - I did not complete this part of the deliverable.
-- [x] **Login placeholder** - I did not complete this part of the deliverable.
-- [x] **DB data placeholder** - I did not complete this part of the deliverable.
-- [x] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - 4 pages: index.html (login), dashboard.html (topics), study.html (study materials), problems.html (practice problems)
+- [x] **Proper HTML element usage** - Used semantic elements: header, main, footer, nav, section, form, details
+- [x] **Links** - Navigation between all pages, back links, logout, GitHub repo link
+- [x] **Text** - All pages contain descriptive text, instructions, problem descriptions
+- [x] **3rd party API placeholder** - Motivational quotes section in problems.html with placeholder text
+- [x] **Images** - Placeholder for YouTube video embed in study.html
+- [x] **Login placeholder** - Username/password form in index.html
+- [x] **DB data placeholder** - Study materials, problems, progress tracking all marked as DB placeholders
+- [x] **WebSocket placeholder** - Live Activity section in dashboard.html showing real-time user activity
 
 ## 🚀 CSS deliverable
 
