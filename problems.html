@@ -9,104 +9,105 @@
 </head>
 <body>
     <header>
-        <a href="dashboard.html" class="back-link">← Back to Topics</a>
-        <h1>Analytic Geometry - Practice Problems</h1>
-        <span class="username-display">Logged in as: [Username Placeholder]</span>
-        <button class="btn-logout" onclick="window.location.href='index.html'">Logout</button>
+        <div class="flex items-center gap-4">
+            <a href="dashboard.html" class="text-sm hover:underline" style="color: var(--sunshine-yellow)">← Back to Topics</a>
+            <h1 class="text-2xl font-bold">Analytic Geometry - Practice Problems</h1>
+        </div>
+        <span class="username-display text-sm" style="color: var(--sunshine-yellow)">User: [Username]</span>
+        <button class="px-4 py-2 rounded font-semibold transition hover:opacity-90" 
+                style="background-color: var(--brick-orange); color: white"
+                onclick="window.location.href='index.html'">Logout</button>
     </header>
 
     <main>
-        <section class="progress-bar">
-            <p><strong>Progress: 3/10 Problems Completed</strong></p>
-            <p><em>Database placeholder: User progress will be tracked in MongoDB</em></p>
+        <section class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <p class="font-bold text-lg mb-2">Progress: 3/10 Problems Completed</p>
+            <p class="text-sm text-gray-500 italic">Database placeholder: User progress will be tracked in MongoDB</p>
         </section>
 
-        <section class="problems-list">
-            <div class="problem-card">
-                <h3>Problem 1: Calculate the distance between two points</h3>
-                <p>Find the distance between points A(2, 3) and B(5, 7).</p>
-                <details>
-                    <summary>[Click to reveal solution]</summary>
-                    <p><strong>Solution:</strong> Using the distance formula: d = √[(x₂-x₁)² + (y₂-y₁)²]</p>
-                    <p>d = √[(5-2)² + (7-3)²] = √[9 + 16] = √25 = 5 units</p>
+        <section class="space-y-4 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-bold mb-3" style="color: var(--pacific-green)">Problem 1: Calculate the distance between two points</h3>
+                <p class="mb-4">Find the distance between points A(2, 3) and B(5, 7).</p>
+                <details class="mb-4">
+                    <summary class="cursor-pointer font-semibold hover:underline" style="color: var(--pacific-green)">[Click to reveal solution]</summary>
+                    <div class="mt-3 p-4 bg-gray-50 rounded">
+                        <p class="font-semibold mb-2">Solution:</p>
+                        <p>Using the distance formula: d = √[(x₂-x₁)² + (y₂-y₁)²]</p>
+                        <p>d = √[(5-2)² + (7-3)²] = √[9 + 16] = √25 = 5 units</p>
+                    </div>
                 </details>
-                <label>
-                    <input type="checkbox"> Mark as complete
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" class="w-4 h-4">
+                    <span>Mark as complete</span>
                 </label>
             </div>
 
-            <div class="problem-card">
-                <h3>Problem 2: Find the equation of a circle</h3>
-                <p>A circle has center at (3, -2) and radius 4. Write its equation in standard form.</p>
-                <details>
-                    <summary>[Click to reveal solution]</summary>
-                    <p><strong>Solution:</strong> Standard form: (x-h)² + (y-k)² = r²</p>
-                    <p>Where (h,k) is center and r is radius</p>
-                    <p>(x-3)² + (y+2)² = 16</p>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-bold mb-3" style="color: var(--pacific-green)">Problem 2: Find the equation of a circle</h3>
+                <p class="mb-4">A circle has center at (3, -2) and radius 4. Write its equation in standard form.</p>
+                <details class="mb-4">
+                    <summary class="cursor-pointer font-semibold hover:underline" style="color: var(--pacific-green)">[Click to reveal solution]</summary>
+                    <div class="mt-3 p-4 bg-gray-50 rounded">
+                        <p class="font-semibold mb-2">Solution:</p>
+                        <p>Standard form: (x-h)² + (y-k)² = r²</p>
+                        <p>Where (h,k) is center and r is radius</p>
+                        <p>(x-3)² + (y+2)² = 16</p>
+                    </div>
                 </details>
-                <label>
-                    <input type="checkbox"> Mark as complete
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" class="w-4 h-4">
+                    <span>Mark as complete</span>
                 </label>
             </div>
 
-            <div class="problem-card">
-                <h3>Problem 3: Determine the slope and equation of a line</h3>
-                <p>Find the slope and equation of the line passing through points (1, 2) and (4, 8).</p>
-                <details>
-                    <summary>[Click to reveal solution]</summary>
-                    <p><strong>Solution:</strong> Slope m = (y₂-y₁)/(x₂-x₁) = (8-2)/(4-1) = 6/3 = 2</p>
-                    <p>Using point-slope form: y - y₁ = m(x - x₁)</p>
-                    <p>y - 2 = 2(x - 1)</p>
-                    <p>y = 2x</p>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-bold mb-3" style="color: var(--pacific-green)">Problem 3: Determine the slope and equation of a line</h3>
+                <p class="mb-4">Find the slope and equation of the line passing through points (1, 2) and (4, 8).</p>
+                <details class="mb-4">
+                    <summary class="cursor-pointer font-semibold hover:underline" style="color: var(--pacific-green)">[Click to reveal solution]</summary>
+                    <div class="mt-3 p-4 bg-gray-50 rounded">
+                        <p class="font-semibold mb-2">Solution:</p>
+                        <p>Slope m = (y₂-y₁)/(x₂-x₁) = (8-2)/(4-1) = 6/3 = 2</p>
+                        <p>Using point-slope form: y - y₁ = m(x - x₁)</p>
+                        <p>y - 2 = 2(x - 1)</p>
+                        <p>y = 2x</p>
+                    </div>
                 </details>
-                <label>
-                    <input type="checkbox"> Mark as complete
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" class="w-4 h-4">
+                    <span>Mark as complete</span>
                 </label>
             </div>
 
-            <div class="problem-card">
-                <h3>Problem 4: Find the midpoint between two coordinates</h3>
-                <p>Calculate the midpoint between A(-2, 5) and B(4, -3).</p>
-                <details>
-                    <summary>[Click to reveal solution]</summary>
-                    <p><strong>Solution:</strong> Midpoint formula: M = ((x₁+x₂)/2, (y₁+y₂)/2)</p>
-                    <p>M = ((-2+4)/2, (5+(-3))/2) = (2/2, 2/2) = (1, 1)</p>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-bold mb-3" style="color: var(--pacific-green)">Problem 4: Find the midpoint between two coordinates</h3>
+                <p class="mb-4">Calculate the midpoint between A(-2, 5) and B(4, -3).</p>
+                <details class="mb-4">
+                    <summary class="cursor-pointer font-semibold hover:underline" style="color: var(--pacific-green)">[Click to reveal solution]</summary>
+                    <div class="mt-3 p-4 bg-gray-50 rounded">
+                        <p class="font-semibold mb-2">Solution:</p>
+                        <p>Midpoint formula: M = ((x₁+x₂)/2, (y₁+y₂)/2)</p>
+                        <p>M = ((-2+4)/2, (5+(-3))/2) = (2/2, 2/2) = (1, 1)</p>
+                    </div>
                 </details>
-                <label>
-                    <input type="checkbox"> Mark as complete
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" class="w-4 h-4">
+                    <span>Mark as complete</span>
                 </label>
             </div>
 
-            <div class="problem-card">
-                <h3>Problem 5: Convert Cartesian to Polar coordinates</h3>
-                <p>Convert the Cartesian point (3, 4) to polar coordinates (r, θ).</p>
-                <details>
-                    <summary>[Click to reveal solution]</summary>
-                    <p><strong>Solution:</strong> r = √(x² + y²) = √(9 + 16) = √25 = 5</p>
-                    <p>θ = arctan(y/x) = arctan(4/3) ≈ 53.13°</p>
-                    <p>Polar coordinates: (5, 53.13°)</p>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-bold mb-3" style="color: var(--pacific-green)">Problem 5: Convert Cartesian to Polar coordinates</h3>
+                <p class="mb-4">Convert the Cartesian point (3, 4) to polar coordinates (r, θ).</p>
+                <details class="mb-4">
+                    <summary class="cursor-pointer font-semibold hover:underline" style="color: var(--pacific-green)">[Click to reveal solution]</summary>
+                    <div class="mt-3 p-4 bg-gray-50 rounded">
+                        <p class="font-semibold mb-2">Solution:</p>
+                        <p>r = √(x² + y²) = √(9 + 16) = √25 = 5</p>
+                        <p>θ = arctan(y/x) = arctan(4/3) ≈ 53.13°</p>
+                        <p>Polar coordinates: (5, 53.13°)</p>
+                    </div>
                 </details>
-                <label>
-                    <input type="checkbox"> Mark as complete
-                </label>
-            </div>
-        </section>
-
-        <section class="motivation">
-            <h3>Daily Study Motivation</h3>
-            <blockquote>
-                <p>"Success is the sum of small efforts repeated day in and day out."</p>
-                <cite>- Robert Collier</cite>
-            </blockquote>
-            <p><em>3rd party API placeholder: Motivational quotes will be fetched from external API</em></p>
-        </section>
-    </main>
-
-    <footer>
-        <p>Created by Jerson J. Garcia</p>
-        <p>
-            <a href="https://github.com/jersjar7/startup" target="_blank">GitHub Repository</a>
-        </p>
-    </footer>
-</body>
-</html>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" class="w-4
