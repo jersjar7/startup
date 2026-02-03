@@ -9,21 +9,33 @@
 </head>
 <body>
     <header>
-        <h1>FE for Raccoons</h1>
+        <h1 class="text-2xl font-bold">FE for Raccoons</h1>
     </header>
 
-    <main>
-        <section class="login-container">
-            <form method="get" action="dashboard.html">
-                <div class="form-group">
-                    <input type="text" id="username" name="username" placeholder="Username" required>
+    <main class="flex items-center justify-center">
+        <section class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+            <h2 class="text-3xl font-bold text-center mb-6" style="color: var(--pacific-green)">Welcome Back</h2>
+            <form method="get" action="dashboard.html" class="space-y-4">
+                <div>
+                    <input type="text" id="username" name="username" placeholder="Username" required 
+                           class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:border-[var(--pacific-green)] transition">
                 </div>
-                <div class="form-group">
-                    <input type="password" id="password" name="password" placeholder="Password" required>
+                <div>
+                    <input type="password" id="password" name="password" placeholder="Password" required 
+                           class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:border-[var(--pacific-green)] transition">
                 </div>
-                <div class="button-group">
-                    <button type="submit" class="btn-login">Login</button>
-                    <button type="button" class="btn-register" onclick="window.location.href='dashboard.html'">Register</button>
+                <div class="flex gap-4">
+                    <button type="submit" 
+                            class="flex-1 py-3 rounded-lg font-semibold text-white transition hover:opacity-90"
+                            style="background-color: var(--pacific-green)">
+                        Login
+                    </button>
+                    <button type="button" 
+                            class="flex-1 py-3 rounded-lg font-semibold border-2 transition hover:bg-gray-50"
+                            style="border-color: var(--pacific-green); color: var(--pacific-green)"
+                            onclick="window.location.href='dashboard.html'">
+                        Register
+                    </button>
                 </div>
             </form>
         </section>
