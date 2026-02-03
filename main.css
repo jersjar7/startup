@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+
+/* Color palette */
+:root {
+  --charcoal: #2c2c2c;
+  --cream: #FFF9F0;
+  --brick-orange: #F47843;
+  --sunshine-yellow: #FFCD60;
+  --pacific-green: #3A6A55;
+}
+
+/* Base styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--cream);
+  color: var(--charcoal);
+}
