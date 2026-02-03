@@ -9,37 +9,61 @@
 </head>
 <body>
     <header>
-        <a href="dashboard.html" class="back-link">← Back to Topics</a>
-        <h1>Analytic Geometry</h1>
-        <span class="username-display">Logged in as: [Username Placeholder]</span>
-        <button class="btn-logout" onclick="window.location.href='index.html'">Logout</button>
+        <div class="flex items-center gap-4">
+            <a href="dashboard.html" class="text-sm hover:underline" style="color: var(--sunshine-yellow)">← Back to Topics</a>
+            <h1 class="text-2xl font-bold">Analytic Geometry</h1>
+        </div>
+        <span class="username-display text-sm" style="color: var(--sunshine-yellow)">User: [Username]</span>
+        <button class="px-4 py-2 rounded font-semibold transition hover:opacity-90" 
+                style="background-color: var(--brick-orange); color: white"
+                onclick="window.location.href='index.html'">Logout</button>
     </header>
 
     <main>
-        <section class="key-concepts">
-            <h2>Key Concepts</h2>
-            <p>Study Materials and concept summaries go here.</p>
-            <ul>
-                <li>✓ Coordinate Systems (Cartesian, Polar)</li>
-                <li>✓ Distance and Midpoint Formulas</li>
-                <li>✓ Circle Equations</li>
-                <li>✓ Line Equations and Slopes</li>
-                <li>✓ Conic Sections (Parabolas, Ellipses, Hyperbolas)</li>
-                <li>✓ Vector Operations</li>
+        <section class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-2xl font-bold mb-4" style="color: var(--pacific-green)">Key Concepts</h2>
+            <p class="mb-4 text-gray-700">Study Materials and concept summaries go here.</p>
+            <ul class="space-y-2 mb-4">
+                <li class="flex items-center gap-2">
+                    <span style="color: var(--pacific-green)">✓</span>
+                    <span>Coordinate Systems (Cartesian, Polar)</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <span style="color: var(--pacific-green)">✓</span>
+                    <span>Distance and Midpoint Formulas</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <span style="color: var(--pacific-green)">✓</span>
+                    <span>Circle Equations</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <span style="color: var(--pacific-green)">✓</span>
+                    <span>Line Equations and Slopes</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <span style="color: var(--pacific-green)">✓</span>
+                    <span>Conic Sections (Parabolas, Ellipses, Hyperbolas)</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <span style="color: var(--pacific-green)">✓</span>
+                    <span>Vector Operations</span>
+                </li>
             </ul>
-            <p><em>Database placeholder: Study materials will be loaded from MongoDB</em></p>
+            <p class="text-sm text-gray-500 italic">Database placeholder: Study materials will be loaded from MongoDB</p>
         </section>
 
-        <section class="video-section">
-            <div class="video-placeholder">
-                <h3>YouTube Video Tutorial</h3>
+        <section class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h3 class="text-xl font-bold mb-4" style="color: var(--pacific-green)">YouTube Video Tutorial</h3>
+            <div class="aspect-video bg-gray-200 rounded flex items-center justify-center text-gray-500">
                 <p>(Embedded Video Player)</p>
-                <p><em>Placeholder for YouTube embed from Raccoon Engineering channel</em></p>
             </div>
+            <p class="mt-4 text-sm text-gray-500 italic">Placeholder for YouTube embed from Raccoon Engineering channel</p>
         </section>
 
-        <section class="practice-link">
-            <button class="btn-practice" onclick="window.location.href='problems.html?topic=analytic-geometry'">
+        <section class="text-center">
+            <button class="px-8 py-4 rounded-lg font-bold text-lg transition hover:opacity-90" 
+                    style="background-color: var(--pacific-green); color: white"
+                    onclick="window.location.href='problems.html?topic=analytic-geometry'">
                 Practice Problems →
             </button>
         </section>
