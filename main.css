@@ -60,3 +60,61 @@ main {
   width: 100%;
   margin: 0 auto;
 }
+
+/* Custom color classes */
+.text-pacific-green {
+  color: var(--pacific-green);
+}
+
+.text-sunshine-yellow {
+  color: var(--sunshine-yellow);
+}
+
+.bg-pacific-green {
+  background-color: var(--pacific-green);
+}
+
+.bg-sunshine-yellow {
+  background-color: var(--sunshine-yellow);
+}
+
+.bg-brick-orange {
+  background-color: var(--brick-orange);
+}
+
+.border-pacific-green {
+  border-color: var(--pacific-green);
+}
+
+.border-sunshine-yellow {
+  border-color: var(--sunshine-yellow);
+}
+
+/* Interaction states */
+a, button, .bg-white {
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+input:focus {
+  outline: 3px solid var(--pacific-green);
+  outline-offset: 2px;
+  border-color: var(--pacific-green);
+}
+
+details > summary {
+  cursor: pointer;
+  user-select: none;
+}
+
+details[open] > summary {
+  margin-bottom: 1rem;
+}
