@@ -172,3 +172,46 @@ body
 - Forms can use `action` attribute to navigate on submit
 
 **Key Insight**: Following wireframes closely during HTML creation makes CSS styling much easier later.
+
+## 5. CSS Deliverable
+
+### What I Learned
+
+**Modular CSS Architecture**
+- Split large CSS files into page-specific modules (main.css + page.css)
+- main.css: shared styles (variables, base, header, footer, buttons)
+- page.css: page-specific styles (dashboard.css, index.css, study.css, problems.css)
+- Each HTML links both: `<link rel="stylesheet" href="main.css">` then `<link rel="stylesheet" href="page.css">`
+- Improves maintainability and organization
+
+**CSS Variables**
+```css
+:root {
+  --charcoal: #2c2c2c;
+  --cream: #FFF9F0;
+}
+/* Use with: color: var(--charcoal); */
+```
+
+**Layout Systems**
+- Flexbox: `.login-buttons { display: flex; gap: 1rem; }`
+- Grid: `.topics-grid { display: grid; grid-template-columns: repeat(3, 1fr); }`
+- Grid items stretch by default - use `justify-self: end;` to prevent stretching
+
+**Responsive Design**
+- Media queries at breakpoints: 992px (tablet), 640px (mobile)
+- Grid columns adjust: 3 columns → 2 columns → 1 column
+- Flexbox direction changes: row → column
+
+**Selector Types Used**
+- Element: `button`, `input`, `body`
+- Class: `.topic-card`, `.logout-btn`
+- ID: `#app-title`, `#app-slogan`
+- Pseudo: `:hover`, `:focus`, `:active`, `:before`, `:last-child`
+- Descendant: `.login-buttons button`
+
+**CSS Framework**
+- Tailwind CSS via `@import 'tailwindcss'`
+- Custom utility classes for project colors
+
+**Key Insight**: Flexbox and Grid behave differently - flexbox auto-sizes items, grid stretches them to fill cells. Choose based on desired layout behavior.
