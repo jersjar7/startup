@@ -100,12 +100,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Visually appealing colors and layout. No overflowing elements.** - I did not complete this part of the deliverable.
-- [ ] **Use of a CSS framework** - I did not complete this part of the deliverable.
-- [ ] **All visual elements styled using CSS** - I did not complete this part of the deliverable.
-- [ ] **Responsive to window resizing using flexbox and/or grid display** - I did not complete this part of the deliverable.
-- [ ] **Use of a imported font** - I did not complete this part of the deliverable.
-- [ ] **Use of different types of selectors including element, class, ID, and pseudo selectors** - I did not complete this part of the deliverable.
+- [x] **Visually appealing colors and layout. No overflowing elements.** - Custom color palette with cream background, charcoal text, and accent colors. Clean, professional layout with proper spacing.
+- [x] **Use of a CSS framework** - Tailwind CSS imported via `@import 'tailwindcss'` in main.css
+- [x] **All visual elements styled using CSS** - All buttons, inputs, cards, headers, footers, and page layouts fully styled. Modular CSS structure with main.css for shared styles and separate CSS files for each page (index.css, dashboard.css, study.css, problems.css).
+- [x] **Responsive to window resizing using flexbox and/or grid display** - Grid layout for topics (.topics-grid) and page headers. Flexbox for login buttons and header layout. Media queries for mobile responsiveness at 992px and 640px breakpoints.
+- [x] **Use of a imported font** - Inter font family from Google Fonts
+- [x] **Use of different types of selectors including element, class, ID, and pseudo selectors** - Element selectors (body, button, input), class selectors (.topic-card, .logout-btn), ID selector (#app-title, #app-slogan), pseudo selectors (:hover, :focus, :active, :before, :last-child)
 
 ## 🚀 React part 1: Routing deliverable
 
