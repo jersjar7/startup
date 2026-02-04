@@ -1,0 +1,50 @@
+/* ===== PAGE-SPECIFIC: index.html ===== */
+.login-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 150px);
+}
+
+.login-form-container {
+  background: white;
+  border: 2px solid var(--charcoal);
+  padding: 3rem 4rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.login-form-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.login-form-container input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--charcoal);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.login-form-container input::placeholder {
+  color: #666;
+}
+
+.login-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.login-buttons button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--pacific-green);
+  color: white;
+  border: 2px solid var(--charcoal);
+}

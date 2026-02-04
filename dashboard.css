@@ -1,0 +1,67 @@
+/* ===== PAGE-SPECIFIC: dashboard.html ===== */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.logout-btn {
+  padding: 0.5rem 1.5rem;
+  background-color: var(--brick-orange);
+  color: white;
+  font-weight: 600;
+  border: 2px solid var(--charcoal);
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.topic-card {
+  border: 2px solid var(--charcoal);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.topic-card:hover {
+  background-color: var(--light-gray);
+  transform: translateY(-2px);
+}
+
+.topic-card h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.topic-card p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.live-activity {
+  border: 2px solid var(--charcoal);
+  padding: 1.5rem;
+  background: var(--light-gray);
+}
+
+.live-activity h3 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.live-activity ul {
+  list-style: none;
+  padding: 0;
+}
+
+.live-activity li {
+  margin-bottom: 0.5rem;
+}

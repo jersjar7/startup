@@ -1,0 +1,62 @@
+/* ===== PAGE-SPECIFIC: problems.html ===== */
+.problems-header {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  align-items: center;
+}
+
+.problems-header h1 {
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.progress-section {
+  border: 2px solid var(--charcoal);
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  background: var(--light-gray);
+}
+
+.progress-section p {
+  font-weight: 600;
+}
+
+.problem-card {
+  border: 2px solid var(--charcoal);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  background: white;
+}
+
+.problem-card h3 {
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.problem-card details {
+  margin: 1rem 0;
+}
+
+.problem-card summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--charcoal);
+}
+
+.problem-card summary:hover {
+  text-decoration: underline;
+}
+
+.problem-card label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.problem-card input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
