@@ -60,3 +60,38 @@
   height: 1rem;
   cursor: pointer;
 }
+
+.back-link {
+  text-decoration: none;
+  color: var(--brick-orange);
+  font-weight: 500;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.problems-header .logout-btn {
+  justify-self: end;
+}
+
+.logout-btn {
+  padding: 0.5rem 1.5rem;
+  background-color: var(--brick-orange);
+  color: white;
+  font-weight: 600;
+  border: 2px solid var(--charcoal);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 992px) {
+  .problems-header {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .problems-header .logout-btn {
+    justify-self: center;
+  }
+}

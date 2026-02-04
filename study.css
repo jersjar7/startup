@@ -7,7 +7,7 @@
 
 .back-link {
   text-decoration: none;
-  color: var(--charcoal);
+  color: var(--brick-orange);
   font-weight: 500;
 }
 
@@ -23,6 +23,14 @@
 
 .study-header .logout-btn {
   justify-self: end;
+}
+
+.logout-btn {
+  padding: 0.5rem 1.5rem;
+  background-color: var(--brick-orange);
+  color: white;
+  font-weight: 600;
+  border: 2px solid var(--charcoal);
 }
 
 .key-concepts {
@@ -76,8 +84,21 @@
   display: block;
   margin: 0 auto;
   padding: 0.75rem 2rem;
-  background-color: #888;
+  background-color: var(--pacific-green);
   color: white;
   font-weight: 600;
   border: 2px solid var(--charcoal);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 992px) {
+  .study-header {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .study-header .logout-btn {
+    justify-self: center;
+  }
 }

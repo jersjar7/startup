@@ -127,6 +127,12 @@ input:focus {
   color: var(--charcoal);
 }
 
+#app-slogan {
+  font-size: .75;
+  font-weight: 300;
+  color: var(--charcoal);
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 640px) {
   main {
