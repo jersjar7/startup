@@ -215,3 +215,69 @@ body
 - Custom utility classes for project colors
 
 **Key Insight**: Flexbox and Grid behave differently - flexbox auto-sizes items, grid stretches them to fill cells. Choose based on desired layout behavior.
+
+## 5. React Part 1: Routing Deliverable
+
+### What I Learned
+
+**Converting from HTML to React**
+- React uses a single HTML file (index.html) as entry point with a `<div id="root"></div>`
+- The index.jsx file loads the top-level App component into the root div
+- Each page becomes a React component (.jsx file) instead of separate HTML files
+- JSX looks like HTML but has key differences: `class` becomes `className`, inline styles use objects
+- Self-closing tags must have `/` (like `<input />` not `<input>`)
+
+**Project Structure with Vite**
+- Vite is the build tool that bundles React code for production
+- `public/` directory holds static assets (images, icons)
+- `src/` directory holds all React components and styles
+- Each component gets its own folder with .jsx and .css files
+- `package.json` defines dependencies and npm scripts (dev, build, preview)
+- Must add `node_modules` to .gitignore (can be rebuilt with `npm install`)
+
+**React Router**
+- BrowserRouter wraps the entire app to enable routing
+- Routes component defines which component to show for each path
+- Route elements map paths to components: `<Route path="/" element={<Login />} />`
+- NavLink or useNavigate hook handles navigation (not anchor tags)
+- SPA (Single Page Application) = one HTML file, JavaScript swaps components
+- URL changes without page reloads = better user experience
+
+**Using Tailwind CSS with React**
+- Tailwind integrates via `@tailwindcss/vite` plugin in vite.config.js
+- Import Tailwind in app.css with `@import 'tailwindcss';`
+- Must set `"type": "module"` in package.json for ES modules
+- Google Fonts should go in HTML `<head>`, not CSS `@import` (to avoid Tailwind conflicts)
+
+**React Navigation Pattern**
+- Import `useNavigate` hook from 'react-router-dom'
+- Call `const navigate = useNavigate();` inside component
+- Use `onClick={() => navigate('/path')}` for buttons
+- Use `onSubmit={(e) => { e.preventDefault(); navigate('/path'); }}` for forms
+- Forms need `e.preventDefault()` to stop default HTML form submission
+
+**Deployment Changes**
+- deployReact.sh script runs `npm run build` to create production bundle
+- Vite outputs optimized files to `dist/` directory
+- Script copies `dist/*` to server's `services/startup/public` directory
+- Production site serves the bundled React app, not original source files
+
+**Key Differences from CSS Deliverable**
+- No more separate HTML pages - everything in one index.html
+- No more page reloads - React Router handles navigation
+- Component-based architecture - easier to maintain and reuse code
+- Build process required - can't just open HTML files directly
+
+**Common Pitfalls**
+- Forgetting to change `class` to `className` causes errors
+- Inline styles need object syntax: `{{ fontSize: '1rem' }}` not `"font-size: 1rem"`
+- Forms submit by default - must use `e.preventDefault()`
+- Old HTML files aren't used anymore - only JSX files matter
+- Browser caching can show old version - use hard refresh (Cmd+Shift+R)
+
+**Best Practices**
+- Keep component files in their own directories with related CSS
+- Import component-specific CSS in each component JSX file
+- Use React Router's hooks (useNavigate) instead of window.location
+- Test navigation flow after converting to ensure all buttons work
+- Commit frequently after completing each major step
