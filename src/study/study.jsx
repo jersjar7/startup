@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './study.css';
 
 export function Study() {
+  const navigate = useNavigate();
+
   return (
     <main>
       <section className="key-concepts">
@@ -25,7 +28,7 @@ export function Study() {
       </section>
 
       <section style={{ textAlign: 'center' }}>
-        <button className="practice-btn">
+        <button className="practice-btn" onClick={() => navigate('/problems')}>
           Practice Problems →
         </button>
       </section>
