@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 /* ===== COLOR PALETTE ===== */
 :root {
@@ -18,11 +17,11 @@
   box-sizing: border-box;
 }
 
-body {
+.body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background-color: var(--cream);
   color: var(--charcoal);
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
