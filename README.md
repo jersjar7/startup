@@ -111,9 +111,13 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Bundled using Vite** - I did not complete this part of the deliverable.
-- [ ] **Components** - I did not complete this part of the deliverable.
-- [ ] **Router** - I did not complete this part of the deliverable.
+- [x] **Bundled using Vite** - Application uses Vite for bundling and hot-reloading during development. Uses Tailwind CSS for styling.
+- [x] **Components** - Created React components for Login, Dashboard, Study, and Problems views. All components contain converted HTML/CSS from previous deliverable
+  - Login component: login form with username/password inputs, navigation to dashboard on login/register
+  - Dashboard component: topic selection grid with 6 topics, live activity section, topic cards navigate to study page
+  - Study component: key concepts list, video placeholder, practice button navigates to problems page
+  - Problems component: 5 math problems with collapsible solutions, completion checkboxes, motivational quote section
+- [x] **Router** - React Router implemented with routes for / (Login), /dashboard (Dashboard), /study (Study), /problems (Problems), and * (404 page). Navigation works via useNavigate hook in all interactive buttons.
 
 ## 🚀 React part 2: Reactivity deliverable
 
