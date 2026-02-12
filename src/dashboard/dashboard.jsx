@@ -4,10 +4,46 @@ import './dashboard.css';
 
 export function Dashboard() {
   const navigate = useNavigate();
+  const [userName, setUserName] = React.useState('');
+  const [liveUsers, setLiveUsers] = React.useState([]);
+
+  React.useEffect(() => {
+    const storedUser = localStorage.getItem('userName');
+    if (!storedUser) {
+      navigate('/');
+    } else {
+      setUserName(storedUser);
+    }
+
+    // Mock WebSocket messages - simulates other users studying
+    const interval = setInterval(() => {
+      const topics = ['Analytic Geometry', 'Dynamics', 'Fluid Mechanics', 'Soils', 'Materials', 'Transportation'];
+      const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+      const randomCount = Math.floor(Math.random() * 10) + 1;
+      
+      setLiveUsers(prev => {
+        const updated = prev.filter(item => item.topic !== randomTopic);
+        return [...updated, { topic: randomTopic, count: randomCount }].slice(-6);
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('userName');
+    navigate('/');
+  };
 
   return (
     <main>
-      <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '2rem' }}>Select a Topic to Study</h2>
+      <div className="dashboard-header">
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 600 }}>Select a Topic to Study</h2>
+        <div>
+          <span style={{ marginRight: '1rem', color: '#666' }}>Welcome, {userName}!</span>
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        </div>
+      </div>
       
       <section className="topics-grid">
         <div className="topic-card" onClick={() => navigate('/study')}>
@@ -44,11 +80,17 @@ export function Dashboard() {
       <section className="live-activity">
         <h3>Live Activity</h3>
         <ul>
-          <li>5 users studying Analytic Geometry</li>
-          <li>3 users studying Dynamics</li>
-          <li>2 users studying Fluids</li>
+          {liveUsers.length > 0 ? (
+            liveUsers.map((item, index) => (
+              <li key={index}>{item.count} users studying {item.topic}</li>
+            ))
+          ) : (
+            <li>Connecting to live activity...</li>
+          )}
         </ul>
-        <p style={{ marginTop: '1rem', fontStyle: 'italic', color: '#666' }}>WebSocket data will be displayed here in real-time</p>
+        <p style={{ marginTop: '1rem', fontStyle: 'italic', color: '#666' }}>
+          WebSocket data will be displayed here in real-time
+        </p>
       </section>
     </main>
   );
