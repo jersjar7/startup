@@ -281,3 +281,40 @@ body
 - Use React Router's hooks (useNavigate) instead of window.location
 - Test navigation flow after converting to ensure all buttons work
 - Commit frequently after completing each major step
+
+## 6. React Part 2: Reactivity Deliverable
+
+### What I Learned from Simon React
+
+**useState Hook**
+- `const [state, setState] = React.useState(initialValue)` - creates state variable
+- State changes trigger component re-render
+- Example: `const [count, setCount] = React.useState(0)`
+
+**useEffect Hook**
+- `React.useEffect(() => { /* code */ }, [dependencies])` - runs when dependencies change
+- Empty `[]` = runs once on mount
+- `[variable]` = runs when variable changes
+- Return cleanup function for unmounting: `return () => { /* cleanup */ }`
+
+**Safe State Updates**
+- Use function form when updating based on previous state
+- `setState((prev) => prev + 1)` instead of `setState(state + 1)`
+- Prevents race conditions with async state updates
+
+**Component Patterns**
+- Parent/child composition: Play component contains Players and SimonGame
+- Props pass data down: `<Players userName={props.userName} />`
+- Lift state up when multiple components need shared state
+
+**localStorage Persistence**
+- `localStorage.setItem('key', JSON.stringify(data))` - save
+- `JSON.parse(localStorage.getItem('key'))` - retrieve
+- Persists across browser sessions
+
+**Mocking Future Functionality**
+- Use `setInterval` to simulate WebSocket messages
+- Use hard-coded data instead of API calls
+- Use localStorage instead of database
+
+**Key Insight**: React's reactivity makes UI automatically update when state changes - no manual DOM manipulation needed.
