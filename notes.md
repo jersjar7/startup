@@ -318,3 +318,30 @@ body
 - Use localStorage instead of database
 
 **Key Insight**: React's reactivity makes UI automatically update when state changes - no manual DOM manipulation needed.
+
+### What I Learned from My Startup Implementation
+
+**Login Authentication Flow**
+- Check localStorage on mount to maintain login state across refreshes
+- Redirect to login if no user found, redirect to dashboard if already logged in
+- Store username in localStorage on login, clear on logout
+
+**Checkbox State Persistence**
+- Store checkbox state in object: `{problem1: true, problem2: false}`
+- Save to localStorage as JSON on every change
+- Load from localStorage on component mount
+
+**Mock WebSocket with setInterval**
+- `setInterval` updates state every 3 seconds to simulate real-time data
+- Return cleanup function from useEffect to clear interval on unmount
+- Update state with function form to avoid stale data: `setLiveUsers(prev => ...)`
+
+**Dynamic Progress Tracking**
+- Calculate completed count: `Object.values(completedProblems).filter(Boolean).length`
+- Display updates automatically when state changes
+
+**Random Quote Implementation**
+- Create array of quotes, select random one on mount
+- Use useEffect with empty dependency to run once
+
+**Key Insight**: useEffect cleanup functions are critical for preventing memory leaks with timers and intervals.
