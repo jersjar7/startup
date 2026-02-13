@@ -3,6 +3,7 @@
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 .problems-header h1 {
