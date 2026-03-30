@@ -142,8 +142,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+- [x] **Stores data in MongoDB** - User study progress (completed problems) is stored in a `progress` collection in MongoDB Atlas. Progress persists across server restarts and is tied to the authenticated user's email.
+- [x] **Stores credentials in MongoDB** - User credentials (email, bcrypt-hashed password, auth token) are stored in a `users` collection in MongoDB Atlas. Registration, login, logout, and session validation all use the database. Connection is tested on startup with a ping command.
 
 ## 🚀 WebSocket deliverable
 
