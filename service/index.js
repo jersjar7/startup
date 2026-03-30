@@ -4,8 +4,6 @@ const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { peerProxy } = require('./peerProxy.js');
 const { requestLogger } = require('./middleware/logger.js');
-const { verifyAuth } = require('./middleware/auth.js');
-const DB = require('./database.js');
 
 const app = express();
 
@@ -25,30 +23,8 @@ app.use('/api', apiRouter);
 apiRouter.use('/', require('./routes/health.js'));
 apiRouter.use('/auth', require('./routes/auth.js'));
 apiRouter.use('/user', require('./routes/auth.js'));
-
-// Protected application endpoints (kept here for now, will move to routes/ in Branch 3)
-apiRouter.get('/topics', verifyAuth, (_req, res) => {
-  const topics = [
-    { id: 'analytic-geometry', name: 'Analytic Geometry', problemCount: 5 },
-    { id: 'dynamics', name: 'Dynamics', problemCount: 8 },
-    { id: 'fluid-mechanics', name: 'Fluid Mechanics', problemCount: 12 },
-    { id: 'soils', name: 'Soils', problemCount: 9 },
-    { id: 'materials', name: 'Materials', problemCount: 7 },
-    { id: 'transportation', name: 'Transportation', problemCount: 10 },
-  ];
-  res.send(topics);
-});
-
-apiRouter.get('/progress', verifyAuth, async (req, res) => {
-  const userProgress = await DB.getProgress(req.user.email);
-  res.send(userProgress);
-});
-
-apiRouter.post('/progress', verifyAuth, async (req, res) => {
-  const { problemId, completed } = req.body;
-  const userProgress = await DB.saveProgress(req.user.email, problemId, completed);
-  res.send(userProgress);
-});
+apiRouter.use('/topics', require('./routes/topics.js'));
+apiRouter.use('/sessions', require('./routes/sessions.js'));
 
 // Default error handler
 app.use(function (err, req, res, next) {
