@@ -1,4 +1,4 @@
-/* ===== PAGE-SPECIFIC: problems.html ===== */
+/* ===== PROBLEMS PAGE ===== */
 .problems-header {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
@@ -12,54 +12,8 @@
   font-weight: 600;
 }
 
-.progress-section {
-  border: 2px solid var(--charcoal);
-  padding: 1rem 1.5rem;
-  margin-bottom: 1.5rem;
-  background: var(--light-gray);
-}
-
-.progress-section p {
-  font-weight: 600;
-}
-
-.problem-card {
-  border: 2px solid var(--charcoal);
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  background: white;
-}
-
-.problem-card h3 {
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-}
-
-.problem-card details {
-  margin: 1rem 0;
-}
-
-.problem-card summary {
-  cursor: pointer;
-  font-weight: 500;
-  color: var(--charcoal);
-}
-
-.problem-card summary:hover {
-  text-decoration: underline;
-}
-
-.problem-card label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-}
-
-.problem-card input[type="checkbox"] {
-  width: 1rem;
-  height: 1rem;
-  cursor: pointer;
+.problems-header .logout-btn {
+  justify-self: end;
 }
 
 .back-link {
@@ -72,10 +26,6 @@
   text-decoration: underline;
 }
 
-.problems-header .logout-btn {
-  justify-self: end;
-}
-
 .logout-btn {
   padding: 0.5rem 1.5rem;
   background-color: var(--brick-orange);
@@ -84,15 +34,293 @@
   border: 2px solid var(--charcoal);
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+/* --- Progress bar --- */
+.progress-bar-section {
+  margin-bottom: 1.5rem;
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--light-gray);
+  border: 1px solid var(--charcoal);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--brick-orange);
+  transition: width 0.3s ease;
+}
+
+.progress-label {
+  display: block;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* --- Problem card --- */
+.problem-card {
+  border: 2px solid var(--charcoal);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  background: white;
+}
+
+.problem-card h3 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.problem-question {
+  font-size: 1.05rem;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+/* --- Choices --- */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.choice-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--charcoal);
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  font-size: 1rem;
+  transition: background 0.15s;
+}
+
+.choice-btn:hover:not(:disabled) {
+  background: var(--light-gray);
+}
+
+.choice-btn.selected {
+  background: #e8f0fe;
+  border-color: #1a73e8;
+}
+
+.choice-btn.correct {
+  background: #e6f4ea;
+  border-color: #34a853;
+}
+
+.choice-btn.incorrect {
+  background: #fce8e6;
+  border-color: #ea4335;
+}
+
+.choice-btn.dimmed {
+  opacity: 0.5;
+}
+
+.choice-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 2px solid var(--charcoal);
+  border-radius: 50%;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.choice-btn.selected .choice-label {
+  background: #1a73e8;
+  color: white;
+  border-color: #1a73e8;
+}
+
+.choice-btn.correct .choice-label {
+  background: #34a853;
+  color: white;
+  border-color: #34a853;
+}
+
+.choice-btn.incorrect .choice-label {
+  background: #ea4335;
+  color: white;
+  border-color: #ea4335;
+}
+
+/* --- Buttons --- */
+.btn-primary {
+  padding: 0.75rem 2rem;
+  background: var(--charcoal);
+  color: white;
+  font-weight: 600;
+  border: 2px solid var(--charcoal);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #444;
+}
+
+.btn-secondary {
+  padding: 0.75rem 2rem;
+  background: white;
+  color: var(--charcoal);
+  font-weight: 600;
+  border: 2px solid var(--charcoal);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-secondary:hover {
+  background: var(--light-gray);
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+}
+
+.next-btn {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* --- Feedback --- */
+.feedback-section {
+  margin-top: 1rem;
+}
+
+.feedback-banner {
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.feedback-banner.correct {
+  background: #e6f4ea;
+  border-left: 4px solid #34a853;
+  color: #137333;
+}
+
+.feedback-banner.incorrect {
+  background: #fce8e6;
+  border-left: 4px solid #ea4335;
+  color: #c5221f;
+}
+
+.solution-box {
+  background: #f5f5f5;
+  border-left: 3px solid var(--charcoal);
+  padding: 1rem;
+}
+
+.solution-box h4 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.solution-box p {
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+/* --- Summary --- */
+.summary-card {
+  border: 2px solid var(--charcoal);
+  padding: 2rem;
+  background: white;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.summary-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.xp-breakdown {
+  max-width: 320px;
+  margin: 0 auto 1.5rem;
+  text-align: left;
+}
+
+.xp-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.35rem 0;
+  font-size: 0.95rem;
+}
+
+.xp-total {
+  border-top: 2px solid var(--charcoal);
+  margin-top: 0.25rem;
+  padding-top: 0.5rem;
+  font-weight: 700;
+}
+
+.streak-info {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.streak-info p {
+  margin: 0.25rem 0;
+}
+
+.quote-card {
+  border: 2px solid var(--charcoal);
+  padding: 1.5rem;
+  background: white;
+  margin-bottom: 1.5rem;
+}
+
+.quote-card blockquote {
+  border-left: 4px solid var(--brick-orange);
+  padding-left: 1rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.quote-card cite {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.summary-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
   .problems-header {
     grid-template-columns: 1fr;
     gap: 1rem;
     text-align: center;
   }
-  
+
   .problems-header .logout-btn {
     justify-self: center;
+  }
+
+  .summary-actions {
+    flex-direction: column;
   }
 }

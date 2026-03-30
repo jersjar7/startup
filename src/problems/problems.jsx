@@ -1,11 +1,23 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './problems.css';
+
+// States: LOADING → SESSION → SUMMARY
+// Within SESSION each problem: ANSWERING → REVIEWED
 
 export function Problems({ userName, onLogout }) {
   const navigate = useNavigate();
-  const [completedProblems, setCompletedProblems] = React.useState({});
-  const [quote, setQuote] = React.useState('Loading...');
+  const { topicId } = useParams();
+
+  const [phase, setPhase] = React.useState('LOADING');
+  const [problems, setProblems] = React.useState([]);
+  const [topicName, setTopicName] = React.useState('');
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [selectedChoice, setSelectedChoice] = React.useState(null);
+  const [reviewed, setReviewed] = React.useState(false);
+  const [answers, setAnswers] = React.useState([]);
+  const [summary, setSummary] = React.useState(null);
+  const [quote, setQuote] = React.useState('');
   const [quoteAuthor, setQuoteAuthor] = React.useState('');
 
   React.useEffect(() => {
@@ -14,13 +26,19 @@ export function Problems({ userName, onLogout }) {
       return;
     }
 
-    // Load progress from backend
-    fetch('/api/progress')
-      .then((res) => res.json())
-      .then((data) => setCompletedProblems(data))
-      .catch(() => {});
+    fetch(`/api/topics/${topicId}/problems?count=5`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load problems');
+        return res.json();
+      })
+      .then((data) => {
+        setTopicName(data.topicName);
+        setProblems(data.problems);
+        setPhase('SESSION');
+      })
+      .catch(() => navigate(`/study/${topicId}`));
 
-    // Fetch motivational quote from third party API
+    // Fetch motivational quote for summary screen
     fetch('https://quote.cs260.click')
       .then((res) => res.json())
       .then((data) => {
@@ -31,106 +49,211 @@ export function Problems({ userName, onLogout }) {
         setQuote('Success is the sum of small efforts repeated day in and day out.');
         setQuoteAuthor('Robert Collier');
       });
-  }, [userName, navigate]);
+
+    // WebSocket notification
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    const ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
+    ws.onopen = () => {
+      ws.send(JSON.stringify({ type: 'study', from: userName, topic: topicId }));
+    };
+    return () => ws.close();
+  }, [userName, navigate, topicId]);
+
+  const handleSubmit = () => {
+    if (selectedChoice === null) return;
+    setReviewed(true);
+  };
+
+  const handleNext = () => {
+    const problem = problems[currentIndex];
+    const isCorrect = selectedChoice === problem.correctAnswer;
+    const updatedAnswers = [...answers, { problemId: problem.problemId, isCorrect }];
+    setAnswers(updatedAnswers);
+
+    if (currentIndex < problems.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+      setSelectedChoice(null);
+      setReviewed(false);
+    } else {
+      // Submit session
+      setPhase('LOADING');
+      fetch('/api/sessions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topicId, answers: updatedAnswers }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setSummary(data.sessionSummary);
+          setPhase('SUMMARY');
+        })
+        .catch(() => {
+          // Show summary even if save fails
+          const correct = updatedAnswers.filter((a) => a.isCorrect).length;
+          setSummary({
+            totalProblems: updatedAnswers.length,
+            correct,
+            incorrect: updatedAnswers.length - correct,
+            xpEarned: { correct: correct * 10, incorrect: (updatedAnswers.length - correct) * 5, sessionBonus: 25, total: correct * 10 + (updatedAnswers.length - correct) * 5 + 25 },
+            streak: { current: 0, longest: 0 },
+          });
+          setPhase('SUMMARY');
+        });
+    }
+  };
 
   const handleLogout = () => {
     onLogout();
     navigate('/');
   };
 
-  const handleCheckbox = async (problemId) => {
-    const newValue = !completedProblems[problemId];
-    const updated = { ...completedProblems, [problemId]: newValue };
-    setCompletedProblems(updated);
+  // --- LOADING ---
+  if (phase === 'LOADING') {
+    return <main><p>Loading...</p></main>;
+  }
 
-    // Save progress to backend
-    fetch('/api/progress', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ problemId, completed: newValue }),
-    }).catch(() => {});
-  };
+  // --- SUMMARY ---
+  if (phase === 'SUMMARY' && summary) {
+    const pct = Math.round((summary.correct / summary.totalProblems) * 100);
+    return (
+      <main>
+        <div className="problems-header">
+          <span />
+          <h1>Session Complete</h1>
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        </div>
 
-  const completedCount = Object.values(completedProblems).filter(Boolean).length;
+        <section className="summary-card">
+          <h2>Score: {summary.correct}/{summary.totalProblems} ({pct}%)</h2>
+
+          <div className="xp-breakdown">
+            <div className="xp-row">
+              <span>Correct answers ({summary.correct})</span>
+              <span>+{summary.xpEarned.correct} XP</span>
+            </div>
+            <div className="xp-row">
+              <span>Attempted ({summary.incorrect} incorrect)</span>
+              <span>+{summary.xpEarned.incorrect} XP</span>
+            </div>
+            <div className="xp-row">
+              <span>Session bonus</span>
+              <span>+{summary.xpEarned.sessionBonus} XP</span>
+            </div>
+            <div className="xp-row xp-total">
+              <span>Total</span>
+              <span>+{summary.xpEarned.total} XP</span>
+            </div>
+          </div>
+
+          <div className="streak-info">
+            <p>Current streak: {summary.streak.current} day{summary.streak.current !== 1 ? 's' : ''}</p>
+            <p>Longest streak: {summary.streak.longest} day{summary.streak.longest !== 1 ? 's' : ''}</p>
+          </div>
+        </section>
+
+        {quote && (
+          <section className="quote-card">
+            <blockquote>
+              <p>"{quote}"</p>
+              <cite>- {quoteAuthor}</cite>
+            </blockquote>
+          </section>
+        )}
+
+        <div className="summary-actions">
+          <button className="btn-secondary" onClick={() => navigate(`/study/${topicId}`)}>
+            &larr; Back to Study
+          </button>
+          <button className="btn-primary" onClick={() => window.location.reload()}>
+            Try Again
+          </button>
+        </div>
+      </main>
+    );
+  }
+
+  // --- SESSION ---
+  const problem = problems[currentIndex];
+  if (!problem) return null;
+
+  const isCorrect = selectedChoice === problem.correctAnswer;
 
   return (
     <main>
       <div className="problems-header">
-        <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate('/study'); }}>
-          ← Back to Study
+        <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate(`/study/${topicId}`); }}>
+          &larr; Back to Study
         </a>
-        <h1>Analytic Geometry Problems</h1>
+        <h1>{topicName}</h1>
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
 
-      <section className="progress-section">
-        <p>Progress: {completedCount}/5 Problems Completed</p>
+      <section className="progress-bar-section">
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{ width: `${((currentIndex + (reviewed ? 1 : 0)) / problems.length) * 100}%` }}
+          />
+        </div>
+        <span className="progress-label">Problem {currentIndex + 1} of {problems.length}</span>
       </section>
 
-      <section>
-        {[1, 2, 3, 4, 5].map((num) => (
-          <div key={num} className="problem-card">
-            <h3>Problem {num}: {getProblemTitle(num)}</h3>
-            <p>{getProblemText(num)}</p>
-            <details>
-              <summary>[Click to reveal solution]</summary>
-              <div style={{ marginTop: '1rem', padding: '1rem', background: '#f5f5f5', borderLeft: '3px solid #333' }}>
-                <p style={{ fontWeight: 600, marginBottom: '0.5rem' }}>Solution:</p>
-                {getSolution(num)}
-              </div>
-            </details>
-            <label>
-              <input
-                type="checkbox"
-                checked={completedProblems[`problem${num}`] || false}
-                onChange={() => handleCheckbox(`problem${num}`)}
-              />
-              <span>Mark as complete</span>
-            </label>
+      <section className="problem-card">
+        <h3>Problem {problem.problemNumber}</h3>
+        <p className="problem-question">{problem.question}</p>
+
+        <div className="choices">
+          {problem.choices.map((choice) => {
+            let choiceClass = 'choice-btn';
+            if (reviewed) {
+              if (choice.label === problem.correctAnswer) {
+                choiceClass += ' correct';
+              } else if (choice.label === selectedChoice && !isCorrect) {
+                choiceClass += ' incorrect';
+              } else {
+                choiceClass += ' dimmed';
+              }
+            } else if (choice.label === selectedChoice) {
+              choiceClass += ' selected';
+            }
+
+            return (
+              <button
+                key={choice.label}
+                className={choiceClass}
+                onClick={() => !reviewed && setSelectedChoice(choice.label)}
+                disabled={reviewed}
+              >
+                <span className="choice-label">{choice.label}</span>
+                <span>{choice.text}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {!reviewed ? (
+          <button
+            className="btn-primary submit-btn"
+            onClick={handleSubmit}
+            disabled={selectedChoice === null}
+          >
+            Submit Answer
+          </button>
+        ) : (
+          <div className="feedback-section">
+            <div className={`feedback-banner ${isCorrect ? 'correct' : 'incorrect'}`}>
+              {isCorrect ? 'Correct! +10 XP' : `Incorrect — the answer is ${problem.correctAnswer}. +5 XP`}
+            </div>
+            <div className="solution-box">
+              <h4>Solution</h4>
+              <p>{problem.solution}</p>
+            </div>
+            <button className="btn-primary next-btn" onClick={handleNext}>
+              {currentIndex < problems.length - 1 ? 'Next Problem' : 'Finish Session'}
+            </button>
           </div>
-        ))}
-      </section>
-
-      <section className="problem-card" style={{ marginTop: '2rem' }}>
-        <h3>Daily Study Motivation</h3>
-        <blockquote style={{ borderLeft: '4px solid #333', paddingLeft: '1rem', fontStyle: 'italic', margin: '1rem 0' }}>
-          <p>"{quote}"</p>
-          <cite style={{ fontSize: '0.9rem', color: '#666' }}>- {quoteAuthor}</cite>
-        </blockquote>
+        )}
       </section>
     </main>
   );
-}
-
-function getProblemTitle(num) {
-  const titles = [
-    'Calculate the distance between two points',
-    'Find the equation of a circle',
-    'Determine the slope and equation of a line',
-    'Find the midpoint between two coordinates',
-    'Convert Cartesian to Polar coordinates'
-  ];
-  return titles[num - 1];
-}
-
-function getProblemText(num) {
-  const problems = [
-    'Find the distance between points A(2, 3) and B(5, 7).',
-    'A circle has center at (3, -2) and radius 4. Write its equation in standard form.',
-    'Find the slope and equation of the line passing through points (1, 2) and (4, 8).',
-    'Calculate the midpoint between A(-2, 5) and B(4, -3).',
-    'Convert the Cartesian point (3, 4) to polar coordinates (r, θ).'
-  ];
-  return problems[num - 1];
-}
-
-function getSolution(num) {
-  const solutions = [
-    <><p>Using the distance formula: d = √[(x₂-x₁)² + (y₂-y₁)²]</p><p>d = √[(5-2)² + (7-3)²] = √[9 + 16] = √25 = 5 units</p></>,
-    <><p>Standard form: (x-h)² + (y-k)² = r²</p><p>Where (h,k) is center and r is radius</p><p>(x-3)² + (y+2)² = 16</p></>,
-    <><p>Slope m = (y₂-y₁)/(x₂-x₁) = (8-2)/(4-1) = 6/3 = 2</p><p>Using point-slope form: y - y₁ = m(x - x₁)</p><p>y - 2 = 2(x - 1)</p><p>y = 2x</p></>,
-    <><p>Midpoint formula: M = ((x₁+x₂)/2, (y₁+y₂)/2)</p><p>M = ((-2+4)/2, (5+(-3))/2) = (2/2, 2/2) = (1, 1)</p></>,
-    <><p>r = √(x² + y²) = √(9 + 16) = √25 = 5</p><p>θ = arctan(y/x) = arctan(4/3) ≈ 53.13°</p><p>Polar coordinates: (5, 53.13°)</p></>
-  ];
-  return solutions[num - 1];
 }
