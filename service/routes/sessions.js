@@ -1,6 +1,7 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
+const { calculateEarnedMastery } = require('../mastery.js');
 
 const router = express.Router();
 
@@ -54,13 +55,19 @@ router.post('/', verifyAuth, async (req, res) => {
     attempted: 0,
     correct: 0,
     sessionsCompleted: 0,
+    masteryLevel: 0,
+    lastStudied: null,
   };
 
-  topicProgress[topicId] = {
+  const updatedProgress = {
     attempted: currentTopicProgress.attempted + answers.length,
     correct: currentTopicProgress.correct + correctCount,
     sessionsCompleted: currentTopicProgress.sessionsCompleted + 1,
+    lastStudied: today,
   };
+  updatedProgress.masteryLevel = calculateEarnedMastery(updatedProgress);
+
+  topicProgress[topicId] = updatedProgress;
 
   // Save to database
   await DB.updateUserStats(email, {

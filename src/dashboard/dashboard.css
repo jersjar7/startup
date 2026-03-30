@@ -94,6 +94,48 @@
   margin-top: 0.25rem;
 }
 
+/* --- Mastery bar --- */
+.mastery-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0.25rem;
+  justify-content: center;
+}
+
+.mastery-bar {
+  display: flex;
+  gap: 3px;
+}
+
+.mastery-segment {
+  width: 20px;
+  height: 8px;
+  border: 1.5px solid var(--charcoal);
+  background: transparent;
+}
+
+.mastery-segment--filled {
+  background-color: var(--pacific-green);
+  border-color: var(--pacific-green);
+}
+
+.mastery-segment--decaying {
+  background-color: var(--brick-orange);
+  border-color: var(--brick-orange);
+}
+
+.mastery-label {
+  font-size: 0.75rem;
+  color: #666;
+  white-space: nowrap;
+}
+
+.mastery-label--decaying {
+  color: var(--brick-orange);
+  font-weight: 600;
+}
+
 /* --- Live activity --- */
 .live-activity {
   border: 2px solid var(--charcoal);

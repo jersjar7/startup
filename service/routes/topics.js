@@ -1,6 +1,7 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
+const { applyDecay, isDecaying, masteryName } = require('../mastery.js');
 
 const router = express.Router();
 
@@ -11,18 +12,35 @@ router.get('/', verifyAuth, async (req, res) => {
 
   const topicProgress = stats ? stats.topicProgress || {} : {};
 
-  const result = topics.map((topic) => ({
-    topicId: topic.topicId,
-    name: topic.name,
-    description: topic.description,
-    problemCount: topic.problemCount,
-    order: topic.order,
-    progress: topicProgress[topic.topicId] || {
+  const result = topics.map((topic) => {
+    const tp = topicProgress[topic.topicId] || {
       attempted: 0,
       correct: 0,
       sessionsCompleted: 0,
-    },
-  }));
+      masteryLevel: 0,
+      lastStudied: null,
+    };
+    const earned = tp.masteryLevel || 0;
+    const effective = applyDecay(earned, tp.lastStudied);
+    const decaying = isDecaying(earned, tp.lastStudied);
+
+    return {
+      topicId: topic.topicId,
+      name: topic.name,
+      description: topic.description,
+      problemCount: topic.problemCount,
+      order: topic.order,
+      progress: {
+        attempted: tp.attempted,
+        correct: tp.correct,
+        sessionsCompleted: tp.sessionsCompleted,
+        masteryLevel: effective,
+        masteryName: masteryName(effective),
+        decaying,
+        lastStudied: tp.lastStudied,
+      },
+    };
+  });
 
   res.send(result);
 });

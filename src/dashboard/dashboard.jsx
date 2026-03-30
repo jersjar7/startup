@@ -95,6 +95,25 @@ export function Dashboard({ userName, onLogout }) {
         {topics.map((topic) => (
           <button className="topic-card" key={topic.topicId} onClick={() => handleTopicClick(topic)}>
             <h3>{topic.name}</h3>
+            <div className="mastery-bar-row">
+              <div className="mastery-bar">
+                {[1, 2, 3, 4, 5].map((level) => (
+                  <div
+                    key={level}
+                    className={`mastery-segment${
+                      level <= topic.progress.masteryLevel
+                        ? topic.progress.decaying
+                          ? ' mastery-segment--decaying'
+                          : ' mastery-segment--filled'
+                        : ''
+                    }`}
+                  />
+                ))}
+              </div>
+              <span className={`mastery-label${topic.progress.decaying ? ' mastery-label--decaying' : ''}`}>
+                {topic.progress.decaying ? 'Needs Review' : topic.progress.masteryName || 'Not Started'}
+              </span>
+            </div>
             <p className="topic-progress">
               {topic.progress.correct}/{topic.problemCount} correct
             </p>
