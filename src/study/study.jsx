@@ -86,13 +86,15 @@ export function Study({ userName, onLogout }) {
       {topic.videoUrl && (
         <section className="video-section">
           <h3>Video Tutorial</h3>
-          <iframe
-            width="100%"
-            height="315"
-            src={topic.videoUrl}
-            title={`${topic.name} tutorial`}
-            allowFullScreen
-          />
+          <p>Watch a curated lesson to review the key concepts before practicing.</p>
+          <a
+            href={topic.videoUrl.replace('/embed/', '/watch?v=')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="video-link"
+          >
+            Watch on YouTube &rarr;
+          </a>
         </section>
       )}
 

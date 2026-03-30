@@ -10,14 +10,7 @@ const { requestLogger } = require('./middleware/logger.js');
 const app = express();
 
 // Security and parsing middleware
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      'frame-src': ["'self'", 'https://www.youtube.com'],
-    },
-  },
-}));
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(requestLogger);
