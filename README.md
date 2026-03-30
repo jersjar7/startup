@@ -149,8 +149,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Backend listens for WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Frontend makes WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
-- [ ] **Application is fully functional** - I did not complete this part of the deliverable.
+- [x] **Backend listens for WebSocket connection** - `service/peerProxy.js` creates a WebSocketServer that upgrades HTTP connections. Uses the `ws` library with `noServer` mode, handling the upgrade event from the Express HTTP server. Includes ping/pong keep-alive every 10 seconds to detect stale connections.
+- [x] **Frontend makes WebSocket connection** - Dashboard and Study components connect via `new WebSocket()` using the correct protocol (`ws://` or `wss://`). Connections are cleaned up on component unmount.
+- [x] **Data sent over WebSocket connection** - When users click a topic or open the Study page, a JSON message is sent with the user's email, the topic name, and event type. The backend relays messages to all other connected clients.
+- [x] **WebSocket data displayed** - The Dashboard "Live Activity" section displays real-time events showing which users are studying which topics (e.g., "user@email.com started studying Dynamics"). Events are displayed in reverse chronological order, capped at 10.
+- [x] **Application is fully functional** - All features work end-to-end: authentication (register/login/logout), topic browsing, study materials, practice problems with progress tracking, third-party quote API, and real-time WebSocket activity. No mocks or placeholders remain for required functionality.

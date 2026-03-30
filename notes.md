@@ -495,3 +495,61 @@ const db = client.db('fe4raccoons');
 - Can manually add, update, or delete documents for testing
 
 **Key Insight**: The transition from in-memory to MongoDB is mostly about replacing array operations (push, find) with MongoDB equivalents (insertOne, findOne). The API endpoints stay the same — only the storage layer changes.
+
+## 9. WebSocket Deliverable
+
+### What I Learned
+
+**WebSocket Protocol Basics**
+- WebSocket provides full-duplex communication over a single TCP connection
+- Unlike HTTP (request-response), WebSocket allows both client and server to send messages at any time
+- Connection starts as HTTP, then "upgrades" to WebSocket via the `Upgrade` header
+- Uses `ws://` (port 80) or `wss://` (port 443, encrypted) protocols
+
+**Backend: peerProxy.js**
+- Created `service/peerProxy.js` using the `ws` (WebSocket) npm library
+- Uses `noServer: true` mode — the WebSocket server doesn't listen on its own port
+- Instead, it hooks into the Express HTTP server's `upgrade` event
+- This way HTTP requests and WebSocket connections share the same port (4000)
+- Each connection gets a unique ID for tracking
+- Messages from one client are forwarded to ALL other connected clients (peer proxy pattern)
+- Keeps connections alive with ping/pong every 10 seconds — kills stale connections
+
+**How peerProxy Works:**
+```
+Client A sends msg → Server receives → Server forwards to Client B, C, D...
+(but NOT back to Client A)
+```
+
+**Frontend WebSocket Connection**
+- `new WebSocket('ws://host/ws')` or `new WebSocket('wss://host/ws')` for secure
+- Must detect protocol: `window.location.protocol === 'http:' ? 'ws' : 'wss'`
+- Key events: `onopen`, `onmessage`, `onclose`, `onerror`
+- Send data with `ws.send(JSON.stringify({...}))`
+- Receive with `ws.onmessage = (event) => JSON.parse(event.data)`
+- Always close WebSocket on component unmount to prevent memory leaks
+
+**Integration with Express**
+- In `index.js`, changed `app.listen()` to save the returned `httpServer`
+- Pass `httpServer` to `peerProxy(httpServer)` so WebSocket can hook into it
+- No new port needed — everything runs on port 4000
+
+**Vite Proxy for Development**
+- Added `/ws` proxy in `vite.config.js` with `ws: true` flag
+- This tells Vite to proxy WebSocket connections (not just HTTP) to the backend
+- Without this, the browser would try to connect to Vite's dev server port for WebSocket
+
+**What Gets Sent Over WebSocket**
+- JSON messages with `type`, `from` (user email), and `topic` (what they're studying)
+- Sent when: user opens dashboard, clicks a topic, or opens the study page
+- Displayed on dashboard as "user@email.com started studying Dynamics"
+
+**Mock vs Real WebSocket Comparison**
+| Feature | Mock (setInterval) | Real (WebSocket) |
+|---------|-------------------|------------------|
+| Data source | Random generation | Other real users |
+| Multi-user | No (simulated) | Yes |
+| Real-time | Fake (3s interval) | Actual real-time |
+| Server needed | No | Yes (peerProxy) |
+
+**Key Insight**: The peerProxy pattern is simple but powerful — the server is just a relay. It doesn't interpret messages, store them, or do logic. It just forwards everything to everyone else. The clients decide what to send and how to display received messages.
