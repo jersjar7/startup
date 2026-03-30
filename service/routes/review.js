@@ -1,6 +1,7 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
+const { calculateStreak } = require('../streak.js');
 
 const router = express.Router();
 
@@ -120,20 +121,7 @@ router.post('/', verifyAuth, async (req, res) => {
   };
 
   const today = new Date().toISOString().split('T')[0];
-  let newStreak = currentStats.currentStreak;
-
-  if (currentStats.lastSessionDate !== today) {
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-    if (currentStats.lastSessionDate === yesterday) {
-      newStreak = currentStats.currentStreak + 1;
-    } else if (currentStats.lastSessionDate === null) {
-      newStreak = 1;
-    } else {
-      newStreak = 1;
-    }
-  }
-
-  const longestStreak = Math.max(currentStats.longestStreak, newStreak);
+  const streakResult = calculateStreak(currentStats, today);
 
   // Update per-topic attempted/correct counts (but not sessionsCompleted)
   const topicProgress = currentStats.topicProgress || {};
@@ -154,8 +142,9 @@ router.post('/', verifyAuth, async (req, res) => {
   await DB.updateUserStats(email, {
     email,
     totalXp: currentStats.totalXp + xpTotal,
-    currentStreak: newStreak,
-    longestStreak,
+    currentStreak: streakResult.currentStreak,
+    longestStreak: streakResult.longestStreak,
+    freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
     lastSessionDate: today,
     topicProgress,
   });
@@ -172,8 +161,8 @@ router.post('/', verifyAuth, async (req, res) => {
         total: xpTotal,
       },
       streak: {
-        current: newStreak,
-        longest: longestStreak,
+        current: streakResult.currentStreak,
+        longest: streakResult.longestStreak,
       },
     },
   });

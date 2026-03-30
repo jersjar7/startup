@@ -2,6 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { calculateEarnedMastery } = require('../mastery.js');
+const { calculateStreak } = require('../streak.js');
 
 const router = express.Router();
 
@@ -32,22 +33,9 @@ router.post('/', verifyAuth, async (req, res) => {
     topicProgress: {},
   };
 
-  // Update streak
-  const today = new Date().toISOString().split('T')[0]; // "YYYY-MM-DD"
-  let newStreak = currentStats.currentStreak;
-
-  if (currentStats.lastSessionDate !== today) {
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-    if (currentStats.lastSessionDate === yesterday) {
-      newStreak = currentStats.currentStreak + 1;
-    } else if (currentStats.lastSessionDate === null) {
-      newStreak = 1;
-    } else {
-      newStreak = 1; // streak broken
-    }
-  }
-
-  const longestStreak = Math.max(currentStats.longestStreak, newStreak);
+  // Update streak (with freeze support)
+  const today = new Date().toISOString().split('T')[0];
+  const streakResult = calculateStreak(currentStats, today);
 
   // Update topic progress
   const topicProgress = currentStats.topicProgress || {};
@@ -78,8 +66,9 @@ router.post('/', verifyAuth, async (req, res) => {
   await DB.updateUserStats(email, {
     email,
     totalXp: currentStats.totalXp + xpTotal,
-    currentStreak: newStreak,
-    longestStreak,
+    currentStreak: streakResult.currentStreak,
+    longestStreak: streakResult.longestStreak,
+    freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
     lastSessionDate: today,
     topicProgress,
   });
@@ -96,8 +85,8 @@ router.post('/', verifyAuth, async (req, res) => {
         total: xpTotal,
       },
       streak: {
-        current: newStreak,
-        longest: longestStreak,
+        current: streakResult.currentStreak,
+        longest: streakResult.longestStreak,
       },
     },
   });
