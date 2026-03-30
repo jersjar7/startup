@@ -1,0 +1,335 @@
+/* ===== HERO SVG BACKGROUND ===== */
+
+/* --- Custom easing (Emil Kowalski philosophy) --- */
+:root {
+  --ease-draw: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-fade: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- SVG container --- */
+.hero-svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* --- Base stroke styles --- */
+.svg-line {
+  stroke: var(--charcoal);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.svg-draw {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+}
+
+.svg-arrow {
+  stroke: var(--ember);
+  stroke-width: 2;
+  fill: none;
+}
+
+.svg-arrow-head {
+  fill: var(--ember);
+  opacity: 0;
+}
+
+.svg-node {
+  fill: var(--ember);
+  opacity: 0;
+}
+
+.svg-flow {
+  stroke: var(--forest);
+  stroke-width: 2;
+  fill: none;
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+}
+
+.svg-vortex {
+  stroke: var(--forest);
+  stroke-width: 1.5;
+  stroke-dasharray: 8 6;
+  opacity: 0;
+}
+
+.svg-resistor {
+  fill: none;
+  stroke: var(--charcoal);
+  stroke-width: 1.5;
+  opacity: 0;
+}
+
+.svg-cap {
+  stroke: var(--charcoal);
+  stroke-width: 2;
+  fill: none;
+}
+
+.svg-vsource {
+  stroke: var(--ember);
+  stroke-width: 1.5;
+  opacity: 0;
+}
+
+.svg-vsource-mark {
+  stroke: var(--ember);
+  stroke-width: 1.5;
+  opacity: 0;
+}
+
+.svg-survey {
+  stroke: var(--sunbeam);
+  stroke-width: 1.5;
+  fill: none;
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+}
+
+.svg-arc {
+  stroke: var(--sunbeam);
+  stroke-width: 1.5;
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+}
+
+.svg-sight {
+  stroke: var(--sunbeam);
+  stroke-width: 1;
+  stroke-dasharray: 6 4;
+  fill: none;
+  opacity: 0;
+}
+
+.svg-strata {
+  stroke-width: 1.5;
+  fill: none;
+}
+.svg-strata--1 { stroke: var(--gray-400); stroke-dasharray: 700; stroke-dashoffset: 700; }
+.svg-strata--2 { stroke: var(--forest); stroke-dasharray: 700; stroke-dashoffset: 700; }
+.svg-strata--3 { stroke: var(--gray-500); stroke-dasharray: 700; stroke-dashoffset: 700; }
+.svg-strata--4 { stroke: var(--forest); stroke-dasharray: 700; stroke-dashoffset: 700; opacity: 0.7; }
+.svg-strata--5 { stroke: var(--gray-400); stroke-dasharray: 700; stroke-dashoffset: 700; }
+
+.svg-foundation {
+  fill: none;
+  stroke: var(--charcoal);
+  stroke-width: 2;
+  opacity: 0;
+}
+
+.svg-particle {
+  fill: var(--gray-500);
+  opacity: 0;
+}
+
+/* ===== PHASE VISIBILITY (15s loop, 3s each) ===== */
+
+.svg-phase {
+  opacity: 0;
+}
+
+.svg-phase--1 { animation: phaseLife 15s var(--ease-fade) infinite; }
+.svg-phase--2 { animation: phaseLife 15s var(--ease-fade) 3s infinite; }
+.svg-phase--3 { animation: phaseLife 15s var(--ease-fade) 6s infinite; }
+.svg-phase--4 { animation: phaseLife 15s var(--ease-fade) 9s infinite; }
+.svg-phase--5 { animation: phaseLife 15s var(--ease-fade) 12s infinite; }
+
+/* Phase envelope: fade in, hold, fade out over 3s window */
+@keyframes phaseLife {
+  0%      { opacity: 0; }
+  2%      { opacity: 1; }
+  13.33%  { opacity: 1; }   /* hold until 2s / 15s = 13.33% */
+  20%     { opacity: 0; }   /* fade out by 3s / 15s = 20% */
+  100%    { opacity: 0; }
+}
+
+/* ===== DRAW ANIMATIONS (staggered per phase) ===== */
+
+/* Phase 1: Truss */
+.svg-phase--1 .svg-draw      { animation: drawLine 15s var(--ease-draw) infinite; }
+.svg-phase--1 .svg-arrow-head { animation: fadeElement 15s var(--ease-fade) infinite; }
+.svg-phase--1 .svg-node       { animation: fadeElement 15s var(--ease-fade) infinite; }
+
+/* Phase 2: Fluid */
+.svg-phase--2 .svg-draw    { animation: drawLine 15s var(--ease-draw) 3s infinite; }
+.svg-phase--2 .svg-vortex  { animation: vortexSpin 15s var(--ease-fade) 3s infinite; }
+
+/* Phase 3: Circuits */
+.svg-phase--3 .svg-draw          { animation: drawLine 15s var(--ease-draw) 6s infinite; }
+.svg-phase--3 .svg-resistor      { animation: fadeElement 15s var(--ease-fade) 6s infinite; }
+.svg-phase--3 .svg-vsource       { animation: fadeElement 15s var(--ease-fade) 6s infinite; }
+.svg-phase--3 .svg-vsource-mark  { animation: fadeElement 15s var(--ease-fade) 6s infinite; }
+.svg-phase--3 .svg-node          { animation: fadeElement 15s var(--ease-fade) 6s infinite; }
+
+/* Phase 4: Surveying */
+.svg-phase--4 .svg-draw   { animation: drawLine 15s var(--ease-draw) 9s infinite; }
+.svg-phase--4 .svg-arc    { animation: drawArc 15s var(--ease-draw) 9s infinite; }
+.svg-phase--4 .svg-sight  { animation: fadeElement 15s var(--ease-fade) 9s infinite; }
+.svg-phase--4 .svg-node   { animation: fadeElement 15s var(--ease-fade) 9s infinite; }
+
+/* Phase 5: Geotechnical */
+.svg-phase--5 .svg-strata      { animation: drawStrata 15s var(--ease-draw) 12s infinite; }
+.svg-phase--5 .svg-foundation  { animation: fadeElement 15s var(--ease-fade) 12s infinite; }
+.svg-phase--5 .svg-particle    { animation: fadeElement 15s var(--ease-fade) 12s infinite; }
+
+/* ===== KEYFRAMES ===== */
+
+/* Draw a line via stroke-dashoffset */
+@keyframes drawLine {
+  0%      { stroke-dashoffset: 600; }
+  10%     { stroke-dashoffset: 0; }    /* drawn by 1.5s */
+  13.33%  { stroke-dashoffset: 0; }    /* hold */
+  20%     { stroke-dashoffset: 600; }  /* retract */
+  100%    { stroke-dashoffset: 600; }
+}
+
+@keyframes drawStrata {
+  0%      { stroke-dashoffset: 700; }
+  10%     { stroke-dashoffset: 0; }
+  13.33%  { stroke-dashoffset: 0; }
+  20%     { stroke-dashoffset: 700; }
+  100%    { stroke-dashoffset: 700; }
+}
+
+@keyframes drawArc {
+  0%      { stroke-dashoffset: 50; }
+  10%     { stroke-dashoffset: 0; }
+  13.33%  { stroke-dashoffset: 0; }
+  20%     { stroke-dashoffset: 50; }
+  100%    { stroke-dashoffset: 50; }
+}
+
+/* Fade in elements (fills, rectangles, etc.) */
+@keyframes fadeElement {
+  0%      { opacity: 0; }
+  10%     { opacity: 1; }
+  13.33%  { opacity: 1; }
+  20%     { opacity: 0; }
+  100%    { opacity: 0; }
+}
+
+/* Node pulse */
+.svg-node-pulse {
+  animation-name: fadeElement !important;
+}
+
+/* Vortex: fade in and rotate */
+@keyframes vortexSpin {
+  0%      { opacity: 0; transform-origin: 700px 420px; transform: rotate(0deg); }
+  10%     { opacity: 1; }
+  13.33%  { opacity: 1; transform: rotate(180deg); }
+  20%     { opacity: 0; transform: rotate(360deg); }
+  100%    { opacity: 0; transform: rotate(360deg); }
+}
+
+/* ===== TOPIC LABEL ===== */
+
+.hero-topic-label {
+  position: absolute;
+  top: clamp(1.5rem, 3vh, 2.5rem);
+  right: clamp(2rem, 6vw, 6rem);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 1;
+  user-select: none;
+}
+
+.hero-topic-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ember);
+  animation: dotPulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%      { opacity: 1; transform: scale(1.3); }
+}
+
+.hero-topic-text {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  transition: opacity 400ms cubic-bezier(0.23, 1, 0.32, 1),
+              transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.hero-topic-text.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-topic-text.is-hidden {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+  .hero-svg {
+    opacity: 0.15;
+  }
+
+  .hero-topic-label {
+    display: none;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .svg-phase,
+  .svg-phase .svg-draw,
+  .svg-phase .svg-arrow-head,
+  .svg-phase .svg-node,
+  .svg-phase .svg-vortex,
+  .svg-phase .svg-resistor,
+  .svg-phase .svg-vsource,
+  .svg-phase .svg-vsource-mark,
+  .svg-phase .svg-sight,
+  .svg-phase .svg-strata,
+  .svg-phase .svg-foundation,
+  .svg-phase .svg-particle,
+  .svg-phase .svg-arc,
+  .svg-node-pulse,
+  .hero-scroll-line,
+  .hero-topic-dot {
+    animation: none !important;
+  }
+
+  /* Show only phase 1 statically as a subtle watermark */
+  .svg-phase--1 {
+    opacity: 0.5;
+  }
+  .svg-phase--1 .svg-draw {
+    stroke-dashoffset: 0;
+  }
+  .svg-phase--1 .svg-node,
+  .svg-phase--1 .svg-arrow-head {
+    opacity: 1;
+  }
+
+  .hero-topic-text {
+    transition: none !important;
+  }
+
+  .hero-topic-text.is-hidden {
+    opacity: 1;
+    transform: none;
+  }
+}

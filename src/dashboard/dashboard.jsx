@@ -1,6 +1,32 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  Lightning,
+  Fire,
+  Timer,
+  Trophy,
+  Users,
+  Pulse,
+  SignOut,
+  CompassTool,
+  Atom,
+  Drop,
+  Stack,
+  Bridge,
+  Path,
+  BookOpenText,
+  ArrowRight,
+} from '@phosphor-icons/react';
 import './dashboard.css';
+
+const topicIcons = {
+  'Analytic Geometry': CompassTool,
+  'Dynamics': Atom,
+  'Fluid Mechanics': Drop,
+  'Soils': Stack,
+  'Materials': Bridge,
+  'Transportation': Path,
+};
 
 export function Dashboard({ userName, onLogout }) {
   const navigate = useNavigate();
@@ -99,72 +125,105 @@ export function Dashboard({ userName, onLogout }) {
 
   return (
     <main>
+      {/* Header */}
       <div className="dashboard-header">
-        <h2 className="dashboard-title">Select a Topic to Study</h2>
-        <div className="dashboard-user">
-          <span className="user-greeting">Welcome, {userName}!</span>
-          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        <div>
+          <h2 className="dashboard-title">Dashboard</h2>
+          <span className="user-greeting">Welcome back, {userName}</span>
         </div>
+        <button className="logout-btn" onClick={handleLogout}>
+          <SignOut weight="bold" size={18} />
+          Logout
+        </button>
       </div>
 
       {error && <div className="error-banner">{error}</div>}
 
+      {/* Stat cards */}
       <section className="stats-bar">
-        <div className="stat-item">
-          <span className="stat-value">{stats.totalXp}</span>
-          <span className="stat-label">Total XP</span>
+        <div className="stat-card stat-card--sunbeam">
+          <div className="stat-icon stat-icon--sunbeam">
+            <Lightning weight="bold" size={22} />
+          </div>
+          <div className="stat-content">
+            <span className="stat-value">{stats.totalXp}</span>
+            <span className="stat-label">Total XP</span>
+          </div>
         </div>
-        <div className="stat-item">
-          <span className="stat-value">{stats.currentStreak}</span>
-          <span className="stat-label">Day Streak</span>
+        <div className="stat-card stat-card--ember">
+          <div className="stat-icon stat-icon--ember">
+            <Fire weight="bold" size={22} />
+          </div>
+          <div className="stat-content">
+            <span className="stat-value">{stats.currentStreak}</span>
+            <span className="stat-label">Day Streak</span>
+          </div>
         </div>
       </section>
 
+      {/* Daily Review */}
       <section className="review-section">
         <button className="review-btn" onClick={() => navigate('/review')}>
+          <Timer weight="bold" size={18} />
           Daily Review
+          <ArrowRight weight="bold" size={16} />
         </button>
         <span className="review-hint">Mixed problems from topics you've studied</span>
       </section>
 
+      {/* Topics */}
+      <h3 className="section-heading">
+        <BookOpenText weight="bold" size={20} />
+        Topics
+      </h3>
       <section className="topics-grid">
-        {topics.map((topic) => (
-          <button className="topic-card" key={topic.topicId} onClick={() => handleTopicClick(topic)}>
-            <h3>{topic.name}</h3>
-            <div className="mastery-bar-row">
-              <div className="mastery-bar">
-                {[1, 2, 3, 4, 5].map((level) => (
-                  <div
-                    key={level}
-                    className={`mastery-segment${
-                      level <= topic.progress.masteryLevel
-                        ? topic.progress.decaying
-                          ? ' mastery-segment--decaying'
-                          : ' mastery-segment--filled'
-                        : ''
-                    }`}
-                  />
-                ))}
+        {topics.map((topic) => {
+          const Icon = topicIcons[topic.name] || CompassTool;
+          return (
+            <button className="topic-card" key={topic.topicId} onClick={() => handleTopicClick(topic)}>
+              <div className="topic-card-header">
+                <Icon size={20} className="topic-icon" />
+                <h3>{topic.name}</h3>
               </div>
-              <span className={`mastery-label${topic.progress.decaying ? ' mastery-label--decaying' : ''}`}>
-                {topic.progress.decaying ? 'Needs Review' : topic.progress.masteryName || 'Not Started'}
-              </span>
-            </div>
-            <p className="topic-progress">
-              {topic.progress.correct}/{topic.problemCount} correct
-            </p>
-            {topic.progress.sessionsCompleted > 0 && (
-              <p className="topic-sessions">
-                {topic.progress.sessionsCompleted} session{topic.progress.sessionsCompleted !== 1 ? 's' : ''} completed
+              <div className="mastery-bar-row">
+                <div className="mastery-bar">
+                  {[1, 2, 3, 4, 5].map((level) => (
+                    <div
+                      key={level}
+                      className={`mastery-segment${
+                        level <= topic.progress.masteryLevel
+                          ? topic.progress.decaying
+                            ? ' mastery-segment--decaying'
+                            : ' mastery-segment--filled'
+                          : ''
+                      }`}
+                    />
+                  ))}
+                </div>
+                <span className={`mastery-label${topic.progress.decaying ? ' mastery-label--decaying' : ''}`}>
+                  {topic.progress.decaying ? 'Needs Review' : topic.progress.masteryName || 'Not Started'}
+                </span>
+              </div>
+              <p className="topic-progress">
+                {topic.progress.correct}/{topic.problemCount} correct
               </p>
-            )}
-          </button>
-        ))}
+              {topic.progress.sessionsCompleted > 0 && (
+                <p className="topic-sessions">
+                  {topic.progress.sessionsCompleted} session{topic.progress.sessionsCompleted !== 1 ? 's' : ''} completed
+                </p>
+              )}
+            </button>
+          );
+        })}
       </section>
 
+      {/* Badges */}
       {stats.allBadges.length > 0 && (
         <section className="badges-section">
-          <h3>Achievements</h3>
+          <h3 className="section-heading">
+            <Trophy weight="bold" size={20} />
+            Achievements
+          </h3>
           <div className="badges-grid">
             {stats.allBadges.map((badge) => {
               const earned = stats.badges.some((b) => b.id === badge.id);
@@ -179,8 +238,12 @@ export function Dashboard({ userName, onLogout }) {
         </section>
       )}
 
+      {/* Leaderboard */}
       <section className="leaderboard-section">
-        <h3>Weekly Leaderboard</h3>
+        <h3 className="section-heading">
+          <Users weight="bold" size={20} />
+          Weekly Leaderboard
+        </h3>
         {leaderboard.weekId && (
           <span className="leaderboard-week">Week {leaderboard.weekId}</span>
         )}
@@ -202,8 +265,12 @@ export function Dashboard({ userName, onLogout }) {
         )}
       </section>
 
+      {/* Live Activity */}
       <section className="live-activity">
-        <h3>Live Activity</h3>
+        <h3 className="section-heading">
+          <Pulse weight="bold" size={20} />
+          Live Activity
+        </h3>
         <ul>
           {events.length > 0 ? (
             events.map((event, index) => (
@@ -213,7 +280,7 @@ export function Dashboard({ userName, onLogout }) {
               </li>
             ))
           ) : (
-            <li>No recent activity — start studying to see live updates!</li>
+            <li className="activity-empty">No recent activity — start studying to see live updates!</li>
           )}
         </ul>
       </section>

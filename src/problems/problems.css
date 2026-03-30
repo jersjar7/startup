@@ -3,13 +3,14 @@
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .problems-header h1 {
   text-align: center;
   font-size: 1.125rem;
   font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .problems-header .logout-btn {
@@ -17,21 +18,40 @@
 }
 
 .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
   text-decoration: none;
-  color: var(--brick-orange);
+  color: var(--ember);
   font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.15s ease;
 }
 
 .back-link:hover {
-  text-decoration: underline;
+  color: var(--ember-light);
 }
 
 .logout-btn {
-  padding: 0.5rem 1.5rem;
-  background-color: var(--brick-orange);
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  background: transparent;
+  color: var(--charcoal);
+  font-family: var(--font-heading);
   font-weight: 600;
-  border: 2px solid var(--charcoal);
+  font-size: 0.85rem;
+  border: 2px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  border-color: var(--ember);
+  color: var(--ember);
+  transform: translateY(-1px);
 }
 
 /* --- Progress bar --- */
@@ -40,16 +60,17 @@
 }
 
 .progress-bar {
-  height: 8px;
-  background: var(--light-gray);
-  border: 1px solid var(--charcoal);
-  border-radius: 4px;
+  height: 6px;
+  background: var(--gray-200);
+  border: none;
+  border-radius: var(--radius-full);
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: var(--brick-orange);
+  background: var(--ember);
+  border-radius: var(--radius-full);
   transition: width 0.3s ease;
 }
 
@@ -57,27 +78,30 @@
   display: block;
   text-align: center;
   margin-top: 0.5rem;
-  font-size: 0.875rem;
-  color: #666;
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  font-weight: 500;
 }
 
 /* --- Problem card --- */
 .problem-card {
-  border: 2px solid var(--charcoal);
-  padding: 1.5rem;
+  padding: 1.75rem;
   margin-bottom: 1rem;
   background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 
 .problem-card h3 {
   font-weight: 600;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
 .problem-question {
   font-size: 1.05rem;
   margin-bottom: 1.25rem;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* --- Choices --- */
@@ -93,31 +117,33 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
-  border: 2px solid var(--charcoal);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-md);
   background: white;
   cursor: pointer;
   text-align: left;
   font-size: 1rem;
-  transition: background 0.15s;
+  transition: all 0.15s ease;
 }
 
 .choice-btn:hover:not(:disabled) {
-  background: var(--light-gray);
+  background: var(--cream-dark);
+  border-color: var(--gray-300);
 }
 
 .choice-btn.selected {
-  background: #e8f0fe;
-  border-color: #1a73e8;
+  background: var(--ember-bg);
+  border-color: var(--ember);
 }
 
 .choice-btn.correct {
-  background: #e6f4ea;
-  border-color: #34a853;
+  background: var(--forest-bg);
+  border-color: var(--forest);
 }
 
 .choice-btn.incorrect {
-  background: #fce8e6;
-  border-color: #ea4335;
+  background: var(--error-bg);
+  border-color: var(--error);
 }
 
 .choice-btn.dimmed {
@@ -130,62 +156,83 @@
   justify-content: center;
   width: 1.75rem;
   height: 1.75rem;
-  border: 2px solid var(--charcoal);
+  border: 2px solid var(--gray-300);
   border-radius: 50%;
   font-weight: 600;
+  font-size: 0.85rem;
   flex-shrink: 0;
+  transition: all 0.15s ease;
 }
 
 .choice-btn.selected .choice-label {
-  background: #1a73e8;
+  background: var(--ember);
   color: white;
-  border-color: #1a73e8;
+  border-color: var(--ember);
 }
 
 .choice-btn.correct .choice-label {
-  background: #34a853;
+  background: var(--forest);
   color: white;
-  border-color: #34a853;
+  border-color: var(--forest);
 }
 
 .choice-btn.incorrect .choice-label {
-  background: #ea4335;
+  background: var(--error);
   color: white;
-  border-color: #ea4335;
+  border-color: var(--error);
 }
 
 /* --- Buttons --- */
 .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   padding: 0.75rem 2rem;
-  background: var(--charcoal);
+  background: var(--ember);
   color: white;
+  font-family: var(--font-heading);
   font-weight: 600;
-  border: 2px solid var(--charcoal);
+  border: none;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
 }
 
 .btn-primary:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+  transform: none;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #444;
+  background: var(--ember-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   padding: 0.75rem 2rem;
-  background: white;
-  color: var(--charcoal);
+  background: var(--charcoal);
+  color: var(--cream);
+  font-family: var(--font-heading);
   font-weight: 600;
-  border: 2px solid var(--charcoal);
+  border: none;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
 }
 
 .btn-secondary:hover {
-  background: var(--light-gray);
+  background: var(--charcoal-soft);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .submit-btn {
@@ -208,24 +255,26 @@
   padding: 0.75rem 1rem;
   font-weight: 600;
   margin-bottom: 1rem;
+  border-radius: var(--radius-sm);
 }
 
 .feedback-banner.correct {
-  background: #e6f4ea;
-  border-left: 4px solid #34a853;
-  color: #137333;
+  background: var(--forest-bg);
+  border-left: 4px solid var(--forest);
+  color: var(--forest);
 }
 
 .feedback-banner.incorrect {
-  background: #fce8e6;
-  border-left: 4px solid #ea4335;
-  color: #c5221f;
+  background: var(--error-bg);
+  border-left: 4px solid var(--error);
+  color: var(--error);
 }
 
 .solution-box {
-  background: #f5f5f5;
+  background: var(--gray-50);
   border-left: 3px solid var(--charcoal);
   padding: 1rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
 .solution-box h4 {
@@ -240,15 +289,18 @@
 
 /* --- Summary --- */
 .summary-card {
-  border: 2px solid var(--charcoal);
   padding: 2rem;
   background: white;
   text-align: center;
   margin-bottom: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 
 .summary-card h2 {
   font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
   margin-bottom: 1.5rem;
 }
 
@@ -265,15 +317,21 @@
   font-size: 0.95rem;
 }
 
+.xp-row span:last-child {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--ember);
+}
+
 .xp-total {
-  border-top: 2px solid var(--charcoal);
+  border-top: 2px solid var(--gray-200);
   margin-top: 0.25rem;
   padding-top: 0.5rem;
   font-weight: 700;
 }
 
 .streak-info {
-  color: #666;
+  color: var(--gray-500);
   font-size: 0.9rem;
 }
 
@@ -284,17 +342,19 @@
 .new-badges {
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 2px solid var(--pacific-green);
+  border-top: 2px solid var(--forest);
 }
 
 .new-badges h3 {
-  color: var(--pacific-green);
+  color: var(--forest);
   font-weight: 700;
   margin-bottom: 0.75rem;
 }
 
 .new-badge-item {
-  border: 2px solid var(--pacific-green);
+  border: 2px solid var(--forest);
+  border-radius: var(--radius-md);
+  background: var(--forest-bg);
   padding: 0.5rem 1rem;
   margin-bottom: 0.5rem;
 }
@@ -306,18 +366,19 @@
 
 .new-badge-desc {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--gray-500);
 }
 
 .quote-card {
-  border: 2px solid var(--charcoal);
   padding: 1.5rem;
   background: white;
   margin-bottom: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 
 .quote-card blockquote {
-  border-left: 4px solid var(--brick-orange);
+  border-left: 4px solid var(--ember);
   padding-left: 1rem;
   font-style: italic;
   margin: 0;
@@ -327,7 +388,7 @@
   display: block;
   margin-top: 0.5rem;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--gray-500);
 }
 
 .summary-actions {
@@ -355,7 +416,7 @@
 
 @media (max-width: 640px) {
   .problem-card {
-    padding: 1rem;
+    padding: 1.25rem;
   }
 
   .choice-btn {

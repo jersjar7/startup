@@ -1,76 +1,262 @@
 /* ===== LANDING PAGE ===== */
 .landing {
   max-width: 900px;
+  padding-top: 4rem;
 }
 
-/* --- Hero --- */
+/* ===== HERO SECTION ===== */
 .hero {
-  text-align: center;
-  padding: 3rem 1rem;
-  margin-bottom: 3rem;
-  border-bottom: 2px solid var(--charcoal);
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  background-color: var(--cream);
+  background-image:
+    linear-gradient(rgba(44, 44, 44, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(44, 44, 44, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  overflow: hidden;
+}
+
+/* --- Hero left content --- */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding-left: clamp(2rem, 6vw, 6rem);
+  max-width: 600px;
+}
+
+.hero-overline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  margin-bottom: 1.5rem;
+}
+
+.hero-overline-dash {
+  display: inline-block;
+  width: 1.5rem;
+  height: 2px;
+  background: var(--ember);
 }
 
 .hero-title {
-  font-size: 2.25rem;
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
-  margin-bottom: 1rem;
-  line-height: 1.2;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--charcoal);
+  margin-bottom: 1.25rem;
+}
+
+.hero-title-emphasis {
+  display: block;
+  font-size: 0.6em;
+  font-style: italic;
+  color: var(--ember);
+  margin-top: 0.25rem;
 }
 
 .hero-subtitle {
-  font-size: 1.1rem;
-  color: #555;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--gray-500);
   line-height: 1.6;
-  max-width: 600px;
-  margin: 0 auto 2rem;
+  max-width: 400px;
+  margin-bottom: 2rem;
 }
 
 .hero-cta {
-  padding: 1rem 3rem;
-  background: var(--pacific-green);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2.5rem;
+  background: var(--ember);
   color: white;
-  font-size: 1.125rem;
-  font-weight: 700;
-  border: 2px solid var(--charcoal);
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-md);
   cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s ease;
 }
 
 .hero-cta:hover {
-  opacity: 0.9;
+  background: var(--ember-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+  opacity: 1;
+}
+
+/* --- Logo lockup — bottom right --- */
+.hero-lockup {
+  position: absolute;
+  bottom: clamp(2rem, 5vh, 4rem);
+  right: clamp(2rem, 6vw, 6rem);
+  line-height: 0.85;
+  text-align: right;
+  z-index: 1;
+  user-select: none;
+}
+
+.hero-lockup-top {
+  white-space: nowrap;
+}
+
+.hero-lockup-fe {
+  font-family: var(--font-heading);
+  font-size: clamp(5rem, 12vw, 10rem);
+  font-weight: 900;
+  color: var(--charcoal);
+}
+
+.hero-lockup-4 {
+  font-family: var(--font-heading);
+  font-size: clamp(5rem, 12vw, 10rem);
+  font-weight: 900;
+  color: var(--ember);
+}
+
+.hero-lockup-raccoons {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.6vw, 3rem);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+}
+
+/* --- Scroll indicator — bottom center --- */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 1;
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 2rem;
+  background: linear-gradient(to bottom, var(--ember), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.hero-scroll-text {
+  font-family: var(--font-heading);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+
+/* ===== CONTENT SECTIONS ===== */
+
+/* --- Section shared --- */
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--charcoal);
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--gray-500);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 540px;
+  margin: -1rem auto 2.5rem;
 }
 
 /* --- Features --- */
-.section-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 1.5rem;
+.features-section {
+  margin-bottom: 3rem;
 }
 
 .features-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
-  margin-bottom: 3rem;
+  gap: 1.5rem;
 }
 
 .feature-card {
-  border: 2px solid var(--charcoal);
-  padding: 1.5rem;
   background: white;
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-card);
+  border-top: 4px solid transparent;
+  transition: all 0.2s ease;
 }
 
-.feature-card h4 {
-  font-weight: 700;
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-card--ember  { border-top-color: var(--ember); }
+.feature-card--forest { border-top-color: var(--forest); }
+.feature-card--sunbeam { border-top-color: var(--sunbeam); }
+
+.feature-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+}
+
+.feature-icon--ember {
+  background: var(--ember-bg);
+  color: var(--ember);
+}
+
+.feature-icon--forest {
+  background: var(--forest-bg);
+  color: var(--forest);
+}
+
+.feature-icon--sunbeam {
+  background: var(--sunbeam-bg);
+  color: var(--sunbeam);
+}
+
+.feature-card h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
-  color: var(--pacific-green);
+  color: var(--charcoal);
 }
 
 .feature-card p {
   font-size: 0.95rem;
-  color: #555;
-  line-height: 1.5;
+  color: var(--gray-500);
+  line-height: 1.6;
 }
 
 /* --- Topics Preview --- */
@@ -85,46 +271,84 @@
 }
 
 .topic-preview-card {
-  border: 2px solid var(--charcoal);
-  padding: 1.25rem;
-  text-align: center;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
   background: white;
+  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--forest);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--charcoal);
+  transition: all 0.2s ease;
+}
+
+.topic-preview-card:hover {
+  border-left-color: var(--ember);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.topic-preview-card svg {
+  color: var(--forest);
+  flex-shrink: 0;
+}
+
+.topic-preview-card:hover svg {
+  color: var(--ember);
 }
 
 /* --- CTA Footer --- */
 .cta-section {
   text-align: center;
-  padding: 2.5rem 1rem;
-  border: 2px solid var(--pacific-green);
+  padding: 3rem 2rem;
   background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
   margin-bottom: 2rem;
 }
 
-.cta-section h3 {
-  font-size: 1.5rem;
+.cta-section h2 {
+  font-size: 1.75rem;
   font-weight: 700;
+  letter-spacing: -0.03em;
   margin-bottom: 0.5rem;
+  color: var(--charcoal);
 }
 
 .cta-section p {
-  color: #555;
-  margin-bottom: 1.5rem;
+  color: var(--gray-500);
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 640px) {
-  .hero {
-    padding: 2rem 0.5rem;
-    margin-bottom: 2rem;
+@media (max-width: 768px) {
+  .hero-content {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 
-  .hero-title {
-    font-size: 1.75rem;
+  .hero-lockup {
+    opacity: 0.05;
+  }
+
+  .hero-scroll-indicator {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing {
+    padding-top: 2.5rem;
   }
 
   .hero-cta {
     width: 100%;
+    justify-content: center;
     padding: 1rem;
   }
 
@@ -133,7 +357,11 @@
   }
 
   .topics-preview {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+  }
+
+  .cta-section {
+    padding: 2rem 1.5rem;
   }
 
   .cta-section .hero-cta {

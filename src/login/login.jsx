@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { SignIn, UserPlus } from '@phosphor-icons/react';
 import './index.css';
 
 export function Login({ userName, onLogin }) {
@@ -71,30 +72,37 @@ export function Login({ userName, onLogin }) {
   return (
     <main className="login-main">
       <div className="login-form-container">
-        <h2>Login / Register</h2>
+        <h2>Welcome Back</h2>
+        <p className="login-subtitle">Sign in to continue your FE exam prep, or create a new account.</p>
         {error && <p className="error-banner">{error}</p>}
         <form onSubmit={handleLogin}>
+          <label className="login-label" htmlFor="login-email">Email</label>
           <input
+            id="login-email"
             type="email"
-            placeholder="Email"
+            placeholder="you@example.com"
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          <label className="login-label" htmlFor="login-password">Password</label>
           <input
+            id="login-password"
             type="password"
-            placeholder="Password"
+            placeholder="8+ characters"
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
           <div className="login-buttons">
-            <button type="submit" disabled={submitting || !(email && password)}>
+            <button type="submit" className="btn--primary" disabled={submitting || !(email && password)}>
+              <SignIn weight="bold" size={18} />
               {submitting ? 'Logging in...' : 'Login'}
             </button>
-            <button type="button" className="btn-register" disabled={submitting || !(email && password)} onClick={handleRegister}>
+            <button type="button" className="btn--secondary" disabled={submitting || !(email && password)} onClick={handleRegister}>
+              <UserPlus weight="bold" size={18} />
               {submitting ? 'Please wait...' : 'Register'}
             </button>
           </div>

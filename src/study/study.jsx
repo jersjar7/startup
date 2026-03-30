@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ArrowLeft, SignOut, PlayCircle, ArrowRight } from '@phosphor-icons/react';
 import './study.css';
 
 export function Study({ userName, onLogout }) {
@@ -54,7 +55,10 @@ export function Study({ userName, onLogout }) {
     return (
       <main>
         <div className="error-banner">{error || 'Topic not found.'}</div>
-        <button className="back-link" onClick={() => navigate('/dashboard')}>&larr; Back to Dashboard</button>
+        <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
+          <ArrowLeft weight="bold" size={16} />
+          Back to Dashboard
+        </a>
       </main>
     );
   }
@@ -63,10 +67,14 @@ export function Study({ userName, onLogout }) {
     <main>
       <div className="study-header">
         <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
-          &larr; Back to Topics
+          <ArrowLeft weight="bold" size={16} />
+          Back to Topics
         </a>
         <h1>{topic.name}</h1>
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        <button className="logout-btn" onClick={handleLogout}>
+          <SignOut weight="bold" size={18} />
+          Logout
+        </button>
       </div>
 
       <section className="key-concepts">
@@ -79,7 +87,7 @@ export function Study({ userName, onLogout }) {
             ))}
           </ul>
         ) : (
-          <p style={{ color: '#666', fontStyle: 'italic' }}>Key concepts coming soon.</p>
+          <p className="key-concepts-empty">Key concepts coming soon.</p>
         )}
       </section>
 
@@ -93,20 +101,22 @@ export function Study({ userName, onLogout }) {
             rel="noopener noreferrer"
             className="video-link"
           >
-            Watch on YouTube &rarr;
+            <PlayCircle weight="bold" size={18} />
+            Watch on YouTube
           </a>
         </section>
       )}
 
       {topic.problemCount > 0 ? (
-        <section style={{ textAlign: 'center' }}>
+        <section className="practice-section">
           <button className="practice-btn" onClick={() => navigate(`/problems/${topicId}`)}>
-            Practice Problems &rarr;
+            Practice Problems
+            <ArrowRight weight="bold" size={18} />
           </button>
         </section>
       ) : (
-        <section style={{ textAlign: 'center' }}>
-          <p style={{ color: '#666', fontStyle: 'italic' }}>Problems coming soon for this topic.</p>
+        <section className="practice-section">
+          <p className="practice-empty">Problems coming soon for this topic.</p>
         </section>
       )}
     </main>

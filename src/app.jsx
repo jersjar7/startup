@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { PawPrint } from '@phosphor-icons/react';
 import { Landing } from './landing/landing';
 import { Login } from './login/login';
 import { Dashboard } from './dashboard/dashboard';
@@ -47,30 +48,50 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div className="body">
+      <AppShell userName={userName} onLogin={onLogin} onLogout={onLogout} />
+    </BrowserRouter>
+  );
+}
+
+function AppShell({ userName, onLogin, onLogout }) {
+  const { pathname } = useLocation();
+  const isLanding = pathname === '/';
+
+  return (
+    <div className="body">
+      {!isLanding && (
         <header>
-          <h1 id="app-title">FE for Raccoons</h1>
-          <h4 id="app-slogan">All you need to pass the Fundamentals of Engineering exam in one place!</h4>
+          <div className="nav-brand">
+            <div className="nav-logo">
+              <PawPrint weight="bold" size={18} />
+            </div>
+            <div className="nav-text">
+              <h1 id="app-title">FE for Raccoons</h1>
+              <span id="app-slogan">All you need to pass the FE exam</span>
+            </div>
+          </div>
         </header>
+      )}
 
-        <Routes>
-          <Route path="/" element={<Landing userName={userName} />} />
-          <Route path="/login" element={<Login userName={userName} onLogin={onLogin} />} />
-          <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
-          <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
-          <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
-          <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<Landing userName={userName} />} />
+        <Route path="/login" element={<Login userName={userName} onLogin={onLogin} />} />
+        <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
+        <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
+        <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
+        <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
 
+      {!isLanding && (
         <footer>
           <p>Created by Jerson J. Garcia</p>
           <p>
             <a href="https://github.com/jersjar7/startup" target="_blank">GitHub Repository</a>
           </p>
         </footer>
-      </div>
-    </BrowserRouter>
+      )}
+    </div>
   );
 }
 

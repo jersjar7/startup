@@ -1,54 +1,42 @@
-/* ===== PAGE-SPECIFIC: study.html ===== */
+/* ===== STUDY PAGE ===== */
 .study-header {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
-  margin-bottom: 1rem;
-}
-
-.back-link {
-  text-decoration: none;
-  color: var(--brick-orange);
-  font-weight: 500;
-}
-
-.back-link:hover {
-  text-decoration: underline;
+  margin-bottom: 1.5rem;
 }
 
 .study-header h1 {
   text-align: center;
   font-size: 1.25rem;
   font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .study-header .logout-btn {
   justify-self: end;
 }
 
-.logout-btn {
-  padding: 0.5rem 1.5rem;
-  background-color: var(--brick-orange);
-  color: white;
-  font-weight: 600;
-  border: 2px solid var(--charcoal);
-}
-
 .key-concepts {
-  border: 2px dashed var(--charcoal);
-  padding: 1.5rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border-top: 4px solid var(--forest);
+  padding: 1.75rem;
   margin-bottom: 2rem;
 }
 
 .key-concepts h2 {
   font-size: 1.25rem;
   font-weight: 600;
+  letter-spacing: -0.02em;
   margin-bottom: 1rem;
 }
 
 .key-concepts p {
   margin-bottom: 1rem;
-  color: #666;
+  color: var(--gray-500);
+  line-height: 1.6;
 }
 
 .key-concepts ul {
@@ -60,57 +48,103 @@
   margin-bottom: 0.5rem;
   padding-left: 1.5rem;
   position: relative;
+  line-height: 1.5;
 }
 
 .key-concepts li:before {
-  content: "◆";
+  content: "";
   position: absolute;
   left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  background: var(--forest);
+  border-radius: 50%;
+}
+
+.key-concepts-empty {
+  color: var(--gray-400);
+  font-style: italic;
 }
 
 .video-section {
-  border: 2px solid var(--charcoal);
-  padding: 3rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border-top: 4px solid var(--ember);
+  padding: 2.5rem;
   text-align: center;
   margin-bottom: 2rem;
-  background: var(--light-gray);
 }
 
 .video-section h3 {
   font-weight: 600;
+  letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
 }
 
 .video-section p {
-  color: #555;
-  margin-bottom: 1rem;
+  color: var(--gray-500);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
 }
 
 .video-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.75rem 2rem;
-  background: #ff0000;
+  background: var(--error);
   color: white;
+  font-family: var(--font-heading);
   font-weight: 600;
-  border: 2px solid var(--charcoal);
+  font-size: 0.9rem;
+  border-radius: var(--radius-md);
   text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 .video-link:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
   opacity: 0.9;
 }
 
-.practice-btn {
-  display: block;
-  margin: 0 auto;
-  padding: 0.75rem 2rem;
-  background-color: var(--pacific-green);
-  color: white;
-  font-weight: 600;
-  border: 2px solid var(--charcoal);
+.practice-section {
+  text-align: center;
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+.practice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 auto;
+  padding: 0.875rem 2.5rem;
+  background-color: var(--ember);
+  color: white;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.practice-btn:hover {
+  background: var(--ember-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  opacity: 1;
+}
+
+.practice-empty {
+  color: var(--gray-400);
+  font-style: italic;
+}
+
+/* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
   .study-header {
     grid-template-columns: 1fr;
@@ -118,8 +152,23 @@
     text-align: center;
     margin-bottom: 1rem;
   }
-  
+
   .study-header .logout-btn {
     justify-self: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .key-concepts {
+    padding: 1.25rem;
+  }
+
+  .video-section {
+    padding: 1.5rem;
+  }
+
+  .practice-btn {
+    width: 100%;
+    justify-content: center;
   }
 }

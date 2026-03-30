@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ArrowLeft, SignOut, ArrowRight } from '@phosphor-icons/react';
 import { MathText } from '../components/MathText';
 import './problems.css';
 
-// States: LOADING → SESSION → SUMMARY
-// Within SESSION each problem: ANSWERING → REVIEWED
+// States: LOADING -> SESSION -> SUMMARY
+// Within SESSION each problem: ANSWERING -> REVIEWED
 
 export function Problems({ userName, onLogout, reviewMode = false }) {
   const navigate = useNavigate();
@@ -154,7 +155,10 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
     return (
       <main>
         <div className="error-banner">Could not load problems. Please try again.</div>
-        <button className="back-link" onClick={() => navigate(backPath)}>&larr; {backLabel}</button>
+        <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate(backPath); }}>
+          <ArrowLeft weight="bold" size={16} />
+          {backLabel}
+        </a>
       </main>
     );
   }
@@ -165,10 +169,14 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
       <main>
         <div className="problems-header">
           <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
-            &larr; Back to Dashboard
+            <ArrowLeft weight="bold" size={16} />
+            Back to Dashboard
           </a>
           <h1>Daily Review</h1>
-          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+          <button className="logout-btn" onClick={handleLogout}>
+            <SignOut weight="bold" size={18} />
+            Logout
+          </button>
         </div>
         <section className="summary-card">
           <h2>No problems to review right now</h2>
@@ -191,7 +199,10 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
         <div className="problems-header">
           <span />
           <h1>{reviewMode ? 'Review Complete' : 'Session Complete'}</h1>
-          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+          <button className="logout-btn" onClick={handleLogout}>
+            <SignOut weight="bold" size={18} />
+            Logout
+          </button>
         </div>
 
         <section className="summary-card">
@@ -245,10 +256,12 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
 
         <div className="summary-actions">
           <button className="btn-secondary" onClick={() => navigate(backPath)}>
-            &larr; {backLabel}
+            <ArrowLeft weight="bold" size={16} />
+            {backLabel}
           </button>
           <button className="btn-primary" onClick={() => window.location.reload()}>
             {reviewMode ? 'Review Again' : 'Try Again'}
+            <ArrowRight weight="bold" size={16} />
           </button>
         </div>
       </main>
@@ -265,10 +278,14 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
     <main>
       <div className="problems-header">
         <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate(backPath); }}>
-          &larr; {backLabel}
+          <ArrowLeft weight="bold" size={16} />
+          {backLabel}
         </a>
         <h1>{topicName}</h1>
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        <button className="logout-btn" onClick={handleLogout}>
+          <SignOut weight="bold" size={18} />
+          Logout
+        </button>
       </div>
 
       <section className="progress-bar-section">
@@ -333,6 +350,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
             </div>
             <button className="btn-primary next-btn" onClick={handleNext}>
               {currentIndex < problems.length - 1 ? 'Next Problem' : (reviewMode ? 'Finish Review' : 'Finish Session')}
+              <ArrowRight weight="bold" size={16} />
             </button>
           </div>
         )}
