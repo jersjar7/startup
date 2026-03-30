@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
+const DB = require('./database.js');
 
 const app = express();
 
@@ -19,18 +20,20 @@ app.use('/api', apiRouter);
 // Auth cookie name
 const authCookieName = 'token';
 
-// In-memory data stores (will move to MongoDB later)
-let users = [];
-let progress = {};
-
 // ---- Authentication Endpoints ----
 
 // Register a new user
 apiRouter.post('/auth/create', async (req, res) => {
-  if (await findUser('email', req.body.email)) {
+  if (await DB.getUser(req.body.email)) {
     res.status(409).send({ msg: 'Existing user' });
   } else {
-    const user = await createUser(req.body.email, req.body.password);
+    const passwordHash = await bcrypt.hash(req.body.password, 10);
+    const user = {
+      email: req.body.email,
+      password: passwordHash,
+      token: uuid.v4(),
+    };
+    await DB.addUser(user);
     setAuthCookie(res, user.token);
     res.send({ email: user.email });
   }
@@ -38,9 +41,10 @@ apiRouter.post('/auth/create', async (req, res) => {
 
 // Login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
-  const user = await findUser('email', req.body.email);
+  const user = await DB.getUser(req.body.email);
   if (user && (await bcrypt.compare(req.body.password, user.password))) {
     user.token = uuid.v4();
+    await DB.updateUser(user);
     setAuthCookie(res, user.token);
     res.send({ email: user.email });
   } else {
@@ -50,9 +54,10 @@ apiRouter.post('/auth/login', async (req, res) => {
 
 // Logout a user
 apiRouter.delete('/auth/logout', async (req, res) => {
-  const user = await findUser('token', req.cookies[authCookieName]);
+  const user = await DB.getUserByToken(req.cookies[authCookieName]);
   if (user) {
     delete user.token;
+    await DB.updateUser(user);
   }
   res.clearCookie(authCookieName);
   res.status(204).end();
@@ -60,7 +65,7 @@ apiRouter.delete('/auth/logout', async (req, res) => {
 
 // Get the current authenticated user
 apiRouter.get('/user/me', async (req, res) => {
-  const user = await findUser('token', req.cookies[authCookieName]);
+  const user = await DB.getUserByToken(req.cookies[authCookieName]);
   if (user) {
     res.send({ email: user.email });
   } else {
@@ -70,7 +75,7 @@ apiRouter.get('/user/me', async (req, res) => {
 
 // Middleware to verify authentication
 const verifyAuth = async (req, res, next) => {
-  const user = await findUser('token', req.cookies[authCookieName]);
+  const user = await DB.getUserByToken(req.cookies[authCookieName]);
   if (user) {
     req.user = user;
     next();
@@ -95,38 +100,19 @@ apiRouter.get('/topics', verifyAuth, (_req, res) => {
 });
 
 // Get user progress
-apiRouter.get('/progress', verifyAuth, (req, res) => {
-  const userProgress = progress[req.user.email] || {};
+apiRouter.get('/progress', verifyAuth, async (req, res) => {
+  const userProgress = await DB.getProgress(req.user.email);
   res.send(userProgress);
 });
 
 // Save user progress
-apiRouter.post('/progress', verifyAuth, (req, res) => {
+apiRouter.post('/progress', verifyAuth, async (req, res) => {
   const { problemId, completed } = req.body;
-  if (!progress[req.user.email]) {
-    progress[req.user.email] = {};
-  }
-  progress[req.user.email][problemId] = completed;
-  res.send(progress[req.user.email]);
+  const userProgress = await DB.saveProgress(req.user.email, problemId, completed);
+  res.send(userProgress);
 });
 
 // ---- Helper Functions ----
-
-async function createUser(email, password) {
-  const passwordHash = await bcrypt.hash(password, 10);
-  const user = {
-    email: email,
-    password: passwordHash,
-    token: uuid.v4(),
-  };
-  users.push(user);
-  return user;
-}
-
-async function findUser(field, value) {
-  if (!value) return null;
-  return users.find((u) => u[field] === value);
-}
 
 function setAuthCookie(res, authToken) {
   res.cookie(authCookieName, authToken, {
