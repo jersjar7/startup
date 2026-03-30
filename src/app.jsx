@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
 import { Dashboard } from './dashboard/dashboard';
 import { Study } from './study/study';
@@ -7,6 +7,42 @@ import { Problems } from './problems/problems';
 import './app.css';
 
 export default function App() {
+  const [userName, setUserName] = React.useState('');
+  const [authLoading, setAuthLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetch('/api/user/me')
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw new Error('Not authenticated');
+      })
+      .then((data) => {
+        setUserName(data.email);
+      })
+      .catch(() => {
+        setUserName('');
+      })
+      .finally(() => {
+        setAuthLoading(false);
+      });
+  }, []);
+
+  function onLogin(email) {
+    setUserName(email);
+  }
+
+  function onLogout() {
+    fetch('/api/auth/logout', { method: 'DELETE' })
+      .catch(() => {})
+      .finally(() => {
+        setUserName('');
+      });
+  }
+
+  if (authLoading) {
+    return <div className="body"><p>Loading...</p></div>;
+  }
+
   return (
     <BrowserRouter>
       <div className="body">
@@ -16,10 +52,10 @@ export default function App() {
         </header>
 
         <Routes>
-          <Route path="/" element={<Login />} exact />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/study" element={<Study />} />
-          <Route path="/problems" element={<Problems />} />
+          <Route path="/" element={<Login userName={userName} onLogin={onLogin} />} exact />
+          <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
+          <Route path="/study" element={<Study userName={userName} onLogout={onLogout} />} />
+          <Route path="/problems" element={<Problems userName={userName} onLogout={onLogout} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
 
