@@ -5,7 +5,8 @@ import './dashboard.css';
 export function Dashboard({ userName, onLogout }) {
   const navigate = useNavigate();
   const [topics, setTopics] = React.useState([]);
-  const [liveUsers, setLiveUsers] = React.useState([]);
+  const [events, setEvents] = React.useState([]);
+  const [socket, setSocket] = React.useState(null);
 
   React.useEffect(() => {
     if (!userName) {
@@ -19,22 +20,54 @@ export function Dashboard({ userName, onLogout }) {
       .then((data) => setTopics(data))
       .catch(() => {});
 
-    // Mock WebSocket messages - simulates other users studying
-    const interval = setInterval(() => {
-      const topicNames = ['Analytic Geometry', 'Dynamics', 'Fluid Mechanics', 'Soils', 'Materials', 'Transportation'];
-      const randomTopic = topicNames[Math.floor(Math.random() * topicNames.length)];
-      const randomCount = Math.floor(Math.random() * 10) + 1;
+    // Connect to WebSocket
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    const ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
-      setLiveUsers(prev => {
-        const updated = prev.filter(item => item.topic !== randomTopic);
-        return [...updated, { topic: randomTopic, count: randomCount }].slice(-6);
+    ws.onopen = () => {
+      // Announce this user is on the dashboard
+      ws.send(JSON.stringify({
+        type: 'study',
+        from: userName,
+        topic: 'Dashboard',
+      }));
+    };
+
+    ws.onmessage = (event) => {
+      const msg = JSON.parse(event.data);
+      setEvents((prev) => {
+        const updated = [msg, ...prev].slice(0, 10);
+        return updated;
       });
-    }, 3000);
+    };
 
-    return () => clearInterval(interval);
+    ws.onclose = () => {
+      // Connection closed
+    };
+
+    setSocket(ws);
+
+    return () => {
+      ws.close();
+    };
   }, [userName, navigate]);
 
+  const handleTopicClick = (topic) => {
+    // Send WebSocket event that this user started studying a topic
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(JSON.stringify({
+        type: 'study',
+        from: userName,
+        topic: topic.name,
+      }));
+    }
+    navigate('/study');
+  };
+
   const handleLogout = () => {
+    if (socket) {
+      socket.close();
+    }
     onLogout();
     navigate('/');
   };
@@ -51,7 +84,7 @@ export function Dashboard({ userName, onLogout }) {
 
       <section className="topics-grid">
         {topics.map((topic) => (
-          <div className="topic-card" key={topic.id} onClick={() => navigate('/study')}>
+          <div className="topic-card" key={topic.id} onClick={() => handleTopicClick(topic)}>
             <h3>{topic.name}</h3>
             <p>0/{topic.problemCount} problems</p>
           </div>
@@ -61,17 +94,17 @@ export function Dashboard({ userName, onLogout }) {
       <section className="live-activity">
         <h3>Live Activity</h3>
         <ul>
-          {liveUsers.length > 0 ? (
-            liveUsers.map((item, index) => (
-              <li key={index}>{item.count} users studying {item.topic}</li>
+          {events.length > 0 ? (
+            events.map((event, index) => (
+              <li key={index}>
+                <span style={{ fontWeight: 500 }}>{event.from}</span> started studying{' '}
+                <span style={{ fontWeight: 500 }}>{event.topic}</span>
+              </li>
             ))
           ) : (
-            <li>Connecting to live activity...</li>
+            <li>No recent activity — start studying to see live updates!</li>
           )}
         </ul>
-        <p style={{ marginTop: '1rem', fontStyle: 'italic', color: '#666' }}>
-          WebSocket data will be displayed here in real-time
-        </p>
       </section>
     </main>
   );

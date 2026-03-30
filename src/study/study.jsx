@@ -9,8 +9,25 @@ export function Study({ userName, onLogout }) {
   React.useEffect(() => {
     if (!userName) {
       navigate('/');
+      return;
     }
-  }, [userName, navigate]);
+
+    // Send WebSocket event that user is studying this topic
+    const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+    const ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
+
+    ws.onopen = () => {
+      ws.send(JSON.stringify({
+        type: 'study',
+        from: userName,
+        topic: selectedTopic,
+      }));
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, [userName, navigate, selectedTopic]);
 
   const handleLogout = () => {
     onLogout();
@@ -38,9 +55,6 @@ export function Study({ userName, onLogout }) {
           <li>Conic Sections (Parabolas, Ellipses, Hyperbolas)</li>
           <li>Vector Operations</li>
         </ul>
-        <p style={{ marginTop: '1rem', fontStyle: 'italic', color: '#666' }}>
-          Database placeholder: Study materials will be loaded from MongoDB
-        </p>
       </section>
 
       <section className="video-section">
