@@ -71,8 +71,9 @@ export function Login({ userName, onLogin }) {
         {error && <p className="error-banner">{error}</p>}
         <form onSubmit={handleLogin}>
           <input
-            type="text"
+            type="email"
             placeholder="Email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -80,6 +81,7 @@ export function Login({ userName, onLogin }) {
           <input
             type="password"
             placeholder="Password"
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
