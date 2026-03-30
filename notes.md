@@ -345,3 +345,153 @@ body
 - Use useEffect with empty dependency to run once
 
 **Key Insight**: useEffect cleanup functions are critical for preventing memory leaks with timers and intervals.
+
+## 7. Service Deliverable
+
+### What I Learned
+
+**Express Backend Architecture**
+- Backend lives in `service/` directory with its own `package.json` (separate from frontend)
+- Express app listens on port 4000 (Simon uses 3000, must be different)
+- `express.static('public')` serves the bundled React frontend in production
+- `express.json()` middleware parses JSON request bodies automatically
+- `cookie-parser` middleware handles reading/writing HTTP cookies
+
+**API Router Pattern**
+- Use `express.Router()` to group all API endpoints under `/api` prefix
+- Endpoints: `/api/auth/create`, `/api/auth/login`, `/api/auth/logout`, `/api/user/me`
+- App-specific endpoints: `/api/topics`, `/api/progress`
+- Router keeps code organized and separates API routes from static file serving
+
+**Authentication with Cookies**
+- Registration: hash password with bcrypt → store user → set auth cookie → return email
+- Login: find user by email → compare password with bcrypt → generate new token → set cookie
+- Logout: find user by token → delete token → clear cookie
+- Cookie options: `httpOnly: true` (JS can't read), `secure: true` (HTTPS only), `sameSite: 'strict'`
+- `uuid.v4()` generates random authentication tokens
+
+**BCrypt Password Hashing**
+- `await bcrypt.hash(password, 10)` — hash with cost factor 10
+- `await bcrypt.compare(plaintext, hash)` — returns true/false
+- Never store plain text passwords, always hash first
+- One-way hash: can't reverse the hash back to the password
+
+**verifyAuth Middleware**
+- Middleware function that checks auth cookie before allowing endpoint access
+- If valid token found → attaches user to `req.user` and calls `next()`
+- If invalid → returns 401 Unauthorized
+- Used as second argument in route: `apiRouter.get('/topics', verifyAuth, handler)`
+
+**Vite Proxy for Development**
+- `vite.config.js` proxies `/api` requests to `http://localhost:4000`
+- Needed because frontend runs on port 5173 (Vite) but backend on 4000
+- Without proxy, fetch('/api/...') would go to port 5173 and fail
+- In production this isn't needed because Express serves everything
+
+**Third Party API Call**
+- `fetch('https://quote.cs260.click')` returns `{quote, author}` JSON
+- Called from frontend (Problems page) using useEffect on mount
+- Always include a `.catch()` fallback in case the API is down
+- CORS must allow your origin — `quote.cs260.click` returns `Access-Control-Allow-Origin: *`
+
+**Frontend → Backend Communication**
+- Login/Register: `fetch('/api/auth/login', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email, password})})`
+- Auth state lifted to App component, passed as props to all child components
+- App checks `/api/user/me` on load to restore session from cookie
+- No more localStorage for auth — cookies handle session persistence
+
+**Deployment with deployService.sh**
+- Script builds React frontend (`npm run build`), copies to `build/public/`
+- Copies backend files (`service/*.js`, `service/*.json`) to `build/`
+- SCPs everything to AWS server at `services/startup/`
+- Runs `npm install` and `pm2 restart startup` on the server
+- Usage: `./deployService.sh -k <pem> -h fe4raccoons.click -s startup`
+
+**Debugging Tips**
+- `EADDRINUSE` error = port already in use, kill old process: `lsof -ti:4000 | xargs kill`
+- Test endpoints with curl before connecting frontend
+- 502 error on production = PM2 can't start your service (check file structure, port, missing modules)
+
+**Key Insight**: The frontend and backend are two separate applications sharing one Git repo. Each has its own package.json. Install backend deps in `service/`, frontend deps in root.
+
+## 8. DB Deliverable (MongoDB)
+
+### My MongoDB Atlas Details
+
+- **Atlas Account**: jersondevs@gmail.com
+- **Cluster Name**: clusterfe4raccoons
+- **Region**: AWS us-east-1 (N. Virginia)
+- **Tier**: Free (M0, 512MB)
+- **Database Name**: fe4raccoons
+- **Collections**: `users`, `progress`
+- **DB Username**: jersondevs_db_user
+- **Network Access**: 0.0.0.0/0 (allow all — needed for AWS server)
+- **Config File**: `service/dbConfig.json` (gitignored, never commit!)
+
+### What I Learned
+
+**MongoDB Atlas Setup**
+1. Create account at mongodb.com/cloud/atlas
+2. Create free cluster (M0) — pick AWS us-east-1
+3. Create database user with username/password (avoid special chars in password)
+4. Set Network Access to `0.0.0.0/0` (allow anywhere) so AWS server can connect
+5. Get connection string from Connect → Drivers
+6. Hostname is the part after `@` in the connection string
+
+**dbConfig.json Pattern**
+```json
+{
+  "hostname": "clusterfe4raccoons.lvfcocu.mongodb.net",
+  "userName": "jersondevs_db_user",
+  "password": "the-password-here"
+}
+```
+- MUST be in `.gitignore` — credentials should never be in GitHub
+- Loaded at runtime with `require('./dbConfig.json')`
+- Deploy script copies `service/*.json` to production (includes dbConfig.json)
+
+**MongoDB Connection**
+```javascript
+const { MongoClient } = require('mongodb');
+const config = require('./dbConfig.json');
+const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
+const client = new MongoClient(url);
+const db = client.db('fe4raccoons');
+```
+- Test connection on startup with `await db.command({ ping: 1 })`
+- If connection fails, `process.exit(1)` to stop the server immediately
+- Collections are created automatically when you first insert a document
+
+**Database Module Pattern (database.js)**
+- Separate file for all DB operations — keeps index.js clean
+- Export functions: `getUser`, `getUserByToken`, `addUser`, `updateUser`, `getProgress`, `saveProgress`
+- index.js imports: `const DB = require('./database.js')`
+- Each function is a thin wrapper around MongoDB operations
+
+**Key MongoDB Operations**
+- `collection.findOne({email: email})` — find one document matching query
+- `collection.insertOne(user)` — insert a new document
+- `collection.updateOne({email: user.email}, {$set: user})` — update matching document
+- `collection.updateOne(query, update, {upsert: true})` — update or insert if not found
+- `$set` operator updates specific fields without overwriting the entire document
+
+**Progress Storage with Nested Fields**
+- Store progress as nested object: `{email: "user@test.com", completed: {problem1: true, problem2: false}}`
+- Update nested field: `{$set: {[\`completed.${problemId}\`]: completed}}`
+- `upsert: true` creates the document if user has no progress record yet
+
+**In-Memory vs MongoDB Comparison**
+| Feature | In-Memory (Service) | MongoDB (DB) |
+|---------|-------------------|-------------|
+| Persists on restart | No | Yes |
+| Viewable in console | No | Yes (Atlas Data Explorer) |
+| Scalable | No | Yes |
+| Setup complexity | None | Moderate |
+
+**MongoDB Atlas Data Explorer**
+- Similar to Firebase Console — browse collections, view/edit/delete documents
+- Navigate: Database → Browse Collections → select database → select collection
+- Can see all registered users and their hashed passwords
+- Can manually add, update, or delete documents for testing
+
+**Key Insight**: The transition from in-memory to MongoDB is mostly about replacing array operations (push, find) with MongoDB equivalents (insertOne, findOne). The API endpoints stay the same — only the storage layer changes.
