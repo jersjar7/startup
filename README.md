@@ -130,12 +130,13 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** - Backend created in `service/index.js` using Express on port 4000. Handles JSON parsing, cookie parsing, and serves static frontend files.
+- [x] **Static middleware for frontend** - `app.use(express.static('public'))` serves the bundled React frontend from the `public` directory in production.
+- [x] **Calls to third party endpoints** - The Problems page fetches motivational quotes from `https://quote.cs260.click` and displays them with author attribution.
+- [x] **Backend service endpoints** - API endpoints for topics (`GET /api/topics`), user progress (`GET /api/progress`, `POST /api/progress`), and authentication. All app endpoints are protected with `verifyAuth` middleware.
+- [x] **Frontend calls service endpoints** - Dashboard fetches topics from `/api/topics`. Problems page loads/saves progress via `/api/progress`. Login/Register call `/api/auth/create` and `/api/auth/login`. App checks session on load via `/api/user/me`.
+- [x] **Supports registration, login, logout, and restricted endpoint** - Registration (`POST /api/auth/create`), login (`POST /api/auth/login`), logout (`DELETE /api/auth/logout`), and user info (`GET /api/user/me`). Auth uses secure httpOnly cookies. Topics and progress endpoints require authentication.
+- [x] **Uses BCrypt to hash passwords** - Passwords are hashed with `bcryptjs` (cost factor 10) before storing. Login compares with `bcrypt.compare`.
 
 ## 🚀 DB deliverable
 
