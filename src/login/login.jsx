@@ -42,6 +42,10 @@ export function Login({ userName, onLogin }) {
 
   async function handleRegister() {
     setError('');
+    if (password.length < 8 || !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+      setError('Password must be 8+ characters with uppercase, lowercase, and a number');
+      return;
+    }
     setSubmitting(true);
     try {
       const res = await fetch('/api/auth/create', {

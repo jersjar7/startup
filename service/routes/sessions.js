@@ -12,8 +12,16 @@ const router = express.Router();
 router.post('/', verifyAuth, async (req, res) => {
   const { topicId, answers } = req.body;
 
-  if (!topicId || !answers || !Array.isArray(answers) || answers.length === 0) {
-    return res.status(400).send({ msg: 'topicId and answers array are required' });
+  if (!topicId || typeof topicId !== 'string' || !/^[a-z0-9-]+$/.test(topicId)) {
+    return res.status(400).send({ msg: 'Invalid topicId' });
+  }
+  if (!answers || !Array.isArray(answers) || answers.length === 0 || answers.length > 20) {
+    return res.status(400).send({ msg: 'answers must be an array of 1-20 items' });
+  }
+  for (const a of answers) {
+    if (typeof a.problemId !== 'string' || typeof a.isCorrect !== 'boolean') {
+      return res.status(400).send({ msg: 'Each answer must have problemId (string) and isCorrect (boolean)' });
+    }
   }
 
   // Calculate XP

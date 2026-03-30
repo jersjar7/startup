@@ -317,11 +317,25 @@
     text-align: center;
   }
 
+  .dashboard-user {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
   .topics-grid {
     grid-template-columns: 1fr;
   }
 
   .stats-bar {
     flex-direction: column;
+  }
+
+  .review-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .badges-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

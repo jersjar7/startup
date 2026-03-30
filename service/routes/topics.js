@@ -47,6 +47,9 @@ router.get('/', verifyAuth, async (req, res) => {
 
 // Get a single topic with study materials
 router.get('/:topicId', verifyAuth, async (req, res) => {
+  if (!/^[a-z0-9-]+$/.test(req.params.topicId)) {
+    return res.status(400).send({ msg: 'Invalid topicId' });
+  }
   const topic = await DB.getTopicById(req.params.topicId);
   if (!topic) {
     return res.status(404).send({ msg: 'Topic not found' });
@@ -64,6 +67,9 @@ router.get('/:topicId', verifyAuth, async (req, res) => {
 
 // Get problems for a topic
 router.get('/:topicId/problems', verifyAuth, async (req, res) => {
+  if (!/^[a-z0-9-]+$/.test(req.params.topicId)) {
+    return res.status(400).send({ msg: 'Invalid topicId' });
+  }
   const topic = await DB.getTopicById(req.params.topicId);
   if (!topic) {
     return res.status(404).send({ msg: 'Topic not found' });

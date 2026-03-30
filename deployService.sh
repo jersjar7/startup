@@ -29,10 +29,16 @@ cp service/middleware/*.js build/middleware
 cp service/routes/*.js build/routes
 
 # Step 2
-printf "\n----> Clearing out previous distribution on the target\n"
+printf "\n----> Clearing out previous distribution on the target (preserving .env)\n"
 ssh -i "$key" ubuntu@$hostname << ENDSSH
+if [ -f services/${service}/.env ]; then
+  cp services/${service}/.env /tmp/${service}_env_backup
+fi
 rm -rf services/${service}
 mkdir -p services/${service}
+if [ -f /tmp/${service}_env_backup ]; then
+  mv /tmp/${service}_env_backup services/${service}/.env
+fi
 ENDSSH
 
 # Step 3

@@ -12,7 +12,7 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function validateAuthInput(req, res) {
+function validateAuthInput(req, res, isRegistration = false) {
   const { email, password } = req.body;
   const errors = [];
 
@@ -21,6 +21,8 @@ function validateAuthInput(req, res) {
   }
   if (!password || password.length < 8) {
     errors.push({ field: 'password', message: 'Must be at least 8 characters' });
+  } else if (isRegistration && !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+    errors.push({ field: 'password', message: 'Must include uppercase, lowercase, and a number' });
   }
 
   if (errors.length > 0) {
@@ -32,7 +34,7 @@ function validateAuthInput(req, res) {
 
 // Register a new user
 router.post('/create', async (req, res) => {
-  if (!validateAuthInput(req, res)) return;
+  if (!validateAuthInput(req, res, true)) return;
 
   if (await DB.getUser(req.body.email)) {
     res.status(409).send({ msg: 'Existing user' });

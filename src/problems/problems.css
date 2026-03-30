@@ -352,3 +352,26 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 640px) {
+  .problem-card {
+    padding: 1rem;
+  }
+
+  .choice-btn {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .xp-breakdown {
+    max-width: 100%;
+  }
+
+  .summary-card {
+    padding: 1.25rem;
+  }
+
+  .summary-card h2 {
+    font-size: 1.25rem;
+  }
+}

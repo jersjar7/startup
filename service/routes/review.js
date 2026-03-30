@@ -93,8 +93,16 @@ router.get('/', verifyAuth, async (req, res) => {
 router.post('/', verifyAuth, async (req, res) => {
   const { answers } = req.body;
 
-  if (!answers || !Array.isArray(answers) || answers.length === 0) {
-    return res.status(400).send({ msg: 'answers array is required' });
+  if (!answers || !Array.isArray(answers) || answers.length === 0 || answers.length > 20) {
+    return res.status(400).send({ msg: 'answers must be an array of 1-20 items' });
+  }
+  for (const a of answers) {
+    if (typeof a.problemId !== 'string' || typeof a.isCorrect !== 'boolean') {
+      return res.status(400).send({ msg: 'Each answer must have problemId (string) and isCorrect (boolean)' });
+    }
+    if (a.topicId && (typeof a.topicId !== 'string' || !/^[a-z0-9-]+$/.test(a.topicId))) {
+      return res.status(400).send({ msg: 'Invalid topicId in answer' });
+    }
   }
 
   const email = req.user.email;
