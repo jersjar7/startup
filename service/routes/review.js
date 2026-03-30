@@ -2,6 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { calculateStreak } = require('../streak.js');
+const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 
 const router = express.Router();
 
@@ -139,7 +140,7 @@ router.post('/', verifyAuth, async (req, res) => {
     topicProgress[a.topicId] = tp;
   }
 
-  await DB.updateUserStats(email, {
+  const updatedStats = {
     email,
     totalXp: currentStats.totalXp + xpTotal,
     currentStreak: streakResult.currentStreak,
@@ -147,7 +148,15 @@ router.post('/', verifyAuth, async (req, res) => {
     freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
     lastSessionDate: today,
     topicProgress,
-  });
+    badges: currentStats.badges || [],
+  };
+
+  const newBadgeIds = evaluateBadges(updatedStats, { correct: correctCount, total: answers.length });
+  if (newBadgeIds.length > 0) {
+    updatedStats.badges = [...updatedStats.badges, ...newBadgeIds];
+  }
+
+  await DB.updateUserStats(email, updatedStats);
 
   res.send({
     sessionSummary: {
@@ -164,6 +173,7 @@ router.post('/', verifyAuth, async (req, res) => {
         current: streakResult.currentStreak,
         longest: streakResult.longestStreak,
       },
+      newBadges: getBadgeDetails(newBadgeIds),
     },
   });
 });

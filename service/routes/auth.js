@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const DB = require('../database.js');
 const { setAuthCookie, authCookieName } = require('../middleware/auth.js');
+const { getBadgeDetails, getAllBadges } = require('../badges.js');
 
 const router = express.Router();
 
@@ -79,11 +80,14 @@ router.get('/me', async (req, res) => {
   const user = await DB.getUserByToken(req.cookies[authCookieName]);
   if (user) {
     const stats = await DB.getUserStats(user.email);
+    const earnedBadgeIds = stats?.badges || [];
     res.send({
       email: user.email,
       totalXp: stats?.totalXp || 0,
       currentStreak: stats?.currentStreak || 0,
       longestStreak: stats?.longestStreak || 0,
+      badges: getBadgeDetails(earnedBadgeIds),
+      allBadges: getAllBadges(),
     });
   } else {
     res.status(401).send({ msg: 'Unauthorized' });

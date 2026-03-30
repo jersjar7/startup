@@ -281,6 +281,34 @@
   margin: 0.25rem 0;
 }
 
+.new-badges {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--pacific-green);
+}
+
+.new-badges h3 {
+  color: var(--pacific-green);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.new-badge-item {
+  border: 2px solid var(--pacific-green);
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.new-badge-name {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.new-badge-desc {
+  font-size: 0.85rem;
+  color: #666;
+}
+
 .quote-card {
   border: 2px solid var(--charcoal);
   padding: 1.5rem;

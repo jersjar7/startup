@@ -5,7 +5,7 @@ import './dashboard.css';
 export function Dashboard({ userName, onLogout }) {
   const navigate = useNavigate();
   const [topics, setTopics] = React.useState([]);
-  const [stats, setStats] = React.useState({ totalXp: 0, currentStreak: 0 });
+  const [stats, setStats] = React.useState({ totalXp: 0, currentStreak: 0, badges: [], allBadges: [] });
   const [events, setEvents] = React.useState([]);
   const [socket, setSocket] = React.useState(null);
 
@@ -24,7 +24,12 @@ export function Dashboard({ userName, onLogout }) {
     // Fetch user stats (XP, streak)
     fetch('/api/user/me')
       .then((res) => res.json())
-      .then((data) => setStats({ totalXp: data.totalXp || 0, currentStreak: data.currentStreak || 0 }))
+      .then((data) => setStats({
+        totalXp: data.totalXp || 0,
+        currentStreak: data.currentStreak || 0,
+        badges: data.badges || [],
+        allBadges: data.allBadges || [],
+      }))
       .catch(() => {});
 
     // Connect to WebSocket
@@ -132,6 +137,23 @@ export function Dashboard({ userName, onLogout }) {
           </button>
         ))}
       </section>
+
+      {stats.allBadges.length > 0 && (
+        <section className="badges-section">
+          <h3>Achievements</h3>
+          <div className="badges-grid">
+            {stats.allBadges.map((badge) => {
+              const earned = stats.badges.some((b) => b.id === badge.id);
+              return (
+                <div key={badge.id} className={`badge-item${earned ? ' badge-earned' : ''}`} title={badge.description}>
+                  <span className="badge-name">{badge.name}</span>
+                  <span className="badge-desc">{badge.description}</span>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       <section className="live-activity">
         <h3>Live Activity</h3>

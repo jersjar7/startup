@@ -209,6 +209,18 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
             <p>Current streak: {summary.streak.current} day{summary.streak.current !== 1 ? 's' : ''}</p>
             <p>Longest streak: {summary.streak.longest} day{summary.streak.longest !== 1 ? 's' : ''}</p>
           </div>
+
+          {summary.newBadges && summary.newBadges.length > 0 && (
+            <div className="new-badges">
+              <h3>New Badges Earned!</h3>
+              {summary.newBadges.map((badge) => (
+                <div key={badge.id} className="new-badge-item">
+                  <span className="new-badge-name">{badge.name}</span>
+                  <span className="new-badge-desc">{badge.description}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {quote && (

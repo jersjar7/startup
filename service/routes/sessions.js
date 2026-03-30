@@ -3,6 +3,7 @@ const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { calculateEarnedMastery } = require('../mastery.js');
 const { calculateStreak } = require('../streak.js');
+const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 
 const router = express.Router();
 
@@ -62,8 +63,8 @@ router.post('/', verifyAuth, async (req, res) => {
     answers.map((a) => DB.upsertProblemHistory(email, a.problemId, topicId, a.isCorrect))
   );
 
-  // Save to database
-  await DB.updateUserStats(email, {
+  // Build updated stats for badge evaluation
+  const updatedStats = {
     email,
     totalXp: currentStats.totalXp + xpTotal,
     currentStreak: streakResult.currentStreak,
@@ -71,7 +72,17 @@ router.post('/', verifyAuth, async (req, res) => {
     freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
     lastSessionDate: today,
     topicProgress,
-  });
+    badges: currentStats.badges || [],
+  };
+
+  // Evaluate badges
+  const newBadgeIds = evaluateBadges(updatedStats, { correct: correctCount, total: answers.length });
+  if (newBadgeIds.length > 0) {
+    updatedStats.badges = [...updatedStats.badges, ...newBadgeIds];
+  }
+
+  // Save to database
+  await DB.updateUserStats(email, updatedStats);
 
   res.send({
     sessionSummary: {
@@ -88,6 +99,7 @@ router.post('/', verifyAuth, async (req, res) => {
         current: streakResult.currentStreak,
         longest: streakResult.longestStreak,
       },
+      newBadges: getBadgeDetails(newBadgeIds),
     },
   });
 });
