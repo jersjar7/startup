@@ -54,10 +54,10 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 - [x] Visual indicator when a topic is "decaying" (needs review)
 
 ### Spaced Repetition
-- [ ] Implement basic spaced repetition: track last-seen date and performance per problem
-- [ ] Create "Daily Review" mode: mixed problems from past topics, weighted by need
-- [ ] API endpoint: `GET /api/review` — returns a personalized set of review problems
-- [ ] Add Daily Review button on dashboard
+- [x] Implement basic spaced repetition: track last-seen date and performance per problem
+- [x] Create "Daily Review" mode: mixed problems from past topics, weighted by need
+- [x] API endpoint: `GET /api/review` — returns a personalized set of review problems
+- [x] Add Daily Review button on dashboard
 
 ### Social & Motivation
 - [ ] Weekly leaderboard: rank users by XP earned that week (30-person cohorts)
@@ -121,9 +121,9 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 | Phase | Total Items | Completed | % |
 |-------|------------|-----------|---|
 | Phase 1 | 27 | 27 | 100% |
-| Phase 2 | 14 | 4 | 29% |
+| Phase 2 | 14 | 8 | 57% |
 | Phase 3 | 10 | 0 | 0% |
 | Phase 4 | 12 | 0 | 0% |
-| **Total** | **63** | **31** | **49%** |
+| **Total** | **63** | **35** | **56%** |
 
 *Last updated: 2026-03-30*
