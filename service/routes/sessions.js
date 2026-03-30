@@ -4,6 +4,7 @@ const DB = require('../database.js');
 const { calculateEarnedMastery } = require('../mastery.js');
 const { calculateStreak } = require('../streak.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
+const { getWeekId } = require('./leaderboard.js');
 
 const router = express.Router();
 
@@ -64,9 +65,15 @@ router.post('/', verifyAuth, async (req, res) => {
   );
 
   // Build updated stats for badge evaluation
+  // Track weekly XP for leaderboard
+  const weekId = getWeekId();
+  const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
+
   const updatedStats = {
     email,
     totalXp: currentStats.totalXp + xpTotal,
+    weekId,
+    weeklyXp: currentWeeklyXp + xpTotal,
     currentStreak: streakResult.currentStreak,
     longestStreak: streakResult.longestStreak,
     freezeUsedThisWeek: streakResult.freezeUsedThisWeek,

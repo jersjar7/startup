@@ -136,6 +136,16 @@ async function getAllProblemsForTopics(topicIds) {
   return problemCollection.find({ topicId: { $in: topicIds } }).toArray();
 }
 
+// ---- Leaderboard functions ----
+async function getLeaderboard(weekId, limit = 30) {
+  return userStatsCollection
+    .find({ weekId, weeklyXp: { $gt: 0 } })
+    .sort({ weeklyXp: -1 })
+    .limit(limit)
+    .project({ email: 1, weeklyXp: 1, _id: 0 })
+    .toArray();
+}
+
 module.exports = {
   ping,
   getUser,
@@ -151,4 +161,5 @@ module.exports = {
   upsertProblemHistory,
   getProblemsForReview,
   getAllProblemsForTopics,
+  getLeaderboard,
 };

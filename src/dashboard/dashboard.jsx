@@ -6,6 +6,7 @@ export function Dashboard({ userName, onLogout }) {
   const navigate = useNavigate();
   const [topics, setTopics] = React.useState([]);
   const [stats, setStats] = React.useState({ totalXp: 0, currentStreak: 0, badges: [], allBadges: [] });
+  const [leaderboard, setLeaderboard] = React.useState({ weekId: '', entries: [] });
   const [events, setEvents] = React.useState([]);
   const [socket, setSocket] = React.useState(null);
 
@@ -30,6 +31,12 @@ export function Dashboard({ userName, onLogout }) {
         badges: data.badges || [],
         allBadges: data.allBadges || [],
       }))
+      .catch(() => {});
+
+    // Fetch weekly leaderboard
+    fetch('/api/leaderboard')
+      .then((res) => res.json())
+      .then((data) => setLeaderboard({ weekId: data.weekId, entries: data.leaderboard || [] }))
       .catch(() => {});
 
     // Connect to WebSocket
@@ -154,6 +161,29 @@ export function Dashboard({ userName, onLogout }) {
           </div>
         </section>
       )}
+
+      <section className="leaderboard-section">
+        <h3>Weekly Leaderboard</h3>
+        {leaderboard.weekId && (
+          <span className="leaderboard-week">Week {leaderboard.weekId}</span>
+        )}
+        {leaderboard.entries.length > 0 ? (
+          <ol className="leaderboard-list">
+            {leaderboard.entries.map((entry) => (
+              <li
+                key={entry.rank}
+                className={`leaderboard-row${entry.isCurrentUser ? ' leaderboard-row--you' : ''}`}
+              >
+                <span className="leaderboard-rank">#{entry.rank}</span>
+                <span className="leaderboard-name">{entry.isCurrentUser ? 'You' : entry.name}</span>
+                <span className="leaderboard-xp">{entry.weeklyXp} XP</span>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <p className="leaderboard-empty">No activity this week yet. Complete a session to get on the board!</p>
+        )}
+      </section>
 
       <section className="live-activity">
         <h3>Live Activity</h3>
