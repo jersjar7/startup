@@ -1,16 +1,27 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './study.css';
 
 export function Study({ userName, onLogout }) {
   const navigate = useNavigate();
-  const [selectedTopic] = React.useState('Analytic Geometry');
+  const { topicId } = useParams();
+  const [topic, setTopic] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     if (!userName) {
       navigate('/');
       return;
     }
+
+    fetch(`/api/topics/${topicId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Topic not found');
+        return res.json();
+      })
+      .then((data) => setTopic(data))
+      .catch(() => navigate('/dashboard'))
+      .finally(() => setLoading(false));
 
     // Send WebSocket event that user is studying this topic
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
@@ -20,56 +31,76 @@ export function Study({ userName, onLogout }) {
       ws.send(JSON.stringify({
         type: 'study',
         from: userName,
-        topic: selectedTopic,
+        topic: topicId,
       }));
     };
 
     return () => {
       ws.close();
     };
-  }, [userName, navigate, selectedTopic]);
+  }, [userName, navigate, topicId]);
 
   const handleLogout = () => {
     onLogout();
     navigate('/');
   };
 
+  if (loading) {
+    return <main><p>Loading...</p></main>;
+  }
+
+  if (!topic) {
+    return null;
+  }
+
   return (
     <main>
       <div className="study-header">
         <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
-          ← Back to Topics
+          &larr; Back to Topics
         </a>
-        <h1>{selectedTopic}</h1>
+        <h1>{topic.name}</h1>
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </div>
 
       <section className="key-concepts">
         <h2>Key Concepts</h2>
-        <p>Master these fundamental concepts for {selectedTopic}.</p>
-        <ul>
-          <li>Coordinate Systems (Cartesian, Polar)</li>
-          <li>Distance and Midpoint Formulas</li>
-          <li>Circle Equations</li>
-          <li>Line Equations and Slopes</li>
-          <li>Conic Sections (Parabolas, Ellipses, Hyperbolas)</li>
-          <li>Vector Operations</li>
-        </ul>
+        <p>Master these fundamental concepts for {topic.name}.</p>
+        {topic.keyConcepts && topic.keyConcepts.length > 0 ? (
+          <ul>
+            {topic.keyConcepts.map((concept, i) => (
+              <li key={i}>{concept}</li>
+            ))}
+          </ul>
+        ) : (
+          <p style={{ color: '#666', fontStyle: 'italic' }}>Key concepts coming soon.</p>
+        )}
       </section>
 
-      <section className="video-section">
-        <h3>YouTube Video Tutorial</h3>
-        <p style={{ color: '#666' }}>(Embedded Video Player)</p>
-        <p style={{ marginTop: '1rem', fontStyle: 'italic', color: '#666' }}>
-          Placeholder for YouTube embed from Raccoon Engineering channel
-        </p>
-      </section>
+      {topic.videoUrl && (
+        <section className="video-section">
+          <h3>Video Tutorial</h3>
+          <iframe
+            width="100%"
+            height="315"
+            src={topic.videoUrl}
+            title={`${topic.name} tutorial`}
+            allowFullScreen
+          />
+        </section>
+      )}
 
-      <section style={{ textAlign: 'center' }}>
-        <button className="practice-btn" onClick={() => navigate('/problems')}>
-          Practice Problems →
-        </button>
-      </section>
+      {topic.problemCount > 0 ? (
+        <section style={{ textAlign: 'center' }}>
+          <button className="practice-btn" onClick={() => navigate(`/problems/${topicId}`)}>
+            Practice Problems &rarr;
+          </button>
+        </section>
+      ) : (
+        <section style={{ textAlign: 'center' }}>
+          <p style={{ color: '#666', fontStyle: 'italic' }}>Problems coming soon for this topic.</p>
+        </section>
+      )}
     </main>
   );
 }

@@ -54,8 +54,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Login userName={userName} onLogin={onLogin} />} exact />
           <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
-          <Route path="/study" element={<Study userName={userName} onLogout={onLogout} />} />
-          <Route path="/problems" element={<Problems userName={userName} onLogout={onLogout} />} />
+          <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
+          <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
 

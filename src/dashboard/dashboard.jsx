@@ -61,7 +61,7 @@ export function Dashboard({ userName, onLogout }) {
         topic: topic.name,
       }));
     }
-    navigate('/study');
+    navigate(`/study/${topic.topicId}`);
   };
 
   const handleLogout = () => {
@@ -84,7 +84,7 @@ export function Dashboard({ userName, onLogout }) {
 
       <section className="topics-grid">
         {topics.map((topic) => (
-          <div className="topic-card" key={topic.id} onClick={() => handleTopicClick(topic)}>
+          <div className="topic-card" key={topic.topicId} onClick={() => handleTopicClick(topic)}>
             <h3>{topic.name}</h3>
             <p>0/{topic.problemCount} problems</p>
           </div>
