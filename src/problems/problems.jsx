@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { MathText } from '../components/MathText';
 import './problems.css';
 
 // States: LOADING → SESSION → SUMMARY
@@ -282,7 +283,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
 
       <section className="problem-card">
         <h3>Problem {problem.problemNumber}</h3>
-        <p className="problem-question">{problem.question}</p>
+        <p className="problem-question"><MathText text={problem.question} /></p>
 
         <div className="choices">
           {problem.choices.map((choice) => {
@@ -307,7 +308,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
                 disabled={reviewed}
               >
                 <span className="choice-label">{choice.label}</span>
-                <span>{choice.text}</span>
+                <span><MathText text={choice.text} /></span>
               </button>
             );
           })}
@@ -328,7 +329,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
             </div>
             <div className="solution-box">
               <h4>Solution</h4>
-              <p>{problem.solution}</p>
+              <p><MathText text={problem.solution} /></p>
             </div>
             <button className="btn-primary next-btn" onClick={handleNext}>
               {currentIndex < problems.length - 1 ? 'Next Problem' : (reviewMode ? 'Finish Review' : 'Finish Session')}

@@ -1,0 +1,128 @@
+/* ===== LANDING PAGE ===== */
+.landing {
+  max-width: 900px;
+}
+
+/* --- Hero --- */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem;
+  margin-bottom: 3rem;
+  border-bottom: 2px solid var(--charcoal);
+}
+
+.hero-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.hero-cta {
+  padding: 1rem 3rem;
+  background: var(--pacific-green);
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border: 2px solid var(--charcoal);
+  cursor: pointer;
+}
+
+.hero-cta:hover {
+  opacity: 0.9;
+}
+
+/* --- Features --- */
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.feature-card {
+  border: 2px solid var(--charcoal);
+  padding: 1.5rem;
+  background: white;
+}
+
+.feature-card h4 {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--pacific-green);
+}
+
+.feature-card p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* --- Topics Preview --- */
+.topics-section {
+  margin-bottom: 3rem;
+}
+
+.topics-preview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.topic-preview-card {
+  border: 2px solid var(--charcoal);
+  padding: 1.25rem;
+  text-align: center;
+  font-weight: 600;
+  background: white;
+}
+
+/* --- CTA Footer --- */
+.cta-section {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  border: 2px solid var(--pacific-green);
+  background: white;
+  margin-bottom: 2rem;
+}
+
+.cta-section h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.cta-section p {
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .topics-preview {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

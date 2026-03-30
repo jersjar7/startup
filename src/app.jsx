@@ -1,9 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Landing } from './landing/landing';
 import { Login } from './login/login';
 import { Dashboard } from './dashboard/dashboard';
 import { Study } from './study/study';
 import { Problems } from './problems/problems';
+import 'katex/dist/katex.min.css';
 import './app.css';
 
 export default function App() {
@@ -52,7 +54,8 @@ export default function App() {
         </header>
 
         <Routes>
-          <Route path="/" element={<Login userName={userName} onLogin={onLogin} />} exact />
+          <Route path="/" element={<Landing userName={userName} />} />
+          <Route path="/login" element={<Login userName={userName} onLogin={onLogin} />} />
           <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
           <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
           <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
