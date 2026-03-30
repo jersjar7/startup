@@ -60,14 +60,14 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 - [x] Add Daily Review button on dashboard
 
 ### Social & Motivation
-- [ ] Weekly leaderboard: rank users by XP earned that week (30-person cohorts)
-- [ ] Display leaderboard on dashboard
-- [ ] Streak freeze: allow 1 missed day per week without breaking streak
-- [ ] Achievement badges for milestones (first session, 7-day streak, first mastered topic, etc.)
-- [ ] Display badges on user profile
+- [x] Weekly leaderboard: rank users by XP earned that week (30-person cohorts)
+- [x] Display leaderboard on dashboard
+- [x] Streak freeze: allow 1 missed day per week without breaking streak
+- [x] Achievement badges for milestones (first session, 7-day streak, first mastered topic, etc.)
+- [x] Display badges on user profile
 
 ### Content Expansion
-- [ ] Seed database with problems for all FE Civil topics (not just Analytic Geometry)
+- [x] Seed database with problems for all FE Civil topics (not just Analytic Geometry)
 - [ ] Add real YouTube video embeds per topic
 - [ ] Add study material summaries per topic (key concepts, formulas) in database
 
@@ -121,9 +121,9 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 | Phase | Total Items | Completed | % |
 |-------|------------|-----------|---|
 | Phase 1 | 27 | 27 | 100% |
-| Phase 2 | 14 | 8 | 57% |
+| Phase 2 | 14 | 12 | 86% |
 | Phase 3 | 10 | 0 | 0% |
 | Phase 4 | 12 | 0 | 0% |
-| **Total** | **63** | **35** | **56%** |
+| **Total** | **63** | **39** | **62%** |
 
 *Last updated: 2026-03-30*
