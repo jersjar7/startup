@@ -48,10 +48,10 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 ## Phase 2: "Make it sticky"
 
 ### Mastery System
-- [ ] Calculate mastery level (0–5) per topic based on session history
-- [ ] Display mastery bars on dashboard topic cards
-- [ ] Implement mastery decay: reduce level if topic not reviewed in X days
-- [ ] Visual indicator when a topic is "decaying" (needs review)
+- [x] Calculate mastery level (0–5) per topic based on session history
+- [x] Display mastery bars on dashboard topic cards
+- [x] Implement mastery decay: reduce level if topic not reviewed in X days
+- [x] Visual indicator when a topic is "decaying" (needs review)
 
 ### Spaced Repetition
 - [ ] Implement basic spaced repetition: track last-seen date and performance per problem
@@ -121,9 +121,9 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 | Phase | Total Items | Completed | % |
 |-------|------------|-----------|---|
 | Phase 1 | 27 | 27 | 100% |
-| Phase 2 | 14 | 0 | 0% |
+| Phase 2 | 14 | 4 | 29% |
 | Phase 3 | 10 | 0 | 0% |
 | Phase 4 | 12 | 0 | 0% |
-| **Total** | **63** | **27** | **43%** |
+| **Total** | **63** | **31** | **49%** |
 
-*Last updated: 2026-03-29*
+*Last updated: 2026-03-30*
