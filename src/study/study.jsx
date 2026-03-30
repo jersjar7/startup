@@ -2,22 +2,18 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './study.css';
 
-export function Study() {
+export function Study({ userName, onLogout }) {
   const navigate = useNavigate();
-  const [userName, setUserName] = React.useState('');
   const [selectedTopic] = React.useState('Analytic Geometry');
 
   React.useEffect(() => {
-    const storedUser = localStorage.getItem('userName');
-    if (!storedUser) {
+    if (!userName) {
       navigate('/');
-    } else {
-      setUserName(storedUser);
     }
-  }, [navigate]);
+  }, [userName, navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem('userName');
+    onLogout();
     navigate('/');
   };
 

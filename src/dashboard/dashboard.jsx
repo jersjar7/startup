@@ -2,25 +2,29 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './dashboard.css';
 
-export function Dashboard() {
+export function Dashboard({ userName, onLogout }) {
   const navigate = useNavigate();
-  const [userName, setUserName] = React.useState('');
+  const [topics, setTopics] = React.useState([]);
   const [liveUsers, setLiveUsers] = React.useState([]);
 
   React.useEffect(() => {
-    const storedUser = localStorage.getItem('userName');
-    if (!storedUser) {
+    if (!userName) {
       navigate('/');
-    } else {
-      setUserName(storedUser);
+      return;
     }
+
+    // Fetch topics from backend
+    fetch('/api/topics')
+      .then((res) => res.json())
+      .then((data) => setTopics(data))
+      .catch(() => {});
 
     // Mock WebSocket messages - simulates other users studying
     const interval = setInterval(() => {
-      const topics = ['Analytic Geometry', 'Dynamics', 'Fluid Mechanics', 'Soils', 'Materials', 'Transportation'];
-      const randomTopic = topics[Math.floor(Math.random() * topics.length)];
+      const topicNames = ['Analytic Geometry', 'Dynamics', 'Fluid Mechanics', 'Soils', 'Materials', 'Transportation'];
+      const randomTopic = topicNames[Math.floor(Math.random() * topicNames.length)];
       const randomCount = Math.floor(Math.random() * 10) + 1;
-      
+
       setLiveUsers(prev => {
         const updated = prev.filter(item => item.topic !== randomTopic);
         return [...updated, { topic: randomTopic, count: randomCount }].slice(-6);
@@ -28,10 +32,10 @@ export function Dashboard() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [navigate]);
+  }, [userName, navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem('userName');
+    onLogout();
     navigate('/');
   };
 
@@ -44,37 +48,14 @@ export function Dashboard() {
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
       </div>
-      
+
       <section className="topics-grid">
-        <div className="topic-card" onClick={() => navigate('/study')}>
-          <h3>Analytic Geometry</h3>
-          <p>3/10 problems</p>
-        </div>
-        
-        <div className="topic-card" onClick={() => navigate('/study')}>
-          <h3>Dynamics</h3>
-          <p>0/8 problems</p>
-        </div>
-        
-        <div className="topic-card" onClick={() => navigate('/study')}>
-          <h3>Fluid Mechanics</h3>
-          <p>5/12 problems</p>
-        </div>
-        
-        <div className="topic-card" onClick={() => navigate('/study')}>
-          <h3>Soils</h3>
-          <p>2/9 problems</p>
-        </div>
-        
-        <div className="topic-card" onClick={() => navigate('/study')}>
-          <h3>Materials</h3>
-          <p>1/7 problems</p>
-        </div>
-        
-        <div className="topic-card" onClick={() => navigate('/study')}>
-          <h3>Transportation</h3>
-          <p>0/10 problems</p>
-        </div>
+        {topics.map((topic) => (
+          <div className="topic-card" key={topic.id} onClick={() => navigate('/study')}>
+            <h3>{topic.name}</h3>
+            <p>0/{topic.problemCount} problems</p>
+          </div>
+        ))}
       </section>
 
       <section className="live-activity">
