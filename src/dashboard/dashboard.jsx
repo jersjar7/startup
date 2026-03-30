@@ -7,6 +7,8 @@ export function Dashboard({ userName, onLogout }) {
   const [topics, setTopics] = React.useState([]);
   const [stats, setStats] = React.useState({ totalXp: 0, currentStreak: 0, badges: [], allBadges: [] });
   const [leaderboard, setLeaderboard] = React.useState({ weekId: '', entries: [] });
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState('');
   const [events, setEvents] = React.useState([]);
   const [socket, setSocket] = React.useState(null);
 
@@ -16,28 +18,37 @@ export function Dashboard({ userName, onLogout }) {
       return;
     }
 
-    // Fetch topics with progress
-    fetch('/api/topics')
-      .then((res) => res.json())
-      .then((data) => setTopics(data))
-      .catch(() => {});
-
-    // Fetch user stats (XP, streak)
-    fetch('/api/user/me')
-      .then((res) => res.json())
-      .then((data) => setStats({
-        totalXp: data.totalXp || 0,
-        currentStreak: data.currentStreak || 0,
-        badges: data.badges || [],
-        allBadges: data.allBadges || [],
-      }))
-      .catch(() => {});
-
-    // Fetch weekly leaderboard
-    fetch('/api/leaderboard')
-      .then((res) => res.json())
-      .then((data) => setLeaderboard({ weekId: data.weekId, entries: data.leaderboard || [] }))
-      .catch(() => {});
+    // Fetch all dashboard data in parallel
+    Promise.allSettled([
+      fetch('/api/topics').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+      fetch('/api/user/me').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+      fetch('/api/leaderboard').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+    ]).then(([topicsResult, statsResult, lbResult]) => {
+      const errors = [];
+      if (topicsResult.status === 'fulfilled') {
+        setTopics(topicsResult.value);
+      } else {
+        errors.push('topics');
+      }
+      if (statsResult.status === 'fulfilled') {
+        const data = statsResult.value;
+        setStats({
+          totalXp: data.totalXp || 0,
+          currentStreak: data.currentStreak || 0,
+          badges: data.badges || [],
+          allBadges: data.allBadges || [],
+        });
+      } else {
+        errors.push('stats');
+      }
+      if (lbResult.status === 'fulfilled') {
+        setLeaderboard({ weekId: lbResult.value.weekId, entries: lbResult.value.leaderboard || [] });
+      }
+      if (errors.length > 0) {
+        setError('Failed to load some data. Try refreshing the page.');
+      }
+      setLoading(false);
+    });
 
     // Connect to WebSocket
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
@@ -82,6 +93,10 @@ export function Dashboard({ userName, onLogout }) {
     navigate('/');
   };
 
+  if (loading) {
+    return <main><p>Loading...</p></main>;
+  }
+
   return (
     <main>
       <div className="dashboard-header">
@@ -91,6 +106,8 @@ export function Dashboard({ userName, onLogout }) {
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
       </div>
+
+      {error && <div className="error-banner">{error}</div>}
 
       <section className="stats-bar">
         <div className="stat-item">

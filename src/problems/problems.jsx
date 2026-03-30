@@ -50,7 +50,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
         setProblems(loadedProblems);
         setPhase('SESSION');
       })
-      .catch(() => navigate(reviewMode ? '/dashboard' : `/study/${topicId}`));
+      .catch(() => setPhase('ERROR'));
 
     // Fetch motivational quote for summary screen
     fetch('https://quote.cs260.click')
@@ -146,6 +146,16 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
   // --- LOADING ---
   if (phase === 'LOADING') {
     return <main><p>Loading...</p></main>;
+  }
+
+  // --- ERROR ---
+  if (phase === 'ERROR') {
+    return (
+      <main>
+        <div className="error-banner">Could not load problems. Please try again.</div>
+        <button className="back-link" onClick={() => navigate(backPath)}>&larr; {backLabel}</button>
+      </main>
+    );
   }
 
   // --- EMPTY (review mode, no problems due) ---

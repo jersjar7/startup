@@ -7,6 +7,7 @@ export function Study({ userName, onLogout }) {
   const { topicId } = useParams();
   const [topic, setTopic] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState('');
 
   React.useEffect(() => {
     if (!userName) {
@@ -20,7 +21,7 @@ export function Study({ userName, onLogout }) {
         return res.json();
       })
       .then((data) => setTopic(data))
-      .catch(() => navigate('/dashboard'))
+      .catch(() => setError('Could not load topic. Please try again.'))
       .finally(() => setLoading(false));
 
     // Send WebSocket event that user is studying this topic
@@ -49,8 +50,13 @@ export function Study({ userName, onLogout }) {
     return <main><p>Loading...</p></main>;
   }
 
-  if (!topic) {
-    return null;
+  if (error || !topic) {
+    return (
+      <main>
+        <div className="error-banner">{error || 'Topic not found.'}</div>
+        <button className="back-link" onClick={() => navigate('/dashboard')}>&larr; Back to Dashboard</button>
+      </main>
+    );
   }
 
   return (
