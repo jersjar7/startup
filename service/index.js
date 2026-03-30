@@ -79,6 +79,37 @@ const verifyAuth = async (req, res, next) => {
   }
 };
 
+// ---- Application Endpoints ----
+
+// Get all topics
+apiRouter.get('/topics', verifyAuth, (_req, res) => {
+  const topics = [
+    { id: 'analytic-geometry', name: 'Analytic Geometry', problemCount: 5 },
+    { id: 'dynamics', name: 'Dynamics', problemCount: 8 },
+    { id: 'fluid-mechanics', name: 'Fluid Mechanics', problemCount: 12 },
+    { id: 'soils', name: 'Soils', problemCount: 9 },
+    { id: 'materials', name: 'Materials', problemCount: 7 },
+    { id: 'transportation', name: 'Transportation', problemCount: 10 },
+  ];
+  res.send(topics);
+});
+
+// Get user progress
+apiRouter.get('/progress', verifyAuth, (req, res) => {
+  const userProgress = progress[req.user.email] || {};
+  res.send(userProgress);
+});
+
+// Save user progress
+apiRouter.post('/progress', verifyAuth, (req, res) => {
+  const { problemId, completed } = req.body;
+  if (!progress[req.user.email]) {
+    progress[req.user.email] = {};
+  }
+  progress[req.user.email][problemId] = completed;
+  res.send(progress[req.user.email]);
+});
+
 // ---- Helper Functions ----
 
 async function createUser(email, password) {
