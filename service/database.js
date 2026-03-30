@@ -9,6 +9,7 @@ const userCollection = db.collection('users');
 const topicCollection = db.collection('topics');
 const problemCollection = db.collection('problems');
 const userStatsCollection = db.collection('userStats');
+const problemHistoryCollection = db.collection('problemHistory');
 
 // Test connection and create indexes on startup
 (async function testConnection() {
@@ -20,6 +21,8 @@ const userStatsCollection = db.collection('userStats');
     await topicCollection.createIndex({ topicId: 1 }, { unique: true });
     await problemCollection.createIndex({ topicId: 1, problemNumber: 1 });
     await userStatsCollection.createIndex({ email: 1 }, { unique: true });
+    await problemHistoryCollection.createIndex({ email: 1, problemId: 1 }, { unique: true });
+    await problemHistoryCollection.createIndex({ email: 1, nextReview: 1 });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);
@@ -80,6 +83,59 @@ async function updateUserStats(email, update) {
   return userStatsCollection.findOne({ email: email });
 }
 
+// ---- Problem history functions (spaced repetition) ----
+async function getProblemHistoryForUser(email) {
+  return problemHistoryCollection.find({ email }).toArray();
+}
+
+async function upsertProblemHistory(email, problemId, topicId, isCorrect) {
+  const existing = await problemHistoryCollection.findOne({ email, problemId });
+  const today = new Date().toISOString().split('T')[0];
+
+  let interval;
+  let timesCorrect = existing?.timesCorrect || 0;
+  let timesIncorrect = existing?.timesIncorrect || 0;
+
+  if (isCorrect) {
+    timesCorrect++;
+    interval = Math.min(Math.round((existing?.interval || 1) * 2.5), 30);
+  } else {
+    timesIncorrect++;
+    interval = 1;
+  }
+
+  const nextDate = new Date(Date.now() + interval * 86400000);
+  const nextReview = nextDate.toISOString().split('T')[0];
+
+  await problemHistoryCollection.updateOne(
+    { email, problemId },
+    {
+      $set: {
+        topicId,
+        lastSeen: today,
+        timesCorrect,
+        timesIncorrect,
+        interval,
+        nextReview,
+      },
+    },
+    { upsert: true }
+  );
+}
+
+async function getProblemsForReview(email, limit = 5) {
+  const today = new Date().toISOString().split('T')[0];
+  return problemHistoryCollection
+    .find({ email, nextReview: { $lte: today } })
+    .sort({ nextReview: 1 })
+    .limit(limit)
+    .toArray();
+}
+
+async function getAllProblemsForTopics(topicIds) {
+  return problemCollection.find({ topicId: { $in: topicIds } }).toArray();
+}
+
 module.exports = {
   ping,
   getUser,
@@ -91,4 +147,8 @@ module.exports = {
   getProblemsForTopic,
   getUserStats,
   updateUserStats,
+  getProblemHistoryForUser,
+  upsertProblemHistory,
+  getProblemsForReview,
+  getAllProblemsForTopics,
 };

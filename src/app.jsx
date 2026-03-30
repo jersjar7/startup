@@ -56,6 +56,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
           <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
           <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
+          <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
 

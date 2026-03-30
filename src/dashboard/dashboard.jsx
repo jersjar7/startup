@@ -91,6 +91,13 @@ export function Dashboard({ userName, onLogout }) {
         </div>
       </section>
 
+      <section className="review-section">
+        <button className="review-btn" onClick={() => navigate('/review')}>
+          Daily Review
+        </button>
+        <span className="review-hint">Mixed problems from topics you've studied</span>
+      </section>
+
       <section className="topics-grid">
         {topics.map((topic) => (
           <button className="topic-card" key={topic.topicId} onClick={() => handleTopicClick(topic)}>

@@ -5,13 +5,13 @@ import './problems.css';
 // States: LOADING → SESSION → SUMMARY
 // Within SESSION each problem: ANSWERING → REVIEWED
 
-export function Problems({ userName, onLogout }) {
+export function Problems({ userName, onLogout, reviewMode = false }) {
   const navigate = useNavigate();
   const { topicId } = useParams();
 
   const [phase, setPhase] = React.useState('LOADING');
   const [problems, setProblems] = React.useState([]);
-  const [topicName, setTopicName] = React.useState('');
+  const [topicName, setTopicName] = React.useState(reviewMode ? 'Daily Review' : '');
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [selectedChoice, setSelectedChoice] = React.useState(null);
   const [reviewed, setReviewed] = React.useState(false);
@@ -26,17 +26,31 @@ export function Problems({ userName, onLogout }) {
       return;
     }
 
-    fetch(`/api/topics/${topicId}/problems?count=5`)
+    const fetchUrl = reviewMode
+      ? '/api/review?count=5'
+      : `/api/topics/${topicId}/problems?count=5`;
+
+    fetch(fetchUrl)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to load problems');
         return res.json();
       })
       .then((data) => {
-        setTopicName(data.topicName);
-        setProblems(data.problems);
+        const loadedProblems = reviewMode ? data.problems : data.problems;
+        if (!loadedProblems || loadedProblems.length === 0) {
+          if (reviewMode) {
+            // No review problems available
+            setPhase('EMPTY');
+          } else {
+            navigate(`/study/${topicId}`);
+          }
+          return;
+        }
+        if (!reviewMode) setTopicName(data.topicName);
+        setProblems(loadedProblems);
         setPhase('SESSION');
       })
-      .catch(() => navigate(`/study/${topicId}`));
+      .catch(() => navigate(reviewMode ? '/dashboard' : `/study/${topicId}`));
 
     // Fetch motivational quote for summary screen
     fetch('https://quote.cs260.click')
@@ -54,10 +68,14 @@ export function Problems({ userName, onLogout }) {
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
     const ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
     ws.onopen = () => {
-      ws.send(JSON.stringify({ type: 'study', from: userName, topic: topicId }));
+      ws.send(JSON.stringify({
+        type: 'study',
+        from: userName,
+        topic: reviewMode ? 'Daily Review' : topicId,
+      }));
     };
     return () => ws.close();
-  }, [userName, navigate, topicId]);
+  }, [userName, navigate, topicId, reviewMode]);
 
   const handleSubmit = () => {
     if (selectedChoice === null) return;
@@ -67,7 +85,9 @@ export function Problems({ userName, onLogout }) {
   const handleNext = () => {
     const problem = problems[currentIndex];
     const isCorrect = selectedChoice === problem.correctAnswer;
-    const updatedAnswers = [...answers, { problemId: problem.problemId, isCorrect }];
+    const answer = { problemId: problem.problemId, isCorrect };
+    if (reviewMode) answer.topicId = problem.topicId;
+    const updatedAnswers = [...answers, answer];
     setAnswers(updatedAnswers);
 
     if (currentIndex < problems.length - 1) {
@@ -77,10 +97,15 @@ export function Problems({ userName, onLogout }) {
     } else {
       // Submit session
       setPhase('LOADING');
-      fetch('/api/sessions', {
+      const submitUrl = reviewMode ? '/api/review' : '/api/sessions';
+      const submitBody = reviewMode
+        ? { answers: updatedAnswers }
+        : { topicId, answers: updatedAnswers };
+
+      fetch(submitUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topicId, answers: updatedAnswers }),
+        body: JSON.stringify(submitBody),
       })
         .then((res) => res.json())
         .then((data) => {
@@ -88,13 +113,19 @@ export function Problems({ userName, onLogout }) {
           setPhase('SUMMARY');
         })
         .catch(() => {
-          // Show summary even if save fails
           const correct = updatedAnswers.filter((a) => a.isCorrect).length;
+          const bonusKey = reviewMode ? 'reviewBonus' : 'sessionBonus';
+          const bonusAmount = reviewMode ? 15 : 25;
           setSummary({
             totalProblems: updatedAnswers.length,
             correct,
             incorrect: updatedAnswers.length - correct,
-            xpEarned: { correct: correct * 10, incorrect: (updatedAnswers.length - correct) * 5, sessionBonus: 25, total: correct * 10 + (updatedAnswers.length - correct) * 5 + 25 },
+            xpEarned: {
+              correct: correct * 10,
+              incorrect: (updatedAnswers.length - correct) * 5,
+              [bonusKey]: bonusAmount,
+              total: correct * 10 + (updatedAnswers.length - correct) * 5 + bonusAmount,
+            },
             streak: { current: 0, longest: 0 },
           });
           setPhase('SUMMARY');
@@ -107,9 +138,38 @@ export function Problems({ userName, onLogout }) {
     navigate('/');
   };
 
+  const backPath = reviewMode ? '/dashboard' : `/study/${topicId}`;
+  const backLabel = reviewMode ? 'Back to Dashboard' : 'Back to Study';
+  const bonusLabel = reviewMode ? 'Review bonus' : 'Session bonus';
+  const bonusValue = summary?.xpEarned?.reviewBonus ?? summary?.xpEarned?.sessionBonus ?? 0;
+
   // --- LOADING ---
   if (phase === 'LOADING') {
     return <main><p>Loading...</p></main>;
+  }
+
+  // --- EMPTY (review mode, no problems due) ---
+  if (phase === 'EMPTY') {
+    return (
+      <main>
+        <div className="problems-header">
+          <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
+            &larr; Back to Dashboard
+          </a>
+          <h1>Daily Review</h1>
+          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+        </div>
+        <section className="summary-card">
+          <h2>No problems to review right now</h2>
+          <p>Complete topic sessions to build your review queue, or check back later.</p>
+        </section>
+        <div className="summary-actions">
+          <button className="btn-primary" onClick={() => navigate('/dashboard')}>
+            Back to Dashboard
+          </button>
+        </div>
+      </main>
+    );
   }
 
   // --- SUMMARY ---
@@ -119,7 +179,7 @@ export function Problems({ userName, onLogout }) {
       <main>
         <div className="problems-header">
           <span />
-          <h1>Session Complete</h1>
+          <h1>{reviewMode ? 'Review Complete' : 'Session Complete'}</h1>
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
 
@@ -136,8 +196,8 @@ export function Problems({ userName, onLogout }) {
               <span>+{summary.xpEarned.incorrect} XP</span>
             </div>
             <div className="xp-row">
-              <span>Session bonus</span>
-              <span>+{summary.xpEarned.sessionBonus} XP</span>
+              <span>{bonusLabel}</span>
+              <span>+{bonusValue} XP</span>
             </div>
             <div className="xp-row xp-total">
               <span>Total</span>
@@ -161,11 +221,11 @@ export function Problems({ userName, onLogout }) {
         )}
 
         <div className="summary-actions">
-          <button className="btn-secondary" onClick={() => navigate(`/study/${topicId}`)}>
-            &larr; Back to Study
+          <button className="btn-secondary" onClick={() => navigate(backPath)}>
+            &larr; {backLabel}
           </button>
           <button className="btn-primary" onClick={() => window.location.reload()}>
-            Try Again
+            {reviewMode ? 'Review Again' : 'Try Again'}
           </button>
         </div>
       </main>
@@ -181,8 +241,8 @@ export function Problems({ userName, onLogout }) {
   return (
     <main>
       <div className="problems-header">
-        <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate(`/study/${topicId}`); }}>
-          &larr; Back to Study
+        <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate(backPath); }}>
+          &larr; {backLabel}
         </a>
         <h1>{topicName}</h1>
         <button className="logout-btn" onClick={handleLogout}>Logout</button>
@@ -249,7 +309,7 @@ export function Problems({ userName, onLogout }) {
               <p>{problem.solution}</p>
             </div>
             <button className="btn-primary next-btn" onClick={handleNext}>
-              {currentIndex < problems.length - 1 ? 'Next Problem' : 'Finish Session'}
+              {currentIndex < problems.length - 1 ? 'Next Problem' : (reviewMode ? 'Finish Review' : 'Finish Session')}
             </button>
           </div>
         )}

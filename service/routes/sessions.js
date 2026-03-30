@@ -69,6 +69,11 @@ router.post('/', verifyAuth, async (req, res) => {
 
   topicProgress[topicId] = updatedProgress;
 
+  // Update per-problem history for spaced repetition
+  await Promise.all(
+    answers.map((a) => DB.upsertProblemHistory(email, a.problemId, topicId, a.isCorrect))
+  );
+
   // Save to database
   await DB.updateUserStats(email, {
     email,

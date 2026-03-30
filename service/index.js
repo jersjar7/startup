@@ -25,6 +25,7 @@ apiRouter.use('/auth', require('./routes/auth.js'));
 apiRouter.use('/user', require('./routes/auth.js'));
 apiRouter.use('/topics', require('./routes/topics.js'));
 apiRouter.use('/sessions', require('./routes/sessions.js'));
+apiRouter.use('/review', require('./routes/review.js'));
 
 // Default error handler
 app.use(function (err, req, res, next) {
