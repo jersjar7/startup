@@ -74,11 +74,17 @@ router.delete('/logout', async (req, res) => {
   res.status(204).end();
 });
 
-// Get the current authenticated user
+// Get the current authenticated user with stats
 router.get('/me', async (req, res) => {
   const user = await DB.getUserByToken(req.cookies[authCookieName]);
   if (user) {
-    res.send({ email: user.email });
+    const stats = await DB.getUserStats(user.email);
+    res.send({
+      email: user.email,
+      totalXp: stats?.totalXp || 0,
+      currentStreak: stats?.currentStreak || 0,
+      longestStreak: stats?.longestStreak || 0,
+    });
   } else {
     res.status(401).send({ msg: 'Unauthorized' });
   }
