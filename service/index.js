@@ -1,93 +1,32 @@
+require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-const bcrypt = require('bcryptjs');
-const uuid = require('uuid');
-const DB = require('./database.js');
 const { peerProxy } = require('./peerProxy.js');
+const { requestLogger } = require('./middleware/logger.js');
+const { verifyAuth } = require('./middleware/auth.js');
+const DB = require('./database.js');
 
 const app = express();
 
-// Parse JSON bodies and cookies
+// Security and parsing middleware
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
+app.use(requestLogger);
 
-// Serve the frontend static files from the public directory
+// Serve the frontend static files
 app.use(express.static('public'));
 
-// Router for API endpoints
+// API routes
 const apiRouter = express.Router();
 app.use('/api', apiRouter);
 
-// Auth cookie name
-const authCookieName = 'token';
+apiRouter.use('/', require('./routes/health.js'));
+apiRouter.use('/auth', require('./routes/auth.js'));
+apiRouter.use('/user', require('./routes/auth.js'));
 
-// ---- Authentication Endpoints ----
-
-// Register a new user
-apiRouter.post('/auth/create', async (req, res) => {
-  if (await DB.getUser(req.body.email)) {
-    res.status(409).send({ msg: 'Existing user' });
-  } else {
-    const passwordHash = await bcrypt.hash(req.body.password, 10);
-    const user = {
-      email: req.body.email,
-      password: passwordHash,
-      token: uuid.v4(),
-    };
-    await DB.addUser(user);
-    setAuthCookie(res, user.token);
-    res.send({ email: user.email });
-  }
-});
-
-// Login an existing user
-apiRouter.post('/auth/login', async (req, res) => {
-  const user = await DB.getUser(req.body.email);
-  if (user && (await bcrypt.compare(req.body.password, user.password))) {
-    user.token = uuid.v4();
-    await DB.updateUser(user);
-    setAuthCookie(res, user.token);
-    res.send({ email: user.email });
-  } else {
-    res.status(401).send({ msg: 'Unauthorized' });
-  }
-});
-
-// Logout a user
-apiRouter.delete('/auth/logout', async (req, res) => {
-  const user = await DB.getUserByToken(req.cookies[authCookieName]);
-  if (user) {
-    delete user.token;
-    await DB.updateUser(user);
-  }
-  res.clearCookie(authCookieName);
-  res.status(204).end();
-});
-
-// Get the current authenticated user
-apiRouter.get('/user/me', async (req, res) => {
-  const user = await DB.getUserByToken(req.cookies[authCookieName]);
-  if (user) {
-    res.send({ email: user.email });
-  } else {
-    res.status(401).send({ msg: 'Unauthorized' });
-  }
-});
-
-// Middleware to verify authentication
-const verifyAuth = async (req, res, next) => {
-  const user = await DB.getUserByToken(req.cookies[authCookieName]);
-  if (user) {
-    req.user = user;
-    next();
-  } else {
-    res.status(401).send({ msg: 'Unauthorized' });
-  }
-};
-
-// ---- Application Endpoints ----
-
-// Get all topics
+// Protected application endpoints (kept here for now, will move to routes/ in Branch 3)
 apiRouter.get('/topics', verifyAuth, (_req, res) => {
   const topics = [
     { id: 'analytic-geometry', name: 'Analytic Geometry', problemCount: 5 },
@@ -100,40 +39,29 @@ apiRouter.get('/topics', verifyAuth, (_req, res) => {
   res.send(topics);
 });
 
-// Get user progress
 apiRouter.get('/progress', verifyAuth, async (req, res) => {
   const userProgress = await DB.getProgress(req.user.email);
   res.send(userProgress);
 });
 
-// Save user progress
 apiRouter.post('/progress', verifyAuth, async (req, res) => {
   const { problemId, completed } = req.body;
   const userProgress = await DB.saveProgress(req.user.email, problemId, completed);
   res.send(userProgress);
 });
 
-// ---- Helper Functions ----
-
-function setAuthCookie(res, authToken) {
-  res.cookie(authCookieName, authToken, {
-    secure: true,
-    httpOnly: true,
-    sameSite: 'strict',
-  });
-}
-
 // Default error handler
 app.use(function (err, req, res, next) {
-  res.status(500).send({ type: err.name, message: err.message });
+  console.error(err.stack);
+  res.status(500).send({ msg: 'Internal server error' });
 });
 
-// Return the application's default page if the path is unknown
+// SPA fallback
 app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
-// Port configuration
+// Start server
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 const httpServer = app.listen(port, () => {

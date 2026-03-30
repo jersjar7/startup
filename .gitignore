@@ -3,3 +3,6 @@ dist
 build
 .claude
 dbConfig.json
+.env
+.env.*
+*.pem

@@ -1,0 +1,23 @@
+const DB = require('../database.js');
+
+const authCookieName = 'token';
+
+const verifyAuth = async (req, res, next) => {
+  const user = await DB.getUserByToken(req.cookies[authCookieName]);
+  if (user) {
+    req.user = user;
+    next();
+  } else {
+    res.status(401).send({ msg: 'Unauthorized' });
+  }
+};
+
+function setAuthCookie(res, authToken) {
+  res.cookie(authCookieName, authToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict',
+  });
+}
+
+module.exports = { verifyAuth, setAuthCookie, authCookieName };
