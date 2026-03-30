@@ -6,7 +6,6 @@ const db = client.db('fe4raccoons');
 
 // Collections
 const userCollection = db.collection('users');
-const progressCollection = db.collection('progress');
 const topicCollection = db.collection('topics');
 const problemCollection = db.collection('problems');
 const userStatsCollection = db.collection('userStats');
@@ -49,22 +48,6 @@ async function updateUser(user) {
   await userCollection.updateOne({ email: user.email }, { $set: user });
 }
 
-// ---- Progress functions (legacy, kept for backward compat) ----
-async function getProgress(email) {
-  const record = await progressCollection.findOne({ email: email });
-  return record ? record.completed : {};
-}
-
-async function saveProgress(email, problemId, completed) {
-  await progressCollection.updateOne(
-    { email: email },
-    { $set: { [`completed.${problemId}`]: completed } },
-    { upsert: true }
-  );
-  const record = await progressCollection.findOne({ email: email });
-  return record ? record.completed : {};
-}
-
 // ---- Topic functions ----
 async function getTopics() {
   return topicCollection.find({}).sort({ order: 1 }).toArray();
@@ -103,8 +86,6 @@ module.exports = {
   getUserByToken,
   addUser,
   updateUser,
-  getProgress,
-  saveProgress,
   getTopics,
   getTopicById,
   getProblemsForTopic,

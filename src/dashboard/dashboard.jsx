@@ -93,7 +93,7 @@ export function Dashboard({ userName, onLogout }) {
 
       <section className="topics-grid">
         {topics.map((topic) => (
-          <div className="topic-card" key={topic.topicId} onClick={() => handleTopicClick(topic)}>
+          <button className="topic-card" key={topic.topicId} onClick={() => handleTopicClick(topic)}>
             <h3>{topic.name}</h3>
             <p className="topic-progress">
               {topic.progress.correct}/{topic.problemCount} correct
@@ -103,7 +103,7 @@ export function Dashboard({ userName, onLogout }) {
                 {topic.progress.sessionsCompleted} session{topic.progress.sessionsCompleted !== 1 ? 's' : ''} completed
               </p>
             )}
-          </div>
+          </button>
         ))}
       </section>
 
