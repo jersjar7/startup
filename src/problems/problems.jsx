@@ -2,47 +2,53 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './problems.css';
 
-export function Problems() {
+export function Problems({ userName, onLogout }) {
   const navigate = useNavigate();
-  const [userName, setUserName] = React.useState('');
   const [completedProblems, setCompletedProblems] = React.useState({});
   const [quote, setQuote] = React.useState('Loading...');
   const [quoteAuthor, setQuoteAuthor] = React.useState('');
 
   React.useEffect(() => {
-    const storedUser = localStorage.getItem('userName');
-    if (!storedUser) {
+    if (!userName) {
       navigate('/');
-    } else {
-      setUserName(storedUser);
+      return;
     }
 
-    // Load completed problems from localStorage
-    const saved = localStorage.getItem('completedProblems');
-    if (saved) {
-      setCompletedProblems(JSON.parse(saved));
-    }
+    // Load progress from backend
+    fetch('/api/progress')
+      .then((res) => res.json())
+      .then((data) => setCompletedProblems(data))
+      .catch(() => {});
 
-    // Mock motivational quote (will be 3rd party API later)
-    const quotes = [
-      { text: "Success is the sum of small efforts repeated day in and day out.", author: "Robert Collier" },
-      { text: "The expert in anything was once a beginner.", author: "Helen Hayes" },
-      { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" }
-    ];
-    const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    setQuote(randomQuote.text);
-    setQuoteAuthor(randomQuote.author);
-  }, [navigate]);
+    // Fetch motivational quote from third party API
+    fetch('https://quote.cs260.click')
+      .then((res) => res.json())
+      .then((data) => {
+        setQuote(data.quote);
+        setQuoteAuthor(data.author);
+      })
+      .catch(() => {
+        setQuote('Success is the sum of small efforts repeated day in and day out.');
+        setQuoteAuthor('Robert Collier');
+      });
+  }, [userName, navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem('userName');
+    onLogout();
     navigate('/');
   };
 
-  const handleCheckbox = (problemId) => {
-    const updated = { ...completedProblems, [problemId]: !completedProblems[problemId] };
+  const handleCheckbox = async (problemId) => {
+    const newValue = !completedProblems[problemId];
+    const updated = { ...completedProblems, [problemId]: newValue };
     setCompletedProblems(updated);
-    localStorage.setItem('completedProblems', JSON.stringify(updated));
+
+    // Save progress to backend
+    fetch('/api/progress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ problemId, completed: newValue }),
+    }).catch(() => {});
   };
 
   const completedCount = Object.values(completedProblems).filter(Boolean).length;
@@ -59,9 +65,6 @@ export function Problems() {
 
       <section className="progress-section">
         <p>Progress: {completedCount}/5 Problems Completed</p>
-        <p style={{ marginTop: '0.5rem', fontStyle: 'italic', color: '#666', fontWeight: 'normal' }}>
-          Database placeholder: User progress will be tracked in MongoDB
-        </p>
       </section>
 
       <section>
@@ -77,8 +80,8 @@ export function Problems() {
               </div>
             </details>
             <label>
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 checked={completedProblems[`problem${num}`] || false}
                 onChange={() => handleCheckbox(`problem${num}`)}
               />
@@ -94,9 +97,6 @@ export function Problems() {
           <p>"{quote}"</p>
           <cite style={{ fontSize: '0.9rem', color: '#666' }}>- {quoteAuthor}</cite>
         </blockquote>
-        <p style={{ fontStyle: 'italic', color: '#666' }}>
-          3rd party API placeholder: Motivational quotes will be fetched from external API
-        </p>
       </section>
     </main>
   );
