@@ -7,41 +7,41 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 ## Phase 1: MVP — "Make it work"
 
 ### Architecture & Backend
-- [ ] Reorganize backend: separate routes, controllers, and middleware into their own files
-- [ ] Add input validation on all endpoints (email format, password strength, field types)
-- [ ] Add `/api/health` endpoint (confirms service + DB are running)
-- [ ] Add request logging with timestamps
-- [ ] Move credentials to environment variables (replace dbConfig.json with .env)
-- [ ] Add `helmet` for HTTP security headers
-- [ ] Remove unused dependencies (bootstrap, react-bootstrap) from frontend package.json
+- [x] Reorganize backend: separate routes, controllers, and middleware into their own files
+- [x] Add input validation on all endpoints (email format, password strength, field types)
+- [x] Add `/api/health` endpoint (confirms service + DB are running)
+- [x] Add request logging with timestamps
+- [x] Move credentials to environment variables (replace dbConfig.json with .env)
+- [x] Add `helmet` for HTTP security headers
+- [x] Remove unused dependencies (bootstrap, react-bootstrap) from frontend package.json
 
 ### Database & Content
-- [ ] Design MongoDB schema for topics, problems, and user stats
-- [ ] Create `topics` collection with all FE Civil exam topics and metadata
-- [ ] Create `problems` collection with multiple-choice format (question, options, correct answer, worked solution)
-- [ ] Seed database with Analytic Geometry problems (first topic, real FE-level content)
-- [ ] Create API endpoint: `GET /api/topics/:topicId` — fetch single topic with study materials
-- [ ] Create API endpoint: `GET /api/topics/:topicId/problems` — fetch problems for a topic
-- [ ] Create API endpoint: `POST /api/sessions` — submit session results (answers, XP earned)
-- [ ] Add database indexes on frequently queried fields (email, token, topicId)
+- [x] Design MongoDB schema for topics, problems, and user stats
+- [x] Create `topics` collection with all FE Civil exam topics and metadata
+- [x] Create `problems` collection with multiple-choice format (question, options, correct answer, worked solution)
+- [x] Seed database with Analytic Geometry problems (first topic, real FE-level content)
+- [x] Create API endpoint: `GET /api/topics/:topicId` — fetch single topic with study materials
+- [x] Create API endpoint: `GET /api/topics/:topicId/problems` — fetch problems for a topic
+- [x] Create API endpoint: `POST /api/sessions` — submit session results (answers, XP earned)
+- [x] Add database indexes on frequently queried fields (email, token, topicId)
 
 ### Frontend — Core Experience
-- [ ] Add topic routing: `/study/:topicId` and `/problems/:topicId` (pass topic ID through URL)
-- [ ] Redesign problems page: one problem at a time (not all at once)
-- [ ] Add multiple-choice answer selection with immediate feedback
-- [ ] Show worked solution after each answer (correct or incorrect)
-- [ ] Add session summary screen after completing a round (problems correct, XP earned)
-- [ ] Dashboard: show actual progress per topic from database (not hardcoded "0")
-- [ ] Eliminate inline styles — use CSS variables consistently
-- [ ] Make topic cards keyboard-accessible (use `<button>` instead of `<div>`)
+- [x] Add topic routing: `/study/:topicId` and `/problems/:topicId` (pass topic ID through URL)
+- [x] Redesign problems page: one problem at a time (not all at once)
+- [x] Add multiple-choice answer selection with immediate feedback
+- [x] Show worked solution after each answer (correct or incorrect)
+- [x] Add session summary screen after completing a round (problems correct, XP earned)
+- [x] Dashboard: show actual progress per topic from database (not hardcoded "0")
+- [x] Eliminate inline styles — use CSS variables consistently
+- [x] Make topic cards keyboard-accessible (use `<button>` instead of `<div>`)
 
 ### Gamification — Basic
-- [ ] Implement XP system: +10 correct, +5 incorrect, +25 session bonus
-- [ ] Store XP in user stats collection in database
-- [ ] Display total XP on dashboard
-- [ ] Implement streak counter: track consecutive days with at least 1 completed session
-- [ ] Display streak on dashboard
-- [ ] Store streak data (current streak, last session date) in database
+- [x] Implement XP system: +10 correct, +5 incorrect, +25 session bonus
+- [x] Store XP in user stats collection in database
+- [x] Display total XP on dashboard
+- [x] Implement streak counter: track consecutive days with at least 1 completed session
+- [x] Display streak on dashboard
+- [x] Store streak data (current streak, last session date) in database
 
 ---
 
@@ -120,10 +120,10 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 
 | Phase | Total Items | Completed | % |
 |-------|------------|-----------|---|
-| Phase 1 | 27 | 0 | 0% |
+| Phase 1 | 27 | 27 | 100% |
 | Phase 2 | 14 | 0 | 0% |
 | Phase 3 | 10 | 0 | 0% |
 | Phase 4 | 12 | 0 | 0% |
-| **Total** | **63** | **0** | **0%** |
+| **Total** | **63** | **27** | **43%** |
 
 *Last updated: 2026-03-29*
