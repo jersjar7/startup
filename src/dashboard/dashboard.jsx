@@ -7,26 +7,14 @@ import {
   Trophy,
   Users,
   Pulse,
+  Info,
   SignOut,
-  CompassTool,
-  Atom,
-  Drop,
-  Stack,
-  Bridge,
-  Path,
-  BookOpenText,
   ArrowRight,
+  BookOpenText,
 } from '@phosphor-icons/react';
+import { CHAPTERS } from '../data/chapters';
+import { LoadingState } from '../components/LoadingState';
 import './dashboard.css';
-
-const topicIcons = {
-  'Analytic Geometry': CompassTool,
-  'Dynamics': Atom,
-  'Fluid Mechanics': Drop,
-  'Soils': Stack,
-  'Materials': Bridge,
-  'Transportation': Path,
-};
 
 export function Dashboard({ userName, onLogout }) {
   const navigate = useNavigate();
@@ -44,7 +32,6 @@ export function Dashboard({ userName, onLogout }) {
       return;
     }
 
-    // Fetch all dashboard data in parallel
     Promise.allSettled([
       fetch('/api/topics').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/user/me').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
@@ -76,16 +63,11 @@ export function Dashboard({ userName, onLogout }) {
       setLoading(false);
     });
 
-    // Connect to WebSocket
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
     const ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
     ws.onopen = () => {
-      ws.send(JSON.stringify({
-        type: 'study',
-        from: userName,
-        topic: 'Dashboard',
-      }));
+      ws.send(JSON.stringify({ type: 'study', from: userName, topic: 'Dashboard' }));
     };
 
     ws.onmessage = (event) => {
@@ -94,42 +76,57 @@ export function Dashboard({ userName, onLogout }) {
     };
 
     setSocket(ws);
-
-    return () => {
-      ws.close();
-    };
+    return () => ws.close();
   }, [userName, navigate]);
 
-  const handleTopicClick = (topic) => {
+  /* Build a lookup from API topics by name */
+  const topicLookup = React.useMemo(() => {
+    const map = {};
+    topics.forEach((t) => { map[t.name] = t; });
+    return map;
+  }, [topics]);
+
+  const handleChapterClick = (chapter) => {
+    const apiTopic = topicLookup[chapter.name];
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({
-        type: 'study',
-        from: userName,
-        topic: topic.name,
-      }));
+      socket.send(JSON.stringify({ type: 'study', from: userName, topic: chapter.name }));
     }
-    navigate(`/study/${topic.topicId}`);
+    if (apiTopic) {
+      navigate(`/study/${apiTopic.topicId}`);
+    } else {
+      navigate(`/study/${chapter.id}`);
+    }
   };
 
   const handleLogout = () => {
-    if (socket) {
-      socket.close();
-    }
+    if (socket) socket.close();
     onLogout();
     navigate('/');
   };
 
+  const getProgress = (chapterName) => {
+    const t = topicLookup[chapterName];
+    if (!t) return { masteryLevel: 0, masteryName: 'Not Started', correct: 0, total: 0, decaying: false };
+    return {
+      masteryLevel: t.progress?.masteryLevel || 0,
+      masteryName: t.progress?.masteryName || 'Not Started',
+      correct: t.progress?.correct || 0,
+      total: t.problemCount || 0,
+      decaying: t.progress?.decaying || false,
+    };
+  };
+
   if (loading) {
-    return <main><p>Loading...</p></main>;
+    return <LoadingState />;
   }
 
   return (
     <main>
-      {/* Header */}
-      <div className="dashboard-header">
+      {/* ── Header ── */}
+      <div className="dash-header">
         <div>
-          <h2 className="dashboard-title">Dashboard</h2>
-          <span className="user-greeting">Welcome back, {userName}</span>
+          <h2 className="dash-title">Dashboard</h2>
+          <span className="dash-greeting">Welcome back, {userName}</span>
         </div>
         <button className="logout-btn" onClick={handleLogout}>
           <SignOut weight="bold" size={18} />
@@ -139,151 +136,159 @@ export function Dashboard({ userName, onLogout }) {
 
       {error && <div className="error-banner">{error}</div>}
 
-      {/* Stat cards */}
-      <section className="stats-bar">
-        <div className="stat-card stat-card--sunbeam">
-          <div className="stat-icon stat-icon--sunbeam">
-            <Lightning weight="bold" size={22} />
-          </div>
-          <div className="stat-content">
-            <span className="stat-value">{stats.totalXp}</span>
-            <span className="stat-label">Total XP</span>
-          </div>
+      {/* ── Top bar: Stats + Daily Review ── */}
+      <div className="dash-topbar">
+        <div className="stat-pill stat-pill--sunbeam">
+          <Lightning weight="bold" size={18} />
+          <span className="stat-pill-value">{stats.totalXp}</span>
+          <span className="stat-pill-label">XP</span>
         </div>
-        <div className="stat-card stat-card--ember">
-          <div className="stat-icon stat-icon--ember">
-            <Fire weight="bold" size={22} />
-          </div>
-          <div className="stat-content">
-            <span className="stat-value">{stats.currentStreak}</span>
-            <span className="stat-label">Day Streak</span>
-          </div>
+        <div className="stat-pill stat-pill--ember">
+          <Fire weight="bold" size={18} />
+          <span className="stat-pill-value">{stats.currentStreak}</span>
+          <span className="stat-pill-label">Day Streak</span>
         </div>
-      </section>
-
-      {/* Daily Review */}
-      <section className="review-section">
         <button className="review-btn" onClick={() => navigate('/review')}>
-          <Timer weight="bold" size={18} />
+          <Timer weight="bold" size={16} />
           Daily Review
-          <ArrowRight weight="bold" size={16} />
+          <ArrowRight weight="bold" size={14} />
         </button>
-        <span className="review-hint">Mixed problems from topics you've studied</span>
-      </section>
+      </div>
 
-      {/* Topics */}
-      <h3 className="section-heading">
-        <BookOpenText weight="bold" size={20} />
-        Topics
-      </h3>
-      <section className="topics-grid">
-        {topics.map((topic) => {
-          const Icon = topicIcons[topic.name] || CompassTool;
-          return (
-            <button className="topic-card" key={topic.topicId} onClick={() => handleTopicClick(topic)}>
-              <div className="topic-card-header">
-                <Icon size={20} className="topic-icon" />
-                <h3>{topic.name}</h3>
-              </div>
-              <div className="mastery-bar-row">
-                <div className="mastery-bar">
-                  {[1, 2, 3, 4, 5].map((level) => (
-                    <div
-                      key={level}
-                      className={`mastery-segment${
-                        level <= topic.progress.masteryLevel
-                          ? topic.progress.decaying
-                            ? ' mastery-segment--decaying'
-                            : ' mastery-segment--filled'
-                          : ''
-                      }`}
-                    />
-                  ))}
-                </div>
-                <span className={`mastery-label${topic.progress.decaying ? ' mastery-label--decaying' : ''}`}>
-                  {topic.progress.decaying ? 'Needs Review' : topic.progress.masteryName || 'Not Started'}
-                </span>
-              </div>
-              <p className="topic-progress">
-                {topic.progress.correct}/{topic.problemCount} correct
-              </p>
-              {topic.progress.sessionsCompleted > 0 && (
-                <p className="topic-sessions">
-                  {topic.progress.sessionsCompleted} session{topic.progress.sessionsCompleted !== 1 ? 's' : ''} completed
-                </p>
-              )}
-            </button>
-          );
-        })}
-      </section>
+      {/* ── Two-column layout: Chapters (left) + Sidebar (right) ── */}
+      <div className="dash-grid">
 
-      {/* Badges */}
-      {stats.allBadges.length > 0 && (
-        <section className="badges-section">
-          <h3 className="section-heading">
-            <Trophy weight="bold" size={20} />
-            Achievements
+        {/* ── LEFT: 15 Chapters ── */}
+        <section className="dash-chapters">
+          <h3 className="dash-section-label">
+            <BookOpenText weight="bold" size={18} />
+            Chapters
           </h3>
-          <div className="badges-grid">
-            {stats.allBadges.map((badge) => {
-              const earned = stats.badges.some((b) => b.id === badge.id);
+          <div className="ch-list">
+            <div className="ch-list-header">
+              <span></span>
+              <span></span>
+              <span className="ch-header-label">
+                Chapter
+                <span className="ch-header-info" data-tooltip="The 15 chapters follow the official NCEES FE Civil exam specification. Each chapter maps to one knowledge area tested on exam day.">
+                  <Info weight="regular" size={13} />
+                </span>
+              </span>
+              <span className="ch-header-label ch-header-label--right">
+                Mastery
+                <span className="ch-header-info ch-header-info--right" data-tooltip="Your mastery level (1–5) for each chapter. Mastery grows as you answer problems correctly and decays if you don't review.">
+                  <Info weight="regular" size={13} />
+                </span>
+              </span>
+              <span className="ch-header-label ch-header-label--right">
+                Exam Qs
+                <span className="ch-header-info ch-header-info--right" data-tooltip="The number of questions each topic gets on the actual FE Civil exam, based on the NCEES exam specification. The FE Civil has 110 questions total.">
+                  <Info weight="regular" size={13} />
+                </span>
+              </span>
+              <span></span>
+            </div>
+            {CHAPTERS.map((ch) => {
+              const Icon = ch.icon;
+              const prog = getProgress(ch.name);
               return (
-                <div key={badge.id} className={`badge-item${earned ? ' badge-earned' : ''}`} title={badge.description}>
-                  <span className="badge-name">{badge.name}</span>
-                  <span className="badge-desc">{badge.description}</span>
-                </div>
+                <button key={ch.id} className="ch-row-dash" onClick={() => handleChapterClick(ch)}>
+                  <span className="ch-num-d">{String(ch.num).padStart(2, '0')}</span>
+                  <Icon weight="bold" size={18} className={`ch-icon-d ch-icon-d--${ch.accent}`} />
+                  <span className="ch-name-d">{ch.name}</span>
+                  <div className="ch-mastery">
+                    <div className="mastery-bar">
+                      {[1, 2, 3, 4, 5].map((level) => (
+                        <div
+                          key={level}
+                          className={`mastery-seg${
+                            level <= prog.masteryLevel
+                              ? prog.decaying ? ' mastery-seg--decay' : ' mastery-seg--fill'
+                              : ''
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className={`ch-status${prog.decaying ? ' ch-status--decay' : ''}`}>
+                      {prog.decaying ? 'Review' : prog.masteryName}
+                    </span>
+                  </div>
+                  <span className={`ch-badge-d ch-badge-d--${ch.accent}`}>{ch.qs} Qs</span>
+                  <ArrowRight weight="bold" size={14} className="ch-arrow" />
+                </button>
               );
             })}
           </div>
         </section>
-      )}
 
-      {/* Leaderboard */}
-      <section className="leaderboard-section">
-        <h3 className="section-heading">
-          <Users weight="bold" size={20} />
-          Weekly Leaderboard
-        </h3>
-        {leaderboard.weekId && (
-          <span className="leaderboard-week">Week {leaderboard.weekId}</span>
-        )}
-        {leaderboard.entries.length > 0 ? (
-          <ol className="leaderboard-list">
-            {leaderboard.entries.map((entry) => (
-              <li
-                key={entry.rank}
-                className={`leaderboard-row${entry.isCurrentUser ? ' leaderboard-row--you' : ''}`}
-              >
-                <span className="leaderboard-rank">#{entry.rank}</span>
-                <span className="leaderboard-name">{entry.isCurrentUser ? 'You' : entry.name}</span>
-                <span className="leaderboard-xp">{entry.weeklyXp} XP</span>
-              </li>
-            ))}
-          </ol>
-        ) : (
-          <p className="leaderboard-empty">No activity this week yet. Complete a session to get on the board!</p>
-        )}
-      </section>
-
-      {/* Live Activity */}
-      <section className="live-activity">
-        <h3 className="section-heading">
-          <Pulse weight="bold" size={20} />
-          Live Activity
-        </h3>
-        <ul>
-          {events.length > 0 ? (
-            events.map((event, index) => (
-              <li key={index}>
-                <span className="activity-user">{event.from}</span> started studying{' '}
-                <span className="activity-topic">{event.topic}</span>
-              </li>
-            ))
-          ) : (
-            <li className="activity-empty">No recent activity — start studying to see live updates!</li>
+        {/* ── RIGHT: Sidebar ── */}
+        <aside className="dash-sidebar">
+          {/* Achievements */}
+          {stats.allBadges.length > 0 && (
+            <div className="sidebar-block">
+              <h3 className="dash-section-label">
+                <Trophy weight="bold" size={18} />
+                Achievements
+              </h3>
+              <div className="badges-compact">
+                {stats.allBadges.map((badge) => {
+                  const earned = stats.badges.some((b) => b.id === badge.id);
+                  return (
+                    <div key={badge.id} className={`badge-row${earned ? ' badge-row--earned' : ''}`} title={badge.description}>
+                      <span className="badge-name">{badge.name}</span>
+                      <span className="badge-desc">{badge.description}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           )}
-        </ul>
-      </section>
+
+          {/* Leaderboard */}
+          <div className="sidebar-block">
+            <h3 className="dash-section-label">
+              <Users weight="bold" size={18} />
+              Weekly Leaderboard
+            </h3>
+            {leaderboard.weekId && (
+              <span className="lb-week">Week {leaderboard.weekId}</span>
+            )}
+            {leaderboard.entries.length > 0 ? (
+              <ol className="lb-list">
+                {leaderboard.entries.map((entry) => (
+                  <li key={entry.rank} className={`lb-row${entry.isCurrentUser ? ' lb-row--you' : ''}`}>
+                    <span className="lb-rank">#{entry.rank}</span>
+                    <span className="lb-name">{entry.isCurrentUser ? 'You' : entry.name}</span>
+                    <span className="lb-xp">{entry.weeklyXp} XP</span>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="lb-empty">Complete a session to get on the board!</p>
+            )}
+          </div>
+
+          {/* Live Activity */}
+          <div className="sidebar-block">
+            <h3 className="dash-section-label">
+              <Pulse weight="bold" size={18} />
+              Live Activity
+            </h3>
+            <ul className="activity-list">
+              {events.length > 0 ? (
+                events.map((event, index) => (
+                  <li key={index}>
+                    <span className="act-user">{event.from}</span> studying{' '}
+                    <span className="act-topic">{event.topic}</span>
+                  </li>
+                ))
+              ) : (
+                <li className="act-empty">No recent activity</li>
+              )}
+            </ul>
+          </div>
+        </aside>
+      </div>
     </main>
   );
 }

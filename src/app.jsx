@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-import { PawPrint } from '@phosphor-icons/react';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
+import { LoadingState } from './components/LoadingState';
 import { Landing } from './landing/landing';
 import { Login } from './login/login';
 import { Dashboard } from './dashboard/dashboard';
@@ -43,7 +45,7 @@ export default function App() {
   }
 
   if (authLoading) {
-    return <div className="body"><p>Loading...</p></div>;
+    return <div className="body"><LoadingState /></div>;
   }
 
   return (
@@ -59,19 +61,7 @@ function AppShell({ userName, onLogin, onLogout }) {
 
   return (
     <div className="body">
-      {!isLanding && (
-        <header>
-          <div className="nav-brand">
-            <div className="nav-logo">
-              <PawPrint weight="bold" size={18} />
-            </div>
-            <div className="nav-text">
-              <h1 id="app-title">FE for Raccoons</h1>
-              <span id="app-slogan">All you need to pass the FE exam</span>
-            </div>
-          </div>
-        </header>
-      )}
+      {!isLanding && <Header />}
 
       <Routes>
         <Route path="/" element={<Landing userName={userName} />} />
@@ -83,14 +73,7 @@ function AppShell({ userName, onLogin, onLogout }) {
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      {!isLanding && (
-        <footer>
-          <p>Created by Jerson J. Garcia</p>
-          <p>
-            <a href="https://github.com/jersjar7/startup" target="_blank">GitHub Repository</a>
-          </p>
-        </footer>
-      )}
+      {!isLanding && <Footer />}
     </div>
   );
 }

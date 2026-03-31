@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, SignOut, PlayCircle, ArrowRight } from '@phosphor-icons/react';
+import { LoadingState } from '../components/LoadingState';
 import './study.css';
 
 export function Study({ userName, onLogout }) {
@@ -48,7 +49,7 @@ export function Study({ userName, onLogout }) {
   };
 
   if (loading) {
-    return <main><p>Loading...</p></main>;
+    return <LoadingState />;
   }
 
   if (error || !topic) {
@@ -65,7 +66,7 @@ export function Study({ userName, onLogout }) {
 
   return (
     <main>
-      <div className="study-header">
+      <div className="page-header">
         <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
           <ArrowLeft weight="bold" size={16} />
           Back to Topics

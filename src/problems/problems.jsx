@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, SignOut, ArrowRight } from '@phosphor-icons/react';
 import { MathText } from '../components/MathText';
+import { LoadingState } from '../components/LoadingState';
 import './problems.css';
 
 // States: LOADING -> SESSION -> SUMMARY
@@ -147,7 +148,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
 
   // --- LOADING ---
   if (phase === 'LOADING') {
-    return <main><p>Loading...</p></main>;
+    return <LoadingState />;
   }
 
   // --- ERROR ---
@@ -167,7 +168,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
   if (phase === 'EMPTY') {
     return (
       <main>
-        <div className="problems-header">
+        <div className="page-header">
           <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
             <ArrowLeft weight="bold" size={16} />
             Back to Dashboard
@@ -196,7 +197,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
     const pct = Math.round((summary.correct / summary.totalProblems) * 100);
     return (
       <main>
-        <div className="problems-header">
+        <div className="page-header">
           <span />
           <h1>{reviewMode ? 'Review Complete' : 'Session Complete'}</h1>
           <button className="logout-btn" onClick={handleLogout}>
@@ -276,7 +277,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
 
   return (
     <main>
-      <div className="problems-header">
+      <div className="page-header">
         <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate(backPath); }}>
           <ArrowLeft weight="bold" size={16} />
           {backLabel}

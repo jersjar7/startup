@@ -1,0 +1,36 @@
+import {
+  Function,
+  ChartBar,
+  Scales,
+  CurrencyDollar,
+  Barbell,
+  Atom,
+  Wrench,
+  CubeTransparent,
+  Drop,
+  Compass,
+  WaveSine,
+  Bridge,
+  Mountains,
+  Path,
+  HardHat,
+} from '@phosphor-icons/react';
+
+/* ── 15 FE Civil chapters with icons + accents ── */
+export const CHAPTERS = [
+  { id: 'mathematics',        num: 1,  name: 'Mathematics',              qs: '8–12',  icon: Function,        accent: 'ember' },
+  { id: 'statistics',         num: 2,  name: 'Probability & Statistics', qs: '4–6',   icon: ChartBar,        accent: 'sunbeam' },
+  { id: 'ethics',             num: 3,  name: 'Ethics & Prof. Practice',  qs: '4–6',   icon: Scales,          accent: 'forest' },
+  { id: 'economics',          num: 4,  name: 'Engineering Economics',    qs: '5–8',   icon: CurrencyDollar,  accent: 'ember' },
+  { id: 'statics',            num: 5,  name: 'Statics',                  qs: '8–12',  icon: Barbell,         accent: 'sunbeam' },
+  { id: 'dynamics',           num: 6,  name: 'Dynamics',                 qs: '4–6',   icon: Atom,            accent: 'forest' },
+  { id: 'mechanics-materials',num: 7,  name: 'Mechanics of Materials',   qs: '7–11',  icon: Wrench,          accent: 'ember' },
+  { id: 'materials',          num: 8,  name: 'Materials',                qs: '5–8',   icon: CubeTransparent, accent: 'sunbeam' },
+  { id: 'fluid-mechanics',    num: 9,  name: 'Fluid Mechanics',          qs: '6–9',   icon: Drop,            accent: 'forest' },
+  { id: 'surveying',          num: 10, name: 'Surveying',                qs: '6–9',   icon: Compass,         accent: 'ember' },
+  { id: 'water-resources',    num: 11, name: 'Water Resources & Env.',   qs: '10–15', icon: WaveSine,        accent: 'sunbeam' },
+  { id: 'structural',         num: 12, name: 'Structural Engineering',   qs: '10–15', icon: Bridge,          accent: 'forest' },
+  { id: 'geotechnical',       num: 13, name: 'Geotechnical Eng.',        qs: '10–15', icon: Mountains,       accent: 'ember' },
+  { id: 'transportation',     num: 14, name: 'Transportation Eng.',      qs: '9–14',  icon: Path,            accent: 'sunbeam' },
+  { id: 'construction',       num: 15, name: 'Construction Eng.',        qs: '8–12',  icon: HardHat,         accent: 'forest' },
+];
