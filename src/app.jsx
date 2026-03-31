@@ -8,6 +8,7 @@ import { Login } from './login/login';
 import { Dashboard } from './dashboard/dashboard';
 import { Study } from './study/study';
 import { Problems } from './problems/problems';
+import { LessonPage } from './lesson/lesson';
 import 'katex/dist/katex.min.css';
 import './app.css';
 
@@ -58,10 +59,11 @@ export default function App() {
 function AppShell({ userName, onLogin, onLogout }) {
   const { pathname } = useLocation();
   const isLanding = pathname === '/';
+  const isLesson = pathname.startsWith('/lesson/');
 
   return (
     <div className="body">
-      {!isLanding && <Header />}
+      {!isLanding && !isLesson && <Header />}
 
       <Routes>
         <Route path="/" element={<Landing userName={userName} />} />
@@ -70,10 +72,11 @@ function AppShell({ userName, onLogin, onLogout }) {
         <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
         <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
         <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
+        <Route path="/lesson/:chapterId/:lessonId" element={<LessonPage userName={userName} onLogout={onLogout} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      {!isLanding && <Footer />}
+      {!isLanding && !isLesson && <Footer />}
     </div>
   );
 }

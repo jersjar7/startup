@@ -18,6 +18,7 @@ import {
 import katex from 'katex';
 import { CHAPTERS } from '../data/chapters';
 import { CHAPTER_DETAILS } from '../data/chapters/index';
+import { LESSONS } from '../data/lessons/index';
 import { LoadingState } from '../components/LoadingState';
 import './study.css';
 
@@ -38,7 +39,8 @@ function MathBlock({ tex }) {
 }
 
 /* ── Subtopic row ── */
-function SubtopicRow({ sub, index, isExpanded, onToggle, accent }) {
+function SubtopicRow({ sub, index, isExpanded, onToggle, accent, chapterId }) {
+  const navigate = useNavigate();
   // Mastery state would come from API — placeholder for now
   const status = 'available'; // 'locked' | 'available' | 'in-progress' | 'mastered'
 
@@ -48,6 +50,11 @@ function SubtopicRow({ sub, index, isExpanded, onToggle, accent }) {
     'in-progress': <Lightning size={16} weight="fill" className={`st-status st-status--${accent}`} />,
     mastered: <CheckCircle size={16} weight="fill" className="st-status st-status--mastered" />,
   };
+
+  // Find lessons for this subtopic
+  const chapterLessons = LESSONS[chapterId] ?? [];
+  const subtopicEntry = chapterLessons.find((entry) => entry.subtopicId === sub.id);
+  const lessons = subtopicEntry?.lessons ?? [];
 
   return (
     <div className={`st-row ${isExpanded ? 'st-row--expanded' : ''}`}>
@@ -62,11 +69,32 @@ function SubtopicRow({ sub, index, isExpanded, onToggle, accent }) {
 
       {isExpanded && (
         <div className="st-expanded">
-          <p className="st-application">{sub.application}</p>
-          <button className="st-practice-btn" onClick={(e) => e.stopPropagation()}>
-            <Lightning size={16} weight="bold" />
-            Practice and learn this subtopic
-          </button>
+          {lessons.length > 0 ? (
+            <div className="st-lesson-list">
+              {lessons.map((lesson) => (
+                <div key={lesson.id} className="st-lesson-row">
+                  <div className="st-lesson-info">
+                    <span className="st-lesson-name">{lesson.name}</span>
+                    <span className="st-lesson-app">{lesson.application}</span>
+                  </div>
+                  <button
+                    className="st-practice-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/lesson/${chapterId}/${lesson.id}`);
+                    }}
+                  >
+                    <Lightning size={16} weight="bold" />
+                    Practice &amp; learn
+                  </button>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="st-application" style={{ fontStyle: 'italic', color: 'var(--gray-400)' }}>
+              Lessons coming soon for this subtopic.
+            </p>
+          )}
         </div>
       )}
     </div>
@@ -189,6 +217,7 @@ export function Study({ userName, onLogout }) {
                 sub={sub}
                 index={i}
                 accent={chapter.accent}
+                chapterId={topicId}
                 isExpanded={expandedSub === sub.id}
                 onToggle={() => setExpandedSub(expandedSub === sub.id ? null : sub.id)}
               />
