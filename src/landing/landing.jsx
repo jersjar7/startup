@@ -388,6 +388,25 @@ export function Landing({ userName }) {
         </div>
       </section>
 
+      {/* ══════ EXAM REALITY CHECK ══════ */}
+      <section className="s-reality">
+        <div className="s-reality__inner">
+          <span className="section-label">
+            <span className="section-label-dash" />
+            From someone who passed on the first try
+          </span>
+          <h2 className="s-reality__heading">
+            The FE is not as hard as you think.
+          </h2>
+          <p className="s-reality__text">
+            Most exam questions test <strong>one formula or one method</strong> — not multi-step monsters. If you're familiar with the topic and know where to find the formula in the FE Reference Handbook, you can solve it. Quite a few questions are purely conceptual, and some are even drag-and-drop. The exam rewards familiarity, not genius.
+          </p>
+          <p className="s-reality__text">
+            That's exactly how this platform prepares you: learn the concepts, practice applying one method at a time, and memorize where things live in the Handbook. Do that consistently, and you'll walk into the exam confident.
+          </p>
+        </div>
+      </section>
+
       {/* ══════ FINAL CTA ══════ */}
       <section className="s-cta">
         <div className="s-cta__inner">

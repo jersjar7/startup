@@ -743,6 +743,47 @@
 
 
 /* ═══════════════════════════════════════
+   EXAM REALITY CHECK
+   ═══════════════════════════════════════ */
+
+.s-reality {
+  padding: clamp(3rem, 6vh, 5rem) 0;
+  border-top: 1px solid var(--gray-200);
+}
+
+.s-reality__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 4rem);
+}
+
+.s-reality__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--charcoal);
+  margin-bottom: 1.25rem;
+  line-height: 1.2;
+}
+
+.s-reality__text {
+  font-size: 1rem;
+  color: var(--gray-600);
+  line-height: 1.75;
+  margin-bottom: 1rem;
+}
+
+.s-reality__text:last-child {
+  margin-bottom: 0;
+}
+
+.s-reality__text strong {
+  color: var(--charcoal);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════
    FINAL CTA
    ═══════════════════════════════════════ */
 

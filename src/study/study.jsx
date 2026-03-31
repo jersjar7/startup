@@ -13,6 +13,7 @@ import {
   CheckCircle,
   LockSimple,
   Circle,
+  Info,
 } from '@phosphor-icons/react';
 import katex from 'katex';
 import { CHAPTERS } from '../data/chapters';
@@ -221,6 +222,14 @@ export function Study({ userName, onLogout }) {
         {/* ── RIGHT: Sidebar ── */}
         <div className="study-sidebar">
 
+          {/* ── Exam tips ── */}
+          <div className="exam-tips">
+            <Info size={16} weight="fill" className="exam-tips-icon" />
+            <p>
+              <strong>Exam day:</strong> Most questions here test one formula or method. Some are purely conceptual. Know the topic and where to find it in the Handbook, and you can solve it.
+            </p>
+          </div>
+
           {/* ── Formula Quick-Reference ── */}
           {details.formulas.length > 0 && (
             <div className="sidebar-section formulas-section">
@@ -233,6 +242,7 @@ export function Study({ userName, onLogout }) {
               </button>
               {formulasOpen && (
                 <div className="formulas-grid">
+                  <p className="formulas-hint">You'll have the FE Handbook during the exam — practice finding these quickly.</p>
                   {details.formulas.map((f, i) => (
                     <FormulaCard key={i} formula={f} />
                   ))}
