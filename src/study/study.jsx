@@ -1,15 +1,108 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, SignOut, PlayCircle, ArrowRight } from '@phosphor-icons/react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  CaretDown,
+  CaretUp,
+  BookOpenText,
+  Lightning,
+  Warning,
+  MathOperations,
+  PlayCircle,
+  CheckCircle,
+  LockSimple,
+  Circle,
+} from '@phosphor-icons/react';
+import katex from 'katex';
+import { CHAPTERS } from '../data/chapters';
+import { CHAPTER_DETAILS } from '../data/subtopics';
 import { LoadingState } from '../components/LoadingState';
 import './study.css';
 
+/* ── KaTeX block renderer ── */
+function MathBlock({ tex }) {
+  const html = React.useMemo(() => {
+    try {
+      return katex.renderToString(tex, {
+        displayMode: true,
+        throwOnError: false,
+        strict: false,
+      });
+    } catch {
+      return tex;
+    }
+  }, [tex]);
+  return <div className="math-block" dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
+/* ── Subtopic row ── */
+function SubtopicRow({ sub, index, isExpanded, onToggle, accent }) {
+  // Mastery state would come from API — placeholder for now
+  const status = 'available'; // 'locked' | 'available' | 'in-progress' | 'mastered'
+
+  const statusIcon = {
+    locked: <LockSimple size={16} weight="bold" className="st-status st-status--locked" />,
+    available: <Circle size={16} weight="bold" className="st-status st-status--available" />,
+    'in-progress': <Lightning size={16} weight="fill" className={`st-status st-status--${accent}`} />,
+    mastered: <CheckCircle size={16} weight="fill" className="st-status st-status--mastered" />,
+  };
+
+  return (
+    <div className={`st-row ${isExpanded ? 'st-row--expanded' : ''}`}>
+      <button className="st-row-btn" onClick={onToggle} aria-expanded={isExpanded}>
+        <span className="st-num">{String(index + 1).padStart(2, '0')}</span>
+        {statusIcon[status]}
+        <span className="st-name">{sub.name}</span>
+        <span className="st-toggle">
+          {isExpanded ? <CaretUp size={16} weight="bold" /> : <CaretDown size={16} weight="bold" />}
+        </span>
+      </button>
+
+      {isExpanded && (
+        <div className="st-expanded">
+          <p className="st-placeholder">
+            Lesson content for <strong>{sub.name}</strong> will appear here — concise explanations, worked examples with KaTeX equations, and FE Handbook page references.
+          </p>
+          <button className="st-practice-btn" onClick={(e) => e.stopPropagation()}>
+            <Lightning size={16} weight="bold" />
+            Practice this subtopic
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── Formula card ── */
+function FormulaCard({ formula }) {
+  return (
+    <div className="formula-card">
+      <MathBlock tex={formula.latex} />
+      <div className="formula-meta">
+        <span className="formula-label">{formula.label}</span>
+        <span className="formula-page">{formula.page}</span>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════
+   MAIN STUDY PAGE COMPONENT
+   ══════════════════════════════════════════ */
 export function Study({ userName, onLogout }) {
   const navigate = useNavigate();
   const { topicId } = useParams();
-  const [topic, setTopic] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState('');
+  const [expandedSub, setExpandedSub] = React.useState(null);
+  const [formulasOpen, setFormulasOpen] = React.useState(false);
+  const [trapsOpen, setTrapsOpen] = React.useState(false);
+  const [topic, setTopic] = React.useState(null);
+
+  // Look up chapter from our static data
+  const chapter = CHAPTERS.find((c) => c.id === topicId);
+  const details = CHAPTER_DETAILS[topicId];
+  const Icon = chapter?.icon;
 
   React.useEffect(() => {
     if (!userName) {
@@ -17,109 +110,177 @@ export function Study({ userName, onLogout }) {
       return;
     }
 
+    // Fetch topic data from API (for problem count, key concepts, etc.)
     fetch(`/api/topics/${topicId}`)
       .then((res) => {
         if (!res.ok) throw new Error('Topic not found');
         return res.json();
       })
       .then((data) => setTopic(data))
-      .catch(() => setError('Could not load topic. Please try again.'))
+      .catch(() => {}) // OK if API doesn't have it yet — we use static data
       .finally(() => setLoading(false));
 
-    // Send WebSocket event that user is studying this topic
+    // WebSocket presence notification
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
     const ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
-
     ws.onopen = () => {
-      ws.send(JSON.stringify({
-        type: 'study',
-        from: userName,
-        topic: topicId,
-      }));
+      ws.send(JSON.stringify({ type: 'study', from: userName, topic: topicId }));
     };
-
-    return () => {
-      ws.close();
-    };
+    return () => ws.close();
   }, [userName, navigate, topicId]);
 
-  const handleLogout = () => {
-    onLogout();
-    navigate('/');
-  };
+  if (loading) return <LoadingState />;
 
-  if (loading) {
-    return <LoadingState />;
-  }
-
-  if (error || !topic) {
+  if (!chapter || !details) {
     return (
       <main>
-        <div className="error-banner">{error || 'Topic not found.'}</div>
+        <div className="error-banner">Chapter not found.</div>
         <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
-          <ArrowLeft weight="bold" size={16} />
-          Back to Dashboard
+          <ArrowLeft weight="bold" size={16} /> Back to Dashboard
         </a>
       </main>
     );
   }
 
+  const accentClass = `accent--${chapter.accent}`;
+  const problemCount = topic?.problemCount ?? 0;
+
   return (
-    <main>
-      <div className="page-header">
-        <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
-          <ArrowLeft weight="bold" size={16} />
-          Back to Topics
-        </a>
-        <h1>{topic.name}</h1>
-        <button className="logout-btn" onClick={handleLogout}>
-          <SignOut weight="bold" size={18} />
-          Logout
-        </button>
-      </div>
+    <main className="study-main">
+      {/* ── Back link ── */}
+      <a href="#" className="back-link study-back" onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
+        <ArrowLeft weight="bold" size={16} /> Back to Dashboard
+      </a>
 
-      <section className="key-concepts">
-        <h2>Key Concepts</h2>
-        <p>Master these fundamental concepts for {topic.name}.</p>
-        {topic.keyConcepts && topic.keyConcepts.length > 0 ? (
-          <ul>
-            {topic.keyConcepts.map((concept, i) => (
-              <li key={i}>{concept}</li>
+      {/* ═══ CHAPTER HEADER ═══ */}
+      <header className={`study-header ${accentClass}`}>
+        <div className="study-header-left">
+          <div className={`study-header-icon icon-bg--${chapter.accent}`}>
+            {Icon && <Icon size={28} weight="bold" />}
+          </div>
+          <div>
+            <span className="study-chapter-num">Chapter {chapter.num}</span>
+            <h1 className="study-chapter-name">{chapter.name}</h1>
+          </div>
+        </div>
+        <div className="study-header-right">
+          <span className={`study-qs-badge badge--${chapter.accent}`}>
+            {chapter.qs} exam questions
+          </span>
+        </div>
+      </header>
+
+      <p className="study-context">{details.context}</p>
+
+      {/* ═══ TWO-COLUMN LAYOUT ═══ */}
+      <div className="study-grid">
+
+        {/* ── LEFT: Subtopic Progression ── */}
+        <div className="study-left">
+          <div className="study-section-label">
+            <BookOpenText size={16} weight="bold" />
+            Subtopics
+            <span className="study-section-count">{details.subtopics.length} topics</span>
+          </div>
+
+          <div className="st-list">
+            {details.subtopics.map((sub, i) => (
+              <SubtopicRow
+                key={sub.id}
+                sub={sub}
+                index={i}
+                accent={chapter.accent}
+                isExpanded={expandedSub === sub.id}
+                onToggle={() => setExpandedSub(expandedSub === sub.id ? null : sub.id)}
+              />
             ))}
-          </ul>
-        ) : (
-          <p className="key-concepts-empty">Key concepts coming soon.</p>
-        )}
-      </section>
+          </div>
 
-      {topic.videoUrl && (
-        <section className="video-section">
-          <h3>Video Tutorial</h3>
-          <p>Watch a curated lesson to review the key concepts before practicing.</p>
-          <a
-            href={topic.videoUrl.replace('/embed/', '/watch?v=')}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="video-link"
-          >
-            <PlayCircle weight="bold" size={18} />
-            Watch on YouTube
-          </a>
-        </section>
-      )}
+          {/* ── Practice All Button ── */}
+          <div className="study-practice-all">
+            <button
+              className="btn-primary study-practice-all-btn"
+              onClick={() => navigate(`/problems/${topicId}`)}
+              disabled={problemCount === 0}
+            >
+              <Lightning size={18} weight="bold" />
+              {problemCount > 0
+                ? `Practice All ${chapter.name} Problems`
+                : 'Problems Coming Soon'
+              }
+              {problemCount > 0 && <ArrowRight size={16} weight="bold" />}
+            </button>
+            {problemCount > 0 && (
+              <span className="study-practice-note">
+                Mixed session across all subtopics — weighted by your weakest areas
+              </span>
+            )}
+          </div>
+        </div>
 
-      {topic.problemCount > 0 ? (
-        <section className="practice-section">
-          <button className="practice-btn" onClick={() => navigate(`/problems/${topicId}`)}>
-            Practice Problems
-            <ArrowRight weight="bold" size={18} />
-          </button>
-        </section>
-      ) : (
-        <section className="practice-section">
-          <p className="practice-empty">Problems coming soon for this topic.</p>
-        </section>
-      )}
+        {/* ── RIGHT: Sidebar ── */}
+        <div className="study-sidebar">
+
+          {/* ── Formula Quick-Reference ── */}
+          {details.formulas.length > 0 && (
+            <div className="sidebar-section formulas-section">
+              <button className="sidebar-section-toggle" onClick={() => setFormulasOpen(!formulasOpen)}>
+                <MathOperations size={18} weight="bold" />
+                <span>Key Formulas</span>
+                <span className="sidebar-toggle-icon">
+                  {formulasOpen ? <CaretUp size={14} weight="bold" /> : <CaretDown size={14} weight="bold" />}
+                </span>
+              </button>
+              {formulasOpen && (
+                <div className="formulas-grid">
+                  {details.formulas.map((f, i) => (
+                    <FormulaCard key={i} formula={f} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── Common Traps ── */}
+          {details.traps.length > 0 && (
+            <div className="sidebar-section traps-section">
+              <button className="sidebar-section-toggle" onClick={() => setTrapsOpen(!trapsOpen)}>
+                <Warning size={18} weight="bold" />
+                <span>Common Traps</span>
+                <span className="sidebar-section-count">{details.traps.length}</span>
+                <span className="sidebar-toggle-icon">
+                  {trapsOpen ? <CaretUp size={14} weight="bold" /> : <CaretDown size={14} weight="bold" />}
+                </span>
+              </button>
+              {trapsOpen && (
+                <div className="traps-list">
+                  {details.traps.map((trap, i) => (
+                    <div key={i} className="trap-item">
+                      <Warning size={14} weight="fill" className="trap-icon" />
+                      <p>{trap}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── Video Resource ── */}
+          {topic?.videoUrl && (
+            <div className="sidebar-section video-sidebar">
+              <a
+                href={topic.videoUrl.replace('/embed/', '/watch?v=')}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="video-sidebar-link"
+              >
+                <PlayCircle size={20} weight="fill" />
+                Watch Video Tutorial
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
     </main>
   );
 }
