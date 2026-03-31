@@ -65,7 +65,7 @@ function SubtopicRow({ sub, index, isExpanded, onToggle, accent }) {
           <p className="st-application">{sub.application}</p>
           <button className="st-practice-btn" onClick={(e) => e.stopPropagation()}>
             <Lightning size={16} weight="bold" />
-            Practice this subtopic
+            Practice and learn this subtopic
           </button>
         </div>
       )}
