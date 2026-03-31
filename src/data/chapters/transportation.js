@@ -1,0 +1,30 @@
+export default {
+  context: 'This chapter covers highway geometric design, pavement design, traffic engineering, and transportation planning.',
+  subtopics: [
+    { id: 'horizontal-alignment', name: 'Horizontal Alignment & Curves' },
+    { id: 'vertical-alignment',   name: 'Vertical Alignment & Grades' },
+    { id: 'cross-sections',       name: 'Cross-Section Elements' },
+    { id: 'sight-distance',       name: 'Sight Distance' },
+    { id: 'flexible-pavement',    name: 'Flexible Pavement Design' },
+    { id: 'rigid-pavement',       name: 'Rigid Pavement Design' },
+    { id: 'traffic-capacity',     name: 'Traffic Capacity & Level of Service' },
+    { id: 'traffic-flow',         name: 'Traffic Flow Theory' },
+    { id: 'intersections',        name: 'Intersection Analysis' },
+    { id: 'signal-timing',        name: 'Signal Timing & Control' },
+    { id: 'transportation-planning', name: 'Transportation Planning (4-Step Model)' },
+  ],
+  formulas: [
+    { latex: 'SSD = 1.47 v t + \\frac{v^2}{30(f \\pm G)}', label: 'Stopping Sight Distance (US)', page: 'p. 118' },
+    { latex: 'e + f = \\frac{v^2}{gR}', label: 'Superelevation', page: 'p. 119' },
+    { latex: 'L = \\frac{A S^2}{200(\\sqrt{h_1}+\\sqrt{h_2})^2}', label: 'Crest Vertical Curve (S<L)', page: 'p. 120' },
+    { latex: 'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3', label: 'AASHTO Structural Number', page: 'p. 122' },
+    { latex: 'q = k \\cdot v', label: 'Flow-Density-Speed', page: 'p. 124' },
+  ],
+  traps: [
+    'Stopping sight distance uses PERCEPTION-REACTION time (2.5s), not just braking distance alone.',
+    'The ±G in SSD formula: + for downhill (harder to stop), − for uphill (gravity helps) — students often reverse this.',
+    'Confusing crest and sag vertical curve formulas — they have different controlling parameters (headlights vs. sight line).',
+    'AASHTO structural number uses layer coefficients AND drainage coefficients — don\'t forget the m factors.',
+    'Level of service A is best, F is worst — the scale is counterintuitive for students expecting higher = better.',
+  ],
+};

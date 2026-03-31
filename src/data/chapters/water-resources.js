@@ -1,0 +1,32 @@
+export default {
+  context: 'This is the highest-weighted chapter — covering open channel flow, hydrology, groundwater, and environmental engineering.',
+  subtopics: [
+    { id: 'open-channel',      name: 'Open-Channel Flow (Manning\'s)' },
+    { id: 'pipe-networks',     name: 'Pipe Networks & Pump Systems' },
+    { id: 'stormwater',        name: 'Stormwater Collection' },
+    { id: 'rainfall-runoff',   name: 'Rainfall-Runoff (Rational & SCS/NRCS)' },
+    { id: 'unit-hydrograph',   name: 'Unit Hydrograph Theory' },
+    { id: 'hydrograph-routing', name: 'Hydrograph Analysis & Routing' },
+    { id: 'infiltration',      name: 'Infiltration' },
+    { id: 'watershed',         name: 'Watershed Characteristics' },
+    { id: 'groundwater',       name: 'Groundwater Flow (Darcy\'s Law)' },
+    { id: 'wells',             name: 'Wells & Drawdown' },
+    { id: 'water-quality',     name: 'Water Quality Parameters' },
+    { id: 'treatment',         name: 'Water & Wastewater Treatment' },
+  ],
+  formulas: [
+    { latex: 'Q = \\frac{1}{n}AR^{2/3}S^{1/2}', label: "Manning's Equation", page: 'p. 89' },
+    { latex: 'Q = CIA', label: 'Rational Method', page: 'p. 92' },
+    { latex: 'Q = \\frac{(P - 0.2S)^2}{P + 0.8S}', label: 'SCS Runoff Equation', page: 'p. 93' },
+    { latex: 'v = -K\\frac{dh}{dL}', label: "Darcy's Law", page: 'p. 95' },
+    { latex: 'BOD_t = L_0(1-e^{-kt})', label: 'BOD Decay', page: 'p. 98' },
+    { latex: 'R = \\frac{A}{P}', label: 'Hydraulic Radius', page: 'p. 89' },
+  ],
+  traps: [
+    'Manning\'s n is a roughness coefficient, not a unitless number — in US Customary, multiply by 1.486.',
+    'The Rational Method Q = CIA only works for small watersheds (< 200 acres) — know its limitations.',
+    'Confusing hydraulic radius R = A/P with the physical radius of a pipe — they are equal only for a full circular pipe.',
+    'Forgetting that Darcy\'s law velocity is not the actual seepage velocity — divide by porosity for real velocity.',
+    'BOD₅ is the 5-day BOD, not the ultimate BOD (L₀) — read the problem to see which is given.',
+  ],
+};

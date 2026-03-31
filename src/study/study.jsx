@@ -17,7 +17,7 @@ import {
 } from '@phosphor-icons/react';
 import katex from 'katex';
 import { CHAPTERS } from '../data/chapters';
-import { CHAPTER_DETAILS } from '../data/subtopics';
+import { CHAPTER_DETAILS } from '../data/chapters/index';
 import { LoadingState } from '../components/LoadingState';
 import './study.css';
 

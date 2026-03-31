@@ -1,0 +1,33 @@
+export default {
+  context: 'This chapter covers soil classification, effective stress, consolidation, bearing capacity, and earth pressure theories.',
+  subtopics: [
+    { id: 'soil-classification',  name: 'Index Properties & Soil Classification' },
+    { id: 'phase-relations',      name: 'Phase Relations' },
+    { id: 'lab-field-tests',      name: 'Laboratory & Field Tests' },
+    { id: 'permeability',         name: 'Permeability & Seepage' },
+    { id: 'effective-stress',     name: 'Effective Stress Concept' },
+    { id: 'shear-strength',       name: 'Shear Strength of Soils' },
+    { id: 'bearing-capacity',     name: 'Bearing Capacity' },
+    { id: 'foundations',          name: 'Foundation Types' },
+    { id: 'consolidation',       name: 'Consolidation & Settlement' },
+    { id: 'lateral-earth',       name: 'Lateral Earth Pressure' },
+    { id: 'retaining-walls',     name: 'Retaining Wall Stability' },
+    { id: 'slope-stability',     name: 'Slope Stability' },
+    { id: 'compaction',          name: 'Soil Compaction' },
+  ],
+  formulas: [
+    { latex: '\\sigma\' = \\sigma - u', label: 'Effective Stress', page: 'p. 101' },
+    { latex: 'e = \\frac{V_v}{V_s} = \\frac{G_s w}{S}', label: 'Void Ratio', page: 'p. 100' },
+    { latex: 'q_u = cN_c + qN_q + 0.5\\gamma BN_\\gamma', label: "Terzaghi's Bearing Capacity", page: 'p. 106' },
+    { latex: 'S = \\frac{C_c H}{1+e_0}\\log\\frac{\\sigma_f\'}{\\sigma_0\'}', label: 'Primary Consolidation Settlement', page: 'p. 108' },
+    { latex: 'K_a = \\tan^2(45° - \\phi\'/2)', label: 'Rankine Active Pressure', page: 'p. 109' },
+    { latex: '\\tau_f = c\' + \\sigma\' \\tan\\phi\'', label: 'Mohr-Coulomb Failure', page: 'p. 104' },
+  ],
+  traps: [
+    'Forgetting to subtract pore water pressure (u) to get effective stress — this is the single most tested concept.',
+    'Using total unit weight below the water table instead of buoyant (submerged) unit weight: γ\' = γ_sat − γ_w.',
+    'Confusing Cc (compression index) with Cr (recompression index) — use Cr when stress is below preconsolidation.',
+    'Active vs. passive earth pressure: active is when the wall moves AWAY from soil, passive is when wall pushes INTO soil.',
+    'Not applying the factor of safety correctly to bearing capacity — FS divides q_u, not the applied load.',
+  ],
+};
