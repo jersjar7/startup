@@ -243,12 +243,13 @@
   box-shadow: var(--shadow-sm);
 }
 
-.st-placeholder {
+.st-application {
   font-size: 0.85rem;
-  color: var(--gray-500);
+  color: var(--gray-600);
   line-height: 1.65;
   margin-bottom: 1rem;
   padding-top: 0.25rem;
+  font-style: italic;
 }
 
 .st-practice-btn {

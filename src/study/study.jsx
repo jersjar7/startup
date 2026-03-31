@@ -62,9 +62,7 @@ function SubtopicRow({ sub, index, isExpanded, onToggle, accent }) {
 
       {isExpanded && (
         <div className="st-expanded">
-          <p className="st-placeholder">
-            Lesson content for <strong>{sub.name}</strong> will appear here — concise explanations, worked examples with KaTeX equations, and FE Handbook page references.
-          </p>
+          <p className="st-application">{sub.application}</p>
           <button className="st-practice-btn" onClick={(e) => e.stopPropagation()}>
             <Lightning size={16} weight="bold" />
             Practice this subtopic
