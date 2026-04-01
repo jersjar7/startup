@@ -120,13 +120,26 @@
 
 ## Chapter 5: Statics (8–12 questions)
 
-1. Resultants of force systems (2D and 3D)
-2. Equivalent force systems (couples, moments)
-3. Equilibrium of rigid bodies (free body diagrams, support reactions)
-4. Frames and trusses (method of joints, method of sections)
-5. Centroid of area and composite shapes
-6. Area moments of inertia (second moments of area, parallel axis theorem)
-7. Static friction and impending motion
+### Subtopic: Forces & Equilibrium (`forces-and-equilibrium`)
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|-------------|
+| 1 | Force Systems & Resultants | p. 94 | Force as vector (F = Fx i + Fy j), direction cosines, resultant magnitude/direction, resolution of forces, moments (M = r × F), couples, equivalent force systems |
+| 2 | Equilibrium & Free Body Diagrams | p. 94 | ΣF = 0 and ΣM = 0, FBD construction, support reactions (pin, roller, fixed), concurrent forces, two-force bodies |
+
+### Subtopic: Trusses & Friction (`trusses-and-friction`)
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|-------------|
+| 3 | Trusses: Method of Joints & Sections | p. 97 | Zero-force member rules, method of joints (ΣFH=0, ΣFV=0 at each joint), method of sections (cut + ΣM), when to use each |
+| 4 | Friction | pp. 96–97 | Static friction (F ≤ μsN), impending motion, screw-jack (M = Pr tan(α±φ)), belt friction (F1 = F2 e^μθ) |
+
+### Subtopic: Section Properties (`section-properties`)
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|-------------|
+| 5 | Centroids of Composite Shapes | pp. 95, 98–100 | xc = ΣxiAi/ΣAi, first moment of area, composite shape decomposition, shape property tables |
+| 6 | Area Moments of Inertia | pp. 95–96, 98–100 | Ix = ∫y²dA, parallel axis theorem (I = Ic + Ad²), polar moment J, radius of gyration, product of inertia, composite sections |
 
 ## Chapter 6: Dynamics (4–6 questions)
 

@@ -9,6 +9,7 @@ import { Dashboard } from './dashboard/dashboard';
 import { Study } from './study/study';
 import { Problems } from './problems/problems';
 import { LessonPage } from './lesson/lesson';
+import { DiagramPreview } from './dev/DiagramPreview';
 import 'katex/dist/katex.min.css';
 import './app.css';
 
@@ -73,6 +74,7 @@ function AppShell({ userName, onLogin, onLogout }) {
         <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
         <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
         <Route path="/lesson/:chapterId/:lessonId" element={<LessonPage userName={userName} onLogout={onLogout} />} />
+        <Route path="/dev/diagrams" element={<DiagramPreview />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

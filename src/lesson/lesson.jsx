@@ -24,7 +24,16 @@ import { CHAPTER_DETAILS } from '../data/chapters/index';
 import { getLessonById } from '../data/lessons/index';
 import { useShuffledChoices } from '../utils/shuffleChoices';
 import { LessonContent } from '../components/LessonContent';
+import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import './lesson.css';
+
+/* ── Problem diagram renderer ── */
+function ProblemDiagram({ diagram, className = 'lesson-diagram' }) {
+  if (!diagram) return null;
+  const Comp = DIAGRAM_REGISTRY[diagram.component];
+  if (!Comp) return null;
+  return <div className={className}><Comp {...(diagram.props || {})} /></div>;
+}
 
 /* ── KaTeX block renderer ── */
 function MathBlock({ tex }) {
@@ -260,6 +269,8 @@ export function LessonPage({ userName }) {
                   <MathText text={prob.statement} />
                 </div>
 
+                <ProblemDiagram diagram={prob.diagram} className="review-diagram" />
+
                 <div className="review-answers">
                   <div className="review-answer review-answer--wrong">
                     <XCircle size={16} weight="fill" />
@@ -421,11 +432,7 @@ export function LessonPage({ userName }) {
               <MathText text={problem.statement} />
             </div>
 
-            {problem.diagram && (
-              <div className="lesson-diagram-placeholder">
-                Diagram will be added here
-              </div>
-            )}
+            <ProblemDiagram diagram={problem.diagram} />
 
             {/* Answer choices */}
             <div className="lesson-choices">

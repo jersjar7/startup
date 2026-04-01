@@ -177,16 +177,26 @@
   margin-bottom: 1.5rem;
 }
 
-/* Diagram placeholder */
-.lesson-diagram-placeholder {
-  background: white;
-  border: 2px dashed var(--gray-200);
-  border-radius: var(--radius-md);
-  padding: 2rem;
-  text-align: center;
-  color: var(--gray-400);
-  font-size: 0.8rem;
-  margin-bottom: 1.5rem;
+/* Problem diagram */
+.lesson-diagram {
+  max-width: 420px;
+  margin: 0.75rem 0 1.5rem;
+}
+
+.lesson-diagram svg {
+  width: 100%;
+  height: auto;
+}
+
+/* Review diagram */
+.review-diagram {
+  max-width: 360px;
+  margin: 0.75rem 0;
+}
+
+.review-diagram svg {
+  width: 100%;
+  height: auto;
 }
 
 /* ═══ ANSWER CHOICES ═══ */

@@ -2,7 +2,7 @@ import mathematics from './mathematics/index';
 import statistics from './statistics/index';
 import ethics from './ethics/index';
 import economics from './economics/index';
-import statics from './statics';
+import statics from './statics/index';
 import dynamics from './dynamics';
 import mechanicsMaterials from './mechanics-materials';
 import materials from './materials';
