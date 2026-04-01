@@ -21,6 +21,13 @@ const DEFAULTS = {
   BuiltUpSection: { botW: 200, botH: 30, webW: 30, webH: 140, topW: 150, topH: 30 },
   RectangleInertia: { width: 150, height: 300 },
   ParallelAxisRect: { width: 50, height: 100 },
+  ProjectileLaunch: { v0: 20, angle: 60 },
+  CarOnCurve: { radius: 200, speed: 30, accelT: 2 },
+  CylinderParallelAxis: { mass: 12, radius: 0.2, distance: 0.5 },
+  BlockOnIncline: { weight: 500, angle: 30 },
+  DiskTangentialForce: { mass: 10, radius: 0.3, force: 15 },
+  RampDrop: { height: 3, mass: 5 },
+  SpringMass: { mass: 50, stiffness: 800 },
 };
 
 /* Lesson mapping for context */
@@ -43,6 +50,13 @@ const LESSON_MAP = {
   BuiltUpSection: 'L5 Centroids — Q3',
   RectangleInertia: 'L6 Inertia — Q1',
   ParallelAxisRect: 'L6 Inertia — Q2',
+  ProjectileLaunch: 'Dyn L1 Particle Kin — Q2',
+  CarOnCurve: 'Dyn L1 Particle Kin — Q3',
+  CylinderParallelAxis: 'Dyn L2 Rigid Body — Q3',
+  BlockOnIncline: 'Dyn L3 Force & Accel — Q2',
+  DiskTangentialForce: 'Dyn L3 Force & Accel — Q3',
+  RampDrop: 'Dyn L4 Work Energy — Q1',
+  SpringMass: 'Dyn L6 Vibrations — Q1',
 };
 
 export function DiagramPreview() {

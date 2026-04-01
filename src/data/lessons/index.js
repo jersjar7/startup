@@ -3,7 +3,7 @@ import statistics from './statistics/index';
 import ethics from './ethics/index';
 import economics from './economics/index';
 import statics from './statics/index';
-import dynamics from './dynamics';
+import dynamics from './dynamics/index';
 import mechanicsMaterials from './mechanics-materials';
 import materials from './materials';
 import fluidMechanics from './fluid-mechanics';
