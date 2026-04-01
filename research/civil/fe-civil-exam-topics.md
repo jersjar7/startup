@@ -98,13 +98,25 @@
 
 ## Chapter 4: Engineering Economics (5–8 questions)
 
-1. Time value of money (present worth, future worth, annual worth, rate of return)
-2. Equivalence and cash flow diagrams
-3. Cost analysis (fixed, variable, direct/indirect labor, incremental, average, sunk)
-4. Economic analyses (break-even, benefit-cost, life-cycle cost)
-5. Depreciation methods (straight-line, MACRS, declining balance)
-6. Inflation and discount rates
-7. Sustainability and renewable energy economic considerations
+### Subtopic: Time Value of Money (`time-value-of-money`)
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|-------------|
+| 1 | Equivalence & Interest Factors | p. 229 | 9 factor formulas (P/F, F/P, P/A, A/P, A/F, F/A, P/G, F/G, A/G), cash flow diagrams, nomenclature, non-annual compounding |
+| 2 | Present Worth, Future Worth & Annual Worth Analysis | pp. 229, 232–236 | PW/FW/AW comparisons, factor table usage, MARR, alternative selection |
+
+### Subtopic: Cost & Economic Analysis (`cost-and-economic-analysis`)
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|-------------|
+| 3 | Cost Types & Break-Even Analysis | p. 230 | Fixed vs. variable costs, sunk costs, incremental costs, break-even point, payback period |
+| 4 | Benefit-Cost Analysis & Decision Trees | pp. 230–231 | B/C ratio (B-C >= 0, B/C >= 1), rate-of-return, expected value, decision/chance/outcome nodes |
+
+### Subtopic: Depreciation & Finance (`depreciation-and-finance`)
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|-------------|
+| 5 | Depreciation, Taxation & Inflation | pp. 230–231 | Straight-line depreciation, MACRS table, book value, taxable income, capitalized costs, bonds, inflation-adjusted rate (d = i + f + if) |
 
 ## Chapter 5: Statics (8–12 questions)
 
