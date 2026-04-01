@@ -1,6 +1,6 @@
 import mathematics from './mathematics/index';
 import statistics from './statistics/index';
-import ethics from './ethics';
+import ethics from './ethics/index';
 import economics from './economics';
 import statics from './statics';
 import dynamics from './dynamics';

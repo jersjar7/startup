@@ -72,12 +72,29 @@
 
 ## Chapter 3: Ethics and Professional Practice (4–6 questions)
 
-1. Codes of ethics (professional and technical societies, e.g., NSPE, ASCE)
-2. Professional liability and responsibility
-3. Licensure requirements and process (EIT/FE → PE path)
-4. Public health, safety, and welfare obligations
-5. Contracts and contract law basics
-6. Ethical dilemmas and professional conduct scenarios
+> **FE Civil spec subtopics:** Codes of ethics, professional liability, licensure, public safety, contracts, ethical dilemmas.
+>
+> 5 lessons across 3 subtopics. Scenario-based chapter — no formulas, no calculator. The FE Handbook (pp. 4-13) includes the NCEES Model Rules, Model Law definitions and licensure requirements, disciplinary action grounds, intellectual property, and sustainability.
+
+### A. Professional Conduct — Handbook pp. 4–5
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|-------------|
+| 1 | Obligations to the Public | pp. 4–5 | Model Rules A.1-A.10: paramount duty to safety, sign/seal conforming work, notify when overruled, report violations, truthful testimony, no fraudulent partnerships |
+| 2 | Obligations to Employers, Clients & Peers | p. 5 | Model Rules B.1-B.9 + C.1-C.4: competence, confidentiality, no gratuities, disclose conflicts, no dual compensation, don't injure peers' reputation, report errors |
+
+### B. Licensure & Law — Handbook pp. 6–10
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|-------------|
+| 3 | Definitions & Practice of Engineering | pp. 6–8 | §110.20: PE, EI, practice of engineering, responsible charge, seal/signature, firm, what constitutes "practicing engineering" |
+| 4 | Licensure Path & Disciplinary Action | pp. 8–10 | §130.10 + §150.10: FE→PE path, ABET, 4yr experience, comity, 14 grounds for discipline, unlicensed practice |
+
+### C. Broader Responsibilities — Handbook pp. 10–13
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|-------------|
+| 5 | Intellectual Property, Sustainability & Societal Considerations | pp. 12–13 | Patents (utility/design/plant, 20yr term), trademarks, copyrights, trade secrets, life-cycle analysis, sustainable design principles |
 
 ## Chapter 4: Engineering Economics (5–8 questions)
 
