@@ -4,7 +4,7 @@ import ethics from './ethics/index';
 import economics from './economics/index';
 import statics from './statics/index';
 import dynamics from './dynamics/index';
-import mechanicsMaterials from './mechanics-materials';
+import mechanicsMaterials from './mechanics-materials/index';
 import materials from './materials';
 import fluidMechanics from './fluid-mechanics';
 import surveying from './surveying';

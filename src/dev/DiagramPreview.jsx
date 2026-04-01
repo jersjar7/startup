@@ -28,6 +28,11 @@ const DEFAULTS = {
   DiskTangentialForce: { mass: 10, radius: 0.3, force: 15 },
   RampDrop: { height: 3, mass: 5 },
   SpringMass: { mass: 50, stiffness: 800 },
+  SSBeamUDL: { span: 8, w: 5 },
+  SSBeamCombined: { span: 6, P: 24, w: 4 },
+  IBeamSection: { depth: 300, flangeW: 150, flangeT: 20, webT: 10 },
+  StressElement: { sigmaX: 60, sigmaY: 0, tauXY: 40 },
+  ColumnSupports: { length: 4, topCondition: 'pin', bottomCondition: 'pin' },
 };
 
 /* Lesson mapping for context */
@@ -57,6 +62,11 @@ const LESSON_MAP = {
   DiskTangentialForce: 'Dyn L3 Force & Accel — Q3',
   RampDrop: 'Dyn L4 Work Energy — Q1',
   SpringMass: 'Dyn L6 Vibrations — Q1',
+  SSBeamUDL: 'MoM L4 Shear/Moment — Q2',
+  SSBeamCombined: 'MoM L6 Deflections — Q3',
+  IBeamSection: 'MoM L5 Bending/Shear — Q3',
+  StressElement: 'MoM L7 Mohr\'s Circle — Q1-Q3',
+  ColumnSupports: 'MoM L8 Buckling — Q1-Q3',
 };
 
 export function DiagramPreview() {

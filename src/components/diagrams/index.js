@@ -23,6 +23,11 @@ import { BlockOnIncline } from './BlockOnIncline';
 import { DiskTangentialForce } from './DiskTangentialForce';
 import { RampDrop } from './RampDrop';
 import { SpringMass } from './SpringMass';
+import { SSBeamUDL } from './SSBeamUDL';
+import { SSBeamCombined } from './SSBeamCombined';
+import { IBeamSection } from './IBeamSection';
+import { StressElement } from './StressElement';
+import { ColumnSupports } from './ColumnSupports';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -50,4 +55,9 @@ export const DIAGRAM_REGISTRY = {
   DiskTangentialForce,
   RampDrop,
   SpringMass,
+  SSBeamUDL,
+  SSBeamCombined,
+  IBeamSection,
+  StressElement,
+  ColumnSupports,
 };
