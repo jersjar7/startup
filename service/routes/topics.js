@@ -11,6 +11,7 @@ router.get('/', verifyAuth, async (req, res) => {
   const stats = await DB.getUserStats(req.user.email);
 
   const topicProgress = stats ? stats.topicProgress || {} : {};
+  let hasDecayed = false;
 
   const result = topics.map((topic) => {
     const tp = topicProgress[topic.topicId] || {
@@ -23,6 +24,12 @@ router.get('/', verifyAuth, async (req, res) => {
     const earned = tp.masteryLevel || 0;
     const effective = applyDecay(earned, tp.lastStudied);
     const decaying = isDecaying(earned, tp.lastStudied);
+
+    // Persist decayed mastery so it's trackable
+    if (decaying && topicProgress[topic.topicId]) {
+      topicProgress[topic.topicId].masteryLevel = effective;
+      hasDecayed = true;
+    }
 
     return {
       topicId: topic.topicId,
@@ -41,6 +48,11 @@ router.get('/', verifyAuth, async (req, res) => {
       },
     };
   });
+
+  // Write decayed mastery back to DB (fire-and-forget)
+  if (hasDecayed && stats) {
+    DB.updateUserStats(req.user.email, { ...stats, topicProgress });
+  }
 
   res.send(result);
 });

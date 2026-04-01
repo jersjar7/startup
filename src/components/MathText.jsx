@@ -1,10 +1,14 @@
+import React from 'react';
 import katex from 'katex';
 
 export function MathText({ text }) {
   if (!text) return null;
 
+  // Normalize \(...\) delimiters to $...$ before splitting
+  const normalized = text.replace(/\\\((.+?)\\\)/g, (_, m) => `$${m}$`);
+
   // Split on $...$ delimiters — odd indices are math, even are plain text
-  const parts = text.split(/\$([^$]+)\$/g);
+  const parts = normalized.split(/\$([^$]+)\$/g);
 
   return (
     <span>

@@ -1,5 +1,5 @@
-import mathematics from './mathematics';
-import statistics from './statistics';
+import mathematics from './mathematics/index';
+import statistics from './statistics/index';
 import ethics from './ethics';
 import economics from './economics';
 import statics from './statics';

@@ -99,6 +99,15 @@ router.post('/', verifyAuth, async (req, res) => {
   // Save to database
   await DB.updateUserStats(email, updatedStats);
 
+  // Log session for audit trail
+  await DB.logSession(email, {
+    topicId,
+    type: 'practice',
+    answers,
+    xpEarned: xpTotal,
+    streak: streakResult.currentStreak,
+  });
+
   res.send({
     sessionSummary: {
       totalProblems: answers.length,

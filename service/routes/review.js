@@ -1,6 +1,7 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
+const { calculateEarnedMastery } = require('../mastery.js');
 const { calculateStreak } = require('../streak.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -133,8 +134,9 @@ router.post('/', verifyAuth, async (req, res) => {
   const today = new Date().toISOString().split('T')[0];
   const streakResult = calculateStreak(currentStats, today);
 
-  // Update per-topic attempted/correct counts (but not sessionsCompleted)
+  // Update per-topic attempted/correct counts and sessionsCompleted
   const topicProgress = currentStats.topicProgress || {};
+  const topicsInReview = new Set(answers.map((a) => a.topicId).filter(Boolean));
   for (const a of answers) {
     const tp = topicProgress[a.topicId] || {
       attempted: 0,
@@ -147,6 +149,13 @@ router.post('/', verifyAuth, async (req, res) => {
     if (a.isCorrect) tp.correct++;
     tp.lastStudied = today;
     topicProgress[a.topicId] = tp;
+  }
+  // Increment sessionsCompleted once per topic that appeared in this review
+  for (const tid of topicsInReview) {
+    if (topicProgress[tid]) {
+      topicProgress[tid].sessionsCompleted++;
+      topicProgress[tid].masteryLevel = calculateEarnedMastery(topicProgress[tid]);
+    }
   }
 
   // Track weekly XP for leaderboard
@@ -172,6 +181,15 @@ router.post('/', verifyAuth, async (req, res) => {
   }
 
   await DB.updateUserStats(email, updatedStats);
+
+  // Log review session for audit trail
+  await DB.logSession(email, {
+    topicId: [...topicsInReview].join(','),
+    type: 'review',
+    answers,
+    xpEarned: xpTotal,
+    streak: streakResult.currentStreak,
+  });
 
   res.send({
     sessionSummary: {

@@ -6,3 +6,10 @@ dbConfig.json
 .env
 .env.*
 *.pem
+
+# NCEES copyrighted material — parsed from FE Reference Handbook
+research/civil/fe-handbook-*.txt
+research/civil/fe-handbook-*.pdf
+
+# OCR training data
+*.traineddata

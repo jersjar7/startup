@@ -2,26 +2,73 @@
 
 > Based on the NCEES FE Civil CBT Exam Specifications (current as of 2025–2026).
 > The exam contains **110 questions** over **5 hours 20 minutes** (computer-based, closed-book with electronic FE Reference Handbook).
+>
+> **Lesson breakdowns** are mapped to the FE Reference Handbook 10.5. Page numbers refer to the handbook PDF pages shown during the exam.
 
 ---
 
 ## Chapter 1: Mathematics (8–12 questions)
 
-1. Analytic geometry and trigonometry
-2. Single-variable calculus (derivatives, integrals, series)
-3. Multivariable calculus (partial derivatives, gradient, double integrals)
-4. Differential equations (first-order, second-order, homogeneous/non-homogeneous)
-5. Vector operations (dot product, cross product, unit vectors)
-6. Matrix and linear algebra (matrix operations, determinants, systems of equations)
+> **FE Civil spec subtopics:** A. Analytic geometry, B. Single-variable calculus, C. Vector operations, D. Statistics (covered in Chapter 2).
+>
+> 13 lessons across 3 subtopics. Content is filtered to what the FE Civil exam actually tests — handbook material for other disciplines (discrete math, complex numbers, Fourier, differential equations) is excluded.
+
+### A. Analytic Geometry — Handbook pp. 36–46
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|--------------|
+| 1 | Straight Lines and Quadratics | p. 36 | General form (Ax + By + C = 0), slope-intercept, point-slope, distance between points, angle between lines, perpendicularity, quadratic formula |
+| 2 | Logarithms | pp. 36–37 | Log definition, base changes (ln vs log₁₀), log identities (product, quotient, power) |
+| 3 | Right Triangle Trigonometry | p. 38 | SOH-CAH-TOA definitions, resolving forces into components, finding unknown sides |
+| 4 | Law of Sines and Law of Cosines | p. 38 | Oblique (non-right) triangles, Law of Sines (a/sinA = b/sinB), Law of Cosines (a² = b² + c² − 2bc cosA), when to use each |
+| 5 | Trigonometric Identities | p. 39 | Pythagorean identities, double-angle, sum/difference, half-angle, product-to-sum formulas |
+| 6 | Conic Sections | pp. 44–46 | Parabola (e=1), ellipse (e<1), hyperbola (e>1), circle (e=0); standard forms, eccentricity, focus/directrix, general conic equation (B²−4AC discriminant) |
+
+### B. Single-variable Calculus — Handbook pp. 46–50
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|--------------|
+| 1 | Derivatives and Derivative Rules | pp. 46, 49 | Limit definition, 27 derivative formulas (constant, power, product, quotient, chain, trig, inverse trig, exponential, logarithmic) |
+| 2 | Applications of Derivatives | p. 46 | Max test (f'=0, f''<0), min test (f'=0, f''>0), inflection point test (f''=0 with sign change) |
+| 3 | Integral Calculus | pp. 48, 50 | Definite integral definition, 27 indefinite integral formulas, integration by parts, substitution, partial fractions |
+| 4 | L'Hopital's Rule | p. 48 | Indeterminate forms 0/0 and infinity/infinity, successive differentiation of numerator and denominator |
+
+### C. Vector Operations — Handbook pp. 94–100 (Statics section)
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|--------------|
+| 1 | Vector Basics and Unit Vectors | TBD | Vector notation, magnitude, unit vectors, vector addition/subtraction |
+| 2 | Dot Product and Angle Between Vectors | TBD | Dot product formula, finding angles between vectors, scalar projection |
+| 3 | Cross Product and Applications | TBD | Cross product formula, moment of a force, area of parallelogram, right-hand rule |
+
+> Vector operations pages TBD — need to parse Statics section (pp. 94–100) of the handbook.
 
 ## Chapter 2: Probability and Statistics (4–6 questions)
 
-1. Measures of central tendency and dispersion (mean, median, mode, standard deviation, variance)
-2. Probability distributions (normal, binomial, Poisson)
-3. Expected value and weighted averages
-4. Estimation (confidence intervals, point estimates)
-5. Regression and curve fitting (linear regression, correlation coefficient)
-6. Goodness of fit and hypothesis testing
+> **FE Civil spec subtopics:** A. Measures of central tendency and dispersion, B. Probability distributions, C. Expected value and weighted averages, D. Estimation and confidence intervals, E. Regression and curve fitting, F. Hypothesis testing and goodness of fit.
+>
+> 6 lessons across 3 subtopics. Calculator-heavy chapter — TI-36X Pro shortcuts (1-Var Stats, nCr/nPr, LinReg) are included in both content callouts and problem step-by-step solutions.
+
+### A. Descriptive Statistics — Handbook pp. 63, 69
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|--------------|
+| 1 | Measures of Central Tendency & Dispersion | p. 63 | Mean, median, mode, range, variance (σ² and s²), standard deviation, population vs. sample formulas, TI-36X Pro 1-Var Stats workflow |
+| 2 | Linear Regression & Correlation | p. 69 | Least-squares regression line (ŷ = a + bx), correlation coefficient r, R², residual interpretation, TI-36X Pro LinReg workflow |
+
+### B. Probability — Handbook pp. 64–67
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|--------------|
+| 3 | Probability Distributions | pp. 64–67 | Permutations (nPr), combinations (nCr), addition/multiplication rules, Binomial distribution (P(X=k)), Normal distribution, z-score, reading the z-table |
+| 4 | Expected Value & Weighted Averages | pp. 65–66 | E(X) = Σx·P(x), variance from E(X), weighted mean, linearity of expectation |
+
+### C. Inferential Statistics — Handbook pp. 73–75
+
+| # | Lesson | Handbook Pages | Key Concepts |
+|---|--------|---------------|--------------|
+| 5 | Confidence Intervals & Estimation | pp. 73–75 | Point estimates, confidence intervals for the mean (known σ: z, unknown σ: t), t-distribution, sample size |
+| 6 | Hypothesis Testing & Goodness of Fit | pp. 73–75 | Null/alternative hypotheses, Type I/II errors, p-value, significance level α, chi-square goodness of fit |
 
 ## Chapter 3: Ethics and Professional Practice (4–6 questions)
 

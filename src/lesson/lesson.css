@@ -641,7 +641,35 @@
   font-size: 0.85rem;
   font-weight: 700;
   border-radius: var(--radius-full);
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-summary-streak {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ember);
+  margin-bottom: 0.5rem;
+}
+
+.lesson-summary-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.lesson-summary-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  background: var(--forest-bg);
+  color: var(--forest);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
 }
 
 .lesson-summary-actions {
@@ -651,6 +679,93 @@
 }
 
 .lesson-summary-actions button {
+  padding: 0.75rem 1.75rem;
+  font-size: 0.85rem;
+}
+
+
+/* ═══ REVIEW SCREEN ═══ */
+.review-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem 2rem 2rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.review-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.review-statement {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  color: var(--charcoal);
+  margin: 0.75rem 0 1rem;
+}
+
+.review-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.review-answer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.review-answer--wrong {
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid var(--error);
+}
+
+.review-answer--correct {
+  background: var(--forest-bg);
+  color: var(--forest);
+  border: 1px solid var(--forest);
+}
+
+.review-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gray-100);
+}
+
+.review-section-title {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.review-section > p {
+  font-size: 0.84rem;
+  line-height: 1.7;
+  color: var(--gray-600);
+}
+
+.review-bottom-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  padding: 1.5rem 0 1rem;
+}
+
+.review-bottom-actions button {
   padding: 0.75rem 1.75rem;
   font-size: 0.85rem;
 }
@@ -672,6 +787,136 @@
     max-height: 300px;
   }
 }
+
+.lp-application {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  font-style: italic;
+  line-height: 1.6;
+  padding: 0.75rem 1rem;
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+  margin-bottom: 0.75rem;
+}
+.lp-illustration {
+  width: 100%;
+  max-width: 360px;
+  margin-top: 0.75rem;
+  border-radius: var(--radius-sm);
+}
+.lp-lesson-content {
+  font-size: 0.84rem;
+  color: var(--gray-600);
+  line-height: 1.7;
+  margin-top: 0.5rem;
+  white-space: pre-wrap;
+}
+
+/* ═══ LESSON CONTENT BLOCKS ═══ */
+
+.lc-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Text block */
+.lc-text {
+  font-size: 0.84rem;
+  color: var(--gray-600);
+  line-height: 1.7;
+}
+
+/* Heading block */
+.lc-heading {
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  letter-spacing: -0.02em;
+  margin-top: 0.25rem;
+}
+
+/* Formula block */
+.lc-formula {
+  margin: 0.25rem 0;
+  padding: 0.6rem 0.8rem;
+  background: var(--gray-50);
+  border-left: 3px solid var(--forest);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  overflow-x: auto;
+}
+
+.lc-formula-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--gray-400);
+  margin-top: 0.35rem;
+  letter-spacing: 0.04em;
+}
+
+/* Callout block */
+.lc-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid;
+}
+
+.lc-callout p {
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.lc-callout-icon {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.lc-callout--tip {
+  background: var(--forest-bg);
+  border-color: var(--forest);
+}
+.lc-callout--tip .lc-callout-icon { color: var(--forest); }
+.lc-callout--tip p { color: var(--gray-600); }
+
+.lc-callout--warning {
+  background: var(--sunbeam-bg);
+  border-color: var(--sunbeam);
+}
+.lc-callout--warning .lc-callout-icon { color: var(--sunbeam); }
+.lc-callout--warning p { color: var(--gray-600); }
+
+.lc-callout--exam {
+  background: var(--info-bg);
+  border-color: var(--info);
+}
+.lc-callout--exam .lc-callout-icon { color: var(--info); }
+.lc-callout--exam p { color: var(--gray-600); }
+
+.lc-callout--calculator {
+  background: var(--ember-bg);
+  border-color: var(--ember);
+}
+.lc-callout--calculator .lc-callout-icon { color: var(--ember); }
+.lc-callout--calculator p { color: var(--gray-600); }
+
+/* Diagram block */
+.lc-diagram {
+  margin: 0.5rem 0;
+  max-width: 360px;
+}
+
+.lc-diagram svg {
+  width: 100%;
+  height: auto;
+}
+
 
 @media (max-width: 640px) {
   .lesson-header {

@@ -10,6 +10,7 @@ const topicCollection = db.collection('topics');
 const problemCollection = db.collection('problems');
 const userStatsCollection = db.collection('userStats');
 const problemHistoryCollection = db.collection('problemHistory');
+const sessionLogCollection = db.collection('sessionLog');
 
 // Test connection and create indexes on startup
 (async function testConnection() {
@@ -23,6 +24,7 @@ const problemHistoryCollection = db.collection('problemHistory');
     await userStatsCollection.createIndex({ email: 1 }, { unique: true });
     await problemHistoryCollection.createIndex({ email: 1, problemId: 1 }, { unique: true });
     await problemHistoryCollection.createIndex({ email: 1, nextReview: 1 });
+    await sessionLogCollection.createIndex({ email: 1, completedAt: -1 });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);
@@ -42,4 +44,5 @@ module.exports = {
   problemCollection,
   userStatsCollection,
   problemHistoryCollection,
+  sessionLogCollection,
 };

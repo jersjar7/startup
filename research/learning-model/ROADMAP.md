@@ -48,7 +48,7 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 ## Phase 2: "Make it sticky"
 
 ### Mastery System
-- [x] Calculate mastery level (0–5) per topic based on session history
+- [x] Calculate mastery level (0–3) per topic based on session history
 - [x] Display mastery bars on dashboard topic cards
 - [x] Implement mastery decay: reduce level if topic not reviewed in X days
 - [x] Visual indicator when a topic is "decaying" (needs review)
@@ -66,10 +66,33 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 - [x] Achievement badges for milestones (first session, 7-day streak, first mastered topic, etc.)
 - [x] Display badges on user profile
 
-### Content Expansion
-- [x] Seed database with problems for all FE Civil topics (not just Analytic Geometry)
-- [ ] Add real YouTube video embeds per topic
-- [ ] Add study material summaries per topic (key concepts, formulas) in database
+### Lesson Content — Chapter Rollout
+Content lives in frontend data files (`src/data/lessons/<chapter>/`), one file per lesson.
+Each lesson has structured content blocks (text, headings, formulas, callouts) + 3 exam-style
+problems with worked solutions, handbook references, and common traps. Drafted using the
+`fe-lesson-content` skill, reviewed lesson by lesson before insertion.
+
+See `research/civil/fe-civil-exam-topics.md` for the full lesson breakdown per chapter.
+
+- [x] Ch 1: Mathematics — 13 lessons (Analytic Geometry, Single-Variable Calculus, Vector Operations)
+- [ ] Ch 2: Probability & Statistics
+- [ ] Ch 3: Ethics & Professional Practice
+- [ ] Ch 4: Engineering Economics
+- [ ] Ch 5: Statics
+- [ ] Ch 6: Dynamics
+- [ ] Ch 7: Mechanics of Materials
+- [ ] Ch 8: Materials
+- [ ] Ch 9: Fluid Mechanics
+- [ ] Ch 10: Surveying
+- [ ] Ch 11: Water Resources & Environmental
+- [ ] Ch 12: Structural Engineering
+- [ ] Ch 13: Geotechnical Engineering
+- [ ] Ch 14: Transportation Engineering
+- [ ] Ch 15: Construction Engineering
+
+### Content Extras
+- [ ] Add real YouTube video embeds per lesson
+- [ ] Expand problem bank: add 3-5 extra problems per lesson for review variety (spaced repetition currently re-serves the same 3 — a larger bank prevents memorizing answers)
 
 ---
 
@@ -87,8 +110,8 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 - [ ] Study plan generator: recommend daily schedule based on exam date and current mastery
 
 ### Infrastructure
-- [ ] Add backend unit tests (auth, progress, sessions endpoints)
-- [ ] Add frontend component tests (problem display, session flow, dashboard)
+- [x] Add backend unit tests (auth, sessions, streak, mastery, badges — vitest + supertest)
+- [x] Add frontend component tests (MathText, shuffleChoices — vitest + testing-library)
 - [ ] Set up GitHub Actions CI/CD pipeline
 - [ ] Separate dev and production environments (different databases)
 
@@ -121,9 +144,9 @@ Based on [Learning Model Research](./LEARNING-MODEL.md)
 | Phase | Total Items | Completed | % |
 |-------|------------|-----------|---|
 | Phase 1 | 27 | 27 | 100% |
-| Phase 2 | 14 | 12 | 86% |
-| Phase 3 | 10 | 0 | 0% |
+| Phase 2 | 30 | 14 | 47% |
+| Phase 3 | 10 | 2 | 20% |
 | Phase 4 | 12 | 0 | 0% |
-| **Total** | **63** | **39** | **62%** |
+| **Total** | **79** | **43** | **54%** |
 
-*Last updated: 2026-03-30*
+*Last updated: 2026-03-31*

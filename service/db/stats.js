@@ -1,4 +1,4 @@
-const { userStatsCollection, problemHistoryCollection } = require('./connection');
+const { userStatsCollection, problemHistoryCollection, sessionLogCollection } = require('./connection');
 
 async function getUserStats(email) {
   return userStatsCollection.findOne({ email: email });
@@ -61,10 +61,24 @@ async function getProblemsForReview(email, limit = 5) {
     .toArray();
 }
 
+async function logSession(email, { topicId, type, answers, xpEarned, streak }) {
+  await sessionLogCollection.insertOne({
+    email,
+    topicId,
+    type,
+    totalProblems: answers.length,
+    correct: answers.filter((a) => a.isCorrect).length,
+    xpEarned,
+    streak,
+    completedAt: new Date(),
+  });
+}
+
 module.exports = {
   getUserStats,
   updateUserStats,
   getProblemHistoryForUser,
   upsertProblemHistory,
   getProblemsForReview,
+  logSession,
 };

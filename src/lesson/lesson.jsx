@@ -15,6 +15,7 @@ import {
   XCircle,
   Lightning,
   Warning,
+  MagnifyingGlass,
 } from '@phosphor-icons/react';
 import katex from 'katex';
 import { MathText } from '../components/MathText';
@@ -22,6 +23,7 @@ import { CHAPTERS } from '../data/chapters';
 import { CHAPTER_DETAILS } from '../data/chapters/index';
 import { getLessonById } from '../data/lessons/index';
 import { useShuffledChoices } from '../utils/shuffleChoices';
+import { LessonContent } from '../components/LessonContent';
 import './lesson.css';
 
 /* ── KaTeX block renderer ── */
@@ -47,11 +49,21 @@ function FormulaBlock({ tex }) {
   return <div className="lp-formula-block" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
+/* ── Lesson illustration (lazy-loaded from assets/lessons/) ── */
+const illustrationModules = import.meta.glob('../assets/lessons/**/*.svg', { eager: true, query: '?url', import: 'default' });
+
+function LessonIllustration({ src, alt }) {
+  const path = `../assets/lessons/${src}`;
+  const url = illustrationModules[path];
+  if (!url) return null;
+  return <img className="lp-illustration" src={url} alt={alt} />;
+}
+
 /* ── Resource panel definitions ── */
 const PANELS = [
   { key: 'lesson',   label: 'Lesson',        icon: Tag,              color: 'sunbeam', locked: false },
   { key: 'handbook', label: 'FE Handbook',    icon: BookBookmark,     color: 'forest',  locked: false },
-  { key: 'eli5',     label: 'ELI5',           icon: BookOpenText,     color: 'forest',  locked: true },
+  { key: 'eli5',     label: 'Explain like I\'m 5', icon: BookOpenText, color: 'forest',  locked: true },
   { key: 'steps',    label: 'Step-by-Step',   icon: ArrowsClockwise,  color: 'ember',   locked: true },
   { key: 'video',    label: 'Video',          icon: Play,             color: 'sunbeam', locked: true },
   { key: 'traps',    label: 'Common Traps',   icon: SealWarning,      color: 'ember',   locked: true },
@@ -70,6 +82,9 @@ export function LessonPage({ userName }) {
   const [submitted, setSubmitted] = React.useState(false);
   const [openPanel, setOpenPanel] = React.useState(null);
   const [answers, setAnswers] = React.useState([]);
+  const [reviewing, setReviewing] = React.useState(false);
+  const [sessionResult, setSessionResult] = React.useState(null);
+  const [sessionPosted, setSessionPosted] = React.useState(false);
 
   // Lookup data
   const chapter = CHAPTERS.find((c) => c.id === chapterId);
@@ -77,6 +92,8 @@ export function LessonPage({ userName }) {
   const lesson = getLessonById(chapterId, lessonId);
 
   // Current problem
+  const totalProblems = lesson?.problems?.length ?? 0;
+  const isComplete = currentIndex >= totalProblems;
   const problem = lesson?.problems?.[currentIndex] ?? null;
   const { choices, correctLabel } = useShuffledChoices(problem);
 
@@ -96,6 +113,32 @@ export function LessonPage({ userName }) {
     return () => ws.close();
   }, [userName, navigate, chapterId, lessonId]);
 
+  // Post session results to backend when lesson is complete
+  React.useEffect(() => {
+    if (!isComplete || sessionPosted || answers.length === 0) return;
+    setSessionPosted(true);
+
+    const sessionAnswers = answers.map((a) => ({
+      problemId: a.problemId,
+      isCorrect: a.correct,
+    }));
+
+    fetch('/api/sessions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topicId: chapterId, answers: sessionAnswers }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error('Session save failed');
+        return res.json();
+      })
+      .then((data) => setSessionResult(data.sessionSummary))
+      .catch(() => {
+        // Fallback to local calculation if API fails
+        setSessionResult(null);
+      });
+  }, [isComplete, sessionPosted, answers, chapterId]);
+
   if (!chapter || !lesson) {
     return (
       <main className="lesson-main">
@@ -108,9 +151,6 @@ export function LessonPage({ userName }) {
       </main>
     );
   }
-
-  const totalProblems = lesson.problems.length;
-  const isComplete = currentIndex >= totalProblems;
 
   // Find the correct choice for feedback
   const correctChoice = submitted ? choices.find((c) => c.id === problem?.correctAnswerId) : null;
@@ -145,6 +185,9 @@ export function LessonPage({ userName }) {
     setSubmitted(false);
     setOpenPanel(null);
     setAnswers([]);
+    setReviewing(false);
+    setSessionResult(null);
+    setSessionPosted(false);
   }
 
   function togglePanel(key) {
@@ -154,7 +197,7 @@ export function LessonPage({ userName }) {
   // Summary calculations
   const correctCount = answers.filter((a) => a.correct).length;
   const scorePercent = totalProblems > 0 ? Math.round((correctCount / totalProblems) * 100) : 0;
-  const xpEarned = correctCount * 10 + (correctCount === totalProblems ? 15 : 0);
+  const xpEarned = sessionResult?.xpEarned?.total ?? (correctCount * 10 + (correctCount === totalProblems ? 15 : 0));
 
   function getScoreClass() {
     if (scorePercent === 100) return 'lesson-summary-score--perfect';
@@ -176,6 +219,99 @@ export function LessonPage({ userName }) {
 
   // Find subtopic name for breadcrumb
   const subtopic = details?.subtopics?.find((s) => s.id === lesson.subtopicId);
+
+  // Missed questions for review
+  const missedAnswers = answers.filter((a) => !a.correct);
+  const hasMistakes = missedAnswers.length > 0;
+
+  // ═══ REVIEW SCREEN ═══
+  if (isComplete && reviewing) {
+    return (
+      <main className="lesson-main">
+        <div className="lesson-header">
+          <div className="lesson-header-left">
+            <button className="lesson-back-btn" onClick={() => setReviewing(false)}>
+              <ArrowLeft size={16} weight="bold" />
+              Back to Summary
+            </button>
+          </div>
+          <div className="lesson-header-center">
+            <span className="lesson-breadcrumb">
+              <strong>Review Mistakes</strong> — {missedAnswers.length} {missedAnswers.length === 1 ? 'problem' : 'problems'}
+            </span>
+          </div>
+          <div className="lesson-header-right" />
+        </div>
+
+        <div className="review-scroll">
+          {missedAnswers.map((ans) => {
+            const prob = lesson.problems.find((p) => p.id === ans.problemId);
+            if (!prob) return null;
+            const studentChoice = prob.choices.find((c) => c.id === ans.choiceId);
+            const correctChoice = prob.choices.find((c) => c.id === prob.correctAnswerId);
+            const correctLabel = String.fromCharCode(65 + prob.choices.findIndex((c) => c.id === prob.correctAnswerId));
+
+            return (
+              <div key={prob.id} className="review-card">
+                <span className={`lesson-difficulty lesson-difficulty--${prob.difficulty}`}>
+                  {prob.difficulty}
+                </span>
+                <div className="review-statement">
+                  <MathText text={prob.statement} />
+                </div>
+
+                <div className="review-answers">
+                  <div className="review-answer review-answer--wrong">
+                    <XCircle size={16} weight="fill" />
+                    <span>Your answer: <MathText text={studentChoice?.text ?? ''} /></span>
+                  </div>
+                  <div className="review-answer review-answer--correct">
+                    <CheckCircle size={16} weight="fill" />
+                    <span>Correct ({correctLabel}): <MathText text={correctChoice?.text ?? ''} /></span>
+                  </div>
+                </div>
+
+                {prob.eli5 && (
+                  <div className="review-section">
+                    <h4 className="review-section-title">Explain like I'm 5</h4>
+                    <p>{prob.eli5}</p>
+                  </div>
+                )}
+
+                {prob.steps && prob.steps.length > 0 && (
+                  <div className="review-section">
+                    <h4 className="review-section-title">Step-by-Step</h4>
+                    <div className="lp-steps">
+                      {prob.steps.map((step, si) => (
+                        <div key={si} className="lp-step-item">
+                          <span className="lp-step-num">{String(si + 1).padStart(2, '0')}</span>
+                          <div className="lp-step-content">
+                            <p><MathText text={step.text} /></p>
+                            {step.latex && <MathBlock tex={step.latex} />}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+
+          <div className="review-bottom-actions">
+            <button className="btn-primary" onClick={handleRetry}>
+              <ArrowsClockwise size={16} weight="bold" />
+              Try Again
+            </button>
+            <button className="btn-secondary" onClick={() => navigate(`/study/${chapterId}`)}>
+              <ArrowLeft size={16} weight="bold" />
+              Back to Chapter
+            </button>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   // ═══ SUMMARY SCREEN ═══
   if (isComplete) {
@@ -208,14 +344,35 @@ export function LessonPage({ userName }) {
               <Lightning size={16} weight="fill" />
               +{xpEarned} XP earned
             </div>
+            {sessionResult?.streak && (
+              <div className="lesson-summary-streak">
+                {sessionResult.streak.current} day streak
+              </div>
+            )}
+            {sessionResult?.newBadges?.length > 0 && (
+              <div className="lesson-summary-badges">
+                {sessionResult.newBadges.map((badge) => (
+                  <div key={badge.id} className="lesson-summary-badge">
+                    <CheckCircle size={14} weight="fill" />
+                    <span>{badge.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="lesson-summary-actions">
+              {hasMistakes && (
+                <button className="btn-primary" onClick={() => setReviewing(true)}>
+                  <MagnifyingGlass size={16} weight="bold" />
+                  Review Mistakes
+                </button>
+              )}
+              <button className={hasMistakes ? 'btn-secondary' : 'btn-primary'} onClick={handleRetry}>
+                <ArrowsClockwise size={16} weight="bold" />
+                Try Again
+              </button>
               <button className="btn-secondary" onClick={() => navigate(`/study/${chapterId}`)}>
                 <ArrowLeft size={16} weight="bold" />
                 Back to Chapter
-              </button>
-              <button className="btn-primary" onClick={handleRetry}>
-                <ArrowsClockwise size={16} weight="bold" />
-                Try Again
               </button>
             </div>
           </div>
@@ -339,6 +496,9 @@ export function LessonPage({ userName }) {
 
         {/* ── RIGHT: Resource Panels ── */}
         <div className="lesson-right">
+          {lesson.application && (
+            <p className="lp-application">{lesson.application}</p>
+          )}
           {PANELS.map((panel) => {
             const Icon = panel.icon;
             const isLocked = panel.locked && !submitted;
@@ -356,7 +516,7 @@ export function LessonPage({ userName }) {
                   {isLocked ? (
                     <span className="lp-lock">
                       <LockSimple size={14} weight="bold" />
-                      Submit to unlock
+                      Submit answer to unlock
                     </span>
                   ) : (
                     <CaretDown size={14} weight="bold" className="lp-caret" />
@@ -389,10 +549,12 @@ function PanelContent({ panelKey, problem, lesson, subtopic }) {
       return (
         <>
           <p className="lp-lesson-name">{lesson.name}</p>
-          <p>{subtopic?.name ?? ''}</p>
-          {lesson.application && (
-            <p style={{ marginTop: '0.5rem', fontStyle: 'italic' }}>{lesson.application}</p>
+          {Array.isArray(lesson.content) ? (
+            <LessonContent blocks={lesson.content} />
+          ) : (
+            lesson.content && <p className="lp-lesson-content"><MathText text={lesson.content} /></p>
           )}
+          {lesson.illustration && <LessonIllustration src={lesson.illustration} alt={lesson.name} />}
         </>
       );
 
