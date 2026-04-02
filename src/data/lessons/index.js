@@ -8,7 +8,7 @@ import mechanicsMaterials from './mechanics-materials/index';
 import materials from './materials/index';
 import fluidMechanics from './fluid-mechanics/index';
 import surveying from './surveying/index';
-import waterResources from './water-resources';
+import waterResources from './water-resources/index';
 import structural from './structural';
 import geotechnical from './geotechnical';
 import transportation from './transportation';
