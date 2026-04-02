@@ -7,7 +7,7 @@ import dynamics from './dynamics/index';
 import mechanicsMaterials from './mechanics-materials/index';
 import materials from './materials/index';
 import fluidMechanics from './fluid-mechanics/index';
-import surveying from './surveying';
+import surveying from './surveying/index';
 import waterResources from './water-resources';
 import structural from './structural';
 import geotechnical from './geotechnical';
