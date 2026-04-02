@@ -232,5 +232,57 @@ export default {
       ],
       "diagram": null
     }
-  ]
+  ],
+  examProblems: [
+    {
+      id: 'math-slq-ex1',
+      type: 'computational',
+      statement: 'A tunnel centerline runs from coordinates $(100, 200)$ to $(400, 500)$. What is the length of the tunnel in meters?',
+      choices: [
+        { id: 'c1', text: '300 m' },
+        { id: 'c2', text: '424.3 m' },
+        { id: 'c3', text: '500 m' },
+        { id: 'c4', text: '600 m' },
+      ],
+      correctAnswerId: 'c2',
+      difficulty: 'easy',
+      eli5: 'Use the distance formula. The horizontal run is 300, the vertical rise is 300. Plug into d = sqrt(300^2 + 300^2) = sqrt(180000) = 424.3 m. Common mistake is adding the components (300+300=600) instead of using the distance formula.',
+      hint: 'Use the distance formula between two points.',
+      steps: [
+        { text: 'Identify coordinates: $(x_1, y_1) = (100, 200)$, $(x_2, y_2) = (400, 500)$.', latex: null },
+        { text: 'Apply the distance formula:', latex: 'd = \\sqrt{(400-100)^2 + (500-200)^2} = \\sqrt{300^2 + 300^2}' },
+        { text: 'Simplify:', latex: 'd = \\sqrt{90000 + 90000} = \\sqrt{180000} = 424.3\\,\\text{m}' },
+      ],
+      handbookPage: 'p. 36',
+      handbookFormula: 'd = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}',
+      videoUrl: null,
+      traps: ['Adding components instead of using the distance formula', 'Forgetting to take the square root'],
+      diagram: null,
+    },
+    {
+      id: 'math-slq-ex2',
+      type: 'conceptual',
+      statement: 'Two lines have slopes $m_1 = 3$ and $m_2 = -\\frac{1}{3}$. Which statement is correct?',
+      choices: [
+        { id: 'c1', text: 'The lines are parallel' },
+        { id: 'c2', text: 'The lines are perpendicular' },
+        { id: 'c3', text: 'The lines intersect but are neither parallel nor perpendicular' },
+        { id: 'c4', text: 'The lines are coincident' },
+      ],
+      correctAnswerId: 'c2',
+      difficulty: 'easy',
+      eli5: 'Two lines are perpendicular when their slopes are negative reciprocals. Check: 3 times -1/3 = -1. That confirms they are perpendicular. Parallel lines have equal slopes, and coincident means they are the same line.',
+      hint: 'Check if the product of the slopes equals -1.',
+      steps: [
+        { text: 'For perpendicular lines, $m_1 \\times m_2 = -1$.', latex: null },
+        { text: 'Check:', latex: '3 \\times \\left(-\\frac{1}{3}\\right) = -1 \\quad \\checkmark' },
+        { text: 'Since the product is $-1$, the lines are perpendicular.', latex: null },
+      ],
+      handbookPage: 'p. 36',
+      handbookFormula: 'm_1 = -\\frac{1}{m_2}',
+      videoUrl: null,
+      traps: ['Confusing perpendicular (product = -1) with parallel (equal slopes)'],
+      diagram: null,
+    },
+  ],
 };

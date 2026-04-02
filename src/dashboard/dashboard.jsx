@@ -14,6 +14,7 @@ import {
 } from '@phosphor-icons/react';
 import { CHAPTERS } from '../data/chapters';
 import { LoadingState } from '../components/LoadingState';
+import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
 import './dashboard.css';
 
 export function Dashboard({ userName, onLogout }) {
@@ -25,6 +26,16 @@ export function Dashboard({ userName, onLogout }) {
   const [error, setError] = React.useState('');
   const [events, setEvents] = React.useState([]);
   const [socket, setSocket] = React.useState(null);
+  const [diagnosticStatus, setDiagnosticStatus] = React.useState({
+    diagnosticCompleted: false,
+    diagnosticSkipped: false,
+    canRetake: false,
+    chaptersAt60: 0,
+    chaptersNeeded: 11,
+    lastScore: undefined,
+    lastDate: undefined,
+  });
+  const [chapterMastery, setChapterMastery] = React.useState({});
 
   React.useEffect(() => {
     if (!userName) {
@@ -36,7 +47,10 @@ export function Dashboard({ userName, onLogout }) {
       fetch('/api/topics').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/user/me').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/leaderboard').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
-    ]).then(([topicsResult, statsResult, lbResult]) => {
+      fetch('/api/diagnostic/can-retake').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+      fetch('/api/diagnostic/mastery').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+      fetch('/api/diagnostic/history').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+    ]).then(([topicsResult, statsResult, lbResult, retakeResult, masteryResult, historyResult]) => {
       const errors = [];
       if (topicsResult.status === 'fulfilled') {
         setTopics(topicsResult.value);
@@ -57,6 +71,38 @@ export function Dashboard({ userName, onLogout }) {
       if (lbResult.status === 'fulfilled') {
         setLeaderboard({ weekId: lbResult.value.weekId, entries: lbResult.value.leaderboard || [] });
       }
+
+      // Diagnostic status
+      const diagStatus = {
+        diagnosticCompleted: false,
+        diagnosticSkipped: localStorage.getItem('diagnosticSkipped') === 'true',
+        diagnosticAttempts: 0,
+        canRetake: false,
+        chaptersAt60: 0,
+        chaptersNeeded: 11,
+        lastScore: undefined,
+        lastDate: undefined,
+      };
+      if (retakeResult.status === 'fulfilled') {
+        const r = retakeResult.value;
+        diagStatus.diagnosticCompleted = r.diagnosticCompleted;
+        diagStatus.diagnosticAttempts = r.diagnosticAttempts || 0;
+        diagStatus.canRetake = r.canRetake;
+        diagStatus.chaptersAt60 = r.chaptersAt60 || 0;
+        diagStatus.chaptersNeeded = r.chaptersNeeded || 11;
+      }
+      if (historyResult.status === 'fulfilled' && historyResult.value.length > 0) {
+        const latest = historyResult.value[0];
+        diagStatus.lastScore = { correct: latest.totalCorrect, total: latest.totalQuestions };
+        diagStatus.lastDate = latest.completedAt;
+      }
+      setDiagnosticStatus(diagStatus);
+
+      // Chapter mastery from diagnostic
+      if (masteryResult.status === 'fulfilled') {
+        setChapterMastery(masteryResult.value.chapterMastery || {});
+      }
+
       if (errors.length > 0) {
         setError('Failed to load some data. Try refreshing the page.');
       }
@@ -104,10 +150,26 @@ export function Dashboard({ userName, onLogout }) {
     navigate('/');
   };
 
-  const getProgress = (chapterName) => {
-    const t = topicLookup[chapterName];
-    if (!t) return { masteryLevel: 0, masteryName: 'Not Started', correct: 0, total: 0, decaying: false };
+  const getProgress = (chapter) => {
+    const t = topicLookup[chapter.name];
+    const cm = chapterMastery[chapter.id];
+
+    // If diagnostic mastery data exists, use percentage-based system
+    if (cm && cm.totalMastery > 0) {
+      return {
+        masteryPct: cm.totalMastery,
+        masteryLevel: t?.progress?.masteryLevel || 0,
+        masteryName: t?.progress?.masteryName || 'Not Started',
+        correct: t?.progress?.correct || 0,
+        total: t?.problemCount || 0,
+        decaying: t?.progress?.decaying || false,
+      };
+    }
+
+    // Fallback to old level-based system
+    if (!t) return { masteryPct: 0, masteryLevel: 0, masteryName: 'Not Started', correct: 0, total: 0, decaying: false };
     return {
+      masteryPct: (t.progress?.masteryLevel || 0) * 20,
       masteryLevel: t.progress?.masteryLevel || 0,
       masteryName: t.progress?.masteryName || 'Not Started',
       correct: t.progress?.correct || 0,
@@ -115,6 +177,19 @@ export function Dashboard({ userName, onLogout }) {
       decaying: t.progress?.decaying || false,
     };
   };
+
+  function getMasteryColor(pct) {
+    if (pct >= 90) return 'var(--forest)';
+    if (pct >= 70) return 'var(--sunbeam)';
+    if (pct >= 40) return 'var(--ember)';
+    if (pct > 0) return 'var(--error)';
+    return 'var(--gray-200)';
+  }
+
+  function handleDiagnosticSkip() {
+    localStorage.setItem('diagnosticSkipped', 'true');
+    setDiagnosticStatus(prev => ({ ...prev, diagnosticSkipped: true }));
+  }
 
   if (loading) {
     return <LoadingState />;
@@ -155,6 +230,9 @@ export function Dashboard({ userName, onLogout }) {
         </button>
       </div>
 
+      {/* ── Diagnostic Card ── */}
+      <DiagnosticCard diagnosticStatus={diagnosticStatus} onSkip={handleDiagnosticSkip} />
+
       {/* ── Two-column layout: Chapters (left) + Sidebar (right) ── */}
       <div className="dash-grid">
 
@@ -190,27 +268,25 @@ export function Dashboard({ userName, onLogout }) {
             </div>
             {CHAPTERS.map((ch) => {
               const Icon = ch.icon;
-              const prog = getProgress(ch.name);
+              const prog = getProgress(ch);
+              const pct = prog.masteryPct;
+              const barColor = getMasteryColor(pct);
+              const pctLabel = pct > 0 ? `${pct}%` : '';
+
               return (
                 <button key={ch.id} className="ch-row-dash" onClick={() => handleChapterClick(ch)}>
                   <span className="ch-num-d">{String(ch.num).padStart(2, '0')}</span>
                   <Icon weight="bold" size={18} className={`ch-icon-d ch-icon-d--${ch.accent}`} />
                   <span className="ch-name-d">{ch.name}</span>
                   <div className="ch-mastery">
-                    <div className="mastery-bar">
-                      {[1, 2, 3, 4, 5].map((level) => (
-                        <div
-                          key={level}
-                          className={`mastery-seg${
-                            level <= prog.masteryLevel
-                              ? prog.decaying ? ' mastery-seg--decay' : ' mastery-seg--fill'
-                              : ''
-                          }`}
-                        />
-                      ))}
+                    <div className="mastery-bar-pct">
+                      <div
+                        className="mastery-bar-fill"
+                        style={{ width: `${pct}%`, background: barColor }}
+                      />
                     </div>
-                    <span className={`ch-status${prog.decaying ? ' ch-status--decay' : ''}`}>
-                      {prog.decaying ? 'Review' : prog.masteryName}
+                    <span className="ch-status" style={pct > 0 ? { color: barColor, fontWeight: 600 } : undefined}>
+                      {pctLabel || (prog.decaying ? 'Review' : prog.masteryName)}
                     </span>
                   </div>
                   <span className={`ch-badge-d ch-badge-d--${ch.accent}`}>{ch.qs} Qs</span>

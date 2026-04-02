@@ -10,6 +10,9 @@ import { Study } from './study/study';
 import { Problems } from './problems/problems';
 import { LessonPage } from './lesson/lesson';
 import { DiagramPreview } from './dev/DiagramPreview';
+import { DiagnosticExam } from './diagnostic/DiagnosticExam';
+import { DiagnosticResults } from './diagnostic/DiagnosticResults';
+import { DiagnosticReview } from './diagnostic/DiagnosticReview';
 import 'katex/dist/katex.min.css';
 import './app.css';
 
@@ -61,10 +64,11 @@ function AppShell({ userName, onLogin, onLogout }) {
   const { pathname } = useLocation();
   const isLanding = pathname === '/';
   const isLesson = pathname.startsWith('/lesson/');
+  const isDiagnostic = pathname.startsWith('/diagnostic');
 
   return (
     <div className="body">
-      {!isLanding && !isLesson && <Header />}
+      {!isLanding && !isLesson && !isDiagnostic && <Header />}
 
       <Routes>
         <Route path="/" element={<Landing userName={userName} />} />
@@ -74,11 +78,14 @@ function AppShell({ userName, onLogin, onLogout }) {
         <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
         <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
         <Route path="/lesson/:chapterId/:lessonId" element={<LessonPage userName={userName} onLogout={onLogout} />} />
+        <Route path="/diagnostic" element={<DiagnosticExam userName={userName} />} />
+        <Route path="/diagnostic/results/:attemptNumber" element={<DiagnosticResults userName={userName} />} />
+        <Route path="/diagnostic/review/:attemptNumber" element={<DiagnosticReview userName={userName} />} />
         <Route path="/dev/diagrams" element={<DiagramPreview />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
-      {!isLanding && !isLesson && <Footer />}
+      {!isLanding && !isLesson && !isDiagnostic && <Footer />}
     </div>
   );
 }
