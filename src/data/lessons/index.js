@@ -11,7 +11,7 @@ import surveying from './surveying/index';
 import waterResources from './water-resources/index';
 import structural from './structural/index';
 import geotechnical from './geotechnical/index';
-import transportation from './transportation';
+import transportation from './transportation/index';
 import construction from './construction';
 
 export const LESSONS = {
