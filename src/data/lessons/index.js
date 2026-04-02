@@ -5,7 +5,7 @@ import economics from './economics/index';
 import statics from './statics/index';
 import dynamics from './dynamics/index';
 import mechanicsMaterials from './mechanics-materials/index';
-import materials from './materials';
+import materials from './materials/index';
 import fluidMechanics from './fluid-mechanics';
 import surveying from './surveying';
 import waterResources from './water-resources';
