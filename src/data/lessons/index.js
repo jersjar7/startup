@@ -10,7 +10,7 @@ import fluidMechanics from './fluid-mechanics/index';
 import surveying from './surveying/index';
 import waterResources from './water-resources/index';
 import structural from './structural/index';
-import geotechnical from './geotechnical';
+import geotechnical from './geotechnical/index';
 import transportation from './transportation';
 import construction from './construction';
 
