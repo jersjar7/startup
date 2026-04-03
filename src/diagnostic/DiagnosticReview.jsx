@@ -6,6 +6,7 @@ import {
   XCircle,
   MinusCircle,
 } from '@phosphor-icons/react';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import katex from 'katex';
 import { MathText } from '../components/MathText';
 import { CHAPTERS } from '../data/chapters';
@@ -26,6 +27,7 @@ function MathBlock({ tex }) {
 export function DiagnosticReview({ userName }) {
   const navigate = useNavigate();
   const { attemptNumber } = useParams();
+  useDocumentTitle('Diagnostic Review');
   const [result, setResult] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 

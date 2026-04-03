@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import {
   ArrowRight,
   Lightning,
@@ -72,6 +73,7 @@ const sampleProblem = {
 
 export function Landing({ userName }) {
   const navigate = useNavigate();
+  useDocumentTitle('Free FE Civil Exam Prep');
   const [openPanel, setOpenPanel] = React.useState(null);
 
   React.useEffect(() => {

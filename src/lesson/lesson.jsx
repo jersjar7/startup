@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import {
   ArrowLeft,
   ArrowRight,
@@ -99,6 +100,7 @@ export function LessonPage({ userName }) {
   const chapter = CHAPTERS.find((c) => c.id === chapterId);
   const details = CHAPTER_DETAILS[chapterId];
   const lesson = getLessonById(chapterId, lessonId);
+  useDocumentTitle(lesson ? `${lesson.name} — ${chapter?.name}` : 'Lesson');
 
   // Current problem
   const totalProblems = lesson?.problems?.length ?? 0;

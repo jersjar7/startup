@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, SignOut, ArrowRight } from '@phosphor-icons/react';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { MathText } from '../components/MathText';
 import { LoadingState } from '../components/LoadingState';
 import './problems.css';
@@ -15,6 +16,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
   const [phase, setPhase] = React.useState('LOADING');
   const [problems, setProblems] = React.useState([]);
   const [topicName, setTopicName] = React.useState(reviewMode ? 'Daily Review' : '');
+  useDocumentTitle(reviewMode ? 'Daily Review' : topicName || 'Practice');
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [selectedChoice, setSelectedChoice] = React.useState(null);
   const [reviewed, setReviewed] = React.useState(false);

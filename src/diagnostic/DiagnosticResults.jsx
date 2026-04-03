@@ -5,6 +5,7 @@ import {
   ArrowRight,
   MagnifyingGlass,
 } from '@phosphor-icons/react';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { CHAPTERS } from '../data/chapters';
 import './diagnostic.css';
 
@@ -18,6 +19,7 @@ function getMasteryColor(mastery) {
 export function DiagnosticResults({ userName }) {
   const navigate = useNavigate();
   const { attemptNumber } = useParams();
+  useDocumentTitle('Diagnostic Results');
   const [result, setResult] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 

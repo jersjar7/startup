@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import {
   ArrowLeft,
   ArrowRight,
@@ -130,6 +131,7 @@ export function Study({ userName, onLogout }) {
   const chapter = CHAPTERS.find((c) => c.id === topicId);
   const details = CHAPTER_DETAILS[topicId];
   const Icon = chapter?.icon;
+  useDocumentTitle(chapter?.name);
 
   React.useEffect(() => {
     if (!userName) {

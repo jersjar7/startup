@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import {
   Lightning,
   Fire,
@@ -19,6 +20,7 @@ import './dashboard.css';
 
 export function Dashboard({ userName, onLogout }) {
   const navigate = useNavigate();
+  useDocumentTitle('Dashboard');
   const [topics, setTopics] = React.useState([]);
   const [stats, setStats] = React.useState({ totalXp: 0, currentStreak: 0, badges: [], allBadges: [] });
   const [leaderboard, setLeaderboard] = React.useState({ weekId: '', entries: [] });

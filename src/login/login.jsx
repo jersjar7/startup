@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { SignIn, UserPlus } from '@phosphor-icons/react';
 import './index.css';
 
 export function Login({ userName, onLogin }) {
   const navigate = useNavigate();
+  useDocumentTitle('Sign In');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState('');

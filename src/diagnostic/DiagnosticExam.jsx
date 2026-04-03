@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import {
   Timer,
   ArrowLeft,
@@ -25,6 +26,7 @@ function ProblemDiagram({ diagram }) {
 
 export function DiagnosticExam({ userName }) {
   const navigate = useNavigate();
+  useDocumentTitle('Diagnostic Exam');
 
   // Exam state
   const [phase, setPhase] = React.useState('INTRO'); // INTRO | EXAM | CONFIRM | SUBMITTING
