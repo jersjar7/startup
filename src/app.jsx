@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { LoadingState } from './components/LoadingState';
 import { Landing } from './landing/landing';
-import { Login } from './login/login';
-import { Dashboard } from './dashboard/dashboard';
-import { Study } from './study/study';
-import { Problems } from './problems/problems';
-import { LessonPage } from './lesson/lesson';
-import { DiagramPreview } from './dev/DiagramPreview';
-import { DiagnosticExam } from './diagnostic/DiagnosticExam';
-import { DiagnosticResults } from './diagnostic/DiagnosticResults';
-import { DiagnosticReview } from './diagnostic/DiagnosticReview';
 import 'katex/dist/katex.min.css';
 import './app.css';
+
+// Lazy-loaded routes (named-export adapter)
+const Login = React.lazy(() => import('./login/login').then(m => ({ default: m.Login })));
+const Dashboard = React.lazy(() => import('./dashboard/dashboard').then(m => ({ default: m.Dashboard })));
+const Study = React.lazy(() => import('./study/study').then(m => ({ default: m.Study })));
+const Problems = React.lazy(() => import('./problems/problems').then(m => ({ default: m.Problems })));
+const LessonPage = React.lazy(() => import('./lesson/lesson').then(m => ({ default: m.LessonPage })));
+const DiagnosticExam = React.lazy(() => import('./diagnostic/DiagnosticExam').then(m => ({ default: m.DiagnosticExam })));
+const DiagnosticResults = React.lazy(() => import('./diagnostic/DiagnosticResults').then(m => ({ default: m.DiagnosticResults })));
+const DiagnosticReview = React.lazy(() => import('./diagnostic/DiagnosticReview').then(m => ({ default: m.DiagnosticReview })));
+
+// DiagramPreview only available in dev mode
+const DiagramPreview = import.meta.env.DEV
+  ? React.lazy(() => import('./dev/DiagramPreview').then(m => ({ default: m.DiagramPreview })))
+  : null;
 
 export default function App() {
   const [userName, setUserName] = React.useState('');
@@ -70,20 +76,22 @@ function AppShell({ userName, onLogin, onLogout }) {
     <div className="body">
       {!isLanding && !isLesson && !isDiagnostic && <Header />}
 
-      <Routes>
-        <Route path="/" element={<Landing userName={userName} />} />
-        <Route path="/login" element={<Login userName={userName} onLogin={onLogin} />} />
-        <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
-        <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
-        <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
-        <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
-        <Route path="/lesson/:chapterId/:lessonId" element={<LessonPage userName={userName} onLogout={onLogout} />} />
-        <Route path="/diagnostic" element={<DiagnosticExam userName={userName} />} />
-        <Route path="/diagnostic/results/:attemptNumber" element={<DiagnosticResults userName={userName} />} />
-        <Route path="/diagnostic/review/:attemptNumber" element={<DiagnosticReview userName={userName} />} />
-        <Route path="/dev/diagrams" element={<DiagramPreview />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<LoadingState />}>
+        <Routes>
+          <Route path="/" element={<Landing userName={userName} />} />
+          <Route path="/login" element={<Login userName={userName} onLogin={onLogin} />} />
+          <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
+          <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
+          <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
+          <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
+          <Route path="/lesson/:chapterId/:lessonId" element={<LessonPage userName={userName} onLogout={onLogout} />} />
+          <Route path="/diagnostic" element={<DiagnosticExam userName={userName} />} />
+          <Route path="/diagnostic/results/:attemptNumber" element={<DiagnosticResults userName={userName} />} />
+          <Route path="/diagnostic/review/:attemptNumber" element={<DiagnosticReview userName={userName} />} />
+          {DiagramPreview && <Route path="/dev/diagrams" element={<DiagramPreview />} />}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
 
       {!isLanding && !isLesson && !isDiagnostic && <Footer />}
     </div>

@@ -2,6 +2,7 @@ require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
 const helmet = require('helmet');
+const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const { peerProxy } = require('./peerProxy.js');
@@ -9,23 +10,31 @@ const { requestLogger } = require('./middleware/logger.js');
 
 const app = express();
 
-// Security and parsing middleware
+// Security, compression, and parsing middleware
 app.use(helmet());
+app.use(compression());
 app.use(express.json());
 app.use(cookieParser());
 app.use(requestLogger);
 
-// Global rate limit: 100 requests per 15 minutes per IP
+// Global rate limit: 200 requests per 15 minutes per IP (skip static assets)
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 200,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: (req) => /\.(js|css|ico|png|svg|woff2?)$/.test(req.path),
   message: { msg: 'Too many requests, try again later' },
 }));
 
-// Serve the frontend static files
-app.use(express.static('public'));
+// Serve static assets with long-term caching (hashed filenames)
+app.use(express.static('public', { maxAge: '1y', immutable: true, index: false }));
+
+// Serve index.html with no-cache so browsers always get the latest version
+app.get('/', (_req, res) => {
+  res.set('Cache-Control', 'no-cache');
+  res.sendFile('index.html', { root: 'public' });
+});
 
 // API routes
 const apiRouter = express.Router();
@@ -55,8 +64,9 @@ app.use(function (err, req, res, next) {
   res.status(500).send({ msg: 'Internal server error' });
 });
 
-// SPA fallback
+// SPA fallback — no-cache so the browser always gets the current entry point
 app.use((_req, res) => {
+  res.set('Cache-Control', 'no-cache');
   res.sendFile('index.html', { root: 'public' });
 });
 
