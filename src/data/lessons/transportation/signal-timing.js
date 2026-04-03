@@ -113,7 +113,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Convert 40 mph to ft/sec: 40 x 1.467 = 58.7 ft/sec. Then y = t + v/(2a) = 1.0 + 58.7/(2 x 10) = 1.0 + 58.7/20 = 1.0 + 2.93 = 3.93, which rounds to 3.9 sec. Choice B (3.0) used mph directly: 1.0 + 40/20 = 3.0. Choice C (6.9) used v/a instead of v/(2a): 1.0 + 58.7/10 = 6.87. Choice D (2.9) forgot the reaction time: 58.7/20 = 2.93.',
+      eli5: 'Convert 40 mph to ft/sec: $40 \\times 1.467 = 58.7$ ft/sec. Then $y = t + v/(2a) = 1.0 + 58.7/(2 \\times 10) = 1.0 + 58.7/20 = 1.0 + 2.93 = 3.93$, which rounds to 3.9 sec. Choice B (3.0) used mph directly: $1.0 + 40/20 = 3.0$. Choice C (6.9) used $v/a$ instead of $v/(2a)$: $1.0 + 58.7/10 = 6.87$. Choice D (2.9) forgot the reaction time: $58.7/20 = 2.93$.',
       hint: 'Convert to ft/sec first, then y = t + v/(2a). Do not forget the factor of 2.',
       steps: [
         { text: 'Convert speed:', latex: 'v = 40 \\times 1.467 = 58.7 \\text{ ft/sec}' },
@@ -137,7 +137,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'When the signal turns red, a vehicle that just entered must cross the entire intersection width W before the conflicting phase starts. But the vehicle is not a point -- the rear bumper must also clear the far side. So the total clearance distance is W (intersection width) plus l (vehicle length). If you only used W, the tail end of the vehicle would still be in the intersection when cross traffic gets the green. Choice B confuses clearance with acceleration. Choice C has no basis in the formula derivation. Choice D misidentifies what l represents.',
+      eli5: 'When the signal turns red, a vehicle that just entered must cross the entire intersection width $W$ before the conflicting phase starts. But the vehicle is not a point -- the rear bumper must also clear the far side. So the total clearance distance is $W$ (intersection width) plus $l$ (vehicle length). If you only used $W$, the tail end of the vehicle would still be in the intersection when cross traffic gets the green. Choice B confuses clearance with acceleration. Choice C has no basis in the formula derivation. Choice D misidentifies what $l$ represents.',
       hint: 'Think about what it means for a vehicle to "completely clear" the intersection -- where does its rear bumper need to be?',
       steps: [
         { text: 'The vehicle enters at the near curb and must exit past the far curb.', latex: null },
@@ -162,7 +162,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Convert 45 mph: v = 45 x 1.467 = 66.0 ft/sec. On a 3% downgrade, gravity opposes braking, reducing effective deceleration. The denominator becomes 2a - 64.4(0.03) = 20 - 1.932 = 18.07. y = 1.0 + 66.0/18.07 = 1.0 + 3.65 = 4.65, approximately 4.7 sec. Choice B (4.3) used a level grade (G = 0): 1.0 + 66.0/20 = 4.3. Choice C (3.5) used mph instead of ft/sec: 1.0 + 45/18.07 = 3.5. Choice D (3.3) used both mph and level grade: 1.0 + 45/20 = 3.25.',
+      eli5: 'Convert 45 mph: $v = 45 \\times 1.467 = 66.0$ ft/sec. On a 3% downgrade, gravity opposes braking, reducing effective deceleration. The denominator becomes $2a - 64.4(0.03) = 20 - 1.932 = 18.07$. $y = 1.0 + 66.0/18.07 = 1.0 + 3.65 = 4.65$, approximately 4.7 sec. Choice B (4.3) used a level grade ($G = 0$): $1.0 + 66.0/20 = 4.3$. Choice C (3.5) used mph instead of ft/sec: $1.0 + 45/18.07 = 3.5$. Choice D (3.3) used both mph and level grade: $1.0 + 45/20 = 3.25$.',
       hint: 'Downgrade reduces effective deceleration. The denominator becomes 2a - 64.4G where G = 0.03 for a 3% downgrade.',
       steps: [
         { text: 'Convert speed:', latex: 'v = 45 \\times 1.467 = 66.0 \\text{ ft/sec}' },

@@ -119,7 +119,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Delta P = P_0 - P_s = 101.8 - 101.3 = 0.5 kPa = 500 Pa. v = sqrt(2*deltaP/rho) = sqrt(2*500/1.2) = sqrt(833.3) = 28.87 m/s, approximately 28.9 m/s. Choice B forgets the factor of 2 under the root (gets sqrt(500/1.2) = sqrt(416.7) = 20.4). Choice C does not convert kPa to Pa (uses 0.5 instead of 500). Choice D uses rho = 0.006 or some other error making the denominator too small.',
+      eli5: '$\\Delta P = P_0 - P_s = 101.8 - 101.3 = 0.5$ kPa $= 500$ Pa. $v = \\sqrt{2 \\times \\Delta P/\\rho} = \\sqrt{2 \\times 500/1.2} = \\sqrt{833.3} = 28.87$ m/s, approximately 28.9 m/s. Choice B forgets the factor of 2 under the root (gets $\\sqrt{500/1.2} = \\sqrt{416.7} = 20.4$). Choice C does not convert kPa to Pa (uses 0.5 instead of 500). Choice D uses $\\rho = 0.006$ or some other error making the denominator too small.',
       hint: 'Convert the pressure difference to Pa before plugging in. Remember the factor of 2 in $v = \\sqrt{2\\Delta P/\\rho}$.',
       steps: [
         { text: 'Pressure difference:', latex: '\\Delta P = 101.8 - 101.3 = 0.5\\,\\text{kPa} = 500\\,\\text{Pa}' },
@@ -129,7 +129,7 @@ export default {
       handbookPage: 'p. 194',
       handbookFormula: 'v = \\sqrt{\\frac{2(P_0 - P_s)}{\\rho}}',
       videoUrl: null,
-      traps: ['Forgetting to convert kPa to Pa -- off by a factor of sqrt(1000)', 'Dropping the factor of 2 under the radical'],
+      traps: ['Forgetting to convert kPa to Pa \u2014 off by a factor of $\\sqrt{1{,}000}$', 'Dropping the factor of 2 under the radical'],
       diagram: null,
     },
     {
@@ -144,7 +144,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'A_1 = pi(0.2)^2/4 = 0.03142 m^2. A_2 = pi(0.1)^2/4 = 0.007854 m^2. Pressure head = 25,000/9,810 = 2.548 m. Area ratio term: (A_2/A_1)^2 = (D_2/D_1)^4 = (0.5)^4 = 0.0625. So 1 - 0.0625 = 0.9375. Under the root: 2g*2.548/0.9375 = 19.62*2.548/0.9375 = 50.01/0.9375 = 53.34. sqrt(53.34) = 7.304. Q = 0.97 * 0.007854 * 7.304 = 0.0556 m^3/s. Choice B omits the velocity coefficient (uses Cv = 1.0 giving 0.0573). Choice C uses A_1 instead of A_2. Choice D uses (A_2/A_1) to the first power instead of squared.',
+      eli5: '$A_1 = \\pi(0.2)^2/4 = 0.03142$ m\u00B2. $A_2 = \\pi(0.1)^2/4 = 0.007854$ m\u00B2. Pressure head $= 25{,}000/9{,}810 = 2.548$ m. Area ratio term: $(A_2/A_1)^2 = (D_2/D_1)^4 = (0.5)^4 = 0.0625$. So $1 - 0.0625 = 0.9375$. Under the root: $2g \\times 2.548/0.9375 = 19.62 \\times 2.548/0.9375 = 50.01/0.9375 = 53.34$. $\\sqrt{53.34} = 7.304$. $Q = 0.97 \\times 0.007854 \\times 7.304 = 0.0556$ m\u00B3/s. Choice B omits the velocity coefficient (uses $C_v = 1.0$ giving 0.0573). Choice C uses $A_1$ instead of $A_2$. Choice D uses $(A_2/A_1)$ to the first power instead of squared.',
       hint: 'Convert the pressure drop to head, compute the area ratio correction, and use the throat area $A_2$.',
       steps: [
         { text: 'Throat area:', latex: 'A_2 = \\frac{\\pi(0.1)^2}{4} = 7.854 \\times 10^{-3}\\,\\text{m}^2' },
@@ -171,7 +171,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'A_0 = pi(0.04)^2/4 = 0.001257 m^2. A_1 = pi(0.1)^2/4 = 0.007854 m^2. (A_0/A_1)^2 = (0.001257/0.007854)^2 = (0.16)^2 = 0.02560. Actually beta = d0/D = 40/100 = 0.4, so beta^4 = 0.0256. 1 - beta^4 = 0.9744. h = deltaP/gamma = 20,000/9,810 = 2.039 m. Under the root: 2g*h/(1-beta^4) = 19.62*2.039/0.9744 = 40.01/0.9744 = 41.06. sqrt(41.06) = 6.408. Q = C*A_0*sqrt(...) = 0.61*0.001257*6.408 = 0.004915 m^3/s, approximately 0.00489 m^3/s. Choice B uses C = 1.0. Choice C uses the pipe area instead of the orifice area. Choice D drops the area ratio correction.',
+      eli5: '$A_0 = \\pi(0.04)^2/4 = 0.001257$ m\u00B2. $A_1 = \\pi(0.1)^2/4 = 0.007854$ m\u00B2. $(A_0/A_1)^2 = (0.001257/0.007854)^2 = (0.16)^2 = 0.02560$. Actually $\\beta = d_0/D = 40/100 = 0.4$, so $\\beta^4 = 0.0256$. $1 - \\beta^4 = 0.9744$. $h = \\Delta P/\\gamma = 20{,}000/9{,}810 = 2.039$ m. Under the root: $2g \\times h/(1 - \\beta^4) = 19.62 \\times 2.039/0.9744 = 40.01/0.9744 = 41.06$. $\\sqrt{41.06} = 6.408$. $Q = C \\times A_0 \\times \\sqrt{\\ldots} = 0.61 \\times 0.001257 \\times 6.408 = 0.004915$ m\u00B3/s, approximately 0.00489 m\u00B3/s. Choice B uses $C = 1.0$. Choice C uses the pipe area instead of the orifice area. Choice D drops the area ratio correction.',
       hint: 'Use the orifice area $A_0$ (not the pipe area). The discharge coefficient $C$ accounts for the vena contracta.',
       steps: [
         { text: 'Orifice area:', latex: 'A_0 = \\frac{\\pi(0.04)^2}{4} = 1.257 \\times 10^{-3}\\,\\text{m}^2' },
@@ -198,7 +198,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'A venturi meter has a smooth, gradual contraction followed by a gradual expansion. This streamlined shape keeps the flow attached to the walls, minimizing turbulent losses and vena contracta effects. The result is a coefficient close to 1.0 (typically 0.95 to 0.99). An orifice plate has a sharp edge that causes the flow to separate and contract into a vena contracta downstream. This abrupt geometry causes significant energy loss and a much lower discharge coefficient (typically 0.60 to 0.65). Choice B is wrong -- both devices measure the full pipe flow. Choice C is wrong -- the difference is fundamental to the geometry, not manufacturing. Choice D is wrong -- location does not explain the coefficient difference.',
+      eli5: 'A venturi meter has a smooth, gradual contraction followed by a gradual expansion. This streamlined shape keeps the flow attached to the walls, minimizing turbulent losses and vena contracta effects. The result is a coefficient close to 1.0 (typically 0.95 to 0.99). An orifice plate has a sharp edge that causes the flow to separate and contract into a vena contracta downstream. This abrupt geometry causes significant energy loss and a much lower discharge coefficient (typically 0.60 to 0.65). Choice B is wrong \u2014 both devices measure the full pipe flow. Choice C is wrong \u2014 the difference is fundamental to the geometry, not manufacturing. Choice D is wrong \u2014 location does not explain the coefficient difference.',
       hint: 'Think about what happens to the flow as it passes through each device. A sharp edge causes more separation than a gradual contraction.',
       steps: [
         { text: 'A venturi has a gradual contraction and expansion, keeping flow attached.', latex: null },

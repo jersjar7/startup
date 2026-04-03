@@ -28,7 +28,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "Plug in x = 0 and you get 0/0 — that's the signal to use L'Hopital's. Derivative of sin x is cos x, derivative of x is 1. Now plug in 0 again: cos(0) = 1. Done in one round. This is probably the most classic L'Hopital's example you'll ever see.",
+      "eli5": "Plug in $x = 0$ and you get $0/0$ — that is the signal to use L'Hopital's. Derivative of $\\sin x$ is $\\cos x$, derivative of $x$ is 1. Now plug in 0 again: $\\cos(0) = 1$. Done in one round. This is probably the most classic L'Hopital's example you will ever see.",
       "hint": "Direct substitution gives 0/0. Differentiate the numerator and denominator separately.",
       "steps": [
         { "text": "Direct substitution:", "latex": "\\frac{\\sin 0}{0} = \\frac{0}{0} \\text{ — indeterminate}" },
@@ -84,7 +84,7 @@ export default {
       ],
       "correctAnswerId": "c4",
       "difficulty": "hard",
-      "eli5": "This is a trap problem. You see a fraction with x → 0 and want to reach for L'Hopital's — but check the form first! e^0 / 0 = 1/0, which is NOT indeterminate. It's a \"blow up\" form. The numerator is a finite nonzero number and the denominator goes to zero, so the function goes to ±∞. Since it goes to +∞ from the right and -∞ from the left, the limit DNE.",
+      "eli5": "This is a trap problem. You see a fraction with $x \\to 0$ and want to reach for L'Hopital's — but check the form first! $e^0 / 0 = 1/0$, which is NOT indeterminate. It is a 'blow up' form. The numerator is a finite nonzero number and the denominator goes to zero, so the function goes to $\\pm\\infty$. Since it goes to $+\\infty$ from the right and $-\\infty$ from the left, the limit DNE.",
       "hint": "Before applying L'Hopital's, check: does direct substitution actually give 0/0 or ∞/∞?",
       "steps": [
         { "text": "Direct substitution:", "latex": "\\frac{e^0}{0} = \\frac{1}{0} \\text{ — NOT } \\frac{0}{0} \\text{ or } \\frac{\\infty}{\\infty}" },
@@ -128,7 +128,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Stopping after one round when the result is still 0/0",
-        "Differentiating incorrectly: d/dx(1 - cos x) = sin x, not -sin x"
+        "Differentiating incorrectly: $d/dx(1 - \\cos x) = \\sin x$, not $-\\sin x$"
       ],
       "diagram": null
     },
@@ -157,7 +157,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Assuming infinity/infinity always diverges — it can converge to zero",
-        "Differentiating e^x incorrectly (it's its own derivative)"
+        "Differentiating $e^x$ incorrectly (it is its own derivative)"
       ],
       "diagram": null
     },
@@ -186,7 +186,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Stopping too early — this problem requires three rounds",
-        "Differentiating sec^2(x) incorrectly — its derivative is 2 sec^2(x) tan(x)"
+        "Differentiating $\\sec^2(x)$ incorrectly — its derivative is $2\\sec^2(x)\\tan(x)$"
       ],
       "diagram": null
     },

@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Rule of mixtures for density: \u03C1c = f_f\u03C1_f + f_m\u03C1_m = 0.30 \u00D7 2,500 + 0.70 \u00D7 1,200 = 750 + 840 = 1,590 kg/m\u00B3. Choice B (1,850) uses f_m = 0.50 instead of 0.70 (equal fractions). Choice C (3,700) adds the densities without weighting (2,500 + 1,200). Choice D (1,200) just uses the matrix density, ignoring the fibers.',
+      eli5: 'Rule of mixtures for density: $\\rho_c = f_f \\rho_f + f_m \\rho_m = 0.30 \\times 2{,}500 + 0.70 \\times 1{,}200 = 750 + 840 = 1{,}590$ kg/m\u00B3. Choice B (1,850) uses $f_m = 0.50$ instead of 0.70 (equal fractions). Choice C (3,700) adds the densities without weighting (2,500 + 1,200). Choice D (1,200) just uses the matrix density, ignoring the fibers.',
       hint: 'The volume fractions must sum to 1. If fibers are 30%, the matrix is 70%.',
       steps: [
         { text: 'Volume fractions: fibers 30%, matrix 70%', latex: 'f_f = 0.30, \\quad f_m = 1 - 0.30 = 0.70' },
@@ -43,7 +43,7 @@ export default {
       handbookFormula: '\\rho_c = f_1\\rho_1 + f_2\\rho_2',
       videoUrl: null,
       traps: [
-        'Forgetting to compute the matrix fraction as (1 \u2013 f_fiber) \u2014 using equal fractions gives 1,850 (choice B)',
+        'Forgetting to compute the matrix fraction as $(1 - f_{fiber})$ \u2014 using equal fractions gives 1,850 (choice B)',
         'Adding densities without volume weighting \u2014 gives 3,700 (choice C)',
       ],
       diagram: null,
@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Parallel to fibers = isostrain model: Ec = f_f \u00D7 E_f + f_m \u00D7 E_m = 0.40 \u00D7 230 + 0.60 \u00D7 3.5 = 92 + 2.1 = 94.1 GPa. Choice B (5.8) uses the isostress (perpendicular) model: 1/Ec = 0.40/230 + 0.60/3.5, giving Ec \u2248 5.8 GPa. Choice C (116.8) uses f = 0.50/0.50 instead of 0.40/0.60. Choice D (233.5) adds the moduli without weighting.',
+      eli5: 'Parallel to fibers = isostrain model: $E_c = f_f \\times E_f + f_m \\times E_m = 0.40 \\times 230 + 0.60 \\times 3.5 = 92 + 2.1 = 94.1$ GPa. Choice B (5.8) uses the isostress (perpendicular) model: $1/E_c = 0.40/230 + 0.60/3.5$, giving $E_c \\approx 5.8$ GPa. Choice C (116.8) uses $f = 0.50/0.50$ instead of 0.40/0.60. Choice D (233.5) adds the moduli without weighting.',
       hint: 'Parallel loading means isostrain (equal strain) \u2014 use the additive rule of mixtures, not the reciprocal formula.',
       steps: [
         { text: 'Volume fractions:', latex: 'f_f = 0.40, \\quad f_m = 0.60' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Under isostrain, both phases have the same strain. First find composite modulus: Ec = 0.25(200) + 0.75(3) = 50 + 2.25 = 52.25 GPa. Then find the common strain: \u03B5 = \u03C3c/Ec = 100/52,250 = 0.001914. Fiber stress: \u03C3f = Ef\u03B5 = 200,000 \u00D7 0.001914 = 383 \u2248 384 MPa. The fibers carry much more stress because they\u2019re much stiffer. Choice B (100) assumes equal stress (isostress model, wrong for parallel loading). Choice C (25) scales by volume fraction: 100 \u00D7 0.25. Choice D (200) confuses fiber modulus with fiber stress.',
+      eli5: 'Under isostrain, both phases have the same strain. First find composite modulus: $E_c = 0.25(200) + 0.75(3) = 50 + 2.25 = 52.25$ GPa. Then find the common strain: $\\varepsilon = \\sigma_c / E_c = 100/52{,}250 = 0.001914$. Fiber stress: $\\sigma_f = E_f \\varepsilon = 200{,}000 \\times 0.001914 = 383 \\approx 384$ MPa. The fibers carry much more stress because they\u2019re much stiffer. Choice B (100) assumes equal stress (isostress model, wrong for parallel loading). Choice C (25) scales by volume fraction: $100 \\times 0.25$. Choice D (200) confuses fiber modulus with fiber stress.',
       hint: 'Under isostrain, find the composite modulus first, then the common strain, then multiply by each phase\u2019s modulus to get its stress.',
       steps: [
         { text: 'Composite modulus (parallel):', latex: 'E_c = 0.25(200) + 0.75(3) = 52.25 \\text{ GPa}' },
@@ -97,7 +97,7 @@ export default {
       videoUrl: null,
       traps: [
         'Assuming equal stress in both phases (isostress) \u2014 that\u2019s the perpendicular model, gives 100 MPa (choice B)',
-        'Scaling the composite stress by volume fraction (100 \u00D7 0.25 = 25) instead of by modulus ratio (choice C)',
+        'Scaling the composite stress by volume fraction ($100 \\times 0.25 = 25$) instead of by modulus ratio (choice C)',
       ],
       diagram: null,
     },
@@ -115,7 +115,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'The rule of mixtures for longitudinal modulus is simply E_c = V_f * E_f + V_m * E_m. So E_c = 0.60(72) + 0.40(3.5) = 43.2 + 1.4 = 44.6 GPa. The trap is using the inverse rule of mixtures (which applies to the transverse direction, not longitudinal).',
+      eli5: 'The rule of mixtures for longitudinal modulus is simply $E_c = V_f E_f + V_m E_m$. So $E_c = 0.60(72) + 0.40(3.5) = 43.2 + 1.4 = 44.6$ GPa. The trap is using the inverse rule of mixtures (which applies to the transverse direction, not longitudinal).',
       hint: 'Use the rule of mixtures for the longitudinal (iso-strain) direction.',
       steps: [
         { text: 'Rule of mixtures for longitudinal modulus:', latex: 'E_c = V_f E_f + V_m E_m' },
@@ -140,7 +140,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'In a fiber composite, the fibers carry the load (they are much stronger and stiffer). The matrix transfers load to the fibers through interfacial shear. That is why composites are strongest along the fiber direction — the fibers are aligned to carry axial load. Perpendicular to fibers, the weaker matrix dominates. This is why composites are anisotropic, not isotropic.',
+      eli5: 'In a fiber composite, the fibers carry the load (they are much stronger and stiffer). The matrix transfers load to the fibers through interfacial shear. That is why composites are strongest along the fiber direction \u2014 the fibers are aligned to carry axial load. Perpendicular to fibers, the weaker matrix dominates. This is why composites are anisotropic, not isotropic.',
       hint: 'Think about the role of fibers vs. matrix in carrying load.',
       steps: [
         { text: 'Fibers are strong and stiff; the matrix is weaker but binds the fibers.', latex: null },

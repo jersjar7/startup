@@ -285,7 +285,7 @@ export function LessonPage({ userName }) {
                 {prob.eli5 && (
                   <div className="review-section">
                     <h4 className="review-section-title">Explain like I'm 5</h4>
-                    <p>{prob.eli5}</p>
+                    <p><MathText text={prob.eli5} /></p>
                   </div>
                 )}
 
@@ -579,7 +579,7 @@ function PanelContent({ panelKey, problem, lesson, subtopic }) {
       );
 
     case 'eli5':
-      return <p>{problem.eli5}</p>;
+      return <p><MathText text={problem.eli5} /></p>;
 
     case 'steps':
       return (
@@ -613,7 +613,7 @@ function PanelContent({ panelKey, problem, lesson, subtopic }) {
           {problem.traps.map((trap, i) => (
             <div key={i} className="lp-trap">
               <Warning size={14} weight="fill" className="lp-trap-icon" />
-              <p>{trap}</p>
+              <p><MathText text={trap} /></p>
             </div>
           ))}
         </div>

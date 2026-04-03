@@ -117,7 +117,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Plug into the curve formula: Y = Y_PVC + g_1 x + [(g_2 - g_1)/(2L)] x^2. The parabola constant a = (-0.02 - 0.02)/(2 x 400) = -0.04/800 = -0.00005. Y = 150 + 0.02(100) + (-0.00005)(100^2) = 150 + 2.0 - 0.5 = 151.5 ft. Choice B (152.0) is the tangent elevation, ignoring the parabolic correction. Choice C is the PVC elevation. Choice D subtracts the grade instead of adding it.',
+      eli5: 'Plug into the curve formula: $Y = Y_{PVC} + g_1 x + [(g_2 - g_1)/(2L)]x^2$. The parabola constant $a = (-0.02 - 0.02)/(2 \\times 400) = -0.04/800 = -0.00005$. $Y = 150 + 0.02(100) + (-0.00005)(100^2) = 150 + 2.0 - 0.5 = 151.5$ ft. Choice B (152.0) is the tangent elevation, ignoring the parabolic correction. Choice C is the PVC elevation. Choice D subtracts the grade instead of adding it.',
       hint: 'Use the curve formula Y = Y_PVC + g_1 x + [(g_2 - g_1)/(2L)]x^2. Convert percent grades to decimals.',
       steps: [
         { text: 'Parabola constant:', latex: 'a = \\frac{g_2 - g_1}{2L} = \\frac{-0.02 - 0.02}{800} = -0.00005' },
@@ -142,8 +142,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The low point is at x_m = -g_1 L/(g_2 - g_1) = -(-0.02)(600)/(0.04 - (-0.02)) = 12/0.06 = 200 ft from the PVC. Elevation: Y = 340 + (-0.02)(200) + [(0.04 - (-0.02))/(2 x 600)](200^2) = 340 - 4.0 + [0.00005](40,000) = 340 - 4 + 2 = 338.00 ft. Choice B puts the low point at L/2 (only true when |g_1| = |g_2|). Choice C uses x_m = -g_2 L/(g_1 - g_2). Choice D gets the location right but computes the elevation using only the tangent.',
-      hint: 'Low point is at x_m = -g_1 L/(g_2 - g_1). Then plug x_m into the curve elevation formula.',
+      eli5: 'The low point is at $x_m = -g_1 L/(g_2 - g_1) = -(-0.02)(600)/(0.04 - (-0.02)) = 12/0.06 = 200$ ft from the PVC. Elevation: $Y = 340 + (-0.02)(200) + [(0.04 - (-0.02))/(2 \\times 600)](200^2) = 340 - 4.0 + 2.0 = 338.00$ ft. Choice B puts the low point at $L/2$ (only true when $|g_1| = |g_2|$). Choice C uses $x_m = -g_2 L/(g_1 - g_2)$. Choice D gets the location right but computes the elevation using only the tangent.',
+      hint: 'Low point is at $x_m = -g_1 L/(g_2 - g_1)$. Then plug $x_m$ into the curve elevation formula.',
       steps: [
         { text: 'Low point distance from PVC:', latex: 'x_m = \\frac{-g_1 L}{g_2 - g_1} = \\frac{-(-0.02)(600)}{0.04 - (-0.02)} = \\frac{12}{0.06} = 200 \\text{ ft}' },
         { text: 'Elevation at low point:', latex: 'Y = 340 + (-0.02)(200) + \\frac{0.06}{1{,}200}(200^2)' },
@@ -167,8 +167,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'A = |g_1 - g_2| = |3 - (-5)| = 8%. For a crest curve with S <= L and standard criteria, L = AS^2 / 2,158 = 8 x 500^2 / 2,158 = 8 x 250,000 / 2,158 = 2,000,000 / 2,158 = 927 ft. Since L = 927 > S = 500, the assumption S <= L is valid. Choice B uses the general formula denominator (1,079) instead of the standard criteria (2,158). Choice C uses A = 5 instead of 8. Choice D divides L by 2.',
-      hint: 'For a crest curve with S <= L and standard criteria, L = AS^2 / 2,158. First find A = |g_1 - g_2| in percent.',
+      eli5: '$A = |g_1 - g_2| = |3 - (-5)| = 8\\%$. For a crest curve with $S \\le L$ and standard criteria, $L = AS^2 / 2158 = 8 \\times 500^2 / 2158 = 2000000 / 2158 = 927$ ft. Since $L = 927 > S = 500$, the assumption $S \\le L$ is valid. Choice B uses the general formula denominator (1,079) instead of the standard criteria (2,158). Choice C uses $A = 5$ instead of 8. Choice D divides $L$ by 2.',
+      hint: 'For a crest curve with $S \\le L$ and standard criteria, $L = AS^2 / 2158$. First find $A = |g_1 - g_2|$ in percent.',
       steps: [
         { text: 'Algebraic difference in grades:', latex: 'A = |g_1 - g_2| = |3 - (-5)| = 8\\%' },
         { text: 'Minimum curve length (S <= L):', latex: 'L = \\frac{AS^2}{2{,}158} = \\frac{8 \\times 500^2}{2{,}158}' },
@@ -193,7 +193,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'K = L/A, so L = K x A. First find A = |g_1 - g_2| = |4 - (-2)| = 6%. Then L = 120 x 6 = 720 ft. The K-value represents feet of curve per percent change in grade -- a higher K means a longer, gentler curve with better sight distance. Choice B uses A = 4 (only one grade, not the difference). Choice C uses A = 2. Choice D uses K/A instead of K x A.',
+      eli5: '$K = L/A$, so $L = K \\times A$. First find $A = |g_1 - g_2| = |4 - (-2)| = 6\\%$. Then $L = 120 \\times 6 = 720$ ft. The $K$-value represents feet of curve per percent change in grade — a higher $K$ means a longer, gentler curve with better sight distance. Choice B uses $A = 4$ (only one grade, not the difference). Choice C uses $A = 2$. Choice D uses $K/A$ instead of $K \\times A$.',
       hint: 'K = L/A, so L = K x A. Remember that A = |g_1 - g_2| is in percent.',
       steps: [
         { text: 'Algebraic difference in grades:', latex: 'A = |g_1 - g_2| = |4 - (-2)| = 6\\%' },

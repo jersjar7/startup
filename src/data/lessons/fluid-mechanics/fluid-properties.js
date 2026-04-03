@@ -17,7 +17,7 @@ export default {
     { type: 'formula', latex: 'h = \\frac{4\\sigma \\cos \\beta}{\\gamma d}', label: 'Capillary rise' },
     { type: 'text', body: 'Surface tension $\\sigma$ is force per unit length at a fluid interface. Capillary rise depends on tube diameter $d$, contact angle $\\beta$, and the fluid\u2019s specific weight $\\gamma$.' },
     { type: 'callout', variant: 'tip', body: 'Specific gravity is dimensionless \u2014 it\u2019s just the ratio to water. SG = 1.0 for water, SG = 13.6 for mercury, SG = 0.8\u20130.9 for oil. Multiply SG by 9,810 N/m\u00B3 to get specific weight in SI.' },
-    { type: 'callout', variant: 'warning', body: 'Don\u2019t confuse dynamic viscosity (\u03BC, in Pa\u00B7s) with kinematic viscosity (\u03BD, in m\u00B2/s). The FE handbook uses both \u2014 check which one the problem gives you before plugging in.' },
+    { type: 'callout', variant: 'warning', body: 'Don\u2019t confuse dynamic viscosity ($\\mu$, in Pa\u00B7s) with kinematic viscosity ($\\nu$, in m\u00B2/s). The FE handbook uses both \u2014 check which one the problem gives you before plugging in.' },
   ],
   illustration: null,
   problems: [
@@ -32,8 +32,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Specific gravity is the ratio of the fluid\u2019s density (or specific weight) to water\u2019s. So \u03B3 = SG \u00D7 \u03B3_w = 0.85 \u00D7 9,810 = 8,338.5 N/m\u00B3. Choice B just multiplies 0.85 \u00D7 1,000 and slaps on the wrong units. Choice C is water\u2019s specific weight (SG = 1.0). Choice D has the right number but wrong units \u2014 specific weight is force per volume (N/m\u00B3), not mass per volume (kg/m\u00B3).',
-      hint: 'Specific weight = SG times the specific weight of water (9,810 N/m\u00B3 in SI).',
+      eli5: 'Specific gravity is the ratio of the fluid\u2019s density (or specific weight) to water\u2019s. So $\\gamma = SG \\times \\gamma_w = 0.85 \\times 9{,}810 = 8{,}338.5$ N/m\u00B3. Choice B just multiplies $0.85 \\times 1{,}000$ and slaps on the wrong units. Choice C is water\u2019s specific weight ($SG = 1.0$). Choice D has the right number but wrong units \u2014 specific weight is force per volume (N/m\u00B3), not mass per volume (kg/m\u00B3).',
+      hint: 'Specific weight $= SG$ times the specific weight of water ($9{,}810$ N/m\u00B3 in SI).',
       steps: [
         { text: 'Specific weight from specific gravity:', latex: '\\gamma = SG \\times \\gamma_w' },
         { text: 'Substitute:', latex: '\\gamma = 0.85 \\times 9{,}810 = 8{,}338 \\text{ N/m}^3' },
@@ -42,8 +42,8 @@ export default {
       handbookFormula: 'SG = \\frac{\\gamma}{\\gamma_w}',
       videoUrl: null,
       traps: [
-        'Confusing specific weight (N/m\u00B3) with density (kg/m\u00B3) \u2014 different units, related by g',
-        'Using \u03C1_w = 1,000 instead of \u03B3_w = 9,810 when computing specific weight',
+        'Confusing specific weight (N/m\u00B3) with density (kg/m\u00B3) \u2014 different units, related by $g$',
+        'Using $\\rho_w = 1{,}000$ instead of $\\gamma_w = 9{,}810$ when computing specific weight',
       ],
       diagram: null,
     },
@@ -58,8 +58,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a linear velocity profile, dv/dy = v/\u03B4. The unit trap is converting mm to m: 2 mm = 0.002 m. So \u03C4 = \u03BC \u00D7 v/\u03B4 = 0.1 \u00D7 0.5/0.002 = 25 Pa. Choice B (0.05) forgets to convert mm to m and uses \u03B4 = 2 directly. Choice C (250) uses \u03B4 = 0.0002 m (converting mm to m incorrectly). Choice D (0.25) uses \u03B4 = 0.2 m.',
-      hint: 'For a linear velocity profile, dv/dy = v/\u03B4. Convert the film thickness to meters before dividing.',
+      eli5: 'For a linear velocity profile, $dv/dy = v/\\delta$. The unit trap is converting mm to m: $2$ mm $= 0.002$ m. So $\\tau = \\mu \\times v/\\delta = 0.1 \\times 0.5/0.002 = 25$ Pa. Choice B (0.05) forgets to convert mm to m and uses $\\delta = 2$ directly. Choice C (250) uses $\\delta = 0.0002$ m (converting mm to m incorrectly). Choice D (0.25) uses $\\delta = 0.2$ m.',
+      hint: 'For a linear velocity profile, $dv/dy = v/\\delta$. Convert the film thickness to meters before dividing.',
       steps: [
         { text: 'Convert film thickness to meters:', latex: '\\delta = 2 \\text{ mm} = 0.002 \\text{ m}' },
         { text: 'Velocity gradient for linear profile:', latex: '\\frac{dv}{dy} = \\frac{v}{\\delta} = \\frac{0.5}{0.002} = 250 \\text{ s}^{-1}' },
@@ -70,13 +70,13 @@ export default {
       videoUrl: null,
       traps: [
         'Forgetting to convert mm to m for the film thickness \u2014 off by a factor of 1,000',
-        'Using kinematic viscosity \u03BD instead of dynamic viscosity \u03BC in the shear stress formula',
+        'Using kinematic viscosity $\\nu$ instead of dynamic viscosity $\\mu$ in the shear stress formula',
       ],
       diagram: null,
     },
     {
       id: 'fm-fp-q3',
-      statement: 'A glass capillary tube with diameter $d = 1.5 \\text{ mm}$ is inserted into water at 20\u00B0C. The surface tension of water is $\\sigma = 0.0728 \\text{ N/m}$, the contact angle is $\\beta = 0\u00B0$, and $\\gamma_w = 9{,}789 \\text{ N/m}^3$. What is the approximate capillary rise?',
+      statement: 'A glass capillary tube with diameter $d = 1.5 \\text{ mm}$ is inserted into water at 20\u00B0C. The surface tension of water is $\\sigma = 0.0728 \\text{ N/m}$, the contact angle is $\\beta = 0\\degree$, and $\\gamma_w = 9{,}789 \\text{ N/m}^3$. What is the approximate capillary rise?',
       choices: [
         { id: 'c1', text: '$19.8 \\text{ mm}$' },
         { id: 'c2', text: '$9.9 \\text{ mm}$' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Plug into h = 4\u03C3 cos\u03B2 / (\u03B3d). With \u03B2 = 0\u00B0, cos 0\u00B0 = 1. Convert d = 1.5 mm = 0.0015 m. Then h = 4(0.0728)(1) / (9,789 \u00D7 0.0015) = 0.2912 / 14.684 = 0.01983 m \u2248 19.8 mm. Choice B (9.9) drops the factor of 4 \u2014 using \u03C3 cos\u03B2 / (\u03B3d) instead. Choice C (39.7) uses the radius instead of the diameter (doubling the answer). Choice D uses 2 instead of 4 in the numerator.',
+      eli5: 'Plug into $h = 4\\sigma \\cos\\beta / (\\gamma d)$. With $\\beta = 0\\degree$, $\\cos 0\\degree = 1$. Convert $d = 1.5$ mm $= 0.0015$ m. Then $h = 4(0.0728)(1) / (9{,}789 \\times 0.0015) = 0.2912 / 14.684 = 0.01983$ m $\\approx 19.8$ mm. Choice B (9.9) drops the factor of 4 \u2014 using $\\sigma \\cos\\beta / (\\gamma d)$ instead. Choice C (39.7) uses the radius instead of the diameter (doubling the answer). Choice D uses 2 instead of 4 in the numerator.',
       hint: 'The capillary rise formula uses diameter (not radius) in the denominator, and there\u2019s a factor of 4 in the numerator.',
       steps: [
         { text: 'Convert diameter to meters:', latex: 'd = 1.5 \\text{ mm} = 0.0015 \\text{ m}' },
@@ -116,7 +116,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Specific weight is density times gravitational acceleration: gamma = rho * g = 870 * 9.81 = 8,534.7 N/m^3. Choice A confuses density with specific weight (forgot to multiply by g). Choice C divides by g instead of multiplying. Choice D has the right number but wrong units -- specific weight is force per volume (N/m^3), not mass per volume.',
+      eli5: 'Specific weight is density times gravitational acceleration: $\\gamma = \\rho \\times g = 870 \\times 9.81 = 8{,}534.7$ N/m\u00B3. Choice A confuses density with specific weight (forgot to multiply by $g$). Choice C divides by $g$ instead of multiplying. Choice D has the right number but wrong units \u2014 specific weight is force per volume (N/m\u00B3), not mass per volume.',
       hint: 'Specific weight relates to density by $\\gamma = \\rho g$. Make sure your answer has force units.',
       steps: [
         { text: 'Apply the definition:', latex: '\\gamma = \\rho g = 870 \\times 9.81' },
@@ -125,7 +125,7 @@ export default {
       handbookPage: 'p. 176',
       handbookFormula: '\\gamma = \\rho g',
       videoUrl: null,
-      traps: ['Confusing density (kg/m^3) with specific weight (N/m^3)', 'Forgetting to multiply by g'],
+      traps: ['Confusing density (kg/m\u00B3) with specific weight (N/m\u00B3)', 'Forgetting to multiply by $g$'],
       diagram: null,
     },
     {
@@ -140,7 +140,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a linear profile, the velocity gradient is dv/dy = v/delta. Convert the gap: 0.5 mm = 0.0005 m. Then dv/dy = 1.2/0.0005 = 2,400 s^-1. Shear stress: tau = mu * dv/dy = 0.04 * 2,400 = 96 Pa. Choice B forgets to convert mm to m (uses delta = 0.5 m). Choice C uses delta = 0.005 m. Choice D uses delta = 0.00005 m.',
+      eli5: 'For a linear profile, the velocity gradient is $dv/dy = v/\\delta$. Convert the gap: $0.5$ mm $= 0.0005$ m. Then $dv/dy = 1.2/0.0005 = 2{,}400$ s\u207B\u00B9. Shear stress: $\\tau = \\mu \\times dv/dy = 0.04 \\times 2{,}400 = 96$ Pa. Choice B forgets to convert mm to m (uses $\\delta = 0.5$ m). Choice C uses $\\delta = 0.005$ m. Choice D uses $\\delta = 0.00005$ m.',
       hint: 'Convert the film thickness to meters before computing the velocity gradient $dv/dy = v/\\delta$.',
       steps: [
         { text: 'Convert film thickness:', latex: '\\delta = 0.5\\,\\text{mm} = 0.0005\\,\\text{m}' },
@@ -165,7 +165,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Kinematic viscosity is nu = mu/rho, so mu = nu * rho = 5e-4 * 900 = 0.45 Pa*s. Choice B divides nu by rho instead of multiplying. Choice C is off by a factor of 10 (maybe used nu = 5e-3). Choice D is off by a factor of 10 in the other direction. The key is remembering which way the formula goes: multiply nu by rho to get mu.',
+      eli5: 'Kinematic viscosity is $\\nu = \\mu/\\rho$, so $\\mu = \\nu \\times \\rho = 5 \\times 10^{-4} \\times 900 = 0.45$ Pa\u00B7s. Choice B divides $\\nu$ by $\\rho$ instead of multiplying. Choice C is off by a factor of 10 (maybe used $\\nu = 5 \\times 10^{-3}$). Choice D is off by a factor of 10 in the other direction. The key is remembering which way the formula goes: multiply $\\nu$ by $\\rho$ to get $\\mu$.',
       hint: 'Rearrange $\\nu = \\mu / \\rho$ to solve for $\\mu$.',
       steps: [
         { text: 'From the definition of kinematic viscosity:', latex: '\\nu = \\frac{\\mu}{\\rho} \\quad \\Rightarrow \\quad \\mu = \\nu \\rho' },
@@ -174,7 +174,7 @@ export default {
       handbookPage: 'p. 176',
       handbookFormula: '\\nu = \\frac{\\mu}{\\rho}',
       videoUrl: null,
-      traps: ['Dividing nu by rho instead of multiplying -- gives a tiny number', 'Mixing up which viscosity is which (dynamic vs. kinematic)'],
+      traps: ['Dividing $\\nu$ by $\\rho$ instead of multiplying \u2014 gives a tiny number', 'Mixing up which viscosity is which (dynamic vs. kinematic)'],
       diagram: null,
     },
     {
@@ -189,7 +189,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Kinematic viscosity is dynamic viscosity divided by density: nu = mu/rho. It is called "kinematic" because its units (m^2/s) involve only length and time -- no mass. This makes it convenient for the Reynolds number, Re = vD/nu. Choice A reverses the units. Choice C is wrong because they are never numerically equal in SI (mu for water is about 0.001 Pa*s while nu is about 1e-6 m^2/s). Choice D is wrong because both types apply to all fluids.',
+      eli5: 'Kinematic viscosity is dynamic viscosity divided by density: $\\nu = \\mu/\\rho$. It is called "kinematic" because its units (m\u00B2/s) involve only length and time \u2014 no mass. This makes it convenient for the Reynolds number, $Re = vD/\\nu$. Choice A reverses the units. Choice C is wrong because they are never numerically equal in SI ($\\mu$ for water is about $0.001$ Pa\u00B7s while $\\nu$ is about $1 \\times 10^{-6}$ m\u00B2/s). Choice D is wrong because both types apply to all fluids.',
       hint: 'Think about what dividing by density does to the units of viscosity.',
       steps: [
         { text: 'Dynamic viscosity $\\mu$ has units of Pa$\\cdot$s = kg/(m$\\cdot$s).', latex: null },
@@ -199,7 +199,7 @@ export default {
       handbookPage: 'p. 176',
       handbookFormula: '\\nu = \\frac{\\mu}{\\rho}',
       videoUrl: null,
-      traps: ['Reversing the units of mu and nu', 'Thinking they are numerically equal for water in SI units'],
+      traps: ['Reversing the units of $\\mu$ and $\\nu$', 'Thinking they are numerically equal for water in SI units'],
       diagram: null,
     },
   ],

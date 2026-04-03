@@ -36,8 +36,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Plug into \u0394L = \u03B1L\u0394T. The temperature change is 40 \u2013 5 = 35\u00B0C (not 45, not 25). \u0394L = 11.7\u00D710\u207B\u2076 \u00D7 25,000 mm \u00D7 35 = 10.24 mm \u2248 10.2 mm. Choice B (13.2) comes from adding temperatures: \u0394T = 45\u00B0C. Choice C (5.1) comes from halving the answer \u2014 maybe using \u0394T = 17.5\u00B0C. Choice D (1.02) comes from using L = 2.5 m instead of converting to mm (or equivalently, the answer is correct in cm instead of mm).',
-      hint: 'Temperature change is the difference: \u0394T = T_final \u2013 T_initial. Watch your units \u2014 L in mm gives \u0394L in mm.',
+      eli5: 'Plug into $\\Delta L = \\alpha L \\Delta T$. The temperature change is $40 - 5 = 35$\u00B0C (not 45, not 25). $\\Delta L = 11.7 \\times 10^{-6} \\times 25{,}000 \\times 35 = 10.24 \\approx 10.2$ mm. Choice B (13.2) comes from adding temperatures: $\\Delta T = 45$\u00B0C. Choice C (5.1) comes from halving the answer \u2014 maybe using $\\Delta T = 17.5$\u00B0C. Choice D (1.02) comes from using $L = 2.5$ m instead of converting to mm (or equivalently, the answer is correct in cm instead of mm).',
+      hint: 'Temperature change is the difference: $\\Delta T = T_{final} - T_{initial}$. Watch your units \u2014 $L$ in mm gives $\\Delta L$ in mm.',
       steps: [
         { text: 'Temperature change:', latex: '\\Delta T = 40 - 5 = 35\\degree\\text{C}' },
         { text: 'Change in length:', latex: '\\Delta L = \\alpha L \\Delta T = 11.7 \\times 10^{-6} \\times 25{,}000 \\times 35 = 10.2 \\text{ mm}' },
@@ -89,7 +89,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'The lever rule says: the fraction of a phase equals the arm on the OPPOSITE side divided by the total tie-line length. For liquid: f_L = (x\u2080 \u2013 x_\u03B1)/(x_L \u2013 x_\u03B1) = (30 \u2013 10)/(40 \u2013 10) = 20/30 = 0.667. The most common mistake is swapping the arms \u2014 using (x_L \u2013 x\u2080) in the numerator gives the fraction of SOLID (0.33, choice B). Choice C (0.50) comes from using a wrong denominator like (40 \u2013 0) or averaging. Choice D (0.75) comes from dividing x\u2080/x_L = 30/40.',
+      eli5: 'The lever rule says: the fraction of a phase equals the arm on the OPPOSITE side divided by the total tie-line length. For liquid: $f_L = (x_0 - x_\\alpha)/(x_L - x_\\alpha) = (30 - 10)/(40 - 10) = 20/30 = 0.667$. The most common mistake is swapping the arms \u2014 using $(x_L - x_0)$ in the numerator gives the fraction of SOLID (0.33, choice B). Choice C (0.50) comes from using a wrong denominator like $(40 - 0)$ or averaging. Choice D (0.75) comes from dividing $x_0/x_L = 30/40$.',
       hint: 'In the lever rule, the fraction of liquid uses the arm from the overall composition to the SOLID boundary (opposite side), divided by the total tie-line length.',
       steps: [
         { text: 'Identify tie-line endpoints at temperature T:', latex: 'x_\\alpha = 10 \\text{ wt\\%},\\quad x_L = 40 \\text{ wt\\%},\\quad x_0 = 30 \\text{ wt\\%}' },
@@ -99,8 +99,8 @@ export default {
       handbookFormula: 'f_\\alpha = \\frac{x_L - x_0}{x_L - x_\\alpha}',
       videoUrl: null,
       traps: [
-        'Swapping the lever arms \u2014 computing (x_L \u2013 x\u2080)/(x_L \u2013 x_\u03B1) gives the solid fraction 0.33, not the liquid fraction (choice B)',
-        'Using x\u2080/x_L = 30/40 = 0.75 instead of the proper lever rule (choice D)',
+        'Swapping the lever arms \u2014 computing $(x_L - x_0)/(x_L - x_\\alpha)$ gives the solid fraction 0.33, not the liquid fraction (choice B)',
+        'Using $x_0/x_L = 30/40 = 0.75$ instead of the proper lever rule (choice D)',
       ],
       diagram: null,
     },
@@ -143,7 +143,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Use the thermal expansion formula: delta L = alpha times L times delta T. The temperature change is 55 minus 20 = 35 degrees C. Then delta L = 23e-6 times 6,000 mm times 35 = 4.83 mm. Choice B (7.59) uses delta T = 55 degrees C (the final temperature instead of the change). Choice C (0.48) uses L = 0.6 m without converting to mm consistently. Choice D (48.3) is off by a factor of 10 -- possibly using alpha = 230e-6.',
+      eli5: 'Use the thermal expansion formula: $\\Delta L = \\alpha L \\Delta T$. The temperature change is $55 - 20 = 35$ degrees C. Then $\\Delta L = 23 \\times 10^{-6} \\times 6{,}000 \\times 35 = 4.83$ mm. Choice B (7.59) uses $\\Delta T = 55$ degrees C (the final temperature instead of the change). Choice C (0.48) uses $L = 0.6$ m without converting to mm consistently. Choice D (48.3) is off by a factor of 10 \u2014 possibly using $\\alpha = 230 \\times 10^{-6}$.',
       hint: 'Temperature change is the difference between final and initial temperatures. Make sure your units are consistent.',
       steps: [
         { text: 'Temperature change:', latex: '\\Delta T = 55 - 20 = 35\\degree\\text{C}' },

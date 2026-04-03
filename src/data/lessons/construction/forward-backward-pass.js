@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Forward pass: A(0,3). B(3,7). C(3,5). E depends on B and C, so ES_E = max(EF_B, EF_C) = max(7, 5) = 7. EF_E = 7 + 3 = 10. Choice B used EF_C = 5 as ES (took min instead of max). Choice C used ES = EF_A = 3 (skipped B and C). Choice D somehow added extra.',
+      eli5: 'Forward pass: A(0,3). B(3,7). C(3,5). E depends on B and C, so $ES_E = \\max(EF_B, EF_C) = \\max(7, 5) = 7$. $EF_E = 7 + 3 = 10$. Choice B used $EF_C = 5$ as ES (took min instead of max). Choice C used $ES = EF_A = 3$ (skipped B and C). Choice D somehow added extra.',
       hint: 'E depends on B AND C. Use MAX of their EFs to find ES of E.',
       steps: [
         { text: 'Forward pass: $A(0,3)$, $B(3,7)$, $C(3,5)$', latex: null },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Backward pass: D(7,13), E(10,13). C feeds only E, so LF_C = LS_E = 10. LS_C = LF_C \u2212 D_C = 10 \u2212 2 = 8. Choice B (3) is ES_C from the forward pass \u2014 the question asked for LS, not ES. Choice C (5) is EF_C. Choice D (10) is LF_C, not LS_C \u2014 forgot to subtract the duration.',
+      eli5: 'Backward pass: D(7,13), E(10,13). C feeds only E, so $LF_C = LS_E = 10$. $LS_C = LF_C - D_C = 10 - 2 = 8$. Choice B (3) is $ES_C$ from the forward pass \u2014 the question asked for $LS$, not $ES$. Choice C (5) is $EF_C$. Choice D (10) is $LF_C$, not $LS_C$ \u2014 forgot to subtract the duration.',
       hint: 'Run the backward pass: LF of C = LS of its successor (E). Then LS = LF \u2212 duration.',
       steps: [
         { text: 'Backward pass from project end ($LF = 13$):', latex: null },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'B feeds two successors: D (LS_D = 7) and E (LS_E = 10). The backward pass uses MIN: LF_B = min(7, 10) = 7. B must finish by day 7 so that D can start on time. Choice B (10) used LS_E only, ignoring D. Choice C (13) used the project end date. Choice D (4) is LS_B + 1 or confused with duration.',
+      eli5: 'B feeds two successors: D ($LS_D = 7$) and E ($LS_E = 10$). The backward pass uses MIN: $LF_B = \\min(7, 10) = 7$. B must finish by day 7 so that D can start on time. Choice B (10) used $LS_E$ only, ignoring D. Choice C (13) used the project end date. Choice D (4) is $LS_B + 1$ or confused with duration.',
       hint: 'When an activity feeds multiple successors, its LF = MIN of all successor LSs. The backward pass uses MIN.',
       steps: [
         { text: 'B feeds D and E:', latex: null },
@@ -115,7 +115,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The backward pass uses MIN of successor late starts. The activity must finish in time for the tightest (earliest) successor. min(12, 9) = 9. Choice B (12) used MAX instead of MIN, which would allow the activity to miss the day-9 successor deadline. Choice C (10.5) averaged the two values. Choice D (21) summed them.',
+      eli5: 'The backward pass uses MIN of successor late starts. The activity must finish in time for the tightest (earliest) successor. $\\min(12, 9) = 9$. Choice B (12) used MAX instead of MIN, which would allow the activity to miss the day-9 successor deadline. Choice C (10.5) averaged the two values. Choice D (21) summed them.',
       hint: 'Backward pass rule: LF = MIN of all successor late starts.',
       steps: [
         { text: 'Activity feeds two successors: $LS_1 = 12$, $LS_2 = 9$.', latex: null },
@@ -139,7 +139,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Total float = LS - ES = 8 - 8 = 0. An activity with zero total float is on the critical path. Any delay to J will push the project end date. Choice B says 5 days of float, but that is the duration (EF - ES = 13 - 8 = 5), not the float. Choice C is wrong because zero float means NO room for delay. Choice D is contradictory — free float cannot exceed total float, and if TF = 0 then FF = 0 too.',
+      eli5: 'Total float $= LS - ES = 8 - 8 = 0$. An activity with zero total float is on the critical path. Any delay to J will push the project end date. Choice B says 5 days of float, but that is the duration ($EF - ES = 13 - 8 = 5$), not the float. Choice C is wrong because zero float means NO room for delay. Choice D is contradictory \u2014 free float cannot exceed total float, and if $TF = 0$ then $FF = 0$ too.',
       hint: 'Compare ES to LS (or EF to LF). If they are equal, what does that tell you about float?',
       steps: [
         { text: 'Total float:', latex: 'TF = LS - ES = 8 - 8 = 0' },
@@ -164,7 +164,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Forward pass: A(0,4), B(4,7), C(4,9), D(9,11). Backward pass from LF = 11: D(9,11), then B and C feed D so their LF = LS_D = 9. For B: LF_B = 9, LS_B = 9 - 3 = 6. For C: LF_C = 9, LS_C = 9 - 5 = 4. Choice B (4) is the ES of B (or the LS of C), not the LS of B. Choice C (7) is the EF of B. Choice D (9) is the LF of B, not LS.',
+      eli5: 'Forward pass: A(0,4), B(4,7), C(4,9), D(9,11). Backward pass from $LF = 11$: D(9,11), then B and C feed D so their $LF = LS_D = 9$. For B: $LF_B = 9$, $LS_B = 9 - 3 = 6$. For C: $LF_C = 9$, $LS_C = 9 - 5 = 4$. Choice B (4) is the $ES$ of B (or the $LS$ of C), not the $LS$ of B. Choice C (7) is the $EF$ of B. Choice D (9) is the $LF$ of B, not $LS$.',
       hint: 'Run the backward pass: start at the project end, work right to left. LS = LF - Duration.',
       steps: [
         { text: 'Forward pass: A(0,4), B(4,7), C(4,9), D(9,11).', latex: null },
@@ -190,7 +190,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Using MAX instead of MIN on the backward pass gives each activity a LATER late finish than it should have. A later LF means a later LS, which inflates TF = LS - ES. The engineer would conclude that activities have more slack than they actually do. This is dangerous because delaying an activity within its "computed" float could actually push the project end date. The correct backward pass uses MIN to find the tightest successor constraint.',
+      eli5: 'Using MAX instead of MIN on the backward pass gives each activity a LATER late finish than it should have. A later $LF$ means a later $LS$, which inflates $TF = LS - ES$. The engineer would conclude that activities have more slack than they actually do. This is dangerous because delaying an activity within its "computed" float could actually push the project end date. The correct backward pass uses MIN to find the tightest successor constraint.',
       hint: 'If LF is too large (from using MAX instead of MIN), what happens to LS and therefore to total float?',
       steps: [
         { text: 'Correct: $LF = \\min(LS_{\\text{successors}})$.', latex: null },

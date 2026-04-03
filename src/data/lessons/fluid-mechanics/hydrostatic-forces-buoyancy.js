@@ -115,7 +115,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The resultant force is F = gamma * h_C * A. Area of a circle: A = pi * D^2/4 = pi * 1.2^2/4 = 1.131 m^2. F = 9,810 * 4 * 1.131 = 44,342 N = 44.3 kN, approximately 44.4 kN. Choice B uses h_C = 1 m instead of 4 m. Choice C uses h_C = 8 m (doubled). Choice D uses h_C = 2 m.',
+      eli5: 'The resultant force is $F = \\gamma \\times h_C \\times A$. Area of a circle: $A = \\pi D^2/4 = \\pi \\times 1.2^2/4 = 1.131$ m\u00B2. $F = 9{,}810 \\times 4 \\times 1.131 = 44{,}342$ N $= 44.3$ kN, approximately 44.4 kN. Choice B uses $h_C = 1$ m instead of 4 m. Choice C uses $h_C = 8$ m (doubled). Choice D uses $h_C = 2$ m.',
       hint: 'The resultant force uses the pressure at the centroid: $F_R = \\gamma h_C A$. Use the area of a circle.',
       steps: [
         { text: 'Gate area:', latex: 'A = \\frac{\\pi D^2}{4} = \\frac{\\pi(1.2)^2}{4} = 1.131\\,\\text{m}^2' },
@@ -139,7 +139,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The centroid of the gate is at h_C = 3 + 2/2 = 4.0 m below the surface. For a vertical surface y_C = h_C = 4.0 m. I_xC = bh^3/12 = 1.5(2)^3/12 = 1.0 m^4. A = 1.5 * 2 = 3.0 m^2. Center of pressure: y_CP = y_C + I_xC/(y_C * A) = 4.0 + 1.0/(4.0 * 3.0) = 4.0 + 0.0833 = 4.083 m. Choice B gives the centroid (not the center of pressure). Choice C puts the centroid at 3 + 2/6 (one-third from the top). Choice D uses the bottom of the gate.',
+      eli5: 'The centroid of the gate is at $h_C = 3 + 2/2 = 4.0$ m below the surface. For a vertical surface $y_C = h_C = 4.0$ m. $I_{xC} = bh^3/12 = 1.5(2)^3/12 = 1.0$ m\u2074. $A = 1.5 \\times 2 = 3.0$ m\u00B2. Center of pressure: $y_{CP} = y_C + I_{xC}/(y_C \\times A) = 4.0 + 1.0/(4.0 \\times 3.0) = 4.0 + 0.0833 = 4.083$ m. Choice B gives the centroid (not the center of pressure). Choice C puts the centroid at $3 + 2/6$ (one-third from the top). Choice D uses the bottom of the gate.',
       hint: 'The centroid of the gate is not at the surface -- it is at $3 + h/2$ below the surface. Then apply the center of pressure formula.',
       steps: [
         { text: 'Centroid depth below surface:', latex: 'y_C = 3 + \\frac{2}{2} = 4.0\\,\\text{m}' },
@@ -165,7 +165,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Volume: V = 0.5^3 = 0.125 m^3. Weight: W = gamma_c * V = 23,500 * 0.125 = 2,937.5 N. Buoyant force: F_B = gamma_w * V = 9,810 * 0.125 = 1,226.3 N. Since W > F_B (2,937.5 > 1,226.3), the cube sinks. A cable holding it to the bottom would go slack because gravity already keeps it down. No cable tension is needed. The question is a trap -- it asks about a cable holding the cube to the bottom, but since concrete is denser than water, the cube stays down on its own. Choice B computes W - F_B. Choice C gives the weight alone. Choice D gives the buoyant force alone.',
+      eli5: 'Volume: $V = 0.5^3 = 0.125$ m\u00B3. Weight: $W = \\gamma_c \\times V = 23{,}500 \\times 0.125 = 2{,}937.5$ N. Buoyant force: $F_B = \\gamma_w \\times V = 9{,}810 \\times 0.125 = 1{,}226.3$ N. Since $W > F_B$ ($2{,}937.5 > 1{,}226.3$), the cube sinks. A cable holding it to the bottom would go slack because gravity already keeps it down. No cable tension is needed. The question is a trap \u2014 it asks about a cable holding the cube to the bottom, but since concrete is denser than water, the cube stays down on its own. Choice B computes $W - F_B$. Choice C gives the weight alone. Choice D gives the buoyant force alone.',
       hint: 'Before computing cable tension, check whether the object actually floats. Compare its weight to the buoyant force.',
       steps: [
         { text: 'Volume of the cube:', latex: 'V = s^3 = 0.5^3 = 0.125\\,\\text{m}^3' },
@@ -191,7 +191,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'The center of pressure offset from the centroid is I_xC/(y_C * A). The moment of inertia I_xC and area A are fixed properties of the plate shape. As the plate goes deeper, y_C increases, making the denominator larger and the offset smaller. In the limit, at very large depth the center of pressure essentially coincides with the centroid because the pressure distribution becomes nearly uniform across the plate height. Choice A gets the reasoning backwards. Choice C ignores the y_C term in the denominator. Choice D is wrong -- the offset never increases again once the plate goes deeper.',
+      eli5: 'The center of pressure offset from the centroid is $I_{xC}/(y_C \\times A)$. The moment of inertia $I_{xC}$ and area $A$ are fixed properties of the plate shape. As the plate goes deeper, $y_C$ increases, making the denominator larger and the offset smaller. In the limit, at very large depth the center of pressure essentially coincides with the centroid because the pressure distribution becomes nearly uniform across the plate height. Choice A gets the reasoning backwards. Choice C ignores the $y_C$ term in the denominator. Choice D is wrong \u2014 the offset never increases again once the plate goes deeper.',
       hint: 'Look at the formula $y_{CP} - y_C = I_{xC}/(y_C A)$ and consider what happens to the right side as $y_C$ gets large.',
       steps: [
         { text: 'Center of pressure offset:', latex: 'y_{CP} - y_C = \\frac{I_{xC}}{y_C A}' },
@@ -201,7 +201,7 @@ export default {
       handbookPage: 'p. 179',
       handbookFormula: 'y_{CP} = y_C + \\frac{I_{xC}}{y_C A}',
       videoUrl: null,
-      traps: ['Thinking the offset is constant because I_xC and A are constants -- y_C is in the denominator', 'Confusing pressure increase with offset increase'],
+      traps: ['Thinking the offset is constant because $I_{xC}$ and $A$ are constants \u2014 $y_C$ is in the denominator', 'Confusing pressure increase with offset increase'],
       diagram: null,
     },
   ],

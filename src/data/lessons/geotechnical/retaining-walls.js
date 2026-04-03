@@ -113,7 +113,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'FS(sliding) = resisting forces / driving forces = 6,000/3,000 = 2.0. This is a direct ratio. Choice B (0.50) inverts the ratio (driving/resisting). Choice C (3,000) subtracts instead of dividing. Choice D (1.0) might come from thinking they are equal.',
+      eli5: '$FS_{sliding} = $ resisting forces / driving forces $= 6{,}000/3{,}000 = 2.0$. This is a direct ratio. Choice B (0.50) inverts the ratio (driving/resisting). Choice C (3,000) subtracts instead of dividing. Choice D (1.0) might come from thinking they are equal.',
       hint: 'FS(sliding) = sum of resisting forces / sum of driving forces.',
       steps: [
         { text: 'Factor of safety against sliding:', latex: 'FS = \\frac{\\Sigma F_R}{\\Sigma F_D} = \\frac{6{,}000}{3{,}000} = 2.0' },
@@ -136,7 +136,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The middle-third rule says the resultant must fall within B/6 of the center for the entire base to be in compression. Here e = B/4 = 0.25B, and B/6 = 0.167B. Since 0.25B > 0.167B, the resultant is outside the middle third. This means the heel side has theoretical tension, but soil cannot take tension, so the actual pressure redistributes to a triangular distribution on the toe side only. Choice B applies when e = 0. Choice C applies when e <= B/6. Choice D is wrong because eccentricity directly controls pressure distribution.',
+      eli5: 'The middle-third rule says the resultant must fall within $B/6$ of the center for the entire base to be in compression. Here $e = B/4 = 0.25B$, and $B/6 = 0.167B$. Since $0.25B > 0.167B$, the resultant is outside the middle third. This means the heel side has theoretical tension, but soil cannot take tension, so the actual pressure redistributes to a triangular distribution on the toe side only. Choice B applies when $e = 0$. Choice C applies when $e \\leq B/6$. Choice D is wrong because eccentricity directly controls pressure distribution.',
       hint: 'Compare e to B/6. If e > B/6, the resultant is outside the middle third.',
       steps: [
         { text: 'Middle third limit:', latex: '\\frac{B}{6} = 0.167B' },
@@ -146,7 +146,7 @@ export default {
       handbookPage: 'p. 264',
       handbookFormula: 'q_{\\text{toe}} = \\frac{\\Sigma V}{B}\\left(1 + \\frac{6e}{B}\\right)',
       videoUrl: null,
-      traps: ['Applying the trapezoidal formula when e > B/6 -- the formula assumes no tension and is only valid for e <= B/6'],
+      traps: ['Applying the trapezoidal formula when $e > B/6$ -- the formula assumes no tension and is only valid for $e \\leq B/6$'],
       diagram: null,
     },
     {
@@ -161,8 +161,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'First find where the resultant hits the base: x_bar = (MR - MO)/V = (60,000 - 20,000)/10,000 = 4.0 ft from the toe. Eccentricity: e = B/2 - x_bar = 5.0 - 4.0 = 1.0 ft. Check: B/6 = 10/6 = 1.67 ft, and e = 1.0 < 1.67, so the middle-third rule is satisfied. Toe pressure: q_toe = (V/B)(1 + 6e/B) = (10,000/10)(1 + 6(1.0)/10) = 1,000(1 + 0.60) = 1,000 x 1.60 = 1,600 psf. Choice B (1,000) ignores eccentricity. Choice C (2,000) uses e = B/6 = 1.67. Choice D (4,000) might use an incorrect formula.',
-      hint: 'Find x_bar, then e = B/2 - x_bar, then q_toe = (V/B)(1 + 6e/B).',
+      eli5: 'First find where the resultant hits the base: $\\bar{x} = (M_R - M_O)/V = (60{,}000 - 20{,}000)/10{,}000 = 4.0$ ft from the toe. Eccentricity: $e = B/2 - \\bar{x} = 5.0 - 4.0 = 1.0$ ft. Check: $B/6 = 10/6 = 1.67$ ft, and $e = 1.0 < 1.67$, so the middle-third rule is satisfied. Toe pressure: $q_{toe} = (V/B)(1 + 6e/B) = (10{,}000/10)(1 + 6(1.0)/10) = 1{,}000(1 + 0.60) = 1{,}000 \\times 1.60 = 1{,}600$ psf. Choice B (1,000) ignores eccentricity. Choice C (2,000) uses $e = B/6 = 1.67$. Choice D (4,000) might use an incorrect formula.',
+      hint: 'Find $\\bar{x}$, then $e = B/2 - \\bar{x}$, then $q_{toe} = (V/B)(1 + 6e/B)$.',
       steps: [
         { text: 'Location of resultant:', latex: '\\bar{x} = \\frac{60{,}000 - 20{,}000}{10{,}000} = 4.0 \\text{ ft from toe}' },
         { text: 'Eccentricity:', latex: 'e = 5.0 - 4.0 = 1.0 \\text{ ft}' },
@@ -172,7 +172,7 @@ export default {
       handbookPage: 'p. 264',
       handbookFormula: 'q_{\\text{toe}} = \\frac{\\Sigma V}{B}\\left(1 + \\frac{6e}{B}\\right)',
       videoUrl: null,
-      traps: ['Using V/B as the final answer without accounting for eccentricity', 'Confusing x_bar (distance from toe) with e (distance from center)'],
+      traps: ['Using $V/B$ as the final answer without accounting for eccentricity', 'Confusing $\\bar{x}$ (distance from toe) with $e$ (distance from center)'],
       diagram: null,
     },
     {
@@ -187,7 +187,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'You must check each failure mode against its own required FS. Overturning: 2.5 >= 2.0, so it passes. Sliding: 1.2 < 1.5, so it fails. Even though overturning is fine, the wall is inadequate because sliding does not meet the minimum FS. You could add a key (shear key) at the base or widen the footing to increase sliding resistance. Choice B ignores that each check has a different threshold. Choice C is wrong because FS > 1.0 is not sufficient -- each mode has a specific required FS. Choice D incorrectly assumes passing one check means the wall is stable overall.',
+      eli5: 'You must check each failure mode against its own required FS. Overturning: $2.5 \\geq 2.0$, so it passes. Sliding: $1.2 < 1.5$, so it fails. Even though overturning is fine, the wall is inadequate because sliding does not meet the minimum FS. You could add a key (shear key) at the base or widen the footing to increase sliding resistance. Choice B ignores that each check has a different threshold. Choice C is wrong because $FS > 1.0$ is not sufficient -- each mode has a specific required FS. Choice D incorrectly assumes passing one check means the wall is stable overall.',
       hint: 'Compare each FS to its own minimum requirement. The wall is only adequate if ALL checks pass.',
       steps: [
         { text: 'Overturning check:', latex: 'FS_{\\text{ot}} = 2.5 \\geq 2.0 \\; \\checkmark' },

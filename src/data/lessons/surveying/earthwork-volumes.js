@@ -115,8 +115,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'V = L/2(A_1 + A_2) = 100/2(225 + 375) = 50 x 600 = 30,000 ft^3. Convert to cubic yards: 30,000 / 27 = 1,111 yd^3. Choice B gives the volume in ft^3, not yd^3. Choice C forgets to divide L by 2 (gets 60,000 ft^3 / 27). Choice D divides by 54 instead of 27.',
-      hint: 'Average end area: V = L/2(A_1 + A_2), then divide by 27 to convert ft^3 to yd^3.',
+      eli5: '$V = (L/2)(A_1 + A_2) = (100/2)(225 + 375) = 50 \\times 600 = 30000$ ft³. Convert to cubic yards: $30000 / 27 = 1111$ yd³. Choice B gives the volume in ft³, not yd³. Choice C forgets to divide $L$ by 2 (gets 60,000 ft³ / 27). Choice D divides by 54 instead of 27.',
+      hint: 'Average end area: $V = (L/2)(A_1 + A_2)$, then divide by 27 to convert ft³ to yd³.',
       steps: [
         { text: 'Average end area volume:', latex: 'V = \\frac{100}{2}(225 + 375) = 50 \\times 600 = 30{,}000 \\text{ ft}^3' },
         { text: 'Convert to cubic yards:', latex: 'V = \\frac{30{,}000}{27} = 1{,}111 \\text{ yd}^3' },
@@ -139,8 +139,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'V = L/6(A_1 + 4A_m + A_2) = 80/6(150 + 4 x 280 + 350) = 13.333(150 + 1,120 + 350) = 13.333 x 1,620 = 21,600 ft^3. The total distance L between the end sections is 80 ft, not 40. Choice B uses the average end area method: 80/2(150 + 350) = 20,000. Choice C uses L = 40 (half the total distance). Choice D uses L/4 with a different weighting.',
-      hint: 'Prismoidal: V = L/6(A_1 + 4A_m + A_2). The total length L is 80 ft (from station 0 to station 80).',
+      eli5: '$V = (L/6)(A_1 + 4A_m + A_2) = (80/6)(150 + 4 \\times 280 + 350) = 13.333 \\times 1620 = 21600$ ft³. The total distance $L$ between the end sections is 80 ft, not 40. Choice B uses the average end area method: $(80/2)(150 + 350) = 20000$. Choice C uses $L = 40$ (half the total distance). Choice D uses $L/4$ with a different weighting.',
+      hint: 'Prismoidal: $V = (L/6)(A_1 + 4A_m + A_2)$. The total length $L$ is 80 ft (from station 0 to station 80).',
       steps: [
         { text: 'Prismoidal formula:', latex: 'V = \\frac{L}{6}(A_1 + 4A_m + A_2) = \\frac{80}{6}(150 + 4 \\times 280 + 350)' },
         { text: 'Simplify:', latex: 'V = 13.333(150 + 1{,}120 + 350) = 13.333 \\times 1{,}620' },
@@ -164,7 +164,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Apply average end area to each segment. V_1 = 100/2(0 + 300) = 15,000 ft^3. V_2 = 100/2(300 + 500) = 40,000 ft^3. V_3 = 100/2(500 + 200) = 35,000 ft^3. Total = 15,000 + 40,000 + 35,000 = 90,000 ft^3. Convert to cubic yards: 90,000 / 27 = 3,333 yd^3. Choice B only computes two of the three segments. Choice C includes an extra segment from a miscount. Choice D forgets to divide L by 2 in each segment.',
+      eli5: 'Apply average end area to each segment. $V_1 = (100/2)(0 + 300) = 15000$ ft³. $V_2 = (100/2)(300 + 500) = 40000$ ft³. $V_3 = (100/2)(500 + 200) = 35000$ ft³. Total $= 15000 + 40000 + 35000 = 90000$ ft³. Convert to cubic yards: $90000 / 27 = 3333$ yd³. Choice B only computes two of the three segments. Choice C includes an extra segment from a miscount. Choice D forgets to divide $L$ by 2 in each segment.',
       hint: 'Apply the average end area formula to each pair of adjacent stations, sum all segment volumes, then convert to cubic yards (divide by 27).',
       steps: [
         { text: 'Segment 1 (Sta 0+00 to 1+00):', latex: 'V_1 = \\frac{100}{2}(0 + 300) = 15{,}000 \\text{ ft}^3' },
@@ -190,7 +190,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'A cone (or pyramid) volume is V = h x A_base / 3 = 15 x 2,000 / 3 = 30,000 / 3 = 10,000 ft^3. The 1/3 factor distinguishes a cone from a cylinder. Choice B uses V = h x A (no 1/3 factor -- that is a cylinder). Choice C uses V = h x A / 2 (average end area with A_2 = 0, which overcounts). Choice D divides by 6 instead of 3.',
+      eli5: 'A cone (or pyramid) volume is $V = h \\times A_{base} / 3 = 15 \\times 2000 / 3 = 10000$ ft³. The 1/3 factor distinguishes a cone from a cylinder. Choice B uses $V = h \\times A$ (no 1/3 factor — that is a cylinder). Choice C uses $V = h \\times A / 2$ (average end area with $A_2 = 0$, which overcounts). Choice D divides by 6 instead of 3.',
       hint: 'A cone tapers to a point, so V = (h x A_base) / 3, not h x A.',
       steps: [
         { text: 'Volume of cone/pyramid:', latex: 'V = \\frac{h \\times A_{\\text{base}}}{3} = \\frac{15 \\times 2{,}000}{3}' },
@@ -199,7 +199,7 @@ export default {
       handbookPage: 'p. 309',
       handbookFormula: 'V = \\frac{h \\times A_{\\text{base}}}{3}',
       videoUrl: null,
-      traps: ['Using V = h x A (cylinder formula) instead of the cone/pyramid formula with the 1/3 factor', 'Using the average end area with A_2 = 0, which gives h/2 x A instead of h/3 x A'],
+      traps: ['Using $V = hA$ (cylinder formula) instead of the cone/pyramid formula with the 1/3 factor', 'Using the average end area with $A_2 = 0$, which gives $hA/2$ instead of $hA/3$'],
       diagram: null,
     },
   ],

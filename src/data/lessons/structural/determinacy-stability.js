@@ -117,7 +117,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'For a truss: m + r = 2j for determinate. Here: 9 + 3 = 12, and 2(6) = 12. Since m + r = 2j, the truss is statically determinate. If m + r > 2j, it is indeterminate. If m + r < 2j, it is unstable.',
+      eli5: 'For a truss: $m + r = 2j$ for determinate. Here: $9 + 3 = 12$, and $2(6) = 12$. Since $m + r = 2j$, the truss is statically determinate. If $m + r > 2j$, it is indeterminate. If $m + r < 2j$, it is unstable.',
       hint: 'Check if $m + r = 2j$ for a truss.',
       steps: [
         { text: 'Determinacy condition for a planar truss:', latex: 'm + r = 2j' },
@@ -142,7 +142,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'When m + r > 2j, there are more unknowns than equilibrium equations. The structure has redundant members or supports — it is statically indeterminate. You would need compatibility equations in addition to equilibrium to solve it. The degree of indeterminacy is (m + r) - 2j.',
+      eli5: 'When $m + r > 2j$, there are more unknowns than equilibrium equations. The structure has redundant members or supports -- it is statically indeterminate. You would need compatibility equations in addition to equilibrium to solve it. The degree of indeterminacy is $(m + r) - 2j$.',
       hint: 'What happens when there are more unknowns than equilibrium equations?',
       steps: [
         { text: '$m + r > 2j$ means more unknowns than equations of equilibrium.', latex: null },
@@ -167,7 +167,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For frames, compare $3m + r$ to $3j + c$. Reactions: two pins give 2 + 2 = 4, one roller gives 1, so r = 5. Then $3m + r = 3(5) + 5 = 20$, and $3j + c = 3(6) + 2 = 20$. Since $20 = 20$, the frame is statically determinate (degree = 0). Each internal hinge provides one extra condition equation, which reduces the degree of indeterminacy. Without those two hinges, the frame would be indeterminate to the 2nd degree.',
+      eli5: 'For frames, compare $3m + r$ to $3j + c$. Reactions: two pins give $2 + 2 = 4$, one roller gives 1, so $r = 5$. Then $3m + r = 3(5) + 5 = 20$, and $3j + c = 3(6) + 2 = 20$. Since $20 = 20$, the frame is statically determinate (degree = 0). Each internal hinge provides one extra condition equation, which reduces the degree of indeterminacy. Without those two hinges, the frame would be indeterminate to the 2nd degree.',
       hint: 'Count reactions from all supports, then use the frame formula $3m + r$ vs $3j + c$.',
       steps: [
         { text: 'Count reactions:', latex: 'r = 2(2) + 1 = 5 \\text{ (two pins + one roller)}' },
@@ -196,7 +196,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'The numerical count $m + r > 2j$ suggests indeterminacy, but that equation is only a necessary condition for stability, not a sufficient one. If all reaction lines of action pass through a single point (concurrent reactions), the structure cannot resist a moment about that point. Apply the moment equilibrium equation $\\Sigma M = 0$ at that point and you get $0 = \\text{something nonzero}$, which is impossible. The structure is geometrically unstable regardless of how many extra members or reactions it has. Always check the arrangement of reactions, not just the count.',
+      eli5: 'The numerical count $m + r > 2j$ suggests indeterminacy, but that equation is only a necessary condition for stability, not a sufficient one. If all reaction lines of action pass through a single point (concurrent reactions), the structure cannot resist a moment about that point. Apply the moment equilibrium equation $\\Sigma M = 0$ at that point and you get 0 = something nonzero, which is impossible. The structure is geometrically unstable regardless of how many extra members or reactions it has. Always check the arrangement of reactions, not just the count.',
       hint: 'The determinacy equation is necessary but not sufficient. What happens if you sum moments about the point where all reactions intersect?',
       steps: [
         { text: 'The count $m + r > 2j$ suggests indeterminacy.', latex: null },

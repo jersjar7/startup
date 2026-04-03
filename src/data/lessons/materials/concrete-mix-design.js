@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'If the water stays at 200 kg/m\u00B3 and you need W/C = 0.40, then C = W/(W/C) = 200/0.40 = 500 kg/m\u00B3. You\u2019re adding 100 kg/m\u00B3 more cement. Choice B (320) comes from multiplying cement by the new ratio: 400 \u00D7 0.80 = 320 \u2014 wrong operation. Choice C (160) solved for new water instead of cement: 0.40 \u00D7 400 = 160. Choice D (480) added 0.40 \u00D7 200 = 80 to the original cement.',
+      eli5: 'If the water stays at 200 kg/m\u00B3 and you need $W/C = 0.40$, then $C = W/(W/C) = 200/0.40 = 500$ kg/m\u00B3. You\u2019re adding 100 kg/m\u00B3 more cement. Choice B (320) comes from multiplying cement by the new ratio: $400 \\times 0.80 = 320$ \u2014 wrong operation. Choice C (160) solved for new water instead of cement: $0.40 \\times 400 = 160$. Choice D (480) added $0.40 \\times 200 = 80$ to the original cement.',
       hint: 'Rearrange W/C = water/cement to get cement = water / (W/C).',
       steps: [
         { text: 'Current W/C:', latex: 'W/C = \\frac{200}{400} = 0.50' },

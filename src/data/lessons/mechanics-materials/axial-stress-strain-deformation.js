@@ -120,7 +120,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Use delta = PL/AE. P = 100,000 N, L = 2000 mm, A = 500 mm^2, E = 200,000 MPa. delta = (100000 x 2000)/(500 x 200000) = 200,000,000/100,000,000 = 2.0 mm. The main trap is unit confusion — make sure everything is in consistent units (N, mm, MPa).',
+      eli5: 'Use $\\delta = PL/(AE)$. $P = 100{,}000$ N, $L = 2{,}000$ mm, $A = 500$ mm$^2$, $E = 200{,}000$ MPa. $\\delta = (100{,}000 \\times 2{,}000)/(500 \\times 200{,}000) = 200{,}000{,}000/100{,}000{,}000 = 2.0$ mm. The main trap is unit confusion -- make sure everything is in consistent units (N, mm, MPa).',
       hint: 'Use the deformation formula $\\delta = PL/(AE)$ with consistent units.',
       steps: [
         { text: 'Convert to consistent units: $P = 100{,}000$ N, $L = 2000$ mm, $A = 500$ mm$^2$, $E = 200{,}000$ MPa.', latex: null },
@@ -145,7 +145,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'When you unload a material from beyond yield, it springs back elastically — the unloading line has the same slope as the original elastic region (same E). But it does not return to zero strain — there is permanent plastic deformation. The material "remembers" it was stretched. This is why the unloading line is parallel to, not on, the original curve.',
+      eli5: 'When you unload a material from beyond yield, it springs back elastically -- the unloading line has the same slope as the original elastic region (same $E$). But it does not return to zero strain -- there is permanent plastic deformation. The material "remembers" it was stretched. This is why the unloading line is parallel to, not on, the original curve.',
       hint: 'Think about what property governs the elastic springback during unloading.',
       steps: [
         { text: 'During unloading, the material recovers elastically with modulus $E$.', latex: null },
@@ -170,7 +170,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'For a multi-segment bar, you compute the deformation of each piece separately and add them up. Steel piece: 50000 x 600 / (400 x 200000) = 0.375 mm. Aluminum piece: 50000 x 900 / (800 x 70000) = 0.803 mm. Total = 1.18 mm. Choice A is just the steel part. Choice B is just the aluminum part. Choice D might come from using the same E for both segments.',
+      eli5: 'For a multi-segment bar, you compute the deformation of each piece separately and add them up. Steel piece: $50{,}000 \\times 600 / (400 \\times 200{,}000) = 0.375$ mm. Aluminum piece: $50{,}000 \\times 900 / (800 \\times 70{,}000) = 0.803$ mm. Total $= 1.18$ mm. Choice A is just the steel part. Choice B is just the aluminum part. Choice D might come from using the same $E$ for both segments.',
       hint: 'Each segment has its own A and E. Sum the individual deformations: $\\delta_{total} = \\sum PL_i / (A_i E_i)$.',
       steps: [
         { text: 'Steel segment deformation:', latex: '\\delta_1 = \\frac{PL_1}{A_1 E_1} = \\frac{50{,}000 \\times 600}{400 \\times 200{,}000} = 0.375\\,\\text{mm}' },
@@ -180,7 +180,7 @@ export default {
       handbookPage: 'p. 129',
       handbookFormula: '\\delta_{total} = \\sum \\frac{P_i L_i}{A_i E_i}',
       videoUrl: null,
-      traps: ['Only computing one segment and forgetting the other', 'Using the same modulus for both materials'],
+      traps: ['Only computing one segment and forgetting the other', 'Using the same $E$ for both materials'],
       diagram: null,
     },
     {
@@ -195,7 +195,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'This is a two-part thermal problem. First, check if the free expansion exceeds the gap. Free expansion = alpha x L x deltaT = 23e-6 x 800 x 50 = 0.92 mm, which is bigger than the 0.2 mm gap, so the rod does contact the wall and stress develops. But only the expansion beyond the gap is restrained: 0.92 - 0.20 = 0.72 mm. The compressive stress is E x (restrained deformation / L) = 70000 x (0.72 / 800) = 63.0 MPa. Choice A assumes the gap means no stress ever develops (wrong -- the expansion exceeds the gap). Choice C ignores the gap entirely and uses the full thermal stress. Choice D might come from using the wrong alpha or deltaT.',
+      eli5: 'This is a two-part thermal problem. First, check if the free expansion exceeds the gap. Free expansion $= \\alpha L \\Delta T = 23 \\times 10^{-6} \\times 800 \\times 50 = 0.92$ mm, which is bigger than the 0.2 mm gap, so the rod does contact the wall and stress develops. But only the expansion beyond the gap is restrained: $0.92 - 0.20 = 0.72$ mm. The compressive stress is $E \\times (\\delta_{restrained}/L) = 70{,}000 \\times (0.72/800) = 63.0$ MPa. Choice A assumes the gap means no stress ever develops (wrong -- the expansion exceeds the gap). Choice C ignores the gap entirely and uses the full thermal stress $E\\alpha\\Delta T = 80.5$ MPa. Choice D might come from using the wrong $\\alpha$ or $\\Delta T$.',
       hint: 'First check whether the free thermal expansion exceeds the gap. If it does, only the expansion beyond the gap is resisted by the walls.',
       steps: [
         { text: 'Temperature change:', latex: '\\Delta T = 75 - 25 = 50\\degree\\text{C}' },
@@ -206,7 +206,7 @@ export default {
       handbookPage: 'p. 129',
       handbookFormula: '\\delta_t = \\alpha L (T - T_0)',
       videoUrl: null,
-      traps: ['Ignoring the gap and computing full thermal stress E alpha deltaT = 80.5 MPa', 'Assuming zero stress because there is a gap, without checking if expansion exceeds the gap'],
+      traps: ['Ignoring the gap and computing full thermal stress $E\\alpha\\Delta T = 80.5$ MPa', 'Assuming zero stress because there is a gap, without checking if expansion exceeds the gap'],
       diagram: null,
     },
   ],

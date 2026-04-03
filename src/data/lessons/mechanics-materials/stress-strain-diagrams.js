@@ -117,7 +117,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'You need to find E from test data. First get the stress: sigma = P/A = 42000 / (pi x 12.5^2 / 4) = 42000 / 122.7 = 342.3 MPa. Then get the strain: epsilon = delta/L = 0.171/50 = 0.00342. Finally E = sigma/epsilon = 342.3 / 0.00342 = 100,000 MPa = 100 GPa. Choice B (200 GPa) comes from a decimal error in the strain calculation. Choice C and D are common material values that might tempt guessing.',
+      eli5: 'You need to find $E$ from test data. First get the stress: $\\sigma = P/A = 42{,}000 / (\\pi \\times 12.5^2 / 4) = 42{,}000 / 122.7 = 342.3$ MPa. Then get the strain: $\\varepsilon = \\delta/L = 0.171/50 = 0.00342$. Finally $E = \\sigma/\\varepsilon = 342.3 / 0.00342 = 100{,}000$ MPa $= 100$ GPa. Choice B (200 GPa) comes from a decimal error in the strain calculation. Choice C and D are common material values that might tempt guessing.',
       hint: 'Compute stress ($\\sigma = P/A$) and strain ($\\varepsilon = \\delta/L$), then use $E = \\sigma / \\varepsilon$.',
       steps: [
         { text: 'Cross-sectional area:', latex: 'A = \\frac{\\pi d^2}{4} = \\frac{\\pi (12.5)^2}{4} = 122.7\\,\\text{mm}^2' },
@@ -143,7 +143,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Straight formula: G = E / [2(1 + nu)] = 110 / [2(1.34)] = 110 / 2.68 = 41.0 GPa. Choice A (37.3) comes from using G = E/3 (wrong formula). Choice C (55.0) comes from G = E/2 (forgetting the 1+nu part). Choice D (74.3) comes from G = E/(1+nu) (forgetting the 2 in the denominator). This is one of the easiest formulas in MoM -- just do not forget any part of the denominator.',
+      eli5: 'Straight formula: $G = E / [2(1 + \\nu)] = 110 / [2(1.34)] = 110 / 2.68 = 41.0$ GPa. Choice A (37.3) comes from using $G = E/3$ (wrong formula). Choice C (55.0) comes from $G = E/2$ (forgetting the $1+\\nu$ part). Choice D (74.3) comes from $G = E/(1+\\nu)$ (forgetting the 2 in the denominator). This is one of the easiest formulas in MoM -- just do not forget any part of the denominator.',
       hint: 'There is a direct formula relating $E$, $G$, and $\\nu$.',
       steps: [
         { text: 'Apply the elastic constant relationship:', latex: 'G = \\frac{E}{2(1+\\nu)} = \\frac{110}{2(1+0.34)} = \\frac{110}{2.68} = 41.0\\,\\text{GPa}' },
@@ -151,7 +151,7 @@ export default {
       handbookPage: 'p. 130',
       handbookFormula: 'G = \\frac{E}{2(1+\\nu)}',
       videoUrl: null,
-      traps: ['Using G = E/2 without the (1+nu) factor gives 55.0 GPa', 'Using G = E/(1+nu) without the 2 gives 74.3 GPa'],
+      traps: ['Using $G = E/2$ without the $(1+\\nu)$ factor gives 55.0 GPa', 'Using $G = E/(1+\\nu)$ without the 2 gives 74.3 GPa'],
       diagram: null,
     },
     {
@@ -166,7 +166,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Percent reduction in area = (A0 - Af)/A0 x 100 = (130 - 82)/130 x 100 = 48/130 x 100 = 36.9%. The percent elongation is (252 - 200)/200 x 100 = 26% (choice A) -- that is a different ductility measure, not what they asked for. Choice C (58.5%) comes from using Af/A0 x 100 -- that is the remaining fraction, not the reduction. Choice D uses (A0 - Af)/Af instead of (A0 - Af)/A0 -- dividing by the final area instead of the original.',
+      eli5: 'Percent reduction in area $= (A_0 - A_f)/A_0 \\times 100 = (130 - 82)/130 \\times 100 = 48/130 \\times 100 = 36.9\\%$. The percent elongation is $(252 - 200)/200 \\times 100 = 26\\%$ (choice A) -- that is a different ductility measure, not what they asked for. Choice C (58.5%) comes from using $A_f/A_0 \\times 100$ -- that is the remaining fraction, not the reduction. Choice D uses $(A_0 - A_f)/A_f$ instead of $(A_0 - A_f)/A_0$ -- dividing by the final area instead of the original.',
       hint: 'Percent reduction in area uses the original area in the denominator: $\\%RA = (A_0 - A_f) / A_0 \\times 100$.',
       steps: [
         { text: 'Percent reduction in area:', latex: '\\%RA = \\frac{A_0 - A_f}{A_0} \\times 100 = \\frac{130 - 82}{130} \\times 100 = 36.9\\%' },

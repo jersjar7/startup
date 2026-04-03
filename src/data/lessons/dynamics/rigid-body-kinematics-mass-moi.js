@@ -119,8 +119,8 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'First convert 120 rpm to rad/s: multiply by 2pi/60 to get 12.57 rad/s. Then use the angular kinematic equation: omega = omega_0 + alpha*t. The final angular velocity is 0 (brought to rest), so alpha = -12.57/10 = -1.26 rad/s squared. The magnitude of deceleration is 1.26. Choice C (12.0) comes from using rpm directly without converting. Choice A (0.40) uses the period formula incorrectly.',
-      hint: 'Convert rpm to rad/s first, then use the angular analog of v = v_0 + at.',
+      eli5: 'First convert 120 rpm to rad/s: multiply by $2\\pi/60$ to get 12.57 rad/s. Then use the angular kinematic equation: $\\omega = \\omega_0 + \\alpha t$. The final angular velocity is 0 (brought to rest), so $\\alpha = -12.57/10 = -1.26$ rad/s². The magnitude of deceleration is 1.26. Choice C (12.0) comes from using rpm directly without converting. Choice A (0.40) uses the period formula incorrectly.',
+      hint: 'Convert rpm to rad/s first, then use the angular analog of $v = v_0 + at$.',
       steps: [
         { text: 'Convert rpm to rad/s:', latex: '\\omega_0 = 120 \\times \\frac{2\\pi}{60} = 4\\pi = 12.57 \\text{ rad/s}' },
         { text: 'Apply angular kinematics ($\\omega = 0$ at rest):', latex: '\\omega = \\omega_0 + \\alpha t \\implies 0 = 12.57 + \\alpha(10)' },
@@ -147,8 +147,8 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Use the angular displacement equation: theta = omega_0*t + (1/2)*alpha*t^2. With omega_0 = 0, that gives theta = 0.5 * 3 * 64 = 96 rad. Then convert to revolutions by dividing by 2pi: 96 / (2pi) = 15.3 revolutions. Choice D (96) is the angular displacement in radians, not revolutions. Choice A (12) comes from using alpha*t instead of (1/2)*alpha*t^2.',
-      hint: 'Compute the angular displacement in radians first, then divide by 2pi to convert to revolutions.',
+      eli5: 'Use the angular displacement equation: $\\theta = \\omega_0 t + \\tfrac{1}{2}\\alpha t^2$. With $\\omega_0 = 0$, that gives $\\theta = 0.5 \\times 3 \\times 64 = 96$ rad. Then convert to revolutions by dividing by $2\\pi$: $96 / (2\\pi) = 15.3$ revolutions. Choice D (96) is the angular displacement in radians, not revolutions. Choice A (12) comes from using $\\alpha t$ instead of $\\tfrac{1}{2}\\alpha t^2$.',
+      hint: 'Compute the angular displacement in radians first, then divide by $2\\pi$ to convert to revolutions.',
       steps: [
         { text: 'Angular displacement from rest ($\\omega_0 = 0$):', latex: '\\theta = \\frac{1}{2}\\alpha t^2 = \\frac{1}{2}(3)(8^2) = \\frac{1}{2}(3)(64) = 96 \\text{ rad}' },
         { text: 'Convert radians to revolutions:', latex: 'N = \\frac{\\theta}{2\\pi} = \\frac{96}{2\\pi} = 15.3 \\text{ rev}' },
@@ -158,7 +158,7 @@ export default {
       videoUrl: null,
       traps: [
         'Reporting the answer in radians (96) instead of revolutions',
-        'Using alpha*t instead of (1/2)*alpha*t^2 for displacement',
+        'Using $\\alpha t$ instead of $\\tfrac{1}{2}\\alpha t^2$ for displacement',
       ],
       diagram: null,
     },
@@ -174,8 +174,8 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Two steps: compute the centroidal MOI, then use the parallel-axis theorem to transfer to the end. The centroidal MOI is (1/12)(8)(1.2^2) = 0.96 kg-m^2. The distance from the centroid to the end is L/2 = 0.6 m. The transfer term is m*d^2 = 8(0.6^2) = 2.88. Add them: 0.96 + 2.88 = 3.84 kg-m^2. Notice that (1/12)mL^2 + m(L/2)^2 = (1/3)mL^2, which is the standard end-of-rod formula. Choice A is just the centroidal term without the transfer.',
-      hint: 'The distance from the centroid to the end of a uniform rod is L/2. Apply I = I_c + md^2.',
+      eli5: 'Two steps: compute the centroidal MOI, then use the parallel-axis theorem to transfer to the end. The centroidal MOI is $\\tfrac{1}{12}(8)(1.2^2) = 0.96$ kg·m². The distance from the centroid to the end is $L/2 = 0.6$ m. The transfer term is $md^2 = 8(0.6^2) = 2.88$. Add them: $0.96 + 2.88 = 3.84$ kg·m². Notice that $\\tfrac{1}{12}mL^2 + m(L/2)^2 = \\tfrac{1}{3}mL^2$, which is the standard end-of-rod formula. Choice A is just the centroidal term without the transfer.',
+      hint: 'The distance from the centroid to the end of a uniform rod is $L/2$. Apply $I = I_c + md^2$.',
       steps: [
         { text: 'Centroidal MOI:', latex: 'I_c = \\frac{1}{12}mL^2 = \\frac{1}{12}(8)(1.2^2) = \\frac{1}{12}(8)(1.44) = 0.96 \\text{ kg\\cdot m}^2' },
         { text: 'Distance from centroid to end:', latex: 'd = \\frac{L}{2} = \\frac{1.2}{2} = 0.6 \\text{ m}' },
@@ -185,8 +185,8 @@ export default {
       handbookFormula: 'I = I_c + md^2',
       videoUrl: null,
       traps: [
-        'Reporting only I_c = 0.96 and forgetting the parallel-axis transfer',
-        'Using d = L instead of d = L/2 for the distance from centroid to end',
+        'Reporting only $I_c = 0.96$ and forgetting the parallel-axis transfer',
+        'Using $d = L$ instead of $d = L/2$ for the distance from centroid to end',
       ],
       diagram: null,
     },
@@ -202,7 +202,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'The parallel-axis theorem transfers the moment of inertia FROM the centroidal axis TO any parallel axis. One of the two axes must be the centroidal axis. You cannot transfer directly between two arbitrary non-centroidal axes. If you need to go from axis A to axis B and neither passes through the centroid, you must first go back to the centroid (subtract md_A^2), then forward to axis B (add md_B^2). The axes must be parallel, not perpendicular. And the formula works for any mass distribution, not just uniform density.',
+      eli5: 'The parallel-axis theorem transfers the moment of inertia FROM the centroidal axis TO any parallel axis. One of the two axes must be the centroidal axis. You cannot transfer directly between two arbitrary non-centroidal axes. If you need to go from axis A to axis B and neither passes through the centroid, you must first go back to the centroid (subtract $md_A^2$), then forward to axis B (add $md_B^2$). The axes must be parallel, not perpendicular. And the formula works for any mass distribution, not just uniform density.',
       hint: 'Think about which axis the I_c term refers to. Can you go directly between any two parallel axes?',
       steps: [
         { text: '$I_c$ is specifically the moment of inertia about the centroidal axis. The $md^2$ term transfers it to a parallel axis at distance $d$.', latex: null },

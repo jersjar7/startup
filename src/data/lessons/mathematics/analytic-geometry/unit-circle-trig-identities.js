@@ -59,7 +59,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "The unit circle point at 60° is (1/2, √3/2). Cosine is always the x-coordinate, sine is the y-coordinate. The trap is mixing them up — √3/2 is the sine of 60°, not the cosine. If you remember that cos 60° = 1/2 and sin 60° = √3/2, you've got the most commonly tested pair down.",
+      "eli5": "The unit circle point at $60°$ is $(1/2,\\, \\sqrt{3}/2)$. Cosine is always the x-coordinate, sine is the y-coordinate. The trap is mixing them up — $\\sqrt{3}/2$ is the sine of $60°$, not the cosine. If you remember that $\\cos 60° = 1/2$ and $\\sin 60° = \\sqrt{3}/2$, you have the most commonly tested pair down.",
       "hint": "On the unit circle, cosine is the x-coordinate and sine is the y-coordinate at any angle.",
       "steps": [
         {
@@ -75,7 +75,7 @@ export default {
       "handbookFormula": "\\cos 60° = \\frac{1}{2}",
       "videoUrl": null,
       "traps": [
-        "Confusing sin and cos (picking √3/2)",
+        "Confusing sin and cos (picking $\\sqrt{3}/2$)",
         "Mixing up 45° and 60° values"
       ],
       "diagram": null
@@ -103,8 +103,8 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "medium",
-      "eli5": "Plug sin into the Pythagorean identity and solve for cos. You get ±4/5. Now the quadrant matters — in Q2, x is negative, so cosine is negative. The trap is forgetting the quadrant and picking the positive root. Always check which quadrant you're in after solving.",
-      "hint": "Use sin²θ + cos²θ = 1 to find |cos θ|, then decide the sign based on the quadrant.",
+      "eli5": "Plug $\\sin\\theta$ into the Pythagorean identity and solve for $\\cos\\theta$. You get $\\pm 4/5$. Now the quadrant matters — in Q2, $x$ is negative, so cosine is negative. The trap is forgetting the quadrant and picking the positive root. Always check which quadrant you are in after solving.",
+      "hint": "Use $\\sin^2\\theta + \\cos^2\\theta = 1$ to find $|\\cos\\theta|$, then decide the sign based on the quadrant.",
       "steps": [
         {
           "text": "Apply the Pythagorean identity:",
@@ -151,8 +151,8 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "hard",
-      "eli5": "This is a two-step problem. Step 1: use the Pythagorean identity to find cos θ = 12/13. Step 2: plug both into the double-angle formula sin 2θ = 2 sin θ cos θ. The most common mistake is thinking \"double angle\" means \"just double the sine\" — it doesn't. You need both sin and cos. The second trap is forgetting the 2 out front.",
-      "hint": "The double-angle formula needs both sin θ and cos θ — find the missing one first with the Pythagorean identity.",
+      "eli5": "This is a two-step problem. Step 1: use the Pythagorean identity to find $\\cos\\theta = 12/13$. Step 2: plug both into the double-angle formula $\\sin 2\\theta = 2\\sin\\theta\\cos\\theta$. The most common mistake is thinking \"double angle\" means \"just double the sine\" — it does not. You need both $\\sin\\theta$ and $\\cos\\theta$. The second trap is forgetting the 2 out front.",
+      "hint": "The double-angle formula needs both $\\sin\\theta$ and $\\cos\\theta$ — find the missing one first with the Pythagorean identity.",
       "steps": [
         {
           "text": "Find cos θ using the Pythagorean identity:",
@@ -171,7 +171,7 @@ export default {
       "handbookFormula": "\\sin 2\\theta = 2\\sin\\theta\\cos\\theta",
       "videoUrl": null,
       "traps": [
-        "Just doubling sin θ without multiplying by cos θ",
+        "Just doubling $\\sin\\theta$ without multiplying by $\\cos\\theta$",
         "Forgetting the factor of 2"
       ],
       "diagram": null
@@ -201,7 +201,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Applying a negative sign — sine is positive in Q2",
-        "Using cos 30° = sqrt(3)/2 instead of sin 30° = 1/2"
+        "Using $\\cos 30° = \\sqrt{3}/2$ instead of $\\sin 30° = 1/2$"
       ],
       "diagram": null
     },

@@ -119,8 +119,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Cross products: (0*0 - 8*0) + (8*6 - 4*0) + (4*0 - 0*6) = 0 + 48 + 0 = 48. Area = |48|/2 = 24 sq units. You can double-check: base = 8, height = 6, so A = 8*6/2 = 24. Choice B forgets the 1/2. Choice C uses base*height/3. Choice D uses base*height/1.5.',
-      hint: 'Set up cross products for adjacent vertex pairs: sum of (x_i * y_{i+1} - x_{i+1} * y_i), then take half the absolute value.',
+      eli5: 'Cross products: $(0 \\times 0 - 8 \\times 0) + (8 \\times 6 - 4 \\times 0) + (4 \\times 0 - 0 \\times 6) = 0 + 48 + 0 = 48$. Area $= |48|/2 = 24$ sq units. You can double-check: base = 8, height = 6, so $A = 8 \\times 6 / 2 = 24$. Choice B forgets the 1/2. Choice C uses base times height / 3. Choice D uses base times height / 1.5.',
+      hint: 'Set up cross products for adjacent vertex pairs: sum of $(x_i y_{i+1} - x_{i+1} y_i)$, then take half the absolute value.',
       steps: [
         { text: 'List vertices and compute cross products:', latex: '\\sum = (0 \\cdot 0 - 8 \\cdot 0) + (8 \\cdot 6 - 4 \\cdot 0) + (4 \\cdot 0 - 0 \\cdot 6)' },
         { text: 'Simplify:', latex: '\\sum = 0 + 48 + 0 = 48' },
@@ -144,7 +144,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Trapezoidal rule: A = w * [(h_1 + h_n)/2 + h_2 + h_3 + ... + h_{n-1}]. A = 25 * [(0+0)/2 + 10 + 14 + 11 + 6] = 25 * [0 + 41] = 1,025 sq m. The first and last offsets are 0 so their average is 0, and the interior offsets are summed at full value. Choice B applies Simpson coefficients by mistake. Choice C divides the whole thing by 2. Choice D skips an interior offset.',
+      eli5: 'Trapezoidal rule: $A = w[(h_1 + h_n)/2 + h_2 + h_3 + \\cdots + h_{n-1}]$. $A = 25[(0+0)/2 + 10 + 14 + 11 + 6] = 25 \\times 41 = 1025$ m². The first and last offsets are 0 so their average is 0, and the interior offsets are summed at full value. Choice B applies Simpson coefficients by mistake. Choice C divides the whole thing by 2. Choice D skips an interior offset.',
       hint: 'Average the first and last offsets, then add all interior offsets. Multiply by the common interval.',
       steps: [
         { text: 'Apply the trapezoidal rule:', latex: 'A = w\\left(\\frac{h_1 + h_n}{2} + h_2 + h_3 + h_4 + h_5\\right)' },
@@ -169,7 +169,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Simpson\u2019s 1/3 rule: A = (w/3)(h_1 + 4h_2 + 2h_3 + 4h_4 + h_5). We have 5 measurements (odd), so we have 4 intervals (even) \u2014 Simpson\u2019s applies. A = (10/3)(0 + 4*5 + 2*8 + 4*6 + 0) = (10/3)(0 + 20 + 16 + 24 + 0) = (10/3)(56) = 186.7 sq m. Choice B uses the trapezoidal rule. Choice C uses w/3 but misses the coefficients. Choice D uses w instead of w/3.',
+      eli5: 'Simpson\'s 1/3 rule: $A = (w/3)(h_1 + 4h_2 + 2h_3 + 4h_4 + h_5)$. We have 5 measurements (odd), so we have 4 intervals (even) — Simpson\'s applies. $A = (10/3)(0 + 4 \\times 5 + 2 \\times 8 + 4 \\times 6 + 0) = (10/3)(56) = 186.7$ m². Choice B uses the trapezoidal rule. Choice C uses $w/3$ but misses the coefficients. Choice D uses $w$ instead of $w/3$.',
       hint: 'Simpson\u2019s 1/3 rule requires an odd number of offsets. The pattern of coefficients is 1, 4, 2, 4, 1.',
       steps: [
         { text: 'Verify: 5 offsets (odd count), so Simpson\u2019s 1/3 rule applies.', latex: null },

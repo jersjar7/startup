@@ -258,7 +258,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'This is the most basic time-value-of-money problem: you have money now (P) and want to know what it grows to (F). Use the compound amount factor (F/P). Multiply 15,000 by (1.08)^5 = 1.4693 and you get 22,040. Answer A (21,000) comes from using simple interest (15,000 times 0.08 times 5 = 6,000, then adding to 15,000 = 21,000). Answer C uses the wrong number of years or the wrong rate. Answer D overshoots, possibly by applying the rate twice somewhere.',
+      eli5: 'This is the most basic time-value-of-money problem: you have money now ($P$) and want to know what it grows to ($F$). Use the compound amount factor $(F/P)$. Multiply $15{,}000 \\times (1.08)^5 = 15{,}000 \\times 1.4693 = 22{,}040$. Answer A (21,000) comes from using simple interest ($15{,}000 \\times 0.08 \\times 5 = 6{,}000$, then adding to 15,000 = 21,000). Answer C uses the wrong number of years or the wrong rate. Answer D overshoots, possibly by applying the rate twice somewhere.',
       hint: 'You have P and need F — use the single payment compound amount factor $(F/P, i\\%, n)$.',
       steps: [
         { text: 'Identify: $P = 15{,}000$, $i = 8\\%$, $n = 5$ years. Find $F$.', latex: null },
@@ -284,7 +284,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'You have a present amount (the loan) and need to find equal annual payments that pay it off. This is the capital recovery factor (A/P). Look up (A/P, 10%, 8) = 0.18744 in the 10% table and multiply by 200,000. Answer A (25,000) divides 200,000 by 8 and ignores interest entirely. Answer C might use (A/F) instead of (A/P) — that is for a sinking fund, not a loan. Answer D uses the wrong factor or adds interest on top of the payment.',
+      eli5: 'You have a present amount (the loan) and need to find equal annual payments that pay it off. This is the capital recovery factor $(A/P)$. Look up $(A/P,\\, 10\\%,\\, 8) = 0.18744$ in the 10% table and multiply by 200,000. Answer A (25,000) divides 200,000 by 8 and ignores interest entirely. Answer C might use $(A/F)$ instead of $(A/P)$ \u2014 that is for a sinking fund, not a loan. Answer D uses the wrong factor or adds interest on top of the payment.',
       hint: 'You know the present loan amount and need equal annual payments — which factor converts P to A?',
       steps: [
         { text: 'Identify: $P = 200{,}000$, $i = 10\\%$, $n = 8$ years. Find $A$.', latex: null },
@@ -309,7 +309,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'There are usually multiple valid paths through the factor tables. You can go future to present with (P/F), then present to annual with (A/P) — two steps. Or you can go directly from future to annual with (A/F) — one step. Both give the same answer because the factors are mathematically consistent. Answer B is wrong because (F/P) compounds forward in time, but the cost is already in the future — compounding it further moves it to the wrong point. The key insight is that the factor tables are all interconnected, and any valid path through them gives the same result.',
+      eli5: 'There are usually multiple valid paths through the factor tables. You can go future to present with $(P/F)$, then present to annual with $(A/P)$ \u2014 two steps. Or you can go directly from future to annual with $(A/F)$ \u2014 one step. Both give the same answer because the factors are mathematically consistent. Answer B is wrong because $(F/P)$ compounds forward in time, but the cost is already in the future \u2014 compounding it further moves it to the wrong point. The key insight is that the factor tables are all interconnected, and any valid path through them gives the same result.',
       hint: 'Think about which factor converts a future amount directly to an annual series, and whether a two-step path through P would also work.',
       steps: [
         { text: 'Path 1: Use $(A/F,\\, i\\%,\\, n)$ directly. This converts a future amount to an equivalent annual series in one step.', latex: null },
@@ -335,7 +335,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'When deposits and compounding happen quarterly, work in quarters — not years. The periodic rate is 8% / 4 = 2% per quarter, and the number of periods is 3 years times 4 = 12 quarters. Use the compound amount factor for a uniform series: (F/A, 2%, 12). That equals [(1.02)^12 - 1] / 0.02 = 13.412. Multiply by 5,000 and you get 67,060. Answer A (60,000) just adds up 12 deposits of 5,000 without any interest. Answer B uses the effective annual rate but only 3 periods, mixing quarterly deposits with annual compounding. Answer D overshoots, likely using the wrong rate or period count.',
+      eli5: 'When deposits and compounding happen quarterly, work in quarters \u2014 not years. The periodic rate is $8\\% / 4 = 2\\%$ per quarter, and the number of periods is $3 \\times 4 = 12$ quarters. Use the compound amount factor for a uniform series: $(F/A,\\, 2\\%,\\, 12)$. That equals $[(1.02)^{12} - 1] / 0.02 = 13.412$. Multiply by 5,000 and you get 67,060. Answer A (60,000) just adds up 12 deposits of 5,000 without any interest. Answer B uses the effective annual rate but only 3 periods, mixing quarterly deposits with annual compounding. Answer D overshoots, likely using the wrong rate or period count.',
       hint: 'When deposits match the compounding period (quarterly), use the periodic rate and the total number of periods directly in the $(F/A)$ factor.',
       steps: [
         { text: 'Convert to periodic values: $i_{\\text{per}} = r/m = 0.08/4 = 0.02 = 2\\%$ per quarter.', latex: null },

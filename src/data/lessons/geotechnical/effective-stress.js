@@ -113,8 +113,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'A surface surcharge adds q to the total vertical stress at every depth. However, it does not change the hydrostatic pore water pressure (u = gamma_w x hw is unchanged). Since sigma_prime = sigma - u, the effective stress increases by q. Choice B describes an undrained loading response in the short term, but the question is about the static equilibrium condition. Choice C is wrong because surcharge absolutely affects stress below the WT. Choice D invents a 2q increase that has no basis.',
-      hint: 'Apply sigma_prime = sigma - u. The surcharge adds to sigma but not to hydrostatic u.',
+      eli5: 'A surface surcharge adds $q$ to the total vertical stress at every depth. However, it does not change the hydrostatic pore water pressure ($u = \\gamma_w \\times h_w$ is unchanged). Since $\\sigma\' = \\sigma - u$, the effective stress increases by $q$. Choice B describes an undrained loading response in the short term, but the question is about the static equilibrium condition. Choice C is wrong because surcharge absolutely affects stress below the WT. Choice D invents a $2q$ increase that has no basis.',
+      hint: 'Apply $\\sigma\' = \\sigma - u$. The surcharge adds to $\\sigma$ but not to hydrostatic $u$.',
       steps: [
         { text: 'A surcharge $q$ adds to total stress at all depths:', latex: '\\sigma = q + \\gamma H' },
         { text: 'Hydrostatic pore pressure depends only on water depth:', latex: 'u = \\gamma_w h_w \\quad (\\text{unchanged by } q)' },
@@ -123,7 +123,7 @@ export default {
       handbookPage: 'p. 264',
       handbookFormula: '\\sigma\' = \\sigma - u',
       videoUrl: null,
-      traps: ['Thinking the surcharge increases pore pressure under static (drained) conditions -- it does not affect hydrostatic u'],
+      traps: ['Thinking the surcharge increases pore pressure under static (drained) conditions -- it does not affect hydrostatic $u$'],
       diagram: null,
     },
     {
@@ -138,8 +138,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'sigma = gamma_sat x h = 118 x 8 = 944 psf. u = gamma_w x h = 62.4 x 8 = 499.2 psf. sigma_prime = 944 - 499 = 445 psf. Or use the shortcut: sigma_prime = gamma_prime x h = (118 - 62.4) x 8 = 55.6 x 8 = 444.8 ~= 445 psf. Choice B (944) is the total stress. Choice C (499) is the pore water pressure. Choice D (1,416) would come from using the full 12 ft instead of 8 ft.',
-      hint: 'sigma_prime = sigma - u. Compute total stress and pore pressure at 8 ft depth, then subtract.',
+      eli5: '$\\sigma = \\gamma_{sat} \\times h = 118 \\times 8 = 944$ psf. $u = \\gamma_w \\times h = 62.4 \\times 8 = 499.2$ psf. $\\sigma\' = 944 - 499 = 445$ psf. Or use the shortcut: $\\sigma\' = \\gamma\' \\times h = (118 - 62.4) \\times 8 = 55.6 \\times 8 = 444.8 \\approx 445$ psf. Choice B (944) is the total stress. Choice C (499) is the pore water pressure. Choice D (1,416) would come from using the full 12 ft instead of 8 ft.',
+      hint: '$\\sigma\' = \\sigma - u$. Compute total stress and pore pressure at 8 ft depth, then subtract.',
       steps: [
         { text: 'Total stress at 8 ft:', latex: '\\sigma = 118 \\times 8 = 944 \\text{ psf}' },
         { text: 'Pore water pressure:', latex: 'u = 62.4 \\times 8 = 499 \\text{ psf}' },
@@ -163,7 +163,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'When the WT drops 5 ft, pore pressure at our point decreases by gamma_w x 5 = 62.4 x 5 = 312 psf. Total stress changes because the 5-ft zone above went from saturated (~120 pcf) to moist (110 pcf), so total stress decreases by about (120-110) x 5 = 50 psf. Since sigma_prime = sigma - u, and u decreased by 312 while sigma decreased by only 50, the net change in effective stress is +262 psf -- it increases. Choice B is wrong because sigma and u do not decrease equally. Choice C confuses direction. Choice D ignores that the WT position affects pore pressure at all depths below it.',
+      eli5: 'When the WT drops 5 ft, pore pressure at our point decreases by $\\gamma_w \\times 5 = 62.4 \\times 5 = 312$ psf. Total stress changes because the 5-ft zone above went from saturated (~120 pcf) to moist (110 pcf), so total stress decreases by about $(120 - 110) \\times 5 = 50$ psf. Since $\\sigma\' = \\sigma - u$, and $u$ decreased by 312 while $\\sigma$ decreased by only 50, the net change in effective stress is +262 psf -- it increases. Choice B is wrong because $\\sigma$ and $u$ do not decrease equally. Choice C confuses direction. Choice D ignores that the WT position affects pore pressure at all depths below it.',
       hint: 'Compare the change in total stress vs. the change in pore pressure. Whichever changes more controls the direction of effective stress change.',
       steps: [
         { text: 'Pore pressure decrease at depth:', latex: '\\Delta u = -\\gamma_w \\times 5 = -312 \\text{ psf}' },
@@ -173,7 +173,7 @@ export default {
       handbookPage: 'p. 263-264',
       handbookFormula: '\\sigma\' = \\sigma - u',
       videoUrl: null,
-      traps: ['Assuming total stress and pore pressure decrease equally -- gamma_w is much larger than the difference between saturated and moist unit weights'],
+      traps: ['Assuming total stress and pore pressure decrease equally -- $\\gamma_w$ is much larger than the difference between saturated and moist unit weights'],
       diagram: null,
     },
     {
@@ -188,8 +188,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Total stress: sigma = 150 + 105(4) + 120(6) + 115(10) = 150 + 420 + 720 + 1,150 = 2,440 psf. Pore pressure: u = 62.4(6 + 10) = 62.4(16) = 998 psf. Effective: sigma_prime = 2,440 - 998 = 1,442 psf. Choice B (2,440) is the total stress without subtracting pore pressure. Choice C (1,292) forgot to include the surcharge (2,290 - 998 = 1,292). Choice D (998) is just the pore water pressure.',
-      hint: 'Total stress = surcharge + weight of all three layers. Pore pressure = gamma_w times total water depth below WT.',
+      eli5: 'Total stress: $\\sigma = 150 + 105(4) + 120(6) + 115(10) = 150 + 420 + 720 + 1{,}150 = 2{,}440$ psf. Pore pressure: $u = 62.4(6 + 10) = 62.4(16) = 998$ psf. Effective: $\\sigma\' = 2{,}440 - 998 = 1{,}442$ psf. Choice B (2,440) is the total stress without subtracting pore pressure. Choice C (1,292) forgot to include the surcharge ($2{,}290 - 998 = 1{,}292$). Choice D (998) is just the pore water pressure.',
+      hint: 'Total stress = surcharge + weight of all three layers. Pore pressure = $\\gamma_w$ times total water depth below WT.',
       steps: [
         { text: 'Total stress:', latex: '\\sigma = 150 + 105(4) + 120(6) + 115(10) = 150 + 420 + 720 + 1{,}150 = 2{,}440 \\text{ psf}' },
         { text: 'Pore water pressure (16 ft below WT):', latex: 'u = 62.4 \\times 16 = 998 \\text{ psf}' },

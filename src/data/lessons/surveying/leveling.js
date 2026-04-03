@@ -114,8 +114,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'First find the Height of Instrument: HI = 320.00 + 6.38 = 326.38 ft. Then subtract the foresight to get the new elevation: Elev_X = 326.38 - 4.17 = 322.21 ft. Point X is higher than the benchmark because the FS reading is smaller than the BS reading. Choice B subtracts the BS instead of adding it. Choice C adds both readings. Choice D subtracts both.',
-      hint: 'HI = known elevation + BS, then new elevation = HI - FS.',
+      eli5: 'First find the Height of Instrument: $HI = 320.00 + 6.38 = 326.38$ ft. Then subtract the foresight to get the new elevation: $\\text{Elev}_X = 326.38 - 4.17 = 322.21$ ft. Point X is higher than the benchmark because the FS reading is smaller than the BS reading. Choice B subtracts the BS instead of adding it. Choice C adds both readings. Choice D subtracts both.',
+      hint: '$HI$ = known elevation + BS, then new elevation = $HI$ - FS.',
       steps: [
         { text: 'Height of Instrument:', latex: 'HI = 320.00 + 6.38 = 326.38 \\text{ ft}' },
         { text: 'Elevation of point X:', latex: '\\text{Elev}_X = 326.38 - 4.17 = 322.21 \\text{ ft}' },
@@ -138,7 +138,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Work through each setup. HI_1 = 450.00 + 3.82 = 453.82. Elev_TP1 = 453.82 - 7.14 = 446.68. HI_2 = 446.68 + 6.55 = 453.23. Elev_TP2 = 453.23 - 2.41 = 450.82. HI_3 = 450.82 + 4.90 = 455.72. Elev_C = 455.72 - 5.63 = 450.09 ft. A shortcut is sum of BS minus sum of FS plus starting elevation: (3.82 + 6.55 + 4.90) - (7.14 + 2.41 + 5.63) + 450 = 15.27 - 15.18 + 450 = 450.09. Choice B is the TP-1 elevation. Choice C reverses BS and FS. Choice D is the TP-2 elevation.',
+      eli5: 'Work through each setup. $HI_1 = 450.00 + 3.82 = 453.82$. $\\text{Elev}_{TP1} = 453.82 - 7.14 = 446.68$. $HI_2 = 446.68 + 6.55 = 453.23$. $\\text{Elev}_{TP2} = 453.23 - 2.41 = 450.82$. $HI_3 = 450.82 + 4.90 = 455.72$. $\\text{Elev}_C = 455.72 - 5.63 = 450.09$ ft. A shortcut is sum of BS minus sum of FS plus starting elevation: $(3.82 + 6.55 + 4.90) - (7.14 + 2.41 + 5.63) + 450 = 15.27 - 15.18 + 450 = 450.09$. Choice B is the TP-1 elevation. Choice C reverses BS and FS. Choice D is the TP-2 elevation.',
       hint: 'Process each setup: HI = elev + BS, new elev = HI - FS. Or use the shortcut: final elev = start elev + (sum BS - sum FS).',
       steps: [
         { text: 'Setup 1:', latex: 'HI_1 = 450.00 + 3.82 = 453.82; \\quad \\text{Elev}_{TP1} = 453.82 - 7.14 = 446.68' },
@@ -163,8 +163,8 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Misclosure = |812.57 - 812.45| = 0.12 ft. Allowable = 0.035 x sqrt(9) = 0.035 x 3.0 = 0.105 ft. Since 0.12 > 0.105, the survey does NOT meet the tolerance and must be rerun. Choice A states the correct numbers but draws the wrong conclusion. Choice C uses C x M instead of C x sqrt(M). Choice D misreads the misclosure as 1.20 ft.',
-      hint: 'Misclosure = |computed - known|. Allowable = C x sqrt(M). Compare the two values.',
+      eli5: 'Misclosure $= |812.57 - 812.45| = 0.12$ ft. Allowable $= 0.035 \\times \\sqrt{9} = 0.035 \\times 3.0 = 0.105$ ft. Since $0.12 > 0.105$, the survey does NOT meet the tolerance and must be rerun. Choice A states the correct numbers but draws the wrong conclusion. Choice C uses $C \\times M$ instead of $C \\times \\sqrt{M}$. Choice D misreads the misclosure as 1.20 ft.',
+      hint: 'Misclosure = |computed - known|. Allowable $= C\\sqrt{M}$. Compare the two values.',
       steps: [
         { text: 'Misclosure:', latex: '|812.57 - 812.45| = 0.12 \\text{ ft}' },
         { text: 'Allowable error:', latex: 'C\\sqrt{M} = 0.035\\sqrt{9} = 0.035 \\times 3.0 = 0.105 \\text{ ft}' },
@@ -173,7 +173,7 @@ export default {
       handbookPage: 'p. 309',
       handbookFormula: '\\text{Allowable} = C\\sqrt{M}',
       videoUrl: null,
-      traps: ['Multiplying C by M instead of sqrt(M)', 'Drawing the wrong pass/fail conclusion after computing correct values'],
+      traps: ['Multiplying $C$ by $M$ instead of $\\sqrt{M}$', 'Drawing the wrong pass/fail conclusion after computing correct values'],
       diagram: null,
     },
     {

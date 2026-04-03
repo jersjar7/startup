@@ -139,7 +139,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The unit hydrograph represents the response to 1 inch of excess rainfall. To get the hydrograph for 2.5 inches, multiply every ordinate by 2.5. Peak = 300 x 2.5 = 750 cfs. The time axis does not change \u2014 only the magnitudes scale. Choice B does not scale at all (assumes 1 inch). Choice C divides instead of multiplying (300/2.5 = 120). Choice D multiplies by 2 instead of 2.5.',
+      eli5: 'The unit hydrograph represents the response to 1 inch of excess rainfall. To get the hydrograph for 2.5 inches, multiply every ordinate by 2.5. Peak $= 300 \\times 2.5 = 750$ cfs. The time axis does not change \u2014 only the magnitudes scale. Choice B does not scale at all (assumes 1 inch). Choice C divides instead of multiplying ($300/2.5 = 120$). Choice D multiplies by 2 instead of 2.5.',
       hint: 'The unit hydrograph gives the response to 1 inch of excess rainfall. Scale linearly for other amounts.',
       steps: [
         { text: 'UH peak for 1 inch of excess rainfall:', latex: 'Q_{UH,peak} = 300\\text{ cfs}' },
@@ -188,7 +188,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'I - O = delta S / delta t, so delta S / delta t = 120 - 45 = 75 cfs = 75 ft^3/s. Over 2 hours: delta S = 75 x (2 x 3600) = 75 x 7200 = 540,000 ft^3. You must convert hours to seconds because the flow rates are in cfs (ft^3 per second). Choice B gives the storage rate (75 cfs) but not the accumulated volume. Choice C uses I x time without subtracting outflow (120 x 7200 = 864,000). Choice D uses O x time (45 x 7200 = 324,000).',
+      eli5: '$I - O = \\Delta S/\\Delta t$, so $\\Delta S/\\Delta t = 120 - 45 = 75$ cfs $= 75$ ft$^3$/s. Over 2 hours: $\\Delta S = 75 \\times (2 \\times 3600) = 75 \\times 7200 = 540{,}000$ ft$^3$. You must convert hours to seconds because the flow rates are in cfs (ft$^3$ per second). Choice B gives the storage rate (75 cfs) but not the accumulated volume. Choice C uses $I \\times t$ without subtracting outflow ($120 \\times 7200 = 864{,}000$). Choice D uses $O \\times t$ ($45 \\times 7200 = 324{,}000$).',
       hint: 'Use $I - O = \\Delta S/\\Delta t$. Find the net storage rate first, then multiply by time (convert hours to seconds).',
       steps: [
         { text: 'Net storage rate:', latex: '\\frac{\\Delta S}{\\Delta t} = I - O = 120 - 45 = 75\\text{ cfs}' },

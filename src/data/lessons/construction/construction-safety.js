@@ -112,7 +112,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'CPI = BCWP/ACWP = 450,000/500,000 = 0.90. A CPI less than 1.0 means you are over budget (spending more than the value of work completed). Do not confuse CPI (cost) with SPI (schedule). SPI = BCWP/BCWS = 450,000/480,000 = 0.94 — that would be choice B, which is the schedule performance.',
+      eli5: '$CPI = BCWP/ACWP = 450{,}000/500{,}000 = 0.90$. A CPI less than 1.0 means you are over budget (spending more than the value of work completed). Do not confuse CPI (cost) with SPI (schedule). $SPI = BCWP/BCWS = 450{,}000/480{,}000 = 0.94$ \u2014 that would be choice B, which is the schedule performance.',
       hint: 'CPI = Earned Value / Actual Cost.',
       steps: [
         { text: 'Cost Performance Index:', latex: 'CPI = \\frac{BCWP}{ACWP}' },

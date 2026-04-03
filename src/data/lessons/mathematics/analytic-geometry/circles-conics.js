@@ -71,8 +71,8 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "Read the center straight from the equation: (x - 5) means h = 5, and (y + 3) means k = -3 because y + 3 = y - (-3). The number on the right is r², not r — so take the square root. The two traps are getting the sign of k wrong and forgetting to square-root the radius.",
-      "hint": "The sign inside the parentheses is opposite to the coordinate — (y + 3) means k = -3. And 64 is r², not r.",
+      "eli5": "Read the center straight from the equation: $(x - 5)$ means $h = 5$, and $(y + 3)$ means $k = -3$ because $y + 3 = y - (-3)$. The number on the right is $r^2$, not $r$ — so take the square root. The two traps are getting the sign of $k$ wrong and forgetting to square-root the radius.",
+      "hint": "The sign inside the parentheses is opposite to the coordinate — $(y + 3)$ means $k = -3$. And 64 is $r^2$, not $r$.",
       "steps": [
         {
           "text": "Match to standard form $(x-h)^2 + (y-k)^2 = r^2$:",
@@ -91,8 +91,8 @@ export default {
       "handbookFormula": "(x-h)^2 + (y-k)^2 = r^2",
       "videoUrl": null,
       "traps": [
-        "Flipping the sign of k",
-        "Giving r² instead of r"
+        "Flipping the sign of $k$",
+        "Giving $r^2$ instead of $r$"
       ],
       "diagram": null
     },
@@ -119,7 +119,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Move the constant to the right side, then complete the square for both x and y. For x² - 10x, half of 10 is 5, squared is 25 — add 25 to both sides. For y² + 6y, half of 6 is 3, squared is 9 — add 9 to both sides. Now you have standard form and can read off the radius. The trap is forgetting to add the completing-the-square values to both sides, or giving r² as the answer.",
+      "eli5": "Move the constant to the right side, then complete the square for both $x$ and $y$. For $x^2 - 10x$, half of 10 is 5, squared is 25 — add 25 to both sides. For $y^2 + 6y$, half of 6 is 3, squared is 9 — add 9 to both sides. Now you have standard form and can read off the radius. The trap is forgetting to add the completing-the-square values to both sides, or giving $r^2$ as the answer.",
       "hint": "Group the x and y terms, then complete the square for each — remember to add the same values to both sides.",
       "steps": [
         {
@@ -144,7 +144,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Forgetting to add completing-the-square values to both sides",
-        "Giving r² instead of r"
+        "Giving $r^2$ instead of $r$"
       ],
       "diagram": null
     },
@@ -171,8 +171,8 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "hard",
-      "eli5": "For a parabola y = ax² + bx + c, the vertex is at x = -b/(2a). Plug in a = -0.004 and b = 2.4 to get x = 300. Then substitute x = 300 back into the equation to get y = 160. The big trap is forgetting the 2 in the denominator and using -b/a = 600 instead. Always double-check by plugging the x value back in.",
-      "hint": "The vertex of y = ax² + bx + c is at x = -b/(2a) — don't forget the 2 in the denominator.",
+      "eli5": "For a parabola $y = ax^2 + bx + c$, the vertex is at $x = -b/(2a)$. Plug in $a = -0.004$ and $b = 2.4$ to get $x = 300$. Then substitute $x = 300$ back into the equation to get $y = 160$. The big trap is forgetting the 2 in the denominator and using $-b/a = 600$ instead. Always double-check by plugging the $x$ value back in.",
+      "hint": "The vertex of $y = ax^2 + bx + c$ is at $x = -b/(2a)$ — do not forget the 2 in the denominator.",
       "steps": [
         {
           "text": "Since a = -0.004 < 0, the parabola opens downward — the vertex is the maximum.",
@@ -210,8 +210,8 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Read the standard form: the right side is r squared, so r = sqrt(36) = 6. The diameter is twice the radius, so 12. Choice A is the radius, not the diameter. Choice C is r squared. Always check whether the question asks for radius or diameter.',
-      hint: 'The right side of the circle equation is r squared, not r. And diameter is twice the radius.',
+      eli5: 'Read the standard form: the right side is $r^2$, so $r = \\sqrt{36} = 6$. The diameter is twice the radius, so 12. Choice A is the radius, not the diameter. Choice C is $r^2$. Always check whether the question asks for radius or diameter.',
+      hint: 'The right side of the circle equation is $r^2$, not $r$. And diameter is twice the radius.',
       steps: [
         { text: 'Identify $r^2 = 36$ from the standard form:', latex: 'r = \\sqrt{36} = 6' },
         { text: 'Diameter is twice the radius:', latex: 'd = 2r = 2(6) = 12' },
@@ -219,7 +219,7 @@ export default {
       handbookPage: 'p. 24',
       handbookFormula: '(x-h)^2 + (y-k)^2 = r^2',
       videoUrl: null,
-      traps: ['Giving the radius instead of the diameter', 'Giving r squared as the answer'],
+      traps: ['Giving the radius instead of the diameter', 'Giving $r^2$ as the answer'],
       diagram: null,
     },
     {
@@ -234,7 +234,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Complete the square for both x and y. For x: half of 8 is 4, squared is 16. For y: half of -6 is -3, squared is 9. Add both to each side. You get (x+4)^2 + (y-3)^2 = 25. The center is (-4, 3) because x + 4 = x - (-4). Choice B flips the signs — that is the most common error with completing the square.',
+      eli5: 'Complete the square for both $x$ and $y$. For $x$: half of 8 is 4, squared is 16. For $y$: half of $-6$ is $-3$, squared is 9. Add both to each side. You get $(x+4)^2 + (y-3)^2 = 25$. The center is $(-4, 3)$ because $x + 4 = x - (-4)$. Choice B flips the signs — that is the most common error with completing the square.',
       hint: 'Complete the square for x and y separately. Remember the sign convention: $(x - h)$ means center coordinate $h$.',
       steps: [
         { text: 'Group and complete the square:', latex: '(x^2 + 8x + 16) + (y^2 - 6y + 9) = 0 + 16 + 9' },
@@ -259,7 +259,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The larger denominator tells you which axis is major. Here 16 > 9, so the major axis is along x. The semi-major axis is a = sqrt(16) = 4, but the FULL major axis is 2a = 8. Choice A is the semi-major axis — the question asks for the full length. Choice D is the minor axis length (2 times 3 = 6).',
+      eli5: 'The larger denominator tells you which axis is major. Here $16 > 9$, so the major axis is along $x$. The semi-major axis is $a = \\sqrt{16} = 4$, but the FULL major axis is $2a = 8$. Choice A is the semi-major axis — the question asks for the full length. Choice D is the minor axis length ($2 \\times 3 = 6$).',
       hint: 'The semi-axis is the square root of the denominator. The full axis length is twice that.',
       steps: [
         { text: 'Identify the larger denominator: $a^2 = 16 > b^2 = 9$.', latex: null },
@@ -284,7 +284,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'When A equals C and B is zero, the x-squared and y-squared terms have the same coefficient and there is no xy term. That is the definition of a circle — both axes are scaled the same, so the curve has equal "width" in every direction. An ellipse would have A not equal to C. A parabola has only one squared term (either A or C is zero). A hyperbola has opposite signs for A and C.',
+      eli5: 'When $A = C$ and $B = 0$, the $x^2$ and $y^2$ terms have the same coefficient and there is no $xy$ term. That is the definition of a circle — both axes are scaled the same, so the curve has equal "width" in every direction. An ellipse would have $A \\neq C$. A parabola has only one squared term (either $A$ or $C$ is zero). A hyperbola has opposite signs for $A$ and $C$.',
       hint: 'Think about what makes a circle different from an ellipse — it is the relationship between the coefficients of $x^2$ and $y^2$.',
       steps: [
         { text: 'When $A = C$ and $B = 0$, the equation becomes $A(x^2 + y^2) + Dx + Ey + F = 0$.', latex: null },

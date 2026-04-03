@@ -115,7 +115,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Departure = L sin(bearing angle) = 350 * sin(55) = 350 * 0.8192 = 286.7 m. The bearing is SE, so the departure is positive (eastward). The latitude would be negative (southward), but we only need the departure here. Choice B gets the sign wrong. Choice C uses cosine (that gives the latitude magnitude). Choice D uses cosine with a wrong sign.',
+      eli5: 'Departure $= L \\sin\\theta = 350 \\times \\sin 55° = 350 \\times 0.8192 = 286.7$ m. The bearing is SE, so the departure is positive (eastward). The latitude would be negative (southward), but we only need the departure here. Choice B gets the sign wrong. Choice C uses cosine (that gives the latitude magnitude). Choice D uses cosine with a wrong sign.',
       hint: 'Departure = L sin(bearing angle). Check the quadrant to determine the sign: east is positive.',
       steps: [
         { text: 'Compute the departure magnitude:', latex: '\\text{Dep} = L \\sin\\theta = 350 \\times \\sin 55\\degree = 350 \\times 0.8192 = 286.7 \\text{ m}' },
@@ -140,7 +140,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Linear error = sqrt(E_L^2 + E_D^2) = sqrt(0.12^2 + 0.09^2) = sqrt(0.0144 + 0.0081) = sqrt(0.0225) = 0.15 m. This is a classic 3-4-5 right triangle relationship (0.09, 0.12, 0.15). Choice B adds the errors (0.12 + 0.09 = 0.21). Choice C subtracts them. Choice D averages them.',
+      eli5: 'Linear error $= \\sqrt{E_L^2 + E_D^2} = \\sqrt{0.12^2 + 0.09^2} = \\sqrt{0.0144 + 0.0081} = \\sqrt{0.0225} = 0.15$ m. This is a classic 3-4-5 right triangle relationship (0.09, 0.12, 0.15). Choice B adds the errors ($0.12 + 0.09 = 0.21$). Choice C subtracts them. Choice D averages them.',
       hint: 'The linear closure error combines both error components using the Pythagorean theorem.',
       steps: [
         { text: 'Combine the latitude and departure errors:', latex: 'E = \\sqrt{E_L^2 + E_D^2} = \\sqrt{0.12^2 + 0.09^2}' },
@@ -188,7 +188,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Compass rule departure correction = -E_D * (L_i / Sigma_L) = -(-0.12) * (375/1500) = +0.12 * 0.25 = +0.03 m. Adjusted departure = 210.50 + 0.03 = 210.53 m. The negative departure error means the traverse drifted west, so we correct eastward (add). Choice B subtracts instead of adding. Choice C uses the full error. Choice D applies the latitude error to the departure.',
+      eli5: 'Compass rule departure correction $= -E_D \\times (L_i / \\Sigma L) = -(-0.12) \\times (375/1500) = +0.12 \\times 0.25 = +0.03$ m. Adjusted departure $= 210.50 + 0.03 = 210.53$ m. The negative departure error means the traverse drifted west, so we correct eastward (add). Choice B subtracts instead of adding. Choice C uses the full error. Choice D applies the latitude error to the departure.',
       hint: 'Compass rule correction for departure = -E_D * (course length / total length). The sign of the correction opposes the error.',
       steps: [
         { text: 'Departure correction for this course:', latex: '\\text{Corr}_{\\text{Dep}} = -E_D \\times \\frac{L_i}{\\Sigma L} = -(-0.12) \\times \\frac{375}{1{,}500}' },

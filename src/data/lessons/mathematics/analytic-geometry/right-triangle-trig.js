@@ -71,7 +71,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "You're standing 50 m from a building and looking up at 35 degrees. You know the ground distance (adjacent) and want the height (opposite) — that's tangent. Multiply 50 by tan(35°) and you're done. The trap is using sin or cos instead.",
+      "eli5": "You are standing 50 m from a building and looking up at $35°$. You know the ground distance (adjacent) and want the height (opposite) — that is tangent. Multiply 50 by $\\tan(35°)$ and you are done. The trap is using sin or cos instead.",
       "hint": "You know the adjacent side and want the opposite — which trig ratio connects those two?",
       "steps": [
         {
@@ -214,7 +214,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'You know the adjacent side (3.0 m from the wall) and the angle with the ground (65 degrees), and you want the hypotenuse (the ladder). Adjacent over hypotenuse is cosine: cos 65 = 3/L, so L = 3/cos 65 = 3/0.4226 = 7.1 m. The trap is using sine instead of cosine, which would give you the wall height, not the ladder length.',
+      eli5: 'You know the adjacent side (3.0 m from the wall) and the angle with the ground ($65°$), and you want the hypotenuse (the ladder). Adjacent over hypotenuse is cosine: $\\cos 65° = 3/L$, so $L = 3/\\cos 65° = 3/0.4226 = 7.1$ m. The trap is using sine instead of cosine, which would give you the wall height, not the ladder length.',
       hint: 'You know the side adjacent to the angle and need the hypotenuse. Which trig ratio connects those?',
       steps: [
         { text: 'The ground distance (3.0 m) is adjacent to the 65 degree angle. The ladder is the hypotenuse.', latex: null },
@@ -239,7 +239,7 @@ export default {
       ],
       correctAnswerId: 'a1',
       difficulty: 'medium',
-      eli5: 'The antenna height (20 m) is opposite the 55 degree angle. The wire is the hypotenuse. Opposite over hypotenuse is sine: sin 55 = 20/W, so W = 20/sin 55 = 20/0.8192 = 24.4 m. The classic trap is using tangent, which connects opposite and adjacent, not opposite and hypotenuse.',
+      eli5: 'The antenna height (20 m) is opposite the $55°$ angle. The wire is the hypotenuse. Opposite over hypotenuse is sine: $\\sin 55° = 20/W$, so $W = 20/\\sin 55° = 20/0.8192 = 24.4$ m. The classic trap is using tangent, which connects opposite and adjacent, not opposite and hypotenuse.',
       hint: 'You know the opposite side and need the hypotenuse. SOH-CAH-TOA tells you which ratio to use.',
       steps: [
         { text: 'The antenna (20 m) is opposite the 55 degree angle at ground level. The wire is the hypotenuse.', latex: null },
@@ -264,7 +264,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'You know the opposite (rise = 1.5 m) and the adjacent (run = 12 m). That is tangent. Take the inverse tangent of 1.5/12 = 0.125 to get 7.1 degrees. Choice D is the ratio itself without taking the inverse trig function. Choice C is 90 minus the correct answer — that would be the angle from the vertical, not the horizontal.',
+      eli5: 'You know the opposite (rise = 1.5 m) and the adjacent (run = 12 m). That is tangent. Take the inverse tangent of $1.5/12 = 0.125$ to get $7.1°$. Choice D is the ratio itself without taking the inverse trig function. Choice C is $90°$ minus the correct answer — that would be the angle from the vertical, not the horizontal.',
       hint: 'You have the rise and the run. Which trig function relates opposite to adjacent?',
       steps: [
         { text: 'Identify: rise (opposite) = 1.5 m, run (adjacent) = 12 m.', latex: null },
@@ -289,7 +289,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'When the angle is measured from the horizontal, the horizontal component is adjacent to the angle, so it uses cosine. The vertical component is opposite the angle, so it uses sine. The engineer swapped them. This is the single most common trig error on the FE exam. Remember: cosine is "cozy" with the adjacent side, and the adjacent side is the one the angle is measured from.',
+      eli5: 'When the angle is measured from the horizontal, the horizontal component is adjacent to the angle, so it uses cosine. The vertical component is opposite the angle, so it uses sine. The engineer swapped them. This is the single most common trig error on the FE exam. Remember: cosine is "cozy" with the adjacent side, and the adjacent side is the one the angle is measured from. The correct formulas are $F_x = F\\cos\\theta$ and $F_y = F\\sin\\theta$.',
       hint: 'When the angle is measured FROM the horizontal, which component (horizontal or vertical) is adjacent to that angle?',
       steps: [
         { text: 'The angle $\\theta$ is measured from the horizontal axis.', latex: null },

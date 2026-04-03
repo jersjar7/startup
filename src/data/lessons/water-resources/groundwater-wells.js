@@ -122,7 +122,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Darcy velocity: q = Ki = 2e-4 x 0.01 = 2e-6 m/s. That is what the technician reported. But the actual seepage velocity is v = q/n = 2e-6/0.25 = 8e-6 m/s, which is 4 times larger. The Darcy velocity treats the entire cross-section as if water flows through all of it, but water only moves through the pore spaces. Dividing by porosity corrects for this. Choice B describes multiplying by n, which would give an even smaller value (5e-7). Choice C has no basis. Choice D is wrong because 2e-6 is the Darcy velocity, not the seepage velocity.',
+      eli5: 'Darcy velocity: $q = Ki = 2 \\times 10^{-4} \\times 0.01 = 2 \\times 10^{-6}$ m/s. That is what the technician reported. But the actual seepage velocity is $v = q/n = 2 \\times 10^{-6}/0.25 = 8 \\times 10^{-6}$ m/s, which is 4 times larger. The Darcy velocity treats the entire cross-section as if water flows through all of it, but water only moves through the pore spaces. Dividing by porosity corrects for this. Choice B describes multiplying by $n$, which would give an even smaller value ($5 \\times 10^{-7}$). Choice C has no basis. Choice D is wrong because $2 \\times 10^{-6}$ is the Darcy velocity, not the seepage velocity.',
       hint: 'Compute both $q = Ki$ and $v = q/n$. Which one matches the reported value?',
       steps: [
         { text: 'Darcy velocity:', latex: 'q = Ki = (2 \\times 10^{-4})(0.01) = 2 \\times 10^{-6}\\text{ m/s}' },
@@ -147,7 +147,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Thiem equation for a confined aquifer: Q = 2 pi T (h2 - h1) / ln(r2/r1). Q = 2 pi (0.002)(50 - 42) / ln(150/0.3) = 2 pi (0.002)(8) / ln(500) = 0.1005 / 6.215 = 0.016 m^3/s. Choice B uses pi instead of 2 pi (missing the factor of 2). Choice C uses h^2 differences (Dupuit formula for unconfined) instead of linear h. Choice D uses log base 10 instead of natural log.',
+      eli5: 'Thiem equation for a confined aquifer: $Q = 2\\pi T(h_2 - h_1)/\\ln(r_2/r_1)$. $Q = 2\\pi(0.002)(50 - 42)/\\ln(150/0.3) = 2\\pi(0.002)(8)/\\ln(500) = 0.1005/6.215 = 0.016$ m$^3$/s. Choice B uses $\\pi$ instead of $2\\pi$ (missing the factor of 2). Choice C uses $h^2$ differences (Dupuit formula for unconfined) instead of linear $h$. Choice D uses log base 10 instead of natural log.',
       hint: 'For a confined aquifer, use Thiem: $Q = 2\\pi T(h_2 - h_1)/\\ln(r_2/r_1)$. Use linear heads (not squared).',
       steps: [
         { text: 'Thiem equation (confined):', latex: 'Q = \\frac{2\\pi T(h_2 - h_1)}{\\ln(r_2/r_1)}' },
@@ -159,7 +159,7 @@ export default {
       handbookPage: 'p. 293',
       handbookFormula: 'Q = \\frac{2\\pi T(h_2 - h_1)}{\\ln(r_2/r_1)}',
       videoUrl: null,
-      traps: ['Using Dupuit (h^2 differences) for a confined aquifer \u2014 Thiem uses linear h', 'Using log base 10 instead of natural log \u2014 ln(500) = 6.215, not log(500) = 2.699'],
+      traps: ['Using Dupuit ($h^2$ differences) for a confined aquifer \u2014 Thiem uses linear $h$', 'Using log base 10 instead of natural log \u2014 $\\ln(500) = 6.215$, not $\\log(500) = 2.699$'],
       diagram: null,
     },
     {
@@ -174,7 +174,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Dupuit uses h^2 differences: h2^2 - h1^2 = (h2 + h1)(h2 - h1). The Thiem equation uses h2 - h1. The Dupuit formula effectively multiplies the head difference by the average saturated thickness (h2 + h1), which accounts for the fact that the flow area decreases as the water table drops near the well. Using linear h underestimates this effect, giving a lower Q. The two formulas only agree when drawdown is very small compared to the total saturated thickness. Choice B reverses the direction. Choice C is wrong for unconfined aquifers. Choice D has no physical basis.',
+      eli5: 'Dupuit uses $h^2$ differences: $h_2^2 - h_1^2 = (h_2 + h_1)(h_2 - h_1)$. The Thiem equation uses $h_2 - h_1$. The Dupuit formula effectively multiplies the head difference by the average saturated thickness $(h_2 + h_1)$, which accounts for the fact that the flow area decreases as the water table drops near the well. Using linear $h$ underestimates this effect, giving a lower $Q$. The two formulas only agree when drawdown is very small compared to the total saturated thickness. Choice B reverses the direction. Choice C is wrong for unconfined aquifers. Choice D has no physical basis.',
       hint: 'Factor $h_2^2 - h_1^2 = (h_2 + h_1)(h_2 - h_1)$. Compare this to just $(h_2 - h_1)$.',
       steps: [
         { text: 'Dupuit numerator:', latex: 'h_2^2 - h_1^2 = (h_2 + h_1)(h_2 - h_1)' },
@@ -199,7 +199,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'First find the Darcy velocity: q = Ki = 8e-4 x 0.015 = 1.2e-5 m/s. Then the seepage velocity: v = q/n = 1.2e-5/0.35 = 3.43e-5 m/s. Travel time = distance/velocity = 630/3.43e-5 = 1.837e7 seconds. Convert to hours: 1.837e7/3600 = 5,100 hours (about 213 days). Contaminants travel at the seepage velocity, not the Darcy velocity. Choice B uses the Darcy velocity (not dividing by porosity), giving 14,600 hours \u2014 about 3 times too long. Choice C divides by 10 instead of converting properly (likely a decimal error). Choice D reports the raw seconds value without converting to hours.',
+      eli5: 'First find the Darcy velocity: $q = Ki = 8 \\times 10^{-4} \\times 0.015 = 1.2 \\times 10^{-5}$ m/s. Then the seepage velocity: $v = q/n = 1.2 \\times 10^{-5}/0.35 = 3.43 \\times 10^{-5}$ m/s. Travel time $= \\text{distance}/\\text{velocity} = 630/3.43 \\times 10^{-5} = 1.837 \\times 10^7$ seconds. Convert to hours: $1.837 \\times 10^7/3600 = 5{,}100$ hours (about 213 days). Contaminants travel at the seepage velocity, not the Darcy velocity. Choice B uses the Darcy velocity (not dividing by porosity), giving 14,600 hours \u2014 about 3 times too long. Choice C divides by 10 instead of converting properly (likely a decimal error). Choice D reports the raw seconds value without converting to hours.',
       hint: 'Find the seepage velocity ($v = Ki/n$), then compute $t = \\text{distance}/v$. Convert seconds to hours.',
       steps: [
         { text: 'Darcy velocity:', latex: 'q = Ki = (8 \\times 10^{-4})(0.015) = 1.2 \\times 10^{-5}\\text{ m/s}' },

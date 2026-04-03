@@ -112,7 +112,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The peak 15-min flow rate adjusts the hourly volume for the peaking within the hour: V_p = V/(PHF * N) = 5400/(0.90 * 3) = 5400/2.7 = 2000 veh/h/ln. The PHF accounts for the fact that traffic does not flow uniformly throughout the hour. Common trap is forgetting to divide by the number of lanes.',
+      eli5: 'The peak 15-min flow rate adjusts the hourly volume for the peaking within the hour: $V_p = V/(PHF \\times N) = 5400/(0.90 \\times 3) = 5400/2.7 = 2000$ veh/h/ln. The PHF accounts for the fact that traffic does not flow uniformly throughout the hour. Common trap is forgetting to divide by the number of lanes.',
       hint: 'Use $V_p = V/(PHF \\times N)$ where $N$ is the number of lanes.',
       steps: [
         { text: 'Peak 15-minute flow rate per lane:', latex: 'V_p = \\frac{V}{PHF \\times N}' },
@@ -171,7 +171,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Three steps. First, fHV = 1/(1 + 0.15(3.0 - 1)) = 1/1.30 = 0.769. Second, vp = 3,500/(0.92 x 3 x 0.769) = 3,500/2.122 = 1,650 pc/h/ln. Third, D = 1,650/55 = 30.0 pc/mi/ln (LOS D). Choice B (23.1) dropped fHV entirely. Choice C (26.5) used level-terrain ET = 2.0 instead of rolling terrain ET = 3.0. Choice D (27.6) forgot PHF.',
+      eli5: 'Three steps. First, $f_{HV} = 1/(1 + 0.15(3.0 - 1)) = 1/1.30 = 0.769$. Second, $v_p = 3{,}500/(0.92 \\times 3 \\times 0.769) = 3{,}500/2.122 = 1{,}650$ pc/h/ln. Third, $D = 1{,}650/55 = 30.0$ pc/mi/ln (LOS D). Choice B (23.1) dropped $f_{HV}$ entirely. Choice C (26.5) used level-terrain $E_T = 2.0$ instead of rolling terrain $E_T = 3.0$. Choice D (27.6) forgot PHF.',
       hint: 'Compute fHV first (rolling terrain uses $E_T = 3.0$), then $v_p$, then $D = v_p / S$.',
       steps: [
         { text: 'Heavy-vehicle factor:', latex: 'f_{HV} = \\frac{1}{1 + 0.15(3.0 - 1)} = \\frac{1}{1.30} = 0.769' },
@@ -181,7 +181,7 @@ export default {
       handbookPage: 'pp. 305-306',
       handbookFormula: 'D = \\frac{v_p}{S}, \\quad v_p = \\frac{V}{PHF \\times N \\times f_{HV}}',
       videoUrl: null,
-      traps: ['Using level-terrain ET = 2.0 when the problem states rolling terrain (ET = 3.0)', 'Dropping fHV from the flow-rate equation'],
+      traps: ['Using level-terrain $E_T = 2.0$ when the problem states rolling terrain ($E_T = 3.0$)', 'Dropping $f_{HV}$ from the flow-rate equation'],
       diagram: null,
     },
     {
@@ -196,7 +196,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'fHV appears in the denominator of vp = V/(PHF x N x fHV). If you set fHV = 1.0 when it should be 0.85, the denominator gets bigger, making vp smaller. A smaller vp means a smaller density D = vp/S, which could shift the LOS one or two grades better than reality. You would think the road is less congested than it actually is. The real-world effect of trucks is that they take up more road space, so ignoring their impact makes the analysis unconservative.',
+      eli5: '$f_{HV}$ appears in the denominator of $v_p = V/(PHF \\times N \\times f_{HV})$. If you set $f_{HV} = 1.0$ when it should be 0.85, the denominator gets bigger, making $v_p$ smaller. A smaller $v_p$ means a smaller density $D = v_p/S$, which could shift the LOS one or two grades better than reality. You would think the road is less congested than it actually is. The real-world effect of trucks is that they take up more road space, so ignoring their impact makes the analysis unconservative.',
       hint: '$f_{HV}$ is in the denominator of $v_p$. What happens to $v_p$ when you make the denominator bigger?',
       steps: [
         { text: '$v_p = V/(PHF \\times N \\times f_{HV})$. Setting $f_{HV} = 1.0 > 0.85$ increases the denominator.', latex: null },

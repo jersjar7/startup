@@ -116,7 +116,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: '$a = A_s f_y / (0.85 f_c\' b) = 4.00 \\times 60 / (0.85 \\times 3 \\times 14) = 240/35.7 = 6.72$ in. Choice B (5.71) uses $f_c\' = 4$ ksi instead of 3: $240/(0.85 \\times 4 \\times 14) = 240/47.6 = 5.04$. Actually 5.71 might come from using $b = 12$: $240/(0.85 \\times 3 \\times 12) = 240/30.6 = 7.84$. Let me recalculate B: using wrong $f_c\'$: $240/47.6 = 5.04$. Choice B could also represent $A_s \\times f_y / (f_c\' \\times b) = 240/42 = 5.71$ if you forget the 0.85. That is the trap. Choice C (7.56) uses $b = 12$ instead of 14: $240/(0.85 \\times 3 \\times 12) = 240/30.6 = 7.84$, close to 7.56. Choice D (4.00) is just $A_s$ — a nonsensical substitution.',
+      eli5: '$a = A_s f_y / (0.85 f_c\' b) = 4.00 \\times 60 / (0.85 \\times 3 \\times 14) = 240/35.7 = 6.72$ in. Choice B (5.71) could come from $A_s f_y / (f_c\' b) = 240/42 = 5.71$ if you forget the 0.85 -- that is the trap. Choice C (7.56) uses $b = 12$ instead of 14. Choice D (4.00) is just $A_s$ -- a nonsensical substitution.',
       hint: '$a = A_s f_y / (0.85 f_c\' b)$. Make sure to include the 0.85 factor in the denominator.',
       steps: [
         { text: 'Stress block depth:', latex: 'a = \\frac{A_s f_y}{0.85 f_c\' b} = \\frac{4.00 \\times 60}{0.85 \\times 3 \\times 14}' },

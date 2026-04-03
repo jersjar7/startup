@@ -120,7 +120,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'For a cantilever with a tip load, the max moment occurs at the fixed support and equals P * L = 12 * 3 = 36 kN*m. The moment is zero at the free end and increases linearly to PL at the wall. Choice A (18) comes from using PL/2, which is the wrong formula (that is not a standard case). Choice C (9) comes from PL/4 (the simply supported midpoint formula, wrong support condition). Choice D (4) comes from PL/L^2 or some other error. Always identify the support type first -- cantilever moments are PL, not PL/4 or PL/8.',
+      eli5: 'For a cantilever with a tip load, the max moment occurs at the fixed support and equals $P \\times L = 12 \\times 3 = 36$ kN$\\cdot$m. The moment is zero at the free end and increases linearly to $PL$ at the wall. Choice A (18) comes from using $PL/2$, which is the wrong formula (that is not a standard case). Choice C (9) comes from $PL/4$ (the simply supported midpoint formula, wrong support condition). Choice D (4) comes from $PL/L^2$ or some other error. Always identify the support type first -- cantilever moments are $PL$, not $PL/4$ or $PL/8$.',
       hint: 'For a cantilever beam, where does the maximum moment occur and what is the formula?',
       steps: [
         { text: 'Max moment at the fixed support:', latex: 'M_{max} = PL = 12 \\times 3 = 36 \\text{ kN\\cdot m}' },
@@ -129,7 +129,7 @@ export default {
       handbookPage: 'p. 140',
       handbookFormula: 'M_{max} = PL \\text{ (cantilever, tip load)}',
       videoUrl: null,
-      traps: ['Using PL/4 (simply supported beam formula) instead of PL for a cantilever', 'Confusing the free end (M = 0) with the fixed end (M = PL)'],
+      traps: ['Using $PL/4$ (simply supported beam formula) instead of $PL$ for a cantilever', 'Confusing the free end ($M = 0$) with the fixed end ($M = PL$)'],
       diagram: null,
     },
     {
@@ -144,7 +144,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a simply supported beam with a UDL, each reaction equals wL/2 = 6 * 10 / 2 = 30 kN. The maximum shear occurs at the supports and equals the reaction: V_max = 30 kN. The shear diagram is a straight line from +30 at the left to -30 at the right, crossing zero at midspan. Choice B (60) is the total load wL, not the reaction. Choice C (15) comes from wL/4, confusing shear with something else. Choice D (75) comes from wL^2/8 (that is the max moment formula, not shear, and it does not even have the right units).',
+      eli5: 'For a simply supported beam with a UDL, each reaction equals $wL/2 = 6 \\times 10 / 2 = 30$ kN. The maximum shear occurs at the supports and equals the reaction: $V_{max} = 30$ kN. The shear diagram is a straight line from +30 at the left to $-30$ at the right, crossing zero at midspan. Choice B (60) is the total load $wL$, not the reaction. Choice C (15) comes from $wL/4$, confusing shear with something else. Choice D (75) comes from $wL^2/8$ (that is the max moment formula, not shear, and it does not even have the right units).',
       hint: 'The maximum shear in a simply supported beam with a UDL occurs at the supports. What is the reaction force?',
       steps: [
         { text: 'By symmetry, each reaction:', latex: 'R = \\frac{wL}{2} = \\frac{6 \\times 10}{2} = 30 \\text{ kN}' },
@@ -153,7 +153,7 @@ export default {
       handbookPage: 'p. 140',
       handbookFormula: 'V_{max} = \\frac{wL}{2}',
       videoUrl: null,
-      traps: ['Reporting the total load wL instead of the reaction wL/2', 'Confusing the max shear formula with the max moment formula wL^2/8'],
+      traps: ['Reporting the total load $wL$ instead of the reaction $wL/2$', 'Confusing the max shear formula with the max moment formula $wL^2/8$'],
       diagram: null,
     },
     {
@@ -168,7 +168,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'First find the reactions. Sum moments about A: R_B * 8 = 20 * 2 + 40 * 6 = 40 + 240 = 280, so R_B = 35 kN. Then R_A = 20 + 40 - 35 = 25 kN. Check the moment at each load point: at x = 2 m, M = 25 * 2 = 50 kN*m. At x = 6 m, M = 25 * 6 - 20 * 4 = 150 - 80 = 70 kN*m (or from the right: R_B * 2 = 35 * 2 = 70). The maximum is 70 kN*m under the 40 kN load. Choice A (60) might come from an arithmetic error with the reactions. Choice C (80) comes from R_B * (8-6) + something wrong. Choice D (120) comes from adding the moments at both load points (50 + 70), which makes no physical sense.',
+      eli5: 'First find the reactions. Sum moments about A: $R_B \\times 8 = 20 \\times 2 + 40 \\times 6 = 40 + 240 = 280$, so $R_B = 35$ kN. Then $R_A = 20 + 40 - 35 = 25$ kN. Check the moment at each load point: at $x = 2$ m, $M = 25 \\times 2 = 50$ kN$\\cdot$m. At $x = 6$ m, $M = 25 \\times 6 - 20 \\times 4 = 150 - 80 = 70$ kN$\\cdot$m (or from the right: $R_B \\times 2 = 35 \\times 2 = 70$). The maximum is 70 kN$\\cdot$m under the 40 kN load. Choice A (60) might come from an arithmetic error with the reactions. Choice C (80) comes from $R_B \\times (8-6)$ plus something wrong. Choice D (120) comes from adding the moments at both load points ($50 + 70$), which makes no physical sense.',
       hint: 'Find both reactions using equilibrium, then compute the moment at each load location. The maximum moment occurs under one of the loads.',
       steps: [
         { text: 'Sum moments about A:', latex: 'R_B \\times 8 = 20 \\times 2 + 40 \\times 6 = 280 \\implies R_B = 35 \\text{ kN}' },
@@ -195,7 +195,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'The relationship dM/dx = V means the slope of the moment diagram equals the shear. When V = 0, the slope of the moment diagram is zero, which means the moment is at a peak or valley (a local maximum or minimum). For a simply supported beam with UDL, V = 0 at midspan, and that is exactly where the moment reaches its maximum value. Choice A is wrong because M is not zero where V is zero (M is at its peak there). Choice C is wrong because the moment does not change sign at that point -- it is at its maximum. Choice D describes a change in curvature of the deflection curve, which is related to M changing sign, not V.',
+      eli5: 'The relationship $dM/dx = V$ means the slope of the moment diagram equals the shear. When $V = 0$, the slope of the moment diagram is zero, which means the moment is at a peak or valley (a local maximum or minimum). For a simply supported beam with UDL, $V = 0$ at midspan, and that is exactly where the moment reaches its maximum value. Choice A is wrong because $M$ is not zero where $V$ is zero ($M$ is at its peak there). Choice C is wrong because the moment does not change sign at that point -- it is at its maximum. Choice D describes a change in curvature of the deflection curve, which is related to $M$ changing sign, not $V$.',
       hint: 'Recall the relationship $dM/dx = V$. What happens to a function when its derivative is zero?',
       steps: [
         { text: 'From calculus, $V = dM/dx$. When $V = 0$, the slope of the moment diagram is zero.', latex: null },
@@ -205,7 +205,7 @@ export default {
       handbookPage: 'p. 134',
       handbookFormula: 'V = \\frac{dM}{dx}',
       videoUrl: null,
-      traps: ['Thinking that M = 0 where V = 0 -- these are different conditions', 'Confusing a moment peak (where V crosses zero) with a moment sign change (where M crosses zero)'],
+      traps: ['Thinking that $M = 0$ where $V = 0$ -- these are different conditions', 'Confusing a moment peak (where $V$ crosses zero) with a moment sign change (where $M$ crosses zero)'],
       diagram: null,
     },
   ],

@@ -225,7 +225,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Set the two total-cost equations equal and solve for Q. Method A: $TC = 8000 + 5Q$. Method B: $TC = 3000 + 10Q$. Setting them equal: $8000 + 5Q = 3000 + 10Q$, so $5000 = 5Q$, and $Q^* = 1000$ tons. Below 1000 tons/day, Method B (lower fixed cost) is cheaper. Above 1000 tons/day, Method A (lower variable cost) wins. Choice B (800) likely comes from a subtraction error. Choice C (1600) doubles the break-even from an algebra slip. Choice D (500) divides 5000 by 10 instead of 5.',
+      eli5: 'Set the two total-cost equations equal and solve for $Q$. Method A: $TC = 8{,}000 + 5Q$. Method B: $TC = 3{,}000 + 10Q$. Setting them equal: $8{,}000 + 5Q = 3{,}000 + 10Q$, so $5{,}000 = 5Q$, and $Q^* = 1{,}000$ tons. Below 1,000 tons/day, Method B (lower fixed cost) is cheaper. Above 1,000 tons/day, Method A (lower variable cost) wins. Choice B (800) likely comes from a subtraction error. Choice C (1,600) doubles the break-even from an algebra slip. Choice D (500) divides 5,000 by 10 instead of 5.',
       hint: 'Write TC = FC + VC times Q for each method, set them equal, and solve for Q.',
       steps: [
         { text: 'Write the total cost equations:', latex: 'TC_A = 8{,}000 + 5Q \\quad \\text{and} \\quad TC_B = 3{,}000 + 10Q' },
@@ -251,7 +251,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Simple payback = initial investment divided by net annual savings. The gross savings are 65,000/year, but you have to subtract the new 15,000/year maintenance cost to get the net savings of 50,000/year. Then: 250,000 / 50,000 = 5.0 years. Choice B (3.8 years) divides by the gross savings (250,000 / 65,000 = 3.85), ignoring the maintenance cost. Choice C (16.7 years) divides by only the maintenance cost (250,000 / 15,000). Choice D (3.1 years) divides by the sum of savings and maintenance (65,000 + 15,000 = 80,000) instead of the difference.',
+      eli5: 'Simple payback = initial investment divided by net annual savings. The gross savings are 65,000/year, but you have to subtract the new 15,000/year maintenance cost to get the net savings of 50,000/year. Then: $250{,}000 / 50{,}000 = 5.0$ years. Choice B (3.8 years) divides by the gross savings ($250{,}000 / 65{,}000 = 3.85$), ignoring the maintenance cost. Choice C (16.7 years) divides by only the maintenance cost ($250{,}000 / 15{,}000$). Choice D (3.1 years) divides by the sum of savings and maintenance ($65{,}000 + 15{,}000 = 80{,}000$) instead of the difference.',
       hint: 'Net annual savings = gross savings minus new annual costs. Do not use gross savings alone.',
       steps: [
         { text: 'Identify the initial investment:', latex: 'I = 250{,}000' },
@@ -276,7 +276,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Compute the total cost for each method at Q = 2500 and pick the lower one. Method A: $12,000 + 8.50(2500) = 12,000 + 21,250 = 33,250$. Method B: $20,000 + 4.50(2500) = 20,000 + 11,250 = 31,250$. Method B is cheaper at 31,250. The break-even quantity is $(20,000 - 12,000)/(8.50 - 4.50) = 8,000/4 = 2,000$ cy. Since 2,500 > 2,000, the method with the higher fixed cost but lower variable cost (Method B) wins. Choice B (33,250) is Method A\'s total cost \u2014 not wrong to compute, but it is the more expensive option. Choice C (32,000) is a rounding error or arithmetic slip. Choice D (20,000) uses only Method B\'s fixed cost without adding the variable portion.',
+      eli5: 'Compute the total cost for each method at $Q = 2{,}500$ and pick the lower one. Method A: $12{,}000 + 8.50(2{,}500) = 12{,}000 + 21{,}250 = 33{,}250$. Method B: $20{,}000 + 4.50(2{,}500) = 20{,}000 + 11{,}250 = 31{,}250$. Method B is cheaper at 31,250. The break-even quantity is $(20{,}000 - 12{,}000)/(8.50 - 4.50) = 8{,}000/4 = 2{,}000$ cy. Since 2,500 > 2,000, the method with the higher fixed cost but lower variable cost (Method B) wins. Choice B (33,250) is Method A\'s total cost \u2014 not wrong to compute, but it is the more expensive option. Choice C (32,000) is a rounding error or arithmetic slip. Choice D (20,000) uses only Method B\'s fixed cost without adding the variable portion.',
       hint: 'Compute TC = FC + VC times Q for both methods at Q = 2,500 and compare.',
       steps: [
         { text: 'Total cost for Method A:', latex: 'TC_A = 12{,}000 + 8.50(2{,}500) = 12{,}000 + 21{,}250 = 33{,}250' },
@@ -303,7 +303,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'The 1.5 million is already spent and cannot be recovered regardless of which site the DOT chooses. That is the textbook definition of a sunk cost. The correct comparison is: original site at 35 million versus new site at 22 million + 2 million = 24 million. The 1.5 million does not appear in either equation. Choice B is the most tempting trap because the investigation "belongs" to the original site physically \u2014 but the money is gone either way. Choice C invents a credit mechanism that makes no economic sense. Choice D creates an allocation method that sounds fair but violates the sunk-cost principle. The FE loves to test whether you fall for the emotional pull of wanting to "count" money already spent.',
+      eli5: 'The 1.5 million is already spent and cannot be recovered regardless of which site the DOT chooses. That is the textbook definition of a sunk cost. The correct comparison is: original site at 35 million versus new site at $22{,}000{,}000 + 2{,}000{,}000 = 24{,}000{,}000$. The 1.5 million does not appear in either equation. Choice B is the most tempting trap because the investigation "belongs" to the original site physically \u2014 but the money is gone either way. Choice C invents a credit mechanism that makes no economic sense. Choice D creates an allocation method that sounds fair but violates the sunk-cost principle. The FE loves to test whether you fall for the emotional pull of wanting to "count" money already spent.',
       hint: 'Can the DOT recover the 1.5 million by choosing one option over the other? If the answer is no, what type of cost is it?',
       steps: [
         { text: 'The 1.5 million geotechnical investigation is already completed and paid for. It cannot be recovered regardless of which site is selected.', latex: null },

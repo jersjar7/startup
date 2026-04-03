@@ -111,8 +111,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'tau_f = c\' + sigma_N\' tan(phi\') = 0 + 2,000 x tan(35) = 2,000 x 0.7002 = 1,400 psf. Choice B (2,000) is the normal stress, not the shear strength. Choice C (1,148) might come from using sin(35) instead of tan(35). Choice D (700) divides the answer by 2 for no reason.',
-      hint: 'For granular soil, c = 0. Shear strength is purely frictional: tau = sigma_N tan(phi).',
+      eli5: '$\\tau_f = c\' + \\sigma_N\' \\tan(\\phi\') = 0 + 2{,}000 \\times \\tan(35\\degree) = 2{,}000 \\times 0.7002 = 1{,}400$ psf. Choice B (2,000) is the normal stress, not the shear strength. Choice C (1,148) might come from using $\\sin(35\\degree)$ instead of $\\tan(35\\degree)$. Choice D (700) divides the answer by 2 for no reason.',
+      hint: 'For granular soil, $c = 0$. Shear strength is purely frictional: $\\tau = \\sigma_N \\tan(\\phi)$.',
       steps: [
         { text: 'Mohr-Coulomb with $c\' = 0$:', latex: '\\tau_f = \\sigma_N\' \\tan \\phi\' = 2{,}000 \\times \\tan 35\\degree' },
         { text: 'Compute:', latex: '\\tau_f = 2{,}000 \\times 0.7002 = 1{,}400 \\text{ psf}' },
@@ -120,7 +120,7 @@ export default {
       handbookPage: 'p. 263',
       handbookFormula: '\\tau_f = c + \\sigma_N \\tan \\phi',
       videoUrl: null,
-      traps: ['Using sin(phi) or cos(phi) instead of tan(phi) in the Mohr-Coulomb equation'],
+      traps: ['Using $\\sin(\\phi)$ or $\\cos(\\phi)$ instead of $\\tan(\\phi)$ in the Mohr-Coulomb equation'],
       diagram: null,
     },
     {
@@ -135,7 +135,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'In undrained loading of a saturated clay, any increase in total stress is carried entirely by excess pore water pressure. The effective stress on the failure plane stays the same, so the shear strength does not change with the applied confining pressure -- hence phi_u = 0 in total-stress terms. Choice B is wrong because clay does have friction in drained conditions (phi_prime is typically 20-30 degrees). Choice C is wrong because drained analysis uses nonzero phi_prime. Choice D is a misconception -- water does not eliminate friction in the soil skeleton.',
+      eli5: 'In undrained loading of a saturated clay, any increase in total stress is carried entirely by excess pore water pressure. The effective stress on the failure plane stays the same, so the shear strength does not change with the applied confining pressure -- hence $\\phi_u = 0$ in total-stress terms. Choice B is wrong because clay does have friction in drained conditions ($\\phi\'$ is typically 20-30 degrees). Choice C is wrong because drained analysis uses nonzero $\\phi\'$. Choice D is a misconception -- water does not eliminate friction in the soil skeleton.',
       hint: 'Think about what happens to pore pressure when you load saturated clay quickly. Does effective stress change?',
       steps: [
         { text: 'Under undrained conditions in saturated clay, $\\Delta u = \\Delta \\sigma$.', latex: null },
@@ -145,7 +145,7 @@ export default {
       handbookPage: 'p. 262-263',
       handbookFormula: '\\tau_f = c_u \\quad (\\phi_u = 0)',
       videoUrl: null,
-      traps: ['Thinking clay has zero friction angle under all conditions -- phi_u = 0 applies only to undrained total-stress analysis'],
+      traps: ['Thinking clay has zero friction angle under all conditions -- $\\phi_u = 0$ applies only to undrained total-stress analysis'],
       diagram: null,
     },
     {
@@ -160,8 +160,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For c = 0: sin(phi) = (sigma1 - sigma3)/(sigma1 + sigma3) = (9,000 - 3,000)/(9,000 + 3,000) = 6,000/12,000 = 0.50. phi = arcsin(0.50) = 30 degrees. Choice B (45) might come from computing the stress ratio sigma1/sigma3 = 3 and misusing it. Choice C (26.6) is arctan(0.50) -- a common error from using tan instead of sin. Choice D (19.5) might come from arcsin(sigma3/sigma1).',
-      hint: 'For a cohesionless soil: sin(phi) = (sigma1 - sigma3)/(sigma1 + sigma3).',
+      eli5: 'For $c = 0$: $\\sin(\\phi) = (\\sigma_1 - \\sigma_3)/(\\sigma_1 + \\sigma_3) = (9{,}000 - 3{,}000)/(9{,}000 + 3{,}000) = 6{,}000/12{,}000 = 0.50$. $\\phi = \\arcsin(0.50) = 30\\degree$. Choice B (45) might come from computing the stress ratio $\\sigma_1/\\sigma_3 = 3$ and misusing it. Choice C (26.6) is $\\arctan(0.50)$ -- a common error from using tan instead of sin. Choice D (19.5) might come from $\\arcsin(\\sigma_3/\\sigma_1)$.',
+      hint: 'For a cohesionless soil: $\\sin(\\phi) = (\\sigma_1 - \\sigma_3)/(\\sigma_1 + \\sigma_3)$.',
       steps: [
         { text: 'For $c = 0$:', latex: '\\sin \\phi = \\frac{\\sigma_1 - \\sigma_3}{\\sigma_1 + \\sigma_3} = \\frac{9{,}000 - 3{,}000}{9{,}000 + 3{,}000} = \\frac{6{,}000}{12{,}000} = 0.50' },
         { text: 'Friction angle:', latex: '\\phi = \\arcsin(0.50) = 30\\degree' },
@@ -169,7 +169,7 @@ export default {
       handbookPage: 'p. 262',
       handbookFormula: '\\sin \\phi = \\frac{\\sigma_1 - \\sigma_3}{\\sigma_1 + \\sigma_3}',
       videoUrl: null,
-      traps: ['Using arctan instead of arcsin -- the Mohr circle relationship gives sin(phi), not tan(phi)', 'Computing sigma1/sigma3 = 3 and using arctan(3) or arcsin(3)'],
+      traps: ['Using $\\arctan$ instead of $\\arcsin$ -- the Mohr circle relationship gives $\\sin(\\phi)$, not $\\tan(\\phi)$', 'Computing $\\sigma_1/\\sigma_3 = 3$ and using $\\arctan(3)$ or $\\arcsin(3)$'],
       diagram: null,
     },
     {
@@ -184,7 +184,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'In a UU test on saturated clay, the sample is not allowed to drain. Any increase in confining pressure goes entirely to pore pressure, so the effective stress does not change. Since strength depends on effective stress, both specimens have the same shear strength regardless of the confining pressure. This is why the Mohr envelope is a horizontal line (phi_u = 0) with tau_f = c_u. Choice B is wrong -- this is exactly expected behavior. Choice C is wrong -- even NC clays behave this way in UU tests. Choice D describes a CU or CD test, not UU.',
+      eli5: 'In a UU test on saturated clay, the sample is not allowed to drain. Any increase in confining pressure goes entirely to pore pressure, so the effective stress does not change. Since strength depends on effective stress, both specimens have the same shear strength regardless of the confining pressure. This is why the Mohr envelope is a horizontal line ($\\phi_u = 0$) with $\\tau_f = c_u$. Choice B is wrong -- this is exactly expected behavior. Choice C is wrong -- even NC clays behave this way in UU tests. Choice D describes a CU or CD test, not UU.',
       hint: 'In a UU test, neither the confining stage nor the shearing stage allows drainage. What happens to pore pressure when you increase total stress on a saturated sample?',
       steps: [
         { text: 'In a UU test on saturated clay, $B = 1$ (Skempton\'s B-value):', latex: '\\Delta u = \\Delta \\sigma_3' },

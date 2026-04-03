@@ -114,7 +114,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'The latitude (northing) is the north-south component: distance times cos(bearing angle). Latitude = 200 * cos(45) = 200 * 0.7071 = 141.4 m. The departure (easting) would be 200 * sin(45) = 141.4 m too, since it is a 45-degree bearing. Common trap is mixing up which trig function gives latitude vs departure.',
+      eli5: 'The latitude (northing) is the north-south component: distance times cosine of the bearing angle. $\\text{Lat} = 200 \\cos 45° = 200 \\times 0.7071 = 141.4$ m. The departure (easting) would be $200 \\sin 45° = 141.4$ m too, since it is a 45-degree bearing. Common trap is mixing up which trig function gives latitude vs departure.',
       hint: 'Latitude = distance times cosine of the bearing angle.',
       steps: [
         { text: 'For a bearing of N 45\\degree E:', latex: null },
@@ -138,7 +138,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'S 30 W means 30 degrees west of due south. Due south is 180 degrees azimuth. Going 30 degrees toward west (clockwise from north) gives 180 + 30 = 210 degrees. The key is remembering that azimuth is measured clockwise from north (0/360).',
+      eli5: 'S 30° W means 30 degrees west of due south. Due south is 180° azimuth. Going 30 degrees toward west (clockwise from north) gives $180 + 30 = 210°$. The key is remembering that azimuth is measured clockwise from north (0°/360°).',
       hint: 'Due south is azimuth 180°. Which direction from south is "west"?',
       steps: [
         { text: 'S 30\\degree W means 30\\degree west of south.', latex: null },
@@ -163,8 +163,8 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'VD = SD sin(alpha) = 185 * sin(12) = 185 * 0.2079 = 38.44 ft. But the angle is below horizontal, so the elevation difference is negative (you are going downhill). VD = -38.44 ft. Choice A has the right magnitude but wrong sign. Choice C is the horizontal distance, not the vertical. Choice D applies the negative to the horizontal distance by mistake.',
-      hint: 'Use VD = SD sin(alpha) and watch the sign. Below horizontal means the target point is lower.',
+      eli5: '$VD = SD \\sin\\alpha = 185 \\times \\sin 12° = 185 \\times 0.2079 = 38.44$ ft. But the angle is below horizontal, so the elevation difference is negative (you are going downhill). $VD = -38.44$ ft. Choice A has the right magnitude but wrong sign. Choice C is the horizontal distance, not the vertical. Choice D applies the negative to the horizontal distance by mistake.',
+      hint: 'Use $VD = SD \\sin\\alpha$ and watch the sign. Below horizontal means the target point is lower.',
       steps: [
         { text: 'Apply the vertical distance formula:', latex: 'VD = SD \\sin\\alpha = 185.00 \\times \\sin 12\\degree' },
         { text: 'Compute:', latex: 'VD = 185.00 \\times 0.2079 = 38.44 \\text{ ft}' },
@@ -188,7 +188,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'For a 6-sided polygon, the interior angles must sum to (6 - 2) * 180 = 720 degrees. The five known angles sum to 115 + 128 + 97 + 142 + 108 = 590 degrees. The sixth angle = 720 - 590 = 130 degrees. Choice B is a guess. Choice C is close but arithmetically wrong. Choice D overshoots because it uses n * 180 = 1080 instead of (n-2) * 180 = 720.',
+      eli5: 'For a 6-sided polygon, the interior angles must sum to $(6 - 2) \\times 180 = 720°$. The five known angles sum to $115 + 128 + 97 + 142 + 108 = 590°$. The sixth angle $= 720 - 590 = 130°$. Choice B is a guess. Choice C is close but arithmetically wrong. Choice D overshoots because it uses $n \\times 180 = 1080°$ instead of $(n - 2) \\times 180 = 720°$.',
       hint: 'Find the theoretical sum of interior angles for a 6-sided polygon, then subtract the five known angles.',
       steps: [
         { text: 'Theoretical sum for a 6-sided polygon:', latex: '\\Sigma = (n - 2) \\times 180\\degree = (6 - 2) \\times 180\\degree = 720\\degree' },
@@ -198,7 +198,7 @@ export default {
       handbookPage: 'p. 278',
       handbookFormula: '\\Sigma \\text{interior angles} = (n-2) \\times 180\\degree',
       videoUrl: null,
-      traps: ['Using n * 180 instead of (n-2) * 180 for the theoretical sum', 'Arithmetic errors when summing five angles quickly'],
+      traps: ['Using $n \\times 180$ instead of $(n - 2) \\times 180$ for the theoretical sum', 'Arithmetic errors when summing five angles quickly'],
       diagram: null,
     },
   ],

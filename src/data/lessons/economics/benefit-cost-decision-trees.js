@@ -227,7 +227,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'You need to find the present worth of the annual benefits using the uniform series present worth factor, then divide by the cost. PW of benefits = 350,000 times (P/A, 6%, 10) = 350,000 times 7.3601 = 2,576,035. B/C = 2,576,035 / 2,000,000 = 1.29. Common mistake is using the raw total (350k x 10 = 3.5M) without discounting.',
+      eli5: 'You need to find the present worth of the annual benefits using the uniform series present worth factor, then divide by the cost. PW of benefits $= 350{,}000 \\times (P/A,\\, 6\\%,\\, 10) = 350{,}000 \\times 7.3601 = 2{,}576{,}035$. $B/C = 2{,}576{,}035 / 2{,}000{,}000 = 1.29$. Common mistake is using the raw total ($350{,}000 \\times 10 = 3{,}500{,}000$) without discounting.',
       hint: 'First convert the annual benefits to a present worth, then divide by the cost.',
       steps: [
         { text: 'Find the uniform series present worth factor $(P/A, 6\\%, 10)$:', latex: '(P/A, 6\\%, 10) = \\frac{(1.06)^{10} - 1}{0.06(1.06)^{10}} = 7.3601' },
@@ -252,7 +252,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'A B/C ratio less than 1.0 means the costs outweigh the benefits. The project is NOT economically justified. A B/C >= 1.0 means benefits meet or exceed costs. This is the single most important threshold in benefit-cost analysis.',
+      eli5: 'A $B/C$ ratio less than 1.0 means the costs outweigh the benefits. The project is NOT economically justified. A $B/C \\geq 1.0$ means benefits meet or exceed costs. This is the single most important threshold in benefit-cost analysis.',
       hint: 'What does a B/C ratio less than 1.0 mean?',
       steps: [
         { text: 'B/C ratio = Present Worth of Benefits / Present Worth of Costs.', latex: null },
@@ -277,7 +277,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Both projects pass on their own (B/C > 1), so the question is whether spending the extra 2,000,000 on Project Y is justified. The incremental benefit is 6,500,000 minus 4,200,000 = 2,300,000, and the incremental cost is 5,000,000 minus 3,000,000 = 2,000,000. The incremental B/C is 2,300,000 / 2,000,000 = 1.15, which exceeds 1.0, so the extra investment is worth it. Answer A picks Project X because its individual B/C is higher, but that ignores the scale of the investment. Answer C treats both as equally acceptable, which only works for independent projects.',
+      eli5: 'Both projects pass on their own ($B/C > 1$), so the question is whether spending the extra 2,000,000 on Project Y is justified. The incremental benefit is $6{,}500{,}000 - 4{,}200{,}000 = 2{,}300{,}000$, and the incremental cost is $5{,}000{,}000 - 3{,}000{,}000 = 2{,}000{,}000$. The incremental $\\Delta B/C = 2{,}300{,}000 / 2{,}000{,}000 = 1.15$, which exceeds 1.0, so the extra investment is worth it. Answer A picks Project X because its individual $B/C$ is higher, but that ignores the scale of the investment. Answer C treats both as equally acceptable, which only works for independent projects.',
       hint: 'Rank alternatives by cost, then check whether the extra investment from X to Y is justified by computing the incremental B/C ratio.',
       steps: [
         { text: 'Verify individual B/C ratios:', latex: 'B/C_X = \\frac{4{,}200{,}000}{3{,}000{,}000} = 1.40 \\quad B/C_Y = \\frac{6{,}500{,}000}{5{,}000{,}000} = 1.30' },
@@ -303,7 +303,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'This is a decision tree problem where the repair path leads to a chance node with two outcomes. You need to discount each future cost back to the present, compute the total PW for each branch, then weight by probability. The major-rehab branch costs 800,000 plus the PW of 1,200,000 in year 10 = 800,000 + 670,000 = 1,470,000. The minor branch costs 800,000 + 112,000 = 912,000. The expected PW = 0.35 times 1,470,000 plus 0.65 times 912,000 = 1,107,000, which beats the certain 1,500,000 for replacement. Answer B forgets to include the initial 800,000 in the expected value calculation. Answer C ignores probability and just picks the certain option. Answer D uses only the worst-case scenario (100% major rehab) instead of weighting by probability.',
+      eli5: 'This is a decision tree problem where the repair path leads to a chance node with two outcomes. You need to discount each future cost back to the present, compute the total PW for each branch, then weight by probability. The major-rehab branch costs $800{,}000 + PW(1{,}200{,}000) = 800{,}000 + 670{,}000 = 1{,}470{,}000$. The minor branch costs $800{,}000 + 112{,}000 = 912{,}000$. The expected PW $= 0.35 \\times 1{,}470{,}000 + 0.65 \\times 912{,}000 = 1{,}107{,}000$, which beats the certain 1,500,000 for replacement. Answer B forgets to include the initial 800,000 in the expected value calculation. Answer C ignores probability and just picks the certain option. Answer D uses only the worst-case scenario (100% major rehab) instead of weighting by probability.',
       hint: 'Discount each future cost to the present using $(P/F, 6\\%, 10)$, then weight each repair scenario by its probability to get the expected PW.',
       steps: [
         { text: 'Discount future costs to present using $(P/F, 6\\%, 10)$:', latex: '(P/F,\\, 6\\%,\\, 10) = (1.06)^{-10} = 0.5584' },

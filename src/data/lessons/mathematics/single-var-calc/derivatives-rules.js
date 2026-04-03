@@ -198,7 +198,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "hard",
-      "eli5": "Quotient rule: 'lo d-hi minus hi d-lo over lo-lo.' The denominator function (x² + 1) goes first in the numerator — it multiplies the derivative of the top (cos x). Then subtract the top (sin x) times the derivative of the bottom (2x). The classic trap is flipping the subtraction order. Choice B has a plus where there should be a minus. Choice D has the terms in the wrong order entirely. The mnemonic saves you: lo d-hi MINUS hi d-lo.",
+      "eli5": "Quotient rule: 'lo d-hi minus hi d-lo over lo-lo.' The denominator function ($x^2 + 1$) goes first in the numerator — it multiplies the derivative of the top ($\\cos x$). Then subtract the top ($\\sin x$) times the derivative of the bottom ($2x$). The classic trap is flipping the subtraction order. Choice B has a plus where there should be a minus. Choice D has the terms in the wrong order entirely. The mnemonic saves you: lo d-hi MINUS hi d-lo.",
       "hint": "'Lo d-hi minus hi d-lo over lo-lo' — the bottom function goes first in the numerator.",
       "steps": [
         {
@@ -250,7 +250,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Forgetting the chain rule and omitting the inner derivative",
-        "Getting the inner derivative wrong — d/dx(5x^2) = 10x, not 5x"
+        "Getting the inner derivative wrong — $d/dx(5x^2) = 10x$, not $5x$"
       ],
       "diagram": null
     },
@@ -278,7 +278,7 @@ export default {
       "handbookFormula": "\\frac{d}{dx}(uv) = u\\frac{dv}{dx} + v\\frac{du}{dx}",
       "videoUrl": null,
       "traps": [
-        "Forgetting the chain rule factor of 2 when differentiating sin(2t)",
+        "Forgetting the chain rule factor of 2 when differentiating $\\sin(2t)$",
         "Only differentiating one of the two factors"
       ],
       "diagram": null
@@ -306,7 +306,7 @@ export default {
       "handbookFormula": "\\frac{d}{dx}\\!\\left(\\frac{u}{v}\\right) = \\frac{v\\,\\frac{du}{dx} - u\\,\\frac{dv}{dx}}{v^2}",
       "videoUrl": null,
       "traps": [
-        "Flipping the subtraction in the quotient rule — it's v du - u dv, not u dv - v du",
+        "Flipping the subtraction in the quotient rule — it is $v\\,du - u\\,dv$, not $u\\,dv - v\\,du$",
         "Forgetting to factor and not matching any answer choice"
       ],
       "diagram": null
@@ -335,8 +335,8 @@ export default {
       "handbookFormula": "\\frac{d}{dx}[f(g(x))] = f'(g(x)) \\cdot g'(x)",
       "videoUrl": null,
       "traps": [
-        "Thinking a single chain rule application is enough — the inner function 3x^2 also needs differentiation",
-        "Confusing this with a product rule situation — sin(3x^2) is a composition, not a product"
+        "Thinking a single chain rule application is enough — the inner function $3x^2$ also needs differentiation",
+        "Confusing this with a product rule situation — $\\sin(3x^2)$ is a composition, not a product"
       ],
       "diagram": null
     }

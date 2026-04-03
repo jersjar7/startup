@@ -122,8 +122,8 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'This is a direct application of the impulse-momentum theorem. The impulse (force times time) equals the change in momentum. Compute the impulse: 40 N times 0.5 s = 20 N-s. Then set that equal to m(v2 - v1) and solve for v2. Choice D (20) comes from dividing impulse by time again instead of by mass. Choice B (4.0) comes from dividing impulse by mass but forgetting to add the initial velocity.',
-      hint: 'Impulse = F times delta-t. Set that equal to the change in momentum and solve for the final velocity.',
+      eli5: 'This is a direct application of the impulse-momentum theorem. The impulse (force times time) equals the change in momentum. Compute the impulse: $40 \\times 0.5 = 20$ N·s. Then set that equal to $m(v_2 - v_1)$ and solve for $v_2$. Choice D (20) comes from dividing impulse by time again instead of by mass. Choice B (4.0) comes from dividing impulse by mass but forgetting to add the initial velocity.',
+      hint: 'Impulse = $F \\Delta t$. Set that equal to the change in momentum and solve for the final velocity.',
       steps: [
         { text: 'Compute the impulse:', latex: 'J = F \\Delta t = 40 \\times 0.5 = 20 \\text{ N\\cdot s}' },
         { text: 'Apply impulse-momentum theorem:', latex: 'J = m(v_2 - v_1)' },
@@ -150,7 +150,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'You need two equations: conservation of momentum and the restitution equation. Take rightward as positive, so the 5 kg ball has velocity -4 m/s. Momentum conservation gives 3v1\' + 5v2\' = 10. The restitution equation gives v2\' - v1\' = 0.6(10 - (-4)) = 8.4. Solving simultaneously: v1\' = -5.25 m/s (the negative means leftward). The 3 kg ball bounces back. Choice B forgets the sign on the second ball\'s initial velocity.',
+      eli5: 'You need two equations: conservation of momentum and the restitution equation. Take rightward as positive, so the 5 kg ball has velocity $-4$ m/s. Momentum conservation gives $3v_1\' + 5v_2\' = 10$. The restitution equation gives $v_2\' - v_1\' = 0.6(10 - (-4)) = 8.4$. Solving simultaneously: $v_1\' = -5.25$ m/s (the negative means leftward). The 3 kg ball bounces back. Choice B forgets the sign on the second ball\'s initial velocity.',
       hint: 'Pick a positive direction first. Both momentum conservation and the restitution equation use signed velocities.',
       steps: [
         { text: 'Define rightward as positive. Initial velocities: $v_1 = +10$, $v_2 = -4$.', latex: null },
@@ -180,7 +180,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'First find the truck\'s post-collision velocity from momentum conservation: 4,000(12) + 1,000(3) = 4,000(v1\') + 1,000(15), which gives v1\' = 9 m/s. Then plug into the restitution formula: e = (15 - 9)/(12 - 3) = 6/9 = 0.67. Choice A (0.33) comes from flipping the fraction. Choice D (1.0) would mean perfectly elastic, but kinetic energy isn\'t conserved here.',
+      eli5: 'First find the truck\'s post-collision velocity from momentum conservation: $4000(12) + 1000(3) = 4000 v_1\' + 1000(15)$, which gives $v_1\' = 9$ m/s. Then plug into the restitution formula: $e = (15 - 9)/(12 - 3) = 6/9 = 0.67$. Choice A (0.33) comes from flipping the fraction. Choice D (1.0) would mean perfectly elastic, but kinetic energy isn\'t conserved here.',
       hint: 'Use momentum conservation to find the truck\'s final velocity first, then plug both final velocities into the restitution formula.',
       steps: [
         { text: 'Conservation of momentum (both moving in same direction):', latex: '4{,}000(12) + 1{,}000(3) = 4{,}000 v_1\' + 1{,}000(15)' },

@@ -120,7 +120,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'For a jet hitting a flat plate at 90 degrees, the exit flow has no component in the original jet direction. The x-momentum is fully destroyed. F = rho*Q*v = rho*A*v^2. Area: A = pi(0.05)^2/4 = 0.001963 m^2. F = 1,000 * 0.001963 * 20^2 = 1,000 * 0.001963 * 400 = 785 N. Choice B uses F = rho*A*v (forgets to square velocity). Choice C doubles the answer (that would be a 180-degree reversal). Choice D forgets to convert mm to m for the diameter.',
+      eli5: 'For a jet hitting a flat plate at 90 degrees, the exit flow has no component in the original jet direction. The x-momentum is fully destroyed. $F = \\rho Q v = \\rho A v^2$. Area: $A = \\pi(0.05)^2/4 = 0.001963$ m\u00B2. $F = 1{,}000 \\times 0.001963 \\times 20^2 = 1{,}000 \\times 0.001963 \\times 400 = 785$ N. Choice B uses $F = \\rho A v$ (forgets to square velocity). Choice C doubles the answer (that would be a 180-degree reversal). Choice D forgets to convert mm to m for the diameter.',
       hint: 'For a flat plate perpendicular to the jet, all x-momentum is absorbed. $F = \\rho A v^2$.',
       steps: [
         { text: 'Jet area:', latex: 'A = \\frac{\\pi(0.05)^2}{4} = 1.963 \\times 10^{-3}\\,\\text{m}^2' },
@@ -144,7 +144,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a 45-degree bend with constant diameter and pressure: A = pi(0.2)^2/4 = 0.03142 m^2. Q = Av = 0.03142 * 3 = 0.09425 m^3/s. PA = 150,000 * 0.03142 = 4,712 N. rho*Q*v = 1,000 * 0.09425 * 3 = 283 N. For a constant-diameter bend at angle alpha, F_x = (PA + rho*Q*v)(1 - cos alpha) and F_y = (PA + rho*Q*v)*sin alpha. F_x = 4,995(1 - 0.7071) = 4,995 * 0.2929 = 1,463 N. F_y = 4,995 * 0.7071 = 3,532 N. Resultant: F_R = sqrt(1,463^2 + 3,532^2) = 3,823 N = 3.82 kN. Choice B gives PA only (ignoring momentum direction). Choice C gives PA + rho*Q*v without resolving components. Choice D only includes the momentum term.',
+      eli5: 'For a 45-degree bend with constant diameter and pressure: $A = \\pi(0.2)^2/4 = 0.03142$ m\u00B2. $Q = Av = 0.03142 \\times 3 = 0.09425$ m\u00B3/s. $PA = 150{,}000 \\times 0.03142 = 4{,}712$ N. $\\rho Qv = 1{,}000 \\times 0.09425 \\times 3 = 283$ N. For a constant-diameter bend at angle $\\alpha$, $F_x = (PA + \\rho Qv)(1 - \\cos\\alpha)$ and $F_y = (PA + \\rho Qv)\\sin\\alpha$. $F_x = 4{,}995(1 - 0.7071) = 4{,}995 \\times 0.2929 = 1{,}463$ N. $F_y = 4{,}995 \\times 0.7071 = 3{,}532$ N. Resultant: $F_R = \\sqrt{1{,}463^2 + 3{,}532^2} = 3{,}823$ N $= 3.82$ kN. Choice B gives $PA$ only (ignoring momentum direction). Choice C gives $PA + \\rho Qv$ without resolving components. Choice D only includes the momentum term.',
       hint: 'For a constant-diameter bend, both pressure and momentum contribute. Resolve into x and y components and find the resultant.',
       steps: [
         { text: 'Pipe area:', latex: 'A = \\frac{\\pi(0.2)^2}{4} = 0.03142\\,\\text{m}^2' },
@@ -171,7 +171,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'A_1 = pi(0.3)^2/4 = 0.07069 m^2. A_2 = pi(0.15)^2/4 = 0.01767 m^2. By continuity: v_2 = v_1*(A_1/A_2) = 2*4 = 8 m/s. Q = A_1*v_1 = 0.07069*2 = 0.1414 m^3/s. Momentum equation in x (flow direction): F = P_1*A_1 - P_2*A_2 - rho*Q*(v_2 - v_1). P_1*A_1 = 250,000*0.07069 = 17,672 N. P_2*A_2 = 220,000*0.01767 = 3,888 N. rho*Q*(v_2 - v_1) = 1,000*0.1414*(8-2) = 848 N. F = 17,672 - 3,888 - 848 = 12,936 N = 12.9 kN. The net force acts in the flow direction because the large inlet pressure face pushes harder than the small outlet face and the momentum increase combined. Choice B gives P_1*A_1 alone. Choice C gives only the momentum change. Choice D gives P_2*A_2 in the wrong direction.',
+      eli5: '$A_1 = \\pi(0.3)^2/4 = 0.07069$ m\u00B2. $A_2 = \\pi(0.15)^2/4 = 0.01767$ m\u00B2. By continuity: $v_2 = v_1 \\times (A_1/A_2) = 2 \\times 4 = 8$ m/s. $Q = A_1 \\times v_1 = 0.07069 \\times 2 = 0.1414$ m\u00B3/s. Momentum equation in x (flow direction): $F = P_1 A_1 - P_2 A_2 - \\rho Q(v_2 - v_1)$. $P_1 A_1 = 250{,}000 \\times 0.07069 = 17{,}672$ N. $P_2 A_2 = 220{,}000 \\times 0.01767 = 3{,}888$ N. $\\rho Q(v_2 - v_1) = 1{,}000 \\times 0.1414 \\times (8 - 2) = 848$ N. $F = 17{,}672 - 3{,}888 - 848 = 12{,}936$ N $= 12.9$ kN. The net force acts in the flow direction because the large inlet pressure face pushes harder than the small outlet face and the momentum increase combined. Choice B gives $P_1 A_1$ alone. Choice C gives only the momentum change. Choice D gives $P_2 A_2$ in the wrong direction.',
       hint: 'Use continuity to find $v_2$, then apply the momentum equation. Include pressure forces on both faces.',
       steps: [
         { text: 'Areas:', latex: 'A_1 = \\frac{\\pi(0.3)^2}{4} = 0.07069\\,\\text{m}^2, \\quad A_2 = \\frac{\\pi(0.15)^2}{4} = 0.01767\\,\\text{m}^2' },
@@ -198,7 +198,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'For a jet on a flat plate, F = rho*A*v^2. The area A stays the same and rho is constant, so F is proportional to v^2. If velocity doubles, the force increases by 2^2 = 4. The velocity appears twice: once in the flow rate Q = Av and once in the momentum per unit volume rho*v. Doubling v doubles both Q and the momentum flux, giving a factor of 4. Choice A only accounts for one factor of v. Choice C confuses with an energy relationship. Choice D ignores velocity entirely.',
+      eli5: 'For a jet on a flat plate, $F = \\rho A v^2$. The area $A$ stays the same and $\\rho$ is constant, so $F$ is proportional to $v^2$. If velocity doubles, the force increases by $2^2 = 4$. The velocity appears twice: once in the flow rate $Q = Av$ and once in the momentum per unit volume $\\rho v$. Doubling $v$ doubles both $Q$ and the momentum flux, giving a factor of 4. Choice A only accounts for one factor of $v$. Choice C confuses with an energy relationship. Choice D ignores velocity entirely.',
       hint: 'Write the force as $F = \\rho A v^2$ and identify the exponent on $v$.',
       steps: [
         { text: 'Force on a flat plate perpendicular to a jet:', latex: 'F = \\rho A v^2' },
@@ -207,7 +207,7 @@ export default {
       handbookPage: 'p. 186',
       handbookFormula: 'F = \\rho Q v = \\rho A v^2',
       videoUrl: null,
-      traps: ['Thinking force is proportional to v (linear) -- it is proportional to v^2', 'Forgetting that Q itself depends on v, so doubling v doubles both Q and the momentum per unit volume'],
+      traps: ['Thinking force is proportional to $v$ (linear) \u2014 it is proportional to $v^2$', 'Forgetting that $Q$ itself depends on $v$, so doubling $v$ doubles both $Q$ and the momentum per unit volume'],
       diagram: null,
     },
   ],

@@ -120,7 +120,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Since sigma is known, use the z-interval. The standard error is sigma/sqrt(n) = 200/sqrt(16) = 200/4 = 50. The margin of error is 1.960 times 50 = 98. So the interval is 4400 plus or minus 98, giving (4302, 4498). Choice B (4008, 4792) forgot to divide by sqrt(n), using the full sigma = 200. Choice C uses z = 1.0 instead of 1.960. Choice D divides by n = 16 instead of sqrt(n) = 4.',
+      eli5: 'Since $\\sigma$ is known, use the z-interval. The standard error is $\\sigma/\\sqrt{n} = 200/\\sqrt{16} = 200/4 = 50$. The margin of error is $1.960 \\times 50 = 98$. So the interval is $4400 \\pm 98$, giving (4302, 4498). Choice B (4008, 4792) forgot to divide by $\\sqrt{n}$, using the full $\\sigma = 200$. Choice C uses $z = 1.0$ instead of 1.960. Choice D divides by $n = 16$ instead of $\\sqrt{n} = 4$.',
       hint: 'The problem gives $\\sigma$ (not $s$), so use the z-interval with $z_{\\alpha/2} = 1.960$.',
       steps: [
         { text: 'Identify: $\\bar{x} = 4{,}400$, $\\sigma = 200$, $n = 16$, $z_{\\alpha/2} = 1.960$.', latex: null },
@@ -131,7 +131,7 @@ export default {
       handbookPage: 'p. 74',
       handbookFormula: '\\bar{x} \\pm z_{\\alpha/2}\\frac{\\sigma}{\\sqrt{n}}',
       videoUrl: null,
-      traps: ['Forgetting to divide sigma by sqrt(n)', 'Dividing by n instead of sqrt(n)'],
+      traps: ['Forgetting to divide $\\sigma$ by $\\sqrt{n}$', 'Dividing by $n$ instead of $\\sqrt{n}$'],
       diagram: null,
     },
     {
@@ -146,7 +146,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The problem gives s (sample standard deviation), not sigma, so use the t-interval. The standard error is s/sqrt(n) = 3/sqrt(9) = 3/3 = 1.0. The margin is 2.306 times 1.0 = 2.306, which rounds to 2.31. The interval is 34 plus or minus 2.31 = (31.69, 36.31). Choice B uses z = 1.960 instead of the given t-value. Choice C forgot to divide by sqrt(n), using 2.306 times 3 = 6.92. Choice D divides by n = 9 instead of sqrt(9) = 3.',
+      eli5: 'The problem gives $s$ (sample standard deviation), not $\\sigma$, so use the t-interval. The standard error is $s/\\sqrt{n} = 3/\\sqrt{9} = 3/3 = 1.0$. The margin is $2.306 \\times 1.0 = 2.306$, which rounds to 2.31. The interval is $34 \\pm 2.31 = (31.69,\\; 36.31)$. Choice B uses $z = 1.960$ instead of the given t-value. Choice C forgot to divide by $\\sqrt{n}$, using $2.306 \\times 3 = 6.92$. Choice D divides by $n = 9$ instead of $\\sqrt{9} = 3$.',
       hint: 'The problem gives $s$ (not $\\sigma$), so use the t-interval. Remember $\\sqrt{9} = 3$.',
       steps: [
         { text: 'Identify: $\\bar{x} = 34$, $s = 3$, $n = 9$, $v = 8$, $t_{0.025,\\,8} = 2.306$.', latex: null },
@@ -157,7 +157,7 @@ export default {
       handbookPage: 'p. 74',
       handbookFormula: '\\bar{x} \\pm t_{\\alpha/2,\\,n-1}\\frac{s}{\\sqrt{n}}',
       videoUrl: null,
-      traps: ['Using z = 1.960 instead of the given t-value', 'Forgetting to divide s by sqrt(n)'],
+      traps: ['Using $z = 1.960$ instead of the given t-value', 'Forgetting to divide $s$ by $\\sqrt{n}$'],
       diagram: null,
     },
     {
@@ -172,7 +172,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Use the sample size formula: n = (z times sigma / e) squared. Plug in: n = (2.576 times 18 / 5) squared = (46.368 / 5) squared = 9.274 squared = 85.99. Round up to 86 because you cannot test a fraction of a specimen. Choice B (85.47) is the raw calculation before rounding, which is not a valid sample size. Choice C (10) comes from forgetting to square the result. Choice D (50) uses z = 1.645 (90% confidence) instead of 2.576 (99%).',
+      eli5: 'Use the sample size formula: $n = (z \\cdot \\sigma / e)^2$. Plug in: $n = (2.576 \\times 18 / 5)^2 = (46.368 / 5)^2 = 9.274^2 = 85.99$. Round up to 86 because you cannot test a fraction of a specimen. Choice B (85.47) is the raw calculation before rounding, which is not a valid sample size. Choice C (10) comes from forgetting to square the result. Choice D (50) uses $z = 1.645$ (90% confidence) instead of 2.576 (99%).',
       hint: 'Use $n = (z_{\\alpha/2} \\cdot \\sigma / e)^2$ and always round up.',
       steps: [
         { text: 'Identify: $e = 5$, $\\sigma = 18$, $z_{\\alpha/2} = 2.576$.', latex: null },

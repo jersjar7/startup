@@ -113,7 +113,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The influence line ordinate for the left reaction at position $x$ from the left support is $(L - x)/L$. At $x = 5$ ft: $(20 - 5)/20 = 15/20 = 0.75$. This means when a unit load sits 5 ft from A, the left reaction carries 75% of it. Choice B (0.25) uses $x/L$ instead of $(L-x)/L$ — that would be the reaction at B. Choice C (1.0) is the ordinate when the load is directly over A ($x = 0$).',
+      eli5: 'The influence line ordinate for the left reaction at position $x$ from the left support is $(L - x)/L$. At $x = 5$ ft: $(20 - 5)/20 = 15/20 = 0.75$. This means when a unit load sits 5 ft from A, the left reaction carries 75% of it. Choice B (0.25) uses $x/L$ instead of $(L - x)/L$ -- that would be the reaction at B. Choice C (1.0) is the ordinate when the load is directly over A ($x = 0$).',
       hint: 'The IL for $R_A$ is linear from 1.0 at A to 0 at B. The ordinate at position $x$ from A is $(L - x)/L$.',
       steps: [
         { text: 'IL ordinate for left reaction:', latex: '\\eta = \\frac{L - x}{L} = \\frac{20 - 5}{20} = 0.75' },
@@ -164,7 +164,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a distributed load, the effect equals the load intensity times the area under the IL over the loaded region. The IL for midspan moment is a triangle with base $L = 30$ ft and peak $L/4 = 7.5$ ft. Area = $(1/2)(30)(7.5) = 112.5$ ft$^2$. Moment = $w \\times \\text{Area} = 2 \\times 112.5 = 225$ kip-ft. You can verify: $M = wL^2/8 = 2(30)^2/8 = 225$ kip-ft — same answer. Choice B (112.5) forgets to multiply by $w$. Choice C (450) doubles the triangle area. Choice D (150) uses $L/4 = 7.5$ as the area instead of computing the triangle area.',
+      eli5: 'For a distributed load, the effect equals the load intensity times the area under the IL over the loaded region. The IL for midspan moment is a triangle with base $L = 30$ ft and peak $L/4 = 7.5$ ft. Area $= (1/2)(30)(7.5) = 112.5$ ft$^2$. Moment $= w \\times \\text{Area} = 2 \\times 112.5 = 225$ kip-ft. You can verify: $M = wL^2/8 = 2(30)^2/8 = 225$ kip-ft -- same answer. Choice B (112.5) forgets to multiply by $w$. Choice C (450) doubles the triangle area. Choice D (150) uses $L/4 = 7.5$ as the area instead of computing the triangle area.',
       hint: 'For a distributed load, multiply the load intensity by the area under the IL diagram. The IL is a triangle with base L and peak L/4.',
       steps: [
         { text: 'IL peak ordinate at midspan:', latex: '\\eta_{\\max} = \\frac{L}{4} = \\frac{30}{4} = 7.5 \\text{ ft}' },

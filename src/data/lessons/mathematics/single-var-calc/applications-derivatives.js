@@ -70,7 +70,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "Take the derivative, set it to zero, solve for x. That's it. The second derivative is -4, which is negative — concave down — so it's a max, not a min. Since the leading coefficient is negative, the parabola opens downward, so of course it's a max. Choice C (x = 8) is what you get if you forget the factor of 2 when differentiating -2x². Always double-check your power rule on the leading term.",
+      "eli5": "Take the derivative, set it to zero, solve for $x$. That is it. The second derivative is $-4$, which is negative — concave down — so it is a max, not a min. Since the leading coefficient is negative, the parabola opens downward, so of course it is a max. Choice C ($x = 8$) is what you get if you forget the factor of 2 when differentiating $-2x^2$. Always double-check your power rule on the leading term.",
       "hint": "Set $f'(x) = 0$ and solve. Is the parabola opening up or down?",
       "steps": [
         {
@@ -90,8 +90,8 @@ export default {
       "handbookFormula": "f'(a) = 0 \\text{ and } f''(a) < 0 \\implies \\text{maximum}",
       "videoUrl": null,
       "traps": [
-        "Forgetting the coefficient when differentiating -2x² (getting -2x instead of -4x)",
-        "Reporting the max value of f(x) instead of the x-location"
+        "Forgetting the coefficient when differentiating $-2x^2$ (getting $-2x$ instead of $-4x$)",
+        "Reporting the max value of $f(x)$ instead of the $x$-location"
       ],
       "diagram": null
     },
@@ -118,7 +118,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Same process — derivative, set to zero, solve. You get h = 6. The second derivative is positive (6 > 0), so it's concave up — a minimum. The extra step is plugging h = 6 back into the original function to get the cost. Choice B is the trap for students who find the right h but give the constant term (150) as the cost instead of actually evaluating C(6). Always plug back in.",
+      "eli5": "Same process — derivative, set to zero, solve. You get $h = 6$. The second derivative is positive ($6 > 0$), so it is concave up — a minimum. The extra step is plugging $h = 6$ back into the original function to get the cost. Choice B is the trap for students who find the right $h$ but give the constant term (150) as the cost instead of actually evaluating $C(6)$. Always plug back in.",
       "hint": "After finding where $C'(h) = 0$, plug that value back into the original $C(h)$ to find the minimum cost.",
       "steps": [
         {
@@ -254,8 +254,8 @@ export default {
       "handbookFormula": "f'(a) = 0 \\text{ and } f''(a) > 0 \\implies \\text{minimum}",
       "videoUrl": null,
       "traps": [
-        "Forgetting to apply the power rule to 20000/d — it's -20000/d^2, not -20000",
-        "Dividing 20000 by 500 to get 40 but forgetting to take the square root"
+        "Forgetting to apply the power rule to $20{,}000/d$ — it is $-20{,}000/d^2$, not $-20{,}000$",
+        "Dividing 20,000 by 500 to get 40 but forgetting to take the square root"
       ],
       "diagram": null
     },
@@ -283,8 +283,8 @@ export default {
       "handbookFormula": "f''(a) = 0 \\text{ and } f''(x) \\text{ changes sign} \\implies \\text{inflection point}",
       "videoUrl": null,
       "traps": [
-        "Using f'(x) = 0 instead of f''(x) = 0 — that gives critical points, not inflection points",
-        "Arithmetic error in solving 12x = 18"
+        "Using $f'(x) = 0$ instead of $f''(x) = 0$ — that gives critical points, not inflection points",
+        "Arithmetic error in solving $12x = 18$"
       ],
       "diagram": null
     },
@@ -312,7 +312,7 @@ export default {
       "handbookFormula": "f''(a) = 0 \\implies \\text{test is inconclusive}",
       "videoUrl": null,
       "traps": [
-        "Thinking f''(a) = 0 always means inflection point — it could be a flat max/min like x^4",
+        "Thinking $f''(a) = 0$ always means inflection point — it could be a flat max/min like $x^4$",
         "Confusing 'inconclusive' with 'does not exist'"
       ],
       "diagram": null

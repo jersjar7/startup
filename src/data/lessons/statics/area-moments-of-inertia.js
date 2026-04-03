@@ -208,7 +208,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'For a rectangle, I = bh^3/12 about the centroidal axis. Plug in b=200 and h=400: I = 200(400)^3/12 = 200(64,000,000)/12 = 1,066,666,667 mm^4 which rounds to 1067 x 10^6. The trap is using bh^3/3 (which is about the base, not the centroid) or swapping b and h.',
+      eli5: 'For a rectangle, $I = bh^3/12$ about the centroidal axis. Plug in $b = 200$ and $h = 400$: $I = 200(400)^3/12 = 200(64{,}000{,}000)/12 = 1{,}066{,}666{,}667$ mm$^4$ which rounds to $1067 \\times 10^6$. The trap is using $bh^3/3$ (which is about the base, not the centroid) or swapping $b$ and $h$.',
       hint: 'Use $I = bh^3/12$ for a rectangle about its centroidal axis.',
       steps: [
         { text: 'For a rectangle about the centroidal axis:', latex: 'I = \\frac{bh^3}{12}' },
@@ -218,7 +218,7 @@ export default {
       handbookPage: 'p. 94',
       handbookFormula: 'I_x = \\frac{bh^3}{12}',
       videoUrl: null,
-      traps: ['Using bh^3/3 (moment about the base) instead of bh^3/12 (about centroid)', 'Swapping b and h dimensions'],
+      traps: ['Using $bh^3/3$ (moment about the base) instead of $bh^3/12$ (about centroid)', 'Swapping $b$ and $h$ dimensions'],
       diagram: null,
     },
     {
@@ -233,7 +233,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'The parallel axis theorem says I_total = I_centroid + Ad^2. The Ad^2 term accounts for the fact that the shape\'s centroid is offset from the axis you care about. A is the shape\'s area, and d is the distance between centroids. It is always added — never subtracted.',
+      eli5: 'The parallel axis theorem says $I_{total} = I_{centroid} + Ad^2$. The $Ad^2$ term accounts for the fact that the shape\'s centroid is offset from the axis you care about. $A$ is the shape\'s area, and $d$ is the distance between centroids. It is always added — never subtracted.',
       hint: 'Think about what happens when an axis is shifted away from the centroid.',
       steps: [
         { text: 'The parallel axis theorem: $I = \\bar{I} + Ad^2$.', latex: null },
@@ -258,7 +258,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The polar moment of inertia for a circle is $J = \\pi r^4/2$, or equivalently $J = \\pi d^4/32$. With $d = 200$ mm, $J = \\pi(200)^4/32 = \\pi(1.6 \\times 10^9)/32 = 157.1 \\times 10^6$ mm^4. Another way to get there: $I_x = \\pi r^4/4 = 78.5 \\times 10^6$, then $J = 2I_x = 157.1 \\times 10^6$. Choice A is just $I_x$ (the moment about one axis, not the polar moment). Choice C halves $I_x$ — probably from using $\\pi r^4/8$ by mistake. Choice D doubles the correct answer.',
+      eli5: 'The polar moment of inertia for a circle is $J = \\pi r^4/2$, or equivalently $J = \\pi d^4/32$. With $d = 200$ mm, $J = \\pi(200)^4/32 = \\pi(1.6 \\times 10^9)/32 = 157.1 \\times 10^6$ mm$^4$. Another way to get there: $I_x = \\pi r^4/4 = 78.5 \\times 10^6$, then $J = 2I_x = 157.1 \\times 10^6$. Choice A is just $I_x$ (the moment about one axis, not the polar moment). Choice C halves $I_x$ — probably from using $\\pi r^4/8$ by mistake. Choice D doubles the correct answer.',
       hint: 'Remember that $J = I_x + I_y$, and for a circle $I_x = I_y$.',
       steps: [
         { text: 'Find the radius:', latex: 'r = \\frac{d}{2} = \\frac{200}{2} = 100\\,\\text{mm}' },
@@ -269,7 +269,7 @@ export default {
       handbookPage: 'pp. 98–100',
       handbookFormula: 'J = \\frac{\\pi r^4}{2}',
       videoUrl: null,
-      traps: ['Reporting $I_x$ instead of $J$ — the polar moment is twice $I_x$ for a circle', 'Using diameter instead of radius in the formula $\\pi r^4/2$'],
+      traps: ['Reporting $I_x$ instead of $J$ -- the polar moment is twice $I_x$ for a circle', 'Using diameter instead of radius in the formula $\\pi r^4/2$'],
       diagram: null,
     },
     {
@@ -284,7 +284,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Split the I-section into three rectangles and apply the parallel axis theorem to each. The web is centered on the composite centroid, so its $d = 0$ and there is no transfer term. Each flange has $d = 90$ mm (from its own centroid at 10 mm or 190 mm to the composite centroid at 100 mm). The web contributes mostly through its own centroidal $I$ ($bh^3/12$), while the flanges contribute mostly through their $Ad^2$ terms. Add all three to get $71.9 \\times 10^6$ mm^4. Choice B treats the section as a solid 200 $\\times$ 200 rectangle ($bh^3/12 = 113.3 \\times 10^6$), which is wrong for a composite section. Choice C adds only the centroidal $I$ values of all three pieces without the $Ad^2$ transfer terms. Choice D is just the web\'s centroidal $I$ alone.',
+      eli5: 'Split the I-section into three rectangles and apply the parallel axis theorem to each. The web is centered on the composite centroid, so its $d = 0$ and there is no transfer term. Each flange has $d = 90$ mm (from its own centroid at 10 mm or 190 mm to the composite centroid at 100 mm). The web contributes mostly through its own centroidal $I$ ($bh^3/12$), while the flanges contribute mostly through their $Ad^2$ terms. Add all three to get $71.9 \\times 10^6$ mm$^4$. Choice B treats the section as a solid $200 \\times 200$ rectangle ($bh^3/12 = 113.3 \\times 10^6$), which is wrong for a composite section. Choice C adds only the centroidal $I$ values of all three pieces without the $Ad^2$ transfer terms. Choice D is just the web\'s centroidal $I$ alone.',
       hint: 'The web centroid coincides with the composite centroid ($d = 0$). Each flange centroid is 90 mm from the composite centroid.',
       steps: [
         { text: 'Web (20 $\\times$ 160 mm), centered at $y = 100$ mm, so $d = 0$:', latex: 'I_{web} = \\frac{20 \\times 160^3}{12} + 0 = 6.827 \\times 10^6\\,\\text{mm}^4' },

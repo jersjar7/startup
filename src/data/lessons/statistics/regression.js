@@ -121,7 +121,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Plug the five summary statistics straight into the slope formula. Numerator: $5(205) - 25(35) = 1025 - 875 = 150$. Denominator: $5(145) - (25)^2 = 725 - 625 = 100$. Slope: $150/100 = 1.50$. Choice B (0.67) is the reciprocal \u2014 you flipped numerator and denominator ($100/150 \\approx 0.67$). Choice C (7.0) is $\\bar{y} = 35/5$ \u2014 that is just the mean of $y$, not the slope. Choice D (1.40) comes from dividing $\\sum y / \\sum x = 35/25 = 1.4$ instead of using the regression formula.',
+      eli5: 'Plug the five summary statistics straight into the slope formula. Numerator: $5(205) - 25(35) = 1025 - 875 = 150$. Denominator: $5(145) - 25^2 = 725 - 625 = 100$. Slope: $150/100 = 1.50$. Choice B (0.67) is the reciprocal \u2014 you flipped numerator and denominator ($100/150 \\approx 0.67$). Choice C (7.0) is $\\bar{y} = 35/5$ \u2014 that is just the mean of $y$, not the slope. Choice D (1.40) comes from dividing $\\Sigma y / \\Sigma x = 35/25 = 1.4$ instead of using the regression formula.',
       hint: 'Use the slope formula: numerator is $n\\sum xy - \\sum x \\sum y$, denominator is $n\\sum x^2 - (\\sum x)^2$.',
       steps: [
         { text: 'Apply the slope formula:', latex: 'b = \\frac{n\\sum x_i y_i - \\sum x_i \\sum y_i}{n\\sum x_i^2 - (\\sum x_i)^2}' },
@@ -147,7 +147,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The intercept formula is $a = \\bar{y} - b\\bar{x}$. Plug in: $a = 1500 - 350(4) = 1500 - 1400 = 100$. Choice B (1500) is just $\\bar{y}$ \u2014 someone forgot to subtract $b\\bar{x}$. Choice C (-100) gets the subtraction backwards, computing $b\\bar{x} - \\bar{y} = 1400 - 1500$. Choice D (375) looks like $\\bar{y}/\\bar{x} = 1500/4 = 375$ \u2014 that is the ratio of means, not the intercept.',
+      eli5: 'The intercept formula is $a = \\bar{y} - b\\bar{x}$. Plug in: $a = 1500 - 350(4) = 1500 - 1400 = 100$. Choice B (1500) is just $\\bar{y}$ \u2014 someone forgot to subtract $b\\bar{x}$. Choice C ($-100$) gets the subtraction backwards, computing $b\\bar{x} - \\bar{y} = 1400 - 1500$. Choice D (375) looks like $\\bar{y}/\\bar{x} = 1500/4 = 375$ \u2014 that is the ratio of means, not the intercept.',
       hint: 'The regression line always passes through $(\\bar{x}, \\bar{y})$. Use $a = \\bar{y} - b\\bar{x}$.',
       steps: [
         { text: 'Apply the intercept formula:', latex: 'a = \\bar{y} - b\\bar{x}' },
@@ -172,7 +172,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Use the correlation formula. Numerator: $5(85) - 15(25) = 425 - 375 = 50$. X-side denominator: $5(55) - (15)^2 = 275 - 225 = 50$. Y-side denominator: $5(145) - (25)^2 = 725 - 625 = 100$. So $r = 50 / \\sqrt{50 \\times 100} = 50 / \\sqrt{5000} = 50/70.71 \\approx 0.707 \\approx 0.71$. Choice B (0.50) squares the correct answer, confusing $r$ with $R^2$. Choice C (0.90) could result from misreading the table or rounding errors in intermediate steps. Choice D (1.00) divides the numerator by itself ($50/50$), using only $S_{xx}$ in the denominator and ignoring the $y$-side term entirely.',
+      eli5: 'Use the correlation formula. Numerator: $5(85) - 15(25) = 425 - 375 = 50$. X-side denominator: $5(55) - 15^2 = 275 - 225 = 50$. Y-side denominator: $5(145) - 25^2 = 725 - 625 = 100$. So $r = 50 / \\sqrt{50 \\times 100} = 50 / \\sqrt{5000} = 50/70.71 \\approx 0.71$. Choice B (0.50) squares the correct answer, confusing $r$ with $R^2$. Choice C (0.90) could result from misreading the table or rounding errors in intermediate steps. Choice D (1.00) divides the numerator by itself ($50/50$), using only $S_{xx}$ in the denominator and ignoring the $y$-side term entirely.',
       hint: 'The correlation formula has the same numerator as the slope formula, but you divide by $\\sqrt{S_{xx} \\cdot S_{yy}}$ instead of just $S_{xx}$.',
       steps: [
         { text: 'Compute the numerator (same as slope):', latex: 'S_{xy} = n\\sum x_i y_i - \\sum x_i \\sum y_i = 5(85) - 15(25) = 425 - 375 = 50' },
@@ -183,7 +183,7 @@ export default {
       handbookPage: 'p. 69',
       handbookFormula: 'r = \\frac{n\\sum x_i y_i - \\sum x_i \\sum y_i}{\\sqrt{[n\\sum x_i^2 - (\\sum x_i)^2][n\\sum y_i^2 - (\\sum y_i)^2]}}',
       videoUrl: null,
-      traps: ['Forgetting to include the y-side denominator term', 'Confusing r with R-squared (squaring the result instead of reporting it directly)'],
+      traps: ['Forgetting to include the $y$-side denominator term', 'Confusing $r$ with $R^2$ (squaring the result instead of reporting it directly)'],
       diagram: null,
     },
     {
@@ -198,7 +198,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'The residual is $e_i = y_i - \\hat{y}_i$ \u2014 observed minus predicted. A negative residual means the observed value is below the regression line. So the actual IRI is 1.8 units less than the model predicted. Choice B flips the relationship \u2014 it says the predicted is below the observed, which would be a positive residual. Choices C and D reinterpret the residual as an error in the x-variable (age), but residuals always measure vertical distance in the y-direction, not the x-direction. This is a subtle but critical distinction.',
+      eli5: 'The residual is $e_i = y_i - \\hat{y}_i$ \u2014 observed minus predicted. A negative residual means the observed value is below the regression line. So the actual IRI is 1.8 units less than the model predicted. Choice B flips the relationship \u2014 it says the predicted is below the observed, which would be a positive residual. Choices C and D reinterpret the residual as an error in the $x$-variable (age), but residuals always measure vertical distance in the $y$-direction, not the $x$-direction. This is a subtle but critical distinction.',
       hint: 'Residual = observed minus predicted ($e_i = y_i - \\hat{y}_i$). A negative value means the observation is below the line.',
       steps: [
         { text: 'Recall the residual definition:', latex: 'e_i = y_i - \\hat{y}_i' },
@@ -209,7 +209,7 @@ export default {
       handbookPage: 'p. 69',
       handbookFormula: 'e_i = y_i - \\hat{y}_i',
       videoUrl: null,
-      traps: ['Reversing the direction (thinking negative means the prediction is below the observation)', 'Applying the residual to the x-variable instead of the y-variable'],
+      traps: ['Reversing the direction (thinking negative means the prediction is below the observation)', 'Applying the residual to the $x$-variable instead of the $y$-variable'],
       diagram: null,
     },
   ],

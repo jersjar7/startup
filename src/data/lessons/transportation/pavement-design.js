@@ -113,7 +113,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'SN = a1D1 + a2D2m2 + a3D3m3 = 0.44(5) + 0.14(10)(0.90) + 0.11(8)(0.90) = 2.20 + 1.26 + 0.792 = 4.252, which rounds to 4.26. Choice B (4.58) used m = 1.0 for all layers: 2.20 + 1.40 + 0.88 = 4.48, plus a rounding variation. Choice C (3.46) forgot the subbase entirely: 2.20 + 1.26. Choice D (0.69) summed only the coefficients.',
+      eli5: '$SN = a_1D_1 + a_2D_2m_2 + a_3D_3m_3 = 0.44(5) + 0.14(10)(0.90) + 0.11(8)(0.90) = 2.20 + 1.26 + 0.792 = 4.252$, which rounds to 4.26. Choice B (4.58) used $m = 1.0$ for all layers: $2.20 + 1.40 + 0.88 = 4.48$, plus a rounding variation. Choice C (3.46) forgot the subbase entirely: $2.20 + 1.26$. Choice D (0.69) summed only the coefficients.',
       hint: 'Multiply each layer: coefficient x thickness x drainage, then add them all up.',
       steps: [
         { text: 'Surface:', latex: 'a_1 D_1 = 0.44 \\times 5 = 2.20' },
@@ -139,7 +139,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The drainage coefficient m adjusts for how well water drains from the granular base and subbase layers. Poor drainage means water sits in the layer, weakening it and reducing its effective structural contribution. Values of m < 1.0 penalize layers with poor drainage; m = 1.0 means good drainage. The surface course (layer 1) always uses m = 1.0 by convention because asphalt is relatively impermeable. Choice B describes a construction quality issue, not drainage. Choice C describes traffic, which is captured by ESALs. Choice D applies to asphalt, not granular layers.',
+      eli5: 'The drainage coefficient $m$ adjusts for how well water drains from the granular base and subbase layers. Poor drainage means water sits in the layer, weakening it and reducing its effective structural contribution. Values of $m < 1.0$ penalize layers with poor drainage; $m = 1.0$ means good drainage. The surface course (layer 1) always uses $m = 1.0$ by convention because asphalt is relatively impermeable. Choice B describes a construction quality issue, not drainage. Choice C describes traffic, which is captured by ESALs. Choice D applies to asphalt, not granular layers.',
       hint: 'The drainage coefficient modifies granular layer contributions based on moisture and drainage quality.',
       steps: [
         { text: 'Drainage coefficients $m$ apply to base and subbase (granular layers), not the surface.', latex: null },
@@ -164,7 +164,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For each load type, multiply passes by LEF, then add: Tandem: 500 x 1.11 = 555. Single: 200 x 1.51 = 302. Total = 555 + 302 = 857 ESALs. Choice B (700) assumed LEF = 1.0 for both: 500 + 200 = 700. Choice C (555) only counted the tandem axle and forgot the single. Choice D (1,310) used the wrong LEFs (swapped single and tandem column values).',
+      eli5: 'For each load type, multiply passes by LEF, then add: Tandem: $500 \\times 1.11 = 555$. Single: $200 \\times 1.51 = 302$. Total $= 555 + 302 = 857$ ESALs. Choice B (700) assumed LEF $= 1.0$ for both: $500 + 200 = 700$. Choice C (555) only counted the tandem axle and forgot the single. Choice D (1,310) used the wrong LEFs (swapped single and tandem column values).',
       hint: 'ESALs = sum of (passes x LEF) for each load type. Make sure to read the correct column.',
       steps: [
         { text: 'Tandem-axle ESALs:', latex: '500 \\times 1.11 = 555' },
@@ -189,7 +189,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'The SN equation allows different thickness combinations to reach the same total SN. Since asphalt has a1 = 0.44 (much higher than granular base a2 = 0.14), each inch of asphalt provides about 3 times the structural benefit of an inch of base. Section A with more asphalt gets the same SN with less total pavement thickness, and higher-quality materials on top generally provide better performance. Section B may be cheaper in materials but needs much more total thickness. Both satisfy the design SN, so they are structurally equivalent by the AASHTO method. Choice B ignores performance differences. Choice C misunderstands the SN equation. Choice D is wrong because both sections hit exactly SN = 4.0.',
+      eli5: 'The SN equation allows different thickness combinations to reach the same total SN. Since asphalt has $a_1 = 0.44$ (much higher than granular base $a_2 = 0.14$), each inch of asphalt provides about 3 times the structural benefit of an inch of base. Section A with more asphalt gets the same SN with less total pavement thickness, and higher-quality materials on top generally provide better performance. Section B may be cheaper in materials but needs much more total thickness. Both satisfy the design SN, so they are structurally equivalent by the AASHTO method. Choice B ignores performance differences. Choice C misunderstands the SN equation. Choice D is wrong because both sections hit exactly $SN = 4.0$.',
       hint: 'Multiple layer combinations can produce the same SN. Compare the layer coefficients to understand the tradeoff.',
       steps: [
         { text: 'Example: Section A with $D_1 = 6$ in asphalt: $0.44 \\times 6 = 2.64$. Needs $1.36$ more SN from base.', latex: null },

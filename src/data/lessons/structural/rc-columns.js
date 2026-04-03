@@ -120,7 +120,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: '$A_g = 14 \\times 14 = 196$ in$^2$. $\\phi P_n = 0.80(0.65)[0.85(4)(196 - 3.16) + 3.16(60)] = 0.52[3.4(192.84) + 189.6] = 0.52[655.7 + 189.6] = 0.52(845.3) = 440$ kips. Choice B (845) is the value inside the brackets without applying the 0.80 or $\\phi$ factors. Choice C (549) applies only $\\phi = 0.65$: $0.65 \\times 845.3 = 549$. Choice D (676) applies only 0.80: $0.80 \\times 845.3 = 676$. You need BOTH factors for tied columns.',
+      eli5: '$A_g = 14 \\times 14 = 196$ in$^2$. $\\phi P_n = 0.80(0.65)[0.85(4)(196 - 3.16) + 3.16(60)] = 0.52[3.4(192.84) + 189.6] = 0.52[655.7 + 189.6] = 0.52(845.3) = 440$ kips. Choice B (845) is the value inside the brackets without applying the 0.80 or $\\phi$ factors. Choice C (549) applies only $\\phi = 0.65$: $0.65 \\times 845.3 = 549$. Choice D (676) applies only $0.80$: $0.80 \\times 845.3 = 676$. You need BOTH factors for tied columns.',
       hint: 'Use $\\phi P_n = 0.80\\phi[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y]$ with $\\phi = 0.65$ for tied columns.',
       steps: [
         { text: 'Gross area:', latex: 'A_g = 14 \\times 14 = 196 \\text{ in}^2' },
@@ -170,7 +170,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: '$A_g = \\pi(10)^2 = 314.2$ in$^2$. Inner bracket: $0.85(5)(314.2 - 6.0) + 6.0(60) = 4.25(308.2) + 360 = 1{,}310 + 360 = 1{,}670$ kips. $\\phi P_n = 0.85(0.75)(1{,}670) = 0.6375 \\times 1{,}670 = 1{,}065$ kips. Choice B (1,670) is the value inside the brackets without the 0.85 and $\\phi$ factors. Choice C (869) uses 0.52 (tied column factors: $0.80 \\times 0.65$) instead of 0.6375 (spiral factors: $0.85 \\times 0.75$). Choice D (1,253) applies only $\\phi = 0.75$ without the 0.85 accidental eccentricity factor.',
+      eli5: '$A_g = \\pi(10)^2 = 314.2$ in$^2$. Inner bracket: $0.85(5)(314.2 - 6.0) + 6.0(60) = 4.25(308.2) + 360 = 1{,}310 + 360 = 1{,}670$ kips. $\\phi P_n = 0.85(0.75)(1{,}670) = 0.6375 \\times 1{,}670 = 1{,}065$ kips. Choice B (1,670) is the value inside the brackets without the 0.85 and $\\phi$ factors. Choice C (869) uses $0.52$ (tied column factors: $0.80 \\times 0.65$) instead of $0.6375$ (spiral factors: $0.85 \\times 0.75$). Choice D (1,253) applies only $\\phi = 0.75$ without the 0.85 accidental eccentricity factor.',
       hint: 'For circular columns, $A_g = \\pi r^2$. Use the spiral column formula: $0.85\\phi[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y]$ with $\\phi = 0.75$.',
       steps: [
         { text: 'Gross area:', latex: 'A_g = \\pi \\left(\\frac{20}{2}\\right)^2 = 314.2 \\text{ in}^2' },
@@ -195,7 +195,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'ACI classifies sections by the net tensile strain $\\varepsilon_t$ in the extreme tension reinforcement at nominal strength. If $\\varepsilon_t \\leq 0.002$, the section is compression-controlled — the concrete crushes before the steel yields significantly. For tied columns, $\\phi = 0.65$. If $\\varepsilon_t \\geq 0.005$, the section is tension-controlled with $\\phi = 0.90$. Between 0.002 and 0.005 is the transition zone, where $\\phi$ is interpolated. Here, $\\varepsilon_t = 0.0015 < 0.002$, so the section is compression-controlled. Choice B requires $\\varepsilon_t \\geq 0.005$. Choice C requires $\\varepsilon_t$ between 0.002 and 0.005. Choice D is wrong — the classification depends only on strain, not material properties.',
+      eli5: 'ACI classifies sections by the net tensile strain $\\varepsilon_t$ in the extreme tension reinforcement at nominal strength. If $\\varepsilon_t \\leq 0.002$, the section is compression-controlled -- the concrete crushes before the steel yields significantly. For tied columns, $\\phi = 0.65$. If $\\varepsilon_t \\geq 0.005$, the section is tension-controlled with $\\phi = 0.90$. Between 0.002 and 0.005 is the transition zone, where $\\phi$ is interpolated. Here, $\\varepsilon_t = 0.0015 < 0.002$, so the section is compression-controlled. Choice B requires $\\varepsilon_t \\geq 0.005$. Choice C requires $\\varepsilon_t$ between 0.002 and 0.005. Choice D is wrong -- the classification depends only on strain, not material properties.',
       hint: 'Compare $\\varepsilon_t$ to the ACI thresholds: 0.002 (compression-controlled boundary) and 0.005 (tension-controlled boundary).',
       steps: [
         { text: '$\\varepsilon_t = 0.0015 \\leq 0.002$ — compression-controlled.', latex: null },

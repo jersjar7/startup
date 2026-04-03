@@ -113,7 +113,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'D = 5,729.58 / R = 5,729.58 / 1,146 = 5.0 degrees. This is the inverse of R = 5,729.58/D. Choice B (0.20) divided R by 5,729.58 instead of the other way around. Choice C (10) used R = 573 (off by a factor of 2). Choice D (2.5) doubled R in the denominator.',
+      eli5: '$D = 5{,}729.58/R = 5{,}729.58/1{,}146 = 5.0$ degrees. This is the inverse of $R = 5{,}729.58/D$. Choice B (0.20) divided $R$ by 5,729.58 instead of the other way around. Choice C (10) used $R = 573$ (off by a factor of 2). Choice D (2.5) doubled $R$ in the denominator.',
       hint: 'D = 5,729.58 / R. Just the inverse of the R-D relationship.',
       steps: [
         { text: 'Degree of curve:', latex: 'D = \\frac{5{,}729.58}{R} = \\frac{5{,}729.58}{1{,}146} = 5.0\\degree' },
@@ -136,7 +136,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For any angle I between 0 and 180 degrees (realistic for curves), tan(I) > tan(I/2) since the tangent function is increasing on (0, 90 degrees) and I/2 < I. So using tan(I) gives a larger number, making T too large. Choice B gets the direction wrong. Choice C states a false identity -- tan(I) is NOT equal to 2 tan(I/2) in general. Choice D is wrong because for typical highway intersection angles (well under 180 degrees), the effect is always an overestimate.',
+      eli5: 'For any angle $I$ between 0 and 180 degrees (realistic for curves), $\\tan(I) > \\tan(I/2)$ since the tangent function is increasing on $(0\\degree, 90\\degree)$ and $I/2 < I$. So using $\\tan(I)$ gives a larger number, making $T$ too large. Choice B gets the direction wrong. Choice C states a false identity -- $\\tan(I)$ is NOT equal to $2\\tan(I/2)$ in general. Choice D is wrong because for typical highway intersection angles (well under 180 degrees), the effect is always an overestimate.',
       hint: 'For angles between 0 and 90 degrees, how does tan(I) compare to tan(I/2)?',
       steps: [
         { text: 'For $0 < I < 180\\degree$, $\\tan(I/2)$ uses a smaller argument than $\\tan(I)$.', latex: null },
@@ -161,7 +161,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'L = R x I x (pi/180) = 800 x 50 x (pi/180) = 800 x 0.8727 = 698 ft. Choice C (373) is the tangent distance T = R tan(I/2) = 800 x tan(25) = 373, not the curve length. Choice B (466) incorrectly used a modified radian conversion. Choice D (1,396) doubled the curve length for no reason: 2 x 698.',
+      eli5: '$L = R \\times I \\times (\\pi/180) = 800 \\times 50 \\times (\\pi/180) = 800 \\times 0.8727 = 698$ ft. Choice C (373) is the tangent distance $T = R\\tan(I/2) = 800 \\times \\tan(25\\degree) = 373$, not the curve length. Choice B (466) incorrectly used a modified radian conversion. Choice D (1,396) doubled the curve length for no reason: $2 \\times 698$.',
       hint: 'L = R x I x (pi/180). Make sure I is in degrees and you convert to radians.',
       steps: [
         { text: 'Curve length:', latex: 'L = R \\cdot I \\cdot \\frac{\\pi}{180} = 800 \\times 50 \\times \\frac{\\pi}{180} = 800 \\times 0.8727 = 698 \\text{ ft}' },
@@ -184,7 +184,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'From 0.01e + f = V^2/(15R), the required side friction is f = V^2/(15R) - 0.01e = 55^2/(15 x 900) - 0.06 = 3,025/13,500 - 0.06 = 0.224 - 0.06 = 0.164. Typical max f values for 55 mph are around 0.13-0.14. If the demand (0.164) exceeds the supply, vehicles cannot maintain the curve at that speed without skidding outward. The fix is a larger radius, lower speed, or higher superelevation. Choice B suggests reducing the radius, which makes the problem worse. Choice C suggests reducing superelevation, which also worsens friction demand. Choice D dismisses a real safety concern.',
+      eli5: 'From $0.01e + f = V^2/(15R)$, the required side friction is $f = V^2/(15R) - 0.01e = 55^2/(15 \\times 900) - 0.06 = 3{,}025/13{,}500 - 0.06 = 0.224 - 0.06 = 0.164$. Typical max $f$ values for 55 mph are around 0.13--0.14. If the demand (0.164) exceeds the supply, vehicles cannot maintain the curve at that speed without skidding outward. The fix is a larger radius, lower speed, or higher superelevation. Choice B suggests reducing the radius, which makes the problem worse. Choice C suggests reducing superelevation, which also worsens friction demand. Choice D dismisses a real safety concern.',
       hint: 'When friction demand exceeds supply, the centripetal force requirement exceeds what the tires and road can provide.',
       steps: [
         { text: 'Required friction: $f = V^2/(15R) - 0.01e$. If this exceeds available $f$, the vehicle cannot hold the curve.', latex: null },

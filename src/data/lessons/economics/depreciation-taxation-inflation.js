@@ -230,7 +230,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Straight-line depreciation spreads the depreciable amount evenly across the useful life. The depreciable amount is $C - S = 120,000 - 20,000 = 100,000$. Divide by 10 years: $100,000/10 = 10,000$ per year. Choice B (12,000) divides the full cost by 10 without subtracting the salvage value \u2014 that is the most common trap. Choice C (2,000) divides only the salvage value by 10. Choice D (14,000) adds the salvage value to the cost before dividing, which makes no sense.',
+      eli5: 'Straight-line depreciation spreads the depreciable amount evenly across the useful life. The depreciable amount is $C - S = 120{,}000 - 20{,}000 = 100{,}000$. Divide by 10 years: $100{,}000/10 = 10{,}000$ per year. Choice B (12,000) divides the full cost by 10 without subtracting the salvage value \u2014 that is the most common trap. Choice C (2,000) divides only the salvage value by 10. Choice D (14,000) adds the salvage value to the cost before dividing, which makes no sense.',
       hint: 'Straight-line depreciation subtracts salvage value from the initial cost before dividing by the useful life.',
       steps: [
         { text: 'Identify the values: $C = 120{,}000$, $S_n = 20{,}000$, $n = 10$ years.', latex: null },
@@ -254,7 +254,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Taxable income is revenue minus expenses minus depreciation: $500,000 - 350,000 - 40,000 = 110,000$. Then multiply by the tax rate: $0.25 \\times 110,000 = 27,500$. Choice B (37,500) ignores the depreciation deduction, computing $0.25 \\times (500,000 - 350,000) = 0.25 \\times 150,000 = 37,500$. That is the whole point of depreciation \u2014 it reduces taxable income. Choice C (125,000) applies the tax rate to the full revenue. Choice D (10,000) computes only the tax shield from depreciation ($0.25 \\times 40,000$), which is useful information but not the total tax owed.',
+      eli5: 'Taxable income is revenue minus expenses minus depreciation: $500{,}000 - 350{,}000 - 40{,}000 = 110{,}000$. Then multiply by the tax rate: $0.25 \\times 110{,}000 = 27{,}500$. Choice B (37,500) ignores the depreciation deduction, computing $0.25 \\times (500{,}000 - 350{,}000) = 0.25 \\times 150{,}000 = 37{,}500$. That is the whole point of depreciation \u2014 it reduces taxable income. Choice C (125,000) applies the tax rate to the full revenue. Choice D (10,000) computes only the tax shield from depreciation ($0.25 \\times 40{,}000$), which is useful information but not the total tax owed.',
       hint: 'Taxable income = Revenue minus Expenses minus Depreciation. Then multiply by the tax rate.',
       steps: [
         { text: 'Calculate taxable income:', latex: '\\text{Taxable Income} = 500{,}000 - 350{,}000 - 40{,}000 = 110{,}000' },
@@ -279,7 +279,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Since the cash flows are in actual (nominal) dollars, you must discount at the combined rate $d$, not the real rate. The formula is $d = i + f + if = 0.05 + 0.04 + (0.05)(0.04) = 0.09 + 0.002 = 0.092 = 9.2\\%$. Then $(P/F, 9.2\\%, 5) = (1.092)^{-5}$. Computing: $(1.092)^5 \\approx 1.553$, so $(P/F) = 1/1.553 \\approx 0.644$. Choice B (9.0%) simply adds $i + f$ without the cross-term. Choice C gets the rate right but computes $(P/F)$ at the wrong $n$ or makes a calculator error. Choice D uses only the real rate (5%), which would be correct only if cash flows were in constant (real) dollars.',
+      eli5: 'Since the cash flows are in actual (nominal) dollars, you must discount at the combined rate $d$, not the real rate. The formula is $d = i + f + if = 0.05 + 0.04 + (0.05)(0.04) = 0.092 = 9.2\\%$. Then $(P/F,\\, 9.2\\%,\\, 5) = (1.092)^{-5}$. Computing: $(1.092)^5 \\approx 1.553$, so $(P/F) = 1/1.553 \\approx 0.644$. Choice B (9.0%) simply adds $i + f$ without the cross-term. Choice C gets the rate right but computes $(P/F)$ at the wrong $n$ or makes a calculator error. Choice D uses only the real rate (5%), which would be correct only if cash flows were in constant (real) dollars.',
       hint: 'Actual (nominal) dollars need the combined rate. Do not forget the cross-term $i \\times f$ in the formula.',
       steps: [
         { text: 'Since cash flows are in actual (nominal) dollars, use the inflation-adjusted rate.', latex: null },

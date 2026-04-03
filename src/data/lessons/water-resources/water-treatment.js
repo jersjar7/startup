@@ -119,7 +119,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Overflow rate = Q/A. A = pi(50)^2/4 = 1,963 ft^2. Q = 1.5 MGD = 1,500,000 gpd. v_o = 1,500,000/1,963 = 764 gpd/ft^2. This falls within the typical range for secondary clarifiers (400-800 gpd/ft^2). Choice B divides by twice the area (uses D instead of D^2 incorrectly). Choice C forgets to square the diameter in the area calculation (uses pi x D/4 = 39.3). Choice D uses the radius squared but forgets to divide by 4 (uses pi x 25^2 = 1963... no, that is the same). Actually Choice D uses the radius instead of diameter in circumference fashion.',
+      eli5: 'Overflow rate $= Q/A$. $A = \\pi(50)^2/4 = 1{,}963$ ft$^2$. $Q = 1.5$ MGD $= 1{,}500{,}000$ gpd. $v_o = 1{,}500{,}000/1{,}963 = 764$ gpd/ft$^2$. This falls within the typical range for secondary clarifiers (400--800 gpd/ft$^2$). Choice B divides by twice the area (uses $D$ instead of $D^2$ incorrectly). Choice C forgets to square the diameter in the area calculation. Choice D uses the radius instead of diameter.',
       hint: 'Overflow rate = $Q/A_{surface}$. Convert MGD to gpd and compute the circular area.',
       steps: [
         { text: 'Surface area:', latex: 'A = \\frac{\\pi D^2}{4} = \\frac{\\pi(50)^2}{4} = 1{,}963\\text{ ft}^2' },
@@ -144,7 +144,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The overflow rate acts as a threshold: any particle with v_s > v_o will settle to the bottom before being carried out, so it is completely removed. Particle A: v_s = 800 > 600, so it settles faster than the upward flow velocity and is fully captured. Particle B: v_s = 400 < 600, so some of these particles will be carried over the weir. The fraction removed is roughly v_s/v_o = 400/600 = 67%. Choice B ignores the overflow rate criterion. Choice C misunderstands what overflow rate means. Choice D reverses the comparison.',
+      eli5: 'The overflow rate acts as a threshold: any particle with $v_s > v_o$ will settle to the bottom before being carried out, so it is completely removed. Particle A: $v_s = 800 > 600$, so it settles faster than the upward flow velocity and is fully captured. Particle B: $v_s = 400 < 600$, so some of these particles will be carried over the weir. The fraction removed is roughly $v_s/v_o = 400/600 = 67\\%$. Choice B ignores the overflow rate criterion. Choice C misunderstands what overflow rate means. Choice D reverses the comparison.',
       hint: 'A particle is completely removed if its settling velocity exceeds the overflow rate ($v_s > v_o$).',
       steps: [
         { text: 'Particle A: $v_s = 800 > v_o = 600$, so it is completely removed.', latex: null },
@@ -169,7 +169,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'F:M = Q x S0 / (V x XA) = (5,000 x 180) / (3,000 x 2,500) = 900,000 / 7,500,000 = 0.12 day^-1. The mg/L units cancel between S0 and XA, leaving m^3/day divided by m^3, which gives day^-1. This F:M is below the conventional range (0.2-0.4), suggesting extended aeration. Choice B divides only by V (ignores XA): 5000 x 180 / 3000 = 300, which needs further division by XA. Choice C inverts some terms. Choice D squares the volume in the denominator.',
+      eli5: '$F{:}M = Q \\times S_0/(V \\times X_A) = (5{,}000 \\times 180)/(3{,}000 \\times 2{,}500) = 900{,}000/7{,}500{,}000 = 0.12$ day$^{-1}$. The mg/L units cancel between $S_0$ and $X_A$, leaving m$^3$/day divided by m$^3$, which gives day$^{-1}$. This F:M is below the conventional range (0.2--0.4), suggesting extended aeration. Choice B divides only by $V$ (ignores $X_A$). Choice C inverts some terms. Choice D squares the volume in the denominator.',
       hint: 'F:M = $(Q \\times S_0)/(V \\times X_A)$. Make sure all units are consistent.',
       steps: [
         { text: 'F:M ratio formula:', latex: 'F{:}M = \\frac{Q \\cdot S_0}{V \\cdot X_A}' },
@@ -194,7 +194,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'SRT (solids residence time) measures how long bacteria stay in the system \u2014 typically 4-15 days for conventional activated sludge. HRT (hydraulic residence time) measures how long water stays in the aeration basin \u2014 typically 4-8 hours. SRT is always much longer than HRT because we recycle the sludge (solids) back to the aeration basin, keeping the bacteria in the system far longer than the water. The reported values (SRT = 8 hr, HRT = 10 days) are clearly swapped. Choice B is wrong because rapid wasting still gives SRT of at least a few days. Choice C ignores the physical constraint that sludge recycle makes SRT > HRT. Choice D is wrong because they are never equal in practice.',
+      eli5: 'SRT (solids residence time) measures how long bacteria stay in the system \u2014 typically 4--15 days for conventional activated sludge. HRT (hydraulic residence time) measures how long water stays in the aeration basin \u2014 typically 4--8 hours. SRT is always much longer than HRT because we recycle the sludge (solids) back to the aeration basin, keeping the bacteria in the system far longer than the water. The reported values ($\\theta_c = 8$ hr, $\\theta = 10$ days) are clearly swapped. Choice B is wrong because rapid wasting still gives SRT of at least a few days. Choice C ignores the physical constraint that sludge recycle makes SRT $>$ HRT. Choice D is wrong because they are never equal in practice.',
       hint: 'Think about typical values: SRT is in days (4-15), HRT is in hours (4-8). Which parameter should be larger?',
       steps: [
         { text: 'Typical SRT: 4\u201315 days (solids are recycled in the system).', latex: null },

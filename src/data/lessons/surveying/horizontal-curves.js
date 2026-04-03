@@ -114,8 +114,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'L = pi x R x I / 180 = pi x 1,200 x 30 / 180 = 36,000pi / 180 = 200pi = 628.32 ft, which rounds to 628 ft. Choice B computes the tangent distance T instead of L. Choice C uses I = 60 degrees (doubles the angle). Choice D uses I/2 instead of I in the formula.',
-      hint: 'L = pi x R x I / 180. Plug in R = 1,200 and I = 30.',
+      eli5: '$L = \\pi R I / 180 = \\pi \\times 1200 \\times 30 / 180 = 200\\pi = 628$ ft. Choice B computes the tangent distance $T$ instead of $L$. Choice C uses $I = 60°$ (doubles the angle). Choice D uses $I/2$ instead of $I$ in the formula.',
+      hint: '$L = \\pi R I / 180$. Plug in $R = 1200$ and $I = 30°$.',
       steps: [
         { text: 'Curve length:', latex: 'L = \\frac{\\pi R I}{180} = \\frac{\\pi \\times 1{,}200 \\times 30}{180}' },
         { text: 'Simplify:', latex: 'L = \\frac{36{,}000\\pi}{180} = 200\\pi = 628 \\text{ ft}' },
@@ -138,8 +138,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'M = R(1 - cos(I/2)) = 600(1 - cos(45)) = 600(1 - 0.7071) = 600(0.2929) = 175.7 ft. The middle ordinate is the distance from the curve midpoint to the long chord. Choice B uses R(sec(I/2) - 1), which is the external distance E, not M. Choice C is simply R/2. Choice D uses R x cos(45) instead of R(1 - cos(45)).',
-      hint: 'M = R(1 - cos(I/2)). Use half the intersection angle inside the cosine.',
+      eli5: '$M = R(1 - \\cos(I/2)) = 600(1 - \\cos 45°) = 600(1 - 0.7071) = 600 \\times 0.2929 = 175.7$ ft. The middle ordinate is the distance from the curve midpoint to the long chord. Choice B uses $R(\\sec(I/2) - 1)$, which is the external distance $E$, not $M$. Choice C is simply $R/2$. Choice D uses $R \\cos 45°$ instead of $R(1 - \\cos 45°)$.',
+      hint: '$M = R(1 - \\cos(I/2))$. Use half the intersection angle inside the cosine.',
       steps: [
         { text: 'Middle ordinate:', latex: 'M = R\\left(1 - \\cos\\frac{I}{2}\\right) = 600\\left(1 - \\cos 45\\degree\\right)' },
         { text: 'Evaluate:', latex: 'M = 600(1 - 0.7071) = 600 \\times 0.2929 = 175.7 \\text{ ft}' },
@@ -162,8 +162,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'First find R: R = 5,729.58 / 5 = 1,145.92 ft. Then the tangent distance: T = R tan(I/2) = 1,145.92 x tan(15) = 1,145.92 x 0.2680 = 307.05 ft. Station of PC = PI - T = 5,000 - 307.05 = 4,692.95 = station 46+92.95. Choice B adds T to the PI instead of subtracting (that gives the PT via the tangent, not the PC). Choice C rounds T to 300 ft. Choice D subtracts L instead of T.',
-      hint: 'Find R from D, then T = R tan(I/2). Station of PC = Station of PI - T.',
+      eli5: 'First find $R$: $R = 5729.58 / 5 = 1145.92$ ft. Then the tangent distance: $T = R \\tan(I/2) = 1145.92 \\times \\tan 15° = 1145.92 \\times 0.2680 = 307.05$ ft. Station of PC $= PI - T = 5000 - 307.05 = 4692.95$ = station 46+92.95. Choice B adds $T$ to the PI instead of subtracting (that gives the PT via the tangent, not the PC). Choice C rounds $T$ to 300 ft. Choice D subtracts $L$ instead of $T$.',
+      hint: 'Find $R$ from $D$, then $T = R \\tan(I/2)$. Station of PC = Station of PI $- T$.',
       steps: [
         { text: 'Radius:', latex: 'R = \\frac{5{,}729.58}{D} = \\frac{5{,}729.58}{5} = 1{,}145.92 \\text{ ft}' },
         { text: 'Tangent distance:', latex: 'T = R\\tan\\frac{I}{2} = 1{,}145.92 \\times \\tan 15\\degree = 1{,}145.92 \\times 0.2680 = 307.05 \\text{ ft}' },
@@ -187,7 +187,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'PC = PI - T = 3000 - 400 = 2600 = station 26+00. PT = PC + L = 2600 + 750 = 3350 = station 33+50. The key insight is that PT is found by adding the arc length L to the PC station, NOT by adding T to the PI. The tangent distance T goes from the PI back to the PC (or forward to the PT along the tangent), but the actual curve station at the PT uses the arc distance L. Choice B adds T to the PI for the PT (that gives a point on the tangent, not the curve). Choice C confuses the PT with the PI. Choice D places the PC at the PI.',
+      eli5: '$PC = PI - T = 3000 - 400 = 2600$ = station 26+00. $PT = PC + L = 2600 + 750 = 3350$ = station 33+50. The key insight is that PT is found by adding the arc length $L$ to the PC station, NOT by adding $T$ to the PI. The tangent distance $T$ goes from the PI back to the PC (or forward to the PT along the tangent), but the actual curve station at the PT uses the arc distance $L$. Choice B adds $T$ to the PI for the PT (that gives a point on the tangent, not the curve). Choice C confuses the PT with the PI. Choice D places the PC at the PI.',
       hint: 'PC = PI - T. PT = PC + L (arc length along the curve). Do NOT compute PT as PI + T.',
       steps: [
         { text: 'Station of PC:', latex: '\\text{Sta PC} = \\text{Sta PI} - T = 30+00 - 4+00 = 26+00' },

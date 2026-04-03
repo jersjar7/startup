@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'If 7-day strength = 70% of 28-day strength, then 28-day = 7-day / 0.70 = 2,800 / 0.70 = 4,000 psi. The key trap: dividing, not multiplying. Choice B (1,960) multiplies 2,800 \u00D7 0.70 \u2014 that gives 70% of the 7-day strength, which is meaningless. Choice C (2,800) assumes no further strength gain. Choice D (9,330) divides by 0.30 instead of 0.70.',
+      eli5: 'If 7-day strength = 70% of 28-day strength, then $28\\text{-day} = 7\\text{-day} / 0.70 = 2{,}800 / 0.70 = 4{,}000$ psi. The key trap: dividing, not multiplying. Choice B (1,960) multiplies $2{,}800 \\times 0.70$ \u2014 that gives 70% of the 7-day strength, which is meaningless. Choice C (2,800) assumes no further strength gain. Choice D (9,330) divides by 0.30 instead of 0.70.',
       hint: 'If 7-day is 70% of 28-day, then 28-day = 7-day / 0.70, not 7-day \u00D7 0.70.',
       steps: [
         { text: 'The 7-day strength is 70% of the 28-day value:', latex: 'f\'_{c,7} = 0.70 \\times f\'_{c,28}' },
@@ -56,7 +56,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The partially cured concrete reaches 90% of the fully moist-cured value: 0.90 \u00D7 5,200 = 4,680 psi. Choice B (5,780) divides instead of multiplying: 5,200/0.90. Choice C (520) uses 10% instead of 90%: 5,200 \u00D7 0.10. Choice D (5,200) ignores the curing reduction entirely.',
+      eli5: 'The partially cured concrete reaches 90% of the fully moist-cured value: $0.90 \\times 5{,}200 = 4{,}680$ psi. Choice B (5,780) divides instead of multiplying: $5{,}200/0.90$. Choice C (520) uses 10% instead of 90%: $5{,}200 \\times 0.10$. Choice D (5,200) ignores the curing reduction entirely.',
       hint: 'The partially cured concrete reaches 90% of the fully cured value \u2014 multiply, don\u2019t divide.',
       steps: [
         { text: 'Fully cured 28-day strength = 5,200 psi', latex: null },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Compute the expected field strength for each mix. Mix A: 5,400 \u00D7 0.92 = 4,968 psi \u2265 4,500 \u2714. Mix B: 4,600 \u00D7 0.85 = 3,910 psi < 4,500 \u2718. Only Mix A meets the requirement. Choice B (both) ignores the curing reduction \u2014 the lab strengths (5,400 and 4,600) both look adequate until you apply the field curing factors. Choice C (only B) reverses the conclusion. Choice D (neither) miscalculates.',
+      eli5: 'Compute the expected field strength for each mix. Mix A: $5{,}400 \\times 0.92 = 4{,}968$ psi $\\geq 4{,}500$. Mix B: $4{,}600 \\times 0.85 = 3{,}910$ psi $< 4{,}500$. Only Mix A meets the requirement. Choice B (both) ignores the curing reduction \u2014 the lab strengths (5,400 and 4,600) both look adequate until you apply the field curing factors. Choice C (only B) reverses the conclusion. Choice D (neither) miscalculates.',
       hint: 'Multiply each mix\u2019s lab-tested strength by its curing factor to get the expected field strength, then compare to 4,500 psi.',
       steps: [
         { text: 'Mix A field strength:', latex: 'f\'_{c,A} = 5{,}400 \\times 0.92 = 4{,}968 \\text{ psi} \\geq 4{,}500 \\; \\checkmark' },

@@ -115,7 +115,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Gauge pressure at depth h in an open tank is P = gamma * h = 9,810 * 3.5 = 34,335 Pa = 34.34 kPa. The surface is open to atmosphere so gauge pressure there is zero. Choice B forgets to convert Pa to kPa. Choice C adds atmospheric pressure (making it absolute instead of gauge). Choice D divides by 10,000 instead of 1,000.',
+      eli5: 'Gauge pressure at depth $h$ in an open tank is $P = \\gamma \\times h = 9{,}810 \\times 3.5 = 34{,}335$ Pa $= 34.34$ kPa. The surface is open to atmosphere so gauge pressure there is zero. Choice B forgets to convert Pa to kPa. Choice C adds atmospheric pressure (making it absolute instead of gauge). Choice D divides by 10,000 instead of 1,000.',
       hint: 'Gauge pressure at the free surface of an open tank is zero. At depth $h$, $P_{\\text{gauge}} = \\gamma h$.',
       steps: [
         { text: 'Gauge pressure at depth:', latex: 'P = \\gamma h = 9{,}810 \\times 3.5 = 34{,}335\\,\\text{Pa}' },
@@ -139,7 +139,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'First find the specific weight of glycerin: gamma = SG * gamma_w = 1.26 * 9,810 = 12,361 N/m^3. The hydrostatic pressure increase over 2.5 m is 12,361 * 2.5 = 30,902 Pa = 30.9 kPa. The gauge pressure at depth is the surface pressure plus the hydrostatic increase: 35 + 30.9 = 65.9 kPa. Choice B gives only the hydrostatic column and forgets the surface pressure. Choice C uses gamma_w instead of gamma_glycerin. Choice D adds atmospheric pressure on top (computing absolute instead of gauge).',
+      eli5: 'First find the specific weight of glycerin: $\\gamma = SG \\times \\gamma_w = 1.26 \\times 9{,}810 = 12{,}361$ N/m\u00B3. The hydrostatic pressure increase over 2.5 m is $12{,}361 \\times 2.5 = 30{,}902$ Pa $= 30.9$ kPa. The gauge pressure at depth is the surface pressure plus the hydrostatic increase: $35 + 30.9 = 65.9$ kPa. Choice B gives only the hydrostatic column and forgets the surface pressure. Choice C uses $\\gamma_w$ instead of $\\gamma_{\\text{glycerin}}$. Choice D adds atmospheric pressure on top (computing absolute instead of gauge).',
       hint: 'The total gauge pressure at depth equals the surface gauge pressure plus $\\gamma_{\\text{glycerin}} \\times h$.',
       steps: [
         { text: 'Specific weight of glycerin:', latex: '\\gamma_{\\text{gly}} = 1.26 \\times 9{,}810 = 12{,}361\\,\\text{N/m}^3' },
@@ -149,7 +149,7 @@ export default {
       handbookPage: 'p. 177',
       handbookFormula: 'P_2 - P_1 = \\gamma h',
       videoUrl: null,
-      traps: ['Using gamma_w instead of gamma_glycerin -- ignoring the specific gravity', 'Forgetting to add the surface pressure to the hydrostatic increase'],
+      traps: ['Using $\\gamma_w$ instead of $\\gamma_{\\text{glycerin}}$ \u2014 ignoring the specific gravity', 'Forgetting to add the surface pressure to the hydrostatic increase'],
       diagram: null,
     },
     {
@@ -164,7 +164,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Walk from the open (atmospheric) side to the pipe connection. On the open side, go down 0.45 m of mercury (adds pressure). On the tank side, go up 0.15 m of mercury and 0.15 m of water to reach the pipe (subtracts pressure). Setting P_atm = 0 gauge: 0 + gamma_Hg(0.45) = P + gamma_Hg(0.15) + gamma_w(0.15). So P = gamma_Hg(0.30) - gamma_w(0.15) = 133,416(0.30) - 9,810(0.15) = 40,025 - 1,472 = 38,553 Pa = 38.6 kPa. The water column on the tank side matters -- it subtracts about 1.5 kPa. Choice B uses gamma_w for the entire column instead of gamma_Hg. Choice C ignores the water column and uses the full 0.45 m of mercury. Choice D ignores the water column correction (gets 40.0 kPa).',
+      eli5: 'Walk from the open (atmospheric) side to the pipe connection. On the open side, go down 0.45 m of mercury (adds pressure). On the tank side, go up 0.15 m of mercury and 0.15 m of water to reach the pipe (subtracts pressure). Setting $P_{\\text{atm}} = 0$ gauge: $0 + \\gamma_{Hg}(0.45) = P + \\gamma_{Hg}(0.15) + \\gamma_w(0.15)$. So $P = \\gamma_{Hg}(0.30) - \\gamma_w(0.15) = 133{,}416(0.30) - 9{,}810(0.15) = 40{,}025 - 1{,}472 = 38{,}553$ Pa $= 38.6$ kPa. The water column on the tank side matters \u2014 it subtracts about 1.5 kPa. Choice B uses $\\gamma_w$ for the entire column instead of $\\gamma_{Hg}$. Choice C ignores the water column and uses the full 0.45 m of mercury. Choice D ignores the water column correction (gets 40.0 kPa).',
       hint: 'Walk from the atmospheric side to the tank side, adding pressure going down and subtracting going up. Use $\\gamma_{Hg} = SG \\times \\gamma_w$.',
       steps: [
         { text: 'Specific weight of mercury:', latex: '\\gamma_{Hg} = 13.6 \\times 9{,}810 = 133{,}416\\,\\text{N/m}^3' },
@@ -175,7 +175,7 @@ export default {
       handbookPage: 'p. 178',
       handbookFormula: 'P_0 = P_2 + \\gamma_2 h_2 - \\gamma_1 h_1',
       videoUrl: null,
-      traps: ['Forgetting the water column above the mercury on the tank side', 'Using gamma_w instead of gamma_Hg for the mercury column'],
+      traps: ['Forgetting the water column above the mercury on the tank side', 'Using $\\gamma_w$ instead of $\\gamma_{Hg}$ for the mercury column'],
       diagram: null,
     },
     {
@@ -190,7 +190,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Hydrostatic pressure depends only on depth and fluid specific weight: P = gamma * h. The container shape, surface area, and total volume of water do not matter. Both tanks have the same depth (2 m) and the same fluid (water), so the gauge pressures at the bottom are identical. This is sometimes called the hydrostatic paradox. Choice A confuses total force (which does depend on area) with pressure. Choice C tries to apply P = F/A using weight, which does not apply to fluid pressure -- that reasoning works for solids on a surface, not fluids. Choice D adds an unnecessary condition; both tanks already contain the same fluid (water).',
+      eli5: 'Hydrostatic pressure depends only on depth and fluid specific weight: $P = \\gamma \\times h$. The container shape, surface area, and total volume of water do not matter. Both tanks have the same depth (2 m) and the same fluid (water), so the gauge pressures at the bottom are identical. This is sometimes called the hydrostatic paradox. Choice A confuses total force (which does depend on area) with pressure. Choice C tries to apply $P = F/A$ using weight, which does not apply to fluid pressure \u2014 that reasoning works for solids on a surface, not fluids. Choice D adds an unnecessary condition; both tanks already contain the same fluid (water).',
       hint: 'Recall that $P = \\gamma h$ has no term for area or volume.',
       steps: [
         { text: 'Hydrostatic gauge pressure at the bottom of any open tank:', latex: 'P = \\gamma h' },

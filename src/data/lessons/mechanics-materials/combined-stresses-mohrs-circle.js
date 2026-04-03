@@ -123,7 +123,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'The max in-plane shear stress is R, the radius of Mohr\'s circle. R = sqrt[((sigma_x - sigma_y)/2)^2 + tau_xy^2]. With tau_xy = 0, R = |sigma_x - sigma_y|/2 = |100 - (-40)|/2 = 140/2 = 70 MPa. Choice A (30) is the center C = (100 + (-40))/2 = 30 -- that is the average normal stress, not the shear. Choice B (50) comes from using |sigma_x + sigma_y|/2 instead of the difference. Choice D (140) forgets to divide by 2. Even when tau_xy = 0, there can still be in-plane shear on a rotated plane.',
+      eli5: 'The max in-plane shear stress is $R$, the radius of Mohr\'s circle. $R = \\sqrt{((\\sigma_x - \\sigma_y)/2)^2 + \\tau_{xy}^2}$. With $\\tau_{xy} = 0$, $R = |\\sigma_x - \\sigma_y|/2 = |100 - (-40)|/2 = 140/2 = 70$ MPa. Choice A (30) is the center $C = (100 + (-40))/2 = 30$ -- that is the average normal stress, not the shear. Choice B (50) comes from using $|\\sigma_x + \\sigma_y|/2$ instead of the difference. Choice D (140) forgets to divide by 2. Even when $\\tau_{xy} = 0$, there can still be in-plane shear on a rotated plane.',
       hint: 'The in-plane max shear stress equals the radius $R$ of Mohr\'s circle. What is $R$ when $\\tau_{xy} = 0$?',
       steps: [
         { text: 'Center:', latex: 'C = \\frac{100 + (-40)}{2} = 30 \\text{ MPa}' },
@@ -133,7 +133,7 @@ export default {
       handbookPage: 'p. 132',
       handbookFormula: '\\tau_{max} = R = \\sqrt{\\left(\\frac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2}',
       videoUrl: null,
-      traps: ['Reporting the center C = 30 MPa instead of the radius R = 70 MPa', 'Forgetting to divide by 2 when computing R from sigma_x - sigma_y'],
+      traps: ['Reporting the center $C = 30$ MPa instead of the radius $R = 70$ MPa', 'Forgetting to divide by 2 when computing $R$ from $\\sigma_x - \\sigma_y$'],
       diagram: null,
     },
     {
@@ -148,7 +148,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'C = (50 + (-30))/2 = 10 MPa. The half-difference is (50 - (-30))/2 = 40 MPa and tau_xy = 30 MPa. R = sqrt(40^2 + 30^2) = sqrt(2500) = 50 (a clean 3-4-5 triangle scaled by 10). sigma_1 = C + R = 10 + 50 = 60 MPa. Choice A (10) is just the center C, which is the average normal stress, not the principal stress. Choice B (50) is just sigma_x itself, ignoring the shear contribution. Choice D (90) comes from adding sigma_x + tau_xy directly, which is not how stress transformation works.',
+      eli5: '$C = (50 + (-30))/2 = 10$ MPa. The half-difference is $(50 - (-30))/2 = 40$ MPa and $\\tau_{xy} = 30$ MPa. $R = \\sqrt{40^2 + 30^2} = \\sqrt{2{,}500} = 50$ (a clean 3-4-5 triangle scaled by 10). $\\sigma_1 = C + R = 10 + 50 = 60$ MPa. Choice A (10) is just the center $C$, which is the average normal stress, not the principal stress. Choice B (50) is just $\\sigma_x$ itself, ignoring the shear contribution. Choice D (90) comes from adding $\\sigma_x + \\tau_{xy}$ directly, which is not how stress transformation works.',
       hint: 'Compute the center $C$ and radius $R$ of Mohr\'s circle. Look for a Pythagorean triple.',
       steps: [
         { text: 'Center:', latex: 'C = \\frac{50 + (-30)}{2} = 10 \\text{ MPa}' },
@@ -158,7 +158,7 @@ export default {
       handbookPage: 'p. 131',
       handbookFormula: '\\sigma_{1,2} = \\frac{\\sigma_x + \\sigma_y}{2} \\pm \\sqrt{\\left(\\frac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2}',
       videoUrl: null,
-      traps: ['Reporting the center C instead of C + R for sigma_1', 'Adding sigma_x + tau_xy directly -- stresses do not combine that way'],
+      traps: ['Reporting the center $C$ instead of $C + R$ for $\\sigma_1$', 'Adding $\\sigma_x + \\tau_{xy}$ directly -- stresses do not combine that way'],
       diagram: null,
     },
     {
@@ -173,7 +173,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'When sigma_1 and sigma_2 have opposite signs, the absolute max shear stress equals (sigma_1 - sigma_3)/2 where sigma_3 is the algebraically smallest principal stress. Here the three principal stresses in order are: sigma_1 = 90, sigma_2 = 0 (out of plane), sigma_3 = -30. So tau_abs_max = (90 - (-30))/2 = 120/2 = 60 MPa. This equals the in-plane value R because the principal stresses have opposite signs. Choice A (30) is |sigma_2|/2. Choice B (45) is sigma_1/2. Choice D (90) is sigma_1 without dividing by 2.',
+      eli5: 'When $\\sigma_1$ and $\\sigma_2$ have opposite signs, the absolute max shear stress equals $(\\sigma_1 - \\sigma_3)/2$ where $\\sigma_3$ is the algebraically smallest principal stress. Here the three principal stresses in order are: $\\sigma_1 = 90$, $\\sigma_2 = 0$ (out of plane), $\\sigma_3 = -30$. So $\\tau_{abs\\,max} = (90 - (-30))/2 = 120/2 = 60$ MPa. This equals the in-plane value $R$ because the principal stresses have opposite signs. Choice A (30) is $|\\sigma_2|/2$. Choice B (45) is $\\sigma_1/2$. Choice D (90) is $\\sigma_1$ without dividing by 2.',
       hint: 'Order all three principal stresses (including $\\sigma_3 = 0$) algebraically. The absolute max shear uses the largest and smallest.',
       steps: [
         { text: 'Order principal stresses: $\\sigma_1 = 90$, $\\sigma_2 = 0$ (out-of-plane), $\\sigma_3 = -30$ MPa', latex: null },
@@ -182,7 +182,7 @@ export default {
       handbookPage: 'p. 133',
       handbookFormula: '\\tau_{max} = \\frac{\\sigma_1 - \\sigma_3}{2}',
       videoUrl: null,
-      traps: ['Using sigma_1/2 instead of (sigma_1 - sigma_3)/2 when sigma_3 is negative', 'Forgetting to include the out-of-plane principal stress sigma = 0 in the ordering'],
+      traps: ['Using $\\sigma_1/2$ instead of $(\\sigma_1 - \\sigma_3)/2$ when $\\sigma_3$ is negative', 'Forgetting to include the out-of-plane principal stress $\\sigma_3 = 0$ in the ordering'],
       diagram: null,
     },
     {
@@ -197,7 +197,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Mohr\'s circle has a key rule: angles on the circle are DOUBLE the physical angles. The two principal stress directions are 90 degrees apart physically (they are always perpendicular in real space). On Mohr\'s circle, that 90 degrees is represented as 2 * 90 = 180 degrees -- the two points are on opposite ends of a diameter. This doubling convention is what makes Mohr\'s circle work. Choice A (45) confuses the physical angle of the max shear plane (45 degrees from principal) with the angle on the circle. Choice B (90) uses the physical angle directly without doubling. Choice D (360) is a full revolution, which would bring you back to the same point.',
+      eli5: 'Mohr\'s circle has a key rule: angles on the circle are DOUBLE the physical angles. The two principal stress directions are $90\\degree$ apart physically (they are always perpendicular in real space). On Mohr\'s circle, that $90\\degree$ is represented as $2 \\times 90 = 180\\degree$ -- the two points are on opposite ends of a diameter. This doubling convention is what makes Mohr\'s circle work. Choice A (45) confuses the physical angle of the max shear plane ($45\\degree$ from principal) with the angle on the circle. Choice B (90) uses the physical angle directly without doubling. Choice D (360) is a full revolution, which would bring you back to the same point.',
       hint: 'Remember that angles on Mohr\'s circle are double the physical rotation angle. Principal stress planes are perpendicular in reality.',
       steps: [
         { text: 'In reality, principal stress planes are $90\\degree$ apart (perpendicular).', latex: null },

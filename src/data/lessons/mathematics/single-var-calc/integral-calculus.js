@@ -268,7 +268,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Forgetting to evaluate at the lower limit",
-        "Antiderivative error — the antiderivative of 2x is x^2, not 2x^2"
+        "Antiderivative error — the antiderivative of $2x$ is $x^2$, not $2x^2$"
       ],
       "diagram": null
     },
@@ -296,7 +296,7 @@ export default {
       "handbookFormula": "\\int e^u\\,du = e^u + C",
       "videoUrl": null,
       "traps": [
-        "Forgetting to account for the factor of 2 when converting 4x dx to du",
+        "Forgetting to account for the factor of 2 when converting $4x\\,dx$ to $du$",
         "Not changing the limits of integration when substituting"
       ],
       "diagram": null
@@ -327,7 +327,7 @@ export default {
       "handbookFormula": "\\int u\\,dv = uv - \\int v\\,du",
       "videoUrl": null,
       "traps": [
-        "Choosing u and dv backwards — if you let u = x, you'd need to integrate ln x, which is harder",
+        "Choosing $u$ and $dv$ backwards — if you let $u = x$, you would need to integrate $\\ln x$, which is harder",
         "Forgetting the negative sign from the by-parts formula"
       ],
       "diagram": null
@@ -355,7 +355,7 @@ export default {
       "handbookFormula": "\\int_a^b f(x)\\,dx = F(b) - F(a)",
       "videoUrl": null,
       "traps": [
-        "Thinking C = 0 rather than understanding it cancels",
+        "Thinking $C = 0$ rather than understanding it cancels",
         "Believing definite integrals don't use antiderivatives"
       ],
       "diagram": null

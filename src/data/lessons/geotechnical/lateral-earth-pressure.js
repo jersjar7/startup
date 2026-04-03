@@ -112,7 +112,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The at-rest condition (K0) applies when a wall is perfectly rigid and does not deflect. Active pressure (Ka) develops only when the wall moves away from the soil, allowing the soil to expand. Passive pressure (Kp) develops when the wall pushes into the soil. A rigid basement wall that cannot deform experiences at-rest pressure. Choice B is wrong because active requires wall movement away. Choice C is wrong because passive requires wall movement into the soil. Choice D is not a real condition.',
+      eli5: 'The at-rest condition ($K_0$) applies when a wall is perfectly rigid and does not deflect. Active pressure ($K_a$) develops only when the wall moves away from the soil, allowing the soil to expand. Passive pressure ($K_p$) develops when the wall pushes into the soil. A rigid basement wall that cannot deform experiences at-rest pressure. Choice B is wrong because active requires wall movement away. Choice C is wrong because passive requires wall movement into the soil. Choice D is not a real condition.',
       hint: 'Active requires wall movement away from soil. Passive requires movement into soil. No movement means at-rest.',
       steps: [
         { text: 'No wall movement -> at-rest condition.', latex: null },
@@ -122,7 +122,7 @@ export default {
       handbookPage: 'p. 263',
       handbookFormula: 'K_0 = 1 - \\sin \\phi',
       videoUrl: null,
-      traps: ['Designing a rigid wall for active pressure -- Ka underestimates the real force on an unyielding wall'],
+      traps: ['Designing a rigid wall for active pressure -- $K_a$ underestimates the real force on an unyielding wall'],
       diagram: null,
     },
     {
@@ -137,8 +137,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Ka = tan^2(45 - 30/2) = tan^2(30) = (1/sqrt(3))^2 = 1/3 = 0.333. Pa = 0.5 x Ka x gamma x H^2 = 0.5 x 0.333 x 110 x 400 = 7,333 ~= 7,330 lb/ft. Choice B (14,670) forgets the 1/2 factor. Choice C (22,000) uses Kp = 3 instead of Ka = 1/3. Choice D (3,670) halves the answer again incorrectly.',
-      hint: 'Ka = tan^2(45 - phi/2), then Pa = 0.5 x Ka x gamma x H^2.',
+      eli5: '$K_a = \\tan^2(45\\degree - 30\\degree/2) = \\tan^2(30\\degree) = (1/\\sqrt{3})^2 = 1/3 = 0.333$. $P_a = 0.5 \\times K_a \\times \\gamma \\times H^2 = 0.5 \\times 0.333 \\times 110 \\times 400 = 7{,}333 \\approx 7{,}330$ lb/ft. Choice B (14,670) forgets the 1/2 factor. Choice C (22,000) uses $K_p = 3$ instead of $K_a = 1/3$. Choice D (3,670) halves the answer again incorrectly.',
+      hint: '$K_a = \\tan^2(45\\degree - \\phi/2)$, then $P_a = 0.5 \\times K_a \\times \\gamma \\times H^2$.',
       steps: [
         { text: 'Active coefficient:', latex: 'K_a = \\tan^2(45\\degree - 15\\degree) = \\tan^2(30\\degree) = \\frac{1}{3}' },
         { text: 'Active force:', latex: 'P_a = \\frac{1}{2} \\times \\frac{1}{3} \\times 110 \\times 20^2 = \\frac{1}{2} \\times \\frac{1}{3} \\times 110 \\times 400 = 7{,}330 \\text{ lb/ft}' },
@@ -161,7 +161,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Ka must always be less than 1 (active pressure is less than vertical stress). If Ka = 2.5, the student swapped the sign and computed Kp instead. The correct Ka = tan^2(45 - 25/2) = tan^2(32.5) = 0.406. Check: Ka x Kp = 1, so Kp = 1/0.406 = 2.46 ~= 2.5. Choice B is wrong because Ka > 1 is physically impossible for cohesionless soil. Choice C is unlikely to produce exactly 2.5. Choice D: forgetting to square would give tan(32.5) = 0.637, not 2.5.',
+      eli5: '$K_a$ must always be less than 1 (active pressure is less than vertical stress). If $K_a = 2.5$, the student swapped the sign and computed $K_p$ instead. The correct $K_a = \\tan^2(45\\degree - 25\\degree/2) = \\tan^2(32.5\\degree) = 0.406$. Check: $K_a \\times K_p = 1$, so $K_p = 1/0.406 = 2.46 \\approx 2.5$. Choice B is wrong because $K_a > 1$ is physically impossible for cohesionless soil. Choice C is unlikely to produce exactly 2.5. Choice D: forgetting to square would give $\\tan(32.5\\degree) = 0.637$, not 2.5.',
       hint: 'Ka is always less than 1 and Kp is always greater than 1. If your Ka exceeds 1, you swapped the sign.',
       steps: [
         { text: 'Correct active coefficient:', latex: 'K_a = \\tan^2(45\\degree - 12.5\\degree) = \\tan^2(32.5\\degree) = 0.406' },
@@ -186,8 +186,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Ka = tan^2(45 - 15) = tan^2(30) = 1/3 = 0.333. K0 = 1 - sin(30) = 1 - 0.50 = 0.500. Ratio = 0.500/0.333 = 1.50. This means a rigid wall (K0) experiences 50% more force than a wall that can yield into the active condition (Ka). Choice B swaps Ka and K0. Choice C incorrectly assumes K0 = Ka. Choice D uses tan(30) = 0.577 as K0 instead of 1 - sin(30).',
-      hint: 'Ka uses tan^2(45 - phi/2). K0 uses 1 - sin(phi). Compute both and divide.',
+      eli5: '$K_a = \\tan^2(45\\degree - 15\\degree) = \\tan^2(30\\degree) = 1/3 = 0.333$. $K_0 = 1 - \\sin(30\\degree) = 1 - 0.50 = 0.500$. Ratio $= 0.500/0.333 = 1.50$. This means a rigid wall ($K_0$) experiences 50% more force than a wall that can yield into the active condition ($K_a$). Choice B swaps $K_a$ and $K_0$. Choice C incorrectly assumes $K_0 = K_a$. Choice D uses $\\tan(30\\degree) = 0.577$ as $K_0$ instead of $1 - \\sin(30\\degree)$.',
+      hint: '$K_a$ uses $\\tan^2(45\\degree - \\phi/2)$. $K_0$ uses $1 - \\sin(\\phi)$. Compute both and divide.',
       steps: [
         { text: 'Active coefficient:', latex: 'K_a = \\tan^2(45\\degree - 15\\degree) = \\frac{1}{3} = 0.333' },
         { text: 'At-rest coefficient (NC soil):', latex: 'K_0 = 1 - \\sin 30\\degree = 1 - 0.50 = 0.500' },
@@ -196,7 +196,7 @@ export default {
       handbookPage: 'p. 263',
       handbookFormula: 'K_a = \\tan^2(45\\degree - \\phi/2), \\quad K_0 = 1 - \\sin \\phi',
       videoUrl: null,
-      traps: ['Confusing the K0 formula with Ka -- K0 = 1 - sin(phi) is a separate relationship', 'Using tan(phi) instead of sin(phi) in the K0 formula'],
+      traps: ['Confusing the $K_0$ formula with $K_a$ -- $K_0 = 1 - \\sin(\\phi)$ is a separate relationship', 'Using $\\tan(\\phi)$ instead of $\\sin(\\phi)$ in the $K_0$ formula'],
       diagram: null,
     },
   ],

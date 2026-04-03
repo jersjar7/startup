@@ -59,7 +59,7 @@ export default {
       "correctAnswerId": "c2",
       "difficulty": "medium",
       "eli5": "This is the standard three-step workflow: (1) compute the dot product with components, (2) compute both magnitudes, (3) divide and take inverse cosine. Vector A points along the x-axis, vector B points at 45° in the xy-plane — so the answer makes geometric sense. Always sanity-check your angle.",
-      "hint": "Use cos θ = (A · B) / (|A||B|) and solve for θ.",
+      "hint": "Use $\\cos\\theta = (\\vec{A} \\cdot \\vec{B}) / (|\\vec{A}||\\vec{B}|)$ and solve for $\\theta$.",
       "steps": [
         { "text": "Dot product:", "latex": "\\vec{A} \\cdot \\vec{B} = (1)(1) + (0)(1) + (0)(0) = 1" },
         { "text": "Magnitudes:", "latex": "|\\vec{A}| = 1, \\quad |\\vec{B}| = \\sqrt{1^2 + 1^2} = \\sqrt{2}" },
@@ -71,7 +71,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Forgetting to compute magnitudes and dividing dot product by component sums instead",
-        "Getting cos θ = 1/√2 but reporting θ = 1/√2 without taking cos⁻¹"
+        "Getting $\\cos\\theta = 1/\\sqrt{2}$ but reporting $\\theta = 1/\\sqrt{2}$ without taking $\\cos^{-1}$"
       ],
       "diagram": null
     },

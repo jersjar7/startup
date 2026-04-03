@@ -203,7 +203,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The maximum static friction is $\\mu_s N = 0.35 \\times 300 = 105$ N. The applied force is only 80 N, which is less than the maximum. Since the box is not on the verge of moving, friction matches the applied force exactly: $F = 80$ N. Answer B (105 N) is the maximum possible friction, but the box is not about to slide so friction does not reach that value. Answer C uses the full weight. Answer D incorrectly assumes no friction acts.',
+      eli5: 'The maximum static friction is $\\mu_s N = 0.35 \\times 300 = 105$ N. The applied force is only 80 N, which is less than the maximum. Since the box is not on the verge of moving, friction matches the applied force exactly: $F = 80$ N. Answer B (105 N) is the maximum possible friction, but the box is not about to slide so friction does not reach that value. Answer C uses the full weight. Answer D incorrectly assumes no friction acts at all.',
       hint: 'Check whether the applied force exceeds $\\mu_s N$. If it does not, friction equals the applied force.',
       steps: [
         {

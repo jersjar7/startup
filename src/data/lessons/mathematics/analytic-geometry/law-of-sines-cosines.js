@@ -116,7 +116,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "medium",
-      "eli5": "When you see two sides and the angle between them, that's SAS — go straight to Law of Cosines. It's basically the Pythagorean theorem with a correction term (-2ab cos C) for non-right triangles. The trap is forgetting to subtract that term, or accidentally using sine instead of cosine.",
+      "eli5": "When you see two sides and the angle between them, that is SAS — go straight to Law of Cosines. It is basically the Pythagorean theorem with a correction term ($-2ab\\cos C$) for non-right triangles. The trap is forgetting to subtract that term, or accidentally using sine instead of cosine.",
       "hint": "You know two sides and the included angle — which formula generalizes the Pythagorean theorem for non-right triangles?",
       "steps": [
         {
@@ -169,7 +169,7 @@ export default {
       "correctAnswerId": "c2",
       "difficulty": "hard",
       "eli5": "When you have all three sides but no angles, rearrange the Law of Cosines to solve for cosine of the angle. The key insight: if the numerator comes out negative, the cosine is negative, which means the angle is obtuse (bigger than 90°). Don't panic when you see a negative — just hit inverse cosine on your calculator and it handles it. The trap is second-guessing the negative and subtracting from 180°.",
-      "hint": "Rearrange the Law of Cosines to isolate cos C. What does a negative value of cosine tell you about the angle?",
+      "hint": "Rearrange the Law of Cosines to isolate $\\cos C$. What does a negative value of cosine tell you about the angle?",
       "steps": [
         {
           "text": "All three sides known (SSS) → rearrange Law of Cosines to solve for the angle.",
@@ -211,7 +211,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "You have a complete side-angle pair ($p$ and $P$) plus another angle ($Q$), so Law of Sines is your move. Set up the proportion and cross-multiply to solve for $q$. The bigger angle (65° vs 50°) should give a bigger side, so $q > 24$ is a quick sanity check. If your answer came out smaller, you probably flipped the fraction.",
+      "eli5": "You have a complete side-angle pair ($p$ and $P$) plus another angle ($Q$), so Law of Sines is your move. Set up the proportion and cross-multiply to solve for $q$. The bigger angle ($65°$ vs $50°$) should give a bigger side, so $q > 24$ is a quick sanity check. If your answer came out smaller, you probably flipped the fraction.",
       "hint": "You have a side-angle pair — which law works directly with that setup?",
       "steps": [
         { "text": "Set up Law of Sines:", "latex": "\\frac{p}{\\sin P} = \\frac{q}{\\sin Q}" },
@@ -239,7 +239,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "medium",
-      "eli5": "Two sides and the angle between them (SAS) means Law of Cosines. Plug in, compute each piece, then take the square root. The included angle is less than 90°, so $\\cos 48°$ is positive and the correction term subtracts from $a^2 + b^2$. If the angle were obtuse, $\\cos C$ would be negative and you'd actually add — that's a subtlety to watch for.",
+      "eli5": "Two sides and the angle between them (SAS) means Law of Cosines. Plug in, compute each piece, then take the square root. The included angle is less than $90°$, so $\\cos 48°$ is positive and the correction term subtracts from $a^2 + b^2$. If the angle were obtuse, $\\cos C$ would be negative and you would actually add — that is a subtlety to watch for.",
       "hint": "Two sides with their included angle — which formula generalizes the Pythagorean theorem?",
       "steps": [
         { "text": "Apply Law of Cosines:", "latex": "c^2 = a^2 + b^2 - 2ab\\cos C" },
@@ -268,7 +268,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "medium",
-      "eli5": "All three sides, no angles — SSS situation. Rearrange the Law of Cosines to isolate $\\cos A$. Plug in the sides, do the arithmetic, and take inverse cosine. The numerator here comes out positive, so the angle is acute (less than 90°). If it had come out negative, the angle would be obtuse. Always let the sign of the cosine tell you the story.",
+      "eli5": "All three sides, no angles — SSS situation. Rearrange the Law of Cosines to isolate $\\cos A$. Plug in the sides, do the arithmetic, and take inverse cosine. The numerator here comes out positive, so the angle is acute (less than $90°$). If it had come out negative, the angle would be obtuse. Always let the sign of the cosine tell you the story.",
       "hint": "Rearrange the Law of Cosines to solve for the angle: $\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}$.",
       "steps": [
         { "text": "Rearrange for $\\cos A$:", "latex": "\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}" },

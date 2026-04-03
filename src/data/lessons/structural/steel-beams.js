@@ -31,8 +31,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'With full bracing, M_n = M_p = F_y Z_x = 50 \u00D7 120 = 6,000 kip-in = 500 kip-ft. Then \u03C6_b M_n = 0.90 \u00D7 500 = 450 kip-ft. Choice B (500) is the nominal capacity without the \u03C6 factor. Choice C (299) is the ASD allowable: M_p/\u03A9 = 500/1.67 = 299 \u2014 a common trap if you mix up LRFD and ASD. Choice D (333) comes from using \u03C6 = 2/3 incorrectly.',
-      hint: 'M_p = F_y Z_x (convert to kip-ft), then multiply by \u03C6_b = 0.90.',
+      eli5: 'With full bracing, $M_n = M_p = F_y Z_x = 50 \\times 120 = 6{,}000$ kip-in $= 500$ kip-ft. Then $\\phi_b M_n = 0.90 \\times 500 = 450$ kip-ft. Choice B (500) is the nominal capacity without the $\\phi$ factor. Choice C (299) is the ASD allowable: $M_p/\\Omega_b = 500/1.67 = 299$ — a common trap if you mix up LRFD and ASD. Choice D (333) comes from using $\\phi = 2/3$ incorrectly.',
+      hint: '$M_p = F_y Z_x$ (convert to kip-ft), then multiply by $\\phi_b = 0.90$.',
       steps: [
         { text: 'Plastic moment:', latex: 'M_p = F_y Z_x = 50 \\times 120 = 6{,}000 \\text{ kip-in} = 500 \\text{ kip-ft}' },
         { text: 'LRFD design strength:', latex: '\\phi_b M_n = 0.90 \\times 500 = 450 \\text{ kip-ft}' },
@@ -41,8 +41,8 @@ export default {
       handbookFormula: 'M_n = M_p = F_y Z_x',
       videoUrl: null,
       traps: [
-        'Reporting the nominal capacity (500) instead of the design capacity (450) \u2014 always include \u03C6_b for LRFD',
-        'Using M_p/\u03A9 (ASD) when the problem asks for \u03C6_b M_n (LRFD)',
+        'Reporting the nominal capacity (500) instead of the design capacity (450) — always include $\\phi_b$ for LRFD',
+        'Using $M_p/\\Omega_b$ (ASD) when the problem asks for $\\phi_b M_n$ (LRFD)',
       ],
       diagram: null,
     },
@@ -57,8 +57,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'M_p = F_y Z_x = 50 \u00D7 80 = 4,000 kip-in = 333.3 kip-ft. \u03C6_b M_p = 0.90 \u00D7 333.3 = 300 kip-ft. For a simply supported beam with uniform load: M_u = w_u L\u00B2/8. Set M_u = \u03C6_b M_p: w_u = 8 \u00D7 300 / (20\u00B2) = 2,400/400 = 6.0 kip/ft. Choice B (6.67) uses the nominal M_p = 333 without the \u03C6 factor: 8 \u00D7 333/400 = 6.67. Choice C (4.0) uses the ASD value: M_p/\u03A9 = 333/1.67 = 200, then 8 \u00D7 200/400 = 4.0.',
-      hint: 'Compute \u03C6_b M_p first, then set M_u = w_u L\u00B2/8 and solve for w_u.',
+      eli5: '$M_p = F_y Z_x = 50 \\times 80 = 4{,}000$ kip-in $= 333.3$ kip-ft. $\\phi_b M_p = 0.90 \\times 333.3 = 300$ kip-ft. For a simply supported beam with uniform load: $M_u = w_u L^2/8$. Set $M_u = \\phi_b M_p$: $w_u = 8 \\times 300 / (20^2) = 2{,}400/400 = 6.0$ kip/ft. Choice B (6.67) uses the nominal $M_p = 333$ without the $\\phi$ factor: $8 \\times 333/400 = 6.67$. Choice C (4.0) uses the ASD value: $M_p/\\Omega_b = 333/1.67 = 200$, then $8 \\times 200/400 = 4.0$.',
+      hint: 'Compute $\\phi_b M_p$ first, then set $M_u = w_u L^2/8$ and solve for $w_u$.',
       steps: [
         { text: 'Design moment capacity:', latex: '\\phi_b M_p = 0.90 \\times F_y Z_x = 0.90 \\times 50 \\times 80 = 3{,}600 \\text{ kip-in} = 300 \\text{ kip-ft}' },
         { text: 'Maximum moment for uniform load:', latex: 'M_u = \\frac{w_u L^2}{8}' },
@@ -68,8 +68,8 @@ export default {
       handbookFormula: 'M_n = F_y Z_x, \\quad \\phi_b = 0.90',
       videoUrl: null,
       traps: [
-        'Forgetting the \u03C6 factor and using M_p directly \u2014 the factored load capacity is based on \u03C6M_p, not M_p',
-        'Using the ASD safety factor instead of the LRFD \u03C6 \u2014 read whether the problem says LRFD or ASD',
+        'Forgetting the $\\phi$ factor and using $M_p$ directly — the factored load capacity is based on $\\phi M_p$, not $M_p$',
+        'Using the ASD safety factor instead of the LRFD $\\phi$ — read whether the problem says LRFD or ASD',
       ],
       diagram: null,
     },
@@ -84,8 +84,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Since L_p = 8 < L_b = 15 \u2264 L_r = 25, we are in the inelastic LTB zone. M_n = C_b[M_p \u2013 (M_p \u2013 0.7F_yS_x)(L_b \u2013 L_p)/(L_r \u2013 L_p)] = 1.0[500 \u2013 (500 \u2013 300)(15 \u2013 8)/(25 \u2013 8)] = 500 \u2013 200(7/17) = 500 \u2013 82.4 = 417.6 \u2248 418 kip-ft. Also check M_n \u2264 M_p = 500 \u2714. Choice B (500) ignores LTB entirely and uses M_p. Choice C (300) uses the lower bound 0.7F_yS_x. Choice D (376) is \u03C6_b \u00D7 418 = 0.90 \u00D7 418 \u2014 the problem asks for M_n (nominal), not \u03C6M_n (design).',
-      hint: 'Since L_p < L_b \u2264 L_r, use the inelastic LTB formula. Linear interpolation between M_p and 0.7F_yS_x.',
+      eli5: 'Since $L_p = 8 < L_b = 15 \\leq L_r = 25$, we are in the inelastic LTB zone. $M_n = C_b[M_p - (M_p - 0.7F_yS_x)(L_b - L_p)/(L_r - L_p)] = 1.0[500 - (500 - 300)(15 - 8)/(25 - 8)] = 500 - 200(7/17) = 500 - 82.4 = 417.6 \\approx 418$ kip-ft. Also check $M_n \\leq M_p = 500$ ✓. Choice B (500) ignores LTB entirely and uses $M_p$. Choice C (300) uses the lower bound $0.7F_yS_x$. Choice D (376) is $\\phi_b \\times 418 = 0.90 \\times 418$ — the problem asks for $M_n$ (nominal), not $\\phi M_n$ (design).',
+      hint: 'Since $L_p < L_b \\leq L_r$, use the inelastic LTB formula. Linear interpolation between $M_p$ and $0.7F_yS_x$.',
       steps: [
         { text: 'Check range: $L_p = 8 < L_b = 15 \\leq L_r = 25$ \u2192 inelastic LTB.', latex: null },
         { text: 'LTB formula:', latex: 'M_n = C_b\\left[M_p - (M_p - 0.7F_yS_x)\\frac{L_b - L_p}{L_r - L_p}\\right]' },
@@ -97,9 +97,9 @@ export default {
       handbookFormula: 'M_n = C_b\\left[M_p - (M_p - 0.7F_yS_x)\\frac{L_b - L_p}{L_r - L_p}\\right] \\leq M_p',
       videoUrl: null,
       traps: [
-        'Ignoring LTB when L_b > L_p \u2014 even if the beam is compact, the unbraced length can reduce capacity',
-        'Confusing nominal M_n with design \u03C6M_n \u2014 read whether the problem asks for nominal or design strength',
-        'Using C_b = 1.0 when the actual loading would give C_b > 1.0 \u2014 C_b = 1.0 is conservative (uniform moment)',
+        'Ignoring LTB when $L_b > L_p$ — even if the beam is compact, the unbraced length can reduce capacity',
+        'Confusing nominal $M_n$ with design $\\phi M_n$ — read whether the problem asks for nominal or design strength',
+        'Using $C_b = 1.0$ when the actual loading would give $C_b > 1.0$ — $C_b = 1.0$ is conservative (uniform moment)',
       ],
       diagram: null,
     },
@@ -117,7 +117,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'With full bracing, $M_n = M_p = F_y Z_x = 50 \\times 96 = 4{,}800$ kip-in $= 400$ kip-ft. Then $\\phi_b M_n = 0.90 \\times 400 = 360$ kip-ft. Choice B (400) is the nominal capacity without $\\phi_b$. Choice C (240) is the ASD allowable: $M_p/\\Omega_b = 400/1.67 = 240$. Choice D (288) comes from using $S_x$ instead of $Z_x$ (a typical $S_x/Z_x$ ratio of about 0.89 would give roughly this).',
+      eli5: 'With full bracing, $M_n = M_p = F_y Z_x = 50 \\times 96 = 4{,}800$ kip-in $= 400$ kip-ft. Then $\\phi_b M_n = 0.90 \\times 400 = 360$ kip-ft. Choice B (400) is the nominal capacity without $\\phi_b$. Choice C (240) is the ASD allowable: $M_p / \\Omega_b = 400/1.67 = 240$. Choice D (288) comes from using $S_x$ instead of $Z_x$ (a typical $S_x/Z_x$ ratio of about 0.89 would give roughly this).',
       hint: '$M_p = F_y Z_x$, then multiply by $\\phi_b = 0.90$. Convert kip-in to kip-ft by dividing by 12.',
       steps: [
         { text: 'Plastic moment:', latex: 'M_p = F_y Z_x = 50 \\times 96 = 4{,}800 \\text{ kip-in} = 400 \\text{ kip-ft}' },
@@ -141,7 +141,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For LRFD, the plastic moment capacity is $M_p = F_y Z_x$, using the plastic section modulus. The plastic modulus accounts for the full cross-section reaching yield stress, which is the actual failure mode for compact sections with full bracing. $S_x$ (elastic modulus) is used in the lateral-torsional buckling formula as the lower-bound term ($0.7 F_y S_x$) and in ASD. Using $S_x$ for the plastic moment underestimates capacity by about 10-15% for typical W-shapes. Choice B is more conservative but incorrect for LRFD — LRFD is calibrated to use $Z_x$. Choice D has it backwards.',
+      eli5: 'For LRFD, the plastic moment capacity is $M_p = F_y Z_x$, using the plastic section modulus. The plastic modulus accounts for the full cross-section reaching yield stress, which is the actual failure mode for compact sections with full bracing. $S_x$ (elastic modulus) is used in the lateral-torsional buckling formula as the lower-bound term ($0.7 F_y S_x$) and in ASD. Using $S_x$ for the plastic moment underestimates capacity by about 10–15% for typical W-shapes. Choice B is more conservative but incorrect for LRFD — LRFD is calibrated to use $Z_x$. Choice D has it backwards.',
       hint: 'LRFD uses plastic moment capacity, which requires the section modulus that corresponds to full yielding of the cross-section.',
       steps: [
         { text: '$Z_x$ = plastic section modulus: assumes entire cross-section yields.', latex: null },
@@ -166,7 +166,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: '$A_w = d \\times t_w = 14 \\times 0.415 = 5.81$ in$^2$. $V_n = 0.6 F_y A_w C_{v1} = 0.6(50)(5.81)(1.0) = 174.3 \\approx 174$ kips. With $\\phi_v = 1.00$: $\\phi_v V_n = 174$ kips. Choice B (291) uses $F_y A_w = 50 \\times 5.81 = 291$ without the 0.6 factor. Choice C (350) uses the full section area instead of web area. Choice D (145) incorrectly uses $\\phi_v = 0.90$ or applies $0.5 F_y$ instead of $0.6 F_y$.',
+      eli5: '$A_w = d \\times t_w = 14 \\times 0.415 = 5.81$ in$^2$. $V_n = 0.6 F_y A_w C_{v1} = 0.6(50)(5.81)(1.0) = 174.3 \\approx 174$ kips. With $\\phi_v = 1.00$: $\\phi_v V_n = 174$ kips. Choice B (291) uses $F_y A_w = 50 \\times 5.81 = 291$ without the $0.6$ factor. Choice C (350) uses the full section area instead of web area. Choice D (145) incorrectly uses $\\phi_v = 0.90$ or applies $0.5 F_y$ instead of $0.6 F_y$.',
       hint: 'Shear capacity uses the web area $A_w = d \\times t_w$ and $V_n = 0.6 F_y A_w C_{v1}$.',
       steps: [
         { text: 'Web area:', latex: 'A_w = d \\times t_w = 14 \\times 0.415 = 5.81 \\text{ in}^2' },
@@ -191,7 +191,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'The first beam has $L_b = 10 = L_p$, so it is fully braced and reaches $M_n = M_p = 600$ kip-ft. The second beam has $L_p = 10 < L_b = 20 \\leq L_r = 30$, so it falls in the inelastic LTB zone. Its capacity is reduced by the linear interpolation formula: $M_n = M_p - (M_p - 0.7F_yS_x)(L_b - L_p)/(L_r - L_p) < M_p$. Choice B ignores the effect of unbraced length — same section does not mean same capacity if bracing conditions differ. Choice C is wrong because the first beam meets $L_b \\leq L_p$. Choice D is wrong because $L_b = 20 < L_r = 30$, so it is inelastic LTB, not elastic.',
+      eli5: 'The first beam has $L_b = 10 = L_p$, so it is fully braced and reaches $M_n = M_p = 600$ kip-ft. The second beam has $L_p = 10 < L_b = 20 \\leq L_r = 30$, so it falls in the inelastic LTB zone. Its capacity is reduced by the linear interpolation formula: $M_n = M_p - (M_p - 0.7 F_y S_x)(L_b - L_p)/(L_r - L_p) < M_p$. Choice B ignores the effect of unbraced length — same section does not mean same capacity if bracing conditions differ. Choice C is wrong because the first beam meets $L_b \\leq L_p$. Choice D is wrong because $L_b = 20 < L_r = 30$, so it is inelastic LTB, not elastic.',
       hint: 'Compare $L_b$ to $L_p$ and $L_r$ for each beam. If $L_b \\leq L_p$, full $M_p$. If $L_p < L_b \\leq L_r$, inelastic LTB reduces capacity.',
       steps: [
         { text: 'Beam 1: $L_b = 10 \\leq L_p = 10$ — no LTB, $M_n = M_p = 600$ kip-ft.', latex: null },

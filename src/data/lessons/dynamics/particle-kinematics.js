@@ -148,7 +148,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'For range, you can either use the range formula R = v0-squared sin(2 theta) / g, or work it from first principles: find time of flight from the vertical equation, then multiply by horizontal velocity. At 45 degrees, sin(90) = 1, so R = v0-squared / g. Choice B comes from using v0 sin 45 instead of v0-squared. Choice D comes from doubling the correct answer — maybe computing total distance incorrectly.',
+      eli5: 'For range, you can either use the range formula $R = v_0^2 \\sin(2\\theta) / g$, or work it from first principles: find time of flight from the vertical equation, then multiply by horizontal velocity. At 45 degrees, $\\sin(90°) = 1$, so $R = v_0^2 / g$. Choice B comes from using $v_0 \\sin 45°$ instead of $v_0^2$. Choice D comes from doubling the correct answer — maybe computing total distance incorrectly.',
       hint: 'For a symmetric projectile (launched from and landing at the same height), use the range formula or find the total flight time from the vertical motion.',
       steps: [
         { text: 'Vertical component:', latex: 'v_{0y} = 40\\sin 45\\degree = 28.28\\,\\text{m/s}' },

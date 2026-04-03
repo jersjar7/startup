@@ -119,7 +119,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Fixed-fixed means K = 0.5, so the effective length is KL = 0.5 * 3,000 = 1,500 mm. Then P_cr = pi^2 * E * I / (KL)^2 = pi^2 * 200,000 * 10e6 / 1,500^2 = 9.87 * 2e12 / 2.25e6 = 1.974e13 / 2.25e6 = 8,773,000 N = 8,773 kN. Choice A (2,193) comes from using K = 1.0 (pinned-pinned) instead of K = 0.5. Choice C (548) comes from using K = 2.0 (fixed-free, the cantilever case). Choice D (35,089) comes from an error like using K = 0.25 or squaring K incorrectly.',
+      eli5: 'Fixed-fixed means $K = 0.5$, so the effective length is $KL = 0.5 \\times 3{,}000 = 1{,}500$ mm. Then $P_{cr} = \\pi^2 EI / (KL)^2 = \\pi^2 \\times 200{,}000 \\times 10 \\times 10^6 / 1{,}500^2 = 8{,}773$ kN. Choice A (2,193) comes from using $K = 1.0$ (pinned-pinned) instead of $K = 0.5$. Choice C (548) comes from using $K = 2.0$ (fixed-free, the cantilever case). Choice D (35,089) comes from an error like using $K = 0.25$ or squaring $K$ incorrectly.',
       hint: 'What is the effective length factor $K$ for a column with both ends fixed?',
       steps: [
         { text: 'Effective length factor: $K = 0.5$ (fixed-fixed)', latex: null },
@@ -129,7 +129,7 @@ export default {
       handbookPage: 'p. 136',
       handbookFormula: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}',
       videoUrl: null,
-      traps: ['Using K = 1.0 (pinned-pinned) instead of K = 0.5 for fixed-fixed', 'Forgetting to square KL in the denominator'],
+      traps: ['Using $K = 1.0$ (pinned-pinned) instead of $K = 0.5$ for fixed-fixed', 'Forgetting to square $KL$ in the denominator'],
       diagram: null,
     },
     {
@@ -144,7 +144,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Fixed-free (cantilever column) has K = 2.0 -- the worst case. The effective length is KL = 2.0 * 4,000 = 8,000 mm. P_cr = pi^2 * 200,000 * 30e6 / 8,000^2 = 9.87 * 6e12 / 6.4e7 = 5.922e13 / 6.4e7 = 925,300 N = 925 kN. Choice A (3,701) comes from using K = 1.0 (pinned-pinned). Choice C (231) comes from using K = 4.0 or some other error that doubles K again. Choice D (14,804) comes from using K = 0.5 (fixed-fixed, the opposite extreme). K = 2.0 is easy to forget because it is the only K greater than 1.',
+      eli5: 'Fixed-free (cantilever column) has $K = 2.0$ -- the worst case. The effective length is $KL = 2.0 \\times 4{,}000 = 8{,}000$ mm. $P_{cr} = \\pi^2 \\times 200{,}000 \\times 30 \\times 10^6 / 8{,}000^2 = 925$ kN. Choice A (3,701) comes from using $K = 1.0$ (pinned-pinned). Choice C (231) comes from using $K = 4.0$ or some other error that doubles $K$ again. Choice D (14,804) comes from using $K = 0.5$ (fixed-fixed, the opposite extreme). $K = 2.0$ is easy to forget because it is the only $K$ greater than 1.',
       hint: 'A cantilever column is fixed-free. What is $K$ for this worst-case support condition?',
       steps: [
         { text: 'Effective length factor: $K = 2.0$ (fixed-free)', latex: null },
@@ -154,7 +154,7 @@ export default {
       handbookPage: 'p. 136',
       handbookFormula: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}',
       videoUrl: null,
-      traps: ['Using K = 1.0 instead of K = 2.0 for a cantilever column -- overestimates capacity by 4x', 'Forgetting that K = 2.0 makes the effective length TWICE the actual length'],
+      traps: ['Using $K = 1.0$ instead of $K = 2.0$ for a cantilever column -- overestimates capacity by 4x', 'Forgetting that $K = 2.0$ makes the effective length TWICE the actual length'],
       diagram: null,
     },
     {
@@ -169,7 +169,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'First compute the slenderness ratio: KL/r = 0.7 * 7,000 / 50 = 4,900/50 = 98. Then critical stress: sigma_cr = pi^2 * E / (KL/r)^2 = pi^2 * 200,000 / 98^2 = 1,974,000 / 9,604 = 205.5 MPa. That rounds to 206. Choice B (140, 100.7) uses K = 1.0 instead of 0.7: KL/r = 7000/50 = 140. Choice C has the right slenderness but wrong stress (maybe using E/2). Choice D (200, 49.3) uses K = 2.0 * 7000 / (something) or r incorrectly.',
+      eli5: 'First compute the slenderness ratio: $KL/r = 0.7 \\times 7{,}000 / 50 = 4{,}900/50 = 98$. Then critical stress: $\\sigma_{cr} = \\pi^2 E / (KL/r)^2 = \\pi^2 \\times 200{,}000 / 98^2 = 206$ MPa. Choice B ($KL/r = 140$, $\\sigma_{cr} = 100.7$) uses $K = 1.0$ instead of 0.7: $KL/r = 7{,}000/50 = 140$. Choice C has the right slenderness but wrong stress (maybe using $E/2$). Choice D ($KL/r = 200$) uses $K = 2.0$ or $r$ incorrectly.',
       hint: 'Compute $KL/r$ first, then plug into $\\sigma_{cr} = \\pi^2 E / (KL/r)^2$.',
       steps: [
         { text: 'Slenderness ratio:', latex: '\\frac{KL}{r} = \\frac{0.7 \\times 7{,}000}{50} = 98' },
@@ -178,7 +178,7 @@ export default {
       handbookPage: 'p. 136',
       handbookFormula: '\\sigma_{cr} = \\frac{\\pi^2 E}{(KL/r)^2}',
       videoUrl: null,
-      traps: ['Using K = 1.0 instead of K = 0.7 for fixed-pinned conditions', 'Forgetting to square the slenderness ratio in the denominator'],
+      traps: ['Using $K = 1.0$ instead of $K = 0.7$ for fixed-pinned conditions', 'Forgetting to square the slenderness ratio in the denominator'],
       diagram: null,
     },
     {
@@ -193,7 +193,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'P_cr = pi^2 * EI / (KL)^2. Since E, I, and L are the same for both columns, the ratio depends only on 1/(KL)^2 = 1/K^2. Column A: K = 1.0, so P_cr_A is proportional to 1/1^2 = 1. Column B: K = 2.0, so P_cr_B is proportional to 1/2^2 = 1/4. The ratio P_cr_A / P_cr_B = 1 / (1/4) = 4. So the pinned-pinned column is 4 times stronger in buckling than the cantilever column. Choice A (2:1) only considers K linearly, not K^2. Choice C (8:1) confuses this with a cubic relationship. Choice D (1:2) has the ratio inverted. The K^2 factor in the denominator is why end conditions matter so much for buckling.',
+      eli5: '$P_{cr} = \\pi^2 EI / (KL)^2$. Since $E$, $I$, and $L$ are the same for both columns, the ratio depends only on $1/(KL)^2 = 1/K^2$. Column A: $K = 1.0$, so $P_{cr,A}$ is proportional to $1/1^2 = 1$. Column B: $K = 2.0$, so $P_{cr,B}$ is proportional to $1/2^2 = 1/4$. The ratio $P_{cr,A} / P_{cr,B} = 1 / (1/4) = 4$. So the pinned-pinned column is 4 times stronger in buckling than the cantilever column. Choice A (2:1) only considers $K$ linearly, not $K^2$. Choice C (8:1) confuses this with a cubic relationship. Choice D (1:2) has the ratio inverted. The $K^2$ factor in the denominator is why end conditions matter so much for buckling.',
       hint: 'Since everything else is identical, the ratio depends only on $K$. How does $K$ appear in Euler\'s formula?',
       steps: [
         { text: 'Euler\'s formula: $P_{cr} = \\pi^2 EI / (KL)^2$. With $E$, $I$, $L$ constant:', latex: 'P_{cr} \\propto \\frac{1}{K^2}' },
@@ -202,7 +202,7 @@ export default {
       handbookPage: 'p. 136',
       handbookFormula: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}',
       videoUrl: null,
-      traps: ['Forgetting that K is squared in the denominator -- the ratio is K^2, not K', 'Inverting the ratio -- the pinned column is stronger, not weaker, than the cantilever'],
+      traps: ['Forgetting that $K$ is squared in the denominator -- the ratio is $K^2$, not $K$', 'Inverting the ratio -- the pinned column is stronger, not weaker, than the cantilever'],
       diagram: null,
     },
   ],

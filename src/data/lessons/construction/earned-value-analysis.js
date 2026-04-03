@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'CV = BCWP \u2212 ACWP = 400,000 \u2212 450,000 = \u221250,000. Negative CV means the project spent more than the work is worth \u2014 over budget. Choice B flipped the subtraction order. Choice C got the sign right but misinterpreted it. Choice D got both wrong.',
+      eli5: '$CV = BCWP - ACWP = 400{,}000 - 450{,}000 = -50{,}000$. Negative CV means the project spent more than the work is worth \u2014 over budget. Choice B flipped the subtraction order. Choice C got the sign right but misinterpreted it. Choice D got both wrong.',
       hint: 'CV = Earned \u2212 Actual. Negative = over budget (you spent more than you earned).',
       steps: [
         { text: 'Cost variance:', latex: 'CV = BCWP - ACWP = 400{,}000 - 450{,}000 = -50{,}000' },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'SV = BCWP \u2212 BCWS = 420,000 \u2212 500,000 = \u221280,000. Negative SV means the project earned less value than planned \u2192 behind schedule. Choice B (\u221260,000) confused SV with CV: BCWP \u2212 ACWP = 420,000 \u2212 480,000 = \u221260,000. That is the cost variance, not the schedule variance. Choice C flipped the sign. Choice D used BCWS \u2212 ACWP = 500,000 \u2212 480,000 = 20,000, which is not a standard formula.',
+      eli5: '$SV = BCWP - BCWS = 420{,}000 - 500{,}000 = -80{,}000$. Negative SV means the project earned less value than planned \u2014 behind schedule. Choice B ($-60{,}000$) confused SV with CV: $BCWP - ACWP = 420{,}000 - 480{,}000 = -60{,}000$. That is the cost variance, not the schedule variance. Choice C flipped the sign. Choice D used $BCWS - ACWP = 500{,}000 - 480{,}000 = 20{,}000$, which is not a standard formula.',
       hint: 'SV = BCWP \u2212 BCWS. Don\'t confuse it with CV = BCWP \u2212 ACWP.',
       steps: [
         { text: 'Schedule variance:', latex: 'SV = BCWP - BCWS = 420{,}000 - 500{,}000 = -80{,}000' },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'SV = BCWP \u2212 BCWS = 270,000 \u2212 300,000 = \u221230,000 < 0 \u2192 behind schedule. CV = BCWP \u2212 ACWP = 270,000 \u2212 250,000 = +20,000 > 0 \u2192 under budget. So the project did less work than planned (behind schedule) but spent less than the work is worth (under budget). This combination is common \u2014 the crew is efficient but slow. Choice B has schedule wrong. Choice C has cost wrong. Choice D has both wrong.',
+      eli5: '$SV = BCWP - BCWS = 270{,}000 - 300{,}000 = -30{,}000 < 0$ \u2014 behind schedule. $CV = BCWP - ACWP = 270{,}000 - 250{,}000 = +20{,}000 > 0$ \u2014 under budget. So the project did less work than planned (behind schedule) but spent less than the work is worth (under budget). This combination is common \u2014 the crew is efficient but slow. Choice B has schedule wrong. Choice C has cost wrong. Choice D has both wrong.',
       hint: 'Compute both CV and SV. CV tells you cost performance, SV tells you schedule performance.',
       steps: [
         { text: 'Schedule:', latex: 'SV = 270{,}000 - 300{,}000 = -30{,}000 < 0 \\;\\rightarrow\\; \\text{behind schedule}' },
@@ -112,7 +112,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'SV = BCWP - BCWS. If BCWP > BCWS then SV > 0, meaning ahead of schedule. CV = BCWP - ACWP. If BCWP > ACWP then CV > 0, meaning under budget. The project has earned more value than planned (ahead) and spent less than that value (under budget). This is the best possible scenario. Choice B has both signs reversed. Choice C and D each get one measure wrong.',
+      eli5: '$SV = BCWP - BCWS$. If $BCWP > BCWS$ then $SV > 0$, meaning ahead of schedule. $CV = BCWP - ACWP$. If $BCWP > ACWP$ then $CV > 0$, meaning under budget. The project has earned more value than planned (ahead) and spent less than that value (under budget). This is the best possible scenario. Choice B has both signs reversed. Choice C and D each get one measure wrong.',
       hint: 'Positive SV = ahead of schedule. Positive CV = under budget. Check which values BCWP exceeds.',
       steps: [
         { text: '$BCWP > BCWS \\Rightarrow SV = BCWP - BCWS > 0$ (ahead of schedule).', latex: null },
@@ -136,7 +136,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'CV = BCWP - ACWP = 720,000 - 760,000 = -40,000 (over budget). SV = BCWP - BCWS = 720,000 - 800,000 = -80,000 (behind schedule). Both are negative, meaning the project is both over budget and behind schedule. Choice B swaps the two variance values. Choice C flips both signs. Choice D gets CV right but SV wrong.',
+      eli5: '$CV = BCWP - ACWP = 720{,}000 - 760{,}000 = -40{,}000$ (over budget). $SV = BCWP - BCWS = 720{,}000 - 800{,}000 = -80{,}000$ (behind schedule). Both are negative, meaning the project is both over budget and behind schedule. Choice B swaps the two variance values. Choice C flips both signs. Choice D gets CV right but SV wrong.',
       hint: 'CV = Earned - Actual. SV = Earned - Planned. BCWP appears in both formulas.',
       steps: [
         { text: 'Cost variance:', latex: 'CV = BCWP - ACWP = 720{,}000 - 760{,}000 = -40{,}000' },
@@ -186,7 +186,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'SV = BCWP - BCWS = 500,000 - 500,000 = 0, so the project IS on schedule. But CV = BCWP - ACWP = 500,000 - 600,000 = -100,000, meaning the project is 100,000 over budget. The PM only checked schedule and ignored cost. SV and CV are independent measures — one can be favorable while the other is unfavorable. Choice B incorrectly assumes SV = 0 means everything is fine. Choice C misuses ACWP for schedule assessment. Choice D is wrong because SV and CV are independent.',
+      eli5: '$SV = BCWP - BCWS = 500{,}000 - 500{,}000 = 0$, so the project IS on schedule. But $CV = BCWP - ACWP = 500{,}000 - 600{,}000 = -100{,}000$, meaning the project is 100,000 over budget. The PM only checked schedule and ignored cost. SV and CV are independent measures \u2014 one can be favorable while the other is unfavorable. Choice B incorrectly assumes $SV = 0$ means everything is fine. Choice C misuses ACWP for schedule assessment. Choice D is wrong because SV and CV are independent.',
       hint: 'SV and CV are independent. Can a project be on schedule but over budget?',
       steps: [
         { text: 'Schedule:', latex: 'SV = BCWP - BCWS = 500{,}000 - 500{,}000 = 0 \\text{ (on schedule)}' },

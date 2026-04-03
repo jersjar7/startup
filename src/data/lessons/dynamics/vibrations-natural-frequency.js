@@ -121,7 +121,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'The trick is that the spring stiffness isn\'t given directly. You find k from the static deflection: at equilibrium, the spring force equals the weight, so k = mg/delta = 25(9.81)/0.05 = 4,905 N/m. Then compute omega_n = sqrt(k/m) = sqrt(4905/25) = 14.0 rad/s. The period is T = 2pi/omega_n = 0.449 s, which rounds to 0.45 s. Choice C (2.22) gives omega_n divided by 2pi (that\'s frequency in Hz, not the period). Choice A is T/2pi.',
+      eli5: 'The trick is that the spring stiffness isn\'t given directly. You find $k$ from the static deflection: at equilibrium, the spring force equals the weight, so $k = mg/\\delta = 25(9.81)/0.05 = 4905$ N/m. Then compute $\\omega_n = \\sqrt{k/m} = \\sqrt{4905/25} = 14.0$ rad/s. The period is $T = 2\\pi/\\omega_n = 0.449$ s, which rounds to 0.45 s. Choice C (2.22) gives $\\omega_n$ divided by $2\\pi$ (that\'s frequency in Hz, not the period). Choice A is $T/2\\pi$.',
       hint: 'Find the spring stiffness from the static deflection first: k = weight / deflection.',
       steps: [
         { text: 'Find spring stiffness from static equilibrium:', latex: 'k = \\frac{mg}{\\delta} = \\frac{25 \\times 9.81}{0.05} = 4{,}905 \\text{ N/m}' },
@@ -132,8 +132,8 @@ export default {
       handbookFormula: '\\omega_n = \\sqrt{k/m}',
       videoUrl: null,
       traps: [
-        'Reporting omega_n or f_n when the problem asks for period T',
-        'Using the static deflection as the amplitude instead of using it to find k',
+        'Reporting $\\omega_n$ or $f_n$ when the problem asks for period $T$',
+        'Using the static deflection as the amplitude instead of using it to find $k$',
       ],
       diagram: null,
     },
@@ -149,7 +149,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Springs in parallel add directly: k_eq = k1 + k2 = 3,000 + 6,000 = 9,000 N/m. Then omega_n = sqrt(9000/10) = 30 rad/s. Convert to Hz: f_n = 30/(2pi) = 4.77 Hz. Choice D (3.47 Hz) comes from using the series combination (1/k1 + 1/k2)^(-1) = 2,000 N/m instead of parallel. Choice C (30) is omega_n in rad/s, not Hz. Choice B uses k1 alone.',
+      eli5: 'Springs in parallel add directly: $k_{eq} = k_1 + k_2 = 3000 + 6000 = 9000$ N/m. Then $\\omega_n = \\sqrt{9000/10} = 30$ rad/s. Convert to Hz: $f_n = 30/(2\\pi) = 4.77$ Hz. Choice D (3.47 Hz) comes from using the series combination $(1/k_1 + 1/k_2)^{-1} = 2000$ N/m instead of parallel. Choice C (30) is $\\omega_n$ in rad/s, not Hz. Choice B uses $k_1$ alone.',
       hint: 'Springs in parallel share the same displacement. How do you combine their stiffnesses?',
       steps: [
         { text: 'Equivalent stiffness for parallel springs:', latex: 'k_{eq} = k_1 + k_2 = 3{,}000 + 6{,}000 = 9{,}000 \\text{ N/m}' },
@@ -160,8 +160,8 @@ export default {
       handbookFormula: '\\omega_n = \\sqrt{k/m}',
       videoUrl: null,
       traps: [
-        'Using the series formula (1/k1 + 1/k2)^(-1) instead of parallel (k1 + k2)',
-        'Reporting omega_n in rad/s instead of converting to Hz',
+        'Using the series formula $(1/k_1 + 1/k_2)^{-1}$ instead of parallel ($k_1 + k_2$)',
+        'Reporting $\\omega_n$ in rad/s instead of converting to Hz',
       ],
       diagram: null,
     },
@@ -177,8 +177,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'First convert f_n = 5 Hz to omega_n = 2pi(5) = 31.42 rad/s. Then find k from omega_n = sqrt(k/m): k = m * omega_n^2 = 2(31.42^2) = 1,975 N/m. The critical damping coefficient is c_c = 2*sqrt(k*m) = 2*sqrt(1975 * 2) = 2(62.85) = 125.7 N-s/m. Finally, zeta = c/c_c = 40/125.7 = 0.318, approximately 0.32. Choice B (0.64) doubles the correct answer. Choice C (1.0) would be critically damped.',
-      hint: 'Convert Hz to rad/s, then find k. The critical damping coefficient is c_c = 2*sqrt(km).',
+      eli5: 'First convert $f_n = 5$ Hz to $\\omega_n = 2\\pi(5) = 31.42$ rad/s. Then find $k$ from $\\omega_n = \\sqrt{k/m}$: $k = m \\omega_n^2 = 2(31.42^2) = 1975$ N/m. The critical damping coefficient is $c_c = 2\\sqrt{km} = 2\\sqrt{1975 \\times 2} = 2(62.85) = 125.7$ N·s/m. Finally, $\\zeta = c/c_c = 40/125.7 = 0.318$, approximately 0.32. Choice B (0.64) doubles the correct answer. Choice C (1.0) would be critically damped.',
+      hint: 'Convert Hz to rad/s, then find $k$. The critical damping coefficient is $c_c = 2\\sqrt{km}$.',
       steps: [
         { text: 'Convert frequency to rad/s:', latex: '\\omega_n = 2\\pi f_n = 2\\pi(5) = 31.42 \\text{ rad/s}' },
         { text: 'Find spring stiffness:', latex: 'k = m\\omega_n^2 = 2(31.42)^2 = 1{,}975 \\text{ N/m}' },
@@ -189,8 +189,8 @@ export default {
       handbookFormula: '\\zeta = \\frac{c}{2\\sqrt{km}}',
       videoUrl: null,
       traps: [
-        'Forgetting to convert Hz to rad/s before computing k',
-        'Using c_c = sqrt(km) instead of 2*sqrt(km), doubling the damping ratio',
+        'Forgetting to convert Hz to rad/s before computing $k$',
+        'Using $c_c = \\sqrt{km}$ instead of $2\\sqrt{km}$, doubling the damping ratio',
       ],
       diagram: null,
     },
@@ -206,8 +206,8 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'When zeta > 1, the system is overdamped. It returns to equilibrium without oscillating, but it does so slower than the critically damped case (zeta = 1). Choice A describes an undamped system (zeta = 0). Choice B describes underdamped (zeta < 1). Choice D describes critically damped (zeta = 1 exactly). The key insight is that critical damping is the fastest non-oscillatory return. Adding more damping beyond that actually slows the response down, which is counterintuitive.',
-      hint: 'What are the three damping regimes, and which one does zeta = 1.2 fall into?',
+      eli5: 'When $\\zeta > 1$, the system is overdamped. It returns to equilibrium without oscillating, but it does so slower than the critically damped case ($\\zeta = 1$). Choice A describes an undamped system ($\\zeta = 0$). Choice B describes underdamped ($\\zeta < 1$). Choice D describes critically damped ($\\zeta = 1$ exactly). The key insight is that critical damping is the fastest non-oscillatory return. Adding more damping beyond that actually slows the response down, which is counterintuitive.',
+      hint: 'What are the three damping regimes, and which one does $\\zeta = 1.2$ fall into?',
       steps: [
         { text: '$\\zeta < 1$: underdamped (oscillates with decaying amplitude).', latex: null },
         { text: '$\\zeta = 1$: critically damped (fastest non-oscillatory return to equilibrium).', latex: null },

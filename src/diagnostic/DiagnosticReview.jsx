@@ -154,7 +154,7 @@ export function DiagnosticReview({ userName }) {
                   {examProblem?.eli5 && (
                     <div className="drev-eli5">
                       <div className="drev-eli5-title">Explain like I'm 5</div>
-                      <p>{examProblem.eli5}</p>
+                      <p><MathText text={examProblem.eli5} /></p>
                     </div>
                   )}
 

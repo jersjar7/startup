@@ -127,7 +127,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'You are choosing a group, not ranking people, so order does not matter. That means combinations. Plug into C(12,4) = 12!/(4! times 8!) = 495. Choice B (11,880) is the permutation P(12,4), which counts ordered arrangements. Choice C (48) is 12 times 4, a common mental shortcut that does not apply here. Choice D (20,736) is 12 to the 4th power, which would be picks with replacement.',
+      eli5: 'You are choosing a group, not ranking people, so order does not matter. That means combinations. Plug into $C(12,4) = 12!/(4! \\times 8!) = 495$. Choice B (11,880) is the permutation $P(12,4)$, which counts ordered arrangements. Choice C (48) is $12 \\times 4$, a common mental shortcut that does not apply here. Choice D (20,736) is $12^4$, which would be picks with replacement.',
       hint: 'Are you arranging the workers in order, or just picking a group?',
       steps: [
         { text: 'Order does not matter, so use combinations:', latex: 'C(12, 4) = \\frac{12!}{4!\\,(12-4)!} = \\frac{12!}{4!\\,8!}' },
@@ -136,7 +136,7 @@ export default {
       handbookPage: 'p. 64',
       handbookFormula: 'C(n, r) = \\frac{n!}{r!\\,(n-r)!}',
       videoUrl: null,
-      traps: ['Using permutations instead of combinations (gives 11,880)', 'Computing n times r instead of the combination formula'],
+      traps: ['Using permutations instead of combinations (gives 11,880)', 'Computing $n \\times r$ instead of the combination formula'],
       diagram: null,
     },
     {
@@ -151,7 +151,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'This is a binomial problem with n=15, x=14, p=0.95, q=0.05. Compute C(15,14) times 0.95 to the 14th times 0.05 to the 1st. C(15,14)=15. Then 15 times 0.95^14 times 0.05 = 15 times 0.4877 times 0.05 = 0.366. Choice B (0.463) is P(X=15), the probability all 15 pass. Choice C (0.950) is just p by itself. Choice D (0.171) is what you get if you use p=0.05 and q=0.95 (swapped success and failure).',
+      eli5: 'This is a binomial problem with $n=15$, $x=14$, $p=0.95$, $q=0.05$. Compute $C(15,14) \\times 0.95^{14} \\times 0.05^{1}$. $C(15,14)=15$. Then $15 \\times 0.4877 \\times 0.05 = 0.366$. Choice B (0.463) is $P(X=15)$, the probability all 15 pass. Choice C (0.950) is just $p$ by itself. Choice D (0.171) is what you get if you use $p=0.05$ and $q=0.95$ (swapped success and failure).',
       hint: 'Identify $n$, $x$, $p$, and $q$, then plug into the binomial formula. Do not forget the $C(n,x)$ term.',
       steps: [
         { text: 'Identify parameters: $n = 15$, $x = 14$, $p = 0.95$, $q = 0.05$.', latex: null },
@@ -162,7 +162,7 @@ export default {
       handbookPage: 'p. 66',
       handbookFormula: 'P(X = x) = C(n, x)\\,p^x(1-p)^{n-x}',
       videoUrl: null,
-      traps: ['Computing P(all 15 pass) instead of P(exactly 14 pass)', 'Swapping p and q in the formula'],
+      traps: ['Computing $P(\\text{all 15 pass})$ instead of $P(\\text{exactly 14 pass})$', 'Swapping $p$ and $q$ in the formula'],
       diagram: null,
     },
     {
@@ -177,7 +177,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Convert the design flow to a z-score: (1090 - 850)/120 = 2.0. The table gives F(2.0) = 0.9772, which is the area to the LEFT. You want the area to the RIGHT (exceeds), so subtract from 1: 1 - 0.9772 = 0.0228 = 2.28%. Choice B (97.72%) is the area below the design flow, not above it. Choice C (4.56%) doubles the tail area as if it were a two-tailed problem. Choice D (2.00%) confuses the z-score value with the probability.',
+      eli5: 'Convert the design flow to a z-score: $(1090 - 850)/120 = 2.0$. The table gives $F(2.0) = 0.9772$, which is the area to the LEFT. You want the area to the RIGHT (exceeds), so subtract from 1: $1 - 0.9772 = 0.0228 = 2.28\\%$. Choice B (97.72%) is the area below the design flow, not above it. Choice C (4.56%) doubles the tail area as if it were a two-tailed problem. Choice D (2.00%) confuses the z-score value with the probability.',
       hint: 'Compute the z-score, then use $R(z) = 1 - F(z)$ for the right-tail probability.',
       steps: [
         { text: 'Compute the z-score:', latex: 'z = \\frac{x - \\mu}{\\sigma} = \\frac{1{,}090 - 850}{120} = \\frac{240}{120} = 2.0' },
@@ -202,7 +202,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'The key clues are: fixed number of trials (20), each trial has two outcomes (pass or fail), and the trials are independent. That is the textbook definition of a binomial setting. The normal distribution applies to continuous measurements, not discrete pass/fail counts. The Poisson distribution models the number of events in a continuous interval (like defects per meter), not a fixed number of trials. The uniform distribution means every outcome is equally likely, which does not match pass/fail with a specific probability.',
+      eli5: 'The key clues are: fixed number of trials ($n = 20$), each trial has two outcomes (pass or fail), and the trials are independent. That is the textbook definition of a binomial setting. The normal distribution applies to continuous measurements, not discrete pass/fail counts. The Poisson distribution models the number of events in a continuous interval (like defects per meter), not a fixed number of trials. The uniform distribution means every outcome is equally likely, which does not match pass/fail with a specific probability.',
       hint: 'Look for the hallmarks: fixed trials, two outcomes, independence.',
       steps: [
         { text: 'Check the conditions: fixed number of trials ($n = 20$), two outcomes (pass/fail), independent tests, constant probability of failure.', latex: null },

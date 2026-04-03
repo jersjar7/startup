@@ -118,7 +118,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'If you use K = 1.0 instead of 1.486, you get Q_wrong = Q_correct / 1.486, which means your answer is about 67% of the correct value. That is an underestimate of about 33%. This is a classic FE trap because forgetting the conversion factor does not produce an obviously wrong answer. Choice B reverses the direction of the error. Choice C ignores the factor entirely. Choice D confuses the percentage.',
+      eli5: 'If you use $K = 1.0$ instead of 1.486, you get $Q_{wrong} = Q_{correct}/1.486$, which means your answer is about 67% of the correct value. That is an underestimate of about 33%. This is a classic FE trap because forgetting the conversion factor does not produce an obviously wrong answer. Choice B reverses the direction of the error. Choice C ignores the factor entirely. Choice D confuses the percentage.',
       hint: 'Compare $Q$ with $K = 1.0$ to $Q$ with $K = 1.486$. The ratio tells you how far off you are.',
       steps: [
         { text: 'Correct discharge uses $K = 1.486$:', latex: 'Q_{correct} = \\frac{1.486}{n} A R_H^{2/3} S^{1/2}' },
@@ -144,7 +144,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a trapezoid with 2:1 side slopes: A = (b + zy)y = (3 + 2 x 1.5)(1.5) = 6 x 1.5 = 9.0 m^2. P = b + 2y*sqrt(1 + z^2) = 3 + 2(1.5)sqrt(1 + 4) = 3 + 3*sqrt(5) = 3 + 6.708 = 9.708 m. R_H = 9.0/9.708 = 0.927 m. SI units so K = 1.0. Q = (1/0.022)(9.0)(0.927)^(2/3)(0.0004)^(1/2) = 45.45 x 9.0 x 0.950 x 0.02 = 4.8 m^3/s. Choice B uses K = 1.486 (wrong for SI). Choice C omits the side slopes from the area. Choice D uses the bottom width alone for the wetted perimeter.',
+      eli5: 'For a trapezoid with 2:1 side slopes: $A = (b + zy)y = (3 + 2 \\times 1.5)(1.5) = 6 \\times 1.5 = 9.0$ m$^2$. $P = b + 2y\\sqrt{1 + z^2} = 3 + 2(1.5)\\sqrt{1 + 4} = 3 + 3\\sqrt{5} = 3 + 6.708 = 9.708$ m. $R_H = 9.0/9.708 = 0.927$ m. SI units so $K = 1.0$. $Q = (1/0.022)(9.0)(0.927)^{2/3}(0.0004)^{1/2} = 45.45 \\times 9.0 \\times 0.950 \\times 0.02 = 4.8$ m$^3$/s. Choice B uses $K = 1.486$ (wrong for SI). Choice C omits the side slopes from the area. Choice D uses the bottom width alone for the wetted perimeter.',
       hint: 'For a trapezoid: $A = (b + zy)y$ and $P = b + 2y\\sqrt{1+z^2}$. Use $K = 1.0$ for SI.',
       steps: [
         { text: 'Flow area (trapezoid, $z = 2$):', latex: 'A = (b + zy)y = (3 + 2 \\times 1.5)(1.5) = 6 \\times 1.5 = 9.0\\,\\text{m}^2' },
@@ -171,7 +171,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'R_H = A/P. For a full circle: A = pi*D^2/4 and P = pi*D. So R_H = (pi*D^2/4) / (pi*D) = D/4. Many students pick D/2 because they confuse hydraulic radius with the geometric radius. The hydraulic radius is area divided by wetted perimeter, not the pipe radius. Choice B is the geometric radius. Choice C is the diameter itself. Choice D is the area divided by D, not by pi*D.',
+      eli5: '$R_H = A/P$. For a full circle: $A = \\pi D^2/4$ and $P = \\pi D$. So $R_H = (\\pi D^2/4)/(\\pi D) = D/4$. Many students pick $D/2$ because they confuse hydraulic radius with the geometric radius. The hydraulic radius is area divided by wetted perimeter, not the pipe radius. Choice B is the geometric radius. Choice C is the diameter itself. Choice D is the area divided by $D$, not by $\\pi D$.',
       hint: 'Hydraulic radius = $A/P$. For a full pipe, $A = \\pi D^2/4$ and $P = \\pi D$.',
       steps: [
         { text: 'Full pipe area:', latex: 'A = \\frac{\\pi D^2}{4}' },
@@ -196,7 +196,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'This requires trial and error. Manning\'s: Q = (1.486/n) A R_H^(2/3) S^(1/2). Try y = 2.3 ft: A = 6 x 2.3 = 13.8 ft^2, P = 6 + 2(2.3) = 10.6 ft, R_H = 13.8/10.6 = 1.302 ft. Q = (1.486/0.013)(13.8)(1.302)^(2/3)(0.0009)^(1/2) = 114.3 x 13.8 x 1.195 x 0.03 = 56.5 cfs. Try y = 2.2: A = 13.2, P = 10.4, R_H = 1.269, Q = 114.3 x 13.2 x 1.174 x 0.03 = 53.1. At y = 2.1: Q = 49.9. So normal depth is between 2.1 and 2.3, approximately 2.3 ft is the closest answer. Choice B underestimates by using K = 1.0 instead of 1.486. Choice C overestimates area. Choice D assumes R_H = y.',
+      eli5: 'This requires trial and error. Manning\'s: $Q = (1.486/n)\\,A\\,R_H^{2/3}\\,S^{1/2}$. Try $y = 2.3$ ft: $A = 6 \\times 2.3 = 13.8$ ft$^2$, $P = 6 + 2(2.3) = 10.6$ ft, $R_H = 13.8/10.6 = 1.302$ ft. $Q = (1.486/0.013)(13.8)(1.302)^{2/3}(0.0009)^{1/2} = 114.3 \\times 13.8 \\times 1.195 \\times 0.03 = 56.5$ cfs. Try $y = 2.2$: $A = 13.2$, $P = 10.4$, $R_H = 1.269$, $Q = 53.1$. At $y = 2.1$: $Q = 49.9$. So normal depth is between 2.1 and 2.3, approximately 2.3 ft is the closest answer. Choice B underestimates by using $K = 1.0$ instead of 1.486. Choice C overestimates area. Choice D assumes $R_H = y$.',
       hint: 'Set up Manning\'s equation and solve for depth by trial. Remember $K = 1.486$ for USCS.',
       steps: [
         { text: 'Manning\'s equation rearranged:', latex: '50 = \\frac{1.486}{0.013}(6y)\\left(\\frac{6y}{6+2y}\\right)^{2/3}(0.0009)^{1/2}' },
@@ -208,7 +208,7 @@ export default {
       handbookPage: 'p. 297',
       handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
       videoUrl: null,
-      traps: ['Forgetting the USCS factor K = 1.486 shifts the answer significantly', 'Assuming R_H equals the depth y instead of computing A/P'],
+      traps: ['Forgetting the USCS factor $K = 1.486$ shifts the answer significantly', 'Assuming $R_H$ equals the depth $y$ instead of computing $A/P$'],
       diagram: null,
     },
   ],

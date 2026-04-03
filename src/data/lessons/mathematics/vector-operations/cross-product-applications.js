@@ -100,7 +100,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Forgetting to divide by 2 — the cross product magnitude gives the parallelogram area, not the triangle area",
-        "Using the dot product instead of the cross product — the dot product gives a scalar related to cos θ, not an area"
+        "Using the dot product instead of the cross product — the dot product gives a scalar related to $\\cos\\theta$, not an area"
       ],
       "diagram": null
     }
@@ -190,7 +190,7 @@ export default {
       "videoUrl": null,
       "traps": [
         "Forgetting to divide by 2 — the cross product gives parallelogram area, not triangle area",
-        "Sign error in the k component: (3)(4) - (1)(-1) = 13, not 11"
+        "Sign error in the $\\hat{k}$ component: $(3)(4) - (1)(-1) = 13$, not 11"
       ],
       "diagram": null
     },

@@ -117,7 +117,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Q = CIA = 0.70 x 5.5 x 30 = 115.5 cfs. Straight plug-and-chug with no unit conversion needed since 1 acre-in./hr is approximately 1 cfs. Choice B ignores C and computes Q = IA = 5.5 x 30 = 165. Choice C divides by 2 for no valid reason. Choice D converts acres to hectares unnecessarily.',
+      eli5: '$Q = CIA = 0.70 \\times 5.5 \\times 30 = 115.5$ cfs. Straight plug-and-chug with no unit conversion needed since 1 acre-in./hr is approximately 1 cfs. Choice B ignores $C$ and computes $Q = IA = 5.5 \\times 30 = 165$. Choice C divides by 2 for no valid reason. Choice D converts acres to hectares unnecessarily.',
       hint: 'Q = CIA. The units work out directly \u2014 no conversion factor needed.',
       steps: [
         { text: 'Apply the Rational Method:', latex: 'Q = CIA = 0.70 \\times 5.5 \\times 30' },
@@ -141,7 +141,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'First find S: S = 1000/CN - 10 = 1000/75 - 10 = 13.33 - 10 = 3.33 in. Initial abstraction = 0.2S = 0.667 in. Since P = 6.0 > 0.667, runoff occurs. Q = (P - 0.2S)^2/(P + 0.8S) = (6.0 - 0.667)^2/(6.0 + 2.667) = (5.333)^2/8.667 = 28.44/8.667 = 3.28 in. Choice B assumes all rainfall becomes runoff. Choice C uses (P - S) instead of (P - 0.2S) in the numerator. Choice D uses P x CN/100 which is not the SCS formula.',
+      eli5: 'First find $S$: $S = 1000/CN - 10 = 1000/75 - 10 = 13.33 - 10 = 3.33$ in. Initial abstraction $= 0.2S = 0.667$ in. Since $P = 6.0 > 0.667$, runoff occurs. $Q = (P - 0.2S)^2/(P + 0.8S) = (6.0 - 0.667)^2/(6.0 + 2.667) = (5.333)^2/8.667 = 28.44/8.667 = 3.28$ in. Choice B assumes all rainfall becomes runoff. Choice C uses $(P - S)$ instead of $(P - 0.2S)$ in the numerator. Choice D uses $P \\times CN/100$ which is not the SCS formula.',
       hint: 'First compute $S = 1000/CN - 10$, then check that $P > 0.2S$, then plug into $Q = (P - 0.2S)^2/(P + 0.8S)$.',
       steps: [
         { text: 'Maximum retention:', latex: 'S = \\frac{1{,}000}{CN} - 10 = \\frac{1{,}000}{75} - 10 = 3.33\\text{ in.}' },
@@ -167,7 +167,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'S = 1000/CN - 10. For CN = 98: S = 1000/98 - 10 = 0.20 in. (almost no retention). For CN = 55: S = 1000/55 - 10 = 8.18 in. (lots of retention). Higher CN means a more impervious surface, so less water is retained in the soil and more becomes runoff. Choice B reverses the relationship. Choice C ignores that S is computed directly from CN. Choice D confuses S with storm parameters.',
+      eli5: '$S = 1000/CN - 10$. For $CN = 98$: $S = 1000/98 - 10 = 0.20$ in. (almost no retention). For $CN = 55$: $S = 1000/55 - 10 = 8.18$ in. (lots of retention). Higher $CN$ means a more impervious surface, so less water is retained in the soil and more becomes runoff. Choice B reverses the relationship. Choice C ignores that $S$ is computed directly from $CN$. Choice D confuses $S$ with storm parameters.',
       hint: 'Look at the formula $S = 1000/CN - 10$. What happens to $S$ when CN increases toward 100?',
       steps: [
         { text: 'Retention for CN = 98:', latex: 'S = \\frac{1{,}000}{98} - 10 = 0.20\\text{ in.}' },
@@ -192,7 +192,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'With P = 0 (rain falls on the watershed, not directly counted here), Q_g = 0, E_s = 0, T_s = 0, and I = 0, the balance simplifies to Q_in - Q_out = delta S. Since Q_in > Q_out, delta S > 0, meaning storage is increasing. The pond is filling up, which is exactly the purpose of detention \u2014 temporarily store peak flows to reduce downstream flooding. Choice B is wrong because although water is leaving, more is entering. Choice C confuses mass balance with zero change. Choice D ignores that inflow/outflow are the dominant terms for a pond.',
+      eli5: 'With $P = 0$ (rain falls on the watershed, not directly counted here), $Q_g = 0$, $E_s = 0$, $T_s = 0$, and $I = 0$, the balance simplifies to $Q_{in} - Q_{out} = \\Delta S$. Since $Q_{in} > Q_{out}$, $\\Delta S > 0$, meaning storage is increasing. The pond is filling up, which is exactly the purpose of detention \u2014 temporarily store peak flows to reduce downstream flooding. Choice B is wrong because although water is leaving, more is entering. Choice C confuses mass balance with zero change. Choice D ignores that inflow/outflow are the dominant terms for a pond.',
       hint: 'Simplify the mass balance by setting all zero terms to zero. What sign does $\\Delta S_s$ have when $Q_{in} > Q_{out}$?',
       steps: [
         { text: 'Simplify with all zero terms removed:', latex: 'Q_{in} - Q_{out} = \\Delta S_s' },

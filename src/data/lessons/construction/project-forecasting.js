@@ -111,7 +111,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'CPI = BCWP / ACWP. A CPI of 1.12 means for every dollar of actual cost, the project earns 1.12 of budgeted value. CPI > 1.0 = under budget (getting more value per dollar spent). Choice B reverses the interpretation — over budget would be CPI < 1.0. Choice C confuses CPI (cost) with SPI (schedule). Choice D misinterprets the index as a multiplier on total cost.',
+      eli5: '$CPI = BCWP / ACWP$. A CPI of 1.12 means for every dollar of actual cost, the project earns 1.12 of budgeted value. $CPI > 1.0$ = under budget (getting more value per dollar spent). Choice B reverses the interpretation \u2014 over budget would be $CPI < 1.0$. Choice C confuses CPI (cost) with SPI (schedule). Choice D misinterprets the index as a multiplier on total cost.',
       hint: 'CPI > 1.0 means you earn more than you spend. Is that good or bad for the budget?',
       steps: [
         { text: 'CPI = 1.12 > 1.0.', latex: null },
@@ -136,7 +136,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'First find CPI = BCWP / ACWP = 900,000 / 1,000,000 = 0.90. Then ETC = (BAC - BCWP) / CPI = (1,500,000 - 900,000) / 0.90 = 600,000 / 0.90 = 666,667. Finally EAC = ACWP + ETC = 1,000,000 + 666,667 = 1,666,667. Choice B used ETC without dividing by CPI (600,000 + 1,000,000 = 1,600,000). Choice C is BAC with no adjustment. Choice D used BAC / CPI directly, which is a shortcut that should give the same answer — let us check: 1,500,000 / 0.90 = 1,666,667. So A is correct either way.',
+      eli5: 'First find $CPI = BCWP / ACWP = 900{,}000 / 1{,}000{,}000 = 0.90$. Then $ETC = (BAC - BCWP) / CPI = (1{,}500{,}000 - 900{,}000) / 0.90 = 600{,}000 / 0.90 = 666{,}667$. Finally $EAC = ACWP + ETC = 1{,}000{,}000 + 666{,}667 = 1{,}666{,}667$. Choice B used ETC without dividing by CPI ($600{,}000 + 1{,}000{,}000 = 1{,}600{,}000$). Choice C is BAC with no adjustment. Choice D used $BAC / CPI$ directly, which is a shortcut that should give the same answer \u2014 $1{,}500{,}000 / 0.90 = 1{,}666{,}667$. So A is correct either way.',
       hint: 'EAC = ACWP + (BAC - BCWP) / CPI. Or equivalently, EAC = BAC / CPI.',
       steps: [
         { text: 'Cost Performance Index:', latex: 'CPI = \\frac{900{,}000}{1{,}000{,}000} = 0.90' },
@@ -161,7 +161,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For Alpha: CPI = 0.85 < 1.0, so over budget. SPI = 1.05 > 1.0, so ahead of schedule. For Beta: CPI = 1.10 > 1.0, so under budget. SPI = 0.88 < 1.0, so behind schedule. The threshold is 1.0 for both indices — above is favorable, below is unfavorable. Choice B reverses both interpretations. Choice C ignores that Beta CPI > 1.0. Choice D ignores that Alpha SPI > 1.0.',
+      eli5: 'For Alpha: $CPI = 0.85 < 1.0$, so over budget. $SPI = 1.05 > 1.0$, so ahead of schedule. For Beta: $CPI = 1.10 > 1.0$, so under budget. $SPI = 0.88 < 1.0$, so behind schedule. The threshold is 1.0 for both indices \u2014 above is favorable, below is unfavorable. Choice B reverses both interpretations. Choice C ignores that Beta $CPI > 1.0$. Choice D ignores that Alpha $SPI > 1.0$.',
       hint: 'Index > 1.0 = favorable. Index < 1.0 = unfavorable. CPI for cost, SPI for schedule.',
       steps: [
         { text: 'Alpha: $CPI = 0.85 < 1.0$ (over budget), $SPI = 1.05 > 1.0$ (ahead of schedule).', latex: null },

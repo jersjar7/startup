@@ -116,7 +116,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'BOD_3 = L0(1 - e^(-kt)) = 250(1 - e^(-0.23 x 3)) = 250(1 - e^(-0.69)) = 250(1 - 0.502) = 250 x 0.498 = 125 mg/L. About half the ultimate BOD has been exerted by day 3. Choice B gives the ultimate BOD, not the 3-day value. Choice C is roughly BOD_1 (one day exertion). Choice D is the BOD_5 value, not BOD_3.',
+      eli5: '$BOD_3 = L_0(1 - e^{-kt}) = 250(1 - e^{-0.23 \\times 3}) = 250(1 - e^{-0.69}) = 250(1 - 0.502) = 250 \\times 0.498 = 125$ mg/L. About half the ultimate BOD has been exerted by day 3. Choice B gives the ultimate BOD, not the 3-day value. Choice C is roughly $BOD_1$ (one day exertion). Choice D is the $BOD_5$ value, not $BOD_3$.',
       hint: 'Use $BOD_t = L_0(1 - e^{-kt})$ with $t = 3$ days.',
       steps: [
         { text: 'BOD exertion formula:', latex: 'BOD_3 = L_0(1 - e^{-kt}) = 250(1 - e^{-0.23 \\times 3})' },
@@ -166,7 +166,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Rearrange: L0 = BOD5/(1 - e^(-kt)) = 150/(1 - e^(-0.15 x 5)) = 150/(1 - e^(-0.75)) = 150/(1 - 0.472) = 150/0.528 = 284 mg/L. At this slower decay rate, the 5-day test captures only about 53% of the ultimate BOD, so L0 is nearly double the BOD5. Choice B assumes BOD5 = L0. Choice C uses L0 = 1.5 x BOD5 (a rough approximation, but not correct here). Choice D multiplies by 5.',
+      eli5: 'Rearrange: $L_0 = BOD_5/(1 - e^{-kt}) = 150/(1 - e^{-0.15 \\times 5}) = 150/(1 - e^{-0.75}) = 150/(1 - 0.472) = 150/0.528 = 284$ mg/L. At this slower decay rate, the 5-day test captures only about 53% of the ultimate BOD, so $L_0$ is nearly double the $BOD_5$. Choice B assumes $BOD_5 = L_0$. Choice C uses $L_0 = 1.5 \\times BOD_5$ (a rough approximation, but not correct here). Choice D multiplies by 5.',
       hint: 'Rearrange $BOD_t = L_0(1 - e^{-kt})$ to solve for $L_0$.',
       steps: [
         { text: 'Rearrange:', latex: 'L_0 = \\frac{BOD_5}{1 - e^{-kt}}' },
@@ -191,7 +191,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'k_30 = k_20 x theta^(T-20) = 0.20 x 1.056^10 = 0.20 x 1.724 = 0.345, approximately 0.34 day^-1. Higher temperature speeds up microbial metabolism, so organic matter decomposes faster and the BOD rate constant increases. While it is true that warmer water holds less DO (which affects the oxygen balance), the rate constant itself increases with temperature. Choice B confuses the effect on DO saturation with the effect on k. Choice C ignores temperature dependence entirely. Choice D overestimates by using a larger theta value or miscalculating the power.',
+      eli5: '$k_{30} = k_{20} \\times \\theta^{(T-20)} = 0.20 \\times 1.056^{10} = 0.20 \\times 1.724 = 0.345$, approximately $0.34$ day$^{-1}$. Higher temperature speeds up microbial metabolism, so organic matter decomposes faster and the BOD rate constant increases. While it is true that warmer water holds less DO (which affects the oxygen balance), the rate constant itself increases with temperature. Choice B confuses the effect on DO saturation with the effect on $k$. Choice C ignores temperature dependence entirely. Choice D overestimates by using a larger $\\theta$ value or miscalculating the power.',
       hint: 'Plug in $T = 30$ to get the exponent $(30 - 20) = 10$. Then compute $1.056^{10}$.',
       steps: [
         { text: 'Temperature correction:', latex: 'k_{30} = k_{20} \\cdot \\theta^{(T-20)} = 0.20 \\times 1.056^{10}' },

@@ -113,7 +113,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'V = L(A1 + A2)/2 = 50(180 + 220)/2 = 50 x 400/2 = 50 x 200 = 10,000 ft^3. Convert: 10,000/27 = 370 yd^3. Choice B (10,000) is in ft^3, not yd^3 -- forgot to divide by 27. Choice C (741) forgot to divide by 2 in the average: 50 x 400/27 = 741. Choice D (333) used only A1: 50 x 180/27 = 333.',
+      eli5: '$V = L(A_1 + A_2)/2 = 50(180 + 220)/2 = 50 \\times 400/2 = 50 \\times 200 = 10{,}000$ ft$^3$. Convert: $10{,}000/27 = 370$ yd$^3$. Choice B (10,000) is in ft$^3$, not yd$^3$ -- forgot to divide by 27. Choice C (741) forgot to divide by 2 in the average: $50 \\times 400/27 = 741$. Choice D (333) used only $A_1$: $50 \\times 180/27 = 333$.',
       hint: 'Average the two areas, multiply by L, then divide by 27 for yd^3.',
       steps: [
         { text: 'Average end area volume:', latex: 'V = \\frac{50(180 + 220)}{2} = \\frac{50 \\times 400}{2} = 10{,}000 \\text{ ft}^3' },
@@ -137,7 +137,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The average end area method takes (A1 + A2)/2 as the representative cross section for the entire segment. But when A1 and A2 differ, the actual mid-section area Am is typically less than (A1 + A2)/2 because the cross section tapers non-linearly. The prismoidal formula accounts for this by weighting the mid-section 4x. Mathematically, (A1 + 4Am + A2)/6 <= (A1 + A2)/2 when Am < (A1 + A2)/2, which is the typical case. Choice B is wrong -- both methods use the same L. Choice C is backwards -- the prismoidal formula uses Am and is more accurate. Choice D is wrong because the overestimate depends on the difference between the areas, not their absolute size.',
+      eli5: 'The average end area method takes $(A_1 + A_2)/2$ as the representative cross section for the entire segment. But when $A_1$ and $A_2$ differ, the actual mid-section area $A_m$ is typically less than $(A_1 + A_2)/2$ because the cross section tapers non-linearly. The prismoidal formula accounts for this by weighting the mid-section $4\\times$. Mathematically, $(A_1 + 4A_m + A_2)/6 \\leq (A_1 + A_2)/2$ when $A_m < (A_1 + A_2)/2$, which is the typical case. Choice B is wrong -- both methods use the same $L$. Choice C is backwards -- the prismoidal formula uses $A_m$ and is more accurate. Choice D is wrong because the overestimate depends on the difference between the areas, not their absolute size.',
       hint: 'Compare the representative area used by each method. How does the actual mid-section compare to the simple average?',
       steps: [
         { text: 'Average end area uses $(A_1 + A_2)/2$ as the representative area.', latex: null },
@@ -162,7 +162,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Average end area: V_avg = 100(100 + 400)/2 = 25,000 ft^3 = 926 yd^3. Prismoidal: V_prism = 100(100 + 4 x 200 + 400)/6 = 100 x 1,300/6 = 21,667 ft^3 = 802 yd^3. Correction = 926 - 802 = 123 yd^3. Choice B (0) assumes both methods give the same answer. Choice C (926) is the average end area volume itself, not the correction. Choice D (62) halved the correction for no reason.',
+      eli5: 'Average end area: $V_{avg} = 100(100 + 400)/2 = 25{,}000$ ft$^3$ $= 926$ yd$^3$. Prismoidal: $V_{prism} = 100(100 + 4 \\times 200 + 400)/6 = 100 \\times 1{,}300/6 = 21{,}667$ ft$^3$ $= 802$ yd$^3$. Correction $= 926 - 802 = 123$ yd$^3$. Choice B (0) assumes both methods give the same answer. Choice C (926) is the average end area volume itself, not the correction. Choice D (62) halved the correction for no reason.',
       hint: 'Compute both volumes, then subtract. The prismoidal correction is always positive (average end area overestimates).',
       steps: [
         { text: 'Average end area:', latex: 'V_{\\text{avg}} = \\frac{100(100 + 400)}{2} = 25{,}000 \\text{ ft}^3 = 926 \\text{ yd}^3' },
@@ -187,7 +187,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'When soil is excavated, it expands (swells) because of loosening. When it is placed as fill and compacted, it shrinks below the original bank volume (shrinkage). So 5,000 yd^3 of bank cut does not produce 5,000 yd^3 of compacted fill. Depending on the soil, you might get only 4,250 yd^3 of compacted fill from 5,000 yd^3 of bank cut (about 15% shrinkage for typical clay). The engineer would need to borrow additional material. Choice B acknowledges soil type differences but incorrectly claims volume is unaffected. Choice C ignores the volume balance issue. Choice D is wrong because the average end area method overestimates, not gives exact volumes.',
+      eli5: 'When soil is excavated, it expands (swells) because of loosening. When it is placed as fill and compacted, it shrinks below the original bank volume (shrinkage). So 5,000 yd$^3$ of bank cut does not produce 5,000 yd$^3$ of compacted fill. Depending on the soil, you might get only 4,250 yd$^3$ of compacted fill from 5,000 yd$^3$ of bank cut (about 15% shrinkage for typical clay). The engineer would need to borrow additional material. Choice B acknowledges soil type differences but incorrectly claims volume is unaffected. Choice C ignores the volume balance issue. Choice D is wrong because the average end area method overestimates, not gives exact volumes.',
       hint: 'Excavated soil does not maintain its original volume when placed and compacted as fill.',
       steps: [
         { text: 'Bank volume (in-place) is measured before excavation.', latex: null },

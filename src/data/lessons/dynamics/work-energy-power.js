@@ -126,7 +126,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'All potential energy converts to kinetic energy: mgh = half mv-squared. Mass cancels, so v = sqrt(2gh). The answer does not depend on the mass at all. Choice C (196.2) is 2gh without the square root — that is v-squared, not v. Choice D is 2*m*g*h, which is just doubling the wrong answer.',
+      eli5: 'All potential energy converts to kinetic energy: $mgh = \\tfrac{1}{2}mv^2$. Mass cancels, so $v = \\sqrt{2gh}$. The answer does not depend on the mass at all. Choice C (196.2) is $2gh$ without the square root — that is $v^2$, not $v$. Choice D is $2mgh$, which is just doubling the wrong answer.',
       hint: 'With no air resistance, all potential energy converts to kinetic energy. Mass cancels out.',
       steps: [
         { text: 'Conservation of energy (no friction):', latex: 'mgh = \\frac{1}{2}mv^2' },
@@ -135,7 +135,7 @@ export default {
       handbookPage: 'p. 106',
       handbookFormula: 'T_1 + V_1 = T_2 + V_2',
       videoUrl: null,
-      traps: ['Reporting 2gh as the speed instead of taking the square root', 'Thinking mass affects the answer — it cancels in frictionless free fall'],
+      traps: ['Reporting $2gh$ as the speed instead of taking the square root', 'Thinking mass affects the answer — it cancels in frictionless free fall'],
       diagram: null,
     },
     {
@@ -150,7 +150,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'A 6% grade means the road rises 0.06 m for every 1 m of horizontal distance, so sin(theta) is approximately 0.06 for small angles. The component of weight along the slope is mg sin(theta), and power = force times velocity. Choice C uses sin(theta) = 1 (as if it were a vertical wall). Choice A forgets to multiply by g somewhere in the chain.',
+      eli5: 'A 6% grade means the road rises 0.06 m for every 1 m of horizontal distance, so $\\sin\\theta \\approx 0.06$ for small angles. The component of weight along the slope is $mg\\sin\\theta$, and power = force times velocity. Choice C uses $\\sin\\theta = 1$ (as if it were a vertical wall). Choice A forgets to multiply by $g$ somewhere in the chain.',
       hint: 'On a grade, the gravity component along the slope is mg times the grade (for small angles, grade approximates sin theta). Power = F times v.',
       steps: [
         { text: 'Gravity component along the slope (6% grade means $\\sin\\theta \\approx 0.06$):', latex: 'F_g = mg\\sin\\theta = 1{,}200(9.81)(0.06) = 706.3\\,\\text{N}' },
@@ -159,7 +159,7 @@ export default {
       handbookPage: 'p. 107',
       handbookFormula: 'P = F \\cdot v',
       videoUrl: null,
-      traps: ['Forgetting that a 6% grade means sin(theta) = 0.06, not theta = 6 degrees', 'Computing force but forgetting to multiply by velocity to get power'],
+      traps: ['Forgetting that a 6% grade means $\\sin\\theta = 0.06$, not $\\theta = 6°$', 'Computing force but forgetting to multiply by velocity to get power'],
       diagram: null,
     },
     {
@@ -174,7 +174,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'From mgh = half mv-squared, mass appears on both sides and cancels. So v = sqrt(2gh) regardless of mass. The heavier block does have more PE and more KE at the bottom, but since it also has more mass, the speed works out the same. This is the same reason Galileo showed all objects fall at the same rate in a vacuum.',
+      eli5: 'From $mgh = \\tfrac{1}{2}mv^2$, mass appears on both sides and cancels. So $v = \\sqrt{2gh}$ regardless of mass. The heavier block does have more PE and more KE at the bottom, but since it also has more mass, the speed works out the same. This is the same reason Galileo showed all objects fall at the same rate in a vacuum.',
       hint: 'Write out the conservation of energy equation and see what cancels.',
       steps: [
         { text: 'Conservation of energy for each block:', latex: 'mgh = \\frac{1}{2}mv^2' },
@@ -199,7 +199,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'At maximum compression, the block has stopped momentarily (v = 0), so all kinetic energy has been stored as elastic potential energy in the spring. Set half mv-squared = half k x-squared and solve for x. The masses and stiffness must use consistent units (SI). Choice B comes from forgetting to take the square root. Choice D comes from using k/2 instead of k in the denominator.',
+      eli5: 'At maximum compression, the block has stopped momentarily ($v = 0$), so all kinetic energy has been stored as elastic potential energy in the spring. Set $\\tfrac{1}{2}mv^2 = \\tfrac{1}{2}kx^2$ and solve for $x$. The masses and stiffness must use consistent units (SI). Choice B comes from forgetting to take the square root. Choice D comes from using $k/2$ instead of $k$ in the denominator.',
       hint: 'At maximum compression the block is momentarily at rest. Where did all the kinetic energy go?',
       steps: [
         { text: 'All kinetic energy converts to spring potential energy:', latex: '\\frac{1}{2}mv^2 = \\frac{1}{2}kx^2' },

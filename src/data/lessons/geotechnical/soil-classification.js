@@ -117,15 +117,15 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Cu = D60/D10 = 10/0.25 = 40. This is a direct formula plug-in. Choice B (6) is the minimum Cu threshold for well-graded sand, not the calculated value. Choice C (0.90) is the coefficient of concavity Cc = (D30)^2/(D10 x D60). Choice D (4) is the minimum Cu for well-graded gravel.',
-      hint: 'Cu = D60/D10. It measures how spread out the grain sizes are.',
+      eli5: '$C_u = D_{60}/D_{10} = 10/0.25 = 40$. This is a direct formula plug-in. Choice B (6) is the minimum $C_u$ threshold for well-graded sand, not the calculated value. Choice C (0.90) is the coefficient of concavity $C_c = (D_{30})^2/(D_{10} \\times D_{60})$. Choice D (4) is the minimum $C_u$ for well-graded gravel.',
+      hint: '$C_u = D_{60}/D_{10}$. It measures how spread out the grain sizes are.',
       steps: [
         { text: 'Coefficient of uniformity:', latex: 'C_u = \\frac{D_{60}}{D_{10}} = \\frac{10}{0.25} = 40' },
       ],
       handbookPage: 'p. 267',
       handbookFormula: 'C_u = \\frac{D_{60}}{D_{10}}',
       videoUrl: null,
-      traps: ['Confusing Cu with Cc -- Cu uses only D60 and D10, while Cc also uses D30'],
+      traps: ['Confusing $C_u$ with $C_c$ -- $C_u$ uses only $D_{60}$ and $D_{10}$, while $C_c$ also uses $D_{30}$'],
       diagram: null,
     },
     {
@@ -140,7 +140,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: '70% passing #200 means fine-grained. LL = 40 < 50 means low plasticity (L). The problem already tells you the soil plots below the A-line, which means silt (M). So the classification is ML (low-plasticity silt). Choice B (CL) would be above the A-line. Choice C (SM) is a coarse-grained soil with silty fines. Choice D (MH) requires LL >= 50.',
+      eli5: '70% passing #200 means fine-grained. $LL = 40 < 50$ means low plasticity (L). The problem already tells you the soil plots below the A-line, which means silt (M). So the classification is ML (low-plasticity silt). Choice B (CL) would be above the A-line. Choice C (SM) is a coarse-grained soil with silty fines. Choice D (MH) requires $LL \\geq 50$.',
       hint: 'Follow the USCS decision tree: fine or coarse, then LL < or > 50, then above or below the A-line.',
       steps: [
         { text: '70% passes #200 -> fine-grained.', latex: null },
@@ -166,7 +166,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Only 5% passes #200, so the soil is coarse-grained. Of the coarse fraction (95%), 55% passes the No. 4 sieve -- that is more than half, so it is a sand (S), not gravel (G). With < 5% fines, classify by gradation. For sand: Cu >= 6 (8 >= 6, passes) AND 1 <= Cc <= 3 (2.1 is in range, passes). Both criteria met, so it is well-graded sand: SW. Choice B (GW) would require more than half the coarse fraction retained on the No. 4 sieve. Choice C (SP) would have one of the gradation criteria fail. Choice D (SM) requires > 12% fines.',
+      eli5: 'Only 5% passes #200, so the soil is coarse-grained. Of the coarse fraction (95%), 55% passes the No. 4 sieve -- that is more than half, so it is a sand (S), not gravel (G). With < 5% fines, classify by gradation. For sand: $C_u \\geq 6$ ($8 \\geq 6$, passes) AND $1 \\leq C_c \\leq 3$ (2.1 is in range, passes). Both criteria met, so it is well-graded sand: SW. Choice B (GW) would require more than half the coarse fraction retained on the No. 4 sieve. Choice C (SP) would have one of the gradation criteria fail. Choice D (SM) requires > 12% fines.',
       hint: 'First decide sand vs. gravel (based on the No. 4 sieve split of the coarse fraction), then check both Cu and Cc.',
       steps: [
         { text: '5% passes #200 -> coarse-grained.', latex: null },
@@ -192,7 +192,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'PI = LL - PL = 62 - 25 = 37. The soil is fine-grained with LL = 62 > 50, so it is high plasticity (H). A-line at LL = 62: PI_A = 0.73(62 - 20) = 0.73(42) = 30.7. Actual PI = 37 > 30.7, so it plots above the A-line -> clay (C). Classification: CH (fat clay). Choice B (MH) would be below the A-line. Choice C (CL) requires LL < 50. Choice D (OH) is organic soil, which requires comparing oven-dried LL to natural LL -- not determinable from this data alone.',
+      eli5: '$PI = LL - PL = 62 - 25 = 37$. The soil is fine-grained with $LL = 62 > 50$, so it is high plasticity (H). A-line at $LL = 62$: $PI_A = 0.73(62 - 20) = 0.73(42) = 30.7$. Actual $PI = 37 > 30.7$, so it plots above the A-line -- clay (C). Classification: CH (fat clay). Choice B (MH) would be below the A-line. Choice C (CL) requires $LL < 50$. Choice D (OH) is organic soil, which requires comparing oven-dried LL to natural LL -- not determinable from this data alone.',
       hint: 'Compute PI = LL - PL, then compare it to the A-line value at the given LL.',
       steps: [
         { text: 'Plasticity index:', latex: 'PI = LL - PL = 62 - 25 = 37' },

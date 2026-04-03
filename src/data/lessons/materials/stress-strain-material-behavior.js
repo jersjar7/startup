@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Straight P/A problem. Convert kN to N first: 60 kN = 60,000 N. Then \u03C3 = 60,000 / 150 = 400 MPa. Choice B (40 MPa) comes from using 60 instead of 60,000 \u2014 forgetting the kN-to-N conversion. Choice C (4,000) comes from using the area as 15 mm\u00B2. Choice D (200) comes from doubling the area to 300 mm\u00B2.',
+      eli5: 'Straight $P/A$ problem. Convert kN to N first: 60 kN = 60,000 N. Then $\\sigma = 60{,}000 / 150 = 400$ MPa. Choice B (40 MPa) comes from using 60 instead of 60,000 \u2014 forgetting the kN-to-N conversion. Choice C (4,000) comes from using the area as 15 mm\u00B2. Choice D (200) comes from doubling the area to 300 mm\u00B2.',
       hint: 'Convert kN to N before dividing by the area in mm\u00B2. The result is in MPa (N/mm\u00B2 = MPa).',
       steps: [
         { text: 'Convert force to newtons:', latex: 'P = 60 \\text{ kN} = 60{,}000 \\text{ N}' },
@@ -59,8 +59,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Two steps: first find strain, then use Hooke\u2019s law. Strain = \u0394L/L\u2080 = 0.125/50 = 0.0025. Then E = \u03C3/\u03B5 = 175/0.0025 = 70,000 MPa = 70 GPa. The big trap is forgetting to divide \u0394L by the gauge length \u2014 if you use \u03B5 = 0.125 (the elongation itself), you get E = 175/0.125 = 1,400 MPa = 1.4 GPa (choice B). That\u2019s off by a factor of 50.',
-      hint: 'Strain is not the same as elongation. Divide \u0394L by the gauge length to get dimensionless strain first.',
+      eli5: 'Two steps: first find strain, then use Hooke\u2019s law. $\\varepsilon = \\Delta L / L_0 = 0.125/50 = 0.0025$. Then $E = \\sigma / \\varepsilon = 175/0.0025 = 70{,}000$ MPa $= 70$ GPa. The big trap is forgetting to divide $\\Delta L$ by the gauge length \u2014 if you use $\\varepsilon = 0.125$ (the elongation itself), you get $E = 175/0.125 = 1{,}400$ MPa $= 1.4$ GPa (choice B). That\u2019s off by a factor of 50.',
+      hint: 'Strain is not the same as elongation. Divide $\\Delta L$ by the gauge length to get dimensionless strain first.',
       steps: [
         { text: 'Engineering strain:', latex: '\\varepsilon = \\frac{\\Delta L}{L_0} = \\frac{0.125}{50} = 0.0025' },
         { text: 'Elastic modulus from Hooke\u2019s law:', latex: 'E = \\frac{\\sigma}{\\varepsilon} = \\frac{175}{0.0025} = 70{,}000 \\text{ MPa} = 70 \\text{ GPa}' },
@@ -69,7 +69,7 @@ export default {
       handbookFormula: '\\sigma = E\\varepsilon',
       videoUrl: null,
       traps: [
-        'Using elongation \u0394L directly as strain (forgetting to divide by gauge length) \u2014 gives E = 1.4 GPa (choice B)',
+        'Using elongation $\\Delta L$ directly as strain (forgetting to divide by gauge length) \u2014 gives $E = 1.4$ GPa (choice B)',
         'Using wrong gauge length (500 instead of 50) \u2014 gives E = 700 GPa (choice C)',
       ],
       diagram: null,
@@ -85,8 +85,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'True stress is always higher than engineering stress after yielding because the specimen\u2019s cross-section has gotten smaller. The conversion uses volume conservation: \u03C3_T = \u03C3(1 + \u03B5) = 520(1.15) = 598 MPa. Choice B (520) is just the engineering stress \u2014 a student who doesn\u2019t know the conversion. Choice C (452) divides instead of multiplying: 520/1.15. Choice D (78) computes \u03C3 \u00D7 \u03B5 instead of \u03C3 \u00D7 (1 + \u03B5).',
-      hint: 'The relationship between true and engineering stress comes from volume conservation: the actual area is smaller than the original area by a factor of 1/(1 + \u03B5).',
+      eli5: 'True stress is always higher than engineering stress after yielding because the specimen\u2019s cross-section has gotten smaller. The conversion uses volume conservation: $\\sigma_T = \\sigma(1 + \\varepsilon) = 520(1.15) = 598$ MPa. Choice B (520) is just the engineering stress \u2014 a student who doesn\u2019t know the conversion. Choice C (452) divides instead of multiplying: $520/1.15$. Choice D (78) computes $\\sigma \\times \\varepsilon$ instead of $\\sigma \\times (1 + \\varepsilon)$.',
+      hint: 'The relationship between true and engineering stress comes from volume conservation: the actual area is smaller than the original area by a factor of $1/(1 + \\varepsilon)$.',
       steps: [
         { text: 'From volume conservation during plastic deformation:', latex: '\\sigma_T = \\sigma(1 + \\varepsilon)' },
         { text: 'Substitute:', latex: '\\sigma_T = 520(1 + 0.15) = 520 \\times 1.15 = 598 \\text{ MPa}' },
@@ -96,8 +96,8 @@ export default {
       videoUrl: null,
       traps: [
         'Assuming true stress equals engineering stress \u2014 true stress is always higher after yielding (choice B)',
-        'Dividing by (1 + \u03B5) instead of multiplying \u2014 gives 452 MPa (choice C)',
-        'Computing \u03C3 \u00D7 \u03B5 instead of \u03C3 \u00D7 (1 + \u03B5) \u2014 gives 78 MPa (choice D)',
+        'Dividing by $(1 + \\varepsilon)$ instead of multiplying \u2014 gives 452 MPa (choice C)',
+        'Computing $\\sigma \\times \\varepsilon$ instead of $\\sigma \\times (1 + \\varepsilon)$ \u2014 gives 78 MPa (choice D)',
       ],
       diagram: null,
     },
@@ -140,7 +140,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Use Hooke\'s law to find strain first, then multiply by gauge length. Strain = stress/E = 250/200,000 = 0.00125. Then elongation = strain times gauge length = 0.00125 times 200 = 0.25 mm. Choice B (2.5) uses E = 20 GPa instead of 200 GPa -- off by a factor of 10. Choice C (0.025) uses L = 20 mm instead of 200 mm. Choice D (1.25) forgets to convert GPa to MPa and computes 250/200 times 200/200.',
+      eli5: 'Use Hooke\'s law to find strain first, then multiply by gauge length. $\\varepsilon = \\sigma/E = 250/200{,}000 = 0.00125$. Then $\\Delta L = \\varepsilon \\times L_0 = 0.00125 \\times 200 = 0.25$ mm. Choice B (2.5) uses $E = 20$ GPa instead of 200 GPa \u2014 off by a factor of 10. Choice C (0.025) uses $L = 20$ mm instead of 200 mm. Choice D (1.25) forgets to convert GPa to MPa and computes $250/200 \\times 200/200$.',
       hint: 'Find strain from Hooke\'s law first, then multiply by gauge length to get elongation.',
       steps: [
         { text: 'Strain from Hooke\'s law:', latex: '\\varepsilon = \\frac{\\sigma}{E} = \\frac{250}{200{,}000} = 1.25 \\times 10^{-3}' },
@@ -164,7 +164,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Stiffness and strength are different properties. Stiffness is measured by elastic modulus E -- how much a material resists deformation. Strength is measured by yield stress -- how much stress it can carry before permanent deformation. Material A (E = 200 GPa) is stiffer because it has the higher modulus. Material B (yield = 480 MPa) is stronger because it has the higher yield strength. These are independent properties. A classic example: steel is stiffer than aluminum, but some aluminum alloys have higher yield strength than mild steel.',
+      eli5: 'Stiffness and strength are different properties. Stiffness is measured by elastic modulus $E$ \u2014 how much a material resists deformation. Strength is measured by yield stress \u2014 how much stress it can carry before permanent deformation. Material A ($E = 200$ GPa) is stiffer because it has the higher modulus. Material B ($\\sigma_y = 480$ MPa) is stronger because it has the higher yield strength. These are independent properties. A classic example: steel is stiffer than aluminum, but some aluminum alloys have higher yield strength than mild steel.',
       hint: 'Stiffness is about elastic modulus (E), strength is about yield stress. They are independent properties.',
       steps: [
         { text: 'Compare stiffness (elastic modulus): $E_A = 200\\,\\text{GPa} > E_B = 70\\,\\text{GPa}$. Material A is stiffer.', latex: null },

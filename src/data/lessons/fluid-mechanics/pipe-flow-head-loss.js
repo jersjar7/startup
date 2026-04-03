@@ -119,7 +119,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'First check the Reynolds number: Re = vD/nu = 0.8 * 0.05 / 4.5e-4 = 0.04/4.5e-4 = 88.9. Since Re < 2,100, the flow is laminar, so f = 64/Re = 64/88.9 = 0.72. No Moody diagram needed. Choice B uses f = 64/Re but with Re = 3,556 (wrong units somewhere). Choice C divides by 10 extra. Choice D multiplies 64 by Re instead of dividing.',
+      eli5: 'First check the Reynolds number: $Re = vD/\\nu = 0.8 \\times 0.05 / (4.5 \\times 10^{-4}) = 0.04/(4.5 \\times 10^{-4}) = 88.9$. Since $Re < 2{,}100$, the flow is laminar, so $f = 64/Re = 64/88.9 = 0.72$. No Moody diagram needed. Choice B uses $f = 64/Re$ but with $Re = 3{,}556$ (wrong units somewhere). Choice C divides by 10 extra. Choice D multiplies 64 by $Re$ instead of dividing.',
       hint: 'Compute the Reynolds number first. If $Re < 2{,}100$, the flow is laminar and $f = 64/Re$.',
       steps: [
         { text: 'Reynolds number:', latex: 'Re = \\frac{vD}{\\nu} = \\frac{0.8 \\times 0.05}{4.5 \\times 10^{-4}} = \\frac{0.04}{4.5 \\times 10^{-4}} = 88.9' },
@@ -143,7 +143,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'First find head loss: h_f = f(L/D)(v^2/2g) = 0.025 * (200/0.15) * (1.5^2/(2*9.81)) = 0.025 * 1,333.3 * 0.1147 = 3.823 m. To get pressure drop: delta_P = gamma * h_f = rho*g*h_f = 1,000 * 9.81 * 3.823 = 37,504 Pa = 37.5 kPa. Choice B gives the head loss in meters but the question asks for pressure drop. Choice C forgot to convert from Pa to kPa. Choice D uses f/2 instead of f.',
+      eli5: 'First find head loss: $h_f = f(L/D)(v^2/2g) = 0.025 \\times (200/0.15) \\times (1.5^2/(2 \\times 9.81)) = 0.025 \\times 1{,}333.3 \\times 0.1147 = 3.823$ m. To get pressure drop: $\\Delta P = \\gamma \\times h_f = \\rho g h_f = 1{,}000 \\times 9.81 \\times 3.823 = 37{,}504$ Pa $= 37.5$ kPa. Choice B gives the head loss in meters but the question asks for pressure drop. Choice C forgot to convert from Pa to kPa. Choice D uses $f/2$ instead of $f$.',
       hint: 'Compute head loss using Darcy-Weisbach, then convert to pressure: $\\Delta P = \\gamma h_f = \\rho g h_f$.',
       steps: [
         { text: 'Head loss:', latex: 'h_f = f \\frac{L}{D} \\frac{v^2}{2g} = 0.025 \\times \\frac{200}{0.15} \\times \\frac{1.5^2}{2(9.81)}' },
@@ -168,7 +168,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Velocity head = v^2/(2g) = 4/19.62 = 0.2039 m. Major loss: h_f = f(L/D)(v^2/2g) = 0.018*(500/0.3)*0.2039 = 0.018*1666.7*0.2039 = 6.117 m. Minor losses: sum C = 0.5 + 3(0.9) + 1.0 = 0.5 + 2.7 + 1.0 = 4.2. h_minor = 4.2 * 0.2039 = 0.856 m. Total = 6.117 + 0.856 = 6.97 m, approximately 6.93 m. Choice B is the major loss only (forgot minors). Choice C is the minor loss only (forgot major). Choice D uses four elbows instead of three.',
+      eli5: 'Velocity head $= v^2/(2g) = 4/19.62 = 0.2039$ m. Major loss: $h_f = f(L/D)(v^2/2g) = 0.018 \\times (500/0.3) \\times 0.2039 = 0.018 \\times 1{,}666.7 \\times 0.2039 = 6.117$ m. Minor losses: $\\Sigma C = 0.5 + 3(0.9) + 1.0 = 0.5 + 2.7 + 1.0 = 4.2$. $h_{\\text{minor}} = 4.2 \\times 0.2039 = 0.856$ m. Total $= 6.117 + 0.856 = 6.97$ m, approximately 6.93 m. Choice B is the major loss only (forgot minors). Choice C is the minor loss only (forgot major). Choice D uses four elbows instead of three.',
       hint: 'Total head loss = major (friction) + minor (fittings). Compute the velocity head once and use it for both.',
       steps: [
         { text: 'Velocity head:', latex: '\\frac{v^2}{2g} = \\frac{2^2}{2(9.81)} = 0.2039\\,\\text{m}' },
@@ -195,7 +195,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'The Darcy friction factor is four times the Fanning friction factor: f_Darcy = 4 * f_Fanning. So f = 4 * 0.005 = 0.020. The FE handbook and the Moody diagram both use the Darcy factor. If you accidentally use the Fanning factor in the Darcy-Weisbach equation, your head loss will be four times too small. Choice B uses the Fanning factor directly (wrong by 4x). Choice C divides by 4 instead of multiplying. Choice D multiplies by 2 instead of 4.',
+      eli5: 'The Darcy friction factor is four times the Fanning friction factor: $f_{\\text{Darcy}} = 4 \\times f_{\\text{Fanning}}$. So $f = 4 \\times 0.005 = 0.020$. The FE handbook and the Moody diagram both use the Darcy factor. If you accidentally use the Fanning factor in the Darcy-Weisbach equation, your head loss will be four times too small. Choice B uses the Fanning factor directly (wrong by 4x). Choice C divides by 4 instead of multiplying. Choice D multiplies by 2 instead of 4.',
       hint: 'The Darcy friction factor is four times the Fanning friction factor: $f_{\\text{Darcy}} = 4 f_{\\text{Fanning}}$.',
       steps: [
         { text: 'Relationship between Darcy and Fanning:', latex: 'f_{\\text{Darcy}} = 4 f_{\\text{Fanning}}' },
@@ -205,7 +205,7 @@ export default {
       handbookPage: 'p. 182',
       handbookFormula: 'h_f = f \\frac{L}{D} \\frac{v^2}{2g}',
       videoUrl: null,
-      traps: ['Using the Fanning factor directly in the Darcy-Weisbach equation -- answer is 4x too small', 'Dividing instead of multiplying by 4'],
+      traps: ['Using the Fanning factor directly in the Darcy-Weisbach equation \u2014 answer is 4x too small', 'Dividing instead of multiplying by 4'],
       diagram: null,
     },
   ],

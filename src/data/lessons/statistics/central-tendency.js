@@ -123,8 +123,8 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'First find the mean: (4200+4350+4100+4500+4250)/5 = 4280. Then compute each deviation squared, sum them, divide by n-1 (since it is sample, not population), and take the square root. The answer is about 152 psi. The trap is dividing by n instead of n-1.',
-      hint: 'For sample standard deviation, divide by n-1, not n.',
+      eli5: 'First find the mean: $(4200+4350+4100+4500+4250)/5 = 4280$. Then compute each deviation squared, sum them, divide by $n-1$ (since it is sample, not population), and take the square root. The answer is about 152 psi. The trap is dividing by $n$ instead of $n-1$.',
+      hint: 'For sample standard deviation, divide by $n-1$, not $n$.',
       steps: [
         { text: 'Compute the mean:', latex: '\\bar{x} = \\frac{4200+4350+4100+4500+4250}{5} = 4280' },
         { text: 'Compute deviations squared:', latex: '(-80)^2 + 70^2 + (-180)^2 + 220^2 + (-30)^2 = 6400 + 4900 + 32400 + 48400 + 900 = 93000' },
@@ -134,7 +134,7 @@ export default {
       handbookPage: 'p. 63',
       handbookFormula: 's = \\sqrt{\\frac{\\sum(x_i - \\bar{x})^2}{n-1}}',
       videoUrl: null,
-      traps: ['Using n instead of n-1 for sample standard deviation', 'Arithmetic errors in squaring deviations'],
+      traps: ['Using $n$ instead of $n-1$ for sample standard deviation', 'Arithmetic errors in squaring deviations'],
       diagram: null,
     },
     {
@@ -174,7 +174,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The coefficient of variation is just the standard deviation divided by the mean. First find the mean (24.9), then compute the sample standard deviation (about 1.04), then divide: 1.04/24.9 = 0.042. Choice A (0.038) is what you get if you use the population formula (divide by n instead of n-1). Choice C (0.96) is the sample variance, not the CV. Choice D (1.03) is the standard deviation itself before dividing by the mean.',
+      eli5: 'The coefficient of variation is just the standard deviation divided by the mean. First find the mean (24.9), then compute the sample standard deviation (about 1.04), then divide: $1.04/24.9 = 0.042$. Choice A (0.038) is what you get if you use the population formula (divide by $n$ instead of $n-1$). Choice C (0.96) is the sample variance, not the CV. Choice D (1.03) is the standard deviation itself before dividing by the mean.',
       hint: 'Compute $\\bar{x}$ and $s$ first, then divide: $CV = s / \\bar{x}$.',
       steps: [
         { text: 'Compute the mean:', latex: '\\bar{x} = \\frac{24.2 + 25.8 + 23.5 + 26.1 + 24.9}{5} = \\frac{124.5}{5} = 24.9' },
@@ -186,7 +186,7 @@ export default {
       handbookPage: 'p. 63',
       handbookFormula: 'CV = \\frac{s}{\\bar{x}}',
       videoUrl: null,
-      traps: ['Using population std dev (n) instead of sample (n-1)', 'Reporting the standard deviation itself instead of dividing by the mean'],
+      traps: ['Using population std dev ($n$) instead of sample ($n-1$)', 'Reporting the standard deviation itself instead of dividing by the mean'],
       diagram: null,
     },
     {
@@ -201,7 +201,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'With an even number of data points, the median is the average of the two middle values. Sort the data first: 3.0, 3.1, 3.4, 3.8, 4.1, 4.7, 5.2, 6.3. With 8 values, the middle positions are 4th and 5th. Average those: (3.8 + 4.1)/2 = 3.95. Choice A (3.80) picks only the 4th value and ignores the 5th. Choice C (4.20) is the mean, not the median. Choice D (4.10) picks only the 5th value without averaging.',
+      eli5: 'With an even number of data points, the median is the average of the two middle values. Sort the data first: 3.0, 3.1, 3.4, 3.8, 4.1, 4.7, 5.2, 6.3. With 8 values, the middle positions are 4th and 5th. Average those: $(3.8 + 4.1)/2 = 3.95$. Choice A (3.80) picks only the 4th value and ignores the 5th. Choice C (4.20) is the mean, not the median. Choice D (4.10) picks only the 5th value without averaging.',
       hint: 'Sort the data first. For an even count, average the two middle values.',
       steps: [
         { text: 'Sort the data in ascending order:', latex: '3.0,\\; 3.1,\\; 3.4,\\; 3.8,\\; 4.1,\\; 4.7,\\; 5.2,\\; 6.3' },

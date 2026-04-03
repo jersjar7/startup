@@ -117,7 +117,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'In Hazen-Williams, C appears directly in the numerator: v = k C R_H^0.63 S^0.54. A larger C means higher velocity and more flow for the same pipe and gradient. This is the opposite of Manning\'s n, where higher n means rougher and slower. Choice B reverses the meaning. Choice C confuses Hazen-Williams C with Manning\'s n \u2014 they work in opposite directions. Choice D forgets that Q = vA, so anything that increases v also increases Q.',
+      eli5: 'In Hazen-Williams, $C$ appears directly in the numerator: $v = k\\,C\\,R_H^{0.63}\\,S^{0.54}$. A larger $C$ means higher velocity and more flow for the same pipe and gradient. This is the opposite of Manning\'s $n$, where higher $n$ means rougher and slower. Choice B reverses the meaning. Choice C confuses Hazen-Williams $C$ with Manning\'s $n$ \u2014 they work in opposite directions. Choice D forgets that $Q = vA$, so anything that increases $v$ also increases $Q$.',
       hint: 'Look at where $C$ appears in the Hazen-Williams equation \u2014 is it in the numerator or denominator?',
       steps: [
         { text: 'Hazen-Williams velocity:', latex: 'v = k_1 C R_H^{0.63} S_v^{0.54}' },
@@ -142,7 +142,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a contracted rectangular weir: Q = C(L - 0.2H)H^(3/2). Effective length = L - 0.2H = 4.0 - 0.24 = 3.76 ft. H^(3/2) = (1.2)^(3/2) = 1.2 x sqrt(1.2) = 1.2 x 1.095 = 1.315. Q = 3.33 x 3.76 x 1.315 = 16.5 cfs. Choice B uses the suppressed formula Q = CLH^(3/2) = 3.33 x 4.0 x 1.315 = 17.5 without the contraction correction. Choice C uses H^(5/2) instead of H^(3/2). Choice D uses the SI coefficient C = 1.84.',
+      eli5: 'For a contracted rectangular weir: $Q = C(L - 0.2H)H^{3/2}$. Effective length $= L - 0.2H = 4.0 - 0.24 = 3.76$ ft. $H^{3/2} = (1.2)^{3/2} = 1.2 \\times \\sqrt{1.2} = 1.2 \\times 1.095 = 1.315$. $Q = 3.33 \\times 3.76 \\times 1.315 = 16.5$ cfs. Choice B uses the suppressed formula $Q = CLH^{3/2} = 3.33 \\times 4.0 \\times 1.315 = 17.5$ without the contraction correction. Choice C uses $H^{5/2}$ instead of $H^{3/2}$. Choice D uses the SI coefficient $C = 1.84$.',
       hint: 'For a contracted weir: $Q = C(L - 0.2H)H^{3/2}$. Subtract the contraction correction from the crest length before multiplying.',
       steps: [
         { text: 'Contracted rectangular weir (USCS, $C = 3.33$):', latex: 'Q = C(L - 0.2H)H^{3/2}' },
@@ -168,7 +168,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'V-notch: Q = C H^(5/2), so doubling H multiplies Q by 2^(5/2) = 4 x sqrt(2) = 5.66. Rectangular: Q = C L H^(3/2), so doubling H multiplies Q by 2^(3/2) = 2 x sqrt(2) = 2.83. The V-notch is more sensitive to head changes because it has a higher exponent. This is why V-notch weirs are preferred for measuring low flows \u2014 small changes in head produce larger, more measurable changes in discharge. Choice B ignores the nonlinear exponents. Choice C confuses geometry with the exponent sensitivity. Choice D swaps the exponents.',
+      eli5: 'V-notch: $Q = CH^{5/2}$, so doubling $H$ multiplies $Q$ by $2^{5/2} = 4\\sqrt{2} = 5.66$. Rectangular: $Q = CLH^{3/2}$, so doubling $H$ multiplies $Q$ by $2^{3/2} = 2\\sqrt{2} = 2.83$. The V-notch is more sensitive to head changes because it has a higher exponent. This is why V-notch weirs are preferred for measuring low flows \u2014 small changes in head produce larger, more measurable changes in discharge. Choice B ignores the nonlinear exponents. Choice C confuses geometry with the exponent sensitivity. Choice D swaps the exponents.',
       hint: 'Compare the exponents on $H$ in each weir formula. How does $Q$ scale when $H$ doubles?',
       steps: [
         { text: 'Rectangular weir: $Q \\propto H^{3/2}$. Doubling $H$:', latex: '\\frac{Q_{new}}{Q_{old}} = 2^{3/2} = 2.83' },
@@ -193,7 +193,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'D = 10 in. = 0.833 ft. A = pi(0.833)^2/4 = 0.545 ft^2. R_H = D/4 = 0.208 ft. S = h_f/L = 4.0/800 = 0.005. v = 1.318 x 130 x (0.208)^0.63 x (0.005)^0.54. (0.208)^0.63 = 0.372. (0.005)^0.54 = 0.0572. v = 171.3 x 0.372 x 0.0572 = 3.65 fps. Q = v x A = 3.65 x 0.545 = 2.0 cfs. Choice B uses R_H = D/2 instead of D/4, which inflates the hydraulic radius and gives a higher Q. Choice C accidentally uses the SI factor k_1 = 0.849 instead of 1.318. Choice D forgets to convert inches to feet for the diameter.',
+      eli5: '$D = 10$ in. $= 0.833$ ft. $A = \\pi(0.833)^2/4 = 0.545$ ft$^2$. $R_H = D/4 = 0.208$ ft. $S = h_f/L = 4.0/800 = 0.005$. $v = 1.318 \\times 130 \\times (0.208)^{0.63} \\times (0.005)^{0.54}$. $(0.208)^{0.63} = 0.372$. $(0.005)^{0.54} = 0.0572$. $v = 171.3 \\times 0.372 \\times 0.0572 = 3.65$ fps. $Q = v \\times A = 3.65 \\times 0.545 = 2.0$ cfs. Choice B uses $R_H = D/2$ instead of $D/4$, which inflates the hydraulic radius and gives a higher $Q$. Choice C accidentally uses the SI factor $k_1 = 0.849$ instead of 1.318. Choice D forgets to convert inches to feet for the diameter.',
       hint: 'Convert the diameter to feet first. Then find $R_H = D/4$, $A = \\pi D^2/4$, and $S_v = h_f/L$.',
       steps: [
         { text: 'Convert diameter:', latex: 'D = 10\\text{ in.} = 0.833\\text{ ft}' },
@@ -206,7 +206,7 @@ export default {
       handbookPage: 'p. 297',
       handbookFormula: 'Q = k_1 C A R_H^{0.63} S_v^{0.54}',
       videoUrl: null,
-      traps: ['Using R_H = D/2 (geometric radius) instead of R_H = D/4 (hydraulic radius)', 'Forgetting to convert the diameter from inches to feet before computing A and R_H'],
+      traps: ['Using $R_H = D/2$ (geometric radius) instead of $R_H = D/4$ (hydraulic radius)', 'Forgetting to convert the diameter from inches to feet before computing $A$ and $R_H$'],
       diagram: null,
     },
   ],

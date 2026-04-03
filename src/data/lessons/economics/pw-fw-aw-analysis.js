@@ -239,7 +239,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Present worth is the value of the investment in today\'s money. Take the PW of annual savings using (P/A), add the PW of the salvage using (P/F), and subtract the initial cost. PW of savings = 8,000 times 7.3601 = 58,881. PW of salvage = 5,000 times 0.5584 = 2,792. Total PW = -45,000 + 58,881 + 2,792 = 16,673, or about 16,700. Since PW is positive, the investment earns more than the 6% MARR. Answer B leaves out the initial cost. Answer C might have subtracted salvage instead of adding it. Answer D forgets the salvage value entirely.',
+      eli5: 'Present worth is the value of the investment in today\'s money. Take the PW of annual savings using $(P/A)$, add the PW of the salvage using $(P/F)$, and subtract the initial cost. PW of savings $= 8{,}000 \\times 7.3601 = 58{,}881$. PW of salvage $= 5{,}000 \\times 0.5584 = 2{,}792$. Total $PW = -45{,}000 + 58{,}881 + 2{,}792 = 16{,}673$, or about 16,700. Since PW is positive, the investment earns more than the 6% MARR. Answer B leaves out the initial cost. Answer C might have subtracted salvage instead of adding it. Answer D forgets the salvage value entirely.',
       hint: 'PW = negative initial cost + PW of annual savings + PW of salvage value. Use $(P/A)$ for the annual savings and $(P/F)$ for the salvage.',
       steps: [
         { text: 'Set up the present worth equation:', latex: 'PW = -45{,}000 + 8{,}000(P/A,\\, 6\\%,\\, 10) + 5{,}000(P/F,\\, 6\\%,\\, 10)' },
@@ -265,7 +265,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Future worth pushes everything to the end of the study period. Compound the initial cost forward using (F/P): 100,000 times (1.08)^12 = 251,817. Compound the annual savings forward using (F/A): 15,000 times 18.977 = 284,657. FW = -251,817 + 284,657 = 32,840, approximately 32,800. Since FW > 0, the project exceeds the 8% MARR. Answer B just adds up 15,000 times 12 and subtracts 100,000 without compounding. Answer C only compounds the cost forward and forgets the savings. Answer D only computes the FW of savings and leaves out the cost.',
+      eli5: 'Future worth pushes everything to the end of the study period. Compound the initial cost forward using $(F/P)$: $100{,}000 \\times (1.08)^{12} = 251{,}817$. Compound the annual savings forward using $(F/A)$: $15{,}000 \\times 18.977 = 284{,}657$. $FW = -251{,}817 + 284{,}657 = 32{,}840$, approximately 32,800. Since $FW > 0$, the project exceeds the 8% MARR. Answer B just adds up $15{,}000 \\times 12$ and subtracts 100,000 without compounding. Answer C only compounds the cost forward and forgets the savings. Answer D only computes the FW of savings and leaves out the cost.',
       hint: 'Compound the initial cost forward with $(F/P)$ and the annual savings forward with $(F/A)$, then combine.',
       steps: [
         { text: 'Set up the future worth equation:', latex: 'FW = -100{,}000(F/P,\\, 8\\%,\\, 12) + 15{,}000(F/A,\\, 8\\%,\\, 12)' },
@@ -291,7 +291,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'When you use present worth to compare alternatives with different lives, you must compare over the same time horizon. The correct horizon is the least common multiple (LCM) of the lives — for 15 and 20 years, that is 60 years. A 20-year window does not give Strategy A a full second cycle (it would only run 5 years of its second 15-year life). Answer D describes a valid alternative approach (annual worth does handle unequal lives automatically), but the question asks what is wrong with the proposed PW approach, not what method to use instead. The specific flaw is the wrong study period length.',
+      eli5: 'When you use present worth to compare alternatives with different lives, you must compare over the same time horizon. The correct horizon is the least common multiple (LCM) of the lives \u2014 for 15 and 20 years, that is 60 years. A 20-year window does not give Strategy A a full second cycle (it would only run 5 years of its second 15-year life). Answer D describes a valid alternative approach (annual worth does handle unequal lives automatically), but the question asks what is wrong with the proposed PW approach, not what method to use instead. The specific flaw is the wrong study period length.',
       hint: 'For PW analysis with unequal lives, the study period must allow each alternative to complete full cycles. What is the LCM of 15 and 20?',
       steps: [
         { text: 'Present worth analysis requires equal study periods for a fair comparison.', latex: null },
@@ -317,7 +317,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'With different service lives (4 vs. 8 years), annual worth is the smart choice — it handles unequal lives automatically. For each compressor, annualize the initial cost using (A/P), add yearly operating costs, and subtract the annual equivalent of salvage using (A/F). Compressor A: 60,000 times 0.31547 + 12,000 minus 8,000 times 0.21547 = 18,928 + 12,000 - 1,724 = 29,204. Compressor B: 90,000 times 0.18744 + 8,000 minus 12,000 times 0.08744 = 16,870 + 8,000 - 1,049 = 23,821. Compressor B wins at about 23,800. Answer C forgets to subtract the salvage credit for A. Answer D forgets to include operating costs for B.',
+      eli5: 'With different service lives (4 vs. 8 years), annual worth is the smart choice \u2014 it handles unequal lives automatically. For each compressor, annualize the initial cost using $(A/P)$, add yearly operating costs, and subtract the annual equivalent of salvage using $(A/F)$. Compressor A: $60{,}000 \\times 0.31547 + 12{,}000 - 8{,}000 \\times 0.21547 = 18{,}928 + 12{,}000 - 1{,}724 = 29{,}204$. Compressor B: $90{,}000 \\times 0.18744 + 8{,}000 - 12{,}000 \\times 0.08744 = 16{,}870 + 8{,}000 - 1{,}049 = 23{,}821$. Compressor B wins at about 23,800. Answer C forgets to subtract the salvage credit for A. Answer D forgets to include operating costs for B.',
       hint: 'Use annual worth to compare directly without matching lifespans. AW = initial cost times $(A/P)$ + annual operating cost - salvage times $(A/F)$.',
       steps: [
         { text: 'Compressor A ($n = 4$ years):', latex: 'AW_A = 60{,}000(A/P,\\, 10\\%,\\, 4) + 12{,}000 - 8{,}000(A/F,\\, 10\\%,\\, 4)' },

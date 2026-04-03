@@ -246,7 +246,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Use the distance formula. The horizontal run is 300, the vertical rise is 300. Plug into d = sqrt(300^2 + 300^2) = sqrt(180000) = 424.3 m. Common mistake is adding the components (300+300=600) instead of using the distance formula.',
+      eli5: 'Use the distance formula. The horizontal run is 300, the vertical rise is 300. Plug into $d = \\sqrt{300^2 + 300^2} = \\sqrt{180{,}000} = 424.3$ m. Common mistake is adding the components ($300 + 300 = 600$) instead of using the distance formula.',
       hint: 'Use the distance formula between two points.',
       steps: [
         { text: 'Identify coordinates: $(x_1, y_1) = (100, 200)$, $(x_2, y_2) = (400, 500)$.', latex: null },
@@ -271,8 +271,8 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Two lines are perpendicular when their slopes are negative reciprocals. Check: 3 times -1/3 = -1. That confirms they are perpendicular. Parallel lines have equal slopes, and coincident means they are the same line.',
-      hint: 'Check if the product of the slopes equals -1.',
+      eli5: 'Two lines are perpendicular when their slopes are negative reciprocals. Check: $3 \\times (-1/3) = -1$. That confirms they are perpendicular. Parallel lines have equal slopes, and coincident means they are the same line.',
+      hint: 'Check if the product of the slopes equals $-1$.',
       steps: [
         { text: 'For perpendicular lines, $m_1 \\times m_2 = -1$.', latex: null },
         { text: 'Check:', latex: '3 \\times \\left(-\\frac{1}{3}\\right) = -1 \\quad \\checkmark' },
@@ -296,7 +296,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Two steps here: first find the midpoint of AB, then use point-slope form with the given slope. Midpoint is just the average of the coordinates: ((1+7)/2, (4+12)/2) = (4, 8). Then plug into y - 8 = -2(x - 4) and simplify to y = -2x + 16. The trap is using point A or B instead of the midpoint, which gives you one of the wrong answers.',
+      eli5: 'Two steps here: first find the midpoint of $AB$, then use point-slope form with the given slope. Midpoint is just the average of the coordinates: $((1+7)/2,\\,(4+12)/2) = (4, 8)$. Then plug into $y - 8 = -2(x - 4)$ and simplify to $y = -2x + 16$. The trap is using point A or B instead of the midpoint, which gives you one of the wrong answers.',
       hint: 'Find the midpoint of AB first, then apply the point-slope formula with the given slope.',
       steps: [
         { text: 'Find the midpoint of $AB$:', latex: 'M = \\left(\\frac{1+7}{2},\\, \\frac{4+12}{2}\\right) = (4,\\, 8)' },
@@ -321,7 +321,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'The discriminant tells you everything about the nature of the roots. Positive means two distinct real roots, zero means one repeated root, negative means no real roots (complex conjugate pair). A negative discriminant means the square root of a negative number appears in the quadratic formula, which has no real solution. The equation can still be solved with complex numbers, so choice D is wrong — it is solvable, just not over the reals.',
+      eli5: 'The discriminant tells you everything about the nature of the roots. Positive means two distinct real roots, zero means one repeated root, negative means no real roots (complex conjugate pair). A negative discriminant means $\\sqrt{\\Delta}$ involves the square root of a negative number in the quadratic formula, which has no real solution. The equation can still be solved with complex numbers, so choice D is wrong — it is solvable, just not over the reals.',
       hint: 'Recall what the sign of the discriminant tells you about the number and type of roots.',
       steps: [
         { text: 'The discriminant is $\\Delta = b^2 - 4ac = -16 < 0$.', latex: null },

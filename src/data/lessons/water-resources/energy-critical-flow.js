@@ -122,7 +122,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'For a rectangular channel, critical depth is yc = (q^2/g)^(1/3) where q = Q/b is the unit discharge. q = 12/3 = 4 m^2/s. yc = (16/9.81)^(1/3) = (1.631)^(1/3) = 1.18 m. The trap is using Q instead of q (forgetting to divide by width).',
+      eli5: 'For a rectangular channel, critical depth is $y_c = (q^2/g)^{1/3}$ where $q = Q/b$ is the unit discharge. $q = 12/3 = 4$ m$^2$/s. $y_c = (16/9.81)^{1/3} = (1.631)^{1/3} = 1.18$ m. The trap is using $Q$ instead of $q$ (forgetting to divide by width).',
       hint: 'Use $y_c = (q^2/g)^{1/3}$ where $q = Q/b$.',
       steps: [
         { text: 'Unit discharge:', latex: 'q = \\frac{Q}{b} = \\frac{12}{3} = 4\\,\\text{m}^2/\\text{s}' },
@@ -132,7 +132,7 @@ export default {
       handbookPage: 'p. 289',
       handbookFormula: 'y_c = \\left(\\frac{q^2}{g}\\right)^{1/3}',
       videoUrl: null,
-      traps: ['Using total discharge Q instead of unit discharge q', 'Forgetting to take the cube root'],
+      traps: ['Using total discharge $Q$ instead of unit discharge $q$', 'Forgetting to take the cube root'],
       diagram: null,
     },
     {
@@ -147,7 +147,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'The Froude number is the ratio of flow velocity to wave speed. At critical flow, Fr = 1 exactly. Fr < 1 is subcritical (tranquil) flow. Fr > 1 is supercritical (rapid) flow. This is one of those definitions you just need to know — it shows up frequently on the FE.',
+      eli5: 'The Froude number is the ratio of flow velocity to wave speed. At critical flow, $Fr = 1$ exactly. $Fr < 1$ is subcritical (tranquil) flow. $Fr > 1$ is supercritical (rapid) flow. This is one of those definitions you just need to know -- it shows up frequently on the FE.',
       hint: 'Recall the definition of the Froude number and what critical flow means.',
       steps: [
         { text: 'The Froude number:', latex: 'Fr = \\frac{V}{\\sqrt{gy}}' },
@@ -172,7 +172,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Use the conjugate depth formula: y2 = (y1/2)(-1 + sqrt(1 + 8Fr1^2)) = (0.3/2)(-1 + sqrt(1 + 8 x 16)) = 0.15 x (-1 + sqrt(129)) = 0.15 x (-1 + 11.36) = 0.15 x 10.36 = 1.55 m. The downstream subcritical depth is about 5 times the upstream depth. Choice B uses Fr1 = 3 instead of 4. Choice C multiplies y1 by Fr1^2 directly. Choice D forgets the factor of 8 inside the radical.',
+      eli5: 'Use the conjugate depth formula: $y_2 = (y_1/2)(-1 + \\sqrt{1 + 8Fr_1^2}) = (0.3/2)(-1 + \\sqrt{1 + 8 \\times 16}) = 0.15 \\times (-1 + \\sqrt{129}) = 0.15 \\times (-1 + 11.36) = 0.15 \\times 10.36 = 1.55$ m. The downstream subcritical depth is about 5 times the upstream depth. Choice B uses $Fr_1 = 3$ instead of 4. Choice C multiplies $y_1$ by $Fr_1^2$ directly. Choice D forgets the factor of 8 inside the radical.',
       hint: 'Use $y_2 = \\frac{y_1}{2}\\left(-1 + \\sqrt{1 + 8Fr_1^2}\\right)$ and plug in directly.',
       steps: [
         { text: 'Conjugate depth formula:', latex: 'y_2 = \\frac{y_1}{2}\\left(-1 + \\sqrt{1 + 8Fr_1^2}\\right)' },
@@ -183,7 +183,7 @@ export default {
       handbookPage: 'p. 297',
       handbookFormula: 'y_2 = \\frac{y_1}{2}\\left(-1 + \\sqrt{1 + 8Fr_1^2}\\right)',
       videoUrl: null,
-      traps: ['Omitting the factor of 8 multiplying Fr^2 inside the radical', 'Forgetting the -1 term inside the parentheses'],
+      traps: ['Omitting the factor of 8 multiplying $Fr^2$ inside the radical', 'Forgetting the $-1$ term inside the parentheses'],
       diagram: null,
     },
     {

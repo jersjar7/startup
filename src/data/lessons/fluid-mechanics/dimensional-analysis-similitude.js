@@ -115,7 +115,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Count the variables: F_D, rho, v, D, mu = 5 variables. The basic dimensions involved are mass (M), length (L), and time (T), so r = 3. By Buckingham Pi: k = n - r = 5 - 3 = 2. So there are 2 dimensionless groups. One is typically the drag coefficient C_D = F_D/(0.5*rho*v^2*A) and the other is the Reynolds number Re = rho*v*D/mu. Choice B (k=1) subtracts one too many. Choice C uses r = 2 instead of 3. Choice D counts all variables as dimensionless groups.',
+      eli5: 'Count the variables: $F_D$, $\\rho$, $v$, $D$, $\\mu$ = 5 variables. The basic dimensions involved are mass (M), length (L), and time (T), so $r = 3$. By Buckingham Pi: $k = n - r = 5 - 3 = 2$. So there are 2 dimensionless groups. One is typically the drag coefficient $C_D = F_D/(0.5 \\rho v^2 A)$ and the other is the Reynolds number $Re = \\rho v D/\\mu$. Choice B ($k = 1$) subtracts one too many. Choice C uses $r = 2$ instead of 3. Choice D counts all variables as dimensionless groups.',
       hint: 'Count the variables ($n$), count the base dimensions ($r = 3$ for M, L, T), and subtract.',
       steps: [
         { text: 'Variables: $F_D, \\rho, v, D, \\mu$:', latex: 'n = 5' },
@@ -140,7 +140,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Under Froude similitude, velocity scales as sqrt(L_r) where L_r is the length ratio. Since Q = A*v, area scales as L_r^2 and velocity as L_r^(1/2), so Q scales as L_r^(5/2). L_r = 1/16. Q_m = Q_p * L_r^(5/2) = 500 * (1/16)^(5/2) = 500 * 1/(16^2.5) = 500/(16^2 * 16^0.5) = 500/(256 * 4) = 500/1024 = 0.488 m^3/s. Choice B divides by 16 only (uses L_r^1). Choice C divides by 16^2 = 256 (uses L_r^2). Choice D divides by 16^3 = 4096 (uses L_r^3).',
+      eli5: 'Under Froude similitude, velocity scales as $\\sqrt{L_r}$ where $L_r$ is the length ratio. Since $Q = Av$, area scales as $L_r^2$ and velocity as $L_r^{1/2}$, so $Q$ scales as $L_r^{5/2}$. $L_r = 1/16$. $Q_m = Q_p \\times L_r^{5/2} = 500 \\times (1/16)^{5/2} = 500 \\times 1/(16^{2.5}) = 500/(256 \\times 4) = 500/1{,}024 = 0.488$ m\u00B3/s. Choice B divides by 16 only (uses $L_r^1$). Choice C divides by $16^2 = 256$ (uses $L_r^2$). Choice D divides by $16^3 = 4{,}096$ (uses $L_r^3$).',
       hint: 'Under Froude similitude, $Q$ scales as $L_r^{5/2}$ because $Q = Av$ and area scales as $L_r^2$ while velocity scales as $L_r^{1/2}$.',
       steps: [
         { text: 'Froude velocity scale:', latex: 'v_r = \\sqrt{L_r} = \\sqrt{1/16} = 1/4' },
@@ -151,7 +151,7 @@ export default {
       handbookPage: 'p. 196',
       handbookFormula: 'Fr_m = Fr_p',
       videoUrl: null,
-      traps: ['Using Q_r = L_r instead of L_r^(5/2)', 'Forgetting that area scales as L_r^2 and velocity scales as L_r^(1/2)'],
+      traps: ['Using $Q_r = L_r$ instead of $L_r^{5/2}$', 'Forgetting that area scales as $L_r^2$ and velocity scales as $L_r^{1/2}$'],
       diagram: null,
     },
     {
@@ -166,7 +166,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Under Reynolds similitude with the same fluid, v_m*L_m = v_p*L_p, so v_m = v_p*(L_p/L_m) = 20*v_p. Force = rho*v^2*L^2 (from dimensional analysis). So F_r = (v_m/v_p)^2 * (L_m/L_p)^2 = 20^2 * (1/20)^2 = 400/400 = 1. The force ratio is 1 -- the model force equals the prototype force. F_p = 80 N. This is a non-obvious result: with the same fluid and Reynolds similitude, the force on the model equals the force on the prototype. Choice B multiplies by 400. Choice C multiplies by 20. Choice D divides by 20.',
+      eli5: 'Under Reynolds similitude with the same fluid, $v_m L_m = v_p L_p$, so $v_m = v_p \\times (L_p/L_m) = 20 v_p$. Force $= \\rho v^2 L^2$ (from dimensional analysis). So $F_r = (v_m/v_p)^2 \\times (L_m/L_p)^2 = 20^2 \\times (1/20)^2 = 400/400 = 1$. The force ratio is 1 \u2014 the model force equals the prototype force. $F_p = 80$ N. This is a non-obvious result: with the same fluid and Reynolds similitude, the force on the model equals the force on the prototype. Choice B multiplies by 400. Choice C multiplies by 20. Choice D divides by 20.',
       hint: 'Force scales as $\\rho v^2 L^2$. Under Reynolds similitude with the same fluid, $v_m/v_p = L_p/L_m$. Work out the combined scaling.',
       steps: [
         { text: 'Reynolds similitude (same fluid):', latex: 'v_m = v_p \\frac{L_p}{L_m} = 20\\,v_p' },
@@ -192,7 +192,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Open-channel flows (spillways, weirs, rivers) are governed by gravity. The Froude number Fr = v/sqrt(gL) is the ratio of inertial to gravitational forces. For dynamic similarity in gravity-driven flows, the model must match the prototype Froude number. Reynolds number is for viscous-dominated flows (pipe flow, drag on submerged bodies). Matching both simultaneously at a reduced scale with the same fluid is generally impossible. Mach number is for compressible flow (high-speed aerodynamics), which is irrelevant for water.',
+      eli5: 'Open-channel flows (spillways, weirs, rivers) are governed by gravity. The Froude number $Fr = v/\\sqrt{gL}$ is the ratio of inertial to gravitational forces. For dynamic similarity in gravity-driven flows, the model must match the prototype Froude number. Reynolds number is for viscous-dominated flows (pipe flow, drag on submerged bodies). Matching both simultaneously at a reduced scale with the same fluid is generally impossible. Mach number is for compressible flow (high-speed aerodynamics), which is irrelevant for water.',
       hint: 'Ask: what is the dominant restoring force? In open channels, it is gravity, and gravity is associated with the Froude number.',
       steps: [
         { text: 'Open-channel flow is governed by gravity (free-surface effects).', latex: null },

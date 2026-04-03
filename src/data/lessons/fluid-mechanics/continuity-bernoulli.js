@@ -117,7 +117,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Continuity says A1*V1 = A2*V2. The area ratio is (D1/D2)^2 = (300/150)^2 = 4. So V2 = V1 * 4 = 2 * 4 = 8 m/s. The trap is using the diameter ratio (2) instead of the area ratio (4).',
+      eli5: 'Continuity says $A_1 V_1 = A_2 V_2$. The area ratio is $(D_1/D_2)^2 = (300/150)^2 = 4$. So $V_2 = V_1 \\times 4 = 2 \\times 4 = 8$ m/s. The trap is using the diameter ratio (2) instead of the area ratio (4).',
       hint: 'Use the continuity equation. Remember area depends on diameter squared.',
       steps: [
         { text: 'Apply continuity:', latex: 'A_1 V_1 = A_2 V_2' },
@@ -142,7 +142,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Bernoulli\'s equation shows that for horizontal flow, P + (1/2)rho*v^2 = constant. If velocity goes up, the dynamic pressure term increases, so static pressure must decrease to keep the total constant. This is the Venturi effect — it is why airplane wings generate lift and why spray bottles work.',
+      eli5: 'Bernoulli\'s equation shows that for horizontal flow, $P + \\frac{1}{2}\\rho v^2 = \\text{constant}$. If velocity goes up, the dynamic pressure term increases, so static pressure must decrease to keep the total constant. This is the Venturi effect \u2014 it is why airplane wings generate lift and why spray bottles work.',
       hint: 'Think about the trade-off between pressure and velocity in Bernoulli\'s equation.',
       steps: [
         { text: 'For horizontal flow, Bernoulli simplifies to:', latex: 'P + \\frac{1}{2}\\rho v^2 = \\text{constant}' },
@@ -167,7 +167,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'First use continuity to find v_2: v_2 = v_1 * (D_1/D_2)^2 = 2 * (250/125)^2 = 2 * 4 = 8 m/s. Then Bernoulli for a horizontal pipe: P_2 = P_1 + rho/2 * (v_1^2 - v_2^2) = 200,000 + 500*(4 - 64) = 200,000 - 30,000 = 170,000 Pa = 170 kPa. Pressure drops because velocity increases at the constriction. Choice A assumes no pressure change. Choice C adds instead of subtracting. Choice D uses the diameter ratio to the first power instead of squaring it.',
+      eli5: 'First use continuity to find $v_2$: $v_2 = v_1 \\times (D_1/D_2)^2 = 2 \\times (250/125)^2 = 2 \\times 4 = 8$ m/s. Then Bernoulli for a horizontal pipe: $P_2 = P_1 + \\rho/2 \\times (v_1^2 - v_2^2) = 200{,}000 + 500 \\times (4 - 64) = 200{,}000 - 30{,}000 = 170{,}000$ Pa $= 170$ kPa. Pressure drops because velocity increases at the constriction. Choice A assumes no pressure change. Choice C adds instead of subtracting. Choice D uses the diameter ratio to the first power instead of squaring it.',
       hint: 'Use continuity to find $v_2$ first, then apply Bernoulli with $z_1 = z_2$. Pressure drops where velocity increases.',
       steps: [
         { text: 'Find $v_2$ from continuity:', latex: 'v_2 = v_1 \\left(\\frac{D_1}{D_2}\\right)^2 = 2 \\times \\left(\\frac{250}{125}\\right)^2 = 2 \\times 4 = 8\\,\\text{m/s}' },
@@ -192,8 +192,8 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'This is Torricelli but with friction. The energy equation gives z_1 = v_2^2/(2g) + z_2 + h_f. Setting z_2 = 0 and z_1 = 12 m: 12 = v_2^2/(2*9.81) + 0 + 1.8, so v_2^2/(19.62) = 10.2, v_2^2 = 200.1, v_2 = 14.1 m/s. Without friction you would get sqrt(2*9.81*12) = 15.3 m/s — that is the trap answer. The friction steals energy, so the actual jet velocity is lower.',
-      hint: 'Use the energy equation (Bernoulli + h_f). The friction loss reduces the available head from 12 m to (12 - h_f).',
+      eli5: 'This is Torricelli but with friction. The energy equation gives $z_1 = v_2^2/(2g) + z_2 + h_f$. Setting $z_2 = 0$ and $z_1 = 12$ m: $12 = v_2^2/(2 \\times 9.81) + 0 + 1.8$, so $v_2^2/19.62 = 10.2$, $v_2^2 = 200.1$, $v_2 = 14.1$ m/s. Without friction you would get $\\sqrt{2 \\times 9.81 \\times 12} = 15.3$ m/s \u2014 that is the trap answer. The friction steals energy, so the actual jet velocity is lower.',
+      hint: 'Use the energy equation (Bernoulli + $h_f$). The friction loss reduces the available head from 12 m to $(12 - h_f)$.',
       steps: [
         { text: 'Energy equation ($P_1 = P_2 = 0$ gauge, $v_1 \\approx 0$, $z_2 = 0$):', latex: 'z_1 = \\frac{v_2^2}{2g} + h_f' },
         { text: 'Solve for exit velocity:', latex: 'v_2 = \\sqrt{2g(z_1 - h_f)} = \\sqrt{2(9.81)(12 - 1.8)}' },
@@ -202,7 +202,7 @@ export default {
       handbookPage: 'p. 180',
       handbookFormula: '\\frac{P_1}{\\gamma} + \\frac{v_1^2}{2g} + z_1 = \\frac{P_2}{\\gamma} + \\frac{v_2^2}{2g} + z_2 + h_f',
       videoUrl: null,
-      traps: ['Ignoring the friction loss and using pure Torricelli — gives 15.3 m/s instead of 14.1', 'Adding h_f instead of subtracting it from the available head'],
+      traps: ['Ignoring the friction loss and using pure Torricelli \u2014 gives 15.3 m/s instead of 14.1', 'Adding $h_f$ instead of subtracting it from the available head'],
       diagram: null,
     },
   ],

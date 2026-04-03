@@ -117,7 +117,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Multiply each cost by its probability and add. 150,000 times 0.30 = 45,000. 200,000 times 0.50 = 100,000. 280,000 times 0.20 = 56,000. Total = 201,000. Choice B (200,000) is the most likely outcome, not the expected value. Choice C (210,000) is the simple average of the three costs (630,000/3), which ignores the probabilities. Choice D (630,000) is the sum of all costs without any probability weighting.',
+      eli5: 'Multiply each cost by its probability and add. $150{,}000 \\times 0.30 = 45{,}000$. $200{,}000 \\times 0.50 = 100{,}000$. $280{,}000 \\times 0.20 = 56{,}000$. Total = 201,000. Choice B (200,000) is the most likely outcome, not the expected value. Choice C (210,000) is the simple average of the three costs ($630{,}000/3$), which ignores the probabilities. Choice D (630,000) is the sum of all costs without any probability weighting.',
       hint: 'Multiply each outcome by its probability and sum the products.',
       steps: [
         { text: 'Apply $E(X) = \\sum x_k \\cdot P(x_k)$:', latex: 'E(X) = 150{,}000(0.30) + 200{,}000(0.50) + 280{,}000(0.20)' },
@@ -141,7 +141,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'First find E(X): 1(0.15)+2(0.35)+3(0.30)+4(0.15)+5(0.05) = 0.15+0.70+0.90+0.60+0.25 = 2.60. Then find E(X squared): 1(0.15)+4(0.35)+9(0.30)+16(0.15)+25(0.05) = 0.15+1.40+2.70+2.40+1.25 = 7.90. Variance = 7.90 - 2.60 squared = 7.90 - 6.76 = 1.14. Standard deviation = square root of 1.14 = 1.07. Choice B (1.15) is a common arithmetic slip. Choice C (2.60) is the mean, not the standard deviation. Choice D (7.90) is E(X squared), only half the calculation.',
+      eli5: 'First find $E(X)$: $1(0.15)+2(0.35)+3(0.30)+4(0.15)+5(0.05) = 2.60$. Then find $E(X^2)$: $1(0.15)+4(0.35)+9(0.30)+16(0.15)+25(0.05) = 7.90$. Variance $= 7.90 - 2.60^2 = 7.90 - 6.76 = 1.14$. Standard deviation $= \\sqrt{1.14} = 1.07$. Choice B (1.15) is a common arithmetic slip. Choice C (2.60) is the mean, not the standard deviation. Choice D (7.90) is $E(X^2)$, only half the calculation.',
       hint: 'Use the shortcut $\\text{Var}(X) = E(X^2) - [E(X)]^2$, then take the square root for the standard deviation.',
       steps: [
         { text: 'Compute $E(X)$:', latex: '1(0.15) + 2(0.35) + 3(0.30) + 4(0.15) + 5(0.05) = 2.60' },
@@ -152,7 +152,7 @@ export default {
       handbookPage: 'p. 65',
       handbookFormula: '\\text{Var}(X) = E(X^2) - [E(X)]^2',
       videoUrl: null,
-      traps: ['Reporting E(X) as the answer (gives 2.60)', 'Forgetting to take the square root of the variance'],
+      traps: ['Reporting $E(X)$ as the answer (gives 2.60)', 'Forgetting to take the square root of the variance'],
       diagram: null,
     },
     {
@@ -167,7 +167,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'When combining independent random variables with constants, the variances of the scaled variables add. The constant multiplier gets squared before multiplying the variance. Var(F) = 2 squared times 6 squared + 1 squared times 4 squared = 4(36) + 1(16) = 144 + 16 = 160. Then the standard deviation is the square root of 160 = 12.65. Choice B (16.0) adds the standard deviations with the constant: 2(6) + 4 = 16, which is wrong because standard deviations do not add that way. Choice C (160) is the variance, not the standard deviation. Choice D (95.0) is the mean of F, not the standard deviation.',
+      eli5: 'When combining independent random variables with constants, the variances of the scaled variables add. The constant multiplier gets squared before multiplying the variance. $\\text{Var}(F) = 2^2 \\times 6^2 + 1^2 \\times 4^2 = 4(36) + 1(16) = 144 + 16 = 160$. Then the standard deviation is $\\sqrt{160} = 12.65$. Choice B (16.0) adds the standard deviations with the constant: $2(6) + 4 = 16$, which is wrong because standard deviations do not add that way. Choice C (160) is the variance, not the standard deviation. Choice D (95.0) is the mean of $F$, not the standard deviation.',
       hint: 'Square the constants, multiply by the respective variances, add, then take the square root.',
       steps: [
         { text: 'For independent variables, use:', latex: '\\text{Var}(F) = a_1^2\\,\\sigma_1^2 + a_2^2\\,\\sigma_2^2' },
@@ -192,7 +192,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'This is one of the biggest traps in probability. Expected values add linearly, but standard deviations do NOT. You have to add the variances (the squares of the standard deviations) and then take the square root. The correct total standard deviation is sqrt(10000 squared + 8000 squared + 5000 squared) = sqrt(189,000,000) = about 13,748, which is much less than 23,000. Choice B is wrong because the problem states the costs are independent. Choice C makes no sense statistically. Choice D confuses linearity of expectation with standard deviation.',
+      eli5: 'This is one of the biggest traps in probability. Expected values add linearly, but standard deviations do NOT. You have to add the variances (the squares of the standard deviations) and then take the square root. The correct total standard deviation is $\\sqrt{10{,}000^2 + 8{,}000^2 + 5{,}000^2} = \\sqrt{189{,}000{,}000} \\approx 13{,}748$, which is much less than 23,000. Choice B is wrong because the problem states the costs are independent. Choice C makes no sense statistically. Choice D confuses linearity of expectation with standard deviation.',
       hint: 'Think about what property holds for sums: $E(X+Y) = E(X) + E(Y)$ always, but does the same hold for $\\sigma$?',
       steps: [
         { text: 'Linearity of expectation: $E(X_1 + X_2 + X_3) = E(X_1) + E(X_2) + E(X_3)$ always holds.', latex: null },

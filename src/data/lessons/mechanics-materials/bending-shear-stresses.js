@@ -124,7 +124,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Use sigma = M/S where S = bh^2/6. S = 150 * 300^2 / 6 = 150 * 90,000 / 6 = 2,250,000 mm^3. Then sigma = 18,000,000 / 2,250,000 = 8.0 MPa. Choice A (4.0) comes from using bh^3/12 incorrectly or swapping b and h. Choice C (16.0) comes from using c = h = 300 instead of c = h/2 = 150. Choice D (2.67) comes from dividing by I without multiplying by c, or some other dimensional error.',
+      eli5: 'Use $\\sigma = M/S$ where $S = bh^2/6$. $S = 150 \\times 300^2 / 6 = 150 \\times 90{,}000 / 6 = 2{,}250{,}000$ mm$^3$. Then $\\sigma = 18{,}000{,}000 / 2{,}250{,}000 = 8.0$ MPa. Choice A (4.0) comes from using $bh^3/12$ incorrectly or swapping $b$ and $h$. Choice C (16.0) comes from using $c = h = 300$ instead of $c = h/2 = 150$. Choice D (2.67) comes from dividing by $I$ without multiplying by $c$, or some other dimensional error.',
       hint: 'Use the section modulus shortcut: $S = bh^2/6$ and $\\sigma = M/S$.',
       steps: [
         { text: 'Section modulus:', latex: 'S = \\frac{bh^2}{6} = \\frac{150 \\times 300^2}{6} = 2{,}250{,}000 \\text{ mm}^3' },
@@ -134,7 +134,7 @@ export default {
       handbookPage: 'p. 135',
       handbookFormula: '\\sigma = \\frac{Mc}{I}',
       videoUrl: null,
-      traps: ['Using c = h (full depth) instead of c = h/2 -- doubles the stress', 'Swapping b and h in the I = bh^3/12 formula'],
+      traps: ['Using $c = h$ (full depth) instead of $c = h/2$ -- doubles the stress', 'Swapping $b$ and $h$ in the $I = bh^3/12$ formula'],
       diagram: null,
     },
     {
@@ -149,7 +149,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'For a rectangular section, use the shortcut tau_max = 3V/2A. A = 200 * 400 = 80,000 mm^2. tau = 3 * 80,000 / (2 * 80,000) = 1.50 MPa. Choice A (1.00) is just V/A, the average shear stress, forgetting the 3/2 factor. Choice C (2.00) might come from using 2V/A. Choice D (3.00) uses 3V/A, forgetting the 2 in the denominator. The 3/2 factor accounts for the parabolic distribution of shear stress in a rectangle.',
+      eli5: 'For a rectangular section, use the shortcut $\\tau_{max} = 3V/(2A)$. $A = 200 \\times 400 = 80{,}000$ mm$^2$. $\\tau = 3 \\times 80{,}000 / (2 \\times 80{,}000) = 1.50$ MPa. Choice A (1.00) is just $V/A$, the average shear stress, forgetting the 3/2 factor. Choice C (2.00) might come from using $2V/A$. Choice D (3.00) uses $3V/A$, forgetting the 2 in the denominator. The 3/2 factor accounts for the parabolic distribution of shear stress in a rectangle.',
       hint: 'For a rectangular cross-section, there is a shortcut formula for the maximum shear stress at the neutral axis.',
       steps: [
         { text: 'Cross-sectional area:', latex: 'A = 200 \\times 400 = 80{,}000 \\text{ mm}^2' },
@@ -158,7 +158,7 @@ export default {
       handbookPage: 'p. 135',
       handbookFormula: '\\tau = \\frac{VQ}{Ib}',
       videoUrl: null,
-      traps: ['Using V/A (average shear) instead of 3V/2A (max shear) for a rectangle', 'Applying the 3V/2A shortcut to a non-rectangular section -- it only works for rectangles'],
+      traps: ['Using $V/A$ (average shear) instead of $3V/(2A)$ (max shear) for a rectangle', 'Applying the $3V/(2A)$ shortcut to a non-rectangular section -- it only works for rectangles'],
       diagram: null,
     },
     {
@@ -173,7 +173,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'When S is given directly (as it is for all steel shapes in tables), you skip I and c entirely. sigma = M/S = 300,000,000 / 1,200,000 = 250 MPa. Choice A (35.3) comes from dividing M by A instead of S -- that gives an axial stress, not bending stress. Choice C (125) comes from dividing by 2S, as if you halved the section modulus. Choice D (500) comes from using S/2 or some doubling error. The section modulus S is the single most useful property for beam design -- it combines I and c into one number.',
+      eli5: 'When $S$ is given directly (as it is for all steel shapes in tables), you skip $I$ and $c$ entirely. $\\sigma = M/S = 300{,}000{,}000 / 1{,}200{,}000 = 250$ MPa. Choice A (35.3) comes from dividing $M$ by $A$ instead of $S$ -- that gives an axial stress, not bending stress. Choice C (125) comes from dividing by $2S$, as if you halved the section modulus. Choice D (500) comes from using $S/2$ or some doubling error. The section modulus $S$ is the single most useful property for beam design -- it combines $I$ and $c$ into one number.',
       hint: 'When the section modulus $S$ is provided, the bending stress formula simplifies to $\\sigma = M/S$.',
       steps: [
         { text: 'Convert moment: $M = 300 \\times 10^6$ N$\\cdot$mm', latex: null },
@@ -182,7 +182,7 @@ export default {
       handbookPage: 'p. 135',
       handbookFormula: '\\sigma = \\frac{M}{S}',
       videoUrl: null,
-      traps: ['Dividing M by A instead of S -- that gives axial stress, not bending stress', 'Forgetting to convert kN*m to N*mm before dividing by S in mm^3'],
+      traps: ['Dividing $M$ by $A$ instead of $S$ -- that gives axial stress, not bending stress', 'Forgetting to convert kN$\\cdot$m to N$\\cdot$mm before dividing by $S$ in mm$^3$'],
       diagram: null,
     },
     {
@@ -197,7 +197,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Bending stress and shear stress peak at opposite locations in the cross-section. Bending stress is maximum at the extreme fibers (top and bottom) and zero at the neutral axis. Shear stress is the exact opposite -- it is maximum at the neutral axis and zero at the top and bottom surfaces. For a rectangular beam, the shear distribution is parabolic with the peak at the center. This is why the 3V/2A formula gives you the stress at the neutral axis. Choices A and B are where bending stress peaks, not shear. Choice D describes no special location in the parabolic distribution.',
+      eli5: 'Bending stress and shear stress peak at opposite locations in the cross-section. Bending stress is maximum at the extreme fibers (top and bottom) and zero at the neutral axis. Shear stress is the exact opposite -- it is maximum at the neutral axis and zero at the top and bottom surfaces. For a rectangular beam, the shear distribution is parabolic with the peak at the center. This is why the $3V/(2A)$ formula gives you the stress at the neutral axis. Choices A and B are where bending stress peaks, not shear. Choice D describes no special location in the parabolic distribution.',
       hint: 'Think about the shear stress distribution across a rectangular section. Where is the parabolic curve at its peak?',
       steps: [
         { text: 'Shear stress distribution in a rectangular beam is parabolic: zero at the outer fibers, maximum at the neutral axis.', latex: null },

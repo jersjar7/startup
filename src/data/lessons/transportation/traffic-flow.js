@@ -114,7 +114,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'At maximum flow, the optimum density is exactly half the jam density: Do = Dj/2 = 200/2 = 100 veh/mi/ln. This comes straight from the Greenshields model. Choice B (200) is the jam density itself, not the optimum. Choice C (50) divided by 4 instead of 2. Choice D (150) is three-quarters of the jam density, which has no significance in the model.',
+      eli5: 'At maximum flow, the optimum density is exactly half the jam density: $D_o = D_j/2 = 200/2 = 100$ veh/mi/ln. This comes straight from the Greenshields model. Choice B (200) is the jam density itself, not the optimum. Choice C (50) divided by 4 instead of 2. Choice D (150) is three-quarters of the jam density, which has no significance in the model.',
       hint: 'At maximum flow, both speed and density are half their extreme values.',
       steps: [
         { text: 'Optimum density at max flow:', latex: 'D_o = \\frac{D_j}{2} = \\frac{200}{2} = 100 \\text{ veh/mi/ln}' },
@@ -122,7 +122,7 @@ export default {
       handbookPage: 'p. 306',
       handbookFormula: 'D_o = \\frac{D_j}{2}',
       videoUrl: null,
-      traps: ['Using Dj directly as the optimum density instead of dividing by 2'],
+      traps: ['Using $D_j$ directly as the optimum density instead of dividing by 2'],
       diagram: null,
     },
     {
@@ -137,7 +137,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The Greenshields model produces a parabolic flow-density curve. At zero density, flow is zero (no cars). As density increases, flow rises to a peak at D = Dj/2, then falls back to zero at jam density (cars are bumper-to-bumper, speed = 0). Choice A incorrectly assumes a linear relationship. Choice C ignores the speed-density tradeoff. Choice D describes a monotonically decreasing function, but flow starts at zero when there are no vehicles.',
+      eli5: 'The Greenshields model produces a parabolic flow-density curve. At zero density, flow is zero (no cars). As density increases, flow rises to a peak at $D = D_j/2$, then falls back to zero at jam density (cars are bumper-to-bumper, speed = 0). Choice A incorrectly assumes a linear relationship. Choice C ignores the speed-density tradeoff. Choice D describes a monotonically decreasing function, but flow starts at zero when there are no vehicles.',
       hint: 'The flow-density curve from the Greenshields model is a parabola. Where is its peak?',
       steps: [
         { text: 'At $D = 0$: $V = S_f \\times 0 = 0$ (no vehicles, no flow).', latex: null },
@@ -162,8 +162,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'VMT = ADT x days x length = 12,000 x (365 x 3) x 2 = 12,000 x 1,095 x 2 = 26,280,000 vehicle-miles. RMVM = A x 1,000,000 / VMT = 8 x 1,000,000 / 26,280,000 = 0.304 which rounds to 0.30. Choice B (0.91) used only 1 year instead of 3: VMT = 8,760,000, RMVM = 8,000,000/8,760,000 = 0.91. Choice C (109.6) forgot the segment length: VMT = 12,000 x 1,095 = 13,140,000 and also forgot the x1,000,000 factor, getting 8/0.073 = 109.6 (nonsense path). Choice D (1.10) used only 1 mile and 1 year.',
-      hint: 'VMT = ADT x total days x segment length. Use the full study period, not just one year.',
+      eli5: '$VMT = ADT \times \text{days} \times \text{length} = 12{,}000 \times (365 \times 3) \times 2 = 12{,}000 \times 1{,}095 \times 2 = 26{,}280{,}000$ vehicle-miles. $RMVM = A \times 1{,}000{,}000 / VMT = 8 \times 1{,}000{,}000 / 26{,}280{,}000 = 0.304$ which rounds to 0.30. Choice B (0.91) used only 1 year instead of 3: $VMT = 8{,}760{,}000$, $RMVM = 8{,}000{,}000/8{,}760{,}000 = 0.91$. Choice C (109.6) forgot the segment length: $VMT = 12{,}000 \times 1{,}095 = 13{,}140{,}000$ and also forgot the $\times 1{,}000{,}000$ factor. Choice D (1.10) used only 1 mile and 1 year.',
+      hint: '$VMT = ADT \times \text{total days} \times \text{segment length}$. Use the full study period, not just one year.',
       steps: [
         { text: 'Total vehicle-miles traveled:', latex: 'VMT = 12{,}000 \\times (365 \\times 3) \\times 2 = 12{,}000 \\times 2{,}190 = 26{,}280{,}000' },
         { text: 'Crash rate:', latex: 'RMVM = \\frac{8 \\times 1{,}000{,}000}{26{,}280{,}000} = 0.30 \\text{ crashes/MVM}' },

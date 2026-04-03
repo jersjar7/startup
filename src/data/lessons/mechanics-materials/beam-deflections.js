@@ -118,7 +118,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Simply supported beam with UDL: delta = 5wL^4 / 384EI. Note the 5 in the numerator and L to the fourth power. w = 10 N/mm, L = 5,000 mm, E = 200,000 MPa, I = 40e6 mm^4. delta = 5 * 10 * 5000^4 / (384 * 200,000 * 40e6) = 5 * 10 * 6.25e14 / (384 * 8e12) = 3.125e16 / 3.072e15 = 10.2 mm. Choice A (5.09) comes from forgetting the 5 in the numerator (using wL^4/384EI instead of 5wL^4/384EI). Choice C (20.3) comes from using 5wL^4/192EI (halving the denominator). Choice D (40.7) comes from using the cantilever formula wL^4/8EI.',
+      eli5: 'Simply supported beam with UDL: $\\delta = 5wL^4 / (384EI)$. Note the 5 in the numerator and $L$ to the fourth power. $w = 10$ N/mm, $L = 5{,}000$ mm, $E = 200{,}000$ MPa, $I = 40 \\times 10^6$ mm$^4$. $\\delta = 5 \\times 10 \\times 5{,}000^4 / (384 \\times 200{,}000 \\times 40 \\times 10^6) = 10.2$ mm. Choice A (5.09) comes from forgetting the 5 in the numerator (using $wL^4/(384EI)$ instead of $5wL^4/(384EI)$). Choice C (20.3) comes from using $5wL^4/(192EI)$ (halving the denominator). Choice D (40.7) comes from using the cantilever formula $wL^4/(8EI)$.',
       hint: 'Look up the deflection formula for a simply supported beam with UDL. Do not forget the coefficient in the numerator.',
       steps: [
         { text: 'Convert: $w = 10$ N/mm, $L = 5{,}000$ mm, $E = 200{,}000$ MPa, $I = 40 \\times 10^6$ mm$^4$', latex: null },
@@ -127,7 +127,7 @@ export default {
       handbookPage: 'p. 140',
       handbookFormula: '\\delta_{max} = \\frac{5wL^4}{384EI}',
       videoUrl: null,
-      traps: ['Forgetting the 5 in the numerator of 5wL^4/384EI -- halves the deflection', 'Using the cantilever UDL formula (wL^4/8EI) instead of simply supported'],
+      traps: ['Forgetting the 5 in the numerator of $5wL^4/(384EI)$ -- halves the deflection', 'Using the cantilever UDL formula $wL^4/(8EI)$ instead of simply supported'],
       diagram: null,
     },
     {
@@ -142,7 +142,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Cantilever with a tip load: delta = PL^3 / 3EI. P = 10,000 N, L = 2,000 mm. delta = 10,000 * 2,000^3 / (3 * 200,000 * 25e6) = 10,000 * 8e9 / (1.5e13) = 8e13 / 1.5e13 = 5.33 mm. Choice A (1.78) comes from using PL^3/9EI or some factor error. Choice C (10.7) comes from using PL^3/1.5EI (forgetting the 3 is already in there and doubling). Choice D (0.333) comes from using the simply supported formula PL^3/48EI instead of the cantilever PL^3/3EI -- that is 16 times smaller.',
+      eli5: 'Cantilever with a tip load: $\\delta = PL^3 / (3EI)$. $P = 10{,}000$ N, $L = 2{,}000$ mm. $\\delta = 10{,}000 \\times 2{,}000^3 / (3 \\times 200{,}000 \\times 25 \\times 10^6) = 5.33$ mm. Choice A (1.78) comes from using $PL^3/(9EI)$ or some factor error. Choice C (10.7) comes from using $PL^3/(1.5EI)$ (forgetting the 3 is already in there and doubling). Choice D (0.333) comes from using the simply supported formula $PL^3/(48EI)$ instead of the cantilever $PL^3/(3EI)$ -- that is 16 times smaller.',
       hint: 'Identify this as a cantilever with a tip load. The deflection formula has a small denominator compared to simply supported beams.',
       steps: [
         { text: 'Convert: $P = 10{,}000$ N, $L = 2{,}000$ mm', latex: null },
@@ -151,7 +151,7 @@ export default {
       handbookPage: 'p. 141',
       handbookFormula: '\\delta_{max} = \\frac{PL^3}{3EI}',
       videoUrl: null,
-      traps: ['Using the simply supported formula PL^3/48EI instead of the cantilever PL^3/3EI', 'Mixing up the 3 in the denominator with another coefficient'],
+      traps: ['Using the simply supported formula $PL^3/(48EI)$ instead of the cantilever $PL^3/(3EI)$', 'Mixing up the 3 in the denominator with another coefficient'],
       diagram: null,
     },
     {
@@ -166,7 +166,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Use superposition: compute the deflection from each load separately, then add. The point load gives delta_P = PL^3/48EI = 1.67 mm. The UDL gives delta_w = 5wL^4/384EI = 1.67 mm. Total = 1.67 + 1.67 = 3.33 mm. Choice A (1.67) is only one of the two deflections -- you forgot the other load. Choice C (6.67) comes from doubling the answer or using the wrong coefficient. Choice D (26.7) comes from using the cantilever formula PL^3/3EI for one of the loads. The most common mistake on this type of problem is computing only one load case and stopping there.',
+      eli5: 'Use superposition: compute the deflection from each load separately, then add. The point load gives $\\delta_P = PL^3/(48EI) = 1.67$ mm. The UDL gives $\\delta_w = 5wL^4/(384EI) = 1.67$ mm. Total $= 1.67 + 1.67 = 3.33$ mm. Choice A (1.67) is only one of the two deflections -- you forgot the other load. Choice C (6.67) comes from doubling the answer or using the wrong coefficient. Choice D (26.7) comes from using the cantilever formula $PL^3/(3EI)$ for one of the loads. The most common mistake on this type of problem is computing only one load case and stopping there.',
       hint: 'When a beam has multiple load types, use superposition: calculate the deflection from each load separately and add them together.',
       steps: [
         { text: 'Deflection from point load:', latex: '\\delta_P = \\frac{PL^3}{48EI} = \\frac{15{,}000 \\times (4{,}000)^3}{48 \\times 200{,}000 \\times 60 \\times 10^6} = 1.67 \\text{ mm}' },
@@ -176,7 +176,7 @@ export default {
       handbookPage: 'p. 140',
       handbookFormula: '\\delta = \\frac{PL^3}{48EI} + \\frac{5wL^4}{384EI}',
       videoUrl: null,
-      traps: ['Only computing one of the two deflections and forgetting the other load', 'Forgetting the 5 in the numerator of the UDL formula 5wL^4/384EI'],
+      traps: ['Only computing one of the two deflections and forgetting the other load', 'Forgetting the 5 in the numerator of the UDL formula $5wL^4/(384EI)$'],
       diagram: null,
     },
     {
@@ -191,7 +191,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'The deflection formula for a simply supported beam with UDL is delta = 5wL^4 / 384EI. Deflection is proportional to L^4. Double the span and the deflection increases by 2^4 = 16 times. This is why span length is so critical in beam design -- a modest increase in span causes deflection to explode. Choice A (2) only counts L to the first power. Choice B (4) treats it as L^2. Choice C (8) treats it as L^3 (that is what happens with a point load, PL^3/48EI). The fourth-power dependence on L is a direct consequence of the distributed load acting over a longer length.',
+      eli5: 'The deflection formula for a simply supported beam with UDL is $\\delta = 5wL^4 / (384EI)$. Deflection is proportional to $L^4$. Double the span and the deflection increases by $2^4 = 16$ times. This is why span length is so critical in beam design -- a modest increase in span causes deflection to explode. Choice A (2) only counts $L$ to the first power. Choice B (4) treats it as $L^2$. Choice C (8) treats it as $L^3$ (that is what happens with a point load, $PL^3/(48EI)$). The fourth-power dependence on $L$ is a direct consequence of the distributed load acting over a longer length.',
       hint: 'Look at the deflection formula for a UDL on a simply supported beam. What power of $L$ appears?',
       steps: [
         { text: 'Deflection formula:', latex: '\\delta = \\frac{5wL^4}{384EI}' },
@@ -201,7 +201,7 @@ export default {
       handbookPage: 'p. 140',
       handbookFormula: '\\delta_{max} = \\frac{5wL^4}{384EI}',
       videoUrl: null,
-      traps: ['Confusing L^4 (UDL) with L^3 (point load) -- the exponent changes with load type', 'Forgetting that w stays constant (per unit length), so the total load also doubles, but that is already captured in the L^4 term'],
+      traps: ['Confusing $L^4$ (UDL) with $L^3$ (point load) -- the exponent changes with load type', 'Forgetting that $w$ stays constant (per unit length), so the total load also doubles, but that is already captured in the $L^4$ term'],
       diagram: null,
     },
   ],

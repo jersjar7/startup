@@ -120,7 +120,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Straight plug-and-chug with tau = Tc/J. For a solid shaft, J = pi*d^4/32 and c = d/2 = 20 mm. J = pi*(40)^4/32 = 251,327 mm^4. Then tau = 400,000 * 20 / 251,327 = 31.8 MPa. Choice A (15.9) comes from using I = pi*d^4/64 instead of J = pi*d^4/32 -- halves J and thus halves the stress. Choice C (63.7) is what you get if you use c = d = 40 instead of c = d/2 = 20, doubling the answer. Choice D (8.0) comes from an error like using d^3 instead of d^4 in J.',
+      eli5: 'Straight plug-and-chug with $\\tau = Tc/J$. For a solid shaft, $J = \\pi d^4/32$ and $c = d/2 = 20$ mm. $J = \\pi(40)^4/32 = 251{,}327$ mm$^4$. Then $\\tau = 400{,}000 \\times 20 / 251{,}327 = 31.8$ MPa. Choice A (15.9) comes from using $I = \\pi d^4/64$ instead of $J = \\pi d^4/32$ -- halves $J$ and thus halves the stress. Choice C (63.7) is what you get if you use $c = d = 40$ instead of $c = d/2 = 20$, doubling the answer. Choice D (8.0) comes from an error like using $d^3$ instead of $d^4$ in $J$.',
       hint: 'Remember that $c$ is the radius (not the diameter), and $J = \\pi d^4/32$ for a solid shaft.',
       steps: [
         { text: 'Polar moment of inertia:', latex: 'J = \\frac{\\pi d^4}{32} = \\frac{\\pi (40)^4}{32} = 251{,}327 \\text{ mm}^4' },
@@ -131,7 +131,7 @@ export default {
       handbookPage: 'p. 133',
       handbookFormula: '\\tau = \\frac{Tr}{J}',
       videoUrl: null,
-      traps: ['Using diameter instead of radius for c -- doubles the stress', 'Using I instead of J -- halves the stress'],
+      traps: ['Using diameter instead of radius for $c$ -- doubles the stress', 'Using $I$ instead of $J$ -- halves the stress'],
       diagram: null,
     },
     {
@@ -146,7 +146,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Power and torque are related by P = T*omega, where omega is in rad/s. First convert rpm to rad/s: omega = 300 * 2*pi/60 = 31.42 rad/s. Then T = P/omega = 15,000 / 31.42 = 477 N*m. Choice B (50) comes from dividing power by rpm directly without converting to rad/s. Choice C (239) comes from forgetting the 2 in the 2*pi conversion (using pi/60 instead of 2*pi/60). Choice D (7,958) comes from multiplying P by omega instead of dividing.',
+      eli5: 'Power and torque are related by $P = T\\omega$, where $\\omega$ is in rad/s. First convert rpm to rad/s: $\\omega = 300 \\times 2\\pi/60 = 31.42$ rad/s. Then $T = P/\\omega = 15{,}000 / 31.42 = 477$ N$\\cdot$m. Choice B (50) comes from dividing power by rpm directly without converting to rad/s. Choice C (239) comes from forgetting the 2 in the $2\\pi$ conversion (using $\\pi/60$ instead of $2\\pi/60$). Choice D (7,958) comes from multiplying $P$ by $\\omega$ instead of dividing.',
       hint: 'Convert rpm to rad/s first using $\\omega = \\text{rpm} \\times 2\\pi/60$, then use $T = P/\\omega$.',
       steps: [
         { text: 'Convert rotational speed to rad/s:', latex: '\\omega = 300 \\times \\frac{2\\pi}{60} = 31.42 \\text{ rad/s}' },
@@ -155,7 +155,7 @@ export default {
       handbookPage: 'p. 133',
       handbookFormula: 'T = \\frac{P}{\\omega}',
       videoUrl: null,
-      traps: ['Dividing power by rpm without converting to rad/s', 'Using pi/60 instead of 2*pi/60 for the rpm conversion'],
+      traps: ['Dividing power by rpm without converting to rad/s', 'Using $\\pi/60$ instead of $2\\pi/60$ for the rpm conversion'],
       diagram: null,
     },
     {
@@ -170,7 +170,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Use phi = TL/GJ, but first compute J for the hollow shaft: J = pi*(d_o^4 - d_i^4)/32 = pi*(100^4 - 70^4)/32 = pi*(100,000,000 - 24,010,000)/32 = pi*75,990,000/32 = 7,456,000 mm^4. Then phi = 5,000,000 * 2,000 / (80,000 * 7,456,000) = 1e10 / 5.965e11 = 0.0168 rad. Choice B (0.0105) comes from using J for the solid 100 mm shaft (ignoring the hollow core), which overestimates J. Choice C (0.0335) comes from using I instead of J. Choice D (0.0051) comes from using the solid shaft J and a shorter length.',
+      eli5: 'Use $\\phi = TL/(GJ)$, but first compute $J$ for the hollow shaft: $J = \\pi(d_o^4 - d_i^4)/32 = \\pi(100^4 - 70^4)/32 = 7{,}456{,}000$ mm$^4$. Then $\\phi = 5{,}000{,}000 \\times 2{,}000 / (80{,}000 \\times 7{,}456{,}000) = 0.0168$ rad. Choice B (0.0105) comes from using $J$ for the solid 100 mm shaft (ignoring the hollow core), which overestimates $J$. Choice C (0.0335) comes from using $I$ instead of $J$. Choice D (0.0051) comes from using the solid shaft $J$ and a shorter length.',
       hint: 'Compute $J$ for a hollow shaft using $J = \\pi(d_o^4 - d_i^4)/32$, then apply $\\phi = TL/(GJ)$.',
       steps: [
         { text: 'Polar moment of inertia (hollow):', latex: 'J = \\frac{\\pi(d_o^4 - d_i^4)}{32} = \\frac{\\pi(100^4 - 70^4)}{32} = 7{,}456{,}000 \\text{ mm}^4' },
@@ -180,7 +180,7 @@ export default {
       handbookPage: 'p. 133',
       handbookFormula: '\\phi = \\frac{TL}{GJ}',
       videoUrl: null,
-      traps: ['Using J for a solid shaft instead of the hollow formula -- underestimates the twist', 'Forgetting to subtract the inner d^4 term in J'],
+      traps: ['Using $J$ for a solid shaft instead of the hollow formula -- underestimates the twist', 'Forgetting to subtract the inner $d_i^4$ term in $J$'],
       diagram: null,
     },
     {
@@ -195,7 +195,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'For tau = Tc/J, where c = d/2 and J = pi*d^4/32, you can write tau = T*(d/2) / (pi*d^4/32) = 16T/(pi*d^3). So tau is proportional to 1/d^3. When you double the diameter, the stress drops by 2^3 = 8 times. That means Shaft A (smaller) has 8 times the stress of Shaft B (larger). Choice A (2:1) only accounts for the change in c. Choice B (4:1) only accounts for the change in c^2 or confuses with area scaling. Choice D (16:1) confuses this with a fourth-power relationship (J scales as d^4, but c/J scales as 1/d^3).',
+      eli5: 'For $\\tau = Tc/J$, where $c = d/2$ and $J = \\pi d^4/32$, you can write $\\tau = T(d/2) / (\\pi d^4/32) = 16T/(\\pi d^3)$. So $\\tau$ is proportional to $1/d^3$. When you double the diameter, the stress drops by $2^3 = 8$ times. That means Shaft A (smaller) has 8 times the stress of Shaft B (larger). Choice A (2:1) only accounts for the change in $c$. Choice B (4:1) only accounts for the change in $c^2$ or confuses with area scaling. Choice D (16:1) confuses this with a fourth-power relationship ($J$ scales as $d^4$, but $c/J$ scales as $1/d^3$).',
       hint: 'Express $\\tau_{max}$ in terms of $d$ by substituting $c = d/2$ and $J = \\pi d^4/32$ into $\\tau = Tc/J$.',
       steps: [
         { text: 'Simplify the torsion stress formula:', latex: '\\tau = \\frac{Tc}{J} = \\frac{T \\cdot (d/2)}{\\pi d^4/32} = \\frac{16T}{\\pi d^3}' },
@@ -205,7 +205,7 @@ export default {
       handbookPage: 'p. 133',
       handbookFormula: '\\tau = \\frac{Tc}{J}',
       videoUrl: null,
-      traps: ['Only considering the change in c (linear with d) and ignoring J (fourth power of d)', 'Confusing the d^4 scaling of J with the d^3 scaling of tau'],
+      traps: ['Only considering the change in $c$ (linear with $d$) and ignoring $J$ (fourth power of $d$)', 'Confusing the $d^4$ scaling of $J$ with the $d^3$ scaling of $\\tau$'],
       diagram: null,
     },
   ],

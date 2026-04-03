@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'TF = LS \u2212 ES = 8 \u2212 3 = 5 days. Or equivalently, TF = LF \u2212 EF = 10 \u2212 5 = 5 days. Both give the same answer. Choice B (2) is the duration (EF \u2212 ES = 5 \u2212 3 = 2). Choice C (0) would mean it is critical \u2014 it is not. Choice D (7) subtracted wrong values (LF \u2212 ES = 10 \u2212 3 = 7, but that is not the formula).',
+      eli5: '$TF = LS - ES = 8 - 3 = 5$ days. Or equivalently, $TF = LF - EF = 10 - 5 = 5$ days. Both give the same answer. Choice B (2) is the duration ($EF - ES = 5 - 3 = 2$). Choice C (0) would mean it is critical \u2014 it is not. Choice D (7) subtracted wrong values ($LF - ES = 10 - 3 = 7$, but that is not the formula).',
       hint: 'Total float = LS \u2212 ES (or LF \u2212 EF). Both formulas give the same result.',
       steps: [
         { text: 'Total float:', latex: 'TF = LS - ES = 8 - 3 = 5 \\text{ days}' },
@@ -83,7 +83,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Free float = min(ES of successors) \u2212 EF_i = 7 \u2212 5 = 2 days. C can slip 2 days without pushing E\'s early start. But C\'s total float is 5 (LS \u2212 ES = 8 \u2212 3 = 5). So C has 2 days of free float and 5 days of total float. The extra 3 days of total float would delay E\'s start (but not the project end). Choice B (5) is total float, not free float. Choice C (0) would mean no free slack. Choice D (3) is TF \u2212 FF, which is not a standard metric.',
+      eli5: 'Free float $= \\min(ES_{\\text{successors}}) - EF_i = 7 - 5 = 2$ days. C can slip 2 days without pushing E\'s early start. But C\'s total float is 5 ($LS - ES = 8 - 3 = 5$). So C has 2 days of free float and 5 days of total float. The extra 3 days of total float would delay E\'s start (but not the project end). Choice B (5) is total float, not free float. Choice C (0) would mean no free slack. Choice D (3) is $TF - FF$, which is not a standard metric.',
       hint: 'Free float = (earliest successor ES) \u2212 (your EF). It\'s always \u2264 total float.',
       steps: [
         { text: 'C feeds E. Earliest successor start: $ES_E = 7$', latex: null },
@@ -138,7 +138,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The critical path is the longest path through the network. Both Path 1 and Path 3 are 22 days, so there are TWO critical paths. A project can have more than one critical path when paths tie for the longest duration. Activities only on Path 2 (18 days) have total float = 22 - 18 = 4 days. Choice B says one critical path, missing the tie. Choice C says three, but Path 2 is shorter. Choice D gives Path 2 activities zero float.',
+      eli5: 'The critical path is the longest path through the network. Both Path 1 and Path 3 are 22 days, so there are TWO critical paths. A project can have more than one critical path when paths tie for the longest duration. Activities only on Path 2 (18 days) have total float $= 22 - 18 = 4$ days. Choice B says one critical path, missing the tie. Choice C says three, but Path 2 is shorter. Choice D gives Path 2 activities zero float.',
       hint: 'Can a project have more than one critical path? What happens when two paths tie?',
       steps: [
         { text: 'Longest path duration: $\\max(22, 18, 22) = 22$ days.', latex: null },
@@ -163,7 +163,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Reducing D by 3 days shortens the critical path from 24 to 21 days. But the near-critical path A-C-E-F is 22 days and was not changed. The project duration is the LONGEST path, so the new duration = max(21, 22) = 22 days. The near-critical path becomes the new critical path. You cannot crash below the next-longest path without also shortening it. Choice B (21) forgot the near-critical path. Choice C (24) ignored the crash entirely. Choice D (23) subtracted only 1 day.',
+      eli5: 'Reducing D by 3 days shortens the critical path from 24 to 21 days. But the near-critical path A-C-E-F is 22 days and was not changed. The project duration is the LONGEST path, so the new duration $= \\max(21, 22) = 22$ days. The near-critical path becomes the new critical path. You cannot crash below the next-longest path without also shortening it. Choice B (21) forgot the near-critical path. Choice C (24) ignored the crash entirely. Choice D (23) subtracted only 1 day.',
       hint: 'After crashing the critical path, check whether another path has become the new bottleneck.',
       steps: [
         { text: 'Original critical path A-B-D-F: 24 days. Reduce D by 3: 24 - 3 = 21 days.', latex: null },
@@ -188,7 +188,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Free float = min(ES of successors) - EF of the activity. Both M and N feed P. First find ES of P: since M and N both feed P (FS), ES_P = max(EF_M, EF_N) = max(9, 8) = 9. Free float of N = ES_P - EF_N = 9 - 8 = 1 day. N can slip 1 day without pushing P. Total float of N = LS - ES = 6 - 5 = 1 day. Here FF = TF = 1. Choice B (0) would be N\'s free float if M did not control P\'s start. Choice C (4) is the duration of N. Choice D (3) is EF_N - ES_N, not a float formula.',
+      eli5: 'Free float = $\\min(ES_{\\text{successors}}) - EF$ of the activity. Both M and N feed P. First find ES of P: since M and N both feed P (FS), $ES_P = \\max(EF_M, EF_N) = \\max(9, 8) = 9$. Free float of N $= ES_P - EF_N = 9 - 8 = 1$ day. N can slip 1 day without pushing P. Total float of N $= LS - ES = 6 - 5 = 1$ day. Here $FF = TF = 1$. Choice B (0) would be N\'s free float if M did not control P\'s start. Choice C (4) is the duration of N. Choice D (3) is $EF_N - ES_N$, not a float formula.',
       hint: 'Free float = (earliest successor ES) - (your EF). First determine what controls the successor\'s ES.',
       steps: [
         { text: 'M and N both feed P. $EF_M = 9$, $EF_N = 8$.', latex: null },

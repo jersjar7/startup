@@ -115,8 +115,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'A = |g2 - g1| x 100 = |-0.04 - 0.02| x 100 = 0.06 x 100 = 6. K = L/A = 600/6 = 100 ft per percent change. Choice B (300) used A = 2 (only the magnitude of one grade). Choice C (50) used A = 12 (added the absolute values of the grades as percentages: 2 + 4 = 6, then doubled to 12). Choice D (6) confused K with A.',
-      hint: 'K = L/A, where A = |g2 - g1| x 100. Compute A in percent first.',
+      eli5: '$A = |g_2 - g_1| \times 100 = |-0.04 - 0.02| \times 100 = 0.06 \times 100 = 6$. $K = L/A = 600/6 = 100$ ft per percent change. Choice B (300) used $A = 2$ (only the magnitude of one grade). Choice C (50) used $A = 12$ (added the absolute values of the grades as percentages: $2 + 4 = 6$, then doubled to 12). Choice D (6) confused $K$ with $A$.',
+      hint: '$K = L/A$, where $A = |g_2 - g_1| \times 100$. Compute $A$ in percent first.',
       steps: [
         { text: 'Algebraic difference:', latex: 'A = |g_2 - g_1| \\times 100 = |-0.04 - 0.02| \\times 100 = 6' },
         { text: 'Rate of curvature:', latex: 'K = \\frac{L}{A} = \\frac{600}{6} = 100' },
@@ -124,7 +124,7 @@ export default {
       handbookPage: 'p. 301',
       handbookFormula: 'K = \\frac{L}{A}',
       videoUrl: null,
-      traps: ['Confusing K with A -- K is the ratio L/A, not the algebraic difference itself'],
+      traps: ['Confusing $K$ with $A$ -- $K$ is the ratio $L/A$, not the algebraic difference itself'],
       diagram: null,
     },
     {
@@ -164,8 +164,8 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'L = AS^2/(400 + 3.5S) = 6 x 400^2/(400 + 3.5 x 400) = 6 x 160,000/(400 + 1,400) = 960,000/1,800 = 533 ft. Verify: S = 400 < L = 533, so S <= L is satisfied. Choice B (444) used the crest formula: 6 x 160,000/2,158 = 444. Choice C (600) used 2S - constant. Choice D (400) confused L with S.',
-      hint: 'Sag headlight formula: L = AS^2/(400 + 3.5S). Make sure you use the sag denominator, not the crest constant.',
+      eli5: '$L = AS^2/(400 + 3.5S) = 6 \times 400^2/(400 + 3.5 \times 400) = 6 \times 160{,}000/(400 + 1{,}400) = 960{,}000/1{,}800 = 533$ ft. Verify: $S = 400 < L = 533$, so $S \leq L$ is satisfied. Choice B (444) used the crest formula: $6 \times 160{,}000/2{,}158 = 444$. Choice C (600) used $2S - \text{constant}$. Choice D (400) confused $L$ with $S$.',
+      hint: 'Sag headlight formula: $L = AS^2/(400 + 3.5S)$. Make sure you use the sag denominator, not the crest constant.',
       steps: [
         { text: 'Sag headlight formula ($S \\leq L$):', latex: 'L = \\frac{A S^2}{400 + 3.5S} = \\frac{6 \\times 400^2}{400 + 3.5(400)}' },
         { text: 'Calculate:', latex: 'L = \\frac{960{,}000}{1{,}800} = 533 \\text{ ft}' },
@@ -174,7 +174,7 @@ export default {
       handbookPage: 'p. 302',
       handbookFormula: 'L = \\frac{A S^2}{400 + 3.5S}',
       videoUrl: null,
-      traps: ['Using the crest constant (2,158) instead of the sag denominator (400 + 3.5S)', 'Forgetting to verify S <= L after computing L'],
+      traps: ['Using the crest constant (2,158) instead of the sag denominator $(400 + 3.5S)$', 'Forgetting to verify $S \leq L$ after computing $L$'],
       diagram: null,
     },
     {
@@ -189,7 +189,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'The two formulas are derived under different geometric assumptions. The S <= L formula assumes the sight line stays within the curve limits, and the S > L formula assumes the sight line extends beyond the curve ends. If you use S <= L and get L < S, the assumption is violated, so the result is not valid. You must switch to L = 2S - 2,158/A. Choice B is wrong -- the S <= L formula does not always give a longer curve. In fact, when S > L actually holds, the S <= L formula can give a shorter L. Choice C has no theoretical basis. Choice D is arbitrary.',
+      eli5: 'The two formulas are derived under different geometric assumptions. The $S \leq L$ formula assumes the sight line stays within the curve limits, and the $S > L$ formula assumes the sight line extends beyond the curve ends. If you use $S \leq L$ and get $L < S$, the assumption is violated, so the result is not valid. You must switch to $L = 2S - 2{,}158/A$. Choice B is wrong — the $S \leq L$ formula does not always give a longer curve. In fact, when $S > L$ actually holds, the $S \leq L$ formula can give a shorter $L$. Choice C has no theoretical basis. Choice D is arbitrary.',
       hint: 'The two crest formulas come from two different geometric cases. You must use the one that matches your result.',
       steps: [
         { text: 'Assume $S \\leq L$, compute $L = AS^2/2{,}158$. If the result gives $L < S$, the assumption is violated.', latex: null },
@@ -199,7 +199,7 @@ export default {
       handbookPage: 'p. 302',
       handbookFormula: 'L = 2S - \\frac{2{,}158}{A}',
       videoUrl: null,
-      traps: ['Accepting a result where the assumption is violated without switching formulas', 'Thinking the S <= L formula is always conservative'],
+      traps: ['Accepting a result where the assumption is violated without switching formulas', 'Thinking the $S \\leq L$ formula is always conservative'],
       diagram: null,
     },
   ],

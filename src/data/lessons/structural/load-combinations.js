@@ -121,6 +121,7 @@ export default {
       correctAnswerId: 'c1',
       difficulty: 'easy',
       eli5: 'Combination 3 with only roof live load active is $1.2D + 1.6L_r = 1.2(15) + 1.6(20) = 18 + 32 = 50$ kips. Choice B (35) is the unfactored sum $D + L_r = 15 + 20$. Choice C (21) is Combination 1: $1.4D = 1.4(15) = 21$. Choice D (56) comes from applying 1.6 to both loads: $1.6(15) + 1.6(20) = 56$, but dead load gets 1.2, not 1.6.',
+
       hint: 'Apply the load factors directly: 1.2 on D and 1.6 on $L_r$.',
       steps: [
         { text: 'LRFD Combination 3 (no floor live load):', latex: '1.2D + 1.6L_r' },

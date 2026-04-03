@@ -122,7 +122,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'First find acceleration: a = (25-0)/8 = 3.125 m/s^2. Then F = ma = 1500 x 3.125 = 4687.5 N which rounds to 4688 N. The trap is using weight (mg) instead of mass, or confusing the final velocity with acceleration.',
+      eli5: 'First find acceleration: $a = (25 - 0)/8 = 3.125$ m/s². Then $F = ma = 1500 \\times 3.125 = 4687.5$ N which rounds to 4688 N. The trap is using weight ($mg$) instead of mass, or confusing the final velocity with acceleration.',
       hint: 'Find the acceleration first using kinematics, then apply Newton\'s second law.',
       steps: [
         { text: 'Find acceleration:', latex: 'a = \\frac{v - v_0}{t} = \\frac{25 - 0}{8} = 3.125\\,\\text{m/s}^2' },
@@ -131,7 +131,7 @@ export default {
       handbookPage: 'p. 101',
       handbookFormula: 'F = ma',
       videoUrl: null,
-      traps: ['Using weight (mg = 14715 N) instead of applying F = ma', 'Forgetting to calculate acceleration first'],
+      traps: ['Using weight ($mg = 14715$ N) instead of applying $F = ma$', 'Forgetting to calculate acceleration first'],
       diagram: null,
     },
     {
@@ -171,7 +171,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The angled cable does two things: it pulls horizontally (T cos 30) and it lifts vertically (T sin 30), which reduces the normal force. A lower normal force means less friction. You need to solve the y-direction first to get the normal force, then use it for friction in the x-direction. Choice A comes from using N = mg without subtracting the vertical cable component. Choice C is T cos 30 / m, ignoring friction entirely.',
+      eli5: 'The angled cable does two things: it pulls horizontally ($T \\cos 30°$) and it lifts vertically ($T \\sin 30°$), which reduces the normal force. A lower normal force means less friction. You need to solve the y-direction first to get the normal force, then use it for friction in the x-direction. Choice A comes from using $N = mg$ without subtracting the vertical cable component. Choice C is $T \\cos 30° / m$, ignoring friction entirely.',
       hint: 'The cable angle reduces the normal force. Solve the vertical equilibrium first to find N, then use it to compute friction.',
       steps: [
         { text: 'Horizontal component of tension:', latex: 'T\\cos 30\\degree = 400(0.866) = 346.4\\,\\text{N}' },
@@ -197,7 +197,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'The key insight is that both blocks must accelerate together at the same rate. The only force accelerating the top block is static friction, so the max acceleration is limited by friction on the top block: a_max = mu_s * g. Then apply F = (m1 + m2) * a_max to the whole system. If you only multiply by the top block mass, you get the friction force alone, not the applied force needed for the whole system.',
+      eli5: 'The key insight is that both blocks must accelerate together at the same rate. The only force accelerating the top block is static friction, so the max acceleration is limited by friction on the top block: $a_{max} = \\mu_s g$. Then apply $F = (m_1 + m_2) a_{max}$ to the whole system. If you only multiply by the top block mass, you get the friction force alone, not the applied force needed for the whole system.',
       hint: 'For the blocks to move together, the upper block\'s acceleration is limited by the maximum static friction. Find that acceleration, then apply it to the entire system.',
       steps: [
         { text: 'Maximum friction on the upper block:', latex: 'f_{max} = \\mu_s m_{top} g = 0.40(4)(9.81) = 15.70\\,\\text{N}' },
