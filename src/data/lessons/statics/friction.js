@@ -189,4 +189,170 @@ export default {
       diagram: { component: 'BlockOnRamp', props: { weight: 800, angle: 25, mu: 0.50 } },
     },
   ],
+  examProblems: [
+    {
+      id: 'stat-fri-ex1',
+      type: 'computational',
+      statement:
+        'A 300 N box sits on a flat surface with $\\mu_s = 0.35$. A horizontal pull of 80 N is applied. What is the friction force acting on the box?',
+      choices: [
+        { id: 'c1', text: '80 N' },
+        { id: 'c2', text: '105 N' },
+        { id: 'c3', text: '300 N' },
+        { id: 'c4', text: '0 N' },
+      ],
+      correctAnswerId: 'c1',
+      difficulty: 'easy',
+      eli5: 'The maximum static friction is $\\mu_s N = 0.35 \\times 300 = 105$ N. The applied force is only 80 N, which is less than the maximum. Since the box is not on the verge of moving, friction matches the applied force exactly: $F = 80$ N. Answer B (105 N) is the maximum possible friction, but the box is not about to slide so friction does not reach that value. Answer C uses the full weight. Answer D incorrectly assumes no friction acts.',
+      hint: 'Check whether the applied force exceeds $\\mu_s N$. If it does not, friction equals the applied force.',
+      steps: [
+        {
+          text: 'Maximum static friction:',
+          latex: 'F_{\\max} = \\mu_s N = 0.35 \\times 300 = 105 \\text{ N}',
+        },
+        {
+          text: 'Applied force = 80 N < 105 N, so the box does not move.',
+          latex: null,
+        },
+        {
+          text: 'When the box is stationary and below the slip threshold, friction equals the applied force:',
+          latex: 'F_{\\text{friction}} = 80 \\text{ N}',
+        },
+      ],
+      handbookPage: 'p. 96, Friction',
+      handbookFormula: 'F \\leq \\mu_s N',
+      videoUrl: null,
+      traps: [
+        'Using $\\mu_s N$ as the friction force when the object is not on the verge of sliding',
+        'Assuming friction always equals the maximum value -- it only does at impending motion',
+      ],
+      diagram: null,
+    },
+    {
+      id: 'stat-fri-ex2',
+      type: 'computational',
+      statement:
+        'A flat belt wraps 270 degrees around a fixed drum. The coefficient of friction is 0.25. If the tension on the slack side is 150 N, what is the maximum tension on the tight side before the belt slips? (Use $e^{1.18} = 3.25$.)',
+      choices: [
+        { id: 'c1', text: '487 N' },
+        { id: 'c2', text: '263 N' },
+        { id: 'c3', text: '188 N' },
+        { id: 'c4', text: '150 N' },
+      ],
+      correctAnswerId: 'c1',
+      difficulty: 'medium',
+      eli5: 'Belt friction uses the capstan equation: $F_1 = F_2 e^{\\mu\\theta}$. Convert 270 degrees to radians: $\\theta = 3\\pi/2 = 4.712$ rad. The exponent is $\\mu\\theta = 0.25 \\times 4.712 = 1.178$, and $e^{1.178} \\approx 3.25$. So $F_1 = 150 \\times 3.25 = 487$ N. Answer B (263 N) uses 90 degrees instead of 270 degrees for the wrap angle. Answer C (188 N) treats friction as a linear add-on ($150 + 0.25 \\times 150 = 187.5$). Answer D assumes no friction amplification at all.',
+      hint: 'Convert the contact angle to radians (270 degrees = $3\\pi/2$), then apply the belt friction formula $F_1 = F_2 e^{\\mu\\theta}$.',
+      steps: [
+        {
+          text: 'Identify: $F_2 = 150$ N (slack side), $\\mu = 0.25$, $\\theta = 270\\degree = \\frac{3\\pi}{2}$ radians.',
+          latex: null,
+        },
+        {
+          text: 'Compute the exponent:',
+          latex: '\\mu\\theta = 0.25 \\times \\frac{3\\pi}{2} = 0.25 \\times 4.712 = 1.178',
+        },
+        {
+          text: 'Apply the belt friction formula:',
+          latex: 'F_1 = 150 \\times e^{1.178} = 150 \\times 3.25 = 487 \\text{ N}',
+        },
+        {
+          text: 'The exponential amplification is substantial: a 270-degree wrap with $\\mu = 0.25$ multiplies the slack-side tension by about 3.25 times.',
+          latex: null,
+        },
+      ],
+      handbookPage: 'p. 96, Belt Friction',
+      handbookFormula: 'F_1 = F_2\\, e^{\\mu\\theta}',
+      videoUrl: null,
+      traps: [
+        'Using degrees instead of radians for the contact angle',
+        'Adding friction linearly instead of using the exponential relationship',
+      ],
+      diagram: null,
+    },
+    {
+      id: 'stat-fri-ex3',
+      type: 'computational',
+      statement:
+        'A 600 N block rests on a 30-degree incline. The coefficient of static friction is 0.45. What minimum force, applied parallel to and up the incline, is needed to start the block sliding upward?',
+      choices: [
+        { id: 'c1', text: '533.8 N' },
+        { id: 'c2', text: '300.0 N' },
+        { id: 'c3', text: '270.0 N' },
+        { id: 'c4', text: '233.8 N' },
+      ],
+      correctAnswerId: 'c1',
+      difficulty: 'medium',
+      eli5: 'To push the block up, you must overcome both the weight component pulling it down the ramp and the friction resisting upward motion. Weight down the ramp: $W\\sin 30\\degree = 300$ N. Normal force: $N = W\\cos 30\\degree = 519.6$ N. Maximum friction: $\\mu_s N = 0.45 \\times 519.6 = 233.8$ N. The total force needed is $P = 300 + 233.8 = 533.8$ N. Answer B (300 N) only accounts for the gravity component and ignores friction. Answer D (233.8 N) is the friction force alone, forgetting that gravity also resists upward motion. Answer C (270 N) incorrectly uses $\\mu_s W$ as the friction force.',
+      hint: 'Resolve the weight into components along and perpendicular to the surface. To push up the ramp, $P$ must overcome both the gravity component and friction.',
+      steps: [
+        {
+          text: 'Weight components on the incline:',
+          latex: 'W_{\\parallel} = 600\\sin 30\\degree = 300 \\text{ N}, \\quad W_{\\perp} = 600\\cos 30\\degree = 519.6 \\text{ N}',
+        },
+        {
+          text: 'Normal force and maximum friction:',
+          latex: 'N = 519.6 \\text{ N}, \\quad F = \\mu_s N = 0.45 \\times 519.6 = 233.8 \\text{ N}',
+        },
+        {
+          text: 'For impending upward motion, the applied force $P$ must equal the gravity component plus friction (both act down the ramp):',
+          latex: 'P = W_{\\parallel} + F = 300 + 233.8 = 533.8 \\text{ N}',
+        },
+        {
+          text: 'Answer D (233.8 N) is only the friction force. Answer B (300 N) ignores friction entirely.',
+          latex: null,
+        },
+      ],
+      handbookPage: 'p. 96, Friction',
+      handbookFormula: 'F \\leq \\mu_s N',
+      videoUrl: null,
+      traps: [
+        'Forgetting to include the weight component down the ramp -- friction alone is not the total resistance',
+        'Using the full weight (600 N) as the normal force instead of $W\\cos\\theta$',
+      ],
+      diagram: null,
+    },
+    {
+      id: 'stat-fri-ex4',
+      type: 'conceptual',
+      statement:
+        'A block sits on a rough incline. The angle of the incline is slowly increased until the block just begins to slide. At the moment of impending motion, which relationship correctly describes the angle $\\theta$ and the coefficient of static friction $\\mu_s$?',
+      choices: [
+        { id: 'c1', text: '$\\tan\\theta = \\mu_s$' },
+        { id: 'c2', text: '$\\sin\\theta = \\mu_s$' },
+        { id: 'c3', text: '$\\cos\\theta = \\mu_s$' },
+        { id: 'c4', text: '$\\theta = \\mu_s$' },
+      ],
+      correctAnswerId: 'c1',
+      difficulty: 'hard',
+      eli5: 'At impending motion on an incline, the friction force equals $\\mu_s N$. The weight component along the ramp is $W\\sin\\theta$ and the normal force is $N = W\\cos\\theta$. Setting friction equal to the gravity component: $\\mu_s W\\cos\\theta = W\\sin\\theta$. Cancel $W$: $\\mu_s = \\sin\\theta/\\cos\\theta = \\tan\\theta$. This angle is called the angle of repose. It is a classic result: the friction coefficient equals the tangent of the steepest angle at which the block can sit without sliding. Answer B ($\\sin\\theta = \\mu_s$) incorrectly omits the cosine in the normal force. Answer C ($\\cos\\theta = \\mu_s$) inverts the relationship. Answer D confuses the angle (in radians) with the coefficient.',
+      hint: 'At impending motion, set $\\mu_s N = W\\sin\\theta$ and $N = W\\cos\\theta$. Divide to eliminate $W$ and $N$.',
+      steps: [
+        {
+          text: 'At impending motion along the incline:',
+          latex: '\\mu_s N = W\\sin\\theta',
+        },
+        {
+          text: 'Normal force on an incline:',
+          latex: 'N = W\\cos\\theta',
+        },
+        {
+          text: 'Substitute and simplify:',
+          latex: '\\mu_s W\\cos\\theta = W\\sin\\theta \\quad \\Rightarrow \\quad \\mu_s = \\frac{\\sin\\theta}{\\cos\\theta} = \\tan\\theta',
+        },
+        {
+          text: 'This is called the angle of repose. It means the coefficient of static friction can be measured by simply tilting a surface until the object begins to slide.',
+          latex: null,
+        },
+      ],
+      handbookPage: 'p. 96, Friction',
+      handbookFormula: 'F \\leq \\mu_s N',
+      videoUrl: null,
+      traps: [
+        'Confusing sine and tangent -- the correct relationship is $\\tan\\theta = \\mu_s$, not $\\sin\\theta = \\mu_s$',
+        'Forgetting that the normal force on an incline is $W\\cos\\theta$, not $W$',
+      ],
+      diagram: null,
+    },
+  ],
 };

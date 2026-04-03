@@ -222,5 +222,117 @@ export default {
       ],
       "diagram": null
     }
+  ],
+  "examProblems": [
+    {
+      "id": "math-log-ex1",
+      "type": "computational",
+      "statement": "Solve for $x$: $3^x = 81$.",
+      "choices": [
+        { "id": "c1", "text": "$3$" },
+        { "id": "c2", "text": "$4$" },
+        { "id": "c3", "text": "$27$" },
+        { "id": "c4", "text": "$5$" }
+      ],
+      "correctAnswerId": "c2",
+      "difficulty": "easy",
+      "eli5": "Rewrite the equation in log form: $x = \\log_3(81)$. You're asking '3 to what power gives 81?' Count: $3^1 = 3$, $3^2 = 9$, $3^3 = 27$, $3^4 = 81$. So $x = 4$. Alternatively, take $\\log$ of both sides and use the power rule to bring $x$ down. Either way, the answer is 4. The trap is confusing 81 with $3^3 = 27$.",
+      "hint": "Rewrite the equation as a logarithm: $x = \\log_3(81)$.",
+      "steps": [
+        { "text": "Rewrite in log form:", "latex": "x = \\log_3(81)" },
+        { "text": "Recognize that $3^4 = 81$:", "latex": "x = 4" }
+      ],
+      "handbookPage": "p. 36",
+      "handbookFormula": "\\log_b(x) = c \\iff b^c = x",
+      "videoUrl": null,
+      "traps": [
+        "Confusing powers of 3 — 3^3 = 27, not 81",
+        "Dividing 81 by 3 repeatedly but losing count"
+      ],
+      "diagram": null
+    },
+    {
+      "id": "math-log-ex2",
+      "type": "computational",
+      "statement": "Simplify: $\\ln(e^4) + \\ln(e^{-1})$.",
+      "choices": [
+        { "id": "c1", "text": "$3$" },
+        { "id": "c2", "text": "$4$" },
+        { "id": "c3", "text": "$5$" },
+        { "id": "c4", "text": "$-4$" }
+      ],
+      "correctAnswerId": "c1",
+      "difficulty": "medium",
+      "eli5": "Use the identity $\\ln(e^n) = n$ on each term. The first term gives 4, the second gives $-1$. Add them: $4 + (-1) = 3$. You could also combine first using the product rule: $\\ln(e^4 \\cdot e^{-1}) = \\ln(e^3) = 3$. Either path works. The trap is multiplying the exponents instead of adding them ($4 \\times -1 = -4$), which is Choice D.",
+      "hint": "Apply $\\ln(e^n) = n$ to each term, then add the results.",
+      "steps": [
+        { "text": "Apply the identity to each term:", "latex": "\\ln(e^4) = 4 \\quad\\text{and}\\quad \\ln(e^{-1}) = -1" },
+        { "text": "Add:", "latex": "4 + (-1) = 3" }
+      ],
+      "handbookPage": "p. 36",
+      "handbookFormula": "\\ln(e^n) = n",
+      "videoUrl": null,
+      "traps": [
+        "Multiplying the exponents (4 times -1) instead of adding",
+        "Dropping the negative sign on the second term"
+      ],
+      "diagram": null
+    },
+    {
+      "id": "math-log-ex3",
+      "type": "computational",
+      "statement": "An investment doubles in value according to $2 = e^{0.06t}$, where $t$ is in years. How many years does it take to double?",
+      "choices": [
+        { "id": "c1", "text": "$8.3$ years" },
+        { "id": "c2", "text": "$11.6$ years" },
+        { "id": "c3", "text": "$16.7$ years" },
+        { "id": "c4", "text": "$33.3$ years" }
+      ],
+      "correctAnswerId": "c2",
+      "difficulty": "medium",
+      "eli5": "Take the natural log of both sides to bring the exponent down: $\\ln(2) = 0.06t$. Then divide: $t = \\ln(2) / 0.06 = 0.6931 / 0.06 = 11.6$ years. The main mistake is using $\\log_{10}(2)$ instead of $\\ln(2)$ — those are different numbers. Since the base of the exponent is $e$, you need the natural log to cancel it.",
+      "hint": "Take $\\ln$ of both sides to undo the exponential, then isolate $t$.",
+      "steps": [
+        { "text": "Take natural log of both sides:", "latex": "\\ln(2) = 0.06t" },
+        { "text": "Solve for $t$:", "latex": "t = \\frac{\\ln(2)}{0.06} = \\frac{0.6931}{0.06} = 11.6\\,\\text{years}" }
+      ],
+      "handbookPage": "p. 36",
+      "handbookFormula": "\\ln(e^x) = x",
+      "videoUrl": null,
+      "traps": [
+        "Using log base 10 instead of natural log",
+        "Dividing 0.06 by ln(2) instead of the other way around"
+      ],
+      "diagram": null
+    },
+    {
+      "id": "math-log-ex4",
+      "type": "conceptual",
+      "statement": "Which of the following is a valid logarithmic identity?",
+      "choices": [
+        { "id": "c1", "text": "$\\log(x + y) = \\log x + \\log y$" },
+        { "id": "c2", "text": "$\\log(x - y) = \\log x - \\log y$" },
+        { "id": "c3", "text": "$\\log(x^c) = c \\cdot \\log x$" },
+        { "id": "c4", "text": "$\\log(xy) = \\log x \\cdot \\log y$" }
+      ],
+      "correctAnswerId": "c3",
+      "difficulty": "hard",
+      "eli5": "The power rule says you can pull an exponent out as a coefficient: $\\log(x^c) = c \\cdot \\log x$. The other three choices are the most common log mistakes students make. There is NO log rule for sums ($x + y$) or differences ($x - y$) inside a log. And the product rule says $\\log(xy) = \\log x + \\log y$ (addition), not multiplication. If you remember only one thing: logs turn multiplication into addition and powers into multiplication — never sums into anything.",
+      "hint": "Only products, quotients, and powers have log identities. Sums and differences inside a log cannot be split.",
+      "steps": [
+        { "text": "The power rule states:", "latex": "\\log(x^c) = c \\cdot \\log x" },
+        { "text": "Choice A is wrong: $\\log(x + y) \\neq \\log x + \\log y$ — no identity for sums.", "latex": null },
+        { "text": "Choice B is wrong: $\\log(x - y) \\neq \\log x - \\log y$ — no identity for differences.", "latex": null },
+        { "text": "Choice D is wrong: the product rule gives addition, not multiplication: $\\log(xy) = \\log x + \\log y$.", "latex": null }
+      ],
+      "handbookPage": "p. 36",
+      "handbookFormula": "\\log(x^c) = c\\,\\log x",
+      "videoUrl": null,
+      "traps": [
+        "Confusing the product rule — log(xy) = log x + log y, not log x times log y",
+        "Thinking log(x + y) can be split — there is no identity for sums inside a log"
+      ],
+      "diagram": null
+    }
   ]
 };

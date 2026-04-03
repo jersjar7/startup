@@ -101,5 +101,123 @@ export default {
       ],
       "diagram": null
     }
+  ],
+  "examProblems": [
+    {
+      "id": "math-lr-ex1",
+      "type": "computational",
+      "statement": "Evaluate $\\lim_{x \\to 0}\\frac{1 - \\cos x}{x^2}$.",
+      "choices": [
+        { "id": "c1", "text": "$0$" },
+        { "id": "c2", "text": "$\\frac{1}{2}$" },
+        { "id": "c3", "text": "$1$" },
+        { "id": "c4", "text": "Does not exist" }
+      ],
+      "correctAnswerId": "c2",
+      "difficulty": "easy",
+      "eli5": "Plug in $x = 0$: $(1 - 1)/0 = 0/0$ — indeterminate, so L'Hopital's applies. Differentiate top and bottom: $\\sin x / 2x$. Plug in again: $0/0$ — still indeterminate! Apply a second time: $\\cos x / 2$. Now plug in: $\\cos 0 / 2 = 1/2$. Two rounds is typical for the FE. If you stopped after one round, you'd get stuck — don't quit early.",
+      "hint": "Direct substitution gives 0/0. You may need to apply the rule more than once.",
+      "steps": [
+        { "text": "Direct substitution:", "latex": "\\frac{1 - \\cos 0}{0^2} = \\frac{0}{0} \\text{ — indeterminate}" },
+        { "text": "First round:", "latex": "\\lim_{x \\to 0}\\frac{\\sin x}{2x}" },
+        { "text": "Still 0/0. Second round:", "latex": "\\lim_{x \\to 0}\\frac{\\cos x}{2}" },
+        { "text": "Evaluate:", "latex": "\\frac{\\cos 0}{2} = \\frac{1}{2}" }
+      ],
+      "handbookPage": "p. 48",
+      "handbookFormula": "\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f'(x)}{g'(x)}",
+      "videoUrl": null,
+      "traps": [
+        "Stopping after one round when the result is still 0/0",
+        "Differentiating incorrectly: d/dx(1 - cos x) = sin x, not -sin x"
+      ],
+      "diagram": null
+    },
+    {
+      "id": "math-lr-ex2",
+      "type": "computational",
+      "statement": "Evaluate $\\lim_{x \\to \\infty}\\frac{3x^2 + 5}{e^x}$.",
+      "choices": [
+        { "id": "c1", "text": "$\\infty$" },
+        { "id": "c2", "text": "$3$" },
+        { "id": "c3", "text": "$0$" },
+        { "id": "c4", "text": "$5$" }
+      ],
+      "correctAnswerId": "c3",
+      "difficulty": "medium",
+      "eli5": "As $x \\to \\infty$, both the top and bottom blow up: $\\infty / \\infty$. That's an indeterminate form, so L'Hopital's applies. First round: $6x / e^x$ — still $\\infty/\\infty$. Second round: $6 / e^x$. Now the top is a constant and the bottom goes to infinity, so the limit is 0. The exponential always wins against any polynomial. This is a key fact for the FE.",
+      "hint": "This is $\\infty/\\infty$ form. Apply L'Hopital's until the numerator stops growing.",
+      "steps": [
+        { "text": "Form check: $\\infty/\\infty$ — L'Hopital's applies.", "latex": null },
+        { "text": "First round:", "latex": "\\lim_{x \\to \\infty}\\frac{6x}{e^x} \\quad\\text{still } \\frac{\\infty}{\\infty}" },
+        { "text": "Second round:", "latex": "\\lim_{x \\to \\infty}\\frac{6}{e^x}" },
+        { "text": "Evaluate: $6/\\infty = 0$.", "latex": null }
+      ],
+      "handbookPage": "p. 48",
+      "handbookFormula": "\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f'(x)}{g'(x)}",
+      "videoUrl": null,
+      "traps": [
+        "Assuming infinity/infinity always diverges — it can converge to zero",
+        "Differentiating e^x incorrectly (it's its own derivative)"
+      ],
+      "diagram": null
+    },
+    {
+      "id": "math-lr-ex3",
+      "type": "computational",
+      "statement": "Evaluate $\\lim_{x \\to 0}\\frac{\\tan x - x}{x^3}$.",
+      "choices": [
+        { "id": "c1", "text": "$\\frac{1}{3}$" },
+        { "id": "c2", "text": "$0$" },
+        { "id": "c3", "text": "$1$" },
+        { "id": "c4", "text": "$\\frac{1}{2}$" }
+      ],
+      "correctAnswerId": "c1",
+      "difficulty": "medium",
+      "eli5": "Plug in 0: $(0 - 0)/0 = 0/0$. First round: $(\\sec^2 x - 1)/3x^2$. At $x = 0$: $0/0$ again. Second round: use $\\sec^2 x - 1 = \\tan^2 x$ or just differentiate directly. The derivative of $\\sec^2 x - 1$ is $2\\sec^2 x \\tan x$, and the derivative of $3x^2$ is $6x$. Still $0/0$. Third round: differentiate again. Eventually you get $1/3$. This is a classic three-round L'Hopital's problem.",
+      "hint": "You'll need to apply L'Hopital's Rule multiple times. Keep differentiating until the form resolves.",
+      "steps": [
+        { "text": "Direct substitution: $0/0$. First round:", "latex": "\\lim_{x \\to 0}\\frac{\\sec^2 x - 1}{3x^2}" },
+        { "text": "Still $0/0$. Second round:", "latex": "\\lim_{x \\to 0}\\frac{2\\sec^2 x \\tan x}{6x}" },
+        { "text": "Still $0/0$. Third round:", "latex": "\\lim_{x \\to 0}\\frac{2\\sec^4 x + 4\\sec^2 x \\tan^2 x}{6}" },
+        { "text": "At $x = 0$: $\\sec 0 = 1$, $\\tan 0 = 0$:", "latex": "\\frac{2(1) + 4(1)(0)}{6} = \\frac{2}{6} = \\frac{1}{3}" }
+      ],
+      "handbookPage": "p. 48",
+      "handbookFormula": "\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f'(x)}{g'(x)}",
+      "videoUrl": null,
+      "traps": [
+        "Stopping too early — this problem requires three rounds",
+        "Differentiating sec^2(x) incorrectly — its derivative is 2 sec^2(x) tan(x)"
+      ],
+      "diagram": null
+    },
+    {
+      "id": "math-lr-ex4",
+      "type": "conceptual",
+      "statement": "Which of the following is NOT an indeterminate form where L'Hopital's Rule applies?",
+      "choices": [
+        { "id": "c1", "text": "$\\frac{0}{0}$" },
+        { "id": "c2", "text": "$\\frac{\\infty}{\\infty}$" },
+        { "id": "c3", "text": "$\\frac{1}{0}$" },
+        { "id": "c4", "text": "All of the above are indeterminate forms" }
+      ],
+      "correctAnswerId": "c3",
+      "difficulty": "hard",
+      "eli5": "L'Hopital's Rule only applies to two forms: $0/0$ and $\\infty/\\infty$. The form $1/0$ is NOT indeterminate — it means the function blows up to $\\pm\\infty$ or the limit doesn't exist. The rule explicitly requires an indeterminate form before you can differentiate. Applying L'Hopital's when the form isn't indeterminate gives a wrong answer. This is the trap in problems like $\\lim_{x \\to 0} e^x/x$ — students apply the rule without checking and get 1, but the correct answer is DNE.",
+      "hint": "L'Hopital's Rule has exactly two qualifying forms. Any fraction with a nonzero numerator and zero denominator is not one of them.",
+      "steps": [
+        { "text": "$0/0$ is indeterminate — L'Hopital's applies.", "latex": null },
+        { "text": "$\\infty/\\infty$ is indeterminate — L'Hopital's applies.", "latex": null },
+        { "text": "$1/0$ is NOT indeterminate — it represents a function that blows up. The limit is $\\pm\\infty$ or DNE.", "latex": null },
+        { "text": "L'Hopital's must NOT be applied to non-indeterminate forms.", "latex": null }
+      ],
+      "handbookPage": "p. 48",
+      "handbookFormula": "\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f'(x)}{g'(x)} \\text{ (only for } \\frac{0}{0} \\text{ or } \\frac{\\infty}{\\infty}\\text{)}",
+      "videoUrl": null,
+      "traps": [
+        "Thinking any fraction with zero in the denominator qualifies as indeterminate",
+        "Applying L'Hopital's to 1/0 and getting a wrong finite answer"
+      ],
+      "diagram": null
+    }
   ]
 };
