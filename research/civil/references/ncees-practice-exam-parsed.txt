@@ -1,0 +1,5647 @@
+im NCEES
+
+
+
+
+
+
+
+
+
+
+civil
+practice exam
+
+               I= NCEES
+advancing licensure for
+engineers and surveyors
+
+
+
+
+
+
+
+
+
+
+    civil
+
+    practice exam
+
+    Copyright ©2020 by NCEES®. All rights reserved.
+
+All NCEES sample questions and solutions are copyrighted under the laws of the United States. No part of this publication may
+be reproduced, stored in a retrieval system, or transmitted in any form or by any means without the prior written permission of
+NCEES. Requests for permissions should be addressed in writing to permissions@ncees.org.
+
+    ISBN 978-1-932613-97-1
+
+    Printed in the United States of America
+    1st printing January 2020
+
+CONTENTS
+
+
+
+Introduction to NCEES EXams           1
+
+About NCEES
+
+Exam Format
+
+Examinee Guide
+
+Scoring and reporting
+Updates on exam content and procedures
+
+Exam                                  3
+
+
+Practice
+
+
+Solutions    DD
+
+
+
+
+
+
+
+
+
+
+ii
+
+
+
+About NCEES
+NCEES is a nonprofit organization made up of the U.S. engineering and surveying licensing boards in
+all 50 states, U.S. territories, and the District of Columbia. We develop and score the exams used for
+engineering and surveying licensure in the United States. NCEES also promotes professional mobility
+through its services for licensees and its member boards.
+
+Engineering licensure in the United States is regulated by licensing boards in each state and territory.
+These boards set and maintain the standards that protect the public they serve. As a result, licensing
+requirements and procedures vary by jurisdiction, so stay in touch with your board (ncees.org/licensing-
+boards).
+
+Exam Format
+The FE exam contains 110 questions and is administered year-round via computer at approved Pearson
+VUE test centers. A 6-hour appointment time includes a tutorial, the exam, and a break. You'll have
+5 hours and 20 minutes to complete the actual exam.
+
+In addition to traditional multiple-choice questions with one correct answer, the FE exam uses common
+alternative item types such as
+
+        Multiple correct options—allows multiple choices to be correct
+        Point and click—requires examinees to click on part of a graphic to answer
+        Drag and drop—requires examinees to click on and drag items to match, sort, rank, or label
+        Fill in the blank—provides a space for examinees to enter a response to the question
+
+To familiarize yourself with the format, style, and navigation of a computer-based exam, view the demo
+on ncees.org/ExamPrep.
+
+Examinee Guide
+The NCEES Examinee Guide is the official guide to policies and procedures for all NCEES exams.
+During exam registration and again on exam day, examinees must agree to abide by the conditions in
+the Examinee Guide, which includes the CBT Examinee Rules and Agreement. You can download the
+Examinee Guide at ncees.org/exams. It is your responsibility to make sure you have the current version.
+
+Scoring and reporting
+Exam results for computer-based exams are typically available 7-10 days after you take the exam. You
+will receive an email notification from NCEES with instructions to view your results in your
+MyNCEES account. All results are reported as pass or fail.
+
+Updates on exam content and procedures
+Visit us at ncees.org/exams for updates on everything exam-related, including specifications, exam-day
+policies, scoring, and corrections to published exam preparation materials. This is also where you will
+register for the exam and find additional steps you should follow in your state to be approved for the
+exam.
+
+
+
+
+    FE  in)
+
+        : |
+
+
+
+EXAM SPECIFICATIONS
+
+
+
+
+
+
+
+
+
+
+3
+
+= advancing licensure for
+  engineers and surveyors
+
+                                   Fundamentals of Engineering (FE)
+                                    CIVIL CBT Exam Specifications
+
+                         Effective Beginning with the July 2020 Examinations
+
+
+
+    The FE exam is a computer-based test (CBT). It is closed book with an electronic reference.
+
+e Examinees have 6 hours to complete the exam, which contains 110 questions. The 6-hour time also includes a
+    tutorial and an optional scheduled break
+
+    The FE exam uses both the International System of Units (SI) and the U.S. Customary System (USCS).
+
+
+    Knowledge        Number of Questions
+
+    1.   Mathematics and Statistics        8-12
+         A.   Analytic geometry
+         B.   Single-variable calculus
+         C.   Vector operations
+         D.   Statistics (e.g., distributions, mean, mode, standard deviation, confidence
+              interval, regression and curve fitting)
+
+    2.   Ethics and Professional Practice                                                4-6
+         A.   Codes of ethics (professional and technical societies)
+         B.   Professional liability
+         C.   Licensure
+         D.   Contracts and contract law
+
+    3.   Engineering Economics                                                           5-8
+      A. Time value of money (e.g., equivalence, present worth, equivalent annual
+        worth, future worth, rate of return)
+      B. Cost (e.g., fixed, variable, direct and indirect labor, incremental, average, sunk)
+      C. Analyses (e.g., break-even, benefit-cost, life cycle, sustainability, renewable energy)
+      D. Uncertainty (e.g., expected value and risk)
+
+    4.   Statics        8-12
+         A.   Resultants of force systems
+         B.   Equivalent force systems
+         C.   Equilibrium of rigid bodies
+         D.   Frames and trusses
+         E.   Centroid of area
+         F.   Area moments of inertia
+         G.   Static friction
+
+
+
+
+
+
+
+
+
+
+              4
+
+5.    Dynamics        4-6
+      A.   Kinematics (e.g., particles,  rigid bodies)
+      B.   Mass moments of inertia
+      C.   Force acceleration (e.g., particles, rigid bodies)
+      D.   Work, energy, and power (e.g., particles, rigid bodies)
+
+6.    Mechanics of Materials                                                                7-11
+  A. Shear and moment diagrams
+  B. Stresses and strains (e.g., diagrams, axial, torsion, bending, shear, thermal)
+  C. Deformations (e.g., axial, torsion, bending, thermal)
+  D. Combined stresses, principal stresses, and Mohr's circle
+  E. Elastic and plastic deformations
+
+7.    Materials                                                                              5-8
+      A.   Mix design of concrete and asphalt
+      B.   Test methods and specifications ofmetals, concrete, aggregates, asphalt, and wood
+      C.   Physical and mechanical properties of metals, concrete, aggregates, asphalt, and wood
+
+8.    Fluid Mechanics                                                                        6-9
+      A.   Flow measurement
+      B.   Fluid properties
+      C.   Fluid statics
+      D.   Energy, impulse, and momentum of fluids
+
+9. Surveying                                                                                 6-9
+      A.   Angles, distances, and trigonometry
+      B.   Area computations
+      C.   Earthwork and volume computations
+      D.   Coordinate systems (e.g., state plane, latitude/longitude)
+      E.   Leveling (e.g., differential, elevations, percent grades)
+
+10.   Water Resources and Environmental Engineering                                        10-15
+  A. Basic hydrology (e.g., infiltration, rainfall, runoff, watersheds)
+  B. Basic hydraulics (e.g., Manning equation, Bernoulli theorem, open-channel flow)
+  C. Pumps
+  D. Water distribution systems
+  E. Flood control (e.g., dams, routing, spillways)
+  F. Stormwater (e.g., detention, routing, quality)
+  G. Collection systems (e.g., wastewater, stormwater)
+  H. Groundwater (e.g., flow, wells, drawdown)
+  1. Water quality (e.g., ground and surface, basic water chemistry)
+  J. Testing and standards (e.g., water, wastewater, air, noise)
+  K. Water and wastewater treatment (e.g., biological processes, softening,
+    drinking water treatment)
+
+
+
+
+
+
+
+
+
+           5
+
+11.   Structural Engineering                                                               10-15
+      A.   Analysis of statically determinant beams, columns, trusses, and frames
+      B.   Deflection of statically determinant beams, trusses, and frames
+      C.   Column analysis (e.g., buckling, boundary conditions)
+      D.   Structural determinacy and stability analysis of beams, trusses, and frames
+      E.   Elementary statically indeterminate structures
+      F.   Loads, load combinations, and load paths (e.g., dead, live, lateral, influence
+           lines and moving loads, tributary areas)
+      G.   Design of steel components (e.g., codes and design philosophies, beams, columns,
+           tension members, connections)
+      H.   Design of reinforced concrete components (e.g., codes and design
+           philosophies, beams, columns)
+12.   Geotechnical Engineering                                                             10-15
+      A.   Index properties and soil classifications
+      B.   Phase relations
+      C.   Laboratory and field tests
+      D.   Effective stress
+      E.   Stability ofretaining structures (e.g., active/passive/at-rest pressure)
+      F.   Shear strength
+      G.   Bearing capacity
+      H.   Foundation types (e.g., spread footings, deep foundations, wall footings, mats)
+      I.   Consolidation and differential settlement
+      J.   Slope stability (e.g., fills, embankments, cuts, dams)
+      K.   Soil stabilization (e.g., chemical additives, geosynthetics)
+
+13.   Transportation Engineering                                                            9-14
+  A. Geometric design (e.g., streets, highways, intersections)
+  B. Pavement system design (e.g., thickness, subgrade, drainage, rehabilitation)
+  C. Traffic capacity and flow theory
+  D. Traffic control devices
+  E. Transportation planning (e.g., travel forecast modeling, safety, trip
+    generation)
+
+14.   Construction Engineering                                                              8-12
+  A. Project administration (e.g., documents, management, procurement,
+    project delivery methods)
+  B. Construction operations and methods (e.g.. safety, equipment, productivity
+    analysis, temporary erosion control)
+  C. Project controls (e.g., earned value, scheduling, allocation ofresources,
+    activity relationships)
+  D. Construction estimating
+  E. Interpretation of engineering drawings
+
+
+
+
+
+
+
+
+
+
+           6
+
+PRACTICE ЕХАМ
+
+
+
+
+
+
+
+
+
+
+7
+
+FE CIVIL PRACTICE EXAM
+
+1s  The area of the shaded portion of the figure shown below is most nearly:
+
+
+
+y
+
+
+
+
+y=32
+
+
+
+
+
+
+x=2  x=5 w
+
+
+Oo   A    18
+
+oO   B.   39
+
+0    6    117
+
+Oo   D.   133
+
+
+
+
+
+2.       The indefinite integral of x* — x + 1 is:
+
+    oA
+
+              xX4     2
+    Oo   B.   3       2
+
+              4      X2
+              xX
+    o    C.   —-—+13  2
+
+
+
+    o    D.   &⁴ —² +x+C
+
+
+
+
+
+
+
+
+
+
+              8
+Copyright © 2020 by NCEES
+
+FE CIVIL PRACTICE EXAM
+
+
+3 The integralgral  , 2 quals
+
+
+
+Oo   A.   T1
+
+oO   B.   73
+
+
+o C.      3
+
+OB.       165
+
+
+
+
+
+
+
+4.   Ify =        +623 +20, then =r
+              x
+
+
+oO   A. 12x + 62
+
+Oo   B. 24x + 62
+
+
+Oo D. 24x2+6xz+5z22
+
+
+
+
+
+
+
+
+
+
+Copyright© 2020 by NCEES    9    NEXT>
+
+  FE CIVIL PRACTICE EXAM
+
+  5. The following data have been collected:
+
+
+
+Test  Average
+       Score
+
+ 1       85
+
+ 2       87
+
+ 3       95
+ 4       90
+ 5       85
+
+ 6       88
+ 7       90
+ 8       90
+ 9    91
+
+
+
+  Which of the following statements is true?
+
+
+  Oo   A.   The median and the mode are equal.
+
+  Oo   B.   The mean and the median are equal.
+  oC        The mean and the mode are equal.
+
+  o    D.   The mean is larger than both the mode and the median.
+
+
+
+
+  6.   Which   of the following is a unit vector perpendicular to the plane determined by the
+       vectors        A=2i+4jand B=i+j—k?
+
+
+  Oo   A.
+
+            1
+            7
+  o    B.   —=(i+2j
+
+
+  oc
+
+
+  oD
+
+
+
+
+
+
+
+
+
+
+            10    NEXT—>
+  Copyright © 2020 by NCEES
+
+                  FE CIVIL PRACTICE EXAM
+
+7.       You throw two 6-sided fair dice. The probability that the sum will be less than 12 is most nearly:
+
+    oO   A.   0.028
+    Oo   B.   0.083
+    o    C.   0.333
+    oO   D.   0.972
+
+
+
+
+8.       The water content of a soil volume is measured four times gravimetrically   by oven drying. The
+         mean value of the water content is 23.2%. If the standard deviation of the four measurements is
+         1.0%, the 99% confidence interval for the soil water content is most nearly:
+
+    Oo   A. (18.6%, 27.8%
+    0    B. (19.5%, 26.9%
+    OC.
+    o    D. (20.9%, 25.5%
+
+
+
+
+9.       According to the Model Rules, Section 240.15, Rules of Professional Conduct, licensed
+         professional engineers are obligated to:
+
+    oO   A.   ensure that design documents and surveys are reviewed by a panel of licensed engineers
+              prior to affixing a seal of approval
+
+    Oo   B.   express public opinions under the direction of an employer or client regardless of
+              knowledge of subject matter
+
+         6:   practice by performing services only in the areas of their competence and in accordance
+              with the current standards of technical competence
+
+              offer, give, or solicit services directly or indirectly in order to secure work or other
+              valuable or political considerations
+
+
+
+
+
+
+
+
+
+
+Copyright© 2020 by NCEES    11
+
+    FE CIVIL PRACTICE EXAM
+
+    10. An engineer testifying as an expert witness in a product liability case should:
+
+
+Oo A answer as briefly as possible only those questions posed by the attorneys
+
+Oo B. provide an evaluation of the character of the defendant
+
+© GC provide a complete and objective analysis within his or her area of competence
+
+Oo D. provide information on the professional background of the defendant
+
+
+
+
+11. As a professional engineer originally licensed 30 years ago, you are asked to evaluate a newly
+       developed computerized control system for a public transportation system. The owner requires a
+       currently licensed engineer to evaluate the system. You may accept this project if:
+
+       Select all that apply.
+
+    oO A you are competent in the area of computerized control systems
+
+       B. your professional engineering license has lapsed, but you have two FE interns working
+        for you
+
+    OC. you took a transportation course in college
+
+    0 D. you have regularly attended meetings of a professional engineering society
+
+        you have another licensed engineer work for you who is competent in this area, and he or
+        she will conduct all related work and stamp the related design
+
+
+
+
+
+    12. Alienisa:
+
+
+© A claim on property for payment of a debt
+
+oO B. requirement that a contractor secure a performance bond for a project
+
+o C requirement that a contractor secure a payment bond for a project
+
+o D. claim for damages for lack of specific performance
+
+
+
+
+
+
+
+
+
+
+    12
+    Copyright © 2020 by NCEES
+
+                    FE CIVIL PRACTICE EXAM
+
+ 13.       A company borrows $100,000 today at 12% nominal annual interest. The monthly payment of a
+           5-yr loan is most nearly:
+
+      oO   A    $1,667
+                $2,200
+      oC.       $3,100
+      Oo   D.   $12,000
+
+
+
+
+ 14.       You must choose between four pieces of comparable equipment based on the costs and salvage
+           values given below. All four pieces have a life of 8 years.
+
+
+
+
+
+ First cost     A        Do
+                $25,000  $35,000  $20,000  $40,000
+ Annual costs    $8,000   $6,000   $9,000   $5,000
+ Salvage value   $2,500   $3,500   $2,000   $4,000
+
+
+The discount rate is 12%. Ignore taxes. The two most preferable equipment pieces and the
+approximate difference between their present worth values based on least cost are:
+
+ Oo   A.    AandC, $170
+
+ oO   B.    BandD, $170
+                C, $234
+ Oo   D.   Band D, $234
+
+
+
+
+ 15.       A company can manufacture a product using hand tools. Tools will cost $1,000, and the
+           manufacturing cost per unit will be $1.50. As an alternative, an automated system will cost $15,000
+           with a manufacturing cost per unit of $0.50. With an anticipated annual volume of 5,000 units and
+           neglecting interest, the payback period (years) to invest in the automated system is most nearly:
+
+      Oo   A.   2.0
+      Oo   B.   2.8
+      o    C    3.6
+      Oo   D.   15.0
+
+
+
+
+
+
+
+
+
+ Copyright ® 2020 by NCEES        13    NEXT->
+
+                   FE CIVIL PRACTICE EXAM
+
+16.       A construction company bought a new rubber-tire loader and is performing a risk analysis about
+          whether to purchase insurance. The construction company paid $100,000 for the loader. The
+          annual cost for the insurance premium is $2,000, and the deductible is $1,000. The risk options
+          to purchase or not to purchase insurance are as follows:
+
+              0.88 probability of no accident
+              0.11 probability of a small accident at a cost of $800
+              0.01 probability of a total loss for the loader
+
+          The best option and projected cost savings are:
+
+     Oo   A.   purchase insurance and save $990
+
+     oO   B.   purchase insurance and save $1,088
+               do not purchase insurance and save $1,010
+
+     oO   Di   do not purchase insurance and save $2,098
+
+
+
+
+17       A tractor cost $7,500. After 10 years it has a salvage value of $5,000. Maintenance costs are $500
+         per year. If the interest rate is 10%, the equivalent uniform annual cost is most nearly:
+
+    Oo   A    $500
+    oO   B.   $750
+    oC        $1,400
+    Oo   D.   $2,000
+
+
+
+
+
+
+
+
+
+
+               14
+Copyright © 2020 by NCEES
+
+FE CIVIL PRACTICE EXAM
+
+18. The magnitude (N) of the resultant of the three coplanar forces, A, B, and C, is most nearly:
+
+
+SN
+  y
+
+
+
+
+A |
+
+
+B
+
+ 105; 2.12N
+
+    Cc
+
+
+Oo   A.  7.0
+Oo   B.  7.8
+o    C.   92
+oO   D.  10.3
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    15
+
+      FE CIVIL PRACTICE EXAM
+
+19.   A heavy roller is held in equilibrium on a frictionless Plane AB by the force F, as shown. Which
+      diagram correctly shows a vector polygon of the forces acting on the roller?
+
+      F
+
+
+
+
+
+      B
+
+
+
+
+
+
+
+      Option A  Option B    J
+
+
+
+
+
+
+
+
+
+
+      Optiow@ Option D
+
+
+
+Oo   A.    Option A
+
+Oo   B.    Option B
+
+Gi   IC;   Option C
+
+Oo   D.    Option D
+
+
+
+
+
+
+
+
+
+
+           16
+Copyright © 2020 by NCEES
+
+      FE CIVIL PRACTICE EXAM
+
+20.   Select the location on the x-axis where an additional load must be placed in order to achieve
+      equilibrium of the L-shaped bar.
+
+
+
+      } 61b
+
+5
+
+4
+
+3         3 101
+
+2
+
+
+
+      x (ft)
+      0  | 5    10    15
+
+
+      101b
+
+
+
+
+21. The figure below shows a simple truss. Which members in the truss have no (zero) force in them?
+
+      D
+
+
+      6m
+
+
+      c               4,000 N
+
+      4m
+
+      B
+
+      4m
+
+      A             EF
+          5m G 5m   H
+
+
+
+Oo   A.   BG, CG, CF, CE
+
+Oo   B.   BG, CE
+
+o    C.   CG, CF
+
+O    D.   CF
+
+
+
+
+
+
+Copyright © 2020 by NCEES    17
+
+    FE CIVIL PRACTICE EXAM
+
+    22. Consider the following graph:
+
+        y
+
+
+
+    3.3
+    y=x
+
+
+
+
+
+    x
+
+
+    Which of the following expressions gives the distance from the y-axis to the centroid of the shaded
+    area?
+
+
+
+
+    CE I;₀ (+ fn?₃ Jas
+
+
+
+
+
+
+    Oo  B. I 6 - 3 ra Ja
+
+        0 (+ 3 IZ
+
+
+
+    Tar
+    ©   GC IN (x -   ) dx
+I;₀ (x -=x₃          J
+
+
+
+
+    Oo  D.           Ji
+        Ii₀ (x 3     I
+
+
+
+
+
+
+
+
+
+
+                     18    NEXT->
+    Copyright © 2020 by NCEES
+
+    FE CIVIL PRACTICE EXAM
+
+    23. The moment of inertia (in*) of the area about the x' axis is most nearly:
+
+        y
+
+        Jin.
+
+
+
+    x
+
+
+    45in,
+
+
+        le 6    x
+
+
+    Oo  A.   78.0
+
+    oO  B.   78.6
+
+    (oo      118.5
+
+    Oo  D.   138.8
+
+
+
+
+24. In the figure below, the coefficient of static friction between the block and the inclined plane is
+        0.25. The block is in equilibrium. As the inclined plane is raised, the block will begin to slide
+        when:
+
+
+
+
+
+
+
+
+    Oo   A.
+
+    oO   B.   cos ¢=1.0
+
+    o    C.   cos
+
+    oD.
+
+
+
+
+
+
+
+
+
+
+    Copyright© 2020 by NCEES    19    NEXT->
+
+                     FE CIVIL PRACTICE EXAM
+
+25.       Three forces act as shown below. The magnitude of the resultant of the three forces (N) is most
+          nearly:
+
+     oO   A.     140        260N   y
+
+     oO   B.     191               |
+
+     oC          370
+
+     o    D.     396        12     |  3
+
+                                      4
+
+
+                 50N
+
+
+
+
+
+
+
+26.       A boat accelerates at a constant rate of 12 ft/sec’. The boat travels 140 ft while its speed changes
+          to 60 ft/sec. The initial velocity (ft/sec) was most nearly:
+
+     oO   A     37
+
+     oO   B.    5.0
+
+     ©    iC;   15/5
+
+     Oo   D.    31.0
+
+
+
+
+27.   A small rotating robotic arm weighs 8 N and has a mass radius of gyration of 4.0 cm. The mass
+      moment of inertia (kg:cm?) is most nearly:
+
+
+Oo    A.   13.0
+
+Oo    B.   32.0
+
+©     CG   128
+
+oO    D.   256
+
+
+
+
+
+
+
+
+
+
+                 20
+Copyright © 2020 by NCEES
+
+        FE CIVIL PRACTICE EXAM
+
+28. A S-kg block is sliding along a frictionless surface and is an acted on by a constant force P of
+        20 N. The time (seconds) when the block is moving at 18 m/s is most nearly:
+
+
+
+
+
+
+
+
+
+
+    Oo   A.   0.22
+
+    oO   B.   1.83
+
+    o    C    4.50
+
+    O    D.   72.0
+
+
+
+
+    29. During impact of two objects, which of the following is true?
+
+
+    oO   A.   Energy is never conserved.
+
+    Oo   B.   Energy is always conserved.
+
+              Momentum is never conserved.
+
+    oO   D.   Momentum is always conserved.
+
+
+
+
+
+
+
+
+
+
+    Copyright ® 2020 by NCEES    21
+
+        FE CIVIL PRACTICE EXAM
+
+30. The shear diagram for a particular beam is shown below. All lines in the diagram are straight. The
+       bending moment at each end of the beam is zero, and there are no concentrated couples along the
+       beam. The maximum magnitude of the bending moment (kN-m) in the beam is most nearly:
+
+
+    10m    4m
+    2m
+
+
+ SHEAR 6    4    4
+  kN, 0
+
+
+                -12
+
+    oO   A    8
+
+    Oo   B.   16
+
+    oC        18
+
+    Oo   D.   26
+
+
+
+
+31. The pressure gauge in an air cylinder reads 1,680 kPa. The cylinder is constructed of a 12-mm
+        rolled-steel plate with an internal diameter of 700 mm. The tangential stress (MPa) inside the tank
+        is most nearly:
+
+
+    Oo   A.   25
+
+    Oo   B.   50
+
+    o    C.   77
+
+    ©    D.   100
+
+
+
+
+    32.   A I-ftrod with a diameter of 0.5 in. is subjected to a tensile force of 1,300 Ib and has an elongation
+          of 0.009 in. The modulus of elasticity (ksi) of the material is most nearly:
+
+
+    oO    A.   740
+
+    Oo    B.   884
+
+    ©     C.   8,840
+
+    Oo    D.   10,000
+
+
+
+
+
+
+
+
+
+               22    NEXT->
+    Copyright © 2020 by NCEES
+
+FE CIVIL PRACTICE EXAM
+
+33. The maximum inplane shear stress (ksi) in the element shown below is most nearly:
+
+    20 ksi
+
+
+
+
+>   10ksi
+    I. 40 ksi
+
+
+
+
+
+
+
+
+Oo   A.   10
+
+oO   B.   14.1
+
+          44.1
+
+Oo   D.   316
+
+
+
+
+
+34. Based on the given stress-strain curves, which material has the largest plastic deformation?
+
+          STRESS
+
+              MATERIAL B
+
+              MATERIAL C
+
+
+
+          MATERIAL D
+
+
+
+
+              STRAIN
+
+oO   A.   Material A
+
+Oo   B.   Material B
+
+oC        Material C
+
+o    D.   Material D
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    23
+
+              FE CIVIL PRACTICE EXAM
+
+    35.   The piston of a steam engine is 50 cm in diameter, and the maximum steam gauge pressure is
+        1.4 MPa. If the design stress for the piston rod is 68 MPa, its cross-sectional area (m?) should be
+       most nearly:
+
+
+          rd rod
+
+
+
+
+
+
+
+          P=14MPa 2 Ne
+
+
+
+    oO   A.   40.4 x 10
+
+    oO   B.   98.8 x
+
+    o    C    228.0 x
+
+    o    D.   323.0 x
+
+
+
+
+    36.   Which of the following is true when a circular shaft is subjected to torsion only?
+
+
+oO A Maximum shear stress occurs at the outermost fibers.
+
+oO B. Maximum shear stress occurs at the center of the shaft.
+
+o C Constant shear stress occurs throughout the shaft.
+
+oO D. No shear stress is present throughout the shaft.
+
+
+
+
+    37.   Ready-mixed concrete being delivered to a jobsite is found to have a slump less than specified.
+          Without compromising strength, which of the following is the most appropriate corrective action?
+
+
+Oo A. Decrease the amount of water in the mix before the truck leaves the ready-mix plant.
+
+oO B. Increase the water to the mix in the truck at the jobsite before the concrete is poured.
+
+o C. Add a water-reducing admixture to the mix in the truck at the jobsite before the concrete
+
+        is poured.
+
+oO D. Increase the rotation speed of the mixing drum while the truck is in transit to the jobsite.
+
+
+
+
+
+
+
+
+
+
+              24
+    Copyright © 2020 by NCEES
+
+    FE CIVIL PRACTICE EXAM
+
+    38. The test that measures the energy required to fracture a specimen at a given temperature is the:
+
+
+    Oo   A    Brinell Test
+
+    Oo   B.   Rockwell Test
+    oC        Endurance Test
+
+    oO   D.   Charpy Test
+
+
+
+
+    39. In general, a metal with high hardness will also have:
+
+
+    oO   A.   good formability
+
+    oO   B.   high impact strength
+
+    ©    C    high electrical conductivity
+
+    oO   D.   high yield strength
+
+
+
+
+    40.   The following preliminary concrete mix has been designed assuming that the aggregates are in
+          oven-dry condition. However, the aggregates used are in SSD condition.
+
+           Water = 305 Ib/yd®
+           Cement = 693 Ib/yd®
+           Coarse aggregate (SSD) = 1,674 Ib/yd’
+           Fine aggregate (SSD) = 1,100 Ib/yd’
+
+          The properties of the aggregates are:
+
+
+        Property Aggregate Fine Aggregate
+
+Moisture content at SSD 0.5% 0.7%
+Moisture content as used in mix 2.0% 6.0%
+
+
+    The amount of water (Ib/yd®) that would be used in the final mix is most nearly:
+
+
+    Oo   A    206
+
+    Oo   B.   222
+
+              305
+
+    Oo   D.   388
+
+
+
+
+
+
+
+    Copyright© 2020 by NCEES    25,    NEXT>
+
+      FE CIVIL PRACTICE EXAM
+
+41.   The solid line represents results from a uniaxial tension test. The slope of the dashed line is
+      associated with which physical property of the material?
+
+
+
+
+
+
+
+&
+Pry    /
+wa
+E      j
+©
+
+
+
+
+
+
+      0.002
+          STRAIN (in./in.)
+
+
+oO   A.   Yield strength
+
+oO   B.   Yield strain
+          Secant modulus
+          Modulus of elasticity
+
+
+
+
+42.   The pitot tube shown below is placed at a point where the velocity is 2.0 m/s. The specific gravity
+      of the fluid is 2.0, and the upper portion of the manometer contains air. The reading / (m) on the
+      manometer is most nearly:
+              (Mm)₃     Lk     AIR
+
+          0        0                                                                                   :
+
+
+
+oO   A.   20.0
+
+oO   B.   10.0
+oC        0.40
+
+o    D.   0.20
+
+
+
+
+
+
+
+
+          26    NEXT—
+Copyright © 2020 by NCEES
+
+        FE CIVIL PRACTICE EXAM
+
+43. If the standard density of water is 1,000 kg/m?, a fluid having a specific gravity of 1.263 and an
+       absolute dynamic viscosity of 1.5 kg/(m-s) has a kinematic viscosity (m%s) of most nearly:
+
+
+    o    A.   1.19 x 107°
+
+    oO   B.   1.50 x 1073
+    oC        1.89 x 107°
+
+    O    D.   528
+
+
+
+
+  44. principle states that:
+
+      Oo A. the sum of the pressure, velocity, and elevation heads is constant
+
+      oO B. flow passing two points in a stream is equal at each point
+
+      ol €. the buoyant force on a body is equal to the volume displaced by the body
+
+. Oo D. a floating body displaces a weight of fluid equal to its own weight
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    27    NEXT—>
+
+    FE CIVIL PRACTICE EXAM
+
+
+45. A l-in-diameter jet of 50°F water is deflected 90° by an angled chute as shown. The water enters
+        with a velocity of 25 ft/sec and freely exits into the atmosphere with the same velocity. The
+        forces (Ib) in the x and y directions of the chute are most nearly:
+
+        y
+
+
+    N  be x
+
+
+
+
+
+
+
+    45°    45°
+
+
+
+
+
+
+
+    Oo A. Fx=0
+
+
+
+
+    oO B.
+
+
+
+
+    o  C.
+        Fy=9.331b
+
+
+    Oo D.   Fx=9331b
+            Fy=9331b
+
+
+
+
+
+
+
+
+
+
+            28    NEXT->
+    Copyright © 2020 by NCEES
+
+        FE CIVIL PRACTICE EXAM
+
+46. The rectangular homogeneous gate shown below is 3.00 m high x 1.00 m wide and has a
+       frictionless hinge at the bottom. If the fluid on the left side ofthe gate has a density of 1,600
+       the magnitude of the force F (kN) required to keep the gate closed is most nearly:
+
+
+
+
+
+
+
+
+
+
+FRICTIONLESS
+   HINGE
+
+
+    oO   A.   0
+
+    Oo   B.   22
+
+    Oi        24
+
+    (oD       220
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    29
+
+        FE CIVIL PRACTICE EXAM
+
+47. Four water tanks are shown with varying water heights / and varying nozzle cross-sectional
+        areas Ao. Assume no minor losses in the discharge and a common coefficient of discharge
+        C = 0.6 for all the nozzles. Match the discharge velocity (ft/sec) to the correct tank.
+
+
+
+
+
+
+                Discharge Velocity (ft/sec)
+
+                13.6
+                11.8
+    4;=6in.     14.3
+                152
+    TANK A      16.7
+
+
+
+
+
+
+
+
+    H,=6f
+
+
+    4,=2in.
+    TANK B
+
+
+
+
+
+
+    H,=10ft
+
+
+
+    4,=12in.
+    TANK C
+
+
+
+
+
+
+
+
+
+
+    4,=8in.
+    TANK D
+
+
+
+
+    30
+    Copyright © 2020 by NCEES
+
+    FE CIVIL PRACTICE EXAM
+
+48. The value of angle A in the figure is most nearly:
+
+    h
+    720.00 ft
+
+                       NOT TO SCALE
+
+
+Oo   A.    30°18'47"
+
+Oo   B.    32°47 50"
+
+©        892-05" 38"
+
+Oo   D.  42° 35' 09"
+
+
+
+
+49.   The area inside the quadrilateral, PC, PI, PT, and O, equals 83,164 ft. The shaded area (ft?)
+      between the circular curve and the tangents is most nearly:
+
+      Se
+      po
+
+
+
+
+
+
+
+
+
+
+                Oo
+
+Oo    A.    2,879
+
+o     B.    3577
+
+oO,   6G    5,407
+
+©     Db.   8.286
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    31
+
+    FE CIVIL PRACTICE EXAM
+
+    50. The cross-sectional areas to be excavated (cut) at certain sections of a road project are as follows:
+
+
+
+
+
+    3+00   247
+
+    4+00   269
+    4+35   322
+
+    5+00   395
+    5+65   418
+
+    6+00   293
+    7+00   168
+
+
+    Using the prismoidal method, the volume of earth to be excavated (yd®) between Stations 4+35
+    and 5+65 is most nearly:
+
+
+    Oo   A.   1,460
+
+    Oo   B.   1,840
+
+    ©         1,860
+
+    oD.       1900
+
+
+
+
+    51.  The term projected as it relates to the state plane coordinate system means that the:
+
+
+o A. survey is inaccurate and needs to be corrected
+
+oO B. survey points from found monuments need to undergo a unit conversion
+oC handwritten coordinates are entered into computer software
+
+o D. earth’s curvature needs to be taken into account for survey calculations
+
+
+
+
+
+
+
+
+
+
+              32    NEXT->
+    Copyright © 2020 by NCEES
+
+              FE CIVIL PRACTICE EXAM
+
+    52.   A total station is set up 5.00 ft above a benchmark that has an elevation of 820.50 ft. A slope
+          angle and slope distance of —3°15" and 645.90 ft, respectively, are measured to a reflector that is
+          set up 4.25 ft above a hub at Point B. Neglecting curvature and refraction, the elevation (ft) of
+          the hub at Point B is most nearly:
+
+
+    Oo    A    785.76
+
+    Oo    B.   784.63
+
+    o     C.   783.88
+
+    Oo    D.   779.63
+
+
+
+
+
+53. A backsight of 7.76 ft is taken on a turning point with an elevation of 2,325.58 ft. If the foresight
+        taken on the top of a construction pin is 4.25 ft, the elevation (ft) of the top of the pin is most
+        nearly:
+
+
+    ©    A.   2,313:57
+
+    Oo   B.   2,322.07
+
+    oC.       232909
+
+    Oo   D.   2,337.59
+
+
+
+
+    54.   A 20-acre parcel of land has a rainfall intensity of 1.5 in/hr and     a rational method runoff
+          coefficient C of 0.10. The flow rate (cfs) for this site is most nearly:
+
+
+    Oo   A.   3.0
+
+    Oo   B.   5.0
+    Ge        75
+
+    0    Di   9.0
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    33    NEXT->
+
+                                         FE CIVIL PRACTICE EXAM
+
+55.   A flow of 15.5 cfs enters the pipe system at A as shown, and exits at B and C. Pipe data are given
+      in the following table.
+
+
+
+                     (ft)   (in)       (fps)
+      Pipe⁷         Length Diameter | Velocity
+
+AB             0.03  200    24          2.0
+
+AC             0.03  200    36          L.3
+CB             0.03  200    48
+
+
+
+                            B
+
+
+
+
+
+      15.5¢cfs A
+
+
+
+
+
+
+
+                            Cc
+
+
+      Assume the pipes are all at the same elevation. The head loss (ft) in Pipe CB is most nearly:
+
+
+o    A.   0.05
+
+oO   B.   0.13
+
+o    C.   0.18
+
+     D.   0.23
+
+
+
+
+56.   A pump station delivers wastewater from a sump at an elevation of 78 ft to a maintenance hole
+      with a water surface elevation of 112 ft. The static head (ft) for this pump is most nearly:
+
+
+oO    A.   17
+
+oO    B.   34
+
+o     C    44
+
+Oo    D.   78
+
+
+
+
+
+
+
+
+
+               34           NEXT->
+Copyright © 2020 by NCEES
+
+        FE CIVIL PRACTICE EXAM
+
+57. A 24-in. water distribution pipeline carrying 15 cfs flow branches at Point A into two pipelines,
+        1 and 2, both with Hazen-Williams C of 130. Pipeline 1 has an 18-in. diameter and is 2,400 ft
+        long. Pipeline 2 has a 12-in. diameter and is 1,200 ft long. The branched pipes join at Point B to
+        a 24-in. pipe to carry the flow downstream. The flow (cfs) in Pipeline 1 is most nearly:
+
+
+    o    A.    5.0
+
+    oO   B.    10.0
+
+    (oJ        12.9
+
+         Db,   15.0
+
+
+
+
+
+    58.       A suppressed rectangular weir rises from the bottom of the pond to an elevation of 37 ft. The
+              water is 50 ft deep, and the weir is 200 ft long. The flow (ft¥/sec) of water over the spillway is
+              most nearly:
+
+         oA        1500
+
+         Oo   B.   12,500
+
+         oC        23,800
+
+         o    D.   31,200
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    35
+
+                                       FE CIVIL PRACTICE EXAM
+
+59. For anew development of 75 acres 0.117 mi?), the peak runoff for a 25-yr storm of 360 ft/s is
+     to be limited to 180 through the use of a detention basin. Runoff Q is 3.4 in. Assume Type II
+     rainfall. Using the TR-55 Method and figure below, the preliminary estimate of the storage
+     volume (ac-ft) is most nearly:
+
+       Approximate Detention Basin Routing for Rainfall Types I, IA, II, and IIT
+
+           LU
+                  Cer
+                                                OF 6          OO
+                      5                                      rr ee reer
+                                                                             EEE
+           05
+
+    NEE           5   A HF                                                   EEE
+                                                                              TO
+    gs                                                                        OO
+    3 2           CT     ™N                               HHH
+    ol3           EE INNS,
+    Bl=               A 77 rrr
+       i
+    =      03         NEE                                                EER Crt
+    8 g               IN,                                  SS
+    IA            TTT    TTT                                           CS rrr rr
+                  EE      0                             1         OP OL
+           7 C5 I     7,7
+                                                                      5a= 1 TO =
+                  Cr rr rr rr rrr                              eer per rrr rr rr
+                                                            os on
+                      rr re                                 rr rr rr rere
+                  rrr
+           0.1    CC                  rrr rrr rrr rr        TT TT  TTT TTT
+                 0.1  0.2      0.3      0.4             0.5   0.6  0.7      0.8
+                                       PEAK OUTFLOW DISCHARGE    go
+                      PEAK INFLOW DISCHARGE
+
+    Urban Hydrologyfor Small Watersheds TR-55, U.S. Department of Agriculture, National Resource Conservation Service, June 1986.
+
+
+    Oo   A.   0.07
+
+    oO   B.   0.11
+
+    o    C.   3.80
+
+    Oo   D.   5.94
+
+
+
+
+
+
+
+
+
+
+                  36                                          NEXT->
+    Copyright © 2020 by NCEES
+
+          FE CIVIL PRACTICE EXAM
+
+60.   A 36-in-diameter sewer is installed at a slope of 0.006 ft/ft. Assuming the roughness coefficient
+      n is constant with depth and equal to 0.015, the velocity (ft/sec) of water in a half-full pipe is
+      most nearly:
+
+
+Oo  A.   43
+
+Oo  B.   5.8
+
+         6.3
+
+o   D.   10.1
+
+
+
+
+
+61.   Four monitoring wells—A, B, C, and D—lie equidistant 200 ft) from a fifth well, E. The depth
+      to the water table is measured at each well and is shown below. The datum for the top of the
+      casing is equal for the five wells. Groundwater flow moves in which direction from Point E?
+
+      1  15
+           HHH HH
+
+
+
+
+
+
+
+         HEN
+
+
+
+
+
+      TTT
+
+
+
+
+
+         TTT
+      (TTT
+
+
+Oo   A.    South
+
+     B:    East
+
+©    iG;   North
+
+O    D.    West
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    37
+
+      FE CIVIL PRACTICE EXAM
+
+62.   Water quality characteristics can be categorized in four different ways. Match the provided
+      characteristic with an appropriate category.
+
+
+Water Quality Category     Characteristic
+Physical                   Hardness
+Chemical                   Odor
+Microbiological            Radon
+Radiological               Giardia
+                           Lead
+
+                           Turbidity
+
+
+
+
+
+63. A jar test is used to evaluate the efficiency of a coagulation process and allows the plant operator
+      to optimize which of the following parameters?
+
+
+Oo    A.   Alum dosage
+
+©-B:       Temperature
+
+©          Lime dosage
+
+oO    D.   Dissolved oxygen
+
+
+
+
+
+
+
+
+
+
+                           38    NEXT->
+Copyright © 2020 by NCEES
+
+        FE CIVIL PRACTICE EXAM
+
+64. A concentrated load of 20 kips moves through the truss shown. Neglecting the weight of the truss,
+       the maximum force (kips) in Member CD due to the moving load is most nearly:
+
+
+
+
+
+             20 kips    C D     ic
+               be               28
+                 A        Bl
+
+                 —
+
+    Oo   A   12.5
+
+    oO  B.   25
+
+    o.C      37.5
+
+    Oo  D.   50
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    39
+
+         FE CIVIL PRACTICE EXAM
+
+    65.  40-kip vertical load at Joint C in the steel truss shown below produces the forces given in the
+       accompanying table. The cross-sectional area of each member is 4.0 in, and the length of each
+       member is given in the table. The elastic modulus of steel is 29,000 ksi. The downward vertical
+       displacement (in.) of Joint C is most nearly:
+
+
+ Member  | Force, F Length, L FL
+         (ips)   (in)         AE
+
+   AB     50.0    240   0.1034     125      0.1292
+
+   BC     49.2    473   0.2008     1.231    0.2472
+
+   CD             480  -0.3103    -1.875    0.5818
+
+   AD    -30.0    288  -0.0745    -0.75     0.0559
+
+   BD    -25.0    240  -0.0517              0.0323
+
+
+         40 kips
+
+
+
+
+
+
+
+
+
+
+   f     B    | Cc                |
+             32.0 ft
+
+16.0 ft
+
+
+
+
+
+         ft    ft
+
+
+
+
+    Oo   A.   1.046
+
+    oO   B.   0.294
+
+    o    C    0.132
+
+    o    D.   0.102
+
+
+
+
+
+
+
+
+
+
+              40
+    Copyright © 2020 by NCEES
+
+        FE CIVIL PRACTICE EXAM
+
+66. The proportional limit and modulus of elasticity for a material are 40 ksi and 30,000 ksi,
+       respectively. A square column made from this material has a moment of inertia equal to 6.8 in.*
+       and an area equal to 9 Assume a pin-pin connected column so that the effective length factor
+       Kis equal to 1.0. The maximum column length (in.) based on the Euler formula is most nearly:
+
+
+    oO   A.   422
+
+    Oo   B.   74.8
+
+    o    C.   195.0
+
+    Oo   D.   2243
+
+
+
+
+    67. The frame in the figure below is:
+
+
+
+
+              Ven PIN IN MEMBER (TYP.)
+
+                     RIGID BEAM-COLUMN
+              CONNECTION (TYP)
+
+
+
+
+
+              ya PIN BOUNDARY
+
+
+
+
+    Oo   A.   unstable
+
+    Oo   B.   stable and determinate
+
+    0    G    indeterminate one degree
+
+    oO   D.   indeterminate two degrees
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    41
+
+        FE CIVIL PRACTICE EXAM
+
+  68.   Which combination of moment diagram and deflection shape most accurately corresponds to the
+        continuous beam with loading shown?
+
+
+
+7  Zc  /
+A  B  D  E
+
+|₁₁  [i'  .1!  I1
+
+'  '  i
+1  '  1  1
+i  !
+oO   A.  MOMENT M  [   :1  |
+
+i
+DEFLECTION  i  i  SR
+
+1  i
+Mo!  H  !
+oO   B.  MOMENT <1  A|
+
+
+        DEFLECTION     |        |
+            J
+                                !     |
+                       1              1
+                +M     |    i   i     i
+        @ fo
+
+                     EVE    |   |
+
+            ="
+        DEFLECTION FRNA|    i   i     |
+
+
+                            i     '
+                                  !    |
+
+        o D. MOMENT =         BlEEE
+
+
+
+        DEFLECTION
+
+
+
+
+
+
+
+
+
+
+        42
+  Copyright © 2020 by NCEES           NEXT->
+
+          FE CIVIL PRACTICE EXAM
+
+69.   Which of the vertical-load influence lines shown below is correct for Member of the truss
+      shown below?
+
+      PINNED JOINT
+      (typical) —_U1  Uy        Us
+
+
+      24 ft
+      L,    L L,  Ly  L,  Ls  Lg |
+
+          Loa     18
+
+
+
+Option A
+
+
+
+
+
+
+
+Option B    -    -    -    |
+
+
+
+
+
+
+
+
+
+
+Oo   A.   Option A
+Oo   B.   Option B
+o    C    Option C
+
+oO   D.   Option D
+
+
+
+
+Copyright © 2020 by NCEES    43
+
+      FE CIVIL PRACTICE EXAM
+
+70.   The W21 x 57 steel beam shown in the figure has its compression flange laterally braced at the
+      one-third points over its full length. Assume Fy = 50 ksi and Cs = 1.0 for the critical segment. The
+      maximum factored load wy (kips/ft) that the beam can carry for this length is most nearly:
+
+      Wu
+
+
+
+
+
+
+      LATERAL SUPPORT POINT
+
+      1=300ft
+
+
+
+oO    A.   2.658
+
+oOo   B.   3.360
+
+oC         4.302
+
+o     D.   4.778
+
+
+
+
+71.   According to American Concrete Institute (ACT) 318-11, the value of ¢ that should be used in
+      computing the design moment strength for the beam section shown below is most nearly:
+
+
+           oO     CLOSED TIED
+
+                  STIRRUPS
+
+
+                    = 60ksi
+
+                  4 #10: 4,= 5.08 in?    .
+             4 #10
+               © ©
+          2.5in.
+               I
+
+oO   A.   0.80
+
+Oo   B.   0.81
+
+©         0.84
+
+o    D.   0.90
+
+
+
+
+
+
+
+
+
+                  44
+Copyright © 2020 by NCEES
+
+          FE CIVIL PRACTICE EXAM
+
+72.   Inthe truss shown, there is a pin connecting the members at each joint. The force (kips) in Member
+      CD is most nearly:
+
+
+      D
+
+      C    E
+
+
+
+
+      A              |  \          F   G v6
+          Ie         J K i J |    IH
+          10 kips 30 kips 30 kips 20
+      50 kips     6@3ft=18ft kips      bo Kips
+
+
+
+
+Oo   A.   —81 (compression)
+
+oO   B.   —113 (compression)
+
+©    CL   —122 (compression)
+
+©.   I;   —169 (compression)
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    45
+
+         FE CIVIL PRACTICE EXAM
+
+73.   A reinforced concrete beam is subjected to a factored moment = 648 ft-kips. For concrete,
+         £ = 60,000 psi. The beam is reinforced with eight #8 bars in two rows,
+      Je =4,000 psi. For steel,
+      positioned as shown in the figure. Assume that ¢ = 0.90. The minimum adequate overall width »
+      for this beam is most nearly:
+
+
+
+
+
+
+
+
+      Covi TO 8 #8 BARS        30in.
+      MAIN STEEL f= 0 0 o
+
+          ol               2 in. (CENTER-CENTER SPACING)
+                           2.5 in. (CENTER-BOTTOM SPACING)
+
+      1.5 in. CLEAR SPACING
+
+                    —
+
+
+Oo   A.   10
+
+oO   B.   12
+
+o    CG   13
+
+oO   D.   15
+
+
+
+
+
+
+
+
+
+
+                           46
+Copyright © 2020 by NCEES
+
+                                         FE CIVIL PRACTICE EXAM
+
+74. Mark the area of the Atterberg chart provided that is associated with an elastic silt.
+
+         60,   For classification        >
+                    ——               of fine-grained⁻ soils
+
+         50    soils.                    “
+    =           Equation of“A™line        &
+    > gol       Horizontal at PI     = 4 to  LL = 25.5,    ‘| ey er
+
+                Equation of “Uline
+    ER                                   pd
+    >    30     then                (LL - 8      ¢
+    =|
+    g                                    MH or OH
+    =    10                              vl
+
+
+
+         0      10 16 20             30 40 50 60 70 80 90 100 110
+
+
+
+                                     LIQUID LIMIT (LL)
+
+
+
+
+75.   Anundisturbed sample of soil has a specific gravity of solids of 2.70, a moisture content of 10.5%,
+      and a void ratio of 0.63. The degree of saturation is most nearly:
+
+
+oO    A    25%
+
+Oo    B.   45%
+
+ol    0    65%
+
+o     D.   85%
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES            47
+
+       FE CIVIL PRACTICE EXAM
+
+76.   Direct shear test data of a sand are shown below:
+
+       Area of sample = 16 in
+       Normal load at failure = 512 Ib
+       Shear stress at failure = 16 psi
+
+      The angle of internal friction is most nearly:
+
+
+Oo    A.   0°
+
+Oo    B.   27°
+
+o     C.   30°
+
+o     D.   63°
+
+
+
+
+77.       Subsurface exploration indicates that a level site has a 10-ft upper layer of sand. The groundwater
+   table is at the ground surface. The unit weight of the sand is 135.0 pef. The effective overburden
+   stress (psf) at a depth of 10 ft is most nearly:
+
+     o    A.   625
+
+     oO   B.   725
+     oC        1,350
+
+     oO   D.   1,975
+
+
+
+
+78.   A 12-ft-high retaining wall has backfill of granular soil with an angle of internal friction of 30°
+      and a unit weight of 125 pcf. The resultant Rankine active force (Ib/ft) on the wall is most nearly:
+
+
+o     A.   2,250
+
+oO    B.   3,000
+
+©          9,000
+
+oO    D.   27,000
+
+
+
+
+
+
+
+
+
+
+               48
+Copyright © 2020 by NCEES
+
+      FE CIVIL PRACTICE EXAM
+
+79.   A consolidated, undrained triaxial shear test was performed on an overconsolidated clay mix
+    specimen with a diameter of 1.4 in. The test yielded a cohesion of 530 psf and an angle of
+    internal friction of 18°. If the normal load at failure was 125 Ib, the shear strength (psi) of the soil
+    is most nearly:
+
+
+oO   A    10
+
+Oo   B.   26
+
+o    C.   30
+
+oO   D.   556
+
+
+
+
+80.       A strip footing having a width B =2 ft is to be constructed at ground surface (y= 0). Underlying
+   the footing is sand having the following bearing capacity factors: Ne = 0, Ny=25, and N; = 20. The
+   unit weight of sand y = 120 pef. The ultimate bearing capacity gut (psf) of the footing is most
+   nearly:
+
+     Oo   A    1200
+
+     Oo   B.   2400
+     oC        3,000
+
+     oO   D.   4,800
+
+
+
+
+
+81.       A three-story concrete building will be constructed on a vacant parcel in a city. The soil boring
+          log shows a 20-ft-thick layer of loose soil over a 5-fi-thick limestone layer. Which of the
+          following foundations will provide the least settlement for this building?
+
+     Oo   A    Spread footings
+
+     Oo   B.   Mats foundation
+
+     ©         Deep foundation
+
+     ©    D,   Wall foundation
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    49    NEXT->
+
+             FE CIVIL PRACTICE EXAM
+
+    82.   A normally consolidated 10-ft clay layer is surcharged, which causes a decrease in thickness. The
+          coefficient of consolidation is 0.16 ft? per day and the time factor is 1.2 for 50%. The clay
+          layer is confined between two layers of dense sand. The time (days) required for 50% consolidation
+          is most nearly:
+
+
+    Oo   A.   5
+
+    Oo   B.   38
+
+    oC        188
+
+    Oo   D.   750
+
+
+
+
+
+83. A slope of clay-mix material experiences failure along a 100-ft-long slip surface at an angle of
+        27°. The soil above the slip surface weighs 100 tons, has an angle of internal friction of 20°, and
+        has a cohesion of 1.2 psi. The factor of safety at slope failure is mostly nearly:
+
+
+    o     A.   0.7
+
+    oO    B.   0.9
+    oC.        1.7
+
+    o     D.   381.3
+
+
+
+
+
+
+
+
+
+
+               50    NEXT—>
+    Copyright © 2020 by NCEES
+
+      FE CIVIL PRACTICE EXAM
+
+84.   A highway profile is shown in the figure. If the design stopping sight distance is 600 ft, the driver's
+      eye height above the roadway surface is 3.50 ft, and the height of an object in the roadway to be
+      avoided by stopping is 1.00 ft, the minimum design length (ft) of the vertical curve is most nearly:
+
+      PVI
+
+         5%
+          Pvp
+
+
+
+      LENGTH OF VERTICAL CURVE _
+
+      DIRECTION OF VEHICLE
+
+
+Oo   A   3,600
+
+Oo  B.   1,966
+
+o ©...   1.136
+
+o   D.   1,017
+
+
+
+
+85.   A flexible pavement system is to   be designed using the AASHTO structural number design
+      method with the following criteria:
+
+
+
+         Material  Minimum Coefficient of
+                  Thickness Structural Layer
+                    (in.)
+AC surfacing          2     0.44
+Aggregate base        4     0.25
+Aggregate subbase     4     0.10
+           Structural number = 2.50
+
+
+     If the minimum thicknesses of the surfacing and aggregate base are used, the required thickness
+     (in.) of the aggregate subbase is most nearly:
+
+Oo   A.   4
+
+Oo   B.   5
+
+©:   C.   6.5
+
+O    D.   8.5
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    51    NEXT—>
+
+        FE CIVIL PRACTICE EXAM
+
+86. A freeway lane has a volume of 1,400 vehicles/hr and an average vehicle speed of 45 mph. The
+       time spacing (sec) between vehicles (center to center) is most nearly:
+
+
+    Oo   A.   2.6
+
+    Oo   B.   52
+
+              15
+
+              31
+
+
+
+
+87. urban pedestrian crosswalk, the initial WALK signal is displayed for 6.0 sec, after which a
+        flashing DON'T WALK signal is displayed. The pedestrian walking speed is 3.5 ft/sec, and the
+        street to be crossed is 31.5 ft wide. At the end of the green time, the flashing DON'T WALK signal
+        is terminated. The minimum length of time (sec) the green must be displayed is most nearly:
+
+
+    oO   A.   6.0
+
+    oO   B.   9.0
+
+    oO   C.   12.5
+              15.0
+
+
+
+
+88. An urban intersection is being reconstructed to address safety problems, and it is estimated that
+       the two mutually exclusive countermeasures have a crash reduction factor of 0.25 and 0.15,
+       respectively. If the expected number of crashes per year is 10 and no significant growth in traffic
+       is anticipated, the expected number of average crashes per year after reconstruction is most nearly:
+
+
+    Oo   A    3.6
+
+    oO   B.   4.0
+
+              6.0
+
+    oO   D.   6.4
+
+
+
+
+
+
+
+
+
+
+              52
+    Copyright © 2020 by NCEES
+
+          FE CIVIL PRACTICE EXAM
+
+89.   At two-way stop-controlled intersections, the sight distance required for minor street movements
+      is determined by:
+
+
+oO    A.   approach sight triangles
+
+Oo    B.   departure sight triangles
+           stopping sight distance
+oO    D.   decision sight distance
+
+
+
+
+90.       For a given loading, soil conditions, and design life, which of the following pavement types will
+          most likely be the thinnest highway pavement design?
+
+     oO   A.   Hot-mix asphalt
+
+     oO   B.   Warm-mix asphalt
+
+     ©         Portland cement concrete
+
+     o    D.   Composite hot-mix asphalt over Portland cement concrete
+
+
+
+
+
+91.   Which of the following statements about a basic freeway segment are true according to the
+      Highway Capacity Manual?
+
+      Select all that apply.
+
+
+Oo   A    Freeway segments with 75-mph free-flow speed experience a reduction in operating
+
+          speeds at a lower-volume threshold than a freeway segment with a 55-mph free-flow
+          speed.
+O    B.   The free-flow speed of a freeway segment is impacted by the amount of lateral clearance
+
+          on the right side of the roadway.
+          The capacity of a freeway segment with a 75-mph free-flow speed is higher than a similar
+
+          facility with a 55-mph free-flow speed.
+          A freeway segment with 13-ft lanes has higher free-flow speeds than a similar facility
+
+          with 12-ft lanes.
+BE:       Increases in traffic volume lower the estimated operating speed of a freeway segment for
+
+          both low- and high-volume ranges.
+
+
+
+
+
+
+
+
+
+Copyright© 2020 by NCEES    53
+
+                  FE CIVIL PRACTICE EXAM
+
+92.       To encourage more carpooling during the peak commute times, a metropolitan area is considering
+   adding HOV lanes to a busy interstate segment. An existing transit route has a utility of —0.65,
+   which is unaffected by the proposed change. If the existing non-HOV lanes have a utility of +1.2
+   and the proposed change introducing a carpool mode has a utility of —0.40, the percentage of trips
+   expected to carpool is most nearly:
+
+     oO   A.   0%
+
+     oO   B.   15%
+               17%
+
+     ©:        74%
+
+
+
+
+93.   Operational manuals, warranties, guarantees, and as-built drawings are generally provided to the
+      owner during which phase of the project?
+
+
+o     A.   Construction
+
+oO    B.   Procurement
+
+oC         Close-out
+
+oO    D.   Feasibility
+
+
+
+
+94.       A loader has a full-bucket capacity of 3 yd’, and the average time required to place one bucketload
+   of soil into a truck is 1 min. The loader is supported by four trucks with a volume of 15 yd® each
+          and a cycle time of 12 min plus the time to load the truck. The ideal productivity          of this
+          system is most nearly:
+
+     o    A.   180
+
+     o    B.   212
+
+     o    C.   277
+
+     ©.   Di   300
+
+
+
+
+
+
+
+
+
+
+               54    NEXT->
+Copyright © 2020 by NCEES
+
+    FE CIVIL PRACTICE EXAM
+
+    95. A project has a CPI > 1.0 and an SPI < 1.0. This would indicate the project is:
+
+
+    Oo   A    behind schedule with a cost savings
+
+    Oo   B.   ahead of schedule with a cost savings
+
+    0.        behind schedule with a cost overrun
+
+    o    D.   ahead of schedule with a cost savings
+
+
+
+
+96. An embankment having a volume of 320,000 yd® is to be constructed from local borrow. The dry
+       unit weight and moisture content of the borrow material were determined to be 106 pefand 18.2%,
+       respectively. The embankment material has a total unit weight of 122 pcf and a moisture content
+       of 16.7%. The volume of borrow (yd*) needed to construct the embankment is most nearly:
+
+
+    Oo    A.   274,100
+
+    Oo    B.   315,500
+         =C,   324,500
+
+         oD.   373,600
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    55    NEXT->
+
+          FE CIVIL PRACTICE EXAM
+
+97.   Which set of orthographic views correctly represents the isometric view of the structure shown
+      below?
+
+
+
+
+
+
+
+
+
+
+      il
+
+          oPTIONC L OPTION D
+
+
+
+
+
+
+
+
+
+
+Oo   A.   Option A
+
+oO   B.   Option B
+
+o    C    Option C
+
+Oo   D.   Option D
+
+
+
+
+
+
+
+
+
+
+          56    NEXT->
+Copyright © 2020 by NCEES
+
+        FE CIVIL PRACTICE EXAM
+
+98. The average production of the excavator is the controlling factor in a highway ditch-cleaning
+        contract. Excavators with four different bucket sizes are available as rental units. The hourly rental
+        rate is directly proportional to the bucket capacity of the excavator. Assume that production
+        (loose is equal to (excavator cycles per hour) x (average bucket payload in LCY per cycle).
+        The excavator characteristics are as follows:
+
+
+
+    E     |ᴹⁱⁿⁱᵐᵘᵐ Cycle |ᴬᵛᵉʳᵃᵍᵉ Bucket Payload
+        Time (min)
+      1    0.25     0.50
+
+      2    0.33     1.00
+      3    0.50     1.75
+      4    0.58     2.00
+
+
+    The optimally efficient excavator is:
+
+
+    oO   A    Excavator 1
+
+    Oo   B.   Excavator 2
+
+    ©.        Excavator 3
+
+    Oo   D.   Excavator 4
+
+
+
+
+
+    99.   A work task has a current cost of $3,400, with a budget cost at this same point of $3,200. The
+          total budget for this task is $4,000. The estimated cost at completion for this task is most nearly:
+
+
+    oO   A    $3,750
+
+    Oo  B.    $4,000
+
+    oO  iC    $4,250
+
+    Oo  D.    $4,850
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    57    NEXT->
+
+    FE CIVIL PRACTICE EXAM
+
+    100. A drawing of a roadway cross section is shown below. The arrow with a number indicates the:
+
+        25
+
+
+
+
+
+o A. thickness of the surface coating is 0.025 in.
+
+Oo B. slope of the roadway is 3 in. per 10 ft across the slope
+
+o C. edge of the roadway will receive a chamfer of 1/4 in.
+
+©: ID: grooves ground into the surface of the roadway are 1/4 in. deep
+
+
+
+
+
+
+
+
+
+
+    58
+    Copyright© 2020 by NCEES
+
+SOLUTIONS
+
+
+
+
+
+
+
+
+
+
+59
+
+FE CIVIL SOLUTIONS
+Detailed solutions for each question begin on the next page.
+
+ 2  |  |  B |
+8  |  7
+=]
+c¢   |  [s]
+(|  B |
+8  |  2
+ 4  c |  pb  |  |
+a   [|  [so]
+op  |  [s]
+8  |  c |
+ [s]  |  a   |
+c |  8  |  8   |
+ lo]
+|]
+a |  fs]  8   |
+8 |  bo   |  [®]
+8  |  op   |  [u]
+||]  8 |
+ 0 c |  c  |  |
+[ss]
+ ju]   ar   |  a  |  c |
+a |
+[ss]
+|  bp  |  bo  |
+8   |  [»]
+ 4  bp  |  |e]  bo  |
+8  |  |e]  c  |  B |
+8  |  [es]
+bo  |  Je]
+fa]  a  |  c |
+o  |  B |
+8  |  2
+[eo]
+ls]  B |
+|  Jel
+8   |  [ee]
+(a  |
+ 20  |  c  |  [nw]  a |
+a   |  [se]
+ 2  c   |  B |  7
+|  a  |  bp   |  |
+op  |  [el  [es]
+ 4  c |
+|
+o |  a   |  8  |  c |
+
+
+                       60
+
+      FE CIVIL SOLUTIONS
+
+Refer to the Integral Calculus section in the Mathematics chapter of the FE Reference Handbook.
+
+ 2   s
+
+     2
+ 2
+
+=117
+
+THE CORRECT ANSWERS: C
+
+
+
+2.   Refer to the Integral Calculus section in the Mathematics chapter of the FE Reference Handbook.
+
+       4    2
+     3 PE.₄ 2
+
+
+THE CORRECT ANSWER IS: D
+
+
+
+3. Refer to the Integral Calculus section in the Mathematics chapter of the FE Reference Handbook.
+
+
+     yo
+
+
+
+
+
+
+       4
+
+     wd
+     4
+
+     THE CORRECT ANSWERS: A
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    61
+
+             FE CIVIL SOLUTIONS
+
+    4.   Refer to the Differential Calculus section in the Mathematics chapter of the FE Reference
+         Handbook.
+
+           3     3422  2.6.3 +20, then| —- |=
+                                       ox?
+
+         P1224
+         ox
+
+         2²
+         ax?
+
+
+         THE CORRECT ANSWER IS: B
+
+
+    C38   Refer to the Dispersion, Mean, Median, and Mode Values section in the Engineering Probability
+          and Statistics chapter of the FI Reference Handbook.
+
+
+          Mean =— 2 =—=89
+              N 9
+
+
+                   95
+                   91
+                   90
+                    0  | Mode
+          Median [_90
+                   88
+                   87
+                   85
+                   85
+
+The mean of the sample is 89. The median of the sample is 90. The mode of the sample is 90.
+Therefore, the median and the mode are equal.
+
+    THE CORRECT ANSWER IS: A
+
+
+
+
+
+
+
+
+
+
+                       62
+    Copyright © 2020 by NCEES
+
+        FE CIVIL SOLUTIONS
+
+6. Refer to the Vectors section in the Mathematics chapter of the FE Reference Handbook.
+
+       The cross product of vectors A and B is a vector perpendicular to A and B.
+
+
+
+    2 4 0|=i(-4)-j(-2-0)+Kk(2-4)=-4i+2j-2k
+    11
+
+
+    To obtain a unit vector, divide by the magnitude.
+
+
+    Magnitude =    =24=2J6
+
+
+—4i+2j-2k  _2i+j-k
+   2/6        Jo
+
+    THE CORRECT ANSWER IS: C
+
+
+
+    id   Refer to the Engineering Probability and Statistics chapter of the FE Reference Handbook.
+
+         There is only one throw, 6 and 6, that sums to 12. There are 36 possible rolls ofthe dice. Therefore,
+         35/36 will have a sum less than 12.
+
+         35/36 =0.972
+
+         THE CORRECT ANSWER IS: D
+
+
+    8.   Refer to the t-Distribution section in the Engineering Probability and Statistics chapter of the FI
+         Reference Handbook.
+
+         For a 99% confidence interval, a =  o/2 = 0.005.
+
+         Use  t-distribution with v = 4. Refer to the table, where = 4.604.
+
+         Confidence interval  + 4.604% = (18.6%, 27.8%
+
+         THE CORRECT ANSWER IS: A
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    63
+
+     FE CIVIL SOLUTIONS
+
+9,   Refer to the Ethics chapter of the FE Reference Handbook.
+
+   Section B.1 in the Rules of Professional Conduct states: Licensees shall undertake assignments
+   only when qualified by education or experience in the specific technical fields of engineering or
+   surveying involved.
+
+     THE CORRECT ANSWER IS: C
+
+
+
+10.   Refer to the NCEES Rules of Professional Conduct in the Ethics chapter of the FE Reference
+      Handbook.
+
+   Licensees may express a professional opinion publicly only when it is founded on adequate
+   knowledge of the facts and a competent evaluation of the subject matter.
+
+      THE CORRECT ANSWER IS: C
+
+
+
+1.   Refer to the NCEES Rules of Professional Conduct, Section B, in the Ethics chapter of the FE
+     Reference Handbook.
+
+     THE CORRECT ANSWERS ARE: A, E
+
+
+
+12.   Black's Law Dictionary defines lien as a claim on property for payment of debt. Examinees are
+      expected to be familiar with liens.
+
+      THE CORRECT ANSWERS: A
+
+
+
+13.   Refer to the capital recovery equation in the Engineering Economics chapter of the Reference
+      Handbook.
+
+      A=P     %, n)
+
+       =100,000 (4/P, 1%, 60
+
+           0.0222
+
+       = $2,220/month
+
+
+
+      THE CORRECT ANSWERS: B
+
+
+
+
+
+
+
+
+       64
+Copyright © 2020 by NCEES
+
+                   FE CIVIL SOLUTIONS
+
+14.   Refer to the cash flow formulas in the   Engineering Economics chapter    of the FE Reference
+      Handbook.
+
+      Look at the present worth of each option.
+
+   The present worth values are all given by:
+    Cost + Annual Cost x (P/4, 12%, 8 — Salvage Value x (P/F, 12%, 8
+    = First Cost + Annual Cost x 4.9676 — Salvage Value x 0.4039
+
+      Then     P(A)=$63,731
+
+               P(C)=863,901
+               P(D)=$63,222
+
+      The cash flows are all costs, so the two most preferable pieces of equipment, those with the lowest
+      present worth costs, are B and D, and the difference between them is $170.
+
+      THE CORRECT ANSWER IS: B
+
+
+
+15. Refer to the Breakeven Analysis section in the Engineering Economics chapter ofthe /E Reference
+    Handbook.
+
+
+$1.50  5,000 = $7,500
+$0.50  5,000 = $2,500
+Annual savings = $7,500 — $2,500 = $5,000
+Additional investment = $15,000 — $1,000 = $14,000
+Payback period = $14,000/$5,000 = 2.8 years
+
+THE CORRECT ANSWER IS: B
+
+
+
+
+
+
+
+
+
+
+Copyright© 2020 by NCEES    65
+
+        FE CIVIL SOLUTIONS
+
+16. Refer to the Probability Functions, Distributions, and Expected Values section in the Engineering
+       Probability and Statistics chapter of the FE Reference Handbook.
+
+       EVpurchase insurance = (C1P1) + (C2P2) + (C3P3)
+
+       EVpurchase insurance = 0.88 x 0 + 0.11 x $800) + 0.01 x $1,000) = 0 + $88 + $10 = $98
+
+       Cost with annual insurance premium is $2,000 + $98 = $2,098
+
+
+      to purchase insurance = (C1P1) + (C2P2) + (C3P3)
+
+        purchase insurance = 0.88 x 0 + 0.11 x $800) + 0.01 x $100,000) = 0 + $88 + $1,000 = $1,088
+
+    Compare EVrot to purchase insurance ad EV to purchase insurance
+
+    E to purchase insurance < E Vito purchase insurance = $2,098 — $1,088 = savings of $1,010
+
+    THE CORRECT ANSWER IS: C
+
+
+
+    17. Refer to the Engineering Economics chapter of the FI Reference Handbook.
+
+        $5,000
+        i=10%
+
+        i  2 3 eee
+
+        10
+
+
+    $7,500
+
+
+     40
+     P                F
+
+    =$500+$7,500  A     10%, 10 - $5,000  A 10%. 10
+                  Vk                      7
+
+    = $500 +$7,500(0.16275) — $5,000(0.06275)
+
+    per year
+
+    THE CORRECT ANSWER IS: C
+
+
+
+
+
+
+
+
+
+
+                  66
+    Copyright © 2020 by NCEES
+
+        FE CIVIL SOLUTIONS
+
+18. Refer to the Resolution of a Force section in the Statics chapter of the FE Reference Handbook.
+
+    Fy,                i=123
+
+        =2.12+ 5¢c0s105°=2.12-1.29=0.83N
+
+    Ry = 2.12+ 5sin105° =2.12+4.83=6.95N
+
+    R= Jr2     =1/0.83%    N
+
+
+    THE CORRECT ANSWER IS: A
+
+
+
+19.  to the Systems of Forces section in the Statics chapter of the FE Reference Handbook.
+
+    Draw a free-body diagram.
+
+     Ww
+
+
+
+
+    A
+
+
+    B
+    N
+
+
+    ] N Since force vectors = 0
+
+
+
+
+    w
+
+
+THE CORRECT ANSWER IS: C
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    67
+
+  FE CIVIL SOLUTIONS
+
+  20. Refer to the Systems of Forces section in the Statics chapter of the FE Reference Handbook.
+
+
+  ZF, =0=-6 +310 Therefore, no additional x-force required
+
+
+  ZF,  -10+410           Therefore, additional y-force required
+
+  SF,y =0=6-10+210+P,₃   y
+
+
+
+
+
+  =0=6(5)-10(3)+
+
+x=12
+
+  4
+
+   61b
+
+ 5    61b
+ 4
+ 3                       3 100
+ 2        4
+
+
+
+
+  0  | 5                 10    15
+
+
+  101b
+
+
+  THE CORRECT ANSWER IS SHADED ABOVE.
+
+
+
+
+
+
+
+
+
+
+                         68
+  Copyright © 2020 by NCEES
+
+              FE CIVIL SOLUTIONS
+
+    21.   Refer to the Statically Determinant Truss section in the Statics chapter of the F'E Reference
+          Handbook.
+
+          Zero-force members usually occur at joints where members are aligned as follows:
+          A
+              B
+
+          Oo
+
+
+        Cc
+That is, joints where two members are along the same line (OA and OC) and the third member is
+at some arbitrary angle create a zero-force member. That member (OB) is a zero-force member
+because the forces in OA and OC must be equal and opposite.
+
+    For this specific problem, we immediately examine Joints B and E:
+          Cc                                D
+                                        B:
+          B                                 E
+
+          A
+              G
+
+          BG is a zero-force member     CE is a zero-force member
+
+    Now, examine Joint G. Since BG is zero-force member, the joint effectively looks like:
+
+
+
+
+          A G F
+    and, therefore, CG is another zero-force member.
+
+Finally, examine Joint C. Since both CG and CE are zero-force members, the joint effectively
+looks like:
+        D,
+
+
+
+      B,4 F
+and, therefore, CF is another zero-force member. Thus, BG, CE, CG, and CF are the zero-force
+members.
+
+    THE CORRECT ANSWER IS: A
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    69
+
+           FE CIVIL SOLUTIONS
+
+22.   Refer to the Centroids of Masses, Areas, Lengths, and Volumes section in the Statics chapter of
+      the FE Reference Handbook.
+
+      The location of the centroid from the y-axis in the direction parallel to the x-axis is given by:
+
+       F=L [xt   where      —
+           4,
+
+       Js³   x2 Jo  Of        Jas
+           3 X  Jo        _1    Je
+           d
+
+
+
+      THE CORRECT ANSWER IS: B
+
+
+
+23.   Refer to the Moment of Inertia section in the Statics chapter of the FE Reference Handbook.
+
+      Tee = + 4ab +      + b)
+
+       =6[(3%+ 4 x 3 x 6 +   x (3+6)]
+       =78
+
+      A=h(a+b)2
+      A=6(3+6)2=27
+
+
+
+=78+
+=138.85
+
+      THE CORRECT ANSWERS: D
+
+
+
+
+
+
+
+
+
+
+       70
+Copyright © 2020 by NCEES
+
+                               FE CIVIL SOLUTIONS
+
+    24.   Refer to the Friction section in the Statics chapter of the FE Reference Handbook.
+
+          Normal to the plane:
+
+                               cos ¢
+
+          Tangent to the plane:
+
+                              +.=0        WN (at impending slip)
+
+                           + umg cos¢ == 0    mg
+           mg sinˢⁱⁿ  ¢¢   +
+
+           sing
+           cos
+           tan¢ = 0.25
+
+          THE CORRECT ANSWER IS: D
+
+
+
+    25.   R,=3F,= 122      260 + 5     -50=370
+
+                               260 N
+
+          R,  =—      + £(300)=1405        00N
+
+                               12        3
+
+                      +        140?
+
+
+R=396N AON
+        13 sp
+
+THE CORRECT ANSWER IS: D 5 4
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    71
+
+          FE CIVIL SOLUTIONS
+
+26.   Refer to the Constant Acceleration section in the Dynamics chapter of the FE Reference
+      Handbook.
+
+
+
+
+
+      v2    So)
+
+          = 60 ft/sec)’ 2 12 ft/sec?)(140 ft)
+
+
+
+
+    =240
+
+vo  =15.5 ft/sec
+
+THE CORRECT ANSWERS: C
+
+
+
+27.   Refer to the Kinetics of a Rigid Body section in the Dynamics chapter of the FE Reference
+      Handbook.
+
+
+      Radius of gyration 7, =
+
+
+      =[8 N/9.807 m/s? x 4 cm)?] = 13.0
+
+      THE CORRECT ANSWERS: A
+
+
+
+28.   Refer to the Particle Kinetics section in the Dynamics chapter of the FE Reference Handbook.
+
+
+
+      (20N) = 5 kg)(a)
+
+
+v=at
+18 m/s = 4 m/s? 1
+t=450s
+
+THE CORRECT ANSWERS: C
+
+
+
+
+
+
+
+
+
+
+      72
+Copyright © 2020 by NCEES
+
+       FE CIVIL SOLUTIONS
+
+ 29.   Refer to the Impact section in the Dynamics chapter of the FE Reference Handbook.
+
+    Energy may or may not be conserved. It is conserved only if the coefficient of restitution is 1.00.
+    Momentum is always conserved.
+
+       THE CORRECT ANSWER IS: D
+
+
+
+ 30. Refer to the Beams section in the Mechanics of Materials chapter of the FE Reference Handbook.
+
+       10m x
+           6
+
+
+ x=6m        ® |³
+
+ Area 1=13(2) =26 KN'm Of =    4
+
+
+ Area2 6(6)    -12  "SHEAR DDIAGRAM
+       ==
+
+ Area3 =4(4)   =16kN'm
+
+
+
+
+
+           MOMENT DIAGRAM
+
+ Maximum magnitude of the bending moment is 26 kN-m.
+
+ THE CORRECT ANSWER IS: D
+
+
+
+
+
+
+
+
+
+
+Copyright© 2020 by NCEES    73
+
+                   FE CIVIL SOLUTIONS
+
+31.   Refer to the Cylindrical Pressure Vessel section in the Mechanics of Materials chapter of the FE
+      Reference Handbook.
+
+      The     can be considered thin-walled  1 In this
+       cylinder        if     <0.10.     case, /= 12  mm and di = 700 mm.
+
+                                             2
+
+   Since d; 350 0.034 which is < 0.10, the pipe is thin-walled.
+
+       2
+
+      Thus o, = a        di = 700 mm
+
+       where   2     2     356
+
+                   mm)
+       5, =    12mm               _ 4g rp,
+
+
+      THE CORRECT ANSWER IS: B
+
+
+
+32.   Refer to the Uniaxial Loading and Deformation section in the Mechanics of Materials chapter of the
+      FE Reference Handbook.
+
+       P =13001b        L=12in.
+
+                   § =0.009 in.
+        PL
+        “iE rearrangedd gives
+       d=—
+
+
+       po Pb    10 psi= 8840ksi
+        84     (0.009)(0.196)
+
+
+       THE CORRECT ANSWERS: C
+
+
+
+
+
+
+
+
+
+
+               74
+Copyright © 2020 by NCEES
+
+             FE CIVIL SOLUTIONS
+
+   33.   Refer to the Mohr’s Circle section in the Mechanics of Material chapter of the FE Reference
+         Handbook.
+
+         From a constructed Mohr’s Circle, the maximum inplane shear stress is R.
+
+
+
+
+
+         R= 222 +1?
+
+
+
+
+
+         R= 2522 2 +10?
+
+
+
+         R=4/200
+
+         R=14.1ksi
+
+         THE CORRECT ANSWER IS: B
+
+
+
+   34.   Material B displays the most plastic deformation beyond a clear yield point.
+
+         THE CORRECT ANSWER IS: B
+
+
+
+«  35.   Refer to the Uniaxial Loading and Deformation section in the Mechanics of Materials chapter of the
+         FE Reference Handbook.    Fro
+
+
+         1410 | |=F,
+
+
+         Frog =275kN =68x10°4
+             P=14MPa     50 cm
+
+
+
+         THE CORRECT ANSWERS: A
+
+
+
+
+
+
+
+
+
+
+   Copyright © 2020 by NCEES    75
+
+    FE CIVIL SOLUTIONS
+
+    36.  to the Torsion section in the Mechanics of Materials chapter of the Reference Handbook.
+
+
+
+    J
+
+
+
+    THE CORRECT ANSWER IS: A
+
+
+
+    37.   Refer to the Concrete section in the Materials Science chapter of the FE Reference Handbook.
+
+          Because the concrete mix design specified a water-to-cement ratio, the most appropriate way to
+          increase the slump of the concrete is to add an admixture that will increase the slump without
+          affecting the water-to-cement ratio.
+
+          THE CORRECT ANSWERS: C
+
+
+
+    38.   Refer to the definition of Charpy Impact Test in the Materials Science/Structure of Matter chapter
+          of the FE Reference Handbook.
+
+          THE CORRECT ANSWER IS: D
+
+
+
+    39.   By definition, a metal with high hardness has a high tensile strength and a high yield strength.
+
+          THE CORRECT ANSWER IS: D
+
+
+
+40. Refer to the Concrete section in the Materials Science chapter of the FE Reference Handbook.
+
+       The moisture content of each aggregate includes: 1 water that would be needed to bring
+       aggregates to saturated surface dry (SSD) condition (the absorbed water) and 2 the excess water
+       that is free to add to the mix water. Since the as-used moisture content is greater than the absorption
+       for each aggregate, each aggregate contributes the excess water to the mix, thus reducing the water
+       that must be added to mix. The water added to the mix is the water computed for oven-dry
+       aggregates 305 1b/yd®) plus the excess water in each aggregate.
+
+       Final water = 305 — 2.0% — 0.5%)/100] x 1,674 — 6.0% — 0.7%)/100] x 1,100 =221.6 Ib/yd*
+
+       THE CORRECT ANSWER IS: B
+
+
+
+
+
+
+
+
+
+
+          76
+    Copyright © 2020 by NCEES
+
+        FE CIVIL SOLUTIONS
+
+41. Refer to the Uniaxial Stress-Strain section in the Mechanics of Materials chapter of the FE
+        Reference Handbook.
+
+        In accordance with the 0.2% offset method for identifying yield strength, a line parallel to the
+        elastic portion of the stress-strain curve is passed through the strain axis at a value of 0.002. Where
+        this line intersects the stress-strain curve is identified as the yield strength. Therefore, the slope of
+        the dashed line is associated with the modulus of elasticity of the material.
+
+        THE CORRECT ANSWER IS: D
+
+
+
+    42. Refer to the Pitot Tube section in the Fluid Mechanics chapter of the FE Reference Handbook.
+
+
+        @
+    Yo  2)?
+    22 208
+
+    THE CORRECT ANSWER IS: D
+
+
+
+    43.   Refer to the Stress, Pressure, and Viscosity section in the Fluid Mechanics chapter of the FE
+          Reference Handbook.
+
+          Units of absolute dynamic viscosity   are kg/(m-s).
+
+          Units of kinematic viscosity (v) are m%s.
+
+          The relationship between the two is:
+
+          v= Wp where p is the density in kg/m’.
+
+
+          = 1.19 x 1072,
+
+    THE CORRECT ANSWER IS: A
+
+
+
+    44.   Refer to the Archimedes Principle and Buoyancy section in the Fluid Mechanics chapter of the FE
+          Reference Handbook.
+
+          THE CORRECT ANSWER IS: D
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    brs
+
+FE CIVIL SOLUTIONS
+
+
+45.   Refer to the Continuity Equation section in the Fluid Mechanics chapter of the FE Reference
+      Handbook.
+
+      -
+
+
+      Q=Av= AL in. x 2 x25 py =0.136 £2
+
+
+
+
+
+
+      Due to continuity: v2 = vi = 25 ft/sec
+
+
+
+Vox = Vp COS 45°
+
+      = Vv] C08 45°
+
+Fy =      Vix) =   cos  cos 45°) = 0
+
+        pO(vay - viy)
+
+Vay = Vy sin 45°
+
+Viy       45°
+
+          3
+Fy =1.94      x0.136 sec 25 sec     Lx 0707 =9331b
+                                    sec
+
+
+      THE CORRECT    C
+
+
+
+
+
+
+
+
+
+
+      78
+Copyright © 2020 by NCEES
+
+         FE CIVIL SOLUTIONS
+
+46.  to the Characteristics of a Static Liquid section in the Fluid Mechanics chapter of the
+     FE Reference Handbook.
+
+     The mean pressure of the fluid acting on the gate is evaluated at the mean height, and the center of
+     pressure is 2/3 of the height from the top; thus, the total force of the fluid is:
+
+
+     =    3 =70,610N
+
+
+     and its point of application is 1.00 m above the hinge. A moment balance about the hinge gives:
+
+
+
+
+
+     N
+
+
+     THE CORRECT ANSWER IS: C
+
+
+
+47.   Refer to the Orifice Discharging Freely into Atmosphere section in the Fluid Mechanics chapter
+      of the FE Reference Handbook.
+
+      0 = CAo(2gh)'"?
+
+
+
+
+
+
+
+Va=0.6(2 x 32.2 ft/sec? x  8     = 13.6 ft/sec
+
+VB=0.6(2 x 32.2 x          6 ft) = 11.8 ft/sec
+
+Ve=0.6(2 x 32.2 ft/sec? x  10           ft/sec
+
+Vp=0.6(2 x 32.2 ft/sec? x  12    = 16.7 ft/sec
+
+
+THE CORRECT ANSWER IS SHOWN.
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    79
+
+          FE CIVIL SOLUTIONS
+
+48.   Refer to the Trigonometry section in the Mathematics chapter of the FE Reference Handbook.
+
+      Use Law of Cosines.
+
+      +c?     cos     A
+
+          +7202
+
+          2(480)(720)
+
+      A =30°18'47"
+
+      THE CORRECT ANSWERS: A
+
+
+
+49.   Refer to the Horizontal Curve Formulas section in the Civil Engineering chapter of the
+      FE Reference Handbook.
+
+      Find the area of the fractional part of the circle.
+
+      A=mr?
+
+
+
+Fraction of     =    _     1605
+                360°     360°
+
+Area of fraction of circle =0.1022 x 7 x (500)? =80,285 ft’
+
+Shaded area = total area — fraction of circle
+            =83,164 — 80,285
+
+            =2,879 fi
+
+THE CORRECT ANSWER IS: A
+
+
+
+50.   Refer to the Earthwork Formulas section in the Civil Engineering chapter of the FE Reference
+      Handbook.
+
+      Volume to be excavated = 130[322 + (4)(395) +    = 1,862 yd®
+
+      THE CORRECT ANSWERS: C
+
+
+
+
+
+
+
+
+
+
+            80
+Copyright © 2020 by NCEES
+
+ FE CIVIL SOLUTIONS
+
+51. THE CORRECT ANSWERS: D
+
+
+
+
+ 52. BM ELEV. = 820.50 | Si 645557
+
+
+
+
+
+      4258
+     B f
+
+ ELEV. at B = 820.50 + 5.00 — 645.90(sin 3.25 — 4.25 = 784.63
+
+ THE CORRECT ANSWER IS: B
+
+
+
+ 53.   TP elevation + backsight — foresight = pin elevation
+
+       2,325.58 + 7.76 — 4.25 = 2,329.09
+
+       THE CORRECT ANSWERS: C
+
+
+
+ 54. Refer to the Rational Formula section in the Civil Engineering chapter of the FE Reference
+     Handbook.
+
+
+
+
+       in./hr)(20 acres) = 3.0 cfs
+
+     THE CORRECT ANSWER IS: A
+
+
+
+
+
+
+
+
+
+
+ Copyright © 2020 by NCEES    81
+
+FE CIVIL SOLUTIONS
+
+55.  to the Head Loss Due to Flow section in the Fluid Mechanics chapter of the FE Reference
+    Handbook.
+
+    Lv
+
+
+
+
+    ( 200 =)
+hy ap    || 2%
+  LAB    =—2 ——— |=0.03(100)(0.062) = 0.186 ft
+
+
+
+hy ac =0.03) ( || 1.3
+    — —=—— |=0.03(67)(0.026) = 0.052 ft
+    3
+
+
+hy op ap — hac =0.186-0.052=0.134 ft
+
+Since the head loss from A to B is larger than the head loss from A to C, the head at C is greater
+than the head at B. This means there is flow from C to B.
+
+THE CORRECT ANSWER IS: B
+
+
+
+56.   Refer to the Pressure Field in a Static Liquid section in the Fluid Mechanics chapter of the
+      FE Reference Handbook.
+
+      Elevation difference:
+
+      ft
+
+      THE CORRECT ANSWERS: B
+
+
+
+
+
+
+
+
+
+
+      82
+Copyright © 2020 by NCEES
+
+FE CIVIL SOLUTIONS
+
+57. Refer to the Circular Pipe Head Loss Equation (ft) section in the Civil Engineering chapter of the
+    FE Reference Handbook.
+
+
+hp = C1852Di 1.852
+
+
+    Parallel pipe flow:
+
+M52 = (Lo/L1)     x    = (1,200/2,400) x (18/12)*¥7=3.6
+
+
+
+
+
+01+02 =302=15cfs
+
+Q2=5cfs; cfs
+
+THE CORRECT ANSWERS: B
+
+
+
+58.   Refer to the Weir Formulas section in the Civil Engineering chapter of the FE Reference
+      Handbook.
+
+      Spillway head is 50 ft— 37 ft=13 ft
+      QO =     where C = 3.33 for rectangular weir (USCS unit)
+          ft)(13%? ft) = 31,216, or 31,200
+
+      THE CORRECT ANSWER IS: D
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    83
+
+          FE CIVIL SOLUTIONS
+
+59.   Refer to the Hydrology/Water Resources section in the Civil Engineering chapter of the
+      FE Reference Handbook.
+
+      Solve for storage volume Vs (ac-ft)
+      a
+      V,
+
+
+      Drainage area: Am = 0.117 mi?
+      Frequency: 25 years
+      Runoff: Q=3.4 in.
+
+      Runoff volume: V» =
+
+      where 53.33 = conversion factor from to ac-ft
+
+      x 0.117 mi® x     53.33 =21.2 ac-ft
+
+      Peak inflow: gi= 360 cfs
+
+      Peak outflow: go = 180 cfs
+
+      Compute: go/gi= 0.50
+      Determine V/V; from graph: 0.28
+
+      3
+      V,
+
+
+
+Vy =21.2(0.28)=5.94 ac-ft
+
+THE CORRECT ANSWERS: D
+
+
+
+
+
+
+
+
+
+
+      84
+Copyright © 2020 by NCEES
+
+              FE CIVIL SOLUTIONS
+
+    60.   Refer to the Manning's Equation section in the Civil Engineering chapter of the FE Reference
+          Handbook.
+
+
+          Using Manning’s equation: V = (£) gs
+
+                                  %
+          V= ( 0.015 Jos75% 0.00672
+
+          V=6.3 ft/sec
+
+          Note: K = 1.486 for USCS units
+
+          Ry can be found from the Hydraulic-Elements Graph in the Civil Engineering chapter of the
+          Reference Handbook
+
+          d/D     =0.5; therefore     = 1.0 (from graph)
+
+
+
+
+          THE CORRECT ANSWER IS: C
+
+
+
+61. of flow is normal to lines of constant piezometric head. This is the line that connects
+        points having the same head (A and C). The velocity vector is in the direction of decreasing
+        head. In the figure, head decreases from B to D (the water table is higher at B, or the depth to the
+        water table is less). Therefore, groundwater flows to the south.
+
+        THE CORRECT ANSWER IS: A
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    85
+
+                         FE CIVIL SOLUTIONS
+
+    62.   Water Quality Category
+
+          Physical   Odor
+                     Turbidity
+
+
+          Chemical   Hardness
+                     Lead
+
+
+          Microbiological Giardia
+
+
+    Radiological Radon
+
+Physical characteristics are often associated with the senses (e.g., taste, color, odor). Chemical
+characteristics often involve dissolved substances (minerals, metals, nutrients). Microbiological
+characteristics are associated with microorganisms and pathogens in particular (bacteria, viruses,
+protozoa). Radiological characteristics are associated with radioactive materials (artificial or
+natural).
+
+    THE CORRECT ANSWER IS SHOWN ABOVE.
+
+
+
+63. Refer to the Design Criteria for Sedimentation Basins table in the Environmental Engineering
+       chapter of the FE Reference Handbook.
+
+       Alum dosage is the one parameter the operator has control over during the coagulation process.
+       Temperature, although it may have minor effect on coagulation efficiency, is typically outside the
+       control of the operator. Dissolved oxygen plays no role in the efficacy of the coagulation process.
+       Lime is used in hardness removal and thus not pertinent to coagulation.
+
+        THE CORRECT ANSWER IS: A
+
+
+
+
+
+
+
+
+
+
+                     86
+    Copyright © 2020 by NCEES
+
+                                         FE CIVIL SOLUTIONS
+
+64.   Refer to the Structural Analysis section in the Civil Engineering chapter of the FE Reference
+      Handbook.
+
+      The maximum force in CD occurs when the wheel is placed at the location that corresponds to the
+      peak of the influence line:
+
+      =     1.875 x 20 kips = 37.5 kips
+      Max Fep
+
+
+      Cc D
+
+
+
+           £7
+      i|  |||    ||  1875    :
+
+
+
+      |  |  Fa |
+
+
+
+      Influence line for CD
+
+THE CORRECT ANSWERS: C
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    87
+
+          FE CIVIL SOLUTIONS
+
+65.   Refer to the Structural Analysis section in the Civil Engineering chapter of the FE Reference
+      Handbook.
+
+      Apply a downward 1-kip load (unit load) at Joint C and compute forces f in bars. (This can easily
+      be done by dividing each F force by 40).
+
+      Multiply each member’s change in length AL = = by its forcefin the table below (be sure to
+
+          FL
+      use the signedᴬ  values of AL =F and f).
+
+
+          rtᵗᵒ get the displacement.    at Joint
+Then, sumf⁻ FL                              2   C.
+
+      re =+ 1.0464 in. down
+
+                                        FL                        FL
+      Memb   F (ki      L               —
+
+AB            50.0                      240   0.1034    1.25    0.1292
+
+BC            49.2                      473   0.2008    1.231   0.2472
+
+CD           -75.0                      480  -0.3103   -1.875   0.5818
+
+AD           -30.0                      288  —0.0745   -0.75    0.0559
+BD           -25.0                      240  -0.0517   -0.625   0.0323
+
+
+
+
+      THE CORRECT    A
+
+
+
+
+
+
+
+
+
+
+                                        88
+Copyright © 2020 by NCEES
+
+          FE CIVIL SOLUTIONS
+
+66.   Refer to the Columns section in the Mechanics of Materials chapter of the #1 Reference
+      Handbook.
+
+   A fundamental assumption of the Euler formulation for buckling is that the critical stress is less
+   than the proportional limit (elastic buckling). The maximum length can be found by setting the
+   critical stress equal to the proportional limit stress.
+
+      n2E
+      Cu Sl)r    1
+
+
+
+
+          2
+
+Solving 1 for L
+
+L=7476=74.8
+
+THE CORRECT ANSWER IS: B
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    89
+
+      FE CIVIL SOLUTIONS
+
+67.   Refer to the Stability, Determinacy, and Classification of Structures section in the Civil
+      Engineering chapter of the FE Reference Handbook.
+
+      Unknown reactions and internal forces at internal pins: 6 x 2 = 12
+
+   Rigid body components (shown as FBDs) @ 3 equations per component: 4
+
+      Number of equations: 4 x 3 =12
+
+      There are 12 equations and 12 unknowns — determinate (stable by member arrangement).
+
+
+
+
+
+
+
+
+
+
+1     BODY
+1 UNKNOWN FORCE
+
+      THE CORRECT ANSWER IS: B
+
+
+
+
+
+
+
+
+
+
+      90
+Copyright © 2020 by NCEES
+
+         FE CIVIL SOLUTIONS
+
+68.  to the Beams section in the Mechanics of Materials chapter of the FE Reference Handbook.
+
+     The moment diagram and curvature of the deflected shape in Option B are consistent with the
+     given convention.
+
+
+THE CORRECT ANSWER IS: B
+
+
+
+
+
+     Ww
+
+       -3/8
+
+
+ne
+         -1.0
+
+     5/24
+©
+
+         -5/6
+
+     5/12
+D)
+
+             -5/8
+
+
+
+THE CORRECT ANSWER IS: B
+
+
+
+
+
+
+
+
+
+
+Copyright© 2020 by NCEES    91
+
+                            FE CIVIL SOLUTIONS
+
+70. Method 1 (computation) For bracing @ L/3: Ls = 10.0 ft and Cs» = 1.0 (given)
+
+    From the Zx table in the Civil Engineering chapter of the FE Reference Handbook, for
+    W21 x 57: 0Mp fi-kips   L,=4.77ft L,=143ft BF=20.1
+
+    Since Lp < Ly 4.77 ft < 10 ft):
+
+     =            BF x (Ls — Lp) = 484 — 20.1 x 10.0 — 4.77 = 378.9 fi-kips
+
+     Lic    22227
+            8x378.9
+         =      3368 kip
+        I       30
+
+
+
+    Method 2 (graphical) For bracing @ L/3: Ls = 10.0 ft and Cs = 1.0 (given)
+
+    From the Available Moment vs. Unbraced Length table in the Civil Engineering chapter of the
+    FE Reference Handbook:
+
+    Enter horizontal axis at Ls = 10.0 ft, and read upward to W21 x 57 curve: = 378
+     Lc] = 8x 378               kips/ft
+        I   30
+
+    THE CORRECT ANSWER IS: B
+
+
+
+
+
+
+
+
+
+
+                            92
+    Copyright © 2020 by NCEES
+
+          FE CIVIL SOLUTIONS
+
+71.   Refer to the Design of Reinforced Concrete Components (ACI 318-11) section  in the Civil
+      Engineering chapter of the FE Reference Handbook.
+                                                                                  0.857;
+
+
+
+      A; = 5.08    i 0.003                                                        3
+
+
+      a  = 5.08(60)
+          0.85(4)(12)    @ #10
+
+
+          =   £14 _g79in        —Af,
+              Bio
+
+      dy —-   ¢=21.5-879=12.71in.
+
+
+g        =    2 0.003 =L716 003 =0.004338 in./in.
+                8.79
+
+Since 0.004 < g,< 0.005, compute ¢ :
+
+¢        =    0.48+83(0.004338)=0.84004
+
+
+      THE CORRECT ANSWER IS: C
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    93
+
+            FE CIVIL SOLUTIONS
+
+72. Cut the truss through members CD, DK, and JK and draw a free-body diagram of the left side.
+
+            tr₁
+
+             4ft
+
+         I     A
+    50   10 30
+
+
+
+    Let   F in Member CD
+          Fn = the horizontal component of
+
+
+    Then  Fy = Viz
+
+
+Solving for F: F' =
+
+    =50        + Fy; (4ft)=0
+
+Fy;      kips (comp)
+
+F= A 75 kips) = 81.12 kips (comp)
+
+
+    THE CORRECT ANSWER IS: A
+
+
+
+
+
+
+
+
+
+
+          94
+Copyright © 2020 by NCEES
+
+                          FE CIVIL SOLUTIONS
+
+73.   Refer to the Design of Reinforced Concrete Components (ACI 318-11) section in the Civil
+      Engineering chapter of the FE Reference Handbook.
+
+      M,        a         an PAL1
+
+
+
+where 4: =8 x 0.79 in’ = 6.32 in?
+
+      d=30-3.5=26.5 in. (do not use d; = 27.5 in.)
+
+648x12                    6.32x60
+ 0.9  =        2          0.85x4xb )
+
+b=1498in. (use 15 in.)
+
+
+
+
+
+
+
+
+
+                          in.
+      8 - #3 BARS
+
+        0                 0 o
+      ogs  eee               2 in.
+      3.5in.
+
+
+
+
+
+
+
+      THE CORRECT ANSWER IS: D
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    95
+
+                                       FE CIVIL SOLUTIONS
+
+74.   Refer to the Retaining Walls section in the Civil Engineering chapter of the FE Reference
+      Handbook.
+
+      MH stands for an elastic silt. Anywhere below the "A" line and to the right of the LL = 50 line will
+      satisfy this condition.
+
+
+        For classification of fine-grained  soils
+
+sol     wis        A
+        En.
+40      then   PI = 0.73 (LL ~20)                     > AL
+        Sas]
+        ‘Equation of "Uline        >
+
+|       Vertical  at LL=16 10  PI =7,                             AC
+            A A                                                   ||
+                             a te                        1
+      srr                                                        :
+      0     101620                      30  40   50 60 70 80 9 100  110
+
+
+        LIQUID LIMIT (LL)
+
+      THE CORRECT ANSWER IS SHADED ABOVE.
+
+
+
+75.   Refer to the Geotechnical section in the Civil Engineering chapter of the FE Reference Handbook.
+
+      Degree of saturation = Gs/e
+
+      Gs»
+
+      (2.7)(0.105) = 5(0.63)
+
+      S=45%
+
+THE CORRECT ANSWER IS: B
+
+
+
+
+
+
+
+
+
+
+        96
+Copyright © 2020 by NCEES
+
+    FE CIVIL SOLUTIONS
+
+    76. Refer to the Geotechnical section in the Civil Engineering chapter of the FE Reference Handbook.
+
+
+    G, A 16in psi
+
+
+    psi
+
+
+    T
+
+     (on=32, t=16)
+
+
+
+
+
+    16
+
+
+
+         82
+
+—tan-1(16)(  )  =
+        *       227570
+
+
+    THE CORRECT ANSWER IS: B
+
+
+
+    77.   Refer to Effective Stress in the Geotechnical section of the Civil Engineering chapter in the
+          FE Reference Handbook.
+
+          10 - 62.4 10 = 726 psf
+
+          THE CORRECT ANSWER IS: B
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    97
+
+              FE CIVIL SOLUTIONS
+
+78.   Refer to the Geotechnical section in the Civil Engineering chapter of the FE Reference Handbook.
+
+      H =12ft
+      ¢   =30°
+      y   =125pcf
+
+      Ka =     —
+          =tan? (45° — 30/2)
+          =0.3333
+
+      Pa =1/2yH2Ka
+          =1/2 125 pef) 12 1)? 0.333
+          =2,998 plf
+
+      THE CORRECT ANSWERS: B
+
+
+
+79.     to the Geotechnical section in the Civil Engineering chapter of the FE Reference
+      Handbook.
+
+      d=14in,s04=
+      ¢=530 psf=3.68 psi
+
+      ¢ =18°
+
+      P=1251b
+
+        P
+
+
+
+      =
+on 1251b/1.54 in® = 81.2 psi
+Tr = 3.68 psi + 81.2 psi) tan 18 = 30 psi
+
+THE CORRECT ANSWERS: C
+
+
+
+
+
+
+
+
+
+
+          98
+Copyright © 2020 by NCEES
+
+                FE CIVIL SOLUTIONS
+
+80.   Refer to the Ultimate Bearing Capacity section in the Civil Engineering chapter of the FE
+      Reference Handbook.
+
+      quit  = cNc     + 0.5 YBNy
+
+      Since Ne =0 and Dr=0,
+
+            =
+
+            =3,000 psf
+
+      THE CORRECT ANSWER IS: C
+
+
+81.   The upper soils are so weak that spread footings would be too large. A good rule of thumb for
+      buildings is that spread footings cease to be economical when the total plan area of the footings
+      exceeds about one-third of the building footprint area.
+
+      THE CORRECT ANSWER IS: C
+
+
+
+82.   Refer to the Geotechnical section in the Civil Engineering chapter of the FZ Reference Handbook.
+
+      t=THa*cy=12 5 x 5)/0.16 = 187.5 days
+
+      THE CORRECT ANSWERS: C
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    99
+
+          FE CIVIL SOLUTIONS
+
+83.   Refer to the Retaining Walls section in the Civil Engineering chapter of the FE Reference
+      Handbook.
+
+      Given:
+      Ls=100 ft
+      as =27°
+        100 tons = 200,000 Ib
+      ¢ =20°
+      c=1.2psi= 173 psf
+
+
+      = _ CLs +Wy cosa, tang
+        Wy sino
+
+FS=(173 ps)(100 ft) + 200,000 Ib)(cos 27°)(tan 20°)/(200,000 Ib)(sin 27°) = 0.9
+
+THE CORRECT ANSWER IS: B
+
+
+
+84.   Refer to the Transportation section in the Civil Engineering chapter of the FE Reference
+      Handbook.
+
+      Try equation for S< L
+
+
+      I      48?
+         100 27 |
+
+             9x 600°
+      =  —
+             y2x3.50 +  |
+
+
+      =  1,966 ft
+
+
+S <      as assumed. Therefore, the correct equation was used.
+
+THE CORRECT ANSWER IS: B
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    100
+
+         FE CIVIL SOLUTIONS
+
+85.  to the Highway Pavement Design section in the Civil Engineering chapter of the
+     FE Reference Handbook.
+
+     2.50 = 0.44(2) + 0.25(4) + 0.10(Ds)
+
+
+Bs   2.50-0.88-1.00 0.62
+     0.10
+
+THE CORRECT        C
+
+
+
+86.  to the Transportation section in the Civil Engineering chapter of the FE Reference
+     Handbook.
+
+
+     Spacing 3,600 sec/hr
+     PACINE  =]₂₀₀       sec/vehicle
+
+
+     THE CORRECT ANSWER IS: A
+
+
+
+87.   WALK + width/pedestrian speed = green
+
+      6+31.5/3.5=15.0
+
+      THE CORRECT ANSWER IS: D
+
+
+
+
+
+
+
+
+
+
+Copyright© 2020 by NCEES    101
+
+         FE CIVIL SOLUTIONS
+
+88. Refer to the Traffic Safety Equations section in the Civil Engineering chapter of the Reference
+      Handbook.
+
+    Crash factors are not additive, so combined CR
+
+    CR =CRi1+(1-CR1)CR2       (order CRs from highest to lowest)
+     =025+(1-0.25)0.15
+     =0.36
+                              1 singe no change in ADT
+
+    Crashes prevented = N x CR
+
+    3.6=10x0.36
+    10-3.6=64
+
+    THE CORRECT ANSWER IS: D
+
+
+
+    89.   Departure sight triangles are based on a vehicle stopped at the stop bar and looking at major street
+          vehicles for acceptable gaps.
+
+          THE CORRECT ANSWER IS: B
+
+
+
+    90.   Asphalt or any combination with asphalt will be thicker under identical conditions.
+
+          THE CORRECT ANSWERS: C
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    102
+
+        FE CIVIL SOLUTIONS
+
+91. Refer to the Basic Freeway Segment Highway Capacity section in the Civil Engineering chapter
+       of the FE Reference Handbook.
+
+       Option A: Not true. A 75-mph free-flow speed freeway has a breakpoint of 1,000 pc/h/In, while
+       a 55-mph freeway has a breakpoint of 1,800 pc/h/In. The breakpoint is defined by the Highway
+       Capacity Manual as the volume for which the operating speeds becomes lower than the free-flow
+       speed.
+
+       Option B: True. The free-flow speed is impacted by the lane width, right side lateral clearance,
+       and the total ramp density (TRD).
+
+       Option C: True. The capacity of a 75-mph free-flow speed freeway is 2,400 pc/h/In, while a
+       similar facility with a 55-mph free-flow speed has a capacity of 2,250 pc/h/In.
+
+       Option D: Not true. Lane widths equal to 12 ft and greater have the same free-flow speed.
+       Increasing lane widths only increases speeds when the lane widths are 12 ft or less.
+
+       Option E: Not true. The estimated operating speed is impacted only once the volumes exceed the
+       breakpoint volume; therefore there is no impact to operating speed changes in volumes when
+       traffic volumes are low.
+
+       THE CORRECT ANSWERS ARE: B, C
+
+
+
+    92.   Refer to the Logit Models section in the Civil Engineering chapter of the Reference
+          Handbook.
+
+
+             Us
+          hix=1
+
+    Three modes available: drive alone, carpool, and transit
+
+              eUcarpool
+
+
+          eUcarpool
+
+
+          - 0.67    3
+
+          a4
+
+
+    THE CORRECT ANSWERS: B
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    103
+
+    FE CIVIL SOLUTIONS
+
+    93. THE CORRECT ANSWER IS: C
+
+
+
+    94.  to the Materials Handling section in the Industrial and Systems chapter of the FE
+         Reference Handbook.
+
+         Time to load one truck =  15 yd*/3 yd*/min
+             =5 min
+
+         Four trucks are available.
+         Cycle time for one truck = 5 min loading plus 12 min to travel, dump, and return = 17 min.
+         Loading time for four trucks = 4 x 5 = 20 min.
+
+         Therefore, an empty truck is always available to load.
+
+
+    Ideal production capacity = mh³ 1524³
+         Smin/ truck     truck
+
+          3
+
+         hr
+
+    THE CORRECT ANSWERS: A
+
+
+
+    95. Refer to the Indices section in the Civil Engineering chapter of the FE Reference Handbook.
+
+
+A cost performance index (CPI) greater than 1.0 indicates a cost savings, and a schedule
+performance index (SPI) of less than 1.0 indicates the project is behind schedule.
+
+
+         THE CORRECT ANSWERS: A
+
+
+                                                              Er
+    96.   Dry unit weight of embankment material   = 122     100
+                                                          (100+16.7)
+                                                   =104.5 pef
+                                                     “Toe
+          Volume required                          = 104.5 320,000
+
+                                                   =315,470 yd*
+
+          THE CORRECT ANSWER IS: B
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES                      104
+
+    FE CIVIL SOLUTIONS
+
+    97. Orthographic views represent the top, front, and side views, and are arranged as shown below:
+
+
+
+
+
+
+
+
+
+
+Option A: The top view is reversed horizontally, and the side and top views do not match.
+Option C: The top view is rotated and reversed, and neither the front or side views match
+the top view.
+
+Option D: The top view is reversed vertically, and the side and top views do not match.
+
+
+
+
+
+
+
+
+
+
+    THE CORRECT ANSWER IS: B
+
+
+
+    98. Refer to the Materials Handling section in the Industrial and Systems chapter of the FE Reference
+        Handbook.
+
+
+    Production of Excavator 3 = _60min/he  LCY capacity = 210 LCY/hr
+    0.50 min cycle
+    Similar calculations for the other three excavators show they have lower production rates.
+
+    THE CORRECT ANSWER IS: C
+
+
+
+
+
+
+
+
+
+
+    Copyright © 2020 by NCEES    105
+
+          FE CIVIL SOLUTIONS
+
+99.   Refer to the Earned-Value Analysis section in the Civil Engineering chapter of the FE Reference
+      Handbook.
+
+      BCWP / ACWP = CPI
+      $3,200/ $3,400 = 0.9412
+
+      (BAC
+      ($4,000 — $3,200) / 0.9412 = $850
+
+      Estimate at completion:
+      ACWP + ETC =EAC
+      $3,400 + $850 = $4,250
+
+      THE CORRECT ANSWER IS: C
+
+
+
+
+100.   The arrow and number indicate the cross slope of the roadway.
+
+   _3in 025 0.025 ft/ft 3-in./12 in/ft= 0.25/10 ft = 0.025 fv/ft.
+    12in/ft 10 ft
+
+       Slopes of road or bridge cross-sections are expressed as ft/ft and normally represented by a
+       number, in this case 0.025. Slopes can also be expressed as a percent; for this case it could be
+       expressed as 2.5%.
+
+       THE CORRECT ANSWER IS: B
+
+
+
+
+
+
+
+
+
+
+Copyright © 2020 by NCEES    106
+
+   FE EXAM PREPARATION MATERIAL
+        PUBLISHED BY NCEES
+
+      FE Reference Handbook
+
+FE Practice Exams for all modules:
+             Chemical
+              Civil
+     Electrical and Computer
+          Environmental
+      Industrial and Systems
+            Mechanical
+        Other Disciplines
+
+
+
+    For more information about these and other NCEES publications and services,
+visit us at www.ncees.org or contact
+  Client Services at 800 250-3196.
+
+
+
+
+
+
+
+
+
+
+    Copyright ©2020 by NCEES    107
+
+       Ply= = “a a om"
+        an we
+. a
+
+
+
+
+
+
+
+    B  3    .
+
+
+
+
+
+
+
+
+
+
+    2
+
+
+
+
+
+
+    2 1  -  .  - v    bs.
+
+
+
+    =    .
+
+
+    wo,"
+
+
+
+
+
+
+    .  -    ae
+    LM  me  am, x out
+
+
+
+
+Sales    wm ope ta
+
+
+
+
+
+    IL    PR
+
+
+
+
+
+
+
+    by
+
+    EE  cn    a
+
+        a     Pe  a” ES
+
+
+
+
+
+ PEE FRE    2 kat    =
+
+
+|
+
+
+
+
+
+
+
+
+    =    n    Te    |
+
+
+
+
+
+
+ dy    EE  Loe    IE
+=        an
+
+
+
+
+
+
+
+
+    , =.    i
+
+ncees.org/exams

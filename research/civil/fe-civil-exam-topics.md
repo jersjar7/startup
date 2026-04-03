@@ -1,373 +1,515 @@
-# FE Civil Exam — Complete Topic Breakdown
+# FE Civil Exam — Topic Breakdown & Platform Mapping
 
-> Based on the NCEES FE Civil CBT Exam Specifications (current as of 2025–2026).
-> The exam contains **110 questions** over **5 hours 20 minutes** (computer-based, closed-book with electronic FE Reference Handbook).
+> Based on the NCEES FE Civil CBT Exam Specifications (effective July 2020).
+> The exam contains **110 questions** over **5 hours 20 minutes** (2.91 min/question).
+> Computer-based, closed-book with electronic FE Reference Handbook.
 >
-> **Lesson breakdowns** are mapped to the FE Reference Handbook 10.5. Page numbers refer to the handbook PDF pages shown during the exam.
+> This document maps the NCEES spec to the **FE for Raccoons** platform:
+> **15 chapters, 45 subtopics, 107 lessons, 321 lesson problems + 428 exam-pool problems (planned).**
 
 ---
 
 ## Chapter 1: Mathematics (8–12 questions)
 
-> **FE Civil spec subtopics:** A. Analytic geometry, B. Single-variable calculus, C. Vector operations, D. Statistics (covered in Chapter 2).
->
-> 13 lessons across 3 subtopics. Content is filtered to what the FE Civil exam actually tests — handbook material for other disciplines (discrete math, complex numbers, Fourier, differential equations) is excluded.
+> **NCEES spec:** A. Analytic geometry, B. Single-variable calculus, C. Vector operations, D. Statistics (→ Chapter 2).
+> **Platform:** 13 lessons across 3 subtopics.
 
-### A. Analytic Geometry — Handbook pp. 36–46
+### Subtopic: `analytic-geometry` — Analytic Geometry (6 lessons)
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|--------------|
-| 1 | Straight Lines and Quadratics | p. 36 | General form (Ax + By + C = 0), slope-intercept, point-slope, distance between points, angle between lines, perpendicularity, quadratic formula |
-| 2 | Logarithms | pp. 36–37 | Log definition, base changes (ln vs log₁₀), log identities (product, quotient, power) |
-| 3 | Right Triangle Trigonometry | p. 38 | SOH-CAH-TOA definitions, resolving forces into components, finding unknown sides |
-| 4 | Law of Sines and Law of Cosines | p. 38 | Oblique (non-right) triangles, Law of Sines (a/sinA = b/sinB), Law of Cosines (a² = b² + c² − 2bc cosA), when to use each |
-| 5 | Trigonometric Identities | p. 39 | Pythagorean identities, double-angle, sum/difference, half-angle, product-to-sum formulas |
-| 6 | Conic Sections | pp. 44–46 | Parabola (e=1), ellipse (e<1), hyperbola (e>1), circle (e=0); standard forms, eccentricity, focus/directrix, general conic equation (B²−4AC discriminant) |
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `straight-lines-quadratics` | Straight Lines & Quadratics | p. 36 |
+| 2 | `logarithms` | Logarithms | pp. 36–37 |
+| 3 | `right-triangle-trig` | Right Triangle Trigonometry | p. 38 |
+| 4 | `law-of-sines-cosines` | Law of Sines & Law of Cosines | p. 38 |
+| 5 | `unit-circle-trig-identities` | Unit Circle & Trig Identities | p. 39 |
+| 6 | `circles-conics` | Circles & Conic Sections | pp. 44–46 |
 
-### B. Single-variable Calculus — Handbook pp. 46–50
+### Subtopic: `single-var-calc` — Single-Variable Calculus (4 lessons)
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|--------------|
-| 1 | Derivatives and Derivative Rules | pp. 46, 49 | Limit definition, 27 derivative formulas (constant, power, product, quotient, chain, trig, inverse trig, exponential, logarithmic) |
-| 2 | Applications of Derivatives | p. 46 | Max test (f'=0, f''<0), min test (f'=0, f''>0), inflection point test (f''=0 with sign change) |
-| 3 | Integral Calculus | pp. 48, 50 | Definite integral definition, 27 indefinite integral formulas, integration by parts, substitution, partial fractions |
-| 4 | L'Hopital's Rule | p. 48 | Indeterminate forms 0/0 and infinity/infinity, successive differentiation of numerator and denominator |
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 7 | `derivatives-rules` | Derivatives & Derivative Rules | pp. 46, 49 |
+| 8 | `applications-derivatives` | Applications of Derivatives | p. 46 |
+| 9 | `integral-calculus` | Integral Calculus | pp. 48, 50 |
+| 10 | `lhopitals-rule` | L'Hopital's Rule | p. 48 |
 
-### C. Vector Operations — Handbook pp. 94–100 (Statics section)
+### Subtopic: `vector-operations` — Vector Operations (3 lessons)
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|--------------|
-| 1 | Vector Basics and Unit Vectors | TBD | Vector notation, magnitude, unit vectors, vector addition/subtraction |
-| 2 | Dot Product and Angle Between Vectors | TBD | Dot product formula, finding angles between vectors, scalar projection |
-| 3 | Cross Product and Applications | TBD | Cross product formula, moment of a force, area of parallelogram, right-hand rule |
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 11 | `vector-basics-unit-vectors` | Vector Basics & Unit Vectors | pp. 94–95 |
+| 12 | `dot-product-angle` | Dot Product & Angle Between Vectors | pp. 94–95 |
+| 13 | `cross-product-applications` | Cross Product & Applications | pp. 94–95 |
 
-> Vector operations pages TBD — need to parse Statics section (pp. 94–100) of the handbook.
+---
 
 ## Chapter 2: Probability and Statistics (4–6 questions)
 
-> **FE Civil spec subtopics:** A. Measures of central tendency and dispersion, B. Probability distributions, C. Expected value and weighted averages, D. Estimation and confidence intervals, E. Regression and curve fitting, F. Hypothesis testing and goodness of fit.
->
-> 6 lessons across 3 subtopics. Calculator-heavy chapter — TI-36X Pro shortcuts (1-Var Stats, nCr/nPr, LinReg) are included in both content callouts and problem step-by-step solutions.
+> **NCEES spec:** Distributions, mean, mode, standard deviation, confidence interval, regression, curve fitting.
+> **Platform:** 6 lessons across 3 subtopics.
 
-### A. Descriptive Statistics — Handbook pp. 63, 69
+### Subtopic: `descriptive-statistics` — Descriptive Statistics (2 lessons)
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|--------------|
-| 1 | Measures of Central Tendency & Dispersion | p. 63 | Mean, median, mode, range, variance (σ² and s²), standard deviation, population vs. sample formulas, TI-36X Pro 1-Var Stats workflow |
-| 2 | Linear Regression & Correlation | p. 69 | Least-squares regression line (ŷ = a + bx), correlation coefficient r, R², residual interpretation, TI-36X Pro LinReg workflow |
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `central-tendency` | Central Tendency | p. 63 |
+| 2 | `regression` | Regression | p. 69 |
 
-### B. Probability — Handbook pp. 64–67
+### Subtopic: `probability` — Probability (2 lessons)
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|--------------|
-| 3 | Probability Distributions | pp. 64–67 | Permutations (nPr), combinations (nCr), addition/multiplication rules, Binomial distribution (P(X=k)), Normal distribution, z-score, reading the z-table |
-| 4 | Expected Value & Weighted Averages | pp. 65–66 | E(X) = Σx·P(x), variance from E(X), weighted mean, linearity of expectation |
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 3 | `distributions` | Distributions | pp. 64–67 |
+| 4 | `expected-value` | Expected Value | pp. 65–66 |
 
-### C. Inferential Statistics — Handbook pp. 73–75
+### Subtopic: `inferential-statistics` — Inferential Statistics (2 lessons)
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|--------------|
-| 5 | Confidence Intervals & Estimation | pp. 73–75 | Point estimates, confidence intervals for the mean (known σ: z, unknown σ: t), t-distribution, sample size |
-| 6 | Hypothesis Testing & Goodness of Fit | pp. 73–75 | Null/alternative hypotheses, Type I/II errors, p-value, significance level α, chi-square goodness of fit |
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 5 | `estimation` | Estimation | pp. 73–75 |
+| 6 | `hypothesis-testing` | Hypothesis Testing | pp. 73–75 |
+
+---
 
 ## Chapter 3: Ethics and Professional Practice (4–6 questions)
 
-> **FE Civil spec subtopics:** Codes of ethics, professional liability, licensure, public safety, contracts, ethical dilemmas.
->
-> 5 lessons across 3 subtopics. Scenario-based chapter — no formulas, no calculator. The FE Handbook (pp. 4-13) includes the NCEES Model Rules, Model Law definitions and licensure requirements, disciplinary action grounds, intellectual property, and sustainability.
+> **NCEES spec:** Codes of ethics, professional liability, licensure, contracts and contract law.
+> **Platform:** 5 lessons across 3 subtopics. Scenario-based, no formulas.
 
-### A. Professional Conduct — Handbook pp. 4–5
+### Subtopic: `professional-conduct` — Professional Conduct (2 lessons)
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|-------------|
-| 1 | Obligations to the Public | pp. 4–5 | Model Rules A.1-A.10: paramount duty to safety, sign/seal conforming work, notify when overruled, report violations, truthful testimony, no fraudulent partnerships |
-| 2 | Obligations to Employers, Clients & Peers | p. 5 | Model Rules B.1-B.9 + C.1-C.4: competence, confidentiality, no gratuities, disclose conflicts, no dual compensation, don't injure peers' reputation, report errors |
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `obligations-public` | Obligations to the Public | pp. 4–5 |
+| 2 | `obligations-employers-peers` | Obligations to Employers & Peers | p. 5 |
 
-### B. Licensure & Law — Handbook pp. 6–10
+### Subtopic: `licensure-and-law` — Licensure & Law (2 lessons)
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|-------------|
-| 3 | Definitions & Practice of Engineering | pp. 6–8 | §110.20: PE, EI, practice of engineering, responsible charge, seal/signature, firm, what constitutes "practicing engineering" |
-| 4 | Licensure Path & Disciplinary Action | pp. 8–10 | §130.10 + §150.10: FE→PE path, ABET, 4yr experience, comity, 14 grounds for discipline, unlicensed practice |
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 3 | `definitions-practice` | Definitions & Practice | pp. 6–8 |
+| 4 | `licensure-discipline` | Licensure & Discipline | pp. 8–10 |
 
-### C. Broader Responsibilities — Handbook pp. 10–13
+### Subtopic: `broader-responsibilities` — Broader Responsibilities (1 lesson)
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|-------------|
-| 5 | Intellectual Property, Sustainability & Societal Considerations | pp. 12–13 | Patents (utility/design/plant, 20yr term), trademarks, copyrights, trade secrets, life-cycle analysis, sustainable design principles |
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 5 | `ip-sustainability` | IP & Sustainability | pp. 12–13 |
+
+---
 
 ## Chapter 4: Engineering Economics (5–8 questions)
 
-### Subtopic: Time Value of Money (`time-value-of-money`)
+> **NCEES spec:** Time value of money, cost types, break-even, benefit-cost, depreciation.
+> **Platform:** 5 lessons across 3 subtopics.
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|-------------|
-| 1 | Equivalence & Interest Factors | p. 229 | 9 factor formulas (P/F, F/P, P/A, A/P, A/F, F/A, P/G, F/G, A/G), cash flow diagrams, nomenclature, non-annual compounding |
-| 2 | Present Worth, Future Worth & Annual Worth Analysis | pp. 229, 232–236 | PW/FW/AW comparisons, factor table usage, MARR, alternative selection |
+### Subtopic: `time-value-of-money` — Time Value of Money (2 lessons)
 
-### Subtopic: Cost & Economic Analysis (`cost-and-economic-analysis`)
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `equivalence-interest-factors` | Equivalence & Interest Factors | p. 229 |
+| 2 | `pw-fw-aw-analysis` | PW, FW, AW Analysis | pp. 229, 232–236 |
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|-------------|
-| 3 | Cost Types & Break-Even Analysis | p. 230 | Fixed vs. variable costs, sunk costs, incremental costs, break-even point, payback period |
-| 4 | Benefit-Cost Analysis & Decision Trees | pp. 230–231 | B/C ratio (B-C >= 0, B/C >= 1), rate-of-return, expected value, decision/chance/outcome nodes |
+### Subtopic: `cost-and-economic-analysis` — Cost & Economic Analysis (2 lessons)
 
-### Subtopic: Depreciation & Finance (`depreciation-and-finance`)
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 3 | `cost-types-breakeven` | Cost Types & Break-Even | p. 230 |
+| 4 | `benefit-cost-decision-trees` | Benefit-Cost & Decision Trees | pp. 230–231 |
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|-------------|
-| 5 | Depreciation, Taxation & Inflation | pp. 230–231 | Straight-line depreciation, MACRS table, book value, taxable income, capitalized costs, bonds, inflation-adjusted rate (d = i + f + if) |
+### Subtopic: `depreciation-and-finance` — Depreciation & Finance (1 lesson)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 5 | `depreciation-taxation-inflation` | Depreciation, Taxation & Inflation | pp. 230–231 |
+
+---
 
 ## Chapter 5: Statics (8–12 questions)
 
-### Subtopic: Forces & Equilibrium (`forces-and-equilibrium`)
+> **NCEES spec:** Resultants, equivalent force systems, equilibrium, frames/trusses, centroids, moments of inertia, friction.
+> **Platform:** 6 lessons across 3 subtopics.
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|-------------|
-| 1 | Force Systems & Resultants | p. 94 | Force as vector (F = Fx i + Fy j), direction cosines, resultant magnitude/direction, resolution of forces, moments (M = r × F), couples, equivalent force systems |
-| 2 | Equilibrium & Free Body Diagrams | p. 94 | ΣF = 0 and ΣM = 0, FBD construction, support reactions (pin, roller, fixed), concurrent forces, two-force bodies |
+### Subtopic: `forces-and-equilibrium` — Forces & Equilibrium (2 lessons)
 
-### Subtopic: Trusses & Friction (`trusses-and-friction`)
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `force-systems-resultants` | Force Systems & Resultants | p. 94 |
+| 2 | `equilibrium-free-body-diagrams` | Equilibrium & Free Body Diagrams | p. 94 |
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|-------------|
-| 3 | Trusses: Method of Joints & Sections | p. 97 | Zero-force member rules, method of joints (ΣFH=0, ΣFV=0 at each joint), method of sections (cut + ΣM), when to use each |
-| 4 | Friction | pp. 96–97 | Static friction (F ≤ μsN), impending motion, screw-jack (M = Pr tan(α±φ)), belt friction (F1 = F2 e^μθ) |
+### Subtopic: `trusses-and-friction` — Trusses & Friction (2 lessons)
 
-### Subtopic: Section Properties (`section-properties`)
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 3 | `trusses-joints-sections` | Trusses: Joints & Sections | p. 97 |
+| 4 | `friction` | Friction | pp. 96–97 |
 
-| # | Lesson | Handbook Pages | Key Concepts |
-|---|--------|---------------|-------------|
-| 5 | Centroids of Composite Shapes | pp. 95, 98–100 | xc = ΣxiAi/ΣAi, first moment of area, composite shape decomposition, shape property tables |
-| 6 | Area Moments of Inertia | pp. 95–96, 98–100 | Ix = ∫y²dA, parallel axis theorem (I = Ic + Ad²), polar moment J, radius of gyration, product of inertia, composite sections |
+### Subtopic: `section-properties` — Section Properties (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 5 | `centroids-composite-shapes` | Centroids & Composite Shapes | pp. 95, 98–100 |
+| 6 | `area-moments-of-inertia` | Area Moments of Inertia | pp. 95–96, 98–100 |
+
+---
 
 ## Chapter 6: Dynamics (4–6 questions)
 
-1. Kinematics of particles (rectilinear, curvilinear, projectile motion)
-2. Kinematics of rigid bodies (rotation, general plane motion)
-3. Mass moments of inertia
-4. Kinetics — force and acceleration (Newton's second law for particles and rigid bodies)
-5. Work, energy, and power (work-energy theorem, conservation of energy)
-6. Impulse and momentum (linear impulse-momentum, conservation of momentum)
-7. Vibrations (free vibration, natural frequency — basic concepts)
+> **NCEES spec:** Kinematics, mass moments of inertia, force acceleration, work/energy/power.
+> **Platform:** 6 lessons across 3 subtopics.
+
+### Subtopic: `kinematics` — Kinematics (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `particle-kinematics` | Particle Kinematics | pp. 101–104 |
+| 2 | `rigid-body-kinematics-mass-moi` | Rigid Body Kinematics, Mass & MOI | pp. 105–108 |
+
+### Subtopic: `kinetics-and-energy` — Kinetics & Energy (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 3 | `force-and-acceleration` | Force & Acceleration | pp. 109–110 |
+| 4 | `work-energy-power` | Work, Energy & Power | pp. 111–112 |
+
+### Subtopic: `momentum-and-vibrations` — Momentum & Vibrations (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 5 | `impulse-and-momentum` | Impulse & Momentum | pp. 113–114 |
+| 6 | `vibrations-natural-frequency` | Vibrations & Natural Frequency | p. 115 |
+
+---
 
 ## Chapter 7: Mechanics of Materials (7–11 questions)
 
-1. Shear and moment diagrams (beams under various loading)
-2. Stresses and strains
-   - Axial stress and strain
-   - Torsional shear stress (circular shafts)
-   - Bending/flexural stress
-   - Transverse shear stress
-   - Thermal stress and strain
-3. Stress-strain diagrams (elastic/plastic behavior, yield, ultimate, fracture)
-4. Deformations
-   - Axial deformation
-   - Torsional deformation (angle of twist)
-   - Beam deflection (double integration, moment-area)
-   - Thermal deformation
-5. Combined stresses and principal stresses
-6. Mohr's circle (2D stress transformation)
-7. Column buckling (Euler's formula, effective length)
-8. Statically indeterminate members (compatibility conditions)
+> **NCEES spec:** Shear/moment diagrams, stresses/strains, deformations, combined stresses, Mohr's circle, elastic/plastic.
+> **Platform:** 8 lessons across 3 subtopics.
 
-## Chapter 8: Materials (5–8 questions)
+### Subtopic: `stress-strain-fundamentals` — Stress, Strain & Material Behavior (3 lessons)
 
-1. Concrete
-   - Mix design (water-cement ratio, admixtures, air entrainment)
-   - Compressive strength testing and curing
-   - Properties (workability, durability, strength gain)
-2. Steel and metals
-   - Mechanical properties (yield strength, tensile strength, ductility, hardness)
-   - Test methods and specifications (ASTM standards)
-   - Stress-strain behavior
-3. Asphalt
-   - Mix design (Marshall, Superpave)
-   - Properties (viscosity, penetration, ductility)
-   - Test methods
-4. Aggregates
-   - Gradation and sieve analysis
-   - Properties (specific gravity, absorption, abrasion resistance)
-5. Wood and timber
-   - Mechanical properties (allowable stress design)
-   - Moisture effects and grading
-6. Physical and mechanical properties comparison across materials
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `axial-stress-strain-deformation` | Axial Stress, Strain & Deformation | pp. 129–131 |
+| 2 | `torsion` | Torsion | pp. 132–133 |
+| 3 | `stress-strain-diagrams` | Stress-Strain Diagrams | pp. 129–130 |
+
+### Subtopic: `beams` — Beams (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 4 | `shear-moment-diagrams` | Shear & Moment Diagrams | pp. 134–136 |
+| 5 | `bending-shear-stresses` | Bending & Shear Stresses | pp. 134–136 |
+| 6 | `beam-deflections` | Beam Deflections | pp. 137–138 |
+
+### Subtopic: `combined-loading-stability` — Combined Loading & Stability (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 7 | `combined-stresses-mohrs-circle` | Combined Stresses & Mohr's Circle | pp. 139–140 |
+| 8 | `column-buckling` | Column Buckling | p. 141 |
+
+---
+
+## Chapter 8: Materials Science (5–8 questions)
+
+> **NCEES spec:** Mix design, test methods, physical/mechanical properties of metals, concrete, aggregates, asphalt, wood.
+> **Platform:** 7 lessons across 3 subtopics.
+
+### Subtopic: `mechanical-properties` — Mechanical Properties & Testing (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `stress-strain-material-behavior` | Stress-Strain & Material Behavior | pp. 116–118 |
+| 2 | `hardness-impact-fatigue` | Hardness, Impact & Fatigue | pp. 119–121 |
+| 3 | `thermal-processing-phase-diagrams` | Thermal Processing & Phase Diagrams | pp. 122–124 |
+
+### Subtopic: `concrete-technology` — Concrete Technology (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 4 | `concrete-mix-design` | Concrete Mix Design | pp. 125–126 |
+| 5 | `concrete-curing-strength` | Concrete Curing & Strength | pp. 126–128 |
+
+### Subtopic: `composites-selection` — Composites & Material Selection (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 6 | `composite-materials` | Composite Materials | pp. 125–126 |
+| 7 | `corrosion-material-selection` | Corrosion & Material Selection | pp. 127–128 |
+
+---
 
 ## Chapter 9: Fluid Mechanics (6–9 questions)
 
-1. Fluid properties (density, specific weight, viscosity, surface tension, compressibility)
-2. Fluid statics (pressure at a point, manometry, hydrostatic forces on submerged surfaces, buoyancy)
-3. Continuity equation (conservation of mass)
-4. Bernoulli equation and energy equation
-5. Flow in closed conduits
-   - Darcy-Weisbach equation
-   - Moody diagram and friction factor
-   - Hazen-Williams equation
-   - Minor losses
-6. Momentum equation (forces on pipes, nozzles, vanes)
-7. Dimensional analysis and similitude
-8. Flow measurement (orifices, weirs, venturi meters, pitot tubes)
-9. Laminar vs. turbulent flow (Reynolds number)
+> **NCEES spec:** Flow measurement, fluid properties, fluid statics, energy/impulse/momentum.
+> **Platform:** 8 lessons across 3 subtopics.
+
+### Subtopic: `fluid-properties-statics` — Fluid Properties & Statics (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `fluid-properties` | Fluid Properties | pp. 176–178 |
+| 2 | `hydrostatic-pressure` | Hydrostatic Pressure | pp. 179–181 |
+| 3 | `hydrostatic-forces-buoyancy` | Hydrostatic Forces & Buoyancy | pp. 182–184 |
+
+### Subtopic: `fluid-dynamics` — Fluid Dynamics (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 4 | `continuity-bernoulli` | Continuity & Bernoulli | pp. 185–188 |
+| 5 | `pipe-flow-head-loss` | Pipe Flow & Head Loss | pp. 189–194 |
+| 6 | `momentum-equation` | Momentum Equation | pp. 195–196 |
+
+### Subtopic: `flow-analysis-measurement` — Flow Analysis & Measurement (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 7 | `flow-measurement` | Flow Measurement | pp. 197–200 |
+| 8 | `dimensional-analysis-similitude` | Dimensional Analysis & Similitude | pp. 201–202 |
+
+---
 
 ## Chapter 10: Surveying (6–9 questions)
 
-1. Angles and distances (horizontal/vertical angles, electronic distance measurement)
-2. Leveling (differential leveling, trigonometric leveling)
-3. Area computations (coordinate method, DMD method, planimeter)
-4. Earthwork and volume computations (average end area, prismoidal formula)
-5. Coordinate systems (state plane coordinates, latitude/longitude, UTM)
-6. Horizontal and vertical curves (circular curves, parabolic vertical curves)
-7. Traverse computations (latitudes, departures, closure, adjustment)
+> **NCEES spec:** Angles/distances, area computations, earthwork, coordinate systems, leveling.
+> **Platform:** 7 lessons across 3 subtopics.
 
-## Chapter 11: Water Resources and Environmental Engineering (10–15 questions)
+### Subtopic: `measurement-leveling` — Measurement & Leveling (2 lessons)
 
-### Hydraulics
-1. Open-channel flow
-   - Manning's equation
-   - Specific energy and critical depth
-   - Supercritical and subcritical flow
-   - Hydraulic jump
-   - Culvert hydraulics
-2. Closed-conduit hydraulics
-   - Pipe networks and water distribution systems
-   - Pump selection and system curves
-   - Head loss calculations
-3. Stormwater collection systems (inlets, storm sewers, rational method)
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `angles-distances-bearings` | Angles, Distances & Bearings | pp. 259–262 |
+| 2 | `leveling` | Leveling | pp. 263–265 |
 
-### Hydrology
-4. Rainfall-runoff relationships (rational method, SCS/NRCS curve number)
-5. Unit hydrograph theory
-6. Hydrograph analysis and routing (reservoir routing, channel routing)
-7. Infiltration (Horton's equation, Green-Ampt)
-8. Watershed characteristics (time of concentration, drainage area)
+### Subtopic: `area-volume-traverse` — Area, Volume & Traverse (3 lessons)
 
-### Groundwater
-9. Groundwater flow (Darcy's law, hydraulic conductivity)
-10. Wells and drawdown (steady-state, Thiem equation)
-11. Aquifer types (confined, unconfined, artesian)
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 3 | `traverse-computations` | Traverse Computations | pp. 266–268 |
+| 4 | `area-computations` | Area Computations | pp. 269–271 |
+| 5 | `earthwork-volumes` | Earthwork Volumes | pp. 272–274 |
 
-### Environmental Engineering
-12. Water quality parameters (BOD, COD, DO, TSS, pH, turbidity)
-13. Water and wastewater treatment processes (sedimentation, filtration, disinfection, activated sludge)
-14. Environmental regulations and standards basics
+### Subtopic: `curves` — Horizontal & Vertical Curves (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 6 | `horizontal-curves` | Horizontal Curves | pp. 275–278 |
+| 7 | `vertical-curves` | Vertical Curves | pp. 279–281 |
+
+---
+
+## Chapter 11: Water Resources & Environmental Engineering (10–15 questions)
+
+> **NCEES spec:** Hydrology, hydraulics, pumps, water distribution, flood control, stormwater, groundwater, water quality, treatment.
+> **Platform:** 8 lessons across 3 subtopics.
+
+### Subtopic: `hydraulics` — Hydraulics (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `open-channel-flow` | Open Channel Flow | pp. 282–286 |
+| 2 | `energy-critical-flow` | Energy & Critical Flow | pp. 287–289 |
+| 3 | `pipe-systems-weirs` | Pipe Systems & Weirs | pp. 290–293 |
+
+### Subtopic: `hydrology-groundwater` — Hydrology & Groundwater (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 4 | `rainfall-runoff` | Rainfall & Runoff | pp. 294–296 |
+| 5 | `hydrograph-watershed` | Hydrograph & Watershed | pp. 294–296 |
+| 6 | `groundwater-wells` | Groundwater & Wells | pp. 297–299 |
+
+### Subtopic: `water-quality-treatment` — Water Quality & Treatment (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 7 | `water-quality` | Water Quality | pp. 312–330 |
+| 8 | `water-treatment` | Water Treatment | pp. 331–355 |
+
+---
 
 ## Chapter 12: Structural Engineering (10–15 questions)
 
-### Structural Analysis
-1. Analysis of forces in statically determinate beams, trusses, and frames
-2. Deflection of statically determinate beams, trusses, and frames
-3. Structural determinacy and stability analysis
-4. Loads and load paths (dead, live, wind, seismic, snow)
-5. Load combinations (ASCE 7, ASD vs. LRFD)
-6. Influence lines (beams, trusses)
+> **NCEES spec:** Determinate beams/trusses/frames, deflection, column analysis, determinacy, indeterminate structures, loads, steel design, RC design.
+> **Platform:** 8 lessons across 3 subtopics.
 
-### Structural Design
-7. Design of reinforced concrete components
-   - Beams (flexure, shear)
-   - Columns (short columns, interaction diagrams)
-   - Slabs (one-way, two-way basics)
-8. Design of steel components
-   - Beams (flexure, shear, lateral-torsional buckling)
-   - Columns (compression members, effective length)
-   - Tension members
-   - Connections (bolted, welded)
-   - Beam-columns (combined loading)
+### Subtopic: `analysis-loads` — Analysis & Load Combinations (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `determinacy-stability` | Determinacy & Stability | pp. 259–264 |
+| 2 | `load-combinations` | Load Combinations | pp. 265–268 |
+| 3 | `influence-lines` | Influence Lines | pp. 269–271 |
+
+### Subtopic: `rc-design` — Reinforced Concrete Design (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 4 | `rc-flexure-shear` | RC Flexure & Shear | pp. 272–278 |
+| 5 | `rc-columns` | RC Columns | pp. 279–281 |
+
+### Subtopic: `steel-design` — Steel Design (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 6 | `steel-beams` | Steel Beams | pp. 282–287 |
+| 7 | `steel-columns` | Steel Columns | pp. 288–293 |
+| 8 | `steel-tension` | Steel Tension Members | pp. 294–297 |
+
+---
 
 ## Chapter 13: Geotechnical Engineering (10–15 questions)
 
-1. Index properties and soil classification (Atterberg limits, USCS, AASHTO)
-2. Phase relations (void ratio, porosity, degree of saturation, unit weight, specific gravity)
-3. Laboratory and field tests (SPT, CPT, vane shear, Proctor compaction, sieve/hydrometer)
-4. Permeability and seepage (Darcy's law, flow nets, equivalent permeability)
-5. Effective stress concept (total stress, pore water pressure, effective stress)
-6. Shear strength of soils (Mohr-Coulomb, drained/undrained conditions, direct shear, triaxial)
-7. Bearing capacity (Terzaghi, general/local shear failure, factor of safety)
-8. Foundation types (shallow foundations, deep foundations — driven piles, drilled shafts)
-9. Consolidation and settlement
-   - Primary consolidation (Terzaghi 1D theory, Cc, Cr, preconsolidation pressure)
-   - Time rate of consolidation
-   - Differential settlement
-10. Lateral earth pressure (Rankine, Coulomb, at-rest)
-11. Stability of retaining structures (gravity walls, cantilever walls, overturning, sliding)
-12. Slope stability (infinite slope, circular arc methods, factor of safety)
-13. Soil compaction (optimum moisture content, maximum dry density, field density tests)
-14. Soil stabilization methods
+> **NCEES spec:** Index properties, phase relations, lab/field tests, effective stress, retaining structures, shear strength, bearing capacity, foundations, consolidation, slope stability, soil stabilization.
+> **Platform:** 8 lessons across 3 subtopics.
+
+### Subtopic: `soil-properties` — Soil Properties & Classification (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `phase-relations` | Phase Relations | pp. 259–262 |
+| 2 | `soil-classification` | Soil Classification | pp. 263–266 |
+| 3 | `effective-stress` | Effective Stress | pp. 267–269 |
+
+### Subtopic: `consolidation-strength` — Consolidation & Shear Strength (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 4 | `consolidation` | Consolidation | pp. 270–274 |
+| 5 | `shear-strength` | Shear Strength | pp. 275–278 |
+
+### Subtopic: `foundations-walls` — Foundations & Earth Pressures (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 6 | `bearing-capacity` | Bearing Capacity | pp. 279–282 |
+| 7 | `lateral-earth-pressure` | Lateral Earth Pressure | pp. 283–286 |
+| 8 | `retaining-walls` | Retaining Walls | pp. 287–290 |
+
+---
 
 ## Chapter 14: Transportation Engineering (9–14 questions)
 
-1. Geometric design of highways
-   - Horizontal alignment (curves, superelevation, sight distance)
-   - Vertical alignment (crest/sag vertical curves, grades)
-   - Cross-section elements (lane width, shoulders, clear zones)
-   - Sight distance (stopping, passing, decision)
-2. Pavement system design
-   - Flexible pavement design (AASHTO method, structural number)
-   - Rigid pavement design (AASHTO method, slab thickness)
-   - Pavement distress and evaluation
-3. Traffic engineering
-   - Traffic capacity and level of service (HCM methods)
-   - Traffic flow theory (speed-density-flow relationships, headway, gap analysis)
-   - Intersection analysis (signalized, unsignalized)
-4. Traffic control devices
-   - Signs, signals, and markings (MUTCD)
-   - Signal timing and phasing
-   - Warrants for traffic signals and stop signs
-5. Transportation planning
-   - Trip generation, distribution, mode choice, assignment (four-step model)
-   - Travel demand forecasting basics
-6. Traffic safety analysis
+> **NCEES spec:** Geometric design, pavement design, traffic capacity/flow, traffic control, transportation planning, safety.
+> **Platform:** 8 lessons across 3 subtopics.
+
+### Subtopic: `geometric-design` — Geometric Design (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `stopping-sight-distance` | Stopping Sight Distance | p. 300 |
+| 2 | `vertical-curves` | Vertical Curves | pp. 301–302 |
+| 3 | `horizontal-curves` | Horizontal Curves | pp. 302–303 |
+
+### Subtopic: `traffic-engineering` — Traffic Engineering (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 4 | `signal-timing` | Signal Timing | p. 300 |
+| 5 | `traffic-flow` | Traffic Flow | pp. 306–307 |
+| 6 | `capacity-los` | Capacity & Level of Service | pp. 304–305 |
+
+### Subtopic: `pavement-earthwork` — Pavement Design & Earthwork (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 7 | `pavement-design` | Pavement Design | p. 308 |
+| 8 | `earthwork` | Earthwork | p. 309 |
+
+---
 
 ## Chapter 15: Construction Engineering (8–12 questions)
 
-1. Construction documents (plans, specifications, contracts, shop drawings)
-2. Procurement methods (design-bid-build, design-build, CM at risk, IPD)
-3. Project delivery methods
-4. Construction operations and methods
-   - Earthmoving equipment production rates
-   - Lifting and rigging
-   - Dewatering and pumping
-   - Temporary structures (formwork, shoring, scaffolding)
-5. Project scheduling
-   - Critical Path Method (CPM)
-   - Precedence diagrams and network analysis
-   - Resource allocation and leveling
-   - Float and critical activities
-6. Project management (scope, cost, time, quality, risk management basics)
-7. Construction estimating (quantity takeoff, unit cost, bid preparation)
-8. Construction safety (OSHA regulations, fall protection, excavation safety, PPE)
-9. Quality control and quality assurance
+> **NCEES spec:** Project administration, construction operations/methods/safety, project controls (earned value, scheduling), estimating, drawings.
+> **Platform:** 7 lessons across 3 subtopics.
+
+### Subtopic: `scheduling-cpm` — CPM Scheduling (3 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 1 | `cpm-fundamentals` | CPM Fundamentals | p. 310 |
+| 2 | `forward-backward-pass` | Forward & Backward Pass | p. 310 |
+| 3 | `float-critical-path` | Float & Critical Path | p. 310 |
+
+### Subtopic: `earned-value` — Earned Value Management (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 4 | `earned-value-analysis` | Earned Value Analysis | p. 310 |
+| 5 | `project-forecasting` | Project Forecasting | p. 311 |
+
+### Subtopic: `project-delivery` — Project Delivery & Safety (2 lessons)
+
+| # | Lesson ID | Lesson Name | Handbook Pages |
+|---|-----------|-------------|----------------|
+| 6 | `delivery-methods` | Delivery Methods | — |
+| 7 | `construction-safety` | Construction Safety | — |
 
 ---
 
-## Summary — Question Distribution
+## Summary — Question Distribution & Platform Coverage
 
-| Chapter | Topic | Questions |
-|---------|-------|-----------|
-| 1 | Mathematics | 8–12 |
-| 2 | Probability and Statistics | 4–6 |
-| 3 | Ethics and Professional Practice | 4–6 |
-| 4 | Engineering Economics | 5–8 |
-| 5 | Statics | 8–12 |
-| 6 | Dynamics | 4–6 |
-| 7 | Mechanics of Materials | 7–11 |
-| 8 | Materials | 5–8 |
-| 9 | Fluid Mechanics | 6–9 |
-| 10 | Surveying | 6–9 |
-| 11 | Water Resources & Environmental | 10–15 |
-| 12 | Structural Engineering | 10–15 |
-| 13 | Geotechnical Engineering | 10–15 |
-| 14 | Transportation Engineering | 9–14 |
-| 15 | Construction Engineering | 8–12 |
-| | **Total** | **~110** |
+| Ch | Topic | Exam Q's | Lessons | Subtopics | Lesson Problems | Exam Problems (planned) |
+|----|-------|----------|---------|-----------|-----------------|-------------------------|
+| 1 | Mathematics | 8–12 | 13 | 3 | 39 | 52 |
+| 2 | Statistics | 4–6 | 6 | 3 | 18 | 24 |
+| 3 | Ethics | 4–6 | 5 | 3 | 15 | 20 |
+| 4 | Economics | 5–8 | 5 | 3 | 15 | 20 |
+| 5 | Statics | 8–12 | 6 | 3 | 18 | 24 |
+| 6 | Dynamics | 4–6 | 6 | 3 | 18 | 24 |
+| 7 | MoM | 7–11 | 8 | 3 | 24 | 32 |
+| 8 | Materials | 5–8 | 7 | 3 | 21 | 28 |
+| 9 | Fluids | 6–9 | 8 | 3 | 24 | 32 |
+| 10 | Surveying | 6–9 | 7 | 3 | 21 | 28 |
+| 11 | Water Resources | 10–15 | 8 | 3 | 24 | 32 |
+| 12 | Structural | 10–15 | 8 | 3 | 24 | 32 |
+| 13 | Geotechnical | 10–15 | 8 | 3 | 24 | 32 |
+| 14 | Transportation | 9–14 | 8 | 3 | 24 | 32 |
+| 15 | Construction | 8–12 | 7 | 3 | 21 | 28 |
+| | **Total** | **~110** | **107** | **45** | **321** | **428** |
+
+**Grand total: 749 problems** (321 lesson + 428 exam pool)
 
 ---
 
-## Notes on Coverage vs. Original 15 Chapters
+## Diagnostic Exam Design
 
-The original chapter list for FE4Raccoons maps almost perfectly to the NCEES specification, with one adjustment needed:
+### Format
+- **30 questions**, 2 per chapter (proportional representation)
+- **87 minutes** at real FE pace (2.91 min/question), displayed as ~90 min
+- Questions drawn from `examProblems` pool (never from `problems`)
+- Timer counts down — unanswered questions = incorrect
+- No feedback during exam; full review after submission
 
-- **Original "Chapter 2: Statistics"** → The NCEES spec treats this as **"Probability and Statistics"** — make sure to include probability distributions, not just descriptive statistics.
-- **Original chapters did NOT separately list "Dynamics"** — The NCEES spec has Dynamics as its own topic (4–6 questions). This is confirmed as a standalone section.
-- **All 15 chapters are accounted for** in the NCEES spec. The mapping is nearly 1:1.
+### Mastery Scoring
+- **Cap: 60% per chapter** (diagnostic alone cannot prove full mastery)
+- 0/2 correct = 0% | 1/2 correct = 30% | 2/2 correct = 60%
+- Remaining 40% earned through lesson study and practice
 
-The NCEES spec organizes the exam into **14 official topic areas** (Mathematics and Statistics are combined into one in some versions of the spec, and Probability/Statistics is sometimes listed separately). The 15-chapter breakdown used by FE4Raccoons is a valid and even clearer organization for study purposes.
+### Mastery Bar Color Thresholds
+| Color | Range | CSS Variable | Meaning |
+|-------|-------|-------------|---------|
+| Red | < 40% | `--error` | Weak — focus here |
+| Ember | 40–70% | `--ember` | Needs work |
+| Sunbeam | 70–90% | `--sunbeam` | On track |
+| Forest | 90–100% | `--forest` | Exam-ready |
+
+### Retake Requirements
+- 60% mastery on at least 11 of 15 chapters (70%)
+- Uses different questions from exam pool on retake
+
+### XP Awards
+- 10 XP per question attempted
+- 5 XP per correct answer
+- Diagnostic counts as a study session (streak)
+
+---
+
+## References
+
+- **FE Reference Handbook 10.5:** `research/civil/fe-handbook-10-5.pdf`
+- **NCEES Practice Exam (2020):** `research/civil/NCEES - FE Civil Practice Exam [...].pdf`
+- **Parsed practice exam:** `research/civil/references/ncees-practice-exam-parsed.txt`
+- **Handbook parsed chapters:** `research/civil/fe-handbook-*.txt`
