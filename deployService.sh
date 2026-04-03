@@ -24,9 +24,10 @@ npm run build # build the React front end
 cp -rf dist build/public # move the React front end to the target distribution
 cp service/*.js build # move the back end service to the target distribution
 cp service/package.json service/package-lock.json build
-mkdir -p build/middleware build/routes
+mkdir -p build/middleware build/routes build/db
 cp service/middleware/*.js build/middleware
 cp service/routes/*.js build/routes
+cp service/db/*.js build/db
 
 # Step 2
 printf "\n----> Clearing out previous distribution on the target (preserving .env)\n"
