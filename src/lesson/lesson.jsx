@@ -152,7 +152,7 @@ export function LessonPage({ userName }) {
     return (
       <main className="lesson-main">
         <div style={{ padding: '2rem' }}>
-          <div className="error-banner">Lesson not found.</div>
+          <div className="error-banner" role="alert">Lesson not found.</div>
           <button className="lesson-back-btn" onClick={() => navigate(`/study/${chapterId}`)}>
             <ArrowLeft size={16} weight="bold" /> Back to Chapter
           </button>

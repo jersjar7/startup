@@ -59,7 +59,7 @@ export function DiagnosticReview({ userName }) {
     return (
       <main className="drev-main">
         <div className="drev-container">
-          <div className="dx-error">Review data not available for this attempt.</div>
+          <div className="dx-error" role="alert">Review data not available for this attempt.</div>
           <button className="btn-secondary" onClick={() => navigate('/dashboard')}>
             Back to Dashboard
           </button>

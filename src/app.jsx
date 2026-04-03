@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { LoadingState } from './components/LoadingState';
+import { NotFound } from './components/NotFound';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Landing } from './landing/landing';
 import 'katex/dist/katex.min.css';
 import './app.css';
@@ -74,30 +76,28 @@ function AppShell({ userName, onLogin, onLogout }) {
 
   return (
     <div className="body">
-      {!isLanding && !isLesson && !isDiagnostic && <Header />}
+      <ErrorBoundary>
+        {!isLanding && !isLesson && !isDiagnostic && <Header />}
 
-      <Suspense fallback={<LoadingState />}>
-        <Routes>
-          <Route path="/" element={<Landing userName={userName} />} />
-          <Route path="/login" element={<Login userName={userName} onLogin={onLogin} />} />
-          <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
-          <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
-          <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
-          <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
-          <Route path="/lesson/:chapterId/:lessonId" element={<LessonPage userName={userName} onLogout={onLogout} />} />
-          <Route path="/diagnostic" element={<DiagnosticExam userName={userName} />} />
-          <Route path="/diagnostic/results/:attemptNumber" element={<DiagnosticResults userName={userName} />} />
-          <Route path="/diagnostic/review/:attemptNumber" element={<DiagnosticReview userName={userName} />} />
-          {DiagramPreview && <Route path="/dev/diagrams" element={<DiagramPreview />} />}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
+        <Suspense fallback={<LoadingState />}>
+          <Routes>
+            <Route path="/" element={<Landing userName={userName} />} />
+            <Route path="/login" element={<Login userName={userName} onLogin={onLogin} />} />
+            <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
+            <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
+            <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
+            <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
+            <Route path="/lesson/:chapterId/:lessonId" element={<LessonPage userName={userName} onLogout={onLogout} />} />
+            <Route path="/diagnostic" element={<DiagnosticExam userName={userName} />} />
+            <Route path="/diagnostic/results/:attemptNumber" element={<DiagnosticResults userName={userName} />} />
+            <Route path="/diagnostic/review/:attemptNumber" element={<DiagnosticReview userName={userName} />} />
+            {DiagramPreview && <Route path="/dev/diagrams" element={<DiagramPreview />} />}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
 
-      {!isLanding && !isLesson && !isDiagnostic && <Footer />}
+        {!isLanding && !isLesson && !isDiagnostic && <Footer />}
+      </ErrorBoundary>
     </div>
   );
-}
-
-function NotFound() {
-  return <main>404: Page not found</main>;
 }

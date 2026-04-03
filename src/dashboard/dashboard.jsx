@@ -209,7 +209,7 @@ export function Dashboard({ userName, onLogout }) {
         </button>
       </div>
 
-      {error && <div className="error-banner">{error}</div>}
+      {error && <div className="error-banner" role="alert">{error}</div>}
 
       {/* ── Top bar: Stats + Daily Review ── */}
       <div className="dash-topbar">

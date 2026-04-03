@@ -155,7 +155,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
   if (phase === 'ERROR') {
     return (
       <main>
-        <div className="error-banner">Could not load problems. Please try again.</div>
+        <div className="error-banner" role="alert">Could not load problems. Please try again.</div>
         <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate(backPath); }}>
           <ArrowLeft weight="bold" size={16} />
           {backLabel}

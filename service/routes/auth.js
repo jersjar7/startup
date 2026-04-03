@@ -44,6 +44,7 @@ router.post('/create', async (req, res) => {
       email: req.body.email,
       password: passwordHash,
       token: uuid.v4(),
+      tokenCreatedAt: new Date(),
     };
     await DB.addUser(user);
     setAuthCookie(res, user.token);
@@ -58,6 +59,7 @@ router.post('/login', async (req, res) => {
   const user = await DB.getUser(req.body.email);
   if (user && (await bcrypt.compare(req.body.password, user.password))) {
     user.token = uuid.v4();
+    user.tokenCreatedAt = new Date();
     await DB.updateUser(user);
     setAuthCookie(res, user.token);
     res.send({ email: user.email });

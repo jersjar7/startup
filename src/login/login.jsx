@@ -74,7 +74,7 @@ export function Login({ userName, onLogin }) {
       <div className="login-form-container">
         <h2>Welcome Back</h2>
         <p className="login-subtitle">Sign in to continue your FE exam prep, or create a new account.</p>
-        {error && <p className="error-banner">{error}</p>}
+        {error && <p className="error-banner" role="alert">{error}</p>}
         <form onSubmit={handleLogin}>
           <label className="login-label" htmlFor="login-email">Email</label>
           <input

@@ -226,7 +226,7 @@ export function DiagnosticExam({ userName }) {
               </div>
             </div>
 
-            {error && <div className="dx-error">{error}</div>}
+            {error && <div className="dx-error" role="alert">{error}</div>}
 
             <div className="dx-intro-actions">
               <button className="btn-primary dx-start-btn" onClick={startExam}>
@@ -385,7 +385,7 @@ export function DiagnosticExam({ userName }) {
             </div>
           </div>
 
-          {error && <div className="dx-error">{error}</div>}
+          {error && <div className="dx-error" role="alert">{error}</div>}
         </div>
 
         {/* ── RIGHT: Question Grid ── */}

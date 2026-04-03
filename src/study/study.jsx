@@ -161,7 +161,7 @@ export function Study({ userName, onLogout }) {
   if (!chapter || !details) {
     return (
       <main>
-        <div className="error-banner">Chapter not found.</div>
+        <div className="error-banner" role="alert">Chapter not found.</div>
         <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate('/dashboard'); }}>
           <ArrowLeft weight="bold" size={16} /> Back to Dashboard
         </a>

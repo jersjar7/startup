@@ -67,7 +67,7 @@ export function DiagnosticResults({ userName }) {
     return (
       <main className="dr-main">
         <div className="dr-container">
-          <div className="dx-error">Diagnostic result not found.</div>
+          <div className="dx-error" role="alert">Diagnostic result not found.</div>
           <button className="btn-secondary" onClick={() => navigate('/dashboard')}>
             Back to Dashboard
           </button>

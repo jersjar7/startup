@@ -101,8 +101,8 @@ ssh -i /Users/jerson/developer/secrets/aws/cs260_feforraccoons/jerson-cs260-key.
 - Certificate renewal happens automatically
 
 **Working URLs:**
-- https://fe4raccoons.click (main site - shows secure padlock)
-- https://startup.fe4raccoons.click (for course project)
+- https://fe4raccoons.com (main site - shows secure padlock)
+- https://startup.fe4raccoons.click (legacy, redirects to fe4raccoons.com)
 - https://simon.fe4raccoons.click (for Simon practice app)
 
 **Caddyfile Location:** `~/Caddyfile` on server
@@ -405,7 +405,7 @@ body
 - Copies backend files (`service/*.js`, `service/*.json`) to `build/`
 - SCPs everything to AWS server at `services/startup/`
 - Runs `npm install` and `pm2 restart startup` on the server
-- Usage: `./deployService.sh -k <pem> -h fe4raccoons.click -s startup`
+- Usage: `./deployService.sh -k <pem> -h fe4raccoons.com -s startup`
 
 **Debugging Tips**
 - `EADDRINUSE` error = port already in use, kill old process: `lsof -ti:4000 | xargs kill`
