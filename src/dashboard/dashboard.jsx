@@ -12,6 +12,8 @@ import {
   SignOut,
   ArrowRight,
   BookOpenText,
+  Megaphone,
+  LinkedinLogo,
 } from '@phosphor-icons/react';
 import { CHAPTERS } from '../data/chapters';
 import { LoadingState } from '../components/LoadingState';
@@ -364,6 +366,32 @@ export function Dashboard({ userName, onLogout }) {
                 <li className="act-empty">No recent activity</li>
               )}
             </ul>
+          </div>
+
+          {/* Referral / Spread the word */}
+          <div className="sidebar-block referral-card">
+            <h3 className="dash-section-label">
+              <Megaphone weight="bold" size={18} />
+              Spread the word
+            </h3>
+            <p className="referral-text">
+              I hope you're finding these resources helpful! We just want more students to benefit from quality FE prep without paying hundreds of dollars. If you think this platform is worth sharing, a quick post on{' '}
+              <a href="https://www.reddit.com/r/FE_Exam/" target="_blank" rel="noopener noreferrer">r/FE_Exam</a>
+              {' '}or{' '}
+              <a href="https://www.reddit.com/r/engineeringstudents/" target="_blank" rel="noopener noreferrer">r/engineeringstudents</a>
+              {' '}would mean a lot.
+            </p>
+            <div className="referral-deal">
+              <span className="referral-deal-label">Get 33% off the Exam Simulation</span>
+              <p className="referral-deal-text">
+                Take a screenshot of your Reddit post and{' '}
+                <a href="https://www.linkedin.com/in/jersonjgarcia/" target="_blank" rel="noopener noreferrer">
+                  <LinkedinLogo weight="bold" size={14} />
+                  DM me on LinkedIn
+                </a>
+                . I'll send you a one-time discount code — <strong>$9.99</strong> instead of $14.99.
+              </p>
+            </div>
           </div>
         </aside>
       </div>

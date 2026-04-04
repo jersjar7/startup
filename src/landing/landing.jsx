@@ -33,6 +33,8 @@ import {
   Eye,
   EyeSlash,
   ArrowSquareOut,
+  CheckCircle,
+  Timer,
 } from '@phosphor-icons/react';
 import { HeroSvg, TopicLabel } from './hero-svg';
 import { BeamDiagram } from './beam-diagram';
@@ -481,6 +483,72 @@ export function Landing({ userName }) {
           </p>
           <p className="s-reality__text">
             That's exactly how this platform prepares you: learn the concepts, practice applying one method at a time, and memorize where things live in the Handbook. Do that consistently, and you'll walk into the exam confident.
+          </p>
+        </div>
+      </section>
+
+      {/* ══════ PRICING ══════ */}
+      <section className="s-pricing">
+        <div className="s-pricing__inner">
+          <span className="section-label">
+            <span className="section-label-dash" />
+            Transparent pricing
+          </span>
+          <h2 className="s-pricing__heading">
+            Built for students, not for profit.
+          </h2>
+          <p className="s-pricing__message">
+            We know most people taking the FE are college students or recent grads. You're already paying for tuition, textbooks, and the exam itself. The last thing you need is another platform charging hundreds of dollars for study materials. So we made everything you need to learn and practice completely free — no trial period, no feature gates, no surprises. We only ask you to pay once, when you're ready to put it all to the test.
+          </p>
+
+          <div className="pricing-cards">
+            {/* Free tier */}
+            <div className="pricing-card">
+              <div className="pricing-card-header">
+                <span className="pricing-card-label">Free Account</span>
+                <span className="pricing-card-price">$0</span>
+                <span className="pricing-card-period">forever</span>
+              </div>
+              <ul className="pricing-features">
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> All 15 chapters of lessons</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> 320+ practice problems</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> ELI5 explanations</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> Step-by-step solutions</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> FE Handbook references</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> Common traps & mistakes</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> Review queue & streaks</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> No time limits or expiry</li>
+              </ul>
+              <button className="pricing-btn pricing-btn--free" onClick={() => navigate('/login')}>
+                Get Started Free
+                <ArrowRight weight="bold" size={16} />
+              </button>
+            </div>
+
+            {/* Paid tier */}
+            <div className="pricing-card pricing-card--paid">
+              <div className="pricing-card-header">
+                <span className="pricing-card-label">Exam Simulation</span>
+                <span className="pricing-card-price">$14.99</span>
+                <span className="pricing-card-period">one-time</span>
+              </div>
+              <p className="pricing-card-desc">
+                Everything in Free, plus:
+              </p>
+              <ul className="pricing-features">
+                <li><Timer weight="bold" size={16} className="pricing-check pricing-check--ember" /> Timed 110-question practice exam</li>
+                <li><Exam weight="bold" size={16} className="pricing-check pricing-check--ember" /> Weighted by NCEES topic distribution</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check pricing-check--ember" /> Score breakdown by chapter</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check pricing-check--ember" /> Unlimited retakes</li>
+              </ul>
+              <div className="pricing-btn pricing-btn--paid">
+                Coming Soon
+              </div>
+            </div>
+          </div>
+
+          <p className="s-pricing__footnote">
+            We need to keep the servers running and the content growing. Your one-time purchase helps us do that — and helps the next student who finds this platform. No subscriptions, no recurring charges.
           </p>
         </div>
       </section>

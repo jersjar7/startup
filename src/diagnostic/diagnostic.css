@@ -838,6 +838,21 @@
   border-top: 4px solid var(--forest);
 }
 
+.diag-free-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  background: var(--forest-bg);
+  color: var(--forest);
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
 .diag-card--compact {
   padding: 1rem 1.5rem;
 }

@@ -37,15 +37,19 @@ export function DiagnosticCard({ diagnosticStatus, onSkip }) {
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
           <ClipboardText size={28} weight="bold" style={{ color: 'var(--forest)', flexShrink: 0, marginTop: '2px' }} />
           <div style={{ flex: 1 }}>
-            <h3 className="diag-card-title">Start With a Diagnostic</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <h3 className="diag-card-title" style={{ marginBottom: 0 }}>Start With a Diagnostic</h3>
+              <span className="diag-free-badge">Free</span>
+            </div>
             <p className="diag-card-subtitle">This is your compass, not a test.</p>
             <div className="diag-card-body">
               <p>
                 Take a quick 30-question diagnostic before you start studying.
                 It tells us exactly where you stand so we can personalize your study plan.
+                This is not the exam simulation — it's a free tool included with your account.
               </p>
               <p style={{ fontSize: '0.82rem', color: 'var(--gray-400)' }}>
-                30 questions &middot; ~90 minutes &middot; real FE pace
+                30 questions &middot; ~90 minutes &middot; real FE pace &middot; always free
               </p>
             </div>
             <div className="diag-card-actions">
@@ -71,7 +75,7 @@ export function DiagnosticCard({ diagnosticStatus, onSkip }) {
           <ClipboardText size={20} weight="bold" style={{ color: 'var(--forest)', flexShrink: 0 }} />
           <div style={{ flex: 1 }}>
             <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '0.88rem', color: 'var(--charcoal)' }}>
-              Recommended: Take the diagnostic to personalize your study plan
+              Recommended: Take the free diagnostic to personalize your study plan
             </span>
           </div>
           <button className="btn-primary" style={{ padding: '0.45rem 1rem', fontSize: '0.82rem' }} onClick={() => navigate('/diagnostic')}>

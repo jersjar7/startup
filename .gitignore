@@ -7,6 +7,7 @@ dbConfig.json
 .env.*
 *.pem
 secrets/
+legal/
 
 # NCEES copyrighted material — parsed from FE Reference Handbook
 research/civil/fe-handbook-*.txt
