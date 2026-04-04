@@ -115,6 +115,31 @@ footer {
   font-size: 0.82rem;
 }
 
+.footer-legal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-legal a {
+  color: var(--gray-400);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  transition: color 0.15s ease;
+}
+
+.footer-legal a:hover {
+  color: var(--cream);
+}
+
+.footer-divider {
+  color: var(--gray-600);
+  font-size: 0.7rem;
+}
+
 .footer-row {
   display: flex;
   align-items: center;

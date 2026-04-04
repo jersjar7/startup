@@ -13,6 +13,7 @@ export function Login({ userName, onLogin }) {
   const [success, setSuccess] = React.useState('');
   const [submitting, setSubmitting] = React.useState(false);
   const [showForgot, setShowForgot] = React.useState(false);
+  const [acceptedTerms, setAcceptedTerms] = React.useState(false);
 
   React.useEffect(() => {
     if (userName) {
@@ -174,12 +175,25 @@ export function Login({ userName, onLogin }) {
           >
             Forgot password?
           </button>
+          <label className="terms-checkbox">
+            <input
+              type="checkbox"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+            />
+            <span>
+              I agree to the{' '}
+              <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+              {' '}and{' '}
+              <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+            </span>
+          </label>
           <div className="login-buttons">
             <button type="submit" className="btn--primary" disabled={submitting || !(email && password)}>
               <SignIn weight="bold" size={18} />
               {submitting ? 'Logging in...' : 'Login'}
             </button>
-            <button type="button" className="btn--secondary" disabled={submitting || !(email && password)} onClick={handleRegister}>
+            <button type="button" className="btn--secondary" disabled={submitting || !(email && password) || !acceptedTerms} onClick={handleRegister}>
               <UserPlus weight="bold" size={18} />
               {submitting ? 'Please wait...' : 'Register'}
             </button>

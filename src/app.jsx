@@ -7,6 +7,8 @@ import { LoadingState } from './components/LoadingState';
 import { NotFound } from './components/NotFound';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Landing } from './landing/landing';
+import { Terms } from './legal/terms';
+import { Privacy } from './legal/privacy';
 import 'katex/dist/katex.min.css';
 import './app.css';
 
@@ -98,6 +100,8 @@ function AppShell({ userName, emailVerified, onLogin, onLogout }) {
             <Route path="/login" element={<Login userName={userName} onLogin={onLogin} />} />
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
             <Route path="/profile" element={<Profile userName={userName} onLogout={onLogout} />} />
             <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
             <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />

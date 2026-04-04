@@ -1,8 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export function Footer() {
   return (
     <footer>
+      <div className="footer-legal">
+        <Link to="/terms">Terms of Service</Link>
+        <span className="footer-divider">|</span>
+        <Link to="/privacy">Privacy Policy</Link>
+      </div>
       <div className="footer-row">
         <span>Created by Jerson J. Garcia, EIT</span>
         <div className="footer-socials">
