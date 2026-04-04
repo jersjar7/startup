@@ -5,6 +5,7 @@ const problems = require('./db/problems');
 const stats = require('./db/stats');
 const leaderboard = require('./db/leaderboard');
 const diagnostic = require('./db/diagnostic');
+const accountDeletion = require('./db/accountDeletion');
 
 module.exports = {
   ping,
@@ -14,4 +15,5 @@ module.exports = {
   ...stats,
   ...leaderboard,
   ...diagnostic,
+  ...accountDeletion,
 };

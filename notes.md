@@ -553,3 +553,81 @@ Client A sends msg → Server receives → Server forwards to Client B, C, D...
 | Server needed | No | Yes (peerProxy) |
 
 **Key Insight**: The peerProxy pattern is simple but powerful — the server is just a relay. It doesn't interpret messages, store them, or do logic. It just forwards everything to everyone else. The clients decide what to send and how to display received messages.
+
+## 10. Email Service (Resend) & Auth Infrastructure
+
+### Resend Account Details
+
+- **Account**: jersondevs@gmail.com at [resend.com](https://resend.com)
+- **Plan**: Free tier (100 emails/day, 3,000 emails/month)
+- **API Key**: Stored in `service/.env` on EC2 as `RESEND_API_KEY` (starts with `re_`)
+- **Current sender**: `onboarding@resend.dev` (Resend's shared test sender)
+- **Limitation**: Test sender can only deliver to your own email (jersondevs@gmail.com)
+
+### Environment Variables (EC2 only)
+
+Located at `~/services/startup/.env` on the server:
+```
+RESEND_API_KEY=re_xxxxxxxxxx
+RESEND_FROM_EMAIL=onboarding@resend.dev
+APP_URL=https://fe4raccoons.com
+```
+These are NOT in the codebase — `.env` is gitignored. The deploy script preserves `.env` during deploys.
+
+### How Emails Are Sent
+
+- **Library**: `resend` npm package in `service/`
+- **Wrapper**: `service/email.js` — two functions: `sendPasswordResetEmail()` and `sendVerificationEmail()`
+- **Templates**: Inline-styled HTML matching brand (cream background, white card, ember CTA button)
+- **Error handling**: Errors logged to console but never leaked to client (prevents email enumeration)
+- **Token security**: Raw tokens go in emails, SHA-256 hashed tokens stored in DB (so DB leak doesn't compromise links)
+
+### Auth Features Added (Phase C)
+
+| Feature | Endpoint | Notes |
+|---------|----------|-------|
+| Forgot password | POST `/api/auth/forgot-password` | Always returns 200 (no email enumeration), stricter rate limit (5/15min) |
+| Reset password | POST `/api/auth/reset-password` | Validates token + expiry, hashes new password, clears session |
+| Email verification | GET `/api/auth/verify-email/:token` | Auto-verify on page load |
+| Resend verification | POST `/api/auth/resend-verification` | Requires auth |
+| Change password | POST `/api/auth/change-password` | Requires auth, verifies current password first |
+| Delete account | DELETE `/api/auth/account` | Requires password + typing "DELETE", cascading delete from all 5 collections |
+
+### User Document New Fields
+
+```
+createdAt          — Date, set on registration
+emailVerified      — Boolean, false on registration, true after verification
+verificationToken  — SHA-256 hash, cleared after verification
+resetToken         — SHA-256 hash, cleared after use
+resetTokenExpiry   — Date, 1 hour from generation
+```
+Backwards compatible: `emailVerified ?? true` for users who registered before this feature.
+
+### Frontend Pages Added
+
+- `/reset-password/:token` — `src/login/ResetPassword.jsx`
+- `/verify-email/:token` — `src/login/VerifyEmail.jsx`
+- `/profile` — `src/profile/profile.jsx` (account info, stats, change password, delete account)
+- Verification banner — `src/components/VerificationBanner.jsx` (sunbeam-themed, shown for unverified users)
+- Profile icon — Added to `Header.jsx` (UserCircle icon linking to /profile)
+
+### Before Public Launch: Custom Domain Sender
+
+1. Go to Resend dashboard → **Domains** → Add `fe4raccoons.com`
+2. Add the DNS records Resend provides (MX, TXT, DKIM) in your domain registrar
+3. Wait for verification (usually a few minutes)
+4. Update EC2 `.env`: `RESEND_FROM_EMAIL=hello@fe4raccoons.com` (or your preferred address)
+5. Restart PM2: `pm2 restart startup`
+6. Emails will then come from your actual domain with no "via resend.dev"
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `service/crypto.js` | Token generation (randomBytes) + SHA-256 hashing |
+| `service/email.js` | Resend wrapper with branded HTML email templates |
+| `service/db/accountDeletion.js` | Cascading delete across all 5 collections |
+| `service/routes/auth.js` | All auth endpoints (existing + 6 new) |
+
+**Key Insight**: Never store raw tokens in the database — always hash them with SHA-256. The raw token goes in the email link, the hash goes in the DB. When the user clicks the link, hash the URL token and compare against the DB. This way, even if the database is compromised, the attacker can't forge reset links.

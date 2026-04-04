@@ -95,6 +95,17 @@ header {
   color: var(--gray-500);
 }
 
+.header-profile-link {
+  display: flex;
+  align-items: center;
+  color: var(--gray-500);
+  transition: color 0.15s ease;
+}
+
+.header-profile-link:hover {
+  color: var(--ember);
+}
+
 footer {
   background-color: var(--charcoal);
   color: var(--cream);
@@ -346,6 +357,84 @@ input:focus {
   background: var(--charcoal-soft);
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
+}
+
+/* ===== VERIFICATION BANNER ===== */
+.verification-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 2rem;
+  background: var(--sunbeam-bg);
+  border-bottom: 1px solid var(--sunbeam);
+  font-size: 0.85rem;
+  color: var(--charcoal);
+}
+
+.verification-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.verification-banner-content svg {
+  color: var(--sunbeam);
+  flex-shrink: 0;
+}
+
+.verification-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.verification-resend-btn {
+  background: var(--sunbeam);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.25rem 0.75rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.verification-resend-btn:hover {
+  background: var(--sunbeam-light);
+  transform: none;
+}
+
+.verification-resend-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.verification-dismiss-btn {
+  background: none;
+  border: none;
+  color: var(--gray-400);
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0 0.25rem;
+  cursor: pointer;
+}
+
+.verification-dismiss-btn:hover {
+  color: var(--charcoal);
+  transform: none;
+}
+
+/* ===== SPINNER ANIMATION ===== */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

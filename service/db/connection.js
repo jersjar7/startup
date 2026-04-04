@@ -28,6 +28,8 @@ const diagnosticResultsCollection = db.collection('diagnosticResults');
     await sessionLogCollection.createIndex({ email: 1, completedAt: -1 });
     await diagnosticResultsCollection.createIndex({ email: 1, attemptNumber: -1 });
     await userCollection.createIndex({ token: 1 }, { sparse: true });
+    await userCollection.createIndex({ resetToken: 1 }, { sparse: true });
+    await userCollection.createIndex({ verificationToken: 1 }, { sparse: true });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);

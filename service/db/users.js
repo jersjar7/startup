@@ -16,4 +16,29 @@ async function updateUser(user) {
   await userCollection.updateOne({ email: user.email }, { $set: user });
 }
 
-module.exports = { getUser, getUserByToken, addUser, updateUser };
+function getUserByResetToken(hashedToken) {
+  return userCollection.findOne({
+    resetToken: hashedToken,
+    resetTokenExpiry: { $gt: new Date() },
+  });
+}
+
+function getUserByVerificationToken(hashedToken) {
+  return userCollection.findOne({ verificationToken: hashedToken });
+}
+
+async function unsetUserFields(email, fields) {
+  const unsetObj = {};
+  for (const f of fields) unsetObj[f] = '';
+  await userCollection.updateOne({ email }, { $unset: unsetObj });
+}
+
+module.exports = {
+  getUser,
+  getUserByToken,
+  addUser,
+  updateUser,
+  getUserByResetToken,
+  getUserByVerificationToken,
+  unsetUserFields,
+};

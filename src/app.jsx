@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { VerificationBanner } from './components/VerificationBanner';
 import { LoadingState } from './components/LoadingState';
 import { NotFound } from './components/NotFound';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -18,6 +19,9 @@ const LessonPage = React.lazy(() => import('./lesson/lesson').then(m => ({ defau
 const DiagnosticExam = React.lazy(() => import('./diagnostic/DiagnosticExam').then(m => ({ default: m.DiagnosticExam })));
 const DiagnosticResults = React.lazy(() => import('./diagnostic/DiagnosticResults').then(m => ({ default: m.DiagnosticResults })));
 const DiagnosticReview = React.lazy(() => import('./diagnostic/DiagnosticReview').then(m => ({ default: m.DiagnosticReview })));
+const ResetPassword = React.lazy(() => import('./login/ResetPassword').then(m => ({ default: m.ResetPassword })));
+const VerifyEmail = React.lazy(() => import('./login/VerifyEmail').then(m => ({ default: m.VerifyEmail })));
+const Profile = React.lazy(() => import('./profile/profile').then(m => ({ default: m.Profile })));
 
 // DiagramPreview only available in dev mode
 const DiagramPreview = import.meta.env.DEV
@@ -26,6 +30,7 @@ const DiagramPreview = import.meta.env.DEV
 
 export default function App() {
   const [userName, setUserName] = React.useState('');
+  const [emailVerified, setEmailVerified] = React.useState(true);
   const [authLoading, setAuthLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -36,6 +41,7 @@ export default function App() {
       })
       .then((data) => {
         setUserName(data.email);
+        setEmailVerified(data.emailVerified ?? true);
       })
       .catch(() => {
         setUserName('');
@@ -47,6 +53,11 @@ export default function App() {
 
   function onLogin(email) {
     setUserName(email);
+    // Re-fetch to get emailVerified status
+    fetch('/api/user/me')
+      .then((res) => res.ok ? res.json() : Promise.reject())
+      .then((data) => setEmailVerified(data.emailVerified ?? true))
+      .catch(() => {});
   }
 
   function onLogout() {
@@ -54,6 +65,7 @@ export default function App() {
       .catch(() => {})
       .finally(() => {
         setUserName('');
+        setEmailVerified(true);
       });
   }
 
@@ -63,12 +75,12 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <AppShell userName={userName} onLogin={onLogin} onLogout={onLogout} />
+      <AppShell userName={userName} emailVerified={emailVerified} onLogin={onLogin} onLogout={onLogout} />
     </BrowserRouter>
   );
 }
 
-function AppShell({ userName, onLogin, onLogout }) {
+function AppShell({ userName, emailVerified, onLogin, onLogout }) {
   const { pathname } = useLocation();
   const isLanding = pathname === '/';
   const isLesson = pathname.startsWith('/lesson/');
@@ -77,12 +89,16 @@ function AppShell({ userName, onLogin, onLogout }) {
   return (
     <div className="body">
       <ErrorBoundary>
-        {!isLanding && !isLesson && !isDiagnostic && <Header />}
+        {!isLanding && !isLesson && !isDiagnostic && <Header userName={userName} />}
+        {userName && !isLanding && <VerificationBanner emailVerified={emailVerified} />}
 
         <Suspense fallback={<LoadingState />}>
           <Routes>
             <Route path="/" element={<Landing userName={userName} />} />
             <Route path="/login" element={<Login userName={userName} onLogin={onLogin} />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
+            <Route path="/verify-email/:token" element={<VerifyEmail />} />
+            <Route path="/profile" element={<Profile userName={userName} onLogout={onLogout} />} />
             <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
             <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
             <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
