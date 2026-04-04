@@ -525,17 +525,79 @@
   color: var(--sunbeam);
 }
 
-.sample-statement {
+.sample-problem-area {
   padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.sample-statement {
   font-size: 0.92rem;
   line-height: 1.7;
   color: var(--charcoal);
+  margin-bottom: 0.75rem;
+}
+
+/* ── Answer choices ── */
+.sample-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0.75rem 0 1.25rem;
+}
+
+.sample-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  background: white;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-md);
+}
+
+.sample-choice-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gray-500);
+  flex-shrink: 0;
+}
+
+.sample-choice-text {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--charcoal);
+}
+
+/* Submit button (static, non-interactive) */
+.sample-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--ember);
+  color: white;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: var(--radius-md);
+  opacity: 0.4;
 }
 
 /* Beam diagram */
 .beam-diagram {
   width: 100%;
-  padding: 0.5rem 1rem 1.25rem;
+  padding: 0.5rem 0 0.75rem;
 }
 
 .beam-label {
@@ -605,6 +667,18 @@
 
 .sample-panel-trigger.is-open .spt-caret {
   transform: rotate(180deg);
+}
+
+/* Lock indicator */
+.spt-lock {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--gray-400);
 }
 
 .sample-panel-body {
@@ -711,11 +785,69 @@
   color: var(--ember-light);
 }
 
-.sample-ref {
+/* ── Handbook panel (updated UX) ── */
+.sample-handbook-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sample-handbook-page-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sample-handbook-hidden {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   font-family: var(--font-mono);
-  font-size: 0.82rem;
-  color: var(--forest);
+  font-size: 0.72rem;
   font-weight: 500;
+  color: var(--gray-400);
+  background: var(--gray-100);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+}
+
+.sample-handbook-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem;
+  color: var(--gray-500);
+}
+
+.sample-handbook-hint {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.sample-handbook-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--forest);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.sample-handbook-link:hover {
+  color: var(--ember);
+}
+
+.sample-handbook-link-note {
+  font-size: 0.72rem;
+  color: var(--gray-400);
+  margin-top: -0.5rem;
 }
 
 .sample-traps {

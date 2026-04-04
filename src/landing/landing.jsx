@@ -29,6 +29,10 @@ import {
   SealWarning,
   ArrowsClockwise,
   Tag,
+  LockSimple,
+  Eye,
+  EyeSlash,
+  ArrowSquareOut,
 } from '@phosphor-icons/react';
 import { HeroSvg, TopicLabel } from './hero-svg';
 import { BeamDiagram } from './beam-diagram';
@@ -62,9 +66,16 @@ const sampleProblem = {
   difficulty: 'Medium',
   statement:
     'A simply supported beam of length 6 m carries a uniformly distributed load of 10 kN/m over its entire span. Determine the maximum bending moment.',
+  choices: [
+    { label: 'A', text: '30 kN·m' },
+    { label: 'B', text: '45 kN·m' },
+    { label: 'C', text: '60 kN·m' },
+    { label: 'D', text: '22.5 kN·m' },
+  ],
   eli5: 'Imagine laying a ruler across two books and pressing down evenly with your hand. The ruler bends the most right in the middle — that\'s where the bending moment is greatest. For a uniform load on a simple beam, the max moment is always at the center.',
   video: 'https://www.youtube.com/watch?v=vm__If17_jE',
-  handbookRef: 'FE Reference Handbook, p. 128',
+  handbookPage: 'p. 128',
+  handbookFormula: 'M_{max} = \\frac{wL^2}{8}',
   traps: [
     'The formula is wL²/8 — not wL/8. The square matters.',
     'Units must be consistent: kN/m × m² = kN·m.',
@@ -247,21 +258,34 @@ export function Landing({ userName }) {
           </h2>
 
           <div className="sample-split">
-            {/* ── LEFT: problem + diagram on engineering paper ── */}
+            {/* ── LEFT: problem + choices on engineering paper ── */}
             <div className="sample-left">
               <div className="sample-paper">
                 <div className="sample-paper-header">
                   <span className="sample-chapter">{sampleProblem.chapter}</span>
                   <span className="sample-difficulty sample-difficulty--medium">{sampleProblem.difficulty}</span>
                 </div>
-                <p className="sample-statement">{sampleProblem.statement}</p>
-                <BeamDiagram />
+                <div className="sample-problem-area">
+                  <p className="sample-statement">{sampleProblem.statement}</p>
+                  <BeamDiagram />
+                  <div className="sample-choices">
+                    {sampleProblem.choices.map((c) => (
+                      <div key={c.label} className="sample-choice">
+                        <span className="sample-choice-label">{c.label}</span>
+                        <span className="sample-choice-text">{c.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="sample-submit-btn">
+                    Submit Answer
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* ── RIGHT: expandable resource panels ── */}
+            {/* ── RIGHT: resource panels (matching real app order) ── */}
             <div className="sample-right">
-              {/* Lesson */}
+              {/* Lesson (unlocked) */}
               <button
                 className={`sample-panel-trigger ${openPanel === 'lesson' ? 'is-open' : ''}`}
                 onClick={() => togglePanel('lesson')}
@@ -277,14 +301,60 @@ export function Landing({ userName }) {
                 </div>
               )}
 
-              {/* ELI5 */}
+              {/* FE Handbook (unlocked — new UX) */}
+              <button
+                className={`sample-panel-trigger ${openPanel === 'handbook' ? 'is-open' : ''}`}
+                onClick={() => togglePanel('handbook')}
+              >
+                <BookBookmark weight="bold" size={18} className="spt-icon spt-icon--forest" />
+                <span>FE Handbook</span>
+                <CaretDown weight="bold" size={14} className="spt-caret" />
+              </button>
+              {openPanel === 'handbook' && (
+                <div className="sample-panel-body">
+                  <div className="sample-handbook-content">
+                    <Math tex={sampleProblem.handbookFormula} block />
+                    <div className="sample-handbook-page-row">
+                      <span className="sample-handbook-hidden">
+                        <BookBookmark size={14} weight="bold" />
+                        Page hidden
+                      </span>
+                      <span className="sample-handbook-toggle">
+                        <Eye size={14} weight="bold" />
+                      </span>
+                    </div>
+                    <p className="sample-handbook-hint">
+                      Practice finding this reference yourself — navigating the handbook quickly is a key exam skill.
+                    </p>
+                    <a
+                      href="https://help.ncees.org/article/87-ncees-exam-reference-handbooks"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="sample-handbook-link"
+                    >
+                      <ArrowSquareOut size={14} weight="bold" />
+                      Download FE Reference Handbook
+                    </a>
+                    <p className="sample-handbook-link-note">Requires an NCEES account (free to create)</p>
+                  </div>
+                </div>
+              )}
+
+              {/* ELI5 (locked) */}
               <button
                 className={`sample-panel-trigger ${openPanel === 'eli5' ? 'is-open' : ''}`}
                 onClick={() => togglePanel('eli5')}
               >
                 <BookOpenText weight="bold" size={18} className="spt-icon spt-icon--forest" />
-                <span>Explain Like I'm 5</span>
-                <CaretDown weight="bold" size={14} className="spt-caret" />
+                <span>Explain like I'm 5</span>
+                {openPanel === 'eli5' ? (
+                  <CaretDown weight="bold" size={14} className="spt-caret" />
+                ) : (
+                  <span className="spt-lock">
+                    <LockSimple size={12} weight="bold" />
+                    Submit answer to unlock
+                  </span>
+                )}
               </button>
               {openPanel === 'eli5' && (
                 <div className="sample-panel-body">
@@ -292,14 +362,21 @@ export function Landing({ userName }) {
                 </div>
               )}
 
-              {/* Step-by-step with KaTeX */}
+              {/* Step-by-Step (locked) */}
               <button
                 className={`sample-panel-trigger ${openPanel === 'steps' ? 'is-open' : ''}`}
                 onClick={() => togglePanel('steps')}
               >
                 <ArrowsClockwise weight="bold" size={18} className="spt-icon spt-icon--ember" />
-                <span>Step-by-Step Solution</span>
-                <CaretDown weight="bold" size={14} className="spt-caret" />
+                <span>Step-by-Step</span>
+                {openPanel === 'steps' ? (
+                  <CaretDown weight="bold" size={14} className="spt-caret" />
+                ) : (
+                  <span className="spt-lock">
+                    <LockSimple size={12} weight="bold" />
+                    Submit answer to unlock
+                  </span>
+                )}
               </button>
               {openPanel === 'steps' && (
                 <div className="sample-panel-body">
@@ -335,14 +412,21 @@ export function Landing({ userName }) {
                 </div>
               )}
 
-              {/* Video */}
+              {/* Video (locked) */}
               <button
                 className={`sample-panel-trigger ${openPanel === 'video' ? 'is-open' : ''}`}
                 onClick={() => togglePanel('video')}
               >
                 <Play weight="bold" size={18} className="spt-icon spt-icon--sunbeam" />
-                <span>Video Explanation</span>
-                <CaretDown weight="bold" size={14} className="spt-caret" />
+                <span>Video</span>
+                {openPanel === 'video' ? (
+                  <CaretDown weight="bold" size={14} className="spt-caret" />
+                ) : (
+                  <span className="spt-lock">
+                    <LockSimple size={12} weight="bold" />
+                    Submit answer to unlock
+                  </span>
+                )}
               </button>
               {openPanel === 'video' && (
                 <div className="sample-panel-body">
@@ -352,29 +436,21 @@ export function Landing({ userName }) {
                 </div>
               )}
 
-              {/* Handbook ref */}
-              <button
-                className={`sample-panel-trigger ${openPanel === 'ref' ? 'is-open' : ''}`}
-                onClick={() => togglePanel('ref')}
-              >
-                <BookBookmark weight="bold" size={18} className="spt-icon spt-icon--forest" />
-                <span>FE Handbook Reference</span>
-                <CaretDown weight="bold" size={14} className="spt-caret" />
-              </button>
-              {openPanel === 'ref' && (
-                <div className="sample-panel-body">
-                  <p className="sample-ref">{sampleProblem.handbookRef}</p>
-                </div>
-              )}
-
-              {/* Traps */}
+              {/* Common Traps (locked) */}
               <button
                 className={`sample-panel-trigger ${openPanel === 'traps' ? 'is-open' : ''}`}
                 onClick={() => togglePanel('traps')}
               >
                 <SealWarning weight="bold" size={18} className="spt-icon spt-icon--ember" />
                 <span>Common Traps</span>
-                <CaretDown weight="bold" size={14} className="spt-caret" />
+                {openPanel === 'traps' ? (
+                  <CaretDown weight="bold" size={14} className="spt-caret" />
+                ) : (
+                  <span className="spt-lock">
+                    <LockSimple size={12} weight="bold" />
+                    Submit answer to unlock
+                  </span>
+                )}
               </button>
               {openPanel === 'traps' && (
                 <div className="sample-panel-body">
