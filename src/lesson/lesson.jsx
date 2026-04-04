@@ -17,6 +17,9 @@ import {
   Lightning,
   Warning,
   MagnifyingGlass,
+  Eye,
+  EyeSlash,
+  ArrowSquareOut,
 } from '@phosphor-icons/react';
 import katex from 'katex';
 import { MathText } from '../components/MathText';
@@ -67,6 +70,60 @@ function LessonIllustration({ src, alt }) {
   const url = illustrationModules[path];
   if (!url) return null;
   return <img className="lp-illustration" src={url} alt={alt} />;
+}
+
+/* ── Handbook panel with hide/reveal ── */
+function HandbookPanel({ problem }) {
+  const [showPage, setShowPage] = React.useState(false);
+
+  return (
+    <div className="lp-handbook-content">
+      {problem.handbookFormula && <FormulaBlock tex={problem.handbookFormula} />}
+
+      {problem.handbookPage && (
+        <div className="lp-handbook-page-section">
+          <div className="lp-handbook-page-row">
+            {showPage ? (
+              <span className="lp-handbook-ref">
+                <BookBookmark size={14} weight="bold" />
+                {problem.handbookPage}
+              </span>
+            ) : (
+              <span className="lp-handbook-hidden">
+                <BookBookmark size={14} weight="bold" />
+                Page hidden
+              </span>
+            )}
+            <button
+              className="lp-handbook-toggle"
+              onClick={() => setShowPage(v => !v)}
+              aria-label={showPage ? 'Hide page number' : 'Show page number'}
+            >
+              {showPage ? <EyeSlash size={14} weight="bold" /> : <Eye size={14} weight="bold" />}
+            </button>
+          </div>
+          {!showPage && (
+            <p className="lp-handbook-hint">
+              Practice finding this reference yourself — navigating the handbook quickly is a key exam skill.
+            </p>
+          )}
+        </div>
+      )}
+
+      <a
+        href="https://help.ncees.org/article/87-ncees-exam-reference-handbooks"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="lp-handbook-link"
+      >
+        <ArrowSquareOut size={14} weight="bold" />
+        Download FE Reference Handbook
+      </a>
+      <p className="lp-handbook-link-note">
+        Requires an NCEES account (free to create)
+      </p>
+    </div>
+  );
 }
 
 /* ── Resource panel definitions ── */
@@ -568,17 +625,7 @@ function PanelContent({ panelKey, problem, lesson, subtopic }) {
       );
 
     case 'handbook':
-      return (
-        <>
-          {problem.handbookFormula && <FormulaBlock tex={problem.handbookFormula} />}
-          {problem.handbookPage && (
-            <span className="lp-handbook-ref">
-              <BookBookmark size={14} weight="bold" />
-              {problem.handbookPage}
-            </span>
-          )}
-        </>
-      );
+      return <HandbookPanel key={problem.statement?.substring(0, 50)} problem={problem} />;
 
     case 'eli5':
       return <p><MathText text={problem.eli5} /></p>;

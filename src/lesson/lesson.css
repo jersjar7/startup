@@ -481,6 +481,24 @@
 }
 
 /* Handbook panel */
+.lp-handbook-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lp-handbook-page-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.lp-handbook-page-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .lp-handbook-ref {
   display: inline-flex;
   align-items: center;
@@ -492,7 +510,68 @@
   background: var(--forest-bg);
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius-full);
-  margin-top: 0.5rem;
+}
+
+.lp-handbook-hidden {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--gray-400);
+  background: var(--gray-100);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+}
+
+.lp-handbook-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem;
+  color: var(--gray-500);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.lp-handbook-toggle:hover {
+  color: var(--forest);
+  border-color: var(--forest);
+  background: var(--forest-bg);
+  transform: none;
+}
+
+.lp-handbook-hint {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.lp-handbook-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--forest);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.lp-handbook-link:hover {
+  color: var(--ember);
+}
+
+.lp-handbook-link-note {
+  font-size: 0.72rem;
+  color: var(--gray-400);
+  margin-top: -0.5rem;
 }
 
 .lp-formula-block {
