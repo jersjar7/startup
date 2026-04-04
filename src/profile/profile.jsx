@@ -11,6 +11,8 @@ import {
   Lightning,
   Fire,
   Medal,
+  Eye,
+  EyeSlash,
 } from '@phosphor-icons/react';
 import './profile.css';
 
@@ -27,6 +29,9 @@ export function Profile({ userName, onLogout }) {
   const [pwError, setPwError] = React.useState('');
   const [pwSuccess, setPwSuccess] = React.useState('');
   const [pwSubmitting, setPwSubmitting] = React.useState(false);
+  const [showCurrentPw, setShowCurrentPw] = React.useState(false);
+  const [showNewPw, setShowNewPw] = React.useState(false);
+  const [showConfirmPw, setShowConfirmPw] = React.useState(false);
 
   // Delete account state
   const [delPassword, setDelPassword] = React.useState('');
@@ -198,34 +203,49 @@ export function Profile({ userName, onLogout }) {
         {pwSuccess && <p className="success-banner" role="status">{pwSuccess}</p>}
         <form onSubmit={handleChangePassword}>
           <label className="profile-input-label" htmlFor="current-pw">Current Password</label>
-          <input
-            id="current-pw"
-            type="password"
-            autoComplete="current-password"
-            value={currentPw}
-            onChange={(e) => setCurrentPw(e.target.value)}
-            required
-          />
+          <div className="password-field">
+            <input
+              id="current-pw"
+              type={showCurrentPw ? 'text' : 'password'}
+              autoComplete="current-password"
+              value={currentPw}
+              onChange={(e) => setCurrentPw(e.target.value)}
+              required
+            />
+            <button type="button" className="password-toggle" onClick={() => setShowCurrentPw(!showCurrentPw)} aria-label={showCurrentPw ? 'Hide password' : 'Show password'}>
+              {showCurrentPw ? <EyeSlash size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           <label className="profile-input-label" htmlFor="new-pw">New Password</label>
-          <input
-            id="new-pw"
-            type="password"
-            placeholder="8+ characters"
-            autoComplete="new-password"
-            value={newPw}
-            onChange={(e) => setNewPw(e.target.value)}
-            required
-          />
+          <div className="password-field">
+            <input
+              id="new-pw"
+              type={showNewPw ? 'text' : 'password'}
+              placeholder="8+ characters"
+              autoComplete="new-password"
+              value={newPw}
+              onChange={(e) => setNewPw(e.target.value)}
+              required
+            />
+            <button type="button" className="password-toggle" onClick={() => setShowNewPw(!showNewPw)} aria-label={showNewPw ? 'Hide password' : 'Show password'}>
+              {showNewPw ? <EyeSlash size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           <label className="profile-input-label" htmlFor="confirm-pw">Confirm New Password</label>
-          <input
-            id="confirm-pw"
-            type="password"
-            placeholder="Repeat new password"
-            autoComplete="new-password"
-            value={confirmPw}
-            onChange={(e) => setConfirmPw(e.target.value)}
-            required
-          />
+          <div className="password-field">
+            <input
+              id="confirm-pw"
+              type={showConfirmPw ? 'text' : 'password'}
+              placeholder="Repeat new password"
+              autoComplete="new-password"
+              value={confirmPw}
+              onChange={(e) => setConfirmPw(e.target.value)}
+              required
+            />
+            <button type="button" className="password-toggle" onClick={() => setShowConfirmPw(!showConfirmPw)} aria-label={showConfirmPw ? 'Hide password' : 'Show password'}>
+              {showConfirmPw ? <EyeSlash size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           <button type="submit" className="btn-primary" disabled={pwSubmitting || !(currentPw && newPw && confirmPw)}>
             {pwSubmitting ? 'Changing...' : 'Change Password'}
           </button>

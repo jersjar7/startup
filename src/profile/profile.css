@@ -139,6 +139,10 @@
   background: white;
 }
 
+.profile-card .password-toggle {
+  height: calc(100% - 1rem);
+}
+
 .profile-card input::placeholder {
   color: var(--gray-400);
 }

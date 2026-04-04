@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
-import { LockKey, CheckCircle, WarningCircle } from '@phosphor-icons/react';
+import { LockKey, CheckCircle, WarningCircle, Eye, EyeSlash } from '@phosphor-icons/react';
 import './index.css';
 
 export function ResetPassword() {
@@ -12,6 +12,8 @@ export function ResetPassword() {
   const [error, setError] = React.useState('');
   const [done, setDone] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [showConfirm, setShowConfirm] = React.useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -69,25 +71,35 @@ export function ResetPassword() {
         {error && <p className="error-banner" role="alert">{error}</p>}
         <form onSubmit={handleSubmit}>
           <label className="login-label" htmlFor="new-password">New Password</label>
-          <input
-            id="new-password"
-            type="password"
-            placeholder="8+ characters"
-            autoComplete="new-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="password-field">
+            <input
+              id="new-password"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="8+ characters"
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? 'Hide password' : 'Show password'}>
+              {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           <label className="login-label" htmlFor="confirm-password">Confirm Password</label>
-          <input
-            id="confirm-password"
-            type="password"
-            placeholder="Repeat password"
-            autoComplete="new-password"
-            value={confirm}
-            onChange={(e) => setConfirm(e.target.value)}
-            required
-          />
+          <div className="password-field">
+            <input
+              id="confirm-password"
+              type={showConfirm ? 'text' : 'password'}
+              placeholder="Repeat password"
+              autoComplete="new-password"
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              required
+            />
+            <button type="button" className="password-toggle" onClick={() => setShowConfirm(!showConfirm)} aria-label={showConfirm ? 'Hide password' : 'Show password'}>
+              {showConfirm ? <EyeSlash size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           <div className="login-buttons">
             <button type="submit" className="btn--primary" disabled={submitting || !(password && confirm)}>
               <LockKey weight="bold" size={18} />
