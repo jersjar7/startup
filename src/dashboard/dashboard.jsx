@@ -18,6 +18,7 @@ import {
 import { CHAPTERS } from '../data/chapters';
 import { LoadingState } from '../components/LoadingState';
 import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
+import { ExamSimCard } from '../exam/ExamSimCard';
 import './dashboard.css';
 
 export function Dashboard({ userName, onLogout }) {
@@ -299,6 +300,9 @@ export function Dashboard({ userName, onLogout }) {
               );
             })}
           </div>
+
+          {/* Exam Simulation CTA — below chapters */}
+          <ExamSimCard />
         </section>
 
         {/* ── RIGHT: Sidebar ── */}

@@ -13,7 +13,11 @@ const app = express();
 // Security, compression, and parsing middleware
 app.use(helmet());
 app.use(compression());
-app.use(express.json());
+
+// Stripe webhook needs raw body for signature verification — mount BEFORE express.json()
+app.use('/api/webhook', express.raw({ type: 'application/json' }), require('./routes/webhook.js'));
+
+app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 app.use(requestLogger);
 
@@ -57,6 +61,8 @@ apiRouter.use('/sessions', require('./routes/sessions.js'));
 apiRouter.use('/review', require('./routes/review.js'));
 apiRouter.use('/leaderboard', require('./routes/leaderboard.js'));
 apiRouter.use('/diagnostic', require('./routes/diagnostic.js'));
+apiRouter.use('/checkout', require('./routes/checkout.js'));
+apiRouter.use('/exam', require('./routes/exam.js'));
 
 // Default error handler
 app.use(function (err, req, res, next) {

@@ -22,8 +22,9 @@ export function MathText({ text }) {
             return <code key={i}>{part}</code>;
           }
         }
-        // Plain text — preserve newlines
-        return part.split('\n').map((line, j) => (
+        // Plain text — clean up stray LaTeX artifacts and preserve newlines
+        const cleaned = part.replace(/\{,\}/g, ',');
+        return cleaned.split('\n').map((line, j) => (
           <span key={`${i}-${j}`}>
             {j > 0 && <br />}
             {line}

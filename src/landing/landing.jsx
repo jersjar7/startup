@@ -541,9 +541,10 @@ export function Landing({ userName }) {
                 <li><CheckCircle weight="bold" size={16} className="pricing-check pricing-check--ember" /> Score breakdown by chapter</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check pricing-check--ember" /> Unlimited retakes</li>
               </ul>
-              <div className="pricing-btn pricing-btn--paid">
-                Coming Soon
-              </div>
+              <button className="pricing-btn pricing-btn--paid" onClick={() => navigate('/login', { state: { returnTo: '/exam' } })}>
+                Get Exam Simulation
+                <ArrowRight weight="bold" size={16} />
+              </button>
             </div>
           </div>
 

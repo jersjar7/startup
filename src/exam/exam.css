@@ -1,0 +1,770 @@
+/* ===== EXAM SIMULATION ===== */
+
+.exam-main,
+.ex-main,
+.er-main {
+  min-height: 100vh;
+  background: var(--cream);
+}
+
+/* ── Shared ── */
+.exam-loading,
+.ex-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  color: var(--gray-500);
+}
+
+.exam-error {
+  background: #FDE8E8;
+  color: var(--error);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+
+/* ═══════════════════════════════════════
+   EXAM GATE (Purchase / Launch)
+   ═══════════════════════════════════════ */
+
+.exam-gate {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1.5rem;
+}
+
+.exam-gate-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gray-400);
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 0.5rem;
+  transition: color 0.15s ease;
+  align-self: flex-start;
+}
+
+.exam-gate-back:hover {
+  color: var(--charcoal);
+}
+
+.exam-gate-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 3rem;
+  max-width: 560px;
+  width: 100%;
+  box-shadow: var(--shadow-card);
+  border-top: 4px solid var(--ember);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.exam-gate-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--charcoal);
+  margin-bottom: 0;
+}
+
+.exam-gate-subtitle {
+  font-size: 0.92rem;
+  color: var(--gray-500);
+  margin-bottom: 0.25rem;
+}
+
+.exam-gate-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  text-align: left;
+  margin: 0.5rem 0;
+}
+
+.exam-gate-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.egf-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.egf-icon--ember { color: var(--ember); }
+.egf-icon--sunbeam { color: var(--sunbeam); }
+.egf-icon--forest { color: var(--forest); }
+
+.egf-label {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--charcoal);
+}
+
+.egf-desc {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--gray-500);
+  line-height: 1.4;
+}
+
+/* Why we charge section */
+.exam-gate-why {
+  display: flex;
+  gap: 0.75rem;
+  background: var(--cream);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  margin: 0.25rem 0;
+}
+
+.exam-gate-why-icon {
+  color: var(--ember);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.exam-gate-why-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.exam-gate-why-text {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--gray-600);
+  margin-bottom: 0.5rem;
+}
+
+.exam-gate-why-text:last-child {
+  margin-bottom: 0;
+}
+
+.exam-gate-price {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.25rem 0;
+}
+
+.exam-gate-amount {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--charcoal);
+  line-height: 1;
+}
+
+.exam-gate-period {
+  font-size: 0.78rem;
+  color: var(--gray-400);
+  margin-top: 0.15rem;
+}
+
+.exam-buy-btn {
+  width: 100%;
+  padding: 0.85rem;
+  font-size: 1rem;
+}
+
+
+/* ═══════════════════════════════════════
+   EXAM HUB (Purchased — Launch & History)
+   ═══════════════════════════════════════ */
+
+.exam-hub {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.exam-hub-header {
+  margin-bottom: 1.5rem;
+}
+
+.exam-back-link {
+  margin-bottom: 1rem;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.82rem;
+}
+
+.exam-hub-title {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--charcoal);
+  margin-bottom: 0.25rem;
+}
+
+.exam-hub-subtitle {
+  font-size: 0.92rem;
+  color: var(--gray-500);
+}
+
+.exam-start-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+  border-top: 4px solid var(--ember);
+  margin-bottom: 1.5rem;
+}
+
+.exam-start-card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.exam-start-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.exam-start-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--charcoal);
+}
+
+.exam-start-rule svg {
+  color: var(--ember);
+  flex-shrink: 0;
+}
+
+.exam-start-btn {
+  flex-shrink: 0;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.92rem;
+}
+
+/* Past attempts */
+.exam-attempts-section {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 1.5rem 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+.exam-attempts-title {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray-400);
+  margin-bottom: 0.75rem;
+}
+
+.exam-attempts-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.exam-attempt-row {
+  display: grid;
+  grid-template-columns: 40px 80px 50px 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--gray-100);
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background 0.1s ease;
+}
+
+.exam-attempt-row:last-child {
+  border-bottom: none;
+}
+
+.exam-attempt-row:hover {
+  background: var(--cream);
+}
+
+.ea-num {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gray-400);
+}
+
+.ea-score {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.ea-pct {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.ea-date {
+  font-size: 0.78rem;
+  color: var(--gray-400);
+}
+
+.ea-arrow {
+  color: var(--gray-300);
+}
+
+
+/* ═══════════════════════════════════════
+   EXAM SESSION (overrides for 110-question grid)
+   ═══════════════════════════════════════ */
+
+.ex-body-wide {
+  max-width: 1100px;
+  grid-template-columns: 1fr 280px;
+}
+
+.ex-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Break screen ── */
+.ex-break-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 2rem;
+}
+
+.ex-break-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 3rem;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.ex-break-icon {
+  color: var(--forest);
+  margin-bottom: 1rem;
+}
+
+.ex-break-card h2 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.ex-break-card p {
+  font-size: 0.92rem;
+  color: var(--gray-500);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.ex-break-timer {
+  font-family: var(--font-mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.ex-break-label {
+  font-size: 0.82rem;
+  color: var(--gray-400);
+  margin-bottom: 2rem;
+}
+
+.ex-break-progress {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  margin-bottom: 0.25rem;
+}
+
+.ex-break-stats {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  margin-bottom: 1.5rem;
+}
+
+.ex-break-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.ex-diagram {
+  margin: 1rem 0 1.5rem;
+  text-align: center;
+}
+
+.ex-chapter-tag {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gray-400);
+  background: var(--gray-50);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+}
+
+
+/* ═══════════════════════════════════════
+   EXAM RESULTS
+   ═══════════════════════════════════════ */
+
+.er-main {
+  padding: 2rem 1.5rem;
+}
+
+.er-container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.er-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.er-title {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--charcoal);
+  margin-bottom: 0.25rem;
+}
+
+.er-subtitle {
+  font-size: 1rem;
+  color: var(--gray-500);
+}
+
+/* Score card */
+.er-score-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 1.5rem;
+}
+
+.er-score-card--pass {
+  border-top: 4px solid var(--forest);
+}
+
+.er-score-big {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--charcoal);
+  line-height: 1;
+  margin-bottom: 0.15rem;
+}
+
+.er-score-pct {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.er-score-label {
+  margin-bottom: 0.75rem;
+}
+
+.er-pass-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.75rem;
+  background: var(--forest-bg);
+  color: var(--forest);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.82rem;
+  border-radius: var(--radius-full);
+}
+
+.er-fail-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.75rem;
+  background: #FDE8E8;
+  color: var(--error);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.82rem;
+  border-radius: var(--radius-full);
+}
+
+.er-xp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.85rem;
+  background: var(--sunbeam-bg);
+  color: var(--sunbeam);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: var(--radius-full);
+  margin-top: 0.5rem;
+}
+
+/* Chapter breakdown */
+.er-chapters {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 1.5rem 2rem;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 1.5rem;
+}
+
+.er-chapters-title {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray-400);
+  margin-bottom: 1rem;
+}
+
+.er-chapter-row {
+  display: grid;
+  grid-template-columns: 1fr 100px 50px;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.er-chapter-row:last-child {
+  border-bottom: none;
+}
+
+.er-ch-name {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.er-mastery-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.er-mastery-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--gray-100);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.er-mastery-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.er-mastery-pct {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 32px;
+  text-align: right;
+}
+
+.er-ch-score {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--gray-500);
+  text-align: right;
+}
+
+/* Note */
+.er-note {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.er-note p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--gray-500);
+}
+
+/* Actions */
+.er-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+
+/* ═══════════════════════════════════════
+   EXAM SIM INLINE CTA (Dashboard — below chapters)
+   ═══════════════════════════════════════ */
+
+.exam-sim-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+  background: var(--cream-dark);
+  border: 1px dashed var(--gray-200);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.exam-sim-inline:hover {
+  border-color: var(--ember);
+  background: var(--ember-bg);
+}
+
+.exam-sim-inline--owned {
+  border-style: solid;
+  border-color: var(--forest);
+  background: var(--forest-bg);
+}
+
+.exam-sim-inline--owned:hover {
+  border-color: var(--forest);
+  background: var(--forest-bg);
+  opacity: 0.9;
+}
+
+.exam-sim-inline-icon {
+  color: var(--ember);
+  flex-shrink: 0;
+}
+
+.exam-sim-inline--owned .exam-sim-inline-icon {
+  color: var(--forest);
+}
+
+.exam-sim-inline-text {
+  flex: 1;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  line-height: 1.4;
+}
+
+.exam-sim-inline-meta {
+  display: block;
+  font-weight: 400;
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  margin-top: 0.1rem;
+}
+
+.exam-sim-inline-arrow {
+  color: var(--gray-300);
+  flex-shrink: 0;
+}
+
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .exam-gate-card {
+    padding: 1.5rem;
+  }
+
+  .exam-start-card-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .exam-start-btn {
+    width: 100%;
+  }
+
+  .ex-body-wide {
+    grid-template-columns: 1fr;
+  }
+
+  .ex-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .exam-attempt-row {
+    grid-template-columns: 40px 60px 40px 1fr auto;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .er-chapter-row {
+    grid-template-columns: 1fr 70px 40px;
+  }
+}

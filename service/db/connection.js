@@ -12,6 +12,8 @@ const userStatsCollection = db.collection('userStats');
 const problemHistoryCollection = db.collection('problemHistory');
 const sessionLogCollection = db.collection('sessionLog');
 const diagnosticResultsCollection = db.collection('diagnosticResults');
+const purchasesCollection = db.collection('purchases');
+const examAttemptsCollection = db.collection('examAttempts');
 
 // Test connection and create indexes on startup
 (async function testConnection() {
@@ -30,6 +32,9 @@ const diagnosticResultsCollection = db.collection('diagnosticResults');
     await userCollection.createIndex({ token: 1 }, { sparse: true });
     await userCollection.createIndex({ resetToken: 1 }, { sparse: true });
     await userCollection.createIndex({ verificationToken: 1 }, { sparse: true });
+    await purchasesCollection.createIndex({ userId: 1 });
+    await purchasesCollection.createIndex({ stripeSessionId: 1 }, { unique: true });
+    await examAttemptsCollection.createIndex({ userId: 1, createdAt: -1 });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);
@@ -51,4 +56,6 @@ module.exports = {
   problemHistoryCollection,
   sessionLogCollection,
   diagnosticResultsCollection,
+  purchasesCollection,
+  examAttemptsCollection,
 };

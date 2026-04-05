@@ -21,6 +21,9 @@ const LessonPage = React.lazy(() => import('./lesson/lesson').then(m => ({ defau
 const DiagnosticExam = React.lazy(() => import('./diagnostic/DiagnosticExam').then(m => ({ default: m.DiagnosticExam })));
 const DiagnosticResults = React.lazy(() => import('./diagnostic/DiagnosticResults').then(m => ({ default: m.DiagnosticResults })));
 const DiagnosticReview = React.lazy(() => import('./diagnostic/DiagnosticReview').then(m => ({ default: m.DiagnosticReview })));
+const ExamGate = React.lazy(() => import('./exam/ExamGate').then(m => ({ default: m.ExamGate })));
+const ExamSession = React.lazy(() => import('./exam/ExamSession').then(m => ({ default: m.ExamSession })));
+const ExamResults = React.lazy(() => import('./exam/ExamResults').then(m => ({ default: m.ExamResults })));
 const ResetPassword = React.lazy(() => import('./login/ResetPassword').then(m => ({ default: m.ResetPassword })));
 const VerifyEmail = React.lazy(() => import('./login/VerifyEmail').then(m => ({ default: m.VerifyEmail })));
 const Profile = React.lazy(() => import('./profile/profile').then(m => ({ default: m.Profile })));
@@ -87,11 +90,12 @@ function AppShell({ userName, emailVerified, onLogin, onLogout }) {
   const isLanding = pathname === '/';
   const isLesson = pathname.startsWith('/lesson/');
   const isDiagnostic = pathname.startsWith('/diagnostic');
+  const isExamSession = pathname === '/exam/session';
 
   return (
     <div className="body">
       <ErrorBoundary>
-        {!isLanding && !isLesson && !isDiagnostic && <Header userName={userName} />}
+        {!isLanding && !isLesson && !isDiagnostic && !isExamSession && <Header userName={userName} />}
         {userName && !isLanding && <VerificationBanner emailVerified={emailVerified} />}
 
         <Suspense fallback={<LoadingState />}>
@@ -111,12 +115,15 @@ function AppShell({ userName, emailVerified, onLogin, onLogout }) {
             <Route path="/diagnostic" element={<DiagnosticExam userName={userName} />} />
             <Route path="/diagnostic/results/:attemptNumber" element={<DiagnosticResults userName={userName} />} />
             <Route path="/diagnostic/review/:attemptNumber" element={<DiagnosticReview userName={userName} />} />
+            <Route path="/exam" element={<ExamGate userName={userName} />} />
+            <Route path="/exam/session" element={<ExamSession userName={userName} />} />
+            <Route path="/exam/results/:attemptId" element={<ExamResults userName={userName} />} />
             {DiagramPreview && <Route path="/dev/diagrams" element={<DiagramPreview />} />}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
 
-        {!isLanding && !isLesson && !isDiagnostic && <Footer />}
+        {!isLanding && !isLesson && !isDiagnostic && !isExamSession && <Footer />}
       </ErrorBoundary>
     </div>
   );

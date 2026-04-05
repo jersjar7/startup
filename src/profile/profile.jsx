@@ -13,6 +13,8 @@ import {
   Medal,
   Eye,
   EyeSlash,
+  Exam,
+  CheckCircle,
 } from '@phosphor-icons/react';
 import './profile.css';
 
@@ -34,6 +36,9 @@ export function Profile({ userName, onLogout }) {
   const [showConfirmPw, setShowConfirmPw] = React.useState(false);
 
   // Delete account state
+  // Purchase status
+  const [purchaseStatus, setPurchaseStatus] = React.useState(null);
+
   const [delPassword, setDelPassword] = React.useState('');
   const [delConfirm, setDelConfirm] = React.useState('');
   const [delError, setDelError] = React.useState('');
@@ -44,11 +49,20 @@ export function Profile({ userName, onLogout }) {
       navigate('/login');
       return;
     }
-    fetch('/api/user/me')
-      .then((res) => res.ok ? res.json() : Promise.reject())
-      .then(setUserData)
-      .catch(() => navigate('/login'))
-      .finally(() => setLoading(false));
+    Promise.allSettled([
+      fetch('/api/user/me').then(r => r.ok ? r.json() : Promise.reject()),
+      fetch('/api/checkout/status').then(r => r.ok ? r.json() : Promise.reject()),
+    ]).then(([userResult, purchaseResult]) => {
+      if (userResult.status === 'fulfilled') {
+        setUserData(userResult.value);
+      } else {
+        navigate('/login');
+        return;
+      }
+      if (purchaseResult.status === 'fulfilled') {
+        setPurchaseStatus(purchaseResult.value);
+      }
+    }).finally(() => setLoading(false));
   }, [userName, navigate]);
 
   function handleLogout() {
@@ -192,6 +206,35 @@ export function Profile({ userName, onLogout }) {
             <span className="stat-label">Badges</span>
           </div>
         </div>
+      </section>
+
+      {/* Purchases */}
+      <section className="profile-card">
+        <h2 className="profile-section-title">
+          <Exam size={20} weight="bold" /> Purchases
+        </h2>
+        {purchaseStatus?.purchased ? (
+          <div className="profile-field">
+            <span className="profile-label">Exam Simulation</span>
+            <span className="profile-value">
+              <span className="verified-badge"><CheckCircle size={16} weight="bold" /> Purchased</span>
+              {purchaseStatus.purchaseDate && (
+                <span style={{ marginLeft: '0.5rem', fontSize: '0.82rem', color: 'var(--gray-400)' }}>
+                  {new Date(purchaseStatus.purchaseDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </span>
+              )}
+            </span>
+          </div>
+        ) : (
+          <div className="profile-field">
+            <span className="profile-label">Exam Simulation</span>
+            <span className="profile-value">
+              <Link to="/exam" style={{ color: 'var(--ember)', fontWeight: 600, textDecoration: 'none' }}>
+                Not purchased — $14.99
+              </Link>
+            </span>
+          </div>
+        )}
       </section>
 
       {/* Change password */}
