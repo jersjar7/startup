@@ -71,7 +71,7 @@ export default {
         'Forgetting to convert percentage grades to decimals before subtracting',
         'Using L/4 instead of L/8 in the shortcut formula \u2014 the derivation is E = a(L/2)\u00B2 where a = (g\u2082\u2212g\u2081)/(2L)',
       ],
-      diagram: null,
+      diagram: { component: 'VerticalCurveProfile', props: { g1: 3, g2: -5, L: 800, elevPVC: 100 } },
     },
     {
       id: 'trans-vc-q3',
@@ -125,7 +125,7 @@ export default {
       handbookFormula: 'K = \\frac{L}{A}',
       videoUrl: null,
       traps: ['Confusing $K$ with $A$ -- $K$ is the ratio $L/A$, not the algebraic difference itself'],
-      diagram: null,
+      diagram: { component: 'VerticalCurveProfile', props: { g1: 2, g2: -4, L: 600, elevPVC: 100 } },
     },
     {
       id: 'trans-vc-ex2',

@@ -77,6 +77,8 @@ import { RetainingWall } from './RetainingWall';
 import { FootingSection } from './FootingSection';
 import { WallBase } from './WallBase';
 import { ConsolidationLayer } from './ConsolidationLayer';
+import { PavementStack } from './PavementStack';
+import { EarthworkSection } from './EarthworkSection';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -158,4 +160,6 @@ export const DIAGRAM_REGISTRY = {
   FootingSection,
   WallBase,
   ConsolidationLayer,
+  PavementStack,
+  EarthworkSection,
 };

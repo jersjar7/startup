@@ -69,7 +69,7 @@ export default {
         'Using tan(I) instead of tan(I/2) \u2014 the intersection angle must be halved',
         'Confusing tangent distance T with curve length L',
       ],
-      diagram: null,
+      diagram: { component: 'HorizontalCurve', props: { R: 1200, I: 30 } },
     },
     {
       id: 'trans-hc-q3',
@@ -170,7 +170,7 @@ export default {
       handbookFormula: 'L = R \\, I \\, \\frac{\\pi}{180}',
       videoUrl: null,
       traps: ['Confusing curve length L with tangent distance T', 'Forgetting to convert the intersection angle from degrees to radians'],
-      diagram: null,
+      diagram: { component: 'HorizontalCurve', props: { R: 800, I: 50 } },
     },
     {
       id: 'trans-hc-ex4',

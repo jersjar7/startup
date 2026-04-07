@@ -82,6 +82,8 @@ const DEFAULTS = {
   FootingSection: { width: 4, depth: 3, unit: 'ft' },
   WallBase: { baseWidth: 8, resultantPos: 3.0, unit: 'ft' },
   ConsolidationLayer: { thickness: 20, topPermeable: true, bottomPermeable: false, topLabel: 'Sand', bottomLabel: 'Rock', unit: 'ft' },
+  PavementStack: { surface: { a: 0.44, D: 3, label: 'HMA Surface' }, base: { a: 0.14, D: 8, m: 1.0, label: 'Crushed Stone Base' }, subbase: { a: 0.11, D: 10, m: 1.0, label: 'Granular Subbase' } },
+  EarthworkSection: { A1: 200, A2: 300, Am: 240, L: 100 },
 };
 
 /* Lesson mapping for context */
@@ -165,6 +167,8 @@ const LESSON_MAP = {
   FootingSection: 'Geo L4 Bearing Capacity — Q2/Q3/Ex1/Ex4',
   WallBase: 'Geo L5 Retaining Walls — Q2/Q3/Ex3',
   ConsolidationLayer: 'Geo L6 Consolidation — Ex2',
+  PavementStack: 'Trans L7 Pavement — Q1/Ex1',
+  EarthworkSection: 'Trans L8 Earthwork — Q1-Q3/Ex1/Ex3',
 };
 
 export function DiagramPreview() {

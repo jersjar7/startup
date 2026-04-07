@@ -43,7 +43,7 @@ export default {
         'Forgetting to divide by 2 \u2014 the formula averages the two end areas, not sums them',
         'Reporting the answer in ft\u00B3 instead of yd\u00B3 \u2014 always check units',
       ],
-      diagram: null,
+      diagram: { component: 'EarthworkSection', props: { A1: 200, A2: 300, L: 100 } },
     },
     {
       id: 'trans-ew-q2',
@@ -69,7 +69,7 @@ export default {
         'Using the average end area formula instead of the prismoidal \u2014 gives 926 yd\u00B3 (overestimate)',
         'Forgetting to divide by 6 in the prismoidal formula',
       ],
-      diagram: null,
+      diagram: { component: 'EarthworkSection', props: { A1: 200, A2: 300, Am: 240, L: 100 } },
     },
     {
       id: 'trans-ew-q3',
@@ -97,7 +97,7 @@ export default {
         'Forgetting to divide by 6 \u2014 the prismoidal formula has a denominator of 6, not 2',
         'Forgetting the ft\u00B3 to yd\u00B3 conversion (divide by 27)',
       ],
-      diagram: null,
+      diagram: { component: 'EarthworkSection', props: { A1: 150, A2: 350, Am: 230, L: 200 } },
     },
   ],
   examProblems: [
@@ -123,7 +123,7 @@ export default {
       handbookFormula: 'V = \\frac{L(A_1 + A_2)}{2}',
       videoUrl: null,
       traps: ['Reporting the answer in ft^3 instead of yd^3 -- always divide by 27'],
-      diagram: null,
+      diagram: { component: 'EarthworkSection', props: { A1: 180, A2: 220, L: 50 } },
     },
     {
       id: 'trans-ew-ex2',
@@ -173,7 +173,7 @@ export default {
       handbookFormula: 'V = \\frac{L(A_1 + 4A_m + A_2)}{6}',
       videoUrl: null,
       traps: ['Confusing the prismoidal correction with the prismoidal volume itself', 'Forgetting to convert both volumes to the same units before subtracting'],
-      diagram: null,
+      diagram: { component: 'EarthworkSection', props: { A1: 100, A2: 400, Am: 200, L: 100 } },
     },
     {
       id: 'trans-ew-ex4',

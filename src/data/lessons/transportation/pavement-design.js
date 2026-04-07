@@ -43,7 +43,7 @@ export default {
         'Forgetting to include all three layers in the sum',
         'Summing coefficients without multiplying by layer thickness',
       ],
-      diagram: null,
+      diagram: { component: 'PavementStack', props: { surface: { a: 0.44, D: 3, label: 'HMA Surface' }, base: { a: 0.14, D: 8, m: 1.0, label: 'Crushed Stone Base' }, subbase: { a: 0.11, D: 10, m: 1.0, label: 'Granular Subbase' } } },
     },
     {
       id: 'trans-pd-q2',
@@ -125,7 +125,7 @@ export default {
       handbookFormula: 'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3',
       videoUrl: null,
       traps: ['Ignoring the drainage coefficients and using m = 1.0 for all layers'],
-      diagram: null,
+      diagram: { component: 'PavementStack', props: { surface: { a: 0.44, D: 5, label: 'HMA Surface' }, base: { a: 0.14, D: 10, m: 0.90, label: 'Crushed Stone Base' }, subbase: { a: 0.11, D: 8, m: 0.90, label: 'Granular Subbase' } } },
     },
     {
       id: 'trans-pd-ex2',
