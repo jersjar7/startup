@@ -42,7 +42,7 @@ export default {
         'Swapping backsight and foresight \u2014 BS is added, FS is subtracted, never the reverse',
         'Adding both readings instead of adding BS and subtracting FS',
       ],
-      diagram: null,
+      diagram: { component: 'LevelingSetup', props: { setups: 1, bmLabel: 'BM', targetLabel: 'A' } },
     },
     {
       id: 'surv-lev-q2',
@@ -70,7 +70,7 @@ export default {
         'Using the original HI for the second setup instead of recalculating from the turning point',
         'Stopping at the turning point elevation and reporting it as the answer',
       ],
-      diagram: null,
+      diagram: { component: 'LevelingSetup', props: { setups: 2, bmLabel: 'BM-1', targetLabel: 'B', tpLabel: 'TP-1' } },
     },
     {
       id: 'surv-lev-q3',
@@ -124,7 +124,7 @@ export default {
       handbookFormula: 'HI = \\text{Elev} + BS; \\quad \\text{Elev} = HI - FS',
       videoUrl: null,
       traps: ['Subtracting the backsight instead of adding it to the known elevation'],
-      diagram: null,
+      diagram: { component: 'LevelingSetup', props: { setups: 1, bmLabel: 'BM', targetLabel: 'X' } },
     },
     {
       id: 'surv-lev-ex2',
@@ -149,7 +149,7 @@ export default {
       handbookFormula: 'HI = \\text{Elev} + BS; \\quad \\text{Elev} = HI - FS',
       videoUrl: null,
       traps: ['Stopping at an intermediate turning point and reporting it as the final answer', 'Carrying forward the wrong HI after a turning point'],
-      diagram: null,
+      diagram: { component: 'LevelingSetup', props: { setups: 2, bmLabel: 'BM-A', targetLabel: 'C', tpLabel: 'TP-1' } },
     },
     {
       id: 'surv-lev-ex3',

@@ -77,7 +77,7 @@ export default {
         'Using log\u2081\u2080 instead of ln \u2014 the formula uses the natural logarithm',
         'Swapping r_1 and r_2 in the logarithm \u2014 r_1 is at the well, r_2 is farther away',
       ],
-      diagram: null,
+      diagram: { component: 'UnconfinedWell', props: { h1: 40, h2: 60, r1: 0.5, r2: 200, unit: 'ft' } },
     },
     {
       id: 'wr-gw-q3',
@@ -106,7 +106,7 @@ export default {
         'Forgetting to compute transmissivity T = Kb before plugging in',
         'Using log\u2081\u2080 instead of ln \u2014 ln(10) = 2.303, not log\u2081\u2080(10) = 1.0',
       ],
-      diagram: null,
+      diagram: { component: 'ConfinedWell', props: { h1: 25, h2: 30, b: 20, r1: 10, r2: 100, unit: 'm' } },
     },
   ],
   examProblems: [
@@ -160,7 +160,7 @@ export default {
       handbookFormula: 'Q = \\frac{2\\pi T(h_2 - h_1)}{\\ln(r_2/r_1)}',
       videoUrl: null,
       traps: ['Using Dupuit ($h^2$ differences) for a confined aquifer \u2014 Thiem uses linear $h$', 'Using log base 10 instead of natural log \u2014 $\\ln(500) = 6.215$, not $\\log(500) = 2.699$'],
-      diagram: null,
+      diagram: { component: 'ConfinedWell', props: { h1: 42, h2: 50, b: 20, r1: 0.3, r2: 150, unit: 'm' } },
     },
     {
       id: 'wr-gw-ex3',

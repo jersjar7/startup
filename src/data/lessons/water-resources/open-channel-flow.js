@@ -46,7 +46,7 @@ export default {
         'Forgetting the 1.486 factor for USCS units \u2014 using K = 1.0 gives about 19.5 cfs instead of 28.9 cfs',
         'Using the channel width as the wetted perimeter instead of b + 2y',
       ],
-      diagram: null,
+      diagram: { component: 'RectangularChannel', props: { b: 4, y: 2, unit: 'ft' } },
     },
     {
       id: 'wr-ocf-q2',
@@ -157,7 +157,7 @@ export default {
       handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
       videoUrl: null,
       traps: ['Forgetting to include the side slopes when computing area and wetted perimeter', 'Using K = 1.486 with SI units'],
-      diagram: null,
+      diagram: { component: 'TrapezoidalChannel', props: { b: 3, y: 1.5, z: 2, unit: 'm' } },
     },
     {
       id: 'wr-ocf-ex3',
@@ -209,7 +209,7 @@ export default {
       handbookFormula: 'Q = \\frac{K}{n} A R_H^{2/3} S^{1/2}',
       videoUrl: null,
       traps: ['Forgetting the USCS factor $K = 1.486$ shifts the answer significantly', 'Assuming $R_H$ equals the depth $y$ instead of computing $A/P$'],
-      diagram: null,
+      diagram: { component: 'RectangularChannel', props: { b: 6, y: 2.3, unit: 'ft' } },
     },
   ],
 };

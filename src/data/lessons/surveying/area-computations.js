@@ -44,7 +44,7 @@ export default {
         'Forgetting to divide by 2 \u2014 gives double the area',
         'Getting the cross-product order wrong (x_i \u00D7 y_{i+1} \u2013 x_{i+1} \u00D7 y_i, not the reverse)',
       ],
-      diagram: null,
+      diagram: { component: 'CoordinatePolygon', props: { vertices: [{ x: 0, y: 0, label: 'A' }, { x: 6, y: 0, label: 'B' }, { x: 3, y: 4, label: 'C' }] } },
     },
     {
       id: 'surv-ac-q2',
@@ -75,7 +75,7 @@ export default {
         'Forgetting to divide by 2',
         'Getting the subtraction order wrong in the cross products',
       ],
-      diagram: null,
+      diagram: { component: 'CoordinatePolygon', props: { vertices: [{ x: 0, y: 0, label: 'A' }, { x: 10, y: 0, label: 'B' }, { x: 8, y: 6, label: 'C' }, { x: 2, y: 5, label: 'D' }] } },
     },
     {
       id: 'surv-ac-q3',
@@ -103,7 +103,7 @@ export default {
         'Forgetting to multiply by the interval width w',
         'Using Simpson\u2019s coefficients (1, 4, 2, 4, 1) when the trapezoidal rule was specified',
       ],
-      diagram: null,
+      diagram: { component: 'BaselineOffsets', props: { offsets: [0, 8, 12, 10, 0], spacing: 20, unit: 'm' } },
     },
   ],
   examProblems: [
@@ -130,7 +130,7 @@ export default {
       handbookFormula: 'A = \\frac{1}{2}|\\sum(x_i y_{i+1} - x_{i+1} y_i)|',
       videoUrl: null,
       traps: ['Forgetting to divide by 2 \u2014 gives double the actual area', 'Reversing the cross product order'],
-      diagram: null,
+      diagram: { component: 'CoordinatePolygon', props: { vertices: [{ x: 0, y: 0, label: 'A' }, { x: 8, y: 0, label: 'B' }, { x: 4, y: 6, label: 'C' }] } },
     },
     {
       id: 'surv-ac-ex2',
@@ -155,7 +155,7 @@ export default {
       handbookFormula: 'A = w\\left(\\frac{h_1 + h_n}{2} + h_2 + h_3 + \\cdots + h_{n-1}\\right)',
       videoUrl: null,
       traps: ['Averaging all offsets instead of only the first and last', 'Forgetting to multiply by the interval width'],
-      diagram: null,
+      diagram: { component: 'BaselineOffsets', props: { offsets: [0, 10, 14, 11, 6, 0], spacing: 25, unit: 'm' } },
     },
     {
       id: 'surv-ac-ex3',
@@ -181,7 +181,7 @@ export default {
       handbookFormula: 'A = \\frac{w}{3}(h_1 + 4h_2 + 2h_3 + 4h_4 + \\cdots + h_n)',
       videoUrl: null,
       traps: ['Mixing up the 4-2-4 coefficient pattern', 'Using Simpson\u2019s rule with an even number of offsets (it requires odd)'],
-      diagram: null,
+      diagram: { component: 'BaselineOffsets', props: { offsets: [0, 5, 8, 6, 0], spacing: 10, unit: 'm' } },
     },
     {
       id: 'surv-ac-ex4',

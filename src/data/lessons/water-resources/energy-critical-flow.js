@@ -106,7 +106,7 @@ export default {
         'Using Fr\u00B2 without the factor of 8 inside the radical',
         'Confusing y_1 and y_2 \u2014 the upstream supercritical depth is always smaller',
       ],
-      diagram: null,
+      diagram: { component: 'HydraulicJump', props: { y1: 0.4, Fr1: 3.0 } },
     },
   ],
   examProblems: [
@@ -184,7 +184,7 @@ export default {
       handbookFormula: 'y_2 = \\frac{y_1}{2}\\left(-1 + \\sqrt{1 + 8Fr_1^2}\\right)',
       videoUrl: null,
       traps: ['Omitting the factor of 8 multiplying $Fr^2$ inside the radical', 'Forgetting the $-1$ term inside the parentheses'],
-      diagram: null,
+      diagram: { component: 'HydraulicJump', props: { y1: 0.3, Fr1: 4.0 } },
     },
     {
       id: 'wr-ecf-ex4',

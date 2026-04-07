@@ -44,7 +44,7 @@ export default {
         'Confusing the truss formula (m + r vs 2j) with the frame formula (3m + r vs 3j + c)',
         'Forgetting to count all reaction components \u2014 a pin gives 2, a roller gives 1',
       ],
-      diagram: null,
+      diagram: { component: 'TrussSchematic', props: { variant: 'warren7', leftSupport: 'pin', rightSupport: 'roller' } },
     },
     {
       id: 'str-ds-q2',
@@ -72,7 +72,7 @@ export default {
         'Forgetting that a fixed support provides 3 reaction components (not 2)',
         'Using the truss formula (m + r vs 2j) instead of the frame formula (3m + r vs 3j + c)',
       ],
-      diagram: null,
+      diagram: { component: 'FrameSchematic', props: { variant: 'portal', leftSupport: 'pin', rightSupport: 'fixed' } },
     },
     {
       id: 'str-ds-q3',
@@ -101,7 +101,7 @@ export default {
         'Forgetting that parallel reactions cannot resist loads perpendicular to their direction',
         'Confusing this with the indeterminate case (m + r > 2j) \u2014 even indeterminate structures can be unstable if reactions are improperly arranged',
       ],
-      diagram: null,
+      diagram: { component: 'TrussSchematic', props: { variant: 'pratt6', leftSupport: 'roller', midSupport: 'roller', rightSupport: 'roller' } },
     },
   ],
   examProblems: [
@@ -128,7 +128,7 @@ export default {
       handbookFormula: 'm + r = 2j \\quad \\text{(determinate)}',
       videoUrl: null,
       traps: ['Confusing the truss formula (m+r=2j) with the beam/frame formula (3m+r=3j+c)'],
-      diagram: null,
+      diagram: { component: 'TrussSchematic', props: { variant: 'pratt6', leftSupport: 'pin', rightSupport: 'roller' } },
     },
     {
       id: 'str-ds-ex2',
@@ -182,7 +182,7 @@ export default {
         'Forgetting to include internal hinges in the condition equations (c) — each hinge adds one equation',
         'Mixing up the truss formula (m + r vs 2j) with the frame formula (3m + r vs 3j + c)',
       ],
-      diagram: null,
+      diagram: { component: 'FrameSchematic', props: { variant: 'twobay', leftSupport: 'pin', midSupport: 'roller', rightSupport: 'pin', hinges: ['left', 'right'] } },
     },
     {
       id: 'str-ds-ex4',

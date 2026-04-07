@@ -44,7 +44,7 @@ export default {
         'Using d instead of (d \u2013 a/2) for the moment arm \u2014 you must subtract half the stress block depth',
         'Reporting \u03C6M_n instead of M_n \u2014 read the question carefully to see if it asks for nominal or design capacity',
       ],
-      diagram: null,
+      diagram: { component: 'RCBeamSection', props: { b: 12, d: 18, numBars: 3, unit: 'in.' } },
     },
     {
       id: 'str-rfs-q2',
@@ -126,7 +126,7 @@ export default {
       handbookFormula: 'a = \\frac{A_s f_y}{0.85 f_c\' b}',
       videoUrl: null,
       traps: ['Forgetting the 0.85 coefficient in the denominator — this would overestimate $a$ and underestimate the moment arm'],
-      diagram: null,
+      diagram: { component: 'RCBeamSection', props: { b: 14, d: 22, numBars: 4, unit: 'in.' } },
     },
     {
       id: 'str-rfs-ex2',
@@ -151,7 +151,7 @@ export default {
       handbookFormula: 'M_n = A_s f_y \\left(d - \\frac{a}{2}\\right)',
       videoUrl: null,
       traps: ['Using $d$ instead of $(d - a/2)$ as the moment arm — this overestimates capacity by ignoring the offset of the compression resultant'],
-      diagram: null,
+      diagram: { component: 'RCBeamSection', props: { b: 12, d: 18, numBars: 3, unit: 'in.' } },
     },
     {
       id: 'str-rfs-ex3',

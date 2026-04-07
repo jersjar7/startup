@@ -70,7 +70,7 @@ export default {
         'Using sine instead of cosine \u2014 gives the vertical distance, not horizontal',
         'Dividing by cosine instead of multiplying \u2014 gives a value larger than SD',
       ],
-      diagram: null,
+      diagram: { component: 'SlopeDistance', props: { sd: 250, angle: 8, unit: 'm' } },
     },
     {
       id: 'surv-adb-q3',
@@ -174,7 +174,7 @@ export default {
       handbookFormula: 'VD = SD \\sin\\alpha',
       videoUrl: null,
       traps: ['Ignoring the sign convention \u2014 below horizontal means negative elevation change', 'Using cosine instead of sine for vertical distance'],
-      diagram: null,
+      diagram: { component: 'SlopeDistance', props: { sd: 185, angle: 12, unit: 'ft', below: true } },
     },
     {
       id: 'surv-adb-ex4',

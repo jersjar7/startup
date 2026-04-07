@@ -101,7 +101,7 @@ export default {
         'Confusing nominal $M_n$ with design $\\phi M_n$ — read whether the problem asks for nominal or design strength',
         'Using $C_b = 1.0$ when the actual loading would give $C_b > 1.0$ — $C_b = 1.0$ is conservative (uniform moment)',
       ],
-      diagram: null,
+      diagram: { component: 'LTBCurve', props: { Mp: 500, Mr: 300, Lp: 8, Lr: 25, Lb: 15, unit: 'ft' } },
     },
   ],
   examProblems: [
@@ -202,7 +202,7 @@ export default {
       handbookFormula: 'M_n = C_b\\left[M_p - (M_p - 0.7F_yS_x)\\frac{L_b - L_p}{L_r - L_p}\\right] \\leq M_p',
       videoUrl: null,
       traps: ['Assuming the same section always gives the same capacity — bracing conditions can reduce flexural strength significantly', 'Confusing $L_b = L_p$ (full capacity) with $L_b > L_p$ (LTB reduction)'],
-      diagram: null,
+      diagram: { component: 'LTBCurve', props: { Mp: 600, Mr: 360, Lp: 10, Lr: 30, Lb: 10, Lb2: 20, unit: 'ft' } },
     },
   ],
 };

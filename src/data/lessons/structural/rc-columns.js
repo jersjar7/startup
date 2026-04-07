@@ -46,7 +46,7 @@ export default {
         'Forgetting the 0.80 accidental eccentricity factor \u2014 this is unique to columns and does not apply to beams',
         'Using \u03C6 = 0.90 (beam value) instead of \u03C6 = 0.65 (tied column under compression control)',
       ],
-      diagram: null,
+      diagram: { component: 'RCColumnSection', props: { w: 16, h: 16, numBars: 8, shape: 'square', unit: 'in.' } },
     },
     {
       id: 'str-rcc-q2',
@@ -74,7 +74,7 @@ export default {
         'Rounding 0.975% up to 1% and calling it adequate \u2014 ACI requires strictly \u2265 1%',
         'Confusing bar area with bar diameter \u2014 #8 has diameter 1.000 in. but area 0.79 in\u00B2',
       ],
-      diagram: null,
+      diagram: { component: 'RCColumnSection', props: { w: 18, h: 18, numBars: 4, shape: 'square', unit: 'in.' } },
     },
     {
       id: 'str-rcc-q3',
@@ -104,7 +104,7 @@ export default {
         'Using \u03C6 = 0.90 (tension-controlled) instead of \u03C6 = 0.65 (compression-controlled tied column)',
         'Omitting the 0.80 factor that accounts for accidental eccentricity',
       ],
-      diagram: null,
+      diagram: { component: 'RCColumnSection', props: { w: 14, h: 20, numBars: 6, shape: 'rectangular', unit: 'in.' } },
     },
   ],
   examProblems: [
@@ -131,7 +131,7 @@ export default {
       handbookFormula: '\\phi P_n = 0.80\\phi \\left[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y\\right]',
       videoUrl: null,
       traps: ['Forgetting the 0.80 accidental eccentricity factor — it only applies to columns, not beams'],
-      diagram: null,
+      diagram: { component: 'RCColumnSection', props: { w: 14, h: 14, numBars: 4, shape: 'square', unit: 'in.' } },
     },
     {
       id: 'str-rcc-ex2',
@@ -181,7 +181,7 @@ export default {
       handbookFormula: '\\phi P_n = 0.85\\phi \\left[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y\\right]',
       videoUrl: null,
       traps: ['Using 0.80 (tied column factor) instead of 0.85 (spiral column factor)', 'Using $\\phi = 0.65$ (tied) instead of $\\phi = 0.75$ (spiral)'],
-      diagram: null,
+      diagram: { component: 'RCColumnSection', props: { diameter: 20, numBars: 6, shape: 'circular', unit: 'in.' } },
     },
     {
       id: 'str-rcc-ex4',

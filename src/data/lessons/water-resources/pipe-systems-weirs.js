@@ -47,7 +47,7 @@ export default {
         'Using the SI coefficient (C = 1.84) instead of the USCS coefficient (C = 3.33)',
         'Confusing H^(3/2) for rectangular with H^(5/2) for V-notch weirs',
       ],
-      diagram: null,
+      diagram: { component: 'RectangularWeir', props: { L: 5, H: 1.5, unit: 'ft', contracted: false } },
     },
     {
       id: 'wr-psw-q2',
@@ -74,7 +74,7 @@ export default {
         'Using H^(3/2) \u2014 that\'s for rectangular weirs. V-notch uses H^(5/2)',
         'Using the rectangular weir coefficient (C = 3.33) instead of the V-notch coefficient (C = 2.54)',
       ],
-      diagram: null,
+      diagram: { component: 'VNotchWeir', props: { H: 2.0, angle: 90, unit: 'ft' } },
     },
     {
       id: 'wr-psw-q3',
@@ -154,7 +154,7 @@ export default {
       handbookFormula: 'Q = C(L - 0.2H)H^{3/2}',
       videoUrl: null,
       traps: ['Using the suppressed weir formula (no contraction correction) when the problem says contracted', 'Using H^(5/2) \u2014 that exponent is for V-notch weirs, not rectangular'],
-      diagram: null,
+      diagram: { component: 'RectangularWeir', props: { L: 4, H: 1.2, unit: 'ft', contracted: true } },
     },
     {
       id: 'wr-psw-ex3',

@@ -71,7 +71,7 @@ export default {
         'Adding only 1/16\" (clearance) instead of 1/8\" (clearance + damage)',
         'Forgetting to deduct holes at all and using the gross area',
       ],
-      diagram: null,
+      diagram: { component: 'TensionPlateNet', props: { width: 10, thickness: 0.5, numBolts: 2, boltDia: 0.875, unit: 'in.' } },
     },
     {
       id: 'str-st-q3',
@@ -101,7 +101,7 @@ export default {
         'Using the same $\\phi$ factor for both limit states — yielding uses 0.90, rupture uses 0.75',
         'Forgetting to deduct bolt holes for the rupture check or deducting holes for the yielding check (yielding uses $A_g$)',
       ],
-      diagram: null,
+      diagram: { component: 'TensionPlateNet', props: { width: 8, thickness: 0.5, numBolts: 2, boltDia: 0.75, unit: 'in.' } },
     },
   ],
   examProblems: [
@@ -128,7 +128,7 @@ export default {
       handbookFormula: 'A_n = \\left[b_g - \\Sigma\\left(d_b + \\frac{1}{8}\\text{\\textquotedbl}\\right)\\right] t',
       videoUrl: null,
       traps: ['Forgetting the 1/8\" addition for clearance and damage — the hole is larger than the bolt'],
-      diagram: null,
+      diagram: { component: 'TensionPlateNet', props: { width: 8, thickness: 0.375, numBolts: 2, boltDia: 0.75, unit: 'in.' } },
     },
     {
       id: 'str-st-ex2',
@@ -180,7 +180,7 @@ export default {
       handbookFormula: '\\text{Yielding: } \\phi_y P_n = 0.90 F_y A_g; \\quad \\text{Rupture: } \\phi_t P_n = 0.75 F_u A_e',
       videoUrl: null,
       traps: ['Picking the larger capacity instead of the smaller — the weaker limit state controls', 'Forgetting to add 1/8\" to each bolt diameter for hole size'],
-      diagram: null,
+      diagram: { component: 'TensionPlateNet', props: { width: 10, thickness: 0.625, numBolts: 3, boltDia: 0.875, unit: 'in.' } },
     },
     {
       id: 'str-st-ex4',

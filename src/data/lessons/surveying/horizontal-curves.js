@@ -71,7 +71,7 @@ export default {
         'Using the full intersection angle I instead of I/2',
         'Using sine instead of tangent',
       ],
-      diagram: null,
+      diagram: { component: 'HorizontalCurve', props: { R: 1000, I: 40 } },
     },
     {
       id: 'surv-hc-q3',
@@ -98,7 +98,7 @@ export default {
         'Confusing curve length L with tangent distance T',
         'Adding the tangent distance instead of the curve length to get PT station',
       ],
-      diagram: null,
+      diagram: { component: 'HorizontalCurve', props: { R: 800, I: 50 } },
     },
   ],
   examProblems: [
@@ -124,7 +124,7 @@ export default {
       handbookFormula: 'L = \\frac{\\pi R I}{180}',
       videoUrl: null,
       traps: ['Using I/2 instead of the full intersection angle I in the curve length formula'],
-      diagram: null,
+      diagram: { component: 'HorizontalCurve', props: { R: 1200, I: 30 } },
     },
     {
       id: 'surv-hc-ex2',
@@ -148,7 +148,7 @@ export default {
       handbookFormula: 'M = R\\left(1 - \\cos\\frac{I}{2}\\right)',
       videoUrl: null,
       traps: ['Using the full angle I instead of I/2 in the cosine', 'Confusing middle ordinate M with external distance E'],
-      diagram: null,
+      diagram: { component: 'HorizontalCurve', props: { R: 600, I: 90 } },
     },
     {
       id: 'surv-hc-ex3',
@@ -173,7 +173,7 @@ export default {
       handbookFormula: 'T = R\\tan\\frac{I}{2}; \\quad R = \\frac{5{,}729.58}{D}',
       videoUrl: null,
       traps: ['Adding T to the PI station instead of subtracting it to find the PC', 'Using the full angle I in the tangent formula instead of I/2'],
-      diagram: null,
+      diagram: { component: 'HorizontalCurve', props: { R: 1146, I: 30 } },
     },
     {
       id: 'surv-hc-ex4',
@@ -198,7 +198,7 @@ export default {
       handbookFormula: 'L = \\frac{\\pi R I}{180}; \\quad T = R\\tan\\frac{I}{2}',
       videoUrl: null,
       traps: ['Computing PT as PI + T instead of PC + L -- T and L are different distances', 'Confusing the PI with the PC or PT'],
-      diagram: null,
+      diagram: { component: 'HorizontalCurve', props: { R: 1000, I: 40 } },
     },
   ],
 };

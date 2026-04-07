@@ -52,6 +52,26 @@ import { CompositeBar } from './CompositeBar';
 import { UtubeManometer } from './UtubeManometer';
 import { SubmergedGate } from './SubmergedGate';
 import { PipeBend } from './PipeBend';
+import { SlopeDistance } from './SlopeDistance';
+import { LevelingSetup } from './LevelingSetup';
+import { HorizontalCurve } from './HorizontalCurve';
+import { VerticalCurveProfile } from './VerticalCurveProfile';
+import { BaselineOffsets } from './BaselineOffsets';
+import { CoordinatePolygon } from './CoordinatePolygon';
+import { RectangularChannel } from './RectangularChannel';
+import { TrapezoidalChannel } from './TrapezoidalChannel';
+import { HydraulicJump } from './HydraulicJump';
+import { RectangularWeir } from './RectangularWeir';
+import { VNotchWeir } from './VNotchWeir';
+import { UnconfinedWell } from './UnconfinedWell';
+import { ConfinedWell } from './ConfinedWell';
+import { InfluenceLineSS } from './InfluenceLineSS';
+import { RCBeamSection } from './RCBeamSection';
+import { RCColumnSection } from './RCColumnSection';
+import { TensionPlateNet } from './TensionPlateNet';
+import { LTBCurve } from './LTBCurve';
+import { TrussSchematic } from './TrussSchematic';
+import { FrameSchematic } from './FrameSchematic';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -108,4 +128,24 @@ export const DIAGRAM_REGISTRY = {
   UtubeManometer,
   SubmergedGate,
   PipeBend,
+  SlopeDistance,
+  LevelingSetup,
+  HorizontalCurve,
+  VerticalCurveProfile,
+  BaselineOffsets,
+  CoordinatePolygon,
+  RectangularChannel,
+  TrapezoidalChannel,
+  HydraulicJump,
+  RectangularWeir,
+  VNotchWeir,
+  UnconfinedWell,
+  ConfinedWell,
+  InfluenceLineSS,
+  RCBeamSection,
+  RCColumnSection,
+  TensionPlateNet,
+  LTBCurve,
+  TrussSchematic,
+  FrameSchematic,
 };

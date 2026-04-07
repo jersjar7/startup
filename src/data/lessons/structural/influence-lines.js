@@ -42,7 +42,7 @@ export default {
         'Using a/L (the negative ordinate) instead of 1 \u2013 a/L (the positive ordinate)',
         'Assuming the entire load becomes shear at the section \u2014 the load must be multiplied by the IL ordinate',
       ],
-      diagram: null,
+      diagram: { component: 'InfluenceLineSS', props: { type: 'shear', L: 24, a: 6, unit: 'ft' } },
     },
     {
       id: 'str-il-q2',
@@ -68,7 +68,7 @@ export default {
         'Confusing L/4 (IL ordinate for moment) with L/2 (the location of midspan)',
         'Computing PL/4 instead of P \u00D7 (L/4) \u2014 they are the same thing, but watch the units (the IL ordinate has units of length)',
       ],
-      diagram: null,
+      diagram: { component: 'InfluenceLineSS', props: { type: 'moment', L: 30, a: 15, unit: 'ft' } },
     },
     {
       id: 'str-il-q3',
@@ -97,7 +97,7 @@ export default {
         'Only computing the effect of the larger load and ignoring the smaller one',
         'Forgetting that both load positions are possible (loads can approach from either side)',
       ],
-      diagram: null,
+      diagram: { component: 'InfluenceLineSS', props: { type: 'moment', L: 40, a: 20, unit: 'ft' } },
     },
   ],
   examProblems: [
@@ -122,7 +122,7 @@ export default {
       handbookFormula: '\\eta_{R_A}(x) = \\frac{L - x}{L}',
       videoUrl: null,
       traps: ['Using x/L instead of (L - x)/L — that gives the right reaction, not the left'],
-      diagram: null,
+      diagram: { component: 'InfluenceLineSS', props: { type: 'reaction', L: 20, a: 5, unit: 'ft' } },
     },
     {
       id: 'str-il-ex2',
@@ -150,7 +150,7 @@ export default {
         'Assuming the peak is always L/4 — that is only true at midspan',
         'Confusing the moment IL (triangular, peaks at the section) with the reaction IL (linear, peaks at the support)',
       ],
-      diagram: null,
+      diagram: { component: 'InfluenceLineSS', props: { type: 'moment', L: 20, a: 5, unit: 'ft' } },
     },
     {
       id: 'str-il-ex3',
@@ -178,7 +178,7 @@ export default {
         'Using P times ordinate (for concentrated loads) instead of w times area (for distributed loads)',
         'Computing the area of the triangle incorrectly — remember it is (1/2)(base)(height)',
       ],
-      diagram: null,
+      diagram: { component: 'InfluenceLineSS', props: { type: 'moment', L: 30, a: 15, unit: 'ft' } },
     },
     {
       id: 'str-il-ex4',
@@ -208,7 +208,7 @@ export default {
         'Placing the load at midspan — the IL ordinate at midspan is less than the ordinate just right of the section unless the section is at midspan',
         'Confusing positive and negative shear — the jump in the IL occurs at the section, and the sign changes there',
       ],
-      diagram: null,
+      diagram: { component: 'InfluenceLineSS', props: { type: 'shear', L: 20, a: 5, unit: 'ft' } },
     },
   ],
 };

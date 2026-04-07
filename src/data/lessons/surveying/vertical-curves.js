@@ -45,7 +45,7 @@ export default {
         'Computing the curve elevation at PVI instead of the tangent elevation \u2014 the PVI is on the tangent by definition',
         'Forgetting to convert percent grade to decimal (4% = 0.04)',
       ],
-      diagram: null,
+      diagram: { component: 'VerticalCurveProfile', props: { g1: 4, g2: -2, L: 600, elevPVC: 100 } },
     },
     {
       id: 'surv-vc-q2',
@@ -74,7 +74,7 @@ export default {
         'Forgetting to convert percent grades to decimals before using the formula',
         'Getting the sign of the parabola constant wrong',
       ],
-      diagram: null,
+      diagram: { component: 'VerticalCurveProfile', props: { g1: 4, g2: -2, L: 600, elevPVC: 100 } },
     },
     {
       id: 'surv-vc-q3',
@@ -101,7 +101,7 @@ export default {
         'Forgetting to convert grades from percent to decimal',
         'Getting the sign wrong in the denominator (g_2 \u2013 g_1, not g_1 \u2013 g_2)',
       ],
-      diagram: null,
+      diagram: { component: 'VerticalCurveProfile', props: { g1: 3, g2: -1, L: 400, elevPVC: 100 } },
     },
   ],
   examProblems: [
@@ -128,7 +128,7 @@ export default {
       handbookFormula: 'Y = Y_{PVC} + g_1 x + \\frac{g_2 - g_1}{2L} x^2',
       videoUrl: null,
       traps: ['Forgetting to convert percent grade to decimal (2% = 0.02, not 2)'],
-      diagram: null,
+      diagram: { component: 'VerticalCurveProfile', props: { g1: 2, g2: -2, L: 400, elevPVC: 150 } },
     },
     {
       id: 'surv-vc-ex2',
@@ -153,7 +153,7 @@ export default {
       handbookFormula: 'x_m = \\frac{-g_1 L}{g_2 - g_1}',
       videoUrl: null,
       traps: ['Assuming the low point is at L/2 -- only true when the absolute values of the grades are equal', 'Getting the sign wrong in the denominator (g_2 - g_1, not g_1 - g_2)'],
-      diagram: null,
+      diagram: { component: 'VerticalCurveProfile', props: { g1: -2, g2: 4, L: 600, elevPVC: 340 } },
     },
     {
       id: 'surv-vc-ex3',
