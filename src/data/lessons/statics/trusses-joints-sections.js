@@ -162,7 +162,7 @@ export default {
         },
         {
           text: '$A_y = 8$ kN upward at A(0,0), which is 3 m left of E. This creates a CW moment about E:',
-          latex: 'M_{A_y} = 8 \\times 3 = 24 \\text{ kN\\cdot m (CW)}',
+          latex: 'M_{A_y} = 8 \\times 3 = 24 \\text{ kN}{\\cdot}\\text{m (CW)}',
         },
         {
           text: '$F_{BC}$ acts horizontally at height $y = 0$, which is 4 m below E. It creates a CCW moment:',

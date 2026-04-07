@@ -111,7 +111,7 @@ export default {
         'Reporting the pass rate (95.25%) instead of the fail rate',
         'Confusing the z-score value (1.67) with a probability',
       ],
-      diagram: null,
+      diagram: { component: 'NormalDistCurve', props: { mean: 4500, sd: 300, threshold: 4000 } },
     },
   ],
   examProblems: [

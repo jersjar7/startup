@@ -134,7 +134,7 @@ export default {
       handbookFormula: '\\tau_{max} = R = \\sqrt{\\left(\\frac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2}',
       videoUrl: null,
       traps: ['Reporting the center $C = 30$ MPa instead of the radius $R = 70$ MPa', 'Forgetting to divide by 2 when computing $R$ from $\\sigma_x - \\sigma_y$'],
-      diagram: null,
+      diagram: { component: 'StressElement', props: { sigmaX: 100, sigmaY: -40, tauXY: 0 } },
     },
     {
       id: 'mom-csm-ex2',
@@ -159,7 +159,7 @@ export default {
       handbookFormula: '\\sigma_{1,2} = \\frac{\\sigma_x + \\sigma_y}{2} \\pm \\sqrt{\\left(\\frac{\\sigma_x - \\sigma_y}{2}\\right)^2 + \\tau_{xy}^2}',
       videoUrl: null,
       traps: ['Reporting the center $C$ instead of $C + R$ for $\\sigma_1$', 'Adding $\\sigma_x + \\tau_{xy}$ directly -- stresses do not combine that way'],
-      diagram: null,
+      diagram: { component: 'StressElement', props: { sigmaX: 50, sigmaY: -30, tauXY: 30 } },
     },
     {
       id: 'mom-csm-ex3',

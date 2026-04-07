@@ -121,7 +121,7 @@ export default {
         },
         {
           text: 'Moment equilibrium about the support:',
-          latex: 'M = W \\times \\bar{x} = 12 \\times 2 = 24 \\text{ kN\\cdot m}',
+          latex: 'M = W \\times \\bar{x} = 12 \\times 2 = 24 \\text{ kN}{\\cdot}\\text{m}',
         },
         {
           text: 'Answer B (48 kN\\cdot m) uses the full length 4 m as the moment arm: $12 \\times 4 = 48$. The resultant acts at the centroid (2 m), not at the tip.',
@@ -298,7 +298,7 @@ export default {
         },
         {
           text: 'Fixed-end moment (moment equilibrium about the support):',
-          latex: 'M = W \\times \\bar{x} = 20 \\times \\frac{10}{3} = 66.7 \\text{ kN\\cdot m}',
+          latex: 'M = W \\times \\bar{x} = 20 \\times \\frac{10}{3} = 66.7 \\text{ kN}{\\cdot}\\text{m}',
         },
         {
           text: 'Answer B (40 kN-m) uses the midpoint (2.5 m) as the centroid: $20 \\times 2 = 40$. Triangular load centroids are at the one-third point, not the midpoint.',

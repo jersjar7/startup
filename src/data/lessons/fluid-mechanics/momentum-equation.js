@@ -74,7 +74,7 @@ export default {
         'Reporting F_x or F_y instead of the resultant \u2014 for a 90\u00B0 bend you must combine them vectorially',
         'Getting signs wrong in the momentum equation',
       ],
-      diagram: null,
+      diagram: { component: 'PipeBend', props: { angle: 90, diameter: 0.3, velocity: 4, pressure: 200 } },
     },
     {
       id: 'fm-me-q3',
@@ -157,7 +157,7 @@ export default {
       handbookFormula: 'P_1 A_1 - P_2 A_2 \\cos\\alpha - F_x = Q\\rho(v_2 \\cos\\alpha - v_1)',
       videoUrl: null,
       traps: ['Forgetting the pressure forces -- they are usually much larger than the momentum forces', 'Using the bend angle incorrectly in the cosine and sine terms'],
-      diagram: null,
+      diagram: { component: 'PipeBend', props: { angle: 45, diameter: 0.2, velocity: 3, pressure: 150 } },
     },
     {
       id: 'flu-me-ex3',

@@ -95,7 +95,7 @@ export default {
       hint: 'Impulse equals change in momentum. What\'s the change in momentum, and over what time interval?',
       steps: [
         { text: 'Impulse-momentum theorem:', latex: 'F_{avg} \\cdot \\Delta t = m(v_2 - v_1)' },
-        { text: 'Change in momentum:', latex: '|\\Delta p| = 1{,}500 \\times 20 = 30{,}000 \\text{ kg\\cdot m/s}' },
+        { text: 'Change in momentum:', latex: '|\\Delta p| = 1{,}500 \\times 20 = 30{,}000 \\text{ kg}{\\cdot}\\text{m/s}' },
         { text: 'Average force:', latex: 'F_{avg} = \\frac{30{,}000}{0.15} = 200{,}000 \\text{ N}' },
       ],
       handbookPage: 'p. 107',
@@ -125,7 +125,7 @@ export default {
       eli5: 'This is a direct application of the impulse-momentum theorem. The impulse (force times time) equals the change in momentum. Compute the impulse: $40 \\times 0.5 = 20$ N·s. Then set that equal to $m(v_2 - v_1)$ and solve for $v_2$. Choice D (20) comes from dividing impulse by time again instead of by mass. Choice B (4.0) comes from dividing impulse by mass but forgetting to add the initial velocity.',
       hint: 'Impulse = $F \\Delta t$. Set that equal to the change in momentum and solve for the final velocity.',
       steps: [
-        { text: 'Compute the impulse:', latex: 'J = F \\Delta t = 40 \\times 0.5 = 20 \\text{ N\\cdot s}' },
+        { text: 'Compute the impulse:', latex: 'J = F \\Delta t = 40 \\times 0.5 = 20 \\text{ N}{\\cdot}\\text{s}' },
         { text: 'Apply impulse-momentum theorem:', latex: 'J = m(v_2 - v_1)' },
         { text: 'Solve for final velocity:', latex: 'v_2 = v_1 + \\frac{J}{m} = 6 + \\frac{20}{5} = 6 + 4 = 10.0 \\text{ m/s}' },
       ],
@@ -166,7 +166,7 @@ export default {
         'Using the wrong sign for the second ball\'s initial velocity',
         'Flipping the numerator and denominator in the restitution formula',
       ],
-      diagram: null,
+      diagram: { component: 'CollisionDiagram', props: { massA: 3, massB: 5, velA: 10, velB: -4 } },
     },
     {
       id: 'dyn-iam-ex3',
@@ -194,7 +194,7 @@ export default {
         'Flipping the restitution fraction (denominator over numerator) giving 0.33',
         'Subtracting velocities in the wrong order in either numerator or denominator',
       ],
-      diagram: null,
+      diagram: { component: 'CollisionDiagram', props: { massA: 4000, massB: 1000, velA: 12, velB: 3, labelA: 'Truck', labelB: 'Car' } },
     },
     {
       id: 'dyn-iam-ex4',

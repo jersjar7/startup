@@ -99,7 +99,7 @@ export default {
         'Forgetting to convert mm to m \u2014 off by a factor of 1,000',
         'Getting the manometer direction wrong \u2014 the higher mercury column is on the higher-pressure side',
       ],
-      diagram: null,
+      diagram: { component: 'UtubeManometer', props: { h: 250, unit: 'mm' } },
     },
   ],
   examProblems: [
@@ -176,7 +176,7 @@ export default {
       handbookFormula: 'P_0 = P_2 + \\gamma_2 h_2 - \\gamma_1 h_1',
       videoUrl: null,
       traps: ['Forgetting the water column above the mercury on the tank side', 'Using $\\gamma_w$ instead of $\\gamma_{Hg}$ for the mercury column'],
-      diagram: null,
+      diagram: { component: 'UtubeManometer', props: { h1: 150, h2: 450, unit: 'mm' } },
     },
     {
       id: 'flu-hp-ex4',

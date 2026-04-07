@@ -104,7 +104,7 @@ export default {
         'Using \u0394T = 25\u00B0C (averaging instead of differencing temperatures) \u2014 gives half the answer (choice A)',
         'Thinking you need the bar\'s cross-sectional area \u2014 it cancels out in \u03C3 = E\u03B1\u0394T',
       ],
-      diagram: null,
+      diagram: { component: 'ThermalBar', props: { length: 1.0, lengthUnit: 'm' } },
     },
   ],
   examProblems: [
@@ -181,7 +181,7 @@ export default {
       handbookFormula: '\\delta_{total} = \\sum \\frac{P_i L_i}{A_i E_i}',
       videoUrl: null,
       traps: ['Only computing one segment and forgetting the other', 'Using the same $E$ for both materials'],
-      diagram: null,
+      diagram: { component: 'CompositeBar', props: { label1: 'Steel', length1: 600, label2: 'Aluminum', length2: 900, lengthUnit: 'mm', force: 50, forceUnit: 'kN' } },
     },
     {
       id: 'mom-asd-ex4',
@@ -207,7 +207,7 @@ export default {
       handbookFormula: '\\delta_t = \\alpha L (T - T_0)',
       videoUrl: null,
       traps: ['Ignoring the gap and computing full thermal stress $E\\alpha\\Delta T = 80.5$ MPa', 'Assuming zero stress because there is a gap, without checking if expansion exceeds the gap'],
-      diagram: null,
+      diagram: { component: 'ThermalBar', props: { length: 800, lengthUnit: 'mm', gap: 0.2, gapUnit: 'mm' } },
     },
   ],
 };

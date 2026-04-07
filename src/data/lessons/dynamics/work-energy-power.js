@@ -209,7 +209,7 @@ export default {
       handbookFormula: 'V_e = \\frac{1}{2}ks^2',
       videoUrl: null,
       traps: ['Forgetting to take the square root when solving for x', 'Using the wrong energy equation — this is elastic PE, not gravitational PE'],
-      diagram: null,
+      diagram: { component: 'BlockSpringCompress', props: { mass: 4, velocity: 6, stiffness: 800 } },
     },
   ],
 };

@@ -28,7 +28,7 @@ export default {
   problems: [
     {
       id: 'mm-bss-q1',
-      statement: 'A rectangular timber beam has a width of $100 \\text{ mm}$ and a height of $200 \\text{ mm}$. It carries a maximum bending moment of $M = 8 \\text{ kN\\cdot m}$. What is the maximum bending stress?',
+      statement: 'A rectangular timber beam has a width of $100 \\text{ mm}$ and a height of $200 \\text{ mm}$. It carries a maximum bending moment of $M = 8 \\text{ kN}{\\cdot}\\text{m}$. What is the maximum bending stress?',
       choices: [
         { id: 'c1', text: '$6.0 \\text{ MPa}$' },
         { id: 'c2', text: '$12.0 \\text{ MPa}$' },
@@ -115,7 +115,7 @@ export default {
     {
       id: 'mom-bss-ex1',
       type: 'computational',
-      statement: 'A rectangular timber beam ($b = 150\\text{ mm}$, $h = 300\\text{ mm}$) carries a maximum bending moment of $M = 18\\text{ kN\\cdot m}$. What is the maximum bending stress?',
+      statement: 'A rectangular timber beam ($b = 150\\text{ mm}$, $h = 300\\text{ mm}$) carries a maximum bending moment of $M = 18\\text{ kN}{\\cdot}\\text{m}$. What is the maximum bending stress?',
       choices: [
         { id: 'c1', text: '4.0 MPa' },
         { id: 'c2', text: '8.0 MPa' },
@@ -164,7 +164,7 @@ export default {
     {
       id: 'mom-bss-ex3',
       type: 'computational',
-      statement: 'A steel W-shape beam has a section modulus of $S = 1{,}200 \\times 10^3\\text{ mm}^3$ and a cross-sectional area of $A = 8{,}500\\text{ mm}^2$. It carries a uniform distributed load that produces a maximum moment of $M = 300\\text{ kN\\cdot m}$. What is the maximum bending stress?',
+      statement: 'A steel W-shape beam has a section modulus of $S = 1{,}200 \\times 10^3\\text{ mm}^3$ and a cross-sectional area of $A = 8{,}500\\text{ mm}^2$. It carries a uniform distributed load that produces a maximum moment of $M = 300\\text{ kN}{\\cdot}\\text{m}$. What is the maximum bending stress?',
       choices: [
         { id: 'c1', text: '35.3 MPa' },
         { id: 'c2', text: '250 MPa' },

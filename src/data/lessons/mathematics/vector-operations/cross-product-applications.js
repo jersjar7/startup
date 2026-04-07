@@ -74,7 +74,7 @@ export default {
         "Forgetting the negative sign on the j cofactor — the pattern is +, −, + across the three components",
         "Reversing r and F — moment is r × F, not F × r"
       ],
-      "diagram": null
+      "diagram": { "component": "MomentVector3D", "props": { "rx": 3, "ry": 4, "fz": -50 } }
     },
     {
       "id": "math-cpa-q3",
@@ -102,7 +102,7 @@ export default {
         "Forgetting to divide by 2 — the cross product magnitude gives the parallelogram area, not the triangle area",
         "Using the dot product instead of the cross product — the dot product gives a scalar related to $\\cos\\theta$, not an area"
       ],
-      "diagram": null
+      "diagram": { "component": "TrianglePlotVectors", "props": { "ux": 4, "uy": 0, "vx": 2, "vy": 3 } }
     }
   ],
   "examProblems": [

@@ -25,7 +25,7 @@ export default {
   problems: [
     {
       id: 'mm-tor-q1',
-      statement: 'A solid circular shaft has a diameter of $50 \\text{ mm}$ and is subjected to a torque of $T = 500 \\text{ N\\cdot m}$. What is the maximum shear stress in the shaft?',
+      statement: 'A solid circular shaft has a diameter of $50 \\text{ mm}$ and is subjected to a torque of $T = 500 \\text{ N}{\\cdot}\\text{m}$. What is the maximum shear stress in the shaft?',
       choices: [
         { id: 'c1', text: '$10.2 \\text{ MPa}$' },
         { id: 'c2', text: '$20.4 \\text{ MPa}$' },
@@ -52,7 +52,7 @@ export default {
     },
     {
       id: 'mm-tor-q2',
-      statement: 'A solid steel shaft ($G = 80 \\text{ GPa}$) is $1.5 \\text{ m}$ long with a diameter of $40 \\text{ mm}$. It transmits a torque of $300 \\text{ N\\cdot m}$. What is the angle of twist?',
+      statement: 'A solid steel shaft ($G = 80 \\text{ GPa}$) is $1.5 \\text{ m}$ long with a diameter of $40 \\text{ mm}$. It transmits a torque of $300 \\text{ N}{\\cdot}\\text{m}$. What is the angle of twist?',
       choices: [
         { id: 'c1', text: '$0.0224 \\text{ rad}$' },
         { id: 'c2', text: '$0.0448 \\text{ rad}$' },
@@ -82,10 +82,10 @@ export default {
       id: 'mm-tor-q3',
       statement: 'A hollow circular steel shaft has an outer diameter of $80 \\text{ mm}$ and an inner diameter of $60 \\text{ mm}$. If the allowable shear stress is $\\tau_{allow} = 60 \\text{ MPa}$, what is the maximum torque the shaft can transmit?',
       choices: [
-        { id: 'c1', text: '$2.06 \\text{ kN\\cdot m}$' },
-        { id: 'c2', text: '$4.12 \\text{ kN\\cdot m}$' },
-        { id: 'c3', text: '$5.50 \\text{ kN\\cdot m}$' },
-        { id: 'c4', text: '$8.25 \\text{ kN\\cdot m}$' },
+        { id: 'c1', text: '$2.06 \\text{ kN}{\\cdot}\\text{m}$' },
+        { id: 'c2', text: '$4.12 \\text{ kN}{\\cdot}\\text{m}$' },
+        { id: 'c3', text: '$5.50 \\text{ kN}{\\cdot}\\text{m}$' },
+        { id: 'c4', text: '$8.25 \\text{ kN}{\\cdot}\\text{m}$' },
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
@@ -94,7 +94,7 @@ export default {
       steps: [
         { text: 'Polar moment of inertia (hollow):', latex: 'J = \\frac{\\pi(d_o^4 - d_i^4)}{32} = \\frac{\\pi(80^4 - 60^4)}{32} = 2{,}749{,}000 \\text{ mm}^4' },
         { text: 'Outer radius: $c = 40$ mm', latex: null },
-        { text: 'Rearrange \u03C4 = Tc/J for T:', latex: 'T = \\frac{\\tau_{allow} \\cdot J}{c} = \\frac{60 \\times 2{,}749{,}000}{40} = 4{,}124{,}000 \\text{ N\\cdot mm} = 4.12 \\text{ kN\\cdot m}' },
+        { text: 'Rearrange \u03C4 = Tc/J for T:', latex: 'T = \\frac{\\tau_{allow} \\cdot J}{c} = \\frac{60 \\times 2{,}749{,}000}{40} = 4{,}124{,}000 \\text{ N}{\\cdot}\\text{mm} = 4.12 \\text{ kN}{\\cdot}\\text{m}' },
       ],
       handbookPage: 'p. 133',
       handbookFormula: '\\tau = \\frac{Tc}{J}',
@@ -111,7 +111,7 @@ export default {
     {
       id: 'mom-tor-ex1',
       type: 'computational',
-      statement: 'A solid circular steel shaft has a diameter of $40\\text{ mm}$ and is subjected to a torque of $T = 400\\text{ N\\cdot m}$. What is the maximum shear stress in the shaft?',
+      statement: 'A solid circular steel shaft has a diameter of $40\\text{ mm}$ and is subjected to a torque of $T = 400\\text{ N}{\\cdot}\\text{m}$. What is the maximum shear stress in the shaft?',
       choices: [
         { id: 'c1', text: '15.9 MPa' },
         { id: 'c2', text: '31.8 MPa' },
@@ -125,7 +125,7 @@ export default {
       steps: [
         { text: 'Polar moment of inertia:', latex: 'J = \\frac{\\pi d^4}{32} = \\frac{\\pi (40)^4}{32} = 251{,}327 \\text{ mm}^4' },
         { text: 'Outer radius: $c = d/2 = 20$ mm', latex: null },
-        { text: 'Convert torque: $T = 400 \\text{ N\\cdot m} = 400{,}000 \\text{ N\\cdot mm}$', latex: null },
+        { text: 'Convert torque: $T = 400 \\text{ N}{\\cdot}\\text{m} = 400{,}000 \\text{ N}{\\cdot}\\text{mm}$', latex: null },
         { text: 'Max shear stress:', latex: '\\tau = \\frac{Tc}{J} = \\frac{400{,}000 \\times 20}{251{,}327} = 31.8 \\text{ MPa}' },
       ],
       handbookPage: 'p. 133',
@@ -150,7 +150,7 @@ export default {
       hint: 'Convert rpm to rad/s first using $\\omega = \\text{rpm} \\times 2\\pi/60$, then use $T = P/\\omega$.',
       steps: [
         { text: 'Convert rotational speed to rad/s:', latex: '\\omega = 300 \\times \\frac{2\\pi}{60} = 31.42 \\text{ rad/s}' },
-        { text: 'Solve for torque:', latex: 'T = \\frac{P}{\\omega} = \\frac{15{,}000}{31.42} = 477 \\text{ N\\cdot m}' },
+        { text: 'Solve for torque:', latex: 'T = \\frac{P}{\\omega} = \\frac{15{,}000}{31.42} = 477 \\text{ N}{\\cdot}\\text{m}' },
       ],
       handbookPage: 'p. 133',
       handbookFormula: 'T = \\frac{P}{\\omega}',
@@ -161,7 +161,7 @@ export default {
     {
       id: 'mom-tor-ex3',
       type: 'computational',
-      statement: 'A hollow steel shaft ($G = 80\\text{ GPa}$) has an outer diameter of $100\\text{ mm}$, an inner diameter of $70\\text{ mm}$, and a length of $2\\text{ m}$. It is subjected to a torque of $T = 5\\text{ kN\\cdot m}$. What is the angle of twist?',
+      statement: 'A hollow steel shaft ($G = 80\\text{ GPa}$) has an outer diameter of $100\\text{ mm}$, an inner diameter of $70\\text{ mm}$, and a length of $2\\text{ m}$. It is subjected to a torque of $T = 5\\text{ kN}{\\cdot}\\text{m}$. What is the angle of twist?',
       choices: [
         { id: 'c1', text: '$0.0168 \\text{ rad}$' },
         { id: 'c2', text: '$0.0105 \\text{ rad}$' },

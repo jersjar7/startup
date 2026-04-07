@@ -82,7 +82,7 @@ export default {
     },
     {
       id: 'dyn-vib-q3',
-      statement: 'A disk with mass moment of inertia $I = 0.5 \\text{ kg\\cdot m}^2$ is attached to a shaft with torsional stiffness $k_t = 500 \\text{ N\\cdot m/rad}$. What is the natural frequency of torsional vibration?',
+      statement: 'A disk with mass moment of inertia $I = 0.5 \\text{ kg}{\\cdot}\\text{m}^2$ is attached to a shaft with torsional stiffness $k_t = 500 \\text{ N}{\\cdot}\\text{m/rad}$. What is the natural frequency of torsional vibration?',
       choices: [
         { id: 'c1', text: '$1.00 \\text{ Hz}$' },
         { id: 'c2', text: '$5.03 \\text{ Hz}$' },
@@ -168,7 +168,7 @@ export default {
     {
       id: 'dyn-vnf-ex3',
       type: 'computational',
-      statement: 'A spring-mass system has a natural frequency of $5 \\text{ Hz}$ and a damping coefficient $c = 40 \\text{ N\\cdot s/m}$. The mass is $2 \\text{ kg}$. What is the damping ratio $\\zeta$?',
+      statement: 'A spring-mass system has a natural frequency of $5 \\text{ Hz}$ and a damping coefficient $c = 40 \\text{ N}{\\cdot}\\text{s/m}$. The mass is $2 \\text{ kg}$. What is the damping ratio $\\zeta$?',
       choices: [
         { id: 'c1', text: '$0.32$' },
         { id: 'c2', text: '$0.64$' },
@@ -182,7 +182,7 @@ export default {
       steps: [
         { text: 'Convert frequency to rad/s:', latex: '\\omega_n = 2\\pi f_n = 2\\pi(5) = 31.42 \\text{ rad/s}' },
         { text: 'Find spring stiffness:', latex: 'k = m\\omega_n^2 = 2(31.42)^2 = 1{,}975 \\text{ N/m}' },
-        { text: 'Critical damping coefficient:', latex: 'c_c = 2\\sqrt{km} = 2\\sqrt{1{,}975 \\times 2} = 2(62.85) = 125.7 \\text{ N\\cdot s/m}' },
+        { text: 'Critical damping coefficient:', latex: 'c_c = 2\\sqrt{km} = 2\\sqrt{1{,}975 \\times 2} = 2(62.85) = 125.7 \\text{ N}{\\cdot}\\text{s/m}' },
         { text: 'Damping ratio:', latex: '\\zeta = \\frac{c}{c_c} = \\frac{40}{125.7} = 0.318 \\approx 0.32' },
       ],
       handbookPage: 'p. 112',

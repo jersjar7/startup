@@ -177,7 +177,7 @@ export default {
       handbookFormula: '\\delta = \\frac{PL^3}{48EI} + \\frac{5wL^4}{384EI}',
       videoUrl: null,
       traps: ['Only computing one of the two deflections and forgetting the other load', 'Forgetting the 5 in the numerator of the UDL formula $5wL^4/(384EI)$'],
-      diagram: null,
+      diagram: { component: 'SSBeamCombined', props: { span: 4, P: 15, w: 6 } },
     },
     {
       id: 'mom-bd-ex4',

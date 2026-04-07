@@ -210,7 +210,7 @@ export default {
       handbookFormula: 'e_i = y_i - \\hat{y}_i',
       videoUrl: null,
       traps: ['Reversing the direction (thinking negative means the prediction is below the observation)', 'Applying the residual to the $x$-variable instead of the $y$-variable'],
-      diagram: null,
+      diagram: { component: 'RegressionResidual', props: { residual: -1.8 } },
     },
   ],
 };

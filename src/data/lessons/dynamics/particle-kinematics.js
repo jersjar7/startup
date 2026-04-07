@@ -159,7 +159,7 @@ export default {
       handbookFormula: 'x = v_0 \\cos\\theta \\cdot t + x_0',
       videoUrl: null,
       traps: ['Using the full velocity (40 m/s) for horizontal distance instead of the horizontal component', 'Forgetting to double the half-flight time when computing total range'],
-      diagram: null,
+      diagram: { component: 'ProjectileLaunch', props: { v0: 40, angle: 45 } },
     },
     {
       id: 'dyn-pk-ex3',
@@ -208,7 +208,7 @@ export default {
       handbookFormula: 'x = v_0 \\cos\\theta \\cdot t + x_0',
       videoUrl: null,
       traps: ['Trying to combine horizontal and vertical into one equation — they must be solved independently', 'Forgetting that the initial vertical velocity is zero for a horizontal throw'],
-      diagram: null,
+      diagram: { component: 'HorizontalThrow', props: { height: 45, velocity: 12 } },
     },
   ],
 };

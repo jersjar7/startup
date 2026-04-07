@@ -223,7 +223,7 @@ export default {
         'Trying to compare present worth directly when service lives differ \u2014 PW requires the least common multiple (12 years here), which means repeating Pump X twice',
         'Forgetting that annual worth handles unequal lives automatically \u2014 no need to extend the analysis period',
       ],
-      diagram: null,
+      diagram: { component: 'AnnualWorthComparison', props: { costX: 30000, omX: 8000, salvX: 4000, nX: 6, labelX: 'Pump X', costY: 50000, omY: 5000, salvY: 8000, nY: 12, labelY: 'Pump Y', rate: 10 } },
     },
   ],
   examProblems: [

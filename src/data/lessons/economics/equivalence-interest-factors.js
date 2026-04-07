@@ -144,7 +144,7 @@ export default {
         'Dividing 500K by 10 years (ignoring the time value of money entirely)',
         'Using (A/P) instead of (A/F) \u2014 capital recovery vs. sinking fund',
       ],
-      diagram: null,
+      diagram: { component: 'SinkingFundCFD', props: { n: 10, F: 500000, rate: 6 } },
     },
     {
       id: 'econ-eif-q2',
@@ -242,7 +242,7 @@ export default {
         'Forgetting the gradient component and only computing the present worth of the base annuity',
         'Adding up nominal cash flows without discounting (10K + 12K + ... + 28K = 190K ignores the time value of money)',
       ],
-      diagram: null,
+      diagram: { component: 'GradientCashFlow', props: { base: 10000, gradient: 2000, n: 10, rate: 8 } },
     },
   ],
   examProblems: [

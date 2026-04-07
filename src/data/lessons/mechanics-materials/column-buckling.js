@@ -130,7 +130,7 @@ export default {
       handbookFormula: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}',
       videoUrl: null,
       traps: ['Using $K = 1.0$ (pinned-pinned) instead of $K = 0.5$ for fixed-fixed', 'Forgetting to square $KL$ in the denominator'],
-      diagram: null,
+      diagram: { component: 'ColumnSupports', props: { length: 3, topCondition: 'fixed', bottomCondition: 'fixed' } },
     },
     {
       id: 'mom-cb-ex2',
@@ -155,7 +155,7 @@ export default {
       handbookFormula: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}',
       videoUrl: null,
       traps: ['Using $K = 1.0$ instead of $K = 2.0$ for a cantilever column -- overestimates capacity by 4x', 'Forgetting that $K = 2.0$ makes the effective length TWICE the actual length'],
-      diagram: null,
+      diagram: { component: 'ColumnSupports', props: { length: 4, topCondition: 'free', bottomCondition: 'fixed' } },
     },
     {
       id: 'mom-cb-ex3',

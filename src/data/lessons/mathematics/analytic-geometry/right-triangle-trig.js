@@ -142,7 +142,7 @@ export default {
         "Using sin instead of cos for the horizontal component",
         "Dividing by cos instead of multiplying"
       ],
-      "diagram": null
+      "diagram": { "component": "ForceComponents", "props": { "force": 12, "angle": 40, "unit": "kN" } }
     },
     {
       "id": "math-rtt-q3",
@@ -198,7 +198,7 @@ export default {
         "Forgetting to add 30 m to the distance from A",
         "Rounding intermediate values too early"
       ],
-      "diagram": null
+      "diagram": { "component": "TwoPointElevation", "props": { "dist": 30, "angleA": 25, "angleB": 42 } }
     }
   ],
   examProblems: [

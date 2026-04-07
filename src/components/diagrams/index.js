@@ -28,6 +28,30 @@ import { SSBeamCombined } from './SSBeamCombined';
 import { IBeamSection } from './IBeamSection';
 import { StressElement } from './StressElement';
 import { ColumnSupports } from './ColumnSupports';
+import { RoadGrade } from './RoadGrade';
+import { TwoPointElevation } from './TwoPointElevation';
+import { ForceComponents } from './ForceComponents';
+import { BeamInflection } from './BeamInflection';
+import { MomentVector3D } from './MomentVector3D';
+import { TrianglePlotVectors } from './TrianglePlotVectors';
+import { NormalDistCurve } from './NormalDistCurve';
+import { RegressionResidual } from './RegressionResidual';
+import { SkewnessChart } from './SkewnessChart';
+import { HypothesisRegion } from './HypothesisRegion';
+import { SinkingFundCFD } from './SinkingFundCFD';
+import { GradientCashFlow } from './GradientCashFlow';
+import { AnnualWorthComparison } from './AnnualWorthComparison';
+import { CrateCablePull } from './CrateCablePull';
+import { StackedBlocks } from './StackedBlocks';
+import { BlockSpringCompress } from './BlockSpringCompress';
+import { HorizontalThrow } from './HorizontalThrow';
+import { CollisionDiagram } from './CollisionDiagram';
+import { ThermalBar } from './ThermalBar';
+import { SSBeamTwoLoads } from './SSBeamTwoLoads';
+import { CompositeBar } from './CompositeBar';
+import { UtubeManometer } from './UtubeManometer';
+import { SubmergedGate } from './SubmergedGate';
+import { PipeBend } from './PipeBend';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -60,4 +84,28 @@ export const DIAGRAM_REGISTRY = {
   IBeamSection,
   StressElement,
   ColumnSupports,
+  RoadGrade,
+  TwoPointElevation,
+  ForceComponents,
+  BeamInflection,
+  MomentVector3D,
+  TrianglePlotVectors,
+  NormalDistCurve,
+  RegressionResidual,
+  SkewnessChart,
+  HypothesisRegion,
+  SinkingFundCFD,
+  GradientCashFlow,
+  AnnualWorthComparison,
+  CrateCablePull,
+  StackedBlocks,
+  BlockSpringCompress,
+  HorizontalThrow,
+  CollisionDiagram,
+  ThermalBar,
+  SSBeamTwoLoads,
+  CompositeBar,
+  UtubeManometer,
+  SubmergedGate,
+  PipeBend,
 };

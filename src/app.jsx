@@ -28,9 +28,15 @@ const ResetPassword = React.lazy(() => import('./login/ResetPassword').then(m =>
 const VerifyEmail = React.lazy(() => import('./login/VerifyEmail').then(m => ({ default: m.VerifyEmail })));
 const Profile = React.lazy(() => import('./profile/profile').then(m => ({ default: m.Profile })));
 
-// DiagramPreview only available in dev mode
+// Dev tools — only available in dev mode
 const DiagramPreview = import.meta.env.DEV
   ? React.lazy(() => import('./dev/DiagramPreview').then(m => ({ default: m.DiagramPreview })))
+  : null;
+const QuestionAudit = import.meta.env.DEV
+  ? React.lazy(() => import('./dev/QuestionAudit').then(m => ({ default: m.QuestionAudit })))
+  : null;
+const QuestionAuditIndex = import.meta.env.DEV
+  ? React.lazy(() => import('./dev/QuestionAudit').then(m => ({ default: m.QuestionAuditIndex })))
   : null;
 
 export default function App() {
@@ -119,6 +125,8 @@ function AppShell({ userName, emailVerified, onLogin, onLogout }) {
             <Route path="/exam/session" element={<ExamSession userName={userName} />} />
             <Route path="/exam/results/:attemptId" element={<ExamResults userName={userName} />} />
             {DiagramPreview && <Route path="/dev/diagrams" element={<DiagramPreview />} />}
+            {QuestionAuditIndex && <Route path="/dev/audit" element={<QuestionAuditIndex />} />}
+            {QuestionAudit && <Route path="/dev/audit/:chapterId" element={<QuestionAudit />} />}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

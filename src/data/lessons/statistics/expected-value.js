@@ -25,20 +25,20 @@ export default {
   problems: [
     {
       id: 'stat-ev-q1',
-      statement: 'A contractor estimates the following profit outcomes for a bridge rehabilitation project: best case $\\$120{,}000$ (probability $0.25$), expected case $\\$80{,}000$ (probability $0.50$), worst case $\\$20{,}000$ (probability $0.25$). What is the expected profit?',
+      statement: 'A contractor estimates the following profit outcomes for a bridge rehabilitation project: best case 120,000 dollars (probability $0.25$), expected case 80,000 dollars (probability $0.50$), worst case 20,000 dollars (probability $0.25$). What is the expected profit?',
       choices: [
-        { id: 'c1', text: '$\\$75{,}000$' },
-        { id: 'c2', text: '$\\$80{,}000$' },
-        { id: 'c3', text: '$\\$73{,}333$' },
-        { id: 'c4', text: '$\\$220{,}000$' },
+        { id: 'c1', text: '75,000 dollars' },
+        { id: 'c2', text: '80,000 dollars' },
+        { id: 'c3', text: '73,333 dollars' },
+        { id: 'c4', text: '220,000 dollars' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Multiply each outcome by its probability, then add. That\u2019s it. Choice B ($80,000) is the mode \u2014 the most likely single outcome \u2014 but that\u2019s not the expected value. The expected value weights all outcomes by how likely they are. Choice C ($73,333) is what you get if you just average the three profits without using the probabilities (simple mean of 120k, 80k, 20k). Choice D ($220,000) is the sum of all profits without any probability weighting.',
+      eli5: 'Multiply each outcome by its probability, then add. That\u2019s it. Choice B (80,000) is the mode \u2014 the most likely single outcome \u2014 but that\u2019s not the expected value. The expected value weights all outcomes by how likely they are. Choice C (73,333) is what you get if you just average the three profits without using the probabilities (simple mean of 120k, 80k, 20k). Choice D (220,000) is the sum of all profits without any probability weighting.',
       hint: 'Multiply each profit by its probability and add the results.',
       steps: [
         { text: 'Apply $E(X) = \\sum x_k \\cdot P(x_k)$:', latex: 'E(X) = 120{,}000(0.25) + 80{,}000(0.50) + 20{,}000(0.25)' },
-        { text: 'Compute each term:', latex: '30{,}000 + 40{,}000 + 5{,}000 = \\$75{,}000' },
+        { text: 'Compute each term:', latex: '30{,}000 + 40{,}000 + 5{,}000 = 75{,}000 \\text{ dollars}' },
       ],
       handbookPage: 'p. 65',
       handbookFormula: 'E(X) = \\sum_{k=1}^{n} x_k \\cdot P(x_k)',

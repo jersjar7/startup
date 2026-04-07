@@ -79,7 +79,7 @@ export default {
         'Mixing up one-tailed vs. two-tailed \u2014 the claim is "exceeds," so it\u2019s one-tailed right',
         'Thinking fail-to-reject means "the null is true" \u2014 it only means insufficient evidence',
       ],
-      diagram: null,
+      diagram: { component: 'HypothesisRegion', props: { alpha: 0.05, tCrit: 1.753, tStat: 2.4 } },
     },
     {
       id: 'stat-ht-q3',

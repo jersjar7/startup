@@ -44,7 +44,7 @@ export default {
         'Using the bottom depth (3 m) instead of the centroid depth (1.5 m) \u2014 doubles the answer',
         'Forgetting that the centroid of a rectangle is at its center, not at one-third height',
       ],
-      diagram: null,
+      diagram: { component: 'SubmergedGate', props: { width: 2, height: 3, topDepth: 0, unit: 'm' } },
     },
     {
       id: 'fm-hfb-q2',
@@ -71,7 +71,7 @@ export default {
         'Confusing the centroid with the center of pressure \u2014 they\u2019re not the same (choice B)',
         'Using the wrong moment of inertia formula (e.g., bh^3/3 instead of bh^3/12)',
       ],
-      diagram: null,
+      diagram: { component: 'SubmergedGate', props: { width: 2, height: 3, topDepth: 0, unit: 'm' } },
     },
     {
       id: 'fm-hfb-q3',
@@ -151,7 +151,7 @@ export default {
       handbookFormula: 'y_{CP} = y_C + \\frac{I_{xC}}{y_C A}',
       videoUrl: null,
       traps: ['Forgetting to add the 3 m submergence when computing the centroid depth', 'Reporting the centroid instead of the center of pressure'],
-      diagram: null,
+      diagram: { component: 'SubmergedGate', props: { width: 1.5, height: 2, topDepth: 3, unit: 'm' } },
     },
     {
       id: 'flu-hfb-ex3',

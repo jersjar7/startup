@@ -160,7 +160,7 @@ export default {
       handbookFormula: '\\text{Right skew: mean} > \\text{median} > \\text{mode}',
       videoUrl: null,
       traps: ['Confusing left skew with right skew direction'],
-      diagram: null,
+      diagram: { component: 'SkewnessChart', props: { mean: 50, median: 45, mode: 42 } },
     },
     {
       id: 'stat-ctd-ex3',

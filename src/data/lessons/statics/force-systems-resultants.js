@@ -183,7 +183,7 @@ export default {
         },
         {
           text: 'Compute the moment:',
-          latex: 'M = F \\times d = 5{,}000 \\times 7.66 = 38{,}300 \\text{ N\\cdot m (clockwise)}',
+          latex: 'M = F \\times d = 5{,}000 \\times 7.66 = 38{,}300 \\text{ N}{\\cdot}\\text{m (clockwise)}',
         },
         {
           text: 'Answer A (50,000) forgets the angle entirely: $5{,}000 \\times 10 = 50{,}000$. This would only be correct if the boom were perfectly horizontal.',

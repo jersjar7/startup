@@ -101,19 +101,19 @@ export default {
       "choices": [
         {
           "id": "c1",
-          "text": "$h = 6\\,\\text{m}$, $C = 42\\,\\text{\\$/m}$"
+          "text": "$h = 6\\,\\text{m}$, $C = 42\\,\\text{/m}$"
         },
         {
           "id": "c2",
-          "text": "$h = 6\\,\\text{m}$, $C = 150\\,\\text{\\$/m}$"
+          "text": "$h = 6\\,\\text{m}$, $C = 150\\,\\text{/m}$"
         },
         {
           "id": "c3",
-          "text": "$h = 12\\,\\text{m}$, $C = 42\\,\\text{\\$/m}$"
+          "text": "$h = 12\\,\\text{m}$, $C = 42\\,\\text{/m}$"
         },
         {
           "id": "c4",
-          "text": "$h = 3\\,\\text{m}$, $C = 93\\,\\text{\\$/m}$"
+          "text": "$h = 3\\,\\text{m}$, $C = 93\\,\\text{/m}$"
         }
       ],
       "correctAnswerId": "c1",
@@ -197,7 +197,7 @@ export default {
         "Setting y'(x) = 0 instead of y''(x) = 0 (finding critical points instead of inflection points)",
         "Not verifying that y'' actually changes sign at the candidate point"
       ],
-      "diagram": null
+      "diagram": { "component": "BeamInflection", "props": { "length": 12 } }
     }
   ],
   "examProblems": [

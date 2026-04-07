@@ -94,8 +94,8 @@ export default {
       eli5: 'Three steps: find I from the handbook table (\u00BDmR\u00B2 for a disk), find the torque (force \u00D7 radius), then divide torque by I. Choice C comes from using I = mR\u00B2 (forgetting the \u00BD). Choice A comes from dividing the force by mass (F/m = 1.5) and then dividing by R \u2014 mixing up linear and angular equations. Choice D comes from using I = mR instead of mR\u00B2.',
       hint: 'Find the disk\'s mass moment of inertia from the handbook table, compute the torque, then apply \u03A3M = I\u03B1.',
       steps: [
-        { text: 'Mass moment of inertia for a solid disk about its center:', latex: 'I_c = \\frac{1}{2}mR^2 = \\frac{1}{2}(10)(0.3^2) = 0.45 \\text{ kg\\cdot m}^2' },
-        { text: 'Torque from tangential force:', latex: 'M = F \\times R = 15 \\times 0.3 = 4.5 \\text{ N\\cdot m}' },
+        { text: 'Mass moment of inertia for a solid disk about its center:', latex: 'I_c = \\frac{1}{2}mR^2 = \\frac{1}{2}(10)(0.3^2) = 0.45 \\text{ kg}{\\cdot}\\text{m}^2' },
+        { text: 'Torque from tangential force:', latex: 'M = F \\times R = 15 \\times 0.3 = 4.5 \\text{ N}{\\cdot}\\text{m}' },
         { text: 'Apply \u03A3M = I\u03B1:', latex: '\\alpha = \\frac{M}{I} = \\frac{4.5}{0.45} = 10.0 \\text{ rad/s}^2' },
       ],
       handbookPage: 'pp. 109, 114',
@@ -183,7 +183,7 @@ export default {
       handbookFormula: '\\sum F = ma',
       videoUrl: null,
       traps: ['Forgetting that the vertical component of tension reduces the normal force', 'Using mg as the normal force directly — only valid when the pull is perfectly horizontal'],
-      diagram: null,
+      diagram: { component: 'CrateCablePull', props: { mass: 60, tension: 400, angle: 30 } },
     },
     {
       id: 'dyn-fa-ex4',
@@ -209,7 +209,7 @@ export default {
       handbookFormula: '\\sum F = ma',
       videoUrl: null,
       traps: ['Reporting the friction force (15.7 N) instead of the total applied force needed', 'Applying F = ma to only the bottom block mass instead of both blocks together'],
-      diagram: null,
+      diagram: { component: 'StackedBlocks', props: { massTop: 4, massBot: 12 } },
     },
   ],
 };

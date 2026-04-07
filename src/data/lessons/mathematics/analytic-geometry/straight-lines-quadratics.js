@@ -125,7 +125,7 @@ export default {
         "Forgetting to convert station notation to feet",
         "Confusing rise/run with run/rise"
       ],
-      "diagram": null
+      "diagram": { "component": "RoadGrade", "props": { "run": 300, "rise": 6 } }
     },
     {
       "id": "math-slq-q2",
