@@ -74,7 +74,7 @@ export default {
     },
     {
       id: 'const-fl-q3',
-      statement: 'In the network from earlier lessons (A:3, B:4, C:2, D:6, E:3; D pred B, E pred B\\&C), activity C has $ES = 3$, $EF = 5$. The earliest successor start is $ES_E = 7$. What is the free float of C?',
+      statement: 'In the network from earlier lessons (A:3, B:4, C:2, D:6, E:3; D predecessor B, E predecessors B\\&C), activity C has $ES = 3$, $EF = 5$. The earliest successor start is $ES_E = 7$. What is the free float of C?',
       choices: [
         { id: 'c1', text: '$2 \\text{ days}$' },
         { id: 'c2', text: '$5 \\text{ days}$' },
@@ -97,7 +97,7 @@ export default {
         'Confusing free float (2) with total float (5) \u2014 free float only considers the immediate successor',
         'Free float is always \u2264 total float \u2014 if you get a larger free float, recheck',
       ],
-      diagram: null,
+      diagram: { component: 'CpmNetwork', props: { variant: 'fiveActivity', durations: { A: 3, B: 4, C: 2, D: 6, E: 3 } } },
     },
   ],
   examProblems: [

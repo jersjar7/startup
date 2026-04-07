@@ -20,7 +20,7 @@ export default {
   problems: [
     {
       id: 'const-fb-q1',
-      statement: 'Network: A (dur 3, no pred), B (dur 4, pred A), C (dur 2, pred A), D (dur 6, pred B), E (dur 3, pred B and C). What is the early start and early finish of activity E?',
+      statement: 'Network: A (duration 3, no predecessors), B (duration 4, predecessor A), C (duration 2, predecessor A), D (duration 6, predecessor B), E (duration 3, predecessors B and C). What is the early start and early finish of activity E?',
       choices: [
         { id: 'c1', text: '$ES = 7, \\; EF = 10$' },
         { id: 'c2', text: '$ES = 5, \\; EF = 8$' },
@@ -42,11 +42,11 @@ export default {
       traps: [
         'Using MIN instead of MAX for the forward pass \u2014 E can\'t start until BOTH predecessors finish',
       ],
-      diagram: null,
+      diagram: { component: 'CpmNetwork', props: { variant: 'fiveActivity', durations: { A: 3, B: 4, C: 2, D: 6, E: 3 } } },
     },
     {
       id: 'const-fb-q2',
-      statement: 'Using the same network (A:3, B:4, C:2, D:6, E:3; D pred B, E pred B\\&C), the project duration is $13$ days. What is the late start of activity C?',
+      statement: 'Using the same network (A:3, B:4, C:2, D:6, E:3; D predecessor B, E predecessors B\\&C), the project duration is $13$ days. What is the late start of activity C?',
       choices: [
         { id: 'c1', text: 'Day $8$' },
         { id: 'c2', text: 'Day $3$' },
@@ -72,7 +72,7 @@ export default {
         'Confusing ES (forward pass) with LS (backward pass) \u2014 read the question carefully',
         'Reporting LF instead of LS \u2014 don\'t forget to subtract the duration',
       ],
-      diagram: null,
+      diagram: { component: 'CpmNetwork', props: { variant: 'fiveActivity', durations: { A: 3, B: 4, C: 2, D: 6, E: 3 } } },
     },
     {
       id: 'const-fb-q3',
@@ -99,7 +99,7 @@ export default {
         'Using MAX instead of MIN on the backward pass \u2014 B must finish before its tightest successor',
         'Only considering one successor and ignoring the other',
       ],
-      diagram: null,
+      diagram: { component: 'CpmNetwork', props: { variant: 'fiveActivity', durations: { A: 3, B: 4, C: 2, D: 6, E: 3 } } },
     },
   ],
   examProblems: [
@@ -155,7 +155,7 @@ export default {
     {
       id: 'con-fbp-ex3',
       type: 'computational',
-      statement: 'Network: A (dur 4, no pred), B (dur 3, pred A), C (dur 5, pred A), D (dur 2, pred B and C). The project duration is $11$ days. What is the late start of Activity B?',
+      statement: 'Network: A (duration 4, no predecessors), B (duration 3, predecessor A), C (duration 5, predecessor A), D (duration 2, predecessors B and C). The project duration is $11$ days. What is the late start of Activity B?',
       choices: [
         { id: 'c1', text: 'Day $6$' },
         { id: 'c2', text: 'Day $4$' },
@@ -176,7 +176,7 @@ export default {
       handbookFormula: 'LS = LF - D',
       videoUrl: null,
       traps: ['Reporting ES (4) instead of LS (6) — the question asks for the backward pass value', 'Reporting LF (9) instead of LS (6) — do not forget to subtract the duration'],
-      diagram: null,
+      diagram: { component: 'CpmNetwork', props: { variant: 'diamond4', durations: { A: 4, B: 3, C: 5, D: 2 } } },
     },
     {
       id: 'con-fbp-ex4',

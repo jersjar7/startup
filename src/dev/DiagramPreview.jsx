@@ -84,6 +84,7 @@ const DEFAULTS = {
   ConsolidationLayer: { thickness: 20, topPermeable: true, bottomPermeable: false, topLabel: 'Sand', bottomLabel: 'Rock', unit: 'ft' },
   PavementStack: { surface: { a: 0.44, D: 3, label: 'HMA Surface' }, base: { a: 0.14, D: 8, m: 1.0, label: 'Crushed Stone Base' }, subbase: { a: 0.11, D: 10, m: 1.0, label: 'Granular Subbase' } },
   EarthworkSection: { A1: 200, A2: 300, Am: 240, L: 100 },
+  CpmNetwork: { variant: 'fiveActivity', durations: { A: 3, B: 4, C: 2, D: 6, E: 3 } },
 };
 
 /* Lesson mapping for context */
@@ -169,6 +170,7 @@ const LESSON_MAP = {
   ConsolidationLayer: 'Geo L6 Consolidation — Ex2',
   PavementStack: 'Trans L7 Pavement — Q1/Ex1',
   EarthworkSection: 'Trans L8 Earthwork — Q1-Q3/Ex1/Ex3',
+  CpmNetwork: 'Const L3 Fwd/Bwd — Q1-Q3/Ex3, L5 Float Q3, L1 CPM Q3',
 };
 
 export function DiagramPreview() {

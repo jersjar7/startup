@@ -74,7 +74,7 @@ export default {
     },
     {
       id: 'const-cpm-q3',
-      statement: 'A project has 4 activities. A (dur = 4, no predecessors), B (dur = 6, predecessor A), C (dur = 3, predecessor A), D (dur = 2, predecessors B and C). What is the project duration?',
+      statement: 'A project has 4 activities. A (duration = 4, no predecessors), B (duration = 6, predecessor A), C (duration = 3, predecessor A), D (duration = 2, predecessors B and C). What is the project duration?',
       choices: [
         { id: 'c1', text: '$12 \\text{ days}$' },
         { id: 'c2', text: '$9 \\text{ days}$' },
@@ -99,7 +99,7 @@ export default {
         'Using the shorter path (A\u2192C\u2192D = 9) instead of the critical (longest) path',
         'Summing ALL durations (4+6+3+2 = 15) instead of finding the longest path',
       ],
-      diagram: null,
+      diagram: { component: 'CpmNetwork', props: { variant: 'diamond4', durations: { A: 4, B: 6, C: 3, D: 2 } } },
     },
   ],
   examProblems: [

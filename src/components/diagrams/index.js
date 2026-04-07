@@ -79,6 +79,7 @@ import { WallBase } from './WallBase';
 import { ConsolidationLayer } from './ConsolidationLayer';
 import { PavementStack } from './PavementStack';
 import { EarthworkSection } from './EarthworkSection';
+import { CpmNetwork } from './CpmNetwork';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -162,4 +163,5 @@ export const DIAGRAM_REGISTRY = {
   ConsolidationLayer,
   PavementStack,
   EarthworkSection,
+  CpmNetwork,
 };
