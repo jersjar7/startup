@@ -154,18 +154,18 @@ export default {
         },
         {
           "id": "c2",
-          "text": "29.0 m"
+          "text": "33.1 m"
         },
         {
           "id": "c3",
-          "text": "33.1 m"
+          "text": "29.0 m"
         },
         {
           "id": "c4",
           "text": "14.0 m"
         }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c3",
       "difficulty": "hard",
       "eli5": "This is a two-triangle problem. You set up tan equations from both positions — each has the same unknown height h but different distances. Write both equations, substitute one into the other, and solve for h. It looks nasty but it's just algebra after the two tan equations are set up. Don't try to shortcut — set up both equations first, then eliminate d.",
       "hint": "Set up a separate tan equation from each observation point. Both share the same unknown height — eliminate the distance variable.",
@@ -208,11 +208,11 @@ export default {
       statement: 'A ladder leans against a wall at an angle of $65°$ with the ground. If the foot of the ladder is $3.0\\,\\text{m}$ from the wall, how long is the ladder?',
       choices: [
         { id: 'c1', text: '6.4 m' },
-        { id: 'c2', text: '7.1 m' },
+        { id: 'c2', text: '3.3 m' },
         { id: 'c3', text: '2.7 m' },
-        { id: 'c4', text: '3.3 m' },
+        { id: 'c4', text: '7.1 m' },
       ],
-      correctAnswerId: 'c2',
+      correctAnswerId: 'c4',
       difficulty: 'easy',
       eli5: 'You know the adjacent side (3.0 m from the wall) and the angle with the ground ($65°$), and you want the hypotenuse (the ladder). Adjacent over hypotenuse is cosine: $\\cos 65° = 3/L$, so $L = 3/\\cos 65° = 3/0.4226 = 7.1$ m. The trap is using sine instead of cosine, which would give you the wall height, not the ladder length.',
       hint: 'You know the side adjacent to the angle and need the hypotenuse. Which trig ratio connects those?',
@@ -237,7 +237,7 @@ export default {
         { id: 'c3', text: '16.4 m' },
         { id: 'c4', text: '28.6 m' },
       ],
-      correctAnswerId: 'a1',
+      correctAnswerId: 'c1',
       difficulty: 'medium',
       eli5: 'The antenna height (20 m) is opposite the $55°$ angle. The wire is the hypotenuse. Opposite over hypotenuse is sine: $\\sin 55° = 20/W$, so $W = 20/\\sin 55° = 20/0.8192 = 24.4$ m. The classic trap is using tangent, which connects opposite and adjacent, not opposite and hypotenuse.',
       hint: 'You know the opposite side and need the hypotenuse. SOH-CAH-TOA tells you which ratio to use.',
@@ -257,14 +257,14 @@ export default {
       type: 'computational',
       statement: 'A ramp rises $1.5\\,\\text{m}$ over a horizontal distance of $12\\,\\text{m}$. What is the angle of incline of the ramp?',
       choices: [
-        { id: 'c1', text: '$7.1°$' },
+        { id: 'c1', text: '$82.9°$' },
         { id: 'c2', text: '$12.5°$' },
-        { id: 'c3', text: '$82.9°$' },
+        { id: 'c3', text: '$7.1°$' },
         { id: 'c4', text: '$0.125°$' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'You know the opposite (rise = 1.5 m) and the adjacent (run = 12 m). That is tangent. Take the inverse tangent of $1.5/12 = 0.125$ to get $7.1°$. Choice D is the ratio itself without taking the inverse trig function. Choice C is $90°$ minus the correct answer — that would be the angle from the vertical, not the horizontal.',
+      eli5: 'You know the opposite (rise = 1.5 m) and the adjacent (run = 12 m). That is tangent. Take the inverse tangent of $1.5/12 = 0.125$ to get $7.1°$. Choice D is the ratio itself without taking the inverse trig function. Choice A is $90°$ minus the correct answer — that would be the angle from the vertical, not the horizontal.',
       hint: 'You have the rise and the run. Which trig function relates opposite to adjacent?',
       steps: [
         { text: 'Identify: rise (opposite) = 1.5 m, run (adjacent) = 12 m.', latex: null },

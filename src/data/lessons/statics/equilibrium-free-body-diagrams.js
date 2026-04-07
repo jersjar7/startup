@@ -56,14 +56,14 @@ export default {
       statement:
         'A simply supported beam spans 8 m. A single concentrated load of 12 kN acts 3 m from the left support (A). Support A is a pin and support B is a roller. What is the vertical reaction at support B?',
       choices: [
-        { id: 'c1', text: '4.5 kN' },
+        { id: 'c1', text: '6.0 kN' },
         { id: 'c2', text: '7.5 kN' },
-        { id: 'c3', text: '6.0 kN' },
+        { id: 'c3', text: '4.5 kN' },
         { id: 'c4', text: '12.0 kN' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Sum moments about point A to eliminate both reactions at A. The only forces creating moments about A are the 12 kN load at 3 m and the roller reaction at B at 8 m. Set the sum to zero: $12 \\times 3 = B_y \\times 8$, so $B_y = 4.5$ kN. Answer B (7.5 kN) is the reaction at support A, not B \u2014 a classic trap where you solve correctly but report the wrong support. Answer C (6.0 kN) splits the load in half, which would only be right if the load were at midspan. Answer D puts the entire load on one support, ignoring equilibrium entirely.',
+      eli5: 'Sum moments about point A to eliminate both reactions at A. The only forces creating moments about A are the 12 kN load at 3 m and the roller reaction at B at 8 m. Set the sum to zero: $12 \\times 3 = B_y \\times 8$, so $B_y = 4.5$ kN. Answer B (7.5 kN) is the reaction at support A, not B \u2014 a classic trap where you solve correctly but report the wrong support. Answer A (6.0 kN) splits the load in half, which would only be right if the load were at midspan. Answer D puts the entire load on one support, ignoring equilibrium entirely.',
       hint: 'Sum moments about the pin support to eliminate two unknowns at once. Be sure to report the reaction at B, not A.',
       steps: [
         {
@@ -194,14 +194,14 @@ export default {
       statement:
         'A simply supported beam spans 6 m with a pin at A (left) and a roller at B (right). A single 18 kN downward load acts at 2 m from A. What is the vertical reaction at A?',
       choices: [
-        { id: 'c1', text: '12.0 kN' },
+        { id: 'c1', text: '18.0 kN' },
         { id: 'c2', text: '6.0 kN' },
         { id: 'c3', text: '9.0 kN' },
-        { id: 'c4', text: '18.0 kN' },
+        { id: 'c4', text: '12.0 kN' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c4',
       difficulty: 'easy',
-      eli5: 'Sum moments about B to eliminate the reaction at B. The 18 kN load is 4 m from B, and $A_y$ is 6 m from B. So $A_y \\times 6 = 18 \\times 4$, giving $A_y = 12$ kN. Answer B (6 kN) is the reaction at B, not A -- a classic trap of solving correctly but reporting the wrong support. Answer C (9 kN) splits the load evenly, which only works when the load is at midspan. Answer D puts the full load on one support.',
+      eli5: 'Sum moments about B to eliminate the reaction at B. The 18 kN load is 4 m from B, and $A_y$ is 6 m from B. So $A_y \\times 6 = 18 \\times 4$, giving $A_y = 12$ kN. Answer B (6 kN) is the reaction at B, not A -- a classic trap of solving correctly but reporting the wrong support. Answer C (9 kN) splits the load evenly, which only works when the load is at midspan. Answer A puts the full load on one support.',
       hint: 'Sum moments about B so the unknown $B_y$ drops out. Make sure you report $A_y$, not $B_y$.',
       steps: [
         {
@@ -278,14 +278,14 @@ export default {
       statement:
         'A cantilever beam is 5 m long with a fixed support at the left end. It carries a triangular distributed load that varies linearly from 0 at the fixed end to 8 kN/m at the free end. What is the fixed-end moment reaction?',
       choices: [
-        { id: 'c1', text: '66.7 kN\\cdot m' },
+        { id: 'c1', text: '20.0 kN\\cdot m' },
         { id: 'c2', text: '40.0 kN\\cdot m' },
-        { id: 'c3', text: '20.0 kN\\cdot m' },
+        { id: 'c3', text: '66.7 kN\\cdot m' },
         { id: 'c4', text: '100.0 kN\\cdot m' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'A triangular load has a resultant equal to half the base times the peak intensity: $W = \\frac{1}{2}(5)(8) = 20$ kN. The centroid of a triangle is at one-third from the wide end, which is $5 - 5/3 = 10/3$ m from the fixed end. The moment is $M = 20 \\times 10/3 = 66.7$ kN-m. Answer B (40 kN-m) places the resultant at the midpoint ($20 \\times 2 = 40$) instead of at the one-third point. Answer C (20 kN-m) places the resultant at 1 m from the support. Answer D (100 kN-m) treats the load as uniform at 8 kN/m over 5 m ($40 \\times 2.5 = 100$).',
+      eli5: 'A triangular load has a resultant equal to half the base times the peak intensity: $W = \\frac{1}{2}(5)(8) = 20$ kN. The centroid of a triangle is at one-third from the wide end, which is $5 - 5/3 = 10/3$ m from the fixed end. The moment is $M = 20 \\times 10/3 = 66.7$ kN-m. Answer B (40 kN-m) places the resultant at the midpoint ($20 \\times 2 = 40$) instead of at the one-third point. Answer A (20 kN-m) places the resultant at 1 m from the support. Answer D (100 kN-m) treats the load as uniform at 8 kN/m over 5 m ($40 \\times 2.5 = 100$).',
       hint: 'The resultant of a triangular load is $\\frac{1}{2} \\times L \\times w_{max}$, and it acts at the centroid of the triangle (one-third from the wide end).',
       steps: [
         {
@@ -320,14 +320,14 @@ export default {
       statement:
         'A 2D rigid body is supported by a pin and a roller. How many independent scalar equilibrium equations are available, and how many unknown reaction components can be solved?',
       choices: [
-        { id: 'c1', text: '3 equations, 3 unknowns' },
-        { id: 'c2', text: '2 equations, 2 unknowns' },
+        { id: 'c1', text: '2 equations, 2 unknowns' },
+        { id: 'c2', text: '3 equations, 3 unknowns' },
         { id: 'c3', text: '3 equations, 2 unknowns' },
         { id: 'c4', text: '6 equations, 6 unknowns' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'In 2D statics, there are exactly three independent equilibrium equations: $\\sum F_x = 0$, $\\sum F_y = 0$, and $\\sum M = 0$. A pin provides two reaction components ($R_x$, $R_y$) and a roller provides one ($R_\\perp$), giving three unknowns total. Three equations and three unknowns means the system is statically determinate. Answer B forgets the moment equation. Answer C has the right equation count but undercounts unknowns (a pin alone has two). Answer D applies to 3D equilibrium, not 2D.',
+      eli5: 'In 2D statics, there are exactly three independent equilibrium equations: $\\sum F_x = 0$, $\\sum F_y = 0$, and $\\sum M = 0$. A pin provides two reaction components ($R_x$, $R_y$) and a roller provides one ($R_\\perp$), giving three unknowns total. Three equations and three unknowns means the system is statically determinate. Answer A forgets the moment equation. Answer C has the right equation count but undercounts unknowns (a pin alone has two). Answer D applies to 3D equilibrium, not 2D.',
       hint: 'Count the equations from 2D equilibrium and the unknowns from the support types: a pin gives 2 reactions, a roller gives 1.',
       steps: [
         {

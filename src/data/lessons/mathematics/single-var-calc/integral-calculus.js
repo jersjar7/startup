@@ -277,12 +277,12 @@ export default {
       "type": "computational",
       "statement": "Evaluate $\\int_0^2 4xe^{x^2}\\,dx$.",
       "choices": [
-        { "id": "c1", "text": "$2(e^4 - 1)$" },
+        { "id": "c1", "text": "$2e^4$" },
         { "id": "c2", "text": "$4(e^4 - 1)$" },
         { "id": "c3", "text": "$e^4 - 1$" },
-        { "id": "c4", "text": "$2e^4$" }
+        { "id": "c4", "text": "$2(e^4 - 1)$" }
       ],
-      "correctAnswerId": "c1",
+      "correctAnswerId": "c4",
       "difficulty": "medium",
       "eli5": "The $x$ out front and the $x^2$ in the exponent are screaming for u-substitution. Let $u = x^2$, so $du = 2x\\,dx$. The $4x\\,dx$ becomes $2\\,du$. The integral simplifies to $2\\int e^u\\,du = 2e^u$. Change limits: when $x = 0$, $u = 0$; when $x = 2$, $u = 4$. So you get $2(e^4 - e^0) = 2(e^4 - 1)$.",
       "hint": "The $x$ in $4x\\,dx$ and the $x^2$ in the exponent suggest $u = x^2$.",
@@ -306,12 +306,12 @@ export default {
       "type": "computational",
       "statement": "Evaluate $\\int_0^1 x\\,\\ln x\\,dx$. (Note: $\\lim_{x \\to 0^+} x\\ln x = 0$.)",
       "choices": [
-        { "id": "c1", "text": "$-\\frac{1}{4}$" },
+        { "id": "c1", "text": "$-\\frac{1}{2}$" },
         { "id": "c2", "text": "$\\frac{1}{4}$" },
-        { "id": "c3", "text": "$-\\frac{1}{2}$" },
+        { "id": "c3", "text": "$-\\frac{1}{4}$" },
         { "id": "c4", "text": "$0$" }
       ],
-      "correctAnswerId": "c1",
+      "correctAnswerId": "c3",
       "difficulty": "medium",
       "eli5": "This is an integration by parts problem. LIATE says $\\ln x$ (Log) comes before $x$ (Algebraic), so let $u = \\ln x$ and $dv = x\\,dx$. Then $du = dx/x$ and $v = x^2/2$. The formula gives $(x^2/2)\\ln x - \\int x/2\\,dx = (x^2/2)\\ln x - x^2/4$. Evaluate from 0 to 1: at $x = 1$, $\\ln 1 = 0$ so the first term vanishes, leaving $-1/4$. At $x = 0$ both terms go to 0 (given in the hint). So the answer is $-1/4$.",
       "hint": "LIATE: $\\ln x$ is a log (L), which comes first — let $u = \\ln x$.",

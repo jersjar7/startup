@@ -195,12 +195,12 @@ export default {
       "type": "conceptual",
       "statement": "Which of the following is NOT an indeterminate form where L'Hopital's Rule applies?",
       "choices": [
-        { "id": "c1", "text": "$\\frac{0}{0}$" },
+        { "id": "c1", "text": "$\\frac{1}{0}$" },
         { "id": "c2", "text": "$\\frac{\\infty}{\\infty}$" },
-        { "id": "c3", "text": "$\\frac{1}{0}$" },
+        { "id": "c3", "text": "$\\frac{0}{0}$" },
         { "id": "c4", "text": "All of the above are indeterminate forms" }
       ],
-      "correctAnswerId": "c3",
+      "correctAnswerId": "c1",
       "difficulty": "hard",
       "eli5": "L'Hopital's Rule only applies to two forms: $0/0$ and $\\infty/\\infty$. The form $1/0$ is NOT indeterminate — it means the function blows up to $\\pm\\infty$ or the limit doesn't exist. The rule explicitly requires an indeterminate form before you can differentiate. Applying L'Hopital's when the form isn't indeterminate gives a wrong answer. This is the trap in problems like $\\lim_{x \\to 0} e^x/x$ — students apply the rule without checking and get 1, but the correct answer is DNE.",
       "hint": "L'Hopital's Rule has exactly two qualifying forms. Any fraction with a nonzero numerator and zero denominator is not one of them.",

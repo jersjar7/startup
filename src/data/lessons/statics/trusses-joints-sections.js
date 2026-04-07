@@ -52,14 +52,14 @@ export default {
       statement:
         'In a truss, joint C is where three members meet. Members AC and CE are collinear (both along the same horizontal line), and member CD connects vertically downward. No external load or reaction is applied at joint C. What can you conclude about the force in member CD?',
       choices: [
-        { id: 'c1', text: 'CD is a zero-force member' },
-        { id: 'c2', text: 'CD carries the same force as AC' },
+        { id: 'c1', text: 'CD carries the same force as AC' },
+        { id: 'c2', text: 'CD is a zero-force member' },
         { id: 'c3', text: 'CD carries half the force of CE' },
         { id: 'c4', text: 'Cannot determine without calculating reactions' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'This is a direct application of zero-force member Rule 2: when three members meet at an unloaded joint and two of them are collinear, the third is a zero-force member. AC and CE lie along the same horizontal line (collinear), so CD (the non-collinear member) carries zero force. No calculation needed. Answer B and C assume CD shares load with the other members, but collinear members pass their force straight through the joint. Answer D overthinks it \u2014 the zero-force rule gives the answer by inspection.',
+      eli5: 'This is a direct application of zero-force member Rule 2: when three members meet at an unloaded joint and two of them are collinear, the third is a zero-force member. AC and CE lie along the same horizontal line (collinear), so CD (the non-collinear member) carries zero force. No calculation needed. Answer A and C assume CD shares load with the other members, but collinear members pass their force straight through the joint. Answer D overthinks it \u2014 the zero-force rule gives the answer by inspection.',
       hint: 'Three members meet at an unloaded joint. Two are collinear. What does the zero-force member rule say about the third?',
       steps: [
         {
@@ -138,12 +138,12 @@ export default {
       statement:
         'A truss spans 9 m with three equal 3 m panels. Bottom chord joints are A (left, pin support), B (3 m), C (6 m), and D (right, roller support at 9 m). Top chord joints are E (directly above B, height 4 m) and F (directly above C, height 4 m). A single 24 kN downward load acts at joint F. Using the method of sections, what is the force in bottom chord member BC?',
       choices: [
-        { id: 'c1', text: '6 kN, tension' },
+        { id: 'c1', text: '6 kN, compression' },
         { id: 'c2', text: '8 kN, tension' },
-        { id: 'c3', text: '6 kN, compression' },
+        { id: 'c3', text: '6 kN, tension' },
         { id: 'c4', text: '16 kN, tension' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c3',
       difficulty: 'hard',
       eli5: 'Method of sections lets you cut straight to the member you need without solving the entire truss. Cut through EF, EC, and BC, then take the left portion (joints A, B, E). To isolate the force in BC, sum moments about point E \u2014 both the EF and EC forces pass through E, so their moments vanish. The only forces with nonzero moments about E are the 8 kN support reaction at A and the unknown BC force. The reaction at A (8 kN upward) is 3 m to the left of E, creating a 24 kN\\cdot m clockwise moment. Member BC is 4 m below E. Setting the moments equal: $F_{BC} \\times 4 = 24$, so $F_{BC} = 6$ kN tension. Answer B (8 kN) confuses the support reaction with the member force. Answer D (16 kN) is the reaction at D.',
       hint: 'Cut through the three members and sum moments about point E, where two of the three cut forces intersect.',
@@ -190,14 +190,14 @@ export default {
       statement:
         'A simple triangular truss has joints at A (left, pin support), B (right, roller support), and C (top). The horizontal span AB is 8 m and C is 3 m above the midpoint of AB. A 24 kN downward load acts at C. By symmetry, each support reaction is 12 kN. Using the method of joints at joint A, what is the force in member AB?',
       choices: [
-        { id: 'c1', text: '16.0 kN, tension' },
+        { id: 'c1', text: '24.0 kN, tension' },
         { id: 'c2', text: '12.0 kN, tension' },
         { id: 'c3', text: '20.0 kN, compression' },
-        { id: 'c4', text: '24.0 kN, tension' },
+        { id: 'c4', text: '16.0 kN, tension' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c4',
       difficulty: 'easy',
-      eli5: 'At joint A, the pin reaction is 12 kN upward. Member AC goes from A(0,0) to C(4,3), so its direction cosines are $(4/5, 3/5)$. From $\\sum F_y = 0$: $12 + F_{AC}(3/5) = 0$, so $F_{AC} = -20$ kN (compression). Then from $\\sum F_x = 0$: $F_{AB} + F_{AC}(4/5) = 0$, giving $F_{AB} = -(-20)(4/5) = 16$ kN (tension). Answer B (12 kN) confuses the support reaction with the member force. Answer C (20 kN compression) is actually the force in member AC, not AB.',
+      eli5: 'At joint A, the pin reaction is 12 kN upward. Member AC goes from A(0,0) to C(4,3), so its direction cosines are $(4/5, 3/5)$. From $\\sum F_y = 0$: $12 + F_{AC}(3/5) = 0$, so $F_{AC} = -20$ kN (compression). Then from $\\sum F_x = 0$: $F_{AB} + F_{AC}(4/5) = 0$, giving $F_{AB} = -(-20)(4/5) = 16$ kN (tension). Answer B (12 kN) confuses the support reaction with the member force. Answer C (20 kN compression) is actually the force in member AC, not AB. Answer A (24 kN) is the total load, not a member force.',
       hint: 'At joint A, find the force in AC first using $\\sum F_y = 0$, then use $\\sum F_x = 0$ to find the force in AB.',
       steps: [
         {
@@ -278,14 +278,14 @@ export default {
       statement:
         'A Pratt truss spans 12 m with three equal 4 m panels and a height of 3 m. It is simply supported (pin at A, roller at D). Bottom joints: A (0 m), B (4 m), C (8 m), D (12 m). Top joints: E (above B), F (above C). Vertical members connect B-E and C-F. A single 36 kN downward load acts at joint E. Using the method of sections, what is the force in diagonal member BF?',
       choices: [
-        { id: 'c1', text: '20.0 kN, tension' },
-        { id: 'c2', text: '16.0 kN, tension' },
+        { id: 'c1', text: '16.0 kN, tension' },
+        { id: 'c2', text: '20.0 kN, tension' },
         { id: 'c3', text: '20.0 kN, compression' },
         { id: 'c4', text: '12.0 kN, tension' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Find reactions: $\\sum M_A = 0$ gives $R_D = 36(4)/12 = 12$ kN, so $R_A = 24$ kN. Cut through EF, BF, and BC, then take the right portion (joints C, D, F) which has only $R_D = 12$ kN upward. Member BF goes from B(4,0) to F(8,3), so its length is 5 and its vertical direction cosine is $3/5$. Vertical equilibrium: $12 - F_{BF}(3/5) = 0$, giving $F_{BF} = 20$ kN in tension. Answer B (16 kN) miscalculates the reaction or the direction cosine. Answer C (20 kN compression) gets the magnitude right but the wrong sense -- the diagonal in this panel resists the vertical shear by pulling, not pushing. Answer D (12 kN) confuses the support reaction with the member force.',
+      eli5: 'Find reactions: $\\sum M_A = 0$ gives $R_D = 36(4)/12 = 12$ kN, so $R_A = 24$ kN. Cut through EF, BF, and BC, then take the right portion (joints C, D, F) which has only $R_D = 12$ kN upward. Member BF goes from B(4,0) to F(8,3), so its length is 5 and its vertical direction cosine is $3/5$. Vertical equilibrium: $12 - F_{BF}(3/5) = 0$, giving $F_{BF} = 20$ kN in tension. Answer A (16 kN) miscalculates the reaction or the direction cosine. Answer C (20 kN compression) gets the magnitude right but the wrong sense -- the diagonal in this panel resists the vertical shear by pulling, not pushing. Answer D (12 kN) confuses the support reaction with the member force.',
       hint: 'Cut through EF, BF, and BC. Take the right portion with only one external force. Use $\\sum F_y = 0$ to isolate the diagonal.',
       steps: [
         {
@@ -324,14 +324,14 @@ export default {
       statement:
         'A planar truss has 9 members, 6 joints, and is supported by a pin and a roller. Which statement is correct about this truss?',
       choices: [
-        { id: 'c1', text: 'It is statically determinate ($m = 2j - r$)' },
+        { id: 'c1', text: 'It is unstable' },
         { id: 'c2', text: 'It is statically indeterminate by one degree' },
-        { id: 'c3', text: 'It is unstable' },
+        { id: 'c3', text: 'It is statically determinate ($m = 2j - r$)' },
         { id: 'c4', text: 'It is statically indeterminate by two degrees' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'The determinacy check for a 2D truss is $m + r = 2j$, where $m$ is the number of members, $r$ is the number of reaction components, and $j$ is the number of joints. A pin gives 2 reactions and a roller gives 1, so $r = 3$. Check: $9 + 3 = 12$ and $2(6) = 12$. Since $m + r = 2j$, the truss is statically determinate. If $m + r > 2j$, it would be indeterminate. If $m + r < 2j$, it would be unstable (or improperly constrained). Answer B would require $m + r = 13$ (one extra member or reaction). Answer C would require $m + r < 12$.',
+      eli5: 'The determinacy check for a 2D truss is $m + r = 2j$, where $m$ is the number of members, $r$ is the number of reaction components, and $j$ is the number of joints. A pin gives 2 reactions and a roller gives 1, so $r = 3$. Check: $9 + 3 = 12$ and $2(6) = 12$. Since $m + r = 2j$, the truss is statically determinate. If $m + r > 2j$, it would be indeterminate. If $m + r < 2j$, it would be unstable (or improperly constrained). Answer B would require $m + r = 13$ (one extra member or reaction). Answer A would require $m + r < 12$.',
       hint: 'Use $m + r = 2j$ for determinacy. Count reactions: a pin gives 2, a roller gives 1.',
       steps: [
         {

@@ -135,7 +135,7 @@ export default {
         },
         {
           "text": "Find the minimum cost:",
-          "latex": "C(6) = 3(36) - 36(6) + 150 = 108 - 216 + 150 = 42\\,\\text{\\$/m}"
+          "latex": "C(6) = 3(36) - 36(6) + 150 = 108 - 216 + 150 = 42\\,\\text{dollars/m}"
         }
       ],
       "handbookPage": "p. 46",
@@ -157,7 +157,7 @@ export default {
         },
         {
           "id": "c2",
-          "text": "$x = 4\\,\\text{m}$"
+          "text": "$x = 3\\,\\text{m}$"
         },
         {
           "id": "c3",
@@ -165,12 +165,12 @@ export default {
         },
         {
           "id": "c4",
-          "text": "$x = 3\\,\\text{m}$"
+          "text": "$x = 4\\,\\text{m}$"
         }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c4",
       "difficulty": "hard",
-      "eli5": "An inflection point is where the curve changes from bending one way to bending the other — concave up to concave down or vice versa. Set the SECOND derivative to zero, not the first. That's the most common mistake: students set y' = 0 and find critical points instead. Choice A (x = 2) and choice C (x = 6) are the critical points where y' = 0 — those are max/min locations, not inflection points. The inflection point is where y'' = 0 and actually changes sign.",
+      "eli5": "An inflection point is where the curve changes from bending one way to bending the other — concave up to concave down or vice versa. Set the SECOND derivative to zero, not the first. That is the most common mistake: students set y' = 0 and find critical points instead. Choice A (x = 2) and Choice C (x = 6) are the critical points where y' = 0 — those are max/min locations, not inflection points. The inflection point is where y'' = 0 and actually changes sign.",
       "hint": "Inflection points come from the second derivative, not the first. Set $y''(x) = 0$.",
       "steps": [
         {

@@ -63,7 +63,7 @@ export default {
       choices: [
         {
           id: 'c1',
-          text: 'Sign and seal the plans since passing the FE exam demonstrates competence',
+          text: 'Decline to sign and seal because an Engineer Intern is not a licensed Professional Engineer',
         },
         {
           id: 'c2',
@@ -71,16 +71,16 @@ export default {
         },
         {
           id: 'c3',
-          text: 'Decline to sign and seal because an Engineer Intern is not a licensed Professional Engineer',
+          text: 'Sign and seal the plans since passing the FE exam demonstrates competence',
         },
         {
           id: 'c4',
           text: 'Sign and seal the plans if a licensed PE in the firm reviews them first',
         },
       ],
-      correctAnswerId: 'c3',
+      correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: "This is the certified vs. licensed distinction. Passing the FE gets you \"certified\" as an Engineer Intern — it's a milestone, not a license. You can't sign and seal anything as an EI, period. Answer A is wrong because the FE exam proves foundational knowledge, not authority to practice. Answer B is wrong because adding \"Engineer Intern\" doesn't magically grant sealing authority. Answer D is tempting but backwards — the PE who supervised the work should be the one sealing, not the EI with a PE looking over their shoulder.",
+      eli5: "This is the certified vs. licensed distinction. Passing the FE gets you \"certified\" as an Engineer Intern — it's a milestone, not a license. You can't sign and seal anything as an EI, period. Choice C is wrong because the FE exam proves foundational knowledge, not authority to practice. Choice B is wrong because adding \"Engineer Intern\" doesn't magically grant sealing authority. Choice D is tempting but backwards — the PE who supervised the work should be the one sealing, not the EI with a PE looking over their shoulder.",
       hint: "What's the difference between being certified as an Engineer Intern and being licensed as a Professional Engineer?",
       steps: [
         {
@@ -234,11 +234,11 @@ export default {
       statement: 'An engineer discovers that a contractor has substituted lower-grade steel in a bridge project to cut costs. The substitution does not meet the design specifications. What is the engineer\'s primary obligation?',
       choices: [
         { id: 'c1', text: 'Report the issue to the contractor\'s supervisor' },
-        { id: 'c2', text: 'Hold the public safety paramount and report to the appropriate authority' },
+        { id: 'c2', text: 'Consult with the client before taking any action' },
         { id: 'c3', text: 'Allow the substitution if the bridge can still carry the design load' },
-        { id: 'c4', text: 'Consult with the client before taking any action' },
+        { id: 'c4', text: 'Hold the public safety paramount and report to the appropriate authority' },
       ],
-      correctAnswerId: 'c2',
+      correctAnswerId: 'c4',
       difficulty: 'easy',
       eli5: 'The NCEES Model Rules make it crystal clear: the engineer\'s paramount obligation is to protect public health, safety, and welfare. When safety is at stake, you report to the appropriate authority. You do not negotiate, wait, or let cost considerations override safety.',
       hint: 'Think about the engineer\'s paramount obligation under the Model Rules.',
@@ -309,14 +309,14 @@ export default {
       type: 'conceptual',
       statement: 'A licensed PE retires and lets her license lapse. Two years later, a former client asks her to review a set of structural calculations prepared by another firm and provide a written opinion on their adequacy. The retired PE would review the calculations at home, write an opinion letter, and sign it with her name followed by "PE (Retired)." She would not stamp or seal the document. Under the Model Law, which of the following best describes this situation?',
       choices: [
-        { id: 'c1', text: 'This is acceptable because she is not stamping or sealing the document' },
+        { id: 'c1', text: 'This violates the Model Law because providing engineering opinions for compensation with a lapsed license constitutes unauthorized practice, and using "PE (Retired)" implies current licensure' },
         { id: 'c2', text: 'This is acceptable because reviewing another firm\'s work is not "practice of engineering"' },
-        { id: 'c3', text: 'This violates the Model Law because providing engineering opinions for compensation with a lapsed license constitutes unauthorized practice, and using "PE (Retired)" implies current licensure' },
+        { id: 'c3', text: 'This is acceptable because she is not stamping or sealing the document' },
         { id: 'c4', text: 'This is acceptable as long as she discloses that her license is no longer active in the opinion letter' },
       ],
-      correctAnswerId: 'c3',
+      correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'This one layers multiple violations. First, reviewing structural calculations and writing a professional opinion on their adequacy is absolutely "practice of engineering" under §110.20 A.3 — it requires engineering judgment and affects public safety. Second, her license is lapsed, which means she is not currently licensed. Third, signing as "PE (Retired)" uses a title derived from "Professional Engineer," which constitutes holding herself out as a PE under §110.20 A.3(c). It does not matter that she once held the license or that she is not using a stamp. The Model Law does not have a "retired PE" designation that allows continued practice. Answer A is wrong because the seal is not the only trigger — the engineering opinion itself is practice. Answer B is wrong because reviewing calculations for adequacy requires engineering judgment. Answer D is wrong because a disclosure does not cure unauthorized practice.',
+      eli5: 'This one layers multiple violations. First, reviewing structural calculations and writing a professional opinion on their adequacy is absolutely "practice of engineering" under §110.20 A.3 — it requires engineering judgment and affects public safety. Second, her license is lapsed, which means she is not currently licensed. Third, signing as "PE (Retired)" uses a title derived from "Professional Engineer," which constitutes holding herself out as a PE under §110.20 A.3(c). It does not matter that she once held the license or that she is not using a stamp. The Model Law does not have a "retired PE" designation that allows continued practice. Choice C is wrong because the seal is not the only trigger — the engineering opinion itself is practice. Choice B is wrong because reviewing calculations for adequacy requires engineering judgment. Choice D is wrong because a disclosure does not cure unauthorized practice.',
       hint: 'Consider two separate issues: whether the activity constitutes practice of engineering, and whether a lapsed licensee can use any form of the PE title.',
       steps: [
         { text: 'Determine whether the activity is "practice of engineering": reviewing structural calculations and opining on their adequacy requires engineering education, training, and judgment, and impacts public safety. This is practice of engineering under §110.20 A.3.', latex: null },

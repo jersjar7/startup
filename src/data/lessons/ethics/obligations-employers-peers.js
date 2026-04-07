@@ -59,7 +59,7 @@ export default {
       choices: [
         {
           id: 'c1',
-          text: 'Accept the assignment and learn roundabout design while working on the project',
+          text: "Decline the assignment because it falls outside the engineer's specific area of competence",
         },
         {
           id: 'c2',
@@ -67,16 +67,16 @@ export default {
         },
         {
           id: 'c3',
-          text: "Decline the assignment because it falls outside the engineer's specific area of competence",
+          text: 'Accept the assignment and learn roundabout design while working on the project',
         },
         {
           id: 'c4',
           text: 'Accept the assignment but have a colleague review the final design',
         },
       ],
-      correctAnswerId: 'c3',
+      correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: "Rule B.1 is blunt — you only take on work you're actually qualified for. \"Close enough\" doesn't cut it. Highway intersection design and roundabout design share some fundamentals, but roundabouts have their own geometry, sight-distance criteria, and capacity methods. Answer A is wrong because learning on the job puts the project at risk. Answer B is wrong because adjacent experience isn't the same as specific competence. Answer D sounds safe but a peer review doesn't make you qualified — the person signing and sealing needs to be competent, not just the reviewer.",
+      eli5: "Rule B.1 is blunt — you only take on work you're actually qualified for. \"Close enough\" doesn't cut it. Highway intersection design and roundabout design share some fundamentals, but roundabouts have their own geometry, sight-distance criteria, and capacity methods. Choice C is wrong because learning on the job puts the project at risk. Choice B is wrong because adjacent experience isn't the same as specific competence. Choice D sounds safe but a peer review doesn't make you qualified — the person signing and sealing needs to be competent, not just the reviewer.",
       hint: 'What does Rule B.1 say about the relationship between your qualifications and the assignments you accept?',
       steps: [
         {
@@ -117,20 +117,20 @@ export default {
         },
         {
           id: 'c2',
-          text: 'Accept the City B assignment but keep all City A project files confidential',
+          text: 'Disclose the conflict to both clients and only proceed if both provide written consent',
         },
         {
           id: 'c3',
-          text: 'Disclose the conflict to both clients and only proceed if both provide written consent',
+          text: 'Accept the City B assignment but keep all City A project files confidential',
         },
         {
           id: 'c4',
           text: 'Decline the City B assignment outright because it creates an unresolvable conflict',
         },
       ],
-      correctAnswerId: 'c3',
+      correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: "This one stacks three rules on top of each other. You've got confidential info from City A (B.4), you've got an obvious conflict of interest (B.6), and you'd be getting paid by two parties on related work (B.7). Answer A ignores the conflict entirely. Answer B tries to compartmentalize, but you can't un-know what you know from the City A project — and the rules require disclosure, not just self-discipline. Answer D is too extreme — the Model Rules don't say you can never work for competing parties, they say you need full disclosure and written consent. The exam wants you to pick the answer that involves transparency and consent, not avoidance.",
+      eli5: "This one stacks three rules on top of each other. You've got confidential info from City A (B.4), you've got an obvious conflict of interest (B.6), and you'd be getting paid by two parties on related work (B.7). Choice A ignores the conflict entirely. Choice C tries to compartmentalize, but you can't un-know what you know from the City A project — and the rules require disclosure, not just self-discipline. Choice D is too extreme — the Model Rules don't say you can never work for competing parties, they say you need full disclosure and written consent. The exam wants you to pick the answer that involves transparency and consent, not avoidance.",
       hint: "When two clients' interests overlap, what do the Model Rules require before you can serve both?",
       steps: [
         {
@@ -231,12 +231,12 @@ export default {
       choices: [
         { id: 'c1', text: 'Seal the documents after a thorough review since a detailed check is equivalent to responsible charge' },
         { id: 'c2', text: 'Seal the documents because the principal, as firm owner, has authority to assign sealing responsibilities' },
-        { id: 'c3', text: 'Decline to seal the documents because the engineer did not exercise responsible charge over the work' },
-        { id: 'c4', text: 'Seal the documents but add a note stating the work was prepared by the EIT' },
+        { id: 'c3', text: 'Seal the documents but add a note stating the work was prepared by the EIT' },
+        { id: 'c4', text: 'Decline to seal the documents because the engineer did not exercise responsible charge over the work' },
       ],
-      correctAnswerId: 'c3',
+      correctAnswerId: 'c4',
       difficulty: 'easy',
-      eli5: 'Rule B.2 is very specific: you cannot sign or seal documents that were not prepared under your responsible charge. "Responsible charge" means direct control and personal supervision during the work — not just a final review after the fact. The structural engineer was not involved in the design process at all. Even a thorough after-the-fact review does not satisfy the responsible charge requirement. Answer A is wrong because review is not supervision. Answer B is wrong because the principal cannot override the Model Rules. Answer D is wrong because disclosing who prepared the work does not change the fact that the signer lacked responsible charge.',
+      eli5: 'Rule B.2 is very specific: you cannot sign or seal documents that were not prepared under your responsible charge. "Responsible charge" means direct control and personal supervision during the work — not just a final review after the fact. The structural engineer was not involved in the design process at all. Even a thorough after-the-fact review does not satisfy the responsible charge requirement. Choice A is wrong because review is not supervision. Choice B is wrong because the principal cannot override the Model Rules. Choice C is wrong because disclosing who prepared the work does not change the fact that the signer lacked responsible charge.',
       hint: 'What does "responsible charge" require — a final review, or direct control and personal supervision during the work?',
       steps: [
         { text: 'Identify the issue: the structural engineer is asked to seal work that was prepared without their involvement or supervision.', latex: null },
@@ -255,14 +255,14 @@ export default {
       type: 'conceptual',
       statement: 'A geotechnical engineer leaves Firm A to join Firm B. At Firm B, the engineer is assigned to a landfill liner design project for a county that is also a client of Firm A. While at Firm A, the engineer worked on a different project for the same county and learned confidential information about the county\'s subsurface conditions and groundwater contamination issues at the landfill site. Firm B is not aware of this prior involvement. What should the engineer do?',
       choices: [
-        { id: 'c1', text: 'Proceed with the assignment since the prior project at Firm A had a different scope' },
+        { id: 'c1', text: 'Disclose the conflict to Firm B and the county, and recuse from the project unless all parties provide written consent' },
         { id: 'c2', text: 'Use the confidential information to benefit Firm B since it will produce a better design' },
-        { id: 'c3', text: 'Disclose the conflict to Firm B and the county, and recuse from the project unless all parties provide written consent' },
+        { id: 'c3', text: 'Proceed with the assignment since the prior project at Firm A had a different scope' },
         { id: 'c4', text: 'Proceed with the assignment but avoid using any information gained at Firm A' },
       ],
-      correctAnswerId: 'c3',
+      correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'This hits Rules B.4 and B.6 at the same time. The engineer has confidential information about the landfill site from prior work at Firm A. Rule B.4 says you cannot reveal facts obtained in a professional capacity without consent. Rule B.6 says you must disclose all known or potential conflicts of interest. Answer A ignores the conflict entirely. Answer B is a direct violation of confidentiality. Answer D sounds reasonable but is impractical — the engineer cannot "unknow" what they learned, and the appearance of a conflict still exists. The only proper path is full disclosure and recusal unless everyone agrees in writing.',
+      eli5: 'This hits Rules B.4 and B.6 at the same time. The engineer has confidential information about the landfill site from prior work at Firm A. Rule B.4 says you cannot reveal facts obtained in a professional capacity without consent. Rule B.6 says you must disclose all known or potential conflicts of interest. Choice C ignores the conflict entirely. Choice B is a direct violation of confidentiality. Choice D sounds reasonable but is impractical — the engineer cannot "unknow" what they learned, and the appearance of a conflict still exists. The only proper path is full disclosure and recusal unless everyone agrees in writing.',
       hint: 'When you carry confidential information from a prior engagement into a new assignment, which two rules are triggered?',
       steps: [
         { text: 'Identify the issue: the engineer possesses confidential information from Firm A that is directly relevant to the current assignment at Firm B.', latex: null },
@@ -282,13 +282,13 @@ export default {
       statement: 'An engineer submits a proposal to a municipality for a water treatment plant upgrade. In the proposal, the engineer lists a completed 50 MGD water treatment plant as a past project, describing herself as the "lead design engineer." In reality, she was a junior member of a 12-person team and was responsible only for the chemical feed system design. She did not lead the overall project. A competing firm discovers the discrepancy and files a complaint with the licensing board. Under the Model Rules, has the engineer violated any provision?',
       choices: [
         { id: 'c1', text: 'No — "lead design engineer" is a subjective title and the engineer did perform design work on the project' },
-        { id: 'c2', text: 'No — marketing materials are not held to the same standard as engineering documents' },
-        { id: 'c3', text: 'Yes — the engineer misrepresented her degree of responsibility in a prior assignment in a presentation incidental to soliciting employment' },
+        { id: 'c2', text: 'Yes — the engineer misrepresented her degree of responsibility in a prior assignment in a presentation incidental to soliciting employment' },
+        { id: 'c3', text: 'No — marketing materials are not held to the same standard as engineering documents' },
         { id: 'c4', text: 'Yes — but only because a competitor filed a complaint; the claim would otherwise be acceptable' },
       ],
-      correctAnswerId: 'c3',
+      correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Rule C.1 is specific about this: licensees shall not misrepresent or exaggerate their degree of responsibility in prior assignments, and "presentations incidental to the solicitation of employment shall not misrepresent pertinent facts." A proposal to a municipality is exactly that — a solicitation of employment. Calling yourself "lead design engineer" when you designed only the chemical feed system on a 12-person team is a clear exaggeration of responsibility. Answer A is wrong because "lead design engineer" is not subjective when it claims overall project leadership. Answer B is wrong because proposals are specifically covered by C.1. Answer D is wrong because the violation exists independently of who reports it.',
+      eli5: 'Rule C.1 is specific about this: licensees shall not misrepresent or exaggerate their degree of responsibility in prior assignments, and "presentations incidental to the solicitation of employment shall not misrepresent pertinent facts." A proposal to a municipality is exactly that — a solicitation of employment. Calling yourself "lead design engineer" when you designed only the chemical feed system on a 12-person team is a clear exaggeration of responsibility. Choice A is wrong because "lead design engineer" is not subjective when it claims overall project leadership. Choice C is wrong because proposals are specifically covered by C.1. Choice D is wrong because the violation exists independently of who reports it.',
       hint: 'Does Rule C.1 apply to project proposals submitted to potential clients?',
       steps: [
         { text: 'Identify the issue: the engineer described herself as "lead design engineer" on a project where she was a junior team member responsible for one subsystem.', latex: null },

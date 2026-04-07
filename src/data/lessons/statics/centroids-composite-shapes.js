@@ -57,14 +57,14 @@ export default {
       statement:
         'A T-shaped cross section has a top flange 120 mm wide and 20 mm thick, and a web 20 mm wide and 80 mm deep below the flange. What is the distance from the bottom of the section to the centroid?',
       choices: [
-        { id: 'c1', text: '70.0 mm' },
+        { id: 'c1', text: '90.0 mm' },
         { id: 'c2', text: '50.0 mm' },
-        { id: 'c3', text: '90.0 mm' },
+        { id: 'c3', text: '70.0 mm' },
         { id: 'c4', text: '65.0 mm' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Split the T into two rectangles: the web (20 \u00d7 80 mm, centroid at 40 mm from the bottom) and the flange (120 \u00d7 20 mm, centroid at 90 mm from the bottom). Take the area-weighted average: $(1{,}600 \\times 40 + 2{,}400 \\times 90) / 4{,}000 = 70$ mm. Answer B (50 mm) is the geometric midpoint of the total 100 mm height, ignoring that the flange has more area and sits higher. Answer C (90 mm) is the centroid of the flange alone. Answer D (65 mm) is the simple average of the two centroids, $(40 + 90)/2 = 65$, ignoring the different areas.',
+      eli5: 'Split the T into two rectangles: the web (20 \u00d7 80 mm, centroid at 40 mm from the bottom) and the flange (120 \u00d7 20 mm, centroid at 90 mm from the bottom). Take the area-weighted average: $(1{,}600 \\times 40 + 2{,}400 \\times 90) / 4{,}000 = 70$ mm. Answer B (50 mm) is the geometric midpoint of the total 100 mm height, ignoring that the flange has more area and sits higher. Answer A (90 mm) is the centroid of the flange alone. Answer D (65 mm) is the simple average of the two centroids, $(40 + 90)/2 = 65$, ignoring the different areas.',
       hint: 'Split the T into web and flange. Compute each area and centroid distance from the bottom, then take the weighted average.',
       steps: [
         {
@@ -183,14 +183,14 @@ export default {
       statement:
         'An L-shaped cross section is formed by two non-overlapping rectangles: a horizontal leg 80 mm wide and 20 mm tall at the bottom, and a vertical leg 20 mm wide and 80 mm tall sitting directly on top of it. The total height is 100 mm. What is the distance from the bottom of the section to the centroid ($\\bar{y}$)?',
       choices: [
-        { id: 'c1', text: '35.0 mm' },
+        { id: 'c1', text: '25.0 mm' },
         { id: 'c2', text: '50.0 mm' },
         { id: 'c3', text: '40.0 mm' },
-        { id: 'c4', text: '25.0 mm' },
+        { id: 'c4', text: '35.0 mm' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c4',
       difficulty: 'easy',
-      eli5: 'Split the L into two rectangles. The horizontal leg is 80 x 20 mm ($A_1 = 1{,}600$ mm$^2$, centroid at $y_1 = 10$ mm from the bottom). The vertical leg is 20 x 80 mm ($A_2 = 1{,}600$ mm$^2$, centroid at $y_2 = 20 + 40 = 60$ mm from the bottom). Since both areas are equal, the centroid is the simple average of 10 and 60: $\\bar{y} = (16{,}000 + 96{,}000)/3{,}200 = 35$ mm. Answer B (50 mm) is the geometric midpoint of the 100 mm total height. Answer C (40 mm) is a rough guess splitting the difference. Answer D (25 mm) underweights the vertical leg.',
+      eli5: 'Split the L into two rectangles. The horizontal leg is 80 x 20 mm ($A_1 = 1{,}600$ mm$^2$, centroid at $y_1 = 10$ mm from the bottom). The vertical leg is 20 x 80 mm ($A_2 = 1{,}600$ mm$^2$, centroid at $y_2 = 20 + 40 = 60$ mm from the bottom). Since both areas are equal, the centroid is the simple average of 10 and 60: $\\bar{y} = (16{,}000 + 96{,}000)/3{,}200 = 35$ mm. Answer B (50 mm) is the geometric midpoint of the 100 mm total height. Answer C (40 mm) is a rough guess splitting the difference. Answer A (25 mm) underweights the vertical leg.',
       hint: 'Split the L into two non-overlapping rectangles. Measure each centroid from the same reference (bottom edge).',
       steps: [
         {
@@ -263,14 +263,14 @@ export default {
       statement:
         'A channel section (C-shape) is formed by three rectangles: a web 10 mm wide and 160 mm tall, and two identical flanges each 60 mm wide and 20 mm tall attached at the top and bottom of the web, extending to the right. What is the horizontal distance $\\bar{x}$ from the left edge of the web to the centroid of the section?',
       choices: [
-        { id: 'c1', text: '20.0 mm' },
+        { id: 'c1', text: '10.0 mm' },
         { id: 'c2', text: '30.0 mm' },
-        { id: 'c3', text: '10.0 mm' },
+        { id: 'c3', text: '20.0 mm' },
         { id: 'c4', text: '35.0 mm' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Set the reference axis at the left edge of the web. The web is 10 mm wide, so its centroid is at $x = 5$ mm. Each flange extends 60 mm to the right from the left edge of the web, with centroid at $x = 30$ mm. Web area: $10 \\times 160 = 1{,}600$ mm$^2$. Each flange: $60 \\times 20 = 1{,}200$ mm$^2$ (two flanges total 2{,}400 mm$^2$). The weighted average gives $\\bar{x} = (8{,}000 + 72{,}000)/4{,}000 = 20$ mm. Answer B (30 mm) is the centroid of the flanges alone, ignoring the web. Answer C (10 mm) is the width of the web, not the centroid location. Answer D (35 mm) is the midpoint of the total 70 mm width.',
+      eli5: 'Set the reference axis at the left edge of the web. The web is 10 mm wide, so its centroid is at $x = 5$ mm. Each flange extends 60 mm to the right from the left edge of the web, with centroid at $x = 30$ mm. Web area: $10 \\times 160 = 1{,}600$ mm$^2$. Each flange: $60 \\times 20 = 1{,}200$ mm$^2$ (two flanges total 2{,}400 mm$^2$). The weighted average gives $\\bar{x} = (8{,}000 + 72{,}000)/4{,}000 = 20$ mm. Answer B (30 mm) is the centroid of the flanges alone, ignoring the web. Answer A (10 mm) is the width of the web, not the centroid location. Answer D (35 mm) is the midpoint of the total 70 mm width.',
       hint: 'Set the reference at the left edge of the web. The flanges pull the centroid to the right.',
       steps: [
         {

@@ -51,14 +51,14 @@ export default {
       "id": "math-cpa-q2",
       "statement": "A force $\\vec{F} = 0\\hat{i} + 0\\hat{j} - 50\\hat{k}$ N (downward) is applied at point $P$. The position vector from the pivot $O$ to $P$ is $\\vec{r} = 3\\hat{i} + 4\\hat{j} + 0\\hat{k}$ m. What is the moment $\\vec{M}_O = \\vec{r} \\times \\vec{F}$?",
       "choices": [
-        { "id": "c1", "text": "$-200\\hat{i} + 150\\hat{j} + 0\\hat{k}$ N·m" },
+        { "id": "c1", "text": "$0\\hat{i} + 0\\hat{j} - 350\\hat{k}$ N·m" },
         { "id": "c2", "text": "$200\\hat{i} - 150\\hat{j} + 0\\hat{k}$ N·m" },
-        { "id": "c3", "text": "$0\\hat{i} + 0\\hat{j} - 350\\hat{k}$ N·m" },
+        { "id": "c3", "text": "$-200\\hat{i} + 150\\hat{j} + 0\\hat{k}$ N·m" },
         { "id": "c4", "text": "$150\\hat{i} + 200\\hat{j} + 0\\hat{k}$ N·m" }
       ],
-      "correctAnswerId": "c1",
+      "correctAnswerId": "c3",
       "difficulty": "medium",
-      "eli5": "Moment = r × F. Set up the 3×3 determinant and expand carefully. The j component has the MINUS sign in front of the cofactor — so you get -(3·(-50) - 0) = -(-150) = +150. That negative-of-a-negative is where most people mess up. Choice B flips all the signs — that's F × r (wrong order).",
+      "eli5": "Moment = r × F. Set up the 3×3 determinant and expand carefully. The j component has the MINUS sign in front of the cofactor — so you get -(3·(-50) - 0) = -(-150) = +150. That negative-of-a-negative is where most people mess up. Choice B flips all the signs — that is F × r (wrong order).",
       "hint": "Set up the determinant with r in the second row and F in the third row. Watch the sign on the j cofactor.",
       "steps": [
         { "text": "Set up:", "latex": "\\vec{r} \\times \\vec{F} = \\begin{vmatrix} \\hat{i} & \\hat{j} & \\hat{k} \\\\ 3 & 4 & 0 \\\\ 0 & 0 & -50 \\end{vmatrix}" },
@@ -141,12 +141,12 @@ export default {
       "type": "computational",
       "statement": "A 100 N downward force ($\\vec{F} = 0\\hat{i} + 0\\hat{j} - 100\\hat{k}$ N) is applied at a point with position vector $\\vec{r} = 5\\hat{i} + 0\\hat{j} + 0\\hat{k}$ m from a pivot. What is the magnitude of the moment about the pivot?",
       "choices": [
-        { "id": "c1", "text": "$500$ N$\\cdot$m" },
+        { "id": "c1", "text": "$0$ N$\\cdot$m" },
         { "id": "c2", "text": "$100$ N$\\cdot$m" },
         { "id": "c3", "text": "$250$ N$\\cdot$m" },
-        { "id": "c4", "text": "$0$ N$\\cdot$m" }
+        { "id": "c4", "text": "$500$ N$\\cdot$m" }
       ],
-      "correctAnswerId": "c1",
+      "correctAnswerId": "c4",
       "difficulty": "medium",
       "eli5": "Moment = $\\vec{r} \\times \\vec{F}$. Set up the determinant: $\\hat{i}(0 \\cdot(-100) - 0 \\cdot 0) - \\hat{j}(5 \\cdot(-100) - 0 \\cdot 0) + \\hat{k}(5 \\cdot 0 - 0 \\cdot 0) = 0\\hat{i} + 500\\hat{j} + 0\\hat{k}$. The magnitude is 500 N$\\cdot$m. You can also reason geometrically: force and position vector are perpendicular, so $M = rF\\sin 90° = 5 \\times 100 = 500$.",
       "hint": "Compute $\\vec{r} \\times \\vec{F}$ using the determinant, then take the magnitude.",
@@ -171,12 +171,12 @@ export default {
       "type": "computational",
       "statement": "Two edge vectors of a triangular surveying plot are $\\vec{u} = 3\\hat{i} + 1\\hat{j} + 0\\hat{k}$ m and $\\vec{v} = -1\\hat{i} + 4\\hat{j} + 0\\hat{k}$ m. What is the area of the triangle?",
       "choices": [
-        { "id": "c1", "text": "$6.5$ m$^2$" },
+        { "id": "c1", "text": "$11$ m$^2$" },
         { "id": "c2", "text": "$13$ m$^2$" },
-        { "id": "c3", "text": "$11$ m$^2$" },
+        { "id": "c3", "text": "$6.5$ m$^2$" },
         { "id": "c4", "text": "$5$ m$^2$" }
       ],
-      "correctAnswerId": "c1",
+      "correctAnswerId": "c3",
       "difficulty": "medium",
       "eli5": "The cross product magnitude gives the parallelogram area, so divide by 2 for the triangle. Both vectors are in the $xy$-plane, so only the $\\hat{k}$ component survives: $(3)(4) - (1)(-1) = 12 + 1 = 13$. The cross product is $13\\hat{k}$, magnitude is 13. Triangle area = $13/2 = 6.5$ m$^2$. Choice B (13) is the parallelogram area — forgetting to halve is the most common mistake.",
       "hint": "Triangle area = $\\frac{1}{2}|\\vec{u} \\times \\vec{v}|$. Don't forget the $\\frac{1}{2}$.",

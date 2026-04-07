@@ -62,14 +62,14 @@ export default {
       statement:
         'A 500 N crate sits on a flat concrete floor. The coefficient of static friction between the crate and the floor is 0.40. What is the maximum horizontal force that can be applied to the crate before it begins to slide?',
       choices: [
-        { id: 'c1', text: '200 N' },
+        { id: 'c1', text: '1,250 N' },
         { id: 'c2', text: '500 N' },
         { id: 'c3', text: '125 N' },
-        { id: 'c4', text: '1,250 N' },
+        { id: 'c4', text: '200 N' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c4',
       difficulty: 'easy',
-      eli5: 'On a flat floor, the normal force equals the weight (500 N). The maximum friction force before sliding is $\\mu_s \\times N = 0.40 \\times 500 = 200$ N. Answer B (500 N) uses the full weight as the friction force, which would require $\\mu_s = 1$. Answer C (125 N) divides weight by 4 instead of multiplying by 0.40. Answer D (1,250 N) divides the weight by the coefficient instead of multiplying.',
+      eli5: 'On a flat floor, the normal force equals the weight (500 N). The maximum friction force before sliding is $\\mu_s \\times N = 0.40 \\times 500 = 200$ N. Answer B (500 N) uses the full weight as the friction force, which would require $\\mu_s = 1$. Answer C (125 N) divides weight by 4 instead of multiplying by 0.40. Answer A (1,250 N) divides the weight by the coefficient instead of multiplying.',
       hint: 'On a flat surface, the normal force equals the weight. Maximum friction = $\\mu_s \\times N$.',
       steps: [
         {
@@ -234,14 +234,14 @@ export default {
       statement:
         'A flat belt wraps 270 degrees around a fixed drum. The coefficient of friction is 0.25. If the tension on the slack side is 150 N, what is the maximum tension on the tight side before the belt slips? (Use $e^{1.18} = 3.25$.)',
       choices: [
-        { id: 'c1', text: '487 N' },
-        { id: 'c2', text: '263 N' },
+        { id: 'c1', text: '263 N' },
+        { id: 'c2', text: '487 N' },
         { id: 'c3', text: '188 N' },
         { id: 'c4', text: '150 N' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Belt friction uses the capstan equation: $F_1 = F_2 e^{\\mu\\theta}$. Convert 270 degrees to radians: $\\theta = 3\\pi/2 = 4.712$ rad. The exponent is $\\mu\\theta = 0.25 \\times 4.712 = 1.178$, and $e^{1.178} \\approx 3.25$. So $F_1 = 150 \\times 3.25 = 487$ N. Answer B (263 N) uses 90 degrees instead of 270 degrees for the wrap angle. Answer C (188 N) treats friction as a linear add-on ($150 + 0.25 \\times 150 = 187.5$). Answer D assumes no friction amplification at all.',
+      eli5: 'Belt friction uses the capstan equation: $F_1 = F_2 e^{\\mu\\theta}$. Convert 270 degrees to radians: $\\theta = 3\\pi/2 = 4.712$ rad. The exponent is $\\mu\\theta = 0.25 \\times 4.712 = 1.178$, and $e^{1.178} \\approx 3.25$. So $F_1 = 150 \\times 3.25 = 487$ N. Answer A (263 N) uses 90 degrees instead of 270 degrees for the wrap angle. Answer C (188 N) treats friction as a linear add-on ($150 + 0.25 \\times 150 = 187.5$). Answer D assumes no friction amplification at all.',
       hint: 'Convert the contact angle to radians (270 degrees = $3\\pi/2$), then apply the belt friction formula $F_1 = F_2 e^{\\mu\\theta}$.',
       steps: [
         {
@@ -276,14 +276,14 @@ export default {
       statement:
         'A 600 N block rests on a 30-degree incline. The coefficient of static friction is 0.45. What minimum force, applied parallel to and up the incline, is needed to start the block sliding upward?',
       choices: [
-        { id: 'c1', text: '533.8 N' },
+        { id: 'c1', text: '270.0 N' },
         { id: 'c2', text: '300.0 N' },
-        { id: 'c3', text: '270.0 N' },
+        { id: 'c3', text: '533.8 N' },
         { id: 'c4', text: '233.8 N' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'To push the block up, you must overcome both the weight component pulling it down the ramp and the friction resisting upward motion. Weight down the ramp: $W\\sin 30\\degree = 300$ N. Normal force: $N = W\\cos 30\\degree = 519.6$ N. Maximum friction: $\\mu_s N = 0.45 \\times 519.6 = 233.8$ N. The total force needed is $P = 300 + 233.8 = 533.8$ N. Answer B (300 N) only accounts for the gravity component and ignores friction. Answer D (233.8 N) is the friction force alone, forgetting that gravity also resists upward motion. Answer C (270 N) incorrectly uses $\\mu_s W$ as the friction force.',
+      eli5: 'To push the block up, you must overcome both the weight component pulling it down the ramp and the friction resisting upward motion. Weight down the ramp: $W\\sin 30\\degree = 300$ N. Normal force: $N = W\\cos 30\\degree = 519.6$ N. Maximum friction: $\\mu_s N = 0.45 \\times 519.6 = 233.8$ N. The total force needed is $P = 300 + 233.8 = 533.8$ N. Answer B (300 N) only accounts for the gravity component and ignores friction. Answer D (233.8 N) is the friction force alone, forgetting that gravity also resists upward motion. Answer A (270 N) incorrectly uses $\\mu_s W$ as the friction force.',
       hint: 'Resolve the weight into components along and perpendicular to the surface. To push up the ramp, $P$ must overcome both the gravity component and friction.',
       steps: [
         {

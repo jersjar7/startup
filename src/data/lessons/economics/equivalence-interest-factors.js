@@ -200,14 +200,14 @@ export default {
       statement:
         'Annual maintenance costs for a highway bridge are 10,000 dollars in year 1, increasing by 2,000 dollars each year thereafter (i.e., 12,000 in year 2, 14,000 in year 3, etc.). The bridge has a remaining life of 10 years. At an interest rate of 8%, what is the present worth of all maintenance costs?',
       choices: [
-        { id: 'c1', text: '67,100 dollars' },
+        { id: 'c1', text: '119,100 dollars' },
         { id: 'c2', text: '100,000 dollars' },
-        { id: 'c3', text: '119,100 dollars' },
+        { id: 'c3', text: '67,100 dollars' },
         { id: 'c4', text: '134,200 dollars' },
       ],
-      correctAnswerId: 'c3',
+      correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: "This problem combines two patterns: a flat 10K/year annuity and a 2K/year increasing gradient. You can't just add up the raw numbers because money in later years is worth less today. Split it into two pieces: the base annuity (use $(P/A)$) and the gradient on top (use $(P/G)$). Look up both factors in the 8% table, multiply each by its amount, and add. Answer A (67,100 dollars) only accounts for the base annuity and forgets the gradient entirely. Answer B (100K) is just the sum of raw costs without discounting. Answer D uses the wrong gradient amount or mixes up factors.",
+      eli5: "This problem combines two patterns: a flat 10K/year annuity and a 2K/year increasing gradient. You can't just add up the raw numbers because money in later years is worth less today. Split it into two pieces: the base annuity (use $(P/A)$) and the gradient on top (use $(P/G)$). Look up both factors in the 8% table, multiply each by its amount, and add. Choice C (67,100 dollars) only accounts for the base annuity and forgets the gradient entirely. Choice B (100K) is just the sum of raw costs without discounting. Choice D uses the wrong gradient amount or mixes up factors.",
       hint: 'Split the increasing cash flow into a base uniform series (A) plus a uniform gradient (G), then find the present worth of each separately.',
       steps: [
         {
@@ -249,12 +249,12 @@ export default {
     {
       id: 'econ-eif-ex1',
       type: 'computational',
-      statement: 'A civil engineering firm sets aside 15,000 in a reserve account earning 8% annual interest. If the money is left untouched, what will it be worth in 5 years?',
+      statement: 'A civil engineering firm sets aside 15,000 dollars in a reserve account earning 8% annual interest. If the money is left untouched, what will it be worth in 5 years?',
       choices: [
-        { id: 'c1', text: '21,000' },
-        { id: 'c2', text: '22,040' },
-        { id: 'c3', text: '19,800' },
-        { id: 'c4', text: '23,400' },
+        { id: 'c1', text: '21,000 dollars' },
+        { id: 'c2', text: '22,040 dollars' },
+        { id: 'c3', text: '19,800 dollars' },
+        { id: 'c4', text: '23,400 dollars' },
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
@@ -275,12 +275,12 @@ export default {
     {
       id: 'econ-eif-ex2',
       type: 'computational',
-      statement: 'A public works department takes out a loan of 200,000 for a new dump truck at 10% annual interest. The loan will be repaid in 8 equal annual payments at the end of each year. What is the annual payment amount?',
+      statement: 'A public works department takes out a loan of 200,000 dollars for a new dump truck at 10% annual interest. The loan will be repaid in 8 equal annual payments at the end of each year. What is the annual payment amount?',
       choices: [
-        { id: 'c1', text: '25,000' },
-        { id: 'c2', text: '37,490' },
-        { id: 'c3', text: '29,440' },
-        { id: 'c4', text: '43,200' },
+        { id: 'c1', text: '25,000 dollars' },
+        { id: 'c2', text: '37,490 dollars' },
+        { id: 'c3', text: '29,440 dollars' },
+        { id: 'c4', text: '43,200 dollars' },
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
@@ -326,12 +326,12 @@ export default {
     {
       id: 'econ-eif-ex4',
       type: 'computational',
-      statement: 'A contractor deposits 5,000 at the end of every quarter into an account earning a nominal annual interest rate of 8% compounded quarterly. After 3 years, what is the total accumulated amount in the account?',
+      statement: 'A contractor deposits 5,000 dollars at the end of every quarter into an account earning a nominal annual interest rate of 8% compounded quarterly. After 3 years, what is the total accumulated amount in the account?',
       choices: [
-        { id: 'c1', text: '60,000' },
-        { id: 'c2', text: '63,410' },
-        { id: 'c3', text: '67,060' },
-        { id: 'c4', text: '70,120' },
+        { id: 'c1', text: '60,000 dollars' },
+        { id: 'c2', text: '63,410 dollars' },
+        { id: 'c3', text: '67,060 dollars' },
+        { id: 'c4', text: '70,120 dollars' },
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',

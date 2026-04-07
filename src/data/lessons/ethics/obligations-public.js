@@ -73,7 +73,7 @@ export default {
         },
         {
           id: 'c2',
-          text: 'Refuse to seal the plans and notify the client that the design must meet code requirements',
+          text: 'Reduce the number of parking levels to compensate for the weaker concrete',
         },
         {
           id: 'c3',
@@ -81,12 +81,12 @@ export default {
         },
         {
           id: 'c4',
-          text: 'Reduce the number of parking levels to compensate for the weaker concrete',
+          text: 'Refuse to seal the plans and notify the client that the design must meet code requirements',
         },
       ],
-      correctAnswerId: 'c2',
+      correctAnswerId: 'c4',
       difficulty: 'easy',
-      eli5: "This one is textbook Rule A.1 + A.2. The client wants to cut corners on concrete strength, but the building code exists to protect people. You can't seal plans that don't meet code — full stop. Answer A is wrong because just noting it in a file doesn't fix the safety issue. Answer C is wrong because a disclaimer doesn't magically make unsafe concrete safe. Answer D is creative but you can't just redesign around a code violation without the client's mix actually meeting requirements. The right move is to refuse to seal until the design is code-compliant.",
+      eli5: "This one is textbook Rule A.1 + A.2. The client wants to cut corners on concrete strength, but the building code exists to protect people. You can't seal plans that don't meet code — full stop. Choice A is wrong because just noting it in a file doesn't fix the safety issue. Choice C is wrong because a disclaimer doesn't magically make unsafe concrete safe. Choice B is creative but you can't just redesign around a code violation without the client's mix actually meeting requirements. The right move is to refuse to seal until the design is code-compliant.",
       hint: 'Which obligation always takes priority when client requests conflict with public safety?',
       steps: [
         {
@@ -123,11 +123,11 @@ export default {
       choices: [
         {
           id: 'c1',
-          text: 'Contact the school district directly to warn them about the error',
+          text: "Notify the firm's management and, if the issue is not resolved, report to the licensing board",
         },
         {
           id: 'c2',
-          text: "Notify the firm's management and, if the issue is not resolved, report to the licensing board",
+          text: 'Contact the school district directly to warn them about the error',
         },
         {
           id: 'c3',
@@ -138,9 +138,9 @@ export default {
           text: 'Anonymously post a warning on a public engineering forum',
         },
       ],
-      correctAnswerId: 'c2',
+      correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: "This is the classic \"escalation ladder\" question. You already tried step one — talking to the colleague — and got shut down. The next step isn't to go rogue and call the client directly (A) or post online (D), and it definitely isn't to shrug and walk away (C). You escalate through proper channels: tell management, and if they don't fix it, report to the licensing board. The exam tests whether you know the correct order of escalation. It's always: direct conversation → management → board. Jumping straight to the board or the public is only correct when there's imminent danger and no time for the chain.",
+      eli5: "This is the classic \"escalation ladder\" question. You already tried step one — talking to the colleague — and got shut down. The next step isn't to go rogue and call the client directly (B) or post online (D), and it definitely isn't to shrug and walk away (C). You escalate through proper channels: tell management, and if they don't fix it, report to the licensing board. The exam tests whether you know the correct order of escalation. It's always: direct conversation → management → board. Jumping straight to the board or the public is only correct when there's imminent danger and no time for the chain.",
       hint: 'Think about the proper order of escalation when a colleague\'s error puts public safety at risk.',
       steps: [
         {
@@ -265,14 +265,14 @@ export default {
       type: 'conceptual',
       statement: 'A consulting engineer is hired by a real estate developer to prepare a flood risk assessment for a proposed residential subdivision. The developer asks the engineer to use an outdated FEMA flood map that shows the site outside the 100-year floodplain, rather than the current map that places 40% of the lots within it. The developer argues that the old map was "official at the time the project was conceived." What should the engineer do?',
       choices: [
-        { id: 'c1', text: 'Use the outdated map as the developer requests since it was an official FEMA product' },
+        { id: 'c1', text: 'Refuse to use the outdated map and prepare the assessment using current data, informing the developer that professional documents must be objective and truthful' },
         { id: 'c2', text: 'Use the outdated map but add a footnote disclosing that a newer map exists' },
-        { id: 'c3', text: 'Refuse to use the outdated map and prepare the assessment using current data, informing the developer that professional documents must be objective and truthful' },
+        { id: 'c3', text: 'Use the outdated map as the developer requests since it was an official FEMA product' },
         { id: 'c4', text: 'Withdraw from the project entirely since the developer has demonstrated unethical intent' },
       ],
-      correctAnswerId: 'c3',
+      correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Rule A.4 requires that professional reports include all relevant information and be presented objectively and truthfully. Using an outdated flood map when a current one exists is not objective — it is cherry-picking data to favor the client. The engineer knows the current map puts 40% of the lots in the floodplain, and omitting that information puts future homeowners at risk. Answer A is wrong because using outdated data when better data exists is not truthful practice. Answer B is a half-measure — a footnote does not make a misleading analysis acceptable. Answer D might feel right, but the Model Rules do not require you to quit; they require you to do the work correctly and honestly.',
+      eli5: 'Rule A.4 requires that professional reports include all relevant information and be presented objectively and truthfully. Using an outdated flood map when a current one exists is not objective — it is cherry-picking data to favor the client. The engineer knows the current map puts 40% of the lots in the floodplain, and omitting that information puts future homeowners at risk. Choice C is wrong because using outdated data when better data exists is not truthful practice. Choice B is a half-measure — a footnote does not make a misleading analysis acceptable. Choice D might feel right, but the Model Rules do not require you to quit; they require you to do the work correctly and honestly.',
       hint: 'What does Rule A.4 require about the information included in professional engineering reports?',
       steps: [
         { text: 'Identify the core issue: the developer wants the engineer to use outdated data that misrepresents flood risk to future homeowners.', latex: null },

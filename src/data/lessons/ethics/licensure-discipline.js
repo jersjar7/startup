@@ -64,11 +64,11 @@ export default {
       choices: [
         {
           id: 'c1',
-          text: 'The application will be approved — two years of experience is sufficient after passing the FE',
+          text: 'The application will be denied — the individual needs at least four years of progressive experience after the qualifying degree',
         },
         {
           id: 'c2',
-          text: 'The application will be denied — the individual needs at least four years of progressive experience after the qualifying degree',
+          text: 'The application will be approved — two years of experience is sufficient after passing the FE',
         },
         {
           id: 'c3',
@@ -79,9 +79,9 @@ export default {
           text: 'The application will be approved if the supervising PE writes a recommendation letter',
         },
       ],
-      correctAnswerId: 'c2',
+      correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: "The licensure path is rigid on experience: four years after your bachelor's, three with a master's, two with a doctorate (if you passed the FE). This person has a bachelor's and two years — they're only halfway there. Answer A is wrong because two years is the doctoral track, not the bachelor's track. Answer C gets the order wrong — you can gain experience before passing the PE exam; in fact, that's the normal sequence. Answer D confuses references with the experience requirement. You need five references, but they don't let you skip years.",
+      eli5: "The licensure path is rigid on experience: four years after your bachelor's, three with a master's, two with a doctorate (if you passed the FE). This person has a bachelor's and two years — they're only halfway there. Choice B is wrong because two years is the doctoral track, not the bachelor's track. Choice C gets the order wrong — you can gain experience before passing the PE exam; in fact, that's the normal sequence. Choice D confuses references with the experience requirement. You need five references, but they don't let you skip years.",
       hint: "How many years of experience does the Model Law require after a bachelor's degree for PE licensure?",
       steps: [
         {
@@ -257,13 +257,13 @@ export default {
       statement: 'A licensed PE is found guilty of a misdemeanor charge of shoplifting. The offense is completely unrelated to the engineer\'s professional practice, and the engineer has no prior disciplinary history. Can the state licensing board take action against the engineer\'s license based on this conviction?',
       choices: [
         { id: 'c1', text: 'Yes — any criminal conviction is grounds for disciplinary action under the Model Law' },
-        { id: 'c2', text: 'Yes — shoplifting is a crime of dishonesty, and dishonesty-related misdemeanors are grounds for discipline' },
+        { id: 'c2', text: 'No — only felony convictions trigger disciplinary action under the Model Law' },
         { id: 'c3', text: 'No — misdemeanors are not grounds for discipline unless they are directly related to engineering practice' },
-        { id: 'c4', text: 'No — only felony convictions trigger disciplinary action under the Model Law' },
+        { id: 'c4', text: 'Yes — shoplifting is a crime of dishonesty, and dishonesty-related misdemeanors are grounds for discipline' },
       ],
-      correctAnswerId: 'c2',
+      correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'The Model Law draws a clear line between felonies and misdemeanors. For felonies, any conviction triggers discipline — does not matter if it is related to engineering. For misdemeanors, the standard is narrower: only those that reflect on the licensee\'s ability to practice with good character, or that involve dishonesty or moral turpitude. Shoplifting is a crime of dishonesty — taking something that is not yours through deception. So even though it has nothing to do with engineering, it qualifies. Answer A is too broad — not every misdemeanor qualifies, only dishonesty-related ones. Answer C is wrong because the dishonesty exception exists. Answer D is wrong because it ignores the misdemeanor provision entirely.',
+      eli5: 'The Model Law draws a clear line between felonies and misdemeanors. For felonies, any conviction triggers discipline — does not matter if it is related to engineering. For misdemeanors, the standard is narrower: only those that reflect on the licensee\'s ability to practice with good character, or that involve dishonesty or moral turpitude. Shoplifting is a crime of dishonesty — taking something that is not yours through deception. So even though it has nothing to do with engineering, it qualifies. Choice A is too broad — not every misdemeanor qualifies, only dishonesty-related ones. Choice C is wrong because the dishonesty exception exists. Choice B is wrong because it ignores the misdemeanor provision entirely.',
       hint: 'The Model Law treats felonies and misdemeanors differently. For misdemeanors, what specific characteristic makes them grounds for discipline?',
       steps: [
         { text: 'Apply §150.10 A.3: felony convictions of any kind are grounds for discipline, whether or not related to engineering.', latex: null },
@@ -308,14 +308,14 @@ export default {
       type: 'conceptual',
       statement: 'A licensing board suspends a PE\'s license for two years due to negligence on a bridge inspection. During the suspension period, the engineer continues to work at the same firm as a "project coordinator." In this role, the engineer reviews incoming project proposals, assigns tasks to licensed PEs, sets project schedules, attends client meetings to discuss design progress, and provides technical guidance to junior engineers on structural detailing. The engineer does not sign or seal any documents. Has the engineer violated the terms of the suspension?',
       choices: [
-        { id: 'c1', text: 'No — the engineer is not signing or sealing documents and therefore is not practicing engineering' },
+        { id: 'c1', text: 'Yes — providing technical guidance on structural detailing and discussing design progress with clients constitutes practice of engineering, regardless of the job title or whether documents are sealed' },
         { id: 'c2', text: 'No — the role is purely managerial and does not constitute engineering practice' },
-        { id: 'c3', text: 'Yes — providing technical guidance on structural detailing and discussing design progress with clients constitutes practice of engineering, regardless of the job title or whether documents are sealed' },
+        { id: 'c3', text: 'No — the engineer is not signing or sealing documents and therefore is not practicing engineering' },
         { id: 'c4', text: 'It depends on whether the firm\'s other PEs are supervising the engineer\'s work' },
       ],
-      correctAnswerId: 'c3',
+      correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Job titles do not determine whether someone is practicing engineering — the nature of the work does. Some of the coordinator\'s tasks are genuinely managerial: setting schedules and assigning tasks to PEs. But two activities cross the line. First, providing technical guidance on structural detailing requires engineering judgment and education — that is practice of engineering under §110.20 A.3. Second, discussing design progress with clients constitutes offering engineering services. The fact that no documents are signed or sealed is irrelevant — the Model Law defines practice broadly, and the seal is only one trigger. Under §150.10 A.9, practicing while suspended is a separate violation that can lead to permanent revocation. Answer A focuses too narrowly on sealing. Answer B ignores the technical guidance component. Answer D is wrong because supervised practice by a suspended licensee is still unauthorized practice.',
+      eli5: 'Job titles do not determine whether someone is practicing engineering — the nature of the work does. Some of the coordinator\'s tasks are genuinely managerial: setting schedules and assigning tasks to PEs. But two activities cross the line. First, providing technical guidance on structural detailing requires engineering judgment and education — that is practice of engineering under §110.20 A.3. Second, discussing design progress with clients constitutes offering engineering services. The fact that no documents are signed or sealed is irrelevant — the Model Law defines practice broadly, and the seal is only one trigger. Under §150.10 A.9, practicing while suspended is a separate violation that can lead to permanent revocation. Choice C focuses too narrowly on sealing. Choice B ignores the technical guidance component. Choice D is wrong because supervised practice by a suspended licensee is still unauthorized practice.',
       hint: 'Does the Model Law definition of "practice of engineering" require signing and sealing documents, or does it cover any service requiring engineering judgment?',
       steps: [
         { text: 'Apply §110.20 A.3: practice of engineering includes any service requiring engineering education, training, and experience that impacts public health, safety, and welfare.', latex: null },

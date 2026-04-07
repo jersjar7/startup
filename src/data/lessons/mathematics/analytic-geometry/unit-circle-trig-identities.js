@@ -42,11 +42,11 @@ export default {
       "choices": [
         {
           "id": "c1",
-          "text": "√3/2"
+          "text": "1/2"
         },
         {
           "id": "c2",
-          "text": "1/2"
+          "text": "√3/2"
         },
         {
           "id": "c3",
@@ -57,9 +57,9 @@ export default {
           "text": "1"
         }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "The unit circle point at $60°$ is $(1/2,\\, \\sqrt{3}/2)$. Cosine is always the x-coordinate, sine is the y-coordinate. The trap is mixing them up — $\\sqrt{3}/2$ is the sine of $60°$, not the cosine. If you remember that $\\cos 60° = 1/2$ and $\\sin 60° = \\sqrt{3}/2$, you have the most commonly tested pair down.",
+      "eli5": "The unit circle point at $60°$ is $(1/2,\\, \\sqrt{3}/2)$. Cosine is always the x-coordinate, sine is the y-coordinate. The trap is mixing them up — $\\sqrt{3}/2$ (Choice B) is the sine of $60°$, not the cosine. If you remember that $\\cos 60° = 1/2$ and $\\sin 60° = \\sqrt{3}/2$, you have the most commonly tested pair down.",
       "hint": "On the unit circle, cosine is the x-coordinate and sine is the y-coordinate at any angle.",
       "steps": [
         {
@@ -184,11 +184,11 @@ export default {
       "statement": "What is the exact value of $\\sin 150°$?",
       "choices": [
         { "id": "c1", "text": "$-\\frac{1}{2}$" },
-        { "id": "c2", "text": "$\\frac{1}{2}$" },
+        { "id": "c2", "text": "$-\\frac{\\sqrt{3}}{2}$" },
         { "id": "c3", "text": "$\\frac{\\sqrt{3}}{2}$" },
-        { "id": "c4", "text": "$-\\frac{\\sqrt{3}}{2}$" }
+        { "id": "c4", "text": "$\\frac{1}{2}$" }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c4",
       "difficulty": "easy",
       "eli5": "150° is in the second quadrant. Its reference angle is $180° - 150° = 30°$. Sine of 30° is $1/2$. In Q2, sine is positive (y-coordinates are positive above the x-axis), so $\\sin 150° = +1/2$. The trap is picking the negative version — sine is only negative in Q3 and Q4. Also don't confuse $\\sin 30°$ with $\\cos 30°$ which is $\\sqrt{3}/2$.",
       "hint": "Find the reference angle for 150°, then determine the sign from the quadrant.",
@@ -211,13 +211,13 @@ export default {
       "statement": "If $\\cos\\theta = \\frac{7}{25}$ and $\\theta$ is in the fourth quadrant, what is $\\sin\\theta$?",
       "choices": [
         { "id": "c1", "text": "$\\frac{24}{25}$" },
-        { "id": "c2", "text": "$-\\frac{24}{25}$" },
-        { "id": "c3", "text": "$-\\frac{7}{25}$" },
+        { "id": "c2", "text": "$-\\frac{7}{25}$" },
+        { "id": "c3", "text": "$-\\frac{24}{25}$" },
         { "id": "c4", "text": "$\\frac{18}{25}$" }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c3",
       "difficulty": "medium",
-      "eli5": "Start with the Pythagorean identity: $\\sin^2\\theta = 1 - \\cos^2\\theta = 1 - 49/625 = 576/625$. Square root gives $\\pm 24/25$. Now check the quadrant: Q4 means y is negative, so sine is negative. The answer is $-24/25$. Choice A is the positive root — that's Q1, not Q4. Always let the quadrant tell you the sign.",
+      "eli5": "Start with the Pythagorean identity: $\\sin^2\\theta = 1 - \\cos^2\\theta = 1 - 49/625 = 576/625$. Square root gives $\\pm 24/25$. Now check the quadrant: Q4 means y is negative, so sine is negative. The answer is $-24/25$ (Choice C). Choice A is the positive root — that's Q1, not Q4. Always let the quadrant tell you the sign.",
       "hint": "Use $\\sin^2\\theta + \\cos^2\\theta = 1$, then pick the sign from the quadrant.",
       "steps": [
         { "text": "Apply the Pythagorean identity:", "latex": "\\sin^2\\theta = 1 - \\cos^2\\theta = 1 - \\frac{49}{625} = \\frac{576}{625}" },
@@ -238,14 +238,14 @@ export default {
       "type": "computational",
       "statement": "If $\\cos\\theta = \\frac{3}{5}$ and $\\theta$ is in the first quadrant, what is the value of $\\cos 2\\theta$?",
       "choices": [
-        { "id": "c1", "text": "$\\frac{6}{5}$" },
-        { "id": "c2", "text": "$-\\frac{7}{25}$" },
+        { "id": "c1", "text": "$-\\frac{7}{25}$" },
+        { "id": "c2", "text": "$\\frac{6}{5}$" },
         { "id": "c3", "text": "$\\frac{7}{25}$" },
         { "id": "c4", "text": "$\\frac{9}{25}$" }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Use the double-angle formula $\\cos 2\\theta = 2\\cos^2\\theta - 1$. Plug in: $2(9/25) - 1 = 18/25 - 25/25 = -7/25$. Choice A is wrong because it just doubles cos — that's not how double-angle works. Choice D uses $\\cos^2\\theta$ without the doubling and subtraction. The negative result is totally fine — it means $2\\theta$ lands in Q2 or Q3 where cosine is negative.",
+      "eli5": "Use the double-angle formula $\\cos 2\\theta = 2\\cos^2\\theta - 1$. Plug in: $2(9/25) - 1 = 18/25 - 25/25 = -7/25$. Choice B is wrong because it just doubles cos — that's not how double-angle works. Choice D uses $\\cos^2\\theta$ without the doubling and subtraction. The negative result is totally fine — it means $2\\theta$ lands in Q2 or Q3 where cosine is negative.",
       "hint": "The double-angle formula $\\cos 2\\theta = 2\\cos^2\\theta - 1$ only needs $\\cos\\theta$.",
       "steps": [
         { "text": "Apply the double-angle formula:", "latex": "\\cos 2\\theta = 2\\cos^2\\theta - 1" },

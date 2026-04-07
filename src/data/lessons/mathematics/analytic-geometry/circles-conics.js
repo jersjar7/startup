@@ -154,7 +154,7 @@ export default {
       "choices": [
         {
           "id": "c1",
-          "text": "x = 300 m, y = 160 m"
+          "text": "x = 200 m, y = 140 m"
         },
         {
           "id": "c2",
@@ -166,10 +166,10 @@ export default {
         },
         {
           "id": "c4",
-          "text": "x = 200 m, y = 140 m"
+          "text": "x = 300 m, y = 160 m"
         }
       ],
-      "correctAnswerId": "c1",
+      "correctAnswerId": "c4",
       "difficulty": "hard",
       "eli5": "For a parabola $y = ax^2 + bx + c$, the vertex is at $x = -b/(2a)$. Plug in $a = -0.004$ and $b = 2.4$ to get $x = 300$. Then substitute $x = 300$ back into the equation to get $y = 160$. The big trap is forgetting the 2 in the denominator and using $-b/a = 600$ instead. Always double-check by plugging the $x$ value back in.",
       "hint": "The vertex of $y = ax^2 + bx + c$ is at $x = -b/(2a)$ — do not forget the 2 in the denominator.",
@@ -253,11 +253,11 @@ export default {
       statement: 'An elliptical culvert has the equation $\\frac{x^2}{16} + \\frac{y^2}{9} = 1$. What is the length of the major axis?',
       choices: [
         { id: 'c1', text: '4' },
-        { id: 'c2', text: '8' },
-        { id: 'c3', text: '3' },
+        { id: 'c2', text: '3' },
+        { id: 'c3', text: '8' },
         { id: 'c4', text: '6' },
       ],
-      correctAnswerId: 'c2',
+      correctAnswerId: 'c3',
       difficulty: 'medium',
       eli5: 'The larger denominator tells you which axis is major. Here $16 > 9$, so the major axis is along $x$. The semi-major axis is $a = \\sqrt{16} = 4$, but the FULL major axis is $2a = 8$. Choice A is the semi-major axis — the question asks for the full length. Choice D is the minor axis length ($2 \\times 3 = 6$).',
       hint: 'The semi-axis is the square root of the denominator. The full axis length is twice that.',

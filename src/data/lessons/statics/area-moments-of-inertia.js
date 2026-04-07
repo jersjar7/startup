@@ -72,14 +72,14 @@ export default {
       statement:
         'A rectangular cross section is 150 mm wide and 300 mm tall. What is the moment of inertia about its centroidal horizontal axis ($I_{xc}$)?',
       choices: [
-        { id: 'c1', text: '$3.375 \\times 10^8$ mm$^4$' },
+        { id: 'c1', text: '$6.75 \\times 10^8$ mm$^4$' },
         { id: 'c2', text: '$1.350 \\times 10^9$ mm$^4$' },
         { id: 'c3', text: '$8.44 \\times 10^7$ mm$^4$' },
-        { id: 'c4', text: '$6.75 \\times 10^8$ mm$^4$' },
+        { id: 'c4', text: '$3.375 \\times 10^8$ mm$^4$' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c4',
       difficulty: 'easy',
-      eli5: 'For a rectangle, the centroidal moment of inertia is $bh^3/12$. The key is using the correct dimension for $h$ \u2014 it is the dimension perpendicular to the axis you are computing about. For $I_x$, $h$ is the height (300 mm) and $b$ is the width (150 mm). Answer B ($1.35 \\times 10^9$) uses $bh^3/3$ instead of $bh^3/12$ \u2014 that is the moment of inertia about the base, not the centroid. Answer C ($8.44 \\times 10^7$) swaps $b$ and $h$, computing $b^3h/12$ (moment of inertia about the vertical centroidal axis instead). Answer D doubles the correct value.',
+      eli5: 'For a rectangle, the centroidal moment of inertia is $bh^3/12$. The key is using the correct dimension for $h$ \u2014 it is the dimension perpendicular to the axis you are computing about. For $I_x$, $h$ is the height (300 mm) and $b$ is the width (150 mm). Answer B ($1.35 \\times 10^9$) uses $bh^3/3$ instead of $bh^3/12$ \u2014 that is the moment of inertia about the base, not the centroid. Answer C ($8.44 \\times 10^7$) swaps $b$ and $h$, computing $b^3h/12$ (moment of inertia about the vertical centroidal axis instead). Answer A doubles the correct value.',
       hint: 'For a rectangle, $I_{xc} = bh^3/12$. Make sure $h$ is the dimension perpendicular to the axis.',
       steps: [
         {
@@ -158,14 +158,14 @@ export default {
       statement:
         'A T-shaped cross section has a top flange 120 mm wide \u00d7 20 mm thick and a web 20 mm wide \u00d7 80 mm deep below the flange. The composite centroid is at 70 mm from the bottom (found in the previous lesson). What is the moment of inertia of the composite section about its centroidal x-axis?',
       choices: [
-        { id: 'c1', text: '$3.33 \\times 10^6$ mm$^4$' },
-        { id: 'c2', text: '$0.93 \\times 10^6$ mm$^4$' },
-        { id: 'c3', text: '$2.40 \\times 10^6$ mm$^4$' },
+        { id: 'c1', text: '$0.93 \\times 10^6$ mm$^4$' },
+        { id: 'c2', text: '$2.40 \\times 10^6$ mm$^4$' },
+        { id: 'c3', text: '$3.33 \\times 10^6$ mm$^4$' },
         { id: 'c4', text: '$1.67 \\times 10^6$ mm$^4$' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'For each piece, compute its own centroidal $I$ and then transfer it to the composite centroidal axis using the parallel axis theorem. The web\u2019s centroid is 30 mm below the composite centroid, and the flange\u2019s centroid is 20 mm above it. Add both transferred moments: $I = (I_{c,web} + A_{web} d_{web}^2) + (I_{c,flange} + A_{flange} d_{flange}^2) = 2.29 \\times 10^6 + 1.04 \\times 10^6 = 3.33 \\times 10^6$ mm\u2074. Answer B ($0.93 \\times 10^6$) adds only the centroidal $I$ values without the $Ad^2$ transfer terms \u2014 the single most common parallel axis theorem mistake. Answer C ($2.40 \\times 10^6$) includes only the $Ad^2$ terms without the centroidal $I$ values.',
+      eli5: 'For each piece, compute its own centroidal $I$ and then transfer it to the composite centroidal axis using the parallel axis theorem. The web\u2019s centroid is 30 mm below the composite centroid, and the flange\u2019s centroid is 20 mm above it. Add both transferred moments: $I = (I_{c,web} + A_{web} d_{web}^2) + (I_{c,flange} + A_{flange} d_{flange}^2) = 2.29 \\times 10^6 + 1.04 \\times 10^6 = 3.33 \\times 10^6$ mm\u2074. Answer A ($0.93 \\times 10^6$) adds only the centroidal $I$ values without the $Ad^2$ transfer terms \u2014 the single most common parallel axis theorem mistake. Answer B ($2.40 \\times 10^6$) includes only the $Ad^2$ terms without the centroidal $I$ values.',
       hint: 'Apply the parallel axis theorem to each piece separately: $I_{piece} = I_{c,piece} + A_{piece} \\times d_{piece}^2$, where $d$ is the distance from that piece\u2019s centroid to the composite centroid.',
       steps: [
         {
@@ -202,11 +202,11 @@ export default {
       statement: 'A rectangular cross-section has a width of 200 mm and a height of 400 mm. What is the moment of inertia about the centroidal horizontal axis?',
       choices: [
         { id: 'c1', text: '$533 \\times 10^6\\,\\text{mm}^4$' },
-        { id: 'c2', text: '$1067 \\times 10^6\\,\\text{mm}^4$' },
-        { id: 'c3', text: '$2667 \\times 10^6\\,\\text{mm}^4$' },
+        { id: 'c2', text: '$2667 \\times 10^6\\,\\text{mm}^4$' },
+        { id: 'c3', text: '$1067 \\times 10^6\\,\\text{mm}^4$' },
         { id: 'c4', text: '$4267 \\times 10^6\\,\\text{mm}^4$' },
       ],
-      correctAnswerId: 'c2',
+      correctAnswerId: 'c3',
       difficulty: 'easy',
       eli5: 'For a rectangle, $I = bh^3/12$ about the centroidal axis. Plug in $b = 200$ and $h = 400$: $I = 200(400)^3/12 = 200(64{,}000{,}000)/12 = 1{,}066{,}666{,}667$ mm$^4$ which rounds to $1067 \\times 10^6$. The trap is using $bh^3/3$ (which is about the base, not the centroid) or swapping $b$ and $h$.',
       hint: 'Use $I = bh^3/12$ for a rectangle about its centroidal axis.',
@@ -251,14 +251,14 @@ export default {
       type: 'computational',
       statement: 'A solid circular cross-section has a diameter of 200 mm. What is the polar moment of inertia $J$ about the centroidal axis?',
       choices: [
-        { id: 'c1', text: '$78.5 \\times 10^6\\,\\text{mm}^4$' },
-        { id: 'c2', text: '$157.1 \\times 10^6\\,\\text{mm}^4$' },
+        { id: 'c1', text: '$157.1 \\times 10^6\\,\\text{mm}^4$' },
+        { id: 'c2', text: '$78.5 \\times 10^6\\,\\text{mm}^4$' },
         { id: 'c3', text: '$39.3 \\times 10^6\\,\\text{mm}^4$' },
         { id: 'c4', text: '$314.2 \\times 10^6\\,\\text{mm}^4$' },
       ],
-      correctAnswerId: 'c2',
+      correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The polar moment of inertia for a circle is $J = \\pi r^4/2$, or equivalently $J = \\pi d^4/32$. With $d = 200$ mm, $J = \\pi(200)^4/32 = \\pi(1.6 \\times 10^9)/32 = 157.1 \\times 10^6$ mm$^4$. Another way to get there: $I_x = \\pi r^4/4 = 78.5 \\times 10^6$, then $J = 2I_x = 157.1 \\times 10^6$. Choice A is just $I_x$ (the moment about one axis, not the polar moment). Choice C halves $I_x$ — probably from using $\\pi r^4/8$ by mistake. Choice D doubles the correct answer.',
+      eli5: 'The polar moment of inertia for a circle is $J = \\pi r^4/2$, or equivalently $J = \\pi d^4/32$. With $d = 200$ mm, $J = \\pi(200)^4/32 = \\pi(1.6 \\times 10^9)/32 = 157.1 \\times 10^6$ mm$^4$. Another way to get there: $I_x = \\pi r^4/4 = 78.5 \\times 10^6$, then $J = 2I_x = 157.1 \\times 10^6$. Choice B is just $I_x$ (the moment about one axis, not the polar moment). Choice C halves $I_x$ — probably from using $\\pi r^4/8$ by mistake. Choice D doubles the correct answer.',
       hint: 'Remember that $J = I_x + I_y$, and for a circle $I_x = I_y$.',
       steps: [
         { text: 'Find the radius:', latex: 'r = \\frac{d}{2} = \\frac{200}{2} = 100\\,\\text{mm}' },

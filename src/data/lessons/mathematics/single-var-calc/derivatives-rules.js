@@ -318,10 +318,10 @@ export default {
       "choices": [
         { "id": "c1", "text": "Power rule only" },
         { "id": "c2", "text": "Chain rule applied once" },
-        { "id": "c3", "text": "Chain rule applied twice (nested)" },
-        { "id": "c4", "text": "Product rule and chain rule" }
+        { "id": "c3", "text": "Product rule and chain rule" },
+        { "id": "c4", "text": "Chain rule applied twice (nested)" }
       ],
-      "correctAnswerId": "c3",
+      "correctAnswerId": "c4",
       "difficulty": "hard",
       "eli5": "There are two layers of composition here. The outermost function is $\\sin(\\cdot)$, and the inner function is $3x^2$. To differentiate $\\sin(u)$ you get $\\cos(u) \\cdot du/dx$. But $u = 3x^2$, and differentiating that uses the power rule (which is itself a form of chain rule applied to the $x^2$). So the chain rule fires twice: once for $\\sin \\to \\cos$, once for $3x^2 \\to 6x$. There's no product of two separate functions of $x$, so the product rule doesn't apply here.",
       "hint": "Count the layers of composition: how many functions are nested inside each other?",

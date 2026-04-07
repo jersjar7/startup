@@ -155,7 +155,7 @@ export default {
         },
         {
           "id": "c2",
-          "text": "102.6°"
+          "text": "117.3°"
         },
         {
           "id": "c3",
@@ -163,10 +163,10 @@ export default {
         },
         {
           "id": "c4",
-          "text": "117.3°"
+          "text": "102.6°"
         }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c4",
       "difficulty": "hard",
       "eli5": "When you have all three sides but no angles, rearrange the Law of Cosines to solve for cosine of the angle. The key insight: if the numerator comes out negative, the cosine is negative, which means the angle is obtuse (bigger than 90°). Don't panic when you see a negative — just hit inverse cosine on your calculator and it handles it. The trap is second-guessing the negative and subtracting from 180°.",
       "hint": "Rearrange the Law of Cosines to isolate $\\cos C$. What does a negative value of cosine tell you about the angle?",
@@ -232,12 +232,12 @@ export default {
       "type": "computational",
       "statement": "Two sides of a triangular parcel measure $a = 120\\,\\text{m}$ and $b = 95\\,\\text{m}$, with an included angle $C = 48°$. What is the length of the third side $c$?",
       "choices": [
-        { "id": "c1", "text": "$78.4\\,\\text{m}$" },
-        { "id": "c2", "text": "$91.8\\,\\text{m}$" },
+        { "id": "c1", "text": "$90.4\\,\\text{m}$" },
+        { "id": "c2", "text": "$78.4\\,\\text{m}$" },
         { "id": "c3", "text": "$105.3\\,\\text{m}$" },
         { "id": "c4", "text": "$152.6\\,\\text{m}$" }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c1",
       "difficulty": "medium",
       "eli5": "Two sides and the angle between them (SAS) means Law of Cosines. Plug in, compute each piece, then take the square root. The included angle is less than $90°$, so $\\cos 48°$ is positive and the correction term subtracts from $a^2 + b^2$. If the angle were obtuse, $\\cos C$ would be negative and you would actually add — that is a subtlety to watch for.",
       "hint": "Two sides with their included angle — which formula generalizes the Pythagorean theorem?",
@@ -245,7 +245,7 @@ export default {
         { "text": "Apply Law of Cosines:", "latex": "c^2 = a^2 + b^2 - 2ab\\cos C" },
         { "text": "Substitute:", "latex": "c^2 = 120^2 + 95^2 - 2(120)(95)\\cos 48°" },
         { "text": "Compute:", "latex": "c^2 = 14400 + 9025 - 22800 \\times 0.6691 = 23425 - 15256 = 8169" },
-        { "text": "Take the square root:", "latex": "c = \\sqrt{8169} = 91.8\\,\\text{m}" }
+        { "text": "Take the square root:", "latex": "c = \\sqrt{8169} \\approx 90.4\\,\\text{m}" }
       ],
       "handbookPage": "p. 38",
       "handbookFormula": "c^2 = a^2 + b^2 - 2ab\\cos C",
@@ -262,18 +262,18 @@ export default {
       "statement": "A triangular truss has sides $a = 7.5\\,\\text{m}$, $b = 9.0\\,\\text{m}$, and $c = 5.0\\,\\text{m}$. What is angle $A$ (opposite side $a$)?",
       "choices": [
         { "id": "c1", "text": "$42.3°$" },
-        { "id": "c2", "text": "$56.3°$" },
-        { "id": "c3", "text": "$81.4°$" },
+        { "id": "c2", "text": "$81.4°$" },
+        { "id": "c3", "text": "$56.4°$" },
         { "id": "c4", "text": "$67.8°$" }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c3",
       "difficulty": "medium",
       "eli5": "All three sides, no angles — SSS situation. Rearrange the Law of Cosines to isolate $\\cos A$. Plug in the sides, do the arithmetic, and take inverse cosine. The numerator here comes out positive, so the angle is acute (less than $90°$). If it had come out negative, the angle would be obtuse. Always let the sign of the cosine tell you the story.",
       "hint": "Rearrange the Law of Cosines to solve for the angle: $\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}$.",
       "steps": [
         { "text": "Rearrange for $\\cos A$:", "latex": "\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}" },
         { "text": "Substitute:", "latex": "\\cos A = \\frac{81 + 25 - 56.25}{2(9)(5)} = \\frac{49.75}{90} = 0.5528" },
-        { "text": "Take inverse cosine:", "latex": "A = \\cos^{-1}(0.5528) = 56.3°" }
+        { "text": "Take inverse cosine:", "latex": "A = \\cos^{-1}(0.5528) = 56.4°" }
       ],
       "handbookPage": "p. 38",
       "handbookFormula": "\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}",

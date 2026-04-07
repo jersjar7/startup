@@ -216,7 +216,7 @@ export default {
     {
       id: 'econ-ctb-ex1',
       type: 'computational',
-      statement: 'A paving contractor can produce asphalt using two methods. Method A (on-site plant): fixed cost of 8,000 per day plus 5 per ton. Method B (purchased from supplier): fixed cost of 3,000 per day plus 10 per ton. At what daily tonnage do the two methods break even?',
+      statement: 'A paving contractor can produce asphalt using two methods. Method A (on-site plant): fixed cost of 8,000 dollars per day plus 5 dollars per ton. Method B (purchased from supplier): fixed cost of 3,000 dollars per day plus 10 dollars per ton. At what daily tonnage do the two methods break even?',
       choices: [
         { id: 'c1', text: '1,000 tons' },
         { id: 'c2', text: '800 tons' },
@@ -242,16 +242,16 @@ export default {
     {
       id: 'econ-ctb-ex2',
       type: 'computational',
-      statement: 'A city installs energy-efficient LED street lighting at a cost of 250,000. The new lights save 65,000 per year in electricity but require 15,000 per year in additional maintenance. Using simple payback analysis, what is the payback period?',
+      statement: 'A city installs energy-efficient LED street lighting at a cost of 250,000 dollars. The new lights save 65,000 dollars per year in electricity but require 15,000 dollars per year in additional maintenance. Using simple payback analysis, what is the payback period?',
       choices: [
-        { id: 'c1', text: '5.0 years' },
+        { id: 'c1', text: '16.7 years' },
         { id: 'c2', text: '3.8 years' },
-        { id: 'c3', text: '16.7 years' },
+        { id: 'c3', text: '5.0 years' },
         { id: 'c4', text: '3.1 years' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Simple payback = initial investment divided by net annual savings. The gross savings are 65,000/year, but you have to subtract the new 15,000/year maintenance cost to get the net savings of 50,000/year. Then: $250{,}000 / 50{,}000 = 5.0$ years. Choice B (3.8 years) divides by the gross savings ($250{,}000 / 65{,}000 = 3.85$), ignoring the maintenance cost. Choice C (16.7 years) divides by only the maintenance cost ($250{,}000 / 15{,}000$). Choice D (3.1 years) divides by the sum of savings and maintenance ($65{,}000 + 15{,}000 = 80{,}000$) instead of the difference.',
+      eli5: 'Simple payback = initial investment divided by net annual savings. The gross savings are 65,000/year, but you have to subtract the new 15,000/year maintenance cost to get the net savings of 50,000/year. Then: $250{,}000 / 50{,}000 = 5.0$ years. Choice B (3.8 years) divides by the gross savings ($250{,}000 / 65{,}000 = 3.85$), ignoring the maintenance cost. Choice A (16.7 years) divides by only the maintenance cost ($250{,}000 / 15{,}000$). Choice D (3.1 years) divides by the sum of savings and maintenance ($65{,}000 + 15{,}000 = 80{,}000$) instead of the difference.',
       hint: 'Net annual savings = gross savings minus new annual costs. Do not use gross savings alone.',
       steps: [
         { text: 'Identify the initial investment:', latex: 'I = 250{,}000' },
@@ -267,16 +267,16 @@ export default {
     {
       id: 'econ-ctb-ex3',
       type: 'computational',
-      statement: 'A contractor evaluates two concrete placement methods for a large pour. Method A has a fixed cost of 12,000 per day and a variable cost of 8.50 per cubic yard. Method B has a fixed cost of 20,000 per day and a variable cost of 4.50 per cubic yard. For a day requiring 2,500 cubic yards, what is the total cost of the cheaper method?',
+      statement: 'A contractor evaluates two concrete placement methods for a large pour. Method A has a fixed cost of 12,000 dollars per day and a variable cost of 8.50 dollars per cubic yard. Method B has a fixed cost of 20,000 dollars per day and a variable cost of 4.50 dollars per cubic yard. For a day requiring 2,500 cubic yards, what is the total cost of the cheaper method?',
       choices: [
-        { id: 'c1', text: '31,250' },
-        { id: 'c2', text: '33,250' },
-        { id: 'c3', text: '32,000' },
-        { id: 'c4', text: '20,000' },
+        { id: 'c1', text: '33,250 dollars' },
+        { id: 'c2', text: '32,000 dollars' },
+        { id: 'c3', text: '31,250 dollars' },
+        { id: 'c4', text: '20,000 dollars' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Compute the total cost for each method at $Q = 2{,}500$ and pick the lower one. Method A: $12{,}000 + 8.50(2{,}500) = 12{,}000 + 21{,}250 = 33{,}250$. Method B: $20{,}000 + 4.50(2{,}500) = 20{,}000 + 11{,}250 = 31{,}250$. Method B is cheaper at 31,250. The break-even quantity is $(20{,}000 - 12{,}000)/(8.50 - 4.50) = 8{,}000/4 = 2{,}000$ cy. Since 2,500 > 2,000, the method with the higher fixed cost but lower variable cost (Method B) wins. Choice B (33,250) is Method A\'s total cost \u2014 not wrong to compute, but it is the more expensive option. Choice C (32,000) is a rounding error or arithmetic slip. Choice D (20,000) uses only Method B\'s fixed cost without adding the variable portion.',
+      eli5: 'Compute the total cost for each method at $Q = 2{,}500$ and pick the lower one. Method A: $12{,}000 + 8.50(2{,}500) = 12{,}000 + 21{,}250 = 33{,}250$. Method B: $20{,}000 + 4.50(2{,}500) = 20{,}000 + 11{,}250 = 31{,}250$. Method B is cheaper at 31,250. The break-even quantity is $(20{,}000 - 12{,}000)/(8.50 - 4.50) = 8{,}000/4 = 2{,}000$ cy. Since 2,500 > 2,000, the method with the higher fixed cost but lower variable cost (Method B) wins. Choice A (33,250) is Method A\'s total cost \u2014 not wrong to compute, but it is the more expensive option. Choice B (32,000) is a rounding error or arithmetic slip. Choice D (20,000) uses only Method B\'s fixed cost without adding the variable portion.',
       hint: 'Compute TC = FC + VC times Q for both methods at Q = 2,500 and compare.',
       steps: [
         { text: 'Total cost for Method A:', latex: 'TC_A = 12{,}000 + 8.50(2{,}500) = 12{,}000 + 21{,}250 = 33{,}250' },
@@ -294,16 +294,16 @@ export default {
     {
       id: 'econ-ctb-ex4',
       type: 'conceptual',
-      statement: 'A state DOT spent 1.5 million on geotechnical investigations for a proposed highway interchange. After the investigation, soil conditions prove much worse than expected, increasing estimated construction cost from 20 million to 35 million. A neighboring site with better soil would cost 22 million to build but would require a new 2 million environmental study. In deciding whether to proceed at the original site or move to the neighboring site, how should the 1.5 million geotechnical investigation be treated?',
+      statement: 'A state DOT spent 1.5 million dollars on geotechnical investigations for a proposed highway interchange. After the investigation, soil conditions prove much worse than expected, increasing estimated construction cost from 20 million dollars to 35 million dollars. A neighboring site with better soil would cost 22 million dollars to build but would require a new 2 million dollar environmental study. In deciding whether to proceed at the original site or move to the neighboring site, how should the 1.5 million dollar geotechnical investigation be treated?',
       choices: [
-        { id: 'c1', text: 'It is a sunk cost and should be excluded from the comparison entirely' },
-        { id: 'c2', text: 'It should be added to the original site cost since the investigation was performed there' },
-        { id: 'c3', text: 'It should be subtracted from the new site cost as a credit for work already completed' },
-        { id: 'c4', text: 'It should be split proportionally between both options based on their construction costs' },
+        { id: 'c1', text: 'It should be added to the original site cost since the investigation was performed there' },
+        { id: 'c2', text: 'It should be subtracted from the new site cost as a credit for work already completed' },
+        { id: 'c3', text: 'It should be split proportionally between both options based on their construction costs' },
+        { id: 'c4', text: 'It is a sunk cost and should be excluded from the comparison entirely' },
       ],
-      correctAnswerId: 'c1',
+      correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'The 1.5 million is already spent and cannot be recovered regardless of which site the DOT chooses. That is the textbook definition of a sunk cost. The correct comparison is: original site at 35 million versus new site at $22{,}000{,}000 + 2{,}000{,}000 = 24{,}000{,}000$. The 1.5 million does not appear in either equation. Choice B is the most tempting trap because the investigation "belongs" to the original site physically \u2014 but the money is gone either way. Choice C invents a credit mechanism that makes no economic sense. Choice D creates an allocation method that sounds fair but violates the sunk-cost principle. The FE loves to test whether you fall for the emotional pull of wanting to "count" money already spent.',
+      eli5: 'The 1.5 million is already spent and cannot be recovered regardless of which site the DOT chooses. That is the textbook definition of a sunk cost. The correct comparison is: original site at 35 million versus new site at $22{,}000{,}000 + 2{,}000{,}000 = 24{,}000{,}000$. The 1.5 million does not appear in either equation. Choice A is the most tempting trap because the investigation "belongs" to the original site physically \u2014 but the money is gone either way. Choice B invents a credit mechanism that makes no economic sense. Choice C creates an allocation method that sounds fair but violates the sunk-cost principle. The FE loves to test whether you fall for the emotional pull of wanting to "count" money already spent.',
       hint: 'Can the DOT recover the 1.5 million by choosing one option over the other? If the answer is no, what type of cost is it?',
       steps: [
         { text: 'The 1.5 million geotechnical investigation is already completed and paid for. It cannot be recovered regardless of which site is selected.', latex: null },

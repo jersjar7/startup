@@ -80,13 +80,13 @@ export default {
       "statement": "A force $\\vec{F} = 300\\hat{i} + 600\\hat{j} - 300\\hat{k}$ N acts at a joint. A structural member runs from the joint in the direction $\\vec{d} = 2\\hat{i} + 2\\hat{j} + 1\\hat{k}$. What is the component of the force along the member?",
       "choices": [
         { "id": "c1", "text": "$900$ N" },
-        { "id": "c2", "text": "$500$ N" },
+        { "id": "c2", "text": "$1500$ N" },
         { "id": "c3", "text": "$300$ N" },
-        { "id": "c4", "text": "$1500$ N" }
+        { "id": "c4", "text": "$500$ N" }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c4",
       "difficulty": "hard",
-      "eli5": "The scalar projection tells you how much of the force acts along the member's axis. Compute the dot product (which mixes all three components), then divide by the magnitude of the direction vector — not the force vector. Choice D (1500) is the raw dot product without dividing — the most common mistake. Choice A (900) is the sum of force component magnitudes, which ignores direction entirely.",
+      "eli5": "The scalar projection tells you how much of the force acts along the member's axis. Compute the dot product (which mixes all three components), then divide by the magnitude of the direction vector — not the force vector. Choice B (1500) is the raw dot product without dividing — the most common mistake. Choice A (900) is the sum of force component magnitudes, which ignores direction entirely.",
       "hint": "The component of F along d is (F · d) / |d| — divide by the magnitude of the direction, not the force.",
       "steps": [
         { "text": "Dot product:", "latex": "\\vec{F} \\cdot \\vec{d} = (300)(2) + (600)(2) + (-300)(1) = 600 + 1200 - 300 = 1500" },
@@ -193,12 +193,12 @@ export default {
       "type": "conceptual",
       "statement": "Two vectors $\\vec{A}$ and $\\vec{B}$ have a dot product of zero. What can you conclude?",
       "choices": [
-        { "id": "c1", "text": "One or both vectors are zero vectors, or the vectors are perpendicular" },
+        { "id": "c1", "text": "The vectors have equal magnitude" },
         { "id": "c2", "text": "The vectors are parallel" },
-        { "id": "c3", "text": "The vectors have equal magnitude" },
+        { "id": "c3", "text": "One or both vectors are zero vectors, or the vectors are perpendicular" },
         { "id": "c4", "text": "The vectors point in opposite directions" }
       ],
-      "correctAnswerId": "c1",
+      "correctAnswerId": "c3",
       "difficulty": "hard",
       "eli5": "The dot product formula says $\\vec{A} \\cdot \\vec{B} = |A||B|\\cos\\theta$. This equals zero when $\\cos\\theta = 0$ (meaning $\\theta = 90°$, so perpendicular) OR when one of the magnitudes is zero (a zero vector). Most problems assume nonzero vectors, so the quick answer is 'perpendicular.' But technically, the zero vector is dotted with anything and gives zero, so the complete answer includes that case. Parallel vectors have $\\cos\\theta = \\pm 1$, giving a nonzero dot product (unless one is the zero vector).",
       "hint": "The angle formula $A \\cdot B = |A||B|\\cos\\theta$ — when does this equal zero?",

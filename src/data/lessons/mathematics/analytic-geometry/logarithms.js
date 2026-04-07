@@ -84,7 +84,7 @@ export default {
         },
         {
           "id": "c2",
-          "text": "3.5"
+          "text": "0.35"
         },
         {
           "id": "c3",
@@ -92,10 +92,10 @@ export default {
         },
         {
           "id": "c4",
-          "text": "0.35"
+          "text": "3.5"
         }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c4",
       "difficulty": "easy",
       "eli5": "The power rule says you can pull the exponent out front: $\\log(10^x) = x\\log(10)$. And $\\log_{10}(10) = 1$ because '10 to the what power gives 10? The answer is 1.' So the whole thing simplifies to just $x = 3.5$. The trap is overthinking it — some students try to compute $10^{3.5}$ and get confused. The log and the exponent with the same base just cancel.",
       "hint": "What happens when the base of the log matches the base of the exponent?",
@@ -128,7 +128,7 @@ export default {
       "choices": [
         {
           "id": "c1",
-          "text": "8.3 days"
+          "text": "46.2 days"
         },
         {
           "id": "c2",
@@ -136,14 +136,14 @@ export default {
         },
         {
           "id": "c3",
-          "text": "46.2 days"
+          "text": "8.3 days"
         },
         {
           "id": "c4",
           "text": "75.0 days"
         }
       ],
-      "correctAnswerId": "c3",
+      "correctAnswerId": "c1",
       "difficulty": "medium",
       "eli5": "You need to 'undo' the exponential, and the natural log does exactly that — $\\ln(e^{\\text{something}}) = \\text{something}$. So take $\\ln$ of both sides to bring the exponent down. The main trap is forgetting to divide out $C_0$ first, or getting confused by the negatives. Both $\\ln(0.25)$ and $-0.03$ are negative, so they cancel and $t$ comes out positive — which makes sense because time cannot be negative.",
       "hint": "Divide both sides by $C_0$ first, then take the natural log to isolate $t$.",

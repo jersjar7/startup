@@ -112,7 +112,7 @@ export default {
         { "id": "c1", "text": "$5$" },
         { "id": "c2", "text": "$7$" },
         { "id": "c3", "text": "$11$" },
-        { "id": "c4", "text": "$\\sqrt{49} = 7$" }
+        { "id": "c4", "text": "$\\sqrt{41} \\approx 6.4$" }
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
@@ -163,14 +163,14 @@ export default {
       "type": "computational",
       "statement": "A 350 N force acts along the direction from point $A(1, -1, 2)$ to point $B(3, 3, -1)$. Express the force as a vector $\\vec{F}$.",
       "choices": [
-        { "id": "c1", "text": "$\\frac{700}{\\sqrt{29}}\\hat{i} + \\frac{1400}{\\sqrt{29}}\\hat{j} - \\frac{1050}{\\sqrt{29}}\\hat{k}$ N" },
+        { "id": "c1", "text": "$\\frac{2}{\\sqrt{29}}\\hat{i} + \\frac{4}{\\sqrt{29}}\\hat{j} - \\frac{3}{\\sqrt{29}}\\hat{k}$ N" },
         { "id": "c2", "text": "$700\\hat{i} + 1400\\hat{j} - 1050\\hat{k}$ N" },
         { "id": "c3", "text": "$\\frac{350}{3}(2\\hat{i} + 4\\hat{j} - 3\\hat{k})$ N" },
-        { "id": "c4", "text": "$\\frac{2}{\\sqrt{29}}\\hat{i} + \\frac{4}{\\sqrt{29}}\\hat{j} - \\frac{3}{\\sqrt{29}}\\hat{k}$ N" }
+        { "id": "c4", "text": "$\\frac{700}{\\sqrt{29}}\\hat{i} + \\frac{1400}{\\sqrt{29}}\\hat{j} - \\frac{1050}{\\sqrt{29}}\\hat{k}$ N" }
       ],
-      "correctAnswerId": "c1",
+      "correctAnswerId": "c4",
       "difficulty": "medium",
-      "eli5": "Three steps: (1) direction vector $B - A = (2, 4, -3)$, (2) magnitude $= \\sqrt{4 + 16 + 9} = \\sqrt{29}$, (3) unit vector times 350. Each component of the unit vector gets multiplied by 350. Choice D is just the unit vector without the 350 multiplier. Choice B multiplied 350 by the direction vector without normalizing first.",
+      "eli5": "Three steps: (1) direction vector $B - A = (2, 4, -3)$, (2) magnitude $= \\sqrt{4 + 16 + 9} = \\sqrt{29}$, (3) unit vector times 350. Each component of the unit vector gets multiplied by 350. Choice A is just the unit vector without the 350 multiplier. Choice B multiplied 350 by the direction vector without normalizing first.",
       "hint": "Find the unit vector from A to B, then multiply by the force magnitude.",
       "steps": [
         { "text": "Direction vector:", "latex": "\\vec{AB} = (3-1)\\hat{i} + (3-(-1))\\hat{j} + (-1-2)\\hat{k} = 2\\hat{i} + 4\\hat{j} - 3\\hat{k}" },
@@ -193,11 +193,11 @@ export default {
       "statement": "A vector $\\vec{A}$ has components $A_x = -5$ and $A_y = 0$. Which statement is true?",
       "choices": [
         { "id": "c1", "text": "The vector has magnitude $-5$" },
-        { "id": "c2", "text": "The vector points in the negative $x$-direction with magnitude 5" },
-        { "id": "c3", "text": "The vector is a zero vector" },
+        { "id": "c2", "text": "The vector is a zero vector" },
+        { "id": "c3", "text": "The vector points in the negative $x$-direction with magnitude 5" },
         { "id": "c4", "text": "The vector points in the positive $x$-direction with magnitude 5" }
       ],
-      "correctAnswerId": "c2",
+      "correctAnswerId": "c3",
       "difficulty": "hard",
       "eli5": "Magnitude is always positive: $|\\vec{A}| = \\sqrt{(-5)^2 + 0^2} = 5$, not $-5$. The negative sign on the component tells you direction, not magnitude. Choice A is the most common mistake — magnitudes can never be negative. Choice D gets the magnitude right but the direction wrong. A negative $x$-component means the vector points in the negative $x$-direction. Separating magnitude from direction is fundamental to vector analysis.",
       "hint": "Magnitude is always non-negative — the sign of a component indicates direction, not size.",
