@@ -72,6 +72,11 @@ import { TensionPlateNet } from './TensionPlateNet';
 import { LTBCurve } from './LTBCurve';
 import { TrussSchematic } from './TrussSchematic';
 import { FrameSchematic } from './FrameSchematic';
+import { SoilProfile } from './SoilProfile';
+import { RetainingWall } from './RetainingWall';
+import { FootingSection } from './FootingSection';
+import { WallBase } from './WallBase';
+import { ConsolidationLayer } from './ConsolidationLayer';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -148,4 +153,9 @@ export const DIAGRAM_REGISTRY = {
   LTBCurve,
   TrussSchematic,
   FrameSchematic,
+  SoilProfile,
+  RetainingWall,
+  FootingSection,
+  WallBase,
+  ConsolidationLayer,
 };

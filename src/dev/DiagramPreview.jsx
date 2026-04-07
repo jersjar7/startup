@@ -77,6 +77,11 @@ const DEFAULTS = {
   LTBCurve: { Mp: 500, Mr: 300, Lp: 8, Lr: 25, Lb: 15, unit: 'ft' },
   TrussSchematic: { variant: 'warren7', leftSupport: 'pin', rightSupport: 'roller' },
   FrameSchematic: { variant: 'portal', leftSupport: 'pin', rightSupport: 'fixed' },
+  SoilProfile: { layers: [{ name: 'Dry Sand', h: 5, gamma: 110, saturated: false }, { name: 'Sat. Clay', h: 8, gamma: 120, saturated: true }], wtDepth: 5, depthUnit: 'ft', weightUnit: 'pcf' },
+  RetainingWall: { height: 15, unit: 'ft' },
+  FootingSection: { width: 4, depth: 3, unit: 'ft' },
+  WallBase: { baseWidth: 8, resultantPos: 3.0, unit: 'ft' },
+  ConsolidationLayer: { thickness: 20, topPermeable: true, bottomPermeable: false, topLabel: 'Sand', bottomLabel: 'Rock', unit: 'ft' },
 };
 
 /* Lesson mapping for context */
@@ -155,6 +160,11 @@ const LESSON_MAP = {
   LTBCurve: 'Str L6 Steel Beams — Q3/Ex4',
   TrussSchematic: 'Str L1 Determinacy — Q1/Q3/Ex1',
   FrameSchematic: 'Str L1 Determinacy — Q2/Ex3',
+  SoilProfile: 'Geo L2 Effective Stress — Q2/Q3/Ex4',
+  RetainingWall: 'Geo L3 Lateral Pressure — Q2/Q3/Ex2',
+  FootingSection: 'Geo L4 Bearing Capacity — Q2/Q3/Ex1/Ex4',
+  WallBase: 'Geo L5 Retaining Walls — Q2/Q3/Ex3',
+  ConsolidationLayer: 'Geo L6 Consolidation — Ex2',
 };
 
 export function DiagramPreview() {

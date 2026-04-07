@@ -69,7 +69,7 @@ export default {
         'Reporting x\u0304 (distance from toe) as the eccentricity \u2014 eccentricity is measured from the center of the base',
         'Forgetting to subtract MO from MR before dividing by \u03A3V',
       ],
-      diagram: null,
+      diagram: { component: 'WallBase', props: { baseWidth: 6, unit: 'ft' } },
     },
     {
       id: 'geo-rw-q3',
@@ -97,7 +97,7 @@ export default {
         'Forgetting the factor of 6 in 6e/B \u2014 the formula is derived from the trapezoidal stress distribution',
         'Using e in the wrong formula \u2014 the (1 + 6e/B) formula only applies when e \u2264 B/6',
       ],
-      diagram: null,
+      diagram: { component: 'WallBase', props: { baseWidth: 8, resultantPos: 3.0, unit: 'ft' } },
     },
   ],
   examProblems: [
@@ -173,7 +173,7 @@ export default {
       handbookFormula: 'q_{\\text{toe}} = \\frac{\\Sigma V}{B}\\left(1 + \\frac{6e}{B}\\right)',
       videoUrl: null,
       traps: ['Using $V/B$ as the final answer without accounting for eccentricity', 'Confusing $\\bar{x}$ (distance from toe) with $e$ (distance from center)'],
-      diagram: null,
+      diagram: { component: 'WallBase', props: { baseWidth: 10, unit: 'ft' } },
     },
     {
       id: 'geo-rw-ex4',

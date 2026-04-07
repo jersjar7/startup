@@ -69,7 +69,7 @@ export default {
         'Forgetting the 1/2 factor on the N\u03B3 term \u2014 it is 0.5\u03B3BN\u03B3, not \u03B3BN\u03B3',
         'Only computing one of the three terms instead of summing all contributions',
       ],
-      diagram: null,
+      diagram: { component: 'FootingSection', props: { width: 4, depth: 3, unit: 'ft' } },
     },
     {
       id: 'geo-bc-q3',
@@ -99,7 +99,7 @@ export default {
         'Applying FS to each term separately instead of dividing the total qult by FS',
         'Forgetting the 1/2 factor on the N\u03B3 term',
       ],
-      diagram: null,
+      diagram: { component: 'FootingSection', props: { width: 5, depth: 3, unit: 'ft' } },
     },
   ],
   examProblems: [
@@ -126,7 +126,7 @@ export default {
       handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
       videoUrl: null,
       traps: ['Forgetting the overburden term $qN_q$', 'Using depth instead of width for the $N_\\gamma$ term'],
-      diagram: null,
+      diagram: { component: 'FootingSection', props: { width: 1.5, depth: 1.0, unit: 'm' } },
     },
     {
       id: 'geo-bc-ex2',
@@ -204,7 +204,7 @@ export default {
       handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
       videoUrl: null,
       traps: ['Reporting $q_{ult}$ instead of $q_{allow}$ -- the problem asks for allowable with $FS = 3$', 'Forgetting the 1/2 factor on the $N_\\gamma$ term'],
-      diagram: null,
+      diagram: { component: 'FootingSection', props: { width: 2.0, depth: 1.5, unit: 'm' } },
     },
   ],
 };

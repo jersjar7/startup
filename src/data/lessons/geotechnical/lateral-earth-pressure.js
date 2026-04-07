@@ -67,7 +67,7 @@ export default {
         'Forgetting the 1/2 factor \u2014 the pressure diagram is triangular, so the resultant is half the rectangle',
         'Using Kp instead of Ka \u2014 active pressure is when the wall moves AWAY from the soil',
       ],
-      diagram: null,
+      diagram: { component: 'RetainingWall', props: { height: 15, unit: 'ft' } },
     },
     {
       id: 'geo-le-q3',
@@ -96,7 +96,7 @@ export default {
         'Adding the surcharge to the soil pressure without applying Ka first',
         'Treating the surcharge pressure as triangular instead of rectangular',
       ],
-      diagram: null,
+      diagram: { component: 'RetainingWall', props: { height: 12, surcharge: 200, unit: 'ft' } },
     },
   ],
   examProblems: [
@@ -147,7 +147,7 @@ export default {
       handbookFormula: 'P_a = \\frac{1}{2} K_a \\gamma H^2',
       videoUrl: null,
       traps: ['Forgetting the 1/2 factor for the triangular pressure distribution', 'Using (45 + phi/2) instead of (45 - phi/2), which gives Kp instead of Ka'],
-      diagram: null,
+      diagram: { component: 'RetainingWall', props: { height: 20, unit: 'ft' } },
     },
     {
       id: 'geo-lep-ex3',

@@ -69,7 +69,7 @@ export default {
         'Subtracting pore pressure through the sand layer too \u2014 the sand is above the WT so u = 0 there',
         'Using buoyant unit weight for the sand above the WT \u2014 only subtract \u03B3w below the water table',
       ],
-      diagram: null,
+      diagram: { component: 'SoilProfile', props: { layers: [{ name: 'Dry Sand', h: 5, gamma: 110, saturated: false }, { name: 'Sat. Clay', h: 8, gamma: 120, saturated: true }], wtDepth: 5, depthUnit: 'ft', weightUnit: 'pcf' } },
     },
     {
       id: 'geo-es-q3',
@@ -97,7 +97,7 @@ export default {
         'Forgetting to include the surcharge in the total stress calculation',
         'Subtracting \u03B3w through the dry sand layer above the water table',
       ],
-      diagram: null,
+      diagram: { component: 'SoilProfile', props: { layers: [{ name: 'Sand', h: 6, gamma: 105, saturated: false }, { name: 'Sat. Clay', h: 10, gamma: 118, saturated: true }], wtDepth: 6, surcharge: 100, depthUnit: 'ft', weightUnit: 'pcf' } },
     },
   ],
   examProblems: [
@@ -199,7 +199,7 @@ export default {
       handbookFormula: '\\sigma\' = \\sigma - u',
       videoUrl: null,
       traps: ['Forgetting to include the surcharge in total stress', 'Computing pore pressure using only the clay thickness (10 ft) instead of the full depth below the WT (16 ft)'],
-      diagram: null,
+      diagram: { component: 'SoilProfile', props: { layers: [{ name: 'Dry Sand', h: 4, gamma: 105, saturated: false }, { name: 'Sat. Sand', h: 6, gamma: 120, saturated: true }, { name: 'Sat. Clay', h: 10, gamma: 115, saturated: true }], wtDepth: 4, surcharge: 150, depthUnit: 'ft', weightUnit: 'pcf' } },
     },
   ],
 };

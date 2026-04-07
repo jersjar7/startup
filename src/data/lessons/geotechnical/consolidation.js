@@ -154,7 +154,7 @@ export default {
       handbookFormula: 'T_v = \\frac{c_v \\cdot t}{H_{dr}^2}',
       videoUrl: null,
       traps: ['Automatically halving the thickness -- $H_{dr} = H/2$ only applies for two-way drainage with permeable boundaries on both sides'],
-      diagram: null,
+      diagram: { component: 'ConsolidationLayer', props: { thickness: 20, topPermeable: true, bottomPermeable: false, topLabel: 'Sand', bottomLabel: 'Rock', unit: 'ft' } },
     },
     {
       id: 'geo-con-ex3',
