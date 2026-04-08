@@ -2,16 +2,43 @@
 
 **Created:** 2026-04-07
 **Updated:** 2026-04-08
-**Based on:** [Content Readiness Audit](./2026-04-07-content-readiness.md) (score: 58/100)
-**Goal:** Raise the platform from "solid study supplement" (58) to "standalone exam prep tool" (80+)
+**Based on:** [Content Readiness Audit](./2026-04-07-content-readiness.md) (original score: 58/100)
+**Current Score: ~68/100** (after exam-bank expansion + refactoring)
+**Goal:** Reach 80+ to become a standalone exam prep tool
 
 ---
 
-## Phase 1 — Problem Volume Expansion & Question Bank Refactoring
+## Updated Score (Post-Refactoring)
 
-### 1A: Exam Problem Expansion (COMPLETE)
+| # | Category | Max | Was | Now | Change | Why |
+|---|----------|-----|-----|-----|--------|-----|
+| 1 | Topic Coverage | 15 | 15 | **15** | — | Unchanged |
+| 2 | Problem Volume | 20 | 8 | **15** | +7 | 770 Qs (exceeds 3x target of 504) |
+| 3 | Problem Quality | 15 | 13 | **13** | — | Unchanged |
+| 4 | Visual Aids | 10 | 9 | **9** | — | Unchanged |
+| 5 | Adaptive Learning | 15 | 4 | **4** | — | Unchanged |
+| 6 | Exam Simulation | 10 | 4 | **7** | +3 | 410 unique sim Qs = 3+ unique exams |
+| 7 | Retention / SR | 10 | 5 | **5** | — | Unchanged |
+| 8 | Analytics | 5 | 0 | **0** | — | Unchanged |
+| | **TOTAL** | **100** | **58** | **68** | **+10** | |
 
-440 exam-bank problems added across all 15 chapters (4 per lesson x 110 lessons). These now live in `src/data/exam-bank/` as a dedicated pool, separate from the 330 lesson practice problems.
+### What's left to reach 80 (+12 more points needed)
+
+| Improvement | Score Impact | Effort |
+|-------------|-------------|--------|
+| Write 220 chapter practice Qs | +2 (Volume 15 -> 17) | High (content) |
+| Dashboard weakness targeting | +4 (Adaptive 4 -> 8) | Medium (code) |
+| Review system fix + prominence | +3 (Retention 5 -> 8) | Medium (code) |
+| Student analytics on dashboard | +3 (Analytics 0 -> 3) | Medium (code) |
+| **Total** | **+12 (68 -> 80)** | |
+
+---
+
+## Completed Work
+
+### Phase 1A: Exam Problem Expansion (COMPLETE)
+
+440 exam-bank problems added across all 15 chapters (4 per lesson x 110 lessons). These live in `src/data/exam-bank/` as a dedicated pool.
 
 | Chapter | Lesson Practice | Exam Bank | Total |
 |---------|----------------|-----------|-------|
@@ -32,119 +59,177 @@
 | Construction | 21 | 28 | 49 |
 | **Total** | **330** | **440** | **770** |
 
-### 1B: Question Bank Refactoring (COMPLETE)
+### Phase 1B: Question Bank Refactoring (COMPLETE)
 
-Separated questions into 4 non-overlapping pools:
+4 non-overlapping question pools:
 
-- **Pool 1: Lesson Practice** — 330 Qs (3/lesson) — stays in lesson files
-- **Pool 2: Chapter Practice** — 0/220 Qs (skeleton files created, content TBD)
-- **Pool 3: Diagnostic** — 30 fixed Qs — hand-picked in `src/data/exam-bank/diagnostic-ids.js`
-- **Pool 4: 110-Q Simulation** — ~410 Qs — remaining exam-bank questions
+- **Pool 1: Lesson Practice** — 330 Qs (3/lesson) in lesson files
+- **Pool 2: Chapter Practice** — 0/220 Qs (skeletons in `src/data/chapter-practice/`)
+- **Pool 3: Diagnostic** — 30 fixed Qs (`src/data/exam-bank/diagnostic-ids.js`)
+- **Pool 4: 110-Q Simulation** — ~410 Qs (remaining exam-bank, diagnostic excluded)
 
-Key changes:
-- [x] Created `src/data/exam-bank/` with 15 chapter files + index + diagnostic IDs
+- [x] Created `src/data/exam-bank/` (15 chapter files + index + diagnostic IDs)
 - [x] Removed `examProblems` from all 110 lesson files
 - [x] Simplified `src/data/lessons/index.js` (only LESSONS + getLessonById)
-- [x] Created `src/data/chapter-practice/` with 15 empty skeleton files
-- [x] Updated DiagnosticExam to use fixed 30-question set
-- [x] Updated ExamSession to import from exam-bank
-- [x] Updated problems.jsx to load chapter practice from client-side data
-- [x] Updated study.jsx to use client-side problem count
+- [x] Created `src/data/chapter-practice/` (15 empty skeleton files)
+- [x] DiagnosticExam uses fixed 30-question set with shuffle
+- [x] ExamSession imports from exam-bank
+- [x] problems.jsx loads chapter practice from client-side data
+- [x] study.jsx uses client-side problem count
 - [x] Removed dead `GET /:topicId/problems` backend endpoint
 
-### 1C: Chapter Practice Content (NOT STARTED)
+---
 
-Write 220 chapter practice questions (2 per lesson) to populate `src/data/chapter-practice/`. Use the `fe-lesson-content` skill pipeline.
+## Remaining Work (Ordered by Priority)
 
-| Chapter | Target Qs | Status |
-|---------|-----------|--------|
-| Mathematics | 26 | Not started |
-| Statistics | 12 | Not started |
-| Ethics | 10 | Not started |
-| Economics | 10 | Not started |
-| Statics | 12 | Not started |
-| Dynamics | 12 | Not started |
-| Mechanics of Materials | 16 | Not started |
-| Materials | 14 | Not started |
-| Fluid Mechanics | 16 | Not started |
-| Surveying | 14 | Not started |
-| Water Resources | 16 | Not started |
-| Structural | 16 | Not started |
-| Geotechnical | 16 | Not started |
-| Transportation | 16 | Not started |
-| Construction | 14 | Not started |
-| **Total** | **220** | |
+### Phase 2: Chapter Practice Content (+2 pts, HIGH priority)
+
+**Why first:** The "Practice All" button on every chapter page currently shows "Coming Soon." This is the most visible broken experience for users. Pure content work — no code changes needed, infrastructure is ready.
+
+**Deliverable:** 220 questions (2 per lesson) to populate `src/data/chapter-practice/`.
+
+| Chapter | Target | Chapter | Target |
+|---------|--------|---------|--------|
+| Mathematics | 26 | Surveying | 14 |
+| Statistics | 12 | Water Resources | 16 |
+| Ethics | 10 | Structural | 16 |
+| Economics | 10 | Geotechnical | 16 |
+| Statics | 12 | Transportation | 16 |
+| Dynamics | 12 | Construction | 14 |
+| Mechanics of Materials | 16 | | |
+| Materials | 14 | **Total** | **220** |
+| Fluid Mechanics | 16 | | |
+
+**How:** Use the `fe-lesson-content` skill pipeline. Batch 2-3 chapters per session.
+
+**After completion:** Total problem count reaches 990. Competitive with PrepFE (700+), approaching PPI2Pass (1000+). Score: Problem Volume 15 -> 17.
 
 ---
 
-## Phase 2 — Weakness Targeting & Study Recommendations (4 -> 10 pts, +6)
+### Phase 3: Dashboard Intelligence (+7 pts, HIGH priority)
 
-Build intelligence that guides students to their weak areas instead of requiring self-diagnosis.
+**Why second:** This is the biggest single score improvement. The audit's two harshest gaps are "platform doesn't guide students to weak areas" (Adaptive 4/15) and "no student-facing analytics" (Analytics 0/5). These are really one feature: show useful data on the dashboard and act on it.
 
-- [ ] Add per-chapter accuracy tracking: store correct/incorrect counts per chapter in the progress collection
-- [ ] Compute weakness score: chapters with low accuracy + low mastery = high priority
-- [ ] Add "Focus Areas" section to dashboard: show top 3 weakest chapters with "Practice Now" buttons
-- [ ] Add post-session summary: "You got 2/5 in Fluids — we recommend reviewing Bernoulli's Equation"
-- [ ] Add "Recommended Next" suggestion after completing a lesson: steer toward weak areas
-- [ ] Add visual strength/weakness indicator on the chapter list (color-coded bars or rings)
+**Score impact:** Adaptive Learning 4 -> 8 (+4), Analytics 0 -> 3 (+3)
+
+#### 3A: Per-Chapter Strength Bars on Dashboard
+The backend already tracks `topicProgress[chapterId].attempted`, `.correct`, `.masteryLevel` per user. Surface this on the dashboard chapter list.
+
+- [ ] Add accuracy ring or bar to each chapter card (correct/attempted)
+- [ ] Color-code: green (80%+), yellow (50-80%), red (below 50%), gray (no data)
+- [ ] Show mastery level (0-3) as a small label or fill indicator
+
+**Effort:** Low. Data already exists in `/api/topics` response. Frontend-only change.
+
+#### 3B: Focus Areas Section
+- [ ] Compute weakness score: `(1 - accuracy) * NCEES_weight` per chapter
+- [ ] Show "Focus Areas" card on dashboard with top 3 weakest chapters
+- [ ] Each focus area has a "Practice Now" button linking to chapter practice or lesson
+- [ ] Only show after student has attempted at least 10 problems total
+
+**Effort:** Low-medium. Computation is client-side from existing API data.
+
+#### 3C: Post-Session Recommendations
+- [ ] After finishing a chapter practice or review session, show which topic to study next
+- [ ] Logic: recommend the chapter with lowest accuracy that has available problems
+- [ ] Add "Recommended Next" card to session summary screen
+
+**Effort:** Low. Frontend-only, uses same weakness computation.
+
+#### 3D: Progress Summary Section
+- [ ] Add collapsible "Your Progress" section to dashboard (or separate tab)
+- [ ] Show: total problems attempted, overall accuracy %, chapters at mastery 2+
+- [ ] Show: XP earned this week, current streak, estimated exam readiness %
+- [ ] Exam readiness = percentage of chapters where accuracy >= 70% and mastery >= 2
+
+**Effort:** Medium. Mostly frontend, but may need a new API endpoint to aggregate stats efficiently.
 
 ---
 
-## Phase 3 — Student Analytics Dashboard (0 -> 4 pts, +4)
+### Phase 4: Review System Repair & Prominence (+3 pts, MEDIUM priority)
 
-Give students visibility into their own progress data.
+**Why third:** The review system exists but has two problems: (1) it pulls from 60 stale MongoDB seed problems that don't match current content, and (2) it's not visible enough on the dashboard. Must fix the data source before making it more prominent.
 
-- [ ] Create `/analytics` page (or section on dashboard)
-- [ ] Show accuracy rate by chapter (bar chart or table)
-- [ ] Show mastery level breakdown: how many lessons at each mastery level (0-3)
-- [ ] Show study streak history and total XP earned
-- [ ] Show time-based progress: problems solved per week over the last 4 weeks
-- [ ] Show estimated exam readiness: percentage of chapters at mastery level 2+
+**Score impact:** Retention & Spaced Repetition 5 -> 8 (+3)
+
+#### 4A: Fix the Review Data Source (CRITICAL prerequisite)
+The review route (`/api/review`) calls `DB.getAllProblemsForTopics()` which reads from the `problems` MongoDB collection — 60 seed problems from 6 chapters with the wrong schema (`question`/`correctAnswer` labels instead of `statement`/`correctAnswerId`). These don't match the 770 client-side problems.
+
+**Options (pick one):**
+- [ ] **Option A (recommended):** Migrate review to use client-side data. The review queue (`problemHistory` collection) tracks which problem IDs are due. The frontend can resolve those IDs against the local exam-bank + chapter-practice pools. Backend only returns the due problem IDs, frontend renders them.
+- [ ] **Option B:** Re-seed MongoDB with current exam-bank problems. Simpler backend, but creates a sync problem (two sources of truth).
+- [ ] **Option C:** Drop MongoDB review entirely, build a client-side SM-2 system that stores intervals in `localStorage` or the existing `progress` collection.
+
+**Effort:** Medium. The SM-2 interval logic in `db/stats.js` is solid — just the problem lookup is broken.
+
+#### 4B: Review Prominence on Dashboard
+- [ ] Show review count badge: "X reviews due" with color urgency
+- [ ] Add "Start Review" CTA button on dashboard when reviews are due
+- [ ] Add bonus XP for clearing entire review queue (e.g., +20 XP "Queue Cleared" bonus)
+
+**Effort:** Low (once 4A is done).
+
+#### 4C: Email Reminders (Optional, stretch)
+- [ ] Send reminder emails when review queue exceeds 15 items (Resend already set up)
+- [ ] Weekly digest email: "You have X reviews due, your streak is Y days"
+
+**Effort:** Medium. Email templates + cron job or scheduled function.
 
 ---
 
-## Phase 4 — Topic-Specific Timed Drills (4 -> 7 pts, +3)
+### Phase 5: Timed Chapter Drills (+1-2 pts, LOW priority)
 
-Add focused practice sessions beyond full exam simulation.
+**Why last:** The chapter practice infrastructure already exists. Adding a timer is a small UI enhancement, not a new feature. The audit's deduction was "-3: no topic-specific timed drills" — but once chapter practice has content (Phase 2), this is 80% solved. A timer just makes it exam-realistic.
 
-- [ ] Add "Quick Drill" mode: 10-20 questions from a single chapter, timed
-- [ ] Calculate time per question based on FE exam pacing (~3 min/question)
-- [ ] Show drill results: score, time, comparison to target pace
-- [ ] Add drill history so students can track improvement over time
-- [ ] Consider making drills free (they drive engagement) while keeping full exam behind paywall
+**Score impact:** Exam Simulation 7 -> 8 or 9 (+1-2)
+
+- [ ] Add optional "Timed Mode" toggle to chapter practice session
+- [ ] Timer: 2.91 min/question (FE exam pace), shown in top bar
+- [ ] Show pace comparison in session summary: "You averaged 2.1 min/question (under the 2.91 min target)"
+- [ ] Track drill history: timestamp, chapter, score, average time per question
+- [ ] Show improvement trend on chapter page: "Your last 3 drill scores: 60%, 70%, 80%"
+
+**Effort:** Low-medium. Timer UI can reuse the DiagnosticExam/ExamSession timer component. History needs a new API endpoint.
 
 ---
 
-## Phase 5 — Review Queue Prominence & Reminders (5 -> 8 pts, +3)
+## Critical Path to 80
 
-Surface the existing SM-2 spaced repetition system more effectively.
+```
+Current: 68/100
 
-- [ ] Add review count badge to dashboard: "12 reviews due" with visual urgency (green < 5, yellow 5-15, red 15+)
-- [ ] Add review count to nav bar or sidebar so it's always visible
-- [ ] Add bonus XP for clearing review queue (gamification incentive)
-- [ ] Add email reminders for overdue reviews (requires email service — already set up via Resend)
-- [ ] Add "Start Review Session" CTA on dashboard when reviews are due
+Phase 2 (Chapter Practice Content)  → 70/100  (+2)
+Phase 3 (Dashboard Intelligence)    → 77/100  (+7)
+Phase 4 (Review Repair + Prominence)→ 80/100  (+3)
+─────────────────────────────────────────────
+Phase 5 (Timed Drills)              → 81/100  (+1)  ← nice to have
+```
+
+Phases 2 and 3 can overlap — write content in batches while building dashboard features between sessions. Phase 4 is a prerequisite blocker only for its own sub-items (4B/4C depend on 4A).
+
+---
+
+## Known Technical Debt
+
+These aren't scored in the audit but will bite you eventually:
+
+1. **Review system data mismatch** — `problems` MongoDB collection has 60 stale seed problems. Review route depends on it. Must fix before review system is useful (tracked in Phase 4A).
+
+2. **`service/seed.js`** — 1000-line seed script that populates the stale `problems` and `topics` collections. Can be deleted once review is migrated off MongoDB problems. The `topics` collection is still used by the study page for video URLs.
+
+3. **`service/db/problems.js`** — Only exists for the review route. Delete after Phase 4A.
+
+4. **Competitive comparison table** — The audit shows "Problem count: 321" but it's now 770 (990 after chapter practice). Update the audit doc when you want to use those numbers for marketing.
 
 ---
 
 ## Progress
 
-| Phase | Status |
-|-------|--------|
-| 1A — Exam Problem Expansion (440 Qs) | Complete |
-| 1B — Question Bank Refactoring | Complete |
-| 1C — Chapter Practice Content (220 Qs) | Not started |
-| 2 — Weakness Targeting | Not started |
-| 3 — Analytics Dashboard | Not started |
-| 4 — Timed Drills | Not started |
-| 5 — Review Prominence | Not started |
-
----
-
-## Execution Notes
-
-- **Phase 1C is the next big lift** — 220 new chapter practice problems. Batch using the `fe-lesson-content` skill pipeline.
-- **Phase 2 depends on Phase 1C** somewhat — weakness targeting is more useful with chapter practice content to draw from.
-- **Phases 3-5 are independent** — can be built in any order or in parallel.
-- **Phase 5 is lowest effort, highest per-item impact** — could be done first for a quick win.
-- Each item gets marked `[x]` with completion date when done.
+| Phase | Score Impact | Status |
+|-------|-------------|--------|
+| 1A — Exam Problem Expansion | 58 -> 68 (+10) | Complete |
+| 1B — Question Bank Refactoring | (infra, no score) | Complete |
+| 2 — Chapter Practice Content | 68 -> 70 (+2) | Not started |
+| 3 — Dashboard Intelligence | 70 -> 77 (+7) | Not started |
+| 4 — Review Repair + Prominence | 77 -> 80 (+3) | Not started |
+| 5 — Timed Drills | 80 -> 81 (+1) | Not started |
