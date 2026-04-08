@@ -20,6 +20,7 @@ import katex from 'katex';
 import { CHAPTERS } from '../data/chapters';
 import { CHAPTER_DETAILS } from '../data/chapters/index';
 import { LESSONS } from '../data/lessons/index';
+import { getChapterPracticeCount } from '../data/chapter-practice/index';
 import { LoadingState } from '../components/LoadingState';
 import './study.css';
 
@@ -172,7 +173,7 @@ export function Study({ userName, onLogout }) {
   }
 
   const accentClass = `accent--${chapter.accent}`;
-  const problemCount = topic?.problemCount ?? 0;
+  const problemCount = getChapterPracticeCount(topicId);
 
   return (
     <main className="study-main">

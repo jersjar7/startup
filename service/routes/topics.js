@@ -77,32 +77,5 @@ router.get('/:topicId', verifyAuth, async (req, res) => {
   });
 });
 
-// Get problems for a topic
-router.get('/:topicId/problems', verifyAuth, async (req, res) => {
-  if (!/^[a-z0-9-]+$/.test(req.params.topicId)) {
-    return res.status(400).send({ msg: 'Invalid topicId' });
-  }
-  const topic = await DB.getTopicById(req.params.topicId);
-  if (!topic) {
-    return res.status(404).send({ msg: 'Topic not found' });
-  }
-
-  const count = Math.min(parseInt(req.query.count) || 5, 8);
-  const problems = await DB.getProblemsForTopic(req.params.topicId, count);
-
-  res.send({
-    topicId: topic.topicId,
-    topicName: topic.name,
-    problems: problems.map((p) => ({
-      problemId: p._id.toString(),
-      problemNumber: p.problemNumber,
-      question: p.question,
-      choices: p.choices,
-      correctAnswer: p.correctAnswer,
-      solution: p.solution,
-      difficulty: p.difficulty,
-    })),
-  });
-});
 
 module.exports = router;

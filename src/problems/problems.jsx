@@ -1,13 +1,32 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, SignOut, ArrowRight } from '@phosphor-icons/react';
+import { ArrowLeft, SignOut, ArrowRight, BookOpen, Lightning } from '@phosphor-icons/react';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { MathText } from '../components/MathText';
 import { LoadingState } from '../components/LoadingState';
+import { CHAPTERS } from '../data/chapters';
+import { getChapterPracticeProblems } from '../data/chapter-practice/index';
+import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import './problems.css';
 
 // States: LOADING -> SESSION -> SUMMARY
 // Within SESSION each problem: ANSWERING -> REVIEWED
+
+function fisherYatesShuffle(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function ProblemDiagram({ diagram }) {
+  if (!diagram) return null;
+  const Comp = DIAGRAM_REGISTRY[diagram.component];
+  if (!Comp) return null;
+  return <div className="prob-diagram"><Comp {...(diagram.props || {})} /></div>;
+}
 
 export function Problems({ userName, onLogout, reviewMode = false }) {
   const navigate = useNavigate();
@@ -31,31 +50,39 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
       return;
     }
 
-    const fetchUrl = reviewMode
-      ? '/api/review?count=5'
-      : `/api/topics/${topicId}/problems?count=5`;
-
-    fetch(fetchUrl)
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load problems');
-        return res.json();
-      })
-      .then((data) => {
-        const loadedProblems = reviewMode ? data.problems : data.problems;
-        if (!loadedProblems || loadedProblems.length === 0) {
-          if (reviewMode) {
-            // No review problems available
+    if (reviewMode) {
+      // Review mode: fetch from API (MongoDB schema)
+      fetch('/api/review?count=5')
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load problems');
+          return res.json();
+        })
+        .then((data) => {
+          if (!data.problems || data.problems.length === 0) {
             setPhase('EMPTY');
-          } else {
-            navigate(`/study/${topicId}`);
+            return;
           }
-          return;
-        }
-        if (!reviewMode) setTopicName(data.topicName);
-        setProblems(loadedProblems);
-        setPhase('SESSION');
-      })
-      .catch(() => setPhase('ERROR'));
+          // Normalize MongoDB schema to internal format
+          setProblems(data.problems.map(normalizeReviewProblem));
+          setPhase('SESSION');
+        })
+        .catch(() => setPhase('ERROR'));
+    } else {
+      // Chapter practice: load from client-side data
+      const chapter = CHAPTERS.find((c) => c.id === topicId);
+      setTopicName(chapter?.name || topicId);
+
+      const pool = getChapterPracticeProblems(topicId);
+      if (pool.length === 0) {
+        setPhase('EMPTY_CHAPTER');
+        return;
+      }
+
+      // Shuffle and pick up to 5, shuffle choices
+      const selected = fisherYatesShuffle(pool).slice(0, 5).map(normalizePracticeProblem);
+      setProblems(selected);
+      setPhase('SESSION');
+    }
 
     // Fetch motivational quote for summary screen
     fetch('https://quote.cs260.click')
@@ -82,6 +109,46 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
     return () => ws.close();
   }, [userName, navigate, topicId, reviewMode]);
 
+  // Normalize MongoDB review problem to internal format
+  function normalizeReviewProblem(p) {
+    return {
+      id: p.problemId,
+      statement: p.question,
+      choices: p.choices.map((c) => ({ id: c.label, text: c.text })),
+      correctChoiceId: p.correctAnswer,
+      solution: p.solution,
+      steps: null,
+      eli5: null,
+      hint: null,
+      handbookPage: null,
+      traps: null,
+      diagram: null,
+      topicId: p.topicId,
+    };
+  }
+
+  // Normalize chapter-practice problem (lesson schema) to internal format
+  function normalizePracticeProblem(p) {
+    const shuffledChoices = fisherYatesShuffle(p.choices);
+    return {
+      id: p.id,
+      statement: p.statement,
+      choices: shuffledChoices.map((c, i) => ({
+        id: c.id,
+        text: c.text,
+        label: String.fromCharCode(65 + i),
+      })),
+      correctChoiceId: p.correctAnswerId,
+      solution: null,
+      steps: p.steps || null,
+      eli5: p.eli5 || null,
+      hint: p.hint || null,
+      handbookPage: p.handbookPage || null,
+      traps: p.traps || null,
+      diagram: p.diagram || null,
+    };
+  }
+
   const handleSubmit = () => {
     if (selectedChoice === null) return;
     setReviewed(true);
@@ -89,9 +156,9 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
 
   const handleNext = () => {
     const problem = problems[currentIndex];
-    const isCorrect = selectedChoice === problem.correctAnswer;
-    const answer = { problemId: problem.problemId, isCorrect };
-    if (reviewMode) answer.topicId = problem.topicId;
+    const isCorrect = selectedChoice === problem.correctChoiceId;
+    const answer = { problemId: problem.id, isCorrect };
+    if (reviewMode && problem.topicId) answer.topicId = problem.topicId;
     const updatedAnswers = [...answers, answer];
     setAnswers(updatedAnswers);
 
@@ -194,6 +261,35 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
     );
   }
 
+  // --- EMPTY CHAPTER (no chapter practice problems yet) ---
+  if (phase === 'EMPTY_CHAPTER') {
+    return (
+      <main>
+        <div className="page-header">
+          <a href="#" className="back-link" onClick={(e) => { e.preventDefault(); navigate(`/study/${topicId}`); }}>
+            <ArrowLeft weight="bold" size={16} />
+            Back to Study
+          </a>
+          <h1>{topicName}</h1>
+          <button className="logout-btn" onClick={handleLogout}>
+            <SignOut weight="bold" size={18} />
+            Logout
+          </button>
+        </div>
+        <section className="summary-card">
+          <h2>Chapter practice problems coming soon</h2>
+          <p>In the meantime, practice individual lessons from the chapter page — each lesson has 3 practice problems.</p>
+        </section>
+        <div className="summary-actions">
+          <button className="btn-primary" onClick={() => navigate(`/study/${topicId}`)}>
+            <ArrowLeft weight="bold" size={16} />
+            Back to {topicName}
+          </button>
+        </div>
+      </main>
+    );
+  }
+
   // --- SUMMARY ---
   if (phase === 'SUMMARY' && summary) {
     const pct = Math.round((summary.correct / summary.totalProblems) * 100);
@@ -275,7 +371,9 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
   const problem = problems[currentIndex];
   if (!problem) return null;
 
-  const isCorrect = selectedChoice === problem.correctAnswer;
+  const isCorrect = selectedChoice === problem.correctChoiceId;
+  const correctChoice = problem.choices.find((c) => c.id === problem.correctChoiceId);
+  const correctLabel = correctChoice?.label || correctChoice?.id;
 
   return (
     <main>
@@ -302,32 +400,35 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
       </section>
 
       <section className="problem-card">
-        <h3>Problem {problem.problemNumber}</h3>
-        <p className="problem-question"><MathText text={problem.question} /></p>
+        <h3>Problem {currentIndex + 1}</h3>
+        <p className="problem-question"><MathText text={problem.statement} /></p>
+
+        <ProblemDiagram diagram={problem.diagram} />
 
         <div className="choices">
-          {problem.choices.map((choice) => {
+          {problem.choices.map((choice, ci) => {
+            const label = choice.label || String.fromCharCode(65 + ci);
             let choiceClass = 'choice-btn';
             if (reviewed) {
-              if (choice.label === problem.correctAnswer) {
+              if (choice.id === problem.correctChoiceId) {
                 choiceClass += ' correct';
-              } else if (choice.label === selectedChoice && !isCorrect) {
+              } else if (choice.id === selectedChoice && !isCorrect) {
                 choiceClass += ' incorrect';
               } else {
                 choiceClass += ' dimmed';
               }
-            } else if (choice.label === selectedChoice) {
+            } else if (choice.id === selectedChoice) {
               choiceClass += ' selected';
             }
 
             return (
               <button
-                key={choice.label}
+                key={choice.id}
                 className={choiceClass}
-                onClick={() => !reviewed && setSelectedChoice(choice.label)}
+                onClick={() => !reviewed && setSelectedChoice(choice.id)}
                 disabled={reviewed}
               >
-                <span className="choice-label">{choice.label}</span>
+                <span className="choice-label">{label}</span>
                 <span><MathText text={choice.text} /></span>
               </button>
             );
@@ -345,12 +446,47 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
         ) : (
           <div className="feedback-section">
             <div className={`feedback-banner ${isCorrect ? 'correct' : 'incorrect'}`}>
-              {isCorrect ? 'Correct! +10 XP' : `Incorrect — the answer is ${problem.correctAnswer}. +5 XP`}
+              {isCorrect ? 'Correct! +10 XP' : `Incorrect — the answer is ${correctLabel}. +5 XP`}
             </div>
-            <div className="solution-box">
-              <h4>Solution</h4>
-              <p><MathText text={problem.solution} /></p>
-            </div>
+
+            {/* Rich feedback for chapter-practice problems */}
+            {problem.eli5 && (
+              <div className="solution-box eli5-box">
+                <h4><Lightning size={16} weight="bold" /> Quick Explanation</h4>
+                <p><MathText text={problem.eli5} /></p>
+              </div>
+            )}
+
+            {problem.steps && problem.steps.length > 0 && (
+              <div className="solution-box steps-box">
+                <h4><BookOpen size={16} weight="bold" /> Step-by-Step Solution</h4>
+                <ol className="solution-steps">
+                  {problem.steps.map((step, i) => (
+                    <li key={i}>
+                      <MathText text={step.text} />
+                      {step.latex && (
+                        <div className="step-formula"><MathText text={`$$${step.latex}$$`} /></div>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
+
+            {problem.handbookPage && (
+              <div className="handbook-ref">
+                FE Handbook Reference: {problem.handbookPage}
+              </div>
+            )}
+
+            {/* Fallback for review-mode problems (plain solution text) */}
+            {problem.solution && !problem.steps && (
+              <div className="solution-box">
+                <h4>Solution</h4>
+                <p><MathText text={problem.solution} /></p>
+              </div>
+            )}
+
             <button className="btn-primary next-btn" onClick={handleNext}>
               {currentIndex < problems.length - 1 ? 'Next Problem' : (reviewMode ? 'Finish Review' : 'Finish Session')}
               <ArrowRight weight="bold" size={16} />

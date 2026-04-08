@@ -12,7 +12,7 @@ import {
 } from '@phosphor-icons/react';
 import { MathText } from '../components/MathText';
 import { CHAPTERS } from '../data/chapters';
-import { selectExamQuestions } from '../data/lessons/index';
+import { selectExamQuestions } from '../data/exam-bank/index';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import '../diagnostic/diagnostic.css';
 import './exam.css';

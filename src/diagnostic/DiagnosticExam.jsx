@@ -11,7 +11,7 @@ import {
 } from '@phosphor-icons/react';
 import { MathText } from '../components/MathText';
 import { CHAPTERS } from '../data/chapters';
-import { selectDiagnosticQuestions } from '../data/lessons/index';
+import { getDiagnosticQuestions } from '../data/exam-bank/index';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import './diagnostic.css';
 
@@ -47,44 +47,29 @@ export function DiagnosticExam({ userName }) {
   }, [userName, navigate]);
 
   function startExam() {
-    // Fetch previous attempt question IDs to exclude
-    fetch('/api/diagnostic/history')
-      .then(res => res.ok ? res.json() : [])
-      .then(history => {
-        const usedIds = [];
-        for (const attempt of history) {
-          if (attempt.chapterScores) {
-            // We don't store individual question IDs in history summary,
-            // so for now just select fresh questions
-          }
-        }
-        return usedIds;
-      })
-      .then(excludeIds => {
-        const selected = selectDiagnosticQuestions(excludeIds);
-        if (selected.length === 0) {
-          setError('No exam questions available yet. Questions are being added to the platform.');
-          return;
-        }
-        setQuestions(selected);
-        const totalTime = Math.round(selected.length * TIME_PER_QUESTION);
-        setTimeLeft(totalTime);
-        setStartTime(Date.now());
-        setPhase('EXAM');
-      })
-      .catch(() => {
-        // If API fails, still try to load questions (no exclusions)
-        const selected = selectDiagnosticQuestions([]);
-        if (selected.length === 0) {
-          setError('No exam questions available yet. Questions are being added to the platform.');
-          return;
-        }
-        setQuestions(selected);
-        const totalTime = Math.round(selected.length * TIME_PER_QUESTION);
-        setTimeLeft(totalTime);
-        setStartTime(Date.now());
-        setPhase('EXAM');
-      });
+    const fixed = getDiagnosticQuestions();
+    if (fixed.length === 0) {
+      setError('No exam questions available yet. Questions are being added to the platform.');
+      return;
+    }
+    // Shuffle question order and choice order for variety
+    const shuffled = fisherYatesShuffle([...fixed]).map(q => ({
+      ...q,
+      choices: fisherYatesShuffle([...q.choices]),
+    }));
+    setQuestions(shuffled);
+    const totalTime = Math.round(shuffled.length * TIME_PER_QUESTION);
+    setTimeLeft(totalTime);
+    setStartTime(Date.now());
+    setPhase('EXAM');
+  }
+
+  function fisherYatesShuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
   }
 
   // Timer countdown
