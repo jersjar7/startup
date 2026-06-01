@@ -15,3 +15,6 @@ research/civil/fe-handbook-*.pdf
 
 # OCR training data
 *.traineddata
+
+# Remotion render output
+out/

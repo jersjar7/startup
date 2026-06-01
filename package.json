@@ -8,7 +8,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "video:studio": "remotion studio video/index.jsx",
+    "video:render": "remotion render video/index.jsx Explainer out/explainer.mp4",
+    "video:still": "remotion still video/index.jsx Explainer out/still.png"
   },
   "repository": {
     "type": "git",
@@ -23,11 +26,14 @@
   },
   "homepage": "https://github.com/jersjar7/startup#readme",
   "devDependencies": {
+    "@remotion/cli": "^4.0.471",
+    "@remotion/google-fonts": "^4.0.471",
     "@tailwindcss/vite": "^4.1.18",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "jsdom": "^29.0.1",
     "playwright": "^1.60.0",
+    "remotion": "^4.0.471",
     "tailwindcss": "^4.1.18",
     "vite": "^7.3.1",
     "vitest": "^4.1.2"
