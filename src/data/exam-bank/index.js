@@ -115,6 +115,24 @@ export function selectExamQuestions() {
   return fisherYatesShuffle(selected);
 }
 
+/**
+ * Free preview: one question from each of the `count` highest-weight chapters,
+ * for breadth. A risk-free taste of the full timed exam simulation.
+ */
+export function selectPreviewQuestions(count = 10) {
+  const byWeight = [...CHAPTER_IDS].sort(
+    (a, b) => (EXAM_DISTRIBUTION[b] || 0) - (EXAM_DISTRIBUTION[a] || 0)
+  );
+  const picked = [];
+  for (const chapterId of byWeight) {
+    if (picked.length >= count) break;
+    const pool = (CHAPTER_BANKS[chapterId] || []).filter((p) => !diagnosticIdSet.has(p.id));
+    if (pool.length === 0) continue;
+    picked.push(pool[Math.floor(Math.random() * pool.length)]);
+  }
+  return fisherYatesShuffle(picked);
+}
+
 function fisherYatesShuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

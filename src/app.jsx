@@ -97,7 +97,7 @@ function AppShell({ userName, emailVerified, onLogin, onLogout }) {
   const isLanding = pathname === '/';
   const isLesson = pathname.startsWith('/lesson/');
   const isDiagnostic = pathname.startsWith('/diagnostic');
-  const isExamSession = pathname === '/exam/session';
+  const isExamSession = pathname === '/exam/session' || pathname === '/exam/preview';
 
   return (
     <div className="body">
@@ -125,6 +125,7 @@ function AppShell({ userName, emailVerified, onLogin, onLogout }) {
             <Route path="/diagnostic/review/:attemptNumber" element={<DiagnosticReview userName={userName} />} />
             <Route path="/exam" element={<ExamGate userName={userName} />} />
             <Route path="/exam/session" element={<ExamSession userName={userName} />} />
+          <Route path="/exam/preview" element={<ExamSession userName={userName} preview />} />
             <Route path="/exam/results/:attemptId" element={<ExamResults userName={userName} />} />
             {DiagramPreview && <Route path="/dev/diagrams" element={<DiagramPreview />} />}
             {QuestionAuditIndex && <Route path="/dev/audit" element={<QuestionAuditIndex />} />}

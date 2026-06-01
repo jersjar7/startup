@@ -197,6 +197,104 @@
   font-weight: 700;
 }
 
+.exam-gate-guarantee {
+  font-size: 0.82rem;
+  color: var(--gray-600);
+  margin-top: 0.9rem;
+  line-height: 1.5;
+}
+.exam-gate-preview-btn {
+  margin-top: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--ember);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+.exam-gate-preview-btn:hover {
+  text-decoration: underline;
+}
+
+/* ── Free preview result ── */
+.ex-preview-result {
+  max-width: 560px;
+  margin: 3rem auto;
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border-top: 4px solid var(--ember);
+  padding: 2rem;
+  text-align: center;
+}
+.ex-preview-tag {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ember);
+}
+.ex-preview-score {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--charcoal);
+  margin: 0.5rem 0 0.5rem;
+}
+.ex-preview-lead {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  line-height: 1.5;
+  margin: 0 auto 1.5rem;
+  max-width: 420px;
+}
+.ex-preview-breakdown {
+  text-align: left;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.ex-preview-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  font-size: 0.88rem;
+}
+.ex-preview-row:nth-child(odd) {
+  background: var(--cream);
+}
+.ex-preview-chapter { color: var(--charcoal); }
+.ex-preview-mark {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--ember);
+}
+.ex-preview-cta {
+  border-top: 1px solid var(--gray-200);
+  padding-top: 1.5rem;
+}
+.ex-preview-cta-text {
+  font-size: 0.92rem;
+  color: var(--charcoal);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+.ex-preview-cta .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+.ex-preview-cta .btn-secondary {
+  display: block;
+  margin: 0 auto;
+}
+
 .exam-buy-btn {
   width: 100%;
   padding: 0.85rem;

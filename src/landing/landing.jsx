@@ -124,8 +124,9 @@ export function Landing({ userName }) {
             <ArrowRight weight="bold" size={18} />
           </button>
           <p className="hero-price">
-            Free to start. Full access is <strong>${STUDENT_PRICE} for students</strong> (${STANDARD_PRICE} standard) —
-            a one-time payment. Competitors charge $200–$1,800.
+            <strong>The whole platform is free</strong> — every lesson, 550+ practice problems,
+            the diagnostic, and spaced repetition. No trial, no credit card. The one optional
+            extra is a full timed exam simulation: ${STUDENT_PRICE} for students, ${STANDARD_PRICE} standard.
           </p>
         </div>
 
@@ -535,9 +536,9 @@ export function Landing({ userName }) {
             {/* Free tier */}
             <div className="pricing-card">
               <div className="pricing-card-header">
-                <span className="pricing-card-label">Free Account</span>
+                <span className="pricing-card-label">Everything, Free</span>
                 <span className="pricing-card-price">$0</span>
-                <span className="pricing-card-period">forever</span>
+                <span className="pricing-card-period">forever · no card required</span>
               </div>
               <ul className="pricing-features">
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> All 15 chapters of lessons</li>
@@ -558,12 +559,12 @@ export function Landing({ userName }) {
             {/* Paid tier */}
             <div className="pricing-card pricing-card--paid">
               <div className="pricing-card-header">
-                <span className="pricing-card-label">Full Access</span>
+                <span className="pricing-card-label">Exam Simulation <span className="pricing-card-optional">optional</span></span>
                 <span className="pricing-card-price">${STUDENT_PRICE}</span>
                 <span className="pricing-card-period">students &middot; ${STANDARD_PRICE} standard &middot; one-time</span>
               </div>
               <p className="pricing-card-desc">
-                Everything in Free, plus:
+                A bonus for when you're ready to test yourself — everything in Free, plus:
               </p>
               <ul className="pricing-features">
                 <li><Timer weight="bold" size={16} className="pricing-check pricing-check--ember" /> Timed 110-question practice exam</li>

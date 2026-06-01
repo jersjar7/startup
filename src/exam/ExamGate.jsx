@@ -200,6 +200,14 @@ export function ExamGate({ userName }) {
             >
               {checkoutLoading ? 'Redirecting to checkout...' : 'Get Exam Simulation'}
             </button>
+
+            <p className="exam-gate-guarantee">
+              14-day money-back guarantee — and if you don't pass, we'll extend your access free.
+            </p>
+
+            <button className="exam-gate-preview-btn" onClick={() => navigate('/exam/preview')}>
+              Not sure? Try a free 10-question preview first →
+            </button>
           </div>
         </div>
       </main>

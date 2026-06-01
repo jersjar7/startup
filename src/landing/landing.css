@@ -1056,6 +1056,16 @@
 .pricing-card--paid .pricing-card-label {
   color: var(--ember);
 }
+.pricing-card-optional {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-sm);
+  background: var(--ember-bg);
+  color: var(--ember);
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+}
 
 .pricing-card-price {
   font-family: var(--font-heading);

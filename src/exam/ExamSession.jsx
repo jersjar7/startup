@@ -12,8 +12,9 @@ import {
 } from '@phosphor-icons/react';
 import { MathText } from '../components/MathText';
 import { CHAPTERS } from '../data/chapters';
-import { selectExamQuestions } from '../data/exam-bank/index';
+import { selectExamQuestions, selectPreviewQuestions } from '../data/exam-bank/index';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
+import { priceForEmail } from '../data/pricing';
 import '../diagnostic/diagnostic.css';
 import './exam.css';
 
@@ -44,11 +45,14 @@ function ProblemDiagram({ diagram }) {
   return <div className="ex-diagram"><Comp {...(diagram.props || {})} /></div>;
 }
 
-export function ExamSession({ userName }) {
-  const navigate = useNavigate();
-  useDocumentTitle('Exam Simulation');
+const PREVIEW_COUNT = 10;
 
-  const [phase, setPhase] = React.useState('LOADING'); // LOADING | EXAM | BREAK | CONFIRM | SUBMITTING
+export function ExamSession({ userName, preview = false }) {
+  const navigate = useNavigate();
+  useDocumentTitle(preview ? 'Free Exam Preview' : 'Exam Simulation');
+
+  const [phase, setPhase] = React.useState('LOADING'); // LOADING | EXAM | BREAK | CONFIRM | SUBMITTING | PREVIEW_RESULT
+  const [previewResult, setPreviewResult] = React.useState(null);
   const [questions, setQuestions] = React.useState([]);
   const [attemptId, setAttemptId] = React.useState(null);
   const [currentIndex, setCurrentIndex] = React.useState(0);
@@ -70,6 +74,20 @@ export function ExamSession({ userName }) {
 
   async function initExam() {
     try {
+      // Free preview: client-side only, no purchase, no server attempt.
+      if (preview) {
+        const sample = selectPreviewQuestions(PREVIEW_COUNT);
+        if (sample.length === 0) {
+          setError('No preview questions available.');
+          return;
+        }
+        setQuestions(shuffleQuestionChoices(sample));
+        setTimeLeft(PREVIEW_COUNT * 175); // ~exam pace (2.91 min/q)
+        setStartTime(Date.now());
+        setPhase('EXAM');
+        return;
+      }
+
       const selected = selectExamQuestions();
       if (selected.length === 0) {
         setError('No exam questions available.');
@@ -219,6 +237,29 @@ export function ExamSession({ userName }) {
   }
 
   async function submitExam() {
+    // Free preview: score on the client, no server submit.
+    if (preview) {
+      let correct = 0;
+      const chapterScores = {};
+      questions.forEach((q, i) => {
+        const ch = q.chapterId;
+        if (!chapterScores[ch]) chapterScores[ch] = { correct: 0, total: 0 };
+        chapterScores[ch].total++;
+        if (userAnswers[i] && userAnswers[i] === q.correctAnswerId) {
+          correct++;
+          chapterScores[ch].correct++;
+        }
+      });
+      setPreviewResult({
+        totalCorrect: correct,
+        totalQuestions: questions.length,
+        overallPercentage: Math.round((correct / questions.length) * 100),
+        chapterScores,
+      });
+      setPhase('PREVIEW_RESULT');
+      return;
+    }
+
     setPhase('SUBMITTING');
     const timeUsedSeconds = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
 
@@ -335,6 +376,48 @@ export function ExamSession({ userName }) {
       <main className="ex-main">
         <div className="ex-loading">
           <p>Scoring your exam...</p>
+        </div>
+      </main>
+    );
+  }
+
+  // ═══ PREVIEW RESULT ═══
+  if (phase === 'PREVIEW_RESULT' && previewResult) {
+    const r = previewResult;
+    const rows = Object.entries(r.chapterScores).map(([id, s]) => ({
+      name: CHAPTERS.find((c) => c.id === id)?.name || id,
+      correct: s.correct,
+      total: s.total,
+    }));
+    return (
+      <main className="ex-main">
+        <div className="ex-preview-result">
+          <span className="ex-preview-tag">Free preview · {r.totalQuestions} questions</span>
+          <h2 className="ex-preview-score">{r.totalCorrect}/{r.totalQuestions} correct &middot; {r.overallPercentage}%</h2>
+          <p className="ex-preview-lead">
+            This is exactly how the full exam works — timed, NCEES-weighted, and scored by chapter.
+          </p>
+          <div className="ex-preview-breakdown">
+            {rows.map((row) => (
+              <div key={row.name} className="ex-preview-row">
+                <span className="ex-preview-chapter">{row.name}</span>
+                <span className="ex-preview-mark">{row.correct}/{row.total}</span>
+              </div>
+            ))}
+          </div>
+          <div className="ex-preview-cta">
+            <p className="ex-preview-cta-text">
+              That was a 10-question taste. The full simulation is <strong>110 questions</strong>, timed like
+              exam day, with <strong>unlimited retakes</strong> — and a money-back guarantee.
+            </p>
+            <button className="btn-primary" onClick={() => navigate('/exam')}>
+              Unlock the full exam — ${priceForEmail(userName)}
+              <ArrowRight size={16} weight="bold" />
+            </button>
+            <button className="btn-secondary" onClick={() => window.location.reload()}>
+              Retake preview
+            </button>
+          </div>
         </div>
       </main>
     );
