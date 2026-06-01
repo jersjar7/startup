@@ -52,8 +52,12 @@ Make the app feel like a coach, building on data we now trust. Scoring uses one 
 - [ ] Uniform quality pass for difficulty balance and distractor rigor.
 - [ ] Extend diagram coverage to problems that would benefit (golden rule: givens only).
 
-### 4. Design / UI-UX polish
-- [ ] Hands-on audit of the running app against the brand deck; fix inconsistencies in spacing, type, color tokens, radii, shadows, focus states, empty/loading/error states, and mobile.
+### 4. Design / UI-UX polish — AUDITED (2026-06-01, Playwright)
+Captured all 12 screens (landing, login, dashboard, study, lesson, problems, review, diagnostic, profile, exam, terms, privacy) at 1280px and 390px against the brand system.
+- **Result:** strong overall — consistent tokens, type, radii, shadows; clean two-column → stacked responsive behavior on mobile; proper disabled/empty states. No layout breakage found.
+- [x] Fixed: lesson `application` intro rendered raw LaTeX (`$F \leq \mu_s N$`) — now wrapped in `MathText` (one render site, fixes every lesson).
+- [x] Fixed: stale "320+ practice problems" marketing copy (landing pricing + exam gate) → "550+" (accurate free-tier count: 330 lesson + 220 chapter practice).
+- [ ] Optional later: tighten diagnostic retake copy wording; consider interactive diagram hover states (deferred — not a brand violation).
 
 ### 5. Learning-engine test coverage
 - [ ] Unit tests for mastery, decay, SM-2 scheduling, and review resolution so the engine stays correct.

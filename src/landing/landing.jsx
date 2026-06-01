@@ -511,7 +511,7 @@ export function Landing({ userName }) {
               </div>
               <ul className="pricing-features">
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> All 15 chapters of lessons</li>
-                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> 320+ practice problems</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> 550+ practice problems</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> ELI5 explanations</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> Step-by-step solutions</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> FE Handbook references</li>

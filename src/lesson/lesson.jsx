@@ -563,7 +563,7 @@ export function LessonPage({ userName }) {
         {/* ── RIGHT: Resource Panels ── */}
         <div className="lesson-right">
           {lesson.application && (
-            <p className="lp-application">{lesson.application}</p>
+            <p className="lp-application"><MathText text={lesson.application} /></p>
           )}
           {PANELS.map((panel) => {
             const Icon = panel.icon;
