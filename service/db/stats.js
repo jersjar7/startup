@@ -61,6 +61,11 @@ async function getProblemsForReview(email, limit = 5) {
     .toArray();
 }
 
+async function getDueReviewCount(email) {
+  const today = new Date().toISOString().split('T')[0];
+  return problemHistoryCollection.countDocuments({ email, nextReview: { $lte: today } });
+}
+
 async function logSession(email, { topicId, type, answers, xpEarned, streak }) {
   await sessionLogCollection.insertOne({
     email,
@@ -80,5 +85,6 @@ module.exports = {
   getProblemHistoryForUser,
   upsertProblemHistory,
   getProblemsForReview,
+  getDueReviewCount,
   logSession,
 };

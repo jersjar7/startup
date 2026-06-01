@@ -18,7 +18,7 @@ import {
   Target,
 } from '@phosphor-icons/react';
 import { CHAPTERS } from '../data/chapters';
-import { getExamWeight } from '../data/exam-bank/index';
+import { computeReadiness, computeFocusAreas, readinessLabel } from '../data/readiness';
 import { LoadingState } from '../components/LoadingState';
 import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
 import { ExamSimCard } from '../exam/ExamSimCard';
@@ -44,6 +44,7 @@ export function Dashboard({ userName, onLogout }) {
     lastDate: undefined,
   });
   const [chapterMastery, setChapterMastery] = React.useState({});
+  const [reviewDue, setReviewDue] = React.useState(0);
 
   React.useEffect(() => {
     if (!userName) {
@@ -58,7 +59,8 @@ export function Dashboard({ userName, onLogout }) {
       fetch('/api/diagnostic/can-retake').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/diagnostic/mastery').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/diagnostic/history').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
-    ]).then(([topicsResult, statsResult, lbResult, retakeResult, masteryResult, historyResult]) => {
+      fetch('/api/review/count').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+    ]).then(([topicsResult, statsResult, lbResult, retakeResult, masteryResult, historyResult, reviewCountResult]) => {
       const errors = [];
       if (topicsResult.status === 'fulfilled') {
         setTopics(topicsResult.value);
@@ -109,6 +111,11 @@ export function Dashboard({ userName, onLogout }) {
       // Chapter mastery from diagnostic
       if (masteryResult.status === 'fulfilled') {
         setChapterMastery(masteryResult.value.chapterMastery || {});
+      }
+
+      // Reviews due (for the Daily Review badge)
+      if (reviewCountResult.status === 'fulfilled') {
+        setReviewDue(reviewCountResult.value.count || 0);
       }
 
       if (errors.length > 0) {
@@ -194,45 +201,19 @@ export function Dashboard({ userName, onLogout }) {
     return 'var(--gray-200)';
   }
 
-  function readinessLabel(pct) {
-    if (pct >= 85) return 'Exam ready';
-    if (pct >= 70) return 'On track to pass';
-    if (pct >= 40) return 'Building momentum';
-    return 'Just getting started';
-  }
-
-  /* Per-chapter mastery + NCEES exam weight — the basis for readiness and focus. */
-  const chapterStats = React.useMemo(
-    () => CHAPTERS.map((ch) => ({
-      ch,
-      masteryPct: getProgress(ch).masteryPct,
-      weight: getExamWeight(ch.id),
-    })),
-    // getProgress reads from topics (via topicLookup) and chapterMastery
+  /* Mastery % per chapter — fed into the shared readiness/focus model so the
+     dashboard and the post-session summary agree. getProgress reads from
+     topics (via topicLookup) and chapterMastery. */
+  const masteryByChapterId = React.useMemo(
+    () => Object.fromEntries(CHAPTERS.map((ch) => [ch.id, getProgress(ch).masteryPct])),
     [topics, chapterMastery],
   );
 
-  /* Weighted exam-readiness: chapter mastery weighted by how many questions
-     each chapter gets on the 110-question exam. */
-  const readiness = React.useMemo(() => {
-    const totalWeight = chapterStats.reduce((s, c) => s + c.weight, 0) || 1;
-    const weighted = chapterStats.reduce((s, c) => s + c.masteryPct * c.weight, 0);
-    return Math.round(weighted / totalWeight);
-  }, [chapterStats]);
-
+  const readiness = React.useMemo(() => computeReadiness(masteryByChapterId), [masteryByChapterId]);
+  const focusAreas = React.useMemo(() => computeFocusAreas(masteryByChapterId), [masteryByChapterId]);
   const hasActivity = React.useMemo(
-    () => stats.totalXp > 0 || chapterStats.some((c) => c.masteryPct > 0),
-    [stats.totalXp, chapterStats],
-  );
-
-  /* The 3 chapters where effort moves the score most: low mastery × high exam weight. */
-  const focusAreas = React.useMemo(
-    () => chapterStats
-      .filter((c) => c.masteryPct < 90)
-      .map((c) => ({ ...c, focusScore: (100 - c.masteryPct) * c.weight }))
-      .sort((a, b) => b.focusScore - a.focusScore)
-      .slice(0, 3),
-    [chapterStats],
+    () => stats.totalXp > 0 || Object.values(masteryByChapterId).some((p) => p > 0),
+    [stats.totalXp, masteryByChapterId],
   );
 
   function handleDiagnosticSkip() {
@@ -272,9 +253,13 @@ export function Dashboard({ userName, onLogout }) {
           <span className="stat-pill-value">{stats.currentStreak}</span>
           <span className="stat-pill-label">Day Streak</span>
         </div>
-        <button className="review-btn" onClick={() => navigate('/review')}>
+        <button
+          className={`review-btn${reviewDue > 0 ? ' review-btn--due' : ''}`}
+          onClick={() => navigate('/review')}
+        >
           <Timer weight="bold" size={16} />
           Daily Review
+          {reviewDue > 0 && <span className="review-due-badge">{reviewDue}</span>}
           <ArrowRight weight="bold" size={14} />
         </button>
       </div>

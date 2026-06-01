@@ -37,14 +37,16 @@ Single source of truth + working spaced repetition.
 - [x] Retired the stale runtime path: deleted `service/db/problems.js`, removed its wiring from `database.js`. (Removed the unseen-backfill that pulled stale seed problems — review now surfaces only genuinely-due items, which is the correct semantics.)
 - [x] Added `src/data/problemPool.test.js` (resolver regression guard). Build + 31 tests green.
 - [ ] Follow-up: remove the dead `problems`-collection seeding from `service/seed.js` (keep `topics` seeding — still used for study-page video URLs).
-- [ ] Live walkthrough: study a topic, advance the clock / seed a due item, confirm it resurfaces in Daily Review (needs running app + DB — `/verify`).
+- [x] Live walkthrough (Playwright, throwaway seeded user, 2026-06-01): study session creates `problemHistory` with client ids; due items resurface in Daily Review and render with full schema + diagram; review submit reschedules so cleared items leave the queue. Screenshots captured. Closes the render gap.
 
-### 2. Intelligence / scoring surface (SCORING + LOGIC) — IN PROGRESS
-Make the app feel like a coach, building on data we now trust.
-- [x] Exam-readiness %: chapter mastery weighted by NCEES exam questions (`Σ(masteryPct × weight) / 110`), shown as a headline meter on the dashboard. Uses the existing mastery model (no parallel accuracy metric) so the product has one coherent score. Canonical weights exposed via `getExamWeight` in `exam-bank/index.js`.
+### 2. Intelligence / scoring surface (SCORING + LOGIC) — DONE
+Make the app feel like a coach, building on data we now trust. Scoring uses one shared model: `src/data/readiness.js` (used by both the dashboard and the session summary).
+- [x] Exam-readiness %: chapter mastery weighted by NCEES exam questions (`Σ(masteryPct × weight) / 110`), shown as a headline meter on the dashboard. Uses the existing mastery model (no parallel accuracy metric) so the product has one coherent score. Canonical weights via `getExamWeight` in `exam-bank/index.js`.
 - [x] Focus Areas card: top 3 chapters by `(100 - masteryPct) × examWeight` (low mastery × high exam weight), each with a Practice action. First sidebar block; shown once the student has any activity.
-- [ ] Post-session "Recommended next" on summary screens.
-- [ ] Review prominence: "X reviews due" badge + CTA, queue-cleared bonus XP. (Visual browser pass of dashboard + review render folds in here.)
+- [x] Post-session "Recommended next" on the summary screen: Daily Review when items are due, else the top focus-area chapter (excluding the one just completed).
+- [x] Review prominence: a "reviews due" count badge + urgency styling on the Daily Review button (new `GET /api/review/count`).
+- [ ] Deferred: queue-cleared bonus XP (nice-to-have; the per-session review bonus already exists).
+- Verified live (Playwright): dashboard renders readiness 29%, badge "3", Focus Areas = Transportation/Water Resources/Structural; no console errors.
 
 ### 3. Content quality + diagrams
 - [ ] Uniform quality pass for difficulty balance and distractor rigor.

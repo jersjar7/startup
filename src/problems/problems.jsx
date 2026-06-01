@@ -7,6 +7,7 @@ import { LoadingState } from '../components/LoadingState';
 import { CHAPTERS } from '../data/chapters';
 import { getChapterPracticeProblems } from '../data/chapter-practice/index';
 import { getProblemById } from '../data/problemPool';
+import { computeFocusAreas } from '../data/readiness';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import './problems.css';
 
@@ -44,6 +45,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
   const [summary, setSummary] = React.useState(null);
   const [quote, setQuote] = React.useState('');
   const [quoteAuthor, setQuoteAuthor] = React.useState('');
+  const [recommendation, setRecommendation] = React.useState(null);
 
   React.useEffect(() => {
     if (!userName) {
@@ -206,6 +208,33 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
     navigate('/');
   };
 
+  // When a session ends, compute what to study next: clear due reviews first,
+  // otherwise point to the highest-leverage chapter (low mastery x exam weight).
+  React.useEffect(() => {
+    if (phase !== 'SUMMARY') return;
+    let cancelled = false;
+    Promise.allSettled([
+      fetch('/api/review/count').then((r) => (r.ok ? r.json() : { count: 0 })),
+      fetch('/api/diagnostic/mastery').then((r) => (r.ok ? r.json() : { chapterMastery: {} })),
+    ]).then(([countRes, masteryRes]) => {
+      if (cancelled) return;
+      const due = countRes.status === 'fulfilled' ? (countRes.value.count || 0) : 0;
+      if (!reviewMode && due > 0) {
+        setRecommendation({ type: 'review', due });
+        return;
+      }
+      const cm = masteryRes.status === 'fulfilled' ? (masteryRes.value.chapterMastery || {}) : {};
+      const masteryByChapterId = {};
+      for (const [id, v] of Object.entries(cm)) masteryByChapterId[id] = v.totalMastery || 0;
+      const exclude = reviewMode ? [] : [topicId];
+      const top = computeFocusAreas(masteryByChapterId, { exclude, limit: 1 })[0];
+      if (top) setRecommendation({ type: 'chapter', ch: top.ch, masteryPct: top.masteryPct });
+      else if (due > 0) setRecommendation({ type: 'review', due });
+      else setRecommendation(null);
+    });
+    return () => { cancelled = true; };
+  }, [phase, reviewMode, topicId]);
+
   const backPath = reviewMode ? '/dashboard' : `/study/${topicId}`;
   const backLabel = reviewMode ? 'Back to Dashboard' : 'Back to Study';
   const bonusLabel = reviewMode ? 'Review bonus' : 'Session bonus';
@@ -339,6 +368,37 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
             </div>
           )}
         </section>
+
+        {recommendation && (
+          <section className="recommend-card">
+            <span className="recommend-overline">Recommended next</span>
+            {recommendation.type === 'review' ? (
+              <>
+                <h3 className="recommend-title">Lock in what you've learned</h3>
+                <p className="recommend-text">
+                  You have {recommendation.due} review{recommendation.due !== 1 ? 's' : ''} due.
+                  A quick review session is the highest-value way to strengthen recall.
+                </p>
+                <button className="btn-primary recommend-btn" onClick={() => navigate('/review')}>
+                  Start Daily Review
+                  <ArrowRight weight="bold" size={16} />
+                </button>
+              </>
+            ) : (
+              <>
+                <h3 className="recommend-title">Focus on {recommendation.ch.name}</h3>
+                <p className="recommend-text">
+                  {recommendation.masteryPct > 0 ? `${recommendation.masteryPct}% mastery` : 'Not started yet'}
+                  {' '}— one of your biggest score opportunities on the exam.
+                </p>
+                <button className="btn-primary recommend-btn" onClick={() => navigate(`/study/${recommendation.ch.id}`)}>
+                  Study {recommendation.ch.name}
+                  <ArrowRight weight="bold" size={16} />
+                </button>
+              </>
+            )}
+          </section>
+        )}
 
         {quote && (
           <section className="quote-card">

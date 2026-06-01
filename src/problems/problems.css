@@ -270,6 +270,46 @@
   box-shadow: var(--shadow-card);
 }
 
+/* ── Recommended next (post-session) ── */
+.recommend-card {
+  padding: 1.25rem 1.5rem;
+  background: white;
+  margin-bottom: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border-left: 4px solid var(--ember);
+  text-align: left;
+}
+.recommend-overline {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin-bottom: 0.4rem;
+}
+.recommend-title {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--charcoal);
+  margin: 0 0 0.35rem;
+}
+.recommend-text {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--gray-600);
+  margin: 0 0 1rem;
+}
+.recommend-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
 .quote-card blockquote {
   border-left: 4px solid var(--ember);
   padding-left: 1rem;

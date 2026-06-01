@@ -84,6 +84,26 @@
   opacity: 1;
 }
 
+/* Daily Review with items due — draw attention */
+.review-btn--due {
+  box-shadow: 0 0 0 3px var(--ember-bg);
+}
+.review-due-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  padding: 0 0.35rem;
+  background: white;
+  color: var(--ember);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.72rem;
+  border-radius: var(--radius-full);
+  line-height: 1;
+}
+
 /* ── Two-column grid ── */
 .dash-grid {
   display: grid;

@@ -44,6 +44,12 @@ router.get('/', verifyAuth, async (req, res) => {
   res.send({ problems });
 });
 
+// Lightweight count of due review items — for the dashboard "reviews due" badge.
+router.get('/count', verifyAuth, async (req, res) => {
+  const count = await DB.getDueReviewCount(req.user.email);
+  res.send({ count });
+});
+
 // Submit review results
 router.post('/', verifyAuth, async (req, res) => {
   const { answers } = req.body;
