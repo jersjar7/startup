@@ -3,7 +3,7 @@ import React from 'react';
 const PHASE_TOPICS = [
   'Structural Analysis',
   'Fluid Mechanics',
-  'Circuits',
+  'Transportation',
   'Surveying',
   'Geotechnical',
 ];
@@ -62,42 +62,25 @@ function Fluid() {
   );
 }
 
-/* ── Phase 3: Circuits ── */
-function Circuits() {
+/* ── Phase 3: Transportation (crest vertical curve) ── */
+function Transportation() {
   return (
     <g className="svg-phase svg-phase--3">
-      {/* Main paths */}
-      <line x1="250" y1="350" x2="450" y2="350" className="svg-line svg-draw" />
-      <line x1="550" y1="350" x2="750" y2="350" className="svg-line svg-draw" />
-      <line x1="850" y1="350" x2="950" y2="350" className="svg-line svg-draw" />
-      <line x1="950" y1="350" x2="950" y2="500" className="svg-line svg-draw" />
-      <line x1="950" y1="500" x2="750" y2="500" className="svg-line svg-draw" />
-      <line x1="650" y1="500" x2="450" y2="500" className="svg-line svg-draw" />
-      <line x1="350" y1="500" x2="250" y2="500" className="svg-line svg-draw" />
-      <line x1="250" y1="500" x2="250" y2="350" className="svg-line svg-draw" />
-      {/* Resistors */}
-      <rect x="450" y="340" width="100" height="20" rx="2" className="svg-resistor" />
-      <rect x="350" y="490" width="100" height="20" rx="2" className="svg-resistor" />
-      {/* Capacitors */}
-      <line x1="750" y1="340" x2="750" y2="360" className="svg-cap svg-draw" />
-      <line x1="730" y1="340" x2="770" y2="340" className="svg-cap svg-draw" />
-      <line x1="730" y1="360" x2="770" y2="360" className="svg-cap svg-draw" />
-      <line x1="650" y1="490" x2="650" y2="510" className="svg-cap svg-draw" />
-      <line x1="630" y1="490" x2="670" y2="490" className="svg-cap svg-draw" />
-      <line x1="630" y1="510" x2="670" y2="510" className="svg-cap svg-draw" />
-      {/* Voltage source */}
-      <circle cx="850" cy="425" r="18" className="svg-vsource" fill="none" />
-      <line x1="850" y1="407" x2="850" y2="350" className="svg-line svg-draw" />
-      <line x1="850" y1="443" x2="850" y2="500" className="svg-line svg-draw" />
-      <line x1="843" y1="420" x2="857" y2="420" className="svg-vsource-mark" />
-      <line x1="850" y1="413" x2="850" y2="427" className="svg-vsource-mark" />
-      <line x1="843" y1="432" x2="857" y2="432" className="svg-vsource-mark" />
-      {/* Nodes */}
+      {/* Stationing baseline + ticks */}
+      <line x1="200" y1="560" x2="1000" y2="560" className="svg-line svg-draw" />
+      {[250, 400, 550, 700, 850, 950].map((x, i) => (
+        <line key={i} x1={x} y1="560" x2={x} y2="573" className="svg-line svg-draw" />
+      ))}
+      {/* Tangent grades (G1 up, G2 down) meeting at the PVI */}
+      <line x1="250" y1="500" x2="600" y2="350" className="svg-grade svg-draw" />
+      <line x1="600" y1="350" x2="950" y2="500" className="svg-grade svg-draw" />
+      {/* Parabolic crest vertical curve, PVC -> apex -> PVT */}
+      <path d="M250,500 Q600,380 950,500" className="svg-line svg-draw" fill="none" />
+      {/* PVC, PVI, PVT, and curve apex */}
       {[
-        [250, 350], [950, 350], [950, 500], [250, 500],
-        [500, 350], [750, 350], [650, 500], [400, 500],
+        [250, 500], [600, 350], [950, 500], [600, 440],
       ].map(([cx, cy], i) => (
-        <circle key={i} cx={cx} cy={cy} r="3.5" className="svg-node svg-node-pulse" />
+        <circle key={i} cx={cx} cy={cy} r="5" className="svg-node svg-node-pulse" />
       ))}
     </g>
   );
@@ -169,7 +152,7 @@ export function HeroSvg() {
     >
       <Truss />
       <Fluid />
-      <Circuits />
+      <Transportation />
       <Surveying />
       <Geotech />
     </svg>

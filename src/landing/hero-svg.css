@@ -61,29 +61,11 @@
   opacity: 0;
 }
 
-.svg-resistor {
-  fill: none;
-  stroke: var(--charcoal);
-  stroke-width: 1.5;
-  opacity: 0;
-}
-
-.svg-cap {
-  stroke: var(--charcoal);
-  stroke-width: 2;
-  fill: none;
-}
-
-.svg-vsource {
+/* Transportation: tangent grade lines (G1/G2) */
+.svg-grade {
   stroke: var(--ember);
   stroke-width: 1.5;
-  opacity: 0;
-}
-
-.svg-vsource-mark {
-  stroke: var(--ember);
-  stroke-width: 1.5;
-  opacity: 0;
+  fill: none;
 }
 
 .svg-survey {
@@ -163,12 +145,9 @@
 .svg-phase--2 .svg-draw    { animation: drawLine 15s var(--ease-draw) 3s infinite; }
 .svg-phase--2 .svg-vortex  { animation: vortexSpin 15s var(--ease-fade) 3s infinite; }
 
-/* Phase 3: Circuits */
-.svg-phase--3 .svg-draw          { animation: drawLine 15s var(--ease-draw) 6s infinite; }
-.svg-phase--3 .svg-resistor      { animation: fadeElement 15s var(--ease-fade) 6s infinite; }
-.svg-phase--3 .svg-vsource       { animation: fadeElement 15s var(--ease-fade) 6s infinite; }
-.svg-phase--3 .svg-vsource-mark  { animation: fadeElement 15s var(--ease-fade) 6s infinite; }
-.svg-phase--3 .svg-node          { animation: fadeElement 15s var(--ease-fade) 6s infinite; }
+/* Phase 3: Transportation */
+.svg-phase--3 .svg-draw  { animation: drawLine 15s var(--ease-draw) 6s infinite; }
+.svg-phase--3 .svg-node  { animation: fadeElement 15s var(--ease-fade) 6s infinite; }
 
 /* Phase 4: Surveying */
 .svg-phase--4 .svg-draw   { animation: drawLine 15s var(--ease-draw) 9s infinite; }
@@ -298,9 +277,7 @@
   .svg-phase .svg-arrow-head,
   .svg-phase .svg-node,
   .svg-phase .svg-vortex,
-  .svg-phase .svg-resistor,
-  .svg-phase .svg-vsource,
-  .svg-phase .svg-vsource-mark,
+  .svg-phase .svg-grade,
   .svg-phase .svg-sight,
   .svg-phase .svg-strata,
   .svg-phase .svg-foundation,
