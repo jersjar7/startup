@@ -59,8 +59,11 @@ Captured all 12 screens (landing, login, dashboard, study, lesson, problems, rev
 - [x] Fixed: stale "320+ practice problems" marketing copy (landing pricing + exam gate) → "550+" (accurate free-tier count: 330 lesson + 220 chapter practice).
 - [ ] Optional later: tighten diagnostic retake copy wording; consider interactive diagram hover states (deferred — not a brand violation).
 
-### 5. Learning-engine test coverage
-- [ ] Unit tests for mastery, decay, SM-2 scheduling, and review resolution so the engine stays correct.
+### 5. Learning-engine test coverage — DONE
+- [x] Extracted the SM-2 interval rule into a pure `service/scheduling.js` (`nextInterval`) — decoupled from the DB — and covered it with `service/scheduling.test.js` (reset-on-miss, ease growth, cap).
+- [x] Covered the readiness/focus scoring model with `src/data/readiness.test.js` (weighting, mastered-threshold exclusion, exclude/limit options, label tiers).
+- [x] Mastery/decay (`mastery.test.js`) and review resolution (`problemPool.test.js`) already covered.
+- **Suites:** root (src) 40 tests, service 59 tests — all green; build clean.
 
 ---
 

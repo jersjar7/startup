@@ -1,4 +1,5 @@
 const { userStatsCollection, problemHistoryCollection, sessionLogCollection } = require('./connection');
+const { nextInterval } = require('../scheduling');
 
 async function getUserStats(email) {
   return userStatsCollection.findOne({ email: email });
@@ -27,11 +28,10 @@ async function upsertProblemHistory(email, problemId, topicId, isCorrect) {
 
   if (isCorrect) {
     timesCorrect++;
-    interval = Math.min(Math.round((existing?.interval || 1) * 2.5), 30);
   } else {
     timesIncorrect++;
-    interval = 1;
   }
+  interval = nextInterval(existing?.interval, isCorrect);
 
   const nextDate = new Date(Date.now() + interval * 86400000);
   const nextReview = nextDate.toISOString().split('T')[0];
