@@ -186,6 +186,17 @@
   margin-top: 0.15rem;
 }
 
+.exam-gate-student-note {
+  font-size: 0.82rem;
+  color: var(--forest);
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+.exam-gate-student-note strong {
+  color: var(--forest);
+  font-weight: 700;
+}
+
 .exam-buy-btn {
   width: 100%;
   padding: 0.85rem;

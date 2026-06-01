@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { priceForEmail } from '../data/pricing';
 import {
   ArrowLeft,
   SignOut,
@@ -230,7 +231,7 @@ export function Profile({ userName, onLogout }) {
             <span className="profile-label">Exam Simulation</span>
             <span className="profile-value">
               <Link to="/exam" style={{ color: 'var(--ember)', fontWeight: 600, textDecoration: 'none' }}>
-                Not purchased — $14.99
+                Not purchased — ${priceForEmail(userName)}
               </Link>
             </span>
           </div>

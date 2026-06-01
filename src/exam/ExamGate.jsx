@@ -14,6 +14,7 @@ import {
   Heart,
 } from '@phosphor-icons/react';
 import './exam.css';
+import { priceForEmail, isStudentEmail, STUDENT_PRICE } from '../data/pricing';
 
 export function ExamGate({ userName }) {
   const navigate = useNavigate();
@@ -179,9 +180,16 @@ export function ExamGate({ userName }) {
 
             {/* Price + CTA */}
             <div className="exam-gate-price">
-              <span className="exam-gate-amount">$14.99</span>
+              <span className="exam-gate-amount">${priceForEmail(userName)}</span>
               <span className="exam-gate-period">one-time &middot; no subscription</span>
             </div>
+            {isStudentEmail(userName) ? (
+              <p className="exam-gate-student-note">Student price applied — verified .edu email.</p>
+            ) : (
+              <p className="exam-gate-student-note">
+                Students: sign up with your <strong>.edu</strong> email and pay just ${STUDENT_PRICE}.
+              </p>
+            )}
 
             {error && <div className="exam-error" role="alert">{error}</div>}
 

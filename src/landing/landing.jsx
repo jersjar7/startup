@@ -41,6 +41,7 @@ import { BeamDiagram } from './beam-diagram';
 import { Math } from './math';
 import './landing.css';
 import './hero-svg.css';
+import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
 
 /* ── Chapter data (15 FE Civil topics) ── */
 const chapters = [
@@ -122,6 +123,10 @@ export function Landing({ userName }) {
             Get Started Free
             <ArrowRight weight="bold" size={18} />
           </button>
+          <p className="hero-price">
+            Free to start. Full access is <strong>${STUDENT_PRICE} for students</strong> (${STANDARD_PRICE} standard) —
+            a one-time payment. Competitors charge $200–$1,800.
+          </p>
         </div>
 
         <div className="hero-lockup" aria-hidden="true">
@@ -528,9 +533,9 @@ export function Landing({ userName }) {
             {/* Paid tier */}
             <div className="pricing-card pricing-card--paid">
               <div className="pricing-card-header">
-                <span className="pricing-card-label">Exam Simulation</span>
-                <span className="pricing-card-price">$14.99</span>
-                <span className="pricing-card-period">one-time</span>
+                <span className="pricing-card-label">Full Access</span>
+                <span className="pricing-card-price">${STUDENT_PRICE}</span>
+                <span className="pricing-card-period">students &middot; ${STANDARD_PRICE} standard &middot; one-time</span>
               </div>
               <p className="pricing-card-desc">
                 Everything in Free, plus:
@@ -540,6 +545,7 @@ export function Landing({ userName }) {
                 <li><Exam weight="bold" size={16} className="pricing-check pricing-check--ember" /> Weighted by NCEES topic distribution</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check pricing-check--ember" /> Score breakdown by chapter</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check pricing-check--ember" /> Unlimited retakes</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check pricing-check--ember" /> ${STUDENT_PRICE} with a .edu student email</li>
               </ul>
               <button className="pricing-btn pricing-btn--paid" onClick={() => navigate('/login', { state: { returnTo: '/exam' } })}>
                 Get Exam Simulation

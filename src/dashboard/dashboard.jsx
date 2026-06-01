@@ -476,7 +476,7 @@ export function Dashboard({ userName, onLogout }) {
                   <LinkedinLogo weight="bold" size={14} />
                   DM me on LinkedIn
                 </a>
-                . I'll send you a one-time discount code — <strong>$9.99</strong> instead of $14.99.
+                . I'll send you a one-time code for <strong>33% off</strong> your full-access pass.
               </p>
             </div>
           </div>
