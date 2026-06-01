@@ -3,7 +3,7 @@
 **Created:** 2026-04-07
 **Updated:** 2026-04-08
 **Based on:** [Content Readiness Audit](./2026-04-07-content-readiness.md) (original score: 58/100)
-**Current Score: ~68/100** (after exam-bank expansion + refactoring)
+**Current Score: ~70/100** (after exam-bank expansion + refactoring + chapter-practice content)
 **Goal:** Reach 80+ to become a standalone exam prep tool
 
 ---
@@ -82,11 +82,11 @@
 
 ## Remaining Work (Ordered by Priority)
 
-### Phase 2: Chapter Practice Content (+2 pts, HIGH priority)
+### Phase 2: Chapter Practice Content (+2 pts, HIGH priority) — COMPLETE
 
-**Why first:** The "Practice All" button on every chapter page currently shows "Coming Soon." This is the most visible broken experience for users. Pure content work — no code changes needed, infrastructure is ready.
+**Why first:** The "Practice All" button on every chapter page previously showed "Coming Soon." This was the most visible broken experience for users. Pure content work — no code changes needed, infrastructure was ready.
 
-**Deliverable:** 220 questions (2 per lesson) to populate `src/data/chapter-practice/`.
+**Deliverable (done):** 220 questions (2 per lesson) populate `src/data/chapter-practice/`. Authored and adversarially verified (every problem independently re-solved; answers, distractor rationales, and pool-overlap checked). Total problem count is now **990**. Each chapter-practice problem is distinct from the lesson-practice and exam-bank pools — verified zero ID collisions and no scenario overlap.
 
 | Chapter | Target | Chapter | Target |
 |---------|--------|---------|--------|
@@ -196,10 +196,9 @@ The review route (`/api/review`) calls `DB.getAllProblemsForTopics()` which read
 ## Critical Path to 80
 
 ```
-Current: 68/100
+Phase 2 (Chapter Practice Content)  → 70/100  (+2)  ✓ DONE — current
 
-Phase 2 (Chapter Practice Content)  → 70/100  (+2)
-Phase 3 (Dashboard Intelligence)    → 77/100  (+7)
+Phase 3 (Dashboard Intelligence)    → 77/100  (+7)  ← next
 Phase 4 (Review Repair + Prominence)→ 80/100  (+3)
 ─────────────────────────────────────────────
 Phase 5 (Timed Drills)              → 81/100  (+1)  ← nice to have
@@ -229,7 +228,7 @@ These aren't scored in the audit but will bite you eventually:
 |-------|-------------|--------|
 | 1A — Exam Problem Expansion | 58 -> 68 (+10) | Complete |
 | 1B — Question Bank Refactoring | (infra, no score) | Complete |
-| 2 — Chapter Practice Content | 68 -> 70 (+2) | Not started |
+| 2 — Chapter Practice Content | 68 -> 70 (+2) | Complete |
 | 3 — Dashboard Intelligence | 70 -> 77 (+7) | Not started |
 | 4 — Review Repair + Prominence | 77 -> 80 (+3) | Not started |
 | 5 — Timed Drills | 80 -> 81 (+1) | Not started |
