@@ -8,7 +8,12 @@ const { getWeekId } = require('./leaderboard.js');
 
 const router = express.Router();
 
-// Get review problems (overdue + unseen from studied topics)
+// Get due review problems as references (client resolves them against the
+// question pools). The review queue is the set of problems whose spaced-
+// repetition interval has elapsed — stored by id in problemHistory and
+// scheduled in db/stats.js. We return only the ids + reason; the frontend
+// renders them from the same content the student studied, so there is a
+// single source of truth for problems.
 router.get('/', verifyAuth, async (req, res) => {
   const email = req.user.email;
   const count = Math.min(parseInt(req.query.count) || 5, 8);
@@ -18,7 +23,7 @@ router.get('/', verifyAuth, async (req, res) => {
     return res.send({ problems: [], message: 'Complete a topic session first to unlock review.' });
   }
 
-  // Find topics the user has studied
+  // Require at least one studied topic before review is meaningful.
   const studiedTopicIds = Object.keys(stats.topicProgress).filter(
     (id) => stats.topicProgress[id].sessionsCompleted > 0
   );
@@ -27,67 +32,16 @@ router.get('/', verifyAuth, async (req, res) => {
     return res.send({ problems: [], message: 'Complete a topic session first to unlock review.' });
   }
 
-  // Get overdue problems from history
+  // Overdue problems (nextReview <= today), soonest-due first.
   const overdue = await DB.getProblemsForReview(email, count);
-  const overdueIds = new Set(overdue.map((h) => h.problemId));
 
-  // Get the actual problem documents for overdue items
-  const allProblems = await DB.getAllProblemsForTopics(studiedTopicIds);
-  const problemMap = {};
-  for (const p of allProblems) {
-    problemMap[p._id.toString()] = p;
-  }
+  const problems = overdue.map((h) => ({
+    problemId: h.problemId,
+    topicId: h.topicId,
+    reviewReason: 'overdue',
+  }));
 
-  const reviewProblems = [];
-
-  // Add overdue problems first
-  for (const h of overdue) {
-    const p = problemMap[h.problemId];
-    if (p) {
-      reviewProblems.push({
-        problemId: p._id.toString(),
-        topicId: p.topicId,
-        problemNumber: p.problemNumber,
-        question: p.question,
-        choices: p.choices,
-        correctAnswer: p.correctAnswer,
-        solution: p.solution,
-        difficulty: p.difficulty,
-        reviewReason: 'overdue',
-      });
-    }
-  }
-
-  // Fill remaining slots with unseen problems from studied topics
-  if (reviewProblems.length < count) {
-    const history = await DB.getProblemHistoryForUser(email);
-    const seenIds = new Set(history.map((h) => h.problemId));
-    const unseen = allProblems.filter((p) => !seenIds.has(p._id.toString()));
-
-    // Shuffle unseen problems
-    for (let i = unseen.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [unseen[i], unseen[j]] = [unseen[j], unseen[i]];
-    }
-
-    for (const p of unseen) {
-      if (reviewProblems.length >= count) break;
-      if (overdueIds.has(p._id.toString())) continue;
-      reviewProblems.push({
-        problemId: p._id.toString(),
-        topicId: p.topicId,
-        problemNumber: p.problemNumber,
-        question: p.question,
-        choices: p.choices,
-        correctAnswer: p.correctAnswer,
-        solution: p.solution,
-        difficulty: p.difficulty,
-        reviewReason: 'unseen',
-      });
-    }
-  }
-
-  res.send({ problems: reviewProblems });
+  res.send({ problems });
 });
 
 // Submit review results

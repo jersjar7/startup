@@ -6,6 +6,7 @@ import { MathText } from '../components/MathText';
 import { LoadingState } from '../components/LoadingState';
 import { CHAPTERS } from '../data/chapters';
 import { getChapterPracticeProblems } from '../data/chapter-practice/index';
+import { getProblemById } from '../data/problemPool';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import './problems.css';
 
@@ -51,19 +52,32 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
     }
 
     if (reviewMode) {
-      // Review mode: fetch from API (MongoDB schema)
+      // Review mode: the API returns due problem references (ids + topic);
+      // resolve them against the local question pools so review uses the same
+      // content the student studied. Drop any id that no longer exists.
       fetch('/api/review?count=5')
         .then((res) => {
           if (!res.ok) throw new Error('Failed to load problems');
           return res.json();
         })
         .then((data) => {
-          if (!data.problems || data.problems.length === 0) {
+          const refs = data.problems || [];
+          const resolved = refs
+            .map((ref) => {
+              const source = getProblemById(ref.problemId);
+              if (!source) return null;
+              const problem = normalizePracticeProblem(source);
+              // Preserve topic so the review submit can credit the right chapter.
+              problem.topicId = ref.topicId || source.chapterId;
+              return problem;
+            })
+            .filter(Boolean);
+
+          if (resolved.length === 0) {
             setPhase('EMPTY');
             return;
           }
-          // Normalize MongoDB schema to internal format
-          setProblems(data.problems.map(normalizeReviewProblem));
+          setProblems(resolved);
           setPhase('SESSION');
         })
         .catch(() => setPhase('ERROR'));
@@ -108,24 +122,6 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
     };
     return () => ws.close();
   }, [userName, navigate, topicId, reviewMode]);
-
-  // Normalize MongoDB review problem to internal format
-  function normalizeReviewProblem(p) {
-    return {
-      id: p.problemId,
-      statement: p.question,
-      choices: p.choices.map((c) => ({ id: c.label, text: c.text })),
-      correctChoiceId: p.correctAnswer,
-      solution: p.solution,
-      steps: null,
-      eli5: null,
-      hint: null,
-      handbookPage: null,
-      traps: null,
-      diagram: null,
-      topicId: p.topicId,
-    };
-  }
 
   // Normalize chapter-practice problem (lesson schema) to internal format
   function normalizePracticeProblem(p) {

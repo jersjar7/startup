@@ -1,7 +1,6 @@
 const { ping } = require('./db/connection');
 const users = require('./db/users');
 const topics = require('./db/topics');
-const problems = require('./db/problems'); // Still used by review route
 const stats = require('./db/stats');
 const leaderboard = require('./db/leaderboard');
 const diagnostic = require('./db/diagnostic');
@@ -13,7 +12,6 @@ module.exports = {
   ping,
   ...users,
   ...topics,
-  ...problems,
   ...stats,
   ...leaderboard,
   ...diagnostic,

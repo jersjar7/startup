@@ -1,0 +1,66 @@
+# Product Excellence Plan
+
+**Created:** 2026-06-01
+**Goal:** Finish FE for Raccoons to a standard we are genuinely proud of — across content, logic, scoring, design, and UI/UX. This is a craft exercise, not a go-to-market sprint. Payment, pricing, and business-model work come *after* the product is excellent.
+
+**Method:** Graded against the five quality dimensions using the actual codebase (not the older content-readiness audit). Sequenced foundation-first: correctness before intelligence before polish.
+
+---
+
+## Grounded findings (2026-06-01)
+
+### Content — strong
+- 990 practice problems across 4 non-overlapping pools (lesson 330, exam-bank 440, chapter-practice 220), 107 lessons, 45 subtopics, 55+ diagram components.
+- Open work: a uniform problem-quality pass; deepen diagram coverage on exam-bank + chapter-practice pools; consider "select all that apply" item types for CBT realism.
+
+### Logic — one foundational crack
+- `mastery.js`: mastery levels 0–3 with 14/30-day decay — sound. (Levels 4–5 reserved.)
+- `db/stats.js`: SM-2 interval logic (×2.5, cap 30 days, reset on miss) — sound.
+- **DEFECT:** `routes/review.js` resolves due problems against the stale Mongo `problems` collection keyed by `_id` (ObjectId), while `problemHistory.problemId` stores client string IDs (e.g. `stat-fri-cp1`). They never match → overdue items silently drop and the queue backfills with legacy seed problems in the wrong schema (`question`/`correctAnswer` vs `statement`/`correctAnswerId`). Spaced repetition is effectively broken.
+- **Tech debt:** two sources of truth — the 990 client-side problems vs the Mongo `problems` collection (`db/problems.js`, the problem-seeding half of `seed.js`).
+
+### Scoring — tracked, partially surfaced
+- Dashboard already renders: XP, day-streak, per-chapter mastery bars (% based), diagnostic-derived chapter mastery, a Daily Review CTA.
+- Missing: Focus Areas (weakest chapters + "practice now"), an exam-readiness %, post-session "study next" recommendations, an at-a-glance progress summary.
+
+### Design / UI-UX — needs a hands-on pass
+- Brand system is well-defined (CLAUDE.md + brand deck). Have not yet judged the *running* app screen-by-screen against it. Pending: launch the app and audit dashboard, study, problem, lesson, exam, diagnostic, results, profile, landing.
+
+---
+
+## Sequenced plan (foundation → intelligence → polish)
+
+### 1. Learning-engine foundation (LOGIC) — DONE (pending live walkthrough)
+Single source of truth + working spaced repetition.
+- [x] Review now resolves due problem IDs against the client-side pools via a new `src/data/problemPool.js` resolver. Backend (`routes/review.js`) returns due refs (id + topic + reason); frontend (`problems/problems.jsx`) resolves and renders with the existing problem component.
+- [x] Normal-study and chapter-practice attempts both feed `problemHistory` with client IDs through `/api/sessions`; review submit credits the resolved `topicId`.
+- [x] Retired the stale runtime path: deleted `service/db/problems.js`, removed its wiring from `database.js`. (Removed the unseen-backfill that pulled stale seed problems — review now surfaces only genuinely-due items, which is the correct semantics.)
+- [x] Added `src/data/problemPool.test.js` (resolver regression guard). Build + 31 tests green.
+- [ ] Follow-up: remove the dead `problems`-collection seeding from `service/seed.js` (keep `topics` seeding — still used for study-page video URLs).
+- [ ] Live walkthrough: study a topic, advance the clock / seed a due item, confirm it resurfaces in Daily Review (needs running app + DB — `/verify`).
+
+### 2. Intelligence / scoring surface (SCORING + LOGIC)
+Make the app feel like a coach, building on data we now trust.
+- [ ] Focus Areas card: top weak chapters by `(1 - accuracy) × NCEES weight`, each with a Practice action.
+- [ ] Exam-readiness %: share of chapters at accuracy ≥ 70% and mastery ≥ 2.
+- [ ] Post-session "Recommended next" on summary screens.
+- [ ] Review prominence: "X reviews due" badge + CTA, queue-cleared bonus XP.
+
+### 3. Content quality + diagrams
+- [ ] Uniform quality pass for difficulty balance and distractor rigor.
+- [ ] Extend diagram coverage to problems that would benefit (golden rule: givens only).
+
+### 4. Design / UI-UX polish
+- [ ] Hands-on audit of the running app against the brand deck; fix inconsistencies in spacing, type, color tokens, radii, shadows, focus states, empty/loading/error states, and mobile.
+
+### 5. Learning-engine test coverage
+- [ ] Unit tests for mastery, decay, SM-2 scheduling, and review resolution so the engine stays correct.
+
+---
+
+## Definition of done (per dimension)
+- **Content:** every problem solvable to its keyed answer; balanced difficulty; pools non-overlapping (verified).
+- **Logic:** one source of truth; spaced repetition demonstrably resurfaces due items; no dead/stale data paths.
+- **Scoring:** a learner can see where they stand and what to do next without self-diagnosing.
+- **Design/UX:** every screen matches the brand deck; complete empty/loading/error states; clean on mobile.
+- **Quality:** core learning logic covered by tests.
