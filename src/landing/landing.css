@@ -451,6 +451,53 @@
    SECTION 3 — SAMPLE PROBLEM (split)
    ═══════════════════════════════════════ */
 
+/* ═══════ WATCH HOW IT WORKS ═══════ */
+.s-video {
+  background: var(--cream);
+  border-top: 1px solid var(--gray-200);
+  padding: clamp(4rem, 8vh, 7rem) 0;
+  text-align: center;
+}
+.s-video__inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 4rem);
+}
+.s-video .section-label {
+  justify-content: center;
+}
+.s-video__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  color: var(--charcoal);
+  margin: 1rem 0 0.75rem;
+}
+.s-video__sub {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--gray-500);
+  line-height: 1.6;
+  max-width: 560px;
+  margin: 0 auto 2.5rem;
+}
+.s-video__frame {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(44, 44, 44, 0.04), 0 12px 40px rgba(44, 44, 44, 0.12);
+  border: 1px solid var(--gray-200);
+  background: #000;
+  line-height: 0;
+}
+.s-video__player {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 16 / 9;
+}
+
 .s-sample {
   background: var(--cream);
   border-top: 1px solid var(--gray-200);

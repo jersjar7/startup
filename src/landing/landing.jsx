@@ -143,6 +143,31 @@ export function Landing({ userName }) {
         </div>
       </section>
 
+      {/* ══════ SECTION — WATCH HOW IT WORKS ══════ */}
+      <section className="s-video">
+        <div className="s-video__inner">
+          <span className="section-label">
+            <span className="section-label-dash" />
+            See it in action
+          </span>
+          <h2 className="s-video__heading">Watch how it works</h2>
+          <p className="s-video__sub">
+            From the free diagnostic to exam-day confidence — the whole platform in under 30 seconds.
+          </p>
+          <div className="s-video__frame">
+            <video
+              className="s-video__player"
+              controls
+              preload="metadata"
+              poster="/explainer-poster.jpg"
+            >
+              <source src="/explainer.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </section>
+
       {/* ══════ SECTION 1 — HOW YOU'LL STUDY ══════ */}
       <section className="s-method">
         <div className="s-method__inner">
