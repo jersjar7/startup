@@ -92,7 +92,7 @@ const PROBLEMS = [
       'Forgetting the velocity head and reporting only the depth',
       'Omitting the factor of 2 in the velocity head ($v^2/g$ instead of $v^2/2g$)',
     ],
-    diagram: null,
+    diagram: { component: 'RectangularChannel', props: { b: 4, y: 2.5, unit: 'm' } },
     lessonId: 'energy-critical-flow',
     chapterId: 'water-resources',
   },

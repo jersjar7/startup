@@ -142,7 +142,7 @@ const PROBLEMS = [
       'Using cos(I) instead of cos(I/2)',
       'Confusing the middle ordinate M with the external distance E',
     ],
-    diagram: null,
+    diagram: { component: 'HorizontalCurve', props: { R: 1000, I: 40 } },
     lessonId: 'horizontal-curves',
     chapterId: 'transportation',
   },

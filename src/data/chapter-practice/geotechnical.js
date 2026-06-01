@@ -148,7 +148,15 @@ const PROBLEMS = [
       'Subtracting pore pressure over the moist sand above the water table where u = 0',
       'Reporting total stress instead of effective stress',
     ],
-    diagram: null,
+    diagram: {
+      component: 'SoilProfile',
+      props: {
+        layers: [
+          { name: 'Moist Sand', h: 4, gamma: 118, saturated: false },
+          { name: 'Saturated Sand', h: 6, gamma: 128, saturated: true },
+        ],
+      },
+    },
     lessonId: 'effective-stress',
     chapterId: 'geotechnical',
   },
@@ -328,7 +336,10 @@ const PROBLEMS = [
       'Using the active coefficient K_a for a rigid wall that cannot move',
       'Forgetting the 1/2 factor for the triangular pressure distribution',
     ],
-    diagram: null,
+    diagram: {
+      component: 'RetainingWall',
+      props: { height: 16, unit: 'ft' },
+    },
     lessonId: 'lateral-earth-pressure',
     chapterId: 'geotechnical',
   },
@@ -417,7 +428,10 @@ const PROBLEMS = [
       'Ignoring eccentricity and reporting the uniform pressure Sigma V / B',
       'Reporting the maximum (toe) pressure instead of the minimum (heel) pressure',
     ],
-    diagram: null,
+    diagram: {
+      component: 'WallBase',
+      props: { baseWidth: 9, unit: 'ft' },
+    },
     lessonId: 'retaining-walls',
     chapterId: 'geotechnical',
   },
@@ -448,7 +462,10 @@ const PROBLEMS = [
       'Dropping the 1.3 shape factor on the cohesion term for a square footing',
       'Forgetting the overburden surcharge gamma * D_f',
     ],
-    diagram: null,
+    diagram: {
+      component: 'FootingSection',
+      props: { width: 2.5, depth: 1.2, unit: 'm' },
+    },
     lessonId: 'bearing-capacity',
     chapterId: 'geotechnical',
   },

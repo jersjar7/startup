@@ -254,7 +254,13 @@ const PROBLEMS = [
       'Using the simply supported formula $wL^2/8$ for a cantilever',
       'Dropping the factor of one-half and using $wL^2$'
     ],
-    diagram: null,
+    diagram: {
+      component: 'CantileverBeam',
+      props: {
+        length: 4,
+        loadIntensity: 9
+      }
+    },
     lessonId: 'shear-moment-diagrams',
     chapterId: 'mechanics-materials'
   },
@@ -406,7 +412,14 @@ const PROBLEMS = [
       'Using the cantilever formula $PL^3/(3EI)$ for a simply supported beam',
       'Using the wrong deflection coefficient (for example 24 instead of 48 in the denominator)'
     ],
-    diagram: null,
+    diagram: {
+      component: 'SimplySupportedBeam',
+      props: {
+        span: 6,
+        loadPos: 3,
+        load: 30
+      }
+    },
     lessonId: 'beam-deflections',
     chapterId: 'mechanics-materials'
   },

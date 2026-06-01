@@ -88,7 +88,7 @@ const PROBLEMS = [
       'Using $\\gamma_{Hg}h$ alone and forgetting the water column subtracts',
       'Using water instead of mercury for the gauge fluid',
     ],
-    diagram: null,
+    diagram: { component: 'UtubeManometer', props: { h: 300, unit: 'mm' } },
     lessonId: 'hydrostatic-pressure',
     chapterId: 'fluid-mechanics',
   },

@@ -48,9 +48,11 @@ Make the app feel like a coach, building on data we now trust. Scoring uses one 
 - [ ] Deferred: queue-cleared bonus XP (nice-to-have; the per-session review bonus already exists).
 - Verified live (Playwright): dashboard renders readiness 29%, badge "3", Focus Areas = Transportation/Water Resources/Structural; no console errors.
 
-### 3. Content quality + diagrams
-- [ ] Uniform quality pass for difficulty balance and distractor rigor.
-- [ ] Extend diagram coverage to problems that would benefit (golden rule: givens only).
+### 3. Content quality + diagrams — DONE (diagram expansion)
+- [x] Diagram expansion: wired existing registry components to **22 new** chapter-practice problems that benefit (it had only 1 of 220). Reused the 83-component library — no risky new SVGs. Golden-rule verified by independent agents (props = given values only; no answers/derived values) and spot-checked live (surveying parcel, block-on-ramp — both show givens only, render clean).
+- [x] Verified: every wired `diagram.component` is a real registry entry; diffs only swap `diagram: null` for diagram objects (no statement/choice/answer changes — answer distribution unchanged); all 23 diagrams render to SVG with their real props (`chapterPracticeDiagrams.test.jsx`); build clean.
+- [x] Distractor rigor / difficulty was adversarially verified during Phase 2 (every problem re-solved; distractors mapped to specific mistakes).
+- [ ] Optional later: author brand-new diagram components for geometries not yet in the library (e.g., dynamics/materials setups that found no existing match).
 
 ### 4. Design / UI-UX polish — AUDITED (2026-06-01, Playwright)
 Captured all 12 screens (landing, login, dashboard, study, lesson, problems, review, diagnostic, profile, exam, terms, privacy) at 1280px and 390px against the brand system.
