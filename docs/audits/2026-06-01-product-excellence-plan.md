@@ -39,12 +39,12 @@ Single source of truth + working spaced repetition.
 - [ ] Follow-up: remove the dead `problems`-collection seeding from `service/seed.js` (keep `topics` seeding — still used for study-page video URLs).
 - [ ] Live walkthrough: study a topic, advance the clock / seed a due item, confirm it resurfaces in Daily Review (needs running app + DB — `/verify`).
 
-### 2. Intelligence / scoring surface (SCORING + LOGIC)
+### 2. Intelligence / scoring surface (SCORING + LOGIC) — IN PROGRESS
 Make the app feel like a coach, building on data we now trust.
-- [ ] Focus Areas card: top weak chapters by `(1 - accuracy) × NCEES weight`, each with a Practice action.
-- [ ] Exam-readiness %: share of chapters at accuracy ≥ 70% and mastery ≥ 2.
+- [x] Exam-readiness %: chapter mastery weighted by NCEES exam questions (`Σ(masteryPct × weight) / 110`), shown as a headline meter on the dashboard. Uses the existing mastery model (no parallel accuracy metric) so the product has one coherent score. Canonical weights exposed via `getExamWeight` in `exam-bank/index.js`.
+- [x] Focus Areas card: top 3 chapters by `(100 - masteryPct) × examWeight` (low mastery × high exam weight), each with a Practice action. First sidebar block; shown once the student has any activity.
 - [ ] Post-session "Recommended next" on summary screens.
-- [ ] Review prominence: "X reviews due" badge + CTA, queue-cleared bonus XP.
+- [ ] Review prominence: "X reviews due" badge + CTA, queue-cleared bonus XP. (Visual browser pass of dashboard + review render folds in here.)
 
 ### 3. Content quality + diagrams
 - [ ] Uniform quality pass for difficulty balance and distractor rigor.

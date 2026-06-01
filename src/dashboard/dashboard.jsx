@@ -14,8 +14,11 @@ import {
   BookOpenText,
   Megaphone,
   LinkedinLogo,
+  Gauge,
+  Target,
 } from '@phosphor-icons/react';
 import { CHAPTERS } from '../data/chapters';
+import { getExamWeight } from '../data/exam-bank/index';
 import { LoadingState } from '../components/LoadingState';
 import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
 import { ExamSimCard } from '../exam/ExamSimCard';
@@ -191,6 +194,47 @@ export function Dashboard({ userName, onLogout }) {
     return 'var(--gray-200)';
   }
 
+  function readinessLabel(pct) {
+    if (pct >= 85) return 'Exam ready';
+    if (pct >= 70) return 'On track to pass';
+    if (pct >= 40) return 'Building momentum';
+    return 'Just getting started';
+  }
+
+  /* Per-chapter mastery + NCEES exam weight — the basis for readiness and focus. */
+  const chapterStats = React.useMemo(
+    () => CHAPTERS.map((ch) => ({
+      ch,
+      masteryPct: getProgress(ch).masteryPct,
+      weight: getExamWeight(ch.id),
+    })),
+    // getProgress reads from topics (via topicLookup) and chapterMastery
+    [topics, chapterMastery],
+  );
+
+  /* Weighted exam-readiness: chapter mastery weighted by how many questions
+     each chapter gets on the 110-question exam. */
+  const readiness = React.useMemo(() => {
+    const totalWeight = chapterStats.reduce((s, c) => s + c.weight, 0) || 1;
+    const weighted = chapterStats.reduce((s, c) => s + c.masteryPct * c.weight, 0);
+    return Math.round(weighted / totalWeight);
+  }, [chapterStats]);
+
+  const hasActivity = React.useMemo(
+    () => stats.totalXp > 0 || chapterStats.some((c) => c.masteryPct > 0),
+    [stats.totalXp, chapterStats],
+  );
+
+  /* The 3 chapters where effort moves the score most: low mastery × high exam weight. */
+  const focusAreas = React.useMemo(
+    () => chapterStats
+      .filter((c) => c.masteryPct < 90)
+      .map((c) => ({ ...c, focusScore: (100 - c.masteryPct) * c.weight }))
+      .sort((a, b) => b.focusScore - a.focusScore)
+      .slice(0, 3),
+    [chapterStats],
+  );
+
   function handleDiagnosticSkip() {
     localStorage.setItem('diagnosticSkipped', 'true');
     setDiagnosticStatus(prev => ({ ...prev, diagnosticSkipped: true }));
@@ -234,6 +278,27 @@ export function Dashboard({ userName, onLogout }) {
           <ArrowRight weight="bold" size={14} />
         </button>
       </div>
+
+      {/* ── Exam Readiness ── */}
+      {hasActivity && (
+        <div className="readiness-card">
+          <div className="readiness-head">
+            <Gauge weight="bold" size={18} />
+            <span className="readiness-title">Exam Readiness</span>
+            <span className="readiness-info" data-tooltip="A weighted estimate of how prepared you are across all 15 chapters, weighted by how many questions each gets on the FE Civil exam. It rises as your chapter mastery grows.">
+              <Info weight="regular" size={13} />
+            </span>
+            <span className="readiness-pct" style={{ color: getMasteryColor(readiness) }}>{readiness}%</span>
+          </div>
+          <div className="readiness-bar">
+            <div
+              className="readiness-bar-fill"
+              style={{ width: `${readiness}%`, background: getMasteryColor(readiness) }}
+            />
+          </div>
+          <span className="readiness-label">{readinessLabel(readiness)}</span>
+        </div>
+      )}
 
       {/* ── Diagnostic Card ── */}
       <DiagnosticCard diagnosticStatus={diagnosticStatus} onSkip={handleDiagnosticSkip} />
@@ -307,6 +372,39 @@ export function Dashboard({ userName, onLogout }) {
 
         {/* ── RIGHT: Sidebar ── */}
         <aside className="dash-sidebar">
+          {/* Focus Areas */}
+          {hasActivity && focusAreas.length > 0 && (
+            <div className="sidebar-block focus-block">
+              <h3 className="dash-section-label">
+                <Target weight="bold" size={18} />
+                Focus Areas
+              </h3>
+              <p className="focus-sub">Where your effort moves the needle most</p>
+              <div className="focus-list">
+                {focusAreas.map(({ ch, masteryPct, weight }) => (
+                  <div key={ch.id} className="focus-row">
+                    <div className="focus-row-top">
+                      <span className="focus-name">{ch.name}</span>
+                      <span className="focus-weight">{weight} exam Qs</span>
+                    </div>
+                    <div className="mastery-bar-pct focus-bar">
+                      <div
+                        className="mastery-bar-fill"
+                        style={{ width: `${masteryPct}%`, background: getMasteryColor(masteryPct) }}
+                      />
+                    </div>
+                    <div className="focus-row-bottom">
+                      <span className="focus-mastery">{masteryPct > 0 ? `${masteryPct}% mastery` : 'Not started'}</span>
+                      <button className="focus-practice" onClick={() => handleChapterClick(ch)}>
+                        Practice <ArrowRight weight="bold" size={12} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Achievements */}
           {stats.allBadges.length > 0 && (
             <div className="sidebar-block">

@@ -71,6 +71,14 @@ for (const chapterId of CHAPTER_IDS) {
 }
 
 /**
+ * Number of questions a chapter contributes to the 110-question FE Civil exam,
+ * per the NCEES specification. Used to weight readiness and focus-area scoring.
+ */
+export function getExamWeight(chapterId) {
+  return EXAM_DISTRIBUTION[chapterId] || 0;
+}
+
+/**
  * Returns the fixed 30 diagnostic questions.
  * Always the same set — shuffled for presentation by the caller.
  */
