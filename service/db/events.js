@@ -1,0 +1,51 @@
+const {
+  funnelEventsCollection,
+  userCollection,
+  diagnosticResultsCollection,
+  purchasesCollection,
+} = require('./connection');
+
+// Record a funnel event. Analytics must never break a user flow, so failures
+// are swallowed (logged, not thrown).
+async function logEvent(type, email = null, meta = {}) {
+  try {
+    await funnelEventsCollection.insertOne({ type, email, meta, createdAt: new Date() });
+  } catch (e) {
+    console.error('[events] logEvent failed:', e.message);
+  }
+}
+
+// Distinct users who triggered an event type (optionally since a date).
+async function countDistinctEventUsers(type, since) {
+  const match = { type, email: { $ne: null } };
+  if (since) match.createdAt = { $gte: since };
+  const emails = await funnelEventsCollection.distinct('email', match);
+  return emails.length;
+}
+
+// Aggregate the conversion funnel from existing collections + funnel events.
+// signups, diagnostic completions, and purchases are derived from their own
+// collections; checkout starts come from funnel events.
+async function getFunnelCounts() {
+  const [signups, diagEmails, purchaseAgg, checkoutStarts] = await Promise.all([
+    userCollection.countDocuments({}),
+    diagnosticResultsCollection.distinct('email'),
+    purchasesCollection
+      .aggregate([
+        { $match: { status: 'completed' } },
+        { $group: { _id: null, count: { $sum: 1 }, revenue: { $sum: '$amount' } } },
+      ])
+      .toArray(),
+    countDistinctEventUsers('checkout_started'),
+  ]);
+  const p = purchaseAgg[0] || { count: 0, revenue: 0 };
+  return {
+    signups,
+    diagnosticUsers: diagEmails.length,
+    checkoutStarts,
+    purchases: p.count,
+    revenueCents: p.revenue || 0,
+  };
+}
+
+module.exports = { logEvent, countDistinctEventUsers, getFunnelCounts };

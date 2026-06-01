@@ -36,6 +36,9 @@ router.post('/create-session', verifyAuth, async (req, res) => {
     allow_promotion_codes: true,
   });
 
+  // Funnel analytics: a checkout was initiated (for start->paid conversion).
+  await DB.logEvent('checkout_started', req.user.email, { sessionId: session.id });
+
   res.send({ url: session.url });
 });
 

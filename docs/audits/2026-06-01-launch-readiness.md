@@ -33,7 +33,7 @@ Code review of `checkout.js`, `webhook.js`, `exam.js`, `db/purchases.js` plus li
 
 ---
 
-## Remaining launch-track items (not started)
-- **Analytics / instrumentation** — capture signups, diagnostic completion, checkout start→paid conversion, MRR. The business plan needs these numbers and ads can't be optimized blind.
+## Remaining launch-track items
+- **Analytics / instrumentation — DONE.** Owner-gated `GET /api/admin/metrics` + `/admin` page show the conversion funnel (signups → diagnostic → checkout → purchase) and revenue. Signups/diagnostic/purchases are derived from existing collections; the one missing event, `checkout_started`, is now logged in `checkout.js` (new `funnelEvents` collection). Pure metric math in `metrics.js` (tested). Owner = `ADMIN_EMAIL` env (set it in `service/.env` to your account email; defaults to the owner's email). Note: `checkout→purchase` will read oddly until enough post-instrumentation traffic accrues, since historical purchases predate the `checkout_started` event.
 - **Business plan inputs** — pricing rationale, market size, differentiation (990 problems, gamification, spaced repetition, diagrams at 1/30th competitor price), unit economics.
 - **Pre-launch polish** — real Stripe webhook configured in production; transactional-email deliverability (Resend) check; basic error monitoring.

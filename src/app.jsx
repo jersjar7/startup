@@ -27,6 +27,7 @@ const ExamResults = React.lazy(() => import('./exam/ExamResults').then(m => ({ d
 const ResetPassword = React.lazy(() => import('./login/ResetPassword').then(m => ({ default: m.ResetPassword })));
 const VerifyEmail = React.lazy(() => import('./login/VerifyEmail').then(m => ({ default: m.VerifyEmail })));
 const Profile = React.lazy(() => import('./profile/profile').then(m => ({ default: m.Profile })));
+const Admin = React.lazy(() => import('./admin/admin').then(m => ({ default: m.Admin })));
 
 // Dev tools — only available in dev mode
 const DiagramPreview = import.meta.env.DEV
@@ -114,6 +115,7 @@ function AppShell({ userName, emailVerified, onLogin, onLogout }) {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/profile" element={<Profile userName={userName} onLogout={onLogout} />} />
             <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
+            <Route path="/admin" element={<Admin userName={userName} onLogout={onLogout} />} />
             <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
             <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
             <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />

@@ -63,6 +63,7 @@ apiRouter.use('/leaderboard', require('./routes/leaderboard.js'));
 apiRouter.use('/diagnostic', require('./routes/diagnostic.js'));
 apiRouter.use('/checkout', require('./routes/checkout.js'));
 apiRouter.use('/exam', require('./routes/exam.js'));
+apiRouter.use('/admin', require('./routes/admin.js'));
 
 // Default error handler
 app.use(function (err, req, res, next) {
