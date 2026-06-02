@@ -10,6 +10,12 @@ const { requestLogger } = require('./middleware/logger.js');
 
 const app = express();
 
+// Behind Caddy (a single reverse proxy on the same host). Trust the first hop
+// so req.ip / X-Forwarded-For resolve to the real client — without this,
+// express-rate-limit keys every user to the proxy's IP (one shared bucket) and
+// warns about an X-Forwarded-For misconfiguration.
+app.set('trust proxy', 1);
+
 // Security, compression, and parsing middleware
 app.use(helmet());
 app.use(compression());
