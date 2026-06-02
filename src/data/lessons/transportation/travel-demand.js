@@ -40,7 +40,7 @@ export default {
         'Distributing by attractions alone and ignoring the friction factor',
         'Forgetting to normalize by the sum over all destination zones',
       ],
-      diagram: null,
+      diagram: { component: 'GravityModelZones', props: {} },
     },
     {
       id: 'trans-td-q2',

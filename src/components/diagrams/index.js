@@ -91,6 +91,9 @@ import { SlopeWedge } from './SlopeWedge';
 import { FlowNet } from './FlowNet';
 import { PumpSystem } from './PumpSystem';
 import { FilterBed } from './FilterBed';
+import { SignShapes } from './SignShapes';
+import { GravityModelZones } from './GravityModelZones';
+import { RigidPavementJoint } from './RigidPavementJoint';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -186,4 +189,7 @@ export const DIAGRAM_REGISTRY = {
   FlowNet,
   PumpSystem,
   FilterBed,
+  SignShapes,
+  GravityModelZones,
+  RigidPavementJoint,
 };

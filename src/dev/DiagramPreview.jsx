@@ -96,6 +96,9 @@ const DEFAULTS = {
   FlowNet: {},
   PumpSystem: {},
   FilterBed: {},
+  SignShapes: {},
+  GravityModelZones: {},
+  RigidPavementJoint: {},
 };
 
 /* Lesson mapping for context */

@@ -39,7 +39,7 @@ export default {
         'Confusing warning (yellow diamond) with regulatory (white rectangle/red octagon)',
         'Assuming all signs that mention hazards are regulatory',
       ],
-      diagram: null,
+      diagram: { component: 'SignShapes', props: {} },
     },
     {
       id: 'trans-tcd-q2',
@@ -93,7 +93,7 @@ export default {
         'Calling STOP a warning sign because it concerns safety',
         'Associating the red octagon with anything other than regulatory control',
       ],
-      diagram: null,
+      diagram: { component: 'SignShapes', props: {} },
     },
   ],
 };
