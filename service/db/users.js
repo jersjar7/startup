@@ -1,7 +1,13 @@
 const { userCollection } = require('./connection');
 
+// Email is case- and whitespace-insensitive in practice; canonicalize it so
+// "Maria@x", "maria@x", and " maria@x " are one account and login always matches.
+function normalizeEmail(email) {
+  return String(email || '').trim().toLowerCase();
+}
+
 function getUser(email) {
-  return userCollection.findOne({ email: email });
+  return userCollection.findOne({ email: normalizeEmail(email) });
 }
 
 function getUserByToken(token) {
@@ -38,6 +44,7 @@ async function unsetUserFields(email, fields) {
 }
 
 module.exports = {
+  normalizeEmail,
   getUser,
   getUserByToken,
   addUser,

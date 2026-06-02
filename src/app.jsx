@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { VerificationBanner } from './components/VerificationBanner';
@@ -81,17 +81,40 @@ export default function App() {
     return () => { cancelled = true; };
   }, []);
 
-  function onLogin(email) {
-    setUserName(email);
-    // Re-fetch to get emailVerified status
-    fetch('/api/user/me')
-      .then((res) => res.ok ? res.json() : Promise.reject())
-      .then((data) => {
-        setEmailVerified(data.emailVerified ?? true);
-        setMe({ displayName: data.displayName, firstName: data.firstName, lastName: data.lastName, examDate: data.examDate });
-      })
-      .catch(() => {});
+  // Login/register now return verified status + profile, so set it all
+  // synchronously — no second /me round-trip, no verification-banner flash.
+  function onLogin(data) {
+    setUserName(data.email);
+    setEmailVerified(data.emailVerified === true);
+    setMe({ displayName: data.displayName, firstName: data.firstName, lastName: data.lastName, examDate: data.examDate });
   }
+
+  // Clear in-memory auth when the server reports the session is gone.
+  const onSessionExpired = React.useCallback(() => {
+    setUserName('');
+    setMe({});
+    setEmailVerified(true);
+  }, []);
+
+  // Install a one-time fetch interceptor: if any authenticated API call returns
+  // 401 mid-session (e.g. the token TTL lapses), trigger a clean logout+redirect
+  // instead of a silent broken page. Excludes the auth-check and auth endpoints
+  // so the normal logged-out flows don't loop.
+  React.useEffect(() => {
+    const orig = window.fetch;
+    window.fetch = async (...args) => {
+      const res = await orig(...args);
+      try {
+        const url = typeof args[0] === 'string' ? args[0] : (args[0] && args[0].url) || '';
+        if (res.status === 401 && url.includes('/api/')
+          && !url.includes('/api/user/me') && !url.includes('/api/auth/')) {
+          window.dispatchEvent(new Event('fe4r:session-expired'));
+        }
+      } catch { /* ignore */ }
+      return res;
+    };
+    return () => { window.fetch = orig; };
+  }, []);
 
   function onLogout() {
     fetch('/api/auth/logout', { method: 'DELETE' })
@@ -108,13 +131,26 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <AppShell userName={userName} emailVerified={emailVerified} me={me} onLogin={onLogin} onLogout={onLogout} />
+      <AppShell userName={userName} emailVerified={emailVerified} me={me} onLogin={onLogin} onLogout={onLogout} onSessionExpired={onSessionExpired} />
     </BrowserRouter>
   );
 }
 
-function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout }) {
+function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessionExpired }) {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  // A mid-session 401 (from the fetch interceptor) → clean logout + redirect.
+  React.useEffect(() => {
+    const handler = () => {
+      if (!userName) return;
+      onSessionExpired();
+      navigate('/login', { state: { expired: true } });
+    };
+    window.addEventListener('fe4r:session-expired', handler);
+    return () => window.removeEventListener('fe4r:session-expired', handler);
+  }, [userName, onSessionExpired, navigate]);
+
   const isLanding = pathname === '/';
   const isLesson = pathname.startsWith('/lesson/');
   const isDiagnostic = pathname.startsWith('/diagnostic');

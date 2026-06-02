@@ -1,11 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { SignIn, UserPlus, PaperPlaneTilt, ArrowLeft, Eye, EyeSlash } from '@phosphor-icons/react';
 import './index.css';
 
 export function Login({ userName, onLogin }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  // Where to go after auth — honor returnTo (e.g. a paid user sent here from /exam).
+  const dest = location.state?.returnTo || '/dashboard';
+  const sessionExpired = location.state?.expired === true;
   useDocumentTitle('Sign In');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -18,9 +22,9 @@ export function Login({ userName, onLogin }) {
 
   React.useEffect(() => {
     if (userName) {
-      navigate('/dashboard');
+      navigate(dest);
     }
-  }, [userName, navigate]);
+  }, [userName, navigate, dest]);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -34,8 +38,8 @@ export function Login({ userName, onLogin }) {
       });
       if (res.ok) {
         const data = await res.json();
-        onLogin(data.email);
-        navigate('/dashboard');
+        onLogin(data);
+        navigate(dest);
       } else {
         const body = await res.json();
         setError(body.msg || 'Login failed');
@@ -62,8 +66,8 @@ export function Login({ userName, onLogin }) {
       });
       if (res.ok) {
         const data = await res.json();
-        onLogin(data.email);
-        navigate('/dashboard');
+        onLogin(data);
+        navigate(dest);
       } else {
         const body = await res.json();
         setError(body.msg || 'Registration failed');
@@ -147,6 +151,11 @@ export function Login({ userName, onLogin }) {
       <div className="login-form-container">
         <h2>Welcome Back</h2>
         <p className="login-subtitle">Sign in to continue your FE exam prep, or create a new account.</p>
+        {sessionExpired && (
+          <p role="status" style={{ background: 'var(--sunbeam-bg)', color: 'var(--charcoal)', padding: '0.6rem 0.8rem', borderRadius: '8px', fontSize: '0.85rem', marginBottom: '0.75rem' }}>
+            Your session expired — please sign in again.
+          </p>
+        )}
         {error && <p className="error-banner" role="alert">{error}</p>}
         <form onSubmit={handleLogin}>
           <label className="login-label" htmlFor="login-email">Email</label>
