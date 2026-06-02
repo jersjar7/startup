@@ -2,11 +2,11 @@ export default {
   context: 'This is the highest-weighted chapter — covering open channel flow, hydrology, groundwater, and environmental engineering.',
   subtopics: [
     { id: 'hydraulics', name: 'Hydraulics',
-      application: 'As a civil engineer, you design open channels, storm sewers, and water distribution systems using Manning\'s equation, Hazen-Williams, and weir formulas. You classify flow as subcritical or supercritical using the Froude number, compute critical depth for channel transitions, and size pipes to deliver adequate pressure and flow.' },
+      application: 'As a civil engineer, you design open channels, storm sewers, and water distribution systems using Manning\'s equation, Hazen-Williams, and weir formulas. You classify flow as subcritical or supercritical using the Froude number, compute critical depth for channel transitions, and size pumps and pipes to deliver adequate pressure and flow while guarding against cavitation.' },
     { id: 'hydrology-groundwater', name: 'Hydrology & Groundwater',
       application: 'As a civil engineer, you estimate peak runoff using the Rational Method and SCS/NRCS curve number, predict hydrograph shapes with unit hydrograph theory, and evaluate groundwater flow with Darcy\'s law and well hydraulics. These methods drive the design of storm drains, detention ponds, dewatering systems, and water supply wells.' },
     { id: 'water-quality-treatment', name: 'Water Quality & Treatment',
-      application: 'As a civil engineer, you evaluate water and wastewater treatment performance using BOD, dissolved oxygen models, and design parameters like overflow rate, F:M ratio, and solids residence time. You size clarifiers, activated sludge basins, and disinfection systems to meet regulatory discharge limits.' },
+      application: 'As a civil engineer, you evaluate water and wastewater treatment performance using BOD, dissolved oxygen models, and design parameters like overflow rate, F:M ratio, and solids residence time. You size clarifiers, filters, activated sludge basins, and disinfection systems; set chlorine doses and CT; and check hardness and contaminant levels against Safe Drinking Water Act and NPDES limits.' },
   ],
   formulas: [
     { latex: 'Q = \\frac{K}{n}AR_H^{2/3}S^{1/2}', label: "Manning's Equation", page: 'p. 297' },
@@ -20,6 +20,11 @@ export default {
     { latex: 'Q = \\frac{2\\pi T(h_2 - h_1)}{\\ln(r_2/r_1)}', label: 'Thiem Equation', page: 'p. 293' },
     { latex: 'BOD_t = L_0(1-e^{-kt})', label: 'BOD Decay', page: 'p. 321' },
     { latex: 'v_o = Q/A_{surface}', label: 'Clarifier Overflow Rate', page: 'p. 339' },
+    { latex: 'v_s = Q/A_{plan}', label: 'Filtration Rate', page: 'p. 341' },
+    { latex: 'CT = C \\times t_{10}', label: 'Disinfection CT', page: 'p. 346' },
+    { latex: '\\dot W = \\gamma Q H / \\eta', label: 'Pump Power Equation', page: 'p. 191' },
+    { latex: 'NPSH_A = H_{pa} + H_s - \\sum h_L - H_{vp}', label: 'NPSH Available', page: 'p. 191' },
+    { latex: '\\text{Hardness as CaCO}_3 = \\sum C_i \\tfrac{50}{EW_i}', label: 'Total Hardness as CaCO₃' },
   ],
   traps: [
     'Manning\'s n is a roughness coefficient — in US Customary, multiply by 1.486 (K factor).',
