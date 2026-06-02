@@ -2,6 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { computeFunnelMetrics } = require('../metrics.js');
+const { sendTestEmail, getEmailConfig } = require('../email.js');
 
 const router = express.Router();
 
@@ -31,6 +32,19 @@ router.get('/timeseries', verifyAuth, requireAdmin, async (req, res) => {
     console.error('[admin] timeseries failed:', e.message);
     res.status(500).send({ msg: 'Failed to load analytics' });
   }
+});
+
+// GET /api/admin/email-status — current email sender config.
+router.get('/email-status', verifyAuth, requireAdmin, (req, res) => {
+  res.send(getEmailConfig());
+});
+
+// POST /api/admin/email-test { to } — send a test email, report the raw result.
+// Lets the owner confirm delivery from the running app after verifying a domain.
+router.post('/email-test', verifyAuth, requireAdmin, async (req, res) => {
+  const to = String(req.body?.to || req.user.email).trim();
+  const result = await sendTestEmail(to);
+  res.send({ to, ...getEmailConfig(), ...result });
 });
 
 module.exports = router;

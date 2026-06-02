@@ -187,14 +187,91 @@
 }
 
 .exam-gate-student-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   font-size: 0.82rem;
   color: var(--forest);
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 0.5rem;
 }
 .exam-gate-student-note strong {
   color: var(--forest);
   font-weight: 700;
+}
+
+/* ── Student .edu verification flow ── */
+.exam-student-verify {
+  margin-top: 0.85rem;
+  text-align: left;
+}
+.exam-student-verify label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--gray-600);
+  margin-bottom: 0.45rem;
+}
+.exam-student-verify label strong { color: var(--charcoal); font-weight: 700; }
+.exam-student-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+.exam-student-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  background: var(--cream);
+}
+.exam-student-row input:focus {
+  outline: none;
+  border-color: var(--ember);
+  box-shadow: 0 0 0 3px var(--ember-bg);
+}
+.exam-code-input {
+  font-family: var(--font-mono) !important;
+  letter-spacing: 0.35em;
+  text-align: center;
+  font-weight: 700;
+}
+.exam-student-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding: 0.6rem 1rem;
+}
+.exam-student-hint {
+  font-size: 0.74rem;
+  color: var(--gray-400);
+  margin-top: 0.4rem;
+}
+.exam-link-btn {
+  background: none;
+  border: none;
+  padding: 0.4rem 0;
+  color: var(--ember);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-heading);
+}
+.exam-link-btn:hover { text-decoration: underline; }
+.exam-student-msg {
+  font-size: 0.8rem;
+  color: var(--error);
+  margin-top: 0.45rem;
+}
+.exam-student-unavailable {
+  font-size: 0.82rem;
+  color: var(--gray-600);
+  background: var(--sunbeam-bg);
+  border-radius: var(--radius-md);
+  padding: 0.7rem 0.85rem;
+  line-height: 1.5;
+  margin-top: 0.5rem;
 }
 
 .exam-gate-student-claim {

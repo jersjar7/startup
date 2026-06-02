@@ -1,12 +1,31 @@
 const express = require('express');
 const Stripe = require('stripe');
+const rateLimit = require('express-rate-limit');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
-const { isStudentEmail, STUDENT_CENTS, STANDARD_CENTS } = require('../pricing.js');
+const {
+  isStudentEmail, qualifiesForStudent, STUDENT_CENTS, STANDARD_CENTS,
+} = require('../pricing.js');
+const { generateNumericCode, hashToken } = require('../crypto.js');
+const { sendStudentCodeEmail } = require('../email.js');
 
 const router = express.Router();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+const STUDENT_CODE_TTL_MS = 15 * 60 * 1000; // 15 minutes
+const STUDENT_CODE_MAX_ATTEMPTS = 5;
+const STUDENT_CODE_FIELDS = ['studentCode', 'studentCodeEmail', 'studentCodeExpiry', 'studentCodeAttempts'];
+
+// Limit how often a user can trigger a code email (prevents using us to
+// email-bomb an academic address, and curbs abuse).
+const studentStartLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { msg: 'Too many code requests. Please wait a few minutes and try again.' },
+});
 
 // POST /api/checkout/create-session — Create Stripe Checkout Session
 router.post('/create-session', verifyAuth, async (req, res) => {
@@ -22,12 +41,11 @@ router.post('/create-session', verifyAuth, async (req, res) => {
   const referer = req.get('referer') || req.get('origin') || '';
   const origin = referer ? new URL(referer).origin : `${req.protocol}://${req.get('host')}`;
 
-  // Tiered, server-authoritative pricing: students pay less. The student price
-  // applies if the ACCOUNT email is academic, or the buyer supplies a .edu
-  // email at checkout (trust-based — it's a goodwill discount, not a gate).
-  // Inline price_data avoids managing Stripe Price objects.
-  const studentEmail = typeof req.body?.studentEmail === 'string' ? req.body.studentEmail : '';
-  const isStudent = isStudentEmail(req.user.email) || isStudentEmail(studentEmail);
+  // Server-authoritative, anti-fraud pricing: the student price applies ONLY to
+  // a verified student (see qualifiesForStudent). A raw .edu typed at checkout
+  // is no longer trusted — it must be verified via /student/confirm first.
+  const freshUser = await DB.getUser(req.user.email);
+  const isStudent = qualifiesForStudent(freshUser);
   const unitAmount = isStudent ? STUDENT_CENTS : STANDARD_CENTS;
 
   const session = await stripe.checkout.sessions.create({
@@ -53,6 +71,75 @@ router.post('/create-session', verifyAuth, async (req, res) => {
   await DB.logEvent('checkout_started', req.user.email, { sessionId: session.id });
 
   res.send({ url: session.url });
+});
+
+// GET /api/checkout/pricing — prices + this user's student eligibility (for UI).
+router.get('/pricing', verifyAuth, async (req, res) => {
+  const user = await DB.getUser(req.user.email);
+  res.send({
+    standard: STANDARD_CENTS / 100,
+    student: STUDENT_CENTS / 100,
+    applies: qualifiesForStudent(user),
+    studentVerified: !!user?.studentVerified,
+    verifiedStudentEmail: user?.verifiedStudentEmail || null,
+    eligibleByAccount: isStudentEmail(user?.email) && user?.emailVerified === true,
+  });
+});
+
+// POST /api/checkout/student/start — email a 6-digit code to a .edu address.
+router.post('/student/start', studentStartLimiter, verifyAuth, async (req, res) => {
+  const eduEmail = String(req.body?.eduEmail || '').trim().toLowerCase();
+  if (!isStudentEmail(eduEmail)) {
+    return res.status(400).send({ msg: 'Enter a valid academic email (e.g. you@university.edu).' });
+  }
+
+  const code = generateNumericCode(6);
+  await DB.setUserFields(req.user.email, {
+    studentCode: hashToken(code),
+    studentCodeEmail: eduEmail,
+    studentCodeExpiry: new Date(Date.now() + STUDENT_CODE_TTL_MS),
+    studentCodeAttempts: 0,
+  });
+
+  const result = await sendStudentCodeEmail(eduEmail, code);
+  if (!result.ok) {
+    // Don't claim we sent it when we didn't. (Until a sending domain is verified
+    // in Resend, this returns 503 with a clear, honest message.)
+    return res.status(503).send({
+      msg: 'We could not send the code right now. Student verification is being set up — please try again shortly, or continue at the standard price.',
+    });
+  }
+  res.send({ sent: true, to: eduEmail });
+});
+
+// POST /api/checkout/student/confirm — verify the code, unlock the discount.
+router.post('/student/confirm', verifyAuth, async (req, res) => {
+  const code = String(req.body?.code || '').trim();
+  const user = await DB.getUser(req.user.email);
+
+  if (!user?.studentCode || !user?.studentCodeExpiry) {
+    return res.status(400).send({ msg: 'Request a verification code first.' });
+  }
+  if (new Date(user.studentCodeExpiry).getTime() < Date.now()) {
+    await DB.unsetUserFields(user.email, STUDENT_CODE_FIELDS);
+    return res.status(400).send({ msg: 'That code expired. Request a new one.' });
+  }
+  if ((user.studentCodeAttempts || 0) >= STUDENT_CODE_MAX_ATTEMPTS) {
+    await DB.unsetUserFields(user.email, STUDENT_CODE_FIELDS);
+    return res.status(429).send({ msg: 'Too many incorrect attempts. Request a new code.' });
+  }
+  if (hashToken(code) !== user.studentCode) {
+    await DB.setUserFields(user.email, { studentCodeAttempts: (user.studentCodeAttempts || 0) + 1 });
+    return res.status(400).send({ msg: 'Incorrect code. Check the email and try again.' });
+  }
+
+  await DB.setUserFields(user.email, {
+    studentVerified: true,
+    verifiedStudentEmail: user.studentCodeEmail,
+    studentVerifiedAt: new Date(),
+  });
+  await DB.unsetUserFields(user.email, STUDENT_CODE_FIELDS);
+  res.send({ verified: true, student: STUDENT_CENTS / 100 });
 });
 
 // GET /api/checkout/status — Check purchase status for current user
