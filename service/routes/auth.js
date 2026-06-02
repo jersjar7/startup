@@ -65,6 +65,8 @@ router.post('/create', async (req, res) => {
       createdAt: new Date(),
       emailVerified: false,
       verificationToken: hashToken(rawVerifyToken),
+      verifiedAt: null,
+      unsubToken: generateToken(), // for one-click unsubscribe from lifecycle emails
     };
     await DB.addUser(user);
     setAuthCookie(res, user.token);
@@ -177,6 +179,9 @@ router.get('/verify-email/:token', async (req, res) => {
   }
 
   user.emailVerified = true;
+  // Record when (first) verification happened — the welcome email fires the
+  // morning after this timestamp.
+  user.verifiedAt = user.verifiedAt || new Date();
   await DB.updateUser(user);
   await DB.unsetUserFields(user.email, ['verificationToken']);
 

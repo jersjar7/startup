@@ -21,9 +21,11 @@ if (usingTestSender) {
 // Low-level send. Returns { ok, id?, error? } — never throws — so callers can
 // decide how to react (analytics never breaks a flow, but the student-code
 // flow needs to know whether the code actually went out).
-async function sendEmail({ to, subject, html }) {
+async function sendEmail({ to, subject, html, headers }) {
   try {
-    const r = await resend.emails.send({ from: fromHeader, to, subject, html });
+    const payload = { from: fromHeader, to, subject, html };
+    if (headers) payload.headers = headers;
+    const r = await resend.emails.send(payload);
     if (r.error) {
       console.error(`[email] send to ${to} rejected:`, r.error.message);
       return { ok: false, error: r.error.message };
@@ -49,7 +51,10 @@ const SANS = "'DM Sans','Helvetica Neue',Arial,sans-serif";
 const BODYF = "'Inter','Helvetica Neue',Arial,sans-serif";
 const MONO = "'JetBrains Mono','SFMono-Regular',Consolas,'Courier New',monospace";
 
-function emailLayout({ preheader = '', heading, inner }) {
+function emailLayout({ preheader = '', heading, inner, unsubUrl = '' }) {
+  const unsub = unsubUrl
+    ? `<br><a href="${unsubUrl}" style="color:${C.mute};text-decoration:underline;">Unsubscribe from these emails</a>`
+    : '';
   return `<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="utf-8">
@@ -73,7 +78,7 @@ function emailLayout({ preheader = '', heading, inner }) {
         <tr><td align="center" style="padding:22px 24px 0;">
           <p style="margin:0;font-family:${BODYF};font-size:12px;line-height:1.6;color:${C.mute};">
             FE for Raccoons &mdash; free FE Civil exam prep<br>
-            <a href="${appUrl}" style="color:${C.mute};text-decoration:underline;">fe4raccoons.com</a>
+            <a href="${appUrl}" style="color:${C.mute};text-decoration:underline;">fe4raccoons.com</a>${unsub}
           </p>
         </td></tr>
       </table>
@@ -177,6 +182,86 @@ async function sendTestEmail(toEmail) {
   });
 }
 
+/* ── Lifecycle emails (welcome / weekly digest / win-back) ───────────────────
+   These are engagement emails, not transactional, so they carry an unsubscribe
+   link + List-Unsubscribe headers for one-click opt-out and sender reputation. */
+function lifecycleHeaders(unsubUrl) {
+  return {
+    'List-Unsubscribe': `<${unsubUrl}>`,
+    'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+  };
+}
+
+function bullets(items) {
+  const rows = items.filter(Boolean).map((i) =>
+    `<tr><td style="padding:3px 0;font-family:${BODYF};font-size:15px;line-height:1.5;color:${C.body};"><span style="color:${C.ember};font-weight:700;">&bull;</span>&nbsp;&nbsp;${i}</td></tr>`).join('');
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 22px;">${rows}</table>`;
+}
+
+// Sent the morning after a user verifies. One job: get them to the diagnostic.
+async function sendWelcomeEmail(toEmail, { unsubUrl } = {}) {
+  return sendEmail({
+    to: toEmail,
+    subject: 'Start with the 5-minute diagnostic',
+    headers: lifecycleHeaders(unsubUrl),
+    html: emailLayout({
+      preheader: 'Find your weak spots before you study a thing.',
+      heading: "Welcome — let's pass the FE.",
+      unsubUrl,
+      inner:
+        para('The smartest first move is the <strong>free diagnostic</strong>. About 5 minutes, and it builds your study plan around your weak spots — so you study what actually moves your score.') +
+        button('Take the diagnostic', `${appUrl}/diagnostic`) +
+        para(`<span style="font-size:13px;color:${C.mute};">Everything here is free — lessons, 990 problems, the diagnostic. The only paid thing is the full timed exam sim, if you ever want it.</span>`),
+    }),
+  });
+}
+
+// Weekly recap (Sunday morning). Active users get the upbeat version; inactive
+// users get a gentle restart so they don't just see a wall of zeros.
+async function sendWeeklyDigestEmail(toEmail, d = {}) {
+  const { active, weeklyXp = 0, streak = 0, problems = 0, masteryTo = null, focusChapter = null, unsubUrl } = d;
+  let subject; let heading; let inner; let preheader;
+  if (active) {
+    subject = `Your week: ${weeklyXp} XP, ${streak}-day streak`;
+    preheader = `${problems} problems solved this week`;
+    heading = 'Your week in review';
+    inner =
+      bullets([
+        `<strong>${weeklyXp}</strong> XP earned`,
+        `<strong>${problems}</strong> problem${problems === 1 ? '' : 's'} solved`,
+        `<strong>${streak}</strong>-day streak`,
+        masteryTo != null ? `Overall mastery: <strong>${masteryTo}%</strong>` : null,
+      ]) +
+      (focusChapter ? para(`<strong>Focus next week:</strong> ${focusChapter} — your weakest area right now.`) : '') +
+      button('Continue studying', `${appUrl}/dashboard`);
+  } else {
+    subject = 'Your FE goal is still here';
+    preheader = 'A 5-minute restart';
+    heading = 'Your FE goal is still here';
+    inner =
+      para(`No study time logged this week — that's okay. Five minutes today restarts the momentum.${focusChapter ? ` Your weakest area right now is <strong>${focusChapter}</strong>.` : ''}`) +
+      button('Study 5 questions', `${appUrl}/dashboard`);
+  }
+  return sendEmail({ to: toEmail, subject, headers: lifecycleHeaders(unsubUrl), html: emailLayout({ preheader, heading, inner, unsubUrl }) });
+}
+
+// One-time nudge for users who've gone quiet (~7 days).
+async function sendWinbackEmail(toEmail, { focusChapter = null, unsubUrl } = {}) {
+  return sendEmail({
+    to: toEmail,
+    subject: 'Still aiming for the FE?',
+    headers: lifecycleHeaders(unsubUrl),
+    html: emailLayout({
+      preheader: 'Your account is right where you left it.',
+      heading: 'Still aiming for the FE?',
+      unsubUrl,
+      inner:
+        para(`Your account's right where you left it. The fastest restart: 5 questions in your weakest chapter${focusChapter ? ` (<strong>${focusChapter}</strong>)` : ''}.`) +
+        button('Resume studying', `${appUrl}/dashboard`),
+    }),
+  });
+}
+
 function getEmailConfig() {
   return { from: fromEmail, usingTestSender, appUrl };
 }
@@ -186,5 +271,8 @@ module.exports = {
   sendVerificationEmail,
   sendStudentCodeEmail,
   sendTestEmail,
+  sendWelcomeEmail,
+  sendWeeklyDigestEmail,
+  sendWinbackEmail,
   getEmailConfig,
 };
