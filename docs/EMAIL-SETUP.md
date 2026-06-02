@@ -42,6 +42,24 @@ curl -s --cookie "token=<admin token>" -X POST \
   resend.com/domains and ensure the DKIM/SPF/MX records still exist in GoDaddy.
 - **Emails land in spam:** confirm DMARC; a `_dmarc` TXT record exists at GoDaddy.
 
+## Lifecycle emails (welcome / weekly digest / win-back)
+
+An in-process scheduler (`service/mailer-jobs.js`, started from `index.js`) sends
+engagement emails at **8:00am `LIFECYCLE_TZ`** (default `America/New_York`):
+- **Welcome** — morning after a user verifies (`verifiedAt`), points to the diagnostic.
+- **Weekly digest** — **Sundays**; recap + weakest-chapter focus, with a gentler
+  variant for inactive users.
+- **Win-back** — one-time, after ~7 days inactive.
+
+All are idempotent (per-user `welcomeSentAt` / `lastWeeklyAt` / `winbackSentAt`),
+carry an unsubscribe link + `List-Unsubscribe` headers, and respect
+`lifecycleOptOut` (set via `GET/POST /api/email/unsubscribe/:token`).
+Transactional emails (verify/reset/student code) are unaffected.
+
+**Kill switch:** set `LIFECYCLE_EMAILS_DISABLED=1` in prod `.env` +
+`pm2 restart startup --update-env` to stop all lifecycle sends. Tune timing with
+`LIFECYCLE_TZ` / `LIFECYCLE_HOUR`. Pure scheduling logic is in `service/lifecycle.js`.
+
 ## Re-verifying a domain from scratch (if ever needed)
 
 1. Resend → Domains → Add Domain → `fe4raccoons.com`.
