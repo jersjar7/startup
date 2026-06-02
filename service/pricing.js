@@ -17,4 +17,27 @@ function priceCentsForEmail(email) {
   return isStudentEmail(email) ? STUDENT_CENTS : STANDARD_CENTS;
 }
 
-module.exports = { isStudentEmail, priceCentsForEmail, STUDENT_CENTS, STANDARD_CENTS };
+// Anti-fraud gate for the student price. A raw .edu STRING never qualifies on
+// its own — anyone could type one. The student price applies only when the user
+// has proven control of an academic inbox:
+//   1. studentVerified === true  (verified a .edu via an emailed code), or
+//   2. their ACCOUNT email is academic AND that email is verified.
+function qualifiesForStudent(user) {
+  if (!user) return false;
+  if (user.studentVerified === true) return true;
+  if (isStudentEmail(user.email) && user.emailVerified === true) return true;
+  return false;
+}
+
+function priceCentsForUser(user) {
+  return qualifiesForStudent(user) ? STUDENT_CENTS : STANDARD_CENTS;
+}
+
+module.exports = {
+  isStudentEmail,
+  priceCentsForEmail,
+  qualifiesForStudent,
+  priceCentsForUser,
+  STUDENT_CENTS,
+  STANDARD_CENTS,
+};

@@ -27,7 +27,12 @@ export function ExamGate({ userName }) {
   const [loading, setLoading] = React.useState(true);
   const [checkoutLoading, setCheckoutLoading] = React.useState(false);
   const [error, setError] = React.useState('');
-  const [studentEmail, setStudentEmail] = React.useState('');
+  const [pricing, setPricing] = React.useState(null);
+  const [studentStep, setStudentStep] = React.useState('idle'); // idle | code | verified | unavailable
+  const [eduEmail, setEduEmail] = React.useState('');
+  const [code, setCode] = React.useState('');
+  const [studentBusy, setStudentBusy] = React.useState(false);
+  const [studentMsg, setStudentMsg] = React.useState('');
 
   React.useEffect(() => {
     if (!userName) {
@@ -85,6 +90,74 @@ export function ExamGate({ userName }) {
     }
   }, [searchParams, purchased]);
 
+  // Load tiered pricing + this user's verified-student status.
+  React.useEffect(() => {
+    if (!userName) return;
+    fetch('/api/checkout/pricing')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((p) => {
+        if (!p) return;
+        setPricing(p);
+        if (p.applies) setStudentStep('verified');
+      })
+      .catch(() => {});
+  }, [userName]);
+
+  const isEduInput = isStudentEmail(eduEmail);
+  const studentApplies = !!pricing?.applies;
+  const studentPrice = pricing?.student ?? STUDENT_PRICE;
+  const standardPrice = pricing?.standard ?? STANDARD_PRICE;
+
+  async function handleSendCode() {
+    setStudentBusy(true);
+    setStudentMsg('');
+    try {
+      const r = await fetch('/api/checkout/student/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eduEmail: eduEmail.trim() }),
+      });
+      const body = await r.json().catch(() => ({}));
+      if (r.status === 503) {
+        setStudentStep('unavailable');
+        setStudentMsg(body.msg || 'Student verification is being set up. Please check back soon.');
+        return;
+      }
+      if (!r.ok) {
+        setStudentMsg(body.msg || 'Could not send the code. Try again.');
+        return;
+      }
+      setStudentStep('code');
+    } catch {
+      setStudentMsg('Network error. Please try again.');
+    } finally {
+      setStudentBusy(false);
+    }
+  }
+
+  async function handleVerifyCode() {
+    setStudentBusy(true);
+    setStudentMsg('');
+    try {
+      const r = await fetch('/api/checkout/student/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: code.trim() }),
+      });
+      const body = await r.json().catch(() => ({}));
+      if (!r.ok) {
+        setStudentMsg(body.msg || 'Could not verify that code.');
+        return;
+      }
+      setPricing((p) => ({ ...(p || {}), applies: true, studentVerified: true, verifiedStudentEmail: eduEmail.trim().toLowerCase() }));
+      setStudentStep('verified');
+    } catch {
+      setStudentMsg('Network error. Please try again.');
+    } finally {
+      setStudentBusy(false);
+    }
+  }
+
   async function handleBuyNow() {
     setCheckoutLoading(true);
     setError('');
@@ -92,7 +165,7 @@ export function ExamGate({ userName }) {
       const res = await fetch('/api/checkout/create-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ studentEmail: studentEmail.trim() }),
+        body: JSON.stringify({}),
       });
       if (!res.ok) {
         const body = await res.json();
@@ -182,27 +255,79 @@ export function ExamGate({ userName }) {
 
             {/* Price + CTA */}
             <div className="exam-gate-price">
-              <span className="exam-gate-amount">
-                ${(isStudentEmail(userName) || isStudentEmail(studentEmail)) ? STUDENT_PRICE : STANDARD_PRICE}
-              </span>
+              <span className="exam-gate-amount">${studentApplies ? studentPrice : standardPrice}</span>
               <span className="exam-gate-period">one-time &middot; no subscription</span>
             </div>
-            {isStudentEmail(userName) ? (
-              <p className="exam-gate-student-note">Student price applied — verified .edu email.</p>
-            ) : isStudentEmail(studentEmail) ? (
-              <p className="exam-gate-student-note">Student price applied — ${STUDENT_PRICE} with your .edu email.</p>
+
+            {studentApplies ? (
+              <p className="exam-gate-student-note">
+                <CheckCircle weight="fill" size={15} />
+                {' '}Student price applied{pricing?.verifiedStudentEmail ? ` — verified ${pricing.verifiedStudentEmail}` : ''}.
+              </p>
             ) : (
-              <div className="exam-gate-student-claim">
-                <label htmlFor="student-email">
-                  Student? Enter your <strong>.edu</strong> email to pay just ${STUDENT_PRICE}:
-                </label>
-                <input
-                  id="student-email"
-                  type="email"
-                  placeholder="you@university.edu"
-                  value={studentEmail}
-                  onChange={(e) => setStudentEmail(e.target.value)}
-                />
+              <div className="exam-student-verify">
+                {studentStep === 'unavailable' ? (
+                  <p className="exam-student-unavailable">
+                    {studentMsg || 'Student verification is being set up — please check back soon.'}
+                  </p>
+                ) : studentStep === 'code' ? (
+                  <>
+                    <label htmlFor="student-code">
+                      Enter the 6-digit code sent to <strong>{eduEmail.trim().toLowerCase()}</strong>:
+                    </label>
+                    <div className="exam-student-row">
+                      <input
+                        id="student-code"
+                        className="exam-code-input"
+                        inputMode="numeric"
+                        autoComplete="one-time-code"
+                        maxLength={6}
+                        placeholder="123456"
+                        value={code}
+                        onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+                      />
+                      <button
+                        type="button"
+                        className="btn-secondary exam-student-btn"
+                        onClick={handleVerifyCode}
+                        disabled={studentBusy || code.trim().length !== 6}
+                      >
+                        {studentBusy ? 'Verifying…' : 'Verify'}
+                      </button>
+                    </div>
+                    <button type="button" className="exam-link-btn"
+                      onClick={() => { setStudentStep('idle'); setCode(''); setStudentMsg(''); }}>
+                      Use a different email
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <label htmlFor="student-email">
+                      Student? Verify your <strong>.edu</strong> email to pay just ${studentPrice}:
+                    </label>
+                    <div className="exam-student-row">
+                      <input
+                        id="student-email"
+                        type="email"
+                        placeholder="you@university.edu"
+                        value={eduEmail}
+                        onChange={(e) => setEduEmail(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        className="btn-secondary exam-student-btn"
+                        onClick={handleSendCode}
+                        disabled={studentBusy || !isEduInput}
+                      >
+                        {studentBusy ? 'Sending…' : 'Send code'}
+                      </button>
+                    </div>
+                    <p className="exam-student-hint">We'll email a 6-digit code to confirm you're a student.</p>
+                  </>
+                )}
+                {studentMsg && studentStep !== 'unavailable' && (
+                  <p className="exam-student-msg" role="alert">{studentMsg}</p>
+                )}
               </div>
             )}
 

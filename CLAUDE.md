@@ -60,3 +60,21 @@ FE for Raccoons is a gamified study platform for the Fundamentals of Engineering
 ### Brand Reference
 The full interactive brand deck is at: `fe4raccoons-brand-deck.html` in the project root.
 For the custom design skill with more detail, see: `.claude/skills/fe4raccoons-brand/SKILL.md`
+
+## Deployment & Ops — READ BEFORE DEPLOYING
+Full runbook: `docs/DEPLOY.md`. Critical points:
+- **Deploy with `-s startup`, NOT `-s fe4raccoons`.** The live pm2 process is
+  named `startup` (runs from `services/startup/`). `-s fe4raccoons` deploys to a
+  dead directory and the pm2 restart fails silently.
+  - Backend changed → `./deployService.sh -k secrets/jerson-cs260-key.pem -h fe4raccoons.com -s startup`
+  - Frontend only → `./deployReact.sh -k secrets/jerson-cs260-key.pem -h fe4raccoons.com -s startup`
+- **Verifying a deploy: status codes lie.** The SPA catch-all returns `index.html`
+  (HTTP 200) for any missing asset path. Verify by `content_type` or by grepping
+  the served bundle for a changed string — never by status code alone.
+- Node on the box needs a login shell over SSH: `ssh … 'bash -ilc "pm2 …"'`.
+
+## Email (Resend)
+Setup + fix runbook: `docs/EMAIL-SETUP.md`. Email delivery requires a **verified
+sending domain** in Resend and `RESEND_FROM_EMAIL` pointed at it. The default
+`onboarding@resend.dev` only delivers to the Resend account owner. Admin can test
+delivery live via `GET /api/admin/email-status` and `POST /api/admin/email-test`.
