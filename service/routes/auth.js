@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const uuid = require('uuid');
 const rateLimit = require('express-rate-limit');
 const DB = require('../database.js');
-const { verifyAuth, setAuthCookie, authCookieName } = require('../middleware/auth.js');
+const { verifyAuth, setAuthCookie, clearAuthCookie, authCookieName } = require('../middleware/auth.js');
 const { getBadgeDetails, getAllBadges } = require('../badges.js');
 const { generateToken, hashToken } = require('../crypto.js');
 const { sendPasswordResetEmail, sendVerificationEmail } = require('../email.js');
@@ -26,7 +26,9 @@ function isValidEmail(email) {
 }
 
 function validatePassword(password) {
-  return password && password.length >= 8 && /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password);
+  // Cap at 128 so we never silently feed >72 bytes to bcrypt (which truncates).
+  return password && password.length >= 8 && password.length <= 128
+    && /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password);
 }
 
 function validateAuthInput(req, res, isRegistration = false) {
@@ -53,19 +55,21 @@ function validateAuthInput(req, res, isRegistration = false) {
 router.post('/create', async (req, res) => {
   if (!validateAuthInput(req, res, true)) return;
 
-  if (await DB.getUser(req.body.email)) {
+  const email = DB.normalizeEmail(req.body.email);
+  if (await DB.getUser(email)) {
     res.status(409).send({ msg: 'An account with this email already exists. Try logging in instead.' });
   } else {
     const rawVerifyToken = generateToken();
     const passwordHash = await bcrypt.hash(req.body.password, 10);
     const user = {
-      email: req.body.email,
+      email,
       password: passwordHash,
       token: uuid.v4(),
       tokenCreatedAt: new Date(),
       createdAt: new Date(),
       emailVerified: false,
       verificationToken: hashToken(rawVerifyToken),
+      verificationSentAt: new Date(),
       verifiedAt: null,
       unsubToken: generateToken(), // for one-click unsubscribe from lifecycle emails
     };
@@ -73,7 +77,7 @@ router.post('/create', async (req, res) => {
     setAuthCookie(res, user.token);
 
     // Fire-and-forget verification email
-    sendVerificationEmail(req.body.email, rawVerifyToken);
+    sendVerificationEmail(email, rawVerifyToken);
 
     res.send({ email: user.email });
   }
@@ -89,7 +93,16 @@ router.post('/login', async (req, res) => {
     user.tokenCreatedAt = new Date();
     await DB.updateUser(user);
     setAuthCookie(res, user.token);
-    res.send({ email: user.email });
+    // Return verified status + profile so the client can set state synchronously
+    // (no second /me round-trip, no verification-banner flash).
+    res.send({
+      email: user.email,
+      emailVerified: user.emailVerified === true,
+      displayName: displayName(user),
+      firstName: user.firstName || null,
+      lastName: user.lastName || null,
+      examDate: user.examDate || null,
+    });
   } else {
     res.status(401).send({ msg: 'Incorrect email or password.' });
   }
@@ -99,36 +112,34 @@ router.post('/login', async (req, res) => {
 router.delete('/logout', async (req, res) => {
   const user = await DB.getUserByToken(req.cookies[authCookieName]);
   if (user) {
-    delete user.token;
-    await DB.updateUser(user);
+    // $unset actually removes the field — `delete user.token` + $set is a no-op.
+    await DB.unsetUserFields(user.email, ['token', 'tokenCreatedAt']);
   }
-  res.clearCookie(authCookieName);
+  clearAuthCookie(res);
   res.status(204).end();
 });
 
 // Get the current authenticated user with stats
-router.get('/me', async (req, res) => {
-  const user = await DB.getUserByToken(req.cookies[authCookieName]);
-  if (user) {
-    const stats = await DB.getUserStats(user.email);
-    const earnedBadgeIds = stats?.badges || [];
-    res.send({
-      email: user.email,
-      createdAt: user.createdAt || null,
-      emailVerified: user.emailVerified ?? true,
-      firstName: user.firstName || null,
-      lastName: user.lastName || null,
-      examDate: user.examDate || null,
-      displayName: displayName(user),
-      totalXp: stats?.totalXp || 0,
-      currentStreak: stats?.currentStreak || 0,
-      longestStreak: stats?.longestStreak || 0,
-      badges: getBadgeDetails(earnedBadgeIds),
-      allBadges: getAllBadges(),
-    });
-  } else {
-    res.status(401).send({ msg: 'Unauthorized' });
-  }
+// verifyAuth so the session-check endpoint also enforces the 7-day TTL (and
+// clears the cookie on expiry) — otherwise an expired session reads as valid.
+router.get('/me', verifyAuth, async (req, res) => {
+  const user = req.user;
+  const stats = await DB.getUserStats(user.email);
+  const earnedBadgeIds = stats?.badges || [];
+  res.send({
+    email: user.email,
+    createdAt: user.createdAt || null,
+    emailVerified: user.emailVerified === true,
+    firstName: user.firstName || null,
+    lastName: user.lastName || null,
+    examDate: user.examDate || null,
+    displayName: displayName(user),
+    totalXp: stats?.totalXp || 0,
+    currentStreak: stats?.currentStreak || 0,
+    longestStreak: stats?.longestStreak || 0,
+    badges: getBadgeDetails(earnedBadgeIds),
+    allBadges: getAllBadges(),
+  });
 });
 
 // Forgot password — always returns 200 to prevent email enumeration
@@ -167,11 +178,12 @@ router.post('/reset-password', async (req, res) => {
   }
 
   user.password = await bcrypt.hash(password, 10);
-  delete user.token; // invalidate session
   await DB.updateUser(user);
-  await DB.unsetUserFields(user.email, ['resetToken', 'resetTokenExpiry']);
+  // Invalidate ALL existing sessions: $unset actually clears the token
+  // (delete + $set was a no-op, so old cookies stayed valid).
+  await DB.unsetUserFields(user.email, ['resetToken', 'resetTokenExpiry', 'token', 'tokenCreatedAt']);
 
-  res.clearCookie(authCookieName);
+  clearAuthCookie(res);
   res.send({ msg: 'Password has been reset. Please log in.' });
 });
 
@@ -199,11 +211,14 @@ router.post('/resend-verification', verifyAuth, async (req, res) => {
   if (user.emailVerified) {
     return res.send({ msg: 'Email already verified' });
   }
+  // Per-user cooldown so this can't be used to email-bomb an address.
+  if (user.verificationSentAt && Date.now() - new Date(user.verificationSentAt).getTime() < 60_000) {
+    return res.status(429).send({ msg: 'Please wait a minute before requesting another email.' });
+  }
 
   const rawToken = generateToken();
-  user.verificationToken = hashToken(rawToken);
-  await DB.updateUser(user);
-  sendVerificationEmail(user.email, rawToken);
+  await DB.setUserFields(user.email, { verificationToken: hashToken(rawToken), verificationSentAt: new Date() });
+  await sendVerificationEmail(user.email, rawToken);
 
   res.send({ msg: 'Verification email sent' });
 });
@@ -277,8 +292,8 @@ router.delete('/account', verifyAuth, async (req, res) => {
     return res.status(401).send({ msg: 'Password is incorrect' });
   }
 
-  await DB.deleteAllUserData(user.email);
-  res.clearCookie(authCookieName);
+  await DB.deleteAllUserData(user.email, user._id.toString());
+  clearAuthCookie(res);
   res.send({ msg: 'Account deleted' });
 });
 

@@ -5,16 +5,24 @@ export function VerificationBanner({ emailVerified }) {
   const [dismissed, setDismissed] = React.useState(false);
   const [resending, setResending] = React.useState(false);
   const [sent, setSent] = React.useState(false);
+  const [resendError, setResendError] = React.useState('');
 
   if (emailVerified !== false || dismissed) return null;
 
   async function handleResend() {
     setResending(true);
+    setResendError('');
     try {
-      await fetch('/api/auth/resend-verification', { method: 'POST' });
-      setSent(true);
+      const res = await fetch('/api/auth/resend-verification', { method: 'POST' });
+      if (res.ok) {
+        setSent(true);
+      } else if (res.status === 429) {
+        setResendError('Please wait a minute before requesting another email.');
+      } else {
+        setResendError("Couldn't send right now — try again shortly.");
+      }
     } catch {
-      // silently fail
+      setResendError('Network error — try again.');
     } finally {
       setResending(false);
     }
@@ -27,7 +35,7 @@ export function VerificationBanner({ emailVerified }) {
         <span>
           {sent
             ? 'Verification email sent! Check your inbox.'
-            : 'Please verify your email address.'}
+            : resendError || 'Please verify your email address.'}
         </span>
       </div>
       <div className="verification-banner-actions">
