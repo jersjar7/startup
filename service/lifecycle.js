@@ -42,6 +42,23 @@ function digestIsActive({ weeklyXp = 0, problemsThisWeek = 0 } = {}) {
   return weeklyXp > 0 || problemsThisWeek > 0;
 }
 
+// Countdown milestones (days before the exam) we email at, plus exam day (0).
+const EXAM_MILESTONES = [30, 14, 7, 3, 1, 0];
+
+// Pick which milestone email to send today, given days-left and the milestones
+// already sent. Returns { milestone, absorb } or null.
+//   - Sends the milestone CLOSEST to the real days-left (smallest reached one),
+//     so setting a date late doesn't fire "30 days" when only 5 remain.
+//   - `absorb` is every reached-but-unsent milestone to mark done at once, so a
+//     skipped larger milestone never fires on a later (smaller) day.
+function examMilestoneToSend(daysLeft, sent = [], milestones = EXAM_MILESTONES) {
+  if (daysLeft == null || daysLeft < 0) return null;
+  const reached = milestones.filter((m) => m >= daysLeft && !sent.includes(m));
+  if (reached.length === 0) return null;
+  return { milestone: Math.min(...reached), absorb: reached };
+}
+
 module.exports = {
   TZ_DEFAULT, etDate, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive,
+  EXAM_MILESTONES, examMilestoneToSend,
 };

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 const {
-  etDate, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive,
+  etDate, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive, examMilestoneToSend,
 } = require('./lifecycle');
 
 const TZ = 'America/New_York';
@@ -68,5 +68,28 @@ describe('digestIsActive', () => {
   it('is inactive with a blank week', () => {
     expect(digestIsActive({ weeklyXp: 0, problemsThisWeek: 0 })).toBe(false);
     expect(digestIsActive({})).toBe(false);
+  });
+});
+
+describe('examMilestoneToSend', () => {
+  it('fires the 7-day milestone exactly at 7 days', () => {
+    expect(examMilestoneToSend(7, [])).toEqual({ milestone: 7, absorb: [30, 14, 7] });
+  });
+  it('does not re-fire an already-sent milestone', () => {
+    expect(examMilestoneToSend(7, [30, 14, 7])).toBeNull();
+  });
+  it('sends the CLOSEST milestone and absorbs skipped larger ones (date set late)', () => {
+    // 5 days out, nothing sent: send the 7-day bucket, absorb 30/14 so they never fire later.
+    expect(examMilestoneToSend(5, [])).toEqual({ milestone: 7, absorb: [30, 14, 7] });
+    // next day at 4 — 30/14/7 absorbed — nothing until the 3-day mark
+    expect(examMilestoneToSend(4, [30, 14, 7])).toBeNull();
+    expect(examMilestoneToSend(3, [30, 14, 7])).toEqual({ milestone: 3, absorb: [3] });
+  });
+  it('fires the exam-day (0) milestone', () => {
+    expect(examMilestoneToSend(0, [30, 14, 7, 3, 1])).toEqual({ milestone: 0, absorb: [0] });
+  });
+  it('returns null with no date or after the exam', () => {
+    expect(examMilestoneToSend(null, [])).toBeNull();
+    expect(examMilestoneToSend(-2, [])).toBeNull();
   });
 });

@@ -226,6 +226,10 @@ router.put('/profile', verifyAuth, async (req, res) => {
   }
 
   await DB.setUserFields(req.user.email, updates);
+  // A new/changed/cleared exam date restarts the countdown emails.
+  if ('examDate' in updates && updates.examDate !== req.user.examDate) {
+    await DB.unsetUserFields(req.user.email, ['examMilestonesSent']);
+  }
   const merged = { ...req.user, ...updates };
   res.send({
     firstName: merged.firstName || null,
