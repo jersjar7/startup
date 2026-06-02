@@ -107,7 +107,7 @@ export default {
         "Using the wrong constant (e.g. 12EI) in the denominator",
         "Mixing the point-load (L³) and UDL (L⁴) formulas"
       ],
-      "diagram": null
+      "diagram": { "component": "SimplySupportedBeam", "props": {"span":6,"loadPos":3,"load":20} }
     },
     {
       "id": "str-dvw-q3",
@@ -134,7 +134,7 @@ export default {
         "Using a simple-span constant (48EI) for a cantilever",
         "Dropping the factor of 3 in the denominator"
       ],
-      "diagram": null
+      "diagram": { "component": "CantileverEndLoad", "props": {"length":3,"load":10,"unit":"kN"} }
     }
   ]
 };

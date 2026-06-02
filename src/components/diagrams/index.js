@@ -80,6 +80,10 @@ import { ConsolidationLayer } from './ConsolidationLayer';
 import { PavementStack } from './PavementStack';
 import { EarthworkSection } from './EarthworkSection';
 import { CpmNetwork } from './CpmNetwork';
+import { CantileverEndLoad } from './CantileverEndLoad';
+import { ProppedCantilever } from './ProppedCantilever';
+import { FixedFixedBeam } from './FixedFixedBeam';
+import { TrussJointFBD } from './TrussJointFBD';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -164,4 +168,8 @@ export const DIAGRAM_REGISTRY = {
   PavementStack,
   EarthworkSection,
   CpmNetwork,
+  CantileverEndLoad,
+  ProppedCantilever,
+  FixedFixedBeam,
+  TrussJointFBD,
 };

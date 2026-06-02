@@ -85,6 +85,10 @@ const DEFAULTS = {
   PavementStack: { surface: { a: 0.44, D: 3, label: 'HMA Surface' }, base: { a: 0.14, D: 8, m: 1.0, label: 'Crushed Stone Base' }, subbase: { a: 0.11, D: 10, m: 1.0, label: 'Granular Subbase' } },
   EarthworkSection: { A1: 200, A2: 300, Am: 240, L: 100 },
   CpmNetwork: { variant: 'fiveActivity', durations: { A: 3, B: 4, C: 2, D: 6, E: 3 } },
+  CantileverEndLoad: { length: 3, load: 10, unit: 'kN' },
+  ProppedCantilever: { length: 8, w: 12, unit: 'kN/m' },
+  FixedFixedBeam: { span: 6, w: 10, unit: 'kN/m' },
+  TrussJointFBD: { load: 500, angle: 45, unit: 'lb' },
 };
 
 /* Lesson mapping for context */
