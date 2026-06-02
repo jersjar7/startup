@@ -41,7 +41,7 @@ export default {
         'Dividing by G_mb instead of G_mm',
         'Swapping G_mm and G_mb and getting a negative result',
       ],
-      diagram: null,
+      diagram: { component: 'AsphaltVolumetrics', props: {} },
     },
     {
       id: 'mat-asp-q2',
@@ -67,7 +67,7 @@ export default {
         'Computing the air-filled fraction (Va/VMA) instead of the asphalt-filled fraction',
         'Reporting the raw difference VMA − Va as a percent of the whole mix',
       ],
-      diagram: null,
+      diagram: { component: 'AsphaltVolumetrics', props: {} },
     },
     {
       id: 'mat-asp-q3',
@@ -93,7 +93,7 @@ export default {
         'Using Ps as a decimal instead of a percent',
         'Reporting the aggregate volume term (86%) instead of its complement',
       ],
-      diagram: null,
+      diagram: { component: 'AsphaltVolumetrics', props: {} },
     },
   ],
 };

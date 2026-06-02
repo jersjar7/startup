@@ -94,6 +94,8 @@ import { FilterBed } from './FilterBed';
 import { SignShapes } from './SignShapes';
 import { GravityModelZones } from './GravityModelZones';
 import { RigidPavementJoint } from './RigidPavementJoint';
+import { AsphaltVolumetrics } from './AsphaltVolumetrics';
+import { SieveStack } from './SieveStack';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -192,4 +194,6 @@ export const DIAGRAM_REGISTRY = {
   SignShapes,
   GravityModelZones,
   RigidPavementJoint,
+  AsphaltVolumetrics,
+  SieveStack,
 };

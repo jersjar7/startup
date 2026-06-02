@@ -99,6 +99,8 @@ const DEFAULTS = {
   SignShapes: {},
   GravityModelZones: {},
   RigidPavementJoint: {},
+  AsphaltVolumetrics: {},
+  SieveStack: {},
 };
 
 /* Lesson mapping for context */
