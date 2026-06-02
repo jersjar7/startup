@@ -95,7 +95,7 @@ export default {
         'Inverting the ratio to Nd/Nf',
         'Forgetting to multiply by the total head H',
       ],
-      diagram: null,
+      diagram: { component: 'FlowNet', props: {} },
     },
   ],
 };

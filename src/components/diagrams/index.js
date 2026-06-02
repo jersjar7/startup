@@ -84,6 +84,11 @@ import { CantileverEndLoad } from './CantileverEndLoad';
 import { ProppedCantilever } from './ProppedCantilever';
 import { FixedFixedBeam } from './FixedFixedBeam';
 import { TrussJointFBD } from './TrussJointFBD';
+import { ProctorCurve } from './ProctorCurve';
+import { PileCapacity } from './PileCapacity';
+import { InfiniteSlope } from './InfiniteSlope';
+import { SlopeWedge } from './SlopeWedge';
+import { FlowNet } from './FlowNet';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -172,4 +177,9 @@ export const DIAGRAM_REGISTRY = {
   ProppedCantilever,
   FixedFixedBeam,
   TrussJointFBD,
+  ProctorCurve,
+  PileCapacity,
+  InfiniteSlope,
+  SlopeWedge,
+  FlowNet,
 };

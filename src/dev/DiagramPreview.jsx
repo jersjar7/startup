@@ -89,6 +89,11 @@ const DEFAULTS = {
   ProppedCantilever: { length: 8, w: 12, unit: 'kN/m' },
   FixedFixedBeam: { span: 6, w: 10, unit: 'kN/m' },
   TrussJointFBD: { load: 500, angle: 45, unit: 'lb' },
+  ProctorCurve: {},
+  PileCapacity: {},
+  InfiniteSlope: { beta: 25 },
+  SlopeWedge: { alpha: 25 },
+  FlowNet: {},
 };
 
 /* Lesson mapping for context */

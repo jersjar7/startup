@@ -43,7 +43,7 @@ export default {
         'Inverting to tan β / tan φ',
         'Applying a seepage reduction when the slope is dry',
       ],
-      diagram: null,
+      diagram: { component: 'InfiniteSlope', props: {beta:20} },
     },
     {
       id: 'geo-slp-q2',
@@ -70,7 +70,7 @@ export default {
         'Ignoring the seepage reduction and reporting the dry value',
         'Using γ_sat instead of γ′ in the numerator',
       ],
-      diagram: null,
+      diagram: { component: 'InfiniteSlope', props: {beta:20} },
     },
     {
       id: 'geo-slp-q3',
@@ -97,7 +97,7 @@ export default {
         'Omitting the cohesion term cLs from the resisting force',
         'Swapping sin and cos for the driving and resisting components',
       ],
-      diagram: null,
+      diagram: { component: 'SlopeWedge', props: {alpha:25} },
     },
   ],
 };
