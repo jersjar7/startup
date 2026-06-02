@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  AbsoluteFill, Series, useCurrentFrame, useVideoConfig, interpolate, spring,
+  AbsoluteFill, Series, Audio, staticFile, useCurrentFrame, useVideoConfig, interpolate, spring,
 } from 'remotion';
 import { loadFont as loadDM } from '@remotion/google-fonts/DMSans';
 import { loadFont as loadInter } from '@remotion/google-fonts/Inter';
@@ -96,8 +96,9 @@ function SceneProblem() {
             );
           })}
         </div>
-        <div style={{ marginTop: 56, opacity: freeIn.opacity, transform: `scale(${interpolate(freeIn.s, [0, 1], [0.8, 1])})` }}>
-          <span style={{ fontFamily: dm, fontWeight: 700, fontSize: 88, color: C.ember, letterSpacing: -3 }}>Free to start.</span>
+        <div style={{ marginTop: 48, opacity: freeIn.opacity, transform: `scale(${interpolate(freeIn.s, [0, 1], [0.8, 1])})` }}>
+          <span style={{ fontFamily: dm, fontWeight: 700, fontSize: 84, color: C.ember, letterSpacing: -3 }}>Ours is free.</span>
+          <div style={{ fontFamily: inter, fontSize: 30, color: C.gray, marginTop: 14 }}>The whole platform — no trial, no card.</div>
         </div>
       </div>
     </Bg>
@@ -192,11 +193,14 @@ function SceneCTA() {
   return (
     <Bg>
       <div style={{ textAlign: 'center', opacity: e.opacity, transform: `scale(${interpolate(e.s, [0, 1], [0.9, 1])})` }}>
-        <Overline>One-time payment · no subscription</Overline>
-        <div style={{ fontFamily: dm, fontWeight: 700, fontSize: 150, color: C.charcoal, letterSpacing: -5, marginTop: 16, lineHeight: 1 }}>
-          $29 <span style={{ color: C.ember }}>for students</span>
+        <Overline>The only thing that costs money</Overline>
+        <div style={{ fontFamily: dm, fontWeight: 700, fontSize: 132, color: C.charcoal, letterSpacing: -5, marginTop: 16, lineHeight: 1 }}>
+          $29 <span style={{ color: C.ember }}>students</span>
         </div>
-        <div style={{ fontFamily: inter, fontSize: 34, color: C.gray, marginTop: 12 }}>$49 standard · full access, forever for that exam</div>
+        <div style={{ fontFamily: inter, fontSize: 32, color: C.gray, marginTop: 10 }}>$49 standard · one-time · no subscription</div>
+        <div style={{ fontFamily: inter, fontSize: 28, color: C.charcoal, marginTop: 18, maxWidth: 900, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.5 }}>
+          …for the full timed exam simulation. Everything else stays free.
+        </div>
         <div style={{ marginTop: 48, opacity: url.opacity, transform: `translateY(${url.y}px)` }}>
           <span style={{ fontFamily: dm, fontWeight: 700, fontSize: 56, color: C.ember }}>fe4raccoons.com</span>
         </div>
@@ -207,12 +211,17 @@ function SceneCTA() {
 
 export function Explainer() {
   return (
-    <Series>
-      <Series.Sequence durationInFrames={S1}><SceneBrand /></Series.Sequence>
-      <Series.Sequence durationInFrames={S2}><SceneProblem /></Series.Sequence>
-      <Series.Sequence durationInFrames={S3}><SceneSolution /></Series.Sequence>
-      <Series.Sequence durationInFrames={S4}><SceneHow /></Series.Sequence>
-      <Series.Sequence durationInFrames={S5}><SceneCTA /></Series.Sequence>
-    </Series>
+    <>
+      {/* Soft background music bed. Swap explainer-music.mp3 for any licensed
+          track to change it — no other code change needed. */}
+      <Audio src={staticFile('explainer-music.mp3')} volume={0.55} />
+      <Series>
+        <Series.Sequence durationInFrames={S1}><SceneBrand /></Series.Sequence>
+        <Series.Sequence durationInFrames={S2}><SceneProblem /></Series.Sequence>
+        <Series.Sequence durationInFrames={S3}><SceneSolution /></Series.Sequence>
+        <Series.Sequence durationInFrames={S4}><SceneHow /></Series.Sequence>
+        <Series.Sequence durationInFrames={S5}><SceneCTA /></Series.Sequence>
+      </Series>
+    </>
   );
 }
