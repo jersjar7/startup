@@ -479,6 +479,66 @@ const PROBLEMS = [
     lessonId: 'steel-tension',
     chapterId: 'structural',
   },
+  {
+    id: 'str-dvw-cp1',
+    type: 'computational',
+    statement: 'A cantilever beam of length $L = 4\\text{ m}$ carries a uniformly distributed load $w = 6\\text{ kN/m}$ over its full length. With $EI = 30{,}000\\text{ kN·m}^2$, what is the tip deflection?',
+    choices: [
+      { id: 'c1', text: '$6.4\\text{ mm}$' },
+      { id: 'c2', text: '$2.6\\text{ mm}$' },
+      { id: 'c3', text: '$25.6\\text{ mm}$' },
+      { id: 'c4', text: '$1.6\\text{ mm}$' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Cantilever under UDL: $\\delta = wL^4/8EI = 6(4^4)/(8 \\times 30{,}000) = 1536/240{,}000 = 0.0064\\text{ m} = 6.4\\text{ mm}$. Choice C drops the factor of 8; Choice D uses the 8EI for a point load (PL³) form by mistake.',
+    hint: 'Cantilever, UDL → wL⁴/8EI.',
+    steps: [
+      { text: 'Standard case: cantilever, UDL.', latex: null },
+      { text: 'Apply:', latex: '\\delta = \\frac{wL^4}{8EI} = \\frac{6(4)^4}{8(30{,}000)}' },
+      { text: 'Compute:', latex: '\\delta = \\frac{1536}{240{,}000} = 0.0064\\text{ m} = 6.4\\text{ mm}' }
+    ],
+    handbookPage: null,
+    handbookFormula: '\\delta_{\\text{tip}} = \\frac{wL^4}{8EI}',
+    videoUrl: null,
+    traps: [
+      'Dropping the factor of 8 in the denominator',
+      'Using a point-load formula for a distributed load'
+    ],
+    diagram: null,
+    lessonId: 'deflection-virtual-work',
+    chapterId: 'structural',
+  },
+  {
+    id: 'str-ind-cp1',
+    type: 'computational',
+    statement: 'A beam fixed at both ends spans $L = 6\\text{ m}$ and carries a central point load $P = 24\\text{ kN}$. What is the magnitude of the fixed-end moment at each support?',
+    choices: [
+      { id: 'c1', text: '$18\\text{ kN·m}$' },
+      { id: 'c2', text: '$36\\text{ kN·m}$' },
+      { id: 'c3', text: '$9\\text{ kN·m}$' },
+      { id: 'c4', text: '$144\\text{ kN·m}$' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Fixed-fixed beam, central point load: the fixed-end moment is $PL/8 = 24(6)/8 = 18\\text{ kN·m}$. Choice B (36) uses $PL/4$ (the simple-span midspan moment). Choice D (144) forgets to divide entirely.',
+    hint: 'Fixed-fixed, central P → fixed-end moment = PL/8.',
+    steps: [
+      { text: 'Standard result for a fixed-fixed beam under a central point load.', latex: null },
+      { text: 'Apply:', latex: 'M_{FE} = \\frac{PL}{8} = \\frac{24(6)}{8}' },
+      { text: 'Compute:', latex: 'M_{FE} = \\frac{144}{8} = 18\\text{ kN·m}' }
+    ],
+    handbookPage: null,
+    handbookFormula: 'M_{FE} = \\frac{PL}{8}',
+    videoUrl: null,
+    traps: [
+      'Using PL/4 = 36 (the simple-span midspan moment) for the fixed end',
+      'Forgetting the division by 8'
+    ],
+    diagram: null,
+    lessonId: 'indeterminate-structures',
+    chapterId: 'structural',
+  },
 ];
 
 export default PROBLEMS;

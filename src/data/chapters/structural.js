@@ -2,7 +2,7 @@ export default {
   context: 'This chapter tests structural analysis, load combinations, and the design of reinforced concrete and steel members.',
   subtopics: [
     { id: 'analysis-loads', name: 'Analysis & Load Combinations',
-      application: 'As a civil engineer, you classify structures as determinate or indeterminate, compute influence lines for moving loads, and apply ASCE 7 load combinations to size every member. Getting the loads right is the first step — the rest of the design follows from the controlling factored demand.' },
+      application: 'As a civil engineer, you solve member forces in trusses (method of joints and sections), compute deflections of determinate beams, trusses, and frames (unit-load / virtual work), classify structures as determinate or indeterminate (and handle a single redundant), build influence lines for moving loads, and apply ASCE 7 load combinations to size every member.' },
     { id: 'rc-design', name: 'Reinforced Concrete Design',
       application: 'As a civil engineer, you design reinforced concrete beams, columns, slabs, and footings on most building and infrastructure projects. You compute required flexural reinforcement using the Whitney stress block, check shear capacity and add stirrups when needed, and verify that columns can carry the factored axial load.' },
     { id: 'steel-design', name: 'Steel Design',
@@ -10,6 +10,9 @@ export default {
   ],
   formulas: [
     { latex: 'r + m \\geq 2j', label: 'Truss Stability/Determinacy', page: 'p. 271' },
+    { latex: '\\delta = \\sum \\frac{nNL}{AE}, \\quad \\delta = \\int \\frac{mM}{EI}\\,dx', label: 'Deflection (Unit-Load Method)', page: 'p. 271' },
+    { latex: '\\delta = \\frac{PL^3}{48EI}, \\quad \\frac{5wL^4}{384EI}, \\quad \\frac{PL^3}{3EI}', label: 'Standard Beam Deflections', page: 'p. 271' },
+    { latex: 'R_{\\text{prop}} = \\frac{3wL}{8}, \\quad M_{FE} = \\frac{wL^2}{12}', label: 'Propped Cantilever / Fixed-End Moment', page: 'p. 271' },
     { latex: '1.2D + 1.6L', label: 'LRFD Basic Combination', page: 'p. 272' },
     { latex: 'M_n = A_s f_y (d - a/2)', label: 'RC Beam Moment Capacity', page: 'p. 275' },
     { latex: 'a = \\frac{A_s f_y}{0.85 f_c\' b}', label: 'Whitney Stress Block Depth', page: 'p. 275' },
@@ -25,5 +28,7 @@ export default {
     'Using Zx (plastic section modulus) vs. Sx (elastic section modulus) — LRFD steel uses Zx, ASD uses Sx.',
     'Not checking all ASCE 7 load combinations — the controlling case often is not the one with the largest single load.',
     'Picking the LARGER capacity as the controlling limit state — the SMALLER design strength governs because it represents the weaker failure mode.',
+    'Point-load deflection uses L³ (PL³/48EI); distributed-load deflection uses L⁴ (5wL⁴/384EI) — mixing the powers of L is the #1 deflection error.',
+    'Confusing the propped-cantilever prop reaction 3wL/8 with the simple-span reaction wL/2, and the fixed-end moment wL²/12 with the simple-span moment wL²/8.',
   ],
 };
