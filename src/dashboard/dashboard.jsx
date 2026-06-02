@@ -13,7 +13,6 @@ import {
   ArrowRight,
   BookOpenText,
   Megaphone,
-  LinkedinLogo,
   Gauge,
   Target,
 } from '@phosphor-icons/react';
@@ -462,7 +461,12 @@ export function Dashboard({ userName, onLogout }) {
                   </li>
                 ))
               ) : (
-                <li className="act-empty">No recent activity</li>
+                <li className="act-empty">
+                  <span className="act-empty-title">You're here, and that's what counts.</span>
+                  <span className="act-empty-sub">
+                    Start a session and you'll light up this feed — as more engineers join, you'll see them studying alongside you.
+                  </span>
+                </li>
               )}
             </ul>
           </div>
@@ -474,23 +478,16 @@ export function Dashboard({ userName, onLogout }) {
               Spread the word
             </h3>
             <p className="referral-text">
-              I hope you're finding these resources helpful! We just want more students to benefit from quality FE prep without paying hundreds of dollars. If you think this platform is worth sharing, a quick post on{' '}
+              I hope you're finding these resources helpful! We just want more students to benefit
+              from quality FE prep without paying hundreds of dollars. If it's helped you, the best
+              thanks is a quick shout-out so other engineers can find us — a post on{' '}
               <a href="https://www.reddit.com/r/FE_Exam/" target="_blank" rel="noopener noreferrer">r/FE_Exam</a>
               {' '}or{' '}
-              <a href="https://www.reddit.com/r/engineeringstudents/" target="_blank" rel="noopener noreferrer">r/engineeringstudents</a>
-              {' '}would mean a lot.
+              <a href="https://www.reddit.com/r/engineeringstudents/" target="_blank" rel="noopener noreferrer">r/engineeringstudents</a>,
+              a quick{' '}
+              <a href="https://x.com/intent/tweet?text=Studying%20for%20the%20FE%20Civil%20exam%3F%20FE%20for%20Raccoons%20is%20free%3A%20lessons%2C%20990%20problems%2C%20a%20diagnostic.%20fe4raccoons.com" target="_blank" rel="noopener noreferrer">post on X</a>,
+              or a mention anywhere fellow engineers hang out would mean the world.
             </p>
-            <div className="referral-deal">
-              <span className="referral-deal-label">Get 33% off the Exam Simulation</span>
-              <p className="referral-deal-text">
-                Take a screenshot of your Reddit post and{' '}
-                <a href="https://www.linkedin.com/in/jersonjgarcia/" target="_blank" rel="noopener noreferrer">
-                  <LinkedinLogo weight="bold" size={14} />
-                  DM me on LinkedIn
-                </a>
-                . I'll send you a one-time code for <strong>33% off</strong> your full-access pass.
-              </p>
-            </div>
           </div>
         </aside>
       </div>
