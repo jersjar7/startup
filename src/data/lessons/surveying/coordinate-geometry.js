@@ -42,7 +42,7 @@ export default {
         'Adding ΔE and ΔN instead of using the Pythagorean distance',
         'Mismatching which coordinate is easting vs northing',
       ],
-      diagram: null,
+      diagram: { component: 'CoordinateInverse', props: {} },
     },
     {
       id: 'surv-cg-q2',

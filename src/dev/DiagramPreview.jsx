@@ -101,6 +101,11 @@ const DEFAULTS = {
   RigidPavementJoint: {},
   AsphaltVolumetrics: {},
   SieveStack: {},
+  NewtonTangent: {},
+  CompositeSection: {},
+  CashFlowIRR: {},
+  LeverMachine: {},
+  CoordinateInverse: {},
 };
 
 /* Lesson mapping for context */

@@ -96,6 +96,11 @@ import { GravityModelZones } from './GravityModelZones';
 import { RigidPavementJoint } from './RigidPavementJoint';
 import { AsphaltVolumetrics } from './AsphaltVolumetrics';
 import { SieveStack } from './SieveStack';
+import { NewtonTangent } from './NewtonTangent';
+import { CompositeSection } from './CompositeSection';
+import { CashFlowIRR } from './CashFlowIRR';
+import { LeverMachine } from './LeverMachine';
+import { CoordinateInverse } from './CoordinateInverse';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -196,4 +201,9 @@ export const DIAGRAM_REGISTRY = {
   RigidPavementJoint,
   AsphaltVolumetrics,
   SieveStack,
+  NewtonTangent,
+  CompositeSection,
+  CashFlowIRR,
+  LeverMachine,
+  CoordinateInverse,
 };

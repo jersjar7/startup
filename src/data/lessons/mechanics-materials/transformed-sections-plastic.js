@@ -41,7 +41,7 @@ export default {
         'Inverting the ratio (softer over stiffer)',
         'Subtracting the moduli instead of dividing',
       ],
-      diagram: null,
+      diagram: { component: 'CompositeSection', props: {} },
     },
     {
       id: 'mom-tsp-q2',
@@ -94,7 +94,7 @@ export default {
         'Applying the softer-material stress to the stiffer material',
         'Dividing by n instead of multiplying',
       ],
-      diagram: null,
+      diagram: { component: 'CompositeSection', props: {} },
     },
   ],
 };
