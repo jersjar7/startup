@@ -1,5 +1,5 @@
 export default {
-  context: 'This chapter tests your ability to apply analytic geometry, single-variable calculus, and vector operations to engineering problems.',
+  context: 'This chapter tests your ability to apply analytic geometry, single-variable calculus, vector operations, and computational tools (spreadsheets and structured programming) to engineering problems.',
   subtopics: [
     { id: 'analytic-geometry',    name: 'Analytic Geometry',
       application: 'As a civil engineer, you use analytic geometry constantly — computing slopes and grades for road profiles, finding distances between survey points, resolving force components with trig, solving oblique triangles for property boundaries, and working with conic sections in highway curve design. If a problem gives you coordinates, angles, or a line equation, this is your toolkit.' },
@@ -7,6 +7,8 @@ export default {
       application: 'As a civil engineer, you rely on calculus every time you compute the area under a load diagram, find where shear is zero (and moment is maximum) on a beam, or determine the rate of change of flow in a storm drain. Differentiation and integration are the backbone of structural analysis, earthwork volumes, and hydraulic design.' },
     { id: 'vector-operations',    name: 'Vector Operations',
       application: 'As a civil engineer, vectors are how you resolve forces on structural connections, compute the moment of a force about a point, and determine resultant loads on a structure. Dot products find the angle between forces; cross products give you moment arms in three dimensions.' },
+    { id: 'computational-tools',  name: 'Computational Tools',
+      application: 'As a civil engineer, you build spreadsheets for earthwork, quantity takeoffs, and load combinations, and you trace logic in macros and analysis scripts. The FE tests order of operations in cell formulas, relative vs. absolute references when a formula is copied, and reading short pseudocode (if-then-else and loops).' },
   ],
   formulas: [
     { latex: 'm = \\frac{y_2 - y_1}{x_2 - x_1}', label: 'Slope from Two Points', page: 'p. 36' },
@@ -18,6 +20,8 @@ export default {
     { latex: '\\int u\\,dv = uv - \\int v\\,du', label: 'Integration by Parts', page: 'p. 50' },
     { latex: '\\vec{A}\\cdot\\vec{B} = |A||B|\\cos\\theta', label: 'Dot Product', page: 'p. 94' },
     { latex: '\\vec{A}\\times\\vec{B} = |A||B|\\sin\\theta\\,\\hat{n}', label: 'Cross Product', page: 'p. 94' },
+    { latex: '\\texttt{=A1+A2*A3}\\ \\rightarrow\\ \\text{precedence: } \\times \\text{ before } +', label: 'Spreadsheet order of operations', page: '—' },
+    { latex: '\\texttt{IF(test, value if true, value if false)}', label: 'Logical IF function', page: '—' },
   ],
   traps: [
     'Forgetting to convert station notation to feet before computing slope.',
@@ -25,5 +29,8 @@ export default {
     'No log rule for log(x + y) — only products, quotients, and powers have rules.',
     'Forgetting the chain rule when differentiating composite functions.',
     'Mixing up dot product (scalar result) and cross product (vector result).',
+    'Forgetting that spreadsheets obey precedence — =A1+A2*A3 multiplies before adding.',
+    'Letting a constant reference drift when copying a formula — lock it with $ (absolute).',
+    'Off-by-one in loops: FOR i = 1 TO N runs N times (endpoints inclusive).',
   ],
 };

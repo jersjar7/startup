@@ -2697,6 +2697,153 @@ const PROBLEMS = [
     lessonId: 'cross-product-applications',
     chapterId: 'mathematics'
   },
+  {
+    id: 'math-spr-ex1',
+    type: 'computational',
+    statement: 'A spreadsheet cell contains =B2+B3/B4 with B2 = 10, B3 = 20, and B4 = 4. What value does the cell display?',
+    choices: [
+      { id: 'c1', text: '15' },
+      { id: 'c2', text: '7.5' },
+      { id: 'c3', text: '30' },
+      { id: 'c4', text: '2.5' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Spreadsheets follow order of operations: division before addition. Compute B3/B4 = 20/4 = 5 first, then add B2: 10 + 5 = 15. Choice B (7.5) is the mistake of doing (B2+B3)/B4 = 30/4. Choice C (30) ignores the division entirely.',
+    hint: 'Division happens before addition — evaluate B3/B4 first.',
+    steps: [
+      { text: 'Precedence: division before addition. Evaluate B3/B4 = 20/4 = 5.', latex: null },
+      { text: 'Add B2: 10 + 5 = 15.', latex: null }
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Computing (B2+B3)/B4 = 7.5 by adding before dividing',
+      'Ignoring the division term and reporting 30'
+    ],
+    diagram: null,
+    lessonId: 'spreadsheet-computations',
+    chapterId: 'mathematics'
+  },
+  {
+    id: 'math-spr-ex2',
+    type: 'computational',
+    statement: 'In a takeoff sheet, the unit price is stored once in cell D1 = 25. Cell E2 holds =B2*$D$1 with B2 = 8 (so E2 displays 200). The formula is copied down to E5, where B5 = 12. What value does E5 display?',
+    choices: [
+      { id: 'c1', text: '300' },
+      { id: 'c2', text: '200' },
+      { id: 'c3', text: '37' },
+      { id: 'c4', text: '12' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'The relative reference B2 shifts to B5 when copied down three rows, but the absolute reference $D$1 stays locked on the unit price. So E5 = B5*$D$1 = 12 × 25 = 300. Choice B (200) assumes B did not shift. Choice C (37) adds quantity + price. Choice D (12) forgets to multiply by the unit price.',
+    hint: 'B2 is relative (shifts to B5); $D$1 is absolute (stays on the unit price).',
+    steps: [
+      { text: 'Copying down three rows shifts the relative reference: B2 → B5.', latex: null },
+      { text: 'The absolute reference $D$1 stays fixed on the unit price (25).', latex: null },
+      { text: 'E5 = B5 × $D$1 = 12 × 25 = 300.', latex: null }
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Assuming the relative B reference does not move (200)',
+      'Forgetting to lock the unit price so it drifts off the value'
+    ],
+    diagram: null,
+    lessonId: 'spreadsheet-computations',
+    chapterId: 'mathematics'
+  },
+  {
+    id: 'math-spr-ex3',
+    type: 'computational',
+    statement: 'A column lists quantities in cells C2 through C6: 12, 15, 18, 9, and 6. A summary cell contains =SUM(C2:C6). What value does it display?',
+    choices: [
+      { id: 'c1', text: '60' },
+      { id: 'c2', text: '54' },
+      { id: 'c3', text: '48' },
+      { id: 'c4', text: '12' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'SUM(C2:C6) adds every value in the inclusive range C2 through C6: 12 + 15 + 18 + 9 + 6 = 60. Choices that drop an endpoint (54 omits the 6; 48 omits the 12) are the classic range-boundary mistakes. Choice D (12) reads only the first cell.',
+    hint: 'SUM over C2:C6 includes both endpoints — add all five values.',
+    steps: [
+      { text: 'The range C2:C6 includes all five cells.', latex: null },
+      { text: '12 + 15 + 18 + 9 + 6 = 60.', latex: null }
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Dropping a boundary cell of the range (54 or 48)',
+      'Reading only the first cell of the range'
+    ],
+    diagram: null,
+    lessonId: 'spreadsheet-computations',
+    chapterId: 'mathematics'
+  },
+  {
+    id: 'math-prg-ex1',
+    type: 'computational',
+    statement: 'Trace this pseudocode: p = 1; FOR i = 1 TO 5: p = p * i. What is the value of p after the loop finishes?',
+    choices: [
+      { id: 'c1', text: '120' },
+      { id: 'c2', text: '15' },
+      { id: 'c3', text: '24' },
+      { id: 'c4', text: '720' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'The loop multiplies a running product by i for i = 1, 2, 3, 4, 5 — that is 5 factorial: 1×1×2×3×4×5 = 120. Choice B (15) adds instead of multiplies (1+2+3+4+5). Choice C (24) stops at i = 4 (4!). Choice D (720) runs one extra pass to i = 6.',
+    hint: 'A running product over i = 1..5 is 5 factorial.',
+    steps: [
+      { text: 'i = 1: p = 1. i = 2: p = 2. i = 3: p = 6.', latex: null },
+      { text: 'i = 4: p = 24. i = 5: p = 120. Loop ends.', latex: null }
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Adding instead of multiplying (15)',
+      'Off-by-one: stopping at 4! = 24 or running to 6! = 720'
+    ],
+    diagram: null,
+    lessonId: 'structured-programming',
+    chapterId: 'mathematics'
+  },
+  {
+    id: 'math-prg-ex2',
+    type: 'computational',
+    statement: 'Trace this loop: count = 0; x = 80; WHILE x > 5: x = x / 2; count = count + 1. How many times does the loop body execute?',
+    choices: [
+      { id: 'c1', text: '4' },
+      { id: 'c2', text: '3' },
+      { id: 'c3', text: '5' },
+      { id: 'c4', text: '16' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Halve x while x > 5, counting each pass: 80→40 (1), 40→20 (2), 20→10 (3), 10→5 (4). Now x = 5, and 5 > 5 is false, so the loop stops. The body ran 4 times. Choice B (3) stops one pass early; Choice C (5) runs one extra pass even though 5 > 5 is false.',
+    hint: 'Halve until x > 5 fails; remember 5 > 5 is false (strict inequality).',
+    steps: [
+      { text: '80 > 5 → x = 40, count = 1. 40 > 5 → x = 20, count = 2.', latex: null },
+      { text: '20 > 5 → x = 10, count = 3. 10 > 5 → x = 5, count = 4.', latex: null },
+      { text: '5 > 5 is FALSE → stop. The body executed 4 times.', latex: null }
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Counting a 5th pass even though 5 > 5 is false',
+      'Stopping at count = 3 (off-by-one)'
+    ],
+    diagram: null,
+    lessonId: 'structured-programming',
+    chapterId: 'mathematics'
+  },
 ];
 
 export default PROBLEMS;
