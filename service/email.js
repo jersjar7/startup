@@ -245,6 +245,41 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
   return sendEmail({ to: toEmail, subject, headers: lifecycleHeaders(unsubUrl), html: emailLayout({ preheader, heading, inner, unsubUrl }) });
 }
 
+// Exam-date countdown. Copy adapts to how close exam day is.
+async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, focusChapter = null, unsubUrl } = {}) {
+  let subject; let heading; let body; let ctaText;
+  if (daysLeft <= 0) {
+    subject = "It's exam day — you've got this";
+    heading = "Today's the day";
+    body = "Trust your prep. Read each question carefully, lean on the Handbook, and keep moving — don't get stuck on any one problem. You've put in the work. Go pass the FE.";
+    ctaText = null;
+  } else if (daysLeft === 1) {
+    subject = 'Your FE exam is tomorrow';
+    heading = 'One day to go';
+    body = `Keep it light today, then rest.${focusChapter ? ` If you review one thing, make it <strong>${focusChapter}</strong>.` : ''} A good night's sleep beats late cramming — you're ready.`;
+    ctaText = 'Review your weak areas';
+  } else {
+    subject = `Your FE exam is in ${daysLeft} days`;
+    heading = `${daysLeft} days to exam day`;
+    const rd = readiness != null ? `You're at <strong>${readiness}% readiness</strong>. ` : '';
+    body = `${rd}${focusChapter
+      ? `Your biggest score lever right now is <strong>${focusChapter}</strong> — point your next few sessions there.`
+      : 'Keep your streak going and drill your weakest chapters between now and exam day.'}`;
+    ctaText = 'Keep studying';
+  }
+  return sendEmail({
+    to: toEmail,
+    subject,
+    headers: lifecycleHeaders(unsubUrl),
+    html: emailLayout({
+      preheader: daysLeft <= 0 ? 'Go pass the FE.' : `${daysLeft} days to go`,
+      heading,
+      unsubUrl,
+      inner: para(body) + (ctaText ? button(ctaText, `${appUrl}/dashboard`) : ''),
+    }),
+  });
+}
+
 // One-time nudge for users who've gone quiet (~7 days).
 async function sendWinbackEmail(toEmail, { focusChapter = null, unsubUrl } = {}) {
   return sendEmail({
@@ -274,5 +309,6 @@ module.exports = {
   sendWelcomeEmail,
   sendWeeklyDigestEmail,
   sendWinbackEmail,
+  sendExamCountdownEmail,
   getEmailConfig,
 };

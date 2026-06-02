@@ -6,10 +6,13 @@
 
 const { userCollection, userStatsCollection, sessionLogCollection } = require('./db/connection.js');
 const { generateToken } = require('./crypto.js');
-const { sendWelcomeEmail, sendWeeklyDigestEmail, sendWinbackEmail } = require('./email.js');
 const {
-  TZ_DEFAULT, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive,
+  sendWelcomeEmail, sendWeeklyDigestEmail, sendWinbackEmail, sendExamCountdownEmail,
+} = require('./email.js');
+const {
+  TZ_DEFAULT, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive, examMilestoneToSend,
 } = require('./lifecycle.js');
+const { daysUntilExam } = require('./profile.js');
 
 const TZ = process.env.LIFECYCLE_TZ || TZ_DEFAULT;
 const SEND_HOUR = Number(process.env.LIFECYCLE_HOUR) || 8;
@@ -142,6 +145,38 @@ async function sendWeeklyDigests(now) {
   return sent;
 }
 
+async function sendExamCountdowns(now) {
+  const users = await userCollection.find({
+    emailVerified: true,
+    examDate: { $exists: true, $ne: null },
+    lifecycleOptOut: { $ne: true },
+  }).limit(MAX_PER_RUN).toArray();
+
+  let sent = 0;
+  for (const u of users) {
+    const daysLeft = daysUntilExam(u.examDate, now);
+    const pick = examMilestoneToSend(daysLeft, u.examMilestonesSent || []);
+    if (!pick) continue;
+    try {
+      const stats = await weeklyStatsFor(u.email);
+      const token = await ensureUnsubToken(u);
+      await sendExamCountdownEmail(u.email, {
+        daysLeft,
+        readiness: stats.masteryTo,
+        focusChapter: stats.focusChapter,
+        unsubUrl: unsubUrl(token),
+      });
+      const merged = Array.from(new Set([...(u.examMilestonesSent || []), ...pick.absorb]));
+      await userCollection.updateOne({ email: u.email }, { $set: { examMilestonesSent: merged } });
+      sent += 1;
+      await sleep(SEND_GAP_MS);
+    } catch (e) {
+      console.error('[lifecycle] exam countdown failed for', u.email, e.message);
+    }
+  }
+  return sent;
+}
+
 let running = false;
 
 // Run one pass. Only acts during the morning send hour; weekly digests only on
@@ -154,11 +189,12 @@ async function runLifecycleEmails(now = new Date()) {
     if (etHour(now, TZ) !== SEND_HOUR) return { skipped: 'off-hour' };
     const welcome = await sendWelcomes(now);
     const winback = await sendWinbacks(now);
+    const exam = await sendExamCountdowns(now);
     const weekly = etWeekday(now, TZ) === 'Sun' ? await sendWeeklyDigests(now) : 0;
-    if (welcome || winback || weekly) {
-      console.log(`[lifecycle] sent welcome=${welcome} winback=${winback} weekly=${weekly}`);
+    if (welcome || winback || exam || weekly) {
+      console.log(`[lifecycle] sent welcome=${welcome} winback=${winback} exam=${exam} weekly=${weekly}`);
     }
-    return { welcome, winback, weekly };
+    return { welcome, winback, exam, weekly };
   } catch (e) {
     console.error('[lifecycle] run failed:', e.message);
     return { error: e.message };
