@@ -66,6 +66,10 @@
   font-size: 0.875rem;
   color: var(--charcoal);
   font-weight: 500;
+  /* Keep a gutter and let long emails wrap rather than touching the edge. */
+  padding-left: 1rem;
+  overflow-wrap: anywhere;
+  text-align: right;
 }
 
 .verified-badge {

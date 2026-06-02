@@ -222,11 +222,15 @@
   font-family: var(--font-body);
 }
 
-.lesson-choice:hover:not(.lesson-choice--disabled) {
-  border-color: var(--ember);
-  background: var(--ember-bg);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
+/* Pointer devices only — prevents "sticky hover" on touch, where the tapped
+   choice keeps the ember highlight and looks pre-selected. */
+@media (hover: hover) {
+  .lesson-choice:hover:not(.lesson-choice--disabled) {
+    border-color: var(--ember);
+    background: var(--ember-bg);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
 }
 
 .lesson-choice--selected {

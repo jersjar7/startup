@@ -155,9 +155,11 @@
   transition: all 0.15s ease;
 }
 
-.dx-choice:hover {
-  border-color: var(--gray-300);
-  background: var(--gray-50);
+@media (hover: hover) {
+  .dx-choice:hover {
+    border-color: var(--gray-300);
+    background: var(--gray-50);
+  }
 }
 
 .dx-choice--selected {

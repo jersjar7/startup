@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
-import { SignIn, UserPlus, PaperPlaneTilt, ArrowLeft } from '@phosphor-icons/react';
+import { SignIn, UserPlus, PaperPlaneTilt, ArrowLeft, Eye, EyeSlash } from '@phosphor-icons/react';
 import './index.css';
 
 export function Login({ userName, onLogin }) {
@@ -14,6 +14,7 @@ export function Login({ userName, onLogin }) {
   const [submitting, setSubmitting] = React.useState(false);
   const [showForgot, setShowForgot] = React.useState(false);
   const [acceptedTerms, setAcceptedTerms] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   React.useEffect(() => {
     if (userName) {
@@ -159,15 +160,28 @@ export function Login({ userName, onLogin }) {
             required
           />
           <label className="login-label" htmlFor="login-password">Password</label>
-          <input
-            id="login-password"
-            type="password"
-            placeholder="8+ characters"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="password-field">
+            <input
+              id="login-password"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="8+ characters"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+          <p className="login-pw-hint">
+            New here? Use at least 8 characters with an uppercase letter, a lowercase letter, and a number.
+          </p>
           <button
             type="button"
             className="forgot-link"

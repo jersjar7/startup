@@ -40,30 +40,30 @@ export function ExamGate({ userName }) {
       ? `/api/checkout/status?session_id=${sessionId}`
       : '/api/checkout/status';
 
-    Promise.allSettled([
-      fetch(statusUrl).then(r => {
-        if (!r.ok) throw new Error();
-        return r.json();
-      }),
-      fetch('/api/exam/attempts').then(r => {
-        if (r.status === 403) return [];
-        if (!r.ok) throw new Error();
-        return r.json();
-      }),
-    ]).then(([statusResult, attemptsResult]) => {
-      if (statusResult.status === 'fulfilled') {
-        setPurchased(statusResult.value.purchased);
-        setPurchaseDate(statusResult.value.purchaseDate);
-      } else {
+    (async () => {
+      let isPurchased = false;
+      try {
+        const r = await fetch(statusUrl);
+        if (r.ok) {
+          const data = await r.json();
+          isPurchased = !!data.purchased;
+          setPurchased(data.purchased);
+          setPurchaseDate(data.purchaseDate);
+        } else {
+          setPurchased(false);
+        }
+      } catch {
         setPurchased(false);
       }
-
-      if (attemptsResult.status === 'fulfilled') {
-        setAttempts(attemptsResult.value);
+      // Attempts are purchase-gated (403 for free users) — only fetch if owned.
+      if (isPurchased) {
+        try {
+          const r = await fetch('/api/exam/attempts');
+          if (r.ok) setAttempts(await r.json());
+        } catch { /* ignore */ }
       }
-
       setLoading(false);
-    });
+    })();
   }, [userName, navigate]);
 
   // Re-check purchase status after Stripe redirect
