@@ -1736,6 +1736,123 @@ const PROBLEMS = [
     lessonId: 'steel-tension',
     chapterId: 'structural'
   },
+  {
+    id: 'str-tam-ex1',
+    type: 'computational',
+    statement: 'At a truss joint, an $8\\text{ kN}$ vertical (downward) load is resisted by a horizontal member and a diagonal member inclined at $60^\\circ$ above the horizontal. What is the force in the diagonal?',
+    choices: [
+      { id: 'c1', text: '$9.24\\text{ kN}$' },
+      { id: 'c2', text: '$8.0\\text{ kN}$' },
+      { id: 'c3', text: '$6.93\\text{ kN}$' },
+      { id: 'c4', text: '$16.0\\text{ kN}$' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Only the diagonal resists the vertical load. $\\sum F_y = 0$: $F\\sin 60^\\circ = 8$, so $F = 8/0.866 = 9.24\\text{ kN}$. Choice C (6.93) multiplies by sin 60° instead of dividing. Choice B forgets the angle entirely.',
+    hint: 'Only the diagonal has a vertical component: F·sin60° = 8.',
+    steps: [
+      { text: '$\\sum F_y = 0$ at the joint: the diagonal carries the vertical load.', latex: null },
+      { text: 'Solve:', latex: 'F = \\frac{8}{\\sin 60^\\circ} = \\frac{8}{0.866} = 9.24\\text{ kN}' }
+    ],
+    handbookPage: null,
+    handbookFormula: '\\sum F_y = 0',
+    videoUrl: null,
+    traps: [
+      'Multiplying by sin 60° instead of dividing (6.93 kN)',
+      'Ignoring the inclination and reporting 8 kN'
+    ],
+    diagram: null,
+    lessonId: 'truss-analysis-methods',
+    chapterId: 'structural'
+  },
+  {
+    id: 'str-tam-ex2',
+    type: 'computational',
+    statement: 'A vertical section through a parallel-chord truss cuts a diagonal inclined at $45^\\circ$. The net vertical shear carried across that section is $20\\text{ kN}$. What is the force in the diagonal?',
+    choices: [
+      { id: 'c1', text: '$28.3\\text{ kN}$' },
+      { id: 'c2', text: '$20\\text{ kN}$' },
+      { id: 'c3', text: '$14.1\\text{ kN}$' },
+      { id: 'c4', text: '$40\\text{ kN}$' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Only the diagonal has a vertical component, so it carries the section shear: $F\\sin 45^\\circ = 20$, giving $F = 20/0.707 = 28.3\\text{ kN}$. Choice C (14.1) multiplies by sin 45° instead of dividing.',
+    hint: 'The diagonal’s vertical component equals the section shear.',
+    steps: [
+      { text: 'Method of sections, vertical equilibrium: only the diagonal resists shear.', latex: null },
+      { text: 'Solve:', latex: 'F = \\frac{20}{\\sin 45^\\circ} = \\frac{20}{0.707} = 28.3\\text{ kN}' }
+    ],
+    handbookPage: null,
+    handbookFormula: '\\sum F_y = 0',
+    videoUrl: null,
+    traps: [
+      'Multiplying by sin 45° (14.1) instead of dividing',
+      'Reporting the shear (20) as the member force'
+    ],
+    diagram: null,
+    lessonId: 'truss-analysis-methods',
+    chapterId: 'structural'
+  },
+  {
+    id: 'str-dvw-ex1',
+    type: 'computational',
+    statement: 'A simply supported beam of length $L = 5\\text{ m}$ carries a uniformly distributed load $w = 8\\text{ kN/m}$. With $EI = 25{,}000\\text{ kN·m}^2$, what is the maximum deflection?',
+    choices: [
+      { id: 'c1', text: '$2.6\\text{ mm}$' },
+      { id: 'c2', text: '$1.3\\text{ mm}$' },
+      { id: 'c3', text: '$4.2\\text{ mm}$' },
+      { id: 'c4', text: '$10.4\\text{ mm}$' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Simple span under UDL: $\\delta = 5wL^4/384EI = 5(8)(5^4)/(384 \\times 25{,}000) = 25{,}000/9{,}600{,}000 = 0.0026\\text{ m} = 2.6\\text{ mm}$. Choice C uses the point-load formula; Choice D drops the 384 constant.',
+    hint: 'Simple span, UDL → 5wL⁴/384EI (note the L⁴).',
+    steps: [
+      { text: 'Standard case: simple span, UDL.', latex: null },
+      { text: 'Apply:', latex: '\\delta = \\frac{5wL^4}{384EI} = \\frac{5(8)(5)^4}{384(25{,}000)}' },
+      { text: 'Compute:', latex: '\\delta = \\frac{25{,}000}{9{,}600{,}000} = 0.0026\\text{ m} = 2.6\\text{ mm}' }
+    ],
+    handbookPage: null,
+    handbookFormula: '\\delta_{\\max} = \\frac{5wL^4}{384EI}',
+    videoUrl: null,
+    traps: [
+      'Using the point-load formula (PL³/48EI) for a distributed load',
+      'Using L³ instead of L⁴ for a distributed load'
+    ],
+    diagram: null,
+    lessonId: 'deflection-virtual-work',
+    chapterId: 'structural'
+  },
+  {
+    id: 'str-ind-ex1',
+    type: 'computational',
+    statement: 'A beam is fixed (built in) at both ends with no internal hinges. What is its degree of static indeterminacy?',
+    choices: [
+      { id: 'c1', text: '3' },
+      { id: 'c2', text: '1' },
+      { id: 'c3', text: '2' },
+      { id: 'c4', text: '6' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Each fixed end gives 3 reactions (H, V, M), so $r = 6$. A planar beam has 3 equilibrium equations, so $DSI = 6 - 3 = 3$. Choice B (1) is a propped cantilever, not fixed-fixed. Choice D (6) forgets to subtract the equilibrium equations.',
+    hint: 'Two fixed ends = 6 reactions; subtract 3 equilibrium equations.',
+    steps: [
+      { text: 'Reactions: 3 at each fixed end → $r = 6$.', latex: null },
+      { text: '$DSI = r - 3 = 6 - 3 = 3$.', latex: null }
+    ],
+    handbookPage: null,
+    handbookFormula: 'DSI = r - 3',
+    videoUrl: null,
+    traps: [
+      'Confusing a fixed-fixed beam (DSI 3) with a propped cantilever (DSI 1)',
+      'Forgetting to subtract the 3 equilibrium equations'
+    ],
+    diagram: null,
+    lessonId: 'indeterminate-structures',
+    chapterId: 'structural'
+  },
 ];
 
 export default PROBLEMS;
