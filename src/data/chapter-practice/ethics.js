@@ -1,4 +1,4 @@
-// Chapter practice: Ethics (10 questions, 2 per lesson)
+// Chapter practice: Ethics (14 questions, 2 per lesson)
 
 const PROBLEMS = [
   {
@@ -537,6 +537,126 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'intellectual-property-sustainability',
+    chapterId: 'ethics'
+  },
+  {
+    id: 'eth-con-cp1',
+    type: 'conceptual',
+    statement: 'On a project with highly uncertain quantities of excavation, the owner wants to pay the contractor based on the actual amount of work measured in the field. Which contract type fits best?',
+    choices: [
+      { id: 'c1', text: 'Unit-price contract' },
+      { id: 'c2', text: 'Lump-sum contract' },
+      { id: 'c3', text: 'Design-build contract' },
+      { id: 'c4', text: 'Guaranteed maximum price contract' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'A unit-price contract pays a set rate per measured unit (e.g., per cubic yard), so it handles uncertain quantities well — the owner pays for what is actually built. A lump-sum contract requires a defined quantity up front. Design-build is a delivery method, not a pricing basis, and a GMP caps total cost rather than pricing per unit.',
+    hint: 'Which pricing basis pays per measured unit of work?',
+    steps: [
+      { text: 'Uncertain quantities favor paying per measured unit.', latex: null },
+      { text: 'Unit-price contracts set a rate per unit of work.', latex: null },
+      { text: 'So a unit-price contract fits best.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Choosing lump sum when quantities are unknown',
+      'Confusing a delivery method (design-build) with a pricing basis',
+    ],
+    diagram: null,
+    lessonId: 'engineering-contracts',
+    chapterId: 'ethics'
+  },
+  {
+    id: 'eth-con-cp2',
+    type: 'conceptual',
+    statement: 'Under a traditional Design-Bid-Build delivery method, how are design and construction responsibilities arranged?',
+    choices: [
+      { id: 'c1', text: 'The owner holds separate contracts with the designer and the contractor' },
+      { id: 'c2', text: 'A single entity is responsible for both design and construction' },
+      { id: 'c3', text: 'The contractor performs the design and hires the engineer' },
+      { id: 'c4', text: 'The engineer guarantees the construction cost' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'In Design-Bid-Build the owner first contracts with a designer, then separately bids and contracts the construction — two separate contracts and two separate entities. A single combined entity describes Design-Build (Choice B). Choices C and D misstate the roles.',
+    hint: 'Does DBB combine or separate the design and construction contracts?',
+    steps: [
+      { text: 'DBB = design, then bid, then build — in sequence.', latex: null },
+      { text: 'The owner holds separate contracts for design and construction.', latex: null },
+      { text: 'Design and construction are therefore separate entities.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Mixing up DBB (separate contracts) with Design-Build (one contract)',
+      'Assuming the engineer guarantees construction cost',
+    ],
+    diagram: null,
+    lessonId: 'engineering-contracts',
+    chapterId: 'ethics'
+  },
+  {
+    id: 'eth-liab-cp1',
+    type: 'conceptual',
+    statement: 'Which set correctly lists the four elements a plaintiff must prove to win a professional negligence claim?',
+    choices: [
+      { id: 'c1', text: 'Duty, breach, causation, and damages' },
+      { id: 'c2', text: 'Duty, intent, causation, and damages' },
+      { id: 'c3', text: 'Offer, acceptance, consideration, and breach' },
+      { id: 'c4', text: 'Breach, malice, harm, and profit' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Negligence requires duty, breach, causation, and damages. Choice B swaps in intent, which belongs to intentional torts, not negligence. Choice C lists contract-formation elements. Choice D invents elements that are not part of the test.',
+    hint: 'Negligence does not require intent — what are the four real elements?',
+    steps: [
+      { text: 'Negligence elements: duty, breach, causation, damages.', latex: null },
+      { text: 'Intent is for intentional torts, not negligence.', latex: null },
+      { text: 'So the correct set is duty, breach, causation, and damages.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Including intent among the negligence elements',
+      'Confusing contract-formation elements with negligence elements',
+    ],
+    diagram: null,
+    lessonId: 'professional-liability',
+    chapterId: 'ethics'
+  },
+  {
+    id: 'eth-liab-cp2',
+    type: 'conceptual',
+    statement: 'A claim is filed against an engineer 12 years after a building was substantially completed. The jurisdiction has a 10-year statute of repose for construction. What is the effect?',
+    choices: [
+      { id: 'c1', text: 'The claim is barred — the statute of repose set an absolute 10-year cutoff from substantial completion' },
+      { id: 'c2', text: 'The claim proceeds because the harm was only recently discovered' },
+      { id: 'c3', text: 'The statute of repose does not apply to engineers' },
+      { id: 'c4', text: 'The claim proceeds because there is no time limit on negligence' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'hard',
+    eli5: 'A statute of repose sets an absolute outer deadline measured from a fixed event — here, substantial completion — regardless of when the harm is discovered. Twelve years exceeds the 10-year repose period, so the claim is barred. Choice B describes a statute of limitations (discovery-based), which the repose period overrides. Choices C and D are simply incorrect.',
+    hint: 'A statute of repose runs from completion, not discovery, and is absolute.',
+    steps: [
+      { text: 'Statute of repose: absolute cutoff from substantial completion.', latex: null },
+      { text: '12 years > the 10-year repose period.', latex: null },
+      { text: 'The claim is time-barred regardless of recent discovery.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Applying discovery (limitations) logic to override a statute of repose',
+      'Assuming negligence claims have no outer time limit',
+    ],
+    diagram: null,
+    lessonId: 'professional-liability',
     chapterId: 'ethics'
   }
 ];
