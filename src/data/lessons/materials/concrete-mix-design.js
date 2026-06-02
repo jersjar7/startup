@@ -86,7 +86,7 @@ export default {
       steps: [
         { text: 'Strength requirement: 4,000 psi requires W/C \u2264 0.50 from the handbook curve. W/C = 0.70 gives roughly 2,000\u20133,000 psi \u2014 too low.', latex: null },
         { text: 'Exposure: northern climate = freeze-thaw cycles. Air entrainment (4\u20137%) is essential for durability.', latex: null },
-        { text: 'Only Choice A meets both: low W/C for strength AND air entrainment for freeze-thaw durability.', latex: null },
+        { text: 'Only Choice C meets both: low W/C for strength AND air entrainment for freeze-thaw durability.', latex: null },
       ],
       handbookPage: 'p. 125',
       handbookFormula: 'W/C = \\frac{\\text{weight of water}}{\\text{weight of cement}}',

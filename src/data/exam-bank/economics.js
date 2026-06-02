@@ -1079,15 +1079,15 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'Choice B is incorrect because MACRS depreciates the full cost (no salvage subtraction), so total MACRS depreciation often equals or exceeds total straight-line depreciation.',
+        text: 'Choice A is incorrect because MACRS depreciates the full cost (no salvage subtraction), so total MACRS depreciation often equals or exceeds total straight-line depreciation.',
         latex: null
       },
       {
-        text: 'Choice C reverses the two methods — MACRS front-loads, straight-line is uniform.',
+        text: 'Choice B reverses the two methods — MACRS front-loads, straight-line is uniform.',
         latex: null
       },
       {
-        text: 'Choice D is fabricated — the MACRS table on p. 231 covers 3-, 5-, 7-, and 10-year recovery periods (among others).',
+        text: 'Choice C is fabricated — the MACRS table on p. 231 covers 3-, 5-, 7-, and 10-year recovery periods (among others).',
         latex: null
       }
     ],

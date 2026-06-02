@@ -174,13 +174,13 @@ export default {
         'A water utility is comparing two pump options. Pump X costs 30,000 dollars, has annual operating costs of 8,000 dollars, a salvage value of 4,000 dollars, and a life of 6 years. Pump Y costs 50,000 dollars, has annual operating costs of 5,000 dollars, a salvage value of 8,000 dollars, and a life of 12 years. Using MARR = 10%, which pump should the utility select and what is its annual worth of costs?',
       choices: [
         { id: 'c1', text: 'Pump X, AW = 13,500 dollars' },
-        { id: 'c2', text: 'Pump X, AW = 14,100 dollars' },
+        { id: 'c2', text: 'Pump X, AW = 14,370 dollars' },
         { id: 'c3', text: 'Pump Y, AW = 13,700 dollars' },
         { id: 'c4', text: 'Pump Y, AW = 12,300 dollars' },
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'When alternatives have different lifespans, annual worth is the way to go \u2014 it automatically accounts for the repeat cycle. Pump X is cheaper upfront but runs up higher operating costs and dies sooner (6 years vs. 12). When you convert each pump\'s total cost into an equivalent annual amount, Pump Y\'s lower operating costs and longer life make it the better deal. Answers A and B correctly compute Pump X but miss that Pump Y is actually cheaper on an annual basis. Answer C gets the right pump but miscalculates the AW.',
+      eli5: 'When alternatives have different lifespans, annual worth is the way to go \u2014 it automatically accounts for the repeat cycle. Pump X is cheaper upfront but runs up higher operating costs and dies sooner (6 years vs. 12). When you convert each pump\'s total cost into an equivalent annual amount, Pump Y\'s lower operating costs and longer life make it the better deal. Answer B computes Pump X’s annual worth correctly (14,370 dollars) but misses that Pump Y is cheaper; Answer A uses the wrong factors for Pump X, and Answer C picks the right pump but miscalculates its annual worth.',
       hint: 'With different service lives, use annual worth \u2014 it lets you compare directly without matching lifespans. Compute AW for each pump separately.',
       steps: [
         {

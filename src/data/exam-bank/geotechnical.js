@@ -1058,7 +1058,7 @@ const PROBLEMS = [
         latex: 'q_u = 80(5.7) + 18(1.0) + 0 = 456 + 18 = 474\\,\\text{kPa}'
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 264',
     handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
     videoUrl: null,
     traps: ['Forgetting the overburden term $qN_q$', 'Using depth instead of width for the $N_\\gamma$ term'],
@@ -1113,7 +1113,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 264',
     handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
     videoUrl: null,
     traps: ['Thinking depth affects the width term (it does not — B is width, not depth)'],
@@ -1161,7 +1161,7 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 264',
     handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
     videoUrl: null,
     traps: [
@@ -1224,7 +1224,7 @@ const PROBLEMS = [
         latex: 'q_{allow} = \\frac{625.6}{3} = 208.5 \\approx 209\\,\\text{kPa}'
       }
     ],
-    handbookPage: 'p. 300',
+    handbookPage: 'p. 264',
     handbookFormula: 'q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma',
     videoUrl: null,
     traps: [
