@@ -16,6 +16,8 @@ import {
   EyeSlash,
   Exam,
   CheckCircle,
+  IdentificationCard,
+  CalendarBlank,
 } from '@phosphor-icons/react';
 import './profile.css';
 
@@ -35,6 +37,14 @@ export function Profile({ userName, onLogout }) {
   const [showCurrentPw, setShowCurrentPw] = React.useState(false);
   const [showNewPw, setShowNewPw] = React.useState(false);
   const [showConfirmPw, setShowConfirmPw] = React.useState(false);
+
+  // Details (name + exam date) state
+  const [detFirst, setDetFirst] = React.useState('');
+  const [detLast, setDetLast] = React.useState('');
+  const [detExam, setDetExam] = React.useState('');
+  const [detError, setDetError] = React.useState('');
+  const [detSuccess, setDetSuccess] = React.useState('');
+  const [detSubmitting, setDetSubmitting] = React.useState(false);
 
   // Delete account state
   // Purchase status
@@ -56,6 +66,9 @@ export function Profile({ userName, onLogout }) {
     ]).then(([userResult, purchaseResult]) => {
       if (userResult.status === 'fulfilled') {
         setUserData(userResult.value);
+        setDetFirst(userResult.value.firstName || '');
+        setDetLast(userResult.value.lastName || '');
+        setDetExam(userResult.value.examDate || '');
       } else {
         navigate('/login');
         return;
@@ -108,6 +121,35 @@ export function Profile({ userName, onLogout }) {
     }
   }
 
+  async function handleSaveDetails(e) {
+    e.preventDefault();
+    setDetError('');
+    setDetSuccess('');
+    setDetSubmitting(true);
+    try {
+      const res = await fetch('/api/user/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: detFirst.trim(),
+          lastName: detLast.trim(),
+          examDate: detExam || null,
+        }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (res.ok) {
+        setDetSuccess('Saved');
+        setUserData((u) => ({ ...u, ...body }));
+      } else {
+        setDetError(body.msg || 'Could not save your details');
+      }
+    } catch {
+      setDetError('Network error');
+    } finally {
+      setDetSubmitting(false);
+    }
+  }
+
   async function handleDeleteAccount(e) {
     e.preventDefault();
     setDelError('');
@@ -150,6 +192,12 @@ export function Profile({ userName, onLogout }) {
 
   const emailVerified = userData.emailVerified ?? true;
 
+  const f = detFirst.trim();
+  const l = detLast.trim();
+  const previewName = f
+    ? (l ? `${f} ${l[0].toUpperCase()}.` : f)
+    : (userData.email || '').split('@')[0];
+
   return (
     <main className="profile-main">
       <div className="profile-header">
@@ -185,6 +233,45 @@ export function Profile({ userName, onLogout }) {
             )}
           </span>
         </div>
+      </section>
+
+      {/* Your details — name (for Live Activity) + exam date */}
+      <section className="profile-card">
+        <h2 className="profile-section-title">
+          <IdentificationCard size={20} weight="bold" /> Your Details
+        </h2>
+        {detError && <p className="error-banner" role="alert">{detError}</p>}
+        {detSuccess && <p className="success-banner" role="status">{detSuccess}</p>}
+        <form onSubmit={handleSaveDetails}>
+          <div className="details-row">
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="first-name">First name</label>
+              <input id="first-name" type="text" autoComplete="given-name" maxLength={40}
+                placeholder="Maria" value={detFirst} onChange={(e) => setDetFirst(e.target.value)} />
+            </div>
+            <div className="details-field">
+              <label className="profile-input-label" htmlFor="last-name">Last name</label>
+              <input id="last-name" type="text" autoComplete="family-name" maxLength={40}
+                placeholder="Gomez" value={detLast} onChange={(e) => setDetLast(e.target.value)} />
+            </div>
+          </div>
+          <p className="details-hint">
+            Shown as <strong>{previewName}</strong> in Live Activity — other students never see your email.
+          </p>
+
+          <label className="profile-input-label" htmlFor="exam-date">
+            <CalendarBlank size={15} weight="bold" style={{ verticalAlign: '-2px', marginRight: '0.3rem' }} />
+            FE exam date
+          </label>
+          <input id="exam-date" type="date" value={detExam} onChange={(e) => setDetExam(e.target.value)} />
+          <p className="details-hint">
+            We'll count down to exam day on your dashboard. Rescheduled? Just update it (or clear it).
+          </p>
+
+          <button type="submit" className="btn-primary" disabled={detSubmitting}>
+            {detSubmitting ? 'Saving...' : 'Save details'}
+          </button>
+        </form>
       </section>
 
       {/* Stats summary */}

@@ -7,6 +7,7 @@ const { verifyAuth, setAuthCookie, authCookieName } = require('../middleware/aut
 const { getBadgeDetails, getAllBadges } = require('../badges.js');
 const { generateToken, hashToken } = require('../crypto.js');
 const { sendPasswordResetEmail, sendVerificationEmail } = require('../email.js');
+const { sanitizeName, displayName, normalizeExamDate } = require('../profile.js');
 
 const router = express.Router();
 
@@ -115,6 +116,10 @@ router.get('/me', async (req, res) => {
       email: user.email,
       createdAt: user.createdAt || null,
       emailVerified: user.emailVerified ?? true,
+      firstName: user.firstName || null,
+      lastName: user.lastName || null,
+      examDate: user.examDate || null,
+      displayName: displayName(user),
       totalXp: stats?.totalXp || 0,
       currentStreak: stats?.currentStreak || 0,
       longestStreak: stats?.longestStreak || 0,
@@ -201,6 +206,33 @@ router.post('/resend-verification', verifyAuth, async (req, res) => {
   sendVerificationEmail(user.email, rawToken);
 
   res.send({ msg: 'Verification email sent' });
+});
+
+// Update profile — first/last name (for Live Activity display) + exam date.
+// Mounted under both /api/user and /api/auth; frontend uses /api/user/profile.
+router.put('/profile', verifyAuth, async (req, res) => {
+  const updates = {};
+  if ('firstName' in req.body) updates.firstName = sanitizeName(req.body.firstName);
+  if ('lastName' in req.body) updates.lastName = sanitizeName(req.body.lastName);
+  if ('examDate' in req.body) {
+    const ed = normalizeExamDate(req.body.examDate);
+    if (ed === undefined) {
+      return res.status(400).send({ msg: 'Enter a valid exam date.' });
+    }
+    updates.examDate = ed; // string, or null to clear
+  }
+  if (Object.keys(updates).length === 0) {
+    return res.status(400).send({ msg: 'Nothing to update' });
+  }
+
+  await DB.setUserFields(req.user.email, updates);
+  const merged = { ...req.user, ...updates };
+  res.send({
+    firstName: merged.firstName || null,
+    lastName: merged.lastName || null,
+    examDate: merged.examDate || null,
+    displayName: displayName(merged),
+  });
 });
 
 // Change password (requires auth)

@@ -119,7 +119,9 @@ function FormulaCard({ formula }) {
 /* ══════════════════════════════════════════
    MAIN STUDY PAGE COMPONENT
    ══════════════════════════════════════════ */
-export function Study({ userName, onLogout }) {
+export function Study({ userName, onLogout, displayName }) {
+  // Live Activity shows this to other users — never the raw email.
+  const activityName = displayName || (userName || '').split('@')[0] || 'A student';
   const navigate = useNavigate();
   const { topicId } = useParams();
   const [loading, setLoading] = React.useState(true);
@@ -149,7 +151,7 @@ export function Study({ userName, onLogout }) {
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
     const ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
     ws.onopen = () => {
-      ws.send(JSON.stringify({ type: 'study', from: userName, topic: topicId }));
+      ws.send(JSON.stringify({ type: 'study', from: activityName, topic: topicId }));
     };
     return () => ws.close();
   }, [userName, navigate, topicId]);

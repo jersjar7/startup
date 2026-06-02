@@ -43,6 +43,7 @@ const QuestionAuditIndex = import.meta.env.DEV
 export default function App() {
   const [userName, setUserName] = React.useState('');
   const [emailVerified, setEmailVerified] = React.useState(true);
+  const [me, setMe] = React.useState({});
   const [authLoading, setAuthLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -55,6 +56,7 @@ export default function App() {
           if (!cancelled) {
             setUserName(data.email);
             setEmailVerified(data.emailVerified ?? true);
+            setMe({ displayName: data.displayName, firstName: data.firstName, lastName: data.lastName, examDate: data.examDate });
           }
           return;
         }
@@ -84,7 +86,10 @@ export default function App() {
     // Re-fetch to get emailVerified status
     fetch('/api/user/me')
       .then((res) => res.ok ? res.json() : Promise.reject())
-      .then((data) => setEmailVerified(data.emailVerified ?? true))
+      .then((data) => {
+        setEmailVerified(data.emailVerified ?? true);
+        setMe({ displayName: data.displayName, firstName: data.firstName, lastName: data.lastName, examDate: data.examDate });
+      })
       .catch(() => {});
   }
 
@@ -103,12 +108,12 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <AppShell userName={userName} emailVerified={emailVerified} onLogin={onLogin} onLogout={onLogout} />
+      <AppShell userName={userName} emailVerified={emailVerified} me={me} onLogin={onLogin} onLogout={onLogout} />
     </BrowserRouter>
   );
 }
 
-function AppShell({ userName, emailVerified, onLogin, onLogout }) {
+function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout }) {
   const { pathname } = useLocation();
   const isLanding = pathname === '/';
   const isLesson = pathname.startsWith('/lesson/');
@@ -130,9 +135,9 @@ function AppShell({ userName, emailVerified, onLogin, onLogout }) {
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/profile" element={<Profile userName={userName} onLogout={onLogout} />} />
-            <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} />} />
+            <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} displayName={me.displayName} firstName={me.firstName} examDate={me.examDate} />} />
             <Route path="/admin" element={<Admin userName={userName} onLogout={onLogout} />} />
-            <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} />} />
+            <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} displayName={me.displayName} />} />
             <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
             <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
             <Route path="/lesson/:chapterId/:lessonId" element={<LessonPage userName={userName} onLogout={onLogout} />} />
