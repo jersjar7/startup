@@ -6,6 +6,9 @@ import trafficFlow from './traffic-flow';
 import capacityLos from './capacity-los';
 import pavementDesign from './pavement-design';
 import earthwork from './earthwork';
+import travelDemand from './travel-demand';
+import rigidPavement from './rigid-pavement';
+import trafficControlDevices from './traffic-control-devices';
 
 export default [
   {
@@ -17,7 +20,11 @@ export default [
     lessons: [signalTiming, trafficFlow, capacityLos],
   },
   {
+    subtopicId: 'planning-operations',
+    lessons: [travelDemand, trafficControlDevices],
+  },
+  {
     subtopicId: 'pavement-earthwork',
-    lessons: [pavementDesign, earthwork],
+    lessons: [pavementDesign, earthwork, rigidPavement],
   },
 ];

@@ -1,4 +1,4 @@
-// Chapter practice: Transportation (16 questions, 2 per lesson)
+// Chapter practice: Transportation (19 questions)
 
 const PROBLEMS = [
   {
@@ -470,6 +470,95 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'earthwork',
+    chapterId: 'transportation',
+  },
+  {
+    id: 'trans-td-cp1',
+    type: 'computational',
+    statement: 'A zone produces $P_i = 800$ trips, distributed to two zones with weights $A_1 F_1 = 120$ and $A_2 F_2 = 80$ (K = 1). How many trips go to the first zone?',
+    choices: [
+      { id: 'c1', text: '$480\\text{ trips}$' },
+      { id: 'c2', text: '$320\\text{ trips}$' },
+      { id: 'c3', text: '$400\\text{ trips}$' },
+      { id: 'c4', text: '$120\\text{ trips}$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Fraction to zone 1 = 120/(120 + 80) = 120/200 = 0.60, so T = 800 × 0.60 = 480 trips. Choice B is the trips to zone 2 (80/200 × 800). Choice C splits evenly. Choice D reports the raw weight, not the trips.',
+    hint: 'Fraction = (zone weight)/(sum of weights), then multiply by Pi.',
+    steps: [
+      { text: 'Fraction to zone 1:', latex: '\\frac{120}{120 + 80} = 0.60' },
+      { text: 'Trips:', latex: 'T = 800 \\times 0.60 = 480\\text{ trips}' },
+    ],
+    handbookPage: 'p. 306',
+    handbookFormula: 'T_{ij} = P_i[A_j F_{ij}/\\sum A_j F_{ij}]',
+    videoUrl: null,
+    traps: [
+      'Reporting the trips to the wrong zone',
+      'Forgetting to normalize by the total weight',
+    ],
+    diagram: null,
+    lessonId: 'travel-demand',
+    chapterId: 'transportation',
+  },
+  {
+    id: 'trans-rp-cp1',
+    type: 'conceptual',
+    statement: 'Which design parameter is used to characterize foundation support specifically in RIGID pavement design?',
+    choices: [
+      { id: 'c1', text: 'Modulus of subgrade reaction (k)' },
+      { id: 'c2', text: 'AASHTO structural number (SN)' },
+      { id: 'c3', text: 'Marshall stability' },
+      { id: 'c4', text: 'Penetration grade' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Rigid pavement design uses the modulus of subgrade reaction k (pressure per unit deflection) to describe how the subgrade supports the slab. The structural number (Choice B) is for flexible pavement; Marshall stability and penetration grade (Choices C, D) are asphalt-mix and binder properties.',
+    hint: 'Which parameter describes subgrade stiffness under a concrete slab?',
+    steps: [
+      { text: 'Rigid pavement rests on the subgrade as a slab.', latex: null },
+      { text: 'Subgrade support is measured by the modulus of subgrade reaction k.', latex: null },
+      { text: 'The structural number applies to flexible pavement instead.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Applying the flexible-pavement structural number to rigid design',
+      'Confusing subgrade stiffness with asphalt-mix properties',
+    ],
+    diagram: null,
+    lessonId: 'rigid-pavement',
+    chapterId: 'transportation',
+  },
+  {
+    id: 'trans-tcd-cp1',
+    type: 'conceptual',
+    statement: 'An engineer finds that an intersection does not meet any MUTCD signal warrant. What is the appropriate conclusion?',
+    choices: [
+      { id: 'c1', text: 'A signal is not justified; installing one could worsen safety and delay' },
+      { id: 'c2', text: 'Install the signal anyway, since signals always help' },
+      { id: 'c3', text: 'Warrants do not apply to existing intersections' },
+      { id: 'c4', text: 'A signal must be installed to satisfy the MUTCD' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'If no warrant is met, a signal is not justified — installing one can increase rear-end crashes and cause unnecessary delay. Choice B wrongly assumes signals always help. Choice C is false (warrants apply broadly). Choice D inverts the purpose of a warrant analysis.',
+    hint: 'What does failing to meet any warrant tell you about installing a signal?',
+    steps: [
+      { text: 'No warrant met means conditions do not justify a signal.', latex: null },
+      { text: 'Unwarranted signals can increase crashes and delay.', latex: null },
+      { text: 'So a signal should not be installed.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Assuming a signal is always an improvement',
+      'Believing the MUTCD requires signals where warrants are unmet',
+    ],
+    diagram: null,
+    lessonId: 'traffic-control-devices',
     chapterId: 'transportation',
   },
 ];
