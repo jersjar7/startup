@@ -5,9 +5,9 @@ const { computeFunnelMetrics } = require('../metrics.js');
 
 const router = express.Router();
 
-// Owner-only. Set ADMIN_EMAIL in service/.env to your account email;
-// falls back to the project owner's email.
-const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'jerson01@byu.edu').toLowerCase();
+// Owner-only. Set ADMIN_EMAIL in service/.env to override; falls back to the
+// admin account email.
+const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'admin@oqupa.com').toLowerCase();
 
 function requireAdmin(req, res, next) {
   if ((req.user.email || '').toLowerCase() !== ADMIN_EMAIL) {
@@ -20,6 +20,17 @@ function requireAdmin(req, res, next) {
 router.get('/metrics', verifyAuth, requireAdmin, async (req, res) => {
   const counts = await DB.getFunnelCounts();
   res.send(computeFunnelMetrics(counts));
+});
+
+// GET /api/admin/timeseries?days=30 — daily time-series + KPI snapshot.
+router.get('/timeseries', verifyAuth, requireAdmin, async (req, res) => {
+  try {
+    const data = await DB.getDailyAnalytics(req.query.days);
+    res.send(data);
+  } catch (e) {
+    console.error('[admin] timeseries failed:', e.message);
+    res.status(500).send({ msg: 'Failed to load analytics' });
+  }
 });
 
 module.exports = router;
