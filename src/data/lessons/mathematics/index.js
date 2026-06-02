@@ -17,6 +17,10 @@ import vectorBasics from './vector-operations/vector-basics-unit-vectors';
 import dotProduct from './vector-operations/dot-product-angle';
 import crossProduct from './vector-operations/cross-product-applications';
 
+// Computational Tools
+import spreadsheetComputations from './computational-tools/spreadsheet-computations';
+import structuredProgramming from './computational-tools/structured-programming';
+
 export default [
   {
     subtopicId: 'analytic-geometry',
@@ -44,6 +48,13 @@ export default [
       vectorBasics,
       dotProduct,
       crossProduct,
+    ],
+  },
+  {
+    subtopicId: 'computational-tools',
+    lessons: [
+      spreadsheetComputations,
+      structuredProgramming,
     ],
   },
 ];

@@ -18,7 +18,7 @@ import {
 
 /* ── 15 FE Civil chapters with icons + accents ── */
 export const CHAPTERS = [
-  { id: 'mathematics',        num: 1,  name: 'Mathematics',              qs: '8–12',  icon: Function,        accent: 'ember' },
+  { id: 'mathematics',        num: 1,  name: 'Mathematics & Computational Tools', qs: '11–17', icon: Function,        accent: 'ember' },
   { id: 'statistics',         num: 2,  name: 'Probability & Statistics', qs: '4–6',   icon: ChartBar,        accent: 'sunbeam' },
   { id: 'ethics',             num: 3,  name: 'Ethics & Prof. Practice',  qs: '4–6',   icon: Scales,          accent: 'forest' },
   { id: 'economics',          num: 4,  name: 'Engineering Economics',    qs: '5–8',   icon: CurrencyDollar,  accent: 'ember' },

@@ -1278,6 +1278,65 @@ const PROBLEMS = [
     diagram: null,
     lessonId: 'cross-product-applications',
     chapterId: 'mathematics'
+  },
+  {
+    id: 'math-spr-cp1',
+    type: 'computational',
+    statement: 'A spreadsheet cell contains =(A1+A2)*A3 with A1 = 4, A2 = 2, and A3 = 5. What value does the cell display?',
+    choices: [
+      { id: 'c1', text: '30' },
+      { id: 'c2', text: '14' },
+      { id: 'c3', text: '11' },
+      { id: 'c4', text: '40' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Parentheses are evaluated first, then the multiplication. (A1+A2) = 4+2 = 6, then × A3 = 6 × 5 = 30. Choice B (14) ignores the parentheses and does 4 + 2*5. Choice C (11) just adds all three. Choice D (40) treats the addition as a multiplication.',
+    hint: 'Parentheses first, then multiply.',
+    steps: [
+      { text: 'Evaluate the parentheses: A1 + A2 = 4 + 2 = 6.', latex: null },
+      { text: 'Multiply by A3: 6 × 5 = 30.', latex: null }
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Ignoring the parentheses and computing 4 + 2*5 = 14',
+      'Adding all three values (11)'
+    ],
+    diagram: null,
+    lessonId: 'spreadsheet-computations',
+    chapterId: 'mathematics'
+  },
+  {
+    id: 'math-prg-cp1',
+    type: 'computational',
+    statement: 'Trace this loop: balance = 1000; year = 0; WHILE balance < 1200: balance = balance * 1.1; year = year + 1. What is the value of year when the loop stops?',
+    choices: [
+      { id: 'c1', text: '2' },
+      { id: 'c2', text: '1' },
+      { id: 'c3', text: '3' },
+      { id: 'c4', text: '4' }
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Grow the balance by 10% each pass while it is below 1200. Year 1: 1000 × 1.1 = 1100 (still < 1200). Year 2: 1100 × 1.1 = 1210 (now ≥ 1200, so the loop stops). year = 2. Choice B (1) stops too early; the balance was still under 1200 after one year.',
+    hint: 'Keep compounding by 1.1 until the balance reaches 1200; count the passes.',
+    steps: [
+      { text: 'Pass 1: 1000 × 1.1 = 1100, year = 1. Check: 1100 < 1200 → continue.', latex: null },
+      { text: 'Pass 2: 1100 × 1.1 = 1210, year = 2. Check: 1210 < 1200 → FALSE, stop.', latex: null },
+      { text: 'year = 2.', latex: null }
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Stopping after one pass even though 1100 is still below 1200',
+      'Counting an extra pass after the condition already failed'
+    ],
+    diagram: null,
+    lessonId: 'structured-programming',
+    chapterId: 'mathematics'
   }
 ];
 
