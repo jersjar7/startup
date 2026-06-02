@@ -120,7 +120,7 @@ export function Landing({ userName }) {
             You just need a little guidance.
           </p>
           <button className="hero-cta" onClick={() => navigate('/login')}>
-            Get Started Free
+            Get Started
             <ArrowRight weight="bold" size={18} />
           </button>
           <p className="hero-price">
