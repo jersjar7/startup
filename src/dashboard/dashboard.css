@@ -655,7 +655,24 @@
 }
 
 .act-empty {
-  color: var(--gray-400);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem 0;
+}
+
+.act-empty-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--charcoal);
+  letter-spacing: -0.01em;
+}
+
+.act-empty-sub {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  line-height: 1.55;
 }
 
 
@@ -681,41 +698,7 @@
   color: var(--ember-light);
 }
 
-.referral-deal {
-  background: var(--sunbeam-bg);
-  border-radius: var(--radius-md);
-  padding: 0.75rem 0.85rem;
-}
-
-.referral-deal-label {
-  display: block;
-  font-family: var(--font-heading);
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--charcoal);
-  margin-bottom: 0.35rem;
-}
-
-.referral-deal-text {
-  font-size: 0.78rem;
-  color: var(--gray-600);
-  line-height: 1.55;
-}
-
-.referral-deal-text a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  color: var(--info);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.referral-deal-text a:hover {
-  color: var(--ember);
-}
-
-.referral-deal-text strong {
+.referral-text strong {
   color: var(--charcoal);
   font-weight: 700;
 }
