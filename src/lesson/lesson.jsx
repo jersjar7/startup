@@ -544,7 +544,7 @@ export function LessonPage({ userName }) {
                     {selectedIsCorrect ? (
                       <><CheckCircle size={20} weight="fill" /> Correct! The answer is {correctLabel}.</>
                     ) : (
-                      <><XCircle size={20} weight="fill" /> Incorrect. The correct answer is {correctLabel}: {correctChoice?.text}</>
+                      <><XCircle size={20} weight="fill" /> Incorrect. The correct answer is {correctLabel}: <MathText text={correctChoice?.text ?? ''} /></>
                     )}
                   </div>
                   <button className="lesson-next-btn" onClick={handleNext}>

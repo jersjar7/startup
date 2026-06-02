@@ -28,7 +28,7 @@ export function LessonContent({ blocks }) {
           case 'heading':
             return (
               <h4 key={i} className="lc-heading">
-                {block.body}
+                <MathText text={block.body} />
               </h4>
             );
 
