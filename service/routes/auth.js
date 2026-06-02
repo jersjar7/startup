@@ -88,7 +88,7 @@ router.post('/login', async (req, res) => {
     setAuthCookie(res, user.token);
     res.send({ email: user.email });
   } else {
-    res.status(401).send({ msg: 'Unauthorized' });
+    res.status(401).send({ msg: 'Incorrect email or password.' });
   }
 });
 

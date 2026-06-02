@@ -46,21 +46,37 @@ export default function App() {
   const [authLoading, setAuthLoading] = React.useState(true);
 
   React.useEffect(() => {
-    fetch('/api/user/me')
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error('Not authenticated');
-      })
-      .then((data) => {
-        setUserName(data.email);
-        setEmailVerified(data.emailVerified ?? true);
-      })
-      .catch(() => {
-        setUserName('');
-      })
-      .finally(() => {
-        setAuthLoading(false);
-      });
+    let cancelled = false;
+    async function checkAuth(attempt = 0) {
+      try {
+        const res = await fetch('/api/user/me');
+        if (res.ok) {
+          const data = await res.json();
+          if (!cancelled) {
+            setUserName(data.email);
+            setEmailVerified(data.emailVerified ?? true);
+          }
+          return;
+        }
+        // Only a real 401 means "not logged in".
+        if (res.status === 401) {
+          if (!cancelled) setUserName('');
+          return;
+        }
+        // 429 / 5xx / network blip — transient. Don't drop the session; retry.
+        throw new Error('transient');
+      } catch {
+        if (attempt < 3 && !cancelled) {
+          await new Promise((r) => setTimeout(r, 600 * (attempt + 1)));
+          return checkAuth(attempt + 1);
+        }
+        // After retries, leave auth state as-is rather than forcing a logout.
+      }
+    }
+    checkAuth().finally(() => {
+      if (!cancelled) setAuthLoading(false);
+    });
+    return () => { cancelled = true; };
   }, []);
 
   function onLogin(email) {

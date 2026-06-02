@@ -1,3 +1,4 @@
+import React from 'react';
 import { MapTrifold, House, ArrowLeft } from '@phosphor-icons/react';
 
 export function NotFound() {

@@ -132,8 +132,20 @@ export function Dashboard({ userName, onLogout }) {
     };
 
     ws.onmessage = (event) => {
-      const msg = JSON.parse(event.data);
-      setEvents((prev) => [msg, ...prev].slice(0, 10));
+      // Frames may arrive as a string or a Blob; parse defensively either way.
+      const handle = (text) => {
+        try {
+          const msg = JSON.parse(text);
+          setEvents((prev) => [msg, ...prev].slice(0, 10));
+        } catch {
+          /* ignore malformed frames */
+        }
+      };
+      if (typeof event.data === 'string') {
+        handle(event.data);
+      } else if (event.data && typeof event.data.text === 'function') {
+        event.data.text().then(handle).catch(() => {});
+      }
     };
 
     setSocket(ws);

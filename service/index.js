@@ -21,13 +21,15 @@ app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 app.use(requestLogger);
 
-// Global rate limit: 200 requests per 15 minutes per IP (skip static assets)
+// Global rate limit per IP. Generous because the SPA makes several read
+// requests per navigation; skips static assets and the cheap auth-check poll
+// so normal usage (incl. shared NAT) doesn't trip it.
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 200,
+  max: 600,
   standardHeaders: true,
   legacyHeaders: false,
-  skip: (req) => /\.(js|css|ico|png|svg|woff2?)$/.test(req.path),
+  skip: (req) => /\.(js|css|ico|png|svg|woff2?)$/.test(req.path) || req.path === '/api/user/me',
   message: { msg: 'Too many requests, try again later' },
 }));
 
@@ -44,10 +46,12 @@ app.get('/', (_req, res) => {
 const apiRouter = express.Router();
 app.use('/api', apiRouter);
 
-// Strict rate limit on auth: 20 requests per 15 minutes per IP
+// Auth rate limit: counts only FAILED attempts, so brute-forcing is throttled
+// but legitimate signups/logins (incl. many users behind one IP) aren't locked out.
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 20,
+  max: 30,
+  skipSuccessfulRequests: true,
   standardHeaders: true,
   legacyHeaders: false,
   message: { msg: 'Too many attempts, try again later' },

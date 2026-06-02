@@ -398,12 +398,16 @@ export function ExamSession({ userName, preview = false }) {
             This is exactly how the full exam works — timed, NCEES-weighted, and scored by chapter.
           </p>
           <div className="ex-preview-breakdown">
-            {rows.map((row) => (
-              <div key={row.name} className="ex-preview-row">
-                <span className="ex-preview-chapter">{row.name}</span>
-                <span className="ex-preview-mark">{row.correct}/{row.total}</span>
-              </div>
-            ))}
+            {rows.map((row) => {
+              const ratio = row.total ? row.correct / row.total : 0;
+              const color = ratio === 1 ? 'var(--forest)' : ratio > 0 ? 'var(--sunbeam)' : 'var(--error)';
+              return (
+                <div key={row.name} className="ex-preview-row">
+                  <span className="ex-preview-chapter">{row.name}</span>
+                  <span className="ex-preview-mark" style={{ color }}>{row.correct}/{row.total}</span>
+                </div>
+              );
+            })}
           </div>
           <div className="ex-preview-cta">
             <p className="ex-preview-cta-text">
