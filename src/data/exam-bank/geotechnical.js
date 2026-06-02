@@ -1,5 +1,5 @@
 // Exam bank: geotechnical
-// Auto-extracted from lesson files — 32 questions
+// Auto-extracted from lesson files — 36 questions
 
 const PROBLEMS = [
   {
@@ -1646,6 +1646,122 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'retaining-walls',
+    chapterId: 'geotechnical'
+  },
+  {
+    id: 'geo-seep-ex1',
+    type: 'computational',
+    statement: 'A soil has hydraulic conductivity $k = 5 \\times 10^{-4}\\text{ cm/s}$ and a hydraulic gradient $i = 0.4$. What is the discharge velocity?',
+    choices: [
+      { id: 'c1', text: '$2.0 \\times 10^{-4}\\text{ cm/s}$' },
+      { id: 'c2', text: '$1.25 \\times 10^{-3}\\text{ cm/s}$' },
+      { id: 'c3', text: '$5 \\times 10^{-4}\\text{ cm/s}$' },
+      { id: 'c4', text: '$2.0 \\times 10^{-3}\\text{ cm/s}$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Discharge velocity v = ki = (5×10⁻⁴)(0.4) = 2.0×10⁻⁴ cm/s. Choice B divides by the gradient. Choice C drops the gradient. Choice D is off by a factor of 10.',
+    hint: 'Discharge velocity v = k × i.',
+    steps: [
+      { text: 'Apply Darcy velocity:', latex: 'v = k\\,i = (5\\times10^{-4})(0.4)' },
+      { text: 'Compute:', latex: 'v = 2.0\\times10^{-4}\\text{ cm/s}' },
+    ],
+    handbookPage: 'p. 292',
+    handbookFormula: 'v = ki',
+    videoUrl: null,
+    traps: [
+      'Confusing discharge velocity with seepage velocity (divide by porosity)',
+      'Dropping the hydraulic gradient',
+    ],
+    diagram: null,
+    lessonId: 'permeability-seepage',
+    chapterId: 'geotechnical'
+  },
+  {
+    id: 'geo-slp-ex1',
+    type: 'computational',
+    statement: 'A dry cohesionless slope is inclined at $\\beta = 25\\degree$ in a sand with friction angle $\\phi = 38\\degree$. What is the factor of safety against sliding?',
+    choices: [
+      { id: 'c1', text: '$1.68$' },
+      { id: 'c2', text: '$0.60$' },
+      { id: 'c3', text: '$1.52$' },
+      { id: 'c4', text: '$0.84$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Dry cohesionless infinite slope: FS = tan φ/tan β = tan 38°/tan 25° = 0.7813/0.4663 = 1.68. Choice B inverts the ratio. Choice C subtracts angles. Choice D applies an unneeded seepage reduction.',
+    hint: 'FS = tan φ / tan β for a dry cohesionless slope.',
+    steps: [
+      { text: 'Apply the dry infinite-slope formula:', latex: 'FS = \\frac{\\tan 38\\degree}{\\tan 25\\degree} = \\frac{0.7813}{0.4663}' },
+      { text: 'Compute:', latex: 'FS = 1.68' },
+    ],
+    handbookPage: 'p. 265',
+    handbookFormula: 'FS = \\tan\\phi/\\tan\\beta',
+    videoUrl: null,
+    traps: [
+      'Inverting to tan β / tan φ',
+      'Applying a seepage reduction to a dry slope',
+    ],
+    diagram: null,
+    lessonId: 'slope-stability',
+    chapterId: 'geotechnical'
+  },
+  {
+    id: 'geo-cmp-ex1',
+    type: 'computational',
+    statement: 'A compacted fill has a field dry unit weight of $112\\text{ pcf}$. The standard Proctor maximum dry unit weight is $118\\text{ pcf}$. What is the relative compaction?',
+    choices: [
+      { id: 'c1', text: '$94.9\\%$' },
+      { id: 'c2', text: '$105.4\\%$' },
+      { id: 'c3', text: '$5.4\\%$' },
+      { id: 'c4', text: '$88.0\\%$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'RC = (γd,field/γd,max) × 100 = (112/118) × 100 = 94.9%. Choice B inverts the ratio. Choice C is the percent difference. Choice D is a guess. This fill is just below a typical 95% requirement.',
+    hint: 'RC = field dry density / lab maximum dry density × 100.',
+    steps: [
+      { text: 'Apply the formula:', latex: 'RC = \\frac{112}{118} \\times 100' },
+      { text: 'Compute:', latex: 'RC = 94.9\\%' },
+    ],
+    handbookPage: 'p. 260',
+    handbookFormula: 'RC = (\\gamma_{d,field}/\\gamma_{d,max}) \\times 100',
+    videoUrl: null,
+    traps: [
+      'Inverting the ratio',
+      'Confusing relative compaction with relative density',
+    ],
+    diagram: null,
+    lessonId: 'compaction-stabilization',
+    chapterId: 'geotechnical'
+  },
+  {
+    id: 'geo-dfn-ex1',
+    type: 'computational',
+    statement: 'A pile develops $Q_p = 350\\text{ kN}$ of end bearing and $Q_s = 450\\text{ kN}$ of skin friction. Using a factor of safety of $2.5$, what is the allowable pile load?',
+    choices: [
+      { id: 'c1', text: '$320\\text{ kN}$' },
+      { id: 'c2', text: '$800\\text{ kN}$' },
+      { id: 'c3', text: '$140\\text{ kN}$' },
+      { id: 'c4', text: '$2{,}000\\text{ kN}$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Ultimate capacity Q_ult = Qp + Qs = 350 + 450 = 800 kN. Allowable = Q_ult/FS = 800/2.5 = 320 kN. Choice B forgets to divide by the factor of safety. Choice C divides only the end bearing. Choice D multiplies by the FS instead of dividing.',
+    hint: 'Add end bearing and skin friction, then divide by the factor of safety.',
+    steps: [
+      { text: 'Ultimate capacity:', latex: 'Q_{ult} = Q_p + Q_s = 350 + 450 = 800\\text{ kN}' },
+      { text: 'Allowable load:', latex: 'Q_{allow} = \\frac{Q_{ult}}{FS} = \\frac{800}{2.5} = 320\\text{ kN}' },
+    ],
+    handbookPage: null,
+    handbookFormula: 'Q_{allow} = (Q_p + Q_s)/FS',
+    videoUrl: null,
+    traps: [
+      'Reporting the ultimate capacity instead of the allowable load',
+      'Multiplying by FS instead of dividing',
+    ],
+    diagram: null,
+    lessonId: 'deep-foundations',
     chapterId: 'geotechnical'
   },
 ];
