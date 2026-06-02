@@ -94,6 +94,8 @@ const DEFAULTS = {
   InfiniteSlope: { beta: 25 },
   SlopeWedge: { alpha: 25 },
   FlowNet: {},
+  PumpSystem: {},
+  FilterBed: {},
 };
 
 /* Lesson mapping for context */

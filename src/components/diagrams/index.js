@@ -89,6 +89,8 @@ import { PileCapacity } from './PileCapacity';
 import { InfiniteSlope } from './InfiniteSlope';
 import { SlopeWedge } from './SlopeWedge';
 import { FlowNet } from './FlowNet';
+import { PumpSystem } from './PumpSystem';
+import { FilterBed } from './FilterBed';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -182,4 +184,6 @@ export const DIAGRAM_REGISTRY = {
   InfiniteSlope,
   SlopeWedge,
   FlowNet,
+  PumpSystem,
+  FilterBed,
 };
