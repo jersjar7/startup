@@ -68,6 +68,7 @@ apiRouter.use('/diagnostic', require('./routes/diagnostic.js'));
 apiRouter.use('/checkout', require('./routes/checkout.js'));
 apiRouter.use('/exam', require('./routes/exam.js'));
 apiRouter.use('/admin', require('./routes/admin.js'));
+apiRouter.use('/email', require('./routes/email.js'));
 
 // Default error handler
 app.use(function (err, req, res, next) {
@@ -89,3 +90,6 @@ const httpServer = app.listen(port, () => {
 });
 
 peerProxy(httpServer);
+
+// Lifecycle email scheduler (welcome / weekly digest / win-back).
+require('./mailer-jobs.js').startScheduler();
