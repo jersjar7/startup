@@ -156,6 +156,26 @@
   padding: 0.75rem;
 }
 
+/* ===== DETAILS (name + exam date) ===== */
+.details-row {
+  display: flex;
+  gap: 0.75rem;
+}
+.details-field {
+  flex: 1;
+  min-width: 0;
+}
+.details-hint {
+  margin: -0.5rem 0 1rem;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--gray-500);
+}
+.details-hint strong { color: var(--charcoal); font-weight: 700; }
+@media (max-width: 480px) {
+  .details-row { flex-direction: column; gap: 0; }
+}
+
 /* ===== SUCCESS BANNER (profile context) ===== */
 .profile-card .success-banner {
   background: var(--forest-bg);

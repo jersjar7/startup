@@ -15,6 +15,8 @@ import {
   Megaphone,
   Gauge,
   Target,
+  CalendarBlank,
+  X,
 } from '@phosphor-icons/react';
 import { CHAPTERS } from '../data/chapters';
 import { computeReadiness, computeFocusAreas, readinessLabel } from '../data/readiness';
@@ -23,9 +25,21 @@ import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
 import { ExamSimCard } from '../exam/ExamSimCard';
 import './dashboard.css';
 
-export function Dashboard({ userName, onLogout }) {
+export function Dashboard({ userName, onLogout, displayName, firstName, examDate }) {
   const navigate = useNavigate();
   useDocumentTitle('Dashboard');
+  // Shown to other users in Live Activity — never the raw email.
+  const activityName = displayName || (userName || '').split('@')[0] || 'A student';
+  const examDays = examDate
+    ? Math.ceil((new Date(`${examDate}T00:00:00`).getTime() - Date.now()) / 86400000)
+    : null;
+  const [profilePromptDismissed, setProfilePromptDismissed] = React.useState(
+    () => { try { return localStorage.getItem('fe4r-profile-prompt') === 'dismissed'; } catch { return false; } },
+  );
+  const dismissProfilePrompt = () => {
+    try { localStorage.setItem('fe4r-profile-prompt', 'dismissed'); } catch { /* ignore */ }
+    setProfilePromptDismissed(true);
+  };
   const [topics, setTopics] = React.useState([]);
   const [stats, setStats] = React.useState({ totalXp: 0, currentStreak: 0, badges: [], allBadges: [] });
   const [leaderboard, setLeaderboard] = React.useState({ weekId: '', entries: [] });
@@ -127,7 +141,7 @@ export function Dashboard({ userName, onLogout }) {
     const ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
     ws.onopen = () => {
-      ws.send(JSON.stringify({ type: 'study', from: userName, topic: 'Dashboard' }));
+      ws.send(JSON.stringify({ type: 'study', from: activityName, topic: 'Dashboard' }));
     };
 
     ws.onmessage = (event) => {
@@ -161,7 +175,7 @@ export function Dashboard({ userName, onLogout }) {
   const handleChapterClick = (chapter) => {
     const apiTopic = topicLookup[chapter.name];
     if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({ type: 'study', from: userName, topic: chapter.name }));
+      socket.send(JSON.stringify({ type: 'study', from: activityName, topic: chapter.name }));
     }
     if (apiTopic) {
       navigate(`/study/${apiTopic.topicId}`);
@@ -252,6 +266,19 @@ export function Dashboard({ userName, onLogout }) {
 
       {error && <div className="error-banner" role="alert">{error}</div>}
 
+      {(!firstName || examDays === null) && !profilePromptDismissed && (
+        <div className="profile-prompt">
+          <Target weight="bold" size={18} className="profile-prompt-icon" />
+          <p className="profile-prompt-text">
+            <strong>Personalize your account.</strong> Add your name{examDays === null ? ' and exam date' : ''} so we can {examDays === null ? 'count down to exam day and ' : ''}show your name (not your email) in Live Activity.
+          </p>
+          <button className="profile-prompt-cta" onClick={() => navigate('/profile')}>Add details</button>
+          <button className="profile-prompt-x" onClick={dismissProfilePrompt} aria-label="Dismiss">
+            <X weight="bold" size={14} />
+          </button>
+        </div>
+      )}
+
       {/* ── Top bar: Stats + Daily Review ── */}
       <div className="dash-topbar">
         <div className="stat-pill stat-pill--sunbeam">
@@ -264,6 +291,13 @@ export function Dashboard({ userName, onLogout }) {
           <span className="stat-pill-value">{stats.currentStreak}</span>
           <span className="stat-pill-label">Day Streak</span>
         </div>
+        {examDays !== null && examDays >= 0 && (
+          <div className="stat-pill stat-pill--forest">
+            <CalendarBlank weight="bold" size={18} />
+            <span className="stat-pill-value">{examDays === 0 ? 'Today' : examDays}</span>
+            <span className="stat-pill-label">{examDays === 0 ? 'FE exam day!' : examDays === 1 ? 'day to FE' : 'days to FE'}</span>
+          </div>
+        )}
         <button
           className={`review-btn${reviewDue > 0 ? ' review-btn--due' : ''}`}
           onClick={() => navigate('/review')}
