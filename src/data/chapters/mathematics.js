@@ -22,6 +22,7 @@ export default {
     { latex: '\\vec{A}\\times\\vec{B} = |A||B|\\sin\\theta\\,\\hat{n}', label: 'Cross Product', page: 'p. 94' },
     { latex: '\\texttt{=A1+A2*A3}\\ \\rightarrow\\ \\text{precedence: } \\times \\text{ before } +', label: 'Spreadsheet order of operations', page: '—' },
     { latex: '\\texttt{IF(test, value if true, value if false)}', label: 'Logical IF function', page: '—' },
+    { latex: 'x_{j+1} = x_j - \\frac{f(x_j)}{f\'(x_j)}', label: "Newton's Method (root-finding)", page: 'p. 61' },
   ],
   traps: [
     'Forgetting to convert station notation to feet before computing slope.',
@@ -32,5 +33,6 @@ export default {
     'Forgetting that spreadsheets obey precedence — =A1+A2*A3 multiplies before adding.',
     'Letting a constant reference drift when copying a formula — lock it with $ (absolute).',
     'Off-by-one in loops: FOR i = 1 TO N runs N times (endpoints inclusive).',
+    "Newton's method needs a good initial guess and a nonzero derivative; bisection needs a sign change f(a)·f(b) < 0.",
   ],
 };

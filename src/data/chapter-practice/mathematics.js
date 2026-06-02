@@ -1,4 +1,4 @@
-// Chapter practice: Mathematics (26 questions, 2 per lesson)
+// Chapter practice: Mathematics (27 questions, 2 per lesson)
 
 const PROBLEMS = [
   {
@@ -1336,6 +1336,33 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'structured-programming',
+    chapterId: 'mathematics'
+  },
+  {
+    id: 'math-num-cp1',
+    type: 'conceptual',
+    statement: 'Which root-finding method is GUARANTEED to converge to a root, provided the initial interval brackets a sign change?',
+    choices: [
+      { id: 'c1', text: 'Bisection method' },
+      { id: 'c2', text: 'Newton\'s method' },
+      { id: 'c3', text: 'Neither converges reliably' },
+      { id: 'c4', text: 'Both fail if the function is nonlinear' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Bisection always converges once you bracket a sign change — it just keeps halving the interval. Newton\'s method is faster but can diverge with a poor guess or near-zero derivative. Choice C and D are false; both methods handle nonlinear functions.',
+    hint: 'Which method only needs a bracketed sign change, not a good initial guess or derivative?',
+    steps: [
+      { text: 'Bisection halves a bracketed interval each step.', latex: null },
+      { text: 'A sign change guarantees a root inside, so it always converges.', latex: null },
+      { text: 'Newton\'s method can diverge; bisection cannot (when bracketed).', latex: null },
+    ],
+    handbookPage: 'p. 61',
+    handbookFormula: null,
+    videoUrl: null,
+    traps: ['Assuming the faster Newton method is always reliable', 'Forgetting bisection needs a bracketed sign change'],
+    diagram: null,
+    lessonId: 'numerical-methods',
     chapterId: 'mathematics'
   }
 ];

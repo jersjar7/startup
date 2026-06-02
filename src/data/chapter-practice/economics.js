@@ -1,4 +1,4 @@
-// Chapter practice: Engineering Economics (10 questions, 2 per lesson)
+// Chapter practice: Engineering Economics (11 questions, 2 per lesson)
 
 const PROBLEMS = [
   {
@@ -437,6 +437,33 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'depreciation-taxation-inflation',
+    chapterId: 'economics',
+  },
+  {
+    id: 'econ-ror-cp1',
+    type: 'conceptual',
+    statement: 'A project has an internal rate of return of $18\\%$ and the firm\'s MARR is $12\\%$. According to rate-of-return analysis, the project should be:',
+    choices: [
+      { id: 'c1', text: 'Accepted, because IRR (18%) ≥ MARR (12%)' },
+      { id: 'c2', text: 'Rejected, because IRR exceeds MARR' },
+      { id: 'c3', text: 'Rejected, because 18% is too high to be realistic' },
+      { id: 'c4', text: 'Deferred until the MARR rises above 18%' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Accept if IRR ≥ MARR. Here 18% ≥ 12%, so the project clears the hurdle and should be accepted. Choice B reverses the rule. Choices C and D invent reasoning not part of the criterion.',
+    hint: 'Accept when IRR ≥ MARR. Compare 18% to 12%.',
+    steps: [
+      { text: 'Rule: accept if IRR ≥ MARR.', latex: null },
+      { text: '18% ≥ 12%.', latex: null },
+      { text: 'So the project is accepted.', latex: null },
+    ],
+    handbookPage: 'p. 229',
+    handbookFormula: null,
+    videoUrl: null,
+    traps: ['Reversing the accept/reject rule', 'Adding criteria beyond the IRR-vs-MARR comparison'],
+    diagram: null,
+    lessonId: 'rate-of-return',
     chapterId: 'economics',
   },
 ];

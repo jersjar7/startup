@@ -1,4 +1,4 @@
-// Chapter practice: Mechanics of Materials (16 questions, 2 per lesson)
+// Chapter practice: Mechanics of Materials (17 questions, 2 per lesson)
 
 const PROBLEMS = [
   {
@@ -607,6 +607,31 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'column-buckling',
+    chapterId: 'mechanics-materials'
+  },
+  {
+    id: 'mom-tsp-cp1',
+    type: 'computational',
+    statement: 'A beam cross section has plastic section modulus $Z = 120\\text{ in}^3$ and elastic section modulus $S = 100\\text{ in}^3$. What is its shape factor?',
+    choices: [
+      { id: 'c1', text: '$1.20$' },
+      { id: 'c2', text: '$0.83$' },
+      { id: 'c3', text: '$20$' },
+      { id: 'c4', text: '$1.00$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Shape factor = Z/S = 120/100 = 1.20 — the reserve strength between first yield and full plastic moment. Choice B inverts the ratio (S/Z). Choice C is the difference. Choice D would mean no plastic reserve.',
+    hint: 'Shape factor = plastic section modulus / elastic section modulus = Z/S.',
+    steps: [
+      { text: 'Shape factor:', latex: '\\frac{Z}{S} = \\frac{120}{100} = 1.20' },
+    ],
+    handbookPage: 'p. 281',
+    handbookFormula: 'SF = Z/S',
+    videoUrl: null,
+    traps: ['Inverting to S/Z', 'Confusing the shape factor with the section modulus itself'],
+    diagram: null,
+    lessonId: 'transformed-sections-plastic',
     chapterId: 'mechanics-materials'
   }
 ];

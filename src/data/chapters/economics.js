@@ -15,6 +15,7 @@ export default {
     { latex: 'B/C \\geq 1', label: 'Benefit-Cost Ratio', page: 'p. 230' },
     { latex: 'D_j = \\frac{\\text{Cost} - \\text{Salvage}}{n}', label: 'Straight-Line Depreciation', page: 'p. 230' },
     { latex: 'd = i + f + (i \\times f)', label: 'Inflation-Adjusted Interest Rate', page: 'p. 230' },
+    { latex: 'PW_{benefits} - PW_{costs} = 0', label: 'Internal Rate of Return (IRR)', page: 'p. 229' },
   ],
   traps: [
     'Forgetting to draw the cash flow diagram — most errors come from misplacing payments in time.',
@@ -22,5 +23,7 @@ export default {
     'Including sunk costs in economic analysis — sunk costs are irrelevant to future decisions.',
     'Confusing MARR (minimum attractive rate of return) with the actual rate of return.',
     'Not converting between nominal and effective interest rates when compounding periods differ.',
+    'IRR is the rate where net present worth = 0; accept a project only if IRR ≥ MARR.',
+    'For mutually exclusive alternatives, use INCREMENTAL rate-of-return analysis — do not just pick the highest individual IRR.',
   ],
 };

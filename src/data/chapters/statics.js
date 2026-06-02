@@ -14,6 +14,7 @@ export default {
     { latex: 'I_x = \\bar{I}_x + Ad^2', label: 'Parallel Axis Theorem', page: 'p. 95' },
     { latex: 'F \\leq \\mu_s N', label: 'Static Friction', page: 'p. 96' },
     { latex: 'M = r \\times F', label: 'Moment of a Force', page: 'p. 94' },
+    { latex: 'F_{out} = F_{in}\\,\\frac{a_{in}}{a_{out}}', label: 'Lever / Machine (mechanical advantage)' },
   ],
   traps: [
     'Incorrect free body diagram \u2014 forgetting a reaction force or including an internal force on the wrong side of the cut.',
@@ -21,5 +22,7 @@ export default {
     'In trusses, confusing method of joints (all forces at a joint) with method of sections (cutting through members).',
     'Forgetting the Ad\u00b2 term in the parallel axis theorem when computing composite moments of inertia.',
     'Assuming friction force equals \u03bcN before verifying impending motion \u2014 it could be less than the maximum.',
+    'A two-force member carries force along the line joining its two pins; a multi-force member (in frames/machines) does not.',
+    'Analyze frames and machines by dismembering them \u2014 at a shared pin, the forces on the two members are equal and opposite.',
   ],
 };

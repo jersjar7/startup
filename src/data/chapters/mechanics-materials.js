@@ -17,6 +17,8 @@ export default {
     { latex: '\\delta_{max} = \\frac{PL^3}{48EI}', label: 'Simply Supported Beam (midpoint load)', page: 'p. 140' },
     { latex: '\\sigma_{1,2} = \\frac{\\sigma_x+\\sigma_y}{2}\\pm\\sqrt{\\left(\\frac{\\sigma_x-\\sigma_y}{2}\\right)^2+\\tau_{xy}^2}', label: 'Principal Stresses', page: 'p. 131' },
     { latex: 'P_{cr} = \\frac{\\pi^2 EI}{(KL)^2}', label: "Euler's Buckling Load", page: 'p. 136' },
+    { latex: '\\sigma_1 = \\frac{nMy}{I_T}, \\; n = \\frac{E_1}{E_2}', label: 'Transformed (Composite) Section', page: 'p. 136' },
+    { latex: 'M_p = F_y Z', label: 'Plastic Moment (Z = plastic section modulus)', page: 'p. 281' },
   ],
   traps: [
     'Using diameter instead of radius for c in \u03C3 = Mc/I and \u03C4 = Tc/J \u2014 c is the distance from the neutral axis.',
@@ -24,5 +26,7 @@ export default {
     'Sign errors in shear/moment diagrams \u2014 remember V = dM/dx and the relationship between loading and shear.',
     'Using I (area moment) instead of J (polar moment) for torsion problems, or vice versa.',
     'Not checking units \u2014 mixing MPa and kPa, or mm and m, is the #1 source of wrong answers.',
+    'For a composite section, multiply the stiffer material width by n = E\u2081/E\u2082; the stiffer material carries n times the stress.',
+    'Use the PLASTIC section modulus Z for Mp = Fy\u00b7Z \u2014 using the elastic S gives only the smaller yield moment.',
   ],
 };

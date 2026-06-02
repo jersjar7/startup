@@ -16,6 +16,7 @@ export default {
     { latex: 'T = R\\tan\\frac{I}{2}', label: 'Horizontal Curve Tangent', page: 'p. 302' },
     { latex: 'D = \\frac{5{,}729.58}{R}', label: 'Degree of Curve', page: 'p. 302' },
     { latex: 'Y = Y_{PVC} + g_1 x + \\frac{g_2 - g_1}{2L}x^2', label: 'Vertical Curve Elevation', page: 'p. 301' },
+    { latex: 'L = \\sqrt{\\Delta E^2 + \\Delta N^2}, \\; Az = \\tan^{-1}\\!\\frac{\\Delta E}{\\Delta N}', label: 'Inverse Computation (distance & azimuth)' },
   ],
   traps: [
     'Mixing up backsight and foresight in differential leveling \u2014 BS is added, FS is subtracted from the HI.',
@@ -24,5 +25,7 @@ export default {
     'Confusing azimuth (from north, clockwise, 0\u2013360\u00B0) with bearing (from N or S, toward E or W, 0\u201390\u00B0).',
     'Assuming the high/low point of a vertical curve is at the midpoint \u2014 it\u2019s only true when |g_1| = |g_2|.',
     'Forgetting to divide by 2 in the coordinate area formula \u2014 doubles your answer.',
+    'Departure = E-W = L\u00b7sin(Az); latitude = N-S = L\u00b7cos(Az) \u2014 sine with easting, cosine with northing.',
+    'The arctangent alone cannot fix an azimuth\'s quadrant \u2014 use the signs of \u0394E and \u0394N.',
   ],
 };

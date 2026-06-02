@@ -1,5 +1,5 @@
 // Exam bank: mathematics
-// Auto-extracted from lesson files — 52 questions
+// Auto-extracted from lesson files — 53 questions
 
 const PROBLEMS = [
   {
@@ -2842,6 +2842,32 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'structured-programming',
+    chapterId: 'mathematics'
+  },
+  {
+    id: 'math-num-ex1',
+    type: 'computational',
+    statement: 'Apply one iteration of Newton\'s method to $f(x) = x^2 - 5$, starting from $x_0 = 2$ (with $f\'(x) = 2x$). What is $x_1$?',
+    choices: [
+      { id: 'c1', text: '$2.25$' },
+      { id: 'c2', text: '$1.75$' },
+      { id: 'c3', text: '$2.00$' },
+      { id: 'c4', text: '$2.50$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'x₁ = x₀ − f(x₀)/f′(x₀). f(2) = 4 − 5 = −1; f′(2) = 4. So x₁ = 2 − (−1)/4 = 2 + 0.25 = 2.25 (approaching √5 ≈ 2.236). Choice B subtracts instead of accounting for the negative sign. Choice C is the start value. Choice D over-shoots.',
+    hint: 'x₁ = x₀ − f(x₀)/f′(x₀); mind the sign of f(x₀).',
+    steps: [
+      { text: 'Evaluate:', latex: 'f(2) = -1, \\quad f\'(2) = 4' },
+      { text: 'Newton update:', latex: 'x_1 = 2 - \\frac{-1}{4} = 2.25' },
+    ],
+    handbookPage: 'p. 61',
+    handbookFormula: 'x_{j+1} = x_j - f(x_j)/f\'(x_j)',
+    videoUrl: null,
+    traps: ['Mishandling the negative sign of f(x₀)', 'Dropping the derivative in the denominator'],
+    diagram: null,
+    lessonId: 'numerical-methods',
     chapterId: 'mathematics'
   },
 ];
