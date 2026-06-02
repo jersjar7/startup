@@ -1,60 +1,49 @@
-# Email Setup (Resend) — Required for verification, password reset & student discount
+# Email (Resend) — Configuration & Troubleshooting
 
-## The problem (root cause)
+**Status: working (verified 2026-06-02).** Transactional email — signup
+verification, password reset, and the student-discount code — delivers to real
+users from `noreply@fe4raccoons.com`.
 
-Transactional email **does not reach real users** because no sending domain is
-verified in Resend. `RESEND_FROM_EMAIL` is set to `onboarding@resend.dev`, which
-is Resend's shared test sender — it **only** delivers to the Resend account
-owner's own address (`jersondevs@gmail.com`). Every other recipient is rejected
-with `403 domain is not verified`. The app now logs this loudly at startup and
-surfaces send failures instead of swallowing them.
+## Current setup
 
-This blocks three things until fixed:
-1. Email verification (signup `verify-email`).
-2. Password reset.
-3. **Student-discount verification** — the new anti-fraud flow emails a 6-digit
-   code to the `.edu` address, so the discount can't be claimed until email works.
+- **Provider:** Resend. Account owner: `jersondevs@gmail.com`.
+- **Sending domain:** `fe4raccoons.com`, verified in Resend (DKIM + SPF + MX).
+  DNS is at **GoDaddy** (nameservers `*.domaincontrol.com`).
+- **Prod env** (`/home/ubuntu/services/startup/.env`):
+  - `RESEND_FROM_EMAIL=noreply@fe4raccoons.com`
+  - `APP_URL=https://fe4raccoons.com`
+  - `RESEND_API_KEY` — a **send-only restricted** key (fine for sending; managing
+    domains is a dashboard action, not available via this key).
+- **Code:** `service/email.js` — branded HTML templates (`ctaEmail`, `codeEmail`),
+  honors `RESEND_FROM_EMAIL`/`APP_URL`, surfaces send failures (returns
+  `{ok,error}`) and warns loudly at startup if it ever falls back to the
+  `onboarding@resend.dev` test sender.
 
-## The fix (~5 minutes, needs the Resend dashboard + GoDaddy DNS)
-
-DNS for `fe4raccoons.com` is at **GoDaddy** (nameservers `*.domaincontrol.com`).
-
-1. **Resend → Domains → Add Domain** → enter `fe4raccoons.com` (or a subdomain
-   like `mail.fe4raccoons.com`). Resend shows DNS records (a DKIM `TXT`/`CNAME`,
-   an SPF `TXT`, and a `MX` for the bounce subdomain).
-2. **GoDaddy → fe4raccoons.com → DNS** → add exactly those records.
-3. Back in Resend, click **Verify** (DNS can take a few minutes to propagate).
-4. Set the sender in prod env and restart:
-   ```bash
-   ssh -i secrets/jerson-cs260-key.pem ubuntu@fe4raccoons.com
-   # edit /home/ubuntu/services/startup/.env →  RESEND_FROM_EMAIL=noreply@fe4raccoons.com
-   bash -ilc "pm2 restart startup --update-env"
-   ```
-   (The API key is currently a **send-only restricted key**. That's fine for
-   sending. Creating/verifying the domain is a dashboard action.)
-
-## Verify it works (after the above)
-
-From the admin Analytics account, or via curl with the admin cookie:
+## Test delivery (from the admin account)
 
 ```bash
-# Config check — should show your domain, usingTestSender:false
+# Config — should show from=noreply@fe4raccoons.com, usingTestSender:false
 curl -s --cookie "token=<admin token>" https://fe4raccoons.com/api/admin/email-status
 
-# Send a real test email to any address and read the result:
+# Send a real test email and read the result:
 curl -s --cookie "token=<admin token>" -X POST \
   -H 'Content-Type: application/json' -d '{"to":"you@example.com"}' \
-  https://fe4raccoons.com/api/admin/email-test
-# -> { ok: true, id: "..." }   (ok:false returns the exact Resend error)
+  https://fe4raccoons.com/api/admin/email-test     # -> { ok:true, id:"..." }
 ```
 
-Then do an end-to-end check: sign up a fresh account and confirm the verification
-email arrives; on the Exam page, run the student `.edu` flow and confirm the code
-arrives.
+## Troubleshooting
 
-## Relevant code
+- **Nobody receives email / `email-status` shows `usingTestSender:true`:**
+  `RESEND_FROM_EMAIL` reverted to the test sender (which only reaches the Resend
+  account owner). Set it back to `noreply@fe4raccoons.com` and
+  `pm2 restart startup --update-env`.
+- **`email-test` returns `ok:false` with "domain is not verified":** the Resend
+  domain verification lapsed (e.g. DNS changed at GoDaddy). Re-verify at
+  resend.com/domains and ensure the DKIM/SPF/MX records still exist in GoDaddy.
+- **Emails land in spam:** confirm DMARC; a `_dmarc` TXT record exists at GoDaddy.
 
-- `service/email.js` — sender config, branded templates, `sendTestEmail`,
-  `getEmailConfig`. Honors `RESEND_FROM_EMAIL` and `APP_URL`.
-- `service/routes/admin.js` — `GET /api/admin/email-status`, `POST /api/admin/email-test`.
-- `service/routes/checkout.js` — student `start`/`confirm` code flow.
+## Re-verifying a domain from scratch (if ever needed)
+
+1. Resend → Domains → Add Domain → `fe4raccoons.com`.
+2. Add the shown DKIM/SPF/MX records in GoDaddy DNS.
+3. Click **Verify**, then set `RESEND_FROM_EMAIL` and restart (above).
