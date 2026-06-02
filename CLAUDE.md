@@ -74,7 +74,9 @@ Full runbook: `docs/DEPLOY.md`. Critical points:
 - Node on the box needs a login shell over SSH: `ssh … 'bash -ilc "pm2 …"'`.
 
 ## Email (Resend)
-Setup + fix runbook: `docs/EMAIL-SETUP.md`. Email delivery requires a **verified
-sending domain** in Resend and `RESEND_FROM_EMAIL` pointed at it. The default
-`onboarding@resend.dev` only delivers to the Resend account owner. Admin can test
-delivery live via `GET /api/admin/email-status` and `POST /api/admin/email-test`.
+Config + troubleshooting: `docs/EMAIL-SETUP.md`. **Working** — sends from
+`noreply@fe4raccoons.com` (domain verified in Resend; DNS at GoDaddy). Branded
+templates live in `service/email.js`. If delivery breaks, check
+`GET /api/admin/email-status` (`usingTestSender` must be `false`) and
+`POST /api/admin/email-test`; never let `RESEND_FROM_EMAIL` fall back to the
+`onboarding@resend.dev` test sender (it only reaches the Resend account owner).
