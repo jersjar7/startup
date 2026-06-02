@@ -49,7 +49,7 @@ export function DiagnosticCard({ diagnosticStatus, onSkip }) {
                 This is not the exam simulation — it's a free tool included with your account.
               </p>
               <p style={{ fontSize: '0.82rem', color: 'var(--gray-400)' }}>
-                30 questions &middot; ~90 minutes &middot; real FE pace &middot; always free
+                30 questions &middot; ~87 minutes &middot; real FE pace &middot; always free
               </p>
             </div>
             <div className="diag-card-actions">

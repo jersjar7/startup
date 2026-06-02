@@ -140,15 +140,10 @@ export function Study({ userName, onLogout }) {
       return;
     }
 
-    // Fetch topic data from API (for problem count, key concepts, etc.)
-    fetch(`/api/topics/${topicId}`)
-      .then((res) => {
-        if (!res.ok) throw new Error('Topic not found');
-        return res.json();
-      })
-      .then((data) => setTopic(data))
-      .catch(() => {}) // OK if API doesn't have it yet — we use static data
-      .finally(() => setLoading(false));
+    // The study page renders entirely from bundled content; the legacy
+    // /api/topics/<chapter> endpoint has no row for chapter ids (it would
+    // always 404), so we don't call it.
+    setLoading(false);
 
     // WebSocket presence notification
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';

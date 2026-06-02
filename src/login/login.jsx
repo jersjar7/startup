@@ -186,6 +186,7 @@ export function Login({ userName, onLogin }) {
               <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
               {' '}and{' '}
               <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+              {' '}<span className="terms-hint">(required to create an account)</span>
             </span>
           </label>
           <div className="login-buttons">

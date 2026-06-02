@@ -119,7 +119,7 @@ function AppShell({ userName, emailVerified, onLogin, onLogout }) {
     <div className="body">
       <ErrorBoundary>
         {!isLanding && !isLesson && !isDiagnostic && !isExamSession && <Header userName={userName} />}
-        {userName && !isLanding && <VerificationBanner emailVerified={emailVerified} />}
+        {userName && !isLanding && !isDiagnostic && !isExamSession && <VerificationBanner emailVerified={emailVerified} />}
 
         <Suspense fallback={<LoadingState />}>
           <Routes>

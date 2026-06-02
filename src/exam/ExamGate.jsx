@@ -14,7 +14,7 @@ import {
   Heart,
 } from '@phosphor-icons/react';
 import './exam.css';
-import { priceForEmail, isStudentEmail, STUDENT_PRICE } from '../data/pricing';
+import { isStudentEmail, STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
 
 export function ExamGate({ userName }) {
   const navigate = useNavigate();
@@ -27,6 +27,7 @@ export function ExamGate({ userName }) {
   const [loading, setLoading] = React.useState(true);
   const [checkoutLoading, setCheckoutLoading] = React.useState(false);
   const [error, setError] = React.useState('');
+  const [studentEmail, setStudentEmail] = React.useState('');
 
   React.useEffect(() => {
     if (!userName) {
@@ -91,6 +92,7 @@ export function ExamGate({ userName }) {
       const res = await fetch('/api/checkout/create-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ studentEmail: studentEmail.trim() }),
       });
       if (!res.ok) {
         const body = await res.json();
@@ -180,15 +182,28 @@ export function ExamGate({ userName }) {
 
             {/* Price + CTA */}
             <div className="exam-gate-price">
-              <span className="exam-gate-amount">${priceForEmail(userName)}</span>
+              <span className="exam-gate-amount">
+                ${(isStudentEmail(userName) || isStudentEmail(studentEmail)) ? STUDENT_PRICE : STANDARD_PRICE}
+              </span>
               <span className="exam-gate-period">one-time &middot; no subscription</span>
             </div>
             {isStudentEmail(userName) ? (
               <p className="exam-gate-student-note">Student price applied — verified .edu email.</p>
+            ) : isStudentEmail(studentEmail) ? (
+              <p className="exam-gate-student-note">Student price applied — ${STUDENT_PRICE} with your .edu email.</p>
             ) : (
-              <p className="exam-gate-student-note">
-                Students: sign up with your <strong>.edu</strong> email and pay just ${STUDENT_PRICE}.
-              </p>
+              <div className="exam-gate-student-claim">
+                <label htmlFor="student-email">
+                  Student? Enter your <strong>.edu</strong> email to pay just ${STUDENT_PRICE}:
+                </label>
+                <input
+                  id="student-email"
+                  type="email"
+                  placeholder="you@university.edu"
+                  value={studentEmail}
+                  onChange={(e) => setStudentEmail(e.target.value)}
+                />
+              </div>
             )}
 
             {error && <div className="exam-error" role="alert">{error}</div>}

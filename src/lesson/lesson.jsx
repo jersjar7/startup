@@ -565,7 +565,7 @@ export function LessonPage({ userName }) {
           {lesson.application && (
             <p className="lp-application"><MathText text={lesson.application} /></p>
           )}
-          {PANELS.map((panel) => {
+          {PANELS.filter((panel) => panel.key !== 'video' || problem?.videoUrl).map((panel) => {
             const Icon = panel.icon;
             const isLocked = panel.locked && !submitted;
             const isOpen = openPanel === panel.key && !isLocked;

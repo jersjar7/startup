@@ -10,6 +10,7 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import katex from 'katex';
 import { MathText } from '../components/MathText';
 import { CHAPTERS } from '../data/chapters';
+import { getProblemById } from '../data/problemPool';
 import { getLessonById } from '../data/lessons/index';
 import './diagnostic.css';
 
@@ -100,13 +101,10 @@ export function DiagnosticReview({ userName }) {
             {grouped[ch.id].map((q, qi) => {
               const isCorrect = q.isCorrect;
               const isSkipped = !q.selectedAnswerId;
-              const lesson = getLessonById(q.chapterId, q.lessonId);
 
-              // Find the exam problem from lesson data for eli5/steps
-              let examProblem = null;
-              if (lesson && lesson.examProblems) {
-                examProblem = lesson.examProblems.find(p => p.id === q.questionId);
-              }
+              // Resolve the full problem (statement/choices/eli5/steps) by id
+              // across all pools — diagnostic questions come from the exam bank.
+              const examProblem = getProblemById(q.questionId);
 
               // Fallback: try to build choice text from stored data
               const choices = examProblem?.choices || [];

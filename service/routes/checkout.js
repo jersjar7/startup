@@ -2,7 +2,7 @@ const express = require('express');
 const Stripe = require('stripe');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
-const { priceCentsForEmail } = require('../pricing.js');
+const { isStudentEmail, STUDENT_CENTS, STANDARD_CENTS } = require('../pricing.js');
 
 const router = express.Router();
 
@@ -22,9 +22,13 @@ router.post('/create-session', verifyAuth, async (req, res) => {
   const referer = req.get('referer') || req.get('origin') || '';
   const origin = referer ? new URL(referer).origin : `${req.protocol}://${req.get('host')}`;
 
-  // Tiered, server-authoritative pricing: students (.edu/academic email) pay
-  // less. Inline price_data avoids managing Stripe Price objects.
-  const unitAmount = priceCentsForEmail(req.user.email);
+  // Tiered, server-authoritative pricing: students pay less. The student price
+  // applies if the ACCOUNT email is academic, or the buyer supplies a .edu
+  // email at checkout (trust-based — it's a goodwill discount, not a gate).
+  // Inline price_data avoids managing Stripe Price objects.
+  const studentEmail = typeof req.body?.studentEmail === 'string' ? req.body.studentEmail : '';
+  const isStudent = isStudentEmail(req.user.email) || isStudentEmail(studentEmail);
+  const unitAmount = isStudent ? STUDENT_CENTS : STANDARD_CENTS;
 
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',

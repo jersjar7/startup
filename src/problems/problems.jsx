@@ -274,8 +274,12 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
           </button>
         </div>
         <section className="summary-card">
-          <h2>No problems to review right now</h2>
-          <p>Complete topic sessions to build your review queue, or check back later.</p>
+          <h2>You're all caught up</h2>
+          <p>
+            Review problems appear here as they come due. Spaced repetition schedules the
+            questions you've practiced across the following days — so keep studying, and check
+            back soon (usually the next day) to lock them in.
+          </p>
         </section>
         <div className="summary-actions">
           <button className="btn-primary" onClick={() => navigate('/dashboard')}>

@@ -53,7 +53,7 @@ router.post('/create', async (req, res) => {
   if (!validateAuthInput(req, res, true)) return;
 
   if (await DB.getUser(req.body.email)) {
-    res.status(409).send({ msg: 'Existing user' });
+    res.status(409).send({ msg: 'An account with this email already exists. Try logging in instead.' });
   } else {
     const rawVerifyToken = generateToken();
     const passwordHash = await bcrypt.hash(req.body.password, 10);

@@ -1,5 +1,6 @@
 import React from 'react';
-import { SmileySad, House, ArrowClockwise } from '@phosphor-icons/react';
+import { House, ArrowClockwise } from '@phosphor-icons/react';
+import { OverloadedBeam } from './ErrorArt';
 
 export class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ export class ErrorBoundary extends React.Component {
             width: '100%',
             textAlign: 'center',
           }}>
-            <SmileySad size={48} weight="regular" style={{ color: '#A09C93', marginBottom: '1rem' }} />
+            <div style={{ marginBottom: '1.25rem', display: 'flex', justifyContent: 'center' }}><OverloadedBeam /></div>
             <h2 style={{
               fontFamily: "'DM Sans', system-ui, sans-serif",
               fontSize: '1.25rem',

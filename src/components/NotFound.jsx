@@ -1,7 +1,10 @@
 import React from 'react';
-import { MapTrifold, House, ArrowLeft } from '@phosphor-icons/react';
+import { House, ArrowLeft } from '@phosphor-icons/react';
+import { BrokenBridge, LostSurveyor } from './ErrorArt';
 
 export function NotFound() {
+  // Pick one of the two engineering illustrations per visit, for a little variety.
+  const Art = React.useMemo(() => (Math.random() < 0.5 ? BrokenBridge : LostSurveyor), []);
   return (
     <main style={{
       display: 'flex',
@@ -19,7 +22,7 @@ export function NotFound() {
         width: '100%',
         textAlign: 'center',
       }}>
-        <MapTrifold size={48} weight="regular" style={{ color: '#A09C93', marginBottom: '1rem' }} />
+        <div style={{ marginBottom: '1.25rem', display: 'flex', justifyContent: 'center' }}><Art /></div>
         <h1 style={{
           fontFamily: "'DM Sans', system-ui, sans-serif",
           fontSize: '2rem',
