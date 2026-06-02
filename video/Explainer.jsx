@@ -110,7 +110,7 @@ function SceneSolution() {
   const frame = useCurrentFrame(); const { fps } = useVideoConfig();
   const head = enter(frame, fps, 0);
   const op = exitFade(frame, S3);
-  const count = Math.round(interpolate(frame, [20, 70], [0, 990], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }));
+  const count = Math.round(interpolate(frame, [20, 70], [0, 1126], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }));
   const features = ['Spaced repetition', 'Custom diagrams', 'Gamified progress', 'Free diagnostic'];
   return (
     <Bg>

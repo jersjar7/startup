@@ -7,7 +7,7 @@
 
 ## 1. Executive Summary
 
-FE for Raccoons is a gamified, mobile-friendly study platform for the **FE Civil** exam. It makes nearly everything free — 15 chapters of lessons, 990 practice problems, spaced-repetition review, a diagnostic, and step-by-step solutions — and charges a single **$14.99 one-time** fee for a full 110-question timed exam simulation. The wedge is price and experience: the cheapest credible competitor (PrepFE) is ~$110 for six months, and full courses run $1,000–$1,800. The platform is live at fe4raccoons.com with a verified payment funnel and conversion analytics in place.
+FE for Raccoons is a gamified, mobile-friendly study platform for the **FE Civil** exam. It makes nearly everything free — 15 chapters of lessons, 1,126 practice problems, spaced-repetition review, a diagnostic, and step-by-step solutions — and charges a single **$14.99 one-time** fee for a full 110-question timed exam simulation. The wedge is price and experience: the cheapest credible competitor (PrepFE) is ~$110 for six months, and full courses run $1,000–$1,800. The platform is live at fe4raccoons.com with a verified payment funnel and conversion analytics in place.
 
 **The opportunity:** ~26,500 people sit for the FE Civil exam each year (and ~58,000 across all FE disciplines), a market growing ~50% over the last decade. Most are price-sensitive students who don't want a $1,000 course. A free-to-use product with a $15 upsell can capture meaningful share of that top of funnel.
 
@@ -23,7 +23,7 @@ FE for Raccoons is a gamified, mobile-friendly study platform for the **FE Civil
 
 A Brilliant.org-style learning platform with a Duolingo-style engagement loop, built specifically for FE Civil:
 
-- **Content:** 15 chapters, 107 lessons, 45 subtopics, **990 practice problems** across 4 non-overlapping pools, all adversarially verified for correct answers and distractor quality. ~80 custom SVG diagrams.
+- **Content:** 15 chapters, 135 lessons, 51 subtopics, **1,126 practice problems** across non-overlapping pools (405 lesson, 473 exam-bank, 248 chapter-practice), all adversarially verified for correct answers and distractor quality. ~80 custom SVG diagrams.
 - **Learning engine:** mastery tracking with decay, **spaced repetition (SM-2)**, a diagnostic that seeds a personalized starting point, and dashboard intelligence (exam-readiness %, focus areas, "study next" recommendations).
 - **Engagement:** XP, streaks, badges, weekly leaderboard — tuned for an adult audience (no hearts/lives or childish elements).
 - **Monetization:** a paid **110-question timed exam simulation** ($14.99 one-time) matching the NCEES topic distribution, with per-chapter score breakdown.
@@ -71,7 +71,7 @@ Open pricing decisions — **[DECIDE]**:
 
 The product is the funnel; distribution is the job. Channels (low/no cost, fit the audience):
 - **Reddit** — r/FE_Exam, r/engineeringstudents (an in-app referral already nudges sharing for a discount). Authentic, founder-led posts.
-- **SEO** — already has meta/OG/sitemap; target "FE Civil practice problems", "free FE Civil prep", long-tail topic queries. The 990-problem library is strong SEO surface.
+- **SEO** — already has meta/OG/sitemap; target "FE Civil practice problems", "free FE Civil prep", long-tail topic queries. The 1,126-problem library is strong SEO surface.
 - **LinkedIn** — founder (civil engineer) audience; the referral discount is DM-gated via LinkedIn today.
 - **University outreach** — ASCE student chapters, professors who advise EIT candidates.
 - **App store** (later) — PrepFE has an iOS app; a PWA/app could capture mobile search.
