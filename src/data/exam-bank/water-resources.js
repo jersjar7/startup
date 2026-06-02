@@ -1,5 +1,5 @@
 // Exam bank: water-resources
-// Auto-extracted from lesson files — 32 questions
+// Auto-extracted from lesson files — 36 questions
 
 const PROBLEMS = [
   {
@@ -1701,6 +1701,123 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'water-treatment',
+    chapterId: 'water-resources'
+  },
+  {
+    id: 'wr-dwt-ex1',
+    type: 'computational',
+    statement: 'A rapid sand filter bed measures $24\\text{ ft}$ by $12\\text{ ft}$ and treats a flow of $Q = 1{,}728\\text{ gpm}$. What is the filtration (loading) rate?',
+    choices: [
+      { id: 'c1', text: '$6.0\\text{ gpm/ft}^2$' },
+      { id: 'c2', text: '$3.0\\text{ gpm/ft}^2$' },
+      { id: 'c3', text: '$0.17\\text{ gpm/ft}^2$' },
+      { id: 'c4', text: '$60\\text{ gpm/ft}^2$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Filtration rate = Q/A_plan. Area = 24 × 12 = 288 ft². v_s = 1,728/288 = 6.0 gpm/ft², within the typical rapid-sand range of 2--10 gpm/ft². Choice B halves the area. Choice C inverts the ratio. Choice D drops a zero.',
+    hint: 'Filtration rate = flow / plan area (length × width).',
+    steps: [
+      { text: 'Plan area:', latex: 'A_{plan} = 24 \\times 12 = 288\\text{ ft}^2' },
+      { text: 'Filtration rate:', latex: 'v_s = \\frac{1{,}728}{288} = 6.0\\text{ gpm/ft}^2' },
+    ],
+    handbookPage: 'p. 341',
+    handbookFormula: 'v_s = Q/A_{plan}',
+    videoUrl: null,
+    traps: [
+      'Using bed depth or volume instead of plan area',
+      'Inverting to A/Q',
+    ],
+    diagram: null,
+    lessonId: 'drinking-water-treatment',
+    chapterId: 'water-resources'
+  },
+  {
+    id: 'wr-dwt-ex2',
+    type: 'computational',
+    statement: 'Water with a chlorine demand of $1.8\\text{ mg/L}$ must be dosed to leave a free residual of $0.5\\text{ mg/L}$. For a flow of $Q = 2.0\\text{ MGD}$, what is the chlorine feed rate? (Use $\\text{lb/day} = \\text{mg/L} \\times \\text{MGD} \\times 8.34$.)',
+    choices: [
+      { id: 'c1', text: '$38.4\\text{ lb/day}$' },
+      { id: 'c2', text: '$30.0\\text{ lb/day}$' },
+      { id: 'c3', text: '$15.0\\text{ lb/day}$' },
+      { id: 'c4', text: '$21.7\\text{ lb/day}$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Dose = demand + residual = 1.8 + 0.5 = 2.3 mg/L. Feed rate = 2.3 × 2.0 × 8.34 = 38.4 lb/day. Choice B uses a 2.3 × 2.0 product without the 8.34 factor scaled wrong. Choice C halves it. Choice D uses only the demand (1.8) × flow × 8.34.',
+    hint: 'Dose = demand + residual, then lb/day = dose × MGD × 8.34.',
+    steps: [
+      { text: 'Applied dose:', latex: '\\text{Dose} = 1.8 + 0.5 = 2.3\\text{ mg/L}' },
+      { text: 'Feed rate:', latex: '2.3 \\times 2.0 \\times 8.34 = 38.4\\text{ lb/day}' },
+    ],
+    handbookPage: 'p. 346',
+    handbookFormula: '\\text{Dose} = \\text{Demand} + \\text{Residual}',
+    videoUrl: null,
+    traps: [
+      'Feeding only the demand and omitting the target residual',
+      'Forgetting the 8.34 lb/(mg/L·MG) conversion',
+    ],
+    diagram: null,
+    lessonId: 'drinking-water-treatment',
+    chapterId: 'water-resources'
+  },
+  {
+    id: 'wr-wqs-ex1',
+    type: 'computational',
+    statement: 'A groundwater sample contains $\\text{Ca}^{2+} = 70\\text{ mg/L}$ and $\\text{Mg}^{2+} = 20\\text{ mg/L}$. Using equivalent weights of $20$ (Ca²⁺) and $12.15$ (Mg²⁺), what is the total hardness as CaCO₃?',
+    choices: [
+      { id: 'c1', text: '$257\\text{ mg/L as CaCO}_3$' },
+      { id: 'c2', text: '$90\\text{ mg/L as CaCO}_3$' },
+      { id: 'c3', text: '$175\\text{ mg/L as CaCO}_3$' },
+      { id: 'c4', text: '$200\\text{ mg/L as CaCO}_3$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Convert each ion by 50/EW. Ca: 70 × 2.5 = 175. Mg: 20 × (50/12.15) = 20 × 4.12 = 82. Total = 175 + 82 = 257 mg/L as CaCO₃ (very hard). Choice B adds raw ion values (70 + 20). Choice C counts only calcium. Choice D is a partial conversion.',
+    hint: 'Multiply each ion by 50/EW (Ca → 2.5, Mg → 4.12), then add.',
+    steps: [
+      { text: 'Calcium as CaCO₃:', latex: '70 \\times 2.5 = 175' },
+      { text: 'Magnesium as CaCO₃:', latex: '20 \\times \\frac{50}{12.15} = 82' },
+      { text: 'Total hardness:', latex: '175 + 82 = 257\\text{ mg/L as CaCO}_3' },
+    ],
+    handbookPage: null,
+    handbookFormula: '\\text{Hardness as CaCO}_3 = \\sum C_i \\times 50/EW_i',
+    videoUrl: null,
+    traps: [
+      'Adding raw ion concentrations without converting to CaCO₃',
+      'Using the calcium multiplier (2.5) for magnesium',
+    ],
+    diagram: null,
+    lessonId: 'water-quality-standards',
+    chapterId: 'water-resources'
+  },
+  {
+    id: 'wr-pwd-ex1',
+    type: 'computational',
+    statement: 'A pump delivers $Q = 0.08\\text{ m}^3\\text{/s}$ against a head of $H = 25\\text{ m}$ at an efficiency of $\\eta = 0.80$. What brake power is required? (Use $\\rho g = 9{,}810\\text{ N/m}^3$.)',
+    choices: [
+      { id: 'c1', text: '$24.5\\text{ kW}$' },
+      { id: 'c2', text: '$19.6\\text{ kW}$' },
+      { id: 'c3', text: '$15.7\\text{ kW}$' },
+      { id: 'c4', text: '$30.7\\text{ kW}$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Fluid power = γQH = 9,810 × 0.08 × 25 = 19,620 W ≈ 19.6 kW. Brake power = 19.6/0.80 = 24.5 kW. Choice B is fluid power (no efficiency). Choice C multiplies by 0.80 instead of dividing. Choice D applies the efficiency twice.',
+    hint: 'Fluid power = γQH; brake power = fluid power / η.',
+    steps: [
+      { text: 'Fluid power:', latex: '\\gamma Q H = 9{,}810 \\times 0.08 \\times 25 = 19{,}620\\text{ W}' },
+      { text: 'Brake power:', latex: '\\frac{19{,}620}{0.80} = 24{,}525\\text{ W} \\approx 24.5\\text{ kW}' },
+    ],
+    handbookPage: 'p. 191',
+    handbookFormula: '\\dot W = \\gamma Q H / \\eta',
+    videoUrl: null,
+    traps: [
+      'Forgetting to divide by efficiency',
+      'Multiplying by η instead of dividing',
+    ],
+    diagram: null,
+    lessonId: 'pumps-water-distribution',
     chapterId: 'water-resources'
   },
 ];

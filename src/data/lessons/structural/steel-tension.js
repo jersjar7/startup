@@ -12,7 +12,7 @@ export default {
     { type: 'formula', latex: 'P_n = F_u A_e, \\quad \\phi_t = 0.75', label: 'Tensile rupture' },
     { type: 'text', body: 'This checks whether the member fractures at the weakest cross-section (through bolt holes). The effective net area $A_e = U \\times A_n$, where $U$ is the shear lag factor (1.0 for flat bars connected through all elements).' },
     { type: 'heading', body: 'Net Area with Bolt Holes' },
-    { type: 'formula', latex: 'A_n = \\left[b_g - \\Sigma\\left(d_b + \\frac{1}{8}\\text{\\textquotedbl}\\right)\\right] t', label: 'Net area (parallel holes)' },
+    { type: 'formula', latex: 'A_n = \\left[b_g - \\Sigma\\left(d_b + \\tfrac{1}{8}\\text{ in.}\\right)\\right] t', label: 'Net area (parallel holes)' },
     { type: 'text', body: 'For each bolt hole, subtract $(d_b + 1/8\\text{\"})$ from the gross width. The $1/8\\text{\"} = 1/16\\text{\"} \\text{(clearance)} + 1/16\\text{\"} \\text{(damage)}$.' },
     { type: 'callout', variant: 'warning', body: 'Yielding uses \u03C6 = 0.90 but rupture uses \u03C6 = 0.75. The lower \u03C6 for rupture reflects the more sudden, less ductile failure mode. Because of these different \u03C6 values, rupture often controls even when F_u A_n > F_y A_g.' },
     { type: 'callout', variant: 'tip', body: 'For a flat bar connected by bolts through the full width: U = 1.0. For angles or channels connected through only one leg/flange: U = 1 \u2013 x\u0304/L (shear lag reduction). The FE usually tests flat bars.' },
@@ -64,7 +64,7 @@ export default {
         { text: 'Net area:', latex: 'A_n = b_n \\times t = 8.0 \\times 0.5 = 4.00 \\text{ in}^2' },
       ],
       handbookPage: 'p. 282',
-      handbookFormula: 'A_n = \\left[b_g - \\Sigma\\left(d_b + \\frac{1}{8}\\text{\\textquotedbl}\\right)\\right] t',
+      handbookFormula: 'A_n = \\left[b_g - \\Sigma\\left(d_b + \\tfrac{1}{8}\\text{ in.}\\right)\\right] t',
       videoUrl: null,
       traps: [
         'Subtracting only the bolt diameter without adding the 1/8\" for clearance and damage',

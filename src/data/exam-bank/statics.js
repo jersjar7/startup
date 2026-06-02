@@ -1,5 +1,5 @@
 // Exam bank: statics
-// Auto-extracted from lesson files — 24 questions
+// Auto-extracted from lesson files — 25 questions
 
 const PROBLEMS = [
   {
@@ -1296,6 +1296,32 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'area-moments-of-inertia',
+    chapterId: 'statics'
+  },
+  {
+    id: 'stat-fm-ex1',
+    type: 'computational',
+    statement: 'A lever has its effort applied $0.60\\text{ m}$ from the pivot and the load $0.15\\text{ m}$ from the pivot on the other side. If a $200\\text{ N}$ effort is applied, what load is balanced?',
+    choices: [
+      { id: 'c1', text: '$800\\text{ N}$' },
+      { id: 'c2', text: '$50\\text{ N}$' },
+      { id: 'c3', text: '$200\\text{ N}$' },
+      { id: 'c4', text: '$600\\text{ N}$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Moments about the pivot: F_out × 0.15 = 200 × 0.60, so F_out = 200 × (0.60/0.15) = 200 × 4 = 800 N (mechanical advantage 4). Choice B divides instead of multiplying. Choice C ignores the arms. Choice D uses the wrong arm ratio.',
+    hint: 'Effort × effort arm = load × load arm (moments about the pivot).',
+    steps: [
+      { text: 'Moment balance:', latex: 'F_{out}(0.15) = 200(0.60)' },
+      { text: 'Solve:', latex: 'F_{out} = 200 \\times 4 = 800\\text{ N}' },
+    ],
+    handbookPage: null,
+    handbookFormula: 'F_{out} = F_{in}(a_{in}/a_{out})',
+    videoUrl: null,
+    traps: ['Dividing by the arm ratio instead of multiplying', 'Forgetting to sum moments about the pivot'],
+    diagram: null,
+    lessonId: 'frames-machines',
     chapterId: 'statics'
   },
 ];

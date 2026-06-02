@@ -211,7 +211,7 @@ async function sendWelcomeEmail(toEmail, { unsubUrl } = {}) {
       inner:
         para('The smartest first move is the <strong>free diagnostic</strong>. About 5 minutes, and it builds your study plan around your weak spots — so you study what actually moves your score.') +
         button('Take the diagnostic', `${appUrl}/diagnostic`) +
-        para(`<span style="font-size:13px;color:${C.mute};">Everything here is free — lessons, 990 problems, the diagnostic. The only paid thing is the full timed exam sim, if you ever want it.</span>`),
+        para(`<span style="font-size:13px;color:${C.mute};">Everything here is free — lessons, 1,126 problems, the diagnostic. The only paid thing is the full timed exam sim, if you ever want it.</span>`),
     }),
   });
 }

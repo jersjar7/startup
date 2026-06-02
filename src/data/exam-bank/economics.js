@@ -1,5 +1,5 @@
 // Exam bank: economics
-// Auto-extracted from lesson files — 20 questions
+// Auto-extracted from lesson files — 21 questions
 
 const PROBLEMS = [
   {
@@ -1100,6 +1100,32 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'depreciation-taxation-inflation',
+    chapterId: 'economics'
+  },
+  {
+    id: 'econ-ror-ex1',
+    type: 'computational',
+    statement: 'An investment of 5,000 dollars today returns a single payment of 5,600 dollars one year later. What is the internal rate of return?',
+    choices: [
+      { id: 'c1', text: '$12\\%$' },
+      { id: 'c2', text: '$10.7\\%$' },
+      { id: 'c3', text: '$11.2\\%$' },
+      { id: 'c4', text: '$6\\%$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Set PW to zero: 5,000 = 5,600/(1 + i), so 1 + i = 5,600/5,000 = 1.12 and i = 12%. Choice B divides the 600 gain by 5,600 (future value). Choice C divides 600 by an averaged base. Choice D halves the correct rate.',
+    hint: 'Set 5,000 = 5,600/(1 + i) and solve for i.',
+    steps: [
+      { text: 'Break-even:', latex: '5{,}000 = \\frac{5{,}600}{1+i}' },
+      { text: 'Solve:', latex: '1+i = 1.12 \\Rightarrow i = 12\\%' },
+    ],
+    handbookPage: 'p. 229',
+    handbookFormula: 'P = F/(1+i)^n',
+    videoUrl: null,
+    traps: ['Dividing the gain by the future value', 'Forgetting IRR is the rate making NPW = 0'],
+    diagram: null,
+    lessonId: 'rate-of-return',
     chapterId: 'economics'
   },
 ];

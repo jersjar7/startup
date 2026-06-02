@@ -1,12 +1,14 @@
 export default {
-  context: 'This chapter covers highway geometric design, traffic engineering, pavement design, and earthwork calculations.',
+  context: 'This chapter covers highway geometric design, traffic engineering, travel demand planning, traffic control devices, flexible and rigid pavement design, and earthwork calculations.',
   subtopics: [
     { id: 'geometric-design', name: 'Geometric Design',
       application: 'As a civil engineer, you design roads that let drivers see far enough to stop safely, transition smoothly between grades on vertical curves, and navigate horizontal curves at the design speed with proper superelevation. These geometric elements control safety, cost, and right-of-way requirements.' },
     { id: 'traffic-engineering', name: 'Traffic Engineering',
       application: 'As a civil engineer, you time traffic signals to balance safety and efficiency, analyze traffic flow using the Greenshields model, evaluate freeway capacity and level of service, and measure crash rates to compare safety performance across locations.' },
+    { id: 'planning-operations', name: 'Planning & Traffic Operations',
+      application: 'As a civil engineer, you forecast travel with the four-step model and distribute trips between zones using the gravity model, and you apply the MUTCD to select signs, markings, and signals — installing a signal only when a warrant is met. These planning and operations tasks shape demand and safety before and after a road is built.' },
     { id: 'pavement-earthwork', name: 'Pavement Design & Earthwork',
-      application: 'As a civil engineer, you design flexible pavement sections using the AASHTO structural number equation, convert mixed axle loads to ESALs, and compute earthwork volumes between cross sections to estimate cut-and-fill quantities for highway construction.' },
+      application: 'As a civil engineer, you design flexible pavement sections using the AASHTO structural number equation, design rigid (concrete) slabs that carry load by beam action, convert mixed axle loads to ESALs, and compute earthwork volumes between cross sections to estimate cut-and-fill quantities for highway construction.' },
   ],
   formulas: [
     { latex: 'SSD = 1.47 V t + \\frac{V^2}{30\\left(\\frac{a}{32.2} \\pm G\\right)}', label: 'Stopping Sight Distance', page: 'p. 300' },
@@ -17,6 +19,7 @@ export default {
     { latex: 'v_p = \\frac{V}{PHF \\times N \\times f_{HV}}', label: 'Demand Flow Rate', page: 'p. 305' },
     { latex: 'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3', label: 'AASHTO Structural Number', page: 'p. 308' },
     { latex: 'V = \\frac{L(A_1 + A_2)}{2}', label: 'Average End Area Volume', page: 'p. 309' },
+    { latex: 'T_{ij} = P_i \\frac{A_j F_{ij} K_{ij}}{\\sum_j A_j F_{ij} K_{ij}}', label: 'Gravity Model (Trip Distribution)', page: 'p. 306' },
   ],
   traps: [
     'SSD grade sign: uphill (+G) = shorter SSD, downhill (\u2212G) = longer SSD. Students often reverse this.',
@@ -24,5 +27,9 @@ export default {
     'Yellow interval uses v in ft/sec, not mph \u2014 multiply mph by 1.467 to convert.',
     'LOS is determined by DENSITY, not by volume or speed. Compute D = vp/S first.',
     'Average end area always overestimates compared to prismoidal \u2014 don\'t confuse the two.',
+    'In the gravity model, normalize by the sum over ALL destination zones, and remember the friction factor falls as travel time rises.',
+    'Rigid pavement carries load by slab/beam action (depends little on subgrade); flexible spreads load through its layers (structural number).',
+    'Dowel bars transfer load across joints while allowing movement; tie bars hold joints closed \u2014 they are not the same.',
+    'A traffic signal needs a satisfied MUTCD warrant \u2014 an unwarranted signal can increase rear-end crashes and delay.',
   ],
 };

@@ -20,6 +20,7 @@ import crossProduct from './vector-operations/cross-product-applications';
 // Computational Tools
 import spreadsheetComputations from './computational-tools/spreadsheet-computations';
 import structuredProgramming from './computational-tools/structured-programming';
+import numericalMethods from './computational-tools/numerical-methods';
 
 export default [
   {
@@ -55,6 +56,7 @@ export default [
     lessons: [
       spreadsheetComputations,
       structuredProgramming,
+      numericalMethods,
     ],
   },
 ];

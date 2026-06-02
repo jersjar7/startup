@@ -1,12 +1,16 @@
 export default {
-  context: 'This chapter covers soil classification, phase relations, effective stress, consolidation, shear strength, bearing capacity, lateral earth pressure, and retaining wall stability.',
+  context: 'This chapter covers soil classification, phase relations, effective stress, consolidation, shear strength, permeability and seepage, slope stability, bearing capacity, lateral earth pressure, retaining walls, deep foundations, and soil improvement.',
   subtopics: [
     { id: 'soil-properties', name: 'Soil Properties & Classification',
       application: 'As a civil engineer, you classify soils using USCS and AASHTO systems, compute phase relations from lab data (water content, unit weight, void ratio), and construct effective stress profiles through layered soil with a water table. These fundamentals underpin every geotechnical design calculation.' },
     { id: 'consolidation-strength', name: 'Consolidation & Shear Strength',
       application: 'As a civil engineer, you predict how much a clay layer will settle under new loading using the consolidation e-log p curve, and you determine soil shear strength from triaxial tests to check foundation, slope, and retaining wall stability.' },
+    { id: 'seepage-stability', name: 'Seepage & Slope Stability',
+      application: 'As a civil engineer, you use Darcy\'s law and flow nets to quantify seepage through dams and excavations, check the critical hydraulic gradient against quick (boiling) conditions, and compute the factor of safety of natural and engineered slopes — including the destabilizing effect of seepage after rainfall.' },
     { id: 'foundations-walls', name: 'Foundations & Earth Pressures',
       application: 'As a civil engineer, you compute bearing capacity to size foundations, calculate lateral earth pressures to design retaining walls, and check walls for overturning, sliding, and bearing failure. These are the most common geotechnical design tasks in practice.' },
+    { id: 'deep-foundations-improvement', name: 'Deep Foundations & Soil Improvement',
+      application: 'As a civil engineer, you turn to deep foundations (piles, drilled shafts) when surface soils are too weak — combining end bearing and skin friction for capacity — and you improve weak ground by compaction (verified against a Proctor maximum) and chemical stabilization (lime for clays, cement for granular soils).' },
   ],
   formulas: [
     { latex: '\\sigma\' = \\sigma - u', label: 'Effective Stress', page: 'p. 263' },
@@ -17,6 +21,13 @@ export default {
     { latex: 'q_{ult} = cN_c + \\gamma\' D_f N_q + 0.5\\gamma\' BN_\\gamma', label: "Terzaghi's Bearing Capacity", page: 'p. 264' },
     { latex: 'K_a = \\tan^2(45\\degree - \\phi/2)', label: 'Rankine Active Pressure', page: 'p. 263' },
     { latex: 'FS_{\\text{overturning}} = \\Sigma M_R / M_O', label: 'Retaining Wall Overturning', page: 'p. 264' },
+    { latex: 'q = k\\,i\\,A', label: "Darcy's Law", page: 'p. 292' },
+    { latex: 'q = k\\,H\\,N_f/N_d', label: 'Flow-Net Seepage', page: 'p. 292' },
+    { latex: 'i_c = \\frac{G_s - 1}{1 + e}', label: 'Critical Hydraulic Gradient', page: 'p. 260' },
+    { latex: 'FS = \\frac{\\tan\\phi}{\\tan\\beta}', label: 'Infinite Slope (dry, cohesionless)', page: 'p. 265' },
+    { latex: 'RC = \\frac{\\gamma_{d,field}}{\\gamma_{d,max}} \\times 100', label: 'Relative Compaction', page: 'p. 260' },
+    { latex: 'D_r = \\frac{e_{max} - e}{e_{max} - e_{min}} \\times 100', label: 'Relative Density', page: 'p. 260' },
+    { latex: 'Q_{ult} = Q_p + Q_s', label: 'Pile Capacity (end bearing + skin friction)' },
   ],
   traps: [
     'Forgetting to subtract pore water pressure (u) to get effective stress \u2014 this is the single most tested concept.',
@@ -24,5 +35,10 @@ export default {
     'Confusing Cc (compression index) with Cr (recompression index) \u2014 use Cr when stress stays below preconsolidation.',
     'Active vs. passive earth pressure: active is when the wall moves AWAY from soil, passive is when wall pushes INTO soil.',
     'Not dividing ultimate bearing capacity by FS when the problem asks for allowable bearing pressure.',
+    'Discharge velocity v = ki is NOT the seepage velocity — divide by porosity (v_s = ki/n) for the real pore speed.',
+    'A quick (boiling) condition occurs when the upward exit gradient reaches the critical gradient i_c = (G_s−1)/(1+e), usually near 1.0.',
+    'Seepage parallel to a slope roughly halves the factor of safety (γ′/γ_sat ≈ 0.5) — never ignore it after rainfall.',
+    'Relative compaction (vs. Proctor maximum) and relative density (vs. e_max/e_min) are different measures — relative density is for cohesionless soils.',
+    'Negative skin friction (downdrag) ADDS load to a pile; it does not help support it.',
   ],
 };

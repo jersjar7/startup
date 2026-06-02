@@ -1,5 +1,5 @@
 // Exam bank: transportation
-// Auto-extracted from lesson files — 32 questions
+// Auto-extracted from lesson files — 35 questions
 
 const PROBLEMS = [
   {
@@ -1602,6 +1602,96 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'earthwork',
+    chapterId: 'transportation'
+  },
+  {
+    id: 'trans-td-ex1',
+    type: 'computational',
+    statement: 'Zone $i$ produces $P_i = 600$ trips. The trips can go to Zone A ($A_A = 400$, $F = 0.4$) or Zone B ($A_B = 100$, $F = 0.6$), with $K = 1$. How many trips go from Zone $i$ to Zone A?',
+    choices: [
+      { id: 'c1', text: '$436\\text{ trips}$' },
+      { id: 'c2', text: '$164\\text{ trips}$' },
+      { id: 'c3', text: '$480\\text{ trips}$' },
+      { id: 'c4', text: '$300\\text{ trips}$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Weights A·F: Zone A = 400(0.4) = 160; Zone B = 100(0.6) = 60; sum = 220. Fraction to A = 160/220 = 0.727, so T = 600 × 0.727 = 436 trips. Choice B is the trips to Zone B (60/220 × 600). Choice C uses attractions only (400/500). Choice D splits evenly.',
+    hint: 'Weight each destination by A×F, normalize by the total, multiply by Pi.',
+    steps: [
+      { text: 'Zone weights:', latex: 'A_A F = 400(0.4) = 160, \\quad A_B F = 100(0.6) = 60' },
+      { text: 'Fraction to Zone A:', latex: '\\frac{160}{220} = 0.727' },
+      { text: 'Trips:', latex: 'T = 600 \\times 0.727 = 436\\text{ trips}' },
+    ],
+    handbookPage: 'p. 306',
+    handbookFormula: 'T_{ij} = P_i[A_j F_{ij} K_{ij}/\\sum A_j F_{ij} K_{ij}]',
+    videoUrl: null,
+    traps: [
+      'Distributing by attractions alone, ignoring friction factors',
+      'Failing to normalize by the sum over all zones',
+    ],
+    diagram: null,
+    lessonId: 'travel-demand',
+    chapterId: 'transportation'
+  },
+  {
+    id: 'trans-rp-ex1',
+    type: 'conceptual',
+    statement: 'Compared with flexible pavement, a rigid (PCC) pavement is generally LESS sensitive to subgrade strength. Why?',
+    choices: [
+      { id: 'c1', text: 'The stiff slab distributes load over a wide area by beam action' },
+      { id: 'c2', text: 'Concrete is weaker in bending than asphalt' },
+      { id: 'c3', text: 'Rigid pavement transmits all load directly beneath the wheel' },
+      { id: 'c4', text: 'Rigid pavement has no subgrade' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'A rigid slab bends like a beam and spreads each wheel load over a large area of subgrade, so the foundation strength matters less than for flexible pavement. Choice B is false (concrete carries the bending). Choice C is the opposite of slab behavior. Choice D is incorrect — there is always a subgrade.',
+    hint: 'How does a stiff slab spread load, and what does that imply about subgrade dependence?',
+    steps: [
+      { text: 'A rigid slab acts as a beam over the subgrade.', latex: null },
+      { text: 'Beam action distributes load over a wide area.', latex: null },
+      { text: 'So subgrade strength matters less than for flexible pavement.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Assuming rigid pavement depends heavily on subgrade like flexible does',
+      'Thinking a slab concentrates load beneath the wheel',
+    ],
+    diagram: null,
+    lessonId: 'rigid-pavement',
+    chapterId: 'transportation'
+  },
+  {
+    id: 'trans-tcd-ex1',
+    type: 'conceptual',
+    statement: 'Under the MUTCD, a green sign giving the distance to the next town is which category of traffic control device?',
+    choices: [
+      { id: 'c1', text: 'Guide sign' },
+      { id: 'c2', text: 'Regulatory sign' },
+      { id: 'c3', text: 'Warning sign' },
+      { id: 'c4', text: 'Signal indication' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Green signs that give directions, distances, and destinations are GUIDE signs. Regulatory signs (white/red) state laws; warning signs (yellow diamonds) alert to conditions; a signal indication is a traffic light, not a sign.',
+    hint: 'Green color + giving directions/distances = which category?',
+    steps: [
+      { text: 'Guide signs provide directions and distances and are green.', latex: null },
+      { text: 'The sign described matches that purpose and color.', latex: null },
+      { text: 'So it is a guide sign.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Confusing guide (green) with regulatory or warning signs',
+      'Calling a sign a signal indication',
+    ],
+    diagram: null,
+    lessonId: 'traffic-control-devices',
     chapterId: 'transportation'
   },
 ];

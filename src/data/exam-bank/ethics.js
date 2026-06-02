@@ -1,5 +1,5 @@
 // Exam bank: ethics
-// Auto-extracted from lesson files — 20 questions
+// Auto-extracted from lesson files — 24 questions
 
 const PROBLEMS = [
   {
@@ -1109,6 +1109,126 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'intellectual-property-sustainability',
+    chapterId: 'ethics'
+  },
+  {
+    id: 'eth-con-ex1',
+    type: 'conceptual',
+    statement: 'A project owner wants maximum cost certainty for a well-defined scope of work and is willing to pay a premium for it. Which contract type best meets this goal?',
+    choices: [
+      { id: 'c1', text: 'Lump-sum (fixed-price) contract' },
+      { id: 'c2', text: 'Cost-plus-fixed-fee contract' },
+      { id: 'c3', text: 'Cost-plus-percentage-of-cost contract' },
+      { id: 'c4', text: 'Time-and-materials contract' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'A lump-sum contract fixes the price, giving the owner cost certainty and pushing overrun risk onto the contractor — which is exactly what the owner wants for a well-defined scope. Cost-plus and time-and-materials contracts reimburse actual costs, so the owner bears the overrun risk and has little cost certainty.',
+    hint: 'Which contract gives the OWNER a fixed, known price?',
+    steps: [
+      { text: 'Cost certainty for the owner means a fixed price.', latex: null },
+      { text: 'Lump sum fixes the price; cost-plus/T&M reimburse actual cost.', latex: null },
+      { text: 'So a lump-sum contract best fits a well-defined scope needing cost certainty.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Confusing cost-plus (owner risk) with lump sum (contractor risk)',
+      'Assuming T&M gives cost certainty — it does not',
+    ],
+    diagram: null,
+    lessonId: 'engineering-contracts',
+    chapterId: 'ethics'
+  },
+  {
+    id: 'eth-con-ex2',
+    type: 'conceptual',
+    statement: 'Two parties sign a written agreement, but only one party promises to perform — the other gives nothing of value in return. Is this a binding contract?',
+    choices: [
+      { id: 'c1', text: 'No — it lacks consideration, since value must be exchanged by both parties' },
+      { id: 'c2', text: 'Yes — a signed written agreement is always binding' },
+      { id: 'c3', text: 'Yes — as long as one party performs, the contract is valid' },
+      { id: 'c4', text: 'No — because the agreement was not notarized' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Consideration — value exchanged by BOTH sides — is a required element of a contract. A one-sided promise (essentially a gift) is not enforceable as a contract no matter how it is signed. Choice B overstates the power of a signature, Choice C ignores the mutual-exchange requirement, and Choice D is wrong because notarization is not a formation element.',
+    hint: 'Which required element is missing when only one side gives value?',
+    steps: [
+      { text: 'A valid contract needs consideration from both parties.', latex: null },
+      { text: 'Here only one party gives value — no mutual exchange.', latex: null },
+      { text: 'Without consideration, it is not a binding contract.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Assuming a signature alone makes an agreement enforceable',
+      'Thinking notarization is required for validity',
+    ],
+    diagram: null,
+    lessonId: 'engineering-contracts',
+    chapterId: 'ethics'
+  },
+  {
+    id: 'eth-liab-ex1',
+    type: 'conceptual',
+    statement: 'A homeowner sues an engineer for negligence after a retaining wall settles. The engineer’s design met the standard of care of competent practitioners at the time. What is the most likely outcome?',
+    choices: [
+      { id: 'c1', text: 'The engineer is likely not liable, because meeting the standard of care is the legal benchmark — not guaranteeing a perfect result' },
+      { id: 'c2', text: 'The engineer is automatically liable because the wall settled' },
+      { id: 'c3', text: 'The engineer is liable only if the homeowner can prove intent' },
+      { id: 'c4', text: 'The engineer is liable because engineers guarantee their designs' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Engineers are judged against the standard of care, not against perfection. If the design met what a reasonably competent engineer would have done, negligence is generally not established even though a problem later appeared. Choice B assumes any failure equals liability, Choice C imports intent (not required for negligence), and Choice D wrongly treats engineers as guarantors.',
+    hint: 'Engineers are not guarantors — what benchmark actually determines negligence?',
+    steps: [
+      { text: 'Liability for negligence turns on the standard of care.', latex: null },
+      { text: 'The design met that standard, so a key element (breach) is absent.', latex: null },
+      { text: 'Therefore the engineer is likely not liable.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Treating any failure as automatic liability',
+      'Requiring intent for a negligence claim',
+    ],
+    diagram: null,
+    lessonId: 'professional-liability',
+    chapterId: 'ethics'
+  },
+  {
+    id: 'eth-liab-ex2',
+    type: 'conceptual',
+    statement: 'In a negligence claim against an engineer, the plaintiff proves the engineer owed a duty and breached it, but cannot show that the breach actually caused any measurable harm. Can the negligence claim succeed?',
+    choices: [
+      { id: 'c1', text: 'No — all four elements (duty, breach, causation, damages) must be proven' },
+      { id: 'c2', text: 'Yes — proving duty and breach is sufficient' },
+      { id: 'c3', text: 'Yes — causation is not part of a negligence claim' },
+      { id: 'c4', text: 'No — but only because intent was not shown' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Negligence requires all four elements: duty, breach, causation, and damages. Without causation linking the breach to actual measurable harm, the claim fails even if duty and breach are clear. Choice B drops two elements, Choice C wrongly removes causation, and Choice D misstates the reason (intent is not a negligence element at all).',
+    hint: 'How many elements must a negligence plaintiff prove, and is causation one of them?',
+    steps: [
+      { text: 'Negligence elements: duty, breach, causation, damages.', latex: null },
+      { text: 'Causation and damages are missing here.', latex: null },
+      { text: 'Missing any element defeats the claim, so it cannot succeed.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Believing duty + breach alone establishes negligence',
+      'Forgetting causation and damages are required',
+    ],
+    diagram: null,
+    lessonId: 'professional-liability',
     chapterId: 'ethics'
   },
 ];

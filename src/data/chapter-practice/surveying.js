@@ -1,4 +1,4 @@
-// Chapter practice: Surveying (14 questions, 2 per lesson)
+// Chapter practice: Surveying (15 questions, 2 per lesson)
 
 const PROBLEMS = [
   {
@@ -415,6 +415,32 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'vertical-curves',
+    chapterId: 'surveying',
+  },
+  {
+    id: 'surv-cg-cp1',
+    type: 'computational',
+    statement: 'A course of length $150\\text{ ft}$ is run at an azimuth of $60\\degree$. What is its departure (east-west component)?',
+    choices: [
+      { id: 'c1', text: '$129.9\\text{ ft}$' },
+      { id: 'c2', text: '$75.0\\text{ ft}$' },
+      { id: 'c3', text: '$150.0\\text{ ft}$' },
+      { id: 'c4', text: '$86.6\\text{ ft}$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Departure = L·sin(Az) = 150·sin(60°) = 150(0.8660) = 129.9 ft. Choice B uses cos with a slip (150·cos60° = 75 is actually the latitude). Choice C is the full length. Choice D applies sin to the wrong angle.',
+    hint: 'Departure (E-W) = L·sin(azimuth).',
+    steps: [
+      { text: 'Departure:', latex: '\\Delta E = 150\\sin 60\\degree = 150(0.8660)' },
+      { text: 'Compute:', latex: '\\Delta E = 129.9\\text{ ft}' },
+    ],
+    handbookPage: null,
+    handbookFormula: '\\Delta E = L\\sin(Az)',
+    videoUrl: null,
+    traps: ['Using cosine (latitude) for the departure', 'Reporting the full course length'],
+    diagram: null,
+    lessonId: 'coordinate-geometry',
     chapterId: 'surveying',
   },
 ];

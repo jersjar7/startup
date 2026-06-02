@@ -1,4 +1,4 @@
-// Chapter practice: Statics (12 questions, 2 per lesson)
+// Chapter practice: Statics (13 questions, 2 per lesson)
 
 const PROBLEMS = [
   {
@@ -503,6 +503,33 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'area-moments-of-inertia',
+    chapterId: 'statics',
+  },
+  {
+    id: 'stat-fm-cp1',
+    type: 'conceptual',
+    statement: 'In analyzing a frame, you identify a straight member pinned only at its two ends with no load between. What can you immediately conclude about it?',
+    choices: [
+      { id: 'c1', text: 'It is a two-force member, so its force acts along the line joining the pins' },
+      { id: 'c2', text: 'It carries bending and its pin forces are perpendicular to it' },
+      { id: 'c3', text: 'It carries no force at all' },
+      { id: 'c4', text: 'Its force direction cannot be determined' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Loaded at only two points → two-force member, so the forces are equal, opposite, and directed along the member axis. That immediately fixes the force direction and simplifies the frame analysis. Choice B describes a multi-force member. Choice C is false (it can carry axial force). Choice D is wrong — the direction IS known.',
+    hint: 'A member loaded at exactly two points is a special case — what does that fix?',
+    steps: [
+      { text: 'Two load points → two-force member.', latex: null },
+      { text: 'Equilibrium makes the forces collinear with the two pins.', latex: null },
+      { text: 'So the force acts along the member axis.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: ['Treating it as a multi-force (bending) member', 'Assuming a two-force member carries zero force'],
+    diagram: null,
+    lessonId: 'frames-machines',
     chapterId: 'statics',
   },
 ];

@@ -6,9 +6,10 @@ import bendingShearStresses from './bending-shear-stresses';
 import beamDeflections from './beam-deflections';
 import combinedStressesMohrsCircle from './combined-stresses-mohrs-circle';
 import columnBuckling from './column-buckling';
+import transformedSectionsPlastic from './transformed-sections-plastic';
 
 export default [
   { subtopicId: 'stress-strain-fundamentals', lessons: [axialStressStrainDeformation, torsion, stressStrainDiagrams] },
-  { subtopicId: 'beams', lessons: [shearMomentDiagrams, bendingShearStresses, beamDeflections] },
+  { subtopicId: 'beams', lessons: [shearMomentDiagrams, bendingShearStresses, beamDeflections, transformedSectionsPlastic] },
   { subtopicId: 'combined-loading-stability', lessons: [combinedStressesMohrsCircle, columnBuckling] },
 ];

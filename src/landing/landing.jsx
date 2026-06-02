@@ -124,7 +124,7 @@ export function Landing({ userName }) {
             <ArrowRight weight="bold" size={18} />
           </button>
           <p className="hero-price">
-            <strong>The whole platform is free</strong> — every lesson, 990 practice problems,
+            <strong>The whole platform is free</strong> — every lesson, 1,126 practice problems,
             the diagnostic, and spaced repetition. No trial, no credit card. The one optional
             extra is a full timed exam simulation: ${STUDENT_PRICE} for students, ${STANDARD_PRICE} standard.
           </p>
@@ -542,7 +542,7 @@ export function Landing({ userName }) {
               </div>
               <ul className="pricing-features">
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> All 15 chapters of lessons</li>
-                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> 990 practice problems</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> 1,126 practice problems</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> ELI5 explanations</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> Step-by-step solutions</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> FE Handbook references</li>

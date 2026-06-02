@@ -1,5 +1,5 @@
 // Exam bank: surveying
-// Auto-extracted from lesson files — 28 questions
+// Auto-extracted from lesson files — 29 questions
 
 const PROBLEMS = [
   {
@@ -1492,6 +1492,32 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'vertical-curves',
+    chapterId: 'surveying'
+  },
+  {
+    id: 'surv-cg-ex1',
+    type: 'computational',
+    statement: 'Point A is at $(E, N) = (2{,}000, 3{,}000)$ and point B at $(2{,}600, 3{,}800)$ (ft). What is the straight-line distance from A to B?',
+    choices: [
+      { id: 'c1', text: '$1{,}000\\text{ ft}$' },
+      { id: 'c2', text: '$1{,}400\\text{ ft}$' },
+      { id: 'c3', text: '$700\\text{ ft}$' },
+      { id: 'c4', text: '$500\\text{ ft}$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'ΔE = 600, ΔN = 800; distance = √(600² + 800²) = √(360,000 + 640,000) = √1,000,000 = 1,000 ft (a 6-8-10 triangle). Choice B adds the differences. Choice C averages them. Choice D halves ΔN.',
+    hint: 'Distance = √(ΔE² + ΔN²).',
+    steps: [
+      { text: 'Differences:', latex: '\\Delta E = 600, \\quad \\Delta N = 800' },
+      { text: 'Distance:', latex: 'L = \\sqrt{600^2 + 800^2} = 1{,}000\\text{ ft}' },
+    ],
+    handbookPage: null,
+    handbookFormula: 'L = \\sqrt{\\Delta E^2 + \\Delta N^2}',
+    videoUrl: null,
+    traps: ['Adding ΔE and ΔN instead of using the Pythagorean distance', 'Swapping easting and northing'],
+    diagram: null,
+    lessonId: 'coordinate-geometry',
     chapterId: 'surveying'
   },
 ];

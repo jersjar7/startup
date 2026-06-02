@@ -1,5 +1,5 @@
 // Exam bank: mechanics-materials
-// Auto-extracted from lesson files — 32 questions
+// Auto-extracted from lesson files — 33 questions
 
 const PROBLEMS = [
   {
@@ -1652,6 +1652,32 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'column-buckling',
+    chapterId: 'mechanics-materials'
+  },
+  {
+    id: 'mom-tsp-ex1',
+    type: 'computational',
+    statement: 'A steel beam has yield stress $F_y = 36\\text{ ksi}$ and plastic section modulus $Z = 50\\text{ in}^3$. What is its plastic moment?',
+    choices: [
+      { id: 'c1', text: '$150\\text{ kip·ft}$' },
+      { id: 'c2', text: '$1{,}800\\text{ kip·ft}$' },
+      { id: 'c3', text: '$75\\text{ kip·ft}$' },
+      { id: 'c4', text: '$125\\text{ kip·ft}$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'Mp = Fy·Z = 36 × 50 = 1,800 kip·in = 1,800/12 = 150 kip·ft. Choice B leaves it in kip·in. Choice C halves it. Choice D uses a smaller (elastic) modulus.',
+    hint: 'Mp = Fy·Z, then convert kip·in to kip·ft (÷12).',
+    steps: [
+      { text: 'Plastic moment:', latex: 'M_p = 36 \\times 50 = 1{,}800\\text{ kip·in}' },
+      { text: 'Convert:', latex: 'M_p = 1{,}800/12 = 150\\text{ kip·ft}' },
+    ],
+    handbookPage: 'p. 281',
+    handbookFormula: 'M_p = F_y Z',
+    videoUrl: null,
+    traps: ['Leaving the answer in kip·in', 'Using the elastic section modulus S'],
+    diagram: null,
+    lessonId: 'transformed-sections-plastic',
     chapterId: 'mechanics-materials'
   },
 ];

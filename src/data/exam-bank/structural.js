@@ -1549,7 +1549,7 @@ const PROBLEMS = [
       }
     ],
     handbookPage: 'p. 282',
-    handbookFormula: 'A_n = \\left[b_g - \\Sigma\\left(d_b + \\frac{1}{8}\\text{\\textquotedbl}\\right)\\right] t',
+    handbookFormula: 'A_n = \\left[b_g - \\Sigma\\left(d_b + \\tfrac{1}{8}\\text{ in.}\\right)\\right] t',
     videoUrl: null,
     traps: [
       'Forgetting the 1/8" addition for clearance and damage — the hole is larger than the bolt'

@@ -519,7 +519,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
               {' '}or{' '}
               <a href="https://www.reddit.com/r/engineeringstudents/" target="_blank" rel="noopener noreferrer">r/engineeringstudents</a>,
               a quick{' '}
-              <a href="https://x.com/intent/tweet?text=Studying%20for%20the%20FE%20Civil%20exam%3F%20FE%20for%20Raccoons%20is%20free%3A%20lessons%2C%20990%20problems%2C%20a%20diagnostic.%20fe4raccoons.com" target="_blank" rel="noopener noreferrer">post on X</a>,
+              <a href="https://x.com/intent/tweet?text=Studying%20for%20the%20FE%20Civil%20exam%3F%20FE%20for%20Raccoons%20is%20free%3A%20lessons%2C%201126%20problems%2C%20a%20diagnostic.%20fe4raccoons.com" target="_blank" rel="noopener noreferrer">post on X</a>,
               or a mention anywhere fellow engineers hang out would mean the world.
             </p>
           </div>
