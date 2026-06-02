@@ -1,5 +1,5 @@
 // Exam bank: materials
-// Auto-extracted from lesson files — 28 questions
+// Auto-extracted from lesson files — 32 questions
 
 const PROBLEMS = [
   {
@@ -1421,6 +1421,122 @@ const PROBLEMS = [
     ],
     diagram: null,
     lessonId: 'corrosion-material-selection',
+    chapterId: 'materials'
+  },
+  {
+    id: 'mat-agg-ex1',
+    type: 'computational',
+    statement: 'A coarse aggregate sample weighs $1{,}020\\text{ g}$ saturated-surface-dry and $1{,}000\\text{ g}$ oven-dry. What is its absorption?',
+    choices: [
+      { id: 'c1', text: '$2.0\\%$' },
+      { id: 'c2', text: '$1.96\\%$' },
+      { id: 'c3', text: '$20\\%$' },
+      { id: 'c4', text: '$0.2\\%$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Absorption = (SSD − OD)/OD × 100 = (1,020 − 1,000)/1,000 × 100 = 20/1,000 × 100 = 2.0%. Choice B divides by SSD weight. Choice C forgets to divide by the mass. Choice D drops a factor of 10.',
+    hint: 'Absorption = (SSD − oven-dry)/oven-dry × 100.',
+    steps: [
+      { text: 'Water absorbed:', latex: '1{,}020 - 1{,}000 = 20\\text{ g}' },
+      { text: 'Divide by dry mass:', latex: '\\frac{20}{1{,}000} \\times 100 = 2.0\\%' },
+    ],
+    handbookPage: null,
+    handbookFormula: '\\text{Absorption} = (W_{SSD} - W_{OD})/W_{OD} \\times 100',
+    videoUrl: null,
+    traps: [
+      'Dividing by the SSD weight instead of the oven-dry weight',
+      'Reporting the raw water mass instead of a percentage',
+    ],
+    diagram: null,
+    lessonId: 'aggregate-properties',
+    chapterId: 'materials'
+  },
+  {
+    id: 'mat-asp-ex1',
+    type: 'computational',
+    statement: 'A compacted asphalt mix has bulk specific gravity $G_{mb} = 2.350$ and theoretical maximum specific gravity $G_{mm} = 2.470$. What is the air void content?',
+    choices: [
+      { id: 'c1', text: '$4.9\\%$' },
+      { id: 'c2', text: '$5.1\\%$' },
+      { id: 'c3', text: '$12.0\\%$' },
+      { id: 'c4', text: '$0.95\\%$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'medium',
+    eli5: 'V_a = 100 × (Gmm − Gmb)/Gmm = 100 × (2.470 − 2.350)/2.470 = 100 × 0.120/2.470 = 4.9%. Choice B divides by Gmb instead of Gmm. Choice C forgets to divide by Gmm. Choice D inverts the fraction.',
+    hint: 'Air voids = 100 × (Gmm − Gmb)/Gmm.',
+    steps: [
+      { text: 'Difference:', latex: 'G_{mm} - G_{mb} = 2.470 - 2.350 = 0.120' },
+      { text: 'Air voids:', latex: 'V_a = 100 \\times \\frac{0.120}{2.470} = 4.9\\%' },
+    ],
+    handbookPage: null,
+    handbookFormula: 'V_a = 100(G_{mm} - G_{mb})/G_{mm}',
+    videoUrl: null,
+    traps: [
+      'Dividing by G_mb instead of G_mm',
+      'Swapping the two specific gravities',
+    ],
+    diagram: null,
+    lessonId: 'asphalt-mix-design',
+    chapterId: 'materials'
+  },
+  {
+    id: 'mat-wm-ex1',
+    type: 'computational',
+    statement: 'A timber specimen weighs $108\\text{ lb}$ as received and $90\\text{ lb}$ after oven drying. What is its moisture content?',
+    choices: [
+      { id: 'c1', text: '$20\\%$' },
+      { id: 'c2', text: '$16.7\\%$' },
+      { id: 'c3', text: '$18\\%$' },
+      { id: 'c4', text: '$83\\%$' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'MC = (wet − OD)/OD × 100 = (108 − 90)/90 × 100 = 18/90 × 100 = 20%. Choice B divides by the wet weight (108). Choice C reports the raw water mass. Choice D divides oven-dry by wet.',
+    hint: 'Moisture content = (wet − oven-dry)/oven-dry × 100.',
+    steps: [
+      { text: 'Water mass:', latex: '108 - 90 = 18\\text{ lb}' },
+      { text: 'Divide by oven-dry mass:', latex: '\\frac{18}{90} \\times 100 = 20\\%' },
+    ],
+    handbookPage: null,
+    handbookFormula: 'MC = (W_{wet} - W_{OD})/W_{OD} \\times 100',
+    videoUrl: null,
+    traps: [
+      'Dividing by the wet weight instead of the oven-dry weight',
+      'Reporting the raw water mass as the moisture content',
+    ],
+    diagram: null,
+    lessonId: 'wood-masonry',
+    chapterId: 'materials'
+  },
+  {
+    id: 'mat-wm-ex2',
+    type: 'conceptual',
+    statement: 'A masonry specification calls for the strongest available mortar to resist high compressive and lateral loads. Which mortar type should be specified?',
+    choices: [
+      { id: 'c1', text: 'Type M' },
+      { id: 'c2', text: 'Type N' },
+      { id: 'c3', text: 'Type O' },
+      { id: 'c4', text: 'Type S' },
+    ],
+    correctAnswerId: 'c1',
+    difficulty: 'easy',
+    eli5: 'Mortar types run M, S, N, O from strongest to weakest, so Type M has the highest compressive strength and is specified where strength governs. Type S is second. Types N and O are progressively weaker, general-purpose and interior mortars.',
+    hint: 'Strength order M > S > N > O ("MaSoN wOrK").',
+    steps: [
+      { text: 'Mortar strength order: M > S > N > O.', latex: null },
+      { text: 'The strongest is Type M.', latex: null },
+    ],
+    handbookPage: null,
+    handbookFormula: null,
+    videoUrl: null,
+    traps: [
+      'Picking Type S or N as the strongest',
+      'Assuming alphabetical order tracks strength',
+    ],
+    diagram: null,
+    lessonId: 'wood-masonry',
     chapterId: 'materials'
   },
 ];

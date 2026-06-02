@@ -1,10 +1,12 @@
 export default {
-  context: 'This chapter covers mechanical properties of materials, material testing methods, thermal and processing effects, concrete mix design and curing, composite materials, and corrosion — the core materials science topics tested on the FE Civil exam.',
+  context: 'This chapter covers mechanical properties of materials, material testing methods, thermal and processing effects, concrete mix design and curing, aggregates, asphalt, wood and masonry, composite materials, and corrosion — the core materials topics tested on the FE Civil exam.',
   subtopics: [
     { id: 'mechanical-properties', name: 'Mechanical Properties & Testing',
       application: 'As a civil engineer, you interpret tensile test results to verify that steel meets specifications, check Brinell hardness to estimate tensile strength in the field, review Charpy impact data to ensure bridge steel won\'t become brittle in cold climates, and evaluate fracture toughness to assess crack tolerance. Understanding stress-strain behavior, thermal processing, and phase diagrams lets you predict how materials perform under real-world loading and environmental conditions.' },
     { id: 'concrete-technology', name: 'Concrete Technology',
       application: 'As a civil engineer, you specify and approve concrete mixes on nearly every project — setting the water-cement ratio for target strength, specifying air entrainment for freeze-thaw durability, evaluating 7-day and 28-day cylinder break results, and writing curing specifications. Getting these right is the difference between a durable structure and one that cracks, spalls, or fails to meet design strength.' },
+    { id: 'construction-materials', name: 'Construction Materials',
+      application: 'As a civil engineer, you test and proportion the aggregates, asphalt, wood, and masonry that build roadways and structures — checking aggregate gradation, specific gravity, and absorption; verifying asphalt air voids, VMA, and VFA against mix-design targets; and accounting for wood moisture content and masonry mortar types. These material checks ensure pavements and assemblies meet specification and perform durably.' },
     { id: 'composites-selection', name: 'Composites & Material Selection',
       application: 'As a civil engineer, you encounter composites in FRP bridge decks, carbon fiber wraps for column strengthening, and fiber-reinforced concrete. You also manage corrosion on every project with exposed metals — selecting coatings, specifying cathodic protection, and avoiding galvanic couples between dissimilar metals. The rule of mixtures lets you estimate composite properties, while the galvanic series guides material compatibility decisions.' },
   ],
@@ -16,6 +18,11 @@ export default {
     { latex: '\\Delta L = \\alpha L \\Delta T', label: 'Thermal Expansion', page: 'p. 126' },
     { latex: 'W/C = \\frac{\\text{weight of water}}{\\text{weight of cement}}', label: 'Water-Cement Ratio', page: 'p. 125' },
     { latex: 'E_c = f_1 E_1 + f_2 E_2', label: 'Rule of Mixtures (Modulus)', page: 'p. 123' },
+    { latex: 'G_{sb} = \\frac{A}{B - C}', label: 'Aggregate Bulk Specific Gravity' },
+    { latex: '\\text{Absorption} = \\frac{W_{SSD} - W_{OD}}{W_{OD}} \\times 100', label: 'Aggregate Absorption (%)' },
+    { latex: 'V_a = 100\\frac{G_{mm} - G_{mb}}{G_{mm}}', label: 'Asphalt Air Voids (VTM)' },
+    { latex: 'VFA = 100\\frac{VMA - V_a}{VMA}', label: 'Voids Filled with Asphalt' },
+    { latex: 'MC\\% = \\frac{W_{wet} - W_{OD}}{W_{OD}} \\times 100', label: 'Wood Moisture Content' },
   ],
   traps: [
     'Lower water-cement ratio means HIGHER strength \u2014 students often get this backwards.',
@@ -25,5 +32,9 @@ export default {
     'Forgetting to convert crack length from mm to m in K_IC calculations \u2014 off by orders of magnitude.',
     'Swapping lever arms in the lever rule \u2014 the fraction of a phase uses the OPPOSITE arm.',
     'Confusing quenching (rapid cooling \u2192 martensite) with slow cooling (\u2192 ferrite + cementite).',
+    'Aggregate specific gravity and absorption reference the OVEN-DRY weight; bulk SG = A/(B\u2212C), apparent SG = A/(A\u2212C).',
+    'Asphalt air voids divide by G_mm (void-free), which is always greater than G_mb (bulk with air).',
+    'Mortar types M-S-N-O run strongest to weakest \u2014 Type M is strongest, not Type N or O.',
+    'Wood moisture content references oven-dry mass and can exceed 100% for green timber.',
   ],
 };
