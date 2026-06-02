@@ -75,7 +75,7 @@ export default {
         "Counting the fixed end as 2 reactions (it provides 3, including the moment)",
         "Treating the propped cantilever as determinate (DSI = 0)"
       ],
-      "diagram": null
+      "diagram": { "component": "ProppedCantilever", "props": {"length":6,"w":0} }
     },
     {
       "id": "str-ind-q2",
@@ -102,7 +102,7 @@ export default {
         "Using wL/2 = 48 kN (the simple-span reaction) instead of 3wL/8",
         "Splitting the load evenly between supports"
       ],
-      "diagram": null
+      "diagram": { "component": "ProppedCantilever", "props": {"length":8,"w":12,"unit":"kN/m"} }
     },
     {
       "id": "str-ind-q3",
@@ -129,7 +129,7 @@ export default {
         "Using wL²/8 = 45 kN·m (the simple-span moment) for the fixed end",
         "Confusing the end moment with the reduced midspan moment (wL²/24)"
       ],
-      "diagram": null
+      "diagram": { "component": "FixedFixedBeam", "props": {"span":6,"w":10,"unit":"kN/m"} }
     }
   ]
 };

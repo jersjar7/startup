@@ -94,7 +94,7 @@ export default {
         'Dividing the gain by the future value instead of the present value',
         'Forgetting that a single-period IRR is just the simple growth rate',
       ],
-      diagram: null,
+      diagram: { component: 'CashFlowIRR', props: {} },
     },
   ],
 };

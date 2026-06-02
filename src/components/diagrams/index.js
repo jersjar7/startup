@@ -80,6 +80,27 @@ import { ConsolidationLayer } from './ConsolidationLayer';
 import { PavementStack } from './PavementStack';
 import { EarthworkSection } from './EarthworkSection';
 import { CpmNetwork } from './CpmNetwork';
+import { CantileverEndLoad } from './CantileverEndLoad';
+import { ProppedCantilever } from './ProppedCantilever';
+import { FixedFixedBeam } from './FixedFixedBeam';
+import { TrussJointFBD } from './TrussJointFBD';
+import { ProctorCurve } from './ProctorCurve';
+import { PileCapacity } from './PileCapacity';
+import { InfiniteSlope } from './InfiniteSlope';
+import { SlopeWedge } from './SlopeWedge';
+import { FlowNet } from './FlowNet';
+import { PumpSystem } from './PumpSystem';
+import { FilterBed } from './FilterBed';
+import { SignShapes } from './SignShapes';
+import { GravityModelZones } from './GravityModelZones';
+import { RigidPavementJoint } from './RigidPavementJoint';
+import { AsphaltVolumetrics } from './AsphaltVolumetrics';
+import { SieveStack } from './SieveStack';
+import { NewtonTangent } from './NewtonTangent';
+import { CompositeSection } from './CompositeSection';
+import { CashFlowIRR } from './CashFlowIRR';
+import { LeverMachine } from './LeverMachine';
+import { CoordinateInverse } from './CoordinateInverse';
 
 export const DIAGRAM_REGISTRY = {
   RightTriangle,
@@ -164,4 +185,25 @@ export const DIAGRAM_REGISTRY = {
   PavementStack,
   EarthworkSection,
   CpmNetwork,
+  CantileverEndLoad,
+  ProppedCantilever,
+  FixedFixedBeam,
+  TrussJointFBD,
+  ProctorCurve,
+  PileCapacity,
+  InfiniteSlope,
+  SlopeWedge,
+  FlowNet,
+  PumpSystem,
+  FilterBed,
+  SignShapes,
+  GravityModelZones,
+  RigidPavementJoint,
+  AsphaltVolumetrics,
+  SieveStack,
+  NewtonTangent,
+  CompositeSection,
+  CashFlowIRR,
+  LeverMachine,
+  CoordinateInverse,
 };

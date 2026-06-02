@@ -45,7 +45,7 @@ export default {
         'Reporting fluid power and forgetting to divide by efficiency',
         'Multiplying by η instead of dividing — brake power must be larger than fluid power',
       ],
-      diagram: null,
+      diagram: { component: 'PumpSystem', props: {} },
     },
     {
       id: 'wr-pwd-q2',
@@ -72,7 +72,7 @@ export default {
         'Treating a suction lift as a positive static head (wrong sign)',
         'Omitting the vapor pressure or friction terms',
       ],
-      diagram: null,
+      diagram: { component: 'PumpSystem', props: {} },
     },
     {
       id: 'wr-pwd-q3',
@@ -99,7 +99,7 @@ export default {
         'Dividing by 746 W/hp instead of 550 ft·lb/s/hp (mixing unit systems)',
         'Forgetting the conversion entirely and leaving power in ft·lb/s',
       ],
-      diagram: null,
+      diagram: { component: 'PumpSystem', props: {} },
     },
   ],
 };

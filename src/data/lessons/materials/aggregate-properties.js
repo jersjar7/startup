@@ -69,7 +69,7 @@ export default {
         'Forgetting to divide the cumulative sum by 100',
         'Using percent passing instead of cumulative percent retained',
       ],
-      diagram: null,
+      diagram: { component: 'SieveStack', props: {} },
     },
     {
       id: 'mat-agg-q3',

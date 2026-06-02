@@ -40,7 +40,7 @@ export default {
         'Forgetting to divide by the derivative',
         'Adding instead of subtracting the correction',
       ],
-      diagram: null,
+      diagram: { component: 'NewtonTangent', props: {} },
     },
     {
       id: 'math-num-q2',

@@ -68,7 +68,7 @@ export default {
         'Dividing by the arm ratio instead of multiplying',
         'Forgetting to take moments about the pivot',
       ],
-      diagram: null,
+      diagram: { component: 'LeverMachine', props: {} },
     },
     {
       id: 'stat-fm-q3',
@@ -95,7 +95,7 @@ export default {
         'Swapping the truss and frame member definitions',
         'Confusing a frame (stationary) with a machine (moving parts)',
       ],
-      diagram: null,
+      diagram: { component: 'FrameSchematic', props: { variant: 'portal', leftSupport: 'pin', rightSupport: 'fixed' } },
     },
   ],
 };

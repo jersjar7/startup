@@ -68,7 +68,7 @@ export default {
         'Confusing dowel bars (load transfer) with tie bars (hold joints closed)',
         'Treating dowels as structural reinforcement for strength',
       ],
-      diagram: null,
+      diagram: { component: 'RigidPavementJoint', props: {} },
     },
     {
       id: 'trans-rp-q3',
@@ -95,7 +95,7 @@ export default {
         'Confusing subgrade stiffness (k) with concrete flexural strength',
         'Mistaking k for a thickness or traffic parameter',
       ],
-      diagram: null,
+      diagram: { component: 'RigidPavementJoint', props: {} },
     },
   ],
 };

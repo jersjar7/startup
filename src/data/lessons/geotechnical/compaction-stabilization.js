@@ -42,7 +42,7 @@ export default {
         'Inverting the ratio (lab over field)',
         'Confusing relative compaction with relative density',
       ],
-      diagram: null,
+      diagram: { component: 'ProctorCurve', props: {} },
     },
     {
       id: 'geo-cmp-q2',

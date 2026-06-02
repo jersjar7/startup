@@ -45,7 +45,7 @@ export default {
         'Using the bed volume or depth instead of the plan (surface) area',
         'Inverting the ratio to get A/Q instead of Q/A',
       ],
-      diagram: null,
+      diagram: { component: 'FilterBed', props: {} },
     },
     {
       id: 'wr-dwt-q2',

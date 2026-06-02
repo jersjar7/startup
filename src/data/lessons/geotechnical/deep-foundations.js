@@ -43,7 +43,7 @@ export default {
         'Reporting only end bearing or only skin friction',
         'Using the shaft area for end bearing or vice versa',
       ],
-      diagram: null,
+      diagram: { component: 'PileCapacity', props: {} },
     },
     {
       id: 'geo-dfn-q2',

@@ -79,7 +79,7 @@ export default {
         "Forgetting to divide by sin 45° and reporting 500 lb",
         "Multiplying by sin 45° (354) instead of dividing"
       ],
-      "diagram": null
+      "diagram": { "component": "TrussJointFBD", "props": {"load":500,"angle":45,"unit":"lb"} }
     },
     {
       "id": "str-tam-q2",
@@ -133,7 +133,7 @@ export default {
         "Assuming every member carries load — zero-force members are common at unloaded joints",
         "Confusing this with the two-member unloaded-joint rule"
       ],
-      "diagram": null
+      "diagram": { "component": "ZeroForceJoint", "props": {} }
     }
   ]
 };
