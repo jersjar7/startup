@@ -8,6 +8,7 @@ const accountDeletion = require('./db/accountDeletion');
 const purchases = require('./db/purchases');
 const examAttempts = require('./db/examAttempts');
 const events = require('./db/events');
+const analytics = require('./db/analytics');
 
 module.exports = {
   ping,
@@ -20,4 +21,5 @@ module.exports = {
   ...purchases,
   ...examAttempts,
   ...events,
+  ...analytics,
 };

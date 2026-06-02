@@ -95,6 +95,32 @@ header {
   color: var(--gray-500);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.header-admin-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--charcoal);
+  background: var(--cream-dark);
+  border-radius: var(--radius-md);
+  padding: 0.4rem 0.7rem;
+  text-decoration: none;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.header-admin-link:hover {
+  color: var(--ember);
+  background: var(--ember-bg);
+}
+
 .header-profile-link {
   display: flex;
   align-items: center;
