@@ -43,7 +43,7 @@ export default {
         'Forgetting to divide L by 2 \u2014 doubles the volume',
         'Confusing ft\u00B3 with yd\u00B3 \u2014 divide by 27 to convert',
       ],
-      diagram: null,
+      diagram: { component: 'EarthworkSection', props: { A1: 120, A2: 180, Am: 150, L: 100 } },
     },
     {
       id: 'surv-ev-q2',
@@ -71,7 +71,7 @@ export default {
         'Forgetting the 4\u00D7 coefficient on the mid-section area',
         'Using L = 50 (half the distance) instead of the full distance between end sections',
       ],
-      diagram: null,
+      diagram: { component: 'EarthworkSection', props: { A1: 200, A2: 400, Am: 350, L: 100 } },
     },
     {
       id: 'surv-ev-q3',

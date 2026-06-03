@@ -46,7 +46,7 @@ export default {
         'Swapping sine and cosine \u2014 latitude uses cosine (N-S), departure uses sine (E-W)',
         'Getting the sign wrong for the quadrant \u2014 NE quadrant has both positive',
       ],
-      diagram: null,
+      diagram: { component: 'CoordinateInverse', props: {  } },
     },
     {
       id: 'surv-tc-q2',

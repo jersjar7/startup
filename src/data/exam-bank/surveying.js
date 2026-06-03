@@ -42,7 +42,7 @@ const PROBLEMS = [
     handbookFormula: '\\text{Latitude} = d \\cos\\theta',
     videoUrl: null,
     traps: ['Using sine instead of cosine for latitude', 'Confusing bearing angle with azimuth'],
-    diagram: null,
+    diagram: { component: 'CoordinateInverse', props: {  } },
     lessonId: 'angles-distances-bearings',
     chapterId: 'surveying'
   },
@@ -462,7 +462,7 @@ const PROBLEMS = [
       'Confusing sine and cosine — departure uses sine, latitude uses cosine',
       'Getting the sign wrong for the SE quadrant'
     ],
-    diagram: null,
+    diagram: { component: 'CoordinateInverse', props: {  } },
     lessonId: 'traverse-computations',
     chapterId: 'surveying'
   },
@@ -903,7 +903,7 @@ const PROBLEMS = [
     handbookFormula: 'V = \\frac{L}{2}(A_1 + A_2)',
     videoUrl: null,
     traps: ['Forgetting to convert from ft^3 to yd^3 by dividing by 27'],
-    diagram: null,
+    diagram: { component: 'EarthworkSection', props: { A1: 225, A2: 375, Am: 300, L: 100 } },
     lessonId: 'earthwork-volumes',
     chapterId: 'surveying'
   },
@@ -954,7 +954,7 @@ const PROBLEMS = [
       'Using the average end area formula instead of the prismoidal formula',
       'Using half the distance (40 ft) instead of the full distance (80 ft) between end sections'
     ],
-    diagram: null,
+    diagram: { component: 'EarthworkSection', props: { A1: 150, A2: 350, Am: 280, L: 80 } },
     lessonId: 'earthwork-volumes',
     chapterId: 'surveying'
   },

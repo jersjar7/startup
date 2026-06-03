@@ -68,7 +68,7 @@ export default {
         'Using sine (departure) for the northing instead of cosine',
         'Adding the full course length instead of its north component',
       ],
-      diagram: null,
+      diagram: { component: 'CoordinateInverse', props: {  } },
     },
     {
       id: 'surv-cg-q3',
