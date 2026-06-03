@@ -32,7 +32,13 @@ export function CoordinateInverse() {
 
       {/* Line A–B (distance L) */}
       <line x1={A.x} y1={A.y} x2={B.x} y2={B.y} stroke="var(--charcoal)" strokeWidth={2.5} />
-      <Label x={(A.x + B.x) / 2 - 10} y={(A.y + B.y) / 2 - 8} color="var(--charcoal)" bold fontSize={11} anchor="end">L</Label>
+      {(() => {
+        const dx = B.x - A.x, dy = B.y - A.y, len = Math.hypot(dx, dy);
+        const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
+        const lx = (A.x + B.x) / 2 + (dy / len) * 13;       // above the line
+        const ly = (A.y + B.y) / 2 + (-dx / len) * 13;
+        return <Label x={lx} y={ly} rotate={ang} color="var(--charcoal)" bold fontSize={11}>L</Label>;
+      })()}
 
       {/* Points */}
       <circle cx={A.x} cy={A.y} r={4} fill="var(--charcoal)" />

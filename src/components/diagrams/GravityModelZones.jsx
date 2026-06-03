@@ -25,9 +25,14 @@ export function GravityModelZones() {
       <ForceArrow x1={origin.x + R} y1={origin.y + 6} x2={z2.x - R - 4} y2={z2.y - 16}
         color="var(--charcoal)" strokeWidth={2} markerId="arrowMain" />
 
-      {/* Arrow annotations (attraction + friction) */}
-      <Label x={185} y={78} color="var(--gray-500)" italic fontSize={10}>A₁, F₁</Label>
-      <Label x={185} y={182} color="var(--gray-500)" italic fontSize={10}>A₂, F₂</Label>
+      {/* Arrow annotations (attraction + friction) — rotated along each arrow, set off it */}
+      {[{ z: z1, t: 'A₁, F₁', s: -1 }, { z: z2, t: 'A₂, F₂', s: 1 }].map(({ z, t, s }, i) => {
+        const dx = z.x - origin.x, dy = z.y - origin.y, len = Math.hypot(dx, dy);
+        const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
+        const lx = origin.x + dx * 0.5 + (-dy / len) * 14 * s;
+        const ly = origin.y + dy * 0.5 + (dx / len) * 14 * s;
+        return <Label key={i} x={lx} y={ly} rotate={ang} color="var(--gray-500)" italic fontSize={10}>{t}</Label>;
+      })}
 
       {/* Origin zone i */}
       <circle cx={origin.x} cy={origin.y} r={R} fill="var(--ember-bg)" stroke="var(--ember)" strokeWidth={2} />

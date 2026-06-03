@@ -50,9 +50,18 @@ export function InfiniteSlope({ beta = 25 }) {
       {/* Angle β at base */}
       <AngleArc cx={start.x} cy={start.y} radius={38} startAngle={0} endAngle={beta} label={`${beta}°`} />
 
-      {/* Labels */}
-      <Label x={end.x - 40} y={end.y - 12} color="var(--gray-500)" italic fontSize={10} anchor="end">slope surface</Label>
-      <Label x={sEnd.x - 26} y={sEnd.y + 14} color="var(--error)" italic fontSize={10} anchor="end">slip plane</Label>
+      {/* Labels — rotated to the slope, offset clear of their lines */}
+      {(() => {
+        const ang = (Math.atan2(end.y - start.y, end.x - start.x) * 180) / Math.PI;
+        const ms = along((start.x + end.x) / 2, (start.y + end.y) / 2, b.outward, 15);
+        const mp = along((sStart.x + sEnd.x) / 2, (sStart.y + sEnd.y) / 2, b.outward, -15);
+        return (
+          <>
+            <Label x={ms.x} y={ms.y} rotate={ang} color="var(--gray-500)" italic fontSize={10}>slope surface</Label>
+            <Label x={mp.x} y={mp.y} rotate={ang} color="var(--error)" italic fontSize={10}>slip plane</Label>
+          </>
+        );
+      })()}
     </svg>
   );
 }

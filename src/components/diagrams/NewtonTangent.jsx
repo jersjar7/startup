@@ -48,7 +48,13 @@ export function NewtonTangent() {
       <Label x={x0x} y={axisY + 14} color="var(--charcoal)" bold fontSize={11}>x₀</Label>
       <Label x={x1x} y={axisY + 14} color="var(--ember)" bold fontSize={11}>x₁</Label>
       <Label x={toX(rootVal)} y={axisY + 14} color="var(--gray-500)" fontSize={10}>root</Label>
-      <Label x={(x0x + x1x) / 2 + 6} y={(x0y + axisY) / 2 - 6} color="var(--ember)" italic fontSize={9} anchor="start">tangent</Label>
+      {(() => {
+        const dx = x0x - x1x, dy = x0y - axisY, len = Math.hypot(dx, dy);
+        const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
+        const lx = (x0x + x1x) / 2 + (dy / len) * 12;       // perpendicular, above the line
+        const ly = (x0y + axisY) / 2 + (-dx / len) * 12;
+        return <Label x={lx} y={ly} rotate={ang} color="var(--ember)" italic fontSize={9}>tangent</Label>;
+      })()}
     </svg>
   );
 }

@@ -29,7 +29,13 @@ export function TrussJointFBD({ load = 500, angle = 45, unit = 'lb' }) {
 
       {/* Member labels */}
       <Label x={(A.x + B.x) / 2} y={A.y + 16} color="var(--gray-500)" italic fontSize={11}>AB</Label>
-      <Label x={(A.x + C.x) / 2 - 16} y={(A.y + C.y) / 2 - 4} color="var(--gray-500)" italic fontSize={11}>AC</Label>
+      {(() => {
+        const dx = C.x - A.x, dy = C.y - A.y, len = Math.hypot(dx, dy);
+        const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
+        const lx = (A.x + C.x) / 2 + (dy / len) * 13;       // above-left of the diagonal
+        const ly = (A.y + C.y) / 2 + (-dx / len) * 13;
+        return <Label x={lx} y={ly} rotate={ang} color="var(--gray-500)" italic fontSize={11}>AC</Label>;
+      })()}
 
       {/* Angle arc between the two members */}
       <AngleArc cx={A.x} cy={A.y} radius={40} startAngle={0} endAngle={angle} label={`${angle}°`} />

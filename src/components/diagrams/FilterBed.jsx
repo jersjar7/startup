@@ -20,7 +20,7 @@ export function FilterBed() {
 
       {/* Water layer */}
       <rect x={left} y={waterTop} width={right - left} height={sandTop - waterTop} fill="rgba(59,130,184,0.14)" />
-      <Label x={(left + right) / 2} y={(waterTop + sandTop) / 2} color="var(--info)" italic fontSize={10}>water</Label>
+      <Label x={left + 26} y={sandTop - 10} color="var(--info)" italic fontSize={10}>water</Label>
 
       {/* Sand media */}
       <rect x={left} y={sandTop} width={right - left} height={gravelTop - sandTop} fill="rgba(180,160,130,0.20)" />

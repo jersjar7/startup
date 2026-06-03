@@ -34,7 +34,14 @@ export function SlopeWedge({ alpha = 25 }) {
       {/* Planar slip surface */}
       <line x1={toe.x} y1={toe.y} x2={slipEnd.x} y2={slipEnd.y}
         stroke="var(--error)" strokeWidth={2} strokeDasharray="6,4" />
-      <Label x={(toe.x + slipEnd.x) / 2 + 6} y={(toe.y + slipEnd.y) / 2 - 8} color="var(--error)" italic fontSize={10} anchor="start">slip surface</Label>
+      {(() => {
+        const dx = slipEnd.x - toe.x, dy = slipEnd.y - toe.y;
+        const len = Math.hypot(dx, dy);
+        const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
+        const lx = toe.x + dx * 0.82 + (-dy / len) * 12;   // upper part, below the line, clear of W
+        const ly = toe.y + dy * 0.82 + (dx / len) * 12;
+        return <Label x={lx} y={ly} rotate={ang} color="var(--error)" italic fontSize={10}>slip surface</Label>;
+      })()}
 
       {/* Weight of the wedge */}
       <ForceArrow x1={(toe.x + slipEnd.x + crest.x) / 3} y1={150} x2={(toe.x + slipEnd.x + crest.x) / 3} y2={188}
