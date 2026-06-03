@@ -1630,7 +1630,7 @@ const PROBLEMS = [
       'Distributing by attractions alone, ignoring friction factors',
       'Failing to normalize by the sum over all zones',
     ],
-    diagram: null,
+    diagram: { component: 'GravityModelZones', props: {} },
     lessonId: 'travel-demand',
     chapterId: 'transportation'
   },
@@ -1660,7 +1660,7 @@ const PROBLEMS = [
       'Assuming rigid pavement depends heavily on subgrade like flexible does',
       'Thinking a slab concentrates load beneath the wheel',
     ],
-    diagram: null,
+    diagram: { component: 'RigidPavementJoint', props: {} },
     lessonId: 'rigid-pavement',
     chapterId: 'transportation'
   },
@@ -1690,7 +1690,7 @@ const PROBLEMS = [
       'Confusing guide (green) with regulatory or warning signs',
       'Calling a sign a signal indication',
     ],
-    diagram: null,
+    diagram: { component: 'SignShapes', props: {} },
     lessonId: 'traffic-control-devices',
     chapterId: 'transportation'
   },

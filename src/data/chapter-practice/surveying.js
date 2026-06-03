@@ -439,7 +439,7 @@ const PROBLEMS = [
     handbookFormula: '\\Delta E = L\\sin(Az)',
     videoUrl: null,
     traps: ['Using cosine (latitude) for the departure', 'Reporting the full course length'],
-    diagram: null,
+    diagram: { component: 'CoordinateInverse', props: {} },
     lessonId: 'coordinate-geometry',
     chapterId: 'surveying',
   },

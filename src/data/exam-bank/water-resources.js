@@ -1728,7 +1728,7 @@ const PROBLEMS = [
       'Using bed depth or volume instead of plan area',
       'Inverting to A/Q',
     ],
-    diagram: null,
+    diagram: { component: 'FilterBed', props: {} },
     lessonId: 'drinking-water-treatment',
     chapterId: 'water-resources'
   },
@@ -1816,7 +1816,7 @@ const PROBLEMS = [
       'Forgetting to divide by efficiency',
       'Multiplying by η instead of dividing',
     ],
-    diagram: null,
+    diagram: { component: 'PumpSystem', props: {} },
     lessonId: 'pumps-water-distribution',
     chapterId: 'water-resources'
   },

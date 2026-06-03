@@ -505,7 +505,7 @@ const PROBLEMS = [
       'Dropping the factor of 8 in the denominator',
       'Using a point-load formula for a distributed load'
     ],
-    diagram: null,
+    diagram: { component: 'CantileverBeam', props: {} },
     lessonId: 'deflection-virtual-work',
     chapterId: 'structural',
   },

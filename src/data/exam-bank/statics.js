@@ -1320,7 +1320,7 @@ const PROBLEMS = [
     handbookFormula: 'F_{out} = F_{in}(a_{in}/a_{out})',
     videoUrl: null,
     traps: ['Dividing by the arm ratio instead of multiplying', 'Forgetting to sum moments about the pivot'],
-    diagram: null,
+    diagram: { component: 'LeverMachine', props: {} },
     lessonId: 'frames-machines',
     chapterId: 'statics'
   },

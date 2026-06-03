@@ -603,7 +603,7 @@ const PROBLEMS = [
       'Forgetting to add friction losses to the static lift',
       'Omitting the efficiency division',
     ],
-    diagram: null,
+    diagram: { component: 'PumpSystem', props: {} },
     lessonId: 'pumps-water-distribution',
     chapterId: 'water-resources',
   },

@@ -1477,7 +1477,7 @@ const PROBLEMS = [
       'Dividing by G_mb instead of G_mm',
       'Swapping the two specific gravities',
     ],
-    diagram: null,
+    diagram: { component: 'AsphaltVolumetrics', props: {} },
     lessonId: 'asphalt-mix-design',
     chapterId: 'materials'
   },

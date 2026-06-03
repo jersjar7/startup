@@ -1702,7 +1702,7 @@ const PROBLEMS = [
       'Inverting to tan β / tan φ',
       'Applying a seepage reduction to a dry slope',
     ],
-    diagram: null,
+    diagram: { component: 'InfiniteSlope', props: {beta:25} },
     lessonId: 'slope-stability',
     chapterId: 'geotechnical'
   },
@@ -1731,7 +1731,7 @@ const PROBLEMS = [
       'Inverting the ratio',
       'Confusing relative compaction with relative density',
     ],
-    diagram: null,
+    diagram: { component: 'ProctorCurve', props: {} },
     lessonId: 'compaction-stabilization',
     chapterId: 'geotechnical'
   },
@@ -1760,7 +1760,7 @@ const PROBLEMS = [
       'Reporting the ultimate capacity instead of the allowable load',
       'Multiplying by FS instead of dividing',
     ],
-    diagram: null,
+    diagram: { component: 'PileCapacity', props: {} },
     lessonId: 'deep-foundations',
     chapterId: 'geotechnical'
   },
