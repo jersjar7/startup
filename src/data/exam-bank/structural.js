@@ -824,7 +824,7 @@ const PROBLEMS = [
       'Using $f_c\'$ in ksi instead of psi — this produces an answer 1,000 times too small',
       'Forgetting $\\phi = 0.75$ for shear — always apply the resistance factor'
     ],
-    diagram: null,
+    diagram: { component: 'RCBeamSection', props: { b: 16, d: 26, numBars: 4, unit: 'in.' } },
     lessonId: 'rc-flexure-shear',
     chapterId: 'structural'
   },

@@ -71,7 +71,7 @@ export default {
         'Using f\'c in ksi instead of psi \u2014 \u221A4 \u2260 \u221A4000; the formula uses psi units',
         'Comparing V_u to V_c instead of \u03C6V_c \u2014 always include the \u03C6 = 0.75 factor on the capacity side',
       ],
-      diagram: null,
+      diagram: { component: 'RCBeamSection', props: { b: 12, d: 20, numBars: 3, unit: 'in.' } },
     },
     {
       id: 'str-rfs-q3',
@@ -100,7 +100,7 @@ export default {
         'Forgetting to divide V_u by \u03C6 before subtracting V_c \u2014 the equation is V_s = V_u/\u03C6 \u2013 V_c, not V_u \u2013 V_c',
         'Using total stirrup bar area instead of A_v for two legs \u2014 for a U-stirrup, A_v = 2 \u00D7 (one leg area)',
       ],
-      diagram: null,
+      diagram: { component: 'RCBeamSection', props: { b: 14, d: 24, numBars: 3, unit: 'in.' } },
     },
   ],
 };
