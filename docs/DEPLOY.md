@@ -4,6 +4,32 @@ Production is an AWS EC2 box (`fe4raccoons.com`) running the Express service
 under **pm2**, with the React build served as static files by that same Express
 process. Caddy is a thin reverse proxy: `reverse_proxy localhost:4000`.
 
+## Branch workflow
+
+The repo keeps **two long-lived branches**, kept in sync:
+
+- **`main`** — production. This is what gets deployed. Never commit to it directly.
+- **`development`** — the active/staging line. Do work here, or on short-lived
+  feature branches taken off `development` and merged back into it.
+
+**Every deploy follows the same sequence:**
+
+```bash
+# 1. integrate work into main
+git checkout main && git merge --ff-only development   # (or merge the feature branch)
+git push origin main
+
+# 2. deploy from main (see commands below)
+./deployReact.sh -k secrets/jerson-cs260-key.pem -h fe4raccoons.com -s startup
+
+# 3. re-sync development so the two branches never drift
+git push origin main:development
+```
+
+After a clean deploy, `main` and `development` point at the same commit. Delete
+feature branches once merged (local **and** remote) — keep only `main` and
+`development` standing.
+
 ## ⚠️ The service name is `startup`, NOT `fe4raccoons`
 
 The live pm2 process is named **`startup`** and runs from
