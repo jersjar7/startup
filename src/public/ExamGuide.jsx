@@ -65,7 +65,7 @@ export function ExamGuide() {
 
   return (
     <main className="pub">
-      <header className="pub-hero pub-accent-ember">
+      <div className="pub-hero pub-accent-ember">
         <p className="pub-overline">Free FE Civil Exam Resource</p>
         <h1>The FE Civil Exam: Format, Topics & How to Prepare</h1>
         <p className="pub-lede">
@@ -76,7 +76,7 @@ export function ExamGuide() {
         <div className="pub-cta-row">
           <Link className="pub-btn pub-btn-primary" to="/login">Start practicing free →</Link>
         </div>
-      </header>
+      </div>
 
       <section className="pub-section">
         <h2>FE Civil exam at a glance</h2>

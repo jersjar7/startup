@@ -52,7 +52,7 @@ export function PublicTopic() {
         <span>{topic.name}</span>
       </nav>
 
-      <header className={`pub-hero pub-accent-${topic.accent}`}>
+      <div className={`pub-hero pub-accent-${topic.accent}`}>
         <p className="pub-overline">FE Civil · Chapter {topic.num} · {topic.questionRange} exam questions</p>
         <h1>FE Civil {topic.name}</h1>
         {topic.context && <p className="pub-lede">{topic.context}</p>}
@@ -60,7 +60,7 @@ export function PublicTopic() {
           <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Practice {topic.name} free →</Link>
           <Link className="pub-btn pub-btn-ghost" to="/fe-civil-exam-guide">Full exam guide</Link>
         </div>
-      </header>
+      </div>
 
       {topic.subtopics.length > 0 && (
         <section className="pub-section">
