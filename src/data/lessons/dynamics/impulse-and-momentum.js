@@ -49,7 +49,7 @@ export default {
         'Dividing by the wrong total mass',
         'Trying to conserve kinetic energy \u2014 KE is NOT conserved in plastic collisions',
       ],
-      diagram: null,
+      diagram: { component: 'CollisionDiagram', props: { massA: 2000, massB: 1000, velA: 15, velB: 0 } },
     },
     {
       id: 'dyn-im-q2',
@@ -78,7 +78,7 @@ export default {
         'Flipping the restitution formula (swapping numerator and denominator)',
         'Assuming kinetic energy is conserved \u2014 it\'s only conserved when e = 1',
       ],
-      diagram: null,
+      diagram: { component: 'CollisionDiagram', props: { massA: 2, massB: 2, velA: 8, velB: 0 } },
     },
     {
       id: 'dyn-im-q3',
