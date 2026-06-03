@@ -1124,7 +1124,7 @@ const PROBLEMS = [
     handbookFormula: 'P = F/(1+i)^n',
     videoUrl: null,
     traps: ['Dividing the gain by the future value', 'Forgetting IRR is the rate making NPW = 0'],
-    diagram: null,
+    diagram: { component: 'CashFlowIRR', props: {} },
     lessonId: 'rate-of-return',
     chapterId: 'economics'
   },

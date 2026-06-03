@@ -1516,7 +1516,7 @@ const PROBLEMS = [
     handbookFormula: 'L = \\sqrt{\\Delta E^2 + \\Delta N^2}',
     videoUrl: null,
     traps: ['Adding ΔE and ΔN instead of using the Pythagorean distance', 'Swapping easting and northing'],
-    diagram: null,
+    diagram: { component: 'CoordinateInverse', props: {} },
     lessonId: 'coordinate-geometry',
     chapterId: 'surveying'
   },

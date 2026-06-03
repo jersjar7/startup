@@ -2866,7 +2866,7 @@ const PROBLEMS = [
     handbookFormula: 'x_{j+1} = x_j - f(x_j)/f\'(x_j)',
     videoUrl: null,
     traps: ['Mishandling the negative sign of f(x₀)', 'Dropping the derivative in the denominator'],
-    diagram: null,
+    diagram: { component: 'NewtonTangent', props: {} },
     lessonId: 'numerical-methods',
     chapterId: 'mathematics'
   },
