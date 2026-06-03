@@ -41,6 +41,19 @@ app.use(rateLimit({
   message: { msg: 'Too many requests, try again later' },
 }));
 
+// Prerendered public pages: serve the build-time HTML (full content + JSON-LD
+// for crawlers / AI bots). Must run BEFORE express.static, which would otherwise
+// 301-redirect these directory paths to a trailing slash. Falls through to the
+// SPA if the prerendered file is missing.
+app.get(/^\/(fe-civil-exam-guide|fe-civil\/[a-z-]+)\/?$/, (req, res, next) => {
+  const file = path.resolve('public', req.path.replace(/^\/|\/$/g, ''), 'index.html');
+  fs.access(file, fs.constants.F_OK, (err) => {
+    if (err) return next();
+    res.set('Cache-Control', 'no-cache');
+    res.sendFile(file);
+  });
+});
+
 // Serve static assets with long-term caching (hashed filenames)
 app.use(express.static('public', { maxAge: '1y', immutable: true, index: false }));
 
@@ -82,18 +95,6 @@ apiRouter.use('/email', require('./routes/email.js'));
 app.use(function (err, req, res, next) {
   console.error(`[ERROR] ${req.method} ${req.originalUrl} — ${err.message}`);
   res.status(500).send({ msg: 'Internal server error' });
-});
-
-// Prerendered public pages: serve the build-time HTML (full content + JSON-LD
-// for crawlers / AI bots) before the SPA fallback. Limited to the known public
-// content routes; falls through to the SPA if the prerendered file is missing.
-app.get(/^\/(fe-civil-exam-guide|fe-civil\/[a-z-]+)\/?$/, (req, res, next) => {
-  const file = path.resolve('public', req.path.replace(/^\/|\/$/g, ''), 'index.html');
-  fs.access(file, fs.constants.F_OK, (err) => {
-    if (err) return next();
-    res.set('Cache-Control', 'no-cache');
-    res.sendFile(file);
-  });
 });
 
 // SPA fallback — no-cache so the browser always gets the current entry point

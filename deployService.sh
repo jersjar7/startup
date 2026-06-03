@@ -20,7 +20,7 @@ printf "\n----> Build the distribution package\n"
 rm -rf build
 mkdir build
 npm install # make sure vite is installed so that we can bundle
-npm run build # build the React front end
+npm run build:seo # build the React front end + prerender public pages (crawlable HTML, sitemap, llms.txt)
 cp -rf dist build/public # move the React front end to the target distribution
 cp service/*.js build # move the back end service to the target distribution
 cp service/package.json service/package-lock.json build
