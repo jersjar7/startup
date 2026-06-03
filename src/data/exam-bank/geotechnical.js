@@ -484,7 +484,7 @@ const PROBLEMS = [
       'Computing stress at 12 ft (bottom of layer) instead of 8 ft as asked',
       'Reporting total stress as the answer without subtracting pore pressure'
     ],
-    diagram: null,
+    diagram: { component: 'SoilProfile', props: { layers: [{ name: 'Saturated clay', h: 12, gamma: 118, saturated: true }], wtDepth: 0, depthUnit: 'ft', weightUnit: 'pcf' } },
     lessonId: 'effective-stress',
     chapterId: 'geotechnical'
   },
@@ -663,7 +663,7 @@ const PROBLEMS = [
     traps: [
       'Using $\\ln$ (natural log) instead of $\\log_{10}$ -- the consolidation formula uses common logarithm'
     ],
-    diagram: null,
+    diagram: { component: 'ConsolidationLayer', props: { thickness: 8, topPermeable: true, bottomPermeable: true, topLabel: 'Sand', bottomLabel: 'Sand', unit: 'ft' } },
     lessonId: 'consolidation',
     chapterId: 'geotechnical'
   },

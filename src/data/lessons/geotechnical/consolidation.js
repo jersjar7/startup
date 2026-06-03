@@ -47,7 +47,7 @@ export default {
         'Using Cr instead of Cc for normally consolidated clay \u2014 Cr is only for overconsolidated clay below pc',
         'Forgetting to divide H by (1 + e0)',
       ],
-      diagram: null,
+      diagram: { component: 'ConsolidationLayer', props: { thickness: 10, topPermeable: true, bottomPermeable: true, topLabel: 'Sand', bottomLabel: 'Sand', unit: 'ft' } },
     },
     {
       id: 'geo-co-q2',
@@ -102,7 +102,7 @@ export default {
         'Using Case 1 (Cr only) when the final stress actually exceeds pc',
         'Forgetting to divide by (1 + e0)',
       ],
-      diagram: null,
+      diagram: { component: 'ConsolidationLayer', props: { thickness: 12, topPermeable: true, bottomPermeable: false, topLabel: 'Sand', bottomLabel: 'Rock', unit: 'ft' } },
     },
   ],
 };

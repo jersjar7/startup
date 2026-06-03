@@ -42,7 +42,7 @@ export default {
         'Reporting total stress instead of effective stress \u2014 always subtract pore pressure below the WT',
         'Using \u03B3w = 64 pcf or some other value instead of 62.4 pcf',
       ],
-      diagram: null,
+      diagram: { component: 'SoilProfile', props: { layers: [{ name: 'Saturated soil', h: 10, gamma: 115, saturated: true }], wtDepth: 0, depthUnit: 'ft', weightUnit: 'pcf' } },
     },
     {
       id: 'geo-es-q2',

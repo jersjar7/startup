@@ -70,7 +70,7 @@ export default {
         'Assuming deep foundations are chosen for cost rather than performance',
         'Thinking the goal is to load the weak layer more',
       ],
-      diagram: null,
+      diagram: { component: 'PileCapacity', props: {  } },
     },
     {
       id: 'geo-dfn-q3',
@@ -97,7 +97,7 @@ export default {
         'Assuming the friction always helps support the pile',
         'Ignoring relative settlement between soil and pile',
       ],
-      diagram: null,
+      diagram: { component: 'PileCapacity', props: {  } },
     },
   ],
 };
