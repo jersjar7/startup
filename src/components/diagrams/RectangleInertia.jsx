@@ -3,17 +3,28 @@ import {
   DimensionLine, AxisLine, Label,
 } from './primitives';
 
+/**
+ * Rectangular cross-section with its centroidal x-axis (moment-of-inertia
+ * problems). Scale and viewBox adapt to the dimensions so tall or wide
+ * rectangles never clip.
+ */
 export function RectangleInertia({ width = 150, height = 300 }) {
-  const scale = 0.7;
+  const scale = Math.min(0.7, 240 / Math.max(width, height));
   const ox = 115;
-  const oy = 16;
+  const oy = 22;
   const rW = width * scale;
   const rH = height * scale;
   const cx = ox + rW / 2;
   const cy = oy + rH / 2;
 
+  // content-fitted viewBox
+  const minX = ox - 42;                       // x-axis extends left of the rect
+  const maxX = ox + rW + 80;                  // "h = ..." label + text
+  const minY = oy - 10;
+  const maxY = oy + rH + 36;                  // width dimension label
+
   return (
-    <svg viewBox="0 0 380 280" xmlns="http://www.w3.org/2000/svg"
+    <svg viewBox={`${minX} ${minY} ${maxX - minX} ${maxY - minY}`} xmlns="http://www.w3.org/2000/svg"
       role="img" aria-label={`Rectangle ${width}x${height} mm with centroidal axis`}
       style={{ width: '100%', height: 'auto' }}>
 
@@ -35,7 +46,6 @@ export function RectangleInertia({ width = 150, height = 300 }) {
       <Label x={ox + rW + 46} y={(oy + cy) / 2} fontSize={11}>
         h = {height}
       </Label>
-
     </svg>
   );
 }
