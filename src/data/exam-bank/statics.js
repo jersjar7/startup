@@ -49,7 +49,7 @@ const PROBLEMS = [
       'Swapping the horizontal and vertical legs — the horizontal leg goes with the horizontal component',
       'Failing to recognize the 5-12-13 triangle and wasting time computing the hypotenuse'
     ],
-    diagram: null,
+    diagram: { component: 'CableGeometry', props: { horiz: 5, vert: 12, force: 2600 } },
     lessonId: 'force-systems-resultants',
     chapterId: 'statics'
   },
@@ -260,7 +260,7 @@ const PROBLEMS = [
       'Reporting the reaction at B instead of A',
       'Splitting the load equally between supports when the load is not at midspan'
     ],
-    diagram: null,
+    diagram: { component: 'SimplySupportedBeam', props: { span: 6, loadPos: 2, load: 18 } },
     lessonId: 'equilibrium-free-body-diagrams',
     chapterId: 'statics'
   },
@@ -480,7 +480,7 @@ const PROBLEMS = [
       'Reporting the reaction (12 kN) as the member force in AB',
       'Confusing the force in AC (20 kN) with the force in AB (16 kN)'
     ],
-    diagram: null,
+    diagram: { component: 'TriangularTruss', props: { span: 8, height: 3, load: 24 } },
     lessonId: 'trusses-joints-sections',
     chapterId: 'statics'
   },
@@ -539,7 +539,7 @@ const PROBLEMS = [
       'Confusing a support reaction with a member force',
       'Getting the correct magnitude but wrong sense (tension vs. compression) -- top chords in a loaded truss are typically in compression'
     ],
-    diagram: null,
+    diagram: { component: 'PrattTruss', props: { panels: 4, panelWidth: 4, height: 3, load: 36, loadChord: 'bottom', loadJoint: 2 } },
     lessonId: 'trusses-joints-sections',
     chapterId: 'statics'
   },
@@ -598,7 +598,7 @@ const PROBLEMS = [
       'Using the wrong side of the cut -- the right side has only one external force, making it simpler',
       'Forgetting to resolve the diagonal force into components before applying equilibrium'
     ],
-    diagram: null,
+    diagram: { component: 'PrattTruss', props: { panels: 3, panelWidth: 4, height: 3, load: 36, loadPanel: 1 } },
     lessonId: 'trusses-joints-sections',
     chapterId: 'statics'
   },
@@ -704,7 +704,7 @@ const PROBLEMS = [
       'Using $\\mu_s N$ as the friction force when the object is not on the verge of sliding',
       'Assuming friction always equals the maximum value -- it only does at impending motion'
     ],
-    diagram: null,
+    diagram: { component: 'BlockFlat', props: { weight: 300, mu: 0.35 } },
     lessonId: 'friction',
     chapterId: 'statics'
   },
@@ -759,7 +759,7 @@ const PROBLEMS = [
       'Using degrees instead of radians for the contact angle',
       'Adding friction linearly instead of using the exponential relationship'
     ],
-    diagram: null,
+    diagram: { component: 'BeltPulley', props: { mu: 0.25, slackT: 150, wrapDeg: 270 } },
     lessonId: 'friction',
     chapterId: 'statics'
   },
@@ -975,7 +975,7 @@ const PROBLEMS = [
       'Assuming any hole shifts the centroid -- a centered hole has no effect',
       'Forgetting to subtract the hole area from the denominator as well as the numerator'
     ],
-    diagram: null,
+    diagram: { component: 'PlateWithHole', props: { plateW: 200, plateH: 300, holeDia: 100, holeX: 100, holeY: 150 } },
     lessonId: 'centroids-composite-shapes',
     chapterId: 'statics'
   },
@@ -1132,7 +1132,7 @@ const PROBLEMS = [
       'Using $bh^3/3$ (moment about the base) instead of $bh^3/12$ (about centroid)',
       'Swapping $b$ and $h$ dimensions'
     ],
-    diagram: null,
+    diagram: { component: 'RectangleInertia', props: { width: 200, height: 400 } },
     lessonId: 'area-moments-of-inertia',
     chapterId: 'statics'
   },
@@ -1294,7 +1294,7 @@ const PROBLEMS = [
       'Forgetting the $Ad^2$ transfer terms for the flanges',
       'Using the full 200 mm height in a single $bh^3/12$ as if it were a solid rectangle'
     ],
-    diagram: null,
+    diagram: { component: 'IBeamSection', props: { depth: 200, flangeW: 200, flangeT: 20, webT: 20 } },
     lessonId: 'area-moments-of-inertia',
     chapterId: 'statics'
   },
