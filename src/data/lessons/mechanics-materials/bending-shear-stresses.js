@@ -52,7 +52,7 @@ export default {
         'Swapping b and h in I = bh\u00B3/12 \u2014 width goes with the first power, height with the third',
         'Forgetting to convert kN\u00B7m to N\u00B7mm \u2014 8 kN\u00B7m = 8,000,000 N\u00B7mm',
       ],
-      diagram: null,
+      diagram: { component: 'RectangleInertia', props: { width: 100, height: 200 } },
     },
     {
       id: 'mm-bss-q2',
@@ -79,7 +79,7 @@ export default {
         'Using 3V/A instead of 3V/2A \u2014 forgetting the 2 in the denominator (choice D)',
         'Applying the 3V/2A formula to non-rectangular sections \u2014 it only works for rectangles',
       ],
-      diagram: null,
+      diagram: { component: 'RectangleInertia', props: { width: 150, height: 300 } },
     },
     {
       id: 'mm-bss-q3',

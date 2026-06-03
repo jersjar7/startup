@@ -67,7 +67,7 @@ const PROBLEMS = [
       'Computing $E\\alpha$ but forgetting to multiply by the temperature change',
       'Assuming the thermal stress depends on the bar length or cross-sectional area'
     ],
-    diagram: null,
+    diagram: { component: 'ThermalBar', props: { length: 1, lengthUnit: 'm', gap: 0 } },
     lessonId: 'axial-stress-strain-deformation',
     chapterId: 'mechanics-materials'
   },
@@ -574,7 +574,7 @@ const PROBLEMS = [
       'Forgetting the $\\pi^2$ term in the denominator',
       'Not squaring the effective length $KL$'
     ],
-    diagram: null,
+    diagram: { component: 'ColumnSupports', props: { length: 5, topCondition: 'pin', bottomCondition: 'pin' } },
     lessonId: 'column-buckling',
     chapterId: 'mechanics-materials'
   },

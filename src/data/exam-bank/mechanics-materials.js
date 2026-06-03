@@ -661,7 +661,7 @@ const PROBLEMS = [
       'Using $PL/4$ (simply supported beam formula) instead of $PL$ for a cantilever',
       'Confusing the free end ($M = 0$) with the fixed end ($M = PL$)'
     ],
-    diagram: null,
+    diagram: { component: 'CantileverEndLoad', props: { length: 3, load: 12 } },
     lessonId: 'shear-moment-diagrams',
     chapterId: 'mechanics-materials'
   },
@@ -708,7 +708,7 @@ const PROBLEMS = [
       'Reporting the total load $wL$ instead of the reaction $wL/2$',
       'Confusing the max shear formula with the max moment formula $wL^2/8$'
     ],
-    diagram: null,
+    diagram: { component: 'SSBeamUDL', props: { span: 10, w: 6 } },
     lessonId: 'shear-moment-diagrams',
     chapterId: 'mechanics-materials'
   },
@@ -878,7 +878,7 @@ const PROBLEMS = [
       'Using $c = h$ (full depth) instead of $c = h/2$ -- doubles the stress',
       'Swapping $b$ and $h$ in the $I = bh^3/12$ formula'
     ],
-    diagram: null,
+    diagram: { component: 'RectangleInertia', props: { width: 150, height: 300 } },
     lessonId: 'bending-shear-stresses',
     chapterId: 'mechanics-materials'
   },
@@ -925,7 +925,7 @@ const PROBLEMS = [
       'Using $V/A$ (average shear) instead of $3V/(2A)$ (max shear) for a rectangle',
       'Applying the $3V/(2A)$ shortcut to a non-rectangular section -- it only works for rectangles'
     ],
-    diagram: null,
+    diagram: { component: 'RectangleInertia', props: { width: 200, height: 400 } },
     lessonId: 'bending-shear-stresses',
     chapterId: 'mechanics-materials'
   },
@@ -1070,7 +1070,7 @@ const PROBLEMS = [
       'Forgetting the 5 in the numerator of $5wL^4/(384EI)$ -- halves the deflection',
       'Using the cantilever UDL formula $wL^4/(8EI)$ instead of simply supported'
     ],
-    diagram: null,
+    diagram: { component: 'SSBeamUDL', props: { span: 5, w: 10 } },
     lessonId: 'beam-deflections',
     chapterId: 'mechanics-materials'
   },
@@ -1117,7 +1117,7 @@ const PROBLEMS = [
       'Using the simply supported formula $PL^3/(48EI)$ instead of the cantilever $PL^3/(3EI)$',
       'Mixing up the 3 in the denominator with another coefficient'
     ],
-    diagram: null,
+    diagram: { component: 'CantileverEndLoad', props: { length: 2, load: 10 } },
     lessonId: 'beam-deflections',
     chapterId: 'mechanics-materials'
   },
@@ -1603,7 +1603,7 @@ const PROBLEMS = [
       'Using $K = 1.0$ instead of $K = 0.7$ for fixed-pinned conditions',
       'Forgetting to square the slenderness ratio in the denominator'
     ],
-    diagram: null,
+    diagram: { component: 'ColumnSupports', props: { length: 7, topCondition: 'pin', bottomCondition: 'fixed' } },
     lessonId: 'column-buckling',
     chapterId: 'mechanics-materials'
   },
