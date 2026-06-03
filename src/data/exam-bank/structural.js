@@ -1761,7 +1761,7 @@ const PROBLEMS = [
       'Multiplying by sin 60° instead of dividing (6.93 kN)',
       'Ignoring the inclination and reporting 8 kN'
     ],
-    diagram: { component: 'TrussJointFBD', props: {} },
+    diagram: { component: 'TrussJointFBD', props: { load: 8, angle: 60, unit: 'kN' } },
     lessonId: 'truss-analysis-methods',
     chapterId: 'structural'
   },
@@ -1820,7 +1820,7 @@ const PROBLEMS = [
       'Using the point-load formula (PL³/48EI) for a distributed load',
       'Using L³ instead of L⁴ for a distributed load'
     ],
-    diagram: { component: 'SSBeamUDL', props: {} },
+    diagram: { component: 'SSBeamUDL', props: { span: 5, w: 8 } },
     lessonId: 'deflection-virtual-work',
     chapterId: 'structural'
   },
@@ -1849,7 +1849,7 @@ const PROBLEMS = [
       'Confusing a fixed-fixed beam (DSI 3) with a propped cantilever (DSI 1)',
       'Forgetting to subtract the 3 equilibrium equations'
     ],
-    diagram: { component: 'FixedFixedBeam', props: {} },
+    diagram: { component: 'FixedFixedBeam', props: { span: 6, w: 0 } },
     lessonId: 'indeterminate-structures',
     chapterId: 'structural'
   },

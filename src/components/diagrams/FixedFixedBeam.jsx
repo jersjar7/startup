@@ -30,12 +30,16 @@ export function FixedFixedBeam({ span = 6, w = 10, unit = 'kN/m' }) {
       <line x1={lx} y1={by} x2={rx} y2={by}
         stroke="var(--charcoal)" strokeWidth={3} strokeLinecap="round" />
 
-      {/* Distributed load */}
-      <DistributedLoadArrows x={lx} y={by - 58} width={beamW}
-        arrowLen={24} count={7} markerId="arrowEmber" />
-      <Label x={lx + beamW / 2} y={by - 70} color="var(--ember)" bold fontSize={11}>
-        {w} {unit}
-      </Label>
+      {/* Distributed load (omitted when w = 0, e.g. indeterminacy questions) */}
+      {w > 0 && (
+        <>
+          <DistributedLoadArrows x={lx} y={by - 58} width={beamW}
+            arrowLen={24} count={7} markerId="arrowEmber" />
+          <Label x={lx + beamW / 2} y={by - 70} color="var(--ember)" bold fontSize={11}>
+            {w} {unit}
+          </Label>
+        </>
+      )}
 
       {/* Span dimension */}
       <DimensionLine x1={lx} y1={by + 40} x2={rx} y2={by + 40}
