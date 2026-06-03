@@ -449,7 +449,7 @@ const PROBLEMS = [
       'Trying to compare present worth directly with different service lives — PW requires matching the study period to the LCM (8 years here, which happens to work, but AW is safer)',
       'Forgetting to subtract the salvage value credit — it reduces the annual cost'
     ],
-    diagram: null,
+    diagram: { component: 'AnnualWorthComparison', props: { costX: 60000, omX: 12000, salvX: 8000, nX: 4, labelX: 'Compressor A', costY: 90000, omY: 8000, salvY: 12000, nY: 8, labelY: 'Compressor B', rate: 10 } },
     lessonId: 'pw-fw-aw-analysis',
     chapterId: 'economics'
   },

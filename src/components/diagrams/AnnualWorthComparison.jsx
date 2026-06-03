@@ -36,13 +36,18 @@ export function AnnualWorthComparison({
 
   const fmt = (v) => v.toLocaleString();
 
+  // Extend the viewBox left so long alternative labels (e.g. "Compressor A")
+  // are never clipped; short labels ("Pump X") leave minX at 0 unchanged.
+  const labelLen = Math.max(String(labelX).length, String(labelY).length);
+  const minX = Math.min(0, padL - 10 - labelLen * 6.4 - 4);
+
   const sections = [
     { label: labelX, cost: costX, om: omX, salv: salvX, n: nX, timelineY: section1Y },
     { label: labelY, cost: costY, om: omY, salv: salvY, n: nY, timelineY: section2Y },
   ];
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} xmlns="http://www.w3.org/2000/svg"
+    <svg viewBox={`${minX} 0 ${W - minX} ${H}`} xmlns="http://www.w3.org/2000/svg"
       role="img" aria-label={`Annual worth comparison: ${labelX} (${nX} yr) vs ${labelY} (${nY} yr), MARR = ${rate}%`}
       style={{ width: '100%', height: 'auto' }}>
 
@@ -120,14 +125,18 @@ export function AnnualWorthComparison({
               {fmt(s.om)}/yr
             </Label>
 
-            {/* Salvage (upward at year n) */}
-            <line x1={yearX(s.n)} y1={tY - 2} x2={yearX(s.n)} y2={tY - sH}
-              stroke="var(--forest)" strokeWidth={2}
-              markerEnd="url(#arrowSalv)" />
-            <Label x={yearX(s.n)} y={tY - sH - 8}
-              fontSize={9} color="var(--forest)">
-              {fmt(s.salv)}
-            </Label>
+            {/* Salvage (upward at year n) — omitted when there is no salvage */}
+            {s.salv > 0 && (
+              <>
+                <line x1={yearX(s.n)} y1={tY - 2} x2={yearX(s.n)} y2={tY - sH}
+                  stroke="var(--forest)" strokeWidth={2}
+                  markerEnd="url(#arrowSalv)" />
+                <Label x={yearX(s.n)} y={tY - sH - 8}
+                  fontSize={9} color="var(--forest)">
+                  {fmt(s.salv)}
+                </Label>
+              </>
+            )}
           </g>
         );
       })}
