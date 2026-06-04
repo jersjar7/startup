@@ -831,7 +831,7 @@ const PROBLEMS = [
   {
     id: 'str-rfs-ex4',
     type: 'conceptual',
-    statement: 'A concrete beam has $V_u = 15 \\text{ kips}$ at the critical section and $\\phi V_c = 30 \\text{ kips}$. What is the shear reinforcement requirement?',
+    statement: 'A concrete beam has $V_u = 20 \\text{ kips}$ at the critical section and $\\phi V_c = 30 \\text{ kips}$. What is the shear reinforcement requirement?',
     choices: [
       {
         id: 'c1',
@@ -852,7 +852,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: '$\\phi V_c/2 = 30/2 = 15$ kips. Since $V_u = 15 = \\phi V_c/2$, the code says provide minimum stirrups. The threshold is: $V_u \\leq \\phi V_c/2$ means no stirrups; $\\phi V_c/2 < V_u \\leq \\phi V_c$ means minimum stirrups; $V_u > \\phi V_c$ means design stirrups for $V_s$. With $V_u$ right at the boundary of $\\phi V_c/2$, minimum stirrups are required. Choice B is close but the boundary condition includes equality at $\\phi V_c/2$ on the "minimum stirrups" side per ACI practice. Choice A would require $V_u > 30$. Choice D is wrong — concrete absolutely carries shear through $V_c$.',
+    eli5: '$\\phi V_c/2 = 30/2 = 15$ kips. Since $\\phi V_c/2 = 15 < V_u = 20 \\leq \\phi V_c = 30$, the code says provide minimum stirrups. The threshold is: $V_u \\leq \\phi V_c/2$ means no stirrups; $\\phi V_c/2 < V_u \\leq \\phi V_c$ means minimum stirrups; $V_u > \\phi V_c$ means design stirrups for $V_s$. With $V_u = 20$ falling between $\\phi V_c/2 = 15$ and $\\phi V_c = 30$, minimum stirrups are required. The "no stirrups needed" choice would require $V_u \\leq 15$. The "design stirrups for computed $V_s$" choice would require $V_u > 30$. The "enlarge the section" choice is wrong — concrete absolutely carries shear through $V_c$.',
     hint: 'Compare $V_u$ to both $\\phi V_c/2$ and $\\phi V_c$ to determine which shear reinforcement zone applies.',
     steps: [
       {
@@ -860,7 +860,7 @@ const PROBLEMS = [
         latex: '\\phi V_c/2 = 30/2 = 15 \\text{ kips}'
       },
       {
-        text: '$V_u = 15$ kips $= \\phi V_c/2 = 15$ kips. At this boundary, provide minimum stirrups.',
+        text: '$V_u = 20$ kips, and $\\phi V_c/2 = 15 < 20 \\leq 30 = \\phi V_c$, so provide minimum stirrups.',
         latex: null
       },
       {

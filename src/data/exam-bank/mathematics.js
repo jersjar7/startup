@@ -1379,9 +1379,9 @@ const PROBLEMS = [
         text: 'Chain rule applied twice (nested)'
       }
     ],
-    correctAnswerId: 'c4',
+    correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'There are two layers of composition here. The outermost function is $\\sin(\\cdot)$, and the inner function is $3x^2$. To differentiate $\\sin(u)$ you get $\\cos(u) \\cdot du/dx$. But $u = 3x^2$, and differentiating that uses the power rule (which is itself a form of chain rule applied to the $x^2$). So the chain rule fires twice: once for $\\sin \\to \\cos$, once for $3x^2 \\to 6x$. There\'s no product of two separate functions of $x$, so the product rule doesn\'t apply here.',
+    eli5: 'There are two layers of composition here. The outermost function is $\\sin(\\cdot)$, and the inner function is $3x^2$. To differentiate $\\sin(u)$ you get $\\cos(u) \\cdot du/dx$. But $u = 3x^2$, and differentiating that uses the power rule (which is itself a form of chain rule applied to the $x^2$). So the chain rule fires once (for $\\sin \\to \\cos$ on the inner $3x^2$), and the inner derivative $3x^2 \\to 6x$ is just the power rule, not a second nested chain rule. There\'s no product of two separate functions of $x$, so the product rule doesn\'t apply here.',
     hint: 'Count the layers of composition: how many functions are nested inside each other?',
     steps: [
       {
@@ -1393,7 +1393,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'Second chain rule application (power rule on $x^2$):',
+        text: '  3. Differentiate the inner function with the power rule (not a second chain rule, since $3x^2$ is not itself a composition):   [LaTeX: \\frac{d}{dx}(3x^2) = 6x]',
         latex: '\\frac{d}{dx}(3x^2) = 6x'
       },
       {
