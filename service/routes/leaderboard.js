@@ -1,8 +1,17 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
+const { sanitizeName, displayName } = require('../profile.js');
 
 const router = express.Router();
+
+// Show "Maria G." when the user has set a name; otherwise mask the email so we
+// never expose PII for users who haven't personalized their profile.
+function leaderName(entry) {
+  return sanitizeName(entry.firstName || '')
+    ? displayName(entry)
+    : `${String(entry.email || '').substring(0, 3)}***`;
+}
 
 // Get current week ID (YYYY-Wnn)
 function getWeekId() {
@@ -18,10 +27,9 @@ router.get('/', verifyAuth, async (req, res) => {
   const weekId = getWeekId();
   const entries = await DB.getLeaderboard(weekId, 30);
 
-  // Mask emails for privacy (show first 3 chars + ***)
   const leaderboard = entries.map((entry, index) => ({
     rank: index + 1,
-    name: entry.email.substring(0, 3) + '***',
+    name: leaderName(entry),
     weeklyXp: entry.weeklyXp,
     isCurrentUser: entry.email === req.user.email,
   }));
