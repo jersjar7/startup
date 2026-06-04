@@ -1,7 +1,7 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
-const { calculateEarnedMastery } = require('../mastery.js');
+const { calculateEarnedMastery, computeStudyMastery } = require('../mastery.js');
 const { calculateStreak } = require('../streak.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -72,6 +72,18 @@ router.post('/', verifyAuth, async (req, res) => {
     answers.map((a) => DB.upsertProblemHistory(email, a.problemId, topicId, a.isCorrect))
   );
 
+  // Recompute study-driven mastery for this chapter from its full problem
+  // history, so practice actually moves the chapter's mastery / readiness.
+  const chapterHistory = await DB.getProblemHistoryForChapter(email, topicId);
+  const studyScore = computeStudyMastery(chapterHistory);
+  const chapterMastery = { ...(currentStats.chapterMastery || {}) };
+  const existingCM = chapterMastery[topicId] || { diagnosticScore: 0 };
+  chapterMastery[topicId] = {
+    diagnosticScore: existingCM.diagnosticScore || 0,
+    studyScore,
+    totalMastery: Math.max(existingCM.diagnosticScore || 0, studyScore),
+  };
+
   // Build updated stats for badge evaluation
   // Track weekly XP for leaderboard
   const weekId = getWeekId();
@@ -87,6 +99,7 @@ router.post('/', verifyAuth, async (req, res) => {
     freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
     lastSessionDate: today,
     topicProgress,
+    chapterMastery,
     badges: currentStats.badges || [],
   };
 

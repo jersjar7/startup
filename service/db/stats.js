@@ -18,6 +18,12 @@ async function getProblemHistoryForUser(email) {
   return problemHistoryCollection.find({ email }).toArray();
 }
 
+// All problemHistory rows for one chapter (topicId == chapterId), for computing
+// study-driven mastery.
+async function getProblemHistoryForChapter(email, topicId) {
+  return problemHistoryCollection.find({ email, topicId }).toArray();
+}
+
 async function upsertProblemHistory(email, problemId, topicId, isCorrect) {
   const existing = await problemHistoryCollection.findOne({ email, problemId });
   const today = new Date().toISOString().split('T')[0];
@@ -83,6 +89,7 @@ module.exports = {
   getUserStats,
   updateUserStats,
   getProblemHistoryForUser,
+  getProblemHistoryForChapter,
   upsertProblemHistory,
   getProblemsForReview,
   getDueReviewCount,

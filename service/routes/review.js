@@ -1,7 +1,7 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
-const { calculateEarnedMastery } = require('../mastery.js');
+const { calculateEarnedMastery, computeStudyMastery } = require('../mastery.js');
 const { calculateStreak } = require('../streak.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -118,6 +118,20 @@ router.post('/', verifyAuth, async (req, res) => {
     }
   }
 
+  // Recompute study-driven mastery for every chapter touched in this review —
+  // spaced/matured recalls are where mastery climbs the most.
+  const chapterMastery = { ...(currentStats.chapterMastery || {}) };
+  for (const tid of topicsInReview) {
+    const hist = await DB.getProblemHistoryForChapter(email, tid);
+    const studyScore = computeStudyMastery(hist);
+    const ex = chapterMastery[tid] || { diagnosticScore: 0 };
+    chapterMastery[tid] = {
+      diagnosticScore: ex.diagnosticScore || 0,
+      studyScore,
+      totalMastery: Math.max(ex.diagnosticScore || 0, studyScore),
+    };
+  }
+
   // Track weekly XP for leaderboard
   const weekId = getWeekId();
   const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
@@ -132,6 +146,7 @@ router.post('/', verifyAuth, async (req, res) => {
     freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
     lastSessionDate: today,
     topicProgress,
+    chapterMastery,
     badges: currentStats.badges || [],
   };
 

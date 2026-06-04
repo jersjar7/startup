@@ -47,4 +47,30 @@ function masteryName(level) {
   return MASTERY_NAMES[level] || 'Not Started';
 }
 
-module.exports = { calculateEarnedMastery, applyDecay, isDecaying, masteryName };
+// ── Study-driven mastery (0–100) ────────────────────────────────────────────
+// Methodology-first: rewards retrieval + spaced repetition + coverage, with
+// diminishing returns. Each problem contributes evidence weighted by its
+// spaced-repetition maturity (interval) and accuracy; chapter mastery saturates
+// as evidence accrues. See docs/mastery-progress-model.md.
+const STUDY_TAU = 25; // "Balanced": ~25 retained problems ≈ 63%, ~55 ≈ ~90%.
+
+// Per-problem retention weight in [0, 1] from its problemHistory row.
+function problemRetention({ timesCorrect = 0, timesIncorrect = 0, interval = 0 } = {}) {
+  if (timesCorrect <= 0) return 0;
+  const accuracy = timesCorrect / (timesCorrect + timesIncorrect);
+  // Maturity: how well the problem has stuck across spaced reviews.
+  const maturity = interval >= 21 ? 1.0 : interval >= 7 ? 0.7 : 0.4;
+  return maturity * accuracy;
+}
+
+// Study mastery (0–100) for one chapter, from its problemHistory rows.
+function computeStudyMastery(history = []) {
+  let evidence = 0;
+  for (const h of history) evidence += problemRetention(h);
+  return Math.round(100 * (1 - Math.exp(-evidence / STUDY_TAU)));
+}
+
+module.exports = {
+  calculateEarnedMastery, applyDecay, isDecaying, masteryName,
+  computeStudyMastery, problemRetention, STUDY_TAU,
+};

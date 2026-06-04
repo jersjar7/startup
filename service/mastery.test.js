@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-const { calculateEarnedMastery, applyDecay, isDecaying, masteryName } = require('./mastery.js');
+const { calculateEarnedMastery, applyDecay, isDecaying, masteryName, computeStudyMastery, problemRetention } = require('./mastery.js');
 
 describe('calculateEarnedMastery', () => {
   it('returns 0 when no sessions completed', () => {
@@ -123,5 +123,38 @@ describe('masteryName', () => {
 
   it('returns Not Started for out-of-range level', () => {
     expect(masteryName(99)).toBe('Not Started');
+  });
+});
+
+describe('computeStudyMastery (retrieval + spacing curve, τ=25)', () => {
+  const learned = (n) => Array.from({ length: n }, () => ({ timesCorrect: 1, timesIncorrect: 0, interval: 1 }));   // crammed today
+  const matured = (n) => Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21 }));  // recalled across weeks
+
+  it('gives 0 for no history', () => {
+    expect(computeStudyMastery([])).toBe(0);
+  });
+
+  it('matches the worked example: cram 20 → 27%', () => {
+    expect(computeStudyMastery(learned(20))).toBe(27);
+  });
+
+  it('rewards spacing: same 20, matured → 55% (≈ double the cram)', () => {
+    expect(computeStudyMastery(matured(20))).toBe(55);
+  });
+
+  it('saturates with diminishing returns', () => {
+    expect(computeStudyMastery(matured(40))).toBe(80);
+    expect(computeStudyMastery(matured(55))).toBe(89);
+  });
+
+  it('a problem never answered correctly contributes nothing', () => {
+    expect(problemRetention({ timesCorrect: 0, timesIncorrect: 5, interval: 0 })).toBe(0);
+  });
+
+  it('lowers credit for lapses (accuracy gate)', () => {
+    const half = problemRetention({ timesCorrect: 1, timesIncorrect: 1, interval: 21 }); // 1.0 * 0.5
+    const clean = problemRetention({ timesCorrect: 1, timesIncorrect: 0, interval: 21 }); // 1.0 * 1.0
+    expect(half).toBeCloseTo(0.5);
+    expect(clean).toBe(1);
   });
 });
