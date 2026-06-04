@@ -274,7 +274,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       <div className="dash-header">
         <div>
           <h2 className="dash-title">Dashboard</h2>
-          <span className="dash-greeting">{firstName || displayName ? `Welcome back, ${firstName || displayName}` : 'Welcome back'}</span>
+          <span className="dash-greeting">{firstName ? `Welcome back, ${firstName}` : 'Welcome back'}</span>
         </div>
         <button className="logout-btn" onClick={handleLogout}>
           <SignOut weight="bold" size={18} />
