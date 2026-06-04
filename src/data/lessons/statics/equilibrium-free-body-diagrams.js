@@ -173,7 +173,7 @@ export default {
           latex: 'A_y + B_y = 20 \\quad \\Rightarrow \\quad A_y = 20 - 7 = 13.0 \\text{ kN}',
         },
         {
-          text: 'Answer A (12.0 kN) ignores the couple: $B_y = 80/10 = 8$, $A_y = 12$. The couple shifts 1 kN from B to A.',
+          text: 'The 12.0 kN choice ignores the couple: $B_y = 80/10 = 8$, $A_y = 12$. The couple shifts 1 kN from B to A.',
           latex: null,
         },
       ],

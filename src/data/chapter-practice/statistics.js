@@ -191,7 +191,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Compute the expected value of the risky bid: $E(A) = 40{,}000(0.6) + (-10{,}000)(0.4) = 24{,}000 - 4{,}000 = 20{,}000$ dollars. Bid B is a certain 25,000 dollars. Since $25{,}000 > 20{,}000$, Bid B is preferred by 5,000 dollars. Choice A reverses the comparison, picking the risky bid. Choice C uses 15,000 dollars, which comes from treating the loss as a positive payoff so that $E(A) = 24{,}000 + 4{,}000 = 28{,}000$ and then taking the wrong difference. Choice D ignores the probability weighting entirely.',
+    eli5: 'Compute the expected value of the risky bid: $E(A) = 40{,}000(0.6) + (-10{,}000)(0.4) = 24{,}000 - 4{,}000 = 20{,}000$ dollars. Bid B is a certain 25,000 dollars. Since $25{,}000 > 20{,}000$, Bid B is preferred by 5,000 dollars. "Bid A, by 5,000 dollars" reverses the comparison, picking the risky bid. "Bid B, by 15,000 dollars" uses 15,000 dollars, which comes from treating the loss as a positive payoff so that $E(A) = 24{,}000 + 4{,}000 = 28{,}000$ and then taking the wrong difference. "They are equal" ignores the probability weighting entirely.',
     hint: 'Compute $E(X)$ for the risky bid by weighting each payoff by its probability, then compare to the certain bid.',
     steps: [
       { text: 'Expected value of Bid A (keep the loss negative):', latex: 'E(A) = 40{,}000(0.6) + (-10{,}000)(0.4)' },

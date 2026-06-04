@@ -63,7 +63,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'This is the classic \u201ccompute the sample standard deviation\u201d problem. The key word is sample \u2014 these 6 cylinders represent one pour, not the entire universe of concrete, so you divide by n\u22121 = 5, not n = 6. The 77.8 psi choice is what you\u2019d get if you divided by n = 6 (population formula). The 7,267 choice is the variance, not the standard deviation \u2014 they\u2019re hoping you forget to take the square root. Choice D is just the range (max minus min), which is a different measure of spread entirely.',
+      eli5: 'This is the classic \u201ccompute the sample standard deviation\u201d problem. The key word is sample \u2014 these 6 cylinders represent one pour, not the entire universe of concrete, so you divide by n\u22121 = 5, not n = 6. The 77.8 psi choice is what you\u2019d get if you divided by n = 6 (population formula). The 7,267 choice is the variance, not the standard deviation \u2014 they\u2019re hoping you forget to take the square root. The $230\\,\\text{psi}$ choice is just the range (max minus min), which is a different measure of spread entirely.',
       hint: 'Use the sample formula \u2014 divide by $n - 1$, not $n$, then take the square root.',
       steps: [
         { text: 'Compute the mean:', latex: '\\bar{x} = \\frac{4120 + 4250 + 4080 + 4310 + 4190 + 4150}{6} = \\frac{25{,}100}{6} = 4183.\\overline{3}' },

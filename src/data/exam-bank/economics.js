@@ -1079,15 +1079,15 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'Choice A is incorrect because MACRS depreciates the full cost (no salvage subtraction), so total MACRS depreciation often equals or exceeds total straight-line depreciation.',
+        text: 'The option claiming straight-line results in higher total depreciation than MACRS is incorrect because MACRS depreciates the full cost (no salvage subtraction), so total MACRS depreciation often equals or exceeds total straight-line depreciation.',
         latex: null
       },
       {
-        text: 'Choice B reverses the two methods — MACRS front-loads, straight-line is uniform.',
+        text: 'The option saying MACRS spreads depreciation evenly while straight-line front-loads it reverses the two methods — MACRS front-loads, straight-line is uniform.',
         latex: null
       },
       {
-        text: 'Choice C is fabricated — the MACRS table on p. 231 covers 3-, 5-, 7-, and 10-year recovery periods (among others).',
+        text: 'The option claiming MACRS applies only to assets with a useful life of 20 years or more is fabricated — the MACRS table on p. 231 covers 3-, 5-, 7-, and 10-year recovery periods (among others).',
         latex: null
       }
     ],

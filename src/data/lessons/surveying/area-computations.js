@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Cross products: (0\u00D70 \u2013 6\u00D70) + (6\u00D74 \u2013 3\u00D70) + (3\u00D70 \u2013 0\u00D74) = 0 + 24 + 0 = 24... wait, let me redo: (x_A \u00D7 y_B \u2013 x_B \u00D7 y_A) + (x_B \u00D7 y_C \u2013 x_C \u00D7 y_B) + (x_C \u00D7 y_A \u2013 x_A \u00D7 y_C) = (0\u00D70 \u2013 6\u00D70) + (6\u00D74 \u2013 3\u00D70) + (3\u00D70 \u2013 0\u00D74) = 0 + 24 + 0 = 24. Area = |24|/2 = 12. You can verify with base \u00D7 height / 2 = 6 \u00D7 4 / 2 = 12. Choice B forgets to divide by 2. Choice C divides by 4 instead. Choice D uses 1.5 \u00D7 sum.',
+      eli5: 'Cross products: (0\u00D70 \u2013 6\u00D70) + (6\u00D74 \u2013 3\u00D70) + (3\u00D70 \u2013 0\u00D74) = 0 + 24 + 0 = 24... wait, let me redo: (x_A \u00D7 y_B \u2013 x_B \u00D7 y_A) + (x_B \u00D7 y_C \u2013 x_C \u00D7 y_B) + (x_C \u00D7 y_A \u2013 x_A \u00D7 y_C) = (0\u00D70 \u2013 6\u00D70) + (6\u00D74 \u2013 3\u00D70) + (3\u00D70 \u2013 0\u00D74) = 0 + 24 + 0 = 24. Area = |24|/2 = 12. You can verify with base \u00D7 height / 2 = 6 \u00D7 4 / 2 = 12. 24 sq units forgets to divide by 2. 6 sq units divides by 4 instead. 18 sq units uses 1.5 \u00D7 sum.',
       hint: 'Set up the cross products for each adjacent vertex pair, sum them, take the absolute value, and divide by 2.',
       steps: [
         { text: 'List vertices in order and compute cross products:', latex: '\\sum = (0 \\cdot 0 - 6 \\cdot 0) + (6 \\cdot 4 - 3 \\cdot 0) + (3 \\cdot 0 - 0 \\cdot 4)' },

@@ -218,7 +218,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The only term that differs between the two crosswalks is $0.27 N_{\\text{ped}}$. The difference in that term is $0.27(25 - 5) = 0.27 \\times 20 = 5.4$ sec, so B needs about 5.4 sec more. The start-up constant (3.2) and the walking time ($L/S_p$) are identical for both. Choice A is wrong because the volume term, while smaller, is not zero. Choice C wrongly assumes green time scales linearly with pedestrian count -- only one of three terms depends on $N_{\\text{ped}}$. Choice D invents a behavior not in the formula.',
+    eli5: 'The only term that differs between the two crosswalks is $0.27 N_{\\text{ped}}$. The difference in that term is $0.27(25 - 5) = 0.27 \\times 20 = 5.4$ sec, so B needs about 5.4 sec more. The start-up constant (3.2) and the walking time ($L/S_p$) are identical for both. The option that they are equal because the walking time term $L/S_p$ dominates the calculation is wrong because the volume term, while smaller, is not zero. The option that Crosswalk B requires 5 times the green time of Crosswalk A wrongly assumes green time scales linearly with pedestrian count -- only one of three terms depends on $N_{\\text{ped}}$. The option that Crosswalk A requires more green time because fewer pedestrians walk more cautiously invents a behavior not in the formula.',
     hint: 'Only the 0.27 Nped term changes. Compute the difference in that term.',
     steps: [
       { text: 'Identical terms: $3.2 + L/S_p$ are the same for both crosswalks.', latex: null },

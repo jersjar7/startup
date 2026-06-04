@@ -75,8 +75,8 @@ export default {
       videoUrl: null,
       traps: [
         'Using 500 N as mass instead of weight \u2014 must divide by g first',
-        'Using cos 30\u00B0 instead of sin 30\u00B0 for the component along the incline \u2014 gives 8.50 (Choice C)',
-        'Reporting the force (250 N) as the acceleration (Choice B)',
+        'Using cos 30\u00B0 instead of sin 30\u00B0 for the component along the incline \u2014 gives 8.50',
+        'Reporting the force (250 N) as the acceleration',
       ],
       diagram: { component: 'BlockOnIncline', props: { weight: 500, angle: 30 } },
     },
@@ -102,7 +102,7 @@ export default {
       handbookFormula: '\\sum M_c = I_c \\alpha',
       videoUrl: null,
       traps: [
-        'Using I = mR\u00B2 instead of \u00BDmR\u00B2 for a solid disk \u2014 gives 33.3 rad/s\u00B2 (Choice B)',
+        'Using I = mR\u00B2 instead of \u00BDmR\u00B2 for a solid disk \u2014 gives 33.3 rad/s\u00B2',
         'Applying \u03A3F = ma instead of \u03A3M = I\u03B1 \u2014 this is a rotation problem, not translation',
         'Forgetting to multiply the force by the radius to get torque',
       ],
