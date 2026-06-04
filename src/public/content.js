@@ -114,6 +114,7 @@ export function getTopic(id) {
     num: meta.num,
     questionRange: meta.qs,
     accent: meta.accent,
+    icon: meta.icon,
     context: detail.context || '',
     subtopics: detail.subtopics || [],
     formulas: detail.formulas || [],

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { ArrowRight } from '@phosphor-icons/react';
 import { MathText } from '../components/MathText';
 import { NotFound } from '../components/NotFound';
 import { useSeo } from '../seo/useSeo';
@@ -14,6 +15,7 @@ export function PublicTopic() {
 
   if (!topic) return <NotFound />;
 
+  const Icon = topic.icon;
   const url = `${SITE}/fe-civil/${topic.id}`;
   const title = `FE Civil ${topic.name} — Study Guide, Formulas & Practice | FE for Raccoons`;
   const description = `Free FE Civil ${topic.name} study guide: what NCEES tests (${topic.questionRange} questions), key formulas with FE Reference Handbook pages, sample problems with plain-English explanations, and common mistakes to avoid.`;
@@ -44,88 +46,110 @@ export function PublicTopic() {
 
   useSeo({ title, description, canonical: url, jsonLd });
 
+  const num2 = (n) => String(n).padStart(2, '0');
+
   return (
-    <main className="pub">
+    <main className={`pub pub-accent-${topic.accent}`}>
       <nav className="pub-breadcrumb" aria-label="Breadcrumb">
         <Link to="/fe-civil-exam-guide">FE Civil Exam Guide</Link>
-        <span aria-hidden="true">›</span>
+        <span aria-hidden="true">/</span>
         <span>{topic.name}</span>
       </nav>
 
-      <div className={`pub-hero pub-accent-${topic.accent}`}>
-        <p className="pub-overline">FE Civil · Chapter {topic.num} · {topic.questionRange} exam questions</p>
-        <h1>FE Civil {topic.name}</h1>
-        {topic.context && <p className="pub-lede">{topic.context}</p>}
-        <div className="pub-cta-row">
-          <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Practice {topic.name} free →</Link>
-          <Link className="pub-btn pub-btn-ghost" to="/fe-civil-exam-guide">Full exam guide</Link>
+      {/* Hero */}
+      <header className="pub-hero">
+        <div className="pub-hero-text">
+          <span className="pub-label"><span className="pub-label-dash" />FE Civil · Chapter {topic.num} · {topic.questionRange} questions</span>
+          <h1>FE Civil {topic.name}</h1>
+          {topic.context && <p className="pub-lede">{topic.context}</p>}
+          <div className="pub-cta-row">
+            <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Practice {topic.name} free <ArrowRight size={16} weight="bold" /></Link>
+            <Link className="pub-btn pub-btn-ghost" to="/fe-civil-exam-guide">Full exam guide</Link>
+          </div>
         </div>
-      </div>
+        {Icon && <div className="pub-hero-icon" aria-hidden="true"><Icon size={48} weight="duotone" /></div>}
+      </header>
 
+      {/* What the FE tests — numbered rows */}
       {topic.subtopics.length > 0 && (
         <section className="pub-section">
-          <h2>What the FE tests in {topic.name}</h2>
-          <div className="pub-cards">
-            {topic.subtopics.map((s) => (
-              <article key={s.id || s.name} className="pub-card">
-                <h3>{s.name}</h3>
-                <p>{s.application}</p>
-              </article>
+          <span className="pub-label"><span className="pub-label-dash" />What the FE tests</span>
+          <h2>The {topic.name} skills NCEES checks</h2>
+          <div className="pub-rows">
+            {topic.subtopics.map((s, i) => (
+              <div key={s.id || s.name} className="pub-row">
+                <span className="pub-row-num">{num2(i + 1)}</span>
+                <div className="pub-row-body">
+                  <h3>{s.name}</h3>
+                  <p>{s.application}</p>
+                </div>
+              </div>
             ))}
           </div>
         </section>
       )}
 
+      {/* Formulas */}
       {topic.formulas.length > 0 && (
-        <section className="pub-section">
+        <section className="pub-section pub-panel">
+          <span className="pub-label"><span className="pub-label-dash" />Reference</span>
           <h2>Key {topic.name} formulas</h2>
           <ul className="pub-formulas">
             {topic.formulas.map((f, i) => (
               <li key={i}>
-                <div className="pub-formula-math"><MathText text={`$${f.latex}$`} /></div>
-                <div className="pub-formula-meta">
+                <span className="pub-formula-math"><MathText text={`$${f.latex}$`} /></span>
+                <span className="pub-formula-meta">
                   <span className="pub-formula-label">{f.label}</span>
                   {f.page && <span className="pub-formula-page">FE Handbook {f.page}</span>}
-                </div>
+                </span>
               </li>
             ))}
           </ul>
         </section>
       )}
 
+      {/* Sample problems */}
       {topic.samples.length > 0 && (
         <section className="pub-section">
+          <span className="pub-label"><span className="pub-label-dash" />Try it</span>
           <h2>Sample {topic.name} problems</h2>
-          {topic.samples.map((p, i) => (
-            <article key={i} className="pub-problem">
-              <p className="pub-problem-q"><strong>Q{i + 1}.</strong> <MathText text={p.statement} /></p>
-              {p.answer && <p className="pub-problem-a"><strong>Answer:</strong> <MathText text={p.answer} /></p>}
-              <details className="pub-problem-eli5">
-                <summary>Explain it simply</summary>
-                <p><MathText text={p.eli5} /></p>
-              </details>
-            </article>
-          ))}
+          <div className="pub-problems">
+            {topic.samples.map((p, i) => (
+              <article key={i} className="pub-problem">
+                <p className="pub-problem-q"><span className="pub-problem-tag">Q{i + 1}</span><MathText text={p.statement} /></p>
+                {p.answer && <p className="pub-problem-a"><MathText text={p.answer} /></p>}
+                <details className="pub-eli5">
+                  <summary>Explain it simply</summary>
+                  <p><MathText text={p.eli5} /></p>
+                </details>
+              </article>
+            ))}
+          </div>
           <p className="pub-note">
-            These are 2 of <strong>1,126</strong> problems across all 15 chapters. The full bank, lessons,
-            mastery tracking, and timed exam simulation live inside the app.
+            2 of <strong>1,126</strong> problems across all 15 chapters — the full bank, lessons, mastery
+            tracking, and timed exam simulation live inside the app.
           </p>
         </section>
       )}
 
+      {/* Common mistakes — accent rows */}
       {topic.traps.length > 0 && (
-        <section className="pub-section">
-          <h2>Common {topic.name} mistakes on the FE</h2>
+        <section className="pub-section pub-panel">
+          <span className="pub-label"><span className="pub-label-dash" />Avoid these</span>
+          <h2>Common {topic.name} mistakes</h2>
           <ul className="pub-traps">
-            {topic.traps.map((t, i) => <li key={i}><MathText text={t} /></li>)}
+            {topic.traps.map((t, i) => (
+              <li key={i}><span className="pub-trap-mark" aria-hidden="true" /><MathText text={t} /></li>
+            ))}
           </ul>
         </section>
       )}
 
+      {/* Final CTA */}
       <section className="pub-final-cta">
         <h2>Study {topic.name} the smart way</h2>
         <p>Bite-sized lessons, one-problem-at-a-time practice with instant feedback, and a streak to keep you going — built for the FE Civil exam.</p>
-        <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Start practicing {topic.name} →</Link>
+        <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Start practicing {topic.name} <ArrowRight size={16} weight="bold" /></Link>
       </section>
     </main>
   );

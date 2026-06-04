@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ArrowRight, CaretRight } from '@phosphor-icons/react';
 import { useSeo } from '../seo/useSeo';
 import { allTopics, EXAM_FACTS } from './content';
 import './public.css';
@@ -45,40 +46,39 @@ export function ExamGuide() {
     {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: FAQ.map((f) => ({
-        '@type': 'Question',
-        name: f.q,
-        acceptedAnswer: { '@type': 'Answer', text: f.a },
-      })),
+      mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
     },
     {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
       name: 'FE Civil exam topics',
-      itemListElement: topics.map((t, i) => ({
-        '@type': 'ListItem', position: i + 1, name: t.name, url: `${SITE}/fe-civil/${t.id}`,
-      })),
+      itemListElement: topics.map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name, url: `${SITE}/fe-civil/${t.id}` })),
     },
   ];
 
   useSeo({ title, description, canonical: url, jsonLd });
 
   return (
-    <main className="pub">
-      <div className="pub-hero pub-accent-ember">
-        <p className="pub-overline">Free FE Civil Exam Resource</p>
-        <h1>The FE Civil Exam: Format, Topics & How to Prepare</h1>
-        <p className="pub-lede">
-          The NCEES FE Civil exam is a {EXAM_FACTS.questions}-question, computer-based test and the first
-          step toward your PE license. This guide breaks down the format and every topic area — with free
-          study guides, key formulas, and sample problems for all 15 chapters.
-        </p>
-        <div className="pub-cta-row">
-          <Link className="pub-btn pub-btn-primary" to="/login">Start practicing free →</Link>
+    <main className="pub pub-accent-ember">
+      {/* Hero */}
+      <header className="pub-hero">
+        <div className="pub-hero-text">
+          <span className="pub-label"><span className="pub-label-dash" />Free FE Civil Exam Resource</span>
+          <h1>The FE Civil Exam: format, topics &amp; how to prepare</h1>
+          <p className="pub-lede">
+            The NCEES FE Civil exam is a {EXAM_FACTS.questions}-question, computer-based test and the first
+            step toward your PE license. This guide breaks down the format and every topic area — with free
+            study guides, key formulas, and sample problems for all 15 chapters.
+          </p>
+          <div className="pub-cta-row">
+            <Link className="pub-btn pub-btn-primary" to="/login">Start practicing free <ArrowRight size={16} weight="bold" /></Link>
+          </div>
         </div>
-      </div>
+      </header>
 
+      {/* Exam at a glance */}
       <section className="pub-section">
+        <span className="pub-label"><span className="pub-label-dash" />At a glance</span>
         <h2>FE Civil exam at a glance</h2>
         <ul className="pub-facts">
           <li><span>Questions</span><strong>{EXAM_FACTS.questions} multiple-choice</strong></li>
@@ -89,25 +89,34 @@ export function ExamGuide() {
         </ul>
       </section>
 
-      <section className="pub-section">
-        <h2>All 15 FE Civil topic areas</h2>
+      {/* All 15 topics — chapter rows */}
+      <section className="pub-section pub-panel">
+        <span className="pub-label"><span className="pub-label-dash" />All 15 chapters</span>
+        <h2>Every FE Civil topic area</h2>
         <p className="pub-section-lede">Each guide covers what NCEES tests, key handbook formulas, sample problems, and the mistakes that cost points.</p>
-        <div className="pub-topic-grid">
-          {topics.map((t) => (
-            <Link key={t.id} to={`/fe-civil/${t.id}`} className={`pub-topic-card pub-accent-${t.accent}`}>
-              <span className="pub-topic-num">Ch {t.num}</span>
-              <span className="pub-topic-name">{t.name}</span>
-              <span className="pub-topic-qs">{t.questionRange} questions</span>
-            </Link>
-          ))}
+        <div className="pub-ch-list">
+          {topics.map((t) => {
+            const Icon = t.icon;
+            return (
+              <Link key={t.id} to={`/fe-civil/${t.id}`} className={`pub-ch-row pub-accent-${t.accent}`}>
+                <span className="pub-ch-num">{String(t.num).padStart(2, '0')}</span>
+                <span className="pub-ch-icon">{Icon && <Icon size={22} weight="duotone" />}</span>
+                <span className="pub-ch-name">{t.name}</span>
+                <span className="pub-ch-badge">{t.questionRange} Qs</span>
+                <CaretRight size={16} className="pub-ch-caret" />
+              </Link>
+            );
+          })}
         </div>
       </section>
 
+      {/* FAQ */}
       <section className="pub-section">
+        <span className="pub-label"><span className="pub-label-dash" />FAQ</span>
         <h2>Frequently asked questions</h2>
         <div className="pub-faq">
           {FAQ.map((f, i) => (
-            <details key={i} className="pub-problem-eli5">
+            <details key={i} className="pub-eli5">
               <summary>{f.q}</summary>
               <p>{f.a}</p>
             </details>
@@ -118,7 +127,7 @@ export function ExamGuide() {
       <section className="pub-final-cta">
         <h2>Ready to start?</h2>
         <p>Free FE Civil practice across all 15 chapters — bite-sized lessons, instant feedback, and progress tracking.</p>
-        <Link className="pub-btn pub-btn-primary" to="/login">Create a free account →</Link>
+        <Link className="pub-btn pub-btn-primary" to="/login">Create a free account <ArrowRight size={16} weight="bold" /></Link>
       </section>
     </main>
   );
