@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Lat = L cos \u03B8 = 200 cos 60\u00B0 = 200 \u00D7 0.5 = 100.0 m. Dep = L sin \u03B8 = 200 sin 60\u00B0 = 200 \u00D7 0.866 = 173.2 m. Both are positive because azimuth 60\u00B0 is in the NE quadrant. Choice B swaps cosine and sine. Choice C uses 45\u00B0 values. Choice D gets the departure sign wrong.',
+      eli5: 'Lat = L cos \u03B8 = 200 cos 60\u00B0 = 200 \u00D7 0.5 = 100.0 m. Dep = L sin \u03B8 = 200 sin 60\u00B0 = 200 \u00D7 0.866 = 173.2 m. Both are positive because azimuth 60\u00B0 is in the NE quadrant. The Lat = 173.2 m, Dep = 100.0 m option swaps cosine and sine. The Lat = 141.4 m, Dep = 141.4 m option uses 45\u00B0 values. The Lat = 100.0 m, Dep = -173.2 m option gets the departure sign wrong.',
       hint: 'Latitude = L cos(azimuth), Departure = L sin(azimuth). Check the quadrant for signs.',
       steps: [
         { text: 'Latitude (N-S component):', latex: '\\text{Lat} = 200 \\cos 60\\degree = 200 \\times 0.500 = 100.0 \\text{ m}' },

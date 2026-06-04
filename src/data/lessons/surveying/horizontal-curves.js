@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'R = 5,729.58 / D = 5,729.58 / 6 = 954.93 \u2248 955 ft. Choice B is the numerator (D = 1\u00B0). Choice C divides by 10 instead of 6. Choice D uses 10,000/D.',
+      eli5: 'R = 5,729.58 / D = 5,729.58 / 6 = 954.93 \u2248 955 ft. The 5,730 ft choice is the numerator (D = 1\u00B0). The 573 ft choice divides by 10 instead of 6. The 1,667 ft choice uses 10,000/D.',
       hint: 'R = 5,729.58 / D. Plug in D = 6\u00B0.',
       steps: [
         { text: 'Radius from degree of curve:', latex: 'R = \\frac{5{,}729.58}{D} = \\frac{5{,}729.58}{6} = 954.93 \\approx 955 \\text{ ft}' },
@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'T = R tan(I/2) = 1,000 \u00D7 tan(20\u00B0) = 1,000 \u00D7 0.3640 = 364 ft. Choice A uses tan(I) instead of tan(I/2). Choice C uses tan(40\u00B0). Choice D uses sin(I/2) instead of tan(I/2).',
+      eli5: 'T = R tan(I/2) = 1,000 \u00D7 tan(20\u00B0) = 1,000 \u00D7 0.3640 = 364 ft. The 839 ft choice uses tan(I) = tan(40\u00B0) instead of tan(I/2). The 342 ft choice uses sin(I/2) instead of tan(I/2) (1,000 \u00D7 sin(20\u00B0) = 342). The 698 ft choice doubles the correct result.',
       hint: 'The tangent distance uses HALF the intersection angle: T = R tan(I/2).',
       steps: [
         { text: 'Tangent distance:', latex: 'T = R\\tan\\frac{I}{2} = 1{,}000 \\times \\tan 20\\degree' },

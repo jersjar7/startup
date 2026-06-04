@@ -32,7 +32,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'R = 5,729.58/D = 5,729.58/6 = 954.9 \u2248 955 ft. Direct division. Choice A (5,730) forgot to divide by D (used D = 1). Choice C multiplied instead of dividing: 5,729.58 \u00D7 6 = 34,377. Choice D divided by 12 instead of 6.',
+      eli5: 'R = 5,729.58/D = 5,729.58/6 = 954.9 \u2248 955 ft. Direct division. The 5,730 ft option forgot to divide by D (used D = 1). The 34,377 ft option multiplied instead of dividing: 5,729.58 \u00D7 6 = 34,377. The 478 ft option divided by 12 instead of 6.',
       hint: 'R = 5,729.58 / D. Just divide.',
       steps: [
         { text: 'Radius from degree of curve:', latex: 'R = \\frac{5{,}729.58}{D} = \\frac{5{,}729.58}{6} = 954.9 \\approx 955 \\text{ ft}' },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'T = R tan(I/2) = 1,200 \u00D7 tan(15\u00B0) = 1,200 \u00D7 0.2679 = 321.5 \u2248 322 ft. Choice B (693) used tan(I) = tan(30\u00B0) = 0.5774 instead of tan(I/2) \u2014 forgot to halve the angle: 1,200 \u00D7 0.5774 = 693. Choice A (628) is the curve length L = RI(\u03C0/180) = 1,200 \u00D7 30 \u00D7 \u03C0/180 = 628 \u2014 confused T with L. Choice D (161) divided by 2 one too many times.',
+      eli5: 'T = R tan(I/2) = 1,200 \u00D7 tan(15\u00B0) = 1,200 \u00D7 0.2679 = 321.5 \u2248 322 ft. The 693 ft choice used tan(I) = tan(30\u00B0) = 0.5774 instead of tan(I/2) \u2014 forgot to halve the angle: 1,200 \u00D7 0.5774 = 693. The 628 ft choice is the curve length L = RI(\u03C0/180) = 1,200 \u00D7 30 \u00D7 \u03C0/180 = 628 \u2014 confused T with L. The 161 ft choice divided by 2 one too many times.',
       hint: 'T = R tan(I/2). Make sure to halve the intersection angle before taking the tangent.',
       steps: [
         { text: 'Tangent distance:', latex: 'T = R \\tan\\!\\left(\\frac{I}{2}\\right) = 1{,}200 \\times \\tan(15\\degree) = 1{,}200 \\times 0.2679 = 322 \\text{ ft}' },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: '0.01e + f = V\u00B2/(15R) = 45\u00B2/(15 \u00D7 600) = 2,025/9,000 = 0.225. Solve: 0.01e = 0.225 \u2212 0.15 = 0.075. e = 7.5%. Choice B (22.5%) forgot to subtract f \u2014 set 0.01e = 0.225, so e = 22.5. Choice C (0.075%) solved for 0.01e and reported that as e without dividing by 0.01. Choice A (15.0%) confused e with f \u00D7 100.',
+      eli5: '0.01e + f = V\u00B2/(15R) = 45\u00B2/(15 \u00D7 600) = 2,025/9,000 = 0.225. Solve: 0.01e = 0.225 \u2212 0.15 = 0.075. e = 7.5%. The 22.5% option forgot to subtract f \u2014 set 0.01e = 0.225, so e = 22.5. The 0.075% option solved for 0.01e and reported that as e without dividing by 0.01. The 15.0% option confused e with f \u00D7 100.',
       hint: 'Solve 0.01e + f = V\u00B2/(15R) for e. Remember e is in percent, so 0.01e converts it to decimal.',
       steps: [
         { text: 'Compute the right side:', latex: '\\frac{V^2}{15R} = \\frac{45^2}{15 \\times 600} = \\frac{2{,}025}{9{,}000} = 0.225' },

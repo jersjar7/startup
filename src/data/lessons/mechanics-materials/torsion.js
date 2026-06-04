@@ -34,7 +34,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Plug into \u03C4 = Tc/J. Two common mistakes: using d instead of c = d/2 (doubles your answer to 40.7 MPa), or using I = \u03C0d\u2074/64 instead of J = \u03C0d\u2074/32 (halves your answer to 10.2, choice A). Remember: torsion uses J (polar), not I (area moment). And c is the radius, not diameter.',
+      eli5: 'Plug into \u03C4 = Tc/J. Two common mistakes: using d instead of c = d/2 (doubles your answer to 40.7 MPa), or using I = \u03C0d\u2074/64 instead of J = \u03C0d\u2074/32 (halves your answer to 10.2 MPa). Remember: torsion uses J (polar), not I (area moment). And c is the radius, not diameter.',
       hint: 'What is J for a solid circular shaft? And is c the radius or the diameter?',
       steps: [
         { text: 'Polar moment of inertia:', latex: 'J = \\frac{\\pi d^4}{32} = \\frac{\\pi (50)^4}{32} = 613{,}600 \\text{ mm}^4' },
@@ -61,7 +61,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Straight \u03C6 = TL/GJ, but the unit trap is real. Everything needs to be in mm, N, and MPa. If you leave L in meters (1.5), you get a wildly wrong answer. Choice B (0.0448) comes from using I instead of J (half the J means double the twist). Choice C (0.0112) comes from using d\u2074 but forgetting the \u03C0/32 factor in J. Choice D (1.28) could come from reporting degrees but labeling as radians.',
+      eli5: 'Straight \u03C6 = TL/GJ, but the unit trap is real. Everything needs to be in mm, N, and MPa. If you leave L in meters (1.5), you get a wildly wrong answer. The 0.0448 rad option comes from using I instead of J (half the J means double the twist). The 0.0112 rad option comes from doubling J (e.g. using \u03C0/16 instead of \u03C0/32), which halves the twist. The 1.28 rad option comes from reporting the answer in degrees (1.28\u00B0) but mislabeling it as radians.',
       hint: 'Make sure L is in mm and G is in MPa (= N/mm\u00B2) before plugging into \u03C6 = TL/GJ.',
       steps: [
         { text: 'Polar moment of inertia:', latex: 'J = \\frac{\\pi (40)^4}{32} = 251{,}327 \\text{ mm}^4' },

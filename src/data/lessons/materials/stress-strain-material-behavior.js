@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Straight $P/A$ problem. Convert kN to N first: 60 kN = 60,000 N. Then $\\sigma = 60{,}000 / 150 = 400$ MPa. Choice B (40 MPa) comes from using 60 instead of 60,000 \u2014 forgetting the kN-to-N conversion. Choice C (4,000) comes from using the area as 15 mm\u00B2. Choice D (200) comes from doubling the area to 300 mm\u00B2.',
+      eli5: 'Straight $P/A$ problem. Convert kN to N first: 60 kN = 60,000 N. Then $\\sigma = 60{,}000 / 150 = 400$ MPa. The 40 MPa option comes from using 60 instead of 60,000 \u2014 forgetting the kN-to-N conversion. The 4,000 MPa option comes from using the area as 15 mm\u00B2. The 200 MPa option comes from doubling the area to 300 mm\u00B2.',
       hint: 'Convert kN to N before dividing by the area in mm\u00B2. The result is in MPa (N/mm\u00B2 = MPa).',
       steps: [
         { text: 'Convert force to newtons:', latex: 'P = 60 \\text{ kN} = 60{,}000 \\text{ N}' },

@@ -35,7 +35,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'When there\'s no shear stress (\u03C4xy = 0), the given normal stresses ARE already the principal stresses \u2014 the axes are already aligned with the principal directions. You can verify with the formula: C \u00B1 R = 30 \u00B1 50 = 80 and \u221220. Choice A (100, 0) comes from adding the magnitudes instead of using the formula. Choice C (50, \u221250) gives just the R values, not C \u00B1 R. Choice D (30, 30) is just the center \u2014 you forgot to add/subtract the radius.',
+      eli5: 'When there\'s no shear stress (\u03C4xy = 0), the given normal stresses ARE already the principal stresses \u2014 the axes are already aligned with the principal directions. You can verify with the formula: C \u00B1 R = 30 \u00B1 50 = 80 and \u221220. The (100, 0) option comes from adding the magnitudes instead of using the formula. The (50, \u221250) option gives just the R values, not C \u00B1 R. The (30, 30) option is just the center \u2014 you forgot to add/subtract the radius.',
       hint: 'When \u03C4xy = 0, what does that tell you about the relationship between the given stresses and the principal stresses?',
       steps: [
         { text: 'Center:', latex: 'C = \\frac{80 + (-20)}{2} = 30 \\text{ MPa}' },
@@ -63,7 +63,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Classic 3-4-5 triangle hiding in a Mohr\'s circle problem. The half-difference is 30, the shear is 40, so R = \u221A(30\u00B2 + 40\u00B2) = 50 (that\'s a 3-4-5 right triangle scaled by 10). Then \u03C3\u2081 = C + R = 30 + 50 = 80. Choice C (50) is just the radius R \u2014 that\'s the max shear stress, not the max normal stress. Choice B (60) is just \u03C3x \u2014 ignoring the shear contribution. Choice D (100) comes from adding \u03C3x + \u03C4xy (not how stress transformation works).',
+      eli5: 'Classic 3-4-5 triangle hiding in a Mohr\'s circle problem. The half-difference is 30, the shear is 40, so R = \u221A(30\u00B2 + 40\u00B2) = 50 (that\'s a 3-4-5 right triangle scaled by 10). Then \u03C3\u2081 = C + R = 30 + 50 = 80. The 50 MPa choice is just the radius R \u2014 that\'s the max shear stress, not the max normal stress. The 60 MPa choice is just \u03C3x \u2014 ignoring the shear contribution. The 100 MPa choice comes from adding \u03C3x + \u03C4xy (not how stress transformation works).',
       hint: 'Compute the center C and radius R of Mohr\'s circle first. The max principal stress is C + R.',
       steps: [
         { text: 'Center:', latex: 'C = \\frac{60 + 0}{2} = 30 \\text{ MPa}' },
@@ -91,7 +91,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'This is the sneaky Mohr\'s circle problem. The in-plane max shear is R = 50 MPa, and most students stop there (the 50 MPa choice). But both principal stresses are positive (130 and 30), which means the absolute maximum shear stress involves the third principal stress \u03C3\u2083 = 0. The biggest difference between any two principal stresses is 130 \u2212 0 = 130, and max shear = half of that = 65. Choice A (40) is just the half-difference (\u03C3x \u2212 \u03C3y)/2. Choice D (80) is the center C, which has nothing to do with shear stress.',
+      eli5: 'This is the sneaky Mohr\'s circle problem. The in-plane max shear is R = 50 MPa, and most students stop there (the 50 MPa choice). But both principal stresses are positive (130 and 30), which means the absolute maximum shear stress involves the third principal stress \u03C3\u2083 = 0. The biggest difference between any two principal stresses is 130 \u2212 0 = 130, and max shear = half of that = 65. The 40 MPa choice is just the half-difference (\u03C3x \u2212 \u03C3y)/2. The 80 MPa choice is the center C, which has nothing to do with shear stress.',
       hint: 'After finding the principal stresses, check if they have the same sign. If so, the absolute max shear stress involves the out-of-plane \u03C3\u2083 = 0.',
       steps: [
         { text: 'Center:', latex: 'C = \\frac{120 + 40}{2} = 80 \\text{ MPa}' },

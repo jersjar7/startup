@@ -83,7 +83,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Misclosure = |499.97 \u2013 500.00| = 0.03 ft. Allowable = 0.05\u221A4 = 0.05 \u00D7 2.0 = 0.10 ft. Since 0.03 < 0.10, the survey meets the tolerance. Choice A uses C = 0.05/\u221A4 = 0.025 and then rounds incorrectly. Choice C uses M\u00B2 instead of \u221AM. Choice D reads the misclosure as 0.30.',
+      eli5: 'Misclosure = |499.97 \u2013 500.00| = 0.03 ft. Allowable = 0.05\u221A4 = 0.05 \u00D7 2.0 = 0.10 ft. Since 0.03 < 0.10, the survey meets the tolerance. The "allowable (0.01 ft)" option uses C = 0.05/\u221A4 = 0.025 and then rounds incorrectly. The "allowable (0.20 ft)" option uses M\u00B2 instead of \u221AM. The "misclosure (0.30 ft)" option reads the misclosure as 0.30.',
       hint: 'Compute misclosure = |computed \u2013 known|. Compare to the allowable error = C\u221AM.',
       steps: [
         { text: 'Misclosure:', latex: '|499.97 - 500.00| = 0.03 \\text{ ft}' },

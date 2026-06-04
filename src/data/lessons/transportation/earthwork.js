@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'V = L(A1 + A2)/2 = 100(200 + 300)/2 = 100 \u00D7 250 = 25,000 ft\u00B3. Convert: 25,000/27 = 926 yd\u00B3. Choice A (1,852) forgot to divide by 2 in the average: 100 \u00D7 500/27 = 1,852. Choice C (25,000) is the answer in ft\u00B3, not yd\u00B3 \u2014 forgot to divide by 27. Choice D (741) used only A1: 100 \u00D7 200/27 = 741.',
+      eli5: 'V = L(A1 + A2)/2 = 100(200 + 300)/2 = 100 \u00D7 250 = 25,000 ft\u00B3. Convert: 25,000/27 = 926 yd\u00B3. The 1,852 yd\u00B3 option forgot to divide by 2 in the average: 100 \u00D7 500/27 = 1,852. The 25,000 option is the answer in ft\u00B3, not yd\u00B3 \u2014 forgot to divide by 27. The 741 yd\u00B3 option used only A1: 100 \u00D7 200/27 = 741.',
       hint: 'Average the two areas, multiply by L, then divide by 27 to convert ft\u00B3 to yd\u00B3.',
       steps: [
         { text: 'Average end area volume:', latex: 'V = \\frac{100(200 + 300)}{2} = \\frac{100 \\times 500}{2} = 25{,}000 \\text{ ft}^3' },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'V = L(A1 + 4Am + A2)/6 = 200(150 + 4\u00D7230 + 350)/6 = 200(150 + 920 + 350)/6 = 200 \u00D7 1,420/6 = 284,000/6 = 47,333 ft\u00B3 = 47,333/27 = 1,753 yd\u00B3. Choice B (1,852) used average end area: 200(150+350)/2 = 50,000 ft\u00B3 = 1,852 yd\u00B3 \u2014 notice the overestimate vs. prismoidal. Choice C (10,519) forgot to divide by 6: 284,000/27 = 10,519. Choice A (876) divided the volume by 2 for no reason.',
+      eli5: 'V = L(A1 + 4Am + A2)/6 = 200(150 + 4\u00D7230 + 350)/6 = 200(150 + 920 + 350)/6 = 200 \u00D7 1,420/6 = 284,000/6 = 47,333 ft\u00B3 = 47,333/27 = 1,753 yd\u00B3. The 1,852 yd\u00B3 option used average end area: 200(150+350)/2 = 50,000 ft\u00B3 = 1,852 yd\u00B3 \u2014 notice the overestimate vs. prismoidal. The 10,519 yd\u00B3 option forgot to divide by 6: 284,000/27 = 10,519. The 876 yd\u00B3 option divided the volume by 2 for no reason.',
       hint: 'Apply L(A1 + 4Am + A2)/6, then divide by 27 for yd\u00B3. The prismoidal formula gives a smaller volume than average end area when A1 \u2260 A2.',
       steps: [
         { text: 'Prismoidal volume:', latex: 'V = \\frac{200(150 + 4 \\times 230 + 350)}{6} = \\frac{200 \\times 1{,}420}{6} = \\frac{284{,}000}{6} = 47{,}333 \\text{ ft}^3' },

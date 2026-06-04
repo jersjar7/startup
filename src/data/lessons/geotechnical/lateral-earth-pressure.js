@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Ka = tan\u00B2(45\u00B0 \u2013 30\u00B0/2) = tan\u00B2(30\u00B0) = (0.5774)\u00B2 = 0.333 = 1/3. Choice B (3.0) is Kp, the passive coefficient (or 1/Ka). Choice C (0.577) is tan 30\u00B0, not tan\u00B2 30\u00B0. Choice D (0.50) is sin 30\u00B0.',
+      eli5: 'Ka = tan\u00B2(45\u00B0 \u2013 30\u00B0/2) = tan\u00B2(30\u00B0) = (0.5774)\u00B2 = 0.333 = 1/3. The 3.0 option is Kp, the passive coefficient (or 1/Ka). The 0.577 option is tan 30\u00B0, not tan\u00B2 30\u00B0. The 0.50 option is sin 30\u00B0.',
       hint: 'Ka = tan\u00B2(45\u00B0 \u2013 \u03C6/2). First compute the angle, then take tan\u00B2.',
       steps: [
         { text: 'Active coefficient:', latex: 'K_a = \\tan^2(45\\degree - 30\\degree/2) = \\tan^2(30\\degree) = (0.5774)^2 = 0.333' },

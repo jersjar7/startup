@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'fHV = 1/(1 + PT(ET \u2212 1)) = 1/(1 + 0.10(2.0 \u2212 1)) = 1/(1 + 0.10) = 1/1.10 = 0.909. Choice A (0.833) used rolling terrain ET = 3.0: 1/(1 + 0.10 \u00D7 2) = 1/1.20. Choice C (1.100) inverted the formula and got the denominator itself. Choice D (0.800) used PT \u00D7 ET = 0.20, then 1 \u2212 0.20 = 0.80.',
+      eli5: 'fHV = 1/(1 + PT(ET \u2212 1)) = 1/(1 + 0.10(2.0 \u2212 1)) = 1/(1 + 0.10) = 1/1.10 = 0.909. The 0.833 option used rolling terrain ET = 3.0: 1/(1 + 0.10 \u00D7 2) = 1/1.20. The 1.100 option inverted the formula and got the denominator itself. The 0.800 option used PT \u00D7 ET = 0.20, then 1 \u2212 0.20 = 0.80.',
       hint: 'fHV = 1/(1 + PT(ET \u2212 1)). Subtract 1 from ET first, then multiply by PT.',
       steps: [
         { text: 'Heavy-vehicle factor:', latex: 'f_{HV} = \\frac{1}{1 + P_T(E_T - 1)} = \\frac{1}{1 + 0.10(2.0 - 1)} = \\frac{1}{1.10} = 0.909' },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'vp = V/(PHF \u00D7 N \u00D7 fHV) = 4,500/(0.92 \u00D7 3 \u00D7 0.909) = 4,500/2.509 = 1,793 pc/h/ln. All three adjustments (PHF, lanes, heavy vehicles) must be applied. Choice B (1,630) forgot fHV: 4,500/(0.92 \u00D7 3) = 4,500/2.76 = 1,630. Choice A (1,650) forgot PHF: 4,500/(3 \u00D7 0.909) = 4,500/2.73 = 1,650. Choice D (4,500) applied no adjustments at all.',
+      eli5: 'vp = V/(PHF \u00D7 N \u00D7 fHV) = 4,500/(0.92 \u00D7 3 \u00D7 0.909) = 4,500/2.509 = 1,793 pc/h/ln. All three adjustments (PHF, lanes, heavy vehicles) must be applied. The 1,630 pc/h/ln choice forgot fHV: 4,500/(0.92 \u00D7 3) = 4,500/2.76 = 1,630. The 1,650 pc/h/ln choice forgot PHF: 4,500/(3 \u00D7 0.909) = 4,500/2.73 = 1,650. The 4,500 pc/h/ln choice applied no adjustments at all.',
       hint: 'vp = V / (PHF \u00D7 N \u00D7 fHV). All three factors go in the denominator.',
       steps: [
         { text: 'Demand flow rate:', latex: 'v_p = \\frac{V}{PHF \\times N \\times f_{HV}} = \\frac{4{,}500}{0.92 \\times 3 \\times 0.909} = \\frac{4{,}500}{2.509} = 1{,}793 \\text{ pc/h/ln}' },
@@ -80,7 +80,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Step 1: fHV = 1/(1 + 0.10 \u00D7 1) = 1/1.10 = 0.909. Step 2: vp = 3,600/(0.90 \u00D7 2 \u00D7 0.909) = 3,600/1.636 = 2,200 pc/h/ln. Step 3: D = vp/S = 2,200/60 = 36.7 pc/mi/ln. Step 4: From the LOS table, D = 36.7 falls in >35\u201345 \u2192 LOS E. Choice B (LOS D) results from forgetting fHV: vp = 3,600/(0.90 \u00D7 2) = 2,000, D = 33.3 \u2192 >26\u201335. Choice C (LOS C) might come from using 3 lanes. Choice A (LOS F) would require D > 45.',
+      eli5: 'Step 1: fHV = 1/(1 + 0.10 \u00D7 1) = 1/1.10 = 0.909. Step 2: vp = 3,600/(0.90 \u00D7 2 \u00D7 0.909) = 3,600/1.636 = 2,200 pc/h/ln. Step 3: D = vp/S = 2,200/60 = 36.7 pc/mi/ln. Step 4: From the LOS table, D = 36.7 falls in >35\u201345 \u2192 LOS E. The LOS D choice results from forgetting fHV: vp = 3,600/(0.90 \u00D7 2) = 2,000, D = 33.3 \u2192 >26\u201335. The LOS C choice might come from using 3 lanes. The LOS F choice would require D > 45.',
       hint: 'Compute fHV, then vp, then D = vp/S. Look up D in the LOS table.',
       steps: [
         { text: 'Heavy-vehicle factor:', latex: 'f_{HV} = \\frac{1}{1 + 0.10(2.0 - 1)} = \\frac{1}{1.10} = 0.909' },

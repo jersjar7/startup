@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Direct plug-in: L = AS\u00B2/2,158 = 8 \u00D7 500\u00B2/2,158 = 8 \u00D7 250,000/2,158 = 2,000,000/2,158 = 927 ft. Check: S = 500 < L = 927, so S \u2264 L is satisfied. Choice A confused L with S. Choice C used the S > L formula (2\u00D7500 \u2212 2,158/8 = 1,000 \u2212 270 = 730). Choice D used A/2 = 4 instead of 8.',
+      eli5: 'Direct plug-in: L = AS\u00B2/2,158 = 8 \u00D7 500\u00B2/2,158 = 8 \u00D7 250,000/2,158 = 2,000,000/2,158 = 927 ft. Check: S = 500 < L = 927, so S \u2264 L is satisfied. The 500 ft choice confused L with S. The 730 ft choice used the S > L formula (2\u00D7500 \u2212 2,158/8 = 1,000 \u2212 270 = 730). The 464 ft choice used A/2 = 4 instead of 8.',
       hint: 'Crest, S \u2264 L: L = AS\u00B2/2,158. Just plug in A and S.',
       steps: [
         { text: 'Crest curve, $S \\leq L$:', latex: 'L = \\frac{A S^2}{2{,}158} = \\frac{8 \\times 500^2}{2{,}158} = \\frac{2{,}000{,}000}{2{,}158} = 927 \\text{ ft}' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'A = |g\u2082 \u2212 g\u2081| \u00D7 100 = |0.04 \u2212 (\u22120.04)| \u00D7 100 = 0.08 \u00D7 100 = 8. Sag headlight formula (S \u2264 L): L = AS\u00B2/(400 + 3.5S) = 8 \u00D7 90,000/(400 + 1,050) = 720,000/1,450 = 497 ft. Verify: S = 300 < L = 497 \u2714. Choice B (334) used the crest formula AS\u00B2/2,158 = 720,000/2,158 = 334. Choice C (419) used the S > L sag formula. Choice A (600) used 2S.',
+      eli5: 'A = |g\u2082 \u2212 g\u2081| \u00D7 100 = |0.04 \u2212 (\u22120.04)| \u00D7 100 = 0.08 \u00D7 100 = 8. Sag headlight formula (S \u2264 L): L = AS\u00B2/(400 + 3.5S) = 8 \u00D7 90,000/(400 + 1,050) = 720,000/1,450 = 497 ft. Verify: S = 300 < L = 497 \u2714. The 334 ft option used the crest formula AS\u00B2/2,158 = 720,000/2,158 = 334. The 419 ft option used the S > L sag formula. The 600 ft option used 2S.',
       hint: 'This is a SAG curve \u2014 use L = AS\u00B2/(400 + 3.5S), not the crest formula with 2,158.',
       steps: [
         { text: 'Algebraic difference in grade:', latex: 'A = |g_2 - g_1| \\times 100 = |0.04 - (-0.04)| \\times 100 = 8' },

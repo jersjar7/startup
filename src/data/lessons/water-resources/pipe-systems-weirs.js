@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Q = CLH^(3/2) = 3.33 \u00D7 5 \u00D7 (1.5)^(3/2). (1.5)^(3/2) = 1.5 \u00D7 \u221A1.5 = 1.5 \u00D7 1.225 = 1.837. Q = 3.33 \u00D7 5 \u00D7 1.837 = 30.6 cfs. Choice B uses H^1 instead of H^(3/2). Choice C uses the SI coefficient (1.84). Choice D multiplies by H\u00B2 instead of H^(3/2).',
+      eli5: 'Q = CLH^(3/2) = 3.33 \u00D7 5 \u00D7 (1.5)^(3/2). (1.5)^(3/2) = 1.5 \u00D7 \u221A1.5 = 1.5 \u00D7 1.225 = 1.837. Q = 3.33 \u00D7 5 \u00D7 1.837 = 30.6 cfs. The 25.0 cfs choice uses H^1 instead of H^(3/2). The 16.9 cfs choice uses the SI coefficient (1.84). The 37.5 cfs choice multiplies by H\u00B2 instead of H^(3/2).',
       hint: 'For a suppressed rectangular weir in USCS: Q = CLH^(3/2) with C = 3.33.',
       steps: [
         { text: 'Suppressed rectangular weir (USCS):', latex: 'Q = CLH^{3/2} = 3.33 \\times 5 \\times (1.5)^{3/2}' },
@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Since Q = k\u2081 C A R_H^0.63 S^0.54, and everything except C is the same, Q_A/Q_B = C_A/C_B = 150/100 = 1.50. The newer, smoother pipe carries 50% more flow. Choice A squares the ratio (1.5\u00B2 = 2.25). Choice C takes the 0.63 power of the ratio. Choice D inverts it.',
+      eli5: 'Since Q = k\u2081 C A R_H^0.63 S^0.54, and everything except C is the same, Q_A/Q_B = C_A/C_B = 150/100 = 1.50. The newer, smoother pipe carries 50% more flow. The $2.25$ option squares the ratio (1.5\u00B2 = 2.25). The $1.22$ option takes the 0.63 power of the ratio. The $0.67$ option inverts it.',
       hint: 'With identical pipe geometry and gradient, flow is directly proportional to C.',
       steps: [
         { text: 'Since all parameters except $C$ are identical:', latex: '\\frac{Q_A}{Q_B} = \\frac{C_A}{C_B}' },

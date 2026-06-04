@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'A_g = 16 \u00D7 16 = 256 in\u00B2. \u03C6P_n = 0.80 \u00D7 0.65 \u00D7 [0.85 \u00D7 4 \u00D7 (256 \u2013 8) + 8 \u00D7 60] = 0.52 \u00D7 [3.4 \u00D7 248 + 480] = 0.52 \u00D7 [843.2 + 480] = 0.52 \u00D7 1323.2 = 688 kips. Choice B (1,323) omits both the 0.80 factor and \u03C6. Choice A (860) applies only \u03C6 = 0.65 without the 0.80 accidental eccentricity factor. Choice D (1,058) applies only 0.80 without \u03C6. You need BOTH factors for tied columns.',
+      eli5: 'A_g = 16 \u00D7 16 = 256 in\u00B2. \u03C6P_n = 0.80 \u00D7 0.65 \u00D7 [0.85 \u00D7 4 \u00D7 (256 \u2013 8) + 8 \u00D7 60] = 0.52 \u00D7 [3.4 \u00D7 248 + 480] = 0.52 \u00D7 [843.2 + 480] = 0.52 \u00D7 1323.2 = 688 kips. The 1,323 kips option omits both the 0.80 factor and \u03C6. The 860 kips option applies only \u03C6 = 0.65 without the 0.80 accidental eccentricity factor. The 1,058 kips option applies only 0.80 without \u03C6. You need BOTH factors for tied columns.',
       hint: 'Use \u03C6P_n = 0.80\u03C6[0.85f\'c(A_g \u2013 A_st) + A_st f_y] with \u03C6 = 0.65 for tied columns.',
       steps: [
         { text: 'Gross area:', latex: 'A_g = 16 \\times 16 = 256 \\text{ in}^2' },
@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'A_st = 4 \u00D7 0.79 = 3.16 in\u00B2. A_g = 18 \u00D7 18 = 324 in\u00B2. \u03C1_g = 3.16/324 = 0.00975 = 0.975%. ACI requires 0.01 \u2264 \u03C1_g \u2264 0.08 (1% to 8%). Since 0.975% < 1%, the reinforcement is below the minimum. This means the column has insufficient steel to prevent a sudden brittle failure under combined axial load and bending. The fix is to add more bars or use larger bars. Choice B would require \u03C1_g \u2265 0.01. Choice A would require exactly 0.01.',
+      eli5: 'A_st = 4 \u00D7 0.79 = 3.16 in\u00B2. A_g = 18 \u00D7 18 = 324 in\u00B2. \u03C1_g = 3.16/324 = 0.00975 = 0.975%. ACI requires 0.01 \u2264 \u03C1_g \u2264 0.08 (1% to 8%). Since 0.975% < 1%, the reinforcement is below the minimum. This means the column has insufficient steel to prevent a sudden brittle failure under combined axial load and bending. The fix is to add more bars or use larger bars. The "Yes \u2014 within the 1% to 8% range" choice would require \u03C1_g \u2265 0.01. The "At the exact minimum of 1%" choice would require exactly 0.01.',
       hint: 'Compute \u03C1_g = A_st / A_g and compare to the ACI limits of 0.01 \u2264 \u03C1_g \u2264 0.08.',
       steps: [
         { text: 'Total steel area:', latex: 'A_{st} = 4 \\times 0.79 = 3.16 \\text{ in}^2' },
@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'A_g = 14 \u00D7 20 = 280 in\u00B2. Check \u03C1_g = 6.0/280 = 0.0214 (within 1\u20138% \u2714). \u03C6P_n = 0.80(0.65)[0.85(5)(280 \u2013 6) + 6(60)] = 0.52[4.25(274) + 360] = 0.52[1164.5 + 360] = 0.52 \u00D7 1524.5 = 793 kips. Since P_u = 550 < 793, the column is adequate. Choice B (524) might come from using \u03C6 = 0.65 but replacing 0.80 with some other factor. Choice C (1,525) is the value inside the brackets without applying 0.80\u03C6. For pure axial load (no significant moment), this formula check is sufficient; an interaction diagram is needed only when significant moment acts simultaneously.',
+      eli5: 'A_g = 14 \u00D7 20 = 280 in\u00B2. Check \u03C1_g = 6.0/280 = 0.0214 (within 1\u20138% \u2714). \u03C6P_n = 0.80(0.65)[0.85(5)(280 \u2013 6) + 6(60)] = 0.52[4.25(274) + 360] = 0.52[1164.5 + 360] = 0.52 \u00D7 1524.5 = 793 kips. Since P_u = 550 < 793, the column is adequate. The 524 kips option might come from using \u03C6 = 0.65 but replacing 0.80 with some other factor. The 1,525 kips option is the value inside the brackets without applying 0.80\u03C6. For pure axial load (no significant moment), this formula check is sufficient; an interaction diagram is needed only when significant moment acts simultaneously.',
       hint: 'Compute \u03C6P_n using the tied column formula and compare to P_u.',
       steps: [
         { text: 'Gross area:', latex: 'A_g = 14 \\times 20 = 280 \\text{ in}^2' },

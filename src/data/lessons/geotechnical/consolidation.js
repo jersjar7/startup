@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'NC clay \u2192 Case 2: \u0394H = H/(1+e0) \u00D7 Cc \u00D7 log(\u03C30\u2019+\u0394\u03C3)/\u03C30\u2019 = 10/(1.90) \u00D7 0.30 \u00D7 log(1500/1000) = 5.263 \u00D7 0.30 \u00D7 0.1761 = 0.278 ft = 3.3 in. Choice B (6.3 in.) might come from using H = 10 without dividing by (1+e0). Choice C (1.6 in.) uses Cr instead of Cc. Choice D (10 in.) ignores the log term and just multiplies H \u00D7 Cc.',
+      eli5: 'NC clay \u2192 Case 2: \u0394H = H/(1+e0) \u00D7 Cc \u00D7 log(\u03C30\u2019+\u0394\u03C3)/\u03C30\u2019 = 10/(1.90) \u00D7 0.30 \u00D7 log(1500/1000) = 5.263 \u00D7 0.30 \u00D7 0.1761 = 0.278 ft = 3.3 in. The 6.3 in. option might come from using H = 10 without dividing by (1+e0). The 1.6 in. option uses Cr instead of Cc. The 10 in. option ignores the log term and just multiplies H \u00D7 Cc.',
       hint: 'NC clay uses Case 2 with Cc (not Cr). Remember to divide H by (1 + e0).',
       steps: [
         { text: 'NC clay \u2192 Case 2:', latex: '\\Delta H = \\frac{H_0}{1+e_0} C_c \\log \\frac{\\sigma_0\' + \\Delta\\sigma}{\\sigma_0\'}' },

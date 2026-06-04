@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'k_T = k\u2082\u2080 \u00D7 \u03B8^(T \u2013 20) = 0.23 \u00D7 1.056^(28 \u2013 20) = 0.23 \u00D7 1.056^8. 1.056^8: 1.056\u00B2 = 1.1151, 1.056\u2074 = 1.2434, 1.056\u2078 = 1.5462. k\u2082\u2088 = 0.23 \u00D7 1.546 = 0.356 \u2248 0.35 day\u207B\u00B9. Higher temperature speeds up biodegradation. Choice A simply doubles k. Choice B inverts the formula (\u03B8^(20\u2013T)). Choice C assumes temperature has no effect.',
+      eli5: 'k_T = k\u2082\u2080 \u00D7 \u03B8^(T \u2013 20) = 0.23 \u00D7 1.056^(28 \u2013 20) = 0.23 \u00D7 1.056^8. 1.056^8: 1.056\u00B2 = 1.1151, 1.056\u2074 = 1.2434, 1.056\u2078 = 1.5462. k\u2082\u2088 = 0.23 \u00D7 1.546 = 0.356 \u2248 0.35 day\u207B\u00B9. Higher temperature speeds up biodegradation. The 0.46 day\u207B\u00B9 option simply doubles k. The 0.15 day\u207B\u00B9 option inverts the formula (\u03B8^(20\u2013T)). The 0.23 day\u207B\u00B9 option assumes temperature has no effect.',
       hint: 'Use k_T = k\u2082\u2080\u03B8^(T\u221220). For T > 20\u00B0C, the rate constant increases.',
       steps: [
         { text: 'Temperature correction formula:', latex: 'k_T = k_{20} \\cdot \\theta^{(T-20)}' },

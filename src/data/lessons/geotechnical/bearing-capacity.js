@@ -54,7 +54,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'qult = cNc + \u03B3DfNq + 0.5\u03B3BN\u03B3 = 0(30.14) + 120(3)(18.40) + 0.5(120)(4)(15.07) = 0 + 6,624 + 3,617 = 10,241 \u2248 10,240 psf. Since c = 0, the cohesion term drops out. Choice B (6,624) is only the overburden (Nq) term. Choice C (3,617) is only the width (N\u03B3) term. You need all three terms (even though one is zero here).',
+      eli5: 'qult = cNc + \u03B3DfNq + 0.5\u03B3BN\u03B3 = 0(30.14) + 120(3)(18.40) + 0.5(120)(4)(15.07) = 0 + 6,624 + 3,617 = 10,241 \u2248 10,240 psf. Since c = 0, the cohesion term drops out. The 6,624 psf option is only the overburden (Nq) term. The 3,617 psf option is only the width (N\u03B3) term. You need all three terms (even though one is zero here).',
       hint: 'With c = 0, only the Nq and N\u03B3 terms contribute. Compute each separately, then add.',
       steps: [
         { text: 'Cohesion term ($c = 0$):', latex: 'c N_c = 0' },

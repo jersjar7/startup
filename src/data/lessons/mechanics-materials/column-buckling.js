@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Pinned-pinned is the base case: K = 1.0, so KL = L = 4,000 mm. Plug straight into Euler\'s formula. Choice A (617) comes from using K = 2.0 (fixed-free) \u2014 that quadruples (KL)\u00B2 and cuts the load by 4. Choice B (9,870) comes from using K = 0.5 (fixed-fixed) \u2014 that quarters (KL)\u00B2 and quadruples the load. Choice D (154) comes from using L in meters instead of mm. Always match your K to the actual end conditions.',
+      eli5: 'Pinned-pinned is the base case: K = 1.0, so KL = L = 4,000 mm. Plug straight into Euler\'s formula. The 617 kN choice comes from using K = 2.0 (fixed-free) \u2014 that quadruples (KL)\u00B2 and cuts the load by 4. The 9,870 kN choice comes from using K = 0.5 (fixed-fixed) \u2014 that quarters (KL)\u00B2 and quadruples the load. The 154 kN choice comes from using K = 4.0, which makes (KL)\u00B2 sixteen times larger and the load sixteen times smaller. Always match your K to the actual end conditions.',
       hint: 'What is K for a pinned-pinned column?',
       steps: [
         { text: 'Effective length factor: $K = 1.0$ (pinned-pinned)', latex: null },

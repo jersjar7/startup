@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Eccentricity: e = B/2 \u2013 x\u0304 = 4.0 \u2013 3.0 = 1.0 ft. Check: B/6 = 8/6 = 1.33 ft, and e = 1.0 < 1.33 \u2714 (in middle third). Toe pressure: qtoe = (\u03A3V/B)(1 + 6e/B) = (8,000/8)(1 + 6(1.0)/8) = 1,000(1 + 0.75) = 1,000 \u00D7 1.75 = 1,750 psf. Choice B (1,000) is the uniform pressure (\u03A3V/B) without the eccentricity effect. Choice A (2,000) uses e = B/6 = 1.33. Choice D (1,333) might come from a different eccentricity.',
+      eli5: 'Eccentricity: e = B/2 \u2013 x\u0304 = 4.0 \u2013 3.0 = 1.0 ft. Check: B/6 = 8/6 = 1.33 ft, and e = 1.0 < 1.33 \u2714 (in middle third). Toe pressure: qtoe = (\u03A3V/B)(1 + 6e/B) = (8,000/8)(1 + 6(1.0)/8) = 1,000(1 + 0.75) = 1,000 \u00D7 1.75 = 1,750 psf. The 1,000 psf option is the uniform pressure (\u03A3V/B) without the eccentricity effect. The 2,000 psf option uses e = B/6 = 1.33. The 1,333 psf option might come from a different eccentricity.',
       hint: 'Find e = B/2 \u2013 x\u0304. Then qtoe = (\u03A3V/B)(1 + 6e/B).',
       steps: [
         { text: 'Eccentricity:', latex: 'e = \\frac{B}{2} - \\bar{x} = 4.0 - 3.0 = 1.0 \\text{ ft}' },

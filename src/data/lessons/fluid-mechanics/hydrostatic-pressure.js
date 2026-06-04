@@ -56,7 +56,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Two things contribute to the pressure at depth: the surface pressure and the hydrostatic column. First, \u03B3_oil = SG \u00D7 \u03B3_w = 0.85 \u00D7 9,810 = 8,338.5 N/m\u00B3. Hydrostatic pressure = 8,338.5 \u00D7 3 = 25,016 Pa = 25.0 kPa. Gauge pressure at depth = 20 + 25.0 = 45.0 kPa. Absolute = 101.3 + 45.0 = 146.3 kPa. Choice B gives gauge pressure (45.0), not absolute. Choice A adds atmospheric to the surface gauge pressure but forgets the hydrostatic column. Choice D uses \u03B3_w instead of \u03B3_oil.',
+      eli5: 'Two things contribute to the pressure at depth: the surface pressure and the hydrostatic column. First, \u03B3_oil = SG \u00D7 \u03B3_w = 0.85 \u00D7 9,810 = 8,338.5 N/m\u00B3. Hydrostatic pressure = 8,338.5 \u00D7 3 = 25,016 Pa = 25.0 kPa. Gauge pressure at depth = 20 + 25.0 = 45.0 kPa. Absolute = 101.3 + 45.0 = 146.3 kPa. The 45.0 kPa option gives gauge pressure, not absolute. The 121.3 kPa option adds atmospheric to the surface gauge pressure but forgets the hydrostatic column. The 150.8 kPa option uses \u03B3_w instead of \u03B3_oil.',
       hint: 'Start with the surface gauge pressure, add the hydrostatic increase \u03B3h, then add atmospheric pressure to convert to absolute.',
       steps: [
         { text: 'Specific weight of oil:', latex: '\\gamma_{\\text{oil}} = 0.85 \\times 9{,}810 = 8{,}338.5 \\text{ N/m}^3' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'The mercury is higher on the air side, meaning the air pressure pushes the mercury down on the air side and up on the atmospheric side. So P_air = \u03B3_Hg \u00D7 h. First get \u03B3_Hg = 13.6 \u00D7 9,810 = 133,416 N/m\u00B3. Convert h = 250 mm = 0.25 m. P = 133,416 \u00D7 0.25 = 33,354 Pa = 33.35 kPa. Choice B uses water\u2019s \u03B3 instead of mercury\u2019s. Choice C forgets to convert mm to m. Choice A uses h = 1 m.',
+      eli5: 'The mercury is higher on the air side, meaning the air pressure pushes the mercury down on the air side and up on the atmospheric side. So P_air = \u03B3_Hg \u00D7 h. First get \u03B3_Hg = 13.6 \u00D7 9,810 = 133,416 N/m\u00B3. Convert h = 250 mm = 0.25 m. P = 133,416 \u00D7 0.25 = 33,354 Pa = 33.35 kPa. The 2.45 kPa choice uses water\u2019s \u03B3 instead of mercury\u2019s. The 333.5 kPa choice forgets to convert mm to m. The 133.4 kPa choice uses h = 1 m.',
       hint: 'The pressure difference equals the specific weight of the manometer fluid times the height difference. Don\u2019t forget to use mercury\u2019s specific weight, not water\u2019s.',
       steps: [
         { text: 'Specific weight of mercury:', latex: '\\gamma_{Hg} = 13.6 \\times 9{,}810 = 133{,}416 \\text{ N/m}^3' },

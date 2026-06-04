@@ -37,7 +37,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'This is the simplest possible \u03A3F = ma problem. One force, one direction, no friction. Just divide force by mass. Choice B comes from dividing mass by force (flipped). Choice D comes from accidentally using weight (80 \u00D7 9.81) as the force.',
+      eli5: 'This is the simplest possible \u03A3F = ma problem. One force, one direction, no friction. Just divide force by mass. The $0.33 \\text{ m/s}^2$ choice comes from dividing mass by force (flipped). The $29.4 \\text{ m/s}^2$ choice comes from accidentally using weight (80 \u00D7 9.81) as the force.',
       hint: 'Only one horizontal force acts on the crate. Apply \u03A3F = ma directly.',
       steps: [
         { text: 'Frictionless floor, horizontal force \u2014 only horizontal equation matters:', latex: '\\sum F_x = ma_x' },
@@ -91,7 +91,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Three steps: find I from the handbook table (\u00BDmR\u00B2 for a disk), find the torque (force \u00D7 radius), then divide torque by I. Choice B comes from using I = mR\u00B2 (forgetting the \u00BD). Choice A comes from dividing the force by mass (F/m = 1.5) and then dividing by R \u2014 mixing up linear and angular equations. Choice D comes from using I = mR instead of mR\u00B2.',
+      eli5: 'Three steps: find I from the handbook table (\u00BDmR\u00B2 for a disk), find the torque (force \u00D7 radius), then divide torque by I. The 33.3 rad/s\u00B2 choice comes from dividing the raw force by I (15/0.45) \u2014 forgetting to convert force to torque by multiplying by the radius. The 5.0 rad/s\u00B2 choice comes from using I = mR\u00B2 (forgetting the \u00BD), giving 4.5/0.9. The 50 rad/s\u00B2 choice comes from leaving the mass out of the inertia (using I = R\u00B2 = 0.09), giving 4.5/0.09.',
       hint: 'Find the disk\'s mass moment of inertia from the handbook table, compute the torque, then apply \u03A3M = I\u03B1.',
       steps: [
         { text: 'Mass moment of inertia for a solid disk about its center:', latex: 'I_c = \\frac{1}{2}mR^2 = \\frac{1}{2}(10)(0.3^2) = 0.45 \\text{ kg}{\\cdot}\\text{m}^2' },

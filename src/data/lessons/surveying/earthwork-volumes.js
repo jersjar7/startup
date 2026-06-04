@@ -56,7 +56,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'V = L/6 \u00D7 (A_1 + 4A_m + A_2) = 100/6 \u00D7 (200 + 4\u00D7350 + 400) = 16.667 \u00D7 (200 + 1400 + 400) = 16.667 \u00D7 2000 = 33,333 ft\u00B3. Choice A uses L/6 but doesn\u2019t apply the 4\u00D7 coefficient to A_m. Choice B uses the average end area method (L/2 \u00D7 (A_1+A_2) = 50 \u00D7 600 = 30,000). Choice D uses L/4.',
+      eli5: 'V = L/6 \u00D7 (A_1 + 4A_m + A_2) = 100/6 \u00D7 (200 + 4\u00D7350 + 400) = 16.667 \u00D7 (200 + 1400 + 400) = 16.667 \u00D7 2000 = 33,333 ft\u00B3. The 31,667 ft\u00B3 choice is the simple average of all three areas times L: (200+350+400)/3 \u00D7 100 = 31,667. The 30,000 ft\u00B3 choice uses the average end area method (L/2 \u00D7 (A_1+A_2) = 50 \u00D7 600 = 30,000). The 35,000 ft\u00B3 choice incorrectly multiplies the middle area by L (350 \u00D7 100 = 35,000).',
       hint: 'The prismoidal formula weights the middle section by 4: V = L/6(A_1 + 4A_m + A_2). The total distance L is 100 ft, not 50.',
       steps: [
         { text: 'Prismoidal formula:', latex: 'V = \\frac{L}{6}(A_1 + 4A_m + A_2) = \\frac{100}{6}(200 + 4 \\times 350 + 400)' },

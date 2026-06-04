@@ -86,7 +86,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'For composite catchments, apply the Rational Method to each and add: Q = I(C_A \u00D7 A_A + C_B \u00D7 A_B) = 3.5 \u00D7 (0.90 \u00D7 30 + 0.40 \u00D7 20) = 3.5 \u00D7 (27 + 8) = 3.5 \u00D7 35 = 122.5 cfs. Choice A only computes sub-A. Choice B uses C_avg = (0.90 + 0.40)/2 = 0.65 (simple average, not area-weighted) \u2192 Q = 0.65 \u00D7 3.5 \u00D7 50 = 113.8. Choice C ignores C (Q = I \u00D7 A_total = 3.5 \u00D7 50 = 175).',
+      eli5: 'For composite catchments, apply the Rational Method to each and add: Q = I(C_A \u00D7 A_A + C_B \u00D7 A_B) = 3.5 \u00D7 (0.90 \u00D7 30 + 0.40 \u00D7 20) = 3.5 \u00D7 (27 + 8) = 3.5 \u00D7 35 = 122.5 cfs. The 65.0 cfs option only computes sub-A. The 113.8 cfs option uses C_avg = (0.90 + 0.40)/2 = 0.65 (simple average, not area-weighted) \u2192 Q = 0.65 \u00D7 3.5 \u00D7 50 = 113.8. The 175 cfs option ignores C (Q = I \u00D7 A_total = 3.5 \u00D7 50 = 175).',
       hint: 'For composite catchments, Q = I \u00D7 \u03A3(C_i \u00D7 A_i). You can add the CIA products or use a weighted average C.',
       steps: [
         { text: 'Rational Method for composite catchments:', latex: 'Q = I \\sum(C_i A_i) = I(C_A A_A + C_B A_B)' },

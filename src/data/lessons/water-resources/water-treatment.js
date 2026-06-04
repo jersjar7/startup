@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Overflow rate = Q/A. A = \u03C0(60)\u00B2/4 = 2,827 ft\u00B2. Q = 2.0 MGD = 2,000,000 gpd. v_o = 2,000,000/2,827 = 708 gpd/ft\u00B2. This is within the typical range for primary clarifiers (800\u20131,200), a bit low. Choice B uses the radius (30 ft) to compute area as \u03C0r = 94.2 (wrong formula). Choice C divides the answer by 2 for no reason. Choice D uses the circumference instead of the area.',
+      eli5: 'Overflow rate = Q/A. A = \u03C0(60)\u00B2/4 = 2,827 ft\u00B2. Q = 2.0 MGD = 2,000,000 gpd. v_o = 2,000,000/2,827 = 708 gpd/ft\u00B2. This is within the typical range for primary clarifiers (800\u20131,200), a bit low. The $1{,}415 \\text{ gpd/ft}^2$ distractor comes from doubling the correct rate (treating the area as half its true value). The $354 \\text{ gpd/ft}^2$ distractor divides the answer by 2 for no reason. The $10{,}610 \\text{ gpd/ft}^2$ distractor uses the circumference instead of the area.',
       hint: 'Overflow rate = Q/A_surface. Convert MGD to gpd. Area = \u03C0D\u00B2/4.',
       steps: [
         { text: 'Surface area:', latex: 'A = \\frac{\\pi D^2}{4} = \\frac{\\pi(60)^2}{4} = 2{,}827 \\text{ ft}^2' },
@@ -60,7 +60,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'F:M = QS\u2080/(VX_A) = (4,000 \u00D7 200)/(2,000 \u00D7 3,000) = 800,000/6,000,000 = 0.133 \u2248 0.13 day\u207B\u00B9. Note that mg/L cancel, leaving m\u00B3/day / m\u00B3 = day\u207B\u00B9. This F:M is on the low end of conventional range (0.2\u20130.4), closer to extended aeration. Choice A inverts some terms. Choice B uses QS\u2080/V without dividing by X_A. Choice D uses V\u00B2 in the denominator.',
+      eli5: 'F:M = QS\u2080/(VX_A) = (4,000 \u00D7 200)/(2,000 \u00D7 3,000) = 800,000/6,000,000 = 0.133 \u2248 0.13 day\u207B\u00B9. Note that mg/L cancel, leaving m\u00B3/day / m\u00B3 = day\u207B\u00B9. This F:M is on the low end of conventional range (0.2\u20130.4), closer to extended aeration. The $1.33 \\text{ day}^{-1}$ option uses V\u00B7X_A with the MLSS scaled down by a factor of ten (a misplaced decimal). The $0.40 \\text{ day}^{-1}$ option drops the MLSS term, dividing only by V at the wrong scale. The $0.027 \\text{ day}^{-1}$ option mistakenly squares V in the denominator.',
       hint: 'F:M = (Q \u00D7 S\u2080)/(V \u00D7 X_A). Make sure units are consistent.',
       steps: [
         { text: 'F:M ratio formula:', latex: 'F{:}M = \\frac{Q \\cdot S_0}{V \\cdot X_A}' },

@@ -32,7 +32,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Buckingham Pi: k = n \u2013 r = 7 \u2013 3 = 4 dimensionless groups. That\u2019s it. Choice A subtracts one too many. Choice C uses n alone. Choice D multiplies 7 \u00D7 3.',
+      eli5: 'Buckingham Pi: k = n \u2013 r = 7 \u2013 3 = 4 dimensionless groups. That\u2019s it. The choice "3" subtracts one too many. The choice "7" uses n alone. The choice "21" multiplies 7 \u00D7 3.',
       hint: 'Apply the Buckingham Pi theorem: number of \u03C0-groups = number of variables minus number of basic dimensions.',
       steps: [
         { text: 'Identify:', latex: 'n = 7 \\text{ variables}, \\quad r = 3 \\text{ dimensions (M, L, T)}' },

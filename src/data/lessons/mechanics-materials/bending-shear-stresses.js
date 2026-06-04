@@ -37,7 +37,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Standard \u03C3 = Mc/I. For a rectangle, I = bh\u00B3/12 and c = h/2. You could also use \u03C3 = M/S where S = bh\u00B2/6 = 100(200)\u00B2/6 = 666,667 mm\u00B3, then \u03C3 = 8,000,000/666,667 = 12.0. Same answer, fewer steps. Choice B (6.0) comes from using the wrong I formula. Choice C (24.0) comes from using c = h = 200 instead of h/2 = 100. Choice D (2.4) comes from using bh\u00B3 without dividing by 12 for I.',
+      eli5: 'Standard \u03C3 = Mc/I. For a rectangle, I = bh\u00B3/12 and c = h/2. You could also use \u03C3 = M/S where S = bh\u00B2/6 = 100(200)\u00B2/6 = 666,667 mm\u00B3, then \u03C3 = 8,000,000/666,667 = 12.0. Same answer, fewer steps. The 6.0 MPa option comes from using the wrong I formula. The 24.0 MPa option comes from using c = h = 200 instead of h/2 = 100. The 2.4 MPa option comes from using bh\u00B3 without dividing by 12 for I.',
       hint: 'For a rectangular section, I = bh\u00B3/12 and c = h/2. Or use the shortcut: S = bh\u00B2/6 and \u03C3 = M/S.',
       steps: [
         { text: 'Area moment of inertia:', latex: 'I = \\frac{bh^3}{12} = \\frac{100 \\times 200^3}{12} = 66{,}670{,}000 \\text{ mm}^4' },

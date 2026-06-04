@@ -34,7 +34,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Vm = DjSf/4 = 180 \u00D7 70/4 = 12,600/4 = 3,150 veh/hr/ln. Direct formula application. Choice A (12,600) forgot to divide by 4: Dj \u00D7 Sf = 12,600. Choice C (6,300) divided by 2 instead of 4. Choice D (1,575) divided by 8 instead of 4.',
+      eli5: 'Vm = DjSf/4 = 180 \u00D7 70/4 = 12,600/4 = 3,150 veh/hr/ln. Direct formula application. The 12,600 option forgot to divide by 4: Dj \u00D7 Sf = 12,600. The 6,300 option divided by 2 instead of 4. The 1,575 option divided by 8 instead of 4.',
       hint: 'Maximum flow = DjSf/4. One formula, two inputs.',
       steps: [
         { text: 'Maximum flow:', latex: 'V_m = \\frac{D_j \\, S_f}{4} = \\frac{180 \\times 70}{4} = \\frac{12{,}600}{4} = 3{,}150 \\text{ veh/hr/ln}' },
@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'S = Sf \u2212 (Sf/Dj) \u00D7 D = 60 \u2212 (60/120) \u00D7 40 = 60 \u2212 0.5 \u00D7 40 = 60 \u2212 20 = 40 mph. Choice B (60) used Sf directly without the density reduction. Choice A (20) computed only the reduction term (Sf/Dj \u00D7 D = 20) and forgot to subtract from Sf. Choice D (30) is the optimum speed So = Sf/2, which occurs at D = Dj/2 = 60, not at D = 40.',
+      eli5: 'S = Sf \u2212 (Sf/Dj) \u00D7 D = 60 \u2212 (60/120) \u00D7 40 = 60 \u2212 0.5 \u00D7 40 = 60 \u2212 20 = 40 mph. The 60 mph choice used Sf directly without the density reduction. The 20 mph choice computed only the reduction term (Sf/Dj \u00D7 D = 20) and forgot to subtract from Sf. The 30 mph choice is the optimum speed So = Sf/2, which occurs at D = Dj/2 = 60, not at D = 40.',
       hint: 'Greenshields: S = Sf \u2212 (Sf/Dj) \u00D7 D. Compute the slope first, then the speed.',
       steps: [
         { text: 'Speed-density slope:', latex: '\\frac{S_f}{D_j} = \\frac{60}{120} = 0.5' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'V = ADT \u00D7 365 = 8,000 \u00D7 365 = 2,920,000 vehicles/year. RMEV = A \u00D7 1,000,000/V = 12 \u00D7 1,000,000/2,920,000 = 12,000,000/2,920,000 = 4.11 crashes per million entering vehicles. Choice B (1,500) forgot to multiply ADT by 365: 12,000,000/8,000 = 1,500 \u2014 way too high. Choice C (0.0041) forgot the \u00D71,000,000 factor: 12/2,920,000. Choice A (12) is just the raw crash count without normalizing by traffic volume.',
+      eli5: 'V = ADT \u00D7 365 = 8,000 \u00D7 365 = 2,920,000 vehicles/year. RMEV = A \u00D7 1,000,000/V = 12 \u00D7 1,000,000/2,920,000 = 12,000,000/2,920,000 = 4.11 crashes per million entering vehicles. The 1,500 choice forgot to multiply ADT by 365: 12,000,000/8,000 = 1,500 \u2014 way too high. The 0.0041 choice forgot the \u00D71,000,000 factor: 12/2,920,000. The 12 choice is just the raw crash count without normalizing by traffic volume.',
       hint: 'Annualize: V = ADT \u00D7 365. Then RMEV = A \u00D7 1,000,000/V.',
       steps: [
         { text: 'Annual entering vehicles:', latex: 'V = ADT \\times 365 = 8{,}000 \\times 365 = 2{,}920{,}000' },

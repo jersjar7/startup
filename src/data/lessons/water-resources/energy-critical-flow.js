@@ -36,7 +36,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Unit discharge q = Q/B = 27/3 = 9 m\u00B2/s. Critical depth y_c = (q\u00B2/g)^(1/3) = (81/9.81)^(1/3) = (8.257)^(1/3) = 2.02 m. Choice B uses Q instead of q. Choice C uses q\u00B2/g without the cube root. Choice D takes the square root instead of the cube root.',
+      eli5: 'Unit discharge q = Q/B = 27/3 = 9 m\u00B2/s. Critical depth y_c = (q\u00B2/g)^(1/3) = (81/9.81)^(1/3) = (8.257)^(1/3) = 2.02 m. The 3.00 m choice uses Q instead of q. The 0.97 m choice uses q\u00B2/g without the cube root. The 1.44 m choice takes the square root instead of the cube root.',
       hint: 'First find the unit discharge q = Q/B, then apply the rectangular critical depth formula.',
       steps: [
         { text: 'Unit discharge:', latex: 'q = \\frac{Q}{B} = \\frac{27}{3} = 9 \\text{ m}^2\\text{/s}' },
@@ -63,7 +63,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Fr = v / \u221A(gy) = 4 / \u221A(9.81 \u00D7 0.5) = 4 / \u221A(4.905) = 4 / 2.215 = 1.81. Since Fr > 1, the flow is supercritical. Choice A uses g = 10 and then takes v/gy instead of v/\u221A(gy). Choice B inverts the formula (denominator over numerator). Choice D gets the number right but classifies it wrong \u2014 Fr > 1 is supercritical, not subcritical.',
+      eli5: 'Fr = v / \u221A(gy) = 4 / \u221A(9.81 \u00D7 0.5) = 4 / \u221A(4.905) = 4 / 2.215 = 1.81. Since Fr > 1, the flow is supercritical. The Fr = 0.81 (subcritical) choice uses g = 10 and then takes v/gy instead of v/\u221A(gy). The Fr = 0.55 (subcritical) choice inverts the formula (denominator over numerator). The Fr = 1.81 (subcritical) choice gets the number right but classifies it wrong \u2014 Fr > 1 is supercritical, not subcritical.',
       hint: 'For a rectangular channel, hydraulic depth equals flow depth. Compute Fr = v/\u221A(gy) and compare to 1.',
       steps: [
         { text: 'Froude number for rectangular channel:', latex: 'Fr = \\frac{v}{\\sqrt{gy}} = \\frac{4}{\\sqrt{9.81 \\times 0.5}}' },
@@ -90,7 +90,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'y_2 = (y_1/2)(\u22121 + \u221A(1 + 8Fr_1\u00B2)) = (0.4/2)(\u22121 + \u221A(1 + 8\u00D79)) = 0.2 \u00D7 (\u22121 + \u221A73) = 0.2 \u00D7 (\u22121 + 8.544) = 0.2 \u00D7 7.544 = 1.49 m. The downstream depth is about 3.7 times the upstream depth. Choice A just doubles y_1. Choice B uses Fr_1 = 2 instead of 3. Choice C multiplies y_1 by Fr_1\u00B2 without using the correct formula.',
+      eli5: 'y_2 = (y_1/2)(\u22121 + \u221A(1 + 8Fr_1\u00B2)) = (0.4/2)(\u22121 + \u221A(1 + 8\u00D79)) = 0.2 \u00D7 (\u22121 + \u221A73) = 0.2 \u00D7 (\u22121 + 8.544) = 0.2 \u00D7 7.544 = 1.49 m. The downstream depth is about 3.7 times the upstream depth. The 0.80 m choice just doubles y_1. The 1.20 m choice uses Fr_1 = 2 instead of 3. The 3.60 m choice multiplies y_1 by Fr_1\u00B2 without using the correct formula.',
       hint: 'Use the conjugate depth formula: y_2 = (y_1/2)(\u22121 + \u221A(1 + 8Fr\u00B2)). Plug in y_1 and Fr_1 directly.',
       steps: [
         { text: 'Conjugate depth formula:', latex: 'y_2 = \\frac{y_1}{2}\\left(-1 + \\sqrt{1 + 8Fr_1^2}\\right)' },

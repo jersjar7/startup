@@ -63,7 +63,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The key step is converting rpm to rad/s \u2014 multiply by 2\u03C0/60. Then it\'s just v = r\u03C9. The classic trap is forgetting the conversion: 3,600 \u00D7 0.15 = 540 m/s (choice C) is wrong because rpm isn\'t rad/s. Choice D is 3,600 \u00D7 2\u03C0 \u00D7 0.15 (forgetting to divide by 60).',
+      eli5: 'The key step is converting rpm to rad/s \u2014 multiply by 2\u03C0/60. Then it\'s just v = r\u03C9. The classic trap is forgetting the conversion: 3,600 \u00D7 0.15 = 540 m/s (the 540 m/s choice) is wrong because rpm isn\'t rad/s. The 1,696 m/s choice is 3,600 \u00D7 2\u03C0 \u00D7 0.15 (forgetting to divide by 60).',
       hint: 'What unit must angular velocity be in before using v = r\u03C9?',
       steps: [
         { text: 'Convert rpm to rad/s:', latex: '\\omega = 3{,}600 \\times \\frac{2\\pi}{60} = 376.99 \\text{ rad/s}' },

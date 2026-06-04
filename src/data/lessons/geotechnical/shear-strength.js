@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'For c = 0: sin \u03C6 = (\u03C31 \u2013 \u03C33)/(\u03C31 + \u03C33) = (6,000 \u2013 2,000)/(6,000 + 2,000) = 4,000/8,000 = 0.50. \u03C6 = arcsin(0.50) = 30\u00B0. Choice A (45\u00B0) might come from using tan\u207B\u00B9(\u03C31/\u03C33) incorrectly. Choice D (26.6\u00B0) is arctan(0.50) \u2014 a common mistake from using tan instead of sin.',
+      eli5: 'For c = 0: sin \u03C6 = (\u03C31 \u2013 \u03C33)/(\u03C31 + \u03C33) = (6,000 \u2013 2,000)/(6,000 + 2,000) = 4,000/8,000 = 0.50. \u03C6 = arcsin(0.50) = 30\u00B0. The 45\u00B0 choice might come from using tan\u207B\u00B9(\u03C31/\u03C33) incorrectly. The 26.6\u00B0 choice is arctan(0.50) \u2014 a common mistake from using tan instead of sin.',
       hint: 'For c = 0: sin \u03C6 = (\u03C31 \u2013 \u03C33)/(\u03C31 + \u03C33). No need to draw the Mohr circle.',
       steps: [
         { text: 'For $c = 0$:', latex: '\\sin \\phi = \\frac{\\sigma_1 - \\sigma_3}{\\sigma_1 + \\sigma_3} = \\frac{6{,}000 - 2{,}000}{6{,}000 + 2{,}000} = \\frac{4{,}000}{8{,}000} = 0.50' },
@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'In a UU test on saturated clay, \u03C6u = 0. The Mohr circle has its center at s = (\u03C31+\u03C33)/2 and radius t = (\u03C31\u2013\u03C33)/2. For \u03C6 = 0, the failure envelope is a horizontal line at \u03C4 = cu, and cu = the radius = (\u03C31\u2013\u03C33)/2 = 2,400/2 = 1,200 psf. Choice B (2,400) is the deviator stress itself, not halved. Choice A (2,700) is (\u03C31+\u03C33)/2 = (3,900+1,500)/2 \u2014 that is the center of the Mohr circle, not the radius. Choice D (1,500) is just \u03C33.',
+      eli5: 'In a UU test on saturated clay, \u03C6u = 0. The Mohr circle has its center at s = (\u03C31+\u03C33)/2 and radius t = (\u03C31\u2013\u03C33)/2. For \u03C6 = 0, the failure envelope is a horizontal line at \u03C4 = cu, and cu = the radius = (\u03C31\u2013\u03C33)/2 = 2,400/2 = 1,200 psf. The 2,400 psf choice is the deviator stress itself, not halved. The 2,700 psf choice is (\u03C31+\u03C33)/2 = (3,900+1,500)/2 \u2014 that is the center of the Mohr circle, not the radius. The 1,500 psf choice is just \u03C33.',
       hint: 'For \u03C6 = 0 (undrained clay): cu = (\u03C31 \u2013 \u03C33)/2 = radius of the Mohr circle.',
       steps: [
         { text: 'Deviator stress at failure:', latex: '\\sigma_1 - \\sigma_3 = 2{,}400 \\text{ psf}' },

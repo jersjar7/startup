@@ -63,7 +63,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'Resonance = forcing frequency matches natural frequency. So the question is really "what\'s the natural frequency?" The twist is that weight is given (2,000 N) instead of mass \u2014 divide by g first. Then it\'s the standard \u03C9_n = \u221A(k/m) converted to Hz. Choice B (5.0) comes from using the weight as mass (skipping the /g step). Choice C is \u03C9_n in rad/s.',
+      eli5: 'Resonance = forcing frequency matches natural frequency. So the question is really "what\'s the natural frequency?" The twist is that weight is given (2,000 N) instead of mass \u2014 divide by g first. Then it\'s the standard \u03C9_n = \u221A(k/m) converted to Hz. The 5.0 Hz choice comes from using the weight as mass (skipping the /g step). The 15.7 rad/s choice is \u03C9_n in rad/s.',
       hint: 'Resonance occurs at the natural frequency. But first \u2014 is the 2,000 N a mass or a weight?',
       steps: [
         { text: 'Convert weight to mass:', latex: 'm = \\frac{W}{g} = \\frac{2{,}000}{9.81} = 203.9 \\text{ kg}' },
@@ -91,7 +91,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Same structure as linear vibration \u2014 just swap k for k_t and m for I. Compute \u03C9_n = \u221A(k_t/I), then divide by 2\u03C0 for Hz. The extra knowledge needed is knowing that torsional stiffness replaces spring stiffness and mass moment of inertia replaces mass. Choice C (31.6) is \u03C9_n in rad/s \u2014 right number, wrong unit.',
+      eli5: 'Same structure as linear vibration \u2014 just swap k for k_t and m for I. Compute \u03C9_n = \u221A(k_t/I), then divide by 2\u03C0 for Hz. The extra knowledge needed is knowing that torsional stiffness replaces spring stiffness and mass moment of inertia replaces mass. The 31.6 rad/s choice is \u03C9_n in rad/s \u2014 right number, wrong unit.',
       hint: 'Torsional vibration uses the same formula as linear vibration but with k_t and I instead of k and m.',
       steps: [
         { text: 'Natural circular frequency:', latex: '\\omega_n = \\sqrt{\\frac{k_t}{I}} = \\sqrt{\\frac{500}{0.5}} = \\sqrt{1{,}000} = 31.6 \\text{ rad/s}' },

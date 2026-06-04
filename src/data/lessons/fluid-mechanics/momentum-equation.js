@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'A jet hitting a flat plate (90\u00B0 deflection) has its x-momentum completely destroyed. F = \u03C1Qv = \u03C1Av\u00B2 = 1,000 \u00D7 0.01 \u00D7 15\u00B2 = 1,000 \u00D7 0.01 \u00D7 225 = 2,250 N. Choice A forgets to square the velocity (uses \u03C1Av). Choice C doubles the force (perhaps thinking about a 180\u00B0 reversal). Choice D uses A = 0.001.',
+      eli5: 'A jet hitting a flat plate (90\u00B0 deflection) has its x-momentum completely destroyed. F = \u03C1Qv = \u03C1Av\u00B2 = 1,000 \u00D7 0.01 \u00D7 15\u00B2 = 1,000 \u00D7 0.01 \u00D7 225 = 2,250 N. The 150 N choice forgets to square the velocity (uses \u03C1Av). The 4,500 N choice doubles the force (perhaps thinking about a 180\u00B0 reversal). The 225 N choice uses A = 0.001.',
       hint: 'For a flat plate perpendicular to the jet, the exit velocity has no component in the jet\u2019s original direction, so F = \u03C1Av\u00B2.',
       steps: [
         { text: 'Flow rate:', latex: 'Q = Av = 0.01 \\times 15 = 0.15 \\text{ m}^3/\\text{s}' },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a 90\u00B0 bend with constant diameter, v_1 = v_2 = v and P_1 = P_2 = P. Set x as the inlet direction, y as the outlet direction. In x: F_x = PA + \u03C1Qv (momentum in, nothing goes out in x). In y: F_y = PA + \u03C1Qv (momentum out, nothing comes in from y). A = \u03C0(0.3)\u00B2/4 = 0.0707 m\u00B2. Q = 0.0707 \u00D7 4 = 0.2827 m\u00B3/s. PA = 200,000 \u00D7 0.0707 = 14,140 N. \u03C1Qv = 1,000 \u00D7 0.2827 \u00D7 4 = 1,131 N. So F_x = F_y = 14,140 + 1,131 = 15,271 N. Resultant = \u221A(F_x\u00B2 + F_y\u00B2) = 15,271\u221A2 = 21,593 N \u2248 21.6 kN. Choice B is just PA\u221A2 (forgets momentum). The 28.3 kN choice is 2\u00b7PA = 28,280 N (uses 2PA instead of the correct PA\u221a2 resultant). The 1.01 kN choice keeps only the momentum term (\u2248\u03c1Qv ~ 1.1 kN), dropping the dominant pressure force PA.',
+      eli5: 'For a 90\u00B0 bend with constant diameter, v_1 = v_2 = v and P_1 = P_2 = P. Set x as the inlet direction, y as the outlet direction. In x: F_x = PA + \u03C1Qv (momentum in, nothing goes out in x). In y: F_y = PA + \u03C1Qv (momentum out, nothing comes in from y). A = \u03C0(0.3)\u00B2/4 = 0.0707 m\u00B2. Q = 0.0707 \u00D7 4 = 0.2827 m\u00B3/s. PA = 200,000 \u00D7 0.0707 = 14,140 N. \u03C1Qv = 1,000 \u00D7 0.2827 \u00D7 4 = 1,131 N. So F_x = F_y = 14,140 + 1,131 = 15,271 N. Resultant = \u221A(F_x\u00B2 + F_y\u00B2) = 15,271\u221A2 = 21,593 N \u2248 21.6 kN. The 14.1 kN choice is just PA = 14,140 N \u2014 a single component, forgetting both the momentum term and the \u221A2 resultant factor. The 28.3 kN choice is 2\u00B7PA = 28,280 N (uses 2PA instead of the correct PA\u221A2 resultant). The 1.01 kN choice keeps only the momentum term (\u2248\u03C1Qv ~ 1.1 kN), dropping the dominant pressure force PA.',
       hint: 'For a 90\u00B0 bend with the same pipe diameter, both F_x and F_y have the same magnitude. The resultant force is F\u221A2.',
       steps: [
         { text: 'Pipe area:', latex: 'A = \\frac{\\pi (0.3)^2}{4} = 0.0707 \\text{ m}^2' },

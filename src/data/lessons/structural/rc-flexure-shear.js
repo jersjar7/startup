@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'First find a = A_s f_y / (0.85 f\'c b) = 3.00 \u00D7 60 / (0.85 \u00D7 4 \u00D7 12) = 180/40.8 = 4.41 in. Then M_n = A_s f_y (d \u2013 a/2) = 3.00 \u00D7 60 \u00D7 (18 \u2013 4.41/2) = 180 \u00D7 15.80 = 2,843 kip-in = 237 kip-ft. Choice B (270) uses d instead of (d \u2013 a/2), which overestimates the lever arm. Choice C (213) is \u03C6M_n = 0.90 \u00D7 237 \u2014 the problem asks for nominal, not design. Choice D (180) computes A_s \u00D7 f_y and divides by 12 without the lever arm.',
+      eli5: 'First find a = A_s f_y / (0.85 f\'c b) = 3.00 \u00D7 60 / (0.85 \u00D7 4 \u00D7 12) = 180/40.8 = 4.41 in. Then M_n = A_s f_y (d \u2013 a/2) = 3.00 \u00D7 60 \u00D7 (18 \u2013 4.41/2) = 180 \u00D7 15.80 = 2,843 kip-in = 237 kip-ft. The 270 kip-ft choice uses d instead of (d \u2013 a/2), which overestimates the lever arm. The 213 kip-ft choice is \u03C6M_n = 0.90 \u00D7 237 \u2014 the problem asks for nominal, not design. The 180 kip-ft choice computes A_s \u00D7 f_y and divides by 12 without the lever arm.',
       hint: 'Find a first, then compute M_n = A_s f_y (d \u2013 a/2). Convert kip-in to kip-ft by dividing by 12.',
       steps: [
         { text: 'Stress block depth:', latex: 'a = \\frac{A_s f_y}{0.85 f_c\' b} = \\frac{3.00 \\times 60}{0.85 \\times 4 \\times 12} = \\frac{180}{40.8} = 4.41 \\text{ in.}' },

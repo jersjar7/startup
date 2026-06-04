@@ -36,7 +36,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Plug into $\\Delta L = \\alpha L \\Delta T$. The temperature change is $40 - 5 = 35$\u00B0C (not 45, not 25). $\\Delta L = 11.7 \\times 10^{-6} \\times 25{,}000 \\times 35 = 10.24 \\approx 10.2$ mm. Choice B (13.2) comes from adding temperatures: $\\Delta T = 45$\u00B0C. Choice C (5.1) comes from halving the answer \u2014 maybe using $\\Delta T = 17.5$\u00B0C. Choice D (1.02) comes from using $L = 2.5$ m instead of converting to mm (or equivalently, the answer is correct in cm instead of mm).',
+      eli5: 'Plug into $\\Delta L = \\alpha L \\Delta T$. The temperature change is $40 - 5 = 35$\u00B0C (not 45, not 25). $\\Delta L = 11.7 \\times 10^{-6} \\times 25{,}000 \\times 35 = 10.24 \\approx 10.2$ mm. The 13.2 mm choice comes from adding temperatures: $\\Delta T = 45$\u00B0C. The 5.1 mm choice comes from halving the answer \u2014 maybe using $\\Delta T = 17.5$\u00B0C. The 1.02 mm choice comes from using $L = 2.5$ m instead of converting to mm (or equivalently, the answer is correct in cm instead of mm).',
       hint: 'Temperature change is the difference: $\\Delta T = T_{final} - T_{initial}$. Watch your units \u2014 $L$ in mm gives $\\Delta L$ in mm.',
       steps: [
         { text: 'Temperature change:', latex: '\\Delta T = 40 - 5 = 35\\degree\\text{C}' },

@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'L = L_o(0.25 + 15/\u221A(K_LL \u00D7 A_T)) = 50(0.25 + 15/\u221A(4 \u00D7 600)) = 50(0.25 + 15/\u221A2400) = 50(0.25 + 15/49.0) = 50(0.25 + 0.306) = 50(0.556) = 27.8 \u2248 28 psf. Check the minimum: for one floor, L \u2265 0.50 L_o = 25 psf. Since 28 > 25, the reduction is valid. Choice B (50) is the unreduced load. Choice C (25) is the minimum allowed \u2014 it would apply only if the formula gave a value below 25. Choice A (13) uses 0.25 \u00D7 L_o, which misapplies the formula.',
+      eli5: 'L = L_o(0.25 + 15/\u221A(K_LL \u00D7 A_T)) = 50(0.25 + 15/\u221A(4 \u00D7 600)) = 50(0.25 + 15/\u221A2400) = 50(0.25 + 15/49.0) = 50(0.25 + 0.306) = 50(0.556) = 27.8 \u2248 28 psf. Check the minimum: for one floor, L \u2265 0.50 L_o = 25 psf. Since 28 > 25, the reduction is valid. The 50 psf option is the unreduced load. The 25 psf option is the minimum allowed \u2014 it would apply only if the formula gave a value below 25. The 13 psf option uses 0.25 \u00D7 L_o, which misapplies the formula.',
       hint: 'Use $L = L_o(0.25 + 15/\\sqrt{K_{LL} A_T})$ and check against the minimum of $0.50 L_o$.',
       steps: [
         { text: 'Live load reduction formula:', latex: 'L = L_o \\left(0.25 + \\frac{15}{\\sqrt{K_{LL} A_T}}\\right)' },

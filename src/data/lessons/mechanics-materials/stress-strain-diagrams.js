@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'The specimen dimensions are a red herring \u2014 you don\'t need them because E and \u03BD are already given. G = E / 2(1+\u03BD) is a direct formula. Choice A (66.7) comes from using G = E/3 (wrong formula). Choice C (100) comes from G = E/2 (forgetting the (1+\u03BD) part). Choice D (154) comes from G = E/(1+\u03BD) (forgetting the 2 in the denominator). The extra data about specimen dimensions is there to waste your time \u2014 on the FE, recognize when you have everything you need and stop.',
+      eli5: 'The specimen dimensions are a red herring \u2014 you don\'t need them because E and \u03BD are already given. G = E / 2(1+\u03BD) is a direct formula. The 66.7 GPa choice comes from using G = E/3 (wrong formula). The 100 GPa choice comes from G = E/2 (forgetting the (1+\u03BD) part). The 154 GPa choice comes from G = E/(1+\u03BD) (forgetting the 2 in the denominator). The extra data about specimen dimensions is there to waste your time \u2014 on the FE, recognize when you have everything you need and stop.',
       hint: 'You already have E and \u03BD. Is there a direct formula relating E, G, and \u03BD?',
       steps: [
         { text: 'The specimen dimensions are not needed \u2014 E and \u03BD are given directly.', latex: null },

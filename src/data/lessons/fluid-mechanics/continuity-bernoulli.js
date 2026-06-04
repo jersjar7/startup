@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'By continuity, A_1 v_1 = A_2 v_2. Since A = \u03C0D\u00B2/4, the \u03C0/4 cancels: D_1\u00B2 v_1 = D_2\u00B2 v_2. So v_2 = v_1 \u00D7 (D_1/D_2)\u00B2 = 2 \u00D7 (300/150)\u00B2 = 2 \u00D7 4 = 8 m/s. Choice B uses the diameter ratio to the first power (2\u00D72=4). Choice A squares the diameter ratio twice. Choice D reverses the ratio.',
+      eli5: 'By continuity, A_1 v_1 = A_2 v_2. Since A = \u03C0D\u00B2/4, the \u03C0/4 cancels: D_1\u00B2 v_1 = D_2\u00B2 v_2. So v_2 = v_1 \u00D7 (D_1/D_2)\u00B2 = 2 \u00D7 (300/150)\u00B2 = 2 \u00D7 4 = 8 m/s. The 4 m/s choice uses the diameter ratio to the first power (2\u00D72=4). The 16 m/s choice squares the diameter ratio twice. The 1 m/s choice reverses the ratio.',
       hint: 'Velocity ratio equals the SQUARE of the diameter ratio (since area goes as D\u00B2).',
       steps: [
         { text: 'From continuity (areas cancel the $\\pi/4$):', latex: 'v_2 = v_1 \\times \\left(\\frac{D_1}{D_2}\\right)^2' },
@@ -86,7 +86,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'This is Torricelli\u2019s theorem \u2014 a direct result of Bernoulli. Both pressures are atmospheric (open tank, discharge to atmosphere), so they cancel. Surface velocity is negligible, so v_1 \u2248 0. Bernoulli reduces to z_1 = v_2\u00B2/(2g), giving v_2 = \u221A(2gh) = \u221A(2 \u00D7 9.81 \u00D7 10) = \u221A196.2 = 14.0 m/s. Choice B uses \u221A(gh) instead of \u221A(2gh) \u2014 forgot the 2. Choice C uses 2\u221A(2gh). Choice A uses \u221A(2g) without h.',
+      eli5: 'This is Torricelli\u2019s theorem \u2014 a direct result of Bernoulli. Both pressures are atmospheric (open tank, discharge to atmosphere), so they cancel. Surface velocity is negligible, so v_1 \u2248 0. Bernoulli reduces to z_1 = v_2\u00B2/(2g), giving v_2 = \u221A(2gh) = \u221A(2 \u00D7 9.81 \u00D7 10) = \u221A196.2 = 14.0 m/s. The 9.9 m/s choice uses \u221A(gh) instead of \u221A(2gh) \u2014 forgot the 2. The 19.8 m/s choice uses \u221A(2)\u00B7\u221A(2gh) (an extra factor of \u221A2). The 4.43 m/s choice uses \u221A(2g) without h.',
       hint: 'When both surfaces are at atmospheric pressure and the tank surface velocity is negligible, Bernoulli simplifies to Torricelli\u2019s theorem: $v = \\sqrt{2gh}$.',
       steps: [
         { text: 'Simplify Bernoulli ($P_1 = P_2 = 0$ gauge, $v_1 \\approx 0$):', latex: 'z_1 = \\frac{v_2^2}{2g}' },

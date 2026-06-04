@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'The peak flow rate extrapolates the worst 15 minutes to an hourly rate: 4 \u00D7 V\u2081\u2085 = 4 \u00D7 400 = 1,600 veh/hr. Equivalently, PHF = V/(4\u00D7V\u2081\u2085) = 1,200/1,600 = 0.75, and flow rate = V/PHF = 1,200/0.75 = 1,600. The tricky part: the flow rate is HIGHER than the hourly volume because it represents the peak surge. Choice B (1,200) is the hourly volume itself \u2014 that is the demand, not the peak rate. Choice C (400) is V\u2081\u2085 without multiplying by 4. Choice A (900) multiplied V \u00D7 PHF instead of dividing.',
+      eli5: 'The peak flow rate extrapolates the worst 15 minutes to an hourly rate: 4 \u00D7 V\u2081\u2085 = 4 \u00D7 400 = 1,600 veh/hr. Equivalently, PHF = V/(4\u00D7V\u2081\u2085) = 1,200/1,600 = 0.75, and flow rate = V/PHF = 1,200/0.75 = 1,600. The tricky part: the flow rate is HIGHER than the hourly volume because it represents the peak surge. The 1,200 veh/hr choice is the hourly volume itself \u2014 that is the demand, not the peak rate. The 400 veh/hr choice is V\u2081\u2085 without multiplying by 4. The 900 veh/hr choice multiplied V \u00D7 PHF instead of dividing.',
       hint: 'The flow rate is 4 \u00D7 V\u2081\u2085 \u2014 it converts a 15-minute count into an equivalent hourly rate.',
       steps: [
         { text: 'Peak hour factor:', latex: 'PHF = \\frac{V}{4 \\times V_{15}} = \\frac{1{,}200}{4 \\times 400} = \\frac{1{,}200}{1{,}600} = 0.75' },

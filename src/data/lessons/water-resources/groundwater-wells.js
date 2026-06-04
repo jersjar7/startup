@@ -34,7 +34,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Darcy velocity: q = Ki = 5\u00D710\u207B\u2074 \u00D7 0.02 = 1.0\u00D710\u207B\u2075 m/s. Seepage velocity: v = q/n = 1.0\u00D710\u207B\u2075/0.30 = 3.33\u00D710\u207B\u2075 m/s. Choice B gives the Darcy velocity, not the seepage velocity. Choice C multiplies K by A instead of by the gradient. Choice D is K \u00D7 i \u00D7 A / some wrong value.',
+      eli5: 'Darcy velocity: q = Ki = 5\u00D710\u207B\u2074 \u00D7 0.02 = 1.0\u00D710\u207B\u2075 m/s. Seepage velocity: v = q/n = 1.0\u00D710\u207B\u2075/0.30 = 3.33\u00D710\u207B\u2075 m/s. The 1.0\u00D710\u207B\u2075 m/s option gives the Darcy velocity, not the seepage velocity. The 2.0\u00D710\u207B\u00B3 m/s option is the volumetric flow Q = q\u00D7A = Ki\u00D7A, not a velocity. The 1.0\u00D710\u207B\u00B3 m/s option halves that flow figure \u2014 another units mix-up.',
       hint: 'Find the Darcy velocity first (q = Ki), then divide by porosity to get seepage velocity.',
       steps: [
         { text: 'Darcy velocity:', latex: 'q = Ki = (5 \\times 10^{-4})(0.02) = 1.0 \\times 10^{-5} \\text{ m/s}' },
@@ -60,7 +60,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Dupuit (unconfined): Q = \u03C0K(h\u2082\u00B2 \u2013 h\u2081\u00B2)/ln(r\u2082/r\u2081) = \u03C0(5\u00D710\u207B\u2074)(60\u00B2 \u2013 40\u00B2)/ln(200/0.5) = \u03C0(0.0005)(2000)/ln(400) = 3.142/5.991 = 0.52 cfs. Choice A uses K = 0.001 (doubled). Choice B uses h differences instead of h\u00B2 differences (h\u2082 \u2013 h\u2081 = 20 instead of 2000). Choice D uses log\u2081\u2080 instead of ln.',
+      eli5: 'Dupuit (unconfined): Q = \u03C0K(h\u2082\u00B2 \u2013 h\u2081\u00B2)/ln(r\u2082/r\u2081) = \u03C0(5\u00D710\u207B\u2074)(60\u00B2 \u2013 40\u00B2)/ln(200/0.5) = \u03C0(0.0005)(2000)/ln(400) = 3.142/5.991 = 0.52 cfs. The 1.05 cfs option uses K = 0.001 (doubled). The 0.011 cfs option uses h differences instead of h\u00B2 differences (h\u2082 \u2013 h\u2081 = 20 instead of 2000). The 0.33 cfs option uses log\u2081\u2080 instead of ln.',
       hint: 'For an unconfined aquifer, use Dupuit\'s formula with h\u00B2 differences. Don\'t forget the natural log in the denominator.',
       steps: [
         { text: 'Dupuit\'s formula (unconfined):', latex: 'Q = \\frac{\\pi K(h_2^2 - h_1^2)}{\\ln(r_2/r_1)}' },
@@ -90,7 +90,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'For a confined aquifer, use the Thiem equation. T = Kb = 3\u00D710\u207B\u2075 \u00D7 20 = 6\u00D710\u207B\u2074 m\u00B2/s. Q = 2\u03C0T(h\u2082 \u2013 h\u2081)/ln(r\u2082/r\u2081) = 2\u03C0(6\u00D710\u207B\u2074)(30 \u2013 25)/ln(100/10) = 2\u03C0(6\u00D710\u207B\u2074)(5)/2.303 = 0.01885/2.303 = 0.0082 m\u00B3/s. Choice A uses K = 3\u00D710\u207B\u2074 (ten times too high). Choice B forgets to use transmissivity and just plugs in K. Choice C uses Dupuit (h\u00B2 form) for a confined aquifer.',
+      eli5: 'For a confined aquifer, use the Thiem equation. T = Kb = 3\u00D710\u207B\u2075 \u00D7 20 = 6\u00D710\u207B\u2074 m\u00B2/s. Q = 2\u03C0T(h\u2082 \u2013 h\u2081)/ln(r\u2082/r\u2081) = 2\u03C0(6\u00D710\u207B\u2074)(30 \u2013 25)/ln(100/10) = 2\u03C0(6\u00D710\u207B\u2074)(5)/2.303 = 0.01885/2.303 = 0.0082 m\u00B3/s. The 0.082 m\u00B3/s choice uses K = 3\u00D710\u207B\u2074 (ten times too high). The 0.041 m\u00B3/s choice is 5\u00D7 too large (e.g. mistakenly using aquifer thickness b = 100 m instead of 20 m). The 0.0016 m\u00B3/s choice comes from a low-by-roughly-5\u00D7 slip.',
       hint: 'For a confined aquifer, use Thiem: Q = 2\u03C0T(h\u2082 \u2013 h\u2081)/ln(r\u2082/r\u2081) where T = Kb. Use linear h, not h\u00B2.',
       steps: [
         { text: 'Transmissivity:', latex: 'T = Kb = (3 \\times 10^{-5})(20) = 6 \\times 10^{-4} \\text{ m}^2\\text{/s}' },

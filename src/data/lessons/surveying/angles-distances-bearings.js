@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'In the NE quadrant, the azimuth equals the bearing angle directly. N 52\u00B0 E = azimuth 52\u00B0. Choice B (128\u00B0) subtracts from 180\u00B0 (SE conversion applied incorrectly). Choice C (308\u00B0) subtracts from 360\u00B0 (NW conversion). Choice D (232\u00B0) adds 180\u00B0 (SW conversion).',
+      eli5: 'In the NE quadrant, the azimuth equals the bearing angle directly. N 52\u00B0 E = azimuth 52\u00B0. The 128\u00B0 option subtracts from 180\u00B0 (SE conversion applied incorrectly). The 308\u00B0 option subtracts from 360\u00B0 (NW conversion). The 232\u00B0 option adds 180\u00B0 (SW conversion).',
       hint: 'In the NE quadrant, azimuths and bearing angles are the same value.',
       steps: [
         { text: 'Identify the quadrant: NE', latex: null },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'HD = SD \u00D7 cos \u03B1 = 250 \u00D7 cos 8\u00B0 = 250 \u00D7 0.9903 = 247.56 m. The horizontal distance is always less than or equal to the slope distance. Choice A assumes no correction needed. Choice B is the vertical distance (SD \u00D7 sin 8\u00B0). Choice D divides by cos instead of multiplying.',
+      eli5: 'HD = SD \u00D7 cos \u03B1 = 250 \u00D7 cos 8\u00B0 = 250 \u00D7 0.9903 = 247.56 m. The horizontal distance is always less than or equal to the slope distance. The 250.00 m choice assumes no correction needed. The 34.79 m choice is the vertical distance (SD \u00D7 sin 8\u00B0). The 252.46 m choice divides by cos instead of multiplying.',
       hint: 'Horizontal distance = slope distance times cosine of the vertical angle. The result should be slightly less than the slope distance.',
       steps: [
         { text: 'Apply the horizontal distance formula:', latex: 'HD = SD \\cos\\alpha = 250.00 \\times \\cos 8\\degree' },

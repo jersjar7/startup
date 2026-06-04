@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'The IL for moment at midspan is a triangle with peak ordinate = L/4 at midspan. Peak ordinate = 30/4 = 7.5 ft. Maximum moment = P \u00D7 (L/4) = 20 \u00D7 7.5 = 150 kip-ft. This occurs when the load is placed directly at midspan. Choice B (300) might come from PL/2, confusing moment with the reaction formula. Choice C (75) halves the correct answer. Choice A (600) uses P \u00D7 L = 20 \u00D7 30.',
+      eli5: 'The IL for moment at midspan is a triangle with peak ordinate = L/4 at midspan. Peak ordinate = 30/4 = 7.5 ft. Maximum moment = P \u00D7 (L/4) = 20 \u00D7 7.5 = 150 kip-ft. This occurs when the load is placed directly at midspan. The 300 kip-ft option might come from PL/2, confusing moment with the reaction formula. The 75 kip-ft option halves the correct answer. The 600 kip-ft option uses P \u00D7 L = 20 \u00D7 30.',
       hint: 'The IL for moment at midspan has a peak ordinate of L/4. Maximum M = P \u00D7 L/4.',
       steps: [
         { text: 'IL peak ordinate at midspan:', latex: '\\eta_{\\max} = \\frac{L}{4} = \\frac{30}{4} = 7.5 \\text{ ft}' },

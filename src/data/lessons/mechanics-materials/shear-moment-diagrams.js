@@ -34,7 +34,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Symmetric beam, symmetric loading \u2014 each support carries half. The moment at the center equals the reaction times the distance to it: 9 \u00D7 3 = 27. Choice A (13.5) comes from using PL/8 (the UDL formula, not the point load formula). Choice B (54) comes from P \u00D7 L/2 = 18 \u00D7 3 (using the full load instead of the reaction). Choice D (108) is P \u00D7 L \u2014 no physical meaning.',
+      eli5: 'Symmetric beam, symmetric loading \u2014 each support carries half. The moment at the center equals the reaction times the distance to it: 9 \u00D7 3 = 27. The 13.5 option comes from using PL/8 (the UDL formula, not the point load formula). The 54 option comes from P \u00D7 L/2 = 18 \u00D7 3 (using the full load instead of the reaction). The 108 option is P \u00D7 L \u2014 no physical meaning.',
       hint: 'Find the reactions by symmetry, then compute the moment at the midpoint.',
       steps: [
         { text: 'By symmetry, each reaction:', latex: 'R_A = R_B = \\frac{18}{2} = 9 \\text{ kN}' },
@@ -60,7 +60,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'For a UDL on a simply supported beam, the max moment formula is wL\u00B2/8 \u2014 this one you should memorize because it shows up constantly. Choice A (20) comes from wL\u00B2/16 or confusing it with the reaction. Choice C (80) comes from wL\u00B2/4 (using 4 instead of 8). Choice D (160) is wL\u00B2 without dividing by 8. If you forget the formula, derive it: reaction = wL/2 = 20 kN, moment at center = R \u00D7 L/2 \u2212 w(L/2)(L/4) = 20(4) \u2212 5(4)(2) = 80 \u2212 40 = 40.',
+      eli5: 'For a UDL on a simply supported beam, the max moment formula is wL\u00B2/8 \u2014 this one you should memorize because it shows up constantly. The 20 kN\u00B7m choice comes from wL\u00B2/16 or confusing it with the reaction. The 80 kN\u00B7m choice comes from wL\u00B2/4 (using 4 instead of 8). The 160 kN\u00B7m choice comes from wL\u00B2/2 (e.g., R\u00D7L/2 = 20\u00D78) instead of dividing by 8. If you forget the formula, derive it: reaction = wL/2 = 20 kN, moment at center = R \u00D7 L/2 \u2212 w(L/2)(L/4) = 20(4) \u2212 5(4)(2) = 80 \u2212 40 = 40.',
       hint: 'There\'s a standard formula for max moment in a simply supported beam with UDL. It involves wL\u00B2/?.',
       steps: [
         { text: 'Total load:', latex: 'W = wL = 5 \\times 8 = 40 \\text{ kN}' },
@@ -88,7 +88,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Off-center load means asymmetric reactions. Take moments about one support to find the other, then use equilibrium for the second. The max moment is at the load point (that\'s where shear crosses zero). Use M = Pab/L = 30 \u00D7 4 \u00D7 6 / 10 = 72. Choice A (48) comes from using the wrong reaction with the wrong distance (R_B \u00D7 4 instead of R_A \u00D7 4). Choice B (120) uses the full load P \u00D7 a = 30 \u00D7 4 instead of the reaction. The 60 distractor comes from using R_B \u00d7 5 = 12 \u00d7 5 (placing the peak at midspan from the wrong reaction) instead of the correct R_A \u00d7 4.',
+      eli5: 'Off-center load means asymmetric reactions. Take moments about one support to find the other, then use equilibrium for the second. The max moment is at the load point (that\'s where shear crosses zero). Use M = Pab/L = 30 \u00D7 4 \u00D7 6 / 10 = 72. The 48 distractor comes from using the wrong reaction with the wrong distance (R_B \u00D7 4 instead of R_A \u00D7 4). The 120 distractor uses the full load P \u00D7 a = 30 \u00D7 4 instead of the reaction. The 60 distractor comes from using R_B \u00D7 5 = 12 \u00D7 5 (placing the peak at midspan from the wrong reaction) instead of the correct R_A \u00D7 4.',
       hint: 'The max moment occurs under the point load. Find both reactions first, then compute the moment from either side.',
       steps: [
         { text: 'Sum moments about A:', latex: 'R_B \\times 10 = 30 \\times 4 \\implies R_B = 12 \\text{ kN}' },

@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Straight table lookup \u2014 simply supported beam, midpoint load, max deflection = PL\u00B3/48EI. The unit trap is the big one: everything in N, mm, and MPa. Choice B (1.33) comes from using PL\u00B3/96EI (doubling the denominator). Choice C (5.33) comes from using PL\u00B3/24EI (halving the denominator). Choice D (42.7) comes from using PL\u00B3/3EI (the cantilever formula instead of simply supported).',
+      eli5: 'Straight table lookup \u2014 simply supported beam, midpoint load, max deflection = PL\u00B3/48EI. The unit trap is the big one: everything in N, mm, and MPa. The 1.33 mm option comes from using PL\u00B3/96EI (doubling the denominator). The 5.33 mm option comes from using PL\u00B3/24EI (halving the denominator). The 42.7 mm option comes from using PL\u00B3/3EI (the cantilever formula instead of simply supported).',
       hint: 'Which deflection formula applies to a simply supported beam with a midpoint load? Check the table on p. 140.',
       steps: [
         { text: 'Convert units: $P = 20{,}000$ N, $L = 4{,}000$ mm, $E = 200{,}000$ MPa, $I = 50 \\times 10^6$ mm\u2074', latex: null },

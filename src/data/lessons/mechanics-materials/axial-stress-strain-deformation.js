@@ -35,7 +35,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Just P/A \u2014 but the trap is computing the area wrong. You need A = \u03C0d\u00B2/4, not \u03C0d\u00B2 or \u03C0d. Using diameter as radius gives A = \u03C0(20)\u00B2 = 1,257 mm\u00B2 and stress = 11.9 MPa (choice D). Using circumference instead of area gives \u03C0d = 62.8 and stress = 477 MPa (choice C). The correct area is \u03C0(20)\u00B2/4 = 314.2 mm\u00B2.',
+      eli5: 'Just P/A \u2014 but the trap is computing the area wrong. You need A = \u03C0d\u00B2/4, not \u03C0d\u00B2 or \u03C0d. Using diameter as radius gives A = \u03C0(20)\u00B2 = 1,257 mm\u00B2 and stress = 11.9 MPa (the 11.9 MPa choice). Using circumference instead of area gives \u03C0d = 62.8 and stress = 477 MPa (the 477 MPa choice). The correct area is \u03C0(20)\u00B2/4 = 314.2 mm\u00B2.',
       hint: 'Remember, the area of a circle uses diameter: A = \u03C0d\u00B2/4.',
       steps: [
         { text: 'Cross-sectional area:', latex: 'A = \\frac{\\pi d^2}{4} = \\frac{\\pi (20)^2}{4} = 314.2 \\text{ mm}^2' },
@@ -61,7 +61,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'This is a straight \u03B4 = PL/AE plug-in, but the real test is unit consistency. If you work in N, mm, and MPa (which equals N/mm\u00B2), everything stays clean. The common disaster is mixing meters and millimeters \u2014 if you leave L in meters (2.5) but use A in mm\u00B2, you\'re off by a factor of 1,000 (choice A). Choice C is off by a factor of 10 in the other direction. Always convert everything to mm before plugging in.',
+      eli5: 'This is a straight \u03B4 = PL/AE plug-in, but the real test is unit consistency. If you work in N, mm, and MPa (which equals N/mm\u00B2), everything stays clean. The common disaster is mixing meters and millimeters \u2014 if you leave L in meters (2.5) but use A in mm\u00B2, you\'re off by a factor of 1,000, giving about 0.00286 mm (nearest distractor 0.0286 mm). The 0.286 mm choice is off by a factor of 10 the same way, and the 28.6 mm choice is off by a factor of 10 in the other direction. Always convert everything to mm before plugging in.',
       hint: 'Convert all lengths to the same unit (mm) before plugging into \u03B4 = PL/AE.',
       steps: [
         { text: 'Cross-sectional area:', latex: 'A = 30 \\times 50 = 1{,}500 \\text{ mm}^2' },
@@ -89,7 +89,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'The key insight: if a bar can\'t expand, the prevented expansion turns into compressive stress. You don\'t need the length or cross-section area \u2014 they cancel out. The formula simplifies to \u03C3 = E\u03B1\u0394T. Choice A (58.5) comes from using \u0394T = 25 instead of 50 (maybe averaging temperatures instead of subtracting). Choice C is the free expansion in mm \u2014 that\'s a deformation, not a stress (wrong units entirely, which is the giveaway). Choice D comes from using the wrong E or \u03B1.',
+      eli5: 'The key insight: if a bar can\'t expand, the prevented expansion turns into compressive stress. You don\'t need the length or cross-section area \u2014 they cancel out. The formula simplifies to \u03C3 = E\u03B1\u0394T. The 58.5 MPa choice comes from using \u0394T = 25 instead of 50 (maybe averaging temperatures instead of subtracting). The 0.585 mm choice is the free expansion in mm \u2014 that\'s a deformation, not a stress (wrong units entirely, which is the giveaway). The 23.4 MPa choice comes from using the wrong E or \u03B1.',
       hint: 'If the bar can\'t move, the thermal deformation \u03B4t must be counteracted by an equal mechanical compression. Set \u03B4_thermal = \u03B4_mechanical.',
       steps: [
         { text: 'Temperature change:', latex: '\\Delta T = 70 - 20 = 50\\degree\\text{C}' },
