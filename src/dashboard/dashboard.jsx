@@ -274,7 +274,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       <div className="dash-header">
         <div>
           <h2 className="dash-title">Dashboard</h2>
-          <span className="dash-greeting">Welcome back, {firstName || displayName || (userName || '').split('@')[0] || 'there'}</span>
+          <span className="dash-greeting">{firstName || displayName ? `Welcome back, ${firstName || displayName}` : 'Welcome back'}</span>
         </div>
         <button className="logout-btn" onClick={handleLogout}>
           <SignOut weight="bold" size={18} />
@@ -306,8 +306,14 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         </div>
         <div className="stat-pill stat-pill--ember">
           <Fire weight="bold" size={18} />
-          <span className="stat-pill-value">{stats.currentStreak}</span>
-          <span className="stat-pill-label">Day Streak</span>
+          {stats.currentStreak > 0 ? (
+            <>
+              <span className="stat-pill-value">{stats.currentStreak}</span>
+              <span className="stat-pill-label">Day Streak</span>
+            </>
+          ) : (
+            <span className="stat-pill-label">Start your streak</span>
+          )}
         </div>
         {examDays !== null && examDays >= 0 && (
           <div className="stat-pill stat-pill--forest">
@@ -316,15 +322,19 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             <span className="stat-pill-label">{examDays === 0 ? 'FE exam day!' : examDays === 1 ? 'day to FE' : 'days to FE'}</span>
           </div>
         )}
-        <button
-          className={`review-btn${reviewDue > 0 ? ' review-btn--due' : ''}`}
-          onClick={() => navigate('/review')}
-        >
-          <Timer weight="bold" size={16} />
-          Daily Review
-          {reviewDue > 0 && <span className="review-due-badge">{reviewDue}</span>}
-          <ArrowRight weight="bold" size={14} />
-        </button>
+        {reviewDue > 0 ? (
+          <button className="review-btn review-btn--due" onClick={() => navigate('/review')}>
+            <Timer weight="bold" size={16} />
+            Daily Review
+            <span className="review-due-badge">{reviewDue}</span>
+            <ArrowRight weight="bold" size={14} />
+          </button>
+        ) : hasActivity ? (
+          <span className="review-btn review-btn--done" title="No reviews due right now">
+            <Timer weight="bold" size={16} />
+            All caught up
+          </span>
+        ) : null}
       </div>
 
       {/* ── Exam Readiness ── */}

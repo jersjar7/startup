@@ -65,8 +65,9 @@
   background: var(--forest-bg);
   border: 1px solid #cfe8db;
   border-radius: var(--radius-lg);
-  padding: 0.7rem 0.85rem 0.7rem 1rem;
-  margin-bottom: 1rem;
+  padding: 0.55rem 0.85rem 0.55rem 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.88rem;
 }
 .profile-prompt-icon { color: var(--forest); flex-shrink: 0; }
 .profile-prompt-text {
@@ -141,6 +142,13 @@
 /* Daily Review with items due — draw attention */
 .review-btn--due {
   box-shadow: 0 0 0 3px var(--ember-bg);
+}
+
+/* Muted, non-clickable state when there are no reviews due */
+.review-btn--done {
+  background: var(--cream-dark);
+  color: var(--gray-500);
+  cursor: default;
 }
 .review-due-badge {
   display: inline-flex;
