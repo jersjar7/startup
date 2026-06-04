@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'A triangular channel has no bottom width, so $A = zy^2 = 1.5(1.2)^2 = 2.16$ m$^2$ and the wetted perimeter is both sloped sides: $P = 2y\\sqrt{1+z^2} = 2(1.2)\\sqrt{1+2.25} = 4.327$ m. $R_H = 2.16/4.327 = 0.499$ m. SI units so $K = 1.0$: $Q = (1/0.018)(2.16)(0.499)^{2/3}(0.0016)^{1/2} = 3.02$ m$^3$/s. Choice A uses $P = 2y$ (vertical depth only) instead of the sloped sides, inflating $R_H$. Choice B mistakes the triangular area for $A = zy^2/2 = 1.08$ m$^2$ (treating it as half base times height with the wrong base), which halves $Q$ to about $0.95$ m$^3$/s. Choice D uses $K = 1.486$ (USCS) with SI inputs.',
+    eli5: 'A triangular channel has no bottom width, so $A = zy^2 = 1.5(1.2)^2 = 2.16$ m$^2$ and the wetted perimeter is both sloped sides: $P = 2y\\sqrt{1+z^2} = 2(1.2)\\sqrt{1+2.25} = 4.327$ m. $R_H = 2.16/4.327 = 0.499$ m. SI units so $K = 1.0$: $Q = (1/0.018)(2.16)(0.499)^{2/3}(0.0016)^{1/2} = 3.02$ m$^3$/s. The 4.47 m\u00b3/s distractor uses $P = 2y$ (vertical depth only) instead of the sloped sides, inflating $R_H$. The 0.95 m\u00b3/s distractor mistakes the triangular area for $A = zy^2/2 = 1.08$ m$^2$ (treating it as half base times height with the wrong base), which (together with the smaller $R_H$) drops $Q$ to about $0.95$ m$^3$/s. The 4.49 m\u00b3/s distractor uses $K = 1.486$ (USCS) with SI inputs.',
     hint: 'For a triangular channel: $A = zy^2$ and $P = 2y\\sqrt{1+z^2}$. Use $K = 1.0$ for SI.',
     steps: [
       { text: 'Flow area (triangular, $z = 1.5$):', latex: 'A = zy^2 = 1.5(1.2)^2 = 2.16\\,\\text{m}^2' },
@@ -46,7 +46,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'For a pipe flowing half full: $A = \\pi D^2/8 = \\pi(4)^2/8 = 6.283$ ft$^2$ and $P = \\pi D/2 = 2\\pi = 6.283$ ft, so $R_H = A/P = 1.0$ ft. The neat result is that a half-full pipe has the SAME hydraulic radius as a full pipe ($D/4 = 1.0$ ft), but only half the flow area. $Q = (1.486/0.024)(6.283)(1.0)^{2/3}(0.005)^{1/2} = 27.5$ cfs. Choice A uses the full-pipe area ($\\pi D^2/4$), doubling the answer. Choice C uses $R_H = D/2$ instead of $D/4$. Choice D forgets the $K = 1.486$ factor for USCS units.',
+    eli5: 'For a pipe flowing half full: $A = \\pi D^2/8 = \\pi(4)^2/8 = 6.283$ ft$^2$ and $P = \\pi D/2 = 2\\pi = 6.283$ ft, so $R_H = A/P = 1.0$ ft. The neat result is that a half-full pipe has the SAME hydraulic radius as a full pipe ($D/4 = 1.0$ ft), but only half the flow area. $Q = (1.486/0.024)(6.283)(1.0)^{2/3}(0.005)^{1/2} = 27.5$ cfs. The 55.0 cfs choice uses the full-pipe area ($\\pi D^2/4$), doubling the answer. The 43.7 cfs choice uses $R_H = D/2$ instead of $D/4$. The 18.5 cfs choice forgets the $K = 1.486$ factor for USCS units.',
     hint: 'Half-full pipe: $A = \\pi D^2/8$, $P = \\pi D/2$. Note $R_H$ still equals $D/4$.',
     steps: [
       { text: 'Flow area (half full):', latex: 'A = \\frac{\\pi D^2}{8} = \\frac{\\pi(4)^2}{8} = 6.283\\,\\text{ft}^2' },
@@ -78,7 +78,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Specific energy is depth plus velocity head: $E = y + v^2/(2g)$. First the velocity: $v = Q/A = 20/(4 \\times 2.5) = 2.0$ m/s. Then $v^2/(2g) = 4/(2 \\times 9.81) = 0.204$ m. $E = 2.5 + 0.204 = 2.70$ m. Choice A reports only the depth, forgetting the velocity head entirely. Choice C uses $v^2/g$ (omitting the factor of 2 in the velocity head). Choice D reports only the velocity head, forgetting to add the depth.',
+    eli5: 'Specific energy is depth plus velocity head: $E = y + v^2/(2g)$. First the velocity: $v = Q/A = 20/(4 \\times 2.5) = 2.0$ m/s. Then $v^2/(2g) = 4/(2 \\times 9.81) = 0.204$ m. $E = 2.5 + 0.204 = 2.70$ m. The 2.50 m choice reports only the depth, forgetting the velocity head entirely. The 2.91 m choice uses $v^2/g$ (omitting the factor of 2 in the velocity head). The 0.20 m choice reports only the velocity head, forgetting to add the depth.',
     hint: 'Use $E = y + v^2/(2g)$ where $v = Q/(By)$. Do not forget the factor of 2.',
     steps: [
       { text: 'Velocity:', latex: 'v = \\frac{Q}{By} = \\frac{20}{4 \\times 2.5} = 2.0\\,\\text{m/s}' },
@@ -108,7 +108,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'When both conjugate depths are known, the energy loss has a closed form: $\\Delta E = (y_2 - y_1)^3/(4 y_1 y_2)$. $\\Delta E = (2.5 - 0.5)^3/(4 \\times 0.5 \\times 2.5) = (2.0)^3/5.0 = 8/5 = 1.60$ m. Choice A omits the factor of 4 in the denominator: $(2.0)^3/(0.5 \\times 2.5) = 6.40$. Choice B just reports the depth difference $y_2 - y_1 = 2.0$. Choice C drops $y_2$ from the denominator: $(2.0)^3/(4 \\times 0.5) = 4.00$.',
+    eli5: 'When both conjugate depths are known, the energy loss has a closed form: $\\Delta E = (y_2 - y_1)^3/(4 y_1 y_2)$. $\\Delta E = (2.5 - 0.5)^3/(4 \\times 0.5 \\times 2.5) = (2.0)^3/5.0 = 8/5 = 1.60$ m. The 6.40 m option omits the factor of 4 in the denominator: $(2.0)^3/(0.5 \\times 2.5) = 6.40$. The 2.00 m option just reports the depth difference $y_2 - y_1 = 2.0$. The 4.00 m option drops $y_2$ from the denominator: $(2.0)^3/(4 \\times 0.5) = 4.00$.',
     hint: 'Use the conjugate-depth energy loss formula: $\\Delta E = \\dfrac{(y_2 - y_1)^3}{4 y_1 y_2}$.',
     steps: [
       { text: 'Energy loss across a hydraulic jump:', latex: '\\Delta E = \\frac{(y_2 - y_1)^3}{4 y_1 y_2}' },
@@ -138,7 +138,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Convert $D = 8\\text{ in.} = 0.667$ ft, so $A = \\pi(0.667)^2/4 = 0.349$ ft$^2$ and $R_H = D/4 = 0.167$ ft. Rearrange Hazen-Williams for the slope: $S_v = [Q/(k_1 C A R_H^{0.63})]^{1/0.54}$. Plugging in: $S_v = [1.8/(1.318 \\times 140 \\times 0.349 \\times 0.167^{0.63})]^{1/0.54} = 0.01073$. Head loss $= S_v L = 0.01073 \\times 1{,}200 = 12.9$ ft. Choice A uses $R_H = D/2$, overstating $R_H$ and lowering the required slope. Choice C uses the rougher 20-year cast iron value $C = 100$. Choice D uses the SI coefficient $k_1 = 0.849$ instead of the USCS $1.318$.',
+    eli5: 'Convert $D = 8\\text{ in.} = 0.667$ ft, so $A = \\pi(0.667)^2/4 = 0.349$ ft$^2$ and $R_H = D/4 = 0.167$ ft. Rearrange Hazen-Williams for the slope: $S_v = [Q/(k_1 C A R_H^{0.63})]^{1/0.54}$. Plugging in: $S_v = [1.8/(1.318 \\times 140 \\times 0.349 \\times 0.167^{0.63})]^{1/0.54} = 0.01073$. Head loss $= S_v L = 0.01073 \\times 1{,}200 = 12.9$ ft. The $5.7$ ft choice uses $R_H = D/2$, overstating $R_H$ and lowering the required slope. The $24.0$ ft choice uses the rougher 20-year cast iron value $C = 100$. The $29.1$ ft choice uses the SI coefficient $k_1 = 0.849$ instead of the USCS $1.318$.',
     hint: 'Solve Hazen-Williams for $S_v$, then multiply by $L$. Convert diameter to feet and use $R_H = D/4$.',
     steps: [
       { text: 'Pipe properties (full, $D = 0.667$ ft):', latex: 'A = \\frac{\\pi(0.667)^2}{4} = 0.349\\,\\text{ft}^2, \\quad R_H = \\frac{D}{4} = 0.167\\,\\text{ft}' },
@@ -169,7 +169,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The 90-degree V-notch formula is $Q = CH^{5/2}$, so $H = (Q/C)^{2/5} = (8.0/2.54)^{0.4} = (3.150)^{0.4} = 1.58$ ft. Choice B uses the SI coefficient $C = 1.40$ instead of the USCS $2.54$. Choice C uses the rectangular weir exponent $3/2$, solving $H = (Q/C)^{2/3} = 2.15$. Choice D forgets the exponent entirely, computing $H = Q/C = 3.15$.',
+    eli5: 'The 90-degree V-notch formula is $Q = CH^{5/2}$, so $H = (Q/C)^{2/5} = (8.0/2.54)^{0.4} = (3.150)^{0.4} = 1.58$ ft. The 2.01 ft choice uses the SI coefficient $C = 1.40$ instead of the USCS $2.54$. The 2.15 ft choice uses the rectangular weir exponent $3/2$, solving $H = (Q/C)^{2/3} = 2.15$. The 3.15 ft choice forgets the exponent entirely, computing $H = Q/C = 3.15$.',
     hint: 'Invert $Q = CH^{5/2}$ to get $H = (Q/C)^{2/5}$. The V-notch exponent is $5/2$, not $3/2$.',
     steps: [
       { text: '90-degree V-notch weir (USCS):', latex: 'Q = CH^{5/2}' },
@@ -199,7 +199,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'First find the composite curve number weighted by area: $CN = 0.70(80) + 0.30(60) = 56 + 18 = 74$. Then $S = 1000/CN - 10 = 1000/74 - 10 = 3.51$ in. Check: $0.2S = 0.70$ in. $< P = 3.5$ in., so runoff occurs. $Q = (P - 0.2S)^2/(P + 0.8S) = (3.5 - 0.70)^2/(3.5 + 2.81) = (2.80)^2/6.31 = 7.84/6.31 = 1.24$ in. Choice A omits the initial-abstraction subtraction in the numerator, using $P^2/(P + 0.8S) = 1.94$. Choice B reports the un-squared numerator $(P - 0.2S) = 2.80$. Choice C assumes all rainfall becomes runoff.',
+    eli5: 'First find the composite curve number weighted by area: $CN = 0.70(80) + 0.30(60) = 56 + 18 = 74$. Then $S = 1000/CN - 10 = 1000/74 - 10 = 3.51$ in. Check: $0.2S = 0.70$ in. $< P = 3.5$ in., so runoff occurs. $Q = (P - 0.2S)^2/(P + 0.8S) = (3.5 - 0.70)^2/(3.5 + 2.81) = (2.80)^2/6.31 = 7.84/6.31 = 1.24$ in. The 1.94 in. distractor omits the initial-abstraction subtraction in the numerator, using $P^2/(P + 0.8S) = 1.94$. The 2.80 in. distractor reports the un-squared numerator $(P - 0.2S) = 2.80$. The 3.50 in. distractor assumes all rainfall becomes runoff.',
     hint: 'Area-weight the curve numbers first, find $S$, then apply $Q = (P - 0.2S)^2/(P + 0.8S)$.',
     steps: [
       { text: 'Composite (area-weighted) curve number:', latex: 'CN = 0.70(80) + 0.30(60) = 74' },
@@ -230,7 +230,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Rearrange $Q = CIA$ to solve for area: $A = Q/(CI) = 90/(0.55 \\times 3.0) = 90/1.65 = 54.5$ acres. The Rational Method units work out directly (1 acre-in./hr $\\approx$ 1 cfs), so no conversion is needed. Choice A multiplies by $C$ instead of dividing: $QC/I = 90(0.55)/3.0 = 16.5$. Choice B ignores $C$ entirely: $Q/I = 90/3.0 = 30$. Choice D forgets the intensity: $Q/C = 90/0.55 = 163.6$.',
+    eli5: 'Rearrange $Q = CIA$ to solve for area: $A = Q/(CI) = 90/(0.55 \\times 3.0) = 90/1.65 = 54.5$ acres. The Rational Method units work out directly (1 acre-in./hr $\\approx$ 1 cfs), so no conversion is needed. The 16.5-acre choice multiplies by $C$ instead of dividing: $QC/I = 90(0.55)/3.0 = 16.5$. The 30.0-acre choice ignores $C$ entirely: $Q/I = 90/3.0 = 30$. The 163.6-acre choice forgets the intensity: $Q/C = 90/0.55 = 163.6$.',
     hint: 'Rearrange $Q = CIA$ to $A = Q/(CI)$. The runoff coefficient goes in the denominator.',
     steps: [
       { text: 'Rearrange the Rational Method:', latex: 'A = \\frac{Q}{CI}' },
@@ -260,7 +260,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'Each rainfall pulse produces its own scaled, lagged unit hydrograph; you add the two. The 3-inch pulse starts one hour later than the 2-inch pulse. Tabulate hour by hour and sum. The maximum occurs at hour 3: from the 2-inch pulse $2 \\times 150 = 300$, plus from the lagged 3-inch pulse $3 \\times 300 = 900$, totaling $1{,}200$ cfs. Choice D simply scales the UH peak by the total depth ($5 \\times 300 = 1{,}500$), which is wrong because the two pulses do not peak in the same hour. Choice B counts only the 3-inch pulse on the UH peak ($3 \\times 300$). Choice A counts only the 2-inch pulse contribution plus a misalignment.',
+    eli5: 'Each rainfall pulse produces its own scaled, lagged unit hydrograph; you add the two. The 3-inch pulse starts one hour later than the 2-inch pulse. Tabulate hour by hour and sum. The maximum occurs at hour 3: from the 2-inch pulse $2 \\times 150 = 300$, plus from the lagged 3-inch pulse $3 \\times 300 = 900$, totaling $1{,}200$ cfs. The 1,500 cfs choice simply scales the UH peak by the total depth ($5 \\times 300 = 1{,}500$), which is wrong because the two pulses do not peak in the same hour. The 900 cfs choice counts only the 3-inch pulse on the UH peak ($3 \\times 300$). The 600 cfs choice counts only the 2-inch pulse peak ($2 \\times 300$) and ignores the lagged 3-inch pulse.',
     hint: 'Lag the second pulse by one hour, scale each pulse by its depth, then sum the overlapping ordinates.',
     steps: [
       { text: 'Pulse 1 (2 in.) scaled UH peaks at hour 2:', latex: '2 \\times 300 = 600\\,\\text{cfs at } t = 2' },
@@ -291,7 +291,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Runoff depth is volume divided by area, then converted to inches. In consistent units, depth $= V/A = 1{,}500/6{,}000 = 0.25$ ft. Convert to inches: $0.25 \\times 12 = 3.0$ in. The acre cancels between acre-ft and acres, leaving feet, which you multiply by 12. Choice A stops at 0.25 ft but mislabels it as inches (forgot the factor of 12). Choice C doubles the result by an arithmetic slip. Choice D multiplies by 12 twice (applies 144 instead of 12).',
+    eli5: 'Runoff depth is volume divided by area, then converted to inches. In consistent units, depth $= V/A = 1{,}500/6{,}000 = 0.25$ ft. Convert to inches: $0.25 \\times 12 = 3.0$ in. The acre cancels between acre-ft and acres, leaving feet, which you multiply by 12. The 0.25 in. choice stops at 0.25 ft but mislabels it as inches (forgot the factor of 12). The 6.0 in. choice doubles the result by an arithmetic slip. The 36.0 in. choice multiplies by 12 twice (applies 144 instead of 12).',
     hint: 'Depth $= V/A$ gives feet; multiply by 12 to get inches. The acres cancel.',
     steps: [
       { text: 'Depth in feet (acres cancel):', latex: 'd = \\frac{V}{A} = \\frac{1{,}500\\,\\text{acre-ft}}{6{,}000\\,\\text{acres}} = 0.25\\,\\text{ft}' },
@@ -320,7 +320,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Darcy\'s law gives the volumetric flow: $Q = KAi$, where the gradient is $i = dh/L = 6/120 = 0.05$. So $Q = (4 \\times 10^{-5})(300)(0.05) = 6.0 \\times 10^{-4}$ m$^3$/s. Convert to per day: $6.0 \\times 10^{-4} \\times 86{,}400 = 51.8$ m$^3$/day. Choice A forgets the cross-sectional area, using $Ki$ only (times 86,400). Choice B forgets to divide the head drop by the path length, using $i = 6$ instead of $0.05$, inflating $Q$ by 120 times. Choice D divides by the area instead of multiplying.',
+    eli5: 'Darcy\'s law gives the volumetric flow: $Q = KAi$, where the gradient is $i = dh/L = 6/120 = 0.05$. So $Q = (4 \\times 10^{-5})(300)(0.05) = 6.0 \\times 10^{-4}$ m$^3$/s. Convert to per day: $6.0 \\times 10^{-4} \\times 86{,}400 = 51.8$ m$^3$/day. The $0.17$ m$^3$/day choice forgets the cross-sectional area, using $Ki$ only (times 86,400). The $6{,}221$ m$^3$/day choice forgets to divide the head drop by the path length, using $i = 6$ instead of $0.05$, inflating $Q$ by 120 times. The $2.6$ m$^3$/day choice mishandles the area, dividing by it instead of multiplying.',
     hint: 'Use $Q = KAi$ with $i = dh/L$. Then convert seconds to days (multiply by 86,400).',
     steps: [
       { text: 'Hydraulic gradient:', latex: 'i = \\frac{dh}{L} = \\frac{6}{120} = 0.05' },
@@ -350,7 +350,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Rearrange Dupuit, $Q = \\pi K(h_2^2 - h_1^2)/\\ln(r_2/r_1)$, to solve for the well-face head: $h_1 = \\sqrt{h_2^2 - Q\\ln(r_2/r_1)/(\\pi K)}$. The log term: $\\ln(300/1) = 5.70$. So $h_1 = \\sqrt{80^2 - 0.8(5.70)/(\\pi \\times 6 \\times 10^{-4})} = \\sqrt{6400 - 2419} = \\sqrt{3981} = 63.1$ ft. The drawdown is about 17 ft. Choice C uses $\\log_{10}$ instead of the natural log. Choice B uses $2\\pi$ (the confined Thiem coefficient) instead of $\\pi$. Choice D forgets to apply any drawdown and just reports the undisturbed level.',
+    eli5: 'Rearrange Dupuit, $Q = \\pi K(h_2^2 - h_1^2)/\\ln(r_2/r_1)$, to solve for the well-face head: $h_1 = \\sqrt{h_2^2 - Q\\ln(r_2/r_1)/(\\pi K)}$. The log term: $\\ln(300/1) = 5.70$. So $h_1 = \\sqrt{80^2 - 0.8(5.70)/(\\pi \\times 6 \\times 10^{-4})} = \\sqrt{6400 - 2419} = \\sqrt{3981} = 63.1$ ft. The drawdown is about 17 ft. The 73.1 ft choice uses $\\log_{10}$ instead of the natural log. The 72.0 ft choice uses $2\\pi$ (the confined Thiem coefficient) instead of $\\pi$. The 80.0 ft choice forgets to apply any drawdown and just reports the undisturbed level.',
     hint: 'Rearrange Dupuit for $h_1 = \\sqrt{h_2^2 - Q\\ln(r_2/r_1)/(\\pi K)}$. Use the natural log and $\\pi$ (not $2\\pi$).',
     steps: [
       { text: 'Dupuit\'s formula solved for the well-face head:', latex: 'h_1 = \\sqrt{h_2^2 - \\frac{Q\\ln(r_2/r_1)}{\\pi K}}' },
@@ -381,7 +381,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'BOD remaining is the organic matter not yet decomposed: $L_t = L_0 e^{-kt} = 320\\,e^{-0.18 \\times 4} = 320\\,e^{-0.72} = 320(0.487) = 155.8$ mg/L. Note the BOD exerted ($L_0(1 - e^{-kt}) = 164.2$) plus the remaining ($155.8$) sum to the ultimate $320$. Choice A gives the BOD exerted rather than remaining. Choice B applies $kt$ as a percentage ($0.18 \\times 4 = 0.72$, then $320 \\times 0.18 = 57.6$), a formula confusion. Choice C reports the ultimate BOD, as if no decay had occurred.',
+    eli5: 'BOD remaining is the organic matter not yet decomposed: $L_t = L_0 e^{-kt} = 320\\,e^{-0.18 \\times 4} = 320\\,e^{-0.72} = 320(0.487) = 155.8$ mg/L. Note the BOD exerted ($L_0(1 - e^{-kt}) = 164.2$) plus the remaining ($155.8$) sum to the ultimate $320$. The 164.2 mg/L choice gives the BOD exerted rather than remaining. The 57.6 mg/L choice applies $kt$ as a percentage ($0.18 \\times 4 = 0.72$, then $320 \\times 0.18 = 57.6$), a formula confusion. The 320 mg/L choice reports the ultimate BOD, as if no decay had occurred.',
     hint: 'BOD remaining is $L_t = L_0 e^{-kt}$ — exponential decay, not the exerted form $L_0(1 - e^{-kt})$.',
     steps: [
       { text: 'BOD remaining (decay form):', latex: 'L_t = L_0 e^{-kt} = 320\\,e^{-0.18 \\times 4}' },
@@ -411,7 +411,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Find the critical time, then the critical deficit, then subtract from saturation. With $D_0 = 0$, the critical time is $t_c = \\frac{1}{k_r - k_d}\\ln(k_r/k_d) = \\frac{1}{0.2}\\ln(2) = 3.47$ days. The critical deficit is $D_c = \\frac{k_d}{k_r}L_a e^{-k_d t_c} = \\frac{0.2}{0.4}(20)e^{-0.2(3.47)} = 10(0.5) = 5.0$ mg/L. Minimum DO $= DO_{sat} - D_c = 9.0 - 5.0 = 4.0$ mg/L. Choice B reports the critical deficit itself, forgetting to subtract it from saturation. Choice C ignores the deficit entirely. Choice D wrongly drops the decay factor $e^{-k_d t_c}$, giving $D_c = 10$ and a negative DO clamped to zero.',
+    eli5: 'Find the critical time, then the critical deficit, then subtract from saturation. With $D_0 = 0$, the critical time is $t_c = \\frac{1}{k_r - k_d}\\ln(k_r/k_d) = \\frac{1}{0.2}\\ln(2) = 3.47$ days. The critical deficit is $D_c = \\frac{k_d}{k_r}L_a e^{-k_d t_c} = \\frac{0.2}{0.4}(20)e^{-0.2(3.47)} = 10(0.5) = 5.0$ mg/L. Minimum DO $= DO_{sat} - D_c = 9.0 - 5.0 = 4.0$ mg/L. The 5.0 mg/L choice reports the critical deficit itself, forgetting to subtract it from saturation. The 9.0 mg/L choice ignores the deficit entirely. The 0.0 mg/L choice wrongly drops the decay factor $e^{-k_d t_c}$, giving $D_c = 10$ and a negative DO clamped to zero.',
     hint: 'Compute $t_c = \\frac{1}{k_r-k_d}\\ln(k_r/k_d)$, then $D_c = \\frac{k_d}{k_r}L_a e^{-k_d t_c}$, then $DO_{min} = DO_{sat} - D_c$.',
     steps: [
       { text: 'Critical time (with $D_0 = 0$):', latex: 't_c = \\frac{1}{k_r - k_d}\\ln\\!\\left(\\frac{k_r}{k_d}\\right) = \\frac{1}{0.2}\\ln(2) = 3.47\\,\\text{days}' },
@@ -441,7 +441,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Detention time is volume over flow: $\\theta = V/Q$. The tank volume is $V = 80 \\times 20 \\times 12 = 19{,}200$ ft$^3$. Convert the flow to ft$^3$/day: $Q = 1{,}500{,}000\\,\\text{gpd}/7.48 = 200{,}535$ ft$^3$/day. So $\\theta = 19{,}200/200{,}535 = 0.0958$ days $= 0.0958 \\times 24 = 2.3$ hours, a typical primary clarifier value. Choice B forgets to divide by 7.48 (treats gallons as cubic feet). Choice C inverts the gallon conversion. Choice D reports the answer in days (0.096) rather than converting to hours.',
+    eli5: 'Detention time is volume over flow: $\\theta = V/Q$. The tank volume is $V = 80 \\times 20 \\times 12 = 19{,}200$ ft$^3$. Convert the flow to ft$^3$/day: $Q = 1{,}500{,}000\\,\\text{gpd}/7.48 = 200{,}535$ ft$^3$/day. So $\\theta = 19{,}200/200{,}535 = 0.0958$ days $= 0.0958 \\times 24 = 2.3$ hours, a typical primary clarifier value. The 0.31 hours choice forgets to divide by 7.48 (treats gallons as cubic feet). The 17.2 hours choice inverts the gallon conversion. The 0.096 choice reports the answer in days (0.096) rather than converting to hours.',
     hint: '$\\theta = V/Q$. Convert MGD to ft$^3$/day by dividing gallons by 7.48, then convert days to hours.',
     steps: [
       { text: 'Tank volume:', latex: 'V = 80 \\times 20 \\times 12 = 19{,}200\\,\\text{ft}^3' },
@@ -472,7 +472,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Overflow rate is $v_o = Q/A$, so the required surface area is $A = Q/v_o = 2{,}500{,}000/900 = 2{,}778$ ft$^2$. For a circular tank $A = \\pi D^2/4$, so $D = \\sqrt{4A/\\pi} = \\sqrt{4(2{,}778)/\\pi} = \\sqrt{3{,}537} = 59.5$ ft. Choice A forgets the factor of 4, computing $D = \\sqrt{A/\\pi} = 29.7$ ft (this is actually the radius). Choice C uses $A = \\pi D^2$ without the $1/4$. Choice D reports the surface area itself rather than solving for the diameter.',
+    eli5: 'Overflow rate is $v_o = Q/A$, so the required surface area is $A = Q/v_o = 2{,}500{,}000/900 = 2{,}778$ ft$^2$. For a circular tank $A = \\pi D^2/4$, so $D = \\sqrt{4A/\\pi} = \\sqrt{4(2{,}778)/\\pi} = \\sqrt{3{,}537} = 59.5$ ft. The 29.7 ft choice forgets the factor of 4, computing $D = \\sqrt{A/\\pi} = 29.7$ ft (this is actually the radius). The 88.4 ft choice uses $A = \\pi D^2$ without the $1/4$. The 2,778 ft choice reports the surface area itself rather than solving for the diameter.',
     hint: 'Find $A = Q/v_o$, then invert $A = \\pi D^2/4$ to get $D = \\sqrt{4A/\\pi}$.',
     steps: [
       { text: 'Required surface area:', latex: 'A = \\frac{Q}{v_o} = \\frac{2{,}500{,}000}{900} = 2{,}778\\,\\text{ft}^2' },
@@ -502,7 +502,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'CT = C × t₁₀ = 2.0 × 45 = 90 mg·min/L. Choice B divides instead of multiplying. Choice C adds the two values. Choice D inverts the product.',
+    eli5: 'CT = C × t₁₀ = 2.0 × 45 = 90 mg·min/L. The 22.5 mg\u00b7min/L choice divides instead of multiplying (45/2). The 47 mg\u00b7min/L choice adds the two values (2 + 45). The 0.044 mg\u00b7min/L choice divides C by t\u2081\u2080 (2/45) rather than multiplying.',
     hint: 'CT is simply the residual concentration times the contact time.',
     steps: [
       { text: 'CT relationship:', latex: 'CT = C \\times t_{10}' },
@@ -531,7 +531,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Uniformity coefficient UC = d₆₀/d₁₀ = 0.75/0.50 = 1.5. A lower UC means more uniform grain sizes. Choice B inverts the ratio (d₁₀/d₆₀). Choice C uses a wrong pairing. Choice D subtracts the sizes.',
+    eli5: 'Uniformity coefficient UC = d₆₀/d₁₀ = 0.75/0.50 = 1.5. A lower UC means more uniform grain sizes. The 0.67 option inverts the ratio (d₁₀/d₆₀). The 1.25 option uses a wrong pairing. The 0.25 option subtracts the sizes.',
     hint: 'UC = d₆₀ / d₁₀.',
     steps: [
       { text: 'Uniformity coefficient:', latex: 'UC = \\frac{d_{60}}{d_{10}} = \\frac{0.75}{0.50}' },
@@ -560,7 +560,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Efficiency = (in − out)/in = (220 − 30)/220 = 190/220 = 0.864 = 86.4%. Choice B is the fraction remaining (30/220). Choice C reports the effluent number as a percent. Choice D inverts the ratio.',
+    eli5: 'Efficiency = (in − out)/in = (220 − 30)/220 = 190/220 = 0.864 = 86.4%. The 13.6% choice is the fraction remaining (30/220). The 30% choice reports the effluent number as a percent. The 7.3% choice inverts the ratio.',
     hint: 'Efficiency = (influent − effluent)/influent × 100%.',
     steps: [
       { text: 'Removal efficiency:', latex: 'E = \\frac{220 - 30}{220} \\times 100\\%' },
@@ -589,7 +589,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Total dynamic head = static + losses = 18 + 6.5 = 24.5 m. Fluid power = γQH = 9,810 × 0.030 × 24.5 = 7,210 W ≈ 7.2 kW. Brake power = 7.2/0.70 = 10.3 kW. Choice B is the fluid power (no efficiency). Choice C uses only the static lift. Choice D multiplies by 0.70 instead of dividing.',
+    eli5: 'Total dynamic head = static + losses = 18 + 6.5 = 24.5 m. Fluid power = γQH = 9,810 × 0.030 × 24.5 = 7,210 W ≈ 7.2 kW. Brake power = 7.2/0.70 = 10.3 kW. The 7.2 kW option is the fluid power (no efficiency). The 5.3 kW option uses only the static lift (9,810 \u00d7 0.030 \u00d7 18 \u2248 5,300 W). The 5.0 kW option multiplies by 0.70 instead of dividing (7.2 \u00d7 0.70 \u2248 5.0).',
     hint: 'TDH = static lift + losses. Fluid power = γQ·TDH; brake power = fluid power / η.',
     steps: [
       { text: 'Total dynamic head:', latex: 'H = 18 + 6.5 = 24.5\\,\\text{m}' },

@@ -92,7 +92,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The 3.2 million dollars was spent 5 years ago and is gone no matter what the county decides next. That makes it a textbook sunk cost. The decision right now is only between the 1.8 million dollar expansion and the 2.5 million dollar new plant \u2014 the past expenditure does not change the future costs of either option. Answer B is the most tempting trap because the expansion physically connects to the existing plant, but the original cost is still irrecoverable. Answers C and D invent allocation methods that sound reasonable but violate the sunk cost principle.',
+      eli5: 'The 3.2 million dollars was spent 5 years ago and is gone no matter what the county decides next. That makes it a textbook sunk cost. The decision right now is only between the 1.8 million dollar expansion and the 2.5 million dollar new plant \u2014 the past expenditure does not change the future costs of either option. The option that adds the cost to Option A is the most tempting trap because the expansion physically connects to the existing plant, but the original cost is still irrecoverable. The choices to split the cost equally or depreciate it over the remaining plant life invent allocation methods that sound reasonable but violate the sunk cost principle.',
       hint: 'Ask yourself: can the county recover any of the original 3.2 million by choosing one option over the other? If not, what kind of cost is it?',
       steps: [
         {
@@ -108,7 +108,7 @@ export default {
           latex: null,
         },
         {
-          text: 'Answer B is wrong because even though the expansion builds on the existing plant, the original cost is still irrecoverable \u2014 it does not change the incremental cost of the expansion.',
+          text: 'The choice to add the cost to Option A is wrong because even though the expansion builds on the existing plant, the original cost is still irrecoverable \u2014 it does not change the incremental cost of the expansion.',
           latex: null,
         },
       ],
@@ -133,7 +133,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Method A costs more up front (owned trucks = higher fixed cost) but less per cubic yard to operate. Method B is cheap to start each day (low rental fee) but charges more per yard. At some volume they cost the same \u2014 set the two total cost equations equal and solve for Q. Below that volume, use Method B (lower fixed cost dominates). Above it, use Method A (lower variable cost dominates). Answer A comes from a rounding or setup error. Answer C likely doubles the correct answer. Answer D might come from inverting the equation.',
+      eli5: 'Method A costs more up front (owned trucks = higher fixed cost) but less per cubic yard to operate. Method B is cheap to start each day (low rental fee) but charges more per yard. At some volume they cost the same \u2014 set the two total cost equations equal and solve for Q. Below that volume, use Method B (lower fixed cost dominates). Above it, use Method A (lower variable cost dominates). The 500 cy/day choice comes from a rounding or setup error. The 1,400 cy/day choice roughly doubles the correct answer (or divides 3,000 by ~2.1 instead of 4.30). The 1,000 cy/day choice comes from mis-setting the variable-cost difference.',
       hint: 'Write a total cost equation for each method in the form TC = FC + VC \u00d7 Q, set them equal, and solve for Q.',
       steps: [
         {
@@ -182,7 +182,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Simple payback = initial cost divided by net annual savings. The tricky part is getting the net savings right. You save 280,000 dollars in labor but spend 80,000 dollars on maintenance, so the net savings are only 200,000 dollars per year. Divide 1.4 million by 200,000 and you get 7 years. Answer A (5.0 years) divides by the gross savings (280,000) without subtracting maintenance \u2014 that is the most common trap. Answer C (3.5 years) might come from using only half the initial cost. Answer D (2.3 years) could result from dividing maintenance cost by savings or another setup error.',
+      eli5: 'Simple payback = initial cost divided by net annual savings. The tricky part is getting the net savings right. You save 280,000 dollars in labor but spend 80,000 dollars on maintenance, so the net savings are only 200,000 dollars per year. Divide 1.4 million by 200,000 and you get 7 years. The 5.0 years choice divides by the gross savings (280,000) without subtracting maintenance \u2014 that is the most common trap. The 3.5 years choice might come from using only half the initial cost. The 2.3 years choice could result from dividing maintenance cost by savings or another setup error.',
       hint: 'Net annual savings = gross savings minus new annual costs. Payback = initial investment divided by net annual savings.',
       steps: [
         {
@@ -198,7 +198,7 @@ export default {
           latex: '\\text{Payback} = \\frac{I}{A_{\\text{net}}} = \\frac{1{,}400{,}000}{200{,}000} = 7.0 \\text{ years}',
         },
         {
-          text: 'Answer A (5.0 years) forgets to subtract the 80,000 dollar maintenance cost from the savings: 1,400,000 \u00f7 280,000 = 5.0.',
+          text: 'The 5.0 years choice forgets to subtract the 80,000 dollar maintenance cost from the savings: 1,400,000 \u00f7 280,000 = 5.0.',
           latex: null,
         },
       ],

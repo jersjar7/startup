@@ -86,7 +86,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Divide annual benefits by annual costs \u2014 but annual costs include both the annualized construction cost and the yearly O&M. Use $(A/P)$ to spread the 4.5 million over 30 years at 6%, then add the 60,000 dollars of O&M. That gives you 386,700 dollars per year in costs against 420,000 dollars in benefits, so B/C = 1.09. Answer B (0.93) inverts the ratio (costs/benefits instead of benefits/costs). Answer C (7.00) divides benefits by O&M alone, forgetting the construction cost entirely. Answer D (1.29) leaves out the O&M and only annualizes the construction cost.',
+      eli5: 'Divide annual benefits by annual costs \u2014 but annual costs include both the annualized construction cost and the yearly O&M. Use $(A/P)$ to spread the 4.5 million over 30 years at 6%, then add the 60,000 dollars of O&M. That gives you 386,700 dollars per year in costs against 420,000 dollars in benefits, so B/C = 1.09. The 0.93 choice inverts the ratio (costs/benefits instead of benefits/costs). The 7.00 choice divides benefits by O&M alone, forgetting the construction cost entirely. The 1.29 choice leaves out the O&M and only annualizes the construction cost.',
       hint: 'Annual cost has two components: the annualized initial cost using $(A/P)$ plus the yearly O&M.',
       steps: [
         {
@@ -131,7 +131,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'You might think Project A is best because its B/C ratio (1.30) is the highest \u2014 but that reasoning is wrong for mutually exclusive alternatives. The question isn\'t "which project returns the most per dollar?" but "is the extra investment in a bigger project justified?" Each time you step up in cost, the additional benefits exceed the additional costs (incremental B/C \u2265 1), so the city should go all the way to Project C. Answer A is the classic trap \u2014 picking by individual B/C ratio ignores the scale of the investment.',
+      eli5: 'You might think Project A is best because its B/C ratio (1.30) is the highest \u2014 but that reasoning is wrong for mutually exclusive alternatives. The question isn\'t "which project returns the most per dollar?" but "is the extra investment in a bigger project justified?" Each time you step up in cost, the additional benefits exceed the additional costs (incremental B/C \u2265 1), so the city should go all the way to Project C. The "highest B/C ratio" choice (Project A) is the classic trap \u2014 picking by individual B/C ratio ignores the scale of the investment.',
       hint: 'Rank the alternatives by cost, then check whether each step up in cost is justified by comparing the change in benefits to the change in costs.',
       steps: [
         {
@@ -180,7 +180,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'The bypass is a sure thing at 12 million dollars \u2014 no uncertainty. Widening is cheaper upfront (5 million) but has a 40% chance of needing another 5 million. To compare, compute the expected cost of widening: there\'s a 40% chance you pay 10 million total and a 60% chance you pay only 5 million. The weighted average is 7 million dollars, which is well below the 12 million dollar bypass. Answer A (5 million) only counts the initial cost and ignores the probability of expansion. Answer C (10 million) assumes high growth is certain (100% instead of 40%). Answer D treats certainty as inherently valuable, but expected value analysis does not add a premium for certainty.',
+      eli5: 'The bypass is a sure thing at 12 million dollars \u2014 no uncertainty. Widening is cheaper upfront (5 million) but has a 40% chance of needing another 5 million. To compare, compute the expected cost of widening: there\'s a 40% chance you pay 10 million total and a 60% chance you pay only 5 million. The weighted average is 7 million dollars, which is well below the 12 million dollar bypass. The "5 million" choice only counts the initial cost and ignores the probability of expansion. The "10 million" choice assumes high growth is certain (100% instead of 40%). The bypass choice treats certainty as inherently valuable, but expected value analysis does not add a premium for certainty.',
       hint: 'At the chance node, multiply each outcome\'s total cost by its probability and sum them. Then compare to the certain cost of the bypass.',
       steps: [
         {

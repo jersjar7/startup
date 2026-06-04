@@ -32,7 +32,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "i × j = k — this is the right-hand rule in action. Point your fingers along x, curl them toward y, and your thumb points along z. This is one of those \"just know it\" results that saves time. Choice B has the wrong sign — that would be j × i, the reversed order.",
+      "eli5": "i × j = k — this is the right-hand rule in action. Point your fingers along x, curl them toward y, and your thumb points along z. This is one of those \"just know it\" results that saves time. The -1k\u0302 choice has the wrong sign — that would be j × i, the reversed order.",
       "hint": "Use the determinant formula, or recall that i × j = k.",
       "steps": [
         { "text": "Set up the determinant:", "latex": "\\hat{i}(0 \\cdot 0 - 0 \\cdot 1) - \\hat{j}(1 \\cdot 0 - 0 \\cdot 0) + \\hat{k}(1 \\cdot 1 - 0 \\cdot 0)" },
@@ -58,7 +58,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "medium",
-      "eli5": "Moment = r × F. Set up the 3×3 determinant and expand carefully. The j component has the MINUS sign in front of the cofactor — so you get -(3·(-50) - 0) = -(-150) = +150. That negative-of-a-negative is where most people mess up. Choice B flips all the signs — that is F × r (wrong order).",
+      "eli5": "Moment = r × F. Set up the 3×3 determinant and expand carefully. The j component has the MINUS sign in front of the cofactor — so you get -(3·(-50) - 0) = -(-150) = +150. That negative-of-a-negative is where most people mess up. The distractor $200\\hat{i} - 150\\hat{j} + 0\\hat{k}$ flips all the signs — that is F × r (wrong order).",
       "hint": "Set up the determinant with r in the second row and F in the third row. Watch the sign on the j cofactor.",
       "steps": [
         { "text": "Set up:", "latex": "\\vec{r} \\times \\vec{F} = \\begin{vmatrix} \\hat{i} & \\hat{j} & \\hat{k} \\\\ 3 & 4 & 0 \\\\ 0 & 0 & -50 \\end{vmatrix}" },
@@ -87,7 +87,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "hard",
-      "eli5": "The cross product magnitude gives the parallelogram area. A triangle is half the parallelogram. So: compute the cross product, take the magnitude, divide by 2. Choice A (12) is the parallelogram area without halving — the most common mistake. Since both vectors lie in the xy-plane, the cross product points purely in the k direction, which makes the magnitude easy.",
+      "eli5": "The cross product magnitude gives the parallelogram area. A triangle is half the parallelogram. So: compute the cross product, take the magnitude, divide by 2. The 12 m\u00b2 choice is the parallelogram area without halving — the most common mistake. Since both vectors lie in the xy-plane, the cross product points purely in the k direction, which makes the magnitude easy.",
       "hint": "Triangle area = ½|u × v|. Compute the cross product first, then take half its magnitude.",
       "steps": [
         { "text": "Cross product:", "latex": "\\vec{u} \\times \\vec{v} = \\begin{vmatrix} \\hat{i} & \\hat{j} & \\hat{k} \\\\ 4 & 0 & 0 \\\\ 2 & 3 & 0 \\end{vmatrix}" },

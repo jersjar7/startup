@@ -27,7 +27,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'A valid contract needs an offer, acceptance, consideration, legal capacity, and a lawful purpose. Notarization is not required for most contracts to be enforceable — it is a formality that helps prove authenticity but is not an element of formation. Choices B, C, and D are all genuine required elements.',
+      eli5: 'A valid contract needs an offer, acceptance, consideration, legal capacity, and a lawful purpose. Notarization is not required for most contracts to be enforceable — it is a formality that helps prove authenticity but is not an element of formation. The offer, consideration, and acceptance choices are all genuine required elements.',
       hint: 'Recall the core elements: offer, acceptance, consideration, capacity, legality. Which listed item is not among them?',
       steps: [
         { text: 'Required elements: offer, acceptance, consideration, capacity, lawful purpose.', latex: null },

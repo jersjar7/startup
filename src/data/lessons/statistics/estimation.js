@@ -34,7 +34,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'This is the simplest confidence interval \u2014 they give you $\\sigma$ directly, so use z. Plug into the formula: $42 \\pm 1.96 \\times (5/\\sqrt{25})$. The $\\sqrt{25} = 5$, so the standard error is $5/5 = 1.0$, and the margin is $1.96 \\times 1.0 = 1.96$. Choice B uses $z = 1.96$ but divides by $n = 25$ instead of $\\sqrt{n} = 5$. Choice C forgets to divide by $\\sqrt{n}$ entirely (uses $1.96 \\times 5 = 9.8$). Choice D is a close distractor from a rounding variation.',
+      eli5: 'This is the simplest confidence interval \u2014 they give you $\\sigma$ directly, so use z. Plug into the formula: $42 \\pm 1.96 \\times (5/\\sqrt{25})$. The $\\sqrt{25} = 5$, so the standard error is $5/5 = 1.0$, and the margin is $1.96 \\times 1.0 = 1.96$. The $(41.02\\%,\\; 42.98\\%)$ distractor has too small a margin ($0.98$) \u2014 it halves the correct standard error instead of using $\\sigma/\\sqrt{n} = 1.0$. The $(32.20\\%,\\; 51.80\\%)$ distractor forgets to divide by $\\sqrt{n}$ entirely (uses $1.96 \\times 5 = 9.8$). The $(40.08\\%,\\; 43.92\\%)$ distractor is a close distractor from a rounding variation (margin $1.92$).',
       hint: 'The problem gives you $\\sigma$ (not $s$), so use the z-interval. Don\u2019t forget to divide $\\sigma$ by $\\sqrt{n}$.',
       steps: [
         { text: 'Identify: $\\bar{x} = 42$, $\\sigma = 5$, $n = 25$, 95% confidence \u2192 $z_{\\alpha/2} = 1.960$.', latex: null },
@@ -61,7 +61,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'The key difference from P1: they give you $s$ (sample std dev), not $\\sigma$ (population), so you must use the t-distribution. The degrees of freedom are $n - 1 = 9$, and they tell you $t = 2.262$. Choice B uses $z = 1.960$ instead of the given t-value \u2014 that\u2019s wrong because with only 10 samples and unknown $\\sigma$, the z-interval is too narrow. Choice A forgets to divide by $\\sqrt{n}$ (uses $2.262 \\times 120 = 271$). Choice D divides by $n = 10$ instead of $\\sqrt{10} = 3.162$.',
+      eli5: 'The key difference from P1: they give you $s$ (sample std dev), not $\\sigma$ (population), so you must use the t-distribution. The degrees of freedom are $n - 1 = 9$, and they tell you $t = 2.262$. The interval $(4{,}276,\\;4{,}424)$ uses $z = 1.960$ instead of the given t-value \u2014 that\u2019s wrong because with only 10 samples and unknown $\\sigma$, the z-interval is too narrow. The interval $(4{,}115,\\;4{,}585)$ forgets to divide by $\\sqrt{n}$, giving a margin of $\\pm 235$; it also uses $z = 1.960$ instead of $t$ ($1.960 \\times 120 = 235$). The interval $(4{,}323,\\;4{,}377)$ divides by $n = 10$ instead of $\\sqrt{10} = 3.162$.',
       hint: 'The problem gives you $s$ (not $\\sigma$) and a t-value \u2014 use the t-interval formula with $n - 1$ degrees of freedom.',
       steps: [
         { text: 'Identify: $\\bar{x} = 4{,}350$, $s = 120$, $n = 10$, $v = n - 1 = 9$, $t_{0.025,\\,9} = 2.262$.', latex: null },
@@ -88,7 +88,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Work backwards from the confidence interval formula. You want the margin of error to be exactly 200, so set $z \\cdot \\sigma / \\sqrt{n} = 200$ and solve for $n$. The trick is remembering to round UP, not to the nearest integer. If you need 61.47 days, 61 days isn\u2019t enough \u2014 you need 62. Choice B (61.47) is the raw calculation before rounding \u2014 not a valid answer since you can\u2019t have a fraction of a day. Choice C (8) comes from forgetting to square ($7.84$ rounded to 8). Choice A (16) comes from using $z = 1.0$ instead of $1.960$.',
+      eli5: 'Work backwards from the confidence interval formula. You want the margin of error to be exactly 200, so set $z \\cdot \\sigma / \\sqrt{n} = 200$ and solve for $n$. The trick is remembering to round UP, not to the nearest integer. If you need 61.47 days, 61 days isn\u2019t enough \u2014 you need 62. The 61.47 option is the raw calculation before rounding \u2014 not a valid answer since you can\u2019t have a fraction of a day. The value 8 comes from forgetting to square ($7.84$ rounded to 8). The value 16 comes from using $z = 1.0$ instead of $1.960$.',
       hint: 'Rearrange the margin of error formula to solve for $n$. Remember to round up to the next whole number.',
       steps: [
         { text: 'Identify: $e = 200$, $\\sigma = 800$, 95% confidence \u2192 $z_{\\alpha/2} = 1.960$.', latex: null },

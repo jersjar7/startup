@@ -36,7 +36,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Direct formula application: $TS = 3.45 \\times BHN = 3.45 \\times 200 = 690$ MPa. Choice B (58) comes from dividing instead of multiplying: $200/3.45$. Choice C (1,000) uses a factor of 5 instead of 3.45 (confusing MPa and psi formulas). Choice D (345) uses only half the BHN or half the factor.',
+      eli5: 'Direct formula application: $TS = 3.45 \\times BHN = 3.45 \\times 200 = 690$ MPa. The 58 MPa choice comes from dividing instead of multiplying: $200/3.45$. The 1,000 MPa choice uses a factor of 5 instead of 3.45 (confusing MPa and psi formulas). The 345 MPa choice uses only half the BHN or half the factor.',
       hint: 'The handbook formula is TS (MPa) \u2248 3.45 \u00D7 BHN for plain carbon steels.',
       steps: [
         { text: 'Apply the BHN\u2013TS relationship:', latex: 'TS = 3.45 \\times BHN = 3.45 \\times 200 = 690 \\text{ MPa}' },
@@ -61,7 +61,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Rearrange the fracture toughness formula to solve for stress: $\\sigma = K_{IC} / (Y\\sqrt{\\pi a})$. The key steps: convert mm to m ($a = 0.010$ m), use $Y = 1.1$ for an edge crack, and compute $\\sqrt{\\pi \\times 0.010} = 0.1773$. Then $\\sigma = 46 / (1.1 \\times 0.1773) = 236$ MPa. Choice B (260) comes from using $Y = 1.0$ (interior crack). Choice A (7.5) comes from forgetting to convert mm to m. Choice D (215) comes from squaring $Y = 1.1$ to get 1.21.',
+      eli5: 'Rearrange the fracture toughness formula to solve for stress: $\\sigma = K_{IC} / (Y\\sqrt{\\pi a})$. The key steps: convert mm to m ($a = 0.010$ m), use $Y = 1.1$ for an edge crack, and compute $\\sqrt{\\pi \\times 0.010} = 0.1773$. Then $\\sigma = 46 / (1.1 \\times 0.1773) = 236$ MPa. The 260 MPa option comes from using $Y = 1.0$ (interior crack). The 7.5 MPa option comes from forgetting to convert mm to m. The 215 MPa option comes from squaring $Y = 1.1$ to get 1.21.',
       hint: 'Convert crack length to meters, use $Y = 1.1$ for edge cracks, and rearrange $K_{IC} = Y\\sigma\\sqrt{\\pi a}$ to solve for $\\sigma$.',
       steps: [
         { text: 'Convert crack length:', latex: 'a = 10 \\text{ mm} = 0.010 \\text{ m}' },
@@ -90,7 +90,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Rearrange $K_{IC} = Y\\sigma\\sqrt{\\pi a}$ to solve for $a$. For an edge crack, $Y = 1.1$. Square both sides after isolating the square root: $\\sqrt{\\pi a} = K/(Y\\sigma)$, so $\\pi a = [K/(Y\\sigma)]^2$, and $a = [K/(Y\\sigma)]^2/\\pi$. Plugging in: $\\sqrt{\\pi a} = 24/(1.1 \\times 200) = 0.1091$, $\\pi a = 0.01190$, $a = 0.00379$ m $= 3.8$ mm. Choice B (4.6) uses $Y = 1.0$ for an interior crack. Choice C (7.6) is $2a$ \u2014 the student reported total crack length for an interior crack instead of edge crack half-length. Choice A (11.9) comes from forgetting $\\pi$ inside the square root.',
+      eli5: 'Rearrange $K_{IC} = Y\\sigma\\sqrt{\\pi a}$ to solve for $a$. For an edge crack, $Y = 1.1$. Square both sides after isolating the square root: $\\sqrt{\\pi a} = K/(Y\\sigma)$, so $\\pi a = [K/(Y\\sigma)]^2$, and $a = [K/(Y\\sigma)]^2/\\pi$. Plugging in: $\\sqrt{\\pi a} = 24/(1.1 \\times 200) = 0.1091$, $\\pi a = 0.01190$, $a = 0.00379$ m $= 3.8$ mm. The 4.6 mm choice uses $Y = 1.0$ for an interior crack. The 7.6 mm choice is $2a$ \u2014 the student reported total crack length instead of the half-length $a$. The 11.9 mm choice comes from forgetting $\\pi$ inside the square root.',
       hint: 'Rearrange the fracture toughness formula to isolate $a$. Remember to square both sides to remove the square root, and don\u2019t forget $\\pi$ in the denominator.',
       steps: [
         { text: 'Rearrange for the square root term:', latex: '\\sqrt{\\pi a} = \\frac{K_{IC}}{Y\\sigma} = \\frac{24}{1.1 \\times 200} = \\frac{24}{220} = 0.1091' },

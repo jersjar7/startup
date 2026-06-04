@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The unit hydrograph is for 1 inch of excess rainfall. For 3 inches, multiply every ordinate by 3. Peak = 500 \u00D7 3 = 1,500 cfs. Choice B doesn\'t scale (uses 1 inch). Choice C divides instead of multiplying (500/3 = 167). Choice D doubles instead of tripling.',
+      eli5: 'The unit hydrograph is for 1 inch of excess rainfall. For 3 inches, multiply every ordinate by 3. Peak = 500 \u00D7 3 = 1,500 cfs. The 500 cfs option doesn\'t scale (uses 1 inch). The 167 cfs option divides instead of multiplying (500/3 = 167). The 1,000 cfs option doubles instead of tripling.',
       hint: 'The unit hydrograph gives the response to 1 inch of excess rainfall. Scale linearly for other amounts.',
       steps: [
         { text: 'The UH peak is for 1 inch of excess rainfall:', latex: 'Q_{UH,peak} = 500 \\text{ cfs}' },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Q = CIA = 0.60 \u00D7 4.8 \u00D7 100 = 288 cfs. The key insight is that the storm duration should equal the time of concentration to produce the maximum peak. Since the problem already gives I for the 30-min duration (which equals t_c), just plug in. Choice A ignores C. Choice B uses a halved intensity (perhaps thinking 30 min = half hour needs adjustment). Choice D uses C = 1.2 (doubled).',
+      eli5: 'Q = CIA = 0.60 \u00D7 4.8 \u00D7 100 = 288 cfs. The key insight is that the storm duration should equal the time of concentration to produce the maximum peak. Since the problem already gives I for the 30-min duration (which equals t_c), just plug in. The 480 cfs choice ignores C (just I\u00d7A). The 144 cfs choice uses a halved intensity (perhaps thinking 30 min = half hour needs adjustment). The 576 cfs choice uses C = 1.2 (doubled).',
       hint: 'The design storm duration equals the time of concentration. Use Q = CIA with the given intensity.',
       steps: [
         { text: 'Storm duration = $t_c$ = 30 min (already given):', latex: 'I_{30\\min} = 4.8 \\text{ in./hr}' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'I \u2013 O = \u0394S/\u0394t. So \u0394S/\u0394t = 800 \u2013 500 = 300 cfs. Since it\'s positive, storage is INCREASING \u2014 more water is coming in than going out. This is the fundamental principle behind detention pond design: during a storm, the pond fills (I > O), storing water to reduce the downstream peak. Choice A assumes steady state. Choice B reverses the sign. Choice C adds instead of subtracting.',
+      eli5: 'I \u2013 O = \u0394S/\u0394t. So \u0394S/\u0394t = 800 \u2013 500 = 300 cfs. Since it\'s positive, storage is INCREASING \u2014 more water is coming in than going out. This is the fundamental principle behind detention pond design: during a storm, the pond fills (I > O), storing water to reduce the downstream peak. The "storage is not changing" choice assumes steady state. The "decreasing at 300 cfs" choice reverses the sign. The "increasing at 1,300 cfs" choice adds instead of subtracting.',
       hint: 'Apply I \u2013 O = \u0394S/\u0394t. A positive result means storage is increasing.',
       steps: [
         { text: 'Storage routing equation:', latex: 'I - O = \\frac{\\Delta S}{\\Delta t}' },

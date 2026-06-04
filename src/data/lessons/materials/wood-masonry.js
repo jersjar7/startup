@@ -28,7 +28,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'MC = (W_wet − W_OD)/W_OD × 100 = (64 − 50)/50 × 100 = 14/50 × 100 = 28%. This is near the fiber saturation point. Choice B and C divide by the wet weight (64) instead of the oven-dry weight. Choice D forgets to divide and reports the raw water mass.',
+      eli5: 'MC = (W_wet − W_OD)/W_OD × 100 = (64 − 50)/50 × 100 = 14/50 × 100 = 28%. This is near the fiber saturation point. The 21.9% and 22% choices divide by the wet weight (64) instead of the oven-dry weight. The 14% choice forgets to divide and reports the raw water mass.',
       hint: 'Moisture content = (wet weight − oven-dry weight) / oven-dry weight × 100.',
       steps: [
         { text: 'Water mass:', latex: 'W_{wet} - W_{OD} = 64 - 50 = 14\\text{ g}' },
@@ -80,7 +80,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Wood can carry higher stress for loads applied briefly. The load duration factor C_D exceeds 1.0 for short-duration loads — about 1.6 for wind or seismic and 1.25 for a 7-day load — and drops below 1.0 (0.9) for permanent loads. So for a wind load, C_D ≈ 1.6 increases the allowable stress. Choice B has the direction backwards. Choice C ignores duration effects. Choice D misstates where the factor applies.',
+      eli5: 'Wood can carry higher stress for loads applied briefly. The load duration factor C_D exceeds 1.0 for short-duration loads — about 1.6 for wind or seismic and 1.25 for a 7-day load — and drops below 1.0 (0.9) for permanent loads. So for a wind load, C_D ≈ 1.6 increases the allowable stress. The "C_D < 1.0, decreasing allowable stress" choice has the direction backwards. The "C_D = 1.0 for all load types" choice ignores duration effects. The "applies only to permanent dead loads" choice misstates where the factor applies.',
       hint: 'Wood gets stronger (in allowable terms) for briefly applied loads — which direction does C_D move?',
       steps: [
         { text: 'Shorter load duration → higher allowable stress in wood.', latex: null },

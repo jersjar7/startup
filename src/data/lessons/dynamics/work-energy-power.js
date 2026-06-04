@@ -39,7 +39,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Conservation of energy: all the potential energy at the top converts to kinetic energy at the bottom. Set mgh = \u00BDmv\u00B2. Notice mass cancels \u2014 the answer is actually v = \u221A(2gh) regardless of mass. That gives \u221A(2 \u00D7 9.81 \u00D7 3) = 7.67 m/s. Choice C (29.4) is just 2gh without the square root.',
+      eli5: 'Conservation of energy: all the potential energy at the top converts to kinetic energy at the bottom. Set mgh = \u00BDmv\u00B2. Notice mass cancels \u2014 the answer is actually v = \u221A(2gh) regardless of mass. That gives \u221A(2 \u00D7 9.81 \u00D7 3) = 7.67 m/s. The 29.4 m/s option is just 2gh without the square root.',
       hint: 'With no friction, potential energy at the top equals kinetic energy at the bottom.',
       steps: [
         { text: 'No friction \u2014 use conservation of energy:', latex: 'T_1 + V_1 = T_2 + V_2' },
@@ -67,7 +67,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'First find the useful power \u2014 that\'s the rate of lifting water against gravity: mass flow rate \u00D7 g \u00D7 height. Then divide by efficiency to get the input power the motor must supply. The trap is stopping at 9.81 kW (choice B) \u2014 that\'s the output power, not the input. Since the pump is only 80% efficient, the motor needs to deliver more.',
+      eli5: 'First find the useful power \u2014 that\'s the rate of lifting water against gravity: mass flow rate \u00D7 g \u00D7 height. Then divide by efficiency to get the input power the motor must supply. The trap is stopping at 9.81 kW (the 9.81 kW choice) \u2014 that\'s the output power, not the input. Since the pump is only 80% efficient, the motor needs to deliver more.',
       hint: 'Compute the useful power first (rate of work against gravity), then adjust for efficiency.',
       steps: [
         { text: 'Mass flow rate:', latex: '\\dot{m} = \\rho Q = 1{,}000 \\times 0.05 = 50 \\text{ kg/s}' },

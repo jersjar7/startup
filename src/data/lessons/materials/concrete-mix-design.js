@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'W/C is simply weight of water divided by weight of cement: 300/600 = 0.50. Choice B (2.0) inverts it \u2014 cement/water. Choice C (0.33) divides water by the total (300/900). Choice D (0.67) divides cement by the total (600/900). Remember: W/C is water over cement, not water over total or cement over total.',
+      eli5: 'W/C is simply weight of water divided by weight of cement: 300/600 = 0.50. The 2.0 option inverts it \u2014 cement/water. The 0.33 option divides water by the total (300/900). The 0.67 option divides cement by the total (600/900). Remember: W/C is water over cement, not water over total or cement over total.',
       hint: 'W/C is the weight of water divided by the weight of cement \u2014 nothing else goes in the denominator.',
       steps: [
         { text: 'Water-cement ratio:', latex: 'W/C = \\frac{300}{600} = 0.50' },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'If the water stays at 200 kg/m\u00B3 and you need $W/C = 0.40$, then $C = W/(W/C) = 200/0.40 = 500$ kg/m\u00B3. You\u2019re adding 100 kg/m\u00B3 more cement. Choice A (320) comes from multiplying cement by the new ratio: $400 \\times 0.80 = 320$ \u2014 wrong operation. Choice C (160) solved for new water instead of cement: $0.40 \\times 400 = 160$. Choice D (480) added $0.40 \\times 200 = 80$ to the original cement.',
+      eli5: 'If the water stays at 200 kg/m\u00B3 and you need $W/C = 0.40$, then $C = W/(W/C) = 200/0.40 = 500$ kg/m\u00B3. You\u2019re adding 100 kg/m\u00B3 more cement. The 320 kg/m\u00b3 option comes from multiplying cement by the new ratio: $400 \\times 0.80 = 320$ \u2014 wrong operation. The 160 kg/m\u00b3 option solved for new water instead of cement: $0.40 \\times 400 = 160$. The 480 kg/m\u00b3 option added $0.40 \\times 200 = 80$ to the original cement.',
       hint: 'Rearrange W/C = water/cement to get cement = water / (W/C).',
       steps: [
         { text: 'Current W/C:', latex: 'W/C = \\frac{200}{400} = 0.50' },
@@ -81,12 +81,12 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Two requirements drive this decision: (1) strength of 4,000 psi requires a low W/C ratio (around 0.45 or lower), and (2) a northern climate means freeze-thaw exposure, which requires air entrainment. Choice C satisfies both. Choice B (W/C = 0.70, no air) fails on both counts \u2014 too much water for strength and no freeze-thaw protection. Choice A (W/C = 0.45, no air) gets the strength right but leaves the concrete vulnerable to freeze-thaw damage in a northern climate. Choice D (W/C = 0.70, air) has freeze-thaw protection but the high W/C will fall short of 4,000 psi.',
+      eli5: 'Two requirements drive this decision: (1) strength of 4,000 psi requires a low W/C ratio (around 0.45 or lower), and (2) a northern climate means freeze-thaw exposure, which requires air entrainment. The option with W/C = 0.45 and 5% entrained air satisfies both. The W/C = 0.70 with no air option fails on both counts \u2014 too much water for strength and no freeze-thaw protection. The W/C = 0.45 with no air option gets the strength right but leaves the concrete vulnerable to freeze-thaw damage in a northern climate. The W/C = 0.70 with 5% air option has freeze-thaw protection but the high W/C will fall short of 4,000 psi.',
       hint: 'Consider both the strength requirement (which drives W/C ratio) and the exposure condition (which determines whether air entrainment is needed).',
       steps: [
         { text: 'Strength requirement: 4,000 psi requires W/C \u2264 0.50 from the handbook curve. W/C = 0.70 gives roughly 2,000\u20133,000 psi \u2014 too low.', latex: null },
         { text: 'Exposure: northern climate = freeze-thaw cycles. Air entrainment (4\u20137%) is essential for durability.', latex: null },
-        { text: 'Only Choice C meets both: low W/C for strength AND air entrainment for freeze-thaw durability.', latex: null },
+        { text: 'Only W/C = 0.45 with 5% entrained air meets both: low W/C for strength AND air entrainment for freeze-thaw durability.', latex: null },
       ],
       handbookPage: 'p. 125',
       handbookFormula: 'W/C = \\frac{\\text{weight of water}}{\\text{weight of cement}}',

@@ -123,7 +123,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The project duration equals the longest path. Path X = 5 + 7 = 12 days. Path Y = 4 + 6 + 3 = 13 days. Path Z = 8 + 2 = 10 days. The longest is Path Y at 13 days, so the project takes at least 13 days. Choice B (12) used Path X. Choice A (10) used Path Z. Choice D (35) added all three paths, but independent paths run in parallel.',
+    eli5: 'The project duration equals the longest path. Path X = 5 + 7 = 12 days. Path Y = 4 + 6 + 3 = 13 days. Path Z = 8 + 2 = 10 days. The longest is Path Y at 13 days, so the project takes at least 13 days. The 12-day choice used Path X. The 10-day choice used Path Z. The 35-day choice added all three paths, but independent paths run in parallel.',
     hint: 'Independent paths run simultaneously. The project finishes when the longest path finishes.',
     steps: [
       {
@@ -178,7 +178,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'With multiple FS predecessors, the early start of the successor is the MAXIMUM of all predecessor early finishes. H should start at max(10, 14, 8) = day 14. The scheduler used day 10 (P1\'s finish), which means they picked one predecessor instead of taking the maximum. H cannot start until ALL predecessors finish, so it must wait for the last one (P2 at day 14). Choice B (average) would give day 10.67. Choice C would mean ignoring dependencies entirely. Choice D is wrong because day 10 is incorrect.',
+    eli5: 'With multiple FS predecessors, the early start of the successor is the MAXIMUM of all predecessor early finishes. H should start at max(10, 14, 8) = day 14. The scheduler used day 10 (P1\'s finish), which means they picked one predecessor instead of taking the maximum. H cannot start until ALL predecessors finish, so it must wait for the last one (P2 at day 14). The \'average of the three predecessor finish times\' choice would give day 10.67. The \'ignored the Finish-to-Start constraint\' choice would mean ignoring dependencies entirely. The \'correct forward pass logic\' choice is wrong because day 10 is incorrect.',
     hint: 'Forward pass rule: ES = max(EF of all predecessors). Which predecessor finishes last?',
     steps: [
       {
@@ -229,7 +229,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'The backward pass uses MIN of successor late starts. The activity must finish in time for the tightest (earliest) successor. $\\min(12, 9) = 9$. Choice B (12) used MAX instead of MIN, which would allow the activity to miss the day-9 successor deadline. Choice C (10.5) averaged the two values. Choice D (21) summed them.',
+    eli5: 'The backward pass uses MIN of successor late starts. The activity must finish in time for the tightest (earliest) successor. $\\min(12, 9) = 9$. The Day 12 option used MAX instead of MIN, which would allow the activity to miss the day-9 successor deadline. The Day 10.5 option averaged the two values. The Day 21 option summed them.',
     hint: 'Backward pass rule: LF = MIN of all successor late starts.',
     steps: [
       {
@@ -275,7 +275,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Total float $= LS - ES = 8 - 8 = 0$. An activity with zero total float is on the critical path. Any delay to J will push the project end date. Choice A says 5 days of float, but that is the duration ($EF - ES = 13 - 8 = 5$), not the float. Choice C is wrong because zero float means NO room for delay. Choice D is contradictory — free float cannot exceed total float, and if $TF = 0$ then $FF = 0$ too.',
+    eli5: 'Total float $= LS - ES = 8 - 8 = 0$. An activity with zero total float is on the critical path. Any delay to J will push the project end date. The "5 days of total float" choice is wrong because 5 is the duration ($EF - ES = 13 - 8 = 5$), not the float. The "can be delayed without affecting the project" choice is wrong because zero float means NO room for delay. The "free float but no total float" choice is contradictory — free float cannot exceed total float, and if $TF = 0$ then $FF = 0$ too.',
     hint: 'Compare ES to LS (or EF to LF). If they are equal, what does that tell you about float?',
     steps: [
       {
@@ -326,7 +326,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Forward pass: A(0,4), B(4,7), C(4,9), D(9,11). Backward pass from $LF = 11$: D(9,11), then B and C feed D so their $LF = LS_D = 9$. For B: $LF_B = 9$, $LS_B = 9 - 3 = 6$. For C: $LF_C = 9$, $LS_C = 9 - 5 = 4$. Choice B (4) is the $ES$ of B (or the $LS$ of C), not the $LS$ of B. Choice A (7) is the $EF$ of B. Choice D (9) is the $LF$ of B, not $LS$.',
+    eli5: 'Forward pass: A(0,4), B(4,7), C(4,9), D(9,11). Backward pass from $LF = 11$: D(9,11), then B and C feed D so their $LF = LS_D = 9$. For B: $LF_B = 9$, $LS_B = 9 - 3 = 6$. For C: $LF_C = 9$, $LS_C = 9 - 5 = 4$. Day 4 is the $ES$ of B (or the $LS$ of C), not the $LS$ of B. Day 7 is the $EF$ of B. Day 9 is the $LF$ of B, not $LS$.',
     hint: 'Run the backward pass: start at the project end, work right to left. LS = LF - Duration.',
     steps: [
       {
@@ -447,7 +447,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Total float of 4 means the activity can slip 4 days without delaying the project. A 2-day delay is within that limit, so the project end date is safe. However, free float of 0 means ANY delay pushes at least one immediate successor. So the successor\'s early start shifts by 2 days, even though the project finish does not. Choice B ignores free float = 0. Choice C is wrong because the delay is within total float. Choice D oversimplifies — non-critical does not mean no consequences.',
+    eli5: 'Total float of 4 means the activity can slip 4 days without delaying the project. A 2-day delay is within that limit, so the project end date is safe. However, free float of 0 means ANY delay pushes at least one immediate successor. So the successor\'s early start shifts by 2 days, even though the project finish does not. The option saying both end date and successor early starts are unaffected ignores free float = 0. The option saying the project end date is pushed back by 2 days is wrong because the delay is within total float. The option saying the delay has no effect because the activity is not on the critical path oversimplifies — non-critical does not mean no consequences.',
     hint: 'Total float protects the project end. Free float protects the successor. What happens when FF = 0?',
     steps: [
       {
@@ -497,7 +497,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The critical path is the longest path through the network. Both Path 1 and Path 3 are 22 days, so there are TWO critical paths. A project can have more than one critical path when paths tie for the longest duration. Activities only on Path 2 (18 days) have total float $= 22 - 18 = 4$ days. Choice A says one critical path, missing the tie. Choice C says three, but Path 2 is shorter. Choice D gives Path 2 activities zero float.',
+    eli5: 'The critical path is the longest path through the network. Both Path 1 and Path 3 are 22 days, so there are TWO critical paths. A project can have more than one critical path when paths tie for the longest duration. Activities only on Path 2 (18 days) have total float $= 22 - 18 = 4$ days. The "one critical path" choice misses the tie. The "three critical paths" choice is wrong because Path 2 is shorter. The "two critical paths with zero float on Path 2" choice is wrong because Path 2 activities do have float.',
     hint: 'Can a project have more than one critical path? What happens when two paths tie?',
     steps: [
       {
@@ -548,7 +548,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Reducing D by 3 days shortens the critical path from 24 to 21 days. But the near-critical path A-C-E-F is 22 days and was not changed. The project duration is the LONGEST path, so the new duration $= \\max(21, 22) = 22$ days. The near-critical path becomes the new critical path. You cannot crash below the next-longest path without also shortening it. Choice B (21) forgot the near-critical path. Choice A (24) ignored the crash entirely. Choice D (23) subtracted only 1 day.',
+    eli5: 'Reducing D by 3 days shortens the critical path from 24 to 21 days. But the near-critical path A-C-E-F is 22 days and was not changed. The project duration is the LONGEST path, so the new duration $= \\max(21, 22) = 22$ days. The near-critical path becomes the new critical path. You cannot crash below the next-longest path without also shortening it. The 21-days choice forgot the near-critical path. The 24-days choice ignored the crash entirely. The 23-days choice subtracted only 1 day.',
     hint: 'After crashing the critical path, check whether another path has become the new bottleneck.',
     steps: [
       {
@@ -599,7 +599,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Free float = $\\min(ES_{\\text{successors}}) - EF$ of the activity. Both M and N feed P. First find ES of P: since M and N both feed P (FS), $ES_P = \\max(EF_M, EF_N) = \\max(9, 8) = 9$. Free float of N $= ES_P - EF_N = 9 - 8 = 1$ day. N can slip 1 day without pushing P. Total float of N $= LS - ES = 6 - 5 = 1$ day. Here $FF = TF = 1$. Choice B (0) would be N\'s free float if M did not control P\'s start. Choice C (4) is the duration of N. Choice D (3) is $EF_N - ES_N$, not a float formula.',
+    eli5: 'Free float = $\\min(ES_{\\text{successors}}) - EF$ of the activity. Both M and N feed P. First find ES of P: since M and N both feed P (FS), $ES_P = \\max(EF_M, EF_N) = \\max(9, 8) = 9$. Free float of N $= ES_P - EF_N = 9 - 8 = 1$ day. N can slip 1 day without pushing P. Total float of N $= LS - ES = 6 - 5 = 1$ day. Here $FF = TF = 1$. The "0 days" option would be N\'s free float if M did not control P\'s start. The "4 days" option does not correspond to any quantity here. The "3 days" option is $EF_N - ES_N$ (N\'s duration), not a float formula.',
     hint: 'Free float = (earliest successor ES) - (your EF). First determine what controls the successor\'s ES.',
     steps: [
       {
@@ -654,7 +654,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: '$SV = BCWP - BCWS$. If $BCWP > BCWS$ then $SV > 0$, meaning ahead of schedule. $CV = BCWP - ACWP$. If $BCWP > ACWP$ then $CV > 0$, meaning under budget. The project has earned more value than planned (ahead) and spent less than that value (under budget). This is the best possible scenario. Choice B has both signs reversed. Choice C and D each get one measure wrong.',
+    eli5: '$SV = BCWP - BCWS$. If $BCWP > BCWS$ then $SV > 0$, meaning ahead of schedule. $CV = BCWP - ACWP$. If $BCWP > ACWP$ then $CV > 0$, meaning under budget. The project has earned more value than planned (ahead) and spent less than that value (under budget). This is the best possible scenario. The "behind schedule and over budget" choice has both signs reversed. The other two distractors each get one measure wrong.',
     hint: 'Positive SV = ahead of schedule. Positive CV = under budget. Check which values BCWP exceeds.',
     steps: [
       {
@@ -700,7 +700,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$CV = BCWP - ACWP = 720{,}000 - 760{,}000 = -40{,}000$ (over budget). $SV = BCWP - BCWS = 720{,}000 - 800{,}000 = -80{,}000$ (behind schedule). Both are negative, meaning the project is both over budget and behind schedule. Choice A swaps the two variance values. Choice C flips both signs. Choice D gets CV right but SV wrong.',
+    eli5: '$CV = BCWP - ACWP = 720{,}000 - 760{,}000 = -40{,}000$ (over budget). $SV = BCWP - BCWS = 720{,}000 - 800{,}000 = -80{,}000$ (behind schedule). Both are negative, meaning the project is both over budget and behind schedule. The choice with CV = -80,000; SV = -40,000 swaps the two variance values. The choice with CV = +40,000; SV = +80,000 flips both signs. The choice with CV = -40,000; SV = +80,000 gets CV right but SV wrong.',
     hint: 'CV = Earned - Actual. SV = Earned - Planned. BCWP appears in both formulas.',
     steps: [
       {
@@ -802,7 +802,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: '$SV = BCWP - BCWS = 500{,}000 - 500{,}000 = 0$, so the project IS on schedule. But $CV = BCWP - ACWP = 500{,}000 - 600{,}000 = -100{,}000$, meaning the project is 100,000 over budget. The PM only checked schedule and ignored cost. SV and CV are independent measures — one can be favorable while the other is unfavorable. Choice B incorrectly assumes $SV = 0$ means everything is fine. Choice C misuses ACWP for schedule assessment. Choice D is wrong because SV and CV are independent.',
+    eli5: '$SV = BCWP - BCWS = 500{,}000 - 500{,}000 = 0$, so the project IS on schedule. But $CV = BCWP - ACWP = 500{,}000 - 600{,}000 = -100{,}000$, meaning the project is 100,000 over budget. The PM only checked schedule and ignored cost. SV and CV are independent measures — one can be favorable while the other is unfavorable. The choice claiming SV = 0 means on schedule and on budget is wrong because it assumes SV = 0 means everything is fine. The choice claiming the project is ahead of schedule misuses ACWP for schedule assessment. The choice claiming SV cannot be zero unless CV is also zero is wrong because SV and CV are independent.',
     hint: 'SV and CV are independent. Can a project be on schedule but over budget?',
     steps: [
       {
@@ -853,7 +853,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: '$CPI = BCWP / ACWP$. A CPI of 1.12 means for every dollar of actual cost, the project earns 1.12 of budgeted value. $CPI > 1.0$ = under budget (getting more value per dollar spent). Choice B reverses the interpretation — over budget would be $CPI < 1.0$. Choice C confuses CPI (cost) with SPI (schedule). Choice D misinterprets the index as a multiplier on total cost.',
+    eli5: '$CPI = BCWP / ACWP$. A CPI of 1.12 means for every dollar of actual cost, the project earns 1.12 of budgeted value. $CPI > 1.0$ = under budget (getting more value per dollar spent). The "over budget by 12 percent" choice reverses the interpretation — over budget would be $CPI < 1.0$. The "behind schedule" choice confuses CPI (cost) with SPI (schedule). The "1.12 times over the original budget" choice misinterprets the index as a multiplier on total cost.',
     hint: 'CPI > 1.0 means you earn more than you spend. Is that good or bad for the budget?',
     steps: [
       {
@@ -901,7 +901,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'First find $CPI = BCWP / ACWP = 900{,}000 / 1{,}000{,}000 = 0.90$. Then $ETC = (BAC - BCWP) / CPI = (1{,}500{,}000 - 900{,}000) / 0.90 = 600{,}000 / 0.90 = 666{,}667$. Finally $EAC = ACWP + ETC = 1{,}000{,}000 + 666{,}667 = 1{,}666{,}667$. Choice A used ETC without dividing by CPI ($600{,}000 + 1{,}000{,}000 = 1{,}600{,}000$). Choice C is BAC with no adjustment. Choice D used $BAC / CPI$ directly, which is a shortcut that should give the same answer — $1{,}500{,}000 / 0.90 = 1{,}666{,}667$. So A is correct either way.',
+    eli5: 'First find $CPI = BCWP / ACWP = 900{,}000 / 1{,}000{,}000 = 0.90$. Then $ETC = (BAC - BCWP) / CPI = (1{,}500{,}000 - 900{,}000) / 0.90 = 600{,}000 / 0.90 = 666{,}667$. Finally $EAC = ACWP + ETC = 1{,}000{,}000 + 666{,}667 = 1{,}666{,}667$. The 1,600,000 choice added ETC without dividing by CPI ($600{,}000 + 1{,}000{,}000 = 1{,}600{,}000$). The 1,500,000 choice is just BAC with no adjustment. The 2,000,000 choice over-corrects. As a check, the shortcut $EAC = BAC / CPI = 1{,}500{,}000 / 0.90 = 1{,}666{,}667$ gives the same result, so 1,666,667 is correct either way.',
     hint: 'EAC = ACWP + (BAC - BCWP) / CPI. Or equivalently, EAC = BAC / CPI.',
     steps: [
       {
@@ -952,7 +952,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'For Alpha: $CPI = 0.85 < 1.0$, so over budget. $SPI = 1.05 > 1.0$, so ahead of schedule. For Beta: $CPI = 1.10 > 1.0$, so under budget. $SPI = 0.88 < 1.0$, so behind schedule. The threshold is 1.0 for both indices — above is favorable, below is unfavorable. Choice B reverses both interpretations. Choice A ignores that Beta $CPI > 1.0$. Choice D ignores that Alpha $SPI > 1.0$.',
+    eli5: 'For Alpha: $CPI = 0.85 < 1.0$, so over budget. $SPI = 1.05 > 1.0$, so ahead of schedule. For Beta: $CPI = 1.10 > 1.0$, so under budget. $SPI = 0.88 < 1.0$, so behind schedule. The threshold is 1.0 for both indices — above is favorable, below is unfavorable. The choice claiming Alpha is under budget/ahead and Beta over budget/behind reverses both interpretations. The choice saying both projects are over budget ignores that Beta $CPI > 1.0$. The choice saying both are behind schedule ignores that Alpha $SPI > 1.0$.',
     hint: 'Index > 1.0 = favorable. Index < 1.0 = unfavorable. CPI for cost, SPI for schedule.',
     steps: [
       {
@@ -999,7 +999,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'ETC = (BAC - BCWP) / CPI. The remaining budget = BAC - ACWP. If ETC < (BAC - ACWP), it means the forecasted remaining cost is less than the money left. This happens when CPI > 1.0 (under budget) — dividing by a number greater than 1 shrinks the numerator. The project is performing efficiently, so remaining work costs less per dollar of value. Choice B describes CPI < 1.0, which would make ETC LARGER than remaining budget. Choice C would mean CPI = 1.0 exactly. Choice D is wrong — ETC can absolutely be less than remaining budget when the project is efficient.',
+    eli5: 'ETC = (BAC - BCWP) / CPI. The remaining budget = BAC - ACWP. If ETC < (BAC - ACWP), it means the forecasted remaining cost is less than the money left. This happens when CPI > 1.0 (under budget) — dividing by a number greater than 1 shrinks the numerator. The project is performing efficiently, so remaining work costs less per dollar of value. The CPI < 1.0 choice describes the opposite case, which would make ETC LARGER than remaining budget. The on-budget choice would mean CPI = 1.0 exactly. The choice claiming the formula was misapplied is wrong — ETC can absolutely be less than remaining budget when the project is efficient.',
     hint: 'When CPI > 1.0, dividing by CPI makes ETC smaller. What does that say about the budget?',
     steps: [
       {
@@ -1252,7 +1252,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'OSHA defines a competent person as someone who can identify existing and predictable hazards in the surroundings or working conditions AND who has the authority to take prompt corrective measures to eliminate them. It is not a years-of-experience requirement (Choice A), not necessarily a PE (Choice C), and not automatically the PM or superintendent (Choice D). The key phrase is "identify hazards AND authorized to correct them."',
+    eli5: 'OSHA defines a competent person as someone who can identify existing and predictable hazards in the surroundings or working conditions AND who has the authority to take prompt corrective measures to eliminate them. It is not a years-of-experience requirement (the 5-years-of-experience option), not necessarily a PE (the registered geotechnical engineer option), and not automatically the PM or superintendent (the contract-listed manager option). The key phrase is "identify hazards AND authorized to correct them."',
     hint: 'The OSHA definition has two parts: the ability to identify hazards and the authority to correct them.',
     steps: [
       {
@@ -1303,7 +1303,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'OSHA 29 CFR 1926.501 requires fall protection at 6 feet in general construction. This is one of the most commonly tested OSHA facts. Note: the threshold is 4 feet for general industry (not construction) and 10 feet for steel erection. The FE will try to trick you with these different thresholds.',
+    eli5: 'OSHA 29 CFR 1926.501 requires fall protection at 6 feet in general construction. This is one of the most commonly tested OSHA facts. Note: the threshold is 4 feet for general industry (not construction), 10 feet for scaffolds, and 15 feet for steel erection. The FE will try to trick you with these different thresholds.',
     hint: 'Recall the OSHA general construction fall protection trigger height.',
     steps: [
       {
@@ -1315,7 +1315,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: '4 feet is for general industry; 10 feet is for steel erection specifically.',
+        text: '4 feet is for general industry; 10 feet is for scaffolds, and 15 feet is for steel erection specifically.',
         latex: null
       }
     ],
@@ -1354,7 +1354,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'A permit-required confined space needs atmospheric testing, a written permit with a rescue plan, and an attendant at the entry. There is no OSHA requirement for a PE to be physically present during confined space entry. A competent person (not necessarily a PE) oversees the work. Choice A, B, and C are all legitimate OSHA requirements for permit-required confined spaces.',
+    eli5: 'A permit-required confined space needs atmospheric testing, a written permit with a rescue plan, and an attendant at the entry. There is no OSHA requirement for a PE to be physically present during confined space entry. A competent person (not necessarily a PE) oversees the work. Atmospheric testing, the written entry permit with rescue plan, and the attendant at the entry are all legitimate OSHA requirements for permit-required confined spaces.',
     hint: 'Think about the four requirements for permit-required confined spaces. One of these choices describes a different OSHA rule entirely.',
     steps: [
       {
@@ -1405,7 +1405,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Type C soil is the weakest OSHA soil classification and requires the flattest (most gradual) slope at 1.5H:1V (53 degrees from horizontal). Type B soil uses 1H:1V, and Type A uses 0.75H:1V. Weaker soil needs a wider excavation to prevent collapse. Choice B is for Type B soil, Choice C is for Type A soil, and Choice D is steeper than any OSHA-permitted slope for open cut.',
+    eli5: 'Type C soil is the weakest OSHA soil classification and requires the flattest (most gradual) slope at 1.5H:1V (about 34 degrees from horizontal). Type B soil uses 1H:1V, and Type A uses 0.75H:1V. Weaker soil needs a wider excavation to prevent collapse. The 1H:1V choice is for Type B soil, the 0.75H:1V choice is for Type A soil, and the 0.5H:1V choice is steeper than any OSHA-permitted slope for open cut.',
     hint: 'Weaker soil = flatter required slope. Type C is the weakest. Which ratio gives the flattest angle?',
     steps: [
       {

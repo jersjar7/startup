@@ -250,7 +250,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Combination 3 with only roof live load active is $1.2D + 1.6L_r = 1.2(15) + 1.6(20) = 18 + 32 = 50$ kips. Choice A (35) is the unfactored sum $D + L_r = 15 + 20$. Choice C (21) is Combination 1: $1.4D = 1.4(15) = 21$. Choice D (56) comes from applying 1.6 to both loads: $1.6(15) + 1.6(20) = 56$, but dead load gets 1.2, not 1.6.',
+    eli5: 'Combination 3 with only roof live load active is $1.2D + 1.6L_r = 1.2(15) + 1.6(20) = 18 + 32 = 50$ kips. The 35 kips choice is the unfactored sum $D + L_r = 15 + 20$. The 21 kips choice is Combination 1: $1.4D = 1.4(15) = 21$. The 56 kips choice comes from applying 1.6 to both loads: $1.6(15) + 1.6(20) = 56$, but dead load gets 1.2, not 1.6.',
     hint: 'Apply the load factors directly: 1.2 on D and 1.6 on $L_r$.',
     steps: [
       {
@@ -300,7 +300,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Load factors in LRFD reflect the uncertainty in predicting each load magnitude. Dead load (self-weight of structure, permanent fixtures) can be calculated accurately from material densities and dimensions, so its variability is low — hence a 1.2 factor. Live load (people, furniture, stored goods) is much harder to predict and varies widely over a building\'s life, so it gets the larger 1.6 factor. Choice B is wrong because dead load can easily exceed live load in some structures. Choice C confuses duration with uncertainty. Choice D is incorrect — dead load acts permanently, not just during construction.',
+    eli5: 'Load factors in LRFD reflect the uncertainty in predicting each load magnitude. Dead load (self-weight of structure, permanent fixtures) can be calculated accurately from material densities and dimensions, so its variability is low — hence a 1.2 factor. Live load (people, furniture, stored goods) is much harder to predict and varies widely over a building\'s life, so it gets the larger 1.6 factor. The "dead load is always smaller than live load" choice is wrong because dead load can easily exceed live load in some structures. The "factors based on load duration" choice confuses duration with uncertainty. The "dead load only acts during construction" choice is incorrect — dead load acts permanently, not just during construction.',
     hint: 'Think about which load can be estimated more reliably from engineering calculations.',
     steps: [
       {
@@ -350,7 +350,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$L = L_o(0.25 + 15/\\sqrt{K_{LL} \\cdot A_T}) = 80(0.25 + 15/\\sqrt{2 \\times 1200}) = 80(0.25 + 15/\\sqrt{2400}) = 80(0.25 + 15/49.0) = 80(0.25 + 0.306) = 80(0.556) = 44.5 \\approx 44$ psf. Check minimum: for one floor, $L \\geq 0.50 L_o = 40$ psf. Since $44 > 40$, the reduction is valid. Choice A (40) is the minimum allowed — it would only apply if the formula gave a value below 40. Choice C (80) is the unreduced load. Choice D (20) misapplies $0.25 \\times L_o$.',
+    eli5: '$L = L_o(0.25 + 15/\\sqrt{K_{LL} \\cdot A_T}) = 80(0.25 + 15/\\sqrt{2 \\times 1200}) = 80(0.25 + 15/\\sqrt{2400}) = 80(0.25 + 15/49.0) = 80(0.25 + 0.306) = 80(0.556) = 44.5 \\approx 44$ psf. Check minimum: for one floor, $L \\geq 0.50 L_o = 40$ psf. Since $44 > 40$, the reduction is valid. The 40 psf choice is the minimum allowed — it would only apply if the formula gave a value below 40. The 80 psf choice is the unreduced load. The 20 psf choice misapplies $0.25 \\times L_o$.',
     hint: 'Use $L = L_o(0.25 + 15/\\sqrt{K_{LL} A_T})$ with $K_{LL} = 2$ for beams, then check the one-floor minimum.',
     steps: [
       {
@@ -405,7 +405,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'Combo 2: $1.2(50) + 1.6(30) + 0.5(60) = 60 + 48 + 30 = 138$ kips. Combo 3: $1.2(50) + 1.6(60) + 1.0(30) = 60 + 96 + 30 = 186$ kips. Combo 3 controls at 186 kips because snow ($S = 60$) is much larger than floor live load ($L = 30$), so putting the 1.6 factor on snow amplifies the dominant transient load. Choice B assumes Combo 2 always governs — that is only true when floor live load exceeds snow. You must always evaluate multiple combinations and pick the largest.',
+    eli5: 'Combo 2: $1.2(50) + 1.6(30) + 0.5(60) = 60 + 48 + 30 = 138$ kips. Combo 3: $1.2(50) + 1.6(60) + 1.0(30) = 60 + 96 + 30 = 186$ kips. Combo 3 controls at 186 kips because snow ($S = 60$) is much larger than floor live load ($L = 30$), so putting the 1.6 factor on snow amplifies the dominant transient load. The Combination 2 (138 kips) choice assumes Combo 2 always governs — that is only true when floor live load exceeds snow. You must always evaluate multiple combinations and pick the largest.',
     hint: 'Compute both combinations. The 1.6 factor amplifies whichever load it multiplies — when $S > L$, putting 1.6 on $S$ produces more.',
     steps: [
       {
@@ -456,7 +456,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'The influence line ordinate for the left reaction at position $x$ from the left support is $(L - x)/L$. At $x = 5$ ft: $(20 - 5)/20 = 15/20 = 0.75$. This means when a unit load sits 5 ft from A, the left reaction carries 75% of it. Choice A (0.25) uses $x/L$ instead of $(L - x)/L$ -- that would be the reaction at B. Choice C (1.0) is the ordinate when the load is directly over A ($x = 0$).',
+    eli5: 'The influence line ordinate for the left reaction at position $x$ from the left support is $(L - x)/L$. At $x = 5$ ft: $(20 - 5)/20 = 15/20 = 0.75$. This means when a unit load sits 5 ft from A, the left reaction carries 75% of it. The 0.25 choice uses $x/L$ instead of $(L - x)/L$ -- that would be the reaction at B. The 1.0 choice is the ordinate when the load is directly over A ($x = 0$).',
     hint: 'The IL for $R_A$ is linear from 1.0 at A to 0 at B. The ordinate at position $x$ from A is $(L - x)/L$.',
     steps: [
       {
@@ -504,7 +504,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The influence line for bending moment at a section is triangular. It goes from 0 at both supports to a peak at the section itself. The peak ordinate is $a(L - a)/L$. This means to produce the maximum moment at that section, you place the load directly at the section. Choice B ($L/4$) is only correct when the section happens to be at midspan ($a = L/2$, giving $L/4$). Choices C and D describe the reaction influence line, not the moment influence line.',
+    eli5: 'The influence line for bending moment at a section is triangular. It goes from 0 at both supports to a peak at the section itself. The peak ordinate is $a(L - a)/L$. This means to produce the maximum moment at that section, you place the load directly at the section. The midspan-ordinate choice ($L/4$) is only correct when the section happens to be at midspan ($a = L/2$, giving $L/4$). The two support choices (ordinate 1.0 at a support) describe the reaction influence line, not the moment influence line.',
     hint: 'The IL for moment at a section forms a triangle — think about where the peak of that triangle occurs.',
     steps: [
       {
@@ -563,7 +563,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'For a distributed load, the effect equals the load intensity times the area under the IL over the loaded region. The IL for midspan moment is a triangle with base $L = 30$ ft and peak $L/4 = 7.5$ ft. Area $= (1/2)(30)(7.5) = 112.5$ ft$^2$. Moment $= w \\times \\text{Area} = 2 \\times 112.5 = 225$ kip-ft. You can verify: $M = wL^2/8 = 2(30)^2/8 = 225$ kip-ft -- same answer. Choice B (112.5) forgets to multiply by $w$. Choice A (450) doubles the triangle area. Choice D (150) uses $L/4 = 7.5$ as the area instead of computing the triangle area.',
+    eli5: 'For a distributed load, the effect equals the load intensity times the area under the IL over the loaded region. The IL for midspan moment is a triangle with base $L = 30$ ft and peak $L/4 = 7.5$ ft. Area $= (1/2)(30)(7.5) = 112.5$ ft$^2$. Moment $= w \\times \\text{Area} = 2 \\times 112.5 = 225$ kip-ft. You can verify: $M = wL^2/8 = 2(30)^2/8 = 225$ kip-ft -- same answer. The 112.5 kip-ft choice forgets to multiply by $w$. The 450 kip-ft choice doubles the triangle area. The 150 kip-ft choice uses $L/4 = 7.5$ as the area instead of computing the triangle area.',
     hint: 'For a distributed load, multiply the load intensity by the area under the IL diagram. The IL is a triangle with base L and peak L/4.',
     steps: [
       {
@@ -689,7 +689,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: '$a = A_s f_y / (0.85 f_c\' b) = 4.00 \\times 60 / (0.85 \\times 3 \\times 14) = 240/35.7 = 6.72$ in. Choice B (5.71) could come from $A_s f_y / (f_c\' b) = 240/42 = 5.71$ if you forget the 0.85 -- that is the trap. Choice C (7.56) uses $b = 12$ instead of 14. Choice A (4.00) is just $A_s$ -- a nonsensical substitution.',
+    eli5: '$a = A_s f_y / (0.85 f_c\' b) = 4.00 \\times 60 / (0.85 \\times 3 \\times 14) = 240/35.7 = 6.72$ in. The 5.71 in. choice could come from $A_s f_y / (f_c\' b) = 240/42 = 5.71$ if you forget the 0.85 -- that is the trap. The 7.56 in. choice uses $b = 12$ instead of 14. The 4.00 in. choice is just $A_s$ -- a nonsensical substitution.',
     hint: '$a = A_s f_y / (0.85 f_c\' b)$. Make sure to include the 0.85 factor in the denominator.',
     steps: [
       {
@@ -743,7 +743,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The Whitney stress block replaces the actual nonlinear compression zone with a uniform rectangular block of depth $a$. The resultant compressive force $C = 0.85 f_c\' b a$ acts at the centroid of this rectangle, which is $a/2$ from the compression face. The tension force $T = A_s f_y$ acts at the centroid of the steel, located at depth $d$. The moment is force times lever arm: $M_n = T \\times (d - a/2)$. Choice B is partially true (concrete ignores tension) but does not explain the lever arm formula. Choice C is wrong — $a$ is much smaller than $d$ in typical designs. Choice D is wrong — this is a real mechanics derivation, not an arbitrary reduction.',
+    eli5: 'The Whitney stress block replaces the actual nonlinear compression zone with a uniform rectangular block of depth $a$. The resultant compressive force $C = 0.85 f_c\' b a$ acts at the centroid of this rectangle, which is $a/2$ from the compression face. The tension force $T = A_s f_y$ acts at the centroid of the steel, located at depth $d$. The moment is force times lever arm: $M_n = T \\times (d - a/2)$. The "concrete carries no tension" choice is partially true but does not explain the lever arm formula. The choice claiming $a$ always equals $d$ is wrong — $a$ is much smaller than $d$ in typical designs. The choice calling $d - a/2$ a safety reduction is wrong — this is a real mechanics derivation, not an arbitrary reduction.',
     hint: 'Think about where the resultant compression force acts in a uniform rectangular stress block.',
     steps: [
       {
@@ -801,7 +801,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$V_c = 2\\lambda\\sqrt{f_c\'} \\cdot b_w d = 2(1.0)\\sqrt{5000} \\times 16 \\times 26 = 2(70.71)(416) = 58{,}830$ lb $= 58.8$ kips. $\\phi V_c = 0.75 \\times 58.8 = 44.1 \\approx 44.2$ kips. Choice A (58.9) is $V_c$ without the $\\phi$ factor. Choice C (5.9) uses $\\sqrt{f_c\'}$ in ksi: $\\sqrt{5} = 2.236$, then $2(2.236)(416) = 1{,}860$ lb $= 1.86$ kips — way too low. Actually, 5.9 might come from $2\\sqrt{5}(16)(26)/1000 = 5.87$, confirming the ksi vs. psi trap. Choice D (29.5) halves $V_c$ somehow, perhaps using $\\lambda = 0.75$ for lightweight concrete when it should be 1.0 for normal weight.',
+    eli5: '$V_c = 2\\lambda\\sqrt{f_c\'} \\cdot b_w d = 2(1.0)\\sqrt{5000} \\times 16 \\times 26 = 2(70.71)(416) = 58{,}830$ lb $= 58.8$ kips. $\\phi V_c = 0.75 \\times 58.8 = 44.1 \\approx 44.2$ kips. The 58.9 kips choice is $V_c$ without the $\\phi$ factor. The 5.9 kips choice uses $\\sqrt{f_c\'}$ in ksi: $\\sqrt{5} = 2.236$, then $2(2.236)(416) = 1{,}860$ lb $= 1.86$ kips — way too low. Actually, 5.9 might come from $2\\sqrt{5}(16)(26)/1000 = 5.87$, confirming the ksi vs. psi trap. The 29.5 kips choice halves $V_c$ somehow, perhaps using $\\lambda = 0.75$ for lightweight concrete when it should be 1.0 for normal weight.',
     hint: 'Use $V_c = 2\\sqrt{f_c\'} \\cdot b_w d$ with $f_c\'$ in psi. Then multiply by $\\phi = 0.75$.',
     steps: [
       {
@@ -903,7 +903,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: '$A_g = 14 \\times 14 = 196$ in$^2$. $\\phi P_n = 0.80(0.65)[0.85(4)(196 - 3.16) + 3.16(60)] = 0.52[3.4(192.84) + 189.6] = 0.52[655.7 + 189.6] = 0.52(845.3) = 440$ kips. Choice A (845) is the value inside the brackets without applying the 0.80 or $\\phi$ factors. Choice C (549) applies only $\\phi = 0.65$: $0.65 \\times 845.3 = 549$. Choice D (676) applies only $0.80$: $0.80 \\times 845.3 = 676$. You need BOTH factors for tied columns.',
+    eli5: '$A_g = 14 \\times 14 = 196$ in$^2$. $\\phi P_n = 0.80(0.65)[0.85(4)(196 - 3.16) + 3.16(60)] = 0.52[3.4(192.84) + 189.6] = 0.52[655.7 + 189.6] = 0.52(845.3) = 440$ kips. The 845 kips choice is the value inside the brackets without applying the 0.80 or $\\phi$ factors. The 549 kips choice applies only $\\phi = 0.65$: $0.65 \\times 845.3 = 549$. The 676 kips choice applies only $0.80$: $0.80 \\times 845.3 = 676$. You need BOTH factors for tied columns.',
     hint: 'Use $\\phi P_n = 0.80\\phi[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y]$ with $\\phi = 0.65$ for tied columns.',
     steps: [
       {
@@ -962,7 +962,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'In practice, no column carries a perfectly centered axial load. Construction tolerances, member crookedness, and load eccentricities introduce bending even when the design intent is pure compression. The 0.80 factor (0.85 for spiral columns) reduces the theoretical capacity to account for this inevitable moment. Spiral columns get a slightly more favorable factor because spirals provide better confinement and ductility, allowing the column to maintain capacity under eccentric loading. Choice B describes the 0.85 $f_c\'$ coefficient in the stress block, not the 0.80 column factor. Choice C is wrong — self-weight is handled through loads, not capacity reduction. Choice A confuses it with $\\phi$, which is a separate reliability factor.',
+    eli5: 'In practice, no column carries a perfectly centered axial load. Construction tolerances, member crookedness, and load eccentricities introduce bending even when the design intent is pure compression. The 0.80 factor (0.85 for spiral columns) reduces the theoretical capacity to account for this inevitable moment. Spiral columns get a slightly more favorable factor because spirals provide better confinement and ductility, allowing the column to maintain capacity under eccentric loading. The cylinder-vs-actual-strength choice describes the 0.85 $f_c\'$ coefficient in the stress block, not the 0.80 column factor. The self-weight choice is wrong — self-weight is handled through loads, not capacity reduction. The choice equating it with $\\phi$ confuses it with the resistance factor, which is a separate reliability factor.',
     hint: 'Think about whether a column in a real building ever carries load at the exact center of its cross-section.',
     steps: [
       {
@@ -1012,7 +1012,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$A_g = \\pi(10)^2 = 314.2$ in$^2$. Inner bracket: $0.85(5)(314.2 - 6.0) + 6.0(60) = 4.25(308.2) + 360 = 1{,}310 + 360 = 1{,}670$ kips. $\\phi P_n = 0.85(0.75)(1{,}670) = 0.6375 \\times 1{,}670 = 1{,}065$ kips. Choice A (1,670) is the value inside the brackets without the 0.85 and $\\phi$ factors. Choice C (869) uses $0.52$ (tied column factors: $0.80 \\times 0.65$) instead of $0.6375$ (spiral factors: $0.85 \\times 0.75$). Choice D (1,253) applies only $\\phi = 0.75$ without the 0.85 accidental eccentricity factor.',
+    eli5: '$A_g = \\pi(10)^2 = 314.2$ in$^2$. Inner bracket: $0.85(5)(314.2 - 6.0) + 6.0(60) = 4.25(308.2) + 360 = 1{,}310 + 360 = 1{,}670$ kips. $\\phi P_n = 0.85(0.75)(1{,}670) = 0.6375 \\times 1{,}670 = 1{,}065$ kips. The 1,670 kips choice is the value inside the brackets without the 0.85 and $\\phi$ factors. The 869 kips choice uses $0.52$ (tied column factors: $0.80 \\times 0.65$) instead of $0.6375$ (spiral factors: $0.85 \\times 0.75$). The 1,253 kips choice applies only $\\phi = 0.75$ without the 0.85 accidental eccentricity factor.',
     hint: 'For circular columns, $A_g = \\pi r^2$. Use the spiral column formula: $0.85\\phi[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y]$ with $\\phi = 0.75$.',
     steps: [
       {
@@ -1071,7 +1071,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'ACI classifies sections by the net tensile strain $\\varepsilon_t$ in the extreme tension reinforcement at nominal strength. If $\\varepsilon_t \\leq 0.002$, the section is compression-controlled -- the concrete crushes before the steel yields significantly. For tied columns, $\\phi = 0.65$. If $\\varepsilon_t \\geq 0.005$, the section is tension-controlled with $\\phi = 0.90$. Between 0.002 and 0.005 is the transition zone, where $\\phi$ is interpolated. Here, $\\varepsilon_t = 0.0015 < 0.002$, so the section is compression-controlled. Choice B requires $\\varepsilon_t \\geq 0.005$. Choice A requires $\\varepsilon_t$ between 0.002 and 0.005. Choice D is wrong -- the classification depends only on strain, not material properties.',
+    eli5: 'ACI classifies sections by the net tensile strain $\\varepsilon_t$ in the extreme tension reinforcement at nominal strength. If $\\varepsilon_t \\leq 0.002$, the section is compression-controlled -- the concrete crushes before the steel yields significantly. For tied columns, $\\phi = 0.65$. If $\\varepsilon_t \\geq 0.005$, the section is tension-controlled with $\\phi = 0.90$. Between 0.002 and 0.005 is the transition zone, where $\\phi$ is interpolated. Here, $\\varepsilon_t = 0.0015 < 0.002$, so the section is compression-controlled. The tension-controlled choice requires $\\varepsilon_t \\geq 0.005$. The transition-zone choice requires $\\varepsilon_t$ between 0.002 and 0.005. The "cannot be determined" choice is wrong -- the classification depends only on strain, not material properties.',
     hint: 'Compare $\\varepsilon_t$ to the ACI thresholds: 0.002 (compression-controlled boundary) and 0.005 (tension-controlled boundary).',
     steps: [
       {
@@ -1122,7 +1122,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'easy',
-    eli5: 'With full bracing, $M_n = M_p = F_y Z_x = 50 \\times 96 = 4{,}800$ kip-in $= 400$ kip-ft. Then $\\phi_b M_n = 0.90 \\times 400 = 360$ kip-ft. Choice B (400) is the nominal capacity without $\\phi_b$. Choice A (240) is the ASD allowable: $M_p / \\Omega_b = 400/1.67 = 240$. Choice D (288) comes from using $S_x$ instead of $Z_x$ (a typical $S_x/Z_x$ ratio of about 0.89 would give roughly this).',
+    eli5: 'With full bracing, $M_n = M_p = F_y Z_x = 50 \\times 96 = 4{,}800$ kip-in $= 400$ kip-ft. Then $\\phi_b M_n = 0.90 \\times 400 = 360$ kip-ft. The 400 kip-ft choice is the nominal capacity without $\\phi_b$. The 240 kip-ft choice is the ASD allowable: $M_p / \\Omega_b = 400/1.67 = 240$. The 288 kip-ft choice comes from using $S_x$ instead of $Z_x$ (a typical $S_x/Z_x$ ratio of about 0.89 would give roughly this).',
     hint: '$M_p = F_y Z_x$, then multiply by $\\phi_b = 0.90$. Convert kip-in to kip-ft by dividing by 12.',
     steps: [
       {
@@ -1168,7 +1168,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'For LRFD, the plastic moment capacity is $M_p = F_y Z_x$, using the plastic section modulus. The plastic modulus accounts for the full cross-section reaching yield stress, which is the actual failure mode for compact sections with full bracing. $S_x$ (elastic modulus) is used in the lateral-torsional buckling formula as the lower-bound term ($0.7 F_y S_x$) and in ASD. Using $S_x$ for the plastic moment underestimates capacity by about 10–15% for typical W-shapes. Choice B is more conservative but incorrect for LRFD — LRFD is calibrated to use $Z_x$. Choice D has it backwards.',
+    eli5: 'For LRFD, the plastic moment capacity is $M_p = F_y Z_x$, using the plastic section modulus. The plastic modulus accounts for the full cross-section reaching yield stress, which is the actual failure mode for compact sections with full bracing. $S_x$ (elastic modulus) is used in the lateral-torsional buckling formula as the lower-bound term ($0.7 F_y S_x$) and in ASD. Using $S_x$ for the plastic moment underestimates capacity by about 10–15% for typical W-shapes. The $S_x$ choice is more conservative but incorrect for LRFD — LRFD is calibrated to use $Z_x$. The choice that swaps moduli by compactness has it backwards.',
     hint: 'LRFD uses plastic moment capacity, which requires the section modulus that corresponds to full yielding of the cross-section.',
     steps: [
       {
@@ -1219,7 +1219,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$A_w = d \\times t_w = 14 \\times 0.415 = 5.81$ in$^2$. $V_n = 0.6 F_y A_w C_{v1} = 0.6(50)(5.81)(1.0) = 174.3 \\approx 174$ kips. With $\\phi_v = 1.00$: $\\phi_v V_n = 174$ kips. Choice A (291) uses $F_y A_w = 50 \\times 5.81 = 291$ without the $0.6$ factor. Choice C (350) uses the full section area instead of web area. Choice D (145) incorrectly uses $\\phi_v = 0.90$ or applies $0.5 F_y$ instead of $0.6 F_y$.',
+    eli5: '$A_w = d \\times t_w = 14 \\times 0.415 = 5.81$ in$^2$. $V_n = 0.6 F_y A_w C_{v1} = 0.6(50)(5.81)(1.0) = 174.3 \\approx 174$ kips. With $\\phi_v = 1.00$: $\\phi_v V_n = 174$ kips. The 291 kips option uses $F_y A_w = 50 \\times 5.81 = 291$ without the $0.6$ factor. The 350 kips option uses the full section area instead of web area. The 145 kips option incorrectly uses $\\phi_v = 0.90$ or applies $0.5 F_y$ instead of $0.6 F_y$.',
     hint: 'Shear capacity uses the web area $A_w = d \\times t_w$ and $V_n = 0.6 F_y A_w C_{v1}$.',
     steps: [
       {
@@ -1270,7 +1270,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'The first beam has $L_b = 10 = L_p$, so it is fully braced and reaches $M_n = M_p = 600$ kip-ft. The second beam has $L_p = 10 < L_b = 20 \\leq L_r = 30$, so it falls in the inelastic LTB zone. Its capacity is reduced by the linear interpolation formula: $M_n = M_p - (M_p - 0.7 F_y S_x)(L_b - L_p)/(L_r - L_p) < M_p$. Choice B ignores the effect of unbraced length — same section does not mean same capacity if bracing conditions differ. Choice C is wrong because the first beam meets $L_b \\leq L_p$. Choice A is wrong because $L_b = 20 < L_r = 30$, so it is inelastic LTB, not elastic.',
+    eli5: 'The first beam has $L_b = 10 = L_p$, so it is fully braced and reaches $M_n = M_p = 600$ kip-ft. The second beam has $L_p = 10 < L_b = 20 \\leq L_r = 30$, so it falls in the inelastic LTB zone. Its capacity is reduced by the linear interpolation formula: $M_n = M_p - (M_p - 0.7 F_y S_x)(L_b - L_p)/(L_r - L_p) < M_p$. The "both reach $M_p$" choice ignores the effect of unbraced length — same section does not mean same capacity if bracing conditions differ. The "both are reduced by LTB" choice is wrong because the first beam meets $L_b \\leq L_p$. The "elastic LTB" choice is wrong because $L_b = 20 < L_r = 30$, so the second beam is in inelastic LTB, not elastic.',
     hint: 'Compare $L_b$ to $L_p$ and $L_r$ for each beam. If $L_b \\leq L_p$, full $M_p$. If $L_p < L_b \\leq L_r$, inelastic LTB reduces capacity.',
     steps: [
       {
@@ -1332,7 +1332,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'Convert $KL$ to inches: $1.0 \\times 10 \\times 12 = 120$ in. Then $KL/r_y = 120/1.50 = 80$. Choice B (120) is $KL$ in inches without dividing by $r$. Choice C (6.7) reverses the fraction: $r/(KL) \\times 1000$ or uses feet without converting. Choice A (40) forgets to convert feet to inches: $10/1.50 \\approx 6.7$, or uses $r_x$ instead.',
+    eli5: 'Convert $KL$ to inches: $1.0 \\times 10 \\times 12 = 120$ in. Then $KL/r_y = 120/1.50 = 80$. The 120 distractor is $KL$ in inches without dividing by $r$. The 6.7 distractor forgets to convert feet to inches: $10/1.50 \\approx 6.7$. The 40 distractor uses half the length or otherwise miscounts the unit conversion.',
     hint: 'Convert the unbraced length from feet to inches before dividing by $r_y$.',
     steps: [
       {
@@ -1376,7 +1376,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The effective length factor $K$ converts the physical length into an equivalent pin-pin length for buckling. A cantilever ($K = 2.10$) has an effective length more than twice the physical length because one end is free to translate. This dramatically increases $KL/r$, which reduces the critical buckling stress $F_{cr}$. The pin-pin column ($K = 1.0$) buckles over exactly its physical length. Higher $KL/r$ always means lower strength. Choice B confuses $K$ with restraint — lower $K$ actually means MORE restraint (better support conditions). Choice A ignores the role of end conditions. Choice D is wrong because $\\phi_c = 0.90$ for both.',
+    eli5: 'The effective length factor $K$ converts the physical length into an equivalent pin-pin length for buckling. A cantilever ($K = 2.10$) has an effective length more than twice the physical length because one end is free to translate. This dramatically increases $KL/r$, which reduces the critical buckling stress $F_{cr}$. The pin-pin column ($K = 1.0$) buckles over exactly its physical length. Higher $KL/r$ always means lower strength. The choice claiming the pin-pin column is weaker confuses $K$ with restraint — lower $K$ actually means MORE restraint (better support conditions). The choice saying both have the same strength ignores the role of end conditions. The choice blaming a different $\\phi_c$ factor is wrong because $\\phi_c = 0.90$ for both.',
     hint: 'Higher $K$ means a longer effective length for buckling. Longer effective length means higher $KL/r$ and lower critical stress.',
     steps: [
       {
@@ -1426,7 +1426,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$KL = 0.80 \\times 16 \\times 12 = 153.6$ in. $KL/r_y = 153.6/2.54 = 60.5 \\approx 60$. From the table at $KL/r = 60$: $\\phi_c F_{cr} = 38.3$ ksi. $\\phi_c P_n = 38.3 \\times 14.4 = 551.5 \\approx 552$ kips. Choice A (720) is $F_y \\times A_g = 50 \\times 14.4 = 720$, ignoring buckling. Choice C (648) is $0.90 \\times 720 = 648$, applying only $\\phi$ without buckling reduction. Choice D (383) might use the wrong area or an incorrect table value.',
+    eli5: '$KL = 0.80 \\times 16 \\times 12 = 153.6$ in. $KL/r_y = 153.6/2.54 = 60.5 \\approx 60$. From the table at $KL/r = 60$: $\\phi_c F_{cr} = 38.3$ ksi. $\\phi_c P_n = 38.3 \\times 14.4 = 551.5 \\approx 552$ kips. The 720 kips choice is $F_y \\times A_g = 50 \\times 14.4 = 720$, ignoring buckling. The 648 kips choice is $0.90 \\times 720 = 648$, applying only $\\phi$ without buckling reduction. The 383 kips choice might use the wrong area or an incorrect table value.',
     hint: 'Compute $KL/r_y$, look up $\\phi_c F_{cr}$ from the table, then multiply by $A_g$.',
     steps: [
       {
@@ -1481,7 +1481,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'Strong axis: $KL/r_x = (1.0 \\times 12 \\times 12)/6.0 = 144/6.0 = 24$. Weak axis: $KL/r_y = (1.0 \\times 6 \\times 12)/2.0 = 72/2.0 = 36$. The weak axis has the larger slenderness ratio ($36 > 24$), so it controls. Even though the weak axis has a shorter unbraced length (6 ft vs. 12 ft), $r_y$ is so much smaller than $r_x$ that it still produces the larger $KL/r$. Choice B only considers length, not the radius of gyration. Choice C states the conclusion correctly but for the wrong reason — you must compute both ratios, not assume. Choice A is backwards — check the axis with the LARGER $KL/r$, not the larger $r$.',
+    eli5: 'Strong axis: $KL/r_x = (1.0 \\times 12 \\times 12)/6.0 = 144/6.0 = 24$. Weak axis: $KL/r_y = (1.0 \\times 6 \\times 12)/2.0 = 72/2.0 = 36$. The weak axis has the larger slenderness ratio ($36 > 24$), so it controls. Even though the weak axis has a shorter unbraced length (6 ft vs. 12 ft), $r_y$ is so much smaller than $r_x$ that it still produces the larger $KL/r$. The "strong axis controls because it has the longer unbraced length" choice only considers length, not the radius of gyration. The "weak axis controls because $r_y < r_x$, regardless of bracing" choice states the conclusion correctly but for the wrong reason — you must compute both ratios, not assume. The "check only the axis with the larger $r$ value" choice is backwards — check the axis with the LARGER $KL/r$, not the larger $r$.',
     hint: 'Compute $KL/r$ for both axes using their respective unbraced lengths. The larger ratio governs.',
     steps: [
       {
@@ -1532,7 +1532,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'Each bolt hole subtracts $d_b + 1/8\\text{"} = 3/4 + 1/8 = 7/8 = 0.875$ in. from the gross width. With two holes: net width $= 8 - 2(0.875) = 8 - 1.75 = 6.25$ in. Then $A_n = 6.25 \\times 3/8 = 6.25 \\times 0.375 = 2.34$ in$^2$. Choice B (2.44) subtracts only $d_b = 0.75$ per hole without the 1/8" addition: $(8 - 1.50)(0.375) = 2.44$. Choice C (3.00) is the gross area with no deductions. Choice A (2.63) subtracts only one hole instead of two.',
+    eli5: 'Each bolt hole subtracts $d_b + 1/8\\text{"} = 3/4 + 1/8 = 7/8 = 0.875$ in. from the gross width. With two holes: net width $= 8 - 2(0.875) = 8 - 1.75 = 6.25$ in. Then $A_n = 6.25 \\times 3/8 = 6.25 \\times 0.375 = 2.34$ in$^2$. The 2.44 choice subtracts only $d_b = 0.75$ per hole without the 1/8" addition: $(8 - 1.50)(0.375) = 2.44$. The 3.00 choice is the gross area with no deductions. The 2.63 choice subtracts only one hole instead of two.',
     hint: 'Subtract $(d_b + 1/8\\text{"})$ for each hole from the gross width, then multiply by thickness.',
     steps: [
       {
@@ -1591,7 +1591,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Yielding spreads across the gross section gradually — the member elongates and gives visible warning before failure. Rupture, on the other hand, happens suddenly at the weakest net section with little plastic deformation. Because rupture is a more dangerous failure mode (no warning, no redistribution), AISC applies a lower resistance factor to build in a larger safety margin. Choice B confuses material strength with reliability philosophy. Choice C is wrong — rupture can occur in any grade of steel. Choice D is partially related (hole deductions matter) but the fundamental reason is the brittle failure mode.',
+    eli5: 'Yielding spreads across the gross section gradually — the member elongates and gives visible warning before failure. Rupture, on the other hand, happens suddenly at the weakest net section with little plastic deformation. Because rupture is a more dangerous failure mode (no warning, no redistribution), AISC applies a lower resistance factor to build in a larger safety margin. The "higher material strength (Fu)" choice confuses material strength with reliability philosophy. The "low-grade steels only" choice is wrong — rupture can occur in any grade of steel. The "bolt hole drilling inaccuracy" choice is partially related (hole deductions matter) but the fundamental reason is the brittle failure mode.',
     hint: 'Think about which failure mode gives more warning and allows load redistribution.',
     steps: [
       {
@@ -1641,7 +1641,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$A_g = 10 \\times 0.625 = 6.25$ in$^2$. Each hole: $7/8 + 1/8 = 1.0$ in. $A_n = [10 - 3(1.0)] \\times 0.625 = 7.0 \\times 0.625 = 4.375$ in$^2$. With $U = 1.0$: $A_e = 4.375$ in$^2$. Yielding: $\\phi P_n = 0.90 \\times 36 \\times 6.25 = 202.5$ kips. Rupture: $\\phi P_n = 0.75 \\times 58 \\times 4.375 = 190$ kips. Controlling = min(202.5, 190) = 190 kips (rupture governs). Choice A (203) is the yielding value, but that is the larger capacity — the smaller one controls. Choice C (225) uses $F_y \\times A_g$ without the $\\phi$ factor. Choice D (254) is $F_u \\times A_n$ without $\\phi$.',
+    eli5: '$A_g = 10 \\times 0.625 = 6.25$ in$^2$. Each hole: $7/8 + 1/8 = 1.0$ in. $A_n = [10 - 3(1.0)] \\times 0.625 = 7.0 \\times 0.625 = 4.375$ in$^2$. With $U = 1.0$: $A_e = 4.375$ in$^2$. Yielding: $\\phi P_n = 0.90 \\times 36 \\times 6.25 = 202.5$ kips. Rupture: $\\phi P_n = 0.75 \\times 58 \\times 4.375 = 190$ kips. Controlling = min(202.5, 190) = 190 kips (rupture governs). The 203 kips choice is the yielding value, but that is the larger capacity — the smaller one controls. The 225 kips choice uses $F_y \\times A_g$ without the $\\phi$ factor. The 254 kips choice is $F_u \\times A_n$ without $\\phi$.',
     hint: 'Check both yielding ($\\phi_y F_y A_g$) and rupture ($\\phi_t F_u A_e$). The smaller value controls.',
     steps: [
       {
@@ -1709,7 +1709,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'When a tension member is connected through only part of its cross-section (like an angle bolted through one leg), the stress does not distribute uniformly across the full section. The unconnected leg experiences "shear lag" — it cannot fully develop its tensile capacity before the connection ends. AISC accounts for this with the shear lag factor $U = 1 - \\bar{x}/L$, where $\\bar{x}$ is the distance from the connection plane to the centroid of the member and $L$ is the connection length. For a flat bar bolted through its full width, all elements are connected so $U = 1.0$. For an angle connected through one leg, $U < 1.0$, reducing $A_e = U \\cdot A_n$. Choice B is backwards. Choice A is only true for fully connected members. Choice D confuses shear lag with resistance factors.',
+    eli5: 'When a tension member is connected through only part of its cross-section (like an angle bolted through one leg), the stress does not distribute uniformly across the full section. The unconnected leg experiences "shear lag" — it cannot fully develop its tensile capacity before the connection ends. AISC accounts for this with the shear lag factor $U = 1 - \\bar{x}/L$, where $\\bar{x}$ is the distance from the connection plane to the centroid of the member and $L$ is the connection length. For a flat bar bolted through its full width, all elements are connected so $U = 1.0$. For an angle connected through one leg, $U < 1.0$, reducing $A_e = U \\cdot A_n$. The "larger because the unconnected leg adds extra capacity" option is backwards. The "same, U = 1.0 for all tension members" option is only true for fully connected members. The "different phi factor" option confuses shear lag with resistance factors.',
     hint: 'Shear lag means not all of the cross-section can develop full stress when only part of it is connected.',
     steps: [
       {
@@ -1748,7 +1748,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Only the diagonal resists the vertical load. $\\sum F_y = 0$: $F\\sin 60^\\circ = 8$, so $F = 8/0.866 = 9.24\\text{ kN}$. Choice C (6.93) multiplies by sin 60° instead of dividing. Choice B forgets the angle entirely.',
+    eli5: 'Only the diagonal resists the vertical load. $\\sum F_y = 0$: $F\\sin 60^\\circ = 8$, so $F = 8/0.866 = 9.24\\text{ kN}$. The 6.93 kN option multiplies by sin 60° instead of dividing. The 8.0 kN option forgets the angle entirely.',
     hint: 'Only the diagonal has a vertical component: F·sin60° = 8.',
     steps: [
       { text: '$\\sum F_y = 0$ at the joint: the diagonal carries the vertical load.', latex: null },
@@ -1777,7 +1777,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Only the diagonal has a vertical component, so it carries the section shear: $F\\sin 45^\\circ = 20$, giving $F = 20/0.707 = 28.3\\text{ kN}$. Choice C (14.1) multiplies by sin 45° instead of dividing.',
+    eli5: 'Only the diagonal has a vertical component, so it carries the section shear: $F\\sin 45^\\circ = 20$, giving $F = 20/0.707 = 28.3\\text{ kN}$. The 14.1 kN option multiplies by sin 45° instead of dividing.',
     hint: 'The diagonal’s vertical component equals the section shear.',
     steps: [
       { text: 'Method of sections, vertical equilibrium: only the diagonal resists shear.', latex: null },
@@ -1806,7 +1806,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Simple span under UDL: $\\delta = 5wL^4/384EI = 5(8)(5^4)/(384 \\times 25{,}000) = 25{,}000/9{,}600{,}000 = 0.0026\\text{ m} = 2.6\\text{ mm}$. Choice C uses the point-load formula; Choice D drops the 384 constant.',
+    eli5: 'Simple span under UDL: $\\delta = 5wL^4/384EI = 5(8)(5^4)/(384 \\times 25{,}000) = 25{,}000/9{,}600{,}000 = 0.0026\\text{ m} = 2.6\\text{ mm}$. The 4.2 mm option uses the point-load deflection formula; the 10.4 mm option drops the 384 constant.',
     hint: 'Simple span, UDL → 5wL⁴/384EI (note the L⁴).',
     steps: [
       { text: 'Standard case: simple span, UDL.', latex: null },
@@ -1836,7 +1836,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Each fixed end gives 3 reactions (H, V, M), so $r = 6$. A planar beam has 3 equilibrium equations, so $DSI = 6 - 3 = 3$. Choice B (1) is a propped cantilever, not fixed-fixed. Choice D (6) forgets to subtract the equilibrium equations.',
+    eli5: 'Each fixed end gives 3 reactions (H, V, M), so $r = 6$. A planar beam has 3 equilibrium equations, so $DSI = 6 - 3 = 3$. The choice giving 1 is a propped cantilever, not fixed-fixed. The choice giving 6 forgets to subtract the equilibrium equations.',
     hint: 'Two fixed ends = 6 reactions; subtract 3 equilibrium equations.',
     steps: [
       { text: 'Reactions: 3 at each fixed end → $r = 6$.', latex: null },

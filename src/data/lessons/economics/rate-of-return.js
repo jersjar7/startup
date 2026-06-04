@@ -26,7 +26,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The IRR is the rate that makes the net present worth zero — equivalently, PW of benefits = PW of costs. Choice B ignores the time value of money. Choices C and D describe unrelated quantities (payback, salvage).',
+      eli5: 'The IRR is the rate that makes the net present worth zero — equivalently, PW of benefits = PW of costs. The "undiscounted profit" choice ignores the time value of money. The "payback period equals project life" and "annual cost equals salvage" choices describe unrelated quantities (payback, salvage).',
       hint: 'IRR makes the discounted inflows and outflows balance — what does that do to NPW?',
       steps: [
         { text: 'IRR balances discounted inflows and outflows.', latex: null },
@@ -53,7 +53,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The rule is accept if IRR ≥ MARR. Here IRR = 12% is below MARR = 15%, so the project does not clear the hurdle and should be rejected. Choice B ignores the MARR hurdle. Choice C invents a "close enough" rule. Choice D is wrong — the rule is fully determined.',
+      eli5: 'The rule is accept if IRR ≥ MARR. Here IRR = 12% is below MARR = 15%, so the project does not clear the hurdle and should be rejected. The "any positive IRR is acceptable" option ignores the MARR hurdle. The "12% is close to 15%" option invents a "close enough" rule. The "not enough information" option is wrong — the rule is fully determined.',
       hint: 'Accept only if IRR ≥ MARR. Compare 12% to 15%.',
       steps: [
         { text: 'Decision rule: accept if IRR ≥ MARR.', latex: null },
@@ -80,7 +80,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Set PW to zero: 1,000 = 1,150/(1 + i). Then 1 + i = 1,150/1,000 = 1.15, so i = 0.15 = 15%. Choice B uses (1,150 − 1,000)/1,150. Choice C is the raw gain over the future value. Choice D rounds down arbitrarily.',
+      eli5: 'Set PW to zero: 1,000 = 1,150/(1 + i). Then 1 + i = 1,150/1,000 = 1.15, so i = 0.15 = 15%. The 13% choice uses (1,150 − 1,000)/1,150 (gain over future value). The 11.5% choice just shifts the decimal of the 1.15 ratio. The 10% choice rounds down arbitrarily.',
       hint: 'Set 1,000 = 1,150/(1 + i) and solve for i.',
       steps: [
         { text: 'Set present worth to zero:', latex: '1{,}000 = \\frac{1{,}150}{1 + i}' },

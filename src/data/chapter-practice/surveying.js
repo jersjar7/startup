@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'An azimuth of $247\\degree$ falls between $180\\degree$ and $270\\degree$, which is the SW quadrant. In the SW quadrant the bearing angle is azimuth minus $180\\degree$: $247 - 180 = 67\\degree$, giving S $67\\degree$ W. Choice B treats it as the NW quadrant. Choice C subtracts from $270\\degree$ ($270 - 247 = 23$) instead of from $180\\degree$. Choice D keeps the magnitude but puts it in the wrong (SE) quadrant.',
+    eli5: 'An azimuth of $247\\degree$ falls between $180\\degree$ and $270\\degree$, which is the SW quadrant. In the SW quadrant the bearing angle is azimuth minus $180\\degree$: $247 - 180 = 67\\degree$, giving S $67\\degree$ W. The N $67\\degree$ W option treats it as the NW quadrant. The S $23\\degree$ W option subtracts from $270\\degree$ ($270 - 247 = 23$) instead of from $180\\degree$. The S $67\\degree$ E option keeps the magnitude but puts it in the wrong (SE) quadrant.',
     hint: 'Find which quadrant the azimuth lies in first, then convert. For $180\\degree$ to $270\\degree$ (SW), bearing angle = azimuth minus $180\\degree$.',
     steps: [
       { text: 'Identify the quadrant: $180\\degree < 247\\degree < 270\\degree$ is the SW quadrant.', latex: null },
@@ -43,7 +43,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'At the occupied station, first find the back azimuth of the incoming line: $138 + 180 = 318\\degree$. The angle to the right is measured clockwise from that back line to the next line, so add it: $318 + 95 = 413\\degree$. That exceeds a full circle, so subtract $360\\degree$: $413 - 360 = 53\\degree$, the forward azimuth of the next line. Choice A mistakenly adds another $180\\degree$ (reports the back azimuth of the next line). Choice B forgets to subtract $360\\degree$. Choice D subtracts the angle instead of adding it (treats it as an angle to the left).',
+    eli5: 'At the occupied station, first find the back azimuth of the incoming line: $138 + 180 = 318\\degree$. The angle to the right is measured clockwise from that back line to the next line, so add it: $318 + 95 = 413\\degree$. That exceeds a full circle, so subtract $360\\degree$: $413 - 360 = 53\\degree$, the forward azimuth of the next line. The $233\\degree$ choice mistakenly adds another $180\\degree$ (reports the back azimuth of the next line). The $413\\degree$ choice forgets to subtract $360\\degree$. The $43\\degree$ choice subtracts the angle from the forward azimuth instead of adding it (treats it as an angle to the left).',
     hint: 'Next forward azimuth = back azimuth of the current line ($+180\\degree$) $+$ angle to the right; reduce to the $0\\degree$ to $360\\degree$ range.',
     steps: [
       { text: 'Back azimuth of the incoming line:', latex: '\\text{Az}_{\\text{back}} = 138\\degree + 180\\degree = 318\\degree' },
@@ -73,7 +73,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'For a full level run the final elevation equals the starting elevation plus the sum of all backsights minus the sum of all foresights: $\\text{Elev}_P = 612.40 + 18.62 - 22.07 = 608.95$ ft. Since the foresights total more than the backsights, the point ends up lower than BM-5. Choice A reverses the sign of the net difference (adds $3.45$ instead of subtracting). Choice B adds both sums to the elevation. Choice C subtracts both sums.',
+    eli5: 'For a full level run the final elevation equals the starting elevation plus the sum of all backsights minus the sum of all foresights: $\\text{Elev}_P = 612.40 + 18.62 - 22.07 = 608.95$ ft. Since the foresights total more than the backsights, the point ends up lower than BM-5. The 615.85 ft choice reverses the sign of the net difference (adds $3.45$ instead of subtracting). The 653.09 ft choice adds both sums to the elevation. The 571.71 ft choice subtracts both sums.',
     hint: 'For an entire run: final elevation = start elevation + (sum of BS) - (sum of FS).',
     steps: [
       { text: 'Apply the running-sum form of the HI method:', latex: '\\text{Elev}_P = \\text{Elev}_{BM} + \\Sigma BS - \\Sigma FS' },
@@ -103,7 +103,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Curvature and refraction both depend on the sighting distance, and they affect a backsight and a foresight in the same direction. If the backsight distance equals the foresight distance at each setup, the two errors are equal and cancel when you compute the elevation difference (HI uses BS, then subtracts FS). Choice A improves precision but does nothing about a systematic distance-dependent error. Choice C is wrong because a systematic error accumulates rather than averaging out. Choice D fixes reading order, not the curvature-refraction effect.',
+    eli5: 'Curvature and refraction both depend on the sighting distance, and they affect a backsight and a foresight in the same direction. If the backsight distance equals the foresight distance at each setup, the two errors are equal and cancel when you compute the elevation difference (HI uses BS, then subtracts FS). Reading to the nearest 0.001 ft improves precision but does nothing about a systematic distance-dependent error. Using a longer loop is wrong because a systematic error accumulates rather than averaging out. Always reading the backsight first only fixes reading order, not the curvature-refraction effect.',
     hint: 'These errors grow with sighting distance and affect BS and FS the same way. What makes them cancel in the BS minus FS difference?',
     steps: [
       { text: 'Curvature and refraction error grows with the square of the sighting distance and is the same sign for an equal-length backsight and foresight.', latex: null },
@@ -133,7 +133,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'The course length is the hypotenuse of the latitude and departure components: $L = \\sqrt{\\text{Lat}^2 + \\text{Dep}^2} = \\sqrt{(-150)^2 + (-150)^2} = \\sqrt{45{,}000} = 212.1$ m. The signs do not matter once squared. Choice A reports just one component. Choice B adds the magnitudes ($150 + 150$). Choice C divides one component by $\\sqrt{2}$ instead of multiplying.',
+    eli5: 'The course length is the hypotenuse of the latitude and departure components: $L = \\sqrt{\\text{Lat}^2 + \\text{Dep}^2} = \\sqrt{(-150)^2 + (-150)^2} = \\sqrt{45{,}000} = 212.1$ m. The signs do not matter once squared. The $150.0$ m choice reports just one component. The $300.0$ m choice adds the magnitudes ($150 + 150$). The $106.1$ m choice divides one component by $\\sqrt{2}$ instead of multiplying.',
     hint: 'The course length is the resultant of the latitude and departure: $L = \\sqrt{\\text{Lat}^2 + \\text{Dep}^2}$.',
     steps: [
       { text: 'Combine the components with the Pythagorean theorem:', latex: 'L = \\sqrt{\\text{Lat}^2 + \\text{Dep}^2} = \\sqrt{(-150.0)^2 + (-150.0)^2}' },
@@ -162,7 +162,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'A positive latitude (north) and negative departure (west) place the course in the NW quadrant. The reference (bearing) angle is $\\arctan(|\\text{Dep}| / |\\text{Lat}|) = \\arctan(50/86.6) = \\arctan(0.5774) = 30\\degree$, giving N $30\\degree$ W. Converting an NW bearing to azimuth: $360 - 30 = 330\\degree$. Choice A gives the NE azimuth (ignores the west sign). Choice B treats it as SE ($180 - 30$). Choice D uses $\\arctan(\\text{Lat}/\\text{Dep})$ and lands on the wrong reference angle in the wrong quadrant.',
+    eli5: 'A positive latitude (north) and negative departure (west) place the course in the NW quadrant. The reference (bearing) angle is $\\arctan(|\\text{Dep}| / |\\text{Lat}|) = \\arctan(50/86.6) = \\arctan(0.5774) = 30\\degree$, giving N $30\\degree$ W. Converting an NW bearing to azimuth: $360 - 30 = 330\\degree$. The $30\\degree$ choice gives the NE azimuth (ignores the west sign). The $150\\degree$ choice treats it as SE ($180 - 30$). The $300\\degree$ choice uses $\\arctan(\\text{Lat}/\\text{Dep})$ and lands on the wrong reference angle in the wrong quadrant.',
     hint: 'Use the signs to find the quadrant, then $\\tan(\\text{bearing}) = |\\text{Dep}| / |\\text{Lat}|$. Convert the NW bearing to azimuth with $360\\degree - \\theta$.',
     steps: [
       { text: 'North latitude and west departure: the course is in the NW quadrant.', latex: null },
@@ -192,7 +192,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Apply the shoelace sum $\\sum(x_i y_{i+1} - x_{i+1} y_i)$ around the polygon, closing the last vertex back to the first. The five edge cross products are $0$, $96$, $144$, $48$, and $0$, summing to $288$. The area is half the absolute value: $|288|/2 = 144$ sq units. Choice A forgets to divide by 2 and reports the raw sum. Choice C divides by 4. Choice D drops the $48$ edge term ($240/2 = 120$).',
+    eli5: 'Apply the shoelace sum $\\sum(x_i y_{i+1} - x_{i+1} y_i)$ around the polygon, closing the last vertex back to the first. The five edge cross products are $0$, $96$, $144$, $48$, and $0$, summing to $288$. The area is half the absolute value: $|288|/2 = 144$ sq units. The 288 sq units choice forgets to divide by 2 and reports the raw sum. The 72 sq units choice divides by 4. The 120 sq units choice drops the $48$ edge term ($240/2 = 120$).',
     hint: 'Sum $(x_i y_{i+1} - x_{i+1} y_i)$ for all five edges (pairing the last vertex with the first), then halve the absolute value.',
     steps: [
       { text: 'Cross products for each edge:', latex: null },
@@ -224,7 +224,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'easy',
-    eli5: 'First the area in square feet: $200 \\times 435.6 = 87{,}120 \\text{ ft}^2$. Convert to acres by dividing by $43{,}560$: $87{,}120 / 43{,}560 = 2.00$ acres. Choice A divides the side length by the conversion before multiplying. Choice B divides by half the conversion factor. Choice D inverts the division.',
+    eli5: 'First the area in square feet: $200 \\times 435.6 = 87{,}120 \\text{ ft}^2$. Convert to acres by dividing by $43{,}560$: $87{,}120 / 43{,}560 = 2.00$ acres. The 1.00-acre choice divides by twice the conversion factor (or halves a side). The 4.00-acre choice divides by half the conversion factor. The 0.50-acre choice over-divides by applying the conversion twice.',
     hint: 'Compute the area in square feet, then divide by 43,560 to get acres.',
     steps: [
       { text: 'Area in square feet:', latex: 'A = 200 \\times 435.6 = 87{,}120 \\text{ ft}^2' },
@@ -253,7 +253,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Shrinkage means compacted fill occupies less volume than the bank material it came from. Compacted volume = bank volume $\\times (1 - \\text{shrinkage}) = 5{,}400 \\times (1 - 0.15) = 5{,}400 \\times 0.85 = 4{,}590$ yd³. Choice A adds 15 percent instead of subtracting it. Choice B reports only the lost volume ($5{,}400 \\times 0.15$). Choice D divides by $0.85$ (that direction is for finding required bank volume from a known fill).',
+    eli5: 'Shrinkage means compacted fill occupies less volume than the bank material it came from. Compacted volume = bank volume $\\times (1 - \\text{shrinkage}) = 5{,}400 \\times (1 - 0.15) = 5{,}400 \\times 0.85 = 4{,}590$ yd³. The 6,210 yd\u00b3 choice adds 15 percent instead of subtracting it. The 810 yd\u00b3 choice reports only the lost volume ($5{,}400 \\times 0.15$). The 6,353 yd\u00b3 choice divides by $0.85$ (that direction is for finding required bank volume from a known fill).',
     hint: 'Compacted fill volume = bank volume times (1 minus the shrinkage fraction).',
     steps: [
       { text: 'Apply the shrinkage factor to the bank volume:', latex: 'V_{\\text{fill}} = V_{\\text{bank}} (1 - S) = 5{,}400 (1 - 0.15)' },
@@ -282,7 +282,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Average end area volume: $V = (L/2)(A_1 + A_2) = (150/2)(240 + 168) = 75 \\times 408 = 30{,}600 \\text{ ft}^3$. Convert to cubic yards by dividing by 27: $30{,}600 / 27 = 1{,}133$ yd³. Choice A leaves the answer in cubic feet. Choice C forgets to divide $L$ by 2 ($61{,}200/27$). Choice D divides by 18 instead of 27.',
+    eli5: 'Average end area volume: $V = (L/2)(A_1 + A_2) = (150/2)(240 + 168) = 75 \\times 408 = 30{,}600 \\text{ ft}^3$. Convert to cubic yards by dividing by 27: $30{,}600 / 27 = 1{,}133$ yd³. The $30{,}600 \\text{ yd}^3$ choice leaves the answer in cubic feet. The $2{,}267 \\text{ yd}^3$ choice forgets to divide $L$ by 2 ($61{,}200/27$). The $1{,}700 \\text{ yd}^3$ choice divides by 18 instead of 27.',
     hint: 'Use $V = (L/2)(A_1 + A_2)$ in cubic feet, then divide by 27 to get cubic yards.',
     steps: [
       { text: 'Average end area volume in cubic feet:', latex: 'V = \\frac{L}{2}(A_1 + A_2) = \\frac{150}{2}(240 + 168) = 75 \\times 408 = 30{,}600 \\text{ ft}^3' },
@@ -311,7 +311,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'External distance $E = R(\\sec(I/2) - 1) = 500(\\sec 30\\degree - 1) = 500(1.1547 - 1) = 500 \\times 0.1547 = 77.4$ ft. The external distance is the gap from the PI to the midpoint of the curve. Choice A uses the middle ordinate formula $R(1 - \\cos(I/2)) = 500(1 - 0.866) = 67.0$ ft. Choice C is the tangent distance $T = R\\tan(I/2)$. Choice D is $R/2$.',
+    eli5: 'External distance $E = R(\\sec(I/2) - 1) = 500(\\sec 30\\degree - 1) = 500(1.1547 - 1) = 500 \\times 0.1547 = 77.4$ ft. The external distance is the gap from the PI to the midpoint of the curve. The 67.0 ft choice uses the middle ordinate formula $R(1 - \\cos(I/2)) = 500(1 - 0.866) = 67.0$ ft. The 288.7 ft choice is the tangent distance $T = R\\tan(I/2)$. The 250.0 ft choice is $R/2$.',
     hint: 'External distance $E = R(\\sec(I/2) - 1)$. Recall $\\sec\\theta = 1/\\cos\\theta$ and use half the intersection angle.',
     steps: [
       { text: 'External distance formula with half the intersection angle:', latex: 'E = R\\left(\\sec\\frac{I}{2} - 1\\right) = 500\\left(\\sec 30\\degree - 1\\right)' },
@@ -341,7 +341,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Long chord $LC = 2R\\sin(I/2) = 2 \\times 700 \\times \\sin 40\\degree = 1{,}400 \\times 0.6428 = 899.9$ ft. The long chord connects the PC directly to the PT. Choice A uses the full angle, $2R\\sin I = 1{,}400 \\times 0.9848$. Choice B drops the factor of 2 ($R\\sin(I/2)$). Choice C uses $2R\\tan(I/2)$ and a wrong reduction.',
+    eli5: 'Long chord $LC = 2R\\sin(I/2) = 2 \\times 700 \\times \\sin 40\\degree = 1{,}400 \\times 0.6428 = 899.9$ ft. The long chord connects the PC directly to the PT. The 1,377.4 ft option uses the full angle, $2R\\sin I = 1{,}400 \\times 0.9848$. The 449.9 ft option drops the factor of 2 ($R\\sin(I/2)$). The 587.4 ft option uses $2R\\tan(I/2)$ and a wrong reduction.',
     hint: 'Long chord $LC = 2R\\sin(I/2)$. Use half the intersection angle inside the sine.',
     steps: [
       { text: 'Long chord formula:', latex: 'LC = 2R\\sin\\frac{I}{2} = 2 \\times 700 \\times \\sin 40\\degree' },
@@ -370,7 +370,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Use $Y = Y_{PVC} + g_1 x + [(g_2 - g_1)/(2L)]x^2$. The parabola constant is $(0.01 - (-0.03))/(2 \\times 500) = 0.04/1000 = +0.00004$. Then $Y = 240 + (-0.03)(200) + (0.00004)(200^2) = 240 - 6 + 1.6 = 235.60$ ft. Choice A is the tangent-only elevation ($240 - 6$), ignoring the parabolic term. Choice B uses the wrong sign on $g_1$. Choice D doubles the parabolic correction.',
+    eli5: 'Use $Y = Y_{PVC} + g_1 x + [(g_2 - g_1)/(2L)]x^2$. The parabola constant is $(0.01 - (-0.03))/(2 \\times 500) = 0.04/1000 = +0.00004$. Then $Y = 240 + (-0.03)(200) + (0.00004)(200^2) = 240 - 6 + 1.6 = 235.60$ ft. The 234.00 ft option is the tangent-only elevation ($240 - 6$), ignoring the parabolic term. The 246.00 ft option uses the wrong sign on $g_1$. The 237.20 ft option doubles the parabolic correction.',
     hint: 'Apply $Y = Y_{PVC} + g_1 x + [(g_2 - g_1)/(2L)]x^2$ with grades as decimals.',
     steps: [
       { text: 'Parabola constant:', latex: 'a = \\frac{g_2 - g_1}{2L} = \\frac{0.01 - (-0.03)}{2 \\times 500} = \\frac{0.04}{1{,}000} = +0.00004' },
@@ -400,7 +400,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'The midpoint (PVI) tangent offset of a symmetric parabola is $e = AL/8$ when $A$ is expressed as a decimal grade difference. Here $A = |g_1 - g_2| = |0.02 - (-0.04)| = 0.06$, so $e = (0.06)(600)/8 = 36/8 = 4.50$ ft. Equivalently, the parabola constant $a = (g_2 - g_1)/(2L) = -0.00005$ gives an offset magnitude of $|a|(L/2)^2 = 0.00005 \\times 300^2 = 4.50$ ft. Choice B uses $AL/4$. Choice C uses $AL/16$. Choice D uses only $g_1$ in $g_1 L/8$.',
+    eli5: 'The midpoint (PVI) tangent offset of a symmetric parabola is $e = AL/8$ when $A$ is expressed as a decimal grade difference. Here $A = |g_1 - g_2| = |0.02 - (-0.04)| = 0.06$, so $e = (0.06)(600)/8 = 36/8 = 4.50$ ft. Equivalently, the parabola constant $a = (g_2 - g_1)/(2L) = -0.00005$ gives an offset magnitude of $|a|(L/2)^2 = 0.00005 \\times 300^2 = 4.50$ ft. The 9.00 ft choice uses $AL/4$. The 2.25 ft choice uses $AL/16$. The 1.50 ft choice uses only $g_1$ in $g_1 L/8$.',
     hint: 'For a symmetric curve the midpoint tangent offset is $e = AL/8$, with $A = |g_1 - g_2|$ as a decimal.',
     steps: [
       { text: 'Algebraic grade difference as a decimal:', latex: 'A = |g_1 - g_2| = |0.02 - (-0.04)| = 0.06' },
@@ -429,7 +429,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Departure = L·sin(Az) = 150·sin(60°) = 150(0.8660) = 129.9 ft. Choice B uses cos with a slip (150·cos60° = 75 is actually the latitude). Choice C is the full length. Choice D applies sin to the wrong angle.',
+    eli5: 'Departure = L·sin(Az) = 150·sin(60°) = 150(0.8660) = 129.9 ft. The 75.0 ft choice uses cos with a slip (150·cos60° = 75 is actually the latitude). The 150.0 ft choice is the full length. The 86.6 ft choice applies sin to the wrong angle.',
     hint: 'Departure (E-W) = L·sin(azimuth).',
     steps: [
       { text: 'Departure:', latex: '\\Delta E = 150\\sin 60\\degree = 150(0.8660)' },

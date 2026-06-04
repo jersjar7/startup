@@ -28,7 +28,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'SN = a1D1 + a2D2m2 + a3D3m3 = 0.44(3) + 0.14(8)(1.0) + 0.11(10)(1.0) = 1.32 + 1.12 + 1.10 = 3.54. Just multiply each layer and sum. Choice A (2.44) forgot the subbase: 1.32 + 1.12. Choice C (1.32) computed only the surface layer. Choice D (0.69) summed the coefficients without multiplying by thicknesses: 0.44 + 0.14 + 0.11.',
+      eli5: 'SN = a1D1 + a2D2m2 + a3D3m3 = 0.44(3) + 0.14(8)(1.0) + 0.11(10)(1.0) = 1.32 + 1.12 + 1.10 = 3.54. Just multiply each layer and sum. The 2.44 option forgot the subbase: 1.32 + 1.12. The 1.32 option computed only the surface layer. The 0.69 option summed the coefficients without multiplying by thicknesses: 0.44 + 0.14 + 0.11.',
       hint: 'Multiply each layer\'s coefficient \u00D7 thickness \u00D7 drainage factor, then add them up.',
       steps: [
         { text: 'Surface:', latex: 'a_1 D_1 = 0.44 \\times 3 = 1.32' },
@@ -56,7 +56,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Surface: 0.44 \u00D7 4 = 1.76. Subbase: 0.11 \u00D7 12 \u00D7 0.80 = 1.056. Remaining SN: 4.0 \u2212 1.76 \u2212 1.056 = 1.184. D2 = 1.184/(0.14 \u00D7 1.0) = 8.46 \u2248 8.5 in. Choice B (6.6) ignored the drainage coefficient m3 = 0.80, using m3 = 1.0: subbase = 1.32, remaining = 0.92, D2 = 6.57. Choice A (28.6) solved for D2 without accounting for other layers: 4.0/0.14 = 28.6. Choice D (12.6) mixed up layer coefficients.',
+      eli5: 'Surface: 0.44 \u00D7 4 = 1.76. Subbase: 0.11 \u00D7 12 \u00D7 0.80 = 1.056. Remaining SN: 4.0 \u2212 1.76 \u2212 1.056 = 1.184. D2 = 1.184/(0.14 \u00D7 1.0) = 8.46 \u2248 8.5 in. The 6.6 in option ignored the drainage coefficient m3 = 0.80, using m3 = 1.0: subbase = 1.32, remaining = 0.92, D2 = 6.57. The 28.6 in option solved for D2 without accounting for other layers: 4.0/0.14 = 28.6. The 12.6 in option mixed up layer coefficients.',
       hint: 'Rearrange: D2 = (SN \u2212 a1D1 \u2212 a3D3m3) / (a2 \u00D7 m2).',
       steps: [
         { text: 'Surface contribution:', latex: 'a_1 D_1 = 0.44 \\times 4 = 1.76' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'ESALs = passes \u00D7 LEF = 1,000 \u00D7 3.03 = 3,030. Each pass of a 24-kip single axle does 3.03 times the damage of a standard 18-kip axle. Choice B (260) used the tandem-axle LEF (0.260) instead of the single-axle LEF (3.03) \u2014 always check single vs. tandem in the table. Choice C (1,000) assumed LEF = 1.0 (only true for an 18-kip axle). Choice A (24,000) multiplied by the axle weight instead of the LEF.',
+      eli5: 'ESALs = passes \u00D7 LEF = 1,000 \u00D7 3.03 = 3,030. Each pass of a 24-kip single axle does 3.03 times the damage of a standard 18-kip axle. The 260 choice used the tandem-axle LEF (0.260) instead of the single-axle LEF (3.03) \u2014 always check single vs. tandem in the table. The 1,000 choice assumed LEF = 1.0 (only true for an 18-kip axle). The 24,000 choice multiplied by the axle weight instead of the LEF.',
       hint: 'ESALs = number of passes \u00D7 load equivalency factor. Read the correct column (single vs. tandem) from the table.',
       steps: [
         { text: 'Look up LEF for 24,000 lb single axle: $3.03$', latex: null },

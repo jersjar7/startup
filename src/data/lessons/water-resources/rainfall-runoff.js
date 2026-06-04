@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Q = CIA = 0.85 \u00D7 4.0 \u00D7 50 = 170 cfs. That\'s it \u2014 straight plug-and-chug. Choice B uses C = 1.06 (a common wrong reading from tables). Choice C divides by 4 for some reason. Choice D forgets to apply C (uses Q = IA).',
+      eli5: 'Q = CIA = 0.85 \u00D7 4.0 \u00D7 50 = 170 cfs. That\'s it \u2014 straight plug-and-chug. The 212 cfs option uses C = 1.06 (a common wrong reading from tables). The 42.5 cfs option divides by 4 for some reason. The 340 cfs option doubles the area (uses A = 100 acres instead of 50).',
       hint: 'Q = CIA. The units work out directly \u2014 no conversion needed.',
       steps: [
         { text: 'Apply the Rational Method:', latex: 'Q = CIA = 0.85 \\times 4.0 \\times 50' },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'First find S: S = 1000/CN \u2013 10 = 1000/80 \u2013 10 = 12.5 \u2013 10 = 2.5 in. Initial abstraction = 0.2S = 0.5 in. Since P = 5.0 > 0.5, runoff occurs. Q = (P \u2013 0.2S)\u00B2/(P + 0.8S) = (5.0 \u2013 0.5)\u00B2/(5.0 + 2.0) = (4.5)\u00B2/7.0 = 20.25/7.0 = 2.89 in. Choice A uses the full precipitation without subtracting initial abstraction. Choice B uses P \u2013 0.2S in the numerator without squaring (4.5/1.0 = 4.5). Choice D uses (P \u2013 S) instead of (P \u2013 0.2S).',
+      eli5: 'First find S: S = 1000/CN \u2013 10 = 1000/80 \u2013 10 = 12.5 \u2013 10 = 2.5 in. Initial abstraction = 0.2S = 0.5 in. Since P = 5.0 > 0.5, runoff occurs. Q = (P \u2013 0.2S)\u00B2/(P + 0.8S) = (5.0 \u2013 0.5)\u00B2/(5.0 + 2.0) = (4.5)\u00B2/7.0 = 20.25/7.0 = 2.89 in. The 5.00 in. choice uses the full precipitation without subtracting initial abstraction. The 4.50 in. choice uses P \u2013 0.2S in the numerator without squaring (4.5/1.0 = 4.5). The 1.50 in. choice uses (P \u2013 S) instead of (P \u2013 0.2S).',
       hint: 'First compute S = 1000/CN \u2013 10, then plug into Q = (P \u2013 0.2S)\u00B2/(P + 0.8S). Check that P > 0.2S.',
       steps: [
         { text: 'Maximum retention:', latex: 'S = \\frac{1{,}000}{CN} - 10 = \\frac{1{,}000}{80} - 10 = 12.5 - 10 = 2.5 \\text{ in.}' },

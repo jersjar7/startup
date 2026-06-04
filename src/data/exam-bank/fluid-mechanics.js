@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Specific weight is density times gravitational acceleration: $\\gamma = \\rho \\times g = 870 \\times 9.81 = 8{,}534.7$ N/m³. Choice A confuses density with specific weight (forgot to multiply by $g$). Choice C divides by $g$ instead of multiplying. Choice D has the right number but wrong units — specific weight is force per volume (N/m³), not mass per volume.',
+    eli5: 'Specific weight is density times gravitational acceleration: $\\gamma = \\rho \\times g = 870 \\times 9.81 = 8{,}534.7$ N/m³. The 870 N/m\u00b3 choice confuses density with specific weight (forgot to multiply by $g$). The 88.7 N/m\u00b3 choice divides by $g$ instead of multiplying. The 8,535 kg/m\u00b3 choice has the right number but wrong units — specific weight is force per volume (N/m³), not mass per volume.',
     hint: 'Specific weight relates to density by $\\gamma = \\rho g$. Make sure your answer has force units.',
     steps: [
       {
@@ -70,7 +70,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'For a linear profile, the velocity gradient is $dv/dy = v/\\delta$. Convert the gap: $0.5$ mm $= 0.0005$ m. Then $dv/dy = 1.2/0.0005 = 2{,}400$ s⁻¹. Shear stress: $\\tau = \\mu \\times dv/dy = 0.04 \\times 2{,}400 = 96$ Pa. Choice B forgets to convert mm to m (uses $\\delta = 0.5$ m). Choice A uses $\\delta = 0.005$ m. Choice D uses $\\delta = 0.00005$ m.',
+    eli5: 'For a linear profile, the velocity gradient is $dv/dy = v/\\delta$. Convert the gap: $0.5$ mm $= 0.0005$ m. Then $dv/dy = 1.2/0.0005 = 2{,}400$ s⁻¹. Shear stress: $\\tau = \\mu \\times dv/dy = 0.04 \\times 2{,}400 = 96$ Pa. The 0.096 Pa choice forgets to convert mm to m (uses $\\delta = 0.5$ m). The 9.6 Pa choice uses $\\delta = 0.005$ m. The 960 Pa choice uses $\\delta = 0.00005$ m.',
     hint: 'Convert the film thickness to meters before computing the velocity gradient $dv/dy = v/\\delta$.',
     steps: [
       {
@@ -121,7 +121,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Kinematic viscosity is $\\nu = \\mu/\\rho$, so $\\mu = \\nu \\times \\rho = 5 \\times 10^{-4} \\times 900 = 0.45$ Pa·s. Choice B divides $\\nu$ by $\\rho$ instead of multiplying. Choice C is off by a factor of 10 (maybe used $\\nu = 5 \\times 10^{-3}$). Choice D is off by a factor of 10 in the other direction. The key is remembering which way the formula goes: multiply $\\nu$ by $\\rho$ to get $\\mu$.',
+    eli5: 'Kinematic viscosity is $\\nu = \\mu/\\rho$, so $\\mu = \\nu \\times \\rho = 5 \\times 10^{-4} \\times 900 = 0.45$ Pa·s. The $5.56 \\times 10^{-7}$ choice divides $\\nu$ by $\\rho$ instead of multiplying. The $4.5$ choice is off by a factor of 10 (maybe used $\\nu = 5 \\times 10^{-3}$). The $0.045$ choice is off by a factor of 10 in the other direction. The key is remembering which way the formula goes: multiply $\\nu$ by $\\rho$ to get $\\mu$.',
     hint: 'Rearrange $\\nu = \\mu / \\rho$ to solve for $\\mu$.',
     steps: [
       {
@@ -168,7 +168,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Kinematic viscosity is dynamic viscosity divided by density: $\\nu = \\mu/\\rho$. It is called "kinematic" because its units (m²/s) involve only length and time — no mass. This makes it convenient for the Reynolds number, $Re = vD/\\nu$. Choice A reverses the units. Choice C is wrong because they are never numerically equal in SI ($\\mu$ for water is about $0.001$ Pa·s while $\\nu$ is about $1 \\times 10^{-6}$ m²/s). Choice D is wrong because both types apply to all fluids.',
+    eli5: 'Kinematic viscosity is dynamic viscosity divided by density: $\\nu = \\mu/\\rho$. It is called "kinematic" because its units (m²/s) involve only length and time — no mass. This makes it convenient for the Reynolds number, $Re = vD/\\nu$. The choice claiming $\\mu$ has units of m²/s reverses the units. The choice claiming they are identical for water is wrong because they are never numerically equal in SI ($\\mu$ for water is about $0.001$ Pa·s while $\\nu$ is about $1 \\times 10^{-6}$ m²/s). The choice claiming $\\mu$ applies only to gases and $\\nu$ only to liquids is wrong because both types apply to all fluids.',
     hint: 'Think about what dividing by density does to the units of viscosity.',
     steps: [
       {
@@ -219,7 +219,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Gauge pressure at depth $h$ in an open tank is $P = \\gamma \\times h = 9{,}810 \\times 3.5 = 34{,}335$ Pa $= 34.34$ kPa. The surface is open to atmosphere so gauge pressure there is zero. Choice A forgets to convert Pa to kPa. Choice C adds atmospheric pressure (making it absolute instead of gauge). Choice D divides by 10,000 instead of 1,000.',
+    eli5: 'Gauge pressure at depth $h$ in an open tank is $P = \\gamma \\times h = 9{,}810 \\times 3.5 = 34{,}335$ Pa $= 34.34$ kPa. The surface is open to atmosphere so gauge pressure there is zero. The 34,335 kPa choice forgets to convert Pa to kPa. The 135.6 kPa choice adds atmospheric pressure (making it absolute instead of gauge). The 3.434 kPa choice divides by 10,000 instead of 1,000.',
     hint: 'Gauge pressure at the free surface of an open tank is zero. At depth $h$, $P_{\\text{gauge}} = \\gamma h$.',
     steps: [
       {
@@ -266,7 +266,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'First find the specific weight of glycerin: $\\gamma = SG \\times \\gamma_w = 1.26 \\times 9{,}810 = 12{,}361$ N/m³. The hydrostatic pressure increase over 2.5 m is $12{,}361 \\times 2.5 = 30{,}902$ Pa $= 30.9$ kPa. The gauge pressure at depth is the surface pressure plus the hydrostatic increase: $35 + 30.9 = 65.9$ kPa. Choice B gives only the hydrostatic column and forgets the surface pressure. Choice A uses $\\gamma_w$ instead of $\\gamma_{\\text{glycerin}}$. Choice D adds atmospheric pressure on top (computing absolute instead of gauge).',
+    eli5: 'First find the specific weight of glycerin: $\\gamma = SG \\times \\gamma_w = 1.26 \\times 9{,}810 = 12{,}361$ N/m³. The hydrostatic pressure increase over 2.5 m is $12{,}361 \\times 2.5 = 30{,}902$ Pa $= 30.9$ kPa. The gauge pressure at depth is the surface pressure plus the hydrostatic increase: $35 + 30.9 = 65.9$ kPa. The 30.9 kPa choice gives only the hydrostatic column and forgets the surface pressure. The 59.5 kPa choice uses $\\gamma_w$ instead of $\\gamma_{\\text{glycerin}}$. The 167.2 kPa choice adds atmospheric pressure on top (computing absolute instead of gauge).',
     hint: 'The total gauge pressure at depth equals the surface gauge pressure plus $\\gamma_{\\text{glycerin}} \\times h$.',
     steps: [
       {
@@ -317,7 +317,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Walk from the open (atmospheric) side to the pipe connection. On the open side, go down 0.45 m of mercury (adds pressure). On the tank side, go up 0.15 m of mercury and 0.15 m of water to reach the pipe (subtracts pressure). Setting $P_{\\text{atm}} = 0$ gauge: $0 + \\gamma_{Hg}(0.45) = P + \\gamma_{Hg}(0.15) + \\gamma_w(0.15)$. So $P = \\gamma_{Hg}(0.30) - \\gamma_w(0.15) = 133{,}416(0.30) - 9{,}810(0.15) = 40{,}025 - 1{,}472 = 38{,}553$ Pa $= 38.6$ kPa. The water column on the tank side matters — it subtracts about 1.5 kPa. Choice B uses $\\gamma_w$ for the entire column instead of $\\gamma_{Hg}$. Choice C ignores the water column and uses the full 0.45 m of mercury. Choice D ignores the water column correction (gets 40.0 kPa).',
+    eli5: 'Walk from the open (atmospheric) side to the pipe connection. On the open side, go down 0.45 m of mercury (adds pressure). On the tank side, go up 0.15 m of mercury and 0.15 m of water to reach the pipe (subtracts pressure). Setting $P_{\\text{atm}} = 0$ gauge: $0 + \\gamma_{Hg}(0.45) = P + \\gamma_{Hg}(0.15) + \\gamma_w(0.15)$. So $P = \\gamma_{Hg}(0.30) - \\gamma_w(0.15) = 133{,}416(0.30) - 9{,}810(0.15) = 40{,}025 - 1{,}472 = 38{,}553$ Pa $= 38.6$ kPa. The water column on the tank side matters — it subtracts about 1.5 kPa. The 2.94 kPa choice uses $\\gamma_w$ for the entire column instead of $\\gamma_{Hg}$. The 59.9 kPa choice ignores the water column and uses the full 0.45 m of mercury. The 40.0 kPa choice ignores the water column correction (gets 40.0 kPa).',
     hint: 'Walk from the atmospheric side to the tank side, adding pressure going down and subtracting going up. Use $\\gamma_{Hg} = SG \\times \\gamma_w$.',
     steps: [
       {
@@ -379,7 +379,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Hydrostatic pressure depends only on depth and fluid specific weight: $P = \\gamma \\times h$. The container shape, surface area, and total volume of water do not matter. Both tanks have the same depth (2 m) and the same fluid (water), so the gauge pressures at the bottom are identical. This is sometimes called the hydrostatic paradox. Choice A confuses total force (which does depend on area) with pressure. Choice C tries to apply $P = F/A$ using weight, which does not apply to fluid pressure — that reasoning works for solids on a surface, not fluids. Choice D adds an unnecessary condition; both tanks already contain the same fluid (water).',
+    eli5: 'Hydrostatic pressure depends only on depth and fluid specific weight: $P = \\gamma \\times h$. The container shape, surface area, and total volume of water do not matter. Both tanks have the same depth (2 m) and the same fluid (water), so the gauge pressures at the bottom are identical. This is sometimes called the hydrostatic paradox. The "five times the pressure" choice confuses total force (which does depend on area) with pressure. The "smaller area" choice tries to apply $P = F/A$ using weight, which does not apply to fluid pressure — that reasoning works for solids on a surface, not fluids. The "same fluid at the same temperature" choice adds an unnecessary condition; both tanks already contain the same fluid (water).',
     hint: 'Recall that $P = \\gamma h$ has no term for area or volume.',
     steps: [
       {
@@ -430,7 +430,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'The resultant force is $F = \\gamma \\times h_C \\times A$. Area of a circle: $A = \\pi D^2/4 = \\pi \\times 1.2^2/4 = 1.131$ m². $F = 9{,}810 \\times 4 \\times 1.131 = 44{,}342$ N $= 44.3$ kN, approximately 44.4 kN. Choice B uses $h_C = 1$ m instead of 4 m. Choice C uses $h_C = 8$ m (doubled). Choice A uses $h_C = 2$ m.',
+    eli5: 'The resultant force is $F = \\gamma \\times h_C \\times A$. Area of a circle: $A = \\pi D^2/4 = \\pi \\times 1.2^2/4 = 1.131$ m². $F = 9{,}810 \\times 4 \\times 1.131 = 44{,}342$ N $= 44.3$ kN, approximately 44.4 kN. The 11.1 kN choice uses $h_C = 1$ m instead of 4 m. The 88.8 kN choice uses $h_C = 8$ m (doubled). The 22.2 kN choice uses $h_C = 2$ m.',
     hint: 'The resultant force uses the pressure at the centroid: $F_R = \\gamma h_C A$. Use the area of a circle.',
     steps: [
       {
@@ -477,7 +477,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The centroid of the gate is at $h_C = 3 + 2/2 = 4.0$ m below the surface. For a vertical surface $y_C = h_C = 4.0$ m. $I_{xC} = bh^3/12 = 1.5(2)^3/12 = 1.0$ m⁴. $A = 1.5 \\times 2 = 3.0$ m². Center of pressure: $y_{CP} = y_C + I_{xC}/(y_C \\times A) = 4.0 + 1.0/(4.0 \\times 3.0) = 4.0 + 0.0833 = 4.083$ m. Choice B gives the centroid (not the center of pressure). Choice C puts the centroid at $3 + 2/6$ (one-third from the top). Choice D uses the bottom of the gate.',
+    eli5: 'The centroid of the gate is at $h_C = 3 + 2/2 = 4.0$ m below the surface. For a vertical surface $y_C = h_C = 4.0$ m. $I_{xC} = bh^3/12 = 1.5(2)^3/12 = 1.0$ m⁴. $A = 1.5 \\times 2 = 3.0$ m². Center of pressure: $y_{CP} = y_C + I_{xC}/(y_C \\times A) = 4.0 + 1.0/(4.0 \\times 3.0) = 4.0 + 0.0833 = 4.083$ m. The 4.0 m choice gives the centroid depth (not the center of pressure). The 3.33 m choice puts the centroid at $3 + 2/6$ (one-third from the top). The 5.0 m choice uses the bottom of the gate.',
     hint: 'The centroid of the gate is not at the surface -- it is at $3 + h/2$ below the surface. Then apply the center of pressure formula.',
     steps: [
       {
@@ -540,7 +540,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Volume: $V = 0.5^3 = 0.125$ m³. Weight: $W = \\gamma_c \\times V = 23{,}500 \\times 0.125 = 2{,}937.5$ N. Buoyant force: $F_B = \\gamma_w \\times V = 9{,}810 \\times 0.125 = 1{,}226.3$ N. Since $W > F_B$ ($2{,}937.5 > 1{,}226.3$), the cube sinks. A cable holding it to the bottom would go slack because gravity already keeps it down. No cable tension is needed. The question is a trap — it asks about a cable holding the cube to the bottom, but since concrete is denser than water, the cube stays down on its own. Choice B computes $W - F_B$. Choice A gives the weight alone. Choice D gives the buoyant force alone.',
+    eli5: 'Volume: $V = 0.5^3 = 0.125$ m³. Weight: $W = \\gamma_c \\times V = 23{,}500 \\times 0.125 = 2{,}937.5$ N. Buoyant force: $F_B = \\gamma_w \\times V = 9{,}810 \\times 0.125 = 1{,}226.3$ N. Since $W > F_B$ ($2{,}937.5 > 1{,}226.3$), the cube sinks. A cable holding it to the bottom would go slack because gravity already keeps it down. No cable tension is needed. The question is a trap — it asks about a cable holding the cube to the bottom, but since concrete is denser than water, the cube stays down on its own. The 1.71 kN choice computes $W - F_B$. The 2.94 kN choice gives the weight alone. The 1.22 kN choice gives the buoyant force alone.',
     hint: 'Before computing cable tension, check whether the object actually floats. Compare its weight to the buoyant force.',
     steps: [
       {
@@ -595,7 +595,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'The center of pressure offset from the centroid is $I_{xC}/(y_C \\times A)$. The moment of inertia $I_{xC}$ and area $A$ are fixed properties of the plate shape. As the plate goes deeper, $y_C$ increases, making the denominator larger and the offset smaller. In the limit, at very large depth the center of pressure essentially coincides with the centroid because the pressure distribution becomes nearly uniform across the plate height. Choice A gets the reasoning backwards. Choice C ignores the $y_C$ term in the denominator. Choice D is wrong — the offset never increases again once the plate goes deeper.',
+    eli5: 'The center of pressure offset from the centroid is $I_{xC}/(y_C \\times A)$. The moment of inertia $I_{xC}$ and area $A$ are fixed properties of the plate shape. As the plate goes deeper, $y_C$ increases, making the denominator larger and the offset smaller. In the limit, at very large depth the center of pressure essentially coincides with the centroid because the pressure distribution becomes nearly uniform across the plate height. The choice claiming the distance increases gets the reasoning backwards. The choice claiming it stays the same ignores the $y_C$ term in the denominator. The choice claiming it decreases to zero then increases again is wrong — the offset never increases again once the plate goes deeper.',
     hint: 'Look at the formula $y_{CP} - y_C = I_{xC}/(y_C A)$ and consider what happens to the right side as $y_C$ gets large.',
     steps: [
       {
@@ -646,7 +646,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Continuity says $A_1 v_1 = A_2 v_2$. Since $A = \\pi D^2/4$, the $\\pi/4$ cancels: $v_2 = v_1 \\times (D_1/D_2)^2 = 3 \\times (200/100)^2 = 3 \\times 4 = 12$ m/s. Choice B uses the diameter ratio to the first power (3 x 2 = 6) instead of squaring it. Choice C squares the ratio twice (3 x 16 = 48). Choice D inverts the ratio (3 x 0.25 = 0.75).',
+    eli5: 'Continuity says $A_1 v_1 = A_2 v_2$. Since $A = \\pi D^2/4$, the $\\pi/4$ cancels: $v_2 = v_1 \\times (D_1/D_2)^2 = 3 \\times (200/100)^2 = 3 \\times 4 = 12$ m/s. The 6 m/s choice uses the diameter ratio to the first power (3 x 2 = 6) instead of squaring it. The 48 m/s choice squares the ratio twice (3 x 16 = 48). The 0.75 m/s choice inverts the ratio (3 x 0.25 = 0.75).',
     hint: 'Use the continuity equation. The velocity ratio equals the SQUARE of the diameter ratio, since area goes as $D^2$.',
     steps: [
       {
@@ -745,7 +745,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'First use continuity to find $v_2$: $v_2 = v_1 \\times (D_1/D_2)^2 = 2 \\times (250/125)^2 = 2 \\times 4 = 8$ m/s. Then Bernoulli for a horizontal pipe: $P_2 = P_1 + \\rho/2 \\times (v_1^2 - v_2^2) = 200{,}000 + 500 \\times (4 - 64) = 200{,}000 - 30{,}000 = 170{,}000$ Pa $= 170$ kPa. Pressure drops because velocity increases at the constriction. Choice A assumes no pressure change. Choice C adds instead of subtracting. Choice D uses the diameter ratio to the first power instead of squaring it.',
+    eli5: 'First use continuity to find $v_2$: $v_2 = v_1 \\times (D_1/D_2)^2 = 2 \\times (250/125)^2 = 2 \\times 4 = 8$ m/s. Then Bernoulli for a horizontal pipe: $P_2 = P_1 + \\rho/2 \\times (v_1^2 - v_2^2) = 200{,}000 + 500 \\times (4 - 64) = 200{,}000 - 30{,}000 = 170{,}000$ Pa $= 170$ kPa. Pressure drops because velocity increases at the constriction. The 200 kPa choice assumes no pressure change. The 230 kPa choice adds instead of subtracting. The 192 kPa choice uses the diameter ratio to the first power instead of squaring it.',
     hint: 'Use continuity to find $v_2$ first, then apply Bernoulli with $z_1 = z_2$. Pressure drops where velocity increases.',
     steps: [
       {
@@ -847,7 +847,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'First check the Reynolds number: $Re = vD/\\nu = 0.8 \\times 0.05 / (4.5 \\times 10^{-4}) = 0.04/(4.5 \\times 10^{-4}) = 88.9$. Since $Re < 2{,}100$, the flow is laminar, so $f = 64/Re = 64/88.9 = 0.72$. No Moody diagram needed. Choice B uses $f = 64/Re$ but with $Re = 3{,}556$ (wrong units somewhere). Choice C divides by 10 extra. Choice A multiplies 64 by $Re$ instead of dividing.',
+    eli5: 'First check the Reynolds number: $Re = vD/\\nu = 0.8 \\times 0.05 / (4.5 \\times 10^{-4}) = 0.04/(4.5 \\times 10^{-4}) = 88.9$. Since $Re < 2{,}100$, the flow is laminar, so $f = 64/Re = 64/88.9 = 0.72$. No Moody diagram needed. The $0.018$ choice uses $f = 64/Re$ but with $Re = 3{,}556$ (wrong units somewhere). The $0.18$ choice divides by an extra factor. The $7.2$ choice multiplies 64 by $Re$ instead of dividing.',
     hint: 'Compute the Reynolds number first. If $Re < 2{,}100$, the flow is laminar and $f = 64/Re$.',
     steps: [
       {
@@ -894,7 +894,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'First find head loss: $h_f = f(L/D)(v^2/2g) = 0.025 \\times (200/0.15) \\times (1.5^2/(2 \\times 9.81)) = 0.025 \\times 1{,}333.3 \\times 0.1147 = 3.823$ m. To get pressure drop: $\\Delta P = \\gamma \\times h_f = \\rho g h_f = 1{,}000 \\times 9.81 \\times 3.823 = 37{,}504$ Pa $= 37.5$ kPa. Choice A gives the head loss in meters but the question asks for pressure drop. Choice C forgot to convert from Pa to kPa. Choice D uses $f/2$ instead of $f$.',
+    eli5: 'First find head loss: $h_f = f(L/D)(v^2/2g) = 0.025 \\times (200/0.15) \\times (1.5^2/(2 \\times 9.81)) = 0.025 \\times 1{,}333.3 \\times 0.1147 = 3.823$ m. To get pressure drop: $\\Delta P = \\gamma \\times h_f = \\rho g h_f = 1{,}000 \\times 9.81 \\times 3.823 = 37{,}504$ Pa $= 37.5$ kPa. The 3.83 m choice gives the head loss in meters but the question asks for pressure drop. The 375 kPa choice forgot to convert from Pa to kPa. The 18.75 kPa choice uses $f/2$ instead of $f$.',
     hint: 'Compute head loss using Darcy-Weisbach, then convert to pressure: $\\Delta P = \\gamma h_f = \\rho g h_f$.',
     steps: [
       {
@@ -945,7 +945,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Velocity head $= v^2/(2g) = 4/19.62 = 0.2039$ m. Major loss: $h_f = f(L/D)(v^2/2g) = 0.018 \\times (500/0.3) \\times 0.2039 = 0.018 \\times 1{,}666.7 \\times 0.2039 = 6.117$ m. Minor losses: $\\Sigma C = 0.5 + 3(0.9) + 1.0 = 0.5 + 2.7 + 1.0 = 4.2$. $h_{\\text{minor}} = 4.2 \\times 0.2039 = 0.856$ m. Total $= 6.117 + 0.856 = 6.97$ m. Choice B is the major loss only (forgot minors). Choice C is the minor loss only (forgot major). Choice D uses four elbows instead of three.',
+    eli5: 'Velocity head $= v^2/(2g) = 4/19.62 = 0.2039$ m. Major loss: $h_f = f(L/D)(v^2/2g) = 0.018 \\times (500/0.3) \\times 0.2039 = 0.018 \\times 1{,}666.7 \\times 0.2039 = 6.117$ m. Minor losses: $\\Sigma C = 0.5 + 3(0.9) + 1.0 = 0.5 + 2.7 + 1.0 = 4.2$. $h_{\\text{minor}} = 4.2 \\times 0.2039 = 0.856$ m. Total $= 6.117 + 0.856 = 6.97$ m. The 6.12 m choice is the major loss only (forgot minors). The 0.81 m choice is roughly the minor loss only (forgot major). The 7.74 m choice over-counts the minor-loss coefficients.',
     hint: 'Total head loss = major (friction) + minor (fittings). Compute the velocity head once and use it for both.',
     steps: [
       {
@@ -1004,7 +1004,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The Darcy friction factor is four times the Fanning friction factor: $f_{\\text{Darcy}} = 4 \\times f_{\\text{Fanning}}$. So $f = 4 \\times 0.005 = 0.020$. The FE handbook and the Moody diagram both use the Darcy factor. If you accidentally use the Fanning factor in the Darcy-Weisbach equation, your head loss will be four times too small. Choice B uses the Fanning factor directly (wrong by 4x). Choice A divides by 4 instead of multiplying. Choice D multiplies by 2 instead of 4.',
+    eli5: 'The Darcy friction factor is four times the Fanning friction factor: $f_{\\text{Darcy}} = 4 \\times f_{\\text{Fanning}}$. So $f = 4 \\times 0.005 = 0.020$. The FE handbook and the Moody diagram both use the Darcy factor. If you accidentally use the Fanning factor in the Darcy-Weisbach equation, your head loss will be four times too small. The $f = 0.005$ choice uses the Fanning factor directly (wrong by 4x). The $f = 0.00125$ choice divides by 4 instead of multiplying. The $f = 0.010$ choice multiplies by 2 instead of 4.',
     hint: 'The Darcy friction factor is four times the Fanning friction factor: $f_{\\text{Darcy}} = 4 f_{\\text{Fanning}}$.',
     steps: [
       {
@@ -1055,7 +1055,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'For a jet hitting a flat plate at 90 degrees, the exit flow has no component in the original jet direction. The x-momentum is fully destroyed. $F = \\rho Q v = \\rho A v^2$. Area: $A = \\pi(0.05)^2/4 = 0.001963$ m². $F = 1{,}000 \\times 0.001963 \\times 20^2 = 1{,}000 \\times 0.001963 \\times 400 = 785$ N. Choice B uses $F = \\rho A v$ (forgets to square velocity). Choice C doubles the answer (that would be a 180-degree reversal). Choice A forgets to convert mm to m for the diameter.',
+    eli5: 'For a jet hitting a flat plate at 90 degrees, the exit flow has no component in the original jet direction. The x-momentum is fully destroyed. $F = \\rho Q v = \\rho A v^2$. Area: $A = \\pi(0.05)^2/4 = 0.001963$ m². $F = 1{,}000 \\times 0.001963 \\times 20^2 = 1{,}000 \\times 0.001963 \\times 400 = 785$ N. The 39.3 N choice uses $F = \\rho A v$ (forgets to square the velocity): $1{,}000 \\times 0.001963 \\times 20 = 39.3$ N. The 393 N choice tacks on a stray factor of $\\tfrac{1}{2}$: $\\tfrac{1}{2}\\rho A v^2 = 393$ N. The 1{,}571 N choice doubles the answer (that would be a 180-degree reversal of the jet).',
     hint: 'For a flat plate perpendicular to the jet, all x-momentum is absorbed. $F = \\rho A v^2$.',
     steps: [
       {
@@ -1102,7 +1102,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'For a 45-degree bend with constant diameter and pressure: $A = \\pi(0.2)^2/4 = 0.03142$ m². $Q = Av = 0.03142 \\times 3 = 0.09425$ m³/s. $PA = 150{,}000 \\times 0.03142 = 4{,}712$ N. $\\rho Qv = 1{,}000 \\times 0.09425 \\times 3 = 283$ N. For a constant-diameter bend at angle $\\alpha$, $F_x = (PA + \\rho Qv)(1 - \\cos\\alpha)$ and $F_y = (PA + \\rho Qv)\\sin\\alpha$. $F_x = 4{,}995(1 - 0.7071) = 4{,}995 \\times 0.2929 = 1{,}463$ N. $F_y = 4{,}995 \\times 0.7071 = 3{,}532$ N. Resultant: $F_R = \\sqrt{1{,}463^2 + 3{,}532^2} = 3{,}823$ N $= 3.82$ kN. Choice B gives $PA$ only (ignoring momentum direction). Choice C gives $PA + \\rho Qv$ without resolving components. Choice D only includes the momentum term.',
+    eli5: 'For a 45-degree bend with constant diameter and pressure: $A = \\pi(0.2)^2/4 = 0.03142$ m². $Q = Av = 0.03142 \\times 3 = 0.09425$ m³/s. $PA = 150{,}000 \\times 0.03142 = 4{,}712$ N. $\\rho Qv = 1{,}000 \\times 0.09425 \\times 3 = 283$ N. For a constant-diameter bend at angle $\\alpha$, $F_x = (PA + \\rho Qv)(1 - \\cos\\alpha)$ and $F_y = (PA + \\rho Qv)\\sin\\alpha$. $F_x = 4{,}995(1 - 0.7071) = 4{,}995 \\times 0.2929 = 1{,}463$ N. $F_y = 4{,}995 \\times 0.7071 = 3{,}532$ N. Resultant: $F_R = \\sqrt{1{,}463^2 + 3{,}532^2} = 3{,}823$ N $= 3.82$ kN. The 4.71 kN choice gives $PA$ only (ignoring momentum direction). The 5.00 kN choice gives $PA + \\rho Qv$ without resolving components. The 0.28 kN choice only includes the momentum term.',
     hint: 'For a constant-diameter bend, both pressure and momentum contribute. Resolve into x and y components and find the resultant.',
     steps: [
       {
@@ -1169,7 +1169,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$A_1 = \\pi(0.3)^2/4 = 0.07069$ m². $A_2 = \\pi(0.15)^2/4 = 0.01767$ m². By continuity: $v_2 = v_1 \\times (A_1/A_2) = 2 \\times 4 = 8$ m/s. $Q = A_1 \\times v_1 = 0.07069 \\times 2 = 0.1414$ m³/s. Momentum equation in x (flow direction): $F = P_1 A_1 - P_2 A_2 - \\rho Q(v_2 - v_1)$. $P_1 A_1 = 250{,}000 \\times 0.07069 = 17{,}672$ N. $P_2 A_2 = 220{,}000 \\times 0.01767 = 3{,}888$ N. $\\rho Q(v_2 - v_1) = 1{,}000 \\times 0.1414 \\times (8 - 2) = 848$ N. $F = 17{,}672 - 3{,}888 - 848 = 12{,}936$ N $= 12.9$ kN. The net force acts in the flow direction because the large inlet pressure face pushes harder than the small outlet face and the momentum increase combined. Choice B gives $P_1 A_1$ alone. Choice A gives only the momentum change. Choice D gives $P_2 A_2$ in the wrong direction.',
+    eli5: '$A_1 = \\pi(0.3)^2/4 = 0.07069$ m². $A_2 = \\pi(0.15)^2/4 = 0.01767$ m². By continuity: $v_2 = v_1 \\times (A_1/A_2) = 2 \\times 4 = 8$ m/s. $Q = A_1 \\times v_1 = 0.07069 \\times 2 = 0.1414$ m³/s. Momentum equation in x (flow direction): $F = P_1 A_1 - P_2 A_2 - \\rho Q(v_2 - v_1)$. $P_1 A_1 = 250{,}000 \\times 0.07069 = 17{,}672$ N. $P_2 A_2 = 220{,}000 \\times 0.01767 = 3{,}888$ N. $\\rho Q(v_2 - v_1) = 1{,}000 \\times 0.1414 \\times (8 - 2) = 848$ N. $F = 17{,}672 - 3{,}888 - 848 = 12{,}936$ N $= 12.9$ kN. The net force acts in the flow direction because the large inlet pressure face pushes harder than the small outlet face and the momentum increase combined. The 17.7 kN option gives $P_1 A_1$ alone. The 0.85 kN option gives only the momentum change. The 3.89 kN (against flow) option gives $P_2 A_2$ in the wrong direction.',
     hint: 'Use continuity to find $v_2$, then apply the momentum equation. Include pressure forces on both faces.',
     steps: [
       {
@@ -1228,7 +1228,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'For a jet on a flat plate, $F = \\rho A v^2$. The area $A$ stays the same and $\\rho$ is constant, so $F$ is proportional to $v^2$. If velocity doubles, the force increases by $2^2 = 4$. The velocity appears twice: once in the flow rate $Q = Av$ and once in the momentum per unit volume $\\rho v$. Doubling $v$ doubles both $Q$ and the momentum flux, giving a factor of 4. Choice A only accounts for one factor of $v$. Choice C confuses with an energy relationship. Choice D ignores velocity entirely.',
+    eli5: 'For a jet on a flat plate, $F = \\rho A v^2$. The area $A$ stays the same and $\\rho$ is constant, so $F$ is proportional to $v^2$. If velocity doubles, the force increases by $2^2 = 4$. The velocity appears twice: once in the flow rate $Q = Av$ and once in the momentum per unit volume $\\rho v$. Doubling $v$ doubles both $Q$ and the momentum flux, giving a factor of 4. The "force doubles" choice only accounts for one factor of $v$. The "factor of $\\sqrt{2}$" choice confuses this with an energy relationship. The "force stays the same" choice ignores velocity entirely.',
     hint: 'Write the force as $F = \\rho A v^2$ and identify the exponent on $v$.',
     steps: [
       {
@@ -1275,7 +1275,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: '$\\Delta P = P_0 - P_s = 101.8 - 101.3 = 0.5$ kPa $= 500$ Pa. $v = \\sqrt{2 \\times \\Delta P/\\rho} = \\sqrt{2 \\times 500/1.2} = \\sqrt{833.3} = 28.87$ m/s, approximately 28.9 m/s. Choice B forgets the factor of 2 under the root (gets $\\sqrt{500/1.2} = \\sqrt{416.7} = 20.4$). Choice C does not convert kPa to Pa (uses 0.5 instead of 500). Choice A uses $\\rho = 0.006$ or some other error making the denominator too small.',
+    eli5: '$\\Delta P = P_0 - P_s = 101.8 - 101.3 = 0.5$ kPa $= 500$ Pa. $v = \\sqrt{2 \\times \\Delta P/\\rho} = \\sqrt{2 \\times 500/1.2} = \\sqrt{833.3} = 28.87$ m/s, approximately 28.9 m/s. The 20.4 m/s choice forgets the factor of 2 under the root (gets $\\sqrt{500/1.2} = \\sqrt{416.7} = 20.4$). The 0.913 m/s choice does not convert kPa to Pa (uses 0.5 instead of 500). The 408 m/s choice uses $\\rho = 0.006$ or some other error making the denominator too small.',
     hint: 'Convert the pressure difference to Pa before plugging in. Remember the factor of 2 in $v = \\sqrt{2\\Delta P/\\rho}$.',
     steps: [
       {
@@ -1326,7 +1326,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$A_1 = \\pi(0.2)^2/4 = 0.03142$ m². $A_2 = \\pi(0.1)^2/4 = 0.007854$ m². Pressure head $= 25{,}000/9{,}810 = 2.548$ m. Area ratio term: $(A_2/A_1)^2 = (D_2/D_1)^4 = (0.5)^4 = 0.0625$. So $1 - 0.0625 = 0.9375$. Under the root: $2g \\times 2.548/0.9375 = 19.62 \\times 2.548/0.9375 = 50.01/0.9375 = 53.34$. $\\sqrt{53.34} = 7.304$. $Q = 0.97 \\times 0.007854 \\times 7.304 = 0.0556$ m³/s. Choice B omits the velocity coefficient (uses $C_v = 1.0$ giving 0.0573). Choice A uses $A_1$ instead of $A_2$. Choice D uses $(A_2/A_1)$ to the first power instead of squared.',
+    eli5: '$A_1 = \\pi(0.2)^2/4 = 0.03142$ m². $A_2 = \\pi(0.1)^2/4 = 0.007854$ m². Pressure head $= 25{,}000/9{,}810 = 2.548$ m. Area ratio term: $(A_2/A_1)^2 = (D_2/D_1)^4 = (0.5)^4 = 0.0625$. So $1 - 0.0625 = 0.9375$. Under the root: $2g \\times 2.548/0.9375 = 19.62 \\times 2.548/0.9375 = 50.01/0.9375 = 53.34$. $\\sqrt{53.34} = 7.304$. $Q = 0.97 \\times 0.007854 \\times 7.304 = 0.0556$ m³/s. The 0.0573 m\u00b3/s distractor omits the velocity coefficient (uses $C_v = 1.0$). The 0.223 m\u00b3/s distractor uses $A_1$ instead of $A_2$. The 0.0139 m\u00b3/s distractor scales $Q$ by the area ratio $A_2/A_1 = 0.25$ (i.e. applies $(A_2/A_1)$ as an extra factor on the throat area).',
     hint: 'Convert the pressure drop to head, compute the area ratio correction, and use the throat area $A_2$.',
     steps: [
       {
@@ -1385,7 +1385,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$A_0 = \\pi(0.04)^2/4 = 0.001257$ m². $A_1 = \\pi(0.1)^2/4 = 0.007854$ m². $(A_0/A_1)^2 = (0.001257/0.007854)^2 = (0.16)^2 = 0.02560$. Actually $\\beta = d_0/D = 40/100 = 0.4$, so $\\beta^4 = 0.0256$. $1 - \\beta^4 = 0.9744$. $h = \\Delta P/\\gamma = 20{,}000/9{,}810 = 2.039$ m. Under the root: $2g \\times h/(1 - \\beta^4) = 19.62 \\times 2.039/0.9744 = 40.01/0.9744 = 41.06$. $\\sqrt{41.06} = 6.408$. $Q = C \\times A_0 \\times \\sqrt{\\ldots} = 0.61 \\times 0.001257 \\times 6.408 = 0.004915$ m³/s, approximately 0.00489 m³/s. Choice A uses $C = 1.0$. Choice C uses the pipe area instead of the orifice area. Choice D drops the area ratio correction.',
+    eli5: '$A_0 = \\pi(0.04)^2/4 = 0.001257$ m². $A_1 = \\pi(0.1)^2/4 = 0.007854$ m². $(A_0/A_1)^2 = (0.001257/0.007854)^2 = (0.16)^2 = 0.02560$. Actually $\\beta = d_0/D = 40/100 = 0.4$, so $\\beta^4 = 0.0256$. $1 - \\beta^4 = 0.9744$. $h = \\Delta P/\\gamma = 20{,}000/9{,}810 = 2.039$ m. Under the root: $2g \\times h/(1 - \\beta^4) = 19.62 \\times 2.039/0.9744 = 40.01/0.9744 = 41.06$. $\\sqrt{41.06} = 6.408$. $Q = C \\times A_0 \\times \\sqrt{\\ldots} = 0.61 \\times 0.001257 \\times 6.408 = 0.004915$ m³/s, approximately 0.00489 m³/s. The 0.00802 distractor uses $C = 1.0$. The 0.0306 distractor uses the pipe area instead of the orifice area. The 0.00300 distractor applies the discharge coefficient twice ($C^2$).',
     hint: 'Use the orifice area $A_0$ (not the pipe area). The discharge coefficient $C$ accounts for the vena contracta.',
     steps: [
       {
@@ -1444,7 +1444,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'A venturi meter has a smooth, gradual contraction followed by a gradual expansion. This streamlined shape keeps the flow attached to the walls, minimizing turbulent losses and vena contracta effects. The result is a coefficient close to 1.0 (typically 0.95 to 0.99). An orifice plate has a sharp edge that causes the flow to separate and contract into a vena contracta downstream. This abrupt geometry causes significant energy loss and a much lower discharge coefficient (typically 0.60 to 0.65). Choice B is wrong — both devices measure the full pipe flow. Choice C is wrong — the difference is fundamental to the geometry, not manufacturing. Choice D is wrong — location does not explain the coefficient difference.',
+    eli5: 'A venturi meter has a smooth, gradual contraction followed by a gradual expansion. This streamlined shape keeps the flow attached to the walls, minimizing turbulent losses and vena contracta effects. The result is a coefficient close to 1.0 (typically 0.95 to 0.99). An orifice plate has a sharp edge that causes the flow to separate and contract into a vena contracta downstream. This abrupt geometry causes significant energy loss and a much lower discharge coefficient (typically 0.60 to 0.65). The "smaller portion of flow" choice is wrong — both devices measure the full pipe flow. The "interchangeable / manufacturing tolerance" choice is wrong — the difference is fundamental to the geometry, not manufacturing. The "different location in the pipe" choice is wrong — location does not explain the coefficient difference.',
     hint: 'Think about what happens to the flow as it passes through each device. A sharp edge causes more separation than a gradual contraction.',
     steps: [
       {
@@ -1495,7 +1495,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'Count the variables: $F_D$, $\\rho$, $v$, $D$, $\\mu$ = 5 variables. The basic dimensions involved are mass (M), length (L), and time (T), so $r = 3$. By Buckingham Pi: $k = n - r = 5 - 3 = 2$. So there are 2 dimensionless groups. One is typically the drag coefficient $C_D = F_D/(0.5 \\rho v^2 A)$ and the other is the Reynolds number $Re = \\rho v D/\\mu$. Choice B ($k = 1$) subtracts one too many. Choice C uses $r = 2$ instead of 3. Choice A counts all variables as dimensionless groups.',
+    eli5: 'Count the variables: $F_D$, $\\rho$, $v$, $D$, $\\mu$ = 5 variables. The basic dimensions involved are mass (M), length (L), and time (T), so $r = 3$. By Buckingham Pi: $k = n - r = 5 - 3 = 2$. So there are 2 dimensionless groups. One is typically the drag coefficient $C_D = F_D/(0.5 \\rho v^2 A)$ and the other is the Reynolds number $Re = \\rho v D/\\mu$. The choice $k = 1$ subtracts one too many. The choice $k = 3$ uses $r = 2$ instead of 3. The choice $k = 4$ counts all variables as dimensionless groups.',
     hint: 'Count the variables ($n$), count the base dimensions ($r = 3$ for M, L, T), and subtract.',
     steps: [
       {
@@ -1546,7 +1546,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Under Froude similitude, velocity scales as $\\sqrt{L_r}$ where $L_r$ is the length ratio. Since $Q = Av$, area scales as $L_r^2$ and velocity as $L_r^{1/2}$, so $Q$ scales as $L_r^{5/2}$. $L_r = 1/16$. $Q_m = Q_p \\times L_r^{5/2} = 500 \\times (1/16)^{5/2} = 500 \\times 1/(16^{2.5}) = 500/(256 \\times 4) = 500/1{,}024 = 0.488$ m³/s. Choice B divides by 16 only (uses $L_r^1$). Choice C divides by $16^2 = 256$ (uses $L_r^2$). Choice D divides by $16^3 = 4{,}096$ (uses $L_r^3$).',
+    eli5: 'Under Froude similitude, velocity scales as $\\sqrt{L_r}$ where $L_r$ is the length ratio. Since $Q = Av$, area scales as $L_r^2$ and velocity as $L_r^{1/2}$, so $Q$ scales as $L_r^{5/2}$. $L_r = 1/16$. $Q_m = Q_p \\times L_r^{5/2} = 500 \\times (1/16)^{5/2} = 500 \\times 1/(16^{2.5}) = 500/(256 \\times 4) = 500/1{,}024 = 0.488$ m³/s. The $31.25\\,\\text{m}^3/\\text{s}$ option divides by 16 only (uses $L_r^1$). The $1.953\\,\\text{m}^3/\\text{s}$ option divides by $16^2 = 256$ (uses $L_r^2$). The $0.122\\,\\text{m}^3/\\text{s}$ option divides by $16^3 = 4{,}096$ (uses $L_r^3$).',
     hint: 'Under Froude similitude, $Q$ scales as $L_r^{5/2}$ because $Q = Av$ and area scales as $L_r^2$ while velocity scales as $L_r^{1/2}$.',
     steps: [
       {
@@ -1601,7 +1601,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Under Reynolds similitude with the same fluid, $v_m L_m = v_p L_p$, so $v_m = v_p \\times (L_p/L_m) = 20 v_p$. Force $= \\rho v^2 L^2$ (from dimensional analysis). So $F_r = (v_m/v_p)^2 \\times (L_m/L_p)^2 = 20^2 \\times (1/20)^2 = 400/400 = 1$. The force ratio is 1 — the model force equals the prototype force. $F_p = 80$ N. This is a non-obvious result: with the same fluid and Reynolds similitude, the force on the model equals the force on the prototype. Choice B multiplies by 400. Choice A multiplies by 20. Choice D divides by 20.',
+    eli5: 'Under Reynolds similitude with the same fluid, $v_m L_m = v_p L_p$, so $v_m = v_p \\times (L_p/L_m) = 20 v_p$. Force $= \\rho v^2 L^2$ (from dimensional analysis). So $F_r = (v_m/v_p)^2 \\times (L_m/L_p)^2 = 20^2 \\times (1/20)^2 = 400/400 = 1$. The force ratio is 1 — the model force equals the prototype force. $F_p = 80$ N. This is a non-obvious result: with the same fluid and Reynolds similitude, the force on the model equals the force on the prototype. The 32,000 N choice multiplies by 400. The 1,600 N choice multiplies by 20. The 4 N choice divides by 20.',
     hint: 'Force scales as $\\rho v^2 L^2$. Under Reynolds similitude with the same fluid, $v_m/v_p = L_p/L_m$. Work out the combined scaling.',
     steps: [
       {

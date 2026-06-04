@@ -34,7 +34,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Plug into \u03C4 = Tc/J. Two common mistakes: using d instead of c = d/2 (doubles your answer to 40.7, choice C), or using I = \u03C0d\u2074/64 instead of J = \u03C0d\u2074/32 (halves your answer to 10.2, choice A). Remember: torsion uses J (polar), not I (area moment). And c is the radius, not diameter.',
+      eli5: 'Plug into \u03C4 = Tc/J. Two common mistakes: using d instead of c = d/2 (doubles your answer to 40.7 MPa), or using I = \u03C0d\u2074/64 instead of J = \u03C0d\u2074/32 (halves your answer to 10.2, choice A). Remember: torsion uses J (polar), not I (area moment). And c is the radius, not diameter.',
       hint: 'What is J for a solid circular shaft? And is c the radius or the diameter?',
       steps: [
         { text: 'Polar moment of inertia:', latex: 'J = \\frac{\\pi d^4}{32} = \\frac{\\pi (50)^4}{32} = 613{,}600 \\text{ mm}^4' },
@@ -89,7 +89,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Same formula \u03C4 = Tc/J, but solve backwards for T. The hard part is computing J for a hollow shaft \u2014 it\'s \u03C0(d_o\u2074 \u2212 d_i\u2074)/32, not \u03C0(d_o\u00B2 \u2212 d_i\u00B2). Choice A (2.06) comes from using c = d_o = 80 instead of c = 40 (doubles c, halves T). Choice B (5.50) comes from using J of a solid 80 mm shaft (ignoring the hollow core). Choice D (8.25) comes from combining both errors or an arithmetic mistake.',
+      eli5: 'Same formula \u03C4 = Tc/J, but solve backwards for T. The hard part is computing J for a hollow shaft \u2014 it\'s \u03C0(d_o\u2074 \u2212 d_i\u2074)/32, not \u03C0(d_o\u00B2 \u2212 d_i\u00B2). The 2.06 kN\u00b7m option comes from using c = d_o = 80 instead of c = 40 (doubles c, halves T). The 5.50 kN\u00b7m option comes from using J of a solid 80 mm shaft (ignoring the hollow core). The 8.25 kN\u00b7m option comes from combining both errors or an arithmetic mistake.',
       hint: 'J for a hollow shaft subtracts the inner d\u2074 from the outer d\u2074. And c is the outer radius, not the outer diameter.',
       steps: [
         { text: 'Polar moment of inertia (hollow):', latex: 'J = \\frac{\\pi(d_o^4 - d_i^4)}{32} = \\frac{\\pi(80^4 - 60^4)}{32} = 2{,}749{,}000 \\text{ mm}^4' },

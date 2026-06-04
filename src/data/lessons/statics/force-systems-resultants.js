@@ -88,7 +88,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'The angle is measured from the horizontal, so the horizontal component uses cosine and the vertical uses sine. The most common trap is flipping them \u2014 Answer B swaps sin and cos. Answer A uses cos(45) for both, which would only be right at 45 degrees. Answer D does not resolve the force at all and just reports the full magnitude for both components.',
+      eli5: 'The angle is measured from the horizontal, so the horizontal component uses cosine and the vertical uses sine. The most common trap is flipping them \u2014 the choice Fx = 287 N, Fy = 410 N swaps sin and cos. The choice with Fx = Fy = 354 N uses cos(45) for both, which would only be right at 45 degrees. The choice with Fx = Fy = 500 N does not resolve the force at all and just reports the full magnitude for both components.',
       hint: 'The angle is from the horizontal axis \u2014 which trig function goes with the adjacent side (horizontal)?',
       steps: [
         {
@@ -104,7 +104,7 @@ export default {
           latex: 'F_y = 500\\sin 35\\degree = 500 \\times 0.5736 = 286.8 \\approx 287 \\text{ N}',
         },
         {
-          text: 'Answer B swaps the components \u2014 it uses sine for horizontal and cosine for vertical.',
+          text: '4. The choice Fx = 287 N, Fy = 410 N swaps the components \u2014 it uses sine for horizontal and cosine for vertical.',
           latex: null,
         },
       ],
@@ -129,7 +129,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'When geometry gives you the direction instead of an angle, use the rise-over-run approach: find $R = \\sqrt{x^2 + y^2}$, then $F_x = (x/R) \\times F$ and $F_y = (y/R) \\times F$. The 5-12-13 triangle is one of the FE\u2019s favorite right triangles \u2014 recognize it instantly. Answer B swaps the components (applies the vertical leg to the horizontal direction). Answer C splits the force evenly, which would only be correct at 45 degrees. Answer D uses the wrong denominator (divides by 25 and 5 instead of 13).',
+      eli5: 'When geometry gives you the direction instead of an angle, use the rise-over-run approach: find $R = \\sqrt{x^2 + y^2}$, then $F_x = (x/R) \\times F$ and $F_y = (y/R) \\times F$. The 5-12-13 triangle is one of the FE\u2019s favorite right triangles \u2014 recognize it instantly. The choice $F_x = 1{,}200$ N, $F_y = 500$ N swaps the components (applies the vertical leg to the horizontal direction). The choice $F_x = 650$ N, $F_y = 650$ N splits the force evenly, which would only be correct at 45 degrees. The choice $F_x = 260$ N, $F_y = 1{,}040$ N uses the wrong denominator (divides by 25 and 5 instead of 13).',
       hint: 'You do not need to find the angle. Use the geometry directly: $F_x = (x/R) \\times F$ where $R$ is the distance from the wall to the anchor point.',
       steps: [
         {
@@ -145,7 +145,7 @@ export default {
           latex: 'F_y = \\frac{12}{13} \\times 1{,}300 = 1{,}200 \\text{ N}',
         },
         {
-          text: 'Answer B swaps the legs \u2014 it applies the vertical leg (12) to the horizontal component and vice versa.',
+          text: '4. The choice $F_x = 1{,}200$ N, $F_y = 500$ N swaps the legs \u2014 it applies the vertical leg (12) to the horizontal component and vice versa.',
           latex: null,
         },
       ],
@@ -170,7 +170,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'The load hangs straight down from the boom tip \u2014 it is a vertical force. To find the moment about the pivot, you need the perpendicular distance from the pivot to the force\u2019s line of action. Since the force is vertical, that perpendicular distance is the horizontal distance from the pivot to the tip, which is the boom length times cosine of the boom angle. Answer A uses the full boom length as if the perpendicular distance equals the boom length (only true if the boom were horizontal). Answer C uses sine instead of cosine, which gives the vertical projection of the boom \u2014 that is perpendicular to the boom, not to the force.',
+      eli5: 'The load hangs straight down from the boom tip \u2014 it is a vertical force. To find the moment about the pivot, you need the perpendicular distance from the pivot to the force\u2019s line of action. Since the force is vertical, that perpendicular distance is the horizontal distance from the pivot to the tip, which is the boom length times cosine of the boom angle. The 50,000 N\u00b7m choice uses the full boom length as if the perpendicular distance equals the boom length (only true if the boom were horizontal). The 32,100 N\u00b7m choice uses sine instead of cosine, which gives the vertical projection of the boom \u2014 that is perpendicular to the boom, not to the force.',
       hint: 'The force is vertical (gravity). The perpendicular distance to a vertical force is a horizontal distance. How far horizontally is the boom tip from the pivot?',
       steps: [
         {
@@ -186,11 +186,11 @@ export default {
           latex: 'M = F \\times d = 5{,}000 \\times 7.66 = 38{,}300 \\text{ N}{\\cdot}\\text{m (clockwise)}',
         },
         {
-          text: 'Answer A (50,000) forgets the angle entirely: $5{,}000 \\times 10 = 50{,}000$. This would only be correct if the boom were perfectly horizontal.',
+          text: 'The 50,000 N\u00b7m choice forgets the angle entirely: $5{,}000 \\times 10 = 50{,}000$. This would only be correct if the boom were perfectly horizontal.',
           latex: null,
         },
         {
-          text: 'Answer C (32,100) uses $\\sin 40\\degree$ instead of $\\cos 40\\degree$, giving the vertical projection of the boom rather than the horizontal projection.',
+          text: 'The 32,100 N\u00b7m choice uses $\\sin 40\\degree$ instead of $\\cos 40\\degree$, giving the vertical projection of the boom rather than the horizontal projection.',
           latex: null,
         },
       ],

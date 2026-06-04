@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Forward pass: A(0,3). B(3,7). C(3,5). E depends on B and C, so $ES_E = \\max(EF_B, EF_C) = \\max(7, 5) = 7$. $EF_E = 7 + 3 = 10$. Choice A used $EF_C = 5$ as ES (took min instead of max). Choice C used $ES = EF_A = 3$ (skipped B and C). Choice D somehow added extra.',
+      eli5: 'Forward pass: A(0,3). B(3,7). C(3,5). E depends on B and C, so $ES_E = \\max(EF_B, EF_C) = \\max(7, 5) = 7$. $EF_E = 7 + 3 = 10$. The ES=5,EF=8 option used $EF_C = 5$ as ES (took min instead of max). The ES=3,EF=6 option used $ES = EF_A = 3$ (skipped B and C). The ES=9,EF=12 option used a wrong, larger predecessor finish.',
       hint: 'E depends on B AND C. Use MAX of their EFs to find ES of E.',
       steps: [
         { text: 'Forward pass: $A(0,3)$, $B(3,7)$, $C(3,5)$', latex: null },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Backward pass: D(7,13), E(10,13). C feeds only E, so $LF_C = LS_E = 10$. $LS_C = LF_C - D_C = 10 - 2 = 8$. Choice B (3) is $ES_C$ from the forward pass \u2014 the question asked for $LS$, not $ES$. Choice A (5) is $EF_C$. Choice D (10) is $LF_C$, not $LS_C$ \u2014 forgot to subtract the duration.',
+      eli5: 'Backward pass: D(7,13), E(10,13). C feeds only E, so $LF_C = LS_E = 10$. $LS_C = LF_C - D_C = 10 - 2 = 8$. Choice "Day 3" is $LS_B$ from the backward pass \u2014 the question asked for $LS$, not $ES$. Choice "Day 5" is a distractor that does not correspond to a real CPM value for C ($EF_C = 2$). Choice "Day 10" is $LF_C$, not $LS_C$ \u2014 forgot to subtract the duration.',
       hint: 'Run the backward pass: LF of C = LS of its successor (E). Then LS = LF \u2212 duration.',
       steps: [
         { text: 'Backward pass from project end ($LF = 13$):', latex: null },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'B feeds two successors: D ($LS_D = 7$) and E ($LS_E = 10$). The backward pass uses MIN: $LF_B = \\min(7, 10) = 7$. B must finish by day 7 so that D can start on time. Choice B (10) used $LS_E$ only, ignoring D. Choice C (13) used the project end date. Choice A (4) is $LS_B + 1$ or confused with duration.',
+      eli5: 'B feeds two successors: D ($LS_D = 7$) and E ($LS_E = 10$). The backward pass uses MIN: $LF_B = \\min(7, 10) = 7$. B must finish by day 7 so that D can start on time. The Day 10 option used $LS_E$ only, ignoring D. The Day 13 option used the project end date. The Day 4 option is $LS_B + 1$ or confused with duration.',
       hint: 'When an activity feeds multiple successors, its LF = MIN of all successor LSs. The backward pass uses MIN.',
       steps: [
         { text: 'B feeds D and E:', latex: null },

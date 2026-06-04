@@ -109,7 +109,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: "This is a straight sinking fund problem \u2014 you need equal annual deposits that grow to 500K in 10 years at 6%. The factor you want is $(A/F)$ because you're finding $A$ given $F$. Look up $(A/F, 6\\%, 10)$ in the 6% table, multiply by 500,000, done. Answer B (50,000 dollars) is the trap for people who just divide 500K by 10 years and ignore interest entirely. Answer C uses the wrong factor \u2014 that's $(A/P)$, which is for loan payments on a present amount, not a future target. Answer D is a computation error.",
+      eli5: "This is a straight sinking fund problem \u2014 you need equal annual deposits that grow to 500K in 10 years at 6%. The factor you want is $(A/F)$ because you're finding $A$ given $F$. Look up $(A/F, 6\\%, 10)$ in the 6% table, multiply by 500,000, done. The 50,000 dollars choice is the trap for people who just divide 500K by 10 years and ignore interest entirely. The 67,950 dollars choice uses the wrong factor \u2014 that's $(A/P)$, which is for loan payments on a present amount, not a future target. The 41,240 dollars choice is a computation error.",
       hint: 'You know the future amount needed and want to find the annual deposit \u2014 which factor converts F to A?',
       steps: [
         {
@@ -158,7 +158,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: "When a rate is \"compounded monthly,\" the 12% isn't really 12% \u2014 it's 1% per month, and that compounds. So you earn interest on your interest 12 times a year, which pushes the effective rate above 12%. The formula is $(1 + r/m)^m - 1$. Plug in $r = 0.12$ and $m = 12$, and you get $(1.01)^{12} - 1 = 12.68\\%$. Answer A is the nominal rate \u2014 that's the one they gave you, not the effective rate. Answers B and D are common calculation errors from rounding too early.",
+      eli5: "When a rate is \"compounded monthly,\" the 12% isn't really 12% \u2014 it's 1% per month, and that compounds. So you earn interest on your interest 12 times a year, which pushes the effective rate above 12%. The formula is $(1 + r/m)^m - 1$. Plug in $r = 0.12$ and $m = 12$, and you get $(1.01)^{12} - 1 = 12.68\\%$. The 12.00% choice is the nominal rate \u2014 that's the one they gave you, not the effective rate. The 12.36% and 12.55% choices come from using the wrong compounding frequency (semiannual gives (1.06)^2 - 1 = 12.36%, quarterly gives (1.03)^4 - 1 = 12.55%).",
       hint: 'The nominal rate is 12% but compounding happens monthly \u2014 use the effective annual rate formula to find what 12 months of monthly compounding actually produces.',
       steps: [
         {
@@ -207,7 +207,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: "This problem combines two patterns: a flat 10K/year annuity and a 2K/year increasing gradient. You can't just add up the raw numbers because money in later years is worth less today. Split it into two pieces: the base annuity (use $(P/A)$) and the gradient on top (use $(P/G)$). Look up both factors in the 8% table, multiply each by its amount, and add. Choice C (67,100 dollars) only accounts for the base annuity and forgets the gradient entirely. Choice B (100K) is just the sum of raw costs without discounting. Choice D uses the wrong gradient amount or mixes up factors.",
+      eli5: "This problem combines two patterns: a flat 10K/year annuity and a 2K/year increasing gradient. You can't just add up the raw numbers because money in later years is worth less today. Split it into two pieces: the base annuity (use $(P/A)$) and the gradient on top (use $(P/G)$). Look up both factors in the 8% table, multiply each by its amount, and add. The 67,100 dollars option only accounts for the base annuity and forgets the gradient entirely. The 100,000 dollars option is just the sum of raw costs without discounting. The 134,200 dollars option uses the wrong gradient amount or mixes up factors.",
       hint: 'Split the increasing cash flow into a base uniform series (A) plus a uniform gradient (G), then find the present worth of each separately.',
       steps: [
         {

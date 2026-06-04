@@ -97,7 +97,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: "MACRS doesn't spread depreciation evenly \u2014 it front-loads it. Year 2 of a 5-year asset gets the biggest chunk (32%). Just look up the percentage in the table and multiply by the full purchase price. No salvage value subtraction with MACRS. Answer A (12,000 dollars) is the straight-line trap \u2014 people divide 60,000 by 5 years, which is a completely different method. Answer C (10,000 dollars) divides by 6 years (the actual number of MACRS depreciation years due to the half-year convention). Answer D grabs the wrong row from the table.",
+      eli5: "MACRS doesn't spread depreciation evenly \u2014 it front-loads it. Year 2 of a 5-year asset gets the biggest chunk (32%). Just look up the percentage in the table and multiply by the full purchase price. No salvage value subtraction with MACRS. The 12,000 dollars choice is the straight-line trap \u2014 people divide 60,000 by 5 years, which is a completely different method. The 10,000 dollars choice divides by 6 years (the actual number of MACRS depreciation years due to the half-year convention). The 11,520 dollars choice grabs the wrong row from the table (it is the year 4/5 factor of 11.52%).",
       hint: 'Look up the MACRS factor for year 2 of a 5-year property in the handbook table, then multiply by the initial cost.',
       steps: [
         {
@@ -113,7 +113,7 @@ export default {
           latex: 'D_2 = 0.3200 \\times 60{,}000 = 19{,}200',
         },
         {
-          text: 'Answer A (12,000 dollars) uses straight-line: 60,000 \u00f7 5 = 12,000, ignoring MACRS entirely.',
+          text: '  4. The 12,000 dollars choice uses straight-line: 60,000 \u00f7 5 = 12,000, ignoring MACRS entirely.',
           latex: null,
         },
       ],
@@ -138,7 +138,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: "Book value is what's left after you subtract all the depreciation taken so far. Add up the MACRS percentages for years 1\u20133 (14.29 + 24.49 + 17.49 = 56.27%), multiply by the initial cost to get total depreciation (281,350 dollars), then subtract from 500,000. Answer B (281,350 dollars) is the accumulated depreciation itself \u2014 a common mix-up between \"how much you've depreciated\" and \"how much is left.\" Answer C (412,450 dollars) only subtracts year 3's depreciation instead of all three years. Answer D (87,450 dollars) is just the year 3 depreciation alone.",
+      eli5: "Book value is what's left after you subtract all the depreciation taken so far. Add up the MACRS percentages for years 1\u20133 (14.29 + 24.49 + 17.49 = 56.27%), multiply by the initial cost to get total depreciation (281,350 dollars), then subtract from 500,000. The 281,350 dollars choice is the accumulated depreciation itself \u2014 a common mix-up between \"how much you've depreciated\" and \"how much is left.\" The 412,450 dollars choice roughly corresponds to subtracting only year 3's depreciation instead of all three years. The 87,450 dollars choice is just the year 3 depreciation alone.",
       hint: 'Book value = initial cost minus the sum of all depreciation taken through year $j$. Add up the MACRS factors for years 1 through 3 first.',
       steps: [
         {
@@ -183,7 +183,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: "When cash flows are in actual (nominal) dollars \u2014 meaning they include inflation \u2014 you need to discount at the combined rate, not just the real rate. The formula is $d = i + f + if$, not just $i + f$. The cross-term (0.04 \u00d7 0.03 = 0.0012) is small but enough to change the answer from 7.00% to 7.12%. Answer A (7.00%) is the trap for students who just add the two rates. Answer C gets the rate right but reads the wrong present worth factor. Answer D uses the real rate (4%) which would only be correct if the cash flows were in constant (real) dollars.",
+      eli5: "When cash flows are in actual (nominal) dollars \u2014 meaning they include inflation \u2014 you need to discount at the combined rate, not just the real rate. The formula is $d = i + f + if$, not just $i + f$. The cross-term (0.04 \u00d7 0.03 = 0.0012) is small but enough to change the answer from 7.00% to 7.12%. The 7.00% option is the trap for students who just add the two rates. The 7.12%/0.676 option gets the rate right but reads the wrong present worth factor. The 4.00% option uses the real rate (4%) which would only be correct if the cash flows were in constant (real) dollars.",
       hint: 'Actual dollars means you need the inflation-adjusted rate. The formula has three terms, not two \u2014 don\'t forget the cross-term $i \\times f$.',
       steps: [
         {
@@ -203,7 +203,7 @@ export default {
           latex: '(1.0712)^{10} \\approx 1.993 \\quad \\Rightarrow \\quad (P/F) = \\frac{1}{1.993} \\approx 0.502',
         },
         {
-          text: 'Answer A (7.00%) simply adds the rates without the cross-term. Answer D (4.00%) uses the real rate, which is only valid for constant-dollar cash flows.',
+          text: '  5. The 7.00% option simply adds the rates without the cross-term. The 4.00% option uses the real rate, which is only valid for constant-dollar cash flows.',
           latex: null,
         },
       ],

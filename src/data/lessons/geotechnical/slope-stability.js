@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'For a dry cohesionless infinite slope, FS = tan φ / tan β = tan 34° / tan 20° = 0.6745/0.3640 = 1.85. Choice B inverts the ratio. Choice C subtracts angles incorrectly. Choice D applies a seepage reduction that is not present here.',
+      eli5: 'For a dry cohesionless infinite slope, FS = tan φ / tan β = tan 34° / tan 20° = 0.6745/0.3640 = 1.85. The 0.54 choice inverts the ratio (tan \u03b2 / tan \u03c6). The 1.70 choice subtracts angles incorrectly. The 0.93 choice applies a seepage reduction that is not present here.',
       hint: 'Dry cohesionless slope: FS = tan φ / tan β.',
       steps: [
         { text: 'Apply the dry infinite-slope formula:', latex: 'FS = \\frac{\\tan \\phi}{\\tan \\beta} = \\frac{\\tan 34\\degree}{\\tan 20\\degree}' },
@@ -56,7 +56,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'With seepage, FS = (γ′/γ_sat)(tan φ/tan β). Here γ′ = γ_sat − γ_w = 19.62 − 9.81 = 9.81, so γ′/γ_sat = 9.81/19.62 = 0.5. The dry FS was 1.85, so FS = 0.5 × 1.85 = 0.93 — now UNSTABLE. Choice B ignores seepage. Choice C multiplies instead of reducing. Choice D reports only the reduction factor.',
+      eli5: 'With seepage, FS = (γ′/γ_sat)(tan φ/tan β). Here γ′ = γ_sat − γ_w = 19.62 − 9.81 = 9.81, so γ′/γ_sat = 9.81/19.62 = 0.5. The dry FS was 1.85, so FS = 0.5 × 1.85 = 0.93 — now UNSTABLE. The 1.85 option ignores seepage (it is the dry FS). The 3.70 option multiplies by tan \u03c6/tan \u03b2 twice instead of reducing. The 0.50 option reports only the reduction factor.',
       hint: 'Multiply the dry FS by γ′/γ_sat, where γ′ = γ_sat − γ_w.',
       steps: [
         { text: 'Buoyant unit weight:', latex: '\\gamma\' = 19.62 - 9.81 = 9.81\\text{ kN/m}^3' },
@@ -83,7 +83,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'FS = (cLs + W cos α tan φ)/(W sin α). Numerator = 120 + 400(cos 25°)(tan 20°) = 120 + 400(0.9063)(0.3640) = 120 + 132 = 252. Denominator = W sin α = 400(0.4226) = 169. FS = 252/169 = 1.49. Choice B drops the cohesion term. Choice C adds cohesion twice. Choice D ignores the friction term.',
+      eli5: 'FS = (cLs + W cos α tan φ)/(W sin α). Numerator = 120 + 400(cos 25°)(tan 20°) = 120 + 400(0.9063)(0.3640) = 120 + 132 = 252. Denominator = W sin α = 400(0.4226) = 169. FS = 252/169 = 1.49. The 0.78 choice drops the cohesion term. The 2.10 choice adds cohesion twice. The 1.00 choice ignores the friction term.',
       hint: 'FS = (cLs + W cos α tan φ) / (W sin α).',
       steps: [
         { text: 'Resisting force:', latex: 'cL_s + W\\cos\\alpha\\tan\\phi = 120 + 400(0.9063)(0.3640) = 252\\text{ kN/m}' },

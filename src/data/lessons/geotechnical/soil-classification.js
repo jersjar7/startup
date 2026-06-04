@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'More than 50% passes #200, so it is fine-grained. LL = 45 < 50, so it is low-plasticity (L). On the A-line at LL = 45: PI = 0.73(45 \u2013 20) = 18.25. Since the actual PI = 22 > 18.25, the soil plots above the A-line \u2192 clay (C). Combine: CL (lean clay). Choice B (ML) would be below the A-line. Choice C (CH) requires LL \u2265 50. Choice D (SC) is a coarse-grained soil with clay fines.',
+      eli5: 'More than 50% passes #200, so it is fine-grained. LL = 45 < 50, so it is low-plasticity (L). On the A-line at LL = 45: PI = 0.73(45 \u2013 20) = 18.25. Since the actual PI = 22 > 18.25, the soil plots above the A-line \u2192 clay (C). Combine: CL (lean clay). ML would be below the A-line. CH requires LL \u2265 50. SC is a coarse-grained soil with clay fines.',
       hint: 'Check: fine or coarse? Then: LL < or > 50? Then: above or below the A-line?',
       steps: [
         { text: '80% passes #200 \u2192 fine-grained.', latex: null },
@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Less than 50% passes #200 \u2192 coarse. It is identified as a sand (more than 50% of the coarse fraction passes the No. 4 sieve). With < 5% fines, classify based on gradation. Cu = D60/D10 = 2.0/0.15 = 13.3 (need \u2265 6 \u2714). Cc = (D30)\u00B2/(D10 \u00D7 D60) = 0.25/0.30 = 0.83 (need 1\u20133 \u2718). Since Cc fails the range, it is poorly graded: SP. Choice A (SW) requires BOTH Cu and Cc criteria met. Choice D (SM) would need > 12% fines.',
+      eli5: 'Less than 50% passes #200 \u2192 coarse. It is identified as a sand (more than 50% of the coarse fraction passes the No. 4 sieve). With < 5% fines, classify based on gradation. Cu = D60/D10 = 2.0/0.15 = 13.3 (need \u2265 6 \u2714). Cc = (D30)\u00B2/(D10 \u00D7 D60) = 0.25/0.30 = 0.83 (need 1\u20133 \u2718). Since Cc fails the range, it is poorly graded: SP. The SW option requires BOTH the Cu and Cc criteria to be met. The SM option would need > 12% fines.',
       hint: 'Compute both Cu and Cc. Both must pass for well-graded (W); if either fails, it is poorly graded (P).',
       steps: [
         { text: 'Coefficient of uniformity:', latex: 'C_u = \\frac{D_{60}}{D_{10}} = \\frac{2.0}{0.15} = 13.3 \\geq 6 \\; \\checkmark' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: '60% passes #200 \u2192 fine-grained. LL = 55 > 50 \u2192 high plasticity (H). A-line at LL = 55: PI = 0.73(55 \u2013 20) = 25.6. Actual PI = 28 > 25.6 \u2192 above A-line \u2192 clay (C). Classification: CH (fat clay). Choice B (MH) is below the A-line (silt). Choice C (CL) requires LL < 50. Choice A (OH) is an organic soil which requires lab testing (oven-dried LL) \u2014 not determinable from the given data alone, so assume inorganic.',
+      eli5: '60% passes #200 \u2192 fine-grained. LL = 55 > 50 \u2192 high plasticity (H). A-line at LL = 55: PI = 0.73(55 \u2013 20) = 25.6. Actual PI = 28 > 25.6 \u2192 above A-line \u2192 clay (C). Classification: CH (fat clay). The MH choice is below the A-line (silt). The CL choice requires LL < 50. The OH choice is an organic soil which requires lab testing (oven-dried LL) \u2014 not determinable from the given data alone, so assume inorganic.',
       hint: 'Fine or coarse? LL < or > 50? Above or below the A-line? Each step narrows to one symbol.',
       steps: [
         { text: '60% passes #200 \u2192 fine-grained.', latex: null },

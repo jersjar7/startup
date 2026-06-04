@@ -32,7 +32,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'First convert $KL$ to inches: $15 \\times 12 = 180$ in. Then $KL/r_y = 180/1.91 = 94.2 \\approx 94$. Choice A (180) is $KL$ in inches without dividing by $r$. Choice C (31) uses the strong-axis $r_x$ (if $r_x = 5.85$ in., then $180/5.85 = 30.8 \\approx 31$). Choice D (7.9) reverses the fraction ($r/KL \\times 1000$). Always convert feet to inches before dividing by $r$.',
+      eli5: 'First convert $KL$ to inches: $15 \\times 12 = 180$ in. Then $KL/r_y = 180/1.91 = 94.2 \\approx 94$. The choice 180 is $KL$ in inches without dividing by $r$. The choice 31 uses the strong-axis $r_x$ (if $r_x = 5.85$ in., then $180/5.85 = 30.8 \\approx 31$). The choice 7.9 reverses the fraction ($r/KL \\times 1000$). Always convert feet to inches before dividing by $r$.',
       hint: 'Convert $KL$ from feet to inches first, then divide by $r_y$.',
       steps: [
         { text: 'Convert to inches:', latex: 'KL = 15 \\times 12 = 180 \\text{ in.}' },
@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: '$\\phi_c P_n = \\phi_c F_{cr} \\times A_g = 34.6 \\times 15.0 = 519$ kips. That is the total design compressive strength after buckling reduction and safety factor. Choice B (750) is $F_y \\times A_g = 50 \\times 15 = 750$, which ignores buckling entirely — this would only be correct for a zero-length column. Choice A (345) might come from an incorrect table lookup. Choice D (675) applies $\\phi_c = 0.90$ to the gross yield: $0.90 \\times 750 = 675$, still ignoring buckling.',
+      eli5: '$\\phi_c P_n = \\phi_c F_{cr} \\times A_g = 34.6 \\times 15.0 = 519$ kips. That is the total design compressive strength after buckling reduction and safety factor. The 750 kips choice is $F_y \\times A_g = 50 \\times 15 = 750$, which ignores buckling entirely — this would only be correct for a zero-length column. The 345 kips choice might come from an incorrect table lookup. The 675 kips choice applies $\\phi_c = 0.90$ to the gross yield: $0.90 \\times 750 = 675$, still ignoring buckling.',
       hint: 'Design strength $= \\phi_c F_{cr} \\times A_g$. The $\\phi_c F_{cr}$ value is read directly from the AISC table.',
       steps: [
         { text: 'From AISC Table 4-14 at $KL/r = 60$:', latex: '\\phi_c F_{cr} = 34.6 \\text{ ksi}' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Column A: $KL/r = (1.0 \\times 12 \\times 12)/2.0 = 144/2.0 = 72$. Column B: $KL/r = (0.80 \\times 18 \\times 12)/2.0 = 172.8/2.0 = 86.4 \\approx 86$. Column B has the higher $KL/r$ despite having a lower $K$ factor, because its physical length is much longer. Higher $KL/r$ means lower $\\phi_c F_{cr}$ and therefore lower design strength. Choice D is the trap — a lower $K$ factor helps, but it does not always compensate for a much longer column. You must compute the actual $KL/r$ to compare.',
+      eli5: 'Column A: $KL/r = (1.0 \\times 12 \\times 12)/2.0 = 144/2.0 = 72$. Column B: $KL/r = (0.80 \\times 18 \\times 12)/2.0 = 172.8/2.0 = 86.4 \\approx 86$. Column B has the higher $KL/r$ despite having a lower $K$ factor, because its physical length is much longer. Higher $KL/r$ means lower $\\phi_c F_{cr}$ and therefore lower design strength. The choice "Column A because $K = 1.0 > 0.80$" is the trap — a lower $K$ factor helps, but it does not always compensate for a much longer column. You must compute the actual $KL/r$ to compare.',
       hint: 'Compute $KL/r$ for each column. Remember: $K$ reduces the effective length, but a much longer column can still have a higher $KL/r$.',
       steps: [
         { text: 'Column A:', latex: '\\frac{KL}{r} = \\frac{1.0 \\times 12 \\times 12}{2.0} = \\frac{144}{2.0} = 72' },

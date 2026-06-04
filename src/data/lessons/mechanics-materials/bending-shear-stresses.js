@@ -65,7 +65,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'For rectangular sections, there\'s a shortcut: \u03C4_max = 3V/2A. It\'s 1.5 times the average shear stress (V/A). Choice A (1.00) is the average shear stress V/A = 45,000/45,000 = 1.0 \u2014 forgetting the 3/2 factor. Choice C (3.0) comes from using 3V/A (forgetting the 2 in the denominator). The 3/2 factor accounts for the parabolic distribution \u2014 the peak at the neutral axis is 50% higher than the average.',
+      eli5: 'For rectangular sections, there\'s a shortcut: \u03C4_max = 3V/2A. It\'s 1.5 times the average shear stress (V/A). The 1.00 MPa choice is the average shear stress V/A = 45,000/45,000 = 1.0 \u2014 forgetting the 3/2 factor. The 3.0 MPa choice comes from using 3V/A (forgetting the 2 in the denominator). The 3/2 factor accounts for the parabolic distribution \u2014 the peak at the neutral axis is 50% higher than the average.',
       hint: 'There\'s a shortcut for max shear stress in a rectangular section. It\'s a factor times V/A.',
       steps: [
         { text: 'Cross-sectional area:', latex: 'A = 150 \\times 300 = 45{,}000 \\text{ mm}^2' },
@@ -92,7 +92,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'The trickiest part of VQ/Ib is getting Q and b right. Q is the first moment of the area ABOVE the cut (the flange): area \u00D7 distance from its centroid to the NA. Then b is the width AT the cut \u2014 for an I-beam at the flange-web junction, that\'s the web thickness (10 mm), NOT the flange width (150 mm). Choice A (1.40) comes from using b = 150 (flange width) instead of b = 10 (web thickness). Choice D (3.33) comes from using V/A as average shear.',
+      eli5: 'The trickiest part of VQ/Ib is getting Q and b right. Q is the first moment of the area ABOVE the cut (the flange): area \u00D7 distance from its centroid to the NA. Then b is the width AT the cut \u2014 for an I-beam at the flange-web junction, that\'s the web thickness (10 mm), NOT the flange width (150 mm). The 1.40 MPa option comes from using b = 150 (flange width) instead of b = 10 (web thickness). The 3.33 MPa option comes from using V/A as average shear.',
       hint: 'In \u03C4 = VQ/Ib, which width b do you use \u2014 the flange width or the web thickness?',
       steps: [
         { text: 'First moment of area Q (flange above the junction):', latex: 'Q = A_{flange} \\times \\bar{y}_{flange} = (150 \\times 20) \\times 140 = 420{,}000 \\text{ mm}^3' },

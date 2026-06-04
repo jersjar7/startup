@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Both options cost money over 20 years, so you need to convert everything to today\'s dollars. Option A has a higher upfront cost but lower annual maintenance. Option B is cheaper to build but more expensive to maintain. When you discount those annual costs back to the present at 6%, Option A comes out cheaper overall. Answers C and D just add the raw numbers without discounting (120K + 20\u00d75K = 220K and 80K + 20\u00d79K = 260K) \u2014 that ignores the time value of money entirely.',
+      eli5: 'Both options cost money over 20 years, so you need to convert everything to today\'s dollars. Option A has a higher upfront cost but lower annual maintenance. Option B is cheaper to build but more expensive to maintain. When you discount those annual costs back to the present at 6%, Option A comes out cheaper overall. The two undiscounted choices (Option A at 220,000 and Option B at 260,000) just add the raw numbers without discounting (120K + 20\u00d75K = 220K and 80K + 20\u00d79K = 260K) \u2014 that ignores the time value of money entirely.',
       hint: 'Convert each option\'s annual maintenance to present worth using $(P/A)$, then add the initial cost. Compare totals.',
       steps: [
         {
@@ -131,7 +131,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The annual cost of owning a machine isn\'t just the purchase price divided by its life \u2014 you also need to account for the interest rate (opportunity cost of capital) and the money you get back at the end (salvage). Use $(A/P)$ to spread the purchase price into annual payments, add the yearly operating cost, then subtract the annual equivalent of the salvage using $(A/F)$. Answer A forgets the capital recovery and just adds operating costs. Answer C uses the wrong factor for salvage (or forgets to subtract it). Answer D might be adding salvage instead of subtracting it.',
+      eli5: 'The annual cost of owning a machine isn\'t just the purchase price divided by its life \u2014 you also need to account for the interest rate (opportunity cost of capital) and the money you get back at the end (salvage). Use $(A/P)$ to spread the purchase price into annual payments, add the yearly operating cost, then subtract the annual equivalent of the salvage using $(A/F)$. The 72,000 dollars choice forgets the capital recovery and just adds operating costs to a rough estimate. The 81,700 dollars choice uses the wrong factor for salvage (or forgets to subtract it). The 85,400 dollars choice adds salvage instead of subtracting it.',
       hint: 'Annual cost = capital recovery of initial cost + operating costs - annual equivalent of salvage value.',
       steps: [
         {
@@ -180,7 +180,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'When alternatives have different lifespans, annual worth is the way to go \u2014 it automatically accounts for the repeat cycle. Pump X is cheaper upfront but runs up higher operating costs and dies sooner (6 years vs. 12). When you convert each pump\'s total cost into an equivalent annual amount, Pump Y\'s lower operating costs and longer life make it the better deal. Answer B computes Pump X’s annual worth correctly (14,370 dollars) but misses that Pump Y is cheaper; Answer A uses the wrong factors for Pump X, and Answer C picks the right pump but miscalculates its annual worth.',
+      eli5: 'When alternatives have different lifespans, annual worth is the way to go \u2014 it automatically accounts for the repeat cycle. Pump X is cheaper upfront but runs up higher operating costs and dies sooner (6 years vs. 12). When you convert each pump\'s total cost into an equivalent annual amount, Pump Y\'s lower operating costs and longer life make it the better deal. The "Pump X, AW = 14,370 dollars" option computes Pump X’s annual worth correctly but misses that Pump Y is cheaper; the "Pump X, AW = 13,500 dollars" option uses the wrong factors for Pump X, and the "Pump Y, AW = 13,700 dollars" option picks the right pump but miscalculates its annual worth.',
       hint: 'With different service lives, use annual worth \u2014 it lets you compare directly without matching lifespans. Compute AW for each pump separately.',
       steps: [
         {

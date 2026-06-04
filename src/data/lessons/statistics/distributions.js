@@ -39,7 +39,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'This is a straight combinations problem \u2014 you\u2019re choosing a group, not ranking them, so order doesn\u2019t matter. Choice B (336) is the permutation $P(8,3)$ \u2014 that\u2019s what you\u2019d get if you cared about who was picked first, second, and third. Choice A (24) is $4!$, which has nothing to do with this problem. Choice D (512) is $8^3$, which would be the answer if each pick were independent with replacement.',
+      eli5: 'This is a straight combinations problem \u2014 you\u2019re choosing a group, not ranking them, so order doesn\u2019t matter. The choice 336 is the permutation $P(8,3)$ \u2014 that\u2019s what you\u2019d get if you cared about who was picked first, second, and third. The choice 24 is $4!$, which has nothing to do with this problem. The choice 512 is $8^3$, which would be the answer if each pick were independent with replacement.',
       hint: 'Are you arranging the inspectors in order, or just picking a group? That tells you permutation vs. combination.',
       steps: [
         { text: 'Order doesn\u2019t matter (a team is a team), so use combinations.', latex: null },
@@ -67,7 +67,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The binomial formula has three pieces: the number of ways to arrange 8 passes and 2 failures ($C(10,8) = 45$), the probability of 8 passes ($0.9^8$), and the probability of 2 failures ($0.1^2$). You multiply all three. Choice B (0.349) is $P(X = 9)$ \u2014 the probability of exactly 9 passing, not 8. Choice C (0.900) is just $p$ itself, not a binomial calculation. Choice D (0.387) is $P(X = 10) + P(X = 9)$, the probability of 9 or more passing.',
+      eli5: 'The binomial formula has three pieces: the number of ways to arrange 8 passes and 2 failures ($C(10,8) = 45$), the probability of 8 passes ($0.9^8$), and the probability of 2 failures ($0.1^2$). You multiply all three. The 0.349 distractor is $P(X = 10) = 0.9^{10}$ \u2014 the probability of all 10 passing, not exactly 8. The 0.900 distractor is just $p$ itself, not a binomial calculation. The 0.387 distractor is $P(X = 9)$ \u2014 the probability of exactly 9 passing, not 8.',
       hint: 'Identify $n$, $x$, $p$, and $q$, then plug into the binomial formula. Don\u2019t forget the $C(n,x)$ term.',
       steps: [
         { text: 'Identify parameters: $n = 10$, $x = 8$, $p = 0.90$, $q = 0.10$.', latex: null },
@@ -96,7 +96,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'You\u2019re looking for the left-tail area \u2014 the percentage below 4,000 psi. First convert 4,000 to a z-score: it\u2019s 1.67 standard deviations below the mean, so $z = -1.67$. The handbook table gives you $F(1.67) = 0.9525$, which is the area to the LEFT of positive 1.67. For the negative side, flip it: $1 - 0.9525 = 0.0475$, or 4.75%. Choice A (95.25%) is $F(1.67)$ \u2014 that\u2019s the percentage that PASSES, not fails. Choice C is the z-score itself (1.67), not a probability. Choice D treats it as if the mean were shifted or misreads the table.',
+      eli5: 'You\u2019re looking for the left-tail area \u2014 the percentage below 4,000 psi. First convert 4,000 to a z-score: it\u2019s 1.67 standard deviations below the mean, so $z = -1.67$. The handbook table gives you $F(1.67) = 0.9525$, which is the area to the LEFT of positive 1.67. For the negative side, flip it: $1 - 0.9525 = 0.0475$, or 4.75%. The 95.25% option is $F(1.67)$ \u2014 that\u2019s the percentage that PASSES, not fails. The 1.67% option is the z-score itself (1.67) misread as a probability. The 45.25% option treats it as if the mean were shifted or misreads the table.',
       hint: 'Compute the z-score for $4{,}000$ psi, then use $F(-z) = 1 - F(z)$ to find the left-tail probability.',
       steps: [
         { text: '\u201cFail\u201d means $X < 4{,}000$. Convert to a z-score:', latex: 'z = \\frac{x - \\mu}{\\sigma} = \\frac{4{,}000 - 4{,}500}{300} = \\frac{-500}{300} = -1.67' },

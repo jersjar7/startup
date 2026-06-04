@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'The ultimate tensile strength is simply the highest point (peak stress) on the engineering stress-strain curve. After UTS, necking begins and the engineering stress drops even though the true stress keeps increasing. Choice A describes the elastic modulus, not strength. Choice C is the fracture stress, which is lower than UTS on the engineering curve because the cross-section has necked down. Choice D describes the yield strength determined by the offset method.',
+    eli5: 'The ultimate tensile strength is simply the highest point (peak stress) on the engineering stress-strain curve. After UTS, necking begins and the engineering stress drops even though the true stress keeps increasing. The slope of the initial linear portion describes the elastic modulus, not strength. The fracture stress is lower than UTS on the engineering curve because the cross-section has necked down. The 0.2% offset intersection describes the yield strength determined by the offset method.',
     hint: 'UTS stands for ultimate tensile strength -- think about where on the curve the stress reaches its maximum value.',
     steps: [
       {
@@ -77,7 +77,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Use Hooke\'s law to find strain first, then multiply by gauge length. $\\varepsilon = \\sigma/E = 250/200{,}000 = 0.00125$. Then $\\Delta L = \\varepsilon \\times L_0 = 0.00125 \\times 200 = 0.25$ mm. Choice B (2.5) uses $E = 20$ GPa instead of 200 GPa — off by a factor of 10. Choice C (0.025) uses $L = 20$ mm instead of 200 mm. Choice D (1.25) forgets to convert GPa to MPa and computes $250/200 \\times 200/200$.',
+    eli5: 'Use Hooke\'s law to find strain first, then multiply by gauge length. $\\varepsilon = \\sigma/E = 250/200{,}000 = 0.00125$. Then $\\Delta L = \\varepsilon \\times L_0 = 0.00125 \\times 200 = 0.25$ mm. The 2.5 mm choice uses $E = 20$ GPa instead of 200 GPa — off by a factor of 10. The 0.025 mm choice uses $L = 20$ mm instead of 200 mm. The 1.25 mm choice mishandles the unit conversion and just reports the strain-like ratio $250/200$ as if it were the answer.',
     hint: 'Find strain from Hooke\'s law first, then multiply by gauge length to get elongation.',
     steps: [
       {
@@ -281,7 +281,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'For US Customary units, the BHN-to-TS relationship is $\\text{TS (psi)} = 500 \\times \\text{BHN}$. So $TS = 500 \\times 250 = 125{,}000$ psi. Choice B (862 MPa) uses the SI formula ($3.45 \\times 250$) but reports in MPa — the question asks for US Customary. Choice C (72) divides BHN by 3.45 instead of multiplying by 500. Choice D (500,000) multiplies BHN by 2,000 instead of 500.',
+    eli5: 'For US Customary units, the BHN-to-TS relationship is $\\text{TS (psi)} = 500 \\times \\text{BHN}$. So $TS = 500 \\times 250 = 125{,}000$ psi. The 862 MPa choice uses the SI formula ($3.45 \\times 250$) but reports in MPa — the question asks for US Customary. The 72 psi choice divides BHN by 3.45 instead of multiplying by 500. The 500,000 psi choice multiplies BHN by 2,000 instead of 500.',
     hint: 'The handbook gives two versions of the BHN-TS formula: one in MPa (multiply by 3.45) and one in psi (multiply by 500). The question asks for US Customary units.',
     steps: [
       {
@@ -481,7 +481,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Use the thermal expansion formula: $\\Delta L = \\alpha L \\Delta T$. The temperature change is $55 - 20 = 35$ degrees C. Then $\\Delta L = 23 \\times 10^{-6} \\times 6{,}000 \\times 35 = 4.83$ mm. Choice B (7.59) uses $\\Delta T = 55$ degrees C (the final temperature instead of the change). Choice C (0.48) uses $L = 0.6$ m without converting to mm consistently. Choice D (48.3) is off by a factor of 10 — possibly using $\\alpha = 230 \\times 10^{-6}$.',
+    eli5: 'Use the thermal expansion formula: $\\Delta L = \\alpha L \\Delta T$. The temperature change is $55 - 20 = 35$ degrees C. Then $\\Delta L = 23 \\times 10^{-6} \\times 6{,}000 \\times 35 = 4.83$ mm. The 7.59 mm choice uses $\\Delta T = 55$ degrees C (the final temperature instead of the change). The 0.48 mm choice uses $L = 0.6$ m without converting to mm consistently. The 48.3 mm choice is off by a factor of 10 — possibly using $\\alpha = 230 \\times 10^{-6}$.',
     hint: 'Temperature change is the difference between final and initial temperatures. Make sure your units are consistent.',
     steps: [
       {
@@ -634,7 +634,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'A superplasticizer (high-range water reducer) increases workability by dispersing cement particles, making the concrete flow more easily without adding extra water. Since you are not adding water, the W/C ratio stays the same and strength is preserved. Choice B (more water) increases slump but raises the W/C ratio, which lowers strength -- this is the classic mistake. Choice C (more cement) would actually lower the W/C ratio and increase strength, but it does not directly improve workability and is expensive. Choice A (more fines) increases water demand and can reduce workability or require more water.',
+    eli5: 'A superplasticizer (high-range water reducer) increases workability by dispersing cement particles, making the concrete flow more easily without adding extra water. Since you are not adding water, the W/C ratio stays the same and strength is preserved. Adding more water increases slump but raises the W/C ratio, which lowers strength -- this is the classic mistake. Increasing the cement content would actually lower the W/C ratio and increase strength, but it does not directly improve workability and is expensive. Replacing coarse aggregate with fines increases water demand and can reduce workability or require more water.',
     hint: 'The only way to increase slump without changing the W/C ratio is to use a chemical admixture that makes the mix more fluid.',
     steps: [
       {
@@ -684,7 +684,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'First, the original W/C = 175/350 = 0.50. The admixture reduces water by 15%, so the new water content is $175 \\times (1 - 0.15) = 175 \\times 0.85 = 148.75$ kg/m$^3$. The cement stays the same at 350 kg/m$^3$ (only water changed). The new W/C = 148.75/350 = 0.425. Choice B (0.50) is the original ratio before the admixture. Choice A (0.575) adds 15% instead of subtracting it. Choice D (0.35) incorrectly reduces the W/C ratio itself by 0.15, rather than reducing the water content by 15%.',
+    eli5: 'First, the original W/C = 175/350 = 0.50. The admixture reduces water by 15%, so the new water content is $175 \\times (1 - 0.15) = 175 \\times 0.85 = 148.75$ kg/m$^3$. The cement stays the same at 350 kg/m$^3$ (only water changed). The new W/C = 148.75/350 = 0.425. The 0.50 option is the original ratio before the admixture. The 0.575 option adds 15% instead of subtracting it. The 0.35 option incorrectly reduces the W/C ratio itself by 0.15, rather than reducing the water content by 15%.',
     hint: 'Reduce the water weight by 15%, keep cement the same, then recalculate W/C.',
     steps: [
       {
@@ -735,7 +735,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Air entrainment introduces tiny bubbles (4-7% by volume) into the concrete mix. These bubbles serve as pressure-relief chambers when water inside the concrete freezes and expands, dramatically improving freeze-thaw durability. However, the air voids reduce the solid cross-section of the paste, so compressive strength drops slightly compared to a non-air-entrained mix at the same W/C. This is a deliberate trade-off: you accept a small strength reduction for much better durability in freeze-thaw environments. Choice A is wrong because strength goes down, not up. Choice C reverses the durability benefit. Choice D sounds reasonable but the strength reduction is real and well-documented in the handbook.',
+    eli5: 'Air entrainment introduces tiny bubbles (4-7% by volume) into the concrete mix. These bubbles serve as pressure-relief chambers when water inside the concrete freezes and expands, dramatically improving freeze-thaw durability. However, the air voids reduce the solid cross-section of the paste, so compressive strength drops slightly compared to a non-air-entrained mix at the same W/C. This is a deliberate trade-off: you accept a small strength reduction for much better durability in freeze-thaw environments. The "higher compressive strength" option is wrong because strength goes down, not up. The "lower freeze-thaw durability" option reverses the durability benefit. The "same compressive strength" option sounds reasonable but the strength reduction is real and well-documented in the handbook.',
     hint: 'Air bubbles relieve internal pressure from freezing water, but they also represent voids that reduce the load-carrying cross section.',
     steps: [
       {
@@ -786,7 +786,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'High temperatures speed up cement hydration, causing concrete to set faster than expected. This is a problem during long deliveries or large pours because the concrete may begin to stiffen in the truck before it can be placed. A retarder slows the hydration reaction, giving more working time. This is standard practice for hot-weather concreting. Choice B (accelerator) does the opposite -- it speeds up setting, which would make the problem worse. Accelerators are used in cold weather, not hot. Choice C (air-entraining agent) improves freeze-thaw durability but does not address setting time. Choice D (superplasticizer) improves workability but does not delay setting -- in fact, many superplasticizers can slightly accelerate initial stiffening. The question is hard because students need to connect the environmental condition (hot weather) to the correct admixture category and distinguish retarders from the other types.',
+    eli5: 'High temperatures speed up cement hydration, causing concrete to set faster than expected. This is a problem during long deliveries or large pours because the concrete may begin to stiffen in the truck before it can be placed. A retarder slows the hydration reaction, giving more working time. This is standard practice for hot-weather concreting. The accelerator choice does the opposite -- it speeds up setting, which would make the problem worse. Accelerators are used in cold weather, not hot. The air-entraining agent choice improves freeze-thaw durability but does not address setting time. The superplasticizer choice improves workability but does not delay setting -- in fact, many superplasticizers can slightly accelerate initial stiffening. The question is hard because students need to connect the environmental condition (hot weather) to the correct admixture category and distinguish retarders from the other types.',
     hint: 'Hot weather accelerates hydration. You need an admixture that slows the chemical reaction, not one that improves flow or adds air.',
     steps: [
       {
@@ -837,7 +837,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Hydration is the chemical reaction between Portland cement and water that produces calcium silicate hydrate (C-S-H) gel, which is the primary binder that gives concrete its strength. This reaction requires water to continue, which is why moist curing is so important. Choice B (carbonation) is a different process where atmospheric CO$_2$ reacts with calcium hydroxide in cured concrete -- it can lower the pH and reduce corrosion protection for rebar, but it is not the strength-gaining reaction. Choice C (calcination) is the heating of limestone to produce cement clinker during manufacturing -- it happens in the kiln, not in placed concrete. Choice D (oxidation) is a general chemistry term for electron loss (like rusting), not the cement-water reaction.',
+    eli5: 'Hydration is the chemical reaction between Portland cement and water that produces calcium silicate hydrate (C-S-H) gel, which is the primary binder that gives concrete its strength. This reaction requires water to continue, which is why moist curing is so important. Carbonation is a different process where atmospheric CO$_2$ reacts with calcium hydroxide in cured concrete -- it can lower the pH and reduce corrosion protection for rebar, but it is not the strength-gaining reaction. Calcination is the heating of limestone to produce cement clinker during manufacturing -- it happens in the kiln, not in placed concrete. Oxidation is a general chemistry term for electron loss (like rusting), not the cement-water reaction.',
     hint: 'The reaction that gives concrete its strength involves water chemically combining with cement compounds.',
     steps: [
       {
@@ -887,7 +887,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Concrete\'s tensile strength is approximately 8-12% of its compressive strength. For $f\'_c = 5{,}000$ psi: the low end is $0.08 \\times 5{,}000 = 400$ psi and the high end is $0.12 \\times 5{,}000 = 600$ psi. This is why concrete must be reinforced with steel in tension zones -- it simply cannot handle significant tensile loads on its own. Choice B (2,500 psi) assumes tensile strength is 50% of compressive -- way too high. Choice C (5,000 psi) assumes they are equal -- concrete is dramatically weaker in tension than compression. Choice A (50 psi) is only 1% of compressive strength, which is too low even for concrete.',
+    eli5: 'Concrete\'s tensile strength is approximately 8-12% of its compressive strength. For $f\'_c = 5{,}000$ psi: the low end is $0.08 \\times 5{,}000 = 400$ psi and the high end is $0.12 \\times 5{,}000 = 600$ psi. This is why concrete must be reinforced with steel in tension zones -- it simply cannot handle significant tensile loads on its own. The 2,500 psi option assumes tensile strength is 50% of compressive -- way too high. The 5,000 psi option assumes they are equal -- concrete is dramatically weaker in tension than compression. The 50 psi option is only 1% of compressive strength, which is too low even for concrete.',
     hint: 'Concrete is strong in compression but weak in tension. The tensile-to-compressive strength ratio is roughly 1:10.',
     steps: [
       {
@@ -938,7 +938,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The concrete was designed to reach 5,000 psi under continuous moist curing, but the contractor only cured it for 3 days. According to the handbook, stopping moist curing at 3 days means the concrete reaches only about 55% of the full 28-day moist-cured strength: $0.55 \\times 5{,}000 = 2{,}750$ psi. That is a massive reduction -- it will not meet the design strength. Choice A (9,090 psi) divides instead of multiplies: 5,000/0.55. Choice C (4,450 psi) subtracts 55% of the strength loss (5,000 - 550 = 4,450), confusing the percentage with a small deduction. Choice D (5,000 psi) ignores the curing effect entirely.',
+    eli5: 'The concrete was designed to reach 5,000 psi under continuous moist curing, but the contractor only cured it for 3 days. According to the handbook, stopping moist curing at 3 days means the concrete reaches only about 55% of the full 28-day moist-cured strength: $0.55 \\times 5{,}000 = 2{,}750$ psi. That is a massive reduction -- it will not meet the design strength. The 9,090 psi choice divides instead of multiplies: 5,000/0.55. The 4,450 psi choice subtracts only 550 psi (5,000 - 550 = 4,450), wrongly treating the curing penalty as a small 11% deduction instead of applying the 0.55 factor. The 5,000 psi choice ignores the curing effect entirely.',
     hint: 'Stopping moist curing early means the concrete reaches only a fraction of its full potential strength. Multiply, do not divide.',
     steps: [
       {
@@ -989,7 +989,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'When cylinder breaks fall below the specified $f\'_c$, the first step is to investigate the actual in-place strength before making costly decisions. Core testing (ASTM C42) extracts samples from the structure itself and provides a more representative measure of the concrete that was actually placed and cured in the field. Cylinders are cured under ideal lab conditions, so they may not reflect field conditions exactly -- and the difference can go either way. Choice B (demolish) is premature and expensive; you need evidence that the structure is actually deficient, not just that one batch of cylinders was low. Choice A (accept as-is) is not appropriate without engineering justification -- you cannot just ignore specification non-compliance. Choice D (more curing) is unrealistic at 28 days; most of the strength gain has already occurred, and going from 3,800 to 4,000 psi through additional curing past 28 days is unlikely to fully close that gap.',
+    eli5: 'When cylinder breaks fall below the specified $f\'_c$, the first step is to investigate the actual in-place strength before making costly decisions. Core testing (ASTM C42) extracts samples from the structure itself and provides a more representative measure of the concrete that was actually placed and cured in the field. Cylinders are cured under ideal lab conditions, so they may not reflect field conditions exactly -- and the difference can go either way. The demolish-immediately option is premature and expensive; you need evidence that the structure is actually deficient, not just that one batch of cylinders was low. The accept-as-is option is not appropriate without engineering justification -- you cannot just ignore specification non-compliance. The additional-curing option is unrealistic at 28 days; most of the strength gain has already occurred, and going from 3,800 to 4,000 psi through additional curing past 28 days is unlikely to fully close that gap.',
     hint: 'Cylinder results represent lab-cured specimens, not necessarily the actual structure. The next step is to evaluate what is actually in place.',
     steps: [
       {
@@ -1245,7 +1245,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'The four requirements for galvanic corrosion are: an anode, a cathode, an electrolyte, and an electrical connection (metallic path) between the anode and cathode. An external power source is NOT required -- galvanic corrosion generates its own driving voltage from the difference in electrochemical potential between the two metals. An external power source is used in impressed-current cathodic protection, which is a method of preventing corrosion, not a requirement for it to occur. Choices A, B, and C are all legitimate requirements.',
+    eli5: 'The four requirements for galvanic corrosion are: an anode, a cathode, an electrolyte, and an electrical connection (metallic path) between the anode and cathode. An external power source is NOT required -- galvanic corrosion generates its own driving voltage from the difference in electrochemical potential between the two metals. An external power source is used in impressed-current cathodic protection, which is a method of preventing corrosion, not a requirement for it to occur. The anode, cathode, and electrolyte are all legitimate requirements.',
     hint: 'Galvanic corrosion is driven by the electrochemical potential difference between dissimilar metals -- no battery or external circuit is needed.',
     steps: [
       {
@@ -1295,7 +1295,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The FE Handbook (p. 122) gives the approximation: $\\text{TS (psi)} \\approx 500 \\times \\text{BHN}$. Plugging in: $500 \\times 200 = 100{,}000$ psi. Choice A (700 MPa) uses the metric approximation $\\text{TS (MPa)} \\approx 3.5 \\times \\text{BHN} = 3.5 \\times 200 = 700$ MPa. That is also a correct conversion, but the question asks for the answer using the handbook relationship, and 100,000 psi is the direct result. Choice C (57 psi) divides BHN by something nonsensical. Choice D (400,000 psi) uses an incorrect multiplier of 2,000.',
+    eli5: 'The FE Handbook (p. 122) gives the approximation: $\\text{TS (psi)} \\approx 500 \\times \\text{BHN}$. Plugging in: $500 \\times 200 = 100{,}000$ psi. The 700 MPa choice uses the metric approximation $\\text{TS (MPa)} \\approx 3.5 \\times \\text{BHN} = 3.5 \\times 200 = 700$ MPa. That is also a correct conversion, but the question asks for the answer using the handbook relationship, and 100,000 psi is the direct result. The 57 psi choice divides BHN by something nonsensical. The 400,000 psi choice uses an incorrect multiplier of 2,000.',
     hint: 'The FE Handbook gives a direct multiplier to convert BHN to tensile strength in psi for plain carbon steels.',
     steps: [
       {
@@ -1342,7 +1342,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Attaching a more active metal (zinc) to the structure you want to protect (steel pipeline) is called sacrificial anode cathodic protection. The zinc is more active than steel in the galvanic series, so it corrodes preferentially while the steel becomes the cathode and is protected. Choice B (impressed-current) uses an external DC power supply and inert anodes -- there is no external power source described here. Choice A (anodic protection) is a different technique that uses a controlled external current to form a passive film on the structure -- the opposite concept. Choice D (passivation) refers to forming a protective oxide layer (like on stainless steel), not attaching sacrificial metals.',
+    eli5: 'Attaching a more active metal (zinc) to the structure you want to protect (steel pipeline) is called sacrificial anode cathodic protection. The zinc is more active than steel in the galvanic series, so it corrodes preferentially while the steel becomes the cathode and is protected. Impressed-current cathodic protection uses an external DC power supply and inert anodes -- there is no external power source described here. Anodic protection is a different technique that uses a controlled external current to form a passive film on the structure -- the opposite concept. Passivation refers to forming a protective oxide layer (like on stainless steel), not attaching sacrificial metals.',
     hint: 'When a more active metal is physically attached to protect a less active metal, the active metal "sacrifices" itself.',
     steps: [
       {
@@ -1392,7 +1392,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The FE Handbook (p. 116) states directly: "Cold working (plastically deforming) a metal increases strength and lowers ductility." This is because cold working introduces dislocations into the crystal structure, which makes it harder for further deformation to occur (higher strength) but also reduces the material\'s ability to deform before fracture (lower ductility). This is a classic trade-off in materials science. Choice B is exactly backwards. Choice A sounds appealing but violates the fundamental strength-ductility trade-off. Choice D is wrong on both counts. The question is hard because students often confuse cold working with heat treatment (annealing), which does the opposite -- it relieves internal stresses and restores ductility at the cost of strength.',
+    eli5: 'The FE Handbook (p. 116) states directly: "Cold working (plastically deforming) a metal increases strength and lowers ductility." This is because cold working introduces dislocations into the crystal structure, which makes it harder for further deformation to occur (higher strength) but also reduces the material\'s ability to deform before fracture (lower ductility). This is a classic trade-off in materials science. The \"decreases strength and increases ductility\" choice is exactly backwards. The \"increases both strength and ductility\" choice sounds appealing but violates the fundamental strength-ductility trade-off. The \"decreases both strength and ductility\" choice is wrong on both counts. The question is hard because students often confuse cold working with heat treatment (annealing), which does the opposite -- it relieves internal stresses and restores ductility at the cost of strength.',
     hint: 'Cold working introduces dislocations that resist further deformation. Think about what that means for both strength and the ability to stretch.',
     steps: [
       {
@@ -1435,7 +1435,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Absorption = (SSD − OD)/OD × 100 = (1,020 − 1,000)/1,000 × 100 = 20/1,000 × 100 = 2.0%. Choice B divides by SSD weight. Choice C forgets to divide by the mass. Choice D drops a factor of 10.',
+    eli5: 'Absorption = (SSD − OD)/OD × 100 = (1,020 − 1,000)/1,000 × 100 = 20/1,000 × 100 = 2.0%. The 1.96% choice divides by SSD weight. The 20% choice forgets to divide by the mass. The 0.2% choice drops a factor of 10.',
     hint: 'Absorption = (SSD − oven-dry)/oven-dry × 100.',
     steps: [
       { text: 'Water absorbed:', latex: '1{,}020 - 1{,}000 = 20\\text{ g}' },
@@ -1464,7 +1464,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'V_a = 100 × (Gmm − Gmb)/Gmm = 100 × (2.470 − 2.350)/2.470 = 100 × 0.120/2.470 = 4.9%. Choice B divides by Gmb instead of Gmm. Choice C forgets to divide by Gmm. Choice D inverts the fraction.',
+    eli5: 'V_a = 100 × (Gmm − Gmb)/Gmm = 100 × (2.470 − 2.350)/2.470 = 100 × 0.120/2.470 = 4.9%. The 5.1% choice divides by Gmb instead of Gmm. The 12.0% choice forgets to divide by Gmm. The 0.95% choice misplaces the factor of 100 / inverts the ratio.',
     hint: 'Air voids = 100 × (Gmm − Gmb)/Gmm.',
     steps: [
       { text: 'Difference:', latex: 'G_{mm} - G_{mb} = 2.470 - 2.350 = 0.120' },
@@ -1493,7 +1493,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'MC = (wet − OD)/OD × 100 = (108 − 90)/90 × 100 = 18/90 × 100 = 20%. Choice B divides by the wet weight (108). Choice C reports the raw water mass. Choice D divides oven-dry by wet.',
+    eli5: 'MC = (wet − OD)/OD × 100 = (108 − 90)/90 × 100 = 18/90 × 100 = 20%. The 16.7% distractor divides by the wet weight (108). The 18% distractor reports the raw water mass. The 83% distractor divides oven-dry by wet.',
     hint: 'Moisture content = (wet − oven-dry)/oven-dry × 100.',
     steps: [
       { text: 'Water mass:', latex: '108 - 90 = 18\\text{ lb}' },

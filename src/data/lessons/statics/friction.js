@@ -69,7 +69,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'easy',
-      eli5: 'On a flat floor, the normal force equals the weight (500 N). The maximum friction force before sliding is $\\mu_s \\times N = 0.40 \\times 500 = 200$ N. Answer B (500 N) uses the full weight as the friction force, which would require $\\mu_s = 1$. Answer C (125 N) divides weight by 4 instead of multiplying by 0.40. Answer A (1,250 N) divides the weight by the coefficient instead of multiplying.',
+      eli5: 'On a flat floor, the normal force equals the weight (500 N). The maximum friction force before sliding is $\\mu_s \\times N = 0.40 \\times 500 = 200$ N. The 500 N choice uses the full weight as the friction force, which would require $\\mu_s = 1$. The 125 N choice divides weight by 4 instead of multiplying by 0.40. The 1,250 N choice divides the weight by the coefficient instead of multiplying.',
       hint: 'On a flat surface, the normal force equals the weight. Maximum friction = $\\mu_s \\times N$.',
       steps: [
         {
@@ -106,7 +106,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Belt friction is exponential, not linear \u2014 that is the key insight. The tight side tension equals the slack side times $e^{\\mu\\theta}$. With $\\mu = 0.30$ and $\\theta = \\pi$ radians (180 degrees), you get $F_1 = 200 \\times e^{0.30\\pi} = 200 \\times 2.566 = 513$ N. Answer A (260 N) treats friction as a simple percentage add-on ($200 + 0.30 \\times 200 = 260$), ignoring the exponential. Answer C (320 N) uses 90 degrees ($\\pi/2$) instead of 180 degrees ($\\pi$) for the contact angle. Answer D assumes the belt cannot transmit any additional force through friction.',
+      eli5: 'Belt friction is exponential, not linear \u2014 that is the key insight. The tight side tension equals the slack side times $e^{\\mu\\theta}$. With $\\mu = 0.30$ and $\\theta = \\pi$ radians (180 degrees), you get $F_1 = 200 \\times e^{0.30\\pi} = 200 \\times 2.566 = 513$ N. The 260 N option treats friction as a simple percentage add-on ($200 + 0.30 \\times 200 = 260$), ignoring the exponential. The 320 N option uses 90 degrees ($\\pi/2$) instead of 180 degrees ($\\pi$) for the contact angle. The 200 N option assumes the belt cannot transmit any additional force through friction.',
       hint: 'Convert the contact angle to radians before using the belt friction formula. 180 degrees = $\\pi$ radians.',
       steps: [
         {
@@ -151,7 +151,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'The tricky part is that the horizontal push $P$ does two things simultaneously: it has a component up the ramp ($P\\cos 25\\degree$) that helps push the block, but it also has a component into the ramp surface ($P\\sin 25\\degree$) that increases the normal force and therefore increases friction. You must account for both. Set up equilibrium along the ramp: the up-ramp component of $P$ must overcome the weight component down the ramp plus friction. Solving gives $P = 1{,}008$ N. Answer A (338 N) is just the weight component down the ramp ($800\\sin 25\\degree$), ignoring friction entirely. Answer B (773 N) forgets that $P$ increases the normal force, underestimating friction. Answer D (400 N) uses a flat-surface friction calculation ($\\mu \\times W$).',
+      eli5: 'The tricky part is that the horizontal push $P$ does two things simultaneously: it has a component up the ramp ($P\\cos 25\\degree$) that helps push the block, but it also has a component into the ramp surface ($P\\sin 25\\degree$) that increases the normal force and therefore increases friction. You must account for both. Set up equilibrium along the ramp: the up-ramp component of $P$ must overcome the weight component down the ramp plus friction. Solving gives $P = 1{,}008$ N. The 338 N choice is just the weight component down the ramp ($800\\sin 25\\degree$), ignoring friction entirely. The 773 N choice forgets that $P$ increases the normal force, underestimating friction. The 400 N choice uses a flat-surface friction calculation ($\\mu \\times W$).',
       hint: 'The horizontal force $P$ has components both along and perpendicular to the ramp. The perpendicular component increases the normal force, which increases friction.',
       steps: [
         {

@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'A starts day 0, finishes day 5 ($ES = 0$, $EF = 0 + 5 = 5$). B starts when A finishes (FS), so $ES_B = 5$. $EF_B = 5 + 3 = 8$. Choice A (5) is EF of A, not B. Choice C (3) is just B\'s duration. Choice D (15) multiplied $5 \\times 3$ instead of adding.',
+      eli5: 'A starts day 0, finishes day 5 ($ES = 0$, $EF = 0 + 5 = 5$). B starts when A finishes (FS), so $ES_B = 5$. $EF_B = 5 + 3 = 8$. Day 5 is EF of A, not B. Day 3 is just B\'s duration. Day 15 multiplied $5 \\times 3$ instead of adding.',
       hint: 'EF = ES + Duration. B\'s ES equals A\'s EF in a finish-to-start relationship.',
       steps: [
         { text: 'Activity A: $ES_A = 0$, $EF_A = 0 + 5 = 5$', latex: null },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'When an activity has multiple predecessors (all FS), its $ES$ = the MAXIMUM of all predecessor EFs. C cannot start until BOTH A and B are done. $\\max(6, 9) = 9$. Choice B (6) took the minimum \u2014 C can\'t start at day 6 because B isn\'t done yet. Choice A (15) added both EFs. Choice D (7.5) averaged them.',
+      eli5: 'When an activity has multiple predecessors (all FS), its $ES$ = the MAXIMUM of all predecessor EFs. C cannot start until BOTH A and B are done. $\\max(6, 9) = 9$. The "Day 6" choice took the minimum \u2014 C can\'t start at day 6 because B isn\'t done yet. The "Day 15" choice added both EFs. The "Day 7.5" choice averaged them.',
       hint: 'ES of an activity = MAX of all predecessor EFs. The activity waits for the LAST predecessor to finish.',
       steps: [
         { text: 'C has two predecessors: $EF_A = 6$ and $EF_B = 9$', latex: null },
@@ -83,7 +83,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Forward pass: A(0,4). B starts at 4, finishes at 10. C starts at 4, finishes at 7. D starts at max(10,7) = 10, finishes at 12. Project duration = 12 days (the EF of the last activity). Two paths exist: A\u2192B\u2192D = 4+6+2 = 12, and A\u2192C\u2192D = 4+3+2 = 9. The longest path (12) controls. Choice B (9) used the shorter path A\u2192C\u2192D. Choice C (15) added all durations. Choice A (10) forgot activity D.',
+      eli5: 'Forward pass: A(0,4). B starts at 4, finishes at 10. C starts at 4, finishes at 7. D starts at max(10,7) = 10, finishes at 12. Project duration = 12 days (the EF of the last activity). Two paths exist: A\u2192B\u2192D = 4+6+2 = 12, and A\u2192C\u2192D = 4+3+2 = 9. The longest path (12) controls. The 9 days option used the shorter path A\u2192C\u2192D. The 15 days option added all durations. The 10 days option forgot activity D.',
       hint: 'Run the forward pass for all activities. The project duration = EF of the last activity.',
       steps: [
         { text: 'A: $ES = 0$, $EF = 4$', latex: null },

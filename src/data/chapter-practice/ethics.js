@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Rule A.1 makes public safety paramount, and a fire-access road that ladder trucks cannot navigate is a direct life-safety problem. Past approvals and political convenience do not override a current code violation. Choice B lets precedent and pressure trump safety, which is exactly what A.1 forbids. Choice C is a half-measure: approving the plan still endangers the public even with a memo attached. Choice D abandons the public the engineer is sworn to protect, leaving the unsafe plan to be approved by someone else. The correct action is to withhold approval, require the fix, and document the deficiency.',
+    eli5: 'Rule A.1 makes public safety paramount, and a fire-access road that ladder trucks cannot navigate is a direct life-safety problem. Past approvals and political convenience do not override a current code violation. Approving the plan to avoid conflict lets precedent and pressure trump safety, which is exactly what A.1 forbids. Approving with a memo of personal disagreement is a half-measure: the plan still endangers the public even with a memo attached. Resigning from the review abandons the public the engineer is sworn to protect, leaving the unsafe plan to be approved by someone else. The correct action is to withhold approval, require the fix, and document the deficiency.',
     hint: 'When political pressure and prior precedent conflict with a current life-safety code requirement, which obligation controls under Rule A.1?',
     steps: [
       {
@@ -83,7 +83,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Two rules apply at once. Rule A.5 requires public statements to be objective, truthful, and founded on adequate knowledge; the engineer cannot claim "no significant impact" when the analysis shows moderate, only-partly-mitigable wetland impacts. Rule A.6 requires disclosing any interested party on whose behalf a public statement is made, including who is paying. Choice A misstates the engineer\'s own findings, violating A.5. Choice C hides the truth by omission and conceals the payment. Choice D wrongly assumes a customary fee removes the duty to disclose; the rule requires revealing the paid relationship regardless of custom. The engineer must both disclose the payment and present the impacts honestly.',
+    eli5: 'Two rules apply at once. Rule A.5 requires public statements to be objective, truthful, and founded on adequate knowledge; the engineer cannot claim "no significant impact" when the analysis shows moderate, only-partly-mitigable wetland impacts. Rule A.6 requires disclosing any interested party on whose behalf a public statement is made, including who is paying. Presenting the project as having no significant impact misstates the engineer\'s own findings, violating A.5. Accepting the fee privately and keeping the presentation general hides the truth by omission and conceals the payment. Declining to disclose because appearance fees are customary wrongly assumes custom removes the duty to disclose; the rule requires revealing the paid relationship regardless of custom. The engineer must both disclose the payment and present the impacts honestly.',
     hint: 'Rule A.5 governs truthfulness; Rule A.6 governs disclosing who is paying for a public statement. Both apply here.',
     steps: [
       {
@@ -140,7 +140,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'easy',
-    eli5: 'Rule B.7 prohibits soliciting or accepting valuable consideration, directly or indirectly, from outside parties in connection with work for which the engineer is responsible. A 10,000 dollar gift card from a supplier whose product the engineer just specified is exactly that. Choice A is wrong because the timing and source create a conflict regardless of how the decision was made. Choice B discloses to the wrong party, the supplier, not the client or employer, and still keeps the gift. Choice D still involves accepting consideration tied to the work; redirecting it to charity does not cure the violation. The clean answer is to decline.',
+    eli5: 'Rule B.7 prohibits soliciting or accepting valuable consideration, directly or indirectly, from outside parties in connection with work for which the engineer is responsible. A 10,000 dollar gift card from a supplier whose product the engineer just specified is exactly that. Accepting the gift because the decision was already made is wrong because the timing and source create a conflict regardless of how the decision was made. Accepting but disclosing to the supplier\'s sales manager discloses to the wrong party, the supplier, not the client or employer, and still keeps the gift. Accepting and donating to charity still involves accepting consideration tied to the work; redirecting it to charity does not cure the violation. The clean answer is to decline.',
     hint: 'Rule B.7 addresses accepting valuable consideration from parties connected to the engineer\'s work. What does it require?',
     steps: [
       {
@@ -197,7 +197,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Engineers owe a duty to their employer and to the public to address errors that affect safety, and the Model Rules call for treating colleagues with professionalism while not ignoring deficient work. An underestimated retaining-wall reinforcement is a real safety issue, but the drawings are not yet issued, so the internal channel is the right first step. Choice A defers to seniority and ignores a safety-relevant error. Choice C makes a unilateral, undocumented change to another engineer\'s work, which is improper and could introduce new errors. Choice D leaps to the licensing board over a correctable internal mistake before any internal attempt to resolve it. The right move is to raise it constructively, then escalate to the supervisor if unresolved.',
+    eli5: 'Engineers owe a duty to their employer and to the public to address errors that affect safety, and the Model Rules call for treating colleagues with professionalism while not ignoring deficient work. An underestimated retaining-wall reinforcement is a real safety issue, but the drawings are not yet issued, so the internal channel is the right first step. Saying nothing defers to seniority and ignores a safety-relevant error. Quietly correcting the calculation makes a unilateral, undocumented change to another engineer\'s work, which is improper and could introduce new errors. Reporting the colleague to the licensing board leaps over a correctable internal mistake before any internal attempt to resolve it. The right move is to raise it constructively, then escalate to the supervisor if unresolved.',
     hint: 'For a correctable error caught before issuance, what is the proper order of action under the obligations to peers and employer?',
     steps: [
       {
@@ -254,7 +254,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'Performing structural and seismic load calculations is squarely the practice of engineering under §110.20 A.3, because it requires engineering education and affects public safety. The Model Law does include an industrial exemption that can allow employees of certain manufacturers to perform engineering for their employer\'s products without individual licensure, but it applies only when the statutory conditions are satisfied; it is not automatic. Choice A treats "manufactured product" as a blanket exemption, which is wrong. Choice B invents a multistate rule that does not exist. Choice C wrongly claims all salaried-employee work is exempt. The accurate answer recognizes the work as engineering and conditions any exemption on meeting the statute.',
+    eli5: 'Performing structural and seismic load calculations is squarely the practice of engineering under §110.20 A.3, because it requires engineering education and affects public safety. The Model Law does include an industrial exemption that can allow employees of certain manufacturers to perform engineering for their employer\'s products without individual licensure, but it applies only when the statutory conditions are satisfied; it is not automatic. The "always exempt manufactured product" choice treats "manufactured product" as a blanket exemption, which is wrong. The "sold in more than one state" choice invents a multistate rule that does not exist. The "any salaried-employee work" choice wrongly claims all salaried-employee work is exempt. The accurate answer recognizes the work as engineering and conditions any exemption on meeting the statute.',
     hint: 'Is structural/seismic design "practice of engineering"? And is the industrial/manufacturing exemption automatic or conditional?',
     steps: [
       {
@@ -311,7 +311,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Only a licensed PE may sign and seal engineering documents, and under Rule B.2 a PE may seal only work prepared under that PE\'s responsible charge. Here the supervising PE exercised responsible charge by directing the work throughout, so the PE signs and seals; the EI, who is not yet licensed, cannot seal. Choice A is wrong because preparing the work does not authorize an unlicensed EI to seal. Choice C invents a joint-sealing requirement that the Model Law does not have. Choice D is wrong because a small commercial building is not exempt from sealing. The supervising PE applies the seal.',
+    eli5: 'Only a licensed PE may sign and seal engineering documents, and under Rule B.2 a PE may seal only work prepared under that PE\'s responsible charge. Here the supervising PE exercised responsible charge by directing the work throughout, so the PE signs and seals; the EI, who is not yet licensed, cannot seal. The option letting the EI sign and seal is wrong because preparing the work does not authorize an unlicensed EI to seal. The joint-sealing option invents a requirement that the Model Law does not have. The no-seal option is wrong because a small commercial building is not exempt from sealing. The supervising PE applies the seal.',
     hint: 'Who is allowed to apply a seal, and what does Rule B.2 require about responsible charge?',
     steps: [
       {
@@ -356,7 +356,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'A master\'s degree sets the qualifying-experience requirement at three years. The one year the engineer worked before earning the master\'s does not count toward that three-year post-degree requirement, so the full three years still must be completed after the master\'s. Choice A (2 years) uses the doctorate reduction by mistake. Choice B (1 year) wrongly credits the pre-master\'s year against the requirement. Choice D (4 years) uses the bachelor\'s requirement and ignores the master\'s reduction entirely. The answer is three years.',
+    eli5: 'A master\'s degree sets the qualifying-experience requirement at three years. The one year the engineer worked before earning the master\'s does not count toward that three-year post-degree requirement, so the full three years still must be completed after the master\'s. The 2 years option uses the doctorate reduction by mistake. The 1 year option wrongly credits the pre-master\'s year against the requirement. The 4 years option uses the bachelor\'s requirement and ignores the master\'s reduction entirely. The answer is three years.',
     hint: 'Which degree governs the requirement, and does pre-degree experience count toward the post-degree requirement?',
     steps: [
       {
@@ -409,7 +409,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Comity (also called reciprocity) lets a board issue a license to an engineer already licensed elsewhere when the original requirements were substantially equivalent to the new state\'s, but it is still an application the board reviews and may add state-specific requirements, such as a state ethics or laws exam. Choice A is wrong because comity is never automatic; it requires application and board review. Choice B is wrong because a single license does not authorize nationwide practice; licensure is jurisdiction-specific. Choice C is wrong because comity\'s whole purpose is to avoid re-examination when requirements are equivalent. The accurate description is board review for substantial equivalence.',
+    eli5: 'Comity (also called reciprocity) lets a board issue a license to an engineer already licensed elsewhere when the original requirements were substantially equivalent to the new state\'s, but it is still an application the board reviews and may add state-specific requirements, such as a state ethics or laws exam. The "automatic grant with no review" option is wrong because comity is never automatic; it requires application and board review. The "practice nationwide on the original license" option is wrong because a single license does not authorize nationwide practice; licensure is jurisdiction-specific. The "retake both the FE and PE" option is wrong because comity\'s whole purpose is to avoid re-examination when requirements are equivalent. The accurate description is board review for substantial equivalence.',
     hint: 'Is comity automatic and nationwide, or is it a board-reviewed application based on substantially equivalent requirements?',
     steps: [
       {
@@ -454,7 +454,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'A utility patent term runs 20 years from the filing date, not the grant date. Filing was 2020, so the term expires in 2040 (2020 + 20). Because the patent was not granted until 2023, the firm can only enforce exclusivity from 2023 to 2040, which is about 17 years. Choice B wrongly measures 20 years from the grant date, giving 2043. Choice C correctly lands on 2040 but wrongly claims a full 20 years of post-grant exclusivity, double-counting the pendency. Choice D measures the term from the grant date and miscounts. The answer is expires 2040 with about 17 years of post-grant exclusivity.',
+    eli5: 'A utility patent term runs 20 years from the filing date, not the grant date. Filing was 2020, so the term expires in 2040 (2020 + 20). Because the patent was not granted until 2023, the firm can only enforce exclusivity from 2023 to 2040, which is about 17 years. The "Expires 2043; about 20 years" choice wrongly measures 20 years from the grant date, giving 2043. The "Expires 2040; about 20 years" choice correctly lands on 2040 but wrongly claims a full 20 years of post-grant exclusivity, double-counting the pendency. The "Expires 2038; about 15 years" choice measures the term from the grant date and miscounts. The answer is expires 2040 with about 17 years of post-grant exclusivity.',
     hint: 'The 20-year term is measured from the filing date. Subtract the pendency (grant minus filing) to get post-grant exclusivity.',
     steps: [
       {
@@ -507,7 +507,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'A patent and a trade secret are mutually exclusive for the same information. A patent requires you to publicly disclose how the invention works, which destroys any trade-secret status, and in return you get an exclusive right for a limited time, about 20 years from filing. A trade secret can last indefinitely but offers no protection against independent discovery or reverse engineering. Choice A wrongly claims you can have secrecy and a patent at once. Choice B says both fully protect the same process simultaneously, which contradicts the disclosure requirement. Choice D wrongly claims a patent does not protect against reverse engineering, but a patent does bar others from making or using the invention regardless of how they discovered it. The correct answer captures the disclosure-for-exclusivity trade-off.',
+    eli5: 'A patent and a trade secret are mutually exclusive for the same information. A patent requires you to publicly disclose how the invention works, which destroys any trade-secret status, and in return you get an exclusive right for a limited time, about 20 years from filing. A trade secret can last indefinitely but offers no protection against independent discovery or reverse engineering. The choice claiming patenting keeps the process secret indefinitely while also barring competitors for 20 years is wrong, because you cannot have secrecy and a patent at once. The choice saying a trade secret and patent can both fully protect the same process simultaneously contradicts the disclosure requirement. The choice claiming a patent provides no protection against reverse engineering is wrong, because a patent bars others from making or using the invention regardless of how they discovered it. The correct answer captures the disclosure-for-exclusivity trade-off.',
     hint: 'Can the same process be both a patent and a trade secret? What does a patent require you to give up?',
     steps: [
       {
@@ -581,7 +581,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'In Design-Bid-Build the owner first contracts with a designer, then separately bids and contracts the construction — two separate contracts and two separate entities. A single combined entity describes Design-Build (Choice B). Choices C and D misstate the roles.',
+    eli5: 'In Design-Bid-Build the owner first contracts with a designer, then separately bids and contracts the construction — two separate contracts and two separate entities. A single combined entity describes Design-Build (the "single entity responsible for both design and construction" choice). The choices stating the contractor performs the design and that the engineer guarantees the construction cost misstate the roles.',
     hint: 'Does DBB combine or separate the design and construction contracts?',
     steps: [
       { text: 'DBB = design, then bid, then build — in sequence.', latex: null },
@@ -611,7 +611,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Negligence requires duty, breach, causation, and damages. Choice B swaps in intent, which belongs to intentional torts, not negligence. Choice C lists contract-formation elements. Choice D invents elements that are not part of the test.',
+    eli5: 'Negligence requires duty, breach, causation, and damages. The "duty, intent, causation, damages" option swaps in intent, which belongs to intentional torts, not negligence. The "offer, acceptance, consideration, breach" option lists contract-formation elements. The "breach, malice, harm, profit" option invents elements that are not part of the test.',
     hint: 'Negligence does not require intent — what are the four real elements?',
     steps: [
       { text: 'Negligence elements: duty, breach, causation, damages.', latex: null },
@@ -641,7 +641,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'A statute of repose sets an absolute outer deadline measured from a fixed event — here, substantial completion — regardless of when the harm is discovered. Twelve years exceeds the 10-year repose period, so the claim is barred. Choice B describes a statute of limitations (discovery-based), which the repose period overrides. Choices C and D are simply incorrect.',
+    eli5: 'A statute of repose sets an absolute outer deadline measured from a fixed event — here, substantial completion — regardless of when the harm is discovered. Twelve years exceeds the 10-year repose period, so the claim is barred. The "recently discovered" option describes a statute of limitations (discovery-based), which the repose period overrides. The options claiming repose doesn\'t apply to engineers and that there is no time limit on negligence are simply incorrect.',
     hint: 'A statute of repose runs from completion, not discovery, and is absolute.',
     steps: [
       { text: 'Statute of repose: absolute cutoff from substantial completion.', latex: null },

@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'This is a direct application of zero-force member Rule 2: when three members meet at an unloaded joint and two of them are collinear, the third is a zero-force member. AC and CE lie along the same horizontal line (collinear), so CD (the non-collinear member) carries zero force. No calculation needed. Answer A and C assume CD shares load with the other members, but collinear members pass their force straight through the joint. Answer D overthinks it \u2014 the zero-force rule gives the answer by inspection.',
+      eli5: 'This is a direct application of zero-force member Rule 2: when three members meet at an unloaded joint and two of them are collinear, the third is a zero-force member. AC and CE lie along the same horizontal line (collinear), so CD (the non-collinear member) carries zero force. No calculation needed. The choices that CD carries the same force as AC or half the force of CE assume CD shares load with the other members, but collinear members pass their force straight through the joint. The "cannot determine without calculating reactions" choice overthinks it \u2014 the zero-force rule gives the answer by inspection.',
       hint: 'Three members meet at an unloaded joint. Two are collinear. What does the zero-force member rule say about the third?',
       steps: [
         {
@@ -100,7 +100,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'At joint A, two member forces and the 5 kN upward reaction must balance. Since AB is horizontal, it has no vertical component \u2014 so member AC must carry the entire vertical load. The vertical component of the AC force equals 5 kN, and since AC runs from A(0,0) to C(3,4) (a 3-4-5 triangle), the full force is $5 \\div (4/5) = 6.25$ kN. The negative sign in the tension convention means AC is in compression (pushing toward the joint). Answer B (5 kN) confuses the vertical component with the total member force. Answer D (3.75 kN) is actually the force in member AB, not AC.',
+      eli5: 'At joint A, two member forces and the 5 kN upward reaction must balance. Since AB is horizontal, it has no vertical component \u2014 so member AC must carry the entire vertical load. The vertical component of the AC force equals 5 kN, and since AC runs from A(0,0) to C(3,4) (a 3-4-5 triangle), the full force is $5 \\div (4/5) = 6.25$ kN. The negative sign in the tension convention means AC is in compression (pushing toward the joint). The 5 kN tension option confuses the vertical component with the total member force. The 3.75 kN tension option is actually the force in member AB, not AC.',
       hint: 'At joint A, only member AC has a vertical component. Set $\\sum F_y = 0$ at joint A to find the force in AC directly.',
       steps: [
         {
@@ -145,7 +145,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Method of sections lets you cut straight to the member you need without solving the entire truss. Cut through EF, EC, and BC, then take the left portion (joints A, B, E). To isolate the force in BC, sum moments about point E \u2014 both the EF and EC forces pass through E, so their moments vanish. The only forces with nonzero moments about E are the 8 kN support reaction at A and the unknown BC force. The reaction at A (8 kN upward) is 3 m to the left of E, creating a 24 kN\\cdot m clockwise moment. Member BC is 4 m below E. Setting the moments equal: $F_{BC} \\times 4 = 24$, so $F_{BC} = 6$ kN tension. Answer B (8 kN) confuses the support reaction with the member force. Answer D (16 kN) is the reaction at D.',
+      eli5: 'Method of sections lets you cut straight to the member you need without solving the entire truss. Cut through EF, EC, and BC, then take the left portion (joints A, B, E). To isolate the force in BC, sum moments about point E \u2014 both the EF and EC forces pass through E, so their moments vanish. The only forces with nonzero moments about E are the 8 kN support reaction at A and the unknown BC force. The reaction at A (8 kN upward) is 3 m to the left of E, creating a 24 kN\\cdot m clockwise moment. Member BC is 4 m below E. Setting the moments equal: $F_{BC} \\times 4 = 24$, so $F_{BC} = 6$ kN tension. The 8 kN tension choice confuses the support reaction with the member force. The 16 kN tension choice is the reaction at D.',
       hint: 'Cut through the three members and sum moments about point E, where two of the three cut forces intersect.',
       steps: [
         {

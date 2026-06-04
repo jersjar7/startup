@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'E = (g\u2082 \u2212 g\u2081) \u00D7 L/8. Convert grades to decimals: g\u2081 = +0.03, g\u2082 = \u22120.05. E = (\u22120.05 \u2212 0.03) \u00D7 800/8 = \u22120.08 \u00D7 100 = \u22128.0 ft. The magnitude is 8.0 ft. The negative sign means the curve dips below the tangent line (crest). Choice B (16) used L/4 instead of L/8. Choice A (4) used L/16. Choice D (32) used L/2.',
+      eli5: 'E = (g\u2082 \u2212 g\u2081) \u00D7 L/8. Convert grades to decimals: g\u2081 = +0.03, g\u2082 = \u22120.05. E = (\u22120.05 \u2212 0.03) \u00D7 800/8 = \u22120.08 \u00D7 100 = \u22128.0 ft. The magnitude is 8.0 ft. The negative sign means the curve dips below the tangent line (crest). The 16 ft choice used L/4 instead of L/8. The 4 ft choice used L/16. The 32 ft choice used L/2.',
       hint: 'The shortcut: E = (g\u2082 \u2212 g\u2081) \u00D7 L / 8. The PVI is at the midpoint of the curve.',
       steps: [
         { text: 'Convert grades to decimals: $g_1 = +0.03$, $g_2 = -0.05$', latex: null },

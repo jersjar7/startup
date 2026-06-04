@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'A Start-to-Start relationship ties the successor START to the predecessor START. With SS+2 lag, S can start 2 days after R starts. R starts on day 3, so $ES_S = 3 + 2 = 5$. Choice B (3) ignored the 2-day lag. Choice C (10) wrongly used R\'s early finish ($3 + 7 = 10$), treating it as Finish-to-Start. Choice D (12) added the lag to R\'s finish, mixing FS with the lag.',
+    eli5: 'A Start-to-Start relationship ties the successor START to the predecessor START. With SS+2 lag, S can start 2 days after R starts. R starts on day 3, so $ES_S = 3 + 2 = 5$. The Day 3 choice ignored the 2-day lag. The Day 10 choice wrongly used R\'s early finish ($3 + 7 = 10$), treating it as Finish-to-Start. The Day 12 choice added the lag to R\'s finish, mixing FS with the lag.',
     hint: 'SS lag measures from the predecessor start, not its finish. ES of successor = ES of predecessor + lag.',
     steps: [
       { text: 'R starts on day 3: $ES_R = 3$.', latex: null },
@@ -43,7 +43,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'In AOA notation, activities are arrows and events are nodes. When two activities share dependency logic but must remain distinct, a dummy activity (a dashed arrow with zero duration) preserves the correct precedence without implying real work. This is unique to AOA. Choice A adds a lag, which changes timing, not logic. Choice B invents an extra node that does not fix the shared-dependency problem. Choice D imposes a finish constraint between two activities that the problem says are independent.',
+    eli5: 'In AOA notation, activities are arrows and events are nodes. When two activities share dependency logic but must remain distinct, a dummy activity (a dashed arrow with zero duration) preserves the correct precedence without implying real work. This is unique to AOA. The lag option adds a lag, which changes timing, not logic. The second predecessor node invents an extra node that does not fix the shared-dependency problem. The Finish-to-Finish constraint imposes a finish constraint between two activities that the problem says are independent.',
     hint: 'AOA notation sometimes needs a zero-duration element to keep dependency logic correct. What is it called?',
     steps: [
       { text: 'AOA = Activity-on-Arrow: activities are arrows, events are nodes.', latex: null },
@@ -73,7 +73,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Forward pass: P(0,6). Q(6,10). R(6,15). S depends on Q and R, so $ES_S = \\max(EF_Q, EF_R) = \\max(10, 15) = 15$. S must wait for the slower path through R. Choice A (10) took $EF_Q$ (the minimum, the faster predecessor). Choice C (6) used $EF_P$ and ignored Q and R. Choice D (20) is the project finish ($EF_S$), not the start.',
+    eli5: 'Forward pass: P(0,6). Q(6,10). R(6,15). S depends on Q and R, so $ES_S = \\max(EF_Q, EF_R) = \\max(10, 15) = 15$. S must wait for the slower path through R. The Day 10 option took $EF_Q$ (the minimum, the faster predecessor). The Day 6 option used $EF_P$ and ignored Q and R. The Day 20 option is the project finish ($EF_S$), not the start.',
     hint: 'Forward pass uses MAX of predecessor early finishes. Which predecessor finishes later, Q or R?',
     steps: [
       { text: 'Forward pass: $P(0,6)$, $Q(6,10)$, $R(6,15)$.', latex: null },
@@ -103,7 +103,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Backward pass from $LF = 20$: S(15,20). Q feeds only S, so $LF_Q = LS_S = 15$. Then $LS_Q = 15 - 4 = 11$. The question asks for the late finish, which is 15. Choice A (10) is the early finish of Q from the forward pass, not the late finish. Choice C (11) is the late START of Q. Choice D (20) is the project end, the late finish of S.',
+    eli5: 'Backward pass from $LF = 20$: S(15,20). Q feeds only S, so $LF_Q = LS_S = 15$. Then $LS_Q = 15 - 4 = 11$. The question asks for the late finish, which is 15. Day 10 is the early finish of Q from the forward pass, not the late finish. Day 11 is the late START of Q. Day 20 is the project end, the late finish of S.',
     hint: 'Q feeds only S. Its late finish equals the late start of S. Do not subtract the duration yet — that gives LS.',
     steps: [
       { text: 'Backward pass: $LF_S = 20$, $LS_S = 20 - 5 = 15$.', latex: null },
@@ -133,7 +133,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Total float $= LF - EF$. First find $EF = ES + D = 6 + 8 = 14$. Then $TF = LF - EF = 20 - 14 = 6$ days. Equivalently, $LS = LF - D = 20 - 8 = 12$, and $TF = LS - ES = 12 - 6 = 6$. Choice A (8) is the duration. Choice C (14) is $LF - ES = 20 - 6$, which double-counts the duration. Choice D (2) subtracts incorrectly.',
+    eli5: 'Total float $= LF - EF$. First find $EF = ES + D = 6 + 8 = 14$. Then $TF = LF - EF = 20 - 14 = 6$ days. Equivalently, $LS = LF - D = 20 - 8 = 12$, and $TF = LS - ES = 12 - 6 = 6$. The 8-day option is just the duration. The 14-day option is $LF - ES = 20 - 6$, which double-counts the duration. The 2-day option subtracts incorrectly.',
     hint: 'You need EF before using TF = LF − EF. Compute EF = ES + Duration first.',
     steps: [
       { text: 'Early finish:', latex: 'EF = ES + D = 6 + 8 = 14' },
@@ -163,7 +163,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Total float $= LF - EF$. If the late finish increases by 3 while the early finish is unchanged, total float becomes $0 + 3 = 3$ days. Any activity with positive total float is, by definition, NOT on the critical path. The critical path is the set of activities with zero total float. Choice B confuses early dates with float — float depends on the gap between early and late dates. Choice C describes an over-allocated schedule, the opposite of gaining slack. Choice D is impossible because free float can never exceed total float.',
+    eli5: 'Total float $= LF - EF$. If the late finish increases by 3 while the early finish is unchanged, total float becomes $0 + 3 = 3$ days. Any activity with positive total float is, by definition, NOT on the critical path. The critical path is the set of activities with zero total float. The "remains critical because its early dates did not change" choice confuses early dates with float — float depends on the gap between early and late dates. The "negative float of 3 days" choice describes an over-allocated schedule, the opposite of gaining slack. The "free float increases but total float stays at zero" choice is impossible because free float can never exceed total float.',
     hint: 'Total float = LF − EF. If LF moves later but EF holds, what happens to the gap?',
     steps: [
       { text: 'Originally critical: $TF = LF - EF = 0$.', latex: null },
@@ -193,7 +193,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$CV = BCWP - ACWP = 1{,}050{,}000 - 980{,}000 = +70{,}000$. A positive cost variance means the work performed is worth more than what was spent — the project is under budget. Choice A ($-150{,}000$) computed the schedule variance ($BCWP - BCWS = 1{,}050{,}000 - 1{,}200{,}000$) instead of the cost variance. Choice B flipped the sign by subtracting in the wrong order. Choice D ($+220{,}000$) used $BCWS - ACWP$, which is not a standard variance.',
+    eli5: '$CV = BCWP - ACWP = 1{,}050{,}000 - 980{,}000 = +70{,}000$. A positive cost variance means the work performed is worth more than what was spent — the project is under budget. The $-150{,}000$ option computed the schedule variance ($BCWP - BCWS = 1{,}050{,}000 - 1{,}200{,}000$) instead of the cost variance. The $-70{,}000$ option flipped the sign by subtracting in the wrong order. The $+220{,}000$ option used $BCWS - ACWP$, which is not a standard variance.',
     hint: 'CV = BCWP − ACWP. Compare earned value to actual cost, not to planned value.',
     steps: [
       { text: 'Cost variance:', latex: 'CV = BCWP - ACWP = 1{,}050{,}000 - 980{,}000 = +70{,}000' },
@@ -222,7 +222,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Schedule variance $SV = BCWP - BCWS = 0$ forces $BCWP = BCWS$. Cost variance $CV = BCWP - ACWP = 0$ forces $BCWP = ACWP$. Combining both, all three values are equal: $BCWS = BCWP = ACWP$. The project is exactly on schedule and exactly on budget. Choice A (BCWP = 0) only happens before any work is earned. Choice B lets BCWP differ, which would make both variances nonzero. Choice C describes a project both behind schedule and over budget.',
+    eli5: 'Schedule variance $SV = BCWP - BCWS = 0$ forces $BCWP = BCWS$. Cost variance $CV = BCWP - ACWP = 0$ forces $BCWP = ACWP$. Combining both, all three values are equal: $BCWS = BCWP = ACWP$. The project is exactly on schedule and exactly on budget. The choice BCWP = 0 only happens before any work is earned. The choice BCWS = ACWP but BCWP may differ lets BCWP differ, which would make both variances nonzero. The choice ACWP > BCWP > BCWS describes a project both behind schedule and over budget.',
     hint: 'Set both variance formulas to zero and see what they require about the three terms.',
     steps: [
       { text: 'Schedule variance zero:', latex: 'SV = BCWP - BCWS = 0 \\Rightarrow BCWP = BCWS' },
@@ -252,7 +252,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: '$SPI = BCWP / BCWS = 840{,}000 / 1{,}050{,}000 = 0.80$. An SPI below 1.0 means the project earned less value than planned — behind schedule. Choice A (1.25) inverted the ratio to $BCWS / BCWP$. Choice C has the right number but misreads the sign — below 1.0 is behind, not ahead. Choice D ($-210{,}000$) is the schedule variance in dollars ($SV = BCWP - BCWS$), not the index.',
+    eli5: '$SPI = BCWP / BCWS = 840{,}000 / 1{,}050{,}000 = 0.80$. An SPI below 1.0 means the project earned less value than planned — behind schedule. The 1.25 option inverted the ratio to $BCWS / BCWP$. The other 0.80 (ahead) option has the right number but misreads the sign — below 1.0 is behind, not ahead. The $-210{,}000$ option is the schedule variance in dollars ($SV = BCWP - BCWS$), not the index.',
     hint: 'SPI = Earned / Planned = BCWP / BCWS. Below 1.0 means behind schedule.',
     steps: [
       { text: 'Schedule Performance Index:', latex: 'SPI = \\frac{BCWP}{BCWS} = \\frac{840{,}000}{1{,}050{,}000} = 0.80' },
@@ -281,7 +281,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'First find $CPI = BCWP / ACWP = 1{,}500{,}000 / 1{,}800{,}000 = 0.8333$. Then $EAC = BAC / CPI = 4{,}000{,}000 / 0.8333 = 4{,}800{,}000$. Because the project is running over budget (CPI < 1.0), the forecast total exceeds the original budget. Choice B (3,333,333) inverted CPI, dividing by 1.20 instead. Choice C (4,300,000) added the overrun-to-date (ACWP − BCWP = 300,000) to BAC, ignoring that the trend continues. Choice D (4,000,000) is BAC with no adjustment.',
+    eli5: 'First find $CPI = BCWP / ACWP = 1{,}500{,}000 / 1{,}800{,}000 = 0.8333$. Then $EAC = BAC / CPI = 4{,}000{,}000 / 0.8333 = 4{,}800{,}000$. Because the project is running over budget (CPI < 1.0), the forecast total exceeds the original budget. The 3,333,333 option inverted CPI, dividing by 1.20 instead. The 4,300,000 option added the overrun-to-date (ACWP − BCWP = 300,000) to BAC, ignoring that the trend continues. The 4,000,000 option is BAC with no adjustment.',
     hint: 'Compute CPI = BCWP / ACWP, then divide the full budget by it: EAC = BAC / CPI.',
     steps: [
       { text: 'Cost Performance Index:', latex: 'CPI = \\frac{BCWP}{ACWP} = \\frac{1{,}500{,}000}{1{,}800{,}000} = 0.8333' },
@@ -341,7 +341,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'A GMP caps the owner\'s cost exposure: the owner never pays more than the GMP. When actual cost comes in under the GMP, a shared-savings (savings-split) clause divides the underrun between owner and CM by a pre-agreed ratio. This incentivizes the CM to control costs. Choice A ignores the explicit shared-savings clause. Choice C is wrong because the CM does not pocket all savings under a shared clause. Choice D describes a lump-sum contract, not a GMP, where the owner pays actual cost up to the cap.',
+    eli5: 'A GMP caps the owner\'s cost exposure: the owner never pays more than the GMP. When actual cost comes in under the GMP, a shared-savings (savings-split) clause divides the underrun between owner and CM by a pre-agreed ratio. This incentivizes the CM to control costs. The "owner keeps the entire savings" option ignores the explicit shared-savings clause. The "CM keeps the entire savings as profit" option is wrong because the CM does not pocket all savings under a shared clause. The "owner must pay the full GMP regardless of actual cost" option describes a different arrangement, not a GMP with a savings split, where the owner would pay the cap rather than the lower actual cost.',
     hint: 'A GMP is a cost ceiling. The shared-savings clause says specifically who benefits when actual cost is below it.',
     steps: [
       { text: 'GMP = 8,000,000 is the maximum the owner pays.', latex: null },
@@ -371,7 +371,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'OSHA prohibits classifying previously disturbed soil as Type A. Previously disturbed, submerged, or seeping soils are treated as the weakest classification, Type C, which requires the flattest slope (1.5H:1V). The disturbance destroys the natural cohesion that would justify a steeper classification. Choice A is exactly the forbidden assumption. Choice B still overstates stability. Choice D is wrong — all excavation soils must be classified by a competent person regardless of origin.',
+    eli5: 'OSHA prohibits classifying previously disturbed soil as Type A. Previously disturbed, submerged, or seeping soils are treated as the weakest classification, Type C, which requires the flattest slope (1.5H:1V). The disturbance destroys the natural cohesion that would justify a steeper classification. The "Type A, because compacted backfill is the most stable" choice is exactly the forbidden assumption. The "Type B, because backfill is moderately stable" choice still overstates stability. The "it does not need classification if it was engineered fill" choice is wrong — all excavation soils must be classified by a competent person regardless of origin.',
     hint: 'Disturbed or submerged soil cannot be classified as the strongest type. Which classification is the conservative default?',
     steps: [
       { text: 'OSHA forbids classifying previously disturbed soil as Type A.', latex: null },
@@ -401,7 +401,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'At $1H : 1V$, each side slopes back 1 ft horizontally for every 1 ft of depth. At 16 ft deep, each side adds $1 \\times 16 = 16$ ft of horizontal run. There are two sides, so total slope width = $2 \\times 16 = 32$ ft. Add the 4 ft bottom: top width $= 32 + 4 = 36$ ft. Choice A (20) added only one side\'s run plus the bottom ($16 + 4$). Choice B (28) used a $0.75H : 1V$ ratio ($2 \\times 12 + 4$). Choice C (52) used $1.5H : 1V$ ($2 \\times 24 + 4$), the Type C slope, not Type B.',
+    eli5: 'At $1H : 1V$, each side slopes back 1 ft horizontally for every 1 ft of depth. At 16 ft deep, each side adds $1 \\times 16 = 16$ ft of horizontal run. There are two sides, so total slope width = $2 \\times 16 = 32$ ft. Add the 4 ft bottom: top width $= 32 + 4 = 36$ ft. The 20 ft option added only one side\'s run plus the bottom ($16 + 4$). The 28 ft option used a $0.75H : 1V$ ratio ($2 \\times 12 + 4$). The 52 ft option used $1.5H : 1V$ ($2 \\times 24 + 4$), the Type C slope, not Type B.',
     hint: 'Each side runs back (H/V ratio) × depth. Two sides plus the bottom width gives the top width.',
     steps: [
       { text: 'Horizontal run per side:', latex: '1 \\times 16 = 16 \\text{ ft}' },

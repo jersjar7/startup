@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'For a plane frame, compare $3m + r$ to $3j + c$. Two fixed supports give $r = 3 + 3 = 6$ reaction components. Then $3m + r = 3(6) + 6 = 24$, and $3j + c = 3(6) + 0 = 18$. The degree of indeterminacy is $24 - 18 = 6$. Choice A (3) results from counting only one fixed support ($r = 3$): $21 - 18 = 3$. Choice C (4) results from treating each base as a pin ($r = 4$): $22 - 18 = 4$. Choice D (0) wrongly applies the truss formula $m + r$ vs $2j$.',
+    eli5: 'For a plane frame, compare $3m + r$ to $3j + c$. Two fixed supports give $r = 3 + 3 = 6$ reaction components. Then $3m + r = 3(6) + 6 = 24$, and $3j + c = 3(6) + 0 = 18$. The degree of indeterminacy is $24 - 18 = 6$. The value 3 results from counting only one fixed support ($r = 3$): $21 - 18 = 3$. The value 4 results from treating each base as a pin ($r = 4$): $22 - 18 = 4$. The value 0 wrongly applies the truss formula $m + r$ vs $2j$.',
     hint: 'Count reactions (each fixed support gives 3), then use $3m + r$ vs $3j + c$.',
     steps: [
       { text: 'Count reactions (two fixed supports):', latex: 'r = 3 + 3 = 6' },
@@ -44,7 +44,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Each pin provides 2 reaction components, so $r = 2 + 2 = 4$. A planar beam has 3 independent equilibrium equations ($\\Sigma F_x = 0$, $\\Sigma F_y = 0$, $\\Sigma M = 0$). The external degree of indeterminacy is $r - 3 = 4 - 3 = 1$. Two pins introduce one redundant horizontal restraint that equilibrium alone cannot resolve. Choice B (determinate) would require exactly $r = 3$, which is the familiar pin-plus-roller case. Choice A (unstable) would require $r < 3$. Choice D (3rd degree) overcounts the redundancy — only one extra reaction component exists beyond the three equilibrium equations.',
+    eli5: 'Each pin provides 2 reaction components, so $r = 2 + 2 = 4$. A planar beam has 3 independent equilibrium equations ($\\Sigma F_x = 0$, $\\Sigma F_y = 0$, $\\Sigma M = 0$). The external degree of indeterminacy is $r - 3 = 4 - 3 = 1$. Two pins introduce one redundant horizontal restraint that equilibrium alone cannot resolve. The "stable and statically determinate" choice would require exactly $r = 3$, which is the familiar pin-plus-roller case. The "unstable \u2014 mechanism" choice would require $r < 3$. The "indeterminate to the 3rd degree" choice overcounts the redundancy — only one extra reaction component exists beyond the three equilibrium equations.',
     hint: 'Count the reaction components, then compare to the 3 equilibrium equations of a planar beam.',
     steps: [
       { text: 'Reaction components (two pins):', latex: 'r = 2 + 2 = 4' },
@@ -74,7 +74,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'ASD uses unfactored loads with the 0.75 companion factor: $D + 0.75L + 0.75S = 40 + 0.75(30) + 0.75(24) = 40 + 22.5 + 18 = 80.5$ kips. Choice B (94) is the plain sum $D + L + S = 40 + 30 + 24$, forgetting the 0.75 factors. Choice C (84) is the LRFD combination $1.2D + 1.6L = 48 + 48$ — wrong because the problem specifies ASD. Choice D (62.5) drops the snow term and uses only $D + 0.75L = 40 + 22.5$.',
+    eli5: 'ASD uses unfactored loads with the 0.75 companion factor: $D + 0.75L + 0.75S = 40 + 0.75(30) + 0.75(24) = 40 + 22.5 + 18 = 80.5$ kips. The 94 kips option is the plain sum $D + L + S = 40 + 30 + 24$, forgetting the 0.75 factors. The 84 kips option is the LRFD combination $1.2D + 1.6L = 48 + 48$ — wrong because the problem specifies ASD. The 62.5 kips option drops the snow term and uses only $D + 0.75L = 40 + 22.5$.',
     hint: 'ASD uses service loads. Apply the 0.75 companion factor to both $L$ and $S$.',
     steps: [
       { text: 'ASD combination:', latex: 'D + 0.75L + 0.75S' },
@@ -104,7 +104,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Combination 1 is $1.4D = 1.4(100) = 140$ kips. Combination 2 is $1.2D + 1.6L = 1.2(100) + 1.6(10) = 120 + 16 = 136$ kips. Because dead load dominates and live load is small, Combination 1 (140) produces the larger factored load and controls. This is the case the $1.4D$ combination exists for. Choice A (136) is Combination 2, which is smaller here. Choice B (120) keeps only the $1.2D$ term and drops live load. Choice C (110) is the unfactored service load $D + L$.',
+    eli5: 'Combination 1 is $1.4D = 1.4(100) = 140$ kips. Combination 2 is $1.2D + 1.6L = 1.2(100) + 1.6(10) = 120 + 16 = 136$ kips. Because dead load dominates and live load is small, Combination 1 (140) produces the larger factored load and controls. This is the case the $1.4D$ combination exists for. The 136 kips option is Combination 2, which is smaller here. The 120 kips option keeps only the $1.2D$ term and drops live load. The 110 kips option is the unfactored service load $D + L$.',
     hint: 'When dead load dominates, check Combination 1 ($1.4D$) against Combination 2 ($1.2D + 1.6L$).',
     steps: [
       { text: 'Combination 1:', latex: '1.4D = 1.4(100) = 140 \\text{ kips}' },
@@ -134,7 +134,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The IL for $R_A$ is a straight line from $1.0$ at A to $0$ at B, so the ordinate at distance $x$ is $(L - x)/L$. Over the loaded region (0 to 10 ft) the ordinate runs from $1.0$ down to $0.5$. The area under the IL there is the trapezoid $\\tfrac{1.0 + 0.5}{2}(10) = 7.5$. For a distributed load, $R_A = w \\times \\text{area} = 3 \\times 7.5 = 22.5$ kips. Check by statics: the half-span load is $3(10) = 30$ kips acting at $5$ ft from A, so $R_A = 30(20 - 5)/20 = 22.5$ kips. Choice A (30) is the total applied load, not the reaction. Choice C (15) is the right reaction $R_B$. Choice D (7.5) is the IL area without multiplying by $w$.',
+    eli5: 'The IL for $R_A$ is a straight line from $1.0$ at A to $0$ at B, so the ordinate at distance $x$ is $(L - x)/L$. Over the loaded region (0 to 10 ft) the ordinate runs from $1.0$ down to $0.5$. The area under the IL there is the trapezoid $\\tfrac{1.0 + 0.5}{2}(10) = 7.5$. For a distributed load, $R_A = w \\times \\text{area} = 3 \\times 7.5 = 22.5$ kips. Check by statics: the half-span load is $3(10) = 30$ kips acting at $5$ ft from A, so $R_A = 30(20 - 5)/20 = 22.5$ kips. The 30 kips option is the total applied load, not the reaction. The 15 kips option is the right reaction $R_B$. The 7.5 option is the IL area without multiplying by $w$.',
     hint: 'For a distributed load, multiply $w$ by the area under the reaction IL over the loaded region (a trapezoid here).',
     steps: [
       { text: 'IL ordinate at A and at midspan:', latex: '\\eta_A = 1.0, \\quad \\eta_{mid} = \\frac{20 - 10}{20} = 0.5' },
@@ -164,7 +164,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The IL for shear at midspan is antisymmetric: a positive triangle on the right half and an equal negative triangle on the left half. For a uniform load over the whole span, the shear equals $w$ times the net area under the IL. Because the positive and negative areas are equal in magnitude, they cancel and the net shear at midspan is zero. This matches the familiar result that shear is zero at the point of maximum moment in a symmetric beam. Choice A and B assume the load only sits on one half. Choice D confuses the shear-moment relationship.',
+    eli5: 'The IL for shear at midspan is antisymmetric: a positive triangle on the right half and an equal negative triangle on the left half. For a uniform load over the whole span, the shear equals $w$ times the net area under the IL. Because the positive and negative areas are equal in magnitude, they cancel and the net shear at midspan is zero. This matches the familiar result that shear is zero at the point of maximum moment in a symmetric beam. The "maximum positive" and "maximum negative" choices assume the load sits on only one half of the span. The choice equating shear to the midspan moment divided by L confuses the shear-moment relationship.',
     hint: 'For a full-span uniform load, the shear equals $w$ times the net (signed) area under the shear IL.',
     steps: [
       { text: 'Midspan shear IL: positive triangle (right half) and negative triangle (left half) of equal area.', latex: null },
@@ -194,7 +194,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'ACI requires $A_{s,\\min}$ to be the larger of $\\frac{3\\sqrt{f_c\'}}{f_y} b_w d$ and $\\frac{200}{f_y} b_w d$, with stresses in psi. First term: $\\frac{3\\sqrt{4000}}{60000}(12)(20) = \\frac{189.7}{60000}(240) = 0.759$ in$^2$. Second term: $\\frac{200}{60000}(12)(20) = \\frac{200}{60000}(240) = 0.80$ in$^2$. The larger value governs, so $A_{s,\\min} = 0.80$ in$^2$. Choice C (0.76) is the first term alone — but the $200/f_y$ term controls for $f_c\' \\leq 4{,}444$ psi. Choice A (0.40) drops $b_w$. Choice B (1.60) doubles the area by a unit slip.',
+    eli5: 'ACI requires $A_{s,\\min}$ to be the larger of $\\frac{3\\sqrt{f_c\'}}{f_y} b_w d$ and $\\frac{200}{f_y} b_w d$, with stresses in psi. First term: $\\frac{3\\sqrt{4000}}{60000}(12)(20) = \\frac{189.7}{60000}(240) = 0.759$ in$^2$. Second term: $\\frac{200}{60000}(12)(20) = \\frac{200}{60000}(240) = 0.80$ in$^2$. The larger value governs, so $A_{s,\\min} = 0.80$ in$^2$. The 0.76 in$^2$ choice is the first term alone — but the $200/f_y$ term controls for $f_c\' \\leq 4{,}444$ psi. The 0.40 in$^2$ choice drops $b_w$. The 1.60 in$^2$ choice doubles the area by a unit slip.',
     hint: 'Compute both $\\frac{3\\sqrt{f_c\'}}{f_y} b_w d$ and $\\frac{200}{f_y} b_w d$ (psi units) and take the larger.',
     steps: [
       { text: 'First expression:', latex: '\\frac{3\\sqrt{4000}}{60000}(12)(20) = \\frac{189.7}{60000}(240) = 0.759 \\text{ in}^2' },
@@ -224,7 +224,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: '$V_s = \\frac{A_v f_y d}{s} = \\frac{0.40 \\times 60 \\times 22}{8} = \\frac{528}{8} = 66$ kips. Choice B (33) uses only one stirrup leg ($A_v = 0.20$) instead of the two-leg area. Choice C (132) halves the spacing to $s = 4$ in. by mistake. Choice D (30) drops $d$ and uses an incorrect lever term.',
+    eli5: '$V_s = \\frac{A_v f_y d}{s} = \\frac{0.40 \\times 60 \\times 22}{8} = \\frac{528}{8} = 66$ kips. The 33 kips option uses only one stirrup leg ($A_v = 0.20$) instead of the two-leg area. The 132 kips option halves the spacing to $s = 4$ in. by mistake. The 30 kips option drops $d$ and uses an incorrect lever term.',
     hint: 'Use $V_s = A_v f_y d / s$ with the two-leg stirrup area.',
     steps: [
       { text: 'Stirrup shear capacity:', latex: 'V_s = \\frac{A_v f_y d}{s} = \\frac{0.40 \\times 60 \\times 22}{8}' },
@@ -253,7 +253,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$A_g = 12 \\times 18 = 216$ in$^2$. Inside the brackets: $0.85(4)(216 - 4.0) + 4.0(60) = 3.4(212) + 240 = 720.8 + 240 = 960.8$ kips. For a tied column apply both factors: $\\phi P_n = 0.80(0.65)(960.8) = 0.52 \\times 960.8 = 500$ kips. Choice A (961) omits both the 0.80 and $\\phi$ factors. Choice C (625) applies only $\\phi = 0.65$. Choice D (769) applies only the 0.80 factor.',
+    eli5: '$A_g = 12 \\times 18 = 216$ in$^2$. Inside the brackets: $0.85(4)(216 - 4.0) + 4.0(60) = 3.4(212) + 240 = 720.8 + 240 = 960.8$ kips. For a tied column apply both factors: $\\phi P_n = 0.80(0.65)(960.8) = 0.52 \\times 960.8 = 500$ kips. The 961 kips choice omits both the 0.80 and $\\phi$ factors. The 625 kips choice applies only $\\phi = 0.65$. The 769 kips choice applies only the 0.80 factor.',
     hint: 'Use $\\phi P_n = 0.80\\phi[0.85 f_c\'(A_g - A_{st}) + A_{st} f_y]$ with $\\phi = 0.65$ for tied columns.',
     steps: [
       { text: 'Gross area:', latex: 'A_g = 12 \\times 18 = 216 \\text{ in}^2' },
@@ -283,7 +283,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'ACI limits the longitudinal steel ratio to $0.01 \\leq \\rho_g \\leq 0.08$ (1 to 8 percent). A 10 percent ratio exceeds the 8 percent maximum. The upper limit prevents reinforcement congestion that makes it impossible to place and consolidate concrete around the bars and at lap splices. Choice A is wrong because an upper limit exists. Choice B has the direction backwards — 10 percent is far above, not below, the minimum. Choice D is wrong because the limits apply to both tied and spiral columns.',
+    eli5: 'ACI limits the longitudinal steel ratio to $0.01 \\leq \\rho_g \\leq 0.08$ (1 to 8 percent). A 10 percent ratio exceeds the 8 percent maximum. The upper limit prevents reinforcement congestion that makes it impossible to place and consolidate concrete around the bars and at lap splices. The "acceptable — no upper limit" choice is wrong because an upper limit exists. The "below the 1 percent minimum" choice has the direction backwards — 10 percent is far above, not below, the minimum. The "only a problem for spiral columns" choice is wrong because the limits apply to both tied and spiral columns.',
     hint: 'Recall the ACI reinforcement ratio limits for columns and which bound 10 percent violates.',
     steps: [
       { text: 'ACI limits:', latex: '0.01 \\leq \\rho_g \\leq 0.08' },
@@ -313,7 +313,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'With full bracing, $M_n = M_p = F_y Z_x = 50 \\times 100 = 5{,}000$ kip-in $= 416.7$ kip-ft. For ASD, divide by $\\Omega_b = 1.67$: $M_n/\\Omega_b = 416.7/1.67 = 249.5 \\approx 250$ kip-ft. Choice B (417) is the nominal $M_n$ without applying $\\Omega_b$. Choice C (375) is the LRFD design strength $\\phi_b M_n = 0.90 \\times 416.7$ — the problem asks for ASD. Choice D (278) uses an incorrect $\\Omega_b = 1.50$.',
+    eli5: 'With full bracing, $M_n = M_p = F_y Z_x = 50 \\times 100 = 5{,}000$ kip-in $= 416.7$ kip-ft. For ASD, divide by $\\Omega_b = 1.67$: $M_n/\\Omega_b = 416.7/1.67 = 249.5 \\approx 250$ kip-ft. The 417 kip-ft choice is the nominal $M_n$ without applying $\\Omega_b$. The 375 kip-ft choice is the LRFD design strength $\\phi_b M_n = 0.90 \\times 416.7$ — the problem asks for ASD. The 278 kip-ft choice uses an incorrect $\\Omega_b = 1.50$.',
     hint: 'ASD allowable moment $= M_n/\\Omega_b$ with $\\Omega_b = 1.67$. Convert kip-in to kip-ft.',
     steps: [
       { text: 'Plastic moment:', latex: 'M_p = F_y Z_x = 50 \\times 100 = 5{,}000 \\text{ kip-in} = 416.7 \\text{ kip-ft}' },
@@ -342,7 +342,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Web area $A_w = d \\times t_w = 18 \\times 0.30 = 5.40$ in$^2$. Nominal shear $V_n = 0.6 F_y A_w C_{v1} = 0.6(36)(5.40)(1.0) = 116.6$ kips. With $\\phi_v = 1.00$: $\\phi_v V_n = 117$ kips. Choice A (194) omits the 0.6 coefficient ($36 \\times 5.40 = 194$). Choice B (162) uses $0.5 F_y$ instead of $0.6 F_y$ on a larger area. Choice C (105) applies $\\phi_v = 0.90$ instead of $1.00$.',
+    eli5: 'Web area $A_w = d \\times t_w = 18 \\times 0.30 = 5.40$ in$^2$. Nominal shear $V_n = 0.6 F_y A_w C_{v1} = 0.6(36)(5.40)(1.0) = 116.6$ kips. With $\\phi_v = 1.00$: $\\phi_v V_n = 117$ kips. The 194 kips choice omits the 0.6 coefficient ($36 \\times 5.40 = 194$). The 162 kips choice uses $0.5 F_y$ instead of $0.6 F_y$ on a larger web area. The 105 kips choice applies $\\phi_v = 0.90$ instead of $1.00$ ($0.9 \\times 116.6 = 105$).',
     hint: 'Shear uses the web area $A_w = d \\times t_w$ and $V_n = 0.6 F_y A_w C_{v1}$.',
     steps: [
       { text: 'Web area:', latex: 'A_w = d \\times t_w = 18 \\times 0.30 = 5.40 \\text{ in}^2' },
@@ -372,7 +372,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Euler stress: $F_e = \\frac{\\pi^2 E}{(KL/r)^2} = \\frac{\\pi^2 (29{,}000)}{140^2} = \\frac{286{,}218}{19{,}600} = 14.6$ ksi. For elastic buckling, $F_{cr} = 0.877 F_e = 0.877(14.6) = 12.8$ ksi. Choice A (14.6) is $F_e$ itself — it forgets the 0.877 elastic-buckling reduction. Choice C (25.9) misapplies the inelastic formula $0.658^{F_y/F_e} F_y$. Choice D (9.6) applies the 0.658 base directly.',
+    eli5: 'Euler stress: $F_e = \\frac{\\pi^2 E}{(KL/r)^2} = \\frac{\\pi^2 (29{,}000)}{140^2} = \\frac{286{,}218}{19{,}600} = 14.6$ ksi. For elastic buckling, $F_{cr} = 0.877 F_e = 0.877(14.6) = 12.8$ ksi. The 14.6 ksi choice is $F_e$ itself — it forgets the 0.877 elastic-buckling reduction. The 25.9 ksi choice misapplies the inelastic formula $0.658^{F_y/F_e} F_y$. The 9.6 ksi choice applies the 0.658 base directly.',
     hint: 'First find $F_e = \\pi^2 E/(KL/r)^2$, then apply $F_{cr} = 0.877 F_e$ for elastic buckling.',
     steps: [
       { text: 'Euler buckling stress:', latex: 'F_e = \\frac{\\pi^2 (29{,}000)}{140^2} = \\frac{286{,}218}{19{,}600} = 14.6 \\text{ ksi}' },
@@ -401,7 +401,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The dividing line between inelastic and elastic column buckling is $4.71\\sqrt{E/F_y} = 4.71\\sqrt{29{,}000/50} = 4.71\\sqrt{580} = 4.71(24.08) = 113.4$. Since the column slenderness $KL/r = 90$ is less than 113.4, the column buckles inelastically and uses $F_{cr} = 0.658^{F_y/F_e} F_y$. Choice B has the inequality backwards. Choice C uses an arbitrary cutoff of 50, which is not the AISC threshold. Choice D is wrong — the regime depends only on $KL/r$, $E$, and $F_y$, not on area.',
+    eli5: 'The dividing line between inelastic and elastic column buckling is $4.71\\sqrt{E/F_y} = 4.71\\sqrt{29{,}000/50} = 4.71\\sqrt{580} = 4.71(24.08) = 113.4$. Since the column slenderness $KL/r = 90$ is less than 113.4, the column buckles inelastically and uses $F_{cr} = 0.658^{F_y/F_e} F_y$. The "elastic buckling, because $KL/r = 90 > 113$" choice has the inequality backwards. The "$KL/r > 50$ always means elastic" choice uses an arbitrary cutoff of 50, which is not the AISC threshold. The "cannot be determined without the cross-sectional area" choice is wrong — the regime depends only on $KL/r$, $E$, and $F_y$, not on area.',
     hint: 'Compute $4.71\\sqrt{E/F_y}$ and compare it to $KL/r$. Below the threshold is inelastic.',
     steps: [
       { text: 'Threshold slenderness:', latex: '4.71\\sqrt{\\frac{E}{F_y}} = 4.71\\sqrt{\\frac{29{,}000}{50}} = 4.71(24.08) = 113.4' },
@@ -431,7 +431,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'For a staggered (zig-zag) failure path, the net width is $b_g - \\Sigma d_h + \\Sigma \\frac{s^2}{4g}$. Each hole diameter is $d_h = d_b + 1/8 = 7/8 + 1/8 = 1.0$ in. The three-hole path crosses 3 holes and has 2 diagonal segments, so add $\\frac{s^2}{4g}$ twice: net width $= 10 - 3(1.0) + 2\\left(\\frac{1.5^2}{4(2.5)}\\right) = 10 - 3 + 2(0.225) = 10 - 3 + 0.45 = 7.45$ in. Net area $= 7.45 \\times 0.375 = 2.79$ in$^2$. Choice A (3.00) takes the straight transverse cut through only the two in-line holes, $(10 - 2.0)(0.375)$, ignoring the third hole and the stagger. Choice B (2.93) adds the two $s^2/4g$ terms but forgets the $1/8$ in. hole allowance, using $d_h = 0.875$: $(10 - 3(0.875) + 0.45)(0.375)$. Choice D (2.63) deducts all three holes but omits the $s^2/4g$ correction: $(10 - 3.0)(0.375)$.',
+    eli5: 'For a staggered (zig-zag) failure path, the net width is $b_g - \\Sigma d_h + \\Sigma \\frac{s^2}{4g}$. Each hole diameter is $d_h = d_b + 1/8 = 7/8 + 1/8 = 1.0$ in. The three-hole path crosses 3 holes and has 2 diagonal segments, so add $\\frac{s^2}{4g}$ twice: net width $= 10 - 3(1.0) + 2\\left(\\frac{1.5^2}{4(2.5)}\\right) = 10 - 3 + 2(0.225) = 10 - 3 + 0.45 = 7.45$ in. Net area $= 7.45 \\times 0.375 = 2.79$ in$^2$. The 3.00 in^2 choice takes the straight transverse cut through only the two in-line holes, $(10 - 2.0)(0.375)$, ignoring the third hole and the stagger. The 2.93 in^2 choice adds the two $s^2/4g$ terms but forgets the $1/8$ in. hole allowance, using $d_h = 0.875$: $(10 - 3(0.875) + 0.45)(0.375)$. The 2.63 in^2 choice deducts all three holes but omits the $s^2/4g$ correction: $(10 - 3.0)(0.375)$.',
     hint: 'For a staggered path, add $s^2/(4g)$ back for each diagonal segment: $b_n = b_g - \\Sigma d_h + \\Sigma \\frac{s^2}{4g}$. A path through 3 holes has 2 diagonal segments.',
     steps: [
       { text: 'Effective hole diameter:', latex: 'd_h = \\frac{7}{8} + \\frac{1}{8} = 1.0 \\text{ in.}' },
@@ -462,7 +462,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'The shear lag factor is $U = 1 - \\bar{x}/L = 1 - 1.20/9.0 = 1 - 0.1333 = 0.867$. The effective net area is $A_e = U A_n = 0.867 \\times 4.00 = 3.47$ in$^2$. Choice A (4.00) assumes $U = 1.0$, which only applies when all cross-sectional elements are connected. Choice B (0.87) reports $U$ itself, not $A_e$. Choice C (3.20) subtracts $\\bar{x} \\times A_n / L$ incorrectly or uses $U = 0.80$.',
+    eli5: 'The shear lag factor is $U = 1 - \\bar{x}/L = 1 - 1.20/9.0 = 1 - 0.1333 = 0.867$. The effective net area is $A_e = U A_n = 0.867 \\times 4.00 = 3.47$ in$^2$. The 4.00 in$^2$ choice assumes $U = 1.0$, which only applies when all cross-sectional elements are connected. The 0.87 in$^2$ choice reports $U$ itself, not $A_e$. The 3.20 in$^2$ choice subtracts $\\bar{x} \\times A_n / L$ incorrectly or uses $U = 0.80$.',
     hint: 'Find the shear lag factor $U = 1 - \\bar{x}/L$, then $A_e = U A_n$.',
     steps: [
       { text: 'Shear lag factor:', latex: 'U = 1 - \\frac{\\bar{x}}{L} = 1 - \\frac{1.20}{9.0} = 0.867' },
@@ -491,7 +491,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Cantilever under UDL: $\\delta = wL^4/8EI = 6(4^4)/(8 \\times 30{,}000) = 1536/240{,}000 = 0.0064\\text{ m} = 6.4\\text{ mm}$. Choice C drops the factor of 8; Choice D uses the 8EI for a point load (PL³) form by mistake.',
+    eli5: 'Cantilever under UDL: $\\delta = wL^4/8EI = 6(4^4)/(8 \\times 30{,}000) = 1536/240{,}000 = 0.0064\\text{ m} = 6.4\\text{ mm}$. The 25.6 mm choice uses the wrong denominator (2EI instead of 8EI); the 1.6 mm choice divides the correct answer by 4 (e.g. using L² instead of L⁴ scaling).',
     hint: 'Cantilever, UDL → wL⁴/8EI.',
     steps: [
       { text: 'Standard case: cantilever, UDL.', latex: null },
@@ -521,7 +521,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Fixed-fixed beam, central point load: the fixed-end moment is $PL/8 = 24(6)/8 = 18\\text{ kN·m}$. Choice B (36) uses $PL/4$ (the simple-span midspan moment). Choice D (144) forgets to divide entirely.',
+    eli5: 'Fixed-fixed beam, central point load: the fixed-end moment is $PL/8 = 24(6)/8 = 18\\text{ kN·m}$. The 36 kN\u00b7m choice uses $PL/4$ (the simple-span midspan moment). The 144 kN\u00b7m choice forgets to divide entirely.',
     hint: 'Fixed-fixed, central P → fixed-end moment = PL/8.',
     steps: [
       { text: 'Standard result for a fixed-fixed beam under a central point load.', latex: null },

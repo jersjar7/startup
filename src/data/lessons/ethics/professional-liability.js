@@ -27,7 +27,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Engineers are measured against the standard of care — what a reasonably competent peer would do under similar conditions. They are not guarantors of perfection (Choice B) and negligence does not require intent (Choice C); intent would be a different, more serious claim. Client dissatisfaction alone (Choice D) is not negligence. Liability attaches when the engineer falls short of the standard of care.',
+      eli5: 'Engineers are measured against the standard of care — what a reasonably competent peer would do under similar conditions. They are not guarantors of perfection (the "any imperfection" option) and negligence does not require intent (the "intentionally causes harm" option); intent would be a different, more serious claim. Client dissatisfaction alone (the "client is dissatisfied" option) is not negligence. Liability attaches when the engineer falls short of the standard of care.',
       hint: 'Engineers are not held to perfection — they are held to a professional benchmark. What is that benchmark?',
       steps: [
         { text: 'The benchmark is the standard of care, not perfection.', latex: null },
@@ -54,7 +54,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The four elements of negligence are duty, breach, causation, and damages. Intent is NOT one of them — negligence is about failing to act reasonably, not about meaning to cause harm (that would be an intentional tort). Choices B, C, and D are three of the four real elements (the fourth being causation).',
+      eli5: 'The four elements of negligence are duty, breach, causation, and damages. Intent is NOT one of them — negligence is about failing to act reasonably, not about meaning to cause harm (that would be an intentional tort). The duty, breach, and damages choices are three of the four real elements (the fourth being causation).',
       hint: 'List the four elements of negligence. Which listed item is not one of them?',
       steps: [
         { text: 'Negligence elements: duty, breach, causation, damages.', latex: null },
@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'A statute of limitations starts when the injury occurs or is discovered. A statute of repose runs from a fixed event — typically substantial completion — and sets an absolute outer cutoff, so it can bar a claim even before any injury appears. Choice B is wrong (repose does have a limit). Choice C is backwards (repose can cut off claims earlier). Choice D is false (they are distinct rules).',
+      eli5: 'A statute of limitations starts when the injury occurs or is discovered. A statute of repose runs from a fixed event — typically substantial completion — and sets an absolute outer cutoff, so it can bar a claim even before any injury appears. The "no time limit" option is wrong (repose does have a limit). The "always gives more time to sue" option is backwards (repose can cut off claims earlier). The "two names for the same rule" option is false (they are distinct rules).',
       hint: 'One clock starts at the injury/discovery; the other starts at a fixed project event and cannot be extended.',
       steps: [
         { text: 'Statute of limitations: clock starts at injury or its discovery.', latex: null },

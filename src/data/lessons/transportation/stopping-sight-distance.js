@@ -32,7 +32,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Plug straight into the formula. Reaction distance = 1.47 \u00D7 60 \u00D7 2.5 = 220.5 ft. Braking distance = 60\u00B2 / [30 \u00D7 (11.2/32.2)] = 3,600/10.43 = 345.1 ft. Total SSD = 220.5 + 345.1 = 565.6 \u2248 566 ft. Choice A (345) is the braking distance alone \u2014 forgot the reaction component. Choice C (221) is the reaction distance alone \u2014 forgot braking. Choice D (750) uses a wrong deceleration value.',
+      eli5: 'Plug straight into the formula. Reaction distance = 1.47 \u00D7 60 \u00D7 2.5 = 220.5 ft. Braking distance = 60\u00B2 / [30 \u00D7 (11.2/32.2)] = 3,600/10.43 = 345.1 ft. Total SSD = 220.5 + 345.1 = 565.6 \u2248 566 ft. The 345 ft choice is the braking distance alone \u2014 forgot the reaction component. The 221 ft choice is the reaction distance alone \u2014 forgot braking. The 750 ft choice uses a wrong deceleration value.',
       hint: 'Two components: reaction distance (1.47Vt) plus braking distance (V\u00B2 over the 30-term).',
       steps: [
         { text: 'Reaction distance:', latex: 'd_r = 1.47 \\times 60 \\times 2.5 = 220.5 \\text{ ft}' },
@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Downgrade means G = \u22120.04. The denominator becomes 30 \u00D7 (0.348 \u2212 0.04) = 30 \u00D7 0.308 = 9.23. Braking distance = 3,600/9.23 = 390 ft. Add reaction = 220.5 ft. SSD = 610 ft. Choice B (566) used G = 0 (level). Choice A (530) used G = +0.04 (uphill \u2014 wrong direction). Choice D (390) is braking only. The key trap: downhill makes stopping HARDER, so SSD is LONGER.',
+      eli5: 'Downgrade means G = \u22120.04. The denominator becomes 30 \u00D7 (0.348 \u2212 0.04) = 30 \u00D7 0.308 = 9.23. Braking distance = 3,600/9.23 = 390 ft. Add reaction = 220.5 ft. SSD = 610 ft. The 566 ft option used G = 0 (level). The 530 ft option used G = +0.04 (uphill \u2014 wrong direction). The 390 ft option is braking only. The key trap: downhill makes stopping HARDER, so SSD is LONGER.',
       hint: 'Downgrade = negative G in the denominator. The denominator gets smaller, so braking distance gets longer.',
       steps: [
         { text: 'Reaction distance (same regardless of grade):', latex: 'd_r = 1.47 \\times 60 \\times 2.5 = 220.5 \\text{ ft}' },

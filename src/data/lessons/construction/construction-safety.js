@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'OSHA requires a protective system (sloping, shoring, or shielding) for all trenches deeper than 5 ft, regardless of soil type. At 7 ft with no protection, this is a clear violation. Choice B uses the wrong threshold (there is no 10 ft rule). Choice A is wrong \u2014 temporary excavations still need protection. Choice D is wrong \u2014 the 5 ft rule applies to all soil types, not just Type C.',
+      eli5: 'OSHA requires a protective system (sloping, shoring, or shielding) for all trenches deeper than 5 ft, regardless of soil type. At 7 ft with no protection, this is a clear violation. The "protection only above 10 ft" choice uses the wrong threshold (there is no 10 ft rule). The "only for permanent excavations" choice is wrong \u2014 temporary excavations still need protection. The "only if Type C soil" choice is wrong \u2014 the 5 ft rule applies to all soil types, not just Type C.',
       hint: 'The OSHA threshold for excavation protection is 5 ft depth.',
       steps: [
         { text: 'OSHA 29 CFR 1926.652: trenches > 5 ft deep require protective systems', latex: null },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'OSHA requires fall protection at 6 ft for general construction. At 8 ft without any protection, this is a violation. Choice B uses 10 ft, which is the general industry threshold \u2014 construction is 6 ft. Choice C is wrong \u2014 scaffolds require guardrails at the platform edge. Choice D is wrong \u2014 steel erection has a HIGHER trigger (15 ft for connectors), but general construction is 6 ft.',
+      eli5: 'OSHA requires fall protection at 6 ft for general construction. At 8 ft without any protection, this is a violation. The "10 ft" choice uses the general industry threshold \u2014 construction is 6 ft. The "scaffolds are exempt" choice is wrong \u2014 scaffolds require guardrails at the platform edge. The "only for steel erection" choice is wrong \u2014 steel erection has a HIGHER trigger (15 ft for connectors), but general construction is 6 ft.',
       hint: 'Construction fall protection trigger = 6 ft. General industry = different.',
       steps: [
         { text: 'OSHA 29 CFR 1926.501: fall protection required at 6 ft in construction', latex: null },
@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'OSHA requires that excavations deeper than 20 ft have a protective system designed by a registered professional engineer. At 22 ft, a PE must design the shoring, sloping, or shielding system. For excavations 5\u201320 ft, the contractor\'s competent person can use OSHA\u2019s standard tables (Appendix A/B). Choice B is correct for shallower trenches (5\u201320 ft). Choice A is also only for 5\u201320 ft. Choice D is flat wrong \u2014 5 ft is the threshold.',
+      eli5: 'OSHA requires that excavations deeper than 20 ft have a protective system designed by a registered professional engineer. At 22 ft, a PE must design the shoring, sloping, or shielding system. For excavations 5\u201320 ft, the contractor\'s competent person can use OSHA\u2019s standard tables (Appendix A/B). The contractor\'s-competent-person option is correct for shallower trenches (5\u201320 ft). The standard OSHA tables option is also only for 5\u201320 ft. The "no protective system needed" option is flat wrong \u2014 5 ft is the threshold above which a protective system is required.',
       hint: 'Two thresholds: 5 ft (protection required) and 20 ft (PE-designed system required).',
       steps: [
         { text: 'Excavation is 22 ft deep', latex: null },

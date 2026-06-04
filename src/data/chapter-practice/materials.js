@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Percent reduction in area compares the cross-sectional areas, not the diameters. Because area scales with the square of the diameter, $\\%RA = \\left(1 - (d_f/d_0)^2\\right)\\times 100 = (1 - (9.5/12.8)^2)\\times 100 = 44.9\\%$. Choice A (25.8%) uses the diameter ratio directly without squaring -- the classic mistake of treating area like a linear dimension. Choice C (55.1%) reports the remaining area fraction $(d_f/d_0)^2$ instead of the reduction. Choice D (74.2%) is just the diameter ratio $d_f/d_0$ expressed as a percent.',
+    eli5: 'Percent reduction in area compares the cross-sectional areas, not the diameters. Because area scales with the square of the diameter, $\\%RA = \\left(1 - (d_f/d_0)^2\\right)\\times 100 = (1 - (9.5/12.8)^2)\\times 100 = 44.9\\%$. The 25.8% choice uses the diameter ratio reduction $(1 - d_f/d_0)$ directly without squaring -- the classic mistake of treating area like a linear dimension. The 55.1% choice reports the remaining area fraction $(d_f/d_0)^2$ instead of the reduction. The 74.2% choice is just the diameter ratio $d_f/d_0$ expressed as a percent.',
     hint: 'Reduction in AREA, not diameter -- area depends on the square of the diameter.',
     steps: [
       { text: 'Reduction in area uses cross-sectional areas, which scale as diameter squared:', latex: '\\%RA = \\left(1 - \\frac{A_f}{A_0}\\right)\\times 100 = \\left(1 - \\frac{d_f^2}{d_0^2}\\right)\\times 100' },
@@ -43,7 +43,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'True strain accounts for the continuously changing gauge length, so it is found with a natural log: $\\varepsilon_T = \\ln(1 + \\varepsilon) = \\ln(1.25) = 0.223$. True strain is slightly smaller than engineering strain in tension. Choice A (0.250) just reuses the engineering strain, ignoring the conversion. Choice B (0.288) takes $\\ln(1 - \\varepsilon) = \\ln(0.75)$ and drops the sign -- using the wrong sign inside the log. Choice D (-1.386) takes $\\ln(\\varepsilon) = \\ln(0.25)$, forgetting the $1 +$ inside the logarithm.',
+    eli5: 'True strain accounts for the continuously changing gauge length, so it is found with a natural log: $\\varepsilon_T = \\ln(1 + \\varepsilon) = \\ln(1.25) = 0.223$. True strain is slightly smaller than engineering strain in tension. The 0.250 choice just reuses the engineering strain, ignoring the conversion. The 0.288 choice takes $\\ln(1 - \\varepsilon) = \\ln(0.75)$ and drops the sign -- using the wrong sign inside the log. The -1.386 choice takes $\\ln(\\varepsilon) = \\ln(0.25)$, forgetting the $1 +$ inside the logarithm.',
     hint: 'True strain uses a natural log of $(1 + \\varepsilon)$, not the engineering strain directly.',
     steps: [
       { text: 'True strain relationship:', latex: '\\varepsilon_T = \\ln(1 + \\varepsilon)' },
@@ -73,7 +73,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The stress ratio is $R = \\sigma_{\\min}/\\sigma_{\\max} = -60/180 = -0.33$. The negative sign is essential -- it tells you the loading reverses into compression. Choice B (+0.33) drops the sign on the compressive minimum stress, a very common error. Choice C (-3.0) inverts the ratio, computing $\\sigma_{\\max}/\\sigma_{\\min}$. Choice D (+0.67) computes a mean- or amplitude-based quantity instead of the defined stress ratio.',
+    eli5: 'The stress ratio is $R = \\sigma_{\\min}/\\sigma_{\\max} = -60/180 = -0.33$. The negative sign is essential -- it tells you the loading reverses into compression. The +0.33 choice drops the sign on the compressive minimum stress, a very common error. The -3.0 choice inverts the ratio, computing $\\sigma_{\\max}/\\sigma_{\\min}$. The +0.67 choice computes a mean- or amplitude-based quantity instead of the defined stress ratio.',
     hint: 'Stress ratio $R$ is minimum over maximum stress -- keep the sign of the compressive stress.',
     steps: [
       { text: 'Stress ratio definition:', latex: 'R = \\frac{\\sigma_{\\min}}{\\sigma_{\\max}}' },
@@ -102,7 +102,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'For an internal crack the crack length $a$ is HALF the total length: $a = 8/2 = 4\\,\\text{mm} = 0.004\\,\\text{m}$. Then $K_{IC} = Y\\sigma\\sqrt{\\pi a} = 1.0 \\times 300 \\times \\sqrt{\\pi \\times 0.004} = 33.6\\,\\text{MPa}\\cdot\\text{m}^{1/2}$. Choice C (47.6) uses the full $2a = 8\\,\\text{mm}$ as $a$ -- forgetting to halve the total length for an internal crack. Choice A (19.0) drops the $\\pi$ inside the square root. Choice D (37.0) uses $Y = 1.1$ (edge crack value) instead of $Y = 1.0$ for an internal crack.',
+    eli5: 'For an internal crack the crack length $a$ is HALF the total length: $a = 8/2 = 4\\,\\text{mm} = 0.004\\,\\text{m}$. Then $K_{IC} = Y\\sigma\\sqrt{\\pi a} = 1.0 \\times 300 \\times \\sqrt{\\pi \\times 0.004} = 33.6\\,\\text{MPa}\\cdot\\text{m}^{1/2}$. The $47.6\\,\\text{MPa}\\cdot\\text{m}^{1/2}$ choice uses the full $2a = 8\\,\\text{mm}$ as $a$ -- forgetting to halve the total length for an internal crack. The $19.0\\,\\text{MPa}\\cdot\\text{m}^{1/2}$ choice drops the $\\pi$ inside the square root. The $37.0\\,\\text{MPa}\\cdot\\text{m}^{1/2}$ choice uses $Y = 1.1$ (edge crack value) instead of $Y = 1.0$ for an internal crack.',
     hint: 'For an internal crack, $a$ is half the total crack length. Convert to meters and keep $\\pi$ under the root.',
     steps: [
       { text: 'Internal crack: use half the total length:', latex: 'a = \\frac{2a}{2} = \\frac{8}{2} = 4\\,\\text{mm} = 0.004\\,\\text{m}' },
@@ -133,7 +133,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The lever rule gives the fraction of a phase using the OPPOSITE lever arm over the total tie-line length. For the solid fraction: $f_\\alpha = (x_L - x_0)/(x_L - x_\\alpha) = (55 - 35)/(55 - 18) = 20/37 = 0.54$. Choice A (0.46) swaps the arms and actually computes the LIQUID fraction $(x_0 - x_\\alpha)/(x_L - x_\\alpha)$. Choice D (0.64) divides $x_0/x_L = 35/55$ instead of using the lever rule. Choice B (0.51) divides $x_\\alpha/x_0 = 18/35$, another incorrect shortcut.',
+    eli5: 'The lever rule gives the fraction of a phase using the OPPOSITE lever arm over the total tie-line length. For the solid fraction: $f_\\alpha = (x_L - x_0)/(x_L - x_\\alpha) = (55 - 35)/(55 - 18) = 20/37 = 0.54$. The 0.46 choice swaps the arms and actually computes the LIQUID fraction $(x_0 - x_\\alpha)/(x_L - x_\\alpha)$. The 0.64 choice divides $x_0/x_L = 35/55$ instead of using the lever rule. The 0.51 choice divides $x_\\alpha/x_0 = 18/35$, another incorrect shortcut.',
     hint: 'The solid fraction uses the arm from the overall composition to the LIQUID boundary, over the full tie line.',
     steps: [
       { text: 'Identify tie-line endpoints at temperature $T$:', latex: 'x_\\alpha = 18,\\quad x_L = 55,\\quad x_0 = 35' },
@@ -163,7 +163,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Percent cold work is based on the reduction in cross-sectional area: $\\%CW = \\left(1 - (d_f/d_0)^2\\right)\\times 100 = (1 - (9/12)^2)\\times 100 = 43.8\\%$. Choice A (25.0%) uses the diameter ratio without squaring -- treating area as if it were linear. Choice C (56.3%) reports the remaining area fraction $(d_f/d_0)^2$ rather than the reduction. Choice D (33.3%) computes the diameter reduction relative to the final diameter $(12-9)/9$, a confused ratio.',
+    eli5: 'Percent cold work is based on the reduction in cross-sectional area: $\\%CW = \\left(1 - (d_f/d_0)^2\\right)\\times 100 = (1 - (9/12)^2)\\times 100 = 43.8\\%$. The 25.0% choice uses the diameter ratio without squaring -- treating area as if it were linear. The 56.3% choice reports the remaining area fraction $(d_f/d_0)^2$ rather than the reduction. The 33.3% choice computes the diameter reduction relative to the final diameter $(12-9)/9$, a confused ratio.',
     hint: 'Cold work is defined by the change in AREA, which goes as diameter squared.',
     steps: [
       { text: 'Percent cold work uses cross-sectional areas:', latex: '\\%CW = \\frac{A_0 - A_f}{A_0}\\times 100 = \\left(1 - \\frac{d_f^2}{d_0^2}\\right)\\times 100' },
@@ -193,7 +193,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Rearrange the definition $W/C = \\text{water}/\\text{cement}$ to solve for water: $W = (W/C)\\times C = 0.45 \\times 380 = 171 \\text{ kg/m}^3$. Choice C (844) divides cement by the ratio ($380/0.45$) instead of multiplying. Choice B (209) multiplies by the complement $0.55$ instead of $0.45$. Choice D (380) just copies the cement content, forgetting to apply the W/C ratio at all.',
+    eli5: 'Rearrange the definition $W/C = \\text{water}/\\text{cement}$ to solve for water: $W = (W/C)\\times C = 0.45 \\times 380 = 171 \\text{ kg/m}^3$. The 844 kg/m^3 choice divides cement by the ratio ($380/0.45$) instead of multiplying. The 209 kg/m^3 choice multiplies by the complement $0.55$ instead of $0.45$. The 380 kg/m^3 choice just copies the cement content, forgetting to apply the W/C ratio at all.',
     hint: 'Water equals the W/C ratio times the cement weight.',
     steps: [
       { text: 'Rearrange the water-cement ratio:', latex: 'W = (W/C)\\times C' },
@@ -222,7 +222,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Wet sand already carries free water into the mix, so you must subtract that free moisture from the batch water to avoid raising the effective W/C. The free water on the sand is $0.04 \\times 700 = 28 \\text{ kg/m}^3$. The water to add is therefore $185 - 28 = 157 \\text{ kg/m}^3$. Choice C (213) ADDS the free moisture instead of subtracting it -- double-counting the water and pushing W/C too high. Choice D (178) takes $4\\%$ of the batch water ($0.04 \\times 185 = 7.4$, giving $185 - 7.4 \\approx 178$) instead of $4\\%$ of the sand weight. Choice B (185) ignores the aggregate moisture correction entirely.',
+    eli5: 'Wet sand already carries free water into the mix, so you must subtract that free moisture from the batch water to avoid raising the effective W/C. The free water on the sand is $0.04 \\times 700 = 28 \\text{ kg/m}^3$. The water to add is therefore $185 - 28 = 157 \\text{ kg/m}^3$. The 213 option ADDS the free moisture instead of subtracting it -- double-counting the water and pushing W/C too high. The 178 option takes $4\\%$ of the batch water ($0.04 \\times 185 = 7.4$, giving $185 - 7.4 \\approx 178$) instead of $4\\%$ of the sand weight. The 185 option ignores the aggregate moisture correction entirely.',
     hint: 'Free surface moisture on the sand counts as part of the mixing water, so subtract it from the design batch water.',
     steps: [
       { text: 'Free water carried by the wet sand:', latex: 'W_{\\text{free}} = 0.04 \\times 700 = 28 \\text{ kg/m}^3' },
@@ -252,7 +252,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The modulus of rupture estimates concrete tensile (flexural) strength: $f_r = 7.5\\sqrt{f\'_c} = 7.5\\sqrt{4{,}000} = 7.5 \\times 63.2 = 474 \\text{ psi}$. Choice D (30,000) forgets the square root and computes $7.5 \\times 4{,}000$. Choice A (170) takes the square root of the whole product $\\sqrt{7.5 \\times 4{,}000}$ instead of multiplying by the root of $f\'_c$. Choice C (400) uses the rough 10% rule of thumb ($0.10 \\times 4{,}000$) rather than the modulus-of-rupture formula the problem specifies.',
+    eli5: 'The modulus of rupture estimates concrete tensile (flexural) strength: $f_r = 7.5\\sqrt{f\'_c} = 7.5\\sqrt{4{,}000} = 7.5 \\times 63.2 = 474 \\text{ psi}$. The 30,000 psi choice forgets the square root and computes $7.5 \\times 4{,}000$. The 170 psi choice takes the square root of the whole product $\\sqrt{7.5 \\times 4{,}000}$ instead of multiplying by the root of $f\'_c$. The 400 psi choice uses the rough 10% rule of thumb ($0.10 \\times 4{,}000$) rather than the modulus-of-rupture formula the problem specifies.',
     hint: 'Take the square root of $f\'_c$ first, then multiply by 7.5.',
     steps: [
       { text: 'Modulus of rupture relationship:', latex: 'f_r = 7.5\\sqrt{f\'_c}' },
@@ -282,7 +282,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Here we go forward from 28-day to 7-day strength, so we MULTIPLY by 70%: $0.70 \\times 4{,}500 = 3{,}150 \\text{ psi}$. Choice B (6,430) divides by 0.70 -- the operation you use to go from 7-day up to 28-day, applied in the wrong direction. Choice C (1,350) multiplies by the complement $0.30$ instead of $0.70$. Choice D (4,500) ignores the curing-time fraction entirely.',
+    eli5: 'Here we go forward from 28-day to 7-day strength, so we MULTIPLY by 70%: $0.70 \\times 4{,}500 = 3{,}150 \\text{ psi}$. The 6,430 psi option divides by 0.70 -- the operation you use to go from 7-day up to 28-day, applied in the wrong direction. The 1,350 psi option multiplies by the complement $0.30$ instead of $0.70$. The 4,500 psi option ignores the curing-time fraction entirely.',
     hint: 'Going from 28-day down to 7-day means multiplying by 0.70, not dividing.',
     steps: [
       { text: '7-day strength is 70% of the 28-day strength:', latex: 'f\'_{c,7} = 0.70 \\times f\'_{c,28}' },
@@ -311,7 +311,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Perpendicular loading is the isostress (Reuss) case, which uses the reciprocal rule: $1/E_c = f_f/E_f + f_m/E_m = 0.5/72 + 0.5/3.5 = 0.1498$, so $E_c = 6.68\\,\\text{GPa}$. The compliant matrix dominates. Choice B (37.8) mistakenly uses the parallel (isostrain) additive rule $0.5(72) + 0.5(3.5)$. Choice C (13.4) forgets the reciprocal step and mishandles the inversion. Choice D (3.5) assumes the matrix alone controls, ignoring the fiber contribution entirely.',
+    eli5: 'Perpendicular loading is the isostress (Reuss) case, which uses the reciprocal rule: $1/E_c = f_f/E_f + f_m/E_m = 0.5/72 + 0.5/3.5 = 0.1498$, so $E_c = 6.68\\,\\text{GPa}$. The compliant matrix dominates. The 37.8 GPa option mistakenly uses the parallel (isostrain) additive rule $0.5(72) + 0.5(3.5)$. The 13.4 GPa option forgets the reciprocal step and mishandles the inversion. The 3.50 GPa option assumes the matrix alone controls, ignoring the fiber contribution entirely.',
     hint: 'Perpendicular loading is isostress -- use the reciprocal (inverse) rule of mixtures, not the additive one.',
     steps: [
       { text: 'Isostress (perpendicular) model:', latex: '\\frac{1}{E_c} = \\frac{f_f}{E_f} + \\frac{f_m}{E_m}' },
@@ -341,7 +341,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'Start from the rule of mixtures $\\rho_c = f_f\\rho_f + (1 - f_f)\\rho_m$ and solve for $f_f$: $f_f = (\\rho_c - \\rho_m)/(\\rho_f - \\rho_m) = (1{,}800 - 1{,}150)/(2{,}600 - 1{,}150) = 650/1{,}450 = 0.45$. Choice A (0.25) divides the numerator by the fiber density ($650/2{,}600$) instead of by the density difference. Choice B (0.69) divides the composite density by the fiber density ($1{,}800/2{,}600$). Choice C (0.55) is the matrix volume fraction $(1 - f_f)$ -- the right setup but the wrong phase reported.',
+    eli5: 'Start from the rule of mixtures $\\rho_c = f_f\\rho_f + (1 - f_f)\\rho_m$ and solve for $f_f$: $f_f = (\\rho_c - \\rho_m)/(\\rho_f - \\rho_m) = (1{,}800 - 1{,}150)/(2{,}600 - 1{,}150) = 650/1{,}450 = 0.45$. The 0.25 choice divides the numerator by the fiber density ($650/2{,}600$) instead of by the density difference. The 0.69 choice divides the composite density by the fiber density ($1{,}800/2{,}600$). The 0.55 choice is the matrix volume fraction $(1 - f_f)$ -- the right setup but the wrong phase reported.',
     hint: 'Solve the density rule of mixtures for the fiber fraction: subtract the matrix density top and bottom.',
     steps: [
       { text: 'Rule of mixtures with $f_m = 1 - f_f$:', latex: '\\rho_c = f_f\\rho_f + (1 - f_f)\\rho_m' },
@@ -371,7 +371,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Magnesium is far more active (anodic) than steel in the galvanic series, so the magnesium becomes the anode and corrodes sacrificially, while the steel becomes the cathode and is protected. This is exactly how sacrificial-anode cathodic protection works. Choice A reverses the roles -- magnesium is the anode, not the cathode. Choice B is wrong because a galvanic couple always has one anode and one cathode, not two anodes. Choice C contradicts itself: the anode is the one that corrodes, so steel cannot be both the anode and protected.',
+    eli5: 'Magnesium is far more active (anodic) than steel in the galvanic series, so the magnesium becomes the anode and corrodes sacrificially, while the steel becomes the cathode and is protected. This is exactly how sacrificial-anode cathodic protection works. The "magnesium is the cathode and is protected" option reverses the roles -- magnesium is the anode, not the cathode. The "both metals are anodes" option is wrong because a galvanic couple always has one anode and one cathode, not two anodes. The "steel is the anode and is protected" option contradicts itself: the anode is the one that corrodes, so steel cannot be both the anode and protected.',
     hint: 'The more active metal is the anode (corrodes); the protected metal is the cathode. Magnesium is very active.',
     steps: [
       { text: 'Magnesium sits well above steel on the activity (galvanic) series -- it is the more active metal.', latex: null },
@@ -401,7 +401,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Stainless steel contains chromium (typically 10 to 12% or more), which reacts with oxygen to form a very thin, tightly bonded chromium-oxide film. This passive layer blocks further oxidation and re-forms (self-heals) if scratched, which is what makes stainless steel corrosion resistant. Choice A is wrong because stainless steel can still act as an anode in some couples -- its protection is the passive film, not inherent nobility. Choice C is false: stainless steel is mostly iron. Choice D describes impressed-current cathodic protection, an external system, not the intrinsic mechanism of stainless steel.',
+    eli5: 'Stainless steel contains chromium (typically 10 to 12% or more), which reacts with oxygen to form a very thin, tightly bonded chromium-oxide film. This passive layer blocks further oxidation and re-forms (self-heals) if scratched, which is what makes stainless steel corrosion resistant. The "more noble, never an anode" choice is wrong because stainless steel can still act as an anode in some couples -- its protection is the passive film, not inherent nobility. The "contains no iron" choice is false: stainless steel is mostly iron. The "cathodically protected by an external current" choice describes impressed-current cathodic protection, an external system, not the intrinsic mechanism of stainless steel.',
     hint: 'Think about what alloying element stainless steel adds and the protective film it forms on the surface.',
     steps: [
       { text: 'Stainless steel is iron alloyed with a significant amount of chromium.', latex: null },
@@ -431,7 +431,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'FM = (sum of cumulative percent retained)/100 = 260/100 = 2.60, a typical medium-to-fine sand. Choice B forgets to divide by 100. Choice C divides by 1,000. Choice D adds 1.',
+    eli5: 'FM = (sum of cumulative percent retained)/100 = 260/100 = 2.60, a typical medium-to-fine sand. The 26.0 choice forgets to divide by 100. The 0.26 choice divides by 1,000. The 3.60 choice adds 1.',
     hint: 'FM = (sum of cumulative percent retained)/100.',
     steps: [
       { text: 'Fineness modulus:', latex: 'FM = \\frac{260}{100} = 2.60' },
@@ -459,7 +459,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'VFA = 100 × (VMA − Va)/VMA = 100 × (16.0 − 4.0)/16.0 = 100 × 12.0/16.0 = 75.0%. Choice B is the air-filled fraction (Va/VMA). Choice C is the raw difference (12.0). Choice D rounds incorrectly.',
+    eli5: 'VFA = 100 × (VMA − Va)/VMA = 100 × (16.0 − 4.0)/16.0 = 100 × 12.0/16.0 = 75.0%. The 25.0% option is the air-filled fraction (Va/VMA). The 12.0% option is the raw difference (VMA \u2212 Va). The 80.0% option is an incorrect rounding/ratio.',
     hint: 'VFA = 100 × (VMA − Va)/VMA.',
     steps: [
       { text: 'Asphalt-filled voids:', latex: 'VMA - V_a = 16.0 - 4.0 = 12.0\\%' },
@@ -488,7 +488,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Bulk OD SG = A/(B − C) = 965/(1,000 − 610) = 965/390 = 2.47. Choice B uses SSD weight in the numerator (bulk SSD SG = 1,000/390 = 2.56). Choice C uses apparent SG = A/(A − C) = 965/355 = 2.72. Choice D inverts part of the ratio.',
+    eli5: 'Bulk OD SG = A/(B − C) = 965/(1,000 − 610) = 965/390 = 2.47. The 2.56 option uses SSD weight in the numerator (bulk SSD SG = 1,000/390 = 2.56). The 2.72 option uses apparent SG = A/(A − C) = 965/355 = 2.72. The 1.58 option inverts part of the ratio.',
     hint: 'Bulk SG = oven-dry / (SSD − submerged).',
     steps: [
       { text: 'Volume term:', latex: 'B - C = 1{,}000 - 610 = 390\\text{ g}' },
@@ -517,7 +517,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Above the fiber saturation point, free water in the cell cavities leaves first with little effect on size or strength. Below the FSP (~30% MC), water leaves the cell walls — the wood shrinks and gains strength and stiffness. Choice B reverses both effects. Choice C ignores the change below FSP. Choice D gets the strength direction wrong.',
+    eli5: 'Above the fiber saturation point, free water in the cell cavities leaves first with little effect on size or strength. Below the FSP (~30% MC), water leaves the cell walls — the wood shrinks and gains strength and stiffness. The "swells and loses strength" option reverses both effects. The "dimensions and strength stay constant" option ignores the change below FSP. The "shrinks but loses strength" option gets the strength direction wrong.',
     hint: 'Below the fiber saturation point, losing bound water from the cell walls changes both dimensions and strength.',
     steps: [
       { text: 'Above FSP: only free water leaves — minimal dimensional/strength change.', latex: null },

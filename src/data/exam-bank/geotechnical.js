@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Porosity relates to void ratio by $n = e/(1+e) = 0.65/(1+0.65) = 0.65/1.65 = 0.394$. Choice B (0.650) is the void ratio itself, not the porosity. Choice C (0.241) might come from $e/(1+G_s)$. Choice D (0.606) might come from $1/(1+e)$, which is the reciprocal relationship.',
+    eli5: 'Porosity relates to void ratio by $n = e/(1+e) = 0.65/(1+0.65) = 0.65/1.65 = 0.394$. The 0.650 option is the void ratio itself, not the porosity. The 0.241 option might come from $e/(1+G_s)$. The 0.606 option might come from $1/(1+e)$, which is the reciprocal relationship.',
     hint: 'Porosity $n = e/(1+e)$. This is one of the core phase-relation identities.',
     steps: [
       {
@@ -66,7 +66,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'When $S = 100\\%$, the voids are completely filled with water (no air phase). The master relationship $Se = \\omega G_s$ simplifies to $e = \\omega G_s$. Choice A is backwards -- full saturation means all voids have water, not that the soil is completely dry. Choice C is wrong because $e$ depends on the soil structure, not saturation alone. Choice D mixes up the formula -- $\\omega = e/G_s$ at full saturation, not $\\omega = G_s$.',
+    eli5: 'When $S = 100\\%$, the voids are completely filled with water (no air phase). The master relationship $Se = \\omega G_s$ simplifies to $e = \\omega G_s$. The "no air and no water" choice is backwards -- full saturation means all voids have water, not that the soil is completely dry. The "void ratio must equal 1.0" choice is wrong because $e$ depends on the soil structure, not saturation alone. The "water content equals $G_s$" choice mixes up the formula -- $\\omega = e/G_s$ at full saturation, not $\\omega = G_s$.',
     hint: 'At $S = 1$, the master relationship $Se = \\omega G_s$ simplifies. Think about what $S = 100\\%$ means physically for the void space.',
     steps: [
       {
@@ -112,7 +112,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Dry unit weight strips out the water: $\\gamma_d = \\gamma/(1+\\omega) = 125/(1+0.22) = 125/1.22 = 102.5$ pcf. Choice B (97.5) might come from subtracting $\\gamma \\times \\omega = 125 \\times 0.22 = 27.5$, giving $125 - 27.5 = 97.5$ -- that is wrong because the water content is based on the weight of solids, not total weight. Choice C (125) is the total unit weight, not dry. Choice A (27.5) is just $\\gamma \\times \\omega$, which has no physical meaning here.',
+    eli5: 'Dry unit weight strips out the water: $\\gamma_d = \\gamma/(1+\\omega) = 125/(1+0.22) = 125/1.22 = 102.5$ pcf. The 97.5 pcf option might come from subtracting $\\gamma \\times \\omega = 125 \\times 0.22 = 27.5$, giving $125 - 27.5 = 97.5$ -- that is wrong because the water content is based on the weight of solids, not total weight. The 125 pcf option is the total unit weight, not dry. The 27.5 pcf option is just $\\gamma \\times \\omega$, which has no physical meaning here.',
     hint: 'The formula $\\gamma_d = \\gamma/(1+\\omega)$ converts total unit weight to dry unit weight. Keep $\\omega$ as a decimal.',
     steps: [
       {
@@ -158,7 +158,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'To get $S$ you need $e$, and to get $e$ you need $\\gamma_d$. Step 1: $\\gamma_d = \\gamma/(1+\\omega)$ strips out the water weight. Step 2: rearranging $\\gamma_d = G_s \\gamma_w/(1+e)$ gives $e$. Step 3: $Se = \\omega G_s$ gives $S = \\omega G_s/e$. Choice B is wrong because $e = \\omega G_s$ only works at full saturation ($S = 1$), and then computing $n$ from $e$ is not $S$. Choice A makes up a formula -- $\\gamma_d$ is not $\\gamma \\times \\omega$. Choice D also fabricates a relationship.',
+    eli5: 'To get $S$ you need $e$, and to get $e$ you need $\\gamma_d$. Step 1: $\\gamma_d = \\gamma/(1+\\omega)$ strips out the water weight. Step 2: rearranging $\\gamma_d = G_s \\gamma_w/(1+e)$ gives $e$. Step 3: $Se = \\omega G_s$ gives $S = \\omega G_s/e$. The $e = \\omega G_s$ choice is wrong because $e = \\omega G_s$ only works at full saturation ($S = 1$), and then computing $S = e/(1+e)$ is not the degree of saturation. The $\\gamma_d = \\gamma \\times \\omega$ choice makes up a formula -- $\\gamma_d$ is not $\\gamma \\times \\omega$. The $n = \\omega/G_s$ choice also fabricates a relationship.',
     hint: 'You need three steps: total to dry unit weight, dry unit weight to void ratio, then void ratio to saturation.',
     steps: [
       {
@@ -208,7 +208,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: '$C_u = D_{60}/D_{10} = 10/0.25 = 40$. This is a direct formula plug-in. Choice B (6) is the minimum $C_u$ threshold for well-graded sand, not the calculated value. Choice C (0.90) is the coefficient of concavity $C_c = (D_{30})^2/(D_{10} \\times D_{60})$. Choice D (4) is the minimum $C_u$ for well-graded gravel.',
+    eli5: '$C_u = D_{60}/D_{10} = 10/0.25 = 40$. This is a direct formula plug-in. The value 6 is the minimum $C_u$ threshold for well-graded sand, not the calculated value. The value 0.90 is the coefficient of curvature $C_c = (D_{30})^2/(D_{10} \\times D_{60})$. The value 4 is the minimum $C_u$ for well-graded gravel.',
     hint: '$C_u = D_{60}/D_{10}$. It measures how spread out the grain sizes are.',
     steps: [
       {
@@ -250,7 +250,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '70% passing #200 means fine-grained. $LL = 40 < 50$ means low plasticity (L). The problem already tells you the soil plots below the A-line, which means silt (M). So the classification is ML (low-plasticity silt). Choice A (CL) would be above the A-line. Choice C (SM) is a coarse-grained soil with silty fines. Choice D (MH) requires $LL \\geq 50$.',
+    eli5: '70% passing #200 means fine-grained. $LL = 40 < 50$ means low plasticity (L). The problem already tells you the soil plots below the A-line, which means silt (M). So the classification is ML (low-plasticity silt). CL would be above the A-line. SM is a coarse-grained soil with silty fines. MH requires $LL \\geq 50$.',
     hint: 'Follow the USCS decision tree: fine or coarse, then LL < or > 50, then above or below the A-line.',
     steps: [
       {
@@ -302,7 +302,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Only 5% passes #200, so the soil is coarse-grained. Of the coarse fraction (95%), 55% passes the No. 4 sieve -- that is more than half, so it is a sand (S), not gravel (G). With < 5% fines, classify by gradation. For sand: $C_u \\geq 6$ ($8 \\geq 6$, passes) AND $1 \\leq C_c \\leq 3$ (2.1 is in range, passes). Both criteria met, so it is well-graded sand: SW. Choice B (GW) would require more than half the coarse fraction retained on the No. 4 sieve. Choice C (SP) would have one of the gradation criteria fail. Choice A (SM) requires > 12% fines.',
+    eli5: 'Only 5% passes #200, so the soil is coarse-grained. Of the coarse fraction (95%), 55% passes the No. 4 sieve -- that is more than half, so it is a sand (S), not gravel (G). With < 5% fines, classify by gradation. For sand: $C_u \\geq 6$ ($8 \\geq 6$, passes) AND $1 \\leq C_c \\leq 3$ (2.1 is in range, passes). Both criteria met, so it is well-graded sand: SW. The GW option would require more than half the coarse fraction retained on the No. 4 sieve. The SP option would have one of the gradation criteria fail. The SM option requires > 12% fines.',
     hint: 'First decide sand vs. gravel (based on the No. 4 sieve split of the coarse fraction), then check both Cu and Cc.',
     steps: [
       {
@@ -356,7 +356,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: '$PI = LL - PL = 62 - 25 = 37$. The soil is fine-grained with $LL = 62 > 50$, so it is high plasticity (H). A-line at $LL = 62$: $PI_A = 0.73(62 - 20) = 0.73(42) = 30.7$. Actual $PI = 37 > 30.7$, so it plots above the A-line -- clay (C). Classification: CH (fat clay). Choice B (MH) would be below the A-line. Choice A (CL) requires $LL < 50$. Choice D (OH) is organic soil, which requires comparing oven-dried LL to natural LL -- not determinable from this data alone.',
+    eli5: '$PI = LL - PL = 62 - 25 = 37$. The soil is fine-grained with $LL = 62 > 50$, so it is high plasticity (H). A-line at $LL = 62$: $PI_A = 0.73(62 - 20) = 0.73(42) = 30.7$. Actual $PI = 37 > 30.7$, so it plots above the A-line -- clay (C). Classification: CH (fat clay). MH would be below the A-line. CL requires $LL < 50$. OH is organic soil, which requires comparing oven-dried LL to natural LL -- not determinable from this data alone.',
     hint: 'Compute PI = LL - PL, then compare it to the A-line value at the given LL.',
     steps: [
       {
@@ -411,7 +411,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'A surface surcharge adds $q$ to the total vertical stress at every depth. However, it does not change the hydrostatic pore water pressure ($u = \\gamma_w \\times h_w$ is unchanged). Since $\\sigma\' = \\sigma - u$, the effective stress increases by $q$. Choice B describes an undrained loading response in the short term, but the question is about the static equilibrium condition. Choice C is wrong because surcharge absolutely affects stress below the WT. Choice A invents a $2q$ increase that has no basis.',
+    eli5: 'A surface surcharge adds $q$ to the total vertical stress at every depth. However, it does not change the hydrostatic pore water pressure ($u = \\gamma_w \\times h_w$ is unchanged). Since $\\sigma\' = \\sigma - u$, the effective stress increases by $q$. The "unchanged effective stress" option describes an undrained loading response in the short term, but the question is about the static equilibrium condition. The "no effect below the water table" option is wrong because surcharge absolutely affects stress below the WT. The "increases by $2q$" option invents a $2q$ increase that has no basis.',
     hint: 'Apply $\\sigma\' = \\sigma - u$. The surcharge adds to $\\sigma$ but not to hydrostatic $u$.',
     steps: [
       {
@@ -461,7 +461,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$\\sigma = \\gamma_{sat} \\times h = 118 \\times 8 = 944$ psf. $u = \\gamma_w \\times h = 62.4 \\times 8 = 499.2$ psf. $\\sigma\' = 944 - 499 = 445$ psf. Or use the shortcut: $\\sigma\' = \\gamma\' \\times h = (118 - 62.4) \\times 8 = 55.6 \\times 8 = 444.8 \\approx 445$ psf. Choice A (944) is the total stress. Choice C (499) is the pore water pressure. Choice D (1,416) would come from using the full 12 ft instead of 8 ft.',
+    eli5: '$\\sigma = \\gamma_{sat} \\times h = 118 \\times 8 = 944$ psf. $u = \\gamma_w \\times h = 62.4 \\times 8 = 499.2$ psf. $\\sigma\' = 944 - 499 = 445$ psf. Or use the shortcut: $\\sigma\' = \\gamma\' \\times h = (118 - 62.4) \\times 8 = 55.6 \\times 8 = 444.8 \\approx 445$ psf. The 944 psf choice is the total stress. The 499 psf choice is the pore water pressure. The 1,416 psf choice would come from using the full 12 ft instead of 8 ft.',
     hint: '$\\sigma\' = \\sigma - u$. Compute total stress and pore pressure at 8 ft depth, then subtract.',
     steps: [
       {
@@ -512,7 +512,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'When the WT drops 5 ft, pore pressure at our point decreases by $\\gamma_w \\times 5 = 62.4 \\times 5 = 312$ psf. Total stress changes because the 5-ft zone above went from saturated (~120 pcf) to moist (110 pcf), so total stress decreases by about $(120 - 110) \\times 5 = 50$ psf. Since $\\sigma\' = \\sigma - u$, and $u$ decreased by 312 while $\\sigma$ decreased by only 50, the net change in effective stress is +262 psf -- it increases. Choice B is wrong because $\\sigma$ and $u$ do not decrease equally. Choice A confuses direction. Choice D ignores that the WT position affects pore pressure at all depths below it.',
+    eli5: 'When the WT drops 5 ft, pore pressure at our point decreases by $\\gamma_w \\times 5 = 62.4 \\times 5 = 312$ psf. Total stress changes because the 5-ft zone above went from saturated (~120 pcf) to moist (110 pcf), so total stress decreases by about $(120 - 110) \\times 5 = 50$ psf. Since $\\sigma\' = \\sigma - u$, and $u$ decreased by 312 while $\\sigma$ decreased by only 50, the net change in effective stress is +262 psf -- it increases. The "stays the same" choice is wrong because $\\sigma$ and $u$ do not decrease equally. The "effective stress decreases" choice confuses direction. The "unaffected because still below the water table" choice ignores that the WT position affects pore pressure at all depths below it.',
     hint: 'Compare the change in total stress vs. the change in pore pressure. Whichever changes more controls the direction of effective stress change.',
     steps: [
       {
@@ -562,7 +562,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'Total stress: $\\sigma = 150 + 105(4) + 120(6) + 115(10) = 150 + 420 + 720 + 1{,}150 = 2{,}440$ psf. Pore pressure: $u = 62.4(6 + 10) = 62.4(16) = 998$ psf. Effective: $\\sigma\' = 2{,}440 - 998 = 1{,}442$ psf. Choice B (2,440) is the total stress without subtracting pore pressure. Choice C (1,292) forgot to include the surcharge ($2{,}290 - 998 = 1{,}292$). Choice A (998) is just the pore water pressure.',
+    eli5: 'Total stress: $\\sigma = 150 + 105(4) + 120(6) + 115(10) = 150 + 420 + 720 + 1{,}150 = 2{,}440$ psf. Pore pressure: $u = 62.4(6 + 10) = 62.4(16) = 998$ psf. Effective: $\\sigma\' = 2{,}440 - 998 = 1{,}442$ psf. The 2,440 psf choice is the total stress without subtracting pore pressure. The 1,292 psf choice forgot to include the surcharge ($2{,}290 - 998 = 1{,}292$). The 998 psf choice is just the pore water pressure.',
     hint: 'Total stress = surcharge + weight of all three layers. Pore pressure = $\\gamma_w$ times total water depth below WT.',
     steps: [
       {
@@ -641,7 +641,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'NC clay uses Case 2: $\\Delta H = H_0/(1+e_0) \\times C_c \\times \\log((p_0+\\Delta p)/p_0) = 8/(1.80) \\times 0.35 \\times \\log(4000/2000) = 4.444 \\times 0.35 \\times \\log(2) = 4.444 \\times 0.35 \\times 0.3010 = 0.468$ ft $= 5.6$ in. Choice B (11.2) forgets to divide by $(1+e_0)$. Choice C (2.8) might use $C_r$ instead of $C_c$. Choice D (18.7) uses $\\ln$ instead of $\\log_{10}$.',
+    eli5: 'NC clay uses Case 2: $\\Delta H = H_0/(1+e_0) \\times C_c \\times \\log((p_0+\\Delta p)/p_0) = 8/(1.80) \\times 0.35 \\times \\log(4000/2000) = 4.444 \\times 0.35 \\times \\log(2) = 4.444 \\times 0.35 \\times 0.3010 = 0.468$ ft $= 5.6$ in. The 11.2 in. distractor forgets to divide by $(1+e_0)$. The 2.8 in. distractor might use $C_r$ instead of $C_c$. The 18.7 in. distractor uses $\\ln$ instead of $\\log_{10}$.',
     hint: 'NC clay means Case 2 with $C_c$. Remember $\\log$ is base-10 (common logarithm).',
     steps: [
       {
@@ -691,7 +691,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'With sand on top (permeable) and rock on bottom (impermeable), water can only drain upward -- this is one-way drainage. For one-way drainage, $H_{dr}$ equals the full layer thickness: $H_{dr} = H = 20$ ft. Choice A (10 ft) would be correct for two-way drainage ($H_{dr} = H/2$), but that requires permeable boundaries on both sides. Choice C (40 ft) doubles the thickness for no reason. Choice D (5 ft) divides by 4, which is not a valid drainage path.',
+    eli5: 'With sand on top (permeable) and rock on bottom (impermeable), water can only drain upward -- this is one-way drainage. For one-way drainage, $H_{dr}$ equals the full layer thickness: $H_{dr} = H = 20$ ft. The 10 ft choice would be correct for two-way drainage ($H_{dr} = H/2$), but that requires permeable boundaries on both sides. The 40 ft choice doubles the thickness for no reason. The 5 ft choice divides by 4, which is not a valid drainage path.',
     hint: 'Count the number of drainage faces. One-way: $H_{dr} = H$. Two-way: $H_{dr} = H/2$.',
     steps: [
       {
@@ -751,7 +751,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$t = T_v \\times H_{dr}^2 / c_v = 0.848 \\times 64 / 0.40 = 54.27 / 0.40 = 135.7 \\approx 136$ days. Choice B (542) uses the full layer thickness $H = 16$ ft instead of $H_{dr} = 8$ ft (quadruples the time). Choice A (17) might divide by $H_{dr}$ instead of $H_{dr}^2$. Choice D (68) divides the correct answer by 2 for no reason.',
+    eli5: '$t = T_v \\times H_{dr}^2 / c_v = 0.848 \\times 64 / 0.40 = 54.27 / 0.40 = 135.7 \\approx 136$ days. The 542-day choice uses the full layer thickness $H = 16$ ft instead of $H_{dr} = 8$ ft (quadruples the time). The 17-day choice might divide by $H_{dr}$ instead of $H_{dr}^2$. The 68-day choice divides the correct answer by 2 for no reason.',
     hint: 'Rearrange $T_v = c_v t / H_{dr}^2$ to solve for $t$. Make sure you use $H_{dr}$, not the full thickness.',
     steps: [
       {
@@ -798,7 +798,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'The final stress is $p_0 + \\Delta p = 1{,}500 + 1{,}000 = 2{,}500$ psf. Since $2{,}500 < p_c = 3{,}000$, the entire stress increase stays below the preconsolidation pressure. This is Case 1 -- entirely in the recompression range. The applicable index is $C_r$ (recompression), not $C_c$ (virgin compression). Case 2 applies only to NC clay ($p_0 \\geq p_c$). Case 3 applies when the final stress crosses $p_c$ ($p_0 < p_c < p_0 + \\Delta p$). Choice A is wrong because Case 1 uses $C_r$, not $C_c$.',
+    eli5: 'The final stress is $p_0 + \\Delta p = 1{,}500 + 1{,}000 = 2{,}500$ psf. Since $2{,}500 < p_c = 3{,}000$, the entire stress increase stays below the preconsolidation pressure. This is Case 1 -- entirely in the recompression range. The applicable index is $C_r$ (recompression), not $C_c$ (virgin compression). Case 2 applies only to NC clay ($p_0 \\geq p_c$). Case 3 applies when the final stress crosses $p_c$ ($p_0 < p_c < p_0 + \\Delta p$). The choice claiming Case 1 with $C_c$ is wrong because Case 1 uses $C_r$, not $C_c$.',
     hint: 'Compare $p_0 + \\Delta\\sigma$ to $p_c$. If the final stress stays below $p_c$, the soil remains overconsolidated.',
     steps: [
       {
@@ -849,7 +849,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: '$\\tau_f = c\' + \\sigma_N\' \\tan(\\phi\') = 0 + 2{,}000 \\times \\tan(35\\degree) = 2{,}000 \\times 0.7002 = 1{,}400$ psf. Choice B (2,000) is the normal stress, not the shear strength. Choice C (1,148) might come from using $\\sin(35\\degree)$ instead of $\\tan(35\\degree)$. Choice D (700) divides the answer by 2 for no reason.',
+    eli5: '$\\tau_f = c\' + \\sigma_N\' \\tan(\\phi\') = 0 + 2{,}000 \\times \\tan(35\\degree) = 2{,}000 \\times 0.7002 = 1{,}400$ psf. The 2,000 psf option is the normal stress, not the shear strength. The 1,148 psf option comes from using $\\sin(35\\degree)$ instead of $\\tan(35\\degree)$. The 700 psf option divides the answer by 2 for no reason.',
     hint: 'For granular soil, $c = 0$. Shear strength is purely frictional: $\\tau = \\sigma_N \\tan(\\phi)$.',
     steps: [
       {
@@ -895,7 +895,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'In undrained loading of a saturated clay, any increase in total stress is carried entirely by excess pore water pressure. The effective stress on the failure plane stays the same, so the shear strength does not change with the applied confining pressure -- hence $\\phi_u = 0$ in total-stress terms. Choice A is wrong because clay does have friction in drained conditions ($\\phi\'$ is typically 20-30 degrees). Choice C is wrong because drained analysis uses nonzero $\\phi\'$. Choice D is a misconception -- water does not eliminate friction in the soil skeleton.',
+    eli5: 'In undrained loading of a saturated clay, any increase in total stress is carried entirely by excess pore water pressure. The effective stress on the failure plane stays the same, so the shear strength does not change with the applied confining pressure -- hence $\\phi_u = 0$ in total-stress terms. The "flat smooth particles" choice is wrong because clay does have friction in drained conditions ($\\phi\'$ is typically 20-30 degrees). The "friction angle is always zero for any clay" choice is wrong because drained analysis uses nonzero $\\phi\'$. The "water acts as a lubricant" choice is a misconception -- water does not eliminate friction in the soil skeleton.',
     hint: 'Think about what happens to pore pressure when you load saturated clay quickly. Does effective stress change?',
     steps: [
       {
@@ -945,7 +945,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'For $c = 0$: $\\sin(\\phi) = (\\sigma_1 - \\sigma_3)/(\\sigma_1 + \\sigma_3) = (9{,}000 - 3{,}000)/(9{,}000 + 3{,}000) = 6{,}000/12{,}000 = 0.50$. $\\phi = \\arcsin(0.50) = 30\\degree$. Choice B (45) might come from computing the stress ratio $\\sigma_1/\\sigma_3 = 3$ and misusing it. Choice A (26.6) is $\\arctan(0.50)$ -- a common error from using tan instead of sin. Choice D (19.5) might come from $\\arcsin(\\sigma_3/\\sigma_1)$.',
+    eli5: 'For $c = 0$: $\\sin(\\phi) = (\\sigma_1 - \\sigma_3)/(\\sigma_1 + \\sigma_3) = (9{,}000 - 3{,}000)/(9{,}000 + 3{,}000) = 6{,}000/12{,}000 = 0.50$. $\\phi = \\arcsin(0.50) = 30\\degree$. The 45 choice might come from computing the stress ratio $\\sigma_1/\\sigma_3 = 3$ and misusing it. The 26.6 choice is $\\arctan(0.50)$ -- a common error from using tan instead of sin. The 19.5 choice might come from $\\arcsin(\\sigma_3/\\sigma_1)$.',
     hint: 'For a cohesionless soil: $\\sin(\\phi) = (\\sigma_1 - \\sigma_3)/(\\sigma_1 + \\sigma_3)$.',
     steps: [
       {
@@ -992,7 +992,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'In a UU test on saturated clay, the sample is not allowed to drain. Any increase in confining pressure goes entirely to pore pressure, so the effective stress does not change. Since strength depends on effective stress, both specimens have the same shear strength regardless of the confining pressure. This is why the Mohr envelope is a horizontal line ($\\phi_u = 0$) with $\\tau_f = c_u$. Choice B is wrong -- this is exactly expected behavior. Choice C is wrong -- even NC clays behave this way in UU tests. Choice A describes a CU or CD test, not UU.',
+    eli5: 'In a UU test on saturated clay, the sample is not allowed to drain. Any increase in confining pressure goes entirely to pore pressure, so the effective stress does not change. Since strength depends on effective stress, both specimens have the same shear strength regardless of the confining pressure. This is why the Mohr envelope is a horizontal line ($\\phi_u = 0$) with $\\tau_f = c_u$. The "tests were performed incorrectly" choice is wrong -- this is exactly expected behavior. The "overconsolidated clay" choice is wrong -- even NC clays behave this way in UU tests. The "consolidated under the higher pressure" choice describes a CU or CD test, not UU.',
     hint: 'In a UU test, neither the confining stage nor the shearing stage allows drainage. What happens to pore pressure when you increase total stress on a saturated sample?',
     steps: [
       {
@@ -1196,7 +1196,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Compute each term of Terzaghi\'s equation. $cN_c = 25(14.83) = 370.8$ kPa. The overburden $q = \\gamma D_f = 17(1.5) = 25.5$ kPa, so $qN_q = 25.5(6.40) = 163.2$ kPa. The width term $= 0.5(17)(2.0)(5.39) = 91.6$ kPa. Total $q_{ult} = 370.8 + 163.2 + 91.6 = 625.6$ kPa. Divide by FS: $q_{allow} = 625.6/3 = 208.5 \\approx 209$ kPa. Choice B (570) is close to $q_{ult}$ without dividing by FS. Choice C (370) is just the cohesion term. Choice D (155) uses the wrong factors.',
+    eli5: 'Compute each term of Terzaghi\'s equation. $cN_c = 25(14.83) = 370.8$ kPa. The overburden $q = \\gamma D_f = 17(1.5) = 25.5$ kPa, so $qN_q = 25.5(6.40) = 163.2$ kPa. The width term $= 0.5(17)(2.0)(5.39) = 91.6$ kPa. Total $q_{ult} = 370.8 + 163.2 + 91.6 = 625.6$ kPa. Divide by FS: $q_{allow} = 625.6/3 = 208.5 \\approx 209$ kPa. The 570 kPa option is close to $q_{ult}$ without dividing by FS. The 370 kPa option is just the cohesion term ($cN_c$). The 155 kPa option uses the wrong factors.',
     hint: 'Compute all three terms of Terzaghi\'s equation, sum them for qult, then divide by FS = 3.',
     steps: [
       {
@@ -1266,7 +1266,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'The at-rest condition ($K_0$) applies when a wall is perfectly rigid and does not deflect. Active pressure ($K_a$) develops only when the wall moves away from the soil, allowing the soil to expand. Passive pressure ($K_p$) develops when the wall pushes into the soil. A rigid basement wall that cannot deform experiences at-rest pressure. Choice B is wrong because active requires wall movement away. Choice C is wrong because passive requires wall movement into the soil. Choice A is not a real condition.',
+    eli5: 'The at-rest condition ($K_0$) applies when a wall is perfectly rigid and does not deflect. Active pressure ($K_a$) develops only when the wall moves away from the soil, allowing the soil to expand. Passive pressure ($K_p$) develops when the wall pushes into the soil. A rigid basement wall that cannot deform experiences at-rest pressure. The active choice is wrong because active requires the wall to move away from the soil. The passive choice is wrong because passive requires the wall to push into the soil. The "both active and passive simultaneously" choice is not a real condition.',
     hint: 'Active requires wall movement away from soil. Passive requires movement into soil. No movement means at-rest.',
     steps: [
       {
@@ -1316,7 +1316,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$K_a = \\tan^2(45\\degree - 30\\degree/2) = \\tan^2(30\\degree) = (1/\\sqrt{3})^2 = 1/3 = 0.333$. $P_a = 0.5 \\times K_a \\times \\gamma \\times H^2 = 0.5 \\times 0.333 \\times 110 \\times 400 = 7{,}333 \\approx 7{,}330$ lb/ft. Choice A (14,670) forgets the 1/2 factor. Choice C (22,000) uses $K_p = 3$ instead of $K_a = 1/3$. Choice D (3,670) halves the answer again incorrectly.',
+    eli5: '$K_a = \\tan^2(45\\degree - 30\\degree/2) = \\tan^2(30\\degree) = (1/\\sqrt{3})^2 = 1/3 = 0.333$. $P_a = 0.5 \\times K_a \\times \\gamma \\times H^2 = 0.5 \\times 0.333 \\times 110 \\times 400 = 7{,}333 \\approx 7{,}330$ lb/ft. The 14,670 lb/ft option forgets the 1/2 factor. The 22,000 lb/ft option uses $K_p = 3$ instead of $K_a = 1/3$. The 3,670 lb/ft option halves the answer again incorrectly.',
     hint: '$K_a = \\tan^2(45\\degree - \\phi/2)$, then $P_a = 0.5 \\times K_a \\times \\gamma \\times H^2$.',
     steps: [
       {
@@ -1369,7 +1369,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$K_a$ must always be less than 1 (active pressure is less than vertical stress). If $K_a = 2.5$, the student swapped the sign and computed $K_p$ instead. The correct $K_a = \\tan^2(45\\degree - 25\\degree/2) = \\tan^2(32.5\\degree) = 0.406$. Check: $K_a \\times K_p = 1$, so $K_p = 1/0.406 = 2.46 \\approx 2.5$. Choice B is wrong because $K_a > 1$ is physically impossible for cohesionless soil. Choice A is unlikely to produce exactly 2.5. Choice D: forgetting to square would give $\\tan(32.5\\degree) = 0.637$, not 2.5.',
+    eli5: '$K_a$ must always be less than 1 (active pressure is less than vertical stress). If $K_a = 2.5$, the student swapped the sign and computed $K_p$ instead. The correct $K_a = \\tan^2(45\\degree - 25\\degree/2) = \\tan^2(32.5\\degree) = 0.406$. Check: $K_a \\times K_p = 1$, so $K_p = 1/0.406 = 2.46 \\approx 2.5$. The choice claiming $K_a = 2.5$ is reasonable is wrong because $K_a > 1$ is physically impossible for cohesionless soil. The degrees-vs-radians choice is unlikely to produce exactly 2.5. The forgot-to-square choice would give $\\tan(32.5\\degree) = 0.637$, not 2.5.',
     hint: 'Ka is always less than 1 and Kp is always greater than 1. If your Ka exceeds 1, you swapped the sign.',
     steps: [
       {
@@ -1419,7 +1419,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: '$K_a = \\tan^2(45\\degree - 15\\degree) = \\tan^2(30\\degree) = 1/3 = 0.333$. $K_0 = 1 - \\sin(30\\degree) = 1 - 0.50 = 0.500$. Ratio $= 0.500/0.333 = 1.50$. This means a rigid wall ($K_0$) experiences 50% more force than a wall that can yield into the active condition ($K_a$). Choice B swaps $K_a$ and $K_0$. Choice C incorrectly assumes $K_0 = K_a$. Choice A uses $\\tan(30\\degree) = 0.577$ as $K_0$ instead of $1 - \\sin(30\\degree)$.',
+    eli5: '$K_a = \\tan^2(45\\degree - 15\\degree) = \\tan^2(30\\degree) = 1/3 = 0.333$. $K_0 = 1 - \\sin(30\\degree) = 1 - 0.50 = 0.500$. Ratio $= 0.500/0.333 = 1.50$. This means a rigid wall ($K_0$) experiences 50% more force than a wall that can yield into the active condition ($K_a$). The $K_a=0.500, K_0=0.333$ option swaps $K_a$ and $K_0$. The $K_0=K_a=0.333$ option incorrectly assumes $K_0 = K_a$. The $K_0=0.577$ option uses $\\tan(30\\degree) = 0.577$ as $K_0$ instead of $1 - \\sin(30\\degree)$.',
     hint: '$K_a$ uses $\\tan^2(45\\degree - \\phi/2)$. $K_0$ uses $1 - \\sin(\\phi)$. Compute both and divide.',
     steps: [
       {
@@ -1470,7 +1470,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: '$FS_{sliding} = $ resisting forces / driving forces $= 6{,}000/3{,}000 = 2.0$. This is a direct ratio. Choice B (0.50) inverts the ratio (driving/resisting). Choice C (3,000) subtracts instead of dividing. Choice D (1.0) might come from thinking they are equal.',
+    eli5: '$FS_{sliding} = $ resisting forces / driving forces $= 6{,}000/3{,}000 = 2.0$. This is a direct ratio. The 0.50 option inverts the ratio (driving/resisting). The 3,000 option subtracts instead of dividing. The 1.0 option might come from thinking the forces are equal.',
     hint: 'FS(sliding) = sum of resisting forces / sum of driving forces.',
     steps: [
       {
@@ -1510,7 +1510,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The middle-third rule says the resultant must fall within $B/6$ of the center for the entire base to be in compression. Here $e = B/4 = 0.25B$, and $B/6 = 0.167B$. Since $0.25B > 0.167B$, the resultant is outside the middle third. This means the heel side has theoretical tension, but soil cannot take tension, so the actual pressure redistributes to a triangular distribution on the toe side only. Choice B applies when $e = 0$. Choice A applies when $e \\leq B/6$. Choice D is wrong because eccentricity directly controls pressure distribution.',
+    eli5: 'The middle-third rule says the resultant must fall within $B/6$ of the center for the entire base to be in compression. Here $e = B/4 = 0.25B$, and $B/6 = 0.167B$. Since $0.25B > 0.167B$, the resultant is outside the middle third. This means the heel side has theoretical tension, but soil cannot take tension, so the actual pressure redistributes to a triangular distribution on the toe side only. The "uniform pressure / resultant at center" choice applies only when $e = 0$. The "within the middle third, trapezoidal distribution" choice applies when $e \\leq B/6$. The "eccentricity has no effect" choice is wrong because eccentricity directly controls the pressure distribution.',
     hint: 'Compare e to B/6. If e > B/6, the resultant is outside the middle third.',
     steps: [
       {
@@ -1560,7 +1560,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'First find where the resultant hits the base: $\\bar{x} = (M_R - M_O)/V = (60{,}000 - 20{,}000)/10{,}000 = 4.0$ ft from the toe. Eccentricity: $e = B/2 - \\bar{x} = 5.0 - 4.0 = 1.0$ ft. Check: $B/6 = 10/6 = 1.67$ ft, and $e = 1.0 < 1.67$, so the middle-third rule is satisfied. Toe pressure: $q_{toe} = (V/B)(1 + 6e/B) = (10{,}000/10)(1 + 6(1.0)/10) = 1{,}000(1 + 0.60) = 1{,}000 \\times 1.60 = 1{,}600$ psf. Choice A (1,000) ignores eccentricity. Choice C (2,000) uses $e = B/6 = 1.67$. Choice D (4,000) might use an incorrect formula.',
+    eli5: 'First find where the resultant hits the base: $\\bar{x} = (M_R - M_O)/V = (60{,}000 - 20{,}000)/10{,}000 = 4.0$ ft from the toe. Eccentricity: $e = B/2 - \\bar{x} = 5.0 - 4.0 = 1.0$ ft. Check: $B/6 = 10/6 = 1.67$ ft, and $e = 1.0 < 1.67$, so the middle-third rule is satisfied. Toe pressure: $q_{toe} = (V/B)(1 + 6e/B) = (10{,}000/10)(1 + 6(1.0)/10) = 1{,}000(1 + 0.60) = 1{,}000 \\times 1.60 = 1{,}600$ psf. The 1,000 psf option ignores eccentricity (just $V/B$). The 2,000 psf option uses $e = B/6 = 1.67$. The 4,000 psf option might use an incorrect formula.',
     hint: 'Find $\\bar{x}$, then $e = B/2 - \\bar{x}$, then $q_{toe} = (V/B)(1 + 6e/B)$.',
     steps: [
       {
@@ -1621,7 +1621,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'You must check each failure mode against its own required FS. Overturning: $2.5 \\geq 2.0$, so it passes. Sliding: $1.2 < 1.5$, so it fails. Even though overturning is fine, the wall is inadequate because sliding does not meet the minimum FS. You could add a key (shear key) at the base or widen the footing to increase sliding resistance. Choice B ignores that each check has a different threshold. Choice C is wrong because $FS > 1.0$ is not sufficient -- each mode has a specific required FS. Choice A incorrectly assumes passing one check means the wall is stable overall.',
+    eli5: 'You must check each failure mode against its own required FS. Overturning: $2.5 \\geq 2.0$, so it passes. Sliding: $1.2 < 1.5$, so it fails. Even though overturning is fine, the wall is inadequate because sliding does not meet the minimum FS. You could add a key (shear key) at the base or widen the footing to increase sliding resistance. The "overturning controls because it has the larger required FS" choice ignores that each check has a different threshold. The "both checks pass because the actual FS values exceed 1.0" choice is wrong because $FS > 1.0$ is not sufficient -- each mode has a specific required FS. The "neither check controls because the wall passes overturning" choice incorrectly assumes passing one check means the wall is stable overall.',
     hint: 'Compare each FS to its own minimum requirement. The wall is only adequate if ALL checks pass.',
     steps: [
       {
@@ -1660,7 +1660,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Discharge velocity v = ki = (5×10⁻⁴)(0.4) = 2.0×10⁻⁴ cm/s. Choice B divides by the gradient. Choice C drops the gradient. Choice D is off by a factor of 10.',
+    eli5: 'Discharge velocity v = ki = (5×10⁻⁴)(0.4) = 2.0×10⁻⁴ cm/s. The 1.25\u00d710\u207b\u00b3 choice divides by the gradient instead of multiplying. The 5\u00d710\u207b\u2074 choice drops the gradient (uses k alone). The 2.0\u00d710\u207b\u00b3 choice is off by a factor of 10.',
     hint: 'Discharge velocity v = k × i.',
     steps: [
       { text: 'Apply Darcy velocity:', latex: 'v = k\\,i = (5\\times10^{-4})(0.4)' },
@@ -1689,7 +1689,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Dry cohesionless infinite slope: FS = tan φ/tan β = tan 38°/tan 25° = 0.7813/0.4663 = 1.68. Choice B inverts the ratio. Choice C subtracts angles. Choice D applies an unneeded seepage reduction.',
+    eli5: 'Dry cohesionless infinite slope: FS = tan φ/tan β = tan 38°/tan 25° = 0.7813/0.4663 = 1.68. The 0.60 option inverts the ratio (tan \u03b2/tan \u03c6). The 1.52 option subtracts angles. The 0.84 option applies an unneeded seepage reduction (multiplying by ~0.5).',
     hint: 'FS = tan φ / tan β for a dry cohesionless slope.',
     steps: [
       { text: 'Apply the dry infinite-slope formula:', latex: 'FS = \\frac{\\tan 38\\degree}{\\tan 25\\degree} = \\frac{0.7813}{0.4663}' },
@@ -1718,7 +1718,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'RC = (γd,field/γd,max) × 100 = (112/118) × 100 = 94.9%. Choice B inverts the ratio. Choice C is the percent difference. Choice D is a guess. This fill is just below a typical 95% requirement.',
+    eli5: 'RC = (γd,field/γd,max) × 100 = (112/118) × 100 = 94.9%. The 105.4% choice inverts the ratio (118/112). The 5.4% choice is the difference relative to the field value (6/112). The 88.0% choice is an unrelated guess. This fill is just below a typical 95% requirement.',
     hint: 'RC = field dry density / lab maximum dry density × 100.',
     steps: [
       { text: 'Apply the formula:', latex: 'RC = \\frac{112}{118} \\times 100' },
@@ -1747,7 +1747,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Ultimate capacity Q_ult = Qp + Qs = 350 + 450 = 800 kN. Allowable = Q_ult/FS = 800/2.5 = 320 kN. Choice B forgets to divide by the factor of safety. Choice C divides only the end bearing. Choice D multiplies by the FS instead of dividing.',
+    eli5: 'Ultimate capacity Q_ult = Qp + Qs = 350 + 450 = 800 kN. Allowable = Q_ult/FS = 800/2.5 = 320 kN. The 800 kN option forgets to divide by the factor of safety. The 140 kN option divides only the end bearing (350/2.5). The 2,000 kN option multiplies by the FS instead of dividing.',
     hint: 'Add end bearing and skin friction, then divide by the factor of safety.',
     steps: [
       { text: 'Ultimate capacity:', latex: 'Q_{ult} = Q_p + Q_s = 350 + 450 = 800\\text{ kN}' },

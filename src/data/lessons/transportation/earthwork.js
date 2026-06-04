@@ -56,7 +56,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'V = L(A1 + 4Am + A2)/6 = 100(200 + 4\u00D7240 + 300)/6 = 100(200 + 960 + 300)/6 = 100 \u00D7 1,460/6 = 146,000/6 = 24,333 ft\u00B3. Convert: 24,333/27 = 901 yd\u00B3. Choice B (926) used the average end area method (ignoring Am). Choice A (5,407) forgot to divide by 6: 146,000/27 = 5,407. Choice D (913) used a simple average (A1+Am+A2)/3 instead of the weighted prismoidal formula.',
+      eli5: 'V = L(A1 + 4Am + A2)/6 = 100(200 + 4\u00D7240 + 300)/6 = 100(200 + 960 + 300)/6 = 100 \u00D7 1,460/6 = 146,000/6 = 24,333 ft\u00B3. Convert: 24,333/27 = 901 yd\u00B3. The 926 yd\u00b3 option used the average end area method (ignoring Am). The 5,407 yd\u00b3 option forgot to divide by 6: 146,000/27 = 5,407. The 913 yd\u00b3 option used a simple average (A1+Am+A2)/3 instead of the weighted prismoidal formula.',
       hint: 'Prismoidal: L(A1 + 4Am + A2)/6. The mid-section gets weighted 4\u00D7.',
       steps: [
         { text: 'Prismoidal volume:', latex: 'V = \\frac{100(200 + 4 \\times 240 + 300)}{6} = \\frac{100 \\times 1{,}460}{6} = \\frac{146{,}000}{6} = 24{,}333 \\text{ ft}^3' },

@@ -173,7 +173,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The discriminant tells you everything about the nature of the roots. Positive means two distinct real roots, zero means one repeated root, negative means no real roots (complex conjugate pair). A negative discriminant means $\\sqrt{\\Delta}$ involves the square root of a negative number in the quadratic formula, which has no real solution. The equation can still be solved with complex numbers, so choice D is wrong — it is solvable, just not over the reals.',
+    eli5: 'The discriminant tells you everything about the nature of the roots. Positive means two distinct real roots, zero means one repeated root, negative means no real roots (complex conjugate pair). A negative discriminant means $\\sqrt{\\Delta}$ involves the square root of a negative number in the quadratic formula, which has no real solution. The equation can still be solved with complex numbers, so the choice claiming the equation cannot be solved is wrong — it is solvable, just not over the reals.',
     hint: 'Recall what the sign of the discriminant tells you about the number and type of roots.',
     steps: [
       {
@@ -268,7 +268,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Use the identity $\\ln(e^n) = n$ on each term. The first term gives 4, the second gives $-1$. Add them: $4 + (-1) = 3$. You could also combine first using the product rule: $\\ln(e^4 \\cdot e^{-1}) = \\ln(e^3) = 3$. Either path works. The trap is multiplying the exponents instead of adding them ($4 \\times -1 = -4$), which is Choice D.',
+    eli5: 'Use the identity $\\ln(e^n) = n$ on each term. The first term gives 4, the second gives $-1$. Add them: $4 + (-1) = 3$. You could also combine first using the product rule: $\\ln(e^4 \\cdot e^{-1}) = \\ln(e^3) = 3$. Either path works. The trap is multiplying the exponents instead of adding them ($4 \\times -1 = -4$), which is the choice $-4$.',
     hint: 'Apply $\\ln(e^n) = n$ to each term, then add the results.',
     steps: [
       {
@@ -370,15 +370,15 @@ const PROBLEMS = [
         latex: '\\log(x^c) = c \\cdot \\log x'
       },
       {
-        text: 'Choice A is wrong: $\\log(x + y) \\neq \\log x + \\log y$ — no identity for sums.',
+        text: 'The sum choice is wrong: $\\log(x + y) \\neq \\log x + \\log y$ — no identity for sums.',
         latex: null
       },
       {
-        text: 'Choice B is wrong: $\\log(x - y) \\neq \\log x - \\log y$ — no identity for differences.',
+        text: 'The difference choice is wrong: $\\log(x - y) \\neq \\log x - \\log y$ — no identity for differences.',
         latex: null
       },
       {
-        text: 'Choice D is wrong: the product rule gives addition, not multiplication: $\\log(xy) = \\log x + \\log y$.',
+        text: 'The product choice is wrong: the product rule gives addition, not multiplication: $\\log(xy) = \\log x + \\log y$.',
         latex: null
       }
     ],
@@ -516,7 +516,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'You know the opposite (rise = 1.5 m) and the adjacent (run = 12 m). That is tangent. Take the inverse tangent of $1.5/12 = 0.125$ to get $7.1°$. Choice D is the ratio itself without taking the inverse trig function. Choice A is $90°$ minus the correct answer — that would be the angle from the vertical, not the horizontal.',
+    eli5: 'You know the opposite (rise = 1.5 m) and the adjacent (run = 12 m). That is tangent. Take the inverse tangent of $1.5/12 = 0.125$ to get $7.1°$. The $0.125°$ choice is the ratio itself without taking the inverse trig function. The $82.9°$ choice is $90°$ minus the correct answer — that would be the angle from the vertical, not the horizontal.',
     hint: 'You have the rise and the run. Which trig function relates opposite to adjacent?',
     steps: [
       {
@@ -877,7 +877,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Start with the Pythagorean identity: $\\sin^2\\theta = 1 - \\cos^2\\theta = 1 - 49/625 = 576/625$. Square root gives $\\pm 24/25$. Now check the quadrant: Q4 means y is negative, so sine is negative. The answer is $-24/25$ (Choice C). Choice A is the positive root — that\'s Q1, not Q4. Always let the quadrant tell you the sign.',
+    eli5: 'Start with the Pythagorean identity: $\\sin^2\\theta = 1 - \\cos^2\\theta = 1 - 49/625 = 576/625$. Square root gives $\\pm 24/25$. Now check the quadrant: Q4 means y is negative, so sine is negative. The answer is $-24/25$ (the $-\\frac{24}{25}$ choice). The $\\frac{24}{25}$ choice is the positive root — that\'s Q1, not Q4. Always let the quadrant tell you the sign.',
     hint: 'Use $\\sin^2\\theta + \\cos^2\\theta = 1$, then pick the sign from the quadrant.',
     steps: [
       {
@@ -928,7 +928,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Use the double-angle formula $\\cos 2\\theta = 2\\cos^2\\theta - 1$. Plug in: $2(9/25) - 1 = 18/25 - 25/25 = -7/25$. Choice B is wrong because it just doubles cos — that\'s not how double-angle works. Choice D uses $\\cos^2\\theta$ without the doubling and subtraction. The negative result is totally fine — it means $2\\theta$ lands in Q2 or Q3 where cosine is negative.',
+    eli5: 'Use the double-angle formula $\\cos 2\\theta = 2\\cos^2\\theta - 1$. Plug in: $2(9/25) - 1 = 18/25 - 25/25 = -7/25$. The choice $\\frac{6}{5}$ is wrong because it just doubles cos — that\'s not how double-angle works. The choice $\\frac{9}{25}$ uses $\\cos^2\\theta$ without the doubling and subtraction. The negative result is totally fine — it means $2\\theta$ lands in Q2 or Q3 where cosine is negative.',
     hint: 'The double-angle formula $\\cos 2\\theta = 2\\cos^2\\theta - 1$ only needs $\\cos\\theta$.',
     steps: [
       {
@@ -1030,7 +1030,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Read the standard form: the right side is $r^2$, so $r = \\sqrt{36} = 6$. The diameter is twice the radius, so 12. Choice A is the radius, not the diameter. Choice C is $r^2$. Always check whether the question asks for radius or diameter.',
+    eli5: 'Read the standard form: the right side is $r^2$, so $r = \\sqrt{36} = 6$. The diameter is twice the radius, so 12. The choice 6 is the radius, not the diameter. The choice 36 is $r^2$. Always check whether the question asks for radius or diameter.',
     hint: 'The right side of the circle equation is $r^2$, not $r$. And diameter is twice the radius.',
     steps: [
       {
@@ -1074,7 +1074,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Complete the square for both $x$ and $y$. For $x$: half of 8 is 4, squared is 16. For $y$: half of $-6$ is $-3$, squared is 9. Add both to each side. You get $(x+4)^2 + (y-3)^2 = 25$. The center is $(-4, 3)$ because $x + 4 = x - (-4)$. Choice B flips the signs — that is the most common error with completing the square.',
+    eli5: 'Complete the square for both $x$ and $y$. For $x$: half of 8 is 4, squared is 16. For $y$: half of $-6$ is $-3$, squared is 9. Add both to each side. You get $(x+4)^2 + (y-3)^2 = 25$. The center is $(-4, 3)$ because $x + 4 = x - (-4)$. The choice with center $(4, -3)$ flips the signs — that is the most common error with completing the square.',
     hint: 'Complete the square for x and y separately. Remember the sign convention: $(x - h)$ means center coordinate $h$.',
     steps: [
       {
@@ -1125,7 +1125,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The larger denominator tells you which axis is major. Here $16 > 9$, so the major axis is along $x$. The semi-major axis is $a = \\sqrt{16} = 4$, but the FULL major axis is $2a = 8$. Choice A is the semi-major axis — the question asks for the full length. Choice D is the minor axis length ($2 \\times 3 = 6$).',
+    eli5: 'The larger denominator tells you which axis is major. Here $16 > 9$, so the major axis is along $x$. The semi-major axis is $a = \\sqrt{16} = 4$, but the FULL major axis is $2a = 8$. The choice "4" is the semi-major axis — the question asks for the full length. The choice "6" is the minor axis length ($2 \\times 3 = 6$).',
     hint: 'The semi-axis is the square root of the denominator. The full axis length is twice that.',
     steps: [
       {
@@ -1224,7 +1224,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'The derivative of $\\ln(u)$ is $1/u$ times $du/dx$ — chain rule. The outer derivative gives $1/(5x^2 + 1)$, and the inner derivative is $10x$. Multiply them together. Choice A is what you get if you skip the chain rule entirely. Choice C misses the factor of 2 from differentiating $x^2$.',
+    eli5: 'The derivative of $\\ln(u)$ is $1/u$ times $du/dx$ — chain rule. The outer derivative gives $1/(5x^2 + 1)$, and the inner derivative is $10x$. Multiply them together. The choice $\\frac{1}{5x^2+1}$ is what you get if you skip the chain rule entirely. The choice $\\frac{5x}{5x^2+1}$ misses the factor of 2 from differentiating $x^2$.',
     hint: 'The argument is not plain $x$ — what does the chain rule add?',
     steps: [
       {
@@ -1275,7 +1275,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Two functions multiplied means product rule. And $\\sin(2t)$ needs the chain rule for its derivative — you get $\\cos(2t) \\cdot 2$, not just $\\cos(2t)$. Choice D is the classic trap: it applies the product rule correctly but forgets the chain rule factor of 2 on the trig part. Choice B only differentiates one factor. Always check: did I use BOTH product rule terms, and did I chain rule the inner function?',
+    eli5: 'Two functions multiplied means product rule. And $\\sin(2t)$ needs the chain rule for its derivative — you get $\\cos(2t) \\cdot 2$, not just $\\cos(2t)$. The choice $3t^2 \\sin(2t) + t^3 \\cos(2t)$ is the classic trap: it applies the product rule correctly but forgets the chain rule factor of 2 on the trig part. The choice $3t^2 \\cos(2t)$ only differentiates one factor. Always check: did I use BOTH product rule terms, and did I chain rule the inner function?',
     hint: 'Product rule first, then chain rule on $\\sin(2t)$.',
     steps: [
       {
@@ -1330,7 +1330,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Quotient rule: lo d-hi minus hi d-lo over lo-lo. The denominator ($x + 3$) times the derivative of the numerator ($e^x$) minus the numerator ($e^x$) times the derivative of the denominator (1), all over $(x + 3)^2$. Factor out $e^x$: you get $e^x(x + 3 - 1)/(x + 3)^2 = e^x(x + 2)/(x + 3)^2$. Choice D is correct but unsimplified — on the FE, always check if your answer matches a simplified form in the choices.',
+    eli5: 'Quotient rule: lo d-hi minus hi d-lo over lo-lo. The denominator ($x + 3$) times the derivative of the numerator ($e^x$) minus the numerator ($e^x$) times the derivative of the denominator (1), all over $(x + 3)^2$. Factor out $e^x$: you get $e^x(x + 3 - 1)/(x + 3)^2 = e^x(x + 2)/(x + 3)^2$. The choice $\\frac{e^x}{x+3} - \\frac{e^x}{(x+3)^2}$ is mathematically equivalent but unsimplified; the correct option here is the simplified form $\\frac{e^x(x+2)}{(x+3)^2}$. On the FE, always check whether your answer matches a simplified form in the choices.',
     hint: 'Apply the quotient rule, then factor $e^x$ from the numerator.',
     steps: [
       {
@@ -1491,7 +1491,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Rewrite $20000/d$ as $20000d^{-1}$, then differentiate: $C\'(d) = 500 - 20000d^{-2}$. Set to zero: $500 = 20000/d^2$, so $d^2 = 40$ and $d = \\sqrt{40} \\approx 6.32$. The second derivative is $40000/d^3$, which is positive for any positive $d$, confirming a minimum. Choice A divides 20000 by 500 without solving the equation correctly.',
+    eli5: 'Rewrite $20000/d$ as $20000d^{-1}$, then differentiate: $C\'(d) = 500 - 20000d^{-2}$. Set to zero: $500 = 20000/d^2$, so $d^2 = 40$ and $d = \\sqrt{40} \\approx 6.32$. The second derivative is $40000/d^3$, which is positive for any positive $d$, confirming a minimum. The distractor $d = 40\\,\\text{m}$ comes from dividing 20000 by 500 without taking the square root.',
     hint: 'Rewrite $20000/d$ as $20000d^{-1}$ before differentiating, then set $C\'(d) = 0$.',
     steps: [
       {
@@ -1546,7 +1546,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'An inflection point is where the second derivative equals zero and changes sign. First derivative: $6x^2 - 18x + 12$. Second derivative: $12x - 18$. Set to zero: $x = 18/12 = 1.5$. Check sign change: $f\'\'(1) = -6 < 0$ and $f\'\'(2) = 6 > 0$ — yes, it changes sign. Choices A and B ($x = 1$ and $x = 2$) are the critical points where $f\'(x) = 0$ — the classic mistake of using the first derivative instead of the second.',
+    eli5: 'An inflection point is where the second derivative equals zero and changes sign. First derivative: $6x^2 - 18x + 12$. Second derivative: $12x - 18$. Set to zero: $x = 18/12 = 1.5$. Check sign change: $f\'\'(1) = -6 < 0$ and $f\'\'(2) = 6 > 0$ — yes, it changes sign. The choices $x = 1$ and $x = 2$ are the critical points where $f\'(x) = 0$ — the classic mistake of using the first derivative instead of the second.',
     hint: 'Set the second derivative (not the first) to zero.',
     steps: [
       {
@@ -1829,7 +1829,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'When you compute $F(b) - F(a)$, any constant $C$ appears in both terms: $(F(b) + C) - (F(a) + C) = F(b) - F(a)$. The $C$\'s cancel out perfectly. It\'s not that $C = 0$ or that it doesn\'t exist — it\'s that it subtracts away. This is a subtle but important distinction. Choice C is flat wrong — definite integrals absolutely use antiderivatives (that\'s the Fundamental Theorem of Calculus). Choice A is a common misconception.',
+    eli5: 'When you compute $F(b) - F(a)$, any constant $C$ appears in both terms: $(F(b) + C) - (F(a) + C) = F(b) - F(a)$. The $C$\'s cancel out perfectly. It\'s not that $C = 0$ or that it doesn\'t exist — it\'s that it subtracts away. This is a subtle but important distinction. The choice claiming definite integrals do not involve antiderivatives is flat wrong — definite integrals absolutely use antiderivatives (that\'s the Fundamental Theorem of Calculus). The choice claiming the constant is always zero is a common misconception.',
     hint: 'Write out $F(b) + C$ and $F(a) + C$ and subtract them — what happens to $C$?',
     steps: [
       {
@@ -2147,7 +2147,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'First find the magnitude: $\\sqrt{4 + 36 + 9} = \\sqrt{49} = 7$. Then divide each component by 7. Choice B is the original vector — that\'s what you get if you skip the normalization. Choice C divides by the sum of components (11) instead of the magnitude (7). Always verify: the unit vector\'s magnitude should equal 1.',
+    eli5: 'First find the magnitude: $\\sqrt{4 + 36 + 9} = \\sqrt{49} = 7$. Then divide each component by 7. The choice that just repeats 2i - 6j + 3k is the original vector — that\'s what you get if you skip the normalization. The choice dividing by 11 divides by the sum of components instead of the magnitude (7). Always verify: the unit vector\'s magnitude should equal 1.',
     hint: 'Compute the magnitude first, then divide every component by it.',
     steps: [
       {
@@ -2194,7 +2194,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Three steps: (1) direction vector $B - A = (2, 4, -3)$, (2) magnitude $= \\sqrt{4 + 16 + 9} = \\sqrt{29}$, (3) unit vector times 350. Each component of the unit vector gets multiplied by 350. Choice A is just the unit vector without the 350 multiplier. Choice B multiplied 350 by the direction vector without normalizing first.',
+    eli5: 'Three steps: (1) direction vector $B - A = (2, 4, -3)$, (2) magnitude $= \\sqrt{4 + 16 + 9} = \\sqrt{29}$, (3) unit vector times 350. Each component of the unit vector gets multiplied by 350. The unit-vector-only choice ($\\frac{2}{\\sqrt{29}}\\hat{i} + \\frac{4}{\\sqrt{29}}\\hat{j} - \\frac{3}{\\sqrt{29}}\\hat{k}$) leaves off the 350 multiplier. The $700\\hat{i} + 1400\\hat{j} - 1050\\hat{k}$ choice multiplied 350 by the direction vector without normalizing first.',
     hint: 'Find the unit vector from A to B, then multiply by the force magnitude.',
     steps: [
       {
@@ -2249,7 +2249,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'Magnitude is always positive: $|\\vec{A}| = \\sqrt{(-5)^2 + 0^2} = 5$, not $-5$. The negative sign on the component tells you direction, not magnitude. Choice A is the most common mistake — magnitudes can never be negative. Choice D gets the magnitude right but the direction wrong. A negative $x$-component means the vector points in the negative $x$-direction. Separating magnitude from direction is fundamental to vector analysis.',
+    eli5: 'Magnitude is always positive: $|\\vec{A}| = \\sqrt{(-5)^2 + 0^2} = 5$, not $-5$. The negative sign on the component tells you direction, not magnitude. The "magnitude is -5" choice is the most common mistake — magnitudes can never be negative. The "positive x-direction with magnitude 5" choice gets the magnitude right but the direction wrong. A negative $x$-component means the vector points in the negative $x$-direction. Separating magnitude from direction is fundamental to vector analysis.',
     hint: 'Magnitude is always non-negative — the sign of a component indicates direction, not size.',
     steps: [
       {
@@ -2402,7 +2402,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The scalar projection is $(\\vec{F} \\cdot \\vec{d}) / |\\vec{d}|$. Dot product: $(200)(4) + (400)(0) + (100)(3) = 800 + 0 + 300 = 1100$. Magnitude of $\\vec{d}$: $\\sqrt{16 + 0 + 9} = 5$. Projection: $1100/5 = 220$ N. Choice B (1100) is the raw dot product without dividing — the most common mistake. Always divide by the magnitude of the direction vector.',
+    eli5: 'The scalar projection is $(\\vec{F} \\cdot \\vec{d}) / |\\vec{d}|$. Dot product: $(200)(4) + (400)(0) + (100)(3) = 800 + 0 + 300 = 1100$. Magnitude of $\\vec{d}$: $\\sqrt{16 + 0 + 9} = 5$. Projection: $1100/5 = 220$ N. The 1100 N choice is the raw dot product without dividing — the most common mistake. Always divide by the magnitude of the direction vector.',
     hint: 'Scalar projection = (F dot d) / |d|. Divide by the magnitude of the direction, not the force.',
     steps: [
       {
@@ -2501,7 +2501,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Set up the 3x3 determinant with $\\hat{i}, \\hat{j}, \\hat{k}$ in the top row. The $\\hat{i}$ component: $(3)(4) - (0)(0) = 12$. The $\\hat{j}$ component: $-[(2)(4) - (0)(0)] = -8$. The $\\hat{k}$ component: $(2)(0) - (3)(0) = 0$. So the result is $12\\hat{i} - 8\\hat{j}$. Choice B has the signs flipped — that\'s $\\vec{B} \\times \\vec{A}$. Remember the sign pattern: $+, -, +$ for $\\hat{i}, \\hat{j}, \\hat{k}$.',
+    eli5: 'Set up the 3x3 determinant with $\\hat{i}, \\hat{j}, \\hat{k}$ in the top row. The $\\hat{i}$ component: $(3)(4) - (0)(0) = 12$. The $\\hat{j}$ component: $-[(2)(4) - (0)(0)] = -8$. The $\\hat{k}$ component: $(2)(0) - (3)(0) = 0$. So the result is $12\\hat{i} - 8\\hat{j}$. The choice $-12\\hat{i} + 8\\hat{j} + 0\\hat{k}$ has the signs flipped — that\'s $\\vec{B} \\times \\vec{A}$. Remember the sign pattern: $+, -, +$ for $\\hat{i}, \\hat{j}, \\hat{k}$.',
     hint: 'Use the determinant formula. Watch the negative sign on the $\\hat{j}$ cofactor.',
     steps: [
       {
@@ -2619,7 +2619,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The cross product magnitude gives the parallelogram area, so divide by 2 for the triangle. Both vectors are in the $xy$-plane, so only the $\\hat{k}$ component survives: $(3)(4) - (1)(-1) = 12 + 1 = 13$. The cross product is $13\\hat{k}$, magnitude is 13. Triangle area = $13/2 = 6.5$ m$^2$. Choice B (13) is the parallelogram area — forgetting to halve is the most common mistake.',
+    eli5: 'The cross product magnitude gives the parallelogram area, so divide by 2 for the triangle. Both vectors are in the $xy$-plane, so only the $\\hat{k}$ component survives: $(3)(4) - (1)(-1) = 12 + 1 = 13$. The cross product is $13\\hat{k}$, magnitude is 13. Triangle area = $13/2 = 6.5$ m$^2$. The 13 m$^2$ option is the parallelogram area — forgetting to halve is the most common mistake.',
     hint: 'Triangle area = $\\frac{1}{2}|\\vec{u} \\times \\vec{v}|$. Don\'t forget the $\\frac{1}{2}$.',
     steps: [
       {
@@ -2670,7 +2670,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'The cross product magnitude is $|A||B|\\sin\\theta$. For this to be zero with nonzero vectors, $\\sin\\theta$ must be zero, which happens at $\\theta = 0°$ (parallel) or $\\theta = 180°$ (anti-parallel). This is the opposite of the dot product test: dot product zero means perpendicular (cos = 0), cross product zero means parallel (sin = 0). Don\'t mix them up. Choice A is the dot product test, not the cross product test.',
+    eli5: 'The cross product magnitude is $|A||B|\\sin\\theta$. For this to be zero with nonzero vectors, $\\sin\\theta$ must be zero, which happens at $\\theta = 0°$ (parallel) or $\\theta = 180°$ (anti-parallel). This is the opposite of the dot product test: dot product zero means perpendicular (cos = 0), cross product zero means parallel (sin = 0). Don\'t mix them up. The "perpendicular" choice is the dot product test, not the cross product test.',
     hint: 'The magnitude formula uses $\\sin\\theta$. When is sine zero?',
     steps: [
       {
@@ -2709,7 +2709,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Spreadsheets follow order of operations: division before addition. Compute B3/B4 = 20/4 = 5 first, then add B2: 10 + 5 = 15. Choice B (7.5) is the mistake of doing (B2+B3)/B4 = 30/4. Choice C (30) ignores the division entirely.',
+    eli5: 'Spreadsheets follow order of operations: division before addition. Compute B3/B4 = 20/4 = 5 first, then add B2: 10 + 5 = 15. The 7.5 option is the mistake of doing (B2+B3)/B4 = 30/4. The 30 option ignores the division entirely.',
     hint: 'Division happens before addition — evaluate B3/B4 first.',
     steps: [
       { text: 'Precedence: division before addition. Evaluate B3/B4 = 20/4 = 5.', latex: null },
@@ -2738,7 +2738,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The relative reference B2 shifts to B5 when copied down three rows, but the absolute reference $D$1 stays locked on the unit price. So E5 = B5*$D$1 = 12 × 25 = 300. Choice B (200) assumes B did not shift. Choice C (37) adds quantity + price. Choice D (12) forgets to multiply by the unit price.',
+    eli5: 'The relative reference B2 shifts to B5 when copied down three rows, but the absolute reference $D$1 stays locked on the unit price. So E5 = B5*$D$1 = 12 × 25 = 300. The 200 choice assumes B did not shift. The 37 choice adds quantity + price. The 12 choice forgets to multiply by the unit price.',
     hint: 'B2 is relative (shifts to B5); $D$1 is absolute (stays on the unit price).',
     steps: [
       { text: 'Copying down three rows shifts the relative reference: B2 → B5.', latex: null },
@@ -2768,7 +2768,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'SUM(C2:C6) adds every value in the inclusive range C2 through C6: 12 + 15 + 18 + 9 + 6 = 60. Choices that drop an endpoint (54 omits the 6; 48 omits the 12) are the classic range-boundary mistakes. Choice D (12) reads only the first cell.',
+    eli5: 'SUM(C2:C6) adds every value in the inclusive range C2 through C6: 12 + 15 + 18 + 9 + 6 = 60. Choices that drop an endpoint (54 omits the 6; 48 omits the 12) are the classic range-boundary mistakes. The choice 12 reads only the first cell.',
     hint: 'SUM over C2:C6 includes both endpoints — add all five values.',
     steps: [
       { text: 'The range C2:C6 includes all five cells.', latex: null },
@@ -2797,7 +2797,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The loop multiplies a running product by i for i = 1, 2, 3, 4, 5 — that is 5 factorial: 1×1×2×3×4×5 = 120. Choice B (15) adds instead of multiplies (1+2+3+4+5). Choice C (24) stops at i = 4 (4!). Choice D (720) runs one extra pass to i = 6.',
+    eli5: 'The loop multiplies a running product by i for i = 1, 2, 3, 4, 5 — that is 5 factorial: 1×1×2×3×4×5 = 120. The 15 choice adds instead of multiplies (1+2+3+4+5). The 24 choice stops at i = 4 (4!). The 720 choice runs one extra pass to i = 6.',
     hint: 'A running product over i = 1..5 is 5 factorial.',
     steps: [
       { text: 'i = 1: p = 1. i = 2: p = 2. i = 3: p = 6.', latex: null },
@@ -2826,7 +2826,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Halve x while x > 5, counting each pass: 80→40 (1), 40→20 (2), 20→10 (3), 10→5 (4). Now x = 5, and 5 > 5 is false, so the loop stops. The body ran 4 times. Choice B (3) stops one pass early; Choice C (5) runs one extra pass even though 5 > 5 is false.',
+    eli5: 'Halve x while x > 5, counting each pass: 80→40 (1), 40→20 (2), 20→10 (3), 10→5 (4). Now x = 5, and 5 > 5 is false, so the loop stops. The body ran 4 times. The answer 3 stops one pass early; the answer 5 runs one extra pass even though 5 > 5 is false.',
     hint: 'Halve until x > 5 fails; remember 5 > 5 is false (strict inequality).',
     steps: [
       { text: '80 > 5 → x = 40, count = 1. 40 > 5 → x = 20, count = 2.', latex: null },
@@ -2856,7 +2856,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'x₁ = x₀ − f(x₀)/f′(x₀). f(2) = 4 − 5 = −1; f′(2) = 4. So x₁ = 2 − (−1)/4 = 2 + 0.25 = 2.25 (approaching √5 ≈ 2.236). Choice B subtracts instead of accounting for the negative sign. Choice C is the start value. Choice D over-shoots.',
+    eli5: 'x₁ = x₀ − f(x₀)/f′(x₀). f(2) = 4 − 5 = −1; f′(2) = 4. So x₁ = 2 − (−1)/4 = 2 + 0.25 = 2.25 (approaching √5 ≈ 2.236). The 1.75 distractor subtracts 0.25 instead of adding it (mishandling the negative sign). The 2.00 distractor is just the start value x\u2080. The 2.50 distractor over-shoots \u221a5.',
     hint: 'x₁ = x₀ − f(x₀)/f′(x₀); mind the sign of f(x₀).',
     steps: [
       { text: 'Evaluate:', latex: 'f(2) = -1, \\quad f\'(2) = 4' },

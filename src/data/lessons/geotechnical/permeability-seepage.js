@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Darcy: q = kiA = 0.01 × 0.5 × 100 = 0.5 cm³/s. Choice B drops the gradient (kA). Choice C multiplies an extra 0.1. Choice D drops the gradient and a decimal.',
+      eli5: 'Darcy: q = kiA = 0.01 × 0.5 × 100 = 0.5 cm³/s. The 5.0 cm^3/s option inflates the result tenfold. The 0.05 cm^3/s option multiplies in an extra factor of 0.1. The 50 cm^3/s option drops the gradient and shifts a decimal.',
       hint: 'q = k × i × A. Keep units consistent (cm/s, cm²).',
       steps: [
         { text: 'Apply Darcy\'s law:', latex: 'q = k\\,i\\,A = 0.01 \\times 0.5 \\times 100' },
@@ -56,7 +56,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'i_c = (Gs − 1)/(1 + e) = (2.70 − 1)/(1 + 0.85) = 1.70/1.85 = 0.92. Choice B assumes i_c is always exactly 1.0. Choice C uses (Gs − 1) without dividing by (1 + e). Choice D inverts part of the expression.',
+      eli5: 'i_c = (Gs − 1)/(1 + e) = (2.70 − 1)/(1 + 0.85) = 1.70/1.85 = 0.92. The 1.00 choice wrongly assumes i_c is always exactly 1.0. The 1.85 choice just reports the denominator (1 + e) = 1.85 instead of the full ratio. The 0.54 choice inverts the fraction, using (1 + e)/(Gs − 1) instead of (Gs − 1)/(1 + e).',
       hint: 'Critical gradient i_c = (Gs − 1)/(1 + e).',
       steps: [
         { text: 'Apply the critical-gradient formula:', latex: 'i_c = \\frac{G_s - 1}{1 + e} = \\frac{2.70 - 1}{1 + 0.85}' },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'q = kH(Nf/Nd) = (2×10⁻⁵)(6)(4/12) = (2×10⁻⁵)(6)(0.333) = 4.0×10⁻⁵ m³/s per m. Choice B inverts the ratio (Nd/Nf). Choice C drops the head. Choice D uses Nf/Nd = 4 instead of 4/12.',
+      eli5: 'q = kH(Nf/Nd) = (2×10⁻⁵)(6)(4/12) = (2×10⁻⁵)(6)(0.333) = 4.0×10⁻⁵ m³/s per m. The 3.6\u00d710\u207b\u2074 choice inverts the ratio (Nd/Nf = 12/4 = 3). The 1.0\u00d710\u207b\u2075 choice mishandles the head. The 2.4\u00d710\u207b\u2074 choice uses an incorrect ratio value.',
       hint: 'q = k × H × (Nf/Nd) per unit width.',
       steps: [
         { text: 'Flow-net seepage formula:', latex: 'q = k\\,H\\,\\frac{N_f}{N_d} = (2\\times10^{-5})(6)\\frac{4}{12}' },

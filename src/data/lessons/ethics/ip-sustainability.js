@@ -141,7 +141,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: "The firm is recommending the option that costs more upfront but wins when you look at the whole picture — recycled materials, less maintenance, less environmental damage. That's textbook life-cycle analysis: evaluate from cradle to grave, not just day one. Choice A gets the concept of resource allocation backwards — it's about using resources efficiently, not just spending more. Choices B and D cherry-pick small benefits (worker safety, noise) that aren't the main reason for the recommendation. The real argument is that Option B is better across the entire project lifecycle when you factor in environmental, economic, and social costs together.",
+      eli5: "The firm is recommending the option that costs more upfront but wins when you look at the whole picture — recycled materials, less maintenance, less environmental damage. That's textbook life-cycle analysis: evaluate from cradle to grave, not just day one. The resource allocation choice gets the concept backwards — it's about using resources efficiently, not just spending more. The public-health and quality-of-life choices cherry-pick small benefits (worker safety, noise) that aren't the main reason for the recommendation. The real argument is that Option B is better across the entire project lifecycle when you factor in environmental, economic, and social costs together.",
       hint: 'Which sustainability principle requires evaluating a project from design and construction all the way through end-of-life?',
       steps: [
         {
@@ -157,11 +157,11 @@ export default {
           latex: null,
         },
         {
-          text: "Choice A misdefines resource allocation — it's about efficient use of resources, not spending more money.",
+          text: "The resource allocation choice misdefines the term — it's about efficient use of resources, not spending more money.",
           latex: null,
         },
         {
-          text: "Choices B and D pick narrow benefits that aren't the primary justification. The recommendation is based on the comprehensive lifecycle assessment.",
+          text: "The public-health (worker safety) and quality-of-life (noise) choices pick narrow benefits that aren't the primary justification. The recommendation is based on the comprehensive lifecycle assessment.",
           latex: null,
         },
       ],
@@ -199,7 +199,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: "This question tests whether you understand that the four IP types protect different things and can all coexist on the same project. The membrane itself is a patentable invention. \"AquaPure\" is a trademark — it's a brand name that identifies the product in the market. The paper is copyrighted the moment the engineer writes it — it's an original work of authorship. And the secret manufacturing process is a trade secret because it's kept confidential and gives a competitive edge. Choice A is wrong because patents don't cover brand names or written works. Choice B misses the trademark and trade secret. Choice D is close but forgets the manufacturing process — since it's not disclosed in the paper, it qualifies as a trade secret. All four types apply to different aspects.",
+      eli5: "This question tests whether you understand that the four IP types protect different things and can all coexist on the same project. The membrane itself is a patentable invention. \"AquaPure\" is a trademark — it's a brand name that identifies the product in the market. The paper is copyrighted the moment the engineer writes it — it's an original work of authorship. And the secret manufacturing process is a trade secret because it's kept confidential and gives a competitive edge. The \"One \u2014 a patent covers everything\" choice is wrong because patents don't cover brand names or written works. The \"Two \u2014 patent plus copyright\" choice misses the trademark and trade secret. The \"Three\" choice is close but forgets the manufacturing process — since it's not disclosed in the paper, it qualifies as a trade secret. All four types apply to different aspects.",
       hint: "Consider each element separately — the physical invention, the brand name, the written paper, and the undisclosed process. Does each one map to a different type of IP protection?",
       steps: [
         {

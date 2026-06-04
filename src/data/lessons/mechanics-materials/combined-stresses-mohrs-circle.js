@@ -91,7 +91,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'This is the sneaky Mohr\'s circle problem. The in-plane max shear is R = 50 MPa, and most students stop there (choice B). But both principal stresses are positive (130 and 30), which means the absolute maximum shear stress involves the third principal stress \u03C3\u2083 = 0. The biggest difference between any two principal stresses is 130 \u2212 0 = 130, and max shear = half of that = 65. Choice A (40) is just the half-difference (\u03C3x \u2212 \u03C3y)/2. Choice D (80) is the center C, which has nothing to do with shear stress.',
+      eli5: 'This is the sneaky Mohr\'s circle problem. The in-plane max shear is R = 50 MPa, and most students stop there (the 50 MPa choice). But both principal stresses are positive (130 and 30), which means the absolute maximum shear stress involves the third principal stress \u03C3\u2083 = 0. The biggest difference between any two principal stresses is 130 \u2212 0 = 130, and max shear = half of that = 65. Choice A (40) is just the half-difference (\u03C3x \u2212 \u03C3y)/2. Choice D (80) is the center C, which has nothing to do with shear stress.',
       hint: 'After finding the principal stresses, check if they have the same sign. If so, the absolute max shear stress involves the out-of-plane \u03C3\u2083 = 0.',
       steps: [
         { text: 'Center:', latex: 'C = \\frac{120 + 40}{2} = 80 \\text{ MPa}' },

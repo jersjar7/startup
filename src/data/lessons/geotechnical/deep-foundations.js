@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Q_ult = Qp + Qs = qp·Ap + fs·As = (2,000)(0.20) + (50)(12) = 400 + 600 = 1,000 kN. Choice B is only the end bearing. Choice C is only the skin friction. Choice D mistakenly uses the tip area as 1.0 m² (2,000 + 600).',
+      eli5: 'Q_ult = Qp + Qs = qp·Ap + fs·As = (2,000)(0.20) + (50)(12) = 400 + 600 = 1,000 kN. The 400 kN option is only the end bearing. The 600 kN option is only the skin friction. The 2,600 kN option mistakenly uses the tip area as 1.0 m² (2,000 + 600).',
       hint: 'Q_ult = qp·Ap + fs·As — add end bearing and skin friction.',
       steps: [
         { text: 'End bearing:', latex: 'Q_p = q_p A_p = 2{,}000 \\times 0.20 = 400\\text{ kN}' },
@@ -56,7 +56,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The soft clay would settle excessively under a shallow footing. A deep foundation bypasses the weak clay and transfers the load to the dense gravel below, controlling settlement and providing adequate capacity. Choice B is false (piles are usually more expensive). Choice C is backwards — you want to relieve, not increase, load on the clay. Choice D overstates the case.',
+      eli5: 'The soft clay would settle excessively under a shallow footing. A deep foundation bypasses the weak clay and transfers the load to the dense gravel below, controlling settlement and providing adequate capacity. The claim that deep foundations are always cheaper is false (piles are usually more expensive). The option about increasing bearing pressure on the soft clay is backwards — you want to relieve, not increase, load on the clay. The claim that shallow footings can never be used overstates the case.',
       hint: 'What problem does the soft clay create, and how does reaching the gravel solve it?',
       steps: [
         { text: 'Soft clay under a footing would settle excessively and lacks capacity.', latex: null },
@@ -83,7 +83,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'When surrounding soil settles MORE than the pile, it drags down on the shaft — negative skin friction (downdrag). This acts as an additional downward load the pile must carry, not as support. Choice B reverses the direction. Choice C invents a buoyant relief. Choice D ignores the relative settlement that causes downdrag.',
+      eli5: 'When surrounding soil settles MORE than the pile, it drags down on the shaft — negative skin friction (downdrag). This acts as an additional downward load the pile must carry, not as support. The "positive skin friction increases capacity" choice reverses the direction. The "upward buoyant force" choice invents a relief that does not exist here. The "no force, clay and pile move together" choice ignores the relative settlement that causes downdrag.',
       hint: 'Which way does the friction act when the soil settles faster than the pile?',
       steps: [
         { text: 'Consolidating clay settles more than the pile.', latex: null },

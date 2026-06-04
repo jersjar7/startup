@@ -88,7 +88,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Off-center load means asymmetric reactions. Take moments about one support to find the other, then use equilibrium for the second. The max moment is at the load point (that\'s where shear crosses zero). Use M = Pab/L = 30 \u00D7 4 \u00D7 6 / 10 = 72. Choice A (48) comes from using the wrong reaction with the wrong distance (R_B \u00D7 4 instead of R_A \u00D7 4). Choice B (120) uses the full load P \u00D7 a = 30 \u00D7 4 instead of the reaction. Choice C (60) comes from assuming midspan loading (PL/4 = 75? No, that\'s not quite right either).',
+      eli5: 'Off-center load means asymmetric reactions. Take moments about one support to find the other, then use equilibrium for the second. The max moment is at the load point (that\'s where shear crosses zero). Use M = Pab/L = 30 \u00D7 4 \u00D7 6 / 10 = 72. Choice A (48) comes from using the wrong reaction with the wrong distance (R_B \u00D7 4 instead of R_A \u00D7 4). Choice B (120) uses the full load P \u00D7 a = 30 \u00D7 4 instead of the reaction. The 60 distractor comes from using R_B \u00d7 5 = 12 \u00d7 5 (placing the peak at midspan from the wrong reaction) instead of the correct R_A \u00d7 4.',
       hint: 'The max moment occurs under the point load. Find both reactions first, then compute the moment from either side.',
       steps: [
         { text: 'Sum moments about A:', latex: 'R_B \\times 10 = 30 \\times 4 \\implies R_B = 12 \\text{ kN}' },

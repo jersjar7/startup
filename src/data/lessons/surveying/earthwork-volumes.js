@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'V = L/2 \u00D7 (A_1 + A_2) = 100/2 \u00D7 (120 + 180) = 50 \u00D7 300 = 15,000 ft\u00B3. Choice B converts to cubic yards (15,000/27 = 556) \u2014 right number but wrong unit for what was asked. Choice C uses L instead of L/2. Choice D divides by 4 instead of 2.',
+      eli5: 'V = L/2 \u00D7 (A_1 + A_2) = 100/2 \u00D7 (120 + 180) = 50 \u00D7 300 = 15,000 ft\u00B3. The 556 yd\u00b3 option converts to cubic yards (15,000/27 = 556) \u2014 right number but wrong unit for what was asked. The 30,000 ft\u00b3 option uses L instead of L/2. The 7,500 ft\u00b3 option divides by 4 instead of 2.',
       hint: 'Average the two areas, then multiply by the distance between stations.',
       steps: [
         { text: 'Average end area volume:', latex: 'V = \\frac{L}{2}(A_1 + A_2) = \\frac{100}{2}(120 + 180)' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Two segments: 0+00 to 1+00 and 1+00 to 2+00. V_1 = 100/2 \u00D7 (0 + 400) = 50 \u00D7 400 = 20,000 ft\u00B3. V_2 = 100/2 \u00D7 (400 + 0) = 20,000 ft\u00B3. Total = 40,000 ft\u00B3. Choice A only computes one segment. Choice C uses L instead of L/2. Choice D uses the prismoidal formula by mistake.',
+      eli5: 'Two segments: 0+00 to 1+00 and 1+00 to 2+00. V_1 = 100/2 \u00D7 (0 + 400) = 50 \u00D7 400 = 20,000 ft\u00B3. V_2 = 100/2 \u00D7 (400 + 0) = 20,000 ft\u00B3. Total = 40,000 ft\u00B3. The 20,000 ft\u00b3 choice only computes one segment. The 80,000 ft\u00b3 choice uses L instead of L/2. The 13,333 ft\u00b3 choice uses the prismoidal formula by mistake.',
       hint: 'Apply the average end area formula to each pair of adjacent stations, then sum the segment volumes.',
       steps: [
         { text: 'Segment 1 (Sta 0+00 to 1+00):', latex: 'V_1 = \\frac{100}{2}(0 + 400) = 20{,}000 \\text{ ft}^3' },

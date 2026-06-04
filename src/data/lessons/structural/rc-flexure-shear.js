@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'V_c = 2\u03BB\u221Af\'c \u00D7 b_w \u00D7 d = 2(1.0)\u221A3000 \u00D7 12 \u00D7 20 = 2(54.77)(240) = 26,290 lb = 26.3 kips. \u03C6V_c = 0.75 \u00D7 26.3 = 19.7 kips. \u03C6V_c/2 = 9.9 kips. Since V_u = 22 > \u03C6V_c = 19.7, the concrete alone cannot carry the shear. Stirrups must be designed to carry V_s = V_u/\u03C6 \u2013 V_c = 22/0.75 \u2013 26.3 = 29.3 \u2013 26.3 = 3.0 kips. Choice B would apply if V_u \u2264 9.9. Choice C would apply if 9.9 < V_u \u2264 19.7.',
+      eli5: 'V_c = 2\u03BB\u221Af\'c \u00D7 b_w \u00D7 d = 2(1.0)\u221A3000 \u00D7 12 \u00D7 20 = 2(54.77)(240) = 26,290 lb = 26.3 kips. \u03C6V_c = 0.75 \u00D7 26.3 = 19.7 kips. \u03C6V_c/2 = 9.9 kips. Since V_u = 22 > \u03C6V_c = 19.7, the concrete alone cannot carry the shear. Stirrups must be designed to carry V_s = V_u/\u03C6 \u2013 V_c = 22/0.75 \u2013 26.3 = 29.3 \u2013 26.3 = 3.0 kips. The "no stirrups needed" choice would apply if V_u \u2264 9.9. The "only minimum stirrups" choice would apply if 9.9 < V_u \u2264 19.7.',
       hint: 'Compute V_c = 2\u221Af\'c \u00D7 b_w \u00D7 d (in lb), then compare V_u to \u03C6V_c and \u03C6V_c/2.',
       steps: [
         { text: 'Concrete shear capacity:', latex: 'V_c = 2(1.0)\\sqrt{3000} \\times 12 \\times 20 = 2(54.77)(240) = 26{,}290 \\text{ lb} = 26.3 \\text{ kips}' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'First find V_c = 2(1.0)\u221A4000 \u00D7 14 \u00D7 24 = 2(63.25)(336) = 42,504 lb = 42.5 kips. Then V_s = V_u/\u03C6 \u2013 V_c = 70/0.75 \u2013 42.5 = 93.3 \u2013 42.5 = 50.8 kips. Required spacing: s = A_v f_y d / V_s = 0.22 \u00D7 60 \u00D7 24 / 50.8 = 316.8/50.8 = 6.24 in. \u2192 use 6 in. Check max spacing: V_s = 50.8 < 4b_w d\u221Af\'c = 85.2 kips, so max spacing = d/2 = 12 in. Since 6 < 12, the required spacing of 6 in. controls. Choice A (12) is the maximum spacing d/2, but the required V_s demands closer spacing. Choice D (24) is a code maximum that only applies when V_s is very small.',
+      eli5: 'First find V_c = 2(1.0)\u221A4000 \u00D7 14 \u00D7 24 = 2(63.25)(336) = 42,504 lb = 42.5 kips. Then V_s = V_u/\u03C6 \u2013 V_c = 70/0.75 \u2013 42.5 = 93.3 \u2013 42.5 = 50.8 kips. Required spacing: s = A_v f_y d / V_s = 0.22 \u00D7 60 \u00D7 24 / 50.8 = 316.8/50.8 = 6.24 in. \u2192 use 6 in. Check max spacing: V_s = 50.8 < 4b_w d\u221Af\'c = 85.2 kips, so max spacing = d/2 = 12 in. Since 6 < 12, the required spacing of 6 in. controls. The 12 in. choice is the maximum spacing d/2, but the required V_s demands closer spacing. The 24 in. choice is a code maximum that only applies when V_s is very small.',
       hint: 'Find V_s = V_u/\u03C6 \u2013 V_c, then s = A_v f_y d / V_s. Check against maximum spacing.',
       steps: [
         { text: 'Concrete shear:', latex: 'V_c = 2\\sqrt{4000} \\times 14 \\times 24 = 42{,}504 \\text{ lb} = 42.5 \\text{ kips}' },

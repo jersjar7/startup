@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'HI = 100.00 + 1.52 = 101.52 m. Elev_A = HI \u2013 FS = 101.52 \u2013 2.35 = 99.17 m. Point A is lower because the foresight rod reading is larger (the rod sits lower). Choice B adds both readings (100 + 1.52 \u2013 0.69 miscomputation). Choice C adds both BS and FS. Choice D subtracts both.',
+      eli5: 'HI = 100.00 + 1.52 = 101.52 m. Elev_A = HI \u2013 FS = 101.52 \u2013 2.35 = 99.17 m. Point A is lower because the foresight rod reading is larger (the rod sits lower). The 100.83 m choice swaps BS and FS (100.00 \u2013 1.52 + 2.35). The 103.87 m choice adds both BS and FS (100 + 1.52 + 2.35). The 96.13 m choice subtracts both (100 \u2013 1.52 \u2013 2.35).',
       hint: 'HI = known elevation + backsight. New elevation = HI \u2013 foresight.',
       steps: [
         { text: 'Height of Instrument:', latex: 'HI = 100.00 + 1.52 = 101.52 \\text{ m}' },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Work through it step by step. HI_1 = 250.00 + 4.62 = 254.62. Elev_TP1 = 254.62 \u2013 3.18 = 251.44. HI_2 = 251.44 + 5.21 = 256.65. Elev_B = 256.65 \u2013 1.95 = 254.70 ft. Choice A gives the TP-1 elevation (stopped too early). Choice B reverses all operations. Choice D uses the wrong HI.',
+      eli5: 'Work through it step by step. HI_1 = 250.00 + 4.62 = 254.62. Elev_TP1 = 254.62 \u2013 3.18 = 251.44. HI_2 = 251.44 + 5.21 = 256.65. Elev_B = 256.65 \u2013 1.95 = 254.70 ft. The 251.44 ft choice gives the TP-1 elevation (stopped too early). The 245.30 ft choice reverses all operations. The 248.56 ft choice uses the wrong HI.',
       hint: 'Process each instrument setup separately. At each setup: HI = elev + BS, then new elev = HI \u2013 FS.',
       steps: [
         { text: 'Setup 1 \u2014 HI from BM-1:', latex: 'HI_1 = 250.00 + 4.62 = 254.62 \\text{ ft}' },

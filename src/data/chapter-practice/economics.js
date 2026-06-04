@@ -15,7 +15,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'medium',
     eli5:
-      'You have a series of equal annual payments ($A$) and you want their value today ($P$), so the factor is the uniform series present worth $(P/A)$. Look up $(P/A,\\, 8\\%,\\, 6) = 4.6229$ and multiply by 18,000 to get about 83,200. Choice A (108,000) just adds up the six payments ($18{,}000 \\times 6$) with no discounting, ignoring the time value of money. Choice B (88,500) uses the wrong interest rate, applying $(P/A,\\, 6\\%,\\, 6) = 4.9173$ instead of the 8% factor. Choice D (11,300) treats the whole stream as a single future lump sum and discounts it with $(P/F)$ instead of $(P/A)$.',
+      'You have a series of equal annual payments ($A$) and you want their value today ($P$), so the factor is the uniform series present worth $(P/A)$. Look up $(P/A,\\, 8\\%,\\, 6) = 4.6229$ and multiply by 18,000 to get about 83,200. The 108,000 option just adds up the six payments ($18{,}000 \\times 6$) with no discounting, ignoring the time value of money. The 88,500 option uses the wrong interest rate, applying $(P/A,\\, 6\\%,\\, 6) = 4.9173$ instead of the 8% factor. The 11,300 option treats the whole stream as a single future lump sum and discounts it with $(P/F)$ instead of $(P/A)$.',
     hint: 'Equal end-of-year payments converted to a value today means the uniform series present worth factor $(P/A)$.',
     steps: [
       {
@@ -60,7 +60,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'hard',
     eli5:
-      'The cash flow is a flat base of 5,000 dollars per year plus a uniform gradient $G = 1{,}000$ that starts in year 2. Convert the gradient to an equivalent annual amount with the gradient-to-uniform factor $(A/G,\\, 10\\%,\\, 8) = 3.0045$, then add it to the base: $A = 5{,}000 + 1{,}000 \\times 3.0045 = 8{,}004 \\approx 8{,}000$. Choice C (8,500) uses the simple arithmetic average of the gradient ($1{,}000 \\times 7/2 = 3{,}500$ added to 5,000), which ignores the time value of money. Choice D (3,000) reports only the gradient component and forgets to add the 5,000 base. Choice A (12,000) is the final-year cost ($5{,}000 + 1{,}000 \\times 7$), not the annual equivalent.',
+      'The cash flow is a flat base of 5,000 dollars per year plus a uniform gradient $G = 1{,}000$ that starts in year 2. Convert the gradient to an equivalent annual amount with the gradient-to-uniform factor $(A/G,\\, 10\\%,\\, 8) = 3.0045$, then add it to the base: $A = 5{,}000 + 1{,}000 \\times 3.0045 = 8{,}004 \\approx 8{,}000$. The 8,500 option uses the simple arithmetic average of the gradient ($1{,}000 \\times 7/2 = 3{,}500$ added to 5,000), which ignores the time value of money. The 3,000 option reports only the gradient component and forgets to add the 5,000 base. The 12,000 option is the final-year cost ($5{,}000 + 1{,}000 \\times 7$), not the annual equivalent.',
     hint: 'Split the rising cost into a flat base plus a uniform gradient, then convert the gradient to an annual amount with $(A/G)$ and add the base.',
     steps: [
       {
@@ -105,7 +105,7 @@ const PROBLEMS = [
     correctAnswerId: 'c4',
     difficulty: 'medium',
     eli5:
-      'Capitalized cost is the present worth of a project that lasts forever. For a perpetual uniform cost, the present worth of the annual maintenance is simply $A/i$, so $40{,}000 / 0.05 = 800{,}000$. Add the one-time construction cost: $2{,}000{,}000 + 800{,}000 = 2{,}800{,}000$. Choice A (2,040,000) adds only one year of maintenance instead of capitalizing it over an infinite horizon. Choice B (2,002,000) multiplies the maintenance by the rate ($40{,}000 \\times 0.05$) instead of dividing. Choice C (800,000) gives only the capitalized maintenance and forgets the initial construction cost.',
+      'Capitalized cost is the present worth of a project that lasts forever. For a perpetual uniform cost, the present worth of the annual maintenance is simply $A/i$, so $40{,}000 / 0.05 = 800{,}000$. Add the one-time construction cost: $2{,}000{,}000 + 800{,}000 = 2{,}800{,}000$. The 2,040,000 option adds only one year of maintenance instead of capitalizing it over an infinite horizon. The 2,002,000 option multiplies the maintenance by the rate ($40{,}000 \\times 0.05$) instead of dividing. The 800,000 option gives only the capitalized maintenance and forgets the initial construction cost.',
     hint: 'For a cost that repeats forever, the present worth of the annual amount is $A/i$. Add the one-time initial cost.',
     steps: [
       {
@@ -146,7 +146,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'hard',
     eli5:
-      'The lives are 3 and 6 years, so present worth must be compared over the least common multiple, 6 years. Compactor M must be purchased again at the start of year 4 (end of year 3). Its PW is $40{,}000 + 40{,}000(P/F,\\, 10\\%,\\, 3) + 10{,}000(P/A,\\, 10\\%,\\, 6) = 40{,}000 + 30{,}053 + 43{,}553 = 113{,}606$. Compactor N runs the full 6 years with no repeat: $60{,}000 + 7{,}000(P/A,\\, 10\\%,\\, 6) = 60{,}000 + 30{,}487 = 90{,}487 \\approx 90{,}500$. N is cheaper. Choice A (64,900) compares only one 3-year cycle of M against nothing, an invalid unequal-life comparison. Choice C (113,600) is M\'s correct PW but M is the more expensive option. Choice D (102,000) forgets to discount M\'s replacement or mis-adds N.',
+      'The lives are 3 and 6 years, so present worth must be compared over the least common multiple, 6 years. Compactor M must be purchased again at the start of year 4 (end of year 3). Its PW is $40{,}000 + 40{,}000(P/F,\\, 10\\%,\\, 3) + 10{,}000(P/A,\\, 10\\%,\\, 6) = 40{,}000 + 30{,}053 + 43{,}553 = 113{,}606$. Compactor N runs the full 6 years with no repeat: $60{,}000 + 7{,}000(P/A,\\, 10\\%,\\, 6) = 60{,}000 + 30{,}487 = 90{,}487 \\approx 90{,}500$. N is cheaper. The "Compactor M, PW = 64,900" option compares only one 3-year cycle of M against nothing, an invalid unequal-life comparison. The "Compactor M, PW = 113,600" option is M\'s correct PW but M is the more expensive option. The "Compactor N, PW = 102,000" option forgets to discount M\'s replacement or mis-adds N.',
     hint: 'Lives of 3 and 6 give an LCM of 6 years. Repeat the 3-year machine once and discount the replacement back with $(P/F)$.',
     steps: [
       {
@@ -195,7 +195,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'medium',
     eli5:
-      'At break-even, total revenue equals total cost, so the contribution margin per panel (selling price minus variable cost) must cover the fixed cost. The margin is $450 - 270 = 180$ dollars per panel, and $90{,}000 / 180 = 500$ panels. Choice B (200) divides the fixed cost by the selling price alone and ignores the variable cost. Choice C (333) divides by the variable cost instead of the contribution margin. Choice D (125) divides by the sum of price and variable cost ($450 + 270 = 720$) instead of their difference.',
+      'At break-even, total revenue equals total cost, so the contribution margin per panel (selling price minus variable cost) must cover the fixed cost. The margin is $450 - 270 = 180$ dollars per panel, and $90{,}000 / 180 = 500$ panels. The 200-panel option divides the fixed cost by the selling price alone and ignores the variable cost. The 333-panel option divides by the variable cost instead of the contribution margin. The 125-panel option divides by the sum of price and variable cost ($450 + 270 = 720$) instead of their difference.',
     hint: 'Break-even units = fixed cost divided by the contribution margin (price minus variable cost per unit).',
     steps: [
       {
@@ -236,7 +236,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'medium',
     eli5:
-      'By choosing to stage equipment on the lot, the firm gives up the 30,000 dollars per year it could have earned by leasing it out. The value of the best forgone alternative is the definition of an opportunity cost, and it must be counted as a cost of the staging decision even though no cash actually changes hands. Choice A confuses ownership with sunk cost — the lease income is a future, recoverable alternative, not money already spent and lost. Choice B is wrong because the forgone income does not arise from operating the yard; it exists regardless of activity level. Choice D misapplies marginal cost, which is the cost of one more unit of output, not a forgone alternative use of an asset.',
+      'By choosing to stage equipment on the lot, the firm gives up the 30,000 dollars per year it could have earned by leasing it out. The value of the best forgone alternative is the definition of an opportunity cost, and it must be counted as a cost of the staging decision even though no cash actually changes hands. The sunk-cost choice confuses ownership with sunk cost — the lease income is a future, recoverable alternative, not money already spent and lost. The fixed-cost choice is wrong because the forgone income does not arise from operating the yard; it exists regardless of activity level. The marginal-cost choice misapplies marginal cost, which is the cost of one more unit of output, not a forgone alternative use of an asset.',
     hint: 'What term describes the value of the best alternative you give up by choosing a particular option?',
     steps: [
       {
@@ -281,7 +281,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'medium',
     eli5:
-      'Disbenefits are negative effects on the public, so they are subtracted from the benefits in the numerator: $B/C = (B - D)/C = (8{,}000{,}000 - 1{,}200{,}000)/5{,}500{,}000 = 6{,}800{,}000/5{,}500{,}000 = 1.24$. Choice A (1.45) ignores the disbenefits entirely ($8{,}000{,}000/5{,}500{,}000$). Choice C (1.19) incorrectly adds the disbenefits to the cost denominator ($8{,}000{,}000/6{,}700{,}000$). Choice D (1.86) incorrectly subtracts the disbenefits from the cost denominator ($8{,}000{,}000/4{,}300{,}000$) instead of from the benefits.',
+      'Disbenefits are negative effects on the public, so they are subtracted from the benefits in the numerator: $B/C = (B - D)/C = (8{,}000{,}000 - 1{,}200{,}000)/5{,}500{,}000 = 6{,}800{,}000/5{,}500{,}000 = 1.24$. The 1.45 option ignores the disbenefits entirely ($8{,}000{,}000/5{,}500{,}000$). The 1.19 option incorrectly adds the disbenefits to the cost denominator ($8{,}000{,}000/6{,}700{,}000$). The 1.86 option incorrectly subtracts the disbenefits from the cost denominator ($8{,}000{,}000/4{,}300{,}000$) instead of from the benefits.',
     hint: 'Disbenefits are public losses — subtract them from benefits in the numerator, not from the cost in the denominator.',
     steps: [
       {
@@ -322,7 +322,7 @@ const PROBLEMS = [
     correctAnswerId: 'c4',
     difficulty: 'medium',
     eli5:
-      'At a chance node you weight each outcome by its probability and sum: $EV = 0.50(500{,}000) + 0.30(200{,}000) + 0.20(-100{,}000) = 250{,}000 + 60{,}000 - 20{,}000 = 290{,}000$. Choice A (200,000) takes the plain arithmetic average of the three outcomes ($(500{,}000 + 200{,}000 - 100{,}000)/3$) and ignores the probabilities. Choice C (330,000) treats the low-demand outcome as a gain instead of a loss (adds 20,000 instead of subtracting). Choice B (310,000) drops the unprofitable low-demand branch entirely and sums only the first two terms.',
+      'At a chance node you weight each outcome by its probability and sum: $EV = 0.50(500{,}000) + 0.30(200{,}000) + 0.20(-100{,}000) = 250{,}000 + 60{,}000 - 20{,}000 = 290{,}000$. The 200,000 dollars choice takes the plain arithmetic average of the three outcomes ($(500{,}000 + 200{,}000 - 100{,}000)/3$) and ignores the probabilities. The 330,000 dollars choice treats the low-demand outcome as a gain instead of a loss (adds 20,000 instead of subtracting). The 310,000 dollars choice drops the unprofitable low-demand branch entirely and sums only the first two terms.',
     hint: 'Multiply each NPV by its probability and add — remember the low-demand outcome is negative.',
     steps: [
       {
@@ -367,7 +367,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'medium',
     eli5:
-      'Straight-line depreciation is constant each year: $D = (C - S_n)/n = (150{,}000 - 30{,}000)/8 = 15{,}000$ per year. After 5 years the accumulated depreciation is $5 \\times 15{,}000 = 75{,}000$, so the book value is $150{,}000 - 75{,}000 = 75{,}000$. Choice B (56,250) forgets to subtract salvage when computing the annual depreciation ($150{,}000/8 = 18{,}750$ per year, then $150{,}000 - 93{,}750$). Choice C (45,000) wrongly subtracts the accumulated depreciation from the depreciable base ($120{,}000 - 75{,}000$) instead of from the full cost. Choice D (30,000) assumes the asset is already at salvage value, which only happens at the end of its full 8-year life.',
+      'Straight-line depreciation is constant each year: $D = (C - S_n)/n = (150{,}000 - 30{,}000)/8 = 15{,}000$ per year. After 5 years the accumulated depreciation is $5 \\times 15{,}000 = 75{,}000$, so the book value is $150{,}000 - 75{,}000 = 75{,}000$. The 56,250 option forgets to subtract salvage when computing the annual depreciation ($150{,}000/8 = 18{,}750$ per year, then $150{,}000 - 93{,}750$). The 45,000 option wrongly subtracts the accumulated depreciation from the depreciable base ($120{,}000 - 75{,}000$) instead of from the full cost. The 30,000 option assumes the asset is already at salvage value, which only happens at the end of its full 8-year life.',
     hint: 'Find the constant annual straight-line depreciation, multiply by the number of years elapsed, then subtract from the initial cost.',
     steps: [
       {
@@ -408,7 +408,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'medium',
     eli5:
-      'Converting an actual (inflated) future amount into today\'s purchasing power means dividing by the inflation index $(1 + f)^n$, not discounting at any interest rate: $50{,}000 / (1.03)^{10} = 50{,}000 / 1.3439 = 37{,}205 \\approx 37{,}200$. Choice B (67,200) multiplies by the inflation factor ($50{,}000 \\times 1.3439$), moving in the wrong direction. Choice C (35,000) applies a simple, non-compounded 30% reduction ($50{,}000 \\times (1 - 0.30)$). Choice D (38,500) divides by a simple factor of 1.30 instead of the compounded $(1.03)^{10}$.',
+      'Converting an actual (inflated) future amount into today\'s purchasing power means dividing by the inflation index $(1 + f)^n$, not discounting at any interest rate: $50{,}000 / (1.03)^{10} = 50{,}000 / 1.3439 = 37{,}205 \\approx 37{,}200$. The 67,200 distractor multiplies by the inflation factor ($50{,}000 \\times 1.3439$), moving in the wrong direction. The 35,000 distractor applies a simple, non-compounded 30% reduction ($50{,}000 \\times (1 - 0.30)$). The 38,500 distractor divides by a simple factor of 1.30 instead of the compounded $(1.03)^{10}$.',
     hint: 'To strip inflation out of an actual-dollar future amount, divide by $(1 + f)^n$. Do not use any interest rate here.',
     steps: [
       {
@@ -451,7 +451,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Accept if IRR ≥ MARR. Here 18% ≥ 12%, so the project clears the hurdle and should be accepted. Choice B reverses the rule. Choices C and D invent reasoning not part of the criterion.',
+    eli5: 'Accept if IRR ≥ MARR. Here 18% ≥ 12%, so the project clears the hurdle and should be accepted. The "Rejected, because IRR exceeds MARR" choice reverses the rule. The "too high to be realistic" and "deferred until MARR rises above 18%" choices invent reasoning not part of the criterion.',
     hint: 'Accept when IRR ≥ MARR. Compare 18% to 12%.',
     steps: [
       { text: 'Rule: accept if IRR ≥ MARR.', latex: null },

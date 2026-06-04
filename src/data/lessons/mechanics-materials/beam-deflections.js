@@ -60,7 +60,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Cantilever with UDL: \u03B4 = wL\u2074/8EI. Note it\'s L to the fourth power, not third \u2014 because the distributed load spreads over the length. Choice A (6.75) comes from using wL\u2074/16EI (doubling the denominator). Choice C (27.0) comes from using wL\u2074/4EI (halving the denominator). Choice D (1.69) comes from using the simply supported UDL formula 5wL\u2074/384EI \u2014 a totally different support condition. Always check: is it cantilever or simply supported?',
+      eli5: 'Cantilever with UDL: \u03B4 = wL\u2074/8EI. Note it\'s L to the fourth power, not third \u2014 because the distributed load spreads over the length. The 6.75 mm option comes from using wL\u2074/16EI (doubling the denominator). The 27.0 mm option comes from using wL\u2074/4EI (halving the denominator). The 1.69 mm option comes from using wL\u2074/64EI (an under-stiff or wrong-coefficient slip). Always check: is it cantilever or simply supported?',
       hint: 'This is a cantilever, not simply supported. Which formula applies?',
       steps: [
         { text: 'Convert: $w = 8$ N/mm, $L = 3{,}000$ mm, $E = 200{,}000$ MPa, $I = 30 \\times 10^6$ mm\u2074', latex: null },
@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Superposition: calculate the deflection from each load as if the other doesn\'t exist, then add them. The point load gives 6.75 mm and the UDL gives 4.22 mm. Total = 10.97 \u2248 11.0 mm. Choice A is the UDL deflection alone (forgot the point load). Choice B is the point load deflection alone (forgot the UDL). This is the most common multi-step deflection problem on the FE \u2014 it tests whether you know to add deflections from separate load cases.',
+      eli5: 'Superposition: calculate the deflection from each load as if the other doesn\'t exist, then add them. The point load gives 6.75 mm and the UDL gives 4.22 mm. Total = 10.97 \u2248 11.0 mm. The 4.22 mm choice is the UDL deflection alone (forgot the point load). The 6.75 mm choice is the point load deflection alone (forgot the UDL). This is the most common multi-step deflection problem on the FE \u2014 it tests whether you know to add deflections from separate load cases.',
       hint: 'When a beam has multiple loads, calculate the deflection from each one separately and add them together.',
       steps: [
         { text: 'Deflection from point load:', latex: '\\delta_P = \\frac{PL^3}{48EI} = \\frac{24{,}000 \\times (6{,}000)^3}{48 \\times 200{,}000 \\times 80 \\times 10^6} = 6.75 \\text{ mm}' },

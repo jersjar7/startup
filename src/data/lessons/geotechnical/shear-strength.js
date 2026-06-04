@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: '\u03C4f = c\u2019 + \u03C3N\u2019 tan \u03C6\u2019 = 200 + 1,000 \u00D7 tan 30\u00B0 = 200 + 1,000 \u00D7 0.5774 = 200 + 577 = 777 psf. Choice B (577) forgot the cohesion term. Choice C (1,000) is just the normal stress. Choice D (200) is just the cohesion \u2014 ignoring the frictional component entirely.',
+      eli5: '\u03C4f = c\u2019 + \u03C3N\u2019 tan \u03C6\u2019 = 200 + 1,000 \u00D7 tan 30\u00B0 = 200 + 1,000 \u00D7 0.5774 = 200 + 577 = 777 psf. The 577 psf option forgot the cohesion term. The 1,000 psf option is just the normal stress. The 200 psf option is just the cohesion \u2014 ignoring the frictional component entirely.',
       hint: 'Plug directly into the Mohr-Coulomb equation: \u03C4f = c + \u03C3\u2019 tan \u03C6.',
       steps: [
         { text: 'Mohr-Coulomb:', latex: '\\tau_f = c\' + \\sigma_N\' \\tan \\phi\'' },

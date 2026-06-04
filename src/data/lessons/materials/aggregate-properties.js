@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Absorption = (SSD − OD)/OD × 100 = (510 − 500)/500 × 100 = 10/500 × 100 = 2.0%. Choice B divides by the SSD weight (510) instead of the dry weight. Choice C forgets to divide by the mass. Choice D drops a factor of 4.',
+      eli5: 'Absorption = (SSD − OD)/OD × 100 = (510 − 500)/500 × 100 = 10/500 × 100 = 2.0%. The 1.96% choice divides by the SSD weight (510) instead of the dry weight: 10/510 = 1.96%. The 10% choice misplaces the decimal (treats 10 g as 10%). The 0.5% choice mistakenly divides by 2000 instead of 500.',
       hint: 'Absorption = (SSD weight − oven-dry weight) / oven-dry weight × 100.',
       steps: [
         { text: 'Water absorbed:', latex: 'W_{SSD} - W_{OD} = 510 - 500 = 10\\text{ g}' },
@@ -56,7 +56,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Fineness modulus = (sum of cumulative percent retained)/100 = 285/100 = 2.85, a typical value for a medium sand. Choice B forgets to divide by 100. Choice C divides by 1,000. Choice D adds 1 by mistake.',
+      eli5: 'Fineness modulus = (sum of cumulative percent retained)/100 = 285/100 = 2.85, a typical value for a medium sand. The 28.5 distractor divides by 10 instead of 100. The 0.285 distractor divides by 1,000. The 3.85 distractor adds 1 by mistake.',
       hint: 'FM = (sum of cumulative percent retained on the standard sieves) / 100.',
       steps: [
         { text: 'Fineness modulus definition:', latex: 'FM = \\frac{\\sum \\text{cum. \\% retained}}{100}' },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Bulk (OD) SG = A/(B − C) = 480/(500 − 300) = 480/200 = 2.40. The denominator (B − C) is the mass of water displaced by the total particle volume. Choice B uses SSD weight in the numerator (bulk SSD SG = 500/200 = 2.50). Choice C uses the apparent SG = A/(A − C) = 480/180 = 2.67. Choice D inverts part of the ratio.',
+      eli5: 'Bulk (OD) SG = A/(B − C) = 480/(500 − 300) = 480/200 = 2.40. The denominator (B − C) is the mass of water displaced by the total particle volume. The 2.50 distractor uses SSD weight in the numerator (bulk SSD SG = 500/200 = 2.50). The 2.67 distractor uses the apparent SG = A/(A − C) = 480/180 = 2.67. The 1.60 distractor inverts part of the ratio.',
       hint: 'Bulk SG = oven-dry weight / (SSD weight − submerged weight).',
       steps: [
         { text: 'Volume term (displaced water):', latex: 'B - C = 500 - 300 = 200\\text{ g}' },

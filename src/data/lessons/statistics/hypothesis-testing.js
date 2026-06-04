@@ -36,7 +36,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Plug straight into the z-test formula. The numerator is how far the sample mean is from the hypothesized mean ($4{,}120 - 4{,}000 = 120$). The denominator is the standard error ($360/\\sqrt{36} = 60$). Choice B (0.33) divides the difference by $\\sigma$ itself ($120/360$) \u2014 forgot to divide $\\sigma$ by $\\sqrt{n}$. Choice C (12.0) multiplies by $\\sqrt{n}$ instead of dividing $\\sigma$ by it \u2014 a unit mix-up. Choice D (0.056) is $1/z$ \u2014 the fraction got flipped.',
+      eli5: 'Plug straight into the z-test formula. The numerator is how far the sample mean is from the hypothesized mean ($4{,}120 - 4{,}000 = 120$). The denominator is the standard error ($360/\\sqrt{36} = 60$). The 0.33 option divides the difference by $\\sigma$ itself ($120/360$) \u2014 forgot to divide $\\sigma$ by $\\sqrt{n}$. The 12.0 option multiplies by $\\sqrt{n}$ instead of dividing $\\sigma$ by it \u2014 a unit mix-up. The 0.056 option scales the difference down by far too much, the wrong order of magnitude.',
       hint: 'Compute $(\\bar{x} - \\mu_0)$ for the numerator and $\\sigma / \\sqrt{n}$ for the denominator.',
       steps: [
         { text: 'Identify: $\\bar{x} = 4{,}120$, $\\mu_0 = 4{,}000$, $\\sigma = 360$, $n = 36$.', latex: null },
@@ -64,7 +64,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Two things to get right: compute the t-statistic, then compare it to the critical value. $t = 18/7.5 = 2.4$, which beats the threshold of 1.753, so you reject $H_0$. Choice A gets the comparison backward \u2014 2.4 is greater than 1.753, not less. Choice B uses the wrong alternative hypothesis \u2014 the engineer\u2019s claim is $\\mu > 200$ (one-tailed), not $\\mu \\neq 200$ (two-tailed). Choice D is a conceptual error \u2014 failing to reject $H_0$ doesn\u2019t prove $H_0$ is true, and besides, we rejected anyway.',
+      eli5: 'Two things to get right: compute the t-statistic, then compare it to the critical value. $t = 18/7.5 = 2.4$, which beats the threshold of 1.753, so you reject $H_0$. The "fail to reject" option gets the comparison backward \u2014 2.4 is greater than 1.753, not less. The "$\\mu \\neq 200$" option uses the wrong alternative hypothesis \u2014 the engineer\u2019s claim is $\\mu > 200$ (one-tailed), not $\\mu \\neq 200$ (two-tailed). The "mean is exactly 200" option is a conceptual error \u2014 failing to reject $H_0$ doesn\u2019t prove $H_0$ is true, and besides, we rejected anyway.',
       hint: 'Compute the t-statistic first, then compare to the given critical value. The claim is one-tailed (greater than).',
       steps: [
         { text: 'Set up hypotheses: $H_0: \\mu \\leq 200$, $H_1: \\mu > 200$ (one-tailed right).', latex: null },
@@ -92,7 +92,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Chi-square goodness of fit checks whether observed data matches a theoretical model. Under uniform distribution, you expect $200/4 = 50$ per period. Compute $(O - E)^2 / E$ for each cell and add them up. You get 5.0. Since $5.0 < 7.815$, the data doesn\u2019t deviate enough to reject the model. Choice A gets the decision backward \u2014 when $\\chi^2$ is LESS than the critical value, you fail to reject (the data fits well enough). Choice C forgot to divide by $E$ \u2014 adding $(O-E)^2$ without dividing gives $100 + 25 + 25 + 100 = 250$, not 50. Choice D divided $(O-E)$ by $E$ before squaring instead of after, which gives a tiny number.',
+      eli5: 'Chi-square goodness of fit checks whether observed data matches a theoretical model. Under uniform distribution, you expect $200/4 = 50$ per period. Compute $(O - E)^2 / E$ for each cell and add them up. You get 5.0. Since $5.0 < 7.815$, the data doesn\u2019t deviate enough to reject the model. The "$\\chi^2 = 5.0$; reject the uniform model" choice gets the decision backward \u2014 when $\\chi^2$ is LESS than the critical value, you fail to reject (the data fits well enough). The "$\\chi^2 = 50.0$; reject" choice forgot to divide by $E$ \u2014 adding $(O-E)^2$ without dividing gives an inflated value of $100 + 25 + 25 + 100 = 250$ instead of 5.0, so any large un-normalized total is a sign $E$ was mishandled. The "$\\chi^2 = 0.10$; fail to reject" choice divided $(O-E)$ by $E$ before squaring instead of after, which gives a tiny number.',
       hint: 'Compute expected counts first ($200 / 4$), then apply $\\sum (O - E)^2 / E$ and compare to the critical value.',
       steps: [
         { text: 'Under the uniform model, each expected count is:', latex: 'E = \\frac{200}{4} = 50' },

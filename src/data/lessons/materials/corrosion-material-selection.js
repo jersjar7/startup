@@ -32,7 +32,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'In the galvanic series, aluminum is more active (more anodic) than both steel and copper. When dissimilar metals are in contact with an electrolyte (rainwater), the most active metal corrodes first. Order of activity (most to least): aluminum > steel > copper. So aluminum corrodes, and the copper and steel are cathodically protected. Choice B (steel) would be correct if aluminum weren\u2019t present. Choice C (copper) is the most noble of the three \u2014 it\u2019s protected. Choice D is wrong because galvanic corrosion specifically accelerates corrosion of the most active metal.',
+      eli5: 'In the galvanic series, aluminum is more active (more anodic) than both steel and copper. When dissimilar metals are in contact with an electrolyte (rainwater), the most active metal corrodes first. Order of activity (most to least): aluminum > steel > copper. So aluminum corrodes, and the copper and steel are cathodically protected. Steel would be the answer if aluminum weren\u2019t present (steel is more active than copper). Copper is the most noble of the three \u2014 it\u2019s protected. "All three corrode equally" is wrong because galvanic corrosion specifically accelerates corrosion of the most active metal while protecting the others.',
       hint: 'In the galvanic series, the most active (anodic) metal in contact corrodes first. Rank: aluminum > steel > copper.',
       steps: [
         { text: 'Rank the metals by activity (most active first): aluminum > steel > copper', latex: null },
@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Zinc is more active (more anodic) than steel in the galvanic series. Even when the coating is scratched and steel is exposed, the zinc surrounding the scratch becomes the anode and corrodes sacrificially. The electrons flow from zinc to steel, keeping the steel cathodically protected. This is why galvanizing works even with scratches and cuts \u2014 unlike paint, which only provides a physical barrier. Choice B reverses the polarity. Choice C ignores the galvanic effect. Choice D doesn\u2019t understand that moisture + dissimilar metals = galvanic cell.',
+      eli5: 'Zinc is more active (more anodic) than steel in the galvanic series. Even when the coating is scratched and steel is exposed, the zinc surrounding the scratch becomes the anode and corrodes sacrificially. The electrons flow from zinc to steel, keeping the steel cathodically protected. This is why galvanizing works even with scratches and cuts \u2014 unlike paint, which only provides a physical barrier. The "exposed steel corrodes while the zinc is unaffected" choice reverses the polarity. The "both corrode at equal rates" choice ignores the galvanic effect. The "neither corrodes" choice doesn\u2019t understand that moisture + dissimilar metals = galvanic cell.',
       hint: 'Zinc is more active than steel. In a galvanic couple, the more active metal corrodes to protect the less active one.',
       steps: [
         { text: 'Zinc is more active (more anodic) than steel in the galvanic series.', latex: null },

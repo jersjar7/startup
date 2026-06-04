@@ -66,7 +66,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'At the top of the arc, the vertical velocity is zero — that\'s your key. Decompose the launch velocity into vertical (v\u2080 sin \u03B8), then use the no-time equation with v_y = 0. Common mistake: using the full 20 m/s instead of just the vertical component, which gives 20.4 m (choice D).',
+      eli5: 'At the top of the arc, the vertical velocity is zero — that\'s your key. Decompose the launch velocity into vertical (v\u2080 sin \u03B8), then use the no-time equation with v_y = 0. Common mistake: using the full 20 m/s instead of just the vertical component, which gives 20.4 m (the 20.4 m choice).',
       hint: 'What is the vertical velocity at the highest point?',
       steps: [
         { text: 'Find vertical component:', latex: 'v_{0y} = 20 \\sin 60\\degree = 17.32 \\text{ m/s}' },

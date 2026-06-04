@@ -98,7 +98,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "The power rule says bring the exponent down and subtract one from the power. But the argument isn't just x — it's 3x + 5 — so you have to chain rule it. That means you also multiply by the derivative of the inside, which is 3. The most common mistake is forgetting that extra factor of 3. Choice A is exactly what you get if you skip the chain rule.",
+      "eli5": "The power rule says bring the exponent down and subtract one from the power. But the argument isn't just x — it's 3x + 5 — so you have to chain rule it. That means you also multiply by the derivative of the inside, which is 3. The most common mistake is forgetting that extra factor of 3. The choice $4(3x + 5)^3$ is exactly what you get if you skip the chain rule.",
       "hint": "The argument isn't plain x — what extra factor does the chain rule add?",
       "steps": [
         {
@@ -146,7 +146,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "medium",
-      "eli5": "Two functions multiplied together means product rule. The tricky part is that e^(3x) also needs the chain rule — its derivative is 3e^(3x), not just e^(3x). Choice D is what you get if you forget that chain rule factor of 3 on the exponential. Choice A only differentiates the x² part and ignores the product rule entirely. Always ask: am I using BOTH terms of the product rule?",
+      "eli5": "Two functions multiplied together means product rule. The tricky part is that e^(3x) also needs the chain rule — its derivative is 3e^(3x), not just e^(3x). The choice e^{3x}(2x + x^2) is what you get if you forget that chain rule factor of 3 on the exponential. The choice 2xe^{3x} only differentiates the x² part and ignores the product rule entirely. Always ask: am I using BOTH terms of the product rule?",
       "hint": "Two functions multiplied means product rule. And $e^{3x}$ needs the chain rule for its own derivative.",
       "steps": [
         {
@@ -198,7 +198,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "hard",
-      "eli5": "Quotient rule: 'lo d-hi minus hi d-lo over lo-lo.' The denominator function ($x^2 + 1$) goes first in the numerator — it multiplies the derivative of the top ($\\cos x$). Then subtract the top ($\\sin x$) times the derivative of the bottom ($2x$). The classic trap is flipping the subtraction order. Choice B has a plus where there should be a minus. Choice D has the terms in the wrong order entirely. The mnemonic saves you: lo d-hi MINUS hi d-lo.",
+      "eli5": "Quotient rule: 'lo d-hi minus hi d-lo over lo-lo.' The denominator function ($x^2 + 1$) goes first in the numerator — it multiplies the derivative of the top ($\\cos x$). Then subtract the top ($\\sin x$) times the derivative of the bottom ($2x$). The classic trap is flipping the subtraction order. The choice with a plus where there should be a minus (cos x term plus 2x sin x) is wrong. The choice with the terms in the wrong order entirely (2x sin x minus the cos x term) is also wrong. The mnemonic saves you: lo d-hi MINUS hi d-lo.",
       "hint": "'Lo d-hi minus hi d-lo over lo-lo' — the bottom function goes first in the numerator.",
       "steps": [
         {

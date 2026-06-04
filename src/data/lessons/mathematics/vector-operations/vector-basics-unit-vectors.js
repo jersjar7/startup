@@ -59,7 +59,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Two steps: first get the direction vector by subtracting coordinates (B − A), then divide every component by the magnitude. Choice B is the direction vector before normalizing — that's the most common mistake. Always check that your unit vector's magnitude equals 1: √(0.6² + 0.8²) = √(0.36 + 0.64) = 1. ✓",
+      "eli5": "Two steps: first get the direction vector by subtracting coordinates (B − A), then divide every component by the magnitude. The choice 3\u00ee + 4\u0135 + 0k\u0302 is the direction vector before normalizing — that's the most common mistake. Always check that your unit vector's magnitude equals 1: √(0.6² + 0.8²) = √(0.36 + 0.64) = 1. ✓",
       "hint": "Subtract A from B to get the direction vector, then divide by its magnitude.",
       "steps": [
         { "text": "Find the direction vector:", "latex": "\\vec{AB} = (4-1)\\hat{i} + (6-2)\\hat{j} + (2-2)\\hat{k} = 3\\hat{i} + 4\\hat{j} + 0\\hat{k}" },
@@ -86,7 +86,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "hard",
-      "eli5": "Vector addition is component-by-component — add all the x's together, add all the y's together. Then the resultant magnitude is √(Rx² + Ry²). The trap is adding magnitudes directly (500 + 500 + 400 = 1400) — that only works if all forces point the same direction, which they never do in real problems. Here √100000 = 100√10 ≈ 316 N.",
+      "eli5": "Vector addition is component-by-component — add all the x's together, add all the y's together. Then the resultant magnitude is √(Rx² + Ry²). The trap is adding magnitudes directly (500 + 360.6 + 400 \u2248 1261) — that only works if all forces point the same direction, which they never do in real problems. Here √100000 = 100√10 ≈ 316 N.",
       "hint": "Add the x-components and y-components separately, then find the magnitude of the resultant vector.",
       "steps": [
         { "text": "Add $x$-components:", "latex": "R_x = 500 + (-200) + 0 = 300 \\text{ N}" },

@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The allowable stress is the yield strength divided by the factor of safety: $\\sigma_{allow} = 250/2.5 = 100$ MPa. Then size the area so the working stress does not exceed it: $A = P/\\sigma_{allow} = 80{,}000/100 = 800$ mm$^2$. Choice C (128) multiplies the yield strength by the factor of safety instead of dividing, giving an allowable of 625 MPa. Choice A (320) uses the full $\\sigma_y = 250$ MPa with no factor of safety. Choice D (200) divides by an allowable of 400 MPa, a mix-up of the numbers.',
+    eli5: 'The allowable stress is the yield strength divided by the factor of safety: $\\sigma_{allow} = 250/2.5 = 100$ MPa. Then size the area so the working stress does not exceed it: $A = P/\\sigma_{allow} = 80{,}000/100 = 800$ mm$^2$. The 128 mm$^2$ option multiplies the yield strength by the factor of safety instead of dividing, giving an allowable of 625 MPa. The 320 mm$^2$ option uses the full $\\sigma_y = 250$ MPa with no factor of safety. The 200 mm$^2$ option divides by an allowable of 400 MPa, a mix-up of the numbers.',
     hint: 'First reduce the yield strength by the factor of safety to get the allowable stress, then use $A = P/\\sigma_{allow}$.',
     steps: [
       {
@@ -48,7 +48,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'When a bar is fully restrained, it cannot expand, so the walls develop just enough stress to cancel the free thermal strain $\\varepsilon_T = \\alpha\\,\\Delta T$. The induced stress is $\\sigma = E\\,\\alpha\\,\\Delta T$, independent of the length and area. $\\sigma = 200{,}000 \\times 12 \\times 10^{-6} \\times 40 = 96$ MPa (compression). Choice B (2.4) drops the $\\Delta T$ factor, computing $E\\alpha$ only. Choice A (48) uses half the temperature change ($20\\,{}^\\circ$C) by mistake. Choice D (192) doubles the temperature change. Note the stress does not depend on the bar length because both ends are fully fixed.',
+    eli5: 'When a bar is fully restrained, it cannot expand, so the walls develop just enough stress to cancel the free thermal strain $\\varepsilon_T = \\alpha\\,\\Delta T$. The induced stress is $\\sigma = E\\,\\alpha\\,\\Delta T$, independent of the length and area. $\\sigma = 200{,}000 \\times 12 \\times 10^{-6} \\times 40 = 96$ MPa (compression). The 2.4 MPa option drops the $\\Delta T$ factor, computing $E\\alpha$ only. The 48 MPa option uses half the temperature change ($20\\,{}^\\circ$C) by mistake. The 192 MPa option doubles the temperature change. Note the stress does not depend on the bar length because both ends are fully fixed.',
     hint: 'A fully restrained bar develops $\\sigma = E\\,\\alpha\\,\\Delta T$; length and area drop out.',
     steps: [
       {
@@ -83,7 +83,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'For a solid shaft, $\\tau = Tc/J = 16T/(\\pi d^3)$. Solve for $d$: $d = \\left(16T/(\\pi \\tau)\\right)^{1/3}$. With $T = 1{,}200{,}000$ N$\\cdot$mm and $\\tau = 60$ MPa: $d = \\left(16 \\times 1{,}200{,}000/(\\pi \\times 60)\\right)^{1/3} = (101{,}859)^{1/3} = 46.7$ mm. Choice A (58.8) uses $32T/(\\pi\\tau)$ under the cube root, doubling the coefficient (the $J$ value rather than $J/c$). Choice C (37.1) uses $8T/(\\pi\\tau)$, halving the coefficient. Choice D (23.4) solves for the radius and reports it as the diameter.',
+    eli5: 'For a solid shaft, $\\tau = Tc/J = 16T/(\\pi d^3)$. Solve for $d$: $d = \\left(16T/(\\pi \\tau)\\right)^{1/3}$. With $T = 1{,}200{,}000$ N$\\cdot$mm and $\\tau = 60$ MPa: $d = \\left(16 \\times 1{,}200{,}000/(\\pi \\times 60)\\right)^{1/3} = (101{,}859)^{1/3} = 46.7$ mm. The 58.8 mm option uses $32T/(\\pi\\tau)$ under the cube root, doubling the coefficient (the $J$ value rather than $J/c$). The 37.1 mm option uses $8T/(\\pi\\tau)$, halving the coefficient. The 23.4 mm option solves for the radius and reports it as the diameter.',
     hint: 'Start from $\\tau = 16T/(\\pi d^3)$ for a solid shaft and solve for $d$.',
     steps: [
       {
@@ -122,7 +122,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Since $\\tau = Tc/J$ and both shafts have the same outer radius $c = d/2$ and the same $T$, the stress depends only on $J$. The hollow shaft has a smaller $J$ because material is removed from the core, so its stress is higher. $J_{solid} = \\pi d^4/32$ and $J_{hollow} = \\pi(d^4 - (0.5d)^4)/32 = \\pi d^4(1 - 0.0625)/32 = 0.9375\\,J_{solid}$. The stress ratio is $1/0.9375 = 1.067$, so about 6.7% higher. Choice B assumes removing core material near the axis does not matter -- it matters a little because $J$ drops slightly. Choice C overestimates the effect. Choice D has the direction backwards: removing material lowers $J$, which raises stress.',
+    eli5: 'Since $\\tau = Tc/J$ and both shafts have the same outer radius $c = d/2$ and the same $T$, the stress depends only on $J$. The hollow shaft has a smaller $J$ because material is removed from the core, so its stress is higher. $J_{solid} = \\pi d^4/32$ and $J_{hollow} = \\pi(d^4 - (0.5d)^4)/32 = \\pi d^4(1 - 0.0625)/32 = 0.9375\\,J_{solid}$. The stress ratio is $1/0.9375 = 1.067$, so about 6.7% higher. The "exactly the same" choice assumes removing core material near the axis does not matter -- it matters a little because $J$ drops slightly. The "50% higher" choice overestimates the effect. The "6.7% lower" choice has the direction backwards: removing material lowers $J$, which raises stress.',
     hint: 'Same $T$ and same outer $c$, so compare $J$. Removing the inner core lowers $J$, which raises the stress.',
     steps: [
       {
@@ -161,7 +161,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Axial strain comes first: $\\varepsilon_{axial} = \\sigma/E = 140/70{,}000 = 0.0020$. The lateral strain is $\\varepsilon_{lat} = -\\nu\\,\\varepsilon_{axial} = -0.33 \\times 0.0020 = -0.00066$. The diameter change is $\\Delta d = \\varepsilon_{lat} \\times d = -0.00066 \\times 25 = -0.0165$ mm (a decrease). Choice B (0.0066) reports the lateral strain times 10, forgetting to multiply by the full diameter. Choice A (0.050) applies the axial strain to the diameter without the Poisson factor. Choice C (0.0606) divides by $\\nu$ instead of multiplying.',
+    eli5: 'Axial strain comes first: $\\varepsilon_{axial} = \\sigma/E = 140/70{,}000 = 0.0020$. The lateral strain is $\\varepsilon_{lat} = -\\nu\\,\\varepsilon_{axial} = -0.33 \\times 0.0020 = -0.00066$. The diameter change is $\\Delta d = \\varepsilon_{lat} \\times d = -0.00066 \\times 25 = -0.0165$ mm (a decrease). The 0.0066 mm option reports the lateral strain times 10, forgetting to multiply by the full diameter. The 0.0500 mm option applies the axial strain to the diameter without the Poisson factor. The 0.0606 mm option divides by $\\nu$ instead of multiplying.',
     hint: 'Find the axial strain $\\sigma/E$, multiply by $-\\nu$ for lateral strain, then multiply by the diameter.',
     steps: [
       {
@@ -200,7 +200,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The modulus of resilience is the area under the linear part of the stress-strain curve, a triangle: $u_r = \\sigma_{pl}^2/(2E)$. With $\\sigma_{pl} = 300$ MPa and $E = 200{,}000$ MPa: $u_r = 300^2/(2 \\times 200{,}000) = 90{,}000/400{,}000 = 0.225$ MPa $= 0.225$ MJ/m$^3$ (since 1 MPa equals 1 MJ/m$^3$). Choice A (0.450) forgets the factor of one-half for the triangular area. Choice D (0.150) uses $\\sigma^2/(3E)$. Choice C (1.50) treats the strain energy as $\\sigma \\times \\varepsilon$ at the limit without the one-half factor and with a unit slip.',
+    eli5: 'The modulus of resilience is the area under the linear part of the stress-strain curve, a triangle: $u_r = \\sigma_{pl}^2/(2E)$. With $\\sigma_{pl} = 300$ MPa and $E = 200{,}000$ MPa: $u_r = 300^2/(2 \\times 200{,}000) = 90{,}000/400{,}000 = 0.225$ MPa $= 0.225$ MJ/m$^3$ (since 1 MPa equals 1 MJ/m$^3$). The 0.450 MJ/m^3 choice forgets the factor of one-half for the triangular area. The 0.150 MJ/m^3 choice uses $\\sigma^2/(3E)$. The 1.50 MJ/m^3 choice treats the strain energy as $\\sigma \\times \\varepsilon$ at the limit without the one-half factor and with a unit slip.',
     hint: 'Modulus of resilience is the triangular area under the elastic line: $u_r = \\sigma^2/(2E)$.',
     steps: [
       {
@@ -235,7 +235,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'For a cantilever with a UDL over its full length, the maximum moment is at the fixed support and equals $wL^2/2 = 9 \\times 4^2/2 = 9 \\times 16/2 = 72$ kN$\\cdot$m. You can also picture the total load $wL = 36$ kN acting at the centroid $L/2 = 2$ m from the wall: $M = 36 \\times 2 = 72$. Choice B (36) uses $wL^2/4$, the wrong coefficient. Choice C (18) uses the simply supported $wL^2/8$ formula -- wrong support condition. Choice D (144) uses $wL^2$ without the factor of one-half.',
+    eli5: 'For a cantilever with a UDL over its full length, the maximum moment is at the fixed support and equals $wL^2/2 = 9 \\times 4^2/2 = 9 \\times 16/2 = 72$ kN$\\cdot$m. You can also picture the total load $wL = 36$ kN acting at the centroid $L/2 = 2$ m from the wall: $M = 36 \\times 2 = 72$. The 36 kN$\\cdot$m option uses $wL^2/4$, the wrong coefficient. The 18 kN$\\cdot$m option uses the simply supported $wL^2/8$ formula -- wrong support condition. The 144 kN$\\cdot$m option uses $wL^2$ without the factor of one-half.',
     hint: 'For a cantilever with a UDL, the fixed-end moment is $wL^2/2$, not $wL^2/8$.',
     steps: [
       {
@@ -276,7 +276,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'The total load is $w \\times (L/2) = 8 \\times 3 = 24$ kN, and its resultant acts at the centroid of the loaded region, $1.5$ m from the left support. Take moments about the right support (B) to find the left reaction $R_A$: the resultant is $6 - 1.5 = 4.5$ m from B, so $R_A \\times 6 = 24 \\times 4.5 = 108$, giving $R_A = 18$ kN. Choice A (12) splits the total load evenly ($24/2$), ignoring that the load is closer to A. Choice B (24) reports the entire load as the reaction. Choice C (6) is the right reaction $R_B = 24 - 18 = 6$ kN, the other support.',
+    eli5: 'The total load is $w \\times (L/2) = 8 \\times 3 = 24$ kN, and its resultant acts at the centroid of the loaded region, $1.5$ m from the left support. Take moments about the right support (B) to find the left reaction $R_A$: the resultant is $6 - 1.5 = 4.5$ m from B, so $R_A \\times 6 = 24 \\times 4.5 = 108$, giving $R_A = 18$ kN. The 12 kN choice splits the total load evenly ($24/2$), ignoring that the load is closer to A. The 24 kN choice reports the entire load as the reaction. The 6 kN choice is the right reaction $R_B = 24 - 18 = 6$ kN, the other support.',
     hint: 'Replace the partial UDL with its resultant ($w \\times L/2$) at its centroid, then sum moments about the far support.',
     steps: [
       {
@@ -315,7 +315,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'Rearrange $\\sigma = M/S$ to $S = M/\\sigma_{allow}$. Convert the moment: $M = 24 \\times 10^6$ N$\\cdot$mm. Then $S = 24 \\times 10^6 / 12 = 2.0 \\times 10^6$ mm$^3$. Choice B (288 million) multiplies $M \\times \\sigma$ instead of dividing. Choice A (0.5 million) divides by 48 (mixing in some other factor). Choice C (1.0 million) divides by 24 MPa, doubling the allowable stress by mistake.',
+    eli5: 'Rearrange $\\sigma = M/S$ to $S = M/\\sigma_{allow}$. Convert the moment: $M = 24 \\times 10^6$ N$\\cdot$mm. Then $S = 24 \\times 10^6 / 12 = 2.0 \\times 10^6$ mm$^3$. The 288 million choice multiplies $M \\times \\sigma$ instead of dividing. The 0.5 million choice divides by 48 (mixing in some other factor). The 1.0 million choice divides by 24 MPa, doubling the allowable stress by mistake.',
     hint: 'Rearrange $\\sigma = M/S$ to solve for $S$, and convert kN-m to N-mm first.',
     steps: [
       {
@@ -350,7 +350,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'For a solid circle, the section modulus is $S = \\pi d^3/32 = \\pi(80)^3/32 = 50{,}265$ mm$^3$. Then $\\sigma = M/S = 3{,}000{,}000/50{,}265 = 59.7$ MPa. Choice A (29.8) uses $S = \\pi d^3/16$ (the torsion-style modulus with $J$, doubling $S$ and halving the stress). Choice C (119) uses $c = d = 80$ instead of $c = d/2 = 40$, doubling the stress. Choice D (74.6) uses $S = \\pi d^3/40$ from a memory slip on the coefficient.',
+    eli5: 'For a solid circle, the section modulus is $S = \\pi d^3/32 = \\pi(80)^3/32 = 50{,}265$ mm$^3$. Then $\\sigma = M/S = 3{,}000{,}000/50{,}265 = 59.7$ MPa. The 29.8 MPa choice uses $S = \\pi d^3/16$ (the torsion-style modulus with $J$, doubling $S$ and halving the stress). The 119 MPa choice uses $c = d = 80$ instead of $c = d/2 = 40$, doubling the stress. The 74.6 MPa choice uses $S = \\pi d^3/40$ from a memory slip on the coefficient.',
     hint: 'For a solid circular section, the bending section modulus is $S = \\pi d^3/32$. Then $\\sigma = M/S$.',
     steps: [
       {
@@ -389,7 +389,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The deflection limit is $\\delta_{allow} = L/360 = 6{,}000/360 = 16.67$ mm. The midspan deflection for a central point load is $\\delta = PL^3/(48EI)$, so $I = PL^3/(48E\\,\\delta_{allow})$. With $P = 30{,}000$ N, $L = 6{,}000$ mm, $E = 200{,}000$ MPa: $I = 30{,}000 \\times 6{,}000^3/(48 \\times 200{,}000 \\times 16.67) = 6.48 \\times 10^{15}/1.60 \\times 10^8 = 40.5 \\times 10^6$ mm$^4$. Choice A (648) uses the cantilever formula $PL^3/(3EI)$ instead of $PL^3/(48EI)$ -- a factor of 16 too large. Choice B (20.3) uses a coefficient of 96 in the denominator (doubling 48) -- the same value you would also get from a looser $L/180$ limit. Choice D (81.0) uses a coefficient of 24 in the denominator instead of 48 (equivalently a tighter $L/720$ limit), doubling the required $I$.',
+    eli5: 'The deflection limit is $\\delta_{allow} = L/360 = 6{,}000/360 = 16.67$ mm. The midspan deflection for a central point load is $\\delta = PL^3/(48EI)$, so $I = PL^3/(48E\\,\\delta_{allow})$. With $P = 30{,}000$ N, $L = 6{,}000$ mm, $E = 200{,}000$ MPa: $I = 30{,}000 \\times 6{,}000^3/(48 \\times 200{,}000 \\times 16.67) = 6.48 \\times 10^{15}/1.60 \\times 10^8 = 40.5 \\times 10^6$ mm$^4$. The 648 option uses the cantilever formula $PL^3/(3EI)$ instead of $PL^3/(48EI)$ -- a factor of 16 too large. The 20.3 option uses a coefficient of 96 in the denominator (doubling 48) -- the same value you would also get from a looser $L/180$ limit. The 81.0 option uses a coefficient of 24 in the denominator instead of 48 (equivalently a tighter $L/720$ limit), doubling the required $I$.',
     hint: 'Set $\\delta = PL^3/(48EI)$ equal to $L/360$ and solve for $I$.',
     steps: [
       {
@@ -435,7 +435,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The tip deflection of a cantilever with an end load is $\\delta = PL^3/(3EI)$, proportional to $L^3$. Halving the length scales the deflection by $(1/2)^3 = 1/8$. Choice A (1/2) counts only $L$ to the first power. Choice B (1/4) treats it as $L^2$. Choice D (1/16) uses the UDL fourth-power dependence ($\\delta = wL^4/(8EI)$), but this is a point load, so the exponent is 3, not 4.',
+    eli5: 'The tip deflection of a cantilever with an end load is $\\delta = PL^3/(3EI)$, proportional to $L^3$. Halving the length scales the deflection by $(1/2)^3 = 1/8$. The "one-half" choice counts only $L$ to the first power. The "one-quarter" choice treats it as $L^2$. The "one-sixteenth" choice uses the UDL fourth-power dependence ($\\delta = wL^4/(8EI)$), but this is a point load, so the exponent is 3, not 4.',
     hint: 'The cantilever tip deflection for an end point load goes as $L^3$. What is $(1/2)^3$?',
     steps: [
       {
@@ -470,7 +470,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The principal angle satisfies $\\tan(2\\theta_p) = 2\\tau_{xy}/(\\sigma_x - \\sigma_y) = 2(30)/(40 - 0) = 60/40 = 1.5$. So $2\\theta_p = \\arctan(1.5) = 56.3\\degree$, and $\\theta_p = 28.2\\degree$. Choice A (56.3) reports $2\\theta_p$ without halving it. Choice B (14.1) halves twice (divides $2\\theta_p$ by 4). Choice D (33.7) forgets the factor of 2 on $\\tau_{xy}$, using $\\tan(2\\theta_p) = \\tau_{xy}/(\\sigma_x - \\sigma_y) = 0.75$.',
+    eli5: 'The principal angle satisfies $\\tan(2\\theta_p) = 2\\tau_{xy}/(\\sigma_x - \\sigma_y) = 2(30)/(40 - 0) = 60/40 = 1.5$. So $2\\theta_p = \\arctan(1.5) = 56.3\\degree$, and $\\theta_p = 28.2\\degree$. The 56.3 choice reports $2\\theta_p$ without halving it. The 14.1 choice halves twice (divides $2\\theta_p$ by 4). The 33.7 choice forgets the factor of 2 on $\\tau_{xy}$, using $\\tan(2\\theta_p) = \\tau_{xy}/(\\sigma_x - \\sigma_y) = 0.75$.',
     hint: 'Use $\\tan(2\\theta_p) = 2\\tau_{xy}/(\\sigma_x - \\sigma_y)$, then remember to divide the result by 2.',
     steps: [
       {
@@ -516,7 +516,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'For a thin-walled cylinder, the hoop stress is $\\sigma_h = pd/(2t)$, where $d$ is the inner diameter. $\\sigma_h = 2 \\times 1{,}500/(2 \\times 10) = 3{,}000/20 = 150$ MPa. Choice A (75) is the longitudinal (axial) stress $pd/(4t)$ -- half the hoop stress, but the question asks for hoop. Choice B (300) forgets the 2 in the denominator, using $pd/t$. Choice C (37.5) uses $pd/(8t)$ from a coefficient slip.',
+    eli5: 'For a thin-walled cylinder, the hoop stress is $\\sigma_h = pd/(2t)$, where $d$ is the inner diameter. $\\sigma_h = 2 \\times 1{,}500/(2 \\times 10) = 3{,}000/20 = 150$ MPa. The 75 MPa option is the longitudinal (axial) stress $pd/(4t)$ -- half the hoop stress, but the question asks for hoop. The 300 MPa option forgets the 2 in the denominator, using $pd/t$. The 37.5 MPa option uses $pd/(8t)$ from a coefficient slip.',
     hint: 'Hoop stress in a thin cylinder is $\\sigma_h = pd/(2t)$; the longitudinal stress is half of that.',
     steps: [
       {
@@ -551,7 +551,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Rearrange Euler\'s formula $P_{cr} = \\pi^2 EI/(KL)^2$ to solve for $I$: $I = P_{cr}(KL)^2/(\\pi^2 E)$. With $KL = 1.0 \\times 5{,}000 = 5{,}000$ mm, $P_{cr} = 400{,}000$ N, $E = 200{,}000$ MPa: $I = 400{,}000 \\times 5{,}000^2/(\\pi^2 \\times 200{,}000) = 1.0 \\times 10^{13}/1.974 \\times 10^6 = 5.07 \\times 10^6$ mm$^4$. Choice A (2.53) halves the result by using $K = 0.5$ in error. Choice C (20.3) forgets the $\\pi^2$ in the denominator. Choice D (1.01) does not square the effective length.',
+    eli5: 'Rearrange Euler\'s formula $P_{cr} = \\pi^2 EI/(KL)^2$ to solve for $I$: $I = P_{cr}(KL)^2/(\\pi^2 E)$. With $KL = 1.0 \\times 5{,}000 = 5{,}000$ mm, $P_{cr} = 400{,}000$ N, $E = 200{,}000$ MPa: $I = 400{,}000 \\times 5{,}000^2/(\\pi^2 \\times 200{,}000) = 1.0 \\times 10^{13}/1.974 \\times 10^6 = 5.07 \\times 10^6$ mm$^4$. The $2.53 \\times 10^6$ choice halves the result by using $K = 0.5$ in error. The $20.3 \\times 10^6$ choice uses $K = 2.0$, quadrupling the result. The $1.01 \\times 10^6$ choice underestimates by mishandling the squared effective length.',
     hint: 'Rearrange $P_{cr} = \\pi^2 EI/(KL)^2$ to solve for $I = P_{cr}(KL)^2/(\\pi^2 E)$.',
     steps: [
       {
@@ -590,7 +590,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'The radius of gyration is $r = \\sqrt{I/A} = \\sqrt{8 \\times 10^6 / 3{,}200} = \\sqrt{2{,}500} = 50$ mm. Choice A (2,500) reports $I/A$ without taking the square root. Choice B (25) takes the square root but then halves it. Choice C (70.7) uses $\\sqrt{2 I/A}$, slipping in an extra factor of 2.',
+    eli5: 'The radius of gyration is $r = \\sqrt{I/A} = \\sqrt{8 \\times 10^6 / 3{,}200} = \\sqrt{2{,}500} = 50$ mm. The 2,500 mm choice reports $I/A$ without taking the square root. The 25 mm choice takes the square root but then halves it. The 70.7 mm choice uses $\\sqrt{2 I/A}$, slipping in an extra factor of 2.',
     hint: 'The radius of gyration is $r = \\sqrt{I/A}$.',
     steps: [
       {
@@ -621,7 +621,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Shape factor = Z/S = 120/100 = 1.20 — the reserve strength between first yield and full plastic moment. Choice B inverts the ratio (S/Z). Choice C is the difference. Choice D would mean no plastic reserve.',
+    eli5: 'Shape factor = Z/S = 120/100 = 1.20 — the reserve strength between first yield and full plastic moment. The 0.83 choice inverts the ratio (S/Z). The 20 choice is the difference (Z - S). The 1.00 choice would mean no plastic reserve.',
     hint: 'Shape factor = plastic section modulus / elastic section modulus = Z/S.',
     steps: [
       { text: 'Shape factor:', latex: '\\frac{Z}{S} = \\frac{120}{100} = 1.20' },

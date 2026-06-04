@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: '$A_g = 0.5 \\times 6 = 3.0$ in$^2$. For yielding: $\\phi_y P_n = 0.90 \\times F_y \\times A_g = 0.90 \\times 36 \\times 3.0 = 97.2 \\approx 97$ kips. Choice B (108) is $F_y \\times A_g = 108$ without the $\\phi$ factor. Choice C (174) uses $F_u$ instead of $F_y$: $0.90 \\times 58 \\times 3.0 = 157$? No, that is $174 = F_u \\times A_g$. Choice D (131) uses $\\phi = 0.75$ with $F_u$: $0.75 \\times 58 \\times 3.0 = 130.5 \\approx 131$ — that is the rupture check, not yielding.',
+      eli5: '$A_g = 0.5 \\times 6 = 3.0$ in$^2$. For yielding: $\\phi_y P_n = 0.90 \\times F_y \\times A_g = 0.90 \\times 36 \\times 3.0 = 97.2 \\approx 97$ kips. The 108 kips choice is $F_y \\times A_g = 108$ without the $\\phi$ factor. The 174 kips choice uses $F_u$ instead of $F_y$ with no $\\phi$ factor: $174 = F_u \\times A_g = 58 \\times 3.0$. The 131 kips choice uses $\\phi = 0.75$ with $F_u$: $0.75 \\times 58 \\times 3.0 = 130.5 \\approx 131$ — that is the rupture check, not yielding.',
       hint: 'For yielding: $\\phi_y P_n = 0.90 \\times F_y \\times A_g$. No bolt hole deductions.',
       steps: [
         { text: 'Gross area:', latex: 'A_g = 0.5 \\times 6 = 3.0 \\text{ in}^2' },
@@ -56,7 +56,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'For each bolt hole, subtract $(d_b + 1/8\")$ from the gross width: $7/8 + 1/8 = 1.0$ in. per hole. With 2 holes: $A_n = [10 - 2(1.0)] \\times 0.5 = 8.0 \\times 0.5 = 4.00$ in$^2$. The $1/8\"$ comes from $1/16\"$ hole clearance $+ 1/16\"$ drilling damage. Choice B (4.13) subtracts only $d_b = 0.875$ per hole without the extra $1/8\"$: $[10 - 2(0.875)] \\times 0.5 = 4.125$. Choice A (5.00) is the gross area with no deductions. Choice D (4.06) adds only $1/16\"$ instead of $1/8\"$ to each bolt diameter.',
+      eli5: 'For each bolt hole, subtract $(d_b + 1/8\")$ from the gross width: $7/8 + 1/8 = 1.0$ in. per hole. With 2 holes: $A_n = [10 - 2(1.0)] \\times 0.5 = 8.0 \\times 0.5 = 4.00$ in$^2$. The $1/8\"$ comes from $1/16\"$ hole clearance $+ 1/16\"$ drilling damage. The $4.13 \\text{ in}^2$ option subtracts only $d_b = 0.875$ per hole without the extra $1/8"$: $[10 - 2(0.875)] \\times 0.5 = 4.125$. The $5.00 \\text{ in}^2$ option is the gross area with no deductions. The $4.06 \\text{ in}^2$ option adds only $1/16"$ instead of $1/8"$ to each bolt diameter.',
       hint: 'Net width $=$ gross width $- \\Sigma(d_b + 1/8\")$ for each hole. Then multiply by thickness.',
       steps: [
         { text: 'Effective hole width:', latex: 'd_b + \\frac{1}{8}\\text{\"} = \\frac{7}{8} + \\frac{1}{8} = 1.0 \\text{ in.}' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Gross area: $A_g = 8 \\times 0.5 = 4.0$ in$^2$. Net area: $A_n = [8 - 2(3/4 + 1/8)] \\times 0.5 = [8 - 2(0.875)] \\times 0.5 = [8 - 1.75] \\times 0.5 = 6.25 \\times 0.5 = 3.125$ in$^2$. With $U = 1.0$: $A_e = 3.125$ in$^2$. Yielding: $\\phi_y P_n = 0.90 \\times 50 \\times 4.0 = 180$ kips. Rupture: $\\phi_t P_n = 0.75 \\times 65 \\times 3.125 = 152.3 \\approx 152$ kips. Controlling $= \\min(180, 152) = 152$ kips (rupture). Even though rupture uses a higher material strength ($F_u > F_y$), the smaller net area and lower $\\phi$ factor make it control. Choice A picks the larger value, but the smaller capacity governs.',
+      eli5: 'Gross area: $A_g = 8 \\times 0.5 = 4.0$ in$^2$. Net area: $A_n = [8 - 2(3/4 + 1/8)] \\times 0.5 = [8 - 2(0.875)] \\times 0.5 = [8 - 1.75] \\times 0.5 = 6.25 \\times 0.5 = 3.125$ in$^2$. With $U = 1.0$: $A_e = 3.125$ in$^2$. Yielding: $\\phi_y P_n = 0.90 \\times 50 \\times 4.0 = 180$ kips. Rupture: $\\phi_t P_n = 0.75 \\times 65 \\times 3.125 = 152.3 \\approx 152$ kips. Controlling $= \\min(180, 152) = 152$ kips (rupture). Even though rupture uses a higher material strength ($F_u > F_y$), the smaller net area and lower $\\phi$ factor make it control. The 180-kips yielding choice picks the larger value, but the smaller capacity governs.',
       hint: 'Compute both $\\phi_y F_y A_g$ (yielding) and $\\phi_t F_u A_e$ (rupture). The smaller one controls.',
       steps: [
         { text: 'Gross area:', latex: 'A_g = 8 \\times 0.5 = 4.0 \\text{ in}^2' },

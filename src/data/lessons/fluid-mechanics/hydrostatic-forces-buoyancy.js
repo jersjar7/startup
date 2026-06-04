@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'The centroid of a rectangle with its top at the surface is at h_C = 3/2 = 1.5 m. Area = 2 \u00D7 3 = 6 m\u00B2. F = \u03B3 \u00D7 h_C \u00D7 A = 9,810 \u00D7 1.5 \u00D7 6 = 88,290 N = 88.3 kN. Choice A uses h_C = 1.0 m (one-third of the height). Choice C uses h_C = 3.0 m (the bottom, not the centroid). Choice D uses h_C = 0.5 m.',
+      eli5: 'The centroid of a rectangle with its top at the surface is at h_C = 3/2 = 1.5 m. Area = 2 \u00D7 3 = 6 m\u00B2. F = \u03B3 \u00D7 h_C \u00D7 A = 9,810 \u00D7 1.5 \u00D7 6 = 88,290 N = 88.3 kN. The 58.9 kN choice uses h_C = 1.0 m (one-third of the height). The 176.6 kN choice uses h_C = 3.0 m (the bottom, not the centroid). The 29.4 kN choice uses h_C = 0.5 m.',
       hint: 'For a rectangle with its top at the surface, the centroid is at half the height.',
       steps: [
         { text: 'Centroid depth:', latex: 'h_C = \\frac{3}{2} = 1.5 \\text{ m}' },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The center of pressure is y_CP = y_C + I_xC/(y_C \u00D7 A). For a vertical surface, y = h. Centroid: y_C = 1.5 m. I_xC = 2(3)^3/12 = 4.5 m^4. A = 6 m\u00B2. Offset = 4.5/(1.5 \u00D7 6) = 0.5 m. So y_CP = 1.5 + 0.5 = 2.0 m. The center of pressure is at 2/3 of the height \u2014 that\u2019s a classic result for a rectangle with its top at the surface. Choice B (1.5) is the centroid, not the center of pressure. Choice C (1.0) is one-third. Choice D (2.5) uses the wrong I formula.',
+      eli5: 'The center of pressure is y_CP = y_C + I_xC/(y_C \u00D7 A). For a vertical surface, y = h. Centroid: y_C = 1.5 m. I_xC = 2(3)^3/12 = 4.5 m^4. A = 6 m\u00B2. Offset = 4.5/(1.5 \u00D7 6) = 0.5 m. So y_CP = 1.5 + 0.5 = 2.0 m. The center of pressure is at 2/3 of the height \u2014 that\u2019s a classic result for a rectangle with its top at the surface. The 1.5 m option is the centroid, not the center of pressure. The 1.0 m option is one-third. The 2.5 m option uses the wrong I formula.',
       hint: 'The center of pressure is deeper than the centroid. Use the formula y_CP = y_C + I_xC/(y_C \u00D7 A).',
       steps: [
         { text: 'Centroid depth for vertical surface:', latex: 'y_C = h_C = 1.5 \\text{ m}' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Buoyant force = \u03B3_w \u00D7 V_displaced = 9,810 \u00D7 2.0 = 19,620 N = 19.62 kN. Weight = 15 kN. Since buoyancy > weight, the net force is 19.62 \u2013 15 = 4.62 kN upward \u2014 the tank wants to float. Choice B gets the right magnitude but wrong direction. Choice A gives the buoyant force alone without subtracting weight. Choice D ignores buoyancy entirely.',
+      eli5: 'Buoyant force = \u03B3_w \u00D7 V_displaced = 9,810 \u00D7 2.0 = 19,620 N = 19.62 kN. Weight = 15 kN. Since buoyancy > weight, the net force is 19.62 \u2013 15 = 4.62 kN upward \u2014 the tank wants to float. The "4.62 kN downward" option gets the right magnitude but wrong direction. The "19.62 kN upward" option gives the buoyant force alone without subtracting weight. The "15.0 kN downward" option ignores buoyancy entirely.',
       hint: 'Compare the buoyant force (\u03B3_w \u00D7 V_outer) to the tank\u2019s weight. The net force determines whether the tank sinks or floats.',
       steps: [
         { text: 'Buoyant force:', latex: 'F_B = \\gamma_w V = 9{,}810 \\times 2.0 = 19{,}620 \\text{ N} = 19.62 \\text{ kN}' },

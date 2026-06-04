@@ -26,7 +26,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Compute each zone’s weight A·F: Zone 1 = 200(0.5) = 100; Zone 2 = 300(0.2) = 60; sum = 160. Fraction to Zone 1 = 100/160 = 0.625, so T = 1,000 × 0.625 = 625 trips. Choice B is the trips to Zone 2 (60/160 × 1,000 = 375). Choice C uses attractions only (200/500). Choice D splits the trips evenly.',
+      eli5: 'Compute each zone’s weight A·F: Zone 1 = 200(0.5) = 100; Zone 2 = 300(0.2) = 60; sum = 160. Fraction to Zone 1 = 100/160 = 0.625, so T = 1,000 × 0.625 = 625 trips. The 375-trips option is the trips to Zone 2 (60/160 × 1,000 = 375). The 400-trips option uses attractions only (200/500). The 500-trips option splits the trips evenly.',
       hint: 'Weight each destination by A×F, normalize by the sum, then multiply by Pi.',
       steps: [
         { text: 'Zone weights:', latex: 'A_1F_1 = 200(0.5) = 100, \\quad A_2F_2 = 300(0.2) = 60' },
@@ -80,7 +80,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The friction factor F decreases as travel time or distance grows, so more-distant zones receive fewer trips — just as gravitational attraction weakens with distance. Choice B reverses this. Choices C and D ignore the impedance term entirely.',
+      eli5: 'The friction factor F decreases as travel time or distance grows, so more-distant zones receive fewer trips — just as gravitational attraction weakens with distance. The "increases because the friction factor increases" choice reverses this. The "only attractions matter" and "depends only on productions" choices ignore the impedance term entirely.',
       hint: 'The friction factor models resistance to travel — what happens to it as distance grows?',
       steps: [
         { text: 'Friction factor F falls as impedance (time/distance) rises.', latex: null },

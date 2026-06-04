@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Dry unit weight relates to void ratio by $\\gamma_d = G_s \\gamma_w / (1+e)$. Solve for e: $e = G_s \\gamma_w/\\gamma_d - 1 = 2.68 \\times 62.4/100 - 1 = 1.672 - 1 = 0.672$. Choice C (1.672) forgot to subtract 1 (that is the (1+e) value). Choice B (0.401) is the porosity $n = e/(1+e)$, not the void ratio. Choice D (0.602) comes from using a rounded or wrong unit weight of water.',
+    eli5: 'Dry unit weight relates to void ratio by $\\gamma_d = G_s \\gamma_w / (1+e)$. Solve for e: $e = G_s \\gamma_w/\\gamma_d - 1 = 2.68 \\times 62.4/100 - 1 = 1.672 - 1 = 0.672$. The 1.672 distractor forgot to subtract 1 (that is the (1+e) value). The 0.401 distractor is the porosity $n = e/(1+e)$, not the void ratio. The 0.602 distractor comes from using a rounded or wrong unit weight of water.',
     hint: 'Use $\\gamma_d = G_s \\gamma_w/(1+e)$ and solve for e. Do not forget to subtract 1.',
     steps: [
       { text: 'Dry unit weight relation:', latex: '\\gamma_d = \\frac{G_s \\gamma_w}{1+e}' },
@@ -104,7 +104,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Coarse-grained, gravel (G) since more than half the coarse fraction is retained on No. 4. With < 5% fines, classify by gradation. $C_u = D_{60}/D_{10} = 8.0/0.40 = 20$ (gravel needs $\\geq 4$, passes). $C_c = (D_{30})^2/(D_{10} D_{60}) = (2.4)^2/(0.40 \\times 8.0) = 5.76/3.20 = 1.80$ (need 1–3, passes). Both pass → well-graded gravel, GW. Choice A (GP) would apply if a criterion failed. Choice C (SW) misidentifies it as sand. Choice D (GM) requires more than 12% fines.',
+    eli5: 'Coarse-grained, gravel (G) since more than half the coarse fraction is retained on No. 4. With < 5% fines, classify by gradation. $C_u = D_{60}/D_{10} = 8.0/0.40 = 20$ (gravel needs $\\geq 4$, passes). $C_c = (D_{30})^2/(D_{10} D_{60}) = (2.4)^2/(0.40 \\times 8.0) = 5.76/3.20 = 1.80$ (need 1–3, passes). Both pass → well-graded gravel, GW. The GP option would apply if a gradation criterion failed. The SW option misidentifies it as sand. The GM option requires more than 12% fines.',
     hint: 'Decide gravel vs. sand first. Gravel is well-graded if $C_u \\geq 4$ AND $1 \\leq C_c \\leq 3$.',
     steps: [
       { text: 'Coefficient of uniformity:', latex: 'C_u = \\frac{D_{60}}{D_{10}} = \\frac{8.0}{0.40} = 20 \\geq 4 \\; \\checkmark' },
@@ -134,11 +134,11 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Total stress: $\\sigma = 118(4) + 128(6) = 472 + 768 = 1{,}240$ psf. Pore pressure (6 ft below WT): $u = 62.4(6) = 374$ psf. Effective: $\\sigma\' = 1{,}240 - 374 = 866 \\approx 865$ psf. Or use buoyant weight: $\\sigma\' = 118(4) + (128-62.4)(6) = 472 + 393.6 = 865.6$ psf. The 1,240 value is the total stress without subtracting pore pressure. The 394 value is only the buoyant contribution of the saturated zone, missing the moist sand overburden. The 766 value subtracts pore pressure over the full 10 ft instead of only the 6 ft below the WT.',
+    eli5: 'Total stress: $\\sigma = 118(4) + 128(6) = 472 + 768 = 1{,}240$ psf. Pore pressure (6 ft below WT): $u = 62.4(6) = 374$ psf. Effective: $\\sigma\' = 1{,}240 - 374 = 866 \\approx 865$ psf. Or use buoyant weight: $\\sigma\' = 118(4) + (128-62.4)(6) = 472 + 393.6 = 865.6$ psf. The 1,240 value is the total stress without subtracting pore pressure. The 394 value is only the buoyant contribution of the saturated zone, missing the moist sand overburden. The 766 value comes from an error in handling the pore pressure or zone thickness; it does not match either the correct method (865 psf) or the listed partial methods.',
     hint: 'Pore pressure exists only below the water table. Use $\\sigma\' = \\sigma - u$ or the buoyant-weight shortcut below the WT.',
     steps: [
       { text: 'Total stress:', latex: '\\sigma = 118(4) + 128(6) = 472 + 768 = 1{,}240 \\text{ psf}' },
-      { text: 'Pore pressure (6 ft below WT):', latex: 'u = 62.4 \\times 6 = 374 \\text{ psf}' },
+      { text: 'Pore pressure (6 ft below WT):', latex: 'u = 62.4 \\times 6 = 374.4 \\text{ psf}' },
       { text: 'Effective stress:', latex: '\\sigma\' = 1{,}240 - 374 = 865 \\text{ psf}' },
     ],
     handbookPage: 'p. 263',
@@ -172,7 +172,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Under artesian pressure the pore pressure uses the full piezometric head, not just the depth. Head = 15 ft depth + 3 ft above surface = 18 ft. $u = \\gamma_w h = 62.4 \\times 18 = 1{,}123$ psf. Effective stress: $\\sigma\' = \\sigma - u = 1{,}800 - 1{,}123 = 677$ psf. Choice C (1,123) is the pore pressure itself. Choice B (864) uses only the 15 ft depth ($u = 62.4 \\times 15 = 936$, giving $1{,}800 - 936 = 864$), ignoring the artesian head. Choice D (1,800) forgets to subtract pore pressure entirely.',
+    eli5: 'Under artesian pressure the pore pressure uses the full piezometric head, not just the depth. Head = 15 ft depth + 3 ft above surface = 18 ft. $u = \\gamma_w h = 62.4 \\times 18 = 1{,}123$ psf. Effective stress: $\\sigma\' = \\sigma - u = 1{,}800 - 1{,}123 = 677$ psf. The 1,123 psf choice is the pore pressure itself. The 864 psf choice uses only the 15 ft depth ($u = 62.4 \\times 15 = 936$, giving $1{,}800 - 936 = 864$), ignoring the artesian head. The 1,800 psf choice forgets to subtract pore pressure entirely.',
     hint: 'Under artesian conditions, pore pressure is set by the piezometric head, which is higher than the point depth.',
     steps: [
       { text: 'Piezometric head:', latex: 'h = 15 + 3 = 18 \\text{ ft}' },
@@ -292,7 +292,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Available strength: $\\tau_f = c\' + \\sigma_N\' \\tan\\phi\' = 150 + 2{,}000 \\tan 28\\degree = 150 + 2{,}000(0.5317) = 150 + 1{,}063 = 1{,}213$ psf. FS = strength/mobilized = $1{,}213/1{,}000 = 1.21$. Choice B (1.06) drops the cohesion term ($1{,}063/1{,}000$). Choice C (0.82) inverts the ratio ($1{,}000/1{,}213$). Choice D (2.13) forgets to multiply the normal stress by tan, adding $\\sigma_N\'$ directly.',
+    eli5: 'Available strength: $\\tau_f = c\' + \\sigma_N\' \\tan\\phi\' = 150 + 2{,}000 \\tan 28\\degree = 150 + 2{,}000(0.5317) = 150 + 1{,}063 = 1{,}213$ psf. FS = strength/mobilized = $1{,}213/1{,}000 = 1.21$. The 1.06 choice drops the cohesion term ($1{,}063/1{,}000$). The 0.82 choice inverts the ratio ($1{,}000/1{,}213$). The 2.13 choice forgets to multiply the normal stress by tan, adding $\\sigma_N\'$ directly.',
     hint: 'FS = available shear strength (Mohr-Coulomb) divided by mobilized shear stress.',
     steps: [
       { text: 'Available shear strength:', latex: '\\tau_f = c\' + \\sigma_N\' \\tan \\phi\' = 150 + 2{,}000 \\tan 28\\degree' },
@@ -414,7 +414,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Check the middle third: $B/6 = 9/6 = 1.5$ ft. Since $e = 1.0 < 1.5$, the resultant is inside the middle third, so the full base is in compression and the trapezoidal formula applies. Minimum (heel) pressure: $q_{min} = (\\Sigma V/B)(1 - 6e/B) = (9{,}000/9)(1 - 6(1.0)/9) = 1{,}000(1 - 0.667) = 1{,}000(0.333) = 333$ psf. Choice A (1,000) is the uniform pressure $\\Sigma V/B$, ignoring eccentricity. Choice C (1,667) is the maximum (toe) pressure $q_{max} = 1{,}000(1 + 0.667)$. Choice D (0) wrongly assumes the resultant falls outside the middle third.',
+    eli5: 'Check the middle third: $B/6 = 9/6 = 1.5$ ft. Since $e = 1.0 < 1.5$, the resultant is inside the middle third, so the full base is in compression and the trapezoidal formula applies. Minimum (heel) pressure: $q_{min} = (\\Sigma V/B)(1 - 6e/B) = (9{,}000/9)(1 - 6(1.0)/9) = 1{,}000(1 - 0.667) = 1{,}000(0.333) = 333$ psf. The 1,000 psf option is the uniform pressure $\\Sigma V/B$, ignoring eccentricity. The 1,667 psf option is the maximum (toe) pressure $q_{max} = 1{,}000(1 + 0.667)$. The 0 psf option wrongly assumes the resultant falls outside the middle third.',
     hint: 'Confirm $e \\leq B/6$, then use $q_{min} = (\\Sigma V/B)(1 - 6e/B)$.',
     steps: [
       { text: 'Middle-third check:', latex: '\\frac{B}{6} = \\frac{9}{6} = 1.5 \\text{ ft} > e = 1.0 \\text{ ft} \\; \\checkmark' },
@@ -510,7 +510,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'q = kH(Nf/Nd) = (1×10⁻⁴)(8)(5/10) = (1×10⁻⁴)(8)(0.5) = 4.0×10⁻⁴ m³/s per m. Choice B inverts the ratio. Choice C drops the ratio (uses 1.0). Choice D halves the head.',
+    eli5: 'q = kH(Nf/Nd) = (1×10⁻⁴)(8)(5/10) = (1×10⁻⁴)(8)(0.5) = 4.0×10⁻⁴ m³/s per m. The 1.6\u00d710\u207b\u00b3 option inverts the ratio (uses Nd/Nf = 2). The 8.0\u00d710\u207b\u2074 option drops the ratio (uses 1.0). The 2.0\u00d710\u207b\u2074 option halves the head (uses H = 4).',
     hint: 'q = k × H × (Nf/Nd).',
     steps: [
       { text: 'Apply the flow-net formula:', latex: 'q = kH\\frac{N_f}{N_d} = (1\\times10^{-4})(8)(0.5)' },
@@ -539,7 +539,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Seepage parallel to a cohesionless slope multiplies the factor of safety by γ′/γ_sat ≈ 0.5, so a slope at FS ≈ 1.0 dry can drop to ≈ 0.5 and fail. Choice B ignores the buoyancy/seepage effect on effective stress. Choice C has the direction backwards. Choice D is nonsensical.',
+    eli5: 'Seepage parallel to a cohesionless slope multiplies the factor of safety by γ′/γ_sat ≈ 0.5, so a slope at FS ≈ 1.0 dry can drop to ≈ 0.5 and fail. The "unchanged" choice ignores the buoyancy/seepage effect on effective stress. The "roughly doubles" choice has the direction backwards. The "becomes infinite" choice is nonsensical.',
     hint: 'Seepage introduces the γ′/γ_sat factor (about one-half).',
     steps: [
       { text: 'Dry: FS = tan φ/tan β.', latex: null },
@@ -569,7 +569,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Dr = (emax − e)/(emax − emin) × 100 = (0.80 − 0.52)/(0.80 − 0.45) × 100 = 0.28/0.35 × 100 = 80% — a dense sand. Choice B uses (e − emin) in the numerator. Choice C miscomputes the denominator. Choice D inverts the numerator.',
+    eli5: 'Dr = (emax − e)/(emax − emin) × 100 = (0.80 − 0.52)/(0.80 − 0.45) × 100 = 0.28/0.35 × 100 = 80% — a dense sand. The 20% choice uses (e − emin) in the numerator. The 65% choice miscomputes the denominator. The 35% choice inverts the numerator.',
     hint: 'Dr = (emax − e)/(emax − emin) × 100.',
     steps: [
       { text: 'Apply the relative-density formula:', latex: 'D_r = \\frac{0.80 - 0.52}{0.80 - 0.45} \\times 100' },
@@ -598,7 +598,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'A pile bearing on sound rock acts essentially as an end-bearing pile — the strong tip support dominates, while the soft soils contribute little skin friction. Choice B describes a friction pile in deep uniform soil. Choice C invents a role for downdrag. Choice D is not a real load-carrying mechanism here.',
+    eli5: 'A pile bearing on sound rock acts essentially as an end-bearing pile — the strong tip support dominates, while the soft soils contribute little skin friction. The "skin friction in the soft soils" option describes a friction pile in deep uniform soil. The "equally by end bearing and negative skin friction" option invents a role for downdrag. The "buoyancy" option is not a real load-carrying mechanism here.',
     hint: 'Where is the strong material — at the tip or along the shaft?',
     steps: [
       { text: 'The soft soils provide little skin friction.', latex: null },

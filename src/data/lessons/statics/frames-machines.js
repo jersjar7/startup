@@ -27,7 +27,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'A member loaded at only two points is a two-force member: equilibrium requires the two forces to be equal, opposite, and collinear, so they act along the line joining the pins — purely axial. Choice B and C contradict moment equilibrium. Choice D is wrong because the direction IS determined for a two-force member.',
+      eli5: 'A member loaded at only two points is a two-force member: equilibrium requires the two forces to be equal, opposite, and collinear, so they act along the line joining the pins — purely axial. The "perpendicular to the member" and "at 45\u00b0" options contradict moment equilibrium. The "undetermined direction" option is wrong because the direction IS determined for a two-force member \u2014 it must be axial.',
       hint: 'A member loaded at only two points is a two-force member — where must its forces line up?',
       steps: [
         { text: 'Loaded at only two points → two-force member.', latex: null },
@@ -54,7 +54,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Take moments about the pivot: F_out × 50 = F_in × 300, so F_out = 100 × (300/50) = 100 × 6 = 600 N. The longer effort arm multiplies the force (mechanical advantage = 6). Choice B divides instead of multiplies. Choice C ignores the arms. Choice D uses only the effort-arm length.',
+      eli5: 'Take moments about the pivot: F_out × 50 = F_in × 300, so F_out = 100 × (300/50) = 100 × 6 = 600 N. The longer effort arm multiplies the force (mechanical advantage = 6). The 16.7 N distractor divides instead of multiplies. The 100 N distractor ignores the arms. The 300 N distractor uses only the effort-arm length.',
       hint: 'Sum moments about the pivot: effort × effort arm = load × load arm.',
       steps: [
         { text: 'Moment balance about the pivot:', latex: 'F_{out}(50) = F_{in}(300)' },
@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'A truss is made entirely of two-force members (pure axial). A frame is a stationary structure that includes at least one multi-force member, which carries shear and bending in addition to axial force. Choice B reverses the definitions. Choice C confuses frames with machines (machines move). Choice D is false.',
+      eli5: 'A truss is made entirely of two-force members (pure axial). A frame is a stationary structure that includes at least one multi-force member, which carries shear and bending in addition to axial force. The "only axial-force members" option reverses the definitions. The "always moving" option confuses frames with machines (machines move). The "no difference" option is false.',
       hint: 'Think about whether the members carry only axial force or also bending.',
       steps: [
         { text: 'Trusses use only two-force (axial) members.', latex: null },

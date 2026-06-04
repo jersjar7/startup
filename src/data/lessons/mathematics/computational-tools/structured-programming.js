@@ -56,7 +56,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "The loop runs for i = 1, 2, 3, 4 (inclusive endpoints), adding i to a running total each pass: 0+1+2+3+4 = 10. Choice B (6) stops at i = 3, the off-by-one error. Choice C (15) runs one extra pass to i = 5. Choice D (4) is just the number of iterations, not the sum.",
+      "eli5": "The loop runs for i = 1, 2, 3, 4 (inclusive endpoints), adding i to a running total each pass: 0+1+2+3+4 = 10. The 6 option stops at i = 3, the off-by-one error. The 15 option runs one extra pass to i = 5. The 4 option is just the number of iterations, not the sum.",
       "hint": "FOR i = 1 TO 4 runs four times (1,2,3,4). Add each i to the running total.",
       "steps": [
         { "text": "i = 1: total = 0 + 1 = 1.", "latex": null },
@@ -83,7 +83,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "Conditions are checked top to bottom and the first true one wins. x = 7 is not greater than 10 (first test fails), but 7 > 5 is true (second test), so y = 2 and the final ELSE is skipped. Choice B (1) would require x > 10. Choice C (3) would require both tests to fail (x ≤ 5).",
+      "eli5": "Conditions are checked top to bottom and the first true one wins. x = 7 is not greater than 10 (first test fails), but 7 > 5 is true (second test), so y = 2 and the final ELSE is skipped. The value 1 would require x > 10. The value 3 would require both tests to fail (x ≤ 5).",
       "hint": "Check conditions in order; the first TRUE branch runs and the rest are skipped.",
       "steps": [
         { "text": "First test: x > 10 → 7 > 10 → FALSE. Skip y = 1.", "latex": null },
@@ -110,7 +110,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "A WHILE loop keeps doubling as long as x < 100, and it stops the moment the condition fails. The sequence is 1 → 2 → 4 → 8 → 16 → 32 → 64 → 128. When x = 64 the condition (64 < 100) is still true, so it doubles once more to 128. Now 128 < 100 is false, so the loop stops with x = 128. Choice B (64) stops one pass too early. Choice C (100) assumes the loop caps at the limit, which it does not.",
+      "eli5": "A WHILE loop keeps doubling as long as x < 100, and it stops the moment the condition fails. The sequence is 1 → 2 → 4 → 8 → 16 → 32 → 64 → 128. When x = 64 the condition (64 < 100) is still true, so it doubles once more to 128. Now 128 < 100 is false, so the loop stops with x = 128. The choice 64 stops one pass too early. The choice 100 assumes the loop caps at the limit, which it does not.",
       "hint": "Keep doubling while x < 100; the value that breaks the condition is the final value.",
       "steps": [
         { "text": "Double while x < 100: 1, 2, 4, 8, 16, 32, 64.", "latex": null },

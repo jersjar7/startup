@@ -35,7 +35,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: '"Lock bumpers" = perfectly plastic = stick together. Total momentum before equals total momentum after, but now it\'s one combined mass. So 2,000 \u00D7 15 = 3,000 \u00D7 v\'. Simple division. Choice B (7.5) comes from dividing by 4,000 instead of 3,000. Choice D (15) assumes no speed change, which violates momentum conservation.',
+      eli5: '"Lock bumpers" = perfectly plastic = stick together. Total momentum before equals total momentum after, but now it\'s one combined mass. So 2,000 \u00D7 15 = 3,000 \u00D7 v\'. Simple division. The 7.5 m/s option comes from dividing by 4,000 instead of 3,000. The 15 m/s option assumes no speed change, which violates momentum conservation.',
       hint: 'The cars stick together \u2014 combine their masses and use conservation of momentum.',
       steps: [
         { text: 'Perfectly plastic collision (stick together), so $v_1\' = v_2\' = v\'$.', latex: null },
@@ -62,7 +62,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Two equations, two unknowns. Momentum conservation gives you the sum of the final velocities, and the restitution equation gives you their difference. Add and subtract to solve. Equal masses make the algebra clean \u2014 the striking ball slows to 2 m/s and the struck ball picks up 6 m/s. Choice C (4.0) assumes each ball gets half the original speed, which only happens at e = 1 for equal masses.',
+      eli5: 'Two equations, two unknowns. Momentum conservation gives you the sum of the final velocities, and the restitution equation gives you their difference. Add and subtract to solve. Equal masses make the algebra clean \u2014 the striking ball slows to 2 m/s and the struck ball picks up 6 m/s. The 4.0 m/s option assumes each ball gets half the original speed, which only happens at e = 1 for equal masses.',
       hint: 'You need two equations: conservation of momentum and the restitution formula. Solve them simultaneously.',
       steps: [
         { text: 'Conservation of momentum (equal masses cancel):', latex: 'v_1\' + v_2\' = 8' },
@@ -91,7 +91,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Impulse = change in momentum. The car goes from 20 m/s to 0, so the change in momentum is 1,500 \u00D7 20 = 30,000 kg\u00B7m/s. Divide by the impact time (0.15 s) to get the average force. The shorter the impact time, the bigger the force \u2014 that\'s why crumple zones extend the impact time to reduce force. Choice B (30,000) is just the momentum change without dividing by time.',
+      eli5: 'Impulse = change in momentum. The car goes from 20 m/s to 0, so the change in momentum is 1,500 \u00D7 20 = 30,000 kg\u00B7m/s. Divide by the impact time (0.15 s) to get the average force. The shorter the impact time, the bigger the force \u2014 that\'s why crumple zones extend the impact time to reduce force. The 30,000 N choice is just the momentum change without dividing by time.',
       hint: 'Impulse equals change in momentum. What\'s the change in momentum, and over what time interval?',
       steps: [
         { text: 'Impulse-momentum theorem:', latex: 'F_{avg} \\cdot \\Delta t = m(v_2 - v_1)' },

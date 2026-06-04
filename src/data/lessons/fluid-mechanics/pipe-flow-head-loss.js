@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Re = vD/\u03BD = 2 \u00D7 0.1 / 1.003\u00D710^-6 = 0.2 / 1.003\u00D710^-6 = 199,400. Since 199,400 >> 10,000, the flow is fully turbulent. Choice B uses D = 0.001 m (didn\u2019t realize D is already in meters). Choice C uses D = 0.01 m. Choice D gets the right Re but misidentifies the flow regime.',
+      eli5: 'Re = vD/\u03BD = 2 \u00D7 0.1 / 1.003\u00D710^-6 = 0.2 / 1.003\u00D710^-6 = 199,400. Since 199,400 >> 10,000, the flow is fully turbulent. The Re = 1,994 choice uses D = 0.001 m (didn\u2019t realize D is already in meters). The Re = 19,940 choice uses D = 0.01 m. The Re = 199,400 \u2014 laminar choice gets the right Re but misidentifies the flow regime.',
       hint: 'Re = vD/\u03BD. Compare your result to the thresholds: < 2,100 is laminar, > 10,000 is turbulent.',
       steps: [
         { text: 'Reynolds number:', latex: 'Re = \\frac{vD}{\\nu} = \\frac{2 \\times 0.1}{1.003 \\times 10^{-6}} = \\frac{0.2}{1.003 \\times 10^{-6}}' },
@@ -60,7 +60,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Straight Darcy-Weisbach: h_f = f \u00D7 L/D \u00D7 v\u00B2/(2g) = 0.02 \u00D7 100/0.2 \u00D7 3\u00B2/(2\u00D79.81) = 0.02 \u00D7 500 \u00D7 0.4587 = 10 \u00D7 0.4587 = 4.587 m \u2248 4.59 m. Choice A doubles the answer (maybe using L/D = 1000 by error). Choice C uses L/D = 5000 (used D = 0.02). Choice D uses L/D = 50 (used D = 2).',
+      eli5: 'Straight Darcy-Weisbach: h_f = f \u00D7 L/D \u00D7 v\u00B2/(2g) = 0.02 \u00D7 100/0.2 \u00D7 3\u00B2/(2\u00D79.81) = 0.02 \u00D7 500 \u00D7 0.4587 = 10 \u00D7 0.4587 = 4.587 m \u2248 4.59 m. The 9.17 m choice doubles the answer (maybe using L/D = 1000 by error). The 45.9 m choice uses L/D = 5000 (used D = 0.02). The 0.459 m choice uses L/D = 50 (used D = 2).',
       hint: 'Plug directly into Darcy-Weisbach. Watch the units \u2014 L and D must be in the same units.',
       steps: [
         { text: 'Velocity head:', latex: '\\frac{v^2}{2g} = \\frac{3^2}{2 \\times 9.81} = \\frac{9}{19.62} = 0.4587 \\text{ m}' },
@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Total head loss = major (friction) + minor (fittings). Velocity head = v\u00B2/(2g) = 2.5\u00B2/19.62 = 0.3184 m. Sum of minor loss coefficients: 2\u00D70.9 + 10.0 = 11.8. Minor losses = 11.8 \u00D7 0.3184 = 3.757 m. Total = 3.2 + 3.757 = 6.96 m. Choice B only counts one elbow. Choice A ignores minor losses entirely. Choice D uses C = 10 for each fitting.',
+      eli5: 'Total head loss = major (friction) + minor (fittings). Velocity head = v\u00B2/(2g) = 2.5\u00B2/19.62 = 0.3184 m. Sum of minor loss coefficients: 2\u00D70.9 + 10.0 = 11.8. Minor losses = 11.8 \u00D7 0.3184 = 3.757 m. Total = 3.2 + 3.757 = 6.96 m. The 3.76 m option is the minor loss alone, forgetting to add the 3.2 m friction loss. The 3.20 m option ignores minor losses entirely. The 10.16 m option overcounts the fitting coefficients.',
       hint: 'Add up all the minor loss coefficients (\u03A3C), multiply by v\u00B2/(2g), then add the major (friction) head loss.',
       steps: [
         { text: 'Velocity head:', latex: '\\frac{v^2}{2g} = \\frac{2.5^2}{2 \\times 9.81} = \\frac{6.25}{19.62} = 0.3185 \\text{ m}' },

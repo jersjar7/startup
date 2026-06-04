@@ -54,7 +54,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Ka = 1/3 (from \u03C6 = 30\u00B0). Pa = 0.5 \u00D7 Ka \u00D7 \u03B3 \u00D7 H\u00B2 = 0.5 \u00D7 (1/3) \u00D7 120 \u00D7 15\u00B2 = 0.5 \u00D7 0.333 \u00D7 120 \u00D7 225 = 4,500 lb/ft. Choice A (9,000) forgets the 1/2 factor (uses Ka\u03B3H\u00B2 instead of 0.5Ka\u03B3H\u00B2). Choice C (13,500) uses the passive coefficient Kp = 3. Choice D (2,250) divides by 2 an extra time.',
+      eli5: 'Ka = 1/3 (from \u03C6 = 30\u00B0). Pa = 0.5 \u00D7 Ka \u00D7 \u03B3 \u00D7 H\u00B2 = 0.5 \u00D7 (1/3) \u00D7 120 \u00D7 15\u00B2 = 0.5 \u00D7 0.333 \u00D7 120 \u00D7 225 = 4,500 lb/ft. The 9,000 lb/ft choice forgets the 1/2 factor (uses Ka\u03B3H\u00B2 instead of 0.5Ka\u03B3H\u00B2). The 13,500 lb/ft choice omits Ka entirely (uses Ka = 1: 0.5 x 1 x 120 x 225 = 13,500). The 2,250 lb/ft choice divides by 2 an extra time.',
       hint: 'Active force on a wall: Pa = 0.5 \u00D7 Ka \u00D7 \u03B3 \u00D7 H\u00B2. The pressure diagram is a triangle.',
       steps: [
         { text: 'Active coefficient:', latex: 'K_a = \\tan^2(30\\degree) = 0.333' },
@@ -80,7 +80,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Ka = 1/3. Soil: Pa(soil) = 0.5 \u00D7 (1/3) \u00D7 120 \u00D7 12\u00B2 = 0.5 \u00D7 40 \u00D7 144 = 2,880 lb/ft (triangular). Surcharge: Pa(surcharge) = Ka \u00D7 q \u00D7 H = (1/3) \u00D7 200 \u00D7 12 = 800 lb/ft (rectangular). Total = 2,880 + 800 = 3,680 lb/ft. Choice B (2,880) ignores the surcharge. Choice A (4,800) might add the surcharge force incorrectly or use a higher Ka. Choice D (800) is only the surcharge contribution.',
+      eli5: 'Ka = 1/3. Soil: Pa(soil) = 0.5 \u00D7 (1/3) \u00D7 120 \u00D7 12\u00B2 = 0.5 \u00D7 40 \u00D7 144 = 2,880 lb/ft (triangular). Surcharge: Pa(surcharge) = Ka \u00D7 q \u00D7 H = (1/3) \u00D7 200 \u00D7 12 = 800 lb/ft (rectangular). Total = 2,880 + 800 = 3,680 lb/ft. The 2,880 lb/ft option ignores the surcharge. The 4,800 lb/ft option adds the surcharge force incorrectly or uses a higher Ka. The 800 lb/ft option is only the surcharge contribution.',
       hint: 'The surcharge creates a uniform (rectangular) pressure of Ka \u00D7 q over the full height, added to the triangular soil pressure.',
       steps: [
         { text: 'Active coefficient:', latex: 'K_a = \\frac{1}{3}' },

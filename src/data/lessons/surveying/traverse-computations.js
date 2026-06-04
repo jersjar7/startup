@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Linear error = \u221A(0.08\u00B2 + 0.06\u00B2) = \u221A(0.0064 + 0.0036) = \u221A0.01 = 0.10 m. Precision = 0.10/1,000 = 1/10,000 = 1:10,000. Choice A uses only the latitude error. Choice B uses 0.14 as linear error (0.08 + 0.06). Choice D squares the precision ratio.',
+      eli5: 'Linear error = \u221A(0.08\u00B2 + 0.06\u00B2) = \u221A(0.0064 + 0.0036) = \u221A0.01 = 0.10 m. Precision = 0.10/1,000 = 1/10,000 = 1:10,000. The 1:12,500 option uses only the latitude error. The 1:7,143 option uses 0.14 as linear error (0.08 + 0.06). The 1:100,000 option squares the precision ratio.',
       hint: 'Find the linear closure error using the Pythagorean theorem, then divide by the total traverse length.',
       steps: [
         { text: 'Linear closure error:', latex: 'E = \\sqrt{0.08^2 + 0.06^2} = \\sqrt{0.0064 + 0.0036} = \\sqrt{0.01} = 0.10 \\text{ m}' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Compass rule: correction = \u2013E_L \u00D7 (L_i / \u03A3L) = \u20130.08 \u00D7 (250/1000) = \u20130.08 \u00D7 0.25 = \u20130.020 m. The correction is negative because the traverse drifted north (positive E_L), so we correct southward. Choice A divides by 10,000 instead of 1,000. Choice B gets the sign wrong. Choice C applies the full error to this one course.',
+      eli5: 'Compass rule: correction = \u2013E_L \u00D7 (L_i / \u03A3L) = \u20130.08 \u00D7 (250/1000) = \u20130.08 \u00D7 0.25 = \u20130.020 m. The correction is negative because the traverse drifted north (positive E_L), so we correct southward. The -0.002 m option divides by 10,000 instead of 1,000. The +0.020 m option gets the sign wrong. The -0.080 m option applies the full error to this one course.',
       hint: 'The compass rule distributes error proportionally to course length. The sign of the correction is opposite to the error.',
       steps: [
         { text: 'Compass rule latitude correction:', latex: '\\text{Corr}_{\\text{Lat}} = -E_L \\times \\frac{L_i}{\\Sigma L} = -0.08 \\times \\frac{250}{1{,}000}' },

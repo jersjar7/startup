@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'L = \u03C0RI/180 = \u03C0(800)(50)/180 = 125,663.7/180 = 698.13 ft. Station of PT = station of PC + L = 2500 + 698.13 = 3198.13 = station 31+98.13. Choice A is the PC itself. Choice B uses L/2 (goes to the midpoint). Choice D uses 2L.',
+      eli5: 'L = \u03C0RI/180 = \u03C0(800)(50)/180 = 125,663.7/180 = 698.13 ft. Station of PT = station of PC + L = 2500 + 698.13 = 3198.13 = station 31+98.13. The 25+00 choice is the PC itself. The 28+49.07 choice uses L/2 (goes to the midpoint). The 38+96.26 choice uses 2L.',
       hint: 'Find the curve length L = \u03C0RI/180, then add it to the PC station to get the PT station.',
       steps: [
         { text: 'Curve length:', latex: 'L = \\frac{\\pi R I}{180} = \\frac{\\pi \\times 800 \\times 50}{180} = 698.13 \\text{ ft}' },

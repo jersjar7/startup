@@ -34,7 +34,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Multiply each outcome by its probability, then add. That\u2019s it. Choice B (80,000) is the mode \u2014 the most likely single outcome \u2014 but that\u2019s not the expected value. The expected value weights all outcomes by how likely they are. Choice A (73,333) is what you get if you just average the three profits without using the probabilities (simple mean of 120k, 80k, 20k). Choice D (220,000) is the sum of all profits without any probability weighting.',
+      eli5: 'Multiply each outcome by its probability, then add. That\u2019s it. The 80,000 dollars choice is the mode \u2014 the most likely single outcome \u2014 but that\u2019s not the expected value. The expected value weights all outcomes by how likely they are. The 73,333 dollars choice is what you get if you just average the three profits without using the probabilities (simple mean of 120k, 80k, 20k). The 220,000 dollars choice is the sum of all profits without any probability weighting.',
       hint: 'Multiply each profit by its probability and add the results.',
       steps: [
         { text: 'Apply $E(X) = \\sum x_k \\cdot P(x_k)$:', latex: 'E(X) = 120{,}000(0.25) + 80{,}000(0.50) + 20{,}000(0.25)' },
@@ -60,7 +60,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Two-column scratch work makes this fast. Column 1: $x \\cdot P(x)$ gives you $E(X) = 2.70$. Column 2: $x^2 \\cdot P(x)$ gives you $E(X^2) = 8.10$. Then subtract: $8.10 - 2.70^2 = 0.81$. Choice B (0.90) comes from a rounding or arithmetic slip. Choice C (2.70) is $E(X)$ itself \u2014 the mean, not the variance. Choice D (8.10) is $E(X^2)$, which is only the first half of the variance formula.',
+      eli5: 'Two-column scratch work makes this fast. Column 1: $x \\cdot P(x)$ gives you $E(X) = 2.70$. Column 2: $x^2 \\cdot P(x)$ gives you $E(X^2) = 8.10$. Then subtract: $8.10 - 2.70^2 = 0.81$. The 0.90 choice comes from a rounding or arithmetic slip. The 2.70 choice is $E(X)$ itself \u2014 the mean, not the variance. The 8.10 choice is $E(X^2)$, which is only the first half of the variance formula.',
       hint: 'Use the shortcut $\\text{Var}(X) = E(X^2) - [E(X)]^2$. Build two columns: $x \\cdot P(x)$ and $x^2 \\cdot P(x)$.',
       steps: [
         { text: 'Compute $E(X)$:', latex: '1(0.10) + 2(0.30) + 3(0.40) + 4(0.20) = 0.10 + 0.60 + 1.20 + 0.80 = 2.70' },
@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'This is the classic \u201cstandard deviations don\u2019t add\u201d trap. When you combine independent random variables, you add the variances (the squared standard deviations), then take the square root at the end. So it\u2019s $\\sqrt{3^2 + 8^2} = \\sqrt{73} = 8.54$. Choice A (11.0) is what you get if you add the standard deviations directly ($3 + 8 = 11$) \u2014 that\u2019s the most common mistake. Choice C (73) is the variance, not the standard deviation \u2014 you forgot the square root. Choice D (80) is the mean of the total load ($50 + 30$), not its standard deviation.',
+      eli5: 'This is the classic \u201cstandard deviations don\u2019t add\u201d trap. When you combine independent random variables, you add the variances (the squared standard deviations), then take the square root at the end. So it\u2019s $\\sqrt{3^2 + 8^2} = \\sqrt{73} = 8.54$. The 11.0 kN option is what you get if you add the standard deviations directly ($3 + 8 = 11$) \u2014 that\u2019s the most common mistake. The 73 kN option is the variance, not the standard deviation \u2014 you forgot the square root. The 80.0 kN option is the mean of the total load ($50 + 30$), not its standard deviation.',
       hint: 'Variances add (not standard deviations). Square first, add, then take the square root.',
       steps: [
         { text: 'The loads are independent, so variances add:', latex: '\\text{Var}(T) = \\text{Var}(D) + \\text{Var}(L) = \\sigma_D^2 + \\sigma_L^2' },

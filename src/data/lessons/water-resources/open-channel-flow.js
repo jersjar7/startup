@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'A = 4 \u00D7 2 = 8 ft\u00B2. P = 4 + 2(2) = 8 ft. R_H = 8/8 = 1.0 ft. Q = (1.486/0.013)(8)(1.0)^(2/3)(0.001)^(1/2) = 114.3 \u00D7 8 \u00D7 1.0 \u00D7 0.0316 = 28.9 cfs. Choice A uses width alone for the wetted perimeter (P = 4 instead of 8). Choice B forgets the 1.486 factor (gives about 19.5 cfs). Choice D halves the correct answer by miscalculating R_H.',
+      eli5: 'A = 4 \u00D7 2 = 8 ft\u00B2. P = 4 + 2(2) = 8 ft. R_H = 8/8 = 1.0 ft. Q = (1.486/0.013)(8)(1.0)^(2/3)(0.001)^(1/2) = 114.3 \u00D7 8 \u00D7 1.0 \u00D7 0.0316 = 28.9 cfs. The 42.3 cfs choice uses width alone for the wetted perimeter (P = 4 instead of 8), inflating R_H. The 19.5 cfs choice forgets the 1.486 factor. The 14.5 cfs choice halves the correct answer by miscalculating R_H.',
       hint: 'Find A, P, and R_H first. Remember K = 1.486 for US Customary units.',
       steps: [
         { text: 'Flow area:', latex: 'A = 4 \\times 2 = 8 \\text{ ft}^2' },
@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Full circular pipe: A = \u03C0(3)\u00B2/4 = 7.069 ft\u00B2. R_H = D/4 = 0.75 ft. (0.75)^(2/3) = 0.826. (0.002)^(1/2) = 0.04472. Q = (1.486/0.015)(7.069)(0.826)(0.04472) = 99.07 \u00D7 7.069 \u00D7 0.0369 = 25.9 cfs. Choice B forgets the 1.486 factor. Choice C uses R_H = D/2 = 1.5 instead of D/4 = 0.75. Choice D uses both the wrong R_H and forgets K.',
+      eli5: 'Full circular pipe: A = \u03C0(3)\u00B2/4 = 7.069 ft\u00B2. R_H = D/4 = 0.75 ft. (0.75)^(2/3) = 0.826. (0.002)^(1/2) = 0.04472. Q = (1.486/0.015)(7.069)(0.826)(0.04472) = 99.07 \u00D7 7.069 \u00D7 0.0369 = 25.9 cfs. The 17.4 cfs distractor forgets the 1.486 unit factor (uses K=1). The 40.6 cfs distractor uses R_H = D/2 = 1.5 instead of D/4 = 0.75. The 10.3 cfs distractor applies an incorrect (too-small) hydraulic radius.',
       hint: 'For a full circular pipe, R_H = D/4 (not D/2). Don\'t forget K = 1.486 for USCS.',
       steps: [
         { text: 'Flow area (full pipe):', latex: 'A = \\frac{\\pi D^2}{4} = \\frac{\\pi(3)^2}{4} = 7.069 \\text{ ft}^2' },
@@ -88,7 +88,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Since v = (K/n) R_H^(2/3) S^(1/2), and everything except n is the same, the velocity ratio is v_A/v_B = n_B/n_A = 0.025/0.013 = 1.92 \u2248 1.9. The smoother channel (lower n) has higher velocity. Choice A ignores the effect of roughness. Choice B uses the wrong ratio. Choice C inverts the relationship.',
+      eli5: 'Since v = (K/n) R_H^(2/3) S^(1/2), and everything except n is the same, the velocity ratio is v_A/v_B = n_B/n_A = 0.025/0.013 = 1.92 \u2248 1.9. The smoother channel (lower n) has higher velocity. The "same velocity" choice ignores the effect of roughness. The "1.5 times faster" choice uses the wrong ratio. The "Channel B is 1.9 times faster" choice inverts the relationship (it applies n_A/n_B and assigns the gain to the rougher channel).',
       hint: 'With the same geometry and slope, velocity is inversely proportional to Manning\'s n.',
       steps: [
         { text: 'Since both channels have the same $R_H$, $S$, and $K$:', latex: '\\frac{v_A}{v_B} = \\frac{n_B}{n_A}' },

@@ -36,7 +36,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Two steps: compute \u03C9_n in rad/s, then divide by 2\u03C0 to get Hz. The biggest trap is stopping at 4.0 rad/s (choice C) \u2014 that\'s \u03C9_n, not f_n. The question asks for frequency, which is in Hz. Always check the units the question wants.',
+      eli5: 'Two steps: compute \u03C9_n in rad/s, then divide by 2\u03C0 to get Hz. The biggest trap is stopping at 4.0 rad/s (the 4.0 rad/s choice) \u2014 that\'s \u03C9_n, not f_n. The question asks for frequency, which is in Hz. Always check the units the question wants.',
       hint: 'Compute \u03C9_n = \u221A(k/m) first, then convert from rad/s to Hz.',
       steps: [
         { text: 'Natural circular frequency:', latex: '\\omega_n = \\sqrt{\\frac{k}{m}} = \\sqrt{\\frac{800}{50}} = \\sqrt{16} = 4.0 \\text{ rad/s}' },

@@ -25,7 +25,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Yellow diamond-shaped signs are WARNING signs — they alert drivers to conditions ahead such as curves, intersections, or merges. Regulatory signs (Choice B) state laws (STOP, speed limit). Guide signs (Choice C) are green and give directions. A barricade (Choice D) is a temporary-traffic-control device, not this sign.',
+      eli5: 'Yellow diamond-shaped signs are WARNING signs — they alert drivers to conditions ahead such as curves, intersections, or merges. Regulatory signs state laws (STOP, speed limit). Guide signs are green and give directions. A construction barricade is a temporary-traffic-control device, not this sign.',
       hint: 'Yellow + diamond shape signals which category in the MUTCD?',
       steps: [
         { text: 'Shape and color identify the category.', latex: null },
@@ -52,7 +52,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Signals are not automatically beneficial — installing one where it is not warranted can raise rear-end crashes and create unnecessary delay. Warrants test whether conditions (volumes, pedestrians, crashes) justify a signal. Choice B is false (signals can increase some crash types). Choice C confuses warrants with timing design. Choice D is fabricated.',
+      eli5: 'Signals are not automatically beneficial — installing one where it is not warranted can raise rear-end crashes and create unnecessary delay. Warrants test whether conditions (volumes, pedestrians, crashes) justify a signal. The claim that signals always reduce all types of crashes is false (signals can increase some crash types, like rear-end). The option about cycle length confuses warrants with timing design. The federal permit-fee option is fabricated.',
       hint: 'Is a signal always an improvement? What can go wrong if one is installed unnecessarily?',
       steps: [
         { text: 'Signals can worsen rear-end crashes and add delay.', latex: null },

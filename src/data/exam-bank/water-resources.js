@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'If you use $K = 1.0$ instead of 1.486, you get $Q_{wrong} = Q_{correct}/1.486$, which means your answer is about 67% of the correct value. That is an underestimate of about 33%. This is a classic FE trap because forgetting the conversion factor does not produce an obviously wrong answer. Choice A reverses the direction of the error. Choice C ignores the factor entirely. Choice D confuses the percentage.',
+    eli5: 'If you use $K = 1.0$ instead of 1.486, you get $Q_{wrong} = Q_{correct}/1.486$, which means your answer is about 67% of the correct value. That is an underestimate of about 33%. This is a classic FE trap because forgetting the conversion factor does not produce an obviously wrong answer. The "overestimated by about 49%" choice reverses the direction of the error (1.486/1.0 = 1.486, a 49% overestimate). The "unaffected because units cancel" choice ignores the factor entirely. The "underestimated by about 50%" choice confuses the percentage.',
     hint: 'Compare $Q$ with $K = 1.0$ to $Q$ with $K = 1.486$. The ratio tells you how far off you are.',
     steps: [
       {
@@ -78,7 +78,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'For a trapezoid with 2:1 side slopes: $A = (b + zy)y = (3 + 2 \\times 1.5)(1.5) = 6 \\times 1.5 = 9.0$ m$^2$. $P = b + 2y\\sqrt{1 + z^2} = 3 + 2(1.5)\\sqrt{1 + 4} = 3 + 3\\sqrt{5} = 3 + 6.708 = 9.708$ m. $R_H = 9.0/9.708 = 0.927$ m. SI units so $K = 1.0$. $Q = (1/0.022)(9.0)(0.927)^{2/3}(0.0004)^{1/2} = 45.45 \\times 9.0 \\times 0.951 \\times 0.02 = 7.8$ m$^3$/s. Choice A omits the side slopes from the area. Choice B uses $K = 1.486$ (wrong for SI). Choice D uses the bottom width alone for the wetted perimeter.',
+    eli5: 'For a trapezoid with 2:1 side slopes: $A = (b + zy)y = (3 + 2 \\times 1.5)(1.5) = 6 \\times 1.5 = 9.0$ m$^2$. $P = b + 2y\\sqrt{1 + z^2} = 3 + 2(1.5)\\sqrt{1 + 4} = 3 + 3\\sqrt{5} = 3 + 6.708 = 9.708$ m. $R_H = 9.0/9.708 = 0.927$ m. SI units so $K = 1.0$. $Q = (1/0.022)(9.0)(0.927)^{2/3}(0.0004)^{1/2} = 45.45 \\times 9.0 \\times 0.951 \\times 0.02 = 7.8$ m$^3$/s. The 3.2 m\u00b3/s choice omits the side slopes from the area. The 7.1 m\u00b3/s choice uses $K = 1.486$ (wrong for SI). The 9.5 m\u00b3/s choice uses the bottom width alone for the wetted perimeter.',
     hint: 'For a trapezoid: $A = (b + zy)y$ and $P = b + 2y\\sqrt{1+z^2}$. Use $K = 1.0$ for SI.',
     steps: [
       {
@@ -145,7 +145,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$R_H = A/P$. For a full circle: $A = \\pi D^2/4$ and $P = \\pi D$. So $R_H = (\\pi D^2/4)/(\\pi D) = D/4$. Many students pick $D/2$ because they confuse hydraulic radius with the geometric radius. The hydraulic radius is area divided by wetted perimeter, not the pipe radius. Choice A is the geometric radius. Choice C is the diameter itself. Choice D is the area divided by $D$, not by $\\pi D$.',
+    eli5: '$R_H = A/P$. For a full circle: $A = \\pi D^2/4$ and $P = \\pi D$. So $R_H = (\\pi D^2/4)/(\\pi D) = D/4$. Many students pick $D/2$ because they confuse hydraulic radius with the geometric radius. The hydraulic radius is area divided by wetted perimeter, not the pipe radius. The $D/2$ option is the geometric radius. The $D$ option is the diameter itself. The $\\pi D/4$ option is the area divided by $D$, not by $\\pi D$.',
     hint: 'Hydraulic radius = $A/P$. For a full pipe, $A = \\pi D^2/4$ and $P = \\pi D$.',
     steps: [
       {
@@ -193,7 +193,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'This requires trial and error. Manning\'s: $Q = (1.486/n)\\,A\\,R_H^{2/3}\\,S^{1/2}$. Try $y = 2.1$ ft: $A = 6 \\times 2.1 = 12.6$ ft$^2$, $P = 6 + 2(2.1) = 10.2$ ft, $R_H = 12.6/10.2 = 1.235$ ft. $Q = (1.486/0.013)(12.6)(1.235)^{2/3}(0.0009)^{1/2} = 114.3 \\times 12.6 \\times 1.151 \\times 0.03 = 49.8$ cfs. That is essentially 50 cfs, so the normal depth is approximately 2.1 ft. Choice B underestimates by using $K = 1.0$ instead of 1.486. Choice C overestimates area. Choice D assumes $R_H = y$.',
+    eli5: 'This requires trial and error. Manning\'s: $Q = (1.486/n)\\,A\\,R_H^{2/3}\\,S^{1/2}$. Try $y = 2.1$ ft: $A = 6 \\times 2.1 = 12.6$ ft$^2$, $P = 6 + 2(2.1) = 10.2$ ft, $R_H = 12.6/10.2 = 1.235$ ft. $Q = (1.486/0.013)(12.6)(1.235)^{2/3}(0.0009)^{1/2} = 114.3 \\times 12.6 \\times 1.151 \\times 0.03 = 49.8$ cfs. That is essentially 50 cfs, so the normal depth is approximately 2.1 ft. The 1.6 ft choice underestimates by using $K = 1.0$ instead of 1.486. The 3.1 ft choice overestimates area. The 4.0 ft choice assumes $R_H = y$.',
     hint: 'Set up Manning\'s equation and solve for depth by trial. Remember $K = 1.486$ for USCS.',
     steps: [
       {
@@ -355,7 +355,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Use the conjugate depth formula: $y_2 = (y_1/2)(-1 + \\sqrt{1 + 8Fr_1^2}) = (0.3/2)(-1 + \\sqrt{1 + 8 \\times 16}) = 0.15 \\times (-1 + \\sqrt{129}) = 0.15 \\times (-1 + 11.36) = 0.15 \\times 10.36 = 1.55$ m. The downstream subcritical depth is about 5 times the upstream depth. Choice A uses $Fr_1 = 3$ instead of 4. Choice C multiplies $y_1$ by $Fr_1^2$ directly. Choice D forgets the factor of 8 inside the radical.',
+    eli5: 'Use the conjugate depth formula: $y_2 = (y_1/2)(-1 + \\sqrt{1 + 8Fr_1^2}) = (0.3/2)(-1 + \\sqrt{1 + 8 \\times 16}) = 0.15 \\times (-1 + \\sqrt{129}) = 0.15 \\times (-1 + 11.36) = 0.15 \\times 10.36 = 1.55$ m. The downstream subcritical depth is about 5 times the upstream depth. The 1.20 m option corresponds to using $Fr_1 = 3$ instead of 4. The 3.60 m option comes from multiplying $y_1$ by $Fr_1^2$ directly. The 0.85 m option drops the factor of 8 inside the radical.',
     hint: 'Use $y_2 = \\frac{y_1}{2}\\left(-1 + \\sqrt{1 + 8Fr_1^2}\\right)$ and plug in directly.',
     steps: [
       {
@@ -416,7 +416,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'The specific energy diagram is a curve with two branches. As you move from subcritical (deep, slow) toward critical depth, the specific energy drops to a minimum. If the flow continues to supercritical (shallow, fast), the kinetic energy term grows rapidly and E increases again. So there is a minimum at the critical point. Choice B ignores the minimum and says it only goes up. Choice C describes a transition at constant energy, which would mean the channel changes between two alternate depths, not a smooth transition. Choice D describes the wrong direction of change.',
+    eli5: 'The specific energy diagram is a curve with two branches. As you move from subcritical (deep, slow) toward critical depth, the specific energy drops to a minimum. If the flow continues to supercritical (shallow, fast), the kinetic energy term grows rapidly and E increases again. So there is a minimum at the critical point. The "specific energy increases continuously as depth decreases" choice ignores the minimum and says it only goes up. The "specific energy stays constant while the Froude number increases past 1" choice describes a transition at constant energy, which would mean the channel changes between two alternate depths, not a smooth transition. The "depth increases past critical depth while velocity decreases" choice describes the wrong direction of change.',
     hint: 'Think about the specific energy diagram: it has an upper limb (subcritical), a lower limb (supercritical), and a minimum at critical depth.',
     steps: [
       {
@@ -471,7 +471,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'In Hazen-Williams, $C$ appears directly in the numerator: $v = k\\,C\\,R_H^{0.63}\\,S^{0.54}$. A larger $C$ means higher velocity and more flow for the same pipe and gradient. This is the opposite of Manning\'s $n$, where higher $n$ means rougher and slower. Choice A forgets that $Q = vA$, so anything that increases $v$ also increases $Q$. Choice B reverses the meaning. Choice C confuses Hazen-Williams $C$ with Manning\'s $n$ — they work in opposite directions.',
+    eli5: 'In Hazen-Williams, $C$ appears directly in the numerator: $v = k\\,C\\,R_H^{0.63}\\,S^{0.54}$. A larger $C$ means higher velocity and more flow for the same pipe and gradient. This is the opposite of Manning\'s $n$, where higher $n$ means rougher and slower. The choice claiming $C$ only affects velocity forgets that $Q = vA$, so anything that increases $v$ also increases $Q$. The choice that higher $C$ means a rougher pipe reverses the meaning. The choice equating $C$ with Manning\'s $n$ confuses Hazen-Williams $C$ with Manning\'s $n$ — they work in opposite directions.',
     hint: 'Look at where $C$ appears in the Hazen-Williams equation — is it in the numerator or denominator?',
     steps: [
       {
@@ -521,7 +521,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'For a contracted rectangular weir: $Q = C(L - 0.2H)H^{3/2}$. Effective length $= L - 0.2H = 4.0 - 0.24 = 3.76$ ft. $H^{3/2} = (1.2)^{3/2} = 1.2 \\times \\sqrt{1.2} = 1.2 \\times 1.095 = 1.315$. $Q = 3.33 \\times 3.76 \\times 1.315 = 16.5$ cfs. Choice A uses the suppressed formula $Q = CLH^{3/2} = 3.33 \\times 4.0 \\times 1.315 = 17.5$ without the contraction correction. Choice C uses $H^{5/2}$ instead of $H^{3/2}$. Choice D uses the SI coefficient $C = 1.84$.',
+    eli5: 'For a contracted rectangular weir: $Q = C(L - 0.2H)H^{3/2}$. Effective length $= L - 0.2H = 4.0 - 0.24 = 3.76$ ft. $H^{3/2} = (1.2)^{3/2} = 1.2 \\times \\sqrt{1.2} = 1.2 \\times 1.095 = 1.315$. $Q = 3.33 \\times 3.76 \\times 1.315 = 16.5$ cfs. The 17.5 cfs choice uses the suppressed formula $Q = CLH^{3/2} = 3.33 \\times 4.0 \\times 1.315 = 17.5$ without the contraction correction. The 21.9 cfs choice uses $H^{5/2}$ instead of $H^{3/2}$. The 9.1 cfs choice uses the SI coefficient $C = 1.84$.',
     hint: 'For a contracted weir: $Q = C(L - 0.2H)H^{3/2}$. Subtract the contraction correction from the crest length before multiplying.',
     steps: [
       {
@@ -584,7 +584,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'V-notch: $Q = CH^{5/2}$, so doubling $H$ multiplies $Q$ by $2^{5/2} = 4\\sqrt{2} = 5.66$. Rectangular: $Q = CLH^{3/2}$, so doubling $H$ multiplies $Q$ by $2^{3/2} = 2\\sqrt{2} = 2.83$. The V-notch is more sensitive to head changes because it has a higher exponent. This is why V-notch weirs are preferred for measuring low flows — small changes in head produce larger, more measurable changes in discharge. Choice A confuses geometry with the exponent sensitivity. Choice B ignores the nonlinear exponents. Choice D swaps the exponents.',
+    eli5: 'V-notch: $Q = CH^{5/2}$, so doubling $H$ multiplies $Q$ by $2^{5/2} = 4\\sqrt{2} = 5.66$. Rectangular: $Q = CLH^{3/2}$, so doubling $H$ multiplies $Q$ by $2^{3/2} = 2\\sqrt{2} = 2.83$. The V-notch is more sensitive to head changes because it has a higher exponent. This is why V-notch weirs are preferred for measuring low flows — small changes in head produce larger, more measurable changes in discharge. The "wider opening" choice confuses geometry with the exponent sensitivity. The "same factor / linear in H" choice ignores the nonlinear exponents. The choice giving the V-notch 2^{3/2} and the rectangular 2^{5/2} swaps the exponents.',
     hint: 'Compare the exponents on $H$ in each weir formula. How does $Q$ scale when $H$ doubles?',
     steps: [
       {
@@ -635,7 +635,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: '$D = 10$ in. $= 0.833$ ft. $A = \\pi(0.833)^2/4 = 0.545$ ft$^2$. $R_H = D/4 = 0.208$ ft. $S = h_f/L = 4.0/800 = 0.005$. $v = 1.318 \\times 130 \\times (0.208)^{0.63} \\times (0.005)^{0.54}$. $(0.208)^{0.63} = 0.372$. $(0.005)^{0.54} = 0.0572$. $v = 171.3 \\times 0.372 \\times 0.0572 = 3.65$ fps. $Q = v \\times A = 3.65 \\times 0.545 = 2.0$ cfs. Choice B uses $R_H = D/2$ instead of $D/4$, which inflates the hydraulic radius and gives a higher $Q$. Choice C accidentally uses the SI factor $k_1 = 0.849$ instead of 1.318. Choice D forgets to convert inches to feet for the diameter.',
+    eli5: '$D = 10$ in. $= 0.833$ ft. $A = \\pi(0.833)^2/4 = 0.545$ ft$^2$. $R_H = D/4 = 0.208$ ft. $S = h_f/L = 4.0/800 = 0.005$. $v = 1.318 \\times 130 \\times (0.208)^{0.63} \\times (0.005)^{0.54}$. $(0.208)^{0.63} = 0.372$. $(0.005)^{0.54} = 0.0572$. $v = 171.3 \\times 0.372 \\times 0.0572 = 3.65$ fps. $Q = v \\times A = 3.65 \\times 0.545 = 2.0$ cfs. The 3.1 cfs distractor uses $R_H = D/2$ instead of $D/4$, which inflates the hydraulic radius and gives a higher $Q$. The 1.3 cfs distractor accidentally uses the SI factor $k_1 = 0.849$ instead of 1.318. The 0.73 cfs distractor results from a low-flow error such as misreading the hydraulic-radius or area term.',
     hint: 'Convert the diameter to feet first. Then find $R_H = D/4$, $A = \\pi D^2/4$, and $S_v = h_f/L$.',
     steps: [
       {
@@ -698,7 +698,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: '$Q = CIA = 0.70 \\times 5.5 \\times 30 = 115.5$ cfs. Straight plug-and-chug with no unit conversion needed since 1 acre-in./hr is approximately 1 cfs. Choice A ignores $C$ and computes $Q = IA = 5.5 \\times 30 = 165$. Choice C divides by 2 for no valid reason. Choice D converts acres to hectares unnecessarily.',
+    eli5: '$Q = CIA = 0.70 \\times 5.5 \\times 30 = 115.5$ cfs. Straight plug-and-chug with no unit conversion needed since 1 acre-in./hr is approximately 1 cfs. The 165.0 cfs choice ignores $C$ and computes $Q = IA = 5.5 \\times 30 = 165$. The 57.8 cfs choice divides by 2 for no valid reason. The 11.6 cfs choice converts acres to hectares unnecessarily.',
     hint: 'Q = CIA. The units work out directly — no conversion factor needed.',
     steps: [
       {
@@ -744,7 +744,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'First find $S$: $S = 1000/CN - 10 = 1000/75 - 10 = 13.33 - 10 = 3.33$ in. Initial abstraction $= 0.2S = 0.667$ in. Since $P = 6.0 > 0.667$, runoff occurs. $Q = (P - 0.2S)^2/(P + 0.8S) = (6.0 - 0.667)^2/(6.0 + 2.667) = (5.333)^2/8.667 = 28.44/8.667 = 3.28$ in. Choice A uses $(P - S)$ instead of $(P - 0.2S)$ in the numerator. Choice B assumes all rainfall becomes runoff. Choice D uses $P \\times CN/100$ which is not the SCS formula.',
+    eli5: 'First find $S$: $S = 1000/CN - 10 = 1000/75 - 10 = 13.33 - 10 = 3.33$ in. Initial abstraction $= 0.2S = 0.667$ in. Since $P = 6.0 > 0.667$, runoff occurs. $Q = (P - 0.2S)^2/(P + 0.8S) = (6.0 - 0.667)^2/(6.0 + 2.667) = (5.333)^2/8.667 = 28.44/8.667 = 3.28$ in. The 2.67 in. choice uses $(P - S)$ instead of $(P - 0.2S)$ in the numerator. The 6.00 in. choice assumes all rainfall becomes runoff. The 4.50 in. choice uses $P \\times CN/100$ which is not the SCS formula.',
     hint: 'First compute $S = 1000/CN - 10$, then check that $P > 0.2S$, then plug into $Q = (P - 0.2S)^2/(P + 0.8S)$.',
     steps: [
       {
@@ -799,7 +799,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$S = 1000/CN - 10$. For $CN = 98$: $S = 1000/98 - 10 = 0.20$ in. (almost no retention). For $CN = 55$: $S = 1000/55 - 10 = 8.18$ in. (lots of retention). Higher $CN$ means a more impervious surface, so less water is retained in the soil and more becomes runoff. Choice A reverses the relationship. Choice C ignores that $S$ is computed directly from $CN$. Choice D confuses $S$ with storm parameters.',
+    eli5: '$S = 1000/CN - 10$. For $CN = 98$: $S = 1000/98 - 10 = 0.20$ in. (almost no retention). For $CN = 55$: $S = 1000/55 - 10 = 8.18$ in. (lots of retention). Higher $CN$ means a more impervious surface, so less water is retained in the soil and more becomes runoff. The choice claiming higher CN gives higher S reverses the relationship. The choice claiming S depends only on soil type ignores that $S$ is computed directly from $CN$. The choice claiming both have the same S because S varies only with storm duration confuses $S$ with storm parameters.',
     hint: 'Look at the formula $S = 1000/CN - 10$. What happens to $S$ when CN increases toward 100?',
     steps: [
       {
@@ -849,7 +849,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'With $P = 0$ (rain falls on the watershed, not directly counted here), $Q_g = 0$, $E_s = 0$, $T_s = 0$, and $I = 0$, the balance simplifies to $Q_{in} - Q_{out} = \\Delta S$. Since $Q_{in} > Q_{out}$, $\\Delta S > 0$, meaning storage is increasing. The pond is filling up, which is exactly the purpose of detention — temporarily store peak flows to reduce downstream flooding. Choice B is wrong because although water is leaving, more is entering. Choice C confuses mass balance with zero change. Choice D ignores that inflow/outflow are the dominant terms for a pond.',
+    eli5: 'With $P = 0$ (rain falls on the watershed, not directly counted here), $Q_g = 0$, $E_s = 0$, $T_s = 0$, and $I = 0$, the balance simplifies to $Q_{in} - Q_{out} = \\Delta S$. Since $Q_{in} > Q_{out}$, $\\Delta S > 0$, meaning storage is increasing. The pond is filling up, which is exactly the purpose of detention — temporarily store peak flows to reduce downstream flooding. The "storage is decreasing" choice is wrong because although water is leaving, more is entering. The "storage is unchanged" choice confuses mass balance with zero change. The "storage depends on precipitation" choice ignores that inflow/outflow are the dominant terms for a pond.',
     hint: 'Simplify the mass balance by setting all zero terms to zero. What sign does $\\Delta S_s$ have when $Q_{in} > Q_{out}$?',
     steps: [
       {
@@ -900,7 +900,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'A unit hydrograph is defined for a specific storm duration. A 1-hour UH gives the response to 1 inch of excess rainfall applied over 1 hour. For a 2-hour storm, you need a 2-hour UH, which has a different shape (typically a lower peak and longer time base). You can derive the 2-hour UH from the 1-hour UH using S-curve or superposition methods, but you cannot just reuse the 1-hour UH. Choice A confuses scaling by rainfall depth with changing duration. Choice C ignores the duration dependency. Choice D inverts the relationship.',
+    eli5: 'A unit hydrograph is defined for a specific storm duration. A 1-hour UH gives the response to 1 inch of excess rainfall applied over 1 hour. For a 2-hour storm, you need a 2-hour UH, which has a different shape (typically a lower peak and longer time base). You can derive the 2-hour UH from the 1-hour UH using S-curve or superposition methods, but you cannot just reuse the 1-hour UH. The "peak doubles to 800 cfs" choice confuses scaling by rainfall depth with changing duration. The "peak stays at 400 cfs" choice ignores the duration dependency. The "time base halves to 3 hours" choice inverts the relationship.',
     hint: 'A unit hydrograph is defined for a specific rainfall duration. Changing the duration requires a new UH.',
     steps: [
       {
@@ -950,7 +950,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The unit hydrograph represents the response to 1 inch of excess rainfall. To get the hydrograph for 2.5 inches, multiply every ordinate by 2.5. Peak $= 300 \\times 2.5 = 750$ cfs. The time axis does not change — only the magnitudes scale. Choice A divides instead of multiplying ($300/2.5 = 120$). Choice B does not scale at all (assumes 1 inch). Choice D multiplies by 2 instead of 2.5.',
+    eli5: 'The unit hydrograph represents the response to 1 inch of excess rainfall. To get the hydrograph for 2.5 inches, multiply every ordinate by 2.5. Peak $= 300 \\times 2.5 = 750$ cfs. The time axis does not change — only the magnitudes scale. The 120 cfs choice divides instead of multiplying ($300/2.5 = 120$). The 300 cfs choice does not scale at all (assumes 1 inch). The 600 cfs choice multiplies by 2 instead of 2.5.',
     hint: 'The unit hydrograph gives the response to 1 inch of excess rainfall. Scale linearly for other amounts.',
     steps: [
       {
@@ -997,7 +997,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'At duration = t_c, the entire watershed contributes flow to the outlet simultaneously, which maximizes Q. If the storm is shorter than t_c, parts of the watershed that are farther away have not had time to contribute their runoff to the outlet. Even though a shorter storm has higher intensity (from the IDF curve), the reduced contributing area more than offsets it. The Rational Method specifically uses duration = t_c to capture the maximum peak. Choice A is partially true (shorter storms are more intense) but misses that not all area contributes. Choice C ignores the time dimension. Choice D has no physical basis.',
+    eli5: 'At duration = t_c, the entire watershed contributes flow to the outlet simultaneously, which maximizes Q. If the storm is shorter than t_c, parts of the watershed that are farther away have not had time to contribute their runoff to the outlet. Even though a shorter storm has higher intensity (from the IDF curve), the reduced contributing area more than offsets it. The Rational Method specifically uses duration = t_c to capture the maximum peak. The choice that Q increases is partially true (shorter storms are more intense) but misses that not all area contributes. The choice that Q stays the same ignores the time dimension. The choice that Q doubles for every halving of duration has no physical basis.',
     hint: 'Think about what $t_c$ represents — the travel time from the farthest point. What happens if the storm ends before that water arrives?',
     steps: [
       {
@@ -1047,7 +1047,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: '$I - O = \\Delta S/\\Delta t$, so $\\Delta S/\\Delta t = 120 - 45 = 75$ cfs $= 75$ ft$^3$/s. Over 2 hours: $\\Delta S = 75 \\times (2 \\times 3600) = 75 \\times 7200 = 540{,}000$ ft$^3$. You must convert hours to seconds because the flow rates are in cfs (ft$^3$ per second). Choice B gives the storage rate (75 cfs) but not the accumulated volume. Choice C uses $I \\times t$ without subtracting outflow ($120 \\times 7200 = 864{,}000$). Choice D uses $O \\times t$ ($45 \\times 7200 = 324{,}000$).',
+    eli5: '$I - O = \\Delta S/\\Delta t$, so $\\Delta S/\\Delta t = 120 - 45 = 75$ cfs $= 75$ ft$^3$/s. Over 2 hours: $\\Delta S = 75 \\times (2 \\times 3600) = 75 \\times 7200 = 540{,}000$ ft$^3$. You must convert hours to seconds because the flow rates are in cfs (ft$^3$ per second). The 75 cfs choice gives the storage rate but not the accumulated volume. The 864,000 ft$^3$ choice uses $I \\times t$ without subtracting outflow ($120 \\times 7200 = 864{,}000$). The 324,000 ft$^3$ choice uses $O \\times t$ ($45 \\times 7200 = 324{,}000$).',
     hint: 'Use $I - O = \\Delta S/\\Delta t$. Find the net storage rate first, then multiply by time (convert hours to seconds).',
     steps: [
       {
@@ -1098,7 +1098,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Darcy velocity: $q = Ki = 2 \\times 10^{-4} \\times 0.01 = 2 \\times 10^{-6}$ m/s. That is what the technician reported. But the actual seepage velocity is $v = q/n = 2 \\times 10^{-6}/0.25 = 8 \\times 10^{-6}$ m/s, which is 4 times larger. The Darcy velocity treats the entire cross-section as if water flows through all of it, but water only moves through the pore spaces. Dividing by porosity corrects for this. Choice A describes multiplying by $n$, which would give an even smaller value ($5 \\times 10^{-7}$). Choice C has no basis. Choice D is wrong because $2 \\times 10^{-6}$ is the Darcy velocity, not the seepage velocity.',
+    eli5: 'Darcy velocity: $q = Ki = 2 \\times 10^{-4} \\times 0.01 = 2 \\times 10^{-6}$ m/s. That is what the technician reported. But the actual seepage velocity is $v = q/n = 2 \\times 10^{-6}/0.25 = 8 \\times 10^{-6}$ m/s, which is 4 times larger. The Darcy velocity treats the entire cross-section as if water flows through all of it, but water only moves through the pore spaces. Dividing by porosity corrects for this. The "multiplied by porosity" choice describes multiplying by $n$, which would give an even smaller value ($5 \\times 10^{-7}$). The "forgot to square the gradient" choice has no basis. The "no error" choice is wrong because $2 \\times 10^{-6}$ is the Darcy velocity, not the seepage velocity.',
     hint: 'Compute both $q = Ki$ and $v = q/n$. Which one matches the reported value?',
     steps: [
       {
@@ -1148,7 +1148,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Thiem equation for a confined aquifer: $Q = 2\\pi T(h_2 - h_1)/\\ln(r_2/r_1)$. $Q = 2\\pi(0.002)(50 - 42)/\\ln(150/0.3) = 2\\pi(0.002)(8)/\\ln(500) = 0.1005/6.215 = 0.016$ m$^3$/s. Choice A uses $h^2$ differences (Dupuit formula for unconfined) instead of linear $h$. Choice B uses $\\pi$ instead of $2\\pi$ (missing the factor of 2). Choice D uses log base 10 instead of natural log.',
+    eli5: 'Thiem equation for a confined aquifer: $Q = 2\\pi T(h_2 - h_1)/\\ln(r_2/r_1)$. $Q = 2\\pi(0.002)(50 - 42)/\\ln(150/0.3) = 2\\pi(0.002)(8)/\\ln(500) = 0.1005/6.215 = 0.016$ m$^3$/s. The 0.032 m$^3$/s choice uses $h^2$ differences (Dupuit formula for unconfined) instead of linear $h$. The 0.008 m$^3$/s choice uses $\\pi$ instead of $2\\pi$ (missing the factor of 2). The 0.0036 m$^3$/s choice uses log base 10 instead of natural log.',
     hint: 'For a confined aquifer, use Thiem: $Q = 2\\pi T(h_2 - h_1)/\\ln(r_2/r_1)$. Use linear heads (not squared).',
     steps: [
       {
@@ -1217,7 +1217,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Dupuit uses $h^2$ differences: $h_2^2 - h_1^2 = (h_2 + h_1)(h_2 - h_1)$. The Thiem equation uses $h_2 - h_1$. The Dupuit formula effectively multiplies the head difference by the average saturated thickness $(h_2 + h_1)$, which accounts for the fact that the flow area decreases as the water table drops near the well. Using linear $h$ underestimates this effect, giving a lower $Q$. The two formulas only agree when drawdown is very small compared to the total saturated thickness. Choice A reverses the direction. Choice C is wrong for unconfined aquifers. Choice D has no physical basis.',
+    eli5: 'Dupuit uses $h^2$ differences: $h_2^2 - h_1^2 = (h_2 + h_1)(h_2 - h_1)$. The Thiem equation uses $h_2 - h_1$. The Dupuit formula effectively multiplies the head difference by the sum of the heads $(h_2 + h_1)$ (twice the average saturated thickness), which accounts for the fact that the flow area decreases as the water table drops near the well. Using linear $h$ underestimates this effect, giving a lower $Q$. The two formulas only agree when drawdown is very small compared to the total saturated thickness. The "too high" choice reverses the direction. The "both formulas give identical results" choice is wrong for unconfined aquifers. The "depends only on whether $r_1 < r_2$" choice has no physical basis.',
     hint: 'Factor $h_2^2 - h_1^2 = (h_2 + h_1)(h_2 - h_1)$. Compare this to just $(h_2 - h_1)$.',
     steps: [
       {
@@ -1267,7 +1267,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'First find the Darcy velocity: $q = Ki = 8 \\times 10^{-4} \\times 0.015 = 1.2 \\times 10^{-5}$ m/s. Then the seepage velocity: $v = q/n = 1.2 \\times 10^{-5}/0.35 = 3.43 \\times 10^{-5}$ m/s. Travel time $= \\text{distance}/\\text{velocity} = 630/3.43 \\times 10^{-5} = 1.837 \\times 10^7$ seconds. Convert to hours: $1.837 \\times 10^7/3600 = 5{,}100$ hours (about 213 days). Contaminants travel at the seepage velocity, not the Darcy velocity. Choice B uses the Darcy velocity (not dividing by porosity), giving 14,600 hours — about 3 times too long. Choice C divides by 10 instead of converting properly (likely a decimal error). Choice D reports the raw seconds value without converting to hours.',
+    eli5: 'First find the Darcy velocity: $q = Ki = 8 \\times 10^{-4} \\times 0.015 = 1.2 \\times 10^{-5}$ m/s. Then the seepage velocity: $v = q/n = 1.2 \\times 10^{-5}/0.35 = 3.43 \\times 10^{-5}$ m/s. Travel time $= \\text{distance}/\\text{velocity} = 630/3.43 \\times 10^{-5} = 1.837 \\times 10^7$ seconds. Convert to hours: $1.837 \\times 10^7/3600 = 5{,}100$ hours (about 213 days). Contaminants travel at the seepage velocity, not the Darcy velocity. The 14,600 hours option uses the Darcy velocity (not dividing by porosity) — about 3 times too long. The 1,460 hours option divides by 10 instead of converting properly (likely a decimal error). The 18,400 hours option reports the raw seconds value (1.837e7) with the thousands dropped, never converting to hours.',
     hint: 'Find the seepage velocity ($v = Ki/n$), then compute $t = \\text{distance}/v$. Convert seconds to hours.',
     steps: [
       {
@@ -1322,7 +1322,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: '$BOD_3 = L_0(1 - e^{-kt}) = 250(1 - e^{-0.23 \\times 3}) = 250(1 - e^{-0.69}) = 250(1 - 0.502) = 250 \\times 0.498 = 125$ mg/L. About half the ultimate BOD has been exerted by day 3. Choice A gives the ultimate BOD, not the 3-day value. Choice C is roughly $BOD_1$ (one day exertion). Choice D is the $BOD_5$ value, not $BOD_3$.',
+    eli5: '$BOD_3 = L_0(1 - e^{-kt}) = 250(1 - e^{-0.23 \\times 3}) = 250(1 - e^{-0.69}) = 250(1 - 0.502) = 250 \\times 0.498 = 125$ mg/L. About half the ultimate BOD has been exerted by day 3. The 250 mg/L choice gives the ultimate BOD, not the 3-day value. The 63 mg/L choice is roughly $BOD_1$ (one-day exertion). The 188 mg/L choice is closer to the $BOD_5$ range, not $BOD_3$.',
     hint: 'Use $BOD_t = L_0(1 - e^{-kt})$ with $t = 3$ days.',
     steps: [
       {
@@ -1372,7 +1372,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The DO sag curve has two competing processes: deoxygenation (organisms consuming oxygen as they decompose BOD) and reaeration (atmospheric oxygen dissolving into the water). Upstream of the critical point, deoxygenation dominates and DO drops. At the critical point, the two rates are exactly equal — DO stops dropping. Downstream of it, reaeration dominates and DO recovers. Choice A is wrong because significant BOD may remain at the critical point. Choice B is wrong because DO rarely reaches zero in practice. Choice D confuses velocity with the oxygen balance.',
+    eli5: 'The DO sag curve has two competing processes: deoxygenation (organisms consuming oxygen as they decompose BOD) and reaeration (atmospheric oxygen dissolving into the water). Upstream of the critical point, deoxygenation dominates and DO drops. At the critical point, the two rates are exactly equal — DO stops dropping. Downstream of it, reaeration dominates and DO recovers. The "BOD completely consumed" choice is wrong because significant BOD may remain at the critical point. The "DO reaches zero" choice is wrong because DO rarely reaches zero in practice. The "minimum stream velocity" choice confuses velocity with the oxygen balance.',
     hint: 'The oxygen deficit is increasing when deoxygenation exceeds reaeration, and decreasing when reaeration exceeds deoxygenation. The minimum DO is where they balance.',
     steps: [
       {
@@ -1422,7 +1422,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Rearrange: $L_0 = BOD_5/(1 - e^{-kt}) = 150/(1 - e^{-0.15 \\times 5}) = 150/(1 - e^{-0.75}) = 150/(1 - 0.472) = 150/0.528 = 284$ mg/L. At this slower decay rate, the 5-day test captures only about 53% of the ultimate BOD, so $L_0$ is nearly double the $BOD_5$. Choice A assumes $BOD_5 = L_0$. Choice C uses $L_0 = 1.5 \\times BOD_5$ (a rough approximation, but not correct here). Choice D multiplies by 5.',
+    eli5: 'Rearrange: $L_0 = BOD_5/(1 - e^{-kt}) = 150/(1 - e^{-0.15 \\times 5}) = 150/(1 - e^{-0.75}) = 150/(1 - 0.472) = 150/0.528 = 284$ mg/L. At this slower decay rate, the 5-day test captures only about 53% of the ultimate BOD, so $L_0$ is nearly double the $BOD_5$. The 150 mg/L choice assumes $BOD_5 = L_0$. The 225 mg/L choice uses $L_0 = 1.5 \\times BOD_5$ (a rough approximation, but not correct here). The 750 mg/L choice multiplies by 5.',
     hint: 'Rearrange $BOD_t = L_0(1 - e^{-kt})$ to solve for $L_0$.',
     steps: [
       {
@@ -1473,7 +1473,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: '$k_{30} = k_{20} \\times \\theta^{(T-20)} = 0.20 \\times 1.056^{10} = 0.20 \\times 1.724 = 0.345$, approximately $0.34$ day$^{-1}$. Higher temperature speeds up microbial metabolism, so organic matter decomposes faster and the BOD rate constant increases. While it is true that warmer water holds less DO (which affects the oxygen balance), the rate constant itself increases with temperature. Choice B confuses the effect on DO saturation with the effect on $k$. Choice C ignores temperature dependence entirely. Choice D overestimates by using a larger $\\theta$ value or miscalculating the power.',
+    eli5: '$k_{30} = k_{20} \\times \\theta^{(T-20)} = 0.20 \\times 1.056^{10} = 0.20 \\times 1.724 = 0.345$, approximately $0.34$ day$^{-1}$. Higher temperature speeds up microbial metabolism, so organic matter decomposes faster and the BOD rate constant increases. While it is true that warmer water holds less DO (which affects the oxygen balance), the rate constant itself increases with temperature. The "decreases to about 0.12" choice confuses the effect on DO saturation with the effect on $k$. The "stays at 0.20" choice ignores temperature dependence entirely. The "increases to about 0.40" choice overestimates by using a larger $\\theta$ value or miscalculating the power.',
     hint: 'Plug in $T = 30$ to get the exponent $(30 - 20) = 10$. Then compute $1.056^{10}$.',
     steps: [
       {
@@ -1524,7 +1524,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'Overflow rate $= Q/A$. $A = \\pi(50)^2/4 = 1{,}963$ ft$^2$. $Q = 1.5$ MGD $= 1{,}500{,}000$ gpd. $v_o = 1{,}500{,}000/1{,}963 = 764$ gpd/ft$^2$. This falls within the typical range for secondary clarifiers (400--800 gpd/ft$^2$). Choice A uses the radius instead of diameter. Choice B divides by twice the area (uses $D$ instead of $D^2$ incorrectly). Choice C forgets to square the diameter in the area calculation.',
+    eli5: 'Overflow rate $= Q/A$. $A = \\pi(50)^2/4 = 1{,}963$ ft$^2$. $Q = 1.5$ MGD $= 1{,}500{,}000$ gpd. $v_o = 1{,}500{,}000/1{,}963 = 764$ gpd/ft$^2$. This falls within the typical range for secondary clarifiers (400--800 gpd/ft$^2$). The 1{,}528 distractor divides $Q$ by half the surface area. The 382 distractor halves the correct overflow rate. The 30{,}000 distractor forgets to square the diameter in the area formula (uses $A \\propto D$ instead of $D^2$).',
     hint: 'Overflow rate = $Q/A_{surface}$. Convert MGD to gpd and compute the circular area.',
     steps: [
       {
@@ -1575,7 +1575,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The overflow rate acts as a threshold: any particle with $v_s > v_o$ will settle to the bottom before being carried out, so it is completely removed. Particle A: $v_s = 800 > 600$, so it settles faster than the upward flow velocity and is fully captured. Particle B: $v_s = 400 < 600$, so some of these particles will be carried over the weir. The fraction removed is roughly $v_s/v_o = 400/600 = 67\\%$. Choice A ignores the overflow rate criterion. Choice C misunderstands what overflow rate means. Choice D reverses the comparison.',
+    eli5: 'The overflow rate acts as a threshold: any particle with $v_s > v_o$ will settle to the bottom before being carried out, so it is completely removed. Particle A: $v_s = 800 > 600$, so it settles faster than the upward flow velocity and is fully captured. Particle B: $v_s = 400 < 600$, so some of these particles will be carried over the weir. The fraction removed is roughly $v_s/v_o = 400/600 = 67\\%$. The "both completely removed" choice ignores the overflow rate criterion. The "neither removed" choice misunderstands what overflow rate means. The "B removed, A partial" choice reverses the comparison.',
     hint: 'A particle is completely removed if its settling velocity exceeds the overflow rate ($v_s > v_o$).',
     steps: [
       {
@@ -1625,7 +1625,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$F{:}M = Q \\times S_0/(V \\times X_A) = (5{,}000 \\times 180)/(3{,}000 \\times 2{,}500) = 900{,}000/7{,}500{,}000 = 0.12$ day$^{-1}$. The mg/L units cancel between $S_0$ and $X_A$, leaving m$^3$/day divided by m$^3$, which gives day$^{-1}$. This F:M is below the conventional range (0.2--0.4), suggesting extended aeration. Choice A inverts some terms. Choice B divides only by $V$ (ignores $X_A$). Choice D squares the volume in the denominator.',
+    eli5: '$F{:}M = Q \\times S_0/(V \\times X_A) = (5{,}000 \\times 180)/(3{,}000 \\times 2{,}500) = 900{,}000/7{,}500{,}000 = 0.12$ day$^{-1}$. The mg/L units cancel between $S_0$ and $X_A$, leaving m$^3$/day divided by m$^3$, which gives day$^{-1}$. This F:M is below the conventional range (0.2--0.4), suggesting extended aeration. The $1.20\\text{ day}^{-1}$ choice inverts some terms. The $0.30\\text{ day}^{-1}$ choice divides only by $V$ (ignores $X_A$). The $0.036\\text{ day}^{-1}$ choice squares the volume in the denominator.',
     hint: 'F:M = $(Q \\times S_0)/(V \\times X_A)$. Make sure all units are consistent.',
     steps: [
       {
@@ -1676,7 +1676,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'SRT (solids residence time) measures how long bacteria stay in the system — typically 4--15 days for conventional activated sludge. HRT (hydraulic residence time) measures how long water stays in the aeration basin — typically 4--8 hours. SRT is always much longer than HRT because we recycle the sludge (solids) back to the aeration basin, keeping the bacteria in the system far longer than the water. The reported values ($\\theta_c = 8$ hr, $\\theta = 10$ days) are clearly swapped. Choice B is wrong because rapid wasting still gives SRT of at least a few days. Choice C ignores the physical constraint that sludge recycle makes SRT $>$ HRT. Choice D is wrong because they are never equal in practice.',
+    eli5: 'SRT (solids residence time) measures how long bacteria stay in the system — typically 4--15 days for conventional activated sludge. HRT (hydraulic residence time) measures how long water stays in the aeration basin — typically 4--8 hours. SRT is always much longer than HRT because we recycle the sludge (solids) back to the aeration basin, keeping the bacteria in the system far longer than the water. The reported values ($\\theta_c = 8$ hr, $\\theta = 10$ days) are clearly swapped. The "Yes \u2014 SRT can be shorter than HRT if the sludge is wasted rapidly" choice is wrong because rapid wasting still gives SRT of at least a few days. The "SRT and HRT are independent parameters" choice ignores the physical constraint that sludge recycle makes SRT $>$ HRT. The "SRT and HRT must always be equal" choice is wrong because they are never equal in practice.',
     hint: 'Think about typical values: SRT is in days (4-15), HRT is in hours (4-8). Which parameter should be larger?',
     steps: [
       {
@@ -1715,7 +1715,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Filtration rate = Q/A_plan. Area = 24 × 12 = 288 ft². v_s = 1,728/288 = 6.0 gpm/ft², within the typical rapid-sand range of 2--10 gpm/ft². Choice B halves the area. Choice C inverts the ratio. Choice D drops a zero.',
+    eli5: 'Filtration rate = Q/A_plan. Area = 24 × 12 = 288 ft². v_s = 1,728/288 = 6.0 gpm/ft², within the typical rapid-sand range of 2--10 gpm/ft². The 3.0 gpm/ft\u00b2 choice doubles the area (1,728/576). The 0.17 gpm/ft\u00b2 choice inverts the ratio (288/1,728). The 60 gpm/ft\u00b2 choice drops a zero.',
     hint: 'Filtration rate = flow / plan area (length × width).',
     steps: [
       { text: 'Plan area:', latex: 'A_{plan} = 24 \\times 12 = 288\\text{ ft}^2' },
@@ -1744,7 +1744,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Dose = demand + residual = 1.8 + 0.5 = 2.3 mg/L. Feed rate = 2.3 × 2.0 × 8.34 = 38.4 lb/day. Choice B uses a 2.3 × 2.0 product without the 8.34 factor scaled wrong. Choice C halves it. Choice D uses only the demand (1.8) × flow × 8.34.',
+    eli5: 'Dose = demand + residual = 1.8 + 0.5 = 2.3 mg/L. Feed rate = 2.3 × 2.0 × 8.34 = 38.4 lb/day. The 30.0 lb/day choice mis-scales the product without the proper 8.34 factor. The 15.0 lb/day choice roughly halves it. The 21.7 lb/day choice uses only the demand (1.8) × flow × 8.34, forgetting the 0.5 residual.',
     hint: 'Dose = demand + residual, then lb/day = dose × MGD × 8.34.',
     steps: [
       { text: 'Applied dose:', latex: '\\text{Dose} = 1.8 + 0.5 = 2.3\\text{ mg/L}' },
@@ -1773,7 +1773,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Convert each ion by 50/EW. Ca: 70 × 2.5 = 175. Mg: 20 × (50/12.15) = 20 × 4.12 = 82. Total = 175 + 82 = 257 mg/L as CaCO₃ (very hard). Choice B adds raw ion values (70 + 20). Choice C counts only calcium. Choice D is a partial conversion.',
+    eli5: 'Convert each ion by 50/EW. Ca: 70 × 2.5 = 175. Mg: 20 × (50/12.15) = 20 × 4.12 = 82. Total = 175 + 82 = 257 mg/L as CaCO₃ (very hard). The 90 mg/L option adds raw ion values (70 + 20). The 175 mg/L option counts only calcium. The 200 mg/L option is a partial conversion.',
     hint: 'Multiply each ion by 50/EW (Ca → 2.5, Mg → 4.12), then add.',
     steps: [
       { text: 'Calcium as CaCO₃:', latex: '70 \\times 2.5 = 175' },
@@ -1803,7 +1803,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Fluid power = γQH = 9,810 × 0.08 × 25 = 19,620 W ≈ 19.6 kW. Brake power = 19.6/0.80 = 24.5 kW. Choice B is fluid power (no efficiency). Choice C multiplies by 0.80 instead of dividing. Choice D applies the efficiency twice.',
+    eli5: 'Fluid power = γQH = 9,810 × 0.08 × 25 = 19,620 W ≈ 19.6 kW. Brake power = 19.6/0.80 = 24.5 kW. The 19.6 kW option is fluid power (no efficiency applied). The 15.7 kW option multiplies by 0.80 instead of dividing. The 30.7 kW option applies the efficiency twice.',
     hint: 'Fluid power = γQH; brake power = fluid power / η.',
     steps: [
       { text: 'Fluid power:', latex: '\\gamma Q H = 9{,}810 \\times 0.08 \\times 25 = 19{,}620\\text{ W}' },

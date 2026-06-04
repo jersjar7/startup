@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'For a plane frame: compare 3m + r to 3j + c. Reactions: pin = 2 components, fixed = 3 components, so r = 2 + 3 = 5. Then 3m + r = 3(3) + 5 = 14, and 3j + c = 3(4) + 0 = 12. Since 14 > 12, the frame is indeterminate, and the degree = 14 \u2013 12 = 2. That means you need two compatibility equations beyond equilibrium to solve for all unknowns. Choice A (determinate) would require 3m + r = 3j + c exactly. Choice D (3 degrees) would happen if both supports were fixed (r = 6, giving 3(3)+6 = 15 vs 12 = 3 degrees).',
+      eli5: 'For a plane frame: compare 3m + r to 3j + c. Reactions: pin = 2 components, fixed = 3 components, so r = 2 + 3 = 5. Then 3m + r = 3(3) + 5 = 14, and 3j + c = 3(4) + 0 = 12. Since 14 > 12, the frame is indeterminate, and the degree = 14 \u2013 12 = 2. That means you need two compatibility equations beyond equilibrium to solve for all unknowns. The "0 (determinate)" choice would require 3m + r = 3j + c exactly. The "3 degrees" choice would happen if both supports were fixed (r = 6, giving 3(3)+6 = 15 vs 12 = 3 degrees).',
       hint: 'Count reactions: pin gives 2, fixed gives 3. Then use the frame formula 3m + r vs 3j + c.',
       steps: [
         { text: 'Count reactions:', latex: 'r = 2 \\text{ (pin)} + 3 \\text{ (fixed)} = 5' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Numerically: m + r = 9 + 3 = 12, and 2j = 2(6) = 12. The equation says determinate. But the equation is a necessary condition, not sufficient. If all three reaction components are parallel (all vertical), the structure cannot resist any horizontal force \u2014 it slides sideways. This is called geometric instability. The truss is unstable even though the count checks out. Always verify that reactions are not all parallel or concurrent. Choice B assumes the count alone guarantees stability \u2014 it does not.',
+      eli5: 'Numerically: m + r = 9 + 3 = 12, and 2j = 2(6) = 12. The equation says determinate. But the equation is a necessary condition, not sufficient. If all three reaction components are parallel (all vertical), the structure cannot resist any horizontal force \u2014 it slides sideways. This is called geometric instability. The truss is unstable even though the count checks out. Always verify that reactions are not all parallel or concurrent. The "stable and determinate" choice assumes the count alone guarantees stability \u2014 it does not.',
       hint: 'The determinacy equation is necessary but not sufficient. What happens if you apply a horizontal force?',
       steps: [
         { text: 'Check the count:', latex: 'm + r = 9 + 3 = 12 = 2j' },

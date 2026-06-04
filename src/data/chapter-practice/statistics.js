@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'The mode is simply the value that appears most often. The value 2.1 shows up three times, more than any other, so it is the mode. Choice A (2.8) is the median once the data is sorted, not the mode. Choice C (2.84) is the arithmetic mean of the seven values, not the mode. Choice D (3.4) appears only twice, fewer than the three occurrences of 2.1.',
+    eli5: 'The mode is simply the value that appears most often. The value 2.1 shows up three times, more than any other, so it is the mode. The choice 2.8 mm is the median once the data is sorted, not the mode. The choice 2.84 mm is the arithmetic mean of the seven values, not the mode. The choice 3.4 mm appears only twice, fewer than the three occurrences of 2.1.',
     hint: 'Count how many times each distinct value appears; the mode occurs most frequently.',
     steps: [
       { text: 'Tally the occurrences of each value:', latex: '2.1 \\rightarrow 3,\\quad 3.4 \\rightarrow 2,\\quad 2.8 \\rightarrow 1,\\quad 4.0 \\rightarrow 1' },
@@ -42,7 +42,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Because the four lifts are stated to be the whole population, divide the sum of squared deviations by $N = 4$, not $n - 1 = 3$. The mean is 51. The squared deviations sum to 20, so the variance is $20/4 = 5$ and the standard deviation is $\\sqrt{5} = 2.24$. Choice A (2.58) is the sample standard deviation, which divides by $n - 1 = 3$ — wrong here because the problem says population. Choice C (5.0) is the variance, not the standard deviation; the square root was skipped. Choice D (51.0) is the mean, not a measure of spread.',
+    eli5: 'Because the four lifts are stated to be the whole population, divide the sum of squared deviations by $N = 4$, not $n - 1 = 3$. The mean is 51. The squared deviations sum to 20, so the variance is $20/4 = 5$ and the standard deviation is $\\sqrt{5} = 2.24$. The 2.58 mm choice is the sample standard deviation, which divides by $n - 1 = 3$ — wrong here because the problem says population. The 5.0 mm choice is the variance, not the standard deviation; the square root was skipped. The 51.0 mm choice is the mean, not a measure of spread.',
     hint: 'The data is a full population, so divide the squared deviations by $N$, then take the square root.',
     steps: [
       { text: 'Compute the mean:', latex: '\\mu = \\frac{50 + 54 + 48 + 52}{4} = \\frac{204}{4} = 51' },
@@ -73,7 +73,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The coefficient of determination $R^2 = r^2 = 0.95^2 = 0.9025$ is the fraction of variation explained. The fraction NOT explained is the complement: $1 - 0.9025 = 0.0975$. Choice A (0.05) is $1 - r$, mistakenly using the complement of the correlation coefficient instead of $R^2$. Choice C (0.9025) is the fraction explained, not the unexplained portion. Choice D (0.20) does not correspond to any correct step; it resembles a guess from misreading the slope.',
+    eli5: 'The coefficient of determination $R^2 = r^2 = 0.95^2 = 0.9025$ is the fraction of variation explained. The fraction NOT explained is the complement: $1 - 0.9025 = 0.0975$. The choice $0.05$ is $1 - r$, mistakenly using the complement of the correlation coefficient instead of $R^2$. The choice $0.9025$ is the fraction explained, not the unexplained portion. The choice $0.20$ does not correspond to any correct step; it resembles a guess from misreading the slope.',
     hint: 'Unexplained variation is $1 - R^2$, and $R^2 = r^2$. Do not confuse it with $1 - r$.',
     steps: [
       { text: 'Compute the coefficient of determination:', latex: 'R^2 = r^2 = (0.95)^2 = 0.9025' },
@@ -102,7 +102,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Here you are given $\\hat{y}$ and must solve for $x$ by inverting the line: $x = (\\hat{y} - a)/b = (1455 - (-120))/450 = 1575/450 = 3.50$. Choice B (2.97) drops the intercept sign and computes $(1455 - 120)/450$. Choice C (3.23) ignores the intercept entirely, using $1455/450$. Choice D multiplies instead of dividing by the slope, a setup error.',
+    eli5: 'Here you are given $\\hat{y}$ and must solve for $x$ by inverting the line: $x = (\\hat{y} - a)/b = (1455 - (-120))/450 = 1575/450 = 3.50$. The 2.97 ft option drops the intercept sign and computes $(1455 - 120)/450$. The 3.23 ft option ignores the intercept entirely, using $1455/450$. The 654,630 ft option multiplies instead of dividing by the slope, a setup error.',
     hint: 'You know $\\hat{y}$; rearrange $\\hat{y} = a + bx$ to solve for $x$. Watch the negative intercept.',
     steps: [
       { text: 'Start from the regression line and solve for $x$:', latex: 'x = \\frac{\\hat{y} - a}{b}' },
@@ -132,7 +132,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Ranking the three bonuses means order matters, so use permutations: $P(7,3) = 7!/(7-3)! = 7 \\times 6 \\times 5 = 210$. Choice A (35) is the combination $C(7,3)$, which ignores ranking. Choice C (343) is $7^3$, treating each award as an independent pick with replacement. Choice D (5,040) is $7!$, arranging all seven leaders rather than just three.',
+    eli5: 'Ranking the three bonuses means order matters, so use permutations: $P(7,3) = 7!/(7-3)! = 7 \\times 6 \\times 5 = 210$. The choice 35 is the combination $C(7,3)$, which ignores ranking. The choice 343 is $7^3$, treating each award as an independent pick with replacement. The choice 5,040 is $7!$, arranging all seven leaders rather than just three.',
     hint: 'Does the order of the three awards matter? If so, use permutations, not combinations.',
     steps: [
       { text: 'Order matters (ranked bonuses), so use permutations:', latex: 'P(7, 3) = \\frac{7!}{(7-3)!} = \\frac{7!}{4!}' },
@@ -161,7 +161,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'For a binomial variable the variance is $npq$ and the standard deviation is its square root. Here $n = 80$, $p = 0.10$, $q = 0.90$, so $\\sigma^2 = 80(0.10)(0.90) = 7.2$ and $\\sigma = \\sqrt{7.2} = 2.68$. Choice A (7.2) is the variance, not the standard deviation; the square root was skipped. Choice C (8.0) is the mean $np = 80(0.10)$, not the spread. Choice D (2.83) is $\\sqrt{np} = \\sqrt{8}$, which forgets to multiply by $q$.',
+    eli5: 'For a binomial variable the variance is $npq$ and the standard deviation is its square root. Here $n = 80$, $p = 0.10$, $q = 0.90$, so $\\sigma^2 = 80(0.10)(0.90) = 7.2$ and $\\sigma = \\sqrt{7.2} = 2.68$. The choice $7.2$ is the variance, not the standard deviation; the square root was skipped. The choice $8.0$ is the mean $np = 80(0.10)$, not the spread. The choice $2.83$ is $\\sqrt{np} = \\sqrt{8}$, which forgets to multiply by $q$.',
     hint: 'Binomial variance is $npq$; take the square root for the standard deviation.',
     steps: [
       { text: 'Identify parameters: $n = 80$, $p = 0.10$, $q = 1 - p = 0.90$.', latex: null },
@@ -222,7 +222,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Expected value is linear, so $E(U) = 1.2\\,E(S) + 1.6\\,E(T)$ regardless of independence. That gives $1.2(90) + 1.6(35) = 108 + 56 = 164$. Choice B (125) adds the means without applying the load factors. Choice C (200) applies a factor of 1.6 to both means. Choice D (150) applies a factor of 1.2 to both means. Only Choice A uses the correct individual factors.',
+    eli5: 'Expected value is linear, so $E(U) = 1.2\\,E(S) + 1.6\\,E(T)$ regardless of independence. That gives $1.2(90) + 1.6(35) = 108 + 56 = 164$. The 125 option adds the means without applying the load factors. The 200 option applies a factor of 1.6 to both means. The 150 option applies a factor of 1.2 to both means. Only the 164 option uses the correct individual factors.',
     hint: 'Means combine linearly: multiply each mean by its own factor, then add.',
     steps: [
       { text: 'Apply linearity of expectation:', latex: 'E(U) = 1.2\\,E(S) + 1.6\\,E(T)' },
@@ -252,7 +252,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Because $\\sigma$ is known, use the z-interval at 90% confidence with $z = 1.645$. The standard error is $0.8/\\sqrt{64} = 0.8/8 = 0.10$, so the margin is $1.645 \\times 0.10 = 0.164$, and the interval is $19.6 \\pm 0.16 = (19.44, 19.76)$. Choice B uses $z = 1.96$ (95% value) instead of the given 90% value. Choice C forgets to divide by $\\sqrt{n}$, using $1.645 \\times 0.8 = 1.32$. Choice D divides by $n = 64$ instead of $\\sqrt{64} = 8$.',
+    eli5: 'Because $\\sigma$ is known, use the z-interval at 90% confidence with $z = 1.645$. The standard error is $0.8/\\sqrt{64} = 0.8/8 = 0.10$, so the margin is $1.645 \\times 0.10 = 0.164$, and the interval is $19.6 \\pm 0.16 = (19.44, 19.76)$. The $(19.40, 19.80)$ choice uses $z = 1.96$ (95% value) instead of the given 90% value. The $(18.28, 20.92)$ choice forgets to divide by $\\sqrt{n}$, using $1.645 \\times 0.8 = 1.32$. The $(19.58, 19.62)$ choice divides by $n = 64$ instead of $\\sqrt{64} = 8$.',
     hint: 'Use the z-interval with $z_{0.05} = 1.645$ for 90% confidence; remember $\\sqrt{64} = 8$.',
     steps: [
       { text: 'Identify: $\\bar{x} = 19.6$, $\\sigma = 0.8$, $n = 64$, $z_{\\alpha/2} = 1.645$.', latex: null },
@@ -283,7 +283,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'The margin of error is $E = z\\,\\sigma/\\sqrt{n}$, so $E$ is proportional to $1/\\sqrt{n}$. To halve $E$ you need $\\sqrt{n}$ to double, which means $n$ must increase by a factor of $2^2 = 4$. So $n$ goes from 25 to 100. Choice A (double $n$) only reduces $E$ by a factor of $1/\\sqrt{2} \\approx 0.71$, not one half. Choice C is backwards: shrinking $n$ widens the interval. Choice D underestimates the required increase because it ignores the square-root relationship.',
+    eli5: 'The margin of error is $E = z\\,\\sigma/\\sqrt{n}$, so $E$ is proportional to $1/\\sqrt{n}$. To halve $E$ you need $\\sqrt{n}$ to double, which means $n$ must increase by a factor of $2^2 = 4$. So $n$ goes from 25 to 100. The "double the sample size to $n = 50$" option only reduces $E$ by a factor of $1/\\sqrt{2} \\approx 0.71$, not one half. The "halve the sample size to $n \\approx 13$" option is backwards: shrinking $n$ widens the interval. The "increase by 50% to $n \\approx 38$" option underestimates the required increase because it ignores the square-root relationship.',
     hint: 'Margin of error scales with $1/\\sqrt{n}$. What factor on $n$ halves $1/\\sqrt{n}$?',
     steps: [
       { text: 'Margin of error depends on $n$ through:', latex: 'E = z_{\\alpha/2}\\frac{\\sigma}{\\sqrt{n}} \\;\\propto\\; \\frac{1}{\\sqrt{n}}' },
@@ -314,7 +314,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Compute the z-statistic: standard error is $14/\\sqrt{49} = 14/7 = 2.0$, so $z = (106 - 100)/2.0 = 3.0$. Since $|3.0| > 1.96$, reject $H_0$ — the slump differs from the target. Choice A computes $z = 3.0$ correctly but then draws the wrong decision; $3.0$ exceeds $1.96$, so you reject. Choices C and D use $z = 0.43$, which comes from dividing by $\\sigma$ itself ($6/14$) instead of the standard error $\\sigma/\\sqrt{n}$.',
+    eli5: 'Compute the z-statistic: standard error is $14/\\sqrt{49} = 14/7 = 2.0$, so $z = (106 - 100)/2.0 = 3.0$. Since $|3.0| > 1.96$, reject $H_0$ — the slump differs from the target. The "fail to reject" choice computes $z = 3.0$ correctly but then draws the wrong decision; $3.0$ exceeds $1.96$, so you reject. The choices using $z = 0.43$ get it from dividing by $\\sigma$ itself ($6/14$) instead of the standard error $\\sigma/\\sqrt{n}$.',
     hint: 'Compute the standard error $\\sigma/\\sqrt{n}$ first, then the z-statistic, and compare its magnitude to 1.96.',
     steps: [
       { text: 'Set up a two-tailed test: $H_0: \\mu = 100$, $H_1: \\mu \\neq 100$.', latex: null },
@@ -345,7 +345,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Rejecting $H_0$ when $H_0$ is actually true is a Type I error (a false alarm), and its probability is the significance level $\\alpha$, chosen before the test. Choice A describes a Type II error (failing to reject a false $H_0$), which is the opposite situation. Choices C and D pair the error type with the wrong controlling probability: Type I goes with $\\alpha$, and Type II goes with $\\beta$.',
+    eli5: 'Rejecting $H_0$ when $H_0$ is actually true is a Type I error (a false alarm), and its probability is the significance level $\\alpha$, chosen before the test. The "Type II error, controlled by $\\beta$" choice describes a Type II error (failing to reject a false $H_0$), which is the opposite situation. The "Type I error, controlled by $\\beta$" and "Type II error, controlled by $\\alpha$" choices pair the error type with the wrong controlling probability: Type I goes with $\\alpha$, and Type II goes with $\\beta$.',
     hint: 'A false alarm — rejecting a true null — is the error whose probability you set in advance.',
     steps: [
       { text: 'Rejecting $H_0$ while $H_0$ is in fact true is a Type I error.', latex: null },

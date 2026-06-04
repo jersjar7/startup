@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'This is the most basic time-value-of-money problem: you have money now ($P$) and want to know what it grows to ($F$). Use the compound amount factor $(F/P)$. Multiply $15{,}000 \\times (1.08)^5 = 15{,}000 \\times 1.4693 = 22{,}040$. Answer A (21,000) comes from using simple interest ($15{,}000 \\times 0.08 \\times 5 = 6{,}000$, then adding to 15,000 = 21,000). Answer C uses the wrong number of years or the wrong rate. Answer D overshoots, possibly by applying the rate twice somewhere.',
+    eli5: 'This is the most basic time-value-of-money problem: you have money now ($P$) and want to know what it grows to ($F$). Use the compound amount factor $(F/P)$. Multiply $15{,}000 \\times (1.08)^5 = 15{,}000 \\times 1.4693 = 22{,}040$. The 21,000 dollars choice comes from using simple interest ($15{,}000 \\times 0.08 \\times 5 = 6{,}000$, then adding to 15,000 = 21,000). The 19,800 dollars choice uses the wrong number of years or the wrong rate. The 23,400 dollars choice overshoots, possibly by applying the rate twice somewhere.',
     hint: 'You have P and need F — use the single payment compound amount factor $(F/P, i\\%, n)$.',
     steps: [
       {
@@ -80,7 +80,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'You have a present amount (the loan) and need to find equal annual payments that pay it off. This is the capital recovery factor $(A/P)$. Look up $(A/P,\\, 10\\%,\\, 8) = 0.18744$ in the 10% table and multiply by 200,000. Answer A (25,000) divides 200,000 by 8 and ignores interest entirely. Answer C might use $(A/F)$ instead of $(A/P)$ — that is for a sinking fund, not a loan. Answer D uses the wrong factor or adds interest on top of the payment.',
+    eli5: 'You have a present amount (the loan) and need to find equal annual payments that pay it off. This is the capital recovery factor $(A/P)$. Look up $(A/P,\\, 10\\%,\\, 8) = 0.18744$ in the 10% table and multiply by 200,000. The 25,000 dollars choice divides 200,000 by 8 and ignores interest entirely. The 29,440 dollars choice might use $(A/F)$ instead of $(A/P)$ — that is for a sinking fund, not a loan. The 43,200 dollars choice uses the wrong factor or adds interest on top of the payment.',
     hint: 'You know the present loan amount and need equal annual payments — which factor converts P to A?',
     steps: [
       {
@@ -131,7 +131,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'There are usually multiple valid paths through the factor tables. You can go future to present with $(P/F)$, then present to annual with $(A/P)$ — two steps. Or you can go directly from future to annual with $(A/F)$ — one step. Both give the same answer because the factors are mathematically consistent. Answer B is wrong because $(F/P)$ compounds forward in time, but the cost is already in the future — compounding it further moves it to the wrong point. The key insight is that the factor tables are all interconnected, and any valid path through them gives the same result.',
+    eli5: 'There are usually multiple valid paths through the factor tables. You can go future to present with $(P/F)$, then present to annual with $(A/P)$ — two steps. Or you can go directly from future to annual with $(A/F)$ — one step. Both give the same answer because the factors are mathematically consistent. The path that starts with $(F/P)$ is wrong because $(F/P)$ compounds forward in time, but the cost is already in the future — compounding it further moves it to the wrong point. The key insight is that the factor tables are all interconnected, and any valid path through them gives the same result.',
     hint: 'Think about which factor converts a future amount directly to an annual series, and whether a two-step path through P would also work.',
     steps: [
       {
@@ -147,7 +147,7 @@ const PROBLEMS = [
         latex: '(A/F) = (A/P) \\times (P/F)'
       },
       {
-        text: 'Answer B fails because $(F/P)$ moves money further into the future, not back to the present or to an annual series.',
+        text: 'The $(F/P)$-then-$(A/F)$ path fails because $(F/P)$ moves money further into the future, not back to the present or to an annual series.',
         latex: null
       }
     ],
@@ -186,7 +186,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'When deposits and compounding happen quarterly, work in quarters — not years. The periodic rate is $8\\% / 4 = 2\\%$ per quarter, and the number of periods is $3 \\times 4 = 12$ quarters. Use the compound amount factor for a uniform series: $(F/A,\\, 2\\%,\\, 12)$. That equals $[(1.02)^{12} - 1] / 0.02 = 13.412$. Multiply by 5,000 and you get 67,060. Answer A (60,000) just adds up 12 deposits of 5,000 without any interest. Answer B uses the effective annual rate but only 3 periods, mixing quarterly deposits with annual compounding. Answer D overshoots, likely using the wrong rate or period count.',
+    eli5: 'When deposits and compounding happen quarterly, work in quarters — not years. The periodic rate is $8\\% / 4 = 2\\%$ per quarter, and the number of periods is $3 \\times 4 = 12$ quarters. Use the compound amount factor for a uniform series: $(F/A,\\, 2\\%,\\, 12)$. That equals $[(1.02)^{12} - 1] / 0.02 = 13.412$. Multiply by 5,000 and you get 67,060. The 60,000 dollars choice just adds up 12 deposits of 5,000 without any interest. The 63,410 dollars choice uses the effective annual rate but only 3 periods, mixing quarterly deposits with annual compounding. The 70,120 dollars choice overshoots, likely using the wrong rate or period count.',
     hint: 'When deposits match the compounding period (quarterly), use the periodic rate and the total number of periods directly in the $(F/A)$ factor.',
     steps: [
       {
@@ -245,7 +245,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Present worth is the value of the investment in today\'s money. Take the PW of annual savings using $(P/A)$, add the PW of the salvage using $(P/F)$, and subtract the initial cost. PW of savings $= 8{,}000 \\times 7.3601 = 58{,}881$. PW of salvage $= 5{,}000 \\times 0.5584 = 2{,}792$. Total $PW = -45{,}000 + 58{,}881 + 2{,}792 = 16{,}673$, or about 16,700. Since PW is positive, the investment earns more than the 6% MARR. Answer B leaves out the initial cost. Answer C might have subtracted salvage instead of adding it. Answer D forgets the salvage value entirely.',
+    eli5: 'Present worth is the value of the investment in today\'s money. Take the PW of annual savings using $(P/A)$, add the PW of the salvage using $(P/F)$, and subtract the initial cost. PW of savings $= 8{,}000 \\times 7.3601 = 58{,}881$. PW of salvage $= 5{,}000 \\times 0.5584 = 2{,}792$. Total $PW = -45{,}000 + 58{,}881 + 2{,}792 = 16{,}673$, or about 16,700. Since PW is positive, the investment earns more than the 6% MARR. The 38,900 dollars distractor leaves out the initial cost (or mishandles a factor). The -2,300 dollars distractor subtracts the salvage instead of adding it. The 13,900 dollars distractor forgets the salvage value entirely.',
     hint: 'PW = negative initial cost + PW of annual savings + PW of salvage value. Use $(P/A)$ for the annual savings and $(P/F)$ for the salvage.',
     steps: [
       {
@@ -300,7 +300,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Future worth pushes everything to the end of the study period. Compound the initial cost forward using $(F/P)$: $100{,}000 \\times (1.08)^{12} = 251{,}817$. Compound the annual savings forward using $(F/A)$: $15{,}000 \\times 18.977 = 284{,}657$. $FW = -251{,}817 + 284{,}657 = 32{,}840$, approximately 32,800. Since $FW > 0$, the project exceeds the 8% MARR. Choice B just adds up $15{,}000 \\times 12$ and subtracts 100,000 without compounding. Choice A only compounds the cost forward and forgets the savings. Choice D only computes the FW of savings and leaves out the cost.',
+    eli5: 'Future worth pushes everything to the end of the study period. Compound the initial cost forward using $(F/P)$: $100{,}000 \\times (1.08)^{12} = 251{,}817$. Compound the annual savings forward using $(F/A)$: $15{,}000 \\times 18.977 = 284{,}657$. $FW = -251{,}817 + 284{,}657 = 32{,}840$, approximately 32,800. Since $FW > 0$, the project exceeds the 8% MARR. The 80,000 dollars choice just adds up $15{,}000 \\times 12$ and subtracts 100,000 without compounding. The -251,800 dollars choice only compounds the cost forward and forgets the savings. The 284,700 dollars choice only computes the FW of savings and leaves out the cost.',
     hint: 'Compound the initial cost forward with $(F/P)$ and the annual savings forward with $(F/A)$, then combine.',
     steps: [
       {
@@ -355,7 +355,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'When you use present worth to compare alternatives with different lives, you must compare over the same time horizon. The correct horizon is the least common multiple (LCM) of the lives — for 15 and 20 years, that is 60 years. A 20-year window does not give Strategy A a full second cycle (it would only run 5 years of its second 15-year life). Answer D describes a valid alternative approach (annual worth does handle unequal lives automatically), but the question asks what is wrong with the proposed PW approach, not what method to use instead. The specific flaw is the wrong study period length.',
+    eli5: 'When you use present worth to compare alternatives with different lives, you must compare over the same time horizon. The correct horizon is the least common multiple (LCM) of the lives — for 15 and 20 years, that is 60 years. A 20-year window does not give Strategy A a full second cycle (it would only run 5 years of its second 15-year life). The annual worth choice describes a valid alternative approach (annual worth does handle unequal lives automatically), but the question asks what is wrong with the proposed PW approach, not what method to use instead. The specific flaw is the wrong study period length.',
     hint: 'For PW analysis with unequal lives, the study period must allow each alternative to complete full cycles. What is the LCM of 15 and 20?',
     steps: [
       {
@@ -410,7 +410,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'With different service lives (4 vs. 8 years), annual worth is the smart choice — it handles unequal lives automatically. For each compressor, annualize the initial cost using $(A/P)$, add yearly operating costs, and subtract the annual equivalent of salvage using $(A/F)$. Compressor A: $60{,}000 \\times 0.31547 + 12{,}000 - 8{,}000 \\times 0.21547 = 18{,}928 + 12{,}000 - 1{,}724 = 29{,}204$. Compressor B: $90{,}000 \\times 0.18744 + 8{,}000 - 12{,}000 \\times 0.08744 = 16{,}870 + 8{,}000 - 1{,}049 = 23{,}821$. Compressor B wins at about 23,800. Choice B forgets to subtract the salvage credit for A. Choice D forgets to include operating costs for B.',
+    eli5: 'With different service lives (4 vs. 8 years), annual worth is the smart choice — it handles unequal lives automatically. For each compressor, annualize the initial cost using $(A/P)$, add yearly operating costs, and subtract the annual equivalent of salvage using $(A/F)$. Compressor A: $60{,}000 \\times 0.31547 + 12{,}000 - 8{,}000 \\times 0.21547 = 18{,}928 + 12{,}000 - 1{,}724 = 29{,}204$. Compressor B: $90{,}000 \\times 0.18744 + 8{,}000 - 12{,}000 \\times 0.08744 = 16{,}870 + 8{,}000 - 1{,}049 = 23{,}821$. Compressor B wins at about 23,800. The "Compressor A, AW = 27,000" distractor mis-annualizes Compressor A\'s cash flows, and the "Compressor B, AW = 19,300" distractor mishandles Compressor B\'s salvage credit; both still come out higher than the correct Compressor B value of about 23,800.',
     hint: 'Use annual worth to compare directly without matching lifespans. AW = initial cost times $(A/P)$ + annual operating cost - salvage times $(A/F)$.',
     steps: [
       {
@@ -477,7 +477,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Set the two total-cost equations equal and solve for $Q$. Method A: $TC = 8{,}000 + 5Q$. Method B: $TC = 3{,}000 + 10Q$. Setting them equal: $8{,}000 + 5Q = 3{,}000 + 10Q$, so $5{,}000 = 5Q$, and $Q^* = 1{,}000$ tons. Below 1,000 tons/day, Method B (lower fixed cost) is cheaper. Above 1,000 tons/day, Method A (lower variable cost) wins. Choice B (800) likely comes from a subtraction error. Choice C (1,600) doubles the break-even from an algebra slip. Choice D (500) divides 5,000 by 10 instead of 5.',
+    eli5: 'Set the two total-cost equations equal and solve for $Q$. Method A: $TC = 8{,}000 + 5Q$. Method B: $TC = 3{,}000 + 10Q$. Setting them equal: $8{,}000 + 5Q = 3{,}000 + 10Q$, so $5{,}000 = 5Q$, and $Q^* = 1{,}000$ tons. Below 1,000 tons/day, Method B (lower fixed cost) is cheaper. Above 1,000 tons/day, Method A (lower variable cost) wins. The 800-ton option likely comes from a subtraction error. The 1,600-ton option doubles the break-even from an algebra slip. The 500-ton option divides 5,000 by 10 instead of 5.',
     hint: 'Write TC = FC + VC times Q for each method, set them equal, and solve for Q.',
     steps: [
       {
@@ -532,7 +532,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Simple payback = initial investment divided by net annual savings. The gross savings are 65,000/year, but you have to subtract the new 15,000/year maintenance cost to get the net savings of 50,000/year. Then: $250{,}000 / 50{,}000 = 5.0$ years. Choice B (3.8 years) divides by the gross savings ($250{,}000 / 65{,}000 = 3.85$), ignoring the maintenance cost. Choice A (16.7 years) divides by only the maintenance cost ($250{,}000 / 15{,}000$). Choice D (3.1 years) divides by the sum of savings and maintenance ($65{,}000 + 15{,}000 = 80{,}000$) instead of the difference.',
+    eli5: 'Simple payback = initial investment divided by net annual savings. The gross savings are 65,000/year, but you have to subtract the new 15,000/year maintenance cost to get the net savings of 50,000/year. Then: $250{,}000 / 50{,}000 = 5.0$ years. The 3.8 years option divides by the gross savings ($250{,}000 / 65{,}000 = 3.85$), ignoring the maintenance cost. The 16.7 years option divides by only the maintenance cost ($250{,}000 / 15{,}000$). The 3.1 years option divides by the sum of savings and maintenance ($65{,}000 + 15{,}000 = 80{,}000$) instead of the difference.',
     hint: 'Net annual savings = gross savings minus new annual costs. Do not use gross savings alone.',
     steps: [
       {
@@ -583,7 +583,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Compute the total cost for each method at $Q = 2{,}500$ and pick the lower one. Method A: $12{,}000 + 8.50(2{,}500) = 12{,}000 + 21{,}250 = 33{,}250$. Method B: $20{,}000 + 4.50(2{,}500) = 20{,}000 + 11{,}250 = 31{,}250$. Method B is cheaper at 31,250. The break-even quantity is $(20{,}000 - 12{,}000)/(8.50 - 4.50) = 8{,}000/4 = 2{,}000$ cy. Since 2,500 > 2,000, the method with the higher fixed cost but lower variable cost (Method B) wins. Choice A (33,250) is Method A\'s total cost — not wrong to compute, but it is the more expensive option. Choice B (32,000) is a rounding error or arithmetic slip. Choice D (20,000) uses only Method B\'s fixed cost without adding the variable portion.',
+    eli5: 'Compute the total cost for each method at $Q = 2{,}500$ and pick the lower one. Method A: $12{,}000 + 8.50(2{,}500) = 12{,}000 + 21{,}250 = 33{,}250$. Method B: $20{,}000 + 4.50(2{,}500) = 20{,}000 + 11{,}250 = 31{,}250$. Method B is cheaper at 31,250. The break-even quantity is $(20{,}000 - 12{,}000)/(8.50 - 4.50) = 8{,}000/4 = 2{,}000$ cy. Since 2,500 > 2,000, the method with the higher fixed cost but lower variable cost (Method B) wins. The 33,250 option is Method A\'s total cost — not wrong to compute, but it is the more expensive option. The 32,000 option is a rounding error or arithmetic slip. The 20,000 option uses only Method B\'s fixed cost without adding the variable portion.',
     hint: 'Compute TC = FC + VC times Q for both methods at Q = 2,500 and compare.',
     steps: [
       {
@@ -642,7 +642,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'The 1.5 million is already spent and cannot be recovered regardless of which site the DOT chooses. That is the textbook definition of a sunk cost. The correct comparison is: original site at 35 million versus new site at $22{,}000{,}000 + 2{,}000{,}000 = 24{,}000{,}000$. The 1.5 million does not appear in either equation. Choice A is the most tempting trap because the investigation "belongs" to the original site physically — but the money is gone either way. Choice B invents a credit mechanism that makes no economic sense. Choice C creates an allocation method that sounds fair but violates the sunk-cost principle. The FE loves to test whether you fall for the emotional pull of wanting to "count" money already spent.',
+    eli5: 'The 1.5 million is already spent and cannot be recovered regardless of which site the DOT chooses. That is the textbook definition of a sunk cost. The correct comparison is: original site at 35 million versus new site at $22{,}000{,}000 + 2{,}000{,}000 = 24{,}000{,}000$. The 1.5 million does not appear in either equation. The "add it to the original site cost" option is the most tempting trap because the investigation "belongs" to the original site physically — but the money is gone either way. The "subtract it as a credit on the new site" option invents a credit mechanism that makes no economic sense. The "split it proportionally between both options" option creates an allocation method that sounds fair but violates the sunk-cost principle. The FE loves to test whether you fall for the emotional pull of wanting to "count" money already spent.',
     hint: 'Can the DOT recover the 1.5 million by choosing one option over the other? If the answer is no, what type of cost is it?',
     steps: [
       {
@@ -796,7 +796,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Both projects pass on their own ($B/C > 1$), so the question is whether spending the extra 2,000,000 on Project Y is justified. The incremental benefit is $6{,}500{,}000 - 4{,}200{,}000 = 2{,}300{,}000$, and the incremental cost is $5{,}000{,}000 - 3{,}000{,}000 = 2{,}000{,}000$. The incremental $\\Delta B/C = 2{,}300{,}000 / 2{,}000{,}000 = 1.15$, which exceeds 1.0, so the extra investment is worth it. Choice A picks Project X because its individual $B/C$ is higher, but that ignores the scale of the investment. Choice B treats both as equally acceptable, which only works for independent projects.',
+    eli5: 'Both projects pass on their own ($B/C > 1$), so the question is whether spending the extra 2,000,000 on Project Y is justified. The incremental benefit is $6{,}500{,}000 - 4{,}200{,}000 = 2{,}300{,}000$, and the incremental cost is $5{,}000{,}000 - 3{,}000{,}000 = 2{,}000{,}000$. The incremental $\\Delta B/C = 2{,}300{,}000 / 2{,}000{,}000 = 1.15$, which exceeds 1.0, so the extra investment is worth it. The "Project X \u2014 higher B/C ratio" choice picks Project X because its individual $B/C$ is higher, but that ignores the scale of the investment. The "Either project" choice treats both as equally acceptable, which only works for independent projects.',
     hint: 'Rank alternatives by cost, then check whether the extra investment from X to Y is justified by computing the incremental B/C ratio.',
     steps: [
       {
@@ -851,7 +851,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'This is a decision tree problem where the repair path leads to a chance node with two outcomes. You need to discount each future cost back to the present, compute the total PW for each branch, then weight by probability. The major-rehab branch costs $800{,}000 + PW(1{,}200{,}000) = 800{,}000 + 670{,}000 = 1{,}470{,}000$. The minor branch costs $800{,}000 + 112{,}000 = 912{,}000$. The expected PW $= 0.35 \\times 1{,}470{,}000 + 0.65 \\times 912{,}000 = 1{,}107{,}000$, which beats the certain 1,500,000 for replacement. Answer B forgets to include the initial 800,000 in the expected value calculation. Answer C ignores probability and just picks the certain option. Answer D uses only the worst-case scenario (100% major rehab) instead of weighting by probability.',
+    eli5: 'This is a decision tree problem where the repair path leads to a chance node with two outcomes. You need to discount each future cost back to the present, compute the total PW for each branch, then weight by probability. The major-rehab branch costs $800{,}000 + PW(1{,}200{,}000) = 800{,}000 + 670{,}000 = 1{,}470{,}000$. The minor branch costs $800{,}000 + 112{,}000 = 912{,}000$. The expected PW $= 0.35 \\times 1{,}470{,}000 + 0.65 \\times 912{,}000 = 1{,}107{,}000$, which beats the certain 1,500,000 for replacement. The 1,000,000 dollar option forgets to include the initial 800,000 in the expected value calculation. The Replace option ignores probability and just picks the certain option. The 1,470,000 dollar option uses only the worst-case scenario (100% major rehab) instead of weighting by probability.',
     hint: 'Discount each future cost to the present using $(P/F, 6\\%, 10)$, then weight each repair scenario by its probability to get the expected PW.',
     steps: [
       {
@@ -910,7 +910,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Straight-line depreciation spreads the depreciable amount evenly across the useful life. The depreciable amount is $C - S = 120{,}000 - 20{,}000 = 100{,}000$. Divide by 10 years: $100{,}000/10 = 10{,}000$ per year. Choice B (12,000) divides the full cost by 10 without subtracting the salvage value — that is the most common trap. Choice C (2,000) divides only the salvage value by 10. Choice D (14,000) adds the salvage value to the cost before dividing, which makes no sense.',
+    eli5: 'Straight-line depreciation spreads the depreciable amount evenly across the useful life. The depreciable amount is $C - S = 120{,}000 - 20{,}000 = 100{,}000$. Divide by 10 years: $100{,}000/10 = 10{,}000$ per year. The 12,000 option divides the full cost by 10 without subtracting the salvage value — that is the most common trap. The 2,000 option divides only the salvage value by 10. The 14,000 option adds the salvage value to the cost before dividing, which makes no sense.',
     hint: 'Straight-line depreciation subtracts salvage value from the initial cost before dividing by the useful life.',
     steps: [
       {
@@ -957,7 +957,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Taxable income is revenue minus expenses minus depreciation: $500{,}000 - 350{,}000 - 40{,}000 = 110{,}000$. Then multiply by the tax rate: $0.25 \\times 110{,}000 = 27{,}500$. Choice A (37,500) ignores the depreciation deduction, computing $0.25 \\times (500{,}000 - 350{,}000) = 0.25 \\times 150{,}000 = 37{,}500$. That is the whole point of depreciation — it reduces taxable income. Choice B (125,000) applies the tax rate to the full revenue. Choice D (10,000) computes only the tax shield from depreciation ($0.25 \\times 40{,}000$), which is useful information but not the total tax owed.',
+    eli5: 'Taxable income is revenue minus expenses minus depreciation: $500{,}000 - 350{,}000 - 40{,}000 = 110{,}000$. Then multiply by the tax rate: $0.25 \\times 110{,}000 = 27{,}500$. The 37,500 option ignores the depreciation deduction, computing $0.25 \\times (500{,}000 - 350{,}000) = 0.25 \\times 150{,}000 = 37{,}500$. That is the whole point of depreciation — it reduces taxable income. The 125,000 option applies the tax rate to the full revenue. The 10,000 option computes only the tax shield from depreciation ($0.25 \\times 40{,}000$), which is useful information but not the total tax owed.',
     hint: 'Taxable income = Revenue minus Expenses minus Depreciation. Then multiply by the tax rate.',
     steps: [
       {
@@ -1008,7 +1008,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Since the cash flows are in actual (nominal) dollars, you must discount at the combined rate $d$, not the real rate. The formula is $d = i + f + if = 0.05 + 0.04 + (0.05)(0.04) = 0.092 = 9.2\\%$. Then $(P/F,\\, 9.2\\%,\\, 5) = (1.092)^{-5}$. Computing: $(1.092)^5 \\approx 1.553$, so $(P/F) = 1/1.553 \\approx 0.644$. Choice B (9.0%) simply adds $i + f$ without the cross-term. Choice A gets the rate right but computes $(P/F)$ at the wrong $n$ or makes a calculator error. Choice D uses only the real rate (5%), which would be correct only if cash flows were in constant (real) dollars.',
+    eli5: 'Since the cash flows are in actual (nominal) dollars, you must discount at the combined rate $d$, not the real rate. The formula is $d = i + f + if = 0.05 + 0.04 + (0.05)(0.04) = 0.092 = 9.2\\%$. Then $(P/F,\\, 9.2\\%,\\, 5) = (1.092)^{-5}$. Computing: $(1.092)^5 \\approx 1.553$, so $(P/F) = 1/1.553 \\approx 0.644$. The 9.0% choice simply adds $i + f$ without the cross-term. The 9.2%/0.567 choice gets the rate right but computes $(P/F)$ at the wrong $n$ or makes a calculator error. The 5.0% choice uses only the real rate, which would be correct only if cash flows were in constant (real) dollars.',
     hint: 'Actual (nominal) dollars need the combined rate. Do not forget the cross-term $i \\times f$ in the formula.',
     steps: [
       {
@@ -1028,7 +1028,7 @@ const PROBLEMS = [
         latex: '(1.092)^5 \\approx 1.553 \\quad \\Rightarrow \\quad (P/F) = \\frac{1}{1.553} \\approx 0.644'
       },
       {
-        text: 'Choice B drops the cross-term: $0.05 + 0.04 = 0.09 = 9.0\\%$. The cross-term (0.002) is small but enough to shift the answer.',
+        text: '5. The 9.0% choice drops the cross-term: $0.05 + 0.04 = 0.09 = 9.0\\%$. The cross-term (0.002) is small but enough to shift the answer.',
         latex: null
       }
     ],
@@ -1067,7 +1067,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'This tests whether you understand the structural differences between the two methods. MACRS uses IRS-defined percentages applied to the full purchase price — salvage value is completely ignored. Straight-line subtracts salvage first and then divides the remainder evenly. Choice A is wrong because total depreciation over the full life is often similar (and MACRS may actually depreciate more since it ignores salvage). Choice B gets it exactly backwards — MACRS front-loads depreciation into early years, while straight-line is the even method. Choice C is fabricated — MACRS covers 3-, 5-, 7-, 10-, 15-, and 20-year properties.',
+    eli5: 'This tests whether you understand the structural differences between the two methods. MACRS uses IRS-defined percentages applied to the full purchase price — salvage value is completely ignored. Straight-line subtracts salvage first and then divides the remainder evenly. The option saying straight-line depreciates more is wrong because total depreciation over the full life is often similar (and MACRS may actually depreciate more since it ignores salvage). The option calling MACRS the even method gets it exactly backwards — MACRS front-loads depreciation into early years, while straight-line is the even method. The option restricting MACRS to 20-year assets is fabricated — MACRS covers 3-, 5-, 7-, 10-, 15-, and 20-year properties.',
     hint: 'Think about how each method handles salvage value and the timing of deductions across the asset life.',
     steps: [
       {
@@ -1114,7 +1114,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Set PW to zero: 5,000 = 5,600/(1 + i), so 1 + i = 5,600/5,000 = 1.12 and i = 12%. Choice B divides the 600 gain by 5,600 (future value). Choice C divides 600 by an averaged base. Choice D halves the correct rate.',
+    eli5: 'Set PW to zero: 5,000 = 5,600/(1 + i), so 1 + i = 5,600/5,000 = 1.12 and i = 12%. The 10.7% choice divides the 600 gain by 5,600 (future value). The 11.2% choice divides 600 by an averaged base. The 6% choice halves the correct rate.',
     hint: 'Set 5,000 = 5,600/(1 + i) and solve for i.',
     steps: [
       { text: 'Break-even:', latex: '5{,}000 = \\frac{5{,}600}{1+i}' },

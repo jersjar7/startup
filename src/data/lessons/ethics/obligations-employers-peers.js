@@ -76,7 +76,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: "Rule B.1 is blunt — you only take on work you're actually qualified for. \"Close enough\" doesn't cut it. Highway intersection design and roundabout design share some fundamentals, but roundabouts have their own geometry, sight-distance criteria, and capacity methods. Choice C is wrong because learning on the job puts the project at risk. Choice B is wrong because adjacent experience isn't the same as specific competence. Choice D sounds safe but a peer review doesn't make you qualified — the person signing and sealing needs to be competent, not just the reviewer.",
+      eli5: "Rule B.1 is blunt — you only take on work you're actually qualified for. \"Close enough\" doesn't cut it. Highway intersection design and roundabout design share some fundamentals, but roundabouts have their own geometry, sight-distance criteria, and capacity methods. Accepting and learning roundabout design on the job is wrong because it puts the project at risk. Accepting because highway intersection experience is \"close enough\" is wrong because adjacent experience isn't the same as specific competence. Accepting but having a colleague review the final design sounds safe but a peer review doesn't make you qualified — the person signing and sealing needs to be competent, not just the reviewer.",
       hint: 'What does Rule B.1 say about the relationship between your qualifications and the assignments you accept?',
       steps: [
         {
@@ -130,7 +130,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: "This one stacks three rules on top of each other. You've got confidential info from City A (B.4), you've got an obvious conflict of interest (B.6), and you'd be getting paid by two parties on related work (B.7). Choice A ignores the conflict entirely. Choice C tries to compartmentalize, but you can't un-know what you know from the City A project — and the rules require disclosure, not just self-discipline. Choice D is too extreme — the Model Rules don't say you can never work for competing parties, they say you need full disclosure and written consent. The exam wants you to pick the answer that involves transparency and consent, not avoidance.",
+      eli5: "This one stacks three rules on top of each other. You've got confidential info from City A (B.4), you've got an obvious conflict of interest (B.6), and you'd be getting paid by two parties on related work (B.7). The accept-anyway option ignores the conflict entirely. The keep-files-confidential option tries to compartmentalize, but you can't un-know what you know from the City A project — and the rules require disclosure, not just self-discipline. The decline-outright option is too extreme — the Model Rules don't say you can never work for competing parties, they say you need full disclosure and written consent. The exam wants you to pick the answer that involves transparency and consent, not avoidance.",
       hint: "When two clients' interests overlap, what do the Model Rules require before you can serve both?",
       steps: [
         {
@@ -188,7 +188,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: "This is a C.1 + C.4 combo. The marketing materials exaggerate the firm's role — the partner managed the project but didn't do the bridge design. That's a misrepresentation under C.1, especially since it's being used to win new work (\"presentations incidental to the solicitation of employment\"). But you don't jump straight to the board or the client. Rule C.4 says make a reasonable effort to inform the licensee first. Answer A is wrong because \"project manager\" doesn't equal \"performed the design.\" Answer B skips the direct conversation step. Answer D goes outside the firm before trying to fix it internally. Start with the partner, then escalate if they refuse to correct it.",
+      eli5: "This is a C.1 + C.4 combo. The marketing materials exaggerate the firm's role — the partner managed the project but didn't do the bridge design. That's a misrepresentation under C.1, especially since it's being used to win new work (\"presentations incidental to the solicitation of employment\"). But you don't jump straight to the board or the client. Rule C.4 says make a reasonable effort to inform the licensee first. The \"do nothing\" option is wrong because \"project manager\" doesn't equal \"performed the design.\" Reporting straight to the licensing board skips the direct conversation step. Contacting the prospective client goes outside the firm before trying to fix it internally. Start with the partner, then escalate if they refuse to correct it.",
       hint: 'Before reporting to the board or contacting the client, what does Rule C.4 require you to do first?',
       steps: [
         {
@@ -204,7 +204,7 @@ export default {
           latex: null,
         },
         {
-          text: 'Going directly to the board (B) skips the "reasonable effort to inform" step required by C.4. Going directly to the client (D) bypasses internal resolution and may violate confidentiality (B.4).',
+          text: 'Going directly to the board (reporting the senior partner to the licensing board) skips the "reasonable effort to inform" step required by C.4. Going directly to the client (contacting the prospective client) bypasses internal resolution and may violate confidentiality (B.4).',
           latex: null,
         },
         {

@@ -80,7 +80,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: "This is the certified vs. licensed distinction. Passing the FE gets you \"certified\" as an Engineer Intern — it's a milestone, not a license. You can't sign and seal anything as an EI, period. Choice C is wrong because the FE exam proves foundational knowledge, not authority to practice. Choice B is wrong because adding \"Engineer Intern\" doesn't magically grant sealing authority. Choice D is tempting but backwards — the PE who supervised the work should be the one sealing, not the EI with a PE looking over their shoulder.",
+      eli5: "This is the certified vs. licensed distinction. Passing the FE gets you \"certified\" as an Engineer Intern — it's a milestone, not a license. You can't sign and seal anything as an EI, period. The \"passing the FE demonstrates competence\" option is wrong because the FE exam proves foundational knowledge, not authority to practice. The \"note Engineer Intern next to the signature\" option is wrong because adding \"Engineer Intern\" doesn't magically grant sealing authority. The \"sign if a licensed PE reviews them first\" option is tempting but backwards — the PE who supervised the work should be the one sealing, not the EI with a PE looking over their shoulder.",
       hint: "What's the difference between being certified as an Engineer Intern and being licensed as a Professional Engineer?",
       steps: [
         {
@@ -134,7 +134,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: "This question tests whether you know the boundary between engineering and non-engineering work. The PM is doing a comparison task — lining up shop drawings against the engineer's design and saying \"these don't match here.\" That's a compliance check, not a design decision. The Exemption Clause (§170.20 C) specifically allows unlicensed employees to do this kind of work under a PE's responsible charge, as long as they're not making final design decisions. Answer A is wrong because comparing documents isn't the same as exercising engineering judgment. Answer B is wrong because the PM isn't claiming to be an engineer. Answer D goes too far — it's not that construction management is never engineering, it's that this specific activity falls under the exemption.",
+      eli5: "This question tests whether you know the boundary between engineering and non-engineering work. The PM is doing a comparison task — lining up shop drawings against the engineer's design and saying \"these don't match here.\" That's a compliance check, not a design decision. The Exemption Clause (§170.20 C) specifically allows unlicensed employees to do this kind of work under a PE's responsible charge, as long as they're not making final design decisions. The \"engineering judgment\" option (c1) is wrong because comparing documents isn't the same as exercising engineering judgment. The \"holding themselves out\" option (c2) is wrong because the PM isn't claiming to be an engineer. The \"never considered engineering\" option (c4) goes too far — it's not that construction management is never engineering, it's that this specific activity falls under the exemption.",
       hint: "Does the project manager's task involve final engineering design decisions, or is it a compliance comparison under someone else's responsible charge?",
       steps: [
         {
@@ -154,7 +154,7 @@ export default {
           latex: null,
         },
         {
-          text: "Answer D is too broad — some construction management activities could cross into engineering. The correct reasoning is the specific exemption, not a blanket exclusion.",
+          text: "The \"never considered engineering\" option (c4) is too broad — some construction management activities could cross into engineering. The correct reasoning is the specific exemption, not a blanket exclusion.",
           latex: null,
         },
       ],
@@ -192,7 +192,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: "This is a modern twist on an old rule. The Model Law doesn't care whether you deliver engineering through paper drawings or a mobile app — if you're creating a tool that performs structural design calculations and marketing it to the public, you're practicing engineering. The app recommends steel member sizes for structures people will stand on. That impacts public safety. And by marketing it as a \"structural design tool,\" the developer is holding themselves out as providing engineering services (§110.20 A.3(a)). Answer A is wrong because the issue isn't the developer's profession — it's the nature of the service the app provides. Answer B is wrong because the \"final decision\" excuse doesn't apply when the app is doing the engineering judgment. Answer D is too narrow — this goes beyond trademark issues into unlicensed practice.",
+      eli5: "This is a modern twist on an old rule. The Model Law doesn't care whether you deliver engineering through paper drawings or a mobile app — if you're creating a tool that performs structural design calculations and marketing it to the public, you're practicing engineering. The app recommends steel member sizes for structures people will stand on. That impacts public safety. And by marketing it as a \"structural design tool,\" the developer is holding themselves out as providing engineering services (§110.20 A.3(a)). The \"not an engineering discipline\" choice is wrong because the issue isn't the developer's profession — it's the nature of the service the app provides. The \"tool / homeowner makes the final decision\" choice is wrong because the \"final decision\" excuse doesn't apply when the app is doing the engineering judgment. The trademark-only choice is too narrow — this goes beyond trademark issues into unlicensed practice.",
       hint: "Focus on what the app does (structural design calculations) and how it's marketed (as a design tool) — does the Model Law care about the medium of delivery?",
       steps: [
         {

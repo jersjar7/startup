@@ -79,7 +79,7 @@ export default {
   "problems": [
     {
       "id": "math-ic-q1",
-      "statement": "A retaining wall footing exerts a linearly varying pressure on the soil given by $q(x) = 3x^2$ kPa, where $x$ is in meters from the toe. Find the total force per unit width over the first 2 m of the footing.",
+      "statement": "A retaining wall footing exerts a parabolically varying pressure on the soil given by $q(x) = 3x^2$ kPa, where $x$ is in meters from the toe. Find the total force per unit width over the first 2 m of the footing.",
       "choices": [
         {
           "id": "c1",

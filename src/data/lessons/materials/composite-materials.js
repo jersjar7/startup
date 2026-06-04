@@ -33,7 +33,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Rule of mixtures for density: $\\rho_c = f_f \\rho_f + f_m \\rho_m = 0.30 \\times 2{,}500 + 0.70 \\times 1{,}200 = 750 + 840 = 1{,}590$ kg/m\u00B3. Choice B (1,850) uses $f_m = 0.50$ instead of 0.70 (equal fractions). Choice C (3,700) adds the densities without weighting (2,500 + 1,200). Choice D (1,200) just uses the matrix density, ignoring the fibers.',
+      eli5: 'Rule of mixtures for density: $\\rho_c = f_f \\rho_f + f_m \\rho_m = 0.30 \\times 2{,}500 + 0.70 \\times 1{,}200 = 750 + 840 = 1{,}590$ kg/m\u00B3. The 1,850 kg/m\u00b3 option uses $f_m = 0.50$ instead of 0.70 (equal fractions). The 3,700 kg/m\u00b3 option adds the densities without weighting (2,500 + 1,200). The 1,200 kg/m\u00b3 option just uses the matrix density, ignoring the fibers.',
       hint: 'The volume fractions must sum to 1. If fibers are 30%, the matrix is 70%.',
       steps: [
         { text: 'Volume fractions: fibers 30%, matrix 70%', latex: 'f_f = 0.30, \\quad f_m = 1 - 0.30 = 0.70' },
@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Parallel to fibers = isostrain model: $E_c = f_f \\times E_f + f_m \\times E_m = 0.40 \\times 230 + 0.60 \\times 3.5 = 92 + 2.1 = 94.1$ GPa. Choice B (5.8) uses the isostress (perpendicular) model: $1/E_c = 0.40/230 + 0.60/3.5$, giving $E_c \\approx 5.8$ GPa. Choice C (116.8) uses $f = 0.50/0.50$ instead of 0.40/0.60. Choice D (233.5) adds the moduli without weighting.',
+      eli5: 'Parallel to fibers = isostrain model: $E_c = f_f \\times E_f + f_m \\times E_m = 0.40 \\times 230 + 0.60 \\times 3.5 = 92 + 2.1 = 94.1$ GPa. The 5.8 GPa option uses the isostress (perpendicular) model: $1/E_c = 0.40/230 + 0.60/3.5$, giving $E_c \\approx 5.8$ GPa. The 116.8 GPa option uses $f = 0.50/0.50$ instead of 0.40/0.60. The 233.5 GPa option adds the moduli without weighting.',
       hint: 'Parallel loading means isostrain (equal strain) \u2014 use the additive rule of mixtures, not the reciprocal formula.',
       steps: [
         { text: 'Volume fractions:', latex: 'f_f = 0.40, \\quad f_m = 0.60' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Under isostrain, both phases have the same strain. First find composite modulus: $E_c = 0.25(200) + 0.75(3) = 50 + 2.25 = 52.25$ GPa. Then find the common strain: $\\varepsilon = \\sigma_c / E_c = 100/52{,}250 = 0.001914$. Fiber stress: $\\sigma_f = E_f \\varepsilon = 200{,}000 \\times 0.001914 = 383 \\approx 384$ MPa. The fibers carry much more stress because they\u2019re much stiffer. Choice B (100) assumes equal stress (isostress model, wrong for parallel loading). Choice C (25) scales by volume fraction: $100 \\times 0.25$. Choice A (200) confuses fiber modulus with fiber stress.',
+      eli5: 'Under isostrain, both phases have the same strain. First find composite modulus: $E_c = 0.25(200) + 0.75(3) = 50 + 2.25 = 52.25$ GPa. Then find the common strain: $\\varepsilon = \\sigma_c / E_c = 100/52{,}250 = 0.001914$. Fiber stress: $\\sigma_f = E_f \\varepsilon = 200{,}000 \\times 0.001914 = 383 \\approx 384$ MPa. The fibers carry much more stress because they\u2019re much stiffer. The 100 MPa choice assumes equal stress (isostress model, wrong for parallel loading). The 25 MPa choice scales by volume fraction: $100 \\times 0.25$. The 200 MPa choice confuses fiber modulus with fiber stress.',
       hint: 'Under isostrain, find the composite modulus first, then the common strain, then multiply by each phase\u2019s modulus to get its stress.',
       steps: [
         { text: 'Composite modulus (parallel):', latex: 'E_c = 0.25(200) + 0.75(3) = 52.25 \\text{ GPa}' },

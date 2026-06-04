@@ -61,7 +61,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "Count reactions: the fixed end provides 3 (horizontal, vertical, moment) and the roller provides 1 (vertical), giving 4. A planar beam has 3 equilibrium equations, so $DSI = 4 - 3 = 1$ — indeterminate to the first degree. Choice B (0) would be a determinate beam (e.g., simply supported).",
+      "eli5": "Count reactions: the fixed end provides 3 (horizontal, vertical, moment) and the roller provides 1 (vertical), giving 4. A planar beam has 3 equilibrium equations, so $DSI = 4 - 3 = 1$ — indeterminate to the first degree. The \"0\" option would be a determinate beam (e.g., simply supported).",
       "hint": "Count reaction components, subtract the 3 equilibrium equations.",
       "steps": [
         { "text": "Fixed end = 3 reactions; roller = 1 reaction; total $r = 4$.", "latex": null },
@@ -88,7 +88,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "The standard propped-cantilever result for a UDL gives the prop (roller) reaction $R = 3wL/8 = 3(12)(8)/8 = 36\\text{ kN}$. Choice B (48) is the simple-span half-load $wL/2$, ignoring that the fixed end takes more. Choice D (24) uses $wL/4$.",
+      "eli5": "The standard propped-cantilever result for a UDL gives the prop (roller) reaction $R = 3wL/8 = 3(12)(8)/8 = 36\\text{ kN}$. The 48 kN choice is the simple-span half-load $wL/2$, ignoring that the fixed end takes more (it carries 60 kN). The 24 kN choice uses $wL/4$.",
       "hint": "Propped cantilever under UDL: prop reaction = 3wL/8.",
       "steps": [
         { "text": "Total load $= wL = 12 \\times 8 = 96\\text{ kN}$.", "latex": null },
@@ -115,7 +115,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Fixed-fixed beam under UDL: the fixed-end moment is $wL^2/12 = 10(6^2)/12 = 360/12 = 30\\text{ kN·m}$. Choice B (45) uses the simple-span midspan moment $wL^2/8$ by mistake — that's the wrong formula for a fixed end.",
+      "eli5": "Fixed-fixed beam under UDL: the fixed-end moment is $wL^2/12 = 10(6^2)/12 = 360/12 = 30\\text{ kN·m}$. The 45 kN\u00b7m choice uses the simple-span midspan moment $wL^2/8$ by mistake — that's the wrong formula for a fixed end.",
       "hint": "Fixed-fixed beam, UDL → fixed-end moment = wL²/12.",
       "steps": [
         { "text": "Standard result for a fixed-fixed beam under UDL.", "latex": null },

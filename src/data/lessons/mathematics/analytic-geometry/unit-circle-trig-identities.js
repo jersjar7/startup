@@ -59,7 +59,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "The unit circle point at $60°$ is $(1/2,\\, \\sqrt{3}/2)$. Cosine is always the x-coordinate, sine is the y-coordinate. The trap is mixing them up — $\\sqrt{3}/2$ (Choice B) is the sine of $60°$, not the cosine. If you remember that $\\cos 60° = 1/2$ and $\\sin 60° = \\sqrt{3}/2$, you have the most commonly tested pair down.",
+      "eli5": "The unit circle point at $60°$ is $(1/2,\\, \\sqrt{3}/2)$. Cosine is always the x-coordinate, sine is the y-coordinate. The trap is mixing them up — $\\sqrt{3}/2$ (the \u221a3/2 choice) is the sine of $60°$, not the cosine. If you remember that $\\cos 60° = 1/2$ and $\\sin 60° = \\sqrt{3}/2$, you have the most commonly tested pair down.",
       "hint": "On the unit circle, cosine is the x-coordinate and sine is the y-coordinate at any angle.",
       "steps": [
         {

@@ -83,7 +83,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'For a 5-sided polygon, the angles should sum to (5 \u2013 2) \u00D7 180\u00B0 = 540\u00B0. Actual sum = 108 + 120 + 95 + 132 + 84 = 539\u00B0. Misclosure = measured \u2013 theoretical = 539 \u2013 540 = \u20131\u00B0. The survey is 1\u00B0 short. Choice A uses n = 5 in the formula instead of (n \u2013 2). Choice B gets the sign wrong. Choice C assumes the traverse closes perfectly.',
+      eli5: 'For a 5-sided polygon, the angles should sum to (5 \u2013 2) \u00D7 180\u00B0 = 540\u00B0. Actual sum = 108 + 120 + 95 + 132 + 84 = 539\u00B0. Misclosure = measured \u2013 theoretical = 539 \u2013 540 = \u20131\u00B0. The survey is 1\u00B0 short. The \u22125\u00b0 distractor reflects a formula error (using n instead of n \u2212 2). The +1\u00b0 distractor gets the sign wrong (it computes theoretical \u2212 measured). The 0\u00b0 distractor assumes the traverse closes perfectly.',
       hint: 'Sum the measured angles and compare to the theoretical sum: (n \u2013 2) \u00D7 180\u00B0.',
       steps: [
         { text: 'Theoretical sum for 5-sided polygon:', latex: '\\Sigma = (5 - 2) \\times 180\\degree = 540\\degree' },

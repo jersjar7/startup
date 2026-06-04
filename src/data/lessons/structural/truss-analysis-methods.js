@@ -65,7 +65,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Only the diagonal can resist the vertical load — the horizontal member has no vertical component. So $\\sum F_y = 0$ gives $F_{AC}\\sin 45^\\circ = 500$, hence $F_{AC} = 500/0.707 = 707$ lb. Choice B (500) forgets to divide by $\\sin 45^\\circ$. Choice D (354) multiplies by $\\sin 45^\\circ$ instead of dividing.",
+      "eli5": "Only the diagonal can resist the vertical load — the horizontal member has no vertical component. So $\\sum F_y = 0$ gives $F_{AC}\\sin 45^\\circ = 500$, hence $F_{AC} = 500/0.707 = 707$ lb. The 500 lb choice forgets to divide by $\\sin 45^\\circ$. The 354 lb choice multiplies by $\\sin 45^\\circ$ instead of dividing.",
       "hint": "Only the diagonal has a vertical component — use $\\sum F_y = 0$ at joint A.",
       "steps": [
         { "text": "Horizontal member AB carries no vertical force, so the diagonal must balance the load.", "latex": null },
@@ -92,7 +92,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "hard",
-      "eli5": "Summing moments about the top joint kills the diagonal and the top chord (they pass through or are arms about that point), leaving only the bottom chord. The reaction acts $4\\text{ m}$ horizontally from the moment center; the bottom chord acts at the $3\\text{ m}$ height. So $30(4) = F_{BC}(3)$, giving $F_{BC} = 120/3 = 40\\text{ kN}$ tension. Choice D (120) forgets to divide by the 3 m height.",
+      "eli5": "Summing moments about the top joint kills the diagonal and the top chord (they pass through or are arms about that point), leaving only the bottom chord. The reaction acts $4\\text{ m}$ horizontally from the moment center; the bottom chord acts at the $3\\text{ m}$ height. So $30(4) = F_{BC}(3)$, giving $F_{BC} = 120/3 = 40\\text{ kN}$ tension. The 120 kN option forgets to divide by the 3 m height.",
       "hint": "Take moments about the top joint so only the bottom chord remains: reaction × panel length = force × height.",
       "steps": [
         { "text": "Moment center at the top joint eliminates the top chord and diagonal.", "latex": null },

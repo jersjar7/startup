@@ -36,7 +36,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'E is just stress divided by strain in the linear region. The trap is purely arithmetic \u2014 dividing 140 by 0.002. If you move the decimal wrong, you land on 7,000 (choice B) or 700,000 (choice D). Choice A (280) comes from multiplying instead of dividing. Take your time with the division: 140 / 0.002 = 140 \u00D7 500 = 70,000.',
+      eli5: 'E is just stress divided by strain in the linear region. The trap is purely arithmetic \u2014 dividing 140 by 0.002. If you move the decimal wrong, you land on 7,000 MPa or 700,000 MPa. The 280 MPa option comes from multiplying instead of dividing. Take your time with the division: 140 / 0.002 = 140 \u00D7 500 = 70,000.',
       hint: 'E = \u03C3/\u03B5. Careful with the decimal in the strain value.',
       steps: [
         { text: 'Modulus of elasticity:', latex: 'E = \\frac{\\sigma}{\\varepsilon} = \\frac{140}{0.0020} = 70{,}000 \\text{ MPa} = 70 \\text{ GPa}' },

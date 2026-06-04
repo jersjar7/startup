@@ -60,7 +60,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "Spreadsheets follow PEMDAS, so multiplication happens before addition. Compute A2*A3 = 3*4 = 12 first, then add A1: 2 + 12 = 14. Choice B (20) is the classic mistake of working strictly left to right as (2+3)*4. Choice C (9) just adds all three. Choice D (24) multiplies all three.",
+      "eli5": "Spreadsheets follow PEMDAS, so multiplication happens before addition. Compute A2*A3 = 3*4 = 12 first, then add A1: 2 + 12 = 14. The 20 option is the classic mistake of working strictly left to right as (2+3)*4. The 9 option just adds all three. The 24 option multiplies all three.",
       "hint": "Spreadsheets obey order of operations — do the multiplication before the addition.",
       "steps": [
         { "text": "Apply precedence: multiplication before addition. Evaluate A2*A3 first.", "latex": null },
@@ -87,7 +87,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "When you copy down one row, the RELATIVE reference A1 shifts to A2, but the ABSOLUTE reference $B$1 stays locked. So C2 becomes =A2*$B$1 = 8 × 10 = 80. Choice B (50) assumes the A reference didn't move (it isn't locked, so it does). Choice C (18) adds instead of multiplies. Choice D (800) shifts or multiplies the locked reference by mistake.",
+      "eli5": "When you copy down one row, the RELATIVE reference A1 shifts to A2, but the ABSOLUTE reference $B$1 stays locked. So C2 becomes =A2*$B$1 = 8 × 10 = 80. The 50 option assumes the A reference didn't move (it isn't locked, so it does). The 18 option adds instead of multiplies. The 800 option shifts or multiplies the locked reference by mistake.",
       "hint": "A1 is relative (it shifts when copied); $B$1 is absolute (it stays put).",
       "steps": [
         { "text": "Copying down one row shifts relative references down one row: A1 → A2.", "latex": null },
@@ -114,7 +114,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "easy",
-      "eli5": "IF(test, value_if_true, value_if_false) checks the test first. Here A1>=10 asks 'is 12 at least 10?' — yes, so the function returns the TRUE result, A1*2 = 12 × 2 = 24. Choice B (17) is the FALSE branch A1+5, which only applies if the test fails. Choice D (1) is the mistake of treating TRUE as the literal number 1.",
+      "eli5": "IF(test, value_if_true, value_if_false) checks the test first. Here A1>=10 asks 'is 12 at least 10?' — yes, so the function returns the TRUE result, A1*2 = 12 × 2 = 24. The choice 17 is the FALSE branch A1+5, which only applies if the test fails. The choice 1 is the mistake of treating TRUE as the literal number 1.",
       "hint": "Evaluate the test (is A1 ≥ 10?) and return the matching branch.",
       "steps": [
         { "text": "Test: A1 >= 10 → 12 >= 10 → TRUE.", "latex": null },

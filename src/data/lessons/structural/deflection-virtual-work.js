@@ -66,7 +66,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Plug into $nNL/AE = (0.5)(50)(4)/200{,}000 = 100/200{,}000 = 0.0005\\text{ m} = 0.5\\text{ mm}$. The trap is units: $0.0005\\text{ m}$ is $0.5\\text{ mm}$, not $5\\text{ mm}$ (Choice C) or $0.05\\text{ mm}$ (Choice D).",
+      "eli5": "Plug into $nNL/AE = (0.5)(50)(4)/200{,}000 = 100/200{,}000 = 0.0005\\text{ m} = 0.5\\text{ mm}$. The trap is units: $0.0005\\text{ m}$ is $0.5\\text{ mm}$, not $5\\text{ mm}$ (the $5.0\\text{ mm}$ choice) or $0.05\\text{ mm}$ (the $0.05\\text{ mm}$ choice).",
       "hint": "Compute nNL then divide by AE; convert meters to millimeters carefully.",
       "steps": [
         { "text": "Numerator: $nNL = 0.5 \\times 50 \\times 4 = 100\\text{ kN·m}$.", "latex": null },
@@ -93,7 +93,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Central point load on a simple span uses $\\delta = PL^3/48EI = 20(6^3)/(48 \\times 40{,}000) = 4320/1{,}920{,}000 = 0.00225\\text{ m} = 2.25\\text{ mm}$. Choice C (9 mm) uses $PL^3/12EI$ by mistake; Choice B halves the answer.",
+      "eli5": "Central point load on a simple span uses $\\delta = PL^3/48EI = 20(6^3)/(48 \\times 40{,}000) = 4320/1{,}920{,}000 = 0.00225\\text{ m} = 2.25\\text{ mm}$. The 9 mm choice uses $PL^3/12EI$ by mistake; the 1.13 mm choice halves the answer.",
       "hint": "Central point load, simple span → $PL^3/48EI$.",
       "steps": [
         { "text": "Identify the standard case: simple span, central P.", "latex": null },
@@ -120,7 +120,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "End-loaded cantilever: $\\delta = PL^3/3EI = 10(27)/(3 \\times 20{,}000) = 270/60{,}000 = 0.0045\\text{ m} = 4.5\\text{ mm}$. Choice D (2.25) wrongly uses the simple-span $48EI$ constant; Choice C uses $EI$ alone in the denominator.",
+      "eli5": "End-loaded cantilever: $\\delta = PL^3/3EI = 10(27)/(3 \\times 20{,}000) = 270/60{,}000 = 0.0045\\text{ m} = 4.5\\text{ mm}$. The 2.25 mm distractor wrongly uses $PL^3/6EI$ (an erroneous denominator constant of 6 instead of 3); the 13.5 mm distractor drops the factor entirely and uses $PL^3/EI$.",
       "hint": "End-loaded cantilever → $PL^3/3EI$.",
       "steps": [
         { "text": "Standard case: cantilever, end point load.", "latex": null },

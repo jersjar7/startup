@@ -32,7 +32,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Specific gravity is the ratio of the fluid\u2019s density (or specific weight) to water\u2019s. So $\\gamma = SG \\times \\gamma_w = 0.85 \\times 9{,}810 = 8{,}338.5$ N/m\u00B3. Choice B just multiplies $0.85 \\times 1{,}000$ and slaps on the wrong units. Choice A is water\u2019s specific weight ($SG = 1.0$). Choice D has the right number but wrong units \u2014 specific weight is force per volume (N/m\u00B3), not mass per volume (kg/m\u00B3).',
+      eli5: 'Specific gravity is the ratio of the fluid\u2019s density (or specific weight) to water\u2019s. So $\\gamma = SG \\times \\gamma_w = 0.85 \\times 9{,}810 = 8{,}338.5$ N/m\u00B3. The 850 N/m\u00b3 choice just multiplies $0.85 \\times 1{,}000$ and slaps on the wrong units. The 9,810 N/m\u00b3 choice is water\u2019s specific weight ($SG = 1.0$). The 8,338 kg/m\u00b3 choice has the right number but wrong units \u2014 specific weight is force per volume (N/m\u00B3), not mass per volume (kg/m\u00B3).',
       hint: 'Specific weight $= SG$ times the specific weight of water ($9{,}810$ N/m\u00B3 in SI).',
       steps: [
         { text: 'Specific weight from specific gravity:', latex: '\\gamma = SG \\times \\gamma_w' },
@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a linear velocity profile, $dv/dy = v/\\delta$. The unit trap is converting mm to m: $2$ mm $= 0.002$ m. So $\\tau = \\mu \\times v/\\delta = 0.1 \\times 0.5/0.002 = 25$ Pa. Choice B (0.05) forgets to convert mm to m and uses $\\delta = 2$ directly. Choice C (250) uses $\\delta = 0.0002$ m (converting mm to m incorrectly). Choice D (0.25) uses $\\delta = 0.2$ m.',
+      eli5: 'For a linear velocity profile, $dv/dy = v/\\delta$. The unit trap is converting mm to m: $2$ mm $= 0.002$ m. So $\\tau = \\mu \\times v/\\delta = 0.1 \\times 0.5/0.002 = 25$ Pa. The 0.05 Pa distractor omits the film thickness entirely, computing $\\mu \\times v = 0.1 \\times 0.5 = 0.05$ (treating $\\delta$ as 1 m). Note that using $\\delta = 2$ m directly would give 0.025 Pa, not 0.05 Pa. The 250 Pa distractor uses $\\delta = 0.0002$ m (converting mm to m incorrectly). The 0.25 Pa distractor uses $\\delta = 0.2$ m.',
       hint: 'For a linear velocity profile, $dv/dy = v/\\delta$. Convert the film thickness to meters before dividing.',
       steps: [
         { text: 'Convert film thickness to meters:', latex: '\\delta = 2 \\text{ mm} = 0.002 \\text{ m}' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Plug into $h = 4\\sigma \\cos\\beta / (\\gamma d)$. With $\\beta = 0\\degree$, $\\cos 0\\degree = 1$. Convert $d = 1.5$ mm $= 0.0015$ m. Then $h = 4(0.0728)(1) / (9{,}789 \\times 0.0015) = 0.2912 / 14.684 = 0.01983$ m $\\approx 19.8$ mm. Choice B (9.9) drops the factor of 4 \u2014 using $\\sigma \\cos\\beta / (\\gamma d)$ instead. Choice C (39.7) uses the radius instead of the diameter (doubling the answer). Choice A uses 2 instead of 4 in the numerator.',
+      eli5: 'Plug into $h = 4\\sigma \\cos\\beta / (\\gamma d)$. With $\\beta = 0\\degree$, $\\cos 0\\degree = 1$. Convert $d = 1.5$ mm $= 0.0015$ m. Then $h = 4(0.0728)(1) / (9{,}789 \\times 0.0015) = 0.2912 / 14.684 = 0.01983$ m $\\approx 19.8$ mm. The 9.9 mm choice drops the factor of 4 \u2014 using $\\sigma \\cos\\beta / (\\gamma d)$ instead. The 39.7 mm choice uses the radius instead of the diameter (doubling the answer). The 4.95 mm choice uses 2 instead of 4 in the numerator.',
       hint: 'The capillary rise formula uses diameter (not radius) in the denominator, and there\u2019s a factor of 4 in the numerator.',
       steps: [
         { text: 'Convert diameter to meters:', latex: 'd = 1.5 \\text{ mm} = 0.0015 \\text{ m}' },

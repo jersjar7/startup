@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: '\u03B8_c = VX_A / (Q_wX_w + Q_eX_e) = (1,500 \u00D7 3,500) / (50 \u00D7 10,000 + 5,000 \u00D7 20) = 5,250,000 / (500,000 + 100,000) = 5,250,000 / 600,000 = 8.75 \u2248 8.8 days. This is within the typical range for conventional activated sludge (4\u201315 days). Choice A computes V/Q (HRT = 0.3 days = 7.2 hours) instead of SRT. Choice C ignores the effluent solids term. Choice D only uses Q_wX_w without Q_eX_e and then further miscalculates.',
+      eli5: '\u03B8_c = VX_A / (Q_wX_w + Q_eX_e) = (1,500 \u00D7 3,500) / (50 \u00D7 10,000 + 5,000 \u00D7 20) = 5,250,000 / (500,000 + 100,000) = 5,250,000 / 600,000 = 8.75 \u2248 8.8 days. This is within the typical range for conventional activated sludge (4\u201315 days). The 0.3 days choice computes V/Q (HRT = 0.3 days = 7.2 hours) instead of SRT. The 10.5 days choice ignores the effluent solids term (5,250,000 / 500,000 = 10.5 days). The 30.0 days choice uses an incorrect denominator.',
       hint: 'SRT = (total solids in system)/(total solids leaving per day). Include both waste sludge and effluent.',
       steps: [
         { text: 'SRT formula:', latex: '\\theta_c = \\frac{V \\cdot X_A}{Q_w X_w + Q_e X_e}' },

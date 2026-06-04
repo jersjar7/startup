@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'With full bracing, $M_n = M_p = F_y Z_x = 50 \\times 120 = 6{,}000$ kip-in $= 500$ kip-ft. Then $\\phi_b M_n = 0.90 \\times 500 = 450$ kip-ft. Choice B (500) is the nominal capacity without the $\\phi$ factor. Choice C (299) is the ASD allowable: $M_p/\\Omega_b = 500/1.67 = 299$ — a common trap if you mix up LRFD and ASD. Choice D (333) comes from using $\\phi = 2/3$ incorrectly.',
+      eli5: 'With full bracing, $M_n = M_p = F_y Z_x = 50 \\times 120 = 6{,}000$ kip-in $= 500$ kip-ft. Then $\\phi_b M_n = 0.90 \\times 500 = 450$ kip-ft. The 500 kip-ft choice is the nominal capacity without the $\\phi$ factor. The 299 kip-ft choice is the ASD allowable: $M_p/\\Omega_b = 500/1.67 = 299$ — a common trap if you mix up LRFD and ASD. The 333 kip-ft choice comes from using $\\phi = 2/3$ incorrectly.',
       hint: '$M_p = F_y Z_x$ (convert to kip-ft), then multiply by $\\phi_b = 0.90$.',
       steps: [
         { text: 'Plastic moment:', latex: 'M_p = F_y Z_x = 50 \\times 120 = 6{,}000 \\text{ kip-in} = 500 \\text{ kip-ft}' },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: '$M_p = F_y Z_x = 50 \\times 80 = 4{,}000$ kip-in $= 333.3$ kip-ft. $\\phi_b M_p = 0.90 \\times 333.3 = 300$ kip-ft. For a simply supported beam with uniform load: $M_u = w_u L^2/8$. Set $M_u = \\phi_b M_p$: $w_u = 8 \\times 300 / (20^2) = 2{,}400/400 = 6.0$ kip/ft. Choice B (6.67) uses the nominal $M_p = 333$ without the $\\phi$ factor: $8 \\times 333/400 = 6.67$. Choice A (4.0) uses the ASD value: $M_p/\\Omega_b = 333/1.67 = 200$, then $8 \\times 200/400 = 4.0$.',
+      eli5: '$M_p = F_y Z_x = 50 \\times 80 = 4{,}000$ kip-in $= 333.3$ kip-ft. $\\phi_b M_p = 0.90 \\times 333.3 = 300$ kip-ft. For a simply supported beam with uniform load: $M_u = w_u L^2/8$. Set $M_u = \\phi_b M_p$: $w_u = 8 \\times 300 / (20^2) = 2{,}400/400 = 6.0$ kip/ft. The 6.67 kip/ft choice uses the nominal $M_p = 333$ without the $\\phi$ factor: $8 \\times 333/400 = 6.67$. The 4.0 kip/ft choice uses the ASD value: $M_p/\\Omega_b = 333/1.67 = 200$, then $8 \\times 200/400 = 4.0$.',
       hint: 'Compute $\\phi_b M_p$ first, then set $M_u = w_u L^2/8$ and solve for $w_u$.',
       steps: [
         { text: 'Design moment capacity:', latex: '\\phi_b M_p = 0.90 \\times F_y Z_x = 0.90 \\times 50 \\times 80 = 3{,}600 \\text{ kip-in} = 300 \\text{ kip-ft}' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Since $L_p = 8 < L_b = 15 \\leq L_r = 25$, we are in the inelastic LTB zone. $M_n = C_b[M_p - (M_p - 0.7F_yS_x)(L_b - L_p)/(L_r - L_p)] = 1.0[500 - (500 - 300)(15 - 8)/(25 - 8)] = 500 - 200(7/17) = 500 - 82.4 = 417.6 \\approx 418$ kip-ft. Also check $M_n \\leq M_p = 500$ ✓. Choice B (500) ignores LTB entirely and uses $M_p$. Choice C (300) uses the lower bound $0.7F_yS_x$. Choice A (376) is $\\phi_b \\times 418 = 0.90 \\times 418$ — the problem asks for $M_n$ (nominal), not $\\phi M_n$ (design).',
+      eli5: 'Since $L_p = 8 < L_b = 15 \\leq L_r = 25$, we are in the inelastic LTB zone. $M_n = C_b[M_p - (M_p - 0.7F_yS_x)(L_b - L_p)/(L_r - L_p)] = 1.0[500 - (500 - 300)(15 - 8)/(25 - 8)] = 500 - 200(7/17) = 500 - 82.4 = 417.6 \\approx 418$ kip-ft. Also check $M_n \\leq M_p = 500$ ✓. The 500 kip-ft choice ignores LTB entirely and uses $M_p$. The 300 kip-ft choice uses the lower bound $0.7F_yS_x$. The 376 kip-ft choice is $\\phi_b \\times 418 = 0.90 \\times 418$ — the problem asks for $M_n$ (nominal), not $\\phi M_n$ (design).',
       hint: 'Since $L_p < L_b \\leq L_r$, use the inelastic LTB formula. Linear interpolation between $M_p$ and $0.7F_yS_x$.',
       steps: [
         { text: 'Check range: $L_p = 8 < L_b = 15 \\leq L_r = 25$ \u2192 inelastic LTB.', latex: null },

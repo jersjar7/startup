@@ -28,7 +28,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'V_a = 100 × (Gmm − Gmb)/Gmm = 100 × (2.500 − 2.400)/2.500 = 100 × 0.100/2.500 = 4.0%, right at the Superpave target. Choice B divides by Gmb instead of Gmm. Choice C forgets to divide by Gmm. Choice D inverts the fraction.',
+      eli5: 'V_a = 100 × (Gmm − Gmb)/Gmm = 100 × (2.500 − 2.400)/2.500 = 100 × 0.100/2.500 = 4.0%, right at the Superpave target. The 4.2% option divides by Gmb instead of Gmm. The 10.0% option forgets to divide by Gmm (using Gmm \u2212 Gmb as a percentage directly). The 0.96% option inverts the fraction.',
       hint: 'Air voids = 100 × (Gmm − Gmb)/Gmm.',
       steps: [
         { text: 'Difference in specific gravities:', latex: 'G_{mm} - G_{mb} = 2.500 - 2.400 = 0.100' },
@@ -54,7 +54,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'VFA = 100 × (VMA − Va)/VMA = 100 × (15.0 − 4.0)/15.0 = 100 × 11.0/15.0 = 73.3%. Choice B is the air-filled fraction (Va/VMA). Choice C is just the difference VMA − Va (11.0). Choice D rounds incorrectly.',
+      eli5: 'VFA = 100 × (VMA − Va)/VMA = 100 × (15.0 − 4.0)/15.0 = 100 × 11.0/15.0 = 73.3%. The 26.7% choice is the air-filled fraction (Va/VMA). The 11.0% choice is just the difference VMA − Va. The 80.0% choice rounds incorrectly.',
       hint: 'VFA = 100 × (VMA − Va)/VMA — the asphalt-filled fraction of the aggregate voids.',
       steps: [
         { text: 'Asphalt-filled voids:', latex: 'VMA - V_a = 15.0 - 4.0 = 11.0\\%' },
@@ -80,7 +80,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'VMA = 100 − (Gmb × Ps)/Gsb = 100 − (2.40 × 95)/2.65 = 100 − 228/2.65 = 100 − 86.0 = 14.0%. Choice C is the subtracted term itself (86.0, the aggregate bulk volume fraction). Choice B uses Ps as a decimal (0.95) without the ×100. Choice D assumes VMA equals the air voids.',
+      eli5: 'VMA = 100 − (Gmb × Ps)/Gsb = 100 − (2.40 × 95)/2.65 = 100 − 228/2.65 = 100 − 86.0 = 14.0%. The 86.0% choice is the subtracted term itself (the aggregate bulk volume fraction). The 9.4% choice uses Ps as a decimal (0.95) without the ×100. The 5.0% choice assumes VMA equals the air voids.',
       hint: 'VMA = 100 − (Gmb × Ps)/Gsb, with Ps expressed as a percent.',
       steps: [
         { text: 'Aggregate bulk volume term:', latex: '\\frac{G_{mb}\\,P_s}{G_{sb}} = \\frac{2.40 \\times 95}{2.65} = 86.0' },

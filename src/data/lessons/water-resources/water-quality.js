@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'BOD\u2085 = L\u2080(1 \u2013 e^(\u2013kt)) = 300(1 \u2013 e^(\u20130.23\u00D75)) = 300(1 \u2013 e^(\u20131.15)) = 300(1 \u2013 0.317) = 300 \u00D7 0.683 = 205 \u2248 204 mg/L. Choice B gives the ultimate BOD, not the 5-day BOD. Choice C gives the BOD remaining (L\u2080 \u2013 BOD\u2085 = 96), not the BOD exerted. Choice D assumes BOD\u2085 = L\u2080/2.',
+      eli5: 'BOD\u2085 = L\u2080(1 \u2013 e^(\u2013kt)) = 300(1 \u2013 e^(\u20130.23\u00D75)) = 300(1 \u2013 e^(\u20131.15)) = 300(1 \u2013 0.317) = 300 \u00D7 0.683 = 205 \u2248 204 mg/L. The 300 mg/L choice gives the ultimate BOD, not the 5-day BOD. The 96 mg/L choice gives the BOD remaining (L\u2080 \u2013 BOD\u2085 = 96), not the BOD exerted. The 150 mg/L choice assumes BOD\u2085 = L\u2080/2.',
       hint: 'Use BOD_t = L\u2080(1 \u2013 e^(\u2013kt)) with t = 5 days.',
       steps: [
         { text: 'BOD exertion formula:', latex: 'BOD_5 = L_0(1 - e^{-kt}) = 300(1 - e^{-0.23 \\times 5})' },
@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Rearrange: L\u2080 = BOD\u2085/(1 \u2013 e^(\u2013kt)) = 180/(1 \u2013 e^(\u20130.20 \u00D7 5)) = 180/(1 \u2013 e^(\u20131.0)) = 180/(1 \u2013 0.368) = 180/0.632 = 285 mg/L. The ultimate BOD is always larger than the 5-day BOD because the test only captures partial decomposition. Choice A simply doubles BOD\u2085. Choice B assumes BOD\u2085 = L\u2080 (it\'s not). Choice D multiplies by 5.',
+      eli5: 'Rearrange: L\u2080 = BOD\u2085/(1 \u2013 e^(\u2013kt)) = 180/(1 \u2013 e^(\u20130.20 \u00D7 5)) = 180/(1 \u2013 e^(\u20131.0)) = 180/(1 \u2013 0.368) = 180/0.632 = 285 mg/L. The ultimate BOD is always larger than the 5-day BOD because the test only captures partial decomposition. The 360 mg/L choice simply doubles BOD\u2085. The 180 mg/L choice assumes BOD\u2085 = L\u2080 (it\'s not). The 900 mg/L choice multiplies by 5.',
       hint: 'Rearrange BOD_t = L\u2080(1 \u2013 e^(\u2013kt)) to solve for L\u2080 = BOD\u2085/(1 \u2013 e^(\u2013k\u00D75)).',
       steps: [
         { text: 'Rearrange the BOD formula:', latex: 'L_0 = \\frac{BOD_5}{1 - e^{-kt}}' },

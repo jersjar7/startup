@@ -26,7 +26,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'x₁ = x₀ − f(x₀)/f′(x₀). f(1.5) = 1.5² − 2 = 0.25; f′(1.5) = 2(1.5) = 3. So x₁ = 1.5 − 0.25/3 = 1.5 − 0.0833 = 1.417 (approaching √2 ≈ 1.4142). Choice B forgets to square. Choice C is just the starting value. Choice D over-corrects.',
+      eli5: 'x₁ = x₀ − f(x₀)/f′(x₀). f(1.5) = 1.5² − 2 = 0.25; f′(1.5) = 2(1.5) = 3. So x₁ = 1.5 − 0.25/3 = 1.5 − 0.0833 = 1.417 (approaching √2 ≈ 1.4142). The 1.333 choice forgets to square (uses x-2 over 2). The 1.500 choice is just the starting value. The 1.250 choice over-corrects.',
       hint: 'x₁ = x₀ − f(x₀)/f′(x₀); compute f and f′ at 1.5.',
       steps: [
         { text: 'Evaluate f and f′ at x₀ = 1.5:', latex: 'f(1.5) = 0.25, \\quad f\'(1.5) = 3' },
@@ -53,7 +53,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Bisection relies on the Intermediate Value Theorem: if a continuous function has opposite signs at the two endpoints (f(a)·f(b) < 0), a root must lie between them. Choice B (same sign) gives no guarantee of a root. Choices C and D are irrelevant to the bracketing requirement.',
+      eli5: 'Bisection relies on the Intermediate Value Theorem: if a continuous function has opposite signs at the two endpoints (f(a)·f(b) < 0), a root must lie between them. The "positive at both ends" option gives no guarantee of a root. The "derivative is zero" and "interval shorter than 1 unit" options are irrelevant to the bracketing requirement.',
       hint: 'What must be true about the function\'s sign at the two ends of the interval?',
       steps: [
         { text: 'Bisection brackets a root between sign changes.', latex: null },
@@ -80,7 +80,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Newton\'s method follows the tangent slope. A poor (far) starting guess or a near-zero derivative (a nearly flat tangent) throws the next estimate far away, so the method may diverge or oscillate. A close starting guess (Choice B) and a straight line (Choice C, where it converges in one step) are ideal, not failures. A large derivative (Choice D) gives small, well-behaved steps.',
+      eli5: 'Newton\'s method follows the tangent slope. A poor (far) starting guess or a near-zero derivative (a nearly flat tangent) throws the next estimate far away, so the method may diverge or oscillate. A close starting guess and a straight line (where it converges in one step) are ideal, not failures. A large derivative gives small, well-behaved steps.',
       hint: 'The method uses the slope — what makes a tangent line send you far from the root?',
       steps: [
         { text: 'Newton\'s step is f(x)/f′(x); a near-zero f′ makes the step huge.', latex: null },

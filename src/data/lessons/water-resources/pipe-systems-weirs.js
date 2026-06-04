@@ -60,7 +60,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'V-notch weir: Q = CH^(5/2) = 2.54 \u00D7 (2.0)^(5/2). (2.0)^(5/2) = 2^2 \u00D7 \u221A2 = 4 \u00D7 1.414 = 5.657. Q = 2.54 \u00D7 5.657 = 14.4 cfs. Choice A uses H^2 = 4.0. Choice B uses H^(3/2) instead of H^(5/2) \u2014 that\'s the rectangular weir exponent. Choice D uses H^3 = 8.0.',
+      eli5: 'V-notch weir: Q = CH^(5/2) = 2.54 \u00D7 (2.0)^(5/2). (2.0)^(5/2) = 2^2 \u00D7 \u221A2 = 4 \u00D7 1.414 = 5.657. Q = 2.54 \u00D7 5.657 = 14.4 cfs. The 10.2 cfs option uses H^2 = 4.0. The 7.2 cfs option uses H^(3/2) instead of H^(5/2) \u2014 that\'s the rectangular weir exponent. The 20.3 cfs option uses H^3 = 8.0.',
       hint: 'V-notch weirs use H^(5/2), not H^(3/2). The USCS coefficient for a 90\u00B0 notch is C = 2.54.',
       steps: [
         { text: '90\u00B0 V-notch weir formula (USCS):', latex: 'Q = CH^{5/2} = 2.54 \\times (2.0)^{5/2}' },

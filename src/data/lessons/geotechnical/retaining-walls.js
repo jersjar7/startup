@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'FS = \u03A3MR / MO = 15,000/5,000 = 3.0. This is a direct formula application. Choice B (2.0) might come from dividing something else. Choice C (5.0) reversed a number. Choice D (0.33) inverted the ratio (MO/MR).',
+      eli5: 'FS = \u03A3MR / MO = 15,000/5,000 = 3.0. This is a direct formula application. The 2.0 option might come from dividing something else. The 5.0 option reversed a number. The 0.33 option inverted the ratio (MO/MR).',
       hint: 'FS(overturning) = resisting moments / overturning moment. Just divide.',
       steps: [
         { text: 'Factor of safety:', latex: 'FS = \\frac{\\Sigma M_R}{M_O} = \\frac{15{,}000}{5{,}000} = 3.0' },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'First find where the resultant hits the base (measured from the toe): x\u0304 = (\u03A3MR \u2013 MO)/\u03A3V = (18,000 \u2013 6,000)/5,000 = 12,000/5,000 = 2.40 ft. Eccentricity from the center: e = B/2 \u2013 x\u0304 = 3.0 \u2013 2.4 = 0.60 ft. Check: B/6 = 1.0 ft, and e = 0.60 < 1.0, so the resultant is in the middle third \u2714. Choice A (2.40) is x\u0304, the distance from the toe, not the eccentricity from the center. Choice C (3.0) is B/2. Choice D (1.20) doubles e by mistake.',
+      eli5: 'First find where the resultant hits the base (measured from the toe): x\u0304 = (\u03A3MR \u2013 MO)/\u03A3V = (18,000 \u2013 6,000)/5,000 = 12,000/5,000 = 2.40 ft. Eccentricity from the center: e = B/2 \u2013 x\u0304 = 3.0 \u2013 2.4 = 0.60 ft. Check: B/6 = 1.0 ft, and e = 0.60 < 1.0, so the resultant is in the middle third \u2714. The 2.40 ft option is x\u0304, the distance from the toe, not the eccentricity from the center. The 3.00 ft option is B/2. The 1.20 ft option doubles e by mistake.',
       hint: 'Find x\u0304 (distance from toe), then e = B/2 \u2013 x\u0304.',
       steps: [
         { text: 'Location of resultant from toe:', latex: '\\bar{x} = \\frac{\\Sigma M_R - M_O}{\\Sigma V} = \\frac{18{,}000 - 6{,}000}{5{,}000} = 2.40 \\text{ ft}' },

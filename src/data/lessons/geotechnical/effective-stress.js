@@ -28,7 +28,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: '\u03C3 = \u03B3sat \u00D7 H = 115 \u00D7 10 = 1,150 psf. u = \u03B3w \u00D7 H = 62.4 \u00D7 10 = 624 psf. \u03C3\' = 1,150 \u2013 624 = 526 psf. Or use the shortcut: \u03C3\' = \u03B3\' \u00D7 H = (115 \u2013 62.4) \u00D7 10 = 52.6 \u00D7 10 = 526 psf. Choice B (1,150) is the total stress \u2014 forgetting to subtract pore pressure. Choice C (624) is the pore pressure itself.',
+      eli5: '\u03C3 = \u03B3sat \u00D7 H = 115 \u00D7 10 = 1,150 psf. u = \u03B3w \u00D7 H = 62.4 \u00D7 10 = 624 psf. \u03C3\' = 1,150 \u2013 624 = 526 psf. Or use the shortcut: \u03C3\' = \u03B3\' \u00D7 H = (115 \u2013 62.4) \u00D7 10 = 52.6 \u00D7 10 = 526 psf. The 1,150 psf option is the total stress \u2014 forgetting to subtract pore pressure. The 624 psf option is the pore pressure itself.',
       hint: '\u03C3\' = \u03C3 \u2013 u. Compute total stress and pore water pressure separately, then subtract.',
       steps: [
         { text: 'Total stress:', latex: '\\sigma = \\gamma_{sat} \\times H = 115 \\times 10 = 1{,}150 \\text{ psf}' },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Total stress at the bottom: \u03C3 = 110(5) + 120(8) = 550 + 960 = 1,510 psf. Pore pressure: u = 62.4(8) = 499 psf (water is 8 ft deep below the WT). Effective: \u03C3\' = 1,510 \u2013 499 = 1,011 psf. Choice A (1,510) is the total stress. Choice C (960) is only the clay layer contribution without the sand above. Choice D (526) uses only the buoyant weight of clay without the sand overburden.',
+      eli5: 'Total stress at the bottom: \u03C3 = 110(5) + 120(8) = 550 + 960 = 1,510 psf. Pore pressure: u = 62.4(8) = 499 psf (water is 8 ft deep below the WT). Effective: \u03C3\' = 1,510 \u2013 499 = 1,011 psf. The 1,510 psf option is the total stress. The 960 psf option is only the clay layer contribution without the sand above. The 526 psf option uses only the buoyant weight of clay without the sand overburden.',
       hint: 'Total stress includes both layers. Pore pressure only exists in the saturated zone (below the WT).',
       steps: [
         { text: 'Total stress at bottom of clay:', latex: '\\sigma = 110(5) + 120(8) = 550 + 960 = 1{,}510 \\text{ psf}' },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Total stress: \u03C3 = 100 + 105(6) + 118(10) = 100 + 630 + 1,180 = 1,910 psf. Pore pressure: u = 62.4(10) = 624 psf. Effective: \u03C3\' = 1,910 \u2013 624 = 1,286 psf. The surcharge adds to total stress but NOT to pore pressure. Choice B (1,910) forgets to subtract u. Choice A (1,186) forgot the surcharge. Choice D (1,810) subtracted the surcharge from total stress instead of subtracting pore pressure.',
+      eli5: 'Total stress: \u03C3 = 100 + 105(6) + 118(10) = 100 + 630 + 1,180 = 1,910 psf. Pore pressure: u = 62.4(10) = 624 psf. Effective: \u03C3\' = 1,910 \u2013 624 = 1,286 psf. The surcharge adds to total stress but NOT to pore pressure. The 1,910 psf option forgets to subtract u. The 1,186 psf option forgot the surcharge. The 1,810 psf option subtracted the surcharge from total stress instead of subtracting pore pressure.',
       hint: 'Surcharge adds to total stress at all depths but does not change pore water pressure.',
       steps: [
         { text: 'Total stress:', latex: '\\sigma = 100 + 105(6) + 118(10) = 100 + 630 + 1{,}180 = 1{,}910 \\text{ psf}' },

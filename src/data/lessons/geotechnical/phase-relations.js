@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'When soil is fully saturated, S = 1. The master relationship Se = wGs becomes e = wGs = 0.20 \u00D7 2.70 = 0.54. Choice B (0.74) might come from using w = 0.274 or a different Gs. Choice C (2.70) is just the specific gravity. Choice D (0.20) confuses the water content with the void ratio.',
+      eli5: 'When soil is fully saturated, S = 1. The master relationship Se = wGs becomes e = wGs = 0.20 \u00D7 2.70 = 0.54. The 0.74 choice might come from using w = 0.274 or a different Gs. The 2.70 choice is just the specific gravity. The 0.20 choice confuses the water content with the void ratio.',
       hint: 'At full saturation, S = 1. Use Se = wGs to solve directly for e.',
       steps: [
         { text: 'At full saturation, $S = 1$:', latex: 'Se = \\omega G_s \\implies e = \\omega G_s' },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'First get the dry unit weight: \u03B3d = \u03B3/(1+w) = 120/1.15 = 104.3 pcf. Then find e from \u03B3d = Gs\u03B3w/(1+e): e = Gs\u03B3w/\u03B3d \u2013 1 = 2.65 \u00D7 62.4/104.3 \u2013 1 = 0.586. Finally S = wGs/e = 0.15 \u00D7 2.65/0.586 = 0.678 \u2248 68%. Choice A (85%) might come from skipping the e calculation and guessing. Choice C (100%) assumes full saturation, which the problem does not state.',
+      eli5: 'First get the dry unit weight: \u03B3d = \u03B3/(1+w) = 120/1.15 = 104.3 pcf. Then find e from \u03B3d = Gs\u03B3w/(1+e): e = Gs\u03B3w/\u03B3d \u2013 1 = 2.65 \u00D7 62.4/104.3 \u2013 1 = 0.586. Finally S = wGs/e = 0.15 \u00D7 2.65/0.586 = 0.678 \u2248 68%. The 85% choice might come from skipping the e calculation and guessing. The 100% choice assumes full saturation, which the problem does not state.',
       hint: 'Find \u03B3d first, then compute e, then use S = wGs/e.',
       steps: [
         { text: 'Dry unit weight:', latex: '\\gamma_d = \\frac{\\gamma}{1+\\omega} = \\frac{120}{1.15} = 104.3 \\text{ pcf}' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Start with \u03B3sat = (Gs + e)\u03B3w/(1+e). Plug in: 125(1+e) = 62.4(2.72+e). Expand: 125 + 125e = 169.73 + 62.4e. Solve: 62.6e = 44.73, so e = 0.714. Since the soil is saturated (S = 1): w = Se/Gs = e/Gs = 0.714/2.72 = 0.263 = 26%. Choice C (71%) confuses e with w \u2014 the void ratio is 0.714 but the water content is e/Gs. Choice A (17%) might come from using the wrong unit weight formula.',
+      eli5: 'Start with \u03B3sat = (Gs + e)\u03B3w/(1+e). Plug in: 125(1+e) = 62.4(2.72+e). Expand: 125 + 125e = 169.73 + 62.4e. Solve: 62.6e = 44.73, so e = 0.714. Since the soil is saturated (S = 1): w = Se/Gs = e/Gs = 0.714/2.72 = 0.263 = 26%. The 71% choice confuses e with w \u2014 the void ratio is 0.714 but the water content is e/Gs. The 17% choice might come from using the wrong unit weight formula.',
       hint: 'Solve the \u03B3sat formula for e first. Then use w = e/Gs (since S = 1 for saturated soil).',
       steps: [
         { text: 'Saturated unit weight formula:', latex: '\\gamma_{sat} = \\frac{(G_s + e)\\gamma_w}{1+e}' },

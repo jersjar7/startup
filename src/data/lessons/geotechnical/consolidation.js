@@ -60,7 +60,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Tv = cv\u00B7t/Hdr\u00B2 \u2192 t = Tv\u00B7Hdr\u00B2/cv = 0.197 \u00D7 25/0.50 = 9.85 \u2248 10 days. Two-way drainage means Hdr = H/2 = 5 ft. Choice B (20 days) uses Hdr = 10 ft (one-way drainage). Choice A (5 days) might divide by 2 again. Choice D (39 days) uses Tv = 0.785 (for U = 90%).',
+      eli5: 'Tv = cv\u00B7t/Hdr\u00B2 \u2192 t = Tv\u00B7Hdr\u00B2/cv = 0.197 \u00D7 25/0.50 = 9.85 \u2248 10 days. Two-way drainage means Hdr = H/2 = 5 ft. The 20 days choice uses Hdr = 10 ft (one-way drainage). The 5 days choice might divide by 2 again. The 39 days choice uses Tv = 0.785 (for U = 90%).',
       hint: 'Rearrange Tv = cv\u00B7t/Hdr\u00B2 to solve for t. Two-way drainage means Hdr = H/2.',
       steps: [
         { text: 'Two-way drainage:', latex: 'H_{dr} = H/2 = 10/2 = 5 \\text{ ft}' },
@@ -86,7 +86,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Since p0 = 800 < pc = 1,200 < p0+\u0394p = 1,400 \u2192 Case 3 (crosses preconsolidation). \u0394H = H/(1+e0) \u00D7 [Cr \u00D7 log(pc/p0) + Cc \u00D7 log((p0+\u0394p)/pc)] = 12/2.10 \u00D7 [0.06 \u00D7 log(1200/800) + 0.40 \u00D7 log(1400/1200)] = 5.714 \u00D7 [0.06 \u00D7 0.1761 + 0.40 \u00D7 0.0669] = 5.714 \u00D7 [0.01057 + 0.02678] = 5.714 \u00D7 0.03735 = 0.213 ft = 2.6 in. Choice B (4.8 in.) uses Cc for both terms. Choice C (0.9 in.) uses Cr for both terms. The key is recognizing which case applies.',
+      eli5: 'Since p0 = 800 < pc = 1,200 < p0+\u0394p = 1,400 \u2192 Case 3 (crosses preconsolidation). \u0394H = H/(1+e0) \u00D7 [Cr \u00D7 log(pc/p0) + Cc \u00D7 log((p0+\u0394p)/pc)] = 12/2.10 \u00D7 [0.06 \u00D7 log(1200/800) + 0.40 \u00D7 log(1400/1200)] = 5.714 \u00D7 [0.06 \u00D7 0.1761 + 0.40 \u00D7 0.0669] = 5.714 \u00D7 [0.01057 + 0.02678] = 5.714 \u00D7 0.03735 = 0.213 ft = 2.6 in. The 4.8 in. choice uses Cc for both terms. The 0.9 in. choice uses Cr for both terms. The key is recognizing which case applies.',
       hint: 'Check: does the final stress exceed pc? If so, use Case 3 \u2014 Cr below pc and Cc above pc.',
       steps: [
         { text: '$p_0 < p_c < p_0 + \\Delta p$ \u2192 Case 3.', latex: null },

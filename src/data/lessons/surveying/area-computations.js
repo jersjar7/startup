@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'Cross products: AB: (0)(0) \u2013 (10)(0) = 0. BC: (10)(6) \u2013 (8)(0) = 60. CD: (8)(5) \u2013 (2)(6) = 40 \u2013 12 = 28. DA: (2)(0) \u2013 (0)(5) = 0. Sum = 0 + 60 + 28 + 0 = 88. Area = |88|/2 = 44. Choice A uses a rough rectangle approximation. Choice B forgets to divide by 2. Choice C divides by 4.',
+      eli5: 'Cross products: AB: (0)(0) \u2013 (10)(0) = 0. BC: (10)(6) \u2013 (8)(0) = 60. CD: (8)(5) \u2013 (2)(6) = 40 \u2013 12 = 28. DA: (2)(0) \u2013 (0)(5) = 0. Sum = 0 + 60 + 28 + 0 = 88. Area = |88|/2 = 44. The 50 sq units option uses a rough rectangle approximation. The 88 sq units option forgets to divide by 2. The 22 sq units option divides by 4.',
       hint: 'Four vertices means four cross-product pairs. Don\u2019t forget to pair the last vertex back with the first to close the polygon.',
       steps: [
         { text: 'Cross products for each edge:', latex: null },
@@ -88,7 +88,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Trapezoidal rule: A = w[(h_1 + h_n)/2 + h_2 + h_3 + ... + h_{n-1}] = 20[(0 + 0)/2 + 8 + 12 + 10] = 20[0 + 30] = 600 m\u00B2. The first and last offsets are 0, so their average is 0. Choice A uses w/2 for all terms. Choice C uses Simpson\u2019s coefficients incorrectly. Choice D divides by 2 again.',
+      eli5: 'Trapezoidal rule: A = w[(h_1 + h_n)/2 + h_2 + h_3 + ... + h_{n-1}] = 20[(0 + 0)/2 + 8 + 12 + 10] = 20[0 + 30] = 600 m\u00B2. The first and last offsets are 0, so their average is 0. The 480 m\u00b2 choice mis-applies w/2 to all terms. The 800 m\u00b2 choice uses Simpson\u2019s coefficients incorrectly. The 300 m\u00b2 choice divides the correct area by 2 again.',
       hint: 'Average the first and last offsets, add all the middle offsets at full value, then multiply by the interval width.',
       steps: [
         { text: 'Apply trapezoidal rule:', latex: 'A = w\\left(\\frac{h_1 + h_n}{2} + h_2 + h_3 + h_4\\right)' },

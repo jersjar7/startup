@@ -118,7 +118,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$VD = SD \\sin\\alpha = 185 \\times \\sin 12° = 185 \\times 0.2079 = 38.44$ ft. But the angle is below horizontal, so the elevation difference is negative (you are going downhill). $VD = -38.44$ ft. Choice A has the right magnitude but wrong sign. Choice C is the horizontal distance, not the vertical. Choice D applies the negative to the horizontal distance by mistake.',
+    eli5: '$VD = SD \\sin\\alpha = 185 \\times \\sin 12° = 185 \\times 0.2079 = 38.44$ ft. But the angle is below horizontal, so the elevation difference is negative (you are going downhill). $VD = -38.44$ ft. The +38.44 ft choice has the right magnitude but wrong sign. The 180.91 ft choice is the horizontal distance, not the vertical. The -180.91 ft choice applies the negative to the horizontal distance by mistake.',
     hint: 'Use $VD = SD \\sin\\alpha$ and watch the sign. Below horizontal means the target point is lower.',
     steps: [
       {
@@ -177,7 +177,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'For a 6-sided polygon, the interior angles must sum to $(6 - 2) \\times 180 = 720°$. The five known angles sum to $115 + 128 + 97 + 142 + 108 = 590°$. The sixth angle $= 720 - 590 = 130°$. Choice A is close but arithmetically wrong. Choice B is a guess. Choice D overshoots because it uses $n \\times 180 = 1080°$ instead of $(n - 2) \\times 180 = 720°$.',
+    eli5: 'For a 6-sided polygon, the interior angles must sum to $(6 - 2) \\times 180 = 720°$. The five known angles sum to $115 + 128 + 97 + 142 + 108 = 590°$. The sixth angle $= 720 - 590 = 130°$. The $120°$ choice is close but arithmetically wrong. The $90°$ choice is a guess. The $150°$ choice overshoots, the kind of error you get from using $n \\times 180 = 1080°$ instead of $(n - 2) \\times 180 = 720°$.',
     hint: 'Find the theoretical sum of interior angles for a 6-sided polygon, then subtract the five known angles.',
     steps: [
       {
@@ -228,7 +228,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'First find the Height of Instrument: $HI = 320.00 + 6.38 = 326.38$ ft. Then subtract the foresight to get the new elevation: $\\text{Elev}_X = 326.38 - 4.17 = 322.21$ ft. Point X is higher than the benchmark because the FS reading is smaller than the BS reading. Choice A subtracts both. Choice B subtracts the BS instead of adding it. Choice C adds both readings.',
+    eli5: 'First find the Height of Instrument: $HI = 320.00 + 6.38 = 326.38$ ft. Then subtract the foresight to get the new elevation: $\\text{Elev}_X = 326.38 - 4.17 = 322.21$ ft. Point X is higher than the benchmark because the FS reading is smaller than the BS reading. The 309.45 ft choice subtracts both readings. The 317.79 ft choice subtracts the BS instead of adding it. The 330.55 ft choice adds both readings.',
     hint: '$HI$ = known elevation + BS, then new elevation = $HI$ - FS.',
     steps: [
       {
@@ -279,7 +279,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Work through each setup. $HI_1 = 450.00 + 3.82 = 453.82$. $\\text{Elev}_{TP1} = 453.82 - 7.14 = 446.68$. $HI_2 = 446.68 + 6.55 = 453.23$. $\\text{Elev}_{TP2} = 453.23 - 2.41 = 450.82$. $HI_3 = 450.82 + 4.90 = 455.72$. $\\text{Elev}_C = 455.72 - 5.63 = 450.09$ ft. A shortcut is sum of BS minus sum of FS plus starting elevation: $(3.82 + 6.55 + 4.90) - (7.14 + 2.41 + 5.63) + 450 = 15.27 - 15.18 + 450 = 450.09$. Choice A reverses BS and FS. Choice B is the TP-1 elevation. Choice D is the TP-2 elevation.',
+    eli5: 'Work through each setup. $HI_1 = 450.00 + 3.82 = 453.82$. $\\text{Elev}_{TP1} = 453.82 - 7.14 = 446.68$. $HI_2 = 446.68 + 6.55 = 453.23$. $\\text{Elev}_{TP2} = 453.23 - 2.41 = 450.82$. $HI_3 = 450.82 + 4.90 = 455.72$. $\\text{Elev}_C = 455.72 - 5.63 = 450.09$ ft. A shortcut is sum of BS minus sum of FS plus starting elevation: $(3.82 + 6.55 + 4.90) - (7.14 + 2.41 + 5.63) + 450 = 15.27 - 15.18 + 450 = 450.09$. The 446.68 ft choice is the TP-1 elevation. The 450.82 ft choice is the TP-2 elevation. The 453.32 ft choice comes from mishandling the BS/FS signs.',
     hint: 'Process each setup: HI = elev + BS, new elev = HI - FS. Or use the shortcut: final elev = start elev + (sum BS - sum FS).',
     steps: [
       {
@@ -338,7 +338,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Misclosure $= |812.57 - 812.45| = 0.12$ ft. Allowable $= 0.035 \\times \\sqrt{9} = 0.035 \\times 3.0 = 0.105$ ft. Since $0.12 > 0.105$, the survey does NOT meet the tolerance and must be rerun. Choice A states the correct numbers but draws the wrong conclusion. Choice C uses $C \\times M$ instead of $C \\times \\sqrt{M}$. Choice D misreads the misclosure as 1.20 ft.',
+    eli5: 'Misclosure $= |812.57 - 812.45| = 0.12$ ft. Allowable $= 0.035 \\times \\sqrt{9} = 0.035 \\times 3.0 = 0.105$ ft. Since $0.12 > 0.105$, the survey does NOT meet the tolerance and must be rerun. The "Yes -- fails" choice states the correct numbers but draws the wrong conclusion (it says Yes yet describes a failure). The "less than allowable (0.315 ft)" choice uses $C \\times M$ instead of $C \\times \\sqrt{M}$. The "misclosure (1.20 ft)" choice misreads the misclosure as 1.20 ft.',
     hint: 'Misclosure = |computed - known|. Allowable $= C\\sqrt{M}$. Compare the two values.',
     steps: [
       {
@@ -389,7 +389,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'A turning point has TWO roles: it receives a foresight from the old instrument setup (which determines its elevation), then it receives a backsight from the new instrument setup (which establishes the new HI). After moving the instrument, the TP already has a known elevation from the previous foresight, so the first reading from the new position is a backsight on the TP. Choice B confuses the physical direction with the surveying definition. Choice C is wrong because order matters -- the FS must come before the instrument moves. Choice D confuses intermediate sights with turning points.',
+    eli5: 'A turning point has TWO roles: it receives a foresight from the old instrument setup (which determines its elevation), then it receives a backsight from the new instrument setup (which establishes the new HI). After moving the instrument, the TP already has a known elevation from the previous foresight, so the first reading from the new position is a backsight on the TP. The "foresight" choice confuses the physical direction with the surveying definition. The "either order" choice is wrong because order matters -- the FS must come before the instrument moves. The "intermediate sight" choice confuses intermediate sights with turning points.',
     hint: 'Think about what "backsight" means: a reading on a point whose elevation is already known.',
     steps: [
       {
@@ -439,7 +439,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Departure $= L \\sin\\theta = 350 \\times \\sin 55° = 350 \\times 0.8192 = 286.7$ m. The bearing is SE, so the departure is positive (eastward). The latitude would be negative (southward), but we only need the departure here. Choice A gets the sign wrong. Choice C uses cosine (that gives the latitude magnitude). Choice D uses cosine with a wrong sign.',
+    eli5: 'Departure $= L \\sin\\theta = 350 \\times \\sin 55° = 350 \\times 0.8192 = 286.7$ m. The bearing is SE, so the departure is positive (eastward). The latitude would be negative (southward), but we only need the departure here. The -286.7 m option gets the sign wrong. The 200.8 m option uses cosine (that gives the latitude magnitude). The -200.8 m option uses cosine with a wrong sign.',
     hint: 'Departure = L sin(bearing angle). Check the quadrant to determine the sign: east is positive.',
     steps: [
       {
@@ -490,7 +490,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Linear error $= \\sqrt{E_L^2 + E_D^2} = \\sqrt{0.12^2 + 0.09^2} = \\sqrt{0.0144 + 0.0081} = \\sqrt{0.0225} = 0.15$ m. This is a classic 3-4-5 right triangle relationship (0.09, 0.12, 0.15). Choice A subtracts the errors. Choice B adds the errors ($0.12 + 0.09 = 0.21$). Choice D averages them.',
+    eli5: 'Linear error $= \\sqrt{E_L^2 + E_D^2} = \\sqrt{0.12^2 + 0.09^2} = \\sqrt{0.0144 + 0.0081} = \\sqrt{0.0225} = 0.15$ m. This is a classic 3-4-5 right triangle relationship (0.09, 0.12, 0.15). The 0.03 m choice subtracts the errors. The 0.21 m choice adds the errors ($0.12 + 0.09 = 0.21$). The 0.105 m choice averages them.',
     hint: 'The linear closure error combines both error components using the Pythagorean theorem.',
     steps: [
       {
@@ -584,7 +584,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Compass rule departure correction $= -E_D \\times (L_i / \\Sigma L) = -(-0.12) \\times (375/1500) = +0.12 \\times 0.25 = +0.03$ m. Adjusted departure $= 210.50 + 0.03 = 210.53$ m. The negative departure error means the traverse drifted west, so we correct eastward (add). Choice B subtracts instead of adding. Choice C uses the full error. Choice D applies the latitude error to the departure.',
+    eli5: 'Compass rule departure correction $= -E_D \\times (L_i / \\Sigma L) = -(-0.12) \\times (375/1500) = +0.12 \\times 0.25 = +0.03$ m. Adjusted departure $= 210.50 + 0.03 = 210.53$ m. The negative departure error means the traverse drifted west, so we correct eastward (add). The +210.47 m choice subtracts the correction instead of adding it. The +210.80 m choice overcorrects with the full error. The +210.20 m choice applies the latitude error to the departure.',
     hint: 'Compass rule correction for departure = -E_D * (course length / total length). The sign of the correction opposes the error.',
     steps: [
       {
@@ -635,7 +635,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'easy',
-    eli5: 'Cross products: $(0 \\times 0 - 8 \\times 0) + (8 \\times 6 - 4 \\times 0) + (4 \\times 0 - 0 \\times 6) = 0 + 48 + 0 = 48$. Area $= |48|/2 = 24$ sq units. You can double-check: base = 8, height = 6, so $A = 8 \\times 6 / 2 = 24$. Choice A uses base times height / 3. Choice B forgets the 1/2. Choice D uses base times height / 1.5.',
+    eli5: 'Cross products: $(0 \\times 0 - 8 \\times 0) + (8 \\times 6 - 4 \\times 0) + (4 \\times 0 - 0 \\times 6) = 0 + 48 + 0 = 48$. Area $= |48|/2 = 24$ sq units. You can double-check: base = 8, height = 6, so $A = 8 \\times 6 / 2 = 24$. The 16 sq units choice uses base times height / 3. The 48 sq units choice forgets the 1/2. The 32 sq units choice uses base times height / 1.5.',
     hint: 'Set up cross products for adjacent vertex pairs: sum of $(x_i y_{i+1} - x_{i+1} y_i)$, then take half the absolute value.',
     steps: [
       {
@@ -704,7 +704,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Trapezoidal rule: $A = w[(h_1 + h_n)/2 + h_2 + h_3 + \\cdots + h_{n-1}]$. $A = 25[(0+0)/2 + 10 + 14 + 11 + 6] = 25 \\times 41 = 1025$ m². The first and last offsets are 0 so their average is 0, and the interior offsets are summed at full value. Choice A applies Simpson coefficients by mistake. Choice C divides the whole thing by 2. Choice D skips an interior offset.',
+    eli5: 'Trapezoidal rule: $A = w[(h_1 + h_n)/2 + h_2 + h_3 + \\cdots + h_{n-1}]$. $A = 25[(0+0)/2 + 10 + 14 + 11 + 6] = 25 \\times 41 = 1025$ m². The first and last offsets are 0 so their average is 0, and the interior offsets are summed at full value. The 1,281 m\u00b2 choice applies Simpson coefficients by mistake. The 512.5 m\u00b2 choice divides the whole thing by 2. The 850 m\u00b2 choice drops one of the interior offsets.',
     hint: 'Average the first and last offsets, then add all interior offsets. Multiply by the common interval.',
     steps: [
       {
@@ -769,7 +769,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Simpson\'s 1/3 rule: $A = (w/3)(h_1 + 4h_2 + 2h_3 + 4h_4 + h_5)$. We have 5 measurements (odd), so we have 4 intervals (even) — Simpson\'s applies. $A = (10/3)(0 + 4 \\times 5 + 2 \\times 8 + 4 \\times 6 + 0) = (10/3)(0 + 20 + 16 + 24 + 0) = (10/3)(60) = 200$ m². Choice A uses $w/3$ but misses the coefficients. Choice B (190) uses the trapezoidal rule. Choice D uses $w$ instead of $w/3$.',
+    eli5: 'Simpson\'s 1/3 rule: $A = (w/3)(h_1 + 4h_2 + 2h_3 + 4h_4 + h_5)$. We have 5 measurements (odd), so we have 4 intervals (even) — Simpson\'s applies. $A = (10/3)(0 + 4 \\times 5 + 2 \\times 8 + 4 \\times 6 + 0) = (10/3)(0 + 20 + 16 + 24 + 0) = (10/3)(60) = 200$ m². The 126.7 m\u00b2 choice uses $w/3$ but misses the coefficients. The 190.0 m\u00b2 choice uses the trapezoidal rule. The 280.0 m\u00b2 choice uses $w$ instead of $w/3$.',
     hint: 'Simpson’s 1/3 rule requires an odd number of offsets. The pattern of coefficients is 1, 4, 2, 4, 1.',
     steps: [
       {
@@ -887,7 +887,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: '$V = (L/2)(A_1 + A_2) = (100/2)(225 + 375) = 50 \\times 600 = 30000$ ft³. Convert to cubic yards: $30000 / 27 = 1111$ yd³. Choice A divides by 54 instead of 27. Choice B gives the volume in ft³, not yd³. Choice C forgets to divide $L$ by 2 (gets 60,000 ft³ / 27).',
+    eli5: '$V = (L/2)(A_1 + A_2) = (100/2)(225 + 375) = 50 \\times 600 = 30000$ ft³. Convert to cubic yards: $30000 / 27 = 1111$ yd³. The 556 yd³ choice divides by 54 instead of 27. The 30,000 yd³ choice gives the volume in ft³, not yd³. The 2,222 yd³ choice forgets to divide $L$ by 2 (gets 60,000 ft³ / 27).',
     hint: 'Average end area: $V = (L/2)(A_1 + A_2)$, then divide by 27 to convert ft³ to yd³.',
     steps: [
       {
@@ -931,7 +931,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$V = (L/6)(A_1 + 4A_m + A_2) = (80/6)(150 + 4 \\times 280 + 350) = 13.333 \\times 1620 = 21600$ ft³. The total distance $L$ between the end sections is 80 ft, not 40. Choice A uses the average end area method: $(80/2)(150 + 350) = 20000$. Choice C uses $L = 40$ (half the total distance). Choice D uses $L/4$ with a different weighting.',
+    eli5: '$V = (L/6)(A_1 + 4A_m + A_2) = (80/6)(150 + 4 \\times 280 + 350) = 13.333 \\times 1620 = 21600$ ft³. The total distance $L$ between the end sections is 80 ft, not 40. The 20,000 ft\u00b3 option uses the average end area method: $(80/2)(150 + 350) = 20000$. The 10,400 ft\u00b3 option uses too small an L. The 26,133 ft\u00b3 option uses a different (incorrect) weighting.',
     hint: 'Prismoidal: $V = (L/6)(A_1 + 4A_m + A_2)$. The total length $L$ is 80 ft (from station 0 to station 80).',
     steps: [
       {
@@ -982,7 +982,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Apply average end area to each segment. $V_1 = (100/2)(0 + 300) = 15000$ ft³. $V_2 = (100/2)(300 + 500) = 40000$ ft³. $V_3 = (100/2)(500 + 200) = 35000$ ft³. Total $= 15000 + 40000 + 35000 = 90000$ ft³. Convert to cubic yards: $90000 / 27 = 3333$ yd³. Choice A includes an extra segment from a miscount. Choice B only computes two of the three segments. Choice D forgets to divide $L$ by 2 in each segment.',
+    eli5: 'Apply average end area to each segment. $V_1 = (100/2)(0 + 300) = 15000$ ft³. $V_2 = (100/2)(300 + 500) = 40000$ ft³. $V_3 = (100/2)(500 + 200) = 35000$ ft³. Total $= 15000 + 40000 + 35000 = 90000$ ft³. Convert to cubic yards: $90000 / 27 = 3333$ yd³. The 3,704 yd\u00b3 option includes an extra segment from a miscount. The 1,852 yd\u00b3 option only computes two of the three segments. The 6,667 yd\u00b3 option forgets to divide $L$ by 2 in each segment.',
     hint: 'Apply the average end area formula to each pair of adjacent stations, sum all segment volumes, then convert to cubic yards (divide by 27).',
     steps: [
       {
@@ -1037,7 +1037,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'A cone (or pyramid) volume is $V = h \\times A_{base} / 3 = 15 \\times 2000 / 3 = 10000$ ft³. The 1/3 factor distinguishes a cone from a cylinder. Choice B uses $V = h \\times A$ (no 1/3 factor — that is a cylinder). Choice C uses $V = h \\times A / 2$ (average end area with $A_2 = 0$, which overcounts). Choice D divides by 6 instead of 3.',
+    eli5: 'A cone (or pyramid) volume is $V = h \\times A_{base} / 3 = 15 \\times 2000 / 3 = 10000$ ft³. The 1/3 factor distinguishes a cone from a cylinder. The 30,000 ft³ choice uses $V = h \\times A$ (no 1/3 factor — that is a cylinder). The 15,000 ft³ choice uses $V = h \\times A / 2$ (average end area with $A_2 = 0$, which overcounts). The 5,000 ft³ choice divides by 6 instead of 3.',
     hint: 'A cone tapers to a point, so V = (h x A_base) / 3, not h x A.',
     steps: [
       {
@@ -1084,7 +1084,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: '$L = \\pi R I / 180 = \\pi \\times 1200 \\times 30 / 180 = 200\\pi = 628$ ft. Choice A uses $I/2$ instead of $I$ in the formula. Choice B computes the tangent distance $T$ instead of $L$. Choice C uses $I = 60°$ (doubles the angle).',
+    eli5: '$L = \\pi R I / 180 = \\pi \\times 1200 \\times 30 / 180 = 200\\pi = 628$ ft. The 322 ft choice is the tangent distance $T = R\\tan(I/2) = 1200\\tan 15\\degree \\approx 322$ ft, not the curve length. The 436 ft choice is a wrong value that does not correspond to $L$. The 1{,}257 ft choice uses $I = 60\\degree$ (doubles the angle), giving $400\\pi$.',
     hint: '$L = \\pi R I / 180$. Plug in $R = 1200$ and $I = 30°$.',
     steps: [
       {
@@ -1134,7 +1134,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$M = R(1 - \\cos(I/2)) = 600(1 - \\cos 45°) = 600(1 - 0.7071) = 600 \\times 0.2929 = 175.7$ ft. The middle ordinate is the distance from the curve midpoint to the long chord. Choice A uses $R(\\sec(I/2) - 1)$, which is the external distance $E$, not $M$. Choice C is simply $R/2$. Choice D uses $R \\cos 45°$ instead of $R(1 - \\cos 45°)$.',
+    eli5: '$M = R(1 - \\cos(I/2)) = 600(1 - \\cos 45°) = 600(1 - 0.7071) = 600 \\times 0.2929 = 175.7$ ft. The middle ordinate is the distance from the curve midpoint to the long chord. The 248.5 ft choice uses $R(\\sec(I/2) - 1)$, which is the external distance $E$, not $M$. The 300.0 ft choice is simply $R/2$. The 424.3 ft choice uses $R \\cos 45°$ instead of $R(1 - \\cos 45°)$.',
     hint: '$M = R(1 - \\cos(I/2))$. Use half the intersection angle inside the cosine.',
     steps: [
       {
@@ -1187,7 +1187,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'First find $R$: $R = 5729.58 / 5 = 1145.92$ ft. Then the tangent distance: $T = R \\tan(I/2) = 1145.92 \\times \\tan 15° = 1145.92 \\times 0.2680 = 307.05$ ft. Station of PC $= PI - T = 5000 - 307.05 = 4692.95$ = station 46+92.95. Choice A rounds $T$ to 300 ft. Choice B adds $T$ to the PI instead of subtracting (that gives the PT via the tangent, not the PC). Choice D subtracts $L$ instead of $T$.',
+    eli5: 'First find $R$: $R = 5729.58 / 5 = 1145.92$ ft. Then the tangent distance: $T = R \\tan(I/2) = 1145.92 \\times \\tan 15° = 1145.92 \\times 0.2680 = 307.05$ ft. Station of PC $= PI - T = 5000 - 307.05 = 4692.95$ = station 46+92.95. The $47+00.00$ choice rounds $T$ to 300 ft. The $53+07.05$ choice adds $T$ to the PI instead of subtracting (that gives the PT via the tangent, not the PC). The $44+00.00$ choice subtracts $L$ instead of $T$.',
     hint: 'Find $R$ from $D$, then $T = R \\tan(I/2)$. Station of PC = Station of PI $- T$.',
     steps: [
       {
@@ -1244,7 +1244,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: '$PC = PI - T = 3000 - 400 = 2600$ = station 26+00. $PT = PC + L = 2600 + 750 = 3350$ = station 33+50. The key insight is that PT is found by adding the arc length $L$ to the PC station, NOT by adding $T$ to the PI. The tangent distance $T$ goes from the PI back to the PC (or forward to the PT along the tangent), but the actual curve station at the PT uses the arc distance $L$. Choice B adds $T$ to the PI for the PT (that gives a point on the tangent, not the curve). Choice C confuses the PT with the PI. Choice D places the PC at the PI.',
+    eli5: '$PC = PI - T = 3000 - 400 = 2600$ = station 26+00. $PT = PC + L = 2600 + 750 = 3350$ = station 33+50. The key insight is that PT is found by adding the arc length $L$ to the PC station, NOT by adding $T$ to the PI. The tangent distance $T$ goes from the PI back to the PC (or forward to the PT along the tangent), but the actual curve station at the PT uses the arc distance $L$. The choice with PT at 34+00 adds $T$ to the PI for the PT (that gives a point on the tangent, not the curve). The choice with PT at 30+00 confuses the PT with the PI. The choice with PC at 30+00 places the PC at the PI.',
     hint: 'PC = PI - T. PT = PC + L (arc length along the curve). Do NOT compute PT as PI + T.',
     steps: [
       {
@@ -1301,7 +1301,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Plug into the curve formula: $Y = Y_{PVC} + g_1 x + [(g_2 - g_1)/(2L)]x^2$. The parabola constant $a = (-0.02 - 0.02)/(2 \\times 400) = -0.04/800 = -0.00005$. $Y = 150 + 0.02(100) + (-0.00005)(100^2) = 150 + 2.0 - 0.5 = 151.5$ ft. Choice A (152.0) is the tangent elevation, ignoring the parabolic correction. Choice C is the PVC elevation. Choice D subtracts the grade instead of adding it.',
+    eli5: 'Plug into the curve formula: $Y = Y_{PVC} + g_1 x + [(g_2 - g_1)/(2L)]x^2$. The parabola constant $a = (-0.02 - 0.02)/(2 \\times 400) = -0.04/800 = -0.00005$. $Y = 150 + 0.02(100) + (-0.00005)(100^2) = 150 + 2.0 - 0.5 = 151.5$ ft. The 152.0 ft choice is the tangent elevation, ignoring the parabolic correction. The 150.0 ft choice is the PVC elevation. The 148.0 ft choice subtracts the grade instead of adding it.',
     hint: 'Use the curve formula Y = Y_PVC + g_1 x + [(g_2 - g_1)/(2L)]x^2. Convert percent grades to decimals.',
     steps: [
       {
@@ -1357,7 +1357,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The low point is at $x_m = -g_1 L/(g_2 - g_1) = -(-0.02)(600)/(0.04 - (-0.02)) = 12/0.06 = 200$ ft from the PVC. Elevation: $Y = 340 + (-0.02)(200) + [(0.04 - (-0.02))/(2 \\times 600)](200^2) = 340 - 4.0 + 2.0 = 338.00$ ft. Choice A uses $x_m = -g_2 L/(g_1 - g_2)$. Choice B puts the low point at $L/2$ (only true when $|g_1| = |g_2|$). Choice D gets the location right but computes the elevation using only the tangent.',
+    eli5: 'The low point is at $x_m = -g_1 L/(g_2 - g_1) = -(-0.02)(600)/(0.04 - (-0.02)) = 12/0.06 = 200$ ft from the PVC. Elevation: $Y = 340 + (-0.02)(200) + [(0.04 - (-0.02))/(2 \\times 600)](200^2) = 340 - 4.0 + 2.0 = 338.00$ ft. The 400 ft option uses $x_m = -g_2 L/(g_1 - g_2)$. The 300 ft / 337.50 ft option puts the low point at $L/2$ (only true when $|g_1| = |g_2|$). The 200 ft / 336.00 ft option gets the location right but computes the elevation using only the tangent.',
     hint: 'Low point is at $x_m = -g_1 L/(g_2 - g_1)$. Then plug $x_m$ into the curve elevation formula.',
     steps: [
       {
@@ -1416,7 +1416,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$A = |g_1 - g_2| = |3 - (-5)| = 8\\%$. For a crest curve with $S \\le L$ and standard criteria, $L = AS^2 / 2158 = 8 \\times 500^2 / 2158 = 2000000 / 2158 = 927$ ft. Since $L = 927 > S = 500$, the assumption $S \\le L$ is valid. Choice A uses the general formula denominator (1,079) instead of the standard criteria (2,158). Choice C uses $A = 5$ instead of 8. Choice D divides $L$ by 2.',
+    eli5: '$A = |g_1 - g_2| = |3 - (-5)| = 8\\%$. For a crest curve with $S \\le L$ and standard criteria, $L = AS^2 / 2158 = 8 \\times 500^2 / 2158 = 2000000 / 2158 = 927$ ft. Since $L = 927 > S = 500$, the assumption $S \\le L$ is valid. The 1,855 ft choice uses the general/headlight denominator (1,079) instead of the standard-criteria denominator (2,158). The 556 ft choice mis-divides (it is not what $A=5$ would give; $A=5$ yields 579 ft). The 463 ft choice divides $L$ by 2.',
     hint: 'For a crest curve with $S \\le L$ and standard criteria, $L = AS^2 / 2158$. First find $A = |g_1 - g_2|$ in percent.',
     steps: [
       {
@@ -1471,7 +1471,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: '$K = L/A$, so $L = K \\times A$. First find $A = |g_1 - g_2| = |4 - (-2)| = 6\\%$. Then $L = 120 \\times 6 = 720$ ft. The $K$-value represents feet of curve per percent change in grade — a higher $K$ means a longer, gentler curve with better sight distance. Choice B uses $A = 4$ (only one grade, not the difference). Choice C uses $A = 2$. Choice D uses $K/A$ instead of $K \\times A$.',
+    eli5: '$K = L/A$, so $L = K \\times A$. First find $A = |g_1 - g_2| = |4 - (-2)| = 6\\%$. Then $L = 120 \\times 6 = 720$ ft. The $K$-value represents feet of curve per percent change in grade — a higher $K$ means a longer, gentler curve with better sight distance. The 480 ft option uses $A = 4$ (only one grade, not the difference). The 240 ft option uses $A = 2$. The 20 ft option uses $K/A$ instead of $K \\times A$.',
     hint: 'K = L/A, so L = K x A. Remember that A = |g_1 - g_2| is in percent.',
     steps: [
       {
@@ -1506,7 +1506,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'ΔE = 600, ΔN = 800; distance = √(600² + 800²) = √(360,000 + 640,000) = √1,000,000 = 1,000 ft (a 6-8-10 triangle). Choice B adds the differences. Choice C averages them. Choice D halves ΔN.',
+    eli5: 'ΔE = 600, ΔN = 800; distance = √(600² + 800²) = √(360,000 + 640,000) = √1,000,000 = 1,000 ft (a 6-8-10 triangle). The 1,400 ft option adds the differences (600 + 800). The 700 ft option averages them. The 500 ft option halves the correct distance (1,000/2).',
     hint: 'Distance = √(ΔE² + ΔN²).',
     steps: [
       { text: 'Differences:', latex: '\\Delta E = 600, \\quad \\Delta N = 800' },

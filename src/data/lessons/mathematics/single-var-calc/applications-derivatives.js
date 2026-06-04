@@ -70,7 +70,7 @@ export default {
       ],
       "correctAnswerId": "c2",
       "difficulty": "easy",
-      "eli5": "Take the derivative, set it to zero, solve for $x$. That is it. The second derivative is $-4$, which is negative — concave down — so it is a max, not a min. Since the leading coefficient is negative, the parabola opens downward, so of course it is a max. Choice C ($x = 8$) is what you get if you forget the factor of 2 when differentiating $-2x^2$. Always double-check your power rule on the leading term.",
+      "eli5": "Take the derivative, set it to zero, solve for $x$. That is it. The second derivative is $-4$, which is negative — concave down — so it is a max, not a min. Since the leading coefficient is negative, the parabola opens downward, so of course it is a max. The choice $x = 8$ is what you get if you forget the factor of 2 when differentiating $-2x^2$. Always double-check your power rule on the leading term.",
       "hint": "Set $f'(x) = 0$ and solve. Is the parabola opening up or down?",
       "steps": [
         {
@@ -118,7 +118,7 @@ export default {
       ],
       "correctAnswerId": "c1",
       "difficulty": "medium",
-      "eli5": "Same process — derivative, set to zero, solve. You get $h = 6$. The second derivative is positive ($6 > 0$), so it is concave up — a minimum. The extra step is plugging $h = 6$ back into the original function to get the cost. Choice B is the trap for students who find the right $h$ but give the constant term (150) as the cost instead of actually evaluating $C(6)$. Always plug back in.",
+      "eli5": "Same process — derivative, set to zero, solve. You get $h = 6$. The second derivative is positive ($6 > 0$), so it is concave up — a minimum. The extra step is plugging $h = 6$ back into the original function to get the cost. The choice giving C = 150/m is the trap for students who find the right $h$ but give the constant term (150) as the cost instead of actually evaluating $C(6)$. Always plug back in.",
       "hint": "After finding where $C'(h) = 0$, plug that value back into the original $C(h)$ to find the minimum cost.",
       "steps": [
         {
@@ -170,7 +170,7 @@ export default {
       ],
       "correctAnswerId": "c4",
       "difficulty": "hard",
-      "eli5": "An inflection point is where the curve changes from bending one way to bending the other — concave up to concave down or vice versa. Set the SECOND derivative to zero, not the first. That is the most common mistake: students set y' = 0 and find critical points instead. Choice A (x = 2) and Choice C (x = 6) are the critical points where y' = 0 — those are max/min locations, not inflection points. The inflection point is where y'' = 0 and actually changes sign.",
+      "eli5": "An inflection point is where the curve changes from bending one way to bending the other — concave up to concave down or vice versa. Set the SECOND derivative to zero, not the first. That is the most common mistake: students set y' = 0 and find critical points instead. The choices x = 2 m and x = 6 m are the critical points where y' = 0 — those are max/min locations, not inflection points. The inflection point is where y'' = 0 and actually changes sign.",
       "hint": "Inflection points come from the second derivative, not the first. Set $y''(x) = 0$.",
       "steps": [
         {

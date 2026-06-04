@@ -76,7 +76,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The vertex of a parabola occurs at $x = -b/(2a) = 12/4 = 3$. The minimum elevation is the $y$-value there: $y = 2(3)^2 - 12(3) + 5 = 18 - 36 + 5 = -13$. The value 3 is the vertex $x$-coordinate, not the elevation — a classic mix-up. The value 5 is the $y$-intercept (the value at $x = 0$), not the minimum. The value $-7$ drops the constant term.',
+    eli5: 'The vertex of a parabola occurs at $x = -b/(2a) = 12/4 = 3$. The minimum elevation is the $y$-value there: $y = 2(3)^2 - 12(3) + 5 = 18 - 36 + 5 = -13$. The value 3 is the vertex $x$-coordinate, not the elevation — a classic mix-up. The value 5 is the $y$-intercept (the value at $x = 0$), not the minimum. The value $-7$ is just a distractor; computing $y$ correctly at $x=3$ gives $18-36+5=-13$ (dropping the constant term would instead give $-18$).',
     hint: 'Find the vertex $x = -b/(2a)$ first, then substitute back to get the minimum $y$.',
     steps: [
       {
@@ -864,7 +864,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'First find where the curves cross: $2x = x^2$ gives $x = 0$ and $x = 2$. Between them the line $2x$ is on top, so integrate (top minus bottom): $\\int_0^2 (2x - x^2)\\,dx = [x^2 - x^3/3]_0^2 = 4 - 8/3 = 4/3$. The value $8/3$ integrates $2x$ alone (the area under the line, not between the curves). The value 4 is the area under the line only without subtracting. The value $2/3$ integrates $x^2$ alone.',
+    eli5: 'First find where the curves cross: $2x = x^2$ gives $x = 0$ and $x = 2$. Between them the line $2x$ is on top, so integrate (top minus bottom): $\\int_0^2 (2x - x^2)\\,dx = [x^2 - x^3/3]_0^2 = 4 - 8/3 = 4/3$. The value $8/3$ integrates $x^2$ alone (the area under the parabola, $\\int_0^2 x^2\\,dx = 8/3$). The value 4 is the area under the line only without subtracting ($\\int_0^2 2x\\,dx = 4$). The value $2/3$ is a miscalculation distractor.',
     hint: 'Find the intersection points, then integrate (upper curve minus lower curve) between them.',
     steps: [
       {
@@ -1291,7 +1291,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Parentheses are evaluated first, then the multiplication. (A1+A2) = 4+2 = 6, then × A3 = 6 × 5 = 30. Choice B (14) ignores the parentheses and does 4 + 2*5. Choice C (11) just adds all three. Choice D (40) treats the addition as a multiplication.',
+    eli5: 'Parentheses are evaluated first, then the multiplication. (A1+A2) = 4+2 = 6, then × A3 = 6 × 5 = 30. The 14 option ignores the parentheses and does 4 + 2*5. The 11 option just adds all three. The 40 option treats the addition as a multiplication.',
     hint: 'Parentheses first, then multiply.',
     steps: [
       { text: 'Evaluate the parentheses: A1 + A2 = 4 + 2 = 6.', latex: null },
@@ -1320,7 +1320,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Grow the balance by 10% each pass while it is below 1200. Year 1: 1000 × 1.1 = 1100 (still < 1200). Year 2: 1100 × 1.1 = 1210 (now ≥ 1200, so the loop stops). year = 2. Choice B (1) stops too early; the balance was still under 1200 after one year.',
+    eli5: 'Grow the balance by 10% each pass while it is below 1200. Year 1: 1000 × 1.1 = 1100 (still < 1200). Year 2: 1100 × 1.1 = 1210 (now ≥ 1200, so the loop stops). year = 2. The choice "1" stops too early; the balance was still under 1200 after one year.',
     hint: 'Keep compounding by 1.1 until the balance reaches 1200; count the passes.',
     steps: [
       { text: 'Pass 1: 1000 × 1.1 = 1100, year = 1. Check: 1100 < 1200 → continue.', latex: null },
@@ -1350,7 +1350,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Bisection always converges once you bracket a sign change — it just keeps halving the interval. Newton\'s method is faster but can diverge with a poor guess or near-zero derivative. Choice C and D are false; both methods handle nonlinear functions.',
+    eli5: 'Bisection always converges once you bracket a sign change — it just keeps halving the interval. Newton\'s method is faster but can diverge with a poor guess or near-zero derivative. The "neither converges reliably" and "both fail if the function is nonlinear" options are false; both methods handle nonlinear functions.',
     hint: 'Which method only needs a bracketed sign change, not a good initial guess or derivative?',
     steps: [
       { text: 'Bisection halves a bracketed interval each step.', latex: null },

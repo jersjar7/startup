@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'You have initial velocity, final velocity, and distance — but no time. That combination screams v-squared equation. Plug in and solve for a. Choice A comes from dividing the velocity difference by the distance (20/200). Choice C comes from squaring velocity difference divided by distance incorrectly.',
+    eli5: 'You have initial velocity, final velocity, and distance — but no time. That combination screams v-squared equation. Plug in and solve for a. The 0.10 m/s^2 choice comes from dividing the velocity difference by the distance (20/200). The 4.0 m/s^2 choice comes from dropping the factor of 2 and computing (v^2 - v_0^2)/s = 800/200.',
     hint: 'Which kinematic equation connects two velocities and a distance without needing time?',
     steps: [
       {
@@ -77,7 +77,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'For range, you can either use the range formula $R = v_0^2 \\sin(2\\theta) / g$, or work it from first principles: find time of flight from the vertical equation, then multiply by horizontal velocity. At 45 degrees, $\\sin(90°) = 1$, so $R = v_0^2 / g$. Choice B comes from using $v_0 \\sin 45°$ instead of $v_0^2$. Choice D comes from doubling the correct answer — maybe computing total distance incorrectly.',
+    eli5: 'For range, you can either use the range formula $R = v_0^2 \\sin(2\\theta) / g$, or work it from first principles: find time of flight from the vertical equation, then multiply by horizontal velocity. At 45 degrees, $\\sin(90°) = 1$, so $R = v_0^2 / g$. The 115.3 m choice comes from using $v_0 \\sin 45°$ instead of $v_0^2$. The 326.1 m choice comes from doubling the correct answer — maybe computing total distance incorrectly.',
     hint: 'For a symmetric projectile (launched from and landing at the same height), use the range formula or find the total flight time from the vertical motion.',
     steps: [
       {
@@ -185,7 +185,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'This is a two-step problem. First, find how long it takes to fall 45 m using the vertical equation (no initial vertical velocity since the throw is horizontal). Then multiply that time by the horizontal speed. The horizontal and vertical motions are independent — that is the key concept. Choice A uses half the correct time. Choice C multiplies height by horizontal speed directly.',
+    eli5: 'This is a two-step problem. First, find how long it takes to fall 45 m using the vertical equation (no initial vertical velocity since the throw is horizontal). Then multiply that time by the horizontal speed. The horizontal and vertical motions are independent — that is the key concept. The 18.2 m option uses half the correct fall time. The 54.5 m option multiplies the height by the horizontal speed directly.',
     hint: 'The ball has no initial vertical velocity. Find the fall time from the vertical motion, then multiply by the horizontal speed.',
     steps: [
       {
@@ -238,7 +238,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'First convert 120 rpm to rad/s: multiply by $2\\pi/60$ to get 12.57 rad/s. Then use the angular kinematic equation: $\\omega = \\omega_0 + \\alpha t$. The final angular velocity is 0 (brought to rest), so $\\alpha = -12.57/10 = -1.26$ rad/s². The magnitude of deceleration is 1.26. Choice C (12.0) comes from using rpm directly without converting. Choice A (0.40) uses the period formula incorrectly.',
+    eli5: 'First convert 120 rpm to rad/s: multiply by $2\\pi/60$ to get 12.57 rad/s. Then use the angular kinematic equation: $\\omega = \\omega_0 + \\alpha t$. The final angular velocity is 0 (brought to rest), so $\\alpha = -12.57/10 = -1.26$ rad/s². The magnitude of deceleration is 1.26. The 12.0 rad/s^2 choice comes from using rpm directly without converting. The 0.40 rad/s^2 choice uses the period formula incorrectly.',
     hint: 'Convert rpm to rad/s first, then use the angular analog of $v = v_0 + at$.',
     steps: [
       {
@@ -289,7 +289,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Use the angular displacement equation: $\\theta = \\omega_0 t + \\tfrac{1}{2}\\alpha t^2$. With $\\omega_0 = 0$, that gives $\\theta = 0.5 \\times 3 \\times 64 = 96$ rad. Then convert to revolutions by dividing by $2\\pi$: $96 / (2\\pi) = 15.3$ revolutions. Choice D (96) is the angular displacement in radians, not revolutions. Choice A (12) comes from using $\\alpha t$ instead of $\\tfrac{1}{2}\\alpha t^2$.',
+    eli5: 'Use the angular displacement equation: $\\theta = \\omega_0 t + \\tfrac{1}{2}\\alpha t^2$. With $\\omega_0 = 0$, that gives $\\theta = 0.5 \\times 3 \\times 64 = 96$ rad. Then convert to revolutions by dividing by $2\\pi$: $96 / (2\\pi) = 15.3$ revolutions. The choice $96$ is the angular displacement in radians, not revolutions. The choice $12$ comes from using $\\alpha t$ instead of $\\tfrac{1}{2}\\alpha t^2$.',
     hint: 'Compute the angular displacement in radians first, then divide by $2\\pi$ to convert to revolutions.',
     steps: [
       {
@@ -336,7 +336,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Two steps: compute the centroidal MOI, then use the parallel-axis theorem to transfer to the end. The centroidal MOI is $\\tfrac{1}{12}(8)(1.2^2) = 0.96$ kg·m². The distance from the centroid to the end is $L/2 = 0.6$ m. The transfer term is $md^2 = 8(0.6^2) = 2.88$. Add them: $0.96 + 2.88 = 3.84$ kg·m². Notice that $\\tfrac{1}{12}mL^2 + m(L/2)^2 = \\tfrac{1}{3}mL^2$, which is the standard end-of-rod formula. Choice A is just the centroidal term without the transfer.',
+    eli5: 'Two steps: compute the centroidal MOI, then use the parallel-axis theorem to transfer to the end. The centroidal MOI is $\\tfrac{1}{12}(8)(1.2^2) = 0.96$ kg·m². The distance from the centroid to the end is $L/2 = 0.6$ m. The transfer term is $md^2 = 8(0.6^2) = 2.88$. Add them: $0.96 + 2.88 = 3.84$ kg·m². Notice that $\\tfrac{1}{12}mL^2 + m(L/2)^2 = \\tfrac{1}{3}mL^2$, which is the standard end-of-rod formula. The choice 0.96 kg\u00b7m\u00b2 is just the centroidal term without the transfer.',
     hint: 'The distance from the centroid to the end of a uniform rod is $L/2$. Apply $I = I_c + md^2$.',
     steps: [
       {
@@ -535,7 +535,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The angled cable does two things: it pulls horizontally ($T \\cos 30°$) and it lifts vertically ($T \\sin 30°$), which reduces the normal force. A lower normal force means less friction. You need to solve the y-direction first to get the normal force, then use it for friction in the x-direction. Choice B comes from using $N = mg$ without subtracting the vertical cable component. Choice C is $T \\cos 30° / m$, ignoring friction entirely.',
+    eli5: 'The angled cable does two things: it pulls horizontally ($T \\cos 30°$) and it lifts vertically ($T \\sin 30°$), which reduces the normal force. A lower normal force means less friction. You need to solve the y-direction first to get the normal force, then use it for friction in the x-direction. The $3.32\\,\\text{m/s}^2$ distractor comes from using $N = mg$ without subtracting the vertical cable component. The $5.77\\,\\text{m/s}^2$ distractor is $T \\cos 30° / m$, ignoring friction entirely.',
     hint: 'The cable angle reduces the normal force. Solve the vertical equilibrium first to find N, then use it to compute friction.',
     steps: [
       {
@@ -658,7 +658,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'All potential energy converts to kinetic energy: $mgh = \\tfrac{1}{2}mv^2$. Mass cancels, so $v = \\sqrt{2gh}$. The answer does not depend on the mass at all. Choice C (196.2) is $2gh$ without the square root — that is $v^2$, not $v$. Choice D is $2mgh$, which is just doubling the wrong answer.',
+    eli5: 'All potential energy converts to kinetic energy: $mgh = \\tfrac{1}{2}mv^2$. Mass cancels, so $v = \\sqrt{2gh}$. The answer does not depend on the mass at all. The 196.2 option is $gh$ (forgetting the factor of 2). The 392.4 option is $2gh$, which equals $v^2$ — taking the square root gives the correct answer, so it is $v^2$ reported instead of $v$.',
     hint: 'With no air resistance, all potential energy converts to kinetic energy. Mass cancels out.',
     steps: [
       {
@@ -705,7 +705,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'A 6% grade means the road rises 0.06 m for every 1 m of horizontal distance, so $\\sin\\theta \\approx 0.06$ for small angles. The component of weight along the slope is $mg\\sin\\theta$, and power = force times velocity. Choice C uses $\\sin\\theta = 1$ (as if it were a vertical wall). Choice A forgets to multiply by $g$ somewhere in the chain.',
+    eli5: 'A 6% grade means the road rises 0.06 m for every 1 m of horizontal distance, so $\\sin\\theta \\approx 0.06$ for small angles. The component of weight along the slope is $mg\\sin\\theta$, and power = force times velocity. The $294\\,\\text{kW}$ choice uses $\\sin\\theta = 1$ (as if it were a vertical wall: $mgv$). The $1.77\\,\\text{kW}$ choice forgets to multiply by $g$ somewhere in the chain.',
     hint: 'On a grade, the gravity component along the slope is mg times the grade (for small angles, grade approximates sin theta). Power = F times v.',
     steps: [
       {
@@ -803,7 +803,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'At maximum compression, the block has stopped momentarily ($v = 0$), so all kinetic energy has been stored as elastic potential energy in the spring. Set $\\tfrac{1}{2}mv^2 = \\tfrac{1}{2}kx^2$ and solve for $x$. The masses and stiffness must use consistent units (SI). Choice B comes from forgetting to take the square root. Choice C comes from using $k = 1{,}600$ instead of $k = 800$ (squaring the wrong thing).',
+    eli5: 'At maximum compression, the block has stopped momentarily ($v = 0$), so all kinetic energy has been stored as elastic potential energy in the spring. Set $\\tfrac{1}{2}mv^2 = \\tfrac{1}{2}kx^2$ and solve for $x$. The masses and stiffness must use consistent units (SI). The 0.30 m choice comes from using $k = 1{,}600$ instead of $k = 800$ (squaring the wrong thing). The 0.090 m choice is a unit/arithmetic slip; forgetting the square root would give $mv^2/k = 0.18\\,\\text{m}$, which is not offered. The 0.30 m choice comes from using $k = 1{,}600$ instead of $k = 800$ (squaring the wrong thing).',
     hint: 'At maximum compression the block is momentarily at rest. Where did all the kinetic energy go?',
     steps: [
       {
@@ -857,7 +857,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'This is a direct application of the impulse-momentum theorem. The impulse (force times time) equals the change in momentum. Compute the impulse: $40 \\times 0.5 = 20$ N·s. Then set that equal to $m(v_2 - v_1)$ and solve for $v_2$. Choice D (20) comes from dividing impulse by time again instead of by mass. Choice B (4.0) comes from dividing impulse by mass but forgetting to add the initial velocity.',
+    eli5: 'This is a direct application of the impulse-momentum theorem. The impulse (force times time) equals the change in momentum. Compute the impulse: $40 \\times 0.5 = 20$ N·s. Then set that equal to $m(v_2 - v_1)$ and solve for $v_2$. The 20 m/s choice comes from misreporting the impulse value (20 N\u00b7s) as a velocity instead of dividing by mass. The 4.0 m/s choice comes from dividing impulse by mass but forgetting to add the initial velocity.',
     hint: 'Impulse = $F \\Delta t$. Set that equal to the change in momentum and solve for the final velocity.',
     steps: [
       {
@@ -908,7 +908,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'You need two equations: conservation of momentum and the restitution equation. Take rightward as positive, so the 5 kg ball has velocity $-4$ m/s. Momentum conservation gives $3v_1\' + 5v_2\' = 10$. The restitution equation gives $v_2\' - v_1\' = 0.6(10 - (-4)) = 8.4$. Solving simultaneously: $v_1\' = -4.0$ m/s (the negative means leftward). The 3 kg ball bounces back. Choice B forgets the sign on the second ball\'s initial velocity.',
+    eli5: 'You need two equations: conservation of momentum and the restitution equation. Take rightward as positive, so the 5 kg ball has velocity $-4$ m/s. Momentum conservation gives $3v_1\' + 5v_2\' = 10$. The restitution equation gives $v_2\' - v_1\' = 0.6(10 - (-4)) = 8.4$. Solving simultaneously: $v_1\' = -4.0$ m/s (the negative means leftward). The 3 kg ball bounces back. The 2.75 m/s to the right distractor comes from mishandling the sign on the second ball\'s initial velocity.',
     hint: 'Pick a positive direction first. Both momentum conservation and the restitution equation use signed velocities.',
     steps: [
       {
@@ -975,7 +975,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'First find the truck\'s post-collision velocity from momentum conservation: $4000(12) + 1000(3) = 4000 v_1\' + 1000(15)$, which gives $v_1\' = 9$ m/s. Then plug into the restitution formula: $e = (15 - 9)/(12 - 3) = 6/9 = 0.67$. Choice A (0.33) comes from flipping the fraction. Choice D (1.0) would mean perfectly elastic, but kinetic energy isn\'t conserved here.',
+    eli5: 'First find the truck\'s post-collision velocity from momentum conservation: $4000(12) + 1000(3) = 4000 v_1\' + 1000(15)$, which gives $v_1\' = 9$ m/s. Then plug into the restitution formula: $e = (15 - 9)/(12 - 3) = 6/9 = 0.67$. The 0.33 distractor comes from flipping the fraction. The 1.0 distractor would mean perfectly elastic, but kinetic energy isn\'t conserved here.',
     hint: 'Use momentum conservation to find the truck\'s final velocity first, then plug both final velocities into the restitution formula.',
     steps: [
       {
@@ -1090,7 +1090,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'The trick is that the spring stiffness isn\'t given directly. You find $k$ from the static deflection: at equilibrium, the spring force equals the weight, so $k = mg/\\delta = 25(9.81)/0.05 = 4905$ N/m. Then compute $\\omega_n = \\sqrt{k/m} = \\sqrt{4905/25} = 14.0$ rad/s. The period is $T = 2\\pi/\\omega_n = 0.449$ s, which rounds to 0.45 s. Choice C (2.22) gives $\\omega_n$ divided by $2\\pi$ (that\'s frequency in Hz, not the period). Choice A is $T/2\\pi$.',
+    eli5: 'The trick is that the spring stiffness isn\'t given directly. You find $k$ from the static deflection: at equilibrium, the spring force equals the weight, so $k = mg/\\delta = 25(9.81)/0.05 = 4905$ N/m. Then compute $\\omega_n = \\sqrt{k/m} = \\sqrt{4905/25} = 14.0$ rad/s. The period is $T = 2\\pi/\\omega_n = 0.449$ s, which rounds to 0.45 s. The 2.22 choice is $\\omega_n$ divided by $2\\pi$ (that\'s the frequency in Hz, not the period). The 0.22 s choice is just half the period ($T/2$).',
     hint: 'Find the spring stiffness from the static deflection first: k = weight / deflection.',
     steps: [
       {
@@ -1141,7 +1141,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Springs in parallel add directly: $k_{eq} = k_1 + k_2 = 3000 + 6000 = 9000$ N/m. Then $\\omega_n = \\sqrt{9000/10} = 30$ rad/s. Convert to Hz: $f_n = 30/(2\\pi) = 4.77$ Hz. Choice D (3.47 Hz) comes from using the series combination $(1/k_1 + 1/k_2)^{-1} = 2000$ N/m instead of parallel. Choice C (30) is $\\omega_n$ in rad/s, not Hz. Choice B uses $k_1$ alone.',
+    eli5: 'Springs in parallel add directly: $k_{eq} = k_1 + k_2 = 3000 + 6000 = 9000$ N/m. Then $\\omega_n = \\sqrt{9000/10} = 30$ rad/s. Convert to Hz: $f_n = 30/(2\\pi) = 4.77$ Hz. The 2.25 Hz option comes from using the series combination $(1/k_1 + 1/k_2)^{-1} = 2000$ N/m instead of parallel ($\\omega_n=\\sqrt{2000/10}=14.14$ rad/s, $f_n=2.25$ Hz). The 30 option is $\\omega_n$ in rad/s, not Hz. The 3.47 Hz option is a plausible-looking distractor with no clean derivation.',
     hint: 'Springs in parallel share the same displacement. How do you combine their stiffnesses?',
     steps: [
       {
@@ -1192,7 +1192,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'First convert $f_n = 5$ Hz to $\\omega_n = 2\\pi(5) = 31.42$ rad/s. Then find $k$ from $\\omega_n = \\sqrt{k/m}$: $k = m \\omega_n^2 = 2(31.42^2) = 1975$ N/m. The critical damping coefficient is $c_c = 2\\sqrt{km} = 2\\sqrt{1975 \\times 2} = 2(62.85) = 125.7$ N·s/m. Finally, $\\zeta = c/c_c = 40/125.7 = 0.318$, approximately 0.32. Choice B (0.64) doubles the correct answer. Choice A (1.0) would be critically damped.',
+    eli5: 'First convert $f_n = 5$ Hz to $\\omega_n = 2\\pi(5) = 31.42$ rad/s. Then find $k$ from $\\omega_n = \\sqrt{k/m}$: $k = m \\omega_n^2 = 2(31.42^2) = 1975$ N/m. The critical damping coefficient is $c_c = 2\\sqrt{km} = 2\\sqrt{1975 \\times 2} = 2(62.85) = 125.7$ N·s/m. Finally, $\\zeta = c/c_c = 40/125.7 = 0.318$, approximately 0.32. The 0.64 distractor doubles the correct answer. The 1.0 distractor would be critically damped.',
     hint: 'Convert Hz to rad/s, then find $k$. The critical damping coefficient is $c_c = 2\\sqrt{km}$.',
     steps: [
       {
@@ -1247,7 +1247,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'When $\\zeta > 1$, the system is overdamped. It returns to equilibrium without oscillating, but it does so slower than the critically damped case ($\\zeta = 1$). Choice A describes an undamped system ($\\zeta = 0$). Choice B describes underdamped ($\\zeta < 1$). Choice D describes critically damped ($\\zeta = 1$ exactly). The key insight is that critical damping is the fastest non-oscillatory return. Adding more damping beyond that actually slows the response down, which is counterintuitive.',
+    eli5: 'When $\\zeta > 1$, the system is overdamped. It returns to equilibrium without oscillating, but it does so slower than the critically damped case ($\\zeta = 1$). The "oscillates with constant amplitude" choice describes an undamped system ($\\zeta = 0$). The "exponentially decaying amplitude" choice describes underdamped ($\\zeta < 1$). The "shortest possible time without oscillating" choice describes critically damped ($\\zeta = 1$ exactly). The key insight is that critical damping is the fastest non-oscillatory return. Adding more damping beyond that actually slows the response down, which is counterintuitive.',
     hint: 'What are the three damping regimes, and which one does $\\zeta = 1.2$ fall into?',
     steps: [
       {

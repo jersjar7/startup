@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Starting from rest with constant acceleration, the average velocity over the trip is simply half the final velocity. Distance equals average velocity times time, so $t = s / \\bar{v} = 360 / 12 = 30\\,\\text{s}$. You can also find $a$ from the v-squared equation, then use $v = at$. Choice A halves the time by using the final velocity (24) instead of the average velocity (12). Choice C divides distance by the final velocity directly. Choice D comes from misusing $t = \\sqrt{2s/a}$ with the wrong acceleration.',
+    eli5: 'Starting from rest with constant acceleration, the average velocity over the trip is simply half the final velocity. Distance equals average velocity times time, so $t = s / \\bar{v} = 360 / 12 = 30\\,\\text{s}$. You can also find $a$ from the v-squared equation, then use $v = at$. The 15 s choice halves the time by using the final velocity (24) instead of the average velocity (12) \u2014 equivalently, dividing distance by the final velocity (360/24 = 15). The 7.5 s choice divides the distance by twice the final velocity. The 21.2 s choice comes from misusing $t = \\sqrt{2s/a}$ with the wrong (doubled) acceleration.',
     hint: 'From rest, the average velocity is half the final velocity. Distance equals average velocity times time.',
     steps: [
       { text: 'From rest, find acceleration with the no-time equation:', latex: 'v^2 = v_0^2 + 2a(s - s_0) \\implies 24^2 = 0 + 2a(360)' },
@@ -43,7 +43,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The height equation $y = v_0 t - \\tfrac{1}{2}g t^2$ is quadratic in time, so it has two solutions for any height below the peak: one on the way up and one on the way down. You want the larger root (coming down). Choice A is the smaller root (on the way up). Choice D is the total time of flight back to the ground. Choice B comes from solving the quadratic with a sign slip.',
+    eli5: 'The height equation $y = v_0 t - \\tfrac{1}{2}g t^2$ is quadratic in time, so it has two solutions for any height below the peak: one on the way up and one on the way down. You want the larger root (coming down). The 1.00 s choice is the smaller root (on the way up). The 6.12 s choice is the total time of flight back to the ground (2v_0/g). The 3.06 s choice is the time to reach the peak (v_0/g), not a valid root for this height.',
     hint: 'Set the height equation equal to 25 and solve the quadratic. The downward pass is the larger root.',
     steps: [
       { text: 'Vertical position with upward positive:', latex: 'y = v_0 t - \\tfrac{1}{2}g t^2 = 30t - 4.905 t^2' },
@@ -74,7 +74,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'No time is given, so use the angular no-time equation $\\omega^2 = \\omega_0^2 + 2\\alpha(\\theta - \\theta_0)$, the rotational twin of $v^2 = v_0^2 + 2a\\,s$. The pulley stops, so $\\omega = 0$. Solve for $\\theta = \\omega_0^2 / (2\\alpha) = 1600 / 5 = 320\\,\\text{rad}$. Choice A ($16$) is $\\omega_0 / \\alpha$, the time to stop, not the angle. Choice B ($160$) forgets the factor of 2 in the denominator. Choice D ($640$) doubles the correct answer by dropping the one-half.',
+    eli5: 'No time is given, so use the angular no-time equation $\\omega^2 = \\omega_0^2 + 2\\alpha(\\theta - \\theta_0)$, the rotational twin of $v^2 = v_0^2 + 2a\\,s$. The pulley stops, so $\\omega = 0$. Solve for $\\theta = \\omega_0^2 / (2\\alpha) = 1600 / 5 = 320\\,\\text{rad}$. The $16\\,\\text{rad}$ option is $\\omega_0 / \\alpha$, the time to stop, not the angle. The $640\\,\\text{rad}$ option drops the factor of 2 in the denominator ($1600/2.5 = 640$). The $160\\,\\text{rad}$ option is just half of the correct answer.',
     hint: 'No time given — reach for the angular analog of $v^2 = v_0^2 + 2a s$.',
     steps: [
       { text: 'Angular no-time equation, stopping so $\\omega = 0$:', latex: '\\omega^2 = \\omega_0^2 + 2\\alpha(\\theta - \\theta_0)' },
@@ -104,7 +104,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'A tangent axis is one radius away from the center, so $d = R = 0.10\\,\\text{m}$. Compute the centroidal term $\\tfrac{2}{5}(6)(0.10^2) = 0.024$, then add the transfer term $md^2 = 6(0.10^2) = 0.060$. Total is $0.084\\,\\text{kg}{\\cdot}\\text{m}^2$. Choice A keeps only the centroidal term. Choice B keeps only the transfer term. Choice D uses $d = 2R$ (diameter) instead of $d = R$ for the tangent distance.',
+    eli5: 'A tangent axis is one radius away from the center, so $d = R = 0.10\\,\\text{m}$. Compute the centroidal term $\\tfrac{2}{5}(6)(0.10^2) = 0.024$, then add the transfer term $md^2 = 6(0.10^2) = 0.060$. Total is $0.084\\,\\text{kg}{\\cdot}\\text{m}^2$. The 0.024 option keeps only the centroidal term. The 0.060 option keeps only the transfer term. The 0.216 option uses $d = 2R$ (diameter) instead of $d = R$ for the tangent distance.',
     hint: 'A tangent axis sits one radius from the center, so $d = R$. Apply the parallel-axis theorem.',
     steps: [
       { text: 'Centroidal MOI of the sphere:', latex: 'I_c = \\tfrac{2}{5}mR^2 = \\tfrac{2}{5}(6)(0.10^2) = 0.024\\,\\text{kg}{\\cdot}\\text{m}^2' },
@@ -134,7 +134,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Treat both blocks as one system. The net driving force is the weight difference $(m_1 - m_2)g$, and the total mass being accelerated is $m_1 + m_2$. So $a = (m_1 - m_2)g / (m_1 + m_2) = (2)(9.81)/12 = 1.64\\,\\text{m/s}^2$. Choice B divides the weight difference by only the heavier mass. Choice C divides by 5 (the lighter mass). Choice D divides the mass difference by the sum without multiplying by $g$.',
+    eli5: 'Treat both blocks as one system. The net driving force is the weight difference $(m_1 - m_2)g$, and the total mass being accelerated is $m_1 + m_2$. So $a = (m_1 - m_2)g / (m_1 + m_2) = (2)(9.81)/12 = 1.64\\,\\text{m/s}^2$. The 2.81 m/s\u00b2 distractor divides the weight difference by only the heavier mass (19.62/7). The 3.92 m/s\u00b2 distractor divides by 5, the lighter mass (19.62/5). The 0.33 m/s\u00b2 distractor comes from dividing the mass difference by the lighter mass (2/6) instead of using the correct Atwood formula.',
     hint: 'Net force is the weight difference; the mass accelerated is the sum of both masses.',
     steps: [
       { text: 'Driving force from the weight difference:', latex: 'F_{net} = (m_1 - m_2)g = (7 - 5)(9.81) = 19.62\\,\\text{N}' },
@@ -164,7 +164,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'The scale reads the normal force $N$. With upward positive, $N - mg = ma$, so $N = m(g + a) = 70(9.81 + 2.0) = 827\\,\\text{N}$. Accelerating upward makes you feel heavier. Choice B is the static weight $mg$, ignoring the acceleration. Choice A subtracts the acceleration term (as if descending). Choice D is just $ma$, the extra force alone, not the total reading.',
+    eli5: 'The scale reads the normal force $N$. With upward positive, $N - mg = ma$, so $N = m(g + a) = 70(9.81 + 2.0) = 827\\,\\text{N}$. Accelerating upward makes you feel heavier. The $687\\,\\text{N}$ choice is the static weight $mg$, ignoring the acceleration. The $547\\,\\text{N}$ choice subtracts the acceleration term (as if descending). The $140\\,\\text{N}$ choice is just $ma$, the extra force alone, not the total reading.',
     hint: 'The scale reads the normal force. Write $\\sum F = ma$ with up positive and solve for N.',
     steps: [
       { text: 'Free body of the person, upward positive:', latex: 'N - mg = ma' },
@@ -194,7 +194,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Change in kinetic energy is $\\tfrac{1}{2}m(v_2^2 - v_1^2)$. Square each speed separately first: $25^2 - 10^2 = 625 - 100 = 525$. Then $\\tfrac{1}{2}(1200)(525) = 315{,}000\\,\\text{J}$. Choice A squares the velocity difference $(25-10)^2 = 225$ instead of the difference of squares. Choice C comes from a partial-squaring slip. Choice D doubles the work by dropping the one-half.',
+    eli5: 'Change in kinetic energy is $\\tfrac{1}{2}m(v_2^2 - v_1^2)$. Square each speed separately first: $25^2 - 10^2 = 625 - 100 = 525$. Then $\\tfrac{1}{2}(1200)(525) = 315{,}000\\,\\text{J}$. The $135\\,\\text{kJ}$ choice squares the velocity difference $(25-10)^2 = 225$ instead of the difference of squares, giving $\\tfrac{1}{2}(1200)(225) = 135{,}000\\,\\text{J}$. The $162\\,\\text{kJ}$ choice comes from a partial-squaring slip. The $270\\,\\text{kJ}$ choice both drops the one-half and uses the squared difference: $(1200)(225) = 270{,}000\\,\\text{J}$.',
     hint: 'Use $\\Delta T = \\tfrac{1}{2}m(v_2^2 - v_1^2)$ — square the speeds first, then subtract.',
     steps: [
       { text: 'Change in kinetic energy:', latex: '\\Delta T = \\tfrac{1}{2}m(v_2^2 - v_1^2)' },
@@ -224,7 +224,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'At constant velocity, kinetic energy does not change, so by the work-energy theorem the NET work is zero. The applied force does positive work, but friction does an equal amount of negative work, dissipating it as heat. So the applied work equals the friction loss. Choice A is wrong because constant velocity means constant KE. Choice C is wrong: the applied force does work (force times displacement), it is just cancelled by friction. Choice D is wrong because horizontal motion does not change gravitational PE.',
+    eli5: 'At constant velocity, kinetic energy does not change, so by the work-energy theorem the NET work is zero. The applied force does positive work, but friction does an equal amount of negative work, dissipating it as heat. So the applied work equals the friction loss. The choice claiming kinetic energy increases is wrong because constant velocity means constant KE. The choice claiming no work is done is wrong: the applied force does work (force times displacement), it is just cancelled by friction. The choice claiming potential energy increases is wrong because horizontal motion does not change gravitational PE.',
     hint: 'Constant velocity means zero change in kinetic energy. What does that imply about net work?',
     steps: [
       { text: 'Work-energy theorem:', latex: 'U_{net} = \\Delta T = T_2 - T_1' },
@@ -254,7 +254,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Impulse equals the change in momentum, and direction matters. Taking the outgoing direction as positive, the incoming velocity is $-40$ and the outgoing is $+50$, so the velocity change is $50 - (-40) = 90\\,\\text{m/s}$. Impulse is $m\\,\\Delta v = 0.15(90) = 13.5\\,\\text{N}{\\cdot}\\text{s}$. Choice A uses the speed difference $50 - 40 = 10$, ignoring the reversal. Choice B uses the incoming speed only ($0.15 \\times 40$). Choice C uses the outgoing speed only ($0.15 \\times 50$). The reversal is the whole point.',
+    eli5: 'Impulse equals the change in momentum, and direction matters. Taking the outgoing direction as positive, the incoming velocity is $-40$ and the outgoing is $+50$, so the velocity change is $50 - (-40) = 90\\,\\text{m/s}$. Impulse is $m\\,\\Delta v = 0.15(90) = 13.5\\,\\text{N}{\\cdot}\\text{s}$. The 1.5 N\u00b7s option uses the speed difference $50 - 40 = 10$, ignoring the reversal. The 6.0 N\u00b7s option uses the incoming speed only ($0.15 \\times 40$). The 7.5 N\u00b7s option uses the outgoing speed only ($0.15 \\times 50$). The reversal is the whole point.',
     hint: 'The ball reverses direction — the velocities have opposite signs, so add their magnitudes.',
     steps: [
       { text: 'Take the outgoing direction as positive. Incoming velocity is negative:', latex: 'v_1 = -40\\,\\text{m/s}, \\quad v_2 = +50\\,\\text{m/s}' },
@@ -284,7 +284,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The system starts with zero total momentum, and with no friction it stays zero. So the skater’s backward momentum must equal the ball’s forward momentum: $m_s v_s = m_b v_b$, giving $v_s = (3)(8)/60 = 0.40\\,\\text{m/s}$. Choice B divides the ball momentum by the combined mass ($24/(60+3) \\approx 0.38$, or a rounding slip to 0.13). Choice C just reports the ball speed. Choice D divides the ball speed by 3 instead of conserving momentum.',
+    eli5: 'The system starts with zero total momentum, and with no friction it stays zero. So the skater’s backward momentum must equal the ball’s forward momentum: $m_s v_s = m_b v_b$, giving $v_s = (3)(8)/60 = 0.40\\,\\text{m/s}$. The 0.13 m/s choice divides the ball speed by the skater mass ($8/60 \\approx 0.13$) instead of using momentum. The 8.0 m/s choice just reports the ball speed. The 2.67 m/s choice divides the ball speed by 3 ($8/3$) instead of conserving momentum.',
     hint: 'Total momentum starts at zero and stays zero. Set the skater’s momentum equal to the ball’s.',
     steps: [
       { text: 'Conservation of momentum from rest (total momentum = 0):', latex: '0 = m_b v_b - m_s v_s' },
@@ -314,7 +314,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'For a simple pendulum the natural circular frequency is $\\omega_n = \\sqrt{g/L} = \\sqrt{9.81/0.80} = 3.50\\,\\text{rad/s}$. The question asks for frequency in Hz, so divide by $2\\pi$: $f_n = 3.50/(2\\pi) = 0.56\\,\\text{Hz}$. Choice B reports $\\omega_n$ in rad/s without converting. Choice C uses $\\sqrt{L/g}$ inverted then a slip. Choice D divides by $2\\pi$ twice.',
+    eli5: 'For a simple pendulum the natural circular frequency is $\\omega_n = \\sqrt{g/L} = \\sqrt{9.81/0.80} = 3.50\\,\\text{rad/s}$. The question asks for frequency in Hz, so divide by $2\\pi$: $f_n = 3.50/(2\\pi) = 0.56\\,\\text{Hz}$. The $3.50\\,\\text{Hz}$ choice reports $\\omega_n$ in rad/s without converting. The $1.79\\,\\text{Hz}$ choice uses $\\sqrt{L/g}$ inverted then a slip. The $0.28\\,\\text{Hz}$ choice halves the correct value (divides $\\omega_n$ by an extra factor).',
     hint: 'A pendulum’s $\\omega_n = \\sqrt{g/L}$. The question wants Hz, so convert.',
     steps: [
       { text: 'Natural circular frequency of a simple pendulum:', latex: '\\omega_n = \\sqrt{\\frac{g}{L}} = \\sqrt{\\frac{9.81}{0.80}} = \\sqrt{12.26} = 3.50\\,\\text{rad/s}' },
@@ -343,7 +343,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Springs in series get softer: the equivalent stiffness is $k_{eq} = (1/k_1 + 1/k_2)^{-1} = (1/1200 + 1/800)^{-1} = 480\\,\\text{N/m}$. Then $\\omega_n = \\sqrt{k_{eq}/m} = \\sqrt{480/5} = \\sqrt{96} = 9.80\\,\\text{rad/s}$. Choice A wrongly adds the stiffnesses (that is the parallel rule, giving $2000\\,\\text{N/m}$, then $\\sqrt{2000/5}=20.0$). Choice C uses only $k_2$ ($\\sqrt{800/5} = \\sqrt{160} \\approx 12.6$). Choice D comes from a softer-stiffness slip ($\\sqrt{240/5} = \\sqrt{48} \\approx 6.93$).',
+    eli5: 'Springs in series get softer: the equivalent stiffness is $k_{eq} = (1/k_1 + 1/k_2)^{-1} = (1/1200 + 1/800)^{-1} = 480\\,\\text{N/m}$. Then $\\omega_n = \\sqrt{k_{eq}/m} = \\sqrt{480/5} = \\sqrt{96} = 9.80\\,\\text{rad/s}$. The $20.0\\,\\text{rad/s}$ option wrongly adds the stiffnesses (that is the parallel rule, giving $2000\\,\\text{N/m}$, then $\\sqrt{2000/5}=20.0$). The $12.6\\,\\text{rad/s}$ option uses only $k_2$ ($\\sqrt{800/5} = \\sqrt{160} \\approx 12.6$). The $6.93\\,\\text{rad/s}$ option comes from a softer-stiffness slip ($\\sqrt{240/5} = \\sqrt{48} \\approx 6.93$).',
     hint: 'Springs in series add reciprocals (they get softer). Find $k_{eq}$ first, then $\\omega_n = \\sqrt{k_{eq}/m}$.',
     steps: [
       { text: 'Equivalent stiffness for series springs:', latex: 'k_{eq} = \\left(\\frac{1}{k_1} + \\frac{1}{k_2}\\right)^{-1} = \\left(\\frac{1}{1{,}200} + \\frac{1}{800}\\right)^{-1}' },

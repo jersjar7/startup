@@ -136,7 +136,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The coefficient of variation is just the standard deviation divided by the mean. First find the mean (24.9), then compute the sample standard deviation (about 1.04), then divide: $1.04/24.9 = 0.042$. Choice A (0.038) is what you get if you use the population formula (divide by $n$ instead of $n-1$). Choice C (0.96) is the sample variance, not the CV. Choice D (1.03) is the standard deviation itself before dividing by the mean.',
+    eli5: 'The coefficient of variation is just the standard deviation divided by the mean. First find the mean (24.9), then compute the sample standard deviation (about 1.04), then divide: $1.04/24.9 = 0.042$. The 0.038 choice is what you get if you use the population formula (divide by $n$ instead of $n-1$). The 0.96 choice is the population standard deviation (dividing by $n$), not the CV. The 1.03 choice is roughly the standard deviation itself (about 1.08) before dividing by the mean.',
     hint: 'Compute $\\bar{x}$ and $s$ first, then divide: $CV = s / \\bar{x}$.',
     steps: [
       {
@@ -195,7 +195,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'With an even number of data points, the median is the average of the two middle values. Sort the data first: 3.0, 3.1, 3.4, 3.8, 4.1, 4.7, 5.2, 6.3. With 8 values, the middle positions are 4th and 5th. Average those: $(3.8 + 4.1)/2 = 3.95$. Choice A (3.80) picks only the 4th value and ignores the 5th. Choice C (4.20) is the mean, not the median. Choice D (4.10) picks only the 5th value without averaging.',
+    eli5: 'With an even number of data points, the median is the average of the two middle values. Sort the data first: 3.0, 3.1, 3.4, 3.8, 4.1, 4.7, 5.2, 6.3. With 8 values, the middle positions are 4th and 5th. Average those: $(3.8 + 4.1)/2 = 3.95$. The 3.80 option picks only the 4th value and ignores the 5th. The 4.20 option is the mean, not the median. The 4.10 option picks only the 5th value without averaging.',
     hint: 'Sort the data first. For an even count, average the two middle values.',
     steps: [
       {
@@ -250,7 +250,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'easy',
-    eli5: 'Plug the five summary statistics straight into the slope formula. Numerator: $5(205) - 25(35) = 1025 - 875 = 150$. Denominator: $5(145) - 25^2 = 725 - 625 = 100$. Slope: $150/100 = 1.50$. Choice B (0.67) is the reciprocal — you flipped numerator and denominator ($100/150 \\approx 0.67$). Choice A (7.0) is $\\bar{y} = 35/5$ — that is just the mean of $y$, not the slope. Choice D (1.40) comes from dividing $\\Sigma y / \\Sigma x = 35/25 = 1.4$ instead of using the regression formula.',
+    eli5: 'Plug the five summary statistics straight into the slope formula. Numerator: $5(205) - 25(35) = 1025 - 875 = 150$. Denominator: $5(145) - 25^2 = 725 - 625 = 100$. Slope: $150/100 = 1.50$. The 0.67 choice is the reciprocal — you flipped numerator and denominator ($100/150 \\approx 0.67$). The 7.0 choice is $\\bar{y} = 35/5$ — that is just the mean of $y$, not the slope. The 1.40 choice comes from dividing $\\Sigma y / \\Sigma x = 35/25 = 1.4$ instead of using the regression formula.',
     hint: 'Use the slope formula: numerator is $n\\sum xy - \\sum x \\sum y$, denominator is $n\\sum x^2 - (\\sum x)^2$.',
     steps: [
       {
@@ -305,7 +305,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The intercept formula is $a = \\bar{y} - b\\bar{x}$. Plug in: $a = 1500 - 350(4) = 1500 - 1400 = 100$. Choice B (1500) is just $\\bar{y}$ — someone forgot to subtract $b\\bar{x}$. Choice C ($-100$) gets the subtraction backwards, computing $b\\bar{x} - \\bar{y} = 1400 - 1500$. Choice D (375) looks like $\\bar{y}/\\bar{x} = 1500/4 = 375$ — that is the ratio of means, not the intercept.',
+    eli5: 'The intercept formula is $a = \\bar{y} - b\\bar{x}$. Plug in: $a = 1500 - 350(4) = 1500 - 1400 = 100$. The choice $1500$ is just $\\bar{y}$ — someone forgot to subtract $b\\bar{x}$. The choice $-100$ gets the subtraction backwards, computing $b\\bar{x} - \\bar{y} = 1400 - 1500$. The choice $375$ looks like $\\bar{y}/\\bar{x} = 1500/4 = 375$ — that is the ratio of means, not the intercept.',
     hint: 'The regression line always passes through $(\\bar{x}, \\bar{y})$. Use $a = \\bar{y} - b\\bar{x}$.',
     steps: [
       {
@@ -353,7 +353,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Use the correlation formula. Numerator: $5(85) - 15(25) = 425 - 375 = 50$. X-side denominator: $5(55) - 15^2 = 275 - 225 = 50$. Y-side denominator: $5(145) - 25^2 = 725 - 625 = 100$. So $r = 50 / \\sqrt{50 \\times 100} = 50 / \\sqrt{5000} = 50/70.71 \\approx 0.71$. Choice A (0.50) squares the correct answer, confusing $r$ with $R^2$. Choice C (0.90) could result from misreading the table or rounding errors in intermediate steps. Choice D (1.00) divides the numerator by itself ($50/50$), using only $S_{xx}$ in the denominator and ignoring the $y$-side term entirely.',
+    eli5: 'Use the correlation formula. Numerator: $5(85) - 15(25) = 425 - 375 = 50$. X-side denominator: $5(55) - 15^2 = 275 - 225 = 50$. Y-side denominator: $5(145) - 25^2 = 725 - 625 = 100$. So $r = 50 / \\sqrt{50 \\times 100} = 50 / \\sqrt{5000} = 50/70.71 \\approx 0.71$. The value 0.50 squares the correct answer, confusing $r$ with $R^2$. The value 0.90 could result from misreading the table or rounding errors in intermediate steps. The value 1.00 divides the numerator by itself ($50/50$), using only $S_{xx}$ in the denominator and ignoring the $y$-side term entirely.',
     hint: 'The correlation formula has the same numerator as the slope formula, but you divide by $\\sqrt{S_{xx} \\cdot S_{yy}}$ instead of just $S_{xx}$.',
     steps: [
       {
@@ -408,7 +408,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The residual is $e_i = y_i - \\hat{y}_i$ — observed minus predicted. A negative residual means the observed value is below the regression line. So the actual IRI is 1.8 units less than the model predicted. Choice A flips the relationship — it says the predicted is below the observed, which would be a positive residual. Choices B and D reinterpret the residual as an error in the $x$-variable (age), but residuals always measure vertical distance in the $y$-direction, not the $x$-direction. This is a subtle but critical distinction.',
+    eli5: 'The residual is $e_i = y_i - \\hat{y}_i$ — observed minus predicted. A negative residual means the observed value is below the regression line. So the actual IRI is 1.8 units less than the model predicted. The choice saying the predicted IRI is below the observed flips the relationship — that would be a positive residual. The two age-based choices reinterpret the residual as an error in the $x$-variable (age), but residuals always measure vertical distance in the $y$-direction, not the $x$-direction. This is a subtle but critical distinction.',
     hint: 'Residual = observed minus predicted ($e_i = y_i - \\hat{y}_i$). A negative value means the observation is below the line.',
     steps: [
       {
@@ -424,7 +424,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'Choices C and D incorrectly apply the residual to the x-variable (age). Residuals describe discrepancies in $y$ only.',
+        text: '4. The choices about the pavement being "younger" or the model "overestimating age" incorrectly apply the residual to the x-variable (age). Residuals describe discrepancies in $y$ (IRI) only.',
         latex: null
       }
     ],
@@ -468,7 +468,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'You are choosing a group, not ranking people, so order does not matter. That means combinations. Plug into $C(12,4) = 12!/(4! \\times 8!) = 495$. Choice B (11,880) is the permutation $P(12,4)$, which counts ordered arrangements. Choice C (48) is $12 \\times 4$, a common mental shortcut that does not apply here. Choice A (20,736) is $12^4$, which would be picks with replacement.',
+    eli5: 'You are choosing a group, not ranking people, so order does not matter. That means combinations. Plug into $C(12,4) = 12!/(4! \\times 8!) = 495$. The 11,880 option is the permutation $P(12,4)$, which counts ordered arrangements. The 48 option is $12 \\times 4$, a common mental shortcut that does not apply here. The 20,736 option is $12^4$, which would be picks with replacement.',
     hint: 'Are you arranging the workers in order, or just picking a group?',
     steps: [
       {
@@ -515,7 +515,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'This is a binomial problem with $n=15$, $x=14$, $p=0.95$, $q=0.05$. Compute $C(15,14) \\times 0.95^{14} \\times 0.05^{1}$. $C(15,14)=15$. Then $15 \\times 0.4877 \\times 0.05 = 0.366$. Choice B (0.463) is $P(X=15)$, the probability all 15 pass. Choice C (0.950) is just $p$ by itself. Choice D (0.171) is what you get if you use $p=0.05$ and $q=0.95$ (swapped success and failure).',
+    eli5: 'This is a binomial problem with $n=15$, $x=14$, $p=0.95$, $q=0.05$. Compute $C(15,14) \\times 0.95^{14} \\times 0.05^{1}$. $C(15,14)=15$. Then $15 \\times 0.4877 \\times 0.05 = 0.366$. The 0.463 distractor is $P(X=15)=0.95^{15}$, the probability all 15 pass. The 0.950 distractor is just $p$ by itself. The 0.171 distractor is $0.95^{14}\\times 0.35$, a wrong combination of factors.',
     hint: 'Identify $n$, $x$, $p$, and $q$, then plug into the binomial formula. Do not forget the $C(n,x)$ term.',
     steps: [
       {
@@ -570,7 +570,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Convert the design flow to a z-score: $(1090 - 850)/120 = 2.0$. The table gives $F(2.0) = 0.9772$, which is the area to the LEFT. You want the area to the RIGHT (exceeds), so subtract from 1: $1 - 0.9772 = 0.0228 = 2.28\\%$. Choice A (97.72%) is the area below the design flow, not above it. Choice C (4.56%) doubles the tail area as if it were a two-tailed problem. Choice D (2.00%) confuses the z-score value with the probability.',
+    eli5: 'Convert the design flow to a z-score: $(1090 - 850)/120 = 2.0$. The table gives $F(2.0) = 0.9772$, which is the area to the LEFT. You want the area to the RIGHT (exceeds), so subtract from 1: $1 - 0.9772 = 0.0228 = 2.28\\%$. The 97.72% option is the area below the design flow, not above it. The 4.56% option doubles the tail area as if it were a two-tailed problem. The 2.00% option confuses the z-score value with the probability.',
     hint: 'Compute the z-score, then use $R(z) = 1 - F(z)$ for the right-tail probability.',
     steps: [
       {
@@ -671,7 +671,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'Multiply each cost by its probability and add. $150{,}000 \\times 0.30 = 45{,}000$. $200{,}000 \\times 0.50 = 100{,}000$. $280{,}000 \\times 0.20 = 56{,}000$. Total = 201,000. Choice B (200,000) is the most likely outcome, not the expected value. Choice C (210,000) is the simple average of the three costs ($630{,}000/3$), which ignores the probabilities. Choice A (630,000) is the sum of all costs without any probability weighting.',
+    eli5: 'Multiply each cost by its probability and add. $150{,}000 \\times 0.30 = 45{,}000$. $200{,}000 \\times 0.50 = 100{,}000$. $280{,}000 \\times 0.20 = 56{,}000$. Total = 201,000. The 200,000 choice is the most likely single outcome, not the expected value. The 210,000 choice is the simple average of the three costs ($630{,}000/3$), which ignores the probabilities. The 630,000 choice is the sum of all costs without any probability weighting.',
     hint: 'Multiply each outcome by its probability and sum the products.',
     steps: [
       {
@@ -718,7 +718,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'First find $E(X)$: $1(0.15)+2(0.35)+3(0.30)+4(0.15)+5(0.05) = 2.60$. Then find $E(X^2)$: $1(0.15)+4(0.35)+9(0.30)+16(0.15)+25(0.05) = 7.90$. Variance $= 7.90 - 2.60^2 = 7.90 - 6.76 = 1.14$. Standard deviation $= \\sqrt{1.14} = 1.07$. Choice B (1.15) is a common arithmetic slip. Choice A (2.60) is the mean, not the standard deviation. Choice D (7.90) is $E(X^2)$, only half the calculation.',
+    eli5: 'First find $E(X)$: $1(0.15)+2(0.35)+3(0.30)+4(0.15)+5(0.05) = 2.60$. Then find $E(X^2)$: $1(0.15)+4(0.35)+9(0.30)+16(0.15)+25(0.05) = 7.90$. Variance $= 7.90 - 2.60^2 = 7.90 - 6.76 = 1.14$. Standard deviation $= \\sqrt{1.14} = 1.07$. The 1.15 option is a common arithmetic slip. The 2.60 option is the mean, not the standard deviation. The 7.90 option is $E(X^2)$, only half the calculation.',
     hint: 'Use the shortcut $\\text{Var}(X) = E(X^2) - [E(X)]^2$, then take the square root for the standard deviation.',
     steps: [
       {
@@ -770,7 +770,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'When combining independent random variables with constants, the variances of the scaled variables add. The constant multiplier gets squared before multiplying the variance. $\\text{Var}(F) = 2^2 \\times 6^2 + 1^2 \\times 4^2 = 4(36) + 1(16) = 144 + 16 = 160$. Then the standard deviation is $\\sqrt{160} = 12.65$. Choice B (16.0) adds the standard deviations with the constant: $2(6) + 4 = 16$, which is wrong because standard deviations do not add that way. Choice C (160) is the variance, not the standard deviation. Choice D (95.0) is the mean of $F$, not the standard deviation.',
+    eli5: 'When combining independent random variables with constants, the variances of the scaled variables add. The constant multiplier gets squared before multiplying the variance. $\\text{Var}(F) = 2^2 \\times 6^2 + 1^2 \\times 4^2 = 4(36) + 1(16) = 144 + 16 = 160$. Then the standard deviation is $\\sqrt{160} = 12.65$. The 16.0 option adds the standard deviations with the constant: $2(6) + 4 = 16$, which is wrong because standard deviations do not add that way. The 160 option is the variance, not the standard deviation. The 95.0 option is the mean of $F$, not the standard deviation.',
     hint: 'Square the constants, multiply by the respective variances, add, then take the square root.',
     steps: [
       {
@@ -821,7 +821,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'This is one of the biggest traps in probability. Expected values add linearly, but standard deviations do NOT. You have to add the variances (the squares of the standard deviations) and then take the square root. The correct total standard deviation is $\\sqrt{10{,}000^2 + 8{,}000^2 + 5{,}000^2} = \\sqrt{189{,}000{,}000} \\approx 13{,}748$, which is much less than 23,000. Choice A is wrong because the problem states the costs are independent. Choice C makes no sense statistically. Choice D confuses linearity of expectation with standard deviation.',
+    eli5: 'This is one of the biggest traps in probability. Expected values add linearly, but standard deviations do NOT. You have to add the variances (the squares of the standard deviations) and then take the square root. The correct total standard deviation is $\\sqrt{10{,}000^2 + 8{,}000^2 + 5{,}000^2} = \\sqrt{189{,}000{,}000} \\approx 13{,}748$, which is much less than 23,000. The "not independent" choice is wrong because the problem states the costs are independent. The "subtract the standard deviations" choice makes no sense statistically. The "calculation is correct" choice confuses linearity of expectation with standard deviation.',
     hint: 'Think about what property holds for sums: $E(X+Y) = E(X) + E(Y)$ always, but does the same hold for $\\sigma$?',
     steps: [
       {
@@ -876,7 +876,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Since $\\sigma$ is known, use the z-interval. The standard error is $\\sigma/\\sqrt{n} = 200/\\sqrt{16} = 200/4 = 50$. The margin of error is $1.960 \\times 50 = 98$. So the interval is $4400 \\pm 98$, giving (4302, 4498). Choice A (4008, 4792) forgot to divide by $\\sqrt{n}$, using the full $\\sigma = 200$. Choice C uses $z = 1.0$ instead of 1.960. Choice D divides by $n = 16$ instead of $\\sqrt{n} = 4$.',
+    eli5: 'Since $\\sigma$ is known, use the z-interval. The standard error is $\\sigma/\\sqrt{n} = 200/\\sqrt{16} = 200/4 = 50$. The margin of error is $1.960 \\times 50 = 98$. So the interval is $4400 \\pm 98$, giving (4302, 4498). The choice (4008, 4792) forgot to divide by $\\sqrt{n}$, using the full $\\sigma = 200$ (giving $\\pm 1.96\\times200=392$). The choice (4376, 4424) and the choice (4375, 4425) both mistakenly divide by $n = 16$ instead of $\\sqrt{n} = 4$, shrinking the margin to roughly $\\pm 1.96\\times(200/16)\\approx\\pm 24$ to $25$.',
     hint: 'The problem gives $\\sigma$ (not $s$), so use the z-interval with $z_{\\alpha/2} = 1.960$.',
     steps: [
       {
@@ -928,7 +928,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The problem gives $s$ (sample standard deviation), not $\\sigma$, so use the t-interval. The standard error is $s/\\sqrt{n} = 3/\\sqrt{9} = 3/3 = 1.0$. The margin is $2.306 \\times 1.0 = 2.306$, which rounds to 2.31. The interval is $34 \\pm 2.31 = (31.69,\\; 36.31)$. Choice B uses $z = 1.960$ instead of the given t-value. Choice C forgot to divide by $\\sqrt{n}$, using $2.306 \\times 3 = 6.92$. Choice D divides by $n = 9$ instead of $\\sqrt{9} = 3$.',
+    eli5: 'The problem gives $s$ (sample standard deviation), not $\\sigma$, so use the t-interval. The standard error is $s/\\sqrt{n} = 3/\\sqrt{9} = 3/3 = 1.0$. The margin is $2.306 \\times 1.0 = 2.306$, which rounds to 2.31. The interval is $34 \\pm 2.31 = (31.69,\\; 36.31)$. The $(32.04,\\;35.96)$ choice uses $z = 1.960$ instead of the given t-value. The $(27.08,\\;40.92)$ choice forgot to divide by $\\sqrt{n}$, using $2.306 \\times 3 = 6.92$. The $(33.23,\\;34.77)$ choice divides by $n = 9$ instead of $\\sqrt{9} = 3$.',
     hint: 'The problem gives $s$ (not $\\sigma$), so use the t-interval. Remember $\\sqrt{9} = 3$.',
     steps: [
       {
@@ -980,7 +980,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Use the sample size formula: $n = (z \\cdot \\sigma / e)^2$. Plug in: $n = (2.576 \\times 18 / 5)^2 = (46.368 / 5)^2 = 9.274^2 = 85.99$. Round up to 86 because you cannot test a fraction of a specimen. Choice B (85.47) is the raw calculation before rounding, which is not a valid sample size. Choice A (10) comes from forgetting to square the result. Choice D (50) uses $z = 1.645$ (90% confidence) instead of 2.576 (99%).',
+    eli5: 'Use the sample size formula: $n = (z \\cdot \\sigma / e)^2$. Plug in: $n = (2.576 \\times 18 / 5)^2 = (46.368 / 5)^2 = 9.274^2 = 85.99$. Round up to 86 because you cannot test a fraction of a specimen. The 85.47 option is the raw calculation before rounding, which is not a valid sample size. The 10 option comes from forgetting to square the result. The 50 option uses $z = 1.645$ (90% confidence) instead of 2.576 (99%).',
     hint: 'Use $n = (z_{\\alpha/2} \\cdot \\sigma / e)^2$ and always round up.',
     steps: [
       {
@@ -1039,7 +1039,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'This is one of the most commonly misunderstood concepts in statistics. A confidence interval is about the procedure, not a single interval. If you repeated the experiment many times and built a 95% CI each time, about 95% of those intervals would capture the true mean. Choice A sounds right but is technically wrong because the true mean is a fixed number, not random. Choice C confuses a confidence interval for the mean with a prediction interval for individual values. Choice D is trivially true and not what the confidence level means.',
+    eli5: 'This is one of the most commonly misunderstood concepts in statistics. A confidence interval is about the procedure, not a single interval. If you repeated the experiment many times and built a 95% CI each time, about 95% of those intervals would capture the true mean. The "95% probability the true mean is in this interval" choice sounds right but is technically wrong because the true mean is a fixed number, not random. The choice about individual cylinder strengths confuses a confidence interval for the mean with a prediction interval for individual values. The choice about the sample mean falling in the interval is trivially true and not what the confidence level means.',
     hint: 'The confidence level refers to the long-run success rate of the procedure, not a probability statement about one specific interval.',
     steps: [
       {
@@ -1090,7 +1090,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'Plug straight into the z-test formula: numerator is $4380 - 4500 = -120$. Denominator is the standard error: $300/\\sqrt{25} = 300/5 = 60$. So $z = -120/60 = -2.0$. The negative sign matters because the sample mean is below the claimed mean. Choice B ($-0.40$) divides by $\\sigma$ itself ($120/300$) without the $\\sqrt{n}$ correction. Choice C ($-10.0$) multiplies by $\\sqrt{n}$ instead of dividing $\\sigma$ by it. Choice A (2.0) takes the absolute value, losing the direction.',
+    eli5: 'Plug straight into the z-test formula: numerator is $4380 - 4500 = -120$. Denominator is the standard error: $300/\\sqrt{25} = 300/5 = 60$. So $z = -120/60 = -2.0$. The negative sign matters because the sample mean is below the claimed mean. The $-0.40$ option divides by $\\sigma$ itself ($120/300$) without the $\\sqrt{n}$ correction. The $-10.0$ option divides $\\sigma$ by $n$ (giving $300/25 = 12$) instead of by $\\sqrt{n}$, so $-120/12 = -10.0$. The $2.0$ option takes the absolute value, losing the direction.',
     hint: 'Compute the standard error $\\sigma / \\sqrt{n}$ first, then divide the difference $\\bar{x} - \\mu_0$ by it.',
     steps: [
       {
@@ -1141,7 +1141,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'First compute the t-statistic: $(68.5 - 65) / (7/\\sqrt{20}) = 3.5 / 1.565 = 2.24$. Since $2.24 > 1.729$ (the critical value), reject $H_0$. The claim is one-tailed (exceeds), so use the one-tailed test. Choice B gets the comparison wrong: 2.24 is greater than 1.729, so you reject, not fail to reject. Choice C uses the wrong alternative hypothesis (two-tailed instead of one-tailed). Choice D computes $t = 3.5/7 = 0.50$, forgetting to divide $s$ by $\\sqrt{n}$.',
+    eli5: 'First compute the t-statistic: $(68.5 - 65) / (7/\\sqrt{20}) = 3.5 / 1.565 = 2.24$. Since $2.24 > 1.729$ (the critical value), reject $H_0$. The claim is one-tailed (exceeds), so use the one-tailed test. The "fail to reject; insufficient evidence ($t = 2.24$)" choice gets the comparison wrong: 2.24 is greater than 1.729, so you reject, not fail to reject. The "$\\mu \\neq 65$" choice uses the wrong alternative hypothesis (two-tailed instead of one-tailed). The "$t = 0.50$" choice computes $t = 3.5/7 = 0.50$, forgetting to divide $s$ by $\\sqrt{n}$.',
     hint: 'Compute the t-statistic, then compare to the given critical value. The claim is one-tailed (exceeds).',
     steps: [
       {
@@ -1244,7 +1244,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The fundamental rule: failing to reject $H_0$ does NOT prove $H_0$ is true. It only means you did not find enough evidence to reject it. Maybe the effect is real but too small for your sample size to detect, or maybe there truly is no effect. You cannot tell. Choice B is wrong because you do not change $\\alpha$ after seeing the data to get the result you want. Choice A misinterprets the p-value: it is the probability of the observed data (or more extreme) given $H_0$ is true, not the probability that $H_0$ is true. Choice D is data-mining: you pick the test before collecting data, not after.',
+    eli5: 'The fundamental rule: failing to reject $H_0$ does NOT prove $H_0$ is true. It only means you did not find enough evidence to reject it. Maybe the effect is real but too small for your sample size to detect, or maybe there truly is no effect. You cannot tell. The option about using $\\alpha = 0.10$ is wrong because you do not change $\\alpha$ after seeing the data to get the result you want. The option saying "8% chance the additive has no effect" misinterprets the p-value: it is the probability of the observed data (or more extreme) given $H_0$ is true, not the probability that $H_0$ is true. The one-tailed-test option is data-mining: you pick the test before collecting data, not after.',
     hint: 'Think carefully about what "fail to reject" means versus "accept."',
     steps: [
       {

@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Two steps: first find strain, then use Hooke\u2019s law. $\\varepsilon = \\Delta L / L_0 = 0.125/50 = 0.0025$. Then $E = \\sigma / \\varepsilon = 175/0.0025 = 70{,}000$ MPa $= 70$ GPa. The big trap is forgetting to divide $\\Delta L$ by the gauge length \u2014 if you use $\\varepsilon = 0.125$ (the elongation itself), you get $E = 175/0.125 = 1{,}400$ MPa $= 1.4$ GPa (choice B). That\u2019s off by a factor of 50.',
+      eli5: 'Two steps: first find strain, then use Hooke\u2019s law. $\\varepsilon = \\Delta L / L_0 = 0.125/50 = 0.0025$. Then $E = \\sigma / \\varepsilon = 175/0.0025 = 70{,}000$ MPa $= 70$ GPa. The big trap is forgetting to divide $\\Delta L$ by the gauge length \u2014 if you use $\\varepsilon = 0.125$ (the elongation itself), you get $E = 175/0.125 = 1{,}400$ MPa $= 1.4$ GPa (the $1.4 \\text{ GPa}$ choice). That\u2019s off by a factor of 50.',
       hint: 'Strain is not the same as elongation. Divide $\\Delta L$ by the gauge length to get dimensionless strain first.',
       steps: [
         { text: 'Engineering strain:', latex: '\\varepsilon = \\frac{\\Delta L}{L_0} = \\frac{0.125}{50} = 0.0025' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'True stress is always higher than engineering stress after yielding because the specimen\u2019s cross-section has gotten smaller. The conversion uses volume conservation: $\\sigma_T = \\sigma(1 + \\varepsilon) = 520(1.15) = 598$ MPa. Choice B (520) is just the engineering stress \u2014 a student who doesn\u2019t know the conversion. Choice C (452) divides instead of multiplying: $520/1.15$. Choice A (78) computes $\\sigma \\times \\varepsilon$ instead of $\\sigma \\times (1 + \\varepsilon)$.',
+      eli5: 'True stress is always higher than engineering stress after yielding because the specimen\u2019s cross-section has gotten smaller. The conversion uses volume conservation: $\\sigma_T = \\sigma(1 + \\varepsilon) = 520(1.15) = 598$ MPa. The 520 MPa choice is just the engineering stress \u2014 a student who doesn\u2019t know the conversion. The 452 MPa choice divides instead of multiplying: $520/1.15$. The 78 MPa choice computes $\\sigma \\times \\varepsilon$ instead of $\\sigma \\times (1 + \\varepsilon)$.',
       hint: 'The relationship between true and engineering stress comes from volume conservation: the actual area is smaller than the original area by a factor of $1/(1 + \\varepsilon)$.',
       steps: [
         { text: 'From volume conservation during plastic deformation:', latex: '\\sigma_T = \\sigma(1 + \\varepsilon)' },

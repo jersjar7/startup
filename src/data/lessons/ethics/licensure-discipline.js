@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: "The licensure path is rigid on experience: four years after your bachelor's, three with a master's, two with a doctorate (if you passed the FE). This person has a bachelor's and two years — they're only halfway there. Choice B is wrong because two years is the doctoral track, not the bachelor's track. Choice C gets the order wrong — you can gain experience before passing the PE exam; in fact, that's the normal sequence. Choice D confuses references with the experience requirement. You need five references, but they don't let you skip years.",
+      eli5: "The licensure path is rigid on experience: four years after your bachelor's, three with a master's, two with a doctorate (if you passed the FE). This person has a bachelor's and two years — they're only halfway there. The \"two years is sufficient\" choice is wrong because two years is the doctoral track, not the bachelor's track. The \"must pass the PE first\" choice gets the order wrong — you can gain experience before passing the PE exam; in fact, that's the normal sequence. The \"recommendation letter approves it\" choice confuses references with the experience requirement. You need five references, but they don't let you skip years.",
       hint: "How many years of experience does the Model Law require after a bachelor's degree for PE licensure?",
       steps: [
         {
@@ -135,7 +135,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: "This trips up a lot of people because tax fraud has nothing to do with engineering. But §150.10 A.3 is crystal clear: any felony conviction is grounds for discipline, \"whether or not related to the practice of engineering.\" The logic is that a felony reflects on the licensee's character and trustworthiness. Answer A is wrong because the statute explicitly covers non-engineering felonies. Answer B is wrong because a clean record affects the punishment severity, not whether the board can act. Answer D adds a condition that doesn't exist in the Model Law — the conviction itself is the trigger, not whether you reported it.",
+      eli5: "This trips up a lot of people because tax fraud has nothing to do with engineering. But §150.10 A.3 is crystal clear: any felony conviction is grounds for discipline, \"whether or not related to the practice of engineering.\" The logic is that a felony reflects on the licensee's character and trustworthiness. The \"only related to engineering practice\" option is wrong because the statute explicitly covers non-engineering felonies. The \"clean record protects them\" option is wrong because a clean record affects the punishment severity, not whether the board can act. The \"only if they fail to self-report\" option adds a condition that doesn't exist in the Model Law — the conviction itself is the trigger, not whether you reported it.",
       hint: 'Read §150.10 A.3 carefully — does it limit disciplinary grounds to engineering-related offenses?',
       steps: [
         {
@@ -189,7 +189,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: "This is a layered question. The individual got their license revoked, so they're trying to stay in the engineering business by hiring licensed PEs and only managing the company. Sounds clever, but the Model Law blocks it from multiple angles. First, §150.30 says unlicensed individuals can't use \"engineering\" in their firm name — and a revoked licensee is unlicensed. Second, §160.10 requires a certificate of authorization from the board for any firm with \"engineering\" in its name. Third, if the revocation order imposed restrictions, running an engineering firm could violate those terms (§150.10 A.9). Answer A ignores the firm-level requirements entirely. Answer C is too narrow — the violations go beyond personal signing and sealing. Answer D is theoretically possible but practically impossible with a revoked license.",
+      eli5: "This is a layered question. The individual got their license revoked, so they're trying to stay in the engineering business by hiring licensed PEs and only managing the company. Sounds clever, but the Model Law blocks it from multiple angles. First, §150.30 says unlicensed individuals can't use \"engineering\" in their firm name — and a revoked licensee is unlicensed. Second, §160.10 requires a certificate of authorization from the board for any firm with \"engineering\" in its name. Third, if the revocation order imposed restrictions, running an engineering firm could violate those terms (§150.10 A.9). The choice that calls the arrangement acceptable because licensed PEs do all the work ignores the firm-level requirements entirely. The choice limiting violations to personal signing and sealing is too narrow — the violations go beyond that. The choice that says obtaining a certificate of authorization makes it acceptable is theoretically possible but practically impossible with a revoked license.",
       hint: 'Consider both the individual-level restrictions on an unlicensed person and the firm-level requirements for using "engineering" in a company name.',
       steps: [
         {

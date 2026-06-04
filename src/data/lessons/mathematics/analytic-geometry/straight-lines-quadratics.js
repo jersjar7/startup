@@ -194,7 +194,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "hard",
-      "eli5": "Set the height equation equal to zero and use the quadratic formula. You'll get two roots — one negative and one positive. Negative time doesn't make physical sense, so throw it away. The sneaky part: the negative root (-0.36) shows up as choice A without the minus sign. If you forget to check which root is physically valid, you might pick it. Always ask yourself: does my answer make sense in the real world?",
+      "eli5": "Set the height equation equal to zero and use the quadratic formula. You'll get two roots — one negative and one positive. Negative time doesn't make physical sense, so throw it away. The sneaky part: the negative root (-0.36) shows up as the 0.36 s choice without the minus sign. If you forget to check which root is physically valid, you might pick it. Always ask yourself: does my answer make sense in the real world?",
       "hint": "Set $h(t) = 0$ and apply the quadratic formula. One of the two roots won't make physical sense.",
       "steps": [
         {

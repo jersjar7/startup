@@ -64,7 +64,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Split the T into two rectangles: the web (20 \u00d7 80 mm, centroid at 40 mm from the bottom) and the flange (120 \u00d7 20 mm, centroid at 90 mm from the bottom). Take the area-weighted average: $(1{,}600 \\times 40 + 2{,}400 \\times 90) / 4{,}000 = 70$ mm. Answer B (50 mm) is the geometric midpoint of the total 100 mm height, ignoring that the flange has more area and sits higher. Answer A (90 mm) is the centroid of the flange alone. Answer D (65 mm) is the simple average of the two centroids, $(40 + 90)/2 = 65$, ignoring the different areas.',
+      eli5: 'Split the T into two rectangles: the web (20 \u00d7 80 mm, centroid at 40 mm from the bottom) and the flange (120 \u00d7 20 mm, centroid at 90 mm from the bottom). Take the area-weighted average: $(1{,}600 \\times 40 + 2{,}400 \\times 90) / 4{,}000 = 70$ mm. The 50 mm choice is the geometric midpoint of the total 100 mm height, ignoring that the flange has more area and sits higher. The 90 mm choice is the centroid of the flange alone. The 65 mm choice is the simple average of the two centroids, $(40 + 90)/2 = 65$, ignoring the different areas.',
       hint: 'Split the T into web and flange. Compute each area and centroid distance from the bottom, then take the weighted average.',
       steps: [
         {
@@ -101,7 +101,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Treat the hole as a piece with negative area. The full plate\u2019s centroid is at $y = 100$ mm (center). The hole is above center at $y = 150$ mm. Removing material above the centroid pulls the centroid downward. The math: $\\bar{y} = (60{,}000 \\times 100 - 2{,}827 \\times 150) / (60{,}000 - 2{,}827) = 97.5$ mm. Answer A (100 mm) ignores the hole entirely. Answer C (102.5 mm) adds the hole\u2019s effect instead of subtracting, pushing the centroid the wrong direction.',
+      eli5: 'Treat the hole as a piece with negative area. The full plate\u2019s centroid is at $y = 100$ mm (center). The hole is above center at $y = 150$ mm. Removing material above the centroid pulls the centroid downward. The math: $\\bar{y} = (60{,}000 \\times 100 - 2{,}827 \\times 150) / (60{,}000 - 2{,}827) = 97.5$ mm. The 100 mm choice ignores the hole entirely. The 102.5 mm choice adds the hole\u2019s effect instead of subtracting, pushing the centroid the wrong direction.',
       hint: 'Subtract the hole: use negative area for the circular cutout. Removing material above the original centroid shifts it downward.',
       steps: [
         {
@@ -142,7 +142,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Split the section into three rectangles: bottom flange ($A = 6{,}000$, $y = 15$), web ($A = 4{,}200$, $y = 100$), and top flange ($A = 4{,}500$, $y = 185$). The bottom flange is the widest piece with the most area, so it pulls the centroid below the geometric center. The weighted average gives 91.3 mm. Answer A (100 mm) is the geometric center of the 200 mm height. Answer C (108.7 mm) measures from the top instead of the bottom. Answer D (75 mm) only accounts for two of the three rectangles.',
+      eli5: 'Split the section into three rectangles: bottom flange ($A = 6{,}000$, $y = 15$), web ($A = 4{,}200$, $y = 100$), and top flange ($A = 4{,}500$, $y = 185$). The bottom flange is the widest piece with the most area, so it pulls the centroid below the geometric center. The weighted average gives 91.3 mm. The 100 mm choice is the geometric center of the 200 mm height. The 108.7 mm choice measures from the top instead of the bottom. The 75 mm choice only accounts for two of the three rectangles.',
       hint: 'Three rectangles, three areas, three centroid locations. Take the weighted average from the bottom.',
       steps: [
         {

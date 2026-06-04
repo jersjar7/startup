@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'ΔE = 1,300 − 1,000 = 300; ΔN = 1,400 − 1,000 = 400. Distance = √(300² + 400²) = √(90,000 + 160,000) = √250,000 = 500 ft (a 3-4-5 triangle). Choice B just adds ΔE + ΔN. Choice C averages them. Choice D halves ΔE.',
+      eli5: 'ΔE = 1,300 − 1,000 = 300; ΔN = 1,400 − 1,000 = 400. Distance = √(300² + 400²) = √(90,000 + 160,000) = √250,000 = 500 ft (a 3-4-5 triangle). The 700 ft choice just adds ΔE + ΔN. The 350 ft choice averages them. The 250 ft choice halves ΔE.',
       hint: 'Distance = √(ΔE² + ΔN²).',
       steps: [
         { text: 'Coordinate differences:', latex: '\\Delta E = 300, \\quad \\Delta N = 400' },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Latitude ΔN = L·cos(Az) = 200·cos(30°) = 200(0.8660) = 173.2. New northing = 5,000 + 173.2 = 5,173.2. Choice B mistakenly uses the departure (200·sin30° = 100). Choice C uses sin/cos swapped slightly. Choice D just adds the full length.',
+      eli5: 'Latitude ΔN = L·cos(Az) = 200·cos(30°) = 200(0.8660) = 173.2. New northing = 5,000 + 173.2 = 5,173.2. The 5,100.0 choice mistakenly uses the departure (200·sin30° = 100). The 5,183.0 choice uses a slightly off trig value. The 5,200.0 choice just adds the full length.',
       hint: 'Northing change = L·cos(azimuth); add it to the starting northing.',
       steps: [
         { text: 'Latitude (northing change):', latex: '\\Delta N = 200\\cos 30\\degree = 200(0.8660) = 173.2' },
@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The arctangent returns an angle between −90° and 90°, so it cannot by itself tell which of the four quadrants the line points to. The signs of ΔE (east + / west −) and ΔN (north + / south −) place the line in the correct quadrant. Choice B (distance) and Choice D (units) do not affect direction; Choice C confuses bookkeeping with geometry.',
+      eli5: 'The arctangent returns an angle between −90° and 90°, so it cannot by itself tell which of the four quadrants the line points to. The signs of ΔE (east + / west −) and ΔN (north + / south −) place the line in the correct quadrant. The distance magnitude and the coordinate units do not affect direction; the surveying order confuses bookkeeping with geometry.',
       hint: 'Arctangent gives only one of two possible directions — what extra information fixes the quadrant?',
       steps: [
         { text: 'arctan(ΔE/ΔN) is ambiguous across quadrants.', latex: null },

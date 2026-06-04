@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The IL for positive shear at a section has its maximum ordinate just to the right of the section. At a = 6 ft from the left support of a span L = 24 ft, the IL ordinate just to the right = 1 \u2013 a/L = 1 \u2013 6/24 = 0.75. Maximum positive shear = P \u00D7 0.75 = 12 \u00D7 0.75 = 9.0 kips. Choice B (12) assumes the full load becomes shear. Choice C (3) uses the negative ordinate a/L = 0.25. Choice D (6) is half the load.',
+      eli5: 'The IL for positive shear at a section has its maximum ordinate just to the right of the section. At a = 6 ft from the left support of a span L = 24 ft, the IL ordinate just to the right = 1 \u2013 a/L = 1 \u2013 6/24 = 0.75. Maximum positive shear = P \u00D7 0.75 = 12 \u00D7 0.75 = 9.0 kips. The 12 kips choice assumes the full load becomes shear. The 3 kips choice uses the negative ordinate a/L = 0.25. The 6 kips choice is half the load.',
       hint: 'The IL for shear at distance a from the left support has a maximum positive ordinate of 1 \u2013 a/L, just to the right of the section.',
       steps: [
         { text: 'IL ordinate for positive shear just to the right:', latex: '\\eta = 1 - \\frac{a}{L} = 1 - \\frac{6}{24} = 0.75' },
@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'The IL for moment at midspan (x = 20 ft) is triangular with peak = L/4 = 10 ft. The IL ordinate at any position x is x/2 for x \u2264 20 and (40 \u2013 x)/2 for x \u2265 20. To maximize the total moment, place the heavier load (20 kips) at midspan where the ordinate is highest (10 ft). The lighter load (10 kips) lands at x = 28 ft (or x = 12 ft), with ordinate (40\u201328)/2 = 6 ft. Total M = 20(10) + 10(6) = 200 + 60 = 260 kip-ft. Choice B (240) places both loads equidistant from midspan: at x=16 and x=24, both ordinates = 8, giving 20(8)+10(8) = 240. But putting the heavier load at the peak gives a larger total.',
+      eli5: 'The IL for moment at midspan (x = 20 ft) is triangular with peak = L/4 = 10 ft. The IL ordinate at any position x is x/2 for x \u2264 20 and (40 \u2013 x)/2 for x \u2265 20. To maximize the total moment, place the heavier load (20 kips) at midspan where the ordinate is highest (10 ft). The lighter load (10 kips) lands at x = 28 ft (or x = 12 ft), with ordinate (40\u201328)/2 = 6 ft. Total M = 20(10) + 10(6) = 200 + 60 = 260 kip-ft. The 240 kip-ft choice places both loads equidistant from midspan: at x=16 and x=24, both ordinates = 8, giving 20(8)+10(8) = 240. But putting the heavier load at the peak gives a larger total.',
       hint: 'Place the heaviest load at the IL peak. Then compute the IL ordinate at the position of the other load. Sum P_i \u00D7 \u03B7_i.',
       steps: [
         { text: 'IL for midspan moment (peak at x = 20 ft):', latex: '\\eta_{\\max} = \\frac{L}{4} = \\frac{40}{4} = 10 \\text{ ft}' },

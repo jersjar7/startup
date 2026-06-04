@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Froude similitude: Fr_m = Fr_p, so v_m/\u221A(g l_m) = v_p/\u221A(g l_p). Since g is the same and the fluids are the same, v_m = v_p \u00D7 \u221A(l_m/l_p) = 10 \u00D7 \u221A(1/25) = 10 \u00D7 1/5 = 2.0 m/s. Choice B divides by 25 (uses the length ratio directly, not the square root). Choice C multiplies by 5. Choice D uses the same velocity (no scaling).',
+      eli5: 'Froude similitude: Fr_m = Fr_p, so v_m/\u221A(g l_m) = v_p/\u221A(g l_p). Since g is the same and the fluids are the same, v_m = v_p \u00D7 \u221A(l_m/l_p) = 10 \u00D7 \u221A(1/25) = 10 \u00D7 1/5 = 2.0 m/s. The 0.4 m/s option divides by 25 (uses the length ratio directly, not the square root). The 50 m/s option multiplies by 5. The 10 m/s option uses the same velocity (no scaling).',
       hint: 'For Froude similitude, velocity scales as the square root of the length ratio: $v_m/v_p = \\sqrt{L_m/L_p}$.',
       steps: [
         { text: 'Froude similitude requires:', latex: '\\frac{v_m}{\\sqrt{g l_m}} = \\frac{v_p}{\\sqrt{g l_p}}' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Reynolds similitude: Re_m = Re_p. With the same fluid (\u03BD_m = \u03BD_p), we get v_m l_m = v_p l_p, so v_m = v_p \u00D7 (l_p/l_m) = 3 \u00D7 10 = 30 m/s. The model must move FASTER because it\u2019s smaller \u2014 to maintain the same Reynolds number, velocity must increase inversely with length. This is why Reynolds similitude is often impractical at small scales. Choice B divides by 10 (confuses the ratio direction). Choice A uses the same velocity. Choice D uses the square root of the ratio (confusing with Froude).',
+      eli5: 'Reynolds similitude: Re_m = Re_p. With the same fluid (\u03BD_m = \u03BD_p), we get v_m l_m = v_p l_p, so v_m = v_p \u00D7 (l_p/l_m) = 3 \u00D7 10 = 30 m/s. The model must move FASTER because it\u2019s smaller \u2014 to maintain the same Reynolds number, velocity must increase inversely with length. This is why Reynolds similitude is often impractical at small scales. The 0.3 m/s option divides by 10 (confuses the ratio direction). The 3 m/s option uses the same velocity. The 0.949 m/s option divides by the square root of the ratio (confusing with Froude).',
       hint: 'Reynolds similitude with the same fluid: v_m = v_p \u00D7 (L_p/L_m). Smaller model means higher velocity.',
       steps: [
         { text: 'Reynolds similitude with same fluid ($\\nu_m = \\nu_p$):', latex: 'v_m l_m = v_p l_p' },

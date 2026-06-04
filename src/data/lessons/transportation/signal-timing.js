@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'First convert 50 mph to ft/sec: 50 \u00D7 1.467 = 73.3 ft/sec. Then y = t + v/(2a) = 1.0 + 73.3/(2 \u00D7 10) = 1.0 + 73.3/20 = 1.0 + 3.67 = 4.67 \u2248 4.7 sec. Choice A (3.5) used mph directly: 1.0 + 50/20 = 3.5 \u2014 forgot to convert to ft/sec. Choice C (3.7) forgot the reaction time: 73.3/20 = 3.67. Choice D (8.3) used v/a instead of v/(2a): 1.0 + 73.3/10 = 8.3.',
+      eli5: 'First convert 50 mph to ft/sec: 50 \u00D7 1.467 = 73.3 ft/sec. Then y = t + v/(2a) = 1.0 + 73.3/(2 \u00D7 10) = 1.0 + 73.3/20 = 1.0 + 3.67 = 4.67 \u2248 4.7 sec. The 3.5 sec option used mph directly: 1.0 + 50/20 = 3.5 \u2014 forgot to convert to ft/sec. The 3.7 sec option forgot the reaction time: 73.3/20 = 3.67. The 8.3 sec option used v/a instead of v/(2a): 1.0 + 73.3/10 = 8.3.',
       hint: 'Convert mph to ft/sec first (multiply by 1.467), then plug into y = t + v/(2a).',
       steps: [
         { text: 'Convert speed:', latex: 'v = 50 \\times 1.467 = 73.3 \\text{ ft/sec}' },
@@ -56,7 +56,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Convert speed: 50 \u00D7 1.467 = 73.3 ft/sec. r = (W + l)/v = (60 + 20)/73.3 = 80/73.3 = 1.09 \u2248 1.1 sec. Choice B (1.6) used mph instead of ft/sec: 80/50 = 1.6. Choice A (0.8) forgot the vehicle length: 60/73.3 = 0.82. Choice D (0.9) inverted and divided v by (W+l).',
+      eli5: 'Convert speed: 50 \u00D7 1.467 = 73.3 ft/sec. r = (W + l)/v = (60 + 20)/73.3 = 80/73.3 = 1.09 \u2248 1.1 sec. The 1.6 sec choice used mph instead of ft/sec: 80/50 = 1.6. The 0.8 sec choice forgot the vehicle length: 60/73.3 = 0.82. The 0.9 sec choice inverted and divided v by (W+l).',
       hint: 'r = (W + l)/v. Don\'t forget to include the vehicle length AND convert speed to ft/sec.',
       steps: [
         { text: 'Convert speed:', latex: 'v = 50 \\times 1.467 = 73.3 \\text{ ft/sec}' },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Gp = 3.2 + L/Sp + 0.27Nped = 3.2 + 56/3.5 + 0.27 \u00D7 15 = 3.2 + 16.0 + 4.05 = 23.25 \u2248 23.3 sec. Three components: start-up (3.2), walking time (16.0), and pedestrian volume adjustment (4.05). Choice B (19.2) forgot the Nped term: 3.2 + 16.0. Choice C (21.3) used Sp = 4.0 instead of 3.5: 3.2 + 14.0 + 4.05. Choice A (7.3) forgot the walking time entirely: 3.2 + 4.05.',
+      eli5: 'Gp = 3.2 + L/Sp + 0.27Nped = 3.2 + 56/3.5 + 0.27 \u00D7 15 = 3.2 + 16.0 + 4.05 = 23.25 \u2248 23.3 sec. Three components: start-up (3.2), walking time (16.0), and pedestrian volume adjustment (4.05). The 19.2 sec option forgot the Nped term: 3.2 + 16.0. The 21.3 sec option used Sp = 4.0 instead of 3.5: 3.2 + 14.0 + 4.05. The 7.3 sec option forgot the walking time entirely: 3.2 + 4.05.',
       hint: 'Three terms: 3.2 start-up + L/Sp walking + 0.27Nped volume adjustment.',
       steps: [
         { text: 'Walking time:', latex: '\\frac{L}{S_p} = \\frac{56}{3.5} = 16.0 \\text{ sec}' },

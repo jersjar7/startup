@@ -124,7 +124,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'For a multi-segment bar, you compute the deformation of each piece separately and add them up. Steel piece: $50{,}000 \\times 600 / (400 \\times 200{,}000) = 0.375$ mm. Aluminum piece: $50{,}000 \\times 900 / (800 \\times 70{,}000) = 0.803$ mm. Total $= 1.18$ mm. Choice A is just the steel part. Choice B is just the aluminum part. Choice D might come from using the same $E$ for both segments.',
+    eli5: 'For a multi-segment bar, you compute the deformation of each piece separately and add them up. Steel piece: $50{,}000 \\times 600 / (400 \\times 200{,}000) = 0.375$ mm. Aluminum piece: $50{,}000 \\times 900 / (800 \\times 70{,}000) = 0.803$ mm. Total $= 1.18$ mm. The 0.375 mm choice is just the steel part. The 0.803 mm choice is just the aluminum part. The 1.56 mm choice might come from using the same $E$ for both segments.',
     hint: 'Each segment has its own A and E. Sum the individual deformations: $\\delta_{total} = \\sum PL_i / (A_i E_i)$.',
     steps: [
       {
@@ -183,7 +183,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'This is a two-part thermal problem. First, check if the free expansion exceeds the gap. Free expansion $= \\alpha L \\Delta T = 23 \\times 10^{-6} \\times 800 \\times 50 = 0.92$ mm, which is bigger than the 0.2 mm gap, so the rod does contact the wall and stress develops. But only the expansion beyond the gap is restrained: $0.92 - 0.20 = 0.72$ mm. The compressive stress is $E \\times (\\delta_{restrained}/L) = 70{,}000 \\times (0.72/800) = 63.0$ MPa. Choice B assumes the gap means no stress ever develops (wrong -- the expansion exceeds the gap). Choice C ignores the gap entirely and uses the full thermal stress $E\\alpha\\Delta T = 80.5$ MPa. Choice D might come from using the wrong $\\alpha$ or $\\Delta T$.',
+    eli5: 'This is a two-part thermal problem. First, check if the free expansion exceeds the gap. Free expansion $= \\alpha L \\Delta T = 23 \\times 10^{-6} \\times 800 \\times 50 = 0.92$ mm, which is bigger than the 0.2 mm gap, so the rod does contact the wall and stress develops. But only the expansion beyond the gap is restrained: $0.92 - 0.20 = 0.72$ mm. The compressive stress is $E \\times (\\delta_{restrained}/L) = 70{,}000 \\times (0.72/800) = 63.0$ MPa. The 0 MPa choice assumes the gap means no stress ever develops (wrong -- the expansion exceeds the gap). The 80.5 MPa choice ignores the gap entirely and uses the full thermal stress $E\\alpha\\Delta T = 80.5$ MPa. The 17.5 MPa choice might come from using the wrong $\\alpha$ or $\\Delta T$.',
     hint: 'First check whether the free thermal expansion exceeds the gap. If it does, only the expansion beyond the gap is resisted by the walls.',
     steps: [
       {
@@ -246,7 +246,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Straight plug-and-chug with $\\tau = Tc/J$. For a solid shaft, $J = \\pi d^4/32$ and $c = d/2 = 20$ mm. $J = \\pi(40)^4/32 = 251{,}327$ mm$^4$. Then $\\tau = 400{,}000 \\times 20 / 251{,}327 = 31.8$ MPa. Choice A (15.9) comes from using $I = \\pi d^4/64$ instead of $J = \\pi d^4/32$ -- halves $J$ and thus halves the stress. Choice C (63.7) is what you get if you use $c = d = 40$ instead of $c = d/2 = 20$, doubling the answer. Choice D (8.0) comes from an error like using $d^3$ instead of $d^4$ in $J$.',
+    eli5: 'Straight plug-and-chug with $\\tau = Tc/J$. For a solid shaft, $J = \\pi d^4/32$ and $c = d/2 = 20$ mm. $J = \\pi(40)^4/32 = 251{,}327$ mm$^4$. Then $\\tau = 400{,}000 \\times 20 / 251{,}327 = 31.8$ MPa. The 15.9 MPa choice comes from using $I = \\pi d^4/64$ instead of $J = \\pi d^4/32$ -- halves $J$ and thus halves the stress. The 63.7 MPa choice is what you get if you use $c = d = 40$ instead of $c = d/2 = 20$, doubling the answer. The 8.0 MPa choice comes from an error like using $d^3$ instead of $d^4$ in $J$.',
     hint: 'Remember that $c$ is the radius (not the diameter), and $J = \\pi d^4/32$ for a solid shaft.',
     steps: [
       {
@@ -301,7 +301,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Power and torque are related by $P = T\\omega$, where $\\omega$ is in rad/s. First convert rpm to rad/s: $\\omega = 300 \\times 2\\pi/60 = 31.42$ rad/s. Then $T = P/\\omega = 15{,}000 / 31.42 = 477$ N$\\cdot$m. Choice B (50) comes from dividing power by rpm directly without converting to rad/s. Choice C (239) comes from forgetting the 2 in the $2\\pi$ conversion (using $\\pi/60$ instead of $2\\pi/60$). Choice D (7,958) comes from multiplying $P$ by $\\omega$ instead of dividing.',
+    eli5: 'Power and torque are related by $P = T\\omega$, where $\\omega$ is in rad/s. First convert rpm to rad/s: $\\omega = 300 \\times 2\\pi/60 = 31.42$ rad/s. Then $T = P/\\omega = 15{,}000 / 31.42 = 477$ N$\\cdot$m. The 50 N$\\cdot$m option comes from dividing power by rpm directly without converting to rad/s. The 239 N$\\cdot$m option comes from forgetting the 2 in the $2\\pi$ conversion (using $\\pi/60$ instead of $2\\pi/60$). The 7,958 N$\\cdot$m option comes from multiplying $P$ by $\\omega$ instead of dividing.',
     hint: 'Convert rpm to rad/s first using $\\omega = \\text{rpm} \\times 2\\pi/60$, then use $T = P/\\omega$.',
     steps: [
       {
@@ -348,7 +348,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Use $\\phi = TL/(GJ)$, but first compute $J$ for the hollow shaft: $J = \\pi(d_o^4 - d_i^4)/32 = \\pi(100^4 - 70^4)/32 = 7{,}456{,}000$ mm$^4$. Then $\\phi = 5{,}000{,}000 \\times 2{,}000 / (80{,}000 \\times 7{,}456{,}000) = 0.0168$ rad. Choice A (0.0105) comes from using $J$ for the solid 100 mm shaft (ignoring the hollow core), which overestimates $J$. Choice B (0.0335) comes from using $I$ instead of $J$. Choice C (0.0051) comes from using the solid shaft $J$ and a shorter length.',
+    eli5: 'Use $\\phi = TL/(GJ)$, but first compute $J$ for the hollow shaft: $J = \\pi(d_o^4 - d_i^4)/32 = \\pi(100^4 - 70^4)/32 = 7{,}456{,}000$ mm$^4$. Then $\\phi = 5{,}000{,}000 \\times 2{,}000 / (80{,}000 \\times 7{,}456{,}000) = 0.0168$ rad. The 0.0335 rad choice comes from using $I = J/2$ (the bending moment of inertia) instead of $J$ in the formula. The 0.0105 rad and 0.0051 rad choices come from arithmetic/unit slips in computing $J$ for the hollow section; both reflect using too large a $J$ rather than the correct $7{,}456{,}000\\text{ mm}^4$.',
     hint: 'Compute $J$ for a hollow shaft using $J = \\pi(d_o^4 - d_i^4)/32$, then apply $\\phi = TL/(GJ)$.',
     steps: [
       {
@@ -399,7 +399,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'For $\\tau = Tc/J$, where $c = d/2$ and $J = \\pi d^4/32$, you can write $\\tau = T(d/2) / (\\pi d^4/32) = 16T/(\\pi d^3)$. So $\\tau$ is proportional to $1/d^3$. When you double the diameter, the stress drops by $2^3 = 8$ times. That means Shaft A (smaller) has 8 times the stress of Shaft B (larger). Choice A (2:1) only accounts for the change in $c$. Choice B (4:1) only accounts for the change in $c^2$ or confuses with area scaling. Choice D (16:1) confuses this with a fourth-power relationship ($J$ scales as $d^4$, but $c/J$ scales as $1/d^3$).',
+    eli5: 'For $\\tau = Tc/J$, where $c = d/2$ and $J = \\pi d^4/32$, you can write $\\tau = T(d/2) / (\\pi d^4/32) = 16T/(\\pi d^3)$. So $\\tau$ is proportional to $1/d^3$. When you double the diameter, the stress drops by $2^3 = 8$ times. That means Shaft A (smaller) has 8 times the stress of Shaft B (larger). The 2:1 choice only accounts for the change in $c$. The 4:1 choice only accounts for the change in $c^2$ or confuses with area scaling. The 16:1 choice confuses this with a fourth-power relationship ($J$ scales as $d^4$, but $c/J$ scales as $1/d^3$).',
     hint: 'Express $\\tau_{max}$ in terms of $d$ by substituting $c = d/2$ and $J = \\pi d^4/32$ into $\\tau = Tc/J$.',
     steps: [
       {
@@ -450,7 +450,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'You need to find $E$ from test data. First get the stress: $\\sigma = P/A = 42{,}000 / (\\pi \\times 12.5^2 / 4) = 42{,}000 / 122.7 = 342.3$ MPa. Then get the strain: $\\varepsilon = \\delta/L = 0.171/50 = 0.00342$. Finally $E = \\sigma/\\varepsilon = 342.3 / 0.00342 = 100{,}000$ MPa $= 100$ GPa. Choice B (200 GPa) comes from a decimal error in the strain calculation. Choice C and D are common material values that might tempt guessing.',
+    eli5: 'You need to find $E$ from test data. First get the stress: $\\sigma = P/A = 42{,}000 / (\\pi \\times 12.5^2 / 4) = 42{,}000 / 122.7 = 342.3$ MPa. Then get the strain: $\\varepsilon = \\delta/L = 0.171/50 = 0.00342$. Finally $E = \\sigma/\\varepsilon = 342.3 / 0.00342 = 100{,}000$ MPa $= 100$ GPa. The 200 GPa choice comes from a decimal error in the strain calculation. The 150 GPa and 250 GPa choices are common material values that might tempt guessing.',
     hint: 'Compute stress ($\\sigma = P/A$) and strain ($\\varepsilon = \\delta/L$), then use $E = \\sigma / \\varepsilon$.',
     steps: [
       {
@@ -505,7 +505,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Straight formula: $G = E / [2(1 + \\nu)] = 110 / [2(1.34)] = 110 / 2.68 = 41.0$ GPa. Choice B (37.3) comes from using $G = E/3$ (wrong formula). Choice C (55.0) comes from $G = E/2$ (forgetting the $1+\\nu$ part). Choice D (74.3) comes from $G = E/(1+\\nu)$ (forgetting the 2 in the denominator). This is one of the easiest formulas in MoM -- just do not forget any part of the denominator.',
+    eli5: 'Straight formula: $G = E / [2(1 + \\nu)] = 110 / [2(1.34)] = 110 / 2.68 = 41.0$ GPa. The 37.3 GPa option comes from using $G = E/3$ (wrong formula). The 55.0 GPa option comes from $G = E/2$ (forgetting the $1+\\nu$ part). The 74.3 GPa option comes from $G = E/(1+\\nu)$ (forgetting the 2 in the denominator). This is one of the easiest formulas in MoM -- just do not forget any part of the denominator.',
     hint: 'There is a direct formula relating $E$, $G$, and $\\nu$.',
     steps: [
       {
@@ -548,7 +548,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Percent reduction in area $= (A_0 - A_f)/A_0 \\times 100 = (130 - 82)/130 \\times 100 = 48/130 \\times 100 = 36.9\\%$. The percent elongation is $(252 - 200)/200 \\times 100 = 26\\%$ (choice A) -- that is a different ductility measure, not what they asked for. Choice C (58.5%) comes from using $A_f/A_0 \\times 100$ -- that is the remaining fraction, not the reduction. Choice D uses $(A_0 - A_f)/A_f$ instead of $(A_0 - A_f)/A_0$ -- dividing by the final area instead of the original.',
+    eli5: 'Percent reduction in area $= (A_0 - A_f)/A_0 \\times 100 = (130 - 82)/130 \\times 100 = 48/130 \\times 100 = 36.9\\%$. The percent elongation is $(252 - 200)/200 \\times 100 = 26\\%$ (the 26% choice) -- that is a different ductility measure, not what they asked for. The 58.5% choice comes from using $(A_0 - A_f)/A_f$ -- dividing by the final area instead of the original. The 63.1% choice uses $A_f/A_0 \\times 100$ -- that is the remaining fraction, not the reduction.',
     hint: 'Percent reduction in area uses the original area in the denominator: $\\%RA = (A_0 - A_f) / A_0 \\times 100$.',
     steps: [
       {
@@ -591,7 +591,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'Mild (low-carbon) steel is the classic material that shows a distinct upper and lower yield point with a yield plateau -- this is Specimen A. High-strength alloy steels and cold-worked metals typically show a gradual transition from elastic to plastic behavior without a sharp yield point, so engineers use the 0.2% offset method to define their yield strength. Choice A has the assignments backwards. Choice B is possible in theory but not the most accurate FE-relevant answer. Choice C is also backwards -- cold working actually removes the yield point, not creates it.',
+    eli5: 'Mild (low-carbon) steel is the classic material that shows a distinct upper and lower yield point with a yield plateau -- this is Specimen A. High-strength alloy steels and cold-worked metals typically show a gradual transition from elastic to plastic behavior without a sharp yield point, so engineers use the 0.2% offset method to define their yield strength. The choice swapping the assignments (Specimen A high-carbon, Specimen B mild) has them backwards. The choice claiming both are the same steel at different temperatures is possible in theory but not the most accurate FE-relevant answer. The cold-worked choice is also backwards -- cold working actually removes the yield point, not creates it.',
     hint: 'Think about which type of steel shows a clear yield point with upper/lower yield and a plateau, versus which type requires the 0.2% offset method.',
     steps: [
       {
@@ -603,7 +603,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'Cold working removes the yield point from mild steel (Choice D is backwards).',
+        text: 'Cold working removes the yield point from mild steel, so the choice claiming Specimen A was cold-worked is backwards.',
         latex: null
       }
     ],
@@ -642,7 +642,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'For a cantilever with a tip load, the max moment occurs at the fixed support and equals $P \\times L = 12 \\times 3 = 36$ kN$\\cdot$m. The moment is zero at the free end and increases linearly to $PL$ at the wall. Choice A (18) comes from using $PL/2$, which is the wrong formula (that is not a standard case). Choice C (9) comes from $PL/4$ (the simply supported midpoint formula, wrong support condition). Choice D (4) comes from $PL/L^2$ or some other error. Always identify the support type first -- cantilever moments are $PL$, not $PL/4$ or $PL/8$.',
+    eli5: 'For a cantilever with a tip load, the max moment occurs at the fixed support and equals $P \\times L = 12 \\times 3 = 36$ kN$\\cdot$m. The moment is zero at the free end and increases linearly to $PL$ at the wall. The 18 option comes from using $PL/2$, which is the wrong formula (that is not a standard case). The 9 option comes from $PL/4$ (the simply supported midpoint formula, wrong support condition). The 4 option comes from $PL/L^2$ or some other error. Always identify the support type first -- cantilever moments are $PL$, not $PL/4$ or $PL/8$.',
     hint: 'For a cantilever beam, where does the maximum moment occur and what is the formula?',
     steps: [
       {
@@ -689,7 +689,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'For a simply supported beam with a UDL, each reaction equals $wL/2 = 6 \\times 10 / 2 = 30$ kN. The maximum shear occurs at the supports and equals the reaction: $V_{max} = 30$ kN. The shear diagram is a straight line from +30 at the left to $-30$ at the right, crossing zero at midspan. Choice B (60) is the total load $wL$, not the reaction. Choice C (15) comes from $wL/4$, confusing shear with something else. Choice D (75) comes from $wL^2/8$ (that is the max moment formula, not shear, and it does not even have the right units).',
+    eli5: 'For a simply supported beam with a UDL, each reaction equals $wL/2 = 6 \\times 10 / 2 = 30$ kN. The maximum shear occurs at the supports and equals the reaction: $V_{max} = 30$ kN. The shear diagram is a straight line from +30 at the left to $-30$ at the right, crossing zero at midspan. The 60 kN choice is the total load $wL$, not the reaction. The 15 kN choice comes from $wL/4$, confusing shear with something else. The 75 kN choice comes from $wL^2/8$ (that is the max moment formula, not shear, and it does not even have the right units).',
     hint: 'The maximum shear in a simply supported beam with a UDL occurs at the supports. What is the reaction force?',
     steps: [
       {
@@ -736,7 +736,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'First find the reactions. Sum moments about A: $R_B \\times 8 = 20 \\times 2 + 40 \\times 6 = 40 + 240 = 280$, so $R_B = 35$ kN. Then $R_A = 20 + 40 - 35 = 25$ kN. Check the moment at each load point: at $x = 2$ m, $M = 25 \\times 2 = 50$ kN$\\cdot$m. At $x = 6$ m, $M = 25 \\times 6 - 20 \\times 4 = 150 - 80 = 70$ kN$\\cdot$m (or from the right: $R_B \\times 2 = 35 \\times 2 = 70$). The maximum is 70 kN$\\cdot$m under the 40 kN load. Choice B (60) might come from an arithmetic error with the reactions. Choice C (80) comes from $R_B \\times (8-6)$ plus something wrong. Choice D (120) comes from adding the moments at both load points ($50 + 70$), which makes no physical sense.',
+    eli5: 'First find the reactions. Sum moments about A: $R_B \\times 8 = 20 \\times 2 + 40 \\times 6 = 40 + 240 = 280$, so $R_B = 35$ kN. Then $R_A = 20 + 40 - 35 = 25$ kN. Check the moment at each load point: at $x = 2$ m, $M = 25 \\times 2 = 50$ kN$\\cdot$m. At $x = 6$ m, $M = 25 \\times 6 - 20 \\times 4 = 150 - 80 = 70$ kN$\\cdot$m (or from the right: $R_B \\times 2 = 35 \\times 2 = 70$). The maximum is 70 kN$\\cdot$m under the 40 kN load. The 60 kN$\\cdot$m choice might come from an arithmetic error with the reactions. The 80 kN$\\cdot$m choice comes from $R_B \\times (8-6)$ plus something wrong. The 120 kN$\\cdot$m choice comes from adding the moments at both load points ($50 + 70$), which makes no physical sense.',
     hint: 'Find both reactions using equilibrium, then compute the moment at each load location. The maximum moment occurs under one of the loads.',
     steps: [
       {
@@ -804,7 +804,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The relationship $dM/dx = V$ means the slope of the moment diagram equals the shear. When $V = 0$, the slope of the moment diagram is zero, which means the moment is at a peak or valley (a local maximum or minimum). For a simply supported beam with UDL, $V = 0$ at midspan, and that is exactly where the moment reaches its maximum value. Choice A is wrong because $M$ is not zero where $V$ is zero ($M$ is at its peak there). Choice B is wrong because the moment does not change sign at that point -- it is at its maximum. Choice D describes a change in curvature of the deflection curve, which is related to $M$ changing sign, not $V$.',
+    eli5: 'The relationship $dM/dx = V$ means the slope of the moment diagram equals the shear. When $V = 0$, the slope of the moment diagram is zero, which means the moment is at a peak or valley (a local maximum or minimum). For a simply supported beam with UDL, $V = 0$ at midspan, and that is exactly where the moment reaches its maximum value. The "bending moment is also zero" choice is wrong because $M$ is not zero where $V$ is zero ($M$ is at its peak there). The "bending moment changes sign" choice is wrong because the moment does not change sign at that point -- it is at its maximum. The "inflection point" choice describes a change in curvature of the deflection curve, which is related to $M$ changing sign, not $V$.',
     hint: 'Recall the relationship $dM/dx = V$. What happens to a function when its derivative is zero?',
     steps: [
       {
@@ -855,7 +855,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'easy',
-    eli5: 'Use $\\sigma = M/S$ where $S = bh^2/6$. $S = 150 \\times 300^2 / 6 = 150 \\times 90{,}000 / 6 = 2{,}250{,}000$ mm$^3$. Then $\\sigma = 18{,}000{,}000 / 2{,}250{,}000 = 8.0$ MPa. Choice A (4.0) comes from using $bh^3/12$ incorrectly or swapping $b$ and $h$. Choice B (16.0) comes from using $c = h = 300$ instead of $c = h/2 = 150$. Choice D (2.67) comes from dividing by $I$ without multiplying by $c$, or some other dimensional error.',
+    eli5: 'Use $\\sigma = M/S$ where $S = bh^2/6$. $S = 150 \\times 300^2 / 6 = 150 \\times 90{,}000 / 6 = 2{,}250{,}000$ mm$^3$. Then $\\sigma = 18{,}000{,}000 / 2{,}250{,}000 = 8.0$ MPa. The 4.0 MPa option comes from using $bh^3/12$ incorrectly or swapping $b$ and $h$. The 16.0 MPa option comes from using $c = h = 300$ instead of $c = h/2 = 150$. The 2.67 MPa option comes from dividing by $I$ without multiplying by $c$, or some other dimensional error.',
     hint: 'Use the section modulus shortcut: $S = bh^2/6$ and $\\sigma = M/S$.',
     steps: [
       {
@@ -906,7 +906,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'For a rectangular section, use the shortcut $\\tau_{max} = 3V/(2A)$. $A = 200 \\times 400 = 80{,}000$ mm$^2$. $\\tau = 3 \\times 80{,}000 / (2 \\times 80{,}000) = 1.50$ MPa. Choice A (1.00) is just $V/A$, the average shear stress, forgetting the 3/2 factor. Choice C (2.00) might come from using $2V/A$. Choice D (3.00) uses $3V/A$, forgetting the 2 in the denominator. The 3/2 factor accounts for the parabolic distribution of shear stress in a rectangle.',
+    eli5: 'For a rectangular section, use the shortcut $\\tau_{max} = 3V/(2A)$. $A = 200 \\times 400 = 80{,}000$ mm$^2$. $\\tau = 3 \\times 80{,}000 / (2 \\times 80{,}000) = 1.50$ MPa. The 1.00 MPa choice is just $V/A$, the average shear stress, forgetting the 3/2 factor. The 2.00 MPa choice might come from using $2V/A$. The 3.00 MPa choice uses $3V/A$, forgetting the 2 in the denominator. The 3/2 factor accounts for the parabolic distribution of shear stress in a rectangle.',
     hint: 'For a rectangular cross-section, there is a shortcut formula for the maximum shear stress at the neutral axis.',
     steps: [
       {
@@ -953,7 +953,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'When $S$ is given directly (as it is for all steel shapes in tables), you skip $I$ and $c$ entirely. $\\sigma = M/S = 300{,}000{,}000 / 1{,}200{,}000 = 250$ MPa. Choice B (35.3) comes from dividing $M$ by $A$ instead of $S$ -- that gives an axial stress, not bending stress. Choice C (125) comes from dividing by $2S$, as if you halved the section modulus. Choice D (500) comes from using $S/2$ or some doubling error. The section modulus $S$ is the single most useful property for beam design -- it combines $I$ and $c$ into one number.',
+    eli5: 'When $S$ is given directly (as it is for all steel shapes in tables), you skip $I$ and $c$ entirely. $\\sigma = M/S = 300{,}000{,}000 / 1{,}200{,}000 = 250$ MPa. The 35.3 MPa distractor is an axial-style mix-up (using area $A$ instead of section modulus $S$), but note $M/A = 300{,}000{,}000/8{,}500 \\approx 35{,}300$ MPa, not 35.3 MPa, so this value is not a clean unit-consistent result. The 125 MPa distractor comes from dividing by $2S$, as if you halved the section modulus. The 500 MPa distractor comes from using $S/2$ or some doubling error. The section modulus $S$ is the single most useful property for beam design -- it combines $I$ and $c$ into one number.',
     hint: 'When the section modulus $S$ is provided, the bending stress formula simplifies to $\\sigma = M/S$.',
     steps: [
       {
@@ -1000,7 +1000,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'Bending stress and shear stress peak at opposite locations in the cross-section. Bending stress is maximum at the extreme fibers (top and bottom) and zero at the neutral axis. Shear stress is the exact opposite -- it is maximum at the neutral axis and zero at the top and bottom surfaces. For a rectangular beam, the shear distribution is parabolic with the peak at the center. This is why the $3V/(2A)$ formula gives you the stress at the neutral axis. Choices A and B are where bending stress peaks, not shear. Choice D describes no special location in the parabolic distribution.',
+    eli5: 'Bending stress and shear stress peak at opposite locations in the cross-section. Bending stress is maximum at the extreme fibers (top and bottom) and zero at the neutral axis. Shear stress is the exact opposite -- it is maximum at the neutral axis and zero at the top and bottom surfaces. For a rectangular beam, the shear distribution is parabolic with the peak at the center. This is why the $3V/(2A)$ formula gives you the stress at the neutral axis. The top-fiber and bottom-fiber choices are where bending stress peaks, not shear. The point halfway between the neutral axis and the top fiber describes no special location in the parabolic distribution.',
     hint: 'Think about the shear stress distribution across a rectangular section. Where is the parabolic curve at its peak?',
     steps: [
       {
@@ -1051,7 +1051,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Simply supported beam with UDL: $\\delta = 5wL^4 / (384EI)$. Note the 5 in the numerator and $L$ to the fourth power. $w = 10$ N/mm, $L = 5{,}000$ mm, $E = 200{,}000$ MPa, $I = 40 \\times 10^6$ mm$^4$. $\\delta = 5 \\times 10 \\times 5{,}000^4 / (384 \\times 200{,}000 \\times 40 \\times 10^6) = 10.2$ mm. Choice B (5.09) comes from forgetting the 5 in the numerator (using $wL^4/(384EI)$ instead of $5wL^4/(384EI)$). Choice C (20.3) comes from using $5wL^4/(192EI)$ (halving the denominator). Choice D (40.7) comes from using the cantilever formula $wL^4/(8EI)$.',
+    eli5: 'Simply supported beam with UDL: $\\delta = 5wL^4 / (384EI)$. Note the 5 in the numerator and $L$ to the fourth power. $w = 10$ N/mm, $L = 5{,}000$ mm, $E = 200{,}000$ MPa, $I = 40 \\times 10^6$ mm$^4$. $\\delta = 5 \\times 10 \\times 5{,}000^4 / (384 \\times 200{,}000 \\times 40 \\times 10^6) = 10.2$ mm. The 5.09 mm choice comes from forgetting the 5 in the numerator (using $wL^4/(384EI)$ instead of $5wL^4/(384EI)$). The 20.3 mm choice comes from using $5wL^4/(192EI)$ (halving the denominator). The 40.7 mm choice comes from using the cantilever formula $wL^4/(8EI)$.',
     hint: 'Look up the deflection formula for a simply supported beam with UDL. Do not forget the coefficient in the numerator.',
     steps: [
       {
@@ -1098,7 +1098,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Cantilever with a tip load: $\\delta = PL^3 / (3EI)$. $P = 10{,}000$ N, $L = 2{,}000$ mm. $\\delta = 10{,}000 \\times 2{,}000^3 / (3 \\times 200{,}000 \\times 25 \\times 10^6) = 5.33$ mm. Choice A (1.78) comes from using $PL^3/(9EI)$ or some factor error. Choice C (10.7) comes from using $PL^3/(1.5EI)$ (forgetting the 3 is already in there and doubling). Choice D (0.333) comes from using the simply supported formula $PL^3/(48EI)$ instead of the cantilever $PL^3/(3EI)$ -- that is 16 times smaller.',
+    eli5: 'Cantilever with a tip load: $\\delta = PL^3 / (3EI)$. $P = 10{,}000$ N, $L = 2{,}000$ mm. $\\delta = 10{,}000 \\times 2{,}000^3 / (3 \\times 200{,}000 \\times 25 \\times 10^6) = 5.33$ mm. The 1.78 mm choice comes from using $PL^3/(9EI)$ or some factor error. The 10.7 mm choice comes from using $PL^3/(1.5EI)$ (forgetting the 3 is already in there and doubling). The 0.333 mm choice comes from using the simply supported formula $PL^3/(48EI)$ instead of the cantilever $PL^3/(3EI)$ -- that is 16 times smaller.',
     hint: 'Identify this as a cantilever with a tip load. The deflection formula has a small denominator compared to simply supported beams.',
     steps: [
       {
@@ -1145,7 +1145,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Use superposition: compute the deflection from each load separately, then add. The point load gives $\\delta_P = PL^3/(48EI) = 1.67$ mm. The UDL gives $\\delta_w = 5wL^4/(384EI) = 1.67$ mm. Total $= 1.67 + 1.67 = 3.33$ mm. Choice A (1.67) is only one of the two deflections -- you forgot the other load. Choice B (6.67) comes from doubling the answer or using the wrong coefficient. Choice D (26.7) comes from using the cantilever formula $PL^3/(3EI)$ for one of the loads. The most common mistake on this type of problem is computing only one load case and stopping there.',
+    eli5: 'Use superposition: compute the deflection from each load separately, then add. The point load gives $\\delta_P = PL^3/(48EI) = 1.67$ mm. The UDL gives $\\delta_w = 5wL^4/(384EI) = 1.67$ mm. Total $= 1.67 + 1.67 = 3.33$ mm. The 1.67 mm choice is only one of the two deflections -- you forgot the other load. The 6.67 mm choice comes from doubling the answer or using the wrong coefficient. The 26.7 mm choice comes from using the cantilever formula $PL^3/(3EI)$ for one of the loads. The most common mistake on this type of problem is computing only one load case and stopping there.',
     hint: 'When a beam has multiple load types, use superposition: calculate the deflection from each load separately and add them together.',
     steps: [
       {
@@ -1203,7 +1203,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'The deflection formula for a simply supported beam with UDL is $\\delta = 5wL^4 / (384EI)$. Deflection is proportional to $L^4$. Double the span and the deflection increases by $2^4 = 16$ times. This is why span length is so critical in beam design -- a modest increase in span causes deflection to explode. Choice A (2) only counts $L$ to the first power. Choice B (4) treats it as $L^2$. Choice C (8) treats it as $L^3$ (that is what happens with a point load, $PL^3/(48EI)$). The fourth-power dependence on $L$ is a direct consequence of the distributed load acting over a longer length.',
+    eli5: 'The deflection formula for a simply supported beam with UDL is $\\delta = 5wL^4 / (384EI)$. Deflection is proportional to $L^4$. Double the span and the deflection increases by $2^4 = 16$ times. This is why span length is so critical in beam design -- a modest increase in span causes deflection to explode. The choice 2 only counts $L$ to the first power. The choice 4 treats it as $L^2$. The choice 8 treats it as $L^3$ (that is what happens with a point load, $PL^3/(48EI)$). The fourth-power dependence on $L$ is a direct consequence of the distributed load acting over a longer length.',
     hint: 'Look at the deflection formula for a UDL on a simply supported beam. What power of $L$ appears?',
     steps: [
       {
@@ -1254,7 +1254,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'The max in-plane shear stress is $R$, the radius of Mohr\'s circle. $R = \\sqrt{((\\sigma_x - \\sigma_y)/2)^2 + \\tau_{xy}^2}$. With $\\tau_{xy} = 0$, $R = |\\sigma_x - \\sigma_y|/2 = |100 - (-40)|/2 = 140/2 = 70$ MPa. Choice A (30) is the center $C = (100 + (-40))/2 = 30$ -- that is the average normal stress, not the shear. Choice C (50) comes from using $|\\sigma_x + \\sigma_y|/2$ instead of the difference. Choice D (140) forgets to divide by 2. Even when $\\tau_{xy} = 0$, there can still be in-plane shear on a rotated plane.',
+    eli5: 'The max in-plane shear stress is $R$, the radius of Mohr\'s circle. $R = \\sqrt{((\\sigma_x - \\sigma_y)/2)^2 + \\tau_{xy}^2}$. With $\\tau_{xy} = 0$, $R = |\\sigma_x - \\sigma_y|/2 = |100 - (-40)|/2 = 140/2 = 70$ MPa. The 30 MPa choice is the center $C = (100 + (-40))/2 = 30$ -- that is the average normal stress, not the shear. The 50 MPa choice comes from using $|\\sigma_x + \\sigma_y|/2$ instead of the difference. The 140 MPa choice forgets to divide by 2. Even when $\\tau_{xy} = 0$, there can still be in-plane shear on a rotated plane.',
     hint: 'The in-plane max shear stress equals the radius $R$ of Mohr\'s circle. What is $R$ when $\\tau_{xy} = 0$?',
     steps: [
       {
@@ -1312,7 +1312,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: '$C = (50 + (-30))/2 = 10$ MPa. The half-difference is $(50 - (-30))/2 = 40$ MPa and $\\tau_{xy} = 30$ MPa. $R = \\sqrt{40^2 + 30^2} = \\sqrt{2{,}500} = 50$ (a clean 3-4-5 triangle scaled by 10). $\\sigma_1 = C + R = 10 + 50 = 60$ MPa. Choice C (10) is just the center $C$, which is the average normal stress, not the principal stress. Choice B (50) is just $\\sigma_x$ itself, ignoring the shear contribution. Choice D (90) comes from adding $\\sigma_x + \\tau_{xy}$ directly, which is not how stress transformation works.',
+    eli5: '$C = (50 + (-30))/2 = 10$ MPa. The half-difference is $(50 - (-30))/2 = 40$ MPa and $\\tau_{xy} = 30$ MPa. $R = \\sqrt{40^2 + 30^2} = \\sqrt{2{,}500} = 50$ (a clean 3-4-5 triangle scaled by 10). $\\sigma_1 = C + R = 10 + 50 = 60$ MPa. The 10 MPa option is just the center $C$, which is the average normal stress, not the principal stress. The 50 MPa option is just $\\sigma_x$ itself, ignoring the shear contribution. The 90 MPa option comes from adding $\\sigma_x + \\tau_{xy}$ directly, which is not how stress transformation works.',
     hint: 'Compute the center $C$ and radius $R$ of Mohr\'s circle. Look for a Pythagorean triple.',
     steps: [
       {
@@ -1370,7 +1370,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'When $\\sigma_1$ and $\\sigma_2$ have opposite signs, the absolute max shear stress equals $(\\sigma_1 - \\sigma_3)/2$ where $\\sigma_3$ is the algebraically smallest principal stress. Here the three principal stresses in order are: $\\sigma_1 = 90$, $\\sigma_2 = 0$ (out of plane), $\\sigma_3 = -30$. So $\\tau_{abs\\,max} = (90 - (-30))/2 = 120/2 = 60$ MPa. This equals the in-plane value $R$ because the principal stresses have opposite signs. Choice A (30) is $|\\sigma_2|/2$. Choice B (45) is $\\sigma_1/2$. Choice D (90) is $\\sigma_1$ without dividing by 2.',
+    eli5: 'When $\\sigma_1$ and $\\sigma_2$ have opposite signs, the absolute max shear stress equals $(\\sigma_1 - \\sigma_3)/2$ where $\\sigma_3$ is the algebraically smallest principal stress. Here the three principal stresses in order are: $\\sigma_1 = 90$, $\\sigma_2 = 0$ (out of plane), $\\sigma_3 = -30$. So $\\tau_{abs\\,max} = (90 - (-30))/2 = 120/2 = 60$ MPa. This equals the in-plane value $R$ because the principal stresses have opposite signs. The 30 MPa choice is $|\\sigma_2|/2$. The 45 MPa choice is $\\sigma_1/2$. The 90 MPa choice is $\\sigma_1$ without dividing by 2.',
     hint: 'Order all three principal stresses (including $\\sigma_3 = 0$) algebraically. The absolute max shear uses the largest and smallest.',
     steps: [
       {
@@ -1417,7 +1417,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'Mohr\'s circle has a key rule: angles on the circle are DOUBLE the physical angles. The two principal stress directions are $90\\degree$ apart physically (they are always perpendicular in real space). On Mohr\'s circle, that $90\\degree$ is represented as $2 \\times 90 = 180\\degree$ -- the two points are on opposite ends of a diameter. This doubling convention is what makes Mohr\'s circle work. Choice A (45) confuses the physical angle of the max shear plane ($45\\degree$ from principal) with the angle on the circle. Choice B (90) uses the physical angle directly without doubling. Choice C (360) is a full revolution, which would bring you back to the same point.',
+    eli5: 'Mohr\'s circle has a key rule: angles on the circle are DOUBLE the physical angles. The two principal stress directions are $90\\degree$ apart physically (they are always perpendicular in real space). On Mohr\'s circle, that $90\\degree$ is represented as $2 \\times 90 = 180\\degree$ -- the two points are on opposite ends of a diameter. This doubling convention is what makes Mohr\'s circle work. The 45-degree choice confuses the physical angle of the max shear plane ($45\\degree$ from principal) with the angle on the circle. The 90-degree choice uses the physical angle directly without doubling. The 360-degree choice is a full revolution, which would bring you back to the same point.',
     hint: 'Remember that angles on Mohr\'s circle are double the physical rotation angle. Principal stress planes are perpendicular in reality.',
     steps: [
       {
@@ -1468,7 +1468,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Fixed-fixed means $K = 0.5$, so the effective length is $KL = 0.5 \\times 3{,}000 = 1{,}500$ mm. Then $P_{cr} = \\pi^2 EI / (KL)^2 = \\pi^2 \\times 200{,}000 \\times 10 \\times 10^6 / 1{,}500^2 = 8{,}773$ kN. Choice A (2,193) comes from using $K = 1.0$ (pinned-pinned) instead of $K = 0.5$. Choice C (548) comes from using $K = 2.0$ (fixed-free, the cantilever case). Choice D (35,089) comes from an error like using $K = 0.25$ or squaring $K$ incorrectly.',
+    eli5: 'Fixed-fixed means $K = 0.5$, so the effective length is $KL = 0.5 \\times 3{,}000 = 1{,}500$ mm. Then $P_{cr} = \\pi^2 EI / (KL)^2 = \\pi^2 \\times 200{,}000 \\times 10 \\times 10^6 / 1{,}500^2 = 8{,}773$ kN. The 2,193 kN option comes from using $K = 1.0$ (pinned-pinned) instead of $K = 0.5$. The 548 kN option comes from using $K = 2.0$ (fixed-free, the cantilever case). The 35,089 kN option comes from an error like using $K = 0.25$ or squaring $K$ incorrectly.',
     hint: 'What is the effective length factor $K$ for a column with both ends fixed?',
     steps: [
       {
@@ -1526,7 +1526,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Fixed-free (cantilever column) has $K = 2.0$ -- the worst case. The effective length is $KL = 2.0 \\times 4{,}000 = 8{,}000$ mm. $P_{cr} = \\pi^2 \\times 200{,}000 \\times 30 \\times 10^6 / 8{,}000^2 = 925$ kN. Choice A (3,701) comes from using $K = 1.0$ (pinned-pinned). Choice B (231) comes from using $K = 4.0$ or some other error that doubles $K$ again. Choice D (14,804) comes from using $K = 0.5$ (fixed-fixed, the opposite extreme). $K = 2.0$ is easy to forget because it is the only $K$ greater than 1.',
+    eli5: 'Fixed-free (cantilever column) has $K = 2.0$ -- the worst case. The effective length is $KL = 2.0 \\times 4{,}000 = 8{,}000$ mm. $P_{cr} = \\pi^2 \\times 200{,}000 \\times 30 \\times 10^6 / 8{,}000^2 = 925$ kN. The 3,701 kN choice comes from using $K = 1.0$ (pinned-pinned). The 231 kN choice comes from using $K = 4.0$ or some other error that doubles $K$ again. The 14,804 kN choice comes from using $K = 0.5$ (fixed-fixed, the opposite extreme). $K = 2.0$ is easy to forget because it is the only $K$ greater than 1.',
     hint: 'A cantilever column is fixed-free. What is $K$ for this worst-case support condition?',
     steps: [
       {
@@ -1584,7 +1584,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'First compute the slenderness ratio: $KL/r = 0.7 \\times 7{,}000 / 50 = 4{,}900/50 = 98$. Then critical stress: $\\sigma_{cr} = \\pi^2 E / (KL/r)^2 = \\pi^2 \\times 200{,}000 / 98^2 = 206$ MPa. Choice B ($KL/r = 140$, $\\sigma_{cr} = 100.7$) uses $K = 1.0$ instead of 0.7: $KL/r = 7{,}000/50 = 140$. Choice C has the right slenderness but wrong stress (maybe using $E/2$). Choice D ($KL/r = 200$) uses $K = 2.0$ or $r$ incorrectly.',
+    eli5: 'First compute the slenderness ratio: $KL/r = 0.7 \\times 7{,}000 / 50 = 4{,}900/50 = 98$. Then critical stress: $\\sigma_{cr} = \\pi^2 E / (KL/r)^2 = \\pi^2 \\times 200{,}000 / 98^2 = 206$ MPa. The $KL/r = 140$, $\\sigma_{cr} = 100.7$ option uses $K = 1.0$ instead of 0.7: $KL/r = 7{,}000/50 = 140$. The $\\sigma_{cr} = 51.7$ option has the right slenderness but wrong stress (effectively using $E/4$). The $KL/r = 200$ option uses $K = 2.0$ or $r$ incorrectly.',
     hint: 'Compute $KL/r$ first, then plug into $\\sigma_{cr} = \\pi^2 E / (KL/r)^2$.',
     steps: [
       {
@@ -1631,7 +1631,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: '$P_{cr} = \\pi^2 EI / (KL)^2$. Since $E$, $I$, and $L$ are the same for both columns, the ratio depends only on $1/(KL)^2 = 1/K^2$. Column A: $K = 1.0$, so $P_{cr,A}$ is proportional to $1/1^2 = 1$. Column B: $K = 2.0$, so $P_{cr,B}$ is proportional to $1/2^2 = 1/4$. The ratio $P_{cr,A} / P_{cr,B} = 1 / (1/4) = 4$. So the pinned-pinned column is 4 times stronger in buckling than the cantilever column. Choice A (2:1) only considers $K$ linearly, not $K^2$. Choice B (8:1) confuses this with a cubic relationship. Choice C (1:2) has the ratio inverted. The $K^2$ factor in the denominator is why end conditions matter so much for buckling.',
+    eli5: '$P_{cr} = \\pi^2 EI / (KL)^2$. Since $E$, $I$, and $L$ are the same for both columns, the ratio depends only on $1/(KL)^2 = 1/K^2$. Column A: $K = 1.0$, so $P_{cr,A}$ is proportional to $1/1^2 = 1$. Column B: $K = 2.0$, so $P_{cr,B}$ is proportional to $1/2^2 = 1/4$. The ratio $P_{cr,A} / P_{cr,B} = 1 / (1/4) = 4$. So the pinned-pinned column is 4 times stronger in buckling than the cantilever column. The 2:1 choice only considers $K$ linearly, not $K^2$. The 8:1 choice confuses this with a cubic relationship. The 1:2 choice has the ratio inverted. The $K^2$ factor in the denominator is why end conditions matter so much for buckling.',
     hint: 'Since everything else is identical, the ratio depends only on $K$. How does $K$ appear in Euler\'s formula?',
     steps: [
       {
@@ -1666,7 +1666,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Mp = Fy·Z = 36 × 50 = 1,800 kip·in = 1,800/12 = 150 kip·ft. Choice B leaves it in kip·in. Choice C halves it. Choice D uses a smaller (elastic) modulus.',
+    eli5: 'Mp = Fy·Z = 36 × 50 = 1,800 kip·in = 1,800/12 = 150 kip·ft. The 1,800 kip·ft choice leaves it in kip·in. The 75 kip·ft choice halves it. The 125 kip·ft choice uses a smaller (elastic) modulus.',
     hint: 'Mp = Fy·Z, then convert kip·in to kip·ft (÷12).',
     steps: [
       { text: 'Plastic moment:', latex: 'M_p = 36 \\times 50 = 1{,}800\\text{ kip·in}' },

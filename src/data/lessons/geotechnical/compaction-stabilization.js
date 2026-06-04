@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'RC = (γd,field/γd,max) × 100 = (118/124) × 100 = 95.2%, which would satisfy a typical 95% specification. Choice B inverts the ratio. Choice C computes the percent difference. Choice D is a guess at the spec value.',
+      eli5: 'RC = (γd,field/γd,max) × 100 = (118/124) × 100 = 95.2%, which would satisfy a typical 95% specification. The 105% choice inverts the ratio (124/118). The 5.1% choice computes the percent difference (6/118). The 90.0% choice is a guess at the spec value.',
       hint: 'Relative compaction = (field dry density / lab maximum dry density) × 100.',
       steps: [
         { text: 'Apply the relative-compaction formula:', latex: 'RC = \\frac{\\gamma_{d,field}}{\\gamma_{d,max}} \\times 100 = \\frac{118}{124} \\times 100' },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Dr = (emax − e)/(emax − emin) × 100 = (0.90 − 0.60)/(0.90 − 0.40) × 100 = 0.30/0.50 × 100 = 60% — a medium-dense sand. Choice B uses (e − emin) in the numerator. Choice C divides by (emax − e) in the denominator. Choice D inverts the numerator difference.',
+      eli5: 'Dr = (emax − e)/(emax − emin) × 100 = (0.90 − 0.60)/(0.90 − 0.40) × 100 = 0.30/0.50 × 100 = 60% — a medium-dense sand. The 40% choice uses (e − emin) in the numerator. The 67% choice uses (e − emin)/(emax − e). The 33% choice inverts the numerator difference.',
       hint: 'Dr = (emax − e)/(emax − emin) × 100.',
       steps: [
         { text: 'Apply the relative-density formula:', latex: 'D_r = \\frac{e_{max} - e}{e_{max} - e_{min}} \\times 100 = \\frac{0.90 - 0.60}{0.90 - 0.40} \\times 100' },

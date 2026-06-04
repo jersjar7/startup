@@ -32,7 +32,7 @@ export default {
       ],
       "correctAnswerId": "c3",
       "difficulty": "easy",
-      "eli5": "Multiply matching components and add: x with x, y with y. That's it. The negative sign on B_x = -2 is critical — (3)(-2) = -6, not +6. Then add (4)(5) = 20. Total: 14. Choice D is just the first term without adding the second.",
+      "eli5": "Multiply matching components and add: x with x, y with y. That's it. The negative sign on B_x = -2 is critical — (3)(-2) = -6, not +6. Then add (4)(5) = 20. Total: 14. The choice -6 is just the first term without adding the second.",
       "hint": "Multiply x-components together, multiply y-components together, then add.",
       "steps": [
         { "text": "Apply the component formula:", "latex": "\\vec{A} \\cdot \\vec{B} = (3)(-2) + (4)(5)" },
@@ -86,7 +86,7 @@ export default {
       ],
       "correctAnswerId": "c4",
       "difficulty": "hard",
-      "eli5": "The scalar projection tells you how much of the force acts along the member's axis. Compute the dot product (which mixes all three components), then divide by the magnitude of the direction vector — not the force vector. Choice B (1500) is the raw dot product without dividing — the most common mistake. Choice A (900) is the sum of force component magnitudes, which ignores direction entirely.",
+      "eli5": "The scalar projection tells you how much of the force acts along the member's axis. Compute the dot product (which mixes all three components), then divide by the magnitude of the direction vector — not the force vector. The 1500 N option is the raw dot product without dividing — the most common mistake. The 900 N option is the sum of force component magnitudes, which ignores direction entirely.",
       "hint": "The component of F along d is (F · d) / |d| — divide by the magnitude of the direction, not the force.",
       "steps": [
         { "text": "Dot product:", "latex": "\\vec{F} \\cdot \\vec{d} = (300)(2) + (600)(2) + (-300)(1) = 600 + 1200 - 300 = 1500" },

@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'When a force direction is given by geometry (rise and run), use the geometry-based resolution: find the hypotenuse $R = \\sqrt{5^2 + 12^2} = 13$ m, then $F_x = (5/13) \\times 2{,}600 = 1{,}000$ N. This is a 5-12-13 right triangle, which the FE loves. Choice B uses the vertical leg ratio ($12/13 \\times 2{,}600 = 2{,}400$), which gives the vertical component instead. Choice C just halves the force. Choice A divides the horizontal run by something unrelated.',
+    eli5: 'When a force direction is given by geometry (rise and run), use the geometry-based resolution: find the hypotenuse $R = \\sqrt{5^2 + 12^2} = 13$ m, then $F_x = (5/13) \\times 2{,}600 = 1{,}000$ N. This is a 5-12-13 right triangle, which the FE loves. The 2,400 N choice uses the vertical leg ratio ($12/13 \\times 2{,}600 = 2{,}400$), which gives the vertical component instead. The 1,300 N choice just halves the force. The 500 N choice divides the horizontal run by something unrelated.',
     hint: 'The 5-12-13 triangle is a common Pythagorean triple. Use $F_x = (x/R) \\times F$.',
     steps: [
       {
@@ -38,7 +38,7 @@ const PROBLEMS = [
         latex: 'F_x = \\frac{5}{13} \\times 2{,}600 = 1{,}000\\,\\text{N}'
       },
       {
-        text: 'Choice B gives the vertical component: $F_y = (12/13) \\times 2{,}600 = 2{,}400$ N. Read the question carefully to report the correct component.',
+        text: 'The 2,400 N choice gives the vertical component: $F_y = (12/13) \\times 2{,}600 = 2{,}400$ N. Read the question carefully to report the correct component.',
         latex: null
       }
     ],
@@ -77,7 +77,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'This is a 3-4-5 triangle in disguise. $R_x = 300$ N, $R_y = 400$ N. The resultant magnitude is $R = \\sqrt{300^2 + 400^2} = \\sqrt{250{,}000} = 500$ N. The angle is $\\theta = \\arctan(400/300) = \\arctan(1.333) = 53.1\\degree$ from the horizontal. Choice B adds the magnitudes directly ($300 + 400 = 700$) — you cannot add non-collinear forces by simple addition. Choice C gets the magnitude right but uses $\\arctan(300/400) = 36.9\\degree$, which is the angle from the vertical, not the horizontal. Choice D averages the forces and gets the direction right.',
+    eli5: 'This is a 3-4-5 triangle in disguise. $R_x = 300$ N, $R_y = 400$ N. The resultant magnitude is $R = \\sqrt{300^2 + 400^2} = \\sqrt{250{,}000} = 500$ N. The angle is $\\theta = \\arctan(400/300) = \\arctan(1.333) = 53.1\\degree$ from the horizontal. The $700$ N choice adds the magnitudes directly ($300 + 400 = 700$) — you cannot add non-collinear forces by simple addition. The $500$ N at $36.9\\degree$ choice gets the magnitude right but uses $\\arctan(300/400) = 36.9\\degree$, which is the angle from the vertical, not the horizontal. The $350$ N at $53.1\\degree$ choice averages the forces ($300+400)/2=350$ and gets the direction right.',
     hint: 'This is a familiar Pythagorean triple. The angle is measured from the x-axis using $\\arctan(R_y/R_x)$.',
     steps: [
       {
@@ -93,7 +93,7 @@ const PROBLEMS = [
         latex: '\\theta = \\arctan\\!\\left(\\frac{400}{300}\\right) = \\arctan(1.333) = 53.1\\degree\\text{ from horizontal}'
       },
       {
-        text: 'Choice C uses $\\arctan(300/400) = 36.9\\degree$, which is the complement — the angle from the vertical axis, not the horizontal.',
+        text: 'The choice giving $500$ N at $36.9\\degree$ uses $\\arctan(300/400) = 36.9\\degree$, which is the complement — the angle from the vertical axis, not the horizontal.',
         latex: null
       }
     ],
@@ -132,7 +132,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'A couple is a free vector — its moment is the same about any point on the body. The moment equals $F \\times d = 50 \\times 2 = 100$ N$\\cdot$m, and it does not depend on where the couple is placed or which reference point you choose. This is a defining property of couples that separates them from single forces. Choice A treats the couple like a single force (whose moment depends on the reference point). Choice C confuses a couple with a force that must pass through a point. Choice D has no physical basis.',
+    eli5: 'A couple is a free vector — its moment is the same about any point on the body. The moment equals $F \\times d = 50 \\times 2 = 100$ N$\\cdot$m, and it does not depend on where the couple is placed or which reference point you choose. This is a defining property of couples that separates them from single forces. The "Change depending on the new location" option treats the couple like a single force (whose moment depends on the reference point). The "Become zero because it moved away from the original point" option confuses a couple with a force that must pass through a point. The "Double because it now acts at a greater distance" option has no physical basis.',
     hint: 'A couple is a special case in statics — its moment is independent of the reference point.',
     steps: [
       {
@@ -182,7 +182,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Two forces create moments about the wall. The 600 N downward force at 4 m produces a clockwise moment of $600 \\times 4 = 2{,}400$ N$\\cdot$m. The 200 N upward force at 2 m opposes it with a counterclockwise moment of $200 \\times 2 = 400$ N$\\cdot$m. The net moment is $2{,}400 - 400 = 2{,}000$ N$\\cdot$m clockwise. Choice A (1,600) incorrectly subtracts the force magnitudes first ($600 - 200 = 400$) then multiplies by 4 m. Choice C (2,400) only counts the 600 N force and ignores the upward force entirely. Choice D (800) subtracts the magnitudes wrong and flips the direction.',
+    eli5: 'Two forces create moments about the wall. The 600 N downward force at 4 m produces a clockwise moment of $600 \\times 4 = 2{,}400$ N$\\cdot$m. The 200 N upward force at 2 m opposes it with a counterclockwise moment of $200 \\times 2 = 400$ N$\\cdot$m. The net moment is $2{,}400 - 400 = 2{,}000$ N$\\cdot$m clockwise. The 1,600 N$\\cdot$m option incorrectly subtracts the force magnitudes first ($600 - 200 = 400$) then multiplies by 4 m. The 2,400 N$\\cdot$m option only counts the 600 N force and ignores the upward force entirely. The 800 N$\\cdot$m counterclockwise option subtracts the magnitudes wrong and flips the direction.',
     hint: 'Compute each moment separately (force times its distance from the wall), determine each direction (CW or CCW), then combine with the correct signs.',
     steps: [
       {
@@ -233,7 +233,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'Sum moments about B to eliminate the reaction at B. The 18 kN load is 4 m from B, and $A_y$ is 6 m from B. So $A_y \\times 6 = 18 \\times 4$, giving $A_y = 12$ kN. Answer B (6 kN) is the reaction at B, not A -- a classic trap of solving correctly but reporting the wrong support. Answer C (9 kN) splits the load evenly, which only works when the load is at midspan. Answer A puts the full load on one support.',
+    eli5: 'Sum moments about B to eliminate the reaction at B. The 18 kN load is 4 m from B, and $A_y$ is 6 m from B. So $A_y \\times 6 = 18 \\times 4$, giving $A_y = 12$ kN. The 6 kN choice is the reaction at B, not A -- a classic trap of solving correctly but reporting the wrong support. The 9 kN choice splits the load evenly, which only works when the load is at midspan. The 18 kN choice puts the full load on one support.',
     hint: 'Sum moments about B so the unknown $B_y$ drops out. Make sure you report $A_y$, not $B_y$.',
     steps: [
       {
@@ -249,7 +249,7 @@ const PROBLEMS = [
         latex: 'A_y = \\frac{72}{6} = 12.0 \\text{ kN}'
       },
       {
-        text: 'Check: $B_y = 18 - 12 = 6$ kN. Answer B is the reaction at B, not A.',
+        text: 'Check: $B_y = 18 - 12 = 6$ kN. The 6.0 kN choice is the reaction at B, not A.',
         latex: null
       }
     ],
@@ -288,7 +288,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Replace the partial UDL with its resultant: $5 \\times 6 = 30$ kN acting at the centroid of the loaded region, which is 3 m from A. Sum moments about A: $B_y \\times 12 = 30 \\times 3$, so $B_y = 7.5$ kN. Answer B (15 kN) splits the total load in half, as if it were centered. Answer C (22.5 kN) is the reaction at A. Answer D (30 kN) puts the entire load on one support.',
+    eli5: 'Replace the partial UDL with its resultant: $5 \\times 6 = 30$ kN acting at the centroid of the loaded region, which is 3 m from A. Sum moments about A: $B_y \\times 12 = 30 \\times 3$, so $B_y = 7.5$ kN. The 15 kN choice splits the total load in half, as if it were centered. The 22.5 kN choice is the reaction at A. The 30 kN choice puts the entire load on one support.',
     hint: 'Replace the distributed load with its resultant at the centroid of the loaded region (not the centroid of the entire beam).',
     steps: [
       {
@@ -343,7 +343,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'A triangular load has a resultant equal to half the base times the peak intensity: $W = \\frac{1}{2}(5)(8) = 20$ kN. The centroid of a triangle is at one-third from the wide end, which is $5 - 5/3 = 10/3$ m from the fixed end. The moment is $M = 20 \\times 10/3 = 66.7$ kN-m. Answer B (40 kN-m) places the resultant at the midpoint ($20 \\times 2 = 40$) instead of at the one-third point. Answer A (20 kN-m) places the resultant at 1 m from the support. Answer D (100 kN-m) treats the load as uniform at 8 kN/m over 5 m ($40 \\times 2.5 = 100$).',
+    eli5: 'A triangular load has a resultant equal to half the base times the peak intensity: $W = \\frac{1}{2}(5)(8) = 20$ kN. The centroid of a triangle is at one-third from the wide end, which is $5 - 5/3 = 10/3$ m from the fixed end. The moment is $M = 20 \\times 10/3 = 66.7$ kN-m. The 40 kN-m choice places the resultant 2 m from the support ($20 \\times 2 = 40$) instead of at the one-third point (note the true midpoint, 2.5 m, would give 50, not 40). The 20 kN-m choice places the resultant at 1 m from the support. The 100 kN-m choice treats the load as uniform at 8 kN/m over 5 m ($40 \\times 2.5 = 100$).',
     hint: 'The resultant of a triangular load is $\\frac{1}{2} \\times L \\times w_{max}$, and it acts at the centroid of the triangle (one-third from the wide end).',
     steps: [
       {
@@ -359,7 +359,7 @@ const PROBLEMS = [
         latex: 'M = W \\times \\bar{x} = 20 \\times \\frac{10}{3} = 66.7 \\text{ kN}{\\cdot}\\text{m}'
       },
       {
-        text: 'Answer B (40 kN-m) uses the midpoint (2.5 m) as the centroid: $20 \\times 2 = 40$. Triangular load centroids are at the one-third point, not the midpoint.',
+        text: 'The 40 kN-m choice places the resultant 2 m from the support ($20 \\times 2 = 40$) instead of at the true centroid 10/3 m away. (The actual midpoint, 2.5 m, would give 50 kN-m.) Triangular load centroids sit at the one-third point, not arbitrary nearer locations.',
         latex: null
       }
     ],
@@ -398,7 +398,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'In 2D statics, there are exactly three independent equilibrium equations: $\\sum F_x = 0$, $\\sum F_y = 0$, and $\\sum M = 0$. A pin provides two reaction components ($R_x$, $R_y$) and a roller provides one ($R_\\perp$), giving three unknowns total. Three equations and three unknowns means the system is statically determinate. Answer A forgets the moment equation. Answer C has the right equation count but undercounts unknowns (a pin alone has two). Answer D applies to 3D equilibrium, not 2D.',
+    eli5: 'In 2D statics, there are exactly three independent equilibrium equations: $\\sum F_x = 0$, $\\sum F_y = 0$, and $\\sum M = 0$. A pin provides two reaction components ($R_x$, $R_y$) and a roller provides one ($R_\\perp$), giving three unknowns total. Three equations and three unknowns means the system is statically determinate. The "2 equations, 2 unknowns" choice forgets the moment equation. The "3 equations, 2 unknowns" choice has the right equation count but undercounts unknowns (a pin alone has two). The "6 equations, 6 unknowns" choice applies to 3D equilibrium, not 2D.',
     hint: 'Count the equations from 2D equilibrium and the unknowns from the support types: a pin gives 2 reactions, a roller gives 1.',
     steps: [
       {
@@ -453,7 +453,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'At joint A, the pin reaction is 12 kN upward. Member AC goes from A(0,0) to C(4,3), so its direction cosines are $(4/5, 3/5)$. From $\\sum F_y = 0$: $12 + F_{AC}(3/5) = 0$, so $F_{AC} = -20$ kN (compression). Then from $\\sum F_x = 0$: $F_{AB} + F_{AC}(4/5) = 0$, giving $F_{AB} = -(-20)(4/5) = 16$ kN (tension). Answer B (12 kN) confuses the support reaction with the member force. Answer C (20 kN compression) is actually the force in member AC, not AB. Answer A (24 kN) is the total load, not a member force.',
+    eli5: 'At joint A, the pin reaction is 12 kN upward. Member AC goes from A(0,0) to C(4,3), so its direction cosines are $(4/5, 3/5)$. From $\\sum F_y = 0$: $12 + F_{AC}(3/5) = 0$, so $F_{AC} = -20$ kN (compression). Then from $\\sum F_x = 0$: $F_{AB} + F_{AC}(4/5) = 0$, giving $F_{AB} = -(-20)(4/5) = 16$ kN (tension). The 12 kN tension choice confuses the support reaction with the member force. The 20 kN compression choice is actually the force in member AC, not AB. The 24 kN choice is the total load, not a member force.',
     hint: 'At joint A, find the force in AC first using $\\sum F_y = 0$, then use $\\sum F_x = 0$ to find the force in AB.',
     steps: [
       {
@@ -508,7 +508,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'First find reactions: $\\sum M_A = 0$ gives $R_B = 36(8)/16 = 18$ kN, and $R_A = 18$ kN. Cut through the panel just to the right of the load. On the left portion, sum moments about the bottom chord joint at the cut (12 m from A) to isolate the top chord force. $R_A(12) - 36(4) = F_{top}(3)$, so $F_{top} = (216 - 144)/3 = 24$ kN. Since we assumed tension and got positive, but the top chord must push inward -- actually, checking the sign convention: $\\sum M = 0$ about the bottom joint at 12 m: $18(12) - 36(4) + F_{top}(3) = 0$, so $F_{top} = -(216-144)/3 = -24$ kN, meaning compression. Answer B (18 kN) is the support reaction. Answer D gets the magnitude right but the wrong sense (tension vs. compression).',
+    eli5: 'First find reactions: $\\sum M_A = 0$ gives $R_B = 36(8)/16 = 18$ kN, and $R_A = 18$ kN. Cut through the panel just to the right of the load. On the left portion, sum moments about the bottom chord joint at the cut (12 m from A) to isolate the top chord force. Using a tension-positive convention, $\\sum M = 0$ about the bottom joint at 12 m: $18(12) - 36(4) + F_{top}(3) = 0$, so $F_{top} = -(216-144)/3 = -24$ kN, meaning compression. The 18 kN compression choice is just the support reaction value, not the chord force. The 24 kN tension choice gets the magnitude right but the wrong sense (tension vs. compression).',
     hint: 'Cut through the truss and sum moments about the bottom chord joint at the cut location to isolate the top chord force.',
     steps: [
       {
@@ -567,7 +567,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Find reactions: $\\sum M_A = 0$ gives $R_D = 36(4)/12 = 12$ kN, so $R_A = 24$ kN. Cut through EF, BF, and BC, then take the right portion (joints C, D, F) which has only $R_D = 12$ kN upward. Member BF goes from B(4,0) to F(8,3), so its length is 5 and its vertical direction cosine is $3/5$. Vertical equilibrium: $12 - F_{BF}(3/5) = 0$, giving $F_{BF} = 20$ kN in tension. Answer A (16 kN) miscalculates the reaction or the direction cosine. Answer C (20 kN compression) gets the magnitude right but the wrong sense -- the diagonal in this panel resists the vertical shear by pulling, not pushing. Answer D (12 kN) confuses the support reaction with the member force.',
+    eli5: 'Find reactions: $\\sum M_A = 0$ gives $R_D = 36(4)/12 = 12$ kN, so $R_A = 24$ kN. Cut through EF, BF, and BC, then take the right portion (joints C, D, F) which has only $R_D = 12$ kN upward. Member BF goes from B(4,0) to F(8,3), so its length is 5 and its vertical direction cosine is $3/5$. Vertical equilibrium: $12 - F_{BF}(3/5) = 0$, giving $F_{BF} = 20$ kN in tension. The 16 kN tension option miscalculates the reaction or the direction cosine. The 20 kN compression option gets the magnitude right but the wrong sense -- the diagonal in this panel resists the vertical shear by pulling, not pushing. The 12 kN tension option confuses the support reaction with the member force.',
     hint: 'Cut through EF, BF, and BC. Take the right portion with only one external force. Use $\\sum F_y = 0$ to isolate the diagonal.',
     steps: [
       {
@@ -626,7 +626,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The determinacy check for a 2D truss is $m + r = 2j$, where $m$ is the number of members, $r$ is the number of reaction components, and $j$ is the number of joints. A pin gives 2 reactions and a roller gives 1, so $r = 3$. Check: $9 + 3 = 12$ and $2(6) = 12$. Since $m + r = 2j$, the truss is statically determinate. If $m + r > 2j$, it would be indeterminate. If $m + r < 2j$, it would be unstable (or improperly constrained). Answer B would require $m + r = 13$ (one extra member or reaction). Answer A would require $m + r < 12$.',
+    eli5: 'The determinacy check for a 2D truss is $m + r = 2j$, where $m$ is the number of members, $r$ is the number of reaction components, and $j$ is the number of joints. A pin gives 2 reactions and a roller gives 1, so $r = 3$. Check: $9 + 3 = 12$ and $2(6) = 12$. Since $m + r = 2j$, the truss is statically determinate. If $m + r > 2j$, it would be indeterminate. If $m + r < 2j$, it would be unstable (or improperly constrained). The "indeterminate by one degree" choice would require $m + r = 13$ (one extra member or reaction). The "unstable" choice would require $m + r < 12$.',
     hint: 'Use $m + r = 2j$ for determinacy. Count reactions: a pin gives 2, a roller gives 1.',
     steps: [
       {
@@ -681,7 +681,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'The maximum static friction is $\\mu_s N = 0.35 \\times 300 = 105$ N. The applied force is only 80 N, which is less than the maximum. Since the box is not on the verge of moving, friction matches the applied force exactly: $F = 80$ N. Answer B (105 N) is the maximum possible friction, but the box is not about to slide so friction does not reach that value. Answer C uses the full weight. Answer D incorrectly assumes no friction acts at all.',
+    eli5: 'The maximum static friction is $\\mu_s N = 0.35 \\times 300 = 105$ N. The applied force is only 80 N, which is less than the maximum. Since the box is not on the verge of moving, friction matches the applied force exactly: $F = 80$ N. The 105 N choice is the maximum possible friction, but the box is not about to slide so friction does not reach that value. The 300 N choice uses the full weight. The 0 N choice incorrectly assumes no friction acts at all.',
     hint: 'Check whether the applied force exceeds $\\mu_s N$. If it does not, friction equals the applied force.',
     steps: [
       {
@@ -732,7 +732,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Belt friction uses the capstan equation: $F_1 = F_2 e^{\\mu\\theta}$. Convert 270 degrees to radians: $\\theta = 3\\pi/2 = 4.712$ rad. The exponent is $\\mu\\theta = 0.25 \\times 4.712 = 1.178$, and $e^{1.178} \\approx 3.25$. So $F_1 = 150 \\times 3.25 = 487$ N. Answer A (263 N) uses 90 degrees instead of 270 degrees for the wrap angle. Answer C (188 N) treats friction as a linear add-on ($150 + 0.25 \\times 150 = 187.5$). Answer D assumes no friction amplification at all.',
+    eli5: 'Belt friction uses the capstan equation: $F_1 = F_2 e^{\\mu\\theta}$. Convert 270 degrees to radians: $\\theta = 3\\pi/2 = 4.712$ rad. The exponent is $\\mu\\theta = 0.25 \\times 4.712 = 1.178$, and $e^{1.178} \\approx 3.25$. So $F_1 = 150 \\times 3.25 = 487$ N. The 263 N option treats friction as a linear add-on of a larger factor; the 188 N option treats friction as a linear add-on ($150 + 0.25 \\times 150 = 187.5$); the 150 N option assumes no friction amplification at all (tight side equals slack side).',
     hint: 'Convert the contact angle to radians (270 degrees = $3\\pi/2$), then apply the belt friction formula $F_1 = F_2 e^{\\mu\\theta}$.',
     steps: [
       {
@@ -787,7 +787,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'To push the block up, you must overcome both the weight component pulling it down the ramp and the friction resisting upward motion. Weight down the ramp: $W\\sin 30\\degree = 300$ N. Normal force: $N = W\\cos 30\\degree = 519.6$ N. Maximum friction: $\\mu_s N = 0.45 \\times 519.6 = 233.8$ N. The total force needed is $P = 300 + 233.8 = 533.8$ N. Answer B (300 N) only accounts for the gravity component and ignores friction. Answer D (233.8 N) is the friction force alone, forgetting that gravity also resists upward motion. Answer A (270 N) incorrectly uses $\\mu_s W$ as the friction force.',
+    eli5: 'To push the block up, you must overcome both the weight component pulling it down the ramp and the friction resisting upward motion. Weight down the ramp: $W\\sin 30\\degree = 300$ N. Normal force: $N = W\\cos 30\\degree = 519.6$ N. Maximum friction: $\\mu_s N = 0.45 \\times 519.6 = 233.8$ N. The total force needed is $P = 300 + 233.8 = 533.8$ N. The 300 N choice only accounts for the gravity component and ignores friction. The 233.8 N choice is the friction force alone, forgetting that gravity also resists upward motion. The 270 N choice incorrectly uses $\\mu_s W$ as the friction force.',
     hint: 'Resolve the weight into components along and perpendicular to the surface. To push up the ramp, $P$ must overcome both the gravity component and friction.',
     steps: [
       {
@@ -803,7 +803,7 @@ const PROBLEMS = [
         latex: 'P = W_{\\parallel} + F = 300 + 233.8 = 533.8 \\text{ N}'
       },
       {
-        text: 'Answer D (233.8 N) is only the friction force. Answer B (300 N) ignores friction entirely.',
+        text: 'The 233.8 N choice is only the friction force. The 300 N choice ignores friction entirely.',
         latex: null
       }
     ],
@@ -842,7 +842,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'At impending motion on an incline, the friction force equals $\\mu_s N$. The weight component along the ramp is $W\\sin\\theta$ and the normal force is $N = W\\cos\\theta$. Setting friction equal to the gravity component: $\\mu_s W\\cos\\theta = W\\sin\\theta$. Cancel $W$: $\\mu_s = \\sin\\theta/\\cos\\theta = \\tan\\theta$. This angle is called the angle of repose. It is a classic result: the friction coefficient equals the tangent of the steepest angle at which the block can sit without sliding. Answer B ($\\sin\\theta = \\mu_s$) incorrectly omits the cosine in the normal force. Answer C ($\\cos\\theta = \\mu_s$) inverts the relationship. Answer D confuses the angle (in radians) with the coefficient.',
+    eli5: 'At impending motion on an incline, the friction force equals $\\mu_s N$. The weight component along the ramp is $W\\sin\\theta$ and the normal force is $N = W\\cos\\theta$. Setting friction equal to the gravity component: $\\mu_s W\\cos\\theta = W\\sin\\theta$. Cancel $W$: $\\mu_s = \\sin\\theta/\\cos\\theta = \\tan\\theta$. This angle is called the angle of repose. It is a classic result: the friction coefficient equals the tangent of the steepest angle at which the block can sit without sliding. The choice $\\sin\\theta = \\mu_s$ incorrectly omits the cosine in the normal force. The choice $\\cos\\theta = \\mu_s$ inverts the relationship. The choice $\\theta = \\mu_s$ confuses the angle (in radians) with the coefficient.',
     hint: 'At impending motion, set $\\mu_s N = W\\sin\\theta$ and $N = W\\cos\\theta$. Divide to eliminate $W$ and $N$.',
     steps: [
       {
@@ -897,7 +897,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'Split the L into two rectangles. The horizontal leg is 80 x 20 mm ($A_1 = 1{,}600$ mm$^2$, centroid at $y_1 = 10$ mm from the bottom). The vertical leg is 20 x 80 mm ($A_2 = 1{,}600$ mm$^2$, centroid at $y_2 = 20 + 40 = 60$ mm from the bottom). Since both areas are equal, the centroid is the simple average of 10 and 60: $\\bar{y} = (16{,}000 + 96{,}000)/3{,}200 = 35$ mm. Answer B (50 mm) is the geometric midpoint of the 100 mm total height. Answer C (40 mm) is a rough guess splitting the difference. Answer A (25 mm) underweights the vertical leg.',
+    eli5: 'Split the L into two rectangles. The horizontal leg is 80 x 20 mm ($A_1 = 1{,}600$ mm$^2$, centroid at $y_1 = 10$ mm from the bottom). The vertical leg is 20 x 80 mm ($A_2 = 1{,}600$ mm$^2$, centroid at $y_2 = 20 + 40 = 60$ mm from the bottom). Since both areas are equal, the centroid is the simple average of 10 and 60: $\\bar{y} = (16{,}000 + 96{,}000)/3{,}200 = 35$ mm. The 50 mm choice is the geometric midpoint of the 100 mm total height. The 40 mm choice is a rough guess splitting the difference. The 25 mm choice underweights the vertical leg.',
     hint: 'Split the L into two non-overlapping rectangles. Measure each centroid from the same reference (bottom edge).',
     steps: [
       {
@@ -948,7 +948,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The rectangle centroid is at $y = 150$ mm. The hole centroid is also at $y = 150$ mm (same as the rectangle center). When you remove material whose centroid is at the same height as the overall centroid, the centroid does not shift. The subtraction in the numerator and denominator both reference the same $y$ value, so $\\bar{y}$ stays at 150 mm. Answer B and C assume the hole shifts the centroid, but only an off-center hole does that. Answer D over-corrects as if the hole were near the top.',
+    eli5: 'The rectangle centroid is at $y = 150$ mm. The hole centroid is also at $y = 150$ mm (same as the rectangle center). When you remove material whose centroid is at the same height as the overall centroid, the centroid does not shift. The subtraction in the numerator and denominator both reference the same $y$ value, so $\\bar{y}$ stays at 150 mm. The 147.3 mm and 152.7 mm options assume the hole shifts the centroid, but only an off-center hole does that. The 142.5 mm option over-corrects as if the hole were near the top.',
     hint: 'Think about where the hole is located relative to the rectangle centroid. Does removing material at the centroid shift it?',
     steps: [
       {
@@ -1003,7 +1003,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Set the reference axis at the left edge of the web. The web is 10 mm wide, so its centroid is at $x = 5$ mm. Each flange extends 60 mm to the right from the left edge of the web, with centroid at $x = 30$ mm. Web area: $10 \\times 160 = 1{,}600$ mm$^2$. Each flange: $60 \\times 20 = 1{,}200$ mm$^2$ (two flanges total 2{,}400 mm$^2$). The weighted average gives $\\bar{x} = (8{,}000 + 72{,}000)/4{,}000 = 20$ mm. Answer B (30 mm) is the centroid of the flanges alone, ignoring the web. Answer A (10 mm) is the width of the web, not the centroid location. Answer D (35 mm) is the midpoint of the total 70 mm width.',
+    eli5: 'Set the reference axis at the left edge of the web. The web is 10 mm wide, so its centroid is at $x = 5$ mm. Each flange extends 60 mm to the right from the left edge of the web, with centroid at $x = 30$ mm. Web area: $10 \\times 160 = 1{,}600$ mm$^2$. Each flange: $60 \\times 20 = 1{,}200$ mm$^2$ (two flanges total 2{,}400 mm$^2$). The weighted average gives $\\bar{x} = (8{,}000 + 72{,}000)/4{,}000 = 20$ mm. The 30 mm choice is the centroid of the flanges alone, ignoring the web. The 10 mm choice is the width of the web, not the centroid location. The 35 mm choice is the midpoint of the total 70 mm width.',
     hint: 'Set the reference at the left edge of the web. The flanges pull the centroid to the right.',
     steps: [
       {
@@ -1208,7 +1208,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'The polar moment of inertia for a circle is $J = \\pi r^4/2$, or equivalently $J = \\pi d^4/32$. With $d = 200$ mm, $J = \\pi(200)^4/32 = \\pi(1.6 \\times 10^9)/32 = 157.1 \\times 10^6$ mm$^4$. Another way to get there: $I_x = \\pi r^4/4 = 78.5 \\times 10^6$, then $J = 2I_x = 157.1 \\times 10^6$. Choice B is just $I_x$ (the moment about one axis, not the polar moment). Choice C halves $I_x$ — probably from using $\\pi r^4/8$ by mistake. Choice D doubles the correct answer.',
+    eli5: 'The polar moment of inertia for a circle is $J = \\pi r^4/2$, or equivalently $J = \\pi d^4/32$. With $d = 200$ mm, $J = \\pi(200)^4/32 = \\pi(1.6 \\times 10^9)/32 = 157.1 \\times 10^6$ mm$^4$. Another way to get there: $I_x = \\pi r^4/4 = 78.5 \\times 10^6$, then $J = 2I_x = 157.1 \\times 10^6$. The $78.5 \\times 10^6$ option is just $I_x$ (the moment about one axis, not the polar moment). The $39.3 \\times 10^6$ option halves $I_x$ — probably from using $\\pi r^4/8$ by mistake. The $314.2 \\times 10^6$ option doubles the correct answer.',
     hint: 'Remember that $J = I_x + I_y$, and for a circle $I_x = I_y$.',
     steps: [
       {
@@ -1263,7 +1263,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Split the I-section into three rectangles and apply the parallel axis theorem to each. The web is centered on the composite centroid, so its $d = 0$ and there is no transfer term. Each flange has $d = 90$ mm (from its own centroid at 10 mm or 190 mm to the composite centroid at 100 mm). The web contributes mostly through its own centroidal $I$ ($bh^3/12$), while the flanges contribute mostly through their $Ad^2$ terms. Add all three to get $71.9 \\times 10^6$ mm$^4$. Choice B treats the section as a solid $200 \\times 200$ rectangle ($bh^3/12 = 113.3 \\times 10^6$), which is wrong for a composite section. Choice C adds only the centroidal $I$ values of all three pieces without the $Ad^2$ transfer terms. Choice D is just the web\'s centroidal $I$ alone.',
+    eli5: 'Split the I-section into three rectangles and apply the parallel axis theorem to each. The web is centered on the composite centroid, so its $d = 0$ and there is no transfer term. Each flange has $d = 90$ mm (from its own centroid at 10 mm or 190 mm to the composite centroid at 100 mm). The web contributes mostly through its own centroidal $I$ ($bh^3/12$), while the flanges contribute mostly through their $Ad^2$ terms. Add all three to get $71.9 \\times 10^6$ mm$^4$. The $113.3 \\times 10^6$ choice treats the section as a solid $200 \\times 200$ rectangle ($bh^3/12 = 113.3 \\times 10^6$), which is wrong for a composite section. The $7.09 \\times 10^6$ choice adds only the centroidal $I$ values of all three pieces without the $Ad^2$ transfer terms. The $6.83 \\times 10^6$ choice is just the web\'s centroidal $I$ alone.',
     hint: 'The web centroid coincides with the composite centroid ($d = 0$). Each flange centroid is 90 mm from the composite centroid.',
     steps: [
       {
@@ -1310,7 +1310,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Moments about the pivot: F_out × 0.15 = 200 × 0.60, so F_out = 200 × (0.60/0.15) = 200 × 4 = 800 N (mechanical advantage 4). Choice B divides instead of multiplying. Choice C ignores the arms. Choice D uses the wrong arm ratio.',
+    eli5: 'Moments about the pivot: F_out × 0.15 = 200 × 0.60, so F_out = 200 × (0.60/0.15) = 200 × 4 = 800 N (mechanical advantage 4). The 50 N option divides instead of multiplying. The 200 N option ignores the arms. The 600 N option uses the wrong arm ratio.',
     hint: 'Effort × effort arm = load × load arm (moments about the pivot).',
     steps: [
       { text: 'Moment balance:', latex: 'F_{out}(0.15) = 200(0.60)' },

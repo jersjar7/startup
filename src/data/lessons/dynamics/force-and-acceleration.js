@@ -63,7 +63,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'Two things trip people up here. First: the problem gives weight (500 N), not mass \u2014 divide by g to get mass. Second: only the component of weight along the incline drives the motion, which is W sin 30\u00B0. The normal component (W cos 30\u00B0) is balanced by the surface. If you skip the mass conversion and just do 500 sin 30\u00B0 you get 250 (Choice B) \u2014 that\'s a force, not an acceleration.',
+      eli5: 'Two things trip people up here. First: the problem gives weight (500 N), not mass \u2014 divide by g to get mass. Second: only the component of weight along the incline drives the motion, which is W sin 30\u00B0. The normal component (W cos 30\u00B0) is balanced by the surface. If you skip the mass conversion and just do 500 sin 30\u00B0 you get 250 (the 250 m/s\u00b2 option) \u2014 that\'s a force, not an acceleration.',
       hint: 'The block\'s weight is given in Newtons. What\'s the mass? Which component of weight acts along the incline?',
       steps: [
         { text: 'Component of weight along the incline:', latex: 'W \\sin 30\\degree = 500 \\times 0.5 = 250 \\text{ N}' },

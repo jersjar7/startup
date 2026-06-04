@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Direct application of P = \u03B3h. P = 9,810 \u00D7 5 = 49,050 Pa = 49.05 kPa. This is gauge pressure because the surface is open to the atmosphere (P_gauge = 0 at surface). Choice B forgets to convert Pa to kPa. Choice C adds atmospheric pressure (making it absolute, not gauge). Choice D divides by 10 instead of 1,000 when converting Pa to kPa.',
+      eli5: 'Direct application of P = \u03B3h. P = 9,810 \u00D7 5 = 49,050 Pa = 49.05 kPa. This is gauge pressure because the surface is open to the atmosphere (P_gauge = 0 at surface). The 49,050 kPa choice forgets to convert Pa to kPa. The 150.4 kPa choice adds atmospheric pressure (making it absolute, not gauge). The 4.905 kPa choice divides by 10,000 instead of 1,000 when converting Pa to kPa.',
       hint: 'Gauge pressure at the surface of an open tank is zero. At depth h, P_gauge = \u03B3h.',
       steps: [
         { text: 'Gauge pressure at depth h:', latex: 'P = \\gamma h = 9{,}810 \\times 5 = 49{,}050 \\text{ Pa}' },

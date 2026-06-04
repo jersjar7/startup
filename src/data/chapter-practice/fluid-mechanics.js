@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The bulk modulus relates pressure change to fractional volume change: $E_v = -\\Delta P/(\\Delta V/V)$, so $|\\Delta V/V| = \\Delta P/E_v = (5 \\times 10^6)/(2.2 \\times 10^9) = 0.002273 = 0.227\\%$. Choice A is off by a factor of 10 (a power-of-ten slip in the exponents). Choice C is off by a factor of 10 the other way. Choice D uses $2E_v$ in the denominator, an erroneous factor of 2 that does not belong in the bulk-modulus definition.',
+    eli5: 'The bulk modulus relates pressure change to fractional volume change: $E_v = -\\Delta P/(\\Delta V/V)$, so $|\\Delta V/V| = \\Delta P/E_v = (5 \\times 10^6)/(2.2 \\times 10^9) = 0.002273 = 0.227\\%$. The 0.0227% choice is off by a factor of 10 (a power-of-ten slip in the exponents). The 2.27% choice is off by a factor of 10 the other way. The 0.114% choice uses $2E_v$ in the denominator, an erroneous factor of 2 that does not belong in the bulk-modulus definition.',
     hint: 'The bulk modulus is the pressure change divided by the fractional volume change: $|\\Delta V/V| = \\Delta P / E_v$.',
     steps: [
       { text: 'Definition of bulk modulus:', latex: 'E_v = -\\frac{\\Delta P}{\\Delta V / V}' },
@@ -43,7 +43,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Liquids and gases respond to temperature in opposite ways. In a liquid, viscosity comes mainly from intermolecular cohesion; heating weakens those bonds, so liquid viscosity DROPS as temperature rises (hot oil flows more easily). In a gas, viscosity comes from molecular momentum exchange between layers; heating speeds the molecules up, so gas viscosity RISES with temperature. Choice A and Choice B incorrectly assume both fluids behave the same way. Choice D reverses the two behaviors.',
+    eli5: 'Liquids and gases respond to temperature in opposite ways. In a liquid, viscosity comes mainly from intermolecular cohesion; heating weakens those bonds, so liquid viscosity DROPS as temperature rises (hot oil flows more easily). In a gas, viscosity comes from molecular momentum exchange between layers; heating speeds the molecules up, so gas viscosity RISES with temperature. The two "both fluids behave the same" choices incorrectly assume oil and air respond identically. The choice with the oil becoming more viscous and the air becoming less viscous reverses the two behaviors.',
     hint: 'Liquids and gases have opposite viscosity-temperature trends. Think about what creates resistance in each: cohesion in liquids, molecular motion in gases.',
     steps: [
       { text: 'In liquids, viscosity arises from intermolecular cohesion, which weakens as temperature rises.', latex: null },
@@ -74,7 +74,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'For a differential manometer between two points at the same elevation with water above the mercury on both sides, the pressure difference is $P_A - P_B = (\\gamma_{Hg} - \\gamma_w)h$. The water columns partially cancel, so you subtract water from mercury. $\\gamma_{Hg} = 13.6 \\times 9{,}810 = 133{,}416$ N/m³. $P_A - P_B = (133{,}416 - 9{,}810)(0.3) = 123{,}606 \\times 0.3 = 37{,}082$ Pa $= 37.1$ kPa. Choice B uses $\\gamma_{Hg}h$ alone and forgets to subtract the water column. Choice C uses $\\gamma_w h$ (treats the gauge fluid as water). Choice D forgets to convert Pa to kPa.',
+    eli5: 'For a differential manometer between two points at the same elevation with water above the mercury on both sides, the pressure difference is $P_A - P_B = (\\gamma_{Hg} - \\gamma_w)h$. The water columns partially cancel, so you subtract water from mercury. $\\gamma_{Hg} = 13.6 \\times 9{,}810 = 133{,}416$ N/m³. $P_A - P_B = (133{,}416 - 9{,}810)(0.3) = 123{,}606 \\times 0.3 = 37{,}082$ Pa $= 37.1$ kPa. The 40.0 kPa choice uses $\\gamma_{Hg}h$ alone and forgets to subtract the water column. The 2.94 kPa choice uses $\\gamma_w h$ (treats the gauge fluid as water). The 37,100 kPa choice forgets to convert Pa to kPa.',
     hint: 'For a differential manometer with the same fluid above the gauge fluid on both legs, use $P_A - P_B = (\\gamma_{Hg} - \\gamma_w)h$.',
     steps: [
       { text: 'Specific weight of mercury:', latex: '\\gamma_{Hg} = 13.6 \\times 9{,}810 = 133{,}416\\,\\text{N/m}^3' },
@@ -104,7 +104,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Depth comes from the GAUGE pressure, not the absolute pressure. Gauge $= 250 - 101.3 = 148.7$ kPa. Seawater specific weight $= 1.03 \\times 9{,}810 = 10{,}104$ N/m³. Depth $= P_{\\text{gauge}}/\\gamma_{sw} = 148{,}700/10{,}104 = 14.72$ m. Choice A uses freshwater $\\gamma = 9{,}810$ instead of seawater (gives 15.16 m). Choice C divides the full absolute pressure by the seawater specific weight (forgets to subtract atmospheric). Choice B uses the absolute pressure AND freshwater (two errors).',
+    eli5: 'Depth comes from the GAUGE pressure, not the absolute pressure. Gauge $= 250 - 101.3 = 148.7$ kPa. Seawater specific weight $= 1.03 \\times 9{,}810 = 10{,}104$ N/m³. Depth $= P_{\\text{gauge}}/\\gamma_{sw} = 148{,}700/10{,}104 = 14.72$ m. The 15.16 m option uses freshwater $\\gamma = 9{,}810$ instead of seawater. The 24.74 m option divides the full absolute pressure by the seawater specific weight (forgets to subtract atmospheric). The 25.49 m option uses the absolute pressure AND freshwater (two errors).',
     hint: 'Subtract atmospheric to get gauge pressure first, then divide by the seawater specific weight $\\gamma_{sw} = SG \\times \\gamma_w$.',
     steps: [
       { text: 'Gauge pressure:', latex: 'P_{\\text{gauge}} = P_{\\text{abs}} - P_{\\text{atm}} = 250 - 101.3 = 148.7\\,\\text{kPa}' },
@@ -134,7 +134,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'A floating body displaces its own weight. Setting weight equal to buoyancy: $\\gamma_{\\text{wood}} V = \\gamma_{\\text{oil}} V_{\\text{sub}}$, so the submerged fraction is $V_{\\text{sub}}/V = \\gamma_{\\text{wood}}/\\gamma_{\\text{oil}} = SG_{\\text{wood}}/SG_{\\text{oil}} = 0.80/0.90 = 0.889$. Choice A uses the block’s SG directly, which only works when the fluid is water ($SG = 1$). Choice C gives the fraction ABOVE the surface ($1 - 0.889$). Choice D inverts the ratio ($0.90/0.80$), which is greater than 1 and physically impossible for a floating body.',
+    eli5: 'A floating body displaces its own weight. Setting weight equal to buoyancy: $\\gamma_{\\text{wood}} V = \\gamma_{\\text{oil}} V_{\\text{sub}}$, so the submerged fraction is $V_{\\text{sub}}/V = \\gamma_{\\text{wood}}/\\gamma_{\\text{oil}} = SG_{\\text{wood}}/SG_{\\text{oil}} = 0.80/0.90 = 0.889$. The choice 0.80 uses the block’s SG directly, which only works when the fluid is water ($SG = 1$). The choice 0.111 gives the fraction ABOVE the surface ($1 - 0.889$). The choice 1.125 inverts the ratio ($0.90/0.80$), which is greater than 1 and physically impossible for a floating body.',
     hint: 'For a floating body, the submerged fraction equals the ratio of the body’s specific gravity to the fluid’s specific gravity.',
     steps: [
       { text: 'Equilibrium (weight = buoyant force):', latex: '\\gamma_{\\text{wood}} V = \\gamma_{\\text{oil}} V_{\\text{sub}}' },
@@ -164,7 +164,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'The resultant force uses the VERTICAL depth to the centroid: $F_R = \\gamma h_C A$. The centroid lies at the midpoint of the slope, a slant distance $y_C = 2.5/2 = 1.25$ m from the surface. The vertical depth is $h_C = y_C \\sin 60\\degree = 1.25 \\times 0.866 = 1.0825$ m. Area $A = 2 \\times 2.5 = 5$ m². $F_R = 9{,}810 \\times 1.0825 \\times 5 = 53{,}095$ N $\\approx 53.1$ kN. Choice B uses the slant distance $1.25$ m as the depth (forgets the $\\sin 60\\degree$). Choice A uses $\\cos 60\\degree$ instead of $\\sin 60\\degree$. Choice D uses the vertical depth to the bottom edge ($2.5\\sin 60\\degree = 2.165$ m) instead of to the centroid.',
+    eli5: 'The resultant force uses the VERTICAL depth to the centroid: $F_R = \\gamma h_C A$. The centroid lies at the midpoint of the slope, a slant distance $y_C = 2.5/2 = 1.25$ m from the surface. The vertical depth is $h_C = y_C \\sin 60\\degree = 1.25 \\times 0.866 = 1.0825$ m. Area $A = 2 \\times 2.5 = 5$ m². $F_R = 9{,}810 \\times 1.0825 \\times 5 = 53{,}095$ N $\\approx 53.1$ kN. The $61.3$ kN choice uses the slant distance $1.25$ m as the depth (forgets the $\\sin 60\\degree$). The $30.7$ kN choice uses $\\cos 60\\degree$ instead of $\\sin 60\\degree$. The $106.2$ kN choice uses the vertical depth to the bottom edge ($2.5\\sin 60\\degree = 2.165$ m) instead of to the centroid.',
     hint: 'Use the VERTICAL depth to the centroid: $h_C = (\\text{slant distance to centroid}) \\times \\sin\\theta$. Then $F_R = \\gamma h_C A$.',
     steps: [
       { text: 'Slant distance to the centroid:', latex: 'y_C = \\frac{2.5}{2} = 1.25\\,\\text{m}' },
@@ -195,7 +195,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Continuity at a junction: inflow equals total outflow. $Q_{\\text{in}} = A_{\\text{in}} v = \\frac{\\pi}{4}(0.3)^2(2) = 0.07069 \\times 2 = 0.1414$ m³/s. The combined outlet area is $A_{\\text{out}} = \\frac{\\pi}{4}(0.2^2 + 0.15^2) = \\frac{\\pi}{4}(0.0625) = 0.04909$ m². With equal velocities, $v_{\\text{out}} = Q_{\\text{in}}/A_{\\text{out}} = 0.1414/0.04909 = 2.88$ m/s. Choice A assumes the velocity is unchanged. Choice B uses only the 200 mm pipe area. Choice C uses only the 150 mm pipe area.',
+    eli5: 'Continuity at a junction: inflow equals total outflow. $Q_{\\text{in}} = A_{\\text{in}} v = \\frac{\\pi}{4}(0.3)^2(2) = 0.07069 \\times 2 = 0.1414$ m³/s. The combined outlet area is $A_{\\text{out}} = \\frac{\\pi}{4}(0.2^2 + 0.15^2) = \\frac{\\pi}{4}(0.0625) = 0.04909$ m². With equal velocities, $v_{\\text{out}} = Q_{\\text{in}}/A_{\\text{out}} = 0.1414/0.04909 = 2.88$ m/s. The 2.0 m/s choice assumes the velocity is unchanged. The 4.5 m/s choice uses only the 200 mm pipe area. The 8.0 m/s choice uses only the 150 mm pipe area.',
     hint: 'Conserve flow: the inlet $Q$ must equal the sum of the outlet flows. With equal outlet velocities, divide $Q_{\\text{in}}$ by the COMBINED outlet area.',
     steps: [
       { text: 'Inlet flow rate:', latex: 'Q_{\\text{in}} = \\frac{\\pi}{4}(0.3)^2(2) = 0.1414\\,\\text{m}^3/\\text{s}' },
@@ -225,7 +225,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'First find the velocity in the siphon from the reservoir surface to the outlet (Torricelli over the full drop of 4 m): $v = \\sqrt{2g(4)} = \\sqrt{78.48} = 8.86$ m/s, so the velocity head is $v^2/2g = 4$ m. Because the pipe diameter is constant, this velocity exists everywhere, including the crest. Apply Bernoulli from the surface (datum, $P = 0$, $v \\approx 0$, $z = 0$) to the crest ($z = +2$ m): $0 = P_{\\text{crest}}/\\gamma + v^2/2g + 2$, so $P_{\\text{crest}}/\\gamma = -2 - 4 = -6$ m, and $P_{\\text{crest}} = -6 \\times 9{,}810 = -58{,}860$ Pa $= -58.9$ kPa. Choice B includes only the elevation head ($-2$ m). Choice C includes only the velocity head ($-4$ m). Choice D uses the wrong velocity head from an 8 m drop.',
+    eli5: 'First find the velocity in the siphon from the reservoir surface to the outlet (Torricelli over the full drop of 4 m): $v = \\sqrt{2g(4)} = \\sqrt{78.48} = 8.86$ m/s, so the velocity head is $v^2/2g = 4$ m. Because the pipe diameter is constant, this velocity exists everywhere, including the crest. Apply Bernoulli from the surface (datum, $P = 0$, $v \\approx 0$, $z = 0$) to the crest ($z = +2$ m): $0 = P_{\\text{crest}}/\\gamma + v^2/2g + 2$, so $P_{\\text{crest}}/\\gamma = -2 - 4 = -6$ m, and $P_{\\text{crest}} = -6 \\times 9{,}810 = -58{,}860$ Pa $= -58.9$ kPa. The $-19.6$ kPa option includes only the elevation head ($-2$ m). The $-39.2$ kPa option includes only the velocity head ($-4$ m). The $-78.5$ kPa option uses the wrong velocity head from an 8 m drop.',
     hint: 'Find the velocity head from the total drop to the outlet, then apply Bernoulli from the surface to the crest. Both the elevation rise and the velocity head make the crest pressure negative.',
     steps: [
       { text: 'Velocity head from the full 4 m drop to the outlet:', latex: '\\frac{v^2}{2g} = 4\\,\\text{m}' },
@@ -256,7 +256,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Hazen-Williams: $v = k_1 C R_H^{0.63} S^{0.54}$. For a full pipe, $R_H = D/4 = 0.5/4 = 0.125$ m. Then $R_H^{0.63} = 0.125^{0.63} = 0.270$ and $S^{0.54} = 0.002^{0.54} = 0.0349$. $v = 0.849 \\times 120 \\times 0.270 \\times 0.0349 = 0.96$ m/s. Choice C uses the USCS constant $k_1 = 1.318$ instead of the SI value $0.849$. Choice D uses $R_H = D$ instead of $D/4$. Choice A raises the slope to the wrong power ($S^{0.63}$ instead of $S^{0.54}$).',
+    eli5: 'Hazen-Williams: $v = k_1 C R_H^{0.63} S^{0.54}$. For a full pipe, $R_H = D/4 = 0.5/4 = 0.125$ m. Then $R_H^{0.63} = 0.125^{0.63} = 0.270$ and $S^{0.54} = 0.002^{0.54} = 0.0349$. $v = 0.849 \\times 120 \\times 0.270 \\times 0.0349 = 0.96$ m/s. The $1.49\\,\\text{m/s}$ option uses the USCS constant $k_1 = 1.318$ instead of the SI value $0.849$. The $2.30\\,\\text{m/s}$ option uses $R_H = D$ instead of $D/4$. The $0.55\\,\\text{m/s}$ option raises the slope to the wrong power ($S^{0.63}$ instead of $S^{0.54}$).',
     hint: 'Use $R_H = D/4$ for a full pipe and the SI constant $k_1 = 0.849$. Mind the exponents: $0.63$ on $R_H$ and $0.54$ on $S$.',
     steps: [
       { text: 'Hydraulic radius of a full circular pipe:', latex: 'R_H = \\frac{D}{4} = \\frac{0.5}{4} = 0.125\\,\\text{m}' },
@@ -286,7 +286,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Check the regime first: $Re = vD/\\nu = (0.5)(0.04)/(8 \\times 10^{-5}) = 250$, which is laminar ($Re < 2{,}100$), so $f = 64/Re = 64/250 = 0.256$. Head loss: $h_f = f(L/D)(v^2/2g) = 0.256 \\times (50/0.04) \\times (0.5^2/19.62) = 0.256 \\times 1{,}250 \\times 0.01274 = 4.08$ m. Convert to pressure: $\\Delta P = \\rho g h_f = 900 \\times 9.81 \\times 4.08 = 36{,}020$ Pa $\\approx 36.0$ kPa. Choice B reports the head loss in meters ($4.08$ m) instead of converting to pressure. Choice C uses $\\rho = 1{,}000$ (water) instead of the oil density. Choice D wrongly assumes turbulent flow with $f = 0.02$.',
+    eli5: 'Check the regime first: $Re = vD/\\nu = (0.5)(0.04)/(8 \\times 10^{-5}) = 250$, which is laminar ($Re < 2{,}100$), so $f = 64/Re = 64/250 = 0.256$. Head loss: $h_f = f(L/D)(v^2/2g) = 0.256 \\times (50/0.04) \\times (0.5^2/19.62) = 0.256 \\times 1{,}250 \\times 0.01274 = 4.08$ m. Convert to pressure: $\\Delta P = \\rho g h_f = 900 \\times 9.81 \\times 4.08 = 36{,}020$ Pa $\\approx 36.0$ kPa. The 4.08 kPa choice reports the head loss in meters ($4.08$ m) instead of converting to pressure. The 40.0 kPa choice uses $\\rho = 1{,}000$ (water) instead of the oil density. The 2.81 kPa choice wrongly assumes turbulent flow with $f = 0.02$.',
     hint: 'Compute $Re$ first — it is laminar, so $f = 64/Re$. Find $h_f$ from Darcy-Weisbach, then convert with $\\Delta P = \\rho g h_f$.',
     steps: [
       { text: 'Reynolds number:', latex: 'Re = \\frac{vD}{\\nu} = \\frac{0.5 \\times 0.04}{8 \\times 10^{-5}} = 250 \\;(\\text{laminar})' },
@@ -317,7 +317,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'For a plate moving away from the jet, the relevant velocity is the RELATIVE velocity $(v - u)$. Both the mass flow striking the plate and the momentum change scale with this relative velocity, so $F = \\rho A (v - u)^2 = 1{,}000 \\times 0.002 \\times (30 - 10)^2 = 1{,}000 \\times 0.002 \\times 400 = 800$ N. Choice B uses the absolute jet velocity $v$ (ignores the plate motion): $\\rho A v^2 = 1{,}800$ N. Choice A forgets to square the relative velocity: $\\rho A (v-u) = 40$ N. Choice D mixes a relative velocity in one factor with the absolute velocity in the other: $\\rho A (v-u) v = 1{,}200$ N.',
+    eli5: 'For a plate moving away from the jet, the relevant velocity is the RELATIVE velocity $(v - u)$. Both the mass flow striking the plate and the momentum change scale with this relative velocity, so $F = \\rho A (v - u)^2 = 1{,}000 \\times 0.002 \\times (30 - 10)^2 = 1{,}000 \\times 0.002 \\times 400 = 800$ N. The 1,800 N choice uses the absolute jet velocity $v$ (ignores the plate motion): $\\rho A v^2 = 1{,}800$ N. The 40 N choice forgets to square the relative velocity: $\\rho A (v-u) = 40$ N. The 1,200 N choice mixes a relative velocity in one factor with the absolute velocity in the other: $\\rho A (v-u) v = 1{,}200$ N.',
     hint: 'For a moving plate, use the relative velocity $(v - u)$ in BOTH the flow-rate term and the momentum term: $F = \\rho A (v - u)^2$.',
     steps: [
       { text: 'Relative velocity of the jet with respect to the plate:', latex: 'v_{\\text{rel}} = v - u = 30 - 10 = 20\\,\\text{m/s}' },
@@ -347,7 +347,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'For a $180\\degree$ reversal, the velocity changes from $+v$ to $-v$, a change of $2v$, so $F = \\rho Q (v - (-v)) = 2\\rho Q v$. Area $A = \\frac{\\pi}{4}(0.04)^2 = 0.0012566$ m². $Q = A v = 0.0012566 \\times 25 = 0.031416$ m³/s. $F = 2 \\times 1{,}000 \\times 0.031416 \\times 25 = 1{,}571$ N $= 1.57$ kN. Choice A uses the flat-plate result $\\rho Q v$ (factor 1 instead of 2). Choice C applies a factor of 4. Choice D uses the radius in place of the diameter when computing the area (an area four times too large).',
+    eli5: 'For a $180\\degree$ reversal, the velocity changes from $+v$ to $-v$, a change of $2v$, so $F = \\rho Q (v - (-v)) = 2\\rho Q v$. Area $A = \\frac{\\pi}{4}(0.04)^2 = 0.0012566$ m². $Q = A v = 0.0012566 \\times 25 = 0.031416$ m³/s. $F = 2 \\times 1{,}000 \\times 0.031416 \\times 25 = 1{,}571$ N $= 1.57$ kN. The 0.785 kN choice uses the flat-plate result $\\rho Q v$ (factor 1 instead of 2). The 3.14 kN choice applies a factor of 4. The 6.28 kN choice uses the radius in place of the diameter when computing the area (an area four times too large).',
     hint: 'A $180\\degree$ turn reverses the momentum, giving a change of $2v$: $F = 2\\rho Q v$.',
     steps: [
       { text: 'Jet area:', latex: 'A = \\frac{\\pi}{4}(0.04)^2 = 1.2566 \\times 10^{-3}\\,\\text{m}^2' },
@@ -377,7 +377,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'The rise of water in the stagnation tube is the velocity head: $h = v^2/2g$. Solving, $v = \\sqrt{2gh} = \\sqrt{2 \\times 9.81 \\times 0.5} = \\sqrt{9.81} = 3.13$ m/s. Choice B drops the factor of 2 and uses $\\sqrt{gh} = 2.21$ m/s. Choice C doubles the correct velocity. Choice D forgets the square root entirely and reports $2gh = 9.81$.',
+    eli5: 'The rise of water in the stagnation tube is the velocity head: $h = v^2/2g$. Solving, $v = \\sqrt{2gh} = \\sqrt{2 \\times 9.81 \\times 0.5} = \\sqrt{9.81} = 3.13$ m/s. The 2.21 m/s option drops the factor of 2 and uses $\\sqrt{gh} = 2.21$ m/s. The 6.27 m/s option doubles the correct velocity. The 9.81 m/s option forgets the square root entirely and reports $2gh = 9.81$.',
     hint: 'The stagnation rise equals the velocity head: $h = v^2/2g$, so $v = \\sqrt{2gh}$.',
     steps: [
       { text: 'The rise equals the velocity head:', latex: 'h = \\frac{v^2}{2g}' },
@@ -407,7 +407,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'For an inclined venturi the head term includes elevation: $\\frac{P_1 - P_2}{\\gamma} + z_1 - z_2 = \\frac{30{,}000}{9{,}810} - 0.3 = 3.058 - 0.3 = 2.758$ m. Throat area $A_2 = \\frac{\\pi}{4}(0.075)^2 = 0.004418$ m². Area ratio: $(D_2/D_1)^4 = (0.5)^4 = 0.0625$, so $1 - 0.0625 = 0.9375$. $Q = C_v A_2 \\sqrt{\\frac{2g(2.758)}{0.9375}} = 0.98 \\times 0.004418 \\times \\sqrt{57.7} = 0.98 \\times 0.004418 \\times 7.60 = 0.0329$ m³/s. Choice A ignores the elevation difference (uses $3.058$ m). Choice B adds the elevation instead of subtracting it. Choice C uses the upstream area $A_1$ instead of the throat area.',
+    eli5: 'For an inclined venturi the head term includes elevation: $\\frac{P_1 - P_2}{\\gamma} + z_1 - z_2 = \\frac{30{,}000}{9{,}810} - 0.3 = 3.058 - 0.3 = 2.758$ m. Throat area $A_2 = \\frac{\\pi}{4}(0.075)^2 = 0.004418$ m². Area ratio: $(D_2/D_1)^4 = (0.5)^4 = 0.0625$, so $1 - 0.0625 = 0.9375$. $Q = C_v A_2 \\sqrt{\\frac{2g(2.758)}{0.9375}} = 0.98 \\times 0.004418 \\times \\sqrt{57.7} = 0.98 \\times 0.004418 \\times 7.60 = 0.0329$ m³/s. The $0.0346$ choice ignores the elevation difference (uses $3.058$ m). The $0.0363$ choice adds the elevation instead of subtracting it. The $0.132$ choice uses the upstream area $A_1$ instead of the throat area.',
     hint: 'For a vertical venturi, include the elevation term in the head: $\\frac{P_1 - P_2}{\\gamma} + z_1 - z_2$. The throat is higher, so $z_1 - z_2$ is negative.',
     steps: [
       { text: 'Effective head (throat is 0.3 m above the inlet):', latex: '\\frac{P_1 - P_2}{\\gamma} + z_1 - z_2 = \\frac{30{,}000}{9{,}810} - 0.3 = 2.758\\,\\text{m}' },
@@ -438,7 +438,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Under Froude similitude, the time scale is the square root of the length scale: $t_r = \\sqrt{L_r} = \\sqrt{1/36} = 1/6$. So $t_m = t_p \\times \\sqrt{L_r} = 60 \\times (1/6) = 10$ s. Choice A scales by the length ratio directly ($60/36 = 1.67$). Choice B multiplies by 6 instead of dividing. Choice D assumes no time scaling. The model runs faster because both length and velocity are scaled down, and velocity scales as $\\sqrt{L_r}$.',
+    eli5: 'Under Froude similitude, the time scale is the square root of the length scale: $t_r = \\sqrt{L_r} = \\sqrt{1/36} = 1/6$. So $t_m = t_p \\times \\sqrt{L_r} = 60 \\times (1/6) = 10$ s. The 1.67 s option scales by the length ratio directly ($60/36 = 1.67$). The 360 s option multiplies by 6 instead of dividing. The 60 s option assumes no time scaling. The model runs faster because both length and velocity are scaled down, and velocity scales as $\\sqrt{L_r}$.',
     hint: 'Under Froude similitude, the time ratio equals the square root of the length ratio: $t_r = \\sqrt{L_r}$.',
     steps: [
       { text: 'Froude time scale:', latex: 't_r = \\sqrt{L_r} = \\sqrt{\\frac{1}{36}} = \\frac{1}{6}' },
@@ -467,7 +467,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'Count the variables, including the dependent one: $\\Delta P, v, \\rho, \\mu, D, L, \\varepsilon$ gives $n = 7$. The base dimensions are mass, length, and time (M, L, T), so $r = 3$. Buckingham Pi: $k = n - r = 7 - 3 = 4$. Choice A subtracts one too many. Choice C uses $r = 2$, forgetting that the variables span all three of M, L, and T. Choice D reports $n$ alone without subtracting the dimensions.',
+    eli5: 'Count the variables, including the dependent one: $\\Delta P, v, \\rho, \\mu, D, L, \\varepsilon$ gives $n = 7$. The base dimensions are mass, length, and time (M, L, T), so $r = 3$. Buckingham Pi: $k = n - r = 7 - 3 = 4$. The choice $3$ subtracts one too many (treats $r = 4$). The choice $5$ uses $r = 2$, forgetting that the variables span all three of M, L, and T. The choice $7$ reports $n$ alone without subtracting the dimensions.',
     hint: 'List every variable (do not forget $\\Delta P$ itself), count the base dimensions ($r = 3$), and subtract.',
     steps: [
       { text: 'Variables: $\\Delta P, v, \\rho, \\mu, D, L, \\varepsilon$:', latex: 'n = 7' },

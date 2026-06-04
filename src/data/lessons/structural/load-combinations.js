@@ -32,7 +32,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: '1.2D + 1.6L = 1.2(20) + 1.6(40) = 24 + 64 = 88 kips. This is the most common LRFD combination for gravity loading. Choice B (60) is the unfactored sum D + L. Choice C (96) applies 1.6 to both D and L, which is wrong \u2014 dead load gets a lower factor (1.2) because it is more predictable. Choice D (84) might come from using wrong factors like 1.4D + L.',
+      eli5: '1.2D + 1.6L = 1.2(20) + 1.6(40) = 24 + 64 = 88 kips. This is the most common LRFD combination for gravity loading. The 60 kips option is the unfactored sum D + L. The 96 kips option applies 1.6 to both D and L, which is wrong \u2014 dead load gets a lower factor (1.2) because it is more predictable. The 84 kips option might come from using wrong factors like 1.4D + L.',
       hint: 'Multiply D by 1.2 and L by 1.6, then add.',
       steps: [
         { text: 'LRFD Combination 2:', latex: '1.2D + 1.6L' },

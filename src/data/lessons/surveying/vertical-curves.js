@@ -32,7 +32,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'The PVI is at x = L/2 = 300 ft from the PVC. But the PVI elevation is on the TANGENT line, not the curve: Y_tangent = Y_PVC + g_1 \u00D7 (L/2) = 100 + 0.04 \u00D7 300 = 100 + 12 = 112 ft. The curve elevation at the PVI would be different (lower for a crest), but the PVI itself is on the tangent. Choice B uses g_1 = 2% instead of 4%. Choice C is the PVC elevation. Choice D averages incorrectly.',
+      eli5: 'The PVI is at x = L/2 = 300 ft from the PVC. But the PVI elevation is on the TANGENT line, not the curve: Y_tangent = Y_PVC + g_1 \u00D7 (L/2) = 100 + 0.04 \u00D7 300 = 100 + 12 = 112 ft. The curve elevation at the PVI would be different (lower for a crest), but the PVI itself is on the tangent. The 106.0 ft choice uses g_1 = 2% instead of 4%. The 100.0 ft choice is just the PVC elevation. The 109.0 ft choice averages the PVC tangent and the 2%-grade results incorrectly.',
       hint: 'The PVI is at the intersection of the two tangent lines. Its elevation is Y_PVC + g_1 \u00D7 (L/2), using the back tangent grade.',
       steps: [
         { text: 'PVI is at $x = L/2$ from PVC:', latex: 'x = \\frac{600}{2} = 300 \\text{ ft}' },
@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Y = Y_PVC + g_1\u00D7x + [(g_2\u2013g_1)/(2L)]\u00D7x\u00B2. Parabola constant a = (\u20130.02 \u2013 0.04)/(2\u00D7600) = \u20130.00005. Y = 100 + 0.04(300) + (\u20130.00005)(90,000) = 100 + 12 \u2013 4.5 = 107.5 ft. The tangent elevation at this point is 112 ft, but the curve sits 4.5 ft below the tangent (because it\u2019s a crest curve). Choice A uses the wrong parabola constant. Choice B (112) is the tangent elevation, not the curve elevation. Choice D is the PVC elevation.',
+      eli5: 'Y = Y_PVC + g_1\u00D7x + [(g_2\u2013g_1)/(2L)]\u00D7x\u00B2. Parabola constant a = (\u20130.02 \u2013 0.04)/(2\u00D7600) = \u20130.00005. Y = 100 + 0.04(300) + (\u20130.00005)(90,000) = 100 + 12 \u2013 4.5 = 107.5 ft. The tangent elevation at this point is 112 ft, but the curve sits 4.5 ft below the tangent (because it\u2019s a crest curve). The 106.0 ft choice uses the wrong parabola constant. The 112 ft choice is the tangent elevation, not the curve elevation. The 100.0 ft choice is the PVC elevation.',
       hint: 'Use the curve elevation formula: $Y = Y_{PVC} + g_1 x + [(g_2 - g_1)/(2L)]x^2$. Convert grades from percent to decimal.',
       steps: [
         { text: 'Parabola constant:', latex: 'a = \\frac{g_2 - g_1}{2L} = \\frac{-0.02 - 0.04}{2 \\times 600} = \\frac{-0.06}{1{,}200} = -0.00005' },
@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'x_m = \u2013g_1 \u00D7 L / (g_2 \u2013 g_1) = \u2013(0.03)(400) / (\u20130.01 \u2013 0.03) = \u201312 / \u20130.04 = 300 ft. The high point is 300 ft from the PVC, which is 3/4 of the way along the curve. It\u2019s not at the midpoint because |g_1| \u2260 |g_2|. Choice A puts it at the PVT. Choice B (200) assumes the high point is at the midpoint (L/2). Choice C uses g_1 alone.',
+      eli5: 'x_m = \u2013g_1 \u00D7 L / (g_2 \u2013 g_1) = \u2013(0.03)(400) / (\u20130.01 \u2013 0.03) = \u201312 / \u20130.04 = 300 ft. The high point is 300 ft from the PVC, which is 3/4 of the way along the curve. It\u2019s not at the midpoint because |g_1| \u2260 |g_2|. The 400 ft choice puts it at the PVT (x = L). The 200 ft choice assumes the high point is at the midpoint (L/2). The 100 ft choice uses g_1 alone.',
       hint: 'The high point is where the slope equals zero: x_m = \u2013g_1 \u00D7 L / (g_2 \u2013 g_1). Use decimal grades.',
       steps: [
         { text: 'High point location:', latex: 'x_m = \\frac{-g_1 L}{g_2 - g_1} = \\frac{-(0.03)(400)}{-0.01 - 0.03}' },

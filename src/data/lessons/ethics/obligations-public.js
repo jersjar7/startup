@@ -86,7 +86,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'easy',
-      eli5: "This one is textbook Rule A.1 + A.2. The client wants to cut corners on concrete strength, but the building code exists to protect people. You can't seal plans that don't meet code — full stop. Choice A is wrong because just noting it in a file doesn't fix the safety issue. Choice C is wrong because a disclaimer doesn't magically make unsafe concrete safe. Choice B is creative but you can't just redesign around a code violation without the client's mix actually meeting requirements. The right move is to refuse to seal until the design is code-compliant.",
+      eli5: "This one is textbook Rule A.1 + A.2. The client wants to cut corners on concrete strength, but the building code exists to protect people. You can't seal plans that don't meet code — full stop. Using the client's mix and just noting the deviation in the project file is wrong because noting it doesn't fix the safety issue. Sealing the plans with a liability disclaimer is wrong because a disclaimer doesn't magically make unsafe concrete safe. Reducing the number of parking levels is creative but you can't just redesign around a code violation without the client's mix actually meeting requirements. The right move is to refuse to seal until the design is code-compliant.",
       hint: 'Which obligation always takes priority when client requests conflict with public safety?',
       steps: [
         {
@@ -140,7 +140,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: "This is the classic \"escalation ladder\" question. You already tried step one — talking to the colleague — and got shut down. The next step isn't to go rogue and call the client directly (B) or post online (D), and it definitely isn't to shrug and walk away (C). You escalate through proper channels: tell management, and if they don't fix it, report to the licensing board. The exam tests whether you know the correct order of escalation. It's always: direct conversation → management → board. Jumping straight to the board or the public is only correct when there's imminent danger and no time for the chain.",
+      eli5: "This is the classic \"escalation ladder\" question. You already tried step one — talking to the colleague — and got shut down. The next step isn't to go rogue and call the school district directly or post online, and it definitely isn't to shrug and walk away saying the colleague is responsible for their own work. You escalate through proper channels: tell management, and if they don't fix it, report to the licensing board. The exam tests whether you know the correct order of escalation. It's always: direct conversation → management → board. Jumping straight to the board or the public is only correct when there's imminent danger and no time for the chain.",
       hint: 'Think about the proper order of escalation when a colleague\'s error puts public safety at risk.',
       steps: [
         {
@@ -198,7 +198,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: "This question is sneaky because it mixes Section A (public obligations) with Section B (employer/client obligations). The friend's firm being qualified is a red herring — the issue isn't competence, it's conflict of interest. Rule B.8 is very specific: if you serve on a government body, you can't participate in decisions about contracts involving people you have a relationship with. Option C sounds reasonable (\"just be objective!\"), but the rules say the appearance of bias is enough to require action. And D is overkill — you don't need to quit the whole committee, just sit out this one decision. The right answer is always disclose + recuse.",
+      eli5: "This question is sneaky because it mixes Section A (public obligations) with Section B (employer/client obligations). The friend's firm being qualified is a red herring — the issue isn't competence, it's conflict of interest. Rule B.8 is very specific: if you serve on a government body, you can't participate in decisions about contracts involving people you have a relationship with. The \"just vote objectively\" option sounds reasonable, but the rules say the appearance of bias is enough to require action. And resigning from the committee entirely is overkill — you don't need to quit the whole committee, just sit out this one decision. The right answer is always disclose + recuse.",
       hint: "Focus on what the rules say about conflicts of interest when serving on a government selection body — is objectivity alone sufficient?",
       steps: [
         {
@@ -214,11 +214,11 @@ export default {
           latex: null,
         },
         {
-          text: "Even though the friend's firm is qualified, the engineer's participation in the selection creates an appearance of bias. Disclosure alone (answer C) isn't enough — the engineer must also step back from this decision.",
+          text: "Even though the friend's firm is qualified, the engineer's participation in the selection creates an appearance of bias. Voting objectively without stepping back (\"evaluate all firms objectively and vote for whichever is most qualified\") isn't enough — the engineer must also recuse from this decision.",
           latex: null,
         },
         {
-          text: "Answer D is excessive — recusal from this specific project is sufficient; permanent resignation isn't required.",
+          text: "Resigning from the committee entirely is excessive — recusal from this specific project is sufficient; permanent resignation isn't required.",
           latex: null,
         },
       ],

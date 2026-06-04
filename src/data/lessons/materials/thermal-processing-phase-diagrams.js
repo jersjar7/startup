@@ -62,7 +62,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Quenching means rapid cooling, which traps the atoms in a distorted crystal structure before they can rearrange into the equilibrium phases. Austenite (FCC iron) transforms into martensite (BCT iron) \u2014 an extremely hard, brittle, non-equilibrium phase. Choice B (ferrite + cementite) is what you get with slow cooling \u2014 the atoms have time to diffuse and form equilibrium phases. Choice A (retained austenite) can occur in small amounts but is not the primary product. Choice D (ferrite only) would require a very low-carbon steel slowly cooled.',
+      eli5: 'Quenching means rapid cooling, which traps the atoms in a distorted crystal structure before they can rearrange into the equilibrium phases. Austenite (FCC iron) transforms into martensite (BCT iron) \u2014 an extremely hard, brittle, non-equilibrium phase. The ferrite + cementite (pearlite) option is what you get with slow cooling \u2014 the atoms have time to diffuse and form equilibrium phases. Retained austenite can occur in small amounts but is not the primary product. Ferrite only would require a very low-carbon steel slowly cooled.',
       hint: 'Rapid cooling from the austenite region prevents the equilibrium transformation. Think about what forms when atoms can\u2019t diffuse.',
       steps: [
         { text: 'At 900\u00B0C, the steel is in the austenite (\u03B3) phase (FCC iron).', latex: null },
@@ -89,7 +89,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'The lever rule says: the fraction of a phase equals the arm on the OPPOSITE side divided by the total tie-line length. For liquid: $f_L = (x_0 - x_\\alpha)/(x_L - x_\\alpha) = (30 - 10)/(40 - 10) = 20/30 = 0.667$. The most common mistake is swapping the arms \u2014 using $(x_L - x_0)$ in the numerator gives the fraction of SOLID (0.33, choice B). Choice C (0.50) comes from using a wrong denominator like $(40 - 0)$ or averaging. Choice A (0.75) comes from dividing $x_0/x_L = 30/40$.',
+      eli5: 'The lever rule says: the fraction of a phase equals the arm on the OPPOSITE side divided by the total tie-line length. For liquid: $f_L = (x_0 - x_\\alpha)/(x_L - x_\\alpha) = (30 - 10)/(40 - 10) = 20/30 = 0.667$. The most common mistake is swapping the arms \u2014 using $(x_L - x_0)$ in the numerator gives the fraction of SOLID (0.33, the 0.33 choice). The 0.50 choice comes from using a wrong denominator like $(40 - 0)$ or averaging. The 0.75 choice comes from dividing $x_0/x_L = 30/40$.',
       hint: 'In the lever rule, the fraction of liquid uses the arm from the overall composition to the SOLID boundary (opposite side), divided by the total tie-line length.',
       steps: [
         { text: 'Identify tie-line endpoints at temperature T:', latex: 'x_\\alpha = 10 \\text{ wt\\%},\\quad x_L = 40 \\text{ wt\\%},\\quad x_0 = 30 \\text{ wt\\%}' },

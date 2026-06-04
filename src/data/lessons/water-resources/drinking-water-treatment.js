@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Filtration rate = Q/A_plan. The plan area is 20 × 15 = 300 ft². So v_s = 1,350/300 = 4.5 gpm/ft², comfortably inside the typical rapid-sand range of 2--10 gpm/ft². Choice B uses only the 15 ft width × 10 (half-length). Choice C inverts the ratio (A/Q). Choice D drops a zero in the area.',
+      eli5: 'Filtration rate = Q/A_plan. The plan area is 20 × 15 = 300 ft². So v_s = 1,350/300 = 4.5 gpm/ft², comfortably inside the typical rapid-sand range of 2--10 gpm/ft². The 9.0 gpm/ft² option uses only half the area (15 ft × 10 ft = 150 ft²). The 0.22 gpm/ft² option inverts the ratio (A/Q). The 45 gpm/ft² option drops a zero in the area (uses 30 ft² instead of 300 ft²).',
       hint: 'Filtration rate is the flow divided by the filter plan area (length × width).',
       steps: [
         { text: 'Plan area of the filter:', latex: 'A_{plan} = 20 \\times 15 = 300\\text{ ft}^2' },
@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'First the dose: Dose = Demand + Residual = 2.4 + 0.6 = 3.0 mg/L. Then the mass feed: since 1 mg/L = 1 g/m³, mass = 3.0 g/m³ × 4,000 m³/day = 12,000 g/day = 12.0 kg/day. Choice B uses only the demand (2.4) and forgets the residual. Choice C uses only the demand and the wrong conversion. Choice D slips a factor of 10 in the unit conversion.',
+      eli5: 'First the dose: Dose = Demand + Residual = 2.4 + 0.6 = 3.0 mg/L. Then the mass feed: since 1 mg/L = 1 g/m³, mass = 3.0 g/m³ × 4,000 m³/day = 12,000 g/day = 12.0 kg/day. The 9.6 kg/day option uses only the demand (2.4) and forgets the residual. The 2.4 kg/day option just echoes the demand value with a wrong conversion. The 120 kg/day option slips a factor of 10 in the unit conversion.',
       hint: 'Dose = demand + residual. Then mass/day = dose (mg/L = g/m³) × flow (m³/day), converted to kg.',
       steps: [
         { text: 'Required applied dose:', latex: '\\text{Dose} = 2.4 + 0.6 = 3.0\\text{ mg/L}' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'CT = C × t₁₀, so t₁₀ = CT/C = 90/1.5 = 60 min. Choice B multiplies (90 × 1.5) instead of dividing. Choice C divides by 15 (decimal slip). Choice D inverts the whole thing (C/CT).',
+      eli5: 'CT = C × t₁₀, so t₁₀ = CT/C = 90/1.5 = 60 min. The 135 min choice multiplies (90 × 1.5) instead of dividing. The 6 min choice divides by 15 (decimal slip). The 0.017 min choice inverts the whole thing (C/CT).',
       hint: 'Rearrange CT = C × t₁₀ to t₁₀ = CT/C.',
       steps: [
         { text: 'CT relationship:', latex: 'CT = C \\times t_{10}' },

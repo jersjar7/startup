@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Braking distance $= V^2 / [30(a/32.2 \\pm G)]$. On a level grade $G = 0$, so it simplifies to $V^2 / [30(a/32.2)] = 45^2 / [30(11.2/32.2)] = 2{,}025 / [30 \\times 0.3478] = 2{,}025 / 10.43 = 194.1$ ft. Choice B (165) used $a = 11.2$ directly in the denominator without dividing by 32.2: $2{,}025/(30 \\times 0.3733)$ is wrong. Choice C (359) added the reaction distance when the question only asks for braking. Choice D (388) divided by $2 \\times 0.3478 \\times 7.5$ incorrectly.',
+    eli5: 'Braking distance $= V^2 / [30(a/32.2 \\pm G)]$. On a level grade $G = 0$, so it simplifies to $V^2 / [30(a/32.2)] = 45^2 / [30(11.2/32.2)] = 2{,}025 / [30 \\times 0.3478] = 2{,}025 / 10.43 = 194.1$ ft. The 165 ft choice used $a = 11.2$ directly in the denominator without dividing by 32.2: $2{,}025/(30 \\times 0.3733)$ is wrong. The 359 ft choice added the reaction distance when the question only asks for braking. The 388 ft choice divided by $2 \\times 0.3478 \\times 7.5$ incorrectly.',
     hint: 'Braking distance only: $V^2 / [30(a/32.2)]$. Do not add the reaction distance.',
     steps: [
       {
@@ -72,7 +72,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'On an uphill grade, gravity pulls the vehicle backward, helping the brakes slow it down. In the formula, a positive $G$ makes the denominator $30(a/32.2 + G)$ larger, which makes the braking distance fraction smaller. The reaction distance is unchanged (grade does not affect perception-reaction time), but the braking distance is shorter. Choice A reverses the effect of uphill. Choice C ignores the grade term entirely. Choice D wrongly claims grade affects reaction time.',
+    eli5: 'On an uphill grade, gravity pulls the vehicle backward, helping the brakes slow it down. In the formula, a positive $G$ makes the denominator $30(a/32.2 + G)$ larger, which makes the braking distance fraction smaller. The reaction distance is unchanged (grade does not affect perception-reaction time), but the braking distance is shorter. The choice claiming SSD increases reverses the effect of uphill. The "unchanged" choice ignores the grade term entirely. The "drivers react faster" choice wrongly claims grade affects reaction time.',
     hint: 'In the SSD formula, $G$ is positive for uphill. What does a larger denominator do to the braking distance?',
     steps: [
       {
@@ -122,7 +122,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$ISD = 1.47 \\times V_{\\text{major}} \\times t_g = 1.47 \\times 50 \\times 7.5 = 551.25$, which rounds to 551 ft. Choice B (375) used mph directly without converting: $50 \\times 7.5 = 375$. Choice A (735) used $t_g = 10$ sec instead of 7.5 sec. Choice D (110) forgot to multiply by $t_g$: $1.47 \\times 50 \\times 1.5 = 110$.',
+    eli5: '$ISD = 1.47 \\times V_{\\text{major}} \\times t_g = 1.47 \\times 50 \\times 7.5 = 551.25$, which rounds to 551 ft. The 375 ft choice used mph directly without converting: $50 \\times 7.5 = 375$. The 735 ft choice used $t_g = 10$ sec instead of 7.5 sec. The 110 ft choice forgot to multiply by $t_g$: $1.47 \\times 50 \\times 1.5 = 110$.',
     hint: '$ISD = 1.47 \\times V_{\\text{major}} \\times t_g$. Same conversion factor (1.47) as in the SSD formula.',
     steps: [
       {
@@ -164,7 +164,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: '$PHF = V/(4 \\times V_{15}) = 1{,}800/(4 \\times 500) = 1{,}800/2{,}000 = 0.90$. That part is correct. The peak flow rate $= V/PHF = 1{,}800/0.90 = 2{,}000$ veh/hr (equivalently, $4 \\times V_{15} = 2{,}000$). The engineer computed $1{,}800 \\times 0.90 = 1{,}620$, which is $V$ times $PHF$ instead of $V$ divided by $PHF$. The flow rate should always be greater than or equal to the hourly volume, never less. Getting $1{,}620 < 1{,}800$ should have been a red flag. Choice B is wrong because 0.90 is the correct PHF. Choice C gives a nonsensical rate. Choice D accepts the error.',
+    eli5: '$PHF = V/(4 \\times V_{15}) = 1{,}800/(4 \\times 500) = 1{,}800/2{,}000 = 0.90$. That part is correct. The peak flow rate $= V/PHF = 1{,}800/0.90 = 2{,}000$ veh/hr (equivalently, $4 \\times V_{15} = 2{,}000$). The engineer computed $1{,}800 \\times 0.90 = 1{,}620$, which is $V$ times $PHF$ instead of $V$ divided by $PHF$. The flow rate should always be greater than or equal to the hourly volume, never less. Getting $1{,}620 < 1{,}800$ should have been a red flag. The choice claiming the PHF should be 1.11 is wrong because 0.90 is the correct PHF. The choice multiplying by 4 to get 7,200 veh/hr gives a nonsensical rate. The "no error was made" choice accepts the error.',
     hint: 'The peak flow rate equals $V/PHF$, not $V \\times PHF$. The result should always be greater than or equal to $V$.',
     steps: [
       {
@@ -215,7 +215,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: '$A = |g_2 - g_1| \\times 100 = |-0.04 - 0.02| \\times 100 = 0.06 \\times 100 = 6$. $K = L/A = 600/6 = 100$ ft per percent change. Choice B (300) used $A = 2$ (only the magnitude of one grade). Choice C (50) used $A = 12$ (added the absolute values of the grades as percentages: $2 + 4 = 6$, then doubled to 12). Choice D (6) confused $K$ with $A$.',
+    eli5: '$A = |g_2 - g_1| \\times 100 = |-0.04 - 0.02| \\times 100 = 0.06 \\times 100 = 6$. $K = L/A = 600/6 = 100$ ft per percent change. The 300 choice used $A = 2$ (only the magnitude of one grade, $L/2 = 300$). The 50 choice used $A = 12$ ($L/12 = 50$). The 6 choice confused $K$ with $A$ (it is just the algebraic difference, not the rate).',
     hint: '$K = L/A$, where $A = |g_2 - g_1| \\times 100$. Compute $A$ in percent first.',
     steps: [
       {
@@ -269,7 +269,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'On a crest curve, the road surface itself blocks the driver from seeing objects beyond the hill -- so the sight distance depends on eye height and object height. On a sag curve, you can see over the valley during the day with no obstruction. But at night, you can only see as far as your headlights illuminate. The headlight beam angle (about 1 degree upward) and the mounting height determine how far down the sag the beam reaches. Choice A is wrong because sag curves are not always shorter. Choice C is incomplete -- it only addresses daytime. Choice D is wrong because the nighttime case governs the design.',
+    eli5: 'On a crest curve, the road surface itself blocks the driver from seeing objects beyond the hill -- so the sight distance depends on eye height and object height. On a sag curve, you can see over the valley during the day with no obstruction. But at night, you can only see as far as your headlights illuminate. The headlight beam angle (about 1 degree upward) and the mounting height determine how far down the sag the beam reaches. The "sag curves are always shorter" choice is wrong because that is simply untrue. The "driver can always see over the curve" choice is incomplete -- it only addresses daytime. The "applies only to nighttime design" choice is wrong because the nighttime case is precisely what governs the design.',
     hint: 'Think about what limits visibility on a sag curve versus a crest curve.',
     steps: [
       {
@@ -317,7 +317,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$L = AS^2/(400 + 3.5S) = 6 \\times 400^2/(400 + 3.5 \\times 400) = 6 \\times 160{,}000/(400 + 1{,}400) = 960{,}000/1{,}800 = 533$ ft. Verify: $S = 400 < L = 533$, so $S \\leq L$ is satisfied. Choice B (444) used the crest formula: $6 \\times 160{,}000/2{,}158 = 444$. Choice A (600) used $2S - \\text{constant}$. Choice D (400) confused $L$ with $S$.',
+    eli5: '$L = AS^2/(400 + 3.5S) = 6 \\times 400^2/(400 + 3.5 \\times 400) = 6 \\times 160{,}000/(400 + 1{,}400) = 960{,}000/1{,}800 = 533$ ft. Verify: $S = 400 < L = 533$, so $S \\leq L$ is satisfied. The 444 ft option used the crest formula: $6 \\times 160{,}000/2{,}158 = 444$. The 600 ft option used $2S - \\text{constant}$. The 400 ft option confused $L$ with $S$.',
     hint: 'Sag headlight formula: $L = AS^2/(400 + 3.5S)$. Make sure you use the sag denominator, not the crest constant.',
     steps: [
       {
@@ -368,7 +368,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'The two formulas are derived under different geometric assumptions. The $S \\leq L$ formula assumes the sight line stays within the curve limits, and the $S > L$ formula assumes the sight line extends beyond the curve ends. If you use $S \\leq L$ and get $L < S$, the assumption is violated, so the result is not valid. You must switch to $L = 2S - 2{,}158/A$. Choice B is wrong — the $S \\leq L$ formula does not always give a longer curve. In fact, when $S > L$ actually holds, the $S \\leq L$ formula can give a shorter $L$. Choice C has no theoretical basis. Choice D is arbitrary.',
+    eli5: 'The two formulas are derived under different geometric assumptions. The $S \\leq L$ formula assumes the sight line stays within the curve limits, and the $S > L$ formula assumes the sight line extends beyond the curve ends. If you use $S \\leq L$ and get $L < S$, the assumption is violated, so the result is not valid. You must switch to $L = 2S - 2{,}158/A$. The "accept the conservative result" choice is wrong — the $S \\leq L$ formula does not always give a longer curve. In fact, when $S > L$ actually holds, the $S \\leq L$ formula can give a shorter $L$. The "average both formulas" choice has no theoretical basis. The "double the computed $L$" choice is arbitrary.',
     hint: 'The two crest formulas come from two different geometric cases. You must use the one that matches your result.',
     steps: [
       {
@@ -419,7 +419,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: '$D = 5{,}729.58/R = 5{,}729.58/1{,}146 = 5.0$ degrees. This is the inverse of $R = 5{,}729.58/D$. Choice B (0.20) divided $R$ by 5,729.58 instead of the other way around. Choice C (10) used $R = 573$ (off by a factor of 2). Choice D (2.5) doubled $R$ in the denominator.',
+    eli5: '$D = 5{,}729.58/R = 5{,}729.58/1{,}146 = 5.0$ degrees. This is the inverse of $R = 5{,}729.58/D$. The 0.20 choice divided $R$ by 5,729.58 instead of the other way around. The 10 choice used $R = 573$ (off by a factor of 2). The 2.5 choice doubled $R$ in the denominator.',
     hint: 'D = 5,729.58 / R. Just the inverse of the R-D relationship.',
     steps: [
       {
@@ -459,11 +459,11 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'For any angle $I$ between 0 and 180 degrees (realistic for curves), $\\tan(I) > \\tan(I/2)$ since the tangent function is increasing on $(0\\degree, 90\\degree)$ and $I/2 < I$. So using $\\tan(I)$ gives a larger number, making $T$ too large. Choice A gets the direction wrong. Choice C states a false identity -- $\\tan(I)$ is NOT equal to $2\\tan(I/2)$ in general. Choice D is wrong because for typical highway intersection angles (well under 180 degrees), the effect is always an overestimate.',
+    eli5: 'For any angle $I$ between 0 and 180 degrees (realistic for curves), $\\tan(I) > \\tan(I/2)$ since the tangent function is increasing on $(0\\degree, 90\\degree)$ and $I/2 < I$. So using $\\tan(I)$ gives a larger number, making $T$ too large. The "too small / underestimate" choice gets the direction wrong. The "no effect because $\\tan(I) = 2\\tan(I/2)$" choice states a false identity -- $\\tan(I)$ is NOT equal to $2\\tan(I/2)$ in general. The "depends on whether $I$ is greater or less than $90\\degree$" choice is wrong because for typical highway intersection angles (well under $90\\degree$), the effect is always an overestimate.',
     hint: 'For angles between 0 and 90 degrees, how does tan(I) compare to tan(I/2)?',
     steps: [
       {
-        text: 'For $0 < I < 180\\degree$, $\\tan(I/2)$ uses a smaller argument than $\\tan(I)$.',
+        text: 'For typical curve intersection angles ($0 < I < 90\\degree$), $\\tan(I/2)$ uses a smaller argument than $\\tan(I)$, and both arguments stay in the range where tangent is increasing and positive.',
         latex: null
       },
       {
@@ -507,7 +507,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$L = R \\times I \\times (\\pi/180) = 800 \\times 50 \\times (\\pi/180) = 800 \\times 0.8727 = 698$ ft. Choice A (373) is the tangent distance $T = R\\tan(I/2) = 800 \\times \\tan(25\\degree) = 373$, not the curve length. Choice B (466) incorrectly used a modified radian conversion. Choice D (1,396) doubled the curve length for no reason: $2 \\times 698$.',
+    eli5: '$L = R \\times I \\times (\\pi/180) = 800 \\times 50 \\times (\\pi/180) = 800 \\times 0.8727 = 698$ ft. The 373 ft choice is the tangent distance $T = R\\tan(I/2) = 800 \\times \\tan(25\\degree) = 373$, not the curve length. The 466 ft choice incorrectly used a modified radian conversion. The 1,396 ft choice doubled the curve length for no reason: $2 \\times 698$.',
     hint: 'L = R x I x (pi/180). Make sure I is in degrees and you convert to radians.',
     steps: [
       {
@@ -556,7 +556,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'From $0.01e + f = V^2/(15R)$, the required side friction is $f = V^2/(15R) - 0.01e = 55^2/(15 \\times 900) - 0.06 = 3{,}025/13{,}500 - 0.06 = 0.224 - 0.06 = 0.164$. Typical max $f$ values for 55 mph are around 0.13--0.14. If the demand (0.164) exceeds the supply, vehicles cannot maintain the curve at that speed without skidding outward. The fix is a larger radius, lower speed, or higher superelevation. Choice B suggests reducing the radius, which makes the problem worse. Choice C suggests reducing superelevation, which also worsens friction demand. Choice D dismisses a real safety concern.',
+    eli5: 'From $0.01e + f = V^2/(15R)$, the required side friction is $f = V^2/(15R) - 0.01e = 55^2/(15 \\times 900) - 0.06 = 3{,}025/13{,}500 - 0.06 = 0.224 - 0.06 = 0.164$. Typical max $f$ values for 55 mph are around 0.13--0.14. If the demand (0.164) exceeds the supply, vehicles cannot maintain the curve at that speed without skidding outward. The fix is a larger radius, lower speed, or higher superelevation. The choice to reduce the radius makes the problem worse (smaller R raises V^2/15R). The choice to reduce superelevation also worsens friction demand. The choice claiming the design is acceptable dismisses a real safety concern.',
     hint: 'When friction demand exceeds supply, the centripetal force requirement exceeds what the tires and road can provide.',
     steps: [
       {
@@ -607,7 +607,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Convert 40 mph to ft/sec: $40 \\times 1.467 = 58.7$ ft/sec. Then $y = t + v/(2a) = 1.0 + 58.7/(2 \\times 10) = 1.0 + 58.7/20 = 1.0 + 2.93 = 3.93$, which rounds to 3.9 sec. Choice B (3.0) used mph directly: $1.0 + 40/20 = 3.0$. Choice C (6.9) used $v/a$ instead of $v/(2a)$: $1.0 + 58.7/10 = 6.87$. Choice D (2.9) forgot the reaction time: $58.7/20 = 2.93$.',
+    eli5: 'Convert 40 mph to ft/sec: $40 \\times 1.467 = 58.7$ ft/sec. Then $y = t + v/(2a) = 1.0 + 58.7/(2 \\times 10) = 1.0 + 58.7/20 = 1.0 + 2.93 = 3.93$, which rounds to 3.9 sec. The 3.0 sec choice used mph directly: $1.0 + 40/20 = 3.0$. The 6.9 sec choice used $v/a$ instead of $v/(2a)$: $1.0 + 58.7/10 = 6.87$. The 2.9 sec choice forgot the reaction time: $58.7/20 = 2.93$.',
     hint: 'Convert to ft/sec first, then y = t + v/(2a). Do not forget the factor of 2.',
     steps: [
       {
@@ -651,7 +651,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'When the signal turns red, a vehicle that just entered must cross the entire intersection width $W$ before the conflicting phase starts. But the vehicle is not a point -- the rear bumper must also clear the far side. So the total clearance distance is $W$ (intersection width) plus $l$ (vehicle length). If you only used $W$, the tail end of the vehicle would still be in the intersection when cross traffic gets the green. Choice A confuses clearance with acceleration. Choice C has no basis in the formula derivation. Choice D misidentifies what $l$ represents.',
+    eli5: 'When the signal turns red, a vehicle that just entered must cross the entire intersection width $W$ before the conflicting phase starts. But the vehicle is not a point -- the rear bumper must also clear the far side. So the total clearance distance is $W$ (intersection width) plus $l$ (vehicle length). If you only used $W$, the tail end of the vehicle would still be in the intersection when cross traffic gets the green. The acceleration-distance choice confuses clearance with acceleration. The driver-hesitation safety-buffer choice has no basis in the formula derivation. The stop-bar-to-curb choice misidentifies what $l$ represents.',
     hint: 'Think about what it means for a vehicle to "completely clear" the intersection -- where does its rear bumper need to be?',
     steps: [
       {
@@ -701,7 +701,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Convert 45 mph: $v = 45 \\times 1.467 = 66.0$ ft/sec. On a 3% downgrade, gravity opposes braking, reducing effective deceleration. The denominator becomes $2a - 64.4(0.03) = 20 - 1.932 = 18.07$. $y = 1.0 + 66.0/18.07 = 1.0 + 3.65 = 4.65$, approximately 4.7 sec. Choice B (4.3) used a level grade ($G = 0$): $1.0 + 66.0/20 = 4.3$. Choice A (3.5) used mph instead of ft/sec: $1.0 + 45/18.07 = 3.5$. Choice D (3.3) used both mph and level grade: $1.0 + 45/20 = 3.25$.',
+    eli5: 'Convert 45 mph: $v = 45 \\times 1.467 = 66.0$ ft/sec. On a 3% downgrade, gravity opposes braking, reducing effective deceleration. The denominator becomes $2a - 64.4(0.03) = 20 - 1.932 = 18.07$. $y = 1.0 + 66.0/18.07 = 1.0 + 3.65 = 4.65$, approximately 4.7 sec. The 4.3 sec option used a level grade ($G = 0$): $1.0 + 66.0/20 = 4.3$. The 3.5 sec option used mph instead of ft/sec: $1.0 + 45/18.07 = 3.5$. The 3.3 sec option used both mph and level grade: $1.0 + 45/20 = 3.25$.',
     hint: 'Downgrade reduces effective deceleration. The denominator becomes 2a - 64.4G where G = 0.03 for a 3% downgrade.',
     steps: [
       {
@@ -752,7 +752,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Compute the required yellow: v = 50 x 1.467 = 73.3 ft/sec. y = 1.0 + 73.3/(2 x 10) = 1.0 + 3.67 = 4.67, approximately 4.7 sec. The actual yellow of 3.0 sec is 1.7 sec too short. This creates a "dilemma zone" -- a region where a driver is too close to stop safely but too far to clear the intersection during the yellow. This is a serious safety problem. Choice B is wrong because yellow time is speed-dependent. Choice C assumes drivers slow down, but the design must accommodate the design speed. Choice D is wrong because the all-red serves a different purpose (clearance of vehicles already in the intersection, not stopping decisions).',
+    eli5: 'Compute the required yellow: v = 50 x 1.467 = 73.3 ft/sec. y = 1.0 + 73.3/(2 x 10) = 1.0 + 3.67 = 4.67, approximately 4.7 sec. The actual yellow of 3.0 sec is 1.7 sec too short. This creates a "dilemma zone" -- a region where a driver is too close to stop safely but too far to clear the intersection during the yellow. This is a serious safety problem. The "3.0 sec is the standard minimum for all speeds" option is wrong because yellow time is speed-dependent. The "adequate because drivers will slow down" option assumes drivers slow down, but the design must accommodate the design speed. The "make up the shortfall with the all-red interval" option is wrong because the all-red serves a different purpose (clearance of vehicles already in the intersection, not stopping decisions).',
     hint: 'Compute the required yellow and compare. What happens when yellow is shorter than needed?',
     steps: [
       {
@@ -803,7 +803,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'At maximum flow, the optimum density is exactly half the jam density: $D_o = D_j/2 = 200/2 = 100$ veh/mi/ln. This comes straight from the Greenshields model. Choice B (200) is the jam density itself, not the optimum. Choice C (50) divided by 4 instead of 2. Choice D (150) is three-quarters of the jam density, which has no significance in the model.',
+    eli5: 'At maximum flow, the optimum density is exactly half the jam density: $D_o = D_j/2 = 200/2 = 100$ veh/mi/ln. This comes straight from the Greenshields model. The choice 200 is the jam density itself, not the optimum. The choice 50 divides the jam density by 4 instead of 2. The choice 150 is three-quarters of the jam density, which has no significance in the model.',
     hint: 'At maximum flow, both speed and density are half their extreme values.',
     steps: [
       {
@@ -843,7 +843,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The Greenshields model produces a parabolic flow-density curve. At zero density, flow is zero (no cars). As density increases, flow rises to a peak at $D = D_j/2$, then falls back to zero at jam density (cars are bumper-to-bumper, speed = 0). Choice A incorrectly assumes a linear relationship. Choice C ignores the speed-density tradeoff. Choice D describes a monotonically decreasing function, but flow starts at zero when there are no vehicles.',
+    eli5: 'The Greenshields model produces a parabolic flow-density curve. At zero density, flow is zero (no cars). As density increases, flow rises to a peak at $D = D_j/2$, then falls back to zero at jam density (cars are bumper-to-bumper, speed = 0). The "increases linearly until jam density" option incorrectly assumes a linear relationship. The "flow remains constant" option ignores the speed-density tradeoff. The "decreases monotonically from free-flow to jam density" option describes a monotonically decreasing function, but flow actually starts at zero when there are no vehicles.',
     hint: 'The flow-density curve from the Greenshields model is a parabola. Where is its peak?',
     steps: [
       {
@@ -893,12 +893,12 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$VMT = ADT \\times \\text{days} \\times \\text{length} = 12{,}000 \\times (365 \\times 3) \\times 2 = 12{,}000 \\times 1{,}095 \\times 2 = 26{,}280{,}000$ vehicle-miles. $RMVM = A \\times 1{,}000{,}000 / VMT = 8 \\times 1{,}000{,}000 / 26{,}280{,}000 = 0.304$ which rounds to 0.30. Choice B (0.91) used only 1 year instead of 3: $VMT = 8{,}760{,}000$, $RMVM = 8{,}000{,}000/8{,}760{,}000 = 0.91$. Choice A (109.6) forgot the segment length: $VMT = 12{,}000 \\times 1{,}095 = 13{,}140{,}000$ and also forgot the $\\times 1{,}000{,}000$ factor. Choice D (1.10) used only 1 mile and 1 year.',
+    eli5: '$VMT = ADT \\times \\text{days} \\times \\text{length} = 12{,}000 \\times (365 \\times 3) \\times 2 = 12{,}000 \\times 1{,}095 \\times 2 = 26{,}280{,}000$ vehicle-miles. $RMVM = A \\times 1{,}000{,}000 / VMT = 8 \\times 1{,}000{,}000 / 26{,}280{,}000 = 0.304$ which rounds to 0.30. The 0.91 distractor used only 1 year instead of 3: $VMT = 8{,}760{,}000$, $RMVM = 8{,}000{,}000/8{,}760{,}000 = 0.91$. The 109.6 distractor mis-scales the result (omits the segment length and misapplies the million factor). The 1.10 distractor underestimates VMT by using a reduced length and/or period.',
     hint: '$VMT = ADT \\times \\text{total days} \\times \\text{segment length}$. Use the full study period, not just one year.',
     steps: [
       {
         text: 'Total vehicle-miles traveled:',
-        latex: 'VMT = 12{,}000 \\times (365 \\times 3) \\times 2 = 12{,}000 \\times 2{,}190 = 26{,}280{,}000'
+        latex: 'VMT = 12{,}000 \\times (365 \\times 3) \\times 2 = 12{,}000 \\times 1{,}095 \\times 2 = 26{,}280{,}000'
       },
       {
         text: 'Crash rate:',
@@ -940,7 +940,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'RMEV already normalizes crashes by exposure (per million entering vehicles), so different ADTs are already accounted for. A higher RMEV means more crashes per million vehicles, regardless of total volume. Intersection A at 3.5 has nearly double the crash rate of B at 1.8, making it the stronger candidate for safety review. Choice B confuses volume with safety. Choice C is wrong because RMEV exists precisely to enable such comparisons. Choice D reverses the meaning of RMEV.',
+    eli5: 'RMEV already normalizes crashes by exposure (per million entering vehicles), so different ADTs are already accounted for. A higher RMEV means more crashes per million vehicles, regardless of total volume. Intersection A at 3.5 has nearly double the crash rate of B at 1.8, making it the stronger candidate for safety review. The "safer because it carries more traffic" choice confuses volume with safety. The "cannot be compared" choice is wrong because RMEV exists precisely to enable such comparisons. The "lower RMEV means more severe crashes" choice reverses the meaning of RMEV.',
     hint: 'RMEV already accounts for traffic volume differences. Higher RMEV = higher crash rate per vehicle.',
     steps: [
       {
@@ -1090,7 +1090,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Three steps. First, $f_{HV} = 1/(1 + 0.15(3.0 - 1)) = 1/1.30 = 0.769$. Second, $v_p = 3{,}500/(0.92 \\times 3 \\times 0.769) = 3{,}500/2.122 = 1{,}650$ pc/h/ln. Third, $D = 1{,}650/55 = 30.0$ pc/mi/ln (LOS D). Choice B (23.1) dropped $f_{HV}$ entirely. Choice C (26.5) used level-terrain $E_T = 2.0$ instead of rolling terrain $E_T = 3.0$. Choice D (27.6) forgot PHF.',
+    eli5: 'Three steps. First, $f_{HV} = 1/(1 + 0.15(3.0 - 1)) = 1/1.30 = 0.769$. Second, $v_p = 3{,}500/(0.92 \\times 3 \\times 0.769) = 3{,}500/2.122 = 1{,}650$ pc/h/ln. Third, $D = 1{,}650/55 = 30.0$ pc/mi/ln (LOS D). The 23.1 option dropped $f_{HV}$ entirely. The 26.5 option used level-terrain $E_T = 2.0$ instead of rolling terrain $E_T = 3.0$. The 27.6 option forgot PHF.',
     hint: 'Compute fHV first (rolling terrain uses $E_T = 3.0$), then $v_p$, then $D = v_p / S$.',
     steps: [
       {
@@ -1192,7 +1192,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: '$SN = a_1D_1 + a_2D_2m_2 + a_3D_3m_3 = 0.44(5) + 0.14(10)(0.90) + 0.11(8)(0.90) = 2.20 + 1.26 + 0.792 = 4.252$, which rounds to 4.26. Choice B (4.58) used $m = 1.0$ for all layers: $2.20 + 1.40 + 0.88 = 4.48$, plus a rounding variation. Choice C (3.46) forgot the subbase entirely: $2.20 + 1.26$. Choice D (0.69) summed only the coefficients.',
+    eli5: '$SN = a_1D_1 + a_2D_2m_2 + a_3D_3m_3 = 0.44(5) + 0.14(10)(0.90) + 0.11(8)(0.90) = 2.20 + 1.26 + 0.792 = 4.252$, which rounds to 4.26. The 4.58 choice used $m = 1.0$ for all layers: $2.20 + 1.40 + 0.88 = 4.48$ (a near-miss distractor for ignoring drainage coefficients). The 3.46 choice forgot the subbase entirely: $2.20 + 1.26$. The 0.69 choice summed only the coefficients.',
     hint: 'Multiply each layer: coefficient x thickness x drainage, then add them all up.',
     steps: [
       {
@@ -1265,7 +1265,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The drainage coefficient $m$ adjusts for how well water drains from the granular base and subbase layers. Poor drainage means water sits in the layer, weakening it and reducing its effective structural contribution. Values of $m < 1.0$ penalize layers with poor drainage; $m = 1.0$ means good drainage. The surface course (layer 1) always uses $m = 1.0$ by convention because asphalt is relatively impermeable. Choice A describes a construction quality issue, not drainage. Choice C describes traffic, which is captured by ESALs. Choice D applies to asphalt, not granular layers.',
+    eli5: 'The drainage coefficient $m$ adjusts for how well water drains from the granular base and subbase layers. Poor drainage means water sits in the layer, weakening it and reducing its effective structural contribution. Values of $m < 1.0$ penalize layers with poor drainage; $m = 1.0$ means good drainage. The surface course (layer 1) always uses $m = 1.0$ by convention because asphalt is relatively impermeable. The compaction-level choice describes a construction quality issue, not drainage. The traffic-loading choice is captured by ESALs, not by m. The temperature-susceptibility choice applies to asphalt, not granular layers.',
     hint: 'The drainage coefficient modifies granular layer contributions based on moisture and drainage quality.',
     steps: [
       {
@@ -1315,7 +1315,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'For each load type, multiply passes by LEF, then add: Tandem: $500 \\times 1.11 = 555$. Single: $200 \\times 1.51 = 302$. Total $= 555 + 302 = 857$ ESALs. Choice B (700) assumed LEF $= 1.0$ for both: $500 + 200 = 700$. Choice A (555) only counted the tandem axle and forgot the single. Choice D (1,310) used the wrong LEFs (swapped single and tandem column values).',
+    eli5: 'For each load type, multiply passes by LEF, then add: Tandem: $500 \\times 1.11 = 555$. Single: $200 \\times 1.51 = 302$. Total $= 555 + 302 = 857$ ESALs. The 700 option assumed LEF $= 1.0$ for both: $500 + 200 = 700$. The 555 option only counted the tandem axle and forgot the single. The 1,310 option used the wrong LEFs (swapped single and tandem column values).',
     hint: 'ESALs = sum of (passes x LEF) for each load type. Make sure to read the correct column.',
     steps: [
       {
@@ -1366,7 +1366,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'The SN equation allows different thickness combinations to reach the same total SN. Since asphalt has $a_1 = 0.44$ (much higher than granular base $a_2 = 0.14$), each inch of asphalt provides about 3 times the structural benefit of an inch of base. Section A with more asphalt gets the same SN with less total pavement thickness, and higher-quality materials on top generally provide better performance. Section B may be cheaper in materials but needs much more total thickness. Both satisfy the design SN, so they are structurally equivalent by the AASHTO method. Choice B ignores performance differences. Choice C misunderstands the SN equation. Choice D is wrong because both sections hit exactly $SN = 4.0$.',
+    eli5: 'The SN equation allows different thickness combinations to reach the same total SN. Since asphalt has $a_1 = 0.44$ (much higher than granular base $a_2 = 0.14$), each inch of asphalt provides about 3 times the structural benefit of an inch of base. Section A with more asphalt gets the same SN with less total pavement thickness, and higher-quality materials on top generally provide better performance. Section B may be cheaper in materials but needs much more total thickness. Both satisfy the design SN, so they are structurally equivalent by the AASHTO method. The "granular base is always cheaper/better" choice ignores performance differences. The "cannot have the same SN with different thicknesses" choice misunderstands the SN equation. The "Section A is overdesigned" choice is wrong because both sections hit exactly $SN = 4.0$.',
     hint: 'Multiple layer combinations can produce the same SN. Compare the layer coefficients to understand the tradeoff.',
     steps: [
       {
@@ -1417,7 +1417,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: '$V = L(A_1 + A_2)/2 = 50(180 + 220)/2 = 50 \\times 400/2 = 50 \\times 200 = 10{,}000$ ft$^3$. Convert: $10{,}000/27 = 370$ yd$^3$. Choice B (10,000) is in ft$^3$, not yd$^3$ -- forgot to divide by 27. Choice C (741) forgot to divide by 2 in the average: $50 \\times 400/27 = 741$. Choice D (333) used only $A_1$: $50 \\times 180/27 = 333$.',
+    eli5: '$V = L(A_1 + A_2)/2 = 50(180 + 220)/2 = 50 \\times 400/2 = 50 \\times 200 = 10{,}000$ ft$^3$. Convert: $10{,}000/27 = 370$ yd$^3$. The 10,000 yd$^3$ option is in ft$^3$, not yd$^3$ -- forgot to divide by 27. The 741 yd$^3$ option forgot to divide by 2 in the average: $50 \\times 400/27 = 741$. The 333 yd$^3$ option used only $A_1$: $50 \\times 180/27 = 333$.',
     hint: 'Average the two areas, multiply by L, then divide by 27 for yd^3.',
     steps: [
       {
@@ -1468,7 +1468,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The average end area method takes $(A_1 + A_2)/2$ as the representative cross section for the entire segment. But when $A_1$ and $A_2$ differ, the actual mid-section area $A_m$ is typically less than $(A_1 + A_2)/2$ because the cross section tapers non-linearly. The prismoidal formula accounts for this by weighting the mid-section $4\\times$. Mathematically, $(A_1 + 4A_m + A_2)/6 \\leq (A_1 + A_2)/2$ when $A_m < (A_1 + A_2)/2$, which is the typical case. Choice A is wrong -- both methods use the same $L$. Choice C is backwards -- the prismoidal formula uses $A_m$ and is more accurate. Choice D is wrong because the overestimate depends on the difference between the areas, not their absolute size.',
+    eli5: 'The average end area method takes $(A_1 + A_2)/2$ as the representative cross section for the entire segment. But when $A_1$ and $A_2$ differ, the actual mid-section area $A_m$ is typically less than $(A_1 + A_2)/2$ because the cross section tapers non-linearly. The prismoidal formula accounts for this by weighting the mid-section $4\\times$. Mathematically, $(A_1 + 4A_m + A_2)/6 \\leq (A_1 + A_2)/2$ when $A_m < (A_1 + A_2)/2$, which is the typical case. The "larger distance $L$" choice is wrong -- both methods use the same $L$. The "prismoidal ignores the mid-section" choice is backwards -- the prismoidal formula uses $A_m$ and is more accurate. The "only when both areas are very large" choice is wrong because the overestimate depends on the difference between the areas, not their absolute size.',
     hint: 'Compare the representative area used by each method. How does the actual mid-section compare to the simple average?',
     steps: [
       {
@@ -1518,7 +1518,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Average end area: $V_{avg} = 100(100 + 400)/2 = 25{,}000$ ft$^3$ $= 926$ yd$^3$. Prismoidal: $V_{prism} = 100(100 + 4 \\times 200 + 400)/6 = 100 \\times 1{,}300/6 = 21{,}667$ ft$^3$ $= 802$ yd$^3$. Correction $= 926 - 802 = 123$ yd$^3$. Choice B (0) assumes both methods give the same answer. Choice A (926) is the average end area volume itself, not the correction. Choice D (62) halved the correction for no reason.',
+    eli5: 'Average end area: $V_{avg} = 100(100 + 400)/2 = 25{,}000$ ft$^3$ $= 926$ yd$^3$. Prismoidal: $V_{prism} = 100(100 + 4 \\times 200 + 400)/6 = 100 \\times 1{,}300/6 = 21{,}667$ ft$^3$ $= 802$ yd$^3$. Correction $= 926 - 802 = 123$ yd$^3$. The 0 yd\u00b3 option assumes both methods give the same answer. The 926 yd\u00b3 option is the average end area volume itself, not the correction. The 62 yd\u00b3 option halved the correction for no reason.',
     hint: 'Compute both volumes, then subtract. The prismoidal correction is always positive (average end area overestimates).',
     steps: [
       {
@@ -1577,7 +1577,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'When soil is excavated, it expands (swells) because of loosening. When it is placed as fill and compacted, it shrinks below the original bank volume (shrinkage). So 5,000 yd$^3$ of bank cut does not produce 5,000 yd$^3$ of compacted fill. Depending on the soil, you might get only 4,250 yd$^3$ of compacted fill from 5,000 yd$^3$ of bank cut (about 15% shrinkage for typical clay). The engineer would need to borrow additional material. Choice B acknowledges soil type differences but incorrectly claims volume is unaffected. Choice C ignores the volume balance issue. Choice D is wrong because the average end area method overestimates, not gives exact volumes.',
+    eli5: 'When soil is excavated, it expands (swells) because of loosening. When it is placed as fill and compacted, it shrinks below the original bank volume (shrinkage). So 5,000 yd$^3$ of bank cut does not produce 5,000 yd$^3$ of compacted fill. Depending on the soil, you might get only 4,250 yd$^3$ of compacted fill from 5,000 yd$^3$ of bank cut (about 15% shrinkage for typical clay). The engineer would need to borrow additional material. The "different soil types but volume unaffected" choice acknowledges soil differences but incorrectly claims volume is unaffected. The "hauling cost is the only consideration" choice ignores the volume balance issue. The "average end area always gives exact volumes" choice is wrong because that method overestimates, not gives exact volumes.',
     hint: 'Excavated soil does not maintain its original volume when placed and compacted as fill.',
     steps: [
       {
@@ -1616,7 +1616,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Weights A·F: Zone A = 400(0.4) = 160; Zone B = 100(0.6) = 60; sum = 220. Fraction to A = 160/220 = 0.727, so T = 600 × 0.727 = 436 trips. Choice B is the trips to Zone B (60/220 × 600). Choice C uses attractions only (400/500). Choice D splits evenly.',
+    eli5: 'Weights A·F: Zone A = 400(0.4) = 160; Zone B = 100(0.6) = 60; sum = 220. Fraction to A = 160/220 = 0.727, so T = 600 × 0.727 = 436 trips. The 164-trip option is the trips to Zone B (60/220 × 600). The 480-trip option uses attractions only (400/500). The 300-trip option splits evenly.',
     hint: 'Weight each destination by A×F, normalize by the total, multiply by Pi.',
     steps: [
       { text: 'Zone weights:', latex: 'A_A F = 400(0.4) = 160, \\quad A_B F = 100(0.6) = 60' },
@@ -1646,7 +1646,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'A rigid slab bends like a beam and spreads each wheel load over a large area of subgrade, so the foundation strength matters less than for flexible pavement. Choice B is false (concrete carries the bending). Choice C is the opposite of slab behavior. Choice D is incorrect — there is always a subgrade.',
+    eli5: 'A rigid slab bends like a beam and spreads each wheel load over a large area of subgrade, so the foundation strength matters less than for flexible pavement. The "concrete is weaker in bending than asphalt" choice is false (concrete carries the bending). The "transmits all load directly beneath the wheel" choice is the opposite of slab behavior. The "rigid pavement has no subgrade" choice is incorrect — there is always a subgrade.',
     hint: 'How does a stiff slab spread load, and what does that imply about subgrade dependence?',
     steps: [
       { text: 'A rigid slab acts as a beam over the subgrade.', latex: null },

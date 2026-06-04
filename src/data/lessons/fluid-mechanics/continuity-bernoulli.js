@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Two steps: continuity first, then Bernoulli. From continuity, v_2 = 1.5 \u00D7 (200/100)\u00B2 = 6.0 m/s. For a horizontal pipe (z_1 = z_2), Bernoulli gives P_2 = P_1 + \u03C1/2 \u00D7 (v_1\u00B2 \u2013 v_2\u00B2) = 250,000 + 500 \u00D7 (2.25 \u2013 36) = 250,000 \u2013 16,875 = 233,125 Pa \u2248 233 kPa. Pressure drops because velocity increases \u2014 that\u2019s Bernoulli\u2019s principle. Choice B assumes no pressure change. Choice C adds instead of subtracting. Choice D over-estimates the velocity.',
+      eli5: 'Two steps: continuity first, then Bernoulli. From continuity, v_2 = 1.5 \u00D7 (200/100)\u00B2 = 6.0 m/s. For a horizontal pipe (z_1 = z_2), Bernoulli gives P_2 = P_1 + \u03C1/2 \u00D7 (v_1\u00B2 \u2013 v_2\u00B2) = 250,000 + 500 \u00D7 (2.25 \u2013 36) = 250,000 \u2013 16,875 = 233,125 Pa \u2248 233 kPa. Pressure drops because velocity increases \u2014 that\u2019s Bernoulli\u2019s principle. The 250 kPa option assumes no pressure change. The 268 kPa option adds instead of subtracting. The 214 kPa option over-estimates the velocity.',
       hint: 'Use continuity to find v_2 first, then apply Bernoulli with z_1 = z_2 (horizontal pipe). Pressure drops where velocity increases.',
       steps: [
         { text: 'Find $v_2$ from continuity:', latex: 'v_2 = v_1 \\left(\\frac{D_1}{D_2}\\right)^2 = 1.5 \\times 4 = 6.0 \\text{ m/s}' },

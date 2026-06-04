@@ -60,7 +60,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The key step is identifying K = 0.7 for fixed-pinned (one end can\'t rotate, the other can). Then KL = 3,500 mm instead of 5,000 mm \u2014 the fixed end effectively shortens the column. Choice A (1,184) comes from using K = 1.0 (pinned-pinned \u2014 ignoring the fixity). Choice C (4,935) comes from using K = 0.5 (fixed-fixed \u2014 both ends fixed, not just one). Choice D (9,870) comes from another K error or arithmetic mistake. Always read the end conditions carefully.',
+      eli5: 'The key step is identifying K = 0.7 for fixed-pinned (one end can\'t rotate, the other can). Then KL = 3,500 mm instead of 5,000 mm \u2014 the fixed end effectively shortens the column. The 1,184 kN option comes from using K = 1.0 (pinned-pinned \u2014 ignoring the fixity). The 4,935 kN option comes from using K \u2248 0.5 (fixed-fixed \u2014 both ends fixed, not just one). The 9,870 kN option comes from another K error or arithmetic mistake. Always read the end conditions carefully.',
       hint: 'One end is fixed and one is pinned. What K value does that correspond to?',
       steps: [
         { text: 'Effective length factor: $K = 0.7$ (fixed-pinned)', latex: null },
@@ -88,7 +88,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'Two things to do here: compute the critical stress AND check if Euler applies. Euler\'s formula is only valid for "long" columns where \u03C3_cr < \u03C3_y. Here KL/r = 150 (very slender), giving \u03C3_cr = 87.7 MPa, which is well below \u03C3_y = 250 MPa \u2014 so the column buckles elastically and Euler applies (choice A). Choice B has the right number but wrong conclusion. Choice C assumes the column yields first \u2014 it doesn\'t, because the buckling stress is lower than yield. Choice D comes from using KL/r = 75 instead of 150.',
+      eli5: 'Two things to do here: compute the critical stress AND check if Euler applies. Euler\'s formula is only valid for "long" columns where \u03C3_cr < \u03C3_y. Here KL/r = 150 (very slender), giving \u03C3_cr = 87.7 MPa, which is well below \u03C3_y = 250 MPa \u2014 so the column buckles elastically and Euler applies (the "87.7 MPa \u2014 Euler applies" choice). The "87.7 MPa \u2014 Euler does not apply" choice has the right number but wrong conclusion. The "250 MPa \u2014 column yields before buckling" choice assumes the column yields first \u2014 it doesn\'t, because the buckling stress is lower than yield. The "351 MPa \u2014 Euler applies" choice comes from using KL/r = 75 instead of 150.',
       hint: 'Compute KL/r first. Then find \u03C3_cr = \u03C0\u00B2E/(KL/r)\u00B2. Compare \u03C3_cr to \u03C3_y to decide if Euler applies.',
       steps: [
         { text: 'Slenderness ratio:', latex: '\\frac{KL}{r} = \\frac{1.0 \\times 6{,}000}{40} = 150' },

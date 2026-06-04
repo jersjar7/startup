@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: '$TF = LS - ES = 8 - 3 = 5$ days. Or equivalently, $TF = LF - EF = 10 - 5 = 5$ days. Both give the same answer. Choice A (2) is the duration ($EF - ES = 5 - 3 = 2$). Choice C (0) would mean it is critical \u2014 it is not. Choice D (7) subtracted wrong values ($LF - ES = 10 - 3 = 7$, but that is not the formula).',
+      eli5: '$TF = LS - ES = 8 - 3 = 5$ days. Or equivalently, $TF = LF - EF = 10 - 5 = 5$ days. Both give the same answer. The 2-day choice is the duration ($EF - ES = 5 - 3 = 2$). The 0-day choice would mean it is critical \u2014 it is not. The 7-day choice subtracted wrong values ($LF - ES = 10 - 3 = 7$, but that is not the formula).',
       hint: 'Total float = LS \u2212 ES (or LF \u2212 EF). Both formulas give the same result.',
       steps: [
         { text: 'Total float:', latex: 'TF = LS - ES = 8 - 3 = 5 \\text{ days}' },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'The critical path is the LONGEST path through the network: A\u2192B\u2192D = 15 days. This is the minimum time to complete the project. Choice B (10) is the shortest path \u2014 not critical. Choice A (12) is an intermediate path. Choice D (37) summed all paths, which makes no sense since activities overlap.',
+      eli5: 'The critical path is the LONGEST path through the network: A\u2192B\u2192D = 15 days. This is the minimum time to complete the project. A\u2192C\u2192E (10) is the shortest path \u2014 not critical. A\u2192C\u2192D (12) is an intermediate path. The "all paths, 37 days" option summed every path, which makes no sense since activities run concurrently.',
       hint: 'The critical path = the longest path = the path that takes the most time. Compare total durations.',
       steps: [
         { text: 'Path 1: A\\u2192B\\u2192D = 4 + 6 + 5 = 15 days', latex: null },
@@ -83,7 +83,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Free float $= \\min(ES_{\\text{successors}}) - EF_i = 7 - 5 = 2$ days. C can slip 2 days without pushing E\'s early start. But C\'s total float is 5 ($LS - ES = 8 - 3 = 5$). So C has 2 days of free float and 5 days of total float. The extra 3 days of total float would delay E\'s start (but not the project end). Choice B (5) is total float, not free float. Choice C (0) would mean no free slack. Choice A (3) is $TF - FF$, which is not a standard metric.',
+      eli5: 'Free float $= \\min(ES_{\\text{successors}}) - EF_i = 7 - 5 = 2$ days. C can slip 2 days without pushing E\'s early start. But C\'s total float is 5 ($LS - ES = 8 - 3 = 5$). So C has 2 days of free float and 5 days of total float. The extra 3 days of total float would delay E\'s start (but not the project end). The 5-days choice is total float, not free float. The 0-days choice would mean no free slack. The 3-days choice is $TF - FF$, which is not a standard metric.',
       hint: 'Free float = (earliest successor ES) \u2212 (your EF). It\'s always \u2264 total float.',
       steps: [
         { text: 'C feeds E. Earliest successor start: $ES_E = 7$', latex: null },

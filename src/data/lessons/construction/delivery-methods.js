@@ -77,7 +77,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'The key clues are: (1) contractor input during design \u2192 rules out DBB. (2) SEPARATE design professional \u2192 rules out DB (where one entity does both). (3) GMP \u2192 characteristic of CMAR. In CMAR, the CM joins early, advises on constructability, and later provides a GMP before construction starts. Choice B (DB) puts design and construction under one contract. Choice C (DBB) has no contractor involvement during design. Choice A is for small, repetitive maintenance work.',
+      eli5: 'The key clues are: (1) contractor input during design \u2192 rules out DBB. (2) SEPARATE design professional \u2192 rules out DB (where one entity does both). (3) GMP \u2192 characteristic of CMAR. In CMAR, the CM joins early, advises on constructability, and later provides a GMP before construction starts. Design-Build puts design and construction under one contract. Design-Bid-Build has no contractor involvement during design. Job Order Contracting is for small, repetitive maintenance work.',
       hint: 'Contractor input + separate designer + GMP = the hallmarks of CM-at-Risk.',
       steps: [
         { text: 'Contractor input during design \u2192 not DBB', latex: null },

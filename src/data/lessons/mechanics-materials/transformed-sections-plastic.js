@@ -28,7 +28,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Modular ratio n = E₁/E₂ = 29,000/3,625 = 8. Choice B is the inverse (E₂/E₁). Choice C halves it. Choice D subtracts the moduli instead of dividing.',
+      eli5: 'Modular ratio n = E₁/E₂ = 29,000/3,625 = 8. The 0.125 choice is the inverse (E₂/E₁). The 4 choice halves it. The 25,375 choice subtracts the moduli instead of dividing.',
       hint: 'n = E of stiffer material / E of softer material.',
       steps: [
         { text: 'Apply the modular-ratio definition:', latex: 'n = \\frac{E_{steel}}{E_{concrete}} = \\frac{29{,}000}{3{,}625}' },
@@ -54,7 +54,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Mp = Fy·Z = 50 ksi × 60 in³ = 3,000 kip·in. Convert to kip·ft: 3,000/12 = 250 kip·ft. Choice B forgets to convert in to ft. Choice C halves the result. Choice D would come from using an elastic S of 50 in³ then converting.',
+      eli5: 'Mp = Fy·Z = 50 ksi × 60 in³ = 3,000 kip·in. Convert to kip·ft: 3,000/12 = 250 kip·ft. The 3,000 kip·ft choice forgets to convert in to ft. The 125 kip·ft choice halves the result. The 208 kip·ft choice would come from using an elastic S of 50 in³ then converting.',
       hint: 'Mp = Fy·Z, then convert kip·in to kip·ft by dividing by 12.',
       steps: [
         { text: 'Plastic moment:', latex: 'M_p = F_y Z = 50 \\times 60 = 3{,}000\\text{ kip·in}' },
@@ -80,7 +80,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The transformed-section formulas give σ₁ = nMy/I_T for the stiffer material and σ₂ = My/I_T for the softer one. Because the stiffer material attracts more stress at the same strain, its stress carries the extra factor of n. Choice B applies to the softer material. Choice C inverts the relationship. Choice D ignores the modular ratio entirely.',
+      eli5: 'The transformed-section formulas give σ₁ = nMy/I_T for the stiffer material and σ₂ = My/I_T for the softer one. Because the stiffer material attracts more stress at the same strain, its stress carries the extra factor of n. The "equals My/I_T exactly" choice applies to the softer material. The "divided by n" choice inverts the relationship. The "independent of the modular ratio" choice ignores the modular ratio entirely.',
       hint: 'The stiffer material attracts more stress — by what factor in the transformed-section equations?',
       steps: [
         { text: 'Transformed-section stresses: σ₁ = nMy/I_T, σ₂ = My/I_T.', latex: null },

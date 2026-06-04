@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'easy',
-    eli5: 'This is a classic Rule A.1 and A.3 scenario. The engineer has professional judgment that something may be wrong, even though the specs are technically met. Specifications are minimum standards — they do not override engineering judgment when safety is at risk. Answer A is wrong because "meets spec" does not mean "safe" when professional judgment says otherwise. Answer B is a half-measure that still signs off on the inspection. Answer D skips the entire chain of command and goes public, which is premature. The right move is to push for further investigation and escalate internally if needed.',
+    eli5: 'This is a classic Rule A.1 and A.3 scenario. The engineer has professional judgment that something may be wrong, even though the specs are technically met. Specifications are minimum standards — they do not override engineering judgment when safety is at risk. Closing the report as directed is wrong because "meets spec" does not mean "safe" when professional judgment says otherwise. Adding a note but signing off as passing is a half-measure that still approves the inspection. Anonymously contacting a news reporter skips the entire chain of command and goes public, which is premature. The right move is to push for further investigation and escalate internally if needed.',
     hint: 'When professional judgment conflicts with specification compliance, which takes priority under Rule A.1?',
     steps: [
       {
@@ -81,7 +81,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Rule A.4 requires that professional reports include all relevant information and be presented objectively and truthfully. Using an outdated flood map when a current one exists is not objective — it is cherry-picking data to favor the client. The engineer knows the current map puts 40% of the lots in the floodplain, and omitting that information puts future homeowners at risk. Choice C is wrong because using outdated data when better data exists is not truthful practice. Choice B is a half-measure — a footnote does not make a misleading analysis acceptable. Choice D might feel right, but the Model Rules do not require you to quit; they require you to do the work correctly and honestly.',
+    eli5: 'Rule A.4 requires that professional reports include all relevant information and be presented objectively and truthfully. Using an outdated flood map when a current one exists is not objective — it is cherry-picking data to favor the client. The engineer knows the current map puts 40% of the lots in the floodplain, and omitting that information puts future homeowners at risk. Using the outdated map as the developer requests is wrong because relying on outdated data when better data exists is not truthful practice. Adding only a footnote is a half-measure — a footnote does not make a misleading analysis acceptable. Withdrawing entirely might feel right, but the Model Rules do not require you to quit; they require you to do the work correctly and honestly.',
     hint: 'What does Rule A.4 require about the information included in professional engineering reports?',
     steps: [
       {
@@ -136,7 +136,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Rule A.5 says that public statements must be founded on adequate knowledge and honest conviction. The PE knows site development, so speaking to grading, drainage, and access issues is fair game. But opining on chemical containment or hazardous materials risk without that expertise violates A.5 — you cannot speak authoritatively on subjects outside your competence, even if your heart is in the right place. Answer A is wrong because personal opposition is not the same as professional expertise. Answer C is too cautious — the PE can contribute within their lane. Answer D is wrong because a PE license is not a universal expert card; competence is discipline-specific.',
+    eli5: 'Rule A.5 says that public statements must be founded on adequate knowledge and honest conviction. The PE knows site development, so speaking to grading, drainage, and access issues is fair game. But opining on chemical containment or hazardous materials risk without that expertise violates A.5 — you cannot speak authoritatively on subjects outside your competence, even if your heart is in the right place. The option to testify against the change to protect the public is wrong because personal opposition is not the same as professional expertise. Declining to testify entirely is too cautious — the PE can contribute within their lane. Citing general safety concerns because any PE can speak on public safety is wrong because a PE license is not a universal expert card; competence is discipline-specific.',
     hint: 'Rule A.5 requires that public opinions be founded on what two things?',
     steps: [
       {
@@ -191,7 +191,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'This stacks Rules A.3, A.7, and A.8 on top of each other. Falsifying compaction data on a highway project is a direct public safety issue — bad compaction leads to settlement, cracking, and potential road failure. The senior engineer tried the internal route and got shut down. Three weeks is more than reasonable wait time. At this point, A.3 requires notifying the appropriate authority (the DOT) because public safety is endangered. A.8 requires reporting the junior engineer\'s violation to the licensing board. And A.7 prohibits associating with anyone engaged in fraudulent practice — by staying silent, the senior engineer becomes complicit. Answer A is wrong because internal reporting is only the first step, not the last. Answer B is wrong because three weeks with falsified data in the field is already too long. Answer D addresses only the junior engineer and ignores the firm owner\'s cover-up and the need for board notification.',
+    eli5: 'This stacks Rules A.3, A.7, and A.8 on top of each other. Falsifying compaction data on a highway project is a direct public safety issue — bad compaction leads to settlement, cracking, and potential road failure. The senior engineer tried the internal route and got shut down. Three weeks is more than reasonable wait time. At this point, A.3 requires notifying the appropriate authority (the DOT) because public safety is endangered. A.8 requires reporting the junior engineer\'s violation to the licensing board. And A.7 prohibits associating with anyone engaged in fraudulent practice — by staying silent, the senior engineer becomes complicit. The choice that says reporting to the firm owner fulfills the obligation is wrong because internal reporting is only the first step, not the last. The choice that says to give the owner more time is wrong because three weeks with falsified data in the field is already too long. The choice that says to confront the junior engineer directly addresses only the junior engineer and ignores the firm owner\'s cover-up and the need for board notification.',
     hint: 'When internal reporting fails to resolve a safety issue involving fraud, what do Rules A.3 and A.8 require as the next step?',
     steps: [
       {
@@ -250,7 +250,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: 'Rule B.2 is very specific: you cannot sign or seal documents that were not prepared under your responsible charge. "Responsible charge" means direct control and personal supervision during the work — not just a final review after the fact. The structural engineer was not involved in the design process at all. Even a thorough after-the-fact review does not satisfy the responsible charge requirement. Choice A is wrong because review is not supervision. Choice B is wrong because the principal cannot override the Model Rules. Choice C is wrong because disclosing who prepared the work does not change the fact that the signer lacked responsible charge.',
+    eli5: 'Rule B.2 is very specific: you cannot sign or seal documents that were not prepared under your responsible charge. "Responsible charge" means direct control and personal supervision during the work — not just a final review after the fact. The structural engineer was not involved in the design process at all. Even a thorough after-the-fact review does not satisfy the responsible charge requirement. The "seal after a thorough review" option is wrong because review is not supervision. The "the principal has authority to assign sealing" option is wrong because the principal cannot override the Model Rules. The "seal but add a note that the EIT prepared it" option is wrong because disclosing who prepared the work does not change the fact that the signer lacked responsible charge.',
     hint: 'What does "responsible charge" require — a final review, or direct control and personal supervision during the work?',
     steps: [
       {
@@ -305,7 +305,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'This hits Rules B.4 and B.6 at the same time. The engineer has confidential information about the landfill site from prior work at Firm A. Rule B.4 says you cannot reveal facts obtained in a professional capacity without consent. Rule B.6 says you must disclose all known or potential conflicts of interest. Choice C ignores the conflict entirely. Choice B is a direct violation of confidentiality. Choice D sounds reasonable but is impractical — the engineer cannot "unknow" what they learned, and the appearance of a conflict still exists. The only proper path is full disclosure and recusal unless everyone agrees in writing.',
+    eli5: 'This hits Rules B.4 and B.6 at the same time. The engineer has confidential information about the landfill site from prior work at Firm A. Rule B.4 says you cannot reveal facts obtained in a professional capacity without consent. Rule B.6 says you must disclose all known or potential conflicts of interest. The "proceed since the prior project had a different scope" option ignores the conflict entirely. The "use the confidential information to benefit Firm B" option is a direct violation of confidentiality. The "proceed but avoid using any Firm A information" option sounds reasonable but is impractical — the engineer cannot "unknow" what they learned, and the appearance of a conflict still exists. The only proper path is full disclosure and recusal unless everyone agrees in writing.',
     hint: 'When you carry confidential information from a prior engagement into a new assignment, which two rules are triggered?',
     steps: [
       {
@@ -360,7 +360,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Rule C.1 is specific about this: licensees shall not misrepresent or exaggerate their degree of responsibility in prior assignments, and "presentations incidental to the solicitation of employment shall not misrepresent pertinent facts." A proposal to a municipality is exactly that — a solicitation of employment. Calling yourself "lead design engineer" when you designed only the chemical feed system on a 12-person team is a clear exaggeration of responsibility. Choice A is wrong because "lead design engineer" is not subjective when it claims overall project leadership. Choice C is wrong because proposals are specifically covered by C.1. Choice D is wrong because the violation exists independently of who reports it.',
+    eli5: 'Rule C.1 is specific about this: licensees shall not misrepresent or exaggerate their degree of responsibility in prior assignments, and "presentations incidental to the solicitation of employment shall not misrepresent pertinent facts." A proposal to a municipality is exactly that — a solicitation of employment. Calling yourself "lead design engineer" when you designed only the chemical feed system on a 12-person team is a clear exaggeration of responsibility. The "No \u2014 subjective title" choice is wrong because "lead design engineer" is not subjective when it claims overall project leadership. The "marketing materials" choice is wrong because proposals are specifically covered by C.1. The "only because a competitor complained" choice is wrong because the violation exists independently of who reports it.',
     hint: 'Does Rule C.1 apply to project proposals submitted to potential clients?',
     steps: [
       {
@@ -415,7 +415,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: 'Rule B.8 is not limited to financial conflicts. It says that licensees serving on government bodies shall not participate in decisions with respect to professional services offered by a concern where the licensee has a "financial or personal interest." A close personal friendship with the firm principal is a personal interest — the engineer regularly socializes with this person. Even without a financial stake, the relationship creates an appearance of bias that B.8 is designed to prevent. Answer A is wrong because personal interest is not limited to money. Answer B is wrong for the same reason — objective evaluation is not sufficient when a personal interest exists. Answer D incorrectly narrows B.8 to financial conflicts only, which contradicts the rule\'s language.',
+    eli5: 'Rule B.8 is not limited to financial conflicts. It says that licensees serving on government bodies shall not participate in decisions with respect to professional services offered by a concern where the licensee has a "financial or personal interest." A close personal friendship with the firm principal is a personal interest — the engineer regularly socializes with this person. Even without a financial stake, the relationship creates an appearance of bias that B.8 is designed to prevent. The "evaluate objectively since there is no financial interest" choice is wrong because personal interest is not limited to money. The "vote in favor if the firm is most qualified" choice is wrong for the same reason — objective evaluation is not sufficient when a personal interest exists. The "disclose but keep participating since recusal is only for financial conflicts" choice incorrectly narrows B.8 to financial conflicts only, which contradicts the rule\'s language.',
     hint: 'Does Rule B.8 limit conflicts of interest to financial interests, or does it also cover personal interests?',
     steps: [
       {
@@ -573,7 +573,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'The "holding out" clause in the Model Law is broader than most people expect. Under section 110.20 A.3(c), you are construed to be practicing engineering if you use any title that could imply you are a licensed PE. Even though "Engineer" is used casually in many industries, in a professional context on LinkedIn — attached to an engineering firm — it creates the impression of licensure. The key is that the violation happens at the point of representation, not at the point of doing work. Answer A is wrong because context matters; attached to an engineering firm, the title implies licensure. Answer C is wrong because both the individual and the firm can be liable, but the individual bears personal responsibility for their own representations. Answer D is wrong because the violation is the representation itself, not the subsequent work.',
+    eli5: 'The "holding out" clause in the Model Law is broader than most people expect. Under section 110.20 A.3(c), you are construed to be practicing engineering if you use any title that could imply you are a licensed PE. Even though "Engineer" is used casually in many industries, in a professional context on LinkedIn — attached to an engineering firm — it creates the impression of licensure. The key is that the violation happens at the point of representation, not at the point of doing work. The "no violation, Engineer is a common title" choice is wrong because context matters; attached to an engineering firm, the title implies licensure. The "firm is solely responsible" choice is wrong because both the individual and the firm can be liable, but the individual bears personal responsibility for their own representations. The "violation only if she performs the inspection" choice is wrong because the violation is the representation itself, not the subsequent work.',
     hint: 'Does the Model Law require someone to actually perform engineering work to violate the "holding out" provisions, or is the representation itself enough?',
     steps: [
       {
@@ -628,7 +628,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'This one layers multiple violations. First, reviewing structural calculations and writing a professional opinion on their adequacy is absolutely "practice of engineering" under §110.20 A.3 — it requires engineering judgment and affects public safety. Second, her license is lapsed, which means she is not currently licensed. Third, signing as "PE (Retired)" uses a title derived from "Professional Engineer," which constitutes holding herself out as a PE under §110.20 A.3(c). It does not matter that she once held the license or that she is not using a stamp. The Model Law does not have a "retired PE" designation that allows continued practice. Choice C is wrong because the seal is not the only trigger — the engineering opinion itself is practice. Choice B is wrong because reviewing calculations for adequacy requires engineering judgment. Choice D is wrong because a disclosure does not cure unauthorized practice.',
+    eli5: 'This one layers multiple violations. First, reviewing structural calculations and writing a professional opinion on their adequacy is absolutely "practice of engineering" under §110.20 A.3 — it requires engineering judgment and affects public safety. Second, her license is lapsed, which means she is not currently licensed. Third, signing as "PE (Retired)" uses a title derived from "Professional Engineer," which constitutes holding herself out as a PE under §110.20 A.3(c). It does not matter that she once held the license or that she is not using a stamp. The Model Law does not have a "retired PE" designation that allows continued practice. The "not stamping or sealing" choice is wrong because the seal is not the only trigger — the engineering opinion itself is practice. The "reviewing another firm\'s work is not practice" choice is wrong because reviewing calculations for adequacy requires engineering judgment. The "acceptable if she discloses her license is inactive" choice is wrong because a disclosure does not cure unauthorized practice.',
     hint: 'Consider two separate issues: whether the activity constitutes practice of engineering, and whether a lapsed licensee can use any form of the PE title.',
     steps: [
       {
@@ -687,7 +687,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'easy',
-    eli5: 'The Model Law has a clear experience reduction schedule for advanced degrees. A bachelor\'s requires four years. A master\'s reduces it to three years. A doctorate (with FE passed) reduces it to two years. This engineer has a master\'s and two and a half years of experience — close, but still half a year short of the three-year requirement. Answer A is wrong because the master\'s does reduce the requirement, just not to two years. Answer C confuses the master\'s reduction (three years) with the doctorate reduction (two years). Answer D is completely wrong — no amount of education waives the experience requirement.',
+    eli5: 'The Model Law has a clear experience reduction schedule for advanced degrees. A bachelor\'s requires four years. A master\'s reduces it to three years. A doctorate (with FE passed) reduces it to two years. This engineer has a master\'s and two and a half years of experience — close, but still half a year short of the three-year requirement. The "four years regardless of the master\'s" choice is wrong because the master\'s does reduce the requirement, just not to two years. The "master\'s reduces the requirement to two years" choice confuses the master\'s reduction (three years) with the doctorate reduction (two years). The "combined education waives the experience requirement entirely" choice is completely wrong — no amount of education waives the experience requirement.',
     hint: 'How many years of experience does the Model Law require after a master\'s degree?',
     steps: [
       {
@@ -742,7 +742,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'The Model Law draws a clear line between felonies and misdemeanors. For felonies, any conviction triggers discipline — does not matter if it is related to engineering. For misdemeanors, the standard is narrower: only those that reflect on the licensee\'s ability to practice with good character, or that involve dishonesty or moral turpitude. Shoplifting is a crime of dishonesty — taking something that is not yours through deception. So even though it has nothing to do with engineering, it qualifies. Choice A is too broad — not every misdemeanor qualifies, only dishonesty-related ones. Choice C is wrong because the dishonesty exception exists. Choice B is wrong because it ignores the misdemeanor provision entirely.',
+    eli5: 'The Model Law draws a clear line between felonies and misdemeanors. For felonies, any conviction triggers discipline — does not matter if it is related to engineering. For misdemeanors, the standard is narrower: only those that reflect on the licensee\'s ability to practice with good character, or that involve dishonesty or moral turpitude. Shoplifting is a crime of dishonesty — taking something that is not yours through deception. So even though it has nothing to do with engineering, it qualifies. The "any criminal conviction is grounds" option is too broad — not every misdemeanor qualifies, only dishonesty-related ones. The "misdemeanors are not grounds unless directly related to engineering" option is wrong because the dishonesty exception exists. The "only felony convictions trigger discipline" option is wrong because it ignores the misdemeanor provision entirely.',
     hint: 'The Model Law treats felonies and misdemeanors differently. For misdemeanors, what specific characteristic makes them grounds for discipline?',
     steps: [
       {
@@ -797,7 +797,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'This scenario has two separate violations stacked on each other. First, the State A engineer is performing engineering services for a project in State B without holding a State B license — that is practicing without a license in that jurisdiction (Rule A.10 requires compliance with the laws of every jurisdiction where you practice). Second, the State B PE is being asked to seal documents they did not prepare under their responsible charge — they would just be reviewing someone else\'s completed work, which violates B.2. Answer A is wrong because a review is not responsible charge. Answer B is wrong because PE licensure is jurisdiction-specific, not nationwide. Answer D might be possible in some states, but the question asks about the described arrangement, which involves neither a temporary permit nor responsible charge.',
+    eli5: 'This scenario has two separate violations stacked on each other. First, the State A engineer is performing engineering services for a project in State B without holding a State B license — that is practicing without a license in that jurisdiction (Rule A.10 requires compliance with the laws of every jurisdiction where you practice). Second, the State B PE is being asked to seal documents they did not prepare under their responsible charge — they would just be reviewing someone else\'s completed work, which violates B.2. The "State B PE exercises responsible charge by reviewing and sealing" choice is wrong because a review is not responsible charge. The "State A license authorizes nationwide practice" choice is wrong because PE licensure is jurisdiction-specific, not nationwide. The "temporary practice permit" choice might be possible in some states, but the question asks about the described arrangement, which involves neither a temporary permit nor responsible charge.',
     hint: 'Consider two separate issues: the State A engineer practicing in State B, and the State B PE sealing work not prepared under their supervision.',
     steps: [
       {
@@ -852,7 +852,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Job titles do not determine whether someone is practicing engineering — the nature of the work does. Some of the coordinator\'s tasks are genuinely managerial: setting schedules and assigning tasks to PEs. But two activities cross the line. First, providing technical guidance on structural detailing requires engineering judgment and education — that is practice of engineering under §110.20 A.3. Second, discussing design progress with clients constitutes offering engineering services. The fact that no documents are signed or sealed is irrelevant — the Model Law defines practice broadly, and the seal is only one trigger. Under §150.10 A.9, practicing while suspended is a separate violation that can lead to permanent revocation. Choice C focuses too narrowly on sealing. Choice B ignores the technical guidance component. Choice D is wrong because supervised practice by a suspended licensee is still unauthorized practice.',
+    eli5: 'Job titles do not determine whether someone is practicing engineering — the nature of the work does. Some of the coordinator\'s tasks are genuinely managerial: setting schedules and assigning tasks to PEs. But two activities cross the line. First, providing technical guidance on structural detailing requires engineering judgment and education — that is practice of engineering under §110.20 A.3. Second, discussing design progress with clients constitutes offering engineering services. The fact that no documents are signed or sealed is irrelevant — the Model Law defines practice broadly, and the seal is only one trigger. Under §150.10 A.9, practicing while suspended is a separate violation that can lead to permanent revocation. The "not signing or sealing documents" choice focuses too narrowly on sealing. The "purely managerial" choice ignores the technical guidance component. The "depends on whether other PEs are supervising" choice is wrong because supervised practice by a suspended licensee is still unauthorized practice.',
     hint: 'Does the Model Law definition of "practice of engineering" require signing and sealing documents, or does it cover any service requiring engineering judgment?',
     steps: [
       {
@@ -911,7 +911,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Patents give the holder exclusive rights to the invention for 20 years, regardless of whether someone else independently comes up with the same thing. That is the core trade-off of the patent system: you publicly disclose your invention, and in return, nobody else can make, use, or sell it without your permission. Independent development is NOT a defense for patents — that defense only works for trade secrets. Choice B confuses the patent rule with the trade-secret rule. Choice C is wrong because two people arriving at the same design does not invalidate a patent. Choice D invents a sharing concept that does not exist in patent law.',
+    eli5: 'Patents give the holder exclusive rights to the invention for 20 years, regardless of whether someone else independently comes up with the same thing. That is the core trade-off of the patent system: you publicly disclose your invention, and in return, nobody else can make, use, or sell it without your permission. Independent development is NOT a defense for patents — that defense only works for trade secrets. The "independent development is a valid defense" choice confuses the patent rule with the trade-secret rule. The "patent is invalid" choice is wrong because two people arriving at the same design does not invalidate a patent. The "both firms share equal rights" choice invents a sharing concept that does not exist in patent law.',
     hint: 'Think about what distinguishes a patent from a trade secret. Which one protects against independent discovery?',
     steps: [
       {
@@ -927,7 +927,7 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'Choice B describes the trade-secret rule, not the patent rule. Choice C and D misunderstand how patent validity works.',
+        text: 'The choice "Independent development is a valid defense against patent infringement" describes the trade-secret rule, not the patent rule. The choices claiming the patent is invalid or that both firms share equal rights misunderstand how patent validity works.',
         latex: null
       }
     ],
@@ -966,7 +966,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Copyright belongs to the creator of the original work unless there is a written agreement transferring ownership, or the work qualifies as "work for hire" under specific conditions. When a firm is an independent contractor (not an employee of the municipality), the default is that the firm retains copyright to its own documents. The municipality paid for the service, not the IP rights. Choice A is the most common misconception — paying for work does not automatically transfer copyright. Choice C invents a default sharing arrangement that does not exist. Choice D is flat wrong — engineering drawings, reports, and calculations are copyrightable works of authorship.',
+    eli5: 'Copyright belongs to the creator of the original work unless there is a written agreement transferring ownership, or the work qualifies as "work for hire" under specific conditions. When a firm is an independent contractor (not an employee of the municipality), the default is that the firm retains copyright to its own documents. The municipality paid for the service, not the IP rights. The "municipality, because they paid for the work" option is the most common misconception — paying for work does not automatically transfer copyright. The "share ownership equally" option invents a default sharing arrangement that does not exist. The "cannot be copyrighted" option is flat wrong — engineering drawings, reports, and calculations are copyrightable works of authorship.',
     hint: 'Copyright belongs to the author by default. Paying someone to create a work does not automatically transfer the copyright unless the contract says so.',
     steps: [
       {
@@ -1021,7 +1021,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Sustainable engineering is about the triple bottom line: economic viability, environmental protection, and social benefit. Option B hits all three — it is affordable (not the cheapest, but feasible), reduces downstream flooding (social benefit), and improves water quality (environmental benefit). Option A only optimizes for cost, ignoring environmental and social impact. Option C sounds good, but "most expensive = most sustainable" is not a valid principle — sustainability requires economic feasibility too. Choice D dodges the question entirely; simply managing stormwater is not the same as doing it sustainably.',
+    eli5: 'Sustainable engineering is about the triple bottom line: economic viability, environmental protection, and social benefit. Option B hits all three — it is affordable (not the cheapest, but feasible), reduces downstream flooding (social benefit), and improves water quality (environmental benefit). Option A only optimizes for cost, ignoring environmental and social impact. Option C sounds good, but "most expensive = most sustainable" is not a valid principle — sustainability requires economic feasibility too. The "all three are equally sustainable" option dodges the question entirely; simply managing stormwater is not the same as doing it sustainably.',
     hint: 'Sustainable engineering balances three pillars: economic, environmental, and social. Which option addresses all three without ignoring any?',
     steps: [
       {
@@ -1076,11 +1076,11 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'Trade-secret protection hinges on the owner taking reasonable steps to keep the information confidential. The single most critical piece of evidence is a written confidentiality or non-disclosure agreement (NDA). Without an NDA, the firm has a much weaker case because they failed to demonstrate that they treated the technique as a secret. The FE Handbook specifically states that trade secrets "require a written agreement between parties" for protection. Choice B is wrong because filing a patent would mean publicly disclosing the technique — you cannot have both a patent and a trade secret for the same thing. Choice C is irrelevant because trade-secret rights belong to the firm, not individual inventors. Choice D (geographic market) is not a factor in trade-secret law.',
+    eli5: 'Trade-secret protection hinges on the owner taking reasonable steps to keep the information confidential. The single most critical piece of evidence is a written confidentiality or non-disclosure agreement (NDA). Without an NDA, the firm has a much weaker case because they failed to demonstrate that they treated the technique as a secret. The FE Handbook specifically states that trade secrets "require a written agreement between parties" for protection. The patent-filing choice is wrong because filing a patent would mean publicly disclosing the technique — you cannot have both a patent and a trade secret for the same thing. The sole-inventor choice is irrelevant because trade-secret rights belong to the firm, not individual inventors. The geographic-market choice is not a factor in trade-secret law.',
     hint: 'Trade secrets require the owner to take reasonable measures to maintain secrecy. What is the most concrete evidence of that effort?',
     steps: [
       {
-        text: 'Trade-secret protection requires: (1) the information provides competitive advantage, (2) the owner took reasonable steps to maintain its secrecy, and (3) a written agreement exists between the parties.',
+        text: 'Trade-secret protection requires: (1) the information provides competitive advantage, (2) the owner took reasonable steps to maintain its secrecy, and (3) the secrecy obligation is documented, most directly via a written confidentiality/non-disclosure agreement.',
         latex: null
       },
       {
@@ -1092,11 +1092,11 @@ const PROBLEMS = [
         latex: null
       },
       {
-        text: 'Choice B is a contradiction: filing a patent means publicly disclosing the technique, which destroys trade-secret status.',
+        text: 'The patent-filing choice is a contradiction: filing a patent means publicly disclosing the technique, which destroys trade-secret status.',
         latex: null
       },
       {
-        text: 'Choice C misplaces ownership. In employment contexts, the firm typically owns trade secrets developed on the job, not the individual engineer.',
+        text: 'The sole-inventor choice misplaces ownership. In employment contexts, the firm typically owns trade secrets developed on the job, not the individual engineer.',
         latex: null
       }
     ],
@@ -1153,7 +1153,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Consideration — value exchanged by BOTH sides — is a required element of a contract. A one-sided promise (essentially a gift) is not enforceable as a contract no matter how it is signed. Choice B overstates the power of a signature, Choice C ignores the mutual-exchange requirement, and Choice D is wrong because notarization is not a formation element.',
+    eli5: 'Consideration — value exchanged by BOTH sides — is a required element of a contract. A one-sided promise (essentially a gift) is not enforceable as a contract no matter how it is signed. The "a signed written agreement is always binding" option overstates the power of a signature, the "as long as one party performs" option ignores the mutual-exchange requirement, and the "not notarized" option is wrong because notarization is not a formation element.',
     hint: 'Which required element is missing when only one side gives value?',
     steps: [
       { text: 'A valid contract needs consideration from both parties.', latex: null },
@@ -1183,7 +1183,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Engineers are judged against the standard of care, not against perfection. If the design met what a reasonably competent engineer would have done, negligence is generally not established even though a problem later appeared. Choice B assumes any failure equals liability, Choice C imports intent (not required for negligence), and Choice D wrongly treats engineers as guarantors.',
+    eli5: 'Engineers are judged against the standard of care, not against perfection. If the design met what a reasonably competent engineer would have done, negligence is generally not established even though a problem later appeared. The "automatically liable because the wall settled" choice assumes any failure equals liability, the "liable only if intent is proven" choice imports intent (not required for negligence), and the "engineers guarantee their designs" choice wrongly treats engineers as guarantors.',
     hint: 'Engineers are not guarantors — what benchmark actually determines negligence?',
     steps: [
       { text: 'Liability for negligence turns on the standard of care.', latex: null },
@@ -1213,7 +1213,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Negligence requires all four elements: duty, breach, causation, and damages. Without causation linking the breach to actual measurable harm, the claim fails even if duty and breach are clear. Choice B drops two elements, Choice C wrongly removes causation, and Choice D misstates the reason (intent is not a negligence element at all).',
+    eli5: 'Negligence requires all four elements: duty, breach, causation, and damages. Without causation linking the breach to actual measurable harm, the claim fails even if duty and breach are clear. The "duty and breach is sufficient" option drops two elements, the "causation is not part of a negligence claim" option wrongly removes causation, and the "only because intent was not shown" option misstates the reason (intent is not a negligence element at all).',
     hint: 'How many elements must a negligence plaintiff prove, and is causation one of them?',
     steps: [
       { text: 'Negligence elements: duty, breach, causation, damages.', latex: null },

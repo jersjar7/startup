@@ -27,7 +27,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'A rigid slab is stiff and bends like a beam, spreading each wheel load over a wide area of subgrade — so it depends less on subgrade strength. Choice B describes flexible (asphalt) pavement. Choice C is the opposite of what a slab does. Choice D is incorrect — load still reaches the subgrade, just spread out.',
+      eli5: 'A rigid slab is stiff and bends like a beam, spreading each wheel load over a wide area of subgrade — so it depends less on subgrade strength. The "flexing and transmitting load through granular layers" option describes flexible (asphalt) pavement. The "concentrating the load directly beneath the wheel" option is the opposite of what a slab does. The "does not transmit load to the subgrade at all" option is incorrect — load still reaches the subgrade, just spread out.',
       hint: 'A stiff slab behaves like a beam; flexible pavement behaves like layered granular material.',
       steps: [
         { text: 'Flexible pavement spreads load down through its layers.', latex: null },
@@ -54,7 +54,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Dowel bars span a transverse joint and transfer wheel load from one slab to the next, reducing faulting, while still letting the slabs expand and contract. Choice B describes tie bars (which hold longitudinal joints closed). Choice C confuses dowels with reinforcement. Choice D is the job of joint sealant, not dowels.',
+      eli5: 'Dowel bars span a transverse joint and transfer wheel load from one slab to the next, reducing faulting, while still letting the slabs expand and contract. "Bond the slabs together so they cannot move" describes tie bars (which hold longitudinal joints closed). "Increase the concrete\'s compressive strength" confuses dowels with reinforcement. "Waterproof the joint" is the job of joint sealant, not dowels.',
       hint: 'Dowels handle load transfer across a joint — do they lock the slabs or let them move?',
       steps: [
         { text: 'Slabs must be free to expand and contract at joints.', latex: null },
@@ -81,7 +81,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The modulus of subgrade reaction k is the foundation stiffness — pressure per unit deflection (e.g., pci) — describing how firmly the subgrade supports the slab. Choice B is the concrete’s modulus of rupture. Choice C is a thickness, not a stiffness. Choice D is the ESAL traffic measure.',
+      eli5: 'The modulus of subgrade reaction k is the foundation stiffness — pressure per unit deflection (e.g., pci) — describing how firmly the subgrade supports the slab. The flexural-strength option is the concrete’s modulus of rupture. The total-thickness option is a thickness, not a stiffness. The equivalent-single-axle-loads option is the ESAL traffic measure.',
       hint: 'k describes how stiff the foundation is: how much pressure for how much deflection?',
       steps: [
         { text: 'k relates subgrade pressure to deflection.', latex: null },

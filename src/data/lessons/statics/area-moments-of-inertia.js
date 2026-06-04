@@ -79,7 +79,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'easy',
-      eli5: 'For a rectangle, the centroidal moment of inertia is $bh^3/12$. The key is using the correct dimension for $h$ \u2014 it is the dimension perpendicular to the axis you are computing about. For $I_x$, $h$ is the height (300 mm) and $b$ is the width (150 mm). Answer B ($1.35 \\times 10^9$) uses $bh^3/3$ instead of $bh^3/12$ \u2014 that is the moment of inertia about the base, not the centroid. Answer C ($8.44 \\times 10^7$) swaps $b$ and $h$, computing $b^3h/12$ (moment of inertia about the vertical centroidal axis instead). Answer A doubles the correct value.',
+      eli5: 'For a rectangle, the centroidal moment of inertia is $bh^3/12$. The key is using the correct dimension for $h$ \u2014 it is the dimension perpendicular to the axis you are computing about. For $I_x$, $h$ is the height (300 mm) and $b$ is the width (150 mm). The choice $1.35 \\times 10^9$ uses $bh^3/3$ instead of $bh^3/12$ \u2014 that is the moment of inertia about the base, not the centroid. The choice $8.44 \\times 10^7$ swaps $b$ and $h$, computing $b^3h/12$ (moment of inertia about the vertical centroidal axis instead). The choice $6.75 \\times 10^8$ doubles the correct value.',
       hint: 'For a rectangle, $I_{xc} = bh^3/12$. Make sure $h$ is the dimension perpendicular to the axis.',
       steps: [
         {
@@ -91,11 +91,11 @@ export default {
           latex: 'I_{xc} = \\frac{bh^3}{12} = \\frac{150 \\times 300^3}{12} = \\frac{150 \\times 27{,}000{,}000}{12} = 3.375 \\times 10^8 \\text{ mm}^4',
         },
         {
-          text: 'Answer B uses $bh^3/3 = 1.35 \\times 10^9$, which is the moment of inertia about the base edge, not the centroid.',
+          text: 'The choice $1.350 \\times 10^9$ uses $bh^3/3$, which is the moment of inertia about the base edge, not the centroid.',
           latex: null,
         },
         {
-          text: 'Answer C uses $b^3h/12 = 150^3 \\times 300/12 = 8.44 \\times 10^7$, which is $I_y$ (about the vertical axis), not $I_x$.',
+          text: 'The choice $8.44 \\times 10^7$ uses $b^3h/12 = 150^3 \\times 300/12$, which is $I_y$ (about the vertical axis), not $I_x$.',
           latex: null,
         },
       ],
@@ -120,7 +120,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The parallel axis theorem says $I = I_c + Ad^2$. First find the centroidal moment of inertia: $I_c = 50 \\times 100^3/12 = 4.17 \\times 10^6$. Then add the transfer term: $Ad^2 = (50 \\times 100)(50^2) = 12.50 \\times 10^6$. Total: $16.67 \\times 10^6$ mm\u2074. Answer A ($4.17 \\times 10^6$) is just $I_c$ \u2014 it forgets the $Ad^2$ transfer term entirely. Answer C ($12.50 \\times 10^6$) is the $Ad^2$ term alone without the centroidal $I_c$. These two errors are the most common parallel axis theorem mistakes on the FE.',
+      eli5: 'The parallel axis theorem says $I = I_c + Ad^2$. First find the centroidal moment of inertia: $I_c = 50 \\times 100^3/12 = 4.17 \\times 10^6$. Then add the transfer term: $Ad^2 = (50 \\times 100)(50^2) = 12.50 \\times 10^6$. Total: $16.67 \\times 10^6$ mm\u2074. The $4.17 \\times 10^6$ choice is just $I_c$ \u2014 it forgets the $Ad^2$ transfer term entirely. The $12.50 \\times 10^6$ choice is the $Ad^2$ term alone without the centroidal $I_c$. These two errors are the most common parallel axis theorem mistakes on the FE.',
       hint: 'The distance $d$ from the centroid to the base is half the height. Do not forget either term \u2014 both $I_c$ and $Ad^2$ contribute.',
       steps: [
         {
@@ -165,7 +165,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'For each piece, compute its own centroidal $I$ and then transfer it to the composite centroidal axis using the parallel axis theorem. The web\u2019s centroid is 30 mm below the composite centroid, and the flange\u2019s centroid is 20 mm above it. Add both transferred moments: $I = (I_{c,web} + A_{web} d_{web}^2) + (I_{c,flange} + A_{flange} d_{flange}^2) = 2.29 \\times 10^6 + 1.04 \\times 10^6 = 3.33 \\times 10^6$ mm\u2074. Answer A ($0.93 \\times 10^6$) adds only the centroidal $I$ values without the $Ad^2$ transfer terms \u2014 the single most common parallel axis theorem mistake. Answer B ($2.40 \\times 10^6$) includes only the $Ad^2$ terms without the centroidal $I$ values.',
+      eli5: 'For each piece, compute its own centroidal $I$ and then transfer it to the composite centroidal axis using the parallel axis theorem. The web\u2019s centroid is 30 mm below the composite centroid, and the flange\u2019s centroid is 20 mm above it. Add both transferred moments: $I = (I_{c,web} + A_{web} d_{web}^2) + (I_{c,flange} + A_{flange} d_{flange}^2) = 2.29 \\times 10^6 + 1.04 \\times 10^6 = 3.33 \\times 10^6$ mm\u2074. The $0.93 \\times 10^6$ choice adds only the centroidal $I$ values without the $Ad^2$ transfer terms \u2014 the single most common parallel axis theorem mistake. The $2.40 \\times 10^6$ choice includes only the $Ad^2$ terms without the centroidal $I$ values.',
       hint: 'Apply the parallel axis theorem to each piece separately: $I_{piece} = I_{c,piece} + A_{piece} \\times d_{piece}^2$, where $d$ is the distance from that piece\u2019s centroid to the composite centroid.',
       steps: [
         {
@@ -181,7 +181,7 @@ export default {
           latex: 'I_x = 2{,}293{,}333 + 1{,}040{,}000 = 3{,}333{,}333 \\approx 3.33 \\times 10^6 \\text{ mm}^4',
         },
         {
-          text: 'Answer B adds only the centroidal values: $853{,}333 + 80{,}000 = 933{,}333$. This misses the $Ad^2$ terms, which account for most of the composite $I$.',
+          text: 'The $0.93 \\times 10^6$ distractor adds only the centroidal values: $853{,}333 + 80{,}000 = 933{,}333$. This misses the $Ad^2$ terms, which account for most of the composite $I$. The $2.40 \\times 10^6$ distractor instead sums only the $Ad^2$ transfer terms ($1{,}440{,}000 + 960{,}000$) and drops the centroidal $I$ values.',
           latex: null,
         },
       ],

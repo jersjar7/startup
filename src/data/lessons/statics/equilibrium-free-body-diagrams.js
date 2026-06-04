@@ -63,7 +63,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'Sum moments about point A to eliminate both reactions at A. The only forces creating moments about A are the 12 kN load at 3 m and the roller reaction at B at 8 m. Set the sum to zero: $12 \\times 3 = B_y \\times 8$, so $B_y = 4.5$ kN. Answer B (7.5 kN) is the reaction at support A, not B \u2014 a classic trap where you solve correctly but report the wrong support. Answer A (6.0 kN) splits the load in half, which would only be right if the load were at midspan. Answer D puts the entire load on one support, ignoring equilibrium entirely.',
+      eli5: 'Sum moments about point A to eliminate both reactions at A. The only forces creating moments about A are the 12 kN load at 3 m and the roller reaction at B at 8 m. Set the sum to zero: $12 \\times 3 = B_y \\times 8$, so $B_y = 4.5$ kN. The 7.5 kN choice is the reaction at support A, not B \u2014 a classic trap where you solve correctly but report the wrong support. The 6.0 kN choice splits the load in half, which would only be right if the load were at midspan. The 12.0 kN choice puts the entire load on one support, ignoring equilibrium entirely.',
       hint: 'Sum moments about the pin support to eliminate two unknowns at once. Be sure to report the reaction at B, not A.',
       steps: [
         {
@@ -83,7 +83,7 @@ export default {
           latex: 'B_y = \\frac{36}{8} = 4.5 \\text{ kN}',
         },
         {
-          text: 'Check: $A_y = 12 - 4.5 = 7.5$ kN. Answer B is the reaction at A, not B.',
+          text: 'Check: $A_y = 12 - 4.5 = 7.5$ kN. The 7.5 kN choice is the reaction at A, not B.',
           latex: null,
         },
       ],
@@ -108,7 +108,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'A distributed load of 3 kN/m over 4 m has a total force of $3 \\times 4 = 12$ kN, acting at the centroid of the load (midpoint of the beam = 2 m from the support). The vertical reaction equals the total load (12 kN). The fixed-end moment resists the moment of that resultant about the support: $M = 12 \\times 2 = 24$ kN\\cdot m. Answer B (48 kN\\cdot m) uses the full beam length (4 m) as the moment arm instead of the centroid distance (2 m). Answer C uses half the load as if only half the beam were loaded. Answer D gets the reaction right but uses 1 m instead of 2 m for the moment arm.',
+      eli5: 'A distributed load of 3 kN/m over 4 m has a total force of $3 \\times 4 = 12$ kN, acting at the centroid of the load (midpoint of the beam = 2 m from the support). The vertical reaction equals the total load (12 kN). The fixed-end moment resists the moment of that resultant about the support: $M = 12 \\times 2 = 24$ kN\\cdot m. The 48 kN\\cdot m choice uses the full beam length (4 m) as the moment arm instead of the centroid distance (2 m). The $R_y = 6$ kN, $M = 12$ kN\\cdot m choice uses half the load as if only half the beam were loaded. The $R_y = 12$ kN, $M = 12$ kN\\cdot m choice gets the reaction right but uses 1 m instead of 2 m for the moment arm.',
       hint: 'Replace the distributed load with its resultant (total force at the centroid). Where does the centroid of a uniform load act?',
       steps: [
         {
@@ -124,7 +124,7 @@ export default {
           latex: 'M = W \\times \\bar{x} = 12 \\times 2 = 24 \\text{ kN}{\\cdot}\\text{m}',
         },
         {
-          text: 'Answer B (48 kN\\cdot m) uses the full length 4 m as the moment arm: $12 \\times 4 = 48$. The resultant acts at the centroid (2 m), not at the tip.',
+          text: 'The choice $R_y = 12$ kN, $M = 48$ kN\\cdot m uses the full length 4 m as the moment arm: $12 \\times 4 = 48$. The resultant acts at the centroid (2 m), not at the tip.',
           latex: null,
         },
       ],
@@ -149,7 +149,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'This problem has both a force and a couple (pure moment). The couple has no net force \u2014 it only shows up in the moment equation, not the force equations. Sum moments about A to find $B_y$ first: the 20 kN load at 4 m creates a clockwise moment of 80, and the CCW couple adds 10 in the opposite direction. So $B_y = (80 - 10)/10 = 7$ kN. Then from $\\sum F_y = 0$: $A_y = 20 - 7 = 13$ kN. Answer A (12.0 kN) ignores the couple entirely: $20 \\times 6 / 10 = 12$. Answer C (11.0 kN) gets the couple sign wrong, subtracting it from the wrong side.',
+      eli5: 'This problem has both a force and a couple (pure moment). The couple has no net force \u2014 it only shows up in the moment equation, not the force equations. Sum moments about A to find $B_y$ first: the 20 kN load at 4 m creates a clockwise moment of 80, and the CCW couple adds 10 in the opposite direction. So $B_y = (80 - 10)/10 = 7$ kN. Then from $\\sum F_y = 0$: $A_y = 20 - 7 = 13$ kN. The 12.0 kN choice ignores the couple entirely: $20 \\times 6 / 10 = 12$. The 11.0 kN choice gets the couple sign wrong, subtracting it from the wrong side.',
       hint: 'A couple contributes to the moment equation but not to the force equations. Sum moments about one support, then use $\\sum F_y = 0$ to find the other reaction.',
       steps: [
         {

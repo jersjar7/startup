@@ -30,7 +30,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'v = \u221A[2(P_0 \u2013 P_s)/\u03C1] = \u221A[2 \u00D7 25,000/1,000] = \u221A50 = 7.07 m/s. The pressure difference is 125 \u2013 100 = 25 kPa = 25,000 Pa. Choice B forgets the factor of 2 under the root. Choice C doesn\u2019t convert kPa to Pa. Choice D takes the square root of just the pressure difference without dividing by density.',
+      eli5: 'v = \u221A[2(P_0 \u2013 P_s)/\u03C1] = \u221A[2 \u00D7 25,000/1,000] = \u221A50 = 7.07 m/s. The pressure difference is 125 \u2013 100 = 25 kPa = 25,000 Pa. The 5.0 m/s choice forgets the factor of 2 under the root: \u221a(25,000/1,000) = \u221a25 = 5.0. The 0.224 m/s choice fails to convert kPa to Pa, using 25 instead of 25,000: \u221a(2\u00d725/1,000) = \u221a0.05 = 0.224. The 50 m/s choice mis-scales the units (it is not the result of any correct partial step).',
       hint: 'Convert kPa to Pa before plugging into the formula. Don\u2019t forget the factor of 2.',
       steps: [
         { text: 'Pressure difference:', latex: 'P_0 - P_s = 125 - 100 = 25 \\text{ kPa} = 25{,}000 \\text{ Pa}' },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'A_1 = \u03C0(0.2)\u00B2/4 = 0.03142 m\u00B2. A_2 = \u03C0(0.1)\u00B2/4 = 0.007854 m\u00B2. Pressure head = \u0394P/\u03B3 = 40,000/9,810 = 4.077 m. Area ratio term: 1 \u2013 (A_2/A_1)\u00B2 = 1 \u2013 (0.007854/0.03142)\u00B2 = 1 \u2013 0.0625 = 0.9375. Under the root: 2g \u00D7 4.077/0.9375 = 19.62 \u00D7 4.348 = 85.31. So \u221A85.31 = 9.236. Q = 0.98 \u00D7 0.007854 \u00D7 9.236 = 0.0711 m\u00B3/s. Choice A omits the coefficient. Choice C uses A_2/A_1 to the first power instead of squared. Choice D uses A_1 instead of A_2.',
+      eli5: 'A_1 = \u03C0(0.2)\u00B2/4 = 0.03142 m\u00B2. A_2 = \u03C0(0.1)\u00B2/4 = 0.007854 m\u00B2. Pressure head = \u0394P/\u03B3 = 40,000/9,810 = 4.077 m. Area ratio term: 1 \u2013 (A_2/A_1)\u00B2 = 1 \u2013 (0.007854/0.03142)\u00B2 = 1 \u2013 0.0625 = 0.9375. Under the root: 2g \u00D7 4.077/0.9375 = 19.62 \u00D7 4.348 = 85.31. So \u221A85.31 = 9.236. Q = 0.98 \u00D7 0.007854 \u00D7 9.236 = 0.0711 m\u00B3/s. The 0.0721 m\u00b3/s choice omits the velocity coefficient (drops C_v). The 0.0180 m\u00b3/s choice uses A_2/A_1 to the first power instead of squared in the denominator. The 0.282 m\u00b3/s choice mistakenly uses A_1 instead of A_2 as the metering area.',
       hint: 'Convert the pressure difference to head (\u0394P/\u03B3) and use the throat area A_2 in the formula. Don\u2019t forget the area ratio correction in the denominator.',
       steps: [
         { text: 'Throat area:', latex: 'A_2 = \\frac{\\pi(0.1)^2}{4} = 7.854 \\times 10^{-3} \\text{ m}^2' },
@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'A_0 = \u03C0(0.05)\u00B2/4 = 0.001963 m\u00B2. \u0394P/\u03B3 = 30,000/9,810 = 3.058 m. Under the root: 2g \u00D7 3.058 / 0.9375 = 19.62 \u00D7 3.262 = 64.02. \u221A64.02 = 8.00. Q = 0.62 \u00D7 0.001963 \u00D7 8.00 = 0.00974 m\u00B3/s. Choice B uses C = 1.0. Choice A uses the pipe area instead of the orifice area. Choice D uses C = 0.62 but drops the area ratio correction.',
+      eli5: 'A_0 = \u03C0(0.05)\u00B2/4 = 0.001963 m\u00B2. \u0394P/\u03B3 = 30,000/9,810 = 3.058 m. Under the root: 2g \u00D7 3.058 / 0.9375 = 19.62 \u00D7 3.262 = 64.02. \u221A64.02 = 8.00. Q = 0.62 \u00D7 0.001963 \u00D7 8.00 = 0.00974 m\u00B3/s. The 0.01539 m\u00b3/s distractor uses C = 1.0. The 0.0382 m\u00b3/s distractor uses the pipe area instead of the orifice area. The 0.00591 m\u00b3/s distractor uses C = 0.62 but drops the area ratio correction.',
       hint: 'Same formula structure as the venturi, but with the orifice area A_0 and the orifice coefficient C. The area ratio correction will be given.',
       steps: [
         { text: 'Orifice area:', latex: 'A_0 = \\frac{\\pi(0.05)^2}{4} = 1.963 \\times 10^{-3} \\text{ m}^2' },

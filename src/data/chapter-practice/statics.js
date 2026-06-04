@@ -15,7 +15,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'medium',
     eli5:
-      'Sum the components by axis. Along x: $120 - 30 = 90$ N. Along y: $120$ N. The resultant is $R = \\sqrt{90^2 + 120^2} = 150$ N (a 3-4-5 triple scaled by 30), and the angle from the horizontal is $\\arctan(120/90) = 53.1\\degree$. Choice A adds all three magnitudes ($120 + 120 + 30 = 270$), which is invalid for non-collinear forces. Choice C has the correct magnitude but uses $\\arctan(90/120) = 36.9\\degree$, the angle from the vertical. Choice D forgets to subtract the $30$ N opposing force, using $R_x = 120$ alone is not the slip here — it instead reports only the corrected $R_x$ as the magnitude.',
+      'Sum the components by axis. Along x: $120 - 30 = 90$ N. Along y: $120$ N. The resultant is $R = \\sqrt{90^2 + 120^2} = 150$ N (a 3-4-5 triple scaled by 30), and the angle from the horizontal is $\\arctan(120/90) = 53.1\\degree$. The 270 N option adds all three magnitudes ($120 + 120 + 30 = 270$), which is invalid for non-collinear forces. The 150 N at $36.9\\degree$ option has the correct magnitude but uses $\\arctan(90/120) = 36.9\\degree$, the angle measured from the vertical instead of the horizontal. The 90 N at $53.1\\degree$ option has the correct angle but mistakes the x-component $R_x = 90$ N for the full resultant, forgetting to combine it with $R_y = 120$ N.',
     hint: 'Add components by axis first ($R_x = \\sum F_x$, $R_y = \\sum F_y$), then combine with the Pythagorean theorem.',
     steps: [
       {
@@ -60,7 +60,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'medium',
     eli5:
-      'The fastest route is the scalar cross product $M_z = x F_y - y F_x$. Resolve the force: $F_x = 200\\cos 30\\degree = 173.2$ N, $F_y = 200\\sin 30\\degree = 100$ N. Then $M_z = (4)(100) - (3)(173.2) = 400 - 519.6 = -119.6$ N$\\cdot$m, where the negative sign means clockwise. Choice A keeps only the $x F_y$ term ($400$) and drops $y F_x$. Choice B keeps only the $y F_x$ term ($519.6$). Choice D swaps the trig functions, using $F_x = 100$ and $F_y = 173.2$ to get $(4)(173.2) - (3)(100) = 392.8$.',
+      'The fastest route is the scalar cross product $M_z = x F_y - y F_x$. Resolve the force: $F_x = 200\\cos 30\\degree = 173.2$ N, $F_y = 200\\sin 30\\degree = 100$ N. Then $M_z = (4)(100) - (3)(173.2) = 400 - 519.6 = -119.6$ N$\\cdot$m, where the negative sign means clockwise. The $400$ N$\\cdot$m counterclockwise choice keeps only the $x F_y$ term ($400$) and drops $y F_x$. The $519.6$ N$\\cdot$m clockwise choice keeps only the $y F_x$ term ($519.6$). The $392.8$ N$\\cdot$m counterclockwise choice swaps the trig functions, using $F_x = 100$ and $F_y = 173.2$ to get $(4)(173.2) - (3)(100) = 392.8$.',
     hint: 'Use $M_z = x F_y - y F_x$. Resolve the force into components first, then apply both terms.',
     steps: [
       {
@@ -105,7 +105,7 @@ const PROBLEMS = [
     correctAnswerId: 'c4',
     difficulty: 'medium',
     eli5:
-      'Sum moments about B to find the other reaction, then use vertical equilibrium. Taking moments about A: $B_y(8) - 10(10) = 0$, so $B_y = 12.5$ kN. Then $\\sum F_y = 0$: $A_y + 12.5 - 10 = 0$, giving $A_y = -2.5$ kN, i.e. $2.5$ kN downward. The overhang load actually pulls the pin down (it acts as a tie-down). Choice A reports $B_y$ instead of $A_y$. Choice B splits the load evenly, valid only for a midspan load between the supports. Choice C has the right magnitude but the wrong direction — the sign matters here because an overhang can reverse the reaction.',
+      'Sum moments about B to eliminate $B_y$ and find $A_y$ directly, or sum moments about A to find $B_y$ first. Taking moments about A: $B_y(8) - 10(10) = 0$, so $B_y = 12.5$ kN. Then $\\sum F_y = 0$: $A_y + 12.5 - 10 = 0$, giving $A_y = -2.5$ kN, i.e. $2.5$ kN downward. The overhang load actually pulls the pin down (it acts as a tie-down). The 12.5 kN upward choice reports $B_y$ instead of $A_y$. The 5.0 kN choice splits the load evenly, valid only for a midspan load between the supports. The 2.5 kN upward choice has the right magnitude but the wrong direction — the sign matters here because an overhang can reverse the reaction.',
     hint: 'Sum moments about B to get $B_y$, then apply $\\sum F_y = 0$. Watch the sign — an overhang load can produce a downward reaction.',
     steps: [
       {
@@ -146,7 +146,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'medium',
     eli5:
-      'Sum moments about the hinge A so the pin reactions drop out. The weight acts at the $2$ m tip (clockwise), and the cable tension provides a counterclockwise moment through its vertical component $T\\sin 30\\degree$ acting at the $2$ m tip. The horizontal component of the cable passes along the bar through... it acts at the tip too, but its line of action is horizontal through A-level, so its moment arm about A is zero (the bar is horizontal). So $T\\sin 30\\degree (2) = 600(2)$, giving $T = 600/\\sin 30\\degree = 1{,}200$ N. Choice C uses $\\cos 30\\degree$ instead of $\\sin 30\\degree$ ($600/\\cos 30\\degree = 692.8$). Choice A applies $\\sin 30\\degree$ to the weight ($600 \\times 0.5$) instead of the tension. Choice D is $600/\\tan 30\\degree$ confusion.',
+      'Sum moments about the hinge A so the pin reactions drop out. The weight acts at the $2$ m tip (clockwise), and the cable tension provides a counterclockwise moment through its vertical component $T\\sin 30\\degree$ acting at the $2$ m tip. The horizontal component of the cable passes along the bar through... it acts at the tip too, but its line of action is horizontal through A-level, so its moment arm about A is zero (the bar is horizontal). So $T\\sin 30\\degree (2) = 600(2)$, giving $T = 600/\\sin 30\\degree = 1{,}200$ N. The $692.8$ N choice uses $\\cos 30\\degree$ instead of $\\sin 30\\degree$ ($600/\\cos 30\\degree = 692.8$). The $300$ N choice applies $\\sin 30\\degree$ to the weight ($600 \\times 0.5$) instead of the tension. The $519.6$ N choice multiplies the weight by $\\cos 30\\degree$ ($600\\cos 30\\degree = 519.6$) instead of dividing by $\\sin 30\\degree$.',
     hint: 'Sum moments about the hinge. Only the vertical component of the cable tension provides a moment arm on the horizontal bar.',
     steps: [
       {
@@ -187,7 +187,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'medium',
     eli5:
-      'The load is off-center, so the reactions are unequal — find them first. Taking moments about A: $30(3) - C_y(9) = 0$, so $C_y = 10$ kN and $A_y = 30 - 10 = 20$ kN. At joint A the only members are diagonal AE and bottom chord AB. Diagonal AE runs from A$(0,0)$ to E$(3,4)$, length $5$ (a 3-4-5 triangle), direction cosines $(0.6, 0.8)$. Vertical equilibrium at A: $20 + F_{AE}(0.8) = 0$, so $F_{AE} = -25$ kN — the negative sign means compression. Choice B is the reaction $A_y$, not the member force. Choice C is the bottom-chord force AB ($-F_{AE}(0.6) = 15$ kN tension), the other member at the joint. Choice D swaps the direction cosines, dividing the reaction by $0.6$ instead of $0.8$.',
+      'The load is off-center, so the reactions are unequal — find them first. Taking moments about A: $30(3) - C_y(9) = 0$, so $C_y = 10$ kN and $A_y = 30 - 10 = 20$ kN. At joint A the only members are diagonal AE and bottom chord AB. Diagonal AE runs from A$(0,0)$ to E$(3,4)$, length $5$ (a 3-4-5 triangle), direction cosines $(0.6, 0.8)$. Vertical equilibrium at A: $20 + F_{AE}(0.8) = 0$, so $F_{AE} = -25$ kN — the negative sign means compression. The 20.0 kN choice is the reaction $A_y$, not the member force. The 15.0 kN tension choice is the bottom-chord force AB ($-F_{AE}(0.6) = 15$ kN tension), the other member at the joint. The 33.3 kN choice swaps the direction cosines, dividing the reaction by $0.6$ instead of $0.8$.',
     hint: 'The load is off-center, so reactions are unequal — take moments about A to get $A_y$. Then at joint A only AE has a vertical component; use $\\sum F_y = 0$.',
     steps: [
       {
@@ -228,7 +228,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'medium',
     eli5:
-      'The zero-force rule (Rule 2) says that when three members meet at an unloaded joint and two are collinear, the third (non-collinear) member is zero-force. The critical word is unloaded. Here a load $P$ is applied at the joint, so the rule does not apply. Summing vertical forces at K: the two horizontal top-chord members have no vertical component, so the vertical member alone must balance the load — $F_{vert} = P$. Choice B is the trap: applying the zero-force rule without checking for the applied load. Choice C wrongly splits the load into the collinear members, which carry only horizontal force. Choice D has no physical basis.',
+      'The zero-force rule (Rule 2) says that when three members meet at an unloaded joint and two are collinear, the third (non-collinear) member is zero-force. The critical word is unloaded. Here a load $P$ is applied at the joint, so the rule does not apply. Summing vertical forces at K: the two horizontal top-chord members have no vertical component, so the vertical member alone must balance the load — $F_{vert} = P$. The "zero-force member" choice is the trap: applying the zero-force rule without checking for the applied load. The "P/2 split" choice wrongly splits the load into the collinear members, which carry only horizontal force. The "2P" choice has no physical basis.',
     hint: 'Check the zero-force rule carefully — it requires an unloaded joint. What balances the vertical load here?',
     steps: [
       {
@@ -269,7 +269,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'medium',
     eli5:
-      'First check whether the block slides. The driving force down the incline is $W\\sin\\theta = 400\\sin 20\\degree = 136.8$ N. The maximum available friction is $\\mu_s N = 0.40(400\\cos 20\\degree) = 0.40(375.9) = 150.4$ N. Since $136.8 < 150.4$, the block does not slide, so friction only develops as much as it needs to: it equals the down-slope component, $136.8$ N. Choice A is the maximum possible friction, but friction does not reach its cap unless motion impends. Choice B uses $\\mu_s W$ ($0.40 \\times 400$) forgetting the $\\cos\\theta$ in the normal force. Choice D is the normal force itself.',
+      'First check whether the block slides. The driving force down the incline is $W\\sin\\theta = 400\\sin 20\\degree = 136.8$ N. The maximum available friction is $\\mu_s N = 0.40(400\\cos 20\\degree) = 0.40(375.9) = 150.4$ N. Since $136.8 < 150.4$, the block does not slide, so friction only develops as much as it needs to: it equals the down-slope component, $136.8$ N. The $150.4$ N option is the maximum possible friction, but friction does not reach its cap unless motion impends. The $160.0$ N option uses $\\mu_s W$ ($0.40 \\times 400$) forgetting the $\\cos\\theta$ in the normal force. The $375.9$ N option is the normal force itself.',
     hint: 'Compare the down-slope gravity component to the maximum friction $\\mu_s N$. If it does not slide, friction equals the demand, not the cap.',
     steps: [
       {
@@ -310,7 +310,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'hard',
     eli5:
-      'The block tends to slide down, so friction acts up the incline at its maximum. A horizontal $P$ increases the normal force because part of $P$ presses into the surface: $N = W\\cos\\theta + P\\sin\\theta$. At impending downward motion, the up-slope resistances (the up-slope component of $P$ plus friction) balance the down-slope weight component: $W\\sin\\theta = P\\cos\\theta + \\mu_s N$. Substituting $N$ and solving gives $P = W(\\sin\\theta - \\mu_s\\cos\\theta)/(\\cos\\theta + \\mu_s\\sin\\theta) = 228.9$ N. Choice A ignores friction entirely ($P = W\\tan\\theta = 461.9$). Choice C uses $N = W\\cos\\theta$ only, forgetting that $P$ also adds to the normal force. Choice D points friction the wrong way (down-slope): using $W\\sin\\theta = P\\cos\\theta - \\mu_s N$ gives $P = W(\\sin\\theta + \\mu_s\\cos\\theta)/(\\cos\\theta - \\mu_s\\sin\\theta) = 773.5$ N — but with the block on the verge of sliding down, friction must resist that motion by acting up-slope.',
+      'The block tends to slide down, so friction acts up the incline at its maximum. A horizontal $P$ increases the normal force because part of $P$ presses into the surface: $N = W\\cos\\theta + P\\sin\\theta$. At impending downward motion, the up-slope resistances (the up-slope component of $P$ plus friction) balance the down-slope weight component: $W\\sin\\theta = P\\cos\\theta + \\mu_s N$. Substituting $N$ and solving gives $P = W(\\sin\\theta - \\mu_s\\cos\\theta)/(\\cos\\theta + \\mu_s\\sin\\theta) = 228.9$ N. The 461.9 N choice ignores friction entirely ($P = W\\tan\\theta = 461.9$). The 261.9 N choice uses $N = W\\cos\\theta$ only, forgetting that $P$ also adds to the normal force. The 773.5 N choice points friction the wrong way (down-slope): using $W\\sin\\theta = P\\cos\\theta - \\mu_s N$ gives $P = W(\\sin\\theta + \\mu_s\\cos\\theta)/(\\cos\\theta - \\mu_s\\sin\\theta) = 773.5$ N — but with the block on the verge of sliding down, friction must resist that motion by acting up-slope.',
     hint: 'Friction acts up-slope at its max. Remember the horizontal $P$ also increases the normal force: $N = W\\cos\\theta + P\\sin\\theta$.',
     steps: [
       {
@@ -355,7 +355,7 @@ const PROBLEMS = [
     correctAnswerId: 'c2',
     difficulty: 'medium',
     eli5:
-      'Treat the notch as negative area. The full rectangle has $A_1 = 100 \\times 120 = 12{,}000$ mm$^2$ with centroid at $y_1 = 60$ mm. The removed notch has $A_2 = 40 \\times 40 = 1{,}600$ mm$^2$ with its centroid at $y_2 = 120 - 20 = 100$ mm. Using subtraction: $\\bar{y} = (12{,}000(60) - 1{,}600(100))/(12{,}000 - 1{,}600) = 560{,}000/10{,}400 = 53.8$ mm. Removing material from the top pulls the centroid down below mid-height. Choice A ignores the notch ($60$ mm). Choice C is the geometric mid-height. Choice D over-corrects, as if material were added at the top instead of removed.',
+      'Treat the notch as negative area. The full rectangle has $A_1 = 100 \\times 120 = 12{,}000$ mm$^2$ with centroid at $y_1 = 60$ mm. The removed notch has $A_2 = 40 \\times 40 = 1{,}600$ mm$^2$ with its centroid at $y_2 = 120 - 20 = 100$ mm. Using subtraction: $\\bar{y} = (12{,}000(60) - 1{,}600(100))/(12{,}000 - 1{,}600) = 560{,}000/10{,}400 = 53.8$ mm. Removing material from the top pulls the centroid down below mid-height. The $60$ mm option ignores the notch. The $50.0$ mm option is the geometric mid-height. The $46.2$ mm option over-corrects, as if material were added at the top instead of removed.',
     hint: 'Treat the removed notch as a negative area; subtract its $A y$ from the numerator and its $A$ from the denominator.',
     steps: [
       {
@@ -396,7 +396,7 @@ const PROBLEMS = [
     correctAnswerId: 'c4',
     difficulty: 'medium',
     eli5:
-      'Split into a rectangle and a triangle. Rectangle: $A_1 = 60 \\times 40 = 2{,}400$ mm$^2$, centroid at $y_1 = 20$ mm. Triangle: $A_2 = \\frac{1}{2}(60)(30) = 900$ mm$^2$; its centroid sits one-third of its height above its base, so $y_2 = 40 + 30/3 = 50$ mm. Then $\\bar{y} = (2{,}400(20) + 900(50))/(2{,}400 + 900) = 93{,}000/3{,}300 = 28.2$ mm. Choice B uses the triangle midpoint ($40 + 15 = 55$) instead of the one-third point. Choice A is the simple average of $20$ and $50$, ignoring the area weighting. Choice C underweights the triangle.',
+      'Split into a rectangle and a triangle. Rectangle: $A_1 = 60 \\times 40 = 2{,}400$ mm$^2$, centroid at $y_1 = 20$ mm. Triangle: $A_2 = \\frac{1}{2}(60)(30) = 900$ mm$^2$; its centroid sits one-third of its height above its base, so $y_2 = 40 + 30/3 = 50$ mm. Then $\\bar{y} = (2{,}400(20) + 900(50))/(2{,}400 + 900) = 93{,}000/3{,}300 = 28.2$ mm. The $29.5$ mm choice uses the triangle midpoint ($40 + 15 = 55$) instead of the one-third point. The $35.0$ mm choice is the simple average of $20$ and $50$, ignoring the area weighting. The $25.0$ mm choice underweights the triangle.',
     hint: 'The centroid of a triangle is one-third of its height above its base, then add the rectangle height to reference from the bottom.',
     steps: [
       {
@@ -437,7 +437,7 @@ const PROBLEMS = [
     correctAnswerId: 'c1',
     difficulty: 'medium',
     eli5:
-      'Because the void is concentric, both rectangles share the same centroidal axis, so you simply subtract: $I = \\frac{b_o h_o^3 - b_i h_i^3}{12}$. Outer: $100(150)^3 = 337.5 \\times 10^6$. Inner: $60(110)^3 = 79.86 \\times 10^6$. Difference $= 257.64 \\times 10^6$, divided by $12 = 21.5 \\times 10^6$ mm$^4$. Choice B is the solid outer rectangle alone ($337.5/12 = 28.1$). Choice C subtracts areas, not the cubed-height terms. Choice D mistakenly subtracts $b_i h_i^3$ before cubing or mixes the dimensions.',
+      'Because the void is concentric, both rectangles share the same centroidal axis, so you simply subtract: $I = \\frac{b_o h_o^3 - b_i h_i^3}{12}$. Outer: $100(150)^3 = 337.5 \\times 10^6$. Inner: $60(110)^3 = 79.86 \\times 10^6$. Difference $= 257.64 \\times 10^6$, divided by $12 = 21.5 \\times 10^6$ mm$^4$. The $28.1 \\times 10^6$ choice is the solid outer rectangle alone ($337.5/12 = 28.1$). The $6.7 \\times 10^6$ choice is the inner void contribution by itself (subtracting areas rather than the cubed-height terms). The $34.8 \\times 10^6$ choice mistakenly mixes the dimensions or adds instead of subtracting.',
     hint: 'For a concentric void, the axes coincide: $I = (b_o h_o^3 - b_i h_i^3)/12$. No parallel-axis transfer is needed.',
     steps: [
       {
@@ -478,7 +478,7 @@ const PROBLEMS = [
     correctAnswerId: 'c3',
     difficulty: 'hard',
     eli5:
-      'A tangent axis is offset from the centroid by one radius, $d = r = 50$ mm. The centroidal moment is $\\bar{I} = \\pi r^4/4 = \\pi(50)^4/4 = 4.91 \\times 10^6$ mm$^4$. The transfer term is $A d^2 = \\pi(50)^2(50)^2 = \\pi(2{,}500)(2{,}500) = 19.63 \\times 10^6$. Adding: $I = 4.91 + 19.63 = 24.5 \\times 10^6$ mm$^4$. Choice A forgets the transfer term and reports $\\bar{I}$ only. Choice B reports the transfer term only. Choice D uses $d = $ diameter $= 100$ mm instead of the radius in $Ad^2$.',
+      'A tangent axis is offset from the centroid by one radius, $d = r = 50$ mm. The centroidal moment is $\\bar{I} = \\pi r^4/4 = \\pi(50)^4/4 = 4.91 \\times 10^6$ mm$^4$. The transfer term is $A d^2 = \\pi(50)^2(50)^2 = \\pi(2{,}500)(2{,}500) = 19.63 \\times 10^6$. Adding: $I = 4.91 + 19.63 = 24.5 \\times 10^6$ mm$^4$. The $4.9 \\times 10^6$ choice forgets the transfer term and reports $\\bar{I}$ only. The $19.6 \\times 10^6$ choice reports the transfer term only. The $83.4 \\times 10^6$ choice uses $d = $ diameter $= 100$ mm instead of the radius in $Ad^2$.',
     hint: 'A tangent axis is one radius away from the centroid. Apply $I = \\bar{I} + Ad^2$ with $d = r$.',
     steps: [
       {
@@ -517,7 +517,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Loaded at only two points → two-force member, so the forces are equal, opposite, and directed along the member axis. That immediately fixes the force direction and simplifies the frame analysis. Choice B describes a multi-force member. Choice C is false (it can carry axial force). Choice D is wrong — the direction IS known.',
+    eli5: 'Loaded at only two points → two-force member, so the forces are equal, opposite, and directed along the member axis. That immediately fixes the force direction and simplifies the frame analysis. The "bending with perpendicular pin forces" choice describes a multi-force member. The "carries no force at all" choice is false (it can carry axial force). The "force direction cannot be determined" choice is wrong — the direction IS known.',
     hint: 'A member loaded at exactly two points is a special case — what does that fix?',
     steps: [
       { text: 'Two load points → two-force member.', latex: null },

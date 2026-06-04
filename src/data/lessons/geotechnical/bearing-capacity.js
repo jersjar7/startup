@@ -29,7 +29,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'qult = cNc + \u03B3\u2019(0)Nq + 0 = 1,500 \u00D7 5.14 + 0 + 0 = 7,710 psf. With Df = 0, the overburden term vanishes. Choice B (1,500) is just the cohesion. Choice C (5,140) uses c = 1,000 or confuses Nc with the answer. Choice D (3,855) divides by FS = 2 prematurely \u2014 the problem asks for ultimate, not allowable.',
+      eli5: 'qult = cNc + \u03B3\u2019(0)Nq + 0 = 1,500 \u00D7 5.14 + 0 + 0 = 7,710 psf. With Df = 0, the overburden term vanishes. The 1,500 psf option is just the cohesion. The 5,140 psf option uses c = 1,000 or confuses Nc with the answer. The 3,855 psf option divides by FS = 2 prematurely \u2014 the problem asks for ultimate, not allowable.',
       hint: 'For \u03C6 = 0: N\u03B3 = 0 and Nq contributes only if there is overburden (Df > 0).',
       steps: [
         { text: 'Bearing capacity with $D_f = 0$:', latex: 'q_{ult} = c_u N_c = 1{,}500 \\times 5.14 = 7{,}710 \\text{ psf}' },
@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'hard',
-      eli5: 'qult = cNc + \u03B3DfNq + 0.5\u03B3BN\u03B3 = 500(14.83) + 115(3)(6.40) + 0.5(115)(5)(3.54) = 7,415 + 2,208 + 1,018 = 10,641 psf. qallow = 10,641/3 = 3,547 \u2248 3,550 psf. Choice B (10,640) is the ultimate capacity without dividing by FS. Choice C (7,415) is only the cohesion term. Choice D (2,210) might divide the overburden term alone by FS.',
+      eli5: 'qult = cNc + \u03B3DfNq + 0.5\u03B3BN\u03B3 = 500(14.83) + 115(3)(6.40) + 0.5(115)(5)(3.54) = 7,415 + 2,208 + 1,018 = 10,641 psf. qallow = 10,641/3 = 3,547 \u2248 3,550 psf. The 10,640 psf option is the ultimate capacity without dividing by FS. The 7,415 psf option is only the cohesion term. The 2,210 psf option divides the overburden term alone by FS.',
       hint: 'Compute all three terms of qult first. Then divide the total by FS = 3.',
       steps: [
         { text: 'Cohesion term:', latex: 'c N_c = 500 \\times 14.83 = 7{,}415 \\text{ psf}' },

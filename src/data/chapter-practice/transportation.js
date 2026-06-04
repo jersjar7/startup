@@ -13,7 +13,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'Uphill is positive grade, so $G = +0.05$ and the denominator grows, shortening the braking distance. Reaction distance $= 1.47 \\times 55 \\times 2.5 = 202.1$ ft. The denominator factor is $a/32.2 + G = 0.3478 + 0.05 = 0.3978$, so braking $= 55^2/(30 \\times 0.3978) = 3{,}025/11.93 = 253.5$ ft. Total SSD $= 202.1 + 253.5 = 455.6 \\approx 456$ ft. Choice A (202) is the reaction distance only. Choice C (492) used a level grade ($G = 0$): $202.1 + 290 = 492$. Choice D (541) used a downgrade ($G = -0.05$), wrongly making stopping harder.',
+    eli5: 'Uphill is positive grade, so $G = +0.05$ and the denominator grows, shortening the braking distance. Reaction distance $= 1.47 \\times 55 \\times 2.5 = 202.1$ ft. The denominator factor is $a/32.2 + G = 0.3478 + 0.05 = 0.3978$, so braking $= 55^2/(30 \\times 0.3978) = 3{,}025/11.93 = 253.5$ ft. Total SSD $= 202.1 + 253.5 = 455.6 \\approx 456$ ft. The 202 ft choice is the reaction distance only. The 492 ft choice used a level grade ($G = 0$): $202.1 + 290 = 492$. The 541 ft choice used a downgrade ($G = -0.05$), wrongly making stopping harder.',
     hint: 'Uphill = positive G in the denominator. Add reaction distance plus the shortened braking distance.',
     steps: [
       { text: 'Reaction distance:', latex: 'd_r = 1.47 \\times 55 \\times 2.5 = 202.1 \\text{ ft}' },
@@ -43,7 +43,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'easy',
-    eli5: '$PHF = V/(4 \\times V_{15}) = 2{,}400/(4 \\times 700) = 2{,}400/2{,}800 = 0.857$. Choice A (0.292) divided $V_{15}$ by $V$ and forgot the factor of 4 in the wrong place: $700/2{,}400 = 0.292$. Choice B (1.167) inverted the ratio: $2{,}800/2{,}400$. Choice D (0.750) used $V_{15} = 800$ by mistake. PHF is always between 0.25 and 1.00.',
+    eli5: '$PHF = V/(4 \\times V_{15}) = 2{,}400/(4 \\times 700) = 2{,}400/2{,}800 = 0.857$. The 0.292 option divided $V_{15}$ by $V$ and forgot the factor of 4 in the wrong place: $700/2{,}400 = 0.292$. The 1.167 option inverted the ratio: $2{,}800/2{,}400$. The 0.750 option used $V_{15} = 800$ by mistake. PHF is always between 0.25 and 1.00.',
     hint: 'PHF = V / (4 x V15). The peak 15-minute count is multiplied by 4 in the denominator.',
     steps: [
       { text: 'Peak hour factor:', latex: 'PHF = \\frac{V}{4 \\times V_{15}} = \\frac{2{,}400}{4 \\times 700} = \\frac{2{,}400}{2{,}800} = 0.857' },
@@ -71,7 +71,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'hard',
-    eli5: 'Test the $S \\leq L$ case first: $L = AS^2/2{,}158 = 4 \\times 700^2/2{,}158 = 1{,}960{,}000/2{,}158 = 908 \\approx 909$ ft. Check the assumption: $S = 700 \\leq L = 908$ is TRUE, so this branch is valid and governs. Now check the $S > L$ branch: $L = 2S - 2{,}158/A = 1{,}400 - 539.5 = 860.5$ ft, which would require $S > L$ (i.e., $700 > 860.5$) -- that is FALSE, so the $S > L$ branch is invalid here. The minimum length is therefore about 909 ft. Choice A (863) is the invalid $S > L$ branch value. Choice C (1{,}400) is just $2S$, dropping the second term. Choice D (540) is the term $2{,}158/A$ alone.',
+    eli5: 'Test the $S \\leq L$ case first: $L = AS^2/2{,}158 = 4 \\times 700^2/2{,}158 = 1{,}960{,}000/2{,}158 = 908 \\approx 909$ ft. Check the assumption: $S = 700 \\leq L = 908$ is TRUE, so this branch is valid and governs. Now check the $S > L$ branch: $L = 2S - 2{,}158/A = 1{,}400 - 539.5 = 860.5$ ft, which would require $S > L$ (i.e., $700 > 860.5$) -- that is FALSE, so the $S > L$ branch is invalid here. The minimum length is therefore about 909 ft. The 863 ft choice is approximately the invalid $S > L$ branch value ($2S - 2{,}158/A = 860.5$, rounded). The 1{,}400 ft choice is just $2S$, dropping the second term. The 540 ft choice is the term $2{,}158/A$ alone.',
     hint: 'Try the S <= L crest formula L = AS^2/2158 first, then confirm S <= L holds.',
     steps: [
       { text: 'Apply the $S \\leq L$ crest formula:', latex: 'L = \\frac{AS^2}{2{,}158} = \\frac{4 \\times 700^2}{2{,}158} = \\frac{1{,}960{,}000}{2{,}158}' },
@@ -100,7 +100,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: '$A = |g_2 - g_1| \\times 100 = |0.03 - (-0.02)| \\times 100 = 0.05 \\times 100 = 5$. Then $K = L/A$ rearranges to $L = K \\times A = 160 \\times 5 = 800$ ft. Choice A (160) reported $K$ as if it were $L$. Choice C (32) computed $K/A = 160/5$ instead of $K \\times A$. Choice D (320) used $A = 2$ (only one grade magnitude): $160 \\times 2$.',
+    eli5: '$A = |g_2 - g_1| \\times 100 = |0.03 - (-0.02)| \\times 100 = 0.05 \\times 100 = 5$. Then $K = L/A$ rearranges to $L = K \\times A = 160 \\times 5 = 800$ ft. The 160 ft choice reported $K$ as if it were $L$. The 32 ft choice computed $K/A = 160/5$ instead of $K \\times A$. The 320 ft choice used $A = 2$ (only one grade magnitude): $160 \\times 2$.',
     hint: 'K = L/A, so L = K x A. Find A from the algebraic grade difference first.',
     steps: [
       { text: 'Algebraic difference:', latex: 'A = |g_2 - g_1| \\times 100 = |0.03 - (-0.02)| \\times 100 = 5' },
@@ -129,7 +129,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$M = R[1 - \\cos(I/2)] = 1{,}000[1 - \\cos(20\\degree)] = 1{,}000(1 - 0.9397) = 1{,}000 \\times 0.0603 = 60.3$ ft. Choice A (234) used $\\cos(I) = \\cos(40\\degree) = 0.766$ instead of $\\cos(I/2)$: $1{,}000(1 - 0.766) = 234$. Choice B (64.2) is the external distance $E = R[1/\\cos(I/2) - 1] = 1{,}000(1/0.9397 - 1) = 64.2$, not the middle ordinate. Choice D (30.2) halved the correct answer.',
+    eli5: '$M = R[1 - \\cos(I/2)] = 1{,}000[1 - \\cos(20\\degree)] = 1{,}000(1 - 0.9397) = 1{,}000 \\times 0.0603 = 60.3$ ft. The 234 ft choice used $\\cos(I) = \\cos(40\\degree) = 0.766$ instead of $\\cos(I/2)$: $1{,}000(1 - 0.766) = 234$. The 64.2 ft choice is the external distance $E = R[1/\\cos(I/2) - 1] = 1{,}000(1/0.9397 - 1) = 64.2$, not the middle ordinate. The 30.2 ft choice halved the correct answer.',
     hint: 'M = R[1 - cos(I/2)]. Halve the intersection angle before taking the cosine.',
     steps: [
       { text: 'Middle ordinate:', latex: 'M = R\\left[1 - \\cos\\!\\left(\\frac{I}{2}\\right)\\right] = 1{,}000\\left[1 - \\cos(20\\degree)\\right]' },
@@ -158,7 +158,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'Rearrange $0.01e + f = V^2/(15R)$ for the minimum radius: $R = V^2/[15(0.01e + f)] = 60^2/[15(0.08 + 0.12)] = 3{,}600/[15 \\times 0.20] = 3{,}600/3.0 = 1{,}200$ ft. Choice A (2,000) used only friction ($0.01e + f = 0.12$): $3{,}600/(15 \\times 0.12) = 2{,}000$. Choice B (240) forgot to convert $e$: used $0.01e = 0.08$ but then added $e = 8$ giving an inflated denominator. Choice C (600) doubled the denominator factor by using $0.01e + f = 0.40$.',
+    eli5: 'Rearrange $0.01e + f = V^2/(15R)$ for the minimum radius: $R = V^2/[15(0.01e + f)] = 60^2/[15(0.08 + 0.12)] = 3{,}600/[15 \\times 0.20] = 3{,}600/3.0 = 1{,}200$ ft. The 2,000 ft option used only friction ($0.01e + f = 0.12$): $3{,}600/(15 \\times 0.12) = 2{,}000$. The 240 ft option forgot to convert $e$: used $0.01e = 0.08$ but then added $e = 8$ giving an inflated denominator. The 600 ft option doubled the denominator factor by using $0.01e + f = 0.40$.',
     hint: 'Solve 0.01e + f = V^2/(15R) for R. Use e as a percent so 0.01e converts it to decimal.',
     steps: [
       { text: 'Rearrange for radius:', latex: 'R = \\frac{V^2}{15(0.01e + f)}' },
@@ -188,7 +188,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Convert: $v = 35 \\times 1.467 = 51.3$ ft/sec. On an upgrade, gravity aids stopping, so the denominator grows: $2a + 64.4G = 2(10) + 64.4(0.04) = 20 + 2.576 = 22.58$. $y = 1.0 + 51.3/22.58 = 1.0 + 2.27 = 3.27 \\approx 3.3$ sec. Choice B (3.6) used a level grade ($G = 0$): $1.0 + 51.3/20 = 3.57$. Choice C (3.9) reversed the sign (treated the upgrade as a downgrade): $1.0 + 51.3/17.42 = 3.95$. Choice D (2.6) used mph in the numerator: $1.0 + 35/22.58 = 2.55$.',
+    eli5: 'Convert: $v = 35 \\times 1.467 = 51.3$ ft/sec. On an upgrade, gravity aids stopping, so the denominator grows: $2a + 64.4G = 2(10) + 64.4(0.04) = 20 + 2.576 = 22.58$. $y = 1.0 + 51.3/22.58 = 1.0 + 2.27 = 3.27 \\approx 3.3$ sec. The 3.6 sec option used a level grade ($G = 0$): $1.0 + 51.3/20 = 3.57$. The 3.9 sec option reversed the sign (treated the upgrade as a downgrade): $1.0 + 51.3/17.42 = 3.95$. The 2.6 sec option used mph in the numerator: $1.0 + 35/22.58 = 2.55$.',
     hint: 'Upgrade adds to the denominator: 2a + 64.4G. Convert speed to ft/sec first.',
     steps: [
       { text: 'Convert speed:', latex: 'v = 35 \\times 1.467 = 51.3 \\text{ ft/sec}' },
@@ -248,7 +248,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'First find speed from Greenshields: $S = S_f - (S_f/D_j)D = 50 - (50/160)(40) = 50 - 0.3125 \\times 40 = 50 - 12.5 = 37.5$ mph. Then flow $V = S \\times D = 37.5 \\times 40 = 1{,}500$ veh/hr/ln. Choice A (2,000) used the free-flow speed without the density reduction: $50 \\times 40 = 2{,}000$. Choice C (1,000) used the optimum speed $S_f/2 = 25$: $25 \\times 40$. Choice D (500) used only the speed-reduction term ($12.5 \\times 40$) as the speed.',
+    eli5: 'First find speed from Greenshields: $S = S_f - (S_f/D_j)D = 50 - (50/160)(40) = 50 - 0.3125 \\times 40 = 50 - 12.5 = 37.5$ mph. Then flow $V = S \\times D = 37.5 \\times 40 = 1{,}500$ veh/hr/ln. The 2,000 veh/hr/ln choice used the free-flow speed without the density reduction: $50 \\times 40 = 2{,}000$. The 1,000 veh/hr/ln choice used the optimum speed $S_f/2 = 25$: $25 \\times 40$. The 500 veh/hr/ln choice used only the speed-reduction term ($12.5 \\times 40$) as the speed.',
     hint: 'Get speed from Greenshields first, then multiply by density: V = S x D.',
     steps: [
       { text: 'Speed at $D = 40$:', latex: 'S = 50 - \\frac{50}{160}(40) = 50 - 12.5 = 37.5 \\text{ mph}' },
@@ -277,7 +277,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'hard',
-    eli5: '$VMT = ADT \\times \\text{days} \\times \\text{length} = 5{,}000 \\times (365 \\times 5) \\times 3 = 5{,}000 \\times 1{,}825 \\times 3 = 27{,}375{,}000$ vehicle-miles. Rate per 100 million VM $= A \\times 100{,}000{,}000/VMT = 27 \\times 100{,}000{,}000/27{,}375{,}000 = 98.6$. Choice A (0.99) used the per-one-million factor instead of per hundred million: $27 \\times 1{,}000{,}000/27{,}375{,}000$. Choice B (32.9) used only 1 year and the wrong factor combination. Choice D (493) used 1 mile instead of 3 (dividing the VMT by 3 raises the rate fivefold-ish).',
+    eli5: '$VMT = ADT \\times \\text{days} \\times \\text{length} = 5{,}000 \\times (365 \\times 5) \\times 3 = 5{,}000 \\times 1{,}825 \\times 3 = 27{,}375{,}000$ vehicle-miles. Rate per 100 million VM $= A \\times 100{,}000{,}000/VMT = 27 \\times 100{,}000{,}000/27{,}375{,}000 = 98.6$. The 0.99 choice used the per-one-million factor instead of per hundred million: $27 \\times 1{,}000{,}000/27{,}375{,}000$. The 32.9 choice is the correct rate divided by 3 (e.g., counting the 3-mile length twice in the VMT). The 493 choice used only 1 year instead of the 5-year study period, dividing the VMT by 5 and raising the rate fivefold ($98.6 \\times 5 \\approx 493$).',
     hint: 'VMT = ADT x total days x length. Then rate = A x 100,000,000 / VMT for a per-100-MVM rate.',
     steps: [
       { text: 'Vehicle-miles traveled over 5 years:', latex: 'VMT = 5{,}000 \\times (365 \\times 5) \\times 3 = 27{,}375{,}000' },
@@ -306,7 +306,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'easy',
-    eli5: '$f_{HV} = 1/[1 + P_T(E_T - 1)] = 1/[1 + 0.20(3.0 - 1)] = 1/[1 + 0.20 \\times 2] = 1/1.40 = 0.714$. Choice A (0.625) used $E_T = 3.0$ without subtracting 1: $1/[1 + 0.20 \\times 3] = 1/1.60$. Choice B (1.400) reported the denominator itself instead of its reciprocal. Choice C (0.600) computed $1 - P_T \\times E_T = 1 - 0.60$.',
+    eli5: '$f_{HV} = 1/[1 + P_T(E_T - 1)] = 1/[1 + 0.20(3.0 - 1)] = 1/[1 + 0.20 \\times 2] = 1/1.40 = 0.714$. The 0.625 distractor used $E_T = 3.0$ without subtracting 1: $1/[1 + 0.20 \\times 3] = 1/1.60$. The 1.400 distractor reported the denominator itself instead of its reciprocal. The 0.600 distractor computed $1 - P_T \\times E_T = 1 - 0.60$.',
     hint: 'fHV = 1/[1 + PT(ET - 1)]. Subtract 1 from ET before multiplying by PT.',
     steps: [
       { text: 'Heavy-vehicle factor:', latex: 'f_{HV} = \\frac{1}{1 + P_T(E_T - 1)} = \\frac{1}{1 + 0.20(3.0 - 1)}' },
@@ -335,7 +335,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c2',
     difficulty: 'medium',
-    eli5: 'LOS is read directly from density. Segment 1 at 24 pc/mi/ln falls in the $> 18$ to $26$ band, which is LOS C. Segment 2 at 40 pc/mi/ln falls in the $> 35$ to $45$ band, which is LOS E. Choice A shifts both grades one letter too good. Choice C wrongly lumps both into D. Choice D pushes Segment 2 to F, but F only begins above 45 pc/mi/ln.',
+    eli5: 'LOS is read directly from density. Segment 1 at 24 pc/mi/ln falls in the $> 18$ to $26$ band, which is LOS C. Segment 2 at 40 pc/mi/ln falls in the $> 35$ to $45$ band, which is LOS E. The \'LOS B / LOS D\' choice shifts both grades one letter too good. The \'both at LOS D\' choice wrongly lumps both into D. The \'LOS C / LOS F\' choice pushes Segment 2 to F, but F only begins above 45 pc/mi/ln.',
     hint: 'Match each density to its band. C is >18-26; E is >35-45.',
     steps: [
       { text: 'Segment 1: $24$ pc/mi/ln is in the $> 18$ to $26$ band.', latex: null },
@@ -365,7 +365,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Base contribution: $0.14 \\times 10 \\times 1.0 = 1.40$. Subbase: $0.12 \\times 8 \\times 1.0 = 0.96$. Remaining SN for the surface: $5.0 - 1.40 - 0.96 = 2.64$. Then $D_1 = 2.64/a_1 = 2.64/0.44 = 6.0$ in. Choice A (11.4) solved $D_1 = 5.0/0.44$ without subtracting the lower layers. Choice B (2.6) used the base coefficient $0.14$ in place of $a_1$ when dividing the leftover by the wrong layer. Choice D (7.7) forgot the subbase, dividing $5.0 - 1.40 = 3.60$ by $0.44 \\times 1.06$.',
+    eli5: 'Base contribution: $0.14 \\times 10 \\times 1.0 = 1.40$. Subbase: $0.12 \\times 8 \\times 1.0 = 0.96$. Remaining SN for the surface: $5.0 - 1.40 - 0.96 = 2.64$. Then $D_1 = 2.64/a_1 = 2.64/0.44 = 6.0$ in. The 11.4-in choice solved $D_1 = 5.0/0.44$ without subtracting the lower layers. The 2.6-in choice left the remaining SN of 2.64 as a thickness, forgetting to divide by $a_1$. The 7.7-in choice forgot the subbase, dividing $5.0 - 1.40 = 3.60$ by $0.44 \\times 1.06$.',
     hint: 'Rearrange SN: D1 = (SN - a2 D2 m2 - a3 D3 m3) / a1.',
     steps: [
       { text: 'Base contribution:', latex: 'a_2 D_2 m_2 = 0.14 \\times 10 \\times 1.0 = 1.40' },
@@ -395,7 +395,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'hard',
-    eli5: 'Daily ESALs $= 300(1.00) + 150(7.9) = 300 + 1{,}185 = 1{,}485$ ESALs/day. Over the design life: $1{,}485 \\times 365 \\times 20 = 1{,}485 \\times 7{,}300 = 10{,}840{,}500 \\approx 10.8 \\times 10^6$ ESALs. Choice A (2.2) counted only the 18-kip axles over the design life: $300 \\times 7{,}300 = 2.19 \\times 10^6$. Choice B (8.7) used the heavy axles only: $1{,}185 \\times 7{,}300 = 8.65 \\times 10^6$. Choice C (0.54) forgot to multiply by the 20-year life and used only 365 days: $1{,}485 \\times 365 = 542{,}025$.',
+    eli5: 'Daily ESALs $= 300(1.00) + 150(7.9) = 300 + 1{,}185 = 1{,}485$ ESALs/day. Over the design life: $1{,}485 \\times 365 \\times 20 = 1{,}485 \\times 7{,}300 = 10{,}840{,}500 \\approx 10.8 \\times 10^6$ ESALs. The $2.2 \\times 10^6$ choice counted only the 18-kip axles over the design life: $300 \\times 7{,}300 = 2.19 \\times 10^6$. The $8.7 \\times 10^6$ choice used the heavy axles only: $1{,}185 \\times 7{,}300 = 8.65 \\times 10^6$. The $0.54 \\times 10^6$ choice forgot to multiply by the 20-year life and used only 365 days: $1{,}485 \\times 365 = 542{,}025$.',
     hint: 'Compute daily ESALs (sum of passes x LEF), then multiply by 365 days x 20 years.',
     steps: [
       { text: 'Daily ESALs:', latex: '300(1.00) + 150(7.9) = 300 + 1{,}185 = 1{,}485 \\text{ ESALs/day}' },
@@ -425,7 +425,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: 'Compacted volume $= 0.90 \\times$ bank volume, so bank volume $=$ compacted volume $/ 0.90 = 9{,}000/0.90 = 10{,}000$ yd^3. Soil shrinks when compacted, so you must dig MORE bank material than the finished fill volume. Choice A (8,100) multiplied by 0.90 instead of dividing: $9{,}000 \\times 0.90$. Choice D (9,000) ignored shrinkage entirely. Choice B (9,900) added 10% instead of dividing by 0.90.',
+    eli5: 'Compacted volume $= 0.90 \\times$ bank volume, so bank volume $=$ compacted volume $/ 0.90 = 9{,}000/0.90 = 10{,}000$ yd^3. Soil shrinks when compacted, so you must dig MORE bank material than the finished fill volume. The 8,100 yd^3 option multiplied by 0.90 instead of dividing: $9{,}000 \\times 0.90$. The 9,000 yd^3 option ignored shrinkage entirely. The 9,900 yd^3 option added 10% instead of dividing by 0.90.',
     hint: 'Compacted = shrinkage factor x bank. Solve for bank volume by dividing, not multiplying.',
     steps: [
       { text: 'Relationship:', latex: 'V_{\\text{compacted}} = 0.90 \\times V_{\\text{bank}}' },
@@ -454,7 +454,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c4',
     difficulty: 'medium',
-    eli5: 'Apply the average end area method to each 100-ft span and add. Span 1 ($A_1$ to $A_2$): $V = 100(120 + 200)/2 = 16{,}000$ ft^3. Span 2 ($A_2$ to $A_3$): $V = 100(200 + 160)/2 = 18{,}000$ ft^3. Total $= 34{,}000$ ft^3, then $34{,}000/27 = 1{,}259$ yd^3. Choice A (1,037) collapsed the two spans into a single 200-ft span using only the first and last areas: $200(120 + 160)/2 = 28{,}000$ ft^3 $\\to 1{,}037$ yd^3. Choice B (1,333) wrongly applied the prismoidal formula treating $A_2$ as a mid-section: $200(120 + 4 \\times 200 + 160)/6 = 36{,}000$ ft^3 $\\to 1{,}333$ yd^3. Choice C (593) used only the first span.',
+    eli5: 'Apply the average end area method to each 100-ft span and add. Span 1 ($A_1$ to $A_2$): $V = 100(120 + 200)/2 = 16{,}000$ ft^3. Span 2 ($A_2$ to $A_3$): $V = 100(200 + 160)/2 = 18{,}000$ ft^3. Total $= 34{,}000$ ft^3, then $34{,}000/27 = 1{,}259$ yd^3. The 1,037 yd^3 distractor collapsed the two spans into a single 200-ft span using only the first and last areas: $200(120 + 160)/2 = 28{,}000$ ft^3 $\\to 1{,}037$ yd^3. The 1,333 yd^3 distractor wrongly applied the prismoidal formula treating $A_2$ as a mid-section: $200(120 + 4 \\times 200 + 160)/6 = 36{,}000$ ft^3 $\\to 1{,}333$ yd^3. The 593 yd^3 distractor used only the first span.',
     hint: 'Apply the average end area formula to each 100-ft span, sum the volumes, then divide by 27.',
     steps: [
       { text: 'Span 1 to 2:', latex: 'V_{12} = \\frac{100(120 + 200)}{2} = 16{,}000 \\text{ ft}^3' },
@@ -484,7 +484,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Fraction to zone 1 = 120/(120 + 80) = 120/200 = 0.60, so T = 800 × 0.60 = 480 trips. Choice B is the trips to zone 2 (80/200 × 800). Choice C splits evenly. Choice D reports the raw weight, not the trips.',
+    eli5: 'Fraction to zone 1 = 120/(120 + 80) = 120/200 = 0.60, so T = 800 × 0.60 = 480 trips. The 320 trips choice is the trips to zone 2 (80/200 × 800). The 400 trips choice splits evenly. The 120 trips choice reports the raw weight, not the trips.',
     hint: 'Fraction = (zone weight)/(sum of weights), then multiply by Pi.',
     steps: [
       { text: 'Fraction to zone 1:', latex: '\\frac{120}{120 + 80} = 0.60' },
@@ -513,7 +513,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'Rigid pavement design uses the modulus of subgrade reaction k (pressure per unit deflection) to describe how the subgrade supports the slab. The structural number (Choice B) is for flexible pavement; Marshall stability and penetration grade (Choices C, D) are asphalt-mix and binder properties.',
+    eli5: 'Rigid pavement design uses the modulus of subgrade reaction k (pressure per unit deflection) to describe how the subgrade supports the slab. The structural number (SN) is for flexible pavement; Marshall stability and penetration grade are asphalt-mix and binder properties.',
     hint: 'Which parameter describes subgrade stiffness under a concrete slab?',
     steps: [
       { text: 'Rigid pavement rests on the subgrade as a slab.', latex: null },
@@ -543,7 +543,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'medium',
-    eli5: 'If no warrant is met, a signal is not justified — installing one can increase rear-end crashes and cause unnecessary delay. Choice B wrongly assumes signals always help. Choice C is false (warrants apply broadly). Choice D inverts the purpose of a warrant analysis.',
+    eli5: 'If no warrant is met, a signal is not justified — installing one can increase rear-end crashes and cause unnecessary delay. The "install anyway" option wrongly assumes signals always help. The claim that warrants do not apply to existing intersections is false (warrants apply broadly). The "a signal must be installed" option inverts the purpose of a warrant analysis.',
     hint: 'What does failing to meet any warrant tell you about installing a signal?',
     steps: [
       { text: 'No warrant met means conditions do not justify a signal.', latex: null },
