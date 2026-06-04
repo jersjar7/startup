@@ -81,7 +81,6 @@ apiRouter.use('/auth', authLimiter, require('./routes/auth.js'));
 
 apiRouter.use('/', require('./routes/health.js'));
 apiRouter.use('/user', require('./routes/auth.js'));
-apiRouter.use('/topics', require('./routes/topics.js'));
 apiRouter.use('/sessions', require('./routes/sessions.js'));
 apiRouter.use('/review', require('./routes/review.js'));
 apiRouter.use('/leaderboard', require('./routes/leaderboard.js'));

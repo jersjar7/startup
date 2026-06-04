@@ -24,6 +24,7 @@ import { computeReadiness, computeFocusAreas, readinessLabel } from '../data/rea
 import { LoadingState } from '../components/LoadingState';
 import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
 import { ExamSimCard } from '../exam/ExamSimCard';
+import { ScoringModal } from './ScoringModal';
 import './dashboard.css';
 
 export function Dashboard({ userName, onLogout, displayName, firstName, examDate }) {
@@ -49,7 +50,6 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     try { localStorage.setItem('fe4r-profile-prompt', 'dismissed'); } catch { /* ignore */ }
     setProfilePromptDismissed(true);
   };
-  const [topics, setTopics] = React.useState([]);
   const [stats, setStats] = React.useState({ totalXp: 0, currentStreak: 0, badges: [], allBadges: [] });
   const [showAllBadges, setShowAllBadges] = React.useState(false);
   // Earned achievements first, then the rest; collapsed to 3 so the column's
@@ -75,6 +75,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     lastDate: undefined,
   });
   const [chapterMastery, setChapterMastery] = React.useState({});
+  const [scoringOpen, setScoringOpen] = React.useState(false);
   const [reviewDue, setReviewDue] = React.useState(0);
 
   React.useEffect(() => {
@@ -84,20 +85,14 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     }
 
     Promise.allSettled([
-      fetch('/api/topics').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/user/me').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/leaderboard').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/diagnostic/can-retake').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/diagnostic/mastery').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/diagnostic/history').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/review/count').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
-    ]).then(([topicsResult, statsResult, lbResult, retakeResult, masteryResult, historyResult, reviewCountResult]) => {
+    ]).then(([statsResult, lbResult, retakeResult, masteryResult, historyResult, reviewCountResult]) => {
       const errors = [];
-      if (topicsResult.status === 'fulfilled') {
-        setTopics(topicsResult.value);
-      } else {
-        errors.push('topics');
-      }
       if (statsResult.status === 'fulfilled') {
         const data = statsResult.value;
         setStats({
@@ -183,23 +178,11 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     return () => ws.close();
   }, [userName, navigate]);
 
-  /* Build a lookup from API topics by name */
-  const topicLookup = React.useMemo(() => {
-    const map = {};
-    topics.forEach((t) => { map[t.name] = t; });
-    return map;
-  }, [topics]);
-
   const handleChapterClick = (chapter) => {
-    const apiTopic = topicLookup[chapter.name];
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket.send(JSON.stringify({ type: 'study', from: activityName, topic: chapter.name }));
     }
-    if (apiTopic) {
-      navigate(`/study/${apiTopic.topicId}`);
-    } else {
-      navigate(`/study/${chapter.id}`);
-    }
+    navigate(`/study/${chapter.id}`);
   };
 
   const handleLogout = () => {
@@ -208,31 +191,15 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     navigate('/');
   };
 
+  // Mastery is a single source of truth: chapterMastery[ch.id].totalMastery,
+  // written by the diagnostic AND by practice/review (studyScore). 0 = Not Started.
   const getProgress = (chapter) => {
-    const t = topicLookup[chapter.name];
     const cm = chapterMastery[chapter.id];
-
-    // If diagnostic mastery data exists, use percentage-based system
-    if (cm && cm.totalMastery > 0) {
-      return {
-        masteryPct: cm.totalMastery,
-        masteryLevel: t?.progress?.masteryLevel || 0,
-        masteryName: t?.progress?.masteryName || 'Not Started',
-        correct: t?.progress?.correct || 0,
-        total: t?.problemCount || 0,
-        decaying: t?.progress?.decaying || false,
-      };
-    }
-
-    // Fallback to old level-based system
-    if (!t) return { masteryPct: 0, masteryLevel: 0, masteryName: 'Not Started', correct: 0, total: 0, decaying: false };
+    const pct = cm && cm.totalMastery > 0 ? cm.totalMastery : 0;
     return {
-      masteryPct: (t.progress?.masteryLevel || 0) * 20,
-      masteryLevel: t.progress?.masteryLevel || 0,
-      masteryName: t.progress?.masteryName || 'Not Started',
-      correct: t.progress?.correct || 0,
-      total: t.problemCount || 0,
-      decaying: t.progress?.decaying || false,
+      masteryPct: pct,
+      masteryName: pct > 0 ? 'In progress' : 'Not Started',
+      decaying: false,
     };
   };
 
@@ -245,11 +212,10 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   }
 
   /* Mastery % per chapter — fed into the shared readiness/focus model so the
-     dashboard and the post-session summary agree. getProgress reads from
-     topics (via topicLookup) and chapterMastery. */
+     dashboard and the post-session summary agree. Single source: chapterMastery. */
   const masteryByChapterId = React.useMemo(
     () => Object.fromEntries(CHAPTERS.map((ch) => [ch.id, getProgress(ch).masteryPct])),
-    [topics, chapterMastery],
+    [chapterMastery],
   );
 
   const readiness = React.useMemo(() => computeReadiness(masteryByChapterId), [masteryByChapterId]);
@@ -355,6 +321,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             />
           </div>
           <span className="readiness-label">{readinessLabel(readiness)}</span>
+          <button className="scoring-trigger" onClick={() => setScoringOpen(true)}>How is this scored?</button>
         </div>
       )}
 
@@ -380,12 +347,12 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                   <Info weight="regular" size={13} />
                 </span>
               </span>
-              <span className="ch-header-label ch-header-label--right">
+              <button className="ch-header-label ch-header-label--right ch-header-btn" onClick={() => setScoringOpen(true)} data-tooltip="How is mastery scored? Tap to see our learning-science method.">
                 Mastery
-                <span className="ch-header-info ch-header-info--right" data-tooltip="Your mastery level (1–5) for each chapter. Mastery grows as you answer problems correctly and decays if you don't review.">
+                <span className="ch-header-info ch-header-info--right">
                   <Info weight="regular" size={13} />
                 </span>
-              </span>
+              </button>
               <span className="ch-header-label ch-header-label--right">
                 Exam Qs
                 <span className="ch-header-info ch-header-info--right" data-tooltip="The number of questions each topic gets on the actual FE Civil exam, based on the NCEES exam specification. The FE Civil has 110 questions total.">
@@ -561,6 +528,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           </div>
         </aside>
       </div>
+      <ScoringModal open={scoringOpen} onClose={() => setScoringOpen(false)} />
     </main>
   );
 }
