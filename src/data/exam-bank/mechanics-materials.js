@@ -607,8 +607,8 @@ const PROBLEMS = [
         latex: null
       }
     ],
-    handbookPage: 'p. 129',
-    handbookFormula: 'E = \\frac{\\sigma}{\\varepsilon}',
+    handbookPage: 'p. 129, Stress-Strain Diagram',
+    handbookFormula: '\\text{Yield strength: 0.2\\% offset method}',
     videoUrl: null,
     traps: [
       'Confusing which steel type has the distinct yield point -- it is mild steel, not high-carbon',

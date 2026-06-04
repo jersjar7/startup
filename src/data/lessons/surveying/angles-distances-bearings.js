@@ -37,8 +37,8 @@ export default {
         { text: 'Identify the quadrant: NE', latex: null },
         { text: 'For bearings in the NE quadrant:', latex: '\\text{Azimuth} = \\text{bearing angle} = 52\\degree' },
       ],
-      handbookPage: 'p. 309',
-      handbookFormula: '\\text{Lat} = L\\cos\\theta, \\quad \\text{Dep} = L\\sin\\theta',
+      handbookPage: 'p. 309, Angles, Distances, and Bearings',
+      handbookFormula: '\\text{Azimuth} = \\text{Bearing (NE quadrant)}',
       videoUrl: null,
       traps: [
         'Applying the wrong quadrant conversion formula',

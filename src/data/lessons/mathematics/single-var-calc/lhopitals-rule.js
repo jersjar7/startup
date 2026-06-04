@@ -92,7 +92,7 @@ export default {
         { "text": "Analyze one-sided limits: as $x \\to 0^+$, $\\frac{e^x}{x} \\to +\\infty$; as $x \\to 0^-$, $\\frac{e^x}{x} \\to -\\infty$.", "latex": null },
         { "text": "Since left and right limits disagree, the two-sided limit does not exist.", "latex": null }
       ],
-      "handbookPage": "p. 48",
+      "handbookPage": "p. 48, L'Hopital's Rule (applies only to 0/0 or ∞/∞ forms)",
       "handbookFormula": "\\lim_{x \\to a}\\frac{f(x)}{g(x)} = \\lim_{x \\to a}\\frac{f'(x)}{g'(x)}",
       "videoUrl": null,
       "traps": [
