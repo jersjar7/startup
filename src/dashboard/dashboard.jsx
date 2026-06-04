@@ -256,7 +256,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       <div className="dash-header">
         <div>
           <h2 className="dash-title">Dashboard</h2>
-          <span className="dash-greeting">Welcome back, {(userName || '').split('@')[0] || 'there'}</span>
+          <span className="dash-greeting">Welcome back, {firstName || displayName || (userName || '').split('@')[0] || 'there'}</span>
         </div>
         <button className="logout-btn" onClick={handleLogout}>
           <SignOut weight="bold" size={18} />
