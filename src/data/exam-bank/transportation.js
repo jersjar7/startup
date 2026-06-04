@@ -26,7 +26,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: 'Braking distance $= V^2 / [30(a/32.2 pm G)]$. On a level grade $G = 0$, so it simplifies to $V^2 / [30(a/32.2)] = 45^2 / [30(11.2/32.2)] = 2{,}025 / [30 	imes 0.3478] = 2{,}025 / 10.43 = 194.1$ ft. Choice B (165) used $a = 11.2$ directly in the denominator without dividing by 32.2: $2{,}025/(30 	imes 0.3733)$ is wrong. Choice C (359) added the reaction distance when the question only asks for braking. Choice D (388) divided by $2 	imes 0.3478 	imes 7.5$ incorrectly.',
+    eli5: 'Braking distance $= V^2 / [30(a/32.2 \\pm G)]$. On a level grade $G = 0$, so it simplifies to $V^2 / [30(a/32.2)] = 45^2 / [30(11.2/32.2)] = 2{,}025 / [30 \\times 0.3478] = 2{,}025 / 10.43 = 194.1$ ft. Choice B (165) used $a = 11.2$ directly in the denominator without dividing by 32.2: $2{,}025/(30 \\times 0.3733)$ is wrong. Choice C (359) added the reaction distance when the question only asks for braking. Choice D (388) divided by $2 \\times 0.3478 \\times 7.5$ incorrectly.',
     hint: 'Braking distance only: $V^2 / [30(a/32.2)]$. Do not add the reaction distance.',
     steps: [
       {
@@ -122,8 +122,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$ISD = 1.47 	imes V_{	ext{major}} 	imes t_g = 1.47 	imes 50 	imes 7.5 = 551.25$, which rounds to 551 ft. Choice B (375) used mph directly without converting: $50 	imes 7.5 = 375$. Choice A (735) used $t_g = 10$ sec instead of 7.5 sec. Choice D (110) forgot to multiply by $t_g$: $1.47 	imes 50 	imes 1.5 = 110$.',
-    hint: '$ISD = 1.47 	imes V_{	ext{major}} 	imes t_g$. Same conversion factor (1.47) as in the SSD formula.',
+    eli5: '$ISD = 1.47 \\times V_{\\text{major}} \\times t_g = 1.47 \\times 50 \\times 7.5 = 551.25$, which rounds to 551 ft. Choice B (375) used mph directly without converting: $50 \\times 7.5 = 375$. Choice A (735) used $t_g = 10$ sec instead of 7.5 sec. Choice D (110) forgot to multiply by $t_g$: $1.47 \\times 50 \\times 1.5 = 110$.',
+    hint: '$ISD = 1.47 \\times V_{\\text{major}} \\times t_g$. Same conversion factor (1.47) as in the SSD formula.',
     steps: [
       {
         text: 'Intersection sight distance:',
@@ -164,8 +164,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: '$PHF = V/(4 	imes V_{15}) = 1{,}800/(4 	imes 500) = 1{,}800/2{,}000 = 0.90$. That part is correct. The peak flow rate $= V/PHF = 1{,}800/0.90 = 2{,}000$ veh/hr (equivalently, $4 	imes V_{15} = 2{,}000$). The engineer computed $1{,}800 	imes 0.90 = 1{,}620$, which is $V$ times $PHF$ instead of $V$ divided by $PHF$. The flow rate should always be greater than or equal to the hourly volume, never less. Getting $1{,}620 < 1{,}800$ should have been a red flag. Choice B is wrong because 0.90 is the correct PHF. Choice C gives a nonsensical rate. Choice D accepts the error.',
-    hint: 'The peak flow rate equals $V/PHF$, not $V 	imes PHF$. The result should always be greater than or equal to $V$.',
+    eli5: '$PHF = V/(4 \\times V_{15}) = 1{,}800/(4 \\times 500) = 1{,}800/2{,}000 = 0.90$. That part is correct. The peak flow rate $= V/PHF = 1{,}800/0.90 = 2{,}000$ veh/hr (equivalently, $4 \\times V_{15} = 2{,}000$). The engineer computed $1{,}800 \\times 0.90 = 1{,}620$, which is $V$ times $PHF$ instead of $V$ divided by $PHF$. The flow rate should always be greater than or equal to the hourly volume, never less. Getting $1{,}620 < 1{,}800$ should have been a red flag. Choice B is wrong because 0.90 is the correct PHF. Choice C gives a nonsensical rate. Choice D accepts the error.',
+    hint: 'The peak flow rate equals $V/PHF$, not $V \\times PHF$. The result should always be greater than or equal to $V$.',
     steps: [
       {
         text: 'PHF check:',
@@ -215,8 +215,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'easy',
-    eli5: '$A = |g_2 - g_1| 	imes 100 = |-0.04 - 0.02| 	imes 100 = 0.06 	imes 100 = 6$. $K = L/A = 600/6 = 100$ ft per percent change. Choice B (300) used $A = 2$ (only the magnitude of one grade). Choice C (50) used $A = 12$ (added the absolute values of the grades as percentages: $2 + 4 = 6$, then doubled to 12). Choice D (6) confused $K$ with $A$.',
-    hint: '$K = L/A$, where $A = |g_2 - g_1| 	imes 100$. Compute $A$ in percent first.',
+    eli5: '$A = |g_2 - g_1| \\times 100 = |-0.04 - 0.02| \\times 100 = 0.06 \\times 100 = 6$. $K = L/A = 600/6 = 100$ ft per percent change. Choice B (300) used $A = 2$ (only the magnitude of one grade). Choice C (50) used $A = 12$ (added the absolute values of the grades as percentages: $2 + 4 = 6$, then doubled to 12). Choice D (6) confused $K$ with $A$.',
+    hint: '$K = L/A$, where $A = |g_2 - g_1| \\times 100$. Compute $A$ in percent first.',
     steps: [
       {
         text: 'Algebraic difference:',
@@ -317,7 +317,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$L = AS^2/(400 + 3.5S) = 6 	imes 400^2/(400 + 3.5 	imes 400) = 6 	imes 160{,}000/(400 + 1{,}400) = 960{,}000/1{,}800 = 533$ ft. Verify: $S = 400 < L = 533$, so $S leq L$ is satisfied. Choice B (444) used the crest formula: $6 	imes 160{,}000/2{,}158 = 444$. Choice A (600) used $2S - 	ext{constant}$. Choice D (400) confused $L$ with $S$.',
+    eli5: '$L = AS^2/(400 + 3.5S) = 6 \\times 400^2/(400 + 3.5 \\times 400) = 6 \\times 160{,}000/(400 + 1{,}400) = 960{,}000/1{,}800 = 533$ ft. Verify: $S = 400 < L = 533$, so $S \\leq L$ is satisfied. Choice B (444) used the crest formula: $6 \\times 160{,}000/2{,}158 = 444$. Choice A (600) used $2S - \\text{constant}$. Choice D (400) confused $L$ with $S$.',
     hint: 'Sag headlight formula: $L = AS^2/(400 + 3.5S)$. Make sure you use the sag denominator, not the crest constant.',
     steps: [
       {
@@ -338,7 +338,7 @@ const PROBLEMS = [
     videoUrl: null,
     traps: [
       'Using the crest constant (2,158) instead of the sag denominator $(400 + 3.5S)$',
-      'Forgetting to verify $S leq L$ after computing $L$'
+      'Forgetting to verify $S \\leq L$ after computing $L$'
     ],
     diagram: null,
     lessonId: 'vertical-curves',
@@ -368,7 +368,7 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c1',
     difficulty: 'hard',
-    eli5: 'The two formulas are derived under different geometric assumptions. The $S leq L$ formula assumes the sight line stays within the curve limits, and the $S > L$ formula assumes the sight line extends beyond the curve ends. If you use $S leq L$ and get $L < S$, the assumption is violated, so the result is not valid. You must switch to $L = 2S - 2{,}158/A$. Choice B is wrong — the $S leq L$ formula does not always give a longer curve. In fact, when $S > L$ actually holds, the $S leq L$ formula can give a shorter $L$. Choice C has no theoretical basis. Choice D is arbitrary.',
+    eli5: 'The two formulas are derived under different geometric assumptions. The $S \\leq L$ formula assumes the sight line stays within the curve limits, and the $S > L$ formula assumes the sight line extends beyond the curve ends. If you use $S \\leq L$ and get $L < S$, the assumption is violated, so the result is not valid. You must switch to $L = 2S - 2{,}158/A$. Choice B is wrong — the $S \\leq L$ formula does not always give a longer curve. In fact, when $S > L$ actually holds, the $S \\leq L$ formula can give a shorter $L$. Choice C has no theoretical basis. Choice D is arbitrary.',
     hint: 'The two crest formulas come from two different geometric cases. You must use the one that matches your result.',
     steps: [
       {
@@ -893,8 +893,8 @@ const PROBLEMS = [
     ],
     correctAnswerId: 'c3',
     difficulty: 'medium',
-    eli5: '$VMT = ADT 	imes 	ext{days} 	imes 	ext{length} = 12{,}000 	imes (365 	imes 3) 	imes 2 = 12{,}000 	imes 1{,}095 	imes 2 = 26{,}280{,}000$ vehicle-miles. $RMVM = A 	imes 1{,}000{,}000 / VMT = 8 	imes 1{,}000{,}000 / 26{,}280{,}000 = 0.304$ which rounds to 0.30. Choice B (0.91) used only 1 year instead of 3: $VMT = 8{,}760{,}000$, $RMVM = 8{,}000{,}000/8{,}760{,}000 = 0.91$. Choice A (109.6) forgot the segment length: $VMT = 12{,}000 	imes 1{,}095 = 13{,}140{,}000$ and also forgot the $	imes 1{,}000{,}000$ factor. Choice D (1.10) used only 1 mile and 1 year.',
-    hint: '$VMT = ADT 	imes 	ext{total days} 	imes 	ext{segment length}$. Use the full study period, not just one year.',
+    eli5: '$VMT = ADT \\times \\text{days} \\times \\text{length} = 12{,}000 \\times (365 \\times 3) \\times 2 = 12{,}000 \\times 1{,}095 \\times 2 = 26{,}280{,}000$ vehicle-miles. $RMVM = A \\times 1{,}000{,}000 / VMT = 8 \\times 1{,}000{,}000 / 26{,}280{,}000 = 0.304$ which rounds to 0.30. Choice B (0.91) used only 1 year instead of 3: $VMT = 8{,}760{,}000$, $RMVM = 8{,}000{,}000/8{,}760{,}000 = 0.91$. Choice A (109.6) forgot the segment length: $VMT = 12{,}000 \\times 1{,}095 = 13{,}140{,}000$ and also forgot the $\\times 1{,}000{,}000$ factor. Choice D (1.10) used only 1 mile and 1 year.',
+    hint: '$VMT = ADT \\times \\text{total days} \\times \\text{segment length}$. Use the full study period, not just one year.',
     steps: [
       {
         text: 'Total vehicle-miles traveled:',
