@@ -622,6 +622,25 @@
   line-height: 1.4;
 }
 
+.badges-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.72rem;
+  color: var(--ember);
+  transition: opacity 0.15s ease;
+}
+.badges-toggle:hover { opacity: 0.75; }
+.badges-caret { transition: transform 0.2s ease; }
+.badges-caret--up { transform: rotate(180deg); }
+
 /* ── Leaderboard ── */
 .lb-week {
   display: block;

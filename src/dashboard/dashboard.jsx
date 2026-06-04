@@ -17,6 +17,7 @@ import {
   Target,
   CalendarBlank,
   X,
+  CaretDown,
 } from '@phosphor-icons/react';
 import { CHAPTERS } from '../data/chapters';
 import { computeReadiness, computeFocusAreas, readinessLabel } from '../data/readiness';
@@ -50,6 +51,15 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   };
   const [topics, setTopics] = React.useState([]);
   const [stats, setStats] = React.useState({ totalXp: 0, currentStreak: 0, badges: [], allBadges: [] });
+  const [showAllBadges, setShowAllBadges] = React.useState(false);
+  // Earned achievements first, then the rest; collapsed to 3 so the column's
+  // other sections (leaderboard, live activity, share) stay above the fold.
+  const earnedBadgeIds = React.useMemo(() => new Set(stats.badges.map((b) => b.id)), [stats.badges]);
+  const sortedBadges = React.useMemo(
+    () => [...stats.allBadges].sort((a, b) => (earnedBadgeIds.has(b.id) ? 1 : 0) - (earnedBadgeIds.has(a.id) ? 1 : 0)),
+    [stats.allBadges, earnedBadgeIds],
+  );
+  const visibleBadges = showAllBadges ? sortedBadges : sortedBadges.slice(0, 3);
   const [leaderboard, setLeaderboard] = React.useState({ weekId: '', entries: [] });
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
@@ -451,8 +461,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                 Achievements
               </h3>
               <div className="badges-compact">
-                {stats.allBadges.map((badge) => {
-                  const earned = stats.badges.some((b) => b.id === badge.id);
+                {visibleBadges.map((badge) => {
+                  const earned = earnedBadgeIds.has(badge.id);
                   return (
                     <div key={badge.id} className={`badge-row${earned ? ' badge-row--earned' : ''}`} title={badge.description}>
                       <span className="badge-name">{badge.name}</span>
@@ -461,6 +471,14 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                   );
                 })}
               </div>
+              {stats.allBadges.length > 3 && (
+                <button className="badges-toggle" onClick={() => setShowAllBadges((v) => !v)} aria-expanded={showAllBadges}>
+                  {showAllBadges
+                    ? 'Show less'
+                    : `Show all ${stats.allBadges.length}${earnedBadgeIds.size > 0 ? ` · ${earnedBadgeIds.size} earned` : ''}`}
+                  <CaretDown weight="bold" size={12} className={`badges-caret${showAllBadges ? ' badges-caret--up' : ''}`} />
+                </button>
+              )}
             </div>
           )}
 
