@@ -4,7 +4,7 @@ import {
   ClipboardText,
   ArrowRight,
   ArrowsClockwise,
-  LockSimple,
+  CheckCircle,
 } from '@phosphor-icons/react';
 import './diagnostic.css';
 
@@ -101,9 +101,9 @@ export function DiagnosticCard({ diagnosticStatus, onSkip }) {
               Diagnostic Exam
             </span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--gray-400)', fontSize: '0.75rem' }}>
-            <LockSimple size={14} weight="bold" />
-            Retake locked
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--forest)', fontSize: '0.75rem', fontWeight: 600 }}>
+            <CheckCircle size={14} weight="bold" />
+            Diagnostic complete
           </div>
         </div>
         {lastScore !== undefined && (
@@ -120,8 +120,10 @@ export function DiagnosticCard({ diagnosticStatus, onSkip }) {
             {chaptersAt60}/{chaptersNeeded} chapters at 60%+
           </span>
         </div>
-        <p style={{ fontSize: '0.78rem', color: 'var(--gray-400)', margin: 0 }}>
-          Reach 60% mastery in {chaptersNeeded} chapters to unlock retake.
+        <p style={{ fontSize: '0.78rem', color: 'var(--gray-500)', margin: 0 }}>
+          {chaptersAt60 > 0
+            ? `Nice — you're ${chaptersAt60} of ${chaptersNeeded} chapters there. Keep practicing and a retake unlocks.`
+            : `Keep practicing — reach 60% mastery in ${chaptersNeeded} chapters and a retake unlocks.`}
         </p>
       </div>
     );
