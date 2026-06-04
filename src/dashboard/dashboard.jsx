@@ -33,6 +33,14 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   const examDays = examDate
     ? Math.ceil((new Date(`${examDate}T00:00:00`).getTime() - Date.now()) / 86400000)
     : null;
+  // Only prompt for what's actually still missing (name, exam date, or both).
+  const needName = !firstName;
+  const needExam = examDays === null;
+  const personalizeMsg = needName && needExam
+    ? 'Add your name and exam date so we can count down to exam day and show your name (not your email) in Live Activity.'
+    : needName
+      ? 'Add your name so we can show it (not your email) in the leaderboard and Live Activity.'
+      : 'Add your exam date so we can count down to exam day on your dashboard.';
   const [profilePromptDismissed, setProfilePromptDismissed] = React.useState(
     () => { try { return localStorage.getItem('fe4r-profile-prompt') === 'dismissed'; } catch { return false; } },
   );
@@ -266,11 +274,11 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
       {error && <div className="error-banner" role="alert">{error}</div>}
 
-      {(!firstName || examDays === null) && !profilePromptDismissed && (
+      {(needName || needExam) && !profilePromptDismissed && (
         <div className="profile-prompt">
           <Target weight="bold" size={18} className="profile-prompt-icon" />
           <p className="profile-prompt-text">
-            <strong>Personalize your account.</strong> Add your name{examDays === null ? ' and exam date' : ''} so we can {examDays === null ? 'count down to exam day and ' : ''}show your name (not your email) in Live Activity.
+            <strong>{needName ? 'Personalize your account.' : 'One more thing.'}</strong> {personalizeMsg}
           </p>
           <button className="profile-prompt-cta" onClick={() => navigate('/profile')}>Add details</button>
           <button className="profile-prompt-x" onClick={dismissProfilePrompt} aria-label="Dismiss">
