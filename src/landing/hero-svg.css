@@ -16,6 +16,8 @@
   z-index: 0;
   opacity: 0.35;
   pointer-events: none;
+  /* Shift the animation up so it clears the bottom-right brand lockup. */
+  transform: translateY(-12vh);
 }
 
 /* --- Base stroke styles --- */
