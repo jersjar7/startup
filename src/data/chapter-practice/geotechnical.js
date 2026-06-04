@@ -605,8 +605,8 @@ const PROBLEMS = [
       { text: 'The pile tip rests on sound rock.', latex: null },
       { text: 'So load is carried mainly by end bearing.', latex: null },
     ],
-    handbookPage: null,
-    handbookFormula: null,
+    handbookPage: 'Deep Foundations (FHWA/AASHTO)',
+    handbookFormula: 'Pile axial capacity = end bearing + skin friction',
     videoUrl: null,
     traps: [
       'Assuming skin friction dominates when the shaft is in soft soil',

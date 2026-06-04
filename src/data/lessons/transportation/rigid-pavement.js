@@ -88,8 +88,8 @@ export default {
         { text: 'It is the pressure to cause a unit deflection (force/length³).', latex: null },
         { text: 'Higher k means a stiffer foundation under the slab.', latex: null },
       ],
-      handbookPage: null,
-      handbookFormula: null,
+      handbookPage: 'AASHTO Rigid Pavement Design',
+      handbookFormula: 'Modulus of subgrade reaction, k',
       videoUrl: null,
       traps: [
         'Confusing subgrade stiffness (k) with concrete flexural strength',

@@ -87,8 +87,8 @@ export default {
         { text: 'Wind/seismic loads use C_D ≈ 1.6 (> 1.0); permanent loads use C_D = 0.9.', latex: null },
         { text: 'Therefore C_D > 1.0 for the wind load case, raising the allowable stress.', latex: null },
       ],
-      handbookPage: null,
-      handbookFormula: null,
+      handbookPage: 'NDS, Wood Design',
+      handbookFormula: 'Load Duration Factor, C_D',
       videoUrl: null,
       traps: [
         'Reversing the direction — assuming brief loads reduce capacity',

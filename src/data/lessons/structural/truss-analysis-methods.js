@@ -126,8 +126,8 @@ export default {
         { "text": "Only the angled member has a perpendicular component, and there is no external load to balance it.", "latex": null },
         { "text": "Therefore the angled member carries zero force (zero-force member).", "latex": null }
       ],
-      "handbookPage": null,
-      "handbookFormula": null,
+      "handbookPage": "p. 97, Plane Truss: Method of Joints",
+      "handbookFormula": "Zero-force member identification",
       "videoUrl": null,
       "traps": [
         "Assuming every member carries load — zero-force members are common at unloaded joints",

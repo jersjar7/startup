@@ -34,8 +34,8 @@ export default {
         { text: 'Equilibrium forces the two forces to be equal, opposite, collinear.', latex: null },
         { text: 'So the force acts along the line between the two pins.', latex: null },
       ],
-      handbookPage: null,
-      handbookFormula: null,
+      handbookPage: 'p. 97, Plane Truss',
+      handbookFormula: 'Two-force member: forces are equal, opposite, and collinear (axial)',
       videoUrl: null,
       traps: [
         'Assuming pin forces are perpendicular to the member',

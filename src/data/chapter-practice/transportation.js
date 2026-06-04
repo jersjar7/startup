@@ -550,8 +550,8 @@ const PROBLEMS = [
       { text: 'Unwarranted signals can increase crashes and delay.', latex: null },
       { text: 'So a signal should not be installed.', latex: null },
     ],
-    handbookPage: null,
-    handbookFormula: null,
+    handbookPage: 'MUTCD, Traffic Signal Warrants',
+    handbookFormula: 'Signal warrant criteria',
     videoUrl: null,
     traps: [
       'Assuming a signal is always an improvement',
