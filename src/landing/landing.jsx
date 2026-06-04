@@ -123,6 +123,10 @@ export function Landing({ userName }) {
             Get Started
             <ArrowRight weight="bold" size={18} />
           </button>
+          <p className="hero-login-row">
+            Already have an account?{' '}
+            <button className="hero-login-link" onClick={() => navigate('/login')}>Log in</button>
+          </p>
           <p className="hero-price">
             <strong>The whole platform is free</strong> — every lesson, 1,126 practice problems,
             the diagnostic, and spaced repetition. No trial, no credit card. The one optional

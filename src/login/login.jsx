@@ -149,8 +149,8 @@ export function Login({ userName, onLogin }) {
   return (
     <main className="login-main">
       <div className="login-form-container">
-        <h2>Welcome Back</h2>
-        <p className="login-subtitle">Sign in to continue your FE exam prep, or create a new account.</p>
+        <h2>Welcome to FE for Raccoons</h2>
+        <p className="login-subtitle">Create your free account, or log in to pick up where you left off.</p>
         {sessionExpired && (
           <p role="status" style={{ background: 'var(--sunbeam-bg)', color: 'var(--charcoal)', padding: '0.6rem 0.8rem', borderRadius: '8px', fontSize: '0.85rem', marginBottom: '0.75rem' }}>
             Your session expired — please sign in again.
@@ -219,7 +219,7 @@ export function Login({ userName, onLogin }) {
             </button>
             <button type="button" className="btn--secondary" disabled={submitting || !(email && password) || !acceptedTerms} onClick={handleRegister}>
               <UserPlus weight="bold" size={18} />
-              {submitting ? 'Please wait...' : 'Register'}
+              {submitting ? 'Please wait...' : 'Create account'}
             </button>
           </div>
         </form>

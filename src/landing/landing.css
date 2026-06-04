@@ -1266,3 +1266,20 @@
     padding-left: 1.25rem;
   }
 }
+
+/* "Already have an account? Log in" — returning-user path under the hero CTA */
+.hero-login-row {
+  margin-top: 0.9rem;
+  font-size: 0.9rem;
+  color: var(--gray-500);
+}
+.hero-login-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ember);
+  cursor: pointer;
+}
+.hero-login-link:hover { text-decoration: underline; }
