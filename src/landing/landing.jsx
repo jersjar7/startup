@@ -24,7 +24,6 @@ import {
   Path,
   HardHat,
   CaretDown,
-  Play,
   BookBookmark,
   SealWarning,
   ArrowsClockwise,
@@ -76,7 +75,6 @@ const sampleProblem = {
     { label: 'D', text: '22.5 kN·m' },
   ],
   eli5: 'Imagine laying a ruler across two books and pressing down evenly with your hand. The ruler bends the most right in the middle — that\'s where the bending moment is greatest. For a uniform load on a simple beam, the max moment is always at the center.',
-  video: 'https://www.youtube.com/watch?v=vm__If17_jE',
   handbookPage: 'p. 128',
   handbookFormula: 'M_{max} = \\frac{wL^2}{8}',
   traps: [
@@ -446,30 +444,6 @@ export function Landing({ userName }) {
                       </div>
                     </div>
                   </div>
-                </div>
-              )}
-
-              {/* Video (locked) */}
-              <button
-                className={`sample-panel-trigger ${openPanel === 'video' ? 'is-open' : ''}`}
-                onClick={() => togglePanel('video')}
-              >
-                <Play weight="bold" size={18} className="spt-icon spt-icon--sunbeam" />
-                <span>Video</span>
-                {openPanel === 'video' ? (
-                  <CaretDown weight="bold" size={14} className="spt-caret" />
-                ) : (
-                  <span className="spt-lock">
-                    <LockSimple size={12} weight="bold" />
-                    Submit answer to unlock
-                  </span>
-                )}
-              </button>
-              {openPanel === 'video' && (
-                <div className="sample-panel-body">
-                  <a href={sampleProblem.video} target="_blank" rel="noopener noreferrer" className="sample-link">
-                    Watch on YouTube →
-                  </a>
                 </div>
               )}
 
