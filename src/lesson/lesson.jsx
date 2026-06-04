@@ -9,7 +9,6 @@ import {
   BookBookmark,
   BookOpenText,
   ArrowsClockwise,
-  Play,
   SealWarning,
   LockSimple,
   CheckCircle,
@@ -132,7 +131,6 @@ const PANELS = [
   { key: 'handbook', label: 'FE Handbook',    icon: BookBookmark,     color: 'forest',  locked: false },
   { key: 'eli5',     label: 'Explain like I\'m 5', icon: BookOpenText, color: 'forest',  locked: true },
   { key: 'steps',    label: 'Step-by-Step',   icon: ArrowsClockwise,  color: 'ember',   locked: true },
-  { key: 'video',    label: 'Video',          icon: Play,             color: 'sunbeam', locked: true },
   { key: 'traps',    label: 'Common Traps',   icon: SealWarning,      color: 'ember',   locked: true },
 ];
 
@@ -565,7 +563,7 @@ export function LessonPage({ userName }) {
           {lesson.application && (
             <p className="lp-application"><MathText text={lesson.application} /></p>
           )}
-          {PANELS.filter((panel) => panel.key !== 'video' || problem?.videoUrl).map((panel) => {
+          {PANELS.map((panel) => {
             const Icon = panel.icon;
             const isLocked = panel.locked && !submitted;
             const isOpen = openPanel === panel.key && !isLocked;
@@ -643,17 +641,6 @@ function PanelContent({ panelKey, problem, lesson, subtopic }) {
             </div>
           ))}
         </div>
-      );
-
-    case 'video':
-      return problem.videoUrl ? (
-        <a href={problem.videoUrl} target="_blank" rel="noopener noreferrer">
-          Watch video explanation
-        </a>
-      ) : (
-        <p style={{ color: 'var(--gray-400)', fontStyle: 'italic' }}>
-          Video coming soon for this problem.
-        </p>
       );
 
     case 'traps':
