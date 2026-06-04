@@ -80,3 +80,43 @@ users:
 ### Not affected / out of scope
 - Spaced-repetition Daily Review (system C) works and is separate.
 - XP, streak, badges (driven by `userStats`, work fine).
+
+## Chosen `studyScore` curve (approved 2026-06-04, τ = 25 "Balanced")
+
+Methodology-driven: rewards retrieval + spacing + coverage, with diminishing
+returns and the existing forgetting-curve decay. Uses data we already store in
+`problemHistory` (`timesCorrect`, `timesIncorrect`, SR `interval`).
+
+Per problem `p` in the chapter:
+```
+base     = interval >= 21 ? 1.0 : interval >= 7 ? 0.7 : 0.4   // maturity (spacing)
+accuracy = timesCorrect / (timesCorrect + timesIncorrect)     // mastery / lapse penalty
+s(p)     = timesCorrect > 0 ? base * accuracy : 0
+```
+Chapter evidence and mastery:
+```
+E            = Σ s(p)  over the user's attempted problems in the chapter
+studyMastery = round(100 * (1 - e^(-E / 25)))
+totalMastery = max(diagnosticScore, studyMastery)             // then apply existing decay
+```
+Feel (Statics): cram 20 → 27%; same 20 matured/spaced → 55%; ~40 retained → 80%;
+~55 → ~89%.
+
+### Implementation plan
+1. **New pure helper** (e.g. `service/mastery.js` → `computeStudyMastery(history[])`)
+   with unit tests pinning the worked examples (cram 27%, spaced 55%, …).
+2. **`POST /api/sessions`**: after `upsertProblemHistory`, recompute the studied
+   chapter's `studyScore` from that chapter's full `problemHistory`, and write
+   `chapterMastery[chapterId] = { diagnosticScore, studyScore, totalMastery: max(...) }`.
+3. **`POST /api/review`**: do the same recompute for the chapters of the reviewed
+   problems — this is where maturity/spacing actually happens, so review MUST
+   raise mastery.
+4. **`getProgress`** (`dashboard.jsx`): use `chapterMastery[ch.id]` whenever it
+   exists (diagnostic or not); retire the legacy `topicLookup[chapter.name]` path.
+5. **Backfill**: self-heals — `studyScore` is recomputed from *full* history on
+   the next session/review, so existing users update on next activity (optional
+   one-off script to populate immediately).
+6. **Legacy `topics` collection**: stop depending on it for mastery; can retire
+   later.
+7. **Verify** on the QA account (practice → bars move; review → matured problems
+   raise mastery).
