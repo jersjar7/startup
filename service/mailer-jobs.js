@@ -5,12 +5,15 @@
 // never double-sends.
 
 const { userCollection, userStatsCollection, sessionLogCollection } = require('./db/connection.js');
-const { generateToken } = require('./crypto.js');
+const { generateToken, hashToken } = require('./crypto.js');
+const { deleteAllUserData } = require('./db/accountDeletion.js');
 const {
   sendWelcomeEmail, sendWeeklyDigestEmail, sendWinbackEmail, sendExamCountdownEmail,
+  sendVerifyReminderEmail,
 } = require('./email.js');
 const {
   TZ_DEFAULT, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive, examMilestoneToSend,
+  isVerifyReminderDue, isStaleUnverified,
 } = require('./lifecycle.js');
 const { daysUntilExam } = require('./profile.js');
 
@@ -57,6 +60,7 @@ async function weeklyStatsFor(email) {
     masteryTo,
     focusChapter,
     lastSessionDate: stats?.lastSessionDate || null,
+    diagnosticCompleted: stats?.diagnosticCompleted === true,
   };
 }
 
@@ -72,8 +76,15 @@ async function sendWelcomes(now) {
   for (const u of users) {
     if (!isWelcomeDue(u.verifiedAt, now, TZ)) continue;
     try {
+      // Adaptive: if they already took the diagnostic, send the next-step email
+      // (their weakest chapter) instead of nagging them to take it again.
+      const stats = await weeklyStatsFor(u.email);
       const token = await ensureUnsubToken(u);
-      await sendWelcomeEmail(u.email, { unsubUrl: unsubUrl(token) });
+      await sendWelcomeEmail(u.email, {
+        unsubUrl: unsubUrl(token),
+        diagnosticDone: stats.diagnosticCompleted,
+        focusChapter: stats.focusChapter,
+      });
       await userCollection.updateOne({ email: u.email }, { $set: { welcomeSentAt: new Date() } });
       sent += 1;
       await sleep(SEND_GAP_MS);
@@ -82,6 +93,55 @@ async function sendWelcomes(now) {
     }
   }
   return sent;
+}
+
+// Morning-after nudge for accounts that signed up but never verified. Sent once
+// (guarded by verifyReminderSentAt), with a freshly issued verification token.
+async function sendVerifyReminders(now) {
+  const users = await userCollection.find({
+    emailVerified: { $ne: true },
+    verifyReminderSentAt: { $exists: false },
+    lifecycleOptOut: { $ne: true },
+  }).limit(MAX_PER_RUN).toArray();
+
+  let sent = 0;
+  for (const u of users) {
+    if (!isVerifyReminderDue(u.createdAt, now, TZ)) continue;
+    try {
+      const rawToken = generateToken();
+      await userCollection.updateOne(
+        { email: u.email },
+        { $set: { verificationToken: hashToken(rawToken), verificationSentAt: new Date(), verifyReminderSentAt: new Date() } },
+      );
+      await sendVerifyReminderEmail(u.email, rawToken);
+      sent += 1;
+      await sleep(SEND_GAP_MS);
+    } catch (e) {
+      console.error('[lifecycle] verify reminder failed for', u.email, e.message);
+    }
+  }
+  return sent;
+}
+
+// DB hygiene: delete accounts left unverified past the stale window. Full
+// cascade so no orphaned rows remain. Anyone who verifies first drops out of the
+// query, so only genuinely-abandoned signups are removed.
+async function purgeStaleUnverified(now) {
+  const users = await userCollection.find({
+    emailVerified: { $ne: true },
+  }).limit(MAX_PER_RUN).toArray();
+
+  let purged = 0;
+  for (const u of users) {
+    if (!isStaleUnverified(u.createdAt, now)) continue;
+    try {
+      await deleteAllUserData(u.email, u.userId);
+      purged += 1;
+    } catch (e) {
+      console.error('[lifecycle] purge failed for', u.email, e.message);
+    }
+  }
+  return purged;
 }
 
 async function sendWinbacks(now) {
@@ -188,13 +248,15 @@ async function runLifecycleEmails(now = new Date()) {
   try {
     if (etHour(now, TZ) !== SEND_HOUR) return { skipped: 'off-hour' };
     const welcome = await sendWelcomes(now);
+    const verify = await sendVerifyReminders(now);
     const winback = await sendWinbacks(now);
     const exam = await sendExamCountdowns(now);
     const weekly = etWeekday(now, TZ) === 'Sun' ? await sendWeeklyDigests(now) : 0;
-    if (welcome || winback || exam || weekly) {
-      console.log(`[lifecycle] sent welcome=${welcome} winback=${winback} exam=${exam} weekly=${weekly}`);
+    const purged = await purgeStaleUnverified(now);
+    if (welcome || verify || winback || exam || weekly || purged) {
+      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam} weekly=${weekly} purged=${purged}`);
     }
-    return { welcome, winback, exam, weekly };
+    return { welcome, verify, winback, exam, weekly, purged };
   } catch (e) {
     console.error('[lifecycle] run failed:', e.message);
     return { error: e.message };

@@ -198,8 +198,38 @@ function bullets(items) {
   return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 22px;">${rows}</table>`;
 }
 
-// Sent the morning after a user verifies. One job: get them to the diagnostic.
-async function sendWelcomeEmail(toEmail, { unsubUrl } = {}) {
+// Humanize a chapter key for display ('water-resources' -> 'Water Resources').
+function chapterLabel(key) {
+  if (!key) return '';
+  return /[-_]/.test(key)
+    ? key.replace(/[-_]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+    : key;
+}
+
+// Sent the morning after a user verifies. Adaptive: if they already took the
+// diagnostic, point them at their next study session instead of nagging them to
+// do something they've done; otherwise, get them to the diagnostic.
+async function sendWelcomeEmail(toEmail, { unsubUrl, diagnosticDone = false, focusChapter = null } = {}) {
+  if (diagnosticDone) {
+    const focus = chapterLabel(focusChapter);
+    return sendEmail({
+      to: toEmail,
+      subject: 'Your study plan is ready',
+      headers: lifecycleHeaders(unsubUrl),
+      html: emailLayout({
+        preheader: 'Nice start — here\'s your best next move.',
+        heading: 'Your plan is ready.',
+        unsubUrl,
+        inner:
+          para('Great start — your diagnostic is done, so your study plan is built around your real weak spots.') +
+          (focus
+            ? para(`<strong>Best place to begin: ${focus}</strong> — it\'s your lowest area right now, so it\'s where focused practice moves your score the most.`)
+            : para('Jump back in and start with your lowest-mastery chapter — that\'s where focused practice moves your score the most.')) +
+          button('Start studying', `${appUrl}/dashboard`) +
+          para(`<span style="font-size:13px;color:${C.mute};">Everything here is free — lessons, 1,126 problems, your plan. The only paid thing is the full timed exam sim, if you ever want it.</span>`),
+      }),
+    });
+  }
   return sendEmail({
     to: toEmail,
     subject: 'Start with the 5-minute diagnostic',
@@ -212,6 +242,22 @@ async function sendWelcomeEmail(toEmail, { unsubUrl } = {}) {
         para('The smartest first move is the <strong>free diagnostic</strong>. About 5 minutes, and it builds your study plan around your weak spots — so you study what actually moves your score.') +
         button('Take the diagnostic', `${appUrl}/diagnostic`) +
         para(`<span style="font-size:13px;color:${C.mute};">Everything here is free — lessons, 1,126 problems, the diagnostic. The only paid thing is the full timed exam sim, if you ever want it.</span>`),
+    }),
+  });
+}
+
+// Sent the morning after signup if the account is still unverified — one nudge
+// (with a fresh link) so a missed/spam'd first email doesn't lose the user.
+async function sendVerifyReminderEmail(toEmail, rawToken) {
+  return sendEmail({
+    to: toEmail,
+    subject: 'Finish setting up your FE for Raccoons account',
+    html: ctaEmail({
+      heading: 'One step left — verify your email',
+      body: "You created an account but haven't verified your email yet. Confirm it to secure your account and keep your streak, XP, and progress synced everywhere.",
+      ctaText: 'Verify email',
+      ctaUrl: `${appUrl}/verify-email/${rawToken}`,
+      note: "If you didn't create this account, you can ignore this email.",
     }),
   });
 }
@@ -304,6 +350,7 @@ function getEmailConfig() {
 module.exports = {
   sendPasswordResetEmail,
   sendVerificationEmail,
+  sendVerifyReminderEmail,
   sendStudentCodeEmail,
   sendTestEmail,
   sendWelcomeEmail,

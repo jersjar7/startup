@@ -36,6 +36,21 @@ function daysSince(date, now) {
   return Math.floor((now.getTime() - new Date(date).getTime()) / 86400000);
 }
 
+// Verify-email reminder is due the morning AFTER signup (same calendar rule as
+// the welcome, but keyed on createdAt) — so someone who signs up but never
+// verifies gets one nudge the next morning rather than silence.
+function isVerifyReminderDue(createdAt, now, tz = TZ_DEFAULT) {
+  if (!createdAt) return false;
+  return etDate(new Date(createdAt), tz) < etDate(now, tz);
+}
+
+// Accounts left unverified this many days are purged (DB hygiene). The full
+// account-deletion cascade runs, so no orphaned rows are left behind.
+const STALE_UNVERIFIED_DAYS = 30;
+function isStaleUnverified(createdAt, now, days = STALE_UNVERIFIED_DAYS) {
+  return daysSince(createdAt, now) >= days;
+}
+
 // Whether the weekly digest should use the upbeat "active" copy vs the gentle
 // re-engagement copy.
 function digestIsActive({ weeklyXp = 0, problemsThisWeek = 0 } = {}) {
@@ -61,4 +76,5 @@ function examMilestoneToSend(daysLeft, sent = [], milestones = EXAM_MILESTONES) 
 module.exports = {
   TZ_DEFAULT, etDate, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive,
   EXAM_MILESTONES, examMilestoneToSend,
+  isVerifyReminderDue, isStaleUnverified, STALE_UNVERIFIED_DAYS,
 };

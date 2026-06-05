@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 const {
   etDate, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive, examMilestoneToSend,
+  isVerifyReminderDue, isStaleUnverified, STALE_UNVERIFIED_DAYS,
 } = require('./lifecycle');
 
 const TZ = 'America/New_York';
@@ -46,6 +47,39 @@ describe('isWelcomeDue (morning after verification)', () => {
 
   it('is false with no verification timestamp', () => {
     expect(isWelcomeDue(null, new Date(), TZ)).toBe(false);
+  });
+});
+
+describe('isVerifyReminderDue (morning after signup, still unverified)', () => {
+  it('is false the same calendar day as signup', () => {
+    const created = new Date('2026-06-02T14:00:00Z'); // 10am ET Jun 2
+    const now = new Date('2026-06-02T22:00:00Z'); // 6pm ET Jun 2
+    expect(isVerifyReminderDue(created, now, TZ)).toBe(false);
+  });
+  it('is true the next morning', () => {
+    const created = new Date('2026-06-02T14:00:00Z'); // Jun 2 ET
+    const now = new Date('2026-06-03T12:00:00Z'); // 8am ET Jun 3
+    expect(isVerifyReminderDue(created, now, TZ)).toBe(true);
+  });
+  it('is false with no createdAt', () => {
+    expect(isVerifyReminderDue(null, new Date(), TZ)).toBe(false);
+  });
+});
+
+describe('isStaleUnverified', () => {
+  it('is false before the stale window', () => {
+    const created = new Date('2026-06-01T00:00:00Z');
+    const now = new Date('2026-06-20T00:00:00Z'); // 19 days
+    expect(isStaleUnverified(created, now)).toBe(false);
+  });
+  it('is true at/after the stale window', () => {
+    const created = new Date('2026-06-01T00:00:00Z');
+    const now = new Date(`2026-06-01T00:00:00Z`);
+    const past = new Date(now.getTime() + STALE_UNVERIFIED_DAYS * 86400000);
+    expect(isStaleUnverified(created, past)).toBe(true);
+  });
+  it('treats a missing createdAt as stale (orphan cleanup)', () => {
+    expect(isStaleUnverified(null, new Date())).toBe(true);
   });
 });
 
