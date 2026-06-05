@@ -17,8 +17,32 @@ export function PublicTopic() {
 
   const Icon = topic.icon;
   const url = `${SITE}/fe-civil/${topic.id}`;
-  const title = `FE Civil ${topic.name} — Study Guide, Formulas & Practice | FE for Raccoons`;
+  const title = `FE Civil ${topic.name}: Free Practice Problems & Study Guide | FE for Raccoons`;
   const description = `Free FE Civil ${topic.name} study guide: what NCEES tests (${topic.questionRange} questions), key formulas with FE Reference Handbook pages, sample problems with plain-English explanations, and common mistakes to avoid.`;
+
+  // Per-topic FAQ built from real topic data — targets long-tail "how many /
+  // is it hard / free practice" queries and the People-Also-Ask boxes.
+  const subtopicList = topic.subtopics.map((s) => s.name).join(', ');
+  const faqs = [
+    {
+      q: `How many FE Civil ${topic.name} questions are on the exam?`,
+      a: `NCEES includes roughly ${topic.questionRange} ${topic.name} questions on the computer-based FE Civil exam, which has 110 questions total over about six hours.`,
+    },
+    {
+      q: `What ${topic.name} topics does the FE Civil exam cover?`,
+      a: subtopicList
+        ? `The FE Civil exam tests ${topic.name} across: ${subtopicList}.`
+        : `The FE Civil exam tests core ${topic.name} concepts from the NCEES FE Civil specification.`,
+    },
+    {
+      q: `Is FE Civil ${topic.name} hard?`,
+      a: `${topic.name} is very learnable for the FE. It rewards recognizing a handful of standard problem types and applying the right FE Reference Handbook formula — not deep theory. Practicing past-style problems is the fastest way to master it.`,
+    },
+    {
+      q: `Where can I find free FE Civil ${topic.name} practice problems?`,
+      a: `FE for Raccoons has free ${topic.name} lessons and practice problems with step-by-step explanations — part of a 1,126-problem bank covering all 15 FE Civil topics, free at fe4raccoons.com.`,
+    },
+  ];
 
   const jsonLd = [
     {
@@ -41,6 +65,14 @@ export function PublicTopic() {
         { '@type': 'ListItem', position: 1, name: 'FE Civil Exam Guide', item: `${SITE}/fe-civil-exam-guide` },
         { '@type': 'ListItem', position: 2, name: topic.name, item: url },
       ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question', name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
     },
   ];
 
@@ -144,6 +176,20 @@ export function PublicTopic() {
           </ul>
         </section>
       )}
+
+      {/* FAQ — visible Q&A backing the FAQPage schema */}
+      <section className="pub-section">
+        <span className="pub-label"><span className="pub-label-dash" />FAQ</span>
+        <h2>FE Civil {topic.name}: common questions</h2>
+        <div className="pub-faq">
+          {faqs.map((f, i) => (
+            <details key={i} className="pub-eli5">
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
 
       {/* Final CTA */}
       <section className="pub-final-cta">
