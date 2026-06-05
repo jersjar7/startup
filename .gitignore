@@ -18,3 +18,9 @@ research/civil/fe-handbook-*.pdf
 
 # Remotion render output
 out/
+
+# Local marketing/advertising assets — never tracked (large media + drafts)
+marketing/
+
+# macOS
+.DS_Store
