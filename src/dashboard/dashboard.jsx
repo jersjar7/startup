@@ -27,11 +27,21 @@ import { ExamSimCard } from '../exam/ExamSimCard';
 import { ScoringModal } from './ScoringModal';
 import './dashboard.css';
 
+// Live-activity presence arrives as { from, topic } (practice) or
+// { from, chapter, lesson } (lessons). Resolve a readable label from whichever
+// shape it is and humanize ids like "mechanics-materials" -> "Mechanics Materials".
+function prettyTopic(event) {
+  const raw = event.topic || event.chapter || event.lesson || '';
+  if (!raw) return 'the FE';
+  return /[-_]/.test(raw)
+    ? raw.replace(/[-_]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+    : raw.charAt(0).toUpperCase() + raw.slice(1);
+}
+
 export function Dashboard({ userName, onLogout, displayName, firstName, examDate }) {
   const navigate = useNavigate();
   useDocumentTitle('Dashboard');
   // Shown to other users in Live Activity — never the raw email.
-  const activityName = displayName || (userName || '').split('@')[0] || 'A student';
   const examDays = examDate
     ? Math.ceil((new Date(`${examDate}T00:00:00`).getTime() - Date.now()) / 86400000)
     : null;
@@ -153,16 +163,16 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
     const ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
-    ws.onopen = () => {
-      ws.send(JSON.stringify({ type: 'study', from: activityName, topic: 'Dashboard' }));
-    };
-
+    // Listen only — presence is broadcast from real lessons/practice sessions,
+    // not from just having the dashboard open.
     ws.onmessage = (event) => {
       // Frames may arrive as a string or a Blob; parse defensively either way.
       const handle = (text) => {
         try {
           const msg = JSON.parse(text);
-          setEvents((prev) => [msg, ...prev].slice(0, 10));
+          // One row per user (their latest activity) — clients re-broadcast on
+          // every WebSocket reconnect, so dedupe by `from` to avoid repeats.
+          setEvents((prev) => [msg, ...prev.filter((e) => e.from !== msg.from)].slice(0, 10));
         } catch {
           /* ignore malformed frames */
         }
@@ -179,9 +189,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   }, [userName, navigate]);
 
   const handleChapterClick = (chapter) => {
-    if (socket && socket.readyState === WebSocket.OPEN) {
-      socket.send(JSON.stringify({ type: 'study', from: activityName, topic: chapter.name }));
-    }
+    // Presence is broadcast once the study page actually loads — not on click.
     navigate(`/study/${chapter.id}`);
   };
 
@@ -494,7 +502,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                 events.map((event, index) => (
                   <li key={index}>
                     <span className="act-user">{event.from}</span> studying{' '}
-                    <span className="act-topic">{event.topic}</span>
+                    <span className="act-topic">{prettyTopic(event)}</span>
                   </li>
                 ))
               ) : (
