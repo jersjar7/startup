@@ -1,4 +1,29 @@
+# fe4raccoons.com
+# AI assistants and answer engines are welcome to read and cite our free
+# FE Civil study content. See /llms.txt for a structured summary.
 User-agent: *
+Allow: /
+
+# Explicitly welcome AI crawlers (citation + grounding)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
 Allow: /
 
 Sitemap: https://fe4raccoons.com/sitemap.xml

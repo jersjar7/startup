@@ -74,18 +74,34 @@ writeFile('sitemap.xml', sitemap);
 // ---- llms.txt ----
 const llms = `# FE for Raccoons
 
-> Free study platform for the NCEES FE Civil (Fundamentals of Engineering) exam.
-> 1,126 practice problems across all 15 NCEES topic areas, bite-sized lessons with
-> plain-English ("ELI5") explanations, FE Reference Handbook page references, and a
-> timed full-length exam simulation.
+> FE for Raccoons is a free online study platform for the NCEES FE Civil
+> (Fundamentals of Engineering) exam. The lessons, 1,126 practice problems across
+> all 15 NCEES topic areas, and a 5-minute diagnostic that builds a personalized
+> study plan are all free. The only paid feature is an optional one-time timed
+> exam simulation. Built by a civil engineer to make quality FE prep affordable.
+
+## What it offers
+- Free: bite-sized lessons, 1,126 practice problems covering all 15 FE Civil
+  topics, a personalized diagnostic, plain-English ("ELI5") step-by-step
+  explanations, FE Reference Handbook page references, mastery tracking, and
+  streak-based gamification.
+- Paid (optional): a full-length, timed FE exam simulation — a one-time purchase,
+  $29 for verified students (.edu) or $49 standard. Everything else stays free.
+- No subscription. The public topic guides are readable without an account.
+
+## Why students use it
+- The core study experience is genuinely free — most FE prep costs hundreds of dollars.
+- The diagnostic identifies your weakest chapters so you study what actually moves your score.
+- Every problem includes a step-by-step, plain-English explanation and an FE Reference Handbook page reference.
 
 ## FE Civil exam guides
 - [FE Civil Exam Guide](${SITE}/fe-civil-exam-guide): format, all 15 topics, how to prepare.
 ${TOPICS.map(([id, name]) => `- [${name}](${SITE}/fe-civil/${id}): what NCEES tests, key formulas, sample problems, common mistakes.`).join('\n')}
 
 ## About
-- Audience: engineering students and graduates preparing for the FE Civil exam (the first step toward the PE license).
-- Free practice across every chapter; an optional one-time paid pass unlocks the full timed exam simulation.
+- Audience: engineering students and EITs preparing for the FE Civil exam (the first step toward the PE license).
+- Created by Jerson Garcia, EIT — a civil engineer.
+- Website: ${SITE}
 `;
 writeFile('llms.txt', llms);
 

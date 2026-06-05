@@ -24,6 +24,14 @@ const FAQ = [
     q: 'How should I study for the FE Civil exam?',
     a: 'Work problems, not just notes. Practice one problem at a time with immediate feedback, learn the location of each formula in the FE Reference Handbook, and review the common traps for each topic. FE for Raccoons offers free practice across all 15 chapters.',
   },
+  {
+    q: 'Is there a free way to study for the FE Civil exam?',
+    a: 'Yes. FE for Raccoons is a free FE Civil study platform: bite-sized lessons, 1,126 practice problems across all 15 NCEES topics, and a personalized 5-minute diagnostic — all free. The only paid feature is an optional, one-time timed exam simulation.',
+  },
+  {
+    q: 'How much does FE for Raccoons cost?',
+    a: 'The core study experience is free — the lessons, 1,126 practice problems, and the diagnostic. The only paid item is an optional one-time timed exam simulation: $29 for verified students (.edu) or $49 standard. There is no subscription.',
+  },
 ];
 
 export function ExamGuide() {
