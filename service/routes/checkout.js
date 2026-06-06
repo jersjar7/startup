@@ -4,7 +4,7 @@ const rateLimit = require('express-rate-limit');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const {
-  isStudentEmail, qualifiesForStudent, STUDENT_CENTS, STANDARD_CENTS,
+  isStudentEmail, qualifiesForStudent, tierForCents, STUDENT_CENTS, STANDARD_CENTS,
 } = require('../pricing.js');
 const { generateNumericCode, hashToken } = require('../crypto.js');
 const { sendStudentCodeEmail } = require('../email.js');
@@ -65,6 +65,7 @@ router.post('/create-session', verifyAuth, async (req, res) => {
     success_url: `${origin}/exam?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/exam`,
     allow_promotion_codes: true,
+    metadata: { tier: isStudent ? 'student' : 'standard', userId },
   });
 
   // Funnel analytics: a checkout was initiated (for start->paid conversion).
@@ -157,6 +158,7 @@ router.get('/status', verifyAuth, async (req, res) => {
           stripeSessionId: session.id,
           amount: session.amount_total,
           currency: session.currency,
+          tier: session.metadata?.tier || tierForCents(session.amount_total),
           status: 'completed',
         });
         purchased = true;
