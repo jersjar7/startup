@@ -246,6 +246,59 @@ async function sendWelcomeEmail(toEmail, { unsubUrl, diagnosticDone = false, foc
   });
 }
 
+// Post-purchase follow-up for the exam simulator. Deliberately NOT sent at
+// checkout (they're about to dive in). Two timed variants:
+//   'firstExam' — the morning after they finish their first full sim (ideal)
+//   'nudge'     — ~48h after purchase if they haven't run one yet
+async function sendSimFollowupEmail(toEmail, { variant, scorePct = null, focusChapter = null, unsubUrl } = {}) {
+  const focus = chapterLabel(focusChapter);
+  if (variant === 'nudge') {
+    return sendEmail({
+      to: toEmail,
+      subject: 'Your FE exam simulator is ready',
+      headers: lifecycleHeaders(unsubUrl),
+      html: emailLayout({
+        preheader: "Whenever you're ready — here's how to get the most from it.",
+        heading: "Your simulator's ready when you are.",
+        unsubUrl,
+        inner:
+          para('You unlocked the full timed exam simulation — the single best way to prepare is to sit one all the way through.') +
+          bullets([
+            'Treat it like the real thing: full length, timed, no notes.',
+            'Afterward, review <strong>every</strong> question — the ones you got right too.',
+            focus ? `Then drill your weakest area (<strong>${focus}</strong>) and run it again.` : 'Then drill your weakest topics and run it again.',
+          ]) +
+          button('Start your exam', `${appUrl}/exam`) +
+          para(`<span style="font-size:13px;color:${C.mute};">No rush — your access doesn't expire.</span>`),
+      }),
+    });
+  }
+  // 'firstExam'
+  return sendEmail({
+    to: toEmail,
+    subject: 'How did your first practice exam go?',
+    headers: lifecycleHeaders(unsubUrl),
+    html: emailLayout({
+      preheader: 'Turn that sim into a score jump.',
+      heading: 'Nice work on your first sim.',
+      unsubUrl,
+      inner:
+        para(scorePct != null
+          ? `You finished a full timed exam and scored <strong>${scorePct}%</strong> — a real baseline to build on. That single rep is one of the best things you can do to prepare.`
+          : 'You finished a full timed exam — one of the best things you can do to prepare.') +
+        para("Here's how to turn it into a score jump:") +
+        bullets([
+          'Review <strong>every</strong> question — the ones you got right too (lucky guesses hide gaps).',
+          focus ? `Focus your lowest area: <strong>${focus}</strong>.` : 'Focus your lowest topics — your dashboard shows where.',
+          'Retake in a week and watch the number climb.',
+        ]) +
+        para('Most people improve fast once they study by weakness instead of cramming everything.') +
+        button('Review your results', `${appUrl}/exam`) +
+        para(`<span style="font-size:13px;color:${C.mute};">Reply anytime — a real person reads these.</span>`),
+    }),
+  });
+}
+
 // Sent the morning after signup if the account is still unverified — one nudge
 // (with a fresh link) so a missed/spam'd first email doesn't lose the user.
 async function sendVerifyReminderEmail(toEmail, rawToken) {
@@ -357,5 +410,6 @@ module.exports = {
   sendWeeklyDigestEmail,
   sendWinbackEmail,
   sendExamCountdownEmail,
+  sendSimFollowupEmail,
   getEmailConfig,
 };
