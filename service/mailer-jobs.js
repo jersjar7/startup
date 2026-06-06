@@ -4,12 +4,12 @@
 // loop is idempotent — running it twice in the same hour (or after a restart)
 // never double-sends.
 
-const { userCollection, userStatsCollection, sessionLogCollection } = require('./db/connection.js');
+const { userCollection, userStatsCollection, sessionLogCollection, examAttemptsCollection } = require('./db/connection.js');
 const { generateToken, hashToken } = require('./crypto.js');
 const { deleteAllUserData } = require('./db/accountDeletion.js');
 const {
   sendWelcomeEmail, sendWeeklyDigestEmail, sendWinbackEmail, sendExamCountdownEmail,
-  sendVerifyReminderEmail,
+  sendVerifyReminderEmail, sendSimFollowupEmail,
 } = require('./email.js');
 const {
   TZ_DEFAULT, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive, examMilestoneToSend,
@@ -237,6 +237,49 @@ async function sendExamCountdowns(now) {
   return sent;
 }
 
+// Post-purchase simulator follow-up. Sent once per buyer (guarded by
+// simFollowupSentAt). Prefers the "first exam" recap once they've completed a
+// sim; otherwise nudges ~48h after purchase. Gated by SIM_FOLLOWUP_ENABLED so
+// the copy can be approved before any buyer receives it.
+async function sendSimFollowups(now) {
+  const users = await userCollection.find({
+    examSimAccess: true,
+    simFollowupSentAt: { $exists: false },
+    lifecycleOptOut: { $ne: true },
+  }).limit(MAX_PER_RUN).toArray();
+
+  let sent = 0;
+  for (const u of users) {
+    const uid = u._id.toString();
+    const done = await examAttemptsCollection.findOne({ userId: uid, status: 'completed' });
+    let variant = null;
+    let scorePct = null;
+    if (done) {
+      variant = 'firstExam';
+      scorePct = done.overallPercentage != null ? Math.round(done.overallPercentage) : null;
+    } else if (u.examSimPurchaseDate && daysSince(u.examSimPurchaseDate, now) >= 2) {
+      variant = 'nudge';
+    }
+    if (!variant) continue;
+    try {
+      const stats = await weeklyStatsFor(u.email);
+      const token = await ensureUnsubToken(u);
+      await sendSimFollowupEmail(u.email, {
+        variant, scorePct, focusChapter: stats.focusChapter, unsubUrl: unsubUrl(token),
+      });
+      await userCollection.updateOne(
+        { email: u.email },
+        { $set: { simFollowupSentAt: new Date(), simFollowupVariant: variant } },
+      );
+      sent += 1;
+      await sleep(SEND_GAP_MS);
+    } catch (e) {
+      console.error('[lifecycle] sim followup failed for', u.email, e.message);
+    }
+  }
+  return sent;
+}
+
 let running = false;
 
 // Run one pass. Only acts during the morning send hour; weekly digests only on
@@ -252,11 +295,12 @@ async function runLifecycleEmails(now = new Date()) {
     const winback = await sendWinbacks(now);
     const exam = await sendExamCountdowns(now);
     const weekly = etWeekday(now, TZ) === 'Sun' ? await sendWeeklyDigests(now) : 0;
+    const simFollow = process.env.SIM_FOLLOWUP_ENABLED === '1' ? await sendSimFollowups(now) : 0;
     const purged = await purgeStaleUnverified(now);
-    if (welcome || verify || winback || exam || weekly || purged) {
-      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam} weekly=${weekly} purged=${purged}`);
+    if (welcome || verify || winback || exam || weekly || simFollow || purged) {
+      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam} weekly=${weekly} simFollow=${simFollow} purged=${purged}`);
     }
-    return { welcome, verify, winback, exam, weekly, purged };
+    return { welcome, verify, winback, exam, weekly, simFollow, purged };
   } catch (e) {
     console.error('[lifecycle] run failed:', e.message);
     return { error: e.message };
