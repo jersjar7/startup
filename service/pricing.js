@@ -33,11 +33,20 @@ function priceCentsForUser(user) {
   return qualifiesForStudent(user) ? STUDENT_CENTS : STANDARD_CENTS;
 }
 
+// Map a paid amount (cents) back to its tier. Fallback for purchases whose
+// Stripe session metadata didn't carry an explicit tier.
+function tierForCents(cents) {
+  if (cents === STUDENT_CENTS) return 'student';
+  if (cents === STANDARD_CENTS) return 'standard';
+  return 'unknown';
+}
+
 module.exports = {
   isStudentEmail,
   priceCentsForEmail,
   qualifiesForStudent,
   priceCentsForUser,
+  tierForCents,
   STUDENT_CENTS,
   STANDARD_CENTS,
 };

@@ -1,6 +1,7 @@
 const express = require('express');
 const Stripe = require('stripe');
 const DB = require('../database.js');
+const { tierForCents } = require('../pricing.js');
 
 const router = express.Router();
 
@@ -45,6 +46,7 @@ router.post('/stripe', async (req, res) => {
       amount: session.amount_total,
       currency: session.currency,
       paymentStatus: session.payment_status,
+      tier: session.metadata?.tier || tierForCents(session.amount_total),
       status: 'completed',
     });
 
