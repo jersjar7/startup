@@ -176,9 +176,12 @@ export function ExamResults({ userName }) {
 
         {/* Actions */}
         <div className="er-actions">
-          <button className="btn-primary" onClick={() => navigate('/exam')}>
-            Back to Exam Hub
+          <button className="btn-primary" onClick={() => navigate(`/exam/review/${attemptId}`)}>
+            Review answers
             <ArrowRight size={16} weight="bold" />
+          </button>
+          <button className="btn-secondary" onClick={() => navigate('/exam')}>
+            Back to Exam Hub
           </button>
           <button className="btn-secondary" onClick={() => navigate('/dashboard')}>
             <ArrowLeft size={16} weight="bold" />

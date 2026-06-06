@@ -24,6 +24,7 @@ const DiagnosticReview = React.lazy(() => import('./diagnostic/DiagnosticReview'
 const ExamGate = React.lazy(() => import('./exam/ExamGate').then(m => ({ default: m.ExamGate })));
 const ExamSession = React.lazy(() => import('./exam/ExamSession').then(m => ({ default: m.ExamSession })));
 const ExamResults = React.lazy(() => import('./exam/ExamResults').then(m => ({ default: m.ExamResults })));
+const ExamReview = React.lazy(() => import('./exam/ExamReview').then(m => ({ default: m.ExamReview })));
 const ResetPassword = React.lazy(() => import('./login/ResetPassword').then(m => ({ default: m.ResetPassword })));
 const VerifyEmail = React.lazy(() => import('./login/VerifyEmail').then(m => ({ default: m.VerifyEmail })));
 const Profile = React.lazy(() => import('./profile/profile').then(m => ({ default: m.Profile })));
@@ -188,6 +189,7 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
             <Route path="/exam/session" element={<ExamSession userName={userName} />} />
           <Route path="/exam/preview" element={<ExamSession userName={userName} preview />} />
             <Route path="/exam/results/:attemptId" element={<ExamResults userName={userName} />} />
+            <Route path="/exam/review/:attemptId" element={<ExamReview userName={userName} />} />
             {DiagramPreview && <Route path="/dev/diagrams" element={<DiagramPreview />} />}
             {QuestionAuditIndex && <Route path="/dev/audit" element={<QuestionAuditIndex />} />}
             {QuestionAudit && <Route path="/dev/audit/:chapterId" element={<QuestionAudit />} />}
