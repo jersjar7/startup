@@ -70,7 +70,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     [stats.allBadges, earnedBadgeIds],
   );
   const visibleBadges = showAllBadges ? sortedBadges : sortedBadges.slice(0, 3);
-  const [leaderboard, setLeaderboard] = React.useState({ weekId: '', entries: [] });
+  const [leaderboard, setLeaderboard] = React.useState({ weekId: '', entries: [], allTime: [] });
+  const [lbTab, setLbTab] = React.useState('week');
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState('');
   const [events, setEvents] = React.useState([]);
@@ -101,7 +102,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       fetch('/api/diagnostic/mastery').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/diagnostic/history').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/review/count').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
-    ]).then(([statsResult, lbResult, retakeResult, masteryResult, historyResult, reviewCountResult]) => {
+      fetch('/api/leaderboard/alltime').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+    ]).then(([statsResult, lbResult, retakeResult, masteryResult, historyResult, reviewCountResult, allTimeResult]) => {
       const errors = [];
       if (statsResult.status === 'fulfilled') {
         const data = statsResult.value;
@@ -115,7 +117,10 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         errors.push('stats');
       }
       if (lbResult.status === 'fulfilled') {
-        setLeaderboard({ weekId: lbResult.value.weekId, entries: lbResult.value.leaderboard || [] });
+        setLeaderboard((prev) => ({ ...prev, weekId: lbResult.value.weekId, entries: lbResult.value.leaderboard || [] }));
+      }
+      if (allTimeResult.status === 'fulfilled') {
+        setLeaderboard((prev) => ({ ...prev, allTime: allTimeResult.value.leaderboard || [] }));
       }
 
       // Diagnostic status
@@ -471,24 +476,46 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           <div className="sidebar-block">
             <h3 className="dash-section-label">
               <Users weight="bold" size={18} />
-              Weekly Leaderboard
+              Leaderboard
             </h3>
-            {leaderboard.weekId && (
+            <div style={{ display: 'flex', gap: 8, margin: '0 0 10px' }}>
+              {['week', 'alltime'].map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setLbTab(t)}
+                  style={{
+                    flex: 1, padding: '6px 0', fontSize: 13, fontWeight: 700, cursor: 'pointer',
+                    borderRadius: 8, border: '1px solid',
+                    borderColor: lbTab === t ? 'var(--ember)' : 'rgba(44,44,44,0.15)',
+                    background: lbTab === t ? 'var(--ember)' : 'transparent',
+                    color: lbTab === t ? '#fff' : 'var(--charcoal)',
+                  }}
+                >
+                  {t === 'week' ? 'Weekly' : 'All-time'}
+                </button>
+              ))}
+            </div>
+            {lbTab === 'week' && leaderboard.weekId && (
               <span className="lb-week">Week {leaderboard.weekId}</span>
             )}
-            {leaderboard.entries.length > 0 ? (
-              <ol className="lb-list">
-                {leaderboard.entries.map((entry) => (
-                  <li key={entry.rank} className={`lb-row${entry.isCurrentUser ? ' lb-row--you' : ''}`}>
-                    <span className="lb-rank">#{entry.rank}</span>
-                    <span className="lb-name">{entry.isCurrentUser ? 'You' : entry.name}</span>
-                    <span className="lb-xp">{entry.weeklyXp} XP</span>
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <p className="lb-empty">Complete a session to get on the board!</p>
-            )}
+            {(() => {
+              const isWeek = lbTab === 'week';
+              const rows = isWeek ? leaderboard.entries : leaderboard.allTime;
+              if (!rows || rows.length === 0) {
+                return <p className="lb-empty">{isWeek ? 'Complete a session to get on the board!' : 'Earn XP to climb the all-time board!'}</p>;
+              }
+              return (
+                <ol className="lb-list">
+                  {rows.map((entry) => (
+                    <li key={entry.rank} className={`lb-row${entry.isCurrentUser ? ' lb-row--you' : ''}`}>
+                      <span className="lb-rank">#{entry.rank}</span>
+                      <span className="lb-name">{entry.isCurrentUser ? 'You' : entry.name}</span>
+                      <span className="lb-xp">{isWeek ? entry.weeklyXp : entry.totalXp} XP</span>
+                    </li>
+                  ))}
+                </ol>
+              );
+            })()}
           </div>
 
           {/* Live Activity */}

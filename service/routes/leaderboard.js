@@ -37,5 +37,17 @@ router.get('/', verifyAuth, async (req, res) => {
   res.send({ weekId, leaderboard });
 });
 
+// All-time leaderboard (cumulative totalXp)
+router.get('/alltime', verifyAuth, async (req, res) => {
+  const entries = await DB.getAllTimeLeaderboard(30);
+  const leaderboard = entries.map((entry, index) => ({
+    rank: index + 1,
+    name: leaderName(entry),
+    totalXp: entry.totalXp,
+    isCurrentUser: entry.email === req.user.email,
+  }));
+  res.send({ leaderboard });
+});
+
 module.exports = router;
 module.exports.getWeekId = getWeekId;
