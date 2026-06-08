@@ -4,7 +4,7 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { LoadingState } from '../components/LoadingState';
 import {
   SignOut, Users, ClipboardText, CreditCard, CheckCircle, CurrencyDollar,
-  ChartLineUp, Lightning, TrendUp, Exam, Receipt, Pulse,
+  ChartLineUp, Lightning, TrendUp, Exam, Receipt, Pulse, Compass, Timer,
 } from '@phosphor-icons/react';
 import { Chart } from './Chart';
 import './admin.css';
@@ -79,8 +79,9 @@ export function Admin({ userName, onLogout }) {
 
   const kpis = snap ? [
     { icon: Users, label: 'Total users', value: snap.totalUsers.toLocaleString(), accent: 'ember' },
+    { icon: Compass, label: 'Activation rate', value: snap.activationRate != null ? `${snap.activationRate}%` : '—', accent: 'ember' },
+    { icon: Timer, label: 'Median time to start', value: snap.activationMedianMinutes != null ? `${snap.activationMedianMinutes} min` : '—', accent: 'info' },
     { icon: Lightning, label: 'Active · 7 days', value: snap.activeUsers7d.toLocaleString(), accent: 'info' },
-    { icon: Lightning, label: 'Active · 30 days', value: snap.activeUsers30d.toLocaleString(), accent: 'info' },
     { icon: CurrencyDollar, label: 'Total revenue', value: money(snap.totalRevenue), accent: 'forest' },
     { icon: CreditCard, label: 'Purchases', value: snap.totalPurchases.toLocaleString(), accent: 'forest' },
     { icon: TrendUp, label: 'Rev / paying user', value: money(snap.arppu), accent: 'sunbeam' },
@@ -88,7 +89,7 @@ export function Admin({ userName, onLogout }) {
 
   const funnelStages = [
     { icon: Users, label: 'Signups', value: m.signups, conv: null, convLabel: null },
-    { icon: ClipboardText, label: 'Took diagnostic', value: m.diagnosticUsers, conv: c.signupToDiagnostic, convLabel: 'of signups' },
+    { icon: Compass, label: 'Activated (quick-start)', value: m.quickstartActivated, conv: c.signupToActivation, convLabel: 'of signups' },
     { icon: CreditCard, label: 'Started checkout', value: m.checkoutStarts, conv: c.signupToCheckout, convLabel: 'of signups' },
     { icon: CheckCircle, label: 'Purchased', value: m.purchases, conv: c.checkoutToPurchase, convLabel: 'of checkouts' },
   ];
@@ -150,7 +151,7 @@ export function Admin({ userName, onLogout }) {
 
       {/* ── Engagement strip ── */}
       <div className="chart-grid chart-grid--thirds">
-        <ChartCard icon={Exam} title="Diagnostics" sub="per day" series={ts?.series.diagnostics} axis={ts?.axis}
+        <ChartCard icon={Compass} title="Quick-start started" sub="per day" series={ts?.series.quickstartActivations} axis={ts?.axis}
           type="bar" color="ember" fmt={fmtInt} compact />
         <ChartCard icon={Exam} title="Exam sims completed" sub="per day" series={ts?.series.examSims} axis={ts?.axis}
           type="bar" color="info" fmt={fmtInt} compact />

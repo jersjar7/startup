@@ -81,6 +81,37 @@ function checkoutStartsByDay(since) {
   ]).toArray();
 }
 
+// Quick-start activations per day (first-segment events) — the onboarding
+// signal that replaced the old diagnostic for new-user activation.
+function quickstartActivationsByDay(since) {
+  return funnelEventsCollection.aggregate([
+    { $match: { type: 'quickstart_activated', createdAt: { $gte: since }, email: NOT_EXCLUDED } },
+    { $group: { _id: dayOf('$createdAt'), count: { $sum: 1 } } },
+    { $project: { _id: 0, day: '$_id', count: 1 } },
+  ]).toArray();
+}
+
+// All-time distinct activated users + median minutes from signup to first
+// segment. Median (not mean) so a few slow returners don't skew it.
+async function activationStats() {
+  const [activatedEmails, firsts] = await Promise.all([
+    funnelEventsCollection.distinct('email', { type: 'quickstart_activated', email: NOT_EXCLUDED }),
+    funnelEventsCollection.aggregate([
+      { $match: { type: 'quickstart_activated', email: NOT_EXCLUDED } },
+      { $group: { _id: '$email', firstAt: { $min: '$createdAt' } } },
+      { $lookup: { from: 'users', localField: '_id', foreignField: 'email', as: 'u' } },
+      { $project: { firstAt: 1, createdAt: { $first: '$u.createdAt' } } },
+    ]).toArray(),
+  ]);
+  const mins = firsts
+    .filter((f) => f.createdAt && f.firstAt)
+    .map((f) => (new Date(f.firstAt) - new Date(f.createdAt)) / 60000)
+    .filter((m) => m >= 0)
+    .sort((a, b) => a - b);
+  const medianMinutes = mins.length ? Math.round(mins[Math.floor(mins.length / 2)]) : null;
+  return { activated: activatedEmails.length, medianMinutes };
+}
+
 // Completed purchases per day with revenue (cents).
 function purchasesByDay(since) {
   return purchasesCollection.aggregate([
@@ -110,6 +141,7 @@ async function getDailyAnalytics(days = 30) {
 
   const [
     signups, sessions, diagnostics, examSims, checkoutStarts, purchases,
+    quickstartActivations, actStats,
     totalUsers, totalRevenueAgg, active7, active30,
   ] = await Promise.all([
     signupsByDay(since),
@@ -118,6 +150,8 @@ async function getDailyAnalytics(days = 30) {
     examSimsByDay(since),
     checkoutStartsByDay(since),
     purchasesByDay(since),
+    quickstartActivationsByDay(since),
+    activationStats(),
     userCollection.countDocuments({ email: NOT_EXCLUDED }),
     purchasesCollection.aggregate([
       { $match: { status: 'completed' } },
@@ -147,6 +181,7 @@ async function getDailyAnalytics(days = 30) {
       problems: seriesFor(sessions, axis, 'problems'),
       correct: seriesFor(sessions, axis, 'correct'),
       diagnostics: seriesFor(diagnostics, axis, 'count'),
+      quickstartActivations: seriesFor(quickstartActivations, axis, 'count'),
       examSims: seriesFor(examSims, axis, 'count'),
       checkoutStarts: seriesFor(checkoutStarts, axis, 'count'),
       purchases: purchaseCountSeries,
@@ -160,6 +195,9 @@ async function getDailyAnalytics(days = 30) {
       totalPurchases: totalRev.count,
       totalRevenue: Math.round(totalRev.cents) / 100,
       arppu: totalRev.count > 0 ? Math.round((totalRev.cents / totalRev.count)) / 100 : 0,
+      quickstartActivated: actStats.activated,
+      activationRate: totalUsers > 0 ? Math.round((actStats.activated / totalUsers) * 1000) / 10 : 0,
+      activationMedianMinutes: actStats.medianMinutes,
     },
   };
 }

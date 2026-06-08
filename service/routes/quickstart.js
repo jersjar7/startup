@@ -182,6 +182,18 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
 
   const state = buildState({ quickstartSampled, chapterMastery });
 
+  // Activation instrumentation: the first completed segment marks a new user as
+  // activated; mapping all 15 marks completion. Distinct-user counts in the
+  // admin funnel dedupe these. (Failures are swallowed by logEvent — never
+  // block the response.)
+  const wasFirstSegment = (currentStats.quickstartSampled || []).length === 0;
+  if (wasFirstSegment) {
+    await DB.logEvent('quickstart_activated', email, { chapterId });
+  }
+  if (state.done) {
+    await DB.logEvent('quickstart_completed', email, { chapters: quickstartSampled.length });
+  }
+
   res.send({
     chapterId,
     correct,

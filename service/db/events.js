@@ -28,7 +28,7 @@ async function countDistinctEventUsers(type, since) {
 // signups, diagnostic completions, and purchases are derived from their own
 // collections; checkout starts come from funnel events.
 async function getFunnelCounts() {
-  const [signups, diagEmails, purchaseAgg, checkoutStarts] = await Promise.all([
+  const [signups, diagEmails, purchaseAgg, checkoutStarts, quickstartActivated, quickstartCompleted] = await Promise.all([
     userCollection.countDocuments({ email: { $nin: EXCLUDED_EMAILS } }),
     diagnosticResultsCollection.distinct('email', { email: { $nin: EXCLUDED_EMAILS } }),
     purchasesCollection
@@ -38,11 +38,15 @@ async function getFunnelCounts() {
       ])
       .toArray(),
     countDistinctEventUsers('checkout_started'),
+    countDistinctEventUsers('quickstart_activated'),
+    countDistinctEventUsers('quickstart_completed'),
   ]);
   const p = purchaseAgg[0] || { count: 0, revenue: 0 };
   return {
     signups,
     diagnosticUsers: diagEmails.length,
+    quickstartActivated,
+    quickstartCompleted,
     checkoutStarts,
     purchases: p.count,
     revenueCents: p.revenue || 0,

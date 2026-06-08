@@ -9,6 +9,8 @@ function pct(n, d) {
 function computeFunnelMetrics({
   signups = 0,
   diagnosticUsers = 0,
+  quickstartActivated = 0,
+  quickstartCompleted = 0,
   checkoutStarts = 0,
   purchases = 0,
   revenueCents = 0,
@@ -16,10 +18,16 @@ function computeFunnelMetrics({
   return {
     signups,
     diagnosticUsers,
+    quickstartActivated,
+    quickstartCompleted,
     checkoutStarts,
     purchases,
     revenue: Math.round(revenueCents) / 100,
     conversion: {
+      // Onboarding: how many new users actually start (finish ≥1 quick-start
+      // segment) and how many map all 15 chapters.
+      signupToActivation: pct(quickstartActivated, signups),
+      activationToCompletion: pct(quickstartCompleted, quickstartActivated),
       signupToDiagnostic: pct(diagnosticUsers, signups),
       signupToCheckout: pct(checkoutStarts, signups),
       checkoutToPurchase: pct(purchases, checkoutStarts),
