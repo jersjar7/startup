@@ -302,7 +302,11 @@ export function QuickStart({ userName }) {
   if (phase === 'RESULT' && segResult) {
     const done = segResult.done;
     const nextName = chapterName(segResult.nextChapterId);
-    const fam = segResult.chapterFamiliarity ?? (segResult.familiarity[segResult.chapterId] || 0);
+    // Use the chapter's current map value so the headline always matches the
+    // map bar below. For a fresh chapter that's this segment's read; if the
+    // chapter already had a higher score (e.g. a prior diagnostic), we keep the
+    // higher — never lower — so headline and bar can't disagree.
+    const fam = segResult.familiarity[segResult.chapterId] ?? segResult.chapterFamiliarity ?? 0;
     return (
       <main className="qs-main">
         <div className="qs-card qs-wide">
