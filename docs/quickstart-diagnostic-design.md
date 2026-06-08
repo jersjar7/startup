@@ -58,7 +58,7 @@ feels safe answering).
 
 | Rule | Value | Why |
 |---|---|---|
-| Questions per segment | **5** (concentrated on one chapter) | 1-per-chapter across 15 is statistical noise; 5 on one construct is a defensible rough read. |
+| Questions per segment | **Tiered 5 / 4 / 3 by exam weight** (concentrated on one chapter) | 1-per-chapter across 15 is statistical noise; a concentrated sample on one construct is a defensible rough read. Reliability is spent where it counts — see the tier table below. |
 | Familiarity cap | **40** (`FAMILIARITY_CAP`) | 5 questions ≈ rough placement, not mastery. Even 5/5 → 40, never 100. Leaves headroom that motivates study. |
 | Chapter order | **`mathematics` first, then by NCEES weight desc** | Math is high-weight _and_ foundational → a fair, winnable opener. After that, importance-first means an early stop still covers the highest-impact chapters. |
 | Coverage control | **System-ordered, no user chapter-pick, no swap** | Prevents self-selection away from blind spots (Dunning–Kruger). |
@@ -67,21 +67,37 @@ feels safe answering).
 | Framing | **"Stop anytime — study any chapter now"** | Never imply the user is "stuck" if they stop. That's false (lessons are open) and manipulative. |
 | Label | **"early read" / "familiarity", never "mastery"** | Honesty; mastery is reserved for sustained evidence over time. |
 
+### Questions per chapter (tiered by NCEES exam weight)
+
+Reliability is concentrated on the chapters that matter most — which are also
+the ones users reach first, because the order is importance-weighted. The
+heavier reads are front-loaded; the low-weight tail is lighter. **Full map = 57
+questions** (was 75).
+
+| Tier | NCEES weight | Questions | Chapters |
+|---|---|---|---|
+| A | ≥ 10 | **5** | mathematics, water-resources, structural, geotechnical, transportation |
+| B | 6–9 | **4** | statics, mechanics-materials |
+| C | ≤ 5 | **3** | construction, statistics, ethics, economics, dynamics, materials, fluid-mechanics, surveying |
+
+The map lives in `QUESTIONS_PER_CHAPTER` in `service/routes/quickstart.js` and is
+surfaced to the client via `state.nextChapterQuestions`, so the frontend never
+hard-codes a count. Floor is 3; the top-five are never trimmed below 5.
+
 ### The familiarity curve
 
-`familiarity = round((correct / total) * 40)`, capped at 40.
+`familiarity = round((correct / total) * 40)`, capped at 40, where `total` is the
+chapter's tier size. Coarser tiers give coarser reads (lower stakes, last in
+order):
 
-| Correct / 5 | Familiarity |
+| total | possible familiarity values |
 |---|---|
-| 5 | 40% |
-| 4 | 32% |
-| 3 | 24% |
-| 2 | 16% |
-| 1 | 8% |
-| 0 | 0% |
+| 5 | 0 · 8 · 16 · 24 · 32 · 40 |
+| 4 | 0 · 10 · 20 · 30 · 40 |
+| 3 | 0 · 13 · 27 · 40 |
 
-If a chapter bank has fewer than 5 questions, `total` is the actual count; the
-ratio is unchanged.
+If a chapter bank has fewer questions than its tier, `total` is the actual count;
+the ratio is unchanged.
 
 ## 5. How it integrates with existing systems
 
@@ -136,9 +152,11 @@ traffic, it can be removed.
 
 ## 8. Known, accepted trade-offs
 
-- **Full coverage is long:** 5 × 15 = 75 questions to map everything — heavier
-  than the old 30. The bet: most users map the top 3–5 chapters and stop, and
-  because order is importance-weighted, that partial map is genuinely useful.
+- **Full coverage is still longer than the old test:** 57 questions (tiered
+  5/4/3) to map everything vs. the old 30 — but the old 30 was one forced
+  sitting, while this is opt-in and importance-ordered. The bet: most users map
+  the top 3–5 chapters (the full 5-question reads) and stop, and that partial
+  map is genuinely useful.
 - **Confidence vs. importance can collide:** the highest-weight chapter could be
   one a given user is weak in. Mitigated by always opening a segment with the
   easiest question and by putting `mathematics` (foundational) first.

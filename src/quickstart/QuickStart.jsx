@@ -18,7 +18,7 @@ import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import { ChapterMap } from './ChapterMap';
 import './quickstart.css';
 
-const QUESTIONS_PER_SEGMENT = 5;
+const DEFAULT_SEGMENT = 5;
 const DIFFICULTY_RANK = { easy: 0, medium: 1, hard: 2 };
 
 function ProblemDiagram({ diagram }) {
@@ -37,13 +37,14 @@ function fisherYatesShuffle(arr) {
   return a;
 }
 
-// Confidence-first: easiest question first, then ramp. Choices shuffled for variety.
-function buildSegment(chapterId) {
+// Confidence-first: easiest question first, then ramp. Choices shuffled for
+// variety. `count` is the chapter's tiered question budget (5/4/3), from server.
+function buildSegment(chapterId, count = DEFAULT_SEGMENT) {
   const pool = getExamBankForChapter(chapterId) || [];
   const ranked = [...pool].sort(
     (a, b) => (DIFFICULTY_RANK[a.difficulty] ?? 1) - (DIFFICULTY_RANK[b.difficulty] ?? 1)
   );
-  return ranked.slice(0, QUESTIONS_PER_SEGMENT).map((q) => ({
+  return ranked.slice(0, count).map((q) => ({
     ...q,
     choices: fisherYatesShuffle(q.choices),
   }));
@@ -79,8 +80,8 @@ export function QuickStart({ userName }) {
       .catch(() => { setError('Could not load your progress. Please try again.'); setPhase('ERROR'); });
   }, [userName, navigate]);
 
-  function startSegment(ch) {
-    const seg = buildSegment(ch);
+  function startSegment(ch, count) {
+    const seg = buildSegment(ch, count || DEFAULT_SEGMENT);
     if (seg.length === 0) {
       setError('No questions available for this chapter yet.');
       setPhase('ERROR');
@@ -162,6 +163,7 @@ export function QuickStart({ userName }) {
   if (phase === 'INTRO') {
     const resuming = state.sampledCount > 0;
     const nextName = chapterName(state.nextChapterId);
+    const qCount = state.nextChapterQuestions || DEFAULT_SEGMENT;
     return (
       <main className="qs-main">
         <div className="qs-card qs-narrow qs-intro">
@@ -172,21 +174,21 @@ export function QuickStart({ userName }) {
           {resuming ? (
             <p className="qs-lead">
               You've mapped <strong>{state.sampledCount} of {state.totalChapters}</strong> chapters.
-              Next up: <strong>{nextName}</strong> — answer 5 more, about 5 minutes.
+              Next up: <strong>{nextName}</strong> — answer {qCount} more, about 5 minutes.
             </p>
           ) : (
             <p className="qs-lead">
-              Answer 5 questions and we'll start mapping where you stand — about
+              Answer {qCount} questions and we'll start mapping where you stand — about
               5 minutes. You can stop anytime and study any chapter right away.
             </p>
           )}
           <ul className="qs-facts">
-            <li><strong>5 questions</strong> from one chapter, with instant feedback</li>
+            <li><strong>{qCount} questions</strong> from one chapter, with instant feedback</li>
             <li><strong>~5 minutes</strong> — measured in questions, not a timer</li>
             <li><strong>Always free</strong> — this builds your study plan</li>
           </ul>
           <div className="qs-actions">
-            <button className="btn-primary" onClick={() => startSegment(state.nextChapterId)}>
+            <button className="btn-primary" onClick={() => startSegment(state.nextChapterId, qCount)}>
               {resuming ? <>Continue with {nextName}</> : <>Start — first up: {nextName}</>}
               <ArrowRight size={16} weight="bold" />
             </button>
@@ -339,7 +341,7 @@ export function QuickStart({ userName }) {
                 every chapter is open to study right now.
               </p>
               <div className="qs-actions">
-                <button className="btn-primary" onClick={() => startSegment(segResult.nextChapterId)}>
+                <button className="btn-primary" onClick={() => startSegment(segResult.nextChapterId, segResult.nextChapterQuestions)}>
                   Keep going — next: {nextName} <ArrowRight size={16} weight="bold" />
                 </button>
                 <button className="qs-text-btn" onClick={() => navigate('/dashboard')}>

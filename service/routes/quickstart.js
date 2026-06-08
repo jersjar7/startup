@@ -30,8 +30,22 @@ const SEGMENT_ORDER = [
 ];
 
 const TOTAL_CHAPTERS = SEGMENT_ORDER.length; // 15
-const QUESTIONS_PER_SEGMENT = 5;
-// A 5-question sample is a rough read, never mastery — cap it well below 100.
+
+// Questions per chapter, tiered by NCEES exam weight so reliability is spent
+// where it counts: weight >=10 → 5, weight 6–9 → 4, weight <=5 → 3. The heavy
+// (5-question) reads are the high-weight chapters users reach first; the
+// low-weight tail is lighter. Full map = 57 questions (was 75). See
+// docs/quickstart-diagnostic-design.md.
+const QUESTIONS_PER_CHAPTER = {
+  mathematics: 5, 'water-resources': 5, structural: 5, geotechnical: 5, transportation: 5,
+  statics: 4, 'mechanics-materials': 4,
+  construction: 3, statistics: 3, ethics: 3, economics: 3,
+  dynamics: 3, materials: 3, 'fluid-mechanics': 3, surveying: 3,
+};
+const MAX_SEGMENT = 5;
+const countFor = (ch) => QUESTIONS_PER_CHAPTER[ch] || MAX_SEGMENT;
+
+// A short sample is a rough read, never mastery — cap it well below 100.
 const FAMILIARITY_CAP = 40;
 
 function nextChapter(sampled) {
@@ -55,6 +69,7 @@ function buildState(stats) {
     order: SEGMENT_ORDER,
     familiarity,
     nextChapterId: next,
+    nextChapterQuestions: next ? countFor(next) : 0,
     done: next === null,
   };
 }
@@ -71,6 +86,7 @@ router.get('/next', verifyAuth, async (req, res) => {
   const state = buildState(stats);
   res.send({
     nextChapterId: state.nextChapterId,
+    questionCount: state.nextChapterQuestions,
     done: state.done,
     sampledCount: state.sampledCount,
     totalChapters: state.totalChapters,
@@ -86,8 +102,9 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
   if (typeof chapterId !== 'string' || !SEGMENT_ORDER.includes(chapterId)) {
     return res.status(400).send({ msg: 'Valid chapterId is required' });
   }
-  if (!Array.isArray(answers) || answers.length === 0 || answers.length > QUESTIONS_PER_SEGMENT) {
-    return res.status(400).send({ msg: `answers must be an array of 1-${QUESTIONS_PER_SEGMENT} items` });
+  const maxForChapter = countFor(chapterId);
+  if (!Array.isArray(answers) || answers.length === 0 || answers.length > maxForChapter) {
+    return res.status(400).send({ msg: `answers must be an array of 1-${maxForChapter} items` });
   }
   for (const a of answers) {
     if (typeof a.questionId !== 'string') {
