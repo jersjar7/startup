@@ -11,6 +11,7 @@ import {
   ClockCountdown,
   ListChecks,
   ChartBar,
+  MagnifyingGlass,
   Heart,
 } from '@phosphor-icons/react';
 import './exam.css';
@@ -227,10 +228,17 @@ export function ExamGate({ userName }) {
                 </div>
               </div>
               <div className="exam-gate-feature">
+                <MagnifyingGlass weight="bold" size={20} className="egf-icon egf-icon--sunbeam" />
+                <div>
+                  <span className="egf-label">Review every answer</span>
+                  <span className="egf-desc">Afterward, see every question you got right and wrong — each with a step-by-step explanation</span>
+                </div>
+              </div>
+              <div className="exam-gate-feature">
                 <ListChecks weight="bold" size={20} className="egf-icon egf-icon--ember" />
                 <div>
                   <span className="egf-label">Unlimited retakes</span>
-                  <span className="egf-desc">Fresh question selection every time</span>
+                  <span className="egf-desc">Take it as many times as you want — a different, randomly drawn exam each time</span>
                 </div>
               </div>
             </div>
