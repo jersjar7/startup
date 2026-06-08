@@ -18,6 +18,7 @@ const Dashboard = React.lazy(() => import('./dashboard/dashboard').then(m => ({ 
 const Study = React.lazy(() => import('./study/study').then(m => ({ default: m.Study })));
 const Problems = React.lazy(() => import('./problems/problems').then(m => ({ default: m.Problems })));
 const LessonPage = React.lazy(() => import('./lesson/lesson').then(m => ({ default: m.LessonPage })));
+const QuickStart = React.lazy(() => import('./quickstart/QuickStart').then(m => ({ default: m.QuickStart })));
 const DiagnosticExam = React.lazy(() => import('./diagnostic/DiagnosticExam').then(m => ({ default: m.DiagnosticExam })));
 const DiagnosticResults = React.lazy(() => import('./diagnostic/DiagnosticResults').then(m => ({ default: m.DiagnosticResults })));
 const DiagnosticReview = React.lazy(() => import('./diagnostic/DiagnosticReview').then(m => ({ default: m.DiagnosticReview })));
@@ -157,13 +158,14 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
   const isLanding = pathname === '/';
   const isLesson = pathname.startsWith('/lesson/');
   const isDiagnostic = pathname.startsWith('/diagnostic');
+  const isQuickstart = pathname.startsWith('/quickstart');
   const isExamSession = pathname === '/exam/session' || pathname === '/exam/preview';
 
   return (
     <div className="body">
       <ErrorBoundary>
-        {!isLanding && !isLesson && !isDiagnostic && !isExamSession && <Header userName={userName} />}
-        {userName && !isLanding && !isDiagnostic && !isExamSession && <VerificationBanner emailVerified={emailVerified} />}
+        {!isLanding && !isLesson && !isDiagnostic && !isQuickstart && !isExamSession && <Header userName={userName} />}
+        {userName && !isLanding && !isDiagnostic && !isQuickstart && !isExamSession && <VerificationBanner emailVerified={emailVerified} />}
 
         <Suspense fallback={<LoadingState />}>
           <Routes>
@@ -182,6 +184,7 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
             <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />
             <Route path="/review" element={<Problems userName={userName} onLogout={onLogout} reviewMode />} />
             <Route path="/lesson/:chapterId/:lessonId" element={<LessonPage userName={userName} onLogout={onLogout} />} />
+            <Route path="/quickstart" element={<QuickStart userName={userName} />} />
             <Route path="/diagnostic" element={<DiagnosticExam userName={userName} />} />
             <Route path="/diagnostic/results/:attemptNumber" element={<DiagnosticResults userName={userName} />} />
             <Route path="/diagnostic/review/:attemptNumber" element={<DiagnosticReview userName={userName} />} />
@@ -197,7 +200,7 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
           </Routes>
         </Suspense>
 
-        {!isLanding && !isLesson && !isDiagnostic && !isExamSession && <Footer />}
+        {!isLanding && !isLesson && !isDiagnostic && !isQuickstart && !isExamSession && <Footer />}
       </ErrorBoundary>
     </div>
   );

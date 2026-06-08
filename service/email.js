@@ -239,8 +239,8 @@ async function sendWelcomeEmail(toEmail, { unsubUrl, diagnosticDone = false, foc
       heading: "Welcome — let's pass the FE.",
       unsubUrl,
       inner:
-        para('The smartest first move is the <strong>free diagnostic</strong>. About 5 minutes, and it builds your study plan around your weak spots — so you study what actually moves your score.') +
-        button('Take the diagnostic', `${appUrl}/diagnostic`) +
+        para('The smartest first move is the <strong>free quick start</strong>. Answer 5 questions — about 5 minutes — and it begins building your study plan around your weak spots, so you study what actually moves your score.') +
+        button('Start the quick start', `${appUrl}/quickstart`) +
         para(`<span style="font-size:13px;color:${C.mute};">Everything here is free — lessons, 1,126 problems, the diagnostic. The only paid thing is the full timed exam sim, if you ever want it.</span>`),
     }),
   });
