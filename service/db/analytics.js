@@ -7,6 +7,8 @@ const {
   funnelEventsCollection,
 } = require('./connection');
 const { dateAxis, seriesFor, cumulative } = require('../analytics');
+const { EXCLUDED_EMAILS } = require('../internalAccounts');
+const NOT_EXCLUDED = { $nin: EXCLUDED_EMAILS };
 
 // Daily buckets are computed in the owner's local timezone so "today" lines up
 // with their calendar day. Override with ANALYTICS_TZ if the owner relocates.
@@ -25,7 +27,7 @@ const dayOf = (field) => ({ $dateToString: { format: '%Y-%m-%d', date: field, ti
 // Signups per day from users.createdAt.
 function signupsByDay(since) {
   return userCollection.aggregate([
-    { $match: { createdAt: { $gte: since } } },
+    { $match: { createdAt: { $gte: since }, email: NOT_EXCLUDED } },
     { $group: { _id: dayOf('$createdAt'), count: { $sum: 1 } } },
     { $project: { _id: 0, day: '$_id', count: 1 } },
   ]).toArray();
@@ -34,7 +36,7 @@ function signupsByDay(since) {
 // Active users, sessions, problems and correct answers per day from sessionLog.
 function sessionsByDay(since) {
   return sessionLogCollection.aggregate([
-    { $match: { completedAt: { $gte: since } } },
+    { $match: { completedAt: { $gte: since }, email: NOT_EXCLUDED } },
     { $group: {
       _id: { day: dayOf('$completedAt'), email: '$email' },
       sessions: { $sum: 1 },
@@ -55,7 +57,7 @@ function sessionsByDay(since) {
 // Diagnostic completions per day.
 function diagnosticsByDay(since) {
   return diagnosticResultsCollection.aggregate([
-    { $match: { completedAt: { $gte: since } } },
+    { $match: { completedAt: { $gte: since }, email: NOT_EXCLUDED } },
     { $group: { _id: dayOf('$completedAt'), count: { $sum: 1 } } },
     { $project: { _id: 0, day: '$_id', count: 1 } },
   ]).toArray();
@@ -73,7 +75,7 @@ function examSimsByDay(since) {
 // Checkout starts per day from funnel events.
 function checkoutStartsByDay(since) {
   return funnelEventsCollection.aggregate([
-    { $match: { type: 'checkout_started', createdAt: { $gte: since } } },
+    { $match: { type: 'checkout_started', createdAt: { $gte: since }, email: NOT_EXCLUDED } },
     { $group: { _id: dayOf('$createdAt'), count: { $sum: 1 } } },
     { $project: { _id: 0, day: '$_id', count: 1 } },
   ]).toArray();
@@ -90,7 +92,7 @@ function purchasesByDay(since) {
 
 // Distinct active users since a date (for the 7d / 30d KPI cards).
 async function activeUsersSince(since) {
-  const emails = await sessionLogCollection.distinct('email', { completedAt: { $gte: since } });
+  const emails = await sessionLogCollection.distinct('email', { completedAt: { $gte: since }, email: NOT_EXCLUDED });
   return emails.filter(Boolean).length;
 }
 
@@ -116,7 +118,7 @@ async function getDailyAnalytics(days = 30) {
     examSimsByDay(since),
     checkoutStartsByDay(since),
     purchasesByDay(since),
-    userCollection.countDocuments({}),
+    userCollection.countDocuments({ email: NOT_EXCLUDED }),
     purchasesCollection.aggregate([
       { $match: { status: 'completed' } },
       { $group: { _id: null, count: { $sum: 1 }, cents: { $sum: '$amount' } } },
