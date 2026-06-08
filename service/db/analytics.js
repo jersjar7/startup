@@ -14,6 +14,12 @@ const NOT_EXCLUDED = { $nin: EXCLUDED_EMAILS };
 // with their calendar day. Override with ANALYTICS_TZ if the owner relocates.
 const TZ = process.env.ANALYTICS_TZ || 'America/Los_Angeles';
 
+// When the quick-start onboarding went live. Only users who signed up on/after
+// this date could have seen it, so the cohort-accurate activation rate is
+// measured against this cohort — not all-time users (which includes everyone
+// who joined before the feature existed). Override with QUICKSTART_LAUNCH_DATE.
+const QUICKSTART_LAUNCH = new Date(process.env.QUICKSTART_LAUNCH_DATE || '2026-06-07T00:00:00Z');
+
 // Current date as YYYY-MM-DD in TZ (en-CA formats as ISO date).
 function todayYmd() {
   return new Intl.DateTimeFormat('en-CA', {
@@ -112,6 +118,21 @@ async function activationStats() {
   return { activated: activatedEmails.length, medianMinutes };
 }
 
+// Cohort-accurate activation: of users who signed up on/after the quick-start
+// launch (the only ones who could have seen it), what share activated. This is
+// the honest headline rate — the all-time rate is diluted by pre-launch users.
+async function cohortActivationStats() {
+  const [cohortEmails, activatedEmails] = await Promise.all([
+    userCollection.distinct('email', { createdAt: { $gte: QUICKSTART_LAUNCH }, email: NOT_EXCLUDED }),
+    funnelEventsCollection.distinct('email', { type: 'quickstart_activated', email: NOT_EXCLUDED }),
+  ]);
+  const activated = new Set(activatedEmails);
+  const cohortActivated = cohortEmails.filter((e) => activated.has(e)).length;
+  const cohortSignups = cohortEmails.length;
+  const cohortRate = cohortSignups > 0 ? Math.round((cohortActivated / cohortSignups) * 1000) / 10 : 0;
+  return { cohortSignups, cohortActivated, cohortRate };
+}
+
 // Completed purchases per day with revenue (cents).
 function purchasesByDay(since) {
   return purchasesCollection.aggregate([
@@ -141,7 +162,7 @@ async function getDailyAnalytics(days = 30) {
 
   const [
     signups, sessions, diagnostics, examSims, checkoutStarts, purchases,
-    quickstartActivations, actStats,
+    quickstartActivations, actStats, cohortStats,
     totalUsers, totalRevenueAgg, active7, active30,
   ] = await Promise.all([
     signupsByDay(since),
@@ -152,6 +173,7 @@ async function getDailyAnalytics(days = 30) {
     purchasesByDay(since),
     quickstartActivationsByDay(since),
     activationStats(),
+    cohortActivationStats(),
     userCollection.countDocuments({ email: NOT_EXCLUDED }),
     purchasesCollection.aggregate([
       { $match: { status: 'completed' } },
@@ -196,8 +218,13 @@ async function getDailyAnalytics(days = 30) {
       totalRevenue: Math.round(totalRev.cents) / 100,
       arppu: totalRev.count > 0 ? Math.round((totalRev.cents / totalRev.count)) / 100 : 0,
       quickstartActivated: actStats.activated,
-      activationRate: totalUsers > 0 ? Math.round((actStats.activated / totalUsers) * 1000) / 10 : 0,
       activationMedianMinutes: actStats.medianMinutes,
+      // Cohort-accurate headline: activation among post-launch signups only.
+      activationRate: cohortStats.cohortRate,
+      cohortSignups: cohortStats.cohortSignups,
+      cohortActivated: cohortStats.cohortActivated,
+      // All-time rate kept for reference (diluted by pre-launch users).
+      activationRateAllTime: totalUsers > 0 ? Math.round((actStats.activated / totalUsers) * 1000) / 10 : 0,
     },
   };
 }

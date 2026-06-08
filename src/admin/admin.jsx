@@ -80,6 +80,7 @@ export function Admin({ userName, onLogout }) {
   const kpis = snap ? [
     { icon: Users, label: 'Total users', value: snap.totalUsers.toLocaleString(), accent: 'ember' },
     { icon: Compass, label: 'Activation rate', value: snap.activationRate != null ? `${snap.activationRate}%` : '—', accent: 'ember' },
+    { icon: Users, label: 'Activated · since launch', value: snap.cohortSignups != null ? `${snap.cohortActivated}/${snap.cohortSignups}` : '—', accent: 'forest' },
     { icon: Timer, label: 'Median time to start', value: snap.activationMedianMinutes != null ? `${snap.activationMedianMinutes} min` : '—', accent: 'info' },
     { icon: Lightning, label: 'Active · 7 days', value: snap.activeUsers7d.toLocaleString(), accent: 'info' },
     { icon: CurrencyDollar, label: 'Total revenue', value: money(snap.totalRevenue), accent: 'forest' },
