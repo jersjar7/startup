@@ -5,6 +5,7 @@ import {
   ArrowRight,
   ArrowsClockwise,
   CheckCircle,
+  Compass,
 } from '@phosphor-icons/react';
 import './diagnostic.css';
 
@@ -16,7 +17,7 @@ import './diagnostic.css';
   4. completed-retake: Retake available
 */
 
-export function DiagnosticCard({ diagnosticStatus, onSkip }) {
+export function DiagnosticCard({ diagnosticStatus, quickstart = {}, onSkip }) {
   const navigate = useNavigate();
 
   const {
@@ -30,31 +31,85 @@ export function DiagnosticCard({ diagnosticStatus, onSkip }) {
     lastDate,
   } = diagnosticStatus;
 
-  // State 1: Not taken (new user, not skipped)
-  if (!diagnosticCompleted && !diagnosticSkipped) {
+  const qsCount = quickstart?.sampledCount || 0;
+  const qsTotal = quickstart?.totalChapters || 15;
+
+  // Quick-start in progress: show readiness-map progress + a continue CTA.
+  // Takes priority — it reflects the live onboarding path.
+  if (qsCount > 0 && qsCount < qsTotal) {
+    const pct = Math.round((qsCount / qsTotal) * 100);
+    return (
+      <div className="diag-card diag-card--compact">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+          <Compass size={20} weight="bold" style={{ color: 'var(--forest)', flexShrink: 0 }} />
+          <div style={{ flex: 1 }}>
+            <span className="diag-card-title" style={{ fontSize: '0.92rem', marginBottom: 0 }}>
+              Continue your readiness map
+            </span>
+          </div>
+          <button className="btn-primary" style={{ padding: '0.45rem 1rem', fontSize: '0.82rem' }} onClick={() => navigate('/quickstart')}>
+            Continue
+            <ArrowRight size={16} weight="bold" />
+          </button>
+        </div>
+        <div className="diag-progress-bar">
+          <div className="diag-progress-track">
+            <div className="diag-progress-fill" style={{ width: `${pct}%` }} />
+          </div>
+          <span className="diag-progress-label">{qsCount}/{qsTotal} chapters mapped</span>
+        </div>
+        <p style={{ fontSize: '0.78rem', color: 'var(--gray-500)', margin: 0 }}>
+          Answer 5 more questions to map your next chapter. Stop anytime.
+        </p>
+      </div>
+    );
+  }
+
+  // Quick-start fully mapped (all 15) without a legacy diagnostic: a clean
+  // "complete" confirmation rather than falling through to the retake card.
+  if (qsCount >= qsTotal && qsTotal > 0 && !diagnosticCompleted) {
+    return (
+      <div className="diag-card diag-card--compact">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <CheckCircle size={20} weight="bold" style={{ color: 'var(--forest)', flexShrink: 0 }} />
+          <div style={{ flex: 1 }}>
+            <span className="diag-card-title" style={{ fontSize: '0.92rem', marginBottom: 0 }}>
+              Readiness map complete
+            </span>
+          </div>
+          <span style={{ fontSize: '0.78rem', color: 'var(--gray-500)' }}>
+            All {qsTotal} chapters mapped
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  // State 1: Not taken (new user, not skipped, no quick-start progress yet)
+  if (!diagnosticCompleted && !diagnosticSkipped && qsCount === 0) {
     return (
       <div className="diag-card">
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-          <ClipboardText size={28} weight="bold" style={{ color: 'var(--forest)', flexShrink: 0, marginTop: '2px' }} />
+          <Compass size={28} weight="bold" style={{ color: 'var(--forest)', flexShrink: 0, marginTop: '2px' }} />
           <div style={{ flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <h3 className="diag-card-title" style={{ marginBottom: 0 }}>Start With a Diagnostic</h3>
+              <h3 className="diag-card-title" style={{ marginBottom: 0 }}>See Where You Stand</h3>
               <span className="diag-free-badge">Free</span>
             </div>
-            <p className="diag-card-subtitle">This is your compass, not a test.</p>
+            <p className="diag-card-subtitle">Answer 5 questions. About 5 minutes.</p>
             <div className="diag-card-body">
               <p>
-                Take a quick 30-question diagnostic before you start studying.
-                It tells us exactly where you stand so we can personalize your study plan.
-                This is not the exam simulation — it's a free tool included with your account.
+                A quick start that maps where you stand, one chapter at a time.
+                Answer 5 questions to begin — you'll watch your readiness map build,
+                and you can stop anytime and study any chapter right away.
               </p>
               <p style={{ fontSize: '0.82rem', color: 'var(--gray-400)' }}>
-                30 questions &middot; ~87 minutes &middot; real FE pace &middot; always free
+                5 questions to start &middot; ~5 minutes &middot; always free
               </p>
             </div>
             <div className="diag-card-actions">
-              <button className="btn-primary" onClick={() => navigate('/diagnostic')}>
-                Take the Diagnostic
+              <button className="btn-primary" onClick={() => navigate('/quickstart')}>
+                Start Quick Start
                 <ArrowRight size={16} weight="bold" />
               </button>
               <button className="diag-card-skip" onClick={onSkip}>
@@ -68,18 +123,18 @@ export function DiagnosticCard({ diagnosticStatus, onSkip }) {
   }
 
   // State 2: Skipped
-  if (!diagnosticCompleted && diagnosticSkipped) {
+  if (!diagnosticCompleted && diagnosticSkipped && qsCount === 0) {
     return (
       <div className="diag-card diag-card--compact">
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <ClipboardText size={20} weight="bold" style={{ color: 'var(--forest)', flexShrink: 0 }} />
+          <Compass size={20} weight="bold" style={{ color: 'var(--forest)', flexShrink: 0 }} />
           <div style={{ flex: 1 }}>
             <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 600, fontSize: '0.88rem', color: 'var(--charcoal)' }}>
-              Recommended: Take the free diagnostic to personalize your study plan
+              Recommended: a 5-minute quick start to personalize your study plan
             </span>
           </div>
-          <button className="btn-primary" style={{ padding: '0.45rem 1rem', fontSize: '0.82rem' }} onClick={() => navigate('/diagnostic')}>
-            Take Diagnostic
+          <button className="btn-primary" style={{ padding: '0.45rem 1rem', fontSize: '0.82rem' }} onClick={() => navigate('/quickstart')}>
+            Start
           </button>
         </div>
       </div>
@@ -145,7 +200,7 @@ export function DiagnosticCard({ diagnosticStatus, onSkip }) {
             </div>
           )}
         </div>
-        <button className="btn-primary" style={{ padding: '0.45rem 1rem', fontSize: '0.82rem' }} onClick={() => navigate('/diagnostic')}>
+        <button className="btn-primary" style={{ padding: '0.45rem 1rem', fontSize: '0.82rem' }} onClick={() => navigate('/quickstart')}>
           <ArrowsClockwise size={16} weight="bold" />
           Retake
         </button>

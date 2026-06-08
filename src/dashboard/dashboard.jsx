@@ -86,6 +86,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     lastDate: undefined,
   });
   const [chapterMastery, setChapterMastery] = React.useState({});
+  const [quickstart, setQuickstart] = React.useState({ sampledCount: 0, totalChapters: 15, nextChapterId: null });
   const [scoringOpen, setScoringOpen] = React.useState(false);
   const [reviewDue, setReviewDue] = React.useState(0);
 
@@ -103,7 +104,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       fetch('/api/diagnostic/history').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/review/count').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/leaderboard/alltime').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
-    ]).then(([statsResult, lbResult, retakeResult, masteryResult, historyResult, reviewCountResult, allTimeResult]) => {
+      fetch('/api/quickstart/state').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+    ]).then(([statsResult, lbResult, retakeResult, masteryResult, historyResult, reviewCountResult, allTimeResult, quickstartResult]) => {
       const errors = [];
       if (statsResult.status === 'fulfilled') {
         const data = statsResult.value;
@@ -121,6 +123,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       }
       if (allTimeResult.status === 'fulfilled') {
         setLeaderboard((prev) => ({ ...prev, allTime: allTimeResult.value.leaderboard || [] }));
+      }
+      if (quickstartResult.status === 'fulfilled') {
+        setQuickstart(quickstartResult.value);
       }
 
       // Diagnostic status
@@ -339,7 +344,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       )}
 
       {/* ── Diagnostic Card ── */}
-      <DiagnosticCard diagnosticStatus={diagnosticStatus} onSkip={handleDiagnosticSkip} />
+      <DiagnosticCard diagnosticStatus={diagnosticStatus} quickstart={quickstart} onSkip={handleDiagnosticSkip} />
 
       {/* ── Two-column layout: Chapters (left) + Sidebar (right) ── */}
       <div className="dash-grid">
