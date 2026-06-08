@@ -5,6 +5,7 @@ import { LoadingState } from '../components/LoadingState';
 import {
   SignOut, Users, ClipboardText, CreditCard, CheckCircle, CurrencyDollar,
   ChartLineUp, Lightning, TrendUp, Exam, Receipt, Pulse, Compass, Timer,
+  MagnifyingGlass, X,
 } from '@phosphor-icons/react';
 import { Chart } from './Chart';
 import './admin.css';
@@ -24,6 +25,7 @@ export function Admin({ userName, onLogout }) {
   useDocumentTitle('Admin · Analytics');
   const [days, setDays] = React.useState(30);
   const [state, setState] = React.useState({ loading: true });
+  const [lookup, setLookup] = React.useState({ q: '', result: null, err: '', loading: false });
 
   // Funnel + revenue snapshot (loaded once).
   React.useEffect(() => {
@@ -49,6 +51,31 @@ export function Admin({ userName, onLogout }) {
       .catch(() => { if (!cancelled) setState((s) => ({ ...s, tsLoading: false })); });
     return () => { cancelled = true; };
   }, [userName, days]);
+
+  // Recent users + purchases (masked), loaded once.
+  React.useEffect(() => {
+    if (!userName) return;
+    fetch('/api/admin/recent')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((recent) => { if (recent) setState((s) => ({ ...s, recent })); })
+      .catch(() => {});
+  }, [userName]);
+
+  async function handleLookup(e) {
+    e.preventDefault();
+    const q = lookup.q.trim();
+    if (!q) return;
+    setLookup((l) => ({ ...l, loading: true, err: '', result: null }));
+    try {
+      const res = await fetch(`/api/admin/user-lookup?email=${encodeURIComponent(q)}`);
+      if (res.status === 404) { setLookup((l) => ({ ...l, loading: false, err: 'No user with that email.' })); return; }
+      if (!res.ok) throw new Error();
+      const result = await res.json();
+      setLookup((l) => ({ ...l, loading: false, result }));
+    } catch {
+      setLookup((l) => ({ ...l, loading: false, err: 'Lookup failed — try again.' }));
+    }
+  }
 
   const handleLogout = () => { onLogout(); navigate('/'); };
 
@@ -179,7 +206,97 @@ export function Admin({ userName, onLogout }) {
           );
         })}
       </div>
+
+      {/* ── Recent users (masked) + single-user lookup ── */}
+      <div className="admin-section-head">
+        <Users weight="bold" size={18} />
+        <h3>Recent users</h3>
+        <span className="admin-section-note">emails masked · look one up for support</span>
+      </div>
+
+      <form className="user-lookup" onSubmit={handleLookup}>
+        <MagnifyingGlass weight="bold" size={16} className="user-lookup-icon" />
+        <input
+          type="email"
+          className="user-lookup-input"
+          placeholder="Look up a user by full email…"
+          value={lookup.q}
+          onChange={(e) => setLookup((l) => ({ ...l, q: e.target.value }))}
+        />
+        <button type="submit" className="user-lookup-btn" disabled={lookup.loading || !lookup.q.trim()}>
+          {lookup.loading ? 'Searching…' : 'Look up'}
+        </button>
+      </form>
+      {lookup.err && <p className="user-lookup-err">{lookup.err}</p>}
+      {lookup.result && <UserCard u={lookup.result} onClose={() => setLookup((l) => ({ ...l, result: null }))} />}
+
+      <div className="recent-table">
+        <div className="recent-row recent-row--head">
+          <span>Email</span><span>Joined</span><span>Verified</span><span>Activated</span><span>Chapters</span><span>XP</span><span>Paid</span>
+        </div>
+        {(state.recent?.users || []).map((u, i) => (
+          <div key={i} className="recent-row">
+            <span className="recent-email">{u.emailMasked}</span>
+            <span>{u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '—'}</span>
+            <span>{u.emailVerified ? <CheckCircle weight="fill" size={15} className="recent-ok" /> : <span className="recent-muted">—</span>}</span>
+            <span>{u.activated ? <CheckCircle weight="fill" size={15} className="recent-ok" /> : <span className="recent-muted">—</span>}</span>
+            <span>{u.chaptersMapped}/15</span>
+            <span>{u.totalXp}</span>
+            <span>{u.purchased ? <CheckCircle weight="fill" size={15} className="recent-paid" /> : <span className="recent-muted">—</span>}</span>
+          </div>
+        ))}
+        {state.recent && (state.recent.users || []).length === 0 && <div className="recent-empty">No users yet.</div>}
+      </div>
+
+      {state.recent && (state.recent.purchases || []).length > 0 && (
+        <div className="recent-purchases">
+          <span className="recent-purchases-label">Recent purchases</span>
+          {state.recent.purchases.map((p, i) => (
+            <div key={i} className="recent-purchase-row">
+              <span className="recent-email">{p.emailMasked}</span>
+              <span>${(p.amount / 100).toFixed(2)}</span>
+              <span className="recent-muted">{p.tier || '—'}</span>
+              <span className="recent-muted">{p.createdAt ? new Date(p.createdAt).toLocaleDateString() : '—'}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </main>
+  );
+}
+
+function UserCard({ u, onClose }) {
+  const fields = [
+    ['Name', [u.firstName, u.lastName].filter(Boolean).join(' ') || '—'],
+    ['Joined', u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '—'],
+    ['Verified', u.emailVerified ? 'Yes' : 'No'],
+    ['Exam date', u.examDate || '—'],
+    ['XP', u.totalXp],
+    ['Streak', `${u.currentStreak} days`],
+    ['Chapters mapped', `${u.chaptersMapped}/15`],
+    ['Activated', u.activatedAt ? new Date(u.activatedAt).toLocaleDateString() : 'No'],
+    ['Exam sim', u.examSimAccess ? 'Purchased' : '—'],
+  ];
+  return (
+    <div className="user-card">
+      <button className="user-card-x" onClick={onClose} aria-label="Close"><X weight="bold" size={14} /></button>
+      <div className="user-card-head">
+        <span className="user-card-email">{u.email}</span>
+        <span className="user-card-pii">full email · don't screenshot</span>
+      </div>
+      <div className="user-card-grid">
+        {fields.map(([k, v]) => (
+          <div key={k} className="uc-cell"><span className="uc-k">{k}</span><span className="uc-v">{v}</span></div>
+        ))}
+      </div>
+      {u.purchases && u.purchases.length > 0 && (
+        <div className="user-card-purchases">
+          {u.purchases.map((p, i) => (
+            <div key={i}>${(p.amount / 100).toFixed(2)} · {p.tier || '—'} · {p.status}{p.createdAt ? ` · ${new Date(p.createdAt).toLocaleDateString()}` : ''}</div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 

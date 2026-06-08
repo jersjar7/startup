@@ -34,6 +34,29 @@ router.get('/timeseries', verifyAuth, requireAdmin, async (req, res) => {
   }
 });
 
+// GET /api/admin/recent — recent signups + purchases with MASKED emails.
+router.get('/recent', verifyAuth, requireAdmin, async (req, res) => {
+  try {
+    const [users, purchases] = await Promise.all([DB.getRecentUsers(25), DB.getRecentPurchases(10)]);
+    res.send({ users, purchases });
+  } catch (e) {
+    console.error('[admin] recent failed:', e.message);
+    res.status(500).send({ msg: 'Failed to load recent users' });
+  }
+});
+
+// GET /api/admin/user-lookup?email= — full record for ONE user (support).
+router.get('/user-lookup', verifyAuth, requireAdmin, async (req, res) => {
+  try {
+    const user = await DB.lookupUser(req.query.email);
+    if (!user) return res.status(404).send({ msg: 'No user with that email' });
+    res.send(user);
+  } catch (e) {
+    console.error('[admin] user-lookup failed:', e.message);
+    res.status(500).send({ msg: 'Lookup failed' });
+  }
+});
+
 // GET /api/admin/email-status — current email sender config.
 router.get('/email-status', verifyAuth, requireAdmin, (req, res) => {
   res.send(getEmailConfig());

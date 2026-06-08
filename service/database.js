@@ -9,6 +9,7 @@ const purchases = require('./db/purchases');
 const examAttempts = require('./db/examAttempts');
 const events = require('./db/events');
 const analytics = require('./db/analytics');
+const adminUsers = require('./db/adminUsers');
 
 module.exports = {
   ping,
@@ -22,4 +23,5 @@ module.exports = {
   ...examAttempts,
   ...events,
   ...analytics,
+  ...adminUsers,
 };
