@@ -1,11 +1,12 @@
 const { userStatsCollection } = require('./connection');
+const { EXCLUDED_EMAILS } = require('../internalAccounts');
 
 async function getLeaderboard(weekId, limit = 30) {
   // Join the users collection so the route can show a real display name
   // ("Maria G.") instead of a masked email when the user has set their name.
   return userStatsCollection
     .aggregate([
-      { $match: { weekId, weeklyXp: { $gt: 0 } } },
+      { $match: { weekId, weeklyXp: { $gt: 0 }, email: { $nin: EXCLUDED_EMAILS } } },
       { $sort: { weeklyXp: -1 } },
       { $limit: limit },
       { $lookup: { from: 'users', localField: 'email', foreignField: 'email', as: '_u' } },
@@ -27,7 +28,7 @@ async function getLeaderboard(weekId, limit = 30) {
 async function getAllTimeLeaderboard(limit = 30) {
   return userStatsCollection
     .aggregate([
-      { $match: { totalXp: { $gt: 0 } } },
+      { $match: { totalXp: { $gt: 0 }, email: { $nin: EXCLUDED_EMAILS } } },
       { $sort: { totalXp: -1 } },
       { $limit: limit },
       { $lookup: { from: 'users', localField: 'email', foreignField: 'email', as: '_u' } },
