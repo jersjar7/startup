@@ -159,13 +159,14 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
   const isLesson = pathname.startsWith('/lesson/');
   const isDiagnostic = pathname.startsWith('/diagnostic');
   const isQuickstart = pathname.startsWith('/quickstart');
+  const isDashboard = pathname === '/dashboard';
   const isExamSession = pathname === '/exam/session' || pathname === '/exam/preview';
 
   return (
     <div className="body">
       <ErrorBoundary>
         {!isLanding && !isLesson && !isDiagnostic && !isQuickstart && !isExamSession && <Header userName={userName} />}
-        {userName && !isLanding && !isDiagnostic && !isQuickstart && !isExamSession && <VerificationBanner emailVerified={emailVerified} />}
+        {userName && !isLanding && !isDiagnostic && !isQuickstart && !isDashboard && !isExamSession && <VerificationBanner emailVerified={emailVerified} />}
 
         <Suspense fallback={<LoadingState />}>
           <Routes>
@@ -178,7 +179,7 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
             <Route path="/fe-civil-exam-guide" element={<ExamGuide />} />
             <Route path="/fe-civil/:topicId" element={<PublicTopic />} />
             <Route path="/profile" element={<Profile userName={userName} onLogout={onLogout} />} />
-            <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} displayName={me.displayName} firstName={me.firstName} examDate={me.examDate} />} />
+            <Route path="/dashboard" element={<Dashboard userName={userName} onLogout={onLogout} displayName={me.displayName} firstName={me.firstName} examDate={me.examDate} emailVerified={emailVerified} />} />
             <Route path="/admin" element={<Admin userName={userName} onLogout={onLogout} />} />
             <Route path="/study/:topicId" element={<Study userName={userName} onLogout={onLogout} displayName={me.displayName} />} />
             <Route path="/problems/:topicId" element={<Problems userName={userName} onLogout={onLogout} />} />

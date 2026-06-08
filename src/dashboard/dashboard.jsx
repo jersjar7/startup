@@ -25,6 +25,7 @@ import { LoadingState } from '../components/LoadingState';
 import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
 import { ExamSimCard } from '../exam/ExamSimCard';
 import { ScoringModal } from './ScoringModal';
+import { SetupTodo } from './SetupTodo';
 import './dashboard.css';
 
 // Live-activity presence arrives as { from, topic } (practice) or
@@ -38,7 +39,7 @@ function prettyTopic(event) {
     : raw.charAt(0).toUpperCase() + raw.slice(1);
 }
 
-export function Dashboard({ userName, onLogout, displayName, firstName, examDate }) {
+export function Dashboard({ userName, onLogout, displayName, firstName, examDate, emailVerified }) {
   const navigate = useNavigate();
   useDocumentTitle('Dashboard');
   // Shown to other users in Live Activity — never the raw email.
@@ -268,18 +269,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
       {error && <div className="error-banner" role="alert">{error}</div>}
 
-      {(needName || needExam) && !profilePromptDismissed && (
-        <div className="profile-prompt">
-          <Target weight="bold" size={18} className="profile-prompt-icon" />
-          <p className="profile-prompt-text">
-            <strong>{needName ? 'Personalize your account.' : 'One more thing.'}</strong> {personalizeMsg}
-          </p>
-          <button className="profile-prompt-cta" onClick={() => navigate('/profile')}>Add details</button>
-          <button className="profile-prompt-x" onClick={dismissProfilePrompt} aria-label="Dismiss">
-            <X weight="bold" size={14} />
-          </button>
-        </div>
-      )}
+      {/* Account-setup logistics live in the right column (SetupTodo), so the
+          main panel stays focused on preparation. */}
 
       {/* ── Top bar: Stats + Daily Review ── */}
       <div className="dash-topbar">
@@ -415,6 +406,13 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
         {/* ── RIGHT: Sidebar ── */}
         <aside className="dash-sidebar">
+          {/* Account setup — logistics, kept out of the left prep panel */}
+          <SetupTodo
+            emailVerified={emailVerified}
+            hasName={!!firstName}
+            hasExam={!!examDate}
+          />
+
           {/* Focus Areas */}
           {hasActivity && focusAreas.length > 0 && (
             <div className="sidebar-block focus-block">

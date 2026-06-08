@@ -592,6 +592,66 @@
   margin-bottom: 0;
 }
 
+/* ── Account setup To-Do (right-column logistics) ── */
+.setup-todo {
+  border-left: 3px solid var(--sunbeam);
+}
+.setup-todo .dash-section-label { margin-bottom: 0.4rem; }
+.setup-todo-count {
+  margin-left: auto;
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: var(--sunbeam-bg);
+  color: #9a6f00;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.setup-todo-sub {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  line-height: 1.5;
+  margin: 0 0 0.85rem;
+}
+.setup-todo-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+.setup-todo-item { display: flex; align-items: flex-start; gap: 0.6rem; }
+.setup-todo-icon { color: var(--gray-400); flex-shrink: 0; margin-top: 0.15rem; }
+.setup-todo-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+.setup-todo-label {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--charcoal);
+}
+.setup-todo-note {
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: var(--gray-500);
+}
+.setup-todo-note--ok { color: var(--forest); }
+.setup-todo-note--err { color: var(--error); }
+.setup-todo-action {
+  flex-shrink: 0;
+  background: var(--cream-dark);
+  border: none;
+  border-radius: 8px;
+  padding: 0.3rem 0.7rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.76rem;
+  color: var(--ember);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.setup-todo-action:hover:not(:disabled) { background: var(--ember-bg); }
+.setup-todo-action:disabled { opacity: 0.6; cursor: default; }
+
 /* ── Achievements (compact) ── */
 .badges-compact {
   display: flex;
