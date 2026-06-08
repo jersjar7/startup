@@ -521,30 +521,25 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             })()}
           </div>
 
-          {/* Live Activity */}
-          <div className="sidebar-block">
-            <h3 className="dash-section-label">
-              <Pulse weight="bold" size={18} />
-              Live Activity
-            </h3>
-            <ul className="activity-list">
-              {events.length > 0 ? (
-                events.map((event, index) => (
+          {/* Live Activity — only render when there's real presence. An empty
+              "live" feed is mild negative social proof ("nobody's here"); the
+              block reappears on its own as concurrency grows. */}
+          {events.length > 0 && (
+            <div className="sidebar-block">
+              <h3 className="dash-section-label">
+                <Pulse weight="bold" size={18} />
+                Live Activity
+              </h3>
+              <ul className="activity-list">
+                {events.map((event, index) => (
                   <li key={index}>
                     <span className="act-user">{event.from}</span> studying{' '}
                     <span className="act-topic">{prettyTopic(event)}</span>
                   </li>
-                ))
-              ) : (
-                <li className="act-empty">
-                  <span className="act-empty-title">You're here, and that's what counts.</span>
-                  <span className="act-empty-sub">
-                    Start a session and you'll light up this feed — as more engineers join, you'll see them studying alongside you.
-                  </span>
-                </li>
-              )}
-            </ul>
-          </div>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Referral / Spread the word */}
           <div className="sidebar-block referral-card">
