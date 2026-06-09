@@ -7,14 +7,15 @@ const { EXCLUDED_EMAILS } = require('../internalAccounts');
 
 const NOT_EXCLUDED = { $nin: EXCLUDED_EMAILS };
 
-// jerson01@byu.edu -> j•••••••@byu.edu  (first char + domain kept)
+// jerson01@byu.edu -> j•••@byu.edu  (first char + domain). Fixed-length mask:
+// uniform column widths in the table, and it doesn't leak the local-part length.
 function maskEmail(e) {
   const s = String(e || '');
   const at = s.indexOf('@');
   if (at < 1) return s ? '•••' : '—';
   const local = s.slice(0, at);
   const domain = s.slice(at + 1);
-  return `${local[0]}${'•'.repeat(Math.max(local.length - 1, 1))}@${domain}`;
+  return `${local[0]}•••@${domain}`;
 }
 
 // Most recent signups (real users only), with engagement flags. No full emails.

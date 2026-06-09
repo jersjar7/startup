@@ -437,18 +437,28 @@
   background: #fff;
   border: 1px solid var(--gray-200);
   border-radius: 12px;
-  overflow: hidden;
+  overflow-x: auto; /* narrow screens scroll horizontally instead of crushing columns */
+  -webkit-overflow-scrolling: touch;
 }
 .recent-row {
   display: grid;
-  grid-template-columns: 2fr 1fr 0.9fr 0.9fr 0.9fr 0.7fr 0.7fr;
+  grid-template-columns: 1.6fr 0.9fr 0.8fr 0.9fr 0.9fr 0.6fr 0.6fr;
   align-items: center;
   gap: 0.5rem;
+  min-width: 560px; /* keep every column readable; the table scrolls if narrower */
   padding: 0.6rem 1rem;
   border-bottom: 1px solid var(--gray-100);
   font-family: var(--font-body);
   font-size: 0.85rem;
   color: var(--charcoal);
+}
+/* min-width:0 lets cells shrink to their fr track (so long emails can't push
+   the grid out of alignment); ellipsis is the safety net. */
+.recent-row > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .recent-row:last-child { border-bottom: none; }
 .recent-row--head {
@@ -462,12 +472,14 @@
 .recent-muted { color: var(--gray-300); }
 .recent-empty { padding: 1.5rem; text-align: center; color: var(--gray-400); font-family: var(--font-body); }
 
-.recent-purchases { margin-top: 1rem; }
+.recent-purchases { margin-top: 1rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .recent-purchases-label {
   display: block; font-family: var(--font-heading); font-weight: 600; font-size: 0.66rem;
   text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-400); margin-bottom: 0.4rem;
 }
 .recent-purchase-row {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0.5rem;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1.2fr; gap: 0.5rem;
+  min-width: 420px;
   padding: 0.4rem 1rem; font-family: var(--font-body); font-size: 0.82rem; color: var(--charcoal);
 }
+.recent-purchase-row > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
