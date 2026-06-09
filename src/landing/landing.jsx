@@ -41,6 +41,7 @@ import { Math } from './math';
 import './landing.css';
 import './hero-svg.css';
 import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
+import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
 
 /* ── Chapter data (15 FE Civil topics) ── */
 const chapters = [
@@ -126,7 +127,7 @@ export function Landing({ userName }) {
             <button className="hero-login-link" onClick={() => navigate('/login')}>Log in</button>
           </p>
           <p className="hero-price">
-            <strong>The whole platform is free</strong> — every lesson, 1,126 practice problems,
+            <strong>The whole platform is free</strong> — every lesson, {PROBLEM_COUNT_LABEL} practice problems,
             the diagnostic, and spaced repetition. No trial, no credit card. The one optional
             extra is a full timed exam simulation: ${STUDENT_PRICE} for students, ${STANDARD_PRICE} standard.
           </p>
@@ -520,7 +521,7 @@ export function Landing({ userName }) {
               </div>
               <ul className="pricing-features">
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> All 15 chapters of lessons</li>
-                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> 1,126 practice problems</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> {PROBLEM_COUNT_LABEL} practice problems</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> ELI5 explanations</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> Step-by-step solutions</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> FE Handbook references</li>

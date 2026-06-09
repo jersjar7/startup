@@ -16,6 +16,7 @@ import {
 } from '@phosphor-icons/react';
 import './exam.css';
 import { isStudentEmail, STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
+import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
 
 export function ExamGate({ userName }) {
   const navigate = useNavigate();
@@ -250,7 +251,7 @@ export function ExamGate({ userName }) {
                 <p className="exam-gate-why-title">Why this is the only thing that costs money</p>
                 <p className="exam-gate-why-text">
                   Unlike other FE prep platforms that charge $200+ for access, we give you
-                  all 15 chapters, 1,126 practice problems, step-by-step solutions, and the
+                  all 15 chapters, {PROBLEM_COUNT_LABEL} practice problems, step-by-step solutions, and the
                   diagnostic exam completely free. We built this to help students get their
                   EIT certification without breaking the bank.
                 </p>

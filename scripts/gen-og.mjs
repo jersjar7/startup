@@ -4,31 +4,12 @@
 // (before `vite build`, so the fresh PNG gets copied into dist/). Resilient: if
 // rendering can't run (no browser), it warns and leaves the existing image so a
 // build is never broken.
-import { build } from 'esbuild';
-import { createRequire } from 'module';
-import { readFileSync, writeFileSync, mkdtempSync } from 'fs';
-import { tmpdir } from 'os';
+import { readFileSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { liveCounts } from './content-counts.mjs';
 
-const require = createRequire(import.meta.url);
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-
-// Evaluate the real content modules (the same code the app runs) to get counts.
-async function liveCounts() {
-  const entry = `
-    import { getProblemPoolSize } from ${JSON.stringify(join(root, 'src/data/problemPool.js'))};
-    import { LESSONS } from ${JSON.stringify(join(root, 'src/data/lessons/index.js'))};
-    import { CHAPTERS } from ${JSON.stringify(join(root, 'src/data/chapters.js'))};
-    let lessons = 0;
-    for (const ch of Object.values(LESSONS)) for (const st of ch) lessons += (st.lessons || []).length;
-    export const counts = { problems: getProblemPoolSize(), lessons, chapters: CHAPTERS.length };
-  `;
-  const out = join(mkdtempSync(join(tmpdir(), 'og-')), 'counts.cjs');
-  await build({ stdin: { contents: entry, resolveDir: root, loader: 'js' }, bundle: true, format: 'cjs', platform: 'node', outfile: out, logLevel: 'silent' });
-  delete require.cache[out];
-  return require(out).counts;
-}
 
 async function render(html, outPng) {
   const { chromium } = await import('playwright');

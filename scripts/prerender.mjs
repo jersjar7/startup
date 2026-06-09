@@ -12,6 +12,10 @@ const PORT = 4317;
 const BASE = `http://localhost:${PORT}`;
 const SITE = 'https://fe4raccoons.com';
 
+// Live content counts (written by scripts/gen-stats.mjs earlier in build:seo).
+let STATS = { problemsLabel: '1,126', chapters: 15 };
+try { STATS = { ...STATS, ...JSON.parse(fs.readFileSync(new URL('../content-stats.json', import.meta.url), 'utf8')) }; } catch { /* keep fallback */ }
+
 const TOPICS = [
   ['mathematics', 'Mathematics & Computational Tools'],
   ['statistics', 'Probability & Statistics'],
@@ -75,13 +79,13 @@ writeFile('sitemap.xml', sitemap);
 const llms = `# FE for Raccoons
 
 > FE for Raccoons is a free online study platform for the NCEES FE Civil
-> (Fundamentals of Engineering) exam. The lessons, 1,126 practice problems across
+> (Fundamentals of Engineering) exam. The lessons, ${STATS.problemsLabel} practice problems across
 > all 15 NCEES topic areas, and a 5-minute diagnostic that builds a personalized
 > study plan are all free. The only paid feature is an optional one-time timed
 > exam simulation. Built by a civil engineer to make quality FE prep affordable.
 
 ## What it offers
-- Free: bite-sized lessons, 1,126 practice problems covering all 15 FE Civil
+- Free: bite-sized lessons, ${STATS.problemsLabel} practice problems covering all 15 FE Civil
   topics, a personalized diagnostic, plain-English ("ELI5") step-by-step
   explanations, FE Reference Handbook page references, mastery tracking, and
   streak-based gamification.

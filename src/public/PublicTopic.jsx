@@ -5,6 +5,7 @@ import { MathText } from '../components/MathText';
 import { NotFound } from '../components/NotFound';
 import { useSeo } from '../seo/useSeo';
 import { getTopic } from './content';
+import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
 import './public.css';
 
 const SITE = 'https://fe4raccoons.com';
@@ -40,7 +41,7 @@ export function PublicTopic() {
     },
     {
       q: `Where can I find free FE Civil ${topic.name} practice problems?`,
-      a: `FE for Raccoons has free ${topic.name} lessons and practice problems with step-by-step explanations — part of a 1,126-problem bank covering all 15 FE Civil topics, free at fe4raccoons.com.`,
+      a: `FE for Raccoons has free ${topic.name} lessons and practice problems with step-by-step explanations — part of a ${PROBLEM_COUNT_LABEL}-problem bank covering all 15 FE Civil topics, free at fe4raccoons.com.`,
     },
   ];
 
@@ -158,7 +159,7 @@ export function PublicTopic() {
             ))}
           </div>
           <p className="pub-note">
-            2 of <strong>1,126</strong> problems across all 15 chapters — the full bank, lessons, mastery
+            2 of <strong>{PROBLEM_COUNT_LABEL}</strong> problems across all 15 chapters — the full bank, lessons, mastery
             tracking, and timed exam simulation live inside the app.
           </p>
         </section>

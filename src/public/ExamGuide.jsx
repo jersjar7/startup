@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, CaretRight } from '@phosphor-icons/react';
 import { useSeo } from '../seo/useSeo';
 import { allTopics, EXAM_FACTS } from './content';
+import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
 import './public.css';
 
 const SITE = 'https://fe4raccoons.com';
@@ -26,11 +27,11 @@ const FAQ = [
   },
   {
     q: 'Is there a free way to study for the FE Civil exam?',
-    a: 'Yes. FE for Raccoons is a free FE Civil study platform: bite-sized lessons, 1,126 practice problems across all 15 NCEES topics, and a personalized 5-minute diagnostic — all free. The only paid feature is an optional, one-time timed exam simulation.',
+    a: `Yes. FE for Raccoons is a free FE Civil study platform: bite-sized lessons, ${PROBLEM_COUNT_LABEL} practice problems across all 15 NCEES topics, and a personalized 5-minute diagnostic — all free. The only paid feature is an optional, one-time timed exam simulation.`,
   },
   {
     q: 'How much does FE for Raccoons cost?',
-    a: 'The core study experience is free — the lessons, 1,126 practice problems, and the diagnostic. The only paid item is an optional one-time timed exam simulation: $29 for verified students (.edu) or $49 standard. There is no subscription.',
+    a: `The core study experience is free — the lessons, ${PROBLEM_COUNT_LABEL} practice problems, and the diagnostic. The only paid item is an optional one-time timed exam simulation: $29 for verified students (.edu) or $49 standard. There is no subscription.`,
   },
 ];
 
