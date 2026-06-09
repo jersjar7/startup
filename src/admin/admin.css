@@ -504,3 +504,40 @@
     box-shadow: 0 8px 30px rgba(44, 44, 44, 0.32);
   }
 }
+
+/* ── How users found us ── */
+.acq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.acq-block {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+}
+.acq-block-label {
+  display: block;
+  font-family: var(--font-heading); font-weight: 600; font-size: 0.66rem;
+  text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-400);
+  margin-bottom: 0.75rem;
+}
+.acq-row {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr 2rem;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.3rem 0;
+}
+.acq-name {
+  font-family: var(--font-body); font-size: 0.84rem; color: var(--charcoal);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.acq-bar-track { height: 8px; background: var(--gray-100); border-radius: 999px; overflow: hidden; }
+.acq-bar-fill { display: block; height: 100%; background: var(--ember); border-radius: 999px; }
+.acq-bar-fill--alt { background: var(--info, #3B82B8); }
+.acq-count { font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--charcoal); text-align: right; }
+.acq-empty { font-family: var(--font-body); font-size: 0.82rem; color: var(--gray-400); line-height: 1.5; margin: 0; }
+@media (max-width: 768px) { .acq-grid { grid-template-columns: 1fr; } }

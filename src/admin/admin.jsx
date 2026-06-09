@@ -20,6 +20,11 @@ const fmtInt = (v) => (v >= 1000 ? `${(v / 1000).toFixed(1)}k` : `${Math.round(v
 const fmtMoney = (v) => `$${v >= 1000 ? `${(v / 1000).toFixed(1)}k` : Math.round(v * 100) / 100}`;
 const money = (v) => `$${Number(v).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
+const SOURCE_LABEL = {
+  reddit: 'Reddit', search: 'Google / search', youtube: 'YouTube',
+  instagram: 'Instagram', tiktok: 'TikTok', friend: 'A friend', other: 'Other',
+};
+
 export function Admin({ userName, onLogout }) {
   const navigate = useNavigate();
   useDocumentTitle('Admin · Analytics');
@@ -67,6 +72,10 @@ export function Admin({ userName, onLogout }) {
     fetch('/api/admin/recent')
       .then((res) => (res.ok ? res.json() : null))
       .then((recent) => { if (recent) setState((s) => ({ ...s, recent })); })
+      .catch(() => {});
+    fetch('/api/admin/acquisition')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((acquisition) => { if (acquisition) setState((s) => ({ ...s, acquisition })); })
       .catch(() => {});
   }, [userName]);
 
@@ -260,6 +269,49 @@ export function Admin({ userName, onLogout }) {
           );
         })}
       </div>
+
+      {/* ── How users found us ── */}
+      {state.acquisition && (
+        <>
+          <div className="admin-section-head">
+            <Compass weight="bold" size={18} />
+            <h3>How users found us</h3>
+            <span className="admin-section-note">{state.acquisition.answered} of {state.acquisition.totalUsers} answered</span>
+          </div>
+          <div className="acq-grid">
+            <div className="acq-block">
+              <span className="acq-block-label">They told us</span>
+              {state.acquisition.selfReported.length === 0 ? (
+                <p className="acq-empty">No answers yet — new users get a one-tap question on their dashboard.</p>
+              ) : state.acquisition.selfReported.map((sr) => {
+                const maxC = Math.max(...state.acquisition.selfReported.map((x) => x.count), 1);
+                return (
+                  <div key={sr.source} className="acq-row">
+                    <span className="acq-name">{SOURCE_LABEL[sr.source] || sr.source}</span>
+                    <span className="acq-bar-track"><span className="acq-bar-fill" style={{ width: `${(sr.count / maxC) * 100}%` }} /></span>
+                    <span className="acq-count">{sr.count}</span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="acq-block">
+              <span className="acq-block-label">Referrer (captured automatically)</span>
+              {state.acquisition.referrers.length === 0 ? (
+                <p className="acq-empty">No referrer data yet.</p>
+              ) : state.acquisition.referrers.map((r) => {
+                const maxR = Math.max(...state.acquisition.referrers.map((x) => x.count), 1);
+                return (
+                  <div key={r.host} className="acq-row">
+                    <span className="acq-name">{r.host}</span>
+                    <span className="acq-bar-track"><span className="acq-bar-fill acq-bar-fill--alt" style={{ width: `${(r.count / maxR) * 100}%` }} /></span>
+                    <span className="acq-count">{r.count}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </>
+      )}
 
       {/* ── Recent users (masked) + single-user lookup ── */}
       <div className="admin-section-head">

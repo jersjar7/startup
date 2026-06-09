@@ -109,4 +109,41 @@ async function lookupUser(rawEmail) {
   };
 }
 
-module.exports = { getRecentUsers, getRecentPurchases, lookupUser, maskEmail };
+function refHost(url) {
+  try { return new URL(url).hostname.replace(/^www\./, ''); }
+  catch { return null; }
+}
+
+// How users found us: self-reported source counts + passive referrer-host
+// counts. Real users only.
+async function getAcquisitionBreakdown() {
+  const [selfRaw, refRows, total] = await Promise.all([
+    userCollection.aggregate([
+      { $match: { 'acquisition.source': { $type: 'string' }, email: NOT_EXCLUDED } },
+      { $group: { _id: '$acquisition.source', count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+    ]).toArray(),
+    userCollection.find(
+      { 'acquisition.referrer': { $type: 'string' }, email: NOT_EXCLUDED },
+      { projection: { 'acquisition.referrer': 1 } },
+    ).toArray(),
+    userCollection.countDocuments({ email: NOT_EXCLUDED }),
+  ]);
+
+  const selfReported = selfRaw.map((r) => ({ source: r._id, count: r.count }));
+  const answered = selfReported.reduce((a, b) => a + b.count, 0);
+
+  const hostCounts = {};
+  for (const u of refRows) {
+    const host = refHost(u.acquisition.referrer);
+    if (host) hostCounts[host] = (hostCounts[host] || 0) + 1;
+  }
+  const referrers = Object.entries(hostCounts)
+    .map(([host, count]) => ({ host, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  return { selfReported, referrers, answered, totalUsers: total };
+}
+
+module.exports = { getRecentUsers, getRecentPurchases, lookupUser, maskEmail, getAcquisitionBreakdown };

@@ -51,6 +51,21 @@ function validateAuthInput(req, res, isRegistration = false) {
   return true;
 }
 
+// Acquisition (how users found us): self-reported source allowlist + a
+// sanitizer for the passive utm/referrer payload captured at signup.
+const ACQ_SOURCES = ['reddit', 'search', 'youtube', 'instagram', 'tiktok', 'friend', 'other'];
+
+function sanitizeAcq(acq) {
+  if (!acq || typeof acq !== 'object') return null;
+  const str = (v) => (typeof v === 'string' && v.trim() ? v.trim().slice(0, 200) : undefined);
+  const out = {};
+  for (const k of ['utmSource', 'utmMedium', 'utmCampaign', 'referrer', 'landingPath']) {
+    const v = str(acq[k]);
+    if (v) out[k] = v;
+  }
+  return Object.keys(out).length ? { ...out, capturedAt: new Date() } : null;
+}
+
 // Register a new user
 router.post('/create', async (req, res) => {
   if (!validateAuthInput(req, res, true)) return;
@@ -73,6 +88,8 @@ router.post('/create', async (req, res) => {
       verifiedAt: null,
       unsubToken: generateToken(), // for one-click unsubscribe from lifecycle emails
     };
+    const acq = sanitizeAcq(req.body.acq);
+    if (acq) user.acquisition = acq;
     await DB.addUser(user);
     setAuthCookie(res, user.token);
 
@@ -139,7 +156,24 @@ router.get('/me', verifyAuth, async (req, res) => {
     longestStreak: stats?.longestStreak || 0,
     badges: getBadgeDetails(earnedBadgeIds),
     allBadges: getAllBadges(),
+    acquisitionSource: user.acquisition?.source || null,
   });
+});
+
+// Save how the user found us (self-reported, one of ACQ_SOURCES). Merges into
+// the acquisition object via dot-notation so it keeps any captured utm/referrer.
+router.post('/acquisition', verifyAuth, async (req, res) => {
+  const source = String(req.body.source || '').toLowerCase();
+  if (!ACQ_SOURCES.includes(source)) {
+    return res.status(400).send({ msg: 'Invalid source' });
+  }
+  const detail = typeof req.body.detail === 'string' ? req.body.detail.trim().slice(0, 120) : '';
+  await DB.setUserFields(req.user.email, {
+    'acquisition.source': source,
+    'acquisition.sourceDetail': detail,
+    'acquisition.answeredAt': new Date(),
+  });
+  res.send({ ok: true });
 });
 
 // Forgot password — always returns 200 to prevent email enumeration

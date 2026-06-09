@@ -58,11 +58,13 @@ export function Login({ userName, onLogin }) {
       return;
     }
     setSubmitting(true);
+    let acq;
+    try { acq = JSON.parse(localStorage.getItem('fe4r_acq') || 'null') || undefined; } catch { acq = undefined; }
     try {
       const res = await fetch('/api/auth/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, acq }),
       });
       if (res.ok) {
         const data = await res.json();

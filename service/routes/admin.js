@@ -45,6 +45,16 @@ router.get('/recent', verifyAuth, requireAdmin, async (req, res) => {
   }
 });
 
+// GET /api/admin/acquisition — how users found us (self-reported + referrers).
+router.get('/acquisition', verifyAuth, requireAdmin, async (req, res) => {
+  try {
+    res.send(await DB.getAcquisitionBreakdown());
+  } catch (e) {
+    console.error('[admin] acquisition failed:', e.message);
+    res.status(500).send({ msg: 'Failed to load acquisition' });
+  }
+});
+
 // GET /api/admin/user-lookup?email= — full record for ONE user (support).
 router.get('/user-lookup', verifyAuth, requireAdmin, async (req, res) => {
   try {

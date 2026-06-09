@@ -85,6 +85,28 @@ export default function App() {
     return () => { cancelled = true; };
   }, []);
 
+  // Capture acquisition (utm params + external referrer) once, on first load,
+  // before signup — stored locally and sent with the register call so we know
+  // where new users came from even when they navigate around first.
+  React.useEffect(() => {
+    try {
+      if (localStorage.getItem('fe4r_acq')) return;
+      const params = new URLSearchParams(window.location.search);
+      const ref = document.referrer || '';
+      const external = ref && !ref.includes(window.location.host);
+      const utmSource = params.get('utm_source') || undefined;
+      const utmMedium = params.get('utm_medium') || undefined;
+      const utmCampaign = params.get('utm_campaign') || undefined;
+      if (utmSource || external) {
+        localStorage.setItem('fe4r_acq', JSON.stringify({
+          utmSource, utmMedium, utmCampaign,
+          referrer: external ? ref : undefined,
+          landingPath: window.location.pathname,
+        }));
+      }
+    } catch { /* ignore */ }
+  }, []);
+
   // Login/register now return verified status + profile, so set it all
   // synchronously — no second /me round-trip, no verification-banner flash.
   function onLogin(data) {

@@ -26,6 +26,7 @@ import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
 import { ExamSimCard } from '../exam/ExamSimCard';
 import { ScoringModal } from './ScoringModal';
 import { SetupTodo } from './SetupTodo';
+import { SourcePrompt } from './SourcePrompt';
 import './dashboard.css';
 
 // Live-activity presence arrives as { from, topic } (practice) or
@@ -88,6 +89,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   });
   const [chapterMastery, setChapterMastery] = React.useState({});
   const [quickstart, setQuickstart] = React.useState({ sampledCount: 0, totalChapters: 15, nextChapterId: null });
+  const [showSource, setShowSource] = React.useState(false);
   const [scoringOpen, setScoringOpen] = React.useState(false);
   const [reviewDue, setReviewDue] = React.useState(0);
 
@@ -116,6 +118,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           badges: data.badges || [],
           allBadges: data.allBadges || [],
         });
+        // One-time "how did you find us?" — only if not answered and not dismissed.
+        setShowSource(!data.acquisitionSource && localStorage.getItem('fe4r_acq_dismissed') !== 'true');
       } else {
         errors.push('stats');
       }
@@ -268,6 +272,13 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       </div>
 
       {error && <div className="error-banner" role="alert">{error}</div>}
+
+      {showSource && (
+        <SourcePrompt onClose={(answered) => {
+          if (!answered) localStorage.setItem('fe4r_acq_dismissed', 'true');
+          setShowSource(false);
+        }} />
+      )}
 
       {/* Account-setup logistics live in the right column (SetupTodo), so the
           main panel stays focused on preparation. */}
