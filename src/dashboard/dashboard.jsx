@@ -89,7 +89,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   });
   const [chapterMastery, setChapterMastery] = React.useState({});
   const [quickstart, setQuickstart] = React.useState({ sampledCount: 0, totalChapters: 15, nextChapterId: null });
-  const [showSource, setShowSource] = React.useState(false);
+  const [acqSource, setAcqSource] = React.useState(null); // their reported source (truthy once answered)
+  const [acqDismissed, setAcqDismissed] = React.useState(() => localStorage.getItem('fe4r_acq_dismissed') === 'true');
   const [scoringOpen, setScoringOpen] = React.useState(false);
   const [reviewDue, setReviewDue] = React.useState(0);
 
@@ -118,8 +119,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           badges: data.badges || [],
           allBadges: data.allBadges || [],
         });
-        // One-time "how did you find us?" — only if not answered and not dismissed.
-        setShowSource(!data.acquisitionSource && localStorage.getItem('fe4r_acq_dismissed') !== 'true');
+        // Their reported acquisition source (null until answered). Whether to
+        // actually show the prompt is gated on engagement below (hasActivity).
+        setAcqSource(data.acquisitionSource || null);
       } else {
         errors.push('stats');
       }
@@ -248,6 +250,12 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     [stats.totalXp, masteryByChapterId],
   );
 
+  // "How did you find us?" appears only after the user has actually engaged
+  // (hasActivity) — never on a brand-new user's first, empty visit — and only
+  // if they haven't answered or dismissed it. Existing users have activity, so
+  // they see it right away.
+  const showSource = hasActivity && !acqSource && !acqDismissed;
+
   function handleDiagnosticSkip() {
     localStorage.setItem('diagnosticSkipped', 'true');
     setDiagnosticStatus(prev => ({ ...prev, diagnosticSkipped: true }));
@@ -275,8 +283,12 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
       {showSource && (
         <SourcePrompt onClose={(answered) => {
-          if (!answered) localStorage.setItem('fe4r_acq_dismissed', 'true');
-          setShowSource(false);
+          if (answered) {
+            setAcqSource('answered');
+          } else {
+            localStorage.setItem('fe4r_acq_dismissed', 'true');
+            setAcqDismissed(true);
+          }
         }} />
       )}
 
