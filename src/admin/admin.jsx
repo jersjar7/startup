@@ -133,10 +133,14 @@ export function Admin({ userName, onLogout }) {
   ] : [];
 
   const funnelStages = [
-    { icon: Users, label: 'Signups', value: m.signups, conv: null, convLabel: null },
-    { icon: Compass, label: 'Activated (quick-start)', value: m.quickstartActivated, conv: c.signupToActivation, convLabel: 'of signups' },
-    { icon: CreditCard, label: 'Started checkout', value: m.checkoutStarts, conv: c.signupToCheckout, convLabel: 'of signups' },
-    { icon: CheckCircle, label: 'Purchased', value: m.purchases, conv: c.checkoutToPurchase, convLabel: 'of checkouts' },
+    { icon: Users, label: 'Signups', value: m.signups, conv: null, convLabel: null,
+      desc: 'Total accounts created, all-time, excluding internal test accounts.' },
+    { icon: Compass, label: 'Activated (quick-start)', value: m.quickstartActivated, conv: c.signupToActivation, convLabel: 'of signups',
+      desc: 'Distinct users who completed at least one quick-start segment, all-time. This funnel is all-time; the “Activation rate” KPI above is the cohort-accurate version.' },
+    { icon: CreditCard, label: 'Started checkout', value: m.checkoutStarts, conv: c.signupToCheckout, convLabel: 'of signups',
+      desc: 'Distinct users who opened Stripe checkout for the exam sim, all-time — whether or not they finished paying. “% of signups” is this ÷ signups.' },
+    { icon: CheckCircle, label: 'Purchased', value: m.purchases, conv: c.checkoutToPurchase, convLabel: 'of checkouts',
+      desc: 'Completed exam-sim purchases, all-time. “% of checkouts” is this ÷ checkouts started.' },
   ];
 
   return (
@@ -228,10 +232,28 @@ export function Admin({ userName, onLogout }) {
       <div className="admin-funnel">
         {funnelStages.map((s) => {
           const Icon = s.icon;
+          const key = `fn:${s.label}`;
+          const open = openInfo === key;
           return (
             <div key={s.label} className="funnel-stage">
               <Icon weight="bold" size={20} className="funnel-icon" />
-              <span className="funnel-label">{s.label}</span>
+              <span className="funnel-label">
+                {s.label}
+                <button
+                  type="button"
+                  className={`funnel-info-btn ${open ? 'is-open' : ''}`}
+                  aria-label={`What does "${s.label}" mean?`}
+                  aria-expanded={open}
+                  onClick={(e) => { e.stopPropagation(); setOpenInfo(open ? null : key); }}
+                >
+                  <Info weight={open ? 'fill' : 'bold'} size={14} />
+                </button>
+                {open && (
+                  <div className="funnel-tip" role="tooltip" onClick={(e) => e.stopPropagation()}>
+                    {s.desc}
+                  </div>
+                )}
+              </span>
               <span className="funnel-value">{s.value}</span>
               {s.conv !== null && <span className="funnel-conv">{s.conv}% {s.convLabel}</span>}
             </div>
