@@ -72,9 +72,11 @@ export function Chart({ axis, data, type = 'bar', color = 'ember', label, fmt = 
 
   const onMove = (e) => {
     if (!width) return;
+    // The capture rect starts at x=pad.left, so the pointer offset (px) is
+    // already relative to the plot's left edge — map it straight onto the bars.
     const rect = e.currentTarget.getBoundingClientRect();
     const px = e.clientX - rect.left;
-    const i = Math.max(0, Math.min(n - 1, Math.round(((px - pad.left) / plotW) * (n - 1))));
+    const i = Math.max(0, Math.min(n - 1, Math.round((px / plotW) * (n - 1))));
     setHover(i);
   };
 
