@@ -5,7 +5,7 @@ import { LoadingState } from '../components/LoadingState';
 import {
   SignOut, Users, ClipboardText, CreditCard, CheckCircle, CurrencyDollar,
   ChartLineUp, Lightning, TrendUp, Exam, Receipt, Pulse, Compass, Timer,
-  MagnifyingGlass, X,
+  MagnifyingGlass, X, Info,
 } from '@phosphor-icons/react';
 import { Chart } from './Chart';
 import './admin.css';
@@ -26,6 +26,15 @@ export function Admin({ userName, onLogout }) {
   const [days, setDays] = React.useState(30);
   const [state, setState] = React.useState({ loading: true });
   const [lookup, setLookup] = React.useState({ q: '', result: null, err: '', loading: false });
+  const [openInfo, setOpenInfo] = React.useState(null); // which KPI's definition is open
+
+  // Tap anywhere else closes an open KPI definition.
+  React.useEffect(() => {
+    if (!openInfo) return undefined;
+    const close = () => setOpenInfo(null);
+    document.addEventListener('click', close);
+    return () => document.removeEventListener('click', close);
+  }, [openInfo]);
 
   // Funnel + revenue snapshot (loaded once).
   React.useEffect(() => {
@@ -105,14 +114,22 @@ export function Admin({ userName, onLogout }) {
   const snap = ts?.snapshot;
 
   const kpis = snap ? [
-    { icon: Users, label: 'Total users', value: snap.totalUsers.toLocaleString(), accent: 'ember' },
-    { icon: Compass, label: 'Activation rate', value: snap.activationRate != null ? `${snap.activationRate}%` : '—', accent: 'ember' },
-    { icon: Users, label: 'Activated · since launch', value: snap.cohortSignups != null ? `${snap.cohortActivated}/${snap.cohortSignups}` : '—', accent: 'forest' },
-    { icon: Timer, label: 'Median time to start', value: snap.activationMedianMinutes != null ? `${snap.activationMedianMinutes} min` : '—', accent: 'info' },
-    { icon: Lightning, label: 'Active · 7 days', value: snap.activeUsers7d.toLocaleString(), accent: 'info' },
-    { icon: CurrencyDollar, label: 'Total revenue', value: money(snap.totalRevenue), accent: 'forest' },
-    { icon: CreditCard, label: 'Purchases', value: snap.totalPurchases.toLocaleString(), accent: 'forest' },
-    { icon: TrendUp, label: 'Rev / paying user', value: money(snap.arppu), accent: 'sunbeam' },
+    { icon: Users, label: 'Total users', value: snap.totalUsers.toLocaleString(), accent: 'ember',
+      desc: 'Everyone who has created an account, excluding your internal test accounts (admin, QA).' },
+    { icon: Compass, label: 'Activation rate', value: snap.activationRate != null ? `${snap.activationRate}%` : '—', accent: 'ember',
+      desc: 'Of people who signed up since the quick-start launched, the share who answered at least one quick-start segment — i.e. actually started. The honest "are new users engaging" number.' },
+    { icon: Users, label: 'Activated · since launch', value: snap.cohortSignups != null ? `${snap.cohortActivated}/${snap.cohortSignups}` : '—', accent: 'forest',
+      desc: 'The raw fraction behind activation rate: users who started the quick-start ÷ everyone who signed up since launch.' },
+    { icon: Timer, label: 'Median time to start', value: snap.activationMedianMinutes != null ? `${snap.activationMedianMinutes} min` : '—', accent: 'info',
+      desc: 'For users who activated, the middle gap between signing up and answering their first segment. Median, so a few slow returners don’t skew it.' },
+    { icon: Lightning, label: 'Active · 7 days', value: snap.activeUsers7d.toLocaleString(), accent: 'info',
+      desc: 'Distinct users who completed at least one study session in the last 7 days.' },
+    { icon: CurrencyDollar, label: 'Total revenue', value: money(snap.totalRevenue), accent: 'forest',
+      desc: 'All-time revenue from completed exam-simulation purchases.' },
+    { icon: CreditCard, label: 'Purchases', value: snap.totalPurchases.toLocaleString(), accent: 'forest',
+      desc: 'All-time count of completed exam-simulation purchases.' },
+    { icon: TrendUp, label: 'Rev / paying user', value: money(snap.arppu), accent: 'sunbeam',
+      desc: 'Average spend per paying customer — total revenue ÷ number of purchases (ARPPU).' },
   ] : [];
 
   const funnelStages = [
@@ -151,11 +168,26 @@ export function Admin({ userName, onLogout }) {
           ? Array.from({ length: 6 }).map((_, i) => <div key={i} className="kpi-card kpi-skeleton" />)
           : kpis.map((k) => {
             const Icon = k.icon;
+            const open = openInfo === k.label;
             return (
               <div key={k.label} className={`kpi-card kpi--${k.accent}`}>
+                <button
+                  type="button"
+                  className={`kpi-info-btn ${open ? 'is-open' : ''}`}
+                  aria-label={`What does "${k.label}" mean?`}
+                  aria-expanded={open}
+                  onClick={(e) => { e.stopPropagation(); setOpenInfo(open ? null : k.label); }}
+                >
+                  <Info weight={open ? 'fill' : 'bold'} size={15} />
+                </button>
                 <Icon weight="bold" size={18} className="kpi-icon" />
                 <span className="kpi-value">{k.value}</span>
                 <span className="kpi-label">{k.label}</span>
+                {open && (
+                  <div className="kpi-tip" role="tooltip" onClick={(e) => e.stopPropagation()}>
+                    {k.desc}
+                  </div>
+                )}
               </div>
             );
           })}

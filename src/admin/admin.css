@@ -147,6 +147,7 @@
   margin-bottom: 1.5rem;
 }
 .kpi-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
@@ -155,6 +156,43 @@
   box-shadow: var(--shadow-card);
   padding: 1rem 1.1rem;
   border-top: 3px solid var(--gray-200, #E6E0D4);
+}
+.kpi-info-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--gray-300);
+  cursor: pointer;
+  transition: color 0.12s ease, background 0.12s ease;
+}
+.kpi-info-btn:hover { color: var(--gray-500); background: var(--gray-50); }
+.kpi-info-btn.is-open { color: var(--ember); background: var(--ember-bg); }
+.kpi-tip {
+  position: absolute;
+  top: 2.1rem;
+  right: 0.4rem;
+  z-index: 20;
+  width: 230px;
+  max-width: 78vw;
+  background: var(--charcoal);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(44, 44, 44, 0.18);
 }
 .kpi--ember { border-top-color: var(--ember); }
 .kpi--forest { border-top-color: var(--forest); }
