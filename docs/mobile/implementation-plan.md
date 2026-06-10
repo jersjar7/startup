@@ -135,3 +135,33 @@ Each phase is shippable and testable end-to-end before the next.
 | Measured by learning? | Readiness delta is the metric, not minutes. ✓ |
 
 If a future feature can't fill this table with ✓, it doesn't ship.
+
+## 10. Adaptive pacing & the web complement (product scope)
+
+**Mobile is the conductor, not the whole orchestra.** You can run 100% of your
+*schedule* from the phone — it owns daily spaced retrieval and tells you (and
+logs) the paper work to do — but you cannot get exam-ready *inside* the phone:
+~29% of problems (`content-plan.md`) genuinely need paper, and full timed mock
+exams belong on the desk/web. Phone and web are **two surfaces on one brain**
+(one account, one bank, one spaced-repetition state): phone = anywhere/quiet
+retrieval + the plan; web/desk = full solving + mock exams. "We won't pretend
+scrolling makes you ready" is a trust feature, not a limitation.
+
+**The daily load adapts to time-left.** Plan =
+`f(exam date, current readiness, NCEES exam weighting, minutes/day the user picks)`.
+The spacing effect says the optimal review gap scales with the retention interval
+(Cepeda et al. 2008 — optimal gap ≈ 10–20% of the interval), so daily volume
+*should* depend on how far the exam is. Three regimes:
+- **Runway (8+ weeks):** light daily load, wide spacing, build breadth + depth
+  incl. paper. More time ≠ grind harder — space it out, go deeper.
+- **On pace (a few weeks):** balanced spaced plan aimed at readiness by exam day.
+- **Crunch (<2 weeks / behind):** triage — compress intervals, prioritize
+  highest-weight *weak* chapters, lean concept/phone-calc for fast coverage,
+  targeted paper only on must-knows. The plan recompresses automatically after a
+  missed day.
+
+**Honest projection (anti-illusion, "readiness not minutes").** The user chooses
+minutes/day; the app projects whether that pace actually reaches readiness by exam
+day and **surfaces the gap** ("at 10 min/day you'll cover ~70% of high-yield; 20
+min/day → ~90%") rather than implying any dose suffices. Setup screen, the
+recompressing plan, and the web hand-off are mocked in `mobile-analysis/` batch 3.
