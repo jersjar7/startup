@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Screen } from '@/presentation/ui/Screen';
 import { useReviewViewModel } from './useReviewViewModel';
@@ -11,7 +11,8 @@ import type { RootStackParamList } from '@/presentation/navigation/types';
 
 export function ReviewScreen() {
   const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const vm = useReviewViewModel();
+  const route = useRoute<RouteProp<RootStackParamList, 'Review'>>();
+  const vm = useReviewViewModel(route.params?.chapterId);
 
   if (vm.phase === 'done') {
     return <DoneView reviewed={vm.items.length} onClose={() => nav.goBack()} />;

@@ -14,7 +14,7 @@ interface ReviewState {
 // Sequences a bounded review session. Each card owns its own interaction state
 // (reveal / pick) and calls advance() with a grade, which writes back through
 // SubmitReview → the spaced-repetition scheduler and moves to the next item.
-export function useReviewViewModel() {
+export function useReviewViewModel(chapterId?: string) {
   const uc = useUseCases();
   const [state, setState] = useState<ReviewState>({ phase: 'loading', items: [], index: 0 });
 
@@ -22,15 +22,19 @@ export function useReviewViewModel() {
     let active = true;
     void (async () => {
       const now = Date.now();
-      const plan = await uc.computeStudyPlan.execute({ now });
-      const session = await uc.getDailySession.execute({ now, cardTarget: plan?.dailyCardTarget ?? 9 });
+      const session = chapterId
+        ? await uc.getChapterPractice.execute({ chapterId, count: 12, now })
+        : await uc.getDailySession.execute({
+            now,
+            cardTarget: (await uc.computeStudyPlan.execute({ now }))?.dailyCardTarget ?? 9,
+          });
       if (!active) return;
       setState({ phase: session.items.length > 0 ? 'reviewing' : 'done', items: session.items, index: 0 });
     })();
     return () => {
       active = false;
     };
-  }, [uc]);
+  }, [uc, chapterId]);
 
   const advance = useCallback(
     async (grade: ReviewGrade) => {

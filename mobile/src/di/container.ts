@@ -20,11 +20,13 @@ import { GetChapterMastery } from '@/domain/usecases/GetChapterMastery';
 import { SubmitReview } from '@/domain/usecases/SubmitReview';
 import { SetStudyPreferences } from '@/domain/usecases/SetStudyPreferences';
 import { GetChapterProgress } from '@/domain/usecases/GetChapterProgress';
+import { GetChapterPractice } from '@/domain/usecases/GetChapterPractice';
 import { GetStudyPreferences } from '@/domain/usecases/GetStudyPreferences';
 import { PreviewStudyPlan } from '@/domain/usecases/PreviewStudyPlan';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
+  readonly getChapterPractice: GetChapterPractice;
   readonly computeStudyPlan: ComputeStudyPlan;
   readonly previewStudyPlan: PreviewStudyPlan;
   readonly getOverallMastery: GetOverallMastery;
@@ -56,6 +58,7 @@ export function createUseCases(): UseCases {
   // use cases
   return {
     getDailySession: new GetDailySession(reviews, cards, problems),
+    getChapterPractice: new GetChapterPractice(cards, problems),
     computeStudyPlan: new ComputeStudyPlan(plans, mastery, pacing),
     previewStudyPlan: new PreviewStudyPlan(mastery, pacing),
     getOverallMastery: new GetOverallMastery(mastery),

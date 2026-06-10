@@ -98,16 +98,22 @@ export function PracticeScreen() {
           </View>
           <Card>
             {weak.map((w, i) => (
-              <View
+              <Pressable
                 key={w.chapter.id}
-                style={{ paddingVertical: 11, borderTopWidth: i ? 1 : 0, borderTopColor: theme.palette.line }}
+                onPress={() => nav.navigate('Review', { chapterId: w.chapter.id })}
+                style={({ pressed }) => ({
+                  paddingVertical: 11,
+                  borderTopWidth: i ? 1 : 0,
+                  borderTopColor: theme.palette.line,
+                  opacity: pressed ? 0.6 : 1,
+                })}
               >
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
                   <Text variant="bodyStrong">{w.chapter.name}</Text>
                   <Overline color={masteryColor(w.mastery.state, theme)}>{masteryLabel(w.mastery.state)}</Overline>
                 </View>
                 <ProgressBar percent={w.mastery.percent} color={masteryColor(w.mastery.state, theme)} />
-              </View>
+              </Pressable>
             ))}
           </Card>
         </>
