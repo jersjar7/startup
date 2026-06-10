@@ -1,0 +1,77 @@
+[
+ {
+  "id": "mathematics",
+  "name": "Mathematics",
+  "examWeight": 0.09
+ },
+ {
+  "id": "statistics",
+  "name": "Probability & Statistics",
+  "examWeight": 0.05
+ },
+ {
+  "id": "ethics",
+  "name": "Ethics",
+  "examWeight": 0.05
+ },
+ {
+  "id": "economics",
+  "name": "Engineering Economics",
+  "examWeight": 0.05
+ },
+ {
+  "id": "statics",
+  "name": "Statics",
+  "examWeight": 0.08
+ },
+ {
+  "id": "dynamics",
+  "name": "Dynamics",
+  "examWeight": 0.07
+ },
+ {
+  "id": "mechanics-materials",
+  "name": "Mechanics of Materials",
+  "examWeight": 0.08
+ },
+ {
+  "id": "materials",
+  "name": "Materials",
+  "examWeight": 0.05
+ },
+ {
+  "id": "fluid-mechanics",
+  "name": "Fluid Mechanics",
+  "examWeight": 0.07
+ },
+ {
+  "id": "surveying",
+  "name": "Surveying",
+  "examWeight": 0.06
+ },
+ {
+  "id": "water-resources",
+  "name": "Water Resources",
+  "examWeight": 0.09
+ },
+ {
+  "id": "structural",
+  "name": "Structural",
+  "examWeight": 0.09
+ },
+ {
+  "id": "geotechnical",
+  "name": "Geotechnical",
+  "examWeight": 0.09
+ },
+ {
+  "id": "transportation",
+  "name": "Transportation",
+  "examWeight": 0.09
+ },
+ {
+  "id": "construction",
+  "name": "Construction",
+  "examWeight": 0.07
+ }
+]
