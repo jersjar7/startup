@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/presentation/navigation/types';
 import { Screen } from '@/presentation/ui/Screen';
@@ -16,7 +16,14 @@ import { PaperHandoffCard } from './components/PaperHandoffCard';
 export function TodayScreen() {
   const theme = useTheme();
   const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { loading, mastery, plan, session } = useTodayViewModel();
+  const { loading, mastery, plan, session, reload } = useTodayViewModel();
+
+  // Recompute mastery + session when returning from a review session.
+  useFocusEffect(
+    useCallback(() => {
+      void reload();
+    }, [reload]),
+  );
 
   if (loading || !session) {
     return (

@@ -8,6 +8,7 @@ import { CardRepositoryImpl } from '@/data/repositories/CardRepositoryImpl';
 import { ReviewRepositoryImpl } from '@/data/repositories/ReviewRepositoryImpl';
 import { MasteryRepositoryImpl } from '@/data/repositories/MasteryRepositoryImpl';
 import { PlanRepositoryImpl } from '@/data/repositories/PlanRepositoryImpl';
+import { ChapterRepositoryImpl } from '@/data/repositories/ChapterRepositoryImpl';
 import { Sm2Scheduler } from '@/data/services/Sm2Scheduler';
 import { ConceptMasteryPolicy } from '@/data/services/ConceptMasteryPolicy';
 import { AdaptivePacingPolicy } from '@/data/services/AdaptivePacingPolicy';
@@ -18,12 +19,14 @@ import { GetOverallMastery } from '@/domain/usecases/GetOverallMastery';
 import { GetChapterMastery } from '@/domain/usecases/GetChapterMastery';
 import { SubmitReview } from '@/domain/usecases/SubmitReview';
 import { SetStudyPreferences } from '@/domain/usecases/SetStudyPreferences';
+import { GetChapterProgress } from '@/domain/usecases/GetChapterProgress';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
   readonly computeStudyPlan: ComputeStudyPlan;
   readonly getOverallMastery: GetOverallMastery;
   readonly getChapterMastery: GetChapterMastery;
+  readonly getChapterProgress: GetChapterProgress;
   readonly submitReview: SubmitReview;
   readonly setStudyPreferences: SetStudyPreferences;
 }
@@ -44,6 +47,7 @@ export function createUseCases(): UseCases {
   const reviews = new ReviewRepositoryImpl(store, content);
   const mastery = new MasteryRepositoryImpl(content, reviews, masteryPolicy);
   const plans = new PlanRepositoryImpl(store);
+  const chapters = new ChapterRepositoryImpl(content);
 
   // use cases
   return {
@@ -51,6 +55,7 @@ export function createUseCases(): UseCases {
     computeStudyPlan: new ComputeStudyPlan(plans, mastery, pacing),
     getOverallMastery: new GetOverallMastery(mastery),
     getChapterMastery: new GetChapterMastery(mastery),
+    getChapterProgress: new GetChapterProgress(chapters, mastery),
     submitReview: new SubmitReview(reviews, scheduler),
     setStudyPreferences: new SetStudyPreferences(plans),
   };
