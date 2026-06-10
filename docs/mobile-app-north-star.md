@@ -87,6 +87,12 @@ engine," not "casual."
    fluency *feels* like mastery, keep saying what the quick-start already says:
    *"You know the concept — now prove you can solve it on paper."* Phone streaks
    never equal "ready." **This is the single most important guardrail.**
+   - **The number is concept mastery, NEVER a probability of passing.** We never
+     say "X% chance to pass" or imply a guaranteed pass. The metric means "you've
+     mastered X% of the concepts/topics the FE tests." The honest promise: master
+     the lessons seriously and you'll know what drives every question however it's
+     worded — strong shape to pass — but we never put a number on the pass itself.
+     No "pass line," no pass-odds. (Owner directive, 2026-06-10.)
 4. **Worked example before the hard problem.** For novices, studying a solved
    example beats unguided struggle (CLT). Paper-tier problems pair with a worked
    example first, then "now you try one on paper."

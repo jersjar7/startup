@@ -79,3 +79,14 @@ denser sections — because it has the screen room. Mobile applies the *same
 identity* (cream warmth, ember, the three fonts, subtle raccoon) with far more
 restraint: one accent per screen, color only at hero/status/action moments,
 typography and whitespace doing the rest.
+
+## Copy rules (honesty)
+- The progress metric is **"mastery" / "concept mastery"** — *never* "readiness"
+  framed as odds, and **never a probability of passing.** Don't write "X% chance
+  to pass," a "pass line," or pass-odds anywhere. (See north-star rule #3.)
+- Allowed: "you've mastered X% of the concepts the FE tests," per-topic states
+  **Mastered / Familiar / Building / New**, and the standing honest line
+  *"Mastery of the concepts the FE tests — not a probability of passing."*
+- Keep the "familiar isn't mastered — now lock it in" nuance visible.
+- (Retrofit note: earlier mock screens labeled "Readiness" + a "pass ~70%" marker
+  predate this rule — rename to mastery, drop the pass marker.)
