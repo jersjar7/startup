@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { View, ActivityIndicator, Pressable } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '@/presentation/navigation/types';
 import { Screen } from '@/presentation/ui/Screen';
 import { Text } from '@/presentation/ui/Text';
 import { Card } from '@/presentation/ui/Card';
@@ -14,6 +16,7 @@ import { useMasteryViewModel } from './useMasteryViewModel';
 // Live per-chapter mastery. Reloads on focus so reviews visibly move the bars.
 export function ProgressScreen() {
   const theme = useTheme();
+  const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { loading, overall, chapters, reload } = useMasteryViewModel();
 
   useFocusEffect(
@@ -58,13 +61,17 @@ export function ProgressScreen() {
       </View>
 
       {chapters.map(({ chapter, mastery }) => (
-        <View key={chapter.id} style={{ paddingVertical: 12 }}>
+        <Pressable
+          key={chapter.id}
+          onPress={() => nav.navigate('Review', { chapterId: chapter.id })}
+          style={({ pressed }) => ({ paddingVertical: 12, opacity: pressed ? 0.6 : 1 })}
+        >
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
             <Text variant="bodyStrong">{chapter.name}</Text>
             <Overline color={masteryColor(mastery.state, theme)}>{masteryLabel(mastery.state)}</Overline>
           </View>
           <ProgressBar percent={mastery.percent} color={masteryColor(mastery.state, theme)} />
-        </View>
+        </Pressable>
       ))}
     </Screen>
   );

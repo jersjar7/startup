@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Screen } from '@/presentation/ui/Screen';
@@ -8,13 +8,34 @@ import { Overline } from '@/presentation/ui/Overline';
 import { Divider } from '@/presentation/ui/Divider';
 import { ProgressRing } from '@/presentation/ui/ProgressRing';
 import { ListRow } from '@/presentation/ui/ListRow';
+import { OptionSheet, type SheetOption } from '@/presentation/ui/OptionSheet';
 import { useTheme } from '@/core/theme/useTheme';
 import { masteryColor } from '@/presentation/ui/semantics';
 import { useProfileViewModel } from './useProfileViewModel';
 
+const DAY = 24 * 60 * 60 * 1000;
+const PACE_OPTIONS: readonly SheetOption[] = [10, 20, 30, 45].map((m) => ({
+  label: `${m} min / day`,
+  value: String(m),
+}));
+const DATE_OPTIONS: readonly SheetOption[] = (
+  [
+    ['About 1 month away', 30],
+    ['About 2 months away', 60],
+    ['About 3 months away', 90],
+    ['About 6 months away', 180],
+  ] as const
+).map(([label, days]) => ({
+  label,
+  value: new Date(Date.now() + days * DAY).toISOString().slice(0, 10),
+}));
+
+type Editing = 'pace' | 'date' | null;
+
 export function ProfileScreen() {
   const theme = useTheme();
-  const { loading, overall, masteredCount, topicCount, prefs, reload } = useProfileViewModel();
+  const { loading, overall, masteredCount, topicCount, prefs, reload, update } = useProfileViewModel();
+  const [editing, setEditing] = useState<Editing>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -60,6 +81,7 @@ export function ProfileScreen() {
         <>
           <ListRow
             title="Exam date"
+            onPress={() => setEditing('date')}
             right={
               <Text variant="sub" color={theme.palette.ink3}>
                 {formatDate(prefs.examDate)}
@@ -69,6 +91,7 @@ export function ProfileScreen() {
           <Divider />
           <ListRow
             title="Daily pace"
+            onPress={() => setEditing('pace')}
             right={
               <Text variant="sub" color={theme.palette.ink3}>
                 {prefs.minutesPerDay} min
@@ -77,6 +100,29 @@ export function ProfileScreen() {
           />
         </>
       ) : null}
+
+      <OptionSheet
+        visible={editing === 'pace'}
+        title="Minutes per day"
+        options={PACE_OPTIONS}
+        selected={prefs ? String(prefs.minutesPerDay) : undefined}
+        onSelect={(v) => {
+          void update({ minutesPerDay: Number(v) });
+          setEditing(null);
+        }}
+        onClose={() => setEditing(null)}
+      />
+      <OptionSheet
+        visible={editing === 'date'}
+        title="When's your exam?"
+        options={DATE_OPTIONS}
+        selected={prefs?.examDate}
+        onSelect={(v) => {
+          void update({ examDate: v });
+          setEditing(null);
+        }}
+        onClose={() => setEditing(null)}
+      />
     </Screen>
   );
 }

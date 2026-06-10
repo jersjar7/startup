@@ -28,5 +28,15 @@ export function useProfileViewModel() {
     void load();
   }, [load]);
 
-  return { loading, overall, masteredCount, topicCount, prefs, reload: load };
+  // Merge a partial preference change, persist, and reload.
+  const update = useCallback(
+    async (partial: Partial<StudyPreferences>) => {
+      if (!prefs) return;
+      await uc.setStudyPreferences.execute({ ...prefs, ...partial });
+      await load();
+    },
+    [uc, prefs, load],
+  );
+
+  return { loading, overall, masteredCount, topicCount, prefs, reload: load, update };
 }
