@@ -24,3 +24,6 @@ marketing/
 
 # macOS
 .DS_Store
+
+# Intermediate mobile content-tiering working data (final artifacts live in docs/mobile/)
+mobile-analysis/
