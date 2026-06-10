@@ -11,12 +11,9 @@ interface TodayState {
   session: DailySession | null;
 }
 
-const DAY = 24 * 60 * 60 * 1000;
-const DEFAULT_MINUTES = 20;
-const DEFAULT_DAYS_OUT = 48;
-
-// Orchestrates the Today screen's data by calling use cases only — it never
-// touches a repository or knows where the data lives.
+// Orchestrates the Today screen by calling use cases only — it never touches a
+// repository or knows where the data lives. Preferences are guaranteed by
+// onboarding before this screen is ever reached.
 export function useTodayViewModel() {
   const uc = useUseCases();
   const [state, setState] = useState<TodayState>({
@@ -28,23 +25,12 @@ export function useTodayViewModel() {
 
   const load = useCallback(async () => {
     const now = Date.now();
-
-    // First run: seed a default pace so a plan can be computed.
-    let plan = await uc.computeStudyPlan.execute({ now });
-    if (!plan) {
-      await uc.setStudyPreferences.execute({
-        minutesPerDay: DEFAULT_MINUTES,
-        examDate: new Date(now + DEFAULT_DAYS_OUT * DAY).toISOString().slice(0, 10),
-      });
-      plan = await uc.computeStudyPlan.execute({ now });
-    }
-
+    const plan = await uc.computeStudyPlan.execute({ now });
     const mastery = await uc.getOverallMastery.execute();
     const session = await uc.getDailySession.execute({
       now,
       cardTarget: plan?.dailyCardTarget ?? 9,
     });
-
     setState({ loading: false, mastery, plan, session });
   }, [uc]);
 

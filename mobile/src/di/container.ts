@@ -20,14 +20,18 @@ import { GetChapterMastery } from '@/domain/usecases/GetChapterMastery';
 import { SubmitReview } from '@/domain/usecases/SubmitReview';
 import { SetStudyPreferences } from '@/domain/usecases/SetStudyPreferences';
 import { GetChapterProgress } from '@/domain/usecases/GetChapterProgress';
+import { GetStudyPreferences } from '@/domain/usecases/GetStudyPreferences';
+import { PreviewStudyPlan } from '@/domain/usecases/PreviewStudyPlan';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
   readonly computeStudyPlan: ComputeStudyPlan;
+  readonly previewStudyPlan: PreviewStudyPlan;
   readonly getOverallMastery: GetOverallMastery;
   readonly getChapterMastery: GetChapterMastery;
   readonly getChapterProgress: GetChapterProgress;
   readonly submitReview: SubmitReview;
+  readonly getStudyPreferences: GetStudyPreferences;
   readonly setStudyPreferences: SetStudyPreferences;
 }
 
@@ -53,10 +57,12 @@ export function createUseCases(): UseCases {
   return {
     getDailySession: new GetDailySession(reviews, cards, problems),
     computeStudyPlan: new ComputeStudyPlan(plans, mastery, pacing),
+    previewStudyPlan: new PreviewStudyPlan(mastery, pacing),
     getOverallMastery: new GetOverallMastery(mastery),
     getChapterMastery: new GetChapterMastery(mastery),
     getChapterProgress: new GetChapterProgress(chapters, mastery),
     submitReview: new SubmitReview(reviews, scheduler),
+    getStudyPreferences: new GetStudyPreferences(plans),
     setStudyPreferences: new SetStudyPreferences(plans),
   };
 }
