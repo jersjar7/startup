@@ -9,6 +9,7 @@ interface TodayState {
   mastery: Mastery | null;
   plan: StudyPlan | null;
   session: DailySession | null;
+  streak: number;
 }
 
 // Orchestrates the Today screen by calling use cases only — it never touches a
@@ -21,6 +22,7 @@ export function useTodayViewModel() {
     mastery: null,
     plan: null,
     session: null,
+    streak: 0,
   });
 
   const load = useCallback(async () => {
@@ -31,7 +33,8 @@ export function useTodayViewModel() {
       now,
       cardTarget: plan?.dailyCardTarget ?? 9,
     });
-    setState({ loading: false, mastery, plan, session });
+    const streak = await uc.getStreak.execute({ now });
+    setState({ loading: false, mastery, plan, session, streak });
   }, [uc]);
 
   useEffect(() => {

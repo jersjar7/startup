@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useUseCases } from '@/di/useUseCases';
 import type { SessionItem } from '@/domain/entities/session';
 import type { ReviewGrade } from '@/domain/entities/review';
@@ -17,6 +17,8 @@ interface ReviewState {
 export function useReviewViewModel(chapterId?: string) {
   const uc = useUseCases();
   const [state, setState] = useState<ReviewState>({ phase: 'loading', items: [], index: 0 });
+  const [streak, setStreak] = useState(0);
+  const recorded = useRef(false);
 
   useEffect(() => {
     let active = true;
@@ -38,9 +40,15 @@ export function useReviewViewModel(chapterId?: string) {
 
   const advance = useCallback(
     async (grade: ReviewGrade) => {
+      const now = Date.now();
       const current = state.items[state.index];
       if (current) {
-        await uc.submitReview.execute({ itemId: current.id, grade, now: Date.now() });
+        await uc.submitReview.execute({ itemId: current.id, grade, now });
+      }
+      // Count today as studied on the first graded item of the session.
+      if (!recorded.current) {
+        recorded.current = true;
+        setStreak(await uc.recordStudyDay.execute({ now }));
       }
       setState((s) => {
         const next = s.index + 1;
@@ -55,6 +63,7 @@ export function useReviewViewModel(chapterId?: string) {
     items: state.items,
     index: state.index,
     current: state.items[state.index] ?? null,
+    streak,
     advance,
   };
 }

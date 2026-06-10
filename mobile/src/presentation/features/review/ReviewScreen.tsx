@@ -15,7 +15,7 @@ export function ReviewScreen() {
   const vm = useReviewViewModel(route.params?.chapterId);
 
   if (vm.phase === 'done') {
-    return <DoneView reviewed={vm.items.length} onClose={() => nav.goBack()} />;
+    return <DoneView reviewed={vm.items.length} streak={vm.streak} onClose={() => nav.goBack()} />;
   }
 
   const cur = vm.current;

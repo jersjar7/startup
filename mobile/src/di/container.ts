@@ -9,6 +9,7 @@ import { ReviewRepositoryImpl } from '@/data/repositories/ReviewRepositoryImpl';
 import { MasteryRepositoryImpl } from '@/data/repositories/MasteryRepositoryImpl';
 import { PlanRepositoryImpl } from '@/data/repositories/PlanRepositoryImpl';
 import { ChapterRepositoryImpl } from '@/data/repositories/ChapterRepositoryImpl';
+import { StreakRepositoryImpl } from '@/data/repositories/StreakRepositoryImpl';
 import { Sm2Scheduler } from '@/data/services/Sm2Scheduler';
 import { ConceptMasteryPolicy } from '@/data/services/ConceptMasteryPolicy';
 import { AdaptivePacingPolicy } from '@/data/services/AdaptivePacingPolicy';
@@ -23,6 +24,8 @@ import { GetChapterProgress } from '@/domain/usecases/GetChapterProgress';
 import { GetChapterPractice } from '@/domain/usecases/GetChapterPractice';
 import { GetStudyPreferences } from '@/domain/usecases/GetStudyPreferences';
 import { PreviewStudyPlan } from '@/domain/usecases/PreviewStudyPlan';
+import { GetStreak } from '@/domain/usecases/GetStreak';
+import { RecordStudyDay } from '@/domain/usecases/RecordStudyDay';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
@@ -35,6 +38,8 @@ export interface UseCases {
   readonly submitReview: SubmitReview;
   readonly getStudyPreferences: GetStudyPreferences;
   readonly setStudyPreferences: SetStudyPreferences;
+  readonly getStreak: GetStreak;
+  readonly recordStudyDay: RecordStudyDay;
 }
 
 export function createUseCases(): UseCases {
@@ -54,6 +59,7 @@ export function createUseCases(): UseCases {
   const mastery = new MasteryRepositoryImpl(content, reviews, masteryPolicy);
   const plans = new PlanRepositoryImpl(store);
   const chapters = new ChapterRepositoryImpl(content);
+  const streaks = new StreakRepositoryImpl(store);
 
   // use cases
   return {
@@ -67,5 +73,7 @@ export function createUseCases(): UseCases {
     submitReview: new SubmitReview(reviews, scheduler),
     getStudyPreferences: new GetStudyPreferences(plans),
     setStudyPreferences: new SetStudyPreferences(plans),
+    getStreak: new GetStreak(streaks),
+    recordStudyDay: new RecordStudyDay(streaks),
   };
 }
