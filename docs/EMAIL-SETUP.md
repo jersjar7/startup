@@ -41,6 +41,18 @@ curl -s --cookie "token=<admin token>" -X POST \
   domain verification lapsed (e.g. DNS changed at GoDaddy). Re-verify at
   resend.com/domains and ensure the DKIM/SPF/MX records still exist in GoDaddy.
 - **Emails land in spam:** confirm DMARC; a `_dmarc` TXT record exists at GoDaddy.
+- **University inboxes (`.edu`) — "delivered" in Resend but the student never
+  gets the code:** university mail systems (e.g. Microsoft Defender at SIUE)
+  *accept* the message at SMTP (so Resend shows `delivered`, no bounce) then
+  **quarantine it internally** — invisible to Resend, and not in the user's junk
+  folder (quarantine is a separate portal). Mitigations in place: the student
+  code subject does **not** lead with the numeric code (code-first subjects trip
+  these filters — see `service/email.js` `sendStudentCodeEmail`), and sends are
+  logged on success (`[email] sent to …`) so this is one `pm2 logs` grep.
+  **Remedy for a stuck student:** they're verifiably a student (e.g. via the
+  `.edu` itself) — manually grant on their account: `studentVerified:true` +
+  `verifiedStudentEmail:<their .edu>` + `studentVerifiedAt`, and unset the
+  `studentCode*` fields. `qualifiesForStudent()` keys off `studentVerified`.
 
 ## Lifecycle emails (welcome / weekly digest / win-back)
 

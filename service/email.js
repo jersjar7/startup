@@ -35,6 +35,10 @@ async function sendEmail({ to, subject, html, headers }) {
       console.error(`[email] send to ${to} rejected:`, r.error.message);
       return { ok: false, error: r.error.message };
     }
+    // Log successes too (recipient + Resend id) — "delivered" in Resend only
+    // means the receiving server accepted it, so this is the breadcrumb for
+    // diagnosing "accepted but never arrived" (e.g. quarantined upstream).
+    console.log(`[email] sent to ${to} — "${subject}" (id ${r.data?.id})`);
     return { ok: true, id: r.data?.id };
   } catch (err) {
     console.error(`[email] send to ${to} threw:`, err.message);
@@ -163,7 +167,10 @@ async function sendVerificationEmail(toEmail, rawToken) {
 async function sendStudentCodeEmail(toEmail, code) {
   return sendEmail({
     to: toEmail,
-    subject: `${code} is your FE for Raccoons student code`,
+    // Subject must NOT lead with the numeric code — university mail filters
+    // (e.g. Microsoft Defender) quarantine code-first subjects. Code lives in
+    // the body; see docs/EMAIL-SETUP.md "University inboxes".
+    subject: 'Your FE for Raccoons student code',
     html: codeEmail({
       heading: 'Verify your student email',
       body: 'Enter this code on FE for Raccoons to unlock the student price on the Exam Simulation:',
