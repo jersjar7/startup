@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from '@/presentation/ui/Text';
+import { MathText } from '@/presentation/ui/math/MathText';
 import { useTheme } from '@/core/theme/useTheme';
 import type { PaperHandoff } from '@/domain/entities/session';
 
@@ -12,9 +13,9 @@ export function PaperHandoffCard({ handoff }: { handoff: PaperHandoff }) {
       <Text variant="bodyStrong" color={theme.palette.emberInk}>
         For your desk tonight
       </Text>
-      <Text variant="sub" color={theme.palette.ink2} style={{ marginTop: 3 }} numberOfLines={2}>
-        Solve on paper — {handoff.statement}
-      </Text>
+      <MathText variant="sub" color={theme.palette.ink2} style={{ marginTop: 3 }} numberOfLines={2}>
+        {`Solve on paper — ${handoff.statement}`}
+      </MathText>
     </View>
   );
 }

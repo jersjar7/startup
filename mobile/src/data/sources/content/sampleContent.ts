@@ -19,16 +19,16 @@ export const sampleProblems: readonly Problem[] = [
     tier: 'concept',
     interaction: 'tapTheTrap',
     statement:
-      'A 30 kg block sits on a floor (μs = 0.35). Someone pulls it sideways with 80 N. What is the friction force?',
+      'A 30 kg block sits on a floor ($\\mu_s = 0.35$). Someone pulls it sideways with $80$ N. What is the friction force?',
     choices: [
-      { id: 'c1', text: '105 N' },
-      { id: 'c2', text: '80 N' },
-      { id: 'c3', text: '294 N' },
-      { id: 'c4', text: '26 N' },
+      { id: 'c1', text: '$105$ N' },
+      { id: 'c2', text: '$80$ N' },
+      { id: 'c3', text: '$294$ N' },
+      { id: 'c4', text: '$26$ N' },
     ],
     correctChoiceId: 'c2',
     explanation:
-      'μs·N is the maximum static friction, not the actual. Static friction matches the applied pull up to that ceiling. 80 < 105, so the block stays put and friction = 80 N.',
+      '$\\mu_s \\cdot N$ is the maximum static friction, not the actual. Static friction matches the applied pull up to that ceiling. $80 < 105$, so the block stays put and friction $= 80$ N.',
     handbookRef: 'Statics — friction',
   },
   {

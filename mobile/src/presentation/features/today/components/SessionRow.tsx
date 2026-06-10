@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from '@/presentation/ui/Text';
+import { MathText } from '@/presentation/ui/math/MathText';
 import { Overline } from '@/presentation/ui/Overline';
 import { useTheme } from '@/core/theme/useTheme';
 import { interactionLabel, interactionColor } from '@/presentation/ui/semantics';
@@ -12,9 +13,9 @@ export function SessionRow({ item }: { item: SessionItem }) {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12 }}>
       <View style={{ flex: 1 }}>
-        <Text variant="bodyStrong" numberOfLines={2}>
+        <MathText variant="bodyStrong" numberOfLines={2}>
           {title}
-        </Text>
+        </MathText>
       </View>
       <Overline color={interactionColor(item.interaction, theme)}>
         {interactionLabel(item.interaction)}

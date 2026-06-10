@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Text } from '@/presentation/ui/Text';
+import { MathText } from '@/presentation/ui/math/MathText';
 import { Overline } from '@/presentation/ui/Overline';
 import { Button } from '@/presentation/ui/Button';
 import { useTheme } from '@/core/theme/useTheme';
@@ -26,9 +27,9 @@ export function RecallReviewCard({ item, onGraded }: Props) {
         <Overline color={interactionColor(item.interaction, theme)}>
           {interactionLabel(item.interaction)}
         </Overline>
-        <Text variant="h2" style={{ marginTop: 14, fontSize: 22, lineHeight: 30 }}>
+        <MathText variant="h2" style={{ marginTop: 14, fontSize: 22, lineHeight: 30 }}>
           {item.prompt}
-        </Text>
+        </MathText>
 
         {revealed ? (
           <View
@@ -40,9 +41,9 @@ export function RecallReviewCard({ item, onGraded }: Props) {
             }}
           >
             <Overline color={theme.palette.forest}>Answer</Overline>
-            <Text variant="body" color={theme.palette.forestInk} style={{ marginTop: 8 }}>
+            <MathText variant="body" color={theme.palette.forestInk} style={{ marginTop: 8 }}>
               {item.answer}
-            </Text>
+            </MathText>
           </View>
         ) : (
           <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 20 }}>

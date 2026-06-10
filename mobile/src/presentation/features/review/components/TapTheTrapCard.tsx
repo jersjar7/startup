@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, ScrollView, Pressable } from 'react-native';
 import { Text } from '@/presentation/ui/Text';
+import { MathText } from '@/presentation/ui/math/MathText';
 import { Overline } from '@/presentation/ui/Overline';
 import { Button } from '@/presentation/ui/Button';
 import { useTheme } from '@/core/theme/useTheme';
@@ -25,9 +26,9 @@ export function TapTheTrapCard({ item, onGraded }: Props) {
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <Overline color={theme.palette.ember}>Spot the trap</Overline>
-        <Text variant="h2" style={{ marginTop: 14, fontSize: 19, lineHeight: 27 }}>
+        <MathText variant="h2" style={{ marginTop: 14, fontSize: 19, lineHeight: 27 }}>
           {item.statement}
-        </Text>
+        </MathText>
 
         <View style={{ marginTop: 20, gap: 10 }}>
           {item.choices.map((ch) => {
@@ -59,9 +60,9 @@ export function TapTheTrapCard({ item, onGraded }: Props) {
                   paddingHorizontal: 16,
                 }}
               >
-                <Text variant="bodyStrong" color={textColor}>
+                <MathText variant="bodyStrong" color={textColor}>
                   {ch.text}
-                </Text>
+                </MathText>
               </Pressable>
             );
           })}
@@ -79,9 +80,9 @@ export function TapTheTrapCard({ item, onGraded }: Props) {
             <Overline color={isCorrect ? theme.palette.forest : theme.palette.ember}>
               {isCorrect ? 'Correct' : 'The trap'}
             </Overline>
-            <Text variant="body" color={theme.palette.ink2} style={{ marginTop: 6 }}>
+            <MathText variant="body" color={theme.palette.ink2} style={{ marginTop: 6 }}>
               {item.explanation}
-            </Text>
+            </MathText>
           </View>
         ) : null}
       </ScrollView>
