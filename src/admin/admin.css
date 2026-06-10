@@ -442,10 +442,10 @@
 }
 .recent-row {
   display: grid;
-  grid-template-columns: 1.6fr 0.9fr 0.8fr 0.9fr 0.9fr 0.6fr 0.6fr;
+  grid-template-columns: 0.45fr 1.5fr 1.5fr 0.8fr 0.9fr 0.8fr 0.6fr 0.6fr;
   align-items: center;
   gap: 0.5rem;
-  min-width: 560px; /* keep every column readable; the table scrolls if narrower */
+  min-width: 700px; /* keep every column readable; the table scrolls if narrower */
   padding: 0.6rem 1rem;
   border-bottom: 1px solid var(--gray-100);
   font-family: var(--font-body);
@@ -466,6 +466,7 @@
   text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-400);
   background: var(--gray-50);
 }
+.recent-num { font-family: var(--font-mono); font-size: 0.78rem; color: var(--gray-400); }
 .recent-email { font-family: var(--font-mono); font-size: 0.82rem; }
 .recent-ok { color: var(--forest); }
 .recent-paid { color: var(--sunbeam); }

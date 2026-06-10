@@ -146,4 +146,10 @@ async function getAcquisitionBreakdown() {
   return { selfReported, referrers, answered, totalUsers: total };
 }
 
-module.exports = { getRecentUsers, getRecentPurchases, lookupUser, maskEmail, getAcquisitionBreakdown };
+// Total real (non-internal) users — used to number the recent table so the
+// newest user shows the highest number (their signup position).
+async function countRealUsers() {
+  return userCollection.countDocuments({ email: NOT_EXCLUDED });
+}
+
+module.exports = { getRecentUsers, getRecentPurchases, lookupUser, maskEmail, getAcquisitionBreakdown, countRealUsers };

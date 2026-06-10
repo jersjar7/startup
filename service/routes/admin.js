@@ -37,8 +37,8 @@ router.get('/timeseries', verifyAuth, requireAdmin, async (req, res) => {
 // GET /api/admin/recent — recent signups + purchases with MASKED emails.
 router.get('/recent', verifyAuth, requireAdmin, async (req, res) => {
   try {
-    const [users, purchases] = await Promise.all([DB.getRecentUsers(25), DB.getRecentPurchases(10)]);
-    res.send({ users, purchases });
+    const [users, purchases, total] = await Promise.all([DB.getRecentUsers(25), DB.getRecentPurchases(10), DB.countRealUsers()]);
+    res.send({ users, purchases, total });
   } catch (e) {
     console.error('[admin] recent failed:', e.message);
     res.status(500).send({ msg: 'Failed to load recent users' });

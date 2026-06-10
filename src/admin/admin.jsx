@@ -25,6 +25,18 @@ const SOURCE_LABEL = {
   instagram: 'Instagram', tiktok: 'TikTok', friend: 'A friend', other: 'Other',
 };
 
+// Account-created date + time in Pacific Time, e.g. "6/9/26, 5:38 PM".
+const fmtJoined = (iso) => {
+  if (!iso) return '—';
+  try {
+    return new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Los_Angeles',
+      month: 'numeric', day: 'numeric', year: '2-digit',
+      hour: 'numeric', minute: '2-digit',
+    }).format(new Date(iso));
+  } catch { return '—'; }
+};
+
 export function Admin({ userName, onLogout }) {
   const navigate = useNavigate();
   useDocumentTitle('Admin · Analytics');
@@ -338,12 +350,13 @@ export function Admin({ userName, onLogout }) {
 
       <div className="recent-table">
         <div className="recent-row recent-row--head">
-          <span>Email</span><span>Joined</span><span>Verified</span><span>Activated</span><span>Chapters</span><span>XP</span><span>Paid</span>
+          <span>#</span><span>Email</span><span>Joined (PT)</span><span>Verified</span><span>Activated</span><span>Chapters</span><span>XP</span><span>Paid</span>
         </div>
         {(state.recent?.users || []).map((u, i) => (
           <div key={i} className="recent-row">
+            <span className="recent-num">{(state.recent.total || (state.recent.users || []).length) - i}</span>
             <span className="recent-email">{u.emailMasked}</span>
-            <span>{u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '—'}</span>
+            <span>{fmtJoined(u.createdAt)}</span>
             <span>{u.emailVerified ? <CheckCircle weight="fill" size={15} className="recent-ok" /> : <span className="recent-muted">—</span>}</span>
             <span>{u.activated ? <CheckCircle weight="fill" size={15} className="recent-ok" /> : <span className="recent-muted">—</span>}</span>
             <span>{u.chaptersMapped}/15</span>
