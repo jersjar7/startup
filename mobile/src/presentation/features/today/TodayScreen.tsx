@@ -1,5 +1,8 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '@/presentation/navigation/types';
 import { Screen } from '@/presentation/ui/Screen';
 import { Text } from '@/presentation/ui/Text';
 import { Button } from '@/presentation/ui/Button';
@@ -12,6 +15,7 @@ import { PaperHandoffCard } from './components/PaperHandoffCard';
 
 export function TodayScreen() {
   const theme = useTheme();
+  const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { loading, mastery, plan, session } = useTodayViewModel();
 
   if (loading || !session) {
@@ -68,7 +72,7 @@ export function TodayScreen() {
       ) : null}
 
       <View style={{ marginTop: 22 }}>
-        <Button label="Start" onPress={() => undefined} />
+        <Button label="Start" onPress={() => nav.navigate('Review')} />
       </View>
     </Screen>
   );
