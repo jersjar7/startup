@@ -136,32 +136,44 @@ export function Admin({ userName, onLogout }) {
 
   const kpis = snap ? [
     { icon: Users, label: 'Total users', value: snap.totalUsers.toLocaleString(), accent: 'ember',
-      desc: 'Everyone who has created an account, excluding your internal test accounts (admin, QA).' },
+      desc: `The all-time number of real accounts ever created — everyone who signed up, minus your own test accounts (admin & QA). It only goes up.`,
+      example: `If 58 people have made an account, this shows 58 — and the newest one is #58 in the Recent users table below.` },
     { icon: Compass, label: 'Activation rate', value: snap.activationRate != null ? `${snap.activationRate}%` : '—', accent: 'ember',
-      desc: 'Of people who signed up since the quick-start launched, the share who answered at least one quick-start segment — i.e. actually started. The honest "are new users engaging" number.' },
+      desc: `Of the people who signed up since the quick-start launched, the share who actually started it (answered at least one quick-start question). Your honest "are new users engaging, not just registering?" number.`,
+      example: `20 people signed up since launch and 5 of them answered a quick-start question → 5 ÷ 20 = 25%.` },
     { icon: Users, label: 'Activated · since launch', value: snap.cohortSignups != null ? `${snap.cohortActivated}/${snap.cohortSignups}` : '—', accent: 'forest',
-      desc: 'The raw fraction behind activation rate: users who started the quick-start ÷ everyone who signed up since launch.' },
+      desc: `The two raw numbers behind the activation rate: people who started the quick-start ÷ everyone who signed up since launch.`,
+      example: `Shown as 5/20 — 5 of the 20 post-launch signups have started. That fraction is the 25% above.` },
     { icon: Timer, label: 'Median time to start', value: snap.activationMedianMinutes != null ? `${snap.activationMedianMinutes} min` : '—', accent: 'info',
-      desc: 'For users who activated, the middle gap between signing up and answering their first segment. Median, so a few slow returners don’t skew it.' },
+      desc: `Among users who activated, the typical wait between signing up and answering their first question. It's the median (the middle person), so one slow returner can't skew the number.`,
+      example: `If activators waited 2, 6, and 40 minutes, the median is 6 min — half started faster, half slower. Lower is better.` },
     { icon: Lightning, label: 'Active · 7 days', value: snap.activeUsers7d.toLocaleString(), accent: 'info',
-      desc: 'Distinct users who completed at least one study session in the last 7 days.' },
+      desc: `How many different people finished at least one study session in the last 7 days. The same person studying five times counts once — it's your weekly engaged-user count.`,
+      example: `If 12 distinct people studied at least once this week, this shows 12.` },
     { icon: CurrencyDollar, label: 'Total revenue', value: money(snap.totalRevenue), accent: 'forest',
-      desc: 'All-time revenue from completed exam-simulation purchases.' },
+      desc: `Every completed exam-simulation purchase added up, all time (after Stripe).`,
+      example: `Two $29 student purchases + one $49 standard = $107.` },
     { icon: CreditCard, label: 'Purchases', value: snap.totalPurchases.toLocaleString(), accent: 'forest',
-      desc: 'All-time count of completed exam-simulation purchases.' },
+      desc: `The all-time count of completed exam-sim purchases — how many were bought, regardless of the price paid.`,
+      example: `If 3 people have bought the timed exam sim, this shows 3.` },
     { icon: TrendUp, label: 'Rev / paying user', value: money(snap.arppu), accent: 'sunbeam',
-      desc: 'Average spend per paying customer — total revenue ÷ number of purchases (ARPPU).' },
+      desc: `Average money per paying customer — total revenue ÷ number of purchases. (The industry name for this is ARPPU.)`,
+      example: `$107 in revenue from 3 purchases = about $36 per paying user.` },
   ] : [];
 
   const funnelStages = [
     { icon: Users, label: 'Signups', value: m.signups, conv: null, convLabel: null,
-      desc: 'Total accounts created, all-time, excluding internal test accounts.' },
+      desc: `The top of the funnel: total real accounts ever created (excludes your test accounts).`,
+      example: `If 58 people have signed up all-time, this shows 58.` },
     { icon: Compass, label: 'Activated (quick-start)', value: m.quickstartActivated, conv: c.signupToActivation, convLabel: 'of signups',
-      desc: 'Distinct users who completed at least one quick-start segment, all-time. This funnel is all-time; the “Activation rate” KPI above is the cohort-accurate version.' },
+      desc: `Distinct people who completed at least one quick-start segment, all-time. (This whole funnel is all-time; the "Activation rate" KPI above is the cleaner post-launch-cohort version.)`,
+      example: `If 9 of the 58 signups answered a quick-start question, this shows 9 — about 16% of signups.` },
     { icon: CreditCard, label: 'Started checkout', value: m.checkoutStarts, conv: c.signupToCheckout, convLabel: 'of signups',
-      desc: 'Distinct users who opened Stripe checkout for the exam sim, all-time — whether or not they finished paying. “% of signups” is this ÷ signups.' },
+      desc: `Distinct people who opened the Stripe payment page for the exam sim — whether or not they finished paying. The "% of signups" is this ÷ signups.`,
+      example: `If 4 people clicked through to checkout, this shows 4, even if only some of them paid.` },
     { icon: CheckCircle, label: 'Purchased', value: m.purchases, conv: c.checkoutToPurchase, convLabel: 'of checkouts',
-      desc: 'Completed exam-sim purchases, all-time. “% of checkouts” is this ÷ checkouts started.' },
+      desc: `Completed exam-sim purchases, all-time. The "% of checkouts" is this ÷ checkouts started.`,
+      example: `If 2 of the 4 who started checkout paid, this shows 2 — a 50% checkout→purchase rate.` },
   ];
 
   return (
@@ -211,6 +223,7 @@ export function Admin({ userName, onLogout }) {
                 {open && (
                   <div className="kpi-tip" role="tooltip" onClick={(e) => e.stopPropagation()}>
                     {k.desc}
+                    {k.example && <span className="tip-eg"><strong>Example:</strong> {k.example}</span>}
                   </div>
                 )}
               </div>
@@ -272,6 +285,7 @@ export function Admin({ userName, onLogout }) {
                 {open && (
                   <div className="funnel-tip" role="tooltip" onClick={(e) => e.stopPropagation()}>
                     {s.desc}
+                    {s.example && <span className="tip-eg"><strong>Example:</strong> {s.example}</span>}
                   </div>
                 )}
               </span>
