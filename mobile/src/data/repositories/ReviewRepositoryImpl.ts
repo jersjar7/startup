@@ -23,10 +23,14 @@ export class ReviewRepositoryImpl implements ReviewRepository {
     if (due.length >= limit) return due.slice(0, limit);
 
     const seen = new Set(Object.keys(map));
-    const pool = [
-      ...this.content.cards().map((c) => c.id),
-      ...this.content.problems().filter(isReviewableProblem).map((p) => p.id),
-    ];
+    // Interleave cards and problems so a fresh session blends recall + trap.
+    const cardIds = this.content.cards().map((c) => c.id);
+    const probIds = this.content.problems().filter(isReviewableProblem).map((p) => p.id);
+    const pool: string[] = [];
+    for (let i = 0; i < Math.max(cardIds.length, probIds.length); i++) {
+      if (i < cardIds.length) pool.push(cardIds[i]);
+      if (i < probIds.length) pool.push(probIds[i]);
+    }
     const fresh = pool.filter((id) => !seen.has(id));
     return [...due, ...fresh].slice(0, limit);
   }

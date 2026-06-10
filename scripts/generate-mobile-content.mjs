@@ -88,15 +88,34 @@ for (const rec of cls.problems) {
   });
 }
 
-const present = new Set(problems.map((p) => p.chapterId));
+// Formula-recall cards: a mined "formula-first" prompt + the VERIFIED handbook
+// formula as the answer. Grounded (no fabricated content). Non-paper only.
+const cards = [];
+for (const rec of cls.problems) {
+  if (rec.mobileTier === 'paper') continue;
+  const p = byId.get(rec.id);
+  if (!p || !p.handbookFormula) continue;
+  const fc = (rec.cards || []).find((c) => c.kind === 'formula-first');
+  if (!fc || !fc.prompt) continue;
+  cards.push({
+    id: `${p.id}:fc`,
+    problemId: p.id,
+    chapterId: rec.chapter,
+    kind: 'formulaFirst',
+    prompt: fc.prompt,
+    answer: `$${p.handbookFormula}$${p.handbookPage ? ` (${p.handbookPage})` : ''}`,
+  });
+}
+
+const present = new Set([...problems.map((p) => p.chapterId), ...cards.map((c) => c.chapterId)]);
 const chapters = CHAPTERS.filter((c) => present.has(c.id));
 
 fs.mkdirSync(OUT, { recursive: true });
 fs.writeFileSync(path.join(OUT, 'problems.json'), JSON.stringify(problems));
+fs.writeFileSync(path.join(OUT, 'cards.json'), JSON.stringify(cards));
 fs.writeFileSync(path.join(OUT, 'chapters.json'), JSON.stringify(chapters, null, 1));
 
 const byChapter = {};
 for (const p of problems) byChapter[p.chapterId] = (byChapter[p.chapterId] || 0) + 1;
-console.log(`problems: ${problems.length}  chapters: ${chapters.length}`);
+console.log(`problems: ${problems.length}  cards: ${cards.length}  chapters: ${chapters.length}`);
 console.log('per chapter:', byChapter);
-console.log(`bytes: ${fs.statSync(path.join(OUT, 'problems.json')).size}`);
