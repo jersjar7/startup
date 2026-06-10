@@ -1,5 +1,6 @@
 import type { ReviewSchedule } from '@/domain/entities/review';
 import type { ReviewRepository } from '@/domain/repositories/ReviewRepository';
+import { isReviewableProblem } from '@/domain/entities/problem';
 import type { KeyValueStore } from '../sources/storage/KeyValueStore';
 import type { ContentDataSource } from '../sources/content/ContentDataSource';
 
@@ -22,10 +23,11 @@ export class ReviewRepositoryImpl implements ReviewRepository {
     if (due.length >= limit) return due.slice(0, limit);
 
     const seen = new Set(Object.keys(map));
-    const fresh = this.content
-      .cards()
-      .map((c) => c.id)
-      .filter((id) => !seen.has(id));
+    const pool = [
+      ...this.content.cards().map((c) => c.id),
+      ...this.content.problems().filter(isReviewableProblem).map((p) => p.id),
+    ];
+    const fresh = pool.filter((id) => !seen.has(id));
     return [...due, ...fresh].slice(0, limit);
   }
 

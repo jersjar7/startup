@@ -1,16 +1,30 @@
 import type { MobileTier, InteractionMode } from './tiers';
+import type { Choice } from './problem';
 
-export type SessionItemKind = 'card' | 'problem';
-
-export interface SessionItem {
+interface SessionItemBase {
   readonly id: string;
-  readonly kind: SessionItemKind;
   readonly chapterId: string;
   readonly tier: MobileTier;
   readonly interaction: InteractionMode;
+}
+
+/** A retrieval micro-card: recall the answer, then reveal. */
+export interface CardSessionItem extends SessionItemBase {
+  readonly kind: 'card';
   readonly prompt: string;
   readonly answer: string;
 }
+
+/** A tap-the-trap MCQ: pick a choice, then see why (correct vs. the trap). */
+export interface ProblemSessionItem extends SessionItemBase {
+  readonly kind: 'problem';
+  readonly statement: string;
+  readonly choices: readonly Choice[];
+  readonly correctChoiceId: string | null;
+  readonly explanation: string;
+}
+
+export type SessionItem = CardSessionItem | ProblemSessionItem;
 
 /** The single "solve it on paper tonight" problem seeded into a daily session. */
 export interface PaperHandoff {

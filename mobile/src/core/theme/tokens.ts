@@ -23,6 +23,7 @@ export const palette = {
   forestInk: '#1F5A44',
 
   error: '#D64045',
+  errorBg: '#FBEAEA',
   white: '#FFFFFF',
   line: 'rgba(44,44,44,0.09)',
 } as const;

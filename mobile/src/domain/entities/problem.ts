@@ -1,4 +1,5 @@
 import type { MobileTier, InteractionMode } from './tiers';
+import { needsPaper } from './tiers';
 
 export interface Choice {
   readonly id: string;
@@ -16,3 +17,10 @@ export interface Problem {
   readonly explanation: string;
   readonly handbookRef: string | null;
 }
+
+/**
+ * A problem usable as an on-phone review item (tap-the-trap MCQ): it has choices
+ * and doesn't require paper to solve. Paper problems surface only as the hand-off.
+ */
+export const isReviewableProblem = (p: Problem): boolean =>
+  !needsPaper(p.tier) && p.choices.length > 0;

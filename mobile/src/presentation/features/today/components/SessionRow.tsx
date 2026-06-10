@@ -8,11 +8,12 @@ import type { SessionItem } from '@/domain/entities/session';
 
 export function SessionRow({ item }: { item: SessionItem }) {
   const theme = useTheme();
+  const title = item.kind === 'card' ? item.prompt : item.statement;
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12 }}>
       <View style={{ flex: 1 }}>
         <Text variant="bodyStrong" numberOfLines={2}>
-          {item.prompt}
+          {title}
         </Text>
       </View>
       <Overline color={interactionColor(item.interaction, theme)}>

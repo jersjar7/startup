@@ -2,6 +2,7 @@ import type { Mastery, ChapterMastery } from '@/domain/entities/mastery';
 import type { MasteryRepository } from '@/domain/repositories/MasteryRepository';
 import type { MasteryPolicy } from '@/domain/services/MasteryPolicy';
 import type { ReviewRepository } from '@/domain/repositories/ReviewRepository';
+import { isReviewableProblem } from '@/domain/entities/problem';
 import type { ContentDataSource } from '../sources/content/ContentDataSource';
 
 const MASTERED_AT_REPS = 4;
@@ -37,17 +38,20 @@ export class MasteryRepositoryImpl implements MasteryRepository {
   }
 
   private async chapterScore(chapterId: string): Promise<number> {
-    const cardIds = this.content
-      .cards()
-      .filter((c) => c.chapterId === chapterId)
-      .map((c) => c.id);
-    if (cardIds.length === 0) return 0;
+    const itemIds = [
+      ...this.content.cards().filter((c) => c.chapterId === chapterId).map((c) => c.id),
+      ...this.content
+        .problems()
+        .filter((p) => p.chapterId === chapterId && isReviewableProblem(p))
+        .map((p) => p.id),
+    ];
+    if (itemIds.length === 0) return 0;
     const byId = new Map((await this.reviews.allSchedules()).map((s) => [s.itemId, s] as const));
     let sum = 0;
-    for (const id of cardIds) {
+    for (const id of itemIds) {
       const s = byId.get(id);
       sum += s ? Math.min(1, s.reps / MASTERED_AT_REPS) : 0;
     }
-    return sum / cardIds.length;
+    return sum / itemIds.length;
   }
 }

@@ -4,14 +4,15 @@ import type { ReviewRepository } from '../repositories/ReviewRepository';
 import type { CardRepository } from '../repositories/CardRepository';
 import type { ProblemRepository } from '../repositories/ProblemRepository';
 import { needsPaper } from '../entities/tiers';
+import { isReviewableProblem } from '../entities/problem';
 
 export interface GetDailySessionInput {
   readonly now: number;
   readonly cardTarget: number;
 }
 
-// Builds the bounded daily set: due cards, interleaved across chapters, plus the
-// single paper problem seeded for the desk.
+// Builds the bounded daily set: due cards (recall) + tap-the-trap problems,
+// interleaved across chapters, plus the single paper problem for the desk.
 export class GetDailySession implements UseCase<GetDailySessionInput, DailySession> {
   constructor(
     private readonly reviews: ReviewRepository,
@@ -21,22 +22,38 @@ export class GetDailySession implements UseCase<GetDailySessionInput, DailySessi
 
   async execute({ now, cardTarget }: GetDailySessionInput): Promise<DailySession> {
     const dueIds = await this.reviews.dueItems(now, cardTarget);
-    const allCards = await this.cards.listAll();
-    const byId = new Map(allCards.map((c) => [c.id, c] as const));
+    const cardById = new Map((await this.cards.listAll()).map((c) => [c.id, c] as const));
+    const problemById = new Map((await this.problems.listAll()).map((p) => [p.id, p] as const));
 
     const items: SessionItem[] = [];
     for (const id of dueIds) {
-      const card = byId.get(id);
-      if (!card) continue;
-      items.push({
-        id: card.id,
-        kind: 'card',
-        chapterId: card.chapterId,
-        tier: 'concept',
-        interaction: card.kind,
-        prompt: card.prompt,
-        answer: card.answer,
-      });
+      const card = cardById.get(id);
+      if (card) {
+        items.push({
+          kind: 'card',
+          id: card.id,
+          chapterId: card.chapterId,
+          tier: 'concept',
+          interaction: card.kind,
+          prompt: card.prompt,
+          answer: card.answer,
+        });
+        continue;
+      }
+      const p = problemById.get(id);
+      if (p && isReviewableProblem(p)) {
+        items.push({
+          kind: 'problem',
+          id: p.id,
+          chapterId: p.chapterId,
+          tier: p.tier,
+          interaction: p.interaction,
+          statement: p.statement,
+          choices: p.choices,
+          correctChoiceId: p.correctChoiceId,
+          explanation: p.explanation,
+        });
+      }
     }
 
     const interleaved = interleaveByChapter(items);
