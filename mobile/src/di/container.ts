@@ -10,6 +10,7 @@ import { MasteryRepositoryImpl } from '@/data/repositories/MasteryRepositoryImpl
 import { PlanRepositoryImpl } from '@/data/repositories/PlanRepositoryImpl';
 import { ChapterRepositoryImpl } from '@/data/repositories/ChapterRepositoryImpl';
 import { StreakRepositoryImpl } from '@/data/repositories/StreakRepositoryImpl';
+import { AppDataRepositoryImpl } from '@/data/repositories/AppDataRepositoryImpl';
 import { Sm2Scheduler } from '@/data/services/Sm2Scheduler';
 import { ConceptMasteryPolicy } from '@/data/services/ConceptMasteryPolicy';
 import { AdaptivePacingPolicy } from '@/data/services/AdaptivePacingPolicy';
@@ -26,6 +27,7 @@ import { GetStudyPreferences } from '@/domain/usecases/GetStudyPreferences';
 import { PreviewStudyPlan } from '@/domain/usecases/PreviewStudyPlan';
 import { GetStreak } from '@/domain/usecases/GetStreak';
 import { RecordStudyDay } from '@/domain/usecases/RecordStudyDay';
+import { ResetAllProgress } from '@/domain/usecases/ResetAllProgress';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
@@ -40,6 +42,7 @@ export interface UseCases {
   readonly setStudyPreferences: SetStudyPreferences;
   readonly getStreak: GetStreak;
   readonly recordStudyDay: RecordStudyDay;
+  readonly resetAllProgress: ResetAllProgress;
 }
 
 export function createUseCases(): UseCases {
@@ -60,6 +63,7 @@ export function createUseCases(): UseCases {
   const plans = new PlanRepositoryImpl(store);
   const chapters = new ChapterRepositoryImpl(content);
   const streaks = new StreakRepositoryImpl(store);
+  const appData = new AppDataRepositoryImpl(store);
 
   // use cases
   return {
@@ -75,5 +79,6 @@ export function createUseCases(): UseCases {
     setStudyPreferences: new SetStudyPreferences(plans),
     getStreak: new GetStreak(streaks),
     recordStudyDay: new RecordStudyDay(streaks),
+    resetAllProgress: new ResetAllProgress(appData),
   };
 }

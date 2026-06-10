@@ -11,6 +11,8 @@ import { ListRow } from '@/presentation/ui/ListRow';
 import { OptionSheet, type SheetOption } from '@/presentation/ui/OptionSheet';
 import { useTheme } from '@/core/theme/useTheme';
 import { masteryColor } from '@/presentation/ui/semantics';
+import { useUseCases } from '@/di/useUseCases';
+import { useAppRestart } from '@/presentation/bootstrap/AppRestart';
 import { useProfileViewModel } from './useProfileViewModel';
 
 const DAY = 24 * 60 * 60 * 1000;
@@ -34,8 +36,16 @@ type Editing = 'pace' | 'date' | null;
 
 export function ProfileScreen() {
   const theme = useTheme();
+  const uc = useUseCases();
+  const restart = useAppRestart();
   const { loading, overall, masteredCount, topicCount, prefs, reload, update } = useProfileViewModel();
   const [editing, setEditing] = useState<Editing>(null);
+  const [confirmingReset, setConfirmingReset] = useState(false);
+
+  const doReset = () => {
+    setConfirmingReset(false);
+    void uc.resetAllProgress.execute().then(restart);
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -101,6 +111,20 @@ export function ProfileScreen() {
         </>
       ) : null}
 
+      <View style={{ marginTop: 24, marginBottom: 2 }}>
+        <Overline>Account</Overline>
+      </View>
+      <ListRow
+        title="Reset progress"
+        subtitle="Clear everything and start over"
+        onPress={() => setConfirmingReset(true)}
+        right={
+          <Text variant="bodyStrong" color={theme.palette.error}>
+            Reset
+          </Text>
+        }
+      />
+
       <OptionSheet
         visible={editing === 'pace'}
         title="Minutes per day"
@@ -122,6 +146,13 @@ export function ProfileScreen() {
           setEditing(null);
         }}
         onClose={() => setEditing(null)}
+      />
+      <OptionSheet
+        visible={confirmingReset}
+        title="Reset everything? This can't be undone"
+        options={[{ label: 'Reset progress', value: 'reset' }]}
+        onSelect={doReset}
+        onClose={() => setConfirmingReset(false)}
       />
     </Screen>
   );
