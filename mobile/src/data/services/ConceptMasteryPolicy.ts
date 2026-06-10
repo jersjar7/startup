@@ -7,7 +7,7 @@ export class ConceptMasteryPolicy implements MasteryPolicy {
   label(percent: number): MasteryState {
     if (percent >= 80) return 'mastered';
     if (percent >= 50) return 'familiar';
-    if (percent >= 20) return 'building';
+    if (percent >= 10) return 'building'; // any real progress reads as "building"
     return 'new';
   }
 
