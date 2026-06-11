@@ -34,7 +34,7 @@ export function TapTheTrapCard({ item, onGraded }: Props) {
         </MathText>
 
         <View style={{ marginTop: 20, gap: 10 }}>
-          {item.choices.map((ch) => {
+          {item.choices.map((ch, idx) => {
             const isAnswer = ch.id === item.correctChoiceId;
             const isChosen = picked === ch.id;
             let borderColor: string = theme.palette.line;
@@ -52,6 +52,7 @@ export function TapTheTrapCard({ item, onGraded }: Props) {
             return (
               <Pressable
                 key={ch.id}
+                testID={`choice-${idx}`}
                 disabled={answered}
                 onPress={() => {
                   setPicked(ch.id);

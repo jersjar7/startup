@@ -1,0 +1,25 @@
+# Profile settings: sound toggle, reminder sheet, reset confirmation.
+appId: com.fe4raccoons.mobile
+name: 04 Settings
+---
+- launchApp
+- tapOn: "Profile.*" # tab a11y text is "Profile, tab, 4 of 4"
+- assertVisible: "Sound effects"
+
+# Toggle sound off (a preview tick plays when toggling on).
+- tapOn:
+    id: "sound-switch"
+- takeScreenshot: 11-sound-toggled
+
+# Reminder sheet — tap Off to close without firing the OS permission dialog.
+- tapOn: "Reminders.*" # row a11y text is "Reminders, Off"
+- assertVisible:
+    id: "sheet-option-off"
+- takeScreenshot: 12-reminder-sheet
+- tapOn:
+    id: "sheet-option-off"
+
+# Reset confirmation — screenshot the guard, but don't actually reset.
+- tapOn: "Reset progress.*" # row a11y: "Reset progress, Clear everything..., Reset"
+- assertVisible: "(?i)reset everything.*" # sheet title is uppercased by Overline
+- takeScreenshot: 13-reset-confirm

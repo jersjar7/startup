@@ -1,0 +1,55 @@
+# Daily review: answer real cards (both recall + tap-the-trap) to the Done screen.
+# Branches on testID/Button, not Overline text (which renders uppercase).
+appId: com.fe4raccoons.mobile
+name: 02 Review
+---
+- launchApp
+- assertVisible: "Your review"
+- scrollUntilVisible:
+    element: "Start"
+    direction: DOWN
+- tapOn: "Start"
+
+# First card — capture whichever kind appears, including the answer/result state.
+- runFlow:
+    when:
+      visible: "Reveal"
+    commands:
+      - takeScreenshot: 05-recall-prompt
+      - tapOn: "Reveal"
+      - assertVisible: "Got it"
+      - takeScreenshot: 06-recall-answer
+      - tapOn: "Got it"
+- runFlow:
+    when:
+      visible:
+        id: "choice-0"
+    commands:
+      - takeScreenshot: 05-trap-question
+      - tapOn:
+          id: "choice-0"
+      - assertVisible: "Continue"
+      - takeScreenshot: 06-trap-result
+      - tapOn: "Continue"
+
+# Drain the rest of the session; each iteration handles either card kind.
+- repeat:
+    times: 16
+    commands:
+      - runFlow:
+          when:
+            visible: "Reveal"
+          commands:
+            - tapOn: "Reveal"
+            - tapOn: "Got it"
+      - runFlow:
+          when:
+            visible:
+              id: "choice-0"
+          commands:
+            - tapOn:
+                id: "choice-0"
+            - tapOn: "Continue"
+
+- assertVisible: "Done for today"
+- takeScreenshot: 07-done

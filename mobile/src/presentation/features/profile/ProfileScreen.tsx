@@ -140,6 +140,7 @@ export function ProfileScreen() {
             subtitle="A subtle tick when you answer"
             right={
               <Switch
+                testID="sound-switch"
                 value={soundEnabled}
                 onValueChange={setSound}
                 trackColor={{ false: theme.palette.line, true: theme.palette.forest }}

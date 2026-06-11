@@ -24,10 +24,12 @@ export function OptionSheet({ visible, title, options, selected, onSelect, onClo
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <Pressable
+        accessible={false}
         onPress={onClose}
         style={{ flex: 1, backgroundColor: 'rgba(28,28,28,0.35)', justifyContent: 'flex-end' }}
       >
         <Pressable
+          accessible={false}
           onPress={() => undefined}
           style={{
             backgroundColor: theme.palette.cream,
@@ -44,6 +46,9 @@ export function OptionSheet({ visible, title, options, selected, onSelect, onClo
               return (
                 <Pressable
                   key={o.value}
+                  testID={`sheet-option-${o.value}`}
+                  accessibilityRole="button"
+                  accessibilityLabel={o.label}
                   onPress={() => onSelect(o.value)}
                   style={{
                     height: 54,

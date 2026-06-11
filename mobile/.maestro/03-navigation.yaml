@@ -1,0 +1,13 @@
+# Bottom-tab navigation across the four sections.
+# Tabs expose accessibility text like "Practice, tab, 2 of 4" — match with wildcard.
+appId: com.fe4raccoons.mobile
+name: 03 Navigation
+---
+- launchApp
+- tapOn: "Practice.*"
+- takeScreenshot: 08-practice
+- tapOn: "Mastery.*"
+- takeScreenshot: 09-mastery
+- tapOn: "Profile.*"
+- assertVisible: "Sound effects"
+- takeScreenshot: 10-profile
