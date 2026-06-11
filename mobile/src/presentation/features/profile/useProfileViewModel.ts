@@ -3,6 +3,7 @@ import { useUseCases } from '@/di/useUseCases';
 import { sound } from '@/core/sound';
 import type { Mastery } from '@/domain/entities/mastery';
 import type { StudyPreferences } from '@/domain/entities/plan';
+import type { Account } from '@/domain/entities/account';
 
 export function useProfileViewModel() {
   const uc = useUseCases();
@@ -13,14 +14,16 @@ export function useProfileViewModel() {
   const [prefs, setPrefs] = useState<StudyPreferences | null>(null);
   const [reminderHour, setReminderHour] = useState<number | null>(null);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [account, setAccount] = useState<Account | null>(null);
 
   const load = useCallback(async () => {
-    const [o, chapters, p, reminder, soundOn] = await Promise.all([
+    const [o, chapters, p, reminder, soundOn, acct] = await Promise.all([
       uc.getOverallMastery.execute(),
       uc.getChapterProgress.execute(),
       uc.getStudyPreferences.execute(),
       uc.getReminder.execute(),
       uc.getSoundEnabled.execute(),
+      uc.getAccount.execute(),
     ]);
     setOverall(o);
     setTopicCount(chapters.length);
@@ -28,6 +31,7 @@ export function useProfileViewModel() {
     setPrefs(p);
     setReminderHour(reminder);
     setSoundEnabled(soundOn);
+    setAccount(acct);
     setLoading(false);
   }, [uc]);
 
@@ -64,6 +68,11 @@ export function useProfileViewModel() {
     [uc],
   );
 
+  const signOut = useCallback(async () => {
+    await uc.signOut.execute();
+    await load();
+  }, [uc, load]);
+
   return {
     loading,
     overall,
@@ -72,9 +81,11 @@ export function useProfileViewModel() {
     prefs,
     reminderHour,
     soundEnabled,
+    account,
     reload: load,
     update,
     setReminder,
     setSound,
+    signOut,
   };
 }

@@ -34,7 +34,8 @@
           "enableBackgroundRecording": false
         }
       ],
-      "./plugins/withTrimmedPermissions"
+      "./plugins/withTrimmedPermissions",
+      "expo-secure-store"
     ]
   }
 }

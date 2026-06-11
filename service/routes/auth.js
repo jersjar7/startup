@@ -112,14 +112,18 @@ router.post('/login', async (req, res) => {
     setAuthCookie(res, user.token);
     // Return verified status + profile so the client can set state synchronously
     // (no second /me round-trip, no verification-banner flash).
-    res.send({
+    const body = {
       email: user.email,
       emailVerified: user.emailVerified === true,
       displayName: displayName(user),
       firstName: user.firstName || null,
       lastName: user.lastName || null,
       examDate: user.examDate || null,
-    });
+    };
+    // The mobile app can't rely on the httpOnly cookie jar — hand it the
+    // bearer token explicitly (web clients never receive it in the body).
+    if (req.headers['x-client'] === 'mobile') body.token = user.token;
+    res.send(body);
   } else {
     res.status(401).send({ msg: 'Incorrect email or password.' });
   }

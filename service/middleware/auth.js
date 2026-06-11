@@ -7,9 +7,17 @@ const TOKEN_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 // otherwise the browser keeps it.
 const COOKIE_OPTS = { secure: true, httpOnly: true, sameSite: 'strict', path: '/' };
 
+// Token comes from the httpOnly cookie (web) or an Authorization: Bearer
+// header (mobile app — RN has no reliable cross-platform cookie jar).
+function extractToken(req) {
+  const header = req.headers.authorization || '';
+  if (header.startsWith('Bearer ')) return header.slice(7);
+  return req.cookies[authCookieName];
+}
+
 const verifyAuth = async (req, res, next) => {
   try {
-    const user = await DB.getUserByToken(req.cookies[authCookieName]);
+    const user = await DB.getUserByToken(extractToken(req));
     if (!user) {
       res.status(401).send({ msg: 'Unauthorized' });
       return;

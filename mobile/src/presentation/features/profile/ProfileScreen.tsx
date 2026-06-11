@@ -53,7 +53,7 @@ export function ProfileScreen() {
   const theme = useTheme();
   const uc = useUseCases();
   const restart = useAppRestart();
-  const { loading, overall, masteredCount, topicCount, prefs, reminderHour, soundEnabled, reload, update, setReminder, setSound } =
+  const { loading, overall, masteredCount, topicCount, prefs, reminderHour, soundEnabled, account, reload, update, setReminder, setSound, signOut } =
     useProfileViewModel();
   const [editing, setEditing] = useState<Editing>(null);
   const [confirmingReset, setConfirmingReset] = useState(false);
@@ -155,6 +155,20 @@ export function ProfileScreen() {
       <View style={{ marginTop: 24, marginBottom: 2 }}>
         <Overline>Account</Overline>
       </View>
+      {account ? (
+        <>
+          <ListRow
+            title={account.displayName}
+            subtitle={account.email}
+            right={
+              <Text variant="bodyStrong" color={theme.palette.ink3} onPress={() => void signOut()}>
+                Sign out
+              </Text>
+            }
+          />
+          <Divider />
+        </>
+      ) : null}
       <ListRow
         title="Reset this device"
         subtitle="Clears progress stored on this phone"

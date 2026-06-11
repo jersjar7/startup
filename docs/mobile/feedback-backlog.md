@@ -42,9 +42,14 @@ Status: `[ ]` open · `[x]` done · `[~]` partially done / spec'd
   (one formula, matches mobile). 125/125 service tests pass.
 - [ ] **Same-day web visibility of phone work** (medium) — streak ticked,
   due-count decremented, dashboard activity line. No silent v1.
-- [ ] **Account-first mobile onboarding** (medium) — "Already use
-  fe4raccoons.com? Sign in" on screen one; import + skip diagnostic; guest
-  path stays default.
+- [x] **Account-first mobile onboarding** (medium) — DONE 2026-06-10:
+  "I already have an account" on screen one → sign-in (same account as web,
+  Bearer token via SecureStore); imports server examDate + diagnostic
+  familiarity (keep-max merge), shows the import confirmation, skips the
+  mobile diagnostic; guest path unchanged. Server: verifyAuth accepts
+  Authorization: Bearer; login returns the token only to X-Client: mobile.
+  E2E-verified against the real service with the QA account. NOTE: prod
+  needs a service deploy before mobile sign-in works against fe4raccoons.com.
 - [x] **Define Reset semantics** (small) — spec'd in sync-design.md; mobile
   button rescoped to "Reset this device" (2026-06-10).
 - [x] **Sync is free, never tier-gated** (small) — closed in writing in

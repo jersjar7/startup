@@ -3,6 +3,9 @@
 
 import { BundledContentDataSource } from '@/data/sources/content/BundledContentDataSource';
 import { AsyncStorageKeyValueStore } from '@/data/sources/storage/AsyncStorageKeyValueStore';
+import { SecureTokenStore } from '@/data/sources/storage/SecureTokenStore';
+import { ApiClient } from '@/data/sources/api/ApiClient';
+import { AccountRepositoryImpl } from '@/data/repositories/AccountRepositoryImpl';
 import { ProblemRepositoryImpl } from '@/data/repositories/ProblemRepositoryImpl';
 import { CardRepositoryImpl } from '@/data/repositories/CardRepositoryImpl';
 import { ReviewRepositoryImpl } from '@/data/repositories/ReviewRepositoryImpl';
@@ -40,6 +43,9 @@ import { GetReminder } from '@/domain/usecases/GetReminder';
 import { SetReminder } from '@/domain/usecases/SetReminder';
 import { GetSoundEnabled } from '@/domain/usecases/GetSoundEnabled';
 import { SetSoundEnabled } from '@/domain/usecases/SetSoundEnabled';
+import { SignIn } from '@/domain/usecases/SignIn';
+import { GetAccount } from '@/domain/usecases/GetAccount';
+import { SignOut } from '@/domain/usecases/SignOut';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
@@ -61,6 +67,9 @@ export interface UseCases {
   readonly setReminder: SetReminder;
   readonly getSoundEnabled: GetSoundEnabled;
   readonly setSoundEnabled: SetSoundEnabled;
+  readonly signIn: SignIn;
+  readonly getAccount: GetAccount;
+  readonly signOut: SignOut;
 }
 
 export function createUseCases(): UseCases {
@@ -86,6 +95,9 @@ export function createUseCases(): UseCases {
   const reminderRepo = new ReminderRepositoryImpl(store);
   const reminderScheduler = new ExpoReminderScheduler();
   const soundRepo = new SoundRepositoryImpl(store);
+  const tokenStore = new SecureTokenStore();
+  const api = new ApiClient(() => tokenStore.get());
+  const accounts = new AccountRepositoryImpl(api, tokenStore, store);
 
   // Wire the global sound controller: engine now, persisted on/off once loaded.
   sound.configure(new ExpoSoundEngine(), true);
@@ -112,5 +124,8 @@ export function createUseCases(): UseCases {
     setReminder: new SetReminder(reminderRepo, reminderScheduler),
     getSoundEnabled: new GetSoundEnabled(soundRepo),
     setSoundEnabled: new SetSoundEnabled(soundRepo),
+    signIn: new SignIn(accounts, diagnostic),
+    getAccount: new GetAccount(accounts),
+    signOut: new SignOut(accounts),
   };
 }
