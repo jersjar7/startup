@@ -24,7 +24,7 @@ export function MathText({ children, ...rest }: Props) {
           <RNText key={i} style={{ fontFamily: theme.fontFamily.mono }}>
             {/* NBSP inside a math run — an expression must wrap as one unit,
                 never mid-fraction ("(y₂ -" / "y₁)…") */}
-            {latexToText(seg).trim().replace(/ /g, ' ')}
+            {latexToText(seg).replace(/\s+/g, ' ').trim().replace(/ /g, '\u00A0')}
           </RNText>
         ) : (
           <React.Fragment key={i}>{latexToText(seg)}</React.Fragment>

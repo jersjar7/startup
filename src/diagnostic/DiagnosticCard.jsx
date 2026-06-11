@@ -92,7 +92,7 @@ export function DiagnosticCard({ diagnosticStatus, quickstart = {}, onSkip }) {
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
           <Compass size={28} weight="bold" style={{ color: 'var(--forest)', flexShrink: 0, marginTop: '2px' }} />
           <div style={{ flex: 1 }}>
-            <h3 className="diag-card-title" style={{ marginBottom: 0 }}>See Where You Stand</h3>
+            <h3 className="diag-card-title" style={{ marginBottom: 0 }}>See where you stand</h3>
             <div className="diag-card-body">
               {/* the numbers live in exactly one place: the meta row */}
               <p>

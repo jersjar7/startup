@@ -115,8 +115,8 @@ export function Landing({ userName }) {
             <span className="hero-title-emphasis">Everything.</span>
           </h1>
           <p className="hero-subtitle">
-            If you already took your junior core classes, you're almost there.
-            You just need a little guidance.
+            First attempt or a retake — you don't need to relearn everything.
+            You need targeted practice on exactly what the exam tests.
           </p>
           <button className="hero-cta" onClick={() => navigate('/login')}>
             Get Started

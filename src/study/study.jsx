@@ -212,7 +212,7 @@ export function Study({ userName, onLogout, displayName }) {
           <div className="study-section-label">
             <BookOpenText size={16} weight="bold" />
             Subtopics
-            <span className="study-section-count">{details.subtopics.length} topics</span>
+            <span className="study-section-count">{details.subtopics.length} subtopics</span>
           </div>
 
           {/* Guided entry — a rusty returner needs one obvious place to start,

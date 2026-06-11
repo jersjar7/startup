@@ -30,9 +30,15 @@ export function WeekStrip({ days, todayComplete = false, streak = 0 }: Props) {
           Streak
         </Text>
         {displayStreak > 0 ? (
-          <Text variant="mono" style={{ fontSize: 14 }}>
-            {`${displayStreak} ${displayStreak === 1 ? 'day' : 'days'}`}
-          </Text>
+          // number in mono, unit in body — a mono space reads as a double gap
+          <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 4 }}>
+            <Text variant="mono" style={{ fontSize: 14 }}>
+              {displayStreak}
+            </Text>
+            <Text variant="sub" color={theme.palette.ink3}>
+              {displayStreak === 1 ? 'day' : 'days'}
+            </Text>
+          </View>
         ) : null}
       </View>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
