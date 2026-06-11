@@ -10,8 +10,10 @@ const examAttempts = require('./db/examAttempts');
 const events = require('./db/events');
 const analytics = require('./db/analytics');
 const adminUsers = require('./db/adminUsers');
+const syncEvents = require('./db/syncEvents');
 
 module.exports = {
+  ...syncEvents,
   ping,
   ...users,
   ...topics,

@@ -1,5 +1,6 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
+const uuid = require('uuid');
 const DB = require('../database.js');
 const { calculateEarnedMastery, computeStudyMastery } = require('../mastery.js');
 const { calculateStreak } = require('../streak.js');
@@ -7,6 +8,32 @@ const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
 
 const router = express.Router();
+
+// Emit web-sourced review events into the shared sync log — the phone pulls
+// these so it never re-drills what was just done at the desk. Never breaks
+// the study flow on failure.
+async function emitWebEvents(email, answers, topicIdOf, localDate) {
+  try {
+    const day =
+      typeof localDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(localDate)
+        ? localDate
+        : new Date().toISOString().slice(0, 10);
+    const events = answers.map((a) => ({
+      eventId: uuid.v4(),
+      itemId: a.problemId,
+      chapterId: topicIdOf(a),
+      grade: a.isCorrect ? 'gotIt' : 'forgot',
+      source: 'web',
+      deviceId: null,
+      ts: Date.now(),
+      localDate: day,
+    }));
+    await DB.insertReviewEvents(email, events);
+  } catch (err) {
+    console.error('[sync] web emit failed:', err.message);
+  }
+}
+
 
 // Submit a completed session
 router.post('/', verifyAuth, async (req, res) => {
@@ -71,6 +98,7 @@ router.post('/', verifyAuth, async (req, res) => {
   await Promise.all(
     answers.map((a) => DB.upsertProblemHistory(email, a.problemId, topicId, a.isCorrect))
   );
+  await emitWebEvents(email, answers, () => topicId, req.body.localDate);
 
   // Recompute study-driven mastery for this chapter from its full problem
   // history, so practice actually moves the chapter's mastery / readiness.

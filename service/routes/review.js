@@ -1,5 +1,6 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
+const uuid = require('uuid');
 const DB = require('../database.js');
 const { calculateEarnedMastery, computeStudyMastery } = require('../mastery.js');
 const { calculateStreak } = require('../streak.js');
@@ -7,6 +8,32 @@ const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
 
 const router = express.Router();
+
+// Emit web-sourced review events into the shared sync log — the phone pulls
+// these so it never re-drills what was just done at the desk. Never breaks
+// the study flow on failure.
+async function emitWebEvents(email, answers, topicIdOf, localDate) {
+  try {
+    const day =
+      typeof localDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(localDate)
+        ? localDate
+        : new Date().toISOString().slice(0, 10);
+    const events = answers.map((a) => ({
+      eventId: uuid.v4(),
+      itemId: a.problemId,
+      chapterId: topicIdOf(a),
+      grade: a.isCorrect ? 'gotIt' : 'forgot',
+      source: 'web',
+      deviceId: null,
+      ts: Date.now(),
+      localDate: day,
+    }));
+    await DB.insertReviewEvents(email, events);
+  } catch (err) {
+    console.error('[sync] web emit failed:', err.message);
+  }
+}
+
 
 // Get due review problems as references (client resolves them against the
 // question pools). The review queue is the set of problems whose spaced-
@@ -80,6 +107,7 @@ router.post('/', verifyAuth, async (req, res) => {
   await Promise.all(
     answers.map((a) => DB.upsertProblemHistory(email, a.problemId, a.topicId, a.isCorrect))
   );
+  await emitWebEvents(email, answers, (a) => a.topicId, req.body.localDate);
 
   // Update user stats (XP + streak, but not per-topic sessionsCompleted)
   const currentStats = (await DB.getUserStats(email)) || {

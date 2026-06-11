@@ -15,6 +15,7 @@ const diagnosticResultsCollection = db.collection('diagnosticResults');
 const purchasesCollection = db.collection('purchases');
 const examAttemptsCollection = db.collection('examAttempts');
 const funnelEventsCollection = db.collection('funnelEvents');
+const reviewEventsCollection = db.collection('reviewEvents');
 
 // Test connection and create indexes on startup
 (async function testConnection() {
@@ -37,6 +38,9 @@ const funnelEventsCollection = db.collection('funnelEvents');
     await purchasesCollection.createIndex({ stripeSessionId: 1 }, { unique: true });
     await examAttemptsCollection.createIndex({ userId: 1, createdAt: -1 });
     await funnelEventsCollection.createIndex({ type: 1, createdAt: -1 });
+    await reviewEventsCollection.createIndex({ email: 1, eventId: 1 }, { unique: true });
+    await reviewEventsCollection.createIndex({ email: 1, _id: 1 });
+    await reviewEventsCollection.createIndex({ email: 1, localDate: 1, source: 1 });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);
@@ -61,4 +65,5 @@ module.exports = {
   purchasesCollection,
   examAttemptsCollection,
   funnelEventsCollection,
+  reviewEventsCollection,
 };
