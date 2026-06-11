@@ -32,7 +32,10 @@ questions").
 Status: `[ ]` open · `[x]` done · `[~]` partially done / spec'd
 
 ### P0 — must exist for sync v1 not to betray users
-- [ ] **Single shared scheduler + same-day due dedupe** (large) — one
+- [~] **Single shared scheduler + same-day due dedupe** (large) — v1 FLOOR
+  SHIPPED 2026-06-11: cross-surface same-day dedupe live both ways (phone
+  events update web problemHistory; web events fold into phone schedules
+  incl. sibling cards). Full single-module scheduler still future. — one
   versioned module shared web+RN; invariant: graded on A ⇒ never due on B
   same local day. Floor if it slips: cross-surface same-day dedupe.
 - [x] **Fix web studyScore so studying moves mastery** (medium) — CORRECTION
@@ -40,7 +43,10 @@ Status: `[ ]` open · `[x]` done · `[~]` partially done / spec'd
   spec v1 cited a stale doc. Residual defect found and fixed: diagnostic.js
   wrote `min(diag+study,100)` vs `max(diag,study)` elsewhere — unified to max
   (one formula, matches mobile). 125/125 service tests pass.
-- [ ] **Same-day web visibility of phone work** (medium) — streak ticked,
+- [x] **Same-day web visibility of phone work** (medium) — SHIPPED
+  2026-06-11: 'Today on your phone: 7 cards · 4 misses · synced 11:28 AM'
+  dashboard strip + streak ticks from phone events (client-localDate rule).
+  Original ask — streak ticked,
   due-count decremented, dashboard activity line. No silent v1.
 - [x] **Account-first mobile onboarding** (medium) — DONE 2026-06-10:
   "I already have an account" on screen one → sign-in (same account as web,
@@ -103,6 +109,14 @@ login subtitle alignment; segmented progress bar on web problems; custom
 reminder time; Profile streak flame treatment; jake's web in-session XP chip
 (feature). Perception note: single NBSP inside mono spans can read as a wide
 gap — verified single-space in source.
+
+## Sync v1 (2026-06-11) — LIVE
+Event log (reviewEvents) + push/pull/today endpoints + web emit + phone
+outbox/SyncNow shipped and deployed. E2E: phone session → automatic push →
+web dashboard shows activity line, streak ticked, mastery moved. Remaining
+sync layers tracked as items 6-11 in the owner's list (one mastery number,
+XP table, flaggedForPaper/Tonight card, sync-state UI, merge prompt,
+settings write-back).
 
 ## Loop log
 
