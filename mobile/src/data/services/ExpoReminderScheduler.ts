@@ -10,7 +10,7 @@ export class ExpoReminderScheduler implements ReminderScheduler {
     return status === 'granted';
   }
 
-  async scheduleDaily(hour: number): Promise<void> {
+  async scheduleDaily(hour: number, minute: number): Promise<void> {
     if (Platform.OS === 'web') return;
     await Notifications.cancelAllScheduledNotificationsAsync();
     await Notifications.scheduleNotificationAsync({
@@ -21,7 +21,7 @@ export class ExpoReminderScheduler implements ReminderScheduler {
       trigger: {
         type: Notifications.SchedulableTriggerInputTypes.DAILY,
         hour,
-        minute: 0,
+        minute,
       },
     });
   }

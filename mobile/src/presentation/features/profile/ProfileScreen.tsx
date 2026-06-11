@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { View, ActivityIndicator, Switch } from 'react-native';
+import { View, ActivityIndicator, Switch, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { useFocusEffect } from '@react-navigation/native';
 import { Screen } from '@/presentation/ui/Screen';
 import { Text } from '@/presentation/ui/Text';
@@ -34,29 +35,35 @@ const DATE_OPTIONS: readonly SheetOption[] = (
 
 type Editing = 'pace' | 'date' | 'reminder' | null;
 
+// Values are minutes since local midnight; "custom" opens the native time
+// picker (real study slots are "the 7:15 bus", not round numbers).
 const REMINDER_OPTIONS: readonly SheetOption[] = [
   { label: 'Off', value: 'off' },
-  { label: '8:00 AM', value: '8' },
-  { label: '12:00 PM', value: '12' },
-  { label: '6:00 PM', value: '18' },
-  { label: '9:00 PM', value: '21' },
+  { label: '8:00 AM', value: '480' },
+  { label: '12:00 PM', value: '720' },
+  { label: '6:00 PM', value: '1080' },
+  { label: '9:00 PM', value: '1260' },
+  ...(Platform.OS !== 'web' ? [{ label: 'Custom time…', value: 'custom' }] : []),
 ];
 
-function formatHour(h: number | null): string {
-  if (h === null) return 'Off';
+export function formatReminderTime(minutes: number | null): string {
+  if (minutes === null) return 'Off';
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
   const period = h < 12 ? 'AM' : 'PM';
   const hour12 = h % 12 === 0 ? 12 : h % 12;
-  return `${hour12}:00 ${period}`;
+  return `${hour12}:${String(m).padStart(2, '0')} ${period}`;
 }
 
 export function ProfileScreen() {
   const theme = useTheme();
   const uc = useUseCases();
   const restart = useAppRestart();
-  const { loading, overall, masteredCount, topicCount, prefs, reminderHour, soundEnabled, account, streak, totalReps, reload, update, setReminder, setSound, signOut } =
+  const { loading, overall, masteredCount, topicCount, prefs, reminderMinutes, soundEnabled, account, streak, totalReps, reload, update, setReminder, setSound, signOut } =
     useProfileViewModel();
   const [editing, setEditing] = useState<Editing>(null);
   const [confirmingReset, setConfirmingReset] = useState(false);
+  const [pickingTime, setPickingTime] = useState(false);
 
   const doReset = () => {
     setConfirmingReset(false);
@@ -151,7 +158,7 @@ export function ProfileScreen() {
             onPress={() => setEditing('reminder')}
             right={
               <Text variant="sub" color={theme.palette.ink3}>
-                {formatHour(reminderHour)}
+                {formatReminderTime(reminderMinutes)}
               </Text>
             }
           />
@@ -231,13 +238,25 @@ export function ProfileScreen() {
         visible={editing === 'reminder'}
         title="Daily reminder"
         options={REMINDER_OPTIONS}
-        selected={reminderHour === null ? 'off' : String(reminderHour)}
+        selected={reminderMinutes === null ? 'off' : String(reminderMinutes)}
         onSelect={(v) => {
-          void setReminder(v === 'off' ? null : Number(v));
           setEditing(null);
+          if (v === 'custom') setPickingTime(true);
+          else void setReminder(v === 'off' ? null : Number(v));
         }}
         onClose={() => setEditing(null)}
       />
+      {pickingTime ? (
+        <DateTimePicker
+          value={new Date(2026, 0, 1, Math.floor((reminderMinutes ?? 480) / 60), (reminderMinutes ?? 480) % 60)}
+          mode="time"
+          display="spinner"
+          onChange={(e, d) => {
+            setPickingTime(false);
+            if (e.type === 'set' && d) void setReminder(d.getHours() * 60 + d.getMinutes());
+          }}
+        />
+      ) : null}
       <OptionSheet
         visible={confirmingReset}
         title="Reset this device? This can't be undone"

@@ -77,7 +77,7 @@ export function PaceStep({ examDate, minutesPerDay, onChange }: Props) {
               ~{plan.projection.projectedPercent}%
             </Text>
             <Text variant="sub" color={theme.palette.ink3} style={{ marginBottom: 4 }}>
-              concept mastery by {formatDate(examDate)}
+              concept mastery by {formatDate(dayBefore(examDate))}
             </Text>
           </View>
           <View style={{ marginTop: 12 }}>
@@ -85,6 +85,9 @@ export function PaceStep({ examDate, minutesPerDay, onChange }: Props) {
           </View>
           <Text variant="sub" color={theme.palette.ink2} style={{ marginTop: 12 }}>
             {projectionCaption(plan.projection.projectedPercent)}
+          </Text>
+          <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 6 }}>
+            {formatDate(examDate)} stays light — review, rest, walk in ready.
           </Text>
         </Card>
       ) : null}
@@ -98,6 +101,13 @@ function projectionCaption(pct: number): string {
   if (pct >= 75) return 'Strong mastery of the core topics — never a guaranteed pass.';
   if (pct >= 50) return 'Working mastery of the core topics — never a guaranteed pass.';
   return 'A solid foundation in the highest-weight topics — never a guaranteed pass.';
+}
+
+// Mastery targets the day BEFORE the exam — the last day is rest, not cramming.
+function dayBefore(iso: string): string {
+  const d = new Date(`${iso}T00:00:00`);
+  d.setDate(d.getDate() - 1);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
 function formatDate(iso: string): string {

@@ -3,7 +3,7 @@ import type { ReminderRepository } from '../repositories/ReminderRepository';
 import type { ReminderScheduler } from '../services/ReminderScheduler';
 
 export interface SetReminderInput {
-  readonly hour: number | null; // null = off
+  readonly minutes: number | null; // minutes since local midnight; null = off
 }
 
 // Persists the choice and (de)schedules the daily notification. Returns whether
@@ -14,19 +14,19 @@ export class SetReminder implements UseCase<SetReminderInput, boolean> {
     private readonly scheduler: ReminderScheduler,
   ) {}
 
-  async execute({ hour }: SetReminderInput): Promise<boolean> {
-    if (hour === null) {
-      await this.reminders.setHour(null);
+  async execute({ minutes }: SetReminderInput): Promise<boolean> {
+    if (minutes === null) {
+      await this.reminders.setMinutes(null);
       await this.scheduler.cancel();
       return false;
     }
     const granted = await this.scheduler.requestPermission();
     if (!granted) {
-      await this.reminders.setHour(null);
+      await this.reminders.setMinutes(null);
       return false;
     }
-    await this.reminders.setHour(hour);
-    await this.scheduler.scheduleDaily(hour);
+    await this.reminders.setMinutes(minutes);
+    await this.scheduler.scheduleDaily(Math.floor(minutes / 60), minutes % 60);
     return true;
   }
 }

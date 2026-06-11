@@ -1,5 +1,7 @@
-// Stores the chosen reminder hour (0–23), or null when reminders are off.
+// PORT: the user's daily reminder time, stored as minutes since local
+// midnight (null = off). Minutes — not hours — because real study slots are
+// "the 7:15 bus", not round numbers.
 export interface ReminderRepository {
-  getHour(): Promise<number | null>;
-  setHour(hour: number | null): Promise<void>;
+  getMinutes(): Promise<number | null>;
+  setMinutes(minutes: number | null): Promise<void>;
 }

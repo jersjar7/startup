@@ -9,7 +9,10 @@ const MAX_PROJECTION = 98; // never project 100% / a guaranteed pass
 export class AdaptivePacingPolicy implements PacingPolicy {
   computePlan(input: PacingInput): StudyPlan {
     const days = daysUntil(input.examDate, input.now);
-    const regime = regimeFor(days);
+    // The plan targets mastery by the DAY BEFORE the exam — the final day is
+    // light review / rest, never new learning (panel verdict, owner ratified).
+    const studyDays = Math.max(0, days - 1);
+    const regime = regimeFor(studyDays);
     const intensity = regime === 'crunch' ? 1.3 : 1;
 
     const dailyCardTarget = clamp(Math.round(input.minutesPerDay * 0.6 * intensity), 5, 40);
@@ -17,7 +20,7 @@ export class AdaptivePacingPolicy implements PacingPolicy {
 
     const gainPerDay = input.minutesPerDay * 0.03;
     const projectedPercent = Math.round(
-      clamp(input.currentMasteryPercent + days * gainPerDay, 0, MAX_PROJECTION),
+      clamp(input.currentMasteryPercent + studyDays * gainPerDay, 0, MAX_PROJECTION),
     );
 
     return {

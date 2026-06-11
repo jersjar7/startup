@@ -11,10 +11,10 @@ import { haptics } from '@/core/haptics';
 import { useUseCases } from '@/di/useUseCases';
 
 const REMINDER_OPTIONS: readonly SheetOption[] = [
-  { label: '8:00 AM', value: '8' },
-  { label: '12:00 PM', value: '12' },
-  { label: '6:00 PM', value: '18' },
-  { label: '9:00 PM', value: '21' },
+  { label: '8:00 AM', value: '480' },
+  { label: '12:00 PM', value: '720' },
+  { label: '6:00 PM', value: '1080' },
+  { label: '9:00 PM', value: '1260' },
 ];
 
 interface Props {
@@ -102,7 +102,7 @@ export function DoneView({ reviewed, streak, onClose }: Props) {
         title="Daily reminder"
         options={REMINDER_OPTIONS}
         onSelect={(v) => {
-          void uc.setReminder.execute({ hour: Number(v) }).then(() => setReminderOff(false));
+          void uc.setReminder.execute({ minutes: Number(v) }).then(() => setReminderOff(false));
           setPicking(false);
         }}
         onClose={() => setPicking(false)}

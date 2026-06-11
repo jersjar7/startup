@@ -2,6 +2,7 @@
 // expo-notifications (a no-op on web).
 export interface ReminderScheduler {
   requestPermission(): Promise<boolean>;
-  scheduleDaily(hour: number): Promise<void>;
+  /** Schedule the daily reminder at an exact local time. */
+  scheduleDaily(hour: number, minute: number): Promise<void>;
   cancel(): Promise<void>;
 }

@@ -13,7 +13,7 @@ export function useProfileViewModel() {
   const [masteredCount, setMasteredCount] = useState(0);
   const [topicCount, setTopicCount] = useState(0);
   const [prefs, setPrefs] = useState<StudyPreferences | null>(null);
-  const [reminderHour, setReminderHour] = useState<number | null>(null);
+  const [reminderMinutes, setReminderMinutes] = useState<number | null>(null);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [account, setAccount] = useState<Account | null>(null);
   const [streak, setStreak] = useState(0);
@@ -42,7 +42,7 @@ export function useProfileViewModel() {
     setTopicCount(chapters.length);
     setMasteredCount(chapters.filter((c) => c.mastery.state === 'mastered').length);
     setPrefs(p);
-    setReminderHour(reminder);
+    setReminderMinutes(reminder);
     setSoundEnabled(soundOn);
     setAccount(acct);
     setStreak(shownStreak);
@@ -65,8 +65,8 @@ export function useProfileViewModel() {
   );
 
   const setReminder = useCallback(
-    async (hour: number | null) => {
-      await uc.setReminder.execute({ hour });
+    async (minutes: number | null) => {
+      await uc.setReminder.execute({ minutes });
       await load();
     },
     [uc, load],
@@ -94,7 +94,7 @@ export function useProfileViewModel() {
     masteredCount,
     topicCount,
     prefs,
-    reminderHour,
+    reminderMinutes,
     soundEnabled,
     account,
     streak,

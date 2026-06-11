@@ -12,33 +12,35 @@ import {
 
 export const INTRO_PAGE_COUNT = 4;
 
+// Copy ratified by the fresh-eyes + brand panel (positive-first, plain,
+// landing-page voice) — see onb-copy workflow, 2026-06-11.
 const PAGES = [
   {
-    headline: 'No false promises',
+    headline: 'Everything the FE Civil tests',
     body:
-      'We track concept mastery — never a "chance to pass," because nobody can promise that. ' +
-      "Master what drives the questions, however they're worded, and you walk in ready.",
+      'All 15 NCEES chapters, 135 lessons, and 1,126 practice problems aligned to the FE Handbook. ' +
+      'Master the concepts behind them and you can answer the question, however the exam words it.',
     Graphic: OnbHonestRing,
   },
   {
-    headline: 'Phone reviews. Desk solves.',
+    headline: 'Practice here. Go deeper online.',
     body:
-      'The phone drills the same question bank you study at fe4raccoons.com — quick recall here, ' +
-      'lessons and full problems at your desk. Progress sync is shipping soon; for now the phone tracks your work on this device.',
+      'This app is for quick review — full lessons and exam-style problems are free at fe4raccoons.com. ' +
+      'Progress sync is coming soon; for now, your work is saved on this phone.',
     Graphic: TwoSurfacesGraphic,
   },
   {
     headline: 'Back before you forget',
     body:
-      'Each question returns right before it would fade — that timing is what makes it stick. ' +
-      'Miss one and it simply comes back sooner.',
+      "Each question comes back right before you'd forget it — that timing is what makes it stick. " +
+      'Miss one and it just comes back sooner.',
     Graphic: SpacedReturnGraphic,
   },
   {
-    headline: 'Short. Bounded. Honest.',
+    headline: 'Done means done',
     body:
-      'A session is a fixed set, not a feed — done means done. You grade your own recall, ' +
-      "and honest grades are what make tomorrow's schedule right.",
+      'Each session is a short, fixed set of questions — no endless feed. ' +
+      'You rate how well you remembered each one, and that sets when it comes back.',
     Graphic: OnbBoundedSession,
   },
 ] as const;
