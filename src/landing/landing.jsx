@@ -119,7 +119,7 @@ export function Landing({ userName }) {
             You need targeted practice on exactly what the exam tests.
           </p>
           <button className="hero-cta" onClick={() => navigate('/login')}>
-            Get Started
+            Get started
             <ArrowRight weight="bold" size={18} />
           </button>
           <p className="hero-login-row">
@@ -531,7 +531,7 @@ export function Landing({ userName }) {
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> No time limits or expiry</li>
               </ul>
               <button className="pricing-btn pricing-btn--free" onClick={() => navigate('/login')}>
-                Get Started Free
+                Get started free
                 <ArrowRight weight="bold" size={16} />
               </button>
             </div>

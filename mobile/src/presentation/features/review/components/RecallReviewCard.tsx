@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { Text } from '@/presentation/ui/Text';
 import { MathText } from '@/presentation/ui/math/MathText';
 import { Overline } from '@/presentation/ui/Overline';
@@ -30,7 +30,9 @@ export function RecallReviewCard({ item, onGraded }: Props) {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
+      {/* the whole question area flips the card — a precise button press is
+          unforgiving on a moving bus; the Reveal button stays as the affordance */}
+      <Pressable style={{ flex: 1 }} disabled={revealed} onPress={() => setRevealed(true)}>
         <Overline color={interactionColor(item.interaction, theme)}>
           {interactionLabel(item.interaction)}
         </Overline>
@@ -67,10 +69,10 @@ export function RecallReviewCard({ item, onGraded }: Props) {
           </FadeIn>
         ) : (
           <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 20 }}>
-            Recall it in your head, then reveal.
+            Recall it in your head, then tap to reveal.
           </Text>
         )}
-      </View>
+      </Pressable>
 
       <View style={{ paddingVertical: 16 }}>
         {revealed ? <GradeButtons onGrade={onGraded} /> : <Button label="Reveal" onPress={() => setRevealed(true)} />}
