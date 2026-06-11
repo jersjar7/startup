@@ -1,6 +1,7 @@
 # Progress Sync — One Brain, Two Surfaces
 
-**Status:** draft v1 (for persona review)
+**Status:** v2 — panel-reviewed (5-persona user study, 2026-06-10; see
+`feedback-backlog.md` for the prioritized findings)
 **Decides:** how the website (desk) and the phone app (pocket) share one
 account and one progress state.
 
@@ -32,14 +33,39 @@ Sync **events**, derive state. Never sync computed state — recompute it.
 
 | Signal | Synced? | How |
 |---|---|---|
-| Review events (item id, grade, timestamp, source) | ✅ | append-only event log |
-| Study-day record (for streak) | ✅ | derived from events' local-date |
-| Diagnostic familiarity (per chapter) | ✅ | latest-wins per chapter, keep max |
-| Exam date | ✅ | already a web profile field — single source |
-| Daily pace (minutes/day) | ✅ | last-write-wins |
+| Review events (item id, grade, timestamp, source, **localDate**) | ✅ | append-only event log |
+| Study-day record (for streak) | ✅ | derived from events' localDate, server-computed |
+| Diagnostic familiarity (per chapter) | ✅ | keep-max per chapter (seed-only; quickly dominated by real events — show provenance: "from your June 10 phone diagnostic") |
+| Exam date | ✅ | web profile is the source; on first sign-in with a differing local value, ask once which is right (it drives all pacing math — never silently clobber) |
+| Daily pace (minutes/day) | ✅ | last-write-wins; same ask-once rule at first sign-in |
+| Paper hand-off flags (`flaggedForPaper`) | ✅ | event type — phone misses flag their parent problems for the web's desk queue |
 | Sound/reminder settings | ❌ | device-local by nature |
-| SM-2 schedule (due dates, intervals) | ❌ | recomputed deterministically from the event log |
-| Mastery / readiness | ❌ | derived on each surface from the same events |
+| Schedule (due dates, intervals) | ❌ | recomputed from the event log by ONE shared scheduler (below) |
+| Mastery / XP / streak number | ❌ | derived from the merged log — never stored, never synced |
+
+**One scheduler, not two.** The web's Daily Review queue
+(`service/scheduling.js`) and the phone's SM-2 are today two different
+algorithms. Sync v1 extracts ONE versioned scheduling module (plain JS, shared
+web + RN, version-stamped into events) so "due" is computed identically
+everywhere, with explicit mapping between card-level events
+(`math-slq-q1:cc`) and the web's parent-problem queue. Written invariant:
+**an item graded on surface A is never due on surface B the same local day.**
+If the full unification slips, the v1 floor is dedupe — drop from a surface's
+due list any item with a same-day review event from the other surface.
+
+**XP is derived, like mastery.** XP-per-event-type is defined once in the
+shared spec and recomputed from the merged log (uuid-dedupe makes replay
+safe), with a per-day cap per source so card-grinding on the couch can't
+outscore desk problem-solving on the leaderboard. Phone work earning 0 XP and
+farmable boards are both bugs.
+
+**Streak rules (defined once, here):** a day qualifies when one *completed
+bounded session* happened (per the North Star's bounded-session rule — not one
+throwaway card). Every event carries a client-supplied `localDate` (web too —
+server UTC would break 11:50pm sessions); streak credit always uses the
+event's recorded localDate regardless of when it syncs (offline Tuesday synced
+Wednesday still counts Tuesday). The server computes the streak from the
+merged log; both clients render the server's number.
 
 **Why events:** merging is trivial and conflict-free. Two devices offline at
 once just produce two event sets; union them, sort by timestamp, recompute
@@ -84,16 +110,45 @@ receive time; familiarity = max per chapter; events = set-union by uuid.
 - Web lesson flow emits events into the same collection (closing the known
   mastery-model gap — studyScore — becomes part of this work).
 
-## Phasing
+## Phasing (revised after panel review)
 
-- **v1 — account + one log:** mobile login; event push/pull; shared streak;
-  shared exam date; local merge on sign-in. Web *emits* events but its mastery
-  display is unchanged.
-- **v2 — one mastery:** web mastery model consumes review events; phone
-  consumes web-sourced events into its schedule; shared diagnostic
-  familiarity.
-- **v3 — polish:** sync status UI, multi-device niceties, account management
-  on phone (delete account parity for store compliance).
+The panel unanimously rejected a silent v1 ("web display unchanged" = the
+betrayal scenario). The bar for v1 is the **Tuesday test**: 25 phone minutes
+at lunch must be visible on the web that evening.
+
+- **v0 — fix the foundation (prereq):** wire web `studyScore` so studying
+  moves web mastery at all (the known gap). Syncing phone events into a
+  mastery model the website itself doesn't update replicates a lie to a
+  second screen. Ships before or with v1, never after.
+- **v1 — account + one log + same-day visibility:** mobile login
+  (account-first onboarding: "Already use fe4raccoons.com? Sign in" on screen
+  one; after sign-in pull exam date/pace/familiarity, skip the mobile
+  diagnostic, confirm the import — never greet a paying user with a zero
+  ring); event push/pull; ONE shared scheduler (or at minimum the same-day
+  dedupe invariant); shared server-computed streak; same-evening web
+  visibility: streak ticked, due-queue decremented, and a dashboard activity
+  line ("Today on your phone: 12 cards, 8 min, 3 misses in Surveying — synced
+  12:42").
+- **v2 — one mastery + the hand-off:** one metric, one name, one formula on
+  both surfaces (replacing web "Exam Readiness" tiers); `flaggedForPaper`
+  events feed a web "Tonight" card ("From your phone today: 3 trap concepts →
+  5 full problems in Water Resources, ~40 min"); daily-pace *progress* derives
+  from the shared log so "Done for today" is true on both surfaces; mastery
+  drops are attributed ("Surveying −4%: station-notation trap missed 3× on
+  phone") and paired with a repair action.
+- **v3 — polish:** visible sync state ("last synced 12:42 from iPhone");
+  live dashboard refresh over the existing /ws channel when phone events
+  land; home-screen widget (streak + countdown + due count); account deletion
+  on phone (store compliance).
+
+## Reset semantics
+
+Set-union-by-uuid cannot represent deletion, so "Reset progress" on a synced
+account must be scoped: **"Reset this device — your account progress is
+safe"** (clear local cache, re-pull on next sync). Account-wide reset, if ever
+offered, requires a tombstone/epoch mechanism in the event protocol plus typed
+confirmation — specified together with the account-deletion work, not
+improvised.
 
 ## Store-compliance note
 
@@ -102,12 +157,21 @@ answers change (email, progress), and Apple requires **in-app account
 deletion** if accounts can be created in-app. The web deletion pipeline
 already covers all collections; mobile needs the button.
 
-## Open questions (for persona review)
+## Closed questions (panel verdicts, 2026-06-10 — all unanimous or consensus)
 
-1. Should a *wrong* answer on the phone visibly lower web mastery, or only
-   slow its growth? (Honesty vs. discouragement.)
-2. Is login required up-front, or after the first session ("try, then keep
-   your progress")?
-3. What does the user expect to see *immediately* after switching surfaces
-   mid-day — same-day session continuation, or independent daily sessions?
-4. Does the paid tier gate sync? (Freemium boundary placement.)
+1. **Wrong answers visibly lower web mastery — small, capped, attributed,
+   paired with a repair action.** Slower-growth-only was rejected as "lying by
+   omission"; the betrayal otherwise arrives on exam day. Cap per-day movement
+   from any single surface, drop 2–4 points per cause, and always attach the
+   why + the fix. Discouragement comes from opacity, not truth.
+2. **Login offered on screen one, never required.** Guest try-then-keep stays
+   the default for new users; existing users must be able to sign in *before*
+   pace + diagnostic, or "diagnostics don't repeat" is unreachable.
+3. **Same-day continuation — one continuing day, one plan, partially
+   completable on either surface.** Independent daily quotas = "two products
+   wearing one logo" / double-billing the user's time.
+4. **Sync is free, forever, in writing.** The live landing page already
+   promises "the whole platform is free … and spaced repetition"; gating sync
+   would be a published-copy bait-and-switch. Monetize depth on top of unified
+   state (exam simulation, advanced analytics) — never the continuity of a
+   user's own progress.
