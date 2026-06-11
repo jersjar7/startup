@@ -4,7 +4,7 @@ import {
   ArrowMarkerDefs, ForceArrow, AngleArc, DashedLine, Label,
 } from './primitives';
 
-export function BlockOnRamp({ weight = 800, angle = 25, mu = 0.50 }) {
+export function BlockOnRamp({ weight = 800, angle = 25, mu = 0.50, showPush = true }) {
   const b = basis(angle);
 
   // Ramp geometry
@@ -72,19 +72,21 @@ export function BlockOnRamp({ weight = 800, angle = 25, mu = 0.50 }) {
         W
       </Label>
 
-      {/* Horizontal push P */}
-      <ForceArrow x1={pushStart.x} y1={pushStart.y}
-        x2={pushEnd.x} y2={pushEnd.y}
-        color="var(--ember)" strokeWidth={2} markerId="arrowEmber" />
-      <Label x={pushStart.x - 8} y={pushStart.y}
-        color="var(--ember)" bold fontSize={12} anchor="end">
-        P
-      </Label>
-
-      {/* Dashed horizontal reference through block center */}
-      <DashedLine x1={pushEnd.x} y1={blockCenter.y}
-        x2={blockCenter.x + 40} y2={blockCenter.y}
-        color="var(--gray-400)" dasharray="3,3" />
+      {/* Horizontal push P — only when the problem statement applies one */}
+      {showPush && (
+        <>
+          <ForceArrow x1={pushStart.x} y1={pushStart.y}
+            x2={pushEnd.x} y2={pushEnd.y}
+            color="var(--ember)" strokeWidth={2} markerId="arrowEmber" />
+          <Label x={pushStart.x - 8} y={pushStart.y}
+            color="var(--ember)" bold fontSize={12} anchor="end">
+            P
+          </Label>
+          <DashedLine x1={pushEnd.x} y1={blockCenter.y}
+            x2={blockCenter.x + 40} y2={blockCenter.y}
+            color="var(--gray-400)" dasharray="3,3" />
+        </>
+      )}
 
     </svg>
   );

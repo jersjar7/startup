@@ -48,18 +48,37 @@ export function MathText({ children, variant = 'body', color, style, ...rest }: 
   }
 
   // Mixed prose + math: wrap word-by-word so typeset runs flow with the text.
-  const items: { kind: 'word' | 'math'; value: string }[] = [];
+  // Punctuation directly after a math run stays flush against it — "Q(8, 7) ."
+  // reads as a typo.
+  const items: { kind: 'word' | 'math'; value: string; suffix?: string }[] = [];
   for (const seg of segments) {
-    if (isMath(seg)) items.push({ kind: 'math', value: tex(seg) });
-    else for (const w of seg.split(/\s+/).filter(Boolean)) items.push({ kind: 'word', value: w });
+    if (isMath(seg)) {
+      items.push({ kind: 'math', value: tex(seg) });
+      continue;
+    }
+    let rest = seg;
+    const last = items[items.length - 1];
+    if (last?.kind === 'math') {
+      const m = rest.match(/^\s*([.,;:!?)\]%]+)/);
+      if (m) {
+        last.suffix = m[1];
+        rest = rest.slice(m[0].length);
+      }
+    }
+    for (const w of rest.split(/\s+/).filter(Boolean)) items.push({ kind: 'word', value: w });
   }
 
   return (
     <View style={[{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }, style as StyleProp<TextStyle>]}>
       {items.map((it, i) =>
         it.kind === 'math' ? (
-          <View key={i} style={{ marginRight: 4, marginVertical: 1 }}>
+          <View key={i} style={{ flexDirection: 'row', alignItems: 'center', marginRight: 4, marginVertical: 1 }}>
             <MathRun tex={it.value} fontSize={fontSize} color={ink} />
+            {it.suffix ? (
+              <Text variant={variant} color={color} style={{ fontSize, lineHeight }}>
+                {it.suffix}
+              </Text>
+            ) : null}
           </View>
         ) : (
           <Text key={i} variant={variant} color={color} style={{ fontSize, lineHeight, marginRight: 4 }}>

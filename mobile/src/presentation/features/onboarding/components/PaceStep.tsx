@@ -77,7 +77,7 @@ export function PaceStep({ examDate, minutesPerDay, onChange }: Props) {
               ~{plan.projection.projectedPercent}%
             </Text>
             <Text variant="sub" color={theme.palette.ink3} style={{ marginBottom: 4 }}>
-              concept mastery by {formatDate(dayBefore(examDate))}
+              mastery by {formatDate(dayBefore(examDate))} — the day before your exam
             </Text>
           </View>
           <View style={{ marginTop: 12 }}>
@@ -87,7 +87,7 @@ export function PaceStep({ examDate, minutesPerDay, onChange }: Props) {
             {projectionCaption(plan.projection.projectedPercent)}
           </Text>
           <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 6 }}>
-            {formatDate(examDate)} stays light — review, rest, walk in ready.
+            Exam day ({formatDate(examDate)}) stays light — review, rest, walk in ready.
           </Text>
         </Card>
       ) : null}

@@ -1,6 +1,6 @@
 {
  "math-slq-q1:fc": {
-  "answer": "$Grade (\\%) = rise/run \\times 100$, where $rise/run = \\frac{y_2 - y_1}{x_2 - x_1}$. Rise and run must be in the same units — convert stations to feet first (station 3+00 = 300 ft) (p. 36)"
+  "answer": "$\\text{Grade}(\\%) = \\frac{\\text{rise}}{\\text{run}} \\times 100$, where $\\frac{\\text{rise}}{\\text{run}} = \\frac{y_2 - y_1}{x_2 - x_1}$. Rise and run must be in the same units — convert stations to feet first (station 3+00 = 300 ft) (p. 36)"
  },
  "math-slq-q2:fc": {
   "answer": "$m_1 = -\\frac{1}{m_2}$ — flip the fraction AND negate. Applied to m = 2/3: the perpendicular slope is $-\\frac{3}{2}$ (p. 36)"

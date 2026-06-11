@@ -116,6 +116,13 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
             Step {step} of {TOTAL - 1}
           </Overline>
         ) : null}
+        {onIntro && !lastIntroPage ? (
+          <Pressable onPress={() => setStep(1)} hitSlop={12} style={{ marginLeft: 'auto' }}>
+            <Text variant="sub" color={theme.palette.ink3}>
+              Skip
+            </Text>
+          </Pressable>
+        ) : null}
       </View>
 
       <View style={{ flex: 1 }}>

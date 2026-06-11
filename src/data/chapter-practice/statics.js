@@ -292,7 +292,8 @@ const PROBLEMS = [
       'Reporting $\\mu_s N$ when the block is not on the verge of sliding',
       'Using $\\mu_s W$ instead of $\\mu_s W\\cos\\theta$ for the maximum friction',
     ],
-    diagram: { component: 'BlockOnRamp', props: { weight: 400, angle: 20, mu: 0.40 } },
+    // No applied force in this stem — suppress the P arrow (figure-text drift)
+    diagram: { component: 'BlockOnRamp', props: { weight: 400, angle: 20, mu: 0.40, showPush: false } },
     lessonId: 'friction',
     chapterId: 'statics',
   },
