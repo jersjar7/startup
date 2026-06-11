@@ -63,7 +63,8 @@
 .hero-subtitle {
   font-size: 1rem;
   font-weight: 400;
-  color: var(--gray-500);
+  /* ~5.1:1 on cream — gray-500 sat a hair under WCAG AA at body size */
+  color: #6b675e;
   line-height: 1.6;
   max-width: 400px;
   margin-bottom: 2rem;

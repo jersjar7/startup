@@ -4,4 +4,7 @@
 export interface ReminderRepository {
   getMinutes(): Promise<number | null>;
   setMinutes(minutes: number | null): Promise<void>;
+  /** Whether the one-time post-first-session reminder offer was shown. */
+  wasOffered(): Promise<boolean>;
+  markOffered(): Promise<void>;
 }

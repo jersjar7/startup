@@ -19,12 +19,14 @@ const PRESETS: { label: string; days: number }[] = [
 interface Props {
   value: string | null;
   onChange: (examDate: string) => void;
+  /** Presets auto-advance (one tap, nothing else to decide on this screen). */
+  onAdvance?: () => void;
 }
 
 const toIso = (d: Date): string =>
   `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 
-export function ExamDateStep({ value, onChange }: Props) {
+export function ExamDateStep({ value, onChange, onAdvance }: Props) {
   const theme = useTheme();
   const [mode, setMode] = useState<'exact' | 'unscheduled' | null>(null);
   const [presetIdx, setPresetIdx] = useState<number | null>(null);
@@ -40,6 +42,8 @@ export function ExamDateStep({ value, onChange }: Props) {
     setMode('unscheduled');
     setPresetIdx(i);
     onChange(toIso(new Date(Date.now() + PRESETS[i].days * DAY)));
+    // brief selected-state beat, then continue — the second tap was pure overhead
+    setTimeout(() => onAdvance?.(), 260);
   };
 
   return (

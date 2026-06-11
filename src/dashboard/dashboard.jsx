@@ -4,6 +4,7 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import {
   Lightning,
   DeviceMobile,
+  CheckCircle,
   Fire,
   Timer,
   Trophy,
@@ -560,6 +561,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                     <div key={badge.id} className={`badge-row${earned ? ' badge-row--earned' : ''}`} title={badge.description}>
                       <span className="badge-name">{badge.name}</span>
                       <span className="badge-desc">{badge.description}</span>
+                      {/* earned must be verifiable at a glance, not color-only */}
+                      {earned && <CheckCircle weight="bold" size={16} className="badge-check" />}
                     </div>
                   );
                 })}

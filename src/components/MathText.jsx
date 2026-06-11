@@ -14,6 +14,20 @@ export function MathText({ text }) {
     <span>
       {parts.map((part, i) => {
         if (i % 2 === 1) {
+          // Plain numeric values (no real math notation) read better in the
+          // brand's mono than in KaTeX's serif — matches the phone app.
+          const isPlainValue =
+            /\d/.test(part) && // must be a value, not a lone variable
+            /^[\d\s.,+\-%():\/a-zA-Z°·]*$/.test(part) &&
+            !/\\|\^|_|\{/.test(part) &&
+            !/[a-zA-Z]{7,}/.test(part); // long words are prose, not units
+          if (isPlainValue) {
+            return (
+              <span key={i} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.95em' }}>
+                {part}
+              </span>
+            );
+          }
           // Math segment — render with KaTeX
           try {
             const html = katex.renderToString(part, { throwOnError: false });

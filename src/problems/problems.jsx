@@ -40,6 +40,8 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
   useDocumentTitle(reviewMode ? 'Daily Review' : topicName || 'Practice');
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [selectedChoice, setSelectedChoice] = React.useState(null);
+  const [sessionXp, setSessionXp] = React.useState(0);
+  const [xpFloat, setXpFloat] = React.useState(null);
   const [reviewed, setReviewed] = React.useState(false);
   const [answers, setAnswers] = React.useState([]);
   const [summary, setSummary] = React.useState(null);
@@ -150,6 +152,13 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
   const handleSubmit = () => {
     if (selectedChoice === null) return;
     setReviewed(true);
+    // Close the loop where XP is earned: mirror the server's per-answer award
+    // (+10 correct / +5 attempted) live in the session header.
+    const problem = problems[currentIndex];
+    const gained = selectedChoice === problem.correctChoiceId ? 10 : 5;
+    setSessionXp((x) => x + gained);
+    setXpFloat(gained);
+    setTimeout(() => setXpFloat(null), 700);
   };
 
   const handleNext = () => {
@@ -427,15 +436,24 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
           {backLabel}
         </a>
         <h1>{topicName}</h1>
-        {/* account actions live on Profile — never inside a study session */}
+        {/* XP earns visibly where the work happens */}
+        <span className="session-xp-chip">
+          <Lightning weight="bold" size={14} />
+          {sessionXp} XP
+          {xpFloat !== null && <span className="xp-float">+{xpFloat}</span>}
+        </span>
       </div>
 
       <section className="progress-bar-section">
-        <div className="progress-bar">
-          <div
-            className="progress-fill"
-            style={{ width: `${((currentIndex + (reviewed ? 1 : 0)) / problems.length) * 100}%` }}
-          />
+        {/* segmented like the mobile session header — a continuous empty bar
+            read as a skeleton at problem 1 */}
+        <div className="progress-segments">
+          {problems.map((_, i) => (
+            <span
+              key={i}
+              className={`progress-seg${i < currentIndex + (reviewed ? 1 : 0) ? ' progress-seg--done' : ''}`}
+            />
+          ))}
         </div>
         <span className="progress-label">Problem {currentIndex + 1} of {problems.length}</span>
       </section>

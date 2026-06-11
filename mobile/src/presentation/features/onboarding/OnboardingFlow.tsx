@@ -128,7 +128,7 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
 
       <View style={{ flex: 1 }}>
         {step === 0 ? <IntroPager page={introPage} /> : null}
-        {step === 1 ? <ExamDateStep value={examDate} onChange={setExamDate} /> : null}
+        {step === 1 ? <ExamDateStep value={examDate} onChange={setExamDate} onAdvance={() => setStep(2)} /> : null}
         {step === 2 && examDate ? (
           <>
             {imported ? (

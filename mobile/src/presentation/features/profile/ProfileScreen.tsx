@@ -104,9 +104,6 @@ export function ProfileScreen() {
             <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 2 }}>
               {masteredCount} of {topicCount} chapters mastered
             </Text>
-            <Text variant="sub" color={theme.palette.ink4} style={{ marginTop: 7, fontSize: 11, lineHeight: 15 }}>
-              How well you know the concepts the FE tests, tracked on this phone. Never a pass probability.
-            </Text>
           </View>
         </Card>
       </View>

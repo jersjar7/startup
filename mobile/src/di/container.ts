@@ -45,6 +45,7 @@ import { ResetAllProgress } from '@/domain/usecases/ResetAllProgress';
 import { GetDiagnosticQuestions } from '@/domain/usecases/GetDiagnosticQuestions';
 import { SubmitDiagnostic } from '@/domain/usecases/SubmitDiagnostic';
 import { GetReminder } from '@/domain/usecases/GetReminder';
+import { ShouldOfferReminder } from '@/domain/usecases/ShouldOfferReminder';
 import { SetReminder } from '@/domain/usecases/SetReminder';
 import { GetSoundEnabled } from '@/domain/usecases/GetSoundEnabled';
 import { SetSoundEnabled } from '@/domain/usecases/SetSoundEnabled';
@@ -74,6 +75,7 @@ export interface UseCases {
   readonly getDiagnosticQuestions: GetDiagnosticQuestions;
   readonly submitDiagnostic: SubmitDiagnostic;
   readonly getReminder: GetReminder;
+  readonly shouldOfferReminder: ShouldOfferReminder;
   readonly setReminder: SetReminder;
   readonly getSoundEnabled: GetSoundEnabled;
   readonly setSoundEnabled: SetSoundEnabled;
@@ -141,6 +143,7 @@ export function createUseCases(): UseCases {
     getDiagnosticQuestions: new GetDiagnosticQuestions(chapters, problems),
     submitDiagnostic: new SubmitDiagnostic(diagnostic, reviews, scheduler, outbox, eventSource),
     getReminder: new GetReminder(reminderRepo),
+    shouldOfferReminder: new ShouldOfferReminder(reminderRepo),
     setReminder: new SetReminder(reminderRepo, reminderScheduler),
     getSoundEnabled: new GetSoundEnabled(soundRepo),
     setSoundEnabled: new SetSoundEnabled(soundRepo),

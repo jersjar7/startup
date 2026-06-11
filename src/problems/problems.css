@@ -368,3 +368,47 @@
     font-size: 1.25rem;
   }
 }
+
+/* ── In-session XP (the loop closes where XP is earned) ── */
+.session-xp-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--sunbeam-bg, #fef7e0);
+  color: var(--charcoal);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+}
+.xp-float {
+  position: absolute;
+  right: 0;
+  top: -2px;
+  color: #b7860b;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.8rem;
+  animation: xp-rise 0.7s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes xp-rise {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-18px); opacity: 0; }
+}
+
+/* segmented progress (matches the mobile session header) */
+.progress-segments {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+}
+.progress-seg {
+  flex: 1;
+  height: 4px;
+  border-radius: 3px;
+  background: var(--cream-dark, #f5ede0);
+}
+.progress-seg--done { background: var(--ember); }

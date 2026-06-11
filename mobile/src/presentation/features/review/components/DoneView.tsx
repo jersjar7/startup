@@ -40,6 +40,10 @@ export function DoneView({ reviewed, misses, streak, onClose }: Props) {
     // Quiet streak-protection nudge — only while reminders are off, at the
     // moment motivation peaks. Disappears forever once a reminder exists.
     void uc.getReminder.execute().then((h) => setReminderOff(h === null));
+    // One-time offer after the very first completed session (then never again).
+    void uc.shouldOfferReminder.execute().then((offer) => {
+      if (offer) setPicking(true);
+    });
   }, [uc]);
 
   return (

@@ -118,6 +118,15 @@ sync layers tracked as items 6-11 in the owner's list (one mastery number,
 XP table, flaggedForPaper/Tonight card, sync-state UI, merge prompt,
 settings write-back).
 
+## Deliberate punts (owner-visible)
+- **Web mastery decay** (item 26): NOT implemented, on purpose. Turning on
+  decay silently drops every user's numbers platform-wide; the curve needs
+  owner sign-off first, and "drop attribution" (panel verdict on visible
+  drops) ships with it. The scoring modal correctly never claims decay.
+- **Drop attribution** ("Surveying −4%: trap missed 3×"): blocked on decay —
+  mastery currently can't go down (max() formula), so there's nothing to
+  attribute yet.
+
 ## Loop log
 
 - **Round 1 (2026-06-10):** panel ran; spec amended (scheduler unification,

@@ -3,6 +3,7 @@ import type { KeyValueStore } from '../sources/storage/KeyValueStore';
 
 const KEY = 'reminder:minutes';
 const LEGACY_HOUR_KEY = 'reminder:hour';
+const OFFERED_KEY = 'reminder:offered';
 
 export class ReminderRepositoryImpl implements ReminderRepository {
   constructor(private readonly store: KeyValueStore) {}
@@ -25,6 +26,14 @@ export class ReminderRepositoryImpl implements ReminderRepository {
       }
     }
     return null;
+  }
+
+  async wasOffered(): Promise<boolean> {
+    return (await this.store.get(OFFERED_KEY)) === '1';
+  }
+
+  async markOffered(): Promise<void> {
+    await this.store.set(OFFERED_KEY, '1');
   }
 
   async setMinutes(minutes: number | null): Promise<void> {

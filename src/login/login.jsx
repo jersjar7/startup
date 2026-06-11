@@ -159,7 +159,7 @@ export function Login({ userName, onLogin }) {
     <main className="login-main">
       <div className="login-form-container">
         <h2>Welcome to FE&nbsp;for&nbsp;Raccoons</h2>
-        <p className="login-subtitle">Create your free account, or log in to pick up where you left off.</p>
+        <p className="login-subtitle">Log in or create a free account.</p>
         {sessionExpired && (
           <p role="status" style={{ background: 'var(--sunbeam-bg)', color: 'var(--charcoal)', padding: '0.6rem 0.8rem', borderRadius: '8px', fontSize: '0.85rem', marginBottom: '0.75rem' }}>
             Your session expired — please sign in again.
