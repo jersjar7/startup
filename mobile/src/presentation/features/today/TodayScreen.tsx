@@ -19,6 +19,11 @@ export function TodayScreen() {
   const theme = useTheme();
   const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { loading, mastery, plan, session, streak, chapterNames, week, reload } = useTodayViewModel();
+  // Display rule: the streak number never exceeds what the dots show — today
+  // counts only once its queue is done (WeekStrip applies the same rule).
+  const todayStudied = week.length > 0 && week[week.length - 1].studied;
+  const todayComplete = session != null && session.items.length === 0;
+  const displayStreak = todayStudied && !todayComplete ? Math.max(0, streak - 1) : streak;
 
   // Recompute mastery + session when returning from a review session.
   useFocusEffect(
@@ -60,7 +65,7 @@ export function TodayScreen() {
             {plan ? `${plan.daysUntilExam} days to your exam` : 'Set your exam date'}
           </Text>
         </View>
-        {streak > 0 ? (
+        {displayStreak > 0 ? (
           <View
             style={{
               flexDirection: 'row',
@@ -77,7 +82,7 @@ export function TodayScreen() {
               <Path d="M173.8 32.3a8 8 0 0 0-12.6 3.2c-9 24-25 38.6-39.4 51.6-15.7 14.2-30.6 27.6-30.6 49 0 10 3 18.6 7.8 25.4-13-3.8-23-13.6-27.8-27a8 8 0 0 0-13.4-3C45.3 146.3 40 165 40 184a88 88 0 0 0 176 0c0-62.7-31.6-119.6-42.2-151.7" />
             </Svg>
             <Text variant="title" color={theme.palette.sunbeamInk} style={{ fontSize: 14 }}>
-              {streak}
+              {displayStreak}
             </Text>
           </View>
         ) : null}

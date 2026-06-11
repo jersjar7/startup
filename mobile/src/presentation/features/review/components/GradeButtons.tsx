@@ -19,15 +19,10 @@ export function GradeButtons({ onGrade }: { onGrade: (g: ReviewGrade) => void })
       <View style={{ flexDirection: 'row', gap: 10 }}>
         <Button label="Forgot" variant="ghost" style={{ flex: 1 }} onPress={() => onGrade('forgot')} />
         <Button label="Fuzzy" variant="ghost" style={{ flex: 1 }} onPress={() => onGrade('fuzzy')} />
-        {/* same geometry as its siblings; forest tint keeps success semantic
-            without the filled-button nudge toward grade inflation */}
-        <Button
-          label="Got it"
-          variant="ghost"
-          accentColor={theme.palette.forest}
-          style={{ flex: 1 }}
-          onPress={() => onGrade('gotIt')}
-        />
+        {/* identical at rest — pre-emphasizing any grade nudges the answer to
+            "How well did you know it?"; feedback comes from haptics, the tick,
+            and the progress dots, not a privileged button */}
+        <Button label="Got it" variant="ghost" style={{ flex: 1 }} onPress={() => onGrade('gotIt')} />
       </View>
     </View>
   );

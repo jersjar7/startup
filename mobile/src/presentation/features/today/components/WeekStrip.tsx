@@ -18,15 +18,19 @@ interface Props {
 // Seven quiet day dots — the chain made visible without confetti.
 export function WeekStrip({ days, todayComplete = false, streak = 0 }: Props) {
   const theme = useTheme();
+  // The number must equal what the dots show — today only counts once its
+  // queue is done. The label and the strip may never disagree.
+  const todayStudied = days.length > 0 && days[days.length - 1].studied;
+  const displayStreak = todayStudied && !todayComplete ? Math.max(0, streak - 1) : streak;
   return (
     <Card style={{ marginTop: 12 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
         <Text variant="overline" color={theme.palette.ink3}>
           Streak
         </Text>
-        {streak > 0 ? (
+        {displayStreak > 0 ? (
           <Text variant="mono" style={{ fontSize: 14 }}>
-            {streak} {streak === 1 ? 'day' : 'days'}
+            {`${displayStreak} ${displayStreak === 1 ? 'day' : 'days'}`}
           </Text>
         ) : null}
       </View>
@@ -62,6 +66,11 @@ export function WeekStrip({ days, todayComplete = false, streak = 0 }: Props) {
         );
       })}
       </View>
+      {todayStudied && !todayComplete && streak > 0 ? (
+        <Text variant="sub" color={theme.palette.ink4} style={{ marginTop: 10 }}>
+          Finish today's review to make it {streak}.
+        </Text>
+      ) : null}
     </Card>
   );
 }
