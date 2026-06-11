@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Switch } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Screen } from '@/presentation/ui/Screen';
 import { Text } from '@/presentation/ui/Text';
@@ -53,7 +53,7 @@ export function ProfileScreen() {
   const theme = useTheme();
   const uc = useUseCases();
   const restart = useAppRestart();
-  const { loading, overall, masteredCount, topicCount, prefs, reminderHour, reload, update, setReminder } =
+  const { loading, overall, masteredCount, topicCount, prefs, reminderHour, soundEnabled, reload, update, setReminder, setSound } =
     useProfileViewModel();
   const [editing, setEditing] = useState<Editing>(null);
   const [confirmingReset, setConfirmingReset] = useState(false);
@@ -132,6 +132,20 @@ export function ProfileScreen() {
               <Text variant="sub" color={theme.palette.ink3}>
                 {formatHour(reminderHour)}
               </Text>
+            }
+          />
+          <Divider />
+          <ListRow
+            title="Sound effects"
+            subtitle="A subtle tick when you answer"
+            right={
+              <Switch
+                value={soundEnabled}
+                onValueChange={setSound}
+                trackColor={{ false: theme.palette.line, true: theme.palette.forest }}
+                thumbColor={theme.palette.white}
+                ios_backgroundColor={theme.palette.line}
+              />
             }
           />
         </>

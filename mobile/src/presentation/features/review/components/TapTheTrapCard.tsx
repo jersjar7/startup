@@ -7,6 +7,7 @@ import { Button } from '@/presentation/ui/Button';
 import { FadeIn } from '@/presentation/ui/FadeIn';
 import { useTheme } from '@/core/theme/useTheme';
 import { haptics } from '@/core/haptics';
+import { sound } from '@/core/sound';
 import type { ProblemSessionItem } from '@/domain/entities/session';
 import type { ReviewGrade } from '@/domain/entities/review';
 
@@ -54,8 +55,13 @@ export function TapTheTrapCard({ item, onGraded }: Props) {
                 disabled={answered}
                 onPress={() => {
                   setPicked(ch.id);
-                  if (ch.id === item.correctChoiceId) haptics.success();
-                  else haptics.error();
+                  if (ch.id === item.correctChoiceId) {
+                    haptics.success();
+                    sound.correct();
+                  } else {
+                    haptics.error();
+                    sound.incorrect();
+                  }
                 }}
                 style={{
                   borderRadius: 13,

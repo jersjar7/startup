@@ -13,10 +13,13 @@ import { StreakRepositoryImpl } from '@/data/repositories/StreakRepositoryImpl';
 import { AppDataRepositoryImpl } from '@/data/repositories/AppDataRepositoryImpl';
 import { DiagnosticRepositoryImpl } from '@/data/repositories/DiagnosticRepositoryImpl';
 import { ReminderRepositoryImpl } from '@/data/repositories/ReminderRepositoryImpl';
+import { SoundRepositoryImpl } from '@/data/repositories/SoundRepositoryImpl';
 import { Sm2Scheduler } from '@/data/services/Sm2Scheduler';
 import { ConceptMasteryPolicy } from '@/data/services/ConceptMasteryPolicy';
 import { AdaptivePacingPolicy } from '@/data/services/AdaptivePacingPolicy';
 import { ExpoReminderScheduler } from '@/data/services/ExpoReminderScheduler';
+import { ExpoSoundEngine } from '@/data/services/ExpoSoundEngine';
+import { sound } from '@/core/sound';
 
 import { GetDailySession } from '@/domain/usecases/GetDailySession';
 import { ComputeStudyPlan } from '@/domain/usecases/ComputeStudyPlan';
@@ -35,6 +38,8 @@ import { GetDiagnosticQuestions } from '@/domain/usecases/GetDiagnosticQuestions
 import { SubmitDiagnostic } from '@/domain/usecases/SubmitDiagnostic';
 import { GetReminder } from '@/domain/usecases/GetReminder';
 import { SetReminder } from '@/domain/usecases/SetReminder';
+import { GetSoundEnabled } from '@/domain/usecases/GetSoundEnabled';
+import { SetSoundEnabled } from '@/domain/usecases/SetSoundEnabled';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
@@ -54,6 +59,8 @@ export interface UseCases {
   readonly submitDiagnostic: SubmitDiagnostic;
   readonly getReminder: GetReminder;
   readonly setReminder: SetReminder;
+  readonly getSoundEnabled: GetSoundEnabled;
+  readonly setSoundEnabled: SetSoundEnabled;
 }
 
 export function createUseCases(): UseCases {
@@ -78,6 +85,11 @@ export function createUseCases(): UseCases {
   const appData = new AppDataRepositoryImpl(store);
   const reminderRepo = new ReminderRepositoryImpl(store);
   const reminderScheduler = new ExpoReminderScheduler();
+  const soundRepo = new SoundRepositoryImpl(store);
+
+  // Wire the global sound controller: engine now, persisted on/off once loaded.
+  sound.configure(new ExpoSoundEngine(), true);
+  void soundRepo.getEnabled().then((on) => sound.setEnabled(on));
 
   // use cases
   return {
@@ -98,5 +110,7 @@ export function createUseCases(): UseCases {
     submitDiagnostic: new SubmitDiagnostic(diagnostic),
     getReminder: new GetReminder(reminderRepo),
     setReminder: new SetReminder(reminderRepo, reminderScheduler),
+    getSoundEnabled: new GetSoundEnabled(soundRepo),
+    setSoundEnabled: new SetSoundEnabled(soundRepo),
   };
 }
