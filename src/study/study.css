@@ -172,7 +172,8 @@
 
 .st-row-btn {
   display: grid;
-  grid-template-columns: 32px 20px 1fr 20px;
+  /* num · status · name · lesson-count · toggle */
+  grid-template-columns: 32px 20px minmax(0, 1fr) auto 20px;
   align-items: center;
   gap: 0.65rem;
   width: 100%;

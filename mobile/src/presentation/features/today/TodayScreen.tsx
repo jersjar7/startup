@@ -12,12 +12,13 @@ import { useTheme } from '@/core/theme/useTheme';
 import { useTodayViewModel } from './useTodayViewModel';
 import { MasteryHeroCard } from './components/MasteryHeroCard';
 import { SessionSummary } from './components/SessionSummary';
+import { WeekStrip } from './components/WeekStrip';
 import { PaperHandoffCard } from './components/PaperHandoffCard';
 
 export function TodayScreen() {
   const theme = useTheme();
   const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { loading, mastery, plan, session, streak, chapterNames, reload } = useTodayViewModel();
+  const { loading, mastery, plan, session, streak, chapterNames, week, reload } = useTodayViewModel();
 
   // Recompute mastery + session when returning from a review session.
   useFocusEffect(
@@ -101,6 +102,12 @@ export function TodayScreen() {
       <FadeIn offset={8}>
         <SessionSummary items={session.items} chapterNames={chapterNames} />
       </FadeIn>
+
+      {week.length > 0 ? (
+        <FadeIn offset={8} delay={80}>
+          <WeekStrip days={week} />
+        </FadeIn>
+      ) : null}
 
       {session.paperHandoff ? (
         <View style={{ marginTop: 16 }}>

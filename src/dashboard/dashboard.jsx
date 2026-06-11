@@ -20,7 +20,15 @@ import {
   CaretDown,
 } from '@phosphor-icons/react';
 import { CHAPTERS } from '../data/chapters';
+import { getExamWeight } from '../data/exam-bank/index';
 import { computeReadiness, computeFocusAreas, readinessLabel } from '../data/readiness';
+
+// Exam-Qs badge color encodes weight on one scale — never the chapter accent.
+function weightClass(weight) {
+  if (weight >= 11) return 'ember';
+  if (weight >= 7) return 'sunbeam';
+  return 'muted';
+}
 import { PROBLEM_COUNT } from '../data/contentStats';
 import { LoadingState } from '../components/LoadingState';
 import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
@@ -419,7 +427,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                       {pctLabel || (prog.decaying ? 'Review' : prog.masteryName)}
                     </span>
                   </div>
-                  <span className={`ch-badge-d ch-badge-d--${ch.accent}`}>{ch.qs} Qs</span>
+                  {/* badge color encodes exam weight (one scale), not the chapter's accent */}
+                  <span className={`ch-badge-d ch-badge-d--${weightClass(getExamWeight(ch.id))}`}>{ch.qs} Qs</span>
                   <ArrowRight weight="bold" size={14} className="ch-arrow" />
                 </button>
               );

@@ -116,7 +116,7 @@ export function ProfileScreen() {
             {totalReps}
           </Text>
           <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 2 }}>
-            cards reviewed
+            {totalReps === 1 ? 'card reviewed' : 'cards reviewed'}
           </Text>
         </View>
       </Card>

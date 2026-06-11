@@ -56,7 +56,7 @@ export class GetDailySession implements UseCase<GetDailySessionInput, DailySessi
       }
     }
 
-    const interleaved = interleaveByChapter(items);
+    const interleaved = spreadSiblings(interleaveByChapter(items));
     return {
       date: new Date(now).toISOString().slice(0, 10),
       items: interleaved,
@@ -72,6 +72,36 @@ export class GetDailySession implements UseCase<GetDailySessionInput, DailySessi
       ? { problemId: paper.id, chapterId: paper.chapterId, statement: paper.statement }
       : null;
   }
+}
+
+// Items derived from the same problem (math-slq-q1, :fc, :cc) must not sit
+// near each other — a formula card's reveal would answer its own trap quiz
+// moments later. Push later siblings at least MIN_GAP positions away.
+const MIN_GAP = 3;
+function parentId(id: string): string {
+  return id.split(':')[0];
+}
+function spreadSiblings(items: readonly SessionItem[]): SessionItem[] {
+  const out: SessionItem[] = [];
+  const deferred: SessionItem[] = [];
+  const lastAt = new Map<string, number>();
+  for (const it of items) {
+    const p = parentId(it.id);
+    const last = lastAt.get(p);
+    if (last !== undefined && out.length - last <= MIN_GAP) {
+      deferred.push(it);
+      continue;
+    }
+    lastAt.set(p, out.length);
+    out.push(it);
+  }
+  // Re-admit deferred items at the tail — with a bounded pool that is always
+  // the farthest available position from their sibling.
+  for (const it of deferred) {
+    lastAt.set(parentId(it.id), out.length);
+    out.push(it);
+  }
+  return out;
 }
 
 // Round-robin across chapters so consecutive items rarely share a topic.

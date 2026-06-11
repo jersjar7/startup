@@ -44,6 +44,7 @@ import { SetReminder } from '@/domain/usecases/SetReminder';
 import { GetSoundEnabled } from '@/domain/usecases/GetSoundEnabled';
 import { SetSoundEnabled } from '@/domain/usecases/SetSoundEnabled';
 import { GetReviewStats } from '@/domain/usecases/GetReviewStats';
+import { GetWeekActivity } from '@/domain/usecases/GetWeekActivity';
 import { SignIn } from '@/domain/usecases/SignIn';
 import { GetAccount } from '@/domain/usecases/GetAccount';
 import { SignOut } from '@/domain/usecases/SignOut';
@@ -69,6 +70,7 @@ export interface UseCases {
   readonly getSoundEnabled: GetSoundEnabled;
   readonly setSoundEnabled: SetSoundEnabled;
   readonly getReviewStats: GetReviewStats;
+  readonly getWeekActivity: GetWeekActivity;
   readonly signIn: SignIn;
   readonly getAccount: GetAccount;
   readonly signOut: SignOut;
@@ -127,6 +129,7 @@ export function createUseCases(): UseCases {
     getSoundEnabled: new GetSoundEnabled(soundRepo),
     setSoundEnabled: new SetSoundEnabled(soundRepo),
     getReviewStats: new GetReviewStats(reviews),
+    getWeekActivity: new GetWeekActivity(streaks),
     signIn: new SignIn(accounts, diagnostic),
     getAccount: new GetAccount(accounts),
     signOut: new SignOut(accounts),

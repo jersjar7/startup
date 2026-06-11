@@ -555,6 +555,11 @@
   color: var(--sunbeam);
 }
 
+.ch-badge-d--muted {
+  background: var(--cream-dark, #f5ede0);
+  color: var(--gray-500, #8a8378);
+}
+
 .ch-arrow {
   color: var(--gray-300);
   transition: color 0.15s ease, transform 0.15s ease;

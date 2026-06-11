@@ -64,12 +64,11 @@ function SubtopicRow({ sub, index, isExpanded, onToggle, accent, chapterId }) {
         <span className="st-num">{String(index + 1).padStart(2, '0')}</span>
         {statusIcon[status]}
         <span className="st-name">{sub.name}</span>
-        {/* collapsed rows still tell you how big the chunk is */}
-        {lessons.length > 0 && (
-          <span className="st-row-meta">
-            {lessons.length} {lessons.length === 1 ? 'lesson' : 'lessons'}
-          </span>
-        )}
+        {/* collapsed rows still tell you how big the chunk is (always rendered —
+            the 5-column row grid needs the cell even when empty) */}
+        <span className="st-row-meta">
+          {lessons.length > 0 ? `${lessons.length} ${lessons.length === 1 ? 'lesson' : 'lessons'}` : ''}
+        </span>
         <span className="st-toggle">
           {isExpanded ? <CaretUp size={16} weight="bold" /> : <CaretDown size={16} weight="bold" />}
         </span>

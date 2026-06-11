@@ -53,6 +53,11 @@ export function Login({ userName, onLogin }) {
 
   async function handleRegister() {
     setError('');
+    // The button stays tappable — an unexplained dead button reads as broken.
+    if (!acceptedTerms) {
+      setError('Check the Terms box above to create an account.');
+      return;
+    }
     if (password.length < 8 || !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
       setError('Password must be 8+ characters with uppercase, lowercase, and a number');
       return;
@@ -223,7 +228,7 @@ export function Login({ userName, onLogin }) {
               <SignIn weight="bold" size={18} />
               {submitting ? 'Logging in...' : 'Login'}
             </button>
-            <button type="button" className="btn--secondary" disabled={submitting || !(email && password) || !acceptedTerms} onClick={handleRegister}>
+            <button type="button" className="btn--secondary" disabled={submitting || !(email && password)} onClick={handleRegister}>
               <UserPlus weight="bold" size={18} />
               {submitting ? 'Please wait...' : 'Create account'}
             </button>
