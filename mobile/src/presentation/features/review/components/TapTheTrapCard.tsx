@@ -14,12 +14,15 @@ import type { ReviewGrade } from '@/domain/entities/review';
 interface Props {
   item: ProblemSessionItem;
   onGraded: (grade: ReviewGrade) => void;
+  /** Diagnostic mode hides "Spot the trap" — naming the trap primes the
+      test-taker and skews placement. Pass a neutral label instead. */
+  overlineOverride?: string;
 }
 
 // Pick a choice, then see why — the correct answer turns forest, the tempting
 // wrong pick turns red, and the explanation calls out the trap. The pick IS the
 // grade (correct → gotIt, wrong → forgot), so there's no self-grade step.
-export function TapTheTrapCard({ item, onGraded }: Props) {
+export function TapTheTrapCard({ item, onGraded, overlineOverride }: Props) {
   const theme = useTheme();
   const [picked, setPicked] = useState<string | null>(null);
   const answered = picked !== null;
@@ -28,7 +31,9 @@ export function TapTheTrapCard({ item, onGraded }: Props) {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-        <Overline color={theme.palette.ember}>Spot the trap</Overline>
+        <Overline color={overlineOverride ? theme.palette.ink3 : theme.palette.ember}>
+          {overlineOverride ?? 'Spot the trap'}
+        </Overline>
         {/* Long stems read at body scale — display size is for short prompts */}
         <MathText
           variant="h2"

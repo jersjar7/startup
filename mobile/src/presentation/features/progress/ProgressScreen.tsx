@@ -41,7 +41,7 @@ export function ProgressScreen() {
         Mastery
       </Text>
       <Text variant="sub" color={theme.palette.ink3}>
-        Mastery of the concepts the FE tests — not a probability of passing.
+        The concepts the FE tests, on this phone — not a probability of passing.
       </Text>
 
       <View style={{ marginTop: 20 }}>
@@ -51,7 +51,7 @@ export function ProgressScreen() {
           <View style={{ flex: 1 }}>
             <Text variant="title">Concept mastery</Text>
             <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 2 }}>
-              {masteryLabel(overall.state)} · {chapters.length} topics
+              {stateBreakdown(chapters.map((c) => c.mastery.state))}
             </Text>
           </View>
         </Card>
@@ -76,4 +76,15 @@ export function ProgressScreen() {
       ))}
     </Screen>
   );
+}
+
+// "2 building · 1 familiar · 12 new" — the breakdown the chapter list implies.
+function stateBreakdown(states: readonly string[]): string {
+  const order = ['mastered', 'familiar', 'building', 'new'] as const;
+  const counts = new Map<string, number>();
+  for (const s of states) counts.set(s, (counts.get(s) ?? 0) + 1);
+  return order
+    .filter((s) => (counts.get(s) ?? 0) > 0)
+    .map((s) => `${counts.get(s)} ${s}`)
+    .join(' · ');
 }

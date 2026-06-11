@@ -131,6 +131,11 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
       </View>
 
       <View style={{ paddingVertical: 16, gap: 10 }}>
+        {step === 2 && !skipDiagnostic ? (
+          <Text variant="sub" color={theme.palette.ink3} style={{ textAlign: 'center' }}>
+            Next: 8 quick questions to map where you stand — guessing is fine, skip anytime.
+          </Text>
+        ) : null}
         <Button label={label} onPress={onPrimary} disabled={blocked} />
         {step === 0 && !imported ? (
           <Button label="I already have an account" variant="ghost" onPress={() => setSigningIn(true)} />

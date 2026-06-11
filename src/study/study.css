@@ -214,6 +214,14 @@
   letter-spacing: -0.01em;
 }
 
+.st-row-meta {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--gray-400);
+  white-space: nowrap;
+  margin-right: 0.5rem;
+}
+
 .st-toggle {
   color: var(--gray-400);
   display: flex;

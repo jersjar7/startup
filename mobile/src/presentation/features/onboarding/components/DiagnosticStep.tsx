@@ -86,7 +86,7 @@ export function DiagnosticStep({ onComplete }: { onComplete: (answers: Diagnosti
         </Pressable>
       </View>
       <View style={{ flex: 1 }}>
-        <TapTheTrapCard key={q.id} item={item} onGraded={handleGraded} />
+        <TapTheTrapCard key={q.id} item={item} onGraded={handleGraded} overlineOverride="Placement" />
       </View>
     </Screen>
   );

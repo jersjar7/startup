@@ -291,7 +291,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           <span className="stat-pill-value">{stats.totalXp}</span>
           <span className="stat-pill-label">XP</span>
         </div>
-        <div className="stat-pill stat-pill--ember">
+        {/* streaks are sunbeam everywhere (brand token + matches mobile) */}
+        <div className="stat-pill stat-pill--sunbeam">
           <Fire weight="bold" size={18} />
           {stats.currentStreak > 0 ? (
             <>

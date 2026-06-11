@@ -53,7 +53,7 @@ export function ProfileScreen() {
   const theme = useTheme();
   const uc = useUseCases();
   const restart = useAppRestart();
-  const { loading, overall, masteredCount, topicCount, prefs, reminderHour, soundEnabled, account, reload, update, setReminder, setSound, signOut } =
+  const { loading, overall, masteredCount, topicCount, prefs, reminderHour, soundEnabled, account, streak, totalReps, reload, update, setReminder, setSound, signOut } =
     useProfileViewModel();
   const [editing, setEditing] = useState<Editing>(null);
   const [confirmingReset, setConfirmingReset] = useState(false);
@@ -91,14 +91,35 @@ export function ProfileScreen() {
           <View style={{ flex: 1 }}>
             <Text variant="title">Concept mastery</Text>
             <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 2 }}>
-              {masteredCount} of {topicCount} topics mastered
+              {masteredCount} of {topicCount} chapters mastered
             </Text>
             <Text variant="sub" color={theme.palette.ink4} style={{ marginTop: 7, fontSize: 11, lineHeight: 15 }}>
-              Mastery of the concepts the FE tests — not a probability of passing.
+              The concepts the FE tests, on this phone — not a probability of passing.
             </Text>
           </View>
         </Card>
       </View>
+
+      {/* lifetime work on this device — the habit has a home here */}
+      <Card style={{ marginTop: 12, flexDirection: 'row' }}>
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text variant="mono" style={{ fontSize: 20 }}>
+            {streak}
+          </Text>
+          <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 2 }}>
+            day streak
+          </Text>
+        </View>
+        <View style={{ width: 1, backgroundColor: theme.palette.line }} />
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text variant="mono" style={{ fontSize: 20 }}>
+            {totalReps}
+          </Text>
+          <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 2 }}>
+            cards reviewed
+          </Text>
+        </View>
+      </Card>
 
       <View style={{ marginTop: 24, marginBottom: 2 }}>
         <Overline>Plan</Overline>
@@ -155,6 +176,9 @@ export function ProfileScreen() {
       <View style={{ marginTop: 24, marginBottom: 2 }}>
         <Overline>Account</Overline>
       </View>
+      <Text variant="sub" color={theme.palette.ink4} style={{ fontSize: 11, lineHeight: 15, marginBottom: 4 }}>
+        Progress on this phone is tracked separately from your fe4raccoons.com account — sync is coming.
+      </Text>
       {account ? (
         <>
           <ListRow

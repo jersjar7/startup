@@ -130,7 +130,7 @@ export function PracticeScreen() {
       ) : null}
 
       {/* the 3 above are smart suggestions — full list lives one tap away */}
-      <ListRow title="All 15 topics" onPress={() => nav.navigate('Mastery' as never)} />
+      <ListRow title="All 15 chapters" onPress={() => nav.navigate('Mastery' as never)} />
 
       {/* full mock exam → web */}
       <View style={{ marginTop: 24, marginBottom: 2 }}>

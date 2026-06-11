@@ -15,15 +15,19 @@ export function useProfileViewModel() {
   const [reminderHour, setReminderHour] = useState<number | null>(null);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [account, setAccount] = useState<Account | null>(null);
+  const [streak, setStreak] = useState(0);
+  const [totalReps, setTotalReps] = useState(0);
 
   const load = useCallback(async () => {
-    const [o, chapters, p, reminder, soundOn, acct] = await Promise.all([
+    const [o, chapters, p, reminder, soundOn, acct, st, stats] = await Promise.all([
       uc.getOverallMastery.execute(),
       uc.getChapterProgress.execute(),
       uc.getStudyPreferences.execute(),
       uc.getReminder.execute(),
       uc.getSoundEnabled.execute(),
       uc.getAccount.execute(),
+      uc.getStreak.execute({ now: Date.now() }),
+      uc.getReviewStats.execute(),
     ]);
     setOverall(o);
     setTopicCount(chapters.length);
@@ -32,6 +36,8 @@ export function useProfileViewModel() {
     setReminderHour(reminder);
     setSoundEnabled(soundOn);
     setAccount(acct);
+    setStreak(st);
+    setTotalReps(stats.totalReps);
     setLoading(false);
   }, [uc]);
 
@@ -82,6 +88,8 @@ export function useProfileViewModel() {
     reminderHour,
     soundEnabled,
     account,
+    streak,
+    totalReps,
     reload: load,
     update,
     setReminder,

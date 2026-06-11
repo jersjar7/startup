@@ -1,7 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
+import { Card } from '@/presentation/ui/Card';
 import { Text } from '@/presentation/ui/Text';
 import { Overline } from '@/presentation/ui/Overline';
+import { Divider } from '@/presentation/ui/Divider';
 import { useTheme } from '@/core/theme/useTheme';
 import { interactionLabel, interactionColor } from '@/presentation/ui/semantics';
 import type { SessionItem } from '@/domain/entities/session';
@@ -26,9 +28,12 @@ export function SessionSummary({ items, chapterNames = {} }: Props) {
     chapters.add(item.chapterId);
   }
   const single = chapters.size === 1 ? (chapterNames[[...chapters][0]] ?? null) : null;
+  // Tease the first item by KIND and topic only — showing its prompt here
+  // would be a free recognition pass (North Star rule 1).
+  const first = items[0] ?? null;
 
   return (
-    <View style={{ paddingVertical: 14 }}>
+    <Card style={{ marginTop: 12 }}>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
         {[...counts.entries()].map(([kind, n]) => (
           <View
@@ -55,8 +60,19 @@ export function SessionSummary({ items, chapterNames = {} }: Props) {
       <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 10 }}>
         {single
           ? `All ${items.length} from ${single} — your current focus.`
-          : `Drawn from ${chapters.size} topics, weighted to what's about to fade.`}
+          : `Drawn from ${chapters.size} chapters, weighted to what's about to fade.`}
       </Text>
-    </View>
+      {first ? (
+        <>
+          <Divider />
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingTop: 11 }}>
+            <Overline color={theme.palette.ink3}>Up first</Overline>
+            <Text variant="bodyStrong" style={{ fontSize: 14 }}>
+              {interactionLabel(first.interaction)} card · {chapterNames[first.chapterId] ?? 'your focus topic'}
+            </Text>
+          </View>
+        </>
+      ) : null}
+    </Card>
   );
 }

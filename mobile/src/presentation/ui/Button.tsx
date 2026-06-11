@@ -38,7 +38,11 @@ export function Button({ label, onPress, variant = 'primary', style, disabled = 
   };
 
   return (
+    // Layout styles (flex, margins) go on the Pressable — putting flex:1 on
+    // the inner view lets flexBasis:0 override the fixed 54px height and
+    // collapse the pill (the round-3 "short grade buttons" bug).
     <Pressable
+      style={style}
       disabled={disabled}
       onPressIn={() => spring(0.96)}
       onPressOut={() => spring(1)}
@@ -47,7 +51,7 @@ export function Button({ label, onPress, variant = 'primary', style, disabled = 
         onPress?.();
       }}
     >
-      <Animated.View style={[base, { transform: [{ scale }], opacity: disabled ? 0.4 : 1 }, style]}>
+      <Animated.View style={[base, { transform: [{ scale }], opacity: disabled ? 0.4 : 1 }]}>
         <Text variant="title" numberOfLines={1} color={isPrimary ? theme.palette.white : theme.palette.ink2}>
           {label}
         </Text>

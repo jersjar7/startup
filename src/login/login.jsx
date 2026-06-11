@@ -190,9 +190,13 @@ export function Login({ userName, onLogin }) {
               {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
             </button>
           </div>
-          <p className="login-pw-hint">
-            New here? Use at least 8 characters with an uppercase letter, a lowercase letter, and a number.
-          </p>
+          {/* Signup password rules only matter on the create-account path —
+              returning users shouldn't read them as an error hint. */}
+          {acceptedTerms && (
+            <p className="login-pw-hint">
+              Use at least 8 characters with an uppercase letter, a lowercase letter, and a number.
+            </p>
+          )}
           <button
             type="button"
             className="forgot-link"
