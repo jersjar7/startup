@@ -116,10 +116,12 @@ The panel unanimously rejected a silent v1 ("web display unchanged" = the
 betrayal scenario). The bar for v1 is the **Tuesday test**: 25 phone minutes
 at lunch must be visible on the web that evening.
 
-- **v0 — fix the foundation (prereq):** wire web `studyScore` so studying
-  moves web mastery at all (the known gap). Syncing phone events into a
-  mastery model the website itself doesn't update replicates a lie to a
-  second screen. Ships before or with v1, never after.
+- **v0 — fix the foundation (prereq):** ✅ DONE 2026-06-10. Correction: web
+  `studyScore` was already wired + live (380d6c2, 2026-06-04) — the panel and
+  spec v1 cited a stale doc. The real residual defect was a formula
+  inconsistency (diagnostic wrote `min(diag+study,100)` vs `max(diag,study)`
+  in sessions/review); unified to **max(diagnosticScore, studyScore)**
+  everywhere — one formula, matching the mobile model.
 - **v1 — account + one log + same-day visibility:** mobile login
   (account-first onboarding: "Already use fe4raccoons.com? Sign in" on screen
   one; after sign-in pull exam date/pace/familiarity, skip the mobile

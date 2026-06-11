@@ -35,8 +35,11 @@ Status: `[ ]` open · `[x]` done · `[~]` partially done / spec'd
 - [ ] **Single shared scheduler + same-day due dedupe** (large) — one
   versioned module shared web+RN; invariant: graded on A ⇒ never due on B
   same local day. Floor if it slips: cross-surface same-day dedupe.
-- [ ] **Fix web studyScore so studying moves mastery** (medium) — v0 prereq,
-  ships before/with sync v1. (Known bug, panel-confirmed blocker.)
+- [x] **Fix web studyScore so studying moves mastery** (medium) — CORRECTION
+  (2026-06-10): already fixed + live since 380d6c2 (2026-06-04); the panel and
+  spec v1 cited a stale doc. Residual defect found and fixed: diagnostic.js
+  wrote `min(diag+study,100)` vs `max(diag,study)` elsewhere — unified to max
+  (one formula, matches mobile). 125/125 service tests pass.
 - [ ] **Same-day web visibility of phone work** (medium) — streak ticked,
   due-count decremented, dashboard activity line. No silent v1.
 - [ ] **Account-first mobile onboarding** (medium) — "Already use
@@ -67,9 +70,11 @@ Status: `[ ]` open · `[x]` done · `[~]` partially done / spec'd
   seed-only, with provenance; spec'd.
 - [x] **Never show a bare zero with history** (small) — Today hero zero-state
   reframed honestly (2026-06-10).
-- [ ] **Redeploy public SEO pages with build:seo** (small, ops) — live
-  regression verified 2026-06-10: /fe-civil-exam serves the 2.3KB SPA shell.
-  Needs a production deploy (owner approval).
+- [x] **Redeploy public SEO pages with build:seo** (small, ops) — deployed +
+  content-verified 2026-06-10. Correction: the panel probed /fe-civil-exam,
+  which was never a prerendered route; the real routes
+  (/fe-civil-exam-guide, /fe-civil/<topic>, sitemap, llms.txt) are confirmed
+  serving full HTML live.
 
 ### P2 — nice
 - [x] **Close pre-session pedagogy leaks in Today queue** (small) — full

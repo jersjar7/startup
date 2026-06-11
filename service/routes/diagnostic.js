@@ -121,7 +121,10 @@ router.post('/submit', verifyAuth, async (req, res) => {
     chapterMastery[ch] = {
       diagnosticScore,
       studyScore,
-      totalMastery: Math.min(diagnosticScore + studyScore, 100),
+      // ONE formula everywhere (matches /api/sessions and /api/review): the
+      // diagnostic seeds familiarity, study proves it — take the stronger
+      // signal, never the inflated sum.
+      totalMastery: Math.max(diagnosticScore, studyScore),
     };
   }
 
