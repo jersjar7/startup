@@ -42,14 +42,10 @@ export function TodayScreen() {
       scroll
       footer={
         <View>
-          <Text variant="sub" color={theme.palette.ink3} style={{ textAlign: 'center', marginBottom: 8 }}>
+          <Text variant="sub" color={theme.palette.ink3} style={{ textAlign: 'center', marginBottom: 8 }} numberOfLines={1}>
             {[streak > 0 ? `Day ${streak}` : null, `${session.items.length} cards`, `~${session.estimatedMinutes} min`]
               .filter(Boolean)
               .join(' · ')}
-            {/* explain the gap vs the chosen pace — silence reads as falling behind */}
-            {plan && session.estimatedMinutes < plan.minutesPerDay / 2
-              ? ' — light day; your queue grows as you learn more'
-              : ''}
           </Text>
           <Button label="Start" onPress={() => nav.navigate('Review')} />
         </View>
@@ -104,12 +100,16 @@ export function TodayScreen() {
       </View>
 
       <FadeIn offset={8}>
-        <SessionSummary items={session.items} chapterNames={chapterNames} />
+        <SessionSummary
+          items={session.items}
+          chapterNames={chapterNames}
+          lightDay={plan ? session.estimatedMinutes < plan.minutesPerDay / 2 : false}
+        />
       </FadeIn>
 
       {week.length > 0 ? (
         <FadeIn offset={8} delay={80}>
-          <WeekStrip days={week} />
+          <WeekStrip days={week} todayComplete={session.items.length === 0} />
         </FadeIn>
       ) : null}
 

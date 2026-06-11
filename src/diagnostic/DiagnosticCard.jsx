@@ -105,7 +105,7 @@ export function DiagnosticCard({ diagnosticStatus, quickstart = {}, onSkip }) {
             </div>
             <div className="diag-card-actions">
               <button className="btn-primary" onClick={() => navigate('/quickstart')}>
-                Start Quick Start
+                Start now
                 <ArrowRight size={16} weight="bold" />
               </button>
               <button className="diag-card-skip" onClick={onSkip}>

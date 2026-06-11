@@ -31,9 +31,11 @@ export function TapTheTrapCard({ item, onGraded, overlineOverride }: Props) {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-        <Overline color={overlineOverride ? theme.palette.ink3 : theme.palette.ember}>
-          {overlineOverride ?? 'Spot the trap'}
-        </Overline>
+        {overlineOverride === '' ? null : (
+          <Overline color={overlineOverride ? theme.palette.ink3 : theme.palette.ember}>
+            {overlineOverride ?? 'Spot the trap'}
+          </Overline>
+        )}
         {/* Long stems read at body scale — display size is for short prompts */}
         <MathText
           variant="h2"

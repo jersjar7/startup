@@ -12,12 +12,15 @@ interface Props {
   variant?: Variant;
   style?: ViewStyle;
   disabled?: boolean; // dimmed + inert — never a normal-looking button that ignores taps
+  /** Ghost-variant accent: tints border + label (e.g. forest for success
+      semantics) while keeping equal geometry with its siblings. */
+  accentColor?: string;
 }
 
 // Fixed 54px height, single line. Long labels truncate rather than grow/wrap —
 // shorten the word instead (docs/mobile/visual-language.md). Presses dip with a
 // spring and fire a light haptic so taps feel acknowledged.
-export function Button({ label, onPress, variant = 'primary', style, disabled = false }: Props) {
+export function Button({ label, onPress, variant = 'primary', style, disabled = false, accentColor }: Props) {
   const theme = useTheme();
   const isPrimary = variant === 'primary';
   const scale = useRef(new Animated.Value(1)).current;
@@ -39,7 +42,7 @@ export function Button({ label, onPress, variant = 'primary', style, disabled = 
         ? theme.palette.ember
         : 'transparent',
     borderWidth: isPrimary || disabled ? 0 : 1.5,
-    borderColor: theme.palette.line,
+    borderColor: accentColor ?? theme.palette.line,
     ...(isPrimary && !disabled ? theme.shadow.emberButton : {}),
   };
 
@@ -61,7 +64,13 @@ export function Button({ label, onPress, variant = 'primary', style, disabled = 
         <Text
           variant="title"
           numberOfLines={1}
-          color={disabled ? 'rgba(44,44,44,0.45)' : isPrimary ? theme.palette.white : theme.palette.ink2}
+          color={
+            disabled
+              ? 'rgba(44,44,44,0.45)'
+              : isPrimary
+                ? theme.palette.white
+                : (accentColor ?? theme.palette.ink2)
+          }
         >
           {label}
         </Text>

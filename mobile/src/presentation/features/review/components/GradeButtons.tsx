@@ -19,7 +19,15 @@ export function GradeButtons({ onGrade }: { onGrade: (g: ReviewGrade) => void })
       <View style={{ flexDirection: 'row', gap: 10 }}>
         <Button label="Forgot" variant="ghost" style={{ flex: 1 }} onPress={() => onGrade('forgot')} />
         <Button label="Fuzzy" variant="ghost" style={{ flex: 1 }} onPress={() => onGrade('fuzzy')} />
-        <Button label="Got it" variant="ghost" style={{ flex: 1 }} onPress={() => onGrade('gotIt')} />
+        {/* same geometry as its siblings; forest tint keeps success semantic
+            without the filled-button nudge toward grade inflation */}
+        <Button
+          label="Got it"
+          variant="ghost"
+          accentColor={theme.palette.forest}
+          style={{ flex: 1 }}
+          onPress={() => onGrade('gotIt')}
+        />
       </View>
     </View>
   );

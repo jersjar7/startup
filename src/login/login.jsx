@@ -158,7 +158,7 @@ export function Login({ userName, onLogin }) {
   return (
     <main className="login-main">
       <div className="login-form-container">
-        <h2>Welcome to FE for Raccoons</h2>
+        <h2>Welcome to FE&nbsp;for&nbsp;Raccoons</h2>
         <p className="login-subtitle">Create your free account, or log in to pick up where you left off.</p>
         {sessionExpired && (
           <p role="status" style={{ background: 'var(--sunbeam-bg)', color: 'var(--charcoal)', padding: '0.6rem 0.8rem', borderRadius: '8px', fontSize: '0.85rem', marginBottom: '0.75rem' }}>

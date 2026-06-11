@@ -22,6 +22,18 @@ import { CHAPTERS } from '../data/chapters';
 import { getExamWeight } from '../data/exam-bank/index';
 import { computeReadiness, computeFocusAreas, readinessLabel } from '../data/readiness';
 
+// "2026-W24" is debug output, not product copy — show "Week of Jun 8".
+function formatWeekLabel(weekId) {
+  const m = /^(\d{4})-W(\d{1,2})$/.exec(weekId || '');
+  if (!m) return `Week ${weekId}`;
+  const [, year, week] = m;
+  // ISO week → Monday of that week
+  const jan4 = new Date(Number(year), 0, 4);
+  const monday = new Date(jan4);
+  monday.setDate(jan4.getDate() - ((jan4.getDay() + 6) % 7) + (Number(week) - 1) * 7);
+  return `Week of ${monday.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`;
+}
+
 // Exam-Qs badge color encodes weight on one scale — never the chapter accent.
 function weightClass(weight) {
   if (weight >= 11) return 'ember';
@@ -328,7 +340,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         ) : hasActivity ? (
           <span className="review-btn review-btn--done" title="No reviews due right now">
             <Timer weight="bold" size={16} />
-            All caught up
+            No reviews due
           </span>
         ) : null}
       </div>
@@ -531,7 +543,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
               ))}
             </div>
             {lbTab === 'week' && leaderboard.weekId && (
-              <span className="lb-week">Week {leaderboard.weekId}</span>
+              <span className="lb-week">{formatWeekLabel(leaderboard.weekId)}</span>
             )}
             {(() => {
               const isWeek = lbTab === 'week';

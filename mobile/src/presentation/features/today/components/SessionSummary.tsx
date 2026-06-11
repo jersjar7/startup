@@ -16,9 +16,11 @@ import type { InteractionMode } from '@/domain/entities/tiers';
 interface Props {
   items: readonly SessionItem[];
   chapterNames?: Record<string, string>;
+  /** Today's queue is well under the chosen pace — say so, or it reads as falling behind. */
+  lightDay?: boolean;
 }
 
-export function SessionSummary({ items, chapterNames = {} }: Props) {
+export function SessionSummary({ items, chapterNames = {}, lightDay = false }: Props) {
   const theme = useTheme();
 
   const counts = new Map<InteractionMode, number>();
@@ -64,6 +66,11 @@ export function SessionSummary({ items, chapterNames = {} }: Props) {
           ? `All ${items.length} from ${single} — your current focus.`
           : `Drawn from ${chapters.size} chapters, weighted to what's about to fade.`}
       </Text>
+      {lightDay ? (
+        <Text variant="sub" color={theme.palette.ink4} style={{ marginTop: 4 }}>
+          Light day — your queue grows as you learn more.
+        </Text>
+      ) : null}
       {first ? (
         <>
           <Divider />

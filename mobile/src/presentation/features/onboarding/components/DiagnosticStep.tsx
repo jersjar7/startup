@@ -75,9 +75,9 @@ export function DiagnosticStep({ onComplete }: { onComplete: (answers: Diagnosti
           paddingBottom: 6,
         }}
       >
-        {/* Neutral counter — the card's own type label carries the accent */}
+        {/* One overline, one header pattern — the card's label is suppressed */}
         <Overline color={theme.palette.ink3}>
-          Quick check · {index + 1} of {questions.length}
+          Placement · {index + 1} of {questions.length}
         </Overline>
         <Pressable onPress={() => onComplete([...answers.current])} hitSlop={10}>
           <Text variant="sub" color={theme.palette.ink3}>
@@ -86,7 +86,7 @@ export function DiagnosticStep({ onComplete }: { onComplete: (answers: Diagnosti
         </Pressable>
       </View>
       <View style={{ flex: 1 }}>
-        <TapTheTrapCard key={q.id} item={item} onGraded={handleGraded} overlineOverride="Placement" />
+        <TapTheTrapCard key={q.id} item={item} onGraded={handleGraded} overlineOverride="" />
       </View>
     </Screen>
   );

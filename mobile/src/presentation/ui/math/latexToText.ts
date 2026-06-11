@@ -125,8 +125,9 @@ function transformMath(input: string): string {
 
   s = s
     .replace(/\{,\}/g, ',')
-    .replace(/\\left|\\right|\\!|\\,/g, '')
-    .replace(/\\;|\\:|\\quad|\\qquad|~/g, ' ')
+    .replace(/\\left|\\right|\\!/g, '')
+    // \, is a thin space — dropping it glued numbers to units ("120.0ft")
+    .replace(/\\,|\\;|\\:|\\quad|\\qquad|~/g, ' ')
     .replace(/\\[A-Za-z]+/g, '') // drop any unmapped command
     .replace(/[{}]/g, '')
     .replace(/[ \t]{2,}/g, ' ');

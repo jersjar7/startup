@@ -1,235 +1,235 @@
 {
-  "math-slq-q1:fc": {
-    "answer": "$m = \\frac{y_2 - y_1}{x_2 - x_1}$ — rise over run. The run must be in feet: convert stations first (station 3+00 = 300 ft), not raw station numbers (p. 36)"
-  },
-  "math-slq-q2:fc": {
-    "answer": "$m_1 = -\\frac{1}{m_2}$ — flip the fraction AND negate. Applied to m = 2/3: the perpendicular slope is $-\\frac{3}{2}$ (p. 36)"
-  },
-  "math-log-q3:fc": {
-    "answer": "$\\log(xy) = \\log x + \\log y$ and $\\log(x/y) = \\log x - \\log y$ — combine into one log first (subtraction divides, addition multiplies), then evaluate: $\\log_2(64) = 6$ (pp. 36-37)"
-  },
-  "math-ic-q1:fc": {
-    "answer": "$\\int x^n\\,dx = \\frac{x^{n+1}}{n+1} + C$ — for $\\int 3x^2\\,dx$, raise the power and divide: $3 \\cdot \\frac{x^3}{3} = x^3$ (p. 50)"
-  },
-  "math-cc-ex3:fc": {
-    "answer": "$\\frac{(x-h)^2}{a^2} + \\frac{(y-k)^2}{b^2} = 1$ — the larger denominator marks the major axis; the full length is $2a$, twice the square root of that denominator (p. 24)"
-  },
-  "math-log-cp1:fc": {
-    "answer": "$\\log_b\\!\\left(\\frac{x}{y}\\right) = \\log_b x - \\log_b y$ (quotient rule), then evaluate: $\\log_2(48/3) = \\log_2(16) = 4$ since $2^4 = 16$ (p. 36)"
-  },
-  "math-rtt-cp2:fc": {
-    "answer": "$\\tan\\theta = \\frac{\\text{opp}}{\\text{adj}}$ — the 9 m leg is opposite, the 12 m leg adjacent; use inverse tangent: $\\theta = \\tan^{-1}(9/12) = 36.9°$ (p. 23)"
-  },
-  "stat-ci-q1:fc": {
-    "answer": "$\\bar{x} \\pm z_{\\alpha/2}\\frac{\\sigma}{\\sqrt{n}}$ — with $z_{\\alpha/2} = 1.960$ for 95% confidence (p. 74)"
-  },
-  "stat-ci-q2:fc": {
-    "answer": "$\\bar{x} \\pm t_{\\alpha/2,\\,n-1}\\frac{s}{\\sqrt{n}}$ — you only have $s$, not $\\sigma$, and with small $n$ the z-interval is too narrow, so use t with $n-1$ degrees of freedom (p. 74)"
-  },
-  "stat-fri-q1:fc": {
-    "answer": "On a flat surface the normal force equals the weight: $N = W$. Maximum static friction: $F \\leq \\mu_s N$ (p. 96, Friction)"
-  },
-  "dyn-wep-q1:fc": {
-    "answer": "$T_1 + V_1 = T_2 + V_2$ — conservation of energy. Mass cancels: $v = \\sqrt{2gh}$ regardless of mass (p. 106)"
-  },
-  "dyn-im-q1:fc": {
-    "answer": "Conservation of momentum with the cars stuck together: $m_1 v_1 + m_2 v_2 = (m_1 + m_2)v'$ — the combined mass is $m_1 + m_2$ (p. 108)"
-  },
-  "dyn-vib-q3:fc": {
-    "answer": "$\\omega_n = \\sqrt{k_t / I}$ — torsional stiffness $k_t$ replaces $k$, and mass moment of inertia $I$ replaces $m$ (p. 113)"
-  },
-  "dyn-wep-ex1:fc": {
-    "answer": "$T_1 + V_1 = T_2 + V_2$ — set $mgh = \\frac{1}{2}mv^2$; mass cancels, leaving $v = \\sqrt{2gh}$ (p. 106)"
-  },
-  "dyn-wep-ex4:fc": {
-    "answer": "At max compression the block is momentarily at rest ($v = 0$); all kinetic energy is stored in the spring: $\\frac{1}{2}mv^2 = \\frac{1}{2}kx^2$, with $V_e = \\frac{1}{2}ks^2$ (p. 106)"
-  },
-  "dyn-im-cp2:fc": {
-    "answer": "$m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2'$ — conservation of momentum. Starting from rest, the initial total momentum is zero, so the skater's momentum must balance the ball's (p. 108)"
-  },
-  "mm-asd-q1:fc": {
-    "answer": "$\\sigma = \\frac{P}{A}$ — with circular area $A = \\frac{\\pi d^2}{4}$, not $\\pi d^2$ or $\\pi d$ (p. 130)"
-  },
-  "mom-tsp-q1:fc": {
-    "answer": "$n = E_1/E_2$ — the stiffer material goes in the numerator: $n = E_{steel}/E_{concrete}$ (p. 136)"
-  },
-  "mom-tsp-q2:fc": {
-    "answer": "$M_p = F_y Z$ — uses the plastic section modulus $Z$, not the elastic $S$ (p. 281)"
-  },
-  "mom-smd-ex1:fc": {
-    "answer": "$M_{max} = PL$ at the fixed support — moment is zero at the free end and grows linearly to $PL$ at the wall (p. 140)"
-  },
-  "mom-smd-ex2:fc": {
-    "answer": "$V_{max} = \\frac{wL}{2}$ — at the supports, where the shear equals the reaction (p. 140)"
-  },
-  "mom-smd-cp1:fc": {
-    "answer": "$M_{max} = \\frac{wL^2}{2}$ (cantilever, full UDL) at the fixed support — not the simply supported $\\frac{wL^2}{8}$, which is a wrong-support-condition trap (p. 140)"
-  },
-  "mom-cb-cp2:fc": {
-    "prompt": "Radius of gyration: what is the formula in terms of I and A?"
-  },
-  "mom-tsp-cp1:fc": {
-    "prompt": "Shape factor: what is the formula, and what does it measure?",
-    "answer": "$SF = Z/S$ — the reserve strength between first yield and the full plastic moment (p. 281)"
-  },
-  "mat-wm-q1:fc": {
-    "prompt": "MC = (W_wet − W_OD)/W_OD × 100 — what weight goes in the denominator?",
-    "answer": "$MC = (W_{wet} - W_{OD})/W_{OD} \\times 100$ — the denominator is the oven-dry weight $W_{OD}$, not the wet weight"
-  },
-  "fm-fp-q1:fc": {
-    "answer": "$SG = \\frac{\\gamma}{\\gamma_w}$, so $\\gamma = SG \\times \\gamma_w$ — with water reference $\\gamma_w = 9{,}810\\ \\text{N/m}^3$ in SI (p. 176)"
-  },
-  "fm-hp-q1:fc": {
-    "answer": "$P_2 - P_1 = -\\gamma(z_2 - z_1) = \\gamma h$ gives Pa — divide by 1,000 for kPa (49,050 Pa = 49.05 kPa); reporting 49,050 kPa means the Pa-to-kPa conversion was skipped (p. 177)"
-  },
-  "fm-cb-q1:fc": {
-    "answer": "$A_1 v_1 = A_2 v_2$ — with $A = \\pi D^2/4$ the $\\pi/4$ cancels, so $v_2 = v_1(D_1/D_2)^2$: exponent 2, because area scales with $D^2$ (p. 180)"
-  },
-  "fm-das-q2:fc": {
-    "answer": "$Fr_m = Fr_p \\Rightarrow \\frac{v_m}{\\sqrt{g l_m}} = \\frac{v_p}{\\sqrt{g l_p}}$ — g cancels, so $v \\propto \\sqrt{L}$: the exponent is 1/2 because Fr contains $\\sqrt{gl}$ (p. 196)"
-  },
-  "flu-fp-ex1:fc": {
-    "answer": "$\\gamma = \\rho g$ — density times gravitational acceleration; the product is force per volume, $\\text{N/m}^3$ (p. 176)"
-  },
-  "flu-fp-ex3:fc": {
-    "answer": "$\\nu = \\frac{\\mu}{\\rho}$, so $\\mu = \\nu\\rho$ — $\\nu$ is kinematic viscosity, $\\mu$ is dynamic (absolute) viscosity (p. 176)"
-  },
-  "flu-hfb-ex1:fc": {
-    "answer": "$F_R = \\gamma h_C A$ — circular gate area $A = \\pi D^2/4$; $h_C$ is the depth of the gate's centroid below the surface, 4 m here (p. 179)"
-  },
-  "flu-pfh-ex1:fc": {
-    "prompt": "For laminar flow (Re < 2,100), what is the friction factor formula?"
-  },
-  "flu-fm-ex1:fc": {
-    "answer": "$v = \\sqrt{\\frac{2(P_0 - P_s)}{\\rho}}$ — $\\Delta P$ is stagnation pressure minus static pressure, and it must be in Pa to pair with $\\rho$ in $\\text{kg/m}^3$ (p. 194)"
-  },
-  "surv-hc-q2:fc": {
-    "prompt": "What is the horizontal curve tangent distance formula?"
-  },
-  "surv-ac-ex2:fc": {
-    "answer": "$A = w\\left(\\frac{h_1 + h_n}{2} + h_2 + h_3 + \\cdots + h_{n-1}\\right)$ — the first and last offsets are averaged (halved); all interior offsets count at full value (p. 280)"
-  },
-  "surv-ac-ex3:fc": {
-    "answer": "1, 4, 2, 4, 1 — $A = \\frac{w}{3}(h_1 + 4h_2 + 2h_3 + 4h_4 + h_5)$ (p. 280)"
-  },
-  "surv-lev-cp1:fc": {
-    "answer": "Backsights are added, foresights subtracted: $\\text{Elev}_{\\text{final}} = \\text{Elev}_{\\text{start}} + \\Sigma BS - \\Sigma FS$ (p. 309)"
-  },
-  "wr-wq-ex1:fc": {
-    "answer": "$BOD_t = L_0(1 - e^{-kt})$ — the exponent is $-kt = -0.23 \\times 3 = -0.69$; $e^{-kt}$ is the fraction of ultimate BOD not yet exerted at time t (p. 321)"
-  },
-  "str-ds-q1:fc": {
-    "answer": "$m + r = 2j$: stable and determinate. If $m + r > 2j$: indeterminate (needs compatibility equations); if $m + r < 2j$: unstable mechanism (p. 271)"
-  },
-  "str-ds-q2:fc": {
-    "answer": "Compare $3m + r$ to $3j + c$ — a pin support provides 2 reaction components, a fixed support provides 3 (p. 271)"
-  },
-  "str-dvw-q3:fc": {
-    "prompt": "End-loaded cantilever: what is the tip deflection formula?"
-  },
-  "str-ind-q2:fc": {
-    "answer": "$R = \\frac{3wL}{8}$ at the prop — less than $wL/2$ because the fixed end carries the larger share of the load"
-  },
-  "str-ind-q3:fc": {
-    "answer": "$M_{FE} = \\frac{wL^2}{12}$ — smaller than $\\frac{wL^2}{8}$, which is the simple-span midspan moment, not a fixed-end moment"
-  },
-  "str-il-q2:fc": {
-    "answer": "Peak ordinate $= L/4$ at midspan; place the load directly at midspan for max moment: $M_{max} = P \\times L/4$ (p. 268)"
-  },
-  "str-rcc-q2:fc": {
-    "prompt": "ACI column reinforcement ratio: what are the minimum and maximum ρ_g limits?"
-  },
-  "str-st-q1:fc": {
-    "answer": "$P_n = F_y A_g$ with $\\phi_y = 0.90$ — yielding uses the gross area $A_g$, no bolt-hole deductions (p. 283)"
-  },
-  "str-st-q2:fc": {
-    "answer": "$A_n = \\left[b_g - \\Sigma\\left(d_b + \\tfrac{1}{8}\\text{ in.}\\right)\\right] t$ — subtract $d_b + 1/8$ in. per hole; the extra 1/8 in. is 1/16 in. hole clearance plus 1/16 in. drilling damage (p. 282)"
-  },
-  "str-il-ex1:fc": {
-    "answer": "$\\eta_{R_A}(x) = \\frac{L - x}{L}$ — the right reaction uses $x/L$ instead (p. 268)"
-  },
-  "str-rfs-ex1:fc": {
-    "answer": "$a = \\frac{A_s f_y}{0.85 f_c' b}$ — the 0.85 on $f_c'$ in the denominator is the factor students most often forget (p. 275)"
-  },
-  "str-sb-ex3:fc": {
-    "answer": "$V_n = 0.6 F_y A_w C_{v1}$ — uses the web area $A_w = d \\times t_w$, not the full section area; the shear yield coefficient is 0.6 (p. 281)"
-  },
-  "str-sc-ex1:fc": {
-    "answer": "$\\frac{KL}{r}$ — convert $KL$ from feet to inches before dividing, because $r$ is in inches; skipping the conversion gives 6.7 instead of 80 (p. 281)"
-  },
-  "str-st-ex1:fc": {
-    "answer": "$A_n = \\left[b_g - \\Sigma\\left(d_b + \\tfrac{1}{8}\\text{ in.}\\right)\\right] t$ — deduct $(d_b + 1/8\\text{ in.})$ for every hole at the cross-section: two here (p. 282)"
-  },
-  "str-ind-ex1:fc": {
-    "answer": "Each fixed end provides 3 reaction components (H, V, M), so $r = 6$; $DSI = r - 3 = 3$"
-  },
-  "str-ds-cp1:fc": {
-    "answer": "Each fixed support contributes 3 reaction components; use $\\text{Degree} = (3m + r) - (3j + c)$ (p. 271)"
-  },
-  "str-sb-cp2:fc": {
-    "answer": "$V_n = 0.6 F_y A_w C_{v1}$ — the web area $A_w = d \\times t_w$ resists shear; 0.6 relates shear yield stress to $F_y$ (p. 281)"
-  },
-  "str-st-cp2:fc": {
-    "answer": "$A_e = U A_n$, $U = 1 - \\frac{\\bar{x}}{L}$ — $\\bar{x}$ is the distance from the connection plane to the member centroid, $L$ is the connection length (p. 282)"
-  },
-  "str-ind-cp1:fc": {
-    "answer": "$M_{FE} = \\frac{PL}{8}$ — half the simple-span midspan moment $PL/4$"
-  },
-  "geo-sc-q1:fc": {
-    "answer": "$\\text{A-line: } PI = 0.73(LL - 20)$ — plotting above the A-line means clay (C); silts (M) plot below (p. 267)"
-  },
-  "geo-sc-q2:fc": {
-    "answer": "$C_u = \\frac{D_{60}}{D_{10}} \\geq 6$ and $C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}}$ between 1 and 3 — here $C_c = 0.83$ fails the 1-3 range, so the sand is SP (p. 267)"
-  },
-  "geo-sc-q3:fc": {
-    "answer": "$\\text{A-line: } PI = 0.73(LL - 20) = 0.73(35) = 25.6$ — the actual PI = 28 plots above the A-line, meaning clay: CH since LL > 50 (p. 267)"
-  },
-  "geo-co-q2:fc": {
-    "answer": "$T_v = \\frac{c_v \\cdot t}{H_{dr}^2}$ — two-way drainage means $H_{dr} = H/2$; since $t \\propto H_{dr}^2$, two-way drainage consolidates four times faster than one-way (p. 262)"
-  },
-  "geo-ss-q1:fc": {
-    "answer": "$\\tau_f = c + \\sigma_N \\tan \\phi$ — cohesion $c$ plus the frictional component: normal stress $\\sigma_N$ times the tangent of friction angle $\\phi$ (p. 263)"
-  },
-  "geo-ss-q2:fc": {
-    "prompt": "For c=0, what is the formula for sinφ from a triaxial test?"
-  },
-  "geo-seep-q2:fc": {
-    "answer": "$i_c = (G_s - 1)/(1 + e)$ — the gradient at which a quick condition occurs in saturated sand (p. 260)"
-  },
-  "geo-le-q2:fc": {
-    "answer": "The pressure diagram is a triangle; the resultant is $P_a = \\frac{1}{2} K_a \\gamma H^2$ (p. 263)"
-  },
-  "geo-rw-q1:fc": {
-    "answer": "$FS_{\\text{overturning}} = \\frac{\\Sigma M_R}{M_O}$ — the resisting moments $\\Sigma M_R$ go in the numerator (p. 264)"
-  },
-  "geo-sc-ex1:fc": {
-    "answer": "$C_u = \\frac{D_{60}}{D_{10}}$ uses only $D_{60}$ and $D_{10}$; $C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}}$ also needs $D_{30}$ (p. 267)"
-  },
-  "geo-bc-ex1:fc": {
-    "answer": "$q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma$ — with $\\phi = 0$, $N_\\gamma = 0$, so only $cN_c$ and $qN_q$ survive; $q = \\gamma D_f$, the overburden at footing depth (p. 264)"
-  },
-  "geo-le-cp1:fc": {
-    "answer": "An unyielding (rigid) wall is the at-rest case — use $K_0 = 1 - \\sin \\phi$, then $P_0 = \\frac{1}{2} K_0 \\gamma H^2$ (p. 263)"
-  },
-  "geo-rw-cp2:fc": {
-    "answer": "$q_{min} = \\frac{\\Sigma V}{B}\\left(1 - \\frac{6e}{B}\\right)$ — valid when $e \\leq B/6$ (resultant inside the middle third, full base in compression) (p. 264)"
-  },
-  "trans-st-q1:fc": {
-    "answer": "$y = t + \\frac{v}{2a \\pm 64.4G}$ — $v$ must be in ft/sec: multiply mph by 1.467 (p. 300)"
-  },
-  "trans-cl-q1:fc": {
-    "prompt": "What is the heavy-vehicle adjustment factor formula?"
-  },
-  "trans-ssd-ex1:fc": {
-    "answer": "Braking only: $\\frac{V^2}{30\\left(\\frac{a}{32.2} \\pm G\\right)}$ — the denominator is 30 times the deceleration ratio $a/32.2$ adjusted by grade; drop the $1.47Vt$ reaction term (p. 300)"
-  },
-  "trans-vc-ex1:fc": {
-    "answer": "$K = \\frac{L}{A}$ — $A$ is the algebraic grade difference in percent ($A = |g_2 - g_1| \\times 100$), so K comes out in ft per percent change (p. 301)"
-  },
-  "const-ev-q1:fc": {
-    "answer": "$CV = BCWP - ACWP$ — earned value (BCWP) minus actual cost (ACWP); negative means over budget (p. 310)"
-  },
-  "const-pf-q1:fc": {
-    "answer": "$CPI = \\frac{BCWP}{ACWP}$ — earned value over actual cost; CPI < 1.0 means over budget (p. 311)"
-  }
+ "math-slq-q1:fc": {
+  "answer": "Grade (%) = rise/run × 100 — $m = \\frac{y_2 - y_1}{x_2 - x_1}$ as a percent. Run must be in feet: convert stations first (station 3+00 = 300 ft) (p. 36)"
+ },
+ "math-slq-q2:fc": {
+  "answer": "$m_1 = -\\frac{1}{m_2}$ — flip the fraction AND negate. Applied to m = 2/3: the perpendicular slope is $-\\frac{3}{2}$ (p. 36)"
+ },
+ "math-log-q3:fc": {
+  "answer": "$\\log(xy) = \\log x + \\log y$ and $\\log(x/y) = \\log x - \\log y$ — combine into one log first (subtraction divides, addition multiplies), then evaluate: $\\log_2(64) = 6$ (pp. 36-37)"
+ },
+ "math-ic-q1:fc": {
+  "answer": "$\\int x^n\\,dx = \\frac{x^{n+1}}{n+1} + C$ — for $\\int 3x^2\\,dx$, raise the power and divide: $3 \\cdot \\frac{x^3}{3} = x^3$ (p. 50)"
+ },
+ "math-cc-ex3:fc": {
+  "answer": "$\\frac{(x-h)^2}{a^2} + \\frac{(y-k)^2}{b^2} = 1$ — the larger denominator marks the major axis; the full length is $2a$, twice the square root of that denominator (p. 24)"
+ },
+ "math-log-cp1:fc": {
+  "answer": "$\\log_b\\!\\left(\\frac{x}{y}\\right) = \\log_b x - \\log_b y$ (quotient rule), then evaluate: $\\log_2(48/3) = \\log_2(16) = 4$ since $2^4 = 16$ (p. 36)"
+ },
+ "math-rtt-cp2:fc": {
+  "answer": "$\\tan\\theta = \\frac{\\text{opp}}{\\text{adj}}$ — the 9 m leg is opposite, the 12 m leg adjacent; use inverse tangent: $\\theta = \\tan^{-1}(9/12) = 36.9°$ (p. 23)"
+ },
+ "stat-ci-q1:fc": {
+  "answer": "$\\bar{x} \\pm z_{\\alpha/2}\\frac{\\sigma}{\\sqrt{n}}$ — with $z_{\\alpha/2} = 1.960$ for 95% confidence (p. 74)"
+ },
+ "stat-ci-q2:fc": {
+  "answer": "$\\bar{x} \\pm t_{\\alpha/2,\\,n-1}\\frac{s}{\\sqrt{n}}$ — you only have $s$, not $\\sigma$, and with small $n$ the z-interval is too narrow, so use t with $n-1$ degrees of freedom (p. 74)"
+ },
+ "stat-fri-q1:fc": {
+  "answer": "On a flat surface the normal force equals the weight: $N = W$. Maximum static friction: $F \\leq \\mu_s N$ (p. 96, Friction)"
+ },
+ "dyn-wep-q1:fc": {
+  "answer": "$T_1 + V_1 = T_2 + V_2$ — conservation of energy. Mass cancels: $v = \\sqrt{2gh}$ regardless of mass (p. 106)"
+ },
+ "dyn-im-q1:fc": {
+  "answer": "Conservation of momentum with the cars stuck together: $m_1 v_1 + m_2 v_2 = (m_1 + m_2)v'$ — the combined mass is $m_1 + m_2$ (p. 108)"
+ },
+ "dyn-vib-q3:fc": {
+  "answer": "$\\omega_n = \\sqrt{k_t / I}$ — torsional stiffness $k_t$ replaces $k$, and mass moment of inertia $I$ replaces $m$ (p. 113)"
+ },
+ "dyn-wep-ex1:fc": {
+  "answer": "$T_1 + V_1 = T_2 + V_2$ — set $mgh = \\frac{1}{2}mv^2$; mass cancels, leaving $v = \\sqrt{2gh}$ (p. 106)"
+ },
+ "dyn-wep-ex4:fc": {
+  "answer": "At max compression the block is momentarily at rest ($v = 0$); all kinetic energy is stored in the spring: $\\frac{1}{2}mv^2 = \\frac{1}{2}kx^2$, with $V_e = \\frac{1}{2}ks^2$ (p. 106)"
+ },
+ "dyn-im-cp2:fc": {
+  "answer": "$m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2'$ — conservation of momentum. Starting from rest, the initial total momentum is zero, so the skater's momentum must balance the ball's (p. 108)"
+ },
+ "mm-asd-q1:fc": {
+  "answer": "$\\sigma = \\frac{P}{A}$ — with circular area $A = \\frac{\\pi d^2}{4}$, not $\\pi d^2$ or $\\pi d$ (p. 130)"
+ },
+ "mom-tsp-q1:fc": {
+  "answer": "$n = E_1/E_2$ — the stiffer material goes in the numerator: $n = E_{steel}/E_{concrete}$ (p. 136)"
+ },
+ "mom-tsp-q2:fc": {
+  "answer": "$M_p = F_y Z$ — uses the plastic section modulus $Z$, not the elastic $S$ (p. 281)"
+ },
+ "mom-smd-ex1:fc": {
+  "answer": "$M_{max} = PL$ at the fixed support — moment is zero at the free end and grows linearly to $PL$ at the wall (p. 140)"
+ },
+ "mom-smd-ex2:fc": {
+  "answer": "$V_{max} = \\frac{wL}{2}$ — at the supports, where the shear equals the reaction (p. 140)"
+ },
+ "mom-smd-cp1:fc": {
+  "answer": "$M_{max} = \\frac{wL^2}{2}$ (cantilever, full UDL) at the fixed support — not the simply supported $\\frac{wL^2}{8}$, which is a wrong-support-condition trap (p. 140)"
+ },
+ "mom-cb-cp2:fc": {
+  "prompt": "Radius of gyration: what is the formula in terms of I and A?"
+ },
+ "mom-tsp-cp1:fc": {
+  "prompt": "Shape factor: what is the formula, and what does it measure?",
+  "answer": "$SF = Z/S$ — the reserve strength between first yield and the full plastic moment (p. 281)"
+ },
+ "mat-wm-q1:fc": {
+  "prompt": "MC = (W_wet − W_OD)/W_OD × 100 — what weight goes in the denominator?",
+  "answer": "$MC = (W_{wet} - W_{OD})/W_{OD} \\times 100$ — the denominator is the oven-dry weight $W_{OD}$, not the wet weight"
+ },
+ "fm-fp-q1:fc": {
+  "answer": "$SG = \\frac{\\gamma}{\\gamma_w}$, so $\\gamma = SG \\times \\gamma_w$ — with water reference $\\gamma_w = 9{,}810\\ \\text{N/m}^3$ in SI (p. 176)"
+ },
+ "fm-hp-q1:fc": {
+  "answer": "$P_2 - P_1 = -\\gamma(z_2 - z_1) = \\gamma h$ gives Pa — divide by 1,000 for kPa (49,050 Pa = 49.05 kPa); reporting 49,050 kPa means the Pa-to-kPa conversion was skipped (p. 177)"
+ },
+ "fm-cb-q1:fc": {
+  "answer": "$A_1 v_1 = A_2 v_2$ — with $A = \\pi D^2/4$ the $\\pi/4$ cancels, so $v_2 = v_1(D_1/D_2)^2$: exponent 2, because area scales with $D^2$ (p. 180)"
+ },
+ "fm-das-q2:fc": {
+  "answer": "$Fr_m = Fr_p \\Rightarrow \\frac{v_m}{\\sqrt{g l_m}} = \\frac{v_p}{\\sqrt{g l_p}}$ — g cancels, so $v \\propto \\sqrt{L}$: the exponent is 1/2 because Fr contains $\\sqrt{gl}$ (p. 196)"
+ },
+ "flu-fp-ex1:fc": {
+  "answer": "$\\gamma = \\rho g$ — density times gravitational acceleration; the product is force per volume, $\\text{N/m}^3$ (p. 176)"
+ },
+ "flu-fp-ex3:fc": {
+  "answer": "$\\nu = \\frac{\\mu}{\\rho}$, so $\\mu = \\nu\\rho$ — $\\nu$ is kinematic viscosity, $\\mu$ is dynamic (absolute) viscosity (p. 176)"
+ },
+ "flu-hfb-ex1:fc": {
+  "answer": "$F_R = \\gamma h_C A$ — circular gate area $A = \\pi D^2/4$; $h_C$ is the depth of the gate's centroid below the surface, 4 m here (p. 179)"
+ },
+ "flu-pfh-ex1:fc": {
+  "prompt": "For laminar flow (Re < 2,100), what is the friction factor formula?"
+ },
+ "flu-fm-ex1:fc": {
+  "answer": "$v = \\sqrt{\\frac{2(P_0 - P_s)}{\\rho}}$ — $\\Delta P$ is stagnation pressure minus static pressure, and it must be in Pa to pair with $\\rho$ in $\\text{kg/m}^3$ (p. 194)"
+ },
+ "surv-hc-q2:fc": {
+  "prompt": "What is the horizontal curve tangent distance formula?"
+ },
+ "surv-ac-ex2:fc": {
+  "answer": "$A = w\\left(\\frac{h_1 + h_n}{2} + h_2 + h_3 + \\cdots + h_{n-1}\\right)$ — the first and last offsets are averaged (halved); all interior offsets count at full value (p. 280)"
+ },
+ "surv-ac-ex3:fc": {
+  "answer": "1, 4, 2, 4, 1 — $A = \\frac{w}{3}(h_1 + 4h_2 + 2h_3 + 4h_4 + h_5)$ (p. 280)"
+ },
+ "surv-lev-cp1:fc": {
+  "answer": "Backsights are added, foresights subtracted: $\\text{Elev}_{\\text{final}} = \\text{Elev}_{\\text{start}} + \\Sigma BS - \\Sigma FS$ (p. 309)"
+ },
+ "wr-wq-ex1:fc": {
+  "answer": "$BOD_t = L_0(1 - e^{-kt})$ — the exponent is $-kt = -0.23 \\times 3 = -0.69$; $e^{-kt}$ is the fraction of ultimate BOD not yet exerted at time t (p. 321)"
+ },
+ "str-ds-q1:fc": {
+  "answer": "$m + r = 2j$: stable and determinate. If $m + r > 2j$: indeterminate (needs compatibility equations); if $m + r < 2j$: unstable mechanism (p. 271)"
+ },
+ "str-ds-q2:fc": {
+  "answer": "Compare $3m + r$ to $3j + c$ — a pin support provides 2 reaction components, a fixed support provides 3 (p. 271)"
+ },
+ "str-dvw-q3:fc": {
+  "prompt": "End-loaded cantilever: what is the tip deflection formula?"
+ },
+ "str-ind-q2:fc": {
+  "answer": "$R = \\frac{3wL}{8}$ at the prop — less than $wL/2$ because the fixed end carries the larger share of the load"
+ },
+ "str-ind-q3:fc": {
+  "answer": "$M_{FE} = \\frac{wL^2}{12}$ — smaller than $\\frac{wL^2}{8}$, which is the simple-span midspan moment, not a fixed-end moment"
+ },
+ "str-il-q2:fc": {
+  "answer": "Peak ordinate $= L/4$ at midspan; place the load directly at midspan for max moment: $M_{max} = P \\times L/4$ (p. 268)"
+ },
+ "str-rcc-q2:fc": {
+  "prompt": "ACI column reinforcement ratio: what are the minimum and maximum ρ_g limits?"
+ },
+ "str-st-q1:fc": {
+  "answer": "$P_n = F_y A_g$ with $\\phi_y = 0.90$ — yielding uses the gross area $A_g$, no bolt-hole deductions (p. 283)"
+ },
+ "str-st-q2:fc": {
+  "answer": "$A_n = \\left[b_g - \\Sigma\\left(d_b + \\tfrac{1}{8}\\text{ in.}\\right)\\right] t$ — subtract $d_b + 1/8$ in. per hole; the extra 1/8 in. is 1/16 in. hole clearance plus 1/16 in. drilling damage (p. 282)"
+ },
+ "str-il-ex1:fc": {
+  "answer": "$\\eta_{R_A}(x) = \\frac{L - x}{L}$ — the right reaction uses $x/L$ instead (p. 268)"
+ },
+ "str-rfs-ex1:fc": {
+  "answer": "$a = \\frac{A_s f_y}{0.85 f_c' b}$ — the 0.85 on $f_c'$ in the denominator is the factor students most often forget (p. 275)"
+ },
+ "str-sb-ex3:fc": {
+  "answer": "$V_n = 0.6 F_y A_w C_{v1}$ — uses the web area $A_w = d \\times t_w$, not the full section area; the shear yield coefficient is 0.6 (p. 281)"
+ },
+ "str-sc-ex1:fc": {
+  "answer": "$\\frac{KL}{r}$ — convert $KL$ from feet to inches before dividing, because $r$ is in inches; skipping the conversion gives 6.7 instead of 80 (p. 281)"
+ },
+ "str-st-ex1:fc": {
+  "answer": "$A_n = \\left[b_g - \\Sigma\\left(d_b + \\tfrac{1}{8}\\text{ in.}\\right)\\right] t$ — deduct $(d_b + 1/8\\text{ in.})$ for every hole at the cross-section: two here (p. 282)"
+ },
+ "str-ind-ex1:fc": {
+  "answer": "Each fixed end provides 3 reaction components (H, V, M), so $r = 6$; $DSI = r - 3 = 3$"
+ },
+ "str-ds-cp1:fc": {
+  "answer": "Each fixed support contributes 3 reaction components; use $\\text{Degree} = (3m + r) - (3j + c)$ (p. 271)"
+ },
+ "str-sb-cp2:fc": {
+  "answer": "$V_n = 0.6 F_y A_w C_{v1}$ — the web area $A_w = d \\times t_w$ resists shear; 0.6 relates shear yield stress to $F_y$ (p. 281)"
+ },
+ "str-st-cp2:fc": {
+  "answer": "$A_e = U A_n$, $U = 1 - \\frac{\\bar{x}}{L}$ — $\\bar{x}$ is the distance from the connection plane to the member centroid, $L$ is the connection length (p. 282)"
+ },
+ "str-ind-cp1:fc": {
+  "answer": "$M_{FE} = \\frac{PL}{8}$ — half the simple-span midspan moment $PL/4$"
+ },
+ "geo-sc-q1:fc": {
+  "answer": "$\\text{A-line: } PI = 0.73(LL - 20)$ — plotting above the A-line means clay (C); silts (M) plot below (p. 267)"
+ },
+ "geo-sc-q2:fc": {
+  "answer": "$C_u = \\frac{D_{60}}{D_{10}} \\geq 6$ and $C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}}$ between 1 and 3 — here $C_c = 0.83$ fails the 1-3 range, so the sand is SP (p. 267)"
+ },
+ "geo-sc-q3:fc": {
+  "answer": "$\\text{A-line: } PI = 0.73(LL - 20) = 0.73(35) = 25.6$ — the actual PI = 28 plots above the A-line, meaning clay: CH since LL > 50 (p. 267)"
+ },
+ "geo-co-q2:fc": {
+  "answer": "$T_v = \\frac{c_v \\cdot t}{H_{dr}^2}$ — two-way drainage means $H_{dr} = H/2$; since $t \\propto H_{dr}^2$, two-way drainage consolidates four times faster than one-way (p. 262)"
+ },
+ "geo-ss-q1:fc": {
+  "answer": "$\\tau_f = c + \\sigma_N \\tan \\phi$ — cohesion $c$ plus the frictional component: normal stress $\\sigma_N$ times the tangent of friction angle $\\phi$ (p. 263)"
+ },
+ "geo-ss-q2:fc": {
+  "prompt": "For c=0, what is the formula for sinφ from a triaxial test?"
+ },
+ "geo-seep-q2:fc": {
+  "answer": "$i_c = (G_s - 1)/(1 + e)$ — the gradient at which a quick condition occurs in saturated sand (p. 260)"
+ },
+ "geo-le-q2:fc": {
+  "answer": "The pressure diagram is a triangle; the resultant is $P_a = \\frac{1}{2} K_a \\gamma H^2$ (p. 263)"
+ },
+ "geo-rw-q1:fc": {
+  "answer": "$FS_{\\text{overturning}} = \\frac{\\Sigma M_R}{M_O}$ — the resisting moments $\\Sigma M_R$ go in the numerator (p. 264)"
+ },
+ "geo-sc-ex1:fc": {
+  "answer": "$C_u = \\frac{D_{60}}{D_{10}}$ uses only $D_{60}$ and $D_{10}$; $C_c = \\frac{(D_{30})^2}{D_{10} \\times D_{60}}$ also needs $D_{30}$ (p. 267)"
+ },
+ "geo-bc-ex1:fc": {
+  "answer": "$q_u = cN_c + qN_q + \\frac{1}{2}\\gamma B N_\\gamma$ — with $\\phi = 0$, $N_\\gamma = 0$, so only $cN_c$ and $qN_q$ survive; $q = \\gamma D_f$, the overburden at footing depth (p. 264)"
+ },
+ "geo-le-cp1:fc": {
+  "answer": "An unyielding (rigid) wall is the at-rest case — use $K_0 = 1 - \\sin \\phi$, then $P_0 = \\frac{1}{2} K_0 \\gamma H^2$ (p. 263)"
+ },
+ "geo-rw-cp2:fc": {
+  "answer": "$q_{min} = \\frac{\\Sigma V}{B}\\left(1 - \\frac{6e}{B}\\right)$ — valid when $e \\leq B/6$ (resultant inside the middle third, full base in compression) (p. 264)"
+ },
+ "trans-st-q1:fc": {
+  "answer": "$y = t + \\frac{v}{2a \\pm 64.4G}$ — $v$ must be in ft/sec: multiply mph by 1.467 (p. 300)"
+ },
+ "trans-cl-q1:fc": {
+  "prompt": "What is the heavy-vehicle adjustment factor formula?"
+ },
+ "trans-ssd-ex1:fc": {
+  "answer": "Braking only: $\\frac{V^2}{30\\left(\\frac{a}{32.2} \\pm G\\right)}$ — the denominator is 30 times the deceleration ratio $a/32.2$ adjusted by grade; drop the $1.47Vt$ reaction term (p. 300)"
+ },
+ "trans-vc-ex1:fc": {
+  "answer": "$K = \\frac{L}{A}$ — $A$ is the algebraic grade difference in percent ($A = |g_2 - g_1| \\times 100$), so K comes out in ft per percent change (p. 301)"
+ },
+ "const-ev-q1:fc": {
+  "answer": "$CV = BCWP - ACWP$ — earned value (BCWP) minus actual cost (ACWP); negative means over budget (p. 310)"
+ },
+ "const-pf-q1:fc": {
+  "answer": "$CPI = \\frac{BCWP}{ACWP}$ — earned value over actual cost; CPI < 1.0 means over budget (p. 311)"
+ }
 }
