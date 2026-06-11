@@ -37,6 +37,15 @@ export function recordDay(s: Streak, now: number): Streak {
   return { current, lastStudiedDate: today, recentDays };
 }
 
+/**
+ * The ONE display rule for the streak number, shared by every screen: today
+ * counts only once the daily queue is complete. The number may never exceed
+ * what the week dots show.
+ */
+export function displayStreakNumber(effective: number, todayStudied: boolean, todayComplete: boolean): number {
+  return todayStudied && !todayComplete ? Math.max(0, effective - 1) : effective;
+}
+
 /** The last 7 calendar days (today last), each marked studied or not. */
 export function weekActivity(s: Streak, now: number): { date: string; studied: boolean }[] {
   const studied = new Set(s.recentDays ?? (s.lastStudiedDate ? [s.lastStudiedDate] : []));

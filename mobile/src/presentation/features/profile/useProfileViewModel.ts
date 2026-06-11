@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useUseCases } from '@/di/useUseCases';
 import { sound } from '@/core/sound';
+import { displayStreakNumber } from '@/domain/entities/streak';
 import type { Mastery } from '@/domain/entities/mastery';
 import type { StudyPreferences } from '@/domain/entities/plan';
 import type { Account } from '@/domain/entities/account';
@@ -19,16 +20,24 @@ export function useProfileViewModel() {
   const [totalReps, setTotalReps] = useState(0);
 
   const load = useCallback(async () => {
-    const [o, chapters, p, reminder, soundOn, acct, st, stats] = await Promise.all([
+    const now = Date.now();
+    const [o, chapters, p, reminder, soundOn, acct, st, stats, week, plan] = await Promise.all([
       uc.getOverallMastery.execute(),
       uc.getChapterProgress.execute(),
       uc.getStudyPreferences.execute(),
       uc.getReminder.execute(),
       uc.getSoundEnabled.execute(),
       uc.getAccount.execute(),
-      uc.getStreak.execute({ now: Date.now() }),
+      uc.getStreak.execute({ now }),
       uc.getReviewStats.execute(),
+      uc.getWeekActivity.execute({ now }),
+      uc.computeStudyPlan.execute({ now }),
     ]);
+    // Same display rule as Today/WeekStrip — the streak may never disagree
+    // with itself across screens.
+    const session = await uc.getDailySession.execute({ now, cardTarget: plan?.dailyCardTarget ?? 9 });
+    const todayStudied = week.length > 0 && week[week.length - 1].studied;
+    const shownStreak = displayStreakNumber(st, todayStudied, session.items.length === 0);
     setOverall(o);
     setTopicCount(chapters.length);
     setMasteredCount(chapters.filter((c) => c.mastery.state === 'mastered').length);
@@ -36,7 +45,7 @@ export function useProfileViewModel() {
     setReminderHour(reminder);
     setSoundEnabled(soundOn);
     setAccount(acct);
-    setStreak(st);
+    setStreak(shownStreak);
     setTotalReps(stats.totalReps);
     setLoading(false);
   }, [uc]);

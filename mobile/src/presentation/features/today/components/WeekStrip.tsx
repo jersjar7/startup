@@ -5,6 +5,7 @@ import { Card } from '@/presentation/ui/Card';
 import { Text } from '@/presentation/ui/Text';
 import { useTheme } from '@/core/theme/useTheme';
 import type { WeekDay } from '@/domain/usecases/GetWeekActivity';
+import { displayStreakNumber } from '@/domain/entities/streak';
 
 const DAY_LETTERS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
@@ -21,7 +22,7 @@ export function WeekStrip({ days, todayComplete = false, streak = 0 }: Props) {
   // The number must equal what the dots show — today only counts once its
   // queue is done. The label and the strip may never disagree.
   const todayStudied = days.length > 0 && days[days.length - 1].studied;
-  const displayStreak = todayStudied && !todayComplete ? Math.max(0, streak - 1) : streak;
+  const displayStreak = displayStreakNumber(streak, todayStudied, todayComplete);
   return (
     <Card style={{ marginTop: 12 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>

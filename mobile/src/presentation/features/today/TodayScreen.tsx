@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { View, ActivityIndicator } from 'react-native';
+import { displayStreakNumber } from '@/domain/entities/streak';
 import Svg, { Path } from 'react-native-svg';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -19,11 +20,10 @@ export function TodayScreen() {
   const theme = useTheme();
   const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { loading, mastery, plan, session, streak, chapterNames, week, reload } = useTodayViewModel();
-  // Display rule: the streak number never exceeds what the dots show — today
-  // counts only once its queue is done (WeekStrip applies the same rule).
+  // ONE display rule everywhere (see domain/entities/streak.ts).
   const todayStudied = week.length > 0 && week[week.length - 1].studied;
   const todayComplete = session != null && session.items.length === 0;
-  const displayStreak = todayStudied && !todayComplete ? Math.max(0, streak - 1) : streak;
+  const displayStreak = displayStreakNumber(streak, todayStudied, todayComplete);
 
   // Recompute mastery + session when returning from a review session.
   useFocusEffect(
@@ -48,9 +48,8 @@ export function TodayScreen() {
       footer={
         <View>
           <Text variant="sub" color={theme.palette.ink3} style={{ textAlign: 'center', marginBottom: 8 }} numberOfLines={1}>
-            {[streak > 0 ? `Day ${streak}` : null, `${session.items.length} cards`, `~${session.estimatedMinutes} min`]
-              .filter(Boolean)
-              .join(' · ')}
+            {/* the streak card above carries the day story — no ambiguous "Day N" here */}
+            {`${session.items.length} cards · ~${session.estimatedMinutes} min`}
           </Text>
           <Button label="Start" onPress={() => nav.navigate('Review')} />
         </View>

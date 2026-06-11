@@ -125,13 +125,16 @@ function transformMath(input: string): string {
 
   s = s
     .replace(/\{,\}/g, ',')
+    // escaped punctuation renders literally — \% must show as % (the
+    // letter-command strip below never catches these)
+    .replace(/\\([%$#&_])/g, '$1')
     .replace(/\\left|\\right|\\!/g, '')
     // \, is a thin space — dropping it glued numbers to units ("120.0ft")
     .replace(/\\,|\\;|\\:|\\quad|\\qquad|~/g, ' ')
-    .replace(/ {2,}/g, ' ') // collapse doubled spaces ("120.0  ft")
     .replace(/\\[A-Za-z]+/g, '') // drop any unmapped command
     .replace(/[{}]/g, '')
-    .replace(/[ \t]{2,}/g, ' ');
+    // final pass: collapse any doubled spacing left by the substitutions
+    .replace(/[ \t ]{2,}/g, ' ');
 
   return s.trim();
 }
