@@ -1,12 +1,21 @@
-import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Pressable } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { Screen } from '@/presentation/ui/Screen';
 import { Text } from '@/presentation/ui/Text';
 import { Button } from '@/presentation/ui/Button';
 import { FadeIn } from '@/presentation/ui/FadeIn';
+import { OptionSheet, type SheetOption } from '@/presentation/ui/OptionSheet';
 import { useTheme } from '@/core/theme/useTheme';
 import { haptics } from '@/core/haptics';
+import { useUseCases } from '@/di/useUseCases';
+
+const REMINDER_OPTIONS: readonly SheetOption[] = [
+  { label: '8:00 AM', value: '8' },
+  { label: '12:00 PM', value: '12' },
+  { label: '6:00 PM', value: '18' },
+  { label: '9:00 PM', value: '21' },
+];
 
 interface Props {
   reviewed: number;
@@ -17,11 +26,17 @@ interface Props {
 // Bounded ending — celebrate, then stop. No "keep going" push.
 export function DoneView({ reviewed, streak, onClose }: Props) {
   const theme = useTheme();
+  const uc = useUseCases();
+  const [reminderOff, setReminderOff] = useState(false);
+  const [picking, setPicking] = useState(false);
 
   // The one earned moment — a single success tap as the screen lands.
   useEffect(() => {
     haptics.success();
-  }, []);
+    // Quiet streak-protection nudge — only while reminders are off, at the
+    // moment motivation peaks. Disappears forever once a reminder exists.
+    void uc.getReminder.execute().then((h) => setReminderOff(h === null));
+  }, [uc]);
 
   return (
     <Screen edges={['top', 'bottom']}>
@@ -70,10 +85,28 @@ export function DoneView({ reviewed, streak, onClose }: Props) {
             </Text>
           </View>
         ) : null}
+
+        {reminderOff && streak > 0 ? (
+          <Pressable onPress={() => setPicking(true)} hitSlop={8} style={{ marginTop: 18 }}>
+            <Text variant="sub" color={theme.palette.ink2}>
+              Protect the streak — <Text variant="bodyStrong" color={theme.palette.ember}>set a reminder</Text>
+            </Text>
+          </Pressable>
+        ) : null}
       </FadeIn>
       <View style={{ paddingVertical: 16 }}>
         <Button label="Done" variant="ghost" onPress={onClose} />
       </View>
+      <OptionSheet
+        visible={picking}
+        title="Daily reminder"
+        options={REMINDER_OPTIONS}
+        onSelect={(v) => {
+          void uc.setReminder.execute({ hour: Number(v) }).then(() => setReminderOff(false));
+          setPicking(false);
+        }}
+        onClose={() => setPicking(false)}
+      />
     </Screen>
   );
 }

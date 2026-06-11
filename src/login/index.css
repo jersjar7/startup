@@ -78,6 +78,19 @@
   margin-top: 0.5rem;
 }
 
+/* one-mode-at-a-time toggle line under the CTA */
+.login-mode-toggle {
+  margin-top: 0.9rem;
+  font-size: 0.875rem;
+  color: var(--gray-500, #8a8378);
+  text-align: center;
+}
+
+.login-mode-toggle .forgot-link {
+  margin-bottom: 0;
+  font-size: 0.875rem;
+}
+
 .login-buttons button {
   flex: 1;
   display: inline-flex;

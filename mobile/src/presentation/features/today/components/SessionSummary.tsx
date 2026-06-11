@@ -5,7 +5,7 @@ import { Text } from '@/presentation/ui/Text';
 import { Overline } from '@/presentation/ui/Overline';
 import { Divider } from '@/presentation/ui/Divider';
 import { useTheme } from '@/core/theme/useTheme';
-import { interactionLabel, interactionColor } from '@/presentation/ui/semantics';
+import { interactionLabel } from '@/presentation/ui/semantics';
 import type { SessionItem } from '@/domain/entities/session';
 import type { InteractionMode } from '@/domain/entities/tiers';
 
@@ -50,10 +50,12 @@ export function SessionSummary({ items, chapterNames = {} }: Props) {
               paddingVertical: 7,
             }}
           >
+            {/* neutral chips — the screen's one colorful moment is the ring;
+                session screens teach the type colors via their overlines */}
             <Text variant="mono" style={{ fontSize: 14 }}>
               {n}
             </Text>
-            <Overline color={interactionColor(kind, theme)}>{interactionLabel(kind)}</Overline>
+            <Overline color={theme.palette.ink2}>{interactionLabel(kind)}</Overline>
           </View>
         ))}
       </View>

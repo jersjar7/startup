@@ -215,6 +215,25 @@ export function Study({ userName, onLogout, displayName }) {
             <span className="study-section-count">{details.subtopics.length} topics</span>
           </div>
 
+          {/* Guided entry — a rusty returner needs one obvious place to start,
+              not a mixed problem session as the only filled CTA. */}
+          {(() => {
+            const firstEntry = (LESSONS[topicId] ?? []).find((e) => (e.lessons ?? []).length > 0);
+            const firstLesson = firstEntry?.lessons?.[0];
+            if (!firstLesson) return null;
+            return (
+              <button
+                className="btn-primary study-practice-all-btn"
+                style={{ marginBottom: '1rem' }}
+                onClick={() => navigate(`/lesson/${topicId}/${firstLesson.id}`)}
+              >
+                <BookOpenText size={18} weight="bold" />
+                {`Start: ${firstLesson.name}`}
+                <ArrowRight size={16} weight="bold" />
+              </button>
+            );
+          })()}
+
           <div className="st-list">
             {details.subtopics.map((sub, i) => (
               <SubtopicRow
@@ -229,10 +248,10 @@ export function Study({ userName, onLogout, displayName }) {
             ))}
           </div>
 
-          {/* ── Practice All Button ── */}
+          {/* ── Practice All Button (secondary — the guided lesson is primary) ── */}
           <div className="study-practice-all">
             <button
-              className="btn-primary study-practice-all-btn"
+              className="btn-secondary study-practice-all-btn"
               onClick={() => navigate(`/problems/${topicId}`)}
               disabled={problemCount === 0}
             >

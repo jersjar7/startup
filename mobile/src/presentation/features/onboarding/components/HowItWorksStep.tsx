@@ -40,7 +40,7 @@ export function HowItWorksStep() {
         </Text>
         <Text variant="body" color={theme.palette.ink2} style={{ marginTop: 8 }}>
           Mastery isn't a guaranteed pass — nobody can promise that. But master the lessons and you'll
-          know what drives every question, however it's asked. That's how you walk in ready.
+          recognize what drives the questions, however they're asked. That's how you walk in ready.
         </Text>
       </Card>
     </View>

@@ -138,7 +138,7 @@ export function PracticeScreen() {
       </View>
       <ListRow
         title="Full mock exam"
-        subtitle="110 questions · timed · part of the exam pass · desktop"
+        subtitle="110 questions · timed · included in the optional Exam Pass"
         onPress={() => Linking.openURL(WEB_URL)}
         right={
           <Text

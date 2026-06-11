@@ -19,6 +19,8 @@ export function Login({ userName, onLogin }) {
   const [showForgot, setShowForgot] = React.useState(false);
   const [acceptedTerms, setAcceptedTerms] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
+  // One form, one mode at a time — returning users never parse signup chrome.
+  const [mode, setMode] = React.useState('login'); // 'login' | 'create'
 
   React.useEffect(() => {
     if (userName) {
@@ -195,44 +197,63 @@ export function Login({ userName, onLogin }) {
               {showPassword ? <EyeSlash size={18} /> : <Eye size={18} />}
             </button>
           </div>
-          {/* Signup password rules only matter on the create-account path —
-              returning users shouldn't read them as an error hint. */}
-          {acceptedTerms && (
+          {mode === 'create' && (
             <p className="login-pw-hint">
               Use at least 8 characters with an uppercase letter, a lowercase letter, and a number.
             </p>
           )}
-          <button
-            type="button"
-            className="forgot-link"
-            onClick={() => { setShowForgot(true); setError(''); }}
-          >
-            Forgot password?
-          </button>
-          <label className="terms-checkbox">
-            <input
-              type="checkbox"
-              checked={acceptedTerms}
-              onChange={(e) => setAcceptedTerms(e.target.checked)}
-            />
-            <span>
-              I agree to the{' '}
-              <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-              {' '}and{' '}
-              <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-              {' '}<span className="terms-hint">(required to create an account)</span>
-            </span>
-          </label>
+          {mode === 'login' && (
+            <button
+              type="button"
+              className="forgot-link"
+              onClick={() => { setShowForgot(true); setError(''); }}
+            >
+              Forgot password?
+            </button>
+          )}
+          {mode === 'create' && (
+            <label className="terms-checkbox">
+              <input
+                type="checkbox"
+                checked={acceptedTerms}
+                onChange={(e) => setAcceptedTerms(e.target.checked)}
+              />
+              <span>
+                I agree to the{' '}
+                <a href="/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+                {' '}and{' '}
+                <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+              </span>
+            </label>
+          )}
           <div className="login-buttons">
-            <button type="submit" className="btn--primary" disabled={submitting || !(email && password)}>
-              <SignIn weight="bold" size={18} />
-              {submitting ? 'Logging in...' : 'Login'}
-            </button>
-            <button type="button" className="btn--secondary" disabled={submitting || !(email && password)} onClick={handleRegister}>
-              <UserPlus weight="bold" size={18} />
-              {submitting ? 'Please wait...' : 'Create account'}
-            </button>
+            {mode === 'login' ? (
+              <button type="submit" className="btn--primary" disabled={submitting || !(email && password)}>
+                <SignIn weight="bold" size={18} />
+                {submitting ? 'Logging in...' : 'Log in'}
+              </button>
+            ) : (
+              <button type="button" className="btn--primary" disabled={submitting || !(email && password)} onClick={handleRegister}>
+                <UserPlus weight="bold" size={18} />
+                {submitting ? 'Please wait...' : 'Create account'}
+              </button>
+            )}
           </div>
+          <p className="login-mode-toggle">
+            {mode === 'login' ? (
+              <>New here?{' '}
+                <button type="button" className="forgot-link" onClick={() => { setMode('create'); setError(''); }}>
+                  Create a free account
+                </button>
+              </>
+            ) : (
+              <>Have an account?{' '}
+                <button type="button" className="forgot-link" onClick={() => { setMode('login'); setError(''); }}>
+                  Log in
+                </button>
+              </>
+            )}
+          </p>
         </form>
       </div>
     </main>

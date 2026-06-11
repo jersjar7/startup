@@ -262,7 +262,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   // (hasActivity) — never on a brand-new user's first, empty visit — and only
   // if they haven't answered or dismissed it. Existing users have activity, so
   // they see it right away.
-  const showSource = hasActivity && !acqSource && !acqDismissed;
+  // Survey waits until the user has actually built something — marketing
+  // attribution never precedes the first study win.
+  const showSource = hasActivity && readiness > 0 && !acqSource && !acqDismissed;
 
   function handleDiagnosticSkip() {
     localStorage.setItem('diagnosticSkipped', 'true');
@@ -456,6 +458,12 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                 Focus Areas
               </h3>
               <p className="focus-sub">Where your effort moves the needle most</p>
+              {focusAreas.every((f) => f.masteryPct === 0) ? (
+                // No data yet — focus claims would be guesses, not guidance.
+                <p className="focus-sub" style={{ marginTop: '0.5rem' }}>
+                  Finish the Quick Start to see your focus areas.
+                </p>
+              ) : (
               <div className="focus-list">
                 {focusAreas.map(({ ch, masteryPct, weight }) => (
                   <div key={ch.id} className="focus-row">
@@ -479,6 +487,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                   </div>
                 ))}
               </div>
+              )}
             </div>
           )}
 
