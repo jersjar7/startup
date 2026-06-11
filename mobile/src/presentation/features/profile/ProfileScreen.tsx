@@ -32,13 +32,29 @@ const DATE_OPTIONS: readonly SheetOption[] = (
   value: new Date(Date.now() + days * DAY).toISOString().slice(0, 10),
 }));
 
-type Editing = 'pace' | 'date' | null;
+type Editing = 'pace' | 'date' | 'reminder' | null;
+
+const REMINDER_OPTIONS: readonly SheetOption[] = [
+  { label: 'Off', value: 'off' },
+  { label: '8:00 AM', value: '8' },
+  { label: '12:00 PM', value: '12' },
+  { label: '6:00 PM', value: '18' },
+  { label: '9:00 PM', value: '21' },
+];
+
+function formatHour(h: number | null): string {
+  if (h === null) return 'Off';
+  const period = h < 12 ? 'AM' : 'PM';
+  const hour12 = h % 12 === 0 ? 12 : h % 12;
+  return `${hour12}:00 ${period}`;
+}
 
 export function ProfileScreen() {
   const theme = useTheme();
   const uc = useUseCases();
   const restart = useAppRestart();
-  const { loading, overall, masteredCount, topicCount, prefs, reload, update } = useProfileViewModel();
+  const { loading, overall, masteredCount, topicCount, prefs, reminderHour, reload, update, setReminder } =
+    useProfileViewModel();
   const [editing, setEditing] = useState<Editing>(null);
   const [confirmingReset, setConfirmingReset] = useState(false);
 
@@ -108,6 +124,16 @@ export function ProfileScreen() {
               </Text>
             }
           />
+          <Divider />
+          <ListRow
+            title="Reminders"
+            onPress={() => setEditing('reminder')}
+            right={
+              <Text variant="sub" color={theme.palette.ink3}>
+                {formatHour(reminderHour)}
+              </Text>
+            }
+          />
         </>
       ) : null}
 
@@ -143,6 +169,17 @@ export function ProfileScreen() {
         selected={prefs?.examDate}
         onSelect={(v) => {
           void update({ examDate: v });
+          setEditing(null);
+        }}
+        onClose={() => setEditing(null)}
+      />
+      <OptionSheet
+        visible={editing === 'reminder'}
+        title="Daily reminder"
+        options={REMINDER_OPTIONS}
+        selected={reminderHour === null ? 'off' : String(reminderHour)}
+        onSelect={(v) => {
+          void setReminder(v === 'off' ? null : Number(v));
           setEditing(null);
         }}
         onClose={() => setEditing(null)}

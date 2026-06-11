@@ -12,9 +12,11 @@ import { ChapterRepositoryImpl } from '@/data/repositories/ChapterRepositoryImpl
 import { StreakRepositoryImpl } from '@/data/repositories/StreakRepositoryImpl';
 import { AppDataRepositoryImpl } from '@/data/repositories/AppDataRepositoryImpl';
 import { DiagnosticRepositoryImpl } from '@/data/repositories/DiagnosticRepositoryImpl';
+import { ReminderRepositoryImpl } from '@/data/repositories/ReminderRepositoryImpl';
 import { Sm2Scheduler } from '@/data/services/Sm2Scheduler';
 import { ConceptMasteryPolicy } from '@/data/services/ConceptMasteryPolicy';
 import { AdaptivePacingPolicy } from '@/data/services/AdaptivePacingPolicy';
+import { ExpoReminderScheduler } from '@/data/services/ExpoReminderScheduler';
 
 import { GetDailySession } from '@/domain/usecases/GetDailySession';
 import { ComputeStudyPlan } from '@/domain/usecases/ComputeStudyPlan';
@@ -31,6 +33,8 @@ import { RecordStudyDay } from '@/domain/usecases/RecordStudyDay';
 import { ResetAllProgress } from '@/domain/usecases/ResetAllProgress';
 import { GetDiagnosticQuestions } from '@/domain/usecases/GetDiagnosticQuestions';
 import { SubmitDiagnostic } from '@/domain/usecases/SubmitDiagnostic';
+import { GetReminder } from '@/domain/usecases/GetReminder';
+import { SetReminder } from '@/domain/usecases/SetReminder';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
@@ -48,6 +52,8 @@ export interface UseCases {
   readonly resetAllProgress: ResetAllProgress;
   readonly getDiagnosticQuestions: GetDiagnosticQuestions;
   readonly submitDiagnostic: SubmitDiagnostic;
+  readonly getReminder: GetReminder;
+  readonly setReminder: SetReminder;
 }
 
 export function createUseCases(): UseCases {
@@ -70,6 +76,8 @@ export function createUseCases(): UseCases {
   const chapters = new ChapterRepositoryImpl(content);
   const streaks = new StreakRepositoryImpl(store);
   const appData = new AppDataRepositoryImpl(store);
+  const reminderRepo = new ReminderRepositoryImpl(store);
+  const reminderScheduler = new ExpoReminderScheduler();
 
   // use cases
   return {
@@ -88,5 +96,7 @@ export function createUseCases(): UseCases {
     resetAllProgress: new ResetAllProgress(appData),
     getDiagnosticQuestions: new GetDiagnosticQuestions(chapters, problems),
     submitDiagnostic: new SubmitDiagnostic(diagnostic),
+    getReminder: new GetReminder(reminderRepo),
+    setReminder: new SetReminder(reminderRepo, reminderScheduler),
   };
 }

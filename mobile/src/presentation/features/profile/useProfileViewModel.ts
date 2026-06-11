@@ -10,17 +10,20 @@ export function useProfileViewModel() {
   const [masteredCount, setMasteredCount] = useState(0);
   const [topicCount, setTopicCount] = useState(0);
   const [prefs, setPrefs] = useState<StudyPreferences | null>(null);
+  const [reminderHour, setReminderHour] = useState<number | null>(null);
 
   const load = useCallback(async () => {
-    const [o, chapters, p] = await Promise.all([
+    const [o, chapters, p, reminder] = await Promise.all([
       uc.getOverallMastery.execute(),
       uc.getChapterProgress.execute(),
       uc.getStudyPreferences.execute(),
+      uc.getReminder.execute(),
     ]);
     setOverall(o);
     setTopicCount(chapters.length);
     setMasteredCount(chapters.filter((c) => c.mastery.state === 'mastered').length);
     setPrefs(p);
+    setReminderHour(reminder);
     setLoading(false);
   }, [uc]);
 
@@ -38,5 +41,13 @@ export function useProfileViewModel() {
     [uc, prefs, load],
   );
 
-  return { loading, overall, masteredCount, topicCount, prefs, reload: load, update };
+  const setReminder = useCallback(
+    async (hour: number | null) => {
+      await uc.setReminder.execute({ hour });
+      await load();
+    },
+    [uc, load],
+  );
+
+  return { loading, overall, masteredCount, topicCount, prefs, reminderHour, reload: load, update, setReminder };
 }
