@@ -53,6 +53,7 @@ import { GetWeekActivity } from '@/domain/usecases/GetWeekActivity';
 import { SignIn } from '@/domain/usecases/SignIn';
 import { GetAccount } from '@/domain/usecases/GetAccount';
 import { SignOut } from '@/domain/usecases/SignOut';
+import { DeleteAccount } from '@/domain/usecases/DeleteAccount';
 import { SyncNow } from '@/domain/usecases/SyncNow';
 import { GetSyncStatus } from '@/domain/usecases/GetSyncStatus';
 
@@ -81,6 +82,7 @@ export interface UseCases {
   readonly signIn: SignIn;
   readonly getAccount: GetAccount;
   readonly signOut: SignOut;
+  readonly deleteAccount: DeleteAccount;
   readonly syncNow: SyncNow;
   readonly getSyncStatus: GetSyncStatus;
 }
@@ -147,6 +149,7 @@ export function createUseCases(): UseCases {
     signIn: new SignIn(accounts, diagnostic),
     getAccount: new GetAccount(accounts),
     signOut: new SignOut(accounts),
+    deleteAccount: new DeleteAccount(accounts, appData),
     syncNow: new SyncNow(accounts, outbox, syncApi, reviews, scheduler, serverMastery),
     getSyncStatus: new GetSyncStatus(serverMastery, outbox),
   };

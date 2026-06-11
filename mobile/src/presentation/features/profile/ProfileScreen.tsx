@@ -66,6 +66,7 @@ export function ProfileScreen() {
     useProfileViewModel();
   const [editing, setEditing] = useState<Editing>(null);
   const [confirmingReset, setConfirmingReset] = useState(false);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [pickingTime, setPickingTime] = useState(false);
 
   const doReset = () => {
@@ -287,6 +288,33 @@ export function ProfileScreen() {
           }}
         />
       ) : null}
+      {account ? (
+        <>
+          <Divider />
+          <ListRow
+            title="Delete account"
+            subtitle="Permanently removes your fe4raccoons.com account"
+            chevron={false}
+            onPress={() => setConfirmingDelete(true)}
+            right={
+              <Text variant="bodyStrong" color={theme.palette.error}>
+                Delete
+              </Text>
+            }
+          />
+        </>
+      ) : null}
+
+      <OptionSheet
+        visible={confirmingDelete}
+        title="Delete your account? All progress on every device is erased. This can't be undone"
+        options={[{ label: 'Permanently delete my account', value: 'delete' }]}
+        onSelect={() => {
+          setConfirmingDelete(false);
+          void uc.deleteAccount.execute().then(() => restart());
+        }}
+        onClose={() => setConfirmingDelete(false)}
+      />
       <OptionSheet
         visible={confirmingReset}
         title="Reset this device? This can't be undone"

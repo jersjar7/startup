@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "FE for Raccoons",
+    "slug": "fe4raccoons",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

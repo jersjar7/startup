@@ -12,4 +12,6 @@ export interface AccountRepository {
   fetchRemoteMastery(): Promise<Record<string, number>>;
   /** Write profile fields back to the website account. */
   updateProfile(fields: { examDate?: string }): Promise<void>;
+  /** Permanently delete the website account (server-side, all collections). */
+  deleteAccount(): Promise<void>;
 }
