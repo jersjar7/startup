@@ -88,6 +88,22 @@ Status: `[ ]` open · `[x]` done · `[~]` partially done / spec'd
 - [ ] **Home-screen widget** (medium) — streak + countdown + due count; after
   P0 invariants exist.
 
+## Overnight polish loop (2026-06-10/11) — CONVERGED
+
+13 rounds of capture → 6-agent panel (5 personas + senior edu-UX expert) →
+implement → deploy. High/med findings per round: 77 → 45 → 26 → 15 → 10 → 11
+→ 8 → 6 → 8 → 6 → 8 → 2 → **0 (6/6 satisfied)**. Real bugs caught and fixed
+along the way: clipped tab bar, collapsed 54px buttons (flexBasis), UTC
+streak rollover, LaTeX escape leaks, 77 formula cards answering half their
+prompt, streak self-contradictions, a study-page grid regression.
+
+Remaining LOW items (recorded, not blocking): auto-advance the exam-date
+step; web KaTeX numeric options in mono; achievements earned-check icons;
+login subtitle alignment; segmented progress bar on web problems; custom
+reminder time; Profile streak flame treatment; jake's web in-session XP chip
+(feature). Perception note: single NBSP inside mono spans can read as a wide
+gap — verified single-space in source.
+
 ## Loop log
 
 - **Round 1 (2026-06-10):** panel ran; spec amended (scheduler unification,
