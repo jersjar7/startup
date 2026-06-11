@@ -88,23 +88,40 @@ for (const rec of cls.problems) {
   });
 }
 
-// Formula-recall cards: a mined "formula-first" prompt + the VERIFIED handbook
-// formula as the answer. Grounded (no fabricated content). Non-paper only.
+// Recall cards, all grounded (no fabricated content), non-paper only:
+//  • formula-first → mined prompt + the VERIFIED handbook formula
+//  • concept/trap  → mined tap-the-trap prompt + the VERIFIED eli5 explanation
 const cards = [];
+const trimEli5 = (s) => (s.length > 320 ? `${s.slice(0, 317).replace(/\s+\S*$/, '')}…` : s);
 for (const rec of cls.problems) {
   if (rec.mobileTier === 'paper') continue;
   const p = byId.get(rec.id);
-  if (!p || !p.handbookFormula) continue;
-  const fc = (rec.cards || []).find((c) => c.kind === 'formula-first');
-  if (!fc || !fc.prompt) continue;
-  cards.push({
-    id: `${p.id}:fc`,
-    problemId: p.id,
-    chapterId: rec.chapter,
-    kind: 'formulaFirst',
-    prompt: fc.prompt,
-    answer: `$${p.handbookFormula}$${p.handbookPage ? ` (${p.handbookPage})` : ''}`,
-  });
+  if (!p) continue;
+  const mined = rec.cards || [];
+
+  const fc = mined.find((c) => c.kind === 'formula-first');
+  if (fc && fc.prompt && p.handbookFormula) {
+    cards.push({
+      id: `${p.id}:fc`,
+      problemId: p.id,
+      chapterId: rec.chapter,
+      kind: 'formulaFirst',
+      prompt: fc.prompt,
+      answer: `$${p.handbookFormula}$${p.handbookPage ? ` (${p.handbookPage})` : ''}`,
+    });
+  }
+
+  const tc = mined.find((c) => c.kind === 'tap-the-trap');
+  if (tc && tc.prompt && p.eli5) {
+    cards.push({
+      id: `${p.id}:cc`,
+      problemId: p.id,
+      chapterId: rec.chapter,
+      kind: 'tapTheTrap',
+      prompt: tc.prompt,
+      answer: trimEli5(p.eli5),
+    });
+  }
 }
 
 const present = new Set([...problems.map((p) => p.chapterId), ...cards.map((c) => c.chapterId)]);
