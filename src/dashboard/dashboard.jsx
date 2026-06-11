@@ -281,17 +281,6 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
       {error && <div className="error-banner" role="alert">{error}</div>}
 
-      {showSource && (
-        <SourcePrompt onClose={(answered) => {
-          if (answered) {
-            setAcqSource('answered');
-          } else {
-            localStorage.setItem('fe4r_acq_dismissed', 'true');
-            setAcqDismissed(true);
-          }
-        }} />
-      )}
-
       {/* Account-setup logistics live in the right column (SetupTodo), so the
           main panel stays focused on preparation. */}
 
@@ -359,6 +348,19 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
       {/* ── Diagnostic Card ── */}
       <DiagnosticCard diagnosticStatus={diagnosticStatus} quickstart={quickstart} onSkip={handleDiagnosticSkip} />
+
+      {/* Marketing attribution never outranks the user's own data — survey
+          sits below the study content. */}
+      {showSource && (
+        <SourcePrompt onClose={(answered) => {
+          if (answered) {
+            setAcqSource('answered');
+          } else {
+            localStorage.setItem('fe4r_acq_dismissed', 'true');
+            setAcqDismissed(true);
+          }
+        }} />
+      )}
 
       {/* ── Two-column layout: Chapters (left) + Sidebar (right) ── */}
       <div className="dash-grid">
@@ -449,7 +451,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                   <div key={ch.id} className="focus-row">
                     <div className="focus-row-top">
                       <span className="focus-name">{ch.name}</span>
-                      <span className="focus-weight">{weight} exam Qs</span>
+                      {/* same range chips as the chapter table — one source, no contradiction */}
+                      <span className="focus-weight">{ch.qs ? `${ch.qs} exam Qs` : `${weight} exam Qs`}</span>
                     </div>
                     <div className="mastery-bar-pct focus-bar">
                       <div

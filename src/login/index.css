@@ -111,10 +111,12 @@
   box-shadow: var(--shadow-md);
 }
 
-/* Explicit disabled states — enabled vs disabled must be unmistakable */
+/* Explicit disabled states — enabled vs disabled must be unmistakable.
+   Disabled is desaturated cream, never a tinted ember that reads as "almost on". */
 .login-buttons .btn--primary:disabled {
-  background: var(--ember);
-  opacity: 0.4;
+  background: var(--cream-dark, #f5ede0);
+  color: rgba(44, 44, 44, 0.4);
+  box-shadow: none;
   cursor: not-allowed;
 }
 

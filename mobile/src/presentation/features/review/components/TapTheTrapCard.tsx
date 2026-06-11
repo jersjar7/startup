@@ -29,7 +29,15 @@ export function TapTheTrapCard({ item, onGraded }: Props) {
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <Overline color={theme.palette.ember}>Spot the trap</Overline>
-        <MathText variant="h2" style={{ marginTop: 14, fontSize: 19, lineHeight: 27 }}>
+        {/* Long stems read at body scale — display size is for short prompts */}
+        <MathText
+          variant="h2"
+          style={
+            item.statement.length > 140
+              ? { marginTop: 14, fontSize: 16, lineHeight: 23 }
+              : { marginTop: 14, fontSize: 19, lineHeight: 27 }
+          }
+        >
           {item.statement}
         </MathText>
 

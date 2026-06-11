@@ -23,7 +23,7 @@ export function MasteryHeroCard({ percent }: Props) {
         <Text variant="title">Concept mastery</Text>
         <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 2 }}>
           {hasReading
-            ? 'the concepts the FE tests — not a pass rate'
+            ? 'On this phone — not a pass rate' // scope is honest until sync ships
             : "Complete today's cards for your first reading"}
         </Text>
       </View>

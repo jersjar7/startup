@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Pressable } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 import { Text } from './Text';
 import { useTheme } from '@/core/theme/useTheme';
 
@@ -9,12 +10,15 @@ interface Props {
   icon?: React.ReactNode;
   right?: React.ReactNode;
   onPress?: () => void;
+  /** Pressable rows show a caret by default — opt out for inline actions. */
+  chevron?: boolean;
 }
 
 // Generic settings/menu row: optional left icon tile, title + subtitle, right
 // accessory (value, chevron, badge). Pressable only when onPress is given.
-export function ListRow({ title, subtitle, icon, right, onPress }: Props) {
+export function ListRow({ title, subtitle, icon, right, onPress, chevron }: Props) {
   const theme = useTheme();
+  const showChevron = chevron ?? Boolean(onPress);
   const body = (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14, paddingVertical: 15 }}>
       {icon ? (
@@ -42,6 +46,11 @@ export function ListRow({ title, subtitle, icon, right, onPress }: Props) {
         ) : null}
       </View>
       {right}
+      {showChevron ? (
+        <Svg width={14} height={14} viewBox="0 0 256 256" fill="none" stroke={theme.palette.ink4} strokeWidth={20}>
+          <Path d="M96 48l80 80-80 80" strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      ) : null}
     </View>
   );
 

@@ -25,11 +25,12 @@ export function TabNavigator() {
         tabBarStyle: {
           backgroundColor: theme.palette.cream,
           borderTopColor: theme.palette.line,
-          height: 56 + bottomPad,
-          paddingTop: 6,
+          height: 64 + bottomPad,
+          paddingTop: 8,
           paddingBottom: bottomPad,
         },
-        tabBarLabelStyle: { fontFamily: theme.fontFamily.heading, fontSize: 11, marginTop: 2 },
+        tabBarItemStyle: { paddingVertical: 0 },
+        tabBarLabelStyle: { fontFamily: theme.fontFamily.heading, fontSize: 11, lineHeight: 14, marginTop: 3 },
         tabBarIcon: ({ color }) => <TabBarIcon name={route.name} color={color} />,
       })}
     >

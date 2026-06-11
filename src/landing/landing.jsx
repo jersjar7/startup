@@ -111,7 +111,7 @@ export function Landing({ userName }) {
             FE Civil Exam Prep
           </span>
           <h1 className="hero-title">
-            Create an account and find everything you need to walk into the FE ready.
+            Everything you need to walk into the FE ready.
             <span className="hero-title-emphasis">Everything.</span>
           </h1>
           <p className="hero-subtitle">

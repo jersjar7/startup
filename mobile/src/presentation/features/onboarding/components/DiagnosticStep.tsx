@@ -58,7 +58,7 @@ export function DiagnosticStep({ onComplete }: { onComplete: (answers: Diagnosti
   };
 
   const handleGraded = (grade: ReviewGrade) => {
-    answers.current.push({ chapterId: q.chapterId, correct: grade === 'gotIt' });
+    answers.current.push({ problemId: q.id, chapterId: q.chapterId, correct: grade === 'gotIt' });
     const next = index + 1;
     if (next >= questions.length) onComplete([...answers.current]);
     else setIndex(next);
@@ -75,7 +75,8 @@ export function DiagnosticStep({ onComplete }: { onComplete: (answers: Diagnosti
           paddingBottom: 6,
         }}
       >
-        <Overline color={theme.palette.ember}>
+        {/* Neutral counter — the card's own type label carries the accent */}
+        <Overline color={theme.palette.ink3}>
           Quick check · {index + 1} of {questions.length}
         </Overline>
         <Pressable onPress={() => onComplete([...answers.current])} hitSlop={10}>

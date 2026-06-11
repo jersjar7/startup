@@ -87,7 +87,7 @@ export function ProfileScreen() {
 
       <View style={{ marginTop: 18 }}>
         <Card style={{ flexDirection: 'row', alignItems: 'center', gap: 18, borderRadius: theme.radius.hero }}>
-          <ProgressRing percent={overall.percent} color={masteryColor(overall.state, theme)} />
+          <ProgressRing percent={overall.percent} />
           <View style={{ flex: 1 }}>
             <Text variant="title">Concept mastery</Text>
             <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 2 }}>
@@ -172,6 +172,7 @@ export function ProfileScreen() {
       <ListRow
         title="Reset this device"
         subtitle="Clears progress stored on this phone"
+        chevron={false}
         onPress={() => setConfirmingReset(true)}
         right={
           <Text variant="bodyStrong" color={theme.palette.error}>

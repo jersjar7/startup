@@ -92,17 +92,15 @@ export function DiagnosticCard({ diagnosticStatus, quickstart = {}, onSkip }) {
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
           <Compass size={28} weight="bold" style={{ color: 'var(--forest)', flexShrink: 0, marginTop: '2px' }} />
           <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <h3 className="diag-card-title" style={{ marginBottom: 0 }}>See Where You Stand</h3>
-              <span className="diag-free-badge">Free</span>
-            </div>
+            <h3 className="diag-card-title" style={{ marginBottom: 0 }}>See Where You Stand</h3>
             <p className="diag-card-subtitle">Answer 5 questions. About 5 minutes.</p>
             <div className="diag-card-body">
               <p>
                 A quick start that maps where you stand, one chapter at a time.
-                Answer 5 questions to begin — you'll watch your readiness map build,
+                Answer 5 questions to begin — you'll watch your mastery map build,
                 and you can stop anytime and study any chapter right away.
               </p>
+              {/* one "free" mention is confidence; three is protesting */}
               <p style={{ fontSize: '0.82rem', color: 'var(--gray-400)' }}>
                 5 questions to start &middot; ~5 minutes &middot; always free
               </p>

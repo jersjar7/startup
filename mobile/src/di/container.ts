@@ -119,7 +119,7 @@ export function createUseCases(): UseCases {
     recordStudyDay: new RecordStudyDay(streaks),
     resetAllProgress: new ResetAllProgress(appData),
     getDiagnosticQuestions: new GetDiagnosticQuestions(chapters, problems),
-    submitDiagnostic: new SubmitDiagnostic(diagnostic),
+    submitDiagnostic: new SubmitDiagnostic(diagnostic, reviews, scheduler),
     getReminder: new GetReminder(reminderRepo),
     setReminder: new SetReminder(reminderRepo, reminderScheduler),
     getSoundEnabled: new GetSoundEnabled(soundRepo),

@@ -124,6 +124,22 @@ for (const rec of cls.problems) {
   }
 }
 
+// Hand-audited corrections (e.g. two-part prompts whose generated answer only
+// covered one clause) — see scripts/card-answer-overrides.json.
+const OVERRIDES_PATH = path.join(ROOT, 'scripts', 'card-answer-overrides.json');
+if (fs.existsSync(OVERRIDES_PATH)) {
+  const overrides = JSON.parse(fs.readFileSync(OVERRIDES_PATH, 'utf8'));
+  let applied = 0;
+  for (const card of cards) {
+    const o = overrides[card.id];
+    if (!o) continue;
+    if (o.answer) card.answer = o.answer;
+    if (o.prompt) card.prompt = o.prompt;
+    applied++;
+  }
+  console.log(`applied ${applied} card overrides`);
+}
+
 const present = new Set([...problems.map((p) => p.chapterId), ...cards.map((c) => c.chapterId)]);
 const chapters = CHAPTERS.filter((c) => present.has(c.id));
 

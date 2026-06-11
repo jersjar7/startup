@@ -46,7 +46,8 @@ export function ProgressScreen() {
 
       <View style={{ marginTop: 20 }}>
         <Card style={{ flexDirection: 'row', alignItems: 'center', gap: 18, borderRadius: theme.radius.hero }}>
-          <ProgressRing percent={overall.percent} color={masteryColor(overall.state, theme)} />
+          {/* One metric, one color — the arc is always ember (data moment rule) */}
+          <ProgressRing percent={overall.percent} />
           <View style={{ flex: 1 }}>
             <Text variant="title">Concept mastery</Text>
             <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 2 }}>

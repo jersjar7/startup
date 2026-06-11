@@ -96,9 +96,6 @@ export function TodayScreen() {
         }}
       >
         <Text variant="h2">Your review</Text>
-        <Text variant="sub" color={theme.palette.ink3}>
-          {session.items.length} cards · {session.estimatedMinutes} min
-        </Text>
       </View>
 
       <FadeIn offset={8}>
