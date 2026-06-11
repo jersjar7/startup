@@ -26,7 +26,7 @@ const PAGES = [
     headline: 'Practice here. Go deeper online.',
     body:
       'This app is for quick review. Full lessons and exam-style problems are free at fe4raccoons.com. ' +
-      'Progress sync is coming soon; for now, your work is saved on this phone.',
+      'Sign in and your phone reviews count on the website too.',
     Graphic: TwoSurfacesGraphic,
   },
   {

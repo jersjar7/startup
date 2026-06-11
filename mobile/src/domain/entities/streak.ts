@@ -11,6 +11,8 @@ export interface Streak {
 const RECENT_CAP = 14;
 // LOCAL calendar day, never UTC — toISOString would roll the streak over at
 // 5-7pm for US users and mark tomorrow as studied during evening sessions.
+export const localIsoDay = (ms: number): string => isoDay(ms);
+
 const isoDay = (ms: number): string => {
   const d = new Date(ms);
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;

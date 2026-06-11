@@ -939,3 +939,17 @@
 }
 .source-chip:hover:not(:disabled) { border-color: var(--ember); background: var(--ember-bg); color: var(--ember); }
 .source-chip:disabled { opacity: 0.5; cursor: default; }
+
+/* ── Phone activity line (sync v1 Tuesday test) ── */
+.phone-today-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+  padding: 0.55rem 0.9rem;
+  background: var(--forest-bg);
+  color: var(--forest);
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, AppState } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { useUseCases } from '@/di/useUseCases';
 import { useTheme } from '@/core/theme/useTheme';
@@ -32,6 +32,16 @@ export function RootGate() {
       active = false;
     };
   }, [uc, nonce]);
+
+  // Sync on launch and whenever the app returns to the foreground — push the
+  // outbox up, pull web/desk work down. No-op when signed out or offline.
+  useEffect(() => {
+    void uc.syncNow.execute();
+    const sub = AppState.addEventListener('change', (st) => {
+      if (st === 'active') void uc.syncNow.execute();
+    });
+    return () => sub.remove();
+  }, [uc]);
 
   let content: React.ReactNode;
   if (status === 'loading') {

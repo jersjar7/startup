@@ -33,6 +33,9 @@ export function DoneView({ reviewed, streak, onClose }: Props) {
   // The one earned moment — a single success tap as the screen lands.
   useEffect(() => {
     haptics.success();
+    // The session's events are queued — flush them now (Tuesday test: the
+    // web should show this work the same evening).
+    void uc.syncNow.execute();
     // Quiet streak-protection nudge — only while reminders are off, at the
     // moment motivation peaks. Disappears forever once a reminder exists.
     void uc.getReminder.execute().then((h) => setReminderOff(h === null));

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import {
   Lightning,
+  DeviceMobile,
   Fire,
   Timer,
   Trophy,
@@ -109,6 +110,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   });
   const [chapterMastery, setChapterMastery] = React.useState({});
   const [quickstart, setQuickstart] = React.useState({ sampledCount: 0, totalChapters: 15, nextChapterId: null });
+  const [phoneToday, setPhoneToday] = React.useState(null);
   const [acqSource, setAcqSource] = React.useState(null); // their reported source (truthy once answered)
   const [acqDismissed, setAcqDismissed] = React.useState(() => localStorage.getItem('fe4r_acq_dismissed') === 'true');
   const [scoringOpen, setScoringOpen] = React.useState(false);
@@ -129,7 +131,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       fetch('/api/review/count').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/leaderboard/alltime').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/quickstart/state').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
-    ]).then(([statsResult, lbResult, retakeResult, masteryResult, historyResult, reviewCountResult, allTimeResult, quickstartResult]) => {
+      fetch(`/api/sync/today?date=${new Date().toLocaleDateString('en-CA')}`).then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+    ]).then(([statsResult, lbResult, retakeResult, masteryResult, historyResult, reviewCountResult, allTimeResult, quickstartResult, phoneTodayResult]) => {
       const errors = [];
       if (statsResult.status === 'fulfilled') {
         const data = statsResult.value;
@@ -153,6 +156,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       }
       if (quickstartResult.status === 'fulfilled') {
         setQuickstart(quickstartResult.value);
+      }
+      if (phoneTodayResult.status === 'fulfilled' && phoneTodayResult.value.cards > 0) {
+        setPhoneToday(phoneTodayResult.value);
       }
 
       // Diagnostic status
@@ -344,6 +350,18 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           </span>
         ) : null}
       </div>
+
+      {/* Phone work shows up the same evening — the Tuesday test */}
+      {phoneToday && (
+        <div className="phone-today-line">
+          <DeviceMobile weight="bold" size={16} />
+          <span>
+            Today on your phone: {phoneToday.cards} {phoneToday.cards === 1 ? 'card' : 'cards'}
+            {phoneToday.misses > 0 ? ` · ${phoneToday.misses} ${phoneToday.misses === 1 ? 'miss' : 'misses'}` : ''}
+            {phoneToday.lastTs ? ` · synced ${new Date(phoneToday.lastTs).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : ''}
+          </span>
+        </div>
+      )}
 
       {/* ── Exam Readiness ── */}
       {hasActivity && (

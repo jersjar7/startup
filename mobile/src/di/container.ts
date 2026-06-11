@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 // Composition root — the ONLY place concrete implementations are constructed and
 // wired to the domain ports. Swapping infrastructure happens here and nowhere else.
 
@@ -6,6 +8,8 @@ import { AsyncStorageKeyValueStore } from '@/data/sources/storage/AsyncStorageKe
 import { SecureTokenStore } from '@/data/sources/storage/SecureTokenStore';
 import { ApiClient } from '@/data/sources/api/ApiClient';
 import { AccountRepositoryImpl } from '@/data/repositories/AccountRepositoryImpl';
+import { SyncOutboxRepositoryImpl } from '@/data/repositories/SyncOutboxRepositoryImpl';
+import { SyncApi } from '@/data/sources/api/SyncApi';
 import { ProblemRepositoryImpl } from '@/data/repositories/ProblemRepositoryImpl';
 import { CardRepositoryImpl } from '@/data/repositories/CardRepositoryImpl';
 import { ReviewRepositoryImpl } from '@/data/repositories/ReviewRepositoryImpl';
@@ -48,6 +52,7 @@ import { GetWeekActivity } from '@/domain/usecases/GetWeekActivity';
 import { SignIn } from '@/domain/usecases/SignIn';
 import { GetAccount } from '@/domain/usecases/GetAccount';
 import { SignOut } from '@/domain/usecases/SignOut';
+import { SyncNow } from '@/domain/usecases/SyncNow';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
@@ -74,6 +79,7 @@ export interface UseCases {
   readonly signIn: SignIn;
   readonly getAccount: GetAccount;
   readonly signOut: SignOut;
+  readonly syncNow: SyncNow;
 }
 
 export function createUseCases(): UseCases {
@@ -102,6 +108,10 @@ export function createUseCases(): UseCases {
   const tokenStore = new SecureTokenStore();
   const api = new ApiClient(() => tokenStore.get());
   const accounts = new AccountRepositoryImpl(api, tokenStore, store);
+  const outbox = new SyncOutboxRepositoryImpl(store);
+  const syncApi = new SyncApi(api);
+  // Event source tag: the harness runs on web; real builds are ios/android.
+  const eventSource = Platform.OS === 'android' ? ('android' as const) : ('ios' as const);
 
   // Wire the global sound controller: engine now, persisted on/off once loaded.
   sound.configure(new ExpoSoundEngine(), true);
@@ -116,14 +126,14 @@ export function createUseCases(): UseCases {
     getOverallMastery: new GetOverallMastery(mastery),
     getChapterMastery: new GetChapterMastery(mastery),
     getChapterProgress: new GetChapterProgress(chapters, mastery),
-    submitReview: new SubmitReview(reviews, scheduler),
+    submitReview: new SubmitReview(reviews, scheduler, outbox, eventSource),
     getStudyPreferences: new GetStudyPreferences(plans),
     setStudyPreferences: new SetStudyPreferences(plans),
     getStreak: new GetStreak(streaks),
     recordStudyDay: new RecordStudyDay(streaks),
     resetAllProgress: new ResetAllProgress(appData),
     getDiagnosticQuestions: new GetDiagnosticQuestions(chapters, problems),
-    submitDiagnostic: new SubmitDiagnostic(diagnostic, reviews, scheduler),
+    submitDiagnostic: new SubmitDiagnostic(diagnostic, reviews, scheduler, outbox, eventSource),
     getReminder: new GetReminder(reminderRepo),
     setReminder: new SetReminder(reminderRepo, reminderScheduler),
     getSoundEnabled: new GetSoundEnabled(soundRepo),
@@ -133,5 +143,6 @@ export function createUseCases(): UseCases {
     signIn: new SignIn(accounts, diagnostic),
     getAccount: new GetAccount(accounts),
     signOut: new SignOut(accounts),
+    syncNow: new SyncNow(accounts, outbox, syncApi, reviews, scheduler),
   };
 }

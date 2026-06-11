@@ -43,7 +43,7 @@ export function useReviewViewModel(chapterId?: string) {
       const now = Date.now();
       const current = state.items[state.index];
       if (current) {
-        await uc.submitReview.execute({ itemId: current.id, grade, now });
+        await uc.submitReview.execute({ itemId: current.id, chapterId: current.chapterId, grade, now });
       }
       // Count today as studied on the first graded item of the session.
       if (!recorded.current) {

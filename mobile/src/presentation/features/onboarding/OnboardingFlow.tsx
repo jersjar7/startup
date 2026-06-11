@@ -38,6 +38,7 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
   const label = onIntro ? (lastIntroPage ? 'Get started' : 'Next') : step === 1 ? 'Continue' : 'Start';
 
   const handleSignedIn = (result: SignInResult) => {
+    void uc.syncNow.execute(); // merge guest work up, pull web history down
     setImported(result);
     setSigningIn(false);
     const serverDate = result.account.examDate;

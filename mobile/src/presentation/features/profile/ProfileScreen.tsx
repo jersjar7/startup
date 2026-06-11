@@ -184,7 +184,7 @@ export function ProfileScreen() {
         <Overline>Account</Overline>
       </View>
       <Text variant="sub" color={theme.palette.ink4} style={{ fontSize: 11, lineHeight: 15, marginBottom: 4 }}>
-        Progress on this phone is tracked separately from your fe4raccoons.com account. Sync is coming.
+        Signed in, your reviews sync to your fe4raccoons.com account.
       </Text>
       {account ? (
         <>
