@@ -1,8 +1,10 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { Text } from './Text';
 import { useTheme } from '@/core/theme/useTheme';
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
 interface Props {
   percent: number;
@@ -11,7 +13,8 @@ interface Props {
   color?: string;
 }
 
-// The mastery ring — the one colorful data focal point per screen.
+// The mastery ring — the one colorful data focal point per screen. The arc
+// sweeps up to its value on mount so the number feels earned, not stamped.
 export function ProgressRing({ percent, size = 74, stroke = 8, color }: Props) {
   const theme = useTheme();
   const r = (size - stroke) / 2;
@@ -20,11 +23,23 @@ export function ProgressRing({ percent, size = 74, stroke = 8, color }: Props) {
   const offset = circumference * (1 - clamped / 100);
   const center = size / 2;
 
+  // Animate strokeDashoffset (SVG prop → can't use the native driver).
+  const dash = useRef(new Animated.Value(circumference)).current;
+  useEffect(() => {
+    const anim = Animated.timing(dash, {
+      toValue: offset,
+      duration: 750,
+      useNativeDriver: false,
+    });
+    anim.start();
+    return () => anim.stop();
+  }, [dash, offset]);
+
   return (
     <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
       <Svg width={size} height={size} style={{ position: 'absolute' }}>
         <Circle cx={center} cy={center} r={r} stroke={theme.palette.creamDark} strokeWidth={stroke} fill="none" />
-        <Circle
+        <AnimatedCircle
           cx={center}
           cy={center}
           r={r}
@@ -32,7 +47,7 @@ export function ProgressRing({ percent, size = 74, stroke = 8, color }: Props) {
           strokeWidth={stroke}
           fill="none"
           strokeDasharray={circumference}
-          strokeDashoffset={offset}
+          strokeDashoffset={dash}
           strokeLinecap="round"
           transform={`rotate(-90 ${center} ${center})`}
         />

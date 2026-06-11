@@ -4,6 +4,7 @@ import { Text } from '@/presentation/ui/Text';
 import { MathText } from '@/presentation/ui/math/MathText';
 import { Overline } from '@/presentation/ui/Overline';
 import { Button } from '@/presentation/ui/Button';
+import { FadeIn } from '@/presentation/ui/FadeIn';
 import { useTheme } from '@/core/theme/useTheme';
 import { interactionLabel, interactionColor } from '@/presentation/ui/semantics';
 import { GradeButtons } from './GradeButtons';
@@ -32,7 +33,8 @@ export function RecallReviewCard({ item, onGraded }: Props) {
         </MathText>
 
         {revealed ? (
-          <View
+          <FadeIn
+            offset={14}
             style={{
               marginTop: 26,
               backgroundColor: theme.palette.forestBg,
@@ -44,7 +46,7 @@ export function RecallReviewCard({ item, onGraded }: Props) {
             <MathText variant="body" color={theme.palette.forestInk} style={{ marginTop: 8 }}>
               {item.answer}
             </MathText>
-          </View>
+          </FadeIn>
         ) : (
           <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 20 }}>
             Recall it in your head, then reveal.

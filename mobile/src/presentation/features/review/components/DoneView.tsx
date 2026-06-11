@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { Screen } from '@/presentation/ui/Screen';
 import { Text } from '@/presentation/ui/Text';
 import { Button } from '@/presentation/ui/Button';
+import { FadeIn } from '@/presentation/ui/FadeIn';
 import { useTheme } from '@/core/theme/useTheme';
+import { haptics } from '@/core/haptics';
 
 interface Props {
   reviewed: number;
@@ -15,9 +17,15 @@ interface Props {
 // Bounded ending — celebrate, then stop. No "keep going" push.
 export function DoneView({ reviewed, streak, onClose }: Props) {
   const theme = useTheme();
+
+  // The one earned moment — a single success tap as the screen lands.
+  useEffect(() => {
+    haptics.success();
+  }, []);
+
   return (
     <Screen edges={['top', 'bottom']}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <FadeIn offset={16} style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <View
           style={{
             width: 88,
@@ -62,7 +70,7 @@ export function DoneView({ reviewed, streak, onClose }: Props) {
             </Text>
           </View>
         ) : null}
-      </View>
+      </FadeIn>
       <View style={{ paddingVertical: 16 }}>
         <Button label="Done" variant="ghost" onPress={onClose} />
       </View>

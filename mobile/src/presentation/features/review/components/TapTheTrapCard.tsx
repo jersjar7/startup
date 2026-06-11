@@ -4,7 +4,9 @@ import { Text } from '@/presentation/ui/Text';
 import { MathText } from '@/presentation/ui/math/MathText';
 import { Overline } from '@/presentation/ui/Overline';
 import { Button } from '@/presentation/ui/Button';
+import { FadeIn } from '@/presentation/ui/FadeIn';
 import { useTheme } from '@/core/theme/useTheme';
+import { haptics } from '@/core/haptics';
 import type { ProblemSessionItem } from '@/domain/entities/session';
 import type { ReviewGrade } from '@/domain/entities/review';
 
@@ -50,7 +52,11 @@ export function TapTheTrapCard({ item, onGraded }: Props) {
               <Pressable
                 key={ch.id}
                 disabled={answered}
-                onPress={() => setPicked(ch.id)}
+                onPress={() => {
+                  setPicked(ch.id);
+                  if (ch.id === item.correctChoiceId) haptics.success();
+                  else haptics.error();
+                }}
                 style={{
                   borderRadius: 13,
                   borderWidth: 1.5,
@@ -69,7 +75,7 @@ export function TapTheTrapCard({ item, onGraded }: Props) {
         </View>
 
         {answered ? (
-          <View
+          <FadeIn
             style={{
               marginTop: 18,
               borderLeftWidth: 3,
@@ -83,7 +89,7 @@ export function TapTheTrapCard({ item, onGraded }: Props) {
             <MathText variant="body" color={theme.palette.ink2} style={{ marginTop: 6 }}>
               {item.explanation}
             </MathText>
-          </View>
+          </FadeIn>
         ) : null}
       </ScrollView>
 

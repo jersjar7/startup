@@ -8,6 +8,7 @@ import { Screen } from '@/presentation/ui/Screen';
 import { Text } from '@/presentation/ui/Text';
 import { Button } from '@/presentation/ui/Button';
 import { Divider } from '@/presentation/ui/Divider';
+import { FadeIn } from '@/presentation/ui/FadeIn';
 import { useTheme } from '@/core/theme/useTheme';
 import { useTodayViewModel } from './useTodayViewModel';
 import { MasteryHeroCard } from './components/MasteryHeroCard';
@@ -70,9 +71,9 @@ export function TodayScreen() {
         ) : null}
       </View>
 
-      <View style={{ marginTop: 20 }}>
+      <FadeIn offset={14} style={{ marginTop: 20 }}>
         <MasteryHeroCard percent={mastery?.percent ?? 0} daysUntilExam={plan?.daysUntilExam ?? 0} />
-      </View>
+      </FadeIn>
 
       <View
         style={{
@@ -91,10 +92,10 @@ export function TodayScreen() {
 
       <View>
         {session.items.map((item, i) => (
-          <View key={item.id}>
+          <FadeIn key={item.id} delay={Math.min(i, 6) * 55} offset={8}>
             <SessionRow item={item} />
             {i < session.items.length - 1 ? <Divider /> : null}
-          </View>
+          </FadeIn>
         ))}
       </View>
 
