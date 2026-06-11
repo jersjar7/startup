@@ -7,7 +7,7 @@ import { Overline } from '@/presentation/ui/Overline';
 import { Text } from '@/presentation/ui/Text';
 import { useTheme } from '@/core/theme/useTheme';
 import { useUseCases } from '@/di/useUseCases';
-import { HowItWorksStep } from './components/HowItWorksStep';
+import { IntroPager, INTRO_PAGE_COUNT } from './components/IntroPager';
 import { SignInStep } from './components/SignInStep';
 import { ExamDateStep } from './components/ExamDateStep';
 import { PaceStep } from './components/PaceStep';
@@ -15,16 +15,17 @@ import { DiagnosticStep } from './components/DiagnosticStep';
 import type { SignInResult } from '@/domain/usecases/SignIn';
 import type { DiagnosticAnswer } from '@/domain/usecases/SubmitDiagnostic';
 
-const TOTAL = 3; // intro steps (promise / exam date / pace); a diagnostic follows.
+const TOTAL = 3; // step 0 = intro pager; 1 = exam date; 2 = pace; diagnostic follows.
 
-// First-run flow: promise → exam date → pace → quick diagnostic. Existing
-// users sign in from screen one (panel verdict: offered, never required) —
-// that imports their web diagnostic + exam date and skips what the website
-// already knows. Preferences save before the diagnostic.
+// First-run flow: the "why" pager (promise / two surfaces / pedagogy /
+// bounded sessions) → exam date → pace → quick diagnostic. Existing users
+// sign in from screen one (offered, never required) — that imports their web
+// diagnostic + exam date and skips what the website already knows.
 export function OnboardingFlow({ onDone }: { onDone: () => void }) {
   const theme = useTheme();
   const uc = useUseCases();
   const [step, setStep] = useState(0);
+  const [introPage, setIntroPage] = useState(0);
   const [signingIn, setSigningIn] = useState(false);
   const [imported, setImported] = useState<SignInResult | null>(null);
   const [examDate, setExamDate] = useState<string | null>(null);
@@ -32,7 +33,9 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
 
   const skipDiagnostic = imported?.importedFamiliarity === true;
   const blocked = step === 1 && !examDate;
-  const label = step === 0 ? 'Get started' : step === 1 ? 'Continue' : 'Start';
+  const onIntro = step === 0;
+  const lastIntroPage = introPage === INTRO_PAGE_COUNT - 1;
+  const label = onIntro ? (lastIntroPage ? 'Get started' : 'Next') : step === 1 ? 'Continue' : 'Start';
 
   const handleSignedIn = (result: SignInResult) => {
     setImported(result);
@@ -48,6 +51,10 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
 
   const onPrimary = () => {
     if (blocked) return;
+    if (onIntro && !lastIntroPage) {
+      setIntroPage((p) => p + 1);
+      return;
+    }
     if (step < TOTAL - 1) {
       setStep((s) => s + 1);
       return;
@@ -59,6 +66,12 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
         else setStep(TOTAL);
       });
     }
+  };
+
+  const onBack = () => {
+    if (onIntro) setIntroPage((p) => Math.max(0, p - 1));
+    else if (step === 1) setStep(0);
+    else setStep((s) => s - 1);
   };
 
   const finishDiagnostic = (answers: DiagnosticAnswer[]) => {
@@ -90,20 +103,23 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
   return (
     <Screen edges={['top', 'bottom']}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingTop: 8, paddingBottom: 18 }}>
-        {step > 0 ? (
-          <Pressable onPress={() => setStep((s) => s - 1)} hitSlop={12}>
+        {step > 0 || introPage > 0 ? (
+          <Pressable onPress={onBack} hitSlop={12}>
             <Svg width={22} height={22} viewBox="0 0 256 256" fill="none" stroke={theme.palette.ink3} strokeWidth={18}>
               <Path d="M160 48l-80 80 80 80" strokeLinecap="round" strokeLinejoin="round" />
             </Svg>
           </Pressable>
         ) : null}
-        <Overline color={theme.palette.ember}>
-          Step {step + 1} of {TOTAL}
-        </Overline>
+        {/* the intro carries its own page dots — step counter starts at setup */}
+        {!onIntro ? (
+          <Overline color={theme.palette.ember}>
+            Step {step} of {TOTAL - 1}
+          </Overline>
+        ) : null}
       </View>
 
       <View style={{ flex: 1 }}>
-        {step === 0 ? <HowItWorksStep /> : null}
+        {step === 0 ? <IntroPager page={introPage} /> : null}
         {step === 1 ? <ExamDateStep value={examDate} onChange={setExamDate} /> : null}
         {step === 2 && examDate ? (
           <>
