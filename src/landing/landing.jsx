@@ -129,7 +129,8 @@ export function Landing({ userName }) {
           <p className="hero-price">
             <strong>The whole platform is free</strong> — every lesson, {PROBLEM_COUNT_LABEL} practice problems,
             the diagnostic, and spaced repetition. No trial, no credit card. The one optional
-            extra is a full timed exam simulation: ${STUDENT_PRICE} for students, ${STANDARD_PRICE} standard.
+            extra is the Exam Pass — a full timed 110-question exam simulation:
+            ${STUDENT_PRICE} for students, ${STANDARD_PRICE} standard.
           </p>
         </div>
 

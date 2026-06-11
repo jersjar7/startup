@@ -360,18 +360,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       {/* ── Diagnostic Card ── */}
       <DiagnosticCard diagnosticStatus={diagnosticStatus} quickstart={quickstart} onSkip={handleDiagnosticSkip} />
 
-      {/* Marketing attribution never outranks the user's own data — survey
-          sits below the study content. */}
-      {showSource && (
-        <SourcePrompt onClose={(answered) => {
-          if (answered) {
-            setAcqSource('answered');
-          } else {
-            localStorage.setItem('fe4r_acq_dismissed', 'true');
-            setAcqDismissed(true);
-          }
-        }} />
-      )}
+      {/* Attribution survey lives at the bottom of the right rail — see below. */}
 
       {/* ── Two-column layout: Chapters (left) + Sidebar (right) ── */}
       <div className="dash-grid">
@@ -584,6 +573,18 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                 ))}
               </ul>
             </div>
+          )}
+
+          {/* Attribution survey — last in the rail; marketing never outranks study */}
+          {showSource && (
+            <SourcePrompt onClose={(answered) => {
+              if (answered) {
+                setAcqSource('answered');
+              } else {
+                localStorage.setItem('fe4r_acq_dismissed', 'true');
+                setAcqDismissed(true);
+              }
+            }} />
           )}
 
           {/* Referral / Spread the word */}

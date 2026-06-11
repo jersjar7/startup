@@ -409,7 +409,10 @@ input:focus {
 }
 
 .btn-primary:disabled {
-  opacity: 0.4;
+  /* desaturated cream, not tinted ember — white-on-pale-salmon reads broken */
+  background: var(--cream-dark, #f5ede0);
+  color: rgba(44, 44, 44, 0.45);
+  box-shadow: none;
   cursor: not-allowed;
   transform: none;
 }

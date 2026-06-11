@@ -59,6 +59,10 @@ export function ProgressScreen() {
 
       <View style={{ marginTop: 24, marginBottom: 4 }}>
         <Overline>By chapter</Overline>
+        {/* the ladder, spelled out — 'building' vs 'familiar' isn't self-evident */}
+        <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 4, fontSize: 11 }}>
+          New → Building → Familiar → Mastered
+        </Text>
       </View>
 
       {chapters.map(({ chapter, mastery }) => (

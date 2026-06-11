@@ -31,10 +31,16 @@ export function Button({ label, onPress, variant = 'primary', style, disabled = 
     paddingHorizontal: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: isPrimary ? theme.palette.ember : 'transparent',
-    borderWidth: isPrimary ? 0 : 1.5,
+    // Disabled is desaturated cream — never tinted ember, which reads as
+    // "almost on" / broken rendering at ~1.7:1 contrast.
+    backgroundColor: disabled
+      ? theme.palette.creamDark
+      : isPrimary
+        ? theme.palette.ember
+        : 'transparent',
+    borderWidth: isPrimary || disabled ? 0 : 1.5,
     borderColor: theme.palette.line,
-    ...(isPrimary ? theme.shadow.emberButton : {}),
+    ...(isPrimary && !disabled ? theme.shadow.emberButton : {}),
   };
 
   return (
@@ -51,8 +57,12 @@ export function Button({ label, onPress, variant = 'primary', style, disabled = 
         onPress?.();
       }}
     >
-      <Animated.View style={[base, { transform: [{ scale }], opacity: disabled ? 0.4 : 1 }]}>
-        <Text variant="title" numberOfLines={1} color={isPrimary ? theme.palette.white : theme.palette.ink2}>
+      <Animated.View style={[base, { transform: [{ scale }] }]}>
+        <Text
+          variant="title"
+          numberOfLines={1}
+          color={disabled ? 'rgba(44,44,44,0.45)' : isPrimary ? theme.palette.white : theme.palette.ink2}
+        >
           {label}
         </Text>
       </Animated.View>
