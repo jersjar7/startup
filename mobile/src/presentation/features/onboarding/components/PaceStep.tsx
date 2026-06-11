@@ -77,7 +77,7 @@ export function PaceStep({ examDate, minutesPerDay, onChange }: Props) {
               ~{plan.projection.projectedPercent}%
             </Text>
             <Text variant="sub" color={theme.palette.ink3} style={{ marginBottom: 4 }}>
-              mastery by {formatDate(dayBefore(examDate))} — the day before your exam
+              mastery by {formatDate(dayBefore(examDate))}, the day before your exam
             </Text>
           </View>
           <View style={{ marginTop: 12 }}>
@@ -87,7 +87,7 @@ export function PaceStep({ examDate, minutesPerDay, onChange }: Props) {
             {projectionCaption(plan.projection.projectedPercent)}
           </Text>
           <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 6 }}>
-            Exam day ({formatDate(examDate)}) stays light — review, rest, walk in ready.
+            Exam day ({formatDate(examDate)}) stays light: review, rest, walk in ready.
           </Text>
         </Card>
       ) : null}
@@ -98,9 +98,9 @@ export function PaceStep({ examDate, minutesPerDay, onChange }: Props) {
 // Caption must match the number above it — calling 37% "strong mastery"
 // oversells in the same breath the app disclaims (honest-mastery rule).
 function projectionCaption(pct: number): string {
-  if (pct >= 75) return 'Strong mastery of the core topics — never a guaranteed pass.';
-  if (pct >= 50) return 'Working mastery of the core topics — never a guaranteed pass.';
-  return 'A solid foundation in the highest-weight topics — never a guaranteed pass.';
+  if (pct >= 75) return 'Strong mastery of the core topics. Never a guaranteed pass.';
+  if (pct >= 50) return 'Working mastery of the core topics. Never a guaranteed pass.';
+  return 'A solid foundation in the highest-weight topics. Never a guaranteed pass.';
 }
 
 // Mastery targets the day BEFORE the exam — the last day is rest, not cramming.

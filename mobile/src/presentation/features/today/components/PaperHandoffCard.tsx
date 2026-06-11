@@ -14,7 +14,7 @@ export function PaperHandoffCard({ handoff }: { handoff: PaperHandoff }) {
         For your desk tonight
       </Text>
       <MathText variant="sub" color={theme.palette.ink2} style={{ marginTop: 3 }} numberOfLines={2}>
-        {`Solve on paper — ${handoff.statement}`}
+        {`Solve on paper: ${handoff.statement}`}
       </MathText>
     </View>
   );

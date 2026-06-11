@@ -63,12 +63,12 @@ export function SessionSummary({ items, chapterNames = {}, lightDay = false }: P
       </View>
       <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 10 }}>
         {single
-          ? `All ${items.length} from ${single} — your current focus.`
+          ? `All ${items.length} from ${single}, your current focus.`
           : `Drawn from ${chapters.size} chapters, weighted to what's about to fade.`}
       </Text>
       {lightDay ? (
         <Text variant="sub" color={theme.palette.ink4} style={{ marginTop: 4 }}>
-          Light day — your queue grows as you learn more.
+          Light day. Your queue grows as you learn more.
         </Text>
       ) : null}
       {first ? (

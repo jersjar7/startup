@@ -143,7 +143,7 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
                 <Text variant="sub" color={theme.palette.forestInk}>
                   Signed in as {imported.account.displayName}
                   {imported.importedFamiliarity
-                    ? ' — your diagnostic results are loaded, no need to redo them.'
+                    ? '. Your diagnostic results are loaded, no need to redo them.'
                     : '.'}
                 </Text>
               </View>
@@ -156,7 +156,7 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
       <View style={{ paddingVertical: 16, gap: 10 }}>
         {step === 2 && !skipDiagnostic ? (
           <Text variant="sub" color={theme.palette.ink3} style={{ textAlign: 'center' }}>
-            Next: 8 quick questions to map where you stand — guessing is fine, skip anytime.
+            Next: 8 quick questions to map where you stand. Guessing is fine, skip anytime.
           </Text>
         ) : null}
         <Button label={label} onPress={onPrimary} disabled={blocked} />

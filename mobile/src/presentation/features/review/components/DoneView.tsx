@@ -60,8 +60,8 @@ export function DoneView({ reviewed, streak, onClose }: Props) {
         </Text>
         <Text variant="body" color={theme.palette.ink2} style={{ marginTop: 8, textAlign: 'center' }}>
           {reviewed === 0
-            ? "Nothing due right now — you're caught up."
-            : `${reviewed} cards reviewed. That's the work — see you tomorrow.`}
+            ? "Nothing due right now. You're caught up."
+            : `${reviewed} cards reviewed. That's the work. See you tomorrow.`}
         </Text>
 
         {streak > 0 ? (
@@ -89,7 +89,7 @@ export function DoneView({ reviewed, streak, onClose }: Props) {
         {reminderOff && streak > 0 ? (
           <Pressable onPress={() => setPicking(true)} hitSlop={8} style={{ marginTop: 18 }}>
             <Text variant="sub" color={theme.palette.ink2}>
-              Protect the streak — <Text variant="bodyStrong" color={theme.palette.ember}>set a reminder</Text>
+              Protect the streak. <Text variant="bodyStrong" color={theme.palette.ember}>Set a reminder</Text>
             </Text>
           </Pressable>
         ) : null}

@@ -101,7 +101,7 @@ export function ProfileScreen() {
               {masteredCount} of {topicCount} chapters mastered
             </Text>
             <Text variant="sub" color={theme.palette.ink4} style={{ marginTop: 7, fontSize: 11, lineHeight: 15 }}>
-              How well you know the concepts the FE tests — tracked on this phone, never a pass probability.
+              How well you know the concepts the FE tests, tracked on this phone. Never a pass probability.
             </Text>
           </View>
         </Card>
@@ -184,7 +184,7 @@ export function ProfileScreen() {
         <Overline>Account</Overline>
       </View>
       <Text variant="sub" color={theme.palette.ink4} style={{ fontSize: 11, lineHeight: 15, marginBottom: 4 }}>
-        Progress on this phone is tracked separately from your fe4raccoons.com account — sync is coming.
+        Progress on this phone is tracked separately from your fe4raccoons.com account. Sync is coming.
       </Text>
       {account ? (
         <>

@@ -25,21 +25,21 @@ const PAGES = [
   {
     headline: 'Practice here. Go deeper online.',
     body:
-      'This app is for quick review — full lessons and exam-style problems are free at fe4raccoons.com. ' +
+      'This app is for quick review. Full lessons and exam-style problems are free at fe4raccoons.com. ' +
       'Progress sync is coming soon; for now, your work is saved on this phone.',
     Graphic: TwoSurfacesGraphic,
   },
   {
     headline: 'Back before you forget',
     body:
-      "Each question comes back right before you'd forget it — that timing is what makes it stick. " +
+      "Each question comes back right before you'd forget it. That timing is what makes it stick. " +
       'Miss one and it just comes back sooner.',
     Graphic: SpacedReturnGraphic,
   },
   {
     headline: 'Done means done',
     body:
-      'Each session is a short, fixed set of questions — no endless feed. ' +
+      'Each session is a short, fixed set of questions, not an endless feed. ' +
       'You rate how well you remembered each one, and that sets when it comes back.',
     Graphic: OnbBoundedSession,
   },

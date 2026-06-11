@@ -45,7 +45,7 @@ export function PracticeScreen() {
         Practice
       </Text>
       <Text variant="sub" color={theme.palette.ink3}>
-        Your daily review covers the essentials — everything here is optional extra.
+        Your daily review covers the essentials. Everything here is optional extra.
       </Text>
 
       {/* daily review status */}

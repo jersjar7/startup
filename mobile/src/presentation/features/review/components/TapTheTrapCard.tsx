@@ -120,7 +120,7 @@ export function TapTheTrapCard({ item, onGraded, overlineOverride }: Props) {
           <Button label="Continue" onPress={() => onGraded(isCorrect ? 'gotIt' : 'forgot')} />
         ) : (
           <Text variant="sub" color={theme.palette.ink3} style={{ textAlign: 'center' }}>
-            Pick the answer — then see why.
+            Pick the answer, then see why.
           </Text>
         )}
       </View>

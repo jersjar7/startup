@@ -39,7 +39,7 @@ export function SignInStep({ onSignedIn }: Props) {
     <View>
       <Text variant="h1">Welcome back</Text>
       <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 4 }}>
-        Sign in with your fe4raccoons.com account — your diagnostic and plan come with you.
+        Sign in with your fe4raccoons.com account. Your diagnostic and plan come with you.
       </Text>
 
       <View style={{ marginTop: 22, gap: 12 }}>

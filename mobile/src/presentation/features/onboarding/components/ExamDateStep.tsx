@@ -80,7 +80,7 @@ export function ExamDateStep({ value, onChange }: Props) {
 
       <View style={{ marginTop: 18 }}>
         <Text variant="sub" color={theme.palette.ink3} style={{ marginBottom: 8 }}>
-          Haven't scheduled it yet? Pick a rough window — adjust anytime in Profile.
+          Haven't scheduled it yet? Pick a rough window. Adjust anytime in Profile.
         </Text>
         <View style={{ gap: 11 }}>
           {PRESETS.map((p, i) => {
