@@ -28,9 +28,10 @@ describe('computeFocusAreas', () => {
   it('returns the 3 highest-leverage chapters, weakest-first by score', () => {
     const focus = computeFocusAreas({});
     expect(focus).toHaveLength(3);
-    // all at 0% mastery -> ranked purely by exam weight; transportation (12) is highest
-    expect(focus[0].ch.id).toBe('transportation');
-    expect(focus[0].focusScore).toBe(100 * 12);
+    // all at 0% mastery -> ranked purely by exam weight; water-resources (14)
+    // is highest under the NCEES-rebalanced distribution
+    expect(focus[0].ch.id).toBe('water-resources');
+    expect(focus[0].focusScore).toBe(100 * 14);
   });
 
   it('excludes chapters at or above the mastered threshold', () => {
@@ -53,7 +54,7 @@ describe('readinessLabel', () => {
   it('maps percentages to tiers', () => {
     expect(readinessLabel(10)).toBe('Just getting started');
     expect(readinessLabel(40)).toBe('Building momentum');
-    expect(readinessLabel(70)).toBe('On track to pass');
-    expect(readinessLabel(85)).toBe('Exam ready');
+    expect(readinessLabel(70)).toBe('Solid concept coverage');
+    expect(readinessLabel(85)).toBe('Strong concept coverage');
   });
 });

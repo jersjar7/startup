@@ -50,7 +50,7 @@ export function ScoringModal({ open, onClose }) {
         <h2 className="scoring-title">How your mastery is scored</h2>
         <p className="scoring-lede">
           We built FE for Raccoons on real learning science — not on how many problems you click.
-          Here’s what actually moves your mastery and Exam Readiness.
+          Here’s what actually moves your mastery and concept coverage.
         </p>
 
         <ul className="scoring-principles">

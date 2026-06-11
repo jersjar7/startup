@@ -20,6 +20,6 @@ name: 04 Settings
     id: "sheet-option-off"
 
 # Reset confirmation — screenshot the guard, but don't actually reset.
-- tapOn: "Reset progress.*" # row a11y: "Reset progress, Clear everything..., Reset"
-- assertVisible: "(?i)reset everything.*" # sheet title is uppercased by Overline
+- tapOn: "Reset this device.*" # row a11y: "Reset this device, Clears progress..., Reset"
+- assertVisible: "(?i)reset this device\\?.*" # sheet title is uppercased by Overline
 - takeScreenshot: 13-reset-confirm

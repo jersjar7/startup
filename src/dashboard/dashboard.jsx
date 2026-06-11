@@ -341,8 +341,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         <div className="readiness-card">
           <div className="readiness-head">
             <Gauge weight="bold" size={18} />
-            <span className="readiness-title">Exam Readiness</span>
-            <span className="readiness-info" data-tooltip="A weighted estimate of how prepared you are across all 15 chapters, weighted by how many questions each gets on the FE Civil exam. It rises as your chapter mastery grows.">
+            <span className="readiness-title">Concept coverage</span>
+            <span className="readiness-info" data-tooltip="How much of the concepts the FE Civil tests you've mastered, weighted by how many questions each chapter gets on the exam. It rises as your chapter mastery grows — it is not a probability of passing.">
               <Info weight="regular" size={13} />
             </span>
             <span className="readiness-pct" style={{ color: getMasteryColor(readiness) }}>{readiness}%</span>

@@ -40,10 +40,13 @@ export function computeFocusAreas(masteryByChapterId = {}, { exclude = [], limit
     .slice(0, limit);
 }
 
-/** Human-readable readiness tier. */
+/**
+ * Human-readable mastery tier. Mastery language only — never a pass
+ * probability or "ready" verdict (nobody can promise that).
+ */
 export function readinessLabel(pct) {
-  if (pct >= 85) return 'Exam ready';
-  if (pct >= 70) return 'On track to pass';
+  if (pct >= 85) return 'Strong concept coverage';
+  if (pct >= 70) return 'Solid concept coverage';
   if (pct >= 40) return 'Building momentum';
   return 'Just getting started';
 }

@@ -7,12 +7,11 @@ import type { RootStackParamList } from '@/presentation/navigation/types';
 import { Screen } from '@/presentation/ui/Screen';
 import { Text } from '@/presentation/ui/Text';
 import { Button } from '@/presentation/ui/Button';
-import { Divider } from '@/presentation/ui/Divider';
 import { FadeIn } from '@/presentation/ui/FadeIn';
 import { useTheme } from '@/core/theme/useTheme';
 import { useTodayViewModel } from './useTodayViewModel';
 import { MasteryHeroCard } from './components/MasteryHeroCard';
-import { SessionRow } from './components/SessionRow';
+import { SessionSummary } from './components/SessionSummary';
 import { PaperHandoffCard } from './components/PaperHandoffCard';
 
 export function TodayScreen() {
@@ -72,7 +71,7 @@ export function TodayScreen() {
       </View>
 
       <FadeIn offset={14} style={{ marginTop: 20 }}>
-        <MasteryHeroCard percent={mastery?.percent ?? 0} daysUntilExam={plan?.daysUntilExam ?? 0} />
+        <MasteryHeroCard percent={mastery?.percent ?? 0} />
       </FadeIn>
 
       <View
@@ -90,14 +89,9 @@ export function TodayScreen() {
         </Text>
       </View>
 
-      <View>
-        {session.items.map((item, i) => (
-          <FadeIn key={item.id} delay={Math.min(i, 6) * 55} offset={8}>
-            <SessionRow item={item} />
-            {i < session.items.length - 1 ? <Divider /> : null}
-          </FadeIn>
-        ))}
-      </View>
+      <FadeIn offset={8}>
+        <SessionSummary items={session.items} />
+      </FadeIn>
 
       {session.paperHandoff ? (
         <View style={{ marginTop: 16 }}>

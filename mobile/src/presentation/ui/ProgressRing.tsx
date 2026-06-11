@@ -11,11 +11,12 @@ interface Props {
   size?: number;
   stroke?: number;
   color?: string;
+  display?: string; // override the center text (e.g. "—" before any reading exists)
 }
 
 // The mastery ring — the one colorful data focal point per screen. The arc
 // sweeps up to its value on mount so the number feels earned, not stamped.
-export function ProgressRing({ percent, size = 74, stroke = 8, color }: Props) {
+export function ProgressRing({ percent, size = 74, stroke = 8, color, display }: Props) {
   const theme = useTheme();
   const r = (size - stroke) / 2;
   const circumference = 2 * Math.PI * r;
@@ -53,7 +54,7 @@ export function ProgressRing({ percent, size = 74, stroke = 8, color }: Props) {
         />
       </Svg>
       <Text variant="mono" style={{ fontSize: 18 }}>
-        {Math.round(clamped)}
+        {display ?? String(Math.round(clamped))}
       </Text>
     </View>
   );

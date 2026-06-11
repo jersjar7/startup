@@ -156,8 +156,8 @@ export function ProfileScreen() {
         <Overline>Account</Overline>
       </View>
       <ListRow
-        title="Reset progress"
-        subtitle="Clear everything and start over"
+        title="Reset this device"
+        subtitle="Clears progress stored on this phone"
         onPress={() => setConfirmingReset(true)}
         right={
           <Text variant="bodyStrong" color={theme.palette.error}>
@@ -201,8 +201,8 @@ export function ProfileScreen() {
       />
       <OptionSheet
         visible={confirmingReset}
-        title="Reset everything? This can't be undone"
-        options={[{ label: 'Reset progress', value: 'reset' }]}
+        title="Reset this device? This can't be undone"
+        options={[{ label: 'Reset this device', value: 'reset' }]}
         onSelect={doReset}
         onClose={() => setConfirmingReset(false)}
       />
