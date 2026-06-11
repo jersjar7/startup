@@ -131,7 +131,7 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
       </View>
 
       <View style={{ paddingVertical: 16, gap: 10 }}>
-        <Button label={label} onPress={onPrimary} variant={blocked ? 'ghost' : 'primary'} />
+        <Button label={label} onPress={onPrimary} disabled={blocked} />
         {step === 0 && !imported ? (
           <Button label="I already have an account" variant="ghost" onPress={() => setSigningIn(true)} />
         ) : null}

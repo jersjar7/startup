@@ -10,6 +10,7 @@ interface TodayState {
   plan: StudyPlan | null;
   session: DailySession | null;
   streak: number;
+  chapterNames: Record<string, string>;
 }
 
 // Orchestrates the Today screen by calling use cases only — it never touches a
@@ -23,6 +24,7 @@ export function useTodayViewModel() {
     plan: null,
     session: null,
     streak: 0,
+    chapterNames: {},
   });
 
   const load = useCallback(async () => {
@@ -34,7 +36,9 @@ export function useTodayViewModel() {
       cardTarget: plan?.dailyCardTarget ?? 9,
     });
     const streak = await uc.getStreak.execute({ now });
-    setState({ loading: false, mastery, plan, session, streak });
+    const chapters = await uc.getChapterProgress.execute();
+    const chapterNames = Object.fromEntries(chapters.map((c) => [c.chapter.id, c.chapter.name]));
+    setState({ loading: false, mastery, plan, session, streak, chapterNames });
   }, [uc]);
 
   useEffect(() => {

@@ -6,11 +6,13 @@ import { useTheme } from '@/core/theme/useTheme';
 const DAY = 24 * 60 * 60 * 1000;
 
 // Presets for now; a calendar picker comes later. Each maps to an exam date.
-const PRESETS = [
+const PRESETS: { label: string; days: number; unscheduled?: boolean }[] = [
   { label: 'About 1 month away', days: 30 },
   { label: 'About 2 months away', days: 60 },
   { label: 'About 3 months away', days: 90 },
   { label: 'About 6 months away', days: 180 },
+  // Unscheduled exams default to ~3 months — adjustable later in Profile.
+  { label: "Haven't scheduled it yet", days: 90, unscheduled: true },
 ];
 
 interface Props {
@@ -58,6 +60,12 @@ export function ExamDateStep({ onChange }: Props) {
           );
         })}
       </View>
+
+      {selected !== null && PRESETS[selected].unscheduled ? (
+        <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 12 }}>
+          We'll plan for about 3 months out — set the real date anytime in Profile.
+        </Text>
+      ) : null}
     </View>
   );
 }

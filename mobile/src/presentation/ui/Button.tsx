@@ -11,12 +11,13 @@ interface Props {
   onPress?: () => void;
   variant?: Variant;
   style?: ViewStyle;
+  disabled?: boolean; // dimmed + inert — never a normal-looking button that ignores taps
 }
 
 // Fixed 54px height, single line. Long labels truncate rather than grow/wrap —
 // shorten the word instead (docs/mobile/visual-language.md). Presses dip with a
 // spring and fire a light haptic so taps feel acknowledged.
-export function Button({ label, onPress, variant = 'primary', style }: Props) {
+export function Button({ label, onPress, variant = 'primary', style, disabled = false }: Props) {
   const theme = useTheme();
   const isPrimary = variant === 'primary';
   const scale = useRef(new Animated.Value(1)).current;
@@ -38,6 +39,7 @@ export function Button({ label, onPress, variant = 'primary', style }: Props) {
 
   return (
     <Pressable
+      disabled={disabled}
       onPressIn={() => spring(0.96)}
       onPressOut={() => spring(1)}
       onPress={() => {
@@ -45,7 +47,7 @@ export function Button({ label, onPress, variant = 'primary', style }: Props) {
         onPress?.();
       }}
     >
-      <Animated.View style={[base, { transform: [{ scale }] }, style]}>
+      <Animated.View style={[base, { transform: [{ scale }], opacity: disabled ? 0.4 : 1 }, style]}>
         <Text variant="title" numberOfLines={1} color={isPrimary ? theme.palette.white : theme.palette.ink2}>
           {label}
         </Text>

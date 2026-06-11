@@ -84,12 +84,20 @@ export function PaceStep({ examDate, minutesPerDay, onChange }: Props) {
             <ProgressBar percent={plan.projection.projectedPercent} color={theme.palette.forest} height={7} />
           </View>
           <Text variant="sub" color={theme.palette.ink2} style={{ marginTop: 12 }}>
-            Strong mastery of the core topics — never a guaranteed pass.
+            {projectionCaption(plan.projection.projectedPercent)}
           </Text>
         </Card>
       ) : null}
     </View>
   );
+}
+
+// Caption must match the number above it — calling 37% "strong mastery"
+// oversells in the same breath the app disclaims (honest-mastery rule).
+function projectionCaption(pct: number): string {
+  if (pct >= 75) return 'Strong mastery of the core topics — never a guaranteed pass.';
+  if (pct >= 50) return 'Working mastery of the core topics — never a guaranteed pass.';
+  return 'A solid foundation in the highest-weight topics — never a guaranteed pass.';
 }
 
 function formatDate(iso: string): string {

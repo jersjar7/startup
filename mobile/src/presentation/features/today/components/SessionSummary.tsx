@@ -11,7 +11,12 @@ import type { InteractionMode } from '@/domain/entities/tiers';
 // reading a prompt before the session is a free recognition pass, which
 // breaks the generation-not-recognition rule (North Star #1). Type chips are
 // fine in aggregate; per-item they prime trick-hunting (rule #2).
-export function SessionSummary({ items }: { items: readonly SessionItem[] }) {
+interface Props {
+  items: readonly SessionItem[];
+  chapterNames?: Record<string, string>;
+}
+
+export function SessionSummary({ items, chapterNames = {} }: Props) {
   const theme = useTheme();
 
   const counts = new Map<InteractionMode, number>();
@@ -20,6 +25,7 @@ export function SessionSummary({ items }: { items: readonly SessionItem[] }) {
     counts.set(item.interaction, (counts.get(item.interaction) ?? 0) + 1);
     chapters.add(item.chapterId);
   }
+  const single = chapters.size === 1 ? (chapterNames[[...chapters][0]] ?? null) : null;
 
   return (
     <View style={{ paddingVertical: 14 }}>
@@ -47,8 +53,9 @@ export function SessionSummary({ items }: { items: readonly SessionItem[] }) {
         ))}
       </View>
       <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 10 }}>
-        Across {chapters.size} {chapters.size === 1 ? 'topic' : 'topics'} — you'll see each question
-        when it's in front of you.
+        {single
+          ? `All ${items.length} from ${single} — your current focus.`
+          : `Drawn from ${chapters.size} topics, weighted to what's about to fade.`}
       </Text>
     </View>
   );

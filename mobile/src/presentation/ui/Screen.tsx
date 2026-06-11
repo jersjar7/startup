@@ -7,10 +7,12 @@ interface Props {
   children: React.ReactNode;
   scroll?: boolean;
   edges?: readonly Edge[];
+  /** Pinned below the scroll area — primary CTAs anchor to the bottom. */
+  footer?: React.ReactNode;
 }
 
 // Cream canvas + safe-area. The one place the page background is set.
-export function Screen({ children, scroll = false, edges = ['top'] }: Props) {
+export function Screen({ children, scroll = false, edges = ['top'], footer }: Props) {
   const theme = useTheme();
   const pad = theme.spacing.lg - 2;
 
@@ -27,6 +29,9 @@ export function Screen({ children, scroll = false, edges = ['top'] }: Props) {
       ) : (
         <View style={{ flex: 1, paddingHorizontal: pad }}>{children}</View>
       )}
+      {footer ? (
+        <View style={{ paddingHorizontal: pad, paddingTop: 8, paddingBottom: 14 }}>{footer}</View>
+      ) : null}
     </SafeAreaView>
   );
 }

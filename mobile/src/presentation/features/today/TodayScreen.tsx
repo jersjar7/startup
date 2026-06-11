@@ -17,7 +17,7 @@ import { PaperHandoffCard } from './components/PaperHandoffCard';
 export function TodayScreen() {
   const theme = useTheme();
   const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { loading, mastery, plan, session, streak, reload } = useTodayViewModel();
+  const { loading, mastery, plan, session, streak, chapterNames, reload } = useTodayViewModel();
 
   // Recompute mastery + session when returning from a review session.
   useFocusEffect(
@@ -37,7 +37,19 @@ export function TodayScreen() {
   }
 
   return (
-    <Screen scroll>
+    <Screen
+      scroll
+      footer={
+        <View>
+          <Text variant="sub" color={theme.palette.ink3} style={{ textAlign: 'center', marginBottom: 8 }}>
+            {[streak > 0 ? `Day ${streak}` : null, `${session.items.length} cards`, `~${session.estimatedMinutes} min`]
+              .filter(Boolean)
+              .join(' · ')}
+          </Text>
+          <Button label="Start" onPress={() => nav.navigate('Review')} />
+        </View>
+      }
+    >
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <View>
           <Text variant="h1" style={{ marginTop: 8 }}>
@@ -90,7 +102,7 @@ export function TodayScreen() {
       </View>
 
       <FadeIn offset={8}>
-        <SessionSummary items={session.items} />
+        <SessionSummary items={session.items} chapterNames={chapterNames} />
       </FadeIn>
 
       {session.paperHandoff ? (
@@ -98,10 +110,6 @@ export function TodayScreen() {
           <PaperHandoffCard handoff={session.paperHandoff} />
         </View>
       ) : null}
-
-      <View style={{ marginTop: 22 }}>
-        <Button label="Start" onPress={() => nav.navigate('Review')} />
-      </View>
     </Screen>
   );
 }

@@ -232,8 +232,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   function getMasteryColor(pct) {
     if (pct >= 90) return 'var(--forest)';
     if (pct >= 70) return 'var(--sunbeam)';
-    if (pct >= 40) return 'var(--ember)';
-    if (pct > 0) return 'var(--error)';
+    if (pct > 0) return 'var(--ember)'; // low = warm start, never error-red
     return 'var(--gray-200)';
   }
 
@@ -341,7 +340,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         <div className="readiness-card">
           <div className="readiness-head">
             <Gauge weight="bold" size={18} />
-            <span className="readiness-title">Concept coverage</span>
+            <span className="readiness-title">Concept mastery</span>
             <span className="readiness-info" data-tooltip="How much of the concepts the FE Civil tests you've mastered, weighted by how many questions each chapter gets on the exam. It rises as your chapter mastery grows — it is not a probability of passing.">
               <Info weight="regular" size={13} />
             </span>

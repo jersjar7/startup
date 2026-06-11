@@ -22,6 +22,12 @@ export function RecallReviewCard({ item, onGraded }: Props) {
   const theme = useTheme();
   const [revealed, setRevealed] = useState(false);
 
+  // "(p. 36)" jammed into the formula is cryptic — pull the handbook
+  // reference onto its own labeled line.
+  const refMatch = item.answer.match(/\s*\(p\.\s*(\d+)\)\s*$/);
+  const answerBody = refMatch ? item.answer.slice(0, refMatch.index) : item.answer;
+  const handbookPage = refMatch ? refMatch[1] : null;
+
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -44,8 +50,13 @@ export function RecallReviewCard({ item, onGraded }: Props) {
           >
             <Overline color={theme.palette.forest}>Answer</Overline>
             <MathText variant="body" color={theme.palette.forestInk} style={{ marginTop: 8 }}>
-              {item.answer}
+              {answerBody}
             </MathText>
+            {handbookPage ? (
+              <View style={{ marginTop: 10 }}>
+                <Overline color={theme.palette.ink3}>FE Handbook p. {handbookPage}</Overline>
+              </View>
+            ) : null}
           </FadeIn>
         ) : (
           <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 20 }}>

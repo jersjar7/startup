@@ -53,9 +53,19 @@ export function ProgressRing({ percent, size = 74, stroke = 8, color, display }:
           transform={`rotate(-90 ${center} ${center})`}
         />
       </Svg>
-      <Text variant="mono" style={{ fontSize: 18 }}>
-        {display ?? String(Math.round(clamped))}
-      </Text>
+      {display !== undefined ? (
+        <Text variant="mono" style={{ fontSize: 18 }}>
+          {display}
+        </Text>
+      ) : (
+        // Always anchor the number with its unit — a bare "9" answers nothing.
+        <Text variant="mono" style={{ fontSize: 18 }}>
+          {Math.round(clamped)}
+          <Text variant="mono" style={{ fontSize: 12 }}>
+            %
+          </Text>
+        </Text>
+      )}
     </View>
   );
 }

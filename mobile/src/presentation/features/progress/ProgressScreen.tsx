@@ -48,9 +48,9 @@ export function ProgressScreen() {
         <Card style={{ flexDirection: 'row', alignItems: 'center', gap: 18, borderRadius: theme.radius.hero }}>
           <ProgressRing percent={overall.percent} color={masteryColor(overall.state, theme)} />
           <View style={{ flex: 1 }}>
-            <Text variant="title">{masteryLabel(overall.state)}</Text>
+            <Text variant="title">Concept mastery</Text>
             <Text variant="sub" color={theme.palette.ink3} style={{ marginTop: 2 }}>
-              across {chapters.length} topics
+              {masteryLabel(overall.state)} · {chapters.length} topics
             </Text>
           </View>
         </Card>

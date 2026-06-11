@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TodayScreen } from '@/presentation/features/today/TodayScreen';
 import { PracticeScreen } from '@/presentation/features/practice/PracticeScreen';
 import { ProgressScreen } from '@/presentation/features/progress/ProgressScreen';
@@ -11,6 +12,10 @@ const Tab = createBottomTabNavigator();
 
 export function TabNavigator() {
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
+  // Clearance under the home indicator (with a floor where the inset is 0) —
+  // clipped nav labels read as a rendering bug.
+  const bottomPad = Math.max(insets.bottom, 10);
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -20,8 +25,11 @@ export function TabNavigator() {
         tabBarStyle: {
           backgroundColor: theme.palette.cream,
           borderTopColor: theme.palette.line,
+          height: 56 + bottomPad,
+          paddingTop: 6,
+          paddingBottom: bottomPad,
         },
-        tabBarLabelStyle: { fontFamily: theme.fontFamily.heading, fontSize: 11 },
+        tabBarLabelStyle: { fontFamily: theme.fontFamily.heading, fontSize: 11, marginTop: 2 },
         tabBarIcon: ({ color }) => <TabBarIcon name={route.name} color={color} />,
       })}
     >

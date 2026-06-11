@@ -45,7 +45,7 @@ export function PracticeScreen() {
         Practice
       </Text>
       <Text variant="sub" color={theme.palette.ink3}>
-        Your daily plan is the spine — add more if you've got time.
+        Your daily review covers the essentials — everything here is optional extra.
       </Text>
 
       {/* daily review status */}
@@ -90,11 +90,14 @@ export function PracticeScreen() {
         </View>
       </Pressable>
 
-      {/* weak areas */}
+      {/* weak areas — "weak" only once there's evidence; untouched topics are
+          just new, and claiming otherwise reads as the app not paying attention */}
       {weak.length > 0 ? (
         <>
           <View style={{ marginTop: 24, marginBottom: 6 }}>
-            <Overline>Focus on your weak areas</Overline>
+            <Overline>
+              {weak.some((w) => w.mastery.percent > 0) ? 'Focus on your weak areas' : 'Start a new topic'}
+            </Overline>
           </View>
           <Card>
             {weak.map((w, i) => (
@@ -108,11 +111,18 @@ export function PracticeScreen() {
                   opacity: pressed ? 0.6 : 1,
                 })}
               >
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: w.mastery.percent > 0 ? 8 : 0 }}>
                   <Text variant="bodyStrong">{w.chapter.name}</Text>
-                  <Overline color={masteryColor(w.mastery.state, theme)}>{masteryLabel(w.mastery.state)}</Overline>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    <Overline color={masteryColor(w.mastery.state, theme)}>{masteryLabel(w.mastery.state)}</Overline>
+                    <Svg width={14} height={14} viewBox="0 0 256 256" fill="none" stroke={theme.palette.ink4} strokeWidth={20}>
+                      <Path d="M96 48l80 80-80 80" strokeLinecap="round" strokeLinejoin="round" />
+                    </Svg>
+                  </View>
                 </View>
-                <ProgressBar percent={w.mastery.percent} color={masteryColor(w.mastery.state, theme)} />
+                {w.mastery.percent > 0 ? (
+                  <ProgressBar percent={w.mastery.percent} color={masteryColor(w.mastery.state, theme)} />
+                ) : null}
               </Pressable>
             ))}
           </Card>
@@ -125,7 +135,7 @@ export function PracticeScreen() {
       </View>
       <ListRow
         title="Full mock exam"
-        subtitle="Timed · paper out · best on desktop"
+        subtitle="110 questions · timed · best on a desktop"
         onPress={() => Linking.openURL(WEB_URL)}
         right={
           <Text

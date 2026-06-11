@@ -111,9 +111,23 @@
   box-shadow: var(--shadow-md);
 }
 
+/* Explicit disabled states — enabled vs disabled must be unmistakable */
+.login-buttons .btn--primary:disabled {
+  background: var(--ember);
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .login-buttons .btn--secondary {
   background: var(--charcoal);
   color: var(--cream);
+}
+
+.login-buttons .btn--secondary:disabled {
+  background: transparent;
+  border: 1.5px solid #d8d0c4;
+  color: #8a8378;
+  cursor: not-allowed;
 }
 
 .login-buttons .btn--secondary:hover:not(:disabled) {

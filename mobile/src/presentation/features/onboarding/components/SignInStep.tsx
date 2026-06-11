@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { View, Pressable, Linking } from 'react-native';
 import { Text } from '@/presentation/ui/Text';
 import { TextField } from '@/presentation/ui/TextField';
 import { Button } from '@/presentation/ui/Button';
@@ -58,6 +58,16 @@ export function SignInStep({ onSignedIn }: Props) {
           secureTextEntry
         />
       </View>
+
+      <Pressable
+        onPress={() => void Linking.openURL('https://fe4raccoons.com/login')}
+        hitSlop={8}
+        style={{ alignSelf: 'flex-end', marginTop: 12 }}
+      >
+        <Text variant="bodyStrong" color={theme.palette.ember}>
+          Forgot password?
+        </Text>
+      </Pressable>
 
       {error ? (
         <Text variant="sub" color={theme.palette.error} style={{ marginTop: 12 }}>
