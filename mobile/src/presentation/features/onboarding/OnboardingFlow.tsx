@@ -9,11 +9,13 @@ import { useUseCases } from '@/di/useUseCases';
 import { HowItWorksStep } from './components/HowItWorksStep';
 import { ExamDateStep } from './components/ExamDateStep';
 import { PaceStep } from './components/PaceStep';
+import { DiagnosticStep } from './components/DiagnosticStep';
+import type { DiagnosticAnswer } from '@/domain/usecases/SubmitDiagnostic';
 
-const TOTAL = 3;
+const TOTAL = 3; // intro steps (promise / exam date / pace); a diagnostic follows.
 
-// First-run flow: promise → exam date → pace. On finish, saves preferences and
-// hands control back to the gate. Self-contained step state (no nested navigator).
+// First-run flow: promise → exam date → pace → quick diagnostic. Preferences are
+// saved before the diagnostic; the diagnostic seeds per-chapter familiarity.
 export function OnboardingFlow({ onDone }: { onDone: () => void }) {
   const theme = useTheme();
   const uc = useUseCases();
@@ -30,10 +32,19 @@ export function OnboardingFlow({ onDone }: { onDone: () => void }) {
       setStep((s) => s + 1);
       return;
     }
+    // Pace step done → save preferences, then run the diagnostic.
     if (examDate) {
-      void uc.setStudyPreferences.execute({ minutesPerDay, examDate }).then(onDone);
+      void uc.setStudyPreferences.execute({ minutesPerDay, examDate }).then(() => setStep(TOTAL));
     }
   };
+
+  const finishDiagnostic = (answers: DiagnosticAnswer[]) => {
+    void uc.submitDiagnostic.execute(answers).then(onDone);
+  };
+
+  if (step >= TOTAL) {
+    return <DiagnosticStep onComplete={finishDiagnostic} />;
+  }
 
   return (
     <Screen edges={['top', 'bottom']}>
