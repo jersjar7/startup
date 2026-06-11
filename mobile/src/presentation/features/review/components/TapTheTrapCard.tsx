@@ -36,13 +36,13 @@ export function TapTheTrapCard({ item, onGraded, overlineOverride }: Props) {
             {overlineOverride ?? 'Spot the trap'}
           </Overline>
         )}
-        {/* Long stems read at body scale — display size is for short prompts */}
+        {/* Stems are content to read — Inter medium, never bold display type */}
         <MathText
-          variant="h2"
+          variant="question"
           style={
             item.statement.length > 140
-              ? { marginTop: 14, fontSize: 16, lineHeight: 23 }
-              : { marginTop: 14, fontSize: 19, lineHeight: 27 }
+              ? { marginTop: 14, fontSize: 16, lineHeight: 24 }
+              : { marginTop: 14 }
           }
         >
           {item.statement}

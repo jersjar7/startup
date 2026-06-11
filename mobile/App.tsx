@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts, DMSans_600SemiBold, DMSans_700Bold } from '@expo-google-fonts/dm-sans';
-import { Inter_400Regular, Inter_600SemiBold } from '@expo-google-fonts/inter';
+import { Inter_400Regular, Inter_500Medium, Inter_600SemiBold } from '@expo-google-fonts/inter';
 import { JetBrainsMono_700Bold } from '@expo-google-fonts/jetbrains-mono';
 import { ThemeProvider } from '@/core/theme/ThemeProvider';
 import { palette } from '@/core/theme/tokens';
@@ -17,6 +17,7 @@ export default function App() {
     DMSans_600SemiBold,
     DMSans_700Bold,
     Inter_400Regular,
+    Inter_500Medium,
     Inter_600SemiBold,
     JetBrainsMono_700Bold,
   });

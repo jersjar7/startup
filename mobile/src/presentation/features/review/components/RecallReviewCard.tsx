@@ -37,11 +37,11 @@ export function RecallReviewCard({ item, onGraded }: Props) {
           {interactionLabel(item.interaction)}
         </Overline>
         <MathText
-          variant="h2"
+          variant="question"
           style={
             item.prompt.length > 140
               ? { marginTop: 14, fontSize: 17, lineHeight: 25 }
-              : { marginTop: 14, fontSize: 22, lineHeight: 30 }
+              : { marginTop: 14, fontSize: 21, lineHeight: 30 }
           }
         >
           {item.prompt}

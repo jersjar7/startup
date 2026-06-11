@@ -6,6 +6,7 @@ export const fonts = {
   headingBold: 'DMSans_700Bold',
   headingSemi: 'DMSans_600SemiBold',
   bodyRegular: 'Inter_400Regular',
+  bodyMedium: 'Inter_500Medium',
   bodySemi: 'Inter_600SemiBold',
   mono: 'JetBrainsMono_700Bold',
 } as const;
@@ -20,6 +21,9 @@ export const fontFamily = {
 export const textVariants = {
   h1: { fontFamily: fonts.headingBold, fontSize: 30, letterSpacing: -0.9, lineHeight: 34 },
   h2: { fontFamily: fonts.headingBold, fontSize: 19, letterSpacing: -0.3, lineHeight: 24 },
+  // Question stems: content to READ, not headings — body face at medium
+  // weight (bold display stems read shouty; panel + owner ratified).
+  question: { fontFamily: fonts.bodyMedium, fontSize: 19, lineHeight: 28 },
   title: { fontFamily: fonts.headingSemi, fontSize: 15, lineHeight: 20 },
   body: { fontFamily: fonts.bodyRegular, fontSize: 14, lineHeight: 22 },
   bodyStrong: { fontFamily: fonts.bodySemi, fontSize: 14, lineHeight: 22 },
