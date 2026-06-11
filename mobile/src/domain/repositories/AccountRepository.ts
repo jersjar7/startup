@@ -8,4 +8,8 @@ export interface AccountRepository {
   signOut(): Promise<void>;
   /** Server chapter mastery mapped to 0–1 familiarity (empty if no diagnostic). */
   fetchRemoteFamiliarity(): Promise<Record<string, number>>;
+  /** Server chapter mastery as PERCENT per chapter — the shared number. */
+  fetchRemoteMastery(): Promise<Record<string, number>>;
+  /** Write profile fields back to the website account. */
+  updateProfile(fields: { examDate?: string }): Promise<void>;
 }

@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { View, ActivityIndicator, Switch, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '@/presentation/navigation/types';
 import { Screen } from '@/presentation/ui/Screen';
 import { Text } from '@/presentation/ui/Text';
 import { Card } from '@/presentation/ui/Card';
@@ -59,7 +61,8 @@ export function ProfileScreen() {
   const theme = useTheme();
   const uc = useUseCases();
   const restart = useAppRestart();
-  const { loading, overall, masteredCount, topicCount, prefs, reminderMinutes, soundEnabled, account, streak, totalReps, reload, update, setReminder, setSound, signOut } =
+  const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { loading, overall, masteredCount, topicCount, prefs, reminderMinutes, soundEnabled, account, syncStatus, streak, totalReps, reload, update, setReminder, setSound, signOut, manualSync } =
     useProfileViewModel();
   const [editing, setEditing] = useState<Editing>(null);
   const [confirmingReset, setConfirmingReset] = useState(false);
@@ -198,8 +201,35 @@ export function ProfileScreen() {
             }
           />
           <Divider />
+          <ListRow
+            title="Sync"
+            subtitle={
+              syncStatus?.pendingEvents
+                ? `${syncStatus.pendingEvents} ${syncStatus.pendingEvents === 1 ? 'review' : 'reviews'} waiting to sync`
+                : 'Everything is synced'
+            }
+            chevron={false}
+            onPress={() => void manualSync()}
+            right={
+              <Text variant="sub" color={theme.palette.ink3}>
+                {syncStatus?.lastSyncedAt
+                  ? new Date(syncStatus.lastSyncedAt).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+                  : 'Tap to sync'}
+              </Text>
+            }
+          />
+          <Divider />
         </>
-      ) : null}
+      ) : (
+        <>
+          <ListRow
+            title="Sign in"
+            subtitle="Your reviews will count on fe4raccoons.com too"
+            onPress={() => nav.navigate('SignIn')}
+          />
+          <Divider />
+        </>
+      )}
       <ListRow
         title="Reset this device"
         subtitle="Clears progress stored on this phone"

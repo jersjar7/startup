@@ -19,12 +19,13 @@ const REMINDER_OPTIONS: readonly SheetOption[] = [
 
 interface Props {
   reviewed: number;
+  misses: number;
   streak: number;
   onClose: () => void;
 }
 
 // Bounded ending — celebrate, then stop. No "keep going" push.
-export function DoneView({ reviewed, streak, onClose }: Props) {
+export function DoneView({ reviewed, misses, streak, onClose }: Props) {
   const theme = useTheme();
   const uc = useUseCases();
   const [reminderOff, setReminderOff] = useState(false);
@@ -87,6 +88,12 @@ export function DoneView({ reviewed, streak, onClose }: Props) {
               {streak}-day streak
             </Text>
           </View>
+        ) : null}
+
+        {misses > 0 ? (
+          <Text variant="sub" color={theme.palette.ink2} style={{ marginTop: 14, textAlign: 'center' }}>
+            {misses} {misses === 1 ? 'concept' : 'concepts'} queued for full problems at your desk tonight.
+          </Text>
         ) : null}
 
         {reminderOff && streak > 0 ? (

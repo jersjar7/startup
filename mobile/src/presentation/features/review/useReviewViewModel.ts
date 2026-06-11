@@ -19,6 +19,7 @@ export function useReviewViewModel(chapterId?: string) {
   const [state, setState] = useState<ReviewState>({ phase: 'loading', items: [], index: 0 });
   const [streak, setStreak] = useState(0);
   const recorded = useRef(false);
+  const misses = useRef(0);
 
   useEffect(() => {
     let active = true;
@@ -42,6 +43,7 @@ export function useReviewViewModel(chapterId?: string) {
     async (grade: ReviewGrade) => {
       const now = Date.now();
       const current = state.items[state.index];
+      if (grade === 'forgot') misses.current += 1;
       if (current) {
         await uc.submitReview.execute({ itemId: current.id, chapterId: current.chapterId, grade, now });
       }
@@ -59,6 +61,7 @@ export function useReviewViewModel(chapterId?: string) {
   );
 
   return {
+    misses: misses.current,
     phase: state.phase,
     items: state.items,
     index: state.index,

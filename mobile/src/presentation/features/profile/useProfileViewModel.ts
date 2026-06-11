@@ -18,10 +18,11 @@ export function useProfileViewModel() {
   const [account, setAccount] = useState<Account | null>(null);
   const [streak, setStreak] = useState(0);
   const [totalReps, setTotalReps] = useState(0);
+  const [syncStatus, setSyncStatus] = useState<{ lastSyncedAt: number | null; pendingEvents: number } | null>(null);
 
   const load = useCallback(async () => {
     const now = Date.now();
-    const [o, chapters, p, reminder, soundOn, acct, st, stats, week, plan] = await Promise.all([
+    const [o, chapters, p, reminder, soundOn, acct, st, stats, sync, week, plan] = await Promise.all([
       uc.getOverallMastery.execute(),
       uc.getChapterProgress.execute(),
       uc.getStudyPreferences.execute(),
@@ -30,6 +31,7 @@ export function useProfileViewModel() {
       uc.getAccount.execute(),
       uc.getStreak.execute({ now }),
       uc.getReviewStats.execute(),
+      uc.getSyncStatus.execute(),
       uc.getWeekActivity.execute({ now }),
       uc.computeStudyPlan.execute({ now }),
     ]);
@@ -47,6 +49,7 @@ export function useProfileViewModel() {
     setAccount(acct);
     setStreak(shownStreak);
     setTotalReps(stats.totalReps);
+    setSyncStatus(sync);
     setLoading(false);
   }, [uc]);
 
@@ -83,6 +86,11 @@ export function useProfileViewModel() {
     [uc],
   );
 
+  const manualSync = useCallback(async () => {
+    await uc.syncNow.execute();
+    await load();
+  }, [uc, load]);
+
   const signOut = useCallback(async () => {
     await uc.signOut.execute();
     await load();
@@ -97,6 +105,7 @@ export function useProfileViewModel() {
     reminderMinutes,
     soundEnabled,
     account,
+    syncStatus,
     streak,
     totalReps,
     reload: load,
@@ -104,5 +113,6 @@ export function useProfileViewModel() {
     setReminder,
     setSound,
     signOut,
+    manualSync,
   };
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TabNavigator } from './TabNavigator';
 import { ReviewScreen } from '@/presentation/features/review/ReviewScreen';
+import { SignInScreen } from '@/presentation/features/profile/SignInScreen';
 import type { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -13,6 +14,7 @@ export function RootNavigator() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Tabs" component={TabNavigator} />
       <Stack.Screen name="Review" component={ReviewScreen} options={{ presentation: 'modal' }} />
+      <Stack.Screen name="SignIn" component={SignInScreen} options={{ presentation: 'modal' }} />
     </Stack.Navigator>
   );
 }

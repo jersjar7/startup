@@ -53,6 +53,19 @@ export class AccountRepositoryImpl implements AccountRepository {
     await this.store.remove(ACCOUNT_KEY);
   }
 
+  async fetchRemoteMastery(): Promise<Record<string, number>> {
+    const res = await this.api.request<MasteryResponse>('GET', '/api/diagnostic/mastery');
+    const out: Record<string, number> = {};
+    for (const [ch, m] of Object.entries(res.chapterMastery ?? {})) {
+      out[ch] = m?.totalMastery ?? 0;
+    }
+    return out;
+  }
+
+  async updateProfile(fields: { examDate?: string }): Promise<void> {
+    await this.api.request('PUT', '/api/user/profile', fields);
+  }
+
   async fetchRemoteFamiliarity(): Promise<Record<string, number>> {
     const res = await this.api.request<MasteryResponse>('GET', '/api/diagnostic/mastery');
     const familiarity: Record<string, number> = {};

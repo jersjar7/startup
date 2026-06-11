@@ -53,11 +53,12 @@ everywhere, with explicit mapping between card-level events
 If the full unification slips, the v1 floor is dedupe — drop from a surface's
 due list any item with a same-day review event from the other surface.
 
-**XP is derived, like mastery.** XP-per-event-type is defined once in the
-shared spec and recomputed from the merged log (uuid-dedupe makes replay
-safe), with a per-day cap per source so card-grinding on the couch can't
-outscore desk problem-solving on the leaderboard. Phone work earning 0 XP and
-farmable boards are both bugs.
+**XP is derived, like mastery.** SHIPPED 2026-06-11 — the table: phone card
+reviews earn **gotIt 5 · fuzzy 3 · forgot 2**, capped at **60 XP per local
+day** from the phone (web problems stay 10/5 + 25 session bonus). Computed
+at ingest from the day's capped totals (idempotent under replay), credited
+to totalXp/weeklyXp so the leaderboard sees phone work without being
+farmable.
 
 **Streak rules (defined once, here):** a day qualifies when one *completed
 bounded session* happened (per the North Star's bounded-session rule — not one

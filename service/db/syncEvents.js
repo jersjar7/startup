@@ -72,17 +72,40 @@ async function getReviewEventsSince(email, sinceId, limit = 500) {
 async function getPhoneActivity(email, localDate) {
   const rows = await reviewEventsCollection
     .find({ email, localDate, source: { $ne: 'web' } })
-    .project({ chapterId: 1, ts: 1, grade: 1 })
+    .project({ chapterId: 1, ts: 1, grade: 1, itemId: 1 })
     .toArray();
   const chapters = {};
+  const missedParents = new Map();
   let misses = 0;
   let lastTs = 0;
   for (const r of rows) {
     chapters[r.chapterId] = (chapters[r.chapterId] || 0) + 1;
-    if (r.grade === 'forgot') misses++;
+    if (r.grade === 'forgot') {
+      misses++;
+      const parent = String(r.itemId || '').split(':')[0];
+      if (parent) missedParents.set(parent, r.chapterId);
+    }
     if (r.ts > lastTs) lastTs = r.ts;
   }
-  return { cards: rows.length, misses, chapters, lastTs: lastTs || null };
+  return {
+    cards: rows.length,
+    misses,
+    chapters,
+    lastTs: lastTs || null,
+    // tonight's desk queue: the concepts the phone exposed as weak
+    missed: [...missedParents].map(([problemId, chapterId]) => ({ problemId, chapterId })),
+  };
 }
 
-module.exports = { insertReviewEvents, getReviewEventsSince, getPhoneActivity };
+/** Grade tallies for a local day's phone events (XP cap accounting). */
+async function getPhoneGradeCounts(email, localDate) {
+  const rows = await reviewEventsCollection
+    .find({ email, localDate, source: { $ne: 'web' } })
+    .project({ grade: 1 })
+    .toArray();
+  const counts = { gotIt: 0, fuzzy: 0, forgot: 0 };
+  for (const r of rows) if (counts[r.grade] !== undefined) counts[r.grade]++;
+  return counts;
+}
+
+module.exports = { insertReviewEvents, getReviewEventsSince, getPhoneActivity, getPhoneGradeCounts };

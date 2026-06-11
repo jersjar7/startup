@@ -9,6 +9,7 @@ import { SecureTokenStore } from '@/data/sources/storage/SecureTokenStore';
 import { ApiClient } from '@/data/sources/api/ApiClient';
 import { AccountRepositoryImpl } from '@/data/repositories/AccountRepositoryImpl';
 import { SyncOutboxRepositoryImpl } from '@/data/repositories/SyncOutboxRepositoryImpl';
+import { ServerMasteryRepositoryImpl } from '@/data/repositories/ServerMasteryRepositoryImpl';
 import { SyncApi } from '@/data/sources/api/SyncApi';
 import { ProblemRepositoryImpl } from '@/data/repositories/ProblemRepositoryImpl';
 import { CardRepositoryImpl } from '@/data/repositories/CardRepositoryImpl';
@@ -53,6 +54,7 @@ import { SignIn } from '@/domain/usecases/SignIn';
 import { GetAccount } from '@/domain/usecases/GetAccount';
 import { SignOut } from '@/domain/usecases/SignOut';
 import { SyncNow } from '@/domain/usecases/SyncNow';
+import { GetSyncStatus } from '@/domain/usecases/GetSyncStatus';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
@@ -80,6 +82,7 @@ export interface UseCases {
   readonly getAccount: GetAccount;
   readonly signOut: SignOut;
   readonly syncNow: SyncNow;
+  readonly getSyncStatus: GetSyncStatus;
 }
 
 export function createUseCases(): UseCases {
@@ -97,7 +100,8 @@ export function createUseCases(): UseCases {
   const cards = new CardRepositoryImpl(content);
   const reviews = new ReviewRepositoryImpl(store, content);
   const diagnostic = new DiagnosticRepositoryImpl(store);
-  const mastery = new MasteryRepositoryImpl(content, reviews, masteryPolicy, diagnostic);
+  const serverMastery = new ServerMasteryRepositoryImpl(store);
+  const mastery = new MasteryRepositoryImpl(content, reviews, masteryPolicy, diagnostic, serverMastery);
   const plans = new PlanRepositoryImpl(store);
   const chapters = new ChapterRepositoryImpl(content);
   const streaks = new StreakRepositoryImpl(store);
@@ -128,7 +132,7 @@ export function createUseCases(): UseCases {
     getChapterProgress: new GetChapterProgress(chapters, mastery),
     submitReview: new SubmitReview(reviews, scheduler, outbox, eventSource),
     getStudyPreferences: new GetStudyPreferences(plans),
-    setStudyPreferences: new SetStudyPreferences(plans),
+    setStudyPreferences: new SetStudyPreferences(plans, accounts),
     getStreak: new GetStreak(streaks),
     recordStudyDay: new RecordStudyDay(streaks),
     resetAllProgress: new ResetAllProgress(appData),
@@ -143,6 +147,7 @@ export function createUseCases(): UseCases {
     signIn: new SignIn(accounts, diagnostic),
     getAccount: new GetAccount(accounts),
     signOut: new SignOut(accounts),
-    syncNow: new SyncNow(accounts, outbox, syncApi, reviews, scheduler),
+    syncNow: new SyncNow(accounts, outbox, syncApi, reviews, scheduler, serverMastery),
+    getSyncStatus: new GetSyncStatus(serverMastery, outbox),
   };
 }

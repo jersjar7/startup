@@ -5,6 +5,7 @@ import type { SyncOutboxRepository } from '../repositories/SyncOutboxRepository'
 import type { ReviewRepository } from '../repositories/ReviewRepository';
 import type { SpacedRepetitionScheduler } from '../services/SpacedRepetitionScheduler';
 import type { SyncTransport } from '../services/SyncTransport';
+import type { ServerMasteryRepository } from '../repositories/ServerMasteryRepository';
 
 const BATCH = 100;
 
@@ -24,6 +25,7 @@ export class SyncNow implements UseCase<void, SyncResult> {
     private readonly api: SyncTransport,
     private readonly reviews: ReviewRepository,
     private readonly scheduler: SpacedRepetitionScheduler,
+    private readonly serverMastery: ServerMasteryRepository,
   ) {}
 
   async execute(): Promise<SyncResult> {
@@ -52,6 +54,13 @@ export class SyncNow implements UseCase<void, SyncResult> {
         for (const e of foreign) applied += await this.apply(e);
         if (cursor) await this.outbox.setCursor(cursor);
         if (events.length < 500) break;
+      }
+      // Cache the server's post-push mastery — the shared number both
+      // surfaces display from here on.
+      try {
+        await this.serverMastery.save(await this.accounts.fetchRemoteMastery(), Date.now());
+      } catch {
+        // mastery cache is best-effort; the sync itself succeeded
       }
       return { pushed, applied, skipped: false };
     } catch {

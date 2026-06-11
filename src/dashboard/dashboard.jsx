@@ -111,6 +111,21 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   const [chapterMastery, setChapterMastery] = React.useState({});
   const [quickstart, setQuickstart] = React.useState({ sampledCount: 0, totalChapters: 15, nextChapterId: null });
   const [phoneToday, setPhoneToday] = React.useState(null);
+
+  // A left-open dashboard should notice phone work without a reload — light
+  // poll of the activity endpoint while the tab is visible (sync v1; the /ws
+  // push upgrade can replace this later).
+  React.useEffect(() => {
+    const tick = () => {
+      if (document.visibilityState !== 'visible') return;
+      fetch(`/api/sync/today?date=${new Date().toLocaleDateString('en-CA')}`)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((d) => { if (d && d.cards > 0) setPhoneToday(d); })
+        .catch(() => {});
+    };
+    const id = setInterval(tick, 60000);
+    return () => clearInterval(id);
+  }, []);
   const [acqSource, setAcqSource] = React.useState(null); // their reported source (truthy once answered)
   const [acqDismissed, setAcqDismissed] = React.useState(() => localStorage.getItem('fe4r_acq_dismissed') === 'true');
   const [scoringOpen, setScoringOpen] = React.useState(false);
@@ -362,6 +377,29 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           </span>
         </div>
       )}
+
+      {/* The hand-off: phone misses become tonight's desk work */}
+      {phoneToday && phoneToday.missed && phoneToday.missed.length > 0 && (() => {
+        const byCh = {};
+        for (const m of phoneToday.missed) byCh[m.chapterId] = (byCh[m.chapterId] || 0) + 1;
+        const topCh = Object.keys(byCh).sort((a, b) => byCh[b] - byCh[a])[0];
+        const chMeta = CHAPTERS.find((c) => c.id === topCh);
+        if (!chMeta) return null;
+        return (
+          <div className="tonight-card">
+            <div>
+              <span className="tonight-title">Tonight</span>
+              <span className="tonight-body">
+                {phoneToday.missed.length} {phoneToday.missed.length === 1 ? 'concept' : 'concepts'} from your phone
+                {' '}need full problems — start with {chMeta.name}.
+              </span>
+            </div>
+            <button className="tonight-btn" onClick={() => navigate(`/problems/${topCh}`)}>
+              Practice <ArrowRight weight="bold" size={13} />
+            </button>
+          </div>
+        );
+      })()}
 
       {/* ── Exam Readiness ── */}
       {hasActivity && (
