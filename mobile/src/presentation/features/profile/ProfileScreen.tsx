@@ -94,7 +94,7 @@ export function ProfileScreen() {
               {masteredCount} of {topicCount} chapters mastered
             </Text>
             <Text variant="sub" color={theme.palette.ink4} style={{ marginTop: 7, fontSize: 11, lineHeight: 15 }}>
-              The concepts the FE tests, on this phone — not a probability of passing.
+              How well you know the concepts the FE tests — tracked on this phone, never a pass probability.
             </Text>
           </View>
         </Card>

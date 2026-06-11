@@ -41,7 +41,7 @@ export function ProgressScreen() {
         Mastery
       </Text>
       <Text variant="sub" color={theme.palette.ink3}>
-        The concepts the FE tests, on this phone — not a probability of passing.
+        How well you know the concepts the FE tests — tracked on this phone, never a pass probability.
       </Text>
 
       <View style={{ marginTop: 20 }}>

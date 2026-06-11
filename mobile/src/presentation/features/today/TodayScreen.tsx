@@ -109,7 +109,7 @@ export function TodayScreen() {
 
       {week.length > 0 ? (
         <FadeIn offset={8} delay={80}>
-          <WeekStrip days={week} todayComplete={session.items.length === 0} />
+          <WeekStrip days={week} todayComplete={session.items.length === 0} streak={streak} />
         </FadeIn>
       ) : null}
 

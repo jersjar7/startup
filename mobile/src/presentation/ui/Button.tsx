@@ -35,14 +35,16 @@ export function Button({ label, onPress, variant = 'primary', style, disabled = 
     alignItems: 'center',
     justifyContent: 'center',
     // Disabled is desaturated cream — never tinted ember, which reads as
-    // "almost on" / broken rendering at ~1.7:1 contrast.
+    // "almost on" / broken rendering at ~1.7:1 contrast. Ghost buttons sit on
+    // the cream canvas, so they get a white fill — transparent ghosts had
+    // near-invisible borders in daylight.
     backgroundColor: disabled
       ? theme.palette.creamDark
       : isPrimary
         ? theme.palette.ember
-        : 'transparent',
+        : theme.palette.white,
     borderWidth: isPrimary || disabled ? 0 : 1.5,
-    borderColor: accentColor ?? theme.palette.line,
+    borderColor: accentColor ?? 'rgba(44,44,44,0.15)',
     ...(isPrimary && !disabled ? theme.shadow.emberButton : {}),
   };
 

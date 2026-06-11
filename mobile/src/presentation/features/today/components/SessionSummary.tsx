@@ -73,7 +73,10 @@ export function SessionSummary({ items, chapterNames = {}, lightDay = false }: P
       ) : null}
       {first ? (
         <>
-          <Divider />
+          {/* breathing room — a rule against the caption baseline reads as underlined text */}
+          <View style={{ marginTop: 12 }}>
+            <Divider />
+          </View>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingTop: 11 }}>
             <Overline color={theme.palette.ink3}>Up first</Overline>
             <Text variant="bodyStrong" style={{ fontSize: 14 }}>

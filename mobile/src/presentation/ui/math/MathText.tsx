@@ -22,7 +22,9 @@ export function MathText({ children, ...rest }: Props) {
       {segments.map((seg, i) =>
         seg.startsWith('$') && seg.endsWith('$') ? (
           <RNText key={i} style={{ fontFamily: theme.fontFamily.mono }}>
-            {latexToText(seg)}
+            {/* NBSP inside a math run — an expression must wrap as one unit,
+                never mid-fraction ("(y₂ -" / "y₁)…") */}
+            {latexToText(seg).trim().replace(/ /g, ' ')}
           </RNText>
         ) : (
           <React.Fragment key={i}>{latexToText(seg)}</React.Fragment>

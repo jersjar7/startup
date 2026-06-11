@@ -12,13 +12,25 @@ interface Props {
   days: readonly WeekDay[];
   /** Today's check is EARNED — it only fills once the daily queue is done. */
   todayComplete?: boolean;
+  streak?: number;
 }
 
 // Seven quiet day dots — the chain made visible without confetti.
-export function WeekStrip({ days, todayComplete = false }: Props) {
+export function WeekStrip({ days, todayComplete = false, streak = 0 }: Props) {
   const theme = useTheme();
   return (
-    <Card style={{ marginTop: 12, flexDirection: 'row', justifyContent: 'space-between' }}>
+    <Card style={{ marginTop: 12 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+        <Text variant="overline" color={theme.palette.ink3}>
+          Streak
+        </Text>
+        {streak > 0 ? (
+          <Text variant="mono" style={{ fontSize: 14 }}>
+            {streak} {streak === 1 ? 'day' : 'days'}
+          </Text>
+        ) : null}
+      </View>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
       {days.map((d, i) => {
         const letter = DAY_LETTERS[new Date(`${d.date}T00:00:00`).getDay()];
         const isToday = i === days.length - 1;
@@ -49,6 +61,7 @@ export function WeekStrip({ days, todayComplete = false }: Props) {
           </View>
         );
       })}
+      </View>
     </Card>
   );
 }
