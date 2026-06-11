@@ -19,7 +19,7 @@ const WEB_URL = 'https://fe4raccoons.com';
 export function PracticeScreen() {
   const theme = useTheme();
   const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { loading, dueCount, weak, reload } = usePracticeViewModel();
+  const { loading, dueCount, weak, inProgress, reload } = usePracticeViewModel();
 
   useFocusEffect(
     useCallback(() => {
@@ -89,6 +89,40 @@ export function PracticeScreen() {
           </View>
         </View>
       </Pressable>
+
+      {/* chapters already in flight — the most likely lunch-break intent */}
+      {inProgress.length > 0 ? (
+        <>
+          <View style={{ marginTop: 24, marginBottom: 6 }}>
+            <Overline>Continue</Overline>
+          </View>
+          <Card>
+            {inProgress.map((w, i) => (
+              <Pressable
+                key={w.chapter.id}
+                onPress={() => nav.navigate('Review', { chapterId: w.chapter.id })}
+                style={({ pressed }) => ({
+                  paddingVertical: 11,
+                  borderTopWidth: i ? 1 : 0,
+                  borderTopColor: theme.palette.line,
+                  opacity: pressed ? 0.6 : 1,
+                })}
+              >
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                  <Text variant="bodyStrong">{w.chapter.name}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                    <Overline color={masteryColor(w.mastery.state, theme)}>{masteryLabel(w.mastery.state)}</Overline>
+                    <Svg width={14} height={14} viewBox="0 0 256 256" fill="none" stroke={theme.palette.ink4} strokeWidth={20}>
+                      <Path d="M96 48l80 80-80 80" strokeLinecap="round" strokeLinejoin="round" />
+                    </Svg>
+                  </View>
+                </View>
+                <ProgressBar percent={w.mastery.percent} color={masteryColor(w.mastery.state, theme)} />
+              </Pressable>
+            ))}
+          </Card>
+        </>
+      ) : null}
 
       {/* weak areas — "weak" only once there's evidence; untouched topics are
           just new, and claiming otherwise reads as the app not paying attention */}

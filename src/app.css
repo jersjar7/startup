@@ -480,7 +480,7 @@ input:focus {
 
 .verification-resend-btn {
   background: var(--sunbeam);
-  color: white;
+  color: var(--charcoal); /* white-on-sunbeam is ~2:1 — illegible */
   font-size: 0.8rem;
   font-weight: 600;
   padding: 0.25rem 0.75rem;

@@ -46,6 +46,10 @@ export function TodayScreen() {
             {[streak > 0 ? `Day ${streak}` : null, `${session.items.length} cards`, `~${session.estimatedMinutes} min`]
               .filter(Boolean)
               .join(' · ')}
+            {/* explain the gap vs the chosen pace — silence reads as falling behind */}
+            {plan && session.estimatedMinutes < plan.minutesPerDay / 2
+              ? ' — light day; your queue grows as you learn more'
+              : ''}
           </Text>
           <Button label="Start" onPress={() => nav.navigate('Review')} />
         </View>

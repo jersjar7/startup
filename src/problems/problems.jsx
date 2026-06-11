@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, SignOut, ArrowRight, BookOpen, Lightning } from '@phosphor-icons/react';
+import { ArrowLeft, ArrowRight, BookOpen, Lightning } from '@phosphor-icons/react';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { MathText } from '../components/MathText';
 import { LoadingState } from '../components/LoadingState';
@@ -203,10 +203,6 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
     }
   };
 
-  const handleLogout = () => {
-    onLogout();
-    navigate('/');
-  };
 
   // When a session ends, compute what to study next: clear due reviews first,
   // otherwise point to the highest-leverage chapter (low mastery x exam weight).
@@ -268,10 +264,6 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
             Back to Dashboard
           </a>
           <h1>Daily Review</h1>
-          <button className="logout-btn" onClick={handleLogout}>
-            <SignOut weight="bold" size={18} />
-            Logout
-          </button>
         </div>
         <section className="summary-card">
           <h2>You're all caught up</h2>
@@ -300,10 +292,6 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
             Back to Study
           </a>
           <h1>{topicName}</h1>
-          <button className="logout-btn" onClick={handleLogout}>
-            <SignOut weight="bold" size={18} />
-            Logout
-          </button>
         </div>
         <section className="summary-card">
           <h2>Chapter practice problems coming soon</h2>
@@ -327,10 +315,6 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
         <div className="page-header">
           <span />
           <h1>{reviewMode ? 'Review Complete' : 'Session Complete'}</h1>
-          <button className="logout-btn" onClick={handleLogout}>
-            <SignOut weight="bold" size={18} />
-            Logout
-          </button>
         </div>
 
         <section className="summary-card">
@@ -443,10 +427,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
           {backLabel}
         </a>
         <h1>{topicName}</h1>
-        <button className="logout-btn" onClick={handleLogout}>
-          <SignOut weight="bold" size={18} />
-          Logout
-        </button>
+        {/* account actions live on Profile — never inside a study session */}
       </div>
 
       <section className="progress-bar-section">

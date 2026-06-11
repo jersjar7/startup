@@ -14,10 +14,12 @@ export function GradeButtons({ onGrade }: { onGrade: (g: ReviewGrade) => void })
       <Text variant="sub" color={theme.palette.ink3} style={{ textAlign: 'center', marginBottom: 10 }}>
         How well did you know it?
       </Text>
+      {/* Equal visual weight — a filled "Got it" nudges users to inflate
+          their self-grade, which corrupts the schedule (honest-mastery rule). */}
       <View style={{ flexDirection: 'row', gap: 10 }}>
         <Button label="Forgot" variant="ghost" style={{ flex: 1 }} onPress={() => onGrade('forgot')} />
         <Button label="Fuzzy" variant="ghost" style={{ flex: 1 }} onPress={() => onGrade('fuzzy')} />
-        <Button label="Got it" style={{ flex: 1 }} onPress={() => onGrade('gotIt')} />
+        <Button label="Got it" variant="ghost" style={{ flex: 1 }} onPress={() => onGrade('gotIt')} />
       </View>
     </View>
   );

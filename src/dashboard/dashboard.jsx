@@ -9,7 +9,6 @@ import {
   Users,
   Pulse,
   Info,
-  SignOut,
   ArrowRight,
   BookOpenText,
   Megaphone,
@@ -219,20 +218,22 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     navigate(`/study/${chapter.id}`);
   };
 
-  const handleLogout = () => {
-    if (socket) socket.close();
-    onLogout();
-    navigate('/');
-  };
 
   // Mastery is a single source of truth: chapterMastery[ch.id].totalMastery,
-  // written by the diagnostic AND by practice/review (studyScore). 0 = Not Started.
+  // written by the diagnostic AND by practice/review (studyScore).
+  // Stage words match the phone exactly (same thresholds) — one vocabulary.
+  const stageName = (pct) => {
+    if (pct >= 80) return 'Mastered';
+    if (pct >= 50) return 'Familiar';
+    if (pct >= 10) return 'Building';
+    return 'New';
+  };
   const getProgress = (chapter) => {
     const cm = chapterMastery[chapter.id];
     const pct = cm && cm.totalMastery > 0 ? cm.totalMastery : 0;
     return {
       masteryPct: pct,
-      masteryName: pct > 0 ? 'In progress' : 'Not Started',
+      masteryName: stageName(pct),
       decaying: false,
     };
   };
@@ -283,10 +284,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           <h2 className="dash-title">Dashboard</h2>
           <span className="dash-greeting">{firstName ? `Welcome back, ${firstName}` : 'Welcome back'}</span>
         </div>
-        <button className="logout-btn" onClick={handleLogout}>
-          <SignOut weight="bold" size={18} />
-          Logout
-        </button>
+        {/* account actions live on Profile — keep the dashboard about study */}
       </div>
 
       {error && <div className="error-banner" role="alert">{error}</div>}
@@ -415,7 +413,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                       />
                     </div>
                     <span className="ch-status" style={pct > 0 ? { color: barColor, fontWeight: 600 } : undefined}>
-                      {pctLabel || (prog.decaying ? 'Review' : prog.masteryName)}
+                      {pctLabel ? `${prog.masteryName} · ${pctLabel}` : prog.masteryName}
                     </span>
                   </div>
                   {/* badge color encodes exam weight (one scale), not the chapter's accent */}
