@@ -91,8 +91,21 @@ Compute the new exam-aware plan everywhere, log it, show nothing new.
 
 ### Stage 1b — remaining compute-dark (next)
 
-- [ ] **Frontend duration timer** — have the web review/study/quickstart clients
-  send `durationSeconds` so calibration data actually accrues (small src/ change).
+**Finding (2026-06-12):** the web **current** mastery number is already
+coverage-anchored and honest — `src/data/readiness.js#computeReadiness` is the
+NCEES-weighted average over ALL 15 chapters (untouched = 0, so a half-covered
+user is correctly dragged down), and `readinessLabel` is mastery-language only,
+never a pass verdict. NCEES weights are duplicated but identical in
+`src/data/exam-bank/index.js` and `service/routes/exam.js`. So the personas'
+"melting 98%" is the **projection** (future), not the current number — and
+unifying that projection across surfaces IS task #2 (the mastery metric). The
+three remaining 1b items below are best done as ONE coherent shared "plan model
+v2.1" change (one `SCHEDULER_VERSION` bump 2.0.0→2.1.0 in both files + fixtures),
+because they all refine the same `computeDailyPlan`:
+
+- [x] **Frontend duration timer** — review + chapter practice (`problems.jsx`)
+  time themselves and send `durationSeconds`; backend forwards it. Lesson left
+  uninstrumented (reading time would skew the signal).
 - [ ] **Run the calibration** once >=30 timed sessions exist; replace the `0.6`
   default if the measured K differs. Then tune the 8/14/30 ceilings, fatigue bounds.
 - [ ] Add `dynamicCeiling = baseCeiling(8/14/30) + ceil(backlog/studyDays)` to the
