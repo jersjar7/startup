@@ -147,6 +147,7 @@ router.post('/', verifyAuth, async (req, res) => {
     answers,
     xpEarned: xpTotal,
     streak: streakResult.currentStreak,
+    durationSeconds: req.body.durationSeconds,
   });
 
   res.send({

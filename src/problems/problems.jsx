@@ -48,6 +48,14 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
   const [quote, setQuote] = React.useState('');
   const [quoteAuthor, setQuoteAuthor] = React.useState('');
   const [recommendation, setRecommendation] = React.useState(null);
+  // When the session actually starts, for honest cards/minute calibration.
+  const sessionStartRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (phase === 'SESSION' && sessionStartRef.current == null) {
+      sessionStartRef.current = Date.now();
+    }
+  }, [phase]);
 
   React.useEffect(() => {
     if (!userName) {
@@ -177,9 +185,12 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
       // Submit session
       setPhase('LOADING');
       const submitUrl = reviewMode ? '/api/review' : '/api/sessions';
+      const durationSeconds = sessionStartRef.current
+        ? Math.round((Date.now() - sessionStartRef.current) / 1000)
+        : undefined;
       const submitBody = reviewMode
-        ? { answers: updatedAnswers }
-        : { topicId, answers: updatedAnswers };
+        ? { answers: updatedAnswers, durationSeconds }
+        : { topicId, answers: updatedAnswers, durationSeconds };
 
       fetch(submitUrl, {
         method: 'POST',

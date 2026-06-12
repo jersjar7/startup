@@ -178,6 +178,7 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
     answers: answers.map((a) => ({ problemId: a.questionId, isCorrect: a.isCorrect || false })),
     xpEarned: xpTotal,
     streak: streakResult.currentStreak,
+    durationSeconds: req.body.durationSeconds,
   });
 
   const state = buildState({ quickstartSampled, chapterMastery });
