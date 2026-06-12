@@ -72,29 +72,38 @@ one source instead of two. Solves the report's "single highest operational risk"
 
 Compute the new exam-aware plan everywhere, log it, show nothing new.
 
-- [ ] **Migrate web onto the shared SM-2** (moved from Stage 0 — it's a behavior
-  change): route `service/scheduling.js` + `service/db/stats.js` through the
-  canonical `seedState` + `nextSchedule`; persist ease/reps/lapses forward; seed
-  legacy rows so a matured item never snaps back to 1 day. Compute-dark first
-  (log old vs new `nextReview`), then flip in Stage 2. Replace
-  `service/scheduling.test.js` for the new model.
-- [ ] **Calibrate cards/minute FIRST** (decision Q4): measure real seconds-per-card
-  from `sessionLog` and set the `0.6` conversion empirically. Then the 8/14/30
-  ceilings, then fatigue bounds.
-- [ ] Wire the web review route to call `computeDailyPlan` with the user's
-  `examDate` + live `dueCount` and compute `reviewTarget` / `dynamicCeiling`
-  **alongside** the flat-5 — both logged, flat-5 still served.
-  - `dynamicCeiling = baseCeiling(8/14/30) + ceil(backlog / studyDays)`.
-- [ ] Add the **minutes-budget governor** (decision: persona Devin): sum streams
-  A+B against `minutesPerDay`; on overflow, protect due reviews first, defer new
-  concepts. Compute-only this stage.
+### Stage 1a — compute-dark core — DONE
+
+- [x] **Feature-flag module** `service/flags.js` — `schedulerV2`, `studyLoadV2`,
+  `darkLog`. All default OFF (compute-dark); Stage 2 grows per-user ramp here.
+- [x] **Migrate web onto the shared SM-2, compute-dark** — `scheduling.js` gains
+  `nextHistoryV2` (pure, via `seedState` + `nextSchedule`); `db/stats.js`
+  computes v1 and v2 side by side, logs `[sched-dark]`, serves v1 and persists
+  ease/reps/lapses only when `SCHEDULER_V2` is flipped. 3 new unit tests; full
+  suite 159 green. Behavior unchanged with the flag off.
+- [x] **Exam-aware review target, compute-dark** — `review.js` calls
+  `computeDailyPlan(examDate, dueCount)`, logs `[load-dark]` (regime, due, flat
+  vs v2Target), serves the flat cap until `STUDY_LOAD_V2` is flipped.
+- [x] **Duration instrumentation** — `logSession` now stores `durationSeconds`
+  (null until clients send it); the review route forwards `req.body.durationSeconds`.
+- [x] **Calibration script** `service/scripts/calibrateCardsPerMinute.js` — read-only,
+  derives cards/minute from accrued timed sessions (needs >=30 before it trusts a value).
+
+### Stage 1b — remaining compute-dark (next)
+
+- [ ] **Frontend duration timer** — have the web review/study/quickstart clients
+  send `durationSeconds` so calibration data actually accrues (small src/ change).
+- [ ] **Run the calibration** once >=30 timed sessions exist; replace the `0.6`
+  default if the measured K differs. Then tune the 8/14/30 ceilings, fatigue bounds.
+- [ ] Add `dynamicCeiling = baseCeiling(8/14/30) + ceil(backlog/studyDays)` to the
+  shared plan (compute-dark in `[load-dark]`).
+- [ ] **Minutes-budget governor** (persona Devin): sum streams A+B against
+  `minutesPerDay`; on overflow protect due reviews first. Compute-only.
 - [ ] **Coverage-anchored projection** (Q5, Q1): readiness denominator =
-  concept-tier coverage × NCEES chapter weight (crude, chapter-level). Compute
-  the honest projection (half-covered → ~60%, capped 98%) alongside the current
-  one; log both.
-- [ ] **Telemetry split** before any flip: separate review-completion vs
-  new-completion; baseline next-day-return + lapse-rate. Dashboards must not read
-  a target-driven completion dip as breakage.
+  concept-tier coverage × NCEES chapter weight (crude, chapter-level); compute
+  the honest projection alongside the current one; log both.
+- [ ] **Telemetry split**: separate review- vs new-completion; baseline
+  next-day-return + lapse-rate before any flip.
 - **Acceptance:** logs show new vs old side by side for real traffic; no UI delta.
 - **User impact:** none.
 

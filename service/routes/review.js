@@ -6,6 +6,8 @@ const { calculateEarnedMastery, computeStudyMastery } = require('../mastery.js')
 const { calculateStreak } = require('../streak.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
+const { computeDailyPlan } = require('../shared/scheduler.js');
+const flags = require('../flags.js');
 
 const router = express.Router();
 
@@ -43,7 +45,7 @@ async function emitWebEvents(email, answers, topicIdOf, localDate) {
 // single source of truth for problems.
 router.get('/', verifyAuth, async (req, res) => {
   const email = req.user.email;
-  const count = Math.min(parseInt(req.query.count) || 5, 8);
+  const requested = Math.min(parseInt(req.query.count) || 5, 8); // legacy flat cap
   const stats = await DB.getUserStats(email);
 
   if (!stats || !stats.topicProgress) {
@@ -58,6 +60,21 @@ router.get('/', verifyAuth, async (req, res) => {
   if (studiedTopicIds.length === 0) {
     return res.send({ problems: [], message: 'Complete a topic session first to unlock review.' });
   }
+
+  // Exam-aware review target, computed dark. The flat cap ignored the exam
+  // date entirely (a 6-months-out and a 6-days-out user both got 5). While
+  // STUDY_LOAD_V2 is off we still serve the flat cap and only log the plan;
+  // when flipped we surface the backlog-and-horizon-aware target instead.
+  const dueCount = await DB.getDueReviewCount(email);
+  const plan = computeDailyPlan({ now: Date.now(), examDate: req.user.examDate, dueCount });
+  const useV2 = flags.studyLoadV2();
+  if (!useV2 && flags.darkLog()) {
+    console.log(
+      `[load-dark] ${email} regime=${plan.regime} due=${dueCount} ` +
+        `flat=${requested} v2Target=${plan.reviewTarget}`,
+    );
+  }
+  const count = useV2 ? plan.reviewTarget : requested;
 
   // Overdue problems (nextReview <= today), soonest-due first.
   const overdue = await DB.getProblemsForReview(email, count);
@@ -192,6 +209,7 @@ router.post('/', verifyAuth, async (req, res) => {
     answers,
     xpEarned: xpTotal,
     streak: streakResult.currentStreak,
+    durationSeconds: req.body.durationSeconds,
   });
 
   res.send({
