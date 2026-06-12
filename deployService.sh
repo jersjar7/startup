@@ -1,16 +1,41 @@
-while getopts k:h:s: flag
+while getopts k:h:s:f flag
 do
     case "${flag}" in
         k) key=${OPTARG};;
         h) hostname=${OPTARG};;
         s) service=${OPTARG};;
+        f) force=1;;
     esac
 done
 
 if [[ -z "$key" || -z "$hostname" || -z "$service" ]]; then
     printf "\nMissing required parameter.\n"
-    printf "  syntax: deployService.sh -k <pem key file> -h <hostname> -s <service>\n\n"
+    printf "  syntax: deployService.sh -k <pem key file> -h <hostname> -s <service> [-f]\n"
+    printf "    -f  force: skip the in-progress exam-simulation safety check\n\n"
     exit 1
+fi
+
+# Step 0 — Safety preflight: never deploy on top of an in-progress paid 6-hour
+# exam simulation (a hard restart / bundle swap would break a paying user
+# mid-exam). Runs the check ON THE BOX against the live DB. See
+# service/checkActiveExamSims.js. Override with -f only if you accept
+# interrupting an active sim.
+if [[ "$force" == "1" ]]; then
+    printf "\n----> Preflight SKIPPED (-f force)\n"
+else
+    printf "\n----> Preflight: checking for an in-progress exam simulation\n"
+    if ssh -i "$key" ubuntu@$hostname "[ -f services/${service}/.env ]"; then
+        scp -q -i "$key" service/checkActiveExamSims.js ubuntu@$hostname:services/${service}/checkActiveExamSims.js
+        preflight=$(ssh -i "$key" ubuntu@$hostname "bash -ilc 'cd services/${service} && set -a && . ./.env && set +a && node checkActiveExamSims.js' 2>&1")
+        printf "      %s\n" "$preflight"
+        if printf "%s" "$preflight" | grep -q PREFLIGHT_BLOCK; then
+            printf "\n  Deploy ABORTED — an exam simulation is in progress.\n"
+            printf "  Wait for it to finish (target deploy window: 2am Pacific), or re-run with -f to override (interrupts the user).\n\n"
+            exit 1
+        fi
+    else
+        printf "      (no prior deployment found — nothing to protect, skipping)\n"
+    fi
 fi
 
 printf "\n----> Deploying React bundle $service to $hostname with $key\n"
@@ -52,7 +77,7 @@ ssh -i "$key" ubuntu@$hostname << ENDSSH
 bash -i
 cd services/${service}
 npm install
-pm2 restart ${service}
+pm2 reload ${service} --update-env || pm2 restart ${service}
 ENDSSH
 
 # Step 5

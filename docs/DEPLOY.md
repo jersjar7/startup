@@ -48,6 +48,34 @@ Using `-s fe4raccoons` silently deploys to `services/fe4raccoons/` — a directo
 found", leaving the live site unchanged. `.env` is preserved across deploys
 (the scripts back it up and restore it).
 
+## ⚠️ Never deploy on top of an in-progress exam simulation
+
+The paid **Exam Simulation** is a single timed **6-hour (5h20m)** in-app
+session. A deploy that restarts the backend (`deployService.sh`) or swaps the
+bundle (`deployReact.sh`) under a user **4 hours into a paid exam** breaks them.
+Protections, in order of importance:
+
+1. **Active-sim preflight (automatic).** Both deploy scripts now run
+   `service/checkActiveExamSims.js` on the box first. It queries `examAttempts`
+   for any `status: 'in_progress'` started within the last ~5h50m. If one is
+   live, **the deploy aborts** (`PREFLIGHT_BLOCK`). A check that can't run
+   (`PREFLIGHT_WARN`) fails open so a DB hiccup never blocks all deploys.
+   - Override with **`-f`** only if you accept interrupting the user:
+     `./deployService.sh ... -s startup -f`
+2. **Graceful restart.** `deployService.sh` uses `pm2 reload --update-env`
+   (drains in-flight requests) with a `pm2 restart` fallback — not a hard
+   restart.
+3. **Deploy window.** Target **2am Pacific** as defense-in-depth. Note a 6-hour
+   session can straddle any fixed window, so the preflight (1) is the real
+   guard, not the clock.
+4. **Additive/back-compatible API changes** so a currently-loaded bundle never
+   breaks mid-session; behavior changes ship dark + flagged (see
+   `docs/mobile/study-load-implementation-plan.md`).
+
+Only **3 users** have ever bought the sim, so an in-progress attempt is rare —
+the preflight almost never fires, but when it does it is protecting a paying
+user mid-exam.
+
 The pm2 process runs `index.js 4000 startup`. Node on the box is managed by
 mise/nvm, so non-interactive SSH needs a login shell: `ssh … 'bash -ilc "pm2 …"'`.
 
