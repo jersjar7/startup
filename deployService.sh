@@ -47,12 +47,11 @@ mkdir build
 npm install # make sure vite is installed so that we can bundle
 npm run build:seo # build the React front end + prerender public pages (crawlable HTML, sitemap, llms.txt)
 cp -rf dist build/public # move the React front end to the target distribution
-cp service/*.js build # move the back end service to the target distribution
-cp service/package.json service/package-lock.json build
-mkdir -p build/middleware build/routes build/db
-cp service/middleware/*.js build/middleware
-cp service/routes/*.js build/routes
-cp service/db/*.js build/db
+# Back end: copy ALL service code preserving directory structure (excluding
+# node_modules). This replaces a per-subdirectory cp list that silently dropped
+# new dirs — shared/ was missed once and crashed prod with MODULE_NOT_FOUND.
+# tar means any new service/ subdir ships automatically; never hand-list again.
+( cd service && tar --exclude=node_modules -cf - . ) | ( cd build && tar -xf - )
 
 # Step 2
 printf "\n----> Clearing out previous distribution on the target (preserving .env)\n"
