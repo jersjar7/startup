@@ -134,3 +134,16 @@ settings write-back).
   shipped: readiness labels, reset-button scope, Today zero-state,
   pre-session leak closure. Next round: implement v0 (studyScore) + mobile
   auth screen, then re-run personas against the build.
+
+## Study-load policy (2026-06-12) — DECISIONS LOCKED, plan written
+Pedagogy-vs-personas deliberation done (13 agents). Daily volume = three
+streams: due reviews (never hard-capped), new learning (soft ceiling), practice
+(unlimited). Replaces the exam-blind web flat-5 (review.js:46) with a
+backlog-and-horizon-aware plan. Owner ruled all 6 open questions + crammer
+stance (honest-but-bounded) on 2026-06-12.
+- Decisions + rationale: `docs/mobile/study-load-deliberation.md` (§LOCKED DECISIONS)
+- Ordered build checklist: `docs/mobile/study-load-implementation-plan.md`
+- Key calls: recheck gate (NOT global decay); crude NCEES-weighted readiness;
+  calibrate cards/min first; coverage-anchor projection first; ship dark +
+  grandfathered. Stage 0 (shared scheduler foundation) maps to the P0 "single
+  shared scheduler" item above and is in progress.
