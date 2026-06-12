@@ -7,6 +7,7 @@ const { calculateStreak } = require('../streak.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
 const { computeDailyPlan } = require('../shared/scheduler.js');
+const { weightedMastery, coveragePercent } = require('../examWeights.js');
 const flags = require('../flags.js');
 
 const router = express.Router();
@@ -66,12 +67,22 @@ router.get('/', verifyAuth, async (req, res) => {
   // STUDY_LOAD_V2 is off we still serve the flat cap and only log the plan;
   // when flipped we surface the backlog-and-horizon-aware target instead.
   const dueCount = await DB.getDueReviewCount(email);
-  const plan = computeDailyPlan({ now: Date.now(), examDate: req.user.examDate, dueCount });
+  const chapterMastery = stats.chapterMastery || {};
+  const plan = computeDailyPlan({
+    now: Date.now(),
+    examDate: req.user.examDate,
+    dueCount,
+    currentMasteryPercent: weightedMastery(chapterMastery),
+    coveragePercent: coveragePercent(chapterMastery),
+  });
   const useV2 = flags.studyLoadV2();
   if (!useV2 && flags.darkLog()) {
+    const p = plan.projection;
     console.log(
       `[load-dark] ${email} regime=${plan.regime} due=${dueCount} ` +
-        `flat=${requested} v2Target=${plan.reviewTarget}`,
+        `flat=${requested} v2Target=${plan.reviewTarget} ceiling=${plan.dynamicCeiling} ` +
+        `newBudget=${plan.budgetedNewTarget}${plan.newDeferred ? '(deferred)' : ''} ` +
+        `proj=${p ? `${p.currentPercent}->${p.projectedPercent}` : 'n/a'}`,
     );
   }
   const count = useV2 ? plan.reviewTarget : requested;

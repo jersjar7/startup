@@ -106,18 +106,22 @@ because they all refine the same `computeDailyPlan`:
 - [x] **Frontend duration timer** — review + chapter practice (`problems.jsx`)
   time themselves and send `durationSeconds`; backend forwards it. Lesson left
   uninstrumented (reading time would skew the signal).
-- [ ] **Run the calibration** once >=30 timed sessions exist; replace the `0.6`
-  default if the measured K differs. Then tune the 8/14/30 ceilings, fatigue bounds.
-- [ ] Add `dynamicCeiling = baseCeiling(8/14/30) + ceil(backlog/studyDays)` to the
-  shared plan (compute-dark in `[load-dark]`).
-- [ ] **Minutes-budget governor** (persona Devin): sum streams A+B against
-  `minutesPerDay`; on overflow protect due reviews first. Compute-only.
-- [ ] **Coverage-anchored projection** (Q5, Q1): readiness denominator =
-  concept-tier coverage × NCEES chapter weight (crude, chapter-level); compute
-  the honest projection alongside the current one; log both.
-- [ ] **Telemetry split**: separate review- vs new-completion; baseline
-  next-day-return + lapse-rate before any flip.
+- [x] **`dynamicCeiling`** = base(8/14/30) + ceil(backlog/studyDays) in the shared
+  plan (v2.1); logged in `[load-dark]`.
+- [x] **Minutes-budget governor** (persona Devin): `budgetedNewTarget` /
+  `newDeferred` — reviews + paper protected first against `minutesPerDay`, new
+  deferred to fit. Shared plan v2.1; logged.
+- [x] **Coverage-anchored projection** (Q5, Q1): `examWeights.js` (single backend
+  weights source + `weightedMastery` + `coveragePercent`); the projection can't
+  exceed reachable coverage. `review.js` feeds real mastery + coverage and logs
+  `proj=current->projected`. 5 unit tests.
+- [ ] **Run the calibration** once >=30 timed sessions exist; replace `0.6` if the
+  measured K differs. Then tune the 8/14/30 ceilings + fatigue bounds.
+- [ ] **Telemetry split (dashboard)**: separate review- vs new-completion;
+  baseline next-day-return + lapse-rate before any flip. (`[load-dark]` already
+  emits the per-request signal; this is the aggregation/dashboard side.)
 - **Acceptance:** logs show new vs old side by side for real traffic; no UI delta.
+  165 service tests pass; mobile typechecks clean.
 - **User impact:** none.
 
 ## Stage 2 — Flip, grandfathered (BEHAVIOR CHANGE — owner green-light required)

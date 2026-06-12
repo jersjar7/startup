@@ -7,26 +7,9 @@ const { getWeekId } = require('./leaderboard.js');
 
 const router = express.Router();
 
-// NCEES FE Civil exam question distribution (110 total)
-// Based on NCEES specification percentages
-const EXAM_DISTRIBUTION = {
-  'mathematics':         13,  // Mathematics 7–11% + Computational Tools 4–6%
-  'statistics':          4,   // 4–6%
-  'ethics':              4,   // 4–6%
-  'economics':           4,   // 4–6%
-  'statics':             8,   // 7–11%
-  'dynamics':            4,   // 4–6%
-  'mechanics-materials': 8,   // 7–11%
-  'materials':           4,   // 4–6%
-  'fluid-mechanics':     4,   // 4–6%
-  'surveying':           4,   // 4–6%
-  'water-resources':     14,  // Hydraulics & Hydrologic 8–12% + Environmental 6–9%
-  'structural':          13,  // Structural Analysis 6–9% + Structural Design 6–9%
-  'geotechnical':        11,  // 9–14%
-  'transportation':      10,  // 8–12%
-  'construction':        5,   // 4–6%
-};
-// Sum = 110 — matches NCEES FE Civil exam total
+// NCEES FE Civil exam question distribution (110 total) — single backend source
+// of truth in examWeights.js.
+const { EXAM_DISTRIBUTION } = require('../examWeights.js');
 
 const TOTAL_QUESTIONS = 110;
 const TIME_LIMIT_SECONDS = 5 * 3600 + 20 * 60; // 5 hours 20 minutes = 19200 seconds
