@@ -9,7 +9,7 @@
 // Kept dependency-free on purpose (no `@/` imports, no React Native) so the
 // Node-based vitest runner can import it directly for that parity check.
 
-export const SCHEDULER_VERSION = '2.0.0';
+export const SCHEDULER_VERSION = '2.1.0';
 
 export const DAY_MS = 24 * 60 * 60 * 1000;
 export const RELEARN_MS = 10 * 60 * 1000;
@@ -17,6 +17,9 @@ export const MIN_EASE = 1.3;
 export const START_EASE = 2.5;
 export const MAX_INTERVAL_DAYS = 60;
 export const MAX_PROJECTION = 98;
+export const CARDS_PER_MINUTE = 0.6;
+export const PAPER_MINUTES = 6;
+export const COVERAGE_RATE = 1.5;
 
 export type ReviewGrade = 'forgot' | 'fuzzy' | 'gotIt';
 export type PacingRegime = 'runway' | 'onPace' | 'crunch';
@@ -37,12 +40,16 @@ export interface DailyPlan {
   readonly minutesPerDay: number;
   readonly dailyCardTarget: number;
   readonly dailyPaperTarget: number;
+  readonly dynamicCeiling: number;
   readonly reviewTarget: number;
+  readonly budgetedNewTarget: number;
+  readonly newDeferred: boolean;
   readonly softCap: boolean;
   readonly projection: {
     readonly currentPercent: number;
     readonly projectedPercent: number;
     readonly examDate: string | null;
+    readonly coverageAnchored: boolean;
   } | null;
 }
 
@@ -51,6 +58,7 @@ export interface DailyPlanInput {
   readonly examDate?: string | null;
   readonly minutesPerDay?: number;
   readonly currentMasteryPercent?: number;
+  readonly coveragePercent?: number;
   readonly dueCount?: number;
 }
 
@@ -130,9 +138,23 @@ export function regimeForStudyDays(studyDays: number | null): PacingRegime {
   return 'crunch';
 }
 
-export function reviewTargetFor(regime: PacingRegime, dueCount: number): number {
-  const ceiling = regime === 'crunch' ? 30 : regime === 'onPace' ? 12 : 8;
-  return Math.min(Math.max(0, dueCount || 0), ceiling);
+export function dynamicCeiling(
+  regime: PacingRegime,
+  dueCount: number,
+  studyDays: number | null,
+): number {
+  const base = regime === 'crunch' ? 30 : regime === 'onPace' ? 12 : 8;
+  const backlog = Math.max(0, dueCount || 0);
+  const bump = studyDays && studyDays > 0 ? Math.ceil(backlog / studyDays) : 0;
+  return base + bump;
+}
+
+export function reviewTargetFor(
+  regime: PacingRegime,
+  dueCount: number,
+  studyDays: number | null,
+): number {
+  return Math.min(Math.max(0, dueCount || 0), dynamicCeiling(regime, dueCount, studyDays));
 }
 
 function clamp(n: number, lo: number, hi: number): number {
@@ -149,19 +171,31 @@ export function computeDailyPlan(input: DailyPlanInput): DailyPlan {
   const minutesPerDay = input.minutesPerDay || 20;
   const dailyCardTarget = clamp(Math.round(minutesPerDay * 0.6 * intensity), 5, 40);
   const dailyPaperTarget = regime === 'crunch' ? 2 : 1;
-  const reviewTarget = reviewTargetFor(regime, input.dueCount || 0);
+  const ceiling = dynamicCeiling(regime, input.dueCount || 0, studyDays);
+  const reviewTarget = Math.min(Math.max(0, input.dueCount || 0), ceiling);
+
+  // Minutes-budget governor: protect due reviews (and paper) first; defer new.
+  const reviewMinutes = reviewTarget / CARDS_PER_MINUTE;
+  const paperMinutes = dailyPaperTarget * PAPER_MINUTES;
+  const minutesForNew = Math.max(0, minutesPerDay - reviewMinutes - paperMinutes);
+  const budgetedNewTarget = Math.min(dailyCardTarget, Math.round(minutesForNew * CARDS_PER_MINUTE));
+  const newDeferred = budgetedNewTarget < dailyCardTarget;
 
   let projection: DailyPlan['projection'] = null;
   if (typeof input.currentMasteryPercent === 'number') {
     const gainPerDay = minutesPerDay * 0.03;
     const sd = studyDays == null ? 0 : studyDays;
-    const projectedPercent = Math.round(
-      clamp(input.currentMasteryPercent + sd * gainPerDay, 0, MAX_PROJECTION),
-    );
+    let projected = clamp(input.currentMasteryPercent + sd * gainPerDay, 0, MAX_PROJECTION);
+    const anchored = typeof input.coveragePercent === 'number';
+    if (anchored) {
+      const coverageCap = Math.min(MAX_PROJECTION, (input.coveragePercent as number) + sd * COVERAGE_RATE);
+      projected = Math.min(projected, coverageCap);
+    }
     projection = {
       currentPercent: Math.round(input.currentMasteryPercent),
-      projectedPercent,
+      projectedPercent: Math.round(projected),
       examDate: input.examDate || null,
+      coverageAnchored: anchored,
     };
   }
 
@@ -173,7 +207,10 @@ export function computeDailyPlan(input: DailyPlanInput): DailyPlan {
     minutesPerDay,
     dailyCardTarget,
     dailyPaperTarget,
+    dynamicCeiling: ceiling,
     reviewTarget,
+    budgetedNewTarget,
+    newDeferred,
     softCap: true,
     projection,
   };

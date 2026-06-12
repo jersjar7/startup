@@ -18,13 +18,20 @@
 
 'use strict';
 
-const SCHEDULER_VERSION = '2.0.0';
+const SCHEDULER_VERSION = '2.1.0';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const RELEARN_MS = 10 * 60 * 1000; // a missed item resurfaces in ~10 minutes
 const MIN_EASE = 1.3;
 const START_EASE = 2.5;
 const MAX_INTERVAL_DAYS = 60; // ceiling; the exam-eve clamp happens at queue build, not here
+
+// Pacing constants (instrumented launch defaults — to be tuned on telemetry,
+// see docs/mobile/study-load-implementation-plan.md). CARDS_PER_MINUTE is the
+// same 0.6 the daily card target is sized with; calibrate it first (Q4).
+const CARDS_PER_MINUTE = 0.6;
+const PAPER_MINUTES = 6; // rough minutes a "grab paper" problem costs
+const COVERAGE_RATE = 1.5; // weighted % of the exam newly covered per study day at pace
 
 // Ease is kept at 2 decimals so it never accumulates IEEE-754 noise
 // (e.g. 2.45 - 0.05 = 2.4000000000000004), which would make fixtures brittle.
@@ -109,14 +116,22 @@ function regimeForStudyDays(studyDays) {
   return 'crunch';
 }
 
-// Recommended number of due reviews to surface today. This is a SOFT target:
-// the API/UI must always offer "keep going" past it and must never hard-stop a
-// motivated user. The ceiling only shapes the *default* batch. Web used to
-// return a flat 5 (max 8) regardless of the exam; in crunch we surface the
-// whole backlog instead.
-function reviewTargetFor(regime, dueCount) {
-  const ceiling = regime === 'crunch' ? 30 : regime === 'onPace' ? 12 : 8;
-  return Math.min(Math.max(0, dueCount || 0), ceiling);
+// The review ceiling scales with the exam horizon AND the backlog: a base by
+// regime plus the per-day share of the backlog needed to clear it by exam day.
+// A relaxed user never reaches it (their backlog is tiny); a late starter with
+// a pile gets a deadline-scaled ask. Still SOFT — callers must offer
+// "keep going" past it and never hard-stop.
+function dynamicCeiling(regime, dueCount, studyDays) {
+  const base = regime === 'crunch' ? 30 : regime === 'onPace' ? 12 : 8;
+  const backlog = Math.max(0, dueCount || 0);
+  const bump = studyDays && studyDays > 0 ? Math.ceil(backlog / studyDays) : 0;
+  return base + bump;
+}
+
+// Recommended due-review batch today: the backlog, bounded by the dynamic
+// ceiling. SOFT.
+function reviewTargetFor(regime, dueCount, studyDays) {
+  return Math.min(Math.max(0, dueCount || 0), dynamicCeiling(regime, dueCount, studyDays));
 }
 
 function clamp(n, lo, hi) {
@@ -124,8 +139,11 @@ function clamp(n, lo, hi) {
 }
 
 // The full daily plan, shared by both surfaces. Mobile reads dailyCardTarget /
-// dailyPaperTarget / projection; web reads regime / reviewTarget.
-//   input: { now, examDate?, minutesPerDay?, currentMasteryPercent?, dueCount? }
+// dailyPaperTarget / projection; web reads regime / reviewTarget. v2.1 adds the
+// dynamic review ceiling, a minutes-budget governor (reviews protected first),
+// and a coverage-anchored projection.
+//   input: { now, examDate?, minutesPerDay?, currentMasteryPercent?,
+//            coveragePercent?, dueCount? }
 function computeDailyPlan(input) {
   const now = input.now;
   const days = daysUntil(input.examDate, now);
@@ -136,19 +154,36 @@ function computeDailyPlan(input) {
   const minutesPerDay = input.minutesPerDay || 20;
   const dailyCardTarget = clamp(Math.round(minutesPerDay * 0.6 * intensity), 5, 40);
   const dailyPaperTarget = regime === 'crunch' ? 2 : 1;
-  const reviewTarget = reviewTargetFor(regime, input.dueCount || 0);
+  const ceiling = dynamicCeiling(regime, input.dueCount || 0, studyDays);
+  const reviewTarget = Math.min(Math.max(0, input.dueCount || 0), ceiling);
+
+  // Minutes-budget governor: the full new-learning target plus reviews plus
+  // paper can overrun the user's actual time. Protect DUE REVIEWS (and paper)
+  // first, then defer new concepts to fit — never the other way round.
+  const reviewMinutes = reviewTarget / CARDS_PER_MINUTE;
+  const paperMinutes = dailyPaperTarget * PAPER_MINUTES;
+  const minutesForNew = Math.max(0, minutesPerDay - reviewMinutes - paperMinutes);
+  const budgetedNewTarget = Math.min(dailyCardTarget, Math.round(minutesForNew * CARDS_PER_MINUTE));
+  const newDeferred = budgetedNewTarget < dailyCardTarget;
 
   let projection = null;
   if (typeof input.currentMasteryPercent === 'number') {
     const gainPerDay = minutesPerDay * 0.03;
     const sd = studyDays == null ? 0 : studyDays;
-    const projectedPercent = Math.round(
-      clamp(input.currentMasteryPercent + sd * gainPerDay, 0, MAX_PROJECTION),
-    );
+    let projected = clamp(input.currentMasteryPercent + sd * gainPerDay, 0, MAX_PROJECTION);
+    // Coverage anchor: you cannot project more mastery than the share of the
+    // exam you will have even covered. A half-covered user is bounded honestly
+    // instead of melting toward 98%.
+    const anchored = typeof input.coveragePercent === 'number';
+    if (anchored) {
+      const coverageCap = Math.min(MAX_PROJECTION, input.coveragePercent + sd * COVERAGE_RATE);
+      projected = Math.min(projected, coverageCap);
+    }
     projection = {
       currentPercent: Math.round(input.currentMasteryPercent),
-      projectedPercent,
+      projectedPercent: Math.round(projected),
       examDate: input.examDate || null,
+      coverageAnchored: anchored,
     };
   }
 
@@ -160,7 +195,10 @@ function computeDailyPlan(input) {
     minutesPerDay,
     dailyCardTarget,
     dailyPaperTarget,
+    dynamicCeiling: ceiling,
     reviewTarget,
+    budgetedNewTarget,
+    newDeferred,
     softCap: true, // callers MUST offer "keep going" beyond the target
     projection,
   };
@@ -175,6 +213,9 @@ module.exports = {
   START_EASE,
   MAX_INTERVAL_DAYS,
   MAX_PROJECTION,
+  CARDS_PER_MINUTE,
+  PAPER_MINUTES,
+  COVERAGE_RATE,
   // interval scheduling
   startSchedule,
   nextSchedule,
@@ -182,6 +223,7 @@ module.exports = {
   // pacing
   daysUntil,
   regimeForStudyDays,
+  dynamicCeiling,
   reviewTargetFor,
   computeDailyPlan,
 };

@@ -76,6 +76,7 @@ describe('scheduler parity: computeDailyPlan', () => {
         examDate: f.examDate,
         minutesPerDay: f.minutesPerDay,
         currentMasteryPercent: f.currentMasteryPercent,
+        coveragePercent: f.coveragePercent,
         dueCount: f.dueCount,
       };
       const c = canonical.computeDailyPlan(input);
