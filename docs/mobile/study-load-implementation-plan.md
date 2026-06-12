@@ -51,24 +51,33 @@ one source instead of two. Solves the report's "single highest operational risk"
 - [x] Mobile mirror `mobile/src/shared/scheduler.ts` — identical logic + version,
   dependency-free. (Written, uncommitted.)
 - [x] Golden fixtures `service/shared/scheduler.fixtures.json`. (Written.)
-- [ ] Parity test `service/shared/scheduler.parity.test.js` — runs every fixture
-  through BOTH the canonical module and the mirror; asserts equal output +
-  identical `SCHEDULER_VERSION`. Red on any drift.
-- [ ] Delegate mobile `Sm2Scheduler.ts` + `AdaptivePacingPolicy.ts` to the mirror
-  (keep the class names + domain interfaces; zero DI changes).
-- [ ] Re-route web `service/scheduling.js` + `service/db/stats.js` through the
-  canonical module via `seedState` + `nextSchedule` (persist ease/reps/lapses
-  forward; legacy rows seeded so a matured item never snaps back to 1 day).
-- [ ] Update `service/scheduling.test.js` for the new model; confirm full web
-  suite green.
-- **Acceptance:** all tests green on both trees; live behavior identical to
-  today (verify a relaxed 6-months-out user still sees ~5–8/day).
+- [x] Parity test `service/shared/scheduler.parity.test.js` — 31 cases incl. an
+  exhaustive sweep; asserts canonical ≡ mirror + identical `SCHEDULER_VERSION`.
+  Green (full service suite 156 passing).
+- [x] Delegate mobile `Sm2Scheduler.ts` + `AdaptivePacingPolicy.ts` to the mirror
+  (class names + domain ports unchanged; zero DI changes; mobile typechecks
+  clean). Safe: mobile is not yet in production (store prep underway).
+- **Note — web rewire moved to Stage 1.** Switching web onto the shared 3-grade
+  SM-2 *changes live behavior* (different early intervals, missed-item timing,
+  cap) for real paying users, so it cannot be a "zero-impact" Stage-0 step. The
+  canonical module ships now but is **not yet wired into the live web path**; the
+  web migration is done compute-dark in Stage 1 and flipped, grandfathered, in
+  Stage 2.
+- **Acceptance:** parity + full suites green; mobile delegated; **web behavior
+  unchanged** because the live web scheduler (`service/scheduling.js`) is
+  untouched this stage.
 - **User impact:** none.
 
 ## Stage 1 — Compute-dark (no user-facing change) — needs Stage 0
 
 Compute the new exam-aware plan everywhere, log it, show nothing new.
 
+- [ ] **Migrate web onto the shared SM-2** (moved from Stage 0 — it's a behavior
+  change): route `service/scheduling.js` + `service/db/stats.js` through the
+  canonical `seedState` + `nextSchedule`; persist ease/reps/lapses forward; seed
+  legacy rows so a matured item never snaps back to 1 day. Compute-dark first
+  (log old vs new `nextReview`), then flip in Stage 2. Replace
+  `service/scheduling.test.js` for the new model.
 - [ ] **Calibrate cards/minute FIRST** (decision Q4): measure real seconds-per-card
   from `sessionLog` and set the `0.6` conversion empirically. Then the 8/14/30
   ceilings, then fatigue bounds.

@@ -1,0 +1,57 @@
+{
+  "version": "2.0.0",
+  "NOW": 1700000000000,
+  "nextSchedule": [
+    { "desc": "fresh item, gotIt -> reps1, interval 1", "state": {}, "grade": "gotIt", "expect": { "intervalDays": 1, "ease": 2.5, "reps": 1, "lapses": 0 } },
+    { "desc": "reps1 gotIt -> reps2, interval 3", "state": { "intervalDays": 1, "ease": 2.5, "reps": 1, "lapses": 0 }, "grade": "gotIt", "expect": { "intervalDays": 3, "ease": 2.5, "reps": 2, "lapses": 0 } },
+    { "desc": "reps2 gotIt -> reps3, round(3*2.5)=8", "state": { "intervalDays": 3, "ease": 2.5, "reps": 2, "lapses": 0 }, "grade": "gotIt", "expect": { "intervalDays": 8, "ease": 2.5, "reps": 3, "lapses": 0 } },
+    { "desc": "reps3 gotIt -> round(8*2.5)=20", "state": { "intervalDays": 8, "ease": 2.5, "reps": 3, "lapses": 0 }, "grade": "gotIt", "expect": { "intervalDays": 20, "ease": 2.5, "reps": 4, "lapses": 0 } },
+    { "desc": "forgot from mature -> reset, ease -0.2, lapse+1", "state": { "intervalDays": 20, "ease": 2.5, "reps": 4, "lapses": 1 }, "grade": "forgot", "expect": { "intervalDays": 0, "ease": 2.3, "reps": 0, "lapses": 2 } },
+    { "desc": "fuzzy at reps2 -> interval still 3 (reps gate), ease -0.05", "state": { "intervalDays": 1, "ease": 2.5, "reps": 1, "lapses": 0 }, "grade": "fuzzy", "expect": { "intervalDays": 3, "ease": 2.45, "reps": 2, "lapses": 0 } },
+    { "desc": "fuzzy at reps3 -> round(3*1.2)=4, ease -0.05", "state": { "intervalDays": 3, "ease": 2.45, "reps": 2, "lapses": 0 }, "grade": "fuzzy", "expect": { "intervalDays": 4, "ease": 2.4, "reps": 3, "lapses": 0 } },
+    { "desc": "cap: round(40*2.5)=100 clamps to 60", "state": { "intervalDays": 40, "ease": 2.5, "reps": 6, "lapses": 0 }, "grade": "gotIt", "expect": { "intervalDays": 60, "ease": 2.5, "reps": 7, "lapses": 0 } },
+    { "desc": "ease floor: forgot at min ease stays 1.3", "state": { "intervalDays": 5, "ease": 1.4, "reps": 3, "lapses": 4 }, "grade": "forgot", "expect": { "intervalDays": 0, "ease": 1.3, "reps": 0, "lapses": 5 } }
+  ],
+  "seedState": [
+    { "desc": "legacy mature web row (interval only) seeds reps=3 so it keeps growing", "row": { "interval": 8, "timesIncorrect": 1 }, "expect": { "intervalDays": 8, "ease": 2.5, "reps": 3, "lapses": 1 } },
+    { "desc": "legacy fresh row seeds reps=0", "row": { "interval": 0 }, "expect": { "intervalDays": 0, "ease": 2.5, "reps": 0, "lapses": 0 } },
+    { "desc": "already-new-model row passes through unchanged", "row": { "intervalDays": 5, "ease": 2.3, "reps": 4, "lapses": 2 }, "expect": { "intervalDays": 5, "ease": 2.3, "reps": 4, "lapses": 2 } }
+  ],
+  "daysUntil": [
+    { "desc": "8 days out", "nowDate": "2026-06-12", "examDate": "2026-06-20", "expect": 8 },
+    { "desc": "same day -> 0", "nowDate": "2026-06-20", "examDate": "2026-06-20", "expect": 0 },
+    { "desc": "past exam -> 0", "nowDate": "2026-06-21", "examDate": "2026-06-20", "expect": 0 },
+    { "desc": "no exam date -> null", "nowDate": "2026-06-12", "examDate": null, "expect": null }
+  ],
+  "regime": [
+    { "studyDays": null, "expect": "onPace" },
+    { "studyDays": 100, "expect": "runway" },
+    { "studyDays": 56, "expect": "runway" },
+    { "studyDays": 55, "expect": "onPace" },
+    { "studyDays": 14, "expect": "onPace" },
+    { "studyDays": 13, "expect": "crunch" },
+    { "studyDays": 0, "expect": "crunch" }
+  ],
+  "dailyPlan": [
+    {
+      "desc": "runway: 81 days out, 30 min, mastery 40, 3 due",
+      "nowDate": "2026-06-12", "examDate": "2026-09-01", "minutesPerDay": 30, "currentMasteryPercent": 40, "dueCount": 3,
+      "expect": { "daysUntilExam": 81, "studyDays": 80, "regime": "runway", "intensity": 1, "minutesPerDay": 30, "dailyCardTarget": 18, "dailyPaperTarget": 1, "reviewTarget": 3, "softCap": true, "projection": { "currentPercent": 40, "projectedPercent": 98, "examDate": "2026-09-01" } }
+    },
+    {
+      "desc": "onPace: 19 days out, default minutes, 20 due, no mastery",
+      "nowDate": "2026-06-12", "examDate": "2026-07-01", "dueCount": 20,
+      "expect": { "daysUntilExam": 19, "studyDays": 18, "regime": "onPace", "intensity": 1, "minutesPerDay": 20, "dailyCardTarget": 12, "dailyPaperTarget": 1, "reviewTarget": 12, "softCap": true, "projection": null }
+    },
+    {
+      "desc": "crunch late starter: 8 days out, 60 min, mastery 55, 50 due",
+      "nowDate": "2026-06-12", "examDate": "2026-06-20", "minutesPerDay": 60, "currentMasteryPercent": 55, "dueCount": 50,
+      "expect": { "daysUntilExam": 8, "studyDays": 7, "regime": "crunch", "intensity": 1.3, "minutesPerDay": 60, "dailyCardTarget": 40, "dailyPaperTarget": 2, "reviewTarget": 30, "softCap": true, "projection": { "currentPercent": 55, "projectedPercent": 68, "examDate": "2026-06-20" } }
+    },
+    {
+      "desc": "no exam date: steady onPace default, mastery 30, 5 due",
+      "nowDate": "2026-06-12", "examDate": null, "currentMasteryPercent": 30, "dueCount": 5,
+      "expect": { "daysUntilExam": null, "studyDays": null, "regime": "onPace", "intensity": 1, "minutesPerDay": 20, "dailyCardTarget": 12, "dailyPaperTarget": 1, "reviewTarget": 5, "softCap": true, "projection": { "currentPercent": 30, "projectedPercent": 30, "examDate": null } }
+    }
+  ]
+}
