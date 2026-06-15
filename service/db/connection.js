@@ -16,6 +16,7 @@ const purchasesCollection = db.collection('purchases');
 const examAttemptsCollection = db.collection('examAttempts');
 const funnelEventsCollection = db.collection('funnelEvents');
 const reviewEventsCollection = db.collection('reviewEvents');
+const paperFlagsCollection = db.collection('paperFlags');
 
 // Test connection and create indexes on startup
 (async function testConnection() {
@@ -41,6 +42,8 @@ const reviewEventsCollection = db.collection('reviewEvents');
     await reviewEventsCollection.createIndex({ email: 1, eventId: 1 }, { unique: true });
     await reviewEventsCollection.createIndex({ email: 1, _id: 1 });
     await reviewEventsCollection.createIndex({ email: 1, localDate: 1, source: 1 });
+    await paperFlagsCollection.createIndex({ email: 1, itemId: 1, localDate: 1 }, { unique: true });
+    await paperFlagsCollection.createIndex({ email: 1, localDate: 1 });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);
@@ -66,4 +69,5 @@ module.exports = {
   examAttemptsCollection,
   funnelEventsCollection,
   reviewEventsCollection,
+  paperFlagsCollection,
 };

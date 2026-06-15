@@ -19,7 +19,7 @@ import { PaperHandoffCard } from './components/PaperHandoffCard';
 export function TodayScreen() {
   const theme = useTheme();
   const nav = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { loading, mastery, plan, session, streak, chapterNames, week, reload } = useTodayViewModel();
+  const { loading, mastery, plan, session, streak, chapterNames, week, reload, flagForPaper, paperFlagged } = useTodayViewModel();
   // ONE display rule everywhere (see domain/entities/streak.ts).
   const todayStudied = week.length > 0 && week[week.length - 1].studied;
   const todayComplete = session != null && session.items.length === 0;
@@ -119,7 +119,7 @@ export function TodayScreen() {
 
       {session.paperHandoff ? (
         <View style={{ marginTop: 16 }}>
-          <PaperHandoffCard handoff={session.paperHandoff} />
+          <PaperHandoffCard handoff={session.paperHandoff} flagged={paperFlagged} onFlag={flagForPaper} />
         </View>
       ) : null}
     </Screen>

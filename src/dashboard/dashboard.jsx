@@ -121,7 +121,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       if (document.visibilityState !== 'visible') return;
       fetch(`/api/sync/today?date=${new Date().toLocaleDateString('en-CA')}`)
         .then((r) => (r.ok ? r.json() : null))
-        .then((d) => { if (d && d.cards > 0) setPhoneToday(d); })
+        .then((d) => { if (d && (d.cards > 0 || (d.paperFlags && d.paperFlags.length > 0))) setPhoneToday(d); })
         .catch(() => {});
     };
     const id = setInterval(tick, 60000);
@@ -173,8 +173,10 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       if (quickstartResult.status === 'fulfilled') {
         setQuickstart(quickstartResult.value);
       }
-      if (phoneTodayResult.status === 'fulfilled' && phoneTodayResult.value.cards > 0) {
-        setPhoneToday(phoneTodayResult.value);
+      if (phoneTodayResult.status === 'fulfilled') {
+        const pt = phoneTodayResult.value;
+        // Show if there was any phone work OR anything set aside for paper.
+        if (pt.cards > 0 || (pt.paperFlags && pt.paperFlags.length > 0)) setPhoneToday(pt);
       }
 
       // Diagnostic status
@@ -379,21 +381,28 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         </div>
       )}
 
-      {/* The hand-off: phone misses become tonight's desk work */}
-      {phoneToday && phoneToday.missed && phoneToday.missed.length > 0 && (() => {
+      {/* The hand-off: problems the phone set aside for paper become tonight's
+          desk work (falls back to missed concepts when nothing was flagged). */}
+      {phoneToday && (() => {
+        const flags = phoneToday.paperFlags || [];
+        const missed = phoneToday.missed || [];
+        const fromPaper = flags.length > 0;
+        const items = fromPaper ? flags : missed;
+        if (!items.length) return null;
         const byCh = {};
-        for (const m of phoneToday.missed) byCh[m.chapterId] = (byCh[m.chapterId] || 0) + 1;
+        for (const m of items) byCh[m.chapterId] = (byCh[m.chapterId] || 0) + 1;
         const topCh = Object.keys(byCh).sort((a, b) => byCh[b] - byCh[a])[0];
         const chMeta = CHAPTERS.find((c) => c.id === topCh);
         if (!chMeta) return null;
+        const n = items.length;
+        const body = fromPaper
+          ? `${n} ${n === 1 ? 'problem' : 'problems'} you set aside for paper on your phone. Grab a pencil and start with ${chMeta.name}.`
+          : `${n} ${n === 1 ? 'concept' : 'concepts'} from your phone need full problems. Start with ${chMeta.name}.`;
         return (
           <div className="tonight-card">
             <div>
               <span className="tonight-title">Tonight</span>
-              <span className="tonight-body">
-                {phoneToday.missed.length} {phoneToday.missed.length === 1 ? 'concept' : 'concepts'} from your phone
-                {' '}need full problems — start with {chMeta.name}.
-              </span>
+              <span className="tonight-body">{body}</span>
             </div>
             <button className="tonight-btn" onClick={() => navigate(`/problems/${topCh}`)}>
               Practice <ArrowRight weight="bold" size={13} />

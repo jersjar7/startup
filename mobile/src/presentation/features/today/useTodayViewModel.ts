@@ -28,6 +28,7 @@ export function useTodayViewModel() {
     chapterNames: {},
     week: [],
   });
+  const [paperFlagged, setPaperFlagged] = useState(false);
 
   const load = useCallback(async () => {
     const now = Date.now();
@@ -41,6 +42,7 @@ export function useTodayViewModel() {
     const chapters = await uc.getChapterProgress.execute();
     const chapterNames = Object.fromEntries(chapters.map((c) => [c.chapter.id, c.chapter.name]));
     const week = await uc.getWeekActivity.execute({ now });
+    setPaperFlagged(false);
     setState({ loading: false, mastery, plan, session, streak, chapterNames, week });
   }, [uc]);
 
@@ -48,5 +50,17 @@ export function useTodayViewModel() {
     void load();
   }, [load]);
 
-  return { ...state, reload: load };
+  // Send today's paper hand-off to the shared web "Tonight" list.
+  const flagForPaper = useCallback(async () => {
+    const handoff = state.session?.paperHandoff;
+    if (!handoff) return;
+    try {
+      await uc.flagForPaper.execute({ handoff, now: Date.now() });
+      setPaperFlagged(true);
+    } catch {
+      // best-effort; the card stays actionable so the user can retry
+    }
+  }, [uc, state.session]);
+
+  return { ...state, reload: load, flagForPaper, paperFlagged };
 }

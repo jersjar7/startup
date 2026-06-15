@@ -11,9 +11,11 @@ const events = require('./db/events');
 const analytics = require('./db/analytics');
 const adminUsers = require('./db/adminUsers');
 const syncEvents = require('./db/syncEvents');
+const paperFlags = require('./db/paperFlags');
 
 module.exports = {
   ...syncEvents,
+  ...paperFlags,
   ping,
   ...users,
   ...topics,

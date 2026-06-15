@@ -19,6 +19,20 @@ const SOURCES = new Set(['web', 'ios', 'android']);
 const MAX_BATCH = 200;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
+// A "grab paper" hand-off from the phone: a paper-tier problem set aside for
+// the desk. Not a graded review — a to-do item for the web Tonight card.
+function validPaperFlag(f) {
+  return (
+    f &&
+    typeof f.itemId === 'string' && f.itemId.length >= 1 && f.itemId.length <= 80 &&
+    typeof f.chapterId === 'string' && f.chapterId.length <= 40 &&
+    (f.source === 'ios' || f.source === 'android') &&
+    typeof f.ts === 'number' &&
+    typeof f.localDate === 'string' && DATE_RE.test(f.localDate) &&
+    (f.statement == null || typeof f.statement === 'string')
+  );
+}
+
 function validEvent(e) {
   return (
     e &&
@@ -125,6 +139,24 @@ router.post('/events', verifyAuth, async (req, res) => {
   }
 });
 
+// Push paper hand-off flags from the phone (idempotent per item+day).
+router.post('/paper-flags', verifyAuth, async (req, res) => {
+  const flags = req.body?.flags;
+  if (!Array.isArray(flags) || flags.length === 0 || flags.length > MAX_BATCH) {
+    return res.status(400).send({ msg: `flags must be an array of 1-${MAX_BATCH}` });
+  }
+  if (!flags.every(validPaperFlag)) {
+    return res.status(400).send({ msg: 'malformed paper flag in batch' });
+  }
+  try {
+    const saved = await DB.upsertPaperFlags(req.user.email, flags);
+    res.send({ saved });
+  } catch (err) {
+    console.error('[sync] paper-flags failed:', err.message);
+    res.status(500).send({ msg: 'paper-flags push failed' });
+  }
+});
+
 // Pull events newer than the cursor (other devices + web work).
 router.get('/changes', verifyAuth, async (req, res) => {
   try {
@@ -143,7 +175,11 @@ router.get('/today', verifyAuth, async (req, res) => {
       ? req.query.date
       : new Date().toISOString().slice(0, 10);
   try {
-    res.send(await DB.getPhoneActivity(req.user.email, localDate));
+    const [activity, paperFlags] = await Promise.all([
+      DB.getPhoneActivity(req.user.email, localDate),
+      DB.getPaperFlagsForDay(req.user.email, localDate),
+    ]);
+    res.send({ ...activity, paperFlags });
   } catch (err) {
     console.error('[sync] today failed:', err.message);
     res.status(500).send({ msg: 'sync today failed' });

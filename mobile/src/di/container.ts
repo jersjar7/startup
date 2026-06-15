@@ -57,6 +57,7 @@ import { SignOut } from '@/domain/usecases/SignOut';
 import { DeleteAccount } from '@/domain/usecases/DeleteAccount';
 import { SyncNow } from '@/domain/usecases/SyncNow';
 import { GetSyncStatus } from '@/domain/usecases/GetSyncStatus';
+import { FlagForPaper } from '@/domain/usecases/FlagForPaper';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
@@ -155,5 +156,6 @@ export function createUseCases(): UseCases {
     deleteAccount: new DeleteAccount(accounts, appData),
     syncNow: new SyncNow(accounts, outbox, syncApi, reviews, scheduler, serverMastery),
     getSyncStatus: new GetSyncStatus(serverMastery, outbox),
+    flagForPaper: new FlagForPaper(syncApi, eventSource),
   };
 }

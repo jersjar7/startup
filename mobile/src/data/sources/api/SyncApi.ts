@@ -19,4 +19,11 @@ export class SyncApi implements SyncTransport {
     const q = since ? `?since=${encodeURIComponent(since)}` : '';
     return this.api.request('GET', `/api/sync/changes${q}`);
   }
+
+  // Send "grab paper" hand-offs to the shared Tonight list (idempotent server-side).
+  flagForPaper(
+    flags: readonly { itemId: string; chapterId: string; statement: string; source: 'ios' | 'android' | 'web'; ts: number; localDate: string }[],
+  ): Promise<{ saved: number }> {
+    return this.api.request('POST', '/api/sync/paper-flags', { flags });
+  }
 }
