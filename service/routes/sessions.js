@@ -3,6 +3,7 @@ const { verifyAuth } = require('../middleware/auth.js');
 const uuid = require('uuid');
 const DB = require('../database.js');
 const { calculateEarnedMastery, computeStudyMastery } = require('../mastery.js');
+const { XP, sessionXp } = require('../xp.js');
 const { calculateStreak } = require('../streak.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -54,10 +55,10 @@ router.post('/', verifyAuth, async (req, res) => {
   // Calculate XP
   const correctCount = answers.filter((a) => a.isCorrect).length;
   const incorrectCount = answers.length - correctCount;
-  const xpCorrect = correctCount * 10;
-  const xpIncorrect = incorrectCount * 5;
-  const xpSessionBonus = 25;
-  const xpTotal = xpCorrect + xpIncorrect + xpSessionBonus;
+  const xpCorrect = correctCount * XP.problemCorrect;
+  const xpIncorrect = incorrectCount * XP.problemIncorrect;
+  const xpSessionBonus = XP.sessionBonus;
+  const xpTotal = sessionXp(correctCount, incorrectCount);
 
   // Get current user stats
   const email = req.user.email;

@@ -2,6 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { calculateStreak } = require('../streak.js');
+const { XP, diagnosticXp } = require('../xp.js');
 const { getWeekId } = require('./leaderboard.js');
 
 const router = express.Router();
@@ -124,9 +125,9 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
   const familiarity = Math.min(Math.round((correct / total) * FAMILIARITY_CAP), FAMILIARITY_CAP);
 
   // XP on the same scale as the legacy diagnostic: 10 per attempted + 5 per correct.
-  const xpAttempted = attempted * 10;
-  const xpCorrect = correct * 5;
-  const xpTotal = xpAttempted + xpCorrect;
+  const xpAttempted = attempted * XP.diagnosticAttempted;
+  const xpCorrect = correct * XP.diagnosticCorrect;
+  const xpTotal = diagnosticXp(attempted, correct);
 
   const currentStats = (await DB.getUserStats(email)) || {
     email, totalXp: 0, currentStreak: 0, longestStreak: 0,

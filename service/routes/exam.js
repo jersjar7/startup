@@ -2,6 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { calculateStreak } = require('../streak.js');
+const { examXp } = require('../xp.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
 
@@ -13,8 +14,7 @@ const { EXAM_DISTRIBUTION } = require('../examWeights.js');
 
 const TOTAL_QUESTIONS = 110;
 const TIME_LIMIT_SECONDS = 5 * 3600 + 20 * 60; // 5 hours 20 minutes = 19200 seconds
-const XP_PER_ATTEMPT = 100;
-const XP_PER_CORRECT = 2;
+// XP values live in ../xp.js (examAttempt + examCorrect).
 
 // Middleware: verify user has purchased exam simulation
 async function requirePurchase(req, res, next) {
@@ -167,7 +167,7 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
     : 0;
 
   // XP calculation
-  const xpTotal = XP_PER_ATTEMPT + (totalCorrect * XP_PER_CORRECT);
+  const xpTotal = examXp(totalCorrect);
 
   // Update attempt
   await DB.updateExamAttempt(attemptId, userId, {

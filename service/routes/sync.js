@@ -4,17 +4,15 @@ const DB = require('../database.js');
 const { computeStudyMastery } = require('../mastery.js');
 const { calculateStreak } = require('../streak.js');
 const { getWeekId } = require('./leaderboard.js');
+const { XP, phoneXp } = require('../xp.js');
 
 const router = express.Router();
 
 const GRADES = new Set(['forgot', 'fuzzy', 'gotIt']);
 
-// XP per phone card (derived from events, never synced): lighter than full
-// web problems (10/5+25), capped per local day so couch card-grinding can't
-// outscore desk problem-solving on the leaderboard (panel verdict).
-const PHONE_XP = { gotIt: 5, fuzzy: 3, forgot: 2 };
-const PHONE_XP_DAILY_CAP = 60;
-const xpFor = (c) => c.gotIt * PHONE_XP.gotIt + c.fuzzy * PHONE_XP.fuzzy + c.forgot * PHONE_XP.forgot;
+// Phone XP is derived from events (never synced) and capped per local day so
+// couch card-grinding can't outscore desk work on the leaderboard. The values
+// + cap live in ../xp.js (the single XP source of truth).
 const SOURCES = new Set(['web', 'ios', 'android']);
 const MAX_BATCH = 200;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -103,7 +101,7 @@ async function ingestPhoneEvents(email, events) {
       fuzzy: after.fuzzy - fresh.fuzzy,
       forgot: after.forgot - fresh.forgot,
     };
-    xpDelta += Math.min(PHONE_XP_DAILY_CAP, xpFor(after)) - Math.min(PHONE_XP_DAILY_CAP, xpFor(before));
+    xpDelta += Math.min(XP.phoneDailyCap, phoneXp(after)) - Math.min(XP.phoneDailyCap, phoneXp(before));
   }
   const weekId = getWeekId();
   const weeklyXp = (currentStats.weekId === weekId ? currentStats.weeklyXp || 0 : 0) + xpDelta;

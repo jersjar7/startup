@@ -3,6 +3,7 @@ const { verifyAuth } = require('../middleware/auth.js');
 const uuid = require('uuid');
 const DB = require('../database.js');
 const { calculateEarnedMastery, computeStudyMastery } = require('../mastery.js');
+const { XP, reviewXp } = require('../xp.js');
 const { calculateStreak } = require('../streak.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -126,10 +127,10 @@ router.post('/', verifyAuth, async (req, res) => {
   // Calculate XP
   const correctCount = answers.filter((a) => a.isCorrect).length;
   const incorrectCount = answers.length - correctCount;
-  const xpCorrect = correctCount * 10;
-  const xpIncorrect = incorrectCount * 5;
-  const xpReviewBonus = 15;
-  const xpTotal = xpCorrect + xpIncorrect + xpReviewBonus;
+  const xpCorrect = correctCount * XP.problemCorrect;
+  const xpIncorrect = incorrectCount * XP.problemIncorrect;
+  const xpReviewBonus = XP.reviewBonus;
+  const xpTotal = reviewXp(correctCount, incorrectCount);
 
   // Update problem history
   await Promise.all(
