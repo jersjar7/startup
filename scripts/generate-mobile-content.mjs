@@ -38,21 +38,24 @@ const INTERACTION = {
 };
 
 const CHAPTERS = [
-  { id: 'mathematics', name: 'Mathematics', examWeight: 0.09 },
-  { id: 'statistics', name: 'Probability & Statistics', examWeight: 0.05 },
-  { id: 'ethics', name: 'Ethics', examWeight: 0.05 },
-  { id: 'economics', name: 'Engineering Economics', examWeight: 0.05 },
-  { id: 'statics', name: 'Statics', examWeight: 0.08 },
-  { id: 'dynamics', name: 'Dynamics', examWeight: 0.07 },
-  { id: 'mechanics-materials', name: 'Mechanics of Materials', examWeight: 0.08 },
-  { id: 'materials', name: 'Materials', examWeight: 0.05 },
-  { id: 'fluid-mechanics', name: 'Fluid Mechanics', examWeight: 0.07 },
-  { id: 'surveying', name: 'Surveying', examWeight: 0.06 },
-  { id: 'water-resources', name: 'Water Resources', examWeight: 0.09 },
-  { id: 'structural', name: 'Structural', examWeight: 0.09 },
-  { id: 'geotechnical', name: 'Geotechnical', examWeight: 0.09 },
-  { id: 'transportation', name: 'Transportation', examWeight: 0.09 },
-  { id: 'construction', name: 'Construction', examWeight: 0.07 },
+  // examWeight = NCEES FE Civil question count (out of 110), same weights as the
+  // web (service/examWeights.js), so the weighted "Concept mastery" number is
+  // identical on both surfaces. Used as relative weights, so the scale is fine.
+  { id: 'mathematics', name: 'Mathematics', examWeight: 13 },
+  { id: 'statistics', name: 'Probability & Statistics', examWeight: 4 },
+  { id: 'ethics', name: 'Ethics', examWeight: 4 },
+  { id: 'economics', name: 'Engineering Economics', examWeight: 4 },
+  { id: 'statics', name: 'Statics', examWeight: 8 },
+  { id: 'dynamics', name: 'Dynamics', examWeight: 4 },
+  { id: 'mechanics-materials', name: 'Mechanics of Materials', examWeight: 8 },
+  { id: 'materials', name: 'Materials', examWeight: 4 },
+  { id: 'fluid-mechanics', name: 'Fluid Mechanics', examWeight: 4 },
+  { id: 'surveying', name: 'Surveying', examWeight: 4 },
+  { id: 'water-resources', name: 'Water Resources', examWeight: 14 },
+  { id: 'structural', name: 'Structural', examWeight: 13 },
+  { id: 'geotechnical', name: 'Geotechnical', examWeight: 11 },
+  { id: 'transportation', name: 'Transportation', examWeight: 10 },
+  { id: 'construction', name: 'Construction', examWeight: 5 },
 ];
 
 async function loadPool() {
