@@ -954,6 +954,19 @@
   font-weight: 500;
 }
 
+/* Subtle "last synced from <device>" status, secondary to the activity pill */
+.sync-state-line {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.4rem 0 0;
+  padding: 0 0.2rem;
+  color: var(--charcoal);
+  opacity: 0.55;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
 /* ── Tonight hand-off card (phone misses → desk problems) ── */
 .tonight-card {
   display: flex;

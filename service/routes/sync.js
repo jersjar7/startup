@@ -54,7 +54,7 @@ const parentId = (itemId) => itemId.split(':')[0];
  * queue decremented, and the work visible. Web-sourced events are skipped
  * (their effects were applied by /api/sessions / /api/review directly).
  */
-async function ingestPhoneEvents(email, events) {
+async function ingestPhoneEvents(email, events, device) {
   const phone = events.filter((e) => e.source !== 'web');
   if (!phone.length) return;
 
@@ -106,6 +106,10 @@ async function ingestPhoneEvents(email, events) {
   const weekId = getWeekId();
   const weeklyXp = (currentStats.weekId === weekId ? currentStats.weeklyXp || 0 : 0) + xpDelta;
 
+  // Visible sync state: which device synced and when. Source comes from the
+  // events; the human label comes from the client (never assume iPhone).
+  const latest = phone.reduce((a, b) => (b.ts > a.ts ? b : a));
+
   await DB.updateUserStats(email, {
     chapterMastery,
     currentStreak: streakResult.currentStreak,
@@ -115,6 +119,9 @@ async function ingestPhoneEvents(email, events) {
     totalXp: (currentStats.totalXp || 0) + xpDelta,
     weekId,
     weeklyXp,
+    lastSyncAt: Date.now(),
+    lastSyncSource: latest.source,
+    lastSyncDevice: device || null,
   });
 }
 
@@ -127,9 +134,10 @@ router.post('/events', verifyAuth, async (req, res) => {
   if (!events.every(validEvent)) {
     return res.status(400).send({ msg: 'malformed event in batch' });
   }
+  const device = typeof req.body.device === 'string' ? req.body.device.slice(0, 60) : null;
   try {
     const fresh = await DB.insertReviewEvents(req.user.email, events);
-    await ingestPhoneEvents(req.user.email, fresh);
+    await ingestPhoneEvents(req.user.email, fresh, device);
     res.send({ accepted: fresh.length, duplicates: events.length - fresh.length });
   } catch (err) {
     console.error('[sync] push failed:', err.message);
@@ -173,11 +181,15 @@ router.get('/today', verifyAuth, async (req, res) => {
       ? req.query.date
       : new Date().toISOString().slice(0, 10);
   try {
-    const [activity, paperFlags] = await Promise.all([
+    const [activity, paperFlags, stats] = await Promise.all([
       DB.getPhoneActivity(req.user.email, localDate),
       DB.getPaperFlagsForDay(req.user.email, localDate),
+      DB.getUserStats(req.user.email),
     ]);
-    res.send({ ...activity, paperFlags });
+    const lastSync = stats && stats.lastSyncAt
+      ? { at: stats.lastSyncAt, device: stats.lastSyncDevice || null, source: stats.lastSyncSource || null }
+      : null;
+    res.send({ ...activity, paperFlags, lastSync });
   } catch (err) {
     console.error('[sync] today failed:', err.message);
     res.status(500).send({ msg: 'sync today failed' });

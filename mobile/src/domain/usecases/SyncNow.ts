@@ -26,6 +26,7 @@ export class SyncNow implements UseCase<void, SyncResult> {
     private readonly reviews: ReviewRepository,
     private readonly scheduler: SpacedRepetitionScheduler,
     private readonly serverMastery: ServerMasteryRepository,
+    private readonly device: string, // friendly label for the web "last synced from ___" line
   ) {}
 
   async execute(): Promise<SyncResult> {
@@ -38,7 +39,7 @@ export class SyncNow implements UseCase<void, SyncResult> {
       for (;;) {
         const batch = await this.outbox.pending(BATCH);
         if (batch.length === 0) break;
-        await this.api.push(batch);
+        await this.api.push(batch, this.device);
         await this.outbox.ack(batch.map((e) => e.eventId));
         pushed += batch.length;
         if (batch.length < BATCH) break;

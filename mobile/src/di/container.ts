@@ -58,6 +58,7 @@ import { DeleteAccount } from '@/domain/usecases/DeleteAccount';
 import { SyncNow } from '@/domain/usecases/SyncNow';
 import { GetSyncStatus } from '@/domain/usecases/GetSyncStatus';
 import { FlagForPaper } from '@/domain/usecases/FlagForPaper';
+import { deviceLabel } from '@/core/device';
 
 export interface UseCases {
   readonly getDailySession: GetDailySession;
@@ -154,7 +155,7 @@ export function createUseCases(): UseCases {
     getAccount: new GetAccount(accounts),
     signOut: new SignOut(accounts),
     deleteAccount: new DeleteAccount(accounts, appData),
-    syncNow: new SyncNow(accounts, outbox, syncApi, reviews, scheduler, serverMastery),
+    syncNow: new SyncNow(accounts, outbox, syncApi, reviews, scheduler, serverMastery, deviceLabel()),
     getSyncStatus: new GetSyncStatus(serverMastery, outbox),
     flagForPaper: new FlagForPaper(syncApi, eventSource),
   };

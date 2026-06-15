@@ -11,8 +11,8 @@ export interface SyncPullResult {
 export class SyncApi implements SyncTransport {
   constructor(private readonly api: ApiClient) {}
 
-  push(events: readonly ReviewEvent[]): Promise<{ accepted: number; duplicates: number }> {
-    return this.api.request('POST', '/api/sync/events', { events });
+  push(events: readonly ReviewEvent[], device?: string | null): Promise<{ accepted: number; duplicates: number }> {
+    return this.api.request('POST', '/api/sync/events', { events, device: device ?? null });
   }
 
   pull(since: string | null): Promise<SyncPullResult> {

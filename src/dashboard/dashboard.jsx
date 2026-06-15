@@ -112,6 +112,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   const [chapterMastery, setChapterMastery] = React.useState({});
   const [quickstart, setQuickstart] = React.useState({ sampledCount: 0, totalChapters: 15, nextChapterId: null });
   const [phoneToday, setPhoneToday] = React.useState(null);
+  const [syncState, setSyncState] = React.useState(null); // { at, device, source } — last sync from any device
 
   // A left-open dashboard should notice phone work without a reload — light
   // poll of the activity endpoint while the tab is visible (sync v1; the /ws
@@ -121,7 +122,11 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       if (document.visibilityState !== 'visible') return;
       fetch(`/api/sync/today?date=${new Date().toLocaleDateString('en-CA')}`)
         .then((r) => (r.ok ? r.json() : null))
-        .then((d) => { if (d && (d.cards > 0 || (d.paperFlags && d.paperFlags.length > 0))) setPhoneToday(d); })
+        .then((d) => {
+          if (!d) return;
+          if (d.cards > 0 || (d.paperFlags && d.paperFlags.length > 0)) setPhoneToday(d);
+          if (d.lastSync) setSyncState(d.lastSync);
+        })
         .catch(() => {});
     };
     const id = setInterval(tick, 60000);
@@ -177,6 +182,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         const pt = phoneTodayResult.value;
         // Show if there was any phone work OR anything set aside for paper.
         if (pt.cards > 0 || (pt.paperFlags && pt.paperFlags.length > 0)) setPhoneToday(pt);
+        if (pt.lastSync) setSyncState(pt.lastSync);
       }
 
       // Diagnostic status
@@ -376,10 +382,25 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           <span>
             Today on your phone: {phoneToday.cards} {phoneToday.cards === 1 ? 'card' : 'cards'}
             {phoneToday.misses > 0 ? ` · ${phoneToday.misses} ${phoneToday.misses === 1 ? 'miss' : 'misses'}` : ''}
-            {phoneToday.lastTs ? ` · synced ${new Date(phoneToday.lastTs).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : ''}
           </span>
         </div>
       )}
+
+      {/* Visible sync state: when + which device last synced (never assume iPhone) */}
+      {syncState && syncState.at && (() => {
+        const d = new Date(syncState.at);
+        const sameDay = d.toDateString() === new Date().toDateString();
+        const when = sameDay
+          ? d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+          : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+        const device = syncState.device ? `your ${syncState.device}` : 'your phone';
+        return (
+          <div className="sync-state-line">
+            <DeviceMobile weight="regular" size={14} />
+            <span>Last synced {when} from {device}</span>
+          </div>
+        );
+      })()}
 
       {/* The hand-off: problems the phone set aside for paper become tonight's
           desk work (falls back to missed concepts when nothing was flagged). */}
