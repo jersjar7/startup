@@ -5,6 +5,7 @@ import { MathText } from '@/presentation/ui/math/MathText';
 import { Overline } from '@/presentation/ui/Overline';
 import { Button } from '@/presentation/ui/Button';
 import { FadeIn } from '@/presentation/ui/FadeIn';
+import { GridBackground } from '@/presentation/ui/GridBackground';
 import { useTheme } from '@/core/theme/useTheme';
 import { haptics } from '@/core/haptics';
 import { sound } from '@/core/sound';
@@ -30,6 +31,7 @@ export function TapTheTrapCard({ item, onGraded, overlineOverride }: Props) {
 
   return (
     <View style={{ flex: 1 }}>
+      <GridBackground />
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         {overlineOverride === '' ? null : (
           <Overline color={overlineOverride ? theme.palette.ink3 : theme.palette.ember}>

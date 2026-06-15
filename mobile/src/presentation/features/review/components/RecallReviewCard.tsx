@@ -8,6 +8,7 @@ import { FadeIn } from '@/presentation/ui/FadeIn';
 import { useTheme } from '@/core/theme/useTheme';
 import { interactionLabel, interactionColor } from '@/presentation/ui/semantics';
 import { GradeButtons } from './GradeButtons';
+import { GridBackground } from '@/presentation/ui/GridBackground';
 import type { CardSessionItem } from '@/domain/entities/session';
 import type { ReviewGrade } from '@/domain/entities/review';
 
@@ -30,7 +31,8 @@ export function RecallReviewCard({ item, onGraded }: Props) {
 
   return (
     <View style={{ flex: 1 }}>
-      {/* the whole question area flips the card — a precise button press is
+      <GridBackground />
+      {/* the whole question area flips the card; a precise button press is
           unforgiving on a moving bus; the Reveal button stays as the affordance */}
       <Pressable style={{ flex: 1 }} disabled={revealed} onPress={() => setRevealed(true)}>
         <Overline color={interactionColor(item.interaction, theme)}>
