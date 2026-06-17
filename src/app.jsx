@@ -43,6 +43,9 @@ const QuestionAudit = import.meta.env.DEV
 const QuestionAuditIndex = import.meta.env.DEV
   ? React.lazy(() => import('./dev/QuestionAudit').then(m => ({ default: m.QuestionAuditIndex })))
   : null;
+const Hero3DDemo = import.meta.env.DEV
+  ? React.lazy(() => import('./dev/Hero3DDemo').then(m => ({ default: m.Hero3DDemo })))
+  : null;
 
 export default function App() {
   const [userName, setUserName] = React.useState('');
@@ -216,6 +219,7 @@ function AppShell({ userName, emailVerified, me = {}, onLogin, onLogout, onSessi
           <Route path="/exam/preview" element={<ExamSession userName={userName} preview />} />
             <Route path="/exam/results/:attemptId" element={<ExamResults userName={userName} />} />
             <Route path="/exam/review/:attemptId" element={<ExamReview userName={userName} />} />
+            {Hero3DDemo && <Route path="/dev/hero" element={<Hero3DDemo />} />}
             {DiagramPreview && <Route path="/dev/diagrams" element={<DiagramPreview />} />}
             {QuestionAuditIndex && <Route path="/dev/audit" element={<QuestionAuditIndex />} />}
             {QuestionAudit && <Route path="/dev/audit/:chapterId" element={<QuestionAudit />} />}
