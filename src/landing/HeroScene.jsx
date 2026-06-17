@@ -368,10 +368,11 @@ function Cycler({ reduced }) {
 
   const Scene = TOPICS[phase];
 
-  // Shift right + scale down so the structure sits in the right of the slot and
-  // clears the headline copy on the left.
+  // Sit in the right of the slot, clear of the headline on the left, and small
+  // enough that the widest topic (the fluid surface / truss) does not bleed off
+  // the right edge of the viewport.
   return (
-    <group ref={grp} position={[1.7, -0.3, 0]} scale={0.78}>
+    <group ref={grp} position={[0.55, -0.3, 0]} scale={0.62}>
       <Scene opacity={opacityRef.current} />
     </group>
   );
