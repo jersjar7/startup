@@ -1,7 +1,7 @@
 import React from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { C, Box, Node, Member, Person } from './primitives';
+import { C, Box, Node, Person } from './primitives';
 
 // FE topic: Surveying — graded ground with real elevation, a tripod-mounted
 // TOTAL STATION (tribrach base + yoke standards + journaled telescope), the
@@ -328,28 +328,28 @@ function Cloud({ y, z, speed, offset, scale = 1, opacity }) {
 }
 
 // A small flock of birds arcing overhead in a recognizable V formation. Each
-// bird is FOUR instanced boxes: a tapered body, a head/tail nub, and two BROAD
-// wings held near-horizontal at a shallow dihedral, so each reads as an
-// unmistakable bird silhouette even in a frozen frame. The whole flock shares
-// ONE heading and travels as a tight cluster (lead bird out front, the rest
-// tucked behind in offset rows) across the upper frame, wrapping seamlessly.
-// One extra bird glides far back for depth. Wings flap slowly with a shallow,
-// LEGIBLE dihedral (never a deep snap); phase varies per bird so the flock
-// shimmers rather than pumping in lockstep. The whole flock is held at a single
-// z-band well in front of the cloud puffs so birds never overlap a cloud.
-const BIRD_FLAP = 5; // flapping birds in the formation
+// bird is FOUR instanced boxes: a tapered body, a head/tail nub, and two LONG
+// THIN wings held near-horizontal at a shallow dihedral, so each reads as an
+// unmistakable bird silhouette even in a frozen frame. The flock is kept SMALL
+// (3 flapping + 1 distant glider) and WIDELY SPACED so the V reads as crisp
+// separated silhouettes, never a dark blob. The whole flock shares ONE heading
+// and travels as a loose cluster (lead bird out front, two trailing) across the
+// upper frame, wrapping seamlessly. Wings flap slowly with a shallow, LEGIBLE
+// dihedral (never a deep snap); phase varies per bird so the flock shimmers
+// rather than pumping in lockstep. The flock sits higher and at a single
+// forward z-band so it never reads as one mass with the clouds.
+const BIRD_FLAP = 3; // flapping birds in the formation (uncluttered V)
 const BIRD_COUNT = BIRD_FLAP + 1; // + 1 distant gliding bird
 const PARTS_PER_BIRD = 4; // body + head + 2 wings
 // Birds live at this z (toward camera); clouds sit at z <= -1.7, so the flock
 // stays clearly in front of them.
 const BIRD_Z = 0.9;
 // Formation offsets (along/across heading), lead bird first → trailing V rows.
+// Wider spread so the three birds read as distinct silhouettes in a clean V.
 const FORMATION = [
   [0.0, 0.0],
-  [-0.34, 0.30],
-  [-0.34, -0.30],
-  [-0.7, 0.58],
-  [-0.7, -0.58],
+  [-0.62, 0.56],
+  [-0.62, -0.56],
 ];
 function Birds({ opacity }) {
   const ref = React.useRef();
@@ -363,7 +363,7 @@ function Birds({ opacity }) {
     // never tumbles; only x sweeps.
     const span = 11;
     const fcx = ((t * 0.34 + 2) % span) - span / 2 - 0.4;
-    const fcy = 2.18 + 0.12 * Math.sin(t * 0.5);
+    const fcy = 2.62 + 0.12 * Math.sin(t * 0.5); // higher band, clear of clouds
     const fHeading = Math.PI / 2 + 0.18; // travelling roughly +x, slight cant
     const cosH = Math.cos(fHeading);
     const sinH = Math.sin(fHeading);
@@ -371,14 +371,15 @@ function Birds({ opacity }) {
       const glider = b === BIRD_COUNT - 1;
       let cx, cy, cz, flap, heading, halfSpan, lead;
       if (glider) {
-        // distant slower glide, gentle fixed dihedral, higher up
-        const gx = ((t * 0.22 + 7) % span) - span / 2 + 0.3;
-        heading = Math.PI / 2 + 0.1;
+        // a lone bird crossing low on a different path for natural variation:
+        // gliding well below and behind the formation, slower, gentle dihedral.
+        const gx = ((t * 0.26 + 7) % span) - span / 2 + 0.3;
+        heading = Math.PI / 2 + 0.05;
         cx = gx;
-        cy = 2.62 + 0.08 * Math.sin(t * 0.4);
-        cz = BIRD_Z + 0.5; // even further toward camera, well clear of clouds
-        flap = 0.22; // gentle steady glide dihedral
-        halfSpan = 0.2; // larger so it still reads at distance
+        cy = 1.95 + 0.06 * Math.sin(t * 0.6); // low crossing, distinct from V
+        cz = BIRD_Z + 0.6; // toward camera, well clear of clouds
+        flap = 0.26; // gentle steady glide dihedral
+        halfSpan = 0.19;
         lead = false;
       } else {
         // tucked into the shared formation, slight individual flap phase
@@ -387,42 +388,42 @@ function Birds({ opacity }) {
         cy = fcy + off[0] * 0.0 + 0.03 * Math.sin(t * 1.2 + b);
         cz = BIRD_Z + off[0] * 0.1; // shallow z spread, all in the bird band
         heading = fHeading;
-        // slow, shallow wingbeat: clamp flap to ~0.15..0.45 rad so wings stay
-        // close to horizontal and read as flapping, not as stray segments.
-        flap = 0.3 + 0.15 * Math.sin(t * 4 + b * 1.1);
+        // slow, shallow wingbeat with more dihedral so each bird's wings angle
+        // clearly up off the body and the silhouette separates from neighbors.
+        flap = 0.4 + 0.2 * Math.sin(t * 4 + b * 1.1);
         lead = b === 0;
-        halfSpan = lead ? 0.26 : 0.22; // lead bird a touch larger
+        halfSpan = lead ? 0.22 : 0.19; // smaller overall so the V stays crisp
       }
       const ch = Math.cos(heading);
       const sh = Math.sin(heading);
-      // body: a tapered box at the bird center, aligned to heading
+      // body: a slim tapered box at the bird center, aligned to heading
       dummy.position.set(cx, cy, cz);
       dummy.rotation.set(0, heading, 0);
-      dummy.scale.set(0.05, 0.035, halfSpan * 0.95);
+      dummy.scale.set(0.038, 0.03, halfSpan * 1.05);
       dummy.updateMatrix();
       ref.current.setMatrixAt(b * PARTS_PER_BIRD, dummy.matrix);
       // head/tail nub at the front of the body so direction reads
-      dummy.position.set(cx + sh * halfSpan * 0.55, cy + 0.005, cz + ch * halfSpan * 0.55);
+      dummy.position.set(cx + sh * halfSpan * 0.6, cy + 0.005, cz + ch * halfSpan * 0.6);
       dummy.rotation.set(0, heading, 0);
-      dummy.scale.set(0.04, 0.03, halfSpan * 0.4);
+      dummy.scale.set(0.03, 0.025, halfSpan * 0.42);
       dummy.updateMatrix();
       ref.current.setMatrixAt(b * PARTS_PER_BIRD + 1, dummy.matrix);
-      // two BROAD wings, given real lateral area, near-horizontal dihedral.
-      // Local +x is the lateral (span) axis after the heading yaw; chord runs
-      // along local +z. Wing reaches out laterally from the body, tilted up by
-      // the shallow flap angle. Offset the wing center half a span outboard so
-      // it hinges at the shoulder, not the wingtip.
+      // two LONG THIN wings, near-horizontal with a shallow dihedral. Local +x
+      // is the lateral (span) axis after the heading yaw; chord runs along local
+      // +z. A longer span and narrower chord (with a chord-to-body gap) keeps
+      // each wing as a clean line that doesn't merge into the body or its
+      // neighbor. Offset the wing center outboard so it hinges at the shoulder.
       for (let w = 0; w < 2; w++) {
         const side = w === 0 ? 1 : -1;
-        const reach = halfSpan * 0.6; // shoulder-to-wing-center along the span
+        const reach = halfSpan * 0.85; // longer shoulder-to-wing-center reach
         dummy.position.set(
           cx + side * reach * ch,
-          cy + 0.012 + reach * Math.sin(flap),
+          cy + 0.014 + reach * Math.sin(flap),
           cz - side * reach * sh,
         );
         dummy.rotation.set(0, heading, side * flap);
-        // wing geometry: BROAD span (local x), real chord (local z), thin (y).
-        dummy.scale.set(halfSpan * 1.25, 0.012, halfSpan * 0.95);
+        // wing geometry: LONG span (local x), narrow chord (local z), thin (y).
+        dummy.scale.set(halfSpan * 1.7, 0.01, halfSpan * 0.55);
         dummy.updateMatrix();
         ref.current.setMatrixAt(b * PARTS_PER_BIRD + 2 + w, dummy.matrix);
       }
@@ -466,8 +467,10 @@ function Dog({ x, z, opacity }) {
       // (small, quicker) layered over the slow follow of the terrain height.
       rootRef.current.position.y = GROUND + terrainH(px, pz) + 0.01 * Math.abs(Math.sin(t * 2.2));
       // gently swing the heading with the amble so it reads as walking, not
-      // sliding; a small yaw oscillation about the broadside-to-camera pose.
-      rootRef.current.rotation.y = Math.PI * 0.5 + 0.22 * Math.cos(t * (2 * Math.PI / 14));
+      // sliding; keep the yaw oscillation SMALL so the dog stays reliably
+      // broadside to camera through the whole loop (never rotating toward the
+      // camera and flattening the silhouette).
+      rootRef.current.rotation.y = Math.PI * 0.5 + 0.08 * Math.cos(t * (2 * Math.PI / 14));
     }
     if (headRef.current) {
       headRef.current.rotation.x = 0.08 * Math.sin(t * 1.1);
@@ -479,7 +482,7 @@ function Dog({ x, z, opacity }) {
     if (tailRef.current) tailRef.current.rotation.z = 0.5 * Math.sin(t * 4.0);
   });
   return (
-    <group ref={rootRef} position={[x, baseY, z]} rotation={[0, Math.PI * 0.5, 0]} scale={0.72}>
+    <group ref={rootRef} position={[x, baseY, z]} rotation={[0, Math.PI * 0.5, 0]} scale={0.86}>
       {/* body */}
       <mesh position={[0, 0.22, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
         <capsuleGeometry args={[0.1, 0.26, 4, 8]} />
@@ -567,6 +570,41 @@ function GrassTuft({ x, z, scale = 1, phase = 0, opacity }) {
   );
 }
 
+// A survey stake / traverse hub: a slim charcoal stake driven into the ground
+// with a bright flagging ribbon tied near the top that flutters in the wind.
+// Placed along the foreground traverse to read as a staked survey line tying
+// the two stations together. The ribbon waves via a ref (no allocation).
+function SurveyStake({ x, z, phase = 0, flag = C.sunbeam, opacity }) {
+  const flagRef = React.useRef();
+  const baseY = GROUND + terrainH(x, z);
+  const stakeH = 0.34;
+  useFrame((state) => {
+    if (!flagRef.current) return;
+    const t = state.clock.elapsedTime;
+    const gust = windGust(t);
+    // ribbon streams and flutters; amplitude swells with the shared gust so it
+    // breathes in step with the trees and grass.
+    flagRef.current.rotation.y = phase + (0.5 + 0.5 * gust) * 0.6 * Math.sin(t * 3.4 + phase);
+    flagRef.current.rotation.z = -0.5 + 0.18 * Math.sin(t * 4.2 + phase * 1.7);
+  });
+  return (
+    <group position={[x, baseY, z]}>
+      {/* charcoal stake */}
+      <mesh position={[0, stakeH / 2, 0]} rotation={[0.06, 0, 0.04]} castShadow>
+        <cylinderGeometry args={[0.012, 0.016, stakeH, 6]} />
+        <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.85} transparent={opacity < 1} opacity={opacity} flatShading />
+      </mesh>
+      {/* fluttering flagging ribbon tied near the top */}
+      <group ref={flagRef} position={[0, stakeH - 0.04, 0]}>
+        <mesh position={[0.07, 0, 0]} castShadow>
+          <boxGeometry args={[0.14, 0.05, 0.006]} />
+          <meshStandardMaterial color={flag} metalness={0.05} roughness={0.8} transparent={opacity < 1} opacity={opacity} flatShading side={THREE.DoubleSide} />
+        </mesh>
+      </group>
+    </group>
+  );
+}
+
 export function SurveyScene({ opacity }) {
   const station = { x: -2.6, z: 0.5 };
   const rod = { x: 3.0, z: -0.4 };
@@ -575,7 +613,8 @@ export function SurveyScene({ opacity }) {
 
   const rodGroupRef = React.useRef();
   const operatorRef = React.useRef();
-  const sightGroupRef = React.useRef();
+  const reachArmRef = React.useRef();
+  const sightRef = React.useRef();
   const sightMatRef = React.useRef(null);
 
   // Telescope objective lives in the station's yawed alidade group; recompute
@@ -588,10 +627,21 @@ export function SurveyScene({ opacity }) {
     .applyEuler(new THREE.Euler(0, yaw, 0))
     .add(new THREE.Vector3(station.x, stHeadY + 0.09, station.z));
 
-  // Land the sight line on the rod FACE (-x side, toward the station) at a
-  // readable graduation height. The line stays anchored here; only the station
-  // body micro-aims, so the laser keeps landing true on the rod.
-  const rodFace = [rod.x - 0.04, rodBaseY + 1.05, rod.z];
+  // Pre-allocated scratch for the per-frame sight-line orientation (no
+  // allocation inside useFrame). The line is a unit cylinder we translate,
+  // rotate, and stretch each frame to span objective → live rod face.
+  const sightFrom = React.useMemo(() => objWorld.clone(), [objWorld]);
+  const sightTo = React.useMemo(() => new THREE.Vector3(), []);
+  const sightMid = React.useMemo(() => new THREE.Vector3(), []);
+  const sightDir = React.useMemo(() => new THREE.Vector3(), []);
+  const sightUp = React.useMemo(() => new THREE.Vector3(0, 1, 0), []);
+  const sightQuat = React.useMemo(() => new THREE.Quaternion(), []);
+
+  // The rod-face target in the rod group's LOCAL space: on the face toward the
+  // station (-x side of the white rod) at a readable graduation between the
+  // foot blocks. Transformed to world by the live rod group matrix each frame
+  // so the laser keeps landing true on the rod even as it plumbs/drifts.
+  const rodFaceLocal = React.useMemo(() => new THREE.Vector3(-0.05, 1.05, 0), []);
 
   // Crew micro-motion + live-shot pulse. Tiny amplitudes so it reads as
   // steadying / breathing, not swaying.
@@ -622,12 +672,37 @@ export function SurveyScene({ opacity }) {
       const reach = Math.exp(-(fcyc * fcyc) / 0.4);
       operatorRef.current.position.y -= 0.05 * reach;
       operatorRef.current.position.z = station.z + 0.05 * reach;
+      // articulate a dedicated forearm down to the focus/tangent knob in sync
+      // with the reach beat, so the instrument reads as actively worked rather
+      // than the whole body just dipping.
+      if (reachArmRef.current) {
+        reachArmRef.current.rotation.x = -0.2 - 0.9 * reach;
+      }
     }
-    // find the sight-line mesh material once, then pulse its emissive
-    if (!sightMatRef.current && sightGroupRef.current) {
-      sightGroupRef.current.traverse((o) => {
-        if (o.isMesh && o.material) sightMatRef.current = o.material;
-      });
+    // Orient the sight line each frame so it runs from the telescope objective
+    // to the rod face's TRUE world position (the rod group plumbs and drifts at
+    // runtime). Transform the local rod-face point by the rod group's live world
+    // matrix, then translate/rotate/stretch the unit cylinder to span the gap.
+    if (sightRef.current && rodGroupRef.current) {
+      rodGroupRef.current.updateMatrixWorld();
+      sightTo.copy(rodFaceLocal).applyMatrix4(rodGroupRef.current.matrixWorld);
+      // matrixWorld includes the parent group's y+0.15 offset; objWorld is in
+      // the parent group's local space, so add the same offset to keep both
+      // endpoints in one coordinate space (the sight mesh is a child of the
+      // parent group, so we want parent-local coords → subtract the 0.15 back).
+      sightTo.y -= 0.15;
+      sightMid.addVectors(sightFrom, sightTo).multiplyScalar(0.5);
+      sightDir.subVectors(sightTo, sightFrom);
+      const len = sightDir.length();
+      sightDir.normalize();
+      sightQuat.setFromUnitVectors(sightUp, sightDir);
+      sightRef.current.position.copy(sightMid);
+      sightRef.current.quaternion.copy(sightQuat);
+      sightRef.current.scale.set(1, len, 1);
+    }
+    // pulse the laser emissive subtly
+    if (!sightMatRef.current && sightRef.current && sightRef.current.material) {
+      sightMatRef.current = sightRef.current.material;
     }
     if (sightMatRef.current) {
       sightMatRef.current.emissiveIntensity = 0.7 + 0.1 * Math.sin(t * 2);
@@ -683,41 +758,65 @@ export function SurveyScene({ opacity }) {
         />
       </group>
 
-      {/* optical line of sight: from the telescope objective to the rod face.
-          A thin static ember laser (a line, not an arrow) that terminates
-          cleanly on the rod face. Wrapped in a group so we can pulse the
-          emissive subtly without ref-forwarding into the shared primitive. */}
-      <group ref={sightGroupRef}>
-        <Member
-          a={[objWorld.x, objWorld.y, objWorld.z]}
-          b={rodFace}
-          radius={0.009}
+      {/* optical line of sight: a thin ember laser (a line, not an arrow) that
+          runs from the telescope objective and terminates cleanly on the rod
+          face. A unit-height cylinder re-oriented every frame in useFrame so it
+          tracks the rod's live plumbing/drift and always lands true on the rod
+          between graduation blocks. */}
+      <mesh ref={sightRef}>
+        <cylinderGeometry args={[0.009, 0.009, 1, 8]} />
+        <meshStandardMaterial
           color={C.ember}
           emissive={C.ember}
+          emissiveIntensity={0.7}
+          metalness={0.2}
+          roughness={0.5}
+          transparent
           opacity={opacity * 0.9}
         />
-      </group>
+      </mesh>
 
       {/* instrument operator leaning into the eyepiece (breathing lean). The
           group carries the subtle vertical breathing; Person itself is a plain
           primitive that doesn't forward a ref. */}
-      <group ref={operatorRef} position={[station.x - 0.55, stationBaseY, station.z]}>
+      <group ref={operatorRef} position={[station.x - 0.46, stationBaseY, station.z + 0.02]}>
         <Person
           position={[0, 0, 0]}
-          rotation={[0, Math.PI / 2 + 0.25, 0]}
-          scale={0.62}
+          rotation={[0, Math.PI / 2 + 0.1, 0]}
+          scale={0.72}
           vest={C.ember}
           ponytail
           hardHat={C.sunbeam}
-          lean={0.5}
+          lean={0.62}
           armPose="sight"
           opacity={opacity}
         />
+        {/* a dedicated reaching forearm to the focus/tangent knob: hinges at the
+            shoulder (toward +x, the instrument side) and dips on the reach beat.
+            Ember sleeve to read as the operator's arm, charcoal hand at the tip. */}
+        <group ref={reachArmRef} position={[0.34, 0.78, 0.06]} rotation={[-0.2, 0, 0]}>
+          <mesh position={[0.12, -0.02, 0]} rotation={[0, 0, -Math.PI / 2.2]} castShadow>
+            <cylinderGeometry args={[0.026, 0.03, 0.34, 8]} />
+            <meshStandardMaterial color={C.ember} metalness={0.1} roughness={0.7} transparent={opacity < 1} opacity={opacity} flatShading />
+          </mesh>
+          <mesh position={[0.26, -0.06, 0]} castShadow>
+            <sphereGeometry args={[0.045, 8, 6]} />
+            <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} transparent={opacity < 1} opacity={opacity} flatShading />
+          </mesh>
+        </group>
       </group>
 
-      {/* a field dog on open green ground out from behind the operator, broadside
-          to camera so its silhouette reads as a charming focal accent */}
-      <Dog x={station.x + 1.6} z={station.z + 1.2} opacity={opacity} />
+      {/* staked traverse hubs marching across the foreground bare path, tying
+          the station and rod stations together with bright flagging — reads as
+          a real survey line and uses the otherwise-empty center */}
+      <SurveyStake x={-1.5} z={1.1} phase={0.0} flag={C.sunbeam} opacity={opacity} />
+      <SurveyStake x={-0.55} z={1.0} phase={1.4} flag={C.ember} opacity={opacity} />
+      <SurveyStake x={0.45} z={0.85} phase={2.7} flag={C.sunbeam} opacity={opacity} />
+
+      {/* a field dog on open GREEN ground (off the bare path), broadside to
+          camera so its tan coat separates by hue and its silhouette reads as a
+          charming focal accent */}
+      <Dog x={0.7} z={1.45} opacity={opacity} />
 
       {/* a scatter of grass tufts across the worn-path foreground, grounding the
           dog and crew; per-tuft phase + the shared gust make the patch breathe */}

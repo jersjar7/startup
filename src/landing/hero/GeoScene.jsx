@@ -44,8 +44,10 @@ export function GeoScene({ opacity }) {
   const dustRef = React.useRef([]);   // recycled spoil-puff meshes
   const clodRefs = React.useRef([]);  // tumbling spoil clods on the trench wall
   const birdRefs = React.useRef([]);  // background birds (staggered phase)
+  const hawkRef = React.useRef();     // lone hawk soaring a slow high circle
   const laserRef = React.useRef();    // line-of-sight laser material (faint pulse)
   const leafRefs = React.useRef([]);  // windblown leaf/seed specks drifting over the surface
+  const settleDustRefs = React.useRef([]); // tiny consolidation-dust wisps at the footing/soil contact
 
   const layers = React.useMemo(() => {
     const W = 7.4, D = 2.8;
@@ -72,8 +74,10 @@ export function GeoScene({ opacity }) {
   const notchZc = D / 2 - notchD / 2;    // center z (toward +Z front face)
 
   // Pile group sits inside the cutaway so it is fully visible: a 2x2 grid of
-  // slender driven piles carried down into the stiff layer.
-  const pileXs = [-1.75, -0.95];
+  // slender driven piles carried down into the stiff layer. Shifted toward the
+  // open (right) side of the notch so it sits clearly apart from the pile-driver
+  // rig parked at the left of the cut.
+  const pileXs = [-1.55, -1.2];
   const pileZs = [D / 2 - 0.42, D / 2 - 1.02];
   const pileTop = topSurface - STRATA[0].H + 0.02; // just under the footing seat
   const pileBottom = layers.arr[3].y;              // driven into the stiff layer
@@ -157,8 +161,9 @@ export function GeoScene({ opacity }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   ]), [topSurface, D]);
 
-  // Surveyor walk path along the back surface (clear of the footing/cutaway).
-  const walk = { x0: -2.7, x1: 2.7, z: -D / 2 + 0.45 };
+  // Surveyor walk path along the back surface (clear of the footing/cutaway),
+  // nudged forward off the back strata so the figure is not flattened against it.
+  const walk = { x0: -2.5, x1: 2.5, z: -D / 2 + 0.72 };
 
   // A planted survey level: a tripod + instrument set up on the back-right
   // surface, sighting toward the footing column. The walking surveyor paces
@@ -255,9 +260,11 @@ export function GeoScene({ opacity }) {
       // specular response rather than emissive color.
       m.roughness = 0.22 + 0.14 * (0.5 + 0.5 * Math.sin(t * 0.8 + ph));
       let emi = 0.018 + 0.018 * (0.5 + 0.5 * Math.sin(t * 1.2 + ph));
-      if (i === 0) {
-        // traveling glint: a narrow gaussian bump sweeping in 5s — kept faint.
-        const sweep = (t % 5) / 5;
+      if (i === 0 || i === 1) {
+        // traveling glint sweeps the front face (i=0) and, slightly delayed, the
+        // cutaway trench wall (i=1) so the phreatic surface reads as continuous
+        // around the cut corner rather than only on the front face. Kept faint.
+        const sweep = ((t - (i === 1 ? 0.6 : 0)) % 5) / 5;
         const here = 0.5;
         const g = Math.exp(-Math.pow((sweep - here) * 6, 2));
         emi += 0.05 * g;
@@ -291,11 +298,12 @@ export function GeoScene({ opacity }) {
       d.position.x = (i - 1.5) * 0.09 + windDrift;
       d.position.z = ((i % 2) - 0.5) * 0.14;
       // Spike the puff scale right at the blow so the impact lands even in a
-      // still frame, then let it grow + thin as it rises.
+      // still frame, then let it grow + thin as it rises. Peak scale raised so
+      // the blow registers in a static screenshot.
       const burst = Math.exp(-sinceImpact * 9);          // sharp spike at impact
-      const s = 0.05 + life * 0.2 + 0.12 * burst;
+      const s = 0.07 + life * 0.26 + 0.2 * burst;
       d.scale.set(s, s, s);
-      if (d.material) d.material.opacity = opacity * 0.48 * fade;
+      if (d.material) d.material.opacity = opacity * 0.52 * fade;
       d.visible = fade > 0.01;
     }
 
@@ -314,11 +322,19 @@ export function GeoScene({ opacity }) {
     }
 
     // Trees sway in the wind, phase-varied (base sway + outer micro-flutter).
+    // The tree nearest the rig (the shrub at index 2) gets a brief outward
+    // shudder on each hammer blow so the ground impact propagates into the
+    // vegetation (couples rig -> site). The shudder is a fast decaying ring.
     for (let i = 0; i < treeRefs.current.length; i++) {
       const g = treeRefs.current[i];
       if (!g) continue;
       const ph = trees[i] ? trees[i].phase : i;
-      g.rotation.z = 0.06 * Math.sin(t * 1.3 + ph) + 0.022 * Math.sin(t * 3.4 + ph);
+      let z = 0.06 * Math.sin(t * 1.3 + ph) + 0.022 * Math.sin(t * 3.4 + ph);
+      if (i === 2) {
+        // decaying high-frequency shudder triggered by the blow
+        z += 0.05 * impact * Math.sin(sinceImpact * 38);
+      }
+      g.rotation.z = z;
     }
 
     // Surveyor walks back and forth; eases the 180° turn near each end instead
@@ -339,9 +355,14 @@ export function GeoScene({ opacity }) {
       cur += diff * 0.12;                          // critically-damped-ish ease
       personYawRef.current = cur;
       personRef.current.rotation.y = cur;
-      // bob only while striding; stand still during the pause + vest flutter
-      const stride = paused ? 0 : 0.02 * Math.abs(Math.sin(t * 6));
-      personRef.current.position.y = topSurface + 0.16 + stride;
+      // bob with stride (stronger so the walk reads at tile scale); during the
+      // pause the surveyor briefly crouches to sight the planted level, then
+      // rises — reads as doing survey work rather than pacing.
+      const stride = paused ? 0 : 0.045 * Math.abs(Math.sin(t * 6));
+      // crouch dip: a gentle down-then-up over the pause window.
+      const crouchU = paused ? (u - 0.46) / (0.58 - 0.46) : 0; // 0..1 across pause
+      const crouch = paused ? 0.07 * Math.sin(crouchU * Math.PI) : 0;
+      personRef.current.position.y = topSurface + 0.16 + stride - crouch;
     }
 
     // A small flock arcs across the back sky on staggered phases so some ambient
@@ -361,6 +382,36 @@ export function GeoScene({ opacity }) {
       b.position.z = -D / 2 - 0.7 - i * 0.25;
       b.rotation.y = dir > 0 ? -Math.PI / 2 : Math.PI / 2;
       b.rotation.z = 0.4 * Math.sin(t * 12 + i * 1.3);
+    }
+
+    // A lone hawk soars a slow, lazy circle high above the site — a calmer
+    // layer of sky life distinct from the flapping flock. Wings held flat; the
+    // body banks gently into the turn. 24s loop, large radius, stays in frame.
+    if (hawkRef.current) {
+      const hp = (t / 24) % 1;                  // 0..1 slow orbit
+      const ang = hp * Math.PI * 2;
+      hawkRef.current.position.x = Math.cos(ang) * 3.6;
+      hawkRef.current.position.z = -D / 2 - 1.2 + Math.sin(ang) * 1.1;
+      hawkRef.current.position.y = topSurface + 2.0 + 0.18 * Math.sin(ang * 2);
+      // heading tangent to the circle + a gentle bank into the turn
+      hawkRef.current.rotation.y = -ang;
+      hawkRef.current.rotation.z = 0.3 * Math.cos(ang);
+    }
+
+    // Consolidation dust: tiny wisps drift up from the footing/soil contact as
+    // it settles, reinforcing the settlement bob in a still-readable way. Each
+    // rises + fades on its own slow staggered loop (no per-frame allocation).
+    for (let i = 0; i < settleDustRefs.current.length; i++) {
+      const d = settleDustRefs.current[i];
+      if (!d) continue;
+      const dur = 5.5 + i * 0.9;
+      const p = ((t + i * 1.7) % dur) / dur;     // 0..1 slow loop
+      d.position.y = p * 0.34;
+      d.position.x = (i - 1) * 0.42 + 0.05 * Math.sin(t * 1.6 + i);
+      const s = 0.05 + 0.09 * Math.sin(p * Math.PI);
+      d.scale.set(s, s, s);
+      if (d.material) d.material.opacity = opacity * 0.22 * Math.sin(p * Math.PI);
+      d.visible = p > 0.02 && p < 0.98;
     }
 
     // Line-of-sight laser: a faint forest pulse so the optical line breathes.
@@ -397,8 +448,8 @@ export function GeoScene({ opacity }) {
 
   // Pile-driver location: in the open cutaway floor, left of and clear from the
   // in-place load-bearing group, driving a fresh pile of its own.
-  const driverX = -2.3;
-  const driverZ = D / 2 - 0.42;   // nudged forward toward the open face, out of the deepest cutaway shadow
+  const driverX = -2.45;          // pushed to the left edge of the cut, well clear of the in-place pile group
+  const driverZ = D / 2 - 0.42;   // forward toward the open face, out of the deepest cutaway shadow
 
   return (
     <group position={[0, 0.05, 0]}>
@@ -408,16 +459,16 @@ export function GeoScene({ opacity }) {
           piles are not lost in shadow against the trench wall. */}
       <mesh position={[notchXc, layers.arr[1].y, D / 2 - notchD + 0.005]} receiveShadow>
         <boxGeometry args={[notchW, STRATA[0].H + STRATA[1].H + STRATA[2].H, 0.02]} />
-        <meshStandardMaterial color="#6c6354" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
+        <meshStandardMaterial color="#83795f" metalness={0.04} roughness={1} transparent={transparent} opacity={opacity} />
       </mesh>
       <mesh position={[notchXc + notchW / 2 - 0.005, layers.arr[1].y, notchZc]} receiveShadow>
         <boxGeometry args={[0.02, STRATA[0].H + STRATA[1].H + STRATA[2].H, notchD]} />
-        <meshStandardMaterial color="#615847" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
+        <meshStandardMaterial color="#766b53" metalness={0.04} roughness={1} transparent={transparent} opacity={opacity} />
       </mesh>
       {/* Floor of the cutaway (top of the 4th, uncut layer). */}
       <mesh position={[notchXc, layers.arr[2].y - STRATA[2].H / 2 + 0.005, notchZc]} receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[notchW, notchD]} />
-        <meshStandardMaterial color="#5e5648" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
+        <meshStandardMaterial color="#726851" metalness={0.04} roughness={1} transparent={transparent} opacity={opacity} />
       </mesh>
 
       {/* Groundwater: thin wet bands sitting flush ON the exposed faces (front
@@ -457,7 +508,18 @@ export function GeoScene({ opacity }) {
             is unmistakable. */}
         {pileXs.map((px) =>
           pileZs.map((pz, j) => (
-            <Member key={`pile${px}-${j}`} a={[px, pileTop, pz]} b={[px, pileBottom, pz]} radius={0.135} color={(px === pileXs[1]) ? CONCRETE : CONCRETE_DK} opacity={opacity} />
+            <React.Fragment key={`pile${px}-${j}`}>
+              {/* Pale concrete pile carrying the footing — front row a touch
+                  brighter than the back row to read as depth, both pale enough
+                  to pop off the lifted trench wall. */}
+              <Member a={[px, pileTop, pz]} b={[px, pileBottom, pz]} radius={0.135} color={(pz === pileZs[0]) ? CONCRETE : CONCRETE_DK} opacity={opacity} />
+              {/* Faint forest contact ring at the pile head so the pale concrete
+                  reads as embedded into the soil, not pasted on the wall. */}
+              <mesh position={[px, pileTop - 0.02, pz]} castShadow>
+                <cylinderGeometry args={[0.17, 0.17, 0.05, 14]} />
+                <meshStandardMaterial color={C.forest} metalness={0.05} roughness={0.9} transparent opacity={opacity * 0.5} flatShading />
+              </mesh>
+            </React.Fragment>
           )),
         )}
         {/* Pile cap: a low concrete slab spanning all four pile heads, tying the
@@ -524,12 +586,29 @@ export function GeoScene({ opacity }) {
         </group>
       ))}
 
+      {/* A lone hawk soaring a slow high circle above the site (wings held
+          flat; banks into the turn). A calmer sky layer than the flock. */}
+      <group ref={hawkRef}>
+        <Hawk opacity={opacity} />
+      </group>
+
+      {/* Consolidation-dust wisps drifting up from the footing/soil contact as
+          it settles (recycled, animated in useFrame; no per-frame alloc). */}
+      <group position={[0, topSurface + 0.02, footingD / 2 - 0.1]}>
+        {[0, 1, 2].map((i) => (
+          <mesh key={`settledust${i}`} ref={(m) => { settleDustRefs.current[i] = m; }} visible={false}>
+            <sphereGeometry args={[1, 7, 6]} />
+            <meshStandardMaterial color="#9b9183" metalness={0} roughness={1} transparent opacity={0} />
+          </mesh>
+        ))}
+      </group>
+
       {/* Windblown leaf/seed specks shed from the swaying trees, drifting over
           the surface (recycled, animated in useFrame; no per-frame alloc). */}
       {leaves.map((lf, i) => (
         <group key={`leaf${i}`} ref={(el) => { leafRefs.current[i] = el; }} visible={false}>
           <mesh castShadow>
-            <boxGeometry args={[0.07, 0.012, 0.05]} />
+            <boxGeometry args={[0.1, 0.014, 0.075]} />
             <meshStandardMaterial color={i % 2 === 0 ? '#6a7a5a' : '#8a8d57'} metalness={0.05} roughness={0.95} transparent opacity={0} flatShading />
           </mesh>
         </group>
@@ -569,7 +648,7 @@ export function GeoScene({ opacity }) {
       {/* Surveyor walking the site, carrying a tripod/level over one shoulder
           so the figure reads as a surveyor rather than a pedestrian. */}
       <group ref={personRef} position={[walk.x0, topSurface + 0.16, walk.z]} rotation={[0, Math.PI / 2, 0]}>
-        <Person scale={0.72} vest={C.sunbeam} hardHat={C.ember} ponytail armPose="hold" opacity={opacity} />
+        <Person scale={0.88} vest={C.sunbeam} hardHat={C.ember} ponytail armPose="hold" opacity={opacity} />
         <CarriedTripod opacity={opacity} />
       </group>
 
@@ -587,7 +666,7 @@ export function GeoScene({ opacity }) {
             const l = layers.arr[i];
             segs.push(
               <mesh key={`core${i}`} position={[0, cy + l.H / 2, 0]} castShadow>
-                <cylinderGeometry args={[0.13, 0.13, l.H, 20]} />
+                <cylinderGeometry args={[0.15, 0.15, l.H, 20]} />
                 <meshStandardMaterial color={l.color} metalness={0.12} roughness={0.88} transparent={transparent} opacity={opacity} flatShading />
               </mesh>,
             );
@@ -596,14 +675,15 @@ export function GeoScene({ opacity }) {
           return (
             <>
               {segs}
-              {/* Steel sampler half-tube around the back of the core. */}
+              {/* Steel sampler half-tube around the back of the core — lighter
+                  so it frames the bands without dominating them. */}
               <mesh position={[0, baseY + coreH / 2, 0]} castShadow>
-                <cylinderGeometry args={[0.165, 0.165, coreH, 24, 1, true, Math.PI * 0.35, Math.PI * 1.3]} />
-                <meshStandardMaterial color={C.steelLt} metalness={0.85} roughness={0.3} side={2} transparent={transparent} opacity={opacity} />
+                <cylinderGeometry args={[0.185, 0.185, coreH, 24, 1, true, Math.PI * 0.35, Math.PI * 1.3]} />
+                <meshStandardMaterial color={C.steelLt} metalness={0.7} roughness={0.38} side={2} transparent={transparent} opacity={opacity} />
               </mesh>
               {/* Tube shoe / cutting edge at the base. */}
               <mesh position={[0, baseY + 0.05, 0]} castShadow>
-                <cylinderGeometry args={[0.17, 0.17, 0.1, 24]} />
+                <cylinderGeometry args={[0.19, 0.19, 0.1, 24]} />
                 <meshStandardMaterial color={C.steel} metalness={0.85} roughness={0.32} transparent={transparent} opacity={opacity} />
               </mesh>
               {/* Ground base disc seats the core and grounds its contact shadow. */}
@@ -784,10 +864,16 @@ function PileDriver({ x, z, baseY, pileBottom, hammerRef, pileRef, drumRef, cabl
             <cylinderGeometry args={[0.1, 0.1, 0.18, 14]} />
             <meshStandardMaterial color={C.steel} metalness={0.8} roughness={0.35} transparent={trans} opacity={opacity} />
           </mesh>
-          {/* off-axis spoke mark so the spin is visible */}
-          <mesh position={[0.06, 0, 0]} castShadow>
-            <boxGeometry args={[0.05, 0.2, 0.03]} />
+          {/* Two contrasting off-axis spoke marks 180° apart (one light, one
+              dark) so the drum's rotation reads clearly as it pays out / reels
+              in with the hammer cycle. Enlarged for tile-scale legibility. */}
+          <mesh position={[0.075, 0, 0]} castShadow>
+            <boxGeometry args={[0.07, 0.21, 0.05]} />
             <meshStandardMaterial color={C.steelLt} metalness={0.6} roughness={0.45} transparent={trans} opacity={opacity} />
+          </mesh>
+          <mesh position={[-0.075, 0, 0]} castShadow>
+            <boxGeometry args={[0.07, 0.21, 0.05]} />
+            <meshStandardMaterial color={C.ember} metalness={0.3} roughness={0.55} transparent={trans} opacity={opacity} />
           </mesh>
         </group>
       </group>
@@ -830,6 +916,31 @@ function Bird({ opacity = 1 }) {
       </mesh>
       <mesh position={[0, 0.02, -0.23]} rotation={[-0.4, -0.4, 0]} castShadow>
         <boxGeometry args={[0.02, 0.07, 0.38]} />{mat}
+      </mesh>
+    </group>
+  );
+}
+
+// A lone hawk: a longer body with broad, flat, slightly swept-back wings held
+// in a soaring glide (no flap) and a short fanned tail. Larger than a flock
+// bird so it reads as a separate, calmer sky element. Honors `opacity`.
+function Hawk({ opacity = 1 }) {
+  const trans = opacity < 1;
+  const mat = <meshStandardMaterial color="#4a463f" metalness={0.1} roughness={0.8} transparent={trans} opacity={opacity} flatShading />;
+  return (
+    <group scale={0.8}>
+      {/* body */}
+      <mesh castShadow><capsuleGeometry args={[0.06, 0.22, 4, 8]} /><meshStandardMaterial color="#4a463f" metalness={0.1} roughness={0.8} transparent={trans} opacity={opacity} flatShading /></mesh>
+      {/* broad flat wings, swept slightly back */}
+      <mesh position={[0.34, 0.02, 0.04]} rotation={[0, 0.18, 0.06]} castShadow>
+        <boxGeometry args={[0.6, 0.02, 0.2]} />{mat}
+      </mesh>
+      <mesh position={[-0.34, 0.02, 0.04]} rotation={[0, -0.18, -0.06]} castShadow>
+        <boxGeometry args={[0.6, 0.02, 0.2]} />{mat}
+      </mesh>
+      {/* fanned tail */}
+      <mesh position={[0, 0, -0.22]} rotation={[0, 0, 0]} castShadow>
+        <boxGeometry args={[0.16, 0.018, 0.16]} />{mat}
       </mesh>
     </group>
   );

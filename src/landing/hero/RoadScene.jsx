@@ -120,8 +120,10 @@ export function RoadScene({ opacity }) {
     for (let i = 0; i <= N; i += 4) posts.push(pts[i]);
     return { pts, deck, stripe, posts, crest, dcrest, apex: [0, crest(0), 0], x0, x1 };
   }, []);
-  const halfW = 0.95;
-  const groundY = -1.55; // flat groundline the embankment meets
+  const halfW = 1.02; // widened so the two-lane deck is the clear hero vs fill
+  // Raised toe so the bare-earth face is shorter in frame (less wall, more
+  // graded slope) while staying inside the height envelope (>= -1.7).
+  const groundY = -1.32; // flat groundline the embankment meets
   const crest = data.crest, dcrest = data.dcrest;
   const x0 = data.x0, x1 = data.x1, span = x1 - x0;
 
@@ -151,8 +153,10 @@ export function RoadScene({ opacity }) {
     const h = topY - groundY;
     const len = Math.abs(xb - xa) + 0.06; // slight overlap to hide seams
     const baseHalf = topHalf + SLOPE * h;  // wider at grade
-    // crown break: where the lit upper face hands off to the mid slope
-    const crownY = topY - h * 0.34;
+    // crown break: where the lit upper face hands off to the mid slope. Pushed
+    // lower (mid-height) so the tonal break reads as a benched grade change on
+    // the slope rather than a high horizontal line near the deck.
+    const crownY = topY - h * 0.5;
     const crownHalf = topHalf + SLOPE * (topY - crownY);
     // Lower trapezoid (mid slope -> toe) and upper crown band, so we get a
     // two-tone vertical (lit crown vs darker body) instead of a flat slab.
@@ -197,13 +201,18 @@ export function RoadScene({ opacity }) {
   // Each vehicle samples crest(x) for height and dcrest(x) for pitch so it hugs
   // and tilts with the road. x wraps x0..x1 for a seamless loop; phase varied by
   // index. Right lane (z=+0.45) travels +x, left lane (z=-0.45) travels -x.
+  // Phases staged so the lead right-lane car (idx 0, +x) and the lead left-lane
+  // car (idx 3, -x) approach the apex from OPPOSITE sides at nearly the same
+  // beat — the classic "driver can't see oncoming driver over the crest" moment
+  // that defines a crest vertical curve. Idx 0 reaches p~0.5 (apex) a touch
+  // before idx 3, so one is just cresting as the other rises into view.
   const VEHICLES = React.useMemo(() => ([
     // dir: +1 right lane, -1 left lane. speed in units/s. truck = taller/slower.
-    { color: '#cf4b39', dir: +1, speed: 0.62, phase: 0.00, truck: false, z: 0.45 },
-    { color: '#d9d3c4', dir: +1, speed: 0.55, phase: 0.46, truck: false, z: 0.45 },
-    { color: '#3f5d6e', dir: +1, speed: 0.40, phase: 0.78, truck: true, z: 0.45 },
-    { color: '#7c8a93', dir: -1, speed: 0.60, phase: 0.18, truck: false, z: -0.45 },
-    { color: C.ember, dir: -1, speed: 0.52, phase: 0.62, truck: false, z: -0.45 },
+    { color: '#cf4b39', dir: +1, speed: 0.62, phase: 0.40, truck: false, z: 0.5 },
+    { color: '#d9d3c4', dir: +1, speed: 0.55, phase: 0.92, truck: false, z: 0.5 },
+    { color: '#3f5d6e', dir: +1, speed: 0.40, phase: 0.18, truck: true, z: 0.5 },
+    { color: '#7c8a93', dir: -1, speed: 0.60, phase: 0.44, truck: false, z: -0.5 },
+    { color: C.ember, dir: -1, speed: 0.52, phase: 0.04, truck: false, z: -0.5 },
   ]), []);
 
   const carRefs = React.useRef([]);
@@ -245,17 +254,42 @@ export function RoadScene({ opacity }) {
   const grassRef = React.useRef();
   const GRASS = React.useMemo(() => {
     const out = [];
-    for (let i = 0; i < 52; i++) {
-      const x = -3.85 + (7.7 * i) / 51 + (i % 3) * 0.1;
+    const N = 96; // denser coverage so the face reads vegetated, not bare
+    for (let i = 0; i < N; i++) {
+      const x = -3.9 + (7.8 * i) / (N - 1) + (i % 3) * 0.08;
       const zSign = i % 2 === 0 ? 1 : -1;
-      // spread tufts up the slope a little, not just at the toe
-      const dropY = 1.25 + ((i * 7) % 6) * 0.1;
+      // spread tufts ALL the way up the face (toe -> near crown) so vegetation
+      // climbs the slope and the bare-earth wall reads as a grassed grade.
       const topY = crest(x);
+      const h = topY - groundY;
+      const frac = 0.12 + ((i * 7) % 10) / 10 * 0.78; // 0.12..0.9 down from crown
+      const dropY = frac * h;
       const y = topY - dropY;
-      const z = (zSign * fillHalfAtY(topY, y)) - zSign * 0.04; // tuck onto face
-      // camera-side (zSign -1) tufts run larger so the near toe fills + ripples
-      const big = zSign < 0 ? 0.35 : 0;
-      out.push({ x, y, z, phase: (i % 7) * 0.9, s: 0.66 + (i % 4) * 0.12 + big });
+      const z = (zSign * fillHalfAtY(topY, y)) - zSign * 0.03; // tuck onto face
+      // camera-side (zSign -1) tufts run larger so the near face fills + ripples
+      const big = zSign < 0 ? 0.3 : 0;
+      out.push({ x, y, z, phase: (i % 7) * 0.9, s: 0.6 + (i % 4) * 0.11 + big });
+    }
+    return out;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Low shrub/bush clumps scattered up the mid-face (instanced spheres), a
+  // second vegetation layer above the grass so the slope reads clearly as a
+  // graded, planted fill rather than a blank earthen wall. Static (set once).
+  const shrubRef = React.useRef();
+  const shrubDone = React.useRef(false);
+  const SHRUBS = React.useMemo(() => {
+    const out = [];
+    for (let i = 0; i < 26; i++) {
+      const x = -3.7 + (7.4 * i) / 25 + ((i * 5) % 4) * 0.07;
+      const zSign = i % 2 === 0 ? 1 : -1;
+      const topY = crest(x);
+      const h = topY - groundY;
+      const frac = 0.25 + ((i * 13) % 8) / 8 * 0.55; // mid-face band
+      const y = topY - frac * h;
+      const z = (zSign * fillHalfAtY(topY, y)) - zSign * 0.06;
+      out.push({ x, y, z, s: 0.5 + ((i * 11) % 6) * 0.09, rot: (i * 1.3) % 6.28 });
     }
     return out;
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -373,24 +407,27 @@ export function RoadScene({ opacity }) {
       }
       grassRef.current.instanceMatrix.needsUpdate = true;
     }
-    // Birds: slow looping arc over the crest, phase-varied, in-frame. Each
-    // bird's group flies the arc; wings flap by rotating the wing sub-groups.
-    for (let i = 0; i < 3; i++) {
+    // Birds: two small, distant gliders on widely separated arcs so they never
+    // bunch over the apex. Different horizontal centers, amplitudes and speeds
+    // keep them apart across the whole loop; high baseY reads as distant.
+    for (let i = 0; i < 2; i++) {
       const g = birdRefs.current[i];
       if (!g) continue;
-      // bird 2 is the distant depth bird: higher, wider, slower arc.
-      const distant = i === 2;
-      const ph = i * 2.094; // 120deg apart so they never bunch
-      const sp = distant ? 0.1 : 0.18;
-      const ax = distant ? 3.8 : 3.0;
-      const baseY = distant ? 2.75 : 2.2;            // clear sky, above clouds
-      const bx = Math.sin(t * sp + ph) * ax;
-      const by = baseY + Math.cos(t * sp + ph) * (distant ? 0.1 : 0.16) + 0.07 * Math.sin(t * 2.4 + ph);
+      const distant = i === 1;
+      // separate the two birds: opposite phase + different x-center so their
+      // arcs occupy different halves of the sky and don't cross over center.
+      const ph = i === 0 ? 0.0 : Math.PI; // pi apart, plus the center offsets below
+      const sp = distant ? 0.085 : 0.15;
+      const ax = distant ? 1.7 : 2.1;
+      const cx = distant ? 1.9 : -1.9;               // bias to opposite halves
+      const baseY = distant ? 3.0 : 2.45;            // high, clear sky
+      const bx = cx + Math.sin(t * sp + ph) * ax;
+      const by = baseY + Math.cos(t * sp + ph) * (distant ? 0.12 : 0.18) + 0.06 * Math.sin(t * 2.4 + ph);
       // face travel direction (sign of horizontal velocity)
       const dir = Math.cos(t * sp + ph) >= 0 ? 1 : -1;
-      g.position.set(bx, by, distant ? -0.9 : -0.3 + i * 0.5);
+      g.position.set(bx, by, distant ? -1.4 : -0.7);
       g.rotation.y = dir > 0 ? 0 : Math.PI;
-      const flap = Math.sin(t * (distant ? 4.5 : 7) + ph) * (distant ? 0.32 : 0.5);
+      const flap = Math.sin(t * (distant ? 4.5 : 6.5) + ph) * (distant ? 0.34 : 0.5);
       // flap about x ON TOP of the fixed dihedral (the wing groups' rotation.z)
       const wl = wingLRefs.current[i];
       const wr = wingRRefs.current[i];
@@ -410,6 +447,21 @@ export function RoadScene({ opacity }) {
       }
       riprapRef.current.instanceMatrix.needsUpdate = true;
       riprapDone.current = true;
+    }
+    // Shrub clumps on the mid-face: static scatter, written once. Squashed
+    // slightly (lower than wide) so they read as low bushes hugging the slope.
+    if (shrubRef.current && !shrubDone.current) {
+      for (let i = 0; i < SHRUBS.length; i++) {
+        const sh = SHRUBS[i];
+        _euler.set(0, sh.rot, 0);
+        _q.setFromEuler(_euler);
+        _pos.set(sh.x, sh.y + 0.12 * sh.s, sh.z);
+        _scl.set(sh.s, sh.s * 0.7, sh.s);
+        _m4.compose(_pos, _q, _scl);
+        shrubRef.current.setMatrixAt(i, _m4);
+      }
+      shrubRef.current.instanceMatrix.needsUpdate = true;
+      shrubDone.current = true;
     }
     // Drifting dust/leaf specks: small orbiting bob on the wind phase.
     if (dustRef.current) {
@@ -485,14 +537,19 @@ export function RoadScene({ opacity }) {
     // Pedestrian: slow walk along the camera-side shoulder on a short ping-pong
     // path (triangle wave so they turn around without a pop), limbs swinging.
     if (pedRef.current) {
-      const pedZ = -(halfW + 0.36);
       const period = 16;                 // seconds for a full there-and-back
       const u = (t % period) / period;   // 0..1
       const tri = u < 0.5 ? u * 2 : 2 - u * 2; // 0..1..0 triangle
       const xMin = 1.6, xMax = 3.2;
       const px = xMin + (xMax - xMin) * tri;
       const facing = u < 0.5 ? 1 : -1;   // +x then -x
-      const py = crest(px) - 0.02;
+      // Walk the GRASSY VERGE beyond the guardrail, not the live shoulder: seat
+      // the figure a short drop down the camera-side slope so they are clearly
+      // off the travel lane (no implied highway-shoulder safety violation).
+      const dropY = 0.34;
+      const [seatY, seatZ] = seatOnSlope(px, dropY, -1);
+      const py = seatY - 0.02;
+      const pedZ = seatZ - 0.04;
       pedRef.current.position.set(px, py, pedZ);
       // base heading along the walk; near each turnaround (tri ~ 1, the far end)
       // hold a brief yaw toward the road (oncoming traffic) so the pause reads
@@ -598,7 +655,7 @@ export function RoadScene({ opacity }) {
 
       {/* Asphalt deck (smoothed, N=40) */}
       {data.deck.map((s, i) => (
-        <Beam key={`d${i}`} a={s[0]} b={s[1]} width={1.9} thickness={0.16} color={C.asphalt} opacity={opacity} metalness={0.2} roughness={0.8} />
+        <Beam key={`d${i}`} a={s[0]} b={s[1]} width={2.1} thickness={0.16} color={C.asphalt} opacity={opacity} metalness={0.2} roughness={0.8} />
       ))}
 
       {/* Edge lines */}
@@ -649,28 +706,36 @@ export function RoadScene({ opacity }) {
         <meshStandardMaterial color={LEAF_DK} metalness={0.02} roughness={0.95} flatShading transparent opacity={opacity * 0.7} />
       </instancedMesh>
 
-      {/* Roadside grass tufts at the embankment toe (instanced, wind-sheared) */}
+      {/* Roadside grass tufts climbing the embankment face (instanced, sheared) */}
       <instancedMesh ref={grassRef} args={[undefined, undefined, GRASS.length]} castShadow>
         <coneGeometry args={[0.05, 0.26, 5]} />
         <meshStandardMaterial color={LEAF_DK} metalness={0.03} roughness={0.95} flatShading transparent opacity={opacity} />
       </instancedMesh>
 
-      {/* Two birds gliding over the crest: shallow V silhouette (two thin
-          angled wing boxes + a slim body); whole group flown + wings flapped
-          via refs each frame */}
-      {[0, 1, 2].map((i) => (
+      {/* Low shrub clumps on the mid-face: a second vegetation layer that sells
+          'graded, planted fill' instead of a bare earthen wall (static scatter) */}
+      <instancedMesh ref={shrubRef} args={[undefined, undefined, SHRUBS.length]} castShadow receiveShadow>
+        <sphereGeometry args={[0.18, 9, 7]} />
+        <meshStandardMaterial color={LEAF} metalness={0.04} roughness={0.94} flatShading transparent opacity={opacity} />
+      </instancedMesh>
+
+      {/* Two small, distant birds gliding over the sky: shallow V silhouette
+          (two thin angled wing boxes + a slim body); whole group flown + wings
+          flapped via refs each frame. Dimensions reduced ~35% and tinted a
+          softer steel so they read as distant rather than a bold logo mark. */}
+      {[0, 1].map((i) => (
         <group key={`bird${i}`} ref={(el) => (birdRefs.current[i] = el)}>
           {/* slim body + slight head taper */}
-          <Box position={[0, 0, 0]} size={[0.2, 0.045, 0.07]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
-          <Box position={[0.13, 0.005, 0]} size={[0.07, 0.035, 0.05]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
+          <Box position={[0, 0, 0]} size={[0.13, 0.03, 0.045]} color={C.steel} opacity={opacity * 0.85} metalness={0.1} roughness={0.85} />
+          <Box position={[0.085, 0.003, 0]} size={[0.045, 0.024, 0.034]} color={C.steel} opacity={opacity * 0.85} metalness={0.1} roughness={0.85} />
           {/* wings: each wing group carries a fixed positive dihedral (rotate up
               about z) so the swept-back V silhouette reads even at small scale;
               useFrame flaps them about x on top of this base pose */}
-          <group ref={(el) => (wingLRefs.current[i] = el)} position={[0, 0.01, 0.035]} rotation={[0, 0, 0.18]}>
-            <Box position={[-0.02, 0, 0.16]} size={[0.1, 0.028, 0.32]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
+          <group ref={(el) => (wingLRefs.current[i] = el)} position={[0, 0.007, 0.024]} rotation={[0, 0, 0.18]}>
+            <Box position={[-0.013, 0, 0.105]} size={[0.066, 0.019, 0.21]} color={C.steel} opacity={opacity * 0.85} metalness={0.1} roughness={0.85} />
           </group>
-          <group ref={(el) => (wingRRefs.current[i] = el)} position={[0, 0.01, -0.035]} rotation={[0, 0, 0.18]}>
-            <Box position={[-0.02, 0, -0.16]} size={[0.1, 0.028, 0.32]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
+          <group ref={(el) => (wingRRefs.current[i] = el)} position={[0, 0.007, -0.024]} rotation={[0, 0, 0.18]}>
+            <Box position={[-0.013, 0, -0.105]} size={[0.066, 0.019, 0.21]} color={C.steel} opacity={opacity * 0.85} metalness={0.1} roughness={0.85} />
           </group>
         </group>
       ))}
@@ -693,6 +758,27 @@ export function RoadScene({ opacity }) {
         </group>
       ))}
 
+      {/* Static line-of-sight: a thin info-blue line skimming the crest apex,
+          tangent to the parabola at x=0, running between an approaching and an
+          oncoming driver's eye height on opposite sides. This is a LINE, not a
+          cone arrow (explicitly permitted), and it annotates the restricted
+          stopping sight distance over the crest without any diagrammatic arrow.
+          Drawn at the deck centerline, lifted to ~driver eye height. */}
+      {(() => {
+        const eye = 0.42;                 // eye height above the deck
+        const xL = -2.6, xR = 2.6;        // sight chord endpoints
+        const aY = crest(xL) + eye;
+        const bY = crest(xR) + eye;
+        return (
+          <Beam
+            a={[xL, aY, 0]} b={[xR, bY, 0]}
+            width={0.012} thickness={0.012}
+            color={C.info} opacity={opacity * 0.5}
+            metalness={0.1} roughness={0.4}
+          />
+        );
+      })()}
+
       {/* Streetlight near the crest: pole + cantilever arm + sunbeam lamp head */}
       <group>
         <mesh position={[lampX, lampBaseY + 0.7, halfW + 0.18]} castShadow>
@@ -700,8 +786,14 @@ export function RoadScene({ opacity }) {
           <meshStandardMaterial color={C.charcoal} metalness={0.6} roughness={0.45} transparent={opacity < 1} opacity={opacity} />
         </mesh>
         <Beam a={[lampX, lampBaseY + 1.38, halfW + 0.18]} b={[lampX, lampBaseY + 1.38, halfW - 0.42]} width={0.04} thickness={0.04} color={C.charcoal} opacity={opacity} metalness={0.6} roughness={0.45} />
-        <mesh position={[lampX, lampBaseY + 1.32, halfW - 0.42]} castShadow>
-          <boxGeometry args={[0.16, 0.07, 0.12]} />
+        {/* charcoal luminaire housing (reads as a fixture, not a glowing chip) */}
+        <mesh position={[lampX, lampBaseY + 1.33, halfW - 0.42]} castShadow>
+          <boxGeometry args={[0.17, 0.06, 0.13]} />
+          <meshStandardMaterial color={C.charcoal} metalness={0.6} roughness={0.45} transparent={opacity < 1} opacity={opacity} />
+        </mesh>
+        {/* smaller emissive lens tucked under the housing, facing the deck */}
+        <mesh position={[lampX, lampBaseY + 1.295, halfW - 0.42]} castShadow>
+          <boxGeometry args={[0.11, 0.025, 0.085]} />
           <meshStandardMaterial
             ref={lampRef}
             color={C.sunbeam}
@@ -726,10 +818,11 @@ export function RoadScene({ opacity }) {
           <circleGeometry args={[0.4, 24]} />
           <meshBasicMaterial color={C.sunbeam} transparent opacity={opacity * 0.22} depthWrite={false} side={THREE.DoubleSide} />
         </mesh>
-        {/* small bright halo right at the lamp head */}
-        <mesh position={[lampX, lampBaseY + 1.32, halfW - 0.42]} rotation={[Math.PI / 2, 0, 0]}>
-          <circleGeometry args={[0.2, 20]} />
-          <meshBasicMaterial color={C.sunbeam} transparent opacity={opacity * 0.28} depthWrite={false} side={THREE.DoubleSide} />
+        {/* small bright halo right at the lamp lens (slightly smaller now that
+            the emissive lens is a recessed strip rather than a full block) */}
+        <mesh position={[lampX, lampBaseY + 1.28, halfW - 0.42]} rotation={[Math.PI / 2, 0, 0]}>
+          <circleGeometry args={[0.16, 20]} />
+          <meshBasicMaterial color={C.sunbeam} transparent opacity={opacity * 0.26} depthWrite={false} side={THREE.DoubleSide} />
         </mesh>
       </group>
 

@@ -244,11 +244,11 @@ function Vehicle({ x0, x1, deckTopY, z, dir, kind, bodyColor, speed, phase, opac
 
 // A small 3-bird skein gliding across the sky on a slow looping path, clustered
 // so they read as a flock. Each bird is a slim charcoal body flanked by two
-// LONG wings held in a shallow swept-back dihedral V — wings rake back along -X
-// (the travel direction) and ride above the body line, so the silhouette reads
-// as a gliding bird from any angle and NEVER collapses to a vertical arrow or
-// plus-sign. Wings flap about a positive resting V so the down-stroke still
-// stays above flat, never crossing into a downward caret.
+// flat, wide, tapered wings held in a shallow swept-back dihedral. The wings
+// are thin TRIANGLES (wider at the shoulder, tapering to a point at the tip)
+// extruded once and shared, so the silhouette is a clean gliding gull, never a
+// spiky asterisk. The flap is calm and low-amplitude (~0.35 ± 0.18 rad) and
+// the wings ride a coherent shallow dihedral so they never cross into a caret.
 function BirdFlock({ x0, x1, topY, opacity }) {
   const COUNT = 3;
   const left = React.useRef();
@@ -256,6 +256,21 @@ function BirdFlock({ x0, x1, topY, opacity }) {
   const body = React.useRef();
   // Allocate scratch object once — no per-frame allocation.
   const scratch = React.useMemo(() => ({ dummy: new THREE.Object3D() }), []);
+  // Flat tapered wing: a thin triangle in the X-Z plane, hinged at the shoulder
+  // (origin) and sweeping out toward -Z (the tip) and back along -X. Built once.
+  const wingGeom = React.useMemo(() => {
+    const shape = new THREE.Shape();
+    // Shoulder at origin; broad leading edge, tapering to a swept tip.
+    shape.moveTo(0.06, 0);      // leading edge near body
+    shape.lineTo(-0.05, -0.34); // swept-back pointed tip
+    shape.lineTo(-0.12, -0.02); // trailing edge back at the body
+    shape.closePath();
+    const g = new THREE.ExtrudeGeometry(shape, { depth: 0.012, bevelEnabled: false });
+    // Lay the flat triangle into the X-Z plane (extrude is along Z by default).
+    g.rotateX(-Math.PI / 2);
+    return g;
+  }, []);
+  React.useEffect(() => () => wingGeom.dispose(), [wingGeom]);
   // Tight cluster offsets (a loose skein) layered over the shared glide path.
   const cluster = React.useMemo(() => [
     { dx: 0.0, dy: 0.0, dz: 0.0 },
@@ -278,16 +293,17 @@ function BirdFlock({ x0, x1, topY, opacity }) {
     // then lifts away — reads as a bird crossing the bridge, not a static speck.
     const dip = -Math.sin(u * Math.PI) * 0.22;
     const headY = topY + dip + Math.sin(t * 0.5) * 0.1;
-    // Decisive bank as the skein crosses (roll about travel axis), tasteful.
-    const bank = Math.sin(t * 0.5) * 0.26;
+    // Gentle bank as the skein crosses (roll about travel axis), tasteful.
+    const bank = Math.sin(t * 0.5) * 0.18;
     for (let i = 0; i < COUNT; i++) {
       const c = cluster[i];
       const px = headX + c.dx;
       const py = headY + c.dy + Math.sin(t * 0.9 + i * 2.1) * 0.05;
       const pz = c.dz + Math.sin(t * 0.35 + i) * 0.12;
-      // Shallow swept-V dihedral: resting angle ~0.55 rad UP, flap stays positive
-      // (0.2..0.95) so wings never drop flat or into a downward caret.
-      const flap = 0.55 + Math.sin(t * 5.0 + i * 2.3) * 0.35;
+      // Calm, low-amplitude flap about a shallow resting dihedral; phase varies
+      // per bird so the flock ripples naturally. Stays in a gentle ~0.17..0.53
+      // band so the wings read as a smooth glide, never a spiky star.
+      const flap = 0.35 + Math.sin(t * 3.2 + i * 1.7) * 0.18;
       const { dummy } = scratch;
       // Slim body between the wings (long axis along travel = X), banked.
       dummy.position.set(px, py, pz);
@@ -295,14 +311,16 @@ function BirdFlock({ x0, x1, topY, opacity }) {
       dummy.scale.set(1, 1, 1);
       dummy.updateMatrix();
       body.current.setMatrixAt(i, dummy.matrix);
-      // Left wing — raked back (-X) and lifted into the V (+flap about X).
-      dummy.position.set(px - 0.05, py + 0.02, pz - 0.05);
-      dummy.rotation.set(flap + bank, 0, -0.5);
+      // Left wing — flat triangle hinged at the shoulder, dihedral about X.
+      // Tip points toward -Z; positive roll lifts it into the V.
+      dummy.position.set(px, py + 0.012, pz - 0.02);
+      dummy.rotation.set(bank, 0, flap);
       dummy.updateMatrix();
       left.current.setMatrixAt(i, dummy.matrix);
-      // Right wing — mirrored across Z.
-      dummy.position.set(px - 0.05, py + 0.02, pz + 0.05);
-      dummy.rotation.set(-flap + bank, 0, -0.5);
+      // Right wing — mirrored across Z (scale Z by -1, opposite roll).
+      dummy.position.set(px, py + 0.012, pz + 0.02);
+      dummy.rotation.set(bank, 0, -flap);
+      dummy.scale.set(1, 1, -1);
       dummy.updateMatrix();
       right.current.setMatrixAt(i, dummy.matrix);
     }
@@ -310,21 +328,18 @@ function BirdFlock({ x0, x1, topY, opacity }) {
     left.current.instanceMatrix.needsUpdate = true;
     right.current.instanceMatrix.needsUpdate = true;
   });
-  // Long wings relative to the body so the bird silhouette dominates at tile scale.
   return (
     <group>
       {/* slim charcoal body */}
       <instancedMesh ref={body} args={[undefined, undefined, COUNT]}>
-        <capsuleGeometry args={[0.024, 0.16, 3, 6]} />
+        <capsuleGeometry args={[0.022, 0.18, 3, 6]} />
         <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} transparent={opacity < 1} opacity={opacity} />
       </instancedMesh>
-      <instancedMesh ref={left} args={[undefined, undefined, COUNT]}>
-        <boxGeometry args={[0.085, 0.016, 0.36]} />
-        <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} transparent={opacity < 1} opacity={opacity} />
+      <instancedMesh ref={left} args={[wingGeom, undefined, COUNT]}>
+        <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} side={THREE.DoubleSide} transparent={opacity < 1} opacity={opacity} />
       </instancedMesh>
-      <instancedMesh ref={right} args={[undefined, undefined, COUNT]}>
-        <boxGeometry args={[0.085, 0.016, 0.36]} />
-        <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} transparent={opacity < 1} opacity={opacity} />
+      <instancedMesh ref={right} args={[wingGeom, undefined, COUNT]}>
+        <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} side={THREE.DoubleSide} transparent={opacity < 1} opacity={opacity} />
       </instancedMesh>
     </group>
   );
@@ -348,9 +363,9 @@ function StayLines({ x0, x1, y, dz, opacity }) {
         pts.push(new THREE.Vector3(x, y - droop, zOff));
       }
       const curve = new THREE.CatmullRomCurve3(pts);
-      return new THREE.TubeGeometry(curve, 28, 0.012, 5, false);
+      return new THREE.TubeGeometry(curve, 28, 0.018, 6, false);
     };
-    return [mk(dz * 0.55, 0.16), mk(-dz * 0.55, 0.2)];
+    return [mk(dz * 0.55, 0.24), mk(-dz * 0.55, 0.3)];
   }, [x0, x1, y, dz]);
   React.useEffect(() => () => geom.forEach((g) => g.dispose()), [geom]);
   // Each line breathes on its own phase + amplitude so the wind reads as wind,
@@ -387,13 +402,23 @@ function StayLines({ x0, x1, y, dz, opacity }) {
 function WaterDatum({ midX, width, y, depth, opacity }) {
   const mesh = React.useRef();
   const debris = React.useRef();
-  const DEBRIS = 3;
+  const ripples = React.useRef();
+  const DEBRIS = 5;
+  const RIPPLES = 3;
   const scratch = React.useMemo(() => ({ dummy: new THREE.Object3D() }), []);
   // Per-speck lane (z) + phase so they drift downstream (+x) at different rates.
   const lanes = React.useMemo(() => [
-    { z: -0.5, phase: 0.0, speed: 0.03 },
-    { z: 0.35, phase: 0.4, speed: 0.024 },
-    { z: 0.9, phase: 0.75, speed: 0.036 },
+    { z: -0.85, phase: 0.0, speed: 0.03 },
+    { z: -0.4, phase: 0.55, speed: 0.026 },
+    { z: 0.1, phase: 0.2, speed: 0.034 },
+    { z: 0.55, phase: 0.7, speed: 0.024 },
+    { z: 1.0, phase: 0.42, speed: 0.038 },
+  ], []);
+  // Elongated faint ripple streaks scrolling downstream to read as current.
+  const rippleLanes = React.useMemo(() => [
+    { z: -0.65, phase: 0.3, speed: 0.045 },
+    { z: 0.2, phase: 0.8, speed: 0.05 },
+    { z: 0.85, phase: 0.05, speed: 0.04 },
   ], []);
   const lo = midX - width / 2 + 0.4;
   const drift = width - 0.8;
@@ -418,6 +443,19 @@ function WaterDatum({ midX, width, y, depth, opacity }) {
       }
       debris.current.instanceMatrix.needsUpdate = true;
     }
+    if (ripples.current) {
+      for (let i = 0; i < RIPPLES; i++) {
+        const ln = rippleLanes[i];
+        const u = ((t * ln.speed + ln.phase) % 1 + 1) % 1;
+        const { dummy } = scratch;
+        dummy.position.set(lo + u * drift, 0.005, ln.z + Math.sin(t * 0.3 + i * 1.3) * 0.08);
+        dummy.rotation.set(0, 0, 0);
+        dummy.scale.set(1, 1, 1);
+        dummy.updateMatrix();
+        ripples.current.setMatrixAt(i, dummy.matrix);
+      }
+      ripples.current.instanceMatrix.needsUpdate = true;
+    }
   });
   return (
     <group>
@@ -425,11 +463,18 @@ function WaterDatum({ midX, width, y, depth, opacity }) {
         <planeGeometry args={[width, depth, 1, 1]} />
         <meshStandardMaterial color={C.water} metalness={0.5} roughness={0.25} transparent opacity={opacity * 0.68} />
       </mesh>
-      {/* slow drifting debris/ripple specks just above the surface => current */}
+      {/* slow drifting debris specks just above the surface => current */}
       <group position={[0, y + 0.02, 0]}>
         <instancedMesh ref={debris} args={[undefined, undefined, DEBRIS]}>
-          <boxGeometry args={[0.16, 0.02, 0.05]} />
-          <meshStandardMaterial color="#5a6b62" metalness={0.2} roughness={0.7} transparent opacity={opacity * 0.7} />
+          <boxGeometry args={[0.22, 0.025, 0.07]} />
+          <meshStandardMaterial color="#5a6b62" metalness={0.2} roughness={0.7} transparent opacity={opacity * 0.75} />
+        </instancedMesh>
+      </group>
+      {/* faint elongated ripple streaks scrolling downstream => legible current */}
+      <group position={[0, y + 0.012, 0]}>
+        <instancedMesh ref={ripples} args={[undefined, undefined, RIPPLES]}>
+          <boxGeometry args={[0.7, 0.006, 0.04]} />
+          <meshStandardMaterial color="#7d97a0" metalness={0.4} roughness={0.4} transparent opacity={opacity * 0.4} />
         </instancedMesh>
       </group>
       {/* faint forest bank edges on the far/near sides reinforce the river read */}
@@ -511,13 +556,20 @@ export function TrussScene({ opacity }) {
           opposing one is a muted-steel flatbed truck so the two silhouettes are
           distinguishable, not two near-identical boxes. The tight travel margin
           keeps the ember sedan visibly mid-span for most of its loop. */}
-      <Vehicle x0={x0} x1={x1} deckTopY={deckY + deckThick / 2} z={0.28} dir={1} kind="sedan" bodyColor={C.ember} speed={0.072} phase={0.1} opacity={opacity} />
-      <Vehicle x0={x0} x1={x1} deckTopY={deckY + deckThick / 2} z={-0.28} dir={-1} kind="truck" bodyColor="#9aa0a4" speed={0.053} phase={0.65} opacity={opacity} />
+      <Vehicle x0={x0} x1={x1} deckTopY={deckY + deckThick / 2} z={0.3} dir={1} kind="sedan" bodyColor={C.ember} speed={0.061} phase={0.78} opacity={opacity} />
+      <Vehicle x0={x0} x1={x1} deckTopY={deckY + deckThick / 2} z={-0.3} dir={-1} kind="truck" bodyColor="#9aa0a4" speed={0.047} phase={0.74} opacity={opacity} />
+
+      {/* Near-side walkway: a thin raised curb strip running the span just inside
+          the fascia, so the strolling pedestrian visibly walks ON a sidewalk
+          rather than floating at the deck edge. */}
+      <Box position={[deckMid, deckY + deckThick / 2 + 0.015, 0.72]} size={[spanLen, 0.05, 0.34]} color="#8a8278" opacity={opacity} metalness={0.05} roughness={0.9} />
+      {/* low curb lip on the outboard side of the walkway */}
+      <Box position={[deckMid, deckY + deckThick / 2 + 0.05, 0.9]} size={[spanLen, 0.07, 0.04]} color={C.charcoal} opacity={opacity} metalness={0.2} roughness={0.7} />
 
       {/* A lone pedestrian strolling the near walkway — a slower, human scale of
-          life beside the vehicle traffic. Kept inside the near fascia edge and
-          above the deck so they walk the span without clipping the truss web. */}
-      <Pedestrian x0={x0} x1={x1} y={deckY + deckThick / 2} z={0.72} speed={0.026} opacity={opacity} />
+          life beside the vehicle traffic. Sits on the curb strip just inside the
+          near fascia so they walk the span without clipping the truss web. */}
+      <Pedestrian x0={x0} x1={x1} y={deckY + deckThick / 2 + 0.04} z={0.72} speed={0.026} opacity={opacity} />
 
       {/* Slack stay/utility lines along the top chord that sway in the wind —
           cheap non-rigid ambient life so the vignette isn't just two sliders. */}

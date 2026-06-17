@@ -76,6 +76,73 @@ function Debris({ surfaceY, xMin, xMax, halfD, opacity }) {
   );
 }
 
+// A pair of leaves drifting in the downstream weir backwater: they slowly creep
+// toward the crest, snag and rotate just upstream of it, then occasionally ride
+// over the crest and tumble into the foam — reinforcing the spill direction and
+// keeping visible motion across the FULL channel, not just the inflow corner.
+function BackwaterLeaf({ surfaceY, weirX, crestY, foamY, halfD, opacity }) {
+  const ref = React.useRef();
+  const leaves = React.useMemo(
+    () =>
+      Array.from({ length: 2 }, (_, i) => ({
+        phase: i * 0.5,
+        z: (i === 0 ? -0.35 : 0.4) * (halfD - 0.4),
+        col: i === 0 ? 2 : 3,
+        spin: 0.5 + i * 0.3,
+      })),
+    [halfD]
+  );
+  const refs = React.useRef([]);
+  React.useEffect(() => {
+    for (let i = 0; i < leaves.length; i++) {
+      const m = refs.current[i];
+      if (m) m.material.color.copy(_leafCols[leaves[i].col]);
+    }
+  }, [leaves]);
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    for (let i = 0; i < leaves.length; i++) {
+      const m = refs.current[i];
+      if (!m) continue;
+      const lf = leaves[i];
+      const cyc = (t * 0.06 + lf.phase) % 1; // full approach->spill->reset loop
+      let x, y, rotX = 0.3 * Math.sin(t * 0.9 + i), rotZ = 0.28;
+      if (cyc < 0.55) {
+        // Drifting / lingering in the backwater, creeping toward the crest.
+        const a = cyc / 0.55;
+        x = (weirX - 1.7) + a * 1.55;
+        y = surfaceY + 0.05 + 0.02 * Math.sin(t * 1.3 + i);
+      } else if (cyc < 0.72) {
+        // Snagged at the crest, spinning slowly in the surface tension line.
+        x = weirX - 0.12;
+        y = surfaceY + 0.05;
+        rotX += (t * lf.spin) % (Math.PI * 2);
+      } else {
+        // Tumbling over the crest and down into the foam, then it resets.
+        const b = (cyc - 0.72) / 0.28;
+        x = weirX - 0.12 + b * 0.28;
+        y = crestY + 0.05 - b * (crestY - foamY);
+        rotX = t * (1.6 + lf.spin); // fast tumble
+        rotZ = 0.6 * b;
+      }
+      m.position.set(x, y, lf.z);
+      m.rotation.set(rotX, t * lf.spin + i, rotZ);
+      // Fade out as it sinks into the foam so the recycle to upstream never pops.
+      const fade = cyc > 0.92 ? (1 - cyc) / 0.08 : 1;
+      m.material.opacity = opacity * 0.92 * Math.max(0, fade);
+    }
+  });
+  return (
+    <group ref={ref}>
+      {leaves.map((lf, i) => (
+        <mesh key={i} ref={(el) => (refs.current[i] = el)} geometry={LEAF_GEO} castShadow>
+          <meshStandardMaterial metalness={0.1} roughness={0.7} transparent opacity={opacity * 0.92} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
 // A small procedural duck bobbing in Y and drifting slowly downstream, then
 // resetting upstream, trailing a faint V-shaped wake. Warm earth tone so it
 // reads against the steel walls. Subtle, on-brand-charming, not cartoonish.
@@ -86,15 +153,19 @@ function Duck({ surfaceY, xMin, xMax, halfD, opacity }) {
   const wakeL = React.useRef();
   const wakeR = React.useRef();
   const crossRef = React.useRef();
+  const shedRef = React.useRef();
   useFrame((state) => {
     const g = ref.current;
     if (!g) return;
     const t = state.clock.elapsedTime;
-    const span = xMax - xMin;
+    // Keep the duck on the downstream/center half of the channel so it floats on
+    // clear open water instead of stacking into the crowded inflow corner.
+    const dMin = xMin + 0.35 * (xMax - xMin);
+    const span = xMax - dMin;
     const u = (t * 0.035) % 1;
-    g.position.x = xMin + u * span;
+    g.position.x = dMin + u * span;
     g.position.y = surfaceY + 0.15 + 0.04 * Math.sin(t * 1.6);
-    g.position.z = halfD * 0.1 + 0.05 * Math.sin(t * 0.7);
+    g.position.z = -halfD * 0.06 + 0.05 * Math.sin(t * 0.7);
     g.rotation.y = 0.5 + 0.1 * Math.sin(t * 0.9);
     g.rotation.z = 0.05 * Math.sin(t * 1.6 + 0.6);
     // Occasional feeding head-dip on a long period: brief downward tuck.
@@ -114,9 +185,17 @@ function Duck({ surfaceY, xMin, xMax, halfD, opacity }) {
       crossRef.current.scale.set(cs, cs, cs);
       crossRef.current.material.opacity = opacity * 0.32 * (1 - cc);
     }
+    // Concentric ripple ring shed periodically from the body so it reads as
+    // floating on a live surface. Expands + fades, anchored under the duck.
+    if (shedRef.current) {
+      const rc = (t * 0.45) % 1;
+      const rs = 0.25 + rc * 1.4;
+      shedRef.current.scale.set(rs, rs, rs);
+      shedRef.current.material.opacity = opacity * 0.28 * (1 - rc);
+    }
   });
   const body = { metalness: 0.12, roughness: 0.62 };
-  const scale = 1.7; // larger so it reads instantly as a duck at tile scale
+  const scale = 1.3; // proportional waterfowl; rely on motion for charm, not size
   return (
     <group ref={ref}>
       <group scale={scale}>
@@ -152,16 +231,21 @@ function Duck({ surfaceY, xMin, xMax, halfD, opacity }) {
       {/* V-shaped wake: two thin tilted strips trailing behind the body */}
       <mesh ref={wakeL} position={[-0.3, -0.12, 0.12]} rotation={[-Math.PI / 2, 0, 0.32]}>
         <planeGeometry args={[0.42, 0.02]} />
-        <meshStandardMaterial color={C.steelLt} metalness={0.05} roughness={0.6} transparent opacity={opacity * 0.45} side={THREE.DoubleSide} />
+        <meshStandardMaterial color={C.steelLt} metalness={0.05} roughness={0.6} transparent opacity={opacity * 0.3} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       <mesh ref={wakeR} position={[-0.3, -0.12, -0.12]} rotation={[-Math.PI / 2, 0, -0.32]}>
         <planeGeometry args={[0.42, 0.02]} />
-        <meshStandardMaterial color={C.steelLt} metalness={0.05} roughness={0.6} transparent opacity={opacity * 0.45} side={THREE.DoubleSide} />
+        <meshStandardMaterial color={C.steelLt} metalness={0.05} roughness={0.6} transparent opacity={opacity * 0.3} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {/* Secondary cross-ripple toward the near wall where the wake reflects */}
       <mesh ref={crossRef} position={[-0.34, -0.13, 0.34]} rotation={[-Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.12, 0.014, 8, 24]} />
-        <meshStandardMaterial color={C.steelLt} metalness={0.05} roughness={0.6} transparent opacity={opacity * 0.3} />
+        <meshStandardMaterial color={C.steelLt} metalness={0.05} roughness={0.6} transparent opacity={opacity * 0.3} depthWrite={false} />
+      </mesh>
+      {/* Concentric ripple ring shed from the body — sells a live surface */}
+      <mesh ref={shedRef} position={[0, -0.13, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.16, 0.012, 8, 32]} />
+        <meshStandardMaterial color={C.steelLt} metalness={0.05} roughness={0.6} transparent opacity={opacity * 0.28} depthWrite={false} />
       </mesh>
     </group>
   );
@@ -337,6 +421,62 @@ function Bubbles({ x0, surfaceY, span, halfD, opacity }) {
   );
 }
 
+// Plunging inflow: a thin near-vertical translucent ribbon of falling water
+// plus a few elongated streak droplets racing top->surface on a fast loop, so the
+// inflow reads as MOVING water rather than a static wedge/cone. The ribbon is a
+// slim tapered cylinder; the droplets recycle seamlessly from mouth to surface.
+function PlungeJet({ topY, surfaceY, x, z, opacity }) {
+  const ribbonRef = React.useRef();
+  const streakRefs = React.useRef([]);
+  const fallH = topY - surfaceY;
+  const streaks = React.useMemo(
+    () =>
+      Array.from({ length: 3 }, (_, i) => ({
+        phase: i / 3,
+        ox: (i - 1) * 0.035,
+        oz: ((i % 2) * 2 - 1) * 0.03,
+        speed: 1.6 + (i % 2) * 0.4,
+      })),
+    []
+  );
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    // Ribbon: subtle vertical shimmer (scaleY pulse) + tiny lateral wobble; stays
+    // near-vertical so it reads as a falling sheet, never a frozen wedge.
+    if (ribbonRef.current) {
+      ribbonRef.current.scale.x = 1 + 0.18 * Math.sin(t * 8.0);
+      ribbonRef.current.rotation.z = 0.025 * Math.sin(t * 3.0);
+    }
+    // Streak droplets: fall fast from mouth to surface, recycle seamlessly.
+    for (let i = 0; i < streaks.length; i++) {
+      const m = streakRefs.current[i];
+      if (!m) continue;
+      const s = streaks[i];
+      const u = (s.phase + t * s.speed) % 1; // 0 at mouth, 1 at surface
+      m.position.set(x + s.ox, topY - u * fallH, z + s.oz);
+      // Stretch along fall + fade near the surface so impact reads as a streak.
+      m.scale.set(0.7, 1.3 + 0.6 * u, 0.7);
+      m.material.opacity = opacity * 0.75 * (1 - 0.4 * u);
+    }
+  });
+  return (
+    <group>
+      {/* Thin near-vertical water ribbon */}
+      <mesh ref={ribbonRef} position={[x, (topY + surfaceY) / 2, z]} castShadow>
+        <cylinderGeometry args={[0.05, 0.09, fallH, 10, 1, true]} />
+        <meshStandardMaterial color={'#bcd0d2'} emissive={C.water} emissiveIntensity={0.06} metalness={0.06} roughness={0.45} transparent opacity={opacity * 0.6} side={THREE.DoubleSide} depthWrite={false} />
+      </mesh>
+      {/* Elongated streak droplets */}
+      {streaks.map((s, i) => (
+        <mesh key={i} ref={(el) => (streakRefs.current[i] = el)}>
+          <capsuleGeometry args={[0.022, 0.07, 4, 8]} />
+          <meshStandardMaterial color={'#e7eff0'} metalness={0.05} roughness={0.4} transparent opacity={opacity * 0.7} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
 // A dragonfly hovering over the surface: slow lazy figure-8 drift, slight bob,
 // and fast wing flicker via scaleY. Tiny secondary life, kept subtle + on-brand.
 function Dragonfly({ surfaceY, xc, zc, opacity }) {
@@ -379,7 +519,6 @@ function Dragonfly({ surfaceY, xc, zc, opacity }) {
 
 export function FluidScene({ opacity }) {
   const geoRef = React.useRef();
-  const jetRef = React.useRef();
   const rippleRef = React.useRef();
   const nappeRef = React.useRef();
   const glintRef = React.useRef();
@@ -408,11 +547,6 @@ export function FluidScene({ opacity }) {
       }
       pos.needsUpdate = true;
       g.computeVertexNormals();
-    }
-    // Plunging jet: vertical shimmer via scaleY pulse + slight sway.
-    if (jetRef.current) {
-      jetRef.current.scale.y = 1 + 0.06 * Math.sin(t * 7.0);
-      jetRef.current.rotation.z = -0.16 + 0.02 * Math.sin(t * 4.0);
     }
     // Advecting specular highlight band: a brighter strip that travels in +X
     // across the surface so the directed downstream current is unmistakable.
@@ -485,32 +619,22 @@ export function FluidScene({ opacity }) {
       {/* Far-wall water depth strip — slightly bluer body */}
       <Box position={[0, (surfaceY + bedY) / 2, -innerHalfD + 0.04]} size={[waterW - 0.1, surfaceY - bedY, 0.06]} color={C.info} opacity={opacity * 0.4} metalness={0.1} roughness={0.4} />
 
-      {/* Upstream inflow plumbing: vertical riser + elbow + downturned outlet */}
-      <mesh position={[-W / 2 - 0.05, wallTopY + 0.42, 0.55]} castShadow>
-        <cylinderGeometry args={[0.13, 0.13, 0.95, 18]} />
-        <meshStandardMaterial color={C.steelLt} metalness={0.85} roughness={0.32} transparent={opacity < 1} opacity={opacity} />
-      </mesh>
-      {/* Elbow joint */}
-      <mesh position={[-W / 2 - 0.05, wallTopY + 0.86, 0.55]} castShadow>
-        <sphereGeometry args={[0.15, 16, 16]} />
-        <meshStandardMaterial color={C.steel} metalness={0.85} roughness={0.35} transparent={opacity < 1} opacity={opacity} />
-      </mesh>
-      {/* Horizontal-to-down outlet, angled so the mouth points into the channel head */}
-      <mesh position={[-W / 2 + 0.14, wallTopY + 0.6, 0.55]} rotation={[0, 0, Math.PI / 2.7]} castShadow>
-        <cylinderGeometry args={[0.13, 0.13, 0.78, 18]} />
-        <meshStandardMaterial color={C.steelLt} metalness={0.85} roughness={0.32} transparent={opacity < 1} opacity={opacity} />
-      </mesh>
-      {/* Flange ring at the pipe mouth */}
-      <mesh position={[-W / 2 + 0.42, wallTopY + 0.28, 0.55]} rotation={[Math.PI / 2, 0, Math.PI / 2.7]} castShadow>
-        <torusGeometry args={[0.15, 0.035, 10, 20]} />
-        <meshStandardMaterial color={C.steel} metalness={0.9} roughness={0.3} transparent={opacity < 1} opacity={opacity} />
-      </mesh>
-      {/* Falling jet/plume — tapered cone of water from the mouth to the surface,
-          live shimmer via scaleY pulse + slight sway. */}
-      <mesh ref={jetRef} position={[jetX, (wallTopY + 0.18 + surfaceY) / 2, jetZ]} rotation={[Math.PI, 0, -0.16]} castShadow>
-        <coneGeometry args={[0.16, wallTopY + 0.18 - surfaceY, 16, 1, true]} />
-        <meshStandardMaterial color={'#cdd9da'} emissive={C.water} emissiveIntensity={0.1} metalness={0.08} roughness={0.4} transparent opacity={opacity * 0.85} side={THREE.DoubleSide} />
-      </mesh>
+      {/* Upstream inflow: a small rectangular headbox / supply tank perched on the
+          channel head, fed by a stout supply pipe and bracketed to the wall, so the
+          infrastructure reads as a civil/lab feed rather than a domestic faucet.
+          Lower metalness kills the chrome-tap look. */}
+      {/* Supply pipe rising up the outside of the head wall (squarer + matte) */}
+      <Box position={[-W / 2 - 0.18, wallTopY + 0.18, 0.55]} size={[0.2, 1.1, 0.2]} color={C.steel} opacity={opacity} metalness={0.6} roughness={0.5} />
+      {/* Wall bracket strap clamping the riser to the head wall */}
+      <Box position={[-W / 2 - 0.05, wallTopY - 0.1, 0.55]} size={[0.18, 0.07, 0.26]} color={C.steelLt} opacity={opacity} metalness={0.5} roughness={0.6} />
+      {/* Headbox / inlet tank: a small open rectangular reservoir feeding the flume */}
+      <Box position={[-W / 2 + 0.2, wallTopY + 0.42, 0.55]} size={[0.74, 0.5, 0.62]} color={C.steelLt} opacity={opacity} metalness={0.55} roughness={0.5} />
+      {/* Dark inset mouth on the channel side of the headbox where water spills out */}
+      <Box position={[-W / 2 + 0.55, wallTopY + 0.3, 0.55]} size={[0.06, 0.2, 0.4]} color={C.charcoal} opacity={opacity * 0.9} metalness={0.3} roughness={0.7} />
+      {/* Thin lip below the mouth guiding the sheet down into the channel head */}
+      <Box position={[-W / 2 + 0.6, wallTopY + 0.16, 0.55]} size={[0.12, 0.04, 0.42]} color={C.steel} opacity={opacity} metalness={0.55} roughness={0.5} />
+      {/* Falling inflow — thin near-vertical water ribbon + streak droplets */}
+      <PlungeJet topY={wallTopY + 0.14} surfaceY={surfaceY + 0.02} x={jetX} z={jetZ} opacity={opacity} />
       {/* Splash cluster at the plunge point — tiny popping foam droplets */}
       <Splash x={jetX} y={surfaceY + 0.04} z={jetZ} opacity={opacity} />
       {/* Jet impact ripple — expanding + fading high-contrast ring */}
@@ -545,7 +669,9 @@ export function FluidScene({ opacity }) {
       <Bubbles x0={jetX + 0.2} surfaceY={surfaceY} span={flowXMax - jetX - 0.2} halfD={innerHalfD} opacity={opacity} />
       <Debris surfaceY={surfaceY} xMin={flowXMin} xMax={flowXMax} halfD={innerHalfD} opacity={opacity} />
       <Duck surfaceY={surfaceY} xMin={flowXMin} xMax={flowXMax} halfD={innerHalfD} opacity={opacity} />
-      <Reeds position={[-W / 2 + 0.5, wallTopY, -innerHalfD - 0.02]} opacity={opacity} />
+      <Reeds position={[-W / 2 + 1.35, wallTopY, -innerHalfD - 0.02]} opacity={opacity} />
+      {/* Drifting leaves in the weir backwater: snag at the crest, spill over */}
+      <BackwaterLeaf surfaceY={surfaceY} weirX={weirX} crestY={floorY + 0.06 + 0.85 + 0.045} foamY={floorY + 0.2} halfD={innerHalfD} opacity={opacity} />
       {/* Tiny secondary life: a dragonfly hovering over mid-channel */}
       <Dragonfly surfaceY={surfaceY} xc={0.4} zc={-0.3} opacity={opacity} />
     </group>
