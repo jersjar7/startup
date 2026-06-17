@@ -18,8 +18,8 @@ import { C, Beam, Box } from './primitives';
 // compacted-earth tone (the old #8a7c68 read muddy under this lighting); a
 // lighter lit-crown tone and a darker toe tone give the slope tonal depth.
 const SOIL = '#9d8c73';      // sunlit earth (base / mid slope)
-const SOIL_LT = '#ad9c82';   // lit crown / upper face
-const SOIL_DK = '#6f6253';   // shaded toe / grade break
+const SOIL_LT = '#a99878';   // lit crown / upper face (low contrast w/ SOIL)
+const SOIL_DK = '#8a7a64';   // shaded toe / grade break (gentle, not muddy)
 const ROCK = '#857a6c';      // riprap / loose rock at the toe
 // Muted foliage greens (kept earthy, never neon).
 const LEAF = '#4f6b4a';
@@ -174,19 +174,20 @@ export function RoadScene({ opacity }) {
       sh.closePath();
       return sh;
     }, [topY, crownY, crownHalf]);
-    // Per-segment tonal jitter so the fill never reads as one uniform color.
-    const jit = ((idx * 53) % 7) / 7;            // 0..1 deterministic
-    const bodyCol = jit < 0.5 ? SOIL : SOIL_DK;
-    const crownCol = jit < 0.5 ? SOIL_LT : SOIL;
+    // No per-segment tonal jitter: every segment shares the SAME body/crown
+    // tone so adjacent segments blend into one continuous graded slope instead
+    // of alternating light/dark vertical columns. The only tonal variation is
+    // the single horizontal crown band (lit upper face vs. mid-slope body),
+    // which reads as depth, not corduroy. Lower face is smooth-shaded.
     return (
       <group position={[xm - len / 2, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
         <mesh castShadow receiveShadow>
           <extrudeGeometry args={[lower, { depth: len, bevelEnabled: false }]} />
-          <meshStandardMaterial color={bodyCol} metalness={0.05} roughness={0.97} transparent={opacity < 1} opacity={opacity} flatShading />
+          <meshStandardMaterial color={SOIL} metalness={0.05} roughness={0.97} transparent={opacity < 1} opacity={opacity} />
         </mesh>
         <mesh position={[0, 0, 0.001]} castShadow receiveShadow>
           <extrudeGeometry args={[upper, { depth: len, bevelEnabled: false }]} />
-          <meshStandardMaterial color={crownCol} metalness={0.05} roughness={0.96} transparent={opacity < 1} opacity={opacity} flatShading />
+          <meshStandardMaterial color={SOIL_LT} metalness={0.05} roughness={0.96} transparent={opacity < 1} opacity={opacity} />
         </mesh>
       </group>
     );
@@ -223,18 +224,20 @@ export function RoadScene({ opacity }) {
   // Clustered, mixed-species roadside trees. `broad` swaps the conifer cones
   // for a rounder broadleaf canopy. Nearest (camera-side, zSign -1) upscaled so
   // canopy sway reads at tile scale. Clusters: lower-left, mid, lower-right.
+  // `lean` (radians) tilts the whole tree outward from the slope normal so it
+  // doesn't read as a flat stamp; `gust` scales its wind response for variety.
   const TREES = React.useMemo(() => ([
     // lower-left cluster
-    { x: -3.4, dropY: 1.7, zSign: -1, s: 1.02, phase: 0.0, broad: true },
-    { x: -3.0, dropY: 1.5, zSign: 1, s: 0.78, phase: 0.6, broad: false },
-    { x: -2.6, dropY: 1.95, zSign: -1, s: 0.86, phase: 1.4, broad: false },
-    // mid (camera-side, larger)
-    { x: -1.7, dropY: 1.05, zSign: -1, s: 0.92, phase: 1.3, broad: true },
-    { x: 1.3, dropY: 1.0, zSign: 1, s: 0.74, phase: 2.1, broad: false },
+    { x: -3.4, dropY: 1.7, zSign: -1, s: 1.14, phase: 0.0, broad: true, lean: 0.14, gust: 1.0 },
+    { x: -3.0, dropY: 1.5, zSign: 1, s: 0.74, phase: 0.6, broad: false, lean: 0.08, gust: 0.8 },
+    { x: -2.6, dropY: 1.95, zSign: -1, s: 0.9, phase: 1.4, broad: false, lean: 0.1, gust: 1.0 },
+    // mid (camera-side, larger) — one tree gets a stronger gust envelope
+    { x: -1.7, dropY: 1.05, zSign: -1, s: 0.98, phase: 1.3, broad: true, lean: 0.12, gust: 1.8 },
+    { x: 1.3, dropY: 1.0, zSign: 1, s: 0.7, phase: 2.1, broad: false, lean: 0.07, gust: 0.9 },
     // lower-right cluster
-    { x: 2.5, dropY: 1.5, zSign: -1, s: 1.0, phase: 0.7, broad: true },
-    { x: 2.9, dropY: 1.85, zSign: -1, s: 0.82, phase: 2.6, broad: false },
-    { x: 3.5, dropY: 1.7, zSign: 1, s: 0.66, phase: 3.0, broad: false },
+    { x: 2.5, dropY: 1.5, zSign: -1, s: 1.08, phase: 0.7, broad: true, lean: 0.13, gust: 1.0 },
+    { x: 2.9, dropY: 1.85, zSign: -1, s: 0.8, phase: 2.6, broad: false, lean: 0.09, gust: 1.1 },
+    { x: 3.5, dropY: 1.7, zSign: 1, s: 0.62, phase: 3.0, broad: false, lean: 0.06, gust: 0.85 },
   ]), []);
 
   // Roadside grass/shrub tufts at the embankment toe (instanced thin cones),
@@ -309,6 +312,11 @@ export function RoadScene({ opacity }) {
   const pedLegRRef = React.useRef();
   // Truck exhaust puffs (refs to a few transparent sprites that rise + fade).
   const puffRefs = React.useRef([]);
+  // Tyre dust trail kicked up behind the fastest car (instanced specks that
+  // each loop on their own phase, trailing back along -travel and settling).
+  const dustTrailRef = React.useRef();
+  const FAST_IDX = 0; // VEHICLES[0] is the fastest right-lane car
+  const DUSTTRAIL_N = 14;
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
@@ -345,8 +353,11 @@ export function RoadScene({ opacity }) {
     for (let i = 0; i < TREES.length; i++) {
       const c = treeRefs.current[i];
       if (!c) continue;
-      c.rotation.z = Math.sin(t * 1.1 + TREES[i].phase) * 0.07;
-      c.rotation.x = Math.cos(t * 0.9 + TREES[i].phase) * 0.04;
+      // low-frequency gust envelope (0.4..1.0+) so the breeze swells and eases
+      // instead of being perfectly periodic; scaled per tree by its `gust`.
+      const env = (0.7 + 0.3 * Math.sin(t * 0.27 + TREES[i].phase * 1.7)) * TREES[i].gust;
+      c.rotation.z = Math.sin(t * 1.1 + TREES[i].phase) * 0.07 * env;
+      c.rotation.x = Math.cos(t * 0.9 + TREES[i].phase) * 0.04 * env;
     }
     // Grass tufts: shear with the same breeze (tilt about z), instanced.
     if (grassRef.current) {
@@ -364,17 +375,23 @@ export function RoadScene({ opacity }) {
     }
     // Birds: slow looping arc over the crest, phase-varied, in-frame. Each
     // bird's group flies the arc; wings flap by rotating the wing sub-groups.
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
       const g = birdRefs.current[i];
       if (!g) continue;
-      const ph = i * Math.PI; // opposite phase so they don't overlap
-      const bx = Math.sin(t * 0.18 + ph) * 3.0;
-      const by = 2.15 + Math.cos(t * 0.18 + ph) * 0.14 + 0.08 * Math.sin(t * 2.4 + ph);
+      // bird 2 is the distant depth bird: higher, wider, slower arc.
+      const distant = i === 2;
+      const ph = i * 2.094; // 120deg apart so they never bunch
+      const sp = distant ? 0.1 : 0.18;
+      const ax = distant ? 3.8 : 3.0;
+      const baseY = distant ? 2.75 : 2.2;            // clear sky, above clouds
+      const bx = Math.sin(t * sp + ph) * ax;
+      const by = baseY + Math.cos(t * sp + ph) * (distant ? 0.1 : 0.16) + 0.07 * Math.sin(t * 2.4 + ph);
       // face travel direction (sign of horizontal velocity)
-      const dir = Math.cos(t * 0.18 + ph) >= 0 ? 1 : -1;
-      g.position.set(bx, by, -0.4 + i * 0.55);
+      const dir = Math.cos(t * sp + ph) >= 0 ? 1 : -1;
+      g.position.set(bx, by, distant ? -0.9 : -0.3 + i * 0.5);
       g.rotation.y = dir > 0 ? 0 : Math.PI;
-      const flap = Math.sin(t * 7 + ph) * 0.5; // wing-beat
+      const flap = Math.sin(t * (distant ? 4.5 : 7) + ph) * (distant ? 0.32 : 0.5);
+      // flap about x ON TOP of the fixed dihedral (the wing groups' rotation.z)
       const wl = wingLRefs.current[i];
       const wr = wingRRefs.current[i];
       if (wl) wl.rotation.x = -flap;
@@ -412,12 +429,12 @@ export function RoadScene({ opacity }) {
     // Distant cloud bands: very slow horizontal drift, wrap seamlessly off
     // frame. Two bands at different depth/speed give parallax.
     if (cloudRef.current) {
-      const cx = ((t * 0.06 + 7) % 14) - 7;
-      cloudRef.current.position.set(cx, 2.55, -2.6);
+      const cx = ((t * 0.05 + 7) % 14) - 7;
+      cloudRef.current.position.set(cx, 3.35, -4.6);
     }
     if (cloudRef2.current) {
-      const cx = ((t * 0.035 + 9 + 7) % 14) - 7;
-      cloudRef2.current.position.set(cx, 2.95, -3.4);
+      const cx = ((t * 0.03 + 9 + 7) % 14) - 7;
+      cloudRef2.current.position.set(cx, 3.75, -5.6);
     }
     // Truck exhaust: small gray puffs rise behind the cab and fade on a loop.
     // Truck is VEHICLES[2]; read its current world pose from its ref.
@@ -437,6 +454,29 @@ export function RoadScene({ opacity }) {
         if (p.material) p.material.opacity = opacity * (1 - cyc) * 0.45;
       }
     }
+    // Tyre dust trail behind the fastest car: each speck loops on its own
+    // phase, born just behind the rear wheels at the car's current pose, then
+    // drifting back (-travel) and up while shrinking — sells a dry, fast road.
+    const fastG = carRefs.current[FAST_IDX];
+    if (dustTrailRef.current && fastG) {
+      const dir = VEHICLES[FAST_IDX].dir;
+      for (let i = 0; i < DUSTTRAIL_N; i++) {
+        const cyc = (t * 1.3 + i * (1 / DUSTTRAIL_N)) % 1; // 0..1 age
+        const back = 0.4 + cyc * 0.7;                       // drift back as it ages
+        const rise = cyc * 0.3;                             // and lift a little
+        const dx = fastG.position.x - dir * back + Math.sin(t * 6 + i) * 0.03;
+        const dy = fastG.position.y - 0.16 + rise + Math.sin(t * 5 + i * 2) * 0.02;
+        const dz = fastG.position.z + (i % 2 === 0 ? 0.12 : -0.12);
+        _pos.set(dx, dy, dz);
+        _euler.set(t * 2 + i, t + i, 0);
+        _q.setFromEuler(_euler);
+        const sc = (0.05 + cyc * 0.16) * (1 - cyc); // grow then vanish
+        _scl.setScalar(Math.max(0.001, sc));
+        _m4.compose(_pos, _q, _scl);
+        dustTrailRef.current.setMatrixAt(i, _m4);
+      }
+      dustTrailRef.current.instanceMatrix.needsUpdate = true;
+    }
     // Streetlight lamp head: reads as 'lit' at small scale, dims cleanly with
     // opacity. Higher base so the glow registers at 0.62 tile scale.
     if (lampRef.current) {
@@ -454,7 +494,14 @@ export function RoadScene({ opacity }) {
       const facing = u < 0.5 ? 1 : -1;   // +x then -x
       const py = crest(px) - 0.02;
       pedRef.current.position.set(px, py, pedZ);
-      pedRef.current.rotation.y = facing > 0 ? Math.PI / 2 : -Math.PI / 2;
+      // base heading along the walk; near each turnaround (tri ~ 1, the far end)
+      // hold a brief yaw toward the road (oncoming traffic) so the pause reads
+      // as intent rather than a mechanical bounce.
+      const heading = facing > 0 ? Math.PI / 2 : -Math.PI / 2;
+      // toward the road (+z, away from camera) is yaw 0; blend a partial turn
+      // toward it during the hold at the far end of the path.
+      const lookHold = Math.max(0, (tri - 0.86) / 0.14); // 0..1 in the last bit
+      pedRef.current.rotation.y = heading * (1 - 0.7 * lookHold);
       // limb swing + gentle torso bob; freeze swing near the turnaround
       const moving = Math.min(1, Math.abs(u - 0.5) * 6); // ~0 at turns
       const gait = Math.sin(t * 4.4) * 0.5 * moving;
@@ -471,15 +518,17 @@ export function RoadScene({ opacity }) {
   // A low roadside conifer rooted into the embankment slope: a small earth root
   // flare anchors the base, a fixed trunk, and a canopy group that sways. The
   // canopy group's ref is registered so useFrame can rotate it about its base.
-  const Tree = ({ x, dropY, zSign, s, idx, broad }) => {
+  const Tree = ({ x, dropY, zSign, s, idx, broad, lean = 0.1 }) => {
     const [baseY, z] = seatOnSlope(x, dropY, zSign);
-    // tuck slightly inboard so the trunk bites the slope, not air
-    const zIn = z - zSign * 0.06;
+    // bite the base a touch INTO the slope so the root flare buries cleanly,
+    // then lean the whole tree OUTWARD (about x) so the canopy stands proud of
+    // the face instead of lying flat on it. zSign picks which face we lean off.
+    const zIn = z - zSign * 0.1;
     return (
-      <group position={[x, baseY, zIn]} scale={s}>
+      <group position={[x, baseY, zIn]} rotation={[zSign * lean, 0, 0]} scale={s}>
         {/* earth root flare to anchor the trunk to the slope */}
         <mesh position={[0, 0.03, 0]} receiveShadow>
-          <cylinderGeometry args={[0.16, 0.22, 0.1, 10]} />
+          <cylinderGeometry args={[0.17, 0.24, 0.14, 10]} />
           <meshStandardMaterial color={SOIL_DK} metalness={0.04} roughness={0.98} transparent={opacity < 1} opacity={opacity} />
         </mesh>
         <mesh position={[0, 0.38, 0]} castShadow>
@@ -488,18 +537,27 @@ export function RoadScene({ opacity }) {
         </mesh>
         <group ref={(el) => (treeRefs.current[idx] = el)} position={[0, 0.73, 0]}>
           {broad ? (
-            // rounder broadleaf canopy: overlapping spheres
+            // rounder broadleaf canopy: a cluster of overlapping spheres built
+            // UP and OUT so it reads as a full 3D crown (never a flat disc)
             <>
-              <mesh position={[0, 0.42, 0]} castShadow>
-                <sphereGeometry args={[0.42, 12, 10]} />
+              <mesh position={[0, 0.5, 0]} castShadow>
+                <sphereGeometry args={[0.4, 12, 10]} />
                 <meshStandardMaterial color={LEAF_BROAD} metalness={0.04} roughness={0.93} flatShading transparent={opacity < 1} opacity={opacity} />
               </mesh>
-              <mesh position={[-0.22, 0.26, 0.08]} castShadow>
-                <sphereGeometry args={[0.28, 11, 9]} />
+              <mesh position={[-0.24, 0.3, 0.1]} castShadow>
+                <sphereGeometry args={[0.3, 11, 9]} />
                 <meshStandardMaterial color={LEAF} metalness={0.04} roughness={0.93} flatShading transparent={opacity < 1} opacity={opacity} />
               </mesh>
-              <mesh position={[0.24, 0.3, -0.06]} castShadow>
-                <sphereGeometry args={[0.3, 11, 9]} />
+              <mesh position={[0.26, 0.34, -0.08]} castShadow>
+                <sphereGeometry args={[0.31, 11, 9]} />
+                <meshStandardMaterial color={LEAF_DK} metalness={0.04} roughness={0.93} flatShading transparent={opacity < 1} opacity={opacity} />
+              </mesh>
+              <mesh position={[0.05, 0.68, 0.04]} castShadow>
+                <sphereGeometry args={[0.24, 11, 9]} />
+                <meshStandardMaterial color={LEAF_BROAD} metalness={0.04} roughness={0.93} flatShading transparent={opacity < 1} opacity={opacity} />
+              </mesh>
+              <mesh position={[-0.05, 0.12, -0.12]} castShadow>
+                <sphereGeometry args={[0.26, 11, 9]} />
                 <meshStandardMaterial color={LEAF_DK} metalness={0.04} roughness={0.93} flatShading transparent={opacity < 1} opacity={opacity} />
               </mesh>
             </>
@@ -582,7 +640,7 @@ export function RoadScene({ opacity }) {
 
       {/* Roadside trees rooted into & swaying on the embankment side-slopes */}
       {TREES.map((tr, i) => (
-        <Tree key={`tree${i}`} x={tr.x} dropY={tr.dropY} zSign={tr.zSign} s={tr.s} idx={i} broad={tr.broad} />
+        <Tree key={`tree${i}`} x={tr.x} dropY={tr.dropY} zSign={tr.zSign} s={tr.s} idx={i} broad={tr.broad} lean={tr.lean} />
       ))}
 
       {/* Drifting dust/leaf specks near the trees (instanced, wind-borne) */}
@@ -600,14 +658,19 @@ export function RoadScene({ opacity }) {
       {/* Two birds gliding over the crest: shallow V silhouette (two thin
           angled wing boxes + a slim body); whole group flown + wings flapped
           via refs each frame */}
-      {[0, 1].map((i) => (
+      {[0, 1, 2].map((i) => (
         <group key={`bird${i}`} ref={(el) => (birdRefs.current[i] = el)}>
-          <Box position={[0, 0, 0]} size={[0.14, 0.03, 0.05]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
-          <group ref={(el) => (wingLRefs.current[i] = el)} position={[0, 0, 0.02]}>
-            <Box position={[0, 0, 0.11]} size={[0.07, 0.02, 0.22]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
+          {/* slim body + slight head taper */}
+          <Box position={[0, 0, 0]} size={[0.2, 0.045, 0.07]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
+          <Box position={[0.13, 0.005, 0]} size={[0.07, 0.035, 0.05]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
+          {/* wings: each wing group carries a fixed positive dihedral (rotate up
+              about z) so the swept-back V silhouette reads even at small scale;
+              useFrame flaps them about x on top of this base pose */}
+          <group ref={(el) => (wingLRefs.current[i] = el)} position={[0, 0.01, 0.035]} rotation={[0, 0, 0.18]}>
+            <Box position={[-0.02, 0, 0.16]} size={[0.1, 0.028, 0.32]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
           </group>
-          <group ref={(el) => (wingRRefs.current[i] = el)} position={[0, 0, -0.02]}>
-            <Box position={[0, 0, -0.11]} size={[0.07, 0.02, 0.22]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
+          <group ref={(el) => (wingRRefs.current[i] = el)} position={[0, 0.01, -0.035]} rotation={[0, 0, 0.18]}>
+            <Box position={[-0.02, 0, -0.16]} size={[0.1, 0.028, 0.32]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
           </group>
         </group>
       ))}
@@ -617,14 +680,14 @@ export function RoadScene({ opacity }) {
           well behind and above the road, not opaque blobs at deck level. Two
           bands at different depth/speed drift for parallax. */}
       {[
-        { ref: cloudRef, op: 0.3, puffs: [[-0.9, 0.05, 0.5], [-0.2, -0.04, 0.62], [0.5, 0.08, 0.5], [1.1, -0.02, 0.4], [0.0, 0.12, 0.34]] },
-        { ref: cloudRef2, op: 0.2, puffs: [[-0.7, 0.04, 0.46], [0.1, -0.03, 0.56], [0.8, 0.06, 0.42], [-1.2, 0.0, 0.3]] },
+        { ref: cloudRef, op: 0.18, puffs: [[-0.9, 0.05, 0.4], [-0.2, -0.04, 0.5], [0.5, 0.08, 0.4], [1.1, -0.02, 0.32], [0.0, 0.12, 0.27]] },
+        { ref: cloudRef2, op: 0.12, puffs: [[-0.7, 0.04, 0.37], [0.1, -0.03, 0.45], [0.8, 0.06, 0.34], [-1.2, 0.0, 0.24]] },
       ].map((band, bi) => (
         <group key={`cloud${bi}`} ref={band.ref}>
           {band.puffs.map((c, i) => (
-            <mesh key={`cl${i}`} position={[c[0], c[1], 0]} scale={[c[2] * 2.6, c[2] * 0.42, c[2] * 1.1]}>
+            <mesh key={`cl${i}`} position={[c[0], c[1], 0]} scale={[c[2] * 2.4, c[2] * 0.38, c[2] * 1.0]}>
               <sphereGeometry args={[1, 12, 8]} />
-              <meshStandardMaterial color="#fbf4e8" metalness={0} roughness={1} transparent opacity={opacity * band.op} depthWrite={false} />
+              <meshStandardMaterial color="#fdf7ec" metalness={0} roughness={1} transparent opacity={opacity * band.op} depthWrite={false} />
             </mesh>
           ))}
         </group>
@@ -650,12 +713,32 @@ export function RoadScene({ opacity }) {
             opacity={opacity}
           />
         </mesh>
-        {/* soft downward halo disc so the streetlight purpose is obvious */}
-        <mesh position={[lampX, lampBaseY + 1.24, halfW - 0.42]} rotation={[Math.PI / 2, 0, 0]}>
-          <circleGeometry args={[0.16, 20]} />
-          <meshBasicMaterial color={C.sunbeam} transparent opacity={opacity * 0.32} depthWrite={false} side={THREE.DoubleSide} />
+        {/* faint downward light CONE from the lamp head toward the deck so the
+            'this is a luminaire' read survives at 0.62 tile scale (open cone,
+            wide at the deck, transparent, no depth write so it never occludes) */}
+        <mesh position={[lampX, lampBaseY + 0.74, halfW - 0.42]} rotation={[Math.PI, 0, 0]}>
+          <coneGeometry args={[0.42, 1.1, 18, 1, true]} />
+          <meshBasicMaterial color={C.sunbeam} transparent opacity={opacity * 0.1} depthWrite={false} side={THREE.DoubleSide} />
+        </mesh>
+        {/* soft downward halo disc on the deck so the streetlight purpose is
+            obvious — enlarged so it registers at small tile scale */}
+        <mesh position={[lampX, crest(lampX) + 0.1, halfW - 0.42]} rotation={[Math.PI / 2, 0, 0]}>
+          <circleGeometry args={[0.4, 24]} />
+          <meshBasicMaterial color={C.sunbeam} transparent opacity={opacity * 0.22} depthWrite={false} side={THREE.DoubleSide} />
+        </mesh>
+        {/* small bright halo right at the lamp head */}
+        <mesh position={[lampX, lampBaseY + 1.32, halfW - 0.42]} rotation={[Math.PI / 2, 0, 0]}>
+          <circleGeometry args={[0.2, 20]} />
+          <meshBasicMaterial color={C.sunbeam} transparent opacity={opacity * 0.28} depthWrite={false} side={THREE.DoubleSide} />
         </mesh>
       </group>
+
+      {/* Tyre dust trail behind the fastest car: faint warm-gray specks that
+          trail back and settle, animated per-instance via ref each frame */}
+      <instancedMesh ref={dustTrailRef} args={[undefined, undefined, DUSTTRAIL_N]}>
+        <tetrahedronGeometry args={[0.7, 0]} />
+        <meshStandardMaterial color="#b7ac98" metalness={0} roughness={1} flatShading transparent opacity={opacity * 0.4} depthWrite={false} />
+      </instancedMesh>
 
       {/* Truck exhaust: a few faint gray puffs rising + fading behind the cab */}
       {[0, 1, 2].map((i) => (

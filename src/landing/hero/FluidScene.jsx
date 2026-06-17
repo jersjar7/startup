@@ -11,7 +11,7 @@ import { C, Box } from './primitives';
 // breeze-swayed reed tuft. No diagrammatic arrows. Every material honors `opacity`.
 
 // Geometry shared across instanced debris (leaf-like flat disc) and reeds.
-const LEAF_GEO = new THREE.CylinderGeometry(0.09, 0.06, 0.016, 8);
+const LEAF_GEO = new THREE.CylinderGeometry(0.12, 0.08, 0.016, 8);
 // Reused color objects so per-instance tinting allocates nothing per frame.
 const _leafCols = ['#2D7A5F', '#5a6b4a', '#b07a35', '#caa44a'].map((c) => new THREE.Color(c));
 
@@ -25,7 +25,9 @@ function Debris({ surfaceY, xMin, xMax, halfD, opacity }) {
   const items = React.useMemo(
     () =>
       Array.from({ length: N }, (_, i) => ({
-        zf: ((i * 0.37 + 0.13) % 1) * 2 - 1, // -1..1 across channel
+        // A couple ride the center glint lane (zf~0) so the drift direction is
+        // legible against the brighter water; the rest spread across the channel.
+        zf: (i === 0 || i === 3) ? (i === 0 ? 0.04 : -0.06) : ((i * 0.37 + 0.13) % 1) * 2 - 1,
         phase: (i / N),
         spin: 0.4 + (i % 3) * 0.25,
         col: i % 4, // mix of green + autumn tones
@@ -61,7 +63,7 @@ function Debris({ surfaceY, xMin, xMax, halfD, opacity }) {
       const y = surfaceY + 0.05 + 0.025 * Math.sin(t * 1.4 + i);
       dummy.position.set(x, y, z);
       // Tilt slightly off-horizontal so discs catch the studio light.
-      dummy.rotation.set(0.22 * Math.sin(t * 0.9 + i), t * (it.spin + spinBoost) + i, 0.18);
+      dummy.rotation.set(0.32 * Math.sin(t * 0.9 + i), t * (it.spin + spinBoost) + i, 0.28);
       dummy.updateMatrix();
       m.setMatrixAt(i, dummy.matrix);
     }
@@ -92,7 +94,7 @@ function Duck({ surfaceY, xMin, xMax, halfD, opacity }) {
     const u = (t * 0.035) % 1;
     g.position.x = xMin + u * span;
     g.position.y = surfaceY + 0.15 + 0.04 * Math.sin(t * 1.6);
-    g.position.z = halfD * 0.34 + 0.05 * Math.sin(t * 0.7);
+    g.position.z = halfD * 0.1 + 0.05 * Math.sin(t * 0.7);
     g.rotation.y = 0.5 + 0.1 * Math.sin(t * 0.9);
     g.rotation.z = 0.05 * Math.sin(t * 1.6 + 0.6);
     // Occasional feeding head-dip on a long period: brief downward tuck.
@@ -114,29 +116,35 @@ function Duck({ surfaceY, xMin, xMax, halfD, opacity }) {
     }
   });
   const body = { metalness: 0.12, roughness: 0.62 };
-  const scale = 1.22; // ~22% larger so it reads at tile scale
+  const scale = 1.7; // larger so it reads instantly as a duck at tile scale
   return (
     <group ref={ref}>
       <group scale={scale}>
         {/* Body */}
         <mesh rotation={[0, 0, Math.PI / 2]} castShadow>
-          <capsuleGeometry args={[0.11, 0.16, 6, 12]} />
+          <capsuleGeometry args={[0.12, 0.18, 6, 12]} />
           <meshStandardMaterial color={DUCK_BODY} {...body} transparent opacity={opacity} />
         </mesh>
         {/* Tail flick */}
-        <mesh position={[-0.16, 0.06, 0]} rotation={[0, 0, 0.7]} castShadow>
-          <coneGeometry args={[0.05, 0.12, 8]} />
+        <mesh position={[-0.18, 0.07, 0]} rotation={[0, 0, 0.7]} castShadow>
+          <coneGeometry args={[0.055, 0.13, 8]} />
           <meshStandardMaterial color={DUCK_BODY} {...body} transparent opacity={opacity} />
         </mesh>
         {/* Neck + head group (pivots forward for the feeding dip) — mallard green */}
-        <group ref={headRef} position={[0.14, 0.1, 0]}>
-          <mesh position={[0.03, 0.05, 0]} castShadow>
-            <sphereGeometry args={[0.078, 14, 14]} />
+        <group ref={headRef} position={[0.16, 0.11, 0]}>
+          {/* Head — larger relative to body so the silhouette reads */}
+          <mesh position={[0.04, 0.06, 0]} castShadow>
+            <sphereGeometry args={[0.1, 16, 16]} />
             <meshStandardMaterial color={C.forest} metalness={0.18} roughness={0.5} transparent opacity={opacity} />
           </mesh>
-          {/* Beak pointing forward-down */}
-          <mesh position={[0.12, 0.025, 0]} rotation={[0, 0, -Math.PI / 2.4]} castShadow>
-            <coneGeometry args={[0.03, 0.085, 8]} />
+          {/* Eye dot — dark, on the near side so it catches the viewer */}
+          <mesh position={[0.085, 0.09, 0.075]} castShadow>
+            <sphereGeometry args={[0.022, 10, 10]} />
+            <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.4} transparent opacity={opacity} />
+          </mesh>
+          {/* Flatter spatulate bill pointing forward */}
+          <mesh position={[0.16, 0.04, 0]} rotation={[0, 0, -0.12]} scale={[1, 0.5, 1.3]} castShadow>
+            <sphereGeometry args={[0.06, 12, 12]} />
             <meshStandardMaterial color={C.sunbeam} metalness={0.2} roughness={0.5} transparent opacity={opacity} />
           </mesh>
         </group>
@@ -164,13 +172,15 @@ function Duck({ surfaceY, xMin, xMax, halfD, opacity }) {
 function Reeds({ position, opacity }) {
   const blades = React.useMemo(
     () =>
-      Array.from({ length: 8 }, (_, i) => ({
-        x: (i - 3.5) * 0.05,
+      Array.from({ length: 10 }, (_, i) => ({
+        x: (i - 4.5) * 0.05,
         z: ((i * 0.31) % 1 - 0.5) * 0.18,
-        h: 0.34 + ((i * 7) % 5) * 0.06,
+        // Last two blades stand noticeably taller (seed-head stalks).
+        h: (i >= 8 ? 0.7 : 0.34) + ((i * 7) % 5) * 0.06,
         phase: i * 1.1,
         amp: 0.16 + (i % 3) * 0.04,
         tone: i % 2 === 0 ? C.forest : '#5a6b4a',
+        seed: i >= 8, // tall stalks get a brown seed head
       })),
     []
   );
@@ -185,15 +195,22 @@ function Reeds({ position, opacity }) {
   return (
     <group position={position}>
       {blades.map((b, i) => (
-        <mesh
+        <group
           key={i}
           ref={(el) => (refs.current[i] = el)}
-          position={[b.x, b.h / 2, b.z]}
-          castShadow
+          position={[b.x, 0, b.z]}
         >
-          <coneGeometry args={[0.018, b.h, 6]} />
-          <meshStandardMaterial color={b.tone} metalness={0.05} roughness={0.85} transparent opacity={opacity * 0.95} />
-        </mesh>
+          <mesh position={[0, b.h / 2, 0]} castShadow>
+            <coneGeometry args={[0.018, b.h, 6]} />
+            <meshStandardMaterial color={b.tone} metalness={0.05} roughness={0.85} transparent opacity={opacity * 0.95} />
+          </mesh>
+          {b.seed && (
+            <mesh position={[0, b.h + 0.04, 0]} scale={[1, 1.8, 1]} castShadow>
+              <sphereGeometry args={[0.035, 8, 8]} />
+              <meshStandardMaterial color={'#8a6a3a'} metalness={0.05} roughness={0.9} transparent opacity={opacity * 0.95} />
+            </mesh>
+          )}
+        </group>
       ))}
     </group>
   );
@@ -249,7 +266,7 @@ function Foam({ x, y, z, opacity }) {
       Array.from({ length: 4 }, (_, i) => ({
         ox: ((i % 2) * 2 - 1) * 0.1,
         oz: (i - 1.5) * 0.5,
-        r: 0.12 + (i % 3) * 0.03,
+        r: 0.17 + (i % 3) * 0.04,
         phase: i * 0.9,
       })),
     []
@@ -262,7 +279,7 @@ function Foam({ x, y, z, opacity }) {
       const b = blobs[i];
       m.position.set(x + b.ox, y + 0.03 * Math.sin(t * 4.0 + b.phase), z + b.oz);
       m.scale.setScalar(1 + 0.18 * Math.sin(t * 5.0 + b.phase));
-      m.material.opacity = opacity * (0.45 + 0.18 * Math.sin(t * 5.0 + b.phase + 0.6));
+      m.material.opacity = opacity * (0.7 + 0.18 * Math.sin(t * 5.0 + b.phase + 0.6));
     }
   });
   return (
@@ -270,7 +287,7 @@ function Foam({ x, y, z, opacity }) {
       {blobs.map((b, i) => (
         <mesh key={i} ref={(el) => (refs.current[i] = el)} castShadow>
           <sphereGeometry args={[b.r, 12, 10]} />
-          <meshStandardMaterial color={'#f1f4f2'} metalness={0.03} roughness={0.85} transparent opacity={opacity * 0.5} />
+          <meshStandardMaterial color={'#fafcfb'} metalness={0.03} roughness={0.88} transparent opacity={opacity * 0.7} />
         </mesh>
       ))}
     </>
@@ -279,7 +296,7 @@ function Foam({ x, y, z, opacity }) {
 
 // Tiny foam flecks born at the jet impact that advect downstream (+X) and
 // dissipate, extending the inflow churn across the channel. Instanced + cheap.
-const FLECK_GEO = new THREE.SphereGeometry(0.03, 8, 8);
+const FLECK_GEO = new THREE.SphereGeometry(0.042, 8, 8);
 function Bubbles({ x0, surfaceY, span, halfD, opacity }) {
   const N = 10;
   const ref = React.useRef();
@@ -311,12 +328,52 @@ function Bubbles({ x0, surfaceY, span, halfD, opacity }) {
     }
     m.instanceMatrix.needsUpdate = true;
     // Whole cluster fades with topic opacity.
-    m.material.opacity = opacity * 0.55;
+    m.material.opacity = opacity * 0.7;
   });
   return (
     <instancedMesh ref={ref} args={[FLECK_GEO, undefined, N]}>
-      <meshStandardMaterial color={'#eef3f3'} metalness={0.04} roughness={0.7} transparent opacity={opacity * 0.55} />
+      <meshStandardMaterial color={'#f6faf9'} metalness={0.04} roughness={0.72} transparent opacity={opacity * 0.7} />
     </instancedMesh>
+  );
+}
+
+// A dragonfly hovering over the surface: slow lazy figure-8 drift, slight bob,
+// and fast wing flicker via scaleY. Tiny secondary life, kept subtle + on-brand.
+function Dragonfly({ surfaceY, xc, zc, opacity }) {
+  const ref = React.useRef();
+  const wingL = React.useRef();
+  const wingR = React.useRef();
+  useFrame((state) => {
+    const g = ref.current;
+    if (!g) return;
+    const t = state.clock.elapsedTime;
+    // Lazy figure-8 path over the channel, well within frame.
+    g.position.x = xc + 0.9 * Math.sin(t * 0.35);
+    g.position.z = zc + 0.5 * Math.sin(t * 0.7);
+    g.position.y = surfaceY + 0.62 + 0.06 * Math.sin(t * 1.4);
+    g.rotation.y = 0.35 * Math.cos(t * 0.35) + Math.PI / 2;
+    // Fast wing flicker (collapse along span so it shimmers, not flaps wildly).
+    const f = 0.4 + 0.6 * Math.abs(Math.sin(t * 22));
+    if (wingL.current) wingL.current.scale.x = f;
+    if (wingR.current) wingR.current.scale.x = f;
+  });
+  return (
+    <group ref={ref}>
+      {/* Slender body */}
+      <mesh rotation={[0, 0, Math.PI / 2]} castShadow>
+        <capsuleGeometry args={[0.012, 0.16, 4, 8]} />
+        <meshStandardMaterial color={C.info} metalness={0.2} roughness={0.5} transparent opacity={opacity * 0.9} />
+      </mesh>
+      {/* Two wing pairs, thin translucent strips */}
+      <mesh ref={wingL} position={[0.02, 0.01, 0.06]} rotation={[Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.13, 0.04]} />
+        <meshStandardMaterial color={'#dfeef0'} metalness={0.05} roughness={0.4} transparent opacity={opacity * 0.4} side={THREE.DoubleSide} depthWrite={false} />
+      </mesh>
+      <mesh ref={wingR} position={[0.02, 0.01, -0.06]} rotation={[Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[0.13, 0.04]} />
+        <meshStandardMaterial color={'#dfeef0'} metalness={0.05} roughness={0.4} transparent opacity={opacity * 0.4} side={THREE.DoubleSide} depthWrite={false} />
+      </mesh>
+    </group>
   );
 }
 
@@ -329,7 +386,7 @@ export function FluidScene({ opacity }) {
   const W = 8.2, D = 3.0, SX = 70, SY = 28;
   // Free-surface level sits mid-wall (well above the floor) for a real body of
   // water. A gentle tilt raises the upstream/gate end to read as backwater.
-  const surfaceY = 0.06;
+  const surfaceY = 0.13;
   const backwaterTilt = -0.045; // radians, about the channel-cross axis
   useFrame((state) => {
     const t = state.clock.elapsedTime;
@@ -343,9 +400,9 @@ export function FluidScene({ opacity }) {
         // directed current, not surf. Finer ripples near the upstream jet (-X).
         const jetGain = Math.max(0, 1 - (x + 4) / 5); // strongest at the head
         const z =
-          0.11 * Math.sin(x * 1.1 - t * 2.2) +
-          0.065 * Math.sin(x * 2.3 - t * 3.1 + y * 0.6) +
-          0.035 * Math.sin(y * 1.7 - t * 1.0) +
+          0.16 * Math.sin(x * 1.1 - t * 2.2) +
+          0.08 * Math.sin(x * 2.3 - t * 3.1 + y * 0.6) +
+          0.04 * Math.sin(y * 1.7 - t * 1.0) +
           0.05 * jetGain * Math.sin(x * 5.0 - t * 6.0);
         pos.setZ(i, z);
       }
@@ -365,14 +422,14 @@ export function FluidScene({ opacity }) {
       glintRef.current.position.x = xMinG + u * (xMaxG - xMinG);
       // Fade in/out at the ends so the recycle never pops.
       const edge = Math.sin(u * Math.PI);
-      glintRef.current.material.opacity = opacity * 0.38 * edge;
+      glintRef.current.material.opacity = opacity * 0.6 * edge;
     }
     // Jet impact ripple ring: expand + fade on a loop.
     if (rippleRef.current) {
       const cycle = (t * 0.9) % 1;
       const s = 0.3 + cycle * 1.8;
       rippleRef.current.scale.set(s, s, s);
-      rippleRef.current.material.opacity = opacity * 0.7 * (1 - cycle);
+      rippleRef.current.material.opacity = opacity * 0.85 * (1 - cycle);
     }
     // Weir nappe: gentle vertical streak jitter so the sheet reads as spilling.
     if (nappeRef.current) {
@@ -415,13 +472,13 @@ export function FluidScene({ opacity }) {
           studio env stops blowing it out; deep teal base reads as liquid. */}
       <mesh rotation={[-Math.PI / 2 + 0, 0, backwaterTilt]} position={[0, surfaceY, 0]} receiveShadow castShadow>
         <planeGeometry ref={geoRef} args={[waterW, D - 0.1, SX, SY]} />
-        <meshStandardMaterial color={'#3a7e88'} emissive={C.water} emissiveIntensity={0.26} metalness={0.05} roughness={0.4} transparent opacity={opacity * 0.95} side={THREE.DoubleSide} />
+        <meshStandardMaterial color={'#4a8e98'} emissive={C.water} emissiveIntensity={0.24} metalness={0.06} roughness={0.5} transparent opacity={opacity * 0.95} side={THREE.DoubleSide} />
       </mesh>
       {/* Advecting specular glint band — a brighter strip travelling +X so the
           directed downstream current is unmistakable against the darker water. */}
       <mesh ref={glintRef} rotation={[-Math.PI / 2, 0, backwaterTilt]} position={[0, surfaceY + 0.02, 0]}>
-        <planeGeometry args={[0.5, D - 0.3]} />
-        <meshStandardMaterial color={'#eaf3f4'} emissive={'#cfe2e4'} emissiveIntensity={0.3} metalness={0.1} roughness={0.4} transparent opacity={opacity * 0.38} side={THREE.DoubleSide} depthWrite={false} />
+        <planeGeometry args={[0.7, D - 0.3]} />
+        <meshStandardMaterial color={'#f3fafb'} emissive={'#dceaec'} emissiveIntensity={0.35} metalness={0.1} roughness={0.35} transparent opacity={opacity * 0.6} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {/* Near-wall water depth strip — gives the body visible thickness */}
       <Box position={[0, (surfaceY + bedY) / 2, innerHalfD - 0.04]} size={[waterW - 0.1, surfaceY - bedY, 0.06]} color={C.water} opacity={opacity * 0.55} metalness={0.1} roughness={0.35} />
@@ -458,8 +515,8 @@ export function FluidScene({ opacity }) {
       <Splash x={jetX} y={surfaceY + 0.04} z={jetZ} opacity={opacity} />
       {/* Jet impact ripple — expanding + fading high-contrast ring */}
       <mesh ref={rippleRef} position={[jetX, surfaceY + 0.02, jetZ]} rotation={[-Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[0.16, 0.03, 10, 32]} />
-        <meshStandardMaterial color={'#e6edec'} metalness={0.05} roughness={0.55} transparent opacity={opacity * 0.7} />
+        <torusGeometry args={[0.16, 0.045, 10, 32]} />
+        <meshStandardMaterial color={'#f0f5f4'} metalness={0.05} roughness={0.55} transparent opacity={opacity * 0.85} />
       </mesh>
 
       {/* Downstream sharp-crested weir plate: vertical, full channel width,
@@ -472,14 +529,14 @@ export function FluidScene({ opacity }) {
       <mesh
         ref={(el) => {
           nappeRef.current = el;
-          if (el) el.userData.baseY = floorY + 0.06 + 0.85 - 0.13;
+          if (el) el.userData.baseY = floorY + 0.06 + 0.85 - 0.18;
         }}
-        position={[W / 2 - 0.49, floorY + 0.06 + 0.85 - 0.13, 0]}
+        position={[W / 2 - 0.49, floorY + 0.06 + 0.85 - 0.18, 0]}
         rotation={[0, 0, -0.32]}
         castShadow
       >
-        <boxGeometry args={[0.04, 0.34, D - 0.16]} />
-        <meshStandardMaterial color={'#bcd9dc'} emissive={C.water} emissiveIntensity={0.16} metalness={0.08} roughness={0.38} transparent opacity={opacity * 0.72} />
+        <boxGeometry args={[0.05, 0.46, D - 0.16]} />
+        <meshStandardMaterial color={'#dceef0'} emissive={'#cfe3e5'} emissiveIntensity={0.2} metalness={0.08} roughness={0.34} transparent opacity={opacity * 0.88} />
       </mesh>
       {/* Churning whitewater foam cluster at the nappe base */}
       <Foam x={weirX + 0.12} y={floorY + 0.18} z={0} opacity={opacity} />
@@ -489,6 +546,8 @@ export function FluidScene({ opacity }) {
       <Debris surfaceY={surfaceY} xMin={flowXMin} xMax={flowXMax} halfD={innerHalfD} opacity={opacity} />
       <Duck surfaceY={surfaceY} xMin={flowXMin} xMax={flowXMax} halfD={innerHalfD} opacity={opacity} />
       <Reeds position={[-W / 2 + 0.5, wallTopY, -innerHalfD - 0.02]} opacity={opacity} />
+      {/* Tiny secondary life: a dragonfly hovering over mid-channel */}
+      <Dragonfly surfaceY={surfaceY} xc={0.4} zc={-0.3} opacity={opacity} />
     </group>
   );
 }

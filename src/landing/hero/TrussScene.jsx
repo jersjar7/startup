@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { C, P, Member, Box, Node } from './primitives';
+import { C, P, Member, Box, Node, Person } from './primitives';
 
 // FE topic: Structural Analysis — a 3D Warren/Pratt through-truss bridge with a
 // roadway deck, abutments, and the two boundary conditions a truss problem
@@ -158,26 +158,32 @@ function Vehicle({ x0, x1, deckTopY, z, dir, kind, bodyColor, speed, phase, opac
       </mesh>
       {isTruck ? (
         <>
-          {/* forward cab — tall block at the nose so the truck reads cab-then-bed */}
-          <mesh position={[halfL - 0.2, bodyY + 0.21, 0]} castShadow>
-            <boxGeometry args={[0.34, 0.26, bodyW - 0.02]} />
+          {/* forward cab — tall chunky block at the nose so the truck reads
+              cab-then-bed even at tile scale (raised + taller for contrast) */}
+          <mesh position={[halfL - 0.22, bodyY + 0.28, 0]} castShadow>
+            <boxGeometry args={[0.38, 0.4, bodyW - 0.01]} />
             {mat(bodyColor, 0.45, 0.4)}
           </mesh>
-          {/* flat bed deck behind the cab (the flatbed read) */}
-          <mesh position={[-0.18, bodyY + 0.12, 0]} castShadow>
-            <boxGeometry args={[0.6, 0.06, bodyW + 0.02]} />
-            {mat('#7d8388', 0.4, 0.5)}
+          {/* dark flat bed deck behind the cab — darkened for value separation */}
+          <mesh position={[-0.18, bodyY + 0.13, 0]} castShadow>
+            <boxGeometry args={[0.6, 0.07, bodyW + 0.02]} />
+            {mat('#4a4f52', 0.4, 0.5)}
           </mesh>
-          {/* low side rails on the bed */}
+          {/* chunky cargo block on the bed => unmistakable freight mass */}
+          <mesh position={[-0.24, bodyY + 0.3, 0]} castShadow>
+            <boxGeometry args={[0.42, 0.3, bodyW - 0.04]} />
+            {mat('#6a6f73', 0.4, 0.55)}
+          </mesh>
+          {/* low side rails on the bed (darker so they don't muddy the mass) */}
           {[bodyW / 2, -bodyW / 2].map((zz, i) => (
-            <mesh key={`rail${i}`} position={[-0.18, bodyY + 0.18, zz]} castShadow>
-              <boxGeometry args={[0.6, 0.07, 0.03]} />
-              {mat(bodyColor, 0.5, 0.4)}
+            <mesh key={`rail${i}`} position={[0.12, bodyY + 0.19, zz]} castShadow>
+              <boxGeometry args={[0.26, 0.07, 0.03]} />
+              {mat('#3f4346', 0.5, 0.4)}
             </mesh>
           ))}
           {/* big windshield on the forward cab */}
-          <mesh position={[halfL - 0.06, bodyY + 0.24, 0]} rotation={[0, 0, -0.35]} castShadow>
-            <boxGeometry args={[0.045, 0.2, bodyW - 0.08]} />
+          <mesh position={[halfL - 0.05, bodyY + 0.34, 0]} rotation={[0, 0, -0.32]} castShadow>
+            <boxGeometry args={[0.05, 0.26, bodyW - 0.07]} />
             {mat('#aaccdd', 0.6, 0.15)}
           </mesh>
         </>
@@ -256,17 +262,24 @@ function BirdFlock({ x0, x1, topY, opacity }) {
     { dx: -0.34, dy: 0.12, dz: 0.28 },
     { dx: -0.34, dy: 0.12, dz: -0.28 },
   ], []);
-  const lo = x0 - 1.4;
-  const span = (x1 + 1.4) - lo;
+  // Constrain the glide path so the flock travels ACROSS the truss span itself
+  // (roughly mid-span ± a margin), never out into the far-left dead cream.
+  const mid = (x0 + x1) / 2;
+  const halfPath = (x1 - x0) * 0.42;
+  const lo = mid - halfPath;
+  const span = 2 * halfPath;
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     if (!left.current || !right.current || !body.current) return;
     // One shared glide head; birds hang off it as a cluster so they stay a flock.
     const u = ((t * 0.05) % 1 + 1) % 1;
     const headX = lo + u * span;
-    const headY = topY + Math.sin(t * 0.5) * 0.14;
-    // Gentle bank as the skein crosses (roll about travel axis), tasteful.
-    const bank = Math.sin(t * 0.5) * 0.18;
+    // Altitude dips toward mid-path so the skein clearly passes the structure,
+    // then lifts away — reads as a bird crossing the bridge, not a static speck.
+    const dip = -Math.sin(u * Math.PI) * 0.22;
+    const headY = topY + dip + Math.sin(t * 0.5) * 0.1;
+    // Decisive bank as the skein crosses (roll about travel axis), tasteful.
+    const bank = Math.sin(t * 0.5) * 0.26;
     for (let i = 0; i < COUNT; i++) {
       const c = cluster[i];
       const px = headX + c.dx;
@@ -306,11 +319,11 @@ function BirdFlock({ x0, x1, topY, opacity }) {
         <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} transparent={opacity < 1} opacity={opacity} />
       </instancedMesh>
       <instancedMesh ref={left} args={[undefined, undefined, COUNT]}>
-        <boxGeometry args={[0.07, 0.014, 0.3]} />
+        <boxGeometry args={[0.085, 0.016, 0.36]} />
         <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} transparent={opacity < 1} opacity={opacity} />
       </instancedMesh>
       <instancedMesh ref={right} args={[undefined, undefined, COUNT]}>
-        <boxGeometry args={[0.07, 0.014, 0.3]} />
+        <boxGeometry args={[0.085, 0.016, 0.36]} />
         <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} transparent={opacity < 1} opacity={opacity} />
       </instancedMesh>
     </group>
@@ -390,7 +403,7 @@ function WaterDatum({ midX, width, y, depth, opacity }) {
     if (m) {
       m.position.z = Math.sin(t * 0.18) * 0.06;
       // Stronger, never-dim base so the river clearly reads as water.
-      m.material.opacity = opacity * (0.6 + Math.sin(t * 0.5) * 0.04);
+      m.material.opacity = opacity * (0.68 + Math.sin(t * 0.5) * 0.04);
     }
     if (debris.current) {
       for (let i = 0; i < DEBRIS; i++) {
@@ -410,7 +423,7 @@ function WaterDatum({ midX, width, y, depth, opacity }) {
     <group>
       <mesh ref={mesh} position={[midX, y, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[width, depth, 1, 1]} />
-        <meshStandardMaterial color={C.water} metalness={0.5} roughness={0.25} transparent opacity={opacity * 0.6} />
+        <meshStandardMaterial color={C.water} metalness={0.5} roughness={0.25} transparent opacity={opacity * 0.68} />
       </mesh>
       {/* slow drifting debris/ripple specks just above the surface => current */}
       <group position={[0, y + 0.02, 0]}>
@@ -422,10 +435,39 @@ function WaterDatum({ midX, width, y, depth, opacity }) {
       {/* faint forest bank edges on the far/near sides reinforce the river read */}
       {[-(depth / 2) + 0.18, (depth / 2) - 0.18].map((zz, i) => (
         <mesh key={`bank${i}`} position={[midX, y + 0.005, zz]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-          <planeGeometry args={[width, 0.5, 1, 1]} />
-          <meshStandardMaterial color="#3f5546" metalness={0.05} roughness={0.9} transparent opacity={opacity * 0.55} />
+          <planeGeometry args={[width, 0.6, 1, 1]} />
+          <meshStandardMaterial color="#35513f" metalness={0.05} roughness={0.92} transparent opacity={opacity * 0.7} />
         </mesh>
       ))}
+    </group>
+  );
+}
+
+// A lone pedestrian strolling slowly along the near fascia walkway — a second,
+// human scale of life beside the vehicle traffic. Walks the full span and back
+// (ping-pong) on a slow loop, facing travel, with a faint stride bob. Motion is
+// driven by mutating the group ref each frame (no React state, no allocation).
+function Pedestrian({ x0, x1, y, z, speed, opacity }) {
+  const group = React.useRef();
+  const margin = 0.3;
+  const lo = x0 + margin;
+  const span = (x1 - margin) - lo;
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    const g = group.current;
+    if (!g) return;
+    // Triangle wave 0..1..0 for a seamless there-and-back stroll.
+    const raw = ((t * speed) % 1 + 1) % 1;
+    const tri = raw < 0.5 ? raw * 2 : 2 - raw * 2;
+    g.position.x = lo + tri * span;
+    g.position.y = y + Math.abs(Math.sin(t * 3.0)) * 0.012; // tiny stride bob
+    g.position.z = z;
+    // Face the direction of travel (forward on the way out, reversed on return).
+    g.rotation.y = raw < 0.5 ? Math.PI / 2 : -Math.PI / 2;
+  });
+  return (
+    <group ref={group}>
+      <Person scale={0.34} vest={C.sunbeam} hardHat={C.charcoal} armPose="down" opacity={opacity} />
     </group>
   );
 }
@@ -469,8 +511,13 @@ export function TrussScene({ opacity }) {
           opposing one is a muted-steel flatbed truck so the two silhouettes are
           distinguishable, not two near-identical boxes. The tight travel margin
           keeps the ember sedan visibly mid-span for most of its loop. */}
-      <Vehicle x0={x0} x1={x1} deckTopY={deckY + deckThick / 2} z={0.28} dir={1} kind="sedan" bodyColor={C.ember} speed={0.07} phase={0.25} opacity={opacity} />
-      <Vehicle x0={x0} x1={x1} deckTopY={deckY + deckThick / 2} z={-0.28} dir={-1} kind="truck" bodyColor="#9aa0a4" speed={0.058} phase={0.6} opacity={opacity} />
+      <Vehicle x0={x0} x1={x1} deckTopY={deckY + deckThick / 2} z={0.28} dir={1} kind="sedan" bodyColor={C.ember} speed={0.072} phase={0.1} opacity={opacity} />
+      <Vehicle x0={x0} x1={x1} deckTopY={deckY + deckThick / 2} z={-0.28} dir={-1} kind="truck" bodyColor="#9aa0a4" speed={0.053} phase={0.65} opacity={opacity} />
+
+      {/* A lone pedestrian strolling the near walkway — a slower, human scale of
+          life beside the vehicle traffic. Kept inside the near fascia edge and
+          above the deck so they walk the span without clipping the truss web. */}
+      <Pedestrian x0={x0} x1={x1} y={deckY + deckThick / 2} z={0.72} speed={0.026} opacity={opacity} />
 
       {/* Slack stay/utility lines along the top chord that sway in the wind —
           cheap non-rigid ambient life so the vignette isn't just two sliders. */}
@@ -478,7 +525,7 @@ export function TrussScene({ opacity }) {
 
       {/* Ambient sky life: a small flock skimming just above the top chord.
           Lowered from 2.0 so the birds read against the bridge, not empty cream. */}
-      <BirdFlock x0={x0} x1={x1} topY={1.55} opacity={opacity} />
+      <BirdFlock x0={x0} x1={x1} topY={1.72} opacity={opacity} />
 
       {/* Faint water datum well below the deck so the span visibly crosses
           something; gentle drift keeps it alive without clutter. */}

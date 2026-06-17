@@ -30,6 +30,16 @@ const BARK = '#5b4e40';
 const CLOUD = '#FFFDF8';
 const DOG = '#a8825a'; // warm tan coat so it separates from the soil/grass
 
+// Shared wind-gust envelope: a slow 0..1 swell on a ~9s period that trees and
+// grass both read, so a single gust crosses the whole field at once (the
+// foliage breathes together rather than each clump doing its own thing). A base
+// breeze keeps things alive between gusts. Pure function of time → no shared
+// state, no allocation.
+function windGust(t) {
+  const g = Math.sin(t * (2 * Math.PI / 9));
+  return 0.55 + 0.45 * g * g; // ranges ~0.55..1.0, peaking on each swell
+}
+
 // A tapered steel tripod leg: two stacked cylinders (thick at the head, thin at
 // the foot) plus a pointed cone foot planted in the soil.
 function TripodLeg({ a, b, opacity }) {
@@ -226,22 +236,31 @@ function StadiaRod({ opacity }) {
 // A low procedural tree: a short bark trunk plus 1-2 icosphere/cone canopies in
 // muted foliage greens. The whole canopy group sways gently in the wind. Seated
 // on terrainH so it sits on the graded surface.
-function Tree({ x, z, scale = 1, phase = 0, opacity }) {
+function Tree({ x, z, scale = 1, phase = 0, distant = false, opacity }) {
   const canopyRef = React.useRef();
   const topRef = React.useRef();
   const baseY = GROUND + terrainH(x, z);
+  // Slight per-tree variation in the side-lobe placement so silhouettes differ.
+  const lobe = React.useMemo(() => {
+    const a = phase * 1.7;
+    return [Math.cos(a) * 0.2, 0.06 + 0.08 * ((phase % 1)), Math.sin(a) * 0.18];
+  }, [phase]);
   useFrame((state) => {
     const t = state.clock.elapsedTime;
+    // shared gust swells the amplitude; distant crowns get a steadier, slower
+    // parallax layer so the back of the field reads as a calmer breeze.
+    const gust = windGust(t);
+    const amp = distant ? 0.04 + 0.03 * gust : 0.05 + 0.05 * gust;
+    const rate = distant ? 0.55 : 0.8;
     if (canopyRef.current) {
-      // larger, perceptible wind sway of the whole crown
-      canopyRef.current.rotation.z = 0.07 * Math.sin(t * 0.8 + phase);
-      canopyRef.current.rotation.x = 0.05 * Math.sin(t * 0.65 + phase * 1.3);
+      canopyRef.current.rotation.z = amp * Math.sin(t * rate + phase);
+      canopyRef.current.rotation.x = amp * 0.7 * Math.sin(t * (rate * 0.8) + phase * 1.3);
     }
     if (topRef.current) {
       // upper cluster lags in phase so the crown deforms rather than rotating
       // rigidly — the top tuft trails the main mass in the gust.
-      topRef.current.rotation.z = 0.06 * Math.sin(t * 0.95 + phase + 0.9);
-      topRef.current.rotation.x = 0.04 * Math.sin(t * 0.72 + phase * 1.3 + 0.6);
+      topRef.current.rotation.z = amp * 0.85 * Math.sin(t * (rate * 1.2) + phase + 0.9);
+      topRef.current.rotation.x = amp * 0.6 * Math.sin(t * (rate * 0.9) + phase * 1.3 + 0.6);
     }
   });
   const trunkH = 0.42 * scale;
@@ -256,6 +275,11 @@ function Tree({ x, z, scale = 1, phase = 0, opacity }) {
         <mesh position={[0, 0.22, 0]} castShadow>
           <icosahedronGeometry args={[0.3, 0]} />
           <meshStandardMaterial color={LEAF_A} metalness={0.05} roughness={0.95} transparent={opacity < 1} opacity={opacity} flatShading />
+        </mesh>
+        {/* a second, lower side lobe so the crown silhouette varies tree-to-tree */}
+        <mesh position={[lobe[0], lobe[1], lobe[2]]} castShadow>
+          <icosahedronGeometry args={[0.21, 0]} />
+          <meshStandardMaterial color={LEAF_B} metalness={0.05} roughness={0.95} transparent={opacity < 1} opacity={opacity} flatShading />
         </mesh>
         {/* upper tuft pivots about the main canopy with its own phase */}
         <group ref={topRef} position={[0, 0.22, 0]}>
@@ -304,16 +328,21 @@ function Cloud({ y, z, speed, offset, scale = 1, opacity }) {
 }
 
 // A small flock of birds arcing overhead in a recognizable V formation. Each
-// bird is THREE instanced boxes: a central body plus two stretched wings held
-// at a deep dihedral, so each reads as an unmistakable bird silhouette even in
-// a frozen frame. The whole flock shares ONE heading and travels as a tight
-// cluster (lead bird out front, the rest tucked behind in offset rows) across
-// the upper frame, wrapping seamlessly. One extra bird glides far back for
-// depth. Wings flap with a clear dihedral; phase varies per bird so the flock
-// shimmers rather than pumping in lockstep.
+// bird is FOUR instanced boxes: a tapered body, a head/tail nub, and two BROAD
+// wings held near-horizontal at a shallow dihedral, so each reads as an
+// unmistakable bird silhouette even in a frozen frame. The whole flock shares
+// ONE heading and travels as a tight cluster (lead bird out front, the rest
+// tucked behind in offset rows) across the upper frame, wrapping seamlessly.
+// One extra bird glides far back for depth. Wings flap slowly with a shallow,
+// LEGIBLE dihedral (never a deep snap); phase varies per bird so the flock
+// shimmers rather than pumping in lockstep. The whole flock is held at a single
+// z-band well in front of the cloud puffs so birds never overlap a cloud.
 const BIRD_FLAP = 5; // flapping birds in the formation
 const BIRD_COUNT = BIRD_FLAP + 1; // + 1 distant gliding bird
-const PARTS_PER_BIRD = 3; // body + 2 wings
+const PARTS_PER_BIRD = 4; // body + head + 2 wings
+// Birds live at this z (toward camera); clouds sit at z <= -1.7, so the flock
+// stays clearly in front of them.
+const BIRD_Z = 0.9;
 // Formation offsets (along/across heading), lead bird first → trailing V rows.
 const FORMATION = [
   [0.0, 0.0],
@@ -329,55 +358,73 @@ function Birds({ opacity }) {
   useFrame((state) => {
     if (!ref.current) return;
     const t = state.clock.elapsedTime;
-    // shared flock travel: one slow arc, one common heading
-    const fa = t * 0.2 + 1.0;
-    const fHeading = fa + Math.PI / 2;
+    // shared flock travel: a slow horizontal drift across the upper-left frame,
+    // wrapping seamlessly. Heading is fixed (gentle leftward glide) so the V
+    // never tumbles; only x sweeps.
+    const span = 11;
+    const fcx = ((t * 0.34 + 2) % span) - span / 2 - 0.4;
+    const fcy = 2.18 + 0.12 * Math.sin(t * 0.5);
+    const fHeading = Math.PI / 2 + 0.18; // travelling roughly +x, slight cant
     const cosH = Math.cos(fHeading);
     const sinH = Math.sin(fHeading);
-    const fcx = 3.2 * Math.cos(fa) - 0.4;
-    const fcy = 2.05 + 0.18 * Math.sin(fa * 1.2);
-    const fcz = 0.4 + 1.2 * Math.sin(fa);
     for (let b = 0; b < BIRD_COUNT; b++) {
       const glider = b === BIRD_COUNT - 1;
-      let cx, cy, cz, flap, heading, half, lead;
+      let cx, cy, cz, flap, heading, halfSpan, lead;
       if (glider) {
-        // distant slower glide, gentle fixed dihedral, higher + further back
-        const a = t * 0.1 + 1.3;
-        heading = a + Math.PI / 2;
-        cx = 3.6 * Math.cos(a) + 0.3;
-        cy = 2.55 + 0.1 * Math.sin(a);
-        cz = -1.0 + 1.0 * Math.sin(a);
-        flap = 0.38;
-        half = 0.13;
+        // distant slower glide, gentle fixed dihedral, higher up
+        const gx = ((t * 0.22 + 7) % span) - span / 2 + 0.3;
+        heading = Math.PI / 2 + 0.1;
+        cx = gx;
+        cy = 2.62 + 0.08 * Math.sin(t * 0.4);
+        cz = BIRD_Z + 0.5; // even further toward camera, well clear of clouds
+        flap = 0.22; // gentle steady glide dihedral
+        halfSpan = 0.2; // larger so it still reads at distance
         lead = false;
       } else {
         // tucked into the shared formation, slight individual flap phase
         const off = FORMATION[b];
-        // along-heading and across-heading offsets in the xz plane
         cx = fcx + off[0] * sinH + off[1] * cosH;
-        cz = fcz + off[0] * cosH - off[1] * sinH;
-        cy = fcy + 0.04 * Math.sin(t * 1.5 + b);
+        cy = fcy + off[0] * 0.0 + 0.03 * Math.sin(t * 1.2 + b);
+        cz = BIRD_Z + off[0] * 0.1; // shallow z spread, all in the bird band
         heading = fHeading;
-        flap = 0.7 * Math.sin(t * 6 + b * 1.1) + 0.5; // deep, clear V dihedral
+        // slow, shallow wingbeat: clamp flap to ~0.15..0.45 rad so wings stay
+        // close to horizontal and read as flapping, not as stray segments.
+        flap = 0.3 + 0.15 * Math.sin(t * 4 + b * 1.1);
         lead = b === 0;
-        half = lead ? 0.2 : 0.16; // lead bird a touch larger
+        halfSpan = lead ? 0.26 : 0.22; // lead bird a touch larger
       }
       const ch = Math.cos(heading);
       const sh = Math.sin(heading);
-      // body: a small box at the bird center, aligned to heading
+      // body: a tapered box at the bird center, aligned to heading
       dummy.position.set(cx, cy, cz);
       dummy.rotation.set(0, heading, 0);
-      dummy.scale.set(0.06, 0.03, half * 0.7);
+      dummy.scale.set(0.05, 0.035, halfSpan * 0.95);
       dummy.updateMatrix();
       ref.current.setMatrixAt(b * PARTS_PER_BIRD, dummy.matrix);
-      // two wings, swept back from the body at the flap dihedral
+      // head/tail nub at the front of the body so direction reads
+      dummy.position.set(cx + sh * halfSpan * 0.55, cy + 0.005, cz + ch * halfSpan * 0.55);
+      dummy.rotation.set(0, heading, 0);
+      dummy.scale.set(0.04, 0.03, halfSpan * 0.4);
+      dummy.updateMatrix();
+      ref.current.setMatrixAt(b * PARTS_PER_BIRD + 1, dummy.matrix);
+      // two BROAD wings, given real lateral area, near-horizontal dihedral.
+      // Local +x is the lateral (span) axis after the heading yaw; chord runs
+      // along local +z. Wing reaches out laterally from the body, tilted up by
+      // the shallow flap angle. Offset the wing center half a span outboard so
+      // it hinges at the shoulder, not the wingtip.
       for (let w = 0; w < 2; w++) {
         const side = w === 0 ? 1 : -1;
-        dummy.position.set(cx + side * half * ch, cy + 0.01, cz + side * half * sh);
+        const reach = halfSpan * 0.6; // shoulder-to-wing-center along the span
+        dummy.position.set(
+          cx + side * reach * ch,
+          cy + 0.012 + reach * Math.sin(flap),
+          cz - side * reach * sh,
+        );
         dummy.rotation.set(0, heading, side * flap);
-        dummy.scale.set(glider ? 0.26 : 0.3, 0.02, 0.05);
+        // wing geometry: BROAD span (local x), real chord (local z), thin (y).
+        dummy.scale.set(halfSpan * 1.25, 0.012, halfSpan * 0.95);
         dummy.updateMatrix();
-        ref.current.setMatrixAt(b * PARTS_PER_BIRD + 1 + w, dummy.matrix);
+        ref.current.setMatrixAt(b * PARTS_PER_BIRD + 2 + w, dummy.matrix);
       }
     }
     ref.current.instanceMatrix.needsUpdate = true;
@@ -396,6 +443,7 @@ function Birds({ opacity }) {
 // rotation. Oriented broadside to camera so the head/tail/legs silhouette reads
 // clearly. Scaled up so it registers as a charming focal accent.
 function Dog({ x, z, opacity }) {
+  const rootRef = React.useRef();
   const headRef = React.useRef();
   const tailRef = React.useRef();
   const baseY = GROUND + terrainH(x, z);
@@ -404,6 +452,23 @@ function Dog({ x, z, opacity }) {
   );
   useFrame((state) => {
     const t = state.clock.elapsedTime;
+    if (rootRef.current) {
+      // slow grazing drift: the dog ambles a short distance over a long (~14s)
+      // loop, pads forward in little surges, then drifts back — reads as the
+      // dog wandering the field rather than pivoting in place. Stays on terrain.
+      const driftX = 0.5 * Math.sin(t * (2 * Math.PI / 14));
+      const driftZ = 0.28 * Math.sin(t * (2 * Math.PI / 14) * 1.3 + 0.6);
+      const px = x + driftX;
+      const pz = z + driftZ;
+      rootRef.current.position.x = px;
+      rootRef.current.position.z = pz;
+      // keep the feet on the graded surface as it moves; a faint padding bob
+      // (small, quicker) layered over the slow follow of the terrain height.
+      rootRef.current.position.y = GROUND + terrainH(px, pz) + 0.01 * Math.abs(Math.sin(t * 2.2));
+      // gently swing the heading with the amble so it reads as walking, not
+      // sliding; a small yaw oscillation about the broadside-to-camera pose.
+      rootRef.current.rotation.y = Math.PI * 0.5 + 0.22 * Math.cos(t * (2 * Math.PI / 14));
+    }
     if (headRef.current) {
       headRef.current.rotation.x = 0.08 * Math.sin(t * 1.1);
       // occasional look-around: a smooth yaw turn that peaks then settles on a
@@ -414,7 +479,7 @@ function Dog({ x, z, opacity }) {
     if (tailRef.current) tailRef.current.rotation.z = 0.5 * Math.sin(t * 4.0);
   });
   return (
-    <group position={[x, baseY, z]} rotation={[0, Math.PI * 0.5, 0]} scale={0.72}>
+    <group ref={rootRef} position={[x, baseY, z]} rotation={[0, Math.PI * 0.5, 0]} scale={0.72}>
       {/* body */}
       <mesh position={[0, 0.22, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
         <capsuleGeometry args={[0.1, 0.26, 4, 8]} />
@@ -471,8 +536,8 @@ function GrassTuft({ x, z, scale = 1, phase = 0, opacity }) {
     () =>
       Array.from({ length: GRASS_BLADES }).map((_, i) => ({
         a: (i / GRASS_BLADES) * Math.PI * 2,
-        r: 0.02 + 0.05 * ((i * 7) % GRASS_BLADES) / GRASS_BLADES,
-        h: 0.16 + 0.06 * ((i * 3) % 5) / 5,
+        r: 0.02 + 0.06 * ((i * 7) % GRASS_BLADES) / GRASS_BLADES,
+        h: 0.2 + 0.08 * ((i * 3) % 5) / 5,
         ph: i * 1.3,
       })),
     [],
@@ -480,9 +545,12 @@ function GrassTuft({ x, z, scale = 1, phase = 0, opacity }) {
   useFrame((state) => {
     if (!ref.current) return;
     const t = state.clock.elapsedTime;
+    // shared gust swells the whole tuft's lean in step with the trees
+    const gust = windGust(t);
+    const swayAmp = 0.16 + 0.16 * gust;
     for (let i = 0; i < GRASS_BLADES; i++) {
       const bl = blades[i];
-      const sway = 0.22 * Math.sin(t * 1.6 + phase + bl.ph);
+      const sway = swayAmp * Math.sin(t * 1.6 + phase + bl.ph);
       dummy.position.set(Math.cos(bl.a) * bl.r, bl.h / 2, Math.sin(bl.a) * bl.r);
       dummy.rotation.set(sway * Math.cos(bl.a), bl.a, sway * Math.sin(bl.a));
       dummy.scale.set(0.012, bl.h, 0.012);
@@ -509,7 +577,6 @@ export function SurveyScene({ opacity }) {
   const operatorRef = React.useRef();
   const sightGroupRef = React.useRef();
   const sightMatRef = React.useRef(null);
-  const hitMatRef = React.useRef();
 
   // Telescope objective lives in the station's yawed alidade group; recompute
   // its world position so the sight line truly emanates from the optical axis.
@@ -563,12 +630,7 @@ export function SurveyScene({ opacity }) {
       });
     }
     if (sightMatRef.current) {
-      sightMatRef.current.emissiveIntensity = 0.8 + 0.15 * Math.sin(t * 2);
-    }
-    if (hitMatRef.current) {
-      // the hit glow pulses in step with the beam, slightly out of phase so it
-      // shimmers like a spot landing true on the rod face
-      hitMatRef.current.emissiveIntensity = 1.0 + 0.4 * Math.sin(t * 2 + 0.6);
+      sightMatRef.current.emissiveIntensity = 0.7 + 0.1 * Math.sin(t * 2);
     }
   });
 
@@ -577,12 +639,18 @@ export function SurveyScene({ opacity }) {
       <Terrain opacity={opacity} />
 
       {/* low trees/shrubs dressing the green lobe; off the worn path and clear
-          of the sight line + frame edges. Per-index phase for natural wind. */}
-      <Tree x={1.9} z={-1.55} scale={1.05} phase={0.0} opacity={opacity} />
-      <Tree x={3.4} z={-1.7} scale={0.85} phase={1.7} opacity={opacity} />
-      <Tree x={0.7} z={-1.75} scale={0.7} phase={3.1} opacity={opacity} />
-      <Tree x={2.7} z={1.55} scale={0.78} phase={4.4} opacity={opacity} />
-      <Tree x={-3.6} z={-1.5} scale={0.66} phase={2.2} opacity={opacity} />
+          of the sight line + frame edges. Bigger now so the landform gains
+          scale, with a small stand clustered toward the rodperson so the right
+          half no longer reads sparse. Per-index phase for natural wind; the
+          back-row crowns drift on the steadier "distant" breeze layer. */}
+      <Tree x={1.9} z={-1.55} scale={1.28} phase={0.0} distant opacity={opacity} />
+      <Tree x={3.35} z={-1.65} scale={1.05} phase={1.7} distant opacity={opacity} />
+      <Tree x={0.7} z={-1.75} scale={0.86} phase={3.1} distant opacity={opacity} />
+      <Tree x={2.7} z={1.5} scale={0.95} phase={4.4} opacity={opacity} />
+      <Tree x={-3.55} z={-1.5} scale={0.8} phase={2.2} distant opacity={opacity} />
+      {/* small stand clustered near the rodperson (rod at x=3.0, z=-0.4) */}
+      <Tree x={4.0} z={0.55} scale={0.92} phase={5.3} opacity={opacity} />
+      <Tree x={3.7} z={1.15} scale={0.74} phase={2.9} opacity={opacity} />
 
       {/* drifting sky — settled lower and flatter, with some z-depth variation,
           so the band feels atmospheric and belongs above the terrain rather
@@ -590,6 +658,8 @@ export function SurveyScene({ opacity }) {
       <Cloud y={2.3} z={-2.2} speed={0.16} offset={0} scale={1.15} opacity={opacity} />
       <Cloud y={2.45} z={-2.7} speed={0.11} offset={5.5} scale={0.9} opacity={opacity} />
       <Cloud y={2.18} z={-1.7} speed={0.2} offset={9.0} scale={0.75} opacity={opacity} />
+      {/* a higher, thinner wisp drifting faster the other way for sky parallax */}
+      <Cloud y={2.75} z={-3.1} speed={-0.27} offset={3.0} scale={0.62} opacity={opacity} />
       <Birds opacity={opacity} />
 
       <TotalStation
@@ -614,33 +684,19 @@ export function SurveyScene({ opacity }) {
       </group>
 
       {/* optical line of sight: from the telescope objective to the rod face.
-          Wrapped in a group so we can pulse the emissive without ref-forwarding
-          into the shared primitive. */}
+          A thin static ember laser (a line, not an arrow) that terminates
+          cleanly on the rod face. Wrapped in a group so we can pulse the
+          emissive subtly without ref-forwarding into the shared primitive. */}
       <group ref={sightGroupRef}>
         <Member
           a={[objWorld.x, objWorld.y, objWorld.z]}
           b={rodFace}
-          radius={0.01}
+          radius={0.009}
           color={C.ember}
           emissive={C.ember}
           opacity={opacity * 0.9}
         />
       </group>
-      {/* a small ember hit-glow where the sight line lands on the rod face,
-          pulsing with the beam to reinforce the shot landing true */}
-      <mesh position={[rodFace[0] - 0.02, rodFace[1], rodFace[2]]}>
-        <sphereGeometry args={[0.028, 12, 10]} />
-        <meshStandardMaterial
-          ref={hitMatRef}
-          color={C.ember}
-          emissive={C.ember}
-          emissiveIntensity={1.0}
-          metalness={0.1}
-          roughness={0.5}
-          transparent
-          opacity={opacity * 0.92}
-        />
-      </mesh>
 
       {/* instrument operator leaning into the eyepiece (breathing lean). The
           group carries the subtle vertical breathing; Person itself is a plain
@@ -663,9 +719,13 @@ export function SurveyScene({ opacity }) {
           to camera so its silhouette reads as a charming focal accent */}
       <Dog x={station.x + 1.6} z={station.z + 1.2} opacity={opacity} />
 
-      {/* a couple of grass tufts enriching the foreground around the dog */}
-      <GrassTuft x={station.x + 1.15} z={station.z + 1.45} scale={1.0} phase={0.4} opacity={opacity} />
-      <GrassTuft x={station.x + 2.1} z={station.z + 1.0} scale={0.85} phase={2.6} opacity={opacity} />
+      {/* a scatter of grass tufts across the worn-path foreground, grounding the
+          dog and crew; per-tuft phase + the shared gust make the patch breathe */}
+      <GrassTuft x={station.x + 1.15} z={station.z + 1.45} scale={1.05} phase={0.4} opacity={opacity} />
+      <GrassTuft x={station.x + 2.1} z={station.z + 1.0} scale={0.9} phase={2.6} opacity={opacity} />
+      <GrassTuft x={station.x + 0.4} z={station.z + 1.75} scale={0.95} phase={1.5} opacity={opacity} />
+      <GrassTuft x={station.x + 2.85} z={station.z + 1.55} scale={0.8} phase={4.1} opacity={opacity} />
+      <GrassTuft x={station.x + 1.6} z={station.z + 0.55} scale={0.72} phase={5.2} opacity={opacity} />
     </group>
   );
 }

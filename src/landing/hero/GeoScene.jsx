@@ -45,6 +45,7 @@ export function GeoScene({ opacity }) {
   const clodRefs = React.useRef([]);  // tumbling spoil clods on the trench wall
   const birdRefs = React.useRef([]);  // background birds (staggered phase)
   const laserRef = React.useRef();    // line-of-sight laser material (faint pulse)
+  const leafRefs = React.useRef([]);  // windblown leaf/seed specks drifting over the surface
 
   const layers = React.useMemo(() => {
     const W = 7.4, D = 2.8;
@@ -142,6 +143,20 @@ export function GeoScene({ opacity }) {
     { x: -2.9, z: -0.7,         s: 0.44, kind: 'shrub',    phase: 3.1 },
   ]), [D]);
 
+  // Windblown leaf/seed specks shed from the swaying trees, drifting downwind
+  // across the soil surface on staggered loops so the tree-sway ties to the
+  // ground. Each starts near a tree's canopy and rides the wind to +x, fading
+  // out before it reaches the edge, then loops. Animated in useFrame; no
+  // per-frame allocation. Confined to the uncut front-right band so they never
+  // float over the cutaway.
+  const leaves = React.useMemo(() => ([
+    { x0: 1.9,  y0: topSurface + 0.55, z: D / 2 - 0.55, phase: 0.0,  dur: 7.0 },
+    { x0: 3.1,  y0: topSurface + 0.5,  z: -0.4,         phase: 2.6,  dur: 8.2 },
+    { x0: 2.4,  y0: topSurface + 0.45, z: 0.35,         phase: 4.9,  dur: 6.4 },
+    { x0: 1.5,  y0: topSurface + 0.5,  z: -0.8,         phase: 1.3,  dur: 7.6 },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ]), [topSurface, D]);
+
   // Surveyor walk path along the back surface (clear of the footing/cutaway).
   const walk = { x0: -2.7, x1: 2.7, z: -D / 2 + 0.45 };
 
@@ -172,25 +187,33 @@ export function GeoScene({ opacity }) {
 
   // Hammer drop cycle. Ram rises slowly then drops fast; impact at cyc≈1.
   const HAMMER_PERIOD = 2.6;
-  const hammerLo = cutFloorY + 0.5;     // ram resting just above the pile head
-  const hammerHi = hammerLo + 0.84;     // top of lift (bigger travel: obvious lift/drop)
+  const hammerLo = cutFloorY + 0.46;    // ram resting just above the pile head
+  const hammerHi = hammerLo + 0.9;      // top of lift; stays under the crown sheave (~cutFloorY+1.62)
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
 
-    // Pile-driver hammer: slow lift (eased), sharp drop on a loop.
+    // Pile-driver hammer: slow eased lift over the first ~88% of the cycle, then
+    // a fast accelerating gravity-like drop over the last ~12% so the slam is
+    // crisp. rise: 1 at the top of lift → 0 at impact.
     const cyc = (t % HAMMER_PERIOD) / HAMMER_PERIOD;     // 0..1
-    const rise = cyc < 0.8 ? Math.pow(cyc / 0.8, 0.6) : 1 - (cyc - 0.8) / 0.2;
+    let rise;
+    if (cyc < 0.88) {
+      rise = Math.pow(cyc / 0.88, 0.55);                 // eased lift to the top
+    } else {
+      const f = (cyc - 0.88) / 0.12;                     // 0..1 over the drop
+      rise = 1 - f * f;                                  // accelerating fall
+    }
     if (hammerRef.current) {
       hammerRef.current.position.y = hammerLo + (hammerHi - hammerLo) * rise;
     }
-    // Impact pulse: peaks right at the drop (cyc≈1), decays over ~0.4s.
+    // Impact pulse: peaks right at the drop (cyc≈1), decays sharply (~0.35s).
     const sinceImpact = (1 - cyc) * HAMMER_PERIOD;       // s since last impact
-    const impact = Math.exp(-sinceImpact * 7);           // 1 → 0 quickly
+    const impact = Math.exp(-sinceImpact * 8.5);         // 1 → 0 quickly, snappy
 
-    // Fresh pile under the hammer dips a few mm on each blow, then eases back.
+    // Fresh pile under the hammer drives down on each blow, then eases back.
     if (driverPileRef.current) {
-      driverPileRef.current.position.y = -0.05 * impact;
+      driverPileRef.current.position.y = -0.08 * impact;
     }
 
     // Winch drum spins to pay out cable on the slow lift, then reels in fast on
@@ -208,31 +231,38 @@ export function GeoScene({ opacity }) {
       cableRef.current.position.y = ramTop + span / 2;
     }
 
-    // Footing/column/pile group: slow consolidation creep + a synced micro-dip
-    // on each hammer blow (couples the rig's work to settlement).
+    // Footing/column/pile group: slow consolidation creep + a perceptible dip on
+    // each hammer blow (couples the rig's work to settlement). The signature
+    // geotech motion — kept tasteful, not bouncy: the footing eases down a hair
+    // per blow with a tiny coupled tilt so the settlement is actually felt.
     if (settleRef.current) {
       const bob = -0.018 - 0.012 * (0.5 - 0.5 * Math.cos(t * (Math.PI * 2) / 8));
-      settleRef.current.position.y = bob - 0.012 * impact;
+      settleRef.current.position.y = bob - 0.032 * impact;
+      settleRef.current.rotation.z = -0.006 * impact;   // tiny lean toward the rig
     }
 
-    // Groundwater: each exposed waterline band shimmers out of phase via both
-    // roughness and a faint info-blue emissive, so the water reads as alive even
-    // in a still frame. A single slow glint sweeps along the front band (i===0)
-    // so the eye always catches a traveling highlight on the waterline.
+    // Groundwater: each exposed waterline band reads as WET SOIL, not a neon
+    // stripe. 'Wet' comes through specular — a slow roughness shimmer wave — and
+    // only the faintest water-teal glint, never a glowing blue band. The
+    // saturated soil tint below wtY carries the zone; the WaterMarker triangle
+    // labels the datum. A single very subtle glint sweeps the front band so the
+    // eye catches a traveling highlight on the waterline.
     for (let i = 0; i < wetBandRefs.current.length; i++) {
       const m = wetBandRefs.current[i];
       if (!m) continue;
       const ph = i * 1.7;
-      m.roughness = 0.26 + 0.12 * (0.5 + 0.5 * Math.sin(t * 0.9 + ph));
-      let emi = 0.05 + 0.07 * (0.5 + 0.5 * Math.sin(t * 1.4 + ph));
+      // horizontal shimmer wave: slow roughness modulation reads as wet through
+      // specular response rather than emissive color.
+      m.roughness = 0.22 + 0.14 * (0.5 + 0.5 * Math.sin(t * 0.8 + ph));
+      let emi = 0.018 + 0.018 * (0.5 + 0.5 * Math.sin(t * 1.2 + ph));
       if (i === 0) {
-        // traveling glint: a narrow gaussian bump sweeping left→right in 5s
-        const sweep = (t % 5) / 5;            // 0..1 position of the glint
-        const here = 0.5;                     // band is one mesh; pulse over time
+        // traveling glint: a narrow gaussian bump sweeping in 5s — kept faint.
+        const sweep = (t % 5) / 5;
+        const here = 0.5;
         const g = Math.exp(-Math.pow((sweep - here) * 6, 2));
-        emi += 0.25 * g;
+        emi += 0.05 * g;
       }
-      m.emissiveIntensity = emi * opacity;
+      m.emissiveIntensity = Math.min(0.09, emi) * opacity;
     }
 
     // Spoil dust: recycle a small pool of puffs near the hammer. The first
@@ -257,12 +287,15 @@ export function GeoScene({ opacity }) {
       }
       const life = Math.min(1, sinceImpact * 2.2);       // 0 at blow → 1 after ~0.45s
       const fade = (1 - life) * (sinceImpact < 0.5 ? 1 : 0);
-      d.position.y = 0.05 + life * (0.32 + i * 0.05);
-      d.position.x = (i - 1.5) * 0.07 + windDrift;
-      d.position.z = ((i % 2) - 0.5) * 0.12;
-      const s = 0.04 + life * 0.16;
+      d.position.y = 0.05 + life * (0.4 + i * 0.06);
+      d.position.x = (i - 1.5) * 0.09 + windDrift;
+      d.position.z = ((i % 2) - 0.5) * 0.14;
+      // Spike the puff scale right at the blow so the impact lands even in a
+      // still frame, then let it grow + thin as it rises.
+      const burst = Math.exp(-sinceImpact * 9);          // sharp spike at impact
+      const s = 0.05 + life * 0.2 + 0.12 * burst;
       d.scale.set(s, s, s);
-      if (d.material) d.material.opacity = opacity * 0.4 * fade;
+      if (d.material) d.material.opacity = opacity * 0.48 * fade;
       d.visible = fade > 0.01;
     }
 
@@ -331,15 +364,41 @@ export function GeoScene({ opacity }) {
     }
 
     // Line-of-sight laser: a faint forest pulse so the optical line breathes.
+    // Floor kept high enough to read at low scene opacity, capped so it never
+    // becomes a glowing tube.
     if (laserRef.current) {
-      laserRef.current.opacity = opacity * (0.26 + 0.14 * (0.5 + 0.5 * Math.sin(t * 2.2)));
+      laserRef.current.opacity = opacity * (0.28 + 0.12 * (0.5 + 0.5 * Math.sin(t * 2.2)));
+    }
+
+    // Windblown leaf/seed specks: each rides the wind from near a tree to +x and
+    // gently down, tumbling, fading in then out over its own loop, then resets.
+    // Ties the canopy sway to ground-level motion. Shares the wind clock.
+    for (let i = 0; i < leafRefs.current.length; i++) {
+      const g = leafRefs.current[i];
+      if (!g) continue;
+      const cfg = leaves[i];
+      if (!cfg) continue;
+      const p = ((t + cfg.phase) % cfg.dur) / cfg.dur;   // 0..1 loop
+      const drift = p * 1.7;                              // travel downwind (+x)
+      const flutter = 0.12 * Math.sin(t * 4 + i * 1.7);   // side flutter (z)
+      g.position.x = cfg.x0 + drift + 0.08 * Math.sin(t * 2.3 + i);
+      g.position.y = cfg.y0 - p * (cfg.y0 - (topSurface + 0.06)) - 0.04 * Math.sin(t * 5 + i);
+      g.position.z = cfg.z + flutter;
+      g.rotation.x = t * 3 + i;
+      g.rotation.z = t * 2.2 + i * 0.6;
+      // fade in over the first 12%, hold, fade out over the last 20%
+      const a = p < 0.12 ? p / 0.12 : p > 0.8 ? (1 - p) / 0.2 : 1;
+      if (g.children[0] && g.children[0].material) {
+        g.children[0].material.opacity = opacity * 0.85 * a;
+      }
+      g.visible = a > 0.02;
     }
   });
 
   // Pile-driver location: in the open cutaway floor, left of and clear from the
   // in-place load-bearing group, driving a fresh pile of its own.
-  const driverX = -2.35;
-  const driverZ = D / 2 - 0.55;
+  const driverX = -2.3;
+  const driverZ = D / 2 - 0.42;   // nudged forward toward the open face, out of the deepest cutaway shadow
 
   return (
     <group position={[0, 0.05, 0]}>
@@ -349,16 +408,16 @@ export function GeoScene({ opacity }) {
           piles are not lost in shadow against the trench wall. */}
       <mesh position={[notchXc, layers.arr[1].y, D / 2 - notchD + 0.005]} receiveShadow>
         <boxGeometry args={[notchW, STRATA[0].H + STRATA[1].H + STRATA[2].H, 0.02]} />
-        <meshStandardMaterial color="#564f44" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
+        <meshStandardMaterial color="#6c6354" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
       </mesh>
       <mesh position={[notchXc + notchW / 2 - 0.005, layers.arr[1].y, notchZc]} receiveShadow>
         <boxGeometry args={[0.02, STRATA[0].H + STRATA[1].H + STRATA[2].H, notchD]} />
-        <meshStandardMaterial color="#4d473d" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
+        <meshStandardMaterial color="#615847" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
       </mesh>
       {/* Floor of the cutaway (top of the 4th, uncut layer). */}
       <mesh position={[notchXc, layers.arr[2].y - STRATA[2].H / 2 + 0.005, notchZc]} receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[notchW, notchD]} />
-        <meshStandardMaterial color="#4a443b" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
+        <meshStandardMaterial color="#5e5648" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
       </mesh>
 
       {/* Groundwater: thin wet bands sitting flush ON the exposed faces (front
@@ -368,22 +427,22 @@ export function GeoScene({ opacity }) {
       {/* Front face band (right of the notch). */}
       <mesh position={[-W / 2 + notchW + frontRightW / 2, wtY, D / 2 + 0.012]}>
         <boxGeometry args={[frontRightW - 0.04, 0.07, 0.02]} />
-        <meshStandardMaterial ref={(m) => { wetBandRefs.current[0] = m; }} color={C_WET} emissive={C.info} emissiveIntensity={0.06} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.9} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[0] = m; }} color={C_WET} emissive={C_WET} emissiveIntensity={0.03} metalness={0.5} roughness={0.28} transparent opacity={opacity * 0.92} />
       </mesh>
       {/* Cutaway back wall (z-facing trench wall) band. */}
       <mesh position={[notchXc, wtY, D / 2 - notchD + 0.016]}>
         <boxGeometry args={[notchW - 0.04, 0.06, 0.02]} />
-        <meshStandardMaterial ref={(m) => { wetBandRefs.current[1] = m; }} color={C_WET} emissive={C.info} emissiveIntensity={0.06} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[1] = m; }} color={C_WET} emissive={C_WET} emissiveIntensity={0.03} metalness={0.5} roughness={0.28} transparent opacity={opacity * 0.88} />
       </mesh>
       {/* Cutaway side wall (x-facing trench wall) band. */}
       <mesh position={[notchXc + notchW / 2 - 0.016, wtY, notchZc]}>
         <boxGeometry args={[0.02, 0.06, notchD - 0.04]} />
-        <meshStandardMaterial ref={(m) => { wetBandRefs.current[2] = m; }} color={C_WET} emissive={C.info} emissiveIntensity={0.06} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[2] = m; }} color={C_WET} emissive={C_WET} emissiveIntensity={0.03} metalness={0.5} roughness={0.28} transparent opacity={opacity * 0.88} />
       </mesh>
       {/* Right end face band. */}
       <mesh position={[W / 2 + 0.012, wtY, 0]}>
         <boxGeometry args={[0.02, 0.07, D - 0.04]} />
-        <meshStandardMaterial ref={(m) => { wetBandRefs.current[3] = m; }} color={C_WET} emissive={C.info} emissiveIntensity={0.06} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[3] = m; }} color={C_WET} emissive={C_WET} emissiveIntensity={0.03} metalness={0.5} roughness={0.28} transparent opacity={opacity * 0.88} />
       </mesh>
       {/* Classic downward water-table triangle marker, datum-aligned to the band
           on the front-right exposed face. */}
@@ -462,6 +521,17 @@ export function GeoScene({ opacity }) {
       {[0, 1, 2, 3].map((i) => (
         <group key={`bird${i}`} ref={(el) => { birdRefs.current[i] = el; }} visible={false}>
           <Bird opacity={opacity} />
+        </group>
+      ))}
+
+      {/* Windblown leaf/seed specks shed from the swaying trees, drifting over
+          the surface (recycled, animated in useFrame; no per-frame alloc). */}
+      {leaves.map((lf, i) => (
+        <group key={`leaf${i}`} ref={(el) => { leafRefs.current[i] = el; }} visible={false}>
+          <mesh castShadow>
+            <boxGeometry args={[0.07, 0.012, 0.05]} />
+            <meshStandardMaterial color={i % 2 === 0 ? '#6a7a5a' : '#8a8d57'} metalness={0.05} roughness={0.95} transparent opacity={0} flatShading />
+          </mesh>
         </group>
       ))}
 
@@ -734,11 +804,12 @@ function PileDriver({ x, z, baseY, pileBottom, hammerRef, pileRef, drumRef, cabl
         <boxGeometry args={[railDX * 2 + 0.26, 0.16, 0.42]} />
         <meshStandardMaterial color={C.steelLt} metalness={0.55} roughness={0.5} transparent={trans} opacity={opacity} />
       </mesh>
-      {/* Heavy ram riding between the rails — lightened to steel so it is not a
-          black void on cream — animated via ref. */}
+      {/* Heavy ram riding between the rails — lightened to steelLt with a thicker
+          silhouette so it is not a black void on cream and the drop reads at
+          tile scale — animated via ref. */}
       <mesh ref={hammerRef} position={[0, baseY + 0.6, 0]} castShadow>
-        <boxGeometry args={[railDX * 2 - 0.04, 0.4, 0.22]} />
-        <meshStandardMaterial color={C.steel} metalness={0.85} roughness={0.34} transparent={trans} opacity={opacity} />
+        <boxGeometry args={[railDX * 2 + 0.06, 0.46, 0.26]} />
+        <meshStandardMaterial color={C.steelLt} metalness={0.8} roughness={0.36} transparent={trans} opacity={opacity} />
       </mesh>
     </group>
   );
@@ -748,15 +819,17 @@ function PileDriver({ x, z, baseY, pileBottom, hammerRef, pileRef, drumRef, cabl
 // arcs it across the back sky. The wing flap comes from the parent's rotation.z.
 function Bird({ opacity = 1 }) {
   const trans = opacity < 1;
-  const mat = <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} transparent={trans} opacity={opacity} flatShading />;
+  // Warm steel-charcoal (#3d3a36) instead of pure charcoal so the birds read as
+  // birds against the cream rather than as dark dust specks; slightly larger.
+  const mat = <meshStandardMaterial color="#3d3a36" metalness={0.1} roughness={0.8} transparent={trans} opacity={opacity} flatShading />;
   return (
-    <group scale={0.5}>
-      <mesh castShadow><sphereGeometry args={[0.09, 8, 6]} />{mat}</mesh>
-      <mesh position={[0, 0.02, 0.22]} rotation={[0.4, 0.4, 0]} castShadow>
-        <boxGeometry args={[0.02, 0.06, 0.34]} />{mat}
+    <group scale={0.62}>
+      <mesh castShadow><sphereGeometry args={[0.105, 8, 6]} />{mat}</mesh>
+      <mesh position={[0, 0.02, 0.23]} rotation={[0.4, 0.4, 0]} castShadow>
+        <boxGeometry args={[0.02, 0.07, 0.38]} />{mat}
       </mesh>
-      <mesh position={[0, 0.02, -0.22]} rotation={[-0.4, -0.4, 0]} castShadow>
-        <boxGeometry args={[0.02, 0.06, 0.34]} />{mat}
+      <mesh position={[0, 0.02, -0.23]} rotation={[-0.4, -0.4, 0]} castShadow>
+        <boxGeometry args={[0.02, 0.07, 0.38]} />{mat}
       </mesh>
     </group>
   );
