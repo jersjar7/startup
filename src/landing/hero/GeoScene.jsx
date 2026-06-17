@@ -1,7 +1,7 @@
 import React from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { C, Box, Member, Person } from './primitives';
+import { C, Box, Member, Person, smoothstep } from './primitives';
 
 // FE topic: Geotechnical — solid stacked soil strata with a spread footing and
 // column carried into the soil on driven piles, a groundwater table, and a
@@ -15,21 +15,32 @@ import { C, Box, Member, Person } from './primitives';
 // Distinct soil units (topsoil → sand → clay → stiff clay → dense sand/rock),
 // widened in value/hue across the muted-earth range and given per-layer
 // thickness so they read as geology, not machined banding. Listed top → bottom.
+// `wetColor` is the saturated tint used below the water table so the phreatic
+// zone reads as darker, wetter soil instead of a floating slab.
 const STRATA = [
-  { color: '#9b9183', H: 0.34 }, // topsoil — light tan, thin
-  { color: '#857a64', H: 0.5 },  // sand — warm gray-brown
-  { color: '#6a5f4c', H: 0.66 }, // clay — darker, thicker
-  { color: '#574d3d', H: 0.56 }, // stiff clay — deep brown
-  { color: '#4b4640', H: 0.5 },  // dense sand / weathered rock — gritty gray-brown
+  { color: '#9b9183', wet: '#6f675b', H: 0.34 }, // topsoil — light tan, thin
+  { color: '#857a64', wet: '#5d5544', H: 0.5 },  // sand — warm gray-brown
+  { color: '#6a5f4c', wet: '#4a4234', H: 0.66 }, // clay — darker, thicker
+  { color: '#574d3d', wet: '#3e372b', H: 0.56 }, // stiff clay — deep brown
+  { color: '#4b4640', wet: '#363230', H: 0.5 },  // dense sand / weathered rock
 ];
+
+// Brand concrete + steel tones for the structural members (kept off the
+// muted-earth soil palette so footing/piles read as built, not geology).
+const CONCRETE = '#cfc7ba';   // warm cast-in-place concrete (footing/piers/piles)
+const CONCRETE_DK = '#b9b0a1'; // shaded pile / pedestal step
+const C_WET = '#2f6f7a';      // groundwater (= C.water)
 
 export function GeoScene({ opacity }) {
   const settleRef = React.useRef();   // footing + column + pile group
-  const waterRef = React.useRef();    // groundwater slab
-  const waterMatRef = React.useRef();
+  const wetBandRefs = React.useRef([]); // wet-face shimmer materials
   const treeRefs = React.useRef([]);  // canopy sway groups
   const personRef = React.useRef();   // walking surveyor
+  const personYawRef = React.useRef(Math.PI / 2);
   const hammerRef = React.useRef();   // pile-driver hammer block
+  const driverPileRef = React.useRef(); // fresh pile under the hammer
+  const dustRef = React.useRef([]);   // recycled spoil-puff meshes
+  const birdRef = React.useRef();     // background bird
 
   const layers = React.useMemo(() => {
     const W = 7.4, D = 2.8;
@@ -55,9 +66,10 @@ export function GeoScene({ opacity }) {
   const notchXc = -W / 2 + notchW / 2;   // center x of removed corner
   const notchZc = D / 2 - notchD / 2;    // center z (toward +Z front face)
 
-  // Pile group sits inside the cutaway so it is fully visible.
-  const pileXs = [-1.55, -0.7];
-  const pileZs = [D / 2 - 0.45, D / 2 - 1.05];
+  // Pile group sits inside the cutaway so it is fully visible: a 2x2 grid of
+  // slender driven piles carried down into the stiff layer.
+  const pileXs = [-1.75, -0.95];
+  const pileZs = [D / 2 - 0.42, D / 2 - 1.02];
   const pileTop = topSurface - STRATA[0].H + 0.02; // just under the footing seat
   const pileBottom = layers.arr[3].y;              // driven into the stiff layer
   const footingTopY = topSurface + 0.16;
@@ -66,47 +78,55 @@ export function GeoScene({ opacity }) {
   // Groundwater table elevation — sits within the clay band (3rd layer down).
   const wtY = layers.arr[2].y + layers.arr[2].H / 2;
 
+  // Per-layer color: layers fully below the water table read as the wet tint;
+  // a layer straddling the table is split into a dry upper and wet lower half.
+  const colorAt = (l) => (l.y + l.H / 2 <= wtY + 1e-4 ? l.wet : l.color);
+
   // Each soil layer is split into the full back slab plus a narrower front
   // strip, with the front-left corner of the upper layers omitted to form the
-  // stepped cutaway that exposes the piles.
+  // stepped cutaway that exposes the piles. Layers crossing the water table are
+  // additionally split horizontally into a dry crown and a saturated base so the
+  // phreatic zone reads inside the soil rather than as a floating slab.
+  const soilMat = (color) => (
+    <meshStandardMaterial color={color} metalness={0.1} roughness={0.92} transparent={transparent} opacity={opacity} flatShading />
+  );
   const layerMeshes = [];
-  layers.arr.forEach((l, i) => {
-    const cut = i < 3; // top three layers get the notch carved out
-    const mat = (
-      <meshStandardMaterial
-        color={l.color}
-        metalness={0.1}
-        roughness={0.92}
-        transparent={transparent}
-        opacity={opacity}
-        flatShading
-      />
-    );
-    if (!cut) {
+  // Helper: emit a box that is auto-split at wtY into dry/wet sub-boxes.
+  const emitSplit = (key, cx, w, l, cz, d) => {
+    const top = l.y + l.H / 2, bot = l.y - l.H / 2;
+    if (wtY <= bot + 1e-4 || wtY >= top - 1e-4) {
+      // wholly dry or wholly wet
+      const col = wtY >= top - 1e-4 ? l.wet : l.color;
       layerMeshes.push(
-        <mesh key={`g${i}`} position={[0, l.y, 0]} castShadow receiveShadow>
-          <boxGeometry args={[W, l.H, D]} />
-          {mat}
+        <mesh key={key} position={[cx, l.y, cz]} castShadow receiveShadow>
+          <boxGeometry args={[w, l.H, d]} />
+          {soilMat(col)}
         </mesh>,
       );
       return;
     }
-    // Back slab: full width, depth = D - notchD, pushed to the back (−Z).
-    const backD = D - notchD;
+    const dryH = top - wtY, wetH = wtY - bot;
     layerMeshes.push(
-      <mesh key={`g${i}-back`} position={[0, l.y, -D / 2 + backD / 2]} castShadow receiveShadow>
-        <boxGeometry args={[W, l.H, backD]} />
-        <meshStandardMaterial color={l.color} metalness={0.1} roughness={0.92} transparent={transparent} opacity={opacity} flatShading />
+      <mesh key={`${key}-dry`} position={[cx, wtY + dryH / 2, cz]} castShadow receiveShadow>
+        <boxGeometry args={[w, dryH, d]} />
+        {soilMat(l.color)}
+      </mesh>,
+      <mesh key={`${key}-wet`} position={[cx, bot + wetH / 2, cz]} castShadow receiveShadow>
+        <boxGeometry args={[w, wetH, d]} />
+        {soilMat(l.wet)}
       </mesh>,
     );
-    // Front-right strip: fills the front band to the right of the notch.
-    const frontRightW = W - notchW;
-    layerMeshes.push(
-      <mesh key={`g${i}-front`} position={[-W / 2 + notchW + frontRightW / 2, l.y, D / 2 - notchD / 2]} castShadow receiveShadow>
-        <boxGeometry args={[frontRightW, l.H, notchD]} />
-        <meshStandardMaterial color={l.color} metalness={0.1} roughness={0.92} transparent={transparent} opacity={opacity} flatShading />
-      </mesh>,
-    );
+  };
+  const backD = D - notchD;
+  const frontRightW = W - notchW;
+  layers.arr.forEach((l, i) => {
+    const cut = i < 3; // top three layers get the notch carved out
+    if (!cut) {
+      emitSplit(`g${i}`, 0, W, l, 0, D);
+      return;
+    }
+    emitSplit(`g${i}-back`, 0, W, l, -D / 2 + backD / 2, backD);
+    emitSplit(`g${i}-front`, -W / 2 + notchW + frontRightW / 2, frontRightW, l, D / 2 - notchD / 2, notchD);
   });
 
   // Surface vegetation: a few low-poly trees/shrubs on top of the soil, placed
@@ -121,71 +141,121 @@ export function GeoScene({ opacity }) {
   // Surveyor walk path along the back surface (clear of the footing/cutaway).
   const walk = { x0: -2.7, x1: 2.7, z: -D / 2 + 0.45 };
 
+  // The pile-driver stands on the excavated cutaway floor.
+  const cutFloorY = layers.arr[2].y - STRATA[2].H / 2 + 0.005;
+
+  // Hammer drop cycle. Ram rises slowly then drops fast; impact at cyc≈1.
+  const HAMMER_PERIOD = 2.6;
+  const hammerLo = cutFloorY + 0.5;     // ram resting just above the pile head
+  const hammerHi = hammerLo + 0.62;     // top of lift
+
   useFrame((state) => {
     const t = state.clock.elapsedTime;
 
-    // Slow settlement bob of the footing/column/pile group — conveys the
-    // service load formerly shown by the arrow. A few mm, ~8s period.
+    // Pile-driver hammer: slow lift (eased), sharp drop on a loop.
+    const cyc = (t % HAMMER_PERIOD) / HAMMER_PERIOD;     // 0..1
+    const rise = cyc < 0.8 ? Math.pow(cyc / 0.8, 0.6) : 1 - (cyc - 0.8) / 0.2;
+    if (hammerRef.current) {
+      hammerRef.current.position.y = hammerLo + (hammerHi - hammerLo) * rise;
+    }
+    // Impact pulse: peaks right at the drop (cyc≈1), decays over ~0.4s.
+    const sinceImpact = (1 - cyc) * HAMMER_PERIOD;       // s since last impact
+    const impact = Math.exp(-sinceImpact * 7);           // 1 → 0 quickly
+
+    // Fresh pile under the hammer dips a few mm on each blow, then eases back.
+    if (driverPileRef.current) {
+      driverPileRef.current.position.y = -0.05 * impact;
+    }
+
+    // Footing/column/pile group: slow consolidation creep + a synced micro-dip
+    // on each hammer blow (couples the rig's work to settlement).
     if (settleRef.current) {
-      settleRef.current.position.y = -0.018 - 0.014 * (0.5 - 0.5 * Math.cos(t * (Math.PI * 2) / 8));
+      const bob = -0.018 - 0.012 * (0.5 - 0.5 * Math.cos(t * (Math.PI * 2) / 8));
+      settleRef.current.position.y = bob - 0.012 * impact;
     }
 
-    // Groundwater shimmer: a tiny vertical bob plus a gentle roughness ripple
-    // so it reads wet while staying a clean horizontal datum.
-    if (waterRef.current) {
-      waterRef.current.position.y = wtY + 0.012 * Math.sin(t * 1.1);
-    }
-    if (waterMatRef.current) {
-      waterMatRef.current.roughness = 0.15 + 0.07 * (0.5 + 0.5 * Math.sin(t * 0.9 + 1.2));
+    // Groundwater: a faint specular/roughness shimmer band on the exposed wet
+    // faces only — water reads without any floating sheet.
+    for (let i = 0; i < wetBandRefs.current.length; i++) {
+      const m = wetBandRefs.current[i];
+      if (!m) continue;
+      m.roughness = 0.28 + 0.12 * (0.5 + 0.5 * Math.sin(t * 0.9 + i * 1.7));
     }
 
-    // Trees sway in the wind, phase-varied.
+    // Spoil dust: recycle a small pool of puffs near the hammer. They rise and
+    // fade in the ~0.4s after each blow (no per-frame allocation).
+    for (let i = 0; i < dustRef.current.length; i++) {
+      const d = dustRef.current[i];
+      if (!d) continue;
+      const life = Math.min(1, sinceImpact * 2.2);       // 0 at blow → 1 after ~0.45s
+      const fade = (1 - life) * (sinceImpact < 0.5 ? 1 : 0);
+      d.position.y = 0.05 + life * (0.32 + i * 0.05);
+      d.position.x = (i - 1.5) * 0.07;
+      d.position.z = ((i % 2) - 0.5) * 0.12;
+      const s = 0.04 + life * 0.16;
+      d.scale.set(s, s, s);
+      if (d.material) d.material.opacity = opacity * 0.4 * fade;
+      d.visible = fade > 0.01;
+    }
+
+    // Trees sway in the wind, phase-varied (base sway + outer micro-flutter).
     for (let i = 0; i < treeRefs.current.length; i++) {
       const g = treeRefs.current[i];
       if (!g) continue;
       const ph = trees[i] ? trees[i].phase : i;
-      g.rotation.z = 0.06 * Math.sin(t * 1.3 + ph) + 0.02 * Math.sin(t * 2.7 + ph);
+      g.rotation.z = 0.06 * Math.sin(t * 1.3 + ph) + 0.022 * Math.sin(t * 3.4 + ph);
     }
 
-    // Surveyor walks back and forth; turns at each end (ping-pong via triangle
-    // wave) and faces the direction of travel.
+    // Surveyor walks back and forth; eases the 180° turn near each end instead
+    // of snapping, and bobs with stride.
     if (personRef.current) {
       const period = 11;
       const u = (t % period) / period;            // 0..1
       const tri = u < 0.5 ? u * 2 : 2 - u * 2;     // 0..1..0
       personRef.current.position.x = walk.x0 + (walk.x1 - walk.x0) * tri;
       personRef.current.position.z = walk.z;
-      personRef.current.rotation.y = u < 0.5 ? Math.PI / 2 : -Math.PI / 2;
-      // subtle bob to suggest a stride
+      // target heading: +x leg faces +PI/2, -x leg faces -PI/2; ease toward it
+      const target = u < 0.5 ? Math.PI / 2 : -Math.PI / 2;
+      let cur = personYawRef.current;
+      let diff = target - cur;
+      cur += diff * 0.12;                          // critically-damped-ish ease
+      personYawRef.current = cur;
+      personRef.current.rotation.y = cur;
       personRef.current.position.y = topSurface + 0.16 + 0.02 * Math.abs(Math.sin(t * 6));
     }
 
-    // Pile-driver hammer: slow lift, sharp drop on a loop (eased sawtooth).
-    if (hammerRef.current) {
-      const cyc = (t % 2.6) / 2.6;                 // 0..1
-      // rise across 0..0.8 (eased), drop fast across 0.8..1
-      const rise = cyc < 0.8 ? Math.pow(cyc / 0.8, 0.6) : 1 - (cyc - 0.8) / 0.2;
-      hammerRef.current.position.y = topSurface + 0.5 + 0.62 * rise;
+    // A single bird arcs across the back occasionally for life.
+    if (birdRef.current) {
+      const bp = (t % 17) / 17;                    // long loop
+      const fly = smoothstep(0.15, 0.85, bp);
+      birdRef.current.visible = bp > 0.12 && bp < 0.9;
+      birdRef.current.position.x = -4.4 + fly * 8.8;
+      birdRef.current.position.y = topSurface + 1.7 + 0.35 * Math.sin(bp * Math.PI);
+      birdRef.current.position.z = -D / 2 - 0.8;
+      birdRef.current.rotation.y = -Math.PI / 2;
+      // wing flap
+      birdRef.current.rotation.z = 0.4 * Math.sin(t * 12);
     }
   });
 
-  // Geometry for the pile-driver leader, placed above the front-most pile head.
-  const driverX = pileXs[1];
-  const driverZ = pileZs[0];
+  // Pile-driver location: in the open cutaway floor, left of and clear from the
+  // in-place load-bearing group, driving a fresh pile of its own.
+  const driverX = -2.35;
+  const driverZ = D / 2 - 0.55;
 
   return (
     <group position={[0, 0.05, 0]}>
       {layerMeshes}
 
-      {/* Exposed inner faces of the cutaway, tinted slightly darker so the cut
-          reads as a freshly excavated trench wall rather than open air. */}
-      <mesh position={[notchXc, layers.arr[1].y, D / 2 - notchD]} receiveShadow>
+      {/* Exposed inner faces of the cutaway — lifted in value so the embedded
+          piles are not lost in shadow against the trench wall. */}
+      <mesh position={[notchXc, layers.arr[1].y, D / 2 - notchD + 0.005]} receiveShadow>
         <boxGeometry args={[notchW, STRATA[0].H + STRATA[1].H + STRATA[2].H, 0.02]} />
-        <meshStandardMaterial color="#3f3a32" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
+        <meshStandardMaterial color="#564f44" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
       </mesh>
-      <mesh position={[notchXc + notchW / 2, layers.arr[1].y, notchZc]} receiveShadow>
+      <mesh position={[notchXc + notchW / 2 - 0.005, layers.arr[1].y, notchZc]} receiveShadow>
         <boxGeometry args={[0.02, STRATA[0].H + STRATA[1].H + STRATA[2].H, notchD]} />
-        <meshStandardMaterial color="#3f3a32" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
+        <meshStandardMaterial color="#4d473d" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
       </mesh>
       {/* Floor of the cutaway (top of the 4th, uncut layer). */}
       <mesh position={[notchXc, layers.arr[2].y - STRATA[2].H / 2 + 0.005, notchZc]} receiveShadow rotation={[-Math.PI / 2, 0, 0]}>
@@ -193,55 +263,93 @@ export function GeoScene({ opacity }) {
         <meshStandardMaterial color="#4a443b" metalness={0.05} roughness={1} transparent={transparent} opacity={opacity} />
       </mesh>
 
-      {/* Groundwater table — a wet band in C.water, thick and protruding from
-          the faces so it survives downsampling. Gently shimmers via ref. */}
-      <mesh ref={waterRef} position={[0, wtY, 0]} castShadow receiveShadow>
-        <boxGeometry args={[W + 0.06, 0.05, D + 0.06]} />
-        <meshStandardMaterial
-          ref={waterMatRef}
-          color={C.water}
-          metalness={0.25}
-          roughness={0.15}
-          transparent
-          opacity={opacity * 0.72}
-        />
+      {/* Groundwater: thin wet bands sitting flush ON the exposed faces (front
+          face + the two cutaway trench walls) at the water-table elevation. No
+          slab cuts through the block; the saturated soil tint below wtY carries
+          the zone. Each band shimmers subtly via its material ref. */}
+      {/* Front face band (right of the notch). */}
+      <mesh position={[-W / 2 + notchW + frontRightW / 2, wtY, D / 2 + 0.012]}>
+        <boxGeometry args={[frontRightW - 0.04, 0.07, 0.02]} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[0] = m; }} color={C_WET} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.9} />
       </mesh>
-      {/* Classic downward water-table triangle marker on the front-right face. */}
-      <WaterMarker position={[W / 2 - 1.0, wtY + 0.22, D / 2 + 0.015]} opacity={opacity} />
+      {/* Cutaway back wall (z-facing trench wall) band. */}
+      <mesh position={[notchXc, wtY, D / 2 - notchD + 0.016]}>
+        <boxGeometry args={[notchW - 0.04, 0.06, 0.02]} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[1] = m; }} color={C_WET} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
+      </mesh>
+      {/* Cutaway side wall (x-facing trench wall) band. */}
+      <mesh position={[notchXc + notchW / 2 - 0.016, wtY, notchZc]}>
+        <boxGeometry args={[0.02, 0.06, notchD - 0.04]} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[2] = m; }} color={C_WET} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
+      </mesh>
+      {/* Right end face band. */}
+      <mesh position={[W / 2 + 0.012, wtY, 0]}>
+        <boxGeometry args={[0.02, 0.07, D - 0.04]} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[3] = m; }} color={C_WET} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
+      </mesh>
+      {/* Classic downward water-table triangle marker, datum-aligned to the band
+          on the front-right exposed face. */}
+      <WaterMarker position={[W / 2 - 1.0, wtY + 0.26, D / 2 + 0.02]} opacity={opacity} />
 
-      {/* The footing + column + driven pile group settle together under load —
-          a slow vertical bob driven in useFrame replaces the old load arrow. */}
+      {/* The footing + pile cap + driven pile group settle together under load —
+          a slow consolidation creep plus a micro-dip on each hammer blow,
+          driven in useFrame (replaces the old load arrow). */}
       <group ref={settleRef}>
-        {/* Driven pile group, exposed in the cutaway. A slightly desaturated
-            ember so the piles pop but read as structural members, not candy. */}
+        {/* Driven pile group: a visible 2x2 grid of slender CONCRETE piles, pale
+            against the lifted trench wall so the 'footing on piles' load path
+            is unmistakable. */}
         {pileXs.map((px) =>
           pileZs.map((pz, j) => (
-            <React.Fragment key={`pile${px}-${j}`}>
-              <Member a={[px, pileTop, pz]} b={[px, pileBottom, pz]} radius={0.1} color="#c25530" opacity={opacity} />
-              <Box position={[px, pileTop + 0.02, pz]} size={[0.26, 0.06, 0.26]} color={C.steelLt} opacity={opacity} metalness={0.6} roughness={0.5} />
-            </React.Fragment>
+            <Member key={`pile${px}-${j}`} a={[px, pileTop, pz]} b={[px, pileBottom, pz]} radius={0.135} color={(px === pileXs[1]) ? CONCRETE : CONCRETE_DK} opacity={opacity} />
           )),
         )}
+        {/* Pile cap: a low concrete slab spanning all four pile heads, tying the
+            footing → cap → piles load path together. */}
+        <Box
+          position={[(pileXs[0] + pileXs[1]) / 2, pileTop + 0.09, (pileZs[0] + pileZs[1]) / 2]}
+          size={[Math.abs(pileXs[0] - pileXs[1]) + 0.5, 0.18, Math.abs(pileZs[0] - pileZs[1]) + 0.5]}
+          color={CONCRETE} opacity={opacity} metalness={0.04} roughness={0.95}
+        />
 
-        {/* Spread footing (concrete) — seated over the pile group. */}
-        <Box position={[0, footingTopY, 0]} size={[footingW, 0.32, footingD]} color={C.steelLt} opacity={opacity} metalness={0.25} roughness={0.7} />
-        {/* Steel baseplate at the footing-column joint reads as a connection. */}
-        <Box position={[0, footingTopY + 0.17, 0]} size={[0.74, 0.04, 0.74]} color={C.steel} opacity={opacity} metalness={0.55} roughness={0.45} />
-        {/* Column / pier — lighter steel at lower metalness so it is not a black
-            monolith against the light footing. */}
-        <Box position={[0, footingTopY + 0.19 + 0.45, 0]} size={[0.55, 0.9, 0.55]} color={C.steelLt} opacity={opacity} metalness={0.4} roughness={0.5} />
+        {/* Spread footing (cast concrete) — warm off-white, high roughness, near
+            zero metalness, with a stepped pedestal so it reads cast-in-place. */}
+        <Box position={[0, footingTopY, 0]} size={[footingW, 0.3, footingD]} color={CONCRETE} opacity={opacity} metalness={0.03} roughness={0.95} />
+        <Box position={[0, footingTopY + 0.2, 0]} size={[footingW - 0.5, 0.12, footingD - 0.5]} color={CONCRETE_DK} opacity={opacity} metalness={0.03} roughness={0.95} />
+        {/* Steel baseplate at the column joint reads as a structural connection. */}
+        <Box position={[0, footingTopY + 0.28, 0]} size={[0.66, 0.04, 0.66]} color={C.steel} opacity={opacity} metalness={0.6} roughness={0.4} />
+        {/* Column / pier — slimmer than the footing, steel so it contrasts the
+            concrete below it. */}
+        <Box position={[0, footingTopY + 0.3 + 0.45, 0]} size={[0.46, 0.9, 0.46]} color={C.steelLt} opacity={opacity} metalness={0.45} roughness={0.45} />
       </group>
 
-      {/* Pile-driver: a thin leader mast over the front pile head with a hammer
-          block that rises slowly and drops on a loop — the topical 'driving
-          load' source that replaces the diagrammatic arrow. */}
+      {/* Pile-driver: a twin-rail leader with a ram riding between the rails,
+          driving a fresh concrete pile directly beneath the hammer. The ram
+          rises slowly and drops fast; each blow dips the pile head. */}
       <PileDriver
         x={driverX}
         z={driverZ}
-        baseY={topSurface}
+        baseY={cutFloorY}
+        pileBottom={pileBottom}
         hammerRef={hammerRef}
+        pileRef={driverPileRef}
         opacity={opacity}
       />
+
+      {/* Spoil-dust pool kicked up at the driving point on each blow (recycled,
+          no per-frame allocation). */}
+      <group position={[driverX, cutFloorY, driverZ]}>
+        {[0, 1, 2, 3].map((i) => (
+          <mesh key={`dust${i}`} ref={(m) => { dustRef.current[i] = m; }} visible={false}>
+            <sphereGeometry args={[1, 7, 6]} />
+            <meshStandardMaterial color="#8a8170" metalness={0} roughness={1} transparent opacity={0} />
+          </mesh>
+        ))}
+      </group>
+
+      {/* A single bird arcing across the back sky for life. */}
+      <group ref={birdRef} visible={false}>
+        <Bird opacity={opacity} />
+      </group>
 
       {/* Surface vegetation — low-poly trees/shrubs that sway in the wind. */}
       {trees.map((tr, i) => (
@@ -257,9 +365,11 @@ export function GeoScene({ opacity }) {
         />
       ))}
 
-      {/* Surveyor walking the site (reuses the shared Person helper). */}
+      {/* Surveyor walking the site, carrying a tripod/level over one shoulder
+          so the figure reads as a surveyor rather than a pedestrian. */}
       <group ref={personRef} position={[walk.x0, topSurface + 0.16, walk.z]} rotation={[0, Math.PI / 2, 0]}>
-        <Person scale={0.62} vest={C.sunbeam} hardHat={C.ember} ponytail opacity={opacity} />
+        <Person scale={0.62} vest={C.sunbeam} hardHat={C.ember} ponytail armPose="hold" opacity={opacity} />
+        <CarriedTripod opacity={opacity} />
       </group>
 
       {/* Borehole core sample: a banded core quoting the block's strata, wrapped
@@ -384,27 +494,92 @@ function Tree({ groupRef, x, z, baseY, scale = 0.6, shrub = false, opacity = 1 }
   );
 }
 
-// Pile-driver leader: a thin vertical mast with a steel hammer block whose Y is
-// animated by an external ref (rises slowly, drops fast). Honors `opacity`.
-function PileDriver({ x, z, baseY, hammerRef, opacity = 1 }) {
+// Pile-driver rig: a twin-rail leader frame with a heavy ram riding between the
+// rails, driving a fresh concrete pile directly beneath it. The ram Y is
+// animated by `hammerRef`; the fresh pile's group Y is dipped by `pileRef` on
+// each blow. Honors `opacity`.
+function PileDriver({ x, z, baseY, pileBottom, hammerRef, pileRef, opacity = 1 }) {
   const trans = opacity < 1;
-  const leaderH = 1.1;
+  const leaderH = 1.5;
+  const railDX = 0.16;             // half-gap between the two guide rails
+  const topY = baseY + 0.12 + leaderH;
+  const freshPileTopY = baseY + 0.12; // fresh pile head sits at grade
   return (
     <group position={[x, 0, z]}>
-      {/* Leader mast. */}
-      <mesh position={[0.16, baseY + 0.16 + leaderH / 2, 0]} castShadow>
-        <boxGeometry args={[0.05, leaderH, 0.05]} />
-        <meshStandardMaterial color={C.steel} metalness={0.7} roughness={0.4} transparent={trans} opacity={opacity} />
+      {/* Fresh concrete pile being driven, directly under the ram. */}
+      <group ref={pileRef}>
+        <Member a={[0, freshPileTopY, 0]} b={[0, pileBottom + 0.2, 0]} radius={0.13} color={CONCRETE} opacity={opacity} />
+        {/* Drive cap on the pile head. */}
+        <mesh position={[0, freshPileTopY + 0.03, 0]} castShadow>
+          <cylinderGeometry args={[0.16, 0.16, 0.06, 16]} />
+          <meshStandardMaterial color={C.steel} metalness={0.7} roughness={0.4} transparent={trans} opacity={opacity} />
+        </mesh>
+      </group>
+
+      {/* Twin guide rails. */}
+      {[-railDX, railDX].map((dx) => (
+        <mesh key={`rail${dx}`} position={[dx, baseY + 0.12 + leaderH / 2, 0]} castShadow>
+          <boxGeometry args={[0.05, leaderH, 0.06]} />
+          <meshStandardMaterial color={C.steel} metalness={0.75} roughness={0.38} transparent={trans} opacity={opacity} />
+        </mesh>
+      ))}
+      {/* Crown brace tying the rail tops together. */}
+      <mesh position={[0, topY, 0]} castShadow>
+        <boxGeometry args={[railDX * 2 + 0.08, 0.08, 0.1]} />
+        <meshStandardMaterial color={C.steelLt} metalness={0.6} roughness={0.45} transparent={trans} opacity={opacity} />
       </mesh>
-      {/* Short base sill grounding the leader on the soil. */}
-      <mesh position={[0.16, baseY + 0.08, 0]} castShadow>
-        <boxGeometry args={[0.22, 0.16, 0.22]} />
+      {/* Base sill / lead foot grounding the rig on the soil. */}
+      <mesh position={[0, baseY + 0.08, 0]} castShadow>
+        <boxGeometry args={[railDX * 2 + 0.18, 0.16, 0.24]} />
         <meshStandardMaterial color={C.steelLt} metalness={0.55} roughness={0.5} transparent={trans} opacity={opacity} />
       </mesh>
-      {/* Hammer block — animated via ref (initial Y reset each frame). */}
+      {/* Heavy ram riding between the rails — animated via ref. */}
       <mesh ref={hammerRef} position={[0, baseY + 0.6, 0]} castShadow>
-        <boxGeometry args={[0.26, 0.3, 0.26]} />
-        <meshStandardMaterial color={C.steel} metalness={0.8} roughness={0.35} transparent={trans} opacity={opacity} />
+        <boxGeometry args={[railDX * 2 - 0.04, 0.36, 0.2]} />
+        <meshStandardMaterial color="#3a3a3a" metalness={0.85} roughness={0.32} transparent={trans} opacity={opacity} />
+      </mesh>
+    </group>
+  );
+}
+
+// A tiny low-poly bird (body + two swept wings) carried in a parent group that
+// arcs it across the back sky. The wing flap comes from the parent's rotation.z.
+function Bird({ opacity = 1 }) {
+  const trans = opacity < 1;
+  const mat = <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} transparent={trans} opacity={opacity} flatShading />;
+  return (
+    <group scale={0.5}>
+      <mesh castShadow><sphereGeometry args={[0.09, 8, 6]} />{mat}</mesh>
+      <mesh position={[0, 0.02, 0.22]} rotation={[0.4, 0.4, 0]} castShadow>
+        <boxGeometry args={[0.02, 0.06, 0.34]} />{mat}
+      </mesh>
+      <mesh position={[0, 0.02, -0.22]} rotation={[-0.4, -0.4, 0]} castShadow>
+        <boxGeometry args={[0.02, 0.06, 0.34]} />{mat}
+      </mesh>
+    </group>
+  );
+}
+
+// A surveyor's tripod/level carried over the shoulder: three splayed legs and a
+// small head, angled as if shouldered. Local to the carrying group. Honors
+// `opacity`.
+function CarriedTripod({ opacity = 1 }) {
+  const trans = opacity < 1;
+  const steel = (
+    <meshStandardMaterial color={C.steelLt} metalness={0.5} roughness={0.5} transparent={trans} opacity={opacity} />
+  );
+  return (
+    <group position={[0.02, 0.78, -0.16]} rotation={[0, 0, -0.5]} scale={0.62}>
+      {/* Three legs splayed from a common head. */}
+      {[-0.12, 0, 0.12].map((dz, i) => (
+        <mesh key={i} position={[0, -0.32, dz]} rotation={[dz * 1.2, 0, 0.05]} castShadow>
+          <cylinderGeometry args={[0.018, 0.018, 0.72, 6]} />{steel}
+        </mesh>
+      ))}
+      {/* Instrument head. */}
+      <mesh position={[0, 0.06, 0]} castShadow>
+        <boxGeometry args={[0.12, 0.1, 0.12]} />
+        <meshStandardMaterial color={C.steel} metalness={0.6} roughness={0.4} transparent={trans} opacity={opacity} />
       </mesh>
     </group>
   );

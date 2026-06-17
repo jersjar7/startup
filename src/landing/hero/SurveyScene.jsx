@@ -28,7 +28,7 @@ const LEAF_A = '#4e6f4a';
 const LEAF_B = '#5f7d5a';
 const BARK = '#5b4e40';
 const CLOUD = '#FFFDF8';
-const DOG = '#5a5048';
+const DOG = '#a8825a'; // warm tan coat so it separates from the soil/grass
 
 // A tapered steel tripod leg: two stacked cylinders (thick at the head, thin at
 // the foot) plus a pointed cone foot planted in the soil.
@@ -140,36 +140,74 @@ function TotalStation({ x, z, opacity, look }) {
   );
 }
 
-// A standard graduated leveling rod: tall, thin, alternating ember/cream bands
-// with thin charcoal graduation ticks, colored top band so the tip reads.
+// A graduated leveling rod: a WHITE rod face carrying classic survey graduation
+// blocks — bold charcoal E-pattern marks every decimal, with a thin ember band
+// only as an accent at each foot mark. Reads as a real stadia rod, not a
+// candy-cane hazard pole.
+const ROD_WHITE = '#F2EEE6';
 function StadiaRod({ opacity }) {
-  const segs = 13;
+  const segs = 13; // each segment is one tenth of a "foot"
   const h = 0.16;
-  const w = 0.07;
+  const w = 0.075;
   return (
     <group>
+      {/* continuous white rod face the graduation blocks sit on */}
+      <Box
+        position={[0, (segs * h) / 2, 0]}
+        size={[w, segs * h, 0.05]}
+        color={ROD_WHITE}
+        opacity={opacity}
+        metalness={0.05}
+        roughness={0.65}
+      />
       {Array.from({ length: segs }).map((_, i) => {
-        // topmost band (i === segs-1) colored so the tip reads
-        const colored = i % 2 === 1 || i === segs - 1;
+        const footMark = i % 5 === 0; // every fifth tenth = a "foot" → ember accent
+        // Charcoal graduation block on the white face. Alternate a solid block
+        // and an E-pattern (block split by a white gap) so it reads graduated.
+        const eGap = i % 2 === 1;
         return (
           <group key={i} position={[0, h / 2 + i * h, 0]}>
-            <Box
-              position={[0, 0, 0]}
-              size={[w, h, 0.045]}
-              color={colored ? C.ember : C.cream}
-              opacity={opacity}
-              metalness={0.1}
-              roughness={0.6}
-            />
-            {/* graduation tick at the top of each band, facing -x (the station) */}
-            <Box
-              position={[-w / 2 - 0.001, h / 2 - 0.012, 0]}
-              size={[0.012, 0.012, 0.046]}
-              color={C.charcoal}
-              opacity={opacity}
-              metalness={0.1}
-              roughness={0.7}
-            />
+            {eGap ? (
+              <>
+                {/* E-pattern: two stacked charcoal bars with a white gap */}
+                <Box
+                  position={[0, h * 0.22, 0.001]}
+                  size={[w * 0.82, h * 0.34, 0.052]}
+                  color={C.charcoal}
+                  opacity={opacity}
+                  metalness={0.05}
+                  roughness={0.7}
+                />
+                <Box
+                  position={[0, -h * 0.22, 0.001]}
+                  size={[w * 0.82, h * 0.34, 0.052]}
+                  color={C.charcoal}
+                  opacity={opacity}
+                  metalness={0.05}
+                  roughness={0.7}
+                />
+              </>
+            ) : (
+              <Box
+                position={[0, 0, 0.001]}
+                size={[w * 0.82, h * 0.44, 0.052]}
+                color={C.charcoal}
+                opacity={opacity}
+                metalness={0.05}
+                roughness={0.7}
+              />
+            )}
+            {footMark && (
+              // thin ember foot-mark band wrapping the rod as an accent only
+              <Box
+                position={[0, -h / 2 + 0.012, 0.002]}
+                size={[w * 1.02, 0.022, 0.054]}
+                color={C.ember}
+                opacity={opacity}
+                metalness={0.1}
+                roughness={0.6}
+              />
+            )}
           </group>
         );
       })}
@@ -185,12 +223,21 @@ function StadiaRod({ opacity }) {
 // on terrainH so it sits on the graded surface.
 function Tree({ x, z, scale = 1, phase = 0, opacity }) {
   const canopyRef = React.useRef();
+  const topRef = React.useRef();
   const baseY = GROUND + terrainH(x, z);
   useFrame((state) => {
-    if (!canopyRef.current) return;
     const t = state.clock.elapsedTime;
-    canopyRef.current.rotation.z = 0.04 * Math.sin(t * 0.8 + phase);
-    canopyRef.current.rotation.x = 0.025 * Math.sin(t * 0.65 + phase * 1.3);
+    if (canopyRef.current) {
+      // larger, perceptible wind sway of the whole crown
+      canopyRef.current.rotation.z = 0.07 * Math.sin(t * 0.8 + phase);
+      canopyRef.current.rotation.x = 0.05 * Math.sin(t * 0.65 + phase * 1.3);
+    }
+    if (topRef.current) {
+      // upper cluster lags in phase so the crown deforms rather than rotating
+      // rigidly — the top tuft trails the main mass in the gust.
+      topRef.current.rotation.z = 0.06 * Math.sin(t * 0.95 + phase + 0.9);
+      topRef.current.rotation.x = 0.04 * Math.sin(t * 0.72 + phase * 1.3 + 0.6);
+    }
   });
   const trunkH = 0.42 * scale;
   return (
@@ -205,10 +252,13 @@ function Tree({ x, z, scale = 1, phase = 0, opacity }) {
           <icosahedronGeometry args={[0.3, 0]} />
           <meshStandardMaterial color={LEAF_A} metalness={0.05} roughness={0.95} transparent={opacity < 1} opacity={opacity} flatShading />
         </mesh>
-        <mesh position={[0.12, 0.42, 0.05]} castShadow>
-          <icosahedronGeometry args={[0.2, 0]} />
-          <meshStandardMaterial color={LEAF_B} metalness={0.05} roughness={0.95} transparent={opacity < 1} opacity={opacity} flatShading />
-        </mesh>
+        {/* upper tuft pivots about the main canopy with its own phase */}
+        <group ref={topRef} position={[0, 0.22, 0]}>
+          <mesh position={[0.12, 0.2, 0.05]} castShadow>
+            <icosahedronGeometry args={[0.2, 0]} />
+            <meshStandardMaterial color={LEAF_B} metalness={0.05} roughness={0.95} transparent={opacity < 1} opacity={opacity} flatShading />
+          </mesh>
+        </group>
       </group>
     </group>
   );
@@ -246,35 +296,48 @@ function Cloud({ y, z, speed, offset, scale = 1, opacity }) {
   );
 }
 
-// A small flock of birds: thin V shapes (two stretched boxes) instanced along a
-// slow looping arc high in the frame. Each bird leads by a phase offset.
-const BIRD_COUNT = 3;
+// A small flock of birds: unmistakable V shapes (two stretched wing boxes per
+// bird) instanced along a slow looping arc high in the frame, on a z band well
+// in FRONT of the cloud band so they never overlap the puffs. Each bird leads
+// by a phase offset; a clear flap keeps motion obvious even in a still. One
+// extra bird glides on a slower, separate arc for depth.
+const BIRD_FLAP = 4; // flapping birds in the flock
+const BIRD_COUNT = BIRD_FLAP + 1; // + 1 distant gliding bird
 function Birds({ opacity }) {
   const ref = React.useRef();
   const dummy = React.useMemo(() => new THREE.Object3D(), []);
-  // local geometry: a single bird made of two angled wing boxes baked into one
-  // instanced mesh via a merged-ish approach is overkill; instead instance a
-  // simple wing pair group per bird using two InstancedMeshes would double the
-  // count. Keep it cheap: one instanced mesh of small flattened "wing" boxes,
-  // two instances per bird.
+  // one instanced mesh of wing boxes, two wings per bird.
   const total = BIRD_COUNT * 2;
   useFrame((state) => {
     if (!ref.current) return;
     const t = state.clock.elapsedTime;
     for (let b = 0; b < BIRD_COUNT; b++) {
-      const ph = (b / BIRD_COUNT) * Math.PI * 2;
-      // slow looping arc across the upper frame
-      const a = t * 0.18 + ph;
-      const cx = 3.2 * Math.cos(a) - 0.4;
-      const cy = 2.05 + 0.18 * Math.sin(a * 1.3 + ph);
-      const cz = -1.0 + 1.3 * Math.sin(a);
-      const flap = 0.5 * Math.sin(t * 6 + ph) + 0.4; // wing dihedral
-      const heading = a + Math.PI / 2;
+      const glider = b === BIRD_COUNT - 1;
+      const ph = (b / BIRD_FLAP) * Math.PI * 2;
+      let cx, cy, cz, flap, heading;
+      if (glider) {
+        // distant slower glide, no flap, higher + further back than the flock
+        const a = t * 0.1 + 1.3;
+        cx = 3.6 * Math.cos(a) + 0.3;
+        cy = 2.5 + 0.1 * Math.sin(a);
+        cz = -0.6 + 1.0 * Math.sin(a);
+        flap = 0.32; // fixed gentle dihedral
+        heading = a + Math.PI / 2;
+      } else {
+        // slow looping arc across the upper frame, in front of the clouds
+        const a = t * 0.2 + ph;
+        cx = 3.2 * Math.cos(a) - 0.4;
+        cy = 1.95 + 0.2 * Math.sin(a * 1.3 + ph);
+        cz = 0.4 + 1.2 * Math.sin(a); // z band ~ -0.8 .. +1.6, ahead of clouds
+        flap = 0.65 * Math.sin(t * 6 + ph) + 0.35; // pronounced wing dihedral
+        heading = a + Math.PI / 2;
+      }
+      const half = glider ? 0.13 : 0.16; // wing half-span (bigger, clearer V)
       for (let w = 0; w < 2; w++) {
         const side = w === 0 ? 1 : -1;
-        dummy.position.set(cx + side * 0.07 * Math.cos(heading), cy, cz + side * 0.07 * Math.sin(heading));
+        dummy.position.set(cx + side * half * Math.cos(heading), cy, cz + side * half * Math.sin(heading));
         dummy.rotation.set(0, heading, side * flap);
-        dummy.scale.set(0.12, 0.02, 0.035);
+        dummy.scale.set(glider ? 0.26 : 0.3, 0.022, 0.05);
         dummy.updateMatrix();
         ref.current.setMatrixAt(b * 2 + w, dummy.matrix);
       }
@@ -305,7 +368,7 @@ function Dog({ x, z, opacity }) {
     if (tailRef.current) tailRef.current.rotation.z = 0.5 * Math.sin(t * 4.0);
   });
   return (
-    <group position={[x, baseY, z]} rotation={[0, Math.PI * 0.65, 0]} scale={0.5}>
+    <group position={[x, baseY, z]} rotation={[0, Math.PI * 0.65, 0]} scale={0.57}>
       {/* body */}
       <mesh position={[0, 0.22, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
         <capsuleGeometry args={[0.1, 0.26, 4, 8]} />
@@ -380,12 +443,19 @@ export function SurveyScene({ opacity }) {
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     if (rodGroupRef.current) {
-      rodGroupRef.current.rotation.z = 0.015 * Math.sin(t * 1.3);
-      rodGroupRef.current.rotation.x = 0.01 * Math.sin(t * 0.9 + 0.7);
+      // steady plumbing sway, slightly more perceptible than before
+      const baseTilt = 0.022 * Math.sin(t * 1.3);
+      // occasional lateral plumbing correction: a brief tilt-back every ~5s.
+      // A narrow gaussian bump on a 5s cycle reads as the rodperson nudging the
+      // rod true, then settling — catches the eye within a quick glance.
+      const cyc = (t % 5.0) - 1.2; // peak ~1.2s into each cycle
+      const correct = -0.05 * Math.exp(-(cyc * cyc) / 0.18) * Math.sin(t * 2.4);
+      rodGroupRef.current.rotation.z = baseTilt + correct;
+      rodGroupRef.current.rotation.x = 0.014 * Math.sin(t * 0.9 + 0.7);
     }
     if (operatorRef.current) {
       // subtle breathing rise about the group's base (already at stationBaseY)
-      operatorRef.current.position.y = stationBaseY + 0.012 * Math.sin(t * 1.6);
+      operatorRef.current.position.y = stationBaseY + 0.018 * Math.sin(t * 1.6);
     }
     // find the sight-line mesh material once, then pulse its emissive
     if (!sightMatRef.current && sightGroupRef.current) {
@@ -410,10 +480,11 @@ export function SurveyScene({ opacity }) {
       <Tree x={2.7} z={1.55} scale={0.78} phase={4.4} opacity={opacity} />
       <Tree x={-3.6} z={-1.5} scale={0.66} phase={2.2} opacity={opacity} />
 
-      {/* drifting sky */}
-      <Cloud y={2.35} z={-1.6} speed={0.16} offset={0} scale={1.1} opacity={opacity} />
-      <Cloud y={2.6} z={-2.0} speed={0.11} offset={5.5} scale={0.85} opacity={opacity} />
-      <Cloud y={2.15} z={-1.2} speed={0.2} offset={9.0} scale={0.7} opacity={opacity} />
+      {/* drifting sky — pushed higher and further back so the cloud band sits
+          clearly behind/above the bird flight band */}
+      <Cloud y={2.55} z={-2.3} speed={0.16} offset={0} scale={1.1} opacity={opacity} />
+      <Cloud y={2.78} z={-2.6} speed={0.11} offset={5.5} scale={0.85} opacity={opacity} />
+      <Cloud y={2.4} z={-2.0} speed={0.2} offset={9.0} scale={0.7} opacity={opacity} />
       <Birds opacity={opacity} />
 
       <TotalStation
@@ -468,8 +539,9 @@ export function SurveyScene({ opacity }) {
         />
       </group>
 
-      {/* a dog waiting beside the operator */}
-      <Dog x={station.x + 0.5} z={station.z + 0.55} opacity={opacity} />
+      {/* a dog waiting near the crew, seated on the green lobe (not dark soil)
+          so its warm tan coat reads clearly */}
+      <Dog x={station.x + 1.0} z={station.z + 0.85} opacity={opacity} />
     </group>
   );
 }
