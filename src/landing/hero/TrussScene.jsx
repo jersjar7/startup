@@ -1,12 +1,15 @@
 import React from 'react';
-import { C, P, Member, Box, Node, Arrow } from './primitives';
+import { useFrame } from '@react-three/fiber';
+import * as THREE from 'three';
+import { C, P, Member, Box, Node } from './primitives';
 
 // FE topic: Structural Analysis — a 3D Warren/Pratt through-truss bridge with a
 // roadway deck, abutments, and the two boundary conditions a truss problem
 // hinges on: a PINNED support (left) and a ROLLER support (right). `opacity`
 // drives the cross-fade between hero topics, so every material honors it.
 
-// Slightly desaturated forest so the ember load arrows stay the focal accent.
+// Slightly desaturated forest node; the ember accent now lives on the crossing
+// vehicle (the literal live load) and small details rather than diagram arrows.
 const NODE = '#2f6f59';
 const DECK = '#7c746a'; // muted earth gray asphalt/concrete, not brushed steel
 
@@ -41,13 +44,11 @@ function trussData() {
   bracing.push({ a: tF[0], b: bB[0], chord: false }, { a: tB[0], b: bF[0], chord: false });
   bracing.push({ a: tF[4], b: bB[5], chord: false }, { a: tB[4], b: bF[5], chord: false });
 
-  // Loads land exactly on the front top-chord panel points.
-  const arrows = [P(500, 320, dz), P(650, 320, dz), P(800, 320, dz)];
   const left = P(200, 500, 0);
   const right = P(1000, 500, 0);
   const deckY = left[1];
   return {
-    members, bracing, nodes, arrows, dz, left, right, deckY,
+    members, bracing, nodes, dz, left, right, deckY,
     spanX: [left[0], right[0]],
     bottomFront: bF, bottomBack: bB,
   };
@@ -112,6 +113,131 @@ function RollerSupport({ x, y, dz, opacity }) {
   );
 }
 
+// A small box-body vehicle (the literal live load) that loops across the deck
+// centerline. Wheels spin; body color is ember for the lead car, muted steel
+// for the opposing one. `dir` = +1 (left->right) or -1; faces travel direction.
+function Vehicle({ x0, x1, deckTopY, z, dir, bodyColor, speed, phase, opacity }) {
+  const group = React.useRef();
+  const wheels = React.useRef([]);
+  // Travel range with a small offscreen margin so entry/exit is seamless.
+  const margin = 1.1;
+  const lo = x0 - margin;
+  const span = (x1 + margin) - lo;
+  const mat = (color, metalness, roughness) => (
+    <meshStandardMaterial color={color} metalness={metalness} roughness={roughness} transparent={opacity < 1} opacity={opacity} />
+  );
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    const g = group.current;
+    if (!g) return;
+    // Normalized progress 0..1, wrapped; flip travel by dir.
+    let u = ((t * speed + phase) % 1 + 1) % 1;
+    if (dir < 0) u = 1 - u;
+    g.position.x = lo + u * span;
+    g.position.y = deckTopY;
+    g.position.z = z;
+    g.rotation.y = dir > 0 ? 0 : Math.PI;
+    const spin = -t * speed * span * 1.4;
+    for (const w of wheels.current) if (w) w.rotation.z = spin;
+  });
+  const wheelR = 0.07;
+  const bodyY = wheelR + 0.11;
+  return (
+    <group ref={group}>
+      {/* lower body */}
+      <mesh position={[0, bodyY, 0]} castShadow>
+        <boxGeometry args={[0.62, 0.2, 0.42]} />
+        {mat(bodyColor, 0.45, 0.4)}
+      </mesh>
+      {/* cab / upper body, set back toward the rear */}
+      <mesh position={[-0.07, bodyY + 0.17, 0]} castShadow>
+        <boxGeometry args={[0.34, 0.16, 0.38]} />
+        {mat(bodyColor, 0.4, 0.45)}
+      </mesh>
+      {/* windshield band */}
+      <mesh position={[0.13, bodyY + 0.16, 0]} castShadow>
+        <boxGeometry args={[0.05, 0.13, 0.34]} />
+        {mat(C.charcoal, 0.3, 0.3)}
+      </mesh>
+      {/* taillights — small ember/sunbeam glints at the rear */}
+      <mesh position={[-0.305, bodyY + 0.02, 0.14]}>
+        <boxGeometry args={[0.03, 0.05, 0.06]} />
+        {mat(C.ember, 0.2, 0.4)}
+      </mesh>
+      <mesh position={[-0.305, bodyY + 0.02, -0.14]}>
+        <boxGeometry args={[0.03, 0.05, 0.06]} />
+        {mat(C.ember, 0.2, 0.4)}
+      </mesh>
+      {/* four wheels */}
+      {[[0.2, 0.21], [0.2, -0.21], [-0.2, 0.21], [-0.2, -0.21]].map((w, i) => (
+        <mesh
+          key={`wh${i}`}
+          ref={(el) => { wheels.current[i] = el; }}
+          position={[w[0], wheelR, w[1]]}
+          rotation={[Math.PI / 2, 0, 0]}
+          castShadow
+        >
+          <cylinderGeometry args={[wheelR, wheelR, 0.07, 14]} />
+          {mat('#22211f', 0.3, 0.7)}
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
+// A small flock of instanced birds drifting across the upper sky on a slow
+// looping sinusoidal path, per-index phase, with a subtle wing flap.
+function BirdFlock({ x0, x1, topY, opacity }) {
+  const COUNT = 4;
+  const left = React.useRef();
+  const right = React.useRef();
+  // Allocate scratch objects once — no per-frame allocation.
+  const scratch = React.useMemo(() => ({
+    dummy: new THREE.Object3D(),
+    color: new THREE.Color(),
+  }), []);
+  const lo = x0 - 1.4;
+  const span = (x1 + 1.4) - lo;
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    if (!left.current || !right.current) return;
+    for (let i = 0; i < COUNT; i++) {
+      const phase = i / COUNT;
+      const u = ((t * 0.045 + phase) % 1 + 1) % 1;
+      const px = lo + u * span;
+      const py = topY + 0.6 + Math.sin(t * 0.6 + i * 1.7) * 0.18 + i * 0.12;
+      const pz = -0.6 + i * 0.45 + Math.sin(t * 0.3 + i) * 0.2;
+      const flap = 0.35 + Math.sin(t * 6 + i * 1.3) * 0.55;
+      const { dummy } = scratch;
+      // Left wing — anchored at the body, swept back along -Z, flaps up.
+      dummy.position.set(px, py, pz - 0.08);
+      dummy.rotation.set(flap, 0, 0);
+      dummy.scale.set(1, 1, 1);
+      dummy.updateMatrix();
+      left.current.setMatrixAt(i, dummy.matrix);
+      // Right wing — swept along +Z, mirrored flap.
+      dummy.position.set(px, py, pz + 0.08);
+      dummy.rotation.set(-flap, 0, 0);
+      dummy.updateMatrix();
+      right.current.setMatrixAt(i, dummy.matrix);
+    }
+    left.current.instanceMatrix.needsUpdate = true;
+    right.current.instanceMatrix.needsUpdate = true;
+  });
+  return (
+    <group>
+      <instancedMesh ref={left} args={[undefined, undefined, COUNT]}>
+        <boxGeometry args={[0.05, 0.012, 0.16]} />
+        <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} transparent={opacity < 1} opacity={opacity} />
+      </instancedMesh>
+      <instancedMesh ref={right} args={[undefined, undefined, COUNT]}>
+        <boxGeometry args={[0.05, 0.012, 0.16]} />
+        <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} transparent={opacity < 1} opacity={opacity} />
+      </instancedMesh>
+    </group>
+  );
+}
+
 export function TrussScene({ opacity }) {
   const d = React.useMemo(() => trussData(), []);
   const [x0, x1] = d.spanX;
@@ -144,10 +270,15 @@ export function TrussScene({ opacity }) {
         <Member key={`fb${i}`} a={[bf[0], deckY - deckThick / 2 - 0.04, fasciaZ]} b={[bf[0], deckY - deckThick / 2 - 0.04, -fasciaZ]} radius={0.05} color={C.steel} opacity={opacity} />
       ))}
 
-      {/* Concentrated point loads landing on the front top-chord panel points */}
-      {d.arrows.map((a, i) => (
-        <Arrow key={`a${i}`} from={[a[0], a[1] + 1.05, a[2]]} to={[a[0], a[1], a[2]]} radius={0.05} opacity={opacity} />
-      ))}
+      {/* Live load: two vehicles crossing the deck in opposite lanes. The lead
+          car is ember (brand accent now lives here, not on diagram arrows); the
+          opposing one is muted steel so only one ember body shows at a time. */}
+      <Vehicle x0={x0} x1={x1} deckTopY={deckY + deckThick / 2} z={0.34} dir={1} bodyColor={C.ember} speed={0.085} phase={0} opacity={opacity} />
+      <Vehicle x0={x0} x1={x1} deckTopY={deckY + deckThick / 2} z={-0.34} dir={-1} bodyColor="#9aa0a4" speed={0.07} phase={0.45} opacity={opacity} />
+
+      {/* Ambient sky life: a small flock drifting across the upper frame.
+          topY is in world units, set above the top chord (~1.16) of the truss. */}
+      <BirdFlock x0={x0} x1={x1} topY={2.0} opacity={opacity} />
 
       {/* Abutments under each support */}
       <Box position={[d.left[0], d.deckY - 0.62, 0]} size={[0.6, 0.5, 2 * d.dz + 0.34]} color="#5d564c" opacity={opacity} metalness={0.1} roughness={0.9} />

@@ -1,17 +1,76 @@
 import React from 'react';
-import { C, Beam, Box, Node, Arrow } from './primitives';
+import * as THREE from 'three';
+import { useFrame } from '@react-three/fiber';
+import { C, Beam, Box, Person } from './primitives';
 
 // FE topic: Transportation — a roadway carried over an earth CREST VERTICAL
 // CURVE. The asphalt deck rides a parabolic crest seated into continuous
-// embankment side-slopes (not a bridge span). The defining geometry is made
-// explicit: the two entry/exit grade tangents meeting at the PVI (high point),
-// a staked PVI marker, and a low eye-height sight-distance line that grazes the
-// crest and breaks at the apex (line of sight obstructed over the hill).
-// `opacity` cross-fades every material.
+// embankment side-slopes (not a bridge span). The vertical-curve geometry is
+// felt through the parabolic profile itself; it is now a LIVING road —
+// vehicles drive up and over the crest in both lanes (each pitched to the
+// local grade), one truck for size variety, roadside trees sway in the wind, a
+// streetlight stands near the crest, and a pedestrian waits at the shoulder.
+// An oncoming car cresting the apex conveys the restricted sight distance that
+// the old diagrammatic arrows used to annotate. `opacity` cross-fades every
+// material.
 
 // Brand muted-earth grays for the embankment.
 const SOIL = '#8a7c68';
 const SOIL_DK = '#6f6253';
+// Muted foliage greens (kept earthy, never neon).
+const LEAF = '#4f6b4a';
+const LEAF_DK = '#3c5639';
+const TRUNK = '#5a4632';
+
+// A small reusable vehicle (module-scope so its type is stable across the
+// parent's opacity cross-fade re-renders). Built around its local origin; the
+// traffic system positions/pitches the whole group via ref each frame.
+const Vehicle = React.forwardRef(function Vehicle({ color, truck, opacity }, ref) {
+  const L = truck ? 0.92 : 0.66;        // body length (x)
+  const W = truck ? 0.46 : 0.42;        // width (z)
+  const bodyH = truck ? 0.2 : 0.14;
+  const cabH = truck ? 0.26 : 0.15;
+  const wheelR = truck ? 0.1 : 0.085;
+  const wx = L * 0.32, wz = W * 0.5 - 0.02;
+  const met = 0.45, rgh = 0.38;
+  return (
+    <group ref={ref}>
+      {/* lower body */}
+      <Box position={[0, 0, 0]} size={[L, bodyH, W]} color={color} opacity={opacity} metalness={met} roughness={rgh} />
+      {/* cabin: trucks get a tall box cab forward + long flat cargo deck */}
+      {truck ? (
+        <>
+          <Box position={[L * 0.3, bodyH / 2 + cabH / 2, 0]} size={[L * 0.3, cabH, W * 0.92]} color={color} opacity={opacity} metalness={met} roughness={rgh} />
+          <Box position={[-L * 0.18, bodyH / 2 + 0.12, 0]} size={[L * 0.55, 0.18, W * 0.96]} color="#9a9486" opacity={opacity} metalness={0.2} roughness={0.7} />
+          <Box position={[L * 0.45, bodyH / 2 + cabH * 0.6, 0]} size={[0.04, cabH * 0.55, W * 0.78]} rotation={[0, 0, -0.35]} color={C.info} opacity={opacity} metalness={0.3} roughness={0.25} />
+        </>
+      ) : (
+        <>
+          <Box position={[-0.05, bodyH, 0]} size={[L * 0.52, cabH, W * 0.86]} color={color} opacity={opacity} metalness={met} roughness={rgh} />
+          <Box position={[L * 0.2, bodyH, 0]} size={[0.04, cabH * 0.8, W * 0.8]} rotation={[0, 0, -0.5]} color={C.info} opacity={opacity} metalness={0.3} roughness={0.25} />
+          <Box position={[-0.05, bodyH + 0.01, W * 0.44]} size={[L * 0.4, cabH * 0.66, 0.01]} color="#1c1c1c" opacity={opacity} metalness={0.4} roughness={0.3} />
+          <Box position={[-0.05, bodyH + 0.01, -W * 0.44]} size={[L * 0.4, cabH * 0.66, 0.01]} color="#1c1c1c" opacity={opacity} metalness={0.4} roughness={0.3} />
+        </>
+      )}
+      {/* tail-light hint (ember quad at the rear, reinforces travel sense) */}
+      <Box position={[-L * 0.5, 0, W * 0.32]} size={[0.015, 0.05, 0.07]} color={C.ember} opacity={opacity} metalness={0.2} roughness={0.4} />
+      <Box position={[-L * 0.5, 0, -W * 0.32]} size={[0.015, 0.05, 0.07]} color={C.ember} opacity={opacity} metalness={0.2} roughness={0.4} />
+      {/* wheels tucked under the body, with steel hubs */}
+      {[[wx, wz], [wx, -wz], [-wx, wz], [-wx, -wz]].map((w, i) => (
+        <group key={i} position={[w[0], -bodyH * 0.55, w[1]]} rotation={[Math.PI / 2, 0, 0]}>
+          <mesh castShadow>
+            <cylinderGeometry args={[wheelR, wheelR, 0.06, 16]} />
+            <meshStandardMaterial color="#1b1b1b" metalness={0.2} roughness={0.7} transparent={opacity < 1} opacity={opacity} />
+          </mesh>
+          <mesh position={[0, w[1] > 0 ? 0.031 : -0.031, 0]}>
+            <cylinderGeometry args={[wheelR * 0.5, wheelR * 0.5, 0.006, 14]} />
+            <meshStandardMaterial color={C.steelLt} metalness={0.8} roughness={0.35} transparent={opacity < 1} opacity={opacity} />
+          </mesh>
+        </group>
+      ))}
+    </group>
+  );
+});
 
 export function RoadScene({ opacity }) {
   const data = React.useMemo(() => {
@@ -36,6 +95,8 @@ export function RoadScene({ opacity }) {
   }, []);
   const halfW = 0.95;
   const groundY = -1.55; // flat groundline the embankment meets
+  const crest = data.crest, dcrest = data.dcrest;
+  const x0 = data.x0, x1 = data.x1, span = x1 - x0;
 
   // A trapezoidal embankment slab under a deck segment, running down to grade.
   const Embankment = ({ s, zSign }) => {
@@ -53,18 +114,98 @@ export function RoadScene({ opacity }) {
     );
   };
 
-  // Sight-line eye height above pavement and the two broken segments.
-  const eye = 0.34;
-  const dx = 2.6;
-  const slEntry = { from: [-dx, data.crest(-dx) + eye, 0], to: [-0.15, data.apex[1] + eye - 0.04, 0] };
-  const slExit = { from: [0.15, data.apex[1] + eye - 0.04, 0], to: [dx, data.crest(dx) + eye, 0] };
+  // ---- Living traffic system -------------------------------------------------
+  // Each vehicle samples crest(x) for height and dcrest(x) for pitch so it hugs
+  // and tilts with the road. x wraps x0..x1 for a seamless loop; phase varied by
+  // index. Right lane (z=+0.45) travels +x, left lane (z=-0.45) travels -x.
+  const VEHICLES = React.useMemo(() => ([
+    // dir: +1 right lane, -1 left lane. speed in units/s. truck = taller/slower.
+    { color: '#cf4b39', dir: +1, speed: 0.62, phase: 0.00, truck: false, z: 0.45 },
+    { color: '#d9d3c4', dir: +1, speed: 0.55, phase: 0.46, truck: false, z: 0.45 },
+    { color: '#3f5d6e', dir: +1, speed: 0.40, phase: 0.78, truck: true, z: 0.45 },
+    { color: '#7c8a93', dir: -1, speed: 0.60, phase: 0.18, truck: false, z: -0.45 },
+    { color: C.ember, dir: -1, speed: 0.52, phase: 0.62, truck: false, z: -0.45 },
+  ]), []);
 
-  // Tangent guide lines (entry/exit grades) extended to meet at the PVI.
-  const tanLen = 2.3;
-  const slopeL = data.dcrest(-1.6), slopeR = data.dcrest(1.6);
-  const pviY = data.apex[1] + 0.22;
-  const tanL = { a: [-tanLen, pviY - slopeL * tanLen, 0], b: [0, pviY, 0] };
-  const tanR = { a: [0, pviY, 0], b: [tanLen, pviY - slopeR * tanLen, 0] };
+  const carRefs = React.useRef([]);
+  const treeRefs = React.useRef([]);
+  const lampRef = React.useRef();
+
+  // Reusable scratch vectors — allocate once, never inside the frame loop.
+  const _euler = React.useMemo(() => new THREE.Euler(), []);
+
+  // Roadside trees on the embankment side-slopes. Kept within frame envelope.
+  const TREES = React.useMemo(() => ([
+    { x: -3.0, z: 1.35, s: 0.9, phase: 0.0 },
+    { x: -1.7, z: -1.4, s: 0.78, phase: 1.3 },
+    { x: 1.5, z: 1.42, s: 0.85, phase: 2.1 },
+    { x: 2.8, z: -1.35, s: 0.95, phase: 0.7 },
+    { x: 3.6, z: 1.3, s: 0.7, phase: 3.0 },
+  ]), []);
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    // Drive vehicles along the profile.
+    for (let i = 0; i < VEHICLES.length; i++) {
+      const v = VEHICLES[i];
+      const g = carRefs.current[i];
+      if (!g) continue;
+      // progress 0..1 looping; offset by phase; direction flips travel sense.
+      let p = (v.phase + (t * v.speed) / span) % 1;
+      if (p < 0) p += 1;
+      const x = v.dir > 0 ? x0 + p * span : x1 - p * span;
+      const y = crest(x);
+      const grade = dcrest(x);
+      g.position.set(x, y + (v.truck ? 0.22 : 0.18), v.z);
+      // pitch: nose follows travel direction; tilt up entry grade, down exit.
+      // rotation about z; for -x travel the car faces -x so negate.
+      const pitch = Math.atan(grade) * v.dir;
+      _euler.set(0, v.dir > 0 ? 0 : Math.PI, pitch);
+      g.rotation.copy(_euler);
+    }
+    // Sway tree canopies (rotation about z only; trunks fixed since canopy is a
+    // child group pivoting near the trunk top).
+    for (let i = 0; i < TREES.length; i++) {
+      const c = treeRefs.current[i];
+      if (!c) continue;
+      c.rotation.z = Math.sin(t * 1.1 + TREES[i].phase) * 0.07;
+      c.rotation.x = Math.cos(t * 0.9 + TREES[i].phase) * 0.04;
+    }
+    // Streetlight lamp: very subtle steady breathing glow (no neon flicker).
+    if (lampRef.current) {
+      lampRef.current.emissiveIntensity = (0.55 + 0.1 * Math.sin(t * 1.7)) * opacity;
+    }
+  });
+
+  // ---- Local helpers ---------------------------------------------------------
+
+  // A low roadside tree: fixed trunk + a canopy group that sways. The canopy
+  // group's ref is registered so useFrame can rotate it about its base.
+  const Tree = ({ x, z, s, idx }) => {
+    const baseY = groundY + 0.02;
+    return (
+      <group position={[x, baseY, z]} scale={s}>
+        <mesh position={[0, 0.35, 0]} castShadow>
+          <cylinderGeometry args={[0.05, 0.07, 0.7, 8]} />
+          <meshStandardMaterial color={TRUNK} metalness={0.05} roughness={0.95} transparent={opacity < 1} opacity={opacity} />
+        </mesh>
+        <group ref={(el) => (treeRefs.current[idx] = el)} position={[0, 0.7, 0]}>
+          <mesh position={[0, 0.28, 0]} castShadow>
+            <coneGeometry args={[0.36, 0.7, 9]} />
+            <meshStandardMaterial color={LEAF} metalness={0.04} roughness={0.92} flatShading transparent={opacity < 1} opacity={opacity} />
+          </mesh>
+          <mesh position={[0, 0.58, 0]} castShadow>
+            <coneGeometry args={[0.26, 0.52, 9]} />
+            <meshStandardMaterial color={LEAF_DK} metalness={0.04} roughness={0.92} flatShading transparent={opacity < 1} opacity={opacity} />
+          </mesh>
+        </group>
+      </group>
+    );
+  };
+
+  // Streetlight near the crest: charcoal/steel pole + cantilever arm + lamp.
+  const lampX = -0.7;
+  const lampBaseY = crest(lampX) + 0.08;
 
   return (
     <group position={[0, -0.1, 0]}>
@@ -129,42 +270,53 @@ export function RoadScene({ opacity }) {
         </React.Fragment>
       ))}
 
-      {/* PVI geometry: two grade tangents meeting at the high point */}
-      <Beam a={tanL.a} b={tanL.b} width={0.025} thickness={0.025} color={C.sunbeam} opacity={opacity} metalness={0.1} roughness={0.6} />
-      <Beam a={tanR.a} b={tanR.b} width={0.025} thickness={0.025} color={C.sunbeam} opacity={opacity} metalness={0.1} roughness={0.6} />
-      {/* Vertical stake from deck up to the PVI marker */}
-      <Box position={[0, (data.apex[1] + 0.085 + pviY) / 2, 0]} size={[0.025, pviY - (data.apex[1] + 0.085), 0.025]} color={C.sunbeam} opacity={opacity} metalness={0.1} roughness={0.6} />
-      <Node p={[0, pviY, 0]} r={0.15} color={C.sunbeam} emissive={C.sunbeam} opacity={opacity} />
+      {/* Roadside trees swaying on the embankment side-slopes */}
+      {TREES.map((tr, i) => (
+        <Tree key={`tree${i}`} x={tr.x} z={tr.z} s={tr.s} idx={i} />
+      ))}
 
-      {/* Sight-distance: low eye-height line over the crest, broken at the apex */}
-      <Arrow from={slEntry.from} to={slEntry.to} radius={0.03} opacity={opacity} />
-      <Arrow from={slExit.from} to={slExit.to} radius={0.03} opacity={opacity} />
-
-      {/* Small passenger car, within one lane, cresting the curve */}
-      <group position={[0.7, data.crest(0.7) + 0.18, 0]}>
-        {/* lower body */}
-        <Box position={[0, 0, 0]} size={[0.66, 0.14, 0.42]} color={C.ember} opacity={opacity} metalness={0.45} roughness={0.38} />
-        {/* raked cabin (shorter at front) */}
-        <Box position={[-0.05, 0.14, 0]} size={[0.34, 0.15, 0.36]} color={C.ember} opacity={opacity} metalness={0.45} roughness={0.38} />
-        {/* windshield strip (info-blue glass) */}
-        <Box position={[0.13, 0.14, 0]} size={[0.04, 0.12, 0.34]} rotation={[0, 0, -0.5]} color={C.info} opacity={opacity} metalness={0.3} roughness={0.25} />
-        {/* dark side window insets */}
-        <Box position={[-0.05, 0.15, 0.185]} size={[0.26, 0.1, 0.01]} color="#1c1c1c" opacity={opacity} metalness={0.4} roughness={0.3} />
-        <Box position={[-0.05, 0.15, -0.185]} size={[0.26, 0.1, 0.01]} color="#1c1c1c" opacity={opacity} metalness={0.4} roughness={0.3} />
-        {/* wheels tucked under the body, with steel hubs */}
-        {[[0.22, 0.21], [0.22, -0.21], [-0.24, 0.21], [-0.24, -0.21]].map((w, i) => (
-          <group key={i} position={[w[0], -0.09, w[1]]} rotation={[Math.PI / 2, 0, 0]}>
-            <mesh castShadow>
-              <cylinderGeometry args={[0.085, 0.085, 0.06, 16]} />
-              <meshStandardMaterial color="#1b1b1b" metalness={0.2} roughness={0.7} transparent={opacity < 1} opacity={opacity} />
-            </mesh>
-            <mesh position={[0, w[1] > 0 ? 0.031 : -0.031, 0]}>
-              <cylinderGeometry args={[0.04, 0.04, 0.006, 14]} />
-              <meshStandardMaterial color={C.steelLt} metalness={0.8} roughness={0.35} transparent={opacity < 1} opacity={opacity} />
-            </mesh>
-          </group>
-        ))}
+      {/* Streetlight near the crest: pole + cantilever arm + sunbeam lamp head */}
+      <group>
+        <mesh position={[lampX, lampBaseY + 0.7, halfW + 0.18]} castShadow>
+          <cylinderGeometry args={[0.035, 0.045, 1.4, 10]} />
+          <meshStandardMaterial color={C.charcoal} metalness={0.6} roughness={0.45} transparent={opacity < 1} opacity={opacity} />
+        </mesh>
+        <Beam a={[lampX, lampBaseY + 1.38, halfW + 0.18]} b={[lampX, lampBaseY + 1.38, halfW - 0.42]} width={0.04} thickness={0.04} color={C.charcoal} opacity={opacity} metalness={0.6} roughness={0.45} />
+        <mesh position={[lampX, lampBaseY + 1.32, halfW - 0.42]} castShadow>
+          <boxGeometry args={[0.16, 0.07, 0.12]} />
+          <meshStandardMaterial
+            ref={lampRef}
+            color={C.sunbeam}
+            emissive={C.sunbeam}
+            emissiveIntensity={0.55 * opacity}
+            metalness={0.3}
+            roughness={0.4}
+            transparent={opacity < 1}
+            opacity={opacity}
+          />
+        </mesh>
       </group>
+
+      {/* Pedestrian at the shoulder near a guardrail end, for human scale */}
+      <Person
+        position={[3.0, crest(3.0) + 0.09, halfW + 0.34]}
+        rotation={[0, -1.2, 0]}
+        scale={0.5}
+        vest={C.forest}
+        hardHat={C.sunbeam}
+        opacity={opacity}
+      />
+
+      {/* Living traffic: vehicles driving up and over the crest in both lanes */}
+      {VEHICLES.map((v, i) => (
+        <Vehicle
+          key={`veh${i}`}
+          ref={(el) => (carRefs.current[i] = el)}
+          color={v.color}
+          truck={v.truck}
+          opacity={opacity}
+        />
+      ))}
     </group>
   );
 }
