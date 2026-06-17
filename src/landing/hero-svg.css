@@ -20,6 +20,25 @@
   transform: translateY(-12vh);
 }
 
+/* --- Three.js hero slot (replaces the SVG on capable desktop clients) --- */
+.hero-3d {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  z-index: 0;
+  /* Lift the scene so it threads between the top topic label and the
+     bottom-right brand lockup. */
+  transform: translateY(-6vh);
+}
+
+@media (max-width: 768px) {
+  .hero-3d {
+    display: none;
+  }
+}
+
 /* --- Base stroke styles --- */
 .svg-line {
   stroke: var(--charcoal);
