@@ -372,7 +372,7 @@ function Cycler({ reduced }) {
   // enough that the widest topic (the fluid surface / truss) does not bleed off
   // the right edge of the viewport.
   return (
-    <group ref={grp} position={[0.55, -0.3, 0]} scale={0.62}>
+    <group ref={grp} position={[0.2, -0.3, 0]} scale={0.62}>
       <Scene opacity={opacityRef.current} />
     </group>
   );
