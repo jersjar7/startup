@@ -11,7 +11,9 @@ import { C, Box } from './primitives';
 // breeze-swayed reed tuft. No diagrammatic arrows. Every material honors `opacity`.
 
 // Geometry shared across instanced debris (leaf-like flat disc) and reeds.
-const LEAF_GEO = new THREE.CylinderGeometry(0.07, 0.07, 0.018, 10);
+const LEAF_GEO = new THREE.CylinderGeometry(0.09, 0.06, 0.016, 8);
+// Reused color objects so per-instance tinting allocates nothing per frame.
+const _leafCols = ['#2D7A5F', '#5a6b4a', '#b07a35', '#caa44a'].map((c) => new THREE.Color(c));
 
 // Drifting debris: small flat discs carried downstream, faster mid-channel,
 // recycling seamlessly from the upstream end. Animated via direct ref mutation.
@@ -26,9 +28,18 @@ function Debris({ surfaceY, xMin, xMax, halfD, opacity }) {
         zf: ((i * 0.37 + 0.13) % 1) * 2 - 1, // -1..1 across channel
         phase: (i / N),
         spin: 0.4 + (i % 3) * 0.25,
+        col: i % 4, // mix of green + autumn tones
+        snag: i === 2 || i === 5, // a couple briefly snag near the weir
       })),
     []
   );
+  // Tint instances once on mount; cheap and avoids per-frame allocation.
+  React.useEffect(() => {
+    const m = ref.current;
+    if (!m) return;
+    for (let i = 0; i < N; i++) m.setColorAt(i, _leafCols[items[i].col]);
+    if (m.instanceColor) m.instanceColor.needsUpdate = true;
+  }, [items]);
   useFrame((state) => {
     const m = ref.current;
     if (!m) return;
@@ -38,12 +49,19 @@ function Debris({ surfaceY, xMin, xMax, halfD, opacity }) {
       const it = items[i];
       // Mid-channel (zf near 0) moves faster than near the walls.
       const speed = 0.42 - 0.22 * Math.abs(it.zf);
-      const u = (it.phase + t * speed * 0.16) % 1;
+      let u = (it.phase + t * speed * 0.16) % 1;
+      // Snagging leaves linger + spin in place in the weir backwater (u high).
+      let spinBoost = 0;
+      if (it.snag && u > 0.82) {
+        u = 0.82 + (u - 0.82) * 0.25; // slow crawl over the last stretch
+        spinBoost = 2.4;
+      }
       const x = xMin + u * span;
       const z = it.zf * (halfD - 0.28);
-      const y = surfaceY + 0.04 + 0.025 * Math.sin(t * 1.4 + i);
+      const y = surfaceY + 0.05 + 0.025 * Math.sin(t * 1.4 + i);
       dummy.position.set(x, y, z);
-      dummy.rotation.set(0, t * it.spin + i, 0);
+      // Tilt slightly off-horizontal so discs catch the studio light.
+      dummy.rotation.set(0.22 * Math.sin(t * 0.9 + i), t * (it.spin + spinBoost) + i, 0.18);
       dummy.updateMatrix();
       m.setMatrixAt(i, dummy.matrix);
     }
@@ -51,7 +69,7 @@ function Debris({ surfaceY, xMin, xMax, halfD, opacity }) {
   });
   return (
     <instancedMesh ref={ref} args={[LEAF_GEO, undefined, N]} castShadow>
-      <meshStandardMaterial color={C.forest} metalness={0.1} roughness={0.7} transparent opacity={opacity * 0.92} />
+      <meshStandardMaterial metalness={0.1} roughness={0.7} transparent opacity={opacity * 0.95} />
     </instancedMesh>
   );
 }
@@ -59,11 +77,13 @@ function Debris({ surfaceY, xMin, xMax, halfD, opacity }) {
 // A small procedural duck bobbing in Y and drifting slowly downstream, then
 // resetting upstream, trailing a faint V-shaped wake. Warm earth tone so it
 // reads against the steel walls. Subtle, on-brand-charming, not cartoonish.
-const DUCK_BODY = '#6e5a44'; // muted earth brown, contrasts the steel walls
+const DUCK_BODY = '#caa46a'; // warm sandy buff, reads bright against the water
 function Duck({ surfaceY, xMin, xMax, halfD, opacity }) {
   const ref = React.useRef();
+  const headRef = React.useRef();
   const wakeL = React.useRef();
   const wakeR = React.useRef();
+  const crossRef = React.useRef();
   useFrame((state) => {
     const g = ref.current;
     if (!g) return;
@@ -75,10 +95,23 @@ function Duck({ surfaceY, xMin, xMax, halfD, opacity }) {
     g.position.z = halfD * 0.34 + 0.05 * Math.sin(t * 0.7);
     g.rotation.y = 0.5 + 0.1 * Math.sin(t * 0.9);
     g.rotation.z = 0.05 * Math.sin(t * 1.6 + 0.6);
+    // Occasional feeding head-dip on a long period: brief downward tuck.
+    if (headRef.current) {
+      const dipCyc = (t * 0.11) % 1;
+      const dip = dipCyc > 0.82 ? Math.sin((dipCyc - 0.82) / 0.18 * Math.PI) : 0;
+      headRef.current.rotation.z = -0.9 * dip;
+    }
     // V-wake breathes slightly so it reads as drift, not a static decal.
     const k = 1 + 0.12 * Math.sin(t * 2.0);
     if (wakeL.current) wakeL.current.scale.set(k, 1, 1);
     if (wakeR.current) wakeR.current.scale.set(k, 1, 1);
+    // Secondary cross-ripple where the wake nears the wall: pulse + fade.
+    if (crossRef.current) {
+      const cc = (t * 0.8 + 0.3) % 1;
+      const cs = 0.4 + cc * 1.0;
+      crossRef.current.scale.set(cs, cs, cs);
+      crossRef.current.material.opacity = opacity * 0.32 * (1 - cc);
+    }
   });
   const body = { metalness: 0.12, roughness: 0.62 };
   const scale = 1.22; // ~22% larger so it reads at tile scale
@@ -95,16 +128,18 @@ function Duck({ surfaceY, xMin, xMax, halfD, opacity }) {
           <coneGeometry args={[0.05, 0.12, 8]} />
           <meshStandardMaterial color={DUCK_BODY} {...body} transparent opacity={opacity} />
         </mesh>
-        {/* Neck + head, tilted clearly forward */}
-        <mesh position={[0.17, 0.15, 0]} castShadow>
-          <sphereGeometry args={[0.078, 14, 14]} />
-          <meshStandardMaterial color={C.charcoal} metalness={0.2} roughness={0.55} transparent opacity={opacity} />
-        </mesh>
-        {/* Beak pointing forward-down */}
-        <mesh position={[0.26, 0.125, 0]} rotation={[0, 0, -Math.PI / 2.4]} castShadow>
-          <coneGeometry args={[0.03, 0.085, 8]} />
-          <meshStandardMaterial color={C.sunbeam} metalness={0.2} roughness={0.5} transparent opacity={opacity} />
-        </mesh>
+        {/* Neck + head group (pivots forward for the feeding dip) — mallard green */}
+        <group ref={headRef} position={[0.14, 0.1, 0]}>
+          <mesh position={[0.03, 0.05, 0]} castShadow>
+            <sphereGeometry args={[0.078, 14, 14]} />
+            <meshStandardMaterial color={C.forest} metalness={0.18} roughness={0.5} transparent opacity={opacity} />
+          </mesh>
+          {/* Beak pointing forward-down */}
+          <mesh position={[0.12, 0.025, 0]} rotation={[0, 0, -Math.PI / 2.4]} castShadow>
+            <coneGeometry args={[0.03, 0.085, 8]} />
+            <meshStandardMaterial color={C.sunbeam} metalness={0.2} roughness={0.5} transparent opacity={opacity} />
+          </mesh>
+        </group>
       </group>
       {/* V-shaped wake: two thin tilted strips trailing behind the body */}
       <mesh ref={wakeL} position={[-0.3, -0.12, 0.12]} rotation={[-Math.PI / 2, 0, 0.32]}>
@@ -114,6 +149,11 @@ function Duck({ surfaceY, xMin, xMax, halfD, opacity }) {
       <mesh ref={wakeR} position={[-0.3, -0.12, -0.12]} rotation={[-Math.PI / 2, 0, -0.32]}>
         <planeGeometry args={[0.42, 0.02]} />
         <meshStandardMaterial color={C.steelLt} metalness={0.05} roughness={0.6} transparent opacity={opacity * 0.45} side={THREE.DoubleSide} />
+      </mesh>
+      {/* Secondary cross-ripple toward the near wall where the wake reflects */}
+      <mesh ref={crossRef} position={[-0.34, -0.13, 0.34]} rotation={[-Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[0.12, 0.014, 8, 24]} />
+        <meshStandardMaterial color={C.steelLt} metalness={0.05} roughness={0.6} transparent opacity={opacity * 0.3} />
       </mesh>
     </group>
   );
@@ -165,11 +205,11 @@ function Splash({ x, y, z, opacity }) {
   const refs = React.useRef([]);
   const drops = React.useMemo(
     () =>
-      Array.from({ length: 3 }, (_, i) => ({
-        ox: (i - 1) * 0.07,
-        oz: ((i % 2) * 2 - 1) * 0.06,
-        phase: i / 3,
-        r: 0.035 + (i % 2) * 0.012,
+      Array.from({ length: 4 }, (_, i) => ({
+        ox: (i - 1.5) * 0.05,
+        oz: ((i % 2) * 2 - 1) * 0.05,
+        phase: i / 4,
+        r: 0.026 + (i % 2) * 0.008,
       })),
     []
   );
@@ -178,12 +218,14 @@ function Splash({ x, y, z, opacity }) {
     for (let i = 0; i < drops.length; i++) {
       const m = refs.current[i];
       if (!m) continue;
-      const cyc = (t * 1.6 + drops[i].phase) % 1; // short pop loop
-      const lift = Math.sin(cyc * Math.PI) * 0.16; // up then down arc
+      const cyc = (t * 1.9 + drops[i].phase) % 1; // short pop loop
+      const arc = Math.sin(cyc * Math.PI);
+      const lift = arc * 0.08; // low, tight pop — never a hovering wedge
       m.position.set(x + drops[i].ox, y + lift, z + drops[i].oz);
-      const s = 0.6 + 0.6 * Math.sin(cyc * Math.PI);
+      const s = 0.5 + 0.5 * arc;
       m.scale.setScalar(s);
-      m.material.opacity = opacity * 0.85 * Math.sin(cyc * Math.PI);
+      // Vanish completely at top/bottom of the cycle so nothing floats statically.
+      m.material.opacity = opacity * 0.8 * arc * arc;
     }
   });
   return (
@@ -235,6 +277,49 @@ function Foam({ x, y, z, opacity }) {
   );
 }
 
+// Tiny foam flecks born at the jet impact that advect downstream (+X) and
+// dissipate, extending the inflow churn across the channel. Instanced + cheap.
+const FLECK_GEO = new THREE.SphereGeometry(0.03, 8, 8);
+function Bubbles({ x0, surfaceY, span, halfD, opacity }) {
+  const N = 10;
+  const ref = React.useRef();
+  const dummy = React.useMemo(() => new THREE.Object3D(), []);
+  const items = React.useMemo(
+    () =>
+      Array.from({ length: N }, (_, i) => ({
+        phase: i / N,
+        zf: ((i * 0.41 + 0.2) % 1) * 2 - 1,
+        wob: 0.8 + (i % 4) * 0.3,
+      })),
+    []
+  );
+  useFrame((state) => {
+    const m = ref.current;
+    if (!m) return;
+    const t = state.clock.elapsedTime;
+    for (let i = 0; i < N; i++) {
+      const it = items[i];
+      const u = (it.phase + t * 0.13) % 1; // 0 at jet, 1 well downstream
+      const x = x0 + u * span;
+      const z = it.zf * (halfD - 0.4) * Math.min(1, u * 3 + 0.2);
+      const y = surfaceY + 0.045 + 0.015 * Math.sin(t * it.wob + i);
+      dummy.position.set(x, y, z);
+      // Shrink as it dissipates downstream.
+      dummy.scale.setScalar(Math.max(0.0001, 1 - u));
+      dummy.updateMatrix();
+      m.setMatrixAt(i, dummy.matrix);
+    }
+    m.instanceMatrix.needsUpdate = true;
+    // Whole cluster fades with topic opacity.
+    m.material.opacity = opacity * 0.55;
+  });
+  return (
+    <instancedMesh ref={ref} args={[FLECK_GEO, undefined, N]}>
+      <meshStandardMaterial color={'#eef3f3'} metalness={0.04} roughness={0.7} transparent opacity={opacity * 0.55} />
+    </instancedMesh>
+  );
+}
+
 export function FluidScene({ opacity }) {
   const geoRef = React.useRef();
   const jetRef = React.useRef();
@@ -280,7 +365,7 @@ export function FluidScene({ opacity }) {
       glintRef.current.position.x = xMinG + u * (xMaxG - xMinG);
       // Fade in/out at the ends so the recycle never pops.
       const edge = Math.sin(u * Math.PI);
-      glintRef.current.material.opacity = opacity * 0.28 * edge;
+      glintRef.current.material.opacity = opacity * 0.38 * edge;
     }
     // Jet impact ripple ring: expand + fade on a loop.
     if (rippleRef.current) {
@@ -330,13 +415,13 @@ export function FluidScene({ opacity }) {
           studio env stops blowing it out; deep teal base reads as liquid. */}
       <mesh rotation={[-Math.PI / 2 + 0, 0, backwaterTilt]} position={[0, surfaceY, 0]} receiveShadow castShadow>
         <planeGeometry ref={geoRef} args={[waterW, D - 0.1, SX, SY]} />
-        <meshStandardMaterial color={'#235862'} emissive={C.water} emissiveIntensity={0.18} metalness={0.03} roughness={0.52} transparent opacity={opacity * 0.94} side={THREE.DoubleSide} />
+        <meshStandardMaterial color={'#3a7e88'} emissive={C.water} emissiveIntensity={0.26} metalness={0.05} roughness={0.4} transparent opacity={opacity * 0.95} side={THREE.DoubleSide} />
       </mesh>
       {/* Advecting specular glint band — a brighter strip travelling +X so the
           directed downstream current is unmistakable against the darker water. */}
       <mesh ref={glintRef} rotation={[-Math.PI / 2, 0, backwaterTilt]} position={[0, surfaceY + 0.02, 0]}>
-        <planeGeometry args={[0.7, D - 0.3]} />
-        <meshStandardMaterial color={'#bcd0d4'} metalness={0.1} roughness={0.45} transparent opacity={opacity * 0.28} side={THREE.DoubleSide} depthWrite={false} />
+        <planeGeometry args={[0.5, D - 0.3]} />
+        <meshStandardMaterial color={'#eaf3f4'} emissive={'#cfe2e4'} emissiveIntensity={0.3} metalness={0.1} roughness={0.4} transparent opacity={opacity * 0.38} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {/* Near-wall water depth strip — gives the body visible thickness */}
       <Box position={[0, (surfaceY + bedY) / 2, innerHalfD - 0.04]} size={[waterW - 0.1, surfaceY - bedY, 0.06]} color={C.water} opacity={opacity * 0.55} metalness={0.1} roughness={0.35} />
@@ -365,8 +450,8 @@ export function FluidScene({ opacity }) {
       </mesh>
       {/* Falling jet/plume — tapered cone of water from the mouth to the surface,
           live shimmer via scaleY pulse + slight sway. */}
-      <mesh ref={jetRef} position={[jetX, (wallTopY + 0.18 + surfaceY) / 2, jetZ]} rotation={[0, 0, -0.16]} castShadow>
-        <coneGeometry args={[0.2, wallTopY + 0.18 - surfaceY, 16, 1, true]} />
+      <mesh ref={jetRef} position={[jetX, (wallTopY + 0.18 + surfaceY) / 2, jetZ]} rotation={[Math.PI, 0, -0.16]} castShadow>
+        <coneGeometry args={[0.16, wallTopY + 0.18 - surfaceY, 16, 1, true]} />
         <meshStandardMaterial color={'#cdd9da'} emissive={C.water} emissiveIntensity={0.1} metalness={0.08} roughness={0.4} transparent opacity={opacity * 0.85} side={THREE.DoubleSide} />
       </mesh>
       {/* Splash cluster at the plunge point — tiny popping foam droplets */}
@@ -380,25 +465,27 @@ export function FluidScene({ opacity }) {
       {/* Downstream sharp-crested weir plate: vertical, full channel width,
           steel body with a thin sunbeam crest cap. Backs up the flow. */}
       <Box position={[W / 2 - 0.55, floorY + 0.06 + 0.85 / 2, 0]} size={[0.1, 0.85, D]} color={C.steel} opacity={opacity} metalness={0.8} roughness={0.32} />
-      {/* Sunbeam crest accent strip on top of the weir plate */}
-      <Box position={[W / 2 - 0.55, floorY + 0.06 + 0.85 + 0.025, 0]} size={[0.12, 0.05, D]} color={C.sunbeam} opacity={opacity} metalness={0.4} roughness={0.45} />
-      {/* Thin overflow nappe spilling over the crest — live vertical streak jitter */}
+      {/* Sunbeam crest line on top of the weir plate — proud + full width so the
+          horizontal sharp crest is unmistakable as a flow-control structure */}
+      <Box position={[W / 2 - 0.55, floorY + 0.06 + 0.85 + 0.045, 0]} size={[0.22, 0.09, D]} color={C.sunbeam} opacity={opacity} metalness={0.4} roughness={0.45} />
+      {/* Thin overflow nappe spilling FROM the crest top down the downstream face */}
       <mesh
         ref={(el) => {
           nappeRef.current = el;
-          if (el) el.userData.baseY = floorY + 0.06 + 0.85 - 0.12;
+          if (el) el.userData.baseY = floorY + 0.06 + 0.85 - 0.13;
         }}
-        position={[W / 2 - 0.47, floorY + 0.06 + 0.85 - 0.12, 0]}
-        rotation={[0, 0, -0.28]}
+        position={[W / 2 - 0.49, floorY + 0.06 + 0.85 - 0.13, 0]}
+        rotation={[0, 0, -0.32]}
         castShadow
       >
-        <boxGeometry args={[0.04, 0.32, D - 0.2]} />
-        <meshStandardMaterial color={'#9fc2c6'} emissive={C.water} emissiveIntensity={0.12} metalness={0.08} roughness={0.4} transparent opacity={opacity * 0.7} />
+        <boxGeometry args={[0.04, 0.34, D - 0.16]} />
+        <meshStandardMaterial color={'#bcd9dc'} emissive={C.water} emissiveIntensity={0.16} metalness={0.08} roughness={0.38} transparent opacity={opacity * 0.72} />
       </mesh>
       {/* Churning whitewater foam cluster at the nappe base */}
       <Foam x={weirX + 0.12} y={floorY + 0.18} z={0} opacity={opacity} />
 
-      {/* LIVING DETAIL: drifting debris, a bobbing duck, swaying bank reeds. */}
+      {/* LIVING DETAIL: drifting debris, foam flecks, a bobbing duck, reeds. */}
+      <Bubbles x0={jetX + 0.2} surfaceY={surfaceY} span={flowXMax - jetX - 0.2} halfD={innerHalfD} opacity={opacity} />
       <Debris surfaceY={surfaceY} xMin={flowXMin} xMax={flowXMax} halfD={innerHalfD} opacity={opacity} />
       <Duck surfaceY={surfaceY} xMin={flowXMin} xMax={flowXMax} halfD={innerHalfD} opacity={opacity} />
       <Reeds position={[-W / 2 + 0.5, wallTopY, -innerHalfD - 0.02]} opacity={opacity} />

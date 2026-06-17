@@ -1,7 +1,7 @@
 import React from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
-import { C, Beam, Box, Person } from './primitives';
+import { C, Beam, Box } from './primitives';
 
 // FE topic: Transportation — a roadway carried over an earth CREST VERTICAL
 // CURVE. The asphalt deck rides a parabolic crest seated into continuous
@@ -9,23 +9,28 @@ import { C, Beam, Box, Person } from './primitives';
 // felt through the parabolic profile itself; it is now a LIVING road —
 // vehicles drive up and over the crest in both lanes (each pitched to the
 // local grade), one truck for size variety, roadside trees sway in the wind, a
-// streetlight stands near the crest, and a pedestrian waits at the shoulder.
+// streetlight stands near the crest, and a pedestrian walks the shoulder.
 // An oncoming car cresting the apex conveys the restricted sight distance that
 // the old diagrammatic arrows used to annotate. `opacity` cross-fades every
 // material.
 
-// Brand muted-earth grays for the embankment.
-const SOIL = '#8a7c68';
-const SOIL_DK = '#6f6253';
+// Brand muted-earth grays for the embankment. SOIL lightened toward a sunlit
+// compacted-earth tone (the old #8a7c68 read muddy under this lighting); a
+// lighter lit-crown tone and a darker toe tone give the slope tonal depth.
+const SOIL = '#9d8c73';      // sunlit earth (base / mid slope)
+const SOIL_LT = '#ad9c82';   // lit crown / upper face
+const SOIL_DK = '#6f6253';   // shaded toe / grade break
+const ROCK = '#857a6c';      // riprap / loose rock at the toe
 // Muted foliage greens (kept earthy, never neon).
 const LEAF = '#4f6b4a';
 const LEAF_DK = '#3c5639';
+const LEAF_BROAD = '#5c7350'; // rounder broadleaf canopy
 const TRUNK = '#5a4632';
 
 // A small reusable vehicle (module-scope so its type is stable across the
 // parent's opacity cross-fade re-renders). Built around its local origin; the
 // traffic system positions/pitches the whole group via ref each frame.
-const Vehicle = React.forwardRef(function Vehicle({ color, truck, opacity }, ref) {
+const Vehicle = React.forwardRef(function Vehicle({ color, truck, opacity, tailRefCb }, ref) {
   const L = truck ? 0.92 : 0.66;        // body length (x)
   const W = truck ? 0.46 : 0.42;        // width (z)
   const bodyH = truck ? 0.2 : 0.14;
@@ -52,9 +57,23 @@ const Vehicle = React.forwardRef(function Vehicle({ color, truck, opacity }, ref
           <Box position={[-0.05, bodyH + 0.01, -W * 0.44]} size={[L * 0.4, cabH * 0.66, 0.01]} color="#1c1c1c" opacity={opacity} metalness={0.4} roughness={0.3} />
         </>
       )}
-      {/* tail-light hint (ember quad at the rear, reinforces travel sense) */}
-      <Box position={[-L * 0.5, 0, W * 0.32]} size={[0.015, 0.05, 0.07]} color={C.ember} opacity={opacity} metalness={0.2} roughness={0.4} />
-      <Box position={[-L * 0.5, 0, -W * 0.32]} size={[0.015, 0.05, 0.07]} color={C.ember} opacity={opacity} metalness={0.2} roughness={0.4} />
+      {/* tail-lights: emissive ember quads at the rear; their emissive rises as
+          a brake flare while the vehicle pitches down the far side of the crest */}
+      {[[W * 0.32], [-W * 0.32]].map((tz, i) => (
+        <mesh key={`tl${i}`} position={[-L * 0.5, 0, tz[0]]}>
+          <boxGeometry args={[0.015, 0.05, 0.07]} />
+          <meshStandardMaterial
+            ref={(el) => tailRefCb && tailRefCb(i, el)}
+            color={C.ember}
+            emissive={C.ember}
+            emissiveIntensity={0.25 * opacity}
+            metalness={0.2}
+            roughness={0.4}
+            transparent={opacity < 1}
+            opacity={opacity}
+          />
+        </mesh>
+      ))}
       {/* headlights: pale emissive quads at the FRONT so travel direction is
           unambiguous (the oncoming car visibly approaches the crest) */}
       {[[W * 0.32], [-W * 0.32]].map((hz, i) => (
@@ -125,28 +144,51 @@ export function RoadScene({ opacity }) {
   // A trapezoidal earth-fill cross-section under one deck segment: a 4-sided
   // prism (extruded along x) whose top edge = roadway crown and whose base
   // batters out to grade on both sides. Reads as a graded side-slope, not a wall.
-  const Embankment = ({ s }) => {
+  const Embankment = ({ s, idx }) => {
     const xa = s[0][0], xb = s[1][0];
     const xm = (xa + xb) / 2;
     const topY = (s[0][1] + s[1][1]) / 2;
     const h = topY - groundY;
     const len = Math.abs(xb - xa) + 0.06; // slight overlap to hide seams
     const baseHalf = topHalf + SLOPE * h;  // wider at grade
-    // Cross-section in the y/z plane (extruded thickness = len along x).
-    const shape = React.useMemo(() => {
+    // crown break: where the lit upper face hands off to the mid slope
+    const crownY = topY - h * 0.34;
+    const crownHalf = topHalf + SLOPE * (topY - crownY);
+    // Lower trapezoid (mid slope -> toe) and upper crown band, so we get a
+    // two-tone vertical (lit crown vs darker body) instead of a flat slab.
+    const lower = React.useMemo(() => {
       const sh = new THREE.Shape();
-      sh.moveTo(-topHalf, topY);
-      sh.lineTo(topHalf, topY);
+      sh.moveTo(-crownHalf, crownY);
+      sh.lineTo(crownHalf, crownY);
       sh.lineTo(baseHalf, groundY);
       sh.lineTo(-baseHalf, groundY);
       sh.closePath();
       return sh;
-    }, [topY, baseHalf]);
+    }, [crownY, crownHalf, baseHalf]);
+    const upper = React.useMemo(() => {
+      const sh = new THREE.Shape();
+      sh.moveTo(-topHalf, topY);
+      sh.lineTo(topHalf, topY);
+      sh.lineTo(crownHalf, crownY);
+      sh.lineTo(-crownHalf, crownY);
+      sh.closePath();
+      return sh;
+    }, [topY, crownY, crownHalf]);
+    // Per-segment tonal jitter so the fill never reads as one uniform color.
+    const jit = ((idx * 53) % 7) / 7;            // 0..1 deterministic
+    const bodyCol = jit < 0.5 ? SOIL : SOIL_DK;
+    const crownCol = jit < 0.5 ? SOIL_LT : SOIL;
     return (
-      <mesh position={[xm - len / 2, 0, 0]} rotation={[0, Math.PI / 2, 0]} castShadow receiveShadow>
-        <extrudeGeometry args={[shape, { depth: len, bevelEnabled: false }]} />
-        <meshStandardMaterial color={SOIL} metalness={0.05} roughness={0.97} transparent={opacity < 1} opacity={opacity} flatShading />
-      </mesh>
+      <group position={[xm - len / 2, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
+        <mesh castShadow receiveShadow>
+          <extrudeGeometry args={[lower, { depth: len, bevelEnabled: false }]} />
+          <meshStandardMaterial color={bodyCol} metalness={0.05} roughness={0.97} transparent={opacity < 1} opacity={opacity} flatShading />
+        </mesh>
+        <mesh position={[0, 0, 0.001]} castShadow receiveShadow>
+          <extrudeGeometry args={[upper, { depth: len, bevelEnabled: false }]} />
+          <meshStandardMaterial color={crownCol} metalness={0.05} roughness={0.96} transparent={opacity < 1} opacity={opacity} flatShading />
+        </mesh>
+      </group>
     );
   };
 
@@ -164,6 +206,7 @@ export function RoadScene({ opacity }) {
   ]), []);
 
   const carRefs = React.useRef([]);
+  const tailRefs = React.useRef([]); // tailRefs.current[vehicleIdx][lightIdx]
   const treeRefs = React.useRef([]);
   const lampRef = React.useRef();
 
@@ -177,12 +220,21 @@ export function RoadScene({ opacity }) {
   // Roadside trees rooted into the embankment side-slope. dropY = how far below
   // the local crest the base sits; zSign picks the +/- face. z is computed from
   // the slope surface so each tree sits ON the fill. Kept within frame envelope.
+  // Clustered, mixed-species roadside trees. `broad` swaps the conifer cones
+  // for a rounder broadleaf canopy. Nearest (camera-side, zSign -1) upscaled so
+  // canopy sway reads at tile scale. Clusters: lower-left, mid, lower-right.
   const TREES = React.useMemo(() => ([
-    { x: -3.0, dropY: 1.55, zSign: 1, s: 0.78, phase: 0.0 },
-    { x: -1.7, dropY: 1.05, zSign: -1, s: 0.7, phase: 1.3 },
-    { x: 1.3, dropY: 1.0, zSign: 1, s: 0.74, phase: 2.1 },
-    { x: 2.7, dropY: 1.45, zSign: -1, s: 0.8, phase: 0.7 },
-    { x: 3.5, dropY: 1.7, zSign: 1, s: 0.62, phase: 3.0 },
+    // lower-left cluster
+    { x: -3.4, dropY: 1.7, zSign: -1, s: 1.02, phase: 0.0, broad: true },
+    { x: -3.0, dropY: 1.5, zSign: 1, s: 0.78, phase: 0.6, broad: false },
+    { x: -2.6, dropY: 1.95, zSign: -1, s: 0.86, phase: 1.4, broad: false },
+    // mid (camera-side, larger)
+    { x: -1.7, dropY: 1.05, zSign: -1, s: 0.92, phase: 1.3, broad: true },
+    { x: 1.3, dropY: 1.0, zSign: 1, s: 0.74, phase: 2.1, broad: false },
+    // lower-right cluster
+    { x: 2.5, dropY: 1.5, zSign: -1, s: 1.0, phase: 0.7, broad: true },
+    { x: 2.9, dropY: 1.85, zSign: -1, s: 0.82, phase: 2.6, broad: false },
+    { x: 3.5, dropY: 1.7, zSign: 1, s: 0.66, phase: 3.0, broad: false },
   ]), []);
 
   // Roadside grass/shrub tufts at the embankment toe (instanced thin cones),
@@ -190,22 +242,71 @@ export function RoadScene({ opacity }) {
   const grassRef = React.useRef();
   const GRASS = React.useMemo(() => {
     const out = [];
-    for (let i = 0; i < 26; i++) {
-      const x = -3.8 + (7.6 * i) / 25 + (i % 3) * 0.12;
+    for (let i = 0; i < 52; i++) {
+      const x = -3.85 + (7.7 * i) / 51 + (i % 3) * 0.1;
       const zSign = i % 2 === 0 ? 1 : -1;
-      const dropY = 1.62 + ((i * 7) % 5) * 0.06; // near the toe
+      // spread tufts up the slope a little, not just at the toe
+      const dropY = 1.25 + ((i * 7) % 6) * 0.1;
       const topY = crest(x);
       const y = topY - dropY;
       const z = (zSign * fillHalfAtY(topY, y)) - zSign * 0.04; // tuck onto face
-      out.push({ x, y, z, phase: (i % 7) * 0.9, s: 0.7 + (i % 4) * 0.12 });
+      // camera-side (zSign -1) tufts run larger so the near toe fills + ripples
+      const big = zSign < 0 ? 0.35 : 0;
+      out.push({ x, y, z, phase: (i % 7) * 0.9, s: 0.66 + (i % 4) * 0.12 + big });
     }
     return out;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Two birds arcing slowly over the crest (instanced; sine bob, phase-varied).
-  const birdRef = React.useRef();
+  // Riprap rock scatter at the embankment toe (static, set once). Irregular
+  // clumps along both toe lines with jittered size/spin so they read as loose
+  // rock, not a band. Matrices written once on first frame via riprapDone flag.
+  const riprapRef = React.useRef();
+  const riprapDone = React.useRef(false);
+  const RIPRAP = React.useMemo(() => {
+    const out = [];
+    for (let i = 0; i < 40; i++) {
+      const x = -3.9 + (7.8 * i) / 39 + ((i * 13) % 5) * 0.05;
+      const zSign = i % 2 === 0 ? 1 : -1;
+      const topY = crest(x);
+      const baseHalf = topHalf + SLOPE * (topY - groundY);
+      const z = zSign * (baseHalf - 0.04 - ((i * 7) % 4) * 0.05);
+      const y = groundY + 0.04 + ((i * 5) % 3) * 0.02;
+      out.push({ x, y, z, s: 0.55 + ((i * 11) % 6) * 0.12, rot: (i * 1.7) % 6.28 });
+    }
+    return out;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Drifting dust/leaf specks near the trees, riding the same wind phase.
+  const dustRef = React.useRef();
+  const DUST = React.useMemo(() => {
+    const out = [];
+    for (let i = 0; i < 10; i++) {
+      const x = -3.2 + (6.4 * i) / 9 + ((i * 3) % 4) * 0.1;
+      const zSign = i % 2 === 0 ? 1 : -1;
+      const topY = crest(x);
+      const y = topY - 0.5 - ((i * 7) % 5) * 0.12;
+      const z = zSign * (topHalf + SLOPE * (topY - y) + 0.1);
+      out.push({ x, y, z, phase: (i % 5) * 1.2, amp: 0.18 + (i % 3) * 0.06 });
+    }
+    return out;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Two birds gliding over the crest (groups + wings flapped, phase-varied).
+  const birdRefs = React.useRef([]);
+  const wingLRefs = React.useRef([]);
+  const wingRRefs = React.useRef([]);
   const cloudRef = React.useRef();
+  const cloudRef2 = React.useRef();
+  // Walking pedestrian on the camera-side shoulder (animated via ref group).
+  const pedRef = React.useRef();
+  const pedTorsoRef = React.useRef();
+  const pedArmLRef = React.useRef();
+  const pedArmRRef = React.useRef();
+  const pedLegLRef = React.useRef();
+  const pedLegRRef = React.useRef();
   // Truck exhaust puffs (refs to a few transparent sprites that rise + fade).
   const puffRefs = React.useRef([]);
 
@@ -228,6 +329,15 @@ export function RoadScene({ opacity }) {
       const pitch = Math.atan(grade) * v.dir;
       _euler.set(0, v.dir > 0 ? 0 : Math.PI, pitch);
       g.rotation.copy(_euler);
+      // brake-light flare on the descent: when traveling downgrade (grade*dir<0)
+      // raise tail-light emissive, ramped by how steep the descent is.
+      const descent = Math.max(0, -grade * v.dir); // >0 only on the down side
+      const glow = (0.25 + Math.min(1, descent * 3) * 1.4) * opacity;
+      const tl = tailRefs.current[i];
+      if (tl) {
+        if (tl[0]) tl[0].emissiveIntensity = glow;
+        if (tl[1]) tl[1].emissiveIntensity = glow;
+      }
     }
     // Sway tree canopies (rotation about z only; trunks fixed since canopy is a
     // child group pivoting near the trunk top). Single shared wind phase base.
@@ -252,29 +362,62 @@ export function RoadScene({ opacity }) {
       }
       grassRef.current.instanceMatrix.needsUpdate = true;
     }
-    // Birds: slow looping arc over the crest, phase-varied, in-frame.
-    if (birdRef.current) {
-      for (let i = 0; i < 2; i++) {
-        const ph = i * Math.PI; // opposite phase so they don't overlap
-        const bx = Math.sin(t * 0.18 + ph) * 3.2;
-        const by = 1.9 + Math.cos(t * 0.18 + ph) * 0.16 + 0.1 * Math.sin(t * 2.4 + ph);
-        const flap = 0.5 + 0.4 * Math.sin(t * 7 + ph); // wing-beat as a roll
-        // face travel direction (derivative sign of bx)
-        const dir = Math.cos(t * 0.18 + ph) >= 0 ? 1 : -1;
-        _euler.set(Math.PI / 2, 0, dir * (1.2) + flap * 0.2);
-        _q.setFromEuler(_euler);
-        _pos.set(bx, by, -0.2 + i * 0.5);
-        _scl.set(0.6, 0.6, 0.6);
-        _m4.compose(_pos, _q, _scl);
-        birdRef.current.setMatrixAt(i, _m4);
-      }
-      birdRef.current.instanceMatrix.needsUpdate = true;
+    // Birds: slow looping arc over the crest, phase-varied, in-frame. Each
+    // bird's group flies the arc; wings flap by rotating the wing sub-groups.
+    for (let i = 0; i < 2; i++) {
+      const g = birdRefs.current[i];
+      if (!g) continue;
+      const ph = i * Math.PI; // opposite phase so they don't overlap
+      const bx = Math.sin(t * 0.18 + ph) * 3.0;
+      const by = 2.15 + Math.cos(t * 0.18 + ph) * 0.14 + 0.08 * Math.sin(t * 2.4 + ph);
+      // face travel direction (sign of horizontal velocity)
+      const dir = Math.cos(t * 0.18 + ph) >= 0 ? 1 : -1;
+      g.position.set(bx, by, -0.4 + i * 0.55);
+      g.rotation.y = dir > 0 ? 0 : Math.PI;
+      const flap = Math.sin(t * 7 + ph) * 0.5; // wing-beat
+      const wl = wingLRefs.current[i];
+      const wr = wingRRefs.current[i];
+      if (wl) wl.rotation.x = -flap;
+      if (wr) wr.rotation.x = flap;
     }
-    // Distant cloud band: very slow horizontal drift, wraps seamlessly.
+    // Riprap matrices: write once (static scatter) on the first frame.
+    if (riprapRef.current && !riprapDone.current) {
+      for (let i = 0; i < RIPRAP.length; i++) {
+        const r = RIPRAP[i];
+        _euler.set(r.rot, r.rot * 0.7, r.rot * 1.3);
+        _q.setFromEuler(_euler);
+        _pos.set(r.x, r.y, r.z);
+        _scl.set(r.s, r.s * 0.7, r.s);
+        _m4.compose(_pos, _q, _scl);
+        riprapRef.current.setMatrixAt(i, _m4);
+      }
+      riprapRef.current.instanceMatrix.needsUpdate = true;
+      riprapDone.current = true;
+    }
+    // Drifting dust/leaf specks: small orbiting bob on the wind phase.
+    if (dustRef.current) {
+      for (let i = 0; i < DUST.length; i++) {
+        const d = DUST[i];
+        const dx = d.x + Math.sin(t * 0.9 + d.phase) * d.amp;
+        const dy = d.y + Math.cos(t * 1.3 + d.phase) * d.amp * 0.7 + 0.04 * wind;
+        _euler.set(t + d.phase, t * 0.6, 0);
+        _q.setFromEuler(_euler);
+        _pos.set(dx, dy, d.z);
+        _scl.setScalar(1);
+        _m4.compose(_pos, _q, _scl);
+        dustRef.current.setMatrixAt(i, _m4);
+      }
+      dustRef.current.instanceMatrix.needsUpdate = true;
+    }
+    // Distant cloud bands: very slow horizontal drift, wrap seamlessly off
+    // frame. Two bands at different depth/speed give parallax.
     if (cloudRef.current) {
-      // wrap across -6.5..+6.5 so the reset happens fully off-frame (no pop)
-      const cx = ((t * 0.08 + 6.5) % 13) - 6.5;
-      cloudRef.current.position.set(cx, 1.92, -1.2);
+      const cx = ((t * 0.06 + 7) % 14) - 7;
+      cloudRef.current.position.set(cx, 2.55, -2.6);
+    }
+    if (cloudRef2.current) {
+      const cx = ((t * 0.035 + 9 + 7) % 14) - 7;
+      cloudRef2.current.position.set(cx, 2.95, -3.4);
     }
     // Truck exhaust: small gray puffs rise behind the cab and fade on a loop.
     // Truck is VEHICLES[2]; read its current world pose from its ref.
@@ -299,6 +442,28 @@ export function RoadScene({ opacity }) {
     if (lampRef.current) {
       lampRef.current.emissiveIntensity = (0.9 + 0.15 * Math.sin(t * 1.7)) * opacity;
     }
+    // Pedestrian: slow walk along the camera-side shoulder on a short ping-pong
+    // path (triangle wave so they turn around without a pop), limbs swinging.
+    if (pedRef.current) {
+      const pedZ = -(halfW + 0.36);
+      const period = 16;                 // seconds for a full there-and-back
+      const u = (t % period) / period;   // 0..1
+      const tri = u < 0.5 ? u * 2 : 2 - u * 2; // 0..1..0 triangle
+      const xMin = 1.6, xMax = 3.2;
+      const px = xMin + (xMax - xMin) * tri;
+      const facing = u < 0.5 ? 1 : -1;   // +x then -x
+      const py = crest(px) - 0.02;
+      pedRef.current.position.set(px, py, pedZ);
+      pedRef.current.rotation.y = facing > 0 ? Math.PI / 2 : -Math.PI / 2;
+      // limb swing + gentle torso bob; freeze swing near the turnaround
+      const moving = Math.min(1, Math.abs(u - 0.5) * 6); // ~0 at turns
+      const gait = Math.sin(t * 4.4) * 0.5 * moving;
+      if (pedLegLRef.current) pedLegLRef.current.rotation.z = gait;
+      if (pedLegRRef.current) pedLegRRef.current.rotation.z = -gait;
+      if (pedArmLRef.current) pedArmLRef.current.rotation.z = -gait * 0.8;
+      if (pedArmRRef.current) pedArmRRef.current.rotation.z = gait * 0.8;
+      if (pedTorsoRef.current) pedTorsoRef.current.position.y = 0.4 + Math.abs(Math.sin(t * 4.4)) * 0.02 * moving;
+    }
   });
 
   // ---- Local helpers ---------------------------------------------------------
@@ -306,7 +471,7 @@ export function RoadScene({ opacity }) {
   // A low roadside conifer rooted into the embankment slope: a small earth root
   // flare anchors the base, a fixed trunk, and a canopy group that sways. The
   // canopy group's ref is registered so useFrame can rotate it about its base.
-  const Tree = ({ x, dropY, zSign, s, idx }) => {
+  const Tree = ({ x, dropY, zSign, s, idx, broad }) => {
     const [baseY, z] = seatOnSlope(x, dropY, zSign);
     // tuck slightly inboard so the trunk bites the slope, not air
     const zIn = z - zSign * 0.06;
@@ -322,14 +487,34 @@ export function RoadScene({ opacity }) {
           <meshStandardMaterial color={TRUNK} metalness={0.05} roughness={0.95} transparent={opacity < 1} opacity={opacity} />
         </mesh>
         <group ref={(el) => (treeRefs.current[idx] = el)} position={[0, 0.73, 0]}>
-          <mesh position={[0, 0.28, 0]} castShadow>
-            <coneGeometry args={[0.36, 0.7, 9]} />
-            <meshStandardMaterial color={LEAF} metalness={0.04} roughness={0.92} flatShading transparent={opacity < 1} opacity={opacity} />
-          </mesh>
-          <mesh position={[0, 0.58, 0]} castShadow>
-            <coneGeometry args={[0.26, 0.52, 9]} />
-            <meshStandardMaterial color={LEAF_DK} metalness={0.04} roughness={0.92} flatShading transparent={opacity < 1} opacity={opacity} />
-          </mesh>
+          {broad ? (
+            // rounder broadleaf canopy: overlapping spheres
+            <>
+              <mesh position={[0, 0.42, 0]} castShadow>
+                <sphereGeometry args={[0.42, 12, 10]} />
+                <meshStandardMaterial color={LEAF_BROAD} metalness={0.04} roughness={0.93} flatShading transparent={opacity < 1} opacity={opacity} />
+              </mesh>
+              <mesh position={[-0.22, 0.26, 0.08]} castShadow>
+                <sphereGeometry args={[0.28, 11, 9]} />
+                <meshStandardMaterial color={LEAF} metalness={0.04} roughness={0.93} flatShading transparent={opacity < 1} opacity={opacity} />
+              </mesh>
+              <mesh position={[0.24, 0.3, -0.06]} castShadow>
+                <sphereGeometry args={[0.3, 11, 9]} />
+                <meshStandardMaterial color={LEAF_DK} metalness={0.04} roughness={0.93} flatShading transparent={opacity < 1} opacity={opacity} />
+              </mesh>
+            </>
+          ) : (
+            <>
+              <mesh position={[0, 0.28, 0]} castShadow>
+                <coneGeometry args={[0.36, 0.7, 9]} />
+                <meshStandardMaterial color={LEAF} metalness={0.04} roughness={0.92} flatShading transparent={opacity < 1} opacity={opacity} />
+              </mesh>
+              <mesh position={[0, 0.58, 0]} castShadow>
+                <coneGeometry args={[0.26, 0.52, 9]} />
+                <meshStandardMaterial color={LEAF_DK} metalness={0.04} roughness={0.92} flatShading transparent={opacity < 1} opacity={opacity} />
+              </mesh>
+            </>
+          )}
         </group>
       </group>
     );
@@ -344,22 +529,14 @@ export function RoadScene({ opacity }) {
       {/* Continuous graded earth fill: one battered trapezoid per deck segment,
           side-slopes running to grade (reads as a hill/embankment, not a wall) */}
       {data.deck.map((s, i) => (
-        <Embankment key={`emb${i}`} s={s} />
+        <Embankment key={`emb${i}`} s={s} idx={i} />
       ))}
-      {/* Darker toe band along grade to give the slope a base line and catch
-          light differently from the lit upper face */}
-      {data.deck.map((s, i) => {
-        const xm = (s[0][0] + s[1][0]) / 2;
-        const topY = (s[0][1] + s[1][1]) / 2;
-        const baseHalf = topHalf + SLOPE * (topY - groundY);
-        const len = Math.abs(s[1][0] - s[0][0]) + 0.06;
-        return (
-          <React.Fragment key={`toe${i}`}>
-            <Box position={[xm, groundY + 0.04, baseHalf - 0.06]} size={[len, 0.08, 0.16]} color={SOIL_DK} opacity={opacity} metalness={0.05} roughness={0.98} />
-            <Box position={[xm, groundY + 0.04, -baseHalf + 0.06]} size={[len, 0.08, 0.16]} color={SOIL_DK} opacity={opacity} metalness={0.05} roughness={0.98} />
-          </React.Fragment>
-        );
-      })}
+      {/* Riprap scatter at the toe: irregular low rock clumps replace the old
+          corrugated boxy band, giving a believable, non-geometric grade break */}
+      <instancedMesh ref={riprapRef} args={[undefined, undefined, RIPRAP.length]} castShadow receiveShadow>
+        <dodecahedronGeometry args={[0.12, 0]} />
+        <meshStandardMaterial color={ROCK} metalness={0.04} roughness={0.97} flatShading transparent opacity={opacity} />
+      </instancedMesh>
 
       {/* Asphalt deck (smoothed, N=40) */}
       {data.deck.map((s, i) => (
@@ -377,7 +554,7 @@ export function RoadScene({ opacity }) {
       {/* Centerline: crisp yellow dashes lifted clear of the asphalt sheen so
           they read up-and-over the parabolic crest without z-fighting */}
       {data.stripe.map((s, i) => {
-        const t = 0.72; // longer dash within each segment -> crisper read
+        const t = 0.45; // shorter dash -> clear gaps read as a broken skip line
         const ax = s[0][0], bx = s[1][0];
         const ay = s[0][1], by = s[1][1];
         const mx0 = ax + (bx - ax) * (0.5 - t / 2), my0 = ay + (by - ay) * (0.5 - t / 2);
@@ -405,8 +582,14 @@ export function RoadScene({ opacity }) {
 
       {/* Roadside trees rooted into & swaying on the embankment side-slopes */}
       {TREES.map((tr, i) => (
-        <Tree key={`tree${i}`} x={tr.x} dropY={tr.dropY} zSign={tr.zSign} s={tr.s} idx={i} />
+        <Tree key={`tree${i}`} x={tr.x} dropY={tr.dropY} zSign={tr.zSign} s={tr.s} idx={i} broad={tr.broad} />
       ))}
+
+      {/* Drifting dust/leaf specks near the trees (instanced, wind-borne) */}
+      <instancedMesh ref={dustRef} args={[undefined, undefined, DUST.length]}>
+        <tetrahedronGeometry args={[0.03, 0]} />
+        <meshStandardMaterial color={LEAF_DK} metalness={0.02} roughness={0.95} flatShading transparent opacity={opacity * 0.7} />
+      </instancedMesh>
 
       {/* Roadside grass tufts at the embankment toe (instanced, wind-sheared) */}
       <instancedMesh ref={grassRef} args={[undefined, undefined, GRASS.length]} castShadow>
@@ -414,21 +597,38 @@ export function RoadScene({ opacity }) {
         <meshStandardMaterial color={LEAF_DK} metalness={0.03} roughness={0.95} flatShading transparent opacity={opacity} />
       </instancedMesh>
 
-      {/* Two birds arcing slowly over the crest (instanced, sine bob) */}
-      <instancedMesh ref={birdRef} args={[undefined, undefined, 2]}>
-        <coneGeometry args={[0.05, 0.22, 3]} />
-        <meshStandardMaterial color={C.charcoal} metalness={0.1} roughness={0.8} flatShading transparent opacity={opacity} />
-      </instancedMesh>
+      {/* Two birds gliding over the crest: shallow V silhouette (two thin
+          angled wing boxes + a slim body); whole group flown + wings flapped
+          via refs each frame */}
+      {[0, 1].map((i) => (
+        <group key={`bird${i}`} ref={(el) => (birdRefs.current[i] = el)}>
+          <Box position={[0, 0, 0]} size={[0.14, 0.03, 0.05]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
+          <group ref={(el) => (wingLRefs.current[i] = el)} position={[0, 0, 0.02]}>
+            <Box position={[0, 0, 0.11]} size={[0.07, 0.02, 0.22]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
+          </group>
+          <group ref={(el) => (wingRRefs.current[i] = el)} position={[0, 0, -0.02]}>
+            <Box position={[0, 0, -0.11]} size={[0.07, 0.02, 0.22]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.8} />
+          </group>
+        </group>
+      ))}
 
-      {/* One slow distant cloud band drifting high above the crest */}
-      <group ref={cloudRef}>
-        {[[-0.5, 0, 0.42], [0.45, 0.12, 0.34], [0.0, -0.05, 0.3]].map((c, i) => (
-          <mesh key={`cl${i}`} position={[c[0], c[1], 0]} scale={[c[2] * 2.2, c[2], c[2]]}>
-            <sphereGeometry args={[1, 12, 10]} />
-            <meshStandardMaterial color="#fbf4e8" metalness={0} roughness={1} transparent opacity={opacity * 0.5} />
-          </mesh>
-        ))}
-      </group>
+      {/* Distant, soft, high cloud bands: flattened + feathered with many low
+          overlapping spheres so the silhouette reads as wispy atmospheric haze
+          well behind and above the road, not opaque blobs at deck level. Two
+          bands at different depth/speed drift for parallax. */}
+      {[
+        { ref: cloudRef, op: 0.3, puffs: [[-0.9, 0.05, 0.5], [-0.2, -0.04, 0.62], [0.5, 0.08, 0.5], [1.1, -0.02, 0.4], [0.0, 0.12, 0.34]] },
+        { ref: cloudRef2, op: 0.2, puffs: [[-0.7, 0.04, 0.46], [0.1, -0.03, 0.56], [0.8, 0.06, 0.42], [-1.2, 0.0, 0.3]] },
+      ].map((band, bi) => (
+        <group key={`cloud${bi}`} ref={band.ref}>
+          {band.puffs.map((c, i) => (
+            <mesh key={`cl${i}`} position={[c[0], c[1], 0]} scale={[c[2] * 2.6, c[2] * 0.42, c[2] * 1.1]}>
+              <sphereGeometry args={[1, 12, 8]} />
+              <meshStandardMaterial color="#fbf4e8" metalness={0} roughness={1} transparent opacity={opacity * band.op} depthWrite={false} />
+            </mesh>
+          ))}
+        </group>
+      ))}
 
       {/* Streetlight near the crest: pole + cantilever arm + sunbeam lamp head */}
       <group>
@@ -465,16 +665,38 @@ export function RoadScene({ opacity }) {
         </mesh>
       ))}
 
-      {/* Pedestrian at the near (camera-side) shoulder, standing plumb with feet
-          on the locally-pitched shoulder surface; not pitched with grade */}
-      <Person
-        position={[3.0, crest(3.0) - 0.02, -(halfW + 0.34)]}
-        rotation={[0, 1.6, 0]}
-        scale={0.5}
-        vest={C.forest}
-        hardHat={C.sunbeam}
-        opacity={opacity}
-      />
+      {/* Walking pedestrian on the near (camera-side) shoulder: a locally-built
+          figure whose whole group is moved along a short looping path and whose
+          limbs swing via refs, so it is no longer the one frozen living thing */}
+      <group ref={pedRef} scale={0.5}>
+        {/* legs (swing fore/aft about the hip) */}
+        <group ref={pedLegLRef} position={[0, 0.4, 0.07]}>
+          <Box position={[0, -0.2, 0]} size={[0.1, 0.4, 0.1]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.85} />
+        </group>
+        <group ref={pedLegRRef} position={[0, 0.4, -0.07]}>
+          <Box position={[0, -0.2, 0]} size={[0.1, 0.4, 0.1]} color={C.charcoal} opacity={opacity} metalness={0.1} roughness={0.85} />
+        </group>
+        {/* torso (subtle walk bob via ref) + safety vest */}
+        <group ref={pedTorsoRef} position={[0, 0.4, 0]}>
+          <Box position={[0, 0.22, 0]} size={[0.16, 0.42, 0.22]} color={C.forest} opacity={opacity} metalness={0.1} roughness={0.8} />
+          {/* arms swing opposite the legs */}
+          <group ref={pedArmLRef} position={[0, 0.4, 0.14]}>
+            <Box position={[0, -0.16, 0]} size={[0.07, 0.34, 0.07]} color={C.forest} opacity={opacity} metalness={0.1} roughness={0.8} />
+          </group>
+          <group ref={pedArmRRef} position={[0, 0.4, -0.14]}>
+            <Box position={[0, -0.16, 0]} size={[0.07, 0.34, 0.07]} color={C.forest} opacity={opacity} metalness={0.1} roughness={0.8} />
+          </group>
+          {/* head + hard hat */}
+          <mesh position={[0, 0.56, 0]} castShadow>
+            <sphereGeometry args={[0.1, 12, 10]} />
+            <meshStandardMaterial color="#caa987" metalness={0.05} roughness={0.7} transparent={opacity < 1} opacity={opacity} />
+          </mesh>
+          <mesh position={[0, 0.63, 0]} castShadow>
+            <sphereGeometry args={[0.12, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2]} />
+            <meshStandardMaterial color={C.sunbeam} metalness={0.1} roughness={0.6} transparent={opacity < 1} opacity={opacity} />
+          </mesh>
+        </group>
+      </group>
 
       {/* Living traffic: vehicles driving up and over the crest in both lanes */}
       {VEHICLES.map((v, i) => (
@@ -484,6 +706,10 @@ export function RoadScene({ opacity }) {
           color={v.color}
           truck={v.truck}
           opacity={opacity}
+          tailRefCb={(li, el) => {
+            if (!tailRefs.current[i]) tailRefs.current[i] = [];
+            tailRefs.current[i][li] = el;
+          }}
         />
       ))}
     </group>

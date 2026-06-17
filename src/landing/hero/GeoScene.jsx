@@ -39,8 +39,12 @@ export function GeoScene({ opacity }) {
   const personYawRef = React.useRef(Math.PI / 2);
   const hammerRef = React.useRef();   // pile-driver hammer block
   const driverPileRef = React.useRef(); // fresh pile under the hammer
+  const drumRef = React.useRef();     // winch drum (rotates with hammer cycle)
+  const cableRef = React.useRef();     // hoist cable (scales with ram lift)
   const dustRef = React.useRef([]);   // recycled spoil-puff meshes
-  const birdRef = React.useRef();     // background bird
+  const clodRefs = React.useRef([]);  // tumbling spoil clods on the trench wall
+  const birdRefs = React.useRef([]);  // background birds (staggered phase)
+  const laserRef = React.useRef();    // line-of-sight laser material (faint pulse)
 
   const layers = React.useMemo(() => {
     const W = 7.4, D = 2.8;
@@ -133,13 +137,35 @@ export function GeoScene({ opacity }) {
   // on the uncut front-right band and along the back so they never float over
   // the cutaway. Phase-varied sway.
   const trees = React.useMemo(() => ([
-    { x: 1.9,  z: D / 2 - 0.5,  s: 0.62, kind: 'tree',  phase: 0.0 },
-    { x: 3.2,  z: -0.55,        s: 0.5,  kind: 'tree',  phase: 1.7 },
-    { x: -2.9, z: -0.7,         s: 0.44, kind: 'shrub', phase: 3.1 },
+    { x: 1.9,  z: D / 2 - 0.5,  s: 0.62, kind: 'tree',     phase: 0.0 },
+    { x: 3.2,  z: -0.55,        s: 0.56, kind: 'broadleaf', phase: 1.7 },
+    { x: -2.9, z: -0.7,         s: 0.44, kind: 'shrub',    phase: 3.1 },
   ]), [D]);
 
   // Surveyor walk path along the back surface (clear of the footing/cutaway).
   const walk = { x0: -2.7, x1: 2.7, z: -D / 2 + 0.45 };
+
+  // A planted survey level: a tripod + instrument set up on the back-right
+  // surface, sighting toward the footing column. The walking surveyor paces
+  // near it. A thin forest line-of-sight laser locks the 'survey' read (a
+  // line, not an arrow — explicitly allowed).
+  const instX = 2.55, instZ = -D / 2 + 0.5;            // planted level position
+  const instY = topSurface + 0.16 + 0.92;              // instrument optical center
+  const sightTarget = [0, footingTopY + 0.75, 0];      // aim at the steel column
+  const sightFrom = [instX, instY, instZ];
+  // Line-of-sight: midpoint, length, and yaw/pitch so a thin cylinder spans it.
+  const sight = React.useMemo(() => {
+    const dx = sightTarget[0] - sightFrom[0];
+    const dy = sightTarget[1] - sightFrom[1];
+    const dz = sightTarget[2] - sightFrom[2];
+    const len = Math.hypot(dx, dy, dz);
+    const mid = [sightFrom[0] + dx / 2, sightFrom[1] + dy / 2, sightFrom[2] + dz / 2];
+    // Orient a Y-axis cylinder along the sight direction via a unit-vector quat.
+    const dir = new THREE.Vector3(dx, dy, dz).normalize();
+    const quat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+    return { len, mid, quat };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // The pile-driver stands on the excavated cutaway floor.
   const cutFloorY = layers.arr[2].y - STRATA[2].H / 2 + 0.005;
@@ -147,7 +173,7 @@ export function GeoScene({ opacity }) {
   // Hammer drop cycle. Ram rises slowly then drops fast; impact at cyc≈1.
   const HAMMER_PERIOD = 2.6;
   const hammerLo = cutFloorY + 0.5;     // ram resting just above the pile head
-  const hammerHi = hammerLo + 0.62;     // top of lift
+  const hammerHi = hammerLo + 0.84;     // top of lift (bigger travel: obvious lift/drop)
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
@@ -167,6 +193,21 @@ export function GeoScene({ opacity }) {
       driverPileRef.current.position.y = -0.05 * impact;
     }
 
+    // Winch drum spins to pay out cable on the slow lift, then reels in fast on
+    // the drop (couples visibly to the hammer cycle). Cable length tracks the
+    // ram so the hoist line takes up / pays out with the blow.
+    if (drumRef.current) {
+      drumRef.current.rotation.y = -cyc * Math.PI * 4;
+    }
+    if (cableRef.current) {
+      // Cable spans from the crown sheave down to the ram top: scale a unit
+      // cylinder so it always bridges the gap (no per-frame allocation).
+      const ramTop = hammerLo + (hammerHi - hammerLo) * rise + 0.18;
+      const span = Math.max(0.02, (cutFloorY + 0.12 + 1.5) - ramTop);
+      cableRef.current.scale.y = span;
+      cableRef.current.position.y = ramTop + span / 2;
+    }
+
     // Footing/column/pile group: slow consolidation creep + a synced micro-dip
     // on each hammer blow (couples the rig's work to settlement).
     if (settleRef.current) {
@@ -174,28 +215,69 @@ export function GeoScene({ opacity }) {
       settleRef.current.position.y = bob - 0.012 * impact;
     }
 
-    // Groundwater: a faint specular/roughness shimmer band on the exposed wet
-    // faces only — water reads without any floating sheet.
+    // Groundwater: each exposed waterline band shimmers out of phase via both
+    // roughness and a faint info-blue emissive, so the water reads as alive even
+    // in a still frame. A single slow glint sweeps along the front band (i===0)
+    // so the eye always catches a traveling highlight on the waterline.
     for (let i = 0; i < wetBandRefs.current.length; i++) {
       const m = wetBandRefs.current[i];
       if (!m) continue;
-      m.roughness = 0.28 + 0.12 * (0.5 + 0.5 * Math.sin(t * 0.9 + i * 1.7));
+      const ph = i * 1.7;
+      m.roughness = 0.26 + 0.12 * (0.5 + 0.5 * Math.sin(t * 0.9 + ph));
+      let emi = 0.05 + 0.07 * (0.5 + 0.5 * Math.sin(t * 1.4 + ph));
+      if (i === 0) {
+        // traveling glint: a narrow gaussian bump sweeping left→right in 5s
+        const sweep = (t % 5) / 5;            // 0..1 position of the glint
+        const here = 0.5;                     // band is one mesh; pulse over time
+        const g = Math.exp(-Math.pow((sweep - here) * 6, 2));
+        emi += 0.25 * g;
+      }
+      m.emissiveIntensity = emi * opacity;
     }
 
-    // Spoil dust: recycle a small pool of puffs near the hammer. They rise and
-    // fade in the ~0.4s after each blow (no per-frame allocation).
+    // Spoil dust: recycle a small pool of puffs near the hammer. The first
+    // three rise and fade in the ~0.45s after each blow; the LAST one is a faint
+    // lingering wisp that drifts slowly downwind the whole cycle so the rig
+    // never looks idle between blows. Wind clock shared with the trees.
+    const windDrift = 0.04 * Math.sin(t * 1.3);
     for (let i = 0; i < dustRef.current.length; i++) {
       const d = dustRef.current[i];
       if (!d) continue;
+      if (i === dustRef.current.length - 1) {
+        // lingering wisp: always faintly visible, slowly rising + drifting
+        const wph = (t % 6) / 6;                          // 0..1 slow loop
+        d.position.y = 0.06 + wph * 0.5;
+        d.position.x = -0.06 + windDrift * 2.0;
+        d.position.z = 0.02;
+        const s = 0.05 + 0.1 * Math.sin(wph * Math.PI);
+        d.scale.set(s, s, s);
+        if (d.material) d.material.opacity = opacity * 0.16 * Math.sin(wph * Math.PI);
+        d.visible = true;
+        continue;
+      }
       const life = Math.min(1, sinceImpact * 2.2);       // 0 at blow → 1 after ~0.45s
       const fade = (1 - life) * (sinceImpact < 0.5 ? 1 : 0);
       d.position.y = 0.05 + life * (0.32 + i * 0.05);
-      d.position.x = (i - 1.5) * 0.07;
+      d.position.x = (i - 1.5) * 0.07 + windDrift;
       d.position.z = ((i % 2) - 0.5) * 0.12;
       const s = 0.04 + life * 0.16;
       d.scale.set(s, s, s);
       if (d.material) d.material.opacity = opacity * 0.4 * fade;
       d.visible = fade > 0.01;
+    }
+
+    // Tiny spoil clods tumble down the exposed trench wall on each hammer blow,
+    // reinforcing the driving impact. Each clod falls + rolls then resets.
+    for (let i = 0; i < clodRefs.current.length; i++) {
+      const c = clodRefs.current[i];
+      if (!c) continue;
+      // fall progresses with time-since-impact, staggered per clod
+      const f = Math.min(1, Math.max(0, sinceImpact * 1.6 - i * 0.18));
+      c.position.y = -f * (0.5 + i * 0.08);
+      c.position.x = i * 0.04 * f;
+      c.rotation.z = f * (4 + i);
+      c.visible = f > 0.001 && f < 0.999;
+      if (c.material) c.material.opacity = opacity * 0.9 * (1 - f);
     }
 
     // Trees sway in the wind, phase-varied (base sway + outer micro-flutter).
@@ -211,7 +293,10 @@ export function GeoScene({ opacity }) {
     if (personRef.current) {
       const period = 11;
       const u = (t % period) / period;            // 0..1
-      const tri = u < 0.5 ? u * 2 : 2 - u * 2;     // 0..1..0
+      let tri = u < 0.5 ? u * 2 : 2 - u * 2;       // 0..1..0
+      // Pause near the planted instrument at the +x end of the stride.
+      const paused = u > 0.46 && u < 0.58;
+      if (paused) tri = 1;                          // hold near the level
       personRef.current.position.x = walk.x0 + (walk.x1 - walk.x0) * tri;
       personRef.current.position.z = walk.z;
       // target heading: +x leg faces +PI/2, -x leg faces -PI/2; ease toward it
@@ -221,20 +306,33 @@ export function GeoScene({ opacity }) {
       cur += diff * 0.12;                          // critically-damped-ish ease
       personYawRef.current = cur;
       personRef.current.rotation.y = cur;
-      personRef.current.position.y = topSurface + 0.16 + 0.02 * Math.abs(Math.sin(t * 6));
+      // bob only while striding; stand still during the pause + vest flutter
+      const stride = paused ? 0 : 0.02 * Math.abs(Math.sin(t * 6));
+      personRef.current.position.y = topSurface + 0.16 + stride;
     }
 
-    // A single bird arcs across the back occasionally for life.
-    if (birdRef.current) {
-      const bp = (t % 17) / 17;                    // long loop
-      const fly = smoothstep(0.15, 0.85, bp);
-      birdRef.current.visible = bp > 0.12 && bp < 0.9;
-      birdRef.current.position.x = -4.4 + fly * 8.8;
-      birdRef.current.position.y = topSurface + 1.7 + 0.35 * Math.sin(bp * Math.PI);
-      birdRef.current.position.z = -D / 2 - 0.8;
-      birdRef.current.rotation.y = -Math.PI / 2;
-      // wing flap
-      birdRef.current.rotation.z = 0.4 * Math.sin(t * 12);
+    // A small flock arcs across the back sky on staggered phases so some ambient
+    // life is almost always on screen (no longer a once-per-17s event). Each
+    // bird crosses on its own offset of a 10s loop, alternating direction.
+    const FLOCK_PERIOD = 10;
+    for (let i = 0; i < birdRefs.current.length; i++) {
+      const b = birdRefs.current[i];
+      if (!b) continue;
+      const off = i * 0.31;                        // phase stagger
+      const bp = ((t / FLOCK_PERIOD + off) % 1);   // 0..1
+      const dir = i % 2 === 0 ? 1 : -1;            // alternate L→R / R→L
+      const fly = smoothstep(0.05, 0.95, bp);
+      b.visible = bp > 0.04 && bp < 0.96;
+      b.position.x = dir * (-4.4 + fly * 8.8);
+      b.position.y = topSurface + 0.85 + i * 0.12 + 0.22 * Math.sin(bp * Math.PI);
+      b.position.z = -D / 2 - 0.7 - i * 0.25;
+      b.rotation.y = dir > 0 ? -Math.PI / 2 : Math.PI / 2;
+      b.rotation.z = 0.4 * Math.sin(t * 12 + i * 1.3);
+    }
+
+    // Line-of-sight laser: a faint forest pulse so the optical line breathes.
+    if (laserRef.current) {
+      laserRef.current.opacity = opacity * (0.26 + 0.14 * (0.5 + 0.5 * Math.sin(t * 2.2)));
     }
   });
 
@@ -270,22 +368,22 @@ export function GeoScene({ opacity }) {
       {/* Front face band (right of the notch). */}
       <mesh position={[-W / 2 + notchW + frontRightW / 2, wtY, D / 2 + 0.012]}>
         <boxGeometry args={[frontRightW - 0.04, 0.07, 0.02]} />
-        <meshStandardMaterial ref={(m) => { wetBandRefs.current[0] = m; }} color={C_WET} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.9} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[0] = m; }} color={C_WET} emissive={C.info} emissiveIntensity={0.06} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.9} />
       </mesh>
       {/* Cutaway back wall (z-facing trench wall) band. */}
       <mesh position={[notchXc, wtY, D / 2 - notchD + 0.016]}>
         <boxGeometry args={[notchW - 0.04, 0.06, 0.02]} />
-        <meshStandardMaterial ref={(m) => { wetBandRefs.current[1] = m; }} color={C_WET} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[1] = m; }} color={C_WET} emissive={C.info} emissiveIntensity={0.06} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
       </mesh>
       {/* Cutaway side wall (x-facing trench wall) band. */}
       <mesh position={[notchXc + notchW / 2 - 0.016, wtY, notchZc]}>
         <boxGeometry args={[0.02, 0.06, notchD - 0.04]} />
-        <meshStandardMaterial ref={(m) => { wetBandRefs.current[2] = m; }} color={C_WET} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[2] = m; }} color={C_WET} emissive={C.info} emissiveIntensity={0.06} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
       </mesh>
       {/* Right end face band. */}
       <mesh position={[W / 2 + 0.012, wtY, 0]}>
         <boxGeometry args={[0.02, 0.07, D - 0.04]} />
-        <meshStandardMaterial ref={(m) => { wetBandRefs.current[3] = m; }} color={C_WET} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
+        <meshStandardMaterial ref={(m) => { wetBandRefs.current[3] = m; }} color={C_WET} emissive={C.info} emissiveIntensity={0.06} metalness={0.35} roughness={0.3} transparent opacity={opacity * 0.85} />
       </mesh>
       {/* Classic downward water-table triangle marker, datum-aligned to the band
           on the front-right exposed face. */}
@@ -332,13 +430,16 @@ export function GeoScene({ opacity }) {
         pileBottom={pileBottom}
         hammerRef={hammerRef}
         pileRef={driverPileRef}
+        drumRef={drumRef}
+        cableRef={cableRef}
         opacity={opacity}
       />
 
-      {/* Spoil-dust pool kicked up at the driving point on each blow (recycled,
-          no per-frame allocation). */}
+      {/* Spoil-dust pool kicked up at the driving point on each blow plus one
+          lingering wisp (index 4) that drifts the whole cycle (recycled, no
+          per-frame allocation). */}
       <group position={[driverX, cutFloorY, driverZ]}>
-        {[0, 1, 2, 3].map((i) => (
+        {[0, 1, 2, 3, 4].map((i) => (
           <mesh key={`dust${i}`} ref={(m) => { dustRef.current[i] = m; }} visible={false}>
             <sphereGeometry args={[1, 7, 6]} />
             <meshStandardMaterial color="#8a8170" metalness={0} roughness={1} transparent opacity={0} />
@@ -346,10 +447,40 @@ export function GeoScene({ opacity }) {
         ))}
       </group>
 
-      {/* A single bird arcing across the back sky for life. */}
-      <group ref={birdRef} visible={false}>
-        <Bird opacity={opacity} />
+      {/* Tiny spoil clods that tumble down the exposed trench wall on each blow,
+          parented to the trench face near the driving point. */}
+      <group position={[notchXc + notchW / 2 - 0.05, cutFloorY + 0.55, notchZc]}>
+        {[0, 1, 2].map((i) => (
+          <mesh key={`clod${i}`} ref={(m) => { clodRefs.current[i] = m; }} visible={false} castShadow>
+            <dodecahedronGeometry args={[0.035, 0]} />
+            <meshStandardMaterial color="#6a604f" metalness={0.05} roughness={1} transparent opacity={0} flatShading />
+          </mesh>
+        ))}
       </group>
+
+      {/* A small flock arcing across the back sky on staggered phases. */}
+      {[0, 1, 2, 3].map((i) => (
+        <group key={`bird${i}`} ref={(el) => { birdRefs.current[i] = el; }} visible={false}>
+          <Bird opacity={opacity} />
+        </group>
+      ))}
+
+      {/* Planted survey level (tripod + instrument) set up on the back-right
+          surface, with a thin forest line-of-sight laser sighting the column. */}
+      <SurveyLevel position={[instX, topSurface + 0.16, instZ]} opacity={opacity} />
+      <mesh position={sight.mid} quaternion={sight.quat}>
+        <cylinderGeometry args={[0.006, 0.006, sight.len, 6]} />
+        <meshStandardMaterial
+          ref={(m) => { laserRef.current = m; }}
+          color={C.forest}
+          emissive={C.forest}
+          emissiveIntensity={0.6}
+          metalness={0}
+          roughness={0.5}
+          transparent
+          opacity={opacity * 0.3}
+        />
+      </mesh>
 
       {/* Surface vegetation — low-poly trees/shrubs that sway in the wind. */}
       {trees.map((tr, i) => (
@@ -360,7 +491,7 @@ export function GeoScene({ opacity }) {
           z={tr.z}
           baseY={topSurface}
           scale={tr.s}
-          shrub={tr.kind === 'shrub'}
+          kind={tr.kind}
           opacity={opacity}
         />
       ))}
@@ -368,7 +499,7 @@ export function GeoScene({ opacity }) {
       {/* Surveyor walking the site, carrying a tripod/level over one shoulder
           so the figure reads as a surveyor rather than a pedestrian. */}
       <group ref={personRef} position={[walk.x0, topSurface + 0.16, walk.z]} rotation={[0, Math.PI / 2, 0]}>
-        <Person scale={0.62} vest={C.sunbeam} hardHat={C.ember} ponytail armPose="hold" opacity={opacity} />
+        <Person scale={0.72} vest={C.sunbeam} hardHat={C.ember} ponytail armPose="hold" opacity={opacity} />
         <CarriedTripod opacity={opacity} />
       </group>
 
@@ -447,11 +578,15 @@ function WaterMarker({ position, opacity }) {
 // Low-poly tree (or shrub): a tapered trunk plus stacked cone/sphere canopy in
 // muted earth greens. The canopy group is pivoted at the trunk base so an
 // outer ref can sway it in the wind. Honors `opacity`.
-function Tree({ groupRef, x, z, baseY, scale = 0.6, shrub = false, opacity = 1 }) {
+function Tree({ groupRef, x, z, baseY, scale = 0.6, kind = 'tree', opacity = 1 }) {
+  // Muted, dusty site vegetation: desaturated + warmed greens that sit quietly
+  // within the earth palette (no crisp decorative conifer green).
   const trunk = '#5a4a35';
-  const leafDk = '#3a5a42';
-  const leafLt = '#557a55';
+  const leafDk = '#43543f';
+  const leafLt = '#6a7a5a';
   const trans = opacity < 1;
+  const shrub = kind === 'shrub';
+  const broadleaf = kind === 'broadleaf';
   return (
     <group position={[x, baseY, z]} scale={scale}>
       {/* Trunk stays put; only the canopy group sways (pivot at its base). */}
@@ -470,6 +605,27 @@ function Tree({ groupRef, x, z, baseY, scale = 0.6, shrub = false, opacity = 1 }
             </mesh>
             <mesh position={[0.22, 0.18, 0.12]} castShadow>
               <sphereGeometry args={[0.24, 12, 10]} />
+              <meshStandardMaterial color={leafLt} metalness={0.05} roughness={0.95} transparent={trans} opacity={opacity} flatShading />
+            </mesh>
+          </>
+        ) : broadleaf ? (
+          // Rounder broadleaf: a clustered lobed crown so all three trees are
+          // not identical cones.
+          <>
+            <mesh position={[0, 0.34, 0]} castShadow>
+              <sphereGeometry args={[0.42, 12, 10]} />
+              <meshStandardMaterial color={leafDk} metalness={0.05} roughness={0.95} transparent={trans} opacity={opacity} flatShading />
+            </mesh>
+            <mesh position={[0.26, 0.5, 0.06]} castShadow>
+              <sphereGeometry args={[0.28, 12, 10]} />
+              <meshStandardMaterial color={leafLt} metalness={0.05} roughness={0.95} transparent={trans} opacity={opacity} flatShading />
+            </mesh>
+            <mesh position={[-0.24, 0.46, -0.05]} castShadow>
+              <sphereGeometry args={[0.26, 12, 10]} />
+              <meshStandardMaterial color={leafDk} metalness={0.05} roughness={0.95} transparent={trans} opacity={opacity} flatShading />
+            </mesh>
+            <mesh position={[0.02, 0.66, 0.0]} castShadow>
+              <sphereGeometry args={[0.26, 12, 10]} />
               <meshStandardMaterial color={leafLt} metalness={0.05} roughness={0.95} transparent={trans} opacity={opacity} flatShading />
             </mesh>
           </>
@@ -498,10 +654,11 @@ function Tree({ groupRef, x, z, baseY, scale = 0.6, shrub = false, opacity = 1 }
 // rails, driving a fresh concrete pile directly beneath it. The ram Y is
 // animated by `hammerRef`; the fresh pile's group Y is dipped by `pileRef` on
 // each blow. Honors `opacity`.
-function PileDriver({ x, z, baseY, pileBottom, hammerRef, pileRef, opacity = 1 }) {
+function PileDriver({ x, z, baseY, pileBottom, hammerRef, pileRef, drumRef, cableRef, opacity = 1 }) {
   const trans = opacity < 1;
   const leaderH = 1.5;
-  const railDX = 0.16;             // half-gap between the two guide rails
+  const railDX = 0.22;             // half-gap between the two guide rails (wider)
+  const railT = 0.07;              // rail thickness (chunkier)
   const topY = baseY + 0.12 + leaderH;
   const freshPileTopY = baseY + 0.12; // fresh pile head sits at grade
   return (
@@ -516,27 +673,72 @@ function PileDriver({ x, z, baseY, pileBottom, hammerRef, pileRef, opacity = 1 }
         </mesh>
       </group>
 
-      {/* Twin guide rails. */}
+      {/* Twin guide rails (wider gap, chunkier section). */}
       {[-railDX, railDX].map((dx) => (
         <mesh key={`rail${dx}`} position={[dx, baseY + 0.12 + leaderH / 2, 0]} castShadow>
-          <boxGeometry args={[0.05, leaderH, 0.06]} />
+          <boxGeometry args={[railT, leaderH, 0.08]} />
           <meshStandardMaterial color={C.steel} metalness={0.75} roughness={0.38} transparent={trans} opacity={opacity} />
         </mesh>
       ))}
-      {/* Crown brace tying the rail tops together. */}
+      {/* Cross-bracing rungs between the rails so the leader reads as a frame. */}
+      {[0.28, 0.62, 0.96, 1.3].map((fy) => (
+        <mesh key={`rung${fy}`} position={[0, baseY + 0.12 + fy, 0]} castShadow>
+          <boxGeometry args={[railDX * 2, 0.035, 0.04]} />
+          <meshStandardMaterial color={C.steelLt} metalness={0.6} roughness={0.45} transparent={trans} opacity={opacity} />
+        </mesh>
+      ))}
+      {/* Crown block at the rail tops, carrying the sheave + winch line. */}
       <mesh position={[0, topY, 0]} castShadow>
-        <boxGeometry args={[railDX * 2 + 0.08, 0.08, 0.1]} />
+        <boxGeometry args={[railDX * 2 + 0.1, 0.12, 0.14]} />
         <meshStandardMaterial color={C.steelLt} metalness={0.6} roughness={0.45} transparent={trans} opacity={opacity} />
       </mesh>
+      {/* Angled back A-frame leg bracing the leader so it reads as machinery,
+          not a bare pole. */}
+      <mesh position={[0, baseY + 0.12 + leaderH * 0.42, -0.42]} rotation={[0.62, 0, 0]} castShadow>
+        <boxGeometry args={[0.07, leaderH * 0.95, 0.07]} />
+        <meshStandardMaterial color={C.steel} metalness={0.7} roughness={0.42} transparent={trans} opacity={opacity} />
+      </mesh>
+      {/* A short tie strut from the back leg to the leader mid-height. */}
+      <mesh position={[0, baseY + 0.12 + leaderH * 0.5, -0.2]} rotation={[1.2, 0, 0]} castShadow>
+        <boxGeometry args={[0.05, 0.42, 0.05]} />
+        <meshStandardMaterial color={C.steel} metalness={0.7} roughness={0.42} transparent={trans} opacity={opacity} />
+      </mesh>
+
+      {/* Winch drum mounted low on the back leg, axis left-right (along X). A
+          static wrapper orients it; the inner group (drumRef) spins about its
+          own axis (local Z, here mutated in useFrame) so the off-axis spoke
+          makes the rotation read. */}
+      <group position={[0, baseY + 0.34, -0.34]} rotation={[0, 0, Math.PI / 2]}>
+        <group ref={drumRef}>
+          <mesh castShadow>
+            <cylinderGeometry args={[0.1, 0.1, 0.18, 14]} />
+            <meshStandardMaterial color={C.steel} metalness={0.8} roughness={0.35} transparent={trans} opacity={opacity} />
+          </mesh>
+          {/* off-axis spoke mark so the spin is visible */}
+          <mesh position={[0.06, 0, 0]} castShadow>
+            <boxGeometry args={[0.05, 0.2, 0.03]} />
+            <meshStandardMaterial color={C.steelLt} metalness={0.6} roughness={0.45} transparent={trans} opacity={opacity} />
+          </mesh>
+        </group>
+      </group>
+
+      {/* Hoist cable from the crown sheave down to the ram top — length tracks
+          the ram via cableRef (scale.y of a unit cylinder). */}
+      <mesh ref={cableRef} position={[0, baseY + 0.8, 0.0]}>
+        <cylinderGeometry args={[0.012, 0.012, 1, 6]} />
+        <meshStandardMaterial color={C.charcoal} metalness={0.3} roughness={0.6} transparent opacity={opacity * 0.85} />
+      </mesh>
+
       {/* Base sill / lead foot grounding the rig on the soil. */}
-      <mesh position={[0, baseY + 0.08, 0]} castShadow>
-        <boxGeometry args={[railDX * 2 + 0.18, 0.16, 0.24]} />
+      <mesh position={[0, baseY + 0.08, -0.05]} castShadow>
+        <boxGeometry args={[railDX * 2 + 0.26, 0.16, 0.42]} />
         <meshStandardMaterial color={C.steelLt} metalness={0.55} roughness={0.5} transparent={trans} opacity={opacity} />
       </mesh>
-      {/* Heavy ram riding between the rails — animated via ref. */}
+      {/* Heavy ram riding between the rails — lightened to steel so it is not a
+          black void on cream — animated via ref. */}
       <mesh ref={hammerRef} position={[0, baseY + 0.6, 0]} castShadow>
-        <boxGeometry args={[railDX * 2 - 0.04, 0.36, 0.2]} />
-        <meshStandardMaterial color="#3a3a3a" metalness={0.85} roughness={0.32} transparent={trans} opacity={opacity} />
+        <boxGeometry args={[railDX * 2 - 0.04, 0.4, 0.22]} />
+        <meshStandardMaterial color={C.steel} metalness={0.85} roughness={0.34} transparent={trans} opacity={opacity} />
       </mesh>
     </group>
   );
@@ -569,16 +771,60 @@ function CarriedTripod({ opacity = 1 }) {
     <meshStandardMaterial color={C.steelLt} metalness={0.5} roughness={0.5} transparent={trans} opacity={opacity} />
   );
   return (
-    <group position={[0.02, 0.78, -0.16]} rotation={[0, 0, -0.5]} scale={0.62}>
-      {/* Three legs splayed from a common head. */}
-      {[-0.12, 0, 0.12].map((dz, i) => (
-        <mesh key={i} position={[0, -0.32, dz]} rotation={[dz * 1.2, 0, 0.05]} castShadow>
-          <cylinderGeometry args={[0.018, 0.018, 0.72, 6]} />{steel}
+    <group position={[0.02, 0.82, -0.16]} rotation={[0, 0, -0.5]} scale={0.66}>
+      {/* Three legs splayed wider from a common head so the tripod silhouette
+          is unmistakable even at tile scale. */}
+      {[-0.16, 0, 0.16].map((dz, i) => (
+        <mesh key={i} position={[0, -0.4, dz]} rotation={[dz * 1.5, 0, 0.05]} castShadow>
+          <cylinderGeometry args={[0.02, 0.02, 0.92, 6]} />{steel}
         </mesh>
       ))}
       {/* Instrument head. */}
       <mesh position={[0, 0.06, 0]} castShadow>
-        <boxGeometry args={[0.12, 0.1, 0.12]} />
+        <boxGeometry args={[0.13, 0.11, 0.13]} />
+        <meshStandardMaterial color={C.steel} metalness={0.6} roughness={0.4} transparent={trans} opacity={opacity} />
+      </mesh>
+    </group>
+  );
+}
+
+// A planted survey level: a tripod standing on the surface with a small
+// telescope/level instrument on top, sighting toward the footing. Static —
+// the thin forest line-of-sight laser (built in the scene) emanates from its
+// optical center. Honors `opacity`.
+function SurveyLevel({ position, opacity = 1 }) {
+  const trans = opacity < 1;
+  const legH = 0.92;
+  // three legs splayed around a head ~0.9 above the ground
+  const legs = [0, (Math.PI * 2) / 3, (Math.PI * 4) / 3];
+  return (
+    <group position={position}>
+      {legs.map((a, i) => {
+        const sx = Math.sin(a) * 0.22;
+        const sz = Math.cos(a) * 0.22;
+        // leg leans out from head (0,0.9,0) to foot (sx,0,sz)
+        const midY = 0.9 / 2;
+        const lean = Math.atan2(Math.hypot(sx, sz), 0.9);
+        return (
+          <mesh key={i} position={[sx / 2, midY, sz / 2]} rotation={[Math.cos(a) * lean, 0, -Math.sin(a) * lean]} castShadow>
+            <cylinderGeometry args={[0.016, 0.016, legH, 6]} />
+            <meshStandardMaterial color={C.steelLt} metalness={0.5} roughness={0.5} transparent={trans} opacity={opacity} />
+          </mesh>
+        );
+      })}
+      {/* Tribrach / head plate. */}
+      <mesh position={[0, 0.9, 0]} castShadow>
+        <cylinderGeometry args={[0.07, 0.08, 0.05, 12]} />
+        <meshStandardMaterial color={C.steel} metalness={0.6} roughness={0.45} transparent={trans} opacity={opacity} />
+      </mesh>
+      {/* Telescope barrel of the level, aimed roughly toward the footing (-x). */}
+      <mesh position={[-0.06, 0.98, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+        <cylinderGeometry args={[0.028, 0.028, 0.2, 12]} />
+        <meshStandardMaterial color={C.charcoal} metalness={0.4} roughness={0.5} transparent={trans} opacity={opacity} />
+      </mesh>
+      {/* Eyepiece / focus knob accent. */}
+      <mesh position={[0.06, 0.98, 0]} castShadow>
+        <sphereGeometry args={[0.03, 10, 8]} />
         <meshStandardMaterial color={C.steel} metalness={0.6} roughness={0.4} transparent={trans} opacity={opacity} />
       </mesh>
     </group>
