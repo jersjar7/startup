@@ -149,7 +149,7 @@ function Vehicle({ x0, x1, deckTopY, z, dir, kind, bodyColor, speed, phase, opac
             {mat(bodyColor, 0.45, 0.4)}
           </RoundedBox>
           {/* cab windshield + side windows */}
-          <mesh position={[halfL - 0.04, bodyY + 0.34, 0]} rotation={[0, 0, -0.34]}>
+          <mesh position={[halfL - 0.04, bodyY + 0.34, 0]} rotation={[0, 0, 0.34]}>
             <boxGeometry args={[0.04, 0.22, bodyW - 0.08]} />
             {glass('#bcd8e8')}
           </mesh>
@@ -169,21 +169,18 @@ function Vehicle({ x0, x1, deckTopY, z, dir, kind, bodyColor, speed, phase, opac
         </>
       ) : (
         <>
-          {/* rounded hood */}
-          <RoundedBox args={[0.3, 0.11, bodyW - 0.02]} radius={0.045} smoothness={3} position={[halfL - 0.07, bodyY + 0.11, 0]} castShadow>
-            {mat(bodyColor, 0.5, 0.35)}
-          </RoundedBox>
-          {/* rounded greenhouse / cab */}
+          {/* rounded greenhouse / cab. The front of the lower body IS the hood —
+              no separate raised block jutting off the nose. */}
           <RoundedBox args={[0.6, 0.22, greenhouseZ]} radius={0.08} smoothness={4} position={[-0.07, bodyY + 0.22, 0]} castShadow>
             {mat(bodyColor, 0.45, 0.4)}
           </RoundedBox>
-          {/* windshield */}
-          <mesh position={[0.21, bodyY + 0.24, 0]} rotation={[0, 0, -0.52]}>
+          {/* windshield — top leans rearward (toward the cab), sloping inward */}
+          <mesh position={[0.21, bodyY + 0.24, 0]} rotation={[0, 0, 0.52]}>
             <boxGeometry args={[0.04, 0.19, greenhouseZ - 0.04]} />
             {glass('#bcd8e8')}
           </mesh>
-          {/* rear window */}
-          <mesh position={[-0.36, bodyY + 0.23, 0]} rotation={[0, 0, 0.5]}>
+          {/* rear window — top leans forward (toward the cab), sloping inward */}
+          <mesh position={[-0.36, bodyY + 0.23, 0]} rotation={[0, 0, -0.5]}>
             <boxGeometry args={[0.04, 0.17, greenhouseZ - 0.04]} />
             {glass('#9fc0d0')}
           </mesh>
@@ -198,13 +195,13 @@ function Vehicle({ x0, x1, deckTopY, z, dir, kind, bodyColor, speed, phase, opac
       )}
       {/* headlights / taillights for travel direction */}
       {[0.16, -0.16].map((zz, i) => (
-        <mesh key={`hl${i}`} position={[halfL + 0.04, bodyY, zz]}>
+        <mesh key={`hl${i}`} position={[halfL - 0.02, bodyY, zz]}>
           <boxGeometry args={[0.04, 0.06, 0.07]} />
           {mat('#f3ead4', 0.2, 0.4)}
         </mesh>
       ))}
       {[0.16, -0.16].map((zz, i) => (
-        <mesh key={`tl${i}`} position={[-halfL - 0.02, bodyY, zz]}>
+        <mesh key={`tl${i}`} position={[-halfL + 0.02, bodyY, zz]}>
           <boxGeometry args={[0.04, 0.06, 0.07]} />
           {mat(C.ember, 0.2, 0.4)}
         </mesh>
