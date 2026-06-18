@@ -1,7 +1,6 @@
 import React from 'react';
 import { useFrame } from '@react-three/fiber';
 import { RoundedBox } from '@react-three/drei';
-import * as THREE from 'three';
 import { C, P, Member, Box, Node, Person } from './primitives';
 
 // FE topic: Structural Analysis — a 3D Warren/Pratt through-truss bridge with a
@@ -38,8 +37,8 @@ function trussData() {
     bracing.push({ a: tF[i], b: tB[i + 1], chord: false });
     bracing.push({ a: tB[i], b: tF[i + 1], chord: false });
   }
-  bracing.push({ a: tF[0], b: bB[0], chord: false }, { a: tB[0], b: bF[0], chord: false });
-  bracing.push({ a: tF[4], b: bB[5], chord: false }, { a: tB[4], b: bF[5], chord: false });
+  // (No end portal X-braces — the deck openings at the entrance/exit stay clear
+  // so traffic visibly drives through them.)
 
   const left = P(200, 500, 0);
   const right = P(1000, 500, 0);
@@ -224,96 +223,6 @@ function Vehicle({ x0, x1, deckTopY, z, dir, kind, bodyColor, speed, phase, opac
   );
 }
 
-// A faint water plane well below the deck. The river flows ACROSS and UNDER the
-// bridge — i.e. along Z (perpendicular to the span), passing beneath the deck
-// from one side to the other and out past both faces. Banks of green land sit at
-// the two X ends (under the abutments). Debris + ripple streaks advect along +Z
-// to read the current direction.
-function WaterDatum({ midX, spanLen, y, opacity }) {
-  const mesh = React.useRef();
-  const debris = React.useRef();
-  const ripples = React.useRef();
-  const DEBRIS = 5;
-  const RIPPLES = 3;
-  const scratch = React.useMemo(() => ({ dummy: new THREE.Object3D() }), []);
-  const channelW = spanLen + 0.4; // X extent (river width, spanned by the bridge)
-  const riverLen = 5.2; // Z extent = the flow direction, runs past the deck
-  const loZ = -riverLen / 2;
-  // Each lane sits at a fixed X across the channel and drifts downstream (+Z).
-  const lanes = React.useMemo(() => [
-    { x: -channelW * 0.32, phase: 0.0, speed: 0.05 },
-    { x: -channelW * 0.13, phase: 0.55, speed: 0.044 },
-    { x: channelW * 0.04, phase: 0.2, speed: 0.056 },
-    { x: channelW * 0.2, phase: 0.7, speed: 0.04 },
-    { x: channelW * 0.34, phase: 0.42, speed: 0.06 },
-  ], [channelW]);
-  const rippleLanes = React.useMemo(() => [
-    { x: -channelW * 0.22, phase: 0.3, speed: 0.07 },
-    { x: channelW * 0.06, phase: 0.8, speed: 0.075 },
-    { x: channelW * 0.28, phase: 0.05, speed: 0.065 },
-  ], [channelW]);
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
-    const m = mesh.current;
-    if (m) m.material.opacity = opacity * (0.68 + Math.sin(t * 0.5) * 0.04);
-    if (debris.current) {
-      for (let i = 0; i < DEBRIS; i++) {
-        const ln = lanes[i];
-        const u = ((t * ln.speed + ln.phase) % 1 + 1) % 1;
-        const { dummy } = scratch;
-        dummy.position.set(midX + ln.x + Math.sin(t * 0.4 + i) * 0.08, 0.01, loZ + u * riverLen);
-        dummy.rotation.set(0, t * 0.2 + i, 0);
-        dummy.scale.set(1, 1, 1);
-        dummy.updateMatrix();
-        debris.current.setMatrixAt(i, dummy.matrix);
-      }
-      debris.current.instanceMatrix.needsUpdate = true;
-    }
-    if (ripples.current) {
-      for (let i = 0; i < RIPPLES; i++) {
-        const ln = rippleLanes[i];
-        const u = ((t * ln.speed + ln.phase) % 1 + 1) % 1;
-        const { dummy } = scratch;
-        dummy.position.set(midX + ln.x, 0.005, loZ + u * riverLen);
-        dummy.rotation.set(0, 0, 0);
-        dummy.scale.set(1, 1, 1);
-        dummy.updateMatrix();
-        ripples.current.setMatrixAt(i, dummy.matrix);
-      }
-      ripples.current.instanceMatrix.needsUpdate = true;
-    }
-  });
-  return (
-    <group>
-      <mesh ref={mesh} position={[midX, y, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[channelW, riverLen, 1, 1]} />
-        <meshStandardMaterial color={C.water} metalness={0.5} roughness={0.25} transparent opacity={opacity * 0.68} />
-      </mesh>
-      {/* debris specks drifting downstream (+Z), elongated along the flow */}
-      <group position={[0, y + 0.02, 0]}>
-        <instancedMesh ref={debris} args={[undefined, undefined, DEBRIS]}>
-          <boxGeometry args={[0.07, 0.025, 0.22]} />
-          <meshStandardMaterial color="#5a6b62" metalness={0.2} roughness={0.7} transparent opacity={opacity * 0.75} />
-        </instancedMesh>
-      </group>
-      {/* faint ripple streaks elongated along Z (the current) */}
-      <group position={[0, y + 0.012, 0]}>
-        <instancedMesh ref={ripples} args={[undefined, undefined, RIPPLES]}>
-          <boxGeometry args={[0.05, 0.006, 0.7]} />
-          <meshStandardMaterial color="#7d97a0" metalness={0.4} roughness={0.4} transparent opacity={opacity * 0.4} />
-        </instancedMesh>
-      </group>
-      {/* green banks at the two X ends (under the abutments), running along Z */}
-      {[midX - channelW / 2 - 0.1, midX + channelW / 2 + 0.1].map((bx, i) => (
-        <mesh key={`bank${i}`} position={[bx, y + 0.006, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-          <planeGeometry args={[0.9, riverLen + 0.8, 1, 1]} />
-          <meshStandardMaterial color="#3f6048" metalness={0.05} roughness={0.92} transparent opacity={opacity * 0.8} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
 // A lone pedestrian strolling the near fascia walkway — a slower, human scale of
 // life beside the vehicle traffic. Walks the span and back (ping-pong).
 function Pedestrian({ x0, x1, y, z, speed, opacity }) {
@@ -399,9 +308,6 @@ export function TrussScene({ opacity }) {
       <Box position={[deckMid, deckY + deckThick / 2 + 0.015, 0.72]} size={[spanLen, 0.05, 0.34]} color="#8a8278" opacity={opacity} metalness={0.05} roughness={0.9} />
       <Box position={[deckMid, deckY + deckThick / 2 + 0.05, 0.9]} size={[spanLen, 0.07, 0.04]} color={C.charcoal} opacity={opacity} metalness={0.2} roughness={0.7} />
       <Pedestrian x0={x0} x1={x1} y={deckY + deckThick / 2 + 0.04} z={0.72} speed={0.026} opacity={opacity} />
-
-      {/* The river the bridge crosses — flows along Z, under and across the span */}
-      <WaterDatum midX={deckMid} spanLen={spanLen} y={d.deckY - 1.45} opacity={opacity} />
 
       {/* Abutments + boundary conditions */}
       <Box position={[d.left[0], d.deckY - 0.62, 0]} size={[0.6, 0.5, 2 * d.dz + 0.34]} color="#5d564c" opacity={opacity} metalness={0.1} roughness={0.9} />
