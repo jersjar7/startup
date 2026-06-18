@@ -105,7 +105,9 @@ function RollerSupport({ x, y, dz, opacity }) {
 function Vehicle({ x0, x1, deckTopY, z, dir, kind, bodyColor, speed, phase, opacity }) {
   const group = React.useRef();
   const wheels = React.useRef([]);
-  const margin = 0.5;
+  // Travel a good way past each abutment so the car drives onto the approach
+  // roadway (which extends beyond the bridge) rather than off the deck edge.
+  const margin = 1.2;
   const lo = x0 - margin;
   const span = (x1 + margin) - lo;
   const mat = (color, metalness, roughness) => (
@@ -368,6 +370,28 @@ export function TrussScene({ opacity }) {
       {d.bottomFront.map((bf, i) => (
         <Member key={`fb${i}`} a={[bf[0], deckY - deckThick / 2 - 0.04, fasciaZ]} b={[bf[0], deckY - deckThick / 2 - 0.04, -fasciaZ]} radius={0.05} color={C.steel} opacity={opacity} />
       ))}
+
+      {/* Approach roadway on each end: the asphalt continues past the abutments
+          onto an earth embankment that carries it down to grade, so traffic
+          stays on the road instead of floating off the deck once it leaves the
+          truss. */}
+      {[-1, 1].map((s) => {
+        const end = s < 0 ? x0 : x1;
+        const aLen = 1.6;
+        const cx = end + (s * aLen) / 2;
+        const groundY = d.deckY - 1.45;
+        const top = deckY - deckThick / 2;
+        const embH = top - groundY;
+        return (
+          <group key={`appr${s}`}>
+            <Box position={[cx, deckY, 0]} size={[aLen, deckThick, 2 * d.dz]} color={DECK} opacity={opacity} metalness={0.05} roughness={0.85} />
+            {[fasciaZ, -fasciaZ].map((z, i) => (
+              <Box key={`af${i}`} position={[cx, deckY - 0.02, z]} size={[aLen, deckThick + 0.06, 0.07]} color={C.charcoal} opacity={opacity} metalness={0.25} roughness={0.6} />
+            ))}
+            <Box position={[cx, groundY + embH / 2, 0]} size={[aLen + 0.2, embH, 2 * d.dz + 0.34]} color="#5d564c" opacity={opacity} metalness={0.1} roughness={0.9} />
+          </group>
+        );
+      })}
 
       {/* Live load: an ember sedan and a muted-steel truck crossing in opposite
           lanes, kept near the deck centerline so they clear the truss web. */}
