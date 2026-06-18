@@ -14,7 +14,16 @@ import { GeoScene } from './hero/GeoScene';
 // Same 15s / 5-phase (3s each) cadence as TopicLabel. Each topic lives in its
 // own module under ./hero so it can be iterated on independently.
 
-const TOPICS = [TrussScene, FluidScene, RoadScene, SurveyScene, GeoScene];
+// Each topic carries its own scale so the larger scenes (the truss with its
+// approach roads, and the long river channel) fit the slot without bleeding off
+// the edge, while the others keep their size.
+const TOPICS = [
+  { comp: TrussScene, scale: 0.5 },
+  { comp: FluidScene, scale: 0.54 },
+  { comp: RoadScene, scale: 0.62 },
+  { comp: SurveyScene, scale: 0.62 },
+  { comp: GeoScene, scale: 0.62 },
+];
 
 function Cycler({ reduced }) {
   const grp = React.useRef();
@@ -39,12 +48,12 @@ function Cycler({ reduced }) {
     }
   });
 
-  const Scene = TOPICS[phase];
+  const { comp: Scene, scale } = TOPICS[phase];
 
   // Sit in the right of the slot, clear of the headline on the left, small
   // enough that the widest topic does not bleed off the right edge.
   return (
-    <group ref={grp} position={[-0.15, -0.3, 0]} scale={0.62}>
+    <group ref={grp} position={[-0.15, -0.3, 0]} scale={scale}>
       <Scene opacity={opacityRef.current} />
     </group>
   );
