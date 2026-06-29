@@ -528,7 +528,7 @@ export function Landing({ userName }) {
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> Step-by-step solutions</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> FE Handbook references</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> Common traps & mistakes</li>
-                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> Review queue & streaks</li>
+                <li><CheckCircle weight="bold" size={16} className="pricing-check" /> Review queue & progress</li>
                 <li><CheckCircle weight="bold" size={16} className="pricing-check" /> No time limits or expiry</li>
               </ul>
               <button className="pricing-btn pricing-btn--free" onClick={() => navigate('/login')}>

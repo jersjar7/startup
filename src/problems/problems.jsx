@@ -360,8 +360,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
           </div>
 
           <div className="streak-info">
-            <p>Current streak: {summary.streak.current} day{summary.streak.current !== 1 ? 's' : ''}</p>
-            <p>Longest streak: {summary.streak.longest} day{summary.streak.longest !== 1 ? 's' : ''}</p>
+            <p>{summary.streak.current} day{summary.streak.current !== 1 ? 's' : ''} studied</p>
           </div>
 
           {summary.newBadges && summary.newBadges.length > 0 && (

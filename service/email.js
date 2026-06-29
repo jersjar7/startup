@@ -155,7 +155,7 @@ async function sendVerificationEmail(toEmail, rawToken) {
     subject: 'Verify your email — FE for Raccoons',
     html: ctaEmail({
       heading: 'Verify your email',
-      body: "Welcome to FE for Raccoons! Confirm your email to secure your account and keep your streak, XP, and progress synced everywhere.",
+      body: "Welcome to FE for Raccoons! Confirm your email to secure your account and keep your progress, XP, and days studied synced everywhere.",
       ctaText: 'Verify email',
       ctaUrl: `${appUrl}/verify-email/${rawToken}`,
     }),
@@ -319,7 +319,7 @@ async function sendVerifyReminderEmail(toEmail, rawToken) {
     subject: 'Finish setting up your FE for Raccoons account',
     html: ctaEmail({
       heading: 'One step left — verify your email',
-      body: "You created an account but haven't verified your email yet. Confirm it to secure your account and keep your streak, XP, and progress synced everywhere.",
+      body: "You created an account but haven't verified your email yet. Confirm it to secure your account and keep your progress, XP, and days studied synced everywhere.",
       ctaText: 'Verify email',
       ctaUrl: `${appUrl}/verify-email/${rawToken}`,
       note: "If you didn't create this account, you can ignore this email.",
@@ -333,14 +333,14 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
   const { active, weeklyXp = 0, streak = 0, problems = 0, masteryTo = null, focusChapter = null, unsubUrl } = d;
   let subject; let heading; let inner; let preheader;
   if (active) {
-    subject = `Your week: ${weeklyXp} XP, ${streak}-day streak`;
+    subject = `Your week: ${weeklyXp} XP, ${streak} days studied`;
     preheader = `${problems} problems solved this week`;
     heading = 'Your week in review';
     inner =
       bullets([
         `<strong>${weeklyXp}</strong> XP earned`,
         `<strong>${problems}</strong> problem${problems === 1 ? '' : 's'} solved`,
-        `<strong>${streak}</strong>-day streak`,
+        `<strong>${streak}</strong> day${streak === 1 ? '' : 's'} studied`,
         masteryTo != null ? `Overall mastery: <strong>${masteryTo}%</strong>` : null,
       ]) +
       (focusChapter ? para(`<strong>Focus next week:</strong> ${focusChapter} — your weakest area right now.`) : '') +

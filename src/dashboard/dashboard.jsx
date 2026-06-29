@@ -347,10 +347,10 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           {stats.currentStreak > 0 ? (
             <>
               <span className="stat-pill-value">{stats.currentStreak}</span>
-              <span className="stat-pill-label">Streak</span>
+              <span className="stat-pill-label">{stats.currentStreak === 1 ? 'Day studied' : 'Days studied'}</span>
             </>
           ) : (
-            <span className="stat-pill-label">Start your streak</span>
+            <span className="stat-pill-label">Start studying</span>
           )}
         </div>
         {examDays !== null && examDays >= 0 && (

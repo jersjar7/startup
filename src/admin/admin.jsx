@@ -405,7 +405,7 @@ function UserCard({ u, onClose }) {
     ['Verified', u.emailVerified ? 'Yes' : 'No'],
     ['Exam date', u.examDate || '—'],
     ['XP', u.totalXp],
-    ['Streak', `${u.currentStreak} days`],
+    ['Days studied', `${u.currentStreak}`],
     ['Chapters mapped', `${u.chaptersMapped}/15`],
     ['Activated', u.activatedAt ? new Date(u.activatedAt).toLocaleDateString() : 'No'],
     ['Exam sim', u.examSimAccess ? 'Purchased' : '—'],
