@@ -51,7 +51,7 @@ router.get('/', verifyAuth, async (req, res) => {
   const stats = await DB.getUserStats(email);
 
   if (!stats || !stats.topicProgress) {
-    return res.send({ problems: [], message: 'Complete a topic session first to unlock review.' });
+    return res.send({ problems: [], message: 'Reviews show up here as you study. Start any chapter to begin.' });
   }
 
   // Require at least one studied topic before review is meaningful.
@@ -60,7 +60,7 @@ router.get('/', verifyAuth, async (req, res) => {
   );
 
   if (studiedTopicIds.length === 0) {
-    return res.send({ problems: [], message: 'Complete a topic session first to unlock review.' });
+    return res.send({ problems: [], message: 'Reviews show up here as you study. Start any chapter to begin.' });
   }
 
   // Exam-aware review target, computed dark. The flat cap ignored the exam

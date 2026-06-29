@@ -334,7 +334,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       {/* Account-setup logistics live in the right column (SetupTodo), so the
           main panel stays focused on preparation. */}
 
-      {/* ── Top bar: Stats + Daily Review ── */}
+      {/* ── Top bar: Stats + Review ── */}
       <div className="dash-topbar">
         <div className="stat-pill stat-pill--sunbeam">
           <Lightning weight="bold" size={18} />
@@ -347,7 +347,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           {stats.currentStreak > 0 ? (
             <>
               <span className="stat-pill-value">{stats.currentStreak}</span>
-              <span className="stat-pill-label">Day Streak</span>
+              <span className="stat-pill-label">Streak</span>
             </>
           ) : (
             <span className="stat-pill-label">Start your streak</span>
@@ -363,7 +363,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         {reviewDue > 0 ? (
           <button className="review-btn review-btn--due" onClick={() => navigate('/review')}>
             <Timer weight="bold" size={16} />
-            Daily Review
+            Review
             <span className="review-due-badge">{reviewDue}</span>
             <ArrowRight weight="bold" size={14} />
           </button>

@@ -375,7 +375,7 @@ async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, foc
     const rd = readiness != null ? `You're at <strong>${readiness}% readiness</strong>. ` : '';
     body = `${rd}${focusChapter
       ? `Your biggest score lever right now is <strong>${focusChapter}</strong> — point your next few sessions there.`
-      : 'Keep your streak going and drill your weakest chapters between now and exam day.'}`;
+      : 'Point your next few sessions at your weakest chapters between now and exam day.'}`;
     ctaText = 'Keep studying';
   }
   return sendEmail({

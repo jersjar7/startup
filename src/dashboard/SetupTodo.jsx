@@ -82,7 +82,7 @@ export function SetupTodo({ emailVerified, hasName, hasExam }) {
             <CalendarBlank size={16} weight="bold" className="setup-todo-icon" />
             <div className="setup-todo-body">
               <span className="setup-todo-label">Set your exam date</span>
-              <span className="setup-todo-note">Adds a countdown to keep you on pace.</span>
+              <span className="setup-todo-note">Adds a countdown so you always know how much time you have.</span>
             </div>
             <button className="setup-todo-action" onClick={() => navigate('/profile')}>Set</button>
           </li>

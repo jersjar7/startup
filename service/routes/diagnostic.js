@@ -233,11 +233,14 @@ router.get('/can-retake', verifyAuth, async (req, res) => {
     }
   }
 
-  const canRetake = chaptersAt60 >= RETAKE_THRESHOLD_CHAPTERS;
+  // Re-measuring where you stand shouldn't be something you have to "earn" by
+  // grinding to 60% in 11 chapters — that punished the exact returner who wants
+  // a fresh read. A retake is always available once the diagnostic is completed.
+  const canRetake = true;
 
   res.send({
     canRetake,
-    reason: canRetake ? 'eligible' : 'need-more-mastery',
+    reason: 'eligible',
     diagnosticCompleted: true,
     diagnosticAttempts,
     chaptersAt60,
