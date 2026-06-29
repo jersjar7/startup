@@ -195,7 +195,7 @@ export function PublicTopic() {
       {/* Final CTA */}
       <section className="pub-final-cta">
         <h2>Study {topic.name} the smart way</h2>
-        <p>Bite-sized lessons, one-problem-at-a-time practice with instant feedback, and a streak to keep you going — built for the FE Civil exam.</p>
+        <p>Bite-sized lessons, one-problem-at-a-time practice with instant feedback, and progress that adds up every day you study — built for the FE Civil exam.</p>
         <Link className="pub-btn pub-btn-primary" to={`/study/${topic.id}`}>Start practicing {topic.name} <ArrowRight size={16} weight="bold" /></Link>
       </section>
     </main>

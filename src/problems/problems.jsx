@@ -36,8 +36,8 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
 
   const [phase, setPhase] = React.useState('LOADING');
   const [problems, setProblems] = React.useState([]);
-  const [topicName, setTopicName] = React.useState(reviewMode ? 'Daily Review' : '');
-  useDocumentTitle(reviewMode ? 'Daily Review' : topicName || 'Practice');
+  const [topicName, setTopicName] = React.useState(reviewMode ? 'Review' : '');
+  useDocumentTitle(reviewMode ? 'Review' : topicName || 'Practice');
   const [currentIndex, setCurrentIndex] = React.useState(0);
   const [selectedChoice, setSelectedChoice] = React.useState(null);
   const [sessionXp, setSessionXp] = React.useState(0);
@@ -129,7 +129,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
       ws.send(JSON.stringify({
         type: 'study',
         from: userName,
-        topic: reviewMode ? 'Daily Review' : topicId,
+        topic: reviewMode ? 'Review' : topicId,
       }));
     };
     return () => ws.close();
@@ -283,7 +283,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
             <ArrowLeft weight="bold" size={16} />
             Back to Dashboard
           </a>
-          <h1>Daily Review</h1>
+          <h1>Review</h1>
         </div>
         <section className="summary-card">
           <h2>Nothing to review</h2>
@@ -387,7 +387,7 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
                   A quick review session is the highest-value way to strengthen recall.
                 </p>
                 <button className="btn-primary recommend-btn" onClick={() => navigate('/review')}>
-                  Start Daily Review
+                  Start Review
                   <ArrowRight weight="bold" size={16} />
                 </button>
               </>

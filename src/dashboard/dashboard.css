@@ -22,7 +22,7 @@
   margin-top: 0.125rem;
 }
 
-/* ── Top bar: stat pills + daily review ── */
+/* ── Top bar: stat pills + review ── */
 .dash-topbar {
   display: flex;
   align-items: center;
@@ -139,7 +139,7 @@
   opacity: 1;
 }
 
-/* Daily Review with items due — draw attention */
+/* Review with items due — draw attention */
 .review-btn--due {
   box-shadow: 0 0 0 3px var(--ember-bg);
 }

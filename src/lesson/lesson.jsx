@@ -414,7 +414,7 @@ export function LessonPage({ userName }) {
             </div>
             {sessionResult?.streak && (
               <div className="lesson-summary-streak">
-                {sessionResult.streak.current} day streak
+                {sessionResult.streak.current} day{sessionResult.streak.current !== 1 ? 's' : ''} studied
               </div>
             )}
             {sessionResult?.newBadges?.length > 0 && (

@@ -13,7 +13,7 @@ const PRINCIPLES = [
     Icon: ArrowsClockwise,
     accent: 'forest',
     title: 'Spacing beats cramming',
-    body: 'A problem you nail again a few days later counts far more than ten in one sitting — that’s how knowledge holds up on exam day. Daily Review schedules those comebacks for you automatically.',
+    body: 'A problem you nail again a few days later counts far more than ten in one sitting — that’s how knowledge holds up on exam day. When you miss one, Review brings it back a few days later so it sticks.',
   },
   {
     Icon: ChartLineUp,

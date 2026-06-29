@@ -23,19 +23,19 @@ const BADGES = [
   {
     id: 'streak-3',
     name: 'On a Roll',
-    description: 'Reach a 3-day study streak',
+    description: 'Study on 3 different days',
     check: (stats) => (stats.longestStreak || 0) >= 3,
   },
   {
     id: 'streak-7',
     name: 'Week Warrior',
-    description: 'Reach a 7-day study streak',
+    description: 'Study on 7 different days',
     check: (stats) => (stats.longestStreak || 0) >= 7,
   },
   {
     id: 'streak-30',
     name: 'Monthly Master',
-    description: 'Reach a 30-day study streak',
+    description: 'Study on 30 different days',
     check: (stats) => (stats.longestStreak || 0) >= 30,
   },
   {

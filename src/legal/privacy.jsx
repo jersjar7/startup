@@ -55,7 +55,7 @@ export function Privacy() {
           <ul>
             <li><strong>Authentication:</strong> Your email and hashed password let you log in securely</li>
             <li><strong>Progress tracking:</strong> We save your study progress so you can pick up where you left off</li>
-            <li><strong>Gamification:</strong> XP, streaks, badges, and mastery levels are calculated from your session and problem history</li>
+            <li><strong>Gamification:</strong> XP, days studied, badges, and mastery levels are calculated from your session and problem history</li>
             <li><strong>Spaced repetition:</strong> Your problem history determines which problems are scheduled for review</li>
             <li><strong>Transactional email:</strong> We send password reset and email verification messages to your email address</li>
           </ul>
@@ -119,7 +119,7 @@ export function Privacy() {
             <li>All study progress and mastery data</li>
             <li>Session history and XP records</li>
             <li>Diagnostic exam results</li>
-            <li>Badge and streak data</li>
+            <li>Badge and days-studied data</li>
           </ul>
           <p>This deletion is immediate and irreversible.</p>
         </section>

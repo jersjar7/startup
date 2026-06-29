@@ -216,7 +216,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         setChapterMastery(masteryResult.value.chapterMastery || {});
       }
 
-      // Reviews due (for the Daily Review badge)
+      // Reviews due (for the Review badge)
       if (reviewCountResult.status === 'fulfilled') {
         setReviewDue(reviewCountResult.value.count || 0);
       }
@@ -341,7 +341,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           <span className="stat-pill-value">{stats.totalXp}</span>
           <span className="stat-pill-label">XP</span>
         </div>
-        {/* streaks are sunbeam everywhere (brand token + matches mobile) */}
+        {/* days-studied pill is sunbeam everywhere (brand token + matches mobile) */}
         <div className="stat-pill stat-pill--sunbeam">
           <Fire weight="bold" size={18} />
           {stats.currentStreak > 0 ? (

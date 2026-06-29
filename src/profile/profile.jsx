@@ -286,7 +286,7 @@ export function Profile({ userName, onLogout }) {
           <div className="stat-item">
             <Fire size={20} weight="bold" color="var(--ember)" />
             <span className="stat-value">{userData.currentStreak || 0}</span>
-            <span className="stat-label">Day Streak</span>
+            <span className="stat-label">Days studied</span>
           </div>
           <div className="stat-item">
             <Medal size={20} weight="bold" color="var(--forest)" />

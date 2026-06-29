@@ -323,7 +323,7 @@ export function QuickStart({ userName }) {
           <div className="qs-reward">
             <span className="qs-reward-xp"><Lightning size={15} weight="fill" /> +{segResult.xpEarned.total} XP</span>
             {segResult.streak?.current > 0 && (
-              <span className="qs-reward-streak">{segResult.streak.current}-day streak</span>
+              <span className="qs-reward-streak">{segResult.streak.current} day{segResult.streak.current !== 1 ? 's' : ''} studied</span>
             )}
           </div>
 
