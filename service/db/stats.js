@@ -1,6 +1,13 @@
 const { userStatsCollection, problemHistoryCollection, sessionLogCollection } = require('./connection');
-const { nextInterval, nextHistoryV2 } = require('../scheduling');
-const flags = require('../flags');
+
+// Reviews are WEAK-SPOTS-ONLY and graduate out (study-load policy "B", 2026-06-29).
+// The old model scheduled EVERY solved problem and never let it graduate, so the
+// review pile trended toward "the whole bank, recurring forever" on top of an
+// already huge chapter workload. Now a review queue means "your mistakes, until
+// you've shown you know them" (see upsertProblemHistory).
+const GRADUATE_AFTER = 2; // corrects-in-a-row on a missed problem to leave the queue
+const REVIEW_STEP_DAYS = [1, 4]; // due-in days: after the miss, then after the 1st correct
+const inDays = (n) => new Date(Date.now() + n * 86400000).toISOString().split('T')[0];
 
 async function getUserStats(email) {
   return userStatsCollection.findOne({ email: email });
@@ -25,58 +32,56 @@ async function getProblemHistoryForChapter(email, topicId) {
   return problemHistoryCollection.find({ email, topicId }).toArray();
 }
 
+// Record an answer and keep the WEAK-SPOTS-ONLY review queue:
+//   - MISS  -> (re)enter the queue, due again the next day.
+//   - CORRECT on a previously-missed problem -> space it out; after
+//     GRADUATE_AFTER corrects in a row it GRADUATES out of the queue for good.
+//   - CORRECT on a problem never missed -> stays out of reviews entirely.
 async function upsertProblemHistory(email, problemId, topicId, isCorrect) {
   const existing = await problemHistoryCollection.findOne({ email, problemId });
   const today = new Date().toISOString().split('T')[0];
 
-  let timesCorrect = existing?.timesCorrect || 0;
-  let timesIncorrect = existing?.timesIncorrect || 0;
+  const timesCorrect = (existing?.timesCorrect || 0) + (isCorrect ? 1 : 0);
+  const timesIncorrect = (existing?.timesIncorrect || 0) + (isCorrect ? 0 : 1);
 
-  if (isCorrect) {
-    timesCorrect++;
-  } else {
-    timesIncorrect++;
+  let reviewActive = existing?.reviewActive || false;
+  let correctSinceMiss = existing?.correctSinceMiss || 0;
+  let nextReview = reviewActive ? existing?.nextReview || null : null;
+
+  if (!isCorrect) {
+    reviewActive = true;
+    correctSinceMiss = 0;
+    nextReview = inDays(REVIEW_STEP_DAYS[0]);
+  } else if (reviewActive) {
+    correctSinceMiss += 1;
+    if (correctSinceMiss >= GRADUATE_AFTER) {
+      reviewActive = false; // graduated — out of the queue for good
+      nextReview = null;
+    } else {
+      nextReview = inDays(REVIEW_STEP_DAYS[correctSinceMiss] || REVIEW_STEP_DAYS[REVIEW_STEP_DAYS.length - 1]);
+    }
   }
-
-  // v1 (legacy binary) and v2 (shared 3-grade SM-2) computed side by side.
-  // While SCHEDULER_V2 is off we SERVE v1 and only log v2 (compute-dark); when
-  // flipped we serve v2 and persist its ease/reps/lapses state.
-  const v1Interval = nextInterval(existing?.interval, isCorrect);
-  const v1NextReview = new Date(Date.now() + v1Interval * 86400000).toISOString().split('T')[0];
-  const v2 = nextHistoryV2(existing, isCorrect, Date.now());
-
-  const useV2 = flags.schedulerV2();
-  if (!useV2 && flags.darkLog()) {
-    console.log(
-      `[sched-dark] ${problemId} ${isCorrect ? 'ok' : 'miss'} ` +
-        `v1=${v1Interval}d/${v1NextReview} v2=${v2.interval}d/${v2.nextReview}`,
-    );
-  }
+  // else: correct AND never missed -> nothing scheduled.
 
   const fields = {
     topicId,
     lastSeen: today,
     timesCorrect,
     timesIncorrect,
-    interval: useV2 ? v2.interval : v1Interval,
-    nextReview: useV2 ? v2.nextReview : v1NextReview,
+    reviewActive,
+    correctSinceMiss,
+    // Only carry a due date while actively in the queue.
+    nextReview: reviewActive && nextReview ? nextReview : null,
   };
-  // Persist the SM-2 state only when serving v2 — otherwise the stored
-  // ease/reps would not match the served interval. Legacy rows are seeded on
-  // the fly by nextHistoryV2 at flip time, so nothing is lost by waiting.
-  if (useV2) {
-    fields.ease = v2.ease;
-    fields.reps = v2.reps;
-    fields.lapses = v2.lapses;
-  }
 
   await problemHistoryCollection.updateOne({ email, problemId }, { $set: fields }, { upsert: true });
 }
 
+// Due review queue = active (un-graduated) weak spots whose date has come.
 async function getProblemsForReview(email, limit = 5) {
   const today = new Date().toISOString().split('T')[0];
   return problemHistoryCollection
-    .find({ email, nextReview: { $lte: today } })
+    .find({ email, reviewActive: true, nextReview: { $lte: today } })
     .sort({ nextReview: 1 })
     .limit(limit)
     .toArray();
@@ -84,7 +89,7 @@ async function getProblemsForReview(email, limit = 5) {
 
 async function getDueReviewCount(email) {
   const today = new Date().toISOString().split('T')[0];
-  return problemHistoryCollection.countDocuments({ email, nextReview: { $lte: today } });
+  return problemHistoryCollection.countDocuments({ email, reviewActive: true, nextReview: { $lte: today } });
 }
 
 async function logSession(email, { topicId, type, answers, xpEarned, streak, durationSeconds }) {

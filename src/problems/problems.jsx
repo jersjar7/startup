@@ -286,11 +286,11 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
           <h1>Daily Review</h1>
         </div>
         <section className="summary-card">
-          <h2>You're all caught up</h2>
+          <h2>Nothing to review</h2>
           <p>
-            Review problems appear here as they come due. Spaced repetition schedules the
-            questions you've practiced across the following days — so keep studying, and check
-            back soon (usually the next day) to lock them in.
+            Review is just your mistakes. Miss a problem and it shows up here to re-practice;
+            get it right twice and it graduates for good. Keep studying new material — reviews
+            only build up from what you actually got wrong.
           </p>
         </section>
         <div className="summary-actions">
