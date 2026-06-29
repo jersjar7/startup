@@ -364,7 +364,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           <button className="review-btn review-btn--due" onClick={() => navigate('/review')}>
             <Timer weight="bold" size={16} />
             Review
-            <span className="review-due-badge">{reviewDue}</span>
+            <span className="review-due-badge">{reviewDue > 10 ? '10+' : reviewDue}</span>
             <ArrowRight weight="bold" size={14} />
           </button>
         ) : hasActivity ? (
