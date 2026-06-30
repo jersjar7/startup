@@ -12,10 +12,12 @@ const analytics = require('./db/analytics');
 const adminUsers = require('./db/adminUsers');
 const syncEvents = require('./db/syncEvents');
 const paperFlags = require('./db/paperFlags');
+const sessions = require('./db/sessions');
 
 module.exports = {
   ...syncEvents,
   ...paperFlags,
+  ...sessions,
   ping,
   ...users,
   ...topics,

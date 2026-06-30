@@ -17,6 +17,7 @@ const examAttemptsCollection = db.collection('examAttempts');
 const funnelEventsCollection = db.collection('funnelEvents');
 const reviewEventsCollection = db.collection('reviewEvents');
 const paperFlagsCollection = db.collection('paperFlags');
+const sessionsCollection = db.collection('sessions');
 
 // Test connection and create indexes on startup
 (async function testConnection() {
@@ -44,6 +45,12 @@ const paperFlagsCollection = db.collection('paperFlags');
     await reviewEventsCollection.createIndex({ email: 1, localDate: 1, source: 1 });
     await paperFlagsCollection.createIndex({ email: 1, itemId: 1, localDate: 1 }, { unique: true });
     await paperFlagsCollection.createIndex({ email: 1, localDate: 1 });
+    // Per-device auth sessions (web + mobile concurrently). The TTL index
+    // auto-removes a session 30 days after its last activity; sliding lastSeen
+    // keeps an active session alive.
+    await sessionsCollection.createIndex({ token: 1 }, { unique: true });
+    await sessionsCollection.createIndex({ email: 1 });
+    await sessionsCollection.createIndex({ lastSeen: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 30 });
   } catch (ex) {
     console.log(`Unable to connect to database because ${ex.message}`);
     process.exit(1);
@@ -70,4 +77,5 @@ module.exports = {
   funnelEventsCollection,
   reviewEventsCollection,
   paperFlagsCollection,
+  sessionsCollection,
 };

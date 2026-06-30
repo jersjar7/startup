@@ -7,6 +7,7 @@ const {
   purchasesCollection,
   examAttemptsCollection,
   funnelEventsCollection,
+  sessionsCollection,
 } = require('./connection');
 
 // Remove every trace of a user across all collections — email-keyed AND
@@ -18,6 +19,7 @@ async function deleteAllUserData(email, userId) {
     userStatsCollection.deleteOne({ email }),
     problemHistoryCollection.deleteMany({ email }),
     sessionLogCollection.deleteMany({ email }),
+    sessionsCollection.deleteMany({ email }),
     diagnosticResultsCollection.deleteMany({ email }),
     funnelEventsCollection.deleteMany({ email }),
     ...(userId ? [

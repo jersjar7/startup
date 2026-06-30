@@ -1,6 +1,5 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const uuid = require('uuid');
 const rateLimit = require('express-rate-limit');
 const DB = require('../database.js');
 const { verifyAuth, setAuthCookie, clearAuthCookie, authCookieName } = require('../middleware/auth.js');
@@ -79,8 +78,6 @@ router.post('/create', async (req, res) => {
     const user = {
       email,
       password: passwordHash,
-      token: uuid.v4(),
-      tokenCreatedAt: new Date(),
       createdAt: new Date(),
       emailVerified: false,
       verificationToken: hashToken(rawVerifyToken),
@@ -91,12 +88,16 @@ router.post('/create', async (req, res) => {
     const acq = sanitizeAcq(req.body.acq);
     if (acq) user.acquisition = acq;
     await DB.addUser(user);
-    setAuthCookie(res, user.token);
+    const sessionToken = await DB.createSession(email, req.headers['x-client'] === 'mobile' ? 'mobile' : 'web');
+    setAuthCookie(res, sessionToken);
 
     // Fire-and-forget verification email
     sendVerificationEmail(email, rawVerifyToken);
 
-    res.send({ email: user.email });
+    // Mobile can't use the cookie jar — hand it the bearer token explicitly.
+    const body = { email: user.email };
+    if (req.headers['x-client'] === 'mobile') body.token = sessionToken;
+    res.send(body);
   }
 });
 
@@ -106,10 +107,8 @@ router.post('/login', async (req, res) => {
 
   const user = await DB.getUser(req.body.email);
   if (user && (await bcrypt.compare(req.body.password, user.password))) {
-    user.token = uuid.v4();
-    user.tokenCreatedAt = new Date();
-    await DB.updateUser(user);
-    setAuthCookie(res, user.token);
+    const sessionToken = await DB.createSession(user.email, req.headers['x-client'] === 'mobile' ? 'mobile' : 'web');
+    setAuthCookie(res, sessionToken);
     // Return verified status + profile so the client can set state synchronously
     // (no second /me round-trip, no verification-banner flash).
     const body = {
@@ -122,7 +121,7 @@ router.post('/login', async (req, res) => {
     };
     // The mobile app can't rely on the httpOnly cookie jar — hand it the
     // bearer token explicitly (web clients never receive it in the body).
-    if (req.headers['x-client'] === 'mobile') body.token = user.token;
+    if (req.headers['x-client'] === 'mobile') body.token = sessionToken;
     res.send(body);
   } else {
     res.status(401).send({ msg: 'Incorrect email or password.' });
@@ -131,10 +130,15 @@ router.post('/login', async (req, res) => {
 
 // Logout a user
 router.delete('/logout', async (req, res) => {
-  const user = await DB.getUserByToken(req.cookies[authCookieName]);
-  if (user) {
-    // $unset actually removes the field — `delete user.token` + $set is a no-op.
-    await DB.unsetUserFields(user.email, ['token', 'tokenCreatedAt']);
+  // Log out only THIS device: delete the session for the presented token
+  // (bearer header for mobile, cookie for web).
+  const header = req.headers.authorization || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7) : req.cookies[authCookieName];
+  if (token) {
+    await DB.deleteSession(token);
+    // Legacy: a pre-sessions user whose token is on the user doc.
+    const legacy = await DB.getUserByToken(token);
+    if (legacy) await DB.unsetUserFields(legacy.email, ['token', 'tokenCreatedAt']);
   }
   clearAuthCookie(res);
   res.status(204).end();
@@ -217,9 +221,9 @@ router.post('/reset-password', async (req, res) => {
 
   user.password = await bcrypt.hash(password, 10);
   await DB.updateUser(user);
-  // Invalidate ALL existing sessions: $unset actually clears the token
-  // (delete + $set was a no-op, so old cookies stayed valid).
+  // Invalidate EVERY session (web + app, all devices), plus any legacy token.
   await DB.unsetUserFields(user.email, ['resetToken', 'resetTokenExpiry', 'token', 'tokenCreatedAt']);
+  await DB.deleteSessionsForEmail(user.email);
 
   clearAuthCookie(res);
   res.send({ msg: 'Password has been reset. Please log in.' });
@@ -309,12 +313,17 @@ router.post('/change-password', verifyAuth, async (req, res) => {
   }
 
   user.password = await bcrypt.hash(newPassword, 10);
-  user.token = uuid.v4();
-  user.tokenCreatedAt = new Date();
   await DB.updateUser(user);
-  setAuthCookie(res, user.token);
+  // Sign out every other device, kill any legacy token, then start a fresh
+  // session for the device that changed the password.
+  await DB.unsetUserFields(user.email, ['token', 'tokenCreatedAt']);
+  await DB.deleteSessionsForEmail(user.email);
+  const sessionToken = await DB.createSession(user.email, req.headers['x-client'] === 'mobile' ? 'mobile' : 'web');
+  setAuthCookie(res, sessionToken);
 
-  res.send({ msg: 'Password changed successfully' });
+  const out = { msg: 'Password changed successfully' };
+  if (req.headers['x-client'] === 'mobile') out.token = sessionToken;
+  res.send(out);
 });
 
 // Delete account (requires auth)
