@@ -5,6 +5,7 @@ const router = express.Router();
 // Loaded once at startup and served as JSON to the mobile app. Public + cacheable
 // (the content isn't secret and rarely changes).
 const content = require('../content.json');
+const figures = require('../figures.json'); // figureId -> rendered SVG string
 
 const CACHE = 'public, max-age=86400'; // 1 day
 
@@ -34,6 +35,17 @@ router.get('/problems/:id', (req, res) => {
   }
   res.set('Cache-Control', CACHE);
   res.json(problem);
+});
+
+// A problem figure, pre-rendered to SVG (problem.diagram.figureId).
+router.get('/figures/:figureId', (req, res) => {
+  const svg = figures[req.params.figureId];
+  if (!svg) {
+    res.status(404).send({ msg: 'Figure not found' });
+    return;
+  }
+  res.set('Cache-Control', CACHE);
+  res.type('image/svg+xml').send(svg);
 });
 
 module.exports = router;

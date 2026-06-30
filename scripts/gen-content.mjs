@@ -5,6 +5,7 @@
 //
 //   node scripts/gen-content.mjs   ->   service/content.json
 import { build } from 'esbuild';
+import { createHash } from 'crypto';
 import { createRequire } from 'module';
 import { mkdtempSync, writeFileSync } from 'fs';
 import { tmpdir } from 'os';
@@ -80,9 +81,32 @@ await build({
 delete require.cache[out];
 const { content } = require(out);
 
+// Give every problem figure a stable id (hash of component + props) and collect
+// the unique figures, so gen-figures.mjs can render each to SVG and the app can
+// fetch it by figureId. problemsById and lessons share the same problem objects,
+// so this one mutation reaches both.
+function stableStr(v) {
+  if (v && typeof v === 'object' && !Array.isArray(v)) {
+    return '{' + Object.keys(v).sort().map((k) => JSON.stringify(k) + ':' + stableStr(v[k])).join(',') + '}';
+  }
+  if (Array.isArray(v)) return '[' + v.map(stableStr).join(',') + ']';
+  return JSON.stringify(v);
+}
+const figures = {};
+for (const p of Object.values(content.problemsById)) {
+  const d = p.diagram;
+  if (d && d.component) {
+    const id = createHash('sha1').update(d.component + ':' + stableStr(d.props || {})).digest('hex').slice(0, 16);
+    d.figureId = id;
+    if (!figures[id]) figures[id] = { component: d.component, props: d.props || {} };
+  }
+}
+content.figures = figures;
+
 const dest = join(root, 'service/content.json');
 writeFileSync(dest, JSON.stringify(content));
 
 const probs = Object.keys(content.problemsById).length;
 const lessons = Object.keys(content.lessons).length;
-console.log(`[gen-content] ${content.chapters.length} chapters · ${lessons} lessons · ${probs} problems -> service/content.json`);
+const figs = Object.keys(content.figures).length;
+console.log(`[gen-content] ${content.chapters.length} chapters · ${lessons} lessons · ${probs} problems · ${figs} figures -> service/content.json`);
