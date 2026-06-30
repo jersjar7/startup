@@ -83,6 +83,7 @@ apiRouter.use('/', require('./routes/health.js'));
 apiRouter.use('/user', require('./routes/auth.js'));
 apiRouter.use('/sessions', require('./routes/sessions.js'));
 apiRouter.use('/review', require('./routes/review.js'));
+apiRouter.use('/content', require('./routes/content.js'));
 apiRouter.use('/sync', require('./routes/sync.js'));
 apiRouter.use('/leaderboard', require('./routes/leaderboard.js'));
 apiRouter.use('/diagnostic', require('./routes/diagnostic.js'));
