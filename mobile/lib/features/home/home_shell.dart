@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
-import '../auth/auth_controller.dart';
+import '../profile/profile_tab.dart';
+import '../study/review_tab.dart';
 import '../study/study_tab.dart';
 
 /// The authenticated home: a bottom-nav shell over the three tabs
@@ -23,16 +22,10 @@ class _HomeShellState extends State<HomeShell> {
     return Scaffold(
       body: IndexedStack(
         index: _index,
-        children: [
-          const StudyTab(),
-          _Placeholder(title: 'Review'),
-          _Placeholder(
-            title: 'Profile',
-            child: TextButton(
-              onPressed: () => context.read<AuthController>().signOut(),
-              child: const Text('Sign out'),
-            ),
-          ),
+        children: const [
+          StudyTab(),
+          ReviewTab(),
+          ProfileTab(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -57,31 +50,6 @@ class _HomeShellState extends State<HomeShell> {
             label: 'Profile',
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// Temporary stand-in for the Review and Profile tabs (built next).
-class _Placeholder extends StatelessWidget {
-  const _Placeholder({required this.title, this.child});
-
-  final String title;
-  final Widget? child;
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(title, style: AppTheme.heading(size: 26)),
-            const SizedBox(height: 8),
-            const Text('Coming together next', style: TextStyle(color: AppColors.ink3)),
-            if (child != null) ...[const SizedBox(height: 24), child!],
-          ],
-        ),
       ),
     );
   }

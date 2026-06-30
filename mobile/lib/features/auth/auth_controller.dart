@@ -82,6 +82,13 @@ class AuthController extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteAccount(String password) async {
+    await api.delete('/auth/account', {'password': password, 'confirmation': 'DELETE'});
+    await _clear();
+    status = AuthStatus.unauthenticated;
+    notifyListeners();
+  }
+
   Future<void> _accept(Map<String, dynamic> data) async {
     final token = data['token'] as String?;
     if (token != null) {

@@ -28,6 +28,27 @@ class ContentRepository {
     return Problem.fromJson(data);
   }
 
+  /// The due review queue: each missed problem (resolved) with its chapter id.
+  Future<List<ReviewItem>> reviewItems() async {
+    final data = await api.get('/review?count=8') as Map<String, dynamic>;
+    final items = (data['problems'] as List? ?? []);
+    final resolved = await Future.wait(items.map((it) async {
+      final m = it as Map<String, dynamic>;
+      return ReviewItem(
+        problem: await problem(m['problemId'] as String),
+        chapterId: m['topicId'] as String,
+      );
+    }));
+    return resolved;
+  }
+
+  /// Record review answers so the spaced-repetition schedule advances/graduates.
+  Future<void> postReview(List<Map<String, dynamic>> answers) async {
+    try {
+      await api.post('/review', {'answers': answers});
+    } catch (_) {/* best-effort */}
+  }
+
   /// chapterId -> mastery percent (0–100). Empty if it can't be loaded — the UI
   /// just shows everything as "New" rather than failing.
   Future<Map<String, int>> mastery() async {

@@ -142,6 +142,13 @@ class ContentBlock {
       );
 }
 
+/// A due review entry: the resolved problem plus the chapter it belongs to.
+class ReviewItem {
+  ReviewItem({required this.problem, required this.chapterId});
+  final Problem problem;
+  final String chapterId;
+}
+
 class Choice {
   Choice({required this.id, required this.text});
   final String id;
