@@ -1,49 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-import 'core/theme/app_colors.dart';
+import 'core/network/api_client.dart';
+import 'core/router.dart';
+import 'core/storage/app_storage.dart';
 import 'core/theme/app_theme.dart';
-import 'features/shared/widgets/wordmark.dart';
+import 'features/auth/auth_controller.dart';
 
-class FeRaccoonsApp extends StatelessWidget {
+class FeRaccoonsApp extends StatefulWidget {
   const FeRaccoonsApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FE for Raccoons',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light,
-      // Temporary foundation screen. The real entry is the launch gate
-      // (token check -> onboarding / auth / home), built next.
-      home: const _FoundationScreen(),
-    );
-  }
+  State<FeRaccoonsApp> createState() => _FeRaccoonsAppState();
 }
 
-class _FoundationScreen extends StatelessWidget {
-  const _FoundationScreen();
+class _FeRaccoonsAppState extends State<FeRaccoonsApp> {
+  late final AuthController _auth;
+  late final GoRouter _router;
+
+  @override
+  void initState() {
+    super.initState();
+    _auth = AuthController(api: ApiClient(), storage: AppStorage());
+    _router = buildRouter(_auth);
+    _auth.bootstrap(); // launch gate: token check -> /me
+  }
+
+  @override
+  void dispose() {
+    _auth.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Wordmark(size: 56),
-            const SizedBox(height: 28),
-            Container(
-              height: 6,
-              width: 54,
-              decoration: BoxDecoration(
-                color: AppColors.ember,
-                borderRadius: BorderRadius.circular(99),
-              ),
-            ),
-            const SizedBox(height: 28),
-            Text('Keep the FE fresh, anywhere.', style: AppTheme.heading(size: 22)),
-          ],
-        ),
+    return ChangeNotifierProvider.value(
+      value: _auth,
+      child: MaterialApp.router(
+        title: 'FE for Raccoons',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        routerConfig: _router,
       ),
     );
   }
