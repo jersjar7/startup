@@ -35,8 +35,7 @@ import {
   CheckCircle,
   Timer,
 } from '@phosphor-icons/react';
-import { TopicLabel } from './hero-svg';
-import { Hero3D } from './Hero3D';
+import { TopicLabel, HeroSvg } from './hero-svg';
 import { BeamDiagram } from './beam-diagram';
 import { Math } from './math';
 import './landing.css';
@@ -104,7 +103,7 @@ export function Landing({ userName }) {
     <>
       {/* ══════ HERO ══════ */}
       <section className="hero">
-        <Hero3D />
+        <HeroSvg />
         <TopicLabel />
         <div className="hero-content">
           <span className="hero-overline">
