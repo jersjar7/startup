@@ -48,4 +48,13 @@ abstract final class AppColors {
     if (pct > 0) return ember;
     return const Color(0xFFCDBFA8);
   }
+
+  /// Mastery stage word, matching the web: Mastered >=80, Familiar >=50,
+  /// Building >=10, New otherwise.
+  static String masteryStage(int pct) {
+    if (pct >= 80) return 'Mastered';
+    if (pct >= 50) return 'Familiar';
+    if (pct >= 10) return 'Building';
+    return 'New';
+  }
 }
