@@ -18,6 +18,16 @@ class ContentRepository {
     return _chapters!;
   }
 
+  Future<Lesson> lesson(String chapterId, String lessonId) async {
+    final data = await api.get('/content/lessons/$chapterId/$lessonId') as Map<String, dynamic>;
+    return Lesson.fromJson(data);
+  }
+
+  Future<Problem> problem(String id) async {
+    final data = await api.get('/content/problems/$id') as Map<String, dynamic>;
+    return Problem.fromJson(data);
+  }
+
   /// chapterId -> mastery percent (0–100). Empty if it can't be loaded — the UI
   /// just shows everything as "New" rather than failing.
   Future<Map<String, int>> mastery() async {

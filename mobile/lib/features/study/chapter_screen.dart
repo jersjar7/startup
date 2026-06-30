@@ -5,6 +5,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/app_button.dart';
 import '../shared/widgets/mastery_ring.dart';
+import 'lesson_screen.dart';
 import 'models.dart';
 
 /// Tab 1, Level 2 — chapter detail: subtopics as a numbered-hairline accordion
@@ -96,10 +97,14 @@ class _ChapterScreenState extends State<ChapterScreen> {
   }
 
   void _openLesson(Chapter ch, Subtopic st, LessonRef l) {
-    // L3 (lesson hub) is built next; navigate there once it exists.
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Opening ${l.name} — lesson screen coming next')),
-    );
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => LessonScreen(
+        chapterId: ch.id,
+        lessonId: l.id,
+        lessonName: l.name,
+        subtopicName: st.name,
+      ),
+    ));
   }
 }
 
