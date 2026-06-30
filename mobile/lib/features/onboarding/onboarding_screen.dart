@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
 import '../shared/widgets/app_button.dart';
 import '../shared/widgets/engineering_grid.dart';
+import '../shared/widgets/legal_line.dart';
 import '../shared/widgets/mastery_ring.dart';
 import '../shared/widgets/wordmark.dart';
 
@@ -244,54 +244,9 @@ class _BottomBar extends StatelessWidget {
                 ),
               ),
             ),
-            const _LegalLine(),
+            const LegalLine(),
           ],
         ],
-      ),
-    );
-  }
-}
-
-class _LegalLine extends StatelessWidget {
-  const _LegalLine();
-
-  Future<void> _open(String url) async {
-    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final link = TextStyle(
-      color: AppColors.ink2,
-      fontWeight: FontWeight.w600,
-      decoration: TextDecoration.underline,
-    );
-    return Padding(
-      padding: const EdgeInsets.only(top: 12),
-      child: Text.rich(
-        TextSpan(
-          style: const TextStyle(
-              fontSize: 10.5, color: AppColors.ink3, height: 1.55),
-          children: [
-            const TextSpan(
-                text: 'By creating an account or using the app, you agree to our '),
-            WidgetSpan(
-              child: GestureDetector(
-                onTap: () => _open('https://fe4raccoons.com/terms'),
-                child: Text('Terms of Service', style: link.copyWith(fontSize: 10.5)),
-              ),
-            ),
-            const TextSpan(text: ' and '),
-            WidgetSpan(
-              child: GestureDetector(
-                onTap: () => _open('https://fe4raccoons.com/privacy'),
-                child: Text('Privacy Policy', style: link.copyWith(fontSize: 10.5)),
-              ),
-            ),
-            const TextSpan(text: '.'),
-          ],
-        ),
-        textAlign: TextAlign.center,
       ),
     );
   }
