@@ -1,4 +1,5 @@
 const { Resend } = require('resend');
+const { recordSend } = require('./sendBudget.js');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
@@ -39,6 +40,7 @@ async function sendEmail({ to, subject, html, headers }) {
     // means the receiving server accepted it, so this is the breadcrumb for
     // diagnosing "accepted but never arrived" (e.g. quarantined upstream).
     console.log(`[email] sent to ${to} — "${subject}" (id ${r.data?.id})`);
+    await recordSend(); // count toward the Resend free-plan daily/monthly budget
     return { ok: true, id: r.data?.id };
   } catch (err) {
     console.error(`[email] send to ${to} threw:`, err.message);

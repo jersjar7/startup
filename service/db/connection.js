@@ -18,6 +18,9 @@ const funnelEventsCollection = db.collection('funnelEvents');
 const reviewEventsCollection = db.collection('reviewEvents');
 const paperFlagsCollection = db.collection('paperFlags');
 const sessionsCollection = db.collection('sessions');
+// Daily/monthly email send counters (keyed 'day:YYYY-MM-DD' / 'month:YYYY-MM'),
+// so the mailer can stay under Resend's free 100/day + 3000/month caps.
+const mailMetaCollection = db.collection('mailMeta');
 
 // Test connection and create indexes on startup
 (async function testConnection() {
@@ -78,4 +81,5 @@ module.exports = {
   reviewEventsCollection,
   paperFlagsCollection,
   sessionsCollection,
+  mailMetaCollection,
 };

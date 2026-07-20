@@ -16,6 +16,7 @@ const {
   isVerifyReminderDue, isStaleUnverified,
 } = require('./lifecycle.js');
 const { daysUntilExam } = require('./profile.js');
+const { canSendLifecycle } = require('./sendBudget.js');
 
 const TZ = process.env.LIFECYCLE_TZ || TZ_DEFAULT;
 const SEND_HOUR = Number(process.env.LIFECYCLE_HOUR) || 8;
@@ -27,6 +28,17 @@ const CHECK_INTERVAL_MS = 30 * 60 * 1000;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const unsubUrl = (token) => `${appUrl}/api/email/unsubscribe/${token}`;
+
+// Spread the weekly digest evenly across the 7 weekdays instead of one big Sunday
+// batch — each user has a stable "digest day" from a hash of their email, so we
+// stay under Resend's free 100/day cap and everyone still gets exactly one/week.
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+function digestDay(email) {
+  let h = 5381;
+  const s = String(email).toLowerCase();
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
+  return h % 7;
+}
 
 async function ensureUnsubToken(user) {
   if (user.unsubToken) return user.unsubToken;
@@ -75,6 +87,7 @@ async function sendWelcomes(now) {
   let sent = 0;
   for (const u of users) {
     if (!isWelcomeDue(u.verifiedAt, now, TZ)) continue;
+    if (!(await canSendLifecycle(now))) break; // out of daily/monthly send budget
     try {
       // Adaptive: if they already took the diagnostic, send the next-step email
       // (their weakest chapter) instead of nagging them to take it again.
@@ -107,6 +120,7 @@ async function sendVerifyReminders(now) {
   let sent = 0;
   for (const u of users) {
     if (!isVerifyReminderDue(u.createdAt, now, TZ)) continue;
+    if (!(await canSendLifecycle(now))) break; // out of daily/monthly send budget
     try {
       const rawToken = generateToken();
       await userCollection.updateOne(
@@ -160,6 +174,7 @@ async function sendWinbacks(now) {
       ? new Date(`${stats.lastSessionDate}T12:00:00Z`)
       : (u.verifiedAt || u.createdAt);
     if (daysSince(lastActivity, now) < INACTIVE_DAYS) continue;
+    if (!(await canSendLifecycle(now))) break; // out of daily/monthly send budget
     try {
       const token = await ensureUnsubToken(u);
       await sendWinbackEmail(u.email, { focusChapter: stats.focusChapter, unsubUrl: unsubUrl(token) });
@@ -174,6 +189,7 @@ async function sendWinbacks(now) {
 }
 
 async function sendWeeklyDigests(now) {
+  const todayIdx = WEEKDAYS.indexOf(etWeekday(now, TZ));
   const users = await userCollection.find({
     emailVerified: true,
     lifecycleOptOut: { $ne: true },
@@ -181,7 +197,9 @@ async function sendWeeklyDigests(now) {
 
   let sent = 0;
   for (const u of users) {
-    if (u.lastWeeklyAt && daysSince(u.lastWeeklyAt, now) < 3) continue; // already sent this week
+    if (digestDay(u.email) !== todayIdx) continue;                     // only this user's assigned digest day
+    if (u.lastWeeklyAt && daysSince(u.lastWeeklyAt, now) < 6) continue; // already sent this week
+    if (!(await canSendLifecycle(now))) break;                         // out of daily/monthly send budget
     try {
       const s = await weeklyStatsFor(u.email);
       const active = digestIsActive({ weeklyXp: s.weeklyXp, problemsThisWeek: s.problems });
@@ -217,6 +235,7 @@ async function sendExamCountdowns(now) {
     const daysLeft = daysUntilExam(u.examDate, now);
     const pick = examMilestoneToSend(daysLeft, u.examMilestonesSent || []);
     if (!pick) continue;
+    if (!(await canSendLifecycle(now))) break; // out of daily/monthly send budget
     try {
       const stats = await weeklyStatsFor(u.email);
       const token = await ensureUnsubToken(u);
@@ -261,6 +280,7 @@ async function sendSimFollowups(now) {
       variant = 'nudge';
     }
     if (!variant) continue;
+    if (!(await canSendLifecycle(now))) break; // out of daily/monthly send budget
     try {
       const stats = await weeklyStatsFor(u.email);
       const token = await ensureUnsubToken(u);
@@ -290,12 +310,15 @@ async function runLifecycleEmails(now = new Date()) {
   running = true;
   try {
     if (etHour(now, TZ) !== SEND_HOUR) return { skipped: 'off-hour' };
+    // Priority order: when the daily/monthly budget is tight, higher-priority
+    // emails send first and lower-priority ones defer to the next day. (The
+    // weekly digest now runs EVERY day, sending only each user's shard.)
     const welcome = await sendWelcomes(now);
     const verify = await sendVerifyReminders(now);
-    const winback = await sendWinbacks(now);
-    const exam = await sendExamCountdowns(now);
-    const weekly = etWeekday(now, TZ) === 'Sun' ? await sendWeeklyDigests(now) : 0;
     const simFollow = process.env.SIM_FOLLOWUP_ENABLED === '1' ? await sendSimFollowups(now) : 0;
+    const exam = await sendExamCountdowns(now);
+    const weekly = await sendWeeklyDigests(now);
+    const winback = await sendWinbacks(now);
     const purged = await purgeStaleUnverified(now);
     if (welcome || verify || winback || exam || weekly || simFollow || purged) {
       console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam} weekly=${weekly} simFollow=${simFollow} purged=${purged}`);
