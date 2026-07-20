@@ -236,6 +236,9 @@ async function sendExamCountdowns(now) {
     const pick = examMilestoneToSend(daysLeft, u.examMilestonesSent || []);
     if (!pick) continue;
     if (!(await canSendLifecycle(now))) break; // out of daily/monthly send budget
+    // Pitch the exam simulation to non-buyers who are ~2-4 weeks out (a milestone
+    // send always lands inside 12-30 days). Once per user, guarded by simPitchedAt.
+    const pitchSim = !u.examSimAccess && !u.simPitchedAt && daysLeft >= 12 && daysLeft <= 30;
     try {
       const stats = await weeklyStatsFor(u.email);
       const token = await ensureUnsubToken(u);
@@ -244,9 +247,12 @@ async function sendExamCountdowns(now) {
         readiness: stats.masteryTo,
         focusChapter: stats.focusChapter,
         unsubUrl: unsubUrl(token),
+        simPitch: pitchSim,
       });
       const merged = Array.from(new Set([...(u.examMilestonesSent || []), ...pick.absorb]));
-      await userCollection.updateOne({ email: u.email }, { $set: { examMilestonesSent: merged } });
+      const update = { examMilestonesSent: merged };
+      if (pitchSim) update.simPitchedAt = now;
+      await userCollection.updateOne({ email: u.email }, { $set: update });
       sent += 1;
       await sleep(SEND_GAP_MS);
     } catch (e) {

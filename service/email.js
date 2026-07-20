@@ -359,7 +359,37 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
 }
 
 // Exam-date countdown. Copy adapts to how close exam day is.
-async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, focusChapter = null, unsubUrl } = {}) {
+async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, focusChapter = null, unsubUrl, simPitch = false } = {}) {
+  // A few weeks out and they don't own the sim yet: the highest-leverage move
+  // is one full, timed run before the real one. Pitch it with Mitch's story.
+  if (simPitch && daysLeft > 1) {
+    const storyUrl = `${appUrl}/stories/mitch`;
+    const examUrl = `${appUrl}/exam`;
+    const storyLink = `<a href="${storyUrl}" target="_blank" style="color:${C.ember};font-weight:600;text-decoration:none;">Watch his story &rarr;</a>`;
+    return sendEmail({
+      to: toEmail,
+      subject: 'Walk into the FE already knowing how it feels',
+      headers: lifecycleHeaders(unsubUrl),
+      html: emailLayout({
+        preheader: 'One full timed run, before the real one.',
+        heading: `${daysLeft} days out, let's get you ready.`,
+        unsubUrl,
+        inner:
+          para("You're close now, and this is the stretch that decides it. We built FE for Raccoons to get you across the line, and with a few weeks left the highest-leverage move is one full, timed exam before the real one, so on exam day nothing feels new.") +
+          para("That's the Exam Simulation: all 110 questions, 5 hours 20 minutes, scored just like the real FE. In one sitting you find out:") +
+          bullets([
+            "Exactly where your pace slips, while there's still time to fix it",
+            'Which topics to spend your last weeks on, ranked by what actually cost you points',
+            'What 5 hours 20 minutes in the chair really feels like, so exam day is familiar',
+          ]) +
+          para(`Mitch ran it and passed the FE Civil on his first try. ${storyLink}`) +
+          button('Start your exam simulation', examUrl) +
+          para('$49, or $29 with a verified student email. It is the cheapest insurance against a retake, and your access never expires.') +
+          noteLine('<strong>P.S.</strong> Do it now, not the night before. A timed run only helps if you have time to act on what it shows. Questions? Just reply, a real person reads these.'),
+      }),
+    });
+  }
+
   let subject; let heading; let body; let ctaText;
   if (daysLeft <= 0) {
     subject = "It's exam day — you've got this";
