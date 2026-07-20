@@ -5,7 +5,7 @@ import { LoadingState } from '../components/LoadingState';
 import {
   SignOut, Users, ClipboardText, CreditCard, CheckCircle, CurrencyDollar,
   ChartLineUp, Lightning, TrendUp, Exam, Receipt, Pulse, Compass, Timer,
-  MagnifyingGlass, X, Info,
+  MagnifyingGlass, X, Info, EnvelopeSimple, CalendarBlank,
 } from '@phosphor-icons/react';
 import { Chart } from './Chart';
 import './admin.css';
@@ -88,6 +88,14 @@ export function Admin({ userName, onLogout }) {
     fetch('/api/admin/acquisition')
       .then((res) => (res.ok ? res.json() : null))
       .then((acquisition) => { if (acquisition) setState((s) => ({ ...s, acquisition })); })
+      .catch(() => {});
+    fetch('/api/admin/exam-dates')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((examDates) => { if (examDates) setState((s) => ({ ...s, examDates })); })
+      .catch(() => {});
+    fetch('/api/admin/email-status')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((emailStatus) => { if (emailStatus) setState((s) => ({ ...s, emailStatus })); })
       .catch(() => {});
   }, [userName]);
 
@@ -339,6 +347,35 @@ export function Admin({ userName, onLogout }) {
         </>
       )}
 
+      {/* ── Upcoming exam dates (from user profiles) ── */}
+      {state.examDates && state.examDates.dates.length > 0 && (
+        <>
+          <div className="admin-section-head">
+            <CalendarBlank weight="bold" size={18} />
+            <h3>Upcoming exam dates</h3>
+            <span className="admin-section-note">{state.examDates.total} user{state.examDates.total === 1 ? '' : 's'} with a date set</span>
+          </div>
+          <ExamCalendar dates={state.examDates.dates} />
+        </>
+      )}
+
+      {/* ── Email budget (Resend free plan) ── */}
+      {state.emailStatus?.budget && (
+        <>
+          <div className="admin-section-head">
+            <EnvelopeSimple weight="bold" size={18} />
+            <h3>Email budget</h3>
+            <span className="admin-section-note">Resend free plan · resets at UTC midnight</span>
+          </div>
+          <div className="budget-grid">
+            <BudgetBar label="Today" sent={state.emailStatus.budget.day} cap={state.emailStatus.budget.dailyCap}
+              soft={state.emailStatus.budget.dailyLifecycleMax} softLabel="lifecycle stops here" />
+            <BudgetBar label="This month" sent={state.emailStatus.budget.month} cap={state.emailStatus.budget.monthlyCap}
+              soft={state.emailStatus.budget.monthlySoft} softLabel="soft cap" />
+          </div>
+        </>
+      )}
+
       {/* ── Recent users (masked) + single-user lookup ── */}
       <div className="admin-section-head">
         <Users weight="bold" size={18} />
@@ -429,6 +466,75 @@ function UserCard({ u, onClose }) {
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const DOW = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+// Month grids for upcoming months that have exam dates; a day with N users
+// testing shows an ember badge with the count.
+function ExamCalendar({ dates }) {
+  const byDate = React.useMemo(() => Object.fromEntries(dates.map((d) => [d.date, d.count])), [dates]);
+  const today = new Date();
+  const todayStr = new Intl.DateTimeFormat('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(today);
+  const months = [...new Set(dates.filter((d) => d.date >= todayStr).map((d) => d.date.slice(0, 7)))].sort();
+  if (months.length === 0) return <p className="cal-empty">No upcoming exam dates.</p>;
+
+  return (
+    <div className="cal-grid">
+      {months.slice(0, 6).map((ym) => {
+        const [y, mo] = ym.split('-').map(Number);
+        const startDow = new Date(y, mo - 1, 1).getDay();
+        const daysIn = new Date(y, mo, 0).getDate();
+        const cells = [...Array(startDow).fill(null), ...Array.from({ length: daysIn }, (_, i) => i + 1)];
+        const monthTotal = dates.filter((d) => d.date.slice(0, 7) === ym).reduce((a, b) => a + b.count, 0);
+        return (
+          <div key={ym} className="cal-month">
+            <div className="cal-month-head">
+              <span className="cal-month-name">{MONTH_NAMES[mo - 1]} {y}</span>
+              <span className="cal-month-total">{monthTotal}</span>
+            </div>
+            <div className="cal-dow">{DOW.map((x, i) => <span key={i}>{x}</span>)}</div>
+            <div className="cal-days">
+              {cells.map((d, i) => {
+                if (d === null) return <span key={i} className="cal-cell cal-cell--empty" />;
+                const ds = `${ym}-${String(d).padStart(2, '0')}`;
+                const count = byDate[ds] || 0;
+                return (
+                  <span key={i}
+                    className={`cal-cell ${count ? 'cal-cell--has' : ''} ${ds === todayStr ? 'cal-cell--today' : ''}`}
+                    title={count ? `${count} testing on ${ds}` : ds}>
+                    <span className="cal-day">{d}</span>
+                    {count > 0 && <span className="cal-count">{count}</span>}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// Send count vs a cap, with a marker at the "soft" line where lifecycle stops.
+function BudgetBar({ label, sent, cap, soft, softLabel }) {
+  const pct = Math.min(100, (sent / cap) * 100);
+  const softPct = Math.min(100, (soft / cap) * 100);
+  const level = sent >= cap ? 'over' : sent >= soft ? 'warn' : 'ok';
+  return (
+    <div className="budget-card">
+      <div className="budget-top">
+        <span className="budget-label">{label}</span>
+        <span className="budget-nums"><strong>{sent}</strong> / {cap}</span>
+      </div>
+      <div className="budget-track">
+        <span className={`budget-fill budget-fill--${level}`} style={{ width: `${pct}%` }} />
+        <span className="budget-soft" style={{ left: `${softPct}%` }} title={`${soft} — ${softLabel}`} />
+      </div>
+      <span className="budget-note">{softLabel} at {soft}</span>
     </div>
   );
 }

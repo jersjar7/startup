@@ -554,3 +554,34 @@
 }
 .kpi-tip .tip-eg strong,
 .funnel-tip .tip-eg strong { color: var(--cream); font-weight: 600; }
+
+/* ── Email budget (Resend free plan) ── */
+.budget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 4px 0 8px; }
+.budget-card { background: #fff; border-radius: var(--radius-md); padding: 16px 18px; box-shadow: var(--shadow-card); }
+.budget-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 11px; }
+.budget-label { font-family: var(--font-heading); font-weight: 600; color: var(--charcoal); font-size: 0.95rem; }
+.budget-nums { font-family: var(--font-mono); color: var(--gray-600); font-size: 0.88rem; }
+.budget-nums strong { color: var(--charcoal); font-size: 1.05rem; }
+.budget-track { position: relative; height: 12px; background: var(--cream-dark); border-radius: 6px; }
+.budget-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 6px; transition: width .4s ease; }
+.budget-fill--ok { background: var(--forest); }
+.budget-fill--warn { background: var(--sunbeam); }
+.budget-fill--over { background: var(--error); }
+.budget-soft { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--charcoal); opacity: .5; }
+.budget-note { display: block; margin-top: 8px; font-size: 0.75rem; color: var(--gray-500); }
+@media (max-width: 640px) { .budget-grid { grid-template-columns: 1fr; } }
+
+/* ── Exam-date calendar ── */
+.cal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 18px; margin: 4px 0 8px; }
+.cal-month { background: #fff; border-radius: var(--radius-md); padding: 14px 16px 16px; box-shadow: var(--shadow-card); }
+.cal-month-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 11px; }
+.cal-month-name { font-family: var(--font-heading); font-weight: 600; color: var(--charcoal); font-size: 0.95rem; }
+.cal-month-total { font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; color: #fff; background: var(--ember); border-radius: 20px; padding: 2px 10px; }
+.cal-dow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-bottom: 5px; }
+.cal-dow span { text-align: center; font-size: 0.66rem; font-weight: 700; color: var(--gray-500); }
+.cal-days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.cal-cell { position: relative; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 0.72rem; color: var(--gray-600); }
+.cal-cell--has { background: var(--ember-bg); color: var(--ember); font-weight: 700; }
+.cal-cell--today .cal-day { outline: 2px solid var(--charcoal); outline-offset: 2px; border-radius: 50%; }
+.cal-count { position: absolute; top: -5px; right: -3px; min-width: 15px; height: 15px; padding: 0 3px; display: flex; align-items: center; justify-content: center; background: var(--ember); color: #fff; font-size: 0.6rem; font-weight: 700; border-radius: 9px; }
+.cal-empty { color: var(--gray-500); font-size: 0.9rem; }

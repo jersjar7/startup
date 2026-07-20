@@ -152,4 +152,35 @@ async function countRealUsers() {
   return userCollection.countDocuments({ email: NOT_EXCLUDED });
 }
 
-module.exports = { getRecentUsers, getRecentPurchases, lookupUser, maskEmail, getAcquisitionBreakdown, countRealUsers };
+// How many users are sitting the exam on each date (from the exam date they set
+// in their profile). Normalizes to YYYY-MM-DD and returns dates ascending; the
+// admin calendar shows the upcoming ones. Real users only.
+async function getExamDateDistribution() {
+  const rows = await userCollection.aggregate([
+    { $match: { examDate: { $exists: true, $nin: [null, ''] }, email: NOT_EXCLUDED } },
+    { $group: { _id: '$examDate', count: { $sum: 1 } } },
+  ]).toArray();
+
+  const norm = (v) => {
+    if (v instanceof Date) return v.toISOString().slice(0, 10);
+    const m = String(v).match(/(\d{4}-\d{2}-\d{2})/);
+    return m ? m[1] : null;
+  };
+  const byDate = {};
+  let total = 0;
+  for (const r of rows) {
+    const d = norm(r._id);
+    if (!d) continue;
+    byDate[d] = (byDate[d] || 0) + r.count;
+    total += r.count;
+  }
+  const dates = Object.entries(byDate)
+    .map(([date, count]) => ({ date, count }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+  return { dates, total };
+}
+
+module.exports = {
+  getRecentUsers, getRecentPurchases, lookupUser, maskEmail,
+  getAcquisitionBreakdown, countRealUsers, getExamDateDistribution,
+};

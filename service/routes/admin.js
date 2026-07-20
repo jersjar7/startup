@@ -3,6 +3,7 @@ const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { computeFunnelMetrics } = require('../metrics.js');
 const { sendTestEmail, getEmailConfig } = require('../email.js');
+const budget = require('../sendBudget.js');
 
 const router = express.Router();
 
@@ -67,9 +68,32 @@ router.get('/user-lookup', verifyAuth, requireAdmin, async (req, res) => {
   }
 });
 
-// GET /api/admin/email-status — current email sender config.
-router.get('/email-status', verifyAuth, requireAdmin, (req, res) => {
-  res.send(getEmailConfig());
+// GET /api/admin/email-status — sender config + today's/month's send counts vs
+// the Resend free-plan caps (so the owner can watch the budget).
+router.get('/email-status', verifyAuth, requireAdmin, async (req, res) => {
+  const c = await budget.counts();
+  res.send({
+    ...getEmailConfig(),
+    budget: {
+      day: c.day,
+      month: c.month,
+      dailyCap: budget.DAILY_CAP,
+      monthlyCap: budget.MONTHLY_CAP,
+      dailyLifecycleMax: budget.DAILY_LIFECYCLE_MAX,
+      monthlySoft: budget.MONTHLY_SOFT,
+    },
+  });
+});
+
+// GET /api/admin/exam-dates — how many users are testing on each date (from the
+// exam date they set in their profile), for the upcoming-exams calendar.
+router.get('/exam-dates', verifyAuth, requireAdmin, async (req, res) => {
+  try {
+    res.send(await DB.getExamDateDistribution());
+  } catch (e) {
+    console.error('[admin] exam-dates failed:', e.message);
+    res.status(500).send({ msg: 'Failed to load exam dates' });
+  }
 });
 
 // POST /api/admin/email-test { to } — send a test email, report the raw result.
