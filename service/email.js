@@ -443,7 +443,7 @@ async function sendSimPitchFollowupEmail(toEmail, { unsubUrl, trackToken = null 
       heading: 'Still deciding? Totally fair.',
       unsubUrl,
       inner:
-        para('You looked at the Exam Simulation a couple of days ago, so here is the honest case for it. The biggest surprise on exam day is rarely the material. It is the format and the fatigue, 110 questions across 5 hours 20 minutes. One full, timed run takes that surprise off the table.') +
+        para('With your exam getting closer, here is the one thing I would not skip: a full, timed run before the real one. The biggest surprise on exam day is rarely the material. It is the format and the fatigue, 110 questions across 5 hours 20 minutes. A timed simulation takes that surprise off the table.') +
         para('You do it in one sitting, ideally a weekend. You find out your real pace, which topics still cost you points, and how the clock actually feels, while there is still time to act on it.') +
         para(`Mitch did exactly this and passed the FE Civil on his first try. ${storyLink}`) +
         button('Start your exam simulation', examUrl) +
