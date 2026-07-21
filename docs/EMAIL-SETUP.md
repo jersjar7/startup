@@ -77,3 +77,33 @@ Transactional emails (verify/reset/student code) are unaffected.
 1. Resend → Domains → Add Domain → `fe4raccoons.com`.
 2. Add the shown DKIM/SPF/MX records in GoDaddy DNS.
 3. Click **Verify**, then set `RESEND_FROM_EMAIL` and restart (above).
+
+## CRITICAL: Resend secrets MUST live in the server `.env` (2026-07-21 incident)
+
+Outbound email went fully down for ~6 hours on 2026-07-21: every send was
+rejected (`API key is invalid`) and the app silently fell back to the
+`onboarding@resend.dev` test sender (which only delivers to the Resend account
+owner). New signups got no verification email; resets/lifecycle all failed.
+
+**Root cause:** `RESEND_API_KEY` and `RESEND_FROM_EMAIL` were only present in the
+running pm2 process's *environment*, never written to `services/startup/.env`
+(the `.env` held a `re_placeholder` key). A `pm2 reload --update-env` (used by
+`deployService.sh` and by manual reloads) refreshes the process env from the
+deploying shell, which does NOT have those vars — so they were dropped, leaving
+only the placeholder. `dotenv.config()` then loaded the invalid placeholder.
+
+**Fix / standing rule:** both values MUST be in `services/startup/.env` so
+`dotenv` loads them on every start, independent of pm2's env:
+```
+RESEND_API_KEY=re_...            # a real Sending-access key for the fe4raccoons.com domain
+RESEND_FROM_EMAIL=noreply@fe4raccoons.com
+```
+The deploy preserves `.env` (backs up + restores), so once they're in `.env`
+they survive deploys and `--update-env` reloads.
+
+**Safeguards now in place:**
+- `.env` on the box is backed up to `.env.bak.<timestamp>` before edits.
+- The admin page shows a red "Email delivery is DOWN" banner whenever
+  `getEmailConfig().usingTestSender` is true (from === onboarding@resend.dev).
+- Verify quickly with `GET /api/admin/email-status` (`usingTestSender` must be
+  `false`) or a node one-liner: `require('dotenv').config(); require('./email.js').getEmailConfig()`.
