@@ -20,6 +20,11 @@ const { canSendLifecycle } = require('./sendBudget.js');
 
 const TZ = process.env.LIFECYCLE_TZ || TZ_DEFAULT;
 const SEND_HOUR = Number(process.env.LIFECYCLE_HOUR) || 8;
+// The exam-sim pitch goes out in its own evening window, not the 8am batch: it
+// asks for a purchase, so it should land when people are in FE-prep headspace
+// with a laptop, and never pre-dawn on the West Coast (8am ET = 5am PT). 7pm ET
+// = 4pm PT — evening for the East, late afternoon for the West.
+const PITCH_HOUR = Number(process.env.LIFECYCLE_PITCH_HOUR) || 19;
 const appUrl = process.env.APP_URL || 'https://fe4raccoons.com';
 const MAX_PER_RUN = 300;
 const SEND_GAP_MS = 250; // stay well under Resend's per-second rate limit
@@ -223,7 +228,10 @@ async function sendWeeklyDigests(now) {
   return sent;
 }
 
-async function sendExamCountdowns(now) {
+// phase 'morning' sends the motivational countdown; phase 'evening' sends only
+// the sales pitch variant. Each user's countdown is ONE email, routed to the
+// right time by its variant — so nobody gets both a nudge and a pitch same day.
+async function sendExamCountdowns(now, phase = 'morning') {
   const users = await userCollection.find({
     emailVerified: true,
     examDate: { $exists: true, $ne: null },
@@ -235,10 +243,14 @@ async function sendExamCountdowns(now) {
     const daysLeft = daysUntilExam(u.examDate, now);
     const pick = examMilestoneToSend(daysLeft, u.examMilestonesSent || []);
     if (!pick) continue;
-    if (!(await canSendLifecycle(now))) break; // out of daily/monthly send budget
     // Pitch the exam simulation to non-buyers who are ~2-4 weeks out (a milestone
     // send always lands inside 12-30 days). Once per user, guarded by simPitchedAt.
     const pitchSim = !u.examSimAccess && !u.simPitchedAt && daysLeft >= 12 && daysLeft <= 30;
+    // Route by send window: pitches wait for the evening run; everything else is
+    // a morning send. Skipping here leaves the milestone unsent for the other run.
+    if (phase === 'evening' && !pitchSim) continue;
+    if (phase === 'morning' && pitchSim) continue;
+    if (!(await canSendLifecycle(now))) break; // out of daily/monthly send budget
     try {
       const stats = await weeklyStatsFor(u.email);
       const token = await ensureUnsubToken(u);
@@ -316,14 +328,22 @@ async function runLifecycleEmails(now = new Date()) {
   if (running) return { skipped: 'already-running' };
   running = true;
   try {
-    if (etHour(now, TZ) !== SEND_HOUR) return { skipped: 'off-hour' };
-    // Priority order: when the daily/monthly budget is tight, higher-priority
-    // emails send first and lower-priority ones defer to the next day. (The
-    // weekly digest now runs EVERY day, sending only each user's shard.)
+    const hour = etHour(now, TZ);
+    // Evening run: ONLY the exam-sim sales pitch, in its own window.
+    if (hour === PITCH_HOUR) {
+      const pitch = await sendExamCountdowns(now, 'evening');
+      if (pitch) console.log(`[lifecycle] evening pitch sent=${pitch}`);
+      return { pitch };
+    }
+    if (hour !== SEND_HOUR) return { skipped: 'off-hour' };
+    // Morning batch. Priority order: when the daily/monthly budget is tight,
+    // higher-priority emails send first and lower-priority ones defer to the next
+    // day. Exam countdowns here are motivational only — the pitch waits for
+    // PITCH_HOUR. (The weekly digest runs EVERY day, sending only each user's shard.)
     const welcome = await sendWelcomes(now);
     const verify = await sendVerifyReminders(now);
     const simFollow = process.env.SIM_FOLLOWUP_ENABLED === '1' ? await sendSimFollowups(now) : 0;
-    const exam = await sendExamCountdowns(now);
+    const exam = await sendExamCountdowns(now, 'morning');
     const weekly = await sendWeeklyDigests(now);
     const winback = await sendWinbacks(now);
     const purged = await purgeStaleUnverified(now);
@@ -347,7 +367,7 @@ function startScheduler() {
   setInterval(() => { runLifecycleEmails().catch(() => {}); }, CHECK_INTERVAL_MS);
   // Kick once shortly after boot in case we start during the send hour.
   setTimeout(() => { runLifecycleEmails().catch(() => {}); }, 10 * 1000);
-  console.log(`[lifecycle] scheduler started — send hour ${SEND_HOUR}:00 ${TZ}`);
+  console.log(`[lifecycle] scheduler started — morning ${SEND_HOUR}:00, pitch ${PITCH_HOUR}:00 ${TZ}`);
 }
 
 module.exports = { runLifecycleEmails, startScheduler, weeklyStatsFor };
