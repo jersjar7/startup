@@ -96,6 +96,17 @@ router.get('/exam-dates', verifyAuth, requireAdmin, async (req, res) => {
   }
 });
 
+// GET /api/admin/pitch-stats — exam-sim pitch funnel (pitched → clicked → bought)
+// so the owner can watch the countdown-email sim pitch working.
+router.get('/pitch-stats', verifyAuth, requireAdmin, async (req, res) => {
+  try {
+    res.send(await DB.getSimPitchStats());
+  } catch (e) {
+    console.error('[admin] pitch-stats failed:', e.message);
+    res.status(500).send({ msg: 'Failed to load pitch stats' });
+  }
+});
+
 // POST /api/admin/email-test { to } — send a test email, report the raw result.
 // Lets the owner confirm delivery from the running app after verifying a domain.
 router.post('/email-test', verifyAuth, requireAdmin, async (req, res) => {

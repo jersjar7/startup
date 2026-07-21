@@ -5,7 +5,7 @@ import { LoadingState } from '../components/LoadingState';
 import {
   SignOut, Users, ClipboardText, CreditCard, CheckCircle, CurrencyDollar,
   ChartLineUp, Lightning, TrendUp, Exam, Receipt, Pulse, Compass, Timer,
-  MagnifyingGlass, X, Info, EnvelopeSimple, CalendarBlank,
+  MagnifyingGlass, X, Info, EnvelopeSimple, CalendarBlank, Megaphone, CursorClick,
 } from '@phosphor-icons/react';
 import { Chart } from './Chart';
 import './admin.css';
@@ -96,6 +96,10 @@ export function Admin({ userName, onLogout }) {
     fetch('/api/admin/email-status')
       .then((res) => (res.ok ? res.json() : null))
       .then((emailStatus) => { if (emailStatus) setState((s) => ({ ...s, emailStatus })); })
+      .catch(() => {});
+    fetch('/api/admin/pitch-stats')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((pitchStats) => { if (pitchStats) setState((s) => ({ ...s, pitchStats })); })
       .catch(() => {});
   }, [userName]);
 
@@ -376,6 +380,18 @@ export function Admin({ userName, onLogout }) {
         </>
       )}
 
+      {/* ── Exam-sim pitch funnel (countdown-email sim pitch) ── */}
+      {state.pitchStats && (
+        <>
+          <div className="admin-section-head">
+            <Megaphone weight="bold" size={18} />
+            <h3>Exam-sim pitch</h3>
+            <span className="admin-section-note">From the countdown emails · non-buyers ~2-4 weeks out</span>
+          </div>
+          <PitchFunnel s={state.pitchStats} />
+        </>
+      )}
+
       {/* ── Recent users (masked) + single-user lookup ── */}
       <div className="admin-section-head">
         <Users weight="bold" size={18} />
@@ -535,6 +551,31 @@ function BudgetBar({ label, sent, cap, soft, softLabel }) {
         <span className="budget-soft" style={{ left: `${softPct}%` }} title={`${soft} — ${softLabel}`} />
       </div>
       <span className="budget-note">{softLabel} at {soft}</span>
+    </div>
+  );
+}
+
+function PitchFunnel({ s }) {
+  const pct = (n, d) => (d > 0 ? Math.round((n / d) * 100) : 0);
+  const steps = [
+    { icon: Megaphone, label: 'Pitched', value: s.pitched, of: null, color: 'ember' },
+    { icon: CursorClick, label: 'Clicked a link', value: s.clicked, of: s.pitched, color: 'sunbeam' },
+    { icon: CheckCircle, label: 'Bought after pitch', value: s.converted, of: s.pitched, color: 'forest' },
+  ];
+  return (
+    <div className="pitch-funnel">
+      {steps.map((st) => (
+        <div key={st.label} className={`pitch-step pitch-step--${st.color}`}>
+          <st.icon weight="bold" size={18} className="pitch-step-icon" />
+          <span className="pitch-step-value">{st.value}</span>
+          <span className="pitch-step-label">{st.label}</span>
+          {st.of != null && <span className="pitch-step-rate">{pct(st.value, st.of)}% of pitched</span>}
+        </div>
+      ))}
+      <p className="pitch-funnel-note">
+        Story-video link: {s.storyClicks} · Exam-sim link: {s.examClicks}. Clicks may include
+        email-scanner prefetches, so read them as a trend, not an exact count.
+      </p>
     </div>
   );
 }

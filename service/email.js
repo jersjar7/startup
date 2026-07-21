@@ -359,12 +359,15 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
 }
 
 // Exam-date countdown. Copy adapts to how close exam day is.
-async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, focusChapter = null, unsubUrl, simPitch = false } = {}) {
+async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, focusChapter = null, unsubUrl, simPitch = false, trackToken = null } = {}) {
   // A few weeks out and they don't own the sim yet: the highest-leverage move
   // is one full, timed run before the real one. Pitch it with Mitch's story.
   if (simPitch && daysLeft > 1) {
-    const storyUrl = `${appUrl}/stories/mitch`;
-    const examUrl = `${appUrl}/exam`;
+    // Route both links through /api/track so the admin funnel can see clicks
+    // (attributed to the user via their unsub token). Falls back to direct
+    // links if no token is available.
+    const storyUrl = trackToken ? `${appUrl}/api/track/story/${trackToken}` : `${appUrl}/stories/mitch`;
+    const examUrl = trackToken ? `${appUrl}/api/track/exam/${trackToken}` : `${appUrl}/exam`;
     const storyLink = `<a href="${storyUrl}" target="_blank" style="color:${C.ember};font-weight:600;text-decoration:none;">Watch his story &rarr;</a>`;
     return sendEmail({
       to: toEmail,

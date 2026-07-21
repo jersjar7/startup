@@ -248,6 +248,7 @@ async function sendExamCountdowns(now) {
         focusChapter: stats.focusChapter,
         unsubUrl: unsubUrl(token),
         simPitch: pitchSim,
+        trackToken: token,
       });
       const merged = Array.from(new Set([...(u.examMilestonesSent || []), ...pick.absorb]));
       const update = { examMilestonesSent: merged };

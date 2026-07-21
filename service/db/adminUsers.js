@@ -180,7 +180,46 @@ async function getExamDateDistribution() {
   return { dates, total };
 }
 
+// Exam-sim pitch funnel: how the countdown-email sim pitch is performing.
+// Pitched = users we've sent it to (simPitchedAt). Clicked = distinct users who
+// opened either tracked link. Converted = pitched users who bought AFTER their
+// pitch (a real attribution, not just "owns the sim"). Real users only.
+async function getSimPitchStats() {
+  const pitchedUsers = await userCollection
+    .find({ simPitchedAt: { $exists: true, $ne: null }, email: NOT_EXCLUDED },
+      { projection: { simPitchedAt: 1 } })
+    .toArray();
+  const pitched = pitchedUsers.length;
+
+  const notNullReal = { $ne: null, $nin: EXCLUDED_EMAILS };
+  const [storyEmails, examEmails] = await Promise.all([
+    funnelEventsCollection.distinct('email', { type: 'sim_pitch_click_story', email: notNullReal }),
+    funnelEventsCollection.distinct('email', { type: 'sim_pitch_click_exam', email: notNullReal }),
+  ]);
+  const storyClicks = storyEmails.length;
+  const examClicks = examEmails.length;
+  const clicked = new Set([...storyEmails, ...examEmails]).size;
+
+  let converted = 0;
+  if (pitched > 0) {
+    const pitchedAtById = {};
+    for (const u of pitchedUsers) pitchedAtById[u._id.toString()] = new Date(u.simPitchedAt);
+    const purchases = await purchasesCollection
+      .find({ status: 'completed', userId: { $in: Object.keys(pitchedAtById) } },
+        { projection: { userId: 1, createdAt: 1 } })
+      .toArray();
+    const convertedSet = new Set();
+    for (const p of purchases) {
+      const pitchedAt = pitchedAtById[p.userId];
+      if (pitchedAt && p.createdAt && new Date(p.createdAt) >= pitchedAt) convertedSet.add(p.userId);
+    }
+    converted = convertedSet.size;
+  }
+
+  return { pitched, clicked, storyClicks, examClicks, converted };
+}
+
 module.exports = {
   getRecentUsers, getRecentPurchases, lookupUser, maskEmail,
-  getAcquisitionBreakdown, countRealUsers, getExamDateDistribution,
+  getAcquisitionBreakdown, countRealUsers, getExamDateDistribution, getSimPitchStats,
 };
