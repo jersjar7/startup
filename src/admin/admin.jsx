@@ -5,7 +5,7 @@ import { LoadingState } from '../components/LoadingState';
 import {
   SignOut, Users, ClipboardText, CreditCard, CheckCircle, CurrencyDollar,
   ChartLineUp, Lightning, TrendUp, Exam, Receipt, Pulse, Compass, Timer,
-  MagnifyingGlass, X, Info, EnvelopeSimple, CalendarBlank, Megaphone, CursorClick,
+  MagnifyingGlass, X, Info, EnvelopeSimple, CalendarBlank, Megaphone, CursorClick, Warning,
 } from '@phosphor-icons/react';
 import { Chart } from './Chart';
 import './admin.css';
@@ -210,6 +210,19 @@ export function Admin({ userName, onLogout }) {
           </button>
         </div>
       </div>
+
+      {/* ── Email health alert: fires if delivery falls back to the test sender ── */}
+      {state.emailStatus?.usingTestSender && (
+        <div className="admin-email-alert" role="alert">
+          <Warning weight="fill" size={24} />
+          <div>
+            <strong>Email delivery is DOWN.</strong> The server is using the{' '}
+            <code>{state.emailStatus.from}</code> test sender, so real users are <u>not</u> receiving
+            any email (verification, password resets, lifecycle). Set a valid <code>RESEND_API_KEY</code>{' '}
+            and <code>RESEND_FROM_EMAIL=noreply@fe4raccoons.com</code> in the server <code>.env</code>, then reload.
+          </div>
+        </div>
+      )}
 
       {/* ── KPI cards ── */}
       <div className="kpi-grid">

@@ -642,3 +642,29 @@
 @media (max-width: 640px) {
   .pitch-funnel { grid-template-columns: 1fr; }
 }
+
+/* ── Email-health alert (fires when delivery falls back to the test sender) ── */
+.admin-email-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0 0 24px;
+  padding: 16px 20px;
+  background: #FDECEC;
+  border: 1px solid var(--error);
+  border-left: 5px solid var(--error);
+  border-radius: var(--radius-md);
+  color: #7A1E1E;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.admin-email-alert svg { color: var(--error); flex: 0 0 auto; margin-top: 1px; }
+.admin-email-alert strong { color: var(--error); }
+.admin-email-alert code {
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  background: rgba(214,64,69,0.12);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
