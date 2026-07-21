@@ -573,7 +573,8 @@ function PitchFunnel({ s }) {
         </div>
       ))}
       <p className="pitch-funnel-note">
-        Story-video link: {s.storyClicks} · Exam-sim link: {s.examClicks}. Clicks may include
+        Story-video link: {s.storyClicks} · Exam-sim link: {s.examClicks}
+        {s.followups != null && <> · 48h follow-ups sent: {s.followups}</>}. Clicks may include
         email-scanner prefetches, so read them as a trend, not an exact count.
       </p>
     </div>

@@ -426,6 +426,33 @@ async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, foc
   });
 }
 
+// One-time nudge for people who CLICKED the exam-sim pitch but haven't bought
+// (~48h later). Warmer + lower-pressure than the pitch itself: they already
+// showed interest, so address the real hesitations (time + cost) and invite a
+// reply. Both links are tracked (same as the pitch).
+async function sendSimPitchFollowupEmail(toEmail, { unsubUrl, trackToken = null } = {}) {
+  const storyUrl = trackToken ? `${appUrl}/api/track/story/${trackToken}` : `${appUrl}/stories/mitch`;
+  const examUrl = trackToken ? `${appUrl}/api/track/exam/${trackToken}` : `${appUrl}/exam`;
+  const storyLink = `<a href="${storyUrl}" target="_blank" style="color:${C.ember};font-weight:600;text-decoration:none;">Watch his story &rarr;</a>`;
+  return sendEmail({
+    to: toEmail,
+    subject: 'Still on the fence about the timed run?',
+    headers: lifecycleHeaders(unsubUrl),
+    html: emailLayout({
+      preheader: 'The closest thing to exam day, and your access never expires.',
+      heading: 'Still deciding? Totally fair.',
+      unsubUrl,
+      inner:
+        para('You looked at the Exam Simulation a couple of days ago, so here is the honest case for it. The biggest surprise on exam day is rarely the material. It is the format and the fatigue, 110 questions across 5 hours 20 minutes. One full, timed run takes that surprise off the table.') +
+        para('You do it in one sitting, ideally a weekend. You find out your real pace, which topics still cost you points, and how the clock actually feels, while there is still time to act on it.') +
+        para(`Mitch did exactly this and passed the FE Civil on his first try. ${storyLink}`) +
+        button('Start your exam simulation', examUrl) +
+        para('$49, or $29 with a verified student email. One time, and your access never expires, so it is the cheapest insurance against a retake.') +
+        noteLine('<strong>P.S.</strong> If something is holding you back, just reply and tell me, a real person reads these. And if the timing is off, no worries at all.'),
+    }),
+  });
+}
+
 // One-time nudge for users who've gone quiet (~7 days).
 async function sendWinbackEmail(toEmail, { focusChapter = null, unsubUrl } = {}) {
   return sendEmail({
@@ -458,5 +485,6 @@ module.exports = {
   sendWinbackEmail,
   sendExamCountdownEmail,
   sendSimFollowupEmail,
+  sendSimPitchFollowupEmail,
   getEmailConfig,
 };

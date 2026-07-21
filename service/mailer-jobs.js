@@ -4,12 +4,12 @@
 // loop is idempotent — running it twice in the same hour (or after a restart)
 // never double-sends.
 
-const { userCollection, userStatsCollection, sessionLogCollection, examAttemptsCollection } = require('./db/connection.js');
+const { userCollection, userStatsCollection, sessionLogCollection, examAttemptsCollection, funnelEventsCollection } = require('./db/connection.js');
 const { generateToken, hashToken } = require('./crypto.js');
 const { deleteAllUserData } = require('./db/accountDeletion.js');
 const {
   sendWelcomeEmail, sendWeeklyDigestEmail, sendWinbackEmail, sendExamCountdownEmail,
-  sendVerifyReminderEmail, sendSimFollowupEmail,
+  sendVerifyReminderEmail, sendSimFollowupEmail, sendSimPitchFollowupEmail,
 } = require('./email.js');
 const {
   TZ_DEFAULT, etHour, etWeekday, isWelcomeDue, daysSince, digestIsActive, examMilestoneToSend,
@@ -319,6 +319,58 @@ async function sendSimFollowups(now) {
   return sent;
 }
 
+// One-time follow-up for the WARMEST non-buyers: people who CLICKED a link in
+// the exam-sim pitch but haven't purchased ~48h later. Runs in the evening
+// pitch window. Guarded per-user by simPitchFollowupSentAt and gated by
+// PITCH_FOLLOWUP_ENABLED so the copy can be approved before anyone receives it.
+const PITCH_CLICK_TYPES = ['sim_pitch_click_story', 'sim_pitch_click_exam'];
+const FOLLOWUP_MIN_AGE_MS = 48 * 60 * 60 * 1000;      // give them 48h to act first
+const FOLLOWUP_MAX_AGE_MS = 10 * 24 * 60 * 60 * 1000; // past ~10 days the moment has passed
+
+async function sendSimPitchFollowups(now) {
+  // Earliest pitch-link click per user (attributed by email on the track event).
+  const rows = await funnelEventsCollection.aggregate([
+    { $match: { type: { $in: PITCH_CLICK_TYPES }, email: { $ne: null } } },
+    { $group: { _id: '$email', firstClick: { $min: '$createdAt' } } },
+  ]).toArray();
+
+  const nowMs = now.getTime();
+  const ready = rows
+    .filter((r) => {
+      if (!r.firstClick) return false;
+      const age = nowMs - new Date(r.firstClick).getTime();
+      return age >= FOLLOWUP_MIN_AGE_MS && age <= FOLLOWUP_MAX_AGE_MS;
+    })
+    .map((r) => r._id);
+  if (ready.length === 0) return 0;
+
+  const users = await userCollection.find({
+    email: { $in: ready },
+    emailVerified: true,
+    examSimAccess: { $ne: true },              // didn't buy
+    simPitchFollowupSentAt: { $exists: false }, // haven't followed up yet
+    lifecycleOptOut: { $ne: true },
+    examDate: { $exists: true, $ne: null },
+  }).limit(MAX_PER_RUN).toArray();
+
+  let sent = 0;
+  for (const u of users) {
+    const daysLeft = daysUntilExam(u.examDate, now);
+    if (daysLeft == null || daysLeft < 3) continue; // no time left to sit a 5h20m sim
+    if (!(await canSendLifecycle(now))) break;       // out of daily/monthly send budget
+    try {
+      const token = await ensureUnsubToken(u);
+      await sendSimPitchFollowupEmail(u.email, { unsubUrl: unsubUrl(token), trackToken: token });
+      await userCollection.updateOne({ email: u.email }, { $set: { simPitchFollowupSentAt: new Date() } });
+      sent += 1;
+      await sleep(SEND_GAP_MS);
+    } catch (e) {
+      console.error('[lifecycle] pitch followup failed for', u.email, e.message);
+    }
+  }
+  return sent;
+}
+
 let running = false;
 
 // Run one pass. Only acts during the morning send hour; weekly digests only on
@@ -332,8 +384,9 @@ async function runLifecycleEmails(now = new Date()) {
     // Evening run: ONLY the exam-sim sales pitch, in its own window.
     if (hour === PITCH_HOUR) {
       const pitch = await sendExamCountdowns(now, 'evening');
-      if (pitch) console.log(`[lifecycle] evening pitch sent=${pitch}`);
-      return { pitch };
+      const pitchFollow = process.env.PITCH_FOLLOWUP_ENABLED === '1' ? await sendSimPitchFollowups(now) : 0;
+      if (pitch || pitchFollow) console.log(`[lifecycle] evening pitch=${pitch} pitchFollow=${pitchFollow}`);
+      return { pitch, pitchFollow };
     }
     if (hour !== SEND_HOUR) return { skipped: 'off-hour' };
     // Morning batch. Priority order: when the daily/monthly budget is tight,

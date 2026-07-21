@@ -200,6 +200,10 @@ async function getSimPitchStats() {
   const examClicks = examEmails.length;
   const clicked = new Set([...storyEmails, ...examEmails]).size;
 
+  const followups = await userCollection.countDocuments({
+    simPitchFollowupSentAt: { $exists: true }, email: NOT_EXCLUDED,
+  });
+
   let converted = 0;
   if (pitched > 0) {
     const pitchedAtById = {};
@@ -216,7 +220,7 @@ async function getSimPitchStats() {
     converted = convertedSet.size;
   }
 
-  return { pitched, clicked, storyClicks, examClicks, converted };
+  return { pitched, clicked, storyClicks, examClicks, converted, followups };
 }
 
 module.exports = {
