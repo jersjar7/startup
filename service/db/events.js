@@ -53,4 +53,14 @@ async function getFunnelCounts() {
   };
 }
 
-module.exports = { logEvent, countDistinctEventUsers, getFunnelCounts };
+// Running totals of completed purchases (for the owner sale-alert email).
+async function getSalesSummary() {
+  const agg = await purchasesCollection.aggregate([
+    { $match: { status: 'completed' } },
+    { $group: { _id: null, count: { $sum: 1 }, revenue: { $sum: '$amount' } } },
+  ]).toArray();
+  const r = agg[0] || { count: 0, revenue: 0 };
+  return { count: r.count, revenueCents: r.revenue || 0 };
+}
+
+module.exports = { logEvent, countDistinctEventUsers, getFunnelCounts, getSalesSummary };

@@ -2,6 +2,7 @@ const express = require('express');
 const Stripe = require('stripe');
 const DB = require('../database.js');
 const { tierForCents } = require('../pricing.js');
+const { sendSaleAlertEmail } = require('../email.js');
 
 const router = express.Router();
 
@@ -51,6 +52,22 @@ router.post('/stripe', async (req, res) => {
     });
 
     console.log(`Purchase recorded for user ${userId}, session ${session.id}`);
+
+    // Owner sale alert (fire-and-forget; must never break the webhook response).
+    (async () => {
+      try {
+        const summary = await DB.getSalesSummary();
+        await sendSaleAlertEmail({
+          buyerEmail: session.customer_details?.email || session.customer_email || null,
+          amountCents: session.amount_total,
+          tier: session.metadata?.tier || tierForCents(session.amount_total),
+          totalSales: summary.count,
+          totalRevenueCents: summary.revenueCents,
+        });
+      } catch (e) {
+        console.error('[webhook] sale alert email failed:', e.message);
+      }
+    })();
   }
 
   res.status(200).send({ received: true });

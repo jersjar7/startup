@@ -470,11 +470,38 @@ async function sendWinbackEmail(toEmail, { focusChapter = null, unsubUrl } = {})
   });
 }
 
+// Internal owner alert — fires when someone buys the Exam Simulation. Goes to
+// OWNER_ALERT_EMAIL (defaults to the owner's inbox). Not a lifecycle email, so
+// no unsubscribe; it's a private notification.
+async function sendSaleAlertEmail({ buyerEmail = null, amountCents = 0, tier = null, totalSales = null, totalRevenueCents = null } = {}) {
+  const to = process.env.OWNER_ALERT_EMAIL || 'jersondevs@gmail.com';
+  const money = (c) => `$${(Math.round(c) / 100).toFixed(2).replace(/\.00$/, '')}`;
+  const tierLabel = tier === 'student' ? 'Student' : tier === 'standard' ? 'Standard' : (tier || '—');
+  const rows = [
+    `<strong>Amount:</strong> ${money(amountCents)}`,
+    `<strong>Tier:</strong> ${tierLabel}`,
+    `<strong>Buyer:</strong> ${buyerEmail || 'unknown'}`,
+    totalSales != null
+      ? `<strong>Total sales:</strong> ${totalSales}${totalRevenueCents != null ? ` (${money(totalRevenueCents)})` : ''}`
+      : null,
+  ];
+  return sendEmail({
+    to,
+    subject: `New Exam Simulation sale — ${money(amountCents)}`,
+    html: emailLayout({
+      preheader: `${buyerEmail || 'Someone'} just bought the Exam Simulation.`,
+      heading: 'You made a sale',
+      inner: para('Someone just purchased the Exam Simulation on FE for Raccoons.') + bullets(rows) + para('Nice work.'),
+    }),
+  });
+}
+
 function getEmailConfig() {
   return { from: fromEmail, usingTestSender, appUrl };
 }
 
 module.exports = {
+  sendSaleAlertEmail,
   sendPasswordResetEmail,
   sendVerificationEmail,
   sendVerifyReminderEmail,
