@@ -434,12 +434,12 @@ async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, foc
         unsubUrl,
         inner:
           para(greeting) +
-          para(`I'm Jerson, I started FE for Raccoons. Your exam is about <strong>${daysLeft} days</strong> out, so I wanted to send you a quick, honest note, the same advice I'd give a friend taking the FE.`) +
-          para('If you do one thing before exam day, make it this: sit a full, timed exam, start to finish. All 110 questions, 5 hours and 20 minutes, no stopping.') +
-          para("The material is rarely what trips people up. It's the pace, the fatigue, and the format. One full run ahead of time takes all of that off the table while you still have weeks to adjust. It is the single biggest thing that makes exam day feel familiar instead of overwhelming.") +
-          para(`You don't have to take my word for it. Mitch did exactly this and passed the FE Civil on his first try, and he says it better than I can (40 seconds): ${link(storyUrl, "Watch Mitch's story &rarr;")}`) +
-          para("That's what the Exam Simulation is for. It's the only paid thing on FE for Raccoons, $49, or $29 with a student email, one time, and your access never expires. Honestly, it is the cheapest insurance there is against a retake.") +
-          para('If you have a free weekend before your exam, block one morning for this. You will walk in already knowing how it feels.') +
+          para(`I'm Jerson, I started FE for Raccoons. Your exam is about <strong>${daysLeft} days</strong> out, so here's the one piece of advice I'd give a friend taking the FE.`) +
+          para('Before exam day, <strong>sit one full, timed exam, start to finish.</strong> All 110 questions, 5 hours 20 minutes, no stopping.') +
+          para("The material is rarely the problem. It's <strong>the pace, the fatigue, and the format.</strong> One full run ahead of time removes all of that, so exam day feels familiar instead of overwhelming. It's <strong>the single biggest thing you can do to be ready.</strong>") +
+          para(`Don't take my word for it. <strong>Mitch did exactly this and passed the FE Civil on his first try.</strong> He says it better than I can (40 seconds): ${link(storyUrl, "Watch Mitch's story &rarr;")}`) +
+          para("That's the <strong>Exam Simulation</strong>, the only paid thing here. <strong>$49, or $29 with a student email</strong>, one time, and <strong>your access never expires.</strong> Honestly, the cheapest insurance there is against a retake.") +
+          para("If you have a free weekend before your exam, block one morning for it. <strong>You'll walk in already knowing how it feels.</strong>") +
           para(link(examUrl, 'Start your exam simulation &rarr;'), 'font-size:17px;font-weight:600;') +
           signatureBlock('Rooting for you,') +
           para("<strong>P.S.</strong> If something's holding you back, or you just want to talk through your prep, hit reply. It comes straight to me.", `font-size:14px;color:${C.mute};margin-top:16px;`),
