@@ -361,7 +361,7 @@ async function sendSimPitchFollowups(now) {
     if (!(await canSendLifecycle(now))) break;       // out of daily/monthly send budget
     try {
       const token = await ensureUnsubToken(u);
-      await sendSimPitchFollowupEmail(u.email, { unsubUrl: unsubUrl(token), trackToken: token });
+      await sendSimPitchFollowupEmail(u.email, { unsubUrl: unsubUrl(token), trackToken: token, firstName: u.firstName || null });
       await userCollection.updateOne({ email: u.email }, { $set: { simPitchFollowupSentAt: new Date() } });
       sent += 1;
       await sleep(SEND_GAP_MS);

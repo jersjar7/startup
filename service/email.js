@@ -484,26 +484,27 @@ async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, foc
 // (~48h later). Warmer + lower-pressure than the pitch itself: they already
 // showed interest, so address the real hesitations (time + cost) and invite a
 // reply. Both links are tracked (same as the pitch).
-async function sendSimPitchFollowupEmail(toEmail, { unsubUrl, trackToken = null } = {}) {
+async function sendSimPitchFollowupEmail(toEmail, { unsubUrl, trackToken = null, firstName = null } = {}) {
   const storyUrl = trackToken ? `${appUrl}/api/track/story/${trackToken}` : `${appUrl}/stories/mitch`;
   const examUrl = trackToken ? `${appUrl}/api/track/exam/${trackToken}` : `${appUrl}/exam`;
-  const storyLink = `<a href="${storyUrl}" target="_blank" style="color:${C.ember};font-weight:600;text-decoration:none;">Watch his story &rarr;</a>`;
+  const link = (url, text) => `<a href="${url}" target="_blank" style="color:${C.ember};font-weight:600;text-decoration:none;">${text}</a>`;
+  const greeting = firstName ? `Hi ${firstName},` : 'Hope your prep is going well.';
   return sendEmail({
     to: toEmail,
     subject: 'Still on the fence about the timed run?',
     headers: lifecycleHeaders(unsubUrl),
-    html: emailLayout({
-      preheader: 'The closest thing to exam day, and your access never expires.',
-      heading: 'Still deciding? Totally fair.',
+    html: letterLayout({
+      preheader: "The one thing I'd really not skip before your FE.",
       unsubUrl,
       inner:
-        para('With your exam getting closer, here is the one thing I would not skip: a full, timed run before the real one. The biggest surprise on exam day is rarely the material. It is the format and the fatigue, 110 questions across 5 hours 20 minutes. A timed simulation takes that surprise off the table.') +
-        para('You do it in one sitting, ideally a weekend. You find out your real pace, which topics still cost you points, and how the clock actually feels, while there is still time to act on it.') +
-        para(`Mitch did exactly this and passed the FE Civil on his first try. ${storyLink}`) +
-        button('Start your exam simulation', examUrl) +
-        para('$49, or $29 with a verified student email. One time, and your access never expires, so it is the cheapest insurance against a retake.') +
+        para(greeting) +
+        para("Quick follow-up, because your exam is getting close and I don't want you to miss the one thing I'd really not skip: <strong>one full, timed run before the real one.</strong>") +
+        para("The material is rarely what surprises people on exam day. It's the pace and the fatigue. Sit one timed exam now and none of that is new when it counts.") +
+        para(`Mitch was weighing it too, then ran it and <strong>passed the FE Civil on his first try.</strong> He explains why in 40 seconds: ${link(storyUrl, "Watch Mitch's story &rarr;")}`) +
+        para("It's the Exam Simulation: $49, or $29 with a student email, one time, and your access never expires. One free weekend is all it takes.") +
+        para(link(examUrl, 'Start your exam simulation &rarr;'), 'font-size:17px;font-weight:600;') +
         signatureBlock('Rooting for you,') +
-        para("<strong>P.S.</strong> If something is holding you back, just reply and tell me, a real person reads these. And if the timing is off, no worries at all.", `font-size:14px;color:${C.mute};margin-top:16px;`),
+        para("<strong>P.S.</strong> If something's holding you back, hit reply and tell me, maybe I can help. And if the timing is just off, no worries at all.", `font-size:14px;color:${C.mute};margin-top:16px;`),
     }),
   });
 }
