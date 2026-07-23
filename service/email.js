@@ -424,17 +424,15 @@ async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, foc
     const storyUrl = trackToken ? `${appUrl}/api/track/story/${trackToken}` : `${appUrl}/stories/mitch`;
     const examUrl = trackToken ? `${appUrl}/api/track/exam/${trackToken}` : `${appUrl}/exam`;
     const link = (url, text) => `<a href="${url}" target="_blank" style="color:${C.ember};font-weight:600;text-decoration:none;">${text}</a>`;
-    const greeting = firstName ? `Hi ${firstName},` : 'Hope your FE prep is going well.';
     return sendEmail({
       to: toEmail,
-      subject: "The one thing I'd do before your FE exam",
+      subject: firstName ? `Hey ${firstName}, it's Jerson` : "Hey, it's Jerson",
       headers: lifecycleHeaders(unsubUrl),
       html: letterLayout({
         preheader: 'The single biggest thing you can do to be ready.',
         unsubUrl,
         inner:
-          para(greeting) +
-          para(`I'm Jerson, I started FE for Raccoons. Your exam is about ${daysLeft} days out, so here's the one piece of advice I'd give a friend taking the FE.`) +
+          para(`I started FE for Raccoons, and with your exam about ${daysLeft} days out, here's the one piece of advice I'd give a friend taking the FE.`) +
           para('Before exam day, <strong>sit one full, timed exam, start to finish.</strong> All 110 questions, 5 hours 20 minutes, no stopping.') +
           para("The material is rarely the problem. It's the pace, the fatigue, and the format. One full run ahead of time removes all of that, so exam day feels familiar instead of overwhelming, and it's the single biggest thing you can do to be ready.") +
           para(`Don't take my word for it. <strong>Mitch did exactly this and passed the FE Civil on his first try.</strong> He says it better than I can (40 seconds): ${link(storyUrl, "Watch Mitch's story &rarr;")}`) +
@@ -488,18 +486,16 @@ async function sendSimPitchFollowupEmail(toEmail, { unsubUrl, trackToken = null,
   const storyUrl = trackToken ? `${appUrl}/api/track/story/${trackToken}` : `${appUrl}/stories/mitch`;
   const examUrl = trackToken ? `${appUrl}/api/track/exam/${trackToken}` : `${appUrl}/exam`;
   const link = (url, text) => `<a href="${url}" target="_blank" style="color:${C.ember};font-weight:600;text-decoration:none;">${text}</a>`;
-  const greeting = firstName ? `Hi ${firstName},` : 'Hope your prep is going well.';
   return sendEmail({
     to: toEmail,
-    subject: 'Still on the fence about the timed run?',
+    subject: firstName ? `Hey ${firstName}, it's Jerson again` : "Hey, it's Jerson again",
     headers: lifecycleHeaders(unsubUrl),
     html: letterLayout({
-      preheader: "The one thing I'd really not skip before your FE.",
+      preheader: "A quick, honest nudge before your FE.",
       unsubUrl,
       inner:
-        para(greeting) +
-        para("Quick follow-up, because your exam is getting close and I don't want you to miss the one thing I'd really not skip: <strong>one full, timed run before the real one.</strong>") +
-        para("The material is rarely what surprises people on exam day. It's the pace and the fatigue. Sit one timed exam now and none of that is new when it counts.") +
+        para("I don't want to be the guy who keeps nudging you to buy something, so I'll be straight: I'm only following up because <strong>one full, timed run does half the work of getting you ready for exam day.</strong> I'd hate for you to walk in without it.") +
+        para("The material is rarely what surprises people. It's the pace and the fatigue, and doing one timed exam now means none of that is new when it counts.") +
         para(`Mitch was weighing it too, then ran it and <strong>passed the FE Civil on his first try.</strong> He explains why in 40 seconds: ${link(storyUrl, "Watch Mitch's story &rarr;")}`) +
         para("It's the Exam Simulation: $49, or $29 with a student email, one time, and your access never expires. One free weekend is all it takes.") +
         para(link(examUrl, 'Start your exam simulation &rarr;'), 'font-size:17px;font-weight:600;') +
