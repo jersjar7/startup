@@ -113,6 +113,21 @@ function button(text, url) {
     </td></tr></table>`;
 }
 
+// Founder sign-off: an optional closing line + Jerson's handwritten signature
+// (a hosted image, with alt-text fallback if images are blocked) so lifecycle
+// emails read like they come from a person.
+function signatureBlock(closing = '') {
+  const close = closing
+    ? `<p style="margin:0 0 10px;font-family:${BODYF};font-size:15px;line-height:1.6;color:${C.body};">${closing}</p>`
+    : '';
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:28px 0 0;"><tr>
+    <td style="padding-top:20px;border-top:1px solid ${C.line};">
+      ${close}
+      <img src="${appUrl}/sig-jerson.png" alt="Jerson Garcia" width="188" style="display:block;width:188px;max-width:62%;height:auto;margin:2px 0 4px;">
+      <p style="margin:0;font-family:${BODYF};font-size:13px;line-height:1.5;color:${C.mute};">Founder, FE for Raccoons</p>
+    </td></tr></table>`;
+}
+
 function fallbackLink(url) {
   return `<p style="margin:0 0 4px;font-family:${BODYF};font-size:12px;line-height:1.5;color:${C.mute};">Or paste this link into your browser:</p>
   <p style="margin:0;font-family:${MONO};font-size:12px;line-height:1.5;word-break:break-all;color:${C.ember};">${url}</p>`;
@@ -356,9 +371,10 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
     preheader = 'A 5-minute restart';
     heading = 'Your FE goal is still here';
     inner =
-      para(`No study time logged this week — that's okay. Five minutes today restarts the momentum.${focusChapter ? ` Your weakest area right now is <strong>${focusChapter}</strong>.` : ''}`) +
+      para(`No study time logged this week, and that's okay. Five minutes today restarts the momentum.${focusChapter ? ` Your weakest area right now is <strong>${focusChapter}</strong>.` : ''}`) +
       button('Study 5 questions', `${appUrl}/dashboard`);
   }
+  inner += signatureBlock('Rooting for you,');
   return sendEmail({ to: toEmail, subject, headers: lifecycleHeaders(unsubUrl), html: emailLayout({ preheader, heading, inner, unsubUrl }) });
 }
 
@@ -469,7 +485,8 @@ async function sendWinbackEmail(toEmail, { focusChapter = null, unsubUrl } = {})
       unsubUrl,
       inner:
         para(`Your account's right where you left it. The fastest restart: 5 questions in your weakest chapter${focusChapter ? ` (<strong>${focusChapter}</strong>)` : ''}.`) +
-        button('Resume studying', `${appUrl}/dashboard`),
+        button('Resume studying', `${appUrl}/dashboard`) +
+        signatureBlock("You've got this,"),
     }),
   });
 }
