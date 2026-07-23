@@ -494,7 +494,7 @@ async function sendSimPitchFollowupEmail(toEmail, { unsubUrl, trackToken = null,
       preheader: "A quick, honest nudge before your FE.",
       unsubUrl,
       inner:
-        para("I don't want to be the guy who keeps nudging you to buy something, so I'll be straight: I'm only following up because <strong>one full, timed run does half the work of getting you ready for exam day.</strong> I'd hate for you to walk in without it.") +
+        para("I'm not trying to sell you anything (that's why I made the whole site free). I just want you ready on exam day, not in a panic. And honestly, <strong>one full, timed run does half the work of getting you there.</strong>") +
         para("The material is rarely what surprises people. It's the pace and the fatigue, and doing one timed exam now means none of that is new when it counts.") +
         para(`Mitch was weighing it too, then ran it and <strong>passed the FE Civil on his first try.</strong> He explains why in 40 seconds: ${link(storyUrl, "Watch Mitch's story &rarr;")}`) +
         para("It's the Exam Simulation: $49, or $29 with a student email, one time, and your access never expires. One free weekend is all it takes.") +
