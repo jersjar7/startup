@@ -434,11 +434,11 @@ async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, foc
         unsubUrl,
         inner:
           para(greeting) +
-          para(`I'm Jerson, I started FE for Raccoons. Your exam is about <strong>${daysLeft} days</strong> out, so here's the one piece of advice I'd give a friend taking the FE.`) +
+          para(`I'm Jerson, I started FE for Raccoons. Your exam is about ${daysLeft} days out, so here's the one piece of advice I'd give a friend taking the FE.`) +
           para('Before exam day, <strong>sit one full, timed exam, start to finish.</strong> All 110 questions, 5 hours 20 minutes, no stopping.') +
-          para("The material is rarely the problem. It's <strong>the pace, the fatigue, and the format.</strong> One full run ahead of time removes all of that, so exam day feels familiar instead of overwhelming. It's <strong>the single biggest thing you can do to be ready.</strong>") +
+          para("The material is rarely the problem. It's the pace, the fatigue, and the format. One full run ahead of time removes all of that, so exam day feels familiar instead of overwhelming, and it's the single biggest thing you can do to be ready.") +
           para(`Don't take my word for it. <strong>Mitch did exactly this and passed the FE Civil on his first try.</strong> He says it better than I can (40 seconds): ${link(storyUrl, "Watch Mitch's story &rarr;")}`) +
-          para("That's the <strong>Exam Simulation</strong>, the only paid thing here. <strong>$49, or $29 with a student email</strong>, one time, and <strong>your access never expires.</strong> Honestly, the cheapest insurance there is against a retake.") +
+          para("That's the Exam Simulation, the only paid thing here. $49, or $29 with a student email, one time, and your access never expires. Honestly, the cheapest insurance there is against a retake.") +
           para("If you have a free weekend before your exam, block one morning for it. <strong>You'll walk in already knowing how it feels.</strong>") +
           para(link(examUrl, 'Start your exam simulation &rarr;'), 'font-size:17px;font-weight:600;') +
           signatureBlock('Rooting for you,') +
