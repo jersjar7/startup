@@ -5,6 +5,9 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 const appUrl = process.env.APP_URL || 'https://fe4raccoons.com';
 const fromHeader = `FE for Raccoons <${fromEmail}>`;
+// Personal From for the plain-text founder emails (pitch + follow-up), so they
+// read like a note from Jerson, not a brand. Replies still go to REPLY_TO.
+const jersonFrom = `Jerson Garcia <${fromEmail}>`;
 // Replies go to the FE for Raccoons alias on our Google Workspace (Oqupa LLC),
 // which is a real inbox — fe4raccoons.com has no MX, so replies there bounce.
 const replyToEmail = process.env.REPLY_TO_EMAIL || 'fe4raccoons@oqupa.com';
@@ -30,9 +33,11 @@ if (usingTestSender) {
 // Low-level send. Returns { ok, id?, error? } — never throws — so callers can
 // decide how to react (analytics never breaks a flow, but the student-code
 // flow needs to know whether the code actually went out).
-async function sendEmail({ to, subject, html, headers }) {
+async function sendEmail({ to, subject, html, text, headers, from }) {
   try {
-    const payload = { from: fromHeader, to, subject, html, replyTo: replyToEmail };
+    const payload = { from: from || fromHeader, to, subject, replyTo: replyToEmail };
+    if (html) payload.html = html;   // omit for pure plain-text sends (better Primary placement)
+    if (text) payload.text = text;
     if (headers) payload.headers = headers;
     const r = await resend.emails.send(payload);
     if (r.error) {
@@ -421,27 +426,59 @@ async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, foc
   // Jerson (plain layout, no campaign styling) with the one piece of advice that
   // matters most, backed by Mitch's story. Links tracked via /api/track.
   if (simPitch && daysLeft > 1) {
-    const storyUrl = trackToken ? `${appUrl}/api/track/story/${trackToken}` : `${appUrl}/stories/mitch`;
-    const examUrl = trackToken ? `${appUrl}/api/track/exam/${trackToken}` : `${appUrl}/exam`;
-    const link = (url, text) => `<a href="${url}" target="_blank" style="color:${C.ember};font-weight:600;text-decoration:none;">${text}</a>`;
+    // Plain-text personal note (no HTML, no images, no price) for the best shot
+    // at the Primary inbox. Clean /go links still count clicks.
+    const greeting = firstName ? `Hey ${firstName}, it's Jerson.` : "Hey, it's Jerson.";
+    const text = `${greeting}
+
+I started FE for Raccoons, and with your exam about ${daysLeft} days out, here's the one piece of advice I'd give a friend taking the FE.
+
+Before exam day, sit one full, timed exam, start to finish. All 110 questions, 5 hours 20 minutes, no stopping.
+
+The material is rarely the problem. It's the pace, the fatigue, and the format. One full run ahead of time removes all of that, so exam day feels familiar instead of overwhelming, and it's the single biggest thing you can do to be ready.
+
+Don't take my word for it. Mitch did exactly this and passed the FE Civil on his first try. He says it better than I can, 40 seconds:
+${appUrl}/go/mitch
+
+That's what the Exam Simulation is for: one full, timed run before the real one, and your access never expires.
+
+If you have a free weekend before your exam, block one morning for it. You'll walk in already knowing how it feels.
+
+Start here:
+${appUrl}/go/exam
+
+Rooting for you,
+Jerson Garcia
+Founder, FE for Raccoons
+
+P.S. If something's holding you back, or you just want to talk through your prep, hit reply. It comes straight to me.
+
+FE for Raccoons is a registered DBA of Oqupa LLC.
+Unsubscribe: ${unsubUrl}`;
+    const goMitch = `${appUrl}/go/mitch`;
+    const goExam = `${appUrl}/go/exam`;
+    const link = (url, t) => `<a href="${url}" style="color:${C.ember};font-weight:600;text-decoration:none;">${t}</a>`;
+    const html = letterLayout({
+      preheader: 'The single biggest thing you can do to be ready.',
+      unsubUrl,
+      inner:
+        para(greeting) +
+        para(`I started FE for Raccoons, and with your exam about ${daysLeft} days out, here's the one piece of advice I'd give a friend taking the FE.`) +
+        para('Before exam day, <strong>sit one full, timed exam, start to finish.</strong> All 110 questions, 5 hours 20 minutes, no stopping.') +
+        para("The material is rarely the problem. It's the pace, the fatigue, and the format. One full run ahead of time removes all of that, so exam day feels familiar instead of overwhelming, and it's the single biggest thing you can do to be ready.") +
+        para(`Don't take my word for it. <strong>Mitch did exactly this and passed the FE Civil on his first try.</strong> He says it better than I can, 40 seconds: ${link(goMitch, 'watch his story')}`) +
+        para("That's what the Exam Simulation is for: one full, timed run before the real one, and your access never expires.") +
+        para("If you have a free weekend before your exam, block one morning for it. <strong>You'll walk in already knowing how it feels.</strong>") +
+        para(link(goExam, 'Start your exam simulation'), 'font-weight:600;') +
+        para(`Rooting for you,<br>Jerson Garcia<br><span style="color:${C.mute};">Founder, FE for Raccoons</span>`) +
+        para("<strong>P.S.</strong> If something's holding you back, or you just want to talk through your prep, hit reply. It comes straight to me.", `font-size:14px;color:${C.mute};margin-top:14px;`),
+    });
     return sendEmail({
       to: toEmail,
+      from: jersonFrom,
       subject: firstName ? `Hey ${firstName}, it's Jerson` : "Hey, it's Jerson",
-      headers: lifecycleHeaders(unsubUrl),
-      html: letterLayout({
-        preheader: 'The single biggest thing you can do to be ready.',
-        unsubUrl,
-        inner:
-          para(`I started FE for Raccoons, and with your exam about ${daysLeft} days out, here's the one piece of advice I'd give a friend taking the FE.`) +
-          para('Before exam day, <strong>sit one full, timed exam, start to finish.</strong> All 110 questions, 5 hours 20 minutes, no stopping.') +
-          para("The material is rarely the problem. It's the pace, the fatigue, and the format. One full run ahead of time removes all of that, so exam day feels familiar instead of overwhelming, and it's the single biggest thing you can do to be ready.") +
-          para(`Don't take my word for it. <strong>Mitch did exactly this and passed the FE Civil on his first try.</strong> He says it better than I can (40 seconds): ${link(storyUrl, "Watch Mitch's story &rarr;")}`) +
-          para("That's the Exam Simulation, the only paid thing here. $49, or $29 with a student email, one time, and your access never expires. Honestly, the cheapest insurance there is against a retake.") +
-          para("If you have a free weekend before your exam, block one morning for it. <strong>You'll walk in already knowing how it feels.</strong>") +
-          para(link(examUrl, 'Start your exam simulation &rarr;'), 'font-size:17px;font-weight:600;') +
-          signatureBlock('Rooting for you,') +
-          para("<strong>P.S.</strong> If something's holding you back, or you just want to talk through your prep, hit reply. It comes straight to me.", `font-size:14px;color:${C.mute};margin-top:16px;`),
-      }),
+      html,
+      text,
     });
   }
 
@@ -483,25 +520,52 @@ async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, foc
 // showed interest, so address the real hesitations (time + cost) and invite a
 // reply. Both links are tracked (same as the pitch).
 async function sendSimPitchFollowupEmail(toEmail, { unsubUrl, trackToken = null, firstName = null } = {}) {
-  const storyUrl = trackToken ? `${appUrl}/api/track/story/${trackToken}` : `${appUrl}/stories/mitch`;
-  const examUrl = trackToken ? `${appUrl}/api/track/exam/${trackToken}` : `${appUrl}/exam`;
-  const link = (url, text) => `<a href="${url}" target="_blank" style="color:${C.ember};font-weight:600;text-decoration:none;">${text}</a>`;
+  // Plain-text personal follow-up (no HTML/images/price) for Primary placement.
+  const greeting = firstName ? `Hey ${firstName}, it's Jerson again.` : "Hey, it's Jerson again.";
+  const text = `${greeting}
+
+I'm not trying to sell you anything (that's why I made the whole site free). I just want you ready on exam day, not in a panic. And honestly, one full, timed run does half the work of getting you there.
+
+The material is rarely what surprises people. It's the pace and the fatigue, and doing one timed exam now means none of that is new when it counts.
+
+Mitch was weighing it too, then ran it and passed the FE Civil on his first try. He explains why in 40 seconds:
+${appUrl}/go/mitch
+
+It's the Exam Simulation: one full, timed run, and your access never expires. One free weekend is all it takes.
+
+Start here:
+${appUrl}/go/exam
+
+Rooting for you,
+Jerson Garcia
+Founder, FE for Raccoons
+
+P.S. If something's holding you back, hit reply and tell me, maybe I can help. And if the timing is just off, no worries at all.
+
+FE for Raccoons is a registered DBA of Oqupa LLC.
+Unsubscribe: ${unsubUrl}`;
+  const goMitch = `${appUrl}/go/mitch`;
+  const goExam = `${appUrl}/go/exam`;
+  const link = (url, t) => `<a href="${url}" style="color:${C.ember};font-weight:600;text-decoration:none;">${t}</a>`;
+  const html = letterLayout({
+    preheader: 'A quick, honest nudge before your FE.',
+    unsubUrl,
+    inner:
+      para(greeting) +
+      para("I'm not trying to sell you anything (that's why I made the whole site free). I just want you ready on exam day, not in a panic. And honestly, <strong>one full, timed run does half the work of getting you there.</strong>") +
+      para("The material is rarely what surprises people. It's the pace and the fatigue, and doing one timed exam now means none of that is new when it counts.") +
+      para(`Mitch was weighing it too, then ran it and <strong>passed the FE Civil on his first try.</strong> He explains why in 40 seconds: ${link(goMitch, 'watch his story')}`) +
+      para("It's the Exam Simulation: one full, timed run, and your access never expires. One free weekend is all it takes.") +
+      para(link(goExam, 'Start your exam simulation'), 'font-weight:600;') +
+      para(`Rooting for you,<br>Jerson Garcia<br><span style="color:${C.mute};">Founder, FE for Raccoons</span>`) +
+      para("<strong>P.S.</strong> If something's holding you back, hit reply and tell me, maybe I can help. And if the timing is just off, no worries at all.", `font-size:14px;color:${C.mute};margin-top:14px;`),
+  });
   return sendEmail({
     to: toEmail,
+    from: jersonFrom,
     subject: firstName ? `Hey ${firstName}, it's Jerson again` : "Hey, it's Jerson again",
-    headers: lifecycleHeaders(unsubUrl),
-    html: letterLayout({
-      preheader: "A quick, honest nudge before your FE.",
-      unsubUrl,
-      inner:
-        para("I'm not trying to sell you anything (that's why I made the whole site free). I just want you ready on exam day, not in a panic. And honestly, <strong>one full, timed run does half the work of getting you there.</strong>") +
-        para("The material is rarely what surprises people. It's the pace and the fatigue, and doing one timed exam now means none of that is new when it counts.") +
-        para(`Mitch was weighing it too, then ran it and <strong>passed the FE Civil on his first try.</strong> He explains why in 40 seconds: ${link(storyUrl, "Watch Mitch's story &rarr;")}`) +
-        para("It's the Exam Simulation: $49, or $29 with a student email, one time, and your access never expires. One free weekend is all it takes.") +
-        para(link(examUrl, 'Start your exam simulation &rarr;'), 'font-size:17px;font-weight:600;') +
-        signatureBlock('Rooting for you,') +
-        para("<strong>P.S.</strong> If something's holding you back, hit reply and tell me, maybe I can help. And if the timing is just off, no worries at all.", `font-size:14px;color:${C.mute};margin-top:16px;`),
-    }),
+    html,
+    text,
   });
 }
 

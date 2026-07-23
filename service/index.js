@@ -94,6 +94,9 @@ apiRouter.use('/admin', require('./routes/admin.js'));
 apiRouter.use('/email', require('./routes/email.js'));
 apiRouter.use('/track', require('./routes/track.js'));
 
+// Clean click-tracking redirects used in the plain-text founder emails.
+app.use('/go', require('./routes/go.js'));
+
 // Default error handler
 app.use(function (err, req, res, next) {
   console.error(`[ERROR] ${req.method} ${req.originalUrl} — ${err.message}`);

@@ -191,14 +191,13 @@ async function getSimPitchStats() {
     .toArray();
   const pitched = pitchedUsers.length;
 
-  const notNullReal = { $ne: null, $nin: EXCLUDED_EMAILS };
-  const [storyEmails, examEmails] = await Promise.all([
-    funnelEventsCollection.distinct('email', { type: 'sim_pitch_click_story', email: notNullReal }),
-    funnelEventsCollection.distinct('email', { type: 'sim_pitch_click_exam', email: notNullReal }),
+  // Total link opens (the clean /go links are aggregate, no per-user token, so
+  // we count total clicks rather than distinct users).
+  const [storyClicks, examClicks] = await Promise.all([
+    funnelEventsCollection.countDocuments({ type: 'sim_pitch_click_story' }),
+    funnelEventsCollection.countDocuments({ type: 'sim_pitch_click_exam' }),
   ]);
-  const storyClicks = storyEmails.length;
-  const examClicks = examEmails.length;
-  const clicked = new Set([...storyEmails, ...examEmails]).size;
+  const clicked = storyClicks + examClicks;
 
   const followups = await userCollection.countDocuments({
     simPitchFollowupSentAt: { $exists: true }, email: NOT_EXCLUDED,

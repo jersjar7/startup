@@ -572,7 +572,7 @@ function PitchFunnel({ s }) {
   const pct = (n, d) => (d > 0 ? Math.round((n / d) * 100) : 0);
   const steps = [
     { icon: Megaphone, label: 'Pitched', value: s.pitched, of: null, color: 'ember' },
-    { icon: CursorClick, label: 'Clicked a link', value: s.clicked, of: s.pitched, color: 'sunbeam' },
+    { icon: CursorClick, label: 'Link opens', value: s.clicked, of: null, color: 'sunbeam' },
     { icon: CheckCircle, label: 'Bought after pitch', value: s.converted, of: s.pitched, color: 'forest' },
   ];
   return (
