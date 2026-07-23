@@ -102,6 +102,39 @@ function emailLayout({ preheader = '', heading, inner, unsubUrl = '' }) {
 </body></html>`;
 }
 
+// Plain personal-letter layout (no logo card, text-forward) for founder notes
+// that should read 1:1 rather than as a campaign. Same footer disclosures.
+function letterLayout({ preheader = '', inner, unsubUrl = '' }) {
+  const unsub = unsubUrl
+    ? ` &middot; <a href="${unsubUrl}" style="color:${C.mute};text-decoration:underline;">Unsubscribe</a>`
+    : '';
+  return `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light only">
+<title>FE for Raccoons</title>
+</head>
+<body style="margin:0;padding:0;background:#ffffff;-webkit-font-smoothing:antialiased;">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#ffffff;font-size:1px;line-height:1px;">${preheader}</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;">
+    <tr><td align="center" style="padding:36px 18px 44px;">
+      <table role="presentation" width="544" cellpadding="0" cellspacing="0" style="width:544px;max-width:100%;">
+        <tr><td style="font-family:${BODYF};font-size:16px;line-height:1.65;color:${C.charcoal};">
+          ${inner}
+        </td></tr>
+        <tr><td style="padding:30px 0 0;">
+          <p style="margin:0;padding-top:18px;border-top:1px solid ${C.line};font-family:${BODYF};font-size:12px;line-height:1.6;color:${C.mute};">
+            FE for Raccoons &middot; free FE Civil exam prep &middot; <a href="${appUrl}" style="color:${C.mute};text-decoration:underline;">fe4raccoons.com</a>${unsub}<br>
+            FE for Raccoons is a registered DBA of Oqupa LLC.
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
+}
+
 function para(html, extra = '') {
   return `<p style="margin:0 0 18px;font-family:${BODYF};font-size:15px;line-height:1.6;color:${C.body};${extra}">${html}</p>`;
 }
@@ -259,7 +292,8 @@ async function sendWelcomeEmail(toEmail, { unsubUrl, diagnosticDone = false, foc
             ? para(`<strong>Best place to begin: ${focus}</strong> — it\'s your lowest area right now, so it\'s where focused practice moves your score the most.`)
             : para('Jump back in and start with your lowest-mastery chapter — that\'s where focused practice moves your score the most.')) +
           button('Start studying', `${appUrl}/dashboard`) +
-          para(`<span style="font-size:13px;color:${C.mute};">Everything here is free — lessons, ${CONTENT.problemsLabel} problems, your plan. The only paid thing is the full timed exam sim, if you ever want it.</span>`),
+          para(`<span style="font-size:13px;color:${C.mute};">Everything here is free, lessons, ${CONTENT.problemsLabel} problems, your plan. The only paid thing is the full timed exam sim, if you ever want it.</span>`) +
+          signatureBlock('Welcome aboard,'),
       }),
     });
   }
@@ -274,7 +308,8 @@ async function sendWelcomeEmail(toEmail, { unsubUrl, diagnosticDone = false, foc
       inner:
         para('The smartest first move is the <strong>free quick start</strong>. Answer 5 questions — about 5 minutes — and it begins building your study plan around your weak spots, so you study what actually moves your score.') +
         button('Start the quick start', `${appUrl}/quickstart`) +
-        para(`<span style="font-size:13px;color:${C.mute};">Everything here is free — lessons, ${CONTENT.problemsLabel} problems, the diagnostic. The only paid thing is the full timed exam sim, if you ever want it.</span>`),
+        para(`<span style="font-size:13px;color:${C.mute};">Everything here is free, lessons, ${CONTENT.problemsLabel} problems, the diagnostic. The only paid thing is the full timed exam sim, if you ever want it.</span>`) +
+        signatureBlock('Welcome aboard,'),
     }),
   });
 }
@@ -302,7 +337,8 @@ async function sendSimFollowupEmail(toEmail, { variant, scorePct = null, focusCh
             focus ? `Then drill your weakest area (<strong>${focus}</strong>) and run it again.` : 'Then drill your weakest topics and run it again.',
           ]) +
           button('Start your exam', `${appUrl}/exam`) +
-          para(`<span style="font-size:13px;color:${C.mute};">No rush — your access doesn't expire.</span>`),
+          para(`<span style="font-size:13px;color:${C.mute};">No rush, your access doesn't expire.</span>`) +
+          signatureBlock('Rooting for you,'),
       }),
     });
   }
@@ -327,7 +363,8 @@ async function sendSimFollowupEmail(toEmail, { variant, scorePct = null, focusCh
         ]) +
         para('Most people improve fast once they study by weakness instead of cramming everything.') +
         button('Review your results', `${appUrl}/exam`) +
-        para(`<span style="font-size:13px;color:${C.mute};">Reply anytime — a real person reads these.</span>`),
+        signatureBlock('Rooting for you,') +
+        para(`<span style="font-size:13px;color:${C.mute};">Reply anytime, a real person reads these.</span>`),
     }),
   });
 }
@@ -379,36 +416,33 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
 }
 
 // Exam-date countdown. Copy adapts to how close exam day is.
-async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, focusChapter = null, unsubUrl, simPitch = false, trackToken = null } = {}) {
-  // A few weeks out and they don't own the sim yet: the highest-leverage move
-  // is one full, timed run before the real one. Pitch it with Mitch's story.
+async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, focusChapter = null, unsubUrl, simPitch = false, trackToken = null, firstName = null } = {}) {
+  // A few weeks out and they don't own the sim yet: a short, personal letter from
+  // Jerson (plain layout, no campaign styling) with the one piece of advice that
+  // matters most, backed by Mitch's story. Links tracked via /api/track.
   if (simPitch && daysLeft > 1) {
-    // Route both links through /api/track so the admin funnel can see clicks
-    // (attributed to the user via their unsub token). Falls back to direct
-    // links if no token is available.
     const storyUrl = trackToken ? `${appUrl}/api/track/story/${trackToken}` : `${appUrl}/stories/mitch`;
     const examUrl = trackToken ? `${appUrl}/api/track/exam/${trackToken}` : `${appUrl}/exam`;
-    const storyLink = `<a href="${storyUrl}" target="_blank" style="color:${C.ember};font-weight:600;text-decoration:none;">Watch his story &rarr;</a>`;
+    const link = (url, text) => `<a href="${url}" target="_blank" style="color:${C.ember};font-weight:600;text-decoration:none;">${text}</a>`;
+    const greeting = firstName ? `Hi ${firstName},` : 'Hope your FE prep is going well.';
     return sendEmail({
       to: toEmail,
-      subject: 'Walk into the FE already knowing how it feels',
+      subject: "The one thing I'd do before your FE exam",
       headers: lifecycleHeaders(unsubUrl),
-      html: emailLayout({
-        preheader: 'One full timed run, before the real one.',
-        heading: `${daysLeft} days out, let's get you ready.`,
+      html: letterLayout({
+        preheader: 'The single biggest thing you can do to be ready.',
         unsubUrl,
         inner:
-          para("You're close now, and this is the stretch that decides it. We built FE for Raccoons to get you across the line, and with a few weeks left the highest-leverage move is one full, timed exam before the real one, so on exam day nothing feels new.") +
-          para("That's the Exam Simulation: all 110 questions, 5 hours 20 minutes, scored just like the real FE. In one sitting you find out:") +
-          bullets([
-            "Exactly where your pace slips, while there's still time to fix it",
-            'Which topics to spend your last weeks on, ranked by what actually cost you points',
-            'What 5 hours 20 minutes in the chair really feels like, so exam day is familiar',
-          ]) +
-          para(`Mitch ran it and passed the FE Civil on his first try. ${storyLink}`) +
-          button('Start your exam simulation', examUrl) +
-          para('$49, or $29 with a verified student email. It is the cheapest insurance against a retake, and your access never expires.') +
-          noteLine('<strong>P.S.</strong> Do it now, not the night before. A timed run only helps if you have time to act on what it shows. Questions? Just reply, a real person reads these.'),
+          para(greeting) +
+          para(`I'm Jerson, I started FE for Raccoons. Your exam is about <strong>${daysLeft} days</strong> out, so I wanted to send you a quick, honest note, the same advice I'd give a friend taking the FE.`) +
+          para('If you do one thing before exam day, make it this: sit a full, timed exam, start to finish. All 110 questions, 5 hours and 20 minutes, no stopping.') +
+          para("The material is rarely what trips people up. It's the pace, the fatigue, and the format. One full run ahead of time takes all of that off the table while you still have weeks to adjust. It is the single biggest thing that makes exam day feel familiar instead of overwhelming.") +
+          para(`You don't have to take my word for it. Mitch did exactly this and passed the FE Civil on his first try, and he says it better than I can (40 seconds): ${link(storyUrl, "Watch Mitch's story &rarr;")}`) +
+          para("That's what the Exam Simulation is for. It's the only paid thing on FE for Raccoons, $49, or $29 with a student email, one time, and your access never expires. Honestly, it is the cheapest insurance there is against a retake.") +
+          para('If you have a free weekend before your exam, block one morning for this. You will walk in already knowing how it feels.') +
+          para(link(examUrl, 'Start your exam simulation &rarr;'), 'font-size:17px;font-weight:600;') +
+          signatureBlock('Rooting for you,') +
+          para("<strong>P.S.</strong> If something's holding you back, or you just want to talk through your prep, hit reply. It comes straight to me.", `font-size:14px;color:${C.mute};margin-top:16px;`),
       }),
     });
   }
@@ -441,7 +475,7 @@ async function sendExamCountdownEmail(toEmail, { daysLeft, readiness = null, foc
       preheader: daysLeft <= 0 ? 'Go pass the FE.' : `${daysLeft} days to go`,
       heading,
       unsubUrl,
-      inner: para(body) + (ctaText ? button(ctaText, `${appUrl}/dashboard`) : ''),
+      inner: para(body) + (ctaText ? button(ctaText, `${appUrl}/dashboard`) : '') + signatureBlock('Rooting for you,'),
     }),
   });
 }
@@ -468,7 +502,8 @@ async function sendSimPitchFollowupEmail(toEmail, { unsubUrl, trackToken = null 
         para(`Mitch did exactly this and passed the FE Civil on his first try. ${storyLink}`) +
         button('Start your exam simulation', examUrl) +
         para('$49, or $29 with a verified student email. One time, and your access never expires, so it is the cheapest insurance against a retake.') +
-        noteLine('<strong>P.S.</strong> If something is holding you back, just reply and tell me, a real person reads these. And if the timing is off, no worries at all.'),
+        signatureBlock('Rooting for you,') +
+        para("<strong>P.S.</strong> If something is holding you back, just reply and tell me, a real person reads these. And if the timing is off, no worries at all.", `font-size:14px;color:${C.mute};margin-top:16px;`),
     }),
   });
 }
