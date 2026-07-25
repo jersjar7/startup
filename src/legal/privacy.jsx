@@ -143,7 +143,7 @@ export function Privacy() {
           </ul>
           <p>
             If you have additional data requests, contact us at{' '}
-            <a href="mailto:jersondevs@gmail.com">jersondevs@gmail.com</a>.
+            <a href="mailto:fe4raccoons@oqupa.com">fe4raccoons@oqupa.com</a>.
           </p>
         </section>
 
@@ -160,7 +160,7 @@ export function Privacy() {
           <h2>12. Contact</h2>
           <p>
             If you have questions about this Privacy Policy or your data, you can reach us at{' '}
-            <a href="mailto:jersondevs@gmail.com">jersondevs@gmail.com</a>.
+            <a href="mailto:fe4raccoons@oqupa.com">fe4raccoons@oqupa.com</a>.
           </p>
         </section>
       </div>
