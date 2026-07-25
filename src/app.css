@@ -447,6 +447,112 @@ input:focus {
 }
 
 /* ===== VERIFICATION BANNER ===== */
+/* On-site exam-sim pitch banner (dashboard). Ember context = the one paid item. */
+.sim-pitch-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1.25rem;
+  padding: 0.875rem 1.125rem;
+  background: var(--ember-bg);
+  border: 1px solid rgba(232, 104, 58, 0.28);
+  border-left: 4px solid var(--ember);
+  border-radius: var(--radius-md);
+  color: var(--charcoal);
+}
+
+.sim-pitch-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.sim-pitch-content svg {
+  color: var(--ember);
+  flex-shrink: 0;
+}
+
+.sim-pitch-text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--gray-700);
+}
+
+.sim-pitch-text strong {
+  color: var(--charcoal);
+  font-weight: 700;
+}
+
+.sim-pitch-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.sim-pitch-cta {
+  background: var(--ember);
+  color: var(--cream);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 0.95rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sim-pitch-cta:hover {
+  filter: brightness(0.93);
+  transform: none;
+}
+
+.sim-pitch-later {
+  background: none;
+  border: none;
+  color: var(--gray-600);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sim-pitch-later:hover {
+  color: var(--charcoal);
+  text-decoration: underline;
+}
+
+/* Near-exam tier: a stronger accent so it reads as more urgent as the day nears. */
+.sim-pitch-banner--urgent {
+  border-color: rgba(232, 104, 58, 0.5);
+  border-left-width: 5px;
+}
+
+/* Compact variant for the study/problems focus pages: slim, single line. */
+.sim-pitch-banner--compact {
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.sim-pitch-banner--compact .sim-pitch-text {
+  font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .sim-pitch-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .sim-pitch-actions {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+}
+
 .verification-banner {
   display: flex;
   align-items: center;

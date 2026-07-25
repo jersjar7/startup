@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
+import { SimPitchBanner } from './SimPitchBanner';
 import {
   Lightning,
   DeviceMobile,
@@ -320,6 +321,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
   return (
     <main>
+      <SimPitchBanner examDate={examDate} />
       {/* ── Header ── */}
       <div className="dash-header">
         <div>
