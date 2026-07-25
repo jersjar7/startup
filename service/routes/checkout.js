@@ -176,4 +176,17 @@ router.get('/status', verifyAuth, async (req, res) => {
   res.send(result);
 });
 
+// POST /api/checkout/sim-banner/:action — track the on-site exam-sim banner.
+// action = 'shown' | 'click'. Logged to funnel events so the admin pitch-stats
+// can compare the on-site banner against the countdown-email pitch.
+router.post('/sim-banner/:action', verifyAuth, async (req, res) => {
+  const type = req.params.action === 'click' ? 'sim_banner_click' : 'sim_banner_shown';
+  try {
+    await DB.logEvent(type, req.user.email, { via: 'dashboard' });
+  } catch (e) {
+    console.error('[checkout] sim-banner track failed:', e.message);
+  }
+  res.send({ ok: true });
+});
+
 module.exports = router;

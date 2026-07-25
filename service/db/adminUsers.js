@@ -193,9 +193,11 @@ async function getSimPitchStats() {
 
   // Total link opens (the clean /go links are aggregate, no per-user token, so
   // we count total clicks rather than distinct users).
-  const [storyClicks, examClicks] = await Promise.all([
+  const [storyClicks, examClicks, bannerShown, bannerClicks] = await Promise.all([
     funnelEventsCollection.countDocuments({ type: 'sim_pitch_click_story' }),
     funnelEventsCollection.countDocuments({ type: 'sim_pitch_click_exam' }),
+    funnelEventsCollection.countDocuments({ type: 'sim_banner_shown' }),
+    funnelEventsCollection.countDocuments({ type: 'sim_banner_click' }),
   ]);
   const clicked = storyClicks + examClicks;
 
@@ -219,7 +221,7 @@ async function getSimPitchStats() {
     converted = convertedSet.size;
   }
 
-  return { pitched, clicked, storyClicks, examClicks, converted, followups };
+  return { pitched, clicked, storyClicks, examClicks, converted, followups, bannerShown, bannerClicks };
 }
 
 module.exports = {
