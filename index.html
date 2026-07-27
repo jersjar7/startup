@@ -27,6 +27,18 @@
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>FE for Raccoons — Free FE Civil Exam Prep</title>
+
+    <!-- Privacy-friendly analytics by Plausible. Lives here (not in the JS
+         bundle) so it is present in the <head> of every prerendered public page
+         too: scripts/prerender.mjs snapshots documentElement.outerHTML, which
+         carries this tag into dist/<route>/index.html. The site is encoded in
+         the script filename, so no data-domain attribute is needed. Plausible's
+         script skips localhost, so the prerender pass does not log traffic. -->
+    <script async src="https://plausible.io/js/pa-hKGeRAT3T6vrAtfp7dJYK.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
