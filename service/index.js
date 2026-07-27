@@ -18,8 +18,24 @@ const app = express();
 // warns about an X-Forwarded-For misconfiguration.
 app.set('trust proxy', 1);
 
-// Security, compression, and parsing middleware
-app.use(helmet());
+// Security, compression, and parsing middleware.
+// CSP: helmet's defaults are script-src 'self' only, which blocks the Plausible
+// tag (script) AND its event beacon (connect, which falls back to default-src).
+// Allow plausible.io on exactly those two directives and leave the rest strict.
+// The init snippet lives in public/plausible-init.js rather than inline so we
+// never need 'unsafe-inline' or a hash that breaks on every edit.
+const PLAUSIBLE = 'https://plausible.io';
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        'script-src': ["'self'", PLAUSIBLE],
+        'connect-src': ["'self'", PLAUSIBLE],
+      },
+    },
+  }),
+);
 app.use(compression());
 
 // Stripe webhook needs raw body for signature verification — mount BEFORE express.json()
