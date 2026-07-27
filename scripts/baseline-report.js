@@ -90,6 +90,14 @@ async function main() {
   const optedOut = allUsers.filter((u) => u.lifecycleOptOut === true).length;
   const studentVerified = allUsers.filter((u) => u.studentVerified === true).length;
 
+  // The email sim pitch only fires for users who have an exam date on file and
+  // have not been pitched before, so "pitched" — not signups — is the true
+  // denominator for the one monetization mechanic that currently exists.
+  const pitchedIds = new Set(
+    allUsers.filter((u) => has(u, 'simPitchedAt')).map((u) => String(u._id)),
+  );
+  const withSimAccess = allUsers.filter((u) => u.examSimAccess === true).length;
+
   const signupsIn = (d) => allUsers.filter((u) => new Date(u.createdAt) >= ago(d)).length;
   const firstSignupAt = allUsers.reduce(
     (min, u) => (!min || new Date(u.createdAt) < new Date(min) ? u.createdAt : min),
@@ -122,6 +130,10 @@ async function main() {
     return acc;
   }, {});
   const liveMode = paid.filter((p) => String(p.stripeSessionId || '').startsWith('cs_live_')).length;
+  const pitchedWhoBought = paid.filter((p) => pitchedIds.has(String(p.userId))).length;
+  // Sales that predate the pitch mechanic entirely — these bought unprompted,
+  // which is the strongest demand signal in the dataset.
+  const boughtUnpitched = paid.length - pitchedWhoBought;
   const revenueByMonth = {};
   paid.forEach((p) => {
     const k = ym(p.createdAt);
@@ -217,14 +229,77 @@ async function main() {
   });
 
   // ---- Acquisition -------------------------------------------------------
-  const acqCounts = {};
-  let acqAsked = 0;
+  // Three independent signals live on `acquisition`, and reading only the
+  // self-report survey badly understates coverage:
+  //   utmSource   - set when the visitor arrived on a tagged link
+  //   referrer    - captured automatically for any EXTERNAL referrer
+  //   source      - the dashboard survey, which ~90% of users skip
+  // Referrer is by far the widest of the three. Prefer utm > referrer > survey.
+  const REFERRER_GROUPS = [
+    [/(^|\.)google\.[a-z.]+$|googlequicksearchbox/, 'organic search: Google'],
+    [/(^|\.)bing\.com$/, 'organic search: Bing'],
+    [/search\.yahoo\.com$/, 'organic search: Yahoo'],
+    [/duckduckgo\.com$/, 'organic search: DuckDuckGo'],
+    [/chatgpt\.com$|openai\.com$/, 'AI assistant: ChatGPT'],
+    [/copilot\.(microsoft\.)?com$/, 'AI assistant: Copilot'],
+    [/perplexity\.ai$/, 'AI assistant: Perplexity'],
+    [/claude\.ai$/, 'AI assistant: Claude'],
+    [/linkedin/, 'LinkedIn'],
+    [/reddit/, 'Reddit'],
+    [/tiktok/, 'TikTok'],
+    [/instagram/, 'Instagram'],
+    [/youtube|youtu\.be/, 'YouTube'],
+  ];
+
+  const hostOf = (raw) => {
+    if (!raw) return null;
+    if (raw.startsWith('android-app://')) return raw.replace('android-app://', '').replace(/\/$/, '');
+    try {
+      return new URL(raw).hostname.replace(/^www\./, '');
+    } catch {
+      return raw;
+    }
+  };
+  const groupReferrer = (raw) => {
+    const h = hostOf(raw);
+    if (!h) return null;
+    for (const [re, label] of REFERRER_GROUPS) if (re.test(h)) return label;
+    return `other: ${h}`;
+  };
+
+  const acqCounts = {}; // survey answers only, kept for continuity
+  const channelCounts = {}; // best-available channel per user
+  const referrerHosts = {};
+  let acqObject = 0;
+  let withUtm = 0;
+  let withReferrer = 0;
+  let attributedAny = 0;
+  const landingPaths = {};
+
   allUsers.forEach((u) => {
-    if (u.acquisition) acqAsked += 1;
-    const src = u.acquisition?.source;
+    const a = u.acquisition;
+    if (a) acqObject += 1;
+    const src = a?.source;
     if (src) acqCounts[src] = (acqCounts[src] || 0) + 1;
+    if (a?.utmSource) withUtm += 1;
+    if (a?.referrer) {
+      withReferrer += 1;
+      const h = hostOf(a.referrer);
+      if (h) referrerHosts[h] = (referrerHosts[h] || 0) + 1;
+    }
+    if (a?.landingPath) landingPaths[a.landingPath] = (landingPaths[a.landingPath] || 0) + 1;
+
+    let channel;
+    if (a?.utmSource) channel = `utm: ${a.utmSource}`;
+    else if (a?.referrer) channel = groupReferrer(a.referrer);
+    else if (src) channel = `self-report: ${src}`;
+    else channel = '(unattributed)';
+    if (channel !== '(unattributed)') attributedAny += 1;
+    channelCounts[channel] = (channelCounts[channel] || 0) + 1;
   });
   const acqAnswered = Object.values(acqCounts).reduce((a, b) => a + b, 0);
+
+  const sortDesc = (o) => Object.fromEntries(Object.entries(o).sort((a, b) => b[1] - a[1]));
 
   const report = {
     generatedAt: now.toISOString(),
@@ -269,7 +344,13 @@ async function main() {
       simBannerClicked: evUsers('sim_banner_click'),
       checkoutStarted: checkoutStartUsers,
       purchased: paid.length,
+      pitched: pitchedIds.size,
+      pitchedWhoBought,
+      boughtUnpitched,
+      grantedSimAccess: withSimAccess,
       rates: {
+        pitchToPurchase: pct(pitchedWhoBought, pitchedIds.size),
+        examDateToPitched: pct(pitchedIds.size, withExamDate),
         signupToQuickstartActivated: pct(evUsers('quickstart_activated'), totalUsers),
         activatedToCompleted: pct(evUsers('quickstart_completed'), evUsers('quickstart_activated')),
         bannerShownToClick: pct(evUsers('sim_banner_click'), evUsers('sim_banner_shown')),
@@ -301,11 +382,18 @@ async function main() {
       byMonth: Object.fromEntries(Object.entries(examByMonth).sort()),
     },
     acquisition: {
-      askedCount: acqAsked,
-      answeredCount: acqAnswered,
-      pctAttributed: pct(acqAnswered, totalUsers),
-      unattributed: totalUsers - acqAnswered,
-      bySource: Object.fromEntries(Object.entries(acqCounts).sort((a, b) => b[1] - a[1])),
+      usersWithAcquisitionObject: acqObject,
+      surveyAnswered: acqAnswered,
+      pctSurveyAnswered: pct(acqAnswered, totalUsers),
+      withReferrer,
+      withUtm,
+      attributedAny,
+      pctAttributedAny: pct(attributedAny, totalUsers),
+      unattributed: totalUsers - attributedAny,
+      byChannel: sortDesc(channelCounts),
+      surveyBySource: sortDesc(acqCounts),
+      referrerHosts: sortDesc(referrerHosts),
+      landingPaths: sortDesc(landingPaths),
     },
   };
 
@@ -412,9 +500,17 @@ async function main() {
   Object.entries(r.examDates.byMonth).forEach(([k, v]) => row(`    ${k}`, v));
 
   L('\nACQUISITION ATTRIBUTION');
-  row('Answered the source question', `${r.acquisition.answeredCount} (${r.acquisition.pctAttributed}%)`);
+  row('Attributable by ANY signal', `${r.acquisition.attributedAny} (${r.acquisition.pctAttributedAny}%)`);
+  row('  via captured referrer', r.acquisition.withReferrer);
+  row('  via UTM tag', r.acquisition.withUtm);
+  row('  via survey answer', `${r.acquisition.surveyAnswered} (${r.acquisition.pctSurveyAnswered}%)`);
   row('UNATTRIBUTED', r.acquisition.unattributed);
-  Object.entries(r.acquisition.bySource).forEach(([k, v]) => row(`    ${k}`, v));
+  L('  Best-available channel per user:');
+  Object.entries(r.acquisition.byChannel).forEach(([k, v]) => row(`    ${k}`, v));
+  L('  Raw referrer hosts:');
+  Object.entries(r.acquisition.referrerHosts).forEach(([k, v]) => row(`    ${k}`, v));
+  L('  Landing page on first touch:');
+  Object.entries(r.acquisition.landingPaths).forEach(([k, v]) => row(`    ${k}`, v));
   L('');
 }
 
