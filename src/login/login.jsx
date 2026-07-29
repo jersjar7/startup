@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { SignIn, UserPlus, PaperPlaneTilt, ArrowLeft, Eye, EyeSlash } from '@phosphor-icons/react';
+import { SourcePrompt } from '../dashboard/SourcePrompt';
 import './index.css';
 
 export function Login({ userName, onLogin }) {
@@ -21,6 +22,9 @@ export function Login({ userName, onLogin }) {
   const [showPassword, setShowPassword] = React.useState(false);
   // One form, one mode at a time — returning users never parse signup chrome.
   const [mode, setMode] = React.useState('login'); // 'login' | 'create'
+  // Set once registration succeeds: swaps the form for the one attribution
+  // question, then routes on. See handleRegister.
+  const [justRegistered, setJustRegistered] = React.useState(false);
 
   React.useEffect(() => {
     if (userName) {
@@ -57,7 +61,7 @@ export function Login({ userName, onLogin }) {
     setError('');
     // The button stays tappable — an unexplained dead button reads as broken.
     if (!acceptedTerms) {
-      setError('Check the Terms box above to create an account.');
+      setError('Check the Terms box below to create an account.');
       return;
     }
     if (password.length < 8 || !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
@@ -76,7 +80,12 @@ export function Login({ userName, onLogin }) {
       if (res.ok) {
         const data = await res.json();
         onLogin(data);
-        navigate(dest);
+        // /api/auth/create already set the auth cookie, so we are authenticated
+        // here and can ask the attribution question before routing on. This is
+        // the ONLY place it is asked: registration is the single point every new
+        // user passes through, unlike verification (~75% complete it) or the
+        // dashboard (which they have to reach and engage with first).
+        setJustRegistered(true);
       } else {
         const body = await res.json();
         setError(body.msg || 'Registration failed');
@@ -150,6 +159,25 @@ export function Login({ userName, onLogin }) {
             <ArrowLeft size={16} />
             Back to login
           </button>
+        </div>
+      </main>
+    );
+  }
+
+  // Account created: ask the one attribution question, then continue. Not
+  // dismissible — a single tap is the whole ask, and it is the only chance we
+  // get to attribute channels that strip referrers (TikTok, Instagram, Reddit).
+  if (justRegistered) {
+    return (
+      <main className="login-main">
+        <div className="login-form-container" style={{ textAlign: 'center' }}>
+          <h2>You&rsquo;re in</h2>
+          <p className="login-subtitle">One quick question before you start.</p>
+          <SourcePrompt
+            className="is-standalone"
+            dismissible={false}
+            onClose={() => navigate(dest)}
+          />
         </div>
       </main>
     );

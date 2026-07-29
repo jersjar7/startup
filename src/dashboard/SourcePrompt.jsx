@@ -2,7 +2,7 @@ import React from 'react';
 import { X } from '@phosphor-icons/react';
 import './SourcePrompt.css';
 
-// "How did you find us?" — asked once per user.
+// "How did you find us?" — asked once, at registration, and nowhere else.
 //
 // Its job is NARROW and worth stating: automatic referrer capture (app.jsx ->
 // login.jsx -> auth.js) already attributes search traffic and accounts for
@@ -10,6 +10,12 @@ import './SourcePrompt.css';
 // channels that strip referrers and cannot be measured any other way: TikTok,
 // Instagram, Reddit, and word of mouth. Keep the fixed options — free text is
 // unusable in aggregate.
+//
+// Asked at registration because that is the one point EVERY new user passes
+// through while already authenticated (/api/auth/create sets the cookie).
+// Earlier placements were worse: the dashboard required the user to reach and
+// engage with it, and the verification screen reaches only the ~75% who verify
+// and has no session, so the answer could not be written server-side.
 const OPTIONS = [
   { id: 'reddit', label: 'Reddit' },
   { id: 'search', label: 'Google / search' },
@@ -21,8 +27,6 @@ const OPTIONS = [
   { id: 'other', label: 'Other' },
 ];
 
-const PENDING_KEY = 'fe4r_acq_pending';
-
 async function postSource(source) {
   const res = await fetch('/api/user/acquisition', {
     method: 'POST',
@@ -32,47 +36,15 @@ async function postSource(source) {
   return res.ok;
 }
 
-// Send an answer collected while the user had no session.
-//
-// The verification screen is the best moment to ask — it is the one point every
-// verified user passes through — but GET /api/auth/verify-email deliberately
-// does NOT log anyone in, and that link often opens in a different browser from
-// the one they signed up in. So an answer given there is parked in localStorage
-// and flushed here on the next authenticated render. Safe to call
-// unconditionally: it no-ops when there is nothing parked, and keeps the value
-// for a later retry if the POST fails.
-export async function flushPendingSource() {
-  let pending;
-  try {
-    pending = localStorage.getItem(PENDING_KEY);
-  } catch {
-    return false; // storage blocked (private mode) — nothing to do
-  }
-  if (!pending) return false;
-  try {
-    if (await postSource(pending)) {
-      localStorage.removeItem(PENDING_KEY);
-      return true;
-    }
-  } catch { /* offline — keep it parked and retry on the next load */ }
-  return false;
-}
-
-// `deferred`     collect the answer without a session and park it for
-//                flushPendingSource() (the verification screen).
 // `dismissible`  show the X. False where the ask is the point of the screen.
-export function SourcePrompt({ onClose, deferred = false, dismissible = true, className = '' }) {
+export function SourcePrompt({ onClose, dismissible = true, className = '' }) {
   const [busy, setBusy] = React.useState(false);
 
   async function pick(source) {
     if (busy) return;
     setBusy(true);
     try {
-      if (deferred) {
-        localStorage.setItem(PENDING_KEY, source);
-      } else {
-        await postSource(source);
-      }
+      await postSource(source);
     } catch { /* non-blocking: never trap a user behind an analytics question */ }
     onClose(true);
   }
