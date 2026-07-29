@@ -1,22 +1,20 @@
 // Decides whether the dashboard may ask "how did you find us?".
 //
-// The question is asked at REGISTRATION for everyone from 2026-07-30 onward
-// (src/login/login.jsx). The dashboard ask is a one-time backfill for accounts
-// created before that, which never got the chance.
+// The rule is one sentence: ask until resolved, never after.
 //
-// Two independent conditions, both required, so no user can be asked twice:
-//   1. Not already resolved (answered or dismissed) — server-side truth, so it
-//      holds across devices, browser profiles and cleared site data.
-//   2. Created before the cutoff — anyone newer was already asked at sign-up.
+// Registration (src/login/login.jsx) is the primary ask, since it is the one
+// point every new user passes through. The dashboard is the safety net for
+// anyone who slipped past it — someone who closed the tab mid-signup, or who
+// registered before the question existed at all.
 //
-// `acquisitionResolved` is treated as resolved when missing or not-yet-loaded,
-// so a slow or failed /me shows nothing rather than risking a duplicate ask.
-export const ACQ_BACKFILL_CUTOFF = Date.parse('2026-07-30T00:00:00Z');
-
-export function shouldAskSource({ acquisitionResolved, createdAt } = {}, cutoff = ACQ_BACKFILL_CUTOFF) {
-  if (acquisitionResolved !== false) return false;
-  if (!createdAt) return false;
-  const created = Date.parse(createdAt);
-  if (Number.isNaN(created)) return false;
-  return created < cutoff;
+// "Resolved" is server-side (service/acquisition.js): the user answered, or
+// explicitly dismissed. It is NOT a localStorage flag, so it holds across
+// devices, browser profiles, and cleared site data. That is what stops the
+// same person being asked twice.
+//
+// `acquisitionResolved` must be an explicit `false` to trigger the ask. While
+// /me is still loading it is undefined, and the component defaults it to true,
+// so a slow or failed request shows nothing rather than risking a duplicate.
+export function shouldAskSource({ acquisitionResolved } = {}) {
+  return acquisitionResolved === false;
 }

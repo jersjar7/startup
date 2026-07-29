@@ -2,7 +2,7 @@ import React from 'react';
 import { X } from '@phosphor-icons/react';
 import './SourcePrompt.css';
 
-// "How did you find us?" — asked once, at registration, and nowhere else.
+// "How did you find us?" — asked once per user, then never again.
 //
 // Its job is NARROW and worth stating: automatic referrer capture (app.jsx ->
 // login.jsx -> auth.js) already attributes search traffic and accounts for
@@ -12,10 +12,11 @@ import './SourcePrompt.css';
 // unusable in aggregate.
 //
 // Asked at registration because that is the one point EVERY new user passes
-// through while already authenticated (/api/auth/create sets the cookie).
-// Earlier placements were worse: the dashboard required the user to reach and
-// engage with it, and the verification screen reaches only the ~75% who verify
-// and has no session, so the answer could not be written server-side.
+// through while already authenticated (/api/auth/create sets the cookie), with
+// the dashboard as a safety net for anyone who slipped past it. The rule is
+// "ask until resolved, never after" — see src/dashboard/acquisitionGate.js.
+// The verification screen was tried and removed: it reaches only the ~75% who
+// verify, and has no session, so the answer could not be written server-side.
 const OPTIONS = [
   { id: 'reddit', label: 'Reddit' },
   { id: 'search', label: 'Google / search' },
