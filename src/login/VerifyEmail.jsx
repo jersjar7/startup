@@ -55,21 +55,22 @@ export function VerifyEmail() {
             <CheckCircle size={48} weight="bold" color="var(--forest)" style={{ marginBottom: '1rem' }} />
             <h2>Email Verified</h2>
             <p className="login-subtitle">{message}</p>
-            {!askedSource && (
-              // `deferred`: verify-email does not create a session, so the answer
-              // is parked in localStorage and flushed on the next authenticated
-              // load. Not dismissible — answering is the only thing asked here,
-              // and the continue link appears either way once they pick.
+            {/* Mandatory single tap, per the 90-day plan: the continue link does
+                not appear until they answer. verify-email issues no session, so
+                `deferred` parks the answer in localStorage for the dashboard to
+                flush on the next authenticated render. */}
+            {!askedSource ? (
               <SourcePrompt
                 className="is-standalone"
                 deferred
                 dismissible={false}
                 onClose={() => setAskedSource(true)}
               />
+            ) : (
+              <Link to="/dashboard" className="btn-primary" style={{ display: 'inline-flex', textDecoration: 'none', marginTop: '0.5rem' }}>
+                Go to Dashboard
+              </Link>
             )}
-            <Link to="/dashboard" className="btn-primary" style={{ display: 'inline-flex', textDecoration: 'none', marginTop: '0.5rem' }}>
-              {askedSource ? 'Go to Dashboard' : 'Skip and go to Dashboard'}
-            </Link>
           </>
         )}
         {status === 'error' && (
