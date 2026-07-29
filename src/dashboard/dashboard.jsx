@@ -309,6 +309,14 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   // shouldAskSource(), which is unit tested.
   const showSource = shouldAskSource({ acquisitionResolved: acqResolved });
 
+  // Freeze the page behind the modal so the dashboard does not scroll under it.
+  React.useEffect(() => {
+    if (!showSource) return undefined;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, [showSource]);
+
   // Record the outcome server-side either way. Answering writes the source;
   // dismissing writes dismissedAt. Both mean "never ask this person again",
   // on this device or any other.
@@ -690,9 +698,6 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
             </div>
           )}
 
-          {/* Attribution backfill — legacy accounts only, asked at most once */}
-          {showSource && <SourcePrompt onClose={resolveAcquisition} />}
-
           {/* Referral / Spread the word */}
           <div className="sidebar-block referral-card">
             <h3 className="dash-section-label">
@@ -713,6 +718,14 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           </div>
         </aside>
       </div>
+      {/* Attribution safety net. A modal, not a rail card: in the rail it sat
+          below the fold and was effectively invisible. Dismiss is deliberate
+          (the X only, no backdrop click) because dismissing is permanent. */}
+      {showSource && (
+        <div className="source-prompt-overlay" role="dialog" aria-modal="true" aria-label="How did you find us?">
+          <SourcePrompt className="is-modal" onClose={resolveAcquisition} />
+        </div>
+      )}
       <ScoringModal open={scoringOpen} onClose={() => setScoringOpen(false)} />
     </main>
   );
