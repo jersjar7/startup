@@ -52,7 +52,9 @@ function validateAuthInput(req, res, isRegistration = false) {
 
 // Acquisition (how users found us): self-reported source allowlist + a
 // sanitizer for the passive utm/referrer payload captured at signup.
-const ACQ_SOURCES = ['reddit', 'search', 'youtube', 'instagram', 'tiktok', 'friend', 'other'];
+// Keep in sync with OPTIONS in src/dashboard/SourcePrompt.jsx — a chip whose id
+// is missing here is rejected with a 400 and the answer is silently lost.
+const ACQ_SOURCES = ['reddit', 'search', 'youtube', 'instagram', 'tiktok', 'linkedin', 'friend', 'other'];
 
 function sanitizeAcq(acq) {
   if (!acq || typeof acq !== 'object') return null;

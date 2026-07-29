@@ -16,6 +16,7 @@ const OPTIONS = [
   { id: 'youtube', label: 'YouTube' },
   { id: 'instagram', label: 'Instagram' },
   { id: 'tiktok', label: 'TikTok' },
+  { id: 'linkedin', label: 'LinkedIn' },
   { id: 'friend', label: 'A friend' },
   { id: 'other', label: 'Other' },
 ];
