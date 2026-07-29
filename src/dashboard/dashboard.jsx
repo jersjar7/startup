@@ -317,19 +317,12 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     return () => { document.body.style.overflow = prev; };
   }, [showSource]);
 
-  // Record the outcome server-side either way. Answering writes the source;
-  // dismissing writes dismissedAt. Both mean "never ask this person again",
-  // on this device or any other.
-  async function resolveAcquisition(answered) {
-    setAcqResolved(true); // optimistic: no second ask even if the request fails
-    if (answered) return; // SourcePrompt already POSTed the source
-    try {
-      await fetch('/api/user/acquisition', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dismissed: true }),
-      });
-    } catch { /* non-blocking */ }
+  // SourcePrompt has already POSTed the answer by the time it calls back; this
+  // just closes the modal for the rest of the session. The server is the source
+  // of truth on the next load, so a failed POST means they are asked again
+  // rather than silently lost.
+  function resolveAcquisition() {
+    setAcqResolved(true);
   }
 
   function handleDiagnosticSkip() {
@@ -719,11 +712,13 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         </aside>
       </div>
       {/* Attribution safety net. A modal, not a rail card: in the rail it sat
-          below the fold and was effectively invisible. Dismiss is deliberate
-          (the X only, no backdrop click) because dismissing is permanent. */}
+          below the fold and was effectively invisible.
+          Mandatory, matching the registration ask — one tap, once, ever. There
+          is no dismiss because dismissing was permanent and simply lost the
+          answer; "Other" is the honest out for anyone who does not remember. */}
       {showSource && (
         <div className="source-prompt-overlay" role="dialog" aria-modal="true" aria-label="How did you find us?">
-          <SourcePrompt className="is-modal" onClose={resolveAcquisition} />
+          <SourcePrompt className="is-modal" dismissible={false} onClose={resolveAcquisition} />
         </div>
       )}
       <ScoringModal open={scoringOpen} onClose={() => setScoringOpen(false)} />
