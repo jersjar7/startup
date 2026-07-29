@@ -49,7 +49,7 @@ import { DiagnosticCard } from '../diagnostic/DiagnosticCard';
 import { ExamSimCard } from '../exam/ExamSimCard';
 import { ScoringModal } from './ScoringModal';
 import { SetupTodo } from './SetupTodo';
-import { SourcePrompt } from './SourcePrompt';
+import { SourcePrompt, flushPendingSource } from './SourcePrompt';
 import './dashboard.css';
 
 // Live-activity presence arrives as { from, topic } (practice) or
@@ -135,6 +135,15 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   }, []);
   const [acqSource, setAcqSource] = React.useState(null); // their reported source (truthy once answered)
   const [acqDismissed, setAcqDismissed] = React.useState(() => localStorage.getItem('fe4r_acq_dismissed') === 'true');
+
+  // If they answered "how did you find us?" on the verification screen, that
+  // ran without a session and parked the answer. This is the first reliably
+  // authenticated render, so send it now and suppress the duplicate ask.
+  React.useEffect(() => {
+    let alive = true;
+    flushPendingSource().then((sent) => { if (alive && sent) setAcqSource('answered'); });
+    return () => { alive = false; };
+  }, []);
   const [scoringOpen, setScoringOpen] = React.useState(false);
   const [reviewDue, setReviewDue] = React.useState(0);
 
@@ -164,8 +173,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           badges: data.badges || [],
           allBadges: data.allBadges || [],
         });
-        // Their reported acquisition source (null until answered). Whether to
-        // actually show the prompt is gated on engagement below (hasActivity).
+        // Their reported acquisition source (null until answered).
         setAcqSource(data.acquisitionSource || null);
       } else {
         errors.push('stats');
@@ -302,13 +310,15 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     [stats.totalXp, masteryByChapterId],
   );
 
-  // "How did you find us?" appears only after the user has actually engaged
-  // (hasActivity) — never on a brand-new user's first, empty visit — and only
-  // if they haven't answered or dismissed it. Existing users have activity, so
-  // they see it right away.
-  // Survey waits until the user has actually built something — marketing
-  // attribution never precedes the first study win.
-  const showSource = hasActivity && readiness > 0 && !acqSource && !acqDismissed;
+  // "How did you find us?" — dashboard fallback for anyone who did not answer on
+  // the verification screen (different browser, or verified before that shipped).
+  //
+  // This deliberately no longer waits for `hasActivity && readiness > 0`. That
+  // gate was the reason self-reported attribution sat at ~10%: half of all users
+  // never answer a single problem, so they never reached the condition and were
+  // never asked. Attribution has to cover the users who bounce, not just the
+  // engaged ones — they are exactly the cohort worth understanding.
+  const showSource = !acqSource && !acqDismissed;
 
   function handleDiagnosticSkip() {
     localStorage.setItem('diagnosticSkipped', 'true');

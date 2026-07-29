@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { CheckCircle, WarningCircle, SpinnerGap } from '@phosphor-icons/react';
+import { SourcePrompt } from '../dashboard/SourcePrompt';
 import './index.css';
 
 export function VerifyEmail() {
@@ -9,6 +10,10 @@ export function VerifyEmail() {
   const { token } = useParams();
   const [status, setStatus] = React.useState('loading'); // loading | success | error
   const [message, setMessage] = React.useState('');
+  // Attribution is asked here because this screen is the one step every verified
+  // user passes through, regardless of whether they ever open a lesson. Asking
+  // on the dashboard instead meant only already-engaged users were ever counted.
+  const [askedSource, setAskedSource] = React.useState(false);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -50,8 +55,20 @@ export function VerifyEmail() {
             <CheckCircle size={48} weight="bold" color="var(--forest)" style={{ marginBottom: '1rem' }} />
             <h2>Email Verified</h2>
             <p className="login-subtitle">{message}</p>
+            {!askedSource && (
+              // `deferred`: verify-email does not create a session, so the answer
+              // is parked in localStorage and flushed on the next authenticated
+              // load. Not dismissible — answering is the only thing asked here,
+              // and the continue link appears either way once they pick.
+              <SourcePrompt
+                className="is-standalone"
+                deferred
+                dismissible={false}
+                onClose={() => setAskedSource(true)}
+              />
+            )}
             <Link to="/dashboard" className="btn-primary" style={{ display: 'inline-flex', textDecoration: 'none', marginTop: '0.5rem' }}>
-              Go to Dashboard
+              {askedSource ? 'Go to Dashboard' : 'Skip and go to Dashboard'}
             </Link>
           </>
         )}

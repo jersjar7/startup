@@ -1,0 +1,42 @@
+/* ── "How did you find us?" one-time prompt ── */
+.source-prompt {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-left: 3px solid var(--ember);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-card);
+}
+.source-prompt-x {
+  position: absolute; top: 0.6rem; right: 0.6rem;
+  background: none; border: none; cursor: pointer; color: var(--gray-400);
+  display: grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 50%;
+}
+.source-prompt-x:hover { color: var(--charcoal); background: var(--cream-dark); }
+.source-prompt-q {
+  display: block;
+  font-family: var(--font-heading); font-weight: 600; font-size: 0.92rem;
+  color: var(--charcoal); margin-bottom: 0.6rem; padding-right: 1.5rem;
+}
+.source-prompt-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.source-chip {
+  background: var(--cream);
+  border: 1px solid var(--gray-200);
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  font-family: var(--font-body); font-size: 0.84rem; font-weight: 500;
+  color: var(--charcoal); cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+.source-chip:hover:not(:disabled) { border-color: var(--ember); background: var(--ember-bg); color: var(--ember); }
+.source-chip:disabled { opacity: 0.5; cursor: default; }
+
+
+/* Standalone placement (VerifyEmail success screen): the dashboard rail is
+   narrow and left-aligned, this context is a centred card. */
+.source-prompt.is-standalone {
+  text-align: left;
+  margin: 1.25rem 0 0.25rem;
+}
