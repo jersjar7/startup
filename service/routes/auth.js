@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const rateLimit = require('express-rate-limit');
 const DB = require('../database.js');
+const { isAcquisitionResolved } = require('../acquisition.js');
 const { verifyAuth, setAuthCookie, clearAuthCookie, authCookieName } = require('../middleware/auth.js');
 const { getBadgeDetails, getAllBadges } = require('../badges.js');
 const { generateToken, hashToken } = require('../crypto.js');
@@ -167,15 +168,30 @@ router.get('/me', verifyAuth, async (req, res) => {
     badges: getBadgeDetails(earnedBadgeIds),
     allBadges: getAllBadges(),
     acquisitionSource: user.acquisition?.source || null,
+    acquisitionResolved: isAcquisitionResolved(user),
   });
 });
 
 // Save how the user found us (self-reported, one of ACQ_SOURCES). Merges into
 // the acquisition object via dot-notation so it keeps any captured utm/referrer.
 router.post('/acquisition', verifyAuth, async (req, res) => {
+  // Dismissal is recorded server-side so the one-time ask stays one-time across
+  // every device the user signs in from.
+  if (req.body.dismissed === true) {
+    if (!isAcquisitionResolved(req.user)) {
+      await DB.setUserFields(req.user.email, { 'acquisition.dismissedAt': new Date() });
+    }
+    return res.send({ ok: true });
+  }
+
   const source = String(req.body.source || '').toLowerCase();
   if (!ACQ_SOURCES.includes(source)) {
     return res.status(400).send({ msg: 'Invalid source' });
+  }
+  // First answer wins. Re-posting cannot silently rewrite attribution history,
+  // which keeps the channel numbers stable once a user has been counted.
+  if (req.user.acquisition?.source) {
+    return res.send({ ok: true, alreadyAnswered: true });
   }
   const detail = typeof req.body.detail === 'string' ? req.body.detail.trim().slice(0, 120) : '';
   await DB.setUserFields(req.user.email, {

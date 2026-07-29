@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { SourcePrompt } from './SourcePrompt';
+import { shouldAskSource } from './acquisitionGate';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { SimPitchBanner } from './SimPitchBanner';
 import {
@@ -97,6 +99,11 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   const [leaderboard, setLeaderboard] = React.useState({ weekId: '', entries: [], allTime: [] });
   const [lbTab, setLbTab] = React.useState('week');
   const [loading, setLoading] = React.useState(true);
+  // One-time attribution backfill for accounts that predate the registration
+  // prompt. New users are asked once at sign-up (src/login/login.jsx) and are
+  // never asked here, so nobody sees the question twice.
+  const [acqResolved, setAcqResolved] = React.useState(true); // assume resolved until /me proves otherwise
+  const [acqCreatedAt, setAcqCreatedAt] = React.useState(null);
   const [error, setError] = React.useState('');
   const [events, setEvents] = React.useState([]);
   const [socket, setSocket] = React.useState(null);
@@ -161,6 +168,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
           badges: data.badges || [],
           allBadges: data.allBadges || [],
         });
+        // Server-side truth: answered OR dismissed, on any device.
+        setAcqResolved(Boolean(data.acquisitionResolved));
+        setAcqCreatedAt(data.createdAt || null);
       } else {
         errors.push('stats');
       }
@@ -296,6 +306,25 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     [stats.totalXp, masteryByChapterId],
   );
 
+
+  // One-time backfill ask for pre-registration-prompt accounts. All the
+  // never-ask-twice logic lives in shouldAskSource(), which is unit tested.
+  const showSource = shouldAskSource({ acquisitionResolved: acqResolved, createdAt: acqCreatedAt });
+
+  // Record the outcome server-side either way. Answering writes the source;
+  // dismissing writes dismissedAt. Both mean "never ask this person again",
+  // on this device or any other.
+  async function resolveAcquisition(answered) {
+    setAcqResolved(true); // optimistic: no second ask even if the request fails
+    if (answered) return; // SourcePrompt already POSTed the source
+    try {
+      await fetch('/api/user/acquisition', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dismissed: true }),
+      });
+    } catch { /* non-blocking */ }
+  }
 
   function handleDiagnosticSkip() {
     localStorage.setItem('diagnosticSkipped', 'true');
@@ -662,6 +691,9 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
               </ul>
             </div>
           )}
+
+          {/* Attribution backfill — legacy accounts only, asked at most once */}
+          {showSource && <SourcePrompt onClose={resolveAcquisition} />}
 
           {/* Referral / Spread the word */}
           <div className="sidebar-block referral-card">

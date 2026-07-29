@@ -26,11 +26,15 @@ export function Login({ userName, onLogin }) {
   // question, then routes on. See handleRegister.
   const [justRegistered, setJustRegistered] = React.useState(false);
 
+  // Redirect an already-authenticated visitor away from the login form.
+  // MUST NOT fire during the post-registration question: onLogin() sets
+  // userName in the parent, which would otherwise navigate away before the
+  // attribution prompt ever rendered.
   React.useEffect(() => {
-    if (userName) {
+    if (userName && !justRegistered) {
       navigate(dest);
     }
-  }, [userName, navigate, dest]);
+  }, [userName, navigate, dest, justRegistered]);
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -79,13 +83,17 @@ export function Login({ userName, onLogin }) {
       });
       if (res.ok) {
         const data = await res.json();
-        onLogin(data);
+        // Order matters: flag first, THEN onLogin. onLogin sets userName in the
+        // parent and the redirect effect above keys off both — setting the flag
+        // first means the prompt survives even without React's batching.
+        //
         // /api/auth/create already set the auth cookie, so we are authenticated
         // here and can ask the attribution question before routing on. This is
         // the ONLY place it is asked: registration is the single point every new
         // user passes through, unlike verification (~75% complete it) or the
         // dashboard (which they have to reach and engage with first).
         setJustRegistered(true);
+        onLogin(data);
       } else {
         const body = await res.json();
         setError(body.msg || 'Registration failed');
