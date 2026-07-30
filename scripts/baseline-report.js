@@ -36,6 +36,23 @@ const EXCLUDED = (process.env.EXCLUDED_ACCOUNTS || 'admin@oqupa.com,qa-bot@fe4ra
   .map((s) => s.trim().toLowerCase())
   .filter(Boolean);
 
+// Plus-addressed aliases of an excluded account are excluded too, so
+// admin+test1@oqupa.com and every future admin+whatever@ test signup is kept
+// out of the numbers without editing this list each time.
+//
+// The app's own normalizeEmail() does NOT strip +tags (they are genuinely
+// distinct accounts, which is why they work as throwaways). This collapsing
+// happens only when matching against the exclusion list.
+const stripPlusTag = (email) => {
+  const [local = '', domain = ''] = String(email || '').toLowerCase().split('@');
+  return `${local.split('+')[0]}@${domain}`;
+};
+const EXCLUDED_BASES = new Set(EXCLUDED.map(stripPlusTag));
+const isInternal = (email) => {
+  const e = String(email || '').toLowerCase();
+  return EXCLUDED.includes(e) || EXCLUDED_BASES.has(stripPlusTag(e));
+};
+
 const JSON_OUT = process.argv.includes('--json');
 const DAY = 86400000;
 const now = new Date();
@@ -76,10 +93,14 @@ async function main() {
   const problemHistory = db.collection('problemHistory');
   const userStats = db.collection('userStats');
 
-  const notInternal = { email: { $nin: EXCLUDED } };
+  // Resolve the concrete internal-email list from the real data, so the same
+  // exclusion (including plus-aliases) applies to every collection below.
+  const allUsersRaw = await users.find({}).toArray();
+  const internalEmails = allUsersRaw.map((u) => u.email).filter(isInternal);
+  const notInternal = { email: { $nin: internalEmails } };
 
   // ---- Users -------------------------------------------------------------
-  const allUsers = await users.find(notInternal).toArray();
+  const allUsers = allUsersRaw.filter((u) => !isInternal(u.email));
   const totalUsers = allUsers.length;
   const idToUser = new Map(allUsers.map((u) => [String(u._id), u]));
 
@@ -167,7 +188,7 @@ async function main() {
   evAgg.forEach((e) => {
     ev[e._id] = {
       events: e.n,
-      users: e.users.filter((x) => x && !EXCLUDED.includes(String(x).toLowerCase())).length,
+      users: e.users.filter((x) => x && !isInternal(x)).length,
     };
   });
   const evUsers = (t) => ev[t]?.users || 0;
@@ -185,7 +206,7 @@ async function main() {
     const a = await sessionLog.distinct('email', { completedAt: { $gte: ago(days) } });
     const b = await reviewEvents.distinct('email', { receivedAt: { $gte: ago(days) } });
     const set = new Set(
-      [...a, ...b].filter((e) => e && !EXCLUDED.includes(String(e).toLowerCase())),
+      [...a, ...b].filter((e) => e && !isInternal(e)),
     );
     return set.size;
   };
@@ -198,7 +219,7 @@ async function main() {
   // distinct problems seen != attempts made. Report both.
   const perUser = await problemHistory
     .aggregate([
-      { $match: { email: { $nin: EXCLUDED } } },
+      { $match: { email: { $nin: internalEmails } } },
       {
         $group: {
           _id: '$email',
@@ -211,7 +232,7 @@ async function main() {
   const bucket = (lo, hi) =>
     perUser.filter((u) => u.problems >= lo && (hi === null || u.problems < hi)).length;
 
-  const stats = await userStats.find({ email: { $nin: EXCLUDED } }).toArray();
+  const stats = await userStats.find({ email: { $nin: internalEmails } }).toArray();
   const streaks = stats.map((s) => s.currentStreak || 0);
 
   // ---- Exam-date distribution -------------------------------------------
@@ -304,6 +325,7 @@ async function main() {
   const report = {
     generatedAt: now.toISOString(),
     excludedAccounts: EXCLUDED,
+    excludedEmailsMatched: internalEmails.sort(),
     users: {
       total: totalUsers,
       verified: verifiedUsers,
