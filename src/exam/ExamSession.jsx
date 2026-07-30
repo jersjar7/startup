@@ -79,6 +79,11 @@ export function ExamSession({ userName, preview = false }) {
   const dirtyRef = React.useRef(false);
   const stateRef = React.useRef({ userAnswers: {}, currentIndex: 0, flagged: [], breakTaken: false });
   const attemptIdRef = React.useRef(null);
+  // The countdown effect below depends only on [phase], so anything it closes
+  // over is frozen at the moment the exam started. Auto-submit MUST go through
+  // this ref: calling a captured submitExam is what made a timed-out exam submit
+  // a blank answer set and score 0%.
+  const submitRef = React.useRef(() => {});
   const SAVE_DEBOUNCE_MS = 8000;
 
   const localKey = (id) => `fe4r_exam_progress_${id}`;
@@ -268,7 +273,8 @@ export function ExamSession({ userName, preview = false }) {
       setTimeLeft(prev => {
         if (prev <= 1) {
           clearInterval(interval);
-          submitExam();
+          // Through the ref, never the captured function.
+          submitRef.current();
           return 0;
         }
         return prev - 1;
@@ -364,11 +370,18 @@ export function ExamSession({ userName, preview = false }) {
     submitExam();
   }
 
+  // Refresh the ref every render so the countdown always fires the CURRENT
+  // submitExam. Without this the auto-submit at 00:00 runs a function frozen at
+  // exam start.
+  React.useEffect(() => { submitRef.current = submitExam; });
+
   async function submitExam() {
     // Free preview: score on the client, no server submit.
     if (preview) {
       let correct = 0;
       const chapterScores = {};
+      // Live state, for the same stale-closure reason as the paid path below.
+      const userAnswers = stateRef.current.userAnswers || {};
       questions.forEach((q, i) => {
         const ch = q.chapterId;
         if (!chapterScores[ch]) chapterScores[ch] = { correct: 0, total: 0 };
@@ -391,10 +404,26 @@ export function ExamSession({ userName, preview = false }) {
     setPhase('SUBMITTING');
     const timeUsedSeconds = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
 
-    const answers = questions.map(q => ({
-      questionId: q.id,
-      selectedAnswerId: userAnswers[q.id] || null,
-    }));
+    // Read answers from the ref, NOT from the closed-over `userAnswers`.
+    //
+    // The countdown effect depends only on [phase], so the submitExam it calls
+    // is captured from the render where the exam began. Reading closure state
+    // there meant a timed-out exam submitted the answer set from hours earlier —
+    // on a fresh attempt, nothing at all, scoring 0/110. stateRef is kept in
+    // sync on every change precisely so this path can be trusted.
+    const liveAnswers = stateRef.current.userAnswers || {};
+
+    // Send only real selections. Sending an explicit null for every unanswered
+    // question is what let a partial client wipe the server's autosaved answers.
+    // The server scores unanswered questions from its own stored question list,
+    // so omitting them loses nothing and can no longer destroy anything.
+    const answers = Object.entries(liveAnswers)
+      .filter(([, selectedAnswerId]) => Boolean(selectedAnswerId))
+      .map(([questionId, selectedAnswerId]) => ({ questionId, selectedAnswerId }));
+
+    // Push the latest state before scoring, so the server has everything even if
+    // the submit request itself fails and the user has to retry.
+    await flushProgress({ force: true });
 
     try {
       const res = await fetch('/api/exam/submit', {

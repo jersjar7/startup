@@ -1,39 +1,40 @@
 import { describe, it, expect } from 'vitest';
 const {
-  sanitizeAnswers, mergeAnswers, answeredCount, elapsedSeconds,
+  sanitizeAnswers, mergeAutosave, mergeSubmission, answeredCount, elapsedSeconds,
 } = require('./examProgress.js');
 
-describe('mergeAnswers', () => {
+describe('mergeAutosave', () => {
   // THE critical property. A client that lost its state must not be able to
   // wipe answers the server already holds — that is the bug being fixed.
   it('never drops stored answers that the incoming set omits', () => {
     const stored = { q1: 'a', q2: 'b', q3: 'c' };
-    expect(mergeAnswers(stored, { q2: 'x' })).toEqual({ q1: 'a', q2: 'x', q3: 'c' });
+    expect(mergeAutosave(stored, { q2: 'x' })).toEqual({ q1: 'a', q2: 'x', q3: 'c' });
   });
 
   it('an empty incoming set changes nothing', () => {
     const stored = { q1: 'a', q2: 'b' };
-    expect(mergeAnswers(stored, {})).toEqual(stored);
-    expect(mergeAnswers(stored, null)).toEqual(stored);
-    expect(mergeAnswers(stored, undefined)).toEqual(stored);
+    expect(mergeAutosave(stored, {})).toEqual(stored);
+    expect(mergeAutosave(stored, null)).toEqual(stored);
+    expect(mergeAutosave(stored, undefined)).toEqual(stored);
   });
 
   it('is idempotent, so a retried save is harmless', () => {
-    const once = mergeAnswers({ q1: 'a' }, { q2: 'b' });
-    expect(mergeAnswers(once, { q2: 'b' })).toEqual(once);
+    const once = mergeAutosave({ q1: 'a' }, { q2: 'b' });
+    expect(mergeAutosave(once, { q2: 'b' })).toEqual(once);
   });
 
   it('lets a later write win per question', () => {
-    expect(mergeAnswers({ q1: 'a' }, { q1: 'z' })).toEqual({ q1: 'z' });
+    expect(mergeAutosave({ q1: 'a' }, { q1: 'z' })).toEqual({ q1: 'z' });
   });
 
   it('honours an explicit null as "user cleared this answer"', () => {
-    expect(mergeAnswers({ q1: 'a', q2: 'b' }, { q1: null })).toEqual({ q1: null, q2: 'b' });
+    // Correct for AUTOSAVE only: there the client is reporting live state.
+    expect(mergeAutosave({ q1: 'a', q2: 'b' }, { q1: null })).toEqual({ q1: null, q2: 'b' });
   });
 
   it('works from an empty stored state', () => {
-    expect(mergeAnswers(null, { q1: 'a' })).toEqual({ q1: 'a' });
-    expect(mergeAnswers(undefined, undefined)).toEqual({});
+    expect(mergeAutosave(null, { q1: 'a' })).toEqual({ q1: 'a' });
+    expect(mergeAutosave(undefined, undefined)).toEqual({});
   });
 });
 
@@ -80,5 +81,47 @@ describe('elapsedSeconds', () => {
     expect(elapsedSeconds(null)).toBe(0);
     expect(elapsedSeconds('nope')).toBe(0);
     expect(elapsedSeconds('2026-07-30T12:00:00Z', new Date('2026-07-30T10:00:00Z'))).toBe(0);
+  });
+});
+
+// mergeSubmission is the fix for the critical defect the audit found: the client
+// sends an explicit null for every question it does not hold, and honouring
+// those at submit deleted the autosaved answers and scored the customer ~0%.
+// Submit must only ever ADD.
+describe('mergeSubmission', () => {
+  it('CANNOT clear a stored answer with a null — the critical property', () => {
+    expect(mergeSubmission({ q1: 'a', q2: 'b' }, { q1: null, q2: null }))
+      .toEqual({ q1: 'a', q2: 'b' });
+  });
+
+  it('survives the exact failure: a blank auto-submit over a full autosave', () => {
+    // The timed auto-submit used to fire with a stale, empty answer set. Even in
+    // that worst case the customer's saved work must be scored.
+    const saved = {};
+    for (let i = 1; i <= 110; i += 1) saved[`q${i}`] = 'choice-a';
+    const blankSubmit = {};
+    for (let i = 1; i <= 110; i += 1) blankSubmit[`q${i}`] = null;
+    const result = mergeSubmission(saved, blankSubmit);
+    expect(Object.values(result).filter(Boolean)).toHaveLength(110);
+  });
+
+  it('adds answers the server had not seen yet', () => {
+    expect(mergeSubmission({ q1: 'a' }, { q2: 'b' })).toEqual({ q1: 'a', q2: 'b' });
+  });
+
+  it('lets a real selection overwrite a different stored one', () => {
+    expect(mergeSubmission({ q1: 'a' }, { q1: 'z' })).toEqual({ q1: 'z' });
+  });
+
+  it('a partial submit keeps everything it did not mention', () => {
+    expect(mergeSubmission({ q1: 'a', q2: 'b', q3: 'c' }, { q2: 'x' }))
+      .toEqual({ q1: 'a', q2: 'x', q3: 'c' });
+  });
+
+  it('an empty or junk submission is a no-op, never destructive', () => {
+    const stored = { q1: 'a', q2: 'b' };
+    expect(mergeSubmission(stored, {})).toEqual(stored);
+    expect(mergeSubmission(stored, null)).toEqual(stored);
+    expect(mergeSubmission(stored, 'nonsense')).toEqual(stored);
   });
 });

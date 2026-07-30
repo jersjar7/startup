@@ -28,13 +28,31 @@ function sanitizeAnswers(input) {
   return out;
 }
 
-// Merge an incoming partial answer map over the stored one.
-//
-// Last write wins PER QUESTION, so two tabs or a retried request cannot lose
-// work: whatever a question is not mentioned in the incoming set keeps its
-// stored value. An explicit null clears that one answer.
-function mergeAnswers(stored, incoming) {
+// AUTOSAVE merge. The client is authoritative here: it is reporting live state
+// while the user works, so an explicit null legitimately means "the user cleared
+// this answer". Last write wins per question, so a retried request is harmless.
+function mergeAutosave(stored, incoming) {
   return { ...sanitizeAnswers(stored), ...sanitizeAnswers(incoming) };
+}
+
+// SUBMIT merge. Deliberately different: submit can only ADD answers, never clear
+// them.
+//
+// This distinction is the whole ballgame. The client's submit payload sends an
+// explicit null for every question it does not currently hold, and a submitting
+// client may hold only a fraction of the truth — most dangerously the timed
+// auto-submit, which can fire with a stale snapshot. Honouring those nulls at
+// submit time deleted every autosaved answer and scored the customer ~0%, which
+// is precisely the data loss the autosave was built to prevent.
+//
+// So at submit, nulls and absent entries are ignored: whatever the server has
+// already saved stands.
+function mergeSubmission(stored, submitted) {
+  const base = sanitizeAnswers(stored);
+  for (const [questionId, choiceId] of Object.entries(sanitizeAnswers(submitted))) {
+    if (choiceId) base[questionId] = choiceId; // additive only
+  }
+  return base;
 }
 
 // Count of questions with a real selection, for progress display.
@@ -52,4 +70,4 @@ function elapsedSeconds(startedAt, now = new Date()) {
   return Math.max(0, Math.round((new Date(now).getTime() - started) / 1000));
 }
 
-module.exports = { sanitizeAnswers, mergeAnswers, answeredCount, elapsedSeconds };
+module.exports = { sanitizeAnswers, mergeAutosave, mergeSubmission, answeredCount, elapsedSeconds };

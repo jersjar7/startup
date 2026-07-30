@@ -6,7 +6,7 @@ const { examXp } = require('../xp.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
 const { isAttemptExpired } = require('../examAttempt.js');
-const { sanitizeAnswers, mergeAnswers, answeredCount, elapsedSeconds } = require('../examProgress.js');
+const { sanitizeAnswers, mergeAutosave, mergeSubmission, answeredCount, elapsedSeconds } = require('../examProgress.js');
 
 const router = express.Router();
 
@@ -150,7 +150,7 @@ async function saveProgress(req, res) {
     }
 
     const update = { savedAt: new Date() };
-    if (answers !== undefined) update.savedAnswers = mergeAnswers(attempt.savedAnswers, answers);
+    if (answers !== undefined) update.savedAnswers = mergeAutosave(attempt.savedAnswers, answers);
     if (Number.isInteger(currentIndex)) update.savedIndex = currentIndex;
     if (Array.isArray(flagged)) {
       update.savedFlagged = flagged.filter((n) => Number.isInteger(n)).slice(0, 200);
@@ -210,7 +210,9 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
   for (const a of answers) {
     if (a && typeof a.questionId === 'string') submitted[a.questionId] = a.selectedAnswerId ?? null;
   }
-  const answerMap = mergeAnswers(attempt.savedAnswers, submitted);
+  // Additive: a submitting client can add answers but can never erase what was
+  // autosaved. See mergeSubmission for why these two paths differ.
+  const answerMap = mergeSubmission(attempt.savedAnswers, submitted);
 
   // Score each question
   const chapterScores = {};
