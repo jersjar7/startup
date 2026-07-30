@@ -3,6 +3,7 @@ const Stripe = require('stripe');
 const DB = require('../database.js');
 const { tierForCents } = require('../pricing.js');
 const { examTimingFromMetadata } = require('../profile.js');
+const { isModeMismatch, describeMode } = require('../stripeMode.js');
 const { sendSaleAlertEmail } = require('../email.js');
 
 const router = express.Router();
@@ -34,6 +35,18 @@ router.post('/stripe', async (req, res) => {
     if (!userId) {
       console.error('Webhook: checkout.session.completed missing client_reference_id');
       return res.status(200).send({ received: true });
+    }
+
+    // Refuse to grant access for a payment made in the other Stripe mode.
+    // A test-mode session reports payment_status 'paid' exactly like a real one,
+    // which is how a real student got the paid product for $0 while production
+    // was accidentally running on a test key.
+    if (isModeMismatch(event) || isModeMismatch(session)) {
+      console.error(
+        `[webhook] REFUSING grant: session livemode=${session.livemode} but server key is ${describeMode()}. ` +
+        `session=${session.id}. No purchase recorded and no access granted.`,
+      );
+      return res.status(200).send({ received: true, ignored: 'livemode-mismatch' });
     }
 
     // Prevent duplicate processing

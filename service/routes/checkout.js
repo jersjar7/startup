@@ -8,6 +8,7 @@ const {
 } = require('../pricing.js');
 const { generateNumericCode, hashToken } = require('../crypto.js');
 const { daysUntilExam, examTimingFromMetadata } = require('../profile.js');
+const { isModeMismatch, describeMode } = require('../stripeMode.js');
 const { sendStudentCodeEmail } = require('../email.js');
 
 const router = express.Router();
@@ -187,7 +188,14 @@ router.get('/status', verifyAuth, async (req, res) => {
   if (!purchased && req.query.session_id) {
     try {
       const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
-      if (session.payment_status === 'paid' && session.client_reference_id === userId) {
+      // Same guard as the webhook: 'paid' alone is not enough, because a
+      // test-mode session also reports 'paid'. This self-heal path is the one
+      // that actually granted a real student free access during the incident.
+      if (isModeMismatch(session)) {
+        console.error(
+          `[checkout/status] REFUSING grant: session livemode=${session.livemode} but server key is ${describeMode()}. session=${session.id}`,
+        );
+      } else if (session.payment_status === 'paid' && session.client_reference_id === userId) {
         // Same frozen timing the webhook records, so a webhook miss does not
         // silently drop the field on that purchase.
         await DB.recordPurchase(userId, {

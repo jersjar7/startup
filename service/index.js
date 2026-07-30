@@ -38,6 +38,22 @@ app.use(
 );
 app.use(compression());
 
+// Say the payment mode out loud at boot. Production silently ran on a Stripe
+// TEST key for ~12 days and collected nothing, with no signal anywhere. A single
+// unmissable log line is the cheapest possible tripwire.
+{
+  const { describeMode, serverIsLiveMode } = require('./stripeMode.js');
+  if (serverIsLiveMode()) {
+    console.log('[stripe] mode: LIVE - real cards will be charged');
+  } else {
+    console.warn(
+      `[stripe] mode: ${describeMode().toUpperCase()} - NO real money will be collected. `
+      + 'If this is production, checkout is broken. Payments made in the other mode '
+      + 'are now refused rather than silently granting free access.',
+    );
+  }
+}
+
 // Stripe webhook needs raw body for signature verification — mount BEFORE express.json()
 app.use('/api/webhook', express.raw({ type: 'application/json' }), require('./routes/webhook.js'));
 
