@@ -5,6 +5,7 @@ const { calculateStreak } = require('../streak.js');
 const { examXp } = require('../xp.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
+const { isAttemptExpired } = require('../examAttempt.js');
 
 const router = express.Router();
 
@@ -31,9 +32,30 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
   try {
     const userId = req.user._id.toString();
 
-    // Check for an in-progress attempt
+    // Check for an in-progress attempt.
+    //
+    // An attempt whose window has already closed must NOT be resumed. Resuming
+    // one unconditionally stranded paying customers: the client computes
+    // `max(0, TIME_LIMIT - elapsed)`, so a stale attempt drops the user into the
+    // 110-question exam with 00:00 on the clock and a timer that never ticks.
+    // Nothing reaped these, so every retry landed them back in the same dead
+    // attempt. Three of the first six buyers hit it; one submitted 3 of 110
+    // questions across two "completed" attempts over 40 days.
+    //
+    // Retire the expired attempt instead and fall through to a fresh one. The
+    // grace period matches checkActiveExamSims.js so the deploy preflight and
+    // this check never disagree about what counts as active.
     const attempts = await DB.getExamAttempts(userId);
-    const inProgress = attempts.find(a => a.status === 'in_progress');
+    let inProgress = attempts.find(a => a.status === 'in_progress');
+    if (inProgress) {
+      if (isAttemptExpired(inProgress.startedAt)) {
+        await DB.updateExamAttempt(inProgress._id.toString(), userId, {
+          status: 'expired',
+          expiredAt: new Date(),
+        });
+        inProgress = undefined; // start a clean attempt below
+      }
+    }
     if (inProgress) {
       // Return existing in-progress attempt
       const full = await DB.getExamAttempt(inProgress._id.toString(), userId);
