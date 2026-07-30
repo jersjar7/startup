@@ -43,4 +43,24 @@ function daysUntilExam(examDate, now = new Date()) {
   return Math.ceil((d.getTime() - now.getTime()) / 86400000);
 }
 
-module.exports = { sanitizeName, displayName, normalizeExamDate, daysUntilExam };
+// Pull the frozen exam-timing fields back off a Stripe session's metadata.
+//
+// Stripe stores metadata as strings, so daysUntilExam has to be parsed back to
+// a number here. Both purchase-recording paths (the webhook and the
+// /checkout/status fallback) go through this so they cannot drift apart and
+// record the field in two different shapes.
+//
+// Returns null for each value that was never set, which is the common case
+// while most users still have no exam date on file.
+function examTimingFromMetadata(metadata = {}) {
+  const raw = metadata.daysUntilExam;
+  const n = raw === undefined || raw === null || raw === '' ? null : Number(raw);
+  return {
+    daysUntilExam: n === null || Number.isNaN(n) ? null : n,
+    examDateAtPurchase: metadata.examDateAtPurchase || null,
+  };
+}
+
+module.exports = {
+  sanitizeName, displayName, normalizeExamDate, daysUntilExam, examTimingFromMetadata,
+};

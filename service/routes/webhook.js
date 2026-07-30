@@ -2,6 +2,7 @@ const express = require('express');
 const Stripe = require('stripe');
 const DB = require('../database.js');
 const { tierForCents } = require('../pricing.js');
+const { examTimingFromMetadata } = require('../profile.js');
 const { sendSaleAlertEmail } = require('../email.js');
 
 const router = express.Router();
@@ -41,6 +42,11 @@ router.post('/stripe', async (req, res) => {
       return res.status(200).send({ received: true });
     }
 
+    // Exam timing was frozen into the session metadata at checkout creation
+    // (see routes/checkout.js). Read it back rather than recomputing: by now the
+    // user may already have changed their exam date.
+    const timing = examTimingFromMetadata(session.metadata);
+
     await DB.recordPurchase(userId, {
       stripeSessionId: session.id,
       stripeCustomerId: session.customer,
@@ -49,6 +55,7 @@ router.post('/stripe', async (req, res) => {
       paymentStatus: session.payment_status,
       tier: session.metadata?.tier || tierForCents(session.amount_total),
       status: 'completed',
+      ...timing,
     });
 
     console.log(`Purchase recorded for user ${userId}, session ${session.id}`);

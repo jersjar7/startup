@@ -7,6 +7,7 @@ const {
   isStudentEmail, qualifiesForStudent, tierForCents, STUDENT_CENTS, STANDARD_CENTS,
 } = require('../pricing.js');
 const { generateNumericCode, hashToken } = require('../crypto.js');
+const { daysUntilExam, examTimingFromMetadata } = require('../profile.js');
 const { sendStudentCodeEmail } = require('../email.js');
 
 const router = express.Router();
@@ -48,6 +49,30 @@ router.post('/create-session', verifyAuth, async (req, res) => {
   const isStudent = qualifiesForStudent(freshUser);
   const unitAmount = isStudent ? STUDENT_CENTS : STANDARD_CENTS;
 
+  // How far out the exam is AT THE MOMENT OF PURCHASE. Nobody in test prep
+  // publishes this, so it has to be captured here rather than derived later.
+  //
+  // Design notes, because each of these is a deliberate choice:
+  //  - FROZEN at purchase time. Users edit their exam date afterwards, so
+  //    recomputing later would silently rewrite history. examDateAtPurchase is
+  //    stored alongside it so the number stays auditable.
+  //  - Reuses daysUntilExam() from profile.js, the same helper the countdown
+  //    emails use, so this figure matches what the user was actually shown.
+  //  - null when no date is on file. Only ~24% of users have one, so most
+  //    purchases will be null at first. That is honest, and "what share of
+  //    buyers even set a date" is itself a useful number.
+  //  - NEGATIVE values are kept, not clamped. A retaker carrying a stale past
+  //    date is real signal, not corruption.
+  const examDateAtPurchase = freshUser?.examDate || null;
+  const daysLeft = daysUntilExam(examDateAtPurchase);
+
+  // Stripe metadata values must be strings, and a key set to undefined is
+  // dropped. Only attach these when known so absence stays distinguishable
+  // from a genuine zero (exam day itself).
+  const timingMetadata = {};
+  if (daysLeft !== null) timingMetadata.daysUntilExam = String(daysLeft);
+  if (examDateAtPurchase) timingMetadata.examDateAtPurchase = examDateAtPurchase;
+
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     line_items: [
@@ -65,11 +90,20 @@ router.post('/create-session', verifyAuth, async (req, res) => {
     success_url: `${origin}/exam?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/exam`,
     allow_promotion_codes: true,
-    metadata: { tier: isStudent ? 'student' : 'standard', userId },
+    metadata: { tier: isStudent ? 'student' : 'standard', userId, ...timingMetadata },
   });
 
   // Funnel analytics: a checkout was initiated (for start->paid conversion).
-  await DB.logEvent('checkout_started', req.user.email, { sessionId: session.id });
+  // The timing goes on this event too, not just the purchase record, so
+  // ABANDONED checkouts carry it as well. That is the only way to ask whether
+  // buyers close to their exam convert better than those still weeks out — a
+  // purchases-only field can never answer it, because the people who did not
+  // buy leave no purchase row.
+  await DB.logEvent('checkout_started', req.user.email, {
+    sessionId: session.id,
+    daysUntilExam: daysLeft,
+    examDateAtPurchase,
+  });
 
   res.send({ url: session.url });
 });
@@ -154,12 +188,15 @@ router.get('/status', verifyAuth, async (req, res) => {
     try {
       const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
       if (session.payment_status === 'paid' && session.client_reference_id === userId) {
+        // Same frozen timing the webhook records, so a webhook miss does not
+        // silently drop the field on that purchase.
         await DB.recordPurchase(userId, {
           stripeSessionId: session.id,
           amount: session.amount_total,
           currency: session.currency,
           tier: session.metadata?.tier || tierForCents(session.amount_total),
           status: 'completed',
+          ...examTimingFromMetadata(session.metadata),
         });
         purchased = true;
       }

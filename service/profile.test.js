@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-const { sanitizeName, displayName, normalizeExamDate, daysUntilExam } = require('./profile');
+const { sanitizeName, displayName, normalizeExamDate, daysUntilExam, examTimingFromMetadata } = require('./profile');
 
 describe('sanitizeName', () => {
   it('keeps letters, spaces, hyphens, apostrophes and trims/collapses', () => {
@@ -55,5 +55,38 @@ describe('daysUntilExam', () => {
   });
   it('is null with no date', () => {
     expect(daysUntilExam(null)).toBeNull();
+  });
+});
+
+// Stripe stores metadata as STRINGS only, so the round-trip through
+// checkout -> metadata -> purchase record is where this silently breaks.
+describe('examTimingFromMetadata', () => {
+  it('parses the string Stripe hands back into a number', () => {
+    expect(examTimingFromMetadata({ daysUntilExam: '23', examDateAtPurchase: '2026-06-24' }))
+      .toEqual({ daysUntilExam: 23, examDateAtPurchase: '2026-06-24' });
+  });
+
+  it('keeps 0 distinct from "no date on file" (exam day itself)', () => {
+    expect(examTimingFromMetadata({ daysUntilExam: '0' }).daysUntilExam).toBe(0);
+  });
+
+  it('keeps negative days — a retaker with a stale past date is real signal', () => {
+    expect(examTimingFromMetadata({ daysUntilExam: '-12' }).daysUntilExam).toBe(-12);
+  });
+
+  it('returns nulls when the keys were never set', () => {
+    expect(examTimingFromMetadata({ tier: 'student' }))
+      .toEqual({ daysUntilExam: null, examDateAtPurchase: null });
+    expect(examTimingFromMetadata({})).toEqual({ daysUntilExam: null, examDateAtPurchase: null });
+    expect(examTimingFromMetadata()).toEqual({ daysUntilExam: null, examDateAtPurchase: null });
+  });
+
+  it('does not turn an empty string into 0', () => {
+    // Number('') is 0, which would fabricate "bought on exam day".
+    expect(examTimingFromMetadata({ daysUntilExam: '' }).daysUntilExam).toBeNull();
+  });
+
+  it('returns null rather than NaN for garbage', () => {
+    expect(examTimingFromMetadata({ daysUntilExam: 'soon' }).daysUntilExam).toBeNull();
   });
 });

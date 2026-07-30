@@ -172,8 +172,15 @@ async function main() {
 
   // Purchase -> exam date. Nobody in this industry publishes this; the DB can
   // answer it, and it decides where the reminder-email ladder should aim.
+  //
+  // Prefer purchase.daysUntilExam, frozen at checkout since 2026-07-30 (see
+  // service/routes/checkout.js). Falling back to the user's CURRENT examDate is
+  // unreliable for the older rows, because users edit that date after buying —
+  // one buyer's stale 2028 entry is what produced the 739-day outlier.
+  const frozenTimingCount = paid.filter((p) => p.daysUntilExam !== undefined && p.daysUntilExam !== null).length;
   const daysBeforeExam = paid
     .map((p) => {
+      if (p.daysUntilExam !== undefined && p.daysUntilExam !== null) return p.daysUntilExam;
       const u = idToUser.get(String(p.userId));
       if (!u?.examDate) return null;
       return Math.round((new Date(u.examDate) - new Date(p.createdAt)) / DAY);
@@ -356,6 +363,7 @@ async function main() {
       medianDaysPurchaseBeforeExam: median(daysBeforeExam),
       daysPurchaseBeforeExamAll: daysBeforeExam,
       daysBeforeExamSample: daysBeforeExam.length,
+      purchasesWithFrozenTiming: frozenTimingCount,
     },
     funnel: {
       eventWindow: evRange,
@@ -471,6 +479,10 @@ async function main() {
     r.revenue.medianDaysPurchaseBeforeExam ?? `n/a (sample ${r.revenue.daysBeforeExamSample})`,
   );
   row('  all values', JSON.stringify(r.revenue.daysPurchaseBeforeExamAll));
+  row(
+    '  frozen at checkout',
+    `${r.revenue.purchasesWithFrozenTiming} of ${r.revenue.totalSales}  (rest inferred from current examDate)`,
+  );
   L('  Revenue by month:');
   Object.entries(r.revenue.revenueByMonth)
     .sort()
