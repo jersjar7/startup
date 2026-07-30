@@ -51,7 +51,27 @@ cp -rf dist build/public # move the React front end to the target distribution
 # node_modules). This replaces a per-subdirectory cp list that silently dropped
 # new dirs — shared/ was missed once and crashed prod with MODULE_NOT_FOUND.
 # tar means any new service/ subdir ships automatically; never hand-list again.
-( cd service && tar --exclude=node_modules -cf - . ) | ( cd build && tar -xf - )
+#
+# .env is EXCLUDED and must stay excluded. The local service/.env is a dev
+# config holding Stripe TEST keys; production keys live only in the box's own
+# ~/services/<svc>/.env (preserved by the backup/restore in Step 2 below).
+# Packaging it was previously survivable only by accident: `scp -r build/*`
+# skips dotfiles under default bash globbing, so one `shopt -s dotglob` or a
+# switch to rsync would have silently pushed test keys over production and
+# stopped all real card charges.
+( cd service && tar --exclude=node_modules --exclude='.env' --exclude='.env.*' -cf - . ) \
+  | ( cd build && tar -xf - )
+
+# Belt and braces: never ship an env file even if the excludes above are edited
+# or a new variant appears. This is the last line of defence before scp.
+find build -name '.env' -o -name '.env.*' | while read -r leaked; do
+  printf "      removing %s from the package (env files must never ship)\n" "$leaked"
+  rm -f "$leaked"
+done
+if find build -name '.env' -o -name '.env.*' | grep -q .; then
+  printf "\n  ABORTING: an env file is still present in build/.\n\n"
+  exit 1
+fi
 
 # Step 2
 printf "\n----> Clearing out previous distribution on the target (preserving .env)\n"
