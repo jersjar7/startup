@@ -6,6 +6,7 @@ const { examXp } = require('../xp.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
 const { isAttemptExpired } = require('../examAttempt.js');
+const { scoreAttempt } = require('../examScoring.js');
 const {
   sanitizeAnswers, mergeAutosave, mergeSubmission, answeredCount, elapsedSeconds,
   examDeadlineMs, isPastDeadline,
@@ -31,6 +32,100 @@ async function requirePurchase(req, res, next) {
   next();
 }
 
+
+// Score an attempt, persist it, and apply the stats side effects.
+//
+// Shared by POST /submit and by the expiry path in POST /start, so an attempt
+// whose window closed without a submit is graded exactly like one the customer
+// pressed submit on. Previously expiry discarded the autosaved answers entirely.
+//
+// answerMap is keyed by questionId. `autoSubmitted` records that the customer
+// never pressed submit, so the result can be labelled honestly.
+async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeconds, autoSubmitted = false }) {
+  const attemptId = attempt._id.toString();
+  const {
+    scoredQuestions, chapterScores, totalCorrect, totalAttempted, overallPercentage,
+  } = scoreAttempt(attempt.questions || [], answerMap, attempt.totalQuestions);
+
+  const xpTotal = examXp(totalCorrect);
+
+  // Trust the server's startedAt over the client's timer: the client resets its
+  // startTime on every resume, so a resumed attempt under-reported badly (a
+  // 46-day-old attempt claimed under two hours). Cap at the real limit so a
+  // resumed session cannot report more than the exam allows.
+  const wasLate = isPastDeadline(attempt, TIME_LIMIT_SECONDS);
+  const serverElapsed = Math.min(elapsedSeconds(attempt.startedAt), TIME_LIMIT_SECONDS);
+  const reportedTime = Math.max(Number(timeUsedSeconds) || 0, 0);
+
+  await DB.updateExamAttempt(attemptId, userId, {
+    status: 'completed',
+    completedAt: new Date(),
+    timeUsedSeconds: Math.min(Math.max(reportedTime, serverElapsed), TIME_LIMIT_SECONDS),
+    clientReportedTimeSeconds: reportedTime,
+    lateSubmission: wasLate,
+    autoSubmitted,
+    questions: scoredQuestions,
+    chapterScores,
+    totalCorrect,
+    totalAttempted,
+    overallPercentage,
+    xpEarned: xpTotal,
+  });
+
+  const currentStats = (await DB.getUserStats(email)) || {
+    email, totalXp: 0, currentStreak: 0, longestStreak: 0,
+    lastSessionDate: null, topicProgress: {}, badges: [],
+  };
+
+  const today = new Date().toISOString().split('T')[0];
+  const streakResult = calculateStreak(currentStats, today);
+  const weekId = getWeekId();
+  const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
+
+  const updatedStats = {
+    email,
+    totalXp: currentStats.totalXp + xpTotal,
+    weekId,
+    weeklyXp: currentWeeklyXp + xpTotal,
+    currentStreak: streakResult.currentStreak,
+    longestStreak: streakResult.longestStreak,
+    freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
+    lastSessionDate: today,
+    topicProgress: currentStats.topicProgress || {},
+    badges: currentStats.badges || [],
+    diagnosticCompleted: currentStats.diagnosticCompleted,
+    diagnosticAttempts: currentStats.diagnosticAttempts,
+    chapterMastery: currentStats.chapterMastery || {},
+  };
+
+  const newBadgeIds = evaluateBadges(updatedStats, { correct: totalCorrect, total: attempt.totalQuestions });
+  if (newBadgeIds.length > 0) updatedStats.badges = [...updatedStats.badges, ...newBadgeIds];
+
+  await DB.updateUserStats(email, updatedStats);
+
+  await DB.logSession(email, {
+    topicId: 'exam-simulation',
+    type: 'exam-simulation',
+    answers: scoredQuestions.map(q => ({ problemId: q.id, isCorrect: q.isCorrect })),
+    xpEarned: xpTotal,
+    streak: streakResult.currentStreak,
+  });
+
+  return {
+    attemptId,
+    attemptNumber: attempt.attemptNumber,
+    chapterScores,
+    totalCorrect,
+    totalAttempted,
+    totalQuestions: attempt.totalQuestions,
+    overallPercentage,
+    xpEarned: xpTotal,
+    autoSubmitted,
+    streak: { current: streakResult.currentStreak, longest: streakResult.longestStreak },
+    newBadges: getBadgeDetails(newBadgeIds),
+  };
+}
+
 // POST /api/exam/start — Generate a 110-question exam
 router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
   try {
@@ -53,10 +148,31 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
     let inProgress = attempts.find(a => a.status === 'in_progress');
     if (inProgress) {
       if (isAttemptExpired(inProgress.startedAt)) {
-        await DB.updateExamAttempt(inProgress._id.toString(), userId, {
-          status: 'expired',
-          expiredAt: new Date(),
-        });
+        // The window closed without a submit. GRADE the work rather than
+        // discarding it: the autosave exists precisely so this customer's hours
+        // are not lost, and marking the attempt 'expired' hid it from every
+        // surface in the app (Past Attempts filters on 'completed').
+        const full = await DB.getExamAttempt(inProgress._id.toString(), userId);
+        const saved = sanitizeAnswers(full?.savedAnswers);
+        if (answeredCount(saved) > 0) {
+          await finalizeAttempt({
+            attempt: full,
+            userId,
+            email: req.user.email,
+            answerMap: saved,
+            // They had the full window available, whether or not they used it.
+            timeUsedSeconds: TIME_LIMIT_SECONDS,
+            autoSubmitted: true,
+          });
+          await DB.updateExamAttempt(inProgress._id.toString(), userId, { expiredAt: new Date() });
+        } else {
+          // Nothing was ever answered, so there is nothing to grade. Retire it
+          // quietly rather than manufacturing a 0% attempt in their history.
+          await DB.updateExamAttempt(inProgress._id.toString(), userId, {
+            status: 'expired',
+            expiredAt: new Date(),
+          });
+        }
         inProgress = undefined; // start a clean attempt below
       }
     }
@@ -216,9 +332,7 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
 
   // Build the answer map by MERGING what the client submitted over what was
   // already autosaved. Never trust the submitted set alone: if the tab was
-  // refreshed the client may hold only a fraction of the real answers, and
-  // replacing would score the rest as blank. That is exactly how paying
-  // customers ended up with 2% after answering far more than 2 questions.
+  // refreshed the client may hold only a fraction of the real answers.
   const submitted = {};
   for (const a of answers) {
     if (a && typeof a.questionId === 'string') submitted[a.questionId] = a.selectedAnswerId ?? null;
@@ -227,134 +341,10 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
   // autosaved. See mergeSubmission for why these two paths differ.
   const answerMap = mergeSubmission(attempt.savedAnswers, submitted);
 
-  // Score each question
-  const chapterScores = {};
-  let totalCorrect = 0;
-  let totalAttempted = 0;
-
-  const scoredQuestions = attempt.questions.map(q => {
-    const selectedId = answerMap[q.id] || null;
-    const isCorrect = selectedId === q.correctAnswerId;
-
-    if (!chapterScores[q.chapterId]) {
-      chapterScores[q.chapterId] = { correct: 0, total: 0 };
-    }
-    chapterScores[q.chapterId].total++;
-
-    if (selectedId) {
-      totalAttempted++;
-      if (isCorrect) {
-        totalCorrect++;
-        chapterScores[q.chapterId].correct++;
-      }
-    }
-
-    return {
-      ...q,
-      selectedAnswerId: selectedId,
-      isCorrect,
-    };
+  const result = await finalizeAttempt({
+    attempt, userId, email, answerMap, timeUsedSeconds, autoSubmitted: false,
   });
-
-  // Calculate percentage per chapter
-  for (const ch of Object.keys(chapterScores)) {
-    const s = chapterScores[ch];
-    s.percentage = s.total > 0 ? Math.round((s.correct / s.total) * 100) : 0;
-  }
-
-  const overallPercentage = attempt.totalQuestions > 0
-    ? Math.round((totalCorrect / attempt.totalQuestions) * 100)
-    : 0;
-
-  // XP calculation
-  const xpTotal = examXp(totalCorrect);
-
-  // Update attempt
-  // Trust the server's startedAt over the client's timer: the client resets its
-  // startTime on every resume, so a resumed attempt under-reported badly (a
-  // 46-day-old attempt claimed under two hours). Cap at the real limit so a
-  // resumed session cannot report more than the exam allows.
-  // Record whether the window had closed rather than rejecting the submit:
-  // refusing it would throw the customer's work away, which is the very failure
-  // this whole area is being fixed for.
-  const wasLate = isPastDeadline(attempt, TIME_LIMIT_SECONDS);
-  const serverElapsed = Math.min(elapsedSeconds(attempt.startedAt), TIME_LIMIT_SECONDS);
-  const reportedTime = Math.max(Number(timeUsedSeconds) || 0, 0);
-
-  await DB.updateExamAttempt(attemptId, userId, {
-    status: 'completed',
-    completedAt: new Date(),
-    timeUsedSeconds: Math.min(Math.max(reportedTime, serverElapsed), TIME_LIMIT_SECONDS),
-    clientReportedTimeSeconds: reportedTime,
-    lateSubmission: wasLate,
-    questions: scoredQuestions,
-    chapterScores,
-    totalCorrect,
-    totalAttempted,
-    overallPercentage,
-    xpEarned: xpTotal,
-  });
-
-  // Update user stats
-  const currentStats = (await DB.getUserStats(email)) || {
-    email,
-    totalXp: 0,
-    currentStreak: 0,
-    longestStreak: 0,
-    lastSessionDate: null,
-    topicProgress: {},
-    badges: [],
-  };
-
-  const today = new Date().toISOString().split('T')[0];
-  const streakResult = calculateStreak(currentStats, today);
-  const weekId = getWeekId();
-  const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
-
-  const updatedStats = {
-    email,
-    totalXp: currentStats.totalXp + xpTotal,
-    weekId,
-    weeklyXp: currentWeeklyXp + xpTotal,
-    currentStreak: streakResult.currentStreak,
-    longestStreak: streakResult.longestStreak,
-    freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
-    lastSessionDate: today,
-    topicProgress: currentStats.topicProgress || {},
-    badges: currentStats.badges || [],
-    diagnosticCompleted: currentStats.diagnosticCompleted,
-    diagnosticAttempts: currentStats.diagnosticAttempts,
-    chapterMastery: currentStats.chapterMastery || {},
-  };
-
-  const newBadgeIds = evaluateBadges(updatedStats, { correct: totalCorrect, total: attempt.totalQuestions });
-  if (newBadgeIds.length > 0) {
-    updatedStats.badges = [...updatedStats.badges, ...newBadgeIds];
-  }
-
-  await DB.updateUserStats(email, updatedStats);
-
-  // Log session
-  await DB.logSession(email, {
-    topicId: 'exam-simulation',
-    type: 'exam-simulation',
-    answers: scoredQuestions.map(q => ({ problemId: q.id, isCorrect: q.isCorrect })),
-    xpEarned: xpTotal,
-    streak: streakResult.currentStreak,
-  });
-
-  res.send({
-    attemptId,
-    attemptNumber: attempt.attemptNumber,
-    chapterScores,
-    totalCorrect,
-    totalAttempted,
-    totalQuestions: attempt.totalQuestions,
-    overallPercentage,
-    xpEarned: xpTotal,
-    streak: { current: streakResult.currentStreak, longest: streakResult.longestStreak },
-    newBadges: getBadgeDetails(newBadgeIds),
-  });
+  res.send(result);
   } catch (err) {
     console.error('[exam/submit] Error:', err);
     res.status(500).send({ msg: 'Failed to submit exam' });
@@ -378,6 +368,7 @@ router.get('/attempts', verifyAuth, requirePurchase, async (req, res) => {
     timeUsedSeconds: a.timeUsedSeconds,
     xpEarned: a.xpEarned,
     chapterScores: a.chapterScores,
+    autoSubmitted: a.autoSubmitted === true,
   })));
 });
 
