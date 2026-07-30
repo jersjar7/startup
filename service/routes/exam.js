@@ -6,7 +6,10 @@ const { examXp } = require('../xp.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
 const { isAttemptExpired } = require('../examAttempt.js');
-const { sanitizeAnswers, mergeAutosave, mergeSubmission, answeredCount, elapsedSeconds } = require('../examProgress.js');
+const {
+  sanitizeAnswers, mergeAutosave, mergeSubmission, answeredCount, elapsedSeconds,
+  examDeadlineMs, isPastDeadline,
+} = require('../examProgress.js');
 
 const router = express.Router();
 
@@ -77,6 +80,9 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
         })),
         timeLimit: TIME_LIMIT_SECONDS,
         startedAt: full.startedAt,
+        // Server-issued so the client never derives its own clock. A hidden tab
+        // or a sleeping laptop cannot pause a wall-clock deadline.
+        deadline: examDeadlineMs(full, TIME_LIMIT_SECONDS),
         resumed: true,
         savedAnswers: sanitizeAnswers(full.savedAnswers),
         currentIndex: Number.isInteger(full.savedIndex) ? full.savedIndex : 0,
@@ -97,12 +103,13 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
 
     const attemptNumber = (await DB.getExamAttemptCount(userId)) + 1;
 
+    const startedAt = new Date();
     const attemptId = await DB.createExamAttempt(userId, {
       attemptNumber,
       status: 'in_progress',
       questions: clientQuestions,
       timeLimit: TIME_LIMIT_SECONDS,
-      startedAt: new Date(),
+      startedAt,
       totalQuestions: clientQuestions.length,
     });
 
@@ -118,7 +125,8 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
         diagram: q.diagram || null,
       })),
       timeLimit: TIME_LIMIT_SECONDS,
-      startedAt: new Date(),
+      startedAt,
+      deadline: examDeadlineMs({ startedAt }, TIME_LIMIT_SECONDS),
       resumed: false,
     });
   } catch (err) {
@@ -139,7 +147,7 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
 async function saveProgress(req, res) {
   try {
     const userId = req.user._id.toString();
-    const { attemptId, answers, currentIndex, flagged, breakTaken } = req.body;
+    const { attemptId, answers, currentIndex, flagged, breakTaken, breakStartedAt, breakEndedAt } = req.body;
     if (!attemptId) return res.status(400).send({ msg: 'attemptId is required' });
 
     const attempt = await DB.getExamAttempt(attemptId, userId);
@@ -158,6 +166,11 @@ async function saveProgress(req, res) {
     // Break is one-way: once taken it stays taken, so a refresh cannot hand out
     // a second 25-minute break.
     if (breakTaken === true) update.breakTaken = true;
+    // Break timestamps extend the deadline (the break sits outside exam time, as
+    // in the real NCEES appointment). Write-once so a refresh cannot buy a
+    // second break or stretch the first.
+    if (breakStartedAt && !attempt.breakStartedAt) update.breakStartedAt = new Date(breakStartedAt);
+    if (breakEndedAt && !attempt.breakEndedAt) update.breakEndedAt = new Date(breakEndedAt);
 
     await DB.updateExamAttempt(attemptId, userId, update);
     res.send({ ok: true, answered: answeredCount(update.savedAnswers ?? attempt.savedAnswers) });
@@ -261,6 +274,10 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
   // startTime on every resume, so a resumed attempt under-reported badly (a
   // 46-day-old attempt claimed under two hours). Cap at the real limit so a
   // resumed session cannot report more than the exam allows.
+  // Record whether the window had closed rather than rejecting the submit:
+  // refusing it would throw the customer's work away, which is the very failure
+  // this whole area is being fixed for.
+  const wasLate = isPastDeadline(attempt, TIME_LIMIT_SECONDS);
   const serverElapsed = Math.min(elapsedSeconds(attempt.startedAt), TIME_LIMIT_SECONDS);
   const reportedTime = Math.max(Number(timeUsedSeconds) || 0, 0);
 
@@ -269,6 +286,7 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
     completedAt: new Date(),
     timeUsedSeconds: Math.min(Math.max(reportedTime, serverElapsed), TIME_LIMIT_SECONDS),
     clientReportedTimeSeconds: reportedTime,
+    lateSubmission: wasLate,
     questions: scoredQuestions,
     chapterScores,
     totalCorrect,

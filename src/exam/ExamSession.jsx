@@ -84,6 +84,13 @@ export function ExamSession({ userName, preview = false }) {
   // this ref: calling a captured submitExam is what made a timed-out exam submit
   // a blank answer set and score 0%.
   const submitRef = React.useRef(() => {});
+  // Server-issued wall-clock deadline (epoch ms). The clock is derived from this
+  // on every tick and on every wake, never decremented blindly: the old
+  // setInterval countdown simply stopped when the tab was hidden or the laptop
+  // slept, handing out unlimited extra time on a timed exam.
+  const deadlineRef = React.useRef(null);
+  const breakStartedAtRef = React.useRef(null);
+  const breakEndedAtRef = React.useRef(null);
   const SAVE_DEBOUNCE_MS = 8000;
 
   const localKey = (id) => `fe4r_exam_progress_${id}`;
@@ -118,7 +125,15 @@ export function ExamSession({ userName, preview = false }) {
     if (!dirtyRef.current && !opts.force) return;
     dirtyRef.current = false;
     const { userAnswers: ua, currentIndex: ci, flagged: fl, breakTaken: bt } = stateRef.current;
-    const body = JSON.stringify({ attemptId: id, answers: ua, currentIndex: ci, flagged: fl, breakTaken: bt });
+    const body = JSON.stringify({
+      attemptId: id,
+      answers: ua,
+      currentIndex: ci,
+      flagged: fl,
+      breakTaken: bt,
+      breakStartedAt: breakStartedAtRef.current ? new Date(breakStartedAtRef.current).toISOString() : undefined,
+      breakEndedAt: breakEndedAtRef.current ? new Date(breakEndedAtRef.current).toISOString() : undefined,
+    });
     try {
       if (opts.beacon && navigator.sendBeacon) {
         // On pagehide a normal fetch is often killed mid-flight. sendBeacon is
@@ -175,6 +190,9 @@ export function ExamSession({ userName, preview = false }) {
           return;
         }
         setQuestions(shuffleQuestionChoices(sample));
+        // Preview has no server attempt, so it sets its own deadline. Without
+        // this the shared timer would fall back to the full 5h20m.
+        deadlineRef.current = Date.now() + PREVIEW_COUNT * 175 * 1000;
         setTimeLeft(PREVIEW_COUNT * 175); // ~exam pace (2.91 min/q)
         setStartTime(Date.now());
         setPhase('EXAM');
@@ -248,15 +266,16 @@ export function ExamSession({ userName, preview = false }) {
             : 0,
         );
 
-        const elapsed = Math.floor((Date.now() - new Date(data.startedAt).getTime()) / 1000);
-        setTimeLeft(Math.max(0, TIME_LIMIT - elapsed));
         // Anchor the client timer to the server's start so a resumed session
         // reports true elapsed time, not just the time since this page load.
         setStartTime(new Date(data.startedAt).getTime());
+        deadlineRef.current = data.deadline || (new Date(data.startedAt).getTime() + TIME_LIMIT * 1000);
+        setTimeLeft(remainingFromDeadline());
       } else {
         setQuestions(shuffleQuestionChoices(selected));
-        setTimeLeft(TIME_LIMIT);
-        setStartTime(Date.now());
+        deadlineRef.current = data.deadline || (Date.now() + TIME_LIMIT * 1000);
+        setStartTime(new Date(data.startedAt || Date.now()).getTime());
+        setTimeLeft(remainingFromDeadline());
       }
 
       setPhase('EXAM');
@@ -265,23 +284,41 @@ export function ExamSession({ userName, preview = false }) {
     }
   }
 
-  // Exam timer countdown (pauses during break)
+  // Seconds left, always re-derived from the server deadline. Never a stored
+  // countdown, so hiding the tab or sleeping the machine cannot buy time.
+  function remainingFromDeadline() {
+    if (!deadlineRef.current) return TIME_LIMIT;
+    return Math.max(0, Math.round((deadlineRef.current - Date.now()) / 1000));
+  }
+
+  // Exam timer. Recomputes from the deadline each tick and auto-submits the
+  // moment it reaches zero, including when the tab wakes up already past it.
   React.useEffect(() => {
-    if (phase !== 'EXAM' || timeLeft <= 0) return;
+    if (phase !== 'EXAM') return undefined;
 
-    const interval = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          // Through the ref, never the captured function.
-          submitRef.current();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    const tick = () => {
+      const left = remainingFromDeadline();
+      setTimeLeft(left);
+      if (left <= 0) {
+        clearInterval(interval);
+        submitRef.current();
+      }
+    };
+    const interval = setInterval(tick, 1000);
+    tick();
 
-    return () => clearInterval(interval);
+    // A backgrounded tab throttles timers, so the deadline may already have
+    // passed by the time focus returns. Re-check on wake rather than waiting for
+    // the next throttled tick.
+    const onWake = () => { if (document.visibilityState === 'visible') tick(); };
+    document.addEventListener('visibilitychange', onWake);
+    window.addEventListener('focus', onWake);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', onWake);
+      window.removeEventListener('focus', onWake);
+    };
   }, [phase]);
 
   // Break timer countdown
@@ -339,8 +376,14 @@ export function ExamSession({ userName, preview = false }) {
 
     // Trigger break at the halfway point (after question 55)
     if (!breakTaken && currentIndex === BREAK_AFTER_QUESTION - 1) {
+      // Stamp the break start and push it immediately. The break sits outside
+      // exam time, so the server needs it to extend the deadline even if the tab
+      // dies during the break.
+      breakStartedAtRef.current = Date.now();
       setBreakTimeLeft(BREAK_DURATION);
       setPhase('BREAK');
+      markDirty();
+      flushProgress({ force: true });
       return;
     }
 
@@ -348,8 +391,16 @@ export function ExamSession({ userName, preview = false }) {
   }
 
   function resumeFromBreak() {
+    // Credit the break back onto the deadline, capped at one full break so a
+    // long absence cannot become unlimited exam time.
+    if (breakStartedAtRef.current && deadlineRef.current) {
+      const taken = Math.min(Date.now() - breakStartedAtRef.current, BREAK_DURATION * 1000);
+      deadlineRef.current += Math.max(0, taken);
+    }
+    breakEndedAtRef.current = Date.now();
     setBreakTaken(true);
     markDirty();
+    flushProgress({ force: true });
     setCurrentIndex(BREAK_AFTER_QUESTION);
     setPhase('EXAM');
   }

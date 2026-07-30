@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 const {
   sanitizeAnswers, mergeAutosave, mergeSubmission, answeredCount, elapsedSeconds,
+  examDeadlineMs, isPastDeadline,
 } = require('./examProgress.js');
 
 describe('mergeAutosave', () => {
@@ -123,5 +124,81 @@ describe('mergeSubmission', () => {
     expect(mergeSubmission(stored, {})).toEqual(stored);
     expect(mergeSubmission(stored, null)).toEqual(stored);
     expect(mergeSubmission(stored, 'nonsense')).toEqual(stored);
+  });
+});
+
+// The clock is the product for a timed exam. The old countdown was a bare
+// setInterval decrement that never re-derived from wall clock, so hiding the tab
+// or sleeping the laptop stopped it and handed out unlimited extra time.
+describe('examDeadlineMs', () => {
+  const L = 5 * 3600 + 20 * 60; // 5h20m
+  const START = '2026-07-30T10:00:00Z';
+  const iso = (ms) => new Date(ms).toISOString();
+
+  it('is startedAt plus the limit when no break was taken', () => {
+    expect(iso(examDeadlineMs({ startedAt: START }, L))).toBe('2026-07-30T15:20:00.000Z');
+  });
+
+  it('extends by a completed break, because the break sits outside exam time', () => {
+    const d = examDeadlineMs({
+      startedAt: START,
+      breakStartedAt: '2026-07-30T12:00:00Z',
+      breakEndedAt: '2026-07-30T12:25:00Z',
+    }, L);
+    expect(iso(d)).toBe('2026-07-30T15:45:00.000Z');
+  });
+
+  it('extends as an in-progress break runs', () => {
+    const d = examDeadlineMs(
+      { startedAt: START, breakStartedAt: '2026-07-30T12:00:00Z' },
+      L,
+      new Date('2026-07-30T12:10:00Z'),
+    );
+    expect(iso(d)).toBe('2026-07-30T15:30:00.000Z');
+  });
+
+  it('caps the credit at one full break, so a long absence is not free time', () => {
+    const d = examDeadlineMs({
+      startedAt: START,
+      breakStartedAt: '2026-07-30T12:00:00Z',
+      breakEndedAt: '2026-08-30T12:00:00Z', // a month later
+    }, L);
+    expect(iso(d)).toBe('2026-07-30T15:45:00.000Z'); // +25m only
+  });
+
+  it('never credits negative time from reversed timestamps', () => {
+    const d = examDeadlineMs({
+      startedAt: START,
+      breakStartedAt: '2026-07-30T12:25:00Z',
+      breakEndedAt: '2026-07-30T12:00:00Z',
+    }, L);
+    expect(iso(d)).toBe('2026-07-30T15:20:00.000Z');
+  });
+
+  it('is NaN for an unparseable start, so callers can fall back', () => {
+    expect(Number.isNaN(examDeadlineMs({ startedAt: 'nope' }, L))).toBe(true);
+  });
+});
+
+describe('isPastDeadline', () => {
+  const L = 5 * 3600 + 20 * 60;
+  const START = '2026-07-30T10:00:00Z';
+
+  it('is false inside the window and true after it', () => {
+    expect(isPastDeadline({ startedAt: START }, L, new Date('2026-07-30T15:19:00Z'))).toBe(false);
+    expect(isPastDeadline({ startedAt: START }, L, new Date('2026-07-30T15:21:00Z'))).toBe(true);
+  });
+
+  it('accounts for the break before declaring a submit late', () => {
+    const withBreak = {
+      startedAt: START,
+      breakStartedAt: '2026-07-30T12:00:00Z',
+      breakEndedAt: '2026-07-30T12:25:00Z',
+    };
+    expect(isPastDeadline(withBreak, L, new Date('2026-07-30T15:30:00Z'))).toBe(false);
+  });
+
+  it('does not flag a submit late when the start time is unusable', () => {
+    expect(isPastDeadline({ startedAt: null }, L)).toBe(false);
   });
 });
