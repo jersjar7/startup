@@ -6,6 +6,7 @@ const { examXp } = require('../xp.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
 const { isAttemptExpired } = require('../examAttempt.js');
+const { sanitizeAnswers, mergeAnswers, answeredCount, elapsedSeconds } = require('../examProgress.js');
 
 const router = express.Router();
 
@@ -57,7 +58,11 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
       }
     }
     if (inProgress) {
-      // Return existing in-progress attempt
+      // Resume the STORED attempt, and hand back everything needed to restore
+      // the session exactly: the original questions (the client must not
+      // regenerate its own — doing so meant submitted questionIds did not match
+      // the stored ones and were silently scored as blank), plus the saved
+      // answers, position, flags and break state.
       const full = await DB.getExamAttempt(inProgress._id.toString(), userId);
       return res.send({
         attemptId: full._id.toString(),
@@ -73,6 +78,10 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
         timeLimit: TIME_LIMIT_SECONDS,
         startedAt: full.startedAt,
         resumed: true,
+        savedAnswers: sanitizeAnswers(full.savedAnswers),
+        currentIndex: Number.isInteger(full.savedIndex) ? full.savedIndex : 0,
+        flagged: Array.isArray(full.savedFlagged) ? full.savedFlagged : [],
+        breakTaken: full.breakTaken === true,
       });
     }
 
@@ -118,6 +127,55 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
   }
 });
 
+// PATCH /api/exam/answers — autosave in-progress exam state.
+//
+// Called on a debounce while the user works, and on pagehide/visibilitychange.
+// Everything is OPTIONAL and MERGED, never replaced: a client that has lost its
+// state cannot blank out answers the server already holds. That is the failure
+// this whole endpoint exists to prevent.
+//
+// Cheap on purpose — one small $set per flush, no scoring — because it runs
+// every few seconds for up to five and a half hours.
+async function saveProgress(req, res) {
+  try {
+    const userId = req.user._id.toString();
+    const { attemptId, answers, currentIndex, flagged, breakTaken } = req.body;
+    if (!attemptId) return res.status(400).send({ msg: 'attemptId is required' });
+
+    const attempt = await DB.getExamAttempt(attemptId, userId);
+    if (!attempt) return res.status(404).send({ msg: 'Exam attempt not found' });
+    // Never let a late autosave reopen or mutate a finished attempt.
+    if (attempt.status !== 'in_progress') {
+      return res.send({ ok: true, ignored: true, status: attempt.status });
+    }
+
+    const update = { savedAt: new Date() };
+    if (answers !== undefined) update.savedAnswers = mergeAnswers(attempt.savedAnswers, answers);
+    if (Number.isInteger(currentIndex)) update.savedIndex = currentIndex;
+    if (Array.isArray(flagged)) {
+      update.savedFlagged = flagged.filter((n) => Number.isInteger(n)).slice(0, 200);
+    }
+    // Break is one-way: once taken it stays taken, so a refresh cannot hand out
+    // a second 25-minute break.
+    if (breakTaken === true) update.breakTaken = true;
+
+    await DB.updateExamAttempt(attemptId, userId, update);
+    res.send({ ok: true, answered: answeredCount(update.savedAnswers ?? attempt.savedAnswers) });
+  } catch (err) {
+    console.error('[exam/answers] Error:', err);
+    res.status(500).send({ msg: 'Failed to save progress' });
+  }
+}
+
+router.patch('/answers', verifyAuth, requirePurchase, saveProgress);
+
+// POST /api/exam/answers-beacon — same save, reachable by navigator.sendBeacon.
+// On pagehide a normal fetch is routinely killed mid-flight; sendBeacon is the
+// only transport browsers guarantee to deliver, and it can only POST. This is
+// the last-chance save when a user closes the tab mid-exam, which is exactly
+// when answers used to vanish.
+router.post('/answers-beacon', verifyAuth, requirePurchase, saveProgress);
+
 // POST /api/exam/submit — Submit completed exam
 router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
   try {
@@ -143,11 +201,16 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
     return res.status(400).send({ msg: 'This exam has already been submitted' });
   }
 
-  // Build answer map
-  const answerMap = {};
+  // Build the answer map by MERGING what the client submitted over what was
+  // already autosaved. Never trust the submitted set alone: if the tab was
+  // refreshed the client may hold only a fraction of the real answers, and
+  // replacing would score the rest as blank. That is exactly how paying
+  // customers ended up with 2% after answering far more than 2 questions.
+  const submitted = {};
   for (const a of answers) {
-    answerMap[a.questionId] = a.selectedAnswerId;
+    if (a && typeof a.questionId === 'string') submitted[a.questionId] = a.selectedAnswerId ?? null;
   }
+  const answerMap = mergeAnswers(attempt.savedAnswers, submitted);
 
   // Score each question
   const chapterScores = {};
@@ -192,10 +255,18 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
   const xpTotal = examXp(totalCorrect);
 
   // Update attempt
+  // Trust the server's startedAt over the client's timer: the client resets its
+  // startTime on every resume, so a resumed attempt under-reported badly (a
+  // 46-day-old attempt claimed under two hours). Cap at the real limit so a
+  // resumed session cannot report more than the exam allows.
+  const serverElapsed = Math.min(elapsedSeconds(attempt.startedAt), TIME_LIMIT_SECONDS);
+  const reportedTime = Math.max(Number(timeUsedSeconds) || 0, 0);
+
   await DB.updateExamAttempt(attemptId, userId, {
     status: 'completed',
     completedAt: new Date(),
-    timeUsedSeconds: timeUsedSeconds || 0,
+    timeUsedSeconds: Math.min(Math.max(reportedTime, serverElapsed), TIME_LIMIT_SECONDS),
+    clientReportedTimeSeconds: reportedTime,
     questions: scoredQuestions,
     chapterScores,
     totalCorrect,

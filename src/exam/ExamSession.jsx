@@ -64,6 +64,94 @@ export function ExamSession({ userName, preview = false }) {
   const [breakTimeLeft, setBreakTimeLeft] = React.useState(BREAK_DURATION);
   const [breakTaken, setBreakTaken] = React.useState(false);
 
+  // ── Progress durability ────────────────────────────────────────────────
+  // The exam runs up to 5h20m and answers used to live only in this component's
+  // state, so a refresh, crash, or accidental navigation wiped everything while
+  // the server clock kept running. Three of the first six paying customers
+  // submitted single-digit answer counts because of it.
+  //
+  // Two layers:
+  //   1. localStorage, written synchronously on every change — instant, and
+  //      covers the gap before the next network flush plus offline moments.
+  //   2. a debounced PATCH to the server — authoritative, survives clearing
+  //      site data or switching device.
+  // The server MERGES, so neither layer can blank out the other.
+  const dirtyRef = React.useRef(false);
+  const stateRef = React.useRef({ userAnswers: {}, currentIndex: 0, flagged: [], breakTaken: false });
+  const attemptIdRef = React.useRef(null);
+  const SAVE_DEBOUNCE_MS = 8000;
+
+  const localKey = (id) => `fe4r_exam_progress_${id}`;
+
+  function markDirty() {
+    dirtyRef.current = true;
+  }
+
+  // Keep a ref copy so the flush handlers (interval, pagehide) always send the
+  // latest state without being re-registered on every keystroke.
+  React.useEffect(() => {
+    stateRef.current = {
+      userAnswers,
+      currentIndex,
+      flagged: Array.from(flagged),
+      breakTaken,
+    };
+    if (preview || !attemptId) return;
+    try {
+      localStorage.setItem(localKey(attemptId), JSON.stringify({
+        ...stateRef.current,
+        savedAt: Date.now(),
+      }));
+    } catch { /* storage full or blocked — the server flush still covers us */ }
+  }, [userAnswers, currentIndex, flagged, breakTaken, attemptId, preview]);
+
+  React.useEffect(() => { attemptIdRef.current = attemptId; }, [attemptId]);
+
+  const flushProgress = React.useCallback(async (opts = {}) => {
+    const id = attemptIdRef.current;
+    if (preview || !id) return;
+    if (!dirtyRef.current && !opts.force) return;
+    dirtyRef.current = false;
+    const { userAnswers: ua, currentIndex: ci, flagged: fl, breakTaken: bt } = stateRef.current;
+    const body = JSON.stringify({ attemptId: id, answers: ua, currentIndex: ci, flagged: fl, breakTaken: bt });
+    try {
+      if (opts.beacon && navigator.sendBeacon) {
+        // On pagehide a normal fetch is often killed mid-flight. sendBeacon is
+        // the only transport the browser guarantees to deliver, but it cannot
+        // send PATCH, so the server also accepts this on POST.
+        navigator.sendBeacon('/api/exam/answers-beacon', new Blob([body], { type: 'application/json' }));
+        return;
+      }
+      await fetch('/api/exam/answers', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+      });
+    } catch {
+      dirtyRef.current = true; // retry on the next tick rather than losing it
+    }
+  }, [preview]);
+
+  // Periodic flush while the exam is open.
+  React.useEffect(() => {
+    if (preview || phase !== 'EXAM') return undefined;
+    const t = setInterval(() => { flushProgress(); }, SAVE_DEBOUNCE_MS);
+    return () => clearInterval(t);
+  }, [phase, preview, flushProgress]);
+
+  // Flush when the tab is hidden or unloaded — the moment answers used to die.
+  React.useEffect(() => {
+    if (preview) return undefined;
+    const onHide = () => { flushProgress({ beacon: true, force: true }); };
+    const onVisibility = () => { if (document.visibilityState === 'hidden') onHide(); };
+    window.addEventListener('pagehide', onHide);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      window.removeEventListener('pagehide', onHide);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+  }, [preview, flushProgress]);
+
   React.useEffect(() => {
     if (!userName) {
       navigate('/');
@@ -124,17 +212,48 @@ export function ExamSession({ userName, preview = false }) {
 
       const data = await res.json();
       setAttemptId(data.attemptId);
-      setQuestions(shuffleQuestionChoices(selected));
 
-      if (data.resumed && data.startedAt) {
+      if (data.resumed) {
+        // Use the questions the SERVER stored, not the freshly generated local
+        // set. Regenerating meant the user answered a different exam than the
+        // one being scored, so their questionIds did not match and every answer
+        // was counted blank.
+        setQuestions(shuffleQuestionChoices(data.questions || []));
+
+        // Server answers are authoritative, but the localStorage mirror can be
+        // newer than the last successful flush (that is the whole point of it),
+        // so overlay it.
+        let restored = data.savedAnswers || {};
+        try {
+          const raw = localStorage.getItem(localKey(data.attemptId));
+          if (raw) {
+            const local = JSON.parse(raw);
+            if (local && typeof local.userAnswers === 'object') {
+              restored = { ...restored, ...local.userAnswers };
+            }
+          }
+        } catch { /* ignore a corrupt mirror; the server copy stands */ }
+
+        setUserAnswers(restored);
+        setFlagged(new Set(Array.isArray(data.flagged) ? data.flagged : []));
+        setBreakTaken(data.breakTaken === true);
+        setCurrentIndex(
+          Number.isInteger(data.currentIndex)
+            ? Math.min(data.currentIndex, Math.max(0, (data.questions || []).length - 1))
+            : 0,
+        );
+
         const elapsed = Math.floor((Date.now() - new Date(data.startedAt).getTime()) / 1000);
-        const remaining = Math.max(0, TIME_LIMIT - elapsed);
-        setTimeLeft(remaining);
+        setTimeLeft(Math.max(0, TIME_LIMIT - elapsed));
+        // Anchor the client timer to the server's start so a resumed session
+        // reports true elapsed time, not just the time since this page load.
+        setStartTime(new Date(data.startedAt).getTime());
       } else {
+        setQuestions(shuffleQuestionChoices(selected));
         setTimeLeft(TIME_LIMIT);
+        setStartTime(Date.now());
       }
 
-      setStartTime(Date.now());
       setPhase('EXAM');
     } catch (err) {
       setError(err.message);
@@ -187,8 +306,15 @@ export function ExamSession({ userName, preview = false }) {
     return `${m}:${String(s).padStart(2, '0')}`;
   }
 
+  // Answers are keyed by QUESTION ID, never by array position. Position keys
+  // broke on resume: the session used to regenerate its own question list, so
+  // index 7 meant a different question than the server had stored and the answer
+  // was scored as blank.
   function handleSelectChoice(choiceId) {
-    setUserAnswers(prev => ({ ...prev, [currentIndex]: choiceId }));
+    const qid = questions[currentIndex]?.id;
+    if (!qid) return;
+    setUserAnswers(prev => ({ ...prev, [qid]: choiceId }));
+    markDirty();
   }
 
   function handleToggleFlag() {
@@ -198,6 +324,7 @@ export function ExamSession({ userName, preview = false }) {
       else next.add(currentIndex);
       return next;
     });
+    markDirty();
   }
 
   function handleNext() {
@@ -216,6 +343,7 @@ export function ExamSession({ userName, preview = false }) {
 
   function resumeFromBreak() {
     setBreakTaken(true);
+    markDirty();
     setCurrentIndex(BREAK_AFTER_QUESTION);
     setPhase('EXAM');
   }
@@ -245,7 +373,7 @@ export function ExamSession({ userName, preview = false }) {
         const ch = q.chapterId;
         if (!chapterScores[ch]) chapterScores[ch] = { correct: 0, total: 0 };
         chapterScores[ch].total++;
-        if (userAnswers[i] && userAnswers[i] === q.correctAnswerId) {
+        if (userAnswers[q.id] && userAnswers[q.id] === q.correctAnswerId) {
           correct++;
           chapterScores[ch].correct++;
         }
@@ -263,9 +391,9 @@ export function ExamSession({ userName, preview = false }) {
     setPhase('SUBMITTING');
     const timeUsedSeconds = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
 
-    const answers = questions.map((q, i) => ({
+    const answers = questions.map(q => ({
       questionId: q.id,
-      selectedAnswerId: userAnswers[i] || null,
+      selectedAnswerId: userAnswers[q.id] || null,
     }));
 
     try {
@@ -278,6 +406,10 @@ export function ExamSession({ userName, preview = false }) {
       if (!res.ok) throw new Error('Submit failed');
       const result = await res.json();
 
+      // The attempt is finished and scored server-side; drop the local mirror so
+      // it can never be replayed onto a future attempt.
+      try { localStorage.removeItem(localKey(attemptId)); } catch { /* ignore */ }
+
       sessionStorage.setItem('examResult', JSON.stringify(result));
       navigate(`/exam/results/${attemptId}`);
     } catch {
@@ -286,7 +418,7 @@ export function ExamSession({ userName, preview = false }) {
     }
   }
 
-  const answeredCount = Object.keys(userAnswers).length;
+  const answeredCount = Object.values(userAnswers).filter(Boolean).length;
 
   // ═══ LOADING ═══
   if (phase === 'LOADING') {
@@ -310,7 +442,7 @@ export function ExamSession({ userName, preview = false }) {
 
   // ═══ BREAK ═══
   if (phase === 'BREAK') {
-    const firstHalfAnswered = Object.keys(userAnswers).filter(k => parseInt(k) < BREAK_AFTER_QUESTION).length;
+    const firstHalfAnswered = questions.slice(0, BREAK_AFTER_QUESTION).filter(q => userAnswers[q.id]).length;
     return (
       <main className="ex-main">
         <div className="ex-break-overlay">
@@ -432,7 +564,7 @@ export function ExamSession({ userName, preview = false }) {
   if (!question) return null;
 
   const isTimeLow = timeLeft <= 600;
-  const selectedChoice = userAnswers[currentIndex] || null;
+  const selectedChoice = userAnswers[questions[currentIndex]?.id] || null;
   const chapterMeta = CHAPTERS.find(c => c.id === question.chapterId);
 
   return (
@@ -531,7 +663,7 @@ export function ExamSession({ userName, preview = false }) {
           <h3 className="dx-sidebar-title">Questions</h3>
           <div className="ex-grid">
             {questions.map((_, i) => {
-              const isAnswered = userAnswers[i] !== undefined;
+              const isAnswered = Boolean(userAnswers[questions[i]?.id]);
               const isFlagged = flagged.has(i);
               const isCurrent = i === currentIndex;
 
