@@ -72,6 +72,42 @@ Full runbook: `docs/DEPLOY.md`. Critical points:
   (HTTP 200) for any missing asset path. Verify by `content_type` or by grepping
   the served bundle for a changed string — never by status code alone.
 - Node on the box needs a login shell over SSH: `ssh … 'bash -ilc "pm2 …"'`.
+- **Never package `.env`.** `deployService.sh` excludes it and aborts if one
+  reaches `build/`. The local `service/.env` holds Stripe TEST keys; shipping it
+  would silently stop all real card charges. Production secrets live only on the
+  box — change them with `./scripts/set-prod-secrets.sh` (hidden prompt, refuses
+  a non-`sk_live_` key).
+- **A deploy will abort if an exam simulation is in progress.** That is correct;
+  do not force with `-f` unless you have checked. See `docs/DEPLOY.md`.
+- After a backend deploy, confirm the payment mode tripwire:
+  `[stripe] mode: LIVE` in the pm2 logs.
+
+## Paid Exam Simulation — READ BEFORE TOUCHING
+`docs/EXAM-SIMULATION.md`. It was badly broken for its first customers and the
+fixes rest on non-obvious invariants. The two most important:
+- **Submit can only ADD answers, never clear them.** `mergeAutosave` (null = the
+  user cleared it) and `mergeSubmission` (additive only) are separate on purpose.
+  Collapsing them reintroduces a bug that scored paying customers ~0%.
+- **Answers are keyed by `questionId`, never array position**, and resume must
+  render the SERVER's stored questions.
+Known and unfixed: the client picks the 110 questions and POSTs them **including
+`correctAnswerId`**, so any buyer can forge a perfect score.
+
+## Analytics & attribution
+`docs/ANALYTICS-ATTRIBUTION.md`. Plausible measures pre-signup; `user.acquisition`
+measures which channel produced an account. `user.acquisition` has THREE signals
+(referrer, utm, survey) — reading only the survey once produced a 10% attribution
+figure and named the wrong lead channel. Real coverage is ~50% and **organic
+search leads, not Reddit**. The "how did you find us" question is asked ONCE at
+registration; see the doc before moving it (the verification-screen placement was
+tried and silently lost answers).
+
+## Growth plan
+A hired analyst's 90-day plan lives at `marketing/analysis/90-day-growth-plan.xlsx`
+(gitignored). Follow it as written; log each day in column L. Weekly review on
+Mondays, using the Plausible weekly email. Baseline corrections that matter:
+true revenue is **7 real sales / $283** (one recorded purchase was a test-mode
+session that collected nothing).
 
 ## Email (Resend)
 Config + troubleshooting: `docs/EMAIL-SETUP.md`. **Working** — sends from

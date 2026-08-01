@@ -79,6 +79,54 @@ user mid-exam.
 The pm2 process runs `index.js 4000 startup`. Node on the box is managed by
 mise/nvm, so non-interactive SSH needs a login shell: `ssh … 'bash -ilc "pm2 …"'`.
 
+
+## ⚠️ Production secrets, and why `.env` must never be packaged
+
+`deployService.sh` builds the backend by tarring the whole local `service/`
+directory. That local `service/.env` is a **dev config holding Stripe TEST
+keys**, and it used to be included in the package. It survived only because
+`scp -r build/*` skips dotfiles under default bash globbing — one
+`shopt -s dotglob`, or a switch to `rsync`, would have pushed test keys over
+production and silently stopped all real card charges.
+
+The tar now excludes `.env`/`.env.*` **and the script aborts if an env file is
+still present in `build/`**. Do not remove either guard.
+
+Production secrets live only in `~/services/<svc>/.env` on the box. To change
+them:
+
+```bash
+./scripts/set-prod-secrets.sh -k secrets/jerson-cs260-key.pem -h fe4raccoons.com -s startup
+```
+
+Hidden prompt; secrets travel over **stdin**, never as ssh arguments (which are
+visible in `ps` on the host); backs up the remote `.env`; **refuses a
+`STRIPE_SECRET_KEY` that is not `sk_live_`**; reloads pm2. Never paste live
+secrets into chat.
+
+### Why that guard exists
+
+Production silently reverted to a Stripe **test** key for roughly 12 days
+(18–30 Jul 2026). Checkout still "worked", Stripe still reported
+`payment_status: 'paid'`, both grant paths still granted lifetime access, and
+the owner still received a "you made a sale" email — for $0. A real student got
+the full paid product free and it was counted as revenue.
+
+Two defences now exist:
+
+1. **Mode match on every grant.** `service/stripeMode.js::isModeMismatch` — a
+   payment whose `livemode` does not match the server's key mode is refused in
+   both `webhook.js` and `checkout.js`. It is a match, not "must be live", so
+   local dev on `sk_test` keeps working.
+2. **A boot-time tripwire.** `service/index.js` logs the payment mode on every
+   start. Check it after any deploy:
+
+```bash
+ssh -i secrets/jerson-cs260-key.pem ubuntu@fe4raccoons.com \
+  'bash -ilc "pm2 logs startup --lines 60 --nostream | grep \"stripe] mode\""'
+# expect: [stripe] mode: LIVE - real cards will be charged
+```
+
 ## ⚠️ Verifying a deploy — status codes lie
 
 The Express SPA catch-all returns `index.html` with **HTTP 200** for *any*
