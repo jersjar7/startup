@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-const { sanitizeName, displayName, normalizeExamDate, daysUntilExam, examTimingFromMetadata } = require('./profile');
+const { sanitizeName, displayName, normalizeExamDate, daysUntilExam, examTimingFromMetadata, examDateBounds } = require('./profile');
 
 describe('sanitizeName', () => {
   it('keeps letters, spaces, hyphens, apostrophes and trims/collapses', () => {
@@ -88,5 +88,64 @@ describe('examTimingFromMetadata', () => {
 
   it('returns null rather than NaN for garbage', () => {
     expect(examTimingFromMetadata({ daysUntilExam: 'soon' }).daysUntilExam).toBeNull();
+  });
+});
+
+// Exam-date bounds. Two users had entered 2028 dates, which produced a 739-day
+// outlier and made purchase-timing data unusable. The window is relative to now
+// so it keeps working without anyone bumping a constant.
+describe('normalizeExamDate bounds', () => {
+  const shift = (years, days = 0) => {
+    const d = new Date();
+    d.setUTCFullYear(d.getUTCFullYear() + years);
+    d.setUTCDate(d.getUTCDate() + days);
+    return d.toISOString().slice(0, 10);
+  };
+
+  it('rejects the 2028-style typo that poisoned the data', () => {
+    expect(normalizeExamDate('2028-06-15')).toBeUndefined();
+  });
+
+  it('accepts a date inside the next twelve months', () => {
+    expect(normalizeExamDate(shift(0, 30))).toBe(shift(0, 30));
+    expect(normalizeExamDate(shift(0, 300))).toBe(shift(0, 300));
+  });
+
+  it('rejects beyond twelve months out', () => {
+    expect(normalizeExamDate(shift(1, 5))).toBeUndefined();
+    expect(normalizeExamDate(shift(3))).toBeUndefined();
+  });
+
+  it('still accepts a recently sat exam, so real input is not discarded', () => {
+    expect(normalizeExamDate(shift(0, -30))).toBe(shift(0, -30));
+  });
+
+  it('rejects an implausibly old date', () => {
+    expect(normalizeExamDate(shift(-3))).toBeUndefined();
+  });
+
+  it('keeps clearing the date working', () => {
+    expect(normalizeExamDate(null)).toBeNull();
+    expect(normalizeExamDate('')).toBeNull();
+  });
+
+  it('still rejects bad formats and rolled-over dates', () => {
+    expect(normalizeExamDate('06/15/2026')).toBeUndefined();
+    expect(normalizeExamDate('not-a-date')).toBeUndefined();
+    expect(normalizeExamDate(12345)).toBeUndefined();
+  });
+});
+
+describe('examDateBounds', () => {
+  it('returns a one-year window either side, for the date input min/max', () => {
+    const b = examDateBounds(new Date('2026-07-31T00:00:00Z'));
+    expect(b).toEqual({ min: '2025-07-31', max: '2027-07-31' });
+  });
+
+  it('agrees with what normalizeExamDate accepts', () => {
+    // If these drift, the UI silently offers dates the server rejects.
+    const b = examDateBounds();
+    expect(normalizeExamDate(b.max)).toBe(b.max);
+    expect(normalizeExamDate(b.min)).toBe(b.min);
   });
 });

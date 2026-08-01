@@ -21,6 +21,16 @@ function displayName(user) {
 
 // Returns the normalized 'YYYY-MM-DD' string, null to clear, or undefined if
 // invalid (so the caller can reject).
+// The accepted window, exported so the UI can set the same min/max on its date
+// input and the two can never disagree.
+function examDateBounds(now = new Date()) {
+  const min = new Date(now.getTime());
+  min.setUTCFullYear(min.getUTCFullYear() - 1);
+  const max = new Date(now.getTime());
+  max.setUTCFullYear(max.getUTCFullYear() + 1);
+  return { min: min.toISOString().slice(0, 10), max: max.toISOString().slice(0, 10) };
+}
+
 function normalizeExamDate(v) {
   if (v === null || v === '') return null;
   if (typeof v !== 'string') return undefined;
@@ -28,8 +38,17 @@ function normalizeExamDate(v) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return undefined;
   const d = new Date(`${trimmed}T00:00:00Z`);
   if (Number.isNaN(d.getTime())) return undefined;
-  const year = d.getUTCFullYear();
-  if (year < 2024 || year > 2100) return undefined;
+  // Reject dates outside a rolling one-year window. The FE runs in continuous
+  // NCEES windows, so a real exam date is always within about a year; anything
+  // beyond that is a typo. Two users had entered 2028, producing a 739-day
+  // outlier that made purchase-timing data unusable.
+  //
+  // Compared as YYYY-MM-DD strings against the SAME bounds the UI uses, so the
+  // form can never offer a date the server then rejects. String comparison is
+  // exact here because the format is fixed-width and zero-padded.
+  const { min, max } = examDateBounds();
+  if (trimmed < min || trimmed > max) return undefined;
+
   // Reject if the parsed date rolled over (e.g. 2026-02-31 -> Mar 3).
   if (d.toISOString().slice(0, 10) !== trimmed) return undefined;
   return trimmed;
@@ -63,4 +82,5 @@ function examTimingFromMetadata(metadata = {}) {
 
 module.exports = {
   sanitizeName, displayName, normalizeExamDate, daysUntilExam, examTimingFromMetadata,
+  examDateBounds,
 };

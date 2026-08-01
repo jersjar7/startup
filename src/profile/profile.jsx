@@ -20,6 +20,9 @@ import {
   CalendarBlank,
 } from '@phosphor-icons/react';
 import './profile.css';
+import { examDateBounds } from '../data/examDateBounds';
+
+const EXAM_DATE_BOUNDS = examDateBounds();
 
 export function Profile({ userName, onLogout }) {
   useDocumentTitle('Profile');
@@ -263,7 +266,16 @@ export function Profile({ userName, onLogout }) {
             <CalendarBlank size={15} weight="bold" style={{ verticalAlign: '-2px', marginRight: '0.3rem' }} />
             FE exam date
           </label>
-          <input id="exam-date" type="date" value={detExam} onChange={(e) => setDetExam(e.target.value)} />
+          {/* Bounded so the picker cannot offer a date the server will reject.
+              An unbounded input is how two users saved 2028 dates. */}
+          <input
+            id="exam-date"
+            type="date"
+            value={detExam}
+            min={EXAM_DATE_BOUNDS.min}
+            max={EXAM_DATE_BOUNDS.max}
+            onChange={(e) => setDetExam(e.target.value)}
+          />
           <p className="details-hint">
             We'll count down to exam day on your dashboard. Rescheduled? Just update it (or clear it).
           </p>

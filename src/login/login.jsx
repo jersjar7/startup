@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { SignIn, UserPlus, PaperPlaneTilt, ArrowLeft, Eye, EyeSlash } from '@phosphor-icons/react';
 import { SourcePrompt } from '../dashboard/SourcePrompt';
+import { examDateBounds } from '../data/examDateBounds';
 import './index.css';
 
 export function Login({ userName, onLogin }) {
@@ -25,6 +26,31 @@ export function Login({ userName, onLogin }) {
   // Set once registration succeeds: swaps the form for the one attribution
   // question, then routes on. See handleRegister.
   const [justRegistered, setJustRegistered] = React.useState(false);
+  // Onboarding runs two one-tap steps before the dashboard: attribution, then
+  // the exam date. The date gates the countdown, the near-exam pitch and the
+  // whole reminder ladder, yet only ~24% of users ever set it from the buried
+  // dashboard card. Asking here is the only point every new user passes through.
+  const [onboardStep, setOnboardStep] = React.useState('source'); // source | examDate
+  const [examDate, setExamDate] = React.useState('');
+  const [savingExamDate, setSavingExamDate] = React.useState(false);
+  const EXAM_BOUNDS = React.useMemo(() => examDateBounds(), []);
+
+  async function finishOnboarding(dateToSave) {
+    // Never block entry on this: it is a nice-to-have field, and a failed save
+    // must not trap someone outside the product they just signed up for.
+    if (dateToSave) {
+      setSavingExamDate(true);
+      try {
+        await fetch('/api/user/profile', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ examDate: dateToSave }),
+        });
+      } catch { /* ignore */ }
+      setSavingExamDate(false);
+    }
+    navigate(dest);
+  }
 
   // Redirect an already-authenticated visitor away from the login form.
   // MUST NOT fire during the post-registration question: onLogin() sets
@@ -180,12 +206,48 @@ export function Login({ userName, onLogin }) {
       <main className="login-main">
         <div className="login-form-container" style={{ textAlign: 'center' }}>
           <h2>You&rsquo;re in</h2>
-          <p className="login-subtitle">One quick question before you start.</p>
-          <SourcePrompt
-            className="is-standalone"
-            dismissible={false}
-            onClose={() => navigate(dest)}
-          />
+          {onboardStep === 'source' ? (
+            <>
+              <p className="login-subtitle">One quick question before you start.</p>
+              <SourcePrompt
+                className="is-standalone"
+                dismissible={false}
+                onClose={() => setOnboardStep('examDate')}
+              />
+            </>
+          ) : (
+            <>
+              <p className="login-subtitle">When are you sitting the FE?</p>
+              {/* Skippable on purpose: plenty of people genuinely have not booked
+                  yet, and forcing a guess would be worse than no date at all. */}
+              <input
+                type="date"
+                aria-label="FE exam date"
+                value={examDate}
+                min={EXAM_BOUNDS.min}
+                max={EXAM_BOUNDS.max}
+                onChange={(e) => setExamDate(e.target.value)}
+                style={{ marginBottom: '0.5rem' }}
+              />
+              <p className="details-hint" style={{ marginBottom: '1rem' }}>
+                We&rsquo;ll show a countdown and remind you as it gets close. You can change it any time.
+              </p>
+              <button
+                type="button"
+                className="btn-primary"
+                disabled={!examDate || savingExamDate}
+                onClick={() => finishOnboarding(examDate)}
+                style={{ display: 'inline-flex' }}
+              >
+                {savingExamDate ? 'Saving...' : 'Save and start'}
+              </button>
+              <p style={{ marginTop: '0.75rem' }}>
+                <button type="button" className="forgot-link" onClick={() => finishOnboarding(null)}>
+                  I don&rsquo;t know yet
+                </button>
+              </p>
+            </>
+          )}
         </div>
       </main>
     );
