@@ -140,10 +140,13 @@ async function main() {
   // NOTE: purchases key off `userId` (string ObjectId) and store `amount` in
   // CENTS. There is no `email` or `amountCents` field on this collection.
   const paidRaw = await purchases.find({ status: 'completed' }).sort({ createdAt: 1 }).toArray();
-  const paid = paidRaw.filter((p) => {
-    const u = idToUser.get(String(p.userId));
-    return u !== undefined; // drops internal/deleted accounts
-  });
+  const withUser = paidRaw.filter((p) => idToUser.get(String(p.userId)) !== undefined);
+  // Complimentary grants (a professor evaluating the sim, a goodwill comp) are
+  // real access but NOT revenue. They need a purchase row because the gate is
+  // hasPurchased(), not the user flag — so they must be excluded here or they
+  // inflate the sales count with $0 sales.
+  const comped = withUser.filter((p) => p.comp === true);
+  const paid = withUser.filter((p) => p.comp !== true);
   const revenueCents = paid.reduce((s, p) => s + (p.amount || 0), 0);
   const byTier = paid.reduce((acc, p) => {
     const t = p.tier || 'unknown';
@@ -351,6 +354,7 @@ async function main() {
     },
     revenue: {
       totalSales: paid.length,
+      complimentaryGrants: comped.length,
       liveModeSales: liveMode,
       grossRevenue: revenueCents / 100,
       avgOrderValue: paid.length ? Math.round((revenueCents / paid.length / 100) * 100) / 100 : 0,
@@ -467,6 +471,9 @@ async function main() {
 
   L('\nREVENUE');
   row('Total sales (all time)', r.revenue.totalSales);
+  if (r.revenue.complimentaryGrants) {
+    row('Complimentary grants', `${r.revenue.complimentaryGrants} (access, not revenue — excluded above)`);
+  }
   row('Stripe LIVE-mode sales', `${r.revenue.liveModeSales} of ${r.revenue.totalSales}`);
   row('Gross revenue', `$${r.revenue.grossRevenue.toFixed(2)}`);
   row('Average order value', `$${r.revenue.avgOrderValue.toFixed(2)}`);
