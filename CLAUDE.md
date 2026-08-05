@@ -103,11 +103,26 @@ registration; see the doc before moving it (the verification-screen placement wa
 tried and silently lost answers).
 
 ## Growth plan
-A hired analyst's 90-day plan lives at `marketing/analysis/90-day-growth-plan.xlsx`
-(gitignored). Follow it as written; log each day in column L. Weekly review on
-Mondays, using the Plausible weekly email. Baseline corrections that matter:
-true revenue is **7 real sales / $283** (one recorded purchase was a test-mode
-session that collected nothing).
+A hired analyst's 90-day plan lives at
+`~/developer/fe4raccoons-marketing/analysis/90-day-growth-plan.xlsx`. Follow it
+as written; log each day in column L. Weekly review on Mondays, using the
+Plausible weekly email.
+
+## Repo scope — code only
+Marketing assets and company/legal records were moved OUT of this repo on
+2026-08-04 and now live beside it:
+- `~/developer/fe4raccoons-marketing` (reels, carousels, posting pipeline, the
+  growth plan and baseline analyses)
+- `~/developer/fe4raccoons-legal` (LLC and DBA records)
+
+Keep this repo to software. `src/legal/` is unrelated — those are the Terms and
+Privacy React pages and they stay.
+
+## Architecture Decision Records
+`docs/adr/`. Write one when a decision has a non-obvious rationale, beat a
+defensible alternative, or came from evidence that will not be visible later.
+Never edit an accepted ADR to say something different; supersede it with a new
+one. See `docs/adr/README.md`.
 
 ## Email (Resend)
 Config + troubleshooting: `docs/EMAIL-SETUP.md`. **Working** — sends from

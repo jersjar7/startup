@@ -19,7 +19,10 @@ research/civil/fe-handbook-*.pdf
 # Remotion render output
 out/
 
-# Local marketing/advertising assets — never tracked (large media + drafts)
+# Marketing assets and company/legal records were MOVED OUT of this repo on
+# 2026-08-04 to ~/developer/fe4raccoons-marketing and ~/developer/fe4raccoons-legal.
+# These entries stay as a guard so they can never be re-added by accident —
+# this repo is software only. (src/legal/ is unrelated: Terms/Privacy pages.)
 marketing/
 
 # macOS
