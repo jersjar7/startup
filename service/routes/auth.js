@@ -154,6 +154,10 @@ router.get('/me', verifyAuth, async (req, res) => {
   const user = req.user;
   const stats = await DB.getUserStats(user.email);
   const earnedBadgeIds = stats?.badges || [];
+  // Distinct problems this user has touched. Used by the exam-sim banner to
+  // reach engaged studiers who have not set an exam date, who are otherwise
+  // invisible to a purely date-gated pitch.
+  const problemsAnswered = await DB.countProblemsAnswered(user.email);
   res.send({
     email: user.email,
     createdAt: user.createdAt || null,
@@ -169,6 +173,7 @@ router.get('/me', verifyAuth, async (req, res) => {
     allBadges: getAllBadges(),
     acquisitionSource: user.acquisition?.source || null,
     acquisitionResolved: isAcquisitionResolved(user),
+    problemsAnswered,
   });
 });
 

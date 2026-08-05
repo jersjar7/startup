@@ -103,6 +103,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
   // (src/login/login.jsx); this catches anyone who slipped past that. Seeded
   // `true` so a slow or failed /me never triggers a duplicate ask.
   const [acqResolved, setAcqResolved] = React.useState(true);
+  const [problemsAnswered, setProblemsAnswered] = React.useState(0);
   const [error, setError] = React.useState('');
   const [events, setEvents] = React.useState([]);
   const [socket, setSocket] = React.useState(null);
@@ -169,6 +170,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
         });
         // Server-side truth: answered OR dismissed, on any device.
         setAcqResolved(Boolean(data.acquisitionResolved));
+        setProblemsAnswered(data.problemsAnswered || 0);
       } else {
         errors.push('stats');
       }
@@ -336,7 +338,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
   return (
     <main>
-      <SimPitchBanner examDate={examDate} />
+      <SimPitchBanner examDate={examDate} problemsAnswered={problemsAnswered} />
       {/* ── Header ── */}
       <div className="dash-header">
         <div>

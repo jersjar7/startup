@@ -26,6 +26,15 @@ async function getProblemHistoryForUser(email) {
   return problemHistoryCollection.find({ email }).toArray();
 }
 
+// How many distinct problems this user has ever answered. Cheap count rather
+// than loading the rows, because /api/user/me calls it on every dashboard load.
+// Used as an engagement signal by the exam-sim banner: a studier with no exam
+// date on file is invisible to a purely date-gated pitch, but 25+ problems is a
+// reasonable floor (7 of the first 8 buyers had answered 45+ before buying).
+async function countProblemsAnswered(email) {
+  return problemHistoryCollection.countDocuments({ email });
+}
+
 // All problemHistory rows for one chapter (topicId == chapterId), for computing
 // study-driven mastery.
 async function getProblemHistoryForChapter(email, topicId) {
@@ -109,6 +118,7 @@ async function logSession(email, { topicId, type, answers, xpEarned, streak, dur
 }
 
 module.exports = {
+  countProblemsAnswered,
   getUserStats,
   updateUserStats,
   getProblemHistoryForUser,
