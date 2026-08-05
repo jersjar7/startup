@@ -19,6 +19,10 @@ const router = express.Router();
 const { EXAM_DISTRIBUTION } = require('../examWeights.js');
 
 const TOTAL_QUESTIONS = 110;
+// An abandoned attempt is only graded if at least this share of the exam was
+// answered. Below it, the attempt is retired quietly: no score, no history
+// entry, and the customer simply starts fresh next time.
+const MIN_GRADED_FRACTION = 0.1; // 11 of 110
 const TIME_LIMIT_SECONDS = 5 * 3600 + 20 * 60; // 5 hours 20 minutes = 19200 seconds
 // XP values live in ../xp.js (examAttempt + examCorrect).
 
@@ -154,7 +158,15 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
         // surface in the app (Past Attempts filters on 'completed').
         const full = await DB.getExamAttempt(inProgress._id.toString(), userId);
         const saved = sanitizeAnswers(full?.savedAnswers);
-        if (answeredCount(saved) > 0) {
+        // Only grade an attempt that was genuinely SAT. The point of grading on
+        // expiry is to rescue real work — the customer who answered 60 questions
+        // and never pressed submit. A handful of answers is somebody browsing
+        // the questions to see what they are like, which is a legitimate way to
+        // evaluate the product, and turning that into a permanent 1% score
+        // implies they took an exam they never took.
+        const answered = answeredCount(saved);
+        const total = full?.totalQuestions || TOTAL_QUESTIONS;
+        if (answered >= Math.ceil(total * MIN_GRADED_FRACTION)) {
           await finalizeAttempt({
             attempt: full,
             userId,
@@ -166,8 +178,8 @@ router.post('/start', verifyAuth, requirePurchase, async (req, res) => {
           });
           await DB.updateExamAttempt(inProgress._id.toString(), userId, { expiredAt: new Date() });
         } else {
-          // Nothing was ever answered, so there is nothing to grade. Retire it
-          // quietly rather than manufacturing a 0% attempt in their history.
+          // Too little to be a real sitting. Retire it quietly rather than
+          // manufacturing a misleading score in their history.
           await DB.updateExamAttempt(inProgress._id.toString(), userId, {
             status: 'expired',
             expiredAt: new Date(),
