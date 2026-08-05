@@ -30,6 +30,13 @@ that supersedes it, so the history of thinking stays readable.
 
 ## Index
 
-| # | Title | Status |
-|---|---|---|
-| [0001](0001-grade-abandoned-exams-only-if-genuinely-sat.md) | Grade abandoned exams only if genuinely sat | Accepted |
+| # | Title | Date | Status |
+|---|---|---|---|
+| [0001](0001-grade-abandoned-exams-only-if-genuinely-sat.md) | Grade abandoned exams only if genuinely sat | 2026-08-04 | Accepted |
+| [0002](0002-separate-merge-semantics-for-autosave-and-submit.md) | Separate merge semantics for exam autosave and submit | 2026-07-30 | Accepted |
+| [0003](0003-ask-attribution-at-registration.md) | Ask "how did you find us?" at registration, not at verification | 2026-07-30 | Accepted |
+| [0004](0004-sim-pitch-gate-and-25-problem-threshold.md) | Widen the sim-pitch gate, and set the effort threshold at 25 problems | 2026-08-04 | Accepted |
+| [0005](0005-follow-the-growth-plan-and-when-to-deviate.md) | Follow the growth plan as written, and deviate only on evidence | 2026-07-29 | Accepted |
+
+Records 0002–0005 were written on 2026-08-04, backfilled from commit messages.
+The **Date** column is when the decision was made, not when it was written up.

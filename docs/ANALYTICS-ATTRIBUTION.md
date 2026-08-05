@@ -67,6 +67,9 @@ Rule: **ask until resolved, never after.**
 - The chip ids and `ACQ_SOURCES` in `service/routes/auth.js` **must stay in
   sync**, or the POST 400s and the answer is silently lost.
 
+See [ADR-0003](adr/0003-ask-attribution-at-registration.md) for the full
+reasoning, including the alternatives rejected.
+
 **Do not move the ask to the email-verification screen.** It was tried and
 reverted: `verify-email` issues no session, so the answer had to be parked in
 localStorage and flushed later, and that link routinely opens in a different

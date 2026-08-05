@@ -10,6 +10,11 @@ touching `service/routes/exam.js` or `src/exam/ExamSession.jsx`.
 Related: `docs/DEPLOY.md` (the deploy preflight refuses to interrupt a live
 exam), `docs/business-plan.md`.
 
+Decisions behind this design: [ADR-0001](adr/0001-grade-abandoned-exams-only-if-genuinely-sat.md)
+(when an abandoned exam is graded), [ADR-0002](adr/0002-separate-merge-semantics-for-autosave-and-submit.md)
+(why autosave and submit merge differently), [ADR-0004](adr/0004-sim-pitch-gate-and-25-problem-threshold.md)
+(who is shown the pitch).
+
 ---
 
 ## Invariants
