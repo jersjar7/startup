@@ -85,6 +85,24 @@ people type it and arrive untagged, which cancels out the tracked link.
 
 ---
 
+## Exam-sim pitch surfaces
+
+Three surfaces lead to the paid product, and each reports which one it is:
+
+| Surface | `via` | Gated? |
+|---|---|---|
+| Pitch banner | `banner` | Yes — future exam date OR 25+ problems ([ADR-0004](adr/0004-sim-pitch-gate-and-25-problem-threshold.md)) |
+| Dashboard card | `card` | No, but only impressions from non-buyers are logged |
+| Nav link | `nav` | No |
+
+`POST /api/checkout/sim-banner/:action` with `{ via }`, allowlisted server-side.
+All clients go through `src/exam/trackPitch.js`.
+
+**Events before 2026-08-06 carry `via: 'dashboard'` and are all banner events** —
+the card and nav were live but unmeasured. Any query spanning that date must
+treat `dashboard` as `banner`. See
+[ADR-0007](adr/0007-instrument-every-pitch-surface-separately.md).
+
 ## Reading the numbers honestly
 
 - **Search is fully instrumented. TikTok, Instagram and Reddit are not** — they
