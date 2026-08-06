@@ -34,7 +34,10 @@ const TOPICS = [
   ['construction', 'Construction'],
 ];
 
-const ROUTES = ['/fe-civil-exam-guide', ...TOPICS.map(([id]) => `/fe-civil/${id}`)];
+// /exam-simulation is the public page for the paid product. Prerendered like
+// the guides so crawlers and AI answer engines see real content and structured
+// data rather than an empty SPA shell.
+const ROUTES = ['/fe-civil-exam-guide', '/exam-simulation', ...TOPICS.map(([id]) => `/fe-civil/${id}`)];
 
 function writeFile(rel, contents) {
   const full = path.join('dist', rel);
@@ -65,6 +68,7 @@ try {
 const urls = [
   { loc: `${SITE}/`, priority: '1.0', freq: 'weekly' },
   { loc: `${SITE}/fe-civil-exam-guide`, priority: '0.9', freq: 'weekly' },
+  { loc: `${SITE}/exam-simulation`, priority: '0.9', freq: 'weekly' },
   ...TOPICS.map(([id]) => ({ loc: `${SITE}/fe-civil/${id}`, priority: '0.8', freq: 'monthly' })),
   { loc: `${SITE}/login`, priority: '0.4', freq: 'monthly' },
 ];
