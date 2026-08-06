@@ -121,6 +121,28 @@ header {
   background: var(--ember-bg);
 }
 
+/* Permanent nav route to the paid Exam Simulation. Deliberately styled like the
+   admin link rather than as a loud CTA: it is wayfinding, not a pitch. The
+   pitch lives in the banner and the dashboard card. */
+.header-exam-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--charcoal);
+  background: var(--cream-dark);
+  border-radius: var(--radius-md);
+  padding: 0.4rem 0.7rem;
+  text-decoration: none;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.header-exam-link:hover {
+  color: var(--ember);
+  background: var(--ember-bg);
+}
+
 .header-profile-link {
   display: flex;
   align-items: center;

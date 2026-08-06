@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Certificate } from '@phosphor-icons/react';
 import { daysUntil, shouldShowSimPitch, usesCountdownCopy } from './simPitchGate';
+import { trackPitch } from '../exam/trackPitch';
 
 // On-site exam-sim pitch. Reaches engaged studiers directly, with no
 // Promotions-tab tax. Soft snooze ("Maybe later") keeps it near-persistent
@@ -110,7 +111,7 @@ export function SimPitchBanner({ examDate, problemsAnswered = 0, variant = 'full
   React.useEffect(() => {
     if (show && !loggedShown.current) {
       loggedShown.current = true;
-      fetch('/api/checkout/sim-banner/shown', { method: 'POST' }).catch(() => {});
+      trackPitch('shown', 'banner');
     }
   }, [show]);
 
@@ -124,7 +125,7 @@ export function SimPitchBanner({ examDate, problemsAnswered = 0, variant = 'full
   const cls = `sim-pitch-banner${p.urgent ? ' sim-pitch-banner--urgent' : ''}${compact ? ' sim-pitch-banner--compact' : ''}`;
 
   const handleCta = () => {
-    fetch('/api/checkout/sim-banner/click', { method: 'POST' }).catch(() => {});
+    trackPitch('click', 'banner');
     navigate('/exam');
   };
   const handleSnooze = () => {

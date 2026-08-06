@@ -4,10 +4,12 @@ import {
   Exam,
   ArrowRight,
 } from '@phosphor-icons/react';
+import { trackPitch } from './trackPitch';
 import './exam.css';
 
 export function ExamSimCard() {
   const navigate = useNavigate();
+  const loggedShown = React.useRef(false);
   const [purchased, setPurchased] = React.useState(null);
   const [bestScore, setBestScore] = React.useState(null);
   const [attemptCount, setAttemptCount] = React.useState(0);
@@ -36,12 +38,24 @@ export function ExamSimCard() {
       .catch(() => setPurchased(false));
   }, []);
 
+  // Log one impression per mount, and only for non-buyers: an owner seeing
+  // their own attempt history is not being pitched anything.
+  React.useEffect(() => {
+    if (purchased === false && !loggedShown.current) {
+      loggedShown.current = true;
+      trackPitch('shown', 'card');
+    }
+  }, [purchased]);
+
   if (purchased === null) return null;
 
   // Not purchased — subtle inline CTA, no price shown
   if (!purchased) {
     return (
-      <button className="exam-sim-inline" onClick={() => navigate('/exam')}>
+      <button
+        className="exam-sim-inline"
+        onClick={() => { trackPitch('click', 'card'); navigate('/exam'); }}
+      >
         <Exam size={18} weight="bold" className="exam-sim-inline-icon" />
         <span className="exam-sim-inline-text">
           Ready to test yourself? Take the full 110-question exam simulation.

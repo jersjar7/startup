@@ -221,13 +221,24 @@ router.get('/status', verifyAuth, async (req, res) => {
   res.send(result);
 });
 
-// POST /api/checkout/sim-banner/:action — track the on-site exam-sim banner.
-// action = 'shown' | 'click'. Logged to funnel events so the admin pitch-stats
-// can compare the on-site banner against the countdown-email pitch.
+// POST /api/checkout/sim-banner/:action — track an on-site exam-sim entry point.
+// action = 'shown' | 'click'.
+//
+// `via` names WHICH entry point, so they can be compared against each other and
+// against the countdown-email pitch. Until 2026-08-06 the banner was the only
+// instrumented surface and logged via:'dashboard'; every event before that date
+// is a banner event. The permanent card and the nav link were live but
+// completely unmeasured, so there was no way to tell whether the always-visible
+// path did anything.
+const PITCH_SURFACES = new Set(['banner', 'card', 'nav', 'dashboard']);
+
 router.post('/sim-banner/:action', verifyAuth, async (req, res) => {
   const type = req.params.action === 'click' ? 'sim_banner_click' : 'sim_banner_shown';
+  const raw = String(req.body?.via || 'dashboard');
+  // Allowlisted so a typo or a stray client cannot fragment the funnel data.
+  const via = PITCH_SURFACES.has(raw) ? raw : 'dashboard';
   try {
-    await DB.logEvent(type, req.user.email, { via: 'dashboard' });
+    await DB.logEvent(type, req.user.email, { via });
   } catch (e) {
     console.error('[checkout] sim-banner track failed:', e.message);
   }
