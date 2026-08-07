@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const { peerProxy } = require('./peerProxy.js');
 const { requestLogger } = require('./middleware/logger.js');
+const { PRERENDERED_ROUTE_PATTERN } = require('./prerenderedRoutes.js');
 
 const app = express();
 
@@ -77,7 +78,13 @@ app.use(rateLimit({
 // for crawlers / AI bots). Must run BEFORE express.static, which would otherwise
 // 301-redirect these directory paths to a trailing slash. Falls through to the
 // SPA if the prerendered file is missing.
-app.get(/^\/(fe-civil-exam-guide|fe-civil\/[a-z-]+)\/?$/, (req, res, next) => {
+//
+// The pattern lives in ./prerenderedRoutes.js and is asserted against the
+// prerenderer's own route list by prerenderedRoutes.test.js, because a route
+// missing from it still returns HTTP 200 via the SPA catch-all: the page looks
+// fine in a browser while every crawler gets the generic landing title and none
+// of the page's JSON-LD. /exam-simulation shipped in exactly that state.
+app.get(PRERENDERED_ROUTE_PATTERN, (req, res, next) => {
   const file = path.resolve('public', req.path.replace(/^\/|\/$/g, ''), 'index.html');
   fs.access(file, fs.constants.F_OK, (err) => {
     if (err) return next();
