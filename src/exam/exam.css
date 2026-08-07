@@ -776,6 +776,56 @@
 }
 
 /* Chapter breakdown */
+/* Pacing strip — time used and questions answered, above the chapter table */
+.er-stats {
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 1.25rem 2rem;
+  box-shadow: var(--shadow-card);
+  margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem 2rem;
+}
+
+.er-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.er-stat-label {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray-500);
+}
+
+.er-stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  font-variant-numeric: tabular-nums;
+}
+
+.er-stat-of {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--gray-400);
+}
+
+/* Spans the grid so it reads as a footnote to both figures, not a third column */
+.er-stat-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--gray-500);
+}
+
 .er-chapters {
   background: white;
   border-radius: var(--radius-xl);

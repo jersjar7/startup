@@ -61,10 +61,16 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
   const serverElapsed = Math.min(elapsedSeconds(attempt.startedAt), TIME_LIMIT_SECONDS);
   const reportedTime = Math.max(Number(timeUsedSeconds) || 0, 0);
 
+  // One value for both the stored record and the response. The results screen
+  // reads the submit response out of sessionStorage on the way out of the exam,
+  // and only falls back to GET /attempt/:id on a later visit. If just the stored
+  // copy carried the time, pacing would be blank on the pass everybody sees.
+  const finalTimeUsed = Math.min(Math.max(reportedTime, serverElapsed), TIME_LIMIT_SECONDS);
+
   await DB.updateExamAttempt(attemptId, userId, {
     status: 'completed',
     completedAt: new Date(),
-    timeUsedSeconds: Math.min(Math.max(reportedTime, serverElapsed), TIME_LIMIT_SECONDS),
+    timeUsedSeconds: finalTimeUsed,
     clientReportedTimeSeconds: reportedTime,
     lateSubmission: wasLate,
     autoSubmitted,
@@ -122,6 +128,8 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
     totalCorrect,
     totalAttempted,
     totalQuestions: attempt.totalQuestions,
+    timeUsedSeconds: finalTimeUsed,
+    timeLimit: TIME_LIMIT_SECONDS,
     overallPercentage,
     xpEarned: xpTotal,
     autoSubmitted,

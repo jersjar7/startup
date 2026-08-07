@@ -10,7 +10,11 @@ import {
   Trophy,
 } from '@phosphor-icons/react';
 import { CHAPTERS } from '../data/chapters';
+import { formatDuration } from './formatDuration';
 import './exam.css';
+
+// Mirrors TIME_LIMIT_SECONDS in service/examAttempt.js (5h 20m of testing).
+const EXAM_TIME_LIMIT_SECONDS = 19200;
 
 function getMasteryColor(pct) {
   if (pct >= 70) return 'var(--forest)';
@@ -85,7 +89,10 @@ export function ExamResults({ userName }) {
   const {
     chapterScores,
     totalCorrect,
+    totalAttempted = 0,
     totalQuestions,
+    timeUsedSeconds,
+    timeLimit,
     overallPercentage,
     xpEarned,
     attemptNumber,
@@ -93,6 +100,12 @@ export function ExamResults({ userName }) {
 
   const xpTotal = typeof xpEarned === 'object' ? xpEarned.total : xpEarned;
   const passed = overallPercentage >= 50;
+
+  // Attempts completed before this shipped have no stored timeLimit, so fall
+  // back to the constant rather than rendering "of undefined".
+  const timeLimitSeconds = timeLimit || EXAM_TIME_LIMIT_SECONDS;
+  const timeUsedLabel = formatDuration(timeUsedSeconds);
+  const unanswered = Math.max((totalQuestions || 110) - totalAttempted, 0);
 
   // Build chapter list sorted by percentage (lowest first)
   const chapterList = CHAPTERS.map(ch => {
@@ -135,6 +148,38 @@ export function ExamResults({ userName }) {
               <Lightning size={14} weight="fill" />
               +{xpTotal} XP earned
             </div>
+          )}
+        </div>
+
+        {/* Pacing. A full-length timed exam answers two different questions, and
+            the score alone only answers one. Finishing with an hour to spare and
+            scoring 45% is a knowledge problem; running the clock out with 20
+            questions untouched is a pacing problem, and the fix is not the same.
+            timeUsedSeconds is server-authoritative (the client's timer resets on
+            every resume), so this cannot be inflated by leaving a tab open. */}
+        <div className="er-stats">
+          {timeUsedLabel && (
+            <div className="er-stat">
+              <span className="er-stat-label">Time used</span>
+              <span className="er-stat-value">
+                {timeUsedLabel}
+                <span className="er-stat-of"> of {formatDuration(timeLimitSeconds)}</span>
+              </span>
+            </div>
+          )}
+          <div className="er-stat">
+            <span className="er-stat-label">Questions answered</span>
+            <span className="er-stat-value">
+              {totalAttempted}
+              <span className="er-stat-of"> of {totalQuestions || 110}</span>
+            </span>
+          </div>
+          {unanswered > 0 && (
+            <p className="er-stat-note">
+              {unanswered} question{unanswered === 1 ? '' : 's'} went unanswered. On
+              the real exam those score as wrong, so pacing is worth practising
+              alongside the chapters below.
+            </p>
           )}
         </div>
 

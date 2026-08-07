@@ -145,6 +145,41 @@
 .pub-faq summary { color: var(--charcoal); font-size: 0.98rem; }
 .pub-faq summary::before { color: var(--ember); }
 
+/* Topic distribution table — used by the exam simulation page */
+.pub-table-wrap { overflow-x: auto; }
+.pub-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.pub-table th {
+  font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.68rem;
+  text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-500);
+  text-align: left; padding: 0 0 12px; white-space: nowrap;
+}
+.pub-table td { padding: 13px 0; border-top: 1px solid var(--gray-200); }
+.pub-table th:last-child, .pub-table td:last-child { text-align: right; }
+.pub-table td:last-child {
+  font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums;
+  color: var(--gray-500); padding-left: 24px; white-space: nowrap;
+}
+.pub-table a { color: var(--charcoal); text-decoration: none; font-weight: 500; }
+.pub-table a:hover { color: var(--ember); text-decoration: underline; }
+.pub-table-total td { border-top: 2px solid var(--charcoal); font-weight: 700; }
+.pub-table-total td:last-child { color: var(--ember); }
+
+/* Product screenshot. Captured on the cream canvas, so it sits on the page
+   background with no frame and reads as the app rather than as a pasted image.
+   Only used in a non-panel section for that reason. */
+.pub-figure { margin: 28px 0 0; }
+.pub-figure img { display: block; width: 100%; max-width: 720px; height: auto; }
+.pub-figure figcaption { font-size: 0.85rem; color: var(--gray-500); margin-top: 10px; max-width: 60ch; }
+
+/* Price block — the number is the point, so it is not body text */
+.pub-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; margin-bottom: 6px; }
+.pub-price-amount {
+  font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 2.4rem;
+  letter-spacing: -0.03em; line-height: 1; color: var(--charcoal);
+}
+.pub-price-alt { font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 1rem; color: var(--forest); background: var(--forest-bg); padding: 5px 12px; border-radius: 100px; }
+.pub-price-terms { color: var(--gray-500); font-size: 0.95rem; margin-bottom: 20px; }
+
 /* Final CTA */
 .pub-final-cta { background: linear-gradient(135deg, var(--charcoal) 0%, #3a3a3a 100%); color: var(--cream); border-radius: 24px; padding: 56px 44px; text-align: center; }
 .pub-final-cta h2 { color: var(--cream); }
