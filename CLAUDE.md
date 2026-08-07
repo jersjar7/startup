@@ -71,6 +71,12 @@ Full runbook: `docs/DEPLOY.md`. Critical points:
 - **Verifying a deploy: status codes lie.** The SPA catch-all returns `index.html`
   (HTTP 200) for any missing asset path. Verify by `content_type` or by grepping
   the served bundle for a changed string — never by status code alone.
+- **A new public page needs TWO route lists, not one.** Add it to `ROUTES` in
+  `scripts/prerender.mjs` *and* to `PRERENDERED_ROUTE_PATTERN` in
+  `service/prerenderedRoutes.js`. Miss the second and the page still returns
+  HTTP 200 and looks perfect in a browser, while every crawler gets the generic
+  landing title and none of the page's JSON-LD. `/exam-simulation` shipped that
+  way on 2026-08-07. `service/prerenderedRoutes.test.js` now fails on the drift.
 - Node on the box needs a login shell over SSH: `ssh … 'bash -ilc "pm2 …"'`.
 - **Never package `.env`.** `deployService.sh` excludes it and aborts if one
   reaches `build/`. The local `service/.env` holds Stripe TEST keys; shipping it
