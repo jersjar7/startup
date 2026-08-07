@@ -128,7 +128,7 @@ export function ExamSimulation() {
             <Link className="pub-btn pub-btn-ghost" to="/exam">See the full simulation</Link>
           </div>
         </div>
-        <div className="pub-hero-icon"><Timer size={44} weight="duotone" /></div>
+        <div className="pub-hero-icon pub-hero-icon--bare"><Timer size={44} weight="duotone" /></div>
       </header>
 
       <section className="pub-section">

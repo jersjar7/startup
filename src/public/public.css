@@ -50,6 +50,8 @@
 .pub-hero-text h1 { margin-bottom: 16px; }
 .pub-hero-icon { flex-shrink: 0; color: var(--pub-accent); display: grid; place-items: center;
   width: 96px; height: 96px; border-radius: 20px; background: var(--pub-accent-bg); }
+/* Modifier, not a change to the base: the guide hero still uses the tinted tile. */
+.pub-hero-icon--bare { background: none; }
 .pub-lede { font-size: 1.15rem; color: #4a4a4a; max-width: 60ch; margin: 0; }
 
 .pub-cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
