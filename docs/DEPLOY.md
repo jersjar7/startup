@@ -177,12 +177,21 @@ npx remotion render video/index.jsx Explainer out/explainer.mp4
 cp -f out/explainer.mp4 public/explainer.mp4
 ```
 
+**Then bump `EXPLAINER_VERSION` in `src/landing/landing.jsx`.** The file has a
+stable name, so the page requests `/explainer.mp4?v=N`; without a new N, anyone
+who already has the video keeps playing the old cut. This was missed once and the
+re-rendered video sat on the server for an hour looking deployed.
+
 Then rebuild and deploy. Verify by extracting the price frame, not by trusting
 the render log:
 
 ```bash
 ffmpeg -ss 24 -i public/explainer.mp4 -frames:v 1 /tmp/frame.png
 ```
+
+Verifying the video is live means checking the URL the PAGE requests, in a
+browser, not `curl`-ing `/explainer.mp4`. The origin can serve new bytes while
+every returning visitor still sees the old file.
 
 `public/explainer-poster.jpg` is a title card with no price, so it does not need
 re-rendering. The Mitch testimonial video quotes no price.
@@ -203,6 +212,29 @@ done
 
 Note `/` and `/stories/mitch` render client-side, so raw HTML shows no price at
 all; check those in a browser.
+
+## Cache policy — hashed vs stable filenames
+
+Two static middlewares in `service/index.js`, split by whether the filename
+changes when the content does:
+
+| Path | Header | Why |
+|---|---|---|
+| `/assets/*` (Vite output) | `max-age=1y, immutable` | content-hashed, so a change is a new URL |
+| everything else in `public/` | `max-age=10m` | hand-authored, stable names, must be able to change |
+
+Until 2026-08-09 **everything** got `1y, immutable`. That froze `explainer.mp4`,
+`llms.txt`, `sitemap.xml`, `robots.txt` and `og-image.png` in every browser that
+had ever loaded them, and `immutable` means the browser will not revalidate even
+on an explicit reload.
+
+**Shortening a cache header does not fix already-cached clients.** A cached
+response keeps the directive it arrived with, so a file that went out with
+`1y, immutable` stays stuck for a year no matter what the server sends next. The
+only fix for those is a new URL — hence `?v=N` on the video.
+
+If you add a stable-named public asset that will ever be updated, either give it
+a version query or accept a 10-minute lag.
 
 ## Quick facts
 
