@@ -94,7 +94,23 @@ app.get(PRERENDERED_ROUTE_PATTERN, (req, res, next) => {
 });
 
 // Serve static assets with long-term caching (hashed filenames)
-app.use(express.static('public', { maxAge: '1y', immutable: true, index: false }));
+// Cache policy, split by whether the filename changes when the content does.
+//
+// Vite emits CONTENT-HASHED filenames into /assets, so a change produces a new
+// URL and those can safely be pinned forever.
+//
+// Everything else in public/ is hand-authored with a STABLE name — explainer.mp4,
+// og-image.png, llms.txt, sitemap.xml, robots.txt, exam-score-report.png. Serving
+// those `immutable, max-age=1y` was a real bug, not a tuning choice: `immutable`
+// tells browsers not to revalidate even on an explicit reload, so a re-rendered
+// video and a corrected llms.txt sat on the server unread by anyone who had
+// visited before. It also froze sitemap.xml for crawlers for a year.
+//
+// A cached response keeps the directive it arrived with, so shortening this does
+// NOT rescue clients that already hold a year-long entry. Those need a new URL
+// (see EXPLAINER_VERSION in src/landing/landing.jsx).
+app.use('/assets', express.static('public/assets', { maxAge: '1y', immutable: true, index: false }));
+app.use(express.static('public', { maxAge: '10m', index: false }));
 
 // Serve index.html with no-cache so browsers always get the latest version
 app.get('/', (_req, res) => {

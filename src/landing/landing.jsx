@@ -41,7 +41,14 @@ import { Math } from './math';
 import './landing.css';
 import './hero-svg.css';
 import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
+
 import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
+// Cache-buster for the explainer video. The file has a STABLE name, so browsers
+// that already have it will not refetch on their own — it was served
+// `immutable` for a year until 2026-08-09, and a cached response keeps the
+// directive it arrived with. BUMP THIS whenever explainer.mp4 is re-rendered,
+// or returning visitors keep watching the old cut. See docs/DEPLOY.md.
+const EXPLAINER_VERSION = 2;
 
 /* ── Chapter data (15 FE Civil topics) ── */
 const chapters = [
@@ -166,7 +173,7 @@ export function Landing({ userName }) {
               preload="metadata"
               poster="/explainer-poster.jpg"
             >
-              <source src="/explainer.mp4" type="video/mp4" />
+              <source src={`/explainer.mp4?v=${EXPLAINER_VERSION}`} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
