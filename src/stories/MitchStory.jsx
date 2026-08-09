@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle } from '@phosphor-icons/react';
 import { useSeo } from '../seo/useSeo';
+import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
 import './stories.css';
 
 const SITE = 'https://fe4raccoons.com';
@@ -80,7 +81,7 @@ export function MitchStory() {
             Start your exam simulation <ArrowRight size={18} weight="bold" />
           </Link>
           <p className="story-price">
-            $49, or $29 with a verified student email. Your access never expires.
+            ${STANDARD_PRICE}, or ${STUDENT_PRICE} with a verified student email. Your access never expires.
           </p>
         </div>
       </div>

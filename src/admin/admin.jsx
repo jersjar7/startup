@@ -8,6 +8,7 @@ import {
   MagnifyingGlass, X, Info, EnvelopeSimple, CalendarBlank, Megaphone, CursorClick, Warning,
 } from '@phosphor-icons/react';
 import { Chart } from './Chart';
+import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
 import './admin.css';
 
 const RANGES = [
@@ -164,7 +165,7 @@ export function Admin({ userName, onLogout }) {
       example: `If 12 distinct people studied at least once this week, this shows 12.` },
     { icon: CurrencyDollar, label: 'Total revenue', value: money(snap.totalRevenue), accent: 'forest',
       desc: `Every completed exam-simulation purchase added up, all time (after Stripe).`,
-      example: `Two $29 student purchases + one $49 standard = $107.` },
+      example: `Two $${STUDENT_PRICE} student purchases + one $${STANDARD_PRICE} standard = $${STUDENT_PRICE * 2 + STANDARD_PRICE}.` },
     { icon: CreditCard, label: 'Purchases', value: snap.totalPurchases.toLocaleString(), accent: 'forest',
       desc: `The all-time count of completed exam-sim purchases — how many were bought, regardless of the price paid.`,
       example: `If 3 people have bought the timed exam sim, this shows 3.` },

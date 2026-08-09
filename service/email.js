@@ -1,5 +1,8 @@
 const { Resend } = require('resend');
 const { recordSend } = require('./sendBudget.js');
+// Prices come from the authoritative module so email copy can never quote a
+// figure the checkout will not charge.
+const { STUDENT_CENTS, STANDARD_CENTS } = require('./pricing.js');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
@@ -287,7 +290,7 @@ function simDigestFooter() {
     <tr><td style="border-top:1px solid ${C.line};padding-top:20px;">
       <p style="margin:0 0 6px;font-family:${SANS};font-weight:600;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:${C.mute};">Before exam day</p>
       <p style="margin:0 0 8px;font-family:${SANS};font-weight:600;font-size:16px;line-height:1.35;color:${C.charcoal};">Sit one full, timed exam</p>
-      <p style="margin:0 0 10px;font-family:${BODYF};font-size:14px;line-height:1.6;color:${C.body};">110 questions over 5 hours 20 minutes, matched to the NCEES topic distribution, then a score report broken down by chapter so you can see where the points actually went. $49, or $29 with a verified .edu email. One time, and it does not expire.</p>
+      <p style="margin:0 0 10px;font-family:${BODYF};font-size:14px;line-height:1.6;color:${C.body};">110 questions over 5 hours 20 minutes, matched to the NCEES topic distribution, then a score report broken down by chapter so you can see where the points actually went. $${STANDARD_CENTS / 100}, or $${STUDENT_CENTS / 100} with a verified .edu email. One time, and it does not expire.</p>
       <p style="margin:0 0 12px;font-family:${BODYF};font-size:14px;line-height:1.6;color:${C.body};">Everything else on FE for Raccoons stays free.</p>
       <a href="${appUrl}/go/digest" target="_blank" style="font-family:${SANS};font-weight:600;font-size:14px;color:${C.ember};text-decoration:none;">See what's in it &rarr;</a>
     </td></tr>

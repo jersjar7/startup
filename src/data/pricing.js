@@ -2,7 +2,7 @@
 // The server (service/pricing.js + service/routes/checkout.js) is authoritative
 // for the actual charge; keep these dollar amounts in sync with the cents there.
 
-export const STUDENT_PRICE = 29;
+export const STUDENT_PRICE = 35;
 export const STANDARD_PRICE = 49;
 
 // Students verify with a .edu (or common academic) email. They lose it after

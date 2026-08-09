@@ -4,6 +4,7 @@ import { ArrowRight, CaretRight } from '@phosphor-icons/react';
 import { useSeo } from '../seo/useSeo';
 import { allTopics, EXAM_FACTS } from './content';
 import { PROBLEM_COUNT_LABEL } from '../data/contentStats';
+import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
 import './public.css';
 
 const SITE = 'https://fe4raccoons.com';
@@ -31,7 +32,7 @@ const FAQ = [
   },
   {
     q: 'How much does FE for Raccoons cost?',
-    a: `The core study experience is free — the lessons, ${PROBLEM_COUNT_LABEL} practice problems, and the diagnostic. The only paid item is an optional one-time timed exam simulation: $29 for verified students (.edu) or $49 standard. There is no subscription.`,
+    a: `The core study experience is free — the lessons, ${PROBLEM_COUNT_LABEL} practice problems, and the diagnostic. The only paid item is an optional one-time timed exam simulation: $${STUDENT_PRICE} for verified students (.edu) or $${STANDARD_PRICE} standard. There is no subscription.`,
   },
 ];
 
