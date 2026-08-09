@@ -6,6 +6,10 @@ import { preview } from 'vite';
 import pw from 'playwright';
 import fs from 'node:fs';
 import path from 'node:path';
+// Prices come from the display module so /llms.txt cannot quote a figure the
+// checkout will not charge. AI crawlers read this file, so a stale price here is
+// repeated back to users by assistants.
+import { STUDENT_PRICE, STANDARD_PRICE } from '../src/data/pricing.js';
 
 const { chromium } = pw;
 const PORT = 4317;
@@ -94,7 +98,7 @@ const llms = `# FE for Raccoons
   explanations, FE Reference Handbook page references, mastery tracking, and
   streak-based gamification.
 - Paid (optional): a full-length, timed FE exam simulation — a one-time purchase,
-  $29 for verified students (.edu) or $49 standard. Everything else stays free.
+  $${STUDENT_PRICE} for verified students (.edu) or $${STANDARD_PRICE} standard. Everything else stays free.
 - No subscription. The public topic guides are readable without an account.
 
 ## Why students use it

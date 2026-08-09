@@ -5,6 +5,9 @@ import {
 import { loadFont as loadDM } from '@remotion/google-fonts/DMSans';
 import { loadFont as loadInter } from '@remotion/google-fonts/Inter';
 import { loadFont as loadMono } from '@remotion/google-fonts/JetBrainsMono';
+// Same source of truth as the site. The rendered mp4 is a build artifact, so it
+// must be re-rendered after a price change — see docs/DEPLOY.md.
+import { STUDENT_PRICE, STANDARD_PRICE } from '../src/data/pricing.js';
 
 const dm = loadDM().fontFamily;
 const inter = loadInter().fontFamily;
@@ -195,9 +198,9 @@ function SceneCTA() {
       <div style={{ textAlign: 'center', opacity: e.opacity, transform: `scale(${interpolate(e.s, [0, 1], [0.9, 1])})` }}>
         <Overline>The only thing that costs money</Overline>
         <div style={{ fontFamily: dm, fontWeight: 700, fontSize: 132, color: C.charcoal, letterSpacing: -5, marginTop: 16, lineHeight: 1 }}>
-          $29 <span style={{ color: C.ember }}>students</span>
+          ${STUDENT_PRICE} <span style={{ color: C.ember }}>students</span>
         </div>
-        <div style={{ fontFamily: inter, fontSize: 32, color: C.gray, marginTop: 10 }}>$49 standard · one-time · no subscription</div>
+        <div style={{ fontFamily: inter, fontSize: 32, color: C.gray, marginTop: 10 }}>${STANDARD_PRICE} standard &middot; one-time &middot; no subscription</div>
         <div style={{ fontFamily: inter, fontSize: 28, color: C.charcoal, marginTop: 18, maxWidth: 900, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.5 }}>
           …for the full timed exam simulation. Everything else stays free.
         </div>
