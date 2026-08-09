@@ -16,6 +16,8 @@ const {
   isVerifyReminderDue, isStaleUnverified,
 } = require('./lifecycle.js');
 const { daysUntilExam } = require('./profile.js');
+const { hasPurchased } = require('./db/purchases.js');
+const { shouldPitchSimInDigest } = require('./digestPitch.js');
 const { canSendLifecycle } = require('./sendBudget.js');
 
 const TZ = process.env.LIFECYCLE_TZ || TZ_DEFAULT;
@@ -209,6 +211,15 @@ async function sendWeeklyDigests(now) {
       const s = await weeklyStatsFor(u.email);
       const active = digestIsActive({ weeklyXp: s.weeklyXp, problemsThisWeek: s.problems });
       const token = await ensureUnsubToken(u);
+      // A failed purchase lookup must not cost somebody their digest, and it
+      // must not guess "not a buyer" and pitch the sim to a customer who owns
+      // it. Treat an error as "already purchased" so the footer is dropped.
+      let owns = true;
+      try {
+        owns = await hasPurchased(u._id.toString());
+      } catch (e) {
+        console.error('[lifecycle] purchase check failed for', u.email, e.message);
+      }
       await sendWeeklyDigestEmail(u.email, {
         active,
         weeklyXp: s.weeklyXp,
@@ -217,6 +228,7 @@ async function sendWeeklyDigests(now) {
         masteryTo: s.masteryTo,
         focusChapter: s.focusChapter,
         unsubUrl: unsubUrl(token),
+        simPitch: shouldPitchSimInDigest({ active, hasPurchased: owns }),
       });
       await userCollection.updateOne({ email: u.email }, { $set: { lastWeeklyAt: new Date() } });
       sent += 1;

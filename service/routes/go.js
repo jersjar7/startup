@@ -7,9 +7,14 @@ const router = express.Router();
 // (fe4raccoons.com/go/exam, /go/mitch). Counts the click, then 302s to the real
 // page. Aggregate (no per-user token) so the link stays clean. Destinations are
 // hardcoded, so this can never become an open redirect.
+// `digest` points at the PUBLIC page rather than /exam: the weekly digest goes
+// to every active user, most of whom have never seen what the simulation is, and
+// the public page explains it before asking for anything. Its own CTA carries
+// them on to /exam.
 const DESTS = {
   exam: { url: '/exam', event: 'sim_pitch_click_exam' },
   mitch: { url: '/stories/mitch', event: 'sim_pitch_click_story' },
+  digest: { url: '/exam-simulation', event: 'sim_pitch_click_digest' },
 };
 
 router.get('/:dest', async (req, res) => {

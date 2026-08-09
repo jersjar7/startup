@@ -269,6 +269,31 @@ function bullets(items) {
   return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 22px;">${rows}</table>`;
 }
 
+// The exam-simulation footer for the weekly digest.
+//
+// Deliberately styled DOWN: a hairline rule, a muted overline and no button, so
+// it reads as a footnote under the user's own numbers rather than as the point
+// of the email. The digest is a report on their week; the moment it looks like
+// an ad wearing a report's clothes, the report stops being trusted.
+//
+// The price is stated rather than hidden behind the click. Somebody who arrives
+// at a price they did not expect feels baited, and that costs more than the
+// clicks a coy version would earn.
+//
+// Link goes through /go/digest so this surface is counted separately from the
+// banner, the card and the nav (ADR-0007).
+function simDigestFooter() {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:26px 0 0;">
+    <tr><td style="border-top:1px solid ${C.line};padding-top:20px;">
+      <p style="margin:0 0 6px;font-family:${SANS};font-weight:600;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:${C.mute};">Before exam day</p>
+      <p style="margin:0 0 8px;font-family:${SANS};font-weight:600;font-size:16px;line-height:1.35;color:${C.charcoal};">Sit one full, timed exam</p>
+      <p style="margin:0 0 10px;font-family:${BODYF};font-size:14px;line-height:1.6;color:${C.body};">110 questions over 5 hours 20 minutes, matched to the NCEES topic distribution, then a score report broken down by chapter so you can see where the points actually went. $49, or $29 with a verified .edu email. One time, and it does not expire.</p>
+      <p style="margin:0 0 12px;font-family:${BODYF};font-size:14px;line-height:1.6;color:${C.body};">Everything else on FE for Raccoons stays free.</p>
+      <a href="${appUrl}/go/digest" target="_blank" style="font-family:${SANS};font-weight:600;font-size:14px;color:${C.ember};text-decoration:none;">See what's in it &rarr;</a>
+    </td></tr>
+  </table>`;
+}
+
 // Humanize a chapter key for display ('water-resources' -> 'Water Resources').
 function chapterLabel(key) {
   if (!key) return '';
@@ -393,7 +418,7 @@ async function sendVerifyReminderEmail(toEmail, rawToken) {
 // Weekly recap (Sunday morning). Active users get the upbeat version; inactive
 // users get a gentle restart so they don't just see a wall of zeros.
 async function sendWeeklyDigestEmail(toEmail, d = {}) {
-  const { active, weeklyXp = 0, streak = 0, problems = 0, masteryTo = null, focusChapter = null, unsubUrl } = d;
+  const { active, weeklyXp = 0, streak = 0, problems = 0, masteryTo = null, focusChapter = null, unsubUrl, simPitch = false } = d;
   let subject; let heading; let inner; let preheader;
   if (active) {
     subject = `Your week: ${weeklyXp} XP, ${streak} days studied`;
@@ -417,6 +442,10 @@ async function sendWeeklyDigestEmail(toEmail, d = {}) {
       button('Study 5 questions', `${appUrl}/dashboard`);
   }
   inner += signatureBlock('Rooting for you,');
+  // Below the sign-off on purpose: the digest ends as a personal note, and the
+  // offer sits underneath it as a footnote. The caller decides who sees it
+  // (shouldPitchSimInDigest) — never buyers, never the inactive branch.
+  if (simPitch) inner += simDigestFooter();
   return sendEmail({ to: toEmail, subject, headers: lifecycleHeaders(unsubUrl), html: emailLayout({ preheader, heading, inner, unsubUrl }) });
 }
 
