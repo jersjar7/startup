@@ -1,0 +1,3 @@
+app_identifier("com.fe4raccoons.mobile")
+team_id("79KW5HMNLY") # Oqupa LLC developer team
+# Auth is via App Store Connect API key (see Fastfile) — no Apple ID needed.

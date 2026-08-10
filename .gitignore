@@ -30,3 +30,8 @@ marketing/
 
 # Intermediate mobile content-tiering working data (final artifacts live in docs/mobile/)
 mobile-analysis/
+
+# fastlane run artifacts — regenerated on every run, pure churn
+mobile/ios/fastlane/report.xml
+mobile/ios/fastlane/README.md
+mobile/ios/fastlane/test_output/

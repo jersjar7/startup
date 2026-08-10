@@ -1,0 +1,170 @@
+default_platform(:ios)
+
+# One-command build + TestFlight upload for FE4Raccoons.
+# Run from mobile/ios:  fastlane beta
+#
+# Adapted from the proven Fit-Protocol lane. The signing approach is the same and
+# the reasons are worth keeping:
+#
+# Signing: the App Store Connect API key (App Manager role) can CREATE a
+# distribution certificate + App Store profile via the API, but it is NOT
+# allowed to do Xcode "cloud signing" during export (that needs an Admin key).
+# So we use MANUAL signing: cert+sigh install the credentials locally, then
+# gym archives/exports against them. No Apple ID, no Xcode GUI, no Admin key.
+#
+# ONE-TIME MACHINE SETUP (asks for your macOS login password, so the OWNER runs
+# this, not an agent). Probably already done for Fit-Protocol on this machine:
+#   security set-key-partition-list -S apple-tool:,apple:,codesign: -s \
+#     -k "<your login password>" ~/Library/Keychains/login.keychain-db
+# Without it the archive fails with errSecInternalComponent.
+#
+# CREDENTIALS ARE NOT IN THIS FILE. jersjar7/startup is a PUBLIC repo, so the
+# key id and issuer id are read from secrets/appstore-connect.json, which is
+# gitignored. The .p8 itself never leaves ~/.appstoreconnect/private_keys/.
+require "json"
+
+# This file: <git-root>/mobile/ios/fastlane/Fastfile
+FLUTTER_ROOT = File.expand_path("../..", __dir__).freeze   # <git-root>/mobile
+GIT_ROOT     = File.expand_path("../../..", __dir__).freeze # <git-root>
+
+CREDS_PATH = File.join(GIT_ROOT, "secrets", "appstore-connect.json").freeze
+UI.user_error!("Missing #{CREDS_PATH} — see the comment at the top of this Fastfile") unless File.exist?(CREDS_PATH)
+CREDS = JSON.parse(File.read(CREDS_PATH)).freeze
+
+API_KEY_ID    = CREDS.fetch("key_id").freeze
+API_ISSUER_ID = CREDS.fetch("issuer_id").freeze
+API_KEY_PATH  = File.expand_path("~/.appstoreconnect/private_keys/AuthKey_#{API_KEY_ID}.p8").freeze
+
+APP_ID       = "com.fe4raccoons.mobile".freeze
+TEAM_ID      = CREDS.fetch("team_id").freeze
+PROFILE_NAME = "#{APP_ID} AppStore".freeze
+
+# Generated signing material stays outside the repo tree.
+SIGNING_DIR = File.expand_path("~/.fe4raccoons/signing").freeze
+
+def asc_api_key
+  app_store_connect_api_key(
+    key_id: API_KEY_ID,
+    issuer_id: API_ISSUER_ID,
+    key_filepath: API_KEY_PATH,
+  )
+end
+
+# Monotonic build number from the commit count. pubspec says 1.0.0+1, and
+# TestFlight rejects a build number it has already seen, so deriving it from git
+# means repeat uploads never collide and nobody has to remember to bump a file.
+def git_build_number
+  `git -C #{GIT_ROOT} rev-list --count HEAD`.strip
+end
+
+platform :ios do
+  desc "Print what WOULD happen, and whether the App Store Connect app record exists. Read-only."
+  lane :preflight do
+    key = asc_api_key
+    UI.message("app id      : #{APP_ID}")
+    UI.message("team        : #{TEAM_ID}")
+    UI.message("build number: #{git_build_number}")
+    begin
+      n = latest_testflight_build_number(api_key: key, app_identifier: APP_ID)
+      UI.success("App record EXISTS in App Store Connect. Latest TestFlight build: #{n}")
+    rescue => e
+      UI.important("Could not read a TestFlight build number. Most likely the app record does not exist yet.")
+      UI.important("Details: #{e.message}")
+    end
+  end
+
+  desc "Create the App Store Connect app record + register the bundle id. Run ONCE."
+  lane :create_app do
+    # Registers com.fe4raccoons.mobile to the Oqupa LLC team and claims the
+    # store name. Both are effectively permanent, hence its own lane rather than
+    # being folded into :beta where it could fire by accident.
+    #
+    # Name is "FE4Raccoons" rather than anything with "Civil" in it: the owner
+    # may add mechanical/electrical FE topics later, and the store name is hard
+    # to change once builds are attached to it.
+    # produce() does NOT accept api_key: it authenticates off the Spaceship token
+    # that app_store_connect_api_key sets globally as a side effect, so the
+    # helper must be called first even though its return value is unused here.
+    asc_api_key
+    produce(
+      app_identifier: APP_ID,
+      app_name: "FE4Raccoons",
+      sku: "fe4raccoons-mobile",
+      language: "English (U.S.)",
+      team_id: TEAM_ID,
+      platform: "ios",
+    )
+  end
+
+  desc "Build the Flutter iOS release and upload it to TestFlight"
+  lane :beta do
+    key = asc_api_key
+    build_no = git_build_number
+
+    # Ensure a distribution certificate + matching App Store profile exist
+    # locally. Both no-op (reuse) once created, so repeat runs are cheap.
+    cert(api_key: key, output_path: SIGNING_DIR)
+    sigh(
+      api_key: key,
+      app_identifier: APP_ID,
+      platform: "ios",
+      provisioning_name: PROFILE_NAME,
+      output_path: SIGNING_DIR,
+    )
+
+    Dir.chdir(FLUTTER_ROOT) do
+      sh("flutter", "pub", "get")
+      sh("flutter", "build", "ios", "--release", "--no-codesign", "--build-number=#{build_no}")
+    end
+
+    # Pin ONLY the Runner target to manual signing with the Oqupa distribution
+    # cert + the sigh profile. Pods targets stay automatic (they "do not support
+    # provisioning profiles"). Without this, automatic signing mis-picks a
+    # personal-team development cert whose key codesign cannot use, and the
+    # Flutter "Run Script" phase fails to codesign Flutter.framework.
+    # The project is committed with automatic signing, so revert it after.
+    begin
+      update_code_signing_settings(
+        path: "Runner.xcodeproj",
+        use_automatic_signing: false,
+        team_id: TEAM_ID,
+        bundle_identifier: APP_ID,
+        code_sign_identity: "Apple Distribution",
+        profile_name: PROFILE_NAME,
+        targets: ["Runner"],
+      )
+
+      build_app(
+        workspace: "Runner.xcworkspace",
+        scheme: "Runner",
+        export_method: "app-store",
+        export_options: {
+          method: "app-store",
+          signingStyle: "manual",
+          teamID: TEAM_ID,
+          provisioningProfiles: { APP_ID => PROFILE_NAME },
+        },
+        output_directory: "../build/ios/ipa",
+        output_name: "fe4raccoons.ipa",
+      )
+    ensure
+      sh("git", "-C", FLUTTER_ROOT, "checkout", "--", "ios/Runner.xcodeproj/project.pbxproj")
+    end
+
+    upload_to_testflight(
+      api_key: key,
+      skip_waiting_for_build_processing: true,
+      skip_submission: true,
+    )
+  end
+
+  desc "Upload the already-built IPA without rebuilding. Use to retry after an App Store Connect outage."
+  lane :upload do
+    upload_to_testflight(
+      api_key: asc_api_key,
+      ipa: File.join(FLUTTER_ROOT, "build/ios/ipa/fe4raccoons.ipa"),
+      skip_waiting_for_build_processing: true,
+      skip_submission: true,
+    )
+  end
+end
