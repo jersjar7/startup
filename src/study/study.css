@@ -172,8 +172,10 @@
 
 .st-row-btn {
   display: grid;
-  /* num · status · name · lesson-count · toggle */
-  grid-template-columns: 32px 20px minmax(0, 1fr) auto 20px;
+  /* num · name · lesson-count · toggle
+     The old `status` column held a hardcoded circle that never changed state;
+     it was removed with the progress markers, so the grid dropped to 4. */
+  grid-template-columns: 32px minmax(0, 1fr) auto 20px;
   align-items: center;
   gap: 0.65rem;
   width: 100%;
@@ -235,14 +237,6 @@
   color: var(--ember);
 }
 
-/* Status icons */
-.st-status { flex-shrink: 0; }
-.st-status--locked    { color: var(--gray-300); }
-.st-status--available { color: var(--gray-300); }
-.st-status--ember     { color: var(--ember); }
-.st-status--sunbeam   { color: var(--sunbeam); }
-.st-status--forest    { color: var(--forest); }
-.st-status--mastered  { color: var(--forest); }
 
 /* ── Expanded content ── */
 .st-expanded {
@@ -597,8 +591,18 @@
   }
 
   .st-row-btn {
-    grid-template-columns: 28px 18px 1fr 18px;
+    /* num · name · caret, with the lesson count dropped onto its own line
+       beneath the name. The old value had a column for the (now removed) status
+       icon and NO column for the count, which is why the count overflowed and
+       was clipped off-screen at this width. */
+    grid-template-columns: 28px minmax(0, 1fr) 18px;
+    row-gap: 0.1rem;
     padding: 0.65rem 0.5rem;
+  }
+
+  .st-row-meta {
+    grid-column: 2;
+    justify-self: start;
   }
 
   .st-name {
@@ -613,4 +617,33 @@
   .sidebar-section {
     min-width: 100%;
   }
+}
+
+/* ── Lesson progress markers ────────────────────────────────────────────────
+   Five states, three brand colours, no red. `attempted` is a hollow ring so
+   the states differ by SHAPE as well as hue, and `untouched` reserves its space
+   invisibly so lesson names stay aligned. See docs/progress-markers.md. */
+.st-lm {
+  flex-shrink: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  /* Line up with the lesson NAME, not the middle of the two-line block —
+     the marker describes the lesson, so it should read against its title. */
+  align-self: flex-start;
+  margin-top: 0.28rem;
+}
+.st-lm--untouched { visibility: hidden; }
+.st-lm--attempted { border: 2px solid var(--ember); background: transparent; }
+.st-lm--one       { background: var(--ember); }
+.st-lm--two       { background: var(--sunbeam); }
+.st-lm--complete  { background: var(--forest); }
+
+/* Shown only when the progress call actually FAILED. Silence would be worse:
+   every lesson would look untouched, which is the exact wrong signal. */
+.st-progress-note {
+  font-size: 0.72rem;
+  color: var(--gray-500);
+  padding: 0.35rem 0 0;
 }

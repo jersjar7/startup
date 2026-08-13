@@ -11,9 +11,6 @@ import {
   Warning,
   MathOperations,
   PlayCircle,
-  CheckCircle,
-  LockSimple,
-  Circle,
   Info,
 } from '@phosphor-icons/react';
 import katex from 'katex';
@@ -41,18 +38,44 @@ function MathBlock({ tex }) {
 }
 
 /* ── Subtopic row ── */
-function SubtopicRow({ sub, index, isExpanded, onToggle, accent, chapterId }) {
+/* Per-lesson progress marker. Five states over three brand colours, no red —
+   see docs/progress-markers.md.
+
+   `untouched` renders an INVISIBLE circle rather than nothing, so lesson names
+   stay aligned whether or not a lesson has been started.
+
+   Colour is never the only carrier: every visible state also has an aria-label
+   and a tooltip, and `attempted` is hollow rather than filled, so the states
+   are still distinguishable without seeing hue. */
+const LESSON_MARKER = {
+  untouched:     { cls: 'st-lm--untouched',   label: null },
+  attempted:     { cls: 'st-lm--attempted',   label: 'Started, no exercises correct yet' },
+  'one-correct': { cls: 'st-lm--one',         label: '1 of 3 exercises correct' },
+  'two-correct': { cls: 'st-lm--two',         label: '2 of 3 exercises correct' },
+  complete:      { cls: 'st-lm--complete',    label: 'All 3 exercises correct' },
+};
+
+function LessonMarker({ progress }) {
+  // `undefined` means progress has not loaded (or failed to). That is NOT the
+  // same as "untouched", and must never be drawn as though the user has done
+  // nothing — showing a blank marker for unknown data is exactly the misleading
+  // signal this feature exists to remove.
+  const state = progress?.state;
+  const spec = LESSON_MARKER[state] || LESSON_MARKER.untouched;
+  const hidden = !spec.label;
+  return (
+    <span
+      className={`st-lm ${spec.cls}`}
+      role={hidden ? undefined : 'img'}
+      aria-hidden={hidden ? 'true' : undefined}
+      aria-label={spec.label || undefined}
+      title={spec.label || undefined}
+    />
+  );
+}
+
+function SubtopicRow({ sub, index, isExpanded, onToggle, accent, chapterId, lessonProgress }) {
   const navigate = useNavigate();
-  // Mastery state would come from API — placeholder for now
-  const status = 'available'; // 'locked' | 'available' | 'in-progress' | 'mastered'
-
-  const statusIcon = {
-    locked: <LockSimple size={16} weight="bold" className="st-status st-status--locked" />,
-    available: <Circle size={16} weight="bold" className="st-status st-status--available" />,
-    'in-progress': <Lightning size={16} weight="fill" className={`st-status st-status--${accent}`} />,
-    mastered: <CheckCircle size={16} weight="fill" className="st-status st-status--mastered" />,
-  };
-
   // Find lessons for this subtopic
   const chapterLessons = LESSONS[chapterId] ?? [];
   const subtopicEntry = chapterLessons.find((entry) => entry.subtopicId === sub.id);
@@ -62,10 +85,9 @@ function SubtopicRow({ sub, index, isExpanded, onToggle, accent, chapterId }) {
     <div className={`st-row ${isExpanded ? 'st-row--expanded' : ''}`}>
       <button className="st-row-btn" onClick={onToggle} aria-expanded={isExpanded}>
         <span className="st-num">{String(index + 1).padStart(2, '0')}</span>
-        {statusIcon[status]}
         <span className="st-name">{sub.name}</span>
         {/* collapsed rows still tell you how big the chunk is (always rendered —
-            the 5-column row grid needs the cell even when empty) */}
+            the 4-column row grid needs the cell even when empty) */}
         <span className="st-row-meta">
           {lessons.length > 0 ? `${lessons.length} ${lessons.length === 1 ? 'lesson' : 'lessons'}` : ''}
         </span>
@@ -80,6 +102,7 @@ function SubtopicRow({ sub, index, isExpanded, onToggle, accent, chapterId }) {
             <div className="st-lesson-list">
               {lessons.map((lesson) => (
                 <div key={lesson.id} className="st-lesson-row">
+                  <LessonMarker progress={lessonProgress?.[lesson.id]} />
                   <div className="st-lesson-info">
                     <span className="st-lesson-name">{lesson.name}</span>
                     <span className="st-lesson-app">{lesson.application}</span>
@@ -134,6 +157,11 @@ export function Study({ userName, onLogout, displayName }) {
   const [formulasOpen, setFormulasOpen] = React.useState(false);
   const [trapsOpen, setTrapsOpen] = React.useState(false);
   const [topic, setTopic] = React.useState(null);
+  // Progress markers. `progress` stays null until it loads, and progressFailed
+  // records a real failure so the page can say the markers are unavailable
+  // instead of silently drawing every lesson as untouched.
+  const [progress, setProgress] = React.useState(null);
+  const [progressFailed, setProgressFailed] = React.useState(false);
 
   // Look up chapter from our static data
   const chapter = CHAPTERS.find((c) => c.id === topicId);
@@ -147,10 +175,21 @@ export function Study({ userName, onLogout, displayName }) {
       return;
     }
 
-    // The study page renders entirely from bundled content; the legacy
-    // /api/topics/<chapter> endpoint has no row for chapter ids (it would
+    // The chapter STRUCTURE still renders entirely from bundled content; the
+    // legacy /api/topics/<chapter> endpoint has no row for chapter ids (it would
     // always 404), so we don't call it.
     setLoading(false);
+
+    // Progress markers are fetched separately and never block the page. The
+    // content is already in the bundle, so a slow or failed progress call must
+    // not stop somebody reading a chapter.
+    let cancelled = false;
+    setProgress(null);
+    setProgressFailed(false);
+    fetch(`/api/progress/chapter/${topicId}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((d) => { if (!cancelled) setProgress(d); })
+      .catch(() => { if (!cancelled) setProgressFailed(true); });
 
     // WebSocket presence notification
     const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
@@ -158,7 +197,7 @@ export function Study({ userName, onLogout, displayName }) {
     ws.onopen = () => {
       ws.send(JSON.stringify({ type: 'study', from: activityName, topic: topicId }));
     };
-    return () => ws.close();
+    return () => { cancelled = true; ws.close(); };
   }, [userName, navigate, topicId]);
 
   if (loading) return <LoadingState />;
@@ -234,6 +273,12 @@ export function Study({ userName, onLogout, displayName }) {
             );
           })()}
 
+          {progressFailed && (
+            <p className="st-progress-note">
+              Progress markers are unavailable right now. Your work is saved — this is only the display.
+            </p>
+          )}
+
           <div className="st-list">
             {details.subtopics.map((sub, i) => (
               <SubtopicRow
@@ -244,6 +289,7 @@ export function Study({ userName, onLogout, displayName }) {
                 chapterId={topicId}
                 isExpanded={expandedSub === sub.id}
                 onToggle={() => setExpandedSub(expandedSub === sub.id ? null : sub.id)}
+                lessonProgress={progress?.lessons}
               />
             ))}
           </div>
