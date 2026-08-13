@@ -345,6 +345,46 @@
   padding-left: 0.25rem;
 }
 
+/* Chapter practice fraction. Deliberately laid out like a subtopic row — label
+   left, count right — so it reads as another line of the same list rather than
+   a different kind of thing. No marker: the dot means "n of 3 exercises" and
+   would mean something else entirely on a set of 11-29. */
+.study-practice-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.6rem;
+  border-top: 1px solid var(--gray-100);
+}
+
+.study-practice-label {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--charcoal);
+}
+
+.study-practice-count {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--gray-500);
+}
+
+.study-practice-row--done .study-practice-count { color: var(--forest); }
+
+/* Nothing left to do here, so stop being the loudest thing on the page. */
+.study-practice-all-btn--done {
+  background: transparent;
+  color: var(--charcoal);
+  border: 1px solid var(--gray-200);
+  box-shadow: none;
+}
+.study-practice-all-btn--done:hover {
+  background: var(--cream-dark, #F5EDE0);
+}
+
 
 /* ═══════════════════════════════════════
    RIGHT — SIDEBAR

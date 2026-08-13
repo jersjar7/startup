@@ -388,26 +388,47 @@ export function Study({ userName, onLogout, displayName }) {
             ))}
           </div>
 
-          {/* ── Practice All Button (secondary — the guided lesson is primary) ── */}
-          <div className="study-practice-all">
-            <button
-              className="btn-secondary study-practice-all-btn"
-              onClick={() => navigate(`/problems/${topicId}`)}
-              disabled={problemCount === 0}
-            >
-              <Lightning size={18} weight="bold" />
-              {problemCount > 0
-                ? `Practice All ${chapter.name} Problems`
-                : 'Problems Coming Soon'
-              }
-              {problemCount > 0 && <ArrowRight size={16} weight="bold" />}
-            </button>
-            {problemCount > 0 && (
-              <span className="study-practice-note">
-                Mixed session across all subtopics — weighted by your weakest areas
-              </span>
-            )}
-          </div>
+          {/* ── Chapter practice (secondary — the guided lesson is primary) ──
+              Its own row with a PLAIN FRACTION and no marker. The five-state dot
+              is calibrated to a lesson's 3 exercises; practice sets run 11-29,
+              so the same colours would mean "3 correct" on a lesson and "29
+              correct" one row below. See docs/progress-markers.md. */}
+          {(() => {
+            const pr = progress?.practice;
+            const allDone = pr && pr.total > 0 && pr.correct >= pr.total;
+            return (
+              <div className="study-practice-all">
+                {pr && pr.total > 0 && (
+                  <div className={`study-practice-row ${allDone ? 'study-practice-row--done' : ''}`}>
+                    <span className="study-practice-label">Chapter practice</span>
+                    <span className="study-practice-count">{`${pr.correct} of ${pr.total} problems`}</span>
+                  </div>
+                )}
+                <button
+                  className={`btn-secondary study-practice-all-btn ${allDone ? 'study-practice-all-btn--done' : ''}`}
+                  onClick={() => navigate(`/problems/${topicId}`)}
+                  disabled={problemCount === 0}
+                >
+                  <Lightning size={18} weight="bold" />
+                  {problemCount === 0
+                    ? 'Problems Coming Soon'
+                    : allDone
+                      ? `Practice ${chapter.name} again`
+                      : `Practice All ${chapter.name} Problems`}
+                  {problemCount > 0 && <ArrowRight size={16} weight="bold" />}
+                </button>
+                {problemCount > 0 && (
+                  <span className="study-practice-note">
+                    {allDone
+                      // "Weighted by your weakest areas" is not true when there
+                      // are none left, so stop claiming it.
+                      ? 'You have answered every practice problem here correctly. Run it again any time.'
+                      : 'Mixed session across all subtopics — weighted by your weakest areas'}
+                  </span>
+                )}
+              </div>
+            );
+          })()}
         </div>
 
         {/* ── RIGHT: Sidebar ── */}
