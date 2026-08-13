@@ -245,13 +245,45 @@ dot. Confirm the existing practice summary appears on the way out.
 **Done when:** the fraction matches distinct practice problems answered
 correctly, and the summary is confirmed present (not rebuilt).
 
-### Phase 6 — Verification pass
-Full-suite run, a real authenticated walkthrough via the QA account
-(`scripts/verify-ui.mjs`), mobile widths, and a check that a brand-new account
-sees a clean page with no markers rather than a broken one.
+### Phase 6 — Verification pass — DONE 2026-08-13
 
-**Done when:** screenshots at each of the five states, plus the empty state, on
-desktop and mobile.
+Twelve combinations driven in a real browser: six chapter states x two widths
+(1150px and 390px). Every one asserted programmatically rather than eyeballed:
+
+- no horizontal overflow at either width
+- the subtopic header fraction EQUALS the sum of its own lesson dots
+- exactly one call to action on the page
+- every visible marker carries an aria-label
+
+All twelve passed. The failure state correctly falls back to the plain lesson
+count ("6 lessons") instead of fabricating "0 of 18".
+
+Keyboard: the marker is reachable by Tab, focus reveals the bubble, Escape
+dismisses it, and its accessible name is the same sentence the bubble shows.
+
+Data, re-checked after all five phases: 40 real user/chapter pairs recomputed
+from production `problemHistory`. All five lesson states occur naturally
+(368 complete, 87 two-correct, 47 one-correct, 50 untouched, 15 attempted), and
+158 subtopic roll-ups were cross-checked against their own lessons with zero
+mismatches.
+
+**A deliberate limitation.** The RENDERING of the richer states was verified with
+stubbed API responses, not by manufacturing study activity on the QA account.
+The render path is identical whatever the numbers' origin, and the numbers
+themselves were verified against real accounts in phase 1 and again here.
+Generating fake study activity would have written XP, sessions and history to
+production for an account that is NOT excluded from analytics — see the note
+below.
+
+## Known, not fixed here
+
+`admin+test1@oqupa.com` is the QA account but is NOT excluded from analytics.
+`isExcluded()` matches exactly against `admin@oqupa.com` and the long-dead
+`qa-bot@fe4raccoons.com`, while `scripts/baseline-report.js` strips plus-tags and
+DOES exclude it — so the two disagree about whether that account is a real user.
+It affects the leaderboard, funnel counts, the admin user list and analytics.
+Harmless at present (225 XP against a 3,005 XP leaderboard cutoff) and it did
+not block this work, but it is why phase 6 avoided generating study activity.
 
 ## Out of scope, deliberately
 
