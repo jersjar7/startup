@@ -137,13 +137,27 @@ many different results, (b) make forest mean "3 correct" on a lesson and "29
 correct" one row below, and (c) make forest nearly unreachable. The dot
 vocabulary stays reserved for the one thing it describes exactly.
 
-### 4. The button — "Start:" becomes "Continue:"
-Points at the **first lesson below forest**, in chapter order. Walks the user
-through partial work rather than skipping past it. Falls back to "Start:" and
-the first lesson when nothing has been touched, and to a completed state when
-every lesson is forest.
+### 4. The guided-entry button — BUILT, THEN REMOVED
 
-Arguably the biggest single win here: it removes the need to hunt at all.
+Originally the page's primary CTA always said "Start:" and always pointed at the
+first lesson of the first subtopic, no matter what had been finished. That was
+genuinely broken, so it was rebuilt to say "Continue:" and point at the first
+lesson below complete.
+
+**It was then removed entirely (2026-08-13, owner's call), and that was right.**
+
+Once the markers existed, the button was a second voice saying what the dots
+already said, and less precisely: the dots show the state of every lesson at
+once, while the button could only nominate one. Two answers to "where am I" is
+worse than one.
+
+Removing it also resolved a duplication: when every lesson was complete the same
+slot offered "Practice: N problems to go", which pointed at the very same place
+as the chapter-practice button further down the page.
+
+The lesson for anything similar: a marker that shows state does not need a
+control that narrates it. See also the chapter-complete banner, removed for the
+same reason on the same day.
 
 ### Also verified, no work needed
 The "Practice All" flow already ends on a summary. `/problems/:topicId` is the
@@ -218,12 +232,11 @@ circle should not ship separately from the thing that replaces it.
 **Done when:** the fraction matches a hand count, and no hardcoded `status`
 remains in `study.jsx`.
 
-### Phase 4 — "Continue"
-Relabel the button and point it at the first lesson below forest. Handle the two
-edge cases: nothing touched (reads "Start:") and everything forest.
-
-**Done when:** with lessons 1-3 forest, the button offers lesson 4; with none
-touched it offers lesson 1 and says "Start:".
+### Phase 4 — the guided-entry button (built, then removed)
+Built as "Continue:" pointing at the first lesson below complete, then deleted
+along with the whole guided-entry slot once it was clear the markers had made it
+redundant. See surface 4 above. Net effect of this phase: the chapter page has
+ONE call to action, the chapter-practice button, and the markers do the rest.
 
 ### Phase 5 — Chapter practice row
 Give practice its own row at the bottom with a plain "12 of 29" fraction and no
