@@ -63,6 +63,8 @@ function buildChapterProgress({ chapter, lessonsByKey, problemIndex, historyRows
 
   for (const st of chapter.subtopics || []) {
     let complete = 0;
+    let exercisesCorrect = 0;
+    let exercisesTotal = 0;
     const refs = st.lessons || [];
     for (const ref of refs) {
       const lesson = lessonsByKey[`${chapter.id}/${ref.id}`];
@@ -70,11 +72,18 @@ function buildChapterProgress({ chapter, lessonsByKey, problemIndex, historyRows
       const prog = lessonProgress(ids, historyById);
       lessons[ref.id] = prog;
       if (prog.state === 'complete') complete += 1;
+      exercisesCorrect += prog.correct;
+      exercisesTotal += prog.total;
     }
-    // The subtopic fraction counts COMPLETE lessons only. Known and accepted:
-    // a subtopic whose lessons all sit at 2 of 3 reads "0 of N", under-reporting
-    // real work. Chosen for simplicity; switch to counting exercises if it grates.
-    subtopics[st.id] = { complete, total: refs.length };
+    // The subtopic row reports EXERCISES, not whole lessons.
+    //
+    // It originally counted completed lessons, and that was wrong in a way only
+    // visible on screen: a subtopic with one lesson attempted and another at 2
+    // of 3 reported "0 of 3 lessons" while the dots inside it plainly showed
+    // work. The collapsed row is the only progress signal most people ever see,
+    // so it must never contradict them. `complete` is still reported for
+    // anything that wants whole-lesson counts.
+    subtopics[st.id] = { complete, total: refs.length, exercisesCorrect, exercisesTotal };
   }
 
   // Chapter practice is a SEPARATE pool sharing no ids with lessons, so it gets

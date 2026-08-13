@@ -101,22 +101,38 @@ function LessonMarker({ progress }) {
   );
 }
 
-function SubtopicRow({ sub, index, isExpanded, onToggle, accent, chapterId, lessonProgress }) {
+function SubtopicRow({ sub, index, isExpanded, onToggle, accent, chapterId, lessonProgress, subtopicProgress }) {
   const navigate = useNavigate();
   // Find lessons for this subtopic
   const chapterLessons = LESSONS[chapterId] ?? [];
   const subtopicEntry = chapterLessons.find((entry) => entry.subtopicId === sub.id);
   const lessons = subtopicEntry?.lessons ?? [];
 
+  // The collapsed row counts EXERCISES, not whole lessons. Counting lessons made
+  // a subtopic with real partial work report "0 of 3" while the dots inside it
+  // showed otherwise, and this row is the only progress signal visible before
+  // anyone expands anything. See docs/progress-markers.md.
+  const total = subtopicProgress?.exercisesTotal ?? 0;
+  const done = subtopicProgress?.exercisesCorrect ?? 0;
+
   return (
     <div className={`st-row ${isExpanded ? 'st-row--expanded' : ''}`}>
       <button className="st-row-btn" onClick={onToggle} aria-expanded={isExpanded}>
         <span className="st-num">{String(index + 1).padStart(2, '0')}</span>
         <span className="st-name">{sub.name}</span>
-        {/* collapsed rows still tell you how big the chunk is (always rendered —
-            the 4-column row grid needs the cell even when empty) */}
-        <span className="st-row-meta">
-          {lessons.length > 0 ? `${lessons.length} ${lessons.length === 1 ? 'lesson' : 'lessons'}` : ''}
+        {/* Collapsed rows still tell you how big the chunk is, and once progress
+            is known they say how much of it is DONE — the row is collapsed by
+            default, so this is the only progress signal visible without opening
+            it. Falls back to the plain count while progress is unknown, because
+            "0 of 6" would be a claim we cannot yet make.
+            (Always rendered — the 4-column row grid needs the cell even when
+            empty.) */}
+        <span className={`st-row-meta ${subtopicProgress && done === total && total > 0 ? 'st-row-meta--done' : ''}`}>
+          {subtopicProgress
+            ? `${done} of ${total} exercises`
+            : lessons.length > 0
+              ? `${lessons.length} ${lessons.length === 1 ? 'lesson' : 'lessons'}`
+              : ''}
         </span>
         <span className="st-toggle">
           {isExpanded ? <CaretUp size={16} weight="bold" /> : <CaretDown size={16} weight="bold" />}
@@ -317,6 +333,7 @@ export function Study({ userName, onLogout, displayName }) {
                 isExpanded={expandedSub === sub.id}
                 onToggle={() => setExpandedSub(expandedSub === sub.id ? null : sub.id)}
                 lessonProgress={progress?.lessons}
+                subtopicProgress={progress?.subtopics?.[sub.id]}
               />
             ))}
           </div>

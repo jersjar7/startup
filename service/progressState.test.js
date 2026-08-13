@@ -102,9 +102,18 @@ describe('buildChapterProgress', () => {
     const out = buildChapterProgress({ chapter, lessonsByKey, problemIndex, historyRows });
     expect(out.lessons.l1.state).toBe('complete');
     expect(out.lessons.l2.state).toBe('two-correct');
-    // The documented, accepted weakness: l2's real work does not count here.
-    expect(out.subtopics.sub1).toEqual({ complete: 1, total: 2 });
-    expect(out.subtopics.sub2).toEqual({ complete: 0, total: 1 });
+    expect(out.subtopics.sub1).toEqual({ complete: 1, total: 2, exercisesCorrect: 5, exercisesTotal: 6 });
+    expect(out.subtopics.sub2).toEqual({ complete: 0, total: 1, exercisesCorrect: 0, exercisesTotal: 3 });
+  });
+
+  // The reason the row counts exercises instead of lessons: partial work in a
+  // subtopic must never render as zero while the dots inside show progress.
+  it('reports partial work that a whole-lesson count would hide', () => {
+    const historyRows = [row('a1', 1), row('b1', 1), row('b2', 1)];
+    const out = buildChapterProgress({ chapter, lessonsByKey, problemIndex, historyRows });
+    expect(out.subtopics.sub1.complete).toBe(0);                 // no lesson finished
+    expect(out.subtopics.sub1.exercisesCorrect).toBe(3);         // but three exercises are
+    expect(out.subtopics.sub1.exercisesTotal).toBe(6);
   });
 
   it('counts practice separately, ignoring exam-bank and other chapters', () => {

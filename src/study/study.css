@@ -714,3 +714,7 @@ button.st-lm:focus-visible {
   color: var(--gray-500);
   padding: 0.35rem 0 0;
 }
+
+/* A finished subtopic reads in forest, the same colour a finished lesson does,
+   so "all done" looks the same at both levels. */
+.st-row-meta--done { color: var(--forest); }

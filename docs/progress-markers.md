@@ -113,13 +113,20 @@ Consequences, accepted deliberately by the owner:
 ### 1. Lesson row — the five-state dot
 Inside an expanded subtopic. This is Victoria's actual request.
 
-### 2. Subtopic row — "4 of 6 lessons"
-Counts **forest lessons only**. Visible while the row is collapsed, which is how
-the page opens (all subtopics start collapsed, one at a time).
+### 2. Subtopic row — "2 of 9 exercises"
+Counts **exercises**, not whole lessons. Visible while the row is collapsed,
+which is how the page opens (all subtopics start collapsed, one at a time).
 
-Known and accepted: a subtopic whose six lessons all sit at 2 of 3 reads
-"0 of 6". It under-reports partial work. Accepted for now for simplicity; if it
-grates, switch to counting exercises ("11 of 18") instead of lessons.
+CHANGED 2026-08-13, after seeing it on screen. This originally counted completed
+lessons, with the under-reporting written off as acceptable. Built and viewed,
+it was clearly wrong: a subtopic holding one attempted lesson and another at 2
+of 3 reported **"0 of 3 lessons"** while the dots inside it plainly showed work.
+The collapsed row is the only progress signal most people ever see, so it must
+never contradict the markers underneath it.
+
+Counting exercises never under-reports, needed no endpoint change, and reads
+"2 of 9 exercises" for that same subtopic. The whole-lesson count is still
+returned as `complete` for anything that wants it.
 
 ### 3. Chapter practice — its own row, plain fraction, **no dot**
 e.g. `Practice All Mathematics Problems ......... 12 of 29`
