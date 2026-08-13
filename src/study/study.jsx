@@ -60,17 +60,44 @@ function LessonMarker({ progress }) {
   // same as "untouched", and must never be drawn as though the user has done
   // nothing — showing a blank marker for unknown data is exactly the misleading
   // signal this feature exists to remove.
+  const [open, setOpen] = React.useState(false);
   const state = progress?.state;
   const spec = LESSON_MARKER[state] || LESSON_MARKER.untouched;
-  const hidden = !spec.label;
+
+  // Untouched keeps its space so lesson names stay aligned, but there is nothing
+  // to explain and nothing to press.
+  if (!spec.label) {
+    return (
+      <span className="st-lm-wrap">
+        <span className="st-lm st-lm--untouched" aria-hidden="true" />
+      </span>
+    );
+  }
+
+  // A real button, not a span with a `title`: the native tooltip only appears on
+  // hover, so on a touch screen it never appears at all.
+  //
+  // Hover and focus are handled in CSS; a tap only ever OPENS.
+  // Driving both from one state made them fight each other. Hovering opened the
+  // bubble, so the click that followed toggled it shut; and once the click gave
+  // the button focus, :focus-within kept it visible no matter what the state
+  // said. Tapping opens, moving away (blur) closes, Escape blurs. Predictable.
+  //
+  // The bubble is aria-hidden: it repeats the button's own aria-label, so
+  // exposing both would just make a screen reader say it twice.
   return (
-    <span
-      className={`st-lm ${spec.cls}`}
-      role={hidden ? undefined : 'img'}
-      aria-hidden={hidden ? 'true' : undefined}
-      aria-label={spec.label || undefined}
-      title={spec.label || undefined}
-    />
+    <span className={`st-lm-wrap ${open ? 'st-lm-wrap--open' : ''}`}>
+      <button
+        type="button"
+        className={`st-lm ${spec.cls}`}
+        aria-label={spec.label}
+        aria-expanded={open}
+        onClick={(e) => { e.stopPropagation(); setOpen(true); }}
+        onBlur={() => setOpen(false)}
+        onKeyDown={(e) => { if (e.key === 'Escape') e.currentTarget.blur(); }}
+      />
+      <span className="st-lm-bubble" role="tooltip" aria-hidden="true">{spec.label}</span>
+    </span>
   );
 }
 

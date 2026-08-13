@@ -605,6 +605,13 @@
     justify-self: start;
   }
 
+  /* Narrow screens: let the text wrap rather than run past the right edge. */
+  .st-lm-bubble {
+    white-space: normal;
+    width: max-content;
+    max-width: 62vw;
+  }
+
   .st-name {
     font-size: 0.82rem;
   }
@@ -623,16 +630,76 @@
    Five states, three brand colours, no red. `attempted` is a hollow ring so
    the states differ by SHAPE as well as hue, and `untouched` reserves its space
    invisibly so lesson names stay aligned. See docs/progress-markers.md. */
-.st-lm {
+/* The wrapper is the flex child and the positioning context for the bubble;
+   the dot itself is a button inside it. */
+.st-lm-wrap {
+  position: relative;
   flex-shrink: 0;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  box-sizing: border-box;
+  display: inline-flex;
   /* Line up with the lesson NAME, not the middle of the two-line block —
      the marker describes the lesson, so it should read against its title. */
   align-self: flex-start;
   margin-top: 0.28rem;
+}
+
+.st-lm {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  padding: 0;
+  border: none;
+  background: transparent;
+  appearance: none;
+}
+
+button.st-lm { cursor: pointer; }
+button.st-lm:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 2px;
+}
+
+/* The explanation bubble. Sits above the dot and is absolutely positioned so
+   opening it never nudges the row. Charcoal on cream is the brand's own
+   contrast pair. */
+.st-lm-bubble {
+  position: absolute;
+  bottom: calc(100% + 7px);
+  /* Anchored to the dot's LEFT edge, not centred on it. The dot sits near the
+     left edge of the row, so a centred bubble ran off the side of the screen. */
+  left: -4px;
+  z-index: 20;
+  white-space: nowrap;
+  background: var(--charcoal);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  line-height: 1.25;
+  padding: 0.32rem 0.5rem;
+  border-radius: var(--radius-sm, 6px);
+  box-shadow: 0 4px 14px rgba(44, 44, 44, 0.18);
+  pointer-events: none;
+  /* Hidden by default; shown on hover, keyboard focus, or an explicit tap. */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.12s ease;
+}
+
+.st-lm-wrap:hover .st-lm-bubble,
+.st-lm-wrap:focus-within .st-lm-bubble,
+.st-lm-wrap--open .st-lm-bubble {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Little pointer down toward the dot. */
+.st-lm-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 9px;
+  border: 4px solid transparent;
+  border-top-color: var(--charcoal);
 }
 .st-lm--untouched { visibility: hidden; }
 .st-lm--attempted { border: 2px solid var(--ember); background: transparent; }
