@@ -7,6 +7,7 @@ import {
   CaretDown,
   CaretUp,
   BookOpenText,
+  CheckCircle,
   Lightning,
   Warning,
   MathOperations,
@@ -298,19 +299,51 @@ export function Study({ userName, onLogout, displayName }) {
           </div>
 
           {/* Guided entry — a rusty returner needs one obvious place to start,
-              not a mixed problem session as the only filled CTA. */}
+              not a mixed problem session as the only filled CTA.
+              It used to always say "Start:" and always point at lesson one, so
+              somebody four lessons in was invited to begin again from scratch.
+              It now resumes where they actually stopped. */}
           {(() => {
-            const firstEntry = (LESSONS[topicId] ?? []).find((e) => (e.lessons ?? []).length > 0);
-            const firstLesson = firstEntry?.lessons?.[0];
-            if (!firstLesson) return null;
+            // Walk the chapter in the order the page RENDERS it, so "next" means
+            // the next one down the screen rather than the next in some other list.
+            const ordered = [];
+            for (const st of details.subtopics || []) {
+              const entry = (LESSONS[topicId] ?? []).find((e) => e.subtopicId === st.id);
+              for (const l of entry?.lessons ?? []) ordered.push(l);
+            }
+            if (ordered.length === 0) return null;
+
+            // Unfinished = anything below complete, so partial work is resumed
+            // rather than skipped past.
+            const next = progress
+              ? ordered.find((l) => progress.lessons?.[l.id]?.state !== 'complete')
+              : null;
+            const started = progress
+              ? ordered.some((l) => (progress.lessons?.[l.id]?.state ?? 'untouched') !== 'untouched')
+              : false;
+
+            // Every lesson finished. A "next lesson" CTA would be a lie, and the
+            // chapter practice button below is already the honest next step.
+            if (progress && !next) {
+              return (
+                <p className="study-chapter-done">
+                  <CheckCircle size={18} weight="fill" />
+                  Every lesson in this chapter is complete.
+                </p>
+              );
+            }
+
+            // While progress is unknown, fall back to the old behaviour rather
+            // than guessing where somebody left off.
+            const target = next || ordered[0];
             return (
               <button
                 className="btn-primary study-practice-all-btn"
                 style={{ marginBottom: '1rem' }}
-                onClick={() => navigate(`/lesson/${topicId}/${firstLesson.id}`)}
+                onClick={() => navigate(`/lesson/${topicId}/${target.id}`)}
               >
                 <BookOpenText size={18} weight="bold" />
-                {`Start: ${firstLesson.name}`}
+                {`${started ? 'Continue' : 'Start'}: ${target.name}`}
                 <ArrowRight size={16} weight="bold" />
               </button>
             );

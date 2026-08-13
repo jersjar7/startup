@@ -718,3 +718,19 @@ button.st-lm:focus-visible {
 /* A finished subtopic reads in forest, the same colour a finished lesson does,
    so "all done" looks the same at both levels. */
 .st-row-meta--done { color: var(--forest); }
+
+/* Shown instead of the guided-entry button when every lesson in the chapter is
+   complete. The chapter-practice button below is the next step from here. */
+.study-chapter-done {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--forest-bg, #E8F5EE);
+  color: var(--forest);
+  border-radius: var(--radius-sm, 6px);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.86rem;
+}
