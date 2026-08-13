@@ -322,14 +322,35 @@ export function Study({ userName, onLogout, displayName }) {
               ? ordered.some((l) => (progress.lessons?.[l.id]?.state ?? 'untouched') !== 'untouched')
               : false;
 
-            // Every lesson finished. A "next lesson" CTA would be a lie, and the
-            // chapter practice button below is already the honest next step.
+            // Every lesson finished. A "next lesson" CTA would be a lie — but
+            // finishing the lessons does not finish the CHAPTER. Chapter practice
+            // is a separate pool of 11-29 problems, so somebody can be done with
+            // every lesson and still have most of the practice ahead of them.
+            // Dropping the CTA there left a green success banner and no obvious
+            // next action while real work remained.
             if (progress && !next) {
+              const pr = progress.practice || { correct: 0, total: 0 };
+              const practiceLeft = Math.max(pr.total - pr.correct, 0);
               return (
-                <p className="study-chapter-done">
-                  <CheckCircle size={18} weight="fill" />
-                  Every lesson in this chapter is complete.
-                </p>
+                <>
+                  <p className="study-chapter-done">
+                    <CheckCircle size={18} weight="fill" />
+                    {practiceLeft === 0 && pr.total > 0
+                      ? 'Chapter complete — every lesson and all the practice.'
+                      : 'Every lesson in this chapter is complete.'}
+                  </p>
+                  {practiceLeft > 0 && (
+                    <button
+                      className="btn-primary study-practice-all-btn"
+                      style={{ marginBottom: '1rem' }}
+                      onClick={() => navigate(`/problems/${topicId}`)}
+                    >
+                      <Lightning size={18} weight="bold" />
+                      {`Practice: ${practiceLeft} problem${practiceLeft === 1 ? '' : 's'} to go`}
+                      <ArrowRight size={16} weight="bold" />
+                    </button>
+                  )}
+                </>
               );
             }
 
