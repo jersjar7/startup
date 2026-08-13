@@ -143,6 +143,7 @@ apiRouter.use('/sync', require('./routes/sync.js'));
 apiRouter.use('/leaderboard', require('./routes/leaderboard.js'));
 apiRouter.use('/diagnostic', require('./routes/diagnostic.js'));
 apiRouter.use('/quickstart', require('./routes/quickstart.js'));
+apiRouter.use('/progress', require('./routes/progress.js'));
 apiRouter.use('/checkout', require('./routes/checkout.js'));
 apiRouter.use('/exam', require('./routes/exam.js'));
 apiRouter.use('/admin', require('./routes/admin.js'));

@@ -66,7 +66,32 @@ const entry = `
     for (const x of getChapterPracticeProblems(chId)) addP(x);
   }
 
-  export const content = { chapters, lessons, problemsById };
+  // 4) problemId -> WHERE IT LIVES. Nothing on a problem object records its own
+  //    chapter or lesson, so the progress markers cannot resolve a stored
+  //    problemId back to the lesson it belongs to without this. Built here, at
+  //    generation time, from the same traversal that collects the problems, so
+  //    it can never drift from the content it describes.
+  //
+  //    pool: 'lesson'   -> one of a lesson's 3 exercises
+  //          'practice' -> the chapter-practice pool (own row, own fraction)
+  //          'exam'     -> exam bank; diagnostic + simulation only, never a marker
+  const problemIndex = {};
+  const idx = (x, chapterId, lessonId, pool) => {
+    if (x && x.id && !problemIndex[x.id]) {
+      problemIndex[x.id] = { chapterId, lessonId: lessonId || null, pool };
+    }
+  };
+  for (const chId of Object.keys(LESSONS)) {
+    for (const g of (LESSONS[chId] || [])) {
+      for (const l of (g.lessons || [])) {
+        for (const x of (l.problems || [])) idx(x, chId, l.id, 'lesson');
+      }
+    }
+    for (const x of getExamBankForChapter(chId)) idx(x, chId, x.lessonId || null, 'exam');
+    for (const x of getChapterPracticeProblems(chId)) idx(x, chId, x.lessonId || null, 'practice');
+  }
+
+  export const content = { chapters, lessons, problemsById, problemIndex };
 `;
 
 const out = join(mkdtempSync(join(tmpdir(), 'gc-')), 'c.cjs');
@@ -103,10 +128,45 @@ for (const p of Object.values(content.problemsById)) {
 }
 content.figures = figures;
 
+// Fail the BUILD, not the page, if the problem index ever stops describing the
+// content. A silently incomplete index would render every affected lesson as
+// "untouched" — plausible-looking and completely wrong, with nothing to notice
+// it. See docs/progress-markers.md.
+{
+  const idxd = content.problemIndex;
+  const problems = new Set(Object.keys(content.problemsById));
+  const orphans = Object.keys(idxd).filter((id) => !problems.has(id));
+  if (orphans.length) {
+    throw new Error(`[gen-content] problemIndex has ${orphans.length} id(s) not in problemsById: ${orphans.slice(0, 5)}`);
+  }
+  const missing = [];
+  const wrongSize = [];
+  for (const [key, lesson] of Object.entries(content.lessons)) {
+    const ps = lesson.problems || [];
+    if (ps.length !== 3) wrongSize.push(`${key} has ${ps.length}`);
+    for (const x of ps) {
+      const e = idxd[x.id];
+      if (!e || e.pool !== 'lesson' || e.lessonId !== lesson.id || e.chapterId !== lesson.chapterId) {
+        missing.push(x.id);
+      }
+    }
+  }
+  if (missing.length) {
+    throw new Error(`[gen-content] ${missing.length} lesson exercise(s) missing or mis-mapped in problemIndex: ${missing.slice(0, 5)}`);
+  }
+  // The five-state marker is calibrated to exactly 3 exercises per lesson. If
+  // that ever stops being true the design needs revisiting, so say so loudly.
+  if (wrongSize.length) {
+    throw new Error(`[gen-content] every lesson must have exactly 3 exercises; offenders: ${wrongSize.slice(0, 5)}`);
+  }
+}
+
 const dest = join(root, 'service/content.json');
 writeFileSync(dest, JSON.stringify(content));
 
 const probs = Object.keys(content.problemsById).length;
 const lessons = Object.keys(content.lessons).length;
 const figs = Object.keys(content.figures).length;
+const pools = Object.values(content.problemIndex).reduce((a, e) => { a[e.pool] = (a[e.pool] || 0) + 1; return a; }, {});
 console.log(`[gen-content] ${content.chapters.length} chapters · ${lessons} lessons · ${probs} problems · ${figs} figures -> service/content.json`);
+console.log(`[gen-content] problemIndex: ${Object.keys(content.problemIndex).length} (lesson ${pools.lesson || 0} · practice ${pools.practice || 0} · exam ${pools.exam || 0})`);
