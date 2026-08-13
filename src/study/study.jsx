@@ -7,7 +7,6 @@ import {
   CaretDown,
   CaretUp,
   BookOpenText,
-  CheckCircle,
   Lightning,
   Warning,
   MathOperations,
@@ -331,26 +330,23 @@ export function Study({ userName, onLogout, displayName }) {
             if (progress && !next) {
               const pr = progress.practice || { correct: 0, total: 0 };
               const practiceLeft = Math.max(pr.total - pr.correct, 0);
+              // Nothing left anywhere: say NOTHING. A "chapter complete" banner
+              // here only repeated what the forest dots and the "9 of 9
+              // exercises" fractions already showed, in the loudest slot on the
+              // page. The state is legible without narrating it.
+              if (practiceLeft === 0) return null;
+              // Lessons are done but practice is not, so practice is the next
+              // step. The button says that on its own; it needs no preamble.
               return (
-                <>
-                  <p className="study-chapter-done">
-                    <CheckCircle size={18} weight="fill" />
-                    {practiceLeft === 0 && pr.total > 0
-                      ? 'Chapter complete — every lesson and all the practice.'
-                      : 'Every lesson in this chapter is complete.'}
-                  </p>
-                  {practiceLeft > 0 && (
-                    <button
-                      className="btn-primary study-practice-all-btn"
-                      style={{ marginBottom: '1rem' }}
-                      onClick={() => navigate(`/problems/${topicId}`)}
-                    >
-                      <Lightning size={18} weight="bold" />
-                      {`Practice: ${practiceLeft} problem${practiceLeft === 1 ? '' : 's'} to go`}
-                      <ArrowRight size={16} weight="bold" />
-                    </button>
-                  )}
-                </>
+                <button
+                  className="btn-primary study-practice-all-btn"
+                  style={{ marginBottom: '1rem' }}
+                  onClick={() => navigate(`/problems/${topicId}`)}
+                >
+                  <Lightning size={18} weight="bold" />
+                  {`Practice: ${practiceLeft} problem${practiceLeft === 1 ? '' : 's'} to go`}
+                  <ArrowRight size={16} weight="bold" />
+                </button>
               );
             }
 
