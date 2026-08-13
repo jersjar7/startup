@@ -7,8 +7,8 @@ const {
   funnelEventsCollection,
 } = require('./connection');
 const { dateAxis, seriesFor, cumulative } = require('../analytics');
-const { EXCLUDED_EMAILS } = require('../internalAccounts');
-const NOT_EXCLUDED = { $nin: EXCLUDED_EMAILS };
+const { NOT_EXCLUDED } = require('../internalAccounts');
+
 
 // Daily buckets are computed in the owner's local timezone so "today" lines up
 // with their calendar day. Override with ANALYTICS_TZ if the owner relocates.

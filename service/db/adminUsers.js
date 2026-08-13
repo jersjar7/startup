@@ -3,9 +3,9 @@
 // and a single-email lookup returns one full record the admin already typed.
 const { userCollection, userStatsCollection, purchasesCollection, funnelEventsCollection } = require('./connection');
 const { ObjectId } = require('mongodb');
-const { EXCLUDED_EMAILS } = require('../internalAccounts');
+const { NOT_EXCLUDED } = require('../internalAccounts');
 
-const NOT_EXCLUDED = { $nin: EXCLUDED_EMAILS };
+
 
 // jerson01@byu.edu -> j•••@byu.edu  (first char + domain). Fixed-length mask:
 // uniform column widths in the table, and it doesn't leak the local-part length.

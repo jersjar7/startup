@@ -4,7 +4,7 @@ const {
   diagnosticResultsCollection,
   purchasesCollection,
 } = require('./connection');
-const { EXCLUDED_EMAILS } = require('../internalAccounts');
+const { NOT_EXCLUDED, EXCLUDED_PATTERN } = require('../internalAccounts');
 
 // Record a funnel event. Analytics must never break a user flow, so failures
 // are swallowed (logged, not thrown).
@@ -18,7 +18,7 @@ async function logEvent(type, email = null, meta = {}) {
 
 // Distinct users who triggered an event type (optionally since a date).
 async function countDistinctEventUsers(type, since) {
-  const match = { type, email: { $ne: null, $nin: EXCLUDED_EMAILS } };
+  const match = { type, email: { $ne: null, $not: EXCLUDED_PATTERN } };
   if (since) match.createdAt = { $gte: since };
   const emails = await funnelEventsCollection.distinct('email', match);
   return emails.length;
@@ -29,8 +29,8 @@ async function countDistinctEventUsers(type, since) {
 // collections; checkout starts come from funnel events.
 async function getFunnelCounts() {
   const [signups, diagEmails, purchaseAgg, checkoutStarts, quickstartActivated, quickstartCompleted] = await Promise.all([
-    userCollection.countDocuments({ email: { $nin: EXCLUDED_EMAILS } }),
-    diagnosticResultsCollection.distinct('email', { email: { $nin: EXCLUDED_EMAILS } }),
+    userCollection.countDocuments({ email: NOT_EXCLUDED }),
+    diagnosticResultsCollection.distinct('email', { email: NOT_EXCLUDED }),
     purchasesCollection
       .aggregate([
         { $match: { status: 'completed' } },
