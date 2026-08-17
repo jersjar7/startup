@@ -37,6 +37,22 @@ class _StudyTabState extends State<StudyTab> {
 
   void _retry() => setState(() => _future = _load());
 
+  /// Fresher mastery than `_future` carries, applied on top of it.
+  ///
+  /// Same cause as the chapter screen's reload: this tab is pushed OVER, so its
+  /// State survives underneath and nothing re-runs when a chapter closes. Its
+  /// rings would sit at whatever they were when the tab first loaded.
+  ///
+  /// Refreshed as an overlay rather than by reassigning `_future` so the whole
+  /// list does not drop to a loading spinner every time somebody comes back from
+  /// a chapter.
+  Map<String, int>? _freshMastery;
+
+  Future<void> _refreshMastery() async {
+    final m = await _repo.mastery();
+    if (mounted && m.isNotEmpty) setState(() => _freshMastery = m);
+  }
+
   @override
   Widget build(BuildContext context) {
     final first = context.select<AuthController, String?>((a) => a.user?['firstName'] as String?);
@@ -68,8 +84,8 @@ class _StudyTabState extends State<StudyTab> {
                 separatorBuilder: (_, _) => const Divider(height: 1),
                 itemBuilder: (context, i) {
                   final ch = data.chapters[i];
-                  final pct = data.mastery[ch.id] ?? 0;
-                  return _ChapterRow(chapter: ch, pct: pct);
+                  final pct = _freshMastery?[ch.id] ?? data.mastery[ch.id] ?? 0;
+                  return _ChapterRow(chapter: ch, pct: pct, onReturn: _refreshMastery);
                 },
               ),
             ),
@@ -81,17 +97,21 @@ class _StudyTabState extends State<StudyTab> {
 }
 
 class _ChapterRow extends StatelessWidget {
-  const _ChapterRow({required this.chapter, required this.pct});
+  const _ChapterRow({required this.chapter, required this.pct, required this.onReturn});
 
   final Chapter chapter;
   final int pct;
+  final Future<void> Function() onReturn;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(builder: (_) => ChapterScreen(chapter: chapter, masteryPct: pct)),
-      ),
+      onTap: () async {
+        await Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => ChapterScreen(chapter: chapter, masteryPct: pct)),
+        );
+        await onReturn();
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 11),
         child: Row(

@@ -38,21 +38,47 @@ class _ChapterScreenState extends State<ChapterScreen> {
   ChapterProgress? _progress;
   bool _progressFailed = false;
 
+  /// The chapter's own copy of its mastery percent. Seeded from the list that
+  /// pushed this screen, then refreshed here, because the pushed-in value is a
+  /// snapshot from whenever the chapter list last loaded.
+  late int _pct;
+
   late final ContentRepository _repo;
 
   @override
   void initState() {
     super.initState();
     _repo = ContentRepository(context.read<AuthController>().api);
-    _loadProgress();
+    _pct = widget.masteryPct;
+    _refresh();
   }
 
-  Future<void> _loadProgress() async {
+  /// Load progress and mastery. Called on open AND every time a lesson pops back
+  /// to this screen.
+  ///
+  /// The reload matters because this screen is PUSHED over, not navigated away
+  /// from: its State stays alive underneath the lesson, so nothing re-runs when
+  /// the lesson closes. Fetching only in initState meant finishing a lesson's
+  /// three exercises left the marker unchanged until you backed out of the
+  /// chapter entirely and came in again, which destroyed the State and forced a
+  /// fresh fetch. The website never showed this because there each level is a
+  /// route, so returning to a chapter remounts it and refetches.
+  Future<void> _refresh() async {
+    // Mastery is best-effort by contract (returns {} on failure), so it cannot
+    // throw the progress load away. Kept separate for that reason.
+    _repo.mastery().then((m) {
+      final p = m[widget.chapter.id];
+      if (mounted && p != null && p != _pct) setState(() => _pct = p);
+    });
     try {
       final p = await _repo.chapterProgress(widget.chapter.id);
-      if (mounted) setState(() => _progress = p);
+      // Clear the failure notice: a later call succeeding means the markers are
+      // available again, and leaving the notice up would contradict them.
+      if (mounted) setState(() { _progress = p; _progressFailed = false; });
     } catch (_) {
-      if (mounted) setState(() => _progressFailed = true);
+      // Keep any progress already on screen. Losing markers we hold because a
+      // refresh failed would be a downgrade, not honesty.
+      if (mounted && _progress == null) setState(() => _progressFailed = true);
     }
   }
 
@@ -93,7 +119,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      MasteryRing(pct: widget.masteryPct, size: 46),
+                      MasteryRing(pct: _pct, size: 46),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -138,8 +164,8 @@ class _ChapterScreenState extends State<ChapterScreen> {
     );
   }
 
-  void _openLesson(Chapter ch, Subtopic st, LessonRef l) {
-    Navigator.of(context).push(MaterialPageRoute(
+  Future<void> _openLesson(Chapter ch, Subtopic st, LessonRef l) async {
+    await Navigator.of(context).push(MaterialPageRoute(
       builder: (_) => LessonScreen(
         chapterId: ch.id,
         lessonId: l.id,
@@ -147,6 +173,9 @@ class _ChapterScreenState extends State<ChapterScreen> {
         subtopicName: st.name,
       ),
     ));
+    // The exercise screen awaits its POST before popping, so anything answered
+    // in there is already recorded by the time we get here.
+    if (mounted) _refresh();
   }
 }
 
