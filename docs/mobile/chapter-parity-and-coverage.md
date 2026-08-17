@@ -175,13 +175,23 @@ screen that holds a single formula, and the callouts are reachable by scrolling.
 Third because it is a design change rather than a port, and it should not block
 parity.
 
-### Phase 4 — Coverage: decide, then act
-Owner decides between accept / add exercises / split lessons. Only then is there
-engineering to plan, and the shape depends entirely on the answer.
+### Phase 4 — Coverage: DEFERRED 2026-08-17 (owner)
 
-**Done when:** the decision is recorded here with its reasoning, whatever it is.
-"Accept" is a legitimate outcome and should be written down as a choice rather
-than left as an accident.
+Decision: **not now, and not because it was missed.**
+
+Owner's reasoning: the site and the app are deliberately built so questions are
+modular — problems are resolved by id through one bank, the app is a thin client
+over the content API, and nothing downstream is coupled to a particular problem.
+So exercises can be added, replaced or re-cut later without breaking the app, the
+markers, or the review queue. The material can wait; the app cannot.
+
+That holds up. The one thing to carry forward is the constraint noted above:
+"exactly 3 exercises per lesson" is asserted at build time and the five-state
+marker is calibrated to it, so whoever revisits this should expect the build to
+fail loudly the first time a lesson gains a fourth problem. That is the assertion
+doing its job, not a regression.
+
+Nothing in phases 1-3 depends on this, which is why it can sit.
 
 ---
 
