@@ -7,6 +7,10 @@ import '../shared/widgets/app_button.dart';
 import '../shared/widgets/mastery_ring.dart';
 import 'lesson_screen.dart';
 import 'models.dart';
+import 'progress_models.dart';
+import 'content_repository.dart';
+import 'package:provider/provider.dart';
+import '../auth/auth_controller.dart';
 
 /// Tab 1, Level 2 — chapter detail: subtopics as a numbered-hairline accordion
 /// grouping the lessons. Header carries the chapter mastery ring.
@@ -22,6 +26,35 @@ class ChapterScreen extends StatefulWidget {
 
 class _ChapterScreenState extends State<ChapterScreen> {
   int? _open = 0; // first subtopic open by default
+
+  // Progress is fetched separately and never blocks the page: the content is
+  // already loaded, so a slow or failed progress call must not stop somebody
+  // reading a chapter.
+  //
+  // `null` means NOT KNOWN, which is not the same as "untouched" and must never
+  // be drawn as though the user has done nothing. `_progressFailed` records a
+  // real failure so the screen can say the markers are unavailable instead of
+  // quietly reporting zeros.
+  ChapterProgress? _progress;
+  bool _progressFailed = false;
+
+  late final ContentRepository _repo;
+
+  @override
+  void initState() {
+    super.initState();
+    _repo = ContentRepository(context.read<AuthController>().api);
+    _loadProgress();
+  }
+
+  Future<void> _loadProgress() async {
+    try {
+      final p = await _repo.chapterProgress(widget.chapter.id);
+      if (mounted) setState(() => _progress = p);
+    } catch (_) {
+      if (mounted) setState(() => _progressFailed = true);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +101,14 @@ class _ChapterScreenState extends State<ChapterScreen> {
                       style: const TextStyle(
                           color: AppColors.ink2, fontSize: 12.5, height: 1.5)),
                   const SizedBox(height: 14),
+                    if (_progressFailed)
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          'Progress markers are unavailable right now. Your work is saved — this is only the display.',
+                          style: TextStyle(fontSize: 11, color: AppColors.ink3, height: 1.4),
+                        ),
+                      ),
                   const Divider(height: 1),
                   for (var i = 0; i < ch.subtopics.length; i++)
                     _SubtopicTile(
@@ -77,6 +118,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                       onToggle: () => setState(() => _open = _open == i ? null : i),
                       onLesson: (l) => _openLesson(ch, ch.subtopics[i], l),
                       isLast: i == ch.subtopics.length - 1,
+                      progress: _progress,
                     ),
                 ],
               ),
@@ -116,6 +158,7 @@ class _SubtopicTile extends StatelessWidget {
     required this.onToggle,
     required this.onLesson,
     required this.isLast,
+    required this.progress,
   });
 
   final int index;
@@ -124,10 +167,14 @@ class _SubtopicTile extends StatelessWidget {
   final VoidCallback onToggle;
   final void Function(LessonRef) onLesson;
   final bool isLast;
+  /// null while progress is unknown — the row then shows the plain lesson count
+  /// rather than a fraction, because "0 of 9" would be a claim we cannot make.
+  final ChapterProgress? progress;
 
   @override
   Widget build(BuildContext context) {
     final accent = open ? AppColors.ember : AppColors.ink3;
+    final sub = progress?.subtopics[subtopic.id];
     return Column(
       children: [
         InkWell(
@@ -142,14 +189,30 @@ class _SubtopicTile extends StatelessWidget {
                       style: AppTheme.mono(size: 12, color: AppColors.ink3)),
                 ),
                 Expanded(
-                  child: Text(subtopic.name,
-                      style: GoogleFonts.dmSans(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                          color: open ? AppColors.ember : AppColors.charcoal)),
+                  // The fraction sits UNDER the name rather than beside it: at
+                  // phone width there is no room for both on one line, and the
+                  // website stacks it the same way at 390px.
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(subtopic.name,
+                          style: GoogleFonts.dmSans(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                              color: open ? AppColors.ember : AppColors.charcoal)),
+                      const SizedBox(height: 2),
+                      Text(
+                        sub == null
+                            ? '${subtopic.lessons.length} lessons'
+                            : sub.label,
+                        style: AppTheme.mono(
+                          size: 11,
+                          color: (sub?.allDone ?? false) ? AppColors.forest : AppColors.ink3,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                Text('${subtopic.lessons.length} lessons',
-                    style: const TextStyle(fontSize: 11, color: AppColors.ink3)),
                 const SizedBox(width: 6),
                 Icon(open ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                     size: 20, color: accent),
@@ -163,7 +226,11 @@ class _SubtopicTile extends StatelessWidget {
             child: Column(
               children: [
                 for (var j = 0; j < subtopic.lessons.length; j++) ...[
-                  _LessonRow(lesson: subtopic.lessons[j], onTap: () => onLesson(subtopic.lessons[j])),
+                  _LessonRow(
+                    lesson: subtopic.lessons[j],
+                    onTap: () => onLesson(subtopic.lessons[j]),
+                    progress: progress?.lessons[subtopic.lessons[j].id],
+                  ),
                   if (j < subtopic.lessons.length - 1) const Divider(height: 1),
                 ],
               ],
@@ -176,10 +243,14 @@ class _SubtopicTile extends StatelessWidget {
 }
 
 class _LessonRow extends StatelessWidget {
-  const _LessonRow({required this.lesson, required this.onTap});
+  const _LessonRow({required this.lesson, required this.onTap, required this.progress});
 
   final LessonRef lesson;
   final VoidCallback onTap;
+  /// null = progress not known. Draws the same neutral bullet the row has always
+  /// had, NOT an "untouched" marker — claiming somebody has done nothing when we
+  /// simply have not been told is the one thing these markers must never do.
+  final LessonProgress? progress;
 
   @override
   Widget build(BuildContext context) {
@@ -189,12 +260,7 @@ class _LessonRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
-            Container(
-              width: 6,
-              height: 6,
-              margin: const EdgeInsets.only(right: 12),
-              decoration: const BoxDecoration(color: Color(0xFFD9CDB8), shape: BoxShape.circle),
-            ),
+            _LessonMarker(progress: progress),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,6 +281,67 @@ class _LessonRow extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// The five-state progress marker, mirroring the website exactly.
+///
+///   untouched     nothing drawn (space reserved so names stay aligned)
+///   attempted     hollow ember ring  — tried it, none right yet
+///   one-correct   ember disc
+///   two-correct   sunbeam disc
+///   complete      forest disc
+///
+/// Long-press explains it. A colour alone is not self-explanatory, and the
+/// website's hover tooltip has no equivalent on a touch screen — without this
+/// the markers would be a private language. Tooltip also supplies the semantics
+/// label, so screen readers read the same sentence.
+class _LessonMarker extends StatelessWidget {
+  const _LessonMarker({required this.progress});
+
+  static const double _dot = 9;
+
+  final LessonProgress? progress;
+
+  @override
+  Widget build(BuildContext context) {
+    const box = EdgeInsets.only(right: 12);
+    final p = progress;
+
+    // Unknown: the neutral bullet this row has always shown.
+    if (p == null) {
+      return Container(
+        width: 6,
+        height: 6,
+        margin: box,
+        decoration: const BoxDecoration(color: Color(0xFFD9CDB8), shape: BoxShape.circle),
+      );
+    }
+
+    final colour = p.color;
+    // Untouched: hold the space so lesson names stay aligned, draw nothing.
+    // Must match the drawn dot's footprint exactly (dot + right margin), or
+    // untouched rows sit 3px left of their neighbours and the column wobbles.
+    if (colour == null) {
+      return const SizedBox(width: _dot + 12, height: _dot);
+    }
+
+    final dot = Container(
+      width: _dot,
+      height: _dot,
+      margin: box,
+      decoration: BoxDecoration(
+        color: p.filled ? colour : Colors.transparent,
+        border: p.filled ? null : Border.all(color: colour, width: 2),
+        shape: BoxShape.circle,
+      ),
+    );
+
+    return Tooltip(
+      message: p.explanation ?? '',
+      triggerMode: TooltipTriggerMode.longPress,
+      child: dot,
     );
   }
 }

@@ -1,5 +1,6 @@
 import '../../core/network/api_client.dart';
 import 'models.dart';
+import 'progress_models.dart';
 
 /// Reads study content from the backend (/content/*) and the user's per-chapter
 /// mastery (/diagnostic/mastery). Caches the chapter structure for the session.
@@ -16,6 +17,19 @@ class ContentRepository {
         .map((e) => Chapter.fromJson(e as Map<String, dynamic>))
         .toList();
     return _chapters!;
+  }
+
+  /// Per-chapter progress for the signed-in user. Read-only; everything it
+  /// returns is derived from answers already recorded, so it needs no writes and
+  /// no migration.
+  ///
+  /// Deliberately NOT swallowed into a default on failure: the caller must be
+  /// able to tell "no progress" from "we do not know", because rendering an
+  /// unknown state as untouched tells somebody they have done nothing when they
+  /// may have done plenty.
+  Future<ChapterProgress> chapterProgress(String chapterId) async {
+    final data = await api.get('/progress/chapter/$chapterId') as Map<String, dynamic>;
+    return ChapterProgress.fromJson(data);
   }
 
   Future<Lesson> lesson(String chapterId, String lessonId) async {
