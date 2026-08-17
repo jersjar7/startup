@@ -1,5 +1,9 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '13.0'
+# Must match IPHONEOS_DEPLOYMENT_TARGET in Runner.xcodeproj, and Apple requires
+# 15.0 or later for App Store uploads from Spring 2027 (ITMS-90068 warned on
+# build 481). iOS 15 runs on the iPhone 6s and later — the same hardware floor
+# as iOS 13 — so this excludes no device, only phones never updated since 2021.
+platform :ios, '15.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
