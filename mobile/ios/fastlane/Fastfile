@@ -112,9 +112,22 @@ platform :ios do
       output_path: SIGNING_DIR,
     )
 
+    # fastlane runs under its OWN bundled Ruby, and its Bundler/RubyGems
+    # variables leak into anything it shells out to. Flutter shells out to
+    # CocoaPods — a gem installed against a different Ruby — so under fastlane
+    # it reports "CocoaPods is installed but broken" and the build dies, while
+    # the identical command succeeds from a normal shell. Strip the Ruby
+    # environment for the Flutter calls.
+    #
+    # This only began biting after a `flutter clean`: with Pods and the plugin
+    # manifest already in place Flutter skipped CocoaPods entirely and never
+    # noticed. A clean checkout would have hit it on the first build.
+    clean_env = %w[env -u GEM_HOME -u GEM_PATH -u RUBYOPT -u RUBYLIB
+                   -u BUNDLE_GEMFILE -u BUNDLE_BIN_PATH -u BUNDLER_ORIG_PATH
+                   -u BUNDLER_ORIG_GEM_HOME -u BUNDLER_ORIG_GEM_PATH]
     Dir.chdir(FLUTTER_ROOT) do
-      sh("flutter", "pub", "get")
-      sh("flutter", "build", "ios", "--release", "--no-codesign", "--build-number=#{build_no}")
+      sh(*clean_env, "flutter", "pub", "get")
+      sh(*clean_env, "flutter", "build", "ios", "--release", "--no-codesign", "--build-number=#{build_no}")
     end
 
     # Pin ONLY the Runner target to manual signing with the Oqupa distribution
