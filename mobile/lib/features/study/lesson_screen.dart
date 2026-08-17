@@ -2,19 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
 import '../shared/widgets/app_button.dart';
 import '../shared/widgets/async_view.dart';
-import '../shared/widgets/math_text.dart';
 import 'content_repository.dart';
 import 'exercise_screen.dart';
 import 'lesson_content.dart';
 import 'models.dart';
 
-/// Tab 1, Level 3 — the lesson hub: intro, the list of topics (tap to read),
-/// and Practice. Mirrors the "overview + topics" design.
+/// Tab 1, Level 3 — the lesson, read top to bottom in ONE scroll, then
+/// Practice. Mirrors the website's `LessonContent`, which renders every block
+/// inline with no drilling.
+///
+/// This replaced an "overview + topics" design where each heading pushed its
+/// own sub-screen. Driven on a phone, that produced screens holding a single
+/// formula and one line of text with ~80% of the display blank, because a
+/// heading really does own that little: the bank's median lesson is 13 blocks
+/// under 3 headings. The typical lesson cost three taps and three back-presses
+/// to read three formulas that fit comfortably on one scroll.
+///
+/// It also buried the exam-day callouts, which are the LAST blocks in a lesson
+/// and so landed at the bottom of the final sub-screen, the least-visited
+/// corner of the lesson.
+///
+/// No table of contents replaced it. With a median of 3 headings it would cost
+/// more vertical space above the fold than it saves in scrolling, and the web
+/// does not have one either.
 class LessonScreen extends StatefulWidget {
   const LessonScreen({
     super.key,
@@ -37,11 +51,28 @@ class _LessonScreenState extends State<LessonScreen> {
   late final ContentRepository _repo;
   late Future<Lesson> _future;
 
+  // The lesson name lives in the page heading AND in the app bar, but never at
+  // the same time: the bar's copy fades in only once the heading has scrolled
+  // off. Showing both at rest reads as a mistake; showing neither loses your
+  // place on the longest lessons, which run past three screens.
+  final _scroll = ScrollController();
+  bool _titleInBar = false;
+
   @override
   void initState() {
     super.initState();
     _repo = ContentRepository(context.read<AuthController>().api);
     _future = _repo.lesson(widget.chapterId, widget.lessonId);
+    _scroll.addListener(() {
+      final show = _scroll.hasClients && _scroll.offset > 64;
+      if (show != _titleInBar) setState(() => _titleInBar = show);
+    });
+  }
+
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
   }
 
   Future<void> _record(List<AnswerLog> answers) async {
@@ -69,7 +100,16 @@ class _LessonScreenState extends State<LessonScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: AnimatedOpacity(
+          opacity: _titleInBar ? 1 : 0,
+          duration: const Duration(milliseconds: 150),
+          child: Text(widget.lessonName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.dmSans(fontWeight: FontWeight.w600, fontSize: 15)),
+        ),
+      ),
       body: AsyncView<Lesson>(
         future: _future,
         onRetry: () => setState(() => _future = _repo.lesson(widget.chapterId, widget.lessonId)),
@@ -77,19 +117,17 @@ class _LessonScreenState extends State<LessonScreen> {
           children: [
             Expanded(
               child: ListView(
+                controller: _scroll,
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
                 children: [
                   Text(widget.subtopicName.toUpperCase(), style: AppTheme.overline()),
                   const SizedBox(height: 4),
                   Text(lesson.name, style: AppTheme.heading()),
-                  const SizedBox(height: 12),
-                  if (lesson.intro.isNotEmpty)
-                    MathText(lesson.intro.first.body,
-                        style: const TextStyle(fontSize: 14, height: 1.6, color: AppColors.ink2)),
-                  const SizedBox(height: 18),
-                  Text('IN THIS LESSON', style: AppTheme.overline()),
-                  const SizedBox(height: 8),
-                  _TopicList(lesson: lesson),
+                  const SizedBox(height: 6),
+                  // The WHOLE lesson, in order. Passing lesson.content rather
+                  // than intro + sections also stops dropping the second and
+                  // later intro blocks, which the old split silently did.
+                  ...renderBlocks(lesson.content),
                 ],
               ),
             ),
@@ -102,75 +140,6 @@ class _LessonScreenState extends State<LessonScreen> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _TopicList extends StatelessWidget {
-  const _TopicList({required this.lesson});
-
-  final Lesson lesson;
-
-  @override
-  Widget build(BuildContext context) {
-    final sections = lesson.sections();
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [BoxShadow(color: Color(0x0F2C2C2C), blurRadius: 16, offset: Offset(0, 6))],
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          for (var i = 0; i < sections.length; i++) ...[
-            InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => _TopicReader(title: sections[i].heading, blocks: sections[i].blocks),
-              )),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 13),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 18,
-                      child: Text('${i + 1}',
-                          style: AppTheme.mono(size: 12, weight: FontWeight.w700, color: AppColors.ember)),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(sections[i].heading,
-                          style: GoogleFonts.dmSans(fontWeight: FontWeight.w600, fontSize: 14)),
-                    ),
-                    const Icon(Icons.chevron_right, size: 18, color: Color(0xFFCBBFAE)),
-                  ],
-                ),
-              ),
-            ),
-            if (i < sections.length - 1) const Divider(height: 1),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-class _TopicReader extends StatelessWidget {
-  const _TopicReader({required this.title, required this.blocks});
-
-  final String title;
-  final List<ContentBlock> blocks;
-
-  @override
-  Widget build(BuildContext context) {
-    // Skip the leading heading block (it's the screen title).
-    final body = blocks.where((b) => b.type != 'heading').toList();
-    return Scaffold(
-      appBar: AppBar(title: Text(title, style: GoogleFonts.dmSans(fontWeight: FontWeight.w600, fontSize: 16))),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(24, 4, 24, 32),
-        children: renderBlocks(body),
       ),
     );
   }

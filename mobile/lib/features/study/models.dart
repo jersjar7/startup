@@ -85,30 +85,10 @@ class Lesson {
   final List<ContentBlock> content;
   final List<Problem> problems;
 
-  /// The teaching section headings — the "topics" shown on the lesson hub.
-  List<String> get topics =>
-      content.where((b) => b.type == 'heading').map((b) => b.body).toList();
-
-  /// Blocks before the first heading — the lesson intro.
-  List<ContentBlock> get intro =>
-      content.takeWhile((b) => b.type != 'heading').toList();
-
-  /// Each topic with its blocks (heading + everything until the next heading).
-  List<({String heading, List<ContentBlock> blocks})> sections() {
-    final out = <({String heading, List<ContentBlock> blocks})>[];
-    for (var i = 0; i < content.length; i++) {
-      if (content[i].type == 'heading') {
-        final blocks = <ContentBlock>[content[i]];
-        var j = i + 1;
-        while (j < content.length && content[j].type != 'heading') {
-          blocks.add(content[j]);
-          j++;
-        }
-        out.add((heading: content[i].body, blocks: blocks));
-      }
-    }
-    return out;
-  }
+  // `topics`, `intro` and `sections()` lived here to split a lesson across
+  // per-heading sub-screens. The lesson now renders as one scroll (see
+  // LessonScreen), so nothing splits it and they were removed rather than left
+  // as a shape inviting the split back.
 
   factory Lesson.fromJson(Map<String, dynamic> j) => Lesson(
         id: j['id'] as String,

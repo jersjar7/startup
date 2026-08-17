@@ -1,6 +1,6 @@
 # Mobile: progress parity, lesson navigation, and the coverage gap
 
-**Status:** Specified, not built. Written 2026-08-17 after driving the TestFlight
+**Status:** Phases 1-3 built 2026-08-17; phase 4 deferred. Written 2026-08-17 after driving the TestFlight
 build on a real phone.
 
 Four items, found together but genuinely different in kind. Read the last one
@@ -141,7 +141,7 @@ needs revisiting with it. Splitting lessons does not.
 
 Ordered so each ships alone, cheapest and most certain first.
 
-### Phase 1 — iOS deployment target (30 min)
+### Phase 1 — iOS deployment target — DONE 2026-08-17
 Raise 13.0 to 15.0 in the three build configurations and uncomment the Podfile
 line to match. Rebuild, run on the simulator, ship a TestFlight build and confirm
 Apple stops warning.
@@ -151,7 +151,7 @@ Apple stops warning.
 Deliberately first: unrelated to everything else, has an external deadline, and
 proves the fastlane pipeline still works before anything harder rides on it.
 
-### Phase 2 — Progress markers in the app (parity)
+### Phase 2 — Progress markers in the app (parity) — DONE 2026-08-17
 Add a progress call to `ContentRepository`, then render on L2: the five-state
 marker per lesson and the exercise fraction per subtopic, plus the practice
 fraction. Reuse the web's decisions verbatim; do not redesign.
@@ -164,16 +164,32 @@ the markers and say so, rather than telling somebody they have done nothing.
 the same chapter, side by side, and a forced failure shows no markers rather than
 empty ones.
 
-### Phase 3 — Lesson navigation (one scrolling page)
-Replace the topic sub-screen push with inline rendering of all blocks, matching
-the web. Keep the heading list only as in-page anchors if it still earns its
-place. Verify the exam-day callouts are now visible without hunting.
+### Phase 3 — Lesson navigation (one scrolling page) — DONE 2026-08-17
+Replaced the topic sub-screen push with inline rendering of all blocks, matching
+the web. Verified on the simulator against production with
+`dynamics/work-energy-power`, the worst case in the bank at 21 blocks and 10
+formulas: it reads top to bottom in one scroll, and the "On the exam" callout
+sits fully visible immediately above the Practice button.
 
-**Done when:** a lesson reads top to bottom in one scroll on a phone, with no
-screen that holds a single formula, and the callouts are reachable by scrolling.
+**The heading list was dropped, not converted to anchors.** With a median of 3
+headings per lesson a table of contents costs more space above the fold than it
+saves in scrolling, and the website does not have one either.
 
-Third because it is a design change rather than a port, and it should not block
-parity.
+Two things came out of the change:
+
+- `Lesson.topics`, `Lesson.intro` and `Lesson.sections()` were deleted rather
+  than left unused. `intro` returned only blocks before the first heading and
+  the screen rendered `intro.first`, so the **second and later intro blocks were
+  silently dropped** — 2 lessons were affected, `mathematics/right-triangle-trig`
+  among them. Rendering `lesson.content` whole fixes that as a side effect.
+- The app bar was empty, which was fine when every sub-screen carried its own
+  title and is not fine on a page that runs past three screens. The lesson name
+  now fades into the bar once the page heading scrolls off, so the two are never
+  both on screen.
+
+**Known, unchanged by this phase:** `renderBlocks` has no `diagram` case, so a
+diagram block renders as nothing. Exactly **1** of the 1,408 content blocks in
+the bank is a diagram, and it was already being dropped before this change.
 
 ### Phase 4 — Coverage: DEFERRED 2026-08-17 (owner)
 
