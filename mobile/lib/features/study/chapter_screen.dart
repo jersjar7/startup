@@ -314,13 +314,30 @@ class _LessonRow extends StatelessWidget {
   }
 }
 
-/// The five-state progress marker, mirroring the website exactly.
+/// The five-state progress marker: a small vertical capsule cut into three
+/// segments, one per exercise, filling bottom-up as answers come right.
 ///
 ///   untouched     nothing drawn (space reserved so names stay aligned)
-///   attempted     hollow ember ring  — tried it, none right yet
-///   one-correct   ember disc
-///   two-correct   sunbeam disc
-///   complete      forest disc
+///   attempted     outlined capsule, dividers showing, nothing filled
+///   one-correct   bottom segment filled, ember
+///   two-correct   bottom two filled, sunbeam
+///   complete      all three filled, forest
+///
+/// Replaced a single dot. The capsule carries the COUNT in its shape, not only
+/// in its hue, so it survives colour blindness and a quick glance in a way the
+/// dot did not — the dot could only ever say "some progress" and leave the
+/// amount to the colour.
+///
+/// All filled segments share one colour and that colour tracks the count, so a
+/// finished lesson is unmistakably solid green when scanning a chapter. Giving
+/// each segment its own fixed colour was considered and rejected: it reads
+/// better up close but leaves a done lesson tricolour, which is exactly what a
+/// scan needs to pick out.
+///
+/// **The segments are a count, not an identity.** The server sends `correct` and
+/// `answered`, never WHICH problems, so a filled second segment does not mean
+/// "question 2 was right". The long-press text says the count in words for that
+/// reason, and it is why the fill is always contiguous from the bottom.
 ///
 /// Long-press explains it. A colour alone is not self-explanatory, and the
 /// website's hover tooltip has no equivalent on a touch screen — without this
@@ -329,48 +346,75 @@ class _LessonRow extends StatelessWidget {
 class _LessonMarker extends StatelessWidget {
   const _LessonMarker({required this.progress});
 
-  static const double _dot = 9;
+  static const double _w = 8; // capsule width
+  static const double _seg = 6; // one segment's height
+  static const double _div = 1; // divider hairline
+  static const double _gap = 12; // space to the lesson name
+  // 3 segments + 2 dividers, plus the 1px border top and bottom.
+  static const double _h = _seg * 3 + _div * 2 + 2;
 
   final LessonProgress? progress;
 
   @override
   Widget build(BuildContext context) {
-    const box = EdgeInsets.only(right: 12);
+    const box = EdgeInsets.only(right: _gap);
     final p = progress;
 
-    // Unknown: the neutral bullet this row has always shown.
+    // Unknown: the neutral bullet this row has always shown. Deliberately still
+    // a dot — it is not a state of the capsule, it is the absence of one.
     if (p == null) {
       return Container(
         width: 6,
         height: 6,
-        margin: box,
+        margin: const EdgeInsets.only(right: _gap + 1),
         decoration: const BoxDecoration(color: Color(0xFFD9CDB8), shape: BoxShape.circle),
       );
     }
 
     final colour = p.color;
     // Untouched: hold the space so lesson names stay aligned, draw nothing.
-    // Must match the drawn dot's footprint exactly (dot + right margin), or
-    // untouched rows sit 3px left of their neighbours and the column wobbles.
+    // Must match the drawn capsule's footprint exactly, or untouched rows sit
+    // left of their neighbours and the column wobbles.
     if (colour == null) {
-      return const SizedBox(width: _dot + 12, height: _dot);
+      return const SizedBox(width: _w + _gap, height: _h);
     }
 
-    final dot = Container(
-      width: _dot,
-      height: _dot,
+    // Segments are built top-down because that is the paint order, but FILL is
+    // counted from the bottom: index 2 is the bottom segment.
+    final rows = <Widget>[];
+    for (var i = 0; i < 3; i++) {
+      final fromBottom = 2 - i;
+      final filled = fromBottom < p.correct;
+      rows.add(Container(height: _seg, color: filled ? colour : Colors.transparent));
+      if (i < 2) {
+        // A divider between two filled segments has to contrast with the fill,
+        // so it switches to the page colour there. Between empty segments it
+        // stays the state colour, which is what makes the "all wrong" capsule
+        // read as three empty slots rather than one hollow tube.
+        final belowFilled = (2 - (i + 1)) < p.correct;
+        rows.add(Container(height: _div, color: belowFilled ? AppColors.cream : colour));
+      }
+    }
+
+    final capsule = Container(
+      width: _w,
+      height: _h,
       margin: box,
       decoration: BoxDecoration(
-        color: p.filled ? colour : Colors.transparent,
-        border: p.filled ? null : Border.all(color: colour, width: 2),
-        shape: BoxShape.circle,
+        border: Border.all(color: colour, width: 1),
+        borderRadius: BorderRadius.circular(_w / 2),
+      ),
+      // Clip so the fill follows the rounded ends instead of squaring them off.
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(_w / 2),
+        child: Column(children: rows),
       ),
     );
 
     return Tooltip(
       message: p.explanation ?? '',
       triggerMode: TooltipTriggerMode.longPress,
-      child: dot,
+      child: capsule,
     );
   }
 }

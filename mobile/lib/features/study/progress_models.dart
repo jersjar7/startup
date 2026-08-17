@@ -30,18 +30,20 @@ class LessonProgress {
         state: (j['state'] ?? 'untouched') as String,
       );
 
-  /// null means "draw nothing" — untouched reserves its space but shows no dot.
+  /// The capsule's outline colour, and the fill colour for however many segments
+  /// are filled. null means "draw nothing" — untouched reserves its space but
+  /// shows no marker.
+  ///
+  /// `attempted` shares ember with `one-correct` on purpose: with the capsule the
+  /// two are already told apart by whether any segment is filled, so the hue does
+  /// not have to carry that difference as well.
   Color? get color => switch (state) {
-        'attempted' => AppColors.ember, // hollow, see filled
+        'attempted' => AppColors.ember,
         'one-correct' => AppColors.ember,
         'two-correct' => AppColors.sunbeam,
         'complete' => AppColors.forest,
         _ => null,
       };
-
-  /// `attempted` is a RING, not a disc: the states must differ by shape as well
-  /// as hue, or they are unreadable to anyone who cannot separate the colours.
-  bool get filled => state != 'attempted' && state != 'untouched';
 
   /// The same sentence the website shows, and the marker's accessible label.
   String? get explanation => switch (state) {
