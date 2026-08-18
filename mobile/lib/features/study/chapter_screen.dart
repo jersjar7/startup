@@ -314,14 +314,14 @@ class _LessonRow extends StatelessWidget {
   }
 }
 
-/// The five-state progress marker: a small vertical capsule cut into three
-/// segments, one per exercise, filling bottom-up as answers come right.
+/// The five-state progress marker: a small vertical capsule that fills bottom-up
+/// as answers come right.
 ///
 ///   untouched     nothing drawn (space reserved so names stay aligned)
-///   attempted     outlined capsule, dividers showing, nothing filled
-///   one-correct   bottom segment filled
-///   two-correct   bottom two filled
-///   complete      all three filled
+///   attempted     outlined capsule, empty
+///   one-correct   filled a third
+///   two-correct   filled two thirds
+///   complete      filled solid
 ///
 /// Everything drawn is forest green. The capsule carries the COUNT in its fill
 /// height, so hue has no work left to do. See LessonProgress.color for why the
@@ -331,10 +331,18 @@ class _LessonRow extends StatelessWidget {
 /// amount entirely to colour. This reads without relying on colour vision at all
 /// and answers "how far in am I" at a glance rather than after a long-press.
 ///
-/// **The segments are a count, not an identity.** The server sends `correct` and
-/// `answered`, never WHICH problems, so a filled second segment does not mean
-/// "question 2 was right". The long-press text says the count in words for that
-/// reason, and it is why the fill is always contiguous from the bottom.
+/// **No internal dividers** (owner's call, after seeing all three options side by
+/// side). The fill is still QUANTISED to thirds — it is a count of exercises, not
+/// a percentage — but nothing marks the boundaries.
+///
+/// The cost, raised and accepted: the empty capsule no longer shows that there
+/// are three things waiting inside it, so "tried it and got all three wrong"
+/// looks like a plain outline. It stays distinct from untouched, which draws
+/// nothing at all, and the long-press still says it in words.
+///
+/// **The fill is a count, not an identity.** The server sends `correct` and
+/// `answered`, never WHICH problems, so two thirds full does not mean "questions
+/// 1 and 2". That is why the fill is always contiguous from the bottom.
 ///
 /// Long-press explains it. A colour alone is not self-explanatory, and the
 /// website's hover tooltip has no equivalent on a touch screen — without this
@@ -344,11 +352,9 @@ class _LessonMarker extends StatelessWidget {
   const _LessonMarker({required this.progress});
 
   static const double _w = 8; // capsule width
-  static const double _seg = 6; // one segment's height
-  static const double _div = 1; // divider hairline
+  static const double _inner = 20; // fillable height, divides evenly by 3
   static const double _gap = 12; // space to the lesson name
-  // 3 segments + 2 dividers, plus the 1px border top and bottom.
-  static const double _h = _seg * 3 + _div * 2 + 2;
+  static const double _h = _inner + 2; // + the 1px border, top and bottom
 
   final LessonProgress? progress;
 
@@ -376,22 +382,10 @@ class _LessonMarker extends StatelessWidget {
       return const SizedBox(width: _w + _gap, height: _h);
     }
 
-    // Segments are built top-down because that is the paint order, but FILL is
-    // counted from the bottom: index 2 is the bottom segment.
-    final rows = <Widget>[];
-    for (var i = 0; i < 3; i++) {
-      final fromBottom = 2 - i;
-      final filled = fromBottom < p.correct;
-      rows.add(Container(height: _seg, color: filled ? colour : Colors.transparent));
-      if (i < 2) {
-        // A divider between two filled segments has to contrast with the fill,
-        // so it switches to the page colour there. Between empty segments it
-        // stays the state colour, which is what makes the "all wrong" capsule
-        // read as three empty slots rather than one hollow tube.
-        final belowFilled = (2 - (i + 1)) < p.correct;
-        rows.add(Container(height: _div, color: belowFilled ? AppColors.cream : colour));
-      }
-    }
+    // Fraction of exercises right, off the SERVER's total rather than a hardcoded
+    // 3, so a lesson that ever gains a fourth exercise fills correctly instead of
+    // overflowing. Clamped because a marker must never draw past full.
+    final fraction = p.total <= 0 ? 0.0 : (p.correct / p.total).clamp(0.0, 1.0);
 
     final capsule = Container(
       width: _w,
@@ -404,7 +398,14 @@ class _LessonMarker extends StatelessWidget {
       // Clip so the fill follows the rounded ends instead of squaring them off.
       child: ClipRRect(
         borderRadius: BorderRadius.circular(_w / 2),
-        child: Column(children: rows),
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            width: double.infinity,
+            height: _inner * fraction,
+            color: colour,
+          ),
+        ),
       ),
     );
 

@@ -77,21 +77,32 @@ Five states. **No red anywhere.**
 ### SUPERSEDED ON MOBILE 2026-08-17: the capsule, and one colour
 
 The five states below are unchanged. The **marker** and the **palette** are not.
-The web still ships the dot above; mobile now draws a small vertical capsule cut
-into three segments, one per exercise, filling bottom-up, **all of it forest
-green**. Port to the web once it has been judged on a real phone.
+The web still ships the dot above; mobile now draws a small vertical capsule that
+fills bottom-up, **all of it forest green**. Port to the web once it has been
+judged on a real phone.
 
 | State | Marker (mobile) |
 |---|---|
 | Untouched | *(nothing, space held)* |
-| Attempted | outlined capsule, dividers showing, nothing filled |
-| 1 of 3 | bottom segment filled |
-| 2 of 3 | bottom two filled |
-| 3 of 3 | all three filled |
+| Attempted | outlined capsule, empty |
+| 1 of 3 | filled a third |
+| 2 of 3 | filled two thirds |
+| 3 of 3 | filled solid |
 
 **Why the capsule.** A dot has one channel, so the three-colour ladder existed to
 encode HOW MANY in that one channel. The capsule encodes the count in fill
 height, at which point the ladder is a second encoding of the same number.
+
+**No internal dividers.** The capsule shipped first with hairlines marking the
+three compartments. Three options were built and compared side by side on device
+— dividers always, dividers except when full, and none — and the owner chose
+none. The fill is still QUANTISED to thirds, from the server's own `correct` and
+`total`; it is a count of exercises, not a percentage.
+
+The cost was raised before the choice and accepted: an empty capsule no longer
+shows that three things are waiting inside it, so "tried it, got all three wrong"
+reads as a plain outline. It stays distinct from untouched, which draws nothing
+at all, and the long-press still says it in words.
 
 **Why one colour, and why forest specifically.** The ladder had a real defect
 that only became visible once it shipped: this app paints a correct answer forest
