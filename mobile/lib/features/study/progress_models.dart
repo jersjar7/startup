@@ -3,10 +3,15 @@ import '../../core/theme/app_colors.dart';
 
 /// Per-chapter progress, parsed from GET /progress/chapter/:id.
 ///
-/// The rules here are NOT re-decided for mobile. They were settled on the
-/// website (see docs/progress-markers.md) and this mirrors them exactly:
-/// five states, three brand colours, no red, and fractions counted in
-/// EXERCISES rather than whole lessons.
+/// The rules come from the website (see docs/progress-markers.md): five states,
+/// no red, "correct" means EVER got it right, markers only improve, and
+/// fractions counted in EXERCISES rather than whole lessons.
+///
+/// The one place mobile now differs is the palette. The web's three-colour
+/// ladder (ember, sunbeam, forest) was a way to encode HOW MANY in a single dot,
+/// which was the only channel a dot had. The capsule encodes that in its fill
+/// height, so the ladder became a second encoding of the same number and was
+/// dropped. See the colour comment below.
 
 /// One lesson's state. `state` is the server's word, kept verbatim so the two
 /// clients cannot drift into disagreeing about what "complete" means.
@@ -34,14 +39,25 @@ class LessonProgress {
   /// are filled. null means "draw nothing" — untouched reserves its space but
   /// shows no marker.
   ///
-  /// `attempted` shares ember with `one-correct` on purpose: with the capsule the
-  /// two are already told apart by whether any segment is filled, so the hue does
-  /// not have to carry that difference as well.
+  /// ONE COLOUR for every drawn state, and it is forest — the same green the
+  /// exercise screen paints a CORRECT answer.
+  ///
+  /// That matching is the point. Under the old ladder a lesson with 1 of 3 right
+  /// was drawn in ember, which is the colour this app uses for a WRONG answer one
+  /// screen deeper. It reported a right answer in the wrong-answer colour. Green
+  /// segments now mean exactly what green means everywhere else here: correct
+  /// answers, accumulating.
+  ///
+  /// Known and accepted: forest also means "done" elsewhere on this screen (the
+  /// mastery ring, the subtopic fraction when every exercise is right), so green
+  /// now appears on lessons nowhere near finished. Fill HEIGHT carries that
+  /// difference instead of hue, and a third-full capsule reads nothing like a
+  /// solid one.
+  ///
+  /// Also brings the screen back inside the brand rule of at most two accents per
+  /// section: the ladder could put ember, sunbeam and forest in one open subtopic.
   Color? get color => switch (state) {
-        'attempted' => AppColors.ember,
-        'one-correct' => AppColors.ember,
-        'two-correct' => AppColors.sunbeam,
-        'complete' => AppColors.forest,
+        'attempted' || 'one-correct' || 'two-correct' || 'complete' => AppColors.forest,
         _ => null,
       };
 

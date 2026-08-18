@@ -319,20 +319,17 @@ class _LessonRow extends StatelessWidget {
 ///
 ///   untouched     nothing drawn (space reserved so names stay aligned)
 ///   attempted     outlined capsule, dividers showing, nothing filled
-///   one-correct   bottom segment filled, ember
-///   two-correct   bottom two filled, sunbeam
-///   complete      all three filled, forest
+///   one-correct   bottom segment filled
+///   two-correct   bottom two filled
+///   complete      all three filled
 ///
-/// Replaced a single dot. The capsule carries the COUNT in its shape, not only
-/// in its hue, so it survives colour blindness and a quick glance in a way the
-/// dot did not — the dot could only ever say "some progress" and leave the
-/// amount to the colour.
+/// Everything drawn is forest green. The capsule carries the COUNT in its fill
+/// height, so hue has no work left to do. See LessonProgress.color for why the
+/// three-colour ladder went away and why green specifically.
 ///
-/// All filled segments share one colour and that colour tracks the count, so a
-/// finished lesson is unmistakably solid green when scanning a chapter. Giving
-/// each segment its own fixed colour was considered and rejected: it reads
-/// better up close but leaves a done lesson tricolour, which is exactly what a
-/// scan needs to pick out.
+/// Replaced a single dot, which could only ever say "some progress" and left the
+/// amount entirely to colour. This reads without relying on colour vision at all
+/// and answers "how far in am I" at a glance rather than after a long-press.
 ///
 /// **The segments are a count, not an identity.** The server sends `correct` and
 /// `answered`, never WHICH problems, so a filled second segment does not mean

@@ -64,15 +64,56 @@ No level answers another level's question.
 
 ## The five states
 
-Three brand colours, five states. **No red anywhere.**
+Five states. **No red anywhere.**
 
-| State | Marker | Meaning |
+| State | Marker (web, shipped) | Meaning |
 |---|---|---|
 | Untouched | *(nothing)* | never opened |
 | Attempted | **hollow ember ring** | tried it, none right yet |
 | 1 of 3 | filled ember | |
 | 2 of 3 | filled sunbeam | |
 | 3 of 3 | filled forest | |
+
+### SUPERSEDED ON MOBILE 2026-08-17: the capsule, and one colour
+
+The five states below are unchanged. The **marker** and the **palette** are not.
+The web still ships the dot above; mobile now draws a small vertical capsule cut
+into three segments, one per exercise, filling bottom-up, **all of it forest
+green**. Port to the web once it has been judged on a real phone.
+
+| State | Marker (mobile) |
+|---|---|
+| Untouched | *(nothing, space held)* |
+| Attempted | outlined capsule, dividers showing, nothing filled |
+| 1 of 3 | bottom segment filled |
+| 2 of 3 | bottom two filled |
+| 3 of 3 | all three filled |
+
+**Why the capsule.** A dot has one channel, so the three-colour ladder existed to
+encode HOW MANY in that one channel. The capsule encodes the count in fill
+height, at which point the ladder is a second encoding of the same number.
+
+**Why one colour, and why forest specifically.** The ladder had a real defect
+that only became visible once it shipped: this app paints a correct answer forest
+and an incorrect one ember (`exercise_screen.dart`), so a lesson with 1 of 3
+right was reported in **ember, the wrong-answer colour**. Green segments now mean
+what green already means one screen deeper: correct answers, accumulating.
+
+It also brings the screen inside the brand rule of at most two accents per
+section. The ladder could put ember, sunbeam and forest in a single open subtopic.
+
+**The cost, accepted.** Forest also means *done* elsewhere on the same screen (the
+mastery ring, the subtopic fraction when everything is right), so green now
+appears on lessons nowhere near finished. Fill height carries that difference
+instead of hue.
+
+**Accessibility improves rather than regresses.** The dot needed hue to say how
+many; the capsule needs none, so the signal now survives any colour vision.
+
+**The segments are a count, not an identity.** The server sends `correct` and
+`answered`, never which problems, so a filled second segment does not mean
+"question 2 was right". That is why the fill is always contiguous from the bottom
+and why the long-press text still says the count in words.
 
 **Why "attempted" is its own state and not blank.** Someone who tried a lesson
 and got nothing right is exactly who should go back to it. Leaving that blank
