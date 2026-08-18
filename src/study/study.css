@@ -667,30 +667,49 @@
 }
 
 /* ── Lesson progress markers ────────────────────────────────────────────────
-   Five states, three brand colours, no red. `attempted` is a hollow ring so
-   the states differ by SHAPE as well as hue, and `untouched` reserves its space
-   invisibly so lesson names stay aligned. See docs/progress-markers.md. */
+   A small vertical capsule that fills bottom-up, one third per correct
+   exercise. All forest, no red, no hue ladder: the amount is geometry.
+   `untouched` reserves its space invisibly so lesson names stay aligned.
+   See docs/progress-markers.md. */
 /* The wrapper is the flex child and the positioning context for the bubble;
-   the dot itself is a button inside it. */
+   the capsule itself is a button inside it. */
 .st-lm-wrap {
   position: relative;
   flex-shrink: 0;
   display: inline-flex;
   /* Line up with the lesson NAME, not the middle of the two-line block —
-     the marker describes the lesson, so it should read against its title. */
+     the marker describes the lesson, so it should read against its title.
+     The nudge was 0.28rem when this was an 11px dot that had to be centred on
+     the title line; the capsule is 22px and roughly spans that line already. */
   align-self: flex-start;
-  margin-top: 0.28rem;
+  margin-top: 0.06rem;
 }
 
 .st-lm {
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
+  width: 9px;
+  height: 22px;
+  border-radius: 999px;
   box-sizing: border-box;
   padding: 0;
-  border: none;
+  border: 1px solid var(--forest);
   background: transparent;
   appearance: none;
+  /* Positioning context for the fill, and the clip that keeps the fill inside
+     the rounded ends instead of squaring them off. */
+  position: relative;
+  overflow: hidden;
+}
+
+/* The fill. Height is the only thing that varies between states, and it is set
+   inline as --st-lm-fill (0..1) from the server's own correct/total. */
+.st-lm::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--st-lm-fill, 0) * 100%);
+  background: var(--forest);
 }
 
 button.st-lm { cursor: pointer; }
@@ -741,11 +760,8 @@ button.st-lm:focus-visible {
   border: 4px solid transparent;
   border-top-color: var(--charcoal);
 }
+/* Never opened: holds the same footprint, draws nothing. */
 .st-lm--untouched { visibility: hidden; }
-.st-lm--attempted { border: 2px solid var(--ember); background: transparent; }
-.st-lm--one       { background: var(--ember); }
-.st-lm--two       { background: var(--sunbeam); }
-.st-lm--complete  { background: var(--forest); }
 
 /* Shown only when the progress call actually FAILED. Silence would be worse:
    every lesson would look untouched, which is the exact wrong signal. */

@@ -38,22 +38,48 @@ function MathBlock({ tex }) {
 }
 
 /* ── Subtopic row ── */
-/* Per-lesson progress marker. Five states over three brand colours, no red —
-   see docs/progress-markers.md.
+/* Per-lesson progress marker: a small vertical capsule that fills bottom-up as
+   exercises come right. See docs/progress-markers.md.
 
-   `untouched` renders an INVISIBLE circle rather than nothing, so lesson names
-   stay aligned whether or not a lesson has been started.
+   Ported from the phone, which ran it first. It replaced a dot in three
+   colours (ember at 1 correct, sunbeam at 2, forest at 3). A dot has one
+   channel, so hue was the only way to say HOW MANY; the capsule says it with
+   fill height, at which point the ladder was a second encoding of the same
+   number.
 
-   Colour is never the only carrier: every visible state also has an aria-label
-   and a tooltip, and `attempted` is hollow rather than filled, so the states
-   are still distinguishable without seeing hue. */
-const LESSON_MARKER = {
-  untouched:     { cls: 'st-lm--untouched',   label: null },
-  attempted:     { cls: 'st-lm--attempted',   label: 'Started, no exercises correct yet' },
-  'one-correct': { cls: 'st-lm--one',         label: '1 of 3 exercises correct' },
-  'two-correct': { cls: 'st-lm--two',         label: '2 of 3 exercises correct' },
-  complete:      { cls: 'st-lm--complete',    label: 'All 3 exercises correct' },
-};
+   Everything drawn is forest, the same green a correct answer gets in the
+   lesson player. Under the ladder, a lesson with 1 of 3 right was drawn in
+   EMBER — the colour this product uses for a wrong answer. It reported a right
+   answer in the wrong-answer colour.
+
+   Accepted cost, same as on mobile: forest also means "done" on this page
+   (`.st-row-meta--done`), so green now appears on lessons nowhere near
+   finished. Fill height carries that difference instead of hue.
+
+   `untouched` reserves its space invisibly so lesson names stay aligned.
+
+   Colour is never the only carrier, and now it carries nothing at all: the
+   amount is pure geometry, and every visible state also has an aria-label and
+   a tooltip. */
+
+/* How full the capsule is, 0..1. Read off `correct`/`total` rather than the
+   state word so the marker follows the server's own count — if a lesson ever
+   gains a fourth exercise the fill stays honest instead of quietly meaning
+   something new. Clamped: a marker must never draw past full. */
+function markerFill(p) {
+  if (!p || !p.total || p.total <= 0) return 0;
+  return Math.min(1, Math.max(0, p.correct / p.total));
+}
+
+/* Null means "draw nothing and offer nothing to press". Built from the counts
+   for the same reason as the fill, so "of 3" is no longer hardcoded. */
+function markerLabel(p) {
+  if (!p || !p.state || p.state === 'untouched') return null;
+  const total = p.total ?? 3;
+  if (!(p.correct > 0)) return 'Started, no exercises correct yet';
+  if (p.correct >= total) return `All ${total} exercises correct`;
+  return `${p.correct} of ${total} exercises correct`;
+}
 
 function LessonMarker({ progress }) {
   // `undefined` means progress has not loaded (or failed to). That is NOT the
@@ -61,12 +87,11 @@ function LessonMarker({ progress }) {
   // nothing — showing a blank marker for unknown data is exactly the misleading
   // signal this feature exists to remove.
   const [open, setOpen] = React.useState(false);
-  const state = progress?.state;
-  const spec = LESSON_MARKER[state] || LESSON_MARKER.untouched;
+  const label = markerLabel(progress);
 
   // Untouched keeps its space so lesson names stay aligned, but there is nothing
   // to explain and nothing to press.
-  if (!spec.label) {
+  if (!label) {
     return (
       <span className="st-lm-wrap">
         <span className="st-lm st-lm--untouched" aria-hidden="true" />
@@ -89,14 +114,18 @@ function LessonMarker({ progress }) {
     <span className={`st-lm-wrap ${open ? 'st-lm-wrap--open' : ''}`}>
       <button
         type="button"
-        className={`st-lm ${spec.cls}`}
-        aria-label={spec.label}
+        className="st-lm"
+        // The fill is the ONLY thing that varies, so it rides on a custom
+        // property instead of a class per state. One rule in CSS, and adding a
+        // state would need no new selector.
+        style={{ '--st-lm-fill': markerFill(progress) }}
+        aria-label={label}
         aria-expanded={open}
         onClick={(e) => { e.stopPropagation(); setOpen(true); }}
         onBlur={() => setOpen(false)}
         onKeyDown={(e) => { if (e.key === 'Escape') e.currentTarget.blur(); }}
       />
-      <span className="st-lm-bubble" role="tooltip" aria-hidden="true">{spec.label}</span>
+      <span className="st-lm-bubble" role="tooltip" aria-hidden="true">{label}</span>
     </span>
   );
 }

@@ -7,6 +7,10 @@
 //
 // Usage:
 //   node --env-file=service/.env scripts/verify-ui.mjs [route] [outPath] [full]
+//
+// Defaults to production. Point it at a local dev server to check a change
+// BEFORE it ships, which is the whole reason to have this:
+//   VERIFY_SITE=http://localhost:5173 VERIFY_WIDTH=390 node --env-file=… …
 import pw from 'playwright';
 import { mintQaSession, revokeToken } from './qa-session.mjs';
 
@@ -14,14 +18,19 @@ const { chromium } = pw;
 const route = process.argv[2] || '/dashboard';
 const out = process.argv[3] || '/tmp/qa-shot.png';
 const full = process.argv[4] === 'full';
-const SITE = 'https://fe4raccoons.com';
+const SITE = (process.env.VERIFY_SITE || 'https://fe4raccoons.com').replace(/\/$/, '');
+const WIDTH = Number(process.env.VERIFY_WIDTH || 1300);
+const HEIGHT = Number(process.env.VERIFY_HEIGHT || 1700);
+// A Secure cookie is refused over plain http EXCEPT on localhost, which
+// browsers treat as a secure context. Match the scheme so both work.
+const SECURE = SITE.startsWith('https:');
 
 const { token, email } = await mintQaSession();
 console.log(`signed in as ${email} via a temporary session`);
 
 const b = await chromium.launch();
 try {
-  const ctx = await b.newContext({ viewport: { width: 1300, height: 1700 }, deviceScaleFactor: 1 });
+  const ctx = await b.newContext({ viewport: { width: WIDTH, height: HEIGHT }, deviceScaleFactor: 1 });
 
   // Same attributes the server sets the cookie with (service/middleware/auth.js:
   // name 'token', secure, httpOnly, sameSite strict, path '/'). Anything else
@@ -32,7 +41,7 @@ try {
     domain: new URL(SITE).hostname,
     path: '/',
     httpOnly: true,
-    secure: true,
+    secure: SECURE,
     sameSite: 'Strict',
   }]);
 

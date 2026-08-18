@@ -66,7 +66,7 @@ No level answers another level's question.
 
 Five states. **No red anywhere.**
 
-| State | Marker (web, shipped) | Meaning |
+| State | Marker (as first shipped, 2026-08-13) | Meaning |
 |---|---|---|
 | Untouched | *(nothing)* | never opened |
 | Attempted | **hollow ember ring** | tried it, none right yet |
@@ -74,12 +74,15 @@ Five states. **No red anywhere.**
 | 2 of 3 | filled sunbeam | |
 | 3 of 3 | filled forest | |
 
-### SUPERSEDED ON MOBILE 2026-08-17: the capsule, and one colour
+### SUPERSEDED 2026-08-17 (mobile) and 2026-08-18 (web): the capsule, one colour
 
-The five states below are unchanged. The **marker** and the **palette** are not.
-The web still ships the dot above; mobile now draws a small vertical capsule that
-fills bottom-up, **all of it forest green**. Port to the web once it has been
-judged on a real phone.
+The five states are unchanged. The **marker** and the **palette** are not. The
+dot in the table above no longer ships anywhere. Both clients now draw a small
+vertical capsule that fills bottom-up, **all of it forest green**.
+
+Mobile ran it first on purpose: it went out on TestFlight, was judged on a real
+phone, and only then was ported to the web. Same order for the next change to
+this marker.
 
 | State | Marker (mobile) |
 |---|---|
