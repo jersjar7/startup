@@ -33,8 +33,16 @@ Add `uncollected: true` to a purchase that was granted but never paid for, and
 introduce one shared filter, `COLLECTED_SALE` in `service/collectedSales.js`:
 
 ```js
-{ status: 'completed', uncollected: { $ne: true } }
+{ status: 'completed', uncollected: { $ne: true }, comp: { $ne: true } }
 ```
+
+Complimentary grants are excluded by the same filter (owner decision,
+2026-08-28). A comp already carries `comp: true` and a `compReason`, and
+`scripts/baseline-report.js` already counted them separately. They contribute $0,
+so they never inflated revenue, but they did sit in the sales count and pull
+average revenue per paying customer down. The two flags stay separate rather than
+collapsing into one "free" flag, because the reason is the useful part: an
+uncollected row is a mistake we absorbed, a comp is marketing spend.
 
 Every revenue, sales-count and ARPPU surface matches through it: the funnel
 counts and sales summary (`db/events.js`), the daily time-series and all-time
@@ -78,7 +86,6 @@ display fudge, and breaks the moment a second uncollected grant appears.
 - There is now a supported way to record any future granted-but-unpaid purchase:
   `service/scripts/markUncollectedPurchase.js`, dry-run by default, reversible
   with `--undo`.
-- A comped account (amount 0, tier `comp`) still counts as one purchase in the
-  count and drags ARPPU down, because it is a genuine grant at a genuine price of
-  zero. Whether comps should also leave the sales count is a separate decision
-  and is deliberately not made here.
+- Comps leave the sales count too, so "purchases" now means "people who paid us."
+  Comped users keep their access, and `scripts/baseline-report.js` still reports
+  `complimentaryGrants` separately, so the giveaway stays visible.

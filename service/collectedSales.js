@@ -14,14 +14,25 @@
 // ARPPU surface, and are still kept in the collection because they are a true
 // record of who has access and why.
 //
+// `comp: true` is the deliberate version of the same thing: access granted on
+// purpose at no charge (a reviewing professor, a testimonial). It was never a
+// sale, so it must not sit in the sales count dragging average revenue per
+// paying customer down. The two flags are kept separate because the reason
+// differs and the reason is the useful part: one is a mistake we absorbed, the
+// other is marketing spend. `scripts/baseline-report.js` already counted comps
+// separately for exactly this reason.
+//
 // ENTITLEMENT MUST NOT USE THIS FILTER. `hasPurchased()` in db/purchases.js
 // deliberately matches on status alone, so flagging a purchase as uncollected
 // never takes the product away from someone who has it.
-const COLLECTED_SALE = { status: 'completed', uncollected: { $ne: true } };
+const COLLECTED_SALE = { status: 'completed', uncollected: { $ne: true }, comp: { $ne: true } };
 
 // Same predicate for rows already in hand (no round trip to Mongo).
 function isCollectedSale(purchase) {
-  return !!purchase && purchase.status === 'completed' && purchase.uncollected !== true;
+  return !!purchase
+    && purchase.status === 'completed'
+    && purchase.uncollected !== true
+    && purchase.comp !== true;
 }
 
 module.exports = { COLLECTED_SALE, isCollectedSale };

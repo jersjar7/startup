@@ -164,10 +164,10 @@ export function Admin({ userName, onLogout }) {
       desc: `How many different people finished at least one study session in the last 7 days. The same person studying five times counts once — it's your weekly engaged-user count.`,
       example: `If 12 distinct people studied at least once this week, this shows 12.` },
     { icon: CurrencyDollar, label: 'Total revenue', value: money(snap.totalRevenue), accent: 'forest',
-      desc: `Money actually collected for the exam simulation, all time (after Stripe). Purchases we granted but were never paid for are excluded.`,
+      desc: `Money actually collected for the exam simulation, all time (after Stripe). Complimentary grants and purchases we were never paid for are excluded.`,
       example: `Two $${STUDENT_PRICE} student purchases + one $${STANDARD_PRICE} standard = $${STUDENT_PRICE * 2 + STANDARD_PRICE}.` },
     { icon: CreditCard, label: 'Purchases', value: snap.totalPurchases.toLocaleString(), accent: 'forest',
-      desc: `The all-time count of exam-sim purchases we were actually paid for, regardless of the price paid. Granted-but-unpaid purchases are excluded.`,
+      desc: `The all-time count of exam-sim purchases we were actually paid for, regardless of the price paid. Complimentary grants and unpaid grants are excluded.`,
       example: `If 3 people have bought the timed exam sim, this shows 3.` },
     { icon: TrendUp, label: 'Rev / paying user', value: money(snap.arppu), accent: 'sunbeam',
       desc: `Average money per paying customer — total revenue ÷ number of purchases. (The industry name for this is ARPPU.)`,
@@ -185,7 +185,7 @@ export function Admin({ userName, onLogout }) {
       desc: `Distinct people who opened the Stripe payment page for the exam sim — whether or not they finished paying. The "% of signups" is this ÷ signups.`,
       example: `If 4 people clicked through to checkout, this shows 4, even if only some of them paid.` },
     { icon: CheckCircle, label: 'Purchased', value: m.purchases, conv: c.checkoutToPurchase, convLabel: 'of checkouts',
-      desc: `Exam-sim purchases we were actually paid for, all-time. The "% of checkouts" is this ÷ checkouts started.`,
+      desc: `Exam-sim purchases we were actually paid for, all-time. Complimentary and unpaid grants are excluded. The "% of checkouts" is this ÷ checkouts started.`,
       example: `If 2 of the 4 who started checkout paid, this shows 2 — a 50% checkout→purchase rate.` },
   ];
 
@@ -492,7 +492,7 @@ function UserCard({ u, onClose }) {
       {u.purchases && u.purchases.length > 0 && (
         <div className="user-card-purchases">
           {u.purchases.map((p, i) => (
-            <div key={i}>${(p.amount / 100).toFixed(2)} · {p.tier || '—'} · {p.status}{p.createdAt ? ` · ${new Date(p.createdAt).toLocaleDateString()}` : ''}{p.uncollected ? ' · not collected (excluded from revenue)' : ''}</div>
+            <div key={i}>${(p.amount / 100).toFixed(2)} · {p.tier || '—'} · {p.status}{p.createdAt ? ` · ${new Date(p.createdAt).toLocaleDateString()}` : ''}{p.comp ? ' · complimentary (not a sale)' : ''}{p.uncollected ? ' · not collected (excluded from revenue)' : ''}</div>
           ))}
         </div>
       )}

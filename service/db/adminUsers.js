@@ -104,11 +104,11 @@ async function lookupUser(rawEmail) {
     chaptersMapped: (st.quickstartSampled || []).length,
     activatedAt: firstActivation ? firstActivation.createdAt : null,
     diagnosticCompleted: st.diagnosticCompleted === true,
-    // Every purchase row, including uncollected ones: support needs to see that
-    // someone has access even when the money never arrived.
+    // Every purchase row, including uncollected ones and comps: support needs to
+    // see that someone has access even when no money arrived.
     purchases: purchases.map((p) => ({
       amount: p.amount || 0, tier: p.tier || null, status: p.status, createdAt: p.createdAt || null,
-      uncollected: p.uncollected === true,
+      uncollected: p.uncollected === true, comp: p.comp === true,
     })),
   };
 }
