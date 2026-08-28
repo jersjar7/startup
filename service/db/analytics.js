@@ -8,6 +8,7 @@ const {
 } = require('./connection');
 const { dateAxis, seriesFor, cumulative } = require('../analytics');
 const { NOT_EXCLUDED } = require('../internalAccounts');
+const { COLLECTED_SALE } = require('../collectedSales');
 
 
 // Daily buckets are computed in the owner's local timezone so "today" lines up
@@ -136,7 +137,7 @@ async function cohortActivationStats() {
 // Completed purchases per day with revenue (cents).
 function purchasesByDay(since) {
   return purchasesCollection.aggregate([
-    { $match: { status: 'completed', createdAt: { $gte: since } } },
+    { $match: { ...COLLECTED_SALE, createdAt: { $gte: since } } },
     { $group: { _id: dayOf('$createdAt'), count: { $sum: 1 }, cents: { $sum: '$amount' } } },
     { $project: { _id: 0, day: '$_id', count: 1, cents: 1 } },
   ]).toArray();
@@ -176,7 +177,7 @@ async function getDailyAnalytics(days = 30) {
     cohortActivationStats(),
     userCollection.countDocuments({ email: NOT_EXCLUDED }),
     purchasesCollection.aggregate([
-      { $match: { status: 'completed' } },
+      { $match: COLLECTED_SALE },
       { $group: { _id: null, count: { $sum: 1 }, cents: { $sum: '$amount' } } },
     ]).toArray(),
     activeUsersSince(d7),

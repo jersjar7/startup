@@ -5,6 +5,7 @@ const {
   purchasesCollection,
 } = require('./connection');
 const { NOT_EXCLUDED, EXCLUDED_PATTERN } = require('../internalAccounts');
+const { COLLECTED_SALE } = require('../collectedSales');
 
 // Record a funnel event. Analytics must never break a user flow, so failures
 // are swallowed (logged, not thrown).
@@ -33,7 +34,7 @@ async function getFunnelCounts() {
     diagnosticResultsCollection.distinct('email', { email: NOT_EXCLUDED }),
     purchasesCollection
       .aggregate([
-        { $match: { status: 'completed' } },
+        { $match: COLLECTED_SALE },
         { $group: { _id: null, count: { $sum: 1 }, revenue: { $sum: '$amount' } } },
       ])
       .toArray(),
@@ -56,7 +57,7 @@ async function getFunnelCounts() {
 // Running totals of completed purchases (for the owner sale-alert email).
 async function getSalesSummary() {
   const agg = await purchasesCollection.aggregate([
-    { $match: { status: 'completed' } },
+    { $match: COLLECTED_SALE },
     { $group: { _id: null, count: { $sum: 1 }, revenue: { $sum: '$amount' } } },
   ]).toArray();
   const r = agg[0] || { count: 0, revenue: 0 };

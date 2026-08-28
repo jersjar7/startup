@@ -2,6 +2,7 @@
 // MASKED emails (need-to-know): the recent feed never exposes full addresses,
 // and a single-email lookup returns one full record the admin already typed.
 const { userCollection, userStatsCollection, purchasesCollection, funnelEventsCollection } = require('./connection');
+const { COLLECTED_SALE } = require('../collectedSales');
 const { ObjectId } = require('mongodb');
 const { NOT_EXCLUDED } = require('../internalAccounts');
 
@@ -32,7 +33,7 @@ async function getRecentUsers(limit = 25) {
   const [activated, statsRows, paidIds] = await Promise.all([
     funnelEventsCollection.distinct('email', { type: 'quickstart_activated' }),
     userStatsCollection.find({ email: { $in: emails } }, { projection: { email: 1, totalXp: 1, quickstartSampled: 1 } }).toArray(),
-    purchasesCollection.distinct('userId', { status: 'completed', userId: { $in: ids } }),
+    purchasesCollection.distinct('userId', { ...COLLECTED_SALE, userId: { $in: ids } }),
   ]);
   const actSet = new Set(activated);
   const paidSet = new Set(paidIds);
@@ -55,7 +56,7 @@ async function getRecentUsers(limit = 25) {
 // Most recent completed purchases, emails masked.
 async function getRecentPurchases(limit = 10) {
   const rows = await purchasesCollection
-    .find({ status: 'completed' })
+    .find(COLLECTED_SALE)
     .sort({ createdAt: -1 })
     .limit(limit)
     .toArray();
@@ -103,8 +104,11 @@ async function lookupUser(rawEmail) {
     chaptersMapped: (st.quickstartSampled || []).length,
     activatedAt: firstActivation ? firstActivation.createdAt : null,
     diagnosticCompleted: st.diagnosticCompleted === true,
+    // Every purchase row, including uncollected ones: support needs to see that
+    // someone has access even when the money never arrived.
     purchases: purchases.map((p) => ({
       amount: p.amount || 0, tier: p.tier || null, status: p.status, createdAt: p.createdAt || null,
+      uncollected: p.uncollected === true,
     })),
   };
 }
@@ -210,7 +214,7 @@ async function getSimPitchStats() {
     const pitchedAtById = {};
     for (const u of pitchedUsers) pitchedAtById[u._id.toString()] = new Date(u.simPitchedAt);
     const purchases = await purchasesCollection
-      .find({ status: 'completed', userId: { $in: Object.keys(pitchedAtById) } },
+      .find({ ...COLLECTED_SALE, userId: { $in: Object.keys(pitchedAtById) } },
         { projection: { userId: 1, createdAt: 1 } })
       .toArray();
     const convertedSet = new Set();
