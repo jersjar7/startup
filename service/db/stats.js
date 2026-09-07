@@ -46,7 +46,13 @@ async function getProblemHistoryForChapter(email, topicId) {
 //   - CORRECT on a previously-missed problem -> space it out; after
 //     GRADUATE_AFTER corrects in a row it GRADUATES out of the queue for good.
 //   - CORRECT on a problem never missed -> stays out of reviews entirely.
-async function upsertProblemHistory(email, problemId, topicId, isCorrect) {
+//
+// `source` records WHERE the answer came from: 'desk' (web practice, review,
+// exam simulation) or 'phone' (games and cards). `deskAttempts` is what the
+// mastery ceiling reads — a problem only ever answered on the phone counts as
+// capped evidence. Rows written before this field existed have no
+// `deskAttempts` and are read as desk work, so nobody's mastery drops.
+async function upsertProblemHistory(email, problemId, topicId, isCorrect, source = 'desk') {
   const existing = await problemHistoryCollection.findOne({ email, problemId });
   const today = new Date().toISOString().split('T')[0];
 
@@ -72,11 +78,15 @@ async function upsertProblemHistory(email, problemId, topicId, isCorrect) {
   }
   // else: correct AND never missed -> nothing scheduled.
 
+  const deskAttempts =
+    (existing?.deskAttempts ?? (existing ? 1 : 0)) + (source === 'desk' ? 1 : 0);
+
   const fields = {
     topicId,
     lastSeen: today,
     timesCorrect,
     timesIncorrect,
+    deskAttempts,
     reviewActive,
     correctSinceMiss,
     // Only carry a due date while actively in the queue.

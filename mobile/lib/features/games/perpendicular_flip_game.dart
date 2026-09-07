@@ -2,11 +2,14 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../auth/auth_controller.dart';
 import '../shared/widgets/app_button.dart';
 import 'game_progress.dart';
+import 'game_sync.dart';
 import '../shared/widgets/engineering_grid.dart';
 
 /// Perpendicular Flip — the first game for lesson `straight-lines-quadratics`
@@ -75,11 +78,16 @@ class Round {
     required this.context,
     required this.ask,
     required this.boundary,
+    this.sourceProblemId = 'math-slq-q2',
   });
 
   final String context;
   final Ask ask;
   final Slope boundary;
+
+  /// The web problem this round was authored from (the easement / perpendicular
+  /// slope problem and its two written traps). Mastery is keyed by it.
+  final String sourceProblemId;
 
   Slope get target => ask == Ask.perpendicular
       ? Slope(-boundary.den, boundary.num)
@@ -147,6 +155,9 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
 
   final Set<int> _seen = {};
 
+  final List<GameEvent> _events = [];
+  bool _syncFailed = false;
+
   int _i = 0;
   bool _flip = false;
   bool _negate = false;
@@ -167,6 +178,13 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
   void _confirm() {
     final idx = _board.indexOf(_round);
     final ok = _built.sameAs(_round.target);
+    _events.add(GameEvent(
+      sourceProblemId: _round.sourceProblemId,
+      chapterId: 'mathematics',
+      gameId: 'pf',
+      round: idx + 1,
+      correct: ok,
+    ));
     setState(() {
       _correct = ok;
       if (ok) {
@@ -174,12 +192,21 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
         if (!_seen.contains(idx)) _firstTry++;
         if (_cleared.length == _board.length) {
           GameProgress.instance.markCleared('perpendicular-flip');
+          _pushResults();
         }
       } else {
         _queue.add(_round); // a miss comes back later in the same board
       }
       _seen.add(idx);
     });
+  }
+
+  /// One push per cleared board, into the same sync pipeline the web reads.
+  Future<void> _pushResults() async {
+    final api = context.read<AuthController>().api;
+    final ok = await GameSync(api).push(List.of(_events));
+    if (!mounted) return;
+    setState(() => _syncFailed = !ok);
   }
 
   void _next() {
@@ -203,6 +230,8 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
       _correct = null;
       _firstTry = 0;
       _seen.clear();
+      _events.clear();
+      _syncFailed = false;
     });
   }
 
@@ -263,6 +292,24 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
               ),
             ),
           ),
+          if (_syncFailed) ...[
+            const SizedBox(height: 12),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.sunbeamBg,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const Text(
+                'This board did not reach your account, so it has not counted '
+                'toward your mastery yet. Play it again when you have a '
+                'connection.',
+                style: TextStyle(
+                    fontSize: 13.5, height: 1.55, color: AppColors.charcoal),
+              ),
+            ),
+          ],
           const Spacer(),
           AppButton(label: 'Play again', onPressed: _restart),
           const SizedBox(height: 10),

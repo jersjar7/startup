@@ -62,7 +62,8 @@ async function ingestPhoneEvents(email, events, device) {
   //    parent problem's history, so it leaves today's web due queue.
   const touchedChapters = new Map();
   for (const e of phone) {
-    await DB.upsertProblemHistory(email, parentId(e.itemId), e.chapterId, e.grade !== 'forgot');
+    await DB.upsertProblemHistory(
+      email, parentId(e.itemId), e.chapterId, e.grade !== 'forgot', 'phone');
     touchedChapters.set(e.chapterId, true);
   }
 
@@ -197,3 +198,7 @@ router.get('/today', verifyAuth, async (req, res) => {
 });
 
 module.exports = router;
+// Exported for tests: the mobile game client builds this exact shape, and a
+// drift here fails silently in the app (the push is caught and reported as
+// "did not reach your account").
+module.exports.validEvent = validEvent;

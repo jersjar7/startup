@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-const { calculateEarnedMastery, applyDecay, isDecaying, masteryName, computeStudyMastery, problemRetention } = require('./mastery.js');
+const { calculateEarnedMastery, applyDecay, isDecaying, masteryName, computeStudyMastery, problemRetention, PHONE_ONLY_CEILING_PCT } = require('./mastery.js');
 
 describe('calculateEarnedMastery', () => {
   it('returns 0 when no sessions completed', () => {
@@ -156,5 +156,40 @@ describe('computeStudyMastery (retrieval + spacing curve, τ=25)', () => {
     const clean = problemRetention({ timesCorrect: 1, timesIncorrect: 0, interval: 21 }); // 1.0 * 1.0
     expect(half).toBeCloseTo(0.5);
     expect(clean).toBe(1);
+  });
+});
+
+describe('phone-only mastery ceiling (games alone stop at 60%)', () => {
+  // Same rows as the curve tests above, tagged by where the answers came from.
+  const phone = (n) =>
+    Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21, deskAttempts: 0 }));
+  const desk = (n) =>
+    Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21, deskAttempts: 2 }));
+  const legacy = (n) =>
+    Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21 })); // pre-ceiling rows
+
+  it('never passes the ceiling on phone evidence alone, however much is played', () => {
+    expect(computeStudyMastery(phone(40))).toBeLessThanOrEqual(PHONE_ONLY_CEILING_PCT);
+    expect(computeStudyMastery(phone(200))).toBe(PHONE_ONLY_CEILING_PCT);
+  });
+
+  it('still moves normally below the ceiling', () => {
+    expect(computeStudyMastery(phone(20))).toBe(55);
+  });
+
+  it('leaves desk-earned mastery untouched', () => {
+    expect(computeStudyMastery(desk(40))).toBe(80);
+    expect(computeStudyMastery(desk(55))).toBe(89);
+  });
+
+  it('does not devalue rows written before source tracking existed', () => {
+    expect(computeStudyMastery(legacy(40))).toBe(80);
+  });
+
+  it('lets desk work carry a capped chapter past the ceiling', () => {
+    const capped = computeStudyMastery(phone(200));
+    const withDesk = computeStudyMastery([...phone(200), ...desk(20)]);
+    expect(capped).toBe(PHONE_ONLY_CEILING_PCT);
+    expect(withDesk).toBeGreaterThan(PHONE_ONLY_CEILING_PCT);
   });
 });

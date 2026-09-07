@@ -54,6 +54,15 @@ function masteryName(level) {
 // as evidence accrues. See docs/mastery-progress-model.md.
 const STUDY_TAU = 25; // "Balanced": ~25 retained problems ≈ 63%, ~55 ≈ ~90%.
 
+// Phone games are genuine retrieval, but tapping the right method is not proof
+// you can finish the problem on paper. Evidence that has ONLY ever come from
+// the phone is therefore capped: games alone can carry a chapter to 60% and no
+// further, and the rest has to be earned at the desk (web practice, review, or
+// the exam simulation). Owner decision, 2026-09-07; see
+// docs/adr/0012-phone-game-mastery-ceiling.md.
+const PHONE_ONLY_CEILING_PCT = 60;
+const PHONE_ONLY_EVIDENCE_CAP = -STUDY_TAU * Math.log(1 - PHONE_ONLY_CEILING_PCT / 100);
+
 // Per-problem retention weight in [0, 1] from its problemHistory row.
 function problemRetention({ timesCorrect = 0, timesIncorrect = 0, interval = 0 } = {}) {
   if (timesCorrect <= 0) return 0;
@@ -63,14 +72,32 @@ function problemRetention({ timesCorrect = 0, timesIncorrect = 0, interval = 0 }
   return maturity * accuracy;
 }
 
+// True when a problem's history contains desk work (web practice, review, or
+// the exam simulation). Rows written before source tracking have no
+// `deskAttempts` field and are treated as desk work: they were earned before
+// the ceiling existed and must never be devalued retroactively.
+function hasDeskEvidence(h = {}) {
+  return h.deskAttempts === undefined || h.deskAttempts === null || h.deskAttempts > 0;
+}
+
 // Study mastery (0–100) for one chapter, from its problemHistory rows.
+// Desk evidence counts in full; phone-only evidence is capped so that games on
+// their own saturate at PHONE_ONLY_CEILING_PCT. The cap is applied to the
+// evidence, not the percentage, so desk work resumes the same smooth curve
+// instead of stepping.
 function computeStudyMastery(history = []) {
-  let evidence = 0;
-  for (const h of history) evidence += problemRetention(h);
+  let deskEvidence = 0;
+  let phoneEvidence = 0;
+  for (const h of history) {
+    if (hasDeskEvidence(h)) deskEvidence += problemRetention(h);
+    else phoneEvidence += problemRetention(h);
+  }
+  const evidence = deskEvidence + Math.min(phoneEvidence, PHONE_ONLY_EVIDENCE_CAP);
   return Math.round(100 * (1 - Math.exp(-evidence / STUDY_TAU)));
 }
 
 module.exports = {
   calculateEarnedMastery, applyDecay, isDecaying, masteryName,
   computeStudyMastery, problemRetention, STUDY_TAU,
+  hasDeskEvidence, PHONE_ONLY_CEILING_PCT, PHONE_ONLY_EVIDENCE_CAP,
 };

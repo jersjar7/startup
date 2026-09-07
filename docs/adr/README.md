@@ -42,6 +42,8 @@ that supersedes it, so the history of thinking stays readable.
 | [0008](0008-public-pages-compose-from-the-shared-system.md) | Public pages compose from the shared public.css system | 2026-08-07 | Accepted |
 | [0009](0009-keep-unlimited-access-drop-the-two-sim-bundle.md) | Keep unlimited simulation access; drop the two-sim bundle | 2026-08-10 | Accepted |
 | [0010](0010-uncollected-purchases-are-not-revenue.md) | A granted purchase we were never paid for is not revenue | 2026-08-28 | Accepted |
+| [0011](0011-a-refund-revokes-the-product.md) | A refund revokes the product, and `status` is how we say so | 2026-09-07 | Accepted |
+| [0012](0012-phone-game-mastery-ceiling.md) | Phone games feed the one mastery number, capped at 60 percent | 2026-09-07 | Accepted |
 
 Records 0002–0005 were written on 2026-08-04, backfilled from commit messages.
 The **Date** column is when the decision was made, not when it was written up.
