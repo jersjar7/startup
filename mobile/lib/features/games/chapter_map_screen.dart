@@ -396,12 +396,8 @@ class _LessonNodeView extends StatefulWidget {
 }
 
 class _LessonNodeViewState extends State<_LessonNodeView> {
-  /// How much of the lip shows below the face, and how far the lip's disc is
-  /// inset from the face's silhouette. The inset is the important one: an
-  /// equal-diameter lip crosses the face's outline at a shallow angle and
-  /// leaves a cusp on each side. Tucking it in keeps the edge clean.
-  static const _lipShow = 6.0;
-  static const _lipInset = 3.0;
+  /// How thick the node reads: the body extends this far below the face.
+  static const _lipShow = 7.0;
 
   bool _pressed = false;
 
@@ -431,18 +427,19 @@ class _LessonNodeViewState extends State<_LessonNodeView> {
             height: size + _lipShow,
             child: Stack(
               children: [
-                // The lip: the same material one shade down, tucked inside the
-                // face's outline so only its bottom arc shows. This is what
-                // reads as thickness rather than a blur.
+                // The body: a capsule the width of the face, so its sides
+                // run straight down from the face's midline and close with a
+                // half-circle of the same diameter. Two offset circles left a
+                // cusp where their outlines crossed; tangent sides cannot.
                 Positioned(
-                  top: size + _lipShow - (size - _lipInset * 2),
-                  left: _lipInset,
+                  top: 0,
+                  left: 0,
                   child: Container(
-                    width: size - _lipInset * 2,
-                    height: size - _lipInset * 2,
+                    width: size,
+                    height: size + _lipShow,
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
                       color: skin.lip,
+                      borderRadius: BorderRadius.circular(size / 2),
                       boxShadow: const [
                         BoxShadow(
                           color: Color(0x142C2C2C),
