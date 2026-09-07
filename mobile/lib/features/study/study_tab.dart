@@ -115,7 +115,7 @@ class _ChapterRow extends StatelessWidget {
           MaterialPageRoute(
             builder: (_) => map == null
                 ? ChapterGamesPendingScreen(chapterName: chapter.name)
-                : ChapterMapScreen(chapter: map),
+                : ChapterMapScreen(chapter: map, masteryPct: pct),
           ),
         );
         await onReturn();
