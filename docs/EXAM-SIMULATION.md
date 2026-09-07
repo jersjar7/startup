@@ -128,6 +128,9 @@ verification. None still destroy customer work.
    so a stale mirror can revert newer server data.
 3. **Submit is not idempotent.** Two concurrent submits double-award XP, streak
    and badges.
-4. **Refunds and disputes never revoke `examSimAccess`.** There is no refund
-   handling anywhere, so a refunded customer keeps the product and stays in
-   revenue totals.
+4. **Disputes never revoke `examSimAccess`.** Refunds now have a supported
+   path (`service/scripts/refundPurchase.js`, see
+   `docs/adr/0011-a-refund-revokes-the-product.md`), but it is manual: nothing
+   listens for Stripe's `charge.refunded`, so a refund issued in the Stripe
+   dashboard alone still leaves the customer with the product and the money in
+   the revenue totals.

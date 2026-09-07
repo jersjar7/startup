@@ -47,6 +47,14 @@ describe('collected sales', () => {
     expect(isCollectedSale({ status: 'pending' })).toBe(false);
   });
 
+  // A refund is the opposite case to `uncollected`: money DID arrive and was
+  // given back, so the customer loses the product as well as the row losing its
+  // revenue. Moving `status` off 'completed' does both at once, because
+  // entitlement matches on status alone.
+  it('does NOT count a refunded purchase', () => {
+    expect(isCollectedSale({ status: 'refunded', amount: 4900, refundedAt: new Date() })).toBe(false);
+  });
+
   it('handles missing rows', () => {
     expect(isCollectedSale(null)).toBe(false);
     expect(isCollectedSale(undefined)).toBe(false);
