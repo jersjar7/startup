@@ -7,7 +7,8 @@ import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
 import '../shared/widgets/async_view.dart';
 import '../shared/widgets/mastery_ring.dart';
-import 'chapter_screen.dart';
+import '../games/chapter_map_screen.dart';
+import '../games/game_catalog.dart';
 import 'content_repository.dart';
 import 'models.dart';
 
@@ -107,8 +108,15 @@ class _ChapterRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
+        // The phone teaches through games now: a chapter opens its path, not
+        // the old subtopic/lesson list.
+        final map = mapForChapter(chapter.id);
         await Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => ChapterScreen(chapter: chapter, masteryPct: pct)),
+          MaterialPageRoute(
+            builder: (_) => map == null
+                ? ChapterGamesPendingScreen(chapterName: chapter.name)
+                : ChapterMapScreen(chapter: map),
+          ),
         );
         await onReturn();
       },

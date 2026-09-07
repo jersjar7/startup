@@ -188,3 +188,11 @@ const mathematicsMap = ChapterMap(
     ),
   ],
 );
+
+/// Every chapter map the phone has. Chapters absent from here have no games
+/// authored yet and say so rather than falling back to the old lesson list.
+const chapterMaps = <String, ChapterMap>{
+  'mathematics': mathematicsMap,
+};
+
+ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

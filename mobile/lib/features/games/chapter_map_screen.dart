@@ -476,3 +476,42 @@ class _ConnectorPainter extends CustomPainter {
   @override
   bool shouldRepaint(_ConnectorPainter old) => old.points != points;
 }
+
+
+/// A chapter whose games have not been authored yet. The app says so plainly
+/// instead of showing lesson text it no longer teaches from.
+class ChapterGamesPendingScreen extends StatelessWidget {
+  const ChapterGamesPendingScreen({super.key, required this.chapterName});
+
+  final String chapterName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.cream,
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).maybePop(),
+          icon: const Icon(Icons.arrow_back_rounded,
+              color: AppColors.ink2, size: 22),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(chapterName, style: AppTheme.heading(size: 26)),
+            const SizedBox(height: 12),
+            const Text(
+              'No games here yet. They are authored one lesson at a time, from '
+              'that lesson\u2019s own problems and traps, so this chapter opens '
+              'as soon as its first lesson is done.',
+              style: TextStyle(fontSize: 15, height: 1.6, color: AppColors.ink2),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
