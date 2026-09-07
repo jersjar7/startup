@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/auth/auth_controller.dart';
@@ -5,6 +6,8 @@ import '../features/auth/create_screen.dart';
 import '../features/auth/forgot_screen.dart';
 import '../features/auth/signin_screen.dart';
 import '../features/auth/verify_screen.dart';
+import '../features/games/chapter_map_screen.dart';
+import '../features/games/game_catalog.dart';
 import '../features/games/perpendicular_flip_game.dart';
 import '../features/home/home_shell.dart';
 import '../features/onboarding/onboarding_screen.dart';
@@ -52,9 +55,30 @@ GoRouter buildRouter(AuthController auth) {
       GoRoute(path: '/verify', builder: (_, _) => const VerifyScreen()),
       GoRoute(path: '/home', builder: (_, _) => const HomeShell()),
       GoRoute(
-        path: '/games/perpendicular-flip',
-        builder: (_, _) => const PerpendicularFlipGame(),
+        path: '/games/chapter/mathematics',
+        builder: (_, _) => const ChapterMapScreen(chapter: mathematicsMap),
+      ),
+      GoRoute(
+        path: '/games/play/:gameId',
+        builder: (_, state) => switch (state.pathParameters['gameId']) {
+          'perpendicular-flip' => const PerpendicularFlipGame(),
+          _ => const _UnknownGame(),
+        },
       ),
     ],
   );
+}
+
+
+/// A game id that has no widget yet. The catalog marks such games "soon", so
+/// this is only reachable from a hand-typed route.
+class _UnknownGame extends StatelessWidget {
+  const _UnknownGame();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(child: Text('That game is not built yet.')),
+    );
+  }
 }

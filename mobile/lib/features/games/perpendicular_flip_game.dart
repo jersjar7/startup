@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/app_button.dart';
+import 'game_progress.dart';
 import '../shared/widgets/engineering_grid.dart';
 
 /// Perpendicular Flip — the first game for lesson `straight-lines-quadratics`
@@ -171,6 +172,9 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
       if (ok) {
         _cleared.add(idx);
         if (!_seen.contains(idx)) _firstTry++;
+        if (_cleared.length == _board.length) {
+          GameProgress.instance.markCleared('perpendicular-flip');
+        }
       } else {
         _queue.add(_round); // a miss comes back later in the same board
       }
