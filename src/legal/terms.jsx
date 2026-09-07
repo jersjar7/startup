@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { ArrowLeft } from '@phosphor-icons/react';
+import { STUDENT_PRICE, STANDARD_PRICE } from '../data/pricing';
 import './legal.css';
 
 export function Terms() {
@@ -15,7 +16,7 @@ export function Terms() {
         </Link>
 
         <h1>Terms of Service</h1>
-        <p className="legal-updated">Last updated: April 3, 2026</p>
+        <p className="legal-updated">Last updated: September 7, 2026</p>
 
         <section className="legal-section">
           <h2>1. Acceptance of Terms</h2>
@@ -95,11 +96,26 @@ export function Terms() {
         <section className="legal-section">
           <h2>8. Paid Features</h2>
           <p>
-            The Platform currently offers free access to all lessons and practice content. We may
-            introduce paid features (such as timed exam simulations) in the future. Any paid
-            features will be clearly identified before purchase, and separate payment terms will
-            apply at that time. Free features available at the time of your registration will remain
-            accessible to you.
+            The lessons, the practice problems and the diagnostic are free, and the free features
+            available at the time of your registration will remain accessible to you.
+          </p>
+          <p>
+            The Exam Simulation is the only paid item. It is a one-time purchase of ${STANDARD_PRICE},
+            or ${STUDENT_PRICE} for students who verify a .edu email address with a code we send to it.
+            It does not renew, it is not a subscription, and it does not expire. Payments are handled by
+            Stripe; we never receive or store your card details.
+          </p>
+          <p>
+            <strong>Refunds.</strong> The Exam Simulation carries a 14-day money-back guarantee. Ask us
+            for a refund within 14 days of your purchase, for any reason or none, and we will refund it
+            in full to the original payment method. You do not have to have used it, and you do not have
+            to explain why. Separately, if you sit the FE and do not pass, we will extend your access
+            free of charge. Refunding a purchase ends your access to the Exam Simulation; the rest of
+            your account, including all of your study progress, is unaffected.
+          </p>
+          <p>
+            To request a refund, email <a href="mailto:fe4raccoons@oqupa.com">fe4raccoons@oqupa.com</a> from the
+            address on your account.
           </p>
         </section>
 
