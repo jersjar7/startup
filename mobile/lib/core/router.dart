@@ -5,6 +5,7 @@ import '../features/auth/create_screen.dart';
 import '../features/auth/forgot_screen.dart';
 import '../features/auth/signin_screen.dart';
 import '../features/auth/verify_screen.dart';
+import '../features/games/perpendicular_flip_game.dart';
 import '../features/home/home_shell.dart';
 import '../features/onboarding/onboarding_screen.dart';
 import '../features/splash/splash_screen.dart';
@@ -19,6 +20,10 @@ GoRouter buildRouter(AuthController auth) {
     refreshListenable: auth,
     redirect: (context, state) {
       final loc = state.matchedLocation;
+
+      // Game previews are reachable without auth while the format is being
+      // designed (see docs/mobile/question-design.md).
+      if (loc.startsWith('/games/')) return null;
 
       // Still deciding (token check in flight) — stay on splash.
       if (auth.status == AuthStatus.unknown) {
@@ -46,6 +51,10 @@ GoRouter buildRouter(AuthController auth) {
       GoRoute(path: '/forgot', builder: (_, _) => const ForgotScreen()),
       GoRoute(path: '/verify', builder: (_, _) => const VerifyScreen()),
       GoRoute(path: '/home', builder: (_, _) => const HomeShell()),
+      GoRoute(
+        path: '/games/perpendicular-flip',
+        builder: (_, _) => const PerpendicularFlipGame(),
+      ),
     ],
   );
 }
