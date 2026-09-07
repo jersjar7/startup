@@ -122,7 +122,7 @@ class _Header extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       '${chapter.lessons.length} lessons · '
-                      '$playable with games · $cleared cleared',
+                      '$playable ready · $cleared cleared',
                       style: const TextStyle(
                         fontSize: 12.5,
                         color: AppColors.ink3,
@@ -275,8 +275,8 @@ Widget _label(_Slot slot, double width, double nodeSize) {
     muted: !built,
     detail: built && total > 0
         ? (state == LessonState.cleared
-              ? 'All $total done'
-              : '$done of $total games')
+              ? (total == 1 ? 'Done' : 'All $total done')
+              : '$done of $total done')
         : null,
   );
 
@@ -684,9 +684,8 @@ class _LessonSheet extends StatelessWidget {
                   border: Border.all(color: AppColors.line),
                 ),
                 child: const Text(
-                  'Games for this lesson are not built yet. They are authored '
-                  'one lesson at a time, from that lesson’s own problems '
-                  'and traps.',
+                  'This lesson is not ready yet. Each one is built from its '
+                  'own problems and traps, one lesson at a time.',
                   style: TextStyle(
                     fontSize: 14,
                     height: 1.55,
@@ -882,9 +881,8 @@ class ChapterGamesPendingScreen extends StatelessWidget {
             Text(chapterName, style: AppTheme.heading(size: 26)),
             const SizedBox(height: 12),
             const Text(
-              'No games here yet. They are authored one lesson at a time, from '
-              'that lesson’s own problems and traps, so this chapter opens '
-              'as soon as its first lesson is done.',
+              'This chapter is not ready yet. Its lessons open one at a time, '
+              'each built from its own problems and traps.',
               style: TextStyle(
                 fontSize: 15,
                 height: 1.6,

@@ -70,15 +70,15 @@ GoRouter buildRouter(AuthController auth) {
 }
 
 
-/// A game id that has no widget yet. The catalog marks such games "soon", so
-/// this is only reachable from a hand-typed route.
+/// A game id that has no widget yet (internal wording — the catalog marks
+/// these "soon"). Only reachable from a hand-typed route.
 class _UnknownGame extends StatelessWidget {
   const _UnknownGame();
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(child: Text('That game is not built yet.')),
+      body: Center(child: Text('That one is not ready yet.')),
     );
   }
 }
