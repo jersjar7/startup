@@ -7,6 +7,8 @@ import '../features/auth/forgot_screen.dart';
 import '../features/auth/signin_screen.dart';
 import '../features/auth/verify_screen.dart';
 import '../features/games/chapter_map_screen.dart';
+import '../features/games/discriminant_gate_game.dart';
+import '../features/games/grade_sense_game.dart';
 import '../features/games/game_catalog.dart';
 import '../features/games/perpendicular_flip_game.dart';
 import '../features/home/home_shell.dart';
@@ -62,6 +64,8 @@ GoRouter buildRouter(AuthController auth) {
         path: '/games/play/:gameId',
         builder: (_, state) => switch (state.pathParameters['gameId']) {
           'perpendicular-flip' => const PerpendicularFlipGame(),
+          'discriminant-gate' => const DiscriminantGateGame(),
+          'grade-sense' => const GradeSenseGame(),
           _ => const _UnknownGame(),
         },
       ),

@@ -1,16 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
-import '../auth/auth_controller.dart';
-import '../shared/widgets/app_button.dart';
-import 'game_progress.dart';
-import 'game_sync.dart';
 import '../shared/widgets/engineering_grid.dart';
+import 'board.dart';
 
 /// Perpendicular Flip — the first game for lesson `straight-lines-quadratics`
 /// (Mathematics -> Analytic Geometry).
@@ -89,9 +84,8 @@ class Round {
   /// slope problem and its two written traps). Mastery is keyed by it.
   final String sourceProblemId;
 
-  Slope get target => ask == Ask.perpendicular
-      ? Slope(-boundary.den, boundary.num)
-      : boundary;
+  Slope get target =>
+      ask == Ask.perpendicular ? Slope(-boundary.den, boundary.num) : boundary;
 
   bool get needsFlip => ask == Ask.perpendicular;
   bool get needsNegate => ask == Ask.perpendicular;
@@ -106,43 +100,50 @@ const _board = <Round>[
     boundary: Slope(2, 3),
   ),
   Round(
-    context: 'A retaining wall falls away at this slope. The tieback anchor '
+    context:
+        'A retaining wall falls away at this slope. The tieback anchor '
         'runs perpendicular into the soil behind it.',
     ask: Ask.perpendicular,
     boundary: Slope(-3, 4),
   ),
   Round(
-    context: 'A sidewalk is offset 5 feet from the curb line and runs parallel '
+    context:
+        'A sidewalk is offset 5 feet from the curb line and runs parallel '
         'to it the whole block.',
     ask: Ask.parallel,
     boundary: Slope(1, 2),
   ),
   Round(
-    context: 'A steep access drive meets the collector road. The stop bar is '
+    context:
+        'A steep access drive meets the collector road. The stop bar is '
         'struck perpendicular to the drive.',
     ask: Ask.perpendicular,
     boundary: Slope(5, 2),
   ),
   Round(
-    context: 'A second storm line is run parallel to the existing lateral, '
+    context:
+        'A second storm line is run parallel to the existing lateral, '
         '8 feet to the north.',
     ask: Ask.parallel,
     boundary: Slope(-1, 4),
   ),
   Round(
-    context: 'A bridge deck crosses the stream on this alignment. The pier cap '
+    context:
+        'A bridge deck crosses the stream on this alignment. The pier cap '
         'sits perpendicular to the deck.',
     ask: Ask.perpendicular,
     boundary: Slope(4, 3),
   ),
   Round(
-    context: 'A parcel line bears off at this slope. The new lot split runs '
+    context:
+        'A parcel line bears off at this slope. The new lot split runs '
         'perpendicular to it.',
     ask: Ask.perpendicular,
     boundary: Slope(-2, 5),
   ),
   Round(
-    context: 'A fence is built parallel to the shared property line, one foot '
+    context:
+        'A fence is built parallel to the shared property line, one foot '
         'inside it.',
     ask: Ask.parallel,
     boundary: Slope(3, 1),
@@ -150,21 +151,28 @@ const _board = <Round>[
 ];
 
 class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
-  late final List<Round> _queue = List.of(_board);
-  final Set<int> _cleared = {};
+  late final BoardSession _session = BoardSession(
+    gameId: 'perpendicular-flip',
+    chapterId: 'mathematics',
+    total: _board.length,
+    // Every round is authored from the easement problem and its two traps.
+    sourceProblemIdOf: (_) => 'math-slq-q2',
+  )..addListener(_onSession);
 
-  final Set<int> _seen = {};
-
-  final List<GameEvent> _events = [];
-  bool _syncFailed = false;
-
-  int _i = 0;
   bool _flip = false;
   bool _negate = false;
-  bool? _correct;
-  int _firstTry = 0;
 
-  Round get _round => _queue[_i];
+  void _onSession() => setState(() {});
+
+  @override
+  void dispose() {
+    _session
+      ..removeListener(_onSession)
+      ..dispose();
+    super.dispose();
+  }
+
+  Round get _round => _board[_session.round];
 
   Slope get _built {
     var s = _round.boundary;
@@ -173,246 +181,82 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
     return s;
   }
 
-  bool get _done => _cleared.length == _board.length;
-
-  void _confirm() {
-    final idx = _board.indexOf(_round);
-    final ok = _built.sameAs(_round.target);
-    _events.add(GameEvent(
-      sourceProblemId: _round.sourceProblemId,
-      chapterId: 'mathematics',
-      gameId: 'pf',
-      round: idx + 1,
-      correct: ok,
-    ));
-    setState(() {
-      _correct = ok;
-      if (ok) {
-        _cleared.add(idx);
-        if (!_seen.contains(idx)) _firstTry++;
-        if (_cleared.length == _board.length) {
-          GameProgress.instance.markCleared('perpendicular-flip');
-          _pushResults();
-        }
-      } else {
-        _queue.add(_round); // a miss comes back later in the same board
-      }
-      _seen.add(idx);
-    });
-  }
-
-  /// One push per cleared board, into the same sync pipeline the web reads.
-  Future<void> _pushResults() async {
-    final api = context.read<AuthController>().api;
-    final ok = await GameSync(api).push(List.of(_events));
-    if (!mounted) return;
-    setState(() => _syncFailed = !ok);
-  }
-
-  void _next() {
-    setState(() {
-      _i++;
-      _flip = false;
-      _negate = false;
-      _correct = null;
-    });
-  }
-
-  void _restart() {
-    setState(() {
-      _queue
-        ..clear()
-        ..addAll(_board);
-      _cleared.clear();
-      _i = 0;
-      _flip = false;
-      _negate = false;
-      _correct = null;
-      _firstTry = 0;
-      _seen.clear();
-      _events.clear();
-      _syncFailed = false;
-    });
-  }
-
-  void _leave() {
-    if (context.canPop()) {
-      context.pop();
-    } else {
-      context.go('/home');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.cream,
-      body: SafeArea(
-        child: _done ? _buildDone() : _buildRound(),
-      ),
-    );
-  }
+    if (_session.done) {
+      return BoardDone(
+        session: _session,
+        title: 'Perpendicular Flip',
+        closing:
+            'Perpendicular means flip the fraction and change the sign; '
+            'parallel means leave it alone. Laying out a full alignment from '
+            'that is still desk work.',
+      );
+    }
 
-  Widget _buildDone() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+    final r = _round;
+    final answered = _session.answered;
+
+    return BoardShell(
+      session: _session,
+      buttonLabel: answered ? 'Next' : 'Confirm this line',
+      onButton: answered
+          ? () {
+              setState(() {
+                _flip = false;
+                _negate = false;
+              });
+              _session.next();
+            }
+          : () =>
+                _session.submit(ok: _built.sameAs(r.target), context: context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Spacer(),
-          Text('BOARD CLEAR', style: AppTheme.overline(color: AppColors.forest)),
-          const SizedBox(height: 10),
-          Text('Perpendicular Flip', style: AppTheme.heading(size: 32)),
-          const SizedBox(height: 16),
           Text(
-            'You built all ${_board.length} lines. $_firstTry landed on the '
-            'first try.',
+            r.ask == Ask.perpendicular
+                ? 'LAY IT PERPENDICULAR'
+                : 'LAY IT PARALLEL',
+            style: AppTheme.overline(
+              color: r.ask == Ask.perpendicular
+                  ? AppColors.ember
+                  : AppColors.info,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            r.context,
             style: const TextStyle(
               fontSize: 15,
-              height: 1.6,
-              color: AppColors.ink2,
+              height: 1.55,
+              color: AppColors.charcoal,
             ),
           ),
-          const SizedBox(height: 24),
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.line),
+          const SizedBox(height: 16),
+          _canvas(r),
+          const SizedBox(height: 14),
+          _readout(r),
+          const SizedBox(height: 16),
+          if (!answered) ...[
+            _toggle(
+              label: 'Flip the fraction',
+              detail: 'Swap rise and run',
+              on: _flip,
+              onTap: () => setState(() => _flip = !_flip),
             ),
-            child: const Text(
-              'You know the rule. Perpendicular means flip the fraction and '
-              'change the sign, and parallel means leave it alone. Solving a '
-              'full alignment problem still belongs at the desk.',
-              style: TextStyle(
-                fontSize: 14,
-                height: 1.6,
-                color: AppColors.ink2,
-              ),
+            const SizedBox(height: 10),
+            _toggle(
+              label: 'Change the sign',
+              detail: 'Positive becomes negative',
+              on: _negate,
+              onTap: () => setState(() => _negate = !_negate),
             ),
-          ),
-          if (_syncFailed) ...[
-            const SizedBox(height: 12),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: AppColors.sunbeamBg,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Text(
-                'This board did not reach your account, so it has not counted '
-                'toward your mastery yet. Play it again when you have a '
-                'connection.',
-                style: TextStyle(
-                    fontSize: 13.5, height: 1.55, color: AppColors.charcoal),
-              ),
+          ] else
+            BoardFeedback(
+              correct: _session.correct!,
+              title: _session.correct! ? 'CORRECT' : 'NOT SQUARE',
+              body: _explain(r),
             ),
-          ],
-          const Spacer(),
-          AppButton(label: 'Play again', onPressed: _restart),
-          const SizedBox(height: 10),
-          AppButton(label: 'Done', ghost: true, onPressed: _leave),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRound() {
-    final r = _round;
-    final answered = _correct != null;
-
-    return Column(
-      children: [
-        _header(),
-        Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  r.ask == Ask.perpendicular
-                      ? 'LAY IT PERPENDICULAR'
-                      : 'LAY IT PARALLEL',
-                  style: AppTheme.overline(
-                    color: r.ask == Ask.perpendicular
-                        ? AppColors.ember
-                        : AppColors.info,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  r.context,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    height: 1.55,
-                    color: AppColors.charcoal,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                _canvas(r),
-                const SizedBox(height: 14),
-                _readout(r),
-                const SizedBox(height: 16),
-                if (!answered) ...[
-                  _toggle(
-                    label: 'Flip the fraction',
-                    detail: 'Swap rise and run',
-                    on: _flip,
-                    onTap: () => setState(() => _flip = !_flip),
-                  ),
-                  const SizedBox(height: 10),
-                  _toggle(
-                    label: 'Change the sign',
-                    detail: 'Positive becomes negative',
-                    on: _negate,
-                    onTap: () => setState(() => _negate = !_negate),
-                  ),
-                ] else
-                  _feedback(r),
-                const SizedBox(height: 20),
-                AppButton(
-                  label: answered
-                      ? (_cleared.length == _board.length ? 'Finish' : 'Next')
-                      : 'Confirm this line',
-                  onPressed: answered ? _next : _confirm,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _header() {
-    final progress = _cleared.length / _board.length;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 4, 20, 8),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: _leave,
-            icon: const Icon(Icons.close_rounded,
-                color: AppColors.ink3, size: 22),
-          ),
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(999),
-              child: LinearProgressIndicator(
-                value: progress,
-                minHeight: 8,
-                backgroundColor: AppColors.creamDark,
-                valueColor:
-                    const AlwaysStoppedAnimation(AppColors.forest),
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Text('${_cleared.length}/${_board.length}',
-              style: AppTheme.mono(size: 13, color: AppColors.ink2)),
         ],
       ),
     );
@@ -431,8 +275,8 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
             painter: _LinesPainter(
               boundary: r.boundary.value,
               built: _built.value,
-              locked: _correct,
-              showBuilt: _flip || _negate || _correct != null,
+              locked: _session.correct,
+              showBuilt: _flip || _negate || _session.answered,
             ),
           ),
         ),
@@ -460,9 +304,9 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
         cell(
           'YOU BUILT',
           'm = ${_built.label}',
-          _correct == null
+          !_session.answered
               ? AppColors.ember
-              : (_correct! ? AppColors.forest : AppColors.error),
+              : (_session.correct! ? AppColors.forest : AppColors.error),
         ),
       ],
     );
@@ -497,12 +341,15 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(label,
-                        style: AppTheme.heading(size: 16, height: 1.2)),
+                    Text(label, style: AppTheme.heading(size: 16, height: 1.2)),
                     const SizedBox(height: 2),
-                    Text(detail,
-                        style: const TextStyle(
-                            fontSize: 12.5, color: AppColors.ink2)),
+                    Text(
+                      detail,
+                      style: const TextStyle(
+                        fontSize: 12.5,
+                        color: AppColors.ink2,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -518,8 +365,11 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
                   ),
                 ),
                 child: on
-                    ? const Icon(Icons.check_rounded,
-                        size: 17, color: Colors.white)
+                    ? const Icon(
+                        Icons.check_rounded,
+                        size: 17,
+                        color: Colors.white,
+                      )
                     : null,
               ),
             ],
@@ -529,56 +379,26 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
     );
   }
 
-  Widget _feedback(Round r) {
-    final ok = _correct == true;
-    final String line;
-    if (ok) {
-      line = r.ask == Ask.perpendicular
+  String _explain(Round r) {
+    if (_session.correct!) {
+      return r.ask == Ask.perpendicular
           ? 'Square. Perpendicular needs both moves: flip the fraction and '
-              'change the sign.'
+                'change the sign.'
           : 'Parallel. Same slope, no moves at all.';
-    } else if (r.ask == Ask.parallel) {
-      line = 'Parallel lines have the same slope. Leave the fraction alone.';
-    } else if (_flip && !_negate) {
-      line = 'You flipped but kept the sign, so both lines still climb the '
-          'same way. It is not square.';
-    } else if (!_flip && _negate) {
-      line = 'You changed the sign without flipping. That is a mirror image, '
-          'not a perpendicular.';
-    } else {
-      line = 'That is the same line you started with. Perpendicular needs the '
-          'flip and the sign change.';
     }
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: ok ? AppColors.forestBg : AppColors.errorBg,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            ok ? 'CORRECT' : 'NOT SQUARE',
-            style: AppTheme.overline(
-                color: ok ? AppColors.forest : AppColors.error),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            line,
-            style: const TextStyle(
-                fontSize: 14, height: 1.55, color: AppColors.charcoal),
-          ),
-          if (!ok) ...[
-            const SizedBox(height: 6),
-            Text('It comes back later in this board.',
-                style: const TextStyle(fontSize: 12.5, color: AppColors.ink2)),
-          ],
-        ],
-      ),
-    );
+    if (r.ask == Ask.parallel) {
+      return 'Parallel lines have the same slope. Leave the fraction alone.';
+    }
+    if (_flip && !_negate) {
+      return 'You flipped but kept the sign, so both lines still climb the '
+          'same way. It is not square.';
+    }
+    if (!_flip && _negate) {
+      return 'You changed the sign without flipping. That is a mirror image, '
+          'not a perpendicular.';
+    }
+    return 'That is the same line you started with. Perpendicular needs the '
+        'flip and the sign change.';
   }
 }
 
@@ -600,16 +420,30 @@ class _LinesPainter extends CustomPainter {
     canvas.clipRect(Offset.zero & size);
     final q = Offset(size.width * 0.5, size.height * 0.5);
 
-    _line(canvas, size, q, boundary,
-        color: AppColors.charcoal, width: 3, dashed: false);
+    _line(
+      canvas,
+      size,
+      q,
+      boundary,
+      color: AppColors.charcoal,
+      width: 3,
+      dashed: false,
+    );
 
     if (showBuilt) {
       final square = (boundary * built + 1).abs() < 1e-9;
       final color = locked == null
           ? AppColors.ember
           : (locked! ? AppColors.forest : AppColors.error);
-      _line(canvas, size, q, built,
-          color: color, width: 3, dashed: locked == null);
+      _line(
+        canvas,
+        size,
+        q,
+        built,
+        color: color,
+        width: 3,
+        dashed: locked == null,
+      );
 
       if (square) _rightAngle(canvas, q, boundary, built, color);
     }
@@ -654,8 +488,7 @@ class _LinesPainter extends CustomPainter {
     }
   }
 
-  void _rightAngle(
-      Canvas canvas, Offset q, double m1, double m2, Color color) {
+  void _rightAngle(Canvas canvas, Offset q, double m1, double m2, Color color) {
     Offset u(double m) => m.isInfinite
         ? const Offset(0, -1)
         : Offset(1, -m) / math.sqrt(1 + m * m);

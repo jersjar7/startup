@@ -103,11 +103,13 @@ const mathematicsMap = ChapterMap(
           id: 'discriminant-gate',
           name: 'Discriminant Gate',
           blurb: 'Two roots, one root, or none. Judge the sign, never solve.',
+          built: true,
         ),
         GameDef(
           id: 'grade-sense',
           name: 'Grade Sense',
           blurb: 'Rank road profiles by grade. The station trap is in there.',
+          built: true,
         ),
       ],
     ),
