@@ -27,6 +27,32 @@ CREAM = (255, 249, 240)
 INK = (108, 99, 88)
 
 
+def _sheet(shots, path, *, columns, scale):
+    """Lay a set of screenshots out side by side and write one image."""
+    thumbs = []
+    for shot in shots:
+        im = _trim_empty_bottom(Image.open(shot))
+        im = im.resize((int(im.width * scale), int(im.height * scale)), Image.LANCZOS)
+        thumbs.append((shot.stem, im))
+
+    cols = min(columns, len(thumbs))
+    rows = (len(thumbs) + cols - 1) // cols
+    w = max(im.width for _, im in thumbs)
+    h = max(im.height for _, im in thumbs)
+    sheet = Image.new(
+        "RGB", (cols * (w + PAD) + PAD, rows * (h + LABEL + PAD) + PAD), CREAM
+    )
+    draw = ImageDraw.Draw(sheet)
+    for i, (name, im) in enumerate(thumbs):
+        x = PAD + (i % cols) * (w + PAD)
+        y = PAD + (i // cols) * (h + LABEL + PAD)
+        sheet.paste(im, (x, y))
+        draw.rectangle([x, y, x + im.width, y + im.height], outline=(230, 220, 205))
+        draw.text((x + 4, y + h + 8), name, fill=INK)
+    sheet.save(path)
+    print(f"{path.relative_to(ROOT)}  ({len(thumbs)} cards)")
+
+
 def _trim_empty_bottom(im: Image.Image) -> Image.Image:
     """Cut the dead space under the button.
 
@@ -55,7 +81,10 @@ def main() -> int:
 
     OUT.mkdir(parents=True, exist_ok=True)
     for lesson in sorted(p for p in GOLDENS.iterdir() if p.is_dir()):
-        shots = sorted(lesson.glob("*.png"))
+        cards = sorted(lesson.glob("00-card-*.png"))
+        shots = [p for p in sorted(lesson.glob("*.png")) if p not in cards]
+        if cards:
+            _sheet(cards, OUT / f"{lesson.name}-cards.png", columns=3, scale=0.62)
         if not shots:
             continue
 

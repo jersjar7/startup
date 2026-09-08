@@ -14,6 +14,7 @@ import 'package:mobile/features/games/balance_both_sides_game.dart';
 import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/game_progress.dart';
+import 'package:mobile/features/games/lesson_brief.dart';
 import 'package:mobile/features/games/grade_sense_game.dart';
 import 'package:mobile/features/games/one_log_game.dart';
 import 'package:mobile/features/games/order_the_moves_game.dart';
@@ -83,6 +84,21 @@ Future<void> _loadMathFonts() async {
   }
 }
 
+Future<void> _loadIconFont() async {
+  // Ticks, crosses and the book icon are Material icons, which a test binding
+  // does not register. Without this they photograph as empty squares and the
+  // sheet lies about what the screen shows.
+  final flutter = Platform.environment['FLUTTER_ROOT'] ??
+      '/opt/homebrew/share/flutter';
+  final file = File(
+    '$flutter/bin/cache/artifacts/material_fonts/MaterialIcons-Regular.otf',
+  );
+  if (!file.existsSync()) return;
+  final loader = FontLoader('MaterialIcons')
+    ..addFont(Future.value(file.readAsBytesSync().buffer.asByteData()));
+  await loader.load();
+}
+
 Future<void> _loadBrandFonts() async {
   // Bundled in assets/fonts. Registering them up front means the first
   // screenshot is not captured mid-fallback, which is what turned one item's
@@ -109,6 +125,7 @@ void main() {
     GoogleFonts.config.allowRuntimeFetching = false;
     await _loadMathFonts();
     await _loadBrandFonts();
+    await _loadIconFont();
   });
 
   final items = <String, ({String lesson, Widget Function() build, int rounds})>{
@@ -203,6 +220,71 @@ void main() {
       rounds: balances.length,
     ),
   };
+
+  // The reference card behind each item, captured the same way. These teach;
+  // the rounds only test, so they need reviewing just as much.
+  final cards = <String, List<(String, BriefSection)>>{
+    '01-straight-lines': [
+      ('perpendicular', perpendicularBrief),
+      ('discriminant', discriminantBrief),
+      ('grade', gradeBrief),
+    ],
+    '02-logarithms': [
+      ('log-rules', logRulesBrief),
+      ('undo-exponent', undoExponentBrief),
+      ('combine-logs', combineLogsBrief),
+    ],
+    '03-right-triangle': [
+      ('side-names', sideNamesBrief),
+      ('ratios', ratiosBrief),
+      ('components', componentsBrief),
+    ],
+    '04-law-of-sines': [
+      ('which-law', whichLawBrief),
+      ('writing-the-laws', setupBrief),
+      ('negative-cosine', obtuseBrief),
+    ],
+    '05-unit-circle': [
+      ('unit-circle', unitCircleBrief),
+      ('quadrants', quadrantBrief),
+      ('identities', identitiesBrief),
+    ],
+    '06-circles-conics': [
+      ('circle-form', circleFormBrief),
+      ('three-forms', readingConicsBrief),
+      ('completing-the-square', completeSquareBrief),
+    ],
+  };
+
+  for (final lesson in cards.entries) {
+    testWidgets('cards: ${lesson.key}', (tester) async {
+      // Taller than a phone on purpose: a card is meant to be scrolled, and a
+      // sheet is for reading the whole thing at once.
+      tester.view.physicalSize = const Size(390, 1900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+
+      for (final (name, section) in lesson.value) {
+        await tester.pumpWidget(
+          MaterialApp(
+            key: ValueKey('card-$name'),
+            theme: AppTheme.light,
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(body: SafeArea(child: ConceptView(section: section))),
+          ),
+        );
+        await tester.runAsync(
+          () => Future<void>.delayed(const Duration(milliseconds: 60)),
+        );
+        await tester.pumpAndSettle();
+
+        await expectLater(
+          find.byType(MaterialApp),
+          matchesGoldenFile('goldens/${lesson.key}/00-card-$name.png'),
+        );
+      }
+    });
+  }
 
   for (final entry in items.entries) {
     final id = entry.key;
