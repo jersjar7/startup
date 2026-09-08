@@ -79,6 +79,11 @@ class GradeRound {
 }
 
 /// Exposed for tests: each round must have exactly one correct order.
+/// Exposed for tests: each round must have exactly one correct order.
+///
+/// Every set mixes stations with a run written in plain feet. Written entirely
+/// in stations, misreading them divides every run by the same 100 and the
+/// ranking survives, so the trap the lesson names would never bite.
 const gradeRounds = <GradeRound>[
   GradeRound(
     prompt:
@@ -86,7 +91,7 @@ const gradeRounds = <GradeRound>[
         'steepest first.',
     stretches: [
       Stretch(name: 'A', rise: 6, run: 300, runLabel: '3+00'),
-      Stretch(name: 'B', rise: 6, run: 100, runLabel: '1+00'),
+      Stretch(name: 'B', rise: 6, run: 100, runLabel: '100 ft'),
       Stretch(name: 'C', rise: 3, run: 300, runLabel: '3+00'),
     ],
   ),
@@ -94,7 +99,7 @@ const gradeRounds = <GradeRound>[
     prompt: 'Same rise on all three. Only the run changes.',
     stretches: [
       Stretch(name: 'A', rise: 8, run: 400, runLabel: '4+00'),
-      Stretch(name: 'B', rise: 8, run: 200, runLabel: '2+00'),
+      Stretch(name: 'B', rise: 8, run: 200, runLabel: '200 ft'),
       Stretch(name: 'C', rise: 8, run: 800, runLabel: '8+00'),
     ],
   ),
@@ -109,7 +114,7 @@ const gradeRounds = <GradeRound>[
   GradeRound(
     prompt: 'An access drive, a collector and a ramp.',
     stretches: [
-      Stretch(name: 'Drive', rise: 12, run: 150, runLabel: '1+50'),
+      Stretch(name: 'Drive', rise: 12, run: 150, runLabel: '150 ft'),
       Stretch(name: 'Collector', rise: 9, run: 900, runLabel: '9+00'),
       Stretch(name: 'Ramp', rise: 20, run: 500, runLabel: '5+00'),
     ],
@@ -118,7 +123,7 @@ const gradeRounds = <GradeRound>[
     prompt: 'The biggest rise is not the steepest road.',
     stretches: [
       Stretch(name: 'A', rise: 30, run: 3000, runLabel: '30+00'),
-      Stretch(name: 'B', rise: 4, run: 100, runLabel: '1+00'),
+      Stretch(name: 'B', rise: 4, run: 100, runLabel: '100 ft'),
       Stretch(name: 'C', rise: 15, run: 750, runLabel: '7+50'),
     ],
   ),
@@ -126,7 +131,7 @@ const gradeRounds = <GradeRound>[
     prompt: 'Last one. Read every run carefully.',
     stretches: [
       Stretch(name: 'A', rise: 7, run: 700, runLabel: '7+00'),
-      Stretch(name: 'B', rise: 7, run: 350, runLabel: '3+50'),
+      Stretch(name: 'B', rise: 7, run: 350, runLabel: '350 ft'),
       Stretch(name: 'C', rise: 21, run: 700, runLabel: '7+00'),
     ],
   ),

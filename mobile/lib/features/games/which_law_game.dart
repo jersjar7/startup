@@ -135,7 +135,7 @@ const lawRounds = <LawRound>[
     pattern: 'SSS',
     context:
         'A surveyed triangle with all three boundary lengths. You want the '
-        'largest angle.',
+        'angle at B.',
     knownSides: {'a', 'b', 'c'},
     knownAngles: {},
     wanted: 'B',

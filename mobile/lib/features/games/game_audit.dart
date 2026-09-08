@@ -58,9 +58,7 @@ List<GameAudit> auditAllGames() => [
     gameId: 'perpendicular-flip',
     lessonId: 'straight-lines-quadratics',
     problemPrefix: 'math-slq-',
-    rounds: [
-      for (final r in flipRounds) RoundAudit(source: r.sourceProblemId),
-    ],
+    rounds: [for (final r in flipRounds) RoundAudit(source: r.sourceProblemId)],
   ),
   GameAudit(
     gameId: 'discriminant-gate',

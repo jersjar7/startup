@@ -249,7 +249,7 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
             const SizedBox(height: 10),
             _toggle(
               label: 'Change the sign',
-              detail: 'Positive becomes negative',
+              detail: 'Plus becomes minus, minus becomes plus',
               on: _negate,
               onTap: () => setState(() => _negate = !_negate),
             ),
@@ -392,7 +392,7 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
       return 'Parallel lines have the same slope. Leave the fraction alone.';
     }
     if (_flip && !_negate) {
-      return 'You flipped but kept the sign, so both lines still climb the '
+      return 'You flipped but kept the sign, so both lines still lean the '
           'same way. It is not square.';
     }
     if (!_flip && _negate) {

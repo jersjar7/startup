@@ -69,8 +69,8 @@ const gateRounds = <Gate>[
   Gate(
     ask: GateAsk.countFromCurve,
     context:
-        'A vertical curve is modeled by a quadratic. Where does it meet '
-        'the road below?',
+        'A vertical curve is modeled by a quadratic. Read where the curve '
+        'sits against the datum.',
     curves: [Para(opensUp: true, vertexY: -1.1)],
     answer: 2,
   ),
@@ -101,7 +101,10 @@ const gateRounds = <Gate>[
   ),
   Gate(
     ask: GateAsk.countFromCurve,
-    context: 'A projectile launched from an embankment, height against time.',
+    // Not a projectile: a downward curve whose peak is already below the
+    // datum never crosses it, and anything launched from an embankment
+    // starts above. The lesson's own projectile has two roots.
+    context: 'A curve that peaks below the datum and falls away from it.',
     curves: [Para(opensUp: false, vertexY: -0.8)],
     answer: 0,
   ),
@@ -122,7 +125,7 @@ const gateRounds = <Gate>[
   ),
   Gate(
     ask: GateAsk.countFromCurve,
-    context: 'A cable sag curve that never reaches the datum.',
+    context: 'A cable sag curve, plotted against its datum.',
     curves: [Para(opensUp: true, vertexY: 0.9)],
     answer: 0,
   ),

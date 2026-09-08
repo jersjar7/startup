@@ -25,7 +25,7 @@ class MoveSet {
   const MoveSet({
     required this.problem,
     required this.shown,
-    required this.answer,
+    required this.accepted,
     required this.why,
     required this.source,
   });
@@ -36,8 +36,13 @@ class MoveSet {
   /// The steps as presented, deliberately out of order.
   final List<String> shown;
 
-  /// Indices into [shown], in the order they should be done.
-  final List<int> answer;
+  /// Indices into [shown], in the order they should be done. The FIRST entry
+  /// is the one shown as the truth; any listed order is accepted, because
+  /// some steps genuinely commute and marking one of them wrong teaches a
+  /// distinction the lesson does not draw.
+  final List<List<int>> accepted;
+
+  List<int> get answer => accepted.first;
 
   final String why;
   final String source;
@@ -54,7 +59,9 @@ const moveSets = <MoveSet>[
       'Divide by the rate to isolate the time',
       'Bring the exponent down, since ln undoes e',
     ],
-    answer: [1, 0, 3, 2],
+    accepted: [
+      [1, 0, 3, 2],
+    ],
     why:
         'Clear whatever multiplies the exponential first, then take the log. '
         'Taking the log while the initial concentration is still there is the '
@@ -68,7 +75,9 @@ const moveSets = <MoveSet>[
       'Pull the exponent down with the power rule',
       'Read off the answer',
     ],
-    answer: [1, 0, 2],
+    accepted: [
+      [1, 0, 2],
+    ],
     why:
         'The power rule brings the x down, then the log of its own base is '
         'one and the whole left side collapses. Nothing is computed.',
@@ -82,7 +91,10 @@ const moveSets = <MoveSet>[
       'Simplify the single number inside the log',
       'Turn the addition into a multiplication inside',
     ],
-    answer: [1, 3, 2, 0],
+    accepted: [
+      [1, 3, 2, 0],
+      [3, 1, 2, 0],
+    ],
     why:
         'Collapse the terms into one log before evaluating anything. '
         'Evaluating each log first is where people multiply the values '
@@ -96,7 +108,9 @@ const moveSets = <MoveSet>[
       'Take the log of both sides',
       'Bring the exponent down in front',
     ],
-    answer: [1, 2, 0],
+    accepted: [
+      [1, 2, 0],
+    ],
     why:
         'Log both sides, power rule to bring x down, then it is a division. '
         'This is the shape of nearly every FE log problem.',
@@ -172,7 +186,7 @@ class _OrderTheMovesGameState extends State<OrderTheMovesGame> {
           : (!complete
                 ? null
                 : () => _session.submit(
-                    ok: _same(_order, _set.answer),
+                    ok: _set.accepted.any((a) => _same(_order, a)),
                     context: context,
                   )),
       child: Column(

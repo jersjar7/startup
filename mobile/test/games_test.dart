@@ -84,6 +84,18 @@ void main() {
     });
   });
 
+  test('the station trap actually bites in every round', () {
+    // Written entirely in stations, misreading them divides every run by the
+    // same 100 and the ranking survives, so the trap never bites and a student
+    // who has never learned station notation still scores full marks. Every
+    // set must mix a plain-feet run in with the stations.
+    for (var i = 0; i < gradeRounds.length; i++) {
+      final r = gradeRounds[i];
+      expect(r.byNaiveStation, isNot(r.answer),
+          reason: 'round ${i + 1} gives the same order either way');
+    }
+  });
+
   test('every round has one and only one correct order', () {
     // Round 6 shipped with two stretches at exactly 2 percent, which made the
     // answer arbitrary and the game unwinnable by reasoning.

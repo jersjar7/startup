@@ -176,9 +176,9 @@ const sideNamesBrief = BriefSection(
   body:
       'The hypotenuse is always the side across from the right angle, so it '
       'never moves. The other two names belong to the angle you marked, not to '
-      'the page: opposite is the side that does not touch it, adjacent is the '
-      'one that does. Mark the other corner and those two swap without a line '
-      'moving.',
+      'the page: opposite is the side that does not touch it, and adjacent is '
+      'the OTHER side that does, the one that is not the hypotenuse. Mark the '
+      'other corner and those two swap without a line moving.',
   formulas: [
     ('Always across from the right angle', r'\text{hyp}'),
     ('Named against the marked angle', r'\text{opp} \;/\; \text{adj}'),

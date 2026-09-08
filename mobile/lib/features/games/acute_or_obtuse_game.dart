@@ -98,7 +98,9 @@ const verdicts = <Verdict>[
     source: 'math-lsc-q3',
   ),
   Verdict(
-    given: 'A triangle with sides 5, 12 and 13.',
+    given:
+        'A triangle with sides 5, 12 and 13. What kind of angle sits '
+        'opposite the longest side?',
     latex: r'13^2 \;=\; 5^2 + 12^2',
     answer: AngleKind.right,
     why:
@@ -108,7 +110,9 @@ const verdicts = <Verdict>[
     source: 'math-lsc-q3',
   ),
   Verdict(
-    given: 'A triangle with sides 7, 9 and 10.',
+    given:
+        'A triangle with sides 7, 9 and 10. What kind of angle sits '
+        'opposite the longest side?',
     latex: r'10^2 \;<\; 7^2 + 9^2',
     answer: AngleKind.acute,
     why:
