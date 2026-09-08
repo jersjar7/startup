@@ -18,6 +18,7 @@ import '../features/games/grade_sense_game.dart';
 import '../features/games/one_log_game.dart';
 import '../features/games/order_the_moves_game.dart';
 import '../features/games/perpendicular_flip_game.dart';
+import '../features/games/pick_u_game.dart';
 import '../features/games/place_the_center_game.dart';
 import '../features/games/point_at_the_inside_game.dart';
 import '../features/games/quadrant_signs_game.dart';
@@ -30,8 +31,10 @@ import '../features/games/slide_to_flat_game.dart';
 import '../features/games/tap_the_side_game.dart';
 import '../features/games/walk_the_circle_game.dart';
 import '../features/games/what_was_asked_game.dart';
+import '../features/games/whats_missing_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_ratio_game.dart';
+import '../features/games/which_way_simpler_game.dart';
 import '../features/home/home_shell.dart';
 import '../features/onboarding/onboarding_screen.dart';
 import '../features/splash/splash_screen.dart';
@@ -108,6 +111,9 @@ GoRouter buildRouter(AuthController auth) {
           'slide-to-flat' => const SlideToFlatGame(),
           'sign-the-bend' => const SignTheBendGame(),
           'what-was-asked' => const WhatWasAskedGame(),
+          'pick-u' => const PickUGame(),
+          'which-way-simpler' => const WhichWaySimplerGame(),
+          'whats-missing' => const WhatsMissingGame(),
           _ => const _UnknownGame(),
         },
       ),

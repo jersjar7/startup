@@ -8,6 +8,7 @@ import 'grade_sense_game.dart';
 import 'one_log_game.dart';
 import 'order_the_moves_game.dart';
 import 'perpendicular_flip_game.dart';
+import 'pick_u_game.dart';
 import 'place_the_center_game.dart';
 import 'point_at_the_inside_game.dart';
 import 'quadrant_signs_game.dart';
@@ -20,8 +21,10 @@ import 'slide_to_flat_game.dart';
 import 'tap_the_side_game.dart';
 import 'walk_the_circle_game.dart';
 import 'what_was_asked_game.dart';
+import 'whats_missing_game.dart';
 import 'which_law_game.dart';
 import 'which_ratio_game.dart';
+import 'which_way_simpler_game.dart';
 
 /// A uniform description of what an item asks, so ONE gate can check every
 /// item against the rules we have learned the hard way.
@@ -315,6 +318,48 @@ List<GameAudit> auditAllGames() => [
         RoundAudit(
           source: r.source,
           options: r.quantities,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'pick-u',
+    lessonId: 'integral-calculus',
+    problemPrefix: 'math-ic-',
+    rounds: [
+      // The u decision, including the way out when nothing fits. The second
+      // decision, du, is not describable as an index into these and is
+      // checked by the lesson's own tests instead.
+      for (final r in uSubRounds)
+        RoundAudit(
+          source: r.source,
+          options: [...r.uOptions, 'no substitution fits'],
+          answer: r.noSub ? r.uOptions.length : r.uAnswer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-way-simpler',
+    lessonId: 'integral-calculus',
+    problemPrefix: 'math-ic-',
+    rounds: [
+      for (final r in partsRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final b in r.branches) 'u = ${b.u}'],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'whats-missing',
+    lessonId: 'integral-calculus',
+    problemPrefix: 'math-ic-',
+    rounds: [
+      for (final r in missingRounds)
+        RoundAudit(
+          source: r.source,
+          options: missingVerdicts,
           answer: r.answer,
         ),
     ],

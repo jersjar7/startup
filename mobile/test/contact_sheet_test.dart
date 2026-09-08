@@ -15,6 +15,9 @@ import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/pick_u_game.dart';
+import 'package:mobile/features/games/whats_missing_game.dart';
+import 'package:mobile/features/games/which_way_simpler_game.dart';
 import 'package:mobile/features/games/sign_the_bend_game.dart';
 import 'package:mobile/features/games/slide_to_flat_game.dart';
 import 'package:mobile/features/games/what_was_asked_game.dart';
@@ -284,6 +287,24 @@ void main() {
       rounds: askedRounds.length,
       height: 1250,
     ),
+    'pick-u': (
+      lesson: '09-integrals',
+      build: PickUGame.new,
+      rounds: uSubRounds.length,
+      height: 1250,
+    ),
+    'which-way-simpler': (
+      lesson: '09-integrals',
+      build: WhichWaySimplerGame.new,
+      rounds: partsRounds.length,
+      height: 1250,
+    ),
+    'whats-missing': (
+      lesson: '09-integrals',
+      build: WhatsMissingGame.new,
+      rounds: missingRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -328,6 +349,11 @@ void main() {
       ('critical-points', criticalPointBrief),
       ('concavity', concavityBrief),
       ('where-or-how-much', askedForBrief),
+    ],
+    '09-integrals': [
+      ('substitution', substitutionBrief),
+      ('by-parts', byPartsBrief),
+      ('finishing', finishingBrief),
     ],
   };
 

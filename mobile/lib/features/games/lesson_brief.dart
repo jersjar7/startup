@@ -62,6 +62,9 @@ enum BriefFigure {
   maxMin,
   bendFlip,
   whereOrHowMuch,
+  substitution,
+  liate,
+  finishing,
   lawChoice,
   lawForms,
   cosineSign,
@@ -503,6 +506,60 @@ const askedForBrief = BriefSection(
   handbook: 'Handbook p. 46',
 );
 
+// ── Integral Calculus ───────────────────────────────────────────────────────
+
+const substitutionBrief = BriefSection(
+  title: 'Substitution, and what du has to be',
+  body:
+      'Substitution works on one shape and one shape only: something composed '
+      'with something else, multiplied by the derivative of the inside. Call '
+      'the inside u, and the leftover has to BE du, or du off by a constant '
+      'factor. If the derivative of your u is nowhere in the integrand, '
+      'substitution is not the tool and no amount of rearranging will make it '
+      'one.',
+  formulas: [
+    ('The shape it needs', r"\int f(g(x))\,g'(x)\,dx"),
+    ('Let u be the inside', r"u = g(x) \;\Rightarrow\; du = g'(x)\,dx"),
+    ('And it becomes', r'\int f(u)\,du'),
+  ],
+  figure: BriefFigure.substitution,
+  handbook: 'Handbook p. 50',
+);
+
+const byPartsBrief = BriefSection(
+  title: 'By parts, and which one is u',
+  body:
+      'By parts trades the integral you have for a different one. It is worth '
+      'doing only when the trade leaves you better off, and what decides that '
+      'is which factor you put in the u slot: u gets differentiated, dv gets '
+      'integrated. LIATE names the order to prefer, Logs then Inverse trig '
+      'then Algebraic then Trig then Exponential, and the reason is that the '
+      'earlier ones get easier when you differentiate them.',
+  formulas: [
+    ('The rule', r'\int u\,dv = uv - \int v\,du'),
+    ('LIATE, best first', r'\text{L} \;\;\text{I} \;\;\text{A} \;\;\text{T} \;\;\text{E}'),
+  ],
+  figure: BriefFigure.liate,
+  handbook: 'Handbook p. 50',
+);
+
+const finishingBrief = BriefSection(
+  title: 'Finishing an integral',
+  body:
+      'The antiderivative is most of the work and none of the marks. An '
+      'indefinite integral is a family of functions, so it ends in plus C. A '
+      'definite integral is a number: put in the top limit, subtract the '
+      'bottom one, and the constant cancels itself, so plus C has no business '
+      'being there. And if you substituted, the limits belong to the new '
+      'variable.',
+  formulas: [
+    ('Indefinite, a family', r'\int f(x)\,dx = F(x) + C'),
+    ('Definite, a number', r'\int_a^b f(x)\,dx = F(b) - F(a)'),
+  ],
+  figure: BriefFigure.finishing,
+  handbook: 'Handbook p. 50',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -895,6 +952,33 @@ class BriefFigureView extends StatelessWidget {
             (r"f'(x) = -4x + 16 = 0 \;\Rightarrow\; x = 4", null),
             (r"\text{where the maximum is} \;\Rightarrow\; x = 4", null),
             (r"\text{how big it is} \;\Rightarrow\; f(4) = 27", null),
+          ],
+        );
+      case BriefFigure.substitution:
+        return const _RuleList(
+          rules: [
+            (r"\int \sin^3 x\,\cos x\,dx \;\Rightarrow\; u = \sin x", true),
+            (r"\int (x^2+1)^5\,2x\,dx \;\Rightarrow\; u = x^2+1", true),
+            (r"\int x\,e^{2x}\,dx \;\Rightarrow\; u = e^{2x}", false),
+          ],
+        );
+      case BriefFigure.liate:
+        return const _RuleList(
+          rules: [
+            (r"\text{L} \;\; \text{logs, differentiate them}", null),
+            (r"\text{I} \;\; \text{inverse trig}", null),
+            (r"\text{A} \;\; \text{algebraic, the power drops}", null),
+            (r"\text{T} \;\; \text{trig}", null),
+            (r"\text{E} \;\; \text{exponential, integrate it}", null),
+          ],
+        );
+      case BriefFigure.finishing:
+        return const _RuleList(
+          rules: [
+            (r"\int 3x^2\,dx = x^3 + C", true),
+            (r"\int 3x^2\,dx = x^3", false),
+            (r"\int_1^2 3x^2\,dx = 8 - 1 = 7", true),
+            (r"\int_1^2 3x^2\,dx = 8 + C", false),
           ],
         );
       case BriefFigure.logRules:

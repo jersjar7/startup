@@ -108,6 +108,7 @@ void main() {
       'grade-sense', // the station trap, from every angle
       'resolve-it', // the components trap, from both axes
       'balance-both-sides', // completing the square, which is one problem
+      'which-way-simpler', // by parts, which is one problem's whole content
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

@@ -352,6 +352,32 @@ const mathematicsMap = ChapterMap(
       id: 'integral-calculus',
       name: 'Integral Calculus',
       subtopicId: 'single-var-calc',
+      games: [
+        GameDef(
+          id: 'pick-u',
+          rounds: 6,
+          name: 'Pick u, Pick du',
+          blurb: 'Two halves that only work as a pair.',
+          built: true,
+          brief: substitutionBrief,
+        ),
+        GameDef(
+          id: 'which-way-simpler',
+          rounds: 6,
+          name: 'Which Way Gets Simpler',
+          blurb: 'Both choices are legal. One of them helps.',
+          built: true,
+          brief: byPartsBrief,
+        ),
+        GameDef(
+          id: 'whats-missing',
+          rounds: 6,
+          name: "What's Missing",
+          blurb: 'The integration is right. The write-up may not be.',
+          built: true,
+          brief: finishingBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'lhopitals-rule',
