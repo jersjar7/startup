@@ -8,6 +8,7 @@ import '../auth/auth_controller.dart';
 import '../shared/widgets/app_button.dart';
 import 'game_progress.dart';
 import 'game_sync.dart';
+import 'lesson_brief.dart';
 
 /// Shared plumbing for one sitting: which round is up, what is left, what has
 /// been sent to the server, and the done screen. Nothing here decides what a
@@ -61,7 +62,9 @@ class BoardSession extends ChangeNotifier {
     _resumedWith = cleared.length;
     _queue
       ..clear()
-      ..addAll([for (var i = 0; i < total; i++) i].where((i) => !cleared.contains(i)));
+      ..addAll(
+        [for (var i = 0; i < total; i++) i].where((i) => !cleared.contains(i)),
+      );
     _cursor = 0;
   }
 
@@ -69,19 +72,24 @@ class BoardSession extends ChangeNotifier {
     final r = round;
     _correct = ok;
     if (ok) {
-      GameProgress.instance
-          .markRoundCleared(gameId, r, firstTry: !_seen.contains(r));
+      GameProgress.instance.markRoundCleared(
+        gameId,
+        r,
+        firstTry: !_seen.contains(r),
+      );
     } else {
       _queue.add(r); // comes back later in the same sitting
     }
     _seen.add(r);
-    _pending.add(GameEvent(
-      sourceProblemId: sourceProblemIdOf(r),
-      chapterId: chapterId,
-      gameId: gameId,
-      round: r + 1,
-      correct: ok,
-    ));
+    _pending.add(
+      GameEvent(
+        sourceProblemId: sourceProblemIdOf(r),
+        chapterId: chapterId,
+        gameId: gameId,
+        round: r + 1,
+        correct: ok,
+      ),
+    );
     notifyListeners();
     // Send as we go, so leaving half way never loses the work.
     _flush(context);
@@ -131,12 +139,19 @@ class BoardShell extends StatelessWidget {
     required this.child,
     required this.buttonLabel,
     required this.onButton,
+    this.lessonName,
+    this.brief = const [],
   });
 
   final BoardSession session;
   final Widget child;
   final String buttonLabel;
   final VoidCallback? onButton;
+
+  /// The lesson's definitions, reachable mid-sitting. Forgetting what a term
+  /// means should send you to the explanation, not out of the app.
+  final String? lessonName;
+  final List<BriefSection> brief;
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +160,11 @@ class BoardShell extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            _BoardHeader(session: session),
+            _BoardHeader(
+              session: session,
+              lessonName: lessonName,
+              brief: brief,
+            ),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
@@ -167,9 +186,15 @@ class BoardShell extends StatelessWidget {
 }
 
 class _BoardHeader extends StatelessWidget {
-  const _BoardHeader({required this.session});
+  const _BoardHeader({
+    required this.session,
+    required this.lessonName,
+    required this.brief,
+  });
 
   final BoardSession session;
+  final String? lessonName;
+  final List<BriefSection> brief;
 
   @override
   Widget build(BuildContext context) {
@@ -180,8 +205,11 @@ class _BoardHeader extends StatelessWidget {
           IconButton(
             onPressed: () =>
                 context.canPop() ? context.pop() : context.go('/home'),
-            icon: const Icon(Icons.close_rounded,
-                color: AppColors.ink3, size: 22),
+            icon: const Icon(
+              Icons.close_rounded,
+              color: AppColors.ink3,
+              size: 22,
+            ),
           ),
           Expanded(
             child: ClipRRect(
@@ -195,8 +223,24 @@ class _BoardHeader extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          Text('${session.clearedCount}/${session.total}',
-              style: AppTheme.mono(size: 13, color: AppColors.ink2)),
+          Text(
+            '${session.clearedCount}/${session.total}',
+            style: AppTheme.mono(size: 13, color: AppColors.ink2),
+          ),
+          if (brief.isNotEmpty)
+            IconButton(
+              tooltip: 'The idea',
+              onPressed: () => showLessonBrief(
+                context,
+                lessonName: lessonName ?? '',
+                sections: brief,
+              ),
+              icon: const Icon(
+                Icons.menu_book_rounded,
+                color: AppColors.ink3,
+                size: 20,
+              ),
+            ),
         ],
       ),
     );
@@ -229,17 +273,27 @@ class BoardFeedback extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title,
-              style: AppTheme.overline(
-                  color: correct ? AppColors.forest : AppColors.error)),
+          Text(
+            title,
+            style: AppTheme.overline(
+              color: correct ? AppColors.forest : AppColors.error,
+            ),
+          ),
           const SizedBox(height: 6),
-          Text(body,
-              style: const TextStyle(
-                  fontSize: 14, height: 1.55, color: AppColors.charcoal)),
+          Text(
+            body,
+            style: const TextStyle(
+              fontSize: 14,
+              height: 1.55,
+              color: AppColors.charcoal,
+            ),
+          ),
           if (!correct) ...[
             const SizedBox(height: 6),
-            const Text('It comes back later in this set.',
-                style: TextStyle(fontSize: 12.5, color: AppColors.ink2)),
+            const Text(
+              'It comes back later in this set.',
+              style: TextStyle(fontSize: 12.5, color: AppColors.ink2),
+            ),
           ],
         ],
       ),
@@ -274,8 +328,10 @@ class BoardDone extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Spacer(),
-              Text('ALL DONE',
-                  style: AppTheme.overline(color: AppColors.forest)),
+              Text(
+                'ALL DONE',
+                style: AppTheme.overline(color: AppColors.forest),
+              ),
               const SizedBox(height: 10),
               Text(title, style: AppTheme.heading(size: 32)),
               const SizedBox(height: 16),
@@ -283,7 +339,10 @@ class BoardDone extends StatelessWidget {
                 'You finished all ${session.total}. '
                 '${session.firstTryCount} landed on the first try.',
                 style: const TextStyle(
-                    fontSize: 15, height: 1.6, color: AppColors.ink2),
+                  fontSize: 15,
+                  height: 1.6,
+                  color: AppColors.ink2,
+                ),
               ),
               const SizedBox(height: 24),
               Container(
@@ -293,9 +352,14 @@ class BoardDone extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: AppColors.line),
                 ),
-                child: Text(closing,
-                    style: const TextStyle(
-                        fontSize: 14, height: 1.6, color: AppColors.ink2)),
+                child: Text(
+                  closing,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.6,
+                    color: AppColors.ink2,
+                  ),
+                ),
               ),
               if (session.syncFailed) ...[
                 const SizedBox(height: 12),
@@ -310,7 +374,10 @@ class BoardDone extends StatelessWidget {
                     'Some of this did not reach your account, so it has not '
                     'counted toward your mastery yet.',
                     style: TextStyle(
-                        fontSize: 13.5, height: 1.55, color: AppColors.charcoal),
+                      fontSize: 13.5,
+                      height: 1.55,
+                      color: AppColors.charcoal,
+                    ),
                   ),
                 ),
               ],

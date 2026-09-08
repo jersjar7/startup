@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import 'board.dart';
+import 'lesson_brief.dart';
 
 /// Grade Sense — the third item for `straight-lines-quadratics`.
 ///
@@ -68,15 +69,20 @@ class GradeRound {
 
   List<int> get byNaiveStation {
     final idx = [for (var i = 0; i < stretches.length; i++) i];
-    idx.sort((a, b) => (stretches[b].rise / stretches[b].naiveRun)
-        .compareTo(stretches[a].rise / stretches[a].naiveRun));
+    idx.sort(
+      (a, b) => (stretches[b].rise / stretches[b].naiveRun).compareTo(
+        stretches[a].rise / stretches[a].naiveRun,
+      ),
+    );
     return idx;
   }
 }
 
-const _rounds = <GradeRound>[
+/// Exposed for tests: each round must have exactly one correct order.
+const gradeRounds = <GradeRound>[
   GradeRound(
-    prompt: 'Three stretches of the same centreline. Rank them by grade, '
+    prompt:
+        'Three stretches of the same centerline. Rank them by grade, '
         'steepest first.',
     stretches: [
       Stretch(name: 'A', rise: 6, run: 300, runLabel: '3+00'),
@@ -121,7 +127,7 @@ const _rounds = <GradeRound>[
     stretches: [
       Stretch(name: 'A', rise: 7, run: 700, runLabel: '7+00'),
       Stretch(name: 'B', rise: 7, run: 350, runLabel: '3+50'),
-      Stretch(name: 'C', rise: 14, run: 700, runLabel: '7+00'),
+      Stretch(name: 'C', rise: 21, run: 700, runLabel: '7+00'),
     ],
   ),
 ];
@@ -130,7 +136,7 @@ class _GradeSenseGameState extends State<GradeSenseGame> {
   late final BoardSession _session = BoardSession(
     gameId: 'grade-sense',
     chapterId: 'mathematics',
-    total: _rounds.length,
+    total: gradeRounds.length,
     // Authored from the lesson's road-grade problem and its station trap.
     sourceProblemIdOf: (_) => 'math-slq-q1',
   )..addListener(_onSession);
@@ -147,7 +153,7 @@ class _GradeSenseGameState extends State<GradeSenseGame> {
     super.dispose();
   }
 
-  GradeRound get _round => _rounds[_session.round];
+  GradeRound get _round => gradeRounds[_session.round];
 
   bool get _complete => _order.length == _round.stretches.length;
 
@@ -167,7 +173,8 @@ class _GradeSenseGameState extends State<GradeSenseGame> {
       return BoardDone(
         session: _session,
         title: 'Grade Sense',
-        closing: 'Grade is rise over run, and a station is hundreds of feet: '
+        closing:
+            'Grade is rise over run, and a station is hundreds of feet: '
             '3+00 is 300 feet, never 3. Getting the order right is not the '
             'same as computing a grade to two decimals, which is desk work.',
       );
@@ -177,6 +184,8 @@ class _GradeSenseGameState extends State<GradeSenseGame> {
 
     return BoardShell(
       session: _session,
+      lessonName: 'Straight Lines & Quadratics',
+      brief: straightLinesBrief,
       buttonLabel: answered ? 'Next' : 'Lock the order',
       onButton: answered
           ? () {
@@ -184,20 +193,26 @@ class _GradeSenseGameState extends State<GradeSenseGame> {
               _session.next();
             }
           : (!_complete
-              ? null
-              : () => _session.submit(
+                ? null
+                : () => _session.submit(
                     ok: _listEquals(_order, _round.answer),
                     context: context,
                   )),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('STEEPEST FIRST', style: AppTheme.overline(color: AppColors.ember)),
+          Text(
+            'STEEPEST FIRST',
+            style: AppTheme.overline(color: AppColors.ember),
+          ),
           const SizedBox(height: 8),
           Text(
             _round.prompt,
             style: const TextStyle(
-                fontSize: 15, height: 1.55, color: AppColors.charcoal),
+              fontSize: 15,
+              height: 1.55,
+              color: AppColors.charcoal,
+            ),
           ),
           const SizedBox(height: 6),
           Text(
@@ -310,7 +325,9 @@ class _StretchCard extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-                color: border, width: border == AppColors.line ? 1 : 2),
+              color: border,
+              width: border == AppColors.line ? 1 : 2,
+            ),
           ),
           child: Row(
             children: [
@@ -331,8 +348,10 @@ class _StretchCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(stretch.name,
-                        style: AppTheme.heading(size: 16, height: 1.2)),
+                    Text(
+                      stretch.name,
+                      style: AppTheme.heading(size: 16, height: 1.2),
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       'rise ${_trim(stretch.rise)} ft   ·   run ${stretch.runLabel}',
@@ -368,13 +387,20 @@ class _RankBadge extends StatelessWidget {
         shape: BoxShape.circle,
         color: value == null ? Colors.transparent : color,
         border: Border.all(
-            color: value == null ? AppColors.line : color, width: 1.5),
+          color: value == null ? AppColors.line : color,
+          width: 1.5,
+        ),
       ),
       child: value == null
           ? null
-          : Text('$value',
+          : Text(
+              '$value',
               style: AppTheme.mono(
-                  size: 15, weight: FontWeight.w700, color: Colors.white)),
+                size: 15,
+                weight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
     );
   }
 }
@@ -395,7 +421,10 @@ class _RampPainter extends CustomPainter {
     final base = size.height - 8;
     canvas.drawLine(Offset(2, base), Offset(size.width - 2, base), ground);
     canvas.drawLine(
-        Offset(4, base - 2), Offset(size.width - 4, base - size.height * 0.6), road);
+      Offset(4, base - 2),
+      Offset(size.width - 4, base - size.height * 0.6),
+      road,
+    );
     // The rise, marked at the far end.
     canvas.drawLine(
       Offset(size.width - 4, base),

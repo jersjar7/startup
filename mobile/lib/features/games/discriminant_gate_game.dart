@@ -5,6 +5,7 @@ import '../../core/theme/app_theme.dart';
 import '../shared/widgets/engineering_grid.dart';
 import '../shared/widgets/math_text.dart';
 import 'board.dart';
+import 'lesson_brief.dart';
 
 /// Discriminant Gate — the second item for `straight-lines-quadratics`.
 ///
@@ -67,7 +68,8 @@ class Gate {
 const _rounds = <Gate>[
   Gate(
     ask: GateAsk.countFromCurve,
-    context: 'A vertical curve is modelled by a quadratic. Where does it meet '
+    context:
+        'A vertical curve is modeled by a quadratic. Where does it meet '
         'the road below?',
     curves: [Para(opensUp: true, vertexY: -1.1)],
     answer: 2,
@@ -157,7 +159,8 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
       return BoardDone(
         session: _session,
         title: 'Discriminant Gate',
-        closing: 'Below the axis on both sides means two roots, touching means '
+        closing:
+            'Below the axis on both sides means two roots, touching means '
             'one, clear of it means none. On the exam that lets you throw out '
             'answers before you solve anything. Finding the roots themselves '
             'is still desk work.',
@@ -168,6 +171,8 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
 
     return BoardShell(
       session: _session,
+      lessonName: 'Straight Lines & Quadratics',
+      brief: straightLinesBrief,
       buttonLabel: answered ? 'Next' : 'Lock it in',
       onButton: answered
           ? () {
@@ -175,8 +180,8 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
               _session.next();
             }
           : (_choice == null
-              ? null
-              : () => _session.submit(
+                ? null
+                : () => _session.submit(
                     ok: _choice == _gate.answer,
                     context: context,
                   )),
@@ -193,14 +198,20 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
           Text(
             _gate.ask == GateAsk.countFromCurve
                 ? (_gate.context ??
-                    'Read the curve. Where does it meet the axis?')
+                      'Read the curve. Where does it meet the axis?')
                 : 'This quadratic has the discriminant below. Tap the curve '
-                    'that matches it.',
+                      'that matches it.',
             style: const TextStyle(
-                fontSize: 15, height: 1.55, color: AppColors.charcoal),
+              fontSize: 15,
+              height: 1.55,
+              color: AppColors.charcoal,
+            ),
           ),
           const SizedBox(height: 16),
-          if (_gate.ask == GateAsk.countFromCurve) ..._countBody() else ..._pickBody(),
+          if (_gate.ask == GateAsk.countFromCurve)
+            ..._countBody()
+          else
+            ..._pickBody(),
           if (answered) ...[
             const SizedBox(height: 16),
             BoardFeedback(
@@ -257,9 +268,7 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
                   height: 116,
                   selected: _choice == i,
                   correct: _session.answered && i == _gate.answer,
-                  wrong: _session.answered &&
-                      _choice == i &&
-                      i != _gate.answer,
+                  wrong: _session.answered && _choice == i && i != _gate.answer,
                 ),
               ),
             ),
@@ -275,21 +284,26 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
     if (_gate.ask == GateAsk.countFromCurve) {
       final n = _gate.answer;
       final truth = switch (n) {
-        2 => 'The curve passes through the axis twice, so b² − 4ac is '
-            'positive and there are two real roots.',
-        1 => 'The curve only touches the axis, so b² − 4ac is exactly zero '
-            'and both roots are the same number.',
-        _ => 'The curve never reaches the axis, so b² − 4ac is negative and '
-            'there is no real root at all.',
+        2 =>
+          'The curve passes through the axis twice, so b² − 4ac is '
+              'positive and there are two real roots.',
+        1 =>
+          'The curve only touches the axis, so b² − 4ac is exactly zero '
+              'and both roots are the same number.',
+        _ =>
+          'The curve never reaches the axis, so b² − 4ac is negative and '
+              'there is no real root at all.',
       };
-      return ok ? truth : 'Look at where the curve sits against the axis. $truth';
+      return ok
+          ? truth
+          : 'Look at where the curve sits against the axis. $truth';
     }
     final target = _gate.curves[_gate.answer];
     final sign = target.roots == 2
         ? 'A positive discriminant cuts the axis twice.'
         : target.roots == 1
-            ? 'A discriminant of zero touches the axis once.'
-            : 'A negative discriminant never reaches the axis.';
+        ? 'A discriminant of zero touches the axis once.'
+        : 'A negative discriminant never reaches the axis.';
     return ok ? sign : 'Not that one. $sign';
   }
 }
@@ -340,7 +354,9 @@ class _OptionButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
-                color: border, width: border == AppColors.line ? 1 : 1.5),
+              color: border,
+              width: border == AppColors.line ? 1 : 1.5,
+            ),
           ),
           child: Text(label, style: AppTheme.heading(size: 16, height: 1.2)),
         ),
@@ -369,16 +385,18 @@ class _CurveCard extends StatelessWidget {
     final border = correct
         ? AppColors.forest
         : wrong
-            ? AppColors.error
-            : selected
-                ? AppColors.ember
-                : AppColors.line;
+        ? AppColors.error
+        : selected
+        ? AppColors.ember
+        : AppColors.line;
 
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-            color: border, width: border == AppColors.line ? 1 : 2.5),
+          color: border,
+          width: border == AppColors.line ? 1 : 2.5,
+        ),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(14),
@@ -389,13 +407,13 @@ class _CurveCard extends StatelessWidget {
             minor: 16,
             major: 80,
             child: CustomPaint(
-              painter: _ParaPainter(
+              painter: ParaPainter(
                 para: para,
                 color: correct
                     ? AppColors.forest
                     : wrong
-                        ? AppColors.error
-                        : AppColors.charcoal,
+                    ? AppColors.error
+                    : AppColors.charcoal,
               ),
             ),
           ),
@@ -405,8 +423,9 @@ class _CurveCard extends StatelessWidget {
   }
 }
 
-class _ParaPainter extends CustomPainter {
-  _ParaPainter({required this.para, required this.color});
+/// Shared with the lesson brief, which draws the same three curves.
+class ParaPainter extends CustomPainter {
+  ParaPainter({required this.para, required this.color});
 
   final Para para;
   final Color color;
@@ -450,6 +469,5 @@ class _ParaPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_ParaPainter old) =>
-      old.para != para || old.color != color;
+  bool shouldRepaint(ParaPainter old) => old.para != para || old.color != color;
 }

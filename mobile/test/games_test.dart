@@ -84,6 +84,16 @@ void main() {
     });
   });
 
+  test('every round has one and only one correct order', () {
+    // Round 6 shipped with two stretches at exactly 2 percent, which made the
+    // answer arbitrary and the game unwinnable by reasoning.
+    for (var i = 0; i < gradeRounds.length; i++) {
+      final grades = gradeRounds[i].stretches.map((s) => s.grade).toList();
+      expect(grades.toSet().length, grades.length,
+          reason: 'round ${i + 1} has two stretches at the same grade');
+    }
+  });
+
   group('Discriminant Gate', () {
     testWidgets('a curve through the axis twice has two real roots',
         (tester) async {

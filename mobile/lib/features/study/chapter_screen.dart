@@ -325,10 +325,10 @@ class _LessonRow extends StatelessWidget {
 ///
 /// Everything drawn is forest green. The capsule carries the COUNT in its fill
 /// height, so hue has no work left to do. See LessonProgress.color for why the
-/// three-colour ladder went away and why green specifically.
+/// three-color ladder went away and why green specifically.
 ///
 /// Replaced a single dot, which could only ever say "some progress" and left the
-/// amount entirely to colour. This reads without relying on colour vision at all
+/// amount entirely to color. This reads without relying on color vision at all
 /// and answers "how far in am I" at a glance rather than after a long-press.
 ///
 /// **No internal dividers** (owner's call, after seeing all three options side by
@@ -344,7 +344,7 @@ class _LessonRow extends StatelessWidget {
 /// `answered`, never WHICH problems, so two thirds full does not mean "questions
 /// 1 and 2". That is why the fill is always contiguous from the bottom.
 ///
-/// Long-press explains it. A colour alone is not self-explanatory, and the
+/// Long-press explains it. A color alone is not self-explanatory, and the
 /// website's hover tooltip has no equivalent on a touch screen — without this
 /// the markers would be a private language. Tooltip also supplies the semantics
 /// label, so screen readers read the same sentence.
@@ -374,11 +374,11 @@ class _LessonMarker extends StatelessWidget {
       );
     }
 
-    final colour = p.color;
+    final color = p.color;
     // Untouched: hold the space so lesson names stay aligned, draw nothing.
     // Must match the drawn capsule's footprint exactly, or untouched rows sit
     // left of their neighbours and the column wobbles.
-    if (colour == null) {
+    if (color == null) {
       return const SizedBox(width: _w + _gap, height: _h);
     }
 
@@ -392,7 +392,7 @@ class _LessonMarker extends StatelessWidget {
       height: _h,
       margin: box,
       decoration: BoxDecoration(
-        border: Border.all(color: colour, width: 1),
+        border: Border.all(color: color, width: 1),
         borderRadius: BorderRadius.circular(_w / 2),
       ),
       // Clip so the fill follows the rounded ends instead of squaring them off.
@@ -403,7 +403,7 @@ class _LessonMarker extends StatelessWidget {
           child: Container(
             width: double.infinity,
             height: _inner * fraction,
-            color: colour,
+            color: color,
           ),
         ),
       ),

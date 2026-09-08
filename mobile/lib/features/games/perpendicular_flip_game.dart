@@ -6,6 +6,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/engineering_grid.dart';
 import 'board.dart';
+import 'lesson_brief.dart';
 
 /// Perpendicular Flip — the first game for lesson `straight-lines-quadratics`
 /// (Mathematics -> Analytic Geometry).
@@ -199,6 +200,8 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
 
     return BoardShell(
       session: _session,
+      lessonName: 'Straight Lines & Quadratics',
+      brief: straightLinesBrief,
       buttonLabel: answered ? 'Next' : 'Confirm this line',
       onButton: answered
           ? () {

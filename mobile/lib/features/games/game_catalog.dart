@@ -7,6 +7,8 @@
 /// grows one lesson at a time.
 library;
 
+import 'lesson_brief.dart';
+
 class GameDef {
   const GameDef({
     required this.id,
@@ -32,12 +34,17 @@ class LessonNode {
     required this.name,
     required this.subtopicId,
     this.games = const [],
+    this.brief = const [],
   });
 
   final String id;
   final String name;
   final String subtopicId;
   final List<GameDef> games;
+
+  /// The idea behind the lesson: definitions and pictures, readable before
+  /// playing and from inside a sitting.
+  final List<BriefSection> brief;
 
   List<GameDef> get builtGames =>
       games.where((g) => g.built).toList(growable: false);
@@ -92,6 +99,7 @@ const mathematicsMap = ChapterMap(
       id: 'straight-lines-quadratics',
       name: 'Straight Lines & Quadratics',
       subtopicId: 'analytic-geometry',
+      brief: straightLinesBrief,
       games: [
         GameDef(
           id: 'perpendicular-flip',
@@ -193,8 +201,6 @@ const mathematicsMap = ChapterMap(
 
 /// Every chapter map the phone has. Chapters absent from here have no games
 /// authored yet and say so rather than falling back to the old lesson list.
-const chapterMaps = <String, ChapterMap>{
-  'mathematics': mathematicsMap,
-};
+const chapterMaps = <String, ChapterMap>{'mathematics': mathematicsMap};
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

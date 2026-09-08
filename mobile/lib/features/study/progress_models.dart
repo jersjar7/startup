@@ -7,11 +7,11 @@ import '../../core/theme/app_colors.dart';
 /// no red, "correct" means EVER got it right, markers only improve, and
 /// fractions counted in EXERCISES rather than whole lessons.
 ///
-/// The one place mobile now differs is the palette. The web's three-colour
+/// The one place mobile now differs is the palette. The web's three-color
 /// ladder (ember, sunbeam, forest) was a way to encode HOW MANY in a single dot,
 /// which was the only channel a dot had. The capsule encodes that in its fill
 /// height, so the ladder became a second encoding of the same number and was
-/// dropped. See the colour comment below.
+/// dropped. See the color comment below.
 
 /// One lesson's state. `state` is the server's word, kept verbatim so the two
 /// clients cannot drift into disagreeing about what "complete" means.
@@ -35,16 +35,16 @@ class LessonProgress {
         state: (j['state'] ?? 'untouched') as String,
       );
 
-  /// The capsule's outline colour, and the fill colour for however many segments
+  /// The capsule's outline color, and the fill color for however many segments
   /// are filled. null means "draw nothing" — untouched reserves its space but
   /// shows no marker.
   ///
-  /// ONE COLOUR for every drawn state, and it is forest — the same green the
+  /// ONE COLOR for every drawn state, and it is forest — the same green the
   /// exercise screen paints a CORRECT answer.
   ///
   /// That matching is the point. Under the old ladder a lesson with 1 of 3 right
-  /// was drawn in ember, which is the colour this app uses for a WRONG answer one
-  /// screen deeper. It reported a right answer in the wrong-answer colour. Green
+  /// was drawn in ember, which is the color this app uses for a WRONG answer one
+  /// screen deeper. It reported a right answer in the wrong-answer color. Green
   /// segments now mean exactly what green means everywhere else here: correct
   /// answers, accumulating.
   ///

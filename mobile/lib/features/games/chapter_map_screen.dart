@@ -8,6 +8,7 @@ import '../../core/theme/app_theme.dart';
 import '../shared/widgets/mastery_ring.dart';
 import 'game_catalog.dart';
 import 'game_progress.dart';
+import 'lesson_brief.dart';
 
 /// The chapter path. A chapter is the world, a lesson is a node on the path,
 /// and a node opens that lesson's games.
@@ -174,15 +175,15 @@ class _Path extends StatelessWidget {
   static double nodeSizeFor(double width) => (width * 0.21).clamp(62.0, 82.0);
   static double _ampFor(double width) => math.min(width * 0.24, 98.0);
 
-  /// Distance from a slot's top to the centre of its node face.
-  static double faceCentreFor(double width) =>
+  /// Distance from a slot's top to the center of its node face.
+  static double faceCenterFor(double width) =>
       _pillSpace + nodeSizeFor(width) / 2;
 
   @override
   Widget build(BuildContext context) {
     final slots = <_Slot>[];
     final nodeSize = nodeSizeFor(width);
-    final faceCentre = faceCentreFor(width);
+    final faceCenter = faceCenterFor(width);
     final amp = _ampFor(width);
     var y = 8.0;
     var n = 0;
@@ -221,7 +222,7 @@ class _Path extends StatelessWidget {
           Positioned.fill(
             child: CustomPaint(
               painter: _TrailPainter(
-                points: [for (final s in nodes) Offset(s.x, s.y + faceCentre)],
+                points: [for (final s in nodes) Offset(s.x, s.y + faceCenter)],
                 nodeRadius: nodeSize / 2,
               ),
             ),
@@ -237,7 +238,7 @@ class _Path extends StatelessWidget {
               if (identical(slot.lesson, startHere))
                 Positioned(
                   top: slot.y,
-                  // Centred on the node; the pill itself is narrower than this
+                  // Centered on the node; the pill itself is narrower than this
                   // box, so a negative left near the edge stays on screen.
                   left: slot.x - 100,
                   width: 200,
@@ -281,7 +282,7 @@ Widget _label(_Slot slot, double width, double nodeSize) {
   );
 
   // Line the chip up with the middle of the node face.
-  final top = slot.y + _Path.faceCentreFor(width) - 26;
+  final top = slot.y + _Path.faceCenterFor(width) - 26;
 
   return onRight
       ? Positioned(
@@ -404,12 +405,19 @@ class _LessonNodeViewState extends State<_LessonNodeView> {
   @override
   Widget build(BuildContext context) {
     final progress = GameProgress.instance;
-    final state = progress.stateOf(widget.lesson);
-    final skin = _NodeSkin.of(state);
+    var state = progress.stateOf(widget.lesson);
     final size = widget.size;
 
-    final done = widget.lesson.playable ? progress.clearedIn(widget.lesson) : 0;
     final total = widget.lesson.builtGames.length;
+
+    final target = progress.fractionOf(widget.lesson);
+    final from = progress.shownFraction(widget.lesson.id);
+
+    // Hold the ring's face until it has visibly filled, then let it go green.
+    if (state == LessonState.cleared && from < 1) {
+      state = LessonState.inProgress;
+    }
+    final skin = _NodeSkin.of(state);
 
     return Column(
       children: [
@@ -454,10 +462,21 @@ class _LessonNodeViewState extends State<_LessonNodeView> {
                   duration: const Duration(milliseconds: 90),
                   curve: Curves.easeOut,
                   top: _pressed ? _lipShow - 1 : 0,
-                  child: _NodeFace(
-                    size: size,
-                    skin: skin,
-                    progress: total > 1 ? done / total : 0,
+                  child: TweenAnimationBuilder<double>(
+                    tween: Tween(begin: from, end: target),
+                    duration: Duration(
+                      milliseconds: (target - from).abs() < 0.001 ? 0 : 900,
+                    ),
+                    curve: Curves.easeOutCubic,
+                    onEnd: () {
+                      GameProgress.instance.markShown(widget.lesson.id, target);
+                      if (mounted) setState(() {});
+                    },
+                    builder: (context, value, _) => _NodeFace(
+                      size: size,
+                      skin: skin,
+                      progress: total > 0 ? value : 0,
+                    ),
                   ),
                 ),
               ],
@@ -673,6 +692,10 @@ class _LessonSheet extends StatelessWidget {
             Text('LESSON', style: AppTheme.overline()),
             const SizedBox(height: 6),
             Text(lesson.name, style: AppTheme.heading(size: 23)),
+            if (lesson.brief.isNotEmpty) ...[
+              const SizedBox(height: 14),
+              _BriefCard(lesson: lesson),
+            ],
             const SizedBox(height: 16),
             if (lesson.games.isEmpty)
               Container(
@@ -699,6 +722,64 @@ class _LessonSheet extends StatelessWidget {
                 const SizedBox(height: 10),
               ],
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// "Read this first": the definitions and pictures behind the lesson.
+class _BriefCard extends StatelessWidget {
+  const _BriefCard({required this.lesson});
+
+  final LessonNode lesson;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.emberBg,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () => showLessonBrief(
+          context,
+          lessonName: lesson.name,
+          sections: lesson.brief,
+        ),
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.ember, width: 1.2),
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.menu_book_rounded,
+                color: AppColors.ember,
+                size: 22,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('The idea', style: AppTheme.heading(size: 15)),
+                    const SizedBox(height: 2),
+                    const Text(
+                      'What these terms mean, with pictures. Read it first, or '
+                      'come back to it any time.',
+                      style: TextStyle(
+                        fontSize: 12.5,
+                        height: 1.4,
+                        color: AppColors.ink2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -787,7 +868,7 @@ class _GameRow extends StatelessWidget {
   }
 }
 
-/// The trail between nodes: a soft rounded track with a dashed centre line, so
+/// The trail between nodes: a soft rounded track with a dashed center line, so
 /// it reads as a path rather than a hairline. Curved, because a straight
 /// diagonal between two circles looks like a mistake.
 class _TrailPainter extends CustomPainter {
@@ -804,7 +885,7 @@ class _TrailPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
 
-    final centreLine = Paint()
+    final centerLine = Paint()
       ..color = const Color(0xFFCBBBA0)
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round
@@ -830,7 +911,7 @@ class _TrailPainter extends CustomPainter {
         ..quadraticBezierTo(control.dx, control.dy, to.dx, to.dy);
 
       canvas.drawPath(path, track);
-      _dashed(canvas, path, centreLine);
+      _dashed(canvas, path, centerLine);
     }
   }
 
