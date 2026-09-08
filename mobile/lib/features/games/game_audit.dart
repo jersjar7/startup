@@ -1,13 +1,16 @@
 import 'acute_or_obtuse_game.dart';
+import 'build_the_identity_game.dart';
 import 'discriminant_gate_game.dart';
 import 'grade_sense_game.dart';
 import 'one_log_game.dart';
 import 'order_the_moves_game.dart';
 import 'perpendicular_flip_game.dart';
+import 'quadrant_signs_game.dart';
 import 'resolve_it_game.dart';
 import 'rule_or_trap_game.dart';
 import 'set_it_up_game.dart';
 import 'tap_the_side_game.dart';
+import 'walk_the_circle_game.dart';
 import 'which_law_game.dart';
 import 'which_ratio_game.dart';
 
@@ -171,6 +174,45 @@ List<GameAudit> auditAllGames() => [
     rounds: [
       for (final s in setups)
         RoundAudit(source: s.source, options: s.options, answer: s.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'walk-the-circle',
+    lessonId: 'unit-circle-trig-identities',
+    problemPrefix: 'math-uci-',
+    rounds: [
+      for (final r in circleRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final c in r.choices) '$c degrees'],
+          answer: r.choices.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'quadrant-signs',
+    lessonId: 'unit-circle-trig-identities',
+    problemPrefix: 'math-uci-',
+    rounds: [
+      for (final r in quadrantRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['I', 'II', 'III', 'IV'],
+          answer: r.answer - 1,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'build-the-identity',
+    lessonId: 'unit-circle-trig-identities',
+    problemPrefix: 'math-uci-',
+    rounds: [
+      for (final i in identities)
+        RoundAudit(
+          source: i.source,
+          options: i.chips,
+          answer: i.chips.indexOf(i.slots.first),
+        ),
     ],
   ),
   GameAudit(

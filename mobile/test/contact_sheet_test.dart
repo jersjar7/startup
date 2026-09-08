@@ -10,16 +10,19 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/games/acute_or_obtuse_game.dart';
+import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/grade_sense_game.dart';
 import 'package:mobile/features/games/one_log_game.dart';
 import 'package:mobile/features/games/order_the_moves_game.dart';
 import 'package:mobile/features/games/perpendicular_flip_game.dart';
+import 'package:mobile/features/games/quadrant_signs_game.dart';
 import 'package:mobile/features/games/resolve_it_game.dart';
 import 'package:mobile/features/games/rule_or_trap_game.dart';
 import 'package:mobile/features/games/set_it_up_game.dart';
 import 'package:mobile/features/games/tap_the_side_game.dart';
+import 'package:mobile/features/games/walk_the_circle_game.dart';
 import 'package:mobile/features/games/which_law_game.dart';
 import 'package:mobile/features/games/which_ratio_game.dart';
 
@@ -143,6 +146,21 @@ void main() {
       lesson: '04-law-of-sines',
       build: AcuteOrObtuseGame.new,
       rounds: verdicts.length,
+    ),
+    'walk-the-circle': (
+      lesson: '05-unit-circle',
+      build: WalkTheCircleGame.new,
+      rounds: circleRounds.length,
+    ),
+    'quadrant-signs': (
+      lesson: '05-unit-circle',
+      build: QuadrantSignsGame.new,
+      rounds: quadrantRounds.length,
+    ),
+    'build-the-identity': (
+      lesson: '05-unit-circle',
+      build: BuildTheIdentityGame.new,
+      rounds: identities.length,
     ),
   };
 

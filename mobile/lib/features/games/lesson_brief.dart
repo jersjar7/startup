@@ -9,6 +9,7 @@ import '../shared/widgets/math_text.dart';
 import 'discriminant_gate_game.dart' show Para, ParaPainter;
 import 'oblique_figures.dart';
 import 'trig_figures.dart';
+import 'unit_circle_figures.dart';
 
 /// The idea behind a lesson, in a few lines and a picture, reachable both from
 /// the lesson node and from inside a sitting. It is a reference, not a
@@ -49,6 +50,9 @@ enum BriefFigure {
   ratios,
   sideNames,
   components,
+  unitCircle,
+  quadrants,
+  identities,
   lawChoice,
   lawForms,
   cosineSign,
@@ -261,6 +265,65 @@ const obtuseBrief = BriefSection(
     ('And the test that follows', r'c^2 > a^2 + b^2 \iff C > 90^\circ'),
   ],
   figure: BriefFigure.cosineSign,
+  handbook: 'Handbook p. 23',
+);
+
+// ── Unit Circle & Trig Identities ───────────────────────────────────────────
+
+const unitCircleBrief = BriefSection(
+  title: 'Reading the unit circle',
+  body:
+      'A circle of radius one, with an angle swept from the positive x-axis. '
+      'Wherever that angle lands, the point is (cos, sin): cosine is how far '
+      'ACROSS and sine is how far UP. That is the whole definition, and it is '
+      'why swapping the two swaps 30 degrees for 60. Learn the first quadrant '
+      'and the rest is a mirror.',
+  formulas: [
+    ('The point at any angle', r'(\cos\theta,\; \sin\theta)'),
+    (
+      'The three worth knowing cold',
+      r'30^\circ:\left(\tfrac{\sqrt{3}}{2},\tfrac{1}{2}\right)\quad '
+          r'45^\circ:\left(\tfrac{\sqrt{2}}{2},\tfrac{\sqrt{2}}{2}\right)\quad '
+          r'60^\circ:\left(\tfrac{1}{2},\tfrac{\sqrt{3}}{2}\right)',
+    ),
+  ],
+  figure: BriefFigure.unitCircle,
+  handbook: 'Handbook p. 23',
+);
+
+const quadrantBrief = BriefSection(
+  title: 'Signs by quadrant',
+  body:
+      'The Pythagorean identity can only ever give you the size of a value, '
+      'because squaring throws the sign away. The quadrant puts it back. '
+      'Across is positive to the right, up is positive above, so cosine is '
+      'positive in quadrants one and four and sine is positive in one and '
+      'two. Solving for a value and stopping before the quadrant is the '
+      'mistake this exists for.',
+  formulas: [
+    ('It gives the size', r'\cos\theta = \pm\sqrt{1 - \sin^2\theta}'),
+    (
+      'The quadrant gives the sign',
+      r'\text{Q1}: ++ \quad \text{Q2}: -+ \quad \text{Q3}: -- \quad \text{Q4}: +-',
+    ),
+  ],
+  figure: BriefFigure.quadrants,
+  handbook: 'Handbook p. 23',
+);
+
+const identitiesBrief = BriefSection(
+  title: 'The identities worth knowing',
+  body:
+      'Know the Pythagorean identity cold and recognise the double angles '
+      'when they appear. Doubling an angle is NOT doubling its sine: sin 2θ '
+      'needs both functions and a factor of two out front, and cos 2θ is a '
+      'difference of squares in that order.',
+  formulas: [
+    ('Pythagorean', r'\sin^2\theta + \cos^2\theta = 1'),
+    ('Double angle, sine', r'\sin 2\theta = 2\sin\theta\cos\theta'),
+    ('Double angle, cosine', r'\cos 2\theta = \cos^2\theta - \sin^2\theta'),
+  ],
+  figure: BriefFigure.identities,
   handbook: 'Handbook p. 23',
 );
 
@@ -556,6 +619,32 @@ class BriefFigureView extends StatelessWidget {
               r'c^2 > a^2 + b^2 \;\Rightarrow\; \cos C < 0 \;\Rightarrow\; \text{obtuse}',
               true,
             ),
+          ],
+        );
+      case BriefFigure.unitCircle:
+        return const _Panel(
+          height: 230,
+          caption: 'Cosine is the across, sine is the up',
+          child: CustomPaint(
+            painter: UnitCirclePainter(
+              choices: [0, 30, 45, 60, 90, 120, 135, 150, 180, 225, 270, 315],
+              showRayTo: 60,
+            ),
+          ),
+        );
+      case BriefFigure.quadrants:
+        return const _Panel(
+          height: 230,
+          caption: 'Across positive to the right, up positive above',
+          child: CustomPaint(painter: UnitCirclePainter(quadrantLabels: true)),
+        );
+      case BriefFigure.identities:
+        return const _RuleList(
+          rules: [
+            (r'\sin^2\theta + \cos^2\theta = 1', true),
+            (r'\sin 2\theta = 2\sin\theta\cos\theta', true),
+            (r'\sin 2\theta = 2\sin\theta', false),
+            (r'\cos 2\theta = \cos^2\theta - \sin^2\theta', true),
           ],
         );
       case BriefFigure.logRules:

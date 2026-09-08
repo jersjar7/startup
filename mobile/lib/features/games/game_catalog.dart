@@ -228,6 +228,32 @@ const mathematicsMap = ChapterMap(
       id: 'unit-circle-trig-identities',
       name: 'Unit Circle & Trig Identities',
       subtopicId: 'analytic-geometry',
+      games: [
+        GameDef(
+          id: 'walk-the-circle',
+          rounds: 8,
+          name: 'Walk the Circle',
+          blurb: 'Point at the angle, or at the coordinates it belongs to.',
+          built: true,
+          brief: unitCircleBrief,
+        ),
+        GameDef(
+          id: 'quadrant-signs',
+          rounds: 6,
+          name: 'Quadrant Signs',
+          blurb: 'The identity gives the size. Tap where the sign comes from.',
+          built: true,
+          brief: quadrantBrief,
+        ),
+        GameDef(
+          id: 'build-the-identity',
+          rounds: 6,
+          name: 'Build the Identity',
+          blurb: 'Assemble it from parts. No list to recognise it in.',
+          built: true,
+          brief: identitiesBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'circles-conics',
