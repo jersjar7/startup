@@ -25,7 +25,6 @@ class BoardSession extends ChangeNotifier {
     required this.total,
     required this.sourceProblemIdOf,
   }) {
-    GameProgress.registerRounds(gameId, total);
     _restore();
   }
 

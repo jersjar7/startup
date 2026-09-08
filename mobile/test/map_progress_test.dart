@@ -17,7 +17,6 @@ void main() {
     for (final id in ['perpendicular-flip', 'discriminant-gate', 'grade-sense']) {
       GameProgress.instance.reset(id);
     }
-    GameProgress.registerRounds('perpendicular-flip', 8);
   });
 
   LessonNodeWidget nodeFor(WidgetTester tester, String lessonId) => tester

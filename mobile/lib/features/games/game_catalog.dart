@@ -15,6 +15,7 @@ class GameDef {
     required this.name,
     required this.blurb,
     this.built = false,
+    this.rounds = 0,
     this.brief,
   });
 
@@ -27,6 +28,11 @@ class GameDef {
   /// False until the game is actually playable. The map says so out loud
   /// rather than pretending a node is there.
   final bool built;
+
+  /// How many rounds the board has. Declared here so the MAP knows what
+  /// "finished" means without opening the item: before this was declared, a
+  /// fresh launch showed cleared work as untouched until you tapped in.
+  final int rounds;
 
   /// The one concept this item leans on, reachable from inside it.
   final BriefSection? brief;
@@ -101,6 +107,7 @@ const mathematicsMap = ChapterMap(
       games: [
         GameDef(
           id: 'perpendicular-flip',
+          rounds: 8,
           name: 'Perpendicular Flip',
           blurb: 'Build the second line with two moves and watch it swing.',
           built: true,
@@ -108,6 +115,7 @@ const mathematicsMap = ChapterMap(
         ),
         GameDef(
           id: 'discriminant-gate',
+          rounds: 8,
           name: 'Discriminant Gate',
           blurb: 'Two roots, one root, or none. Judge the sign, never solve.',
           built: true,
@@ -115,6 +123,7 @@ const mathematicsMap = ChapterMap(
         ),
         GameDef(
           id: 'grade-sense',
+          rounds: 6,
           name: 'Grade Sense',
           blurb: 'Rank road profiles by grade. The station trap is in there.',
           built: true,
@@ -129,6 +138,7 @@ const mathematicsMap = ChapterMap(
       games: [
         GameDef(
           id: 'rule-or-trap',
+          rounds: 10,
           name: 'Rule or Trap',
           blurb: 'Legal move or no such rule. The sum inside a log is in here.',
           built: true,
@@ -136,6 +146,7 @@ const mathematicsMap = ChapterMap(
         ),
         GameDef(
           id: 'order-the-moves',
+          rounds: 4,
           name: 'Order the Moves',
           blurb: 'Put a real solve in order. You never carry any of it out.',
           built: true,
@@ -143,6 +154,7 @@ const mathematicsMap = ChapterMap(
         ),
         GameDef(
           id: 'one-log',
+          rounds: 6,
           name: 'One Log',
           blurb: 'Collapse the terms into a single log, values untouched.',
           built: true,

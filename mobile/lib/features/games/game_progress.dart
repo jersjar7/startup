@@ -65,10 +65,11 @@ class GameProgress extends ChangeNotifier {
 
   int firstTryCount(String gameId) => _firstTry[gameId] ?? 0;
 
-  /// True once every round of [gameId] has been cleared.
+  /// True once every round of [gameId] has been cleared. The totals come from
+  /// the catalog, so this is right from the first frame of a cold launch.
   bool isCleared(String gameId) {
-    final total = _totalRounds[gameId];
-    if (total == null) return false;
+    final total = roundsIn(gameId);
+    if (total == 0) return false;
     return roundsCleared(gameId).length >= total;
   }
 
@@ -92,11 +93,14 @@ class GameProgress extends ChangeNotifier {
     _save();
   }
 
-  /// How many rounds each board has, registered by the game screens so the map
-  /// can tell "half done" from "done" without knowing what a round is.
-  static final Map<String, int> _totalRounds = {};
-  static void registerRounds(String gameId, int total) =>
-      _totalRounds[gameId] = total;
+  /// How many rounds each board has, read from the catalog once.
+  static final Map<String, int> _roundCounts = {
+    for (final chapter in chapterMaps.values)
+      for (final lesson in chapter.lessons)
+        for (final game in lesson.games) game.id: game.rounds,
+  };
+
+  static int roundsIn(String gameId) => _roundCounts[gameId] ?? 0;
 
   /// How far through a lesson's items the student is, 0 to 1.
   double fractionOf(LessonNode lesson) {

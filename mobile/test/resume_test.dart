@@ -19,7 +19,6 @@ void main() {
   });
 
   test('a board is not finished until every round is', () {
-    GameProgress.registerRounds('grade-sense', 6);
     for (var i = 0; i < 5; i++) {
       GameProgress.instance.markRoundCleared('grade-sense', i, firstTry: true);
     }
@@ -31,7 +30,6 @@ void main() {
   });
 
   test('the same round cleared twice counts once', () {
-    GameProgress.registerRounds('discriminant-gate', 8);
     GameProgress.instance.markRoundCleared('discriminant-gate', 0, firstTry: true);
     GameProgress.instance.markRoundCleared('discriminant-gate', 0, firstTry: true);
     expect(GameProgress.instance.roundsCleared('discriminant-gate').length, 1);
@@ -40,7 +38,6 @@ void main() {
 
   test('a lesson reads as in progress while any of its work is unfinished', () {
     final lesson = mathematicsMap.lessons.first;
-    GameProgress.registerRounds('perpendicular-flip', 8);
     expect(GameProgress.instance.stateOf(lesson), LessonState.notStarted);
 
     GameProgress.instance
@@ -49,7 +46,6 @@ void main() {
   });
 
   testWidgets('reopening a half-finished board resumes it', (tester) async {
-    GameProgress.registerRounds('perpendicular-flip', 8);
     for (var i = 0; i < 3; i++) {
       GameProgress.instance
           .markRoundCleared('perpendicular-flip', i, firstTry: true);
@@ -66,7 +62,6 @@ void main() {
   });
 
   testWidgets('a finished board opens on its done screen', (tester) async {
-    GameProgress.registerRounds('perpendicular-flip', 8);
     for (var i = 0; i < 8; i++) {
       GameProgress.instance
           .markRoundCleared('perpendicular-flip', i, firstTry: false);

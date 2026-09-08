@@ -9,6 +9,7 @@ import '../shared/widgets/mastery_ring.dart';
 import 'game_catalog.dart';
 import 'game_progress.dart';
 import 'lesson_node.dart';
+import 'road_segment.dart';
 
 /// The chapter path. A chapter is the world, a lesson is a node on the path,
 /// and a node opens that lesson's games.
@@ -285,14 +286,21 @@ class _Path extends StatelessWidget {
       height: y,
       child: Stack(
         children: [
-          Positioned.fill(
-            child: CustomPaint(
-              painter: _TrailPainter(
-                points: [for (final s in nodes) Offset(s.x, s.y + faceCenter)],
-                nodeRadius: nodeSize / 2,
-              ),
+          for (var i = 0; i < nodes.length - 1; i++)
+            RoadSegment(
+              key: ValueKey('road-${nodes[i].lesson!.id}'),
+              from: Offset(nodes[i].x, nodes[i].y + faceCenter),
+              to: Offset(nodes[i + 1].x, nodes[i + 1].y + faceCenter),
+              nodeRadius: nodeSize / 2,
+              // The road opens once the lesson behind it is finished, and only
+              // after that node's own ring has filled.
+              travelled:
+                  state[nodes[i].lesson!.id] == NodeState.cleared &&
+                      (shown[nodes[i].lesson!.id] ?? 0) >= 0.999
+                  ? 1
+                  : 0,
+              startDelay: const Duration(milliseconds: 120),
             ),
-          ),
           for (final slot in slots)
             if (slot.isNode) ...[
               Positioned(
@@ -600,71 +608,6 @@ class _GameRow extends StatelessWidget {
       ),
     );
   }
-}
-
-/// The trail between nodes: a soft rounded track with a dashed center line, so
-/// it reads as a path rather than a hairline. Curved, because a straight
-/// diagonal between two circles looks like a mistake.
-class _TrailPainter extends CustomPainter {
-  _TrailPainter({required this.points, required this.nodeRadius});
-
-  final List<Offset> points;
-  final double nodeRadius;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final track = Paint()
-      ..color = const Color(0xFFEADFCD)
-      ..strokeWidth = 12
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
-
-    final centerLine = Paint()
-      ..color = const Color(0xFFCBBBA0)
-      ..strokeWidth = 3
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
-
-    for (var i = 0; i < points.length - 1; i++) {
-      final a = points[i], b = points[i + 1];
-      final gap = (b - a).distance;
-      if (gap == 0) continue;
-      final unit = (b - a) / gap;
-      final from = a + unit * (nodeRadius + 6);
-      final to = b - unit * (nodeRadius + 16);
-
-      // One gentle bend per segment: lean the control point most of the way
-      // toward the next node's column so the trail curves like a road instead
-      // of hooking back on itself.
-      final dx = b.dx - a.dx;
-      final lean = dx.abs() > 4 ? a.dx + dx * 0.8 : a.dx + nodeRadius * 0.55;
-      final control = Offset(lean, from.dy + (to.dy - from.dy) * 0.52);
-
-      final path = Path()
-        ..moveTo(from.dx, from.dy)
-        ..quadraticBezierTo(control.dx, control.dy, to.dx, to.dy);
-
-      canvas.drawPath(path, track);
-      _dashed(canvas, path, centerLine);
-    }
-  }
-
-  void _dashed(Canvas canvas, Path path, Paint paint) {
-    const dash = 10.0, space = 9.0;
-    for (final metric in path.computeMetrics()) {
-      var d = 4.0;
-      while (d < metric.length) {
-        canvas.drawPath(
-          metric.extractPath(d, math.min(d + dash, metric.length)),
-          paint,
-        );
-        d += dash + space;
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_TrailPainter old) => old.points != points;
 }
 
 /// A chapter whose games have not been authored yet. The app says so plainly
