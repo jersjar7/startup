@@ -15,6 +15,9 @@ import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/sign_the_bend_game.dart';
+import 'package:mobile/features/games/slide_to_flat_game.dart';
+import 'package:mobile/features/games/what_was_asked_game.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
 import 'package:mobile/features/games/grade_sense_game.dart';
@@ -263,6 +266,24 @@ void main() {
       // Four worked lines plus three reasons does not fit a phone screen.
       height: 1750,
     ),
+    'slide-to-flat': (
+      lesson: '08-applications',
+      build: SlideToFlatGame.new,
+      rounds: flatRounds.length,
+      height: 1250,
+    ),
+    'sign-the-bend': (
+      lesson: '08-applications',
+      build: SignTheBendGame.new,
+      rounds: bendRounds.length,
+      height: 1250,
+    ),
+    'what-was-asked': (
+      lesson: '08-applications',
+      build: WhatWasAskedGame.new,
+      rounds: askedRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -302,6 +323,11 @@ void main() {
       ('which-rule', whichRuleBrief),
       ('chain-rule', chainRuleBrief),
       ('quotient-order', quotientOrderBrief),
+    ],
+    '08-applications': [
+      ('critical-points', criticalPointBrief),
+      ('concavity', concavityBrief),
+      ('where-or-how-much', askedForBrief),
     ],
   };
 

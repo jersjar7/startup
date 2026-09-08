@@ -59,6 +59,9 @@ enum BriefFigure {
   whichRule,
   chainRule,
   quotientOrder,
+  maxMin,
+  bendFlip,
+  whereOrHowMuch,
   lawChoice,
   lawForms,
   cosineSign,
@@ -444,6 +447,62 @@ const quotientOrderBrief = BriefSection(
   handbook: 'Handbook p. 49',
 );
 
+// ── Applications of Derivatives ─────────────────────────────────────────────
+
+const criticalPointBrief = BriefSection(
+  title: 'Flat first, then which way it bends',
+  body:
+      'A curve is at its highest or lowest where its slope is zero, so the '
+      'first move is always the same: differentiate and set it to zero. That '
+      'alone does not tell you which one you found. The second derivative '
+      'does. Negative means the curve frowns, so you are on a hilltop; '
+      'positive means it smiles, so you are in a valley. A curve can have '
+      'both, and on this exam it often does.',
+  formulas: [
+    ("Maximum", r"f'(a) = 0 \;\text{and}\; f''(a) < 0"),
+    ("Minimum", r"f'(a) = 0 \;\text{and}\; f''(a) > 0"),
+  ],
+  figure: BriefFigure.maxMin,
+  handbook: 'Handbook p. 46',
+);
+
+const concavityBrief = BriefSection(
+  title: 'Smiles, frowns, and the flip',
+  body:
+      'The second derivative is not about the slope, it is about the bend. '
+      'Positive is concave up, a smile; negative is concave down, a frown. An '
+      'inflection point is where the bend changes, and it takes TWO things: '
+      'the second derivative reaches zero AND it comes out the other side '
+      'with the opposite sign. Reaching zero on its own is not enough, and a '
+      'flat spot is not an inflection point.',
+  formulas: [
+    ('Concave up, a smile', r"f''(x) > 0"),
+    ('Concave down, a frown', r"f''(x) < 0"),
+    (
+      'Inflection point',
+      r"f''(a) = 0 \;\text{and}\; f'' \text{ changes sign}",
+    ),
+  ],
+  figure: BriefFigure.bendFlip,
+  handbook: 'Handbook p. 46',
+);
+
+const askedForBrief = BriefSection(
+  title: 'Where it happens, or how much',
+  body:
+      'Setting the derivative to zero gives you a LOCATION. Almost half the '
+      'time the question wants the value there instead, which means putting '
+      'that location back into the original function. Both numbers are on '
+      'your page by then and the exam will offer you both. Read the sentence '
+      'again before you pick one.',
+  formulas: [
+    ('Where it happens', r"f'(a) = 0 \Rightarrow a"),
+    ('How much it is there', r'f(a)'),
+  ],
+  figure: BriefFigure.whereOrHowMuch,
+  handbook: 'Handbook p. 46',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -811,6 +870,31 @@ class BriefFigureView extends StatelessWidget {
             (r'\frac{v\,du - u\,dv}{v^2}', true),
             (r'\frac{u\,dv - v\,du}{v^2}', false),
             (r'\frac{v\,du - u\,dv}{v}', false),
+          ],
+        );
+      case BriefFigure.maxMin:
+        return const _RuleList(
+          rules: [
+            (r"f'(a) = 0 \;\text{and}\; f''(a) < 0 \Rightarrow \text{maximum}", true),
+            (r"f'(a) = 0 \;\text{and}\; f''(a) > 0 \Rightarrow \text{minimum}", true),
+            (r"f'(a) = 0 \Rightarrow \text{maximum}", false),
+          ],
+        );
+      case BriefFigure.bendFlip:
+        return const _RuleList(
+          rules: [
+            (r"f''(x) > 0 \Rightarrow \text{concave up, a smile}", null),
+            (r"f''(x) < 0 \Rightarrow \text{concave down, a frown}", null),
+            (r"f''(a) = 0 \text{ and the sign flips} \Rightarrow \text{inflection}", true),
+            (r"f'(a) = 0 \Rightarrow \text{inflection}", false),
+          ],
+        );
+      case BriefFigure.whereOrHowMuch:
+        return const _RuleList(
+          rules: [
+            (r"f'(x) = -4x + 16 = 0 \;\Rightarrow\; x = 4", null),
+            (r"\text{where the maximum is} \;\Rightarrow\; x = 4", null),
+            (r"\text{how big it is} \;\Rightarrow\; f(4) = 27", null),
           ],
         );
       case BriefFigure.logRules:

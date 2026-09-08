@@ -15,8 +15,11 @@ import 'read_the_equation_game.dart';
 import 'resolve_it_game.dart';
 import 'rule_or_trap_game.dart';
 import 'set_it_up_game.dart';
+import 'sign_the_bend_game.dart';
+import 'slide_to_flat_game.dart';
 import 'tap_the_side_game.dart';
 import 'walk_the_circle_game.dart';
+import 'what_was_asked_game.dart';
 import 'which_law_game.dart';
 import 'which_ratio_game.dart';
 
@@ -280,6 +283,39 @@ List<GameAudit> auditAllGames() => [
           options: r.choices,
           answer: r.choiceAnswer,
           positional: true,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'slide-to-flat',
+    lessonId: 'applications-derivatives',
+    problemPrefix: 'math-ad-',
+    rounds: [
+      // The answer is a place on a curve, reached by dragging: there is no
+      // list of choices to describe.
+      for (final r in flatRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'sign-the-bend',
+    lessonId: 'applications-derivatives',
+    problemPrefix: 'math-ad-',
+    rounds: [
+      // The answer is the sign of every region at once, so again no single
+      // index points at it.
+      for (final r in bendRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-was-asked',
+    lessonId: 'applications-derivatives',
+    problemPrefix: 'math-ad-',
+    rounds: [
+      for (final r in askedRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.quantities,
+          answer: r.answer,
         ),
     ],
   ),

@@ -321,6 +321,32 @@ const mathematicsMap = ChapterMap(
       id: 'applications-derivatives',
       name: 'Applications of Derivatives',
       subtopicId: 'single-var-calc',
+      games: [
+        GameDef(
+          id: 'slide-to-flat',
+          rounds: 6,
+          name: 'Slide to the Flat Spot',
+          blurb: 'Drag along the curve until the slope goes flat.',
+          built: true,
+          brief: criticalPointBrief,
+        ),
+        GameDef(
+          id: 'sign-the-bend',
+          rounds: 6,
+          name: 'Sign the Bend',
+          blurb: 'Smile or frown, region by region. The flip is the answer.',
+          built: true,
+          brief: concavityBrief,
+        ),
+        GameDef(
+          id: 'what-was-asked',
+          rounds: 6,
+          name: 'What Was Asked',
+          blurb: 'The working is right. Hand in the number it wanted.',
+          built: true,
+          brief: askedForBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'integral-calculus',
