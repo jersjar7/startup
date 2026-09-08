@@ -51,6 +51,18 @@ void main() {
       expect(g.hitTest(const Offset(20, 20)), isNull);
     });
 
+    test('the tap corridor clears the 44pt minimum', () {
+      // The item uses a 60pt tolerance, so the band around each side is 120pt
+      // wide. Apple's floor is 44. Measured dead space on the narrowest phone
+      // is about a quarter of the canvas, all of it well away from any line.
+      const g = TriangleGeometry(Size(280, 260));
+      for (final side in TriSide.values) {
+        final mid = g.midOf(side);
+        expect(g.hitTest(mid + const Offset(0, 22), tolerance: 60), isNotNull);
+        expect(g.hitTest(mid + const Offset(22, 0), tolerance: 60), isNotNull);
+      }
+    });
+
     test('each ratio connects exactly the two sides it should', () {
       expect(TriRatio.sin.sides, {TriSide.opposite, TriSide.hypotenuse});
       expect(TriRatio.cos.sides, {TriSide.adjacent, TriSide.hypotenuse});

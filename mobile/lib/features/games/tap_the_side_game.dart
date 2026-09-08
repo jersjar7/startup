@@ -183,7 +183,7 @@ class _TapTheSideGameState extends State<TapTheSideGame> {
                               size,
                               angleAtTop: r.angleAtTop,
                               mirror: r.mirror,
-                            ).hitTest(details.localPosition);
+                            ).hitTest(details.localPosition, tolerance: 60);
                             if (hit != null) setState(() => _tapped = hit);
                           },
                     child: EngineeringGrid(
