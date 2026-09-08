@@ -12,10 +12,13 @@ import '../features/games/grade_sense_game.dart';
 import '../features/games/one_log_game.dart';
 import '../features/games/order_the_moves_game.dart';
 import '../features/games/acute_or_obtuse_game.dart';
+import '../features/games/balance_both_sides_game.dart';
 import '../features/games/build_the_identity_game.dart';
 import '../features/games/resolve_it_game.dart';
 import '../features/games/set_it_up_game.dart';
+import '../features/games/place_the_center_game.dart';
 import '../features/games/quadrant_signs_game.dart';
+import '../features/games/read_the_equation_game.dart';
 import '../features/games/walk_the_circle_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/rule_or_trap_game.dart';
@@ -90,6 +93,9 @@ GoRouter buildRouter(AuthController auth) {
           'walk-the-circle' => const WalkTheCircleGame(),
           'quadrant-signs' => const QuadrantSignsGame(),
           'build-the-identity' => const BuildTheIdentityGame(),
+          'place-the-center' => const PlaceTheCenterGame(),
+          'read-the-equation' => const ReadTheEquationGame(),
+          'balance-both-sides' => const BalanceBothSidesGame(),
           _ => const _UnknownGame(),
         },
       ),

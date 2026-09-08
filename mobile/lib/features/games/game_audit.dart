@@ -1,11 +1,14 @@
 import 'acute_or_obtuse_game.dart';
+import 'balance_both_sides_game.dart';
 import 'build_the_identity_game.dart';
 import 'discriminant_gate_game.dart';
 import 'grade_sense_game.dart';
 import 'one_log_game.dart';
 import 'order_the_moves_game.dart';
 import 'perpendicular_flip_game.dart';
+import 'place_the_center_game.dart';
 import 'quadrant_signs_game.dart';
+import 'read_the_equation_game.dart';
 import 'resolve_it_game.dart';
 import 'rule_or_trap_game.dart';
 import 'set_it_up_game.dart';
@@ -26,6 +29,7 @@ class RoundAudit {
     required this.source,
     this.options = const [],
     this.answer,
+    this.positional = false,
   });
 
   /// The web problem this round was authored from.
@@ -37,6 +41,11 @@ class RoundAudit {
 
   /// Index into [options] of the one right answer, where that applies.
   final int? answer;
+
+  /// True when the options are PLACES rather than choices: tapping a term in
+  /// an equation, for instance, where two plus signs are two different places
+  /// and repeating a label is not offering the same choice twice.
+  final bool positional;
 }
 
 class GameAudit {
@@ -212,6 +221,39 @@ List<GameAudit> auditAllGames() => [
           source: i.source,
           options: i.chips,
           answer: i.chips.indexOf(i.slots.first),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'place-the-center',
+    lessonId: 'circles-conics',
+    problemPrefix: 'math-cc-',
+    rounds: [for (final r in centerRounds) RoundAudit(source: r.source)],
+  ),
+  GameAudit(
+    gameId: 'read-the-equation',
+    lessonId: 'circles-conics',
+    problemPrefix: 'math-cc-',
+    rounds: [
+      for (final r in readRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.tokens,
+          answer: r.answer,
+          positional: true,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'balance-both-sides',
+    lessonId: 'circles-conics',
+    problemPrefix: 'math-cc-',
+    rounds: [
+      for (final b in balances)
+        RoundAudit(
+          source: b.source,
+          options: b.chips,
+          answer: b.chips.indexOf(b.answers.first),
         ),
     ],
   ),

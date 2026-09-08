@@ -53,6 +53,9 @@ enum BriefFigure {
   unitCircle,
   quadrants,
   identities,
+  circleForm,
+  conicForms,
+  completingSquare,
   lawChoice,
   lawForms,
   cosineSign,
@@ -325,6 +328,60 @@ const identitiesBrief = BriefSection(
   ],
   figure: BriefFigure.identities,
   handbook: 'Handbook p. 23',
+);
+
+// ── Circles & Conic Sections ────────────────────────────────────────────────
+
+const circleFormBrief = BriefSection(
+  title: 'Reading a circle',
+  body:
+      'A circle in standard form hands you everything: the centre and the '
+      'radius, with no work. Two things bite. The sign inside each bracket is '
+      'the OPPOSITE of the coordinate, so (y + 3) puts the centre three below '
+      'the axis. And the number on the right is the radius SQUARED, so 64 is a '
+      'circle of radius eight.',
+  formulas: [
+    ('Standard form', r'(x-h)^2 + (y-k)^2 = r^2'),
+    ('Which reads as', r'\text{centre } (h,k), \quad \text{radius } r'),
+  ],
+  figure: BriefFigure.circleForm,
+  handbook: 'Handbook p. 24',
+);
+
+const readingConicsBrief = BriefSection(
+  title: 'The three forms',
+  body:
+      'A circle has both squares, both positive, with the same coefficient. '
+      'A parabola has exactly ONE square, and the sign in front of it decides '
+      'which way the curve opens. An ellipse has both squares over different '
+      'denominators, and the larger denominator lies under the long axis. Most '
+      'of what the exam asks about conics is reading which of the three you '
+      'are holding.',
+  formulas: [
+    ('Circle', r'(x-h)^2 + (y-k)^2 = r^2'),
+    ('Parabola', r'y = a(x-h)^2 + k'),
+    ('Ellipse', r'\frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1'),
+    ('And a parabola\'s peak', r'x = -\frac{b}{2a}'),
+  ],
+  figure: BriefFigure.conicForms,
+  handbook: 'Handbook p. 24',
+);
+
+const completeSquareBrief = BriefSection(
+  title: 'Completing the square',
+  body:
+      'General form hides the centre, so you rewrite it. Take the coefficient '
+      'of the plain x term, halve it, square it, and add that. The sign inside '
+      'does not matter, because squaring removes it. The whole of the '
+      'difficulty is that whatever you add has to be added on BOTH sides: add '
+      'it only on the left and you have quietly changed the equation, and the '
+      'radius you read off at the end is wrong.',
+  formulas: [
+    ('General form', r'x^2 + y^2 + Dx + Ey + F = 0'),
+    ('Halve, square, add to both sides', r'x^2 - 10x \;\to\; (x-5)^2 - 25'),
+  ],
+  figure: BriefFigure.completingSquare,
+  handbook: 'Handbook p. 24',
 );
 
 /// Opens one concept over whatever is on screen.
@@ -645,6 +702,30 @@ class BriefFigureView extends StatelessWidget {
             (r'\sin 2\theta = 2\sin\theta\cos\theta', true),
             (r'\sin 2\theta = 2\sin\theta', false),
             (r'\cos 2\theta = \cos^2\theta - \sin^2\theta', true),
+          ],
+        );
+      case BriefFigure.circleForm:
+        return const _RuleList(
+          rules: [
+            (r'(y+3)^2 \;\Rightarrow\; k = -3', true),
+            (r'(y+3)^2 \;\Rightarrow\; k = +3', false),
+            (r'= 64 \;\Rightarrow\; r = 8', true),
+            (r'= 64 \;\Rightarrow\; r = 64', false),
+          ],
+        );
+      case BriefFigure.conicForms:
+        return const _RuleList(
+          rules: [
+            (r'\text{two squares, same sign: circle}', null),
+            (r'\text{one square: parabola}', null),
+            (r'\text{two squares, different denominators: ellipse}', null),
+          ],
+        );
+      case BriefFigure.completingSquare:
+        return const _RuleList(
+          rules: [
+            (r'x^2 - 10x + 25 = -18 + 25', true),
+            (r'x^2 - 10x + 25 = -18', false),
           ],
         );
       case BriefFigure.logRules:

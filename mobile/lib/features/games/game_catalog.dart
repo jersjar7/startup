@@ -259,6 +259,32 @@ const mathematicsMap = ChapterMap(
       id: 'circles-conics',
       name: 'Circles & Conic Sections',
       subtopicId: 'analytic-geometry',
+      games: [
+        GameDef(
+          id: 'place-the-center',
+          rounds: 8,
+          name: 'Place the Center',
+          blurb: 'Put a finger where the circle sits. The signs decide.',
+          built: true,
+          brief: circleFormBrief,
+        ),
+        GameDef(
+          id: 'read-the-equation',
+          rounds: 8,
+          name: 'Read the Equation',
+          blurb: 'Point at the piece that answers the question.',
+          built: true,
+          brief: readingConicsBrief,
+        ),
+        GameDef(
+          id: 'balance-both-sides',
+          rounds: 5,
+          name: 'Balance Both Sides',
+          blurb: 'Complete the square with the equals sign enforced.',
+          built: true,
+          brief: completeSquareBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'derivatives-rules',

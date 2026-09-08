@@ -57,11 +57,14 @@ void main() {
   });
 
   test('no round offers the same choice twice', () {
-    // A repeated option means two right answers or a wasted slot.
+    // A repeated option means two right answers or a wasted slot. Positional
+    // items are exempt and say so: tapping a term in an equation, two plus
+    // signs are two different PLACES, not the same choice offered twice.
     for (final audit in audits) {
       for (var i = 0; i < audit.rounds.length; i++) {
-        final options = audit.rounds[i].options;
-        if (options.isEmpty) continue;
+        final round = audit.rounds[i];
+        final options = round.options;
+        if (options.isEmpty || round.positional) continue;
         expect(options.toSet().length, options.length,
             reason: '${audit.gameId} round ${i + 1} repeats an option');
       }
@@ -104,6 +107,7 @@ void main() {
       'discriminant-gate', // the quadratic problem's own tip
       'grade-sense', // the station trap, from every angle
       'resolve-it', // the components trap, from both axes
+      'balance-both-sides', // completing the square, which is one problem
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

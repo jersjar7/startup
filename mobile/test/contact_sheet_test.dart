@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/games/acute_or_obtuse_game.dart';
+import 'package:mobile/features/games/balance_both_sides_game.dart';
 import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/game_progress.dart';
@@ -17,7 +18,9 @@ import 'package:mobile/features/games/grade_sense_game.dart';
 import 'package:mobile/features/games/one_log_game.dart';
 import 'package:mobile/features/games/order_the_moves_game.dart';
 import 'package:mobile/features/games/perpendicular_flip_game.dart';
+import 'package:mobile/features/games/place_the_center_game.dart';
 import 'package:mobile/features/games/quadrant_signs_game.dart';
+import 'package:mobile/features/games/read_the_equation_game.dart';
 import 'package:mobile/features/games/resolve_it_game.dart';
 import 'package:mobile/features/games/rule_or_trap_game.dart';
 import 'package:mobile/features/games/set_it_up_game.dart';
@@ -80,10 +83,32 @@ Future<void> _loadMathFonts() async {
   }
 }
 
+Future<void> _loadBrandFonts() async {
+  // Bundled in assets/fonts. Registering them up front means the first
+  // screenshot is not captured mid-fallback, which is what turned one item's
+  // first round into a grid of boxes.
+  final dir = Directory('assets/fonts');
+  if (!dir.existsSync()) return;
+  final byFamily = <String, List<File>>{};
+  for (final file in dir.listSync().whereType<File>()) {
+    if (!file.path.endsWith('.ttf')) continue;
+    final family = file.uri.pathSegments.last.split('-').first;
+    byFamily.putIfAbsent(family, () => []).add(file);
+  }
+  for (final entry in byFamily.entries) {
+    final loader = FontLoader(entry.key);
+    for (final file in entry.value) {
+      loader.addFont(Future.value(file.readAsBytesSync().buffer.asByteData()));
+    }
+    await loader.load();
+  }
+}
+
 void main() {
   setUpAll(() async {
     GoogleFonts.config.allowRuntimeFetching = false;
     await _loadMathFonts();
+    await _loadBrandFonts();
   });
 
   final items = <String, ({String lesson, Widget Function() build, int rounds})>{
@@ -162,6 +187,21 @@ void main() {
       build: BuildTheIdentityGame.new,
       rounds: identities.length,
     ),
+    'place-the-center': (
+      lesson: '06-circles-conics',
+      build: PlaceTheCenterGame.new,
+      rounds: centerRounds.length,
+    ),
+    'read-the-equation': (
+      lesson: '06-circles-conics',
+      build: ReadTheEquationGame.new,
+      rounds: readRounds.length,
+    ),
+    'balance-both-sides': (
+      lesson: '06-circles-conics',
+      build: BalanceBothSidesGame.new,
+      rounds: balances.length,
+    ),
   };
 
   for (final entry in items.entries) {
@@ -172,6 +212,17 @@ void main() {
       tester.view.physicalSize = const Size(390, 1000);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
+
+      // Warm-up: google_fonts resolves its assets asynchronously on first
+      // use, so the very first capture of a run came out in box glyphs. Give
+      // it one real frame before anything is photographed.
+      await tester.pumpWidget(
+        MaterialApp(theme: AppTheme.light, home: item.build()),
+      );
+      await tester.runAsync(
+        () => Future<void>.delayed(const Duration(milliseconds: 60)),
+      );
+      await tester.pumpAndSettle();
 
       for (var round = 0; round < item.rounds; round++) {
         // Walk to the round by marking the ones before it done, then rebuild.
