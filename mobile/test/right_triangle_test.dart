@@ -115,6 +115,27 @@ void main() {
       expect(find.text('1/8'), findsOneWidget);
     });
 
+    testWidgets('nothing on screen names the side before you commit',
+        (tester) async {
+      size(tester);
+      await tester.pumpWidget(const MaterialApp(home: TapTheSideGame()));
+
+      final canvas = find.byType(CustomPaint).last;
+      final rect = tester.getRect(canvas);
+      const g = TriangleGeometry(Size(420, 260));
+
+      // Pick the WRONG side on a round that asks for the hypotenuse.
+      await tester.tapAt(rect.topLeft + g.midOf(TriSide.adjacent));
+      await tester.pump();
+
+      expect(find.text('One side picked'), findsOneWidget);
+      // The readout used to repeat the side's name back, which handed over the
+      // answer: the question already names the side it wants.
+      expect(find.textContaining('adjacent'), findsNothing);
+      expect(find.textContaining('hypotenuse'), findsOneWidget,
+          reason: 'only the question itself should name a side');
+    });
+
     testWidgets('tapping the hypotenuse answers the first round',
         (tester) async {
       size(tester);

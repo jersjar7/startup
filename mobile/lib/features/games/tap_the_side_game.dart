@@ -208,10 +208,11 @@ class _TapTheSideGameState extends State<TapTheSideGame> {
             },
           ),
           const SizedBox(height: 10),
+          // Naming the picked side here would hand over the answer, since the
+          // question names the side it wants. Confirm that something is
+          // selected and nothing more; the drawing already shows which.
           Text(
-            _tapped == null
-                ? 'Nothing picked yet'
-                : 'You picked: ${_tapped!.label.toLowerCase()}',
+            _tapped == null ? 'Nothing picked yet' : 'One side picked',
             style: AppTheme.mono(size: 13, color: AppColors.ink2),
           ),
           if (answered) ...[
@@ -219,17 +220,21 @@ class _TapTheSideGameState extends State<TapTheSideGame> {
             BoardFeedback(
               correct: _session.correct!,
               title: _session.correct! ? 'CORRECT' : 'NOT THAT SIDE',
-              body: switch (r.ask) {
-                TriSide.hypotenuse =>
-                  'The hypotenuse is the side across from the right angle. It '
-                      'is the only name that never moves.',
-                TriSide.opposite =>
-                  'Opposite means it does not touch the marked angle. Move the '
-                      'angle to the other corner and this name moves with it.',
-                TriSide.adjacent =>
-                  'Adjacent is the side touching the marked angle that is not '
-                      'the hypotenuse. Cos is cozy with this one.',
-              },
+              body:
+                  (_session.correct!
+                      ? ''
+                      : 'You picked the ${_tapped!.label.toLowerCase()}. ') +
+                  switch (r.ask) {
+                    TriSide.hypotenuse =>
+                      'The hypotenuse is the side across from the right angle. It '
+                          'is the only name that never moves.',
+                    TriSide.opposite =>
+                      'Opposite means it does not touch the marked angle. Move the '
+                          'angle to the other corner and this name moves with it.',
+                    TriSide.adjacent =>
+                      'Adjacent is the side touching the marked angle that is not '
+                          'the hypotenuse. Cos is cozy with this one.',
+                  },
             ),
           ],
         ],
