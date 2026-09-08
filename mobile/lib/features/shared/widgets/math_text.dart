@@ -38,21 +38,31 @@ class MathText extends StatelessWidget {
   }
 }
 
-/// A standalone formula (a full LaTeX expression), centered, for formula cards.
+/// A standalone formula (a full LaTeX expression), for formula cards.
+///
+/// Long expressions shrink to fit rather than running off the card: a
+/// half-visible formula is worse than a small one, and phones are narrow.
 class MathBlock extends StatelessWidget {
-  const MathBlock(this.latex, {super.key, this.fontSize = 17});
+  const MathBlock(this.latex, {super.key, this.fontSize = 17, this.align});
 
   final String latex;
   final double fontSize;
 
+  /// Where the formula sits when it is narrower than its box.
+  final Alignment? align;
+
   @override
   Widget build(BuildContext context) {
     final s = TextStyle(fontSize: fontSize, color: AppColors.charcoal);
-    return Math.tex(
-      latex,
-      textStyle: s,
-      mathStyle: MathStyle.display,
-      onErrorFallback: (_) => Text(latex, style: s),
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      alignment: align ?? Alignment.center,
+      child: Math.tex(
+        latex,
+        textStyle: s,
+        mathStyle: MathStyle.display,
+        onErrorFallback: (_) => Text(latex, style: s),
+      ),
     );
   }
 }

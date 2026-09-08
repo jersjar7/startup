@@ -121,8 +121,10 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
 
   void _run(double from) {
     _c.stop();
-    _fraction = Tween<double>(begin: from, end: widget.fractionTo)
-        .animate(CurvedAnimation(parent: _c, curve: Curves.easeOutCubic));
+    _fraction = Tween<double>(
+      begin: from,
+      end: widget.fractionTo,
+    ).animate(CurvedAnimation(parent: _c, curve: Curves.easeOutCubic));
     _c
       ..duration = widget.duration
       ..value = 0
@@ -159,8 +161,8 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
             animation: _fraction,
             builder: (context, _) {
               // Hold the unfinished face until the ring is actually full.
-              final showing = widget.state == NodeState.cleared &&
-                      _fraction.value < 0.999
+              final showing =
+                  widget.state == NodeState.cleared && _fraction.value < 0.999
                   ? NodeState.inProgress
                   : widget.state;
               final skin = NodeSkin.of(showing);

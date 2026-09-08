@@ -9,6 +9,9 @@ import '../features/auth/verify_screen.dart';
 import '../features/games/chapter_map_screen.dart';
 import '../features/games/discriminant_gate_game.dart';
 import '../features/games/grade_sense_game.dart';
+import '../features/games/one_log_game.dart';
+import '../features/games/order_the_moves_game.dart';
+import '../features/games/rule_or_trap_game.dart';
 import '../features/games/game_catalog.dart';
 import '../features/games/perpendicular_flip_game.dart';
 import '../features/home/home_shell.dart';
@@ -66,13 +69,15 @@ GoRouter buildRouter(AuthController auth) {
           'perpendicular-flip' => const PerpendicularFlipGame(),
           'discriminant-gate' => const DiscriminantGateGame(),
           'grade-sense' => const GradeSenseGame(),
+          'rule-or-trap' => const RuleOrTrapGame(),
+          'order-the-moves' => const OrderTheMovesGame(),
+          'one-log' => const OneLogGame(),
           _ => const _UnknownGame(),
         },
       ),
     ],
   );
 }
-
 
 /// A game id that has no widget yet (internal wording — the catalog marks
 /// these "soon"). Only reachable from a hand-typed route.

@@ -31,7 +31,14 @@ class BriefSection {
   final String? handbook;
 }
 
-enum BriefFigure { slopePair, discriminant, grade }
+enum BriefFigure {
+  slopePair,
+  discriminant,
+  grade,
+  logRules,
+  undoExponent,
+  combineLogs,
+}
 
 /// One concept per item. Each is the reference for the item it sits behind and
 /// nothing else: opening it mid-round should answer the question in front of
@@ -72,6 +79,46 @@ const gradeBrief = BriefSection(
   formula: r'\text{grade} = \frac{\text{rise}}{\text{run}}',
   figure: BriefFigure.grade,
   handbook: 'Handbook p. 36',
+);
+
+// ── Logarithms ──────────────────────────────────────────────────────────────
+// This lesson has no figure of its own anywhere in the web content, so its
+// references show the rules themselves rather than a picture of something.
+
+const logRulesBrief = BriefSection(
+  title: 'The log rules, and the one that does not exist',
+  body:
+      'A logarithm asks what power the base is raised to. Three moves are '
+      'legal: a product inside becomes a sum outside, a quotient becomes a '
+      'difference, and an exponent comes down in front. A sum inside a log has '
+      'no rule at all. Splitting one is the cheapest way to lose a mark on '
+      'this topic.',
+  figure: BriefFigure.logRules,
+  handbook: 'Handbook p. 36',
+);
+
+const undoExponentBrief = BriefSection(
+  title: 'Undoing an exponent',
+  body:
+      'When the unknown sits in the exponent, the log is what gets it down. '
+      'A log undoes its own base exactly: ln undoes e, and log undoes 10. '
+      'Clear anything multiplying the exponential first, then take the log of '
+      'both sides, and what is left is linear.',
+  formula: r'\ln(e^{x}) = x \qquad \log_{10}(10^{x}) = x',
+  figure: BriefFigure.undoExponent,
+  handbook: 'Handbook p. 36',
+);
+
+const combineLogsBrief = BriefSection(
+  title: 'Combining logs into one',
+  body:
+      'Terms in the same base collapse into a single log before you evaluate '
+      'anything: added terms multiply inside, subtracted terms divide inside, '
+      'and a coefficient becomes an exponent. Doing it in this order is faster '
+      'and it avoids the classic error of multiplying the separate log values '
+      'together.',
+  figure: BriefFigure.combineLogs,
+  handbook: 'Handbook pp. 36-37',
 );
 
 /// Opens one concept over whatever is on screen.
@@ -216,7 +263,80 @@ class BriefFigureView extends StatelessWidget {
           caption: 'Station 3+00 is 300 feet from station 0+00',
           child: CustomPaint(painter: _GradePainter()),
         );
+      case BriefFigure.logRules:
+        return const _RuleList(
+          rules: [
+            (r'\log(xy) = \log x + \log y', true),
+            (r'\log\!\left(\frac{x}{y}\right) = \log x - \log y', true),
+            (r'\log(x^{c}) = c\,\log x', true),
+            (r'\log(x + y) = \log x + \log y', false),
+          ],
+        );
+      case BriefFigure.undoExponent:
+        return const _RuleList(
+          rules: [
+            (r'0.25 = e^{-0.03t}', null),
+            (r'\ln(0.25) = -0.03t', null),
+            (r't = \frac{\ln(0.25)}{-0.03}', null),
+          ],
+        );
+      case BriefFigure.combineLogs:
+        return const _RuleList(
+          rules: [
+            (r'\log a + \log b = \log(ab)', true),
+            (r'\log a - \log b = \log\!\left(\frac{a}{b}\right)', true),
+            (r'c\,\log a = \log(a^{c})', true),
+            (r'\log a \cdot \log b = \log(ab)', false),
+          ],
+        );
     }
+  }
+}
+
+/// Rules, one per line, marked legal or not. A lesson with nothing to draw
+/// shows the moves themselves; a check or a cross is the picture.
+class _RuleList extends StatelessWidget {
+  const _RuleList({required this.rules});
+
+  /// Each entry is an expression and whether it is legal. Null means it is a
+  /// step in a worked line rather than a claim to judge.
+  final List<(String, bool?)> rules;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          for (final (latex, legal) in rules)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+              child: Row(
+                children: [
+                  if (legal != null)
+                    Icon(
+                      legal ? Icons.check_rounded : Icons.close_rounded,
+                      size: 18,
+                      color: legal ? AppColors.forest : AppColors.error,
+                    )
+                  else
+                    const Icon(
+                      Icons.arrow_right_rounded,
+                      size: 18,
+                      color: AppColors.ink3,
+                    ),
+                  const SizedBox(width: 10),
+                  Expanded(child: MathBlock(latex, fontSize: 15)),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }
 

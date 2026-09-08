@@ -126,6 +126,29 @@ const mathematicsMap = ChapterMap(
       id: 'logarithms',
       name: 'Logarithms',
       subtopicId: 'analytic-geometry',
+      games: [
+        GameDef(
+          id: 'rule-or-trap',
+          name: 'Rule or Trap',
+          blurb: 'Legal move or no such rule. The sum inside a log is in here.',
+          built: true,
+          brief: logRulesBrief,
+        ),
+        GameDef(
+          id: 'order-the-moves',
+          name: 'Order the Moves',
+          blurb: 'Put a real solve in order. You never carry any of it out.',
+          built: true,
+          brief: undoExponentBrief,
+        ),
+        GameDef(
+          id: 'one-log',
+          name: 'One Log',
+          blurb: 'Collapse the terms into a single log, values untouched.',
+          built: true,
+          brief: combineLogsBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'right-triangle-trig',
