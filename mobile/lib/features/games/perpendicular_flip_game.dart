@@ -184,7 +184,7 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
 
   @override
   Widget build(BuildContext context) {
-    if (_session.done) {
+    if (_session.finished) {
       return BoardDone(
         session: _session,
         title: 'Perpendicular Flip',
@@ -201,7 +201,7 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
     return BoardShell(
       session: _session,
       brief: perpendicularBrief,
-      buttonLabel: answered ? 'Next' : 'Confirm this line',
+      buttonLabel: answered ? _session.advanceLabel : 'Confirm this line',
       onButton: answered
           ? () {
               setState(() {

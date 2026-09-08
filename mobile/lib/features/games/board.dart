@@ -52,6 +52,14 @@ class BoardSession extends ChangeNotifier {
   int get firstTryCount => GameProgress.instance.firstTryCount(gameId);
   bool get done => clearedCount >= total;
 
+  /// The board is over AND the student has read the last answer. Showing the
+  /// summary the instant the final round is graded skips the explanation,
+  /// which is the part worth reading.
+  bool get finished => done && !answered;
+
+  /// What the button says while an answer is on screen.
+  String get advanceLabel => done ? 'See how you did' : 'Next';
+
   /// True when this sitting picked up rounds finished earlier.
   bool get resumed => _resumedWith > 0;
   int _resumedWith = 0;

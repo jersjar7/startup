@@ -155,7 +155,7 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
 
   @override
   Widget build(BuildContext context) {
-    if (_session.done) {
+    if (_session.finished) {
       return BoardDone(
         session: _session,
         title: 'Discriminant Gate',
@@ -172,7 +172,7 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
     return BoardShell(
       session: _session,
       brief: discriminantBrief,
-      buttonLabel: answered ? 'Next' : 'Lock it in',
+      buttonLabel: answered ? _session.advanceLabel : 'Lock it in',
       onButton: answered
           ? () {
               setState(() => _choice = null);

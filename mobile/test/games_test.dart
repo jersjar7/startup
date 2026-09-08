@@ -94,6 +94,37 @@ void main() {
     }
   });
 
+  testWidgets('the last answer is read before the summary appears',
+      (tester) async {
+    tester.view.physicalSize = const Size(420, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    // Five of six already done: one answer finishes the board.
+    for (var i = 0; i < 5; i++) {
+      GameProgress.instance.markRoundCleared('grade-sense', i, firstTry: true);
+    }
+
+    await tester.pumpWidget(const MaterialApp(home: GradeSenseGame()));
+
+    final round = gradeRounds[5];
+    for (final i in round.answer) {
+      await tester.tap(find.text(round.stretches[i].name));
+      await tester.pump();
+    }
+    await tester.tap(find.text('Lock the order'));
+    await tester.pumpAndSettle();
+
+    // The explanation is on screen, not the summary.
+    expect(find.text('CORRECT'), findsOneWidget);
+    expect(find.text('ALL DONE'), findsNothing);
+    expect(find.text('See how you did'), findsOneWidget);
+
+    await tester.tap(find.text('See how you did'));
+    await tester.pumpAndSettle();
+    expect(find.text('ALL DONE'), findsOneWidget);
+  });
+
   group('Discriminant Gate', () {
     testWidgets('a curve through the axis twice has two real roots',
         (tester) async {

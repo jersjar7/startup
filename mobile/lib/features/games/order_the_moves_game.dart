@@ -146,7 +146,7 @@ class _OrderTheMovesGameState extends State<OrderTheMovesGame> {
 
   @override
   Widget build(BuildContext context) {
-    if (_session.done) {
+    if (_session.finished) {
       return BoardDone(
         session: _session,
         title: 'Order the Moves',
@@ -163,7 +163,7 @@ class _OrderTheMovesGameState extends State<OrderTheMovesGame> {
     return BoardShell(
       session: _session,
       brief: undoExponentBrief,
-      buttonLabel: answered ? 'Next' : 'Lock the order',
+      buttonLabel: answered ? _session.advanceLabel : 'Lock the order',
       onButton: answered
           ? () {
               setState(_order.clear);

@@ -135,7 +135,7 @@ class _RuleOrTrapGameState extends State<RuleOrTrapGame> {
 
   @override
   Widget build(BuildContext context) {
-    if (_session.done) {
+    if (_session.finished) {
       return BoardDone(
         session: _session,
         title: 'Rule or Trap',
@@ -151,7 +151,7 @@ class _RuleOrTrapGameState extends State<RuleOrTrapGame> {
     return BoardShell(
       session: _session,
       brief: logRulesBrief,
-      buttonLabel: answered ? 'Next' : 'Lock it in',
+      buttonLabel: answered ? _session.advanceLabel : 'Lock it in',
       onButton: answered
           ? () {
               setState(() => _choice = null);

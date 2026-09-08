@@ -54,6 +54,31 @@ void main() {
     expect(s.bounds.contains(const Offset(220, 260)), isTrue);
   });
 
+  test('the road reaches both nodes', () {
+    // Geometry only: the drawn path has to start and end on the circles, not
+    // short of them. This is what a road bending away from a node used to get
+    // wrong.
+    const from = Offset(100, 100);
+    const to = Offset(260, 300);
+    const radius = 39.0;
+    final painter = RoadPainter(
+      from: from,
+      to: to,
+      travelled: 1,
+      nodeRadius: radius,
+    );
+
+    final path = painter.debugRoad();
+    final metric = path.computeMetrics().first;
+    final head = metric.getTangentForOffset(0)!.position;
+    final tail = metric.getTangentForOffset(metric.length)!.position;
+
+    expect((head - from).distance, closeTo(radius - 3, 4),
+        reason: 'the road should leave from the edge of the first node');
+    expect((tail - to).distance, closeTo(radius - 3, 4),
+        reason: 'the road should arrive at the edge of the second node');
+  });
+
   test('a road that goes straight down still has a box with width', () {
     const s = RoadSegment(
       from: Offset(150, 100),

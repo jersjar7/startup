@@ -122,21 +122,58 @@ class RoadPainter extends CustomPainter {
 
   /// Same curve rule for every segment on every chapter: leave the node, lean
   /// most of the way toward the next node's column, arrive.
+  ///
+  /// The curve is drawn center to center and then trimmed by ARC LENGTH at
+  /// both ends, so it meets each circle wherever the curve actually crosses
+  /// it. Trimming along the straight line between centers instead, which is
+  /// what this did first, leaves the road stopping short of a node it bends
+  /// away from.
   Path _road() {
     final gap = (to - from).distance;
     if (gap == 0) return Path();
-    final unit = (to - from) / gap;
-    final start = from + unit * (nodeRadius + 6);
-    final end = to - unit * (nodeRadius + 16);
 
     final dx = to.dx - from.dx;
     final lean = dx.abs() > 4 ? from.dx + dx * 0.8 : from.dx + nodeRadius * 0.55;
-    final control = Offset(lean, start.dy + (end.dy - start.dy) * 0.52);
+    final control = Offset(lean, from.dy + (to.dy - from.dy) * 0.52);
 
-    return Path()
-      ..moveTo(start.dx, start.dy)
-      ..quadraticBezierTo(control.dx, control.dy, end.dx, end.dy);
+    final full = Path()
+      ..moveTo(from.dx, from.dy)
+      ..quadraticBezierTo(control.dx, control.dy, to.dx, to.dy);
+
+    final metrics = full.computeMetrics().toList();
+    if (metrics.isEmpty) return full;
+    final metric = metrics.first;
+
+    // Tuck a little under each node so there is no seam where they meet.
+    final reach = nodeRadius - 3;
+    const step = 2.0;
+
+    var start = 0.0;
+    for (var d = 0.0; d < metric.length; d += step) {
+      final p = metric.getTangentForOffset(d)?.position;
+      if (p == null) break;
+      if ((p - from).distance >= reach) {
+        start = d;
+        break;
+      }
+    }
+
+    var end = metric.length;
+    for (var d = metric.length; d > start; d -= step) {
+      final p = metric.getTangentForOffset(d)?.position;
+      if (p == null) break;
+      if ((p - to).distance >= reach) {
+        end = d;
+        break;
+      }
+    }
+
+    return metric.extractPath(start, end);
   }
+
+  /// The trimmed path, exposed so its geometry can be checked directly.
+  @visibleForTesting
+  Path debugRoad() => _road();
 
   @override
   void paint(Canvas canvas, Size size) {

@@ -169,7 +169,7 @@ class _GradeSenseGameState extends State<GradeSenseGame> {
 
   @override
   Widget build(BuildContext context) {
-    if (_session.done) {
+    if (_session.finished) {
       return BoardDone(
         session: _session,
         title: 'Grade Sense',
@@ -185,7 +185,7 @@ class _GradeSenseGameState extends State<GradeSenseGame> {
     return BoardShell(
       session: _session,
       brief: gradeBrief,
-      buttonLabel: answered ? 'Next' : 'Lock the order',
+      buttonLabel: answered ? _session.advanceLabel : 'Lock the order',
       onButton: answered
           ? () {
               setState(_order.clear);
