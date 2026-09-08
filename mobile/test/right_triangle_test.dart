@@ -128,10 +128,17 @@ void main() {
       await tester.tapAt(rect.topLeft + g.midOf(TriSide.adjacent));
       await tester.pump();
 
-      expect(find.text('One side picked'), findsOneWidget);
-      // The readout used to repeat the side's name back, which handed over the
-      // answer: the question already names the side it wants.
+      // The pick is shown by the drawing and said nowhere: any readout would
+      // hand over the answer, since the question names the side it wants.
+      final painter = tester
+          .widgetList<CustomPaint>(find.byType(CustomPaint))
+          .map((w) => w.painter)
+          .whereType<TrianglePainter>()
+          .last;
+      expect(painter.highlight, TriSide.adjacent);
+
       expect(find.textContaining('adjacent'), findsNothing);
+      expect(find.textContaining('picked'), findsNothing);
       expect(find.textContaining('hypotenuse'), findsOneWidget,
           reason: 'only the question itself should name a side');
     });

@@ -207,14 +207,9 @@ class _TapTheSideGameState extends State<TapTheSideGame> {
               );
             },
           ),
-          const SizedBox(height: 10),
-          // Naming the picked side here would hand over the answer, since the
-          // question names the side it wants. Confirm that something is
-          // selected and nothing more; the drawing already shows which.
-          Text(
-            _tapped == null ? 'Nothing picked yet' : 'One side picked',
-            style: AppTheme.mono(size: 13, color: AppColors.ink2),
-          ),
+          // Nothing is written about the pick. The question names the side it
+          // wants, so any readout naming what you touched hands over the
+          // answer, and the highlighted line already shows it.
           if (answered) ...[
             const SizedBox(height: 14),
             BoardFeedback(
