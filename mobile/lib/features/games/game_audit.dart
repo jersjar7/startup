@@ -9,6 +9,7 @@ import 'grade_sense_game.dart';
 import 'land_the_resultant_game.dart';
 import 'next_line_game.dart';
 import 'one_log_game.dart';
+import 'open_or_closed_game.dart';
 import 'order_the_moves_game.dart';
 import 'perpendicular_flip_game.dart';
 import 'pick_u_game.dart';
@@ -23,7 +24,9 @@ import 'run_the_loop_game.dart';
 import 'set_it_up_game.dart';
 import 'sign_the_bend_game.dart';
 import 'slide_to_flat_game.dart';
+import 'shadow_falls_game.dart';
 import 'stretch_it_game.dart';
+import 'take_the_diagonal_game.dart';
 import 'tap_the_side_game.dart';
 import 'walk_the_circle_game.dart';
 import 'what_was_asked_game.dart';
@@ -431,6 +434,37 @@ List<GameAudit> auditAllGames() => [
             Reach.second => 2,
           },
         ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'take-the-diagonal',
+    lessonId: 'dot-product-angle',
+    problemPrefix: 'math-dpa-',
+    rounds: [
+      // The answer is the set of diagonal cells, so no single index names it.
+      for (final r in diagonalRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'open-or-closed',
+    lessonId: 'dot-product-angle',
+    problemPrefix: 'math-dpa-',
+    rounds: [
+      for (final r in signRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['positive', 'zero', 'negative'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'shadow-falls',
+    lessonId: 'dot-product-angle',
+    problemPrefix: 'math-dpa-',
+    rounds: [
+      // Answered by pointing at a mark on the member, so there is no list.
+      for (final r in shadowRounds) RoundAudit(source: r.source),
     ],
   ),
   GameAudit(

@@ -54,6 +54,18 @@ class Arrow {
   final bool faint;
 }
 
+/// A direction with whole-number marks along it: the member a force is being
+/// projected onto. [unit] must be one long, so mark `i` really is `i` away
+/// from the origin.
+@immutable
+class RulerLine {
+  const RulerLine({required this.unit, required this.from, required this.to});
+
+  final Vec unit;
+  final int from;
+  final int to;
+}
+
 class VectorPainter extends CustomPainter {
   const VectorPainter({
     required this.arrows,
@@ -63,6 +75,11 @@ class VectorPainter extends CustomPainter {
     this.revealed = false,
     this.lattice = false,
     this.guide,
+    this.between,
+    this.ruler,
+    this.rulerPick,
+    this.rulerTruth,
+    this.drop,
   });
 
   final List<Arrow> arrows;
@@ -81,6 +98,21 @@ class VectorPainter extends CustomPainter {
   /// unit long is a stub on a grid this size; the LINE it sits on is what a
   /// student is actually sizing along, so the line gets drawn.
   final Vec? guide;
+
+  /// Two arrows to sweep an arc between, so the angle is a thing on the page
+  /// rather than something the reader has to imagine.
+  final (Vec, Vec)? between;
+
+  /// A line with whole-number marks along it, for the rounds answered by
+  /// pointing at a distance rather than at a lattice point.
+  final RulerLine? ruler;
+  final int? rulerPick;
+  final int? rulerTruth;
+
+  /// A point to drop a dashed perpendicular from onto the ruler, drawn once
+  /// the answer is out. This is the whole definition of a projection, so it
+  /// is worth showing rather than describing.
+  final Vec? drop;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -119,6 +151,33 @@ class VectorPainter extends CustomPainter {
       _tick(canvas, '$i', g.toScreen(0, i) + const Offset(-15, 0));
     }
 
+    final rule = ruler;
+    if (rule != null) {
+      final u = rule.unit;
+      _dashed(
+        canvas,
+        g.at(u.x * (rule.from - 0.7), u.y * (rule.from - 0.7)),
+        g.at(u.x * (rule.to + 0.7), u.y * (rule.to + 0.7)),
+      );
+      final side = Offset(-u.y, u.x);
+      final tickPaint = Paint()
+        ..color = AppColors.ink2
+        ..strokeWidth = 1.5;
+      for (var i = rule.from; i <= rule.to; i++) {
+        final at = g.at(u.x * i, u.y * i);
+        canvas.drawLine(at - side * 7, at + side * 7, tickPaint);
+        canvas.drawCircle(at, 2.2, Paint()..color = AppColors.ink2);
+        // Number every other mark, off to one side of the line, so a student
+        // can say which mark they are aiming at rather than counting from the
+        // origin every time.
+        // Above the line rather than below it: a member lying along an axis
+        // would otherwise stack its numbers on top of the axis numbers.
+        if (i % 2 == 0 && i != 0) {
+          _tick(canvas, '$i', at - side * 18);
+        }
+      }
+    }
+
     final line = guide;
     if (line != null && line.length > 0) {
       final unit = line * (1 / line.length);
@@ -132,6 +191,63 @@ class VectorPainter extends CustomPainter {
 
     for (final a in arrows) {
       _arrow(canvas, g, a);
+    }
+
+    final arc = between;
+    if (arc != null) {
+      final (u, v) = arc;
+      if (u.length > 0 && v.length > 0) {
+        final radius = g.step * 2.0;
+        final a0 = math.atan2(-u.y, u.x);
+        final a1 = math.atan2(-v.y, v.x);
+        var sweep = a1 - a0;
+        while (sweep > math.pi) {
+          sweep -= 2 * math.pi;
+        }
+        while (sweep < -math.pi) {
+          sweep += 2 * math.pi;
+        }
+        canvas.drawArc(
+          Rect.fromCircle(center: g.origin, radius: radius),
+          a0,
+          sweep,
+          false,
+          Paint()
+            ..color = AppColors.ink2.withValues(alpha: 0.8)
+            ..strokeWidth = 1.6
+            ..style = PaintingStyle.stroke,
+        );
+      }
+    }
+
+    final tip = drop;
+    if (tip != null && rule != null) {
+      final u = rule.unit;
+      final along = tip.x * u.x + tip.y * u.y;
+      final foot = Vec(u.x * along, u.y * along);
+      _dashed(canvas, g.at(tip.x, tip.y), g.at(foot.x, foot.y));
+    }
+
+    if (rule != null) {
+      void tick(int i, Color color) {
+        final at = g.at(rule.unit.x * i, rule.unit.y * i);
+        canvas.drawCircle(at, 7, Paint()..color = color);
+        canvas.drawCircle(
+          at,
+          13,
+          Paint()
+            ..color = color.withValues(alpha: 0.35)
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2,
+        );
+      }
+
+      if (rulerPick != null && (!revealed || rulerPick != rulerTruth)) {
+        tick(rulerPick!, revealed ? AppColors.error : AppColors.ember);
+      }
+      if (revealed && rulerTruth != null) {
+        tick(rulerTruth!, AppColors.forest);
+      }
     }
 
     void mark((int, int) at, Color color) {
@@ -227,5 +343,8 @@ class VectorPainter extends CustomPainter {
       old.truth != truth ||
       old.revealed != revealed ||
       old.guide != guide ||
+      old.rulerPick != rulerPick ||
+      old.rulerTruth != rulerTruth ||
+      old.drop != drop ||
       old.arrows != arrows;
 }

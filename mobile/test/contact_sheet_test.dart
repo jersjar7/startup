@@ -16,6 +16,9 @@ import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
 import 'package:mobile/features/games/both_sides_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/open_or_closed_game.dart';
+import 'package:mobile/features/games/shadow_falls_game.dart';
+import 'package:mobile/features/games/take_the_diagonal_game.dart';
 import 'package:mobile/features/games/land_the_resultant_game.dart';
 import 'package:mobile/features/games/reaches_further_game.dart';
 import 'package:mobile/features/games/stretch_it_game.dart';
@@ -347,6 +350,24 @@ void main() {
       rounds: reachRounds.length,
       height: 1250,
     ),
+    'take-the-diagonal': (
+      lesson: '12-dot-product',
+      build: TakeTheDiagonalGame.new,
+      rounds: diagonalRounds.length,
+      height: 1250,
+    ),
+    'open-or-closed': (
+      lesson: '12-dot-product',
+      build: OpenOrClosedGame.new,
+      rounds: signRounds.length,
+      height: 1250,
+    ),
+    'shadow-falls': (
+      lesson: '12-dot-product',
+      build: ShadowFallsGame.new,
+      rounds: shadowRounds.length,
+      height: 1350,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -406,6 +427,11 @@ void main() {
       ('adding-arrows', vectorAddBrief),
       ('unit-vector', unitVectorBrief),
       ('magnitude', magnitudeBrief),
+    ],
+    '12-dot-product': [
+      ('matching-components', dotProductBrief),
+      ('sign-and-angle', dotAngleBrief),
+      ('projection', projectionBrief),
     ],
   };
 

@@ -445,6 +445,32 @@ const mathematicsMap = ChapterMap(
       id: 'dot-product-angle',
       name: 'Dot Product & Angle Between Vectors',
       subtopicId: 'vector-operations',
+      games: [
+        GameDef(
+          id: 'take-the-diagonal',
+          rounds: 6,
+          name: 'Take the Diagonal',
+          blurb: 'Every pairing is on screen. Only some of them count.',
+          built: true,
+          brief: dotProductBrief,
+        ),
+        GameDef(
+          id: 'open-or-closed',
+          rounds: 6,
+          name: 'Open or Closed',
+          blurb: 'Positive, zero or negative, read straight off the drawing.',
+          built: true,
+          brief: dotAngleBrief,
+        ),
+        GameDef(
+          id: 'shadow-falls',
+          rounds: 6,
+          name: 'Where the Shadow Falls',
+          blurb: 'Drop the force onto the member and see how much lands.',
+          built: true,
+          brief: projectionBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'cross-product-applications',

@@ -19,6 +19,7 @@ import '../features/games/grade_sense_game.dart';
 import '../features/games/land_the_resultant_game.dart';
 import '../features/games/next_line_game.dart';
 import '../features/games/one_log_game.dart';
+import '../features/games/open_or_closed_game.dart';
 import '../features/games/order_the_moves_game.dart';
 import '../features/games/perpendicular_flip_game.dart';
 import '../features/games/pick_u_game.dart';
@@ -33,7 +34,9 @@ import '../features/games/run_the_loop_game.dart';
 import '../features/games/set_it_up_game.dart';
 import '../features/games/sign_the_bend_game.dart';
 import '../features/games/slide_to_flat_game.dart';
+import '../features/games/shadow_falls_game.dart';
 import '../features/games/stretch_it_game.dart';
+import '../features/games/take_the_diagonal_game.dart';
 import '../features/games/tap_the_side_game.dart';
 import '../features/games/walk_the_circle_game.dart';
 import '../features/games/what_was_asked_game.dart';
@@ -126,6 +129,9 @@ GoRouter buildRouter(AuthController auth) {
           'land-the-resultant' => const LandTheResultantGame(),
           'stretch-it' => const StretchItGame(),
           'reaches-further' => const ReachesFurtherGame(),
+          'take-the-diagonal' => const TakeTheDiagonalGame(),
+          'open-or-closed' => const OpenOrClosedGame(),
+          'shadow-falls' => const ShadowFallsGame(),
           _ => const _UnknownGame(),
         },
       ),

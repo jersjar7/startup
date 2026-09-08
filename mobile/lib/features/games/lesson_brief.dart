@@ -71,6 +71,9 @@ enum BriefFigure {
   vectorAdd,
   unitVector,
   magnitude,
+  dotProduct,
+  dotAngle,
+  projection,
   lawChoice,
   lawForms,
   cosineSign,
@@ -682,6 +685,71 @@ const magnitudeBrief = BriefSection(
   handbook: 'Handbook p. 94',
 );
 
+// ── Dot Product & Angle Between Vectors ─────────────────────────────────────
+
+const dotProductBrief = BriefSection(
+  title: 'Matching components, and a number at the end',
+  body:
+      'The dot product pairs each component with its OWN partner: across with '
+      'across, up with up, and signs kept. Multiply the pairs and add them. '
+      'Pairing across with up is the cross product wearing the wrong name, and '
+      'it is the fastest way to lose this question. Whatever comes out is a '
+      'plain number: if your answer still has an i or a j in it, you have done '
+      'the other product.',
+  formulas: [
+    (
+      'Component form',
+      r'\vec{A} \cdot \vec{B} = A_xB_x + A_yB_y + A_zB_z',
+    ),
+    ('And it is a scalar', r'\vec{A} \cdot \vec{B} \in \mathbb{R}'),
+  ],
+  figure: BriefFigure.dotProduct,
+  handbook: 'Handbook p. 94',
+);
+
+const dotAngleBrief = BriefSection(
+  title: 'The sign is the angle',
+  body:
+      'The other formula for the same number is the two lengths times the '
+      'cosine of the angle between them. Lengths are always positive, so the '
+      'sign of a dot product is nothing but the sign of that cosine. Under '
+      'ninety degrees it is positive, over ninety it is negative, and exactly '
+      'ninety makes it zero. That last one is the fastest perpendicularity '
+      'check there is. For the angle itself, rearrange and take the inverse '
+      'cosine, and remember that the cosine is not the angle.',
+  formulas: [
+    ('Angle form', r'\vec{A} \cdot \vec{B} = |\vec{A}||\vec{B}|\cos\theta'),
+    (
+      'Rearranged for the angle',
+      r'\theta = \cos^{-1}\!\left(\frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}\right)',
+    ),
+    ('Perpendicular', r'\vec{A} \cdot \vec{B} = 0'),
+  ],
+  figure: BriefFigure.dotAngle,
+  handbook: 'Handbook p. 94',
+);
+
+const projectionBrief = BriefSection(
+  title: "How much of a force lands on a member",
+  body:
+      'The component of a force along a direction is the length of its shadow '
+      'on that direction. Take the dot product and divide by the length of the '
+      'DIRECTION, not of the force. Leaving it undivided gives you the shadow '
+      'multiplied by the member length, which is not a force at all, and '
+      'dividing by the force instead gives you a number that forgot what it '
+      'was measuring. The sign survives: negative means the force runs back '
+      'along the member rather than out along it.',
+  formulas: [
+    (
+      'Scalar projection',
+      r'\text{proj}_{\vec{B}}\vec{A} = \frac{\vec{A} \cdot \vec{B}}{|\vec{B}|}',
+    ),
+    ('Which is just', r'\vec{A} \cdot \hat{u}_B'),
+  ],
+  figure: BriefFigure.projection,
+  handbook: 'Handbook p. 94',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1155,6 +1223,31 @@ class BriefFigureView extends StatelessWidget {
             (r"|30\hat{i} + 40\hat{j}| = 70", false),
             (r"|3\hat{i} + 4\hat{j}| = |5\hat{i}|", true),
             (r"|-3\hat{i} + 4\hat{j}| = 5", true),
+          ],
+        );
+      case BriefFigure.dotProduct:
+        return const _RuleList(
+          rules: [
+            (r"(3)(-2) + (4)(5) = 14", true),
+            (r"(3)(5) + (4)(-2) = 7", false),
+            (r"(3)(-2) = -6 \;\Rightarrow\; \text{the whole answer}", false),
+          ],
+        );
+      case BriefFigure.dotAngle:
+        return const _RuleList(
+          rules: [
+            (r"\theta < 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} > 0", null),
+            (r"\theta = 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} = 0", null),
+            (r"\theta > 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} < 0", null),
+            (r"\cos\theta = \tfrac{1}{\sqrt{2}} \;\Rightarrow\; \theta = 45^\circ", true),
+          ],
+        );
+      case BriefFigure.projection:
+        return const _RuleList(
+          rules: [
+            (r"\frac{\vec{F} \cdot \vec{d}}{|\vec{d}|} = \frac{1500}{3} = 500", true),
+            (r"\vec{F} \cdot \vec{d} = 1500 \;\Rightarrow\; \text{the component}", false),
+            (r"\frac{\vec{F} \cdot \vec{d}}{|\vec{F}|} \;\Rightarrow\; \text{the component}", false),
           ],
         );
       case BriefFigure.logRules:
