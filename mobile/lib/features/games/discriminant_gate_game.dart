@@ -65,7 +65,7 @@ class Gate {
   final String? context;
 }
 
-const _rounds = <Gate>[
+const gateRounds = <Gate>[
   Gate(
     ask: GateAsk.countFromCurve,
     context:
@@ -134,7 +134,7 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
   late final BoardSession _session = BoardSession(
     gameId: 'discriminant-gate',
     chapterId: 'mathematics',
-    total: _rounds.length,
+    total: gateRounds.length,
     // Every round is drawn from the lesson's quadratic problem and its traps.
     sourceProblemIdOf: (_) => 'math-slq-q3',
   )..addListener(_onSession);
@@ -151,7 +151,7 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
     super.dispose();
   }
 
-  Gate get _gate => _rounds[_session.round];
+  Gate get _gate => gateRounds[_session.round];
 
   @override
   Widget build(BuildContext context) {

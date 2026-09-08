@@ -92,7 +92,7 @@ class Round {
   bool get needsNegate => ask == Ask.perpendicular;
 }
 
-const _board = <Round>[
+const flipRounds = <Round>[
   Round(
     context:
         'A property boundary runs from P(2, 3) to Q(8, 7). A utility easement '
@@ -155,7 +155,7 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
   late final BoardSession _session = BoardSession(
     gameId: 'perpendicular-flip',
     chapterId: 'mathematics',
-    total: _board.length,
+    total: flipRounds.length,
     // Every round is authored from the easement problem and its two traps.
     sourceProblemIdOf: (_) => 'math-slq-q2',
   )..addListener(_onSession);
@@ -173,7 +173,7 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
     super.dispose();
   }
 
-  Round get _round => _board[_session.round];
+  Round get _round => flipRounds[_session.round];
 
   Slope get _built {
     var s = _round.boundary;

@@ -59,6 +59,11 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
+  assets:
+    # The brand fonts, bundled rather than fetched at runtime: the app is for
+    # studying on a bus, and type that arrives late (or never) is not type.
+    - assets/fonts/
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
