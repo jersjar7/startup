@@ -240,6 +240,9 @@ class TrianglePainter extends CustomPainter {
     _text(canvas, angleLabel, at2, AppColors.ember, 15, bold: true);
   }
 
+  /// Labels sit ALONGSIDE their side, turned to its angle, never across it. A
+  /// horizontal label laid over a sloping line is hard to read and hides the
+  /// line it is naming.
   void _tag(
     Canvas canvas,
     TriangleGeometry g,
@@ -248,12 +251,31 @@ class TrianglePainter extends CustomPainter {
     Color color, {
     bool small = false,
   }) {
-    final mid = g.midOf(side);
+    final (a, b) = g.endsOf(side);
+    final mid = (a + b) / 2;
+    final along = b - a;
+    if (along.distance == 0) return;
+
+    final unit = along / along.distance;
+    // Perpendicular, pushed to whichever side faces away from the triangle.
+    var normal = Offset(-unit.dy, unit.dx);
     final center = Offset(g.size.width / 2, g.size.height / 2);
-    final away = (mid - center);
-    final at =
-        mid + (away.distance == 0 ? Offset.zero : away / away.distance * 20);
-    _text(canvas, text, at, color, small ? 10.5 : 13);
+    if ((mid + normal - center).distance < (mid - normal - center).distance) {
+      normal = -normal;
+    }
+
+    var angle = math.atan2(unit.dy, unit.dx);
+    // Never upside down.
+    if (angle > math.pi / 2 || angle < -math.pi / 2) angle += math.pi;
+    // A label beside a near-vertical line reads better upright than turned on
+    // its side; it is clear of the line either way.
+    if ((angle.abs() - math.pi / 2).abs() < 0.26) angle = 0;
+
+    canvas.save();
+    canvas.translate(mid.dx + normal.dx * 17, mid.dy + normal.dy * 17);
+    canvas.rotate(angle);
+    _text(canvas, text, Offset.zero, color, small ? 10.5 : 13);
+    canvas.restore();
   }
 
   void _text(
