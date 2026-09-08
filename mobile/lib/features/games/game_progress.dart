@@ -98,13 +98,6 @@ class GameProgress extends ChangeNotifier {
   static void registerRounds(String gameId, int total) =>
       _totalRounds[gameId] = total;
 
-  /// lessonId -> the fraction the map last drew. Lets a node animate from
-  /// where the student last saw it to where it is now.
-  final Map<String, double> _shown = {};
-
-  double shownFraction(String lessonId) => _shown[lessonId] ?? 0;
-  void markShown(String lessonId, double value) => _shown[lessonId] = value;
-
   /// How far through a lesson's items the student is, 0 to 1.
   double fractionOf(LessonNode lesson) {
     final total = lesson.builtGames.length;

@@ -15,6 +15,7 @@ class GameDef {
     required this.name,
     required this.blurb,
     this.built = false,
+    this.brief,
   });
 
   final String id;
@@ -26,6 +27,9 @@ class GameDef {
   /// False until the game is actually playable. The map says so out loud
   /// rather than pretending a node is there.
   final bool built;
+
+  /// The one concept this item leans on, reachable from inside it.
+  final BriefSection? brief;
 }
 
 class LessonNode {
@@ -34,17 +38,12 @@ class LessonNode {
     required this.name,
     required this.subtopicId,
     this.games = const [],
-    this.brief = const [],
   });
 
   final String id;
   final String name;
   final String subtopicId;
   final List<GameDef> games;
-
-  /// The idea behind the lesson: definitions and pictures, readable before
-  /// playing and from inside a sitting.
-  final List<BriefSection> brief;
 
   List<GameDef> get builtGames =>
       games.where((g) => g.built).toList(growable: false);
@@ -99,25 +98,27 @@ const mathematicsMap = ChapterMap(
       id: 'straight-lines-quadratics',
       name: 'Straight Lines & Quadratics',
       subtopicId: 'analytic-geometry',
-      brief: straightLinesBrief,
       games: [
         GameDef(
           id: 'perpendicular-flip',
           name: 'Perpendicular Flip',
           blurb: 'Build the second line with two moves and watch it swing.',
           built: true,
+          brief: perpendicularBrief,
         ),
         GameDef(
           id: 'discriminant-gate',
           name: 'Discriminant Gate',
           blurb: 'Two roots, one root, or none. Judge the sign, never solve.',
           built: true,
+          brief: discriminantBrief,
         ),
         GameDef(
           id: 'grade-sense',
           name: 'Grade Sense',
           blurb: 'Rank road profiles by grade. The station trap is in there.',
           built: true,
+          brief: gradeBrief,
         ),
       ],
     ),

@@ -200,8 +200,7 @@ class _PerpendicularFlipGameState extends State<PerpendicularFlipGame> {
 
     return BoardShell(
       session: _session,
-      lessonName: 'Straight Lines & Quadratics',
-      brief: straightLinesBrief,
+      brief: perpendicularBrief,
       buttonLabel: answered ? 'Next' : 'Confirm this line',
       onButton: answered
           ? () {

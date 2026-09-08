@@ -33,53 +33,49 @@ class BriefSection {
 
 enum BriefFigure { slopePair, discriminant, grade }
 
-/// Straight Lines & Quadratics. Drawn from the lesson's own content: the three
-/// line forms, the perpendicular rule, the quadratic formula and its
-/// discriminant tip, and the station-to-feet conversion in its first problem.
-const straightLinesBrief = <BriefSection>[
-  BriefSection(
-    title: 'Parallel and perpendicular',
-    body:
-        'Parallel lines never meet, and that is the same as saying they have '
-        'the same slope. Perpendicular lines cross at a right angle, and their '
-        'slopes are negative reciprocals: flip the fraction and change the '
-        'sign. Doing only one of the two gets you a line that looks plausible '
-        'and is wrong.',
-    formula: r'm_{\perp} = -\frac{1}{m}',
-    figure: BriefFigure.slopePair,
-    handbook: 'Handbook p. 36',
-  ),
-  BriefSection(
-    title: 'The discriminant',
-    body:
-        'In the quadratic formula, the part under the square root is the '
-        'discriminant. Its sign alone tells you how many real roots there are: '
-        'positive gives two, zero gives one, negative gives none. You can read '
-        'that off a graph without solving anything, and on the exam it lets '
-        'you throw out answers before you start.',
-    formula: r'b^2 - 4ac',
-    figure: BriefFigure.discriminant,
-    handbook: 'Handbook p. 36',
-  ),
-  BriefSection(
-    title: 'Grade, rise and run',
-    body:
-        'Grade is rise over run, written as a percent. Stations are the trap: '
-        'a station is distance in hundreds of feet, so 3+00 means 300 feet, '
-        'never 3. Convert the stations before you compare anything, or a flat '
-        'road will look like a cliff.',
-    formula: r'\text{grade} = \frac{\text{rise}}{\text{run}}',
-    figure: BriefFigure.grade,
-    handbook: 'Handbook p. 36',
-  ),
-];
+/// One concept per item. Each is the reference for the item it sits behind and
+/// nothing else: opening it mid-round should answer the question in front of
+/// you, not make you hunt through the rest of the lesson.
+const perpendicularBrief = BriefSection(
+  title: 'Parallel and perpendicular',
+  body:
+      'Parallel lines never meet, and that is the same as saying they have '
+      'the same slope. Perpendicular lines cross at a right angle, and their '
+      'slopes are negative reciprocals: flip the fraction and change the '
+      'sign. Doing only one of the two gets you a line that looks plausible '
+      'and is wrong.',
+  formula: r'm_{\perp} = -\frac{1}{m}',
+  figure: BriefFigure.slopePair,
+  handbook: 'Handbook p. 36',
+);
 
-/// Opens the brief over whatever is on screen.
-Future<void> showLessonBrief(
-  BuildContext context, {
-  required String lessonName,
-  required List<BriefSection> sections,
-}) {
+const discriminantBrief = BriefSection(
+  title: 'The discriminant',
+  body:
+      'In the quadratic formula, the part under the square root is the '
+      'discriminant. Its sign alone tells you how many real roots there are: '
+      'positive gives two, zero gives one, negative gives none. You can read '
+      'that off a graph without solving anything, and on the exam it lets '
+      'you throw out answers before you start.',
+  formula: r'b^2 - 4ac',
+  figure: BriefFigure.discriminant,
+  handbook: 'Handbook p. 36',
+);
+
+const gradeBrief = BriefSection(
+  title: 'Grade, rise and run',
+  body:
+      'Grade is rise over run, written as a percent. Stations are the trap: '
+      'a station is distance in hundreds of feet, so 3+00 means 300 feet, '
+      'never 3. Convert the stations before you compare anything, or a flat '
+      'road will look like a cliff.',
+  formula: r'\text{grade} = \frac{\text{rise}}{\text{run}}',
+  figure: BriefFigure.grade,
+  handbook: 'Handbook p. 36',
+);
+
+/// Opens one concept over whatever is on screen.
+Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
     context: context,
     backgroundColor: AppColors.cream,
@@ -89,21 +85,17 @@ Future<void> showLessonBrief(
       borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
     ),
     builder: (_) => FractionallySizedBox(
-      heightFactor: 0.92,
-      child: LessonBriefView(lessonName: lessonName, sections: sections),
+      heightFactor: 0.9,
+      child: ConceptView(section: section),
     ),
   );
 }
 
-class LessonBriefView extends StatelessWidget {
-  const LessonBriefView({
-    super.key,
-    required this.lessonName,
-    required this.sections,
-  });
+/// The concept behind the item you are on, and only that one.
+class ConceptView extends StatelessWidget {
+  const ConceptView({super.key, required this.section});
 
-  final String lessonName;
-  final List<BriefSection> sections;
+  final BriefSection section;
 
   @override
   Widget build(BuildContext context) {
@@ -112,17 +104,12 @@ class LessonBriefView extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
         children: [
-          Text('THE IDEA', style: AppTheme.overline()),
-          const SizedBox(height: 6),
-          Text(lessonName, style: AppTheme.heading(size: 24)),
-          const SizedBox(height: 18),
-          for (final s in sections) ...[
-            _SectionCard(section: s),
-            const SizedBox(height: 14),
-          ],
-          const SizedBox(height: 4),
+          Text(section.title, style: AppTheme.heading(size: 25)),
+          const SizedBox(height: 16),
+          _SectionCard(section: section),
+          const SizedBox(height: 14),
           const Text(
-            'Knowing these is not the same as solving with them. The full '
+            'Knowing this is not the same as solving with it. The full '
             'problems belong at a desk, on paper.',
             style: TextStyle(fontSize: 13, height: 1.55, color: AppColors.ink3),
           ),
@@ -149,8 +136,6 @@ class _SectionCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(section.title, style: AppTheme.heading(size: 18)),
-          const SizedBox(height: 10),
           Text(
             section.body,
             style: const TextStyle(

@@ -171,8 +171,7 @@ class _DiscriminantGateGameState extends State<DiscriminantGateGame> {
 
     return BoardShell(
       session: _session,
-      lessonName: 'Straight Lines & Quadratics',
-      brief: straightLinesBrief,
+      brief: discriminantBrief,
       buttonLabel: answered ? 'Next' : 'Lock it in',
       onButton: answered
           ? () {

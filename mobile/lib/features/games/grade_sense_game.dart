@@ -184,8 +184,7 @@ class _GradeSenseGameState extends State<GradeSenseGame> {
 
     return BoardShell(
       session: _session,
-      lessonName: 'Straight Lines & Quadratics',
-      brief: straightLinesBrief,
+      brief: gradeBrief,
       buttonLabel: answered ? 'Next' : 'Lock the order',
       onButton: answered
           ? () {

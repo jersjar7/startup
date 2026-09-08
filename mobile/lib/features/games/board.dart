@@ -139,8 +139,7 @@ class BoardShell extends StatelessWidget {
     required this.child,
     required this.buttonLabel,
     required this.onButton,
-    this.lessonName,
-    this.brief = const [],
+    this.brief,
   });
 
   final BoardSession session;
@@ -148,10 +147,9 @@ class BoardShell extends StatelessWidget {
   final String buttonLabel;
   final VoidCallback? onButton;
 
-  /// The lesson's definitions, reachable mid-sitting. Forgetting what a term
+  /// The concept behind THIS item, reachable mid-round. Forgetting what a term
   /// means should send you to the explanation, not out of the app.
-  final String? lessonName;
-  final List<BriefSection> brief;
+  final BriefSection? brief;
 
   @override
   Widget build(BuildContext context) {
@@ -160,11 +158,7 @@ class BoardShell extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            _BoardHeader(
-              session: session,
-              lessonName: lessonName,
-              brief: brief,
-            ),
+            _BoardHeader(session: session, brief: brief),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
@@ -186,15 +180,10 @@ class BoardShell extends StatelessWidget {
 }
 
 class _BoardHeader extends StatelessWidget {
-  const _BoardHeader({
-    required this.session,
-    required this.lessonName,
-    required this.brief,
-  });
+  const _BoardHeader({required this.session, required this.brief});
 
   final BoardSession session;
-  final String? lessonName;
-  final List<BriefSection> brief;
+  final BriefSection? brief;
 
   @override
   Widget build(BuildContext context) {
@@ -227,14 +216,10 @@ class _BoardHeader extends StatelessWidget {
             '${session.clearedCount}/${session.total}',
             style: AppTheme.mono(size: 13, color: AppColors.ink2),
           ),
-          if (brief.isNotEmpty)
+          if (brief != null)
             IconButton(
-              tooltip: 'The idea',
-              onPressed: () => showLessonBrief(
-                context,
-                lessonName: lessonName ?? '',
-                sections: brief,
-              ),
+              tooltip: brief!.title,
+              onPressed: () => showConcept(context, brief!),
               icon: const Icon(
                 Icons.menu_book_rounded,
                 color: AppColors.ink3,
