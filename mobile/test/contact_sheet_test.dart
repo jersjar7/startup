@@ -13,6 +13,8 @@ import 'package:mobile/features/games/acute_or_obtuse_game.dart';
 import 'package:mobile/features/games/balance_both_sides_game.dart';
 import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
+import 'package:mobile/features/games/every_rule_game.dart';
+import 'package:mobile/features/games/find_the_slip_game.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
 import 'package:mobile/features/games/grade_sense_game.dart';
@@ -20,6 +22,7 @@ import 'package:mobile/features/games/one_log_game.dart';
 import 'package:mobile/features/games/order_the_moves_game.dart';
 import 'package:mobile/features/games/perpendicular_flip_game.dart';
 import 'package:mobile/features/games/place_the_center_game.dart';
+import 'package:mobile/features/games/point_at_the_inside_game.dart';
 import 'package:mobile/features/games/quadrant_signs_game.dart';
 import 'package:mobile/features/games/read_the_equation_game.dart';
 import 'package:mobile/features/games/resolve_it_game.dart';
@@ -128,96 +131,137 @@ void main() {
     await _loadIconFont();
   });
 
-  final items = <String, ({String lesson, Widget Function() build, int rounds})>{
+  // `height` is the capture window: a couple of items are taller than a phone
+  // and scroll in the app, and a sheet that cuts them off hides the half being
+  // reviewed.
+  final items = <String,
+      ({String lesson, Widget Function() build, int rounds, double height})>{
     'perpendicular-flip': (
       lesson: '01-straight-lines',
       build: PerpendicularFlipGame.new,
       rounds: flipRounds.length,
+      height: 1000,
     ),
     'discriminant-gate': (
       lesson: '01-straight-lines',
       build: DiscriminantGateGame.new,
       rounds: gateRounds.length,
+      height: 1000,
     ),
     'grade-sense': (
       lesson: '01-straight-lines',
       build: GradeSenseGame.new,
       rounds: gradeRounds.length,
+      height: 1000,
     ),
     'rule-or-trap': (
       lesson: '02-logarithms',
       build: RuleOrTrapGame.new,
       rounds: claims.length,
+      height: 1000,
     ),
     'order-the-moves': (
       lesson: '02-logarithms',
       build: OrderTheMovesGame.new,
       rounds: moveSets.length,
+      height: 1000,
     ),
     'one-log': (
       lesson: '02-logarithms',
       build: OneLogGame.new,
       rounds: collapses.length,
+      height: 1000,
     ),
     'tap-the-side': (
       lesson: '03-right-triangle',
       build: TapTheSideGame.new,
       rounds: sideRounds.length,
+      height: 1000,
     ),
     'which-ratio': (
       lesson: '03-right-triangle',
       build: WhichRatioGame.new,
       rounds: ratioRounds.length,
+      height: 1000,
     ),
     'resolve-it': (
       lesson: '03-right-triangle',
       build: ResolveItGame.new,
       rounds: resolves.length,
+      height: 1000,
     ),
     'which-law': (
       lesson: '04-law-of-sines',
       build: WhichLawGame.new,
       rounds: lawRounds.length,
+      height: 1000,
     ),
     'set-it-up': (
       lesson: '04-law-of-sines',
       build: SetItUpGame.new,
       rounds: setups.length,
+      height: 1000,
     ),
     'acute-or-obtuse': (
       lesson: '04-law-of-sines',
       build: AcuteOrObtuseGame.new,
       rounds: verdicts.length,
+      height: 1000,
     ),
     'walk-the-circle': (
       lesson: '05-unit-circle',
       build: WalkTheCircleGame.new,
       rounds: circleRounds.length,
+      height: 1000,
     ),
     'quadrant-signs': (
       lesson: '05-unit-circle',
       build: QuadrantSignsGame.new,
       rounds: quadrantRounds.length,
+      height: 1000,
     ),
     'build-the-identity': (
       lesson: '05-unit-circle',
       build: BuildTheIdentityGame.new,
       rounds: identities.length,
+      height: 1000,
     ),
     'place-the-center': (
       lesson: '06-circles-conics',
       build: PlaceTheCenterGame.new,
       rounds: centerRounds.length,
+      height: 1000,
     ),
     'read-the-equation': (
       lesson: '06-circles-conics',
       build: ReadTheEquationGame.new,
       rounds: readRounds.length,
+      height: 1000,
     ),
     'balance-both-sides': (
       lesson: '06-circles-conics',
       build: BalanceBothSidesGame.new,
       rounds: balances.length,
+      height: 1000,
+    ),
+    'every-rule': (
+      lesson: '07-derivatives',
+      build: EveryRuleGame.new,
+      rounds: ruleRounds.length,
+      height: 1000,
+    ),
+    'point-at-the-inside': (
+      lesson: '07-derivatives',
+      build: PointAtTheInsideGame.new,
+      rounds: insideRounds.length,
+      height: 1000,
+    ),
+    'find-the-slip': (
+      lesson: '07-derivatives',
+      build: FindTheSlipGame.new,
+      rounds: slips.length,
+      // Four worked lines plus three reasons does not fit a phone screen.
+      height: 1750,
     ),
   };
 
@@ -253,6 +297,11 @@ void main() {
       ('circle-form', circleFormBrief),
       ('three-forms', readingConicsBrief),
       ('completing-the-square', completeSquareBrief),
+    ],
+    '07-derivatives': [
+      ('which-rule', whichRuleBrief),
+      ('chain-rule', chainRuleBrief),
+      ('quotient-order', quotientOrderBrief),
     ],
   };
 
@@ -291,7 +340,7 @@ void main() {
     final item = entry.value;
 
     testWidgets('sheet: $id', (tester) async {
-      tester.view.physicalSize = const Size(390, 1000);
+      tester.view.physicalSize = Size(390, item.height);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
 

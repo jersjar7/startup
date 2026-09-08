@@ -104,7 +104,10 @@ def main() -> int:
         for page_no, page in enumerate(pages, start=1):
             cols = min(COLUMNS, len(page))
             rows = (len(page) + cols - 1) // cols
-            w, h = page[0][1].size
+            # The cell is sized by the TALLEST round on the page. Items differ
+            # in height, and sizing off the first one clipped the long ones.
+            w = max(im.width for _, im in page)
+            h = max(im.height for _, im in page)
             sheet = Image.new(
                 "RGB",
                 (cols * (w + PAD) + PAD, rows * (h + LABEL + PAD) + PAD),
@@ -116,7 +119,9 @@ def main() -> int:
                 x = PAD + (i % cols) * (w + PAD)
                 y = PAD + (i // cols) * (h + LABEL + PAD)
                 sheet.paste(im, (x, y))
-                draw.rectangle([x, y, x + w, y + h], outline=(230, 220, 205))
+                draw.rectangle(
+                    [x, y, x + im.width, y + im.height], outline=(230, 220, 205)
+                )
                 draw.text((x + 4, y + h + 8), name, fill=INK)
 
             suffix = "" if len(pages) == 1 else f"-p{page_no}"

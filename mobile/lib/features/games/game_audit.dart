@@ -2,11 +2,14 @@ import 'acute_or_obtuse_game.dart';
 import 'balance_both_sides_game.dart';
 import 'build_the_identity_game.dart';
 import 'discriminant_gate_game.dart';
+import 'every_rule_game.dart';
+import 'find_the_slip_game.dart';
 import 'grade_sense_game.dart';
 import 'one_log_game.dart';
 import 'order_the_moves_game.dart';
 import 'perpendicular_flip_game.dart';
 import 'place_the_center_game.dart';
+import 'point_at_the_inside_game.dart';
 import 'quadrant_signs_game.dart';
 import 'read_the_equation_game.dart';
 import 'resolve_it_game.dart';
@@ -255,6 +258,38 @@ List<GameAudit> auditAllGames() => [
           options: b.chips,
           answer: b.chips.indexOf(b.answers.first),
         ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'every-rule',
+    lessonId: 'derivatives-rules',
+    problemPrefix: 'math-dr-',
+    rounds: [
+      // The answer here is a SET, so there is no single index to point at.
+      for (final r in ruleRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'point-at-the-inside',
+    lessonId: 'derivatives-rules',
+    problemPrefix: 'math-dr-',
+    rounds: [
+      for (final r in insideRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.choices,
+          answer: r.choiceAnswer,
+          positional: true,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'find-the-slip',
+    lessonId: 'derivatives-rules',
+    problemPrefix: 'math-dr-',
+    rounds: [
+      for (final s in slips)
+        RoundAudit(source: s.source, options: s.reasons, answer: s.reason),
     ],
   ),
   GameAudit(

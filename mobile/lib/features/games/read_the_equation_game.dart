@@ -263,9 +263,12 @@ class _Token extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        constraints: const BoxConstraints(minWidth: 44, minHeight: 52),
+        constraints: const BoxConstraints(
+          minWidth: 44,
+          maxWidth: 170,
+          minHeight: 52,
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: fill,
           borderRadius: BorderRadius.circular(10),
@@ -274,7 +277,10 @@ class _Token extends StatelessWidget {
             width: border == Colors.transparent ? 1 : 2,
           ),
         ),
-        child: MathBlock(latex, fontSize: 18),
+        child: Center(
+          widthFactor: 1,
+          child: MathBlock(latex, fontSize: 18, fit: false),
+        ),
       ),
     );
   }

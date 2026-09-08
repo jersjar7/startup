@@ -290,6 +290,32 @@ const mathematicsMap = ChapterMap(
       id: 'derivatives-rules',
       name: 'Derivatives & Derivative Rules',
       subtopicId: 'single-var-calc',
+      games: [
+        GameDef(
+          id: 'every-rule',
+          rounds: 8,
+          name: 'Every Rule It Needs',
+          blurb: 'More than one can apply. Name all of them.',
+          built: true,
+          brief: whichRuleBrief,
+        ),
+        GameDef(
+          id: 'point-at-the-inside',
+          rounds: 6,
+          name: 'Point at the Inside',
+          blurb: 'Find the inner function and the chain rule writes itself.',
+          built: true,
+          brief: chainRuleBrief,
+        ),
+        GameDef(
+          id: 'find-the-slip',
+          rounds: 6,
+          name: 'Find the Slip',
+          blurb: 'One line of the working is wrong. Say which, and why.',
+          built: true,
+          brief: quotientOrderBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'applications-derivatives',

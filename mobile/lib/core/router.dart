@@ -8,6 +8,8 @@ import '../features/auth/signin_screen.dart';
 import '../features/auth/verify_screen.dart';
 import '../features/games/chapter_map_screen.dart';
 import '../features/games/discriminant_gate_game.dart';
+import '../features/games/every_rule_game.dart';
+import '../features/games/find_the_slip_game.dart';
 import '../features/games/grade_sense_game.dart';
 import '../features/games/one_log_game.dart';
 import '../features/games/order_the_moves_game.dart';
@@ -17,6 +19,7 @@ import '../features/games/build_the_identity_game.dart';
 import '../features/games/resolve_it_game.dart';
 import '../features/games/set_it_up_game.dart';
 import '../features/games/place_the_center_game.dart';
+import '../features/games/point_at_the_inside_game.dart';
 import '../features/games/quadrant_signs_game.dart';
 import '../features/games/read_the_equation_game.dart';
 import '../features/games/walk_the_circle_game.dart';
@@ -96,6 +99,9 @@ GoRouter buildRouter(AuthController auth) {
           'place-the-center' => const PlaceTheCenterGame(),
           'read-the-equation' => const ReadTheEquationGame(),
           'balance-both-sides' => const BalanceBothSidesGame(),
+          'every-rule' => const EveryRuleGame(),
+          'point-at-the-inside' => const PointAtTheInsideGame(),
+          'find-the-slip' => const FindTheSlipGame(),
           _ => const _UnknownGame(),
         },
       ),

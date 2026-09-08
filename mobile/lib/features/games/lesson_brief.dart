@@ -56,6 +56,9 @@ enum BriefFigure {
   circleForm,
   conicForms,
   completingSquare,
+  whichRule,
+  chainRule,
+  quotientOrder,
   lawChoice,
   lawForms,
   cosineSign,
@@ -382,6 +385,63 @@ const completeSquareBrief = BriefSection(
   ],
   figure: BriefFigure.completingSquare,
   handbook: 'Handbook p. 24',
+);
+
+// ── Derivatives & Derivative Rules ──────────────────────────────────────────
+
+const whichRuleBrief = BriefSection(
+  title: 'Which rule, and how many',
+  body:
+      'The handbook has the table; what it cannot tell you is which rule the '
+      'shape of your function calls for. Ask two questions. Is anything '
+      'multiplied or divided? That is the product or quotient rule. Is any '
+      'argument something other than plain x? That is the chain rule. Both '
+      'answers can be yes at once, and on this exam they usually are.',
+  formulas: [
+    ('Product', r'\frac{d}{dx}(uv) = u\frac{dv}{dx} + v\frac{du}{dx}'),
+    (
+      'Quotient',
+      r'\frac{d}{dx}\!\left(\frac{u}{v}\right) = \frac{v\frac{du}{dx} - u\frac{dv}{dx}}{v^2}',
+    ),
+    ('Chain', r"\frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)"),
+  ],
+  figure: BriefFigure.whichRule,
+  handbook: 'Handbook p. 49',
+);
+
+const chainRuleBrief = BriefSection(
+  title: 'The chain rule, and the factor people drop',
+  body:
+      'If the argument is anything other than plain x, differentiating the '
+      'outside is only half the job: the derivative of the inside multiplies '
+      'it, from outside. It never moves into the argument. Almost every '
+      'derivative on this exam is a chain rule in disguise, and the missing '
+      'inner factor is the single most common wrong answer.',
+  formulas: [
+    ('The rule', r"\frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)"),
+    ('So', r'\frac{d}{dx}(3x+5)^4 = 4(3x+5)^3 \cdot 3'),
+  ],
+  figure: BriefFigure.chainRule,
+  handbook: 'Handbook p. 49',
+);
+
+const quotientOrderBrief = BriefSection(
+  title: 'Lo d-hi minus hi d-lo',
+  body:
+      'The quotient rule is the biggest generator of sign errors on this '
+      'exam, and the order is the whole reason. The BOTTOM function comes '
+      'first, multiplying the derivative of the top. Swap the two terms and '
+      'the answer comes out with the wrong sign throughout. And the '
+      'denominator is squared, which is the other half people drop.',
+  formulas: [
+    (
+      'Quotient rule',
+      r'\frac{d}{dx}\!\left(\frac{u}{v}\right) = \frac{v\frac{du}{dx} - u\frac{dv}{dx}}{v^2}',
+    ),
+    ('Said out loud', r'\text{lo d-hi} - \text{hi d-lo, over lo-lo}'),
+  ],
+  figure: BriefFigure.quotientOrder,
+  handbook: 'Handbook p. 49',
 );
 
 /// Opens one concept over whatever is on screen.
@@ -728,6 +788,31 @@ class BriefFigureView extends StatelessWidget {
             (r'x^2 - 10x + 25 = -18', false),
           ],
         );
+      case BriefFigure.whichRule:
+        return const _RuleList(
+          rules: [
+            (r'\text{multiplied} \Rightarrow \text{product}', null),
+            (r'\text{divided} \Rightarrow \text{quotient}', null),
+            (r'\text{argument is not plain } x \Rightarrow \text{chain}', null),
+          ],
+        );
+      case BriefFigure.chainRule:
+        return const _RuleList(
+          rules: [
+            (r'\frac{d}{dx}(3x+5)^4 = 12(3x+5)^3', true),
+            (r'\frac{d}{dx}(3x+5)^4 = 4(3x+5)^3', false),
+            (r'\frac{d}{dx}e^{3x} = 3e^{3x}', true),
+            (r'\frac{d}{dx}\sin(3x^2) = 6x\cos(3x^2)', true),
+          ],
+        );
+      case BriefFigure.quotientOrder:
+        return const _RuleList(
+          rules: [
+            (r'\frac{v\,du - u\,dv}{v^2}', true),
+            (r'\frac{u\,dv - v\,du}{v^2}', false),
+            (r'\frac{v\,du - u\,dv}{v}', false),
+          ],
+        );
       case BriefFigure.logRules:
         return const _RuleList(
           rules: [
@@ -795,7 +880,13 @@ class _RuleList extends StatelessWidget {
                       color: AppColors.ink3,
                     ),
                   const SizedBox(width: 10),
-                  Expanded(child: MathBlock(latex, fontSize: 15)),
+                  Expanded(
+                    child: MathBlock(
+                      latex,
+                      fontSize: 15,
+                      align: Alignment.centerLeft,
+                    ),
+                  ),
                 ],
               ),
             ),

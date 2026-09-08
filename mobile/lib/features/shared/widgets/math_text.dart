@@ -14,7 +14,8 @@ class MathText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final base = style ??
+    final base =
+        style ??
         const TextStyle(fontSize: 15, height: 1.5, color: AppColors.charcoal);
     final parts = data.split(r'$');
     final spans = <InlineSpan>[];
@@ -22,16 +23,18 @@ class MathText extends StatelessWidget {
       if (i.isEven) {
         if (parts[i].isNotEmpty) spans.add(TextSpan(text: parts[i]));
       } else {
-        spans.add(WidgetSpan(
-          alignment: PlaceholderAlignment.baseline,
-          baseline: TextBaseline.alphabetic,
-          child: Math.tex(
-            parts[i],
-            textStyle: base,
-            mathStyle: MathStyle.text,
-            onErrorFallback: (_) => Text(parts[i], style: base),
+        spans.add(
+          WidgetSpan(
+            alignment: PlaceholderAlignment.baseline,
+            baseline: TextBaseline.alphabetic,
+            child: Math.tex(
+              parts[i],
+              textStyle: base,
+              mathStyle: MathStyle.text,
+              onErrorFallback: (_) => Text(parts[i], style: base),
+            ),
           ),
-        ));
+        );
       }
     }
     return Text.rich(TextSpan(style: base, children: spans));
@@ -43,7 +46,13 @@ class MathText extends StatelessWidget {
 /// Long expressions shrink to fit rather than running off the card: a
 /// half-visible formula is worse than a small one, and phones are narrow.
 class MathBlock extends StatelessWidget {
-  const MathBlock(this.latex, {super.key, this.fontSize = 17, this.align});
+  const MathBlock(
+    this.latex, {
+    super.key,
+    this.fontSize = 17,
+    this.align,
+    this.fit = true,
+  });
 
   final String latex;
   final double fontSize;
@@ -51,9 +60,22 @@ class MathBlock extends StatelessWidget {
   /// Where the formula sits when it is narrower than its box.
   final Alignment? align;
 
+  /// Shrink to fit the space offered. Turn it OFF for a small piece that
+  /// should take only the width its own characters need: inside a Wrap, a
+  /// fitted box claims the whole row and a three-part expression ends up
+  /// stacked vertically.
+  final bool fit;
+
   @override
   Widget build(BuildContext context) {
     final s = TextStyle(fontSize: fontSize, color: AppColors.charcoal);
+    final math = Math.tex(
+      latex,
+      textStyle: s,
+      mathStyle: MathStyle.display,
+      onErrorFallback: (_) => Text(latex, style: s),
+    );
+    if (!fit) return math;
     return FittedBox(
       fit: BoxFit.scaleDown,
       alignment: align ?? Alignment.center,
