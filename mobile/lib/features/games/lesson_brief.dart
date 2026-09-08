@@ -7,6 +7,7 @@ import '../../core/theme/app_theme.dart';
 import '../shared/widgets/engineering_grid.dart';
 import '../shared/widgets/math_text.dart';
 import 'discriminant_gate_game.dart' show Para, ParaPainter;
+import 'oblique_figures.dart';
 import 'trig_figures.dart';
 
 /// The idea behind a lesson, in a few lines and a picture, reachable both from
@@ -42,6 +43,9 @@ enum BriefFigure {
   ratios,
   sideNames,
   components,
+  lawChoice,
+  lawForms,
+  cosineSign,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -161,6 +165,44 @@ const componentsBrief = BriefSection(
       'biggest trap in this topic.',
   formula: r'F_x = F\cos\theta \qquad F_y = F\sin\theta',
   figure: BriefFigure.components,
+  handbook: 'Handbook p. 23',
+);
+
+// ── Law of Sines & Law of Cosines ───────────────────────────────────────────
+
+const whichLawBrief = BriefSection(
+  title: 'Which law, and when',
+  body:
+      'An oblique triangle has no right angle, so nothing can be dropped '
+      'into sine and cosine of a single angle. If you have a side together '
+      'with the angle opposite it, that pair opens the Law of Sines. If you '
+      'have two sides with the angle between them, or all three sides, nothing '
+      'pairs up and it is the Law of Cosines.',
+  figure: BriefFigure.lawChoice,
+  handbook: 'Handbook p. 23',
+);
+
+const setupBrief = BriefSection(
+  title: 'Writing the two laws',
+  body:
+      'Every side sits over the sine of its OWN angle, which is what makes '
+      'the ratio easy to flip by accident. The Law of Cosines is the '
+      'Pythagorean theorem with a correction term subtracted, never added, and '
+      'the angle in it is always the one opposite the side you are after.',
+  figure: BriefFigure.lawForms,
+  handbook: 'Handbook p. 23',
+);
+
+const obtuseBrief = BriefSection(
+  title: 'What a negative cosine means',
+  body:
+      'Rearranged for an angle, the Law of Cosines puts the side opposite '
+      'that angle on the top with a minus in front. When the longest side '
+      'squared beats the other two put together, the top goes negative, the '
+      'cosine goes negative, and the angle is obtuse. Inverse cosine already '
+      'returns the obtuse angle, so nothing needs subtracting from 180.',
+  formula: r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}',
+  figure: BriefFigure.cosineSign,
   handbook: 'Handbook p. 23',
 );
 
@@ -379,6 +421,63 @@ class BriefFigureView extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+          ],
+        );
+      case BriefFigure.lawChoice:
+        return Row(
+          children: [
+            Expanded(
+              child: _Panel(
+                height: 160,
+                caption: 'A side with its own angle: Sines',
+                child: CustomPaint(
+                  painter: ObliqueTrianglePainter(
+                    knownSides: {'a'},
+                    knownAngles: {'A', 'B'},
+                    wanted: 'b',
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _Panel(
+                height: 160,
+                caption: 'Two sides and the angle between: Cosines',
+                child: CustomPaint(
+                  painter: ObliqueTrianglePainter(
+                    knownSides: {'a', 'b'},
+                    knownAngles: {'C'},
+                    wanted: 'c',
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      case BriefFigure.lawForms:
+        return const _RuleList(
+          rules: [
+            (r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}', true),
+            (r'c^2 = a^2 + b^2 - 2ab\cos C', true),
+            (r'c^2 = a^2 + b^2 + 2ab\cos C', false),
+          ],
+        );
+      case BriefFigure.cosineSign:
+        return const _RuleList(
+          rules: [
+            (
+              r'c^2 < a^2 + b^2 \;\Rightarrow\; \cos C > 0 \;\Rightarrow\; \text{acute}',
+              true,
+            ),
+            (
+              r'c^2 = a^2 + b^2 \;\Rightarrow\; \cos C = 0 \;\Rightarrow\; 90^\circ',
+              true,
+            ),
+            (
+              r'c^2 > a^2 + b^2 \;\Rightarrow\; \cos C < 0 \;\Rightarrow\; \text{obtuse}',
+              true,
             ),
           ],
         );

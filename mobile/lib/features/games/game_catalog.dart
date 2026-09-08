@@ -197,6 +197,32 @@ const mathematicsMap = ChapterMap(
       id: 'law-of-sines-cosines',
       name: 'Law of Sines & Law of Cosines',
       subtopicId: 'analytic-geometry',
+      games: [
+        GameDef(
+          id: 'which-law',
+          rounds: 8,
+          name: 'Which Law',
+          blurb: 'Read what you were handed and pick the way in.',
+          built: true,
+          brief: whichLawBrief,
+        ),
+        GameDef(
+          id: 'set-it-up',
+          rounds: 6,
+          name: 'Set It Up',
+          blurb: 'Write it down right. Every wrong option is a real slip.',
+          built: true,
+          brief: setupBrief,
+        ),
+        GameDef(
+          id: 'acute-or-obtuse',
+          rounds: 6,
+          name: 'Acute or Obtuse',
+          blurb: 'A negative cosine is not a mistake. Say what it means.',
+          built: true,
+          brief: obtuseBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'unit-circle-trig-identities',

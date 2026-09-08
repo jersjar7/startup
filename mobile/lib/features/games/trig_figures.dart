@@ -270,6 +270,10 @@ class TrianglePainter extends CustomPainter {
     // A label beside a near-vertical line reads better upright than turned on
     // its side; it is clear of the line either way.
     if ((angle.abs() - math.pi / 2).abs() < 0.26) angle = 0;
+    // A one or two character label gains nothing from being turned and can
+    // read as upside down at some angles, so it stays upright. Words follow
+    // their line.
+    if (text.characters.length <= 2) angle = 0;
 
     canvas.save();
     canvas.translate(mid.dx + normal.dx * 17, mid.dy + normal.dy * 17);
