@@ -1,10 +1,12 @@
 import 'acute_or_obtuse_game.dart';
 import 'balance_both_sides_game.dart';
+import 'both_sides_game.dart';
 import 'build_the_identity_game.dart';
 import 'discriminant_gate_game.dart';
 import 'every_rule_game.dart';
 import 'find_the_slip_game.dart';
 import 'grade_sense_game.dart';
+import 'next_line_game.dart';
 import 'one_log_game.dart';
 import 'order_the_moves_game.dart';
 import 'perpendicular_flip_game.dart';
@@ -15,6 +17,7 @@ import 'quadrant_signs_game.dart';
 import 'read_the_equation_game.dart';
 import 'resolve_it_game.dart';
 import 'rule_or_trap_game.dart';
+import 'run_the_loop_game.dart';
 import 'set_it_up_game.dart';
 import 'sign_the_bend_game.dart';
 import 'slide_to_flat_game.dart';
@@ -362,6 +365,34 @@ List<GameAudit> auditAllGames() => [
           options: missingVerdicts,
           answer: r.answer,
         ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'run-the-loop',
+    lessonId: 'lhopitals-rule',
+    problemPrefix: 'math-lh-',
+    rounds: [
+      // The answer is a SEQUENCE of moves, so no index points at it. The
+      // move list is fixed and its own tests check the sequences.
+      for (final r in loopRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'next-line',
+    lessonId: 'lhopitals-rule',
+    problemPrefix: 'math-lh-',
+    rounds: [
+      for (final r in nextLines)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'both-sides',
+    lessonId: 'lhopitals-rule',
+    problemPrefix: 'math-lh-',
+    rounds: [
+      // One report per side, so again a pair rather than an index.
+      for (final r in sidesRounds) RoundAudit(source: r.source),
     ],
   ),
   GameAudit(

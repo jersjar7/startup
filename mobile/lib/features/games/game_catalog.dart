@@ -383,6 +383,32 @@ const mathematicsMap = ChapterMap(
       id: 'lhopitals-rule',
       name: "L'Hopital's Rule",
       subtopicId: 'single-var-calc',
+      games: [
+        GameDef(
+          id: 'run-the-loop',
+          rounds: 6,
+          name: 'Run the Loop',
+          blurb: 'Drive the rule one move at a time. Check before you cut.',
+          built: true,
+          brief: formCheckBrief,
+        ),
+        GameDef(
+          id: 'next-line',
+          rounds: 6,
+          name: 'Which Line Comes Next',
+          blurb: 'One of these is the rule. One is the quotient rule.',
+          built: true,
+          brief: separatelyBrief,
+        ),
+        GameDef(
+          id: 'both-sides',
+          rounds: 6,
+          name: 'Both Sides',
+          blurb: 'It blows up. Which way, and does the limit survive?',
+          built: true,
+          brief: bothSidesBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'vector-basics-unit-vectors',

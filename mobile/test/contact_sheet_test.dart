@@ -14,7 +14,10 @@ import 'package:mobile/features/games/balance_both_sides_game.dart';
 import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
+import 'package:mobile/features/games/both_sides_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/next_line_game.dart';
+import 'package:mobile/features/games/run_the_loop_game.dart';
 import 'package:mobile/features/games/pick_u_game.dart';
 import 'package:mobile/features/games/whats_missing_game.dart';
 import 'package:mobile/features/games/which_way_simpler_game.dart';
@@ -305,6 +308,24 @@ void main() {
       rounds: missingRounds.length,
       height: 1250,
     ),
+    'run-the-loop': (
+      lesson: '10-lhopital',
+      build: RunTheLoopGame.new,
+      rounds: loopRounds.length,
+      height: 1250,
+    ),
+    'next-line': (
+      lesson: '10-lhopital',
+      build: NextLineGame.new,
+      rounds: nextLines.length,
+      height: 1250,
+    ),
+    'both-sides': (
+      lesson: '10-lhopital',
+      build: BothSidesGame.new,
+      rounds: sidesRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -355,6 +376,11 @@ void main() {
       ('by-parts', byPartsBrief),
       ('finishing', finishingBrief),
     ],
+    '10-lhopital': [
+      ('check-the-form', formCheckBrief),
+      ('separately', separatelyBrief),
+      ('both-sides', bothSidesBrief),
+    ],
   };
 
   for (final lesson in cards.entries) {
@@ -386,6 +412,42 @@ void main() {
       }
     });
   }
+
+  // Run the Loop is answered by a sequence of moves, so its first frame is
+  // the only one the generic walk above can photograph. These two show what
+  // the board looks like part way round, which is the half worth reviewing.
+  testWidgets('sheet: run-the-loop, mid-loop', (tester) async {
+    tester.view.physicalSize = const Size(390, 1250);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    GameProgress.instance.reset('run-the-loop');
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        debugShowCheckedModeBanner: false,
+        home: const RunTheLoopGame(),
+      ),
+    );
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 60)),
+    );
+    await tester.pumpAndSettle();
+
+    // Round one: substitute, look at 0/0, differentiate, look at cos x over 1.
+    const walk = [
+      ('move-substitute', 'step2'),
+      ('move-differentiate', 'step3'),
+    ];
+    for (final (key, name) in walk) {
+      await tester.tap(find.byKey(ValueKey(key)));
+      await tester.pumpAndSettle();
+      await expectLater(
+        find.byType(MaterialApp),
+        matchesGoldenFile('goldens/10-lhopital/run-the-loop-$name.png'),
+      );
+    }
+  });
 
   for (final entry in items.entries) {
     final id = entry.key;

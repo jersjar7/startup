@@ -8,6 +8,7 @@ import '../features/auth/signin_screen.dart';
 import '../features/auth/verify_screen.dart';
 import '../features/games/acute_or_obtuse_game.dart';
 import '../features/games/balance_both_sides_game.dart';
+import '../features/games/both_sides_game.dart';
 import '../features/games/build_the_identity_game.dart';
 import '../features/games/chapter_map_screen.dart';
 import '../features/games/discriminant_gate_game.dart';
@@ -15,6 +16,7 @@ import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
 import '../features/games/game_catalog.dart';
 import '../features/games/grade_sense_game.dart';
+import '../features/games/next_line_game.dart';
 import '../features/games/one_log_game.dart';
 import '../features/games/order_the_moves_game.dart';
 import '../features/games/perpendicular_flip_game.dart';
@@ -25,6 +27,7 @@ import '../features/games/quadrant_signs_game.dart';
 import '../features/games/read_the_equation_game.dart';
 import '../features/games/resolve_it_game.dart';
 import '../features/games/rule_or_trap_game.dart';
+import '../features/games/run_the_loop_game.dart';
 import '../features/games/set_it_up_game.dart';
 import '../features/games/sign_the_bend_game.dart';
 import '../features/games/slide_to_flat_game.dart';
@@ -114,6 +117,9 @@ GoRouter buildRouter(AuthController auth) {
           'pick-u' => const PickUGame(),
           'which-way-simpler' => const WhichWaySimplerGame(),
           'whats-missing' => const WhatsMissingGame(),
+          'run-the-loop' => const RunTheLoopGame(),
+          'next-line' => const NextLineGame(),
+          'both-sides' => const BothSidesGame(),
           _ => const _UnknownGame(),
         },
       ),

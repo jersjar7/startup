@@ -65,6 +65,9 @@ enum BriefFigure {
   substitution,
   liate,
   finishing,
+  formCheck,
+  separately,
+  bothSides,
   lawChoice,
   lawForms,
   cosineSign,
@@ -560,6 +563,67 @@ const finishingBrief = BriefSection(
   handbook: 'Handbook p. 50',
 );
 
+// ── L'Hopital's Rule ────────────────────────────────────────────────────────
+
+const formCheckBrief = BriefSection(
+  title: 'Check the form before you differentiate',
+  body:
+      'The rule is a loop with a test in the middle of it. Put the value in '
+      'first. Zero over zero or infinity over infinity means the rule applies, '
+      'so differentiate the top and the bottom and put the value in again. A '
+      'real number means you already have the answer and the rule would only '
+      'change it. A nonzero number over zero is not indeterminate at all, it '
+      'is a blow up, and the rule has nothing to say about it.',
+  formulas: [
+    (
+      'The rule, when the form allows it',
+      r"\lim_{x \to a}\frac{f(x)}{g(x)} = \lim_{x \to a}\frac{f'(x)}{g'(x)}",
+    ),
+    ('The two forms that allow it', r'\frac{0}{0} \quad \frac{\infty}{\infty}'),
+  ],
+  figure: BriefFigure.formCheck,
+  handbook: 'Handbook p. 48',
+);
+
+const separatelyBrief = BriefSection(
+  title: 'Top and bottom, separately',
+  body:
+      'This is not the quotient rule. The quotient rule is for the derivative '
+      'of a fraction; this is the limit of one, and they are different jobs '
+      'with different answers. Differentiate the numerator on its own, '
+      'differentiate the denominator on its own, and put the two results back '
+      'over each other. Nothing multiplies, nothing gets squared.',
+  formulas: [
+    ('What the rule does', r"\frac{f}{g} \;\Rightarrow\; \frac{f'}{g'}"),
+    (
+      'What the quotient rule does, which is not this',
+      r"\frac{f'g - fg'}{g^2}",
+    ),
+  ],
+  figure: BriefFigure.separately,
+  handbook: 'Handbook p. 48',
+);
+
+const bothSidesBrief = BriefSection(
+  title: 'Both sides have to agree',
+  body:
+      'When the top settles on something other than zero and the bottom goes '
+      'to zero, the fraction blows up. Which way it blows up depends on the '
+      'sign of the bottom, and that can be different on the two sides of the '
+      'point. If both sides run the same way the limit is that infinity. If '
+      'they run opposite ways there is no two-sided limit at all, and the '
+      'answer is that it does not exist, not that it is infinite.',
+  formulas: [
+    ('Sides agree', r'\lim_{x \to 0}\frac{1}{x^2} = +\infty'),
+    (
+      'Sides disagree',
+      r'\lim_{x \to 0}\frac{1}{x} \;\Rightarrow\; \text{does not exist}',
+    ),
+  ],
+  figure: BriefFigure.bothSides,
+  handbook: 'Handbook p. 48',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -979,6 +1043,34 @@ class BriefFigureView extends StatelessWidget {
             (r"\int 3x^2\,dx = x^3", false),
             (r"\int_1^2 3x^2\,dx = 8 - 1 = 7", true),
             (r"\int_1^2 3x^2\,dx = 8 + C", false),
+          ],
+        );
+      case BriefFigure.formCheck:
+        return const _RuleList(
+          rules: [
+            (r"\frac{0}{0} \;\Rightarrow\; \text{the rule applies}", null),
+            (r"\frac{\infty}{\infty} \;\Rightarrow\; \text{the rule applies}", null),
+            (r"\frac{1}{1} \;\Rightarrow\; \text{you already have it}", null),
+            (r"\frac{1}{0} \;\Rightarrow\; \text{a blow up, not a form}", null),
+          ],
+        );
+      case BriefFigure.separately:
+        return const _RuleList(
+          rules: [
+            (r"\lim\frac{\sin x}{x} \;\Rightarrow\; \lim\frac{\cos x}{1}", true),
+            (
+              r"\lim\frac{\sin x}{x} \;\Rightarrow\; \lim\frac{x\cos x - \sin x}{x^2}",
+              false,
+            ),
+            (r"\lim\frac{\sin x}{x} \;\Rightarrow\; \lim\frac{\cos x}{x}", false),
+          ],
+        );
+      case BriefFigure.bothSides:
+        return const _RuleList(
+          rules: [
+            (r"\text{both sides run up} \;\Rightarrow\; +\infty", null),
+            (r"\text{both sides run down} \;\Rightarrow\; -\infty", null),
+            (r"\text{sides disagree} \;\Rightarrow\; \text{does not exist}", null),
           ],
         );
       case BriefFigure.logRules:
