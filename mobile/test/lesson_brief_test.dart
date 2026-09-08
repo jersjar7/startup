@@ -46,6 +46,28 @@ void main() {
     expect(find.textContaining('perpendicular'), findsNothing);
   });
 
+  test('a card that names a law also shows it', () {
+    // A reference that says WHEN to use something without showing WHAT it is
+    // reads as arbitrary: you cannot learn the law from it.
+    expect(whichLawBrief.formulas.length, 2);
+    expect(whichLawBrief.formulas.first.$2, contains(r'\sin A'));
+    expect(whichLawBrief.formulas.last.$2, contains(r'\cos C'));
+
+    expect(ratiosBrief.formulas.length, 3);
+    expect(discriminantBrief.formulas.any((f) => f.$2.contains('pm')), isTrue,
+        reason: 'the discriminant needs the formula it comes out of');
+  });
+
+  testWidgets('the laws are on screen, not just described', (tester) async {
+    tester.view.physicalSize = const Size(390, 2400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(wrap(whichLawBrief, 390));
+    expect(find.text('LAW OF SINES'), findsOneWidget);
+    expect(find.text('LAW OF COSINES'), findsOneWidget);
+  });
+
   test('every built item carries its own concept', () {
     for (final lesson in mathematicsMap.lessons) {
       for (final game in lesson.builtGames) {

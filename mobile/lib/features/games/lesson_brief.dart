@@ -21,6 +21,7 @@ class BriefSection {
     required this.body,
     required this.figure,
     this.formula,
+    this.formulas = const [],
     this.handbook,
   });
 
@@ -29,6 +30,11 @@ class BriefSection {
 
   /// A single expression, shown big under the body.
   final String? formula;
+
+  /// Named expressions, for a concept that IS a formula rather than one that
+  /// merely uses one. Without these a card can explain when to reach for a law
+  /// and never show the law, which reads as arbitrary.
+  final List<(String, String)> formulas;
   final BriefFigure figure;
   final String? handbook;
 }
@@ -72,7 +78,10 @@ const discriminantBrief = BriefSection(
       'positive gives two, zero gives one, negative gives none. You can read '
       'that off a graph without solving anything, and on the exam it lets '
       'you throw out answers before you start.',
-  formula: r'b^2 - 4ac',
+  formulas: [
+    ('The quadratic formula', r'x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}'),
+    ('The discriminant is the part under the root', r'b^2 - 4ac'),
+  ],
   figure: BriefFigure.discriminant,
   handbook: 'Handbook p. 36',
 );
@@ -139,6 +148,11 @@ const ratiosBrief = BriefSection(
       'opposite over hypotenuse is sine, adjacent over hypotenuse is cosine, '
       'opposite over adjacent is tangent. Cos is cozy with the adjacent side, '
       'the one touching the angle.',
+  formulas: [
+    ('SOH', r'\sin\theta = \frac{\text{opp}}{\text{hyp}}'),
+    ('CAH', r'\cos\theta = \frac{\text{adj}}{\text{hyp}}'),
+    ('TOA', r'\tan\theta = \frac{\text{opp}}{\text{adj}}'),
+  ],
   figure: BriefFigure.ratios,
   handbook: 'Handbook p. 23',
 );
@@ -173,11 +187,20 @@ const componentsBrief = BriefSection(
 const whichLawBrief = BriefSection(
   title: 'Which law, and when',
   body:
-      'An oblique triangle has no right angle, so nothing can be dropped '
-      'into sine and cosine of a single angle. If you have a side together '
-      'with the angle opposite it, that pair opens the Law of Sines. If you '
-      'have two sides with the angle between them, or all three sides, nothing '
-      'pairs up and it is the Law of Cosines.',
+      'An oblique triangle has no right angle, so there is no hypotenuse and '
+      'no opposite-over-adjacent to fall back on. Two relations hold in every '
+      'triangle instead. The Law of Sines says each side is proportional to '
+      'the sine of the angle facing it, so a side and its own angle fix the '
+      'scale for the whole triangle. The Law of Cosines is the Pythagorean '
+      'theorem with a correction: it subtracts a term that vanishes at 90 '
+      'degrees, because cos 90 is zero, and grows as the angle opens or '
+      'closes.\n\nSo: a side with the angle opposite it opens Sines. Two '
+      'sides with the angle between them, or all three sides, leaves nothing '
+      'paired and it is Cosines.',
+  formulas: [
+    ('Law of Sines', r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}'),
+    ('Law of Cosines', r'c^2 = a^2 + b^2 - 2ab\cos C'),
+  ],
   figure: BriefFigure.lawChoice,
   handbook: 'Handbook p. 23',
 );
@@ -279,6 +302,25 @@ class _SectionCard extends StatelessWidget {
           if (section.formula != null) ...[
             const SizedBox(height: 14),
             Center(child: MathBlock(section.formula!, fontSize: 20)),
+          ],
+          for (final (label, latex) in section.formulas) ...[
+            const SizedBox(height: 14),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+              decoration: BoxDecoration(
+                color: AppColors.cream,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(label.toUpperCase(), style: AppTheme.overline()),
+                  const SizedBox(height: 10),
+                  Center(child: MathBlock(latex, fontSize: 19)),
+                ],
+              ),
+            ),
           ],
           const SizedBox(height: 14),
           BriefFigureView(figure: section.figure),
