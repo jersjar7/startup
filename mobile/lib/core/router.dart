@@ -16,6 +16,7 @@ import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
 import '../features/games/game_catalog.dart';
 import '../features/games/grade_sense_game.dart';
+import '../features/games/land_the_resultant_game.dart';
 import '../features/games/next_line_game.dart';
 import '../features/games/one_log_game.dart';
 import '../features/games/order_the_moves_game.dart';
@@ -25,12 +26,14 @@ import '../features/games/place_the_center_game.dart';
 import '../features/games/point_at_the_inside_game.dart';
 import '../features/games/quadrant_signs_game.dart';
 import '../features/games/read_the_equation_game.dart';
+import '../features/games/reaches_further_game.dart';
 import '../features/games/resolve_it_game.dart';
 import '../features/games/rule_or_trap_game.dart';
 import '../features/games/run_the_loop_game.dart';
 import '../features/games/set_it_up_game.dart';
 import '../features/games/sign_the_bend_game.dart';
 import '../features/games/slide_to_flat_game.dart';
+import '../features/games/stretch_it_game.dart';
 import '../features/games/tap_the_side_game.dart';
 import '../features/games/walk_the_circle_game.dart';
 import '../features/games/what_was_asked_game.dart';
@@ -120,6 +123,9 @@ GoRouter buildRouter(AuthController auth) {
           'run-the-loop' => const RunTheLoopGame(),
           'next-line' => const NextLineGame(),
           'both-sides' => const BothSidesGame(),
+          'land-the-resultant' => const LandTheResultantGame(),
+          'stretch-it' => const StretchItGame(),
+          'reaches-further' => const ReachesFurtherGame(),
           _ => const _UnknownGame(),
         },
       ),

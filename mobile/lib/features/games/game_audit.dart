@@ -6,6 +6,7 @@ import 'discriminant_gate_game.dart';
 import 'every_rule_game.dart';
 import 'find_the_slip_game.dart';
 import 'grade_sense_game.dart';
+import 'land_the_resultant_game.dart';
 import 'next_line_game.dart';
 import 'one_log_game.dart';
 import 'order_the_moves_game.dart';
@@ -15,12 +16,14 @@ import 'place_the_center_game.dart';
 import 'point_at_the_inside_game.dart';
 import 'quadrant_signs_game.dart';
 import 'read_the_equation_game.dart';
+import 'reaches_further_game.dart';
 import 'resolve_it_game.dart';
 import 'rule_or_trap_game.dart';
 import 'run_the_loop_game.dart';
 import 'set_it_up_game.dart';
 import 'sign_the_bend_game.dart';
 import 'slide_to_flat_game.dart';
+import 'stretch_it_game.dart';
 import 'tap_the_side_game.dart';
 import 'walk_the_circle_game.dart';
 import 'what_was_asked_game.dart';
@@ -393,6 +396,41 @@ List<GameAudit> auditAllGames() => [
     rounds: [
       // One report per side, so again a pair rather than an index.
       for (final r in sidesRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'land-the-resultant',
+    lessonId: 'vector-basics-unit-vectors',
+    problemPrefix: 'math-vbu-',
+    rounds: [
+      // Answered by pointing at a place on a grid, so there is no list.
+      for (final r in resultantRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'stretch-it',
+    lessonId: 'vector-basics-unit-vectors',
+    problemPrefix: 'math-vbu-',
+    rounds: [
+      // Answered by working a number up and down, not by choosing.
+      for (final r in stretchRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'reaches-further',
+    lessonId: 'vector-basics-unit-vectors',
+    problemPrefix: 'math-vbu-',
+    rounds: [
+      for (final r in reachRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['A', 'the same', 'B'],
+          answer: switch (r.answer) {
+            Reach.first => 0,
+            Reach.same => 1,
+            Reach.second => 2,
+          },
+        ),
     ],
   ),
   GameAudit(

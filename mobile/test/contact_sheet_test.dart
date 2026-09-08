@@ -16,6 +16,9 @@ import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
 import 'package:mobile/features/games/both_sides_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/land_the_resultant_game.dart';
+import 'package:mobile/features/games/reaches_further_game.dart';
+import 'package:mobile/features/games/stretch_it_game.dart';
 import 'package:mobile/features/games/next_line_game.dart';
 import 'package:mobile/features/games/run_the_loop_game.dart';
 import 'package:mobile/features/games/pick_u_game.dart';
@@ -326,6 +329,24 @@ void main() {
       rounds: sidesRounds.length,
       height: 1250,
     ),
+    'land-the-resultant': (
+      lesson: '11-vector-basics',
+      build: LandTheResultantGame.new,
+      rounds: resultantRounds.length,
+      height: 1350,
+    ),
+    'stretch-it': (
+      lesson: '11-vector-basics',
+      build: StretchItGame.new,
+      rounds: stretchRounds.length,
+      height: 1350,
+    ),
+    'reaches-further': (
+      lesson: '11-vector-basics',
+      build: ReachesFurtherGame.new,
+      rounds: reachRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -380,6 +401,11 @@ void main() {
       ('check-the-form', formCheckBrief),
       ('separately', separatelyBrief),
       ('both-sides', bothSidesBrief),
+    ],
+    '11-vector-basics': [
+      ('adding-arrows', vectorAddBrief),
+      ('unit-vector', unitVectorBrief),
+      ('magnitude', magnitudeBrief),
     ],
   };
 

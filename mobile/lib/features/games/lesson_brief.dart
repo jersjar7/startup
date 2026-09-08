@@ -68,6 +68,9 @@ enum BriefFigure {
   formCheck,
   separately,
   bothSides,
+  vectorAdd,
+  unitVector,
+  magnitude,
   lawChoice,
   lawForms,
   cosineSign,
@@ -624,6 +627,61 @@ const bothSidesBrief = BriefSection(
   handbook: 'Handbook p. 48',
 );
 
+// ── Vector Basics & Unit Vectors ────────────────────────────────────────────
+
+const vectorAddBrief = BriefSection(
+  title: 'Adding arrows, one direction at a time',
+  body:
+      'Vectors add component by component: all the across parts together, all '
+      'the up parts together, signs kept. Never length by length. Two forces '
+      'of 500 do not make 1000 unless they point the same way, and if they '
+      'point opposite ways they make nothing at all. Lay them head to tail and '
+      'the resultant is the arrow from where you started to where you ended.',
+  formulas: [
+    ('Component form', r'\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}'),
+    (
+      'Added component by component',
+      r'\vec{A} + \vec{B} = (A_x + B_x)\hat{i} + (A_y + B_y)\hat{j}',
+    ),
+  ],
+  figure: BriefFigure.vectorAdd,
+  handbook: 'Handbook p. 94',
+);
+
+const unitVectorBrief = BriefSection(
+  title: 'Direction without size',
+  body:
+      'A unit vector points where you want and is exactly one long, so it '
+      'carries a direction and nothing else. Get one by dividing a vector by '
+      'its own length. Then a force along that line is just the magnitude '
+      'times the unit vector, and every component falls out of it. Multiplying '
+      'by a negative scalar keeps the line and turns the arrow around.',
+  formulas: [
+    ('Divide by its own length', r'\hat{u}_A = \frac{\vec{A}}{|\vec{A}|}'),
+    ('Then size it', r'\vec{F} = F\,\hat{u}'),
+    ('From one point to another', r'\vec{AB} = B - A'),
+  ],
+  figure: BriefFigure.unitVector,
+  handbook: 'Handbook p. 94',
+);
+
+const magnitudeBrief = BriefSection(
+  title: 'A magnitude is not a component',
+  body:
+      'The length of a vector is the square root of the sum of its squared '
+      'components. It is never the components added up, and the squaring is '
+      'why: an arrow that splits its length between two directions gets less '
+      'far than one that spends it all on a single direction. A component on '
+      'its own is only a shadow on one axis, and it is allowed to be negative. '
+      'A length never is.',
+  formulas: [
+    ('Length', r'|\vec{A}| = \sqrt{A_x^2 + A_y^2 + A_z^2}'),
+    ('Worth knowing on sight', r'3, 4, 5 \quad 6, 8, 10'),
+  ],
+  figure: BriefFigure.magnitude,
+  handbook: 'Handbook p. 94',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1071,6 +1129,32 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{both sides run up} \;\Rightarrow\; +\infty", null),
             (r"\text{both sides run down} \;\Rightarrow\; -\infty", null),
             (r"\text{sides disagree} \;\Rightarrow\; \text{does not exist}", null),
+          ],
+        );
+      case BriefFigure.vectorAdd:
+        return const _RuleList(
+          rules: [
+            (r"(3\hat{i}) + (0\hat{i} + 4\hat{j}) = 3\hat{i} + 4\hat{j}", true),
+            (r"|3\hat{i}| + |4\hat{j}| = 7 \;\Rightarrow\; \text{the resultant}", false),
+            (r"(4\hat{i} + 4\hat{j}) + (-4\hat{i} - 4\hat{j}) = 0", true),
+          ],
+        );
+      case BriefFigure.unitVector:
+        return const _RuleList(
+          rules: [
+            (r"\vec{d} = 3\hat{i} + 4\hat{j} \;\Rightarrow\; |\vec{d}| = 5", null),
+            (r"\hat{u} = 0.6\hat{i} + 0.8\hat{j}", null),
+            (r"25\,\hat{u} = 15\hat{i} + 20\hat{j}", null),
+            (r"-2\,\hat{u} \;\Rightarrow\; \text{same line, other way}", null),
+          ],
+        );
+      case BriefFigure.magnitude:
+        return const _RuleList(
+          rules: [
+            (r"|30\hat{i} + 40\hat{j}| = 50", true),
+            (r"|30\hat{i} + 40\hat{j}| = 70", false),
+            (r"|3\hat{i} + 4\hat{j}| = |5\hat{i}|", true),
+            (r"|-3\hat{i} + 4\hat{j}| = 5", true),
           ],
         );
       case BriefFigure.logRules:

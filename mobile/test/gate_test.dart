@@ -110,6 +110,7 @@ void main() {
       'balance-both-sides', // completing the square, which is one problem
       'which-way-simpler', // by parts, which is one problem's whole content
       'both-sides', // the DNE trap, which lives in one problem
+      'stretch-it', // sizing a direction, which is one problem's whole content
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

@@ -414,6 +414,32 @@ const mathematicsMap = ChapterMap(
       id: 'vector-basics-unit-vectors',
       name: 'Vector Basics & Unit Vectors',
       subtopicId: 'vector-operations',
+      games: [
+        GameDef(
+          id: 'land-the-resultant',
+          rounds: 6,
+          name: 'Land the Resultant',
+          blurb: 'Put a finger where the arrows add up to.',
+          built: true,
+          brief: vectorAddBrief,
+        ),
+        GameDef(
+          id: 'stretch-it',
+          rounds: 6,
+          name: 'Stretch It to Fit',
+          blurb: 'A direction is handed to you. Give it a size.',
+          built: true,
+          brief: unitVectorBrief,
+        ),
+        GameDef(
+          id: 'reaches-further',
+          rounds: 6,
+          name: 'Which Reaches Further',
+          blurb: 'Two arrows. Counting up the parts will not tell you.',
+          built: true,
+          brief: magnitudeBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'dot-product-angle',

@@ -21,7 +21,11 @@ class GridGeometry {
 
   Offset get origin => Offset(size.width / 2, size.height / 2);
 
-  Offset toScreen(int x, int y) => origin + Offset(x * step, -y * step);
+  Offset toScreen(int x, int y) => at(x.toDouble(), y.toDouble());
+
+  /// The same mapping for a point that is not on the lattice, which is what an
+  /// arrow head needs when a vector has been scaled by something fractional.
+  Offset at(double x, double y) => origin + Offset(x * step, -y * step);
 
   /// The lattice point nearest a tap, or null if the tap was off the grid.
   ///
