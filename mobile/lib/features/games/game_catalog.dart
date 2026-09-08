@@ -166,6 +166,32 @@ const mathematicsMap = ChapterMap(
       id: 'right-triangle-trig',
       name: 'Right Triangle Trigonometry',
       subtopicId: 'analytic-geometry',
+      games: [
+        GameDef(
+          id: 'tap-the-side',
+          rounds: 8,
+          name: 'Tap the Side',
+          blurb: 'Point at the opposite, the adjacent, the hypotenuse.',
+          built: true,
+          brief: sideNamesBrief,
+        ),
+        GameDef(
+          id: 'which-ratio',
+          rounds: 8,
+          name: 'Which Ratio',
+          blurb: 'One side known, one wanted. Pick sin, cos or tan.',
+          built: true,
+          brief: ratiosBrief,
+        ),
+        GameDef(
+          id: 'resolve-it',
+          rounds: 6,
+          name: 'Resolve It',
+          blurb: 'Split a force. Angles from the vertical are in here.',
+          built: true,
+          brief: componentsBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'law-of-sines-cosines',

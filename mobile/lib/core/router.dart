@@ -11,7 +11,10 @@ import '../features/games/discriminant_gate_game.dart';
 import '../features/games/grade_sense_game.dart';
 import '../features/games/one_log_game.dart';
 import '../features/games/order_the_moves_game.dart';
+import '../features/games/resolve_it_game.dart';
 import '../features/games/rule_or_trap_game.dart';
+import '../features/games/tap_the_side_game.dart';
+import '../features/games/which_ratio_game.dart';
 import '../features/games/game_catalog.dart';
 import '../features/games/perpendicular_flip_game.dart';
 import '../features/home/home_shell.dart';
@@ -72,6 +75,9 @@ GoRouter buildRouter(AuthController auth) {
           'rule-or-trap' => const RuleOrTrapGame(),
           'order-the-moves' => const OrderTheMovesGame(),
           'one-log' => const OneLogGame(),
+          'tap-the-side' => const TapTheSideGame(),
+          'which-ratio' => const WhichRatioGame(),
+          'resolve-it' => const ResolveItGame(),
           _ => const _UnknownGame(),
         },
       ),

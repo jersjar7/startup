@@ -39,11 +39,11 @@ class RoadSegment extends StatefulWidget {
 
   /// The box this segment needs, in the same coordinate space.
   Rect get bounds => Rect.fromLTRB(
-        math.min(from.dx, to.dx) - nodeRadius - 24,
-        math.min(from.dy, to.dy) - 4,
-        math.max(from.dx, to.dx) + nodeRadius + 24,
-        math.max(from.dy, to.dy) + 4,
-      );
+    math.min(from.dx, to.dx) - nodeRadius - 24,
+    math.min(from.dy, to.dy) - 4,
+    math.max(from.dx, to.dx) + nodeRadius + 24,
+    math.max(from.dy, to.dy) + 4,
+  );
 
   @override
   State<RoadSegment> createState() => _RoadSegmentState();
@@ -133,7 +133,9 @@ class RoadPainter extends CustomPainter {
     if (gap == 0) return Path();
 
     final dx = to.dx - from.dx;
-    final lean = dx.abs() > 4 ? from.dx + dx * 0.8 : from.dx + nodeRadius * 0.55;
+    final lean = dx.abs() > 4
+        ? from.dx + dx * 0.8
+        : from.dx + nodeRadius * 0.55;
     final control = Offset(lean, from.dy + (to.dy - from.dy) * 0.52);
 
     final full = Path()
@@ -193,7 +195,10 @@ class RoadPainter extends CustomPainter {
 
     // The walked part, painted forward from the finished node.
     for (final metric in road.computeMetrics()) {
-      final walked = metric.extractPath(0, metric.length * travelled.clamp(0, 1));
+      final walked = metric.extractPath(
+        0,
+        metric.length * travelled.clamp(0, 1),
+      );
       canvas.drawPath(
         walked,
         Paint()

@@ -7,6 +7,7 @@ import '../../core/theme/app_theme.dart';
 import '../shared/widgets/engineering_grid.dart';
 import '../shared/widgets/math_text.dart';
 import 'discriminant_gate_game.dart' show Para, ParaPainter;
+import 'trig_figures.dart';
 
 /// The idea behind a lesson, in a few lines and a picture, reachable both from
 /// the lesson node and from inside a sitting. It is a reference, not a
@@ -38,6 +39,9 @@ enum BriefFigure {
   logRules,
   undoExponent,
   combineLogs,
+  ratios,
+  sideNames,
+  components,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -119,6 +123,45 @@ const combineLogsBrief = BriefSection(
       'together.',
   figure: BriefFigure.combineLogs,
   handbook: 'Handbook pp. 36-37',
+);
+
+// ── Right Triangle Trigonometry ─────────────────────────────────────────────
+
+const ratiosBrief = BriefSection(
+  title: 'The three ratios',
+  body:
+      'Every right triangle gives you three ratios relative to the angle you '
+      'marked. Pick the one that connects what you know to what you want: '
+      'opposite over hypotenuse is sine, adjacent over hypotenuse is cosine, '
+      'opposite over adjacent is tangent. Cos is cozy with the adjacent side, '
+      'the one touching the angle.',
+  figure: BriefFigure.ratios,
+  handbook: 'Handbook p. 23',
+);
+
+const sideNamesBrief = BriefSection(
+  title: 'Opposite, adjacent, hypotenuse',
+  body:
+      'The hypotenuse is always the side across from the right angle, so it '
+      'never moves. The other two names belong to the angle you marked, not to '
+      'the page: opposite is the side that does not touch it, adjacent is the '
+      'one that does. Mark the other corner and those two swap without a line '
+      'moving.',
+  figure: BriefFigure.sideNames,
+  handbook: 'Handbook p. 23',
+);
+
+const componentsBrief = BriefSection(
+  title: 'Resolving a force',
+  body:
+      'A force at an angle splits into two sides of a right triangle. The '
+      'component along the axis the angle is measured FROM is the adjacent one, '
+      'so it takes the cosine, and the other takes the sine. That is why an '
+      'angle quoted from the vertical swaps the two, and it is the single '
+      'biggest trap in this topic.',
+  formula: r'F_x = F\cos\theta \qquad F_y = F\sin\theta',
+  figure: BriefFigure.components,
+  handbook: 'Handbook p. 23',
 );
 
 /// Opens one concept over whatever is on screen.
@@ -262,6 +305,82 @@ class BriefFigureView extends StatelessWidget {
           height: 150,
           caption: 'Station 3+00 is 300 feet from station 0+00',
           child: CustomPaint(painter: _GradePainter()),
+        );
+      case BriefFigure.ratios:
+        return const _Panel(
+          height: 190,
+          caption: 'The marked angle decides which side is which',
+          child: CustomPaint(
+            painter: TrianglePainter(
+              angleAtTop: false,
+              mirror: false,
+              showNames: true,
+            ),
+          ),
+        );
+      case BriefFigure.sideNames:
+        return Row(
+          children: [
+            Expanded(
+              child: _Panel(
+                height: 150,
+                caption: 'Angle at the bottom',
+                child: CustomPaint(
+                  painter: TrianglePainter(
+                    angleAtTop: false,
+                    mirror: false,
+                    showNames: true,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _Panel(
+                height: 150,
+                caption: 'Same triangle, angle at the top',
+                child: CustomPaint(
+                  painter: TrianglePainter(
+                    angleAtTop: true,
+                    mirror: false,
+                    showNames: true,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      case BriefFigure.components:
+        return Row(
+          children: [
+            Expanded(
+              child: _Panel(
+                height: 160,
+                caption: 'From horizontal: across is cosine',
+                child: CustomPaint(
+                  painter: ForcePainter(
+                    degrees: 40,
+                    fromVertical: false,
+                    highlightHorizontal: true,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: _Panel(
+                height: 160,
+                caption: 'From vertical: across is now sine',
+                child: CustomPaint(
+                  painter: ForcePainter(
+                    degrees: 40,
+                    fromVertical: true,
+                    highlightHorizontal: true,
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       case BriefFigure.logRules:
         return const _RuleList(
