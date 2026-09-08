@@ -68,6 +68,36 @@ void main() {
     expect(find.text('LAW OF COSINES'), findsOneWidget);
   });
 
+  test('every card shows the thing it teaches', () {
+    // The rule the owner set after "Which law, and when" explained a law
+    // without printing it: a card must carry the formula, rule or named
+    // relation it is about, not only prose about when to use it.
+    const cards = [
+      perpendicularBrief,
+      discriminantBrief,
+      gradeBrief,
+      logRulesBrief,
+      undoExponentBrief,
+      combineLogsBrief,
+      ratiosBrief,
+      sideNamesBrief,
+      componentsBrief,
+      whichLawBrief,
+      setupBrief,
+      obtuseBrief,
+    ];
+    for (final c in cards) {
+      expect(c.formulas.isNotEmpty || c.formula != null, isTrue,
+          reason: '"${c.title}" states no rule of its own');
+      for (final (label, latex) in c.formulas) {
+        expect(label.trim(), isNotEmpty);
+        expect(latex.trim(), isNotEmpty);
+        expect(latex.contains(r'\\'), isFalse,
+            reason: 'double-escaped LaTeX in "${c.title}" will not render');
+      }
+    }
+  });
+
   test('every built item carries its own concept', () {
     for (final lesson in mathematicsMap.lessons) {
       for (final game in lesson.builtGames) {

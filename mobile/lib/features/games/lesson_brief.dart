@@ -65,7 +65,10 @@ const perpendicularBrief = BriefSection(
       'slopes are negative reciprocals: flip the fraction and change the '
       'sign. Doing only one of the two gets you a line that looks plausible '
       'and is wrong.',
-  formula: r'm_{\perp} = -\frac{1}{m}',
+  formulas: [
+    ('Parallel', r'm_1 = m_2'),
+    ('Perpendicular', r'm_{\perp} = -\frac{1}{m}'),
+  ],
   figure: BriefFigure.slopePair,
   handbook: 'Handbook p. 36',
 );
@@ -93,7 +96,10 @@ const gradeBrief = BriefSection(
       'a station is distance in hundreds of feet, so 3+00 means 300 feet, '
       'never 3. Convert the stations before you compare anything, or a flat '
       'road will look like a cliff.',
-  formula: r'\text{grade} = \frac{\text{rise}}{\text{run}}',
+  formulas: [
+    ('Grade', r'\text{grade} = \frac{\text{rise}}{\text{run}} \times 100\%'),
+    ('A station is hundreds of feet', r'3{+}00 = 300\ \text{ft}'),
+  ],
   figure: BriefFigure.grade,
   handbook: 'Handbook p. 36',
 );
@@ -110,6 +116,7 @@ const logRulesBrief = BriefSection(
       'difference, and an exponent comes down in front. A sum inside a log has '
       'no rule at all. Splitting one is the cheapest way to lose a mark on '
       'this topic.',
+  formulas: [('What a log means', r'\log_b x = c \iff b^c = x')],
   figure: BriefFigure.logRules,
   handbook: 'Handbook p. 36',
 );
@@ -121,7 +128,13 @@ const undoExponentBrief = BriefSection(
       'A log undoes its own base exactly: ln undoes e, and log undoes 10. '
       'Clear anything multiplying the exponential first, then take the log of '
       'both sides, and what is left is linear.',
-  formula: r'\ln(e^{x}) = x \qquad \log_{10}(10^{x}) = x',
+  formulas: [
+    (
+      'A log undoes its own base',
+      r'\ln(e^{x}) = x \qquad \log_{10}(10^{x}) = x',
+    ),
+    ('Which is the definition, read backwards', r'\log_b x = c \iff b^c = x'),
+  ],
   figure: BriefFigure.undoExponent,
   handbook: 'Handbook p. 36',
 );
@@ -134,6 +147,7 @@ const combineLogsBrief = BriefSection(
       'and a coefficient becomes an exponent. Doing it in this order is faster '
       'and it avoids the classic error of multiplying the separate log values '
       'together.',
+  formulas: [('Only within one base', r'\log_b(xy) = \log_b x + \log_b y')],
   figure: BriefFigure.combineLogs,
   handbook: 'Handbook pp. 36-37',
 );
@@ -165,6 +179,10 @@ const sideNamesBrief = BriefSection(
       'the page: opposite is the side that does not touch it, adjacent is the '
       'one that does. Mark the other corner and those two swap without a line '
       'moving.',
+  formulas: [
+    ('Always across from the right angle', r'\text{hyp}'),
+    ('Named against the marked angle', r'\text{opp} \;/\; \text{adj}'),
+  ],
   figure: BriefFigure.sideNames,
   handbook: 'Handbook p. 23',
 );
@@ -177,7 +195,16 @@ const componentsBrief = BriefSection(
       'so it takes the cosine, and the other takes the sine. That is why an '
       'angle quoted from the vertical swaps the two, and it is the single '
       'biggest trap in this topic.',
-  formula: r'F_x = F\cos\theta \qquad F_y = F\sin\theta',
+  formulas: [
+    (
+      'Angle from the horizontal',
+      r'F_x = F\cos\theta \qquad F_y = F\sin\theta',
+    ),
+    (
+      'Angle from the vertical, the two swap',
+      r'F_x = F\sin\theta \qquad F_y = F\cos\theta',
+    ),
+  ],
   figure: BriefFigure.components,
   handbook: 'Handbook p. 23',
 );
@@ -212,6 +239,11 @@ const setupBrief = BriefSection(
       'the ratio easy to flip by accident. The Law of Cosines is the '
       'Pythagorean theorem with a correction term subtracted, never added, and '
       'the angle in it is always the one opposite the side you are after.',
+  formulas: [
+    ('Law of Sines', r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}'),
+    ('Law of Cosines', r'c^2 = a^2 + b^2 - 2ab\cos C'),
+    ('Rearranged for an angle', r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}'),
+  ],
   figure: BriefFigure.lawForms,
   handbook: 'Handbook p. 23',
 );
@@ -224,7 +256,10 @@ const obtuseBrief = BriefSection(
       'squared beats the other two put together, the top goes negative, the '
       'cosine goes negative, and the angle is obtuse. Inverse cosine already '
       'returns the obtuse angle, so nothing needs subtracting from 180.',
-  formula: r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}',
+  formulas: [
+    ('Rearranged for the angle', r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}'),
+    ('And the test that follows', r'c^2 > a^2 + b^2 \iff C > 90^\circ'),
+  ],
   figure: BriefFigure.cosineSign,
   handbook: 'Handbook p. 23',
 );
