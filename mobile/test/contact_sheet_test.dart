@@ -20,7 +20,10 @@ import 'package:mobile/features/games/copy_it_down_game.dart';
 import 'package:mobile/features/games/fill_the_trace_game.dart';
 import 'package:mobile/features/games/can_it_start_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/r_or_r2_game.dart';
 import 'package:mobile/features/games/read_the_line_game.dart';
+import 'package:mobile/features/games/read_the_scatter_game.dart';
+import 'package:mobile/features/games/through_the_means_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
 import 'package:mobile/features/games/follow_the_tangent_game.dart';
@@ -473,6 +476,24 @@ void main() {
       rounds: weightRounds.length,
       height: 1200,
     ),
+    'read-the-scatter': (
+      lesson: '18-regression',
+      build: ReadTheScatterGame.new,
+      rounds: scatterRounds.length,
+      height: 1200,
+    ),
+    'through-the-means': (
+      lesson: '18-regression',
+      build: ThroughTheMeansGame.new,
+      rounds: meansRounds.length,
+      height: 1250,
+    ),
+    'r-or-r2': (
+      lesson: '18-regression',
+      build: ROrR2Game.new,
+      rounds: rRounds.length,
+      height: 1200,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -562,6 +583,11 @@ void main() {
       ('centre', centreBrief),
       ('spread', spreadBrief),
       ('weighted', weightedBrief),
+    ],
+    '18-regression': [
+      ('correlation', correlationBrief),
+      ('regression-line', regressionLineBrief),
+      ('determination', determinationBrief),
     ],
   };
 

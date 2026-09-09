@@ -649,6 +649,32 @@ const statisticsMap = ChapterMap(
       id: 'linear-regression-correlation',
       name: 'Linear Regression & Correlation',
       subtopicId: 'descriptive-statistics',
+      games: [
+        GameDef(
+          id: 'read-the-scatter',
+          rounds: 6,
+          name: 'Read the Scatter',
+          blurb: 'The lean gives the sign, the tightness gives the size.',
+          built: true,
+          brief: correlationBrief,
+        ),
+        GameDef(
+          id: 'through-the-means',
+          rounds: 6,
+          name: 'Through the Means',
+          blurb: 'Only one of these lines could be the regression.',
+          built: true,
+          brief: regressionLineBrief,
+        ),
+        GameDef(
+          id: 'r-or-r2',
+          rounds: 6,
+          name: 'Which One Do They Want',
+          blurb: 'Correlation or determination. The question is in English.',
+          built: true,
+          brief: determinationBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'probability-distributions',

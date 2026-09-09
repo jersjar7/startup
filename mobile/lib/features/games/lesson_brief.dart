@@ -89,6 +89,9 @@ enum BriefFigure {
   centre,
   spread,
   weighted,
+  correlation,
+  regressionLine,
+  determination,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1051,6 +1054,70 @@ const weightedBrief = BriefSection(
   handbook: 'Handbook p. 63',
 );
 
+const correlationBrief = BriefSection(
+  title: 'What r is telling you',
+  body:
+      'The correlation coefficient runs from minus one to plus one. Its sign '
+      'is the direction the cloud leans and its size is how tightly the '
+      'readings hug a line, and both of those are read off the plot rather '
+      'than computed. What it will not tell you is whether there is a '
+      'relationship at all: r only measures agreement with a STRAIGHT line, '
+      'so a cloud that rises and then falls can have an obvious shape and a '
+      'correlation of nothing.',
+  formulas: [
+    ('The range it lives in', r'-1 \le r \le +1'),
+    (
+      'Correlation',
+      r'r = \frac{n\sum x_i y_i - \sum x_i \sum y_i}'
+          r'{\sqrt{\left[n\sum x_i^2 - (\sum x_i)^2\right]'
+          r'\left[n\sum y_i^2 - (\sum y_i)^2\right]}}',
+    ),
+  ],
+  figure: BriefFigure.correlation,
+  handbook: 'Handbook p. 69',
+);
+
+const regressionLineBrief = BriefSection(
+  title: 'The line goes through the means',
+  body:
+      'A least-squares line is an intercept plus a slope times x, and it '
+      'always passes through the point where the two means meet. That one '
+      'fact is where the intercept comes from: rearranged, it is the mean of '
+      'y less the slope times the mean of x. It is also why a prediction '
+      'needs both terms. Slope times x and nothing else is a line through the '
+      'origin, which is the right lean in the wrong place.',
+  formulas: [
+    ('The line', r'\hat{y} = a + bx'),
+    ('The intercept', r'a = \bar{y} - b\bar{x}'),
+    (
+      'Slope',
+      r'b = \frac{n\sum x_i y_i - \sum x_i \sum y_i}'
+          r'{n\sum x_i^2 - (\sum x_i)^2}',
+    ),
+  ],
+  figure: BriefFigure.regressionLine,
+  handbook: 'Handbook p. 69',
+);
+
+const determinationBrief = BriefSection(
+  title: 'Correlation, or determination',
+  body:
+      'These are two numbers and the exam asks for them in English. The '
+      'correlation is r, it carries a sign, and it says which way and how '
+      'tightly. The coefficient of determination is r squared, it is always '
+      'positive, and it is the share of the variation in y that x accounts '
+      'for. Squaring is not the hard part; hearing which one the sentence '
+      'asked for is. And a negative coefficient of determination is not so '
+      'much a wrong answer as an impossible one.',
+  formulas: [
+    ('Determination', r'R^2 = r^2'),
+    ('So', r'r = -0.92 \;\Rightarrow\; R^2 = 0.846'),
+    ('And what is left unexplained', r'1 - R^2'),
+  ],
+  figure: BriefFigure.determination,
+  handbook: 'Handbook p. 69',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1286,6 +1353,33 @@ class BriefFigureView extends StatelessWidget {
                 ),
               ),
             ),
+          ],
+        );
+      case BriefFigure.correlation:
+        return const _RuleList(
+          rules: [
+            (r"\text{leans up, tight} \;\Rightarrow\; r \approx +1", null),
+            (r"\text{leans down, tight} \;\Rightarrow\; r \approx -1", null),
+            (r"\text{no lean} \;\Rightarrow\; r \approx 0", null),
+            (r"\text{an arch} \;\Rightarrow\; r \approx 0 \text{ as well}", null),
+          ],
+        );
+      case BriefFigure.regressionLine:
+        return const _RuleList(
+          rules: [
+            (r"\hat{y} = a + bx \text{ passes through } (\bar{x}, \bar{y})", true),
+            (r"\bar{y} = 75,\ b = 4.2,\ \bar{x} = 15 \;\Rightarrow\; a = 12", true),
+            (r"\hat{y}(20) = 12 + 4.2(20) = 96", true),
+            (r"\hat{y}(20) = 4.2(20) = 84", false),
+          ],
+        );
+      case BriefFigure.determination:
+        return const _RuleList(
+          rules: [
+            (r"r = -0.92 \;\Rightarrow\; R^2 = 0.846", true),
+            (r"r = -0.92 \;\Rightarrow\; R^2 = -0.846", false),
+            (r"r = -0.92 \;\Rightarrow\; R^2 = 0.92", false),
+            (r"1 - R^2 = \text{the share left unexplained}", true),
           ],
         );
       case BriefFigure.lawChoice:

@@ -25,7 +25,9 @@ import 'point_at_the_inside_game.dart';
 import 'quadrant_signs_game.dart';
 import 'read_the_equation_game.dart';
 import 'reaches_further_game.dart';
+import 'r_or_r2_game.dart';
 import 'read_the_line_game.dart';
+import 'read_the_scatter_game.dart';
 import 'resolve_it_game.dart';
 import 'rule_or_trap_game.dart';
 import 'run_the_loop_game.dart';
@@ -41,6 +43,7 @@ import 'what_was_asked_game.dart';
 import 'whats_missing_game.dart';
 import 'what_shows_game.dart';
 import 'where_it_stops_game.dart';
+import 'through_the_means_game.dart';
 import 'what_weights_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
@@ -665,6 +668,45 @@ List<GameAudit> auditAllGames() => [
     rounds: [
       // The answer is a PAIR of columns, so no single index names it.
       for (final r in weightRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'read-the-scatter',
+    lessonId: 'linear-regression-correlation',
+    problemPrefix: 'stat-reg-',
+    rounds: [
+      for (final r in scatterRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final c in rChoices) c.toString()],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'through-the-means',
+    lessonId: 'linear-regression-correlation',
+    problemPrefix: 'stat-reg-',
+    rounds: [
+      for (final r in meansRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final l in r.lines) l.label ?? '?'],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'r-or-r2',
+    lessonId: 'linear-regression-correlation',
+    problemPrefix: 'stat-reg-',
+    rounds: [
+      for (final r in rRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in r.options) o.value],
+          answer: r.answer,
+        ),
     ],
   ),
   GameAudit(
