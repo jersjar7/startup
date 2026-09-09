@@ -269,10 +269,29 @@ class Milestone extends _Direction {
 /// ── Direction 3 ─────────────────────────────────────────────────────────────
 /// SILHOUETTE CODE. Four states, four shapes, so the screen is legible with
 /// the colour taken out and one saturated colour means one thing.
+/// Which colour the plinth wears. A dark face has almost no room to put a
+/// darker plinth under it, which is why the finished node currently reads as a
+/// misshapen circle rather than as a thing standing on something.
+enum Plinth {
+  /// A step darker than whatever is above it, as it works today.
+  darker,
+
+  /// One warm stone under every state, whatever the face is doing.
+  stone,
+
+  /// One warm mid-tone under every state.
+  mid,
+}
+
 class Silhouette extends _Direction {
-  const Silhouette({this.thick = false, this.raiseNotBuilt = false});
+  const Silhouette({
+    this.thick = false,
+    this.raiseNotBuilt = false,
+    this.plinth = Plinth.darker,
+  });
 
   final bool thick;
+  final Plinth plinth;
 
   /// Whether the state with no content behind it also gets a slab. Drawn both
   /// ways rather than argued about.
@@ -281,12 +300,14 @@ class Silhouette extends _Direction {
   @override
   Color? bodyColor(Stop stop) {
     if (!thick) return null;
-    if (stop.look == Look.notBuilt) {
-      return raiseNotBuilt ? const Color(0xFFE3D8C6) : null;
-    }
-    return stop.look == Look.finished
-        ? const Color(0xFF161616)
-        : const Color(0xFFCDBFA8);
+    if (stop.look == Look.notBuilt && !raiseNotBuilt) return null;
+    return switch (plinth) {
+      Plinth.stone => const Color(0xFFCDBFA8),
+      Plinth.mid => const Color(0xFF8A7F6E),
+      Plinth.darker => stop.look == Look.finished
+          ? const Color(0xFF161616)
+          : const Color(0xFFCDBFA8),
+    };
   }
 
   @override
@@ -715,6 +736,81 @@ void main() {
     await expectLater(
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/00-map/silhouette-raised.png'),
+    );
+  });
+
+  testWidgets('three plinths under the same node', (tester) async {
+    tester.view.physicalSize = const Size(390, 1200);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    const rows = <(Stop, String, String)>[
+      (Stop(Look.finished, 1), 'Finished', 'All 3 done'),
+      (Stop(Look.underway, 0.66), 'Underway', '2 of 3 done'),
+      (Stop(Look.untouched), 'Untouched', '0 of 3 done'),
+    ];
+
+    const options = <(String, String, Plinth)>[
+      ('A STEP DARKER, AS TODAY', 'only 10.8 L* under the finished face', Plinth.darker),
+      ('ONE STONE PLINTH', '59.9 L* under it', Plinth.stone),
+      ('ONE WARM MID PLINTH', '35.7 L* under it', Plinth.mid),
+    ];
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          backgroundColor: _page,
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final (title, note, plinth) in options) ...[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 2),
+                    child: Text(title, style: AppTheme.heading(size: 15)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
+                    child: Text(
+                      note,
+                      style: AppTheme.mono(
+                        size: 10,
+                        color: const Color(0xFF9C9488),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 68 * 1.72 * (rows.length - 1) + 96,
+                    child: CustomPaint(
+                      painter: _RealisticPainter(
+                        look: Silhouette(
+                          thick: true,
+                          raiseNotBuilt: true,
+                          plinth: plinth,
+                        ),
+                        d: 68,
+                        rows: rows,
+                      ),
+                      child: const SizedBox.expand(),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 60)),
+    );
+    await tester.pumpAndSettle();
+
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/00-map/plinths.png'),
     );
   });
 }
