@@ -25,6 +25,7 @@ import '../features/games/first_true_wins_game.dart';
 import '../features/games/fix_the_sign_game.dart';
 import '../features/games/grade_sense_game.dart';
 import '../features/games/happens_first_game.dart';
+import '../features/games/how_many_samples_game.dart';
 import '../features/games/land_the_resultant_game.dart';
 import '../features/games/next_line_game.dart';
 import '../features/games/one_log_game.dart';
@@ -59,11 +60,13 @@ import '../features/games/whats_missing_game.dart';
 import '../features/games/what_shows_game.dart';
 import '../features/games/where_it_stops_game.dart';
 import '../features/games/through_the_means_game.dart';
+import '../features/games/what_goes_under_game.dart';
 import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_method_game.dart';
+import '../features/games/wider_or_narrower_game.dart';
 import '../features/games/which_readout_game.dart';
 import '../features/games/which_ratio_game.dart';
 import '../features/games/which_way_turns_game.dart';
@@ -180,6 +183,9 @@ GoRouter buildRouter(AuthController auth) {
           'where-it-balances' => const WhereItBalancesGame(),
           'mind-the-order' => const MindTheOrderGame(),
           'add-the-squares' => const AddTheSquaresGame(),
+          'what-goes-under' => const WhatGoesUnderGame(),
+          'wider-or-narrower' => const WiderOrNarrowerGame(),
+          'how-many-samples' => const HowManySamplesGame(),
           _ => const _UnknownGame(),
         },
       ),

@@ -132,6 +132,7 @@ void main() {
       'where-it-balances',
       'mind-the-order',
       'add-the-squares',
+      'what-goes-under', // the margin formula, which is one problem
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

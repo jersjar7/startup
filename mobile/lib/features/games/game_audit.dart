@@ -15,6 +15,7 @@ import 'fix_the_sign_game.dart';
 import 'follow_the_tangent_game.dart';
 import 'grade_sense_game.dart';
 import 'happens_first_game.dart';
+import 'how_many_samples_game.dart';
 import 'land_the_resultant_game.dart';
 import 'next_line_game.dart';
 import 'one_log_game.dart';
@@ -49,11 +50,13 @@ import 'whats_missing_game.dart';
 import 'what_shows_game.dart';
 import 'where_it_stops_game.dart';
 import 'through_the_means_game.dart';
+import 'what_goes_under_game.dart';
 import 'what_weights_game.dart';
 import 'where_it_balances_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_method_game.dart';
+import 'wider_or_narrower_game.dart';
 import 'which_readout_game.dart';
 import 'which_ratio_game.dart';
 import 'which_way_turns_game.dart';
@@ -779,6 +782,41 @@ List<GameAudit> auditAllGames() => [
     rounds: [
       for (final r in squaresRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-goes-under',
+    lessonId: 'confidence-intervals-estimation',
+    problemPrefix: 'stat-ci-',
+    rounds: [
+      for (final r in underRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'wider-or-narrower',
+    lessonId: 'confidence-intervals-estimation',
+    problemPrefix: 'stat-ci-',
+    rounds: [
+      for (final r in moveRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['narrower', 'no change', 'wider'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-many-samples',
+    lessonId: 'confidence-intervals-estimation',
+    problemPrefix: 'stat-ci-',
+    rounds: [
+      for (final r in sizeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final n in r.candidates) '$n'],
+          answer: r.answer,
+        ),
     ],
   ),
   GameAudit(

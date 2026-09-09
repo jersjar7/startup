@@ -28,14 +28,17 @@ import 'package:mobile/features/games/read_the_line_game.dart';
 import 'package:mobile/features/games/same_pick_game.dart';
 import 'package:mobile/features/games/read_the_scatter_game.dart';
 import 'package:mobile/features/games/through_the_means_game.dart';
+import 'package:mobile/features/games/what_goes_under_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
 import 'package:mobile/features/games/follow_the_tangent_game.dart';
 import 'package:mobile/features/games/which_method_game.dart';
+import 'package:mobile/features/games/wider_or_narrower_game.dart';
 import 'package:mobile/features/games/first_true_wins_game.dart';
 import 'package:mobile/features/games/where_it_stops_game.dart';
 import 'package:mobile/features/games/happens_first_game.dart';
+import 'package:mobile/features/games/how_many_samples_game.dart';
 import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
 import 'package:mobile/features/games/which_way_turns_game.dart';
@@ -536,6 +539,24 @@ void main() {
       rounds: squaresRounds.length,
       height: 1250,
     ),
+    'what-goes-under': (
+      lesson: '21-estimation',
+      build: WhatGoesUnderGame.new,
+      rounds: underRounds.length,
+      height: 1250,
+    ),
+    'wider-or-narrower': (
+      lesson: '21-estimation',
+      build: WiderOrNarrowerGame.new,
+      rounds: moveRounds.length,
+      height: 1200,
+    ),
+    'how-many-samples': (
+      lesson: '21-estimation',
+      build: HowManySamplesGame.new,
+      rounds: sizeRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -640,6 +661,11 @@ void main() {
       ('expected-value', expectedValueBrief),
       ('variance-shortcut', varianceShortcutBrief),
       ('combining', combiningBrief),
+    ],
+    '21-estimation': [
+      ('margin-of-error', marginOfErrorBrief),
+      ('z-or-t', zOrTBrief),
+      ('sample-size', sampleSizeBrief),
     ],
   };
 

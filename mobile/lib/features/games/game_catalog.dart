@@ -742,6 +742,32 @@ const statisticsMap = ChapterMap(
       id: 'confidence-intervals-estimation',
       name: 'Confidence Intervals & Estimation',
       subtopicId: 'inferential-statistics',
+      games: [
+        GameDef(
+          id: 'what-goes-under',
+          rounds: 6,
+          name: 'What Goes Under',
+          blurb: 'One piece is missing. Watch the interval redraw.',
+          built: true,
+          brief: marginOfErrorBrief,
+        ),
+        GameDef(
+          id: 'wider-or-narrower',
+          rounds: 6,
+          name: 'Wider or Narrower',
+          blurb: 'One thing changes. Which way does the interval move?',
+          built: true,
+          brief: zOrTBrief,
+        ),
+        GameDef(
+          id: 'how-many-samples',
+          rounds: 6,
+          name: 'How Many Samples',
+          blurb: 'Get under the line, and round up.',
+          built: true,
+          brief: sampleSizeBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'hypothesis-testing-goodness-of-fit',

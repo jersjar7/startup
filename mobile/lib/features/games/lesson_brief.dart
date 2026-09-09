@@ -98,6 +98,9 @@ enum BriefFigure {
   expectedValue,
   varianceShortcut,
   combining,
+  marginOfError,
+  zOrT,
+  sampleSize,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1239,6 +1242,67 @@ const combiningBrief = BriefSection(
   handbook: 'Handbook p. 65',
 );
 
+const marginOfErrorBrief = BriefSection(
+  title: 'What sets the width',
+  body:
+      'An interval is a sample mean with a margin on either side, and the '
+      'margin is the multiplier times sigma over the ROOT of n. The root is '
+      'the part that gets dropped, and it is the part that decides everything: '
+      'divide by n instead and the interval collapses to a sliver that claims '
+      'a precision the samples cannot buy. The multiplier comes from the '
+      'confidence level, and the handbook has all three.',
+  formulas: [
+    (
+      'Sigma known',
+      r'\bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} \le \mu \le '
+          r'\bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}',
+    ),
+    ('The three multipliers', r'90\% : 1.645 \quad 95\% : 1.960 \quad 99\% : 2.576'),
+    ('So', r'42 \pm 1.960\frac{5}{\sqrt{25}} = 42 \pm 1.96'),
+  ],
+  figure: BriefFigure.marginOfError,
+  handbook: 'Handbook p. 74',
+);
+
+const zOrTBrief = BriefSection(
+  title: 'Sigma or s, and which way the width moves',
+  body:
+      'If the problem hands you sigma, the population spread, use z. If it '
+      'hands you s, computed from the sample, use t with n minus one degrees '
+      'of freedom. The t interval is always the wider one at the same '
+      'confidence, because the spread is now a guess as well and the interval '
+      'pays for it. Three things move the width and the sample mean is not one '
+      'of them: the confidence level, sigma, and how many samples you took.',
+  formulas: [
+    (
+      'Sigma unknown',
+      r'\bar{x} \pm t_{\alpha/2,\,n-1}\frac{s}{\sqrt{n}}, \quad v = n - 1',
+    ),
+    ('Ten samples, 95%', r'z = 1.960 \;\Rightarrow\; t_{0.025,\,9} = 2.262'),
+  ],
+  figure: BriefFigure.zOrT,
+  handbook: 'Handbook p. 74',
+);
+
+const sampleSizeBrief = BriefSection(
+  title: 'Working backwards to n',
+  body:
+      'When the margin is fixed before the data is collected, rearrange for n. '
+      'The whole ratio gets SQUARED, which is where both of the usual mistakes '
+      'live: stopping before the square gives a number about eight when the '
+      'answer is sixty two, and the square is also why halving the margin '
+      'costs four times the samples. Then round UP, always. A sample size that '
+      'misses the specification is not a sample size, and there is no such '
+      'thing as most of a test.',
+  formulas: [
+    ('Required n', r'n = \left(\frac{z_{\alpha/2} \cdot \sigma}{e}\right)^2'),
+    ('So', r'\left(\frac{1.960 \times 800}{200}\right)^2 = 7.84^2 = 61.47'),
+    ('Which means', r'n = 62'),
+  ],
+  figure: BriefFigure.sampleSize,
+  handbook: 'Handbook p. 75',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1555,6 +1619,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\sigma_T = 3 + 8 = 11", false),
             (r"\sigma_T = 3^2 + 8^2 = 73", false),
             (r"\text{Var}(2D + L) = 2^2\sigma_D^2 + \sigma_L^2", true),
+          ],
+        );
+      case BriefFigure.marginOfError:
+        return const _RuleList(
+          rules: [
+            (r"E = z_{\alpha/2}\frac{\sigma}{\sqrt{n}}", true),
+            (r"E = z_{\alpha/2}\frac{\sigma}{n}", false),
+            (r"E = z_{\alpha/2}\,\sigma", false),
+            (r"4\times \text{the samples} \;\Rightarrow\; \tfrac{1}{2}\text{ the margin}", true),
+          ],
+        );
+      case BriefFigure.zOrT:
+        return const _RuleList(
+          rules: [
+            (r"\text{given } \sigma \;\Rightarrow\; z", true),
+            (r"\text{given } s \;\Rightarrow\; t \text{ with } v = n-1", true),
+            (r"t \text{ is WIDER than } z \text{ at the same confidence}", true),
+            (r"\text{a higher } \bar{x} \;\Rightarrow\; \text{a wider interval}", false),
+          ],
+        );
+      case BriefFigure.sampleSize:
+        return const _RuleList(
+          rules: [
+            (r"n = \left(\tfrac{1.960 \times 800}{200}\right)^2 = 61.47 \to 62", true),
+            (r"n = \tfrac{1.960 \times 800}{200} = 7.84 \to 8", false),
+            (r"n = 61.47", false),
+            (r"n = 61", false),
           ],
         );
       case BriefFigure.lawChoice:
