@@ -140,6 +140,10 @@ void main() {
       'can-you-seal-it',
       'who-has-to-agree',
       'can-you-claim-that',
+      // Ethics lesson three, likewise: the exemption clause and the
+      // practice-or-title distinction are one problem each.
+      'does-it-hold',
+      'practice-or-title',
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

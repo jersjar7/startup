@@ -110,6 +110,9 @@ enum BriefFigure {
   competence,
   consent,
   claims,
+  standing,
+  exemption,
+  holdingOut,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1494,6 +1497,67 @@ const claimsBrief = BriefSection(
   handbook: 'Handbook p. 5, Model Rules C.1 to C.4',
 );
 
+const standingBrief = BriefSection(
+  title: 'Certified, and licensed',
+  body:
+      'Two words that sound alike and are not. An Engineer Intern has passed '
+      'the FE and been CERTIFIED by the board, which entitles them to the '
+      'title and to sit the second exam once the experience is behind them. A '
+      'Professional Engineer has passed both exams and been LICENSED, and a '
+      'licence is what a seal is an act of. Nothing lends it: not competence, '
+      'not a licensed colleague reading the drawing afterwards, and not '
+      'writing your intern status beside your name. A great deal of real '
+      'engineering work, meanwhile, needs no licence at all.',
+  formulas: [
+    ('Engineer Intern', r'\text{Passed the FE. Certified by the board.}'),
+    ('Professional Engineer', r'\text{Passed both. Licensed by the board.}'),
+    ('The seal', r'\text{Only a licensed PE may sign and seal.}'),
+  ],
+  figure: BriefFigure.standing,
+  handbook: 'Handbook p. 6, Model Law 110.20',
+);
+
+const exemptionBrief = BriefSection(
+  title: 'When unlicensed work is allowed',
+  body:
+      'The exemption clause is what lets a firm employ anybody at all. An '
+      'unlicensed employee may prepare calculations, produce drawings and '
+      'check documents against one another, on two conditions that both have '
+      'to hold: a licensed engineer is in responsible charge of the work, and '
+      'the final engineering decisions are not the employee\'s. Responsible '
+      'charge means direct control and personal supervision, so telling '
+      'somebody afterwards is not it, and neither is being in the same firm as '
+      'somebody licensed who is not directing you.',
+  formulas: [
+    ('170.20 C', r'\text{A subordinate under the responsible charge of a PE}'),
+    ('And', r'\text{no final engineering designs or decisions}'),
+    ('Responsible charge', r'\text{direct control and personal supervision}'),
+  ],
+  figure: BriefFigure.exemption,
+  handbook: 'Handbook p. 11, Model Law 170.20 C',
+);
+
+const holdingOutBrief = BriefSection(
+  title: 'The work, or the title',
+  body:
+      'Two separate offences. The first is doing the work: any service that '
+      'takes engineering education and judgment and reaches the health, safety '
+      'or welfare of the public is the practice of engineering, and the Model '
+      'Law has never cared what it is delivered on. Drawings, a spreadsheet, a '
+      'book of tables, an app; the medium is not part of the test and pushing '
+      'the last tap onto the user does not move the judgment out of the '
+      'software. The second is the title: representing yourself as a '
+      'Professional Engineer when you are not, by sign, card, letterhead or '
+      'website, is a violation even if you never do a day of engineering.',
+  formulas: [
+    ('110.20 A.3', r'\text{Work needing engineering judgment, reaching the public.}'),
+    ('A.3(a)', r'\text{Practises, or holds out as able to practise.}'),
+    ('A.3(b)', r'\text{Represents themselves as a PE by any means.}'),
+  ],
+  figure: BriefFigure.holdingOut,
+  handbook: 'Handbook p. 6, Model Law 110.20 A.3',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1918,6 +1982,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{our firm designed it}", false),
             (r"\text{we provided engineering services on it}", false),
             (r"\text{our portfolio includes it}", false),
+          ],
+        );
+      case BriefFigure.standing:
+        return const _RuleList(
+          rules: [
+            (r"\text{passed the FE} \;\Rightarrow\; \text{certified, not licensed}", true),
+            (r"\text{only a licensed PE may seal}", true),
+            (r"\text{an intern may seal if a PE reviews it}", false),
+            (r"\text{writing ``Engineer Intern'' beside the seal fixes it}", false),
+          ],
+        );
+      case BriefFigure.exemption:
+        return const _RuleList(
+          rules: [
+            (r"\text{under a PE's charge, no final decisions}", true),
+            (r"\text{comparing documents and flagging differences}", true),
+            (r"\text{choosing the size because the PE is away}", false),
+            (r"\text{a firm with nobody licensed in it}", false),
+          ],
+        );
+      case BriefFigure.holdingOut:
+        return const _RuleList(
+          rules: [
+            (r"\text{an app that sizes members for the public}", false),
+            (r"\text{``PE'' on the card of somebody unlicensed}", false),
+            (r"\text{tables prepared and sealed by a PE}", true),
+            (r"\text{a unit converter that decides nothing}", true),
           ],
         );
       case BriefFigure.lawChoice:

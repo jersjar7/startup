@@ -9,6 +9,7 @@ import 'can_you_claim_that_game.dart';
 import 'can_you_seal_it_game.dart';
 import 'copy_it_down_game.dart';
 import 'discriminant_gate_game.dart';
+import 'does_it_hold_game.dart';
 import 'enough_or_too_far_game.dart';
 import 'every_rule_game.dart';
 import 'find_the_slip_game.dart';
@@ -26,6 +27,7 @@ import 'one_log_game.dart';
 import 'open_or_closed_game.dart';
 import 'order_the_moves_game.dart';
 import 'perpendicular_flip_game.dart';
+import 'practice_or_title_game.dart';
 import 'pick_u_game.dart';
 import 'place_the_center_game.dart';
 import 'point_at_the_inside_game.dart';
@@ -63,6 +65,7 @@ import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_way_points_game.dart';
 import 'who_has_to_agree_game.dart';
+import 'who_may_do_that_game.dart';
 import 'which_cell_hurts_game.dart';
 import 'which_method_game.dart';
 import 'wider_or_narrower_game.dart';
@@ -929,6 +932,49 @@ List<GameAudit> auditAllGames() => [
     rounds: [
       for (final r in claimRounds)
         RoundAudit(source: r.source, options: r.claims, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'who-may-do-that',
+    lessonId: 'definitions-practice-of-engineering',
+    problemPrefix: 'eth-dpe-',
+    rounds: [
+      for (final r in standingRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['anyone', 'an engineer intern', 'only a licensed PE'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-it-hold',
+    lessonId: 'definitions-practice-of-engineering',
+    problemPrefix: 'eth-dpe-',
+    rounds: [
+      for (final r in exemptionRounds)
+        RoundAudit(
+          source: r.source,
+          options: const [
+            'the exemption holds',
+            'nobody licensed is in charge',
+            'they are making the final call',
+          ],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'practice-or-title',
+    lessonId: 'definitions-practice-of-engineering',
+    problemPrefix: 'eth-dpe-',
+    rounds: [
+      for (final r in verdictCases)
+        RoundAudit(
+          source: r.source,
+          options: const ['practising unlicensed', 'the title', 'neither'],
+          answer: r.answer.index,
+        ),
     ],
   ),
   GameAudit(

@@ -13,6 +13,7 @@ import 'package:mobile/features/games/acute_or_obtuse_game.dart';
 import 'package:mobile/features/games/balance_both_sides_game.dart';
 import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
+import 'package:mobile/features/games/does_it_hold_game.dart';
 import 'package:mobile/features/games/enough_or_too_far_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
 import 'package:mobile/features/games/add_the_squares_game.dart';
@@ -49,6 +50,7 @@ import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
 import 'package:mobile/features/games/which_way_points_game.dart';
 import 'package:mobile/features/games/who_has_to_agree_game.dart';
+import 'package:mobile/features/games/who_may_do_that_game.dart';
 import 'package:mobile/features/games/which_way_turns_game.dart';
 import 'package:mobile/features/games/open_or_closed_game.dart';
 import 'package:mobile/features/games/shade_the_tail_game.dart';
@@ -72,6 +74,7 @@ import 'package:mobile/features/games/grade_sense_game.dart';
 import 'package:mobile/features/games/one_log_game.dart';
 import 'package:mobile/features/games/order_the_moves_game.dart';
 import 'package:mobile/features/games/perpendicular_flip_game.dart';
+import 'package:mobile/features/games/practice_or_title_game.dart';
 import 'package:mobile/features/games/place_the_center_game.dart';
 import 'package:mobile/features/games/point_at_the_inside_game.dart';
 import 'package:mobile/features/games/quadrant_signs_game.dart';
@@ -620,6 +623,24 @@ void main() {
       rounds: claimRounds.length,
       height: 1250,
     ),
+    'who-may-do-that': (
+      lesson: '25-definitions-practice',
+      build: WhoMayDoThatGame.new,
+      rounds: standingRounds.length,
+      height: 1250,
+    ),
+    'does-it-hold': (
+      lesson: '25-definitions-practice',
+      build: DoesItHoldGame.new,
+      rounds: exemptionRounds.length,
+      height: 1250,
+    ),
+    'practice-or-title': (
+      lesson: '25-definitions-practice',
+      build: PracticeOrTitleGame.new,
+      rounds: verdictCases.length,
+      height: 1300,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -744,6 +765,11 @@ void main() {
       ('competence', competenceBrief),
       ('consent', consentBrief),
       ('claims', claimsBrief),
+    ],
+    '25-definitions-practice': [
+      ('standing', standingBrief),
+      ('exemption', exemptionBrief),
+      ('holding-out', holdingOutBrief),
     ],
   };
 

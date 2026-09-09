@@ -885,6 +885,32 @@ const ethicsMap = ChapterMap(
       id: 'definitions-practice-of-engineering',
       name: 'Definitions & Practice of Engineering',
       subtopicId: 'licensure-and-law',
+      games: [
+        GameDef(
+          id: 'who-may-do-that',
+          rounds: 6,
+          name: 'Who May Do That',
+          blurb: 'The lowest standing that is enough. Often nobody licensed.',
+          built: true,
+          brief: standingBrief,
+        ),
+        GameDef(
+          id: 'does-it-hold',
+          rounds: 6,
+          name: 'Does the Exemption Hold',
+          blurb: 'Two conditions. Which one does this one break?',
+          built: true,
+          brief: exemptionBrief,
+        ),
+        GameDef(
+          id: 'practice-or-title',
+          rounds: 6,
+          name: 'Practice, or the Title',
+          blurb: 'Two offences that usually travel together.',
+          built: true,
+          brief: holdingOutBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'licensure-path-disciplinary-action',

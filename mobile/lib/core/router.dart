@@ -18,6 +18,7 @@ import '../features/games/can_you_claim_that_game.dart';
 import '../features/games/can_you_seal_it_game.dart';
 import '../features/games/copy_it_down_game.dart';
 import '../features/games/discriminant_gate_game.dart';
+import '../features/games/does_it_hold_game.dart';
 import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
 import '../features/games/follow_the_tangent_game.dart';
@@ -36,6 +37,7 @@ import '../features/games/one_log_game.dart';
 import '../features/games/open_or_closed_game.dart';
 import '../features/games/order_the_moves_game.dart';
 import '../features/games/perpendicular_flip_game.dart';
+import '../features/games/practice_or_title_game.dart';
 import '../features/games/pick_u_game.dart';
 import '../features/games/place_the_center_game.dart';
 import '../features/games/point_at_the_inside_game.dart';
@@ -73,6 +75,7 @@ import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_way_points_game.dart';
 import '../features/games/who_has_to_agree_game.dart';
+import '../features/games/who_may_do_that_game.dart';
 import '../features/games/which_cell_hurts_game.dart';
 import '../features/games/which_method_game.dart';
 import '../features/games/wider_or_narrower_game.dart';
@@ -204,6 +207,9 @@ GoRouter buildRouter(AuthController auth) {
           'can-you-seal-it' => const CanYouSealItGame(),
           'who-has-to-agree' => const WhoHasToAgreeGame(),
           'can-you-claim-that' => const CanYouClaimThatGame(),
+          'who-may-do-that' => const WhoMayDoThatGame(),
+          'does-it-hold' => const DoesItHoldGame(),
+          'practice-or-title' => const PracticeOrTitleGame(),
           _ => const _UnknownGame(),
         },
       ),
