@@ -460,6 +460,108 @@ class _PathPainter extends CustomPainter {
   bool shouldRepaint(_PathPainter old) => false;
 }
 
+
+/// A closer look at one direction with every state raised, laid out the way
+/// the real screen is: nodes on a winding road with a label card beside each.
+class _RealisticPainter extends CustomPainter {
+  const _RealisticPainter({required this.look, required this.d, required this.rows});
+
+  final _Direction look;
+  final double d;
+  final List<(Stop, String, String)> rows;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final gap = d * 1.72;
+    final centres = <Offset>[
+      for (var i = 0; i < rows.length; i++)
+        Offset(
+          size.width * 0.42 + math.sin(i * math.pi / 3) * size.width * 0.22,
+          d / 2 + 14 + i * gap,
+        ),
+    ];
+
+    for (var i = 0; i < centres.length - 1; i++) {
+      final paint = Paint()
+        ..color = look.roadColor(rows[i].$1, rows[i + 1].$1)
+        ..strokeWidth = look.roadWidth * d
+        ..strokeCap = StrokeCap.round;
+      if (look.roadDashed(rows[i].$1, rows[i + 1].$1)) {
+        _dashedLine(canvas, centres[i], centres[i + 1], paint, 0.09 * d,
+            0.07 * d);
+      } else {
+        canvas.drawLine(centres[i], centres[i + 1], paint);
+      }
+    }
+
+    for (var i = 0; i < centres.length; i++) {
+      _card(canvas, size, centres[i], d, rows[i].$2, rows[i].$3);
+      final body = look.bodyColor(rows[i].$1);
+      if (body != null) {
+        canvas.drawRRect(
+          look.bodySlab(rows[i].$1, centres[i], d),
+          Paint()..color = body,
+        );
+      }
+      look.node(canvas, centres[i], d, rows[i].$1);
+    }
+  }
+
+  /// The white label card, so the node is judged next to what it sits beside.
+  void _card(Canvas canvas, Size size, Offset c, double d, String name,
+      String detail) {
+    final onLeft = c.dx > size.width * 0.45;
+    const w = 150.0;
+    final left = onLeft ? c.dx - d / 2 - 12 - w : c.dx + d / 2 + 12;
+    final title = TextPainter(
+      text: TextSpan(
+        text: name,
+        style: const TextStyle(
+          fontFamily: 'DM Sans',
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+          height: 1.25,
+          color: Color(0xFF2C2C2C),
+        ),
+      ),
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: w - 20);
+    final sub = TextPainter(
+      text: TextSpan(
+        text: detail,
+        style: const TextStyle(
+          fontFamily: 'JetBrains Mono',
+          fontSize: 10.5,
+          color: Color(0xFF9C9488),
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    final h = title.height + sub.height + 22;
+    final rect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(left, c.dy - h / 2, w, h),
+      const Radius.circular(12),
+    );
+    canvas.drawRRect(
+      rect.shift(const Offset(0, 3)),
+      Paint()
+        ..color = const Color(0x0F2C2C2C)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5),
+    );
+    canvas.drawRRect(rect, Paint()..color = Colors.white);
+    title.paint(canvas, Offset(left + (w - title.width) / 2, c.dy - h / 2 + 9));
+    sub.paint(
+      canvas,
+      Offset(left + (w - sub.width) / 2, c.dy - h / 2 + 11 + title.height),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_RealisticPainter old) => false;
+}
+
 void main() {
   setUpAll(() async {
     GoogleFonts.config.allowRuntimeFetching = false;
@@ -571,6 +673,48 @@ void main() {
     await expectLater(
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/00-map/designer-directions.png'),
+    );
+  });
+
+  testWidgets('silhouette, raised on every state', (tester) async {
+    tester.view.physicalSize = const Size(390, 1500);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    const rows = <(Stop, String, String)>[
+      (Stop(Look.finished, 1), 'Straight Lines & Quadratics', 'All 3 done'),
+      (Stop(Look.finished, 1), 'Logarithms', 'All 3 done'),
+      (Stop(Look.underway, 0.66), 'Right Triangle Trigonometry', '2 of 3 done'),
+      (Stop(Look.underway, 0.2), 'Law of Sines & Law of Cosines', 'Started'),
+      (Stop(Look.untouched), 'Unit Circle & Trig Identities', '0 of 3 done'),
+      (Stop(Look.notBuilt), 'Circles & Conic Sections', 'Not built yet'),
+    ];
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          backgroundColor: _page,
+          body: CustomPaint(
+            painter: const _RealisticPainter(
+              look: Silhouette(thick: true, raiseNotBuilt: true),
+              d: 76,
+              rows: rows,
+            ),
+            child: const SizedBox.expand(),
+          ),
+        ),
+      ),
+    );
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 60)),
+    );
+    await tester.pumpAndSettle();
+
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/00-map/silhouette-raised.png'),
     );
   });
 }
