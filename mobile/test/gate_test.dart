@@ -155,6 +155,9 @@ void main() {
       'which-rate', // nominal against effective, which is one problem
       'which-side-wins', // the break-even chart, which is one problem
       'what-is-the-saving', // the payback saving, which is one problem
+      // The decision tree is one problem in the lesson and it is the only
+      // one with a probability in it, so every round is built from it.
+      'roll-it-back',
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

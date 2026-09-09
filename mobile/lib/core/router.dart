@@ -79,6 +79,9 @@ import '../features/games/what_goes_under_game.dart';
 import '../features/games/what_it_triggers_game.dart';
 import '../features/games/what_does_it_take_game.dart';
 import '../features/games/what_is_the_saving_game.dart';
+import '../features/games/where_does_it_go_game.dart';
+import '../features/games/which_one_do_you_build_game.dart';
+import '../features/games/roll_it_back_game.dart';
 import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_law_game.dart';
@@ -252,6 +255,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-bucket' => const WhichBucketGame(),
           'which-side-wins' => const WhichSideWinsGame(),
           'what-is-the-saving' => const WhatIsTheSavingGame(),
+          'where-does-it-go' => const WhereDoesItGoGame(),
+          'which-one-do-you-build' => const WhichOneDoYouBuildGame(),
+          'roll-it-back' => const RollItBackGame(),
           _ => const _UnknownGame(),
         },
       ),

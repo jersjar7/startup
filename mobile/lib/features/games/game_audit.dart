@@ -74,9 +74,12 @@ import 'where_it_balances_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_section_game.dart';
+import 'which_one_do_you_build_game.dart';
 import 'which_side_wins_game.dart';
 import 'which_way_points_game.dart';
 import 'which_way_it_pushes_game.dart';
+import 'where_does_it_go_game.dart';
+import 'roll_it_back_game.dart';
 import 'who_has_to_agree_game.dart';
 import 'who_may_do_that_game.dart';
 import 'who_pays_the_overrun_game.dart';
@@ -1257,6 +1260,45 @@ List<GameAudit> auditAllGames() => [
         RoundAudit(
           source: r.source,
           options: [for (final o in r.options) o.$1],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-does-it-go',
+    lessonId: 'benefit-cost-decision-trees',
+    problemPrefix: 'econ-bcd-',
+    rounds: [
+      for (final r in slotRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final s in Slot.values) s.name],
+          answer: Slot.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-one-do-you-build',
+    lessonId: 'benefit-cost-decision-trees',
+    problemPrefix: 'econ-bcd-',
+    rounds: [
+      for (final r in buildRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in r.options) o.name],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'roll-it-back',
+    lessonId: 'benefit-cost-decision-trees',
+    problemPrefix: 'econ-bcd-',
+    rounds: [
+      for (final r in treeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final b in r.branches) b.name],
           answer: r.answer,
         ),
     ],

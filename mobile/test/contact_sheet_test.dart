@@ -38,6 +38,9 @@ import 'package:mobile/features/games/what_goes_under_game.dart';
 import 'package:mobile/features/games/what_it_triggers_game.dart';
 import 'package:mobile/features/games/what_does_it_take_game.dart';
 import 'package:mobile/features/games/what_is_the_saving_game.dart';
+import 'package:mobile/features/games/where_does_it_go_game.dart';
+import 'package:mobile/features/games/which_one_do_you_build_game.dart';
+import 'package:mobile/features/games/roll_it_back_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
@@ -788,6 +791,24 @@ void main() {
       rounds: savingRounds.length,
       height: 1350,
     ),
+    'where-does-it-go': (
+      lesson: '33-benefit-cost',
+      build: WhereDoesItGoGame.new,
+      rounds: slotRounds.length,
+      height: 1300,
+    ),
+    'which-one-do-you-build': (
+      lesson: '33-benefit-cost',
+      build: WhichOneDoYouBuildGame.new,
+      rounds: buildRounds.length,
+      height: 1350,
+    ),
+    'roll-it-back': (
+      lesson: '33-benefit-cost',
+      build: RollItBackGame.new,
+      rounds: treeRounds.length,
+      height: 1400,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -952,6 +973,11 @@ void main() {
       ('cost-types', costTypesBrief),
       ('break-even', breakEvenBrief),
       ('payback', paybackBrief),
+    ],
+    '33-benefit-cost': [
+      ('ratio', ratioBrief),
+      ('incremental', incrementalBrief),
+      ('rollback', rollbackBrief),
     ],
   };
 

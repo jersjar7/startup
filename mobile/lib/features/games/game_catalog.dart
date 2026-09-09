@@ -1149,6 +1149,32 @@ const economicsMap = ChapterMap(
       id: 'benefit-cost-decision-trees',
       name: 'Benefit-Cost Analysis & Decision Trees',
       subtopicId: 'cost-and-economic-analysis',
+      games: [
+        GameDef(
+          id: 'where-does-it-go',
+          rounds: 6,
+          name: 'Where Does It Go',
+          blurb: 'On top, off the top, or underneath. One of three.',
+          built: true,
+          brief: ratioBrief,
+        ),
+        GameDef(
+          id: 'which-one-do-you-build',
+          rounds: 6,
+          name: 'Which One Do You Build',
+          blurb: 'The best ratio is usually the wrong answer.',
+          built: true,
+          brief: incrementalBrief,
+        ),
+        GameDef(
+          id: 'roll-it-back',
+          rounds: 6,
+          name: 'Roll It Back',
+          blurb: 'A tree with a square, some circles, and a price on every end.',
+          built: true,
+          brief: rollbackBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'rate-of-return',

@@ -137,6 +137,9 @@ enum BriefFigure {
   lawChoice,
   lawForms,
   cosineSign,
+  bcRatio,
+  incremental,
+  rollback,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -1993,6 +1996,64 @@ const paybackBrief = BriefSection(
   handbook: 'Handbook pp. 230-231',
 );
 
+const ratioBrief = BriefSection(
+  title: 'Three places a number can land',
+  body:
+      'A benefit-cost ratio is what the project does for the public over what '
+      'it costs the government. Benefits go on top, and so do disbenefits, '
+      'except they come off rather than on. Costs go underneath, and that '
+      'includes every year of operating and maintaining the thing, not only '
+      'the building of it. Harm to the public is the one people misfile: '
+      'moving it into the denominator is a different division and gives a '
+      'different answer. A project stands up when the ratio reaches one.',
+  formulas: [
+    ('Plain', r'B/C = \frac{B}{C}'),
+    ('With disbenefits', r'B/C = \frac{B - D}{C}'),
+    ('Justified when', r'B/C \geq 1'),
+  ],
+  figure: BriefFigure.bcRatio,
+  handbook: 'Handbook p. 231',
+);
+
+const incrementalBrief = BriefSection(
+  title: 'Is the step up worth it',
+  body:
+      'With mutually exclusive alternatives you do not pick the highest '
+      'benefit-cost ratio. That number answers a question nobody asked, which '
+      'is how much each dollar returns, and it is blind to how many dollars '
+      'are on offer. Throw out anything that cannot reach one on its own, put '
+      'the survivors in order of cost, and ask of each step up whether the '
+      'extra benefit covers the extra cost. Keep stepping while it does. The '
+      'comparison is always against the last one that survived, not the one '
+      'printed above it.',
+  formulas: [
+    ('Each on its own', r'B/C \geq 1'),
+    ('Then each step', r'\Delta B/C = \frac{B_2 - B_1}{C_2 - C_1}'),
+    ('Step up when', r'\Delta B/C \geq 1'),
+  ],
+  figure: BriefFigure.incremental,
+  handbook: 'Handbook p. 231',
+);
+
+const rollbackBrief = BriefSection(
+  title: 'Work a tree backwards',
+  body:
+      'Squares are where you choose and circles are where you do not. Start at '
+      'the endings and work back: a circle is worth its endings weighted by '
+      'how likely each one is, which always lands between the cheapest and the '
+      'dearest and leans toward the likely one. Then stand at the square and '
+      'take the best line, lowest for costs and highest for returns. The '
+      'probabilities at any one circle add to one, so a branch left unlabeled '
+      'carries whatever is left over and still has to be counted.',
+  formulas: [
+    ('At a circle', r'EV = p_1 C_1 + p_2 C_2 + \cdots + p_n C_n'),
+    ('Which sums to', r'\sum p_i = 1'),
+    ('So', r'0.4(10) + 0.6(5) = 7'),
+  ],
+  figure: BriefFigure.rollback,
+  handbook: 'Handbook p. 231',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2633,6 +2694,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\tfrac{1{,}400}{280} = 5 \text{ years}", false),
             (r"\text{a one-off grant, in the annual figure}", false),
             (r"\text{new cost} > \text{saving} \;\Rightarrow\; \text{no payback}", true),
+          ],
+        );
+      case BriefFigure.bcRatio:
+        return const _RuleList(
+          rules: [
+            (r"\text{operating cost} \;\Rightarrow\; \text{denominator}", true),
+            (r"\text{harm to the public} \;\Rightarrow\; \text{off the top}", true),
+            (r"\text{harm to the public} \;\Rightarrow\; \text{denominator}", false),
+            (r"\text{only the construction cost underneath}", false),
+          ],
+        );
+      case BriefFigure.incremental:
+        return const _RuleList(
+          rules: [
+            (r"\text{the highest } B/C \;\Rightarrow\; \text{build that one}", false),
+            (r"B/C < 1 \;\Rightarrow\; \text{out before you start}", true),
+            (r"\Delta B/C \geq 1 \;\Rightarrow\; \text{step up}", true),
+            (r"\text{compare against the last one that survived}", true),
+          ],
+        );
+      case BriefFigure.rollback:
+        return const _RuleList(
+          rules: [
+            (r"\text{a circle lands between its endings}", true),
+            (r"\text{the cost today} \;\Rightarrow\; \text{the branch}", false),
+            (r"\text{the worst ending} \;\Rightarrow\; \text{the branch}", false),
+            (r"\text{an unlabeled branch carries the rest}", true),
           ],
         );
       case BriefFigure.lawChoice:
