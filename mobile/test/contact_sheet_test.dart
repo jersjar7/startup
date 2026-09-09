@@ -15,6 +15,7 @@ import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
 import 'package:mobile/features/games/both_sides_game.dart';
+import 'package:mobile/features/games/build_the_binomial_game.dart';
 import 'package:mobile/features/games/fix_the_sign_game.dart';
 import 'package:mobile/features/games/copy_it_down_game.dart';
 import 'package:mobile/features/games/fill_the_trace_game.dart';
@@ -22,6 +23,7 @@ import 'package:mobile/features/games/can_it_start_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
 import 'package:mobile/features/games/r_or_r2_game.dart';
 import 'package:mobile/features/games/read_the_line_game.dart';
+import 'package:mobile/features/games/same_pick_game.dart';
 import 'package:mobile/features/games/read_the_scatter_game.dart';
 import 'package:mobile/features/games/through_the_means_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
@@ -35,6 +37,7 @@ import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
 import 'package:mobile/features/games/which_way_turns_game.dart';
 import 'package:mobile/features/games/open_or_closed_game.dart';
+import 'package:mobile/features/games/shade_the_tail_game.dart';
 import 'package:mobile/features/games/shadow_falls_game.dart';
 import 'package:mobile/features/games/take_the_diagonal_game.dart';
 import 'package:mobile/features/games/land_the_resultant_game.dart';
@@ -494,6 +497,24 @@ void main() {
       rounds: rRounds.length,
       height: 1200,
     ),
+    'same-pick': (
+      lesson: '19-distributions',
+      build: SamePickGame.new,
+      rounds: pickRounds.length,
+      height: 1250,
+    ),
+    'build-the-binomial': (
+      lesson: '19-distributions',
+      build: BuildTheBinomialGame.new,
+      rounds: binomialRounds.length,
+      height: 1250,
+    ),
+    'shade-the-tail': (
+      lesson: '19-distributions',
+      build: ShadeTheTailGame.new,
+      rounds: tailRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -589,6 +610,11 @@ void main() {
       ('regression-line', regressionLineBrief),
       ('determination', determinationBrief),
     ],
+    '19-distributions': [
+      ('counting', countingBrief),
+      ('binomial', binomialBrief),
+      ('normal-table', normalTableBrief),
+    ],
   };
 
   for (final lesson in cards.entries) {
@@ -655,6 +681,45 @@ void main() {
         matchesGoldenFile('goldens/10-lhopital/run-the-loop-$name.png'),
       );
     }
+  });
+
+  // The whole payoff of Shade the Tail is the shading, and the walk above only
+  // ever photographs a board before it is answered. This is the frame worth
+  // reviewing: the wrong half picked, the right half named.
+  testWidgets('sheet: shade-the-tail, answered', (tester) async {
+    tester.view.physicalSize = const Size(390, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    GameProgress.instance.reset('shade-the-tail');
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        debugShowCheckedModeBanner: false,
+        home: const ShadeTheTailGame(),
+      ),
+    );
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 60)),
+    );
+    await tester.pumpAndSettle();
+
+    // Round one asks for the fail rate; this taps the pass side, which is the
+    // trap the lesson names.
+    final curve = tester.getRect(find.byType(CustomPaint).last);
+    await tester.tapAt(Offset(curve.right - 40, curve.center.dy));
+    await tester.pumpAndSettle();
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/19-distributions/shade-the-tail-picked.png'),
+    );
+
+    await tester.tap(find.text('Lock it in'));
+    await tester.pumpAndSettle();
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/19-distributions/shade-the-tail-graded.png'),
+    );
   });
 
   for (final entry in items.entries) {

@@ -9,6 +9,7 @@ import '../features/auth/verify_screen.dart';
 import '../features/games/acute_or_obtuse_game.dart';
 import '../features/games/balance_both_sides_game.dart';
 import '../features/games/both_sides_game.dart';
+import '../features/games/build_the_binomial_game.dart';
 import '../features/games/build_the_identity_game.dart';
 import '../features/games/chapter_map_screen.dart';
 import '../features/games/can_it_start_game.dart';
@@ -37,6 +38,7 @@ import '../features/games/read_the_equation_game.dart';
 import '../features/games/reaches_further_game.dart';
 import '../features/games/r_or_r2_game.dart';
 import '../features/games/read_the_line_game.dart';
+import '../features/games/same_pick_game.dart';
 import '../features/games/read_the_scatter_game.dart';
 import '../features/games/resolve_it_game.dart';
 import '../features/games/rule_or_trap_game.dart';
@@ -44,6 +46,7 @@ import '../features/games/run_the_loop_game.dart';
 import '../features/games/set_it_up_game.dart';
 import '../features/games/sign_the_bend_game.dart';
 import '../features/games/slide_to_flat_game.dart';
+import '../features/games/shade_the_tail_game.dart';
 import '../features/games/shadow_falls_game.dart';
 import '../features/games/stretch_it_game.dart';
 import '../features/games/take_the_diagonal_game.dart';
@@ -168,6 +171,9 @@ GoRouter buildRouter(AuthController auth) {
           'read-the-scatter' => const ReadTheScatterGame(),
           'through-the-means' => const ThroughTheMeansGame(),
           'r-or-r2' => const ROrR2Game(),
+          'same-pick' => const SamePickGame(),
+          'build-the-binomial' => const BuildTheBinomialGame(),
+          'shade-the-tail' => const ShadeTheTailGame(),
           _ => const _UnknownGame(),
         },
       ),

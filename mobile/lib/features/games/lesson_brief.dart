@@ -92,6 +92,9 @@ enum BriefFigure {
   correlation,
   regressionLine,
   determination,
+  counting,
+  binomial,
+  normalTable,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1118,6 +1121,63 @@ const determinationBrief = BriefSection(
   handbook: 'Handbook p. 69',
 );
 
+const countingBrief = BriefSection(
+  title: 'Order, or just a group',
+  body:
+      'Both counts start from the same pool and the same number of picks. The '
+      'only question is whether the same picks in a different order count as a '
+      'second result. If the positions mean something different from one '
+      'another, a rank, a job, a place in a sequence, then order matters and '
+      'it is a permutation. If the picks all get the same treatment, it is a '
+      'combination, and the permutation answer will be too big by exactly r '
+      'factorial.',
+  formulas: [
+    ('Order matters', r'P(n, r) = \frac{n!}{(n-r)!}'),
+    ('Order does not', r'C(n, r) = \frac{n!}{r!\,(n-r)!}'),
+    ('So', r'P(8,3) = 336 \;\Rightarrow\; C(8,3) = \frac{336}{3!} = 56'),
+  ],
+  figure: BriefFigure.counting,
+  handbook: 'Handbook p. 64',
+);
+
+const binomialBrief = BriefSection(
+  title: 'Three factors, every time',
+  body:
+      'Use it when there is a fixed number of independent trials and each one '
+      'either works or does not. The formula is always the same three pieces '
+      'multiplied: how many ways the successes could be arranged, the '
+      'successes themselves, and the failures. The count in front is a '
+      'COMBINATION, because three failures out of ten is three failures '
+      'whichever three they were. Two cheap checks: the exponents add up to n, '
+      'and whichever outcome you call the success has to be the one x counts.',
+  formulas: [
+    ('The distribution', r'P(X = x) = C(n, x)\,p^x(1-p)^{n-x}'),
+    ('Variance', r'\sigma^2 = npq \quad \text{where } q = 1 - p'),
+  ],
+  figure: BriefFigure.binomial,
+  handbook: 'Handbook p. 66',
+);
+
+const normalTableBrief = BriefSection(
+  title: 'Which area the table gives you',
+  body:
+      'The z-score turns any normal variable into the one the handbook has a '
+      'table for. Reading the table is then the whole job, and it has three '
+      'columns: F is everything left of z, R is everything right of it, and W '
+      'is the band between minus z and plus z. The table only runs on positive '
+      'z, so an area on the left of a negative cut comes from the flip. Before '
+      'any of that, decide which piece of the picture the sentence asked for: '
+      'the fail rate and the pass rate come off the same curve and the same '
+      'line.',
+  formulas: [
+    ('Z-score', r'z = \frac{x - \mu}{\sigma}'),
+    ('The flip', r'F(-z) = 1 - F(z)'),
+    ('The other tail', r'R(z) = 1 - F(z)'),
+  ],
+  figure: BriefFigure.normalTable,
+  handbook: 'Handbook p. 67',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1380,6 +1440,33 @@ class BriefFigureView extends StatelessWidget {
             (r"r = -0.92 \;\Rightarrow\; R^2 = -0.846", false),
             (r"r = -0.92 \;\Rightarrow\; R^2 = 0.92", false),
             (r"1 - R^2 = \text{the share left unexplained}", true),
+          ],
+        );
+      case BriefFigure.counting:
+        return const _RuleList(
+          rules: [
+            (r"\text{a team of 3} \;\Rightarrow\; C(8,3) = 56", true),
+            (r"\text{3 named jobs} \;\Rightarrow\; P(8,3) = 336", true),
+            (r"\text{a team of 3} \;\Rightarrow\; P(8,3) = 336", false),
+            (r"\text{a team of 3} \;\Rightarrow\; 8^3 = 512", false),
+          ],
+        );
+      case BriefFigure.binomial:
+        return const _RuleList(
+          rules: [
+            (r"P(X=x) = C(n,x)\,p^x q^{\,n-x}", true),
+            (r"C(10,8)\,(0.90)^8(0.10)^2 = 0.194", true),
+            (r"(0.90)^8(0.10)^2 \text{ alone}", false),
+            (r"P(10,8)\,(0.90)^8(0.10)^2", false),
+          ],
+        );
+      case BriefFigure.normalTable:
+        return const _RuleList(
+          rules: [
+            (r"F(z) = \text{the area LEFT of } z", null),
+            (r"R(z) = \text{the area RIGHT of } z", null),
+            (r"W(z) = \text{the area between } -z \text{ and } z", null),
+            (r"F(-1.67) = 1 - F(1.67) = 0.0475", null),
           ],
         );
       case BriefFigure.lawChoice:

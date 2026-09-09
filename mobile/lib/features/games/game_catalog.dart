@@ -680,6 +680,32 @@ const statisticsMap = ChapterMap(
       id: 'probability-distributions',
       name: 'Probability Distributions',
       subtopicId: 'probability',
+      games: [
+        GameDef(
+          id: 'same-pick',
+          rounds: 6,
+          name: 'Same Pick, or Not',
+          blurb: 'Two outcomes, same names. One result, or two?',
+          built: true,
+          brief: countingBrief,
+        ),
+        GameDef(
+          id: 'build-the-binomial',
+          rounds: 6,
+          name: 'Build the Binomial',
+          blurb: 'Three factors from a tray of six. No multiplying.',
+          built: true,
+          brief: binomialBrief,
+        ),
+        GameDef(
+          id: 'shade-the-tail',
+          rounds: 6,
+          name: 'Shade the Tail',
+          blurb: 'The z is done. Point at the area they asked for.',
+          built: true,
+          brief: normalTableBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'expected-value-weighted-averages',

@@ -1,6 +1,7 @@
 import 'acute_or_obtuse_game.dart';
 import 'balance_both_sides_game.dart';
 import 'both_sides_game.dart';
+import 'build_the_binomial_game.dart';
 import 'build_the_identity_game.dart';
 import 'can_it_start_game.dart';
 import 'copy_it_down_game.dart';
@@ -27,6 +28,7 @@ import 'read_the_equation_game.dart';
 import 'reaches_further_game.dart';
 import 'r_or_r2_game.dart';
 import 'read_the_line_game.dart';
+import 'same_pick_game.dart';
 import 'read_the_scatter_game.dart';
 import 'resolve_it_game.dart';
 import 'rule_or_trap_game.dart';
@@ -34,6 +36,7 @@ import 'run_the_loop_game.dart';
 import 'set_it_up_game.dart';
 import 'sign_the_bend_game.dart';
 import 'slide_to_flat_game.dart';
+import 'shade_the_tail_game.dart';
 import 'shadow_falls_game.dart';
 import 'stretch_it_game.dart';
 import 'take_the_diagonal_game.dart';
@@ -705,6 +708,41 @@ List<GameAudit> auditAllGames() => [
         RoundAudit(
           source: r.source,
           options: [for (final o in r.options) o.value],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'same-pick',
+    lessonId: 'probability-distributions',
+    problemPrefix: 'stat-dist-',
+    rounds: [
+      for (final r in pickRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['one result', 'two different results'],
+          answer: r.ordered ? 1 : 0,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'build-the-binomial',
+    lessonId: 'probability-distributions',
+    problemPrefix: 'stat-dist-',
+    rounds: [
+      // The answer is a SET of three factors, so no single index names it.
+      for (final r in binomialRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'shade-the-tail',
+    lessonId: 'probability-distributions',
+    problemPrefix: 'stat-dist-',
+    rounds: [
+      for (final r in tailRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final region in r.regions) region.column],
           answer: r.answer,
         ),
     ],

@@ -122,6 +122,11 @@ void main() {
       'can-it-start', // bracketing, which is one problem's whole content
       'what-weights', // naming the two columns, one problem's whole content
       'r-or-r2', // r against r squared, which is one problem's whole content
+      // Lesson eighteen's three problems ARE its three layers, counting then
+      // binomial then normal, so its three items land one to one on them.
+      'same-pick',
+      'build-the-binomial',
+      'shade-the-tail',
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
