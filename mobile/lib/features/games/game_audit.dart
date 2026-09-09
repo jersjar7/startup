@@ -2,11 +2,13 @@ import 'acute_or_obtuse_game.dart';
 import 'balance_both_sides_game.dart';
 import 'both_sides_game.dart';
 import 'build_the_identity_game.dart';
+import 'copy_it_down_game.dart';
 import 'discriminant_gate_game.dart';
 import 'every_rule_game.dart';
 import 'find_the_slip_game.dart';
 import 'fix_the_sign_game.dart';
 import 'grade_sense_game.dart';
+import 'happens_first_game.dart';
 import 'land_the_resultant_game.dart';
 import 'next_line_game.dart';
 import 'one_log_game.dart';
@@ -32,6 +34,7 @@ import 'tap_the_side_game.dart';
 import 'walk_the_circle_game.dart';
 import 'what_was_asked_game.dart';
 import 'whats_missing_game.dart';
+import 'what_shows_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_ratio_game.dart';
@@ -507,6 +510,40 @@ List<GameAudit> auditAllGames() => [
           options: const ['the i line', 'the j line', 'the k line', 'nothing'],
           answer: r.bad ?? 3,
         ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'copy-it-down',
+    lessonId: 'spreadsheet-computations',
+    problemPrefix: 'math-spr-',
+    rounds: [
+      // The answer is a set of cells on a grid, so no index names it.
+      for (final r in copyRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'happens-first',
+    lessonId: 'spreadsheet-computations',
+    problemPrefix: 'math-spr-',
+    rounds: [
+      for (final r in precedenceRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.pieces,
+          answer: r.answer,
+          // The operators repeat across a formula and are places in it, not
+          // choices offered twice.
+          positional: true,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-shows',
+    lessonId: 'spreadsheet-computations',
+    problemPrefix: 'math-spr-',
+    rounds: [
+      for (final r in showsRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(

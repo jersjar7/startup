@@ -112,6 +112,8 @@ void main() {
       'both-sides', // the DNE trap, which lives in one problem
       'stretch-it', // sizing a direction, which is one problem's whole content
       'which-region', // the halving trap, which lives in the plot problem
+      'copy-it-down', // relative against absolute, one problem's whole content
+      'happens-first', // precedence, likewise
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

@@ -11,12 +11,14 @@ import '../features/games/balance_both_sides_game.dart';
 import '../features/games/both_sides_game.dart';
 import '../features/games/build_the_identity_game.dart';
 import '../features/games/chapter_map_screen.dart';
+import '../features/games/copy_it_down_game.dart';
 import '../features/games/discriminant_gate_game.dart';
 import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
 import '../features/games/game_catalog.dart';
 import '../features/games/fix_the_sign_game.dart';
 import '../features/games/grade_sense_game.dart';
+import '../features/games/happens_first_game.dart';
 import '../features/games/land_the_resultant_game.dart';
 import '../features/games/next_line_game.dart';
 import '../features/games/one_log_game.dart';
@@ -42,6 +44,7 @@ import '../features/games/tap_the_side_game.dart';
 import '../features/games/walk_the_circle_game.dart';
 import '../features/games/what_was_asked_game.dart';
 import '../features/games/whats_missing_game.dart';
+import '../features/games/what_shows_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_ratio_game.dart';
@@ -138,6 +141,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-way-turns' => const WhichWayTurnsGame(),
           'which-region' => const WhichRegionGame(),
           'fix-the-sign' => const FixTheSignGame(),
+          'copy-it-down' => const CopyItDownGame(),
+          'happens-first' => const HappensFirstGame(),
+          'what-shows' => const WhatShowsGame(),
           _ => const _UnknownGame(),
         },
       ),

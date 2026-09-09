@@ -507,6 +507,32 @@ const mathematicsMap = ChapterMap(
       id: 'spreadsheet-computations',
       name: 'Spreadsheet Computations',
       subtopicId: 'computational-tools',
+      games: [
+        GameDef(
+          id: 'copy-it-down',
+          rounds: 6,
+          name: 'Copy It Down',
+          blurb: 'Where does the formula point after you copy it?',
+          built: true,
+          brief: referencesBrief,
+        ),
+        GameDef(
+          id: 'happens-first',
+          rounds: 6,
+          name: 'Which Happens First',
+          blurb: 'A sheet does not read a formula left to right.',
+          built: true,
+          brief: precedenceBrief,
+        ),
+        GameDef(
+          id: 'what-shows',
+          rounds: 6,
+          name: 'What Does the Cell Show',
+          blurb: 'It holds a formula. It displays something else.',
+          built: true,
+          brief: functionsBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'structured-programming',

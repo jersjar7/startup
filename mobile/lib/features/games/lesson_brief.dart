@@ -77,6 +77,9 @@ enum BriefFigure {
   rightHand,
   crossArea,
   cofactor,
+  references,
+  precedence,
+  functions,
   lawChoice,
   lawForms,
   cosineSign,
@@ -818,6 +821,62 @@ const cofactorBrief = BriefSection(
   handbook: 'Handbook p. 94',
 );
 
+// ── Spreadsheet Computations ────────────────────────────────────────────────
+
+const referencesBrief = BriefSection(
+  title: 'What moves when you copy',
+  body:
+      'A plain reference like A1 is relative: copy the formula somewhere else '
+      'and it shifts by however far you moved. A dollar sign pins whatever '
+      'comes straight after it, so \$A\$1 never moves, A\$1 keeps its row and '
+      'slides across, and \$A1 keeps its column and slides down. This is the '
+      'most tested spreadsheet idea on the exam and the missing dollar sign is '
+      'the most common mistake made on it: the rate drifts down the column and '
+      'every row under the first is quietly wrong.',
+  formulas: [
+    ('Moves with the copy', r'\text{A1}'),
+    ('Pinned completely', r'\text{\$A\$1}'),
+    ('Row pinned, column free', r'\text{A\$1}'),
+    ('Column pinned, row free', r'\text{\$A1}'),
+  ],
+  figure: BriefFigure.references,
+  handbook: 'FE Handbook, spreadsheet section',
+);
+
+const precedenceBrief = BriefSection(
+  title: 'A sheet does not read left to right',
+  body:
+      'Formulas follow the same precedence as algebra: brackets first, then '
+      'powers, then multiplication and division, then addition and '
+      'subtraction. Anything of equal rank runs left to right. So a formula '
+      'adding one cell to another divided by a third does the division first, '
+      'whatever the reading order suggests, and brackets are the only way to '
+      'change that.',
+  formulas: [
+    ('Times before plus', r'\text{=2+3*4} \;\Rightarrow\; 14'),
+    ('Brackets force it', r'\text{=(2+3)*4} \;\Rightarrow\; 20'),
+  ],
+  figure: BriefFigure.precedence,
+  handbook: 'FE Handbook, spreadsheet section',
+);
+
+const functionsBrief = BriefSection(
+  title: 'What the common functions actually return',
+  body:
+      'SUM adds a range, AVERAGE takes its mean, MAX and MIN pull the biggest '
+      'and smallest, and COUNT counts only the cells holding NUMBERS, so a '
+      'cell of text inside the range is skipped. A colon means every cell from '
+      'one end to the other. IF checks its test first and hands back the '
+      'second argument when the test passes and the third when it fails; it '
+      'returns that value, never a 1 for true.',
+  formulas: [
+    ('A range', r'\text{=SUM(B1:B3)}'),
+    ('Test, then true, then false', r'\text{=IF(A1>=10, A1*2, A1+5)}'),
+  ],
+  figure: BriefFigure.functions,
+  handbook: 'FE Handbook, spreadsheet section',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1342,6 +1401,32 @@ class BriefFigureView extends StatelessWidget {
             (r"-\big[A_xB_z - A_zB_x\big]\hat{j}", true),
             (r"+\big[A_xB_z - A_zB_x\big]\hat{j}", false),
             (r"+\big[A_xB_y - A_yB_x\big]\hat{k}", true),
+          ],
+        );
+      case BriefFigure.references:
+        return const _RuleList(
+          rules: [
+            (r"\text{C1: =A1*\$B\$1} \;\Rightarrow\; \text{C2: =A2*\$B\$1}", true),
+            (r"\text{C1: =A1*\$B\$1} \;\Rightarrow\; \text{C2: =A1*\$B\$2}", false),
+            (r"\text{C1: =A1*B1} \;\Rightarrow\; \text{C2: =A2*B2}", true),
+          ],
+        );
+      case BriefFigure.precedence:
+        return const _RuleList(
+          rules: [
+            (r"\text{brackets}", null),
+            (r"\text{powers, } \wedge", null),
+            (r"\text{times and divide, left to right}", null),
+            (r"\text{plus and minus, left to right}", null),
+          ],
+        );
+      case BriefFigure.functions:
+        return const _RuleList(
+          rules: [
+            (r"\text{=SUM(B1:B3)} \;\Rightarrow\; \text{adds all three}", null),
+            (r"\text{=COUNT(A1:A4)} \;\Rightarrow\; \text{numbers only}", null),
+            (r"\text{=IF(test, yes, no)} \;\Rightarrow\; \text{one of the two}", null),
+            (r"\text{=IF(...)} \;\Rightarrow\; 1 \text{ for true}", false),
           ],
         );
       case BriefFigure.logRules:

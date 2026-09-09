@@ -16,7 +16,10 @@ import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
 import 'package:mobile/features/games/both_sides_game.dart';
 import 'package:mobile/features/games/fix_the_sign_game.dart';
+import 'package:mobile/features/games/copy_it_down_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/happens_first_game.dart';
+import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
 import 'package:mobile/features/games/which_way_turns_game.dart';
 import 'package:mobile/features/games/open_or_closed_game.dart';
@@ -389,6 +392,24 @@ void main() {
       rounds: expansions.length,
       height: 1250,
     ),
+    'copy-it-down': (
+      lesson: '14-spreadsheets',
+      build: CopyItDownGame.new,
+      rounds: copyRounds.length,
+      height: 1250,
+    ),
+    'happens-first': (
+      lesson: '14-spreadsheets',
+      build: HappensFirstGame.new,
+      rounds: precedenceRounds.length,
+      height: 1150,
+    ),
+    'what-shows': (
+      lesson: '14-spreadsheets',
+      build: WhatShowsGame.new,
+      rounds: showsRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -458,6 +479,11 @@ void main() {
       ('right-hand', rightHandBrief),
       ('area', areaBrief),
       ('cofactor', cofactorBrief),
+    ],
+    '14-spreadsheets': [
+      ('references', referencesBrief),
+      ('precedence', precedenceBrief),
+      ('functions', functionsBrief),
     ],
   };
 
