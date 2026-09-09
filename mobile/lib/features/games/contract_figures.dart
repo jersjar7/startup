@@ -211,3 +211,164 @@ class DeliveryPainter extends CustomPainter {
   bool shouldRepaint(DeliveryPainter old) =>
       old.boxes != boxes || old.color != color;
 }
+
+/// Two clocks running on the same claim.
+///
+/// A statute of limitations starts when the harm is discovered. A statute of
+/// repose starts at a fixed event, usually substantial completion, and cannot
+/// be extended by anything that happens afterwards. On a page they are two
+/// paragraphs that sound alike; drawn on one line they are two windows, and a
+/// claim has to land inside both of them.
+class TwoClocksPainter extends CustomPainter {
+  const TwoClocksPainter({
+    required this.from,
+    required this.to,
+    required this.completion,
+    required this.discovery,
+    required this.filed,
+    required this.reposeYears,
+    required this.limitationYears,
+  });
+
+  final int from;
+  final int to;
+
+  /// Substantial completion, which starts the repose clock.
+  final int completion;
+
+  /// When the harm was found, which starts the limitations clock.
+  final int discovery;
+
+  /// When the claim was actually brought.
+  final int filed;
+
+  final int reposeYears;
+  final int limitationYears;
+
+  static const _padL = 16.0;
+  static const _padR = 16.0;
+
+  double _x(Size size, num year) =>
+      _padL + (year - from) / (to - from) * (size.width - _padL - _padR);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final axis = size.height * 0.66;
+
+    // The two windows, stacked above the line so their overlap is visible.
+    _window(
+      canvas,
+      size,
+      y: axis - 52,
+      openAt: completion,
+      shutAt: completion + reposeYears,
+      label: 'repose, from completion',
+      color: AppColors.ember,
+    );
+    _window(
+      canvas,
+      size,
+      y: axis - 26,
+      openAt: discovery,
+      shutAt: discovery + limitationYears,
+      label: 'limitations, from discovery',
+      color: AppColors.forest,
+    );
+
+    canvas.drawLine(
+      Offset(_padL, axis),
+      Offset(size.width - _padR, axis),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 1.6,
+    );
+
+    for (final (i, (year, name)) in [
+      (completion, 'completed'),
+      (discovery, 'found'),
+      (filed, 'filed'),
+    ].indexed) {
+      final x = _x(size, year);
+      final isFiling = name == 'filed';
+      // Two rows, alternating. Three names on one row ran together into a
+      // single word whenever the dates were close, which is most of them.
+      final labelY = axis + 10 + (i.isOdd ? 26 : 0);
+      canvas.drawLine(
+        Offset(x, axis - 6),
+        Offset(x, axis + 7),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = isFiling ? 2.4 : 1.4,
+      );
+      if (isFiling) {
+        canvas.drawCircle(
+          Offset(x, axis),
+          5,
+          Paint()..color = AppColors.charcoal,
+        );
+      }
+      _write(canvas, name, Offset(x, labelY), color: AppColors.ink3);
+      _write(
+        canvas,
+        '$year',
+        Offset(x, labelY + 11),
+        color: AppColors.charcoal,
+      );
+    }
+  }
+
+  void _window(
+    Canvas canvas,
+    Size size, {
+    required double y,
+    required int openAt,
+    required int shutAt,
+    required String label,
+    required Color color,
+  }) {
+    final a = _x(size, openAt);
+    final b = _x(size, shutAt);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTRB(a, y - 6, b, y + 6),
+        const Radius.circular(6),
+      ),
+      Paint()..color = color.withValues(alpha: 0.22),
+    );
+    for (final end in [a, b]) {
+      canvas.drawLine(
+        Offset(end, y - 8),
+        Offset(end, y + 8),
+        Paint()
+          ..color = color
+          ..strokeWidth = 2,
+      );
+    }
+    _write(canvas, label, Offset(a + 4, y - 20), color: color, align: 1);
+  }
+
+  void _write(
+    Canvas canvas,
+    String text,
+    Offset at, {
+    required Color color,
+    int align = 0,
+  }) {
+    final tp = TextPainter(
+      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    final dx = switch (align) {
+      1 => 0.0,
+      -1 => tp.width,
+      _ => tp.width / 2,
+    };
+    tp.paint(canvas, at - Offset(dx, 0));
+  }
+
+  @override
+  bool shouldRepaint(TwoClocksPainter old) =>
+      old.completion != completion ||
+      old.discovery != discovery ||
+      old.filed != filed;
+}

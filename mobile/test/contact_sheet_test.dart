@@ -41,12 +41,15 @@ import 'package:mobile/features/games/which_readout_game.dart';
 import 'package:mobile/features/games/follow_the_tangent_game.dart';
 import 'package:mobile/features/games/which_cell_hurts_game.dart';
 import 'package:mobile/features/games/which_delivery_game.dart';
+import 'package:mobile/features/games/which_clock_ran_out_game.dart';
+import 'package:mobile/features/games/which_element_missing_game.dart';
 import 'package:mobile/features/games/which_method_game.dart';
 import 'package:mobile/features/games/wider_or_narrower_game.dart';
 import 'package:mobile/features/games/first_true_wins_game.dart';
 import 'package:mobile/features/games/where_it_stops_game.dart';
 import 'package:mobile/features/games/happens_first_game.dart';
 import 'package:mobile/features/games/is_there_a_deal_game.dart';
+import 'package:mobile/features/games/is_that_negligence_game.dart';
 import 'package:mobile/features/games/how_many_samples_game.dart';
 import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
@@ -683,6 +686,24 @@ void main() {
       rounds: deliveryRounds.length,
       height: 1350,
     ),
+    'is-that-negligence': (
+      lesson: '28-liability',
+      build: IsThatNegligenceGame.new,
+      rounds: faultRounds.length,
+      height: 1300,
+    ),
+    'which-element-missing': (
+      lesson: '28-liability',
+      build: WhichElementMissingGame.new,
+      rounds: elementRounds.length,
+      height: 1400,
+    ),
+    'which-clock-ran-out': (
+      lesson: '28-liability',
+      build: WhichClockRanOutGame.new,
+      rounds: clockRounds.length,
+      height: 1300,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -822,6 +843,11 @@ void main() {
       ('formation', formationBrief),
       ('risk', riskBrief),
       ('delivery', deliveryBrief),
+    ],
+    '28-liability': [
+      ('standard-of-care', standardOfCareBrief),
+      ('negligence', negligenceBrief),
+      ('clocks', clocksBrief),
     ],
   };
 

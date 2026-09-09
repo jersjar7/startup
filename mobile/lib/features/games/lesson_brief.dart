@@ -119,6 +119,9 @@ enum BriefFigure {
   formation,
   risk,
   delivery,
+  standardOfCare,
+  negligence,
+  clocks,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1682,6 +1685,63 @@ const deliveryBrief = BriefSection(
   handbook: 'Model Rules, project delivery',
 );
 
+const standardOfCareBrief = BriefSection(
+  title: 'Not perfection, and not intent',
+  body:
+      'An engineer is measured against the degree of skill and diligence a '
+      'reasonably competent engineer would exercise in similar circumstances. '
+      'That cuts both ways. A design that later proves imperfect is not a '
+      'breach if a competent peer would have produced it, and where competent '
+      'engineers could reasonably differ, choosing one of the options is not '
+      'negligence. It also does not need intent: forgetting a required check '
+      'is negligence, and knowing the truth and writing the opposite is '
+      'something worse that the word does not cover.',
+  formulas: [
+    ('The measure', r'\text{what a reasonably competent peer would do}'),
+    ('Not', r'\text{a guarantee of a perfect result}'),
+    ('Not', r'\text{intent, which is a different and graver claim}'),
+  ],
+  figure: BriefFigure.standardOfCare,
+  handbook: 'Model Rules, liability',
+);
+
+const negligenceBrief = BriefSection(
+  title: 'Four elements, all four',
+  body:
+      'A claim needs a DUTY owed to this plaintiff, a BREACH of it, CAUSATION '
+      'linking the breach to the harm, and DAMAGES that can be measured. '
+      'Intent is not on the list and gets added to it. Causation is on the '
+      'list and gets dropped: a genuine breach beside a genuine loss that had '
+      'nothing to do with each other is still not negligence, and it is where '
+      'most claims against engineers actually fail.',
+  formulas: [
+    ('The four', r'\text{duty, breach, causation, damages}'),
+    ('Not one of them', r'\text{intent}'),
+    ('No damages', r'\text{no claim, however plain the breach}'),
+  ],
+  figure: BriefFigure.negligence,
+  handbook: 'Model Rules, negligence',
+);
+
+const clocksBrief = BriefSection(
+  title: 'Two clocks, two starting guns',
+  body:
+      'A statute of LIMITATIONS runs from when the harm happened or was '
+      'discovered, so it waits for the injury. A statute of REPOSE runs from a '
+      'fixed event, usually substantial completion, and nothing that happens '
+      'afterwards extends it. That is the whole difference and it has a sharp '
+      'consequence: repose can bar a claim before the harm has appeared, '
+      'because the window is measured from the day the job finished and not '
+      'from the day anything went wrong. A claim has to land inside both.',
+  formulas: [
+    ('Limitations', r'\text{from the harm, or from its discovery}'),
+    ('Repose', r'\text{from substantial completion, absolutely}'),
+    ('So', r'\text{repose can shut before the injury exists}'),
+  ],
+  figure: BriefFigure.clocks,
+  handbook: 'Model Rules, time limits',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2187,6 +2247,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{two, design finished first} \;\Rightarrow\; \text{DBB}", true),
             (r"\text{two, with a guaranteed maximum} \;\Rightarrow\; \text{CMAR}", true),
             (r"\text{design-build} \;\Rightarrow\; \text{the owner holds the designer}", false),
+          ],
+        );
+      case BriefFigure.standardOfCare:
+        return const _RuleList(
+          rules: [
+            (r"\text{a required check nobody ran}", false),
+            (r"\text{a peer would have done the same}", true),
+            (r"\text{the result was imperfect, so it is negligence}", false),
+            (r"\text{the client is unhappy, so it is negligence}", false),
+          ],
+        );
+      case BriefFigure.negligence:
+        return const _RuleList(
+          rules: [
+            (r"\text{duty} + \text{breach} + \text{causation} + \text{damages}", true),
+            (r"\text{a breach with no measurable loss}", false),
+            (r"\text{a breach that did not cause the loss}", false),
+            (r"\text{intent is a fifth element}", false),
+          ],
+        );
+      case BriefFigure.clocks:
+        return const _RuleList(
+          rules: [
+            (r"\text{limitations: from discovery}", true),
+            (r"\text{repose: from substantial completion}", true),
+            (r"\text{repose can bar a claim before the harm appears}", true),
+            (r"\text{repose gives the plaintiff longer}", false),
           ],
         );
       case BriefFigure.lawChoice:

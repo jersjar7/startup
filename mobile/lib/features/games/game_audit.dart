@@ -21,6 +21,7 @@ import 'grade_sense_game.dart';
 import 'grounds_or_not_game.dart';
 import 'happens_first_game.dart';
 import 'is_there_a_deal_game.dart';
+import 'is_that_negligence_game.dart';
 import 'how_many_samples_game.dart';
 import 'in_what_order_game.dart';
 import 'land_the_resultant_game.dart';
@@ -73,6 +74,8 @@ import 'who_may_do_that_game.dart';
 import 'who_pays_the_overrun_game.dart';
 import 'which_cell_hurts_game.dart';
 import 'which_delivery_game.dart';
+import 'which_clock_ran_out_game.dart';
+import 'which_element_missing_game.dart';
 import 'which_method_game.dart';
 import 'wider_or_narrower_game.dart';
 import 'which_readout_game.dart';
@@ -1055,6 +1058,45 @@ List<GameAudit> auditAllGames() => [
         RoundAudit(
           source: r.source,
           options: const ['design bid build', 'design build', 'cm at risk'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'is-that-negligence',
+    lessonId: 'professional-liability',
+    problemPrefix: 'eth-liab-',
+    rounds: [
+      for (final r in faultRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['negligent', 'not negligent', 'deliberate'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-element-missing',
+    lessonId: 'professional-liability',
+    problemPrefix: 'eth-liab-',
+    rounds: [
+      for (final r in elementRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final e in elements) e.$1],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-clock-ran-out',
+    lessonId: 'professional-liability',
+    problemPrefix: 'eth-liab-',
+    rounds: [
+      for (final r in clockRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['in time', 'limitations', 'repose'],
           answer: r.answer.index,
         ),
     ],

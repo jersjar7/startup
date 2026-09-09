@@ -147,6 +147,10 @@ void main() {
       'what-is-missing-yet', // the licensure ladder, which is one problem
       'is-there-a-deal', // contract formation, which is one problem
       'which-delivery', // the delivery methods, which is one problem
+      // Ethics lesson six: the standard of care and the two clocks are one
+      // problem each, and the four elements draw on two.
+      'is-that-negligence',
+      'which-clock-ran-out',
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

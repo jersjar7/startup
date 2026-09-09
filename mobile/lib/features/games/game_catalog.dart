@@ -978,6 +978,32 @@ const ethicsMap = ChapterMap(
       id: 'professional-liability',
       name: 'Professional Liability',
       subtopicId: 'contracts-liability',
+      games: [
+        GameDef(
+          id: 'is-that-negligence',
+          rounds: 6,
+          name: 'Is That Negligence',
+          blurb: 'Not perfection, and not intent. A peer would have done what?',
+          built: true,
+          brief: standardOfCareBrief,
+        ),
+        GameDef(
+          id: 'which-element-missing',
+          rounds: 6,
+          name: 'Which Element Is Missing',
+          blurb: 'Four elements. A claim needs all of them.',
+          built: true,
+          brief: negligenceBrief,
+        ),
+        GameDef(
+          id: 'which-clock-ran-out',
+          rounds: 6,
+          name: 'Which Clock Ran Out',
+          blurb: 'Two windows on one line. The claim lands in both, or not.',
+          built: true,
+          brief: clocksBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'intellectual-property-sustainability',
