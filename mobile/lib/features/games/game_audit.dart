@@ -2,6 +2,7 @@ import 'acute_or_obtuse_game.dart';
 import 'balance_both_sides_game.dart';
 import 'both_sides_game.dart';
 import 'build_the_identity_game.dart';
+import 'can_it_start_game.dart';
 import 'copy_it_down_game.dart';
 import 'discriminant_gate_game.dart';
 import 'every_rule_game.dart';
@@ -9,6 +10,7 @@ import 'find_the_slip_game.dart';
 import 'fill_the_trace_game.dart';
 import 'first_true_wins_game.dart';
 import 'fix_the_sign_game.dart';
+import 'follow_the_tangent_game.dart';
 import 'grade_sense_game.dart';
 import 'happens_first_game.dart';
 import 'land_the_resultant_game.dart';
@@ -40,6 +42,7 @@ import 'what_shows_game.dart';
 import 'where_it_stops_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
+import 'which_method_game.dart';
 import 'which_ratio_game.dart';
 import 'which_way_turns_game.dart';
 import 'which_way_simpler_game.dart';
@@ -581,6 +584,49 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final v in r.run) '$v'],
           answer: r.run.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'follow-the-tangent',
+    lessonId: 'numerical-methods',
+    problemPrefix: 'math-num-',
+    rounds: [
+      for (final r in tangentRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final c in r.candidates) '$c'],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'can-it-start',
+    lessonId: 'numerical-methods',
+    problemPrefix: 'math-num-',
+    rounds: [
+      for (final r in bracketRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (var i = 0; i < r.brackets.length; i++)
+              String.fromCharCode(65 + i),
+            'none of them',
+          ],
+          answer: r.answer ?? r.brackets.length,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-method',
+    lessonId: 'numerical-methods',
+    problemPrefix: 'math-num-',
+    rounds: [
+      for (final r in methodRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['newton', 'bisection', 'newton may not converge'],
+          answer: r.answer.index,
         ),
     ],
   ),

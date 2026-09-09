@@ -18,7 +18,10 @@ import 'package:mobile/features/games/both_sides_game.dart';
 import 'package:mobile/features/games/fix_the_sign_game.dart';
 import 'package:mobile/features/games/copy_it_down_game.dart';
 import 'package:mobile/features/games/fill_the_trace_game.dart';
+import 'package:mobile/features/games/can_it_start_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/follow_the_tangent_game.dart';
+import 'package:mobile/features/games/which_method_game.dart';
 import 'package:mobile/features/games/first_true_wins_game.dart';
 import 'package:mobile/features/games/where_it_stops_game.dart';
 import 'package:mobile/features/games/happens_first_game.dart';
@@ -431,6 +434,24 @@ void main() {
       rounds: whileRounds.length,
       height: 1250,
     ),
+    'follow-the-tangent': (
+      lesson: '16-numerical',
+      build: FollowTheTangentGame.new,
+      rounds: tangentRounds.length,
+      height: 1250,
+    ),
+    'can-it-start': (
+      lesson: '16-numerical',
+      build: CanItStartGame.new,
+      rounds: bracketRounds.length,
+      height: 1300,
+    ),
+    'which-method': (
+      lesson: '16-numerical',
+      build: WhichMethodGame.new,
+      rounds: methodRounds.length,
+      height: 1150,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -510,6 +531,11 @@ void main() {
       ('tracing', tracingBrief),
       ('selection', selectionBrief),
       ('iteration', iterationBrief),
+    ],
+    '16-numerical': [
+      ('newton', newtonBrief),
+      ('bisection', bisectionBrief),
+      ('which-method', methodChoiceBrief),
     ],
   };
 

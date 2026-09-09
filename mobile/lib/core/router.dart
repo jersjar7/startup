@@ -11,10 +11,12 @@ import '../features/games/balance_both_sides_game.dart';
 import '../features/games/both_sides_game.dart';
 import '../features/games/build_the_identity_game.dart';
 import '../features/games/chapter_map_screen.dart';
+import '../features/games/can_it_start_game.dart';
 import '../features/games/copy_it_down_game.dart';
 import '../features/games/discriminant_gate_game.dart';
 import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
+import '../features/games/follow_the_tangent_game.dart';
 import '../features/games/game_catalog.dart';
 import '../features/games/fill_the_trace_game.dart';
 import '../features/games/first_true_wins_game.dart';
@@ -50,6 +52,7 @@ import '../features/games/what_shows_game.dart';
 import '../features/games/where_it_stops_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
+import '../features/games/which_method_game.dart';
 import '../features/games/which_ratio_game.dart';
 import '../features/games/which_way_turns_game.dart';
 import '../features/games/which_way_simpler_game.dart';
@@ -150,6 +153,9 @@ GoRouter buildRouter(AuthController auth) {
           'fill-the-trace' => const FillTheTraceGame(),
           'first-true-wins' => const FirstTrueWinsGame(),
           'where-it-stops' => const WhereItStopsGame(),
+          'follow-the-tangent' => const FollowTheTangentGame(),
+          'can-it-start' => const CanItStartGame(),
+          'which-method' => const WhichMethodGame(),
           _ => const _UnknownGame(),
         },
       ),

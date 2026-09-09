@@ -83,6 +83,9 @@ enum BriefFigure {
   tracing,
   selection,
   iteration,
+  newton,
+  bisection,
+  methodChoice,
   lawChoice,
   lawForms,
   cosineSign,
@@ -935,6 +938,60 @@ const iterationBrief = BriefSection(
   handbook: 'FE Handbook, computational tools',
 );
 
+// ── Numerical Methods: Root-Finding ─────────────────────────────────────────
+
+const newtonBrief = BriefSection(
+  title: 'Slide down the tangent',
+  body:
+      "Newton's method is a picture before it is a formula. Stand on the curve "
+      'at your guess, follow the tangent down to the axis, and stand there '
+      'instead. That is what dividing the function by its slope does. Nearer a '
+      'root every curve is almost straight, which is why the method closes in '
+      'so fast once it is close, and why a nearly flat slope is a disaster: '
+      'the tangent then meets the axis a very long way from anywhere useful.',
+  formulas: [
+    ('One iteration', r"x_{j+1} = x_j - \frac{f(x_j)}{f'(x_j)}"),
+    ('From 4 on x squared minus 4', r'4 - \frac{12}{8} = 2.5'),
+  ],
+  figure: BriefFigure.newton,
+  handbook: 'Handbook p. 61',
+);
+
+const bisectionBrief = BriefSection(
+  title: 'Opposite sides, then halve it',
+  body:
+      'Bisection asks for one thing: the function on opposite sides of the '
+      'axis at the two ends of the interval, which is the same as the two '
+      'values multiplying to something negative. Then it halves the interval '
+      'and keeps whichever half still has the sign change. Same-signed ends do '
+      'NOT mean there is no root in there, they mean this method cannot be '
+      'started, which is a different thing. An interval holding two roots '
+      'fails the test for exactly that reason.',
+  formulas: [
+    ('The whole requirement', r'f(a)\cdot f(b) < 0'),
+    ('Then keep the half that still has it', r'[a, m] \text{ or } [m, b]'),
+  ],
+  figure: BriefFigure.bisection,
+  handbook: 'Handbook p. 61',
+);
+
+const methodChoiceBrief = BriefSection(
+  title: 'Fast, or guaranteed',
+  body:
+      "Newton is fast and demanding: it wants the derivative and a guess that "
+      'is already near the root. Give it either a poor guess or a slope near '
+      'zero and it can wander off or swing back and forth without settling. '
+      'Bisection is slow and undemanding: no derivative, no good guess, just a '
+      'sign change to start from, and it cannot fail once it has one. Which '
+      'you reach for is decided by what you have, not by which is cleverer.',
+  formulas: [
+    ('Newton wants', r"f'(x) \text{ and a close } x_0"),
+    ('Bisection wants', r'f(a)\cdot f(b) < 0'),
+  ],
+  figure: BriefFigure.methodChoice,
+  handbook: 'Handbook p. 61',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1510,6 +1567,31 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{stops with } x = 128", true),
             (r"\text{stops with } x = 64", false),
             (r"\text{stops with } x = 100", false),
+          ],
+        );
+      case BriefFigure.newton:
+        return const _RuleList(
+          rules: [
+            (r"x_1 = x_0 - \frac{f(x_0)}{f'(x_0)}", true),
+            (r"x_1 = x_0 + \frac{f(x_0)}{f'(x_0)}", false),
+            (r"x_1 = x_0 - f(x_0)", false),
+          ],
+        );
+      case BriefFigure.bisection:
+        return const _RuleList(
+          rules: [
+            (r"f(a)\cdot f(b) < 0 \;\Rightarrow\; \text{it can start}", true),
+            (r"f(a) > 0 \text{ and } f(b) > 0 \;\Rightarrow\; \text{it can start}", false),
+            (r"\text{two roots inside} \;\Rightarrow\; \text{it can start}", false),
+          ],
+        );
+      case BriefFigure.methodChoice:
+        return const _RuleList(
+          rules: [
+            (r"\text{close guess, has } f' \;\Rightarrow\; \text{Newton}", null),
+            (r"\text{only a sign change} \;\Rightarrow\; \text{bisection}", null),
+            (r"f' \text{ near zero} \;\Rightarrow\; \text{Newton may run away}", null),
+            (r"\text{far guess} \;\Rightarrow\; \text{Newton may run away}", null),
           ],
         );
       case BriefFigure.logRules:

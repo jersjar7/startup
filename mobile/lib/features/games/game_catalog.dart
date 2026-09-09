@@ -569,6 +569,32 @@ const mathematicsMap = ChapterMap(
       id: 'numerical-methods',
       name: 'Numerical Methods: Root-Finding',
       subtopicId: 'computational-tools',
+      games: [
+        GameDef(
+          id: 'follow-the-tangent',
+          rounds: 6,
+          name: 'Follow the Tangent',
+          blurb: 'One step of Newton, read off the picture.',
+          built: true,
+          brief: newtonBrief,
+        ),
+        GameDef(
+          id: 'can-it-start',
+          rounds: 6,
+          name: 'Can It Start Here',
+          blurb: 'A root in the span is not the same as a bracket.',
+          built: true,
+          brief: bisectionBrief,
+        ),
+        GameDef(
+          id: 'which-method',
+          rounds: 6,
+          name: 'Which Method',
+          blurb: 'Fast and demanding, or slow and guaranteed.',
+          built: true,
+          brief: methodChoiceBrief,
+        ),
+      ],
     ),
   ],
 );

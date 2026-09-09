@@ -119,6 +119,7 @@ void main() {
       'fill-the-trace',
       'first-true-wins',
       'where-it-stops',
+      'can-it-start', // bracketing, which is one problem's whole content
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
