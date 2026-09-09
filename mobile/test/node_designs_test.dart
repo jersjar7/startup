@@ -270,16 +270,35 @@ class Milestone extends _Direction {
 /// SILHOUETTE CODE. Four states, four shapes, so the screen is legible with
 /// the colour taken out and one saturated colour means one thing.
 class Silhouette extends _Direction {
-  const Silhouette({this.thick = false});
+  const Silhouette({this.thick = false, this.raiseNotBuilt = false});
 
   final bool thick;
 
+  /// Whether the state with no content behind it also gets a slab. Drawn both
+  /// ways rather than argued about.
+  final bool raiseNotBuilt;
+
   @override
-  Color? bodyColor(Stop stop) => !thick || stop.look == Look.notBuilt
-      ? null
-      : stop.look == Look.finished
-      ? const Color(0xFF161616)
-      : const Color(0xFFCDBFA8);
+  Color? bodyColor(Stop stop) {
+    if (!thick) return null;
+    if (stop.look == Look.notBuilt) {
+      return raiseNotBuilt ? const Color(0xFFE3D8C6) : null;
+    }
+    return stop.look == Look.finished
+        ? const Color(0xFF161616)
+        : const Color(0xFFCDBFA8);
+  }
+
+  @override
+  RRect bodySlab(Stop stop, Offset c, double d) {
+    if (stop.look != Look.notBuilt) return super.bodySlab(stop, c, d);
+    // This state is a rounded square, so its slab is one too.
+    final side = 0.72 * d;
+    return RRect.fromRectAndRadius(
+      Rect.fromLTWH(c.dx - side / 2, c.dy - side / 2, side, side + 0.09 * d),
+      Radius.circular(0.28 * side),
+    );
+  }
 
   @override
   double get roadWidth => 0.09;
@@ -344,6 +363,14 @@ abstract class _Direction {
   /// this, and it is what makes a node look pressable and respond to a press;
   /// none of the three directions is about it, so none of them has to lose it.
   Color? bodyColor(Stop stop) => null;
+
+  /// The slab's outline. Defaults to a capsule under a circular face; a
+  /// direction with a different silhouette has to say so, or the comparison
+  /// is measuring my harness rather than the design.
+  RRect bodySlab(Stop stop, Offset c, double d) => RRect.fromRectAndRadius(
+    Rect.fromLTWH(c.dx - d / 2, c.dy - d / 2, d, d + 0.09 * d),
+    Radius.circular(d / 2),
+  );
 
   double get roadWidth;
   Color roadColor(Stop from, Stop to);
@@ -421,15 +448,7 @@ class _PathPainter extends CustomPainter {
         // A capsule the width of the face whose sides run straight down from
         // the midline, so the node reads as a slab you can press.
         canvas.drawRRect(
-          RRect.fromRectAndRadius(
-            Rect.fromLTWH(
-              centres[i].dx - d / 2,
-              centres[i].dy - d / 2,
-              d,
-              d + 0.09 * d,
-            ),
-            Radius.circular(d / 2),
-          ),
+          look.bodySlab(stops[i], centres[i], d),
           Paint()..color = body,
         );
       }
@@ -448,7 +467,7 @@ void main() {
   });
 
   testWidgets('three directions, drawn from the brief', (tester) async {
-    tester.view.physicalSize = const Size(390, 3660);
+    tester.view.physicalSize = const Size(390, 4460);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
 
@@ -490,9 +509,15 @@ void main() {
         inOrder,
       ),
       (
-        'SILHOUETTE, THICKNESS KEPT',
-        'likewise',
+        'SILHOUETTE, THICKNESS KEPT, NOT-BUILT LEFT FLAT',
+        'the state with no content behind it stays on the page',
         Silhouette(thick: true),
+        inOrder,
+      ),
+      (
+        'SILHOUETTE, THICKNESS ON EVERY STATE',
+        'not-built raised too, for comparison',
+        Silhouette(thick: true, raiseNotBuilt: true),
         inOrder,
       ),
     ];
