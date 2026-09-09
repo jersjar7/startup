@@ -17,7 +17,10 @@ import 'package:mobile/features/games/every_rule_game.dart';
 import 'package:mobile/features/games/both_sides_game.dart';
 import 'package:mobile/features/games/fix_the_sign_game.dart';
 import 'package:mobile/features/games/copy_it_down_game.dart';
+import 'package:mobile/features/games/fill_the_trace_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/first_true_wins_game.dart';
+import 'package:mobile/features/games/where_it_stops_game.dart';
 import 'package:mobile/features/games/happens_first_game.dart';
 import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
@@ -410,6 +413,24 @@ void main() {
       rounds: showsRounds.length,
       height: 1250,
     ),
+    'fill-the-trace': (
+      lesson: '15-programming',
+      build: FillTheTraceGame.new,
+      rounds: traceRounds.length,
+      height: 1450,
+    ),
+    'first-true-wins': (
+      lesson: '15-programming',
+      build: FirstTrueWinsGame.new,
+      rounds: chainRounds.length,
+      height: 1250,
+    ),
+    'where-it-stops': (
+      lesson: '15-programming',
+      build: WhereItStopsGame.new,
+      rounds: whileRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -484,6 +505,11 @@ void main() {
       ('references', referencesBrief),
       ('precedence', precedenceBrief),
       ('functions', functionsBrief),
+    ],
+    '15-programming': [
+      ('tracing', tracingBrief),
+      ('selection', selectionBrief),
+      ('iteration', iterationBrief),
     ],
   };
 

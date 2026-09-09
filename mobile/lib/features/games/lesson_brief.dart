@@ -80,6 +80,9 @@ enum BriefFigure {
   references,
   precedence,
   functions,
+  tracing,
+  selection,
+  iteration,
   lawChoice,
   lawForms,
   cosineSign,
@@ -877,6 +880,61 @@ const functionsBrief = BriefSection(
   handbook: 'FE Handbook, spreadsheet section',
 );
 
+// ── Structured Programming ──────────────────────────────────────────────────
+
+const tracingBrief = BriefSection(
+  title: 'Trace it, one row per pass',
+  body:
+      'Every routine is built out of three things: statements in order, a '
+      'choice between paths, and a repeat. On this exam you trace them by '
+      'hand, and the way to do that is to write the variables in a column and '
+      'update them pass by pass rather than trying to hold the whole loop in '
+      'your head. A counted loop from one to four runs FOUR times, because '
+      'both ends are included, and the off-by-one is the trap. The answer is '
+      'usually the last row of the table, not the number of rows.',
+  formulas: [
+    ('Runs four times', r'\text{FOR i = 1 TO 4}'),
+    ('The rows it makes', r'1,\; 3,\; 6,\; 10'),
+  ],
+  figure: BriefFigure.tracing,
+  handbook: 'FE Handbook, computational tools',
+);
+
+const selectionBrief = BriefSection(
+  title: 'The first true condition wins',
+  body:
+      'A chain of conditions is checked from the top down and it stops at the '
+      'first one that holds. Everything below is skipped, including a later '
+      'test that would also have been true, so a chain is not a search for the '
+      'best fit. The closing ELSE only runs when every test above it has '
+      'failed, and reading the whole chain before deciding is how people end '
+      'up there by mistake. Watch the boundaries: greater than excludes the '
+      'number itself, greater than or equal to includes it.',
+  formulas: [
+    ('Checked in this order', r'\text{IF} \to \text{ELSE IF} \to \text{ELSE}'),
+    ('x = 7 lands here', r'\text{ELSE IF x > 5} \;\Rightarrow\; \text{y = 2}'),
+  ],
+  figure: BriefFigure.selection,
+  handbook: 'FE Handbook, computational tools',
+);
+
+const iterationBrief = BriefSection(
+  title: 'A WHILE checks before it acts',
+  body:
+      'A WHILE loop tests its condition before every pass, including the very '
+      'first one. That has two consequences people lose marks on. The value '
+      'left in the variable at the end is the one that BROKE the condition, '
+      'not the last one that satisfied it, and nothing is capped at the limit '
+      'in the condition. And if the condition is already false when the loop '
+      'is reached, the body never runs at all.',
+  formulas: [
+    ('Doubling from 1 while under 100', r'1,\;2,\;4,\;8,\;16,\;32,\;64,\;128'),
+    ('What is left', r'x = 128'),
+  ],
+  figure: BriefFigure.iteration,
+  handbook: 'FE Handbook, computational tools',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1427,6 +1485,31 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{=COUNT(A1:A4)} \;\Rightarrow\; \text{numbers only}", null),
             (r"\text{=IF(test, yes, no)} \;\Rightarrow\; \text{one of the two}", null),
             (r"\text{=IF(...)} \;\Rightarrow\; 1 \text{ for true}", false),
+          ],
+        );
+      case BriefFigure.tracing:
+        return const _RuleList(
+          rules: [
+            (r"\text{FOR i = 1 TO 4} \;\Rightarrow\; \text{4 passes}", true),
+            (r"\text{FOR i = 1 TO 4} \;\Rightarrow\; \text{3 passes}", false),
+            (r"\text{total} = 0+1+2+3+4 = 10", true),
+            (r"\text{total} = 4 \;\text{(the pass count)}", false),
+          ],
+        );
+      case BriefFigure.selection:
+        return const _RuleList(
+          rules: [
+            (r"x = 7 \;\Rightarrow\; y = 2", true),
+            (r"x = 7 \;\Rightarrow\; y = 3 \;\text{(the closing ELSE)}", false),
+            (r"x = 10 \;\Rightarrow\; x > 10 \text{ is false}", true),
+          ],
+        );
+      case BriefFigure.iteration:
+        return const _RuleList(
+          rules: [
+            (r"\text{stops with } x = 128", true),
+            (r"\text{stops with } x = 64", false),
+            (r"\text{stops with } x = 100", false),
           ],
         );
       case BriefFigure.logRules:

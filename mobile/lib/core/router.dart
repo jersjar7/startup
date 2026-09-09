@@ -16,6 +16,8 @@ import '../features/games/discriminant_gate_game.dart';
 import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
 import '../features/games/game_catalog.dart';
+import '../features/games/fill_the_trace_game.dart';
+import '../features/games/first_true_wins_game.dart';
 import '../features/games/fix_the_sign_game.dart';
 import '../features/games/grade_sense_game.dart';
 import '../features/games/happens_first_game.dart';
@@ -45,6 +47,7 @@ import '../features/games/walk_the_circle_game.dart';
 import '../features/games/what_was_asked_game.dart';
 import '../features/games/whats_missing_game.dart';
 import '../features/games/what_shows_game.dart';
+import '../features/games/where_it_stops_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_ratio_game.dart';
@@ -144,6 +147,9 @@ GoRouter buildRouter(AuthController auth) {
           'copy-it-down' => const CopyItDownGame(),
           'happens-first' => const HappensFirstGame(),
           'what-shows' => const WhatShowsGame(),
+          'fill-the-trace' => const FillTheTraceGame(),
+          'first-true-wins' => const FirstTrueWinsGame(),
+          'where-it-stops' => const WhereItStopsGame(),
           _ => const _UnknownGame(),
         },
       ),

@@ -6,6 +6,8 @@ import 'copy_it_down_game.dart';
 import 'discriminant_gate_game.dart';
 import 'every_rule_game.dart';
 import 'find_the_slip_game.dart';
+import 'fill_the_trace_game.dart';
+import 'first_true_wins_game.dart';
 import 'fix_the_sign_game.dart';
 import 'grade_sense_game.dart';
 import 'happens_first_game.dart';
@@ -35,6 +37,7 @@ import 'walk_the_circle_game.dart';
 import 'what_was_asked_game.dart';
 import 'whats_missing_game.dart';
 import 'what_shows_game.dart';
+import 'where_it_stops_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_ratio_game.dart';
@@ -544,6 +547,41 @@ List<GameAudit> auditAllGames() => [
     rounds: [
       for (final r in showsRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'fill-the-trace',
+    lessonId: 'structured-programming',
+    problemPrefix: 'math-prg-',
+    rounds: [
+      // The answer is a whole column of values, so no single index names it.
+      for (final r in traceRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'first-true-wins',
+    lessonId: 'structured-programming',
+    problemPrefix: 'math-prg-',
+    rounds: [
+      for (final r in chainRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final b in r.branches) b.test ?? 'else'],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-it-stops',
+    lessonId: 'structured-programming',
+    problemPrefix: 'math-prg-',
+    rounds: [
+      for (final r in whileRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in r.run) '$v'],
+          answer: r.run.indexOf(r.answer),
+        ),
     ],
   ),
   GameAudit(

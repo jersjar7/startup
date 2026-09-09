@@ -114,6 +114,11 @@ void main() {
       'which-region', // the halving trap, which lives in the plot problem
       'copy-it-down', // relative against absolute, one problem's whole content
       'happens-first', // precedence, likewise
+      // Lesson fifteen's three problems ARE the three constructs, one each,
+      // so its three items land one to one on them by construction.
+      'fill-the-trace',
+      'first-true-wins',
+      'where-it-stops',
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

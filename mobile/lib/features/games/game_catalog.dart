@@ -538,6 +538,32 @@ const mathematicsMap = ChapterMap(
       id: 'structured-programming',
       name: 'Structured Programming',
       subtopicId: 'computational-tools',
+      games: [
+        GameDef(
+          id: 'fill-the-trace',
+          rounds: 6,
+          name: 'Fill the Trace',
+          blurb: 'Write the loop out, one row for every pass.',
+          built: true,
+          brief: tracingBrief,
+        ),
+        GameDef(
+          id: 'first-true-wins',
+          rounds: 6,
+          name: 'First True Wins',
+          blurb: 'The chain stops at the first condition that holds.',
+          built: true,
+          brief: selectionBrief,
+        ),
+        GameDef(
+          id: 'where-it-stops',
+          rounds: 6,
+          name: 'Where It Stops',
+          blurb: 'A WHILE leaves behind the value that broke it.',
+          built: true,
+          brief: iterationBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'numerical-methods',

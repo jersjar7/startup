@@ -76,6 +76,22 @@ abstract final class AppTheme {
     );
   }
 
+  /// Code and formulas exactly as they are typed.
+  ///
+  /// The mono face draws ">=" and "->" as single glyphs, which is handsome in
+  /// an editor and wrong on a page teaching somebody what to type into a
+  /// spreadsheet or read off an exam paper. This is [mono] with those
+  /// substitutions turned off.
+  static TextStyle code({
+    double size = 14,
+    FontWeight weight = FontWeight.w500,
+    Color color = AppColors.charcoal,
+  }) {
+    return mono(size: size, weight: weight, color: color).copyWith(
+      fontFeatures: const [FontFeature.disable('calt')],
+    );
+  }
+
   /// Overline / kicker (DM Sans 600, uppercase, tracked).
   static TextStyle overline({Color color = AppColors.ink3}) {
     return GoogleFonts.dmSans(

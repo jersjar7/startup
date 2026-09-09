@@ -188,12 +188,7 @@ class FormulaBar extends StatelessWidget {
           Expanded(
             child: Text(
               formula,
-              // Ligatures off: the mono face draws ">=" as a single glyph, and
-              // a spreadsheet formula bar shows the two characters you type.
-              style: AppTheme.mono(
-                size: 14,
-                color: AppColors.charcoal,
-              ).copyWith(fontFeatures: const [FontFeature.disable('calt')]),
+              style: AppTheme.code(size: 14),
             ),
           ),
         ],
