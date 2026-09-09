@@ -10,6 +10,7 @@ import 'can_you_seal_it_game.dart';
 import 'copy_it_down_game.dart';
 import 'discriminant_gate_game.dart';
 import 'does_it_hold_game.dart';
+import 'do_they_agree_game.dart';
 import 'enough_or_too_far_game.dart';
 import 'every_rule_game.dart';
 import 'find_the_slip_game.dart';
@@ -23,6 +24,7 @@ import 'happens_first_game.dart';
 import 'is_there_a_deal_game.dart';
 import 'is_that_negligence_game.dart';
 import 'how_many_samples_game.dart';
+import 'how_long_to_compare_game.dart';
 import 'how_many_protections_game.dart';
 import 'in_what_order_game.dart';
 import 'land_the_resultant_game.dart';
@@ -72,6 +74,7 @@ import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_section_game.dart';
 import 'which_way_points_game.dart';
+import 'which_way_it_pushes_game.dart';
 import 'who_has_to_agree_game.dart';
 import 'who_may_do_that_game.dart';
 import 'who_pays_the_overrun_game.dart';
@@ -1175,6 +1178,45 @@ List<GameAudit> auditAllGames() => [
     rounds: [
       // The answer is a SET of factors whose size the student is not told.
       for (final r in takeRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-way-it-pushes',
+    lessonId: 'pw-fw-aw-analysis',
+    problemPrefix: 'econ-pfa-',
+    rounds: [
+      for (final r in pushRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['up', 'down', 'neither'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-long-to-compare',
+    lessonId: 'pw-fw-aw-analysis',
+    problemPrefix: 'econ-pfa-',
+    rounds: [
+      for (final r in studyRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['their own life', 'the multiple', 'annual worth'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'do-they-agree',
+    lessonId: 'pw-fw-aw-analysis',
+    problemPrefix: 'econ-pfa-',
+    rounds: [
+      for (final r in agreeRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['a slip', 'different periods', 'different rates'],
+          answer: r.answer.index,
+        ),
     ],
   ),
   GameAudit(

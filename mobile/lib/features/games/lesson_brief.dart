@@ -128,6 +128,9 @@ enum BriefFigure {
   factors,
   rates,
   pieces,
+  annualCost,
+  studyPeriod,
+  methodsAgree,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1870,6 +1873,64 @@ const piecesBrief = BriefSection(
   handbook: 'Handbook p. 229',
 );
 
+const annualCostBrief = BriefSection(
+  title: 'What owning it costs a year',
+  body:
+      'Spread the purchase across the life with capital recovery, add the '
+      'annual running costs as they are, bring any one-off costs inside the '
+      'life back and spread them too, and SUBTRACT the salvage. That last sign '
+      'is the one the exam watches: money coming back at the end reduces what '
+      'the thing costs you, and it sits at the bottom of the problem next to a '
+      'column of costs waiting to be added by mistake. Anything already spent '
+      'before the decision stays out entirely.',
+  formulas: [
+    ('Annual worth', r'AW = -P(A/P) - A_{\text{op}} + S(A/F)'),
+    ('Not', r'\text{dividing the purchase by } n'),
+    ('A sunk cost', r'\text{is in neither alternative}'),
+  ],
+  figure: BriefFigure.annualCost,
+  handbook: 'Handbook p. 229',
+);
+
+const studyPeriodBrief = BriefSection(
+  title: 'Over the same amount of time',
+  body:
+      'A present worth prices a PERIOD, so two present worths only compare if '
+      'they cover the same one. Equal lives need nothing. Unequal lives have '
+      'to be repeated until they end together, at the least common multiple, '
+      'or the shorter option looks cheap for the simple reason that it is '
+      'buying less service. Annual worth avoids the whole business: it is '
+      'dollars per year, a rate, and two rates compare directly however long '
+      'each alternative lasts.',
+  formulas: [
+    ('Equal lives', r'\text{compare over the life}'),
+    ('Unequal lives, by PW', r'\text{repeat to the least common multiple}'),
+    ('Unequal lives, by AW', r'\text{nothing to do}'),
+  ],
+  figure: BriefFigure.studyPeriod,
+  handbook: 'Handbook p. 229',
+);
+
+const methodsAgreeBrief = BriefSection(
+  title: 'One comparison, three clocks',
+  body:
+      'Present worth, future worth and annual worth convert the same cash '
+      'flows to time zero, to the end, and to a rate per year. They are the '
+      'same comparison and for the same alternatives, over the same period, at '
+      'the same rate they cannot rank two options differently. If two methods '
+      'disagree, one of those three was not the same: usually the periods, '
+      'because unequal lives were compared as they stand, and sometimes the '
+      'rate. If all three really were identical, the disagreement is a slip in '
+      'the working.',
+  formulas: [
+    ('Same ranking', r'PW,\ FW,\ AW \text{ agree}'),
+    ('Unless', r'\text{the periods differ}'),
+    ('Or', r'\text{the rate differs}'),
+  ],
+  figure: BriefFigure.methodsAgree,
+  handbook: 'Handbook p. 229',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2456,6 +2517,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{a growing series} = (P/A) \text{ alone}", false),
             (r"\text{a flat series} = (P/A) \text{ alone}", true),
             (r"\text{adding the cash flows up undiscounted}", false),
+          ],
+        );
+      case BriefFigure.annualCost:
+        return const _RuleList(
+          rules: [
+            (r"\text{a cost inside the life} \;\Rightarrow\; \text{up}", true),
+            (r"\text{salvage} \;\Rightarrow\; \text{down}", true),
+            (r"\text{salvage} \;\Rightarrow\; \text{up}", false),
+            (r"\text{a sunk cost} \;\Rightarrow\; \text{in both}", false),
+          ],
+        );
+      case BriefFigure.studyPeriod:
+        return const _RuleList(
+          rules: [
+            (r"6 \text{ and } 4 \text{ by PW} \;\Rightarrow\; 12 \text{ years}", true),
+            (r"6 \text{ and } 4 \text{ by AW} \;\Rightarrow\; \text{as they are}", true),
+            (r"6 \text{ and } 4 \text{ by PW} \;\Rightarrow\; \text{as they are}", false),
+            (r"20 \text{ and } 20 \;\Rightarrow\; \text{a multiple is needed}", false),
+          ],
+        );
+      case BriefFigure.methodsAgree:
+        return const _RuleList(
+          rules: [
+            (r"\text{same period, same rate} \;\Rightarrow\; \text{same ranking}", true),
+            (r"\text{unequal lives by PW} \;\Rightarrow\; \text{they can differ}", true),
+            (r"\text{different MARRs} \;\Rightarrow\; \text{they can differ}", true),
+            (r"PW \text{ and } AW \text{ often just disagree}", false),
           ],
         );
       case BriefFigure.lawChoice:

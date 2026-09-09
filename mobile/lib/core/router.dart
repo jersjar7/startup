@@ -19,6 +19,7 @@ import '../features/games/can_you_seal_it_game.dart';
 import '../features/games/copy_it_down_game.dart';
 import '../features/games/discriminant_gate_game.dart';
 import '../features/games/does_it_hold_game.dart';
+import '../features/games/do_they_agree_game.dart';
 import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
 import '../features/games/follow_the_tangent_game.dart';
@@ -33,6 +34,7 @@ import '../features/games/happens_first_game.dart';
 import '../features/games/is_there_a_deal_game.dart';
 import '../features/games/is_that_negligence_game.dart';
 import '../features/games/how_many_samples_game.dart';
+import '../features/games/how_long_to_compare_game.dart';
 import '../features/games/how_many_protections_game.dart';
 import '../features/games/in_what_order_game.dart';
 import '../features/games/land_the_resultant_game.dart';
@@ -82,6 +84,7 @@ import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_section_game.dart';
 import '../features/games/which_way_points_game.dart';
+import '../features/games/which_way_it_pushes_game.dart';
 import '../features/games/who_has_to_agree_game.dart';
 import '../features/games/who_may_do_that_game.dart';
 import '../features/games/who_pays_the_overrun_game.dart';
@@ -240,6 +243,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-factor' => const WhichFactorGame(),
           'which-rate' => const WhichRateGame(),
           'what-does-it-take' => const WhatDoesItTakeGame(),
+          'which-way-it-pushes' => const WhichWayItPushesGame(),
+          'how-long-to-compare' => const HowLongToCompareGame(),
+          'do-they-agree' => const DoTheyAgreeGame(),
           _ => const _UnknownGame(),
         },
       ),

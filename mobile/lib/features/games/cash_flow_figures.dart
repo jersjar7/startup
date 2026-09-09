@@ -174,3 +174,148 @@ class CashFlowPainter extends CustomPainter {
   bool shouldRepaint(CashFlowPainter old) =>
       old.flows != flows || old.periods != periods;
 }
+
+/// Two alternatives with different lives, laid on the same timeline.
+///
+/// Comparing a six year pump against a four year one by present worth is the
+/// most common way to get an economics question wrong, and the reason is
+/// invisible in algebra: the two are being priced over different amounts of
+/// time. Drawn as blocks that repeat until they end together, the least common
+/// multiple stops being a rule and becomes the point at which the picture
+/// finally lines up.
+class LivesPainter extends CustomPainter {
+  const LivesPainter({
+    required this.lifeA,
+    required this.lifeB,
+    required this.span,
+    required this.nameA,
+    required this.nameB,
+    this.bracket,
+  });
+
+  final int lifeA;
+  final int lifeB;
+
+  /// How far the timeline runs.
+  final int span;
+
+  final String nameA;
+  final String nameB;
+
+  /// A study period to mark, when the round has settled on one.
+  final int? bracket;
+
+  static const _padR = 14.0;
+
+  /// Measured from the names rather than guessed at, which is what stopped
+  /// "Option A" arriving as "ption A".
+  double get _padL {
+    var widest = 0.0;
+    for (final name in [nameA, nameB]) {
+      final tp = TextPainter(
+        text: TextSpan(
+          text: name,
+          style: AppTheme.mono(size: 10, color: AppColors.charcoal),
+        ),
+        textDirection: TextDirection.ltr,
+      )..layout();
+      if (tp.width > widest) widest = tp.width;
+    }
+    return widest + 14;
+  }
+
+  double _x(Size size, num year) =>
+      _padL + year / span * (size.width - _padL - _padR);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rows = [(lifeA, nameA, AppColors.sunbeam), (lifeB, nameB, AppColors.forest)];
+    for (final (i, (life, name, colour)) in rows.indexed) {
+      final y = 22 + i * 34.0;
+      // One block per replacement, laid end to end until the timeline runs
+      // out. A part-block at the end is what an awkward study period looks
+      // like, and it is drawn rather than hidden.
+      var start = 0;
+      while (start < span) {
+        final end = start + life < span ? start + life : span;
+        final rect = Rect.fromLTRB(
+          _x(size, start) + 1,
+          y - 11,
+          _x(size, end) - 1,
+          y + 11,
+        );
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(rect, const Radius.circular(5)),
+          Paint()..color = colour.withValues(alpha: 0.45),
+        );
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(rect, const Radius.circular(5)),
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = start + life <= span ? 1.3 : 1,
+        );
+        start += life;
+      }
+      _write(canvas, name, Offset(_padL - 8, y - 6),
+          color: AppColors.charcoal, align: -1);
+    }
+
+    final axisY = 22 + rows.length * 34.0 - 4;
+    canvas.drawLine(
+      Offset(_padL, axisY),
+      Offset(size.width - _padR, axisY),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 1.4,
+    );
+    for (var t = 0; t <= span; t += span > 14 ? 4 : 2) {
+      final x = _x(size, t);
+      canvas.drawLine(
+        Offset(x, axisY - 3),
+        Offset(x, axisY + 3),
+        Paint()
+          ..color = AppColors.ink2
+          ..strokeWidth = 1,
+      );
+      _write(canvas, '$t', Offset(x, axisY + 5), color: AppColors.ink3);
+    }
+
+    final mark = bracket;
+    if (mark != null) {
+      final x = _x(size, mark);
+      canvas.drawLine(
+        Offset(x, 6),
+        Offset(x, axisY),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 2,
+      );
+      _write(canvas, 'compare to here', Offset(x - 4, 4),
+          color: AppColors.ember, align: -1);
+    }
+  }
+
+  void _write(
+    Canvas canvas,
+    String text,
+    Offset at, {
+    required Color color,
+    int align = 0,
+  }) {
+    final tp = TextPainter(
+      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    final dx = switch (align) {
+      1 => 0.0,
+      -1 => tp.width,
+      _ => tp.width / 2,
+    };
+    tp.paint(canvas, at - Offset(dx, 0));
+  }
+
+  @override
+  bool shouldRepaint(LivesPainter old) =>
+      old.lifeA != lifeA || old.lifeB != lifeB || old.bracket != bracket;
+}

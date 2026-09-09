@@ -1087,6 +1087,32 @@ const economicsMap = ChapterMap(
       id: 'pw-fw-aw-analysis',
       name: 'Present Worth, Future Worth & Annual Worth',
       subtopicId: 'time-value-of-money',
+      games: [
+        GameDef(
+          id: 'which-way-it-pushes',
+          rounds: 6,
+          name: 'Which Way It Pushes',
+          blurb: 'Up, down, or out of the comparison altogether.',
+          built: true,
+          brief: annualCostBrief,
+        ),
+        GameDef(
+          id: 'how-long-to-compare',
+          rounds: 6,
+          name: 'How Long to Compare Over',
+          blurb: 'Two lives on one line. Where do they end together?',
+          built: true,
+          brief: studyPeriodBrief,
+        ),
+        GameDef(
+          id: 'do-they-agree',
+          rounds: 6,
+          name: 'Do They Agree',
+          blurb: 'Two methods, two answers. Something was not the same.',
+          built: true,
+          brief: methodsAgreeBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'cost-types-breakeven',

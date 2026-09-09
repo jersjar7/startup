@@ -14,6 +14,7 @@ import 'package:mobile/features/games/balance_both_sides_game.dart';
 import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/does_it_hold_game.dart';
+import 'package:mobile/features/games/do_they_agree_game.dart';
 import 'package:mobile/features/games/enough_or_too_far_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
 import 'package:mobile/features/games/add_the_squares_game.dart';
@@ -55,11 +56,13 @@ import 'package:mobile/features/games/happens_first_game.dart';
 import 'package:mobile/features/games/is_there_a_deal_game.dart';
 import 'package:mobile/features/games/is_that_negligence_game.dart';
 import 'package:mobile/features/games/how_many_samples_game.dart';
+import 'package:mobile/features/games/how_long_to_compare_game.dart';
 import 'package:mobile/features/games/how_many_protections_game.dart';
 import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
 import 'package:mobile/features/games/which_section_game.dart';
 import 'package:mobile/features/games/which_way_points_game.dart';
+import 'package:mobile/features/games/which_way_it_pushes_game.dart';
 import 'package:mobile/features/games/who_has_to_agree_game.dart';
 import 'package:mobile/features/games/who_may_do_that_game.dart';
 import 'package:mobile/features/games/who_pays_the_overrun_game.dart';
@@ -746,6 +749,24 @@ void main() {
       rounds: takeRounds.length,
       height: 1300,
     ),
+    'which-way-it-pushes': (
+      lesson: '31-pw-fw-aw',
+      build: WhichWayItPushesGame.new,
+      rounds: pushRounds.length,
+      height: 1250,
+    ),
+    'how-long-to-compare': (
+      lesson: '31-pw-fw-aw',
+      build: HowLongToCompareGame.new,
+      rounds: studyRounds.length,
+      height: 1300,
+    ),
+    'do-they-agree': (
+      lesson: '31-pw-fw-aw',
+      build: DoTheyAgreeGame.new,
+      rounds: agreeRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -900,6 +921,11 @@ void main() {
       ('factors', factorsBrief),
       ('rates', ratesBrief),
       ('pieces', piecesBrief),
+    ],
+    '31-pw-fw-aw': [
+      ('annual-cost', annualCostBrief),
+      ('study-period', studyPeriodBrief),
+      ('methods-agree', methodsAgreeBrief),
     ],
   };
 
