@@ -23,11 +23,13 @@ import 'happens_first_game.dart';
 import 'is_there_a_deal_game.dart';
 import 'is_that_negligence_game.dart';
 import 'how_many_samples_game.dart';
+import 'how_many_protections_game.dart';
 import 'in_what_order_game.dart';
 import 'land_the_resultant_game.dart';
 import 'next_line_game.dart';
 import 'one_log_game.dart';
 import 'open_or_closed_game.dart';
+import 'over_the_whole_life_game.dart';
 import 'order_the_moves_game.dart';
 import 'perpendicular_flip_game.dart';
 import 'practice_or_title_game.dart';
@@ -77,6 +79,7 @@ import 'which_delivery_game.dart';
 import 'which_clock_ran_out_game.dart';
 import 'which_element_missing_game.dart';
 import 'which_method_game.dart';
+import 'which_protection_game.dart';
 import 'wider_or_narrower_game.dart';
 import 'which_readout_game.dart';
 import 'which_ratio_game.dart';
@@ -1098,6 +1101,41 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: const ['in time', 'limitations', 'repose'],
           answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-protection',
+    lessonId: 'intellectual-property-sustainability',
+    problemPrefix: 'eth-ips-',
+    rounds: [
+      for (final r in protectionRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in protections) p.$1],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-many-protections',
+    lessonId: 'intellectual-property-sustainability',
+    problemPrefix: 'eth-ips-',
+    rounds: [
+      // The answer is a SET of protections whose size the student is not told.
+      for (final r in countRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'over-the-whole-life',
+    lessonId: 'intellectual-property-sustainability',
+    problemPrefix: 'eth-ips-',
+    rounds: [
+      for (final r in lifeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in r.options) o.name],
+          answer: r.answer,
         ),
     ],
   ),

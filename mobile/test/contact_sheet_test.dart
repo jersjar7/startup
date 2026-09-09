@@ -44,6 +44,7 @@ import 'package:mobile/features/games/which_delivery_game.dart';
 import 'package:mobile/features/games/which_clock_ran_out_game.dart';
 import 'package:mobile/features/games/which_element_missing_game.dart';
 import 'package:mobile/features/games/which_method_game.dart';
+import 'package:mobile/features/games/which_protection_game.dart';
 import 'package:mobile/features/games/wider_or_narrower_game.dart';
 import 'package:mobile/features/games/first_true_wins_game.dart';
 import 'package:mobile/features/games/where_it_stops_game.dart';
@@ -51,6 +52,7 @@ import 'package:mobile/features/games/happens_first_game.dart';
 import 'package:mobile/features/games/is_there_a_deal_game.dart';
 import 'package:mobile/features/games/is_that_negligence_game.dart';
 import 'package:mobile/features/games/how_many_samples_game.dart';
+import 'package:mobile/features/games/how_many_protections_game.dart';
 import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
 import 'package:mobile/features/games/which_section_game.dart';
@@ -60,6 +62,7 @@ import 'package:mobile/features/games/who_may_do_that_game.dart';
 import 'package:mobile/features/games/who_pays_the_overrun_game.dart';
 import 'package:mobile/features/games/which_way_turns_game.dart';
 import 'package:mobile/features/games/open_or_closed_game.dart';
+import 'package:mobile/features/games/over_the_whole_life_game.dart';
 import 'package:mobile/features/games/shade_the_tail_game.dart';
 import 'package:mobile/features/games/shadow_falls_game.dart';
 import 'package:mobile/features/games/take_the_diagonal_game.dart';
@@ -704,6 +707,24 @@ void main() {
       rounds: clockRounds.length,
       height: 1300,
     ),
+    'which-protection': (
+      lesson: '29-ip-sustainability',
+      build: WhichProtectionGame.new,
+      rounds: protectionRounds.length,
+      height: 1450,
+    ),
+    'how-many-protections': (
+      lesson: '29-ip-sustainability',
+      build: HowManyProtectionsGame.new,
+      rounds: countRounds.length,
+      height: 1250,
+    ),
+    'over-the-whole-life': (
+      lesson: '29-ip-sustainability',
+      build: OverTheWholeLifeGame.new,
+      rounds: lifeRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -848,6 +869,11 @@ void main() {
       ('standard-of-care', standardOfCareBrief),
       ('negligence', negligenceBrief),
       ('clocks', clocksBrief),
+    ],
+    '29-ip-sustainability': [
+      ('property', propertyBrief),
+      ('portfolio', portfolioBrief),
+      ('life-cycle', lifeCycleBrief),
     ],
   };
 

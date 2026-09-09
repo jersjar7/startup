@@ -151,6 +151,7 @@ void main() {
       // problem each, and the four elements draw on two.
       'is-that-negligence',
       'which-clock-ran-out',
+      'over-the-whole-life', // life-cycle analysis, which is one problem
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

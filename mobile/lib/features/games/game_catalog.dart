@@ -1009,6 +1009,32 @@ const ethicsMap = ChapterMap(
       id: 'intellectual-property-sustainability',
       name: 'Intellectual Property & Sustainability',
       subtopicId: 'broader-responsibilities',
+      games: [
+        GameDef(
+          id: 'which-protection',
+          rounds: 6,
+          name: 'Which Protection',
+          blurb: 'Whether you are willing to publish decides most of it.',
+          built: true,
+          brief: propertyBrief,
+        ),
+        GameDef(
+          id: 'how-many-protections',
+          rounds: 6,
+          name: 'How Many Protections',
+          blurb: 'They do not compete. Tap every one this needs.',
+          built: true,
+          brief: portfolioBrief,
+        ),
+        GameDef(
+          id: 'over-the-whole-life',
+          rounds: 6,
+          name: 'Over the Whole Life',
+          blurb: 'Cheapest to build is not cheapest to own. Usually.',
+          built: true,
+          brief: lifeCycleBrief,
+        ),
+      ],
     ),
   ],
 );

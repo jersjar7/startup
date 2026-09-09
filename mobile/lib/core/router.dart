@@ -33,11 +33,13 @@ import '../features/games/happens_first_game.dart';
 import '../features/games/is_there_a_deal_game.dart';
 import '../features/games/is_that_negligence_game.dart';
 import '../features/games/how_many_samples_game.dart';
+import '../features/games/how_many_protections_game.dart';
 import '../features/games/in_what_order_game.dart';
 import '../features/games/land_the_resultant_game.dart';
 import '../features/games/next_line_game.dart';
 import '../features/games/one_log_game.dart';
 import '../features/games/open_or_closed_game.dart';
+import '../features/games/over_the_whole_life_game.dart';
 import '../features/games/order_the_moves_game.dart';
 import '../features/games/perpendicular_flip_game.dart';
 import '../features/games/practice_or_title_game.dart';
@@ -87,6 +89,7 @@ import '../features/games/which_delivery_game.dart';
 import '../features/games/which_clock_ran_out_game.dart';
 import '../features/games/which_element_missing_game.dart';
 import '../features/games/which_method_game.dart';
+import '../features/games/which_protection_game.dart';
 import '../features/games/wider_or_narrower_game.dart';
 import '../features/games/which_readout_game.dart';
 import '../features/games/which_ratio_game.dart';
@@ -228,6 +231,9 @@ GoRouter buildRouter(AuthController auth) {
           'is-that-negligence' => const IsThatNegligenceGame(),
           'which-element-missing' => const WhichElementMissingGame(),
           'which-clock-ran-out' => const WhichClockRanOutGame(),
+          'which-protection' => const WhichProtectionGame(),
+          'how-many-protections' => const HowManyProtectionsGame(),
+          'over-the-whole-life' => const OverTheWholeLifeGame(),
           _ => const _UnknownGame(),
         },
       ),

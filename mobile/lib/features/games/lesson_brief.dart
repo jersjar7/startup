@@ -122,6 +122,9 @@ enum BriefFigure {
   standardOfCare,
   negligence,
   clocks,
+  property,
+  portfolio,
+  lifeCycle,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1742,6 +1745,68 @@ const clocksBrief = BriefSection(
   handbook: 'Model Rules, time limits',
 );
 
+const propertyBrief = BriefSection(
+  title: 'Four protections, one question',
+  body:
+      'Disclosure decides most of it. A PATENT is a bargain: publish the '
+      'invention and get twenty years from the filing date, and there are '
+      'three kinds, for inventions, for the ornamental look of a made article, '
+      'and for a plant variety reproduced without seed. A TRADE SECRET is the '
+      'opposite bargain, protecting whatever nobody else knows for as long as '
+      'that stays true. A TRADEMARK protects the name and not the goods, so '
+      'anybody may make the same thing under a different mark. A COPYRIGHT '
+      'protects the writing and not the idea inside it.',
+  formulas: [
+    ('Patent', r'\text{published, and 20 years from filing}'),
+    ('Trade secret', r'\text{unpublished, and lasts while it holds}'),
+    ('Trademark', r'\text{the name, not the goods}'),
+    ('Copyright', r'\text{the expression, not the idea}'),
+  ],
+  figure: BriefFigure.property,
+  handbook: 'Handbook pp. 12-13',
+);
+
+const portfolioBrief = BriefSection(
+  title: 'They do not compete',
+  body:
+      'One project regularly needs several at once, because they attach to '
+      'different things. An invention, the name it is sold under, the paper '
+      'describing it and the process left out of that paper are four separate '
+      'assets and take four separate protections. A firm that patents the '
+      'invention and stops has protected one of the four. The one pairing that '
+      'cannot happen is a patent and a trade secret on the SAME thing, because '
+      'filing publishes it and a secret only exists while it is not published.',
+  formulas: [
+    ('The invention', r'\text{a patent}'),
+    ('The name', r'\text{a trademark}'),
+    ('The paper', r'\text{a copyright}'),
+    ('What was left out of it', r'\text{a trade secret}'),
+  ],
+  figure: BriefFigure.portfolio,
+  handbook: 'Handbook pp. 12-13',
+);
+
+const lifeCycleBrief = BriefSection(
+  title: 'Add the whole bar',
+  body:
+      'A life-cycle assessment adds what a thing costs across its whole life: '
+      'building it, running it, keeping it, and taking it away at the end. The '
+      'option that is cheapest to build is regularly not the cheapest to own, '
+      'and the segment that decides it is often the one nobody prices, either '
+      'because it arrives as maintenance years later or because it arrives as '
+      'demolition after everybody involved has retired. It is a method rather '
+      'than a verdict: sometimes the cheap option really is the cheap option, '
+      'and the assessment is what tells you which case you are in.',
+  formulas: [
+    ('The whole life', r'\text{build} + \text{operate} + \text{maintain} + '
+        r'\text{take away}'),
+    ('Not', r'\text{the first segment on its own}'),
+    ('The triple bottom line', r'\text{economic, environmental, social}'),
+  ],
+  figure: BriefFigure.lifeCycle,
+  handbook: 'Handbook pp. 12-13',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2274,6 +2339,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{repose: from substantial completion}", true),
             (r"\text{repose can bar a claim before the harm appears}", true),
             (r"\text{repose gives the plaintiff longer}", false),
+          ],
+        );
+      case BriefFigure.property:
+        return const _RuleList(
+          rules: [
+            (r"\text{not disclosing it} \;\Rightarrow\; \text{a trade secret}", true),
+            (r"\text{the brand on the box} \;\Rightarrow\; \text{a trademark}", true),
+            (r"\text{the paper about it} \;\Rightarrow\; \text{a copyright}", true),
+            (r"\text{a trademark stops others making the goods}", false),
+          ],
+        );
+      case BriefFigure.portfolio:
+        return const _RuleList(
+          rules: [
+            (r"\text{one project, four protections}", true),
+            (r"\text{a patent covers the name as well}", false),
+            (r"\text{a patent covers the paper as well}", false),
+            (r"\text{a patent and a secret on the same thing}", false),
+          ],
+        );
+      case BriefFigure.lifeCycle:
+        return const _RuleList(
+          rules: [
+            (r"\text{cheapest to build} \;\Rightarrow\; \text{cheapest to own}", false),
+            (r"\text{add every stage, including taking it away}", true),
+            (r"\text{sometimes the cheap option wins outright}", true),
+            (r"\text{always choose the costlier option}", false),
           ],
         );
       case BriefFigure.lawChoice:
