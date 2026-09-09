@@ -124,7 +124,16 @@ void _dashedLine(Canvas canvas, Offset a, Offset b, Paint paint, double on,
 /// INK LEVEL. The node is a vessel and progress is how much ink is in it, so a
 /// chapter reads as one sequence from empty to full.
 class InkLevel extends _Direction {
-  const InkLevel();
+  const InkLevel({this.thick = false});
+
+  final bool thick;
+
+  @override
+  Color? bodyColor(Stop stop) => !thick || stop.look == Look.notBuilt
+      ? null
+      : stop.look == Look.finished
+      ? const Color(0xFF1F5C46)
+      : const Color(0xFFD8CFC0);
 
   @override
   double get roadWidth => 0.09;
@@ -261,7 +270,16 @@ class Milestone extends _Direction {
 /// SILHOUETTE CODE. Four states, four shapes, so the screen is legible with
 /// the colour taken out and one saturated colour means one thing.
 class Silhouette extends _Direction {
-  const Silhouette();
+  const Silhouette({this.thick = false});
+
+  final bool thick;
+
+  @override
+  Color? bodyColor(Stop stop) => !thick || stop.look == Look.notBuilt
+      ? null
+      : stop.look == Look.finished
+      ? const Color(0xFF161616)
+      : const Color(0xFFCDBFA8);
 
   @override
   double get roadWidth => 0.09;
@@ -320,6 +338,12 @@ class Silhouette extends _Direction {
 
 abstract class _Direction {
   const _Direction();
+
+  /// The slab under the face that gives the node its thickness, or null where
+  /// a state is meant to lie flat on the page. The app's node already has
+  /// this, and it is what makes a node look pressable and respond to a press;
+  /// none of the three directions is about it, so none of them has to lose it.
+  Color? bodyColor(Stop stop) => null;
 
   double get roadWidth;
   Color roadColor(Stop from, Stop to);
@@ -392,6 +416,23 @@ class _PathPainter extends CustomPainter {
       }
     }
     for (var i = 0; i < centres.length; i++) {
+      final body = look.bodyColor(stops[i]);
+      if (body != null) {
+        // A capsule the width of the face whose sides run straight down from
+        // the midline, so the node reads as a slab you can press.
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromLTWH(
+              centres[i].dx - d / 2,
+              centres[i].dy - d / 2,
+              d,
+              d + 0.09 * d,
+            ),
+            Radius.circular(d / 2),
+          ),
+          Paint()..color = body,
+        );
+      }
       look.node(canvas, centres[i], d, stops[i]);
     }
   }
@@ -407,7 +448,7 @@ void main() {
   });
 
   testWidgets('three directions, drawn from the brief', (tester) async {
-    tester.view.physicalSize = const Size(390, 2760);
+    tester.view.physicalSize = const Size(390, 3660);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
 
@@ -441,6 +482,18 @@ void main() {
         'for comparison, a per-node treatment under the same conditions',
         Silhouette(),
         outOfOrder,
+      ),
+      (
+        'INK LEVEL, THICKNESS KEPT',
+        'the same colours over the slab the app already has',
+        InkLevel(thick: true),
+        inOrder,
+      ),
+      (
+        'SILHOUETTE, THICKNESS KEPT',
+        'likewise',
+        Silhouette(thick: true),
+        inOrder,
       ),
     ];
 
