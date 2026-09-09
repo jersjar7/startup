@@ -245,7 +245,7 @@ class _Path extends StatelessWidget {
 
   /// Distance from a slot's top to the center of its node face.
   static double faceCenterFor(double width) =>
-      LessonNodeWidget.pillSpace + nodeSizeFor(width) / 2;
+      LessonNodeWidget.topSpace + nodeSizeFor(width) / 2;
 
   @override
   Widget build(BuildContext context) {
@@ -267,17 +267,6 @@ class _Path extends StatelessWidget {
       }
     }
     y += 56;
-
-    // The first playable, uncleared lesson is where we point them. A
-    // recommendation only: every node below it is tappable too.
-    LessonNode? startHere;
-    for (final l in chapter.lessons) {
-      final s = state[l.id];
-      if (s == NodeState.notStarted || s == NodeState.inProgress) {
-        startHere = l;
-        break;
-      }
-    }
 
     final nodes = slots.where((s) => s.isNode).toList(growable: false);
 
@@ -313,20 +302,10 @@ class _Path extends StatelessWidget {
                   fractionFrom: shown[slot.lesson!.id] ?? 0,
                   fractionTo: target[slot.lesson!.id] ?? 0,
                   size: nodeSize,
-                  showStartPill: identical(slot.lesson, startHere),
                   onTap: () => onTap(slot.lesson!),
                   onSettled: (v) => onSettled(slot.lesson!.id, v),
                 ),
               ),
-              if (identical(slot.lesson, startHere))
-                Positioned(
-                  top: slot.y,
-                  // Centered on the node; the pill itself is narrower than this
-                  // box, so a negative left near the edge stays on screen.
-                  left: slot.x - 100,
-                  width: 200,
-                  child: const Center(child: StartPill()),
-                ),
               _label(slot, width, nodeSize, state[slot.lesson!.id]),
             ] else
               Positioned(
@@ -407,7 +386,10 @@ class _SubtopicHeader extends StatelessWidget {
                   Flexible(
                     child: Text(
                       subtopic.name.toUpperCase(),
-                      maxLines: 1,
+                      // Two lines rather than a truncated name: the pill only
+                      // gets half the row, and "Single-Variable Calculus" does
+                      // not fit on one line of it.
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: AppTheme.overline(color: AppColors.ink2),
                     ),

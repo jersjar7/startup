@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 
 /// Where a lesson stands on the path. Nothing here knows about content: hand
 /// it a state and a fraction and it draws that, which is what makes it
@@ -70,7 +69,6 @@ class LessonNodeWidget extends StatefulWidget {
     required this.fractionFrom,
     required this.fractionTo,
     required this.size,
-    this.showStartPill = false,
     this.onTap,
     this.onSettled,
     this.duration = const Duration(milliseconds: 1100),
@@ -83,15 +81,17 @@ class LessonNodeWidget extends StatefulWidget {
   final double fractionTo;
 
   final double size;
-  final bool showStartPill;
   final VoidCallback? onTap;
 
   /// Fired once the ring has caught up, so the map can remember what was shown.
   final ValueChanged<double>? onSettled;
   final Duration duration;
 
-  /// Room reserved above the face for the "start here" pill.
-  static const pillSpace = 44.0;
+  /// A little air above the face, so the ring's glow is not clipped by the
+  /// slot it sits in. This used to be room for a "start here" pill, which was
+  /// dropped: nothing locks, so pointing at one node implied an order the map
+  /// does not actually impose.
+  static const topSpace = 10.0;
 
   /// How far the body shows below the face.
   static const bodyShow = 7.0;
@@ -145,12 +145,7 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
 
     return Column(
       children: [
-        SizedBox(
-          height: LessonNodeWidget.pillSpace,
-          child: widget.showStartPill
-              ? const Align(alignment: Alignment.topCenter, child: SizedBox())
-              : null,
-        ),
+        const SizedBox(height: LessonNodeWidget.topSpace),
         GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTapDown: (_) => setState(() => _pressed = true),
@@ -284,53 +279,3 @@ class _RingPainter extends CustomPainter {
       old.fraction != fraction || old.color != color;
 }
 
-/// The pointer that marks where to go next. Drawn separately from the node
-/// because it is wider than the node's column.
-class StartPill extends StatelessWidget {
-  const StartPill({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-          decoration: BoxDecoration(
-            color: AppColors.charcoal,
-            borderRadius: BorderRadius.circular(999),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x232C2C2C),
-                blurRadius: 10,
-                offset: Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Text(
-            'START HERE',
-            style: AppTheme.overline(color: Colors.white),
-          ),
-        ),
-        CustomPaint(size: const Size(14, 6), painter: _PillTailPainter()),
-      ],
-    );
-  }
-}
-
-class _PillTailPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.drawPath(
-      Path()
-        ..moveTo(0, 0)
-        ..lineTo(size.width, 0)
-        ..lineTo(size.width / 2, size.height)
-        ..close(),
-      Paint()..color = AppColors.charcoal,
-    );
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter old) => false;
-}
