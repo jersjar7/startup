@@ -51,7 +51,9 @@ needs two things present:
 
 ## Reinstalling the provisioning profile
 
-If step 3 says no profiles were found, pull it from App Store Connect. The API
+Expect to do this on most builds. The profile has not survived between
+builds 520, 521 and 522 on this machine, so pull it from App Store Connect
+before step 3 rather than waiting for step 3 to fail. The API
 key id and issuer are in `secrets/appstore-connect.json` (gitignored) and the
 `.p8` lives at `~/.appstoreconnect/private_keys/AuthKey_<key_id>.p8`, never in
 the repo.
@@ -100,3 +102,4 @@ The profile in use expires **2027-06-23**.
 | 519   | No start-here pill; subtopic names wrap instead of truncating |
 | 520   | The silhouette node: four shapes, plinth derived from the face |
 | 521   | Statistics, all six lessons; chapter two complete |
+| 522   | Ethics, all seven lessons; chapter three complete |
