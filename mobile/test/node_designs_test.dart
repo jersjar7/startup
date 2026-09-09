@@ -281,6 +281,12 @@ enum Plinth {
 
   /// One warm mid-tone under every state.
   mid,
+
+  /// A tone of the face's own colour, going LIGHTER where there is no room
+  /// left to go darker. A charcoal face has 18 L* below it and 82 above, so
+  /// its plinth is a lighter charcoal; a white face has the room, so its
+  /// plinth stays the warm stone that is already under it.
+  sameHue,
 }
 
 class Silhouette extends _Direction {
@@ -306,6 +312,9 @@ class Silhouette extends _Direction {
       Plinth.mid => const Color(0xFF8A7F6E),
       Plinth.darker => stop.look == Look.finished
           ? const Color(0xFF161616)
+          : const Color(0xFFCDBFA8),
+      Plinth.sameHue => stop.look == Look.finished
+          ? const Color(0xFF625D57)
           : const Color(0xFFCDBFA8),
     };
   }
@@ -751,9 +760,17 @@ void main() {
     ];
 
     const options = <(String, String, Plinth)>[
-      ('A STEP DARKER, AS TODAY', 'only 10.8 L* under the finished face', Plinth.darker),
-      ('ONE STONE PLINTH', '59.9 L* under it', Plinth.stone),
-      ('ONE WARM MID PLINTH', '35.7 L* under it', Plinth.mid),
+      (
+        'A STEP DARKER, AS TODAY',
+        'only 10.8 L* under the finished face',
+        Plinth.darker,
+      ),
+      (
+        'A LIGHTER TONE OF THE SAME COLOUR',
+        'charcoal face, charcoal plinth, 21.8 L* apart',
+        Plinth.sameHue,
+      ),
+      ('ONE STONE PLINTH UNDER EVERYTHING', '59.9 L* under it', Plinth.stone),
     ];
 
     await tester.pumpWidget(
