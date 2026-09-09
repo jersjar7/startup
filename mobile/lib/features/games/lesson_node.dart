@@ -69,6 +69,7 @@ class LessonNodeWidget extends StatefulWidget {
     required this.fractionFrom,
     required this.fractionTo,
     required this.size,
+    this.skin,
     this.onTap,
     this.onSettled,
     this.duration = const Duration(milliseconds: 1100),
@@ -81,6 +82,10 @@ class LessonNodeWidget extends StatefulWidget {
   final double fractionTo;
 
   final double size;
+
+  /// Overrides the colors this state would normally wear. Only a comparison
+  /// harness passes this; the app lets the state decide.
+  final NodeSkin? skin;
   final VoidCallback? onTap;
 
   /// Fired once the ring has caught up, so the map can remember what was shown.
@@ -160,7 +165,7 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
                   widget.state == NodeState.cleared && _fraction.value < 0.999
                   ? NodeState.inProgress
                   : widget.state;
-              final skin = NodeSkin.of(showing);
+              final skin = widget.skin ?? NodeSkin.of(showing);
 
               return SizedBox(
                 width: size,
