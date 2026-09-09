@@ -5,6 +5,7 @@ import 'build_the_identity_game.dart';
 import 'discriminant_gate_game.dart';
 import 'every_rule_game.dart';
 import 'find_the_slip_game.dart';
+import 'fix_the_sign_game.dart';
 import 'grade_sense_game.dart';
 import 'land_the_resultant_game.dart';
 import 'next_line_game.dart';
@@ -32,7 +33,9 @@ import 'walk_the_circle_game.dart';
 import 'what_was_asked_game.dart';
 import 'whats_missing_game.dart';
 import 'which_law_game.dart';
+import 'which_region_game.dart';
 import 'which_ratio_game.dart';
+import 'which_way_turns_game.dart';
 import 'which_way_simpler_game.dart';
 
 /// A uniform description of what an item asks, so ONE gate can check every
@@ -465,6 +468,45 @@ List<GameAudit> auditAllGames() => [
     rounds: [
       // Answered by pointing at a mark on the member, so there is no list.
       for (final r in shadowRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-way-turns',
+    lessonId: 'cross-product-applications',
+    problemPrefix: 'math-cpa-',
+    rounds: [
+      for (final r in turnRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['counterclockwise', 'clockwise', 'no turn'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-region',
+    lessonId: 'cross-product-applications',
+    problemPrefix: 'math-cpa-',
+    rounds: [
+      for (final r in regionRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['triangle', 'parallelogram', 'box around it'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'fix-the-sign',
+    lessonId: 'cross-product-applications',
+    problemPrefix: 'math-cpa-',
+    rounds: [
+      for (final r in expansions)
+        RoundAudit(
+          source: r.source,
+          options: const ['the i line', 'the j line', 'the k line', 'nothing'],
+          answer: r.bad ?? 3,
+        ),
     ],
   ),
   GameAudit(

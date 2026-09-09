@@ -476,6 +476,32 @@ const mathematicsMap = ChapterMap(
       id: 'cross-product-applications',
       name: 'Cross Product & Applications',
       subtopicId: 'vector-operations',
+      games: [
+        GameDef(
+          id: 'which-way-turns',
+          rounds: 6,
+          name: 'Which Way Does It Turn',
+          blurb: 'Sweep from the first arrow to the second and watch.',
+          built: true,
+          brief: rightHandBrief,
+        ),
+        GameDef(
+          id: 'which-region',
+          rounds: 6,
+          name: 'Which Region',
+          blurb: 'Same two edges, three shapes. Only one is the answer.',
+          built: true,
+          brief: areaBrief,
+        ),
+        GameDef(
+          id: 'fix-the-sign',
+          rounds: 6,
+          name: 'Fix the Sign',
+          blurb: 'One line of the expansion may have the wrong sign.',
+          built: true,
+          brief: cofactorBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'spreadsheet-computations',

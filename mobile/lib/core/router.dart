@@ -15,6 +15,7 @@ import '../features/games/discriminant_gate_game.dart';
 import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
 import '../features/games/game_catalog.dart';
+import '../features/games/fix_the_sign_game.dart';
 import '../features/games/grade_sense_game.dart';
 import '../features/games/land_the_resultant_game.dart';
 import '../features/games/next_line_game.dart';
@@ -42,7 +43,9 @@ import '../features/games/walk_the_circle_game.dart';
 import '../features/games/what_was_asked_game.dart';
 import '../features/games/whats_missing_game.dart';
 import '../features/games/which_law_game.dart';
+import '../features/games/which_region_game.dart';
 import '../features/games/which_ratio_game.dart';
+import '../features/games/which_way_turns_game.dart';
 import '../features/games/which_way_simpler_game.dart';
 import '../features/home/home_shell.dart';
 import '../features/onboarding/onboarding_screen.dart';
@@ -132,6 +135,9 @@ GoRouter buildRouter(AuthController auth) {
           'take-the-diagonal' => const TakeTheDiagonalGame(),
           'open-or-closed' => const OpenOrClosedGame(),
           'shadow-falls' => const ShadowFallsGame(),
+          'which-way-turns' => const WhichWayTurnsGame(),
+          'which-region' => const WhichRegionGame(),
+          'fix-the-sign' => const FixTheSignGame(),
           _ => const _UnknownGame(),
         },
       ),

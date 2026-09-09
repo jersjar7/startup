@@ -74,6 +74,9 @@ enum BriefFigure {
   dotProduct,
   dotAngle,
   projection,
+  rightHand,
+  crossArea,
+  cofactor,
   lawChoice,
   lawForms,
   cosineSign,
@@ -750,6 +753,71 @@ const projectionBrief = BriefSection(
   handbook: 'Handbook p. 94',
 );
 
+// ── Cross Product & Applications ────────────────────────────────────────────
+
+const rightHandBrief = BriefSection(
+  title: 'Which way it turns, and why order matters',
+  body:
+      'A cross product is a VECTOR, and it points perpendicular to both of the '
+      'arrows that made it. Which of the two perpendicular directions is '
+      'settled by the right hand: fingers along the first arrow, curl them to '
+      'the second, and the thumb is the answer. Sweeping counterclockwise '
+      'brings it out of the page, clockwise sends it in. Swap the two arrows '
+      'and the answer flips, which is why a moment is r cross F and never the '
+      'other way. Two arrows on the same line cross to nothing.',
+  formulas: [
+    ('The moment of a force', r'\vec{M}_O = \vec{r} \times \vec{F}'),
+    ('Order flips it', r'\vec{A} \times \vec{B} = -(\vec{B} \times \vec{A})'),
+    ('And a vector with itself', r'\vec{A} \times \vec{A} = \vec{0}'),
+  ],
+  figure: BriefFigure.rightHand,
+  handbook: 'Handbook p. 94',
+);
+
+const areaBrief = BriefSection(
+  title: 'The parallelogram, and half of it',
+  body:
+      'The size of a cross product is the area of the parallelogram the two '
+      'arrows span. A triangle with those two edges is half of that, so a plot '
+      'bounded by them takes a division by two that the formula will not '
+      'remind you about. The sine is what accounts for the lean: multiplying '
+      'the two lengths on their own would give the box around the whole thing, '
+      'which is only right when the edges meet square.',
+  formulas: [
+    (
+      'Parallelogram',
+      r'|\vec{A} \times \vec{B}| = |\vec{A}||\vec{B}|\sin\theta',
+    ),
+    ('Triangle', r'\tfrac{1}{2}|\vec{A} \times \vec{B}|'),
+  ],
+  figure: BriefFigure.crossArea,
+  handbook: 'Handbook p. 94',
+);
+
+const cofactorBrief = BriefSection(
+  title: 'Plus, minus, plus',
+  body:
+      'The cross product comes out of a three by three determinant with i, j '
+      'and k across the top. Expanding it gives three components and the '
+      'middle one is SUBTRACTED. That is the whole of the tip and it is worth '
+      'the space: a minus in front of a bracket that already holds a negative '
+      'number is the single most reliable way to hand in a moment that points '
+      'the wrong way. Whatever comes out is a vector, so if the question '
+      'wanted a size, take the magnitude afterwards.',
+  formulas: [
+    (
+      'The determinant',
+      r'\vec{A} \times \vec{B} = \begin{vmatrix} \hat{i} & \hat{j} & \hat{k} \\ A_x & A_y & A_z \\ B_x & B_y & B_z \end{vmatrix}',
+    ),
+    (
+      'Expanded',
+      r'(A_yB_z - A_zB_y)\hat{i} - (A_xB_z - A_zB_x)\hat{j} + (A_xB_y - A_yB_x)\hat{k}',
+    ),
+  ],
+  figure: BriefFigure.cofactor,
+  handbook: 'Handbook p. 94',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1248,6 +1316,32 @@ class BriefFigureView extends StatelessWidget {
             (r"\frac{\vec{F} \cdot \vec{d}}{|\vec{d}|} = \frac{1500}{3} = 500", true),
             (r"\vec{F} \cdot \vec{d} = 1500 \;\Rightarrow\; \text{the component}", false),
             (r"\frac{\vec{F} \cdot \vec{d}}{|\vec{F}|} \;\Rightarrow\; \text{the component}", false),
+          ],
+        );
+      case BriefFigure.rightHand:
+        return const _RuleList(
+          rules: [
+            (r"\hat{i} \times \hat{j} = \hat{k}", true),
+            (r"\hat{j} \times \hat{i} = \hat{k}", false),
+            (r"\vec{M}_O = \vec{r} \times \vec{F}", true),
+            (r"\vec{M}_O = \vec{F} \times \vec{r}", false),
+          ],
+        );
+      case BriefFigure.crossArea:
+        return const _RuleList(
+          rules: [
+            (r"|\vec{u} \times \vec{v}| \;\Rightarrow\; \text{parallelogram}", null),
+            (r"\tfrac{1}{2}|\vec{u} \times \vec{v}| \;\Rightarrow\; \text{triangle}", null),
+            (r"|\vec{u}||\vec{v}| \;\Rightarrow\; \text{the box round it}", null),
+          ],
+        );
+      case BriefFigure.cofactor:
+        return const _RuleList(
+          rules: [
+            (r"+\big[A_yB_z - A_zB_y\big]\hat{i}", true),
+            (r"-\big[A_xB_z - A_zB_x\big]\hat{j}", true),
+            (r"+\big[A_xB_z - A_zB_x\big]\hat{j}", false),
+            (r"+\big[A_xB_y - A_yB_x\big]\hat{k}", true),
           ],
         );
       case BriefFigure.logRules:

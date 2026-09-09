@@ -15,7 +15,10 @@ import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
 import 'package:mobile/features/games/both_sides_game.dart';
+import 'package:mobile/features/games/fix_the_sign_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/which_region_game.dart';
+import 'package:mobile/features/games/which_way_turns_game.dart';
 import 'package:mobile/features/games/open_or_closed_game.dart';
 import 'package:mobile/features/games/shadow_falls_game.dart';
 import 'package:mobile/features/games/take_the_diagonal_game.dart';
@@ -368,6 +371,24 @@ void main() {
       rounds: shadowRounds.length,
       height: 1350,
     ),
+    'which-way-turns': (
+      lesson: '13-cross-product',
+      build: WhichWayTurnsGame.new,
+      rounds: turnRounds.length,
+      height: 1350,
+    ),
+    'which-region': (
+      lesson: '13-cross-product',
+      build: WhichRegionGame.new,
+      rounds: regionRounds.length,
+      height: 1250,
+    ),
+    'fix-the-sign': (
+      lesson: '13-cross-product',
+      build: FixTheSignGame.new,
+      rounds: expansions.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -432,6 +453,11 @@ void main() {
       ('matching-components', dotProductBrief),
       ('sign-and-angle', dotAngleBrief),
       ('projection', projectionBrief),
+    ],
+    '13-cross-product': [
+      ('right-hand', rightHandBrief),
+      ('area', areaBrief),
+      ('cofactor', cofactorBrief),
     ],
   };
 
