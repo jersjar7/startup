@@ -131,6 +131,9 @@ enum BriefFigure {
   annualCost,
   studyPeriod,
   methodsAgree,
+  costTypes,
+  breakEven,
+  payback,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1931,6 +1934,65 @@ const methodsAgreeBrief = BriefSection(
   handbook: 'Handbook p. 229',
 );
 
+const costTypesBrief = BriefSection(
+  title: 'Sort the costs first',
+  body:
+      'FIXED costs do not move with the volume, so they are where a cost line '
+      'starts. VARIABLE costs scale with it, so they are how steeply it rises. '
+      'A SUNK cost is already spent and unrecoverable whatever is decided next, '
+      'and it stays out of the comparison entirely: belonging to one option '
+      'physically does not put it there financially, and depreciating it does '
+      'not either. An OPPORTUNITY cost is what choosing this gives up and '
+      'never appears on an invoice. A MARGINAL cost is the next unit, not the '
+      'average of them all.',
+  formulas: [
+    ('Total cost', r'TC = FC + VC \cdot Q'),
+    ('A sunk cost', r'\text{is in neither alternative}'),
+    ('An opportunity cost', r'\text{is in, invoice or not}'),
+  ],
+  figure: BriefFigure.costTypes,
+  handbook: 'Handbook pp. 230-231',
+);
+
+const breakEvenBrief = BriefSection(
+  title: 'Two lines and where they cross',
+  body:
+      'Set the two total costs equal and solve for the volume. The option with '
+      'the cheaper START wins below that volume and the one with the cheaper '
+      'RATE wins above it, which is the whole of the topic. Two things go '
+      'wrong: comparing the per-unit rates on their own, which ignores where '
+      'each line begins, and subtracting the variable costs the wrong way '
+      'round, which produces a negative volume. And when one option starts '
+      'higher AND rises faster the lines never cross, so there is no '
+      'break-even volume to find.',
+  formulas: [
+    ('Break even', r'FC_1 + VC_1 Q = FC_2 + VC_2 Q'),
+    ('So', r'Q = \frac{FC_1 - FC_2}{VC_2 - VC_1}'),
+    ('Below it', r'\text{the cheaper start wins}'),
+  ],
+  figure: BriefFigure.breakEven,
+  handbook: 'Handbook pp. 230-231',
+);
+
+const paybackBrief = BriefSection(
+  title: 'Only what is left over pays it back',
+  body:
+      'A simple payback is the investment divided by the NET annual saving: '
+      'everything the change brings in, less everything new it costs to run. '
+      'The exam offers the gross saving because it is the larger number and '
+      'the one printed first, and using it makes a seven year payback look '
+      'like five. Only amounts that repeat every year belong underneath; a '
+      'one-off grant comes off the investment instead. And if the new annual '
+      'cost is larger than the saving there is no payback period at all.',
+  formulas: [
+    ('Simple payback', r'n = \frac{\text{investment}}{\text{net annual saving}}'),
+    ('Net saving', r'\text{savings} - \text{new annual costs}'),
+    ('So', r'\frac{1{,}400{,}000}{280{,}000 - 80{,}000} = 7 \text{ years}'),
+  ],
+  figure: BriefFigure.payback,
+  handbook: 'Handbook pp. 230-231',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2544,6 +2606,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{unequal lives by PW} \;\Rightarrow\; \text{they can differ}", true),
             (r"\text{different MARRs} \;\Rightarrow\; \text{they can differ}", true),
             (r"PW \text{ and } AW \text{ often just disagree}", false),
+          ],
+        );
+      case BriefFigure.costTypes:
+        return const _RuleList(
+          rules: [
+            (r"\text{rent, insurance} \;\Rightarrow\; \text{fixed}", true),
+            (r"\text{fuel per yard} \;\Rightarrow\; \text{variable}", true),
+            (r"\text{a study already paid for} \;\Rightarrow\; \text{in}", false),
+            (r"\text{land you already own} \;\Rightarrow\; \text{free}", false),
+          ],
+        );
+      case BriefFigure.breakEven:
+        return const _RuleList(
+          rules: [
+            (r"\text{below the crossing} \;\Rightarrow\; \text{the cheap start}", true),
+            (r"\text{above it} \;\Rightarrow\; \text{the cheap rate}", true),
+            (r"\text{compare the rates alone}", false),
+            (r"\text{higher start AND steeper} \;\Rightarrow\; \text{a crossing}", false),
+          ],
+        );
+      case BriefFigure.payback:
+        return const _RuleList(
+          rules: [
+            (r"\tfrac{1{,}400}{280 - 80} = 7 \text{ years}", true),
+            (r"\tfrac{1{,}400}{280} = 5 \text{ years}", false),
+            (r"\text{a one-off grant, in the annual figure}", false),
+            (r"\text{new cost} > \text{saving} \;\Rightarrow\; \text{no payback}", true),
           ],
         );
       case BriefFigure.lawChoice:

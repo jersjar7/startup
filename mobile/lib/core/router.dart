@@ -78,17 +78,20 @@ import '../features/games/through_the_means_game.dart';
 import '../features/games/what_goes_under_game.dart';
 import '../features/games/what_it_triggers_game.dart';
 import '../features/games/what_does_it_take_game.dart';
+import '../features/games/what_is_the_saving_game.dart';
 import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_section_game.dart';
+import '../features/games/which_side_wins_game.dart';
 import '../features/games/which_way_points_game.dart';
 import '../features/games/which_way_it_pushes_game.dart';
 import '../features/games/who_has_to_agree_game.dart';
 import '../features/games/who_may_do_that_game.dart';
 import '../features/games/who_pays_the_overrun_game.dart';
 import '../features/games/which_cell_hurts_game.dart';
+import '../features/games/which_bucket_game.dart';
 import '../features/games/which_delivery_game.dart';
 import '../features/games/which_factor_game.dart';
 import '../features/games/which_clock_ran_out_game.dart';
@@ -246,6 +249,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-way-it-pushes' => const WhichWayItPushesGame(),
           'how-long-to-compare' => const HowLongToCompareGame(),
           'do-they-agree' => const DoTheyAgreeGame(),
+          'which-bucket' => const WhichBucketGame(),
+          'which-side-wins' => const WhichSideWinsGame(),
+          'what-is-the-saving' => const WhatIsTheSavingGame(),
           _ => const _UnknownGame(),
         },
       ),

@@ -68,17 +68,20 @@ import 'through_the_means_game.dart';
 import 'what_goes_under_game.dart';
 import 'what_it_triggers_game.dart';
 import 'what_does_it_take_game.dart';
+import 'what_is_the_saving_game.dart';
 import 'what_weights_game.dart';
 import 'where_it_balances_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_section_game.dart';
+import 'which_side_wins_game.dart';
 import 'which_way_points_game.dart';
 import 'which_way_it_pushes_game.dart';
 import 'who_has_to_agree_game.dart';
 import 'who_may_do_that_game.dart';
 import 'who_pays_the_overrun_game.dart';
 import 'which_cell_hurts_game.dart';
+import 'which_bucket_game.dart';
 import 'which_delivery_game.dart';
 import 'which_factor_game.dart';
 import 'which_clock_ran_out_game.dart';
@@ -1216,6 +1219,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: const ['a slip', 'different periods', 'different rates'],
           answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-bucket',
+    lessonId: 'cost-types-breakeven',
+    problemPrefix: 'econ-ctb-',
+    rounds: [
+      for (final r in bucketRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final b in buckets) b.$1],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-side-wins',
+    lessonId: 'cost-types-breakeven',
+    problemPrefix: 'econ-ctb-',
+    rounds: [
+      for (final r in winsRounds)
+        RoundAudit(
+          source: r.source,
+          options: [r.lines[0].name, r.lines[1].name, 'the same'],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-is-the-saving',
+    lessonId: 'cost-types-breakeven',
+    problemPrefix: 'econ-ctb-',
+    rounds: [
+      for (final r in savingRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in r.options) o.$1],
+          answer: r.answer,
         ),
     ],
   ),

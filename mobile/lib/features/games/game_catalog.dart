@@ -1118,6 +1118,32 @@ const economicsMap = ChapterMap(
       id: 'cost-types-breakeven',
       name: 'Cost Types & Break-Even Analysis',
       subtopicId: 'cost-and-economic-analysis',
+      games: [
+        GameDef(
+          id: 'which-bucket',
+          rounds: 6,
+          name: 'Which Bucket',
+          blurb: 'Five kinds of cost. Two of them nobody reaches for.',
+          built: true,
+          brief: costTypesBrief,
+        ),
+        GameDef(
+          id: 'which-side-wins',
+          rounds: 6,
+          name: 'Which Side Wins',
+          blurb: 'Two lines, one volume marked. Which is cheaper there?',
+          built: true,
+          brief: breakEvenBrief,
+        ),
+        GameDef(
+          id: 'what-is-the-saving',
+          rounds: 6,
+          name: 'What Is the Saving',
+          blurb: 'Nothing to divide. Which number goes underneath?',
+          built: true,
+          brief: paybackBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'benefit-cost-decision-trees',

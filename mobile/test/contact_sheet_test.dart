@@ -37,11 +37,13 @@ import 'package:mobile/features/games/through_the_means_game.dart';
 import 'package:mobile/features/games/what_goes_under_game.dart';
 import 'package:mobile/features/games/what_it_triggers_game.dart';
 import 'package:mobile/features/games/what_does_it_take_game.dart';
+import 'package:mobile/features/games/what_is_the_saving_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
 import 'package:mobile/features/games/follow_the_tangent_game.dart';
 import 'package:mobile/features/games/which_cell_hurts_game.dart';
+import 'package:mobile/features/games/which_bucket_game.dart';
 import 'package:mobile/features/games/which_delivery_game.dart';
 import 'package:mobile/features/games/which_factor_game.dart';
 import 'package:mobile/features/games/which_clock_ran_out_game.dart';
@@ -61,6 +63,7 @@ import 'package:mobile/features/games/how_many_protections_game.dart';
 import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
 import 'package:mobile/features/games/which_section_game.dart';
+import 'package:mobile/features/games/which_side_wins_game.dart';
 import 'package:mobile/features/games/which_way_points_game.dart';
 import 'package:mobile/features/games/which_way_it_pushes_game.dart';
 import 'package:mobile/features/games/who_has_to_agree_game.dart';
@@ -767,6 +770,24 @@ void main() {
       rounds: agreeRounds.length,
       height: 1250,
     ),
+    'which-bucket': (
+      lesson: '32-breakeven',
+      build: WhichBucketGame.new,
+      rounds: bucketRounds.length,
+      height: 1350,
+    ),
+    'which-side-wins': (
+      lesson: '32-breakeven',
+      build: WhichSideWinsGame.new,
+      rounds: winsRounds.length,
+      height: 1400,
+    ),
+    'what-is-the-saving': (
+      lesson: '32-breakeven',
+      build: WhatIsTheSavingGame.new,
+      rounds: savingRounds.length,
+      height: 1350,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -926,6 +947,11 @@ void main() {
       ('annual-cost', annualCostBrief),
       ('study-period', studyPeriodBrief),
       ('methods-agree', methodsAgreeBrief),
+    ],
+    '32-breakeven': [
+      ('cost-types', costTypesBrief),
+      ('break-even', breakEvenBrief),
+      ('payback', paybackBrief),
     ],
   };
 
