@@ -20,6 +20,7 @@ import 'follow_the_tangent_game.dart';
 import 'grade_sense_game.dart';
 import 'grounds_or_not_game.dart';
 import 'happens_first_game.dart';
+import 'is_there_a_deal_game.dart';
 import 'how_many_samples_game.dart';
 import 'in_what_order_game.dart';
 import 'land_the_resultant_game.dart';
@@ -69,7 +70,9 @@ import 'which_section_game.dart';
 import 'which_way_points_game.dart';
 import 'who_has_to_agree_game.dart';
 import 'who_may_do_that_game.dart';
+import 'who_pays_the_overrun_game.dart';
 import 'which_cell_hurts_game.dart';
+import 'which_delivery_game.dart';
 import 'which_method_game.dart';
 import 'wider_or_narrower_game.dart';
 import 'which_readout_game.dart';
@@ -1016,6 +1019,42 @@ List<GameAudit> auditAllGames() => [
             'the unlicensed list',
             'not a ground',
           ],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'is-there-a-deal',
+    lessonId: 'engineering-contracts',
+    problemPrefix: 'eth-con-',
+    rounds: [
+      // The answer is a LINE of an exchange, or none of them, so the choices
+      // are positions rather than a fixed list.
+      for (final r in dealRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'who-pays-the-overrun',
+    lessonId: 'engineering-contracts',
+    problemPrefix: 'eth-con-',
+    rounds: [
+      for (final r in overrunRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['the owner', 'the contractor'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-delivery',
+    lessonId: 'engineering-contracts',
+    problemPrefix: 'eth-con-',
+    rounds: [
+      for (final r in deliveryRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['design bid build', 'design build', 'cm at risk'],
           answer: r.answer.index,
         ),
     ],

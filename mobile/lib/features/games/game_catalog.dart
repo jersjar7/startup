@@ -947,6 +947,32 @@ const ethicsMap = ChapterMap(
       id: 'engineering-contracts',
       name: 'Engineering Contracts',
       subtopicId: 'contracts-liability',
+      games: [
+        GameDef(
+          id: 'is-there-a-deal',
+          rounds: 6,
+          name: 'Is There a Deal Yet',
+          blurb: 'Tap the line the exchange became binding on.',
+          built: true,
+          brief: formationBrief,
+        ),
+        GameDef(
+          id: 'who-pays-the-overrun',
+          rounds: 6,
+          name: 'Who Pays the Overrun',
+          blurb: 'The bar ran past the line. Somebody absorbs it.',
+          built: true,
+          brief: riskBrief,
+        ),
+        GameDef(
+          id: 'which-delivery',
+          rounds: 6,
+          name: 'Which Delivery',
+          blurb: 'Count the lines running out of the owner.',
+          built: true,
+          brief: deliveryBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'professional-liability',

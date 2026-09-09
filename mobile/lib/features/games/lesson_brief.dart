@@ -116,6 +116,9 @@ enum BriefFigure {
   ladder,
   discipline,
   sections,
+  formation,
+  risk,
+  delivery,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1619,6 +1622,66 @@ const sectionsBrief = BriefSection(
   handbook: 'Handbook pp. 9-10, Model Law 150.10 and 150.30',
 );
 
+const formationBrief = BriefSection(
+  title: 'When it becomes a contract',
+  body:
+      'Five elements, and none of them is a notary. There has to be an OFFER, '
+      'an ACCEPTANCE of that offer as it stands, CONSIDERATION moving both '
+      'ways, parties with the CAPACITY to agree, and a LAWFUL purpose. Two '
+      'things follow that catch people out. A counter-offer is a rejection, so '
+      'the number on the table before it is gone and cannot be taken later. '
+      'And an invitation to bid is not an offer: the bidder makes the offer '
+      'and the award accepts it, which is why the firms that lost have nothing '
+      'to enforce.',
+  formulas: [
+    ('The five', r'\text{offer, acceptance, consideration, capacity, legality}'),
+    ('Not required', r'\text{notarisation, or a witness}'),
+    ('A counter-offer', r'\text{ends the offer it answered}'),
+  ],
+  figure: BriefFigure.formation,
+  handbook: 'Model Rules, contracts',
+);
+
+const riskBrief = BriefSection(
+  title: 'Who carries the overrun',
+  body:
+      'The pricing decides the risk. Lump sum fixes the number, so the '
+      'contractor absorbs anything above it and the owner buys certainty. Cost '
+      'plus a fee and time and materials reimburse what the work actually '
+      'cost, so the owner carries it and an estimate was never a promise. Unit '
+      'price is not an overrun at all: it fixes a rate, and the owner pays for '
+      'every yard that goes in. A guaranteed maximum draws a line and swaps '
+      'the parties at it. And changing the scope hands the risk back whatever '
+      'was signed.',
+  formulas: [
+    ('Lump sum', r'\text{the contractor}'),
+    ('Cost plus, and T and M', r'\text{the owner}'),
+    ('Unit price', r'\text{the owner, per unit actually placed}'),
+    ('Above a GMP', r'\text{the manager at risk}'),
+  ],
+  figure: BriefFigure.risk,
+  handbook: 'Model Rules, contract types',
+);
+
+const deliveryBrief = BriefSection(
+  title: 'Count the lines out of the owner',
+  body:
+      'A delivery method is a contract shape wearing an acronym. Design, bid, '
+      'build gives the owner two agreements, one with the designer and one '
+      'with the builder, and nothing between them; the design is finished '
+      'before anybody prices it. Design-build gives the owner ONE agreement, '
+      'and the designer is a subcontractor the owner cannot write to. A '
+      'manager at risk is two agreements again, with the builder advising '
+      'through design and then committing to a guaranteed maximum.',
+  formulas: [
+    ('Design, bid, build', r'\text{two contracts, design finished first}'),
+    ('Design-build', r'\text{one contract, everybody else beneath it}'),
+    ('CM at risk', r'\text{two contracts, and a guaranteed maximum}'),
+  ],
+  figure: BriefFigure.delivery,
+  handbook: 'Model Rules, project delivery',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2097,6 +2160,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{revoked} \;\Rightarrow\; \text{the unlicensed list}", true),
             (r"\text{expired} \;\Rightarrow\; \text{the licensee list}", false),
             (r"\text{rudeness} \;\Rightarrow\; \text{either list}", false),
+          ],
+        );
+      case BriefFigure.formation:
+        return const _RuleList(
+          rules: [
+            (r"\text{offer, taken as it stands, value both ways}", true),
+            (r"\text{a promise to do it for nothing}", false),
+            (r"\text{a counter-offer, then accepting the first price}", false),
+            (r"\text{unsigned by a notary}", true),
+          ],
+        );
+      case BriefFigure.risk:
+        return const _RuleList(
+          rules: [
+            (r"\text{lump sum} \;\Rightarrow\; \text{the contractor}", true),
+            (r"\text{cost plus} \;\Rightarrow\; \text{the owner}", true),
+            (r"\text{cost plus} \;\Rightarrow\; \text{the contractor}", false),
+            (r"\text{a scope change} \;\Rightarrow\; \text{the contractor}", false),
+          ],
+        );
+      case BriefFigure.delivery:
+        return const _RuleList(
+          rules: [
+            (r"\text{one contract} \;\Rightarrow\; \text{design-build}", true),
+            (r"\text{two, design finished first} \;\Rightarrow\; \text{DBB}", true),
+            (r"\text{two, with a guaranteed maximum} \;\Rightarrow\; \text{CMAR}", true),
+            (r"\text{design-build} \;\Rightarrow\; \text{the owner holds the designer}", false),
           ],
         );
       case BriefFigure.lawChoice:

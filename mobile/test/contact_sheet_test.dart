@@ -40,11 +40,13 @@ import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
 import 'package:mobile/features/games/follow_the_tangent_game.dart';
 import 'package:mobile/features/games/which_cell_hurts_game.dart';
+import 'package:mobile/features/games/which_delivery_game.dart';
 import 'package:mobile/features/games/which_method_game.dart';
 import 'package:mobile/features/games/wider_or_narrower_game.dart';
 import 'package:mobile/features/games/first_true_wins_game.dart';
 import 'package:mobile/features/games/where_it_stops_game.dart';
 import 'package:mobile/features/games/happens_first_game.dart';
+import 'package:mobile/features/games/is_there_a_deal_game.dart';
 import 'package:mobile/features/games/how_many_samples_game.dart';
 import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
@@ -52,6 +54,7 @@ import 'package:mobile/features/games/which_section_game.dart';
 import 'package:mobile/features/games/which_way_points_game.dart';
 import 'package:mobile/features/games/who_has_to_agree_game.dart';
 import 'package:mobile/features/games/who_may_do_that_game.dart';
+import 'package:mobile/features/games/who_pays_the_overrun_game.dart';
 import 'package:mobile/features/games/which_way_turns_game.dart';
 import 'package:mobile/features/games/open_or_closed_game.dart';
 import 'package:mobile/features/games/shade_the_tail_game.dart';
@@ -662,6 +665,24 @@ void main() {
       rounds: sectionRounds.length,
       height: 1250,
     ),
+    'is-there-a-deal': (
+      lesson: '27-contracts',
+      build: IsThereADealGame.new,
+      rounds: dealRounds.length,
+      height: 1350,
+    ),
+    'who-pays-the-overrun': (
+      lesson: '27-contracts',
+      build: WhoPaysTheOverrunGame.new,
+      rounds: overrunRounds.length,
+      height: 1250,
+    ),
+    'which-delivery': (
+      lesson: '27-contracts',
+      build: WhichDeliveryGame.new,
+      rounds: deliveryRounds.length,
+      height: 1350,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -796,6 +817,11 @@ void main() {
       ('ladder', ladderBrief),
       ('discipline', disciplineBrief),
       ('sections', sectionsBrief),
+    ],
+    '27-contracts': [
+      ('formation', formationBrief),
+      ('risk', riskBrief),
+      ('delivery', deliveryBrief),
     ],
   };
 

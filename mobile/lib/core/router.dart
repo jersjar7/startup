@@ -30,6 +30,7 @@ import '../features/games/fix_the_sign_game.dart';
 import '../features/games/grade_sense_game.dart';
 import '../features/games/grounds_or_not_game.dart';
 import '../features/games/happens_first_game.dart';
+import '../features/games/is_there_a_deal_game.dart';
 import '../features/games/how_many_samples_game.dart';
 import '../features/games/in_what_order_game.dart';
 import '../features/games/land_the_resultant_game.dart';
@@ -79,7 +80,9 @@ import '../features/games/which_section_game.dart';
 import '../features/games/which_way_points_game.dart';
 import '../features/games/who_has_to_agree_game.dart';
 import '../features/games/who_may_do_that_game.dart';
+import '../features/games/who_pays_the_overrun_game.dart';
 import '../features/games/which_cell_hurts_game.dart';
+import '../features/games/which_delivery_game.dart';
 import '../features/games/which_method_game.dart';
 import '../features/games/wider_or_narrower_game.dart';
 import '../features/games/which_readout_game.dart';
@@ -216,6 +219,9 @@ GoRouter buildRouter(AuthController auth) {
           'what-is-missing-yet' => const WhatIsMissingYetGame(),
           'grounds-or-not' => const GroundsOrNotGame(),
           'which-section' => const WhichSectionGame(),
+          'is-there-a-deal' => const IsThereADealGame(),
+          'who-pays-the-overrun' => const WhoPaysTheOverrunGame(),
+          'which-delivery' => const WhichDeliveryGame(),
           _ => const _UnknownGame(),
         },
       ),

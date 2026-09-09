@@ -145,6 +145,8 @@ void main() {
       'does-it-hold',
       'practice-or-title',
       'what-is-missing-yet', // the licensure ladder, which is one problem
+      'is-there-a-deal', // contract formation, which is one problem
+      'which-delivery', // the delivery methods, which is one problem
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
