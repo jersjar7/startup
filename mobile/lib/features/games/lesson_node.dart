@@ -9,47 +9,90 @@ import '../../core/theme/app_colors.dart';
 /// checkable on its own.
 enum NodeState { notBuilt, notStarted, inProgress, cleared }
 
-/// The colors of one node: the face on top, the body beneath it that gives it
-/// thickness, and what sits on the face.
+/// The outline a node wears. Four states, four silhouettes, so the path is
+/// still readable with the colour taken out of it.
+enum NodeShape { circle, roundedSquare }
+
+/// One node's colours.
+///
+/// A state chooses the FACE and nothing else about the depth. The plinth
+/// underneath is worked out from the face by [plinthFor], so the two can never
+/// drift apart the way they did when each state named its own: the finished
+/// node ended up with half the separation of the untouched one and read as a
+/// misshapen circle rather than as something standing on a base.
 @immutable
 class NodeSkin {
-  const NodeSkin(this.face, this.body, this.ink, this.glyph, {this.ring});
+  const NodeSkin({
+    required this.face,
+    required this.shape,
+    this.rim,
+    this.glyph,
+    this.ink = AppColors.charcoal,
+    this.wedge,
+  });
 
   final Color face;
-  final Color body;
-  final Color ink;
-  final IconData glyph;
+  final NodeShape shape;
 
-  /// Set only where a progress arc belongs.
-  final Color? ring;
+  /// A stroke around the face, where the silhouette needs one to read.
+  final Color? rim;
+
+  /// What sits on the face. Null where the shape says enough on its own.
+  final IconData? glyph;
+  final Color ink;
+
+  /// The colour the progress wedge is filled with, on the one state that has
+  /// progress to show.
+  final Color? wedge;
+
+  /// The slab under the face: a tone of the face itself, taken in whichever
+  /// direction has the room.
+  Color get plinth => plinthFor(face);
+
+  /// A charcoal face has about 18 points of lightness beneath it and 82 above,
+  /// so it lifts; anything pale sinks. Both land near 22 points of separation,
+  /// which is what the white node has always had and what makes a plinth read
+  /// as a plinth rather than as a bulge. The test is against relative
+  /// luminance 0.184, which is where L* 50 falls.
+  static Color plinthFor(Color face) => face.computeLuminance() < 0.184
+      ? Color.lerp(face, AppColors.cream, 0.26)!
+      : Color.lerp(face, const Color(0xFF8A7A62), 0.52)!;
 
   static NodeSkin of(NodeState state) => switch (state) {
+    // The heaviest ink on the page, because "what have I finished" is the
+    // first thing the screen has to answer.
     NodeState.cleared => const NodeSkin(
-      AppColors.forest,
-      Color(0xFF23624B),
-      Colors.white,
-      Icons.check_rounded,
+      face: AppColors.charcoal,
+      shape: NodeShape.circle,
+      glyph: Icons.check_rounded,
+      ink: AppColors.cream,
     ),
+    // A gauge. The white left in it is the work left in the lesson.
     NodeState.inProgress => const NodeSkin(
-      AppColors.white,
-      Color(0xFFE7DCCB),
-      AppColors.ember,
-      Icons.more_horiz_rounded,
-      ring: AppColors.ember,
+      face: AppColors.white,
+      shape: NodeShape.circle,
+      rim: AppColors.charcoal,
+      wedge: AppColors.ember,
     ),
     NodeState.notStarted => const NodeSkin(
-      AppColors.ember,
-      Color(0xFFC85A31),
-      Colors.white,
-      Icons.play_arrow_rounded,
+      face: AppColors.white,
+      shape: NodeShape.circle,
+      rim: AppColors.charcoal,
     ),
+    // A square among circles, which is the fastest difference to read at any
+    // size. It says the app has not written this yet; it never says locked,
+    // because nothing in this app is.
     NodeState.notBuilt => const NodeSkin(
-      Color(0xFFF2EADC),
-      Color(0xFFE3D8C6),
-      AppColors.ink3,
-      Icons.horizontal_rule_rounded,
+      face: Color(0xFFF5EDE0),
+      shape: NodeShape.roundedSquare,
+      glyph: Icons.more_horiz_rounded,
+      ink: Color(0xFFA79B87),
     ),
   };
+
+  /// How wide the face is, as a fraction of the node's own size. The square is
+  /// smaller than the circle so the two carry the same visual weight.
+  double get widthFactor => shape == NodeShape.circle ? 1 : 0.72;
 }
 
 /// One node on the path, with its own animation.
@@ -57,10 +100,10 @@ class NodeSkin {
 /// It animates **only when [fractionTo] changes**, and the map only changes it
 /// once it is back on screen. The first version animated the moment progress
 /// was recorded, which happened while the sitting was still covering the map,
-/// so the ring had finished filling before the student ever saw it.
+/// so the wedge had finished filling before the student ever saw it.
 ///
 /// A lesson that has just been finished keeps its unfinished face until the
-/// ring has actually reached the top, then turns green. Otherwise the green
+/// wedge has actually closed, then turns over. Otherwise the finished face
 /// arrives before the fill and the fill is pointless.
 class LessonNodeWidget extends StatefulWidget {
   const LessonNodeWidget({
@@ -77,28 +120,29 @@ class LessonNodeWidget extends StatefulWidget {
 
   final NodeState state;
 
-  /// Where the ring was when the student last looked, and where it is now.
+  /// Where the wedge was when the student last looked, and where it is now.
   final double fractionFrom;
   final double fractionTo;
 
   final double size;
 
-  /// Overrides the colors this state would normally wear. Only a comparison
+  /// Overrides the colours this state would normally wear. Only a comparison
   /// harness passes this; the app lets the state decide.
   final NodeSkin? skin;
   final VoidCallback? onTap;
 
-  /// Fired once the ring has caught up, so the map can remember what was shown.
+  /// Fired once the wedge has caught up, so the map can remember what was
+  /// shown.
   final ValueChanged<double>? onSettled;
   final Duration duration;
 
-  /// A little air above the face, so the ring's glow is not clipped by the
-  /// slot it sits in. This used to be room for a "start here" pill, which was
-  /// dropped: nothing locks, so pointing at one node implied an order the map
-  /// does not actually impose.
+  /// A little air above the face, so the shadow is not clipped by the slot it
+  /// sits in. This used to be room for a "start here" pill, which was dropped:
+  /// nothing locks, so pointing at one node implied an order the map does not
+  /// actually impose.
   static const topSpace = 10.0;
 
-  /// How far the body shows below the face.
+  /// How far the plinth shows below the face.
   static const bodyShow = 7.0;
 
   @override
@@ -160,46 +204,39 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
           child: AnimatedBuilder(
             animation: _fraction,
             builder: (context, _) {
-              // Hold the unfinished face until the ring is actually full.
+              // Hold the unfinished face until the wedge has actually closed.
               final showing =
                   widget.state == NodeState.cleared && _fraction.value < 0.999
                   ? NodeState.inProgress
                   : widget.state;
               final skin = widget.skin ?? NodeSkin.of(showing);
+              final face = size * skin.widthFactor;
 
               return SizedBox(
                 width: size,
                 height: size + LessonNodeWidget.bodyShow,
                 child: Stack(
+                  alignment: Alignment.topCenter,
                   children: [
-                    // The body: a capsule the width of the face, so its sides
-                    // run straight down from the face's midline and close with
-                    // a half-circle. Two offset circles leave a cusp.
+                    // The plinth: the same outline as the face, extended down,
+                    // so the node reads as a thing standing on something.
                     Positioned(
-                      top: 0,
-                      left: 0,
-                      child: Container(
-                        width: size,
-                        height: size + LessonNodeWidget.bodyShow,
-                        decoration: BoxDecoration(
-                          color: skin.body,
-                          borderRadius: BorderRadius.circular(size / 2),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color(0x142C2C2C),
-                              blurRadius: 10,
-                              offset: Offset(0, 4),
-                            ),
-                          ],
-                        ),
+                      top: (size - face) / 2,
+                      child: _Slab(
+                        width: face,
+                        height: face + LessonNodeWidget.bodyShow,
+                        shape: skin.shape,
+                        color: skin.plinth,
                       ),
                     ),
                     AnimatedPositioned(
                       duration: const Duration(milliseconds: 90),
                       curve: Curves.easeOut,
-                      top: _pressed ? LessonNodeWidget.bodyShow - 1 : 0,
+                      top:
+                          (size - face) / 2 +
+                          (_pressed ? LessonNodeWidget.bodyShow - 1 : 0),
                       child: _NodeFace(
-                        size: size,
+                        size: face,
                         skin: skin,
                         fraction: _fraction.value,
                       ),
@@ -211,6 +248,41 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
           ),
         ),
       ],
+    );
+  }
+}
+
+class _Slab extends StatelessWidget {
+  const _Slab({
+    required this.width,
+    required this.height,
+    required this.shape,
+    required this.color,
+  });
+
+  final double width;
+  final double height;
+  final NodeShape shape;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(
+          shape == NodeShape.circle ? width / 2 : 0.28 * width,
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x142C2C2C),
+            blurRadius: 10,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -228,59 +300,87 @@ class _NodeFace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final glyph = skin.glyph;
+    return SizedBox(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color.lerp(skin.face, Colors.white, 0.16)!,
-            skin.face,
-            Color.lerp(skin.face, skin.body, 0.55)!,
-          ],
-          stops: const [0, 0.62, 1],
-        ),
-        border: Border.all(color: skin.body, width: 1),
-      ),
       child: CustomPaint(
-        painter: skin.ring != null && fraction > 0
-            ? _RingPainter(fraction: fraction, color: skin.ring!)
-            : null,
-        child: Center(child: Icon(skin.glyph, color: skin.ink, size: 32)),
+        painter: _FacePainter(skin: skin, fraction: fraction),
+        child: glyph == null
+            ? null
+            : Center(
+                child: Icon(
+                  glyph,
+                  color: skin.ink,
+                  size: size * (skin.shape == NodeShape.circle ? 0.44 : 0.34),
+                ),
+              ),
       ),
     );
   }
 }
 
-class _RingPainter extends CustomPainter {
-  _RingPainter({required this.fraction, required this.color});
+class _FacePainter extends CustomPainter {
+  const _FacePainter({required this.skin, required this.fraction});
 
+  final NodeSkin skin;
   final double fraction;
-  final Color color;
+
+  /// Stroke and wedge geometry, as fractions of the face.
+  static const _rim = 0.027;
+  static const _wedgeInset = 0.014;
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawArc(
-      Rect.fromCircle(
-        center: Offset(size.width / 2, size.height / 2),
-        radius: size.width / 2 - 3,
-      ),
-      -math.pi / 2,
-      2 * math.pi * fraction.clamp(0, 1),
-      false,
-      Paint()
-        ..color = color
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 5
-        ..strokeCap = StrokeCap.round,
-    );
+    final d = size.width;
+    final c = Offset(d / 2, d / 2);
+
+    switch (skin.shape) {
+      case NodeShape.circle:
+        canvas.drawCircle(c, d / 2, Paint()..color = skin.face);
+      case NodeShape.roundedSquare:
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(
+            Offset.zero & size,
+            Radius.circular(0.28 * d),
+          ),
+          Paint()..color = skin.face,
+        );
+    }
+
+    final wedge = skin.wedge;
+    if (wedge != null && fraction > 0) {
+      // The wedge never vanishes at a tenth and never closes at nine tenths,
+      // so "barely started" and "nearly done" both stay readable and neither
+      // can impersonate a finished node.
+      final sweep = (fraction * 2 * math.pi).clamp(
+        54 * math.pi / 180,
+        330 * math.pi / 180,
+      );
+      final inset = _rim * d / 2 + _wedgeInset * d;
+      canvas.drawArc(
+        Rect.fromCircle(center: c, radius: d / 2 - inset),
+        -math.pi / 2,
+        sweep,
+        true,
+        Paint()..color = wedge,
+      );
+    }
+
+    final rim = skin.rim;
+    if (rim != null) {
+      canvas.drawCircle(
+        c,
+        d / 2 - _rim * d / 2,
+        Paint()
+          ..color = rim
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = _rim * d,
+      );
+    }
   }
 
   @override
-  bool shouldRepaint(_RingPainter old) =>
-      old.fraction != fraction || old.color != color;
+  bool shouldRepaint(_FacePainter old) =>
+      old.fraction != fraction || old.skin != skin;
 }
-

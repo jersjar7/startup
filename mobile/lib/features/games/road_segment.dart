@@ -202,12 +202,14 @@ class RoadPainter extends CustomPainter {
       canvas.drawPath(
         walked,
         Paint()
-          ..color = AppColors.forest.withValues(alpha: 0.75)
+          // Paved, not green: finished is charcoal on this map now, and a
+          // green road would be the only green left on the screen.
+          ..color = const Color(0xFF6B665F)
           ..strokeWidth = 12
           ..strokeCap = StrokeCap.round
           ..style = PaintingStyle.stroke,
       );
-      _dash(canvas, walked, Colors.white.withValues(alpha: 0.8), 3);
+      _dash(canvas, walked, AppColors.cream.withValues(alpha: 0.85), 3);
     }
   }
 

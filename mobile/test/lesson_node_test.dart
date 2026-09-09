@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/features/games/lesson_node.dart';
 
 /// The node draws itself and animates itself, so it can be checked without a
-/// map, a lesson or a server. The bug this pins: the ring used to fill while
+/// map, a lesson or a server. The bug this pins: the wedge used to fill while
 /// the sitting was still covering the map, so the student never saw it move.
 void main() {
   Widget host(Widget child) =>
@@ -14,7 +14,7 @@ void main() {
 
   setUp(() => settled = null);
 
-  testWidgets('the ring fills from where it was to where it is', (tester) async {
+  testWidgets('the wedge fills from where it was to where it is', (tester) async {
     await tester.pumpWidget(host(LessonNodeWidget(
       state: NodeState.inProgress,
       fractionFrom: 0,
@@ -31,7 +31,7 @@ void main() {
     expect(settled, closeTo(2 / 3, 0.001));
   });
 
-  testWidgets('a finished lesson stays unfinished until the ring is full',
+  testWidgets('a finished lesson stays unfinished until the wedge closes',
       (tester) async {
     await tester.pumpWidget(host(LessonNodeWidget(
       state: NodeState.cleared,
@@ -41,10 +41,11 @@ void main() {
       onSettled: (v) => settled = v,
     )));
 
-    // Still the in-progress face while the ring is climbing.
+    // Still the underway face while the wedge is closing. That face carries
+    // no glyph at all under this design, so the absence of the check is the
+    // whole assertion.
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.byIcon(Icons.check_rounded), findsNothing);
-    expect(find.byIcon(Icons.more_horiz_rounded), findsOneWidget);
 
     await tester.pump(const Duration(milliseconds: 1300));
     expect(find.byIcon(Icons.check_rounded), findsOneWidget);
@@ -86,11 +87,14 @@ void main() {
   });
 
   testWidgets('each state shows its own face', (tester) async {
+    // Only two states carry a glyph. The other two are told apart by their
+    // silhouette, which is the point of the design: it still reads with the
+    // colour taken out.
     for (final (state, icon) in const [
-      (NodeState.notStarted, Icons.play_arrow_rounded),
-      (NodeState.inProgress, Icons.more_horiz_rounded),
+      (NodeState.notStarted, null),
+      (NodeState.inProgress, null),
       (NodeState.cleared, Icons.check_rounded),
-      (NodeState.notBuilt, Icons.horizontal_rule_rounded),
+      (NodeState.notBuilt, Icons.more_horiz_rounded),
     ]) {
       await tester.pumpWidget(host(LessonNodeWidget(
         state: state,
@@ -99,7 +103,33 @@ void main() {
         size: 78,
       )));
       await tester.pump();
-      expect(find.byIcon(icon), findsOneWidget, reason: '$state');
+      if (icon == null) {
+        expect(find.byType(Icon), findsNothing, reason: '$state');
+      } else {
+        expect(find.byIcon(icon), findsOneWidget, reason: '$state');
+      }
+    }
+  });
+
+  test('the four states wear four different silhouettes or faces', () {
+    // If two states drew the same shape AND the same face they would be
+    // indistinguishable, colour blindness or not.
+    final seen = <List<Object?>>[];
+    for (final state in NodeState.values) {
+      final skin = NodeSkin.of(state);
+      final signature = <Object?>[
+        skin.shape,
+        skin.face.toARGB32(),
+        skin.rim?.toARGB32(),
+        skin.wedge?.toARGB32(),
+        skin.glyph?.codePoint,
+      ];
+      expect(
+        seen.any((s) => s.toString() == signature.toString()),
+        isFalse,
+        reason: '$state is drawn exactly like another state',
+      );
+      seen.add(signature);
     }
   });
 }
