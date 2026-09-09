@@ -97,3 +97,4 @@ The profile in use expires **2027-06-23**.
 | 516   | Mathematics lessons 1 to 4 |
 | 517   | Mathematics lessons 5 to 11 (unit circle through vector basics) |
 | 518   | Mathematics lessons 12 to 16; chapter one complete |
+| 519   | No start-here pill; subtopic names wrap instead of truncating |
