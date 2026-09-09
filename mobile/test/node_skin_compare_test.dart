@@ -43,41 +43,18 @@ Future<void> _fonts() async {
   }
 }
 
-/// Proposal A: untouched goes quiet, in progress becomes the one loud thing.
-NodeSkin proposalA(NodeState state) => switch (state) {
-  NodeState.cleared => const NodeSkin(
-    AppColors.forest,
-    Color(0xFF23624B),
-    Colors.white,
-    Icons.check_rounded,
-    ring: Color(0x66FFFFFF),
-  ),
-  NodeState.inProgress => const NodeSkin(
-    AppColors.emberBg,
-    Color(0xFFE9CDBF),
-    AppColors.ember,
-    Icons.play_arrow_rounded,
-    ring: AppColors.ember,
-  ),
-  NodeState.notStarted => const NodeSkin(
-    AppColors.white,
-    Color(0xFFE7DCCB),
-    AppColors.ink3,
-    Icons.play_arrow_rounded,
-  ),
-  NodeState.notBuilt => const NodeSkin(
-    Color(0xFFF2EADC),
-    Color(0xFFE3D8C6),
-    Color(0xFFC4BAA8),
-    Icons.horizontal_rule_rounded,
-  ),
-};
+/// Ember measures L* 59 against forest's L* 46, and carries more than twice
+/// forest's chroma. That gap is why the two do not sit together, and it is
+/// what these candidates close: each accent below was chosen to land on
+/// forest's own lightness, so neither colour shouts over the other.
+///
+/// Clay is ember's own hue pulled down to forest's weight. Deep blue is the
+/// brand's informational colour, likewise. Both are drawn against a plain
+/// untouched node, because the accent then appears once on the whole map and
+/// says "you are here" without competing with anything.
 
-/// Proposal B: four states on a scale of WEIGHT rather than of hue. Untouched
-/// is outlined and confident, not greyed, because nothing locks and a greyed
-/// node lies about that. The one lesson underway is the only filled ember on
-/// the map. Finished is filled green. Not built is flat.
-NodeSkin proposalB(NodeState state) => switch (state) {
+/// Ember at full strength, for reference: the structure without the recolour.
+NodeSkin withEmber(NodeState state) => switch (state) {
   NodeState.cleared => const NodeSkin(
     AppColors.forest,
     Color(0xFF23624B),
@@ -91,25 +68,12 @@ NodeSkin proposalB(NodeState state) => switch (state) {
     Icons.play_arrow_rounded,
     ring: Colors.white,
   ),
-  NodeState.notStarted => const NodeSkin(
-    AppColors.white,
-    Color(0xFFCDBFA8),
-    AppColors.charcoal,
-    Icons.play_arrow_rounded,
-  ),
-  NodeState.notBuilt => const NodeSkin(
-    Color(0xFFF4EEE3),
-    Color(0xFFEDE5D7),
-    Color(0xFFCFC5B4),
-    Icons.horizontal_rule_rounded,
-  ),
+  NodeState.notStarted => _plainUntouched,
+  NodeState.notBuilt => _flatNotBuilt,
 };
 
-/// Proposal C: one hue, three saturations. The owner's suggestion. Untouched
-/// keeps the brand's warmth at low saturation so it still reads as inviting
-/// rather than switched off; the lesson underway is the only fully saturated
-/// ember on the map; finished moves to forest.
-NodeSkin proposalC(NodeState state) => switch (state) {
+/// Clay: ember's hue at forest's weight. L* 44, chroma 107.
+NodeSkin withClay(NodeState state) => switch (state) {
   NodeState.cleared => const NodeSkin(
     AppColors.forest,
     Color(0xFF23624B),
@@ -117,25 +81,73 @@ NodeSkin proposalC(NodeState state) => switch (state) {
     Icons.check_rounded,
   ),
   NodeState.inProgress => const NodeSkin(
-    AppColors.ember,
-    Color(0xFFC85A31),
+    Color(0xFFA15236),
+    Color(0xFF86402A),
+    Colors.white,
+    Icons.play_arrow_rounded,
+    ring: Colors.white,
+  ),
+  NodeState.notStarted => _plainUntouched,
+  NodeState.notBuilt => _flatNotBuilt,
+};
+
+/// Deep blue: the brand's informational hue at forest's weight. L* 45.
+NodeSkin withBlue(NodeState state) => switch (state) {
+  NodeState.cleared => const NodeSkin(
+    AppColors.forest,
+    Color(0xFF23624B),
+    Colors.white,
+    Icons.check_rounded,
+  ),
+  NodeState.inProgress => const NodeSkin(
+    Color(0xFF2F6E9E),
+    Color(0xFF255880),
+    Colors.white,
+    Icons.play_arrow_rounded,
+    ring: Colors.white,
+  ),
+  NodeState.notStarted => _plainUntouched,
+  NodeState.notBuilt => _flatNotBuilt,
+};
+
+/// Clay again, but untouched keeps a tint of it rather than going white, so
+/// the map stays warm instead of going pale.
+NodeSkin clayRamp(NodeState state) => switch (state) {
+  NodeState.cleared => const NodeSkin(
+    AppColors.forest,
+    Color(0xFF23624B),
+    Colors.white,
+    Icons.check_rounded,
+  ),
+  NodeState.inProgress => const NodeSkin(
+    Color(0xFFA15236),
+    Color(0xFF86402A),
     Colors.white,
     Icons.play_arrow_rounded,
     ring: Colors.white,
   ),
   NodeState.notStarted => const NodeSkin(
-    Color(0xFFF7CDB8),
-    Color(0xFFE8B79E),
-    Color(0xFFA8461F),
+    Color(0xFFF0DAD0),
+    Color(0xFFE0C4B6),
+    Color(0xFF8A4630),
     Icons.play_arrow_rounded,
   ),
-  NodeState.notBuilt => const NodeSkin(
-    Color(0xFFF4EEE3),
-    Color(0xFFEDE5D7),
-    Color(0xFFCFC5B4),
-    Icons.horizontal_rule_rounded,
-  ),
+  NodeState.notBuilt => _flatNotBuilt,
 };
+
+const _plainUntouched = NodeSkin(
+  AppColors.white,
+  Color(0xFFCDBFA8),
+  AppColors.charcoal,
+  Icons.play_arrow_rounded,
+);
+
+const _flatNotBuilt = NodeSkin(
+  Color(0xFFF4EEE3),
+  Color(0xFFEDE5D7),
+  Color(0xFFCFC5B4),
+  Icons.horizontal_rule_rounded,
+);
 
 void main() {
   setUpAll(() async {
@@ -204,15 +216,18 @@ void main() {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 row('AS IT SHIPS TODAY', (_) => null),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 const Divider(color: AppColors.line),
-                row('PROPOSAL A: UNTOUCHED GOES QUIET', proposalA),
-                const SizedBox(height: 6),
+                row('EMBER, L* 59', withEmber),
+                const SizedBox(height: 4),
                 const Divider(color: AppColors.line),
-                row('PROPOSAL B: A SCALE OF WEIGHT', proposalB),
-                const SizedBox(height: 6),
+                row('CLAY, L* 44', withClay),
+                const SizedBox(height: 4),
                 const Divider(color: AppColors.line),
-                row('PROPOSAL C: ONE HUE, THREE SATURATIONS', proposalC),
+                row('DEEP BLUE, L* 45', withBlue),
+                const SizedBox(height: 4),
+                const Divider(color: AppColors.line),
+                row('CLAY, WARM UNTOUCHED', clayRamp),
               ],
             ),
           ),
