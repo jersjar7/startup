@@ -48,6 +48,7 @@ import 'package:mobile/features/games/happens_first_game.dart';
 import 'package:mobile/features/games/how_many_samples_game.dart';
 import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
+import 'package:mobile/features/games/which_section_game.dart';
 import 'package:mobile/features/games/which_way_points_game.dart';
 import 'package:mobile/features/games/who_has_to_agree_game.dart';
 import 'package:mobile/features/games/who_may_do_that_game.dart';
@@ -64,6 +65,7 @@ import 'package:mobile/features/games/next_line_game.dart';
 import 'package:mobile/features/games/run_the_loop_game.dart';
 import 'package:mobile/features/games/pick_u_game.dart';
 import 'package:mobile/features/games/whats_missing_game.dart';
+import 'package:mobile/features/games/what_is_missing_yet_game.dart';
 import 'package:mobile/features/games/which_way_simpler_game.dart';
 import 'package:mobile/features/games/sign_the_bend_game.dart';
 import 'package:mobile/features/games/slide_to_flat_game.dart';
@@ -71,6 +73,7 @@ import 'package:mobile/features/games/what_was_asked_game.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
 import 'package:mobile/features/games/grade_sense_game.dart';
+import 'package:mobile/features/games/grounds_or_not_game.dart';
 import 'package:mobile/features/games/one_log_game.dart';
 import 'package:mobile/features/games/order_the_moves_game.dart';
 import 'package:mobile/features/games/perpendicular_flip_game.dart';
@@ -641,6 +644,24 @@ void main() {
       rounds: verdictCases.length,
       height: 1300,
     ),
+    'what-is-missing-yet': (
+      lesson: '26-licensure',
+      build: WhatIsMissingYetGame.new,
+      rounds: recordRounds.length,
+      height: 1450,
+    ),
+    'grounds-or-not': (
+      lesson: '26-licensure',
+      build: GroundsOrNotGame.new,
+      rounds: groundsRounds.length,
+      height: 1150,
+    ),
+    'which-section': (
+      lesson: '26-licensure',
+      build: WhichSectionGame.new,
+      rounds: sectionRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -770,6 +791,11 @@ void main() {
       ('standing', standingBrief),
       ('exemption', exemptionBrief),
       ('holding-out', holdingOutBrief),
+    ],
+    '26-licensure': [
+      ('ladder', ladderBrief),
+      ('discipline', disciplineBrief),
+      ('sections', sectionsBrief),
     ],
   };
 

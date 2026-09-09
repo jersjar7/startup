@@ -18,6 +18,7 @@ import 'first_true_wins_game.dart';
 import 'fix_the_sign_game.dart';
 import 'follow_the_tangent_game.dart';
 import 'grade_sense_game.dart';
+import 'grounds_or_not_game.dart';
 import 'happens_first_game.dart';
 import 'how_many_samples_game.dart';
 import 'in_what_order_game.dart';
@@ -54,6 +55,7 @@ import 'tap_the_side_game.dart';
 import 'walk_the_circle_game.dart';
 import 'what_was_asked_game.dart';
 import 'whats_missing_game.dart';
+import 'what_is_missing_yet_game.dart';
 import 'what_shows_game.dart';
 import 'where_it_stops_game.dart';
 import 'through_the_means_game.dart';
@@ -63,6 +65,7 @@ import 'what_weights_game.dart';
 import 'where_it_balances_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
+import 'which_section_game.dart';
 import 'which_way_points_game.dart';
 import 'who_has_to_agree_game.dart';
 import 'who_may_do_that_game.dart';
@@ -973,6 +976,46 @@ List<GameAudit> auditAllGames() => [
         RoundAudit(
           source: r.source,
           options: const ['practising unlicensed', 'the title', 'neither'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-is-missing-yet',
+    lessonId: 'licensure-path-disciplinary-action',
+    problemPrefix: 'eth-lpd-',
+    rounds: [
+      for (final r in recordRounds)
+        RoundAudit(
+          source: r.source,
+          options: const [...requirements, 'nothing, it is complete'],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'grounds-or-not',
+    lessonId: 'licensure-path-disciplinary-action',
+    problemPrefix: 'eth-lpd-',
+    rounds: [
+      // A round is four yes-or-no answers at once, so no single index names
+      // it.
+      for (final r in groundsRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-section',
+    lessonId: 'licensure-path-disciplinary-action',
+    problemPrefix: 'eth-lpd-',
+    rounds: [
+      for (final r in sectionRounds)
+        RoundAudit(
+          source: r.source,
+          options: const [
+            'the licensee list',
+            'the unlicensed list',
+            'not a ground',
+          ],
           answer: r.answer.index,
         ),
     ],

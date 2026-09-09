@@ -28,6 +28,7 @@ import '../features/games/fill_the_trace_game.dart';
 import '../features/games/first_true_wins_game.dart';
 import '../features/games/fix_the_sign_game.dart';
 import '../features/games/grade_sense_game.dart';
+import '../features/games/grounds_or_not_game.dart';
 import '../features/games/happens_first_game.dart';
 import '../features/games/how_many_samples_game.dart';
 import '../features/games/in_what_order_game.dart';
@@ -64,6 +65,7 @@ import '../features/games/tap_the_side_game.dart';
 import '../features/games/walk_the_circle_game.dart';
 import '../features/games/what_was_asked_game.dart';
 import '../features/games/whats_missing_game.dart';
+import '../features/games/what_is_missing_yet_game.dart';
 import '../features/games/what_shows_game.dart';
 import '../features/games/where_it_stops_game.dart';
 import '../features/games/through_the_means_game.dart';
@@ -73,6 +75,7 @@ import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
+import '../features/games/which_section_game.dart';
 import '../features/games/which_way_points_game.dart';
 import '../features/games/who_has_to_agree_game.dart';
 import '../features/games/who_may_do_that_game.dart';
@@ -210,6 +213,9 @@ GoRouter buildRouter(AuthController auth) {
           'who-may-do-that' => const WhoMayDoThatGame(),
           'does-it-hold' => const DoesItHoldGame(),
           'practice-or-title' => const PracticeOrTitleGame(),
+          'what-is-missing-yet' => const WhatIsMissingYetGame(),
+          'grounds-or-not' => const GroundsOrNotGame(),
+          'which-section' => const WhichSectionGame(),
           _ => const _UnknownGame(),
         },
       ),

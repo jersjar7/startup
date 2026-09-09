@@ -113,6 +113,9 @@ enum BriefFigure {
   standing,
   exemption,
   holdingOut,
+  ladder,
+  discipline,
+  sections,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1558,6 +1561,64 @@ const holdingOutBrief = BriefSection(
   handbook: 'Handbook p. 6, Model Law 110.20 A.3',
 );
 
+const ladderBrief = BriefSection(
+  title: 'The ladder, and the years on it',
+  body:
+      'Five general requirements for anybody: good character, the education, '
+      'the experience, the examinations, and five references acceptable to the '
+      'board. The path runs in order. An accredited degree and the FE make you '
+      'an Engineer Intern; the PE exam and the years make you a Professional '
+      'Engineer. The years depend on the degree, and the degree that bought '
+      'the education requirement cannot be spent again on the experience.',
+  formulas: [
+    ("Bachelor's", r'\text{4 years of progressive experience}'),
+    ("Master's", r'\text{3 years}'),
+    ('Doctorate, with the FE', r'\text{2 years}'),
+    ('Comity', r'\text{another jurisdiction, if the credentials meet ours}'),
+  ],
+  figure: BriefFigure.ladder,
+  handbook: 'Handbook pp. 8-9, Model Law 130.10',
+);
+
+const disciplineBrief = BriefSection(
+  title: 'What the board can act on',
+  body:
+      'For a licensee: fraud in obtaining the licence, negligence or '
+      'incompetence, practising outside your competence, failing to comply '
+      'with a board rule, and conviction of ANY felony, whether or not it '
+      'touches engineering. Misdemeanours are the opposite shape and only '
+      'count when they involve dishonesty or the practice itself, which is why '
+      'a falsified timesheet is grounds and a speeding ticket is not. A clean '
+      'record affects what the board does about it, never whether it may act.',
+  formulas: [
+    ('Any felony', r'\text{whether or not related to the practice}'),
+    ('A misdemeanour', r'\text{only if dishonesty, or the practice}'),
+    ('Also', r'\text{fraud, negligence, incompetence, board rules}'),
+  ],
+  figure: BriefFigure.discipline,
+  handbook: 'Handbook p. 9, Model Law 150.10',
+);
+
+const sectionsBrief = BriefSection(
+  title: 'Licensed, or not, first',
+  body:
+      'Ask whether they hold a licence before anything else, because the two '
+      'lists are different. A licensee can be suspended, revoked, fined or '
+      'reprimanded. Somebody who is not licensed is fined instead, for '
+      'practising, for using the title, for presenting a seal that is not '
+      'theirs, and for using the word engineering in a business name without '
+      'board authorisation; each day of continued violation is a separate '
+      'offence. Revoked, suspended and expired all mean the same thing here, '
+      'which is that there is no licence.',
+  formulas: [
+    ('150.10', r'\text{A licensee: suspend, revoke, fine, reprimand}'),
+    ('150.30', r'\text{Not licensed: fined, each day counted again}'),
+    ('And', r'\text{revoked or expired} \;\Rightarrow\; \text{not licensed}'),
+  ],
+  figure: BriefFigure.sections,
+  handbook: 'Handbook pp. 9-10, Model Law 150.10 and 150.30',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2009,6 +2070,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{``PE'' on the card of somebody unlicensed}", false),
             (r"\text{tables prepared and sealed by a PE}", true),
             (r"\text{a unit converter that decides nothing}", true),
+          ],
+        );
+      case BriefFigure.ladder:
+        return const _RuleList(
+          rules: [
+            (r"\text{degree} \to \text{FE} \to \text{experience} \to \text{PE}", true),
+            (r"\text{BS and 4 years} \;\Rightarrow\; \text{ready}", true),
+            (r"\text{BS and 2 years} \;\Rightarrow\; \text{ready}", false),
+            (r"\text{the same degree counted twice}", false),
+          ],
+        );
+      case BriefFigure.discipline:
+        return const _RuleList(
+          rules: [
+            (r"\text{a felony, of any kind}", true),
+            (r"\text{a misdemeanour involving dishonesty}", true),
+            (r"\text{a misdemeanour involving neither}", false),
+            (r"\text{a clean record protects you from action}", false),
+          ],
+        );
+      case BriefFigure.sections:
+        return const _RuleList(
+          rules: [
+            (r"\text{licensed} \;\Rightarrow\; \text{the licensee list}", true),
+            (r"\text{revoked} \;\Rightarrow\; \text{the unlicensed list}", true),
+            (r"\text{expired} \;\Rightarrow\; \text{the licensee list}", false),
+            (r"\text{rudeness} \;\Rightarrow\; \text{either list}", false),
           ],
         );
       case BriefFigure.lawChoice:

@@ -144,6 +144,7 @@ void main() {
       // practice-or-title distinction are one problem each.
       'does-it-hold',
       'practice-or-title',
+      'what-is-missing-yet', // the licensure ladder, which is one problem
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

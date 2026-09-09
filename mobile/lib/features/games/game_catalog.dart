@@ -916,6 +916,32 @@ const ethicsMap = ChapterMap(
       id: 'licensure-path-disciplinary-action',
       name: 'Licensure Path & Disciplinary Action',
       subtopicId: 'licensure-and-law',
+      games: [
+        GameDef(
+          id: 'what-is-missing-yet',
+          rounds: 6,
+          name: 'What Is Missing Yet',
+          blurb: 'A record on the board\'s desk. What does it still lack?',
+          built: true,
+          brief: ladderBrief,
+        ),
+        GameDef(
+          id: 'grounds-or-not',
+          rounds: 6,
+          name: 'Grounds, or Not',
+          blurb: 'Four events at once. Each one answered on its own.',
+          built: true,
+          brief: disciplineBrief,
+        ),
+        GameDef(
+          id: 'which-section',
+          rounds: 6,
+          name: 'Which Section',
+          blurb: 'Ask whether they hold a licence before anything else.',
+          built: true,
+          brief: sectionsBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'engineering-contracts',
