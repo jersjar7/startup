@@ -773,6 +773,32 @@ const statisticsMap = ChapterMap(
       id: 'hypothesis-testing-goodness-of-fit',
       name: 'Hypothesis Testing & Goodness of Fit',
       subtopicId: 'inferential-statistics',
+      games: [
+        GameDef(
+          id: 'which-way-points',
+          rounds: 6,
+          name: 'Which Way Does It Point',
+          blurb: 'The claim decides the picture. One tail, or two.',
+          built: true,
+          brief: hypothesesBrief,
+        ),
+        GameDef(
+          id: 'reject-or-not',
+          rounds: 6,
+          name: 'Reject or Not',
+          blurb: 'Both numbers are given. The conclusion is the work.',
+          built: true,
+          brief: decisionRuleBrief,
+        ),
+        GameDef(
+          id: 'which-cell-hurts',
+          rounds: 6,
+          name: 'Which Cell Hurts Most',
+          blurb: 'The biggest gap is not always the biggest problem.',
+          built: true,
+          brief: goodnessOfFitBrief,
+        ),
+      ],
     ),
   ],
 );

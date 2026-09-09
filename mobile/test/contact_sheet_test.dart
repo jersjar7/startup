@@ -25,6 +25,7 @@ import 'package:mobile/features/games/find_the_slip_game.dart';
 import 'package:mobile/features/games/mind_the_order_game.dart';
 import 'package:mobile/features/games/r_or_r2_game.dart';
 import 'package:mobile/features/games/read_the_line_game.dart';
+import 'package:mobile/features/games/reject_or_not_game.dart';
 import 'package:mobile/features/games/same_pick_game.dart';
 import 'package:mobile/features/games/read_the_scatter_game.dart';
 import 'package:mobile/features/games/through_the_means_game.dart';
@@ -33,6 +34,7 @@ import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
 import 'package:mobile/features/games/follow_the_tangent_game.dart';
+import 'package:mobile/features/games/which_cell_hurts_game.dart';
 import 'package:mobile/features/games/which_method_game.dart';
 import 'package:mobile/features/games/wider_or_narrower_game.dart';
 import 'package:mobile/features/games/first_true_wins_game.dart';
@@ -41,6 +43,7 @@ import 'package:mobile/features/games/happens_first_game.dart';
 import 'package:mobile/features/games/how_many_samples_game.dart';
 import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
+import 'package:mobile/features/games/which_way_points_game.dart';
 import 'package:mobile/features/games/which_way_turns_game.dart';
 import 'package:mobile/features/games/open_or_closed_game.dart';
 import 'package:mobile/features/games/shade_the_tail_game.dart';
@@ -557,6 +560,24 @@ void main() {
       rounds: sizeRounds.length,
       height: 1250,
     ),
+    'which-way-points': (
+      lesson: '22-hypothesis',
+      build: WhichWayPointsGame.new,
+      rounds: pointRounds.length,
+      height: 1200,
+    ),
+    'reject-or-not': (
+      lesson: '22-hypothesis',
+      build: RejectOrNotGame.new,
+      rounds: verdictRounds.length,
+      height: 1350,
+    ),
+    'which-cell-hurts': (
+      lesson: '22-hypothesis',
+      build: WhichCellHurtsGame.new,
+      rounds: hurtRounds.length,
+      height: 1300,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -666,6 +687,11 @@ void main() {
       ('margin-of-error', marginOfErrorBrief),
       ('z-or-t', zOrTBrief),
       ('sample-size', sampleSizeBrief),
+    ],
+    '22-hypothesis': [
+      ('hypotheses', hypothesesBrief),
+      ('decision-rule', decisionRuleBrief),
+      ('goodness-of-fit', goodnessOfFitBrief),
     ],
   };
 

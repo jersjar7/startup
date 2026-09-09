@@ -31,6 +31,7 @@ import 'reaches_further_game.dart';
 import 'mind_the_order_game.dart';
 import 'r_or_r2_game.dart';
 import 'read_the_line_game.dart';
+import 'reject_or_not_game.dart';
 import 'same_pick_game.dart';
 import 'read_the_scatter_game.dart';
 import 'resolve_it_game.dart';
@@ -55,6 +56,8 @@ import 'what_weights_game.dart';
 import 'where_it_balances_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
+import 'which_way_points_game.dart';
+import 'which_cell_hurts_game.dart';
 import 'which_method_game.dart';
 import 'wider_or_narrower_game.dart';
 import 'which_readout_game.dart';
@@ -815,6 +818,41 @@ List<GameAudit> auditAllGames() => [
         RoundAudit(
           source: r.source,
           options: [for (final n in r.candidates) '$n'],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-way-points',
+    lessonId: 'hypothesis-testing-goodness-of-fit',
+    problemPrefix: 'stat-ht-',
+    rounds: [
+      for (final r in pointRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['left only', 'both ends', 'right only'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'reject-or-not',
+    lessonId: 'hypothesis-testing-goodness-of-fit',
+    problemPrefix: 'stat-ht-',
+    rounds: [
+      for (final r in verdictRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-cell-hurts',
+    lessonId: 'hypothesis-testing-goodness-of-fit',
+    problemPrefix: 'stat-ht-',
+    rounds: [
+      for (final r in hurtRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final c in r.cells) c.name],
           answer: r.answer,
         ),
     ],

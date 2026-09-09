@@ -41,6 +41,7 @@ import '../features/games/reaches_further_game.dart';
 import '../features/games/mind_the_order_game.dart';
 import '../features/games/r_or_r2_game.dart';
 import '../features/games/read_the_line_game.dart';
+import '../features/games/reject_or_not_game.dart';
 import '../features/games/same_pick_game.dart';
 import '../features/games/read_the_scatter_game.dart';
 import '../features/games/resolve_it_game.dart';
@@ -65,6 +66,8 @@ import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
+import '../features/games/which_way_points_game.dart';
+import '../features/games/which_cell_hurts_game.dart';
 import '../features/games/which_method_game.dart';
 import '../features/games/wider_or_narrower_game.dart';
 import '../features/games/which_readout_game.dart';
@@ -186,6 +189,9 @@ GoRouter buildRouter(AuthController auth) {
           'what-goes-under' => const WhatGoesUnderGame(),
           'wider-or-narrower' => const WiderOrNarrowerGame(),
           'how-many-samples' => const HowManySamplesGame(),
+          'which-way-points' => const WhichWayPointsGame(),
+          'reject-or-not' => const RejectOrNotGame(),
+          'which-cell-hurts' => const WhichCellHurtsGame(),
           _ => const _UnknownGame(),
         },
       ),

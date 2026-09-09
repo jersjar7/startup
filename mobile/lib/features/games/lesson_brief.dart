@@ -101,6 +101,9 @@ enum BriefFigure {
   marginOfError,
   zOrT,
   sampleSize,
+  hypotheses,
+  decisionRule,
+  goodnessOfFit,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1303,6 +1306,65 @@ const sampleSizeBrief = BriefSection(
   handbook: 'Handbook p. 75',
 );
 
+const hypothesesBrief = BriefSection(
+  title: 'What the claim sets up',
+  body:
+      'The null is the status quo and it is what the test assumes until the '
+      'data makes it uncomfortable. The alternative is what somebody is trying '
+      'to show. A directional word, exceeds, reduces, falls short, puts the '
+      'whole of alpha in ONE tail. A claim with no direction in it splits alpha '
+      'between two, which is a different row of the table and a bigger critical '
+      'value. Rejecting a true null is a Type I error and alpha is its chance; '
+      'missing a false one is Type II.',
+  formulas: [
+    ('One-tailed', r'H_1: \mu > \mu_0 \quad \text{or} \quad H_1: \mu < \mu_0'),
+    ('Two-tailed', r'H_1: \mu \neq \mu_0 \;\Rightarrow\; \tfrac{\alpha}{2}'
+        r'\text{ in each tail}'),
+  ],
+  figure: BriefFigure.hypotheses,
+  handbook: 'Handbook p. 72',
+);
+
+const decisionRuleBrief = BriefSection(
+  title: 'Bigger means reject',
+  body:
+      'Three different tests in this topic and one decision rule between them: '
+      'if the statistic is bigger than the critical value, reject. For a '
+      'two-tailed test that comparison is on SIZE, so a statistic of minus 2.9 '
+      'against a critical value of 2.131 rejects. And failing to reject is '
+      'never a finding. It says the data did not catch the null out, not that '
+      'the null is true, and an answer that says the mean equals the '
+      'hypothesised value is wrong however right the decision beside it looks.',
+  formulas: [
+    ('Z-test', r'z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}}'),
+    ('t-test', r't = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}, \quad v = n - 1'),
+    ('The rule', r'|\text{statistic}| > \text{critical} \;\Rightarrow\; '
+        r'\text{reject } H_0'),
+  ],
+  figure: BriefFigure.decisionRule,
+  handbook: 'Handbook p. 73',
+);
+
+const goodnessOfFitBrief = BriefSection(
+  title: 'Every cell pays its own way',
+  body:
+      'Chi-square asks whether counts match a model. Work out what the model '
+      'expects in each category, then add up the gap SQUARED divided by that '
+      'expectation. The division is the whole point and it is the step the '
+      'exam watches for: a gap of ten where a hundred was expected is a small '
+      'surprise, and a gap of eight where twenty was expected is a large one. '
+      'Degrees of freedom are the number of categories less one, and bigger '
+      'means a worse fit.',
+  formulas: [
+    ('Chi-square', r'\chi^2 = \sum_{i=1}^{k} \frac{(O_i - E_i)^2}{E_i}'),
+    ('Degrees of freedom', r'v = k - 1'),
+    ('So', r'\frac{(60-50)^2}{50} = 2.0 \quad \text{but} \quad '
+        r'\frac{(28-20)^2}{20} = 3.2'),
+  ],
+  figure: BriefFigure.goodnessOfFit,
+  handbook: 'Handbook p. 75',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1646,6 +1708,33 @@ class BriefFigureView extends StatelessWidget {
             (r"n = \tfrac{1.960 \times 800}{200} = 7.84 \to 8", false),
             (r"n = 61.47", false),
             (r"n = 61", false),
+          ],
+        );
+      case BriefFigure.hypotheses:
+        return const _RuleList(
+          rules: [
+            (r"\text{``exceeds''} \;\Rightarrow\; H_1: \mu > \mu_0", true),
+            (r"\text{``falls short''} \;\Rightarrow\; H_1: \mu < \mu_0", true),
+            (r"\text{``differs''} \;\Rightarrow\; H_1: \mu \neq \mu_0", true),
+            (r"\text{``exceeds''} \;\Rightarrow\; H_1: \mu \neq \mu_0", false),
+          ],
+        );
+      case BriefFigure.decisionRule:
+        return const _RuleList(
+          rules: [
+            (r"t = 2.4 > 1.753 \;\Rightarrow\; \text{reject}", true),
+            (r"|t| = 2.9 > 2.131 \;\Rightarrow\; \text{reject}", true),
+            (r"\chi^2 = 5.0 < 7.815 \;\Rightarrow\; \text{fail to reject}", true),
+            (r"\text{fail to reject} \;\Rightarrow\; \mu = \mu_0", false),
+          ],
+        );
+      case BriefFigure.goodnessOfFit:
+        return const _RuleList(
+          rules: [
+            (r"E = \tfrac{200}{4} = 50 \text{ under a level model}", null),
+            (r"\tfrac{(60-50)^2}{50} = 2.0", null),
+            (r"\tfrac{(28-20)^2}{20} = 3.2 \text{, a smaller gap}", null),
+            (r"\text{bigger } \chi^2 \;\Rightarrow\; \text{a worse fit}", null),
           ],
         );
       case BriefFigure.lawChoice:
