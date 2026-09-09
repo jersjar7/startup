@@ -7,6 +7,7 @@ import 'build_the_identity_game.dart';
 import 'can_it_start_game.dart';
 import 'copy_it_down_game.dart';
 import 'discriminant_gate_game.dart';
+import 'enough_or_too_far_game.dart';
 import 'every_rule_game.dart';
 import 'find_the_slip_game.dart';
 import 'fill_the_trace_game.dart';
@@ -16,6 +17,7 @@ import 'follow_the_tangent_game.dart';
 import 'grade_sense_game.dart';
 import 'happens_first_game.dart';
 import 'how_many_samples_game.dart';
+import 'in_what_order_game.dart';
 import 'land_the_resultant_game.dart';
 import 'next_line_game.dart';
 import 'one_log_game.dart';
@@ -52,6 +54,7 @@ import 'what_shows_game.dart';
 import 'where_it_stops_game.dart';
 import 'through_the_means_game.dart';
 import 'what_goes_under_game.dart';
+import 'what_it_triggers_game.dart';
 import 'what_weights_game.dart';
 import 'where_it_balances_game.dart';
 import 'which_law_game.dart';
@@ -854,6 +857,42 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final c in r.cells) c.name],
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-it-triggers',
+    lessonId: 'obligations-to-the-public',
+    problemPrefix: 'eth-otp-',
+    rounds: [
+      for (final r in triggerRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final d in duties) d.$1],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'in-what-order',
+    lessonId: 'obligations-to-the-public',
+    problemPrefix: 'eth-otp-',
+    rounds: [
+      // The answer is an ORDERED triple out of four, so no single index names
+      // it.
+      for (final r in ladderRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'enough-or-too-far',
+    lessonId: 'obligations-to-the-public',
+    problemPrefix: 'eth-otp-',
+    rounds: [
+      for (final r in proportionRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['not enough', 'what the rules ask', 'more than that'],
+          answer: r.answer.index,
         ),
     ],
   ),

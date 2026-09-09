@@ -13,6 +13,7 @@ import 'package:mobile/features/games/acute_or_obtuse_game.dart';
 import 'package:mobile/features/games/balance_both_sides_game.dart';
 import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
+import 'package:mobile/features/games/enough_or_too_far_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
 import 'package:mobile/features/games/add_the_squares_game.dart';
 import 'package:mobile/features/games/both_sides_game.dart';
@@ -30,6 +31,7 @@ import 'package:mobile/features/games/same_pick_game.dart';
 import 'package:mobile/features/games/read_the_scatter_game.dart';
 import 'package:mobile/features/games/through_the_means_game.dart';
 import 'package:mobile/features/games/what_goes_under_game.dart';
+import 'package:mobile/features/games/what_it_triggers_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
@@ -49,6 +51,7 @@ import 'package:mobile/features/games/open_or_closed_game.dart';
 import 'package:mobile/features/games/shade_the_tail_game.dart';
 import 'package:mobile/features/games/shadow_falls_game.dart';
 import 'package:mobile/features/games/take_the_diagonal_game.dart';
+import 'package:mobile/features/games/in_what_order_game.dart';
 import 'package:mobile/features/games/land_the_resultant_game.dart';
 import 'package:mobile/features/games/reaches_further_game.dart';
 import 'package:mobile/features/games/stretch_it_game.dart';
@@ -578,6 +581,24 @@ void main() {
       rounds: hurtRounds.length,
       height: 1300,
     ),
+    'what-it-triggers': (
+      lesson: '23-obligations-public',
+      build: WhatItTriggersGame.new,
+      rounds: triggerRounds.length,
+      height: 1350,
+    ),
+    'in-what-order': (
+      lesson: '23-obligations-public',
+      build: InWhatOrderGame.new,
+      rounds: ladderRounds.length,
+      height: 1250,
+    ),
+    'enough-or-too-far': (
+      lesson: '23-obligations-public',
+      build: EnoughOrTooFarGame.new,
+      rounds: proportionRounds.length,
+      height: 1200,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -692,6 +713,11 @@ void main() {
       ('hypotheses', hypothesesBrief),
       ('decision-rule', decisionRuleBrief),
       ('goodness-of-fit', goodnessOfFitBrief),
+    ],
+    '23-obligations-public': [
+      ('public-first', publicFirstBrief),
+      ('escalation', escalationBrief),
+      ('proportion', proportionBrief),
     ],
   };
 
@@ -829,6 +855,51 @@ void main() {
     await expectLater(
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/20-expected-value/where-it-balances-tips.png'),
+    );
+  });
+
+  // In What Order answers with numbers that only appear as they are tapped,
+  // and the reveal renumbers everything to the right sequence. Neither of
+  // those is visible in a first frame.
+  testWidgets('sheet: in-what-order, answered', (tester) async {
+    tester.view.physicalSize = const Size(390, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    GameProgress.instance.reset('in-what-order');
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        debugShowCheckedModeBanner: false,
+        home: const InWhatOrderGame(),
+      ),
+    );
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 60)),
+    );
+    await tester.pumpAndSettle();
+
+    // The right three, in the wrong order: board first, which is the mistake
+    // the whole item is about.
+    final r = ladderRounds.first;
+    for (final i in [r.order[2], r.order[0], r.order[1]]) {
+      await tester.tap(find.byKey(ValueKey('step-$i')));
+    }
+    await tester.pumpAndSettle();
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile(
+        'goldens/23-obligations-public/in-what-order-picked.png',
+      ),
+    );
+
+    await tester.tap(find.text('Lock it in'));
+    await tester.pumpAndSettle();
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile(
+        'goldens/23-obligations-public/in-what-order-graded.png',
+      ),
     );
   });
 

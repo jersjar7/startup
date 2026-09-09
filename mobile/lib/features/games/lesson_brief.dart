@@ -104,6 +104,9 @@ enum BriefFigure {
   hypotheses,
   decisionRule,
   goodnessOfFit,
+  publicFirst,
+  escalation,
+  proportion,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1365,6 +1368,68 @@ const goodnessOfFitBrief = BriefSection(
   handbook: 'Handbook p. 75',
 );
 
+const publicFirstBrief = BriefSection(
+  title: 'The public comes first',
+  body:
+      'Ten rules sit in Section A and one of them outranks everything else in '
+      'the book: your first responsibility is the health, safety and welfare '
+      'of the public. It beats the client, the schedule and your employer. '
+      'From there the tree is short. Are you being asked to seal something '
+      'that does not meet code? Refuse. Has your judgment been overruled and '
+      'is the public in danger? Tell your employer and then the authority. Has '
+      'another licensee broken the rules and nobody has fixed it? Tell the '
+      'board. And if none of those is true, a disagreement is only a '
+      'disagreement.',
+  formulas: [
+    ('A.1', r'\text{Safeguard the health, safety and welfare of the public.}'),
+    ('A.2', r'\text{Seal only what meets accepted standards.}'),
+    ('A.3', r'\text{If overruled and the public is endangered, notify.}'),
+    ('A.8', r'\text{Report a licensee who is violating the rules.}'),
+  ],
+  figure: BriefFigure.publicFirst,
+  handbook: 'Handbook pp. 4-5, Model Rules 240.15',
+);
+
+const escalationBrief = BriefSection(
+  title: 'Up the chain, one rung at a time',
+  body:
+      'Almost every ethics scenario is about ORDER rather than about caring. '
+      'Start with the person closest to the problem, who may simply not have '
+      'seen it. Then the firm, which has both the standing and the duty to '
+      'correct its own work. Then the authority or the board, when the rungs '
+      'below have been tried and nothing has changed. Skipping a rung turns a '
+      'correctable error into an argument about you. The one exception is '
+      'imminent danger: when people are about to be hurt, you stop the work '
+      'first and explain afterwards.',
+  formulas: [
+    ('The ladder', r'\text{colleague} \to \text{firm} \to \text{board}'),
+    ('Overruled', r'\text{in writing} \to \text{employer} \to \text{authority}'),
+    ('Imminent danger', r'\text{stop the work, then the chain}'),
+  ],
+  figure: BriefFigure.escalation,
+  handbook: 'Handbook pp. 4-5, Model Rules A.3, A.8',
+);
+
+const proportionBrief = BriefSection(
+  title: 'The right amount, not the most',
+  body:
+      'The rules ask for a specific amount of action, and there are two ways '
+      'to miss it. Under-doing it looks like meaning well: evaluating the bids '
+      'objectively without saying anything, or sealing the drawing and writing '
+      'the deviation in the file. Over-doing it looks like conviction: '
+      'resigning from the committee, or calling the client before the firm has '
+      'heard about it. On a conflict of interest the answer is almost always '
+      'the same size, disclose it and step out of that decision, and nothing '
+      'larger is being asked for.',
+  formulas: [
+    ('Too little', r'\text{Meaning well, and saying nothing.}'),
+    ('The rule', r'\text{Disclose, then recuse from that decision.}'),
+    ('Too much', r'\text{Resign from the body altogether.}'),
+  ],
+  figure: BriefFigure.proportion,
+  handbook: 'Handbook p. 5, Model Rules B.6, B.8',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1735,6 +1800,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\tfrac{(60-50)^2}{50} = 2.0", null),
             (r"\tfrac{(28-20)^2}{20} = 3.2 \text{, a smaller gap}", null),
             (r"\text{bigger } \chi^2 \;\Rightarrow\; \text{a worse fit}", null),
+          ],
+        );
+      case BriefFigure.publicFirst:
+        return const _RuleList(
+          rules: [
+            (r"\text{public safety} > \text{employer} > \text{self}", true),
+            (r"\text{a seal says it meets accepted standards}", true),
+            (r"\text{noting a deviation in the file makes it acceptable}", false),
+            (r"\text{every disagreement is a violation}", false),
+          ],
+        );
+      case BriefFigure.escalation:
+        return const _RuleList(
+          rules: [
+            (r"\text{colleague} \to \text{firm} \to \text{board}", true),
+            (r"\text{imminent danger: stop the work first}", true),
+            (r"\text{go to the client before the firm has been told}", false),
+            (r"\text{say nothing, it was not your drawing}", false),
+          ],
+        );
+      case BriefFigure.proportion:
+        return const _RuleList(
+          rules: [
+            (r"\text{disclose, then recuse from that decision}", true),
+            (r"\text{vote objectively and say nothing}", false),
+            (r"\text{resign from the committee altogether}", false),
+            (r"\text{the firm being qualified settles it}", false),
           ],
         );
       case BriefFigure.lawChoice:

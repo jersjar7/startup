@@ -20,12 +20,14 @@ import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
 import '../features/games/follow_the_tangent_game.dart';
 import '../features/games/game_catalog.dart';
+import '../features/games/enough_or_too_far_game.dart';
 import '../features/games/fill_the_trace_game.dart';
 import '../features/games/first_true_wins_game.dart';
 import '../features/games/fix_the_sign_game.dart';
 import '../features/games/grade_sense_game.dart';
 import '../features/games/happens_first_game.dart';
 import '../features/games/how_many_samples_game.dart';
+import '../features/games/in_what_order_game.dart';
 import '../features/games/land_the_resultant_game.dart';
 import '../features/games/next_line_game.dart';
 import '../features/games/one_log_game.dart';
@@ -62,6 +64,7 @@ import '../features/games/what_shows_game.dart';
 import '../features/games/where_it_stops_game.dart';
 import '../features/games/through_the_means_game.dart';
 import '../features/games/what_goes_under_game.dart';
+import '../features/games/what_it_triggers_game.dart';
 import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_law_game.dart';
@@ -192,6 +195,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-way-points' => const WhichWayPointsGame(),
           'reject-or-not' => const RejectOrNotGame(),
           'which-cell-hurts' => const WhichCellHurtsGame(),
+          'what-it-triggers' => const WhatItTriggersGame(),
+          'in-what-order' => const InWhatOrderGame(),
+          'enough-or-too-far' => const EnoughOrTooFarGame(),
           _ => const _UnknownGame(),
         },
       ),

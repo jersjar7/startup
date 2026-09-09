@@ -803,9 +803,90 @@ const statisticsMap = ChapterMap(
   ],
 );
 
+/// Chapter 3. Lesson and subtopic names match the web content exactly
+/// (`src/data/chapters/ethics.js`, `src/data/lessons/ethics/`). No formulas in
+/// the whole chapter: every problem is a scenario, and every item here is
+/// answered by judgment rather than by reading a number off anything.
+const ethicsMap = ChapterMap(
+  id: 'ethics',
+  number: 3,
+  name: 'Ethics & Professional Practice',
+  examLine: '4 to 6 questions on the real exam',
+  subtopics: [
+    Subtopic('professional-conduct', 'Professional Conduct'),
+    Subtopic('licensure-and-law', 'Licensure & Law'),
+    Subtopic('contracts-liability', 'Contracts & Liability'),
+    Subtopic('broader-responsibilities', 'Broader Responsibilities'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'obligations-to-the-public',
+      name: 'Obligations to the Public',
+      subtopicId: 'professional-conduct',
+      games: [
+        GameDef(
+          id: 'what-it-triggers',
+          rounds: 6,
+          name: 'What Does It Trigger',
+          blurb: 'Five obligations, one scenario. Which one is this?',
+          built: true,
+          brief: publicFirstBrief,
+        ),
+        GameDef(
+          id: 'in-what-order',
+          rounds: 6,
+          name: 'In What Order',
+          blurb: 'Three of the four, in the order you would take them.',
+          built: true,
+          brief: escalationBrief,
+        ),
+        GameDef(
+          id: 'enough-or-too-far',
+          rounds: 6,
+          name: 'Enough, or Too Far',
+          blurb: 'Meaning well is not a procedure. Nor is quitting.',
+          built: true,
+          brief: proportionBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'obligations-employers-clients-peers',
+      name: 'Obligations to Employers, Clients & Other Licensees',
+      subtopicId: 'professional-conduct',
+    ),
+    LessonNode(
+      id: 'definitions-practice-of-engineering',
+      name: 'Definitions & Practice of Engineering',
+      subtopicId: 'licensure-and-law',
+    ),
+    LessonNode(
+      id: 'licensure-path-disciplinary-action',
+      name: 'Licensure Path & Disciplinary Action',
+      subtopicId: 'licensure-and-law',
+    ),
+    LessonNode(
+      id: 'engineering-contracts',
+      name: 'Engineering Contracts',
+      subtopicId: 'contracts-liability',
+    ),
+    LessonNode(
+      id: 'professional-liability',
+      name: 'Professional Liability',
+      subtopicId: 'contracts-liability',
+    ),
+    LessonNode(
+      id: 'intellectual-property-sustainability',
+      name: 'Intellectual Property & Sustainability',
+      subtopicId: 'broader-responsibilities',
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
+  'ethics': ethicsMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];
