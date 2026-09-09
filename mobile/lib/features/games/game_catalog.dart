@@ -711,6 +711,32 @@ const statisticsMap = ChapterMap(
       id: 'expected-value-weighted-averages',
       name: 'Expected Value & Weighted Averages',
       subtopicId: 'probability',
+      games: [
+        GameDef(
+          id: 'where-it-balances',
+          rounds: 6,
+          name: 'Where It Balances',
+          blurb: 'Load the beam. Which fulcrum holds it level?',
+          built: true,
+          brief: expectedValueBrief,
+        ),
+        GameDef(
+          id: 'mind-the-order',
+          rounds: 6,
+          name: 'Mind the Order',
+          blurb: 'Both totals are on screen. Which one goes first?',
+          built: true,
+          brief: varianceShortcutBrief,
+        ),
+        GameDef(
+          id: 'add-the-squares',
+          rounds: 6,
+          name: 'Add the Squares',
+          blurb: 'Two spreads, one triangle. Never the sum.',
+          built: true,
+          brief: combiningBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'confidence-intervals-estimation',

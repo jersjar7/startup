@@ -127,6 +127,11 @@ void main() {
       'same-pick',
       'build-the-binomial',
       'shade-the-tail',
+      // Lesson nineteen the same: expected value, the variance shortcut, and
+      // combining independent spreads are one problem each.
+      'where-it-balances',
+      'mind-the-order',
+      'add-the-squares',
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

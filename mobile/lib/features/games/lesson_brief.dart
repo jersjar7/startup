@@ -95,6 +95,9 @@ enum BriefFigure {
   counting,
   binomial,
   normalTable,
+  expectedValue,
+  varianceShortcut,
+  combining,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1178,6 +1181,64 @@ const normalTableBrief = BriefSection(
   handbook: 'Handbook p. 67',
 );
 
+const expectedValueBrief = BriefSection(
+  title: 'A balance point, not a favourite',
+  body:
+      'An expected value is a weighted average where the weights are the '
+      'probabilities. Picture the outcomes loaded onto a beam with those '
+      'weights and it is the point where the beam sits level. That picture '
+      'settles both of the usual mistakes at once: the most likely outcome is '
+      'the tallest block and not the balance point, and the plain average of '
+      'the outcomes throws the weights away. It also explains why the answer '
+      'is often a value that can never actually occur.',
+  formulas: [
+    ('Expected value', r'E(X) = \sum_{k=1}^{n} x_k \cdot P(x_k)'),
+    (
+      'So',
+      r'120(0.25) + 80(0.50) + 20(0.25) = 75',
+    ),
+  ],
+  figure: BriefFigure.expectedValue,
+  handbook: 'Handbook p. 65',
+);
+
+const varianceShortcutBrief = BriefSection(
+  title: 'The mean of the squares, less the square of the mean',
+  body:
+      'Two columns of scratch work and one subtraction. Total x times P of x '
+      'to get the mean, total x squared times P of x to get the mean of the '
+      'squares, then subtract the SQUARE of the first from the second. The '
+      'order is the whole trap: E of X squared and E of X, squared, are '
+      'written almost the same and are different numbers, and taking them the '
+      'wrong way round gives a negative variance, which cannot happen.',
+  formulas: [
+    ('Variance', r'\text{Var}(X) = E(X^2) - [E(X)]^2'),
+    ('The two columns', r'E(X) = \sum x P(x), \quad E(X^2) = \sum x^2 P(x)'),
+    ('So', r'8.10 - (2.70)^2 = 8.10 - 7.29 = 0.81'),
+  ],
+  figure: BriefFigure.varianceShortcut,
+  handbook: 'Handbook p. 65',
+);
+
+const combiningBrief = BriefSection(
+  title: 'Variances add, spreads do not',
+  body:
+      'Means add straight, and they add whether or not the variables are '
+      'independent. Variances add only when they are independent, and any '
+      'coefficient gets SQUARED on the way in. Standard deviations never add '
+      'at all: square them, add, and take the root at the end. Two independent '
+      'spreads combine the way two perpendicular legs do, so the total is the '
+      'hypotenuse, and a hypotenuse is always shorter than going round the '
+      'two sides.',
+  formulas: [
+    ('Means', r'E(a_1X_1 + a_2X_2) = a_1E(X_1) + a_2E(X_2)'),
+    ('Variances', r'\text{Var}(a_1X_1 + a_2X_2) = a_1^2\sigma_1^2 + a_2^2\sigma_2^2'),
+    ('So', r'\sigma_T = \sqrt{3^2 + 8^2} = \sqrt{73} = 8.54'),
+  ],
+  figure: BriefFigure.combining,
+  handbook: 'Handbook p. 65',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1467,6 +1528,33 @@ class BriefFigureView extends StatelessWidget {
             (r"R(z) = \text{the area RIGHT of } z", null),
             (r"W(z) = \text{the area between } -z \text{ and } z", null),
             (r"F(-1.67) = 1 - F(1.67) = 0.0475", null),
+          ],
+        );
+      case BriefFigure.expectedValue:
+        return const _RuleList(
+          rules: [
+            (r"E(X) = \text{the balance point}", true),
+            (r"E(X) = \text{the most likely outcome}", false),
+            (r"E(X) = \text{the middle of the range}", false),
+            (r"E(X) \text{ need not be an outcome that can happen}", true),
+          ],
+        );
+      case BriefFigure.varianceShortcut:
+        return const _RuleList(
+          rules: [
+            (r"\text{Var}(X) = E(X^2) - [E(X)]^2 = 0.81", true),
+            (r"\text{Var}(X) = [E(X)]^2 - E(X^2) = -0.81", false),
+            (r"\text{Var}(X) = E(X) = 2.70", false),
+            (r"\text{Var}(X) = E(X^2) = 8.10", false),
+          ],
+        );
+      case BriefFigure.combining:
+        return const _RuleList(
+          rules: [
+            (r"\sigma_T = \sqrt{3^2 + 8^2} = 8.54", true),
+            (r"\sigma_T = 3 + 8 = 11", false),
+            (r"\sigma_T = 3^2 + 8^2 = 73", false),
+            (r"\text{Var}(2D + L) = 2^2\sigma_D^2 + \sigma_L^2", true),
           ],
         );
       case BriefFigure.lawChoice:

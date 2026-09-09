@@ -1,5 +1,6 @@
 import 'acute_or_obtuse_game.dart';
 import 'balance_both_sides_game.dart';
+import 'add_the_squares_game.dart';
 import 'both_sides_game.dart';
 import 'build_the_binomial_game.dart';
 import 'build_the_identity_game.dart';
@@ -26,6 +27,7 @@ import 'point_at_the_inside_game.dart';
 import 'quadrant_signs_game.dart';
 import 'read_the_equation_game.dart';
 import 'reaches_further_game.dart';
+import 'mind_the_order_game.dart';
 import 'r_or_r2_game.dart';
 import 'read_the_line_game.dart';
 import 'same_pick_game.dart';
@@ -48,6 +50,7 @@ import 'what_shows_game.dart';
 import 'where_it_stops_game.dart';
 import 'through_the_means_game.dart';
 import 'what_weights_game.dart';
+import 'where_it_balances_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_method_game.dart';
@@ -745,6 +748,37 @@ List<GameAudit> auditAllGames() => [
           options: [for (final region in r.regions) region.column],
           answer: r.answer,
         ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-it-balances',
+    lessonId: 'expected-value-weighted-averages',
+    problemPrefix: 'stat-ev-',
+    rounds: [
+      for (final r in balanceRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final f in r.fulcrums) f.toString()],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'mind-the-order',
+    lessonId: 'expected-value-weighted-averages',
+    problemPrefix: 'stat-ev-',
+    rounds: [
+      // The answer is an ORDERED pair of totals, so no single index names it.
+      for (final r in orderRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'add-the-squares',
+    lessonId: 'expected-value-weighted-averages',
+    problemPrefix: 'stat-ev-',
+    rounds: [
+      for (final r in squaresRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(

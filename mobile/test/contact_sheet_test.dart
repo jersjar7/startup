@@ -14,6 +14,7 @@ import 'package:mobile/features/games/balance_both_sides_game.dart';
 import 'package:mobile/features/games/build_the_identity_game.dart';
 import 'package:mobile/features/games/discriminant_gate_game.dart';
 import 'package:mobile/features/games/every_rule_game.dart';
+import 'package:mobile/features/games/add_the_squares_game.dart';
 import 'package:mobile/features/games/both_sides_game.dart';
 import 'package:mobile/features/games/build_the_binomial_game.dart';
 import 'package:mobile/features/games/fix_the_sign_game.dart';
@@ -21,12 +22,14 @@ import 'package:mobile/features/games/copy_it_down_game.dart';
 import 'package:mobile/features/games/fill_the_trace_game.dart';
 import 'package:mobile/features/games/can_it_start_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/mind_the_order_game.dart';
 import 'package:mobile/features/games/r_or_r2_game.dart';
 import 'package:mobile/features/games/read_the_line_game.dart';
 import 'package:mobile/features/games/same_pick_game.dart';
 import 'package:mobile/features/games/read_the_scatter_game.dart';
 import 'package:mobile/features/games/through_the_means_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
+import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
 import 'package:mobile/features/games/follow_the_tangent_game.dart';
 import 'package:mobile/features/games/which_method_game.dart';
@@ -515,6 +518,24 @@ void main() {
       rounds: tailRounds.length,
       height: 1250,
     ),
+    'where-it-balances': (
+      lesson: '20-expected-value',
+      build: WhereItBalancesGame.new,
+      rounds: balanceRounds.length,
+      height: 1250,
+    ),
+    'mind-the-order': (
+      lesson: '20-expected-value',
+      build: MindTheOrderGame.new,
+      rounds: orderRounds.length,
+      height: 1400,
+    ),
+    'add-the-squares': (
+      lesson: '20-expected-value',
+      build: AddTheSquaresGame.new,
+      rounds: squaresRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -614,6 +635,11 @@ void main() {
       ('counting', countingBrief),
       ('binomial', binomialBrief),
       ('normal-table', normalTableBrief),
+    ],
+    '20-expected-value': [
+      ('expected-value', expectedValueBrief),
+      ('variance-shortcut', varianceShortcutBrief),
+      ('combining', combiningBrief),
     ],
   };
 
@@ -719,6 +745,38 @@ void main() {
     await expectLater(
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/19-distributions/shade-the-tail-graded.png'),
+    );
+  });
+
+  // Where It Balances answers with a beam that tips, and the walk above only
+  // photographs boards before they are answered. This is the frame that
+  // carries the teaching.
+  testWidgets('sheet: where-it-balances, answered', (tester) async {
+    tester.view.physicalSize = const Size(390, 1300);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    GameProgress.instance.reset('where-it-balances');
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        debugShowCheckedModeBanner: false,
+        home: const WhereItBalancesGame(),
+      ),
+    );
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 60)),
+    );
+    await tester.pumpAndSettle();
+
+    // Fulcrum A on round one is the middle of the range, and the beam knows.
+    await tester.tap(find.byKey(const ValueKey('fulcrum-0')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Lock it in'));
+    await tester.pumpAndSettle();
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/20-expected-value/where-it-balances-tips.png'),
     );
   });
 

@@ -8,6 +8,7 @@ import '../features/auth/signin_screen.dart';
 import '../features/auth/verify_screen.dart';
 import '../features/games/acute_or_obtuse_game.dart';
 import '../features/games/balance_both_sides_game.dart';
+import '../features/games/add_the_squares_game.dart';
 import '../features/games/both_sides_game.dart';
 import '../features/games/build_the_binomial_game.dart';
 import '../features/games/build_the_identity_game.dart';
@@ -36,6 +37,7 @@ import '../features/games/point_at_the_inside_game.dart';
 import '../features/games/quadrant_signs_game.dart';
 import '../features/games/read_the_equation_game.dart';
 import '../features/games/reaches_further_game.dart';
+import '../features/games/mind_the_order_game.dart';
 import '../features/games/r_or_r2_game.dart';
 import '../features/games/read_the_line_game.dart';
 import '../features/games/same_pick_game.dart';
@@ -58,6 +60,7 @@ import '../features/games/what_shows_game.dart';
 import '../features/games/where_it_stops_game.dart';
 import '../features/games/through_the_means_game.dart';
 import '../features/games/what_weights_game.dart';
+import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_method_game.dart';
@@ -174,6 +177,9 @@ GoRouter buildRouter(AuthController auth) {
           'same-pick' => const SamePickGame(),
           'build-the-binomial' => const BuildTheBinomialGame(),
           'shade-the-tail' => const ShadeTheTailGame(),
+          'where-it-balances' => const WhereItBalancesGame(),
+          'mind-the-order' => const MindTheOrderGame(),
+          'add-the-squares' => const AddTheSquaresGame(),
           _ => const _UnknownGame(),
         },
       ),
