@@ -107,6 +107,9 @@ enum BriefFigure {
   publicFirst,
   escalation,
   proportion,
+  competence,
+  consent,
+  claims,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1430,6 +1433,67 @@ const proportionBrief = BriefSection(
   handbook: 'Handbook p. 5, Model Rules B.6, B.8',
 );
 
+const competenceBrief = BriefSection(
+  title: 'Your field, and your charge',
+  body:
+      'Take on work you are qualified for by education or experience in the '
+      'SPECIFIC technical field, not the one next door. A seal needs two '
+      'things at once: the work has to be in your field, and it has to have '
+      'been prepared under your responsible charge, which means direct control '
+      'and personal supervision. Reading somebody else\'s calculations '
+      'carefully is not responsible charge, and a colleague reviewing your '
+      'work does not make you competent. Coordinating a whole project is fine, '
+      'as long as each technical segment carries the seal of whoever prepared '
+      'it.',
+  formulas: [
+    ('B.1', r'\text{Only accept work you are qualified for.}'),
+    ('B.2', r'\text{Seal only your field, under your responsible charge.}'),
+    ('B.3', r'\text{You may coordinate, if each segment is sealed by its own.}'),
+  ],
+  figure: BriefFigure.competence,
+  handbook: 'Handbook p. 5, Model Rules B.1 to B.3',
+);
+
+const consentBrief = BriefSection(
+  title: 'Everyone with an interest, in writing',
+  body:
+      'A conflict of interest is not fatal and it is not free. Disclose it, '
+      'and where more than one party is paying you on the same subject matter, '
+      'get every one of them to agree in writing. Silence is not an option '
+      'because the scopes look different, and refusing outright is more than '
+      'the rules ask. What consent cannot repair: a gratuity from somebody '
+      'bidding on your work, and taking work from a public body you sit on. '
+      'Confidential facts belong to the client whose money found them, and '
+      'only they can release them.',
+  formulas: [
+    ('B.4', r'\text{Do not reveal client facts without their consent.}'),
+    ('B.6', r'\text{Disclose every conflict, real or apparent.}'),
+    ('B.7', r'\text{Two payers, one subject: written consent from all.}'),
+    ('B.5 and B.8', r'\text{No gratuities. No work from a body you sit on.}'),
+  ],
+  figure: BriefFigure.consent,
+  handbook: 'Handbook p. 5, Model Rules B.4 to B.8',
+);
+
+const claimsBrief = BriefSection(
+  title: 'What you may say you did',
+  body:
+      'Do not misrepresent or exaggerate your responsibility on past work, and '
+      'that applies hardest to anything written to win the next job. The rule '
+      'is not aimed at outright lies. It is aimed at sentences that are true '
+      'if read slowly and flattering if read quickly: managing a bridge is not '
+      'designing it, one system is not the whole plant, and a peer review is '
+      'not the design. Say what you did, say who did the rest, and the claim '
+      'survives the follow-up question.',
+  formulas: [
+    ('C.1', r'\text{Do not exaggerate your role in prior assignments.}'),
+    ('C.3', r"\text{Do not damage another licensee's reputation.}"),
+    ('C.4', r'\text{Tell a licensee directly about a material error.}'),
+  ],
+  figure: BriefFigure.claims,
+  handbook: 'Handbook p. 5, Model Rules C.1 to C.4',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1827,6 +1891,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{vote objectively and say nothing}", false),
             (r"\text{resign from the committee altogether}", false),
             (r"\text{the firm being qualified settles it}", false),
+          ],
+        );
+      case BriefFigure.competence:
+        return const _RuleList(
+          rules: [
+            (r"\text{your field, prepared under your direction}", true),
+            (r"\text{coordinate the set, seal your own segment}", true),
+            (r"\text{the field next door is close enough}", false),
+            (r"\text{a colleague reviewed it, so it is fine}", false),
+          ],
+        );
+      case BriefFigure.consent:
+        return const _RuleList(
+          rules: [
+            (r"\text{disclose, and get all payers to agree in writing}", true),
+            (r"\text{different scopes, so there is no conflict}", false),
+            (r"\text{decline outright, a conflict is fatal}", false),
+            (r"\text{a gratuity is fine once disclosed}", false),
+          ],
+        );
+      case BriefFigure.claims:
+        return const _RuleList(
+          rules: [
+            (r"\text{managed delivery; design by others}", true),
+            (r"\text{our firm designed it}", false),
+            (r"\text{we provided engineering services on it}", false),
+            (r"\text{our portfolio includes it}", false),
           ],
         );
       case BriefFigure.lawChoice:

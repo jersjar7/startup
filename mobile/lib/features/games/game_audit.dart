@@ -5,6 +5,8 @@ import 'both_sides_game.dart';
 import 'build_the_binomial_game.dart';
 import 'build_the_identity_game.dart';
 import 'can_it_start_game.dart';
+import 'can_you_claim_that_game.dart';
+import 'can_you_seal_it_game.dart';
 import 'copy_it_down_game.dart';
 import 'discriminant_gate_game.dart';
 import 'enough_or_too_far_game.dart';
@@ -60,6 +62,7 @@ import 'where_it_balances_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_way_points_game.dart';
+import 'who_has_to_agree_game.dart';
 import 'which_cell_hurts_game.dart';
 import 'which_method_game.dart';
 import 'wider_or_narrower_game.dart';
@@ -894,6 +897,38 @@ List<GameAudit> auditAllGames() => [
           options: const ['not enough', 'what the rules ask', 'more than that'],
           answer: r.answer.index,
         ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'can-you-seal-it',
+    lessonId: 'obligations-employers-clients-peers',
+    problemPrefix: 'eth-oec-',
+    rounds: [
+      for (final r in sealRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['seal it', 'not yours to seal', 'seal your part'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'who-has-to-agree',
+    lessonId: 'obligations-employers-clients-peers',
+    problemPrefix: 'eth-oec-',
+    rounds: [
+      // The answer is a SET of parties whose size the student is not told, so
+      // no single index names it.
+      for (final r in consentRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'can-you-claim-that',
+    lessonId: 'obligations-employers-clients-peers',
+    problemPrefix: 'eth-oec-',
+    rounds: [
+      for (final r in claimRounds)
+        RoundAudit(source: r.source, options: r.claims, answer: r.answer),
     ],
   ),
   GameAudit(

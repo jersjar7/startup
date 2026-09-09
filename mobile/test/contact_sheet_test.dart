@@ -22,6 +22,8 @@ import 'package:mobile/features/games/fix_the_sign_game.dart';
 import 'package:mobile/features/games/copy_it_down_game.dart';
 import 'package:mobile/features/games/fill_the_trace_game.dart';
 import 'package:mobile/features/games/can_it_start_game.dart';
+import 'package:mobile/features/games/can_you_claim_that_game.dart';
+import 'package:mobile/features/games/can_you_seal_it_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
 import 'package:mobile/features/games/mind_the_order_game.dart';
 import 'package:mobile/features/games/r_or_r2_game.dart';
@@ -46,6 +48,7 @@ import 'package:mobile/features/games/how_many_samples_game.dart';
 import 'package:mobile/features/games/what_shows_game.dart';
 import 'package:mobile/features/games/which_region_game.dart';
 import 'package:mobile/features/games/which_way_points_game.dart';
+import 'package:mobile/features/games/who_has_to_agree_game.dart';
 import 'package:mobile/features/games/which_way_turns_game.dart';
 import 'package:mobile/features/games/open_or_closed_game.dart';
 import 'package:mobile/features/games/shade_the_tail_game.dart';
@@ -599,6 +602,24 @@ void main() {
       rounds: proportionRounds.length,
       height: 1200,
     ),
+    'can-you-seal-it': (
+      lesson: '24-obligations-employers',
+      build: CanYouSealItGame.new,
+      rounds: sealRounds.length,
+      height: 1250,
+    ),
+    'who-has-to-agree': (
+      lesson: '24-obligations-employers',
+      build: WhoHasToAgreeGame.new,
+      rounds: consentRounds.length,
+      height: 1250,
+    ),
+    'can-you-claim-that': (
+      lesson: '24-obligations-employers',
+      build: CanYouClaimThatGame.new,
+      rounds: claimRounds.length,
+      height: 1250,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -718,6 +739,11 @@ void main() {
       ('public-first', publicFirstBrief),
       ('escalation', escalationBrief),
       ('proportion', proportionBrief),
+    ],
+    '24-obligations-employers': [
+      ('competence', competenceBrief),
+      ('consent', consentBrief),
+      ('claims', claimsBrief),
     ],
   };
 

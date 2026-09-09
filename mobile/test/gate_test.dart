@@ -134,6 +134,12 @@ void main() {
       'add-the-squares',
       'what-goes-under', // the margin formula, which is one problem
       'which-cell-hurts', // chi-square, which is one problem's whole content
+      // Ethics lesson two has three problems and they ARE its three topics:
+      // competence and the seal, conflicts and consent, and what you may claim
+      // about past work. One item each, by construction.
+      'can-you-seal-it',
+      'who-has-to-agree',
+      'can-you-claim-that',
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });

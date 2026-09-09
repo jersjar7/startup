@@ -854,6 +854,32 @@ const ethicsMap = ChapterMap(
       id: 'obligations-employers-clients-peers',
       name: 'Obligations to Employers, Clients & Other Licensees',
       subtopicId: 'professional-conduct',
+      games: [
+        GameDef(
+          id: 'can-you-seal-it',
+          rounds: 6,
+          name: 'Can You Seal It',
+          blurb: 'Your field, and your charge. Both, or neither.',
+          built: true,
+          brief: competenceBrief,
+        ),
+        GameDef(
+          id: 'who-has-to-agree',
+          rounds: 6,
+          name: 'Who Has to Agree',
+          blurb: 'Tap everyone who has to sign off. It may be nobody.',
+          built: true,
+          brief: consentBrief,
+        ),
+        GameDef(
+          id: 'can-you-claim-that',
+          rounds: 6,
+          name: 'Can You Claim That',
+          blurb: 'Three lines for the brochure. One you may write.',
+          built: true,
+          brief: claimsBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'definitions-practice-of-engineering',

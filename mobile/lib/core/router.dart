@@ -14,6 +14,8 @@ import '../features/games/build_the_binomial_game.dart';
 import '../features/games/build_the_identity_game.dart';
 import '../features/games/chapter_map_screen.dart';
 import '../features/games/can_it_start_game.dart';
+import '../features/games/can_you_claim_that_game.dart';
+import '../features/games/can_you_seal_it_game.dart';
 import '../features/games/copy_it_down_game.dart';
 import '../features/games/discriminant_gate_game.dart';
 import '../features/games/every_rule_game.dart';
@@ -70,6 +72,7 @@ import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_way_points_game.dart';
+import '../features/games/who_has_to_agree_game.dart';
 import '../features/games/which_cell_hurts_game.dart';
 import '../features/games/which_method_game.dart';
 import '../features/games/wider_or_narrower_game.dart';
@@ -198,6 +201,9 @@ GoRouter buildRouter(AuthController auth) {
           'what-it-triggers' => const WhatItTriggersGame(),
           'in-what-order' => const InWhatOrderGame(),
           'enough-or-too-far' => const EnoughOrTooFarGame(),
+          'can-you-seal-it' => const CanYouSealItGame(),
+          'who-has-to-agree' => const WhoHasToAgreeGame(),
+          'can-you-claim-that' => const CanYouClaimThatGame(),
           _ => const _UnknownGame(),
         },
       ),
