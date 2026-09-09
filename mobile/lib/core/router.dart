@@ -75,6 +75,7 @@ import '../features/games/where_it_stops_game.dart';
 import '../features/games/through_the_means_game.dart';
 import '../features/games/what_goes_under_game.dart';
 import '../features/games/what_it_triggers_game.dart';
+import '../features/games/what_does_it_take_game.dart';
 import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_law_game.dart';
@@ -86,10 +87,12 @@ import '../features/games/who_may_do_that_game.dart';
 import '../features/games/who_pays_the_overrun_game.dart';
 import '../features/games/which_cell_hurts_game.dart';
 import '../features/games/which_delivery_game.dart';
+import '../features/games/which_factor_game.dart';
 import '../features/games/which_clock_ran_out_game.dart';
 import '../features/games/which_element_missing_game.dart';
 import '../features/games/which_method_game.dart';
 import '../features/games/which_protection_game.dart';
+import '../features/games/which_rate_game.dart';
 import '../features/games/wider_or_narrower_game.dart';
 import '../features/games/which_readout_game.dart';
 import '../features/games/which_ratio_game.dart';
@@ -234,6 +237,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-protection' => const WhichProtectionGame(),
           'how-many-protections' => const HowManyProtectionsGame(),
           'over-the-whole-life' => const OverTheWholeLifeGame(),
+          'which-factor' => const WhichFactorGame(),
+          'which-rate' => const WhichRateGame(),
+          'what-does-it-take' => const WhatDoesItTakeGame(),
           _ => const _UnknownGame(),
         },
       ),

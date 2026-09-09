@@ -65,6 +65,7 @@ import 'where_it_stops_game.dart';
 import 'through_the_means_game.dart';
 import 'what_goes_under_game.dart';
 import 'what_it_triggers_game.dart';
+import 'what_does_it_take_game.dart';
 import 'what_weights_game.dart';
 import 'where_it_balances_game.dart';
 import 'which_law_game.dart';
@@ -76,10 +77,12 @@ import 'who_may_do_that_game.dart';
 import 'who_pays_the_overrun_game.dart';
 import 'which_cell_hurts_game.dart';
 import 'which_delivery_game.dart';
+import 'which_factor_game.dart';
 import 'which_clock_ran_out_game.dart';
 import 'which_element_missing_game.dart';
 import 'which_method_game.dart';
 import 'which_protection_game.dart';
+import 'which_rate_game.dart';
 import 'wider_or_narrower_game.dart';
 import 'which_readout_game.dart';
 import 'which_ratio_game.dart';
@@ -1137,6 +1140,41 @@ List<GameAudit> auditAllGames() => [
           options: [for (final o in r.options) o.name],
           answer: r.answer,
         ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-factor',
+    lessonId: 'equivalence-interest-factors',
+    problemPrefix: 'econ-eif-',
+    rounds: [
+      for (final r in factorRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final f in factors) f.$1],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-rate',
+    lessonId: 'equivalence-interest-factors',
+    problemPrefix: 'econ-eif-',
+    rounds: [
+      for (final r in rateRounds)
+        RoundAudit(
+          source: r.source,
+          options: const ['periodic', 'nominal', 'effective'],
+          answer: r.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-does-it-take',
+    lessonId: 'equivalence-interest-factors',
+    problemPrefix: 'econ-eif-',
+    rounds: [
+      // The answer is a SET of factors whose size the student is not told.
+      for (final r in takeRounds) RoundAudit(source: r.source),
     ],
   ),
   GameAudit(

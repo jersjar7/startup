@@ -1039,10 +1039,83 @@ const ethicsMap = ChapterMap(
   ],
 );
 
+/// Chapter 4. Lesson and subtopic names match the web content exactly
+/// (`src/data/chapters/economics.js`, `src/data/lessons/economics/`).
+const economicsMap = ChapterMap(
+  id: 'economics',
+  number: 4,
+  name: 'Engineering Economics',
+  examLine: '4 to 6 questions on the real exam',
+  subtopics: [
+    Subtopic('time-value-of-money', 'Time Value of Money'),
+    Subtopic('cost-and-economic-analysis', 'Cost & Economic Analysis'),
+    Subtopic('depreciation-and-finance', 'Depreciation & Finance'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'equivalence-interest-factors',
+      name: 'Equivalence & Interest Factors',
+      subtopicId: 'time-value-of-money',
+      games: [
+        GameDef(
+          id: 'which-factor',
+          rounds: 6,
+          name: 'Which Factor',
+          blurb: 'Read the diagram. Solid is what you have.',
+          built: true,
+          brief: factorsBrief,
+        ),
+        GameDef(
+          id: 'which-rate',
+          rounds: 6,
+          name: 'Which Rate',
+          blurb: 'One quote, three numbers. Which one was asked for?',
+          built: true,
+          brief: ratesBrief,
+        ),
+        GameDef(
+          id: 'what-does-it-take',
+          rounds: 6,
+          name: 'What Does It Take',
+          blurb: 'Some diagrams are two cash flows stacked. Count them.',
+          built: true,
+          brief: piecesBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'pw-fw-aw-analysis',
+      name: 'Present Worth, Future Worth & Annual Worth',
+      subtopicId: 'time-value-of-money',
+    ),
+    LessonNode(
+      id: 'cost-types-breakeven',
+      name: 'Cost Types & Break-Even Analysis',
+      subtopicId: 'cost-and-economic-analysis',
+    ),
+    LessonNode(
+      id: 'benefit-cost-decision-trees',
+      name: 'Benefit-Cost Analysis & Decision Trees',
+      subtopicId: 'cost-and-economic-analysis',
+    ),
+    LessonNode(
+      id: 'rate-of-return',
+      name: 'Rate of Return',
+      subtopicId: 'cost-and-economic-analysis',
+    ),
+    LessonNode(
+      id: 'depreciation-taxation-inflation',
+      name: 'Depreciation, Taxation & Inflation',
+      subtopicId: 'depreciation-and-finance',
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
   'ethics': ethicsMap,
+  'economics': economicsMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

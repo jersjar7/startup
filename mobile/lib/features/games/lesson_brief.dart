@@ -125,6 +125,9 @@ enum BriefFigure {
   property,
   portfolio,
   lifeCycle,
+  factors,
+  rates,
+  pieces,
   lawChoice,
   lawForms,
   cosineSign,
@@ -1807,6 +1810,66 @@ const lifeCycleBrief = BriefSection(
   handbook: 'Handbook pp. 12-13',
 );
 
+const factorsBrief = BriefSection(
+  title: 'Six factors, one question',
+  body:
+      'Every one of them answers the same question: what have you got, and '
+      'what do you want instead. Money comes in three forms, a single amount '
+      'now or later, and an equal series, and the factor is named for the pair '
+      'it moves between. The two that get swapped are the sinking fund and '
+      'capital recovery. Both connect a series to a single amount, and what '
+      'separates them is whether the known amount is sitting in your hand '
+      'today or waiting at the end.',
+  formulas: [
+    ('Carried forward', r'F = P(1+i)^n'),
+    ('Brought back', r'P = F(1+i)^{-n}'),
+    ('Sinking fund', r'A = F\,\frac{i}{(1+i)^n - 1}'),
+    ('Capital recovery', r'A = P\,\frac{i(1+i)^n}{(1+i)^n - 1}'),
+  ],
+  figure: BriefFigure.factors,
+  handbook: 'Handbook p. 229, tables pp. 232-236',
+);
+
+const ratesBrief = BriefSection(
+  title: 'Three numbers, one label',
+  body:
+      'Twelve percent compounded monthly is three different numbers. The '
+      'PERIODIC rate is one percent, the quoted rate divided by the periods, '
+      'and it is the one that goes beside an n counted in the same units. The '
+      'NOMINAL rate is the twelve on the paperwork, and it answers almost '
+      'nothing. The EFFECTIVE rate is 12.68 percent, what a year actually '
+      'costs once the compounding has happened, and it is the only one worth '
+      'comparing between offers with different compounding. Compounded '
+      'annually all three collapse into the same number.',
+  formulas: [
+    ('Periodic', r'i = \frac{r}{m}'),
+    ('Effective', r'i_e = \left(1 + \frac{r}{m}\right)^m - 1'),
+    ('So', r'12\% \text{ monthly} \;\Rightarrow\; 1\%,\ 12\%,\ 12.68\%'),
+  ],
+  figure: BriefFigure.rates,
+  handbook: 'Handbook p. 229',
+);
+
+const piecesBrief = BriefSection(
+  title: 'Count the pieces first',
+  body:
+      'A diagram is often more than one cash flow drawn on top of another, and '
+      'each piece takes its own factor. A series that grows by the same step '
+      'every period is a FLAT series plus a TRIANGLE, so it takes two, and '
+      'doing the flat part and stopping is the commonest way to lose the '
+      'question. Anything landing on a single date takes a third. Add the '
+      'pieces up at the end; do not look for one factor that covers a picture '
+      'made of several.',
+  formulas: [
+    ('A single amount', r'P = F(1+i)^{-n}'),
+    ('The flat part', r'P = A\,\frac{(1+i)^n - 1}{i(1+i)^n}'),
+    ('The growing part', r'P = G\,(P/G, i, n)'),
+    ('Together', r'P = A(P/A) + G(P/G)'),
+  ],
+  figure: BriefFigure.pieces,
+  handbook: 'Handbook p. 229',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2366,6 +2429,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{add every stage, including taking it away}", true),
             (r"\text{sometimes the cheap option wins outright}", true),
             (r"\text{always choose the costlier option}", false),
+          ],
+        );
+      case BriefFigure.factors:
+        return const _RuleList(
+          rules: [
+            (r"\text{known at the end} \;\Rightarrow\; (A/F)", true),
+            (r"\text{known today} \;\Rightarrow\; (A/P)", true),
+            (r"\text{a sinking fund uses } (A/P)", false),
+            (r"\text{dividing by } n \text{ instead of discounting}", false),
+          ],
+        );
+      case BriefFigure.rates:
+        return const _RuleList(
+          rules: [
+            (r"n \text{ in months} \;\Rightarrow\; \text{the monthly rate}", true),
+            (r"12\% \text{ monthly} \;\Rightarrow\; i_e = 12.68\%", true),
+            (r"12\% \text{ monthly} \;\Rightarrow\; i_e = 12\%", false),
+            (r"\text{comparing two quoted rates directly}", false),
+          ],
+        );
+      case BriefFigure.pieces:
+        return const _RuleList(
+          rules: [
+            (r"\text{a growing series} = (P/A) + (P/G)", true),
+            (r"\text{a growing series} = (P/A) \text{ alone}", false),
+            (r"\text{a flat series} = (P/A) \text{ alone}", true),
+            (r"\text{adding the cash flows up undiscounted}", false),
           ],
         );
       case BriefFigure.lawChoice:

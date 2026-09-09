@@ -35,16 +35,19 @@ import 'package:mobile/features/games/read_the_scatter_game.dart';
 import 'package:mobile/features/games/through_the_means_game.dart';
 import 'package:mobile/features/games/what_goes_under_game.dart';
 import 'package:mobile/features/games/what_it_triggers_game.dart';
+import 'package:mobile/features/games/what_does_it_take_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
 import 'package:mobile/features/games/follow_the_tangent_game.dart';
 import 'package:mobile/features/games/which_cell_hurts_game.dart';
 import 'package:mobile/features/games/which_delivery_game.dart';
+import 'package:mobile/features/games/which_factor_game.dart';
 import 'package:mobile/features/games/which_clock_ran_out_game.dart';
 import 'package:mobile/features/games/which_element_missing_game.dart';
 import 'package:mobile/features/games/which_method_game.dart';
 import 'package:mobile/features/games/which_protection_game.dart';
+import 'package:mobile/features/games/which_rate_game.dart';
 import 'package:mobile/features/games/wider_or_narrower_game.dart';
 import 'package:mobile/features/games/first_true_wins_game.dart';
 import 'package:mobile/features/games/where_it_stops_game.dart';
@@ -725,6 +728,24 @@ void main() {
       rounds: lifeRounds.length,
       height: 1250,
     ),
+    'which-factor': (
+      lesson: '30-equivalence',
+      build: WhichFactorGame.new,
+      rounds: factorRounds.length,
+      height: 1450,
+    ),
+    'which-rate': (
+      lesson: '30-equivalence',
+      build: WhichRateGame.new,
+      rounds: rateRounds.length,
+      height: 1250,
+    ),
+    'what-does-it-take': (
+      lesson: '30-equivalence',
+      build: WhatDoesItTakeGame.new,
+      rounds: takeRounds.length,
+      height: 1300,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -874,6 +895,11 @@ void main() {
       ('property', propertyBrief),
       ('portfolio', portfolioBrief),
       ('life-cycle', lifeCycleBrief),
+    ],
+    '30-equivalence': [
+      ('factors', factorsBrief),
+      ('rates', ratesBrief),
+      ('pieces', piecesBrief),
     ],
   };
 
