@@ -98,3 +98,4 @@ The profile in use expires **2027-06-23**.
 | 517   | Mathematics lessons 5 to 11 (unit circle through vector basics) |
 | 518   | Mathematics lessons 12 to 16; chapter one complete |
 | 519   | No start-here pill; subtopic names wrap instead of truncating |
+| 520   | The silhouette node: four shapes, plinth derived from the face |
