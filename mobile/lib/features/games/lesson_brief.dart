@@ -86,6 +86,9 @@ enum BriefFigure {
   newton,
   bisection,
   methodChoice,
+  centre,
+  spread,
+  weighted,
   lawChoice,
   lawForms,
   cosineSign,
@@ -992,6 +995,62 @@ const methodChoiceBrief = BriefSection(
   handbook: 'Handbook p. 61',
 );
 
+// ── Measures of Central Tendency & Dispersion ───────────────────────────────
+
+const centreBrief = BriefSection(
+  title: 'Three centres, and when they disagree',
+  body:
+      'The mean adds everything up and divides by the count. The median is the '
+      'middle value once the readings are sorted, and with an even count it is '
+      'the average of the middle two. The mode is whatever turns up most often, '
+      'and a set can have none or several of them. They agree on tidy data and '
+      'part company the moment one reading is a long way out: the mean gets '
+      'dragged toward it and the median does not move at all.',
+  formulas: [
+    ('Mean', r'\bar{x} = \frac{1}{n}\sum x_i'),
+    ('Median', r'\text{the middle value, once sorted}'),
+  ],
+  figure: BriefFigure.centre,
+  handbook: 'Handbook p. 63',
+);
+
+const spreadBrief = BriefSection(
+  title: 'Sample or population, and the square root',
+  body:
+      'Variance is the average squared distance from the mean, and the standard '
+      'deviation is its square root, in the units of the data. The only '
+      'difference between the sample and the population version is the '
+      'denominator: n minus one for a sample, N for the whole population. This '
+      'exam almost always means a sample, and dividing by n instead is the '
+      'single most common mistake on the topic. On a calculator that is Sx '
+      'against sigma x, two lines apart on the same screen. The coefficient of '
+      'variation is the standard deviation over the mean, which is '
+      'dimensionless and lets two data sets in different units be compared.',
+  formulas: [
+    ('Sample variance', r's^2 = \frac{\sum (x_i - \bar{x})^2}{n-1}'),
+    ('Population variance', r'\sigma^2 = \frac{\sum (x_i - \mu)^2}{N}'),
+    ('Coefficient of variation', r'CV = \frac{s}{\bar{x}}'),
+  ],
+  figure: BriefFigure.spread,
+  handbook: 'Handbook p. 63',
+);
+
+const weightedBrief = BriefSection(
+  title: 'What is averaged, and what counts for more',
+  body:
+      'A weighted average is the same average with some readings counting for '
+      'more than others. The whole difficulty is naming the two roles: what is '
+      'being averaged, and how much each row gets to say. Weight by how long a '
+      'count ran, how many cylinders were tested, how thick a layer is. If the '
+      'weights are all equal it collapses back to the ordinary mean, and if you '
+      'swap the two roles the arithmetic runs perfectly to the wrong answer.',
+  formulas: [
+    ('Weighted mean', r'\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}'),
+  ],
+  figure: BriefFigure.weighted,
+  handbook: 'Handbook p. 63',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -1592,6 +1651,32 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{only a sign change} \;\Rightarrow\; \text{bisection}", null),
             (r"f' \text{ near zero} \;\Rightarrow\; \text{Newton may run away}", null),
             (r"\text{far guess} \;\Rightarrow\; \text{Newton may run away}", null),
+          ],
+        );
+      case BriefFigure.centre:
+        return const _RuleList(
+          rules: [
+            (r"11,\ 12,\ 13,\ 14,\ 16 \;\Rightarrow\; \text{median } 13", true),
+            (r"10,\ 11,\ 12,\ 13,\ 14,\ 15,\ 24 \;\Rightarrow\; \text{median } 13", true),
+            (r"\text{the same set} \;\Rightarrow\; \text{mean } 14.1", true),
+            (r"\text{one stray reading moves the median}", false),
+          ],
+        );
+      case BriefFigure.spread:
+        return const _RuleList(
+          rules: [
+            (r"\text{a sample} \;\Rightarrow\; \text{divide by } n-1", true),
+            (r"\text{a sample} \;\Rightarrow\; \text{divide by } n", false),
+            (r"s = \sqrt{s^2}", true),
+            (r"s = s^2", false),
+          ],
+        );
+      case BriefFigure.weighted:
+        return const _RuleList(
+          rules: [
+            (r"\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}", null),
+            (r"\text{equal weights} \;\Rightarrow\; \text{the plain mean}", null),
+            (r"\text{roles swapped} \;\Rightarrow\; \text{a tidy wrong answer}", null),
           ],
         );
       case BriefFigure.logRules:

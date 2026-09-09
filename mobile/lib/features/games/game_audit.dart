@@ -25,6 +25,7 @@ import 'point_at_the_inside_game.dart';
 import 'quadrant_signs_game.dart';
 import 'read_the_equation_game.dart';
 import 'reaches_further_game.dart';
+import 'read_the_line_game.dart';
 import 'resolve_it_game.dart';
 import 'rule_or_trap_game.dart';
 import 'run_the_loop_game.dart';
@@ -40,9 +41,11 @@ import 'what_was_asked_game.dart';
 import 'whats_missing_game.dart';
 import 'what_shows_game.dart';
 import 'where_it_stops_game.dart';
+import 'what_weights_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_method_game.dart';
+import 'which_readout_game.dart';
 import 'which_ratio_game.dart';
 import 'which_way_turns_game.dart';
 import 'which_way_simpler_game.dart';
@@ -628,6 +631,40 @@ List<GameAudit> auditAllGames() => [
           options: const ['newton', 'bisection', 'newton may not converge'],
           answer: r.answer.index,
         ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'read-the-line',
+    lessonId: 'central-tendency-dispersion',
+    problemPrefix: 'stat-ctd-',
+    rounds: [
+      // Answered by pointing at ticks on an axis, sometimes more than one.
+      for (final r in lineRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-readout',
+    lessonId: 'central-tendency-dispersion',
+    problemPrefix: 'stat-ctd-',
+    rounds: [
+      for (final r in readoutRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (final line in readoutLines) line.$1,
+            'not on the screen',
+          ],
+          answer: r.answer == -1 ? readoutLines.length : r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-weights',
+    lessonId: 'central-tendency-dispersion',
+    problemPrefix: 'stat-ctd-',
+    rounds: [
+      // The answer is a PAIR of columns, so no single index names it.
+      for (final r in weightRounds) RoundAudit(source: r.source),
     ],
   ),
   GameAudit(

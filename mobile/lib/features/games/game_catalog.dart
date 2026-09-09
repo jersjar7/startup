@@ -601,6 +601,81 @@ const mathematicsMap = ChapterMap(
 
 /// Every chapter map the phone has. Chapters absent from here have no games
 /// authored yet and say so rather than falling back to the old lesson list.
-const chapterMaps = <String, ChapterMap>{'mathematics': mathematicsMap};
+/// Chapter 2. Lesson and subtopic names match the web content exactly
+/// (`src/data/chapters/statistics.js`, `src/data/lessons/statistics/`).
+const statisticsMap = ChapterMap(
+  id: 'statistics',
+  number: 2,
+  name: 'Probability & Statistics',
+  examLine: '4 to 6 questions on the real exam',
+  subtopics: [
+    Subtopic('descriptive-statistics', 'Descriptive Statistics'),
+    Subtopic('probability', 'Probability'),
+    Subtopic('inferential-statistics', 'Inferential Statistics'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'central-tendency-dispersion',
+      name: 'Measures of Central Tendency & Dispersion',
+      subtopicId: 'descriptive-statistics',
+      games: [
+        GameDef(
+          id: 'read-the-line',
+          rounds: 6,
+          name: 'Read It Off the Line',
+          blurb: 'Median, mode and range are places, not sums.',
+          built: true,
+          brief: centreBrief,
+        ),
+        GameDef(
+          id: 'which-readout',
+          rounds: 6,
+          name: 'Which Line Do You Read',
+          blurb: 'Six numbers on one screen. Only one answers the question.',
+          built: true,
+          brief: spreadBrief,
+        ),
+        GameDef(
+          id: 'what-weights',
+          rounds: 6,
+          name: 'What Gets Weighted',
+          blurb: 'Name the two columns. The formula does the rest.',
+          built: true,
+          brief: weightedBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'linear-regression-correlation',
+      name: 'Linear Regression & Correlation',
+      subtopicId: 'descriptive-statistics',
+    ),
+    LessonNode(
+      id: 'probability-distributions',
+      name: 'Probability Distributions',
+      subtopicId: 'probability',
+    ),
+    LessonNode(
+      id: 'expected-value-weighted-averages',
+      name: 'Expected Value & Weighted Averages',
+      subtopicId: 'probability',
+    ),
+    LessonNode(
+      id: 'confidence-intervals-estimation',
+      name: 'Confidence Intervals & Estimation',
+      subtopicId: 'inferential-statistics',
+    ),
+    LessonNode(
+      id: 'hypothesis-testing-goodness-of-fit',
+      name: 'Hypothesis Testing & Goodness of Fit',
+      subtopicId: 'inferential-statistics',
+    ),
+  ],
+);
+
+const chapterMaps = <String, ChapterMap>{
+  'mathematics': mathematicsMap,
+  'statistics': statisticsMap,
+};
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

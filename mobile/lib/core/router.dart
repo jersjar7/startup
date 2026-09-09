@@ -35,6 +35,7 @@ import '../features/games/point_at_the_inside_game.dart';
 import '../features/games/quadrant_signs_game.dart';
 import '../features/games/read_the_equation_game.dart';
 import '../features/games/reaches_further_game.dart';
+import '../features/games/read_the_line_game.dart';
 import '../features/games/resolve_it_game.dart';
 import '../features/games/rule_or_trap_game.dart';
 import '../features/games/run_the_loop_game.dart';
@@ -50,9 +51,11 @@ import '../features/games/what_was_asked_game.dart';
 import '../features/games/whats_missing_game.dart';
 import '../features/games/what_shows_game.dart';
 import '../features/games/where_it_stops_game.dart';
+import '../features/games/what_weights_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_method_game.dart';
+import '../features/games/which_readout_game.dart';
 import '../features/games/which_ratio_game.dart';
 import '../features/games/which_way_turns_game.dart';
 import '../features/games/which_way_simpler_game.dart';
@@ -156,6 +159,9 @@ GoRouter buildRouter(AuthController auth) {
           'follow-the-tangent' => const FollowTheTangentGame(),
           'can-it-start' => const CanItStartGame(),
           'which-method' => const WhichMethodGame(),
+          'read-the-line' => const ReadTheLineGame(),
+          'which-readout' => const WhichReadoutGame(),
+          'what-weights' => const WhatWeightsGame(),
           _ => const _UnknownGame(),
         },
       ),

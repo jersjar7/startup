@@ -20,6 +20,9 @@ import 'package:mobile/features/games/copy_it_down_game.dart';
 import 'package:mobile/features/games/fill_the_trace_game.dart';
 import 'package:mobile/features/games/can_it_start_game.dart';
 import 'package:mobile/features/games/find_the_slip_game.dart';
+import 'package:mobile/features/games/read_the_line_game.dart';
+import 'package:mobile/features/games/what_weights_game.dart';
+import 'package:mobile/features/games/which_readout_game.dart';
 import 'package:mobile/features/games/follow_the_tangent_game.dart';
 import 'package:mobile/features/games/which_method_game.dart';
 import 'package:mobile/features/games/first_true_wins_game.dart';
@@ -452,6 +455,24 @@ void main() {
       rounds: methodRounds.length,
       height: 1150,
     ),
+    'read-the-line': (
+      lesson: '17-central-tendency',
+      build: ReadTheLineGame.new,
+      rounds: lineRounds.length,
+      height: 1150,
+    ),
+    'which-readout': (
+      lesson: '17-central-tendency',
+      build: WhichReadoutGame.new,
+      rounds: readoutRounds.length,
+      height: 1250,
+    ),
+    'what-weights': (
+      lesson: '17-central-tendency',
+      build: WhatWeightsGame.new,
+      rounds: weightRounds.length,
+      height: 1200,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -536,6 +557,11 @@ void main() {
       ('newton', newtonBrief),
       ('bisection', bisectionBrief),
       ('which-method', methodChoiceBrief),
+    ],
+    '17-central-tendency': [
+      ('centre', centreBrief),
+      ('spread', spreadBrief),
+      ('weighted', weightedBrief),
     ],
   };
 
