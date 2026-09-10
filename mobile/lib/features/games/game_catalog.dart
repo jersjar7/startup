@@ -1289,6 +1289,32 @@ const staticsMap = ChapterMap(
       id: 'equilibrium-free-body-diagrams',
       name: 'Equilibrium & Free-Body Diagrams',
       subtopicId: 'forces-and-equilibrium',
+      games: [
+        GameDef(
+          id: 'what-the-support-gives',
+          rounds: 6,
+          name: 'What the Support Gives',
+          blurb: 'Three pictures of arrows. Which one is this support?',
+          built: true,
+          brief: supportsBrief,
+        ),
+        GameDef(
+          id: 'where-it-all-acts',
+          rounds: 6,
+          name: 'Where It All Acts',
+          blurb: 'One force instead of the whole load. Tap where it goes.',
+          built: true,
+          brief: resultantBrief,
+        ),
+        GameDef(
+          id: 'can-statics-solve-it',
+          rounds: 6,
+          name: 'Can Statics Solve It',
+          blurb: 'Count the unknowns before you write anything down.',
+          built: true,
+          brief: determinacyBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'trusses-joints-sections',

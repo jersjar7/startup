@@ -80,6 +80,9 @@ import 'which_way_points_game.dart';
 import 'which_way_it_pushes_game.dart';
 import 'balance_the_rate_game.dart';
 import 'find_the_factor_game.dart';
+import 'what_the_support_gives_game.dart';
+import 'where_it_all_acts_game.dart';
+import 'can_statics_solve_it_game.dart';
 import 'which_arrow_is_that_game.dart';
 import 'which_distance_counts_game.dart';
 import 'which_ones_turn_it_game.dart';
@@ -1270,6 +1273,48 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in r.options) o.$1],
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-the-support-gives',
+    lessonId: 'equilibrium-free-body-diagrams',
+    problemPrefix: 'stat-efb-',
+    rounds: [
+      for (final r in propRounds)
+        RoundAudit(
+          source: r.source,
+          // The choices are pictures of arrows, so two rounds can offer the
+          // same set in a different order and mean it.
+          options: [for (final o in r.options) '${o.count} unknown'],
+          answer: r.answer,
+          positional: true,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-it-all-acts',
+    lessonId: 'equilibrium-free-body-diagrams',
+    problemPrefix: 'stat-efb-',
+    rounds: [
+      for (final r in actsRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final s in r.stations) s.label],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'can-statics-solve-it',
+    lessonId: 'equilibrium-free-body-diagrams',
+    problemPrefix: 'stat-efb-',
+    rounds: [
+      for (final r in solveRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Enough.values) v.name],
+          answer: Enough.values.indexOf(r.answer),
         ),
     ],
   ),

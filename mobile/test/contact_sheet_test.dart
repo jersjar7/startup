@@ -50,6 +50,9 @@ import 'package:mobile/features/games/match_the_dollars_game.dart';
 import 'package:mobile/features/games/which_arrow_is_that_game.dart';
 import 'package:mobile/features/games/which_distance_counts_game.dart';
 import 'package:mobile/features/games/which_ones_turn_it_game.dart';
+import 'package:mobile/features/games/what_the_support_gives_game.dart';
+import 'package:mobile/features/games/where_it_all_acts_game.dart';
+import 'package:mobile/features/games/can_statics_solve_it_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
@@ -872,6 +875,24 @@ void main() {
       rounds: senseRounds.length,
       height: 1350,
     ),
+    'what-the-support-gives': (
+      lesson: '37-equilibrium',
+      build: WhatTheSupportGivesGame.new,
+      rounds: propRounds.length,
+      height: 1250,
+    ),
+    'where-it-all-acts': (
+      lesson: '37-equilibrium',
+      build: WhereItAllActsGame.new,
+      rounds: actsRounds.length,
+      height: 1250,
+    ),
+    'can-statics-solve-it': (
+      lesson: '37-equilibrium',
+      build: CanStaticsSolveItGame.new,
+      rounds: solveRounds.length,
+      height: 1400,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1056,6 +1077,11 @@ void main() {
       ('resolve', resolveBrief),
       ('moment', momentBrief),
       ('sense', senseBrief),
+    ],
+    '37-equilibrium': [
+      ('supports', supportsBrief),
+      ('resultant', resultantBrief),
+      ('determinacy', determinacyBrief),
     ],
   };
 

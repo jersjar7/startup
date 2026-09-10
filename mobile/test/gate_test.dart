@@ -155,6 +155,9 @@ void main() {
       'which-rate', // nominal against effective, which is one problem
       'which-side-wins', // the break-even chart, which is one problem
       'what-is-the-saving', // the payback saving, which is one problem
+      // The cantilever is the only problem in the lesson with a spread load
+      // in it, and where that load adds up to is the whole item.
+      'where-it-all-acts',
       // The crane problem is the only one in the lesson with a moment in it,
       // and these two items are both about moments: one asks which distance
       // is the arm, the other which way each force turns the body.

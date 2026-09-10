@@ -149,6 +149,9 @@ enum BriefFigure {
   resolve,
   moment,
   sense,
+  supports,
+  resultant,
+  determinacy,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2242,6 +2245,63 @@ const senseBrief = BriefSection(
   handbook: 'Handbook p. 94',
 );
 
+const supportsBrief = BriefSection(
+  title: 'Whatever it prevents, it supplies',
+  body:
+      'A free body diagram takes the thing off its supports and puts back what '
+      'each support was doing. A roller stops one direction and gives one '
+      'force, square to whatever it runs on: on a slope that force is not '
+      'vertical, and on a wall it is horizontal. A pin stops the end going '
+      'anywhere and gives two forces, but the beam can still turn on it, so '
+      'there is no moment. A fixed end stops the turn as well and gives two '
+      'forces and a moment. A cable is a roller that can only pull.',
+  formulas: [
+    ('Roller or cable', r'\text{1 unknown}'),
+    ('Pin', r'\text{2 unknowns}'),
+    ('Fixed', r'\text{3 unknowns}'),
+  ],
+  figure: BriefFigure.supports,
+  handbook: 'Handbook p. 94',
+);
+
+const resultantBrief = BriefSection(
+  title: 'A spread load acts at its centroid',
+  body:
+      'Replace a load spread along a member by one force: its size is the area '
+      'of the load shape, and it acts at the centroid of that shape. Uniform '
+      'puts it in the middle of the LOADED part, which is not the middle of '
+      'the member unless the load covers all of it. A triangle puts it a third '
+      'of the way in from the heavy end. Anything in between lands in between. '
+      'Using the far end of the load as the arm is the mistake that doubles a '
+      'cantilever moment.',
+  formulas: [
+    ('Uniform', r'W = wL \text{ at } L/2'),
+    ('Triangle', r'W = \tfrac{1}{2} w L \text{ at } L/3 \text{ from the heavy end}'),
+    ('So', r'3(4) = 12 \text{ kN at } 2 \text{ m}'),
+  ],
+  figure: BriefFigure.resultant,
+  handbook: 'Handbook p. 94',
+);
+
+const determinacyBrief = BriefSection(
+  title: 'Three equations, and no more',
+  body:
+      'Two dimensions give you three equations, so three unknown reactions is '
+      'the most equilibrium can find. Count them before starting: one for a '
+      'roller, two for a pin, three for a fixed end. More than three and the '
+      'beam is statically indeterminate, which says nothing against the beam. '
+      'It is usually the stiffer structure, and it needs how much things '
+      'stretch to finish. Loads never add unknowns, couples included: they are '
+      'known, they only have to be carried.',
+  formulas: [
+    ('What you have', r'\sum F_x = 0, \; \sum F_y = 0, \; \sum M = 0'),
+    ('Determinate', r'\text{unknowns} = 3'),
+    ('Indeterminate', r'\text{unknowns} > 3'),
+  ],
+  figure: BriefFigure.determinacy,
+  handbook: 'Handbook p. 94',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2990,6 +3050,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{up, left of the pin} \;\Rightarrow\; \text{clockwise}", true),
             (r"\text{down} \;\Rightarrow\; \text{always clockwise}", false),
             (r"\text{a couple} \;\Rightarrow\; \text{the two cancel}", false),
+          ],
+        );
+      case BriefFigure.supports:
+        return const _RuleList(
+          rules: [
+            (r"\text{roller} \;\Rightarrow\; \text{1, square to the surface}", true),
+            (r"\text{pin} \;\Rightarrow\; \text{2, and no moment}", true),
+            (r"\text{fixed} \;\Rightarrow\; \text{2 and a moment}", true),
+            (r"\text{a roller on a slope} \;\Rightarrow\; \text{vertical}", false),
+          ],
+        );
+      case BriefFigure.resultant:
+        return const _RuleList(
+          rules: [
+            (r"\text{uniform} \;\Rightarrow\; \text{middle of the loaded part}", true),
+            (r"\text{triangle} \;\Rightarrow\; \tfrac{1}{3} \text{ from the heavy end}", true),
+            (r"\text{uniform} \;\Rightarrow\; \text{middle of the member}", false),
+            (r"\text{at the far end of the load}", false),
+          ],
+        );
+      case BriefFigure.determinacy:
+        return const _RuleList(
+          rules: [
+            (r"\text{pin} + \text{roller} = 3 \;\Rightarrow\; \text{solvable}", true),
+            (r"\text{fixed alone} = 3 \;\Rightarrow\; \text{solvable}", true),
+            (r"\text{a couple adds an unknown}", false),
+            (r"\text{two rollers} \;\Rightarrow\; \text{it stands up}", false),
           ],
         );
       case BriefFigure.lawChoice:
