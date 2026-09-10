@@ -53,6 +53,9 @@ import 'package:mobile/features/games/which_ones_turn_it_game.dart';
 import 'package:mobile/features/games/what_the_support_gives_game.dart';
 import 'package:mobile/features/games/where_it_all_acts_game.dart';
 import 'package:mobile/features/games/above_or_below_game.dart';
+import 'package:mobile/features/games/does_it_build_stress_game.dart';
+import 'package:mobile/features/games/what_comes_out_game.dart';
+import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
 import 'package:mobile/features/games/rank_by_stiffness_game.dart';
 import 'package:mobile/features/games/which_barely_matters_game.dart';
@@ -998,6 +1001,24 @@ void main() {
       rounds: shareRounds.length,
       height: 1200,
     ),
+    'which-stretches-more': (
+      lesson: '43-axial',
+      build: WhichStretchesMoreGame.new,
+      rounds: moveMoreRounds.length,
+      height: 1250,
+    ),
+    'what-comes-out': (
+      lesson: '43-axial',
+      build: WhatComesOutGame.new,
+      rounds: sumRounds.length,
+      height: 1450,
+    ),
+    'does-it-build-stress': (
+      lesson: '43-axial',
+      build: DoesItBuildStressGame.new,
+      rounds: heatRounds.length,
+      height: 1300,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1213,6 +1234,11 @@ void main() {
     '42-inertia': [
       ('far-from-axis', farFromAxisBrief),
       ('transfer', transferBrief),
+    ],
+    '43-axial': [
+      ('deformation', deformationBrief),
+      ('units', unitsBrief),
+      ('thermal', thermalBrief),
     ],
   };
 

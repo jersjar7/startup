@@ -84,6 +84,10 @@ import 'what_the_support_gives_game.dart';
 import 'where_it_all_acts_game.dart';
 import 'can_statics_solve_it_game.dart';
 import 'above_or_below_game.dart';
+import 'axial_figures.dart';
+import 'does_it_build_stress_game.dart';
+import 'what_comes_out_game.dart';
+import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
 import 'rank_by_stiffness_game.dart';
 import 'which_barely_matters_game.dart';
@@ -1687,6 +1691,42 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: r.names,
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-stretches-more',
+    lessonId: 'axial-stress-strain-deformation',
+    problemPrefix: 'mm-asd-',
+    rounds: [
+      // The answer is one of two drawn bars or neither of them, so no index
+      // into a shortlist names it.
+      for (final r in moveMoreRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-comes-out',
+    lessonId: 'axial-stress-strain-deformation',
+    problemPrefix: 'mm-asd-',
+    rounds: [
+      for (final r in sumRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Gives.values) v.name],
+          answer: Gives.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-it-build-stress',
+    lessonId: 'axial-stress-strain-deformation',
+    problemPrefix: 'mm-asd-',
+    rounds: [
+      for (final r in heatRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Outcome.values) v.name],
+          answer: Outcome.values.indexOf(r.answer),
         ),
     ],
   ),

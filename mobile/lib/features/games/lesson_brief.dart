@@ -166,6 +166,9 @@ enum BriefFigure {
   reference,
   farFromAxis,
   transfer,
+  deformation,
+  units,
+  thermal,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2354,6 +2357,68 @@ const sectionBrief = BriefSection(
   handbook: 'Handbook p. 95',
 );
 
+const deformationBrief = BriefSection(
+  title: 'What makes a bar move',
+  body:
+      'Four things decide how far an axially loaded bar stretches, and which '
+      'side of the fraction each one sits on is the whole of it. The load and '
+      'the length are on top: pull harder or use a longer bar and it moves '
+      'further, in direct proportion. The area and the modulus are underneath: '
+      'a fatter bar or a stiffer material moves less. Stress is a different '
+      'question with a shorter answer, because length does not appear in it at '
+      'all, so two bars of different lengths under the same pull carry exactly '
+      'the same stress and move different distances.',
+  formulas: [
+    ('Stress', r'\sigma = \frac{P}{A}'),
+    ('Stretch', r'\delta = \frac{PL}{AE}'),
+    ('Strain', r'\varepsilon = \frac{\delta}{L} = \frac{\sigma}{E}'),
+  ],
+  figure: BriefFigure.deformation,
+  handbook: 'Handbook p. 130',
+);
+
+const unitsBrief = BriefSection(
+  title: 'One set of units, all the way through',
+  body:
+      'Mixing meters and millimeters is named in this lesson as the commonest '
+      'source of wrong answers, and the reason it is so hard to catch is that '
+      'it is dimensionally perfect: the units cancel exactly as they should '
+      'and the answer is a thousand times out. Checking your dimensions will '
+      'not find it. Converting before you start will. Newtons, millimeters and '
+      'newtons per square millimeter go together and never need converting '
+      'again, and a megapascal IS a newton per square millimeter. Strain is '
+      'the one quantity with no unit at all, so a strain quoted in anything is '
+      'a strain someone has misread.',
+  formulas: [
+    ('The set that never needs converting', r'\mathrm{N},\; \mathrm{mm},\; \mathrm{N/mm^2}'),
+    ('And that last one is', r'1\ \mathrm{MPa} = 1\ \mathrm{N/mm^2}'),
+    ('Strain', r'\varepsilon \text{ has no unit}'),
+  ],
+  figure: BriefFigure.units,
+  handbook: 'Handbook p. 130',
+);
+
+const thermalBrief = BriefSection(
+  title: 'Stopped from moving',
+  body:
+      'Heat does not make stress. Being prevented from moving makes stress. A '
+      'bar free at one end simply gets longer and carries nothing. Hold both '
+      'ends and warm it and the growth it was not allowed to make becomes '
+      'compression; cool it and the shrinkage it was not allowed to make '
+      'becomes tension. Leave it a gap and it may close the gap and never '
+      'touch, in which case nothing happens at all, or close it and then fight '
+      'for what is left over. When it does build stress, the length and the '
+      'cross-section cancel out and only the material and the temperature '
+      'change are left.',
+  formulas: [
+    ('Free movement', r'\delta_t = \alpha L \Delta T'),
+    ('Fully restrained', r'\sigma_t = E \alpha \Delta T'),
+    ('With a gap to close first', r'\sigma_t = \frac{E(\delta_t - \text{gap})}{L}'),
+  ],
+  figure: BriefFigure.thermal,
+  handbook: 'Handbook p. 130',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -3364,6 +3429,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{fixed alone} = 3 \;\Rightarrow\; \text{solvable}", true),
             (r"\text{a couple adds an unknown}", false),
             (r"\text{two rollers} \;\Rightarrow\; \text{it stands up}", false),
+          ],
+        );
+      case BriefFigure.deformation:
+        return const _RuleList(
+          rules: [
+            (r"\text{more load or more length} \;\Rightarrow\; \text{more stretch}", true),
+            (r"\text{more area or a stiffer material} \;\Rightarrow\; \text{less}", true),
+            (r"\text{a longer bar carries more stress}", false),
+            (r"\text{doubling every dimension changes nothing}", false),
+          ],
+        );
+      case BriefFigure.units:
+        return const _RuleList(
+          rules: [
+            (r"\text{N, mm and N/mm}^2 \;\Rightarrow\; \text{answers in mm}", true),
+            (r"\text{strain has no unit at all}", true),
+            (r"\text{cancelling units means the answer is right}", false),
+            (r"\text{meters beside millimeters is fine if they cancel}", false),
+          ],
+        );
+      case BriefFigure.thermal:
+        return const _RuleList(
+          rules: [
+            (r"\text{restrained and warmed} \;\Rightarrow\; \text{compression}", true),
+            (r"\text{restrained and cooled} \;\Rightarrow\; \text{tension}", true),
+            (r"\text{heating a bar makes stress}", false),
+            (r"\sigma_t \text{ depends on the cross-section}", false),
           ],
         );
       case BriefFigure.farFromAxis:

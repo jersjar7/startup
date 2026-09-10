@@ -91,6 +91,9 @@ import '../features/games/match_the_dollars_game.dart';
 import '../features/games/what_the_support_gives_game.dart';
 import '../features/games/where_it_all_acts_game.dart';
 import '../features/games/above_or_below_game.dart';
+import '../features/games/does_it_build_stress_game.dart';
+import '../features/games/what_comes_out_game.dart';
+import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
 import '../features/games/rank_by_stiffness_game.dart';
 import '../features/games/which_barely_matters_game.dart';
@@ -312,6 +315,9 @@ GoRouter buildRouter(AuthController auth) {
           'rank-by-stiffness' => const RankByStiffnessGame(),
           'move-it-right' => const MoveItRightGame(),
           'which-barely-matters' => const WhichBarelyMattersGame(),
+          'which-stretches-more' => const WhichStretchesMoreGame(),
+          'what-comes-out' => const WhatComesOutGame(),
+          'does-it-build-stress' => const DoesItBuildStressGame(),
           _ => const _UnknownGame(),
         },
       ),

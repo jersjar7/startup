@@ -1474,12 +1474,101 @@ const staticsMap = ChapterMap(
   ],
 );
 
+/// Chapter 7. Chapter six, Dynamics, is not built yet: this one follows
+/// Statics because the centroid and second moment lessons that close chapter
+/// five are exactly what bending stress needs.
+const mechanicsMaterialsMap = ChapterMap(
+  id: 'mechanics-materials',
+  number: 7,
+  name: 'Mechanics of Materials',
+  examLine: '7 to 11 questions on the real exam',
+  subtopics: [
+    Subtopic('stress-strain-fundamentals', 'Stress, Strain & Material Behavior'),
+    Subtopic('beams', 'Beams'),
+    Subtopic('combined-loading-stability', 'Combined Loading & Stability'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'axial-stress-strain-deformation',
+      name: 'Axial Stress, Strain & Deformation',
+      subtopicId: 'stress-strain-fundamentals',
+      games: [
+        GameDef(
+          id: 'which-stretches-more',
+          rounds: 6,
+          name: 'Which Stretches More',
+          blurb: 'Two bars, one scale. Which one moves further?',
+          built: true,
+          brief: deformationBrief,
+        ),
+        GameDef(
+          id: 'what-comes-out',
+          rounds: 6,
+          name: 'What Comes Out',
+          blurb: 'Units on every term. Say what the answer is.',
+          built: true,
+          brief: unitsBrief,
+        ),
+        GameDef(
+          id: 'does-it-build-stress',
+          rounds: 6,
+          name: 'Does It Build Stress',
+          blurb: 'Warm it, cool it, give it room. What is it left carrying?',
+          built: true,
+          brief: thermalBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'torsion',
+      name: 'Torsion',
+      subtopicId: 'stress-strain-fundamentals',
+    ),
+    LessonNode(
+      id: 'stress-strain-diagrams',
+      name: 'Stress-Strain Diagrams & Material Behavior',
+      subtopicId: 'stress-strain-fundamentals',
+    ),
+    LessonNode(
+      id: 'shear-moment-diagrams',
+      name: 'Shear & Moment Diagrams',
+      subtopicId: 'beams',
+    ),
+    LessonNode(
+      id: 'bending-shear-stresses',
+      name: 'Bending & Shear Stresses in Beams',
+      subtopicId: 'beams',
+    ),
+    LessonNode(
+      id: 'beam-deflections',
+      name: 'Beam Deflections',
+      subtopicId: 'beams',
+    ),
+    LessonNode(
+      id: 'transformed-sections-plastic',
+      name: 'Transformed Sections & Plastic Moment',
+      subtopicId: 'beams',
+    ),
+    LessonNode(
+      id: 'combined-stresses-mohrs-circle',
+      name: "Combined Stresses & Mohr's Circle",
+      subtopicId: 'combined-loading-stability',
+    ),
+    LessonNode(
+      id: 'column-buckling',
+      name: 'Column Buckling',
+      subtopicId: 'combined-loading-stability',
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
   'ethics': ethicsMap,
   'economics': economicsMap,
   'statics': staticsMap,
+  'mechanics-materials': mechanicsMaterialsMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];
