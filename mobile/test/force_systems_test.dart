@@ -26,6 +26,16 @@ double _perp(Offset point, Offset on, Offset dir) {
   return (r.dx * u.dy - r.dy * u.dx).abs();
 }
 
+/// Taps an arrow at the point on the screen where the painter actually draws
+/// it, which is the whole thing these rounds ask the thumb to do.
+Future<void> tapArrow(WidgetTester tester, ArrowRound round, int arrow) async {
+  final box = tester.getRect(find.byKey(const ValueKey('force-figure')));
+  final l = ForceTrianglePainter.layout(round.dx, round.dy, box.size);
+  final ends = [l.alongX, l.alongY, l.tip];
+  await tester.tapAt(box.topLeft + l.origin + (ends[arrow] - l.origin) * 0.66);
+  await tester.pumpAndSettle();
+}
+
 void main() {
   setUpAll(() => GoogleFonts.config.allowRuntimeFetching = false);
 
@@ -405,8 +415,10 @@ void main() {
       await tester.pumpAndSettle();
 
       // Round one names 410 N at 35 degrees off the horizontal, so the
-      // vertical arrow is the swap.
-      await tester.tap(find.byKey(const ValueKey('arrow-1')));
+      // vertical arrow is the swap. Tapped where the arrow is DRAWN rather
+      // than by a key, because where it is drawn is what the thumb has to
+      // find and the two used to be different places.
+      await tapArrow(tester, arrowRounds.first, 1);
       await tester.pumpAndSettle();
       await tester.tap(find.text('Lock it in'));
       await tester.pumpAndSettle();
@@ -418,7 +430,7 @@ void main() {
       await tester.pumpWidget(const MaterialApp(home: WhichArrowIsThatGame()));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const ValueKey('arrow-0')));
+      await tapArrow(tester, arrowRounds.first, 0);
       await tester.pumpAndSettle();
       await tester.tap(find.text('Lock it in'));
       await tester.pumpAndSettle();
@@ -477,6 +489,67 @@ void main() {
       await tester.tap(find.text('Lock it in'));
       await tester.pumpAndSettle();
       expect(find.text('NOT THAT SET'), findsOneWidget);
+    });
+  });
+
+  group('every arrow can be tapped where it is drawn', () {
+    // The three tap zones used to be strips pinned to the edges of the figure
+    // while the drawing was centred on its own content, so the vertical
+    // arrow's zone sat off to the left of the arrow and the arrow itself did
+    // nothing. Tapping an arrow now has to select that arrow.
+    const sizes = [Size(350, 230), Size(320, 230), Size(430, 230)];
+
+    test('a tap on an arrow selects that arrow', () {
+      for (final size in sizes) {
+        for (var r = 0; r < arrowRounds.length; r++) {
+          final round = arrowRounds[r];
+          final l = ForceTrianglePainter.layout(round.dx, round.dy, size);
+          final ends = [l.alongX, l.alongY, l.tip];
+          for (var i = 0; i < ends.length; i++) {
+            // Two thirds of the way out, which is unambiguously that arrow.
+            final at = l.origin + (ends[i] - l.origin) * 0.66;
+            expect(
+              ForceTrianglePainter.nearestArrow(
+                  round.dx, round.dy, size, at),
+              i,
+              reason: 'round ${r + 1} at $size: a tap on arrow ${i + 1} '
+                  'picked something else',
+            );
+          }
+        }
+      }
+    });
+
+    test('a tap near the head of an arrow selects it too', () {
+      for (final size in sizes) {
+        for (var r = 0; r < arrowRounds.length; r++) {
+          final round = arrowRounds[r];
+          final l = ForceTrianglePainter.layout(round.dx, round.dy, size);
+          final ends = [l.alongX, l.alongY, l.tip];
+          for (var i = 0; i < ends.length; i++) {
+            final at = l.origin + (ends[i] - l.origin) * 0.94;
+            expect(
+              ForceTrianglePainter.nearestArrow(
+                  round.dx, round.dy, size, at),
+              i,
+              reason: 'round ${r + 1} at $size: the head of arrow ${i + 1} '
+                  'picked something else',
+            );
+          }
+        }
+      }
+    });
+
+    test('the drawing stays inside the figure it is measured for', () {
+      for (final size in sizes) {
+        for (final round in arrowRounds) {
+          final l = ForceTrianglePainter.layout(round.dx, round.dy, size);
+          for (final p in [l.origin, l.alongX, l.alongY, l.tip]) {
+            expect(p.dx > 0 && p.dx < size.width, isTrue);
+            expect(p.dy > 0 && p.dy < size.height, isTrue);
+          }
+        }
+      }
     });
   });
 }

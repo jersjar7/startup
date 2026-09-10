@@ -55,10 +55,67 @@ class ForceTrianglePainter extends CustomPainter {
   static const _padT = 20.0;
   static const _padR = 46.0;
 
-  /// The strip down the left belongs to the vertical arrow and the strip
-  /// along the bottom to the horizontal one, so that the three tap zones
-  /// never overlap at the corner they share.
-  static const gutter = 16.0;
+  /// Where the three arrows actually land.
+  ///
+  /// The drawing is centred in whatever room is left over, so anything that
+  /// wants to point at an arrow has to ask rather than assume. Tap zones
+  /// pinned to the edges of the box used to drift right off the arrows they
+  /// belonged to, which is how the vertical one became untappable.
+  static ({Offset origin, Offset alongX, Offset alongY, Offset tip}) layout(
+      double dx, double dy, Size size) {
+    final room = Size(
+      size.width - _padL - _padR,
+      size.height - _padT - _padB,
+    );
+    final scale = math.min(room.width / dx, room.height / dy);
+    final sx = dx * scale;
+    final sy = dy * scale;
+    final o = Offset(
+      _padL + (room.width - sx) / 2,
+      _padT + (room.height + sy) / 2,
+    );
+    return (
+      origin: o,
+      alongX: Offset(o.dx + sx, o.dy),
+      alongY: Offset(o.dx, o.dy - sy),
+      tip: Offset(o.dx + sx, o.dy - sy),
+    );
+  }
+
+  /// Which arrow a tap belongs to: whichever one it landed nearest.
+  ///
+  /// The three arrows leave one corner, so a strip for each cannot help
+  /// overlapping there. Measuring instead means the answer is always the
+  /// arrow the thumb was actually closest to, and the shared corner is
+  /// trimmed off all three so it belongs to none of them.
+  static int nearestArrow(double dx, double dy, Size size, Offset at) {
+    final l = layout(dx, dy, size);
+    final ends = [l.alongX, l.alongY, l.tip];
+    var best = 0;
+    var bestGap = double.infinity;
+    for (var i = 0; i < ends.length; i++) {
+      final run = ends[i] - l.origin;
+      final len = run.distance;
+      if (len < 1) continue;
+      final trim = math.min(22.0, len * 0.22);
+      final from = l.origin + run / len * trim;
+      final gap = _gapToSegment(at, from, ends[i]);
+      if (gap < bestGap) {
+        bestGap = gap;
+        best = i;
+      }
+    }
+    return best;
+  }
+
+  static double _gapToSegment(Offset p, Offset a, Offset b) {
+    final run = b - a;
+    final len2 = run.dx * run.dx + run.dy * run.dy;
+    if (len2 < 0.001) return (p - a).distance;
+    final t = (((p - a).dx * run.dx + (p - a).dy * run.dy) / len2)
+        .clamp(0.0, 1.0);
+    return (p - (a + run * t)).distance;
+  }
 
   Color _colorOf(int which) {
     if (locked && which == truth) return AppColors.forest;
@@ -71,24 +128,15 @@ class ForceTrianglePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final room = Size(
-      size.width - _padL - _padR,
-      size.height - _padT - _padB,
-    );
-    // One scale for both legs, or the picture lies about which is longer.
-    final scale = math.min(room.width / dx, room.height / dy);
-    final sx = dx * scale;
-    final sy = dy * scale;
-
-    // Centerd in what is left over. Anchored at the corner, a tall narrow
+    // Centered in what is left over. Anchored at the corner, a tall narrow
     // triangle sat in the left third of the box with nothing beside it.
-    final o = Offset(
-      _padL + (room.width - sx) / 2,
-      _padT + (room.height + sy) / 2,
-    );
-    final tip = Offset(o.dx + sx, o.dy - sy);
-    final alongX = Offset(o.dx + sx, o.dy);
-    final alongY = Offset(o.dx, o.dy - sy);
+    final l = layout(dx, dy, size);
+    final o = l.origin;
+    final tip = l.tip;
+    final alongX = l.alongX;
+    final alongY = l.alongY;
+    final sx = alongX.dx - o.dx;
+    final sy = o.dy - alongY.dy;
 
     // The rectangle, so that both components read as parts of one force.
     _dashed(canvas, alongX, tip);

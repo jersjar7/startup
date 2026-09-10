@@ -311,6 +311,7 @@ class _Figure extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: SizedBox(
+        key: const ValueKey('force-figure'),
         height: _height,
         width: double.infinity,
         child: EngineeringGrid(
@@ -334,32 +335,30 @@ class _Figure extends StatelessWidget {
                   child: const SizedBox.expand(),
                 ),
               ),
-              // The bottom strip is the horizontal component's.
-              Positioned(
-                key: const ValueKey('arrow-0'),
-                left: ForceTrianglePainter.gutter * 2,
-                right: 0,
-                bottom: 0,
-                height: 44,
-                child: _Zone(onTap: onTap == null ? null : () => onTap!(0)),
-              ),
-              // The left strip is the vertical component's.
-              Positioned(
-                key: const ValueKey('arrow-1'),
-                left: 0,
-                top: 0,
-                bottom: 0,
-                width: ForceTrianglePainter.gutter * 2 + 18,
-                child: _Zone(onTap: onTap == null ? null : () => onTap!(1)),
-              ),
-              // Everything else is the force.
-              Positioned(
-                key: const ValueKey('arrow-2'),
-                left: ForceTrianglePainter.gutter * 2 + 18,
-                right: 0,
-                top: 0,
-                bottom: 44,
-                child: _Zone(onTap: onTap == null ? null : () => onTap!(2)),
+              // One zone over the whole figure. Three strips pinned to the
+              // edges of the box cannot follow a drawing that is centred on
+              // its own content, and the vertical arrow's strip had drifted
+              // clean off it.
+              Positioned.fill(
+                child: LayoutBuilder(
+                  builder: (context, box) {
+                    final size = Size(box.maxWidth, _height);
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTapUp: onTap == null
+                          ? null
+                          : (details) => onTap!(
+                                ForceTrianglePainter.nearestArrow(
+                                  round.dx,
+                                  round.dy,
+                                  size,
+                                  details.localPosition,
+                                ),
+                              ),
+                      child: const SizedBox.expand(),
+                    );
+                  },
+                ),
               ),
             ],
           ),
@@ -367,17 +366,4 @@ class _Figure extends StatelessWidget {
       ),
     );
   }
-}
-
-class _Zone extends StatelessWidget {
-  const _Zone({required this.onTap});
-
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: const SizedBox.expand(),
-      );
 }
