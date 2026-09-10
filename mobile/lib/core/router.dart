@@ -91,6 +91,9 @@ import '../features/games/match_the_dollars_game.dart';
 import '../features/games/what_the_support_gives_game.dart';
 import '../features/games/where_it_all_acts_game.dart';
 import '../features/games/can_statics_solve_it_game.dart';
+import '../features/games/stretched_or_squashed_game.dart';
+import '../features/games/where_do_you_cut_game.dart';
+import '../features/games/which_carry_nothing_game.dart';
 import '../features/games/which_arrow_is_that_game.dart';
 import '../features/games/which_distance_counts_game.dart';
 import '../features/games/which_ones_turn_it_game.dart';
@@ -282,6 +285,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-arrow-is-that' => const WhichArrowIsThatGame(),
           'which-distance-counts' => const WhichDistanceCountsGame(),
           'which-ones-turn-it' => const WhichOnesTurnItGame(),
+          'which-carry-nothing' => const WhichCarryNothingGame(),
+          'stretched-or-squashed' => const StretchedOrSquashedGame(),
+          'where-do-you-cut' => const WhereDoYouCutGame(),
           _ => const _UnknownGame(),
         },
       ),

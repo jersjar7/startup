@@ -170,6 +170,9 @@ void main() {
       // one with a probability in it, so every round is built from it.
       'roll-it-back',
       'acute-or-obtuse', // the negative-cosine trap, which is one problem
+      // The section problem is the only one in the lesson that asks for a
+      // single member's force, and where to take the cut is the whole item.
+      'where-do-you-cut',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

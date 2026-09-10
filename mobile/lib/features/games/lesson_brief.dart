@@ -152,6 +152,9 @@ enum BriefFigure {
   supports,
   resultant,
   determinacy,
+  zeroForce,
+  senseOfForce,
+  section,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2283,6 +2286,63 @@ const resultantBrief = BriefSection(
   handbook: 'Handbook p. 94',
 );
 
+const zeroForceBrief = BriefSection(
+  title: 'Members carrying nothing',
+  body:
+      'Two rules, and they are worth a minute before any calculation. Two '
+      'members meeting at a joint with nothing applied to it: both are zero. '
+      'Three members at such a joint with two of them in line: the odd one out '
+      'is zero. Both rules need the joint UNLOADED, so a reaction or a hung '
+      'load at that joint switches them off. A zero-force member is not spare. '
+      'It braces the joint and it takes over the moment the loading changes.',
+  formulas: [
+    ('Two at an unloaded joint', r'F_1 = F_2 = 0'),
+    ('Three, two collinear', r'F_{\text{odd}} = 0'),
+    ('What turns it off', r'\text{any load or reaction at the joint}'),
+  ],
+  figure: BriefFigure.zeroForce,
+  handbook: 'Handbook p. 95',
+);
+
+const senseOfForceBrief = BriefSection(
+  title: 'Tension, compression, and the sign',
+  body:
+      'Draw every unknown member force pulling AWAY from the joint, which is '
+      'assuming tension. Then the algebra tells you the truth: positive means '
+      'the member really is stretched, negative means it is squashed. Answer '
+      'with both parts. Four point two kilonewtons is not an answer on this '
+      'exam. Four point two kilonewtons compression is. Under downward load a '
+      'simply supported truss squashes its top chord and stretches its bottom '
+      'chord, and a cantilever does the opposite.',
+  formulas: [
+    ('The assumption', r'\text{all members in tension}'),
+    ('Positive', r'T > 0 \;\Rightarrow\; \text{tension}'),
+    ('Negative', r'T < 0 \;\Rightarrow\; \text{compression}'),
+  ],
+  figure: BriefFigure.senseOfForce,
+  handbook: 'Handbook p. 95',
+);
+
+const sectionBrief = BriefSection(
+  title: 'Cutting straight to one member',
+  body:
+      'The method of joints walks the truss one pin at a time. A section skips '
+      'the walk: slice right through the truss, throw one half away, and put '
+      'the three equilibrium equations on what is left. The cut has to cross '
+      'the member you were asked for, and it has to cross no more than three '
+      'members altogether, because three equations is all a flat body gives '
+      'you. It does not have to be vertical. Take moments about the point '
+      'where two of the three cut members meet and the third falls out on its '
+      'own.',
+  formulas: [
+    ('On the piece you keep', r'\sum F_x = 0, \; \sum F_y = 0, \; \sum M = 0'),
+    ('The limit', r'\text{members cut} \le 3'),
+    ('The shortcut', r'\sum M \text{ about where the other two meet}'),
+  ],
+  figure: BriefFigure.section,
+  handbook: 'Handbook p. 95',
+);
+
 const determinacyBrief = BriefSection(
   title: 'Three equations, and no more',
   body:
@@ -3077,6 +3137,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{fixed alone} = 3 \;\Rightarrow\; \text{solvable}", true),
             (r"\text{a couple adds an unknown}", false),
             (r"\text{two rollers} \;\Rightarrow\; \text{it stands up}", false),
+          ],
+        );
+      case BriefFigure.zeroForce:
+        return const _RuleList(
+          rules: [
+            (r"\text{2 members, unloaded joint} \;\Rightarrow\; \text{both zero}", true),
+            (r"\text{3 members, 2 in line, unloaded} \;\Rightarrow\; \text{odd one zero}", true),
+            (r"\text{2 members, load on the joint}", false),
+            (r"\text{a zero-force member can be removed}", false),
+          ],
+        );
+      case BriefFigure.senseOfForce:
+        return const _RuleList(
+          rules: [
+            (r"\text{assume tension, always}", true),
+            (r"T > 0 \;\Rightarrow\; \text{tension, the member is stretched}", true),
+            (r"T < 0 \;\Rightarrow\; \text{compression, the member is squashed}", true),
+            (r"\text{a magnitude on its own is the answer}", false),
+          ],
+        );
+      case BriefFigure.section:
+        return const _RuleList(
+          rules: [
+            (r"\text{the cut crosses the member you want}", true),
+            (r"\text{no more than 3 members cut}", true),
+            (r"\text{it gives you every member it severs}", true),
+            (r"\text{the cut must be vertical}", false),
           ],
         );
       case BriefFigure.lawChoice:

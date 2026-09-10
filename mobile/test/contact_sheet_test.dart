@@ -53,6 +53,9 @@ import 'package:mobile/features/games/which_ones_turn_it_game.dart';
 import 'package:mobile/features/games/what_the_support_gives_game.dart';
 import 'package:mobile/features/games/where_it_all_acts_game.dart';
 import 'package:mobile/features/games/can_statics_solve_it_game.dart';
+import 'package:mobile/features/games/stretched_or_squashed_game.dart';
+import 'package:mobile/features/games/where_do_you_cut_game.dart';
+import 'package:mobile/features/games/which_carry_nothing_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
@@ -893,6 +896,24 @@ void main() {
       rounds: solveRounds.length,
       height: 1400,
     ),
+    'which-carry-nothing': (
+      lesson: '38-trusses',
+      build: WhichCarryNothingGame.new,
+      rounds: idleRounds.length,
+      height: 1350,
+    ),
+    'stretched-or-squashed': (
+      lesson: '38-trusses',
+      build: StretchedOrSquashedGame.new,
+      rounds: workRounds.length,
+      height: 1500,
+    ),
+    'where-do-you-cut': (
+      lesson: '38-trusses',
+      build: WhereDoYouCutGame.new,
+      rounds: cutRounds.length,
+      height: 1400,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1082,6 +1103,11 @@ void main() {
       ('supports', supportsBrief),
       ('resultant', resultantBrief),
       ('determinacy', determinacyBrief),
+    ],
+    '38-trusses': [
+      ('zero-force', zeroForceBrief),
+      ('sense-of-force', senseOfForceBrief),
+      ('section', sectionBrief),
     ],
   };
 

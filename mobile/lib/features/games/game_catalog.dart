@@ -1320,6 +1320,32 @@ const staticsMap = ChapterMap(
       id: 'trusses-joints-sections',
       name: 'Trusses: Joints & Sections',
       subtopicId: 'trusses-and-friction',
+      games: [
+        GameDef(
+          id: 'which-carry-nothing',
+          rounds: 6,
+          name: 'Which Ones Carry Nothing',
+          blurb: 'Scan the joints. Tap every member doing no work.',
+          built: true,
+          brief: zeroForceBrief,
+        ),
+        GameDef(
+          id: 'stretched-or-squashed',
+          rounds: 6,
+          name: 'Stretched or Squashed',
+          blurb: 'One member lit up. Say which way it is being worked.',
+          built: true,
+          brief: senseOfForceBrief,
+        ),
+        GameDef(
+          id: 'where-do-you-cut',
+          rounds: 6,
+          name: 'Where Do You Cut',
+          blurb: 'Three lines across the truss. Only one of them pays.',
+          built: true,
+          brief: sectionBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'friction',

@@ -83,6 +83,9 @@ import 'find_the_factor_game.dart';
 import 'what_the_support_gives_game.dart';
 import 'where_it_all_acts_game.dart';
 import 'can_statics_solve_it_game.dart';
+import 'stretched_or_squashed_game.dart';
+import 'where_do_you_cut_game.dart';
+import 'which_carry_nothing_game.dart';
 import 'which_arrow_is_that_game.dart';
 import 'which_distance_counts_game.dart';
 import 'which_ones_turn_it_game.dart';
@@ -1480,6 +1483,42 @@ List<GameAudit> auditAllGames() => [
           source: v.source,
           options: const ['acute', 'right', 'obtuse'],
           answer: v.answer.index,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-carry-nothing',
+    lessonId: 'trusses-joints-sections',
+    problemPrefix: 'stat-tjs-',
+    rounds: [
+      // A SET of members on the drawing, which on one round is empty, so no
+      // index into a shortlist names the answer.
+      for (final r in idleRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'stretched-or-squashed',
+    lessonId: 'trusses-joints-sections',
+    problemPrefix: 'stat-tjs-',
+    rounds: [
+      for (final r in workRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final w in Working.values) w.name],
+          answer: Working.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-do-you-cut',
+    lessonId: 'trusses-joints-sections',
+    problemPrefix: 'stat-tjs-',
+    rounds: [
+      for (final r in cutRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final c in r.cuts) c.label],
+          answer: r.answer,
         ),
     ],
   ),
