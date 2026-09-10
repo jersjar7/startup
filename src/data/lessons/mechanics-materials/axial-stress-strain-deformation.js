@@ -35,7 +35,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Just P/A \u2014 but the trap is computing the area wrong. You need A = \u03C0d\u00B2/4, not \u03C0d\u00B2 or \u03C0d. Using diameter as radius gives A = \u03C0(20)\u00B2 = 1,257 mm\u00B2 and stress = 11.9 MPa (the 11.9 MPa choice). Using circumference instead of area gives \u03C0d = 62.8 and stress = 477 MPa (the 477 MPa choice). The correct area is \u03C0(20)\u00B2/4 = 314.2 mm\u00B2.',
+      eli5: 'Just P/A \u2014 but the trap is computing the area wrong. You need A = \u03C0d\u00B2/4, not \u03C0d\u00B2 or \u03C0d. Using diameter as radius gives A = \u03C0(20)\u00B2 = 1,257 mm\u00B2 and stress = 11.9 MPa (the 11.9 MPa choice). The 477 MPa choice is exactly ten times the correct answer, which is the signature of dividing by a length instead of by an area \u2014 by \u03C0d/2 = 31.4 rather than by \u03C0d\u00B2/4 = 314.2. A length can never go underneath a force and give a stress, so a check on the units catches it. The correct area is \u03C0(20)\u00B2/4 = 314.2 mm\u00B2.',
       hint: 'Remember, the area of a circle uses diameter: A = \u03C0d\u00B2/4.',
       steps: [
         { text: 'Cross-sectional area:', latex: 'A = \\frac{\\pi d^2}{4} = \\frac{\\pi (20)^2}{4} = 314.2 \\text{ mm}^2' },
@@ -46,7 +46,7 @@ export default {
       videoUrl: null,
       traps: [
         'Using diameter as radius in A = \u03C0r\u00B2 \u2014 gives A = \u03C0(20)\u00B2 = 1,257 mm\u00B2, stress = 11.9 MPa (choice D)',
-        'Using circumference \u03C0d instead of area \u03C0d\u00B2/4 \u2014 gives 477 MPa (choice C)',
+        'Dividing by a length instead of an area \u2014 by \u03C0d/2 = 31.4 rather than \u03C0d\u00B2/4 = 314.2 \u2014 gives 477 MPa, exactly ten times too big (choice C)',
       ],
       diagram: null,
     },
