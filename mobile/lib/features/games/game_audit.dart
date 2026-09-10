@@ -91,6 +91,7 @@ import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
 import 'rank_by_stiffness_game.dart';
 import 'which_barely_matters_game.dart';
+import 'when_does_it_land_game.dart';
 import 'which_second_moment_game.dart';
 import 'will_it_hold_itself_game.dart';
 import 'along_it_or_not_game.dart';
@@ -1694,6 +1695,16 @@ List<GameAudit> auditAllGames() => [
           options: r.names,
           answer: r.answer,
         ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'when-does-it-land',
+    lessonId: 'equivalence-interest-factors',
+    problemPrefix: 'econ-eif-',
+    rounds: [
+      // The answer is a mark on a timeline, and two rounds land on the same
+      // one on purpose, so no shortlist of words names it.
+      for (final r in momentRounds) RoundAudit(source: r.source),
     ],
   ),
   GameAudit(

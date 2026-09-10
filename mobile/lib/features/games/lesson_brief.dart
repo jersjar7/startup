@@ -155,6 +155,7 @@ enum BriefFigure {
   zeroForce,
   senseOfForce,
   section,
+  period,
   ceiling,
   belt,
   normalForce,
@@ -2620,6 +2621,27 @@ const whatItIsBrief = BriefSection(
   handbook: 'Handbook p. 97',
 );
 
+const periodBrief = BriefSection(
+  title: 'Which mark it lands on',
+  body:
+      'Unless a problem says otherwise, every payment lands at the END of its '
+      'period. Today is period zero. The beginning of year n is the same '
+      'instant as the end of year n minus one, so it sits on period n minus '
+      'one, and the beginning of year one is today. An ordinary annuity starts '
+      'at the end of the first period rather than now, which is what every '
+      'uniform series factor in the handbook assumes. A gradient is nought in '
+      'the first period by definition and its first step lands at the end of '
+      'period two. Draw the diagram before choosing a factor: a cash flow one '
+      'period out leaves no trace at all in the arithmetic that follows.',
+  formulas: [
+    ('End of year n', r'\text{period } n'),
+    ('Beginning of year n', r'\text{period } n - 1'),
+    ('Today', r'\text{period } 0'),
+  ],
+  figure: BriefFigure.period,
+  handbook: 'Handbook p. 230',
+);
+
 const screwBrief = BriefSection(
   title: 'Whether a screw holds itself',
   body:
@@ -3611,6 +3633,15 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{still, one member bends} \;\Rightarrow\; \text{frame}", true),
             (r"\text{a frame may have a part that moves}", false),
             (r"\text{a machine is solved a different way}", false),
+          ],
+        );
+      case BriefFigure.period:
+        return const _RuleList(
+          rules: [
+            (r"\text{end of year } n \;\Rightarrow\; \text{period } n", true),
+            (r"\text{beginning of year } n \;\Rightarrow\; \text{period } n-1", true),
+            (r"\text{a series starts at period 0}", false),
+            (r"\text{a gradient has a step in period 1}", false),
           ],
         );
       case BriefFigure.screw:

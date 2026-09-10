@@ -1081,6 +1081,14 @@ const economicsMap = ChapterMap(
           built: true,
           brief: piecesBrief,
         ),
+        GameDef(
+          id: 'when-does-it-land',
+          rounds: 6,
+          name: 'When Does It Land',
+          blurb: 'Tap the period. The beginning of a year is not its number.',
+          built: true,
+          brief: periodBrief,
+        ),
       ],
     ),
     LessonNode(

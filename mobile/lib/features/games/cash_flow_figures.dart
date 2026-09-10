@@ -333,3 +333,123 @@ class LivesPainter extends CustomPainter {
   bool shouldRepaint(LivesPainter old) =>
       old.lifeA != lifeA || old.lifeB != lifeB || old.bracket != bracket;
 }
+
+/// When a payment actually lands, worked out from how the sentence phrased it.
+///
+/// The lesson's convention warning is that the end of one year and the
+/// beginning of the next are the SAME instant on the diagram. Getting it wrong
+/// shifts every factor by a period, and the arithmetic afterwards is perfect.
+@immutable
+class Moment {
+  const Moment({required this.year, required this.atEnd});
+
+  final int year;
+
+  /// True for "at the end of year n", false for "at the beginning of".
+  final bool atEnd;
+
+  /// The end of year n is period n. The beginning of year n is the end of
+  /// year n minus one, so it is period n minus one, and the beginning of year
+  /// one is today.
+  int get period => atEnd ? year : year - 1;
+}
+
+/// A bare timeline with the periods marked, for pointing at one of them.
+class TimelinePainter extends CustomPainter {
+  const TimelinePainter({
+    required this.periods,
+    this.picked,
+    this.truth = -1,
+    this.locked = false,
+  });
+
+  final int periods;
+  final int? picked;
+  final int truth;
+  final bool locked;
+
+  static const _padL = 30.0;
+  static const _padR = 30.0;
+
+  /// Where a period sits across the figure, so a tap target can be put on it.
+  static double xFor(Size size, int periods, int period) =>
+      _padL + period / periods * (size.width - _padL - _padR);
+
+  static double axisFor(Size size) => size.height * 0.52;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final axis = axisFor(size);
+    canvas.drawLine(
+      Offset(_padL - 12, axis),
+      Offset(size.width - _padR + 12, axis),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 2,
+    );
+
+    for (var p = 0; p <= periods; p++) {
+      final x = xFor(size, periods, p);
+      final chosen = picked == p;
+      final right = locked && p == truth;
+      final Color colour;
+      if (right) {
+        colour = AppColors.forest;
+      } else if (locked && chosen) {
+        colour = AppColors.error;
+      } else if (chosen) {
+        colour = AppColors.ember;
+      } else {
+        colour = AppColors.ink3;
+      }
+
+      canvas.drawLine(Offset(x, axis - 7), Offset(x, axis + 7),
+          Paint()
+            ..color = colour
+            ..strokeWidth = chosen || right ? 3 : 1.8);
+
+      // The arrow only appears once the round is answered, on the period the
+      // payment really belongs to.
+      if (right || chosen) {
+        final tip = Offset(x, axis - 54);
+        canvas.drawLine(Offset(x, axis - 8), tip,
+            Paint()
+              ..color = colour
+              ..strokeWidth = 3
+              ..strokeCap = StrokeCap.round);
+        canvas.drawPath(
+          Path()
+            ..moveTo(tip.dx, tip.dy)
+            ..lineTo(tip.dx - 5.5, tip.dy + 11)
+            ..lineTo(tip.dx + 5.5, tip.dy + 11)
+            ..close(),
+          Paint()..color = colour,
+        );
+      }
+
+      _write(canvas, '$p', Offset(x, axis + 12), colour, size);
+      if (p > 0) {
+        // The year each interval covers, so "year 3" and "period 3" can be
+        // seen to be different things.
+        final from = xFor(size, periods, p - 1);
+        _write(canvas, 'yr $p', Offset((from + x) / 2, axis + 30),
+            AppColors.ink2, size);
+      }
+    }
+  }
+
+  void _write(Canvas canvas, String text, Offset at, Color colour, Size size) {
+    final tp = TextPainter(
+      text: TextSpan(text: text, style: AppTheme.mono(size: 11, color: colour)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    var x = at.dx - tp.width / 2;
+    if (x < 1) x = 1;
+    if (x + tp.width > size.width - 1) x = size.width - 1 - tp.width;
+    tp.paint(canvas, Offset(x, at.dy));
+  }
+
+  @override
+  bool shouldRepaint(TimelinePainter old) =>
+      old.picked != picked || old.locked != locked || old.periods != periods;
+}

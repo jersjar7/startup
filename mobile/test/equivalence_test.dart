@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile/features/games/cash_flow_figures.dart';
+import 'package:mobile/features/games/when_does_it_land_game.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/what_does_it_take_game.dart';
 import 'package:mobile/features/games/which_factor_game.dart';
@@ -293,6 +294,75 @@ void main() {
       await tester.tap(find.text('Lock it in'));
       await tester.pumpAndSettle();
       expect(find.text('ALL THE PIECES'), findsOneWidget);
+    });
+  });
+
+  group('which mark a payment lands on', () {
+    const expected = <int, int>{0: 3, 1: 2, 2: 0, 3: 1, 4: 2, 5: 0};
+
+    test('the app and the hand-worked set agree', () {
+      for (var i = 0; i < momentRounds.length; i++) {
+        expect(momentRounds[i].answer, expected[i],
+            reason: 'round ${i + 1} of when-does-it-land');
+      }
+    });
+
+    test('the convention is applied and not restated round by round', () {
+      // End of year n is period n; the beginning of year n is a period
+      // earlier. Checked against the round's own phrasing rather than against
+      // a number written beside it.
+      for (var i = 0; i < momentRounds.length; i++) {
+        final m = momentRounds[i].moment;
+        expect(m.period, m.atEnd ? m.year : m.year - 1,
+            reason: 'round ${i + 1} does not follow the convention');
+      }
+    });
+
+    test('the two rounds that mean today really are the same instant', () {
+      // Rounds three and six are worded completely differently and land on
+      // the same mark, which is the point of having both.
+      expect(momentRounds[2].answer, 0);
+      expect(momentRounds[5].answer, 0);
+      expect(momentRounds[2].setting, isNot(momentRounds[5].setting));
+    });
+
+    test('the pair that differs by one word differs by one period', () {
+      final a = momentRounds[0];
+      final b = momentRounds[1];
+      expect(a.moment.year, b.moment.year);
+      expect(a.moment.atEnd, isNot(b.moment.atEnd));
+      expect(a.answer - b.answer, 1);
+    });
+
+    test('every mark offered is on the timeline that is drawn', () {
+      const periods = 5;
+      for (var i = 0; i < momentRounds.length; i++) {
+        expect(momentRounds[i].answer >= 0 &&
+            momentRounds[i].answer <= periods, isTrue,
+            reason: 'round ${i + 1} answers off the end of the timeline');
+      }
+    });
+
+    test('no two periods are tapped in the same place', () {
+      const size = Size(360, 190);
+      const periods = 5;
+      for (var p = 0; p < periods; p++) {
+        final a = TimelinePainter.xFor(size, periods, p);
+        final b = TimelinePainter.xFor(size, periods, p + 1);
+        expect((b - a).abs(), greaterThan(44),
+            reason: 'periods $p and ${p + 1} are too close to tap apart');
+      }
+      expect(TimelinePainter.xFor(size, periods, 0), greaterThan(4));
+      expect(TimelinePainter.xFor(size, periods, periods),
+          lessThan(size.width - 4));
+    });
+
+    test('more than one period is used, and every round names a source', () {
+      expect(momentRounds.map((r) => r.answer).toSet().length,
+          greaterThanOrEqualTo(4));
+      for (final r in momentRounds) {
+        expect(r.source, startsWith('econ-eif-'));
+      }
     });
   });
 }
