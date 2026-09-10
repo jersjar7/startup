@@ -7,6 +7,7 @@ import 'package:mobile/features/games/move_it_right_game.dart';
 import 'package:mobile/features/games/rank_by_stiffness_game.dart';
 import 'package:mobile/features/games/section_figures.dart';
 import 'package:mobile/features/games/which_barely_matters_game.dart';
+import 'package:mobile/features/games/which_second_moment_game.dart';
 
 /// Lesson forty two, area moments of inertia. The table values the items lean
 /// on are checked by counting the shape rather than by repeating the formula,
@@ -278,6 +279,80 @@ void main() {
           v: axisRounds.where((r) => r.answer == v).length,
       };
       for (final v in Transfer.values) {
+        expect(counts[v], greaterThanOrEqualTo(1), reason: '${v.name} never');
+      }
+      expect(counts.values.reduce(math.max), lessThanOrEqualTo(3));
+    });
+  });
+
+  group('which property a job needs', () {
+    const expected = <int, Needs>{
+      0: Needs.iAboutX,
+      1: Needs.iAboutY,
+      2: Needs.polarJ,
+      3: Needs.polarJ,
+      4: Needs.iAboutX,
+      5: Needs.iAboutY,
+    };
+
+    test('the app and the hand-worked set agree', () {
+      for (var i = 0; i < jobRounds.length; i++) {
+        expect(jobRounds[i].answer, expected[i],
+            reason: 'round ${i + 1} of which-second-moment');
+      }
+    });
+
+    test('a bending round bends about the axis square to the load', () {
+      // The rule the item exists to teach, checked as a property rather than
+      // taken on trust from the round that declares the load.
+      for (var i = 0; i < jobRounds.length; i++) {
+        final r = jobRounds[i];
+        if (r.job.twists) continue;
+        final downward = r.job.load.dy.abs() > r.job.load.dx.abs();
+        expect(r.answer, downward ? Needs.iAboutX : Needs.iAboutY,
+            reason: 'round ${i + 1} bends about the wrong axis for its load');
+      }
+    });
+
+    test('a twisting round has no push on it at all', () {
+      for (var i = 0; i < jobRounds.length; i++) {
+        final r = jobRounds[i];
+        if (r.answer != Needs.polarJ) continue;
+        expect(r.job.twists, isTrue);
+        expect(r.job.load, Offset.zero,
+            reason: 'round ${i + 1} draws a push on a member that is only '
+                'being twisted');
+      }
+    });
+
+    test('the round about a beam on its side really is on its side', () {
+      // Its point is that the load sets the axis even when the section is
+      // weak about it, so the section had better BE weak about it.
+      final r = jobRounds[4];
+      expect(r.answer, Needs.iAboutX);
+      expect(r.profile.ownIx, lessThan(r.profile.ownIy),
+          reason: 'the beam on its side is not actually weaker about the '
+              'axis the load picks, so the round proves nothing');
+    });
+
+    test('the round about the usual way up is the other way round', () {
+      final r = jobRounds[5];
+      expect(r.profile.ownIx, greaterThan(r.profile.ownIy));
+    });
+
+    test('for a round shaft the polar moment is twice the bending one', () {
+      // The factor the feedback claims, checked rather than asserted.
+      final shaft = jobRounds[2].profile;
+      expect(shaft.ownIx, closeTo(shaft.ownIy, 0.001));
+      expect(shaft.ownIx + shaft.ownIy, closeTo(2 * shaft.ownIx, 0.001));
+    });
+
+    test('every answer appears and none of them dominates', () {
+      final counts = {
+        for (final v in Needs.values)
+          v: jobRounds.where((r) => r.answer == v).length,
+      };
+      for (final v in Needs.values) {
         expect(counts[v], greaterThanOrEqualTo(1), reason: '${v.name} never');
       }
       expect(counts.values.reduce(math.max), lessThanOrEqualTo(3));

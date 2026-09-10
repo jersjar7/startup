@@ -59,6 +59,7 @@ import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
 import 'package:mobile/features/games/rank_by_stiffness_game.dart';
 import 'package:mobile/features/games/which_barely_matters_game.dart';
+import 'package:mobile/features/games/which_second_moment_game.dart';
 import 'package:mobile/features/games/along_it_or_not_game.dart';
 import 'package:mobile/features/games/can_statics_solve_it_game.dart';
 import 'package:mobile/features/games/does_it_multiply_game.dart';
@@ -1001,6 +1002,12 @@ void main() {
       rounds: shareRounds.length,
       height: 1200,
     ),
+    'which-second-moment': (
+      lesson: '42-inertia',
+      build: WhichSecondMomentGame.new,
+      rounds: jobRounds.length,
+      height: 1350,
+    ),
     'which-stretches-more': (
       lesson: '43-axial',
       build: WhichStretchesMoreGame.new,
@@ -1234,6 +1241,8 @@ void main() {
     '42-inertia': [
       ('far-from-axis', farFromAxisBrief),
       ('transfer', transferBrief),
+      ('composite-i', compositeIBrief),
+      ('polar', polarBrief),
     ],
     '43-axial': [
       ('deformation', deformationBrief),

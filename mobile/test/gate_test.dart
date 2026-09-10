@@ -188,6 +188,9 @@ void main() {
       // The composite problem is the only one in the lesson with more than one
       // piece in it, and which piece carries the section is the whole item.
       'which-barely-matters',
+      // The rectangle problem is the only one in the lesson that names a
+      // section property, and which property a job needs is the whole item.
+      'which-second-moment',
       // The thermal problem is the only one in the lesson with a temperature
       // in it, and what a restrained bar does is the whole item.
       'does-it-build-stress',

@@ -765,3 +765,166 @@ class LineUpPainter extends CustomPainter {
   bool shouldRepaint(LineUpPainter old) =>
       old.shapes != shapes || old.order != order || old.locked != locked;
 }
+
+/// Which second moment a job actually needs.
+enum Needs {
+  /// Bending about the horizontal axis, which a downward load causes.
+  iAboutX,
+
+  /// Bending about the vertical axis, which a sideways load causes.
+  iAboutY,
+
+  /// Twisting about the member's own length.
+  polarJ,
+}
+
+/// What is being done to a member.
+///
+/// The answer follows from the direction of the load and nothing else, which
+/// is the point: a section bends about the axis SQUARE to the push, not about
+/// whichever of its axes happens to be the stronger one.
+@immutable
+class Job {
+  const Job({required this.load, this.twists = false});
+
+  /// The direction the load pushes, in the section's own coordinates with y
+  /// upward. Only the direction matters.
+  final Offset load;
+
+  /// Whether it is a torque about the member's own length rather than a push.
+  final bool twists;
+
+  Needs get needs {
+    if (twists) return Needs.polarJ;
+    return load.dy.abs() >= load.dx.abs() ? Needs.iAboutX : Needs.iAboutY;
+  }
+}
+
+/// A section with the job drawn on it: a straight arrow for a push, a curved
+/// one for a twist.
+class JobPainter extends CustomPainter {
+  const JobPainter({
+    required this.profile,
+    required this.job,
+    this.showAxis = false,
+  });
+
+  final Profile profile;
+  final Job job;
+
+  /// After answering, marks the axis the bending actually happens about.
+  final bool showAxis;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Offset at(Offset w) => ProfilePainter.toScreen(profile, w, size);
+    final b = profile.bounds;
+    final middle = at(profile.centroid);
+
+    // The section itself, drawn the way every other figure in this chapter
+    // draws one.
+    ProfilePainter(profile: profile).paint(canvas, size);
+
+    if (showAxis) {
+      final ink = Paint()
+        ..color = AppColors.forest
+        ..strokeWidth = 1.8;
+      final long = math.max(
+          (at(Offset(b.right, 0)).dx - at(Offset(b.left, 0)).dx).abs(), 60.0);
+      if (job.needs == Needs.polarJ) {
+        canvas.drawCircle(
+          middle,
+          9,
+          Paint()
+            ..color = AppColors.forest
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2.4,
+        );
+        canvas.drawCircle(middle, 3, Paint()..color = AppColors.forest);
+      } else if (job.needs == Needs.iAboutX) {
+        _chain(canvas, middle - Offset(long / 2 + 14, 0),
+            middle + Offset(long / 2 + 14, 0), ink);
+      } else {
+        final tall = (at(Offset(0, b.top)).dy - at(Offset(0, b.bottom)).dy)
+            .abs();
+        _chain(canvas, middle - Offset(0, tall / 2 + 14),
+            middle + Offset(0, tall / 2 + 14), ink);
+      }
+    }
+
+    if (job.twists) {
+      _twistMark(canvas, middle, size);
+      return;
+    }
+
+    // World y runs up, screen y runs down.
+    final dir = Offset(job.load.dx, -job.load.dy);
+    final unit = dir / dir.distance;
+    final reach = math.min(size.width, size.height) * 0.30;
+    final tip = middle + unit * reach * 0.45;
+    final tail = tip - unit * reach;
+    final paint = Paint()
+      ..color = AppColors.ember
+      ..strokeWidth = 3.2
+      ..strokeCap = StrokeCap.round;
+    canvas.drawLine(tail, tip, paint);
+    final side = Offset(-unit.dy, unit.dx);
+    canvas.drawPath(
+      Path()
+        ..moveTo(tip.dx, tip.dy)
+        ..lineTo(tip.dx - unit.dx * 13 + side.dx * 6.5,
+            tip.dy - unit.dy * 13 + side.dy * 6.5)
+        ..lineTo(tip.dx - unit.dx * 13 - side.dx * 6.5,
+            tip.dy - unit.dy * 13 - side.dy * 6.5)
+        ..close(),
+      Paint()..color = AppColors.ember,
+    );
+  }
+
+  /// A torque about the member's own length, drawn as a turn around the
+  /// middle of the section.
+  void _twistMark(Canvas canvas, Offset middle, Size size) {
+    final r = math.min(size.width, size.height) * 0.17;
+    final ink = Paint()
+      ..color = AppColors.ember
+      ..strokeWidth = 3.2
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+    canvas.drawArc(
+        Rect.fromCircle(center: middle, radius: r), -2.6, 4.4, false, ink);
+    const head = 1.8;
+    final tip = middle + Offset(math.cos(head), math.sin(head)) * r;
+    final along = Offset(-math.sin(head), math.cos(head));
+    final side = Offset(-along.dy, along.dx);
+    canvas.drawPath(
+      Path()
+        ..moveTo(tip.dx, tip.dy)
+        ..lineTo(tip.dx - along.dx * 13 + side.dx * 6.5,
+            tip.dy - along.dy * 13 + side.dy * 6.5)
+        ..lineTo(tip.dx - along.dx * 13 - side.dx * 6.5,
+            tip.dy - along.dy * 13 - side.dy * 6.5)
+        ..close(),
+      Paint()..color = AppColors.ember,
+    );
+  }
+
+  void _chain(Canvas canvas, Offset from, Offset to, Paint paint) {
+    final total = (to - from).distance;
+    final step = (to - from) / total;
+    var d = 0.0;
+    var long = true;
+    while (d < total) {
+      final run = long ? 12.0 : 3.0;
+      canvas.drawLine(
+          from + step * d, from + step * math.min(d + run, total), paint);
+      d += run + 4;
+      long = !long;
+    }
+  }
+
+  @override
+  bool shouldRepaint(JobPainter old) =>
+      old.profile != profile ||
+      old.job != job ||
+      old.showAxis != showAxis;
+}

@@ -91,6 +91,7 @@ import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
 import 'rank_by_stiffness_game.dart';
 import 'which_barely_matters_game.dart';
+import 'which_second_moment_game.dart';
 import 'along_it_or_not_game.dart';
 import 'does_it_multiply_game.dart';
 import 'frame_figures.dart';
@@ -1691,6 +1692,19 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: r.names,
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-second-moment',
+    lessonId: 'area-moments-of-inertia',
+    problemPrefix: 'stat-ami-',
+    rounds: [
+      for (final r in jobRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Needs.values) v.name],
+          answer: Needs.values.indexOf(r.answer),
         ),
     ],
   ),

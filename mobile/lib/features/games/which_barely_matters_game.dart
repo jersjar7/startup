@@ -229,7 +229,7 @@ class _WhichBarelyMattersGameState extends State<WhichBarelyMattersGame> {
 
     return BoardShell(
       session: _session,
-      brief: transferBrief,
+      brief: compositeIBrief,
       buttonLabel: answered ? _session.advanceLabel : 'Lock it in',
       onButton: answered
           ? () {

@@ -166,6 +166,8 @@ enum BriefFigure {
   reference,
   farFromAxis,
   transfer,
+  compositeI,
+  polar,
   deformation,
   units,
   thermal,
@@ -2447,15 +2449,55 @@ const transferBrief = BriefSection(
       'times the distance between them squared. Come back and you take it off. '
       'The theorem only runs between the centroidal axis and some other one: '
       'it will not go straight from one non-centroidal axis to another, and '
-      'the way through is always back via the centroid. On a composite section '
-      'every piece gets its own transfer, measured to the COMPOSITE centroid, '
-      'and those terms are usually the bigger half of the answer.',
+      'the way through is always back via the centroid.',
   formulas: [
     ('Parallel axis theorem', r'I_x = \bar{I}_{xc} + Ad^2'),
-    ('Composite', r'I_x = \sum \left( \bar{I}_i + A_i d_i^2 \right)'),
-    ('Radius of gyration', r'r = \sqrt{\frac{I}{A}}'),
+    ('Leaving the centroidal axis', r'+\,Ad^2'),
+    ('Arriving at it', r'-\,Ad^2'),
   ],
   figure: BriefFigure.transfer,
+  handbook: 'Handbook p. 95',
+);
+
+const compositeIBrief = BriefSection(
+  title: 'Where a built-up section gets its stiffness',
+  body:
+      'Add a composite section up piece by piece: each one brings its own '
+      'centroidal value AND a transfer term, and the transfer is measured to '
+      'the COMPOSITE centroid, not to the piece or to the base. On almost any '
+      'real section those transfer terms are the bigger half of the answer, '
+      'and that has a consequence worth carrying: because the distance is '
+      'squared, a piece sitting on the axis contributes almost nothing however '
+      'much material is in it, and a small piece a long way out can carry most '
+      'of the section. It is why an I-beam has fat flanges and a thin web, and '
+      'why a service hole goes through the middle of a beam depth.',
+  formulas: [
+    ('Piece by piece', r'I_x = \sum \left( \bar{I}_i + A_i d_i^2 \right)'),
+    ('Measured to', r'\text{the composite centroid}'),
+    ('Which is why', r'd^2 \text{, so material on the axis is wasted}'),
+  ],
+  figure: BriefFigure.compositeI,
+  handbook: 'Handbook p. 95',
+);
+
+const polarBrief = BriefSection(
+  title: 'Bending needs I, twisting needs J',
+  body:
+      'Two different jobs and two different properties, and reaching for the '
+      'wrong one is on this chapter\'s own trap list. Bending needs I, and it '
+      'is I about the axis SQUARE to the load: push a member down and it bends '
+      'about its horizontal axis, push it sideways and it bends about its '
+      'vertical one, whichever way round the section happens to be drawn and '
+      'whichever axis is the stronger. Twisting about the member\'s own length '
+      'needs the polar moment, which is simply the two I values added about '
+      'the same point. For a round shaft J works out to exactly twice I, so '
+      'using one for the other costs you a factor of two.',
+  formulas: [
+    ('Bending', r'\sigma = \frac{Mc}{I}'),
+    ('Twisting', r'\tau = \frac{Tc}{J}'),
+    ('And the polar moment is', r'J = I_x + I_y'),
+  ],
+  figure: BriefFigure.polar,
   handbook: 'Handbook p. 95',
 );
 
@@ -3456,6 +3498,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{restrained and cooled} \;\Rightarrow\; \text{tension}", true),
             (r"\text{heating a bar makes stress}", false),
             (r"\sigma_t \text{ depends on the cross-section}", false),
+          ],
+        );
+      case BriefFigure.compositeI:
+        return const _RuleList(
+          rules: [
+            (r"\text{each piece brings } \bar{I}_i + A_i d_i^2", true),
+            (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
+            (r"\text{a piece on the axis pulls its weight}", false),
+            (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.polar:
+        return const _RuleList(
+          rules: [
+            (r"\text{bending} \;\Rightarrow\; I \text{, square to the load}", true),
+            (r"\text{twisting} \;\Rightarrow\; J = I_x + I_y", true),
+            (r"\text{bending is about the stronger axis}", false),
+            (r"\text{torsion uses } I", false),
           ],
         );
       case BriefFigure.farFromAxis:
