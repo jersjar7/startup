@@ -57,6 +57,9 @@ import 'package:mobile/features/games/does_it_build_stress_game.dart';
 import 'package:mobile/features/games/which_j_is_it_game.dart';
 import 'package:mobile/features/games/stress_or_twist_game.dart';
 import 'package:mobile/features/games/which_area_twists_it_game.dart';
+import 'package:mobile/features/games/where_on_the_curve_game.dart';
+import 'package:mobile/features/games/stiff_strong_or_stretchy_game.dart';
+import 'package:mobile/features/games/can_you_get_there_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1071,6 +1074,24 @@ void main() {
           rounds: areaRounds.length,
           height: 1300,
         ),
+        'where-on-the-curve': (
+          lesson: '45-stress-strain',
+          build: WhereOnTheCurveGame.new,
+          rounds: curveRounds.length,
+          height: 1400,
+        ),
+        'stiff-strong-or-stretchy': (
+          lesson: '45-stress-strain',
+          build: StiffStrongOrStretchyGame.new,
+          rounds: pairRounds.length,
+          height: 1750,
+        ),
+        'can-you-get-there': (
+          lesson: '45-stress-strain',
+          build: CanYouGetThereGame.new,
+          rounds: roadRounds.length,
+          height: 1500,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1301,6 +1322,11 @@ void main() {
       ('polar-j', polarJBrief),
       ('twist', twistBrief),
       ('thin-wall', thinWallBrief),
+    ],
+    '45-stress-strain': [
+      ('curve', curveBrief),
+      ('stiff-strong', stiffStrongBrief),
+      ('linked', linkedBrief),
     ],
   };
 

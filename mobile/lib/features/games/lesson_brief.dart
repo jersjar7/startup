@@ -177,6 +177,9 @@ enum BriefFigure {
   polarJ,
   twist,
   thinWall,
+  curve,
+  stiffStrong,
+  linked,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2495,6 +2498,75 @@ const thinWallBrief = BriefSection(
   handbook: 'Handbook p. 133',
 );
 
+const curveBrief = BriefSection(
+  title: 'The five points on the curve',
+  body:
+      'One tensile test, read left to right. The PROPORTIONAL LIMIT is where '
+      'the straight run ends and Hooke\'s law gives out; it is the last point E '
+      'can be read from. The ELASTIC LIMIT is a hair past it and is the last '
+      'point the bar still springs back from, and on a real curve the two are '
+      'so close that nobody separates them. The YIELD POINT is where it '
+      'stretches on without carrying any more, the flat run that mild steel '
+      'has and aluminum does not. The ULTIMATE STRENGTH is the top of the '
+      'curve, and it is also the moment necking starts. The FRACTURE POINT is '
+      'the end, and it is LOWER than the top: engineering stress keeps '
+      'dividing by the area the bar started with, while the bar itself has '
+      'necked down to something thinner.',
+  formulas: [
+    ('Slope of the straight run', r'E = \frac{\Delta\sigma}{\Delta\varepsilon}'),
+    ('Top of the curve', r'\sigma_u \text{, where necking starts}'),
+    ('Engineering stress uses', r'A_0 \text{, the original area}'),
+  ],
+  figure: BriefFigure.curve,
+  handbook: 'Handbook p. 129',
+);
+
+const stiffStrongBrief = BriefSection(
+  title: 'Stiff, strong and stretchy are three things',
+  body:
+      'They are read off three different features of the same curve and they '
+      'do not travel together. STIFF is the slope of the straight run: how '
+      'hard it is to move at all, which is E. STRONG is how high the curve '
+      'gets: the yield stress for when it stops being usable, the ultimate for '
+      'when it is carrying the most. STRETCHY, which is ductility, is how far '
+      'to the right it goes before it ends, quoted as percent elongation. A '
+      'material can be strong and brittle, like cast iron or a hardened bolt, '
+      'and it can be weak and very ductile, like annealed copper. The two '
+      'tells for brittle are on the report before you ever see a curve: yield '
+      'and ultimate almost equal, and elongation of a percent or two.',
+  formulas: [
+    ('Stiff', r'E = \frac{\sigma}{\varepsilon} \text{, the slope}'),
+    ('Strong', r'\sigma_y \text{ and } \sigma_u \text{, the height}'),
+    ('Stretchy', r'\%\,El = \frac{L_f - L_0}{L_0}\times 100'),
+    ('Brittle reads as', r'\sigma_y \approx \sigma_u \text{ with } \%\,El \text{ tiny}'),
+  ],
+  figure: BriefFigure.stiffStrong,
+  handbook: 'Handbook p. 129',
+);
+
+const linkedBrief = BriefSection(
+  title: 'Three constants, any two give the third',
+  body:
+      'E, G and Poisson\'s ratio are not three independent facts about a '
+      'material. They are tied by one equation, so any two of them hand you '
+      'the third, and E itself comes straight out of a stress and a strain in '
+      'the elastic range. That is what makes the extra numbers in an exam '
+      'question worth spotting: the specimen\'s length and diameter, before and '
+      'after, are a full page of arithmetic that changes nothing if E and nu '
+      'are already sitting there. Read what is asked, find the shortest road '
+      'to it, and stop. Watch the direction of the one that catches people: '
+      'the 2 belongs in the denominator, so G comes out well under half of E, '
+      'about 0.38 of it at a Poisson\'s ratio of 0.3.',
+  formulas: [
+    ('The link', r'G = \frac{E}{2(1+\nu)}'),
+    ('E from a test point', r'E = \frac{\sigma}{\varepsilon}'),
+    ("Poisson's ratio", r'\nu = -\frac{\varepsilon_{lat}}{\varepsilon_{axial}}'),
+    ('For steel', r'\nu \approx 0.3,\quad G \approx 0.38E'),
+  ],
+  figure: BriefFigure.linked,
+  handbook: 'Handbook p. 130',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -3647,6 +3719,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.curve:
+        return const _RuleList(
+          rules: [
+            (r"\text{the top of the curve is } \sigma_u", true),
+            (r"\text{fracture sits BELOW the top}", true),
+            (r"\text{the curve ends at its highest stress}", false),
+            (r"E \text{ can be read anywhere on the curve}", false),
+          ],
+        );
+      case BriefFigure.stiffStrong:
+        return const _RuleList(
+          rules: [
+            (r"\text{steeper} \;\Rightarrow\; \text{stiffer}", true),
+            (r"\text{longer} \;\Rightarrow\; \text{more ductile}", true),
+            (r"\text{stronger} \;\Rightarrow\; \text{stiffer}", false),
+            (r"\text{stronger} \;\Rightarrow\; \text{more ductile}", false),
+          ],
+        );
+      case BriefFigure.linked:
+        return const _RuleList(
+          rules: [
+            (r"E \text{ and } \nu \;\Rightarrow\; G", true),
+            (r"\sigma \text{ and } \varepsilon \;\Rightarrow\; E", true),
+            (r"G = \tfrac{E}{2} \text{ or } \tfrac{E}{1+\nu}", false),
+            (r"\text{every given number is needed}", false),
           ],
         );
       case BriefFigure.polarJ:

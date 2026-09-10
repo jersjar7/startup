@@ -95,6 +95,9 @@ import '../features/games/does_it_build_stress_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/stress_or_twist_game.dart';
 import '../features/games/which_area_twists_it_game.dart';
+import '../features/games/where_on_the_curve_game.dart';
+import '../features/games/stiff_strong_or_stretchy_game.dart';
+import '../features/games/can_you_get_there_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -332,6 +335,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-j-is-it' => const WhichJIsItGame(),
           'stress-or-twist' => const StressOrTwistGame(),
           'which-area-twists-it' => const WhichAreaTwistsItGame(),
+          'where-on-the-curve' => const WhereOnTheCurveGame(),
+          'stiff-strong-or-stretchy' => const StiffStrongOrStretchyGame(),
+          'can-you-get-there' => const CanYouGetThereGame(),
           _ => const _UnknownGame(),
         },
       ),

@@ -1586,6 +1586,32 @@ const mechanicsMaterialsMap = ChapterMap(
       id: 'stress-strain-diagrams',
       name: 'Stress-Strain Diagrams & Material Behavior',
       subtopicId: 'stress-strain-fundamentals',
+      games: [
+        GameDef(
+          id: 'where-on-the-curve',
+          rounds: 6,
+          name: 'Where On the Curve',
+          blurb: 'One tensile curve. Tap the point that does what is asked.',
+          built: true,
+          brief: curveBrief,
+        ),
+        GameDef(
+          id: 'stiff-strong-or-stretchy',
+          rounds: 6,
+          name: 'Stiff, Strong or Stretchy',
+          blurb: 'Two curves, one set of axes. Read the right feature.',
+          built: true,
+          brief: stiffStrongBrief,
+        ),
+        GameDef(
+          id: 'can-you-get-there',
+          rounds: 6,
+          name: 'Can You Get There',
+          blurb: 'What you have and what you want. Is there a road?',
+          built: true,
+          brief: linkedBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'shear-moment-diagrams',

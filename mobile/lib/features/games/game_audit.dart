@@ -89,6 +89,10 @@ import 'does_it_build_stress_game.dart';
 import 'which_j_is_it_game.dart';
 import 'stress_or_twist_game.dart';
 import 'which_area_twists_it_game.dart';
+import 'curve_figures.dart';
+import 'where_on_the_curve_game.dart';
+import 'stiff_strong_or_stretchy_game.dart';
+import 'can_you_get_there_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -1827,6 +1831,47 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final p in r.panels) p.name],
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-on-the-curve',
+    lessonId: 'stress-strain-diagrams',
+    problemPrefix: 'mm-ssd-',
+    rounds: [
+      // The four named points are always all on the curve and all tappable,
+      // so they are the choices whether or not they are drawn as buttons.
+      for (final r in curveRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final m in Mark.values) m.name],
+          answer: Mark.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'stiff-strong-or-stretchy',
+    lessonId: 'stress-strain-diagrams',
+    problemPrefix: 'mm-ssd-',
+    rounds: [
+      for (final r in pairRounds)
+        RoundAudit(
+          source: r.source,
+          options: [r.first.label, r.second.label, 'no real difference'],
+          answer: Which.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'can-you-get-there',
+    lessonId: 'stress-strain-diagrams',
+    problemPrefix: 'mm-ssd-',
+    rounds: [
+      for (final r in roadRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Road.values) v.name],
+          answer: Road.values.indexOf(r.answer),
         ),
     ],
   ),
