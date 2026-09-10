@@ -18,7 +18,7 @@ export default {
     { type: 'formula', latex: 'k = \\frac{T}{\\phi} = \\frac{GJ}{L}' },
     { type: 'text', body: 'The torque per radian of twist. Higher $GJ$ or shorter $L$ means a stiffer shaft.' },
     { type: 'callout', variant: 'tip', body: 'Torsion formulas mirror bending formulas. \u03C4 = Tc/J is the rotational twin of \u03C3 = Mc/I. J replaces I, torque replaces moment, shear stress replaces normal stress. If you know bending, you already know torsion.' },
-    { type: 'callout', variant: 'warning', body: 'J is the POLAR moment of inertia (\u03C0d\u2074/32), not the area moment of inertia I (\u03C0d\u2074/64). J = 2I for circular sections. Using I instead of J halves your answer.' },
+    { type: 'callout', variant: 'warning', body: 'J is the POLAR moment of inertia (\u03C0d\u2074/32), not the area moment of inertia I (\u03C0d\u2074/64). J = 2I for circular sections. I is half of J and it sits in the denominator of both torsion formulas, so using it doubles the shear stress you report and doubles the angle of twist.' },
     { type: 'callout', variant: 'exam', body: 'If a problem gives power P (watts) and rotational speed \u03C9 (rad/s), find torque first: T = P/\u03C9. If speed is in rpm, convert: \u03C9 = rpm \u00D7 2\u03C0/60.' },
   ],
   illustration: null,
@@ -34,7 +34,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'easy',
-      eli5: 'Plug into \u03C4 = Tc/J. Two common mistakes: using d instead of c = d/2 (doubles your answer to 40.7 MPa), or using I = \u03C0d\u2074/64 instead of J = \u03C0d\u2074/32 (halves your answer to 10.2 MPa). Remember: torsion uses J (polar), not I (area moment). And c is the radius, not diameter.',
+      eli5: 'Plug into \u03C4 = Tc/J. Both of the classic mistakes push the answer the SAME way, up to 40.7 MPa: using d where c = d/2 belongs doubles the top, and using I = \u03C0d\u2074/64 where J = \u03C0d\u2074/32 belongs halves the bottom, because I is half of J. The 10.2 MPa choice is half the right answer, which takes a J twice too big \u2014 \u03C0d\u2074/16 in place of \u03C0d\u2074/32. Remember: torsion uses J (polar), not I (area moment), and c is the radius, not the diameter.',
       hint: 'What is J for a solid circular shaft? And is c the radius or the diameter?',
       steps: [
         { text: 'Polar moment of inertia:', latex: 'J = \\frac{\\pi d^4}{32} = \\frac{\\pi (50)^4}{32} = 613{,}600 \\text{ mm}^4' },
@@ -45,8 +45,9 @@ export default {
       handbookFormula: '\\tau = \\frac{Tc}{J}',
       videoUrl: null,
       traps: [
-        'Using diameter instead of radius for c \u2014 doubles the stress (choice C)',
-        'Using I = \u03C0d\u2074/64 instead of J = \u03C0d\u2074/32 \u2014 halves the stress (choice A)',
+        'Using diameter instead of radius for c \u2014 doubles the stress to 40.7 MPa (choice C)',
+        'Using I = \u03C0d\u2074/64 instead of J = \u03C0d\u2074/32 \u2014 I is half of J and it sits underneath, so this doubles the stress to 40.7 MPa as well (choice C)',
+        'A J twice too big, \u03C0d\u2074/16 instead of \u03C0d\u2074/32 \u2014 halves the stress to 10.2 MPa (choice A)',
       ],
       diagram: null,
     },
@@ -89,7 +90,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Same formula \u03C4 = Tc/J, but solve backwards for T. The hard part is computing J for a hollow shaft \u2014 it\'s \u03C0(d_o\u2074 \u2212 d_i\u2074)/32, not \u03C0(d_o\u00B2 \u2212 d_i\u00B2). The 2.06 kN\u00b7m option comes from using c = d_o = 80 instead of c = 40 (doubles c, halves T). The 5.50 kN\u00b7m option comes from using J of a solid 80 mm shaft (ignoring the hollow core). The 8.25 kN\u00b7m option comes from combining both errors or an arithmetic mistake.',
+      eli5: 'Same formula \u03C4 = Tc/J, but solve backwards for T. The hard part is computing J for a hollow shaft \u2014 it\'s \u03C0(d_o\u2074 \u2212 d_i\u2074)/32, not \u03C0(d_o\u00B2 \u2212 d_i\u00B2). The 2.06 kN\u00b7m option comes from using c = d_o = 80 instead of c = 40 (doubles c, halves T). The 5.50 kN\u00b7m option comes from using the INNER radius, 30 mm, where the outer radius belongs. The 8.25 kN\u00b7m option comes from a J twice too big, dividing by 16 instead of 32. Forgetting the bore altogether gives 6.03 kN\u00b7m, which is not on the list at all.',
       hint: 'J for a hollow shaft subtracts the inner d\u2074 from the outer d\u2074. And c is the outer radius, not the outer diameter.',
       steps: [
         { text: 'Polar moment of inertia (hollow):', latex: 'J = \\frac{\\pi(d_o^4 - d_i^4)}{32} = \\frac{\\pi(80^4 - 60^4)}{32} = 2{,}749{,}000 \\text{ mm}^4' },
@@ -101,7 +102,7 @@ export default {
       videoUrl: null,
       traps: [
         'Using c = d_o (diameter) instead of c = d_o/2 (radius) \u2014 halves the torque capacity (choice A)',
-        'Forgetting to subtract the inner term in J \u2014 using J_solid gives too much torque (choice C)',
+        'Using the inner radius, 30 mm, as c instead of the outer radius, 40 mm \u2014 overstates the capacity as 5.50 kN\u00b7m (choice B)',
         'Subtracting diameters (d_o \u2212 d_i)\u2074 instead of (d_o\u2074 \u2212 d_i\u2074) \u2014 completely wrong J',
       ],
       diagram: null,
