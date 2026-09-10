@@ -300,7 +300,7 @@ class _OptionRow extends StatelessWidget {
   /// Null while the round is live.
   final int? truth;
 
-  /// Greyed while the student is saying no substitution fits.
+  /// Grayed while the student is saying no substitution fits.
   final bool dimmed;
   final void Function(int)? onPick;
 

@@ -46,7 +46,7 @@ void main() {
 
     test('a tap anywhere on the grid lands on the nearest point', () {
       // The pitch is about 28 points on a phone, under the 44 a fingertip
-      // wants, so nothing is a dead tap: a near miss costs the neighbour.
+      // wants, so nothing is a dead tap: a near miss costs the neighbor.
       final nearlyOrigin = g.toScreen(0, 0) + const Offset(9, -9);
       expect(g.nearest(nearlyOrigin), (0, 0));
       final leaningNext = g.toScreen(0, 0) + Offset(g.step * 0.6, 0);
@@ -54,13 +54,13 @@ void main() {
     });
 
     test('a tap outside the grid finds nothing', () {
-      // Well beyond the last labelled point in both directions.
+      // Well beyond the last labeled point in both directions.
       expect(g.nearest(g.toScreen(6, 6) + const Offset(120, -120)), isNull);
     });
   });
 
   group('content', () {
-    test('every centre fits on the grid the student is given', () {
+    test('every center fits on the grid the student is given', () {
       for (final r in centerRounds) {
         expect(r.center.$1.abs(), lessThanOrEqualTo(8));
         expect(r.center.$2.abs(), lessThanOrEqualTo(8));
@@ -117,7 +117,7 @@ void main() {
   });
 
   group('playing', () {
-    testWidgets('tapping the centre answers the first round', (tester) async {
+    testWidgets('tapping the center answers the first round', (tester) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: PlaceTheCenterGame()));
 
@@ -133,7 +133,7 @@ void main() {
       expect(find.text('1/8'), findsOneWidget);
     });
 
-    testWidgets('flipping the sign of the centre is marked wrong',
+    testWidgets('flipping the sign of the center is marked wrong',
         (tester) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: PlaceTheCenterGame()));

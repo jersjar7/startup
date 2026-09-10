@@ -461,7 +461,7 @@ class ParaPainter extends CustomPainter {
       bottom *= shrink;
     }
 
-    // Centre whatever is left over, so a shallow curve is not stuck to one
+    // Center whatever is left over, so a shallow curve is not stuck to one
     // edge of the box.
     final axisY = margin + (usable - (bottom - top)) / 2 - top;
 

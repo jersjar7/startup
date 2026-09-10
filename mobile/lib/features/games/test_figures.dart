@@ -200,7 +200,7 @@ class ScalePainter extends CustomPainter {
     );
   }
 
-  /// [align] is 0 for centred on [at], -1 to end there, 1 to start there.
+  /// [align] is 0 for centerd on [at], -1 to end there, 1 to start there.
   void _write(
     Canvas canvas,
     String text,

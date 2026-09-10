@@ -11,7 +11,7 @@ import 'lesson_brief.dart';
 /// The lesson's hard problem is about a line in a marketing brochure. A
 /// partner managed a bridge, a subconsultant designed it, and the brochure
 /// says the firm did the bridge. That is a rule about a SENTENCE, and the only
-/// honest way to practise it is to put sentences in front of somebody and ask
+/// honest way to practice it is to put sentences in front of somebody and ask
 /// which one they are allowed to write.
 ///
 /// Every wrong line here is true in some narrow reading and misleading in the
@@ -130,12 +130,12 @@ const claimRounds = <ClaimRound>[
   ClaimRound(
     subject: 'a project that never got built',
     facts:
-        'You completed the full design of a transit centre. Funding collapsed '
+        'You completed the full design of a transit center. Funding collapsed '
         'and it was never constructed.',
     claims: [
-      'We designed the Midtown transit centre, which was not constructed.',
-      'We delivered the Midtown transit centre, on schedule and on budget.',
-      'Our completed projects include the Midtown transit centre.',
+      'We designed the Midtown transit center, which was not constructed.',
+      'We delivered the Midtown transit center, on schedule and on budget.',
+      'Our completed projects include the Midtown transit center.',
     ],
     answer: 0,
     rule: 'C.1',

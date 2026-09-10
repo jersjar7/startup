@@ -66,7 +66,7 @@ const dealRounds = <DealRound>[
     answer: 2,
     rule: 'offer, acceptance, consideration',
     why:
-        'The first line is an enquiry and nothing is on the table yet. The '
+        'The first line is an inquiry and nothing is on the table yet. The '
         'second puts a price on it, which is the offer, and the third takes it '
         'and promises money, which is the acceptance and the consideration '
         'arriving together.',
@@ -89,11 +89,11 @@ const dealRounds = <DealRound>[
     source: 'eth-con-q1',
   ),
   DealRound(
-    subject: 'a favour between neighbours',
+    subject: 'a favor between neighbors',
     lines: [
-      Line('Neighbour', 'Could you look over my deck drawings sometime?'),
+      Line('Neighbor', 'Could you look over my deck drawings sometime?'),
       Line('Engineer', 'Of course. I will do it this weekend, no charge.'),
-      Line('Neighbour', 'That is very kind, thank you.'),
+      Line('Neighbor', 'That is very kind, thank you.'),
       Line('Engineer', 'No trouble at all.'),
     ],
     answer: noDeal,
@@ -187,7 +187,7 @@ class _IsThereADealGameState extends State<IsThereADealGame> {
             'An offer, taken as it stands, with something of value moving both '
             'ways. A counter-offer kills the offer before it. An invitation is '
             'not an offer. And no amount of agreement makes a contract out of '
-            'a favour or out of something unlawful.',
+            'a favor or out of something unlawful.',
       );
     }
 

@@ -61,7 +61,7 @@ const armRounds = <ArmRound>[
   ArmRound(
     subject: 'a crane boom carrying a load',
     setting:
-        'A ten metre boom stands at 40 degrees and a 5,000 newton load hangs '
+        'A ten meter boom stands at 40 degrees and a 5,000 newton load hangs '
         'straight down from the tip. Moments are about the pivot at the base.',
     scene: Scene(
       members: [
@@ -79,7 +79,7 @@ const armRounds = <ArmRound>[
     why:
         'The horizontal one. The load hangs vertically, so its line of action '
         'is vertical, and the perpendicular distance to a vertical line is a '
-        'HORIZONTAL distance. The ten metre boom is the distance to where the '
+        'HORIZONTAL distance. The ten meter boom is the distance to where the '
         'force is applied, which is a different thing and the answer people '
         'hand in.',
     source: 'stat-fsr-q3',
@@ -87,7 +87,7 @@ const armRounds = <ArmRound>[
   ArmRound(
     subject: 'wind on a leaning sign post',
     setting:
-        'The post leans two metres out over seven metres of height, and the '
+        'The post leans two meters out over seven meters of height, and the '
         'wind pushes horizontally on the sign at the top. Moments are about '
         'the base.',
     scene: Scene(
@@ -105,7 +105,7 @@ const armRounds = <ArmRound>[
     answer: 0,
     why:
         'The vertical one, and it is the same rule as the crane turned ninety '
-        'degrees: a horizontal force has a vertical arm. The two metres is the '
+        'degrees: a horizontal force has a vertical arm. The two meters is the '
         'perpendicular distance to a VERTICAL force, and there is not one here.',
     source: 'stat-fsr-q3',
   ),
@@ -137,7 +137,7 @@ const armRounds = <ArmRound>[
   ArmRound(
     subject: 'a bracket pulled on the corner',
     setting:
-        'The bracket goes five metres up and four metres across, and the cable '
+        'The bracket goes five meters up and four meters across, and the cable '
         'at the corner pulls down and out at 45 degrees. Moments are about the '
         'base.',
     scene: Scene(
@@ -164,8 +164,8 @@ const armRounds = <ArmRound>[
   ArmRound(
     subject: 'a couple on a wrench bar',
     setting:
-        'Two equal and opposite forces, four metres apart, on a bar pinned two '
-        'metres from the first of them. Take the moment of the PAIR together, '
+        'Two equal and opposite forces, four meters apart, on a bar pinned two '
+        'meters from the first of them. Take the moment of the PAIR together, '
         'not of either one on its own.',
     scene: Scene(
       members: [
@@ -193,7 +193,7 @@ const armRounds = <ArmRound>[
   ArmRound(
     subject: 'the same crane, pulled sideways',
     setting:
-        'The same ten metre boom at 40 degrees, but now the pull at the tip is '
+        'The same ten meter boom at 40 degrees, but now the pull at the tip is '
         'horizontal rather than hanging. Moments about the base again.',
     scene: Scene(
       members: [

@@ -377,7 +377,7 @@ class _LessonMarker extends StatelessWidget {
     final color = p.color;
     // Untouched: hold the space so lesson names stay aligned, draw nothing.
     // Must match the drawn capsule's footprint exactly, or untouched rows sit
-    // left of their neighbours and the column wobbles.
+    // left of their neighbors and the column wobbles.
     if (color == null) {
       return const SizedBox(width: _w + _gap, height: _h);
     }

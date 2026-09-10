@@ -86,7 +86,7 @@ enum BriefFigure {
   newton,
   bisection,
   methodChoice,
-  centre,
+  center,
   spread,
   weighted,
   correlation,
@@ -407,7 +407,7 @@ const quadrantBrief = BriefSection(
 const identitiesBrief = BriefSection(
   title: 'The identities worth knowing',
   body:
-      'Know the Pythagorean identity cold and recognise the double angles '
+      'Know the Pythagorean identity cold and recognize the double angles '
       'when they appear. Doubling an angle is NOT doubling its sine: sin 2θ '
       'needs both functions and a factor of two out front, and cos 2θ is a '
       'difference of squares in that order.',
@@ -425,14 +425,14 @@ const identitiesBrief = BriefSection(
 const circleFormBrief = BriefSection(
   title: 'Reading a circle',
   body:
-      'A circle in standard form hands you everything: the centre and the '
+      'A circle in standard form hands you everything: the center and the '
       'radius, with no work. Two things bite. The sign inside each bracket is '
-      'the OPPOSITE of the coordinate, so (y + 3) puts the centre three below '
+      'the OPPOSITE of the coordinate, so (y + 3) puts the center three below '
       'the axis. And the number on the right is the radius SQUARED, so 64 is a '
       'circle of radius eight.',
   formulas: [
     ('Standard form', r'(x-h)^2 + (y-k)^2 = r^2'),
-    ('Which reads as', r'\text{centre } (h,k), \quad \text{radius } r'),
+    ('Which reads as', r'\text{center } (h,k), \quad \text{radius } r'),
   ],
   figure: BriefFigure.circleForm,
   handbook: 'Handbook p. 24',
@@ -460,7 +460,7 @@ const readingConicsBrief = BriefSection(
 const completeSquareBrief = BriefSection(
   title: 'Completing the square',
   body:
-      'General form hides the centre, so you rewrite it. Take the coefficient '
+      'General form hides the center, so you rewrite it. Take the coefficient '
       'of the plain x term, halve it, square it, and add that. The sign inside '
       'does not matter, because squaring removes it. The whole of the '
       'difficulty is that whatever you add has to be added on BOTH sides: add '
@@ -1054,8 +1054,8 @@ const methodChoiceBrief = BriefSection(
 
 // ── Measures of Central Tendency & Dispersion ───────────────────────────────
 
-const centreBrief = BriefSection(
-  title: 'Three centres, and when they disagree',
+const centerBrief = BriefSection(
+  title: 'Three centers, and when they disagree',
   body:
       'The mean adds everything up and divides by the count. The median is the '
       'middle value once the readings are sorted, and with an even count it is '
@@ -1067,7 +1067,7 @@ const centreBrief = BriefSection(
     ('Mean', r'\bar{x} = \frac{1}{n}\sum x_i'),
     ('Median', r'\text{the middle value, once sorted}'),
   ],
-  figure: BriefFigure.centre,
+  figure: BriefFigure.center,
   handbook: 'Handbook p. 63',
 );
 
@@ -1230,7 +1230,7 @@ const normalTableBrief = BriefSection(
 );
 
 const expectedValueBrief = BriefSection(
-  title: 'A balance point, not a favourite',
+  title: 'A balance point, not a favorite',
   body:
       'An expected value is a weighted average where the weights are the '
       'probabilities. Picture the outcomes loaded onto a beam with those '
@@ -1573,7 +1573,7 @@ const exemptionBrief = BriefSection(
 const holdingOutBrief = BriefSection(
   title: 'The work, or the title',
   body:
-      'Two separate offences. The first is doing the work: any service that '
+      'Two separate offenses. The first is doing the work: any service that '
       'takes engineering education and judgment and reaches the health, safety '
       'or welfare of the public is the practice of engineering, and the Model '
       'Law has never cared what it is delivered on. Drawings, a spreadsheet, a '
@@ -1584,7 +1584,7 @@ const holdingOutBrief = BriefSection(
       'website, is a violation even if you never do a day of engineering.',
   formulas: [
     ('110.20 A.3', r'\text{Work needing engineering judgment, reaching the public.}'),
-    ('A.3(a)', r'\text{Practises, or holds out as able to practise.}'),
+    ('A.3(a)', r'\text{Practices, or holds out as able to practice.}'),
     ('A.3(b)', r'\text{Represents themselves as a PE by any means.}'),
   ],
   figure: BriefFigure.holdingOut,
@@ -1638,7 +1638,7 @@ const sectionsBrief = BriefSection(
       'practising, for using the title, for presenting a seal that is not '
       'theirs, and for using the word engineering in a business name without '
       'board authorisation; each day of continued violation is a separate '
-      'offence. Revoked, suspended and expired all mean the same thing here, '
+      'offense. Revoked, suspended and expired all mean the same thing here, '
       'which is that there is no licence.',
   formulas: [
     ('150.10', r'\text{A licensee: suspend, revoke, fine, reprimand}'),
@@ -3357,7 +3357,7 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{far guess} \;\Rightarrow\; \text{Newton may run away}", null),
           ],
         );
-      case BriefFigure.centre:
+      case BriefFigure.center:
         return const _RuleList(
           rules: [
             (r"11,\ 12,\ 13,\ 14,\ 16 \;\Rightarrow\; \text{median } 13", true),

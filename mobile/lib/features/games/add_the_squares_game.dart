@@ -95,7 +95,7 @@ const squaresRounds = <SquaresRound>[
     wantsVariance: false,
     why:
         'Six and eight give ten, which is a triangle everyone has met. Adding '
-        'them gives fourteen, and fourteen millimetres would be a longer '
+        'them gives fourteen, and fourteen millimeters would be a longer '
         'straight line than the two legs can reach.',
     source: 'stat-ev-q3',
   ),

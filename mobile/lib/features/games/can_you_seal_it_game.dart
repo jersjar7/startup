@@ -58,7 +58,7 @@ const sealRounds = <SealRound>[
     answer: Seal.no,
     rule: 'B.1',
     why:
-        'Neighbouring experience is not the same technical field. Roundabouts '
+        'Neighboring experience is not the same technical field. Roundabouts '
         'carry their own geometry, deflection and capacity methods, and being '
         'good at the intersection next door does not qualify you for this one.',
     source: 'eth-oec-q1',
@@ -107,7 +107,7 @@ const sealRounds = <SealRound>[
     source: 'eth-oec-q1',
   ),
   SealRound(
-    subject: 'a favour for a colleague',
+    subject: 'a favor for a colleague',
     situation:
         'A colleague\'s licence lapsed last month while renewal is processed. '
         'The drawings are theirs, in their field, and they ask you to seal '

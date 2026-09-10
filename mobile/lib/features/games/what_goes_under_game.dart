@@ -144,7 +144,7 @@ const underRounds = <UnderRound>[
     why:
         'Ninety nine percent is the widest of the three, because being surer '
         'means claiming less. Reaching for 1.960 out of habit reports an '
-        'interval narrower than the confidence level it is labelled with.',
+        'interval narrower than the confidence level it is labeled with.',
     source: 'stat-ci-q1',
   ),
   UnderRound(
@@ -298,7 +298,7 @@ class _WhatGoesUnderGameState extends State<WhatGoesUnderGame> {
                 major: 90,
                 child: CustomPaint(
                   painter: IntervalPainter(
-                    centre: r.mean,
+                    center: r.mean,
                     widest: widest * 1.12,
                     unit: r.unit,
                     bands: [

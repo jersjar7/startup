@@ -113,7 +113,7 @@ const winsRounds = <WinsRound>[
   WinsRound(
     subject: 'a method that is worse everywhere',
     setting:
-        'One batching option costs more to set up AND more per cubic metre '
+        'One batching option costs more to set up AND more per cubic meter '
         'than the other. The plant is running at a middling volume.',
     lines: [
       CostLine('Option A', 900, 4),
@@ -132,8 +132,8 @@ const winsRounds = <WinsRound>[
     subject: 'a plant against a supplier',
     setting:
         'An on-site batch plant costs 6,000 dollars a week to run plus 40 '
-        'dollars a cubic metre. Buying it in costs nothing weekly and 95 a '
-        'metre. This week is quiet.',
+        'dollars a cubic meter. Buying it in costs nothing weekly and 95 a '
+        'meter. This week is quiet.',
     lines: [
       CostLine('On site', 6000, 40),
       CostLine('Bought in', 0, 95),
@@ -156,8 +156,8 @@ const winsRounds = <WinsRound>[
     qTo: 300,
     at: 250,
     why:
-        'Fifty five dollars a metre saved, times enough metres, pays for a '
-        'plant. The crossing sits near a hundred and ten metres and everything '
+        'Fifty five dollars a meter saved, times enough meters, pays for a '
+        'plant. The crossing sits near a hundred and ten meters and everything '
         'past it belongs to the option with the fixed cost.',
     source: 'econ-ctb-q2',
   ),

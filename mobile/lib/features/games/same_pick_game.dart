@@ -280,7 +280,7 @@ class _Outcome extends StatelessWidget {
   final List<String> names;
 
   /// What each position means, written above the name AFTER the answer.
-  /// Before it the rows are bare on purpose: a row of labelled slots would
+  /// Before it the rows are bare on purpose: a row of labeled slots would
   /// answer the question without the scenario being read at all, which is the
   /// one thing this item is trying to make somebody do.
   final List<String> slots;

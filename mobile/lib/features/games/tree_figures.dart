@@ -158,7 +158,7 @@ class TreePainter extends CustomPainter {
       y += rowHeight(b);
     }
 
-    // The square, centred on the whole fan of branches so that every line
+    // The square, centerd on the whole fan of branches so that every line
     // leaves the same point.
     final firstMid = tops.first + rowHeight(branches.first) / 2;
     final lastMid = tops.last + rowHeight(branches.last) / 2;
@@ -169,15 +169,15 @@ class TreePainter extends CustomPainter {
       final mid = tops[i] + rowHeight(b) / 2;
       final chosen = selected == i;
       final isTruth = i == truth;
-      final Color colour;
+      final Color color;
       if (locked && isTruth) {
-        colour = AppColors.forest;
+        color = AppColors.forest;
       } else if (locked && chosen) {
-        colour = AppColors.error;
+        color = AppColors.error;
       } else if (chosen) {
-        colour = AppColors.ember;
+        color = AppColors.ember;
       } else {
-        colour = AppColors.ink2;
+        color = AppColors.ink2;
       }
       final heavy = chosen || (locked && isTruth);
 
@@ -192,24 +192,24 @@ class TreePainter extends CustomPainter {
             ),
             const Radius.circular(10),
           ),
-          Paint()..color = colour.withValues(alpha: 0.08),
+          Paint()..color = color.withValues(alpha: 0.08),
         );
       }
 
       final stroke = Paint()
-        ..color = colour
+        ..color = color
         ..strokeWidth = heavy ? 2 : 1.3
         ..style = PaintingStyle.stroke;
 
       // Out of the square, up or down to this branch's own line.
       canvas.drawLine(Offset(_nodeX, rootY), Offset(_nodeX + 14, mid), stroke);
 
-      _write(canvas, b.name, Offset(_nameX, mid - 20), colour, align: 1);
+      _write(canvas, b.name, Offset(_nameX, mid - 20), color, align: 1);
 
       if (!b.isChance) {
         canvas.drawLine(Offset(_nodeX + 14, mid), Offset(endX, mid), stroke);
-        _triangle(canvas, Offset(endX, mid), colour);
-        _write(canvas, _money(b.certain!), Offset(endX + 8, mid - 6), colour,
+        _triangle(canvas, Offset(endX, mid), color);
+        _write(canvas, _money(b.certain!), Offset(endX + 8, mid - 6), color,
             align: 1);
         continue;
       }
@@ -225,8 +225,8 @@ class TreePainter extends CustomPainter {
         final ey = mid + (j - (n - 1) / 2) * 26.0;
         canvas.drawLine(Offset(forkX + 7, mid), Offset(forkX + 26, ey), stroke);
         canvas.drawLine(Offset(forkX + 26, ey), Offset(endX, ey), stroke);
-        _triangle(canvas, Offset(endX, ey), colour);
-        _write(canvas, _money(e.cost), Offset(endX + 8, ey - 6), colour,
+        _triangle(canvas, Offset(endX, ey), color);
+        _write(canvas, _money(e.cost), Offset(endX + 8, ey - 6), color,
             align: 1);
         _write(canvas, e.label, Offset(forkX + 30, ey - 15), AppColors.ink3,
             align: 1);
@@ -249,18 +249,18 @@ class TreePainter extends CustomPainter {
     );
   }
 
-  void _triangle(Canvas canvas, Offset at, Color colour) {
+  void _triangle(Canvas canvas, Offset at, Color color) {
     final path = Path()
       ..moveTo(at.dx, at.dy - 5)
       ..lineTo(at.dx + 7, at.dy)
       ..lineTo(at.dx, at.dy + 5)
       ..close();
-    canvas.drawPath(path, Paint()..color = colour);
+    canvas.drawPath(path, Paint()..color = color);
   }
 
-  void _write(Canvas canvas, String text, Offset at, Color colour,
+  void _write(Canvas canvas, String text, Offset at, Color color,
       {int align = 0}) {
-    final tp = _measure(text, color: colour);
+    final tp = _measure(text, color: color);
     final dx = switch (align) {
       1 => 0.0,
       -1 => tp.width,

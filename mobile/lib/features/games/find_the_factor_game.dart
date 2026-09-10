@@ -304,7 +304,7 @@ class _FindTheFactorGameState extends State<FindTheFactorGame> {
 /// The MACRS table, printed the way the handbook prints it and tappable.
 ///
 /// The point of putting the whole table on the screen rather than four
-/// candidate percentages is that the wrong answers are the neighbours. A
+/// candidate percentages is that the wrong answers are the neighbors. A
 /// column too far left and a row too far down are the two mistakes people
 /// actually make, and neither is visible in a shortlist.
 class _Table extends StatelessWidget {

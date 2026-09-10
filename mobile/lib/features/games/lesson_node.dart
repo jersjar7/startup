@@ -10,10 +10,10 @@ import '../../core/theme/app_colors.dart';
 enum NodeState { notBuilt, notStarted, inProgress, cleared }
 
 /// The outline a node wears. Four states, four silhouettes, so the path is
-/// still readable with the colour taken out of it.
+/// still readable with the color taken out of it.
 enum NodeShape { circle, roundedSquare }
 
-/// One node's colours.
+/// One node's colors.
 ///
 /// A state chooses the FACE and nothing else about the depth. The plinth
 /// underneath is worked out from the face by [plinthFor], so the two can never
@@ -41,7 +41,7 @@ class NodeSkin {
   final IconData? glyph;
   final Color ink;
 
-  /// The colour the progress wedge is filled with, on the one state that has
+  /// The color the progress wedge is filled with, on the one state that has
   /// progress to show.
   final Color? wedge;
 
@@ -126,7 +126,7 @@ class LessonNodeWidget extends StatefulWidget {
 
   final double size;
 
-  /// Overrides the colours this state would normally wear. Only a comparison
+  /// Overrides the colors this state would normally wear. Only a comparison
   /// harness passes this; the app lets the state decide.
   final NodeSkin? skin;
   final VoidCallback? onTap;

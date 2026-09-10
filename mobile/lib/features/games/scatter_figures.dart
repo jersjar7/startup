@@ -29,7 +29,7 @@ class FitLine {
 /// Correlation is a picture before it is a formula with four sums in it, and
 /// so is a residual: the vertical gap between a reading and the line. Both can
 /// be read off a plot without a calculator, which is the only way either gets
-/// understood rather than memorised.
+/// understood rather than memorized.
 class ScatterPainter extends CustomPainter {
   const ScatterPainter({
     required this.points,

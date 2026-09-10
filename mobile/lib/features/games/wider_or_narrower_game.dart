@@ -211,7 +211,7 @@ class _WiderOrNarrowerGameState extends State<WiderOrNarrowerGame> {
                 major: 90,
                 child: CustomPaint(
                   painter: IntervalPainter(
-                    centre: 0,
+                    center: 0,
                     widest: 1.5,
                     unit: 'the true mean',
                     bands: [

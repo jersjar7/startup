@@ -247,7 +247,7 @@ class _WhichEarnsMoreGameState extends State<WhichEarnsMoreGame> {
                       project: project,
                       periods: r.periods,
                       scale: r.scale,
-                      colour: AppColors.charcoal,
+                      color: AppColors.charcoal,
                     ),
                     child: const SizedBox.expand(),
                   ),

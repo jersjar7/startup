@@ -9,7 +9,7 @@ import 'lesson_brief.dart';
 /// Build the Binomial — the second item for `probability-distributions`.
 ///
 /// The lesson's medium problem is one formula with three factors in it, and
-/// both of its named traps are a missing or mislabelled factor: dropping the
+/// both of its named traps are a missing or mislabeled factor: dropping the
 /// C(n,x) term, or counting the wrong outcome as the success. Multiplying the
 /// three together is a calculator's job. Choosing WHICH three is the whole
 /// exam question, and it can be done with a thumb.

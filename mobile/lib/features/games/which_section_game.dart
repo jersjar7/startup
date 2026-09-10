@@ -118,7 +118,7 @@ const sectionRounds = <SectionRound>[
         'An expired licence is not a licence, so this is the unlicensed list '
         'rather than the licensee one. Using an expired, suspended or revoked '
         'licence is named in it, and eight months is eight months of separate '
-        'offences.',
+        'offenses.',
     source: 'eth-lpd-q3',
   ),
 ];

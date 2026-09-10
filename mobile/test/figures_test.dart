@@ -312,7 +312,7 @@ void main() {
     });
   });
 
-  group('drawn text avoids what the fonts render badly', () {
+  group('what the app shows follows house style', () {
     test('no combining marks', () {
       // A combining mark is given a full advance by the mono face, so "x̄"
       // came out as an x with a stroke floating off its shoulder. Use a
@@ -341,6 +341,68 @@ void main() {
       expect(trouble, isEmpty,
           reason: 'House style, and the app already uses "?" for an empty '
               'slot.\n${trouble.join('\n')}');
+    });
+
+    test('American spelling only', () {
+      // The content is written for an American exam. British spelling had got
+      // in through 55 files before anybody read for it, so it is read for
+      // here instead.
+      const british = <String, String>{
+        'colour': 'color',
+        'centre': 'center',
+        'metre': 'meter',
+        'litre': 'liter',
+        'fibre': 'fiber',
+        'neighbour': 'neighbor',
+        'labour': 'labor',
+        'favour': 'favor',
+        'honour': 'honor',
+        'behaviour': 'behavior',
+        'labelled': 'labeled',
+        'labelling': 'labeling',
+        'cancelled': 'canceled',
+        'travelling': 'traveling',
+        'modelling': 'modeling',
+        'signalling': 'signaling',
+        'offence': 'offense',
+        'defence': 'defense',
+        'pretence': 'pretense',
+        'recognise': 'recognize',
+        'organise': 'organize',
+        'realise': 'realize',
+        'analyse': 'analyze',
+        'minimise': 'minimize',
+        'maximise': 'maximize',
+        'summarise': 'summarize',
+        'emphasise': 'emphasize',
+        'memorise': 'memorize',
+        'practise': 'practice',
+        'judgement': 'judgment',
+        'enquiry': 'inquiry',
+        'whilst': 'while',
+        'amongst': 'among',
+        'grey': 'gray',
+        'storey': 'story',
+        'cheque': 'check',
+        'ageing': 'aging',
+        'mould': 'mold',
+        'sceptic': 'skeptic',
+        'aluminium': 'aluminum',
+        'draught': 'draft',
+      };
+      final trouble = <String>[];
+      for (final literal in literals) {
+        final text = literal.text.toLowerCase();
+        for (final entry in british.entries) {
+          // "programme" would be here too, but it is the front of
+          // "programmer", which is spelled the same on both sides of the water.
+          if (text.contains(entry.key)) {
+            trouble.add('${literal.where}: "${entry.key}" should be '
+                '"${entry.value}"');
+          }
+        }
+      }
+      expect(trouble, isEmpty, reason: trouble.join('\n'));
     });
   });
 

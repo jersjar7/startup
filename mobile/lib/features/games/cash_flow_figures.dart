@@ -24,7 +24,7 @@ class CashFlow {
 /// Choosing an interest factor is not arithmetic, it is reading a picture.
 /// What have you got, and what do you want instead: a single amount, an equal
 /// series, or a series that grows. Once the diagram is in front of somebody
-/// the factor names stop being six pieces of notation to memorise and become
+/// the factor names stop being six pieces of notation to memorize and become
 /// six answers to the same question.
 class CashFlowPainter extends CustomPainter {
   const CashFlowPainter({
@@ -244,7 +244,7 @@ class LivesPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rows = [(lifeA, nameA, AppColors.sunbeam), (lifeB, nameB, AppColors.forest)];
-    for (final (i, (life, name, colour)) in rows.indexed) {
+    for (final (i, (life, name, color)) in rows.indexed) {
       final y = 22 + i * 34.0;
       // One block per replacement, laid end to end until the timeline runs
       // out. A part-block at the end is what an awkward study period looks
@@ -260,7 +260,7 @@ class LivesPainter extends CustomPainter {
         );
         canvas.drawRRect(
           RRect.fromRectAndRadius(rect, const Radius.circular(5)),
-          Paint()..color = colour.withValues(alpha: 0.45),
+          Paint()..color = color.withValues(alpha: 0.45),
         );
         canvas.drawRRect(
           RRect.fromRectAndRadius(rect, const Radius.circular(5)),

@@ -61,7 +61,7 @@ const takeRounds = <TakeRound>[
     scenario:
         'Maintenance is 10,000 dollars in year one and rises by 2,000 dollars '
         'every year after, for ten years. What is the present worth of the '
-        'whole programme?',
+        'whole program?',
     flows: [
       CashFlow(1, -1), CashFlow(2, -1.22), CashFlow(3, -1.44), CashFlow(4, -1.67),
       CashFlow(5, -1.89), CashFlow(6, -2.11), CashFlow(7, -2.33), CashFlow(8, -2.56),

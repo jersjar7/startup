@@ -194,7 +194,7 @@ void main() {
       expect(find.text('NOT THERE'), findsNothing);
     });
 
-    testWidgets('binding on the enquiry is caught', (tester) async {
+    testWidgets('binding on the inquiry is caught', (tester) async {
       size(tester);
       await tester.pumpWidget(const MaterialApp(home: IsThereADealGame()));
       await tester.pumpAndSettle();

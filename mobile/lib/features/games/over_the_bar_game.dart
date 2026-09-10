@@ -425,15 +425,15 @@ class _BarRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color colour;
+    final Color color;
     if (locked && isTruth) {
-      colour = AppColors.forest;
+      color = AppColors.forest;
     } else if (locked && selected) {
-      colour = AppColors.error;
+      color = AppColors.error;
     } else if (selected) {
-      colour = AppColors.ember;
+      color = AppColors.ember;
     } else {
-      colour = AppColors.ink2;
+      color = AppColors.ink2;
     }
     final marked = selected || (locked && isTruth);
 
@@ -450,9 +450,9 @@ class _BarRow extends StatelessWidget {
                 height: 20,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: marked ? colour : null,
+                  color: marked ? color : null,
                   border: Border.all(
-                    color: marked ? colour : AppColors.line,
+                    color: marked ? color : AppColors.line,
                   ),
                 ),
                 child: marked
@@ -474,7 +474,7 @@ class _BarRow extends StatelessWidget {
                       name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 13.5, color: colour),
+                      style: TextStyle(fontSize: 13.5, color: color),
                     ),
                   ),
                   // The return goes here rather than at the end of its own
@@ -485,7 +485,7 @@ class _BarRow extends StatelessWidget {
                     child: Text(
                       '${rate.toStringAsFixed(0)}%',
                       textAlign: TextAlign.right,
-                      style: AppTheme.mono(size: 10.5, color: colour),
+                      style: AppTheme.mono(size: 10.5, color: color),
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -496,8 +496,8 @@ class _BarRow extends StatelessWidget {
               height: 20,
               width: (rate / span * barFull).clamp(1.5, 1e4),
               decoration: BoxDecoration(
-                color: colour.withValues(alpha: marked ? 0.35 : 0.18),
-                border: Border.all(color: colour, width: marked ? 1.4 : 1),
+                color: color.withValues(alpha: marked ? 0.35 : 0.18),
+                border: Border.all(color: color, width: marked ? 1.4 : 1),
                 borderRadius: const BorderRadius.horizontal(
                   left: Radius.circular(3),
                   right: Radius.circular(3),

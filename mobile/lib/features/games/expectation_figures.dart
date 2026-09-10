@@ -209,7 +209,7 @@ class BeamPainter extends CustomPainter {
     }
   }
 
-  /// [align] is 0 for centred on [at], -1 to end there, 1 to start there.
+  /// [align] is 0 for centerd on [at], -1 to end there, 1 to start there.
   void _write(
     Canvas canvas,
     String text,
@@ -284,7 +284,7 @@ class SigmaTrianglePainter extends CustomPainter {
       _padL,
       (size.width - flat * scale) / 2,
     );
-    // Centred in both directions. Anchored to the bottom, a wide flat pair of
+    // Centerd in both directions. Anchored to the bottom, a wide flat pair of
     // spreads sat in the lower third with the top of the box empty.
     final room = size.height - _padT - _padB;
     final corner = Offset(

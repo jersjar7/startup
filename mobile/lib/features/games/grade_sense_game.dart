@@ -9,7 +9,7 @@ import 'lesson_brief.dart';
 ///
 /// Rank three stretches of road by grade, steepest first. No division is
 /// asked for and none is needed: the numbers are chosen so the ordering is a
-/// judgement about rise over run. The lesson's own trap is built into the
+/// judgment about rise over run. The lesson's own trap is built into the
 /// labels, because a run written as a station reads as three feet to anyone
 /// who has not learned to read it.
 class GradeSenseGame extends StatefulWidget {

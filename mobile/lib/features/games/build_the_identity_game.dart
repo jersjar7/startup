@@ -51,7 +51,7 @@ const identities = <Identity>[
     chips: ['1', '0', r'2\sin\theta', r'\sin 2\theta'],
     why:
         'The Pythagorean identity. Know this one cold: it is the one the '
-        'lesson says to memorise and the one every other step leans on.',
+        'lesson says to memorize and the one every other step leans on.',
     source: 'math-uci-q2',
   ),
   Identity(

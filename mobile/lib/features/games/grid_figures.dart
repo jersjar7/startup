@@ -5,8 +5,8 @@ import '../../core/theme/app_theme.dart';
 
 /// A plain coordinate grid you can point at.
 ///
-/// The lesson is about reading a centre and a radius straight off an equation,
-/// so the honest way to answer is to put a finger where the centre is, not to
+/// The lesson is about reading a center and a radius straight off an equation,
+/// so the honest way to answer is to put a finger where the center is, not to
 /// pick a pair of numbers out of a list.
 @immutable
 class GridGeometry {
@@ -31,7 +31,7 @@ class GridGeometry {
   ///
   /// The pitch on a phone is about 28 points, well under the 44 a fingertip
   /// wants, so a tap resolves to whichever point it is NEAREST rather than
-  /// having to land on one. A near miss then costs you the neighbouring point
+  /// having to land on one. A near miss then costs you the neighboring point
   /// instead of doing nothing at all, which is the better failure.
   (int, int)? nearest(Offset p, {double tolerance = 0.5}) {
     final dx = (p.dx - origin.dx) / step;

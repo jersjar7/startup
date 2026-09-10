@@ -16,7 +16,7 @@ import 'lesson_brief.dart';
 /// in this topic.
 ///
 /// Four events at once, each answered on its own, because the distinction only
-/// becomes visible next to its neighbours. A parking fine beside a felony is
+/// becomes visible next to its neighbors. A parking fine beside a felony is
 /// obvious; a falsified timesheet beside a speeding ticket is the actual
 /// lesson.
 class GroundsOrNotGame extends StatefulWidget {
@@ -128,7 +128,7 @@ const groundsRounds = <GroundsRound>[
     why:
         'A seal is not lent and it is not delegated. Moving into a new field '
         'after actually training in it is how careers work, and reporting a '
-        'colleague is an obligation rather than an offence.',
+        'colleague is an obligation rather than an offense.',
     source: 'eth-lpd-q2',
   ),
   GroundsRound(

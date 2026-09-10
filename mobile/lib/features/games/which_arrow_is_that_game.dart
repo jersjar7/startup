@@ -110,7 +110,7 @@ const arrowRounds = <ArrowRound>[
   ArrowRound(
     subject: 'a deadman anchor behind a wall',
     setting:
-        'The cable runs 5 metres out and 12 metres up to the anchor and pulls '
+        'The cable runs 5 meters out and 12 meters up to the anchor and pulls '
         'with 1,300 newtons. One of the arrows is 500 newtons.',
     dx: 5,
     dy: 12,
@@ -129,8 +129,8 @@ const arrowRounds = <ArrowRound>[
   ArrowRound(
     subject: 'the same anchor, laid the other way',
     setting:
-        'The same 1,300 newton cable, but this run goes 12 metres out and 5 '
-        'metres up. One of the arrows is 500 newtons again.',
+        'The same 1,300 newton cable, but this run goes 12 meters out and 5 '
+        'meters up. One of the arrows is 500 newtons again.',
     dx: 12,
     dy: 5,
     named: '500 N',

@@ -10,7 +10,7 @@ import 'lesson_brief.dart';
 ///
 /// The answer is a PART OF THE EQUATION, tapped where it stands. Conics on the
 /// FE are mostly a reading exercise: which piece tells you the radius, which
-/// one fixes the centre, which one decides which way a parabola opens. Asking
+/// one fixes the center, which one decides which way a parabola opens. Asking
 /// in words and answering in words lets a student agree with a sentence they
 /// could not act on. Here they have to point at it.
 class ReadTheEquationGame extends StatefulWidget {
@@ -52,7 +52,7 @@ const readRounds = <ReadRound>[
     source: 'math-cc-q1',
   ),
   ReadRound(
-    ask: 'Tap the part that fixes the y-coordinate of the centre.',
+    ask: 'Tap the part that fixes the y-coordinate of the center.',
     tokens: [r'(x-5)^2', '+', r'(y+3)^2', '=', '64'],
     answer: 2,
     why:
@@ -98,7 +98,7 @@ const readRounds = <ReadRound>[
     source: 'math-cc-q3',
   ),
   ReadRound(
-    ask: 'Tap the part that would be zero if the centre sat on the y-axis.',
+    ask: 'Tap the part that would be zero if the center sat on the y-axis.',
     tokens: [r'(x-h)^2', '+', r'(y-k)^2', '=', 'r^2'],
     answer: 0,
     why:
@@ -147,7 +147,7 @@ class _ReadTheEquationGameState extends State<ReadTheEquationGame> {
         title: 'Read the Equation',
         closing:
             'Most conic questions are read, not solved: which piece is '
-            'the radius, which fixes the centre, which decides the direction. '
+            'the radius, which fixes the center, which decides the direction. '
             'Putting numbers through them is desk work.',
       );
     }

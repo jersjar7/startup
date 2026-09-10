@@ -12,7 +12,7 @@ import 'package:mobile/core/theme/app_theme.dart';
 ///
 /// The brief was written so the designer never saw what we already ship, so
 /// none of this is a variation on our current node. Each direction is built
-/// here exactly as specified, on the real page colour, at a real node size,
+/// here exactly as specified, on the real page color, at a real node size,
 /// with a real stretch of road through it, because two of the three only make
 /// sense in the context of the path.
 ///
@@ -268,8 +268,8 @@ class Milestone extends _Direction {
 
 /// ── Direction 3 ─────────────────────────────────────────────────────────────
 /// SILHOUETTE CODE. Four states, four shapes, so the screen is legible with
-/// the colour taken out and one saturated colour means one thing.
-/// Which colour the plinth wears. A dark face has almost no room to put a
+/// the color taken out and one saturated color means one thing.
+/// Which color the plinth wears. A dark face has almost no room to put a
 /// darker plinth under it, which is why the finished node currently reads as a
 /// misshapen circle rather than as a thing standing on something.
 enum Plinth {
@@ -282,7 +282,7 @@ enum Plinth {
   /// One warm mid-tone under every state.
   mid,
 
-  /// A tone of the face's own colour, going LIGHTER where there is no room
+  /// A tone of the face's own color, going LIGHTER where there is no room
   /// left to go darker. A charcoal face has 18 L* below it and 82 above, so
   /// its plinth is a lighter charcoal; a white face has the room, so its
   /// plinth stays the warm stone that is already under it.
@@ -452,7 +452,7 @@ class _PathPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final gap = d * 1.62;
-    final centres = <Offset>[
+    final centers = <Offset>[
       for (var i = 0; i < stops.length; i++)
         Offset(
           size.width * 0.5 + math.sin(i * math.pi / 3) * size.width * 0.22,
@@ -460,29 +460,29 @@ class _PathPainter extends CustomPainter {
         ),
     ];
 
-    for (var i = 0; i < centres.length - 1; i++) {
+    for (var i = 0; i < centers.length - 1; i++) {
       final paint = Paint()
         ..color = look.roadColor(stops[i], stops[i + 1])
         ..strokeWidth = look.roadWidth * d
         ..strokeCap = StrokeCap.round;
       if (look.roadDashed(stops[i], stops[i + 1])) {
-        _dashedLine(canvas, centres[i], centres[i + 1], paint, 0.09 * d,
+        _dashedLine(canvas, centers[i], centers[i + 1], paint, 0.09 * d,
             0.07 * d);
       } else {
-        canvas.drawLine(centres[i], centres[i + 1], paint);
+        canvas.drawLine(centers[i], centers[i + 1], paint);
       }
     }
-    for (var i = 0; i < centres.length; i++) {
+    for (var i = 0; i < centers.length; i++) {
       final body = look.bodyColor(stops[i]);
       if (body != null) {
         // A capsule the width of the face whose sides run straight down from
         // the midline, so the node reads as a slab you can press.
         canvas.drawRRect(
-          look.bodySlab(stops[i], centres[i], d),
+          look.bodySlab(stops[i], centers[i], d),
           Paint()..color = body,
         );
       }
-      look.node(canvas, centres[i], d, stops[i]);
+      look.node(canvas, centers[i], d, stops[i]);
     }
   }
 
@@ -503,7 +503,7 @@ class _RealisticPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final gap = d * 1.72;
-    final centres = <Offset>[
+    final centers = <Offset>[
       for (var i = 0; i < rows.length; i++)
         Offset(
           size.width * 0.42 + math.sin(i * math.pi / 3) * size.width * 0.22,
@@ -511,29 +511,29 @@ class _RealisticPainter extends CustomPainter {
         ),
     ];
 
-    for (var i = 0; i < centres.length - 1; i++) {
+    for (var i = 0; i < centers.length - 1; i++) {
       final paint = Paint()
         ..color = look.roadColor(rows[i].$1, rows[i + 1].$1)
         ..strokeWidth = look.roadWidth * d
         ..strokeCap = StrokeCap.round;
       if (look.roadDashed(rows[i].$1, rows[i + 1].$1)) {
-        _dashedLine(canvas, centres[i], centres[i + 1], paint, 0.09 * d,
+        _dashedLine(canvas, centers[i], centers[i + 1], paint, 0.09 * d,
             0.07 * d);
       } else {
-        canvas.drawLine(centres[i], centres[i + 1], paint);
+        canvas.drawLine(centers[i], centers[i + 1], paint);
       }
     }
 
-    for (var i = 0; i < centres.length; i++) {
-      _card(canvas, size, centres[i], d, rows[i].$2, rows[i].$3);
+    for (var i = 0; i < centers.length; i++) {
+      _card(canvas, size, centers[i], d, rows[i].$2, rows[i].$3);
       final body = look.bodyColor(rows[i].$1);
       if (body != null) {
         canvas.drawRRect(
-          look.bodySlab(rows[i].$1, centres[i], d),
+          look.bodySlab(rows[i].$1, centers[i], d),
           Paint()..color = body,
         );
       }
-      look.node(canvas, centres[i], d, rows[i].$1);
+      look.node(canvas, centers[i], d, rows[i].$1);
     }
   }
 
@@ -618,7 +618,7 @@ void main() {
       ),
       (
         'SILHOUETTE CODE',
-        'four shapes, legible with the colour taken out',
+        'four shapes, legible with the color taken out',
         Silhouette(),
         inOrder,
       ),
@@ -636,7 +636,7 @@ void main() {
       ),
       (
         'INK LEVEL, THICKNESS KEPT',
-        'the same colours over the slab the app already has',
+        'the same colors over the slab the app already has',
         InkLevel(thick: true),
         inOrder,
       ),
@@ -766,7 +766,7 @@ void main() {
         Plinth.darker,
       ),
       (
-        'A LIGHTER TONE OF THE SAME COLOUR',
+        'A LIGHTER TONE OF THE SAME COLOR',
         'charcoal face, charcoal plinth, 21.8 L* apart',
         Plinth.sameHue,
       ),

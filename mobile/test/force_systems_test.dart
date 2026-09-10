@@ -209,7 +209,7 @@ void main() {
           final stated =
               double.parse(m.label.replaceAll(RegExp(r'[^0-9.]'), ''));
           expect((m.to - m.from).distance, closeTo(stated, 0.02),
-              reason: '${r.subject}: a mark labelled ${m.label} is drawn '
+              reason: '${r.subject}: a mark labeled ${m.label} is drawn '
                   '${(m.to - m.from).distance.toStringAsFixed(2)} long');
         }
       }
@@ -370,7 +370,7 @@ void main() {
       expect(sizes, contains(0));
     });
 
-    test('every force is labelled, and labels do not repeat in a round', () {
+    test('every force is labeled, and labels do not repeat in a round', () {
       for (final r in senseRounds) {
         final labels = r.scene.forces.map((f) => f.label).toList();
         expect(labels.toSet().length, labels.length, reason: r.subject);

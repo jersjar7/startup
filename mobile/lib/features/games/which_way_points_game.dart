@@ -300,7 +300,7 @@ class _TailCard extends StatelessWidget {
                 child: CustomPaint(
                   painter: TailPainter(
                     tail: tail,
-                    // Grey is too faint to read a shaded tail at this size,
+                    // Gray is too faint to read a shaded tail at this size,
                     // and the whole item is reading the shaded tail.
                     color: border == AppColors.line
                         ? AppColors.charcoal

@@ -105,7 +105,7 @@ void main() {
       for (final r in underRounds) {
         expect(r.names.length, r.options.length, reason: r.subject);
         expect(r.names.toSet().length, r.names.length,
-            reason: '${r.subject}: two bands would be labelled the same');
+            reason: '${r.subject}: two bands would be labeled the same');
         for (final n in r.names) {
           expect(n.trim(), isNotEmpty, reason: r.subject);
         }

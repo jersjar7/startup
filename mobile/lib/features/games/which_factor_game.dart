@@ -162,7 +162,7 @@ const factorRounds = <FactorRound>[
     subject: 'maintenance for the next decade',
     scenario:
         'A bridge costs the same amount to maintain at the end of each of the '
-        'next ten years. What is the whole programme worth today?',
+        'next ten years. What is the whole program worth today?',
     flows: [
       CashFlow(1, -1),
       CashFlow(2, -1),

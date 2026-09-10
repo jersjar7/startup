@@ -26,7 +26,7 @@ class ReadTheScatterGame extends StatefulWidget {
 }
 
 /// The five readings on offer, spread far enough apart that picking between
-/// them is a judgement about the picture and not about a decimal place.
+/// them is a judgment about the picture and not about a decimal place.
 const rChoices = <double>[-1.0, -0.7, 0.0, 0.7, 1.0];
 
 @immutable

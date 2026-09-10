@@ -147,17 +147,17 @@ class BalancePainter extends CustomPainter {
       ('money in', inLen, AppColors.forest),
       ('money out', outLen, AppColors.ink2),
     ];
-    for (final (i, (label, len, colour)) in rows.indexed) {
+    for (final (i, (label, len, color)) in rows.indexed) {
       final y = top + i * (height + _gap);
       final rect = Rect.fromLTWH(padL, y, len, height);
       canvas.drawRRect(
         RRect.fromRectAndRadius(rect, const Radius.circular(5)),
-        Paint()..color = colour.withValues(alpha: 0.28),
+        Paint()..color = color.withValues(alpha: 0.28),
       );
       canvas.drawRRect(
         RRect.fromRectAndRadius(rect, const Radius.circular(5)),
         Paint()
-          ..color = colour
+          ..color = color
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.3,
       );
@@ -204,7 +204,7 @@ class DealPainter extends CustomPainter {
     required this.project,
     required this.periods,
     required this.scale,
-    required this.colour,
+    required this.color,
   });
 
   final Project project;
@@ -215,7 +215,7 @@ class DealPainter extends CustomPainter {
   /// The amount a full-height arrow means.
   final double scale;
 
-  final Color colour;
+  final Color color;
 
   static const _padL = 26.0;
   static const _padR = 44.0;
@@ -235,7 +235,7 @@ class DealPainter extends CustomPainter {
       Offset(_padL, axis),
       Offset(size.width - _padR, axis),
       Paint()
-        ..color = colour
+        ..color = color
         ..strokeWidth = 1.5,
     );
     for (var i = 0; i <= periods; i++) {
@@ -244,7 +244,7 @@ class DealPainter extends CustomPainter {
         Offset(x, axis - 3),
         Offset(x, axis + 3),
         Paint()
-          ..color = colour
+          ..color = color
           ..strokeWidth = 1,
       );
     }
@@ -260,7 +260,7 @@ class DealPainter extends CustomPainter {
         Offset(x, axis),
         Offset(x, tip),
         Paint()
-          ..color = colour
+          ..color = color
           ..strokeWidth = 1.8,
       );
       final head = Path()
@@ -268,12 +268,12 @@ class DealPainter extends CustomPainter {
         ..lineTo(x - 4, tip + (up ? 8 : -8))
         ..lineTo(x + 4, tip + (up ? 8 : -8))
         ..close();
-      canvas.drawPath(head, Paint()..color = colour);
+      canvas.drawPath(head, Paint()..color = color);
       _write(
         canvas,
         _money(a.abs()),
         Offset(x, up ? tip - 14 : tip + 4),
-        colour,
+        color,
         limit: size.width,
       );
     }
@@ -285,10 +285,10 @@ class DealPainter extends CustomPainter {
     return '${s.substring(0, s.length - 3)},${s.substring(s.length - 3)}';
   }
 
-  void _write(Canvas canvas, String text, Offset at, Color colour,
+  void _write(Canvas canvas, String text, Offset at, Color color,
       {int align = 0, double limit = 0}) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: colour)),
+      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
       textDirection: TextDirection.ltr,
     )..layout();
     final dx = switch (align) {
@@ -304,5 +304,5 @@ class DealPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(DealPainter old) =>
-      old.project != project || old.colour != colour || old.scale != scale;
+      old.project != project || old.color != color || old.scale != scale;
 }

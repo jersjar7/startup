@@ -89,7 +89,7 @@ void main() {
   testWidgets('each state shows its own face', (tester) async {
     // Only two states carry a glyph. The other two are told apart by their
     // silhouette, which is the point of the design: it still reads with the
-    // colour taken out.
+    // color taken out.
     for (final (state, icon) in const [
       (NodeState.notStarted, null),
       (NodeState.inProgress, null),
@@ -113,7 +113,7 @@ void main() {
 
   test('the four states wear four different silhouettes or faces', () {
     // If two states drew the same shape AND the same face they would be
-    // indistinguishable, colour blindness or not.
+    // indistinguishable, color blindness or not.
     final seen = <List<Object?>>[];
     for (final state in NodeState.values) {
       final skin = NodeSkin.of(state);

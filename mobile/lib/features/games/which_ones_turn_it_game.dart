@@ -409,15 +409,15 @@ class _Figure extends StatelessWidget {
     final origin = scene.toScreen(f.at, size);
     final len = f.dir.distance;
     final unit = Offset(f.dir.dx / len, -f.dir.dy / len);
-    // Centred on the arrow's middle rather than on where it is applied, so
+    // Centerd on the arrow's middle rather than on where it is applied, so
     // that two forces at the same point do not share one target.
-    final centre = origin + unit * 30;
+    final center = origin + unit * 30;
     const box = 52.0;
 
     return Positioned(
       key: ValueKey('force-$i'),
-      left: centre.dx - box / 2,
-      top: centre.dy - box / 2,
+      left: center.dx - box / 2,
+      top: center.dy - box / 2,
       width: box,
       height: box,
       child: GestureDetector(

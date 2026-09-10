@@ -144,15 +144,15 @@ class SpentBarPainter extends CustomPainter {
       final y = _barHeight + 10 + i * _rowHeight;
       final chosen = selected == i;
       final isTruth = i == truth;
-      final Color colour;
+      final Color color;
       if (locked && isTruth) {
-        colour = AppColors.forest;
+        color = AppColors.forest;
       } else if (locked && chosen) {
-        colour = AppColors.error;
+        color = AppColors.error;
       } else if (chosen) {
-        colour = AppColors.ember;
+        color = AppColors.ember;
       } else {
-        colour = AppColors.ink2;
+        color = AppColors.ink2;
       }
       final heavy = chosen || (locked && isTruth);
 
@@ -160,7 +160,7 @@ class SpentBarPainter extends CustomPainter {
       final right = x(_edge(to));
       final mid = y + 13;
       final stroke = Paint()
-        ..color = colour
+        ..color = color
         ..strokeWidth = heavy ? 2 : 1.3
         ..style = PaintingStyle.stroke;
       canvas.drawLine(Offset(left, mid - 5), Offset(left, mid + 5), stroke);
@@ -168,7 +168,7 @@ class SpentBarPainter extends CustomPainter {
       canvas.drawLine(Offset(left, mid), Offset(right, mid), stroke);
 
       final label = from == to ? 'year $from' : 'years $from to $to';
-      final tp = _measure(label, colour);
+      final tp = _measure(label, color);
       // Over the bracket where there is room, and beside it where there is
       // not, which is what happens to a one-year stretch late in the life.
       // Beside it means to the RIGHT until that runs off the box, and then to
@@ -181,7 +181,7 @@ class SpentBarPainter extends CustomPainter {
       } else {
         tp.paint(canvas, Offset(left - 8 - tp.width, mid - 6));
       }
-      _measure(_money(_amountOf(from, to)), colour)
+      _measure(_money(_amountOf(from, to)), color)
           .paint(canvas, Offset(4, mid - 6));
     }
   }

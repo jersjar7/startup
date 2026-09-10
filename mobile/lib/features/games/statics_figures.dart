@@ -80,7 +80,7 @@ class ForceTrianglePainter extends CustomPainter {
     final sx = dx * scale;
     final sy = dy * scale;
 
-    // Centred in what is left over. Anchored at the corner, a tall narrow
+    // Centerd in what is left over. Anchored at the corner, a tall narrow
     // triangle sat in the left third of the box with nothing beside it.
     final o = Offset(
       _padL + (room.width - sx) / 2,
@@ -146,9 +146,9 @@ class ForceTrianglePainter extends CustomPainter {
     }
   }
 
-  void _arrow(Canvas canvas, Offset from, Offset to, Color colour, bool heavy) {
+  void _arrow(Canvas canvas, Offset from, Offset to, Color color, bool heavy) {
     final paint = Paint()
-      ..color = colour
+      ..color = color
       ..strokeWidth = heavy ? 3 : 1.8
       ..strokeCap = StrokeCap.round;
     canvas.drawLine(from, to, paint);
@@ -162,7 +162,7 @@ class ForceTrianglePainter extends CustomPainter {
       ..lineTo(to.dx - head * math.cos(angle + 0.4),
           to.dy - head * math.sin(angle + 0.4))
       ..close();
-    canvas.drawPath(path, Paint()..color = colour);
+    canvas.drawPath(path, Paint()..color = color);
   }
 
   void _dashed(Canvas canvas, Offset from, Offset to) {
@@ -178,16 +178,16 @@ class ForceTrianglePainter extends CustomPainter {
     }
   }
 
-  TextPainter _measure(String text, {Color colour = AppColors.ink2}) =>
+  TextPainter _measure(String text, {Color color = AppColors.ink2}) =>
       TextPainter(
         text:
-            TextSpan(text: text, style: AppTheme.mono(size: 11, color: colour)),
+            TextSpan(text: text, style: AppTheme.mono(size: 11, color: color)),
         textDirection: TextDirection.ltr,
       )..layout();
 
-  void _write(Canvas canvas, String text, Offset at, Color colour, Size size,
+  void _write(Canvas canvas, String text, Offset at, Color color, Size size,
       {int align = 0, bool patch = false}) {
-    final tp = _measure(text, colour: colour);
+    final tp = _measure(text, color: color);
     final dxOff = switch (align) {
       1 => tp.width / 2,
       -1 => tp.width,
@@ -426,7 +426,7 @@ class Scene {
     return [for (final o in out) o!];
   }
 
-  /// World to canvas, with y flipped and the whole thing centred.
+  /// World to canvas, with y flipped and the whole thing centerd.
   Offset toScreen(Offset world, Size size) {
     final b = bounds;
     final s = scaleFor(size);
@@ -439,7 +439,7 @@ class Scene {
   }
 }
 
-/// What the painter is colouring: the candidate distances, or the forces.
+/// What the painter is coloring: the candidate distances, or the forces.
 enum SceneMode { marks, forces }
 
 /// A body, a pivot, some forces and the distances anybody might mistake for
@@ -477,7 +477,7 @@ class MomentPainter extends CustomPainter {
   /// The forces that answer the round.
   final Set<int> truths;
 
-  Color _colour({required bool picked, required bool isTruth}) {
+  Color _color({required bool picked, required bool isTruth}) {
     if (locked && isTruth) return AppColors.forest;
     if (locked && picked) return AppColors.error;
     if (picked) return AppColors.ember;
@@ -516,18 +516,18 @@ class MomentPainter extends CustomPainter {
 
     // Roughly where the body is, for deciding which side of a force its
     // label should sit on.
-    var bodyCentre = p;
+    var bodyCenter = p;
     for (final member in scene.members) {
       for (final pt in member) {
-        bodyCentre = (bodyCentre + at(pt)) / 2;
+        bodyCenter = (bodyCenter + at(pt)) / 2;
       }
     }
 
     for (final (i, f) in scene.forces.indexed) {
       final picked = mode == SceneMode.forces && chosen.contains(i);
       final isTruth = mode == SceneMode.forces && truths.contains(i);
-      final colour = mode == SceneMode.forces
-          ? _colour(picked: picked, isTruth: isTruth)
+      final color = mode == SceneMode.forces
+          ? _color(picked: picked, isTruth: isTruth)
           : AppColors.ember;
       final origin = at(f.at);
       final len = f.dir.distance;
@@ -537,15 +537,15 @@ class MomentPainter extends CustomPainter {
         _dash(canvas, origin - unit * 400, origin + unit * 400,
             AppColors.ink3.withValues(alpha: 0.7));
       }
-      _arrow(canvas, origin, origin + unit * 52, colour,
+      _arrow(canvas, origin, origin + unit * 52, color,
           heavy: picked || (locked && isTruth));
       // Beside the head rather than past it. A force pointing straight down
       // its own member used to write its label on the member. Cleared by half
       // its own width so it never sits on the arrow or its line of action.
       final side = Offset(-unit.dy, unit.dx);
-      final away = origin - bodyCentre;
+      final away = origin - bodyCenter;
       final sign = side.dx * away.dx + side.dy * away.dy >= 0 ? 1.0 : -1.0;
-      final tag = _label(f.label, colour);
+      final tag = _label(f.label, color);
       _put(canvas, tag,
           origin + unit * 48 + side * (tag.width / 2 + 10) * sign, size);
     }
@@ -555,7 +555,7 @@ class MomentPainter extends CustomPainter {
     for (final (i, m) in scene.marks.indexed) {
       final picked = mode == SceneMode.marks && selected == i;
       final isTruth = mode == SceneMode.marks && i == truth;
-      final colour = _colour(picked: picked, isTruth: isTruth);
+      final color = _color(picked: picked, isTruth: isTruth);
       final heavy = picked || (locked && isTruth);
       final a = at(m.from);
       final b = at(m.to);
@@ -568,14 +568,14 @@ class MomentPainter extends CustomPainter {
       final shift = from - a;
 
       final paint = Paint()
-        ..color = colour
+        ..color = color
         ..strokeWidth = heavy ? 2.2 : 1.3
         ..strokeCap = StrokeCap.round;
 
       // The label sits in a break in the line rather than on top of it,
       // except on a near-vertical one, where a horizontal label eats the
       // whole line and leaves two stubs. That one goes beside it.
-      final tp = _label(m.label, colour);
+      final tp = _label(m.label, color);
       final upright = unit.dx.abs() < 0.35;
       final gap = math.max(tp.width, 14) + 12;
       final mid = (from + to) / 2;
@@ -598,7 +598,7 @@ class MomentPainter extends CustomPainter {
         final reach = shift.distance;
         final away = shift / reach;
         final thin = Paint()
-          ..color = colour.withValues(alpha: 0.45)
+          ..color = color.withValues(alpha: 0.45)
           ..strokeWidth = 1;
         for (final end in [a, b]) {
           canvas.drawLine(end + away * 7, end + away * (reach + 5), thin);
@@ -620,10 +620,10 @@ class MomentPainter extends CustomPainter {
     }
   }
 
-  void _arrow(Canvas canvas, Offset from, Offset to, Color colour,
+  void _arrow(Canvas canvas, Offset from, Offset to, Color color,
       {required bool heavy}) {
     final paint = Paint()
-      ..color = colour
+      ..color = color
       ..strokeWidth = heavy ? 3.4 : 2.2
       ..strokeCap = StrokeCap.round;
     canvas.drawLine(from, to, paint);
@@ -636,15 +636,15 @@ class MomentPainter extends CustomPainter {
       ..lineTo(to.dx - head * math.cos(angle + 0.4),
           to.dy - head * math.sin(angle + 0.4))
       ..close();
-    canvas.drawPath(path, Paint()..color = colour);
+    canvas.drawPath(path, Paint()..color = color);
   }
 
-  void _dash(Canvas canvas, Offset from, Offset to, Color colour) {
+  void _dash(Canvas canvas, Offset from, Offset to, Color color) {
     final total = (to - from).distance;
     if (total < 1) return;
     final step = (to - from) / total;
     final paint = Paint()
-      ..color = colour
+      ..color = color
       ..strokeWidth = 1;
     for (var d = 0.0; d < total; d += 8) {
       canvas.drawLine(
@@ -652,15 +652,15 @@ class MomentPainter extends CustomPainter {
     }
   }
 
-  TextPainter _label(String text, Color colour) => TextPainter(
+  TextPainter _label(String text, Color color) => TextPainter(
         text:
-            TextSpan(text: text, style: AppTheme.mono(size: 11, color: colour)),
+            TextSpan(text: text, style: AppTheme.mono(size: 11, color: color)),
         textDirection: TextDirection.ltr,
       )..layout();
 
-  void _put(Canvas canvas, TextPainter tp, Offset centre, Size size) {
-    var x = centre.dx - tp.width / 2;
-    var y = centre.dy - tp.height / 2;
+  void _put(Canvas canvas, TextPainter tp, Offset center, Size size) {
+    var x = center.dx - tp.width / 2;
+    var y = center.dy - tp.height / 2;
     if (x < 2) x = 2;
     if (x + tp.width > size.width - 2) x = size.width - 2 - tp.width;
     if (y < 1) y = 1;

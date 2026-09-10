@@ -10,7 +10,7 @@ import 'lesson_brief.dart';
 /// Place the Center — the first item for `circles-conics`.
 ///
 /// Answered by putting a finger on a coordinate grid, which is what the
-/// content asks for: reading a centre off an equation is a spatial claim, and
+/// content asks for: reading a center off an equation is a spatial claim, and
 /// picking a pair of numbers out of a list lets a student who has the sign
 /// backwards get there by elimination. Here the sign is the answer.
 class PlaceTheCenterGame extends StatefulWidget {
@@ -32,7 +32,7 @@ class CenterRound {
 
   final String equation;
 
-  /// The centre the equation describes.
+  /// The center the equation describes.
   final (int, int) center;
   final double radius;
   final String why;
@@ -63,7 +63,7 @@ const centerRounds = <CenterRound>[
     center: (0, -6),
     radius: 5,
     why:
-        'No bracket on x means h is zero: the centre sits on the y-axis, six '
+        'No bracket on x means h is zero: the center sits on the y-axis, six '
         'below the origin.',
     source: 'math-cc-q1',
   ),
@@ -85,7 +85,7 @@ const centerRounds = <CenterRound>[
     equation: r'(x+4)^2 + y^2 = 16',
     center: (-4, 0),
     radius: 4,
-    why: 'No bracket on y puts the centre on the x-axis, four to the left.',
+    why: 'No bracket on y puts the center on the x-axis, four to the left.',
     source: 'math-cc-q1',
   ),
   CenterRound(
@@ -93,7 +93,7 @@ const centerRounds = <CenterRound>[
     center: (5, -3),
     radius: 4,
     why:
-        'Same centre as the first round with a different right-hand side: the '
+        'Same center as the first round with a different right-hand side: the '
         'number on the right changes the size, never the place.',
     source: 'math-cc-q2',
   ),

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 
-/// One interval on the axis: a centre and a half-width, with a name.
+/// One interval on the axis: a center and a half-width, with a name.
 @immutable
 class Band {
   const Band({required this.margin, required this.label, required this.tone});
@@ -28,14 +28,14 @@ enum BandTone { live, before, truth, wrong }
 /// the confidence is not free when you can watch the interval grow.
 class IntervalPainter extends CustomPainter {
   const IntervalPainter({
-    required this.centre,
+    required this.center,
     required this.bands,
     required this.widest,
     required this.unit,
   });
 
   /// The sample mean, which never moves.
-  final double centre;
+  final double center;
   final List<Band> bands;
 
   /// The half-width that fills the axis, so bands stay comparable between
@@ -49,7 +49,7 @@ class IntervalPainter extends CustomPainter {
 
   double _x(Size size, double v) =>
       _padL +
-      (v - (centre - widest)) /
+      (v - (center - widest)) /
           (2 * widest) *
           (size.width - _padL - _padR);
 
@@ -68,8 +68,8 @@ class IntervalPainter extends CustomPainter {
     for (final (i, band) in bands.indexed) {
       final y = top + rowH * (i + 0.5);
       final color = _colorOf(band.tone);
-      final from = _x(size, centre - band.margin);
-      final to = _x(size, centre + band.margin);
+      final from = _x(size, center - band.margin);
+      final to = _x(size, center + band.margin);
 
       canvas.drawLine(
         Offset(from, y),
@@ -92,7 +92,7 @@ class IntervalPainter extends CustomPainter {
     }
 
     // The mean, drawn last so it sits over every band that crosses it.
-    final cx = _x(size, centre);
+    final cx = _x(size, center);
     canvas.drawLine(
       Offset(cx, top - 6),
       Offset(cx, top + rowH * bands.length + 6),

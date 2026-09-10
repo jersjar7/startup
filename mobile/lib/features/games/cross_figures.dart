@@ -52,7 +52,7 @@ class TurnGlyphPainter extends CustomPainter {
 
     final end = start + sweep;
     final tipAt = center + Offset(math.cos(end), math.sin(end)) * radius;
-    // The tangent at the end of the sweep, pointing the way it is travelling.
+    // The tangent at the end of the sweep, pointing the way it is traveling.
     final along = Offset(-math.sin(end), math.cos(end)) * (ccw ? -1 : 1);
     final side = Offset(-along.dy, along.dx);
     const head = 9.0;
@@ -130,7 +130,7 @@ class RegionPainter extends CustomPainter {
       (size.width - 22) / math.max(maxX - minX, 0.001),
       (size.height - 22) / math.max(maxY - minY, 0.001),
     );
-    // Centred in whatever room is left over.
+    // Centerd in whatever room is left over.
     final padX = (size.width - (maxX - minX) * scale) / 2;
     final padY = (size.height - (maxY - minY) * scale) / 2;
     Offset at(double x, double y) {

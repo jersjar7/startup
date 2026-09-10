@@ -77,7 +77,7 @@ void main() {
 
     test('positions are named when they mean something, and never otherwise',
         () {
-      // A row of labelled slots gives the answer away for free, so the labels
+      // A row of labeled slots gives the answer away for free, so the labels
       // are only there when the scenario has already given them meaning.
       for (final r in pickRounds) {
         if (r.ordered) {
@@ -326,7 +326,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('deck'), findsNothing,
-          reason: 'a labelled slot gives the answer away for free');
+          reason: 'a labeled slot gives the answer away for free');
       await tester.tap(find.byKey(const ValueKey('pick-different')));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Lock it in'));

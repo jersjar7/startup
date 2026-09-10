@@ -9,7 +9,7 @@ import 'liability_row.dart';
 /// What Is the Saving — the third item for `cost-types-breakeven`.
 ///
 /// The lesson's hard problem is a payback period and its named trap is one
-/// subtraction. A toll system saves 280,000 dollars of labour a year and costs
+/// subtraction. A toll system saves 280,000 dollars of labor a year and costs
 /// 80,000 to maintain, and the number that pays the investment back is the
 /// 200,000 left over. Using the gross saving gives five years instead of
 /// seven, which is a different decision at most thresholds.
@@ -49,13 +49,13 @@ const savingRounds = <SavingRound>[
     subject: 'an automated toll system',
     scenario:
         'A 1.4 million dollar system removes six collector posts, saving '
-        '280,000 dollars a year in labour, and costs 80,000 a year to '
+        '280,000 dollars a year in labor, and costs 80,000 a year to '
         'maintain. Which number goes underneath, to pay the 1.4 million back?',
     options: [
-      ('280,000', 'the labour saved'),
-      ('200,000', 'the labour saved, less the maintenance'),
+      ('280,000', 'the labor saved'),
+      ('200,000', 'the labor saved, less the maintenance'),
       ('80,000', 'the new annual cost'),
-      ('360,000', 'the labour saved plus the maintenance'),
+      ('360,000', 'the labor saved plus the maintenance'),
     ],
     answer: 1,
     why:
@@ -124,19 +124,19 @@ const savingRounds = <SavingRound>[
   SavingRound(
     subject: 'a saving with two parts',
     scenario:
-        'A 180,000 dollar system saves 30,000 dollars a year in labour and '
+        'A 180,000 dollar system saves 30,000 dollars a year in labor and '
         '12,000 in materials, and costs 9,000 a year to support. Which number '
         'pays the 180,000 back?',
     options: [
       ('42,000', 'both savings, before support'),
-      ('30,000', 'the labour saved'),
+      ('30,000', 'the labor saved'),
       ('33,000', 'both savings, less the support'),
       ('51,000', 'both savings plus the support'),
     ],
     answer: 2,
     why:
         'Add up everything coming in, take off everything new going out, and '
-        'what is left is the payback. Stopping at the labour saving forgets '
+        'what is left is the payback. Stopping at the labor saving forgets '
         'half the benefit, and stopping at forty two thousand forgets the '
         'cost.',
     source: 'econ-ctb-q3',

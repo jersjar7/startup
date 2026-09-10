@@ -14,7 +14,7 @@ import 'lifecycle_figures.dart';
 /// and recommends it anyway, and the answer is a phrase: life-cycle analysis.
 /// A phrase is a poor thing to test. The idea underneath it is a longer bar,
 /// so both options are drawn out across their whole lives and the question is
-/// which one an assessment favours.
+/// which one an assessment favors.
 ///
 /// One round has the cheaper option win on both counts, because a set where
 /// the expensive one is always right teaches somebody to pick the expensive

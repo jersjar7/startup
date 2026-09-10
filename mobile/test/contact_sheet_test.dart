@@ -958,7 +958,7 @@ void main() {
       ('which-method', methodChoiceBrief),
     ],
     '17-central-tendency': [
-      ('centre', centreBrief),
+      ('center', centerBrief),
       ('spread', spreadBrief),
       ('weighted', weightedBrief),
     ],

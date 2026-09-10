@@ -75,7 +75,7 @@ const lineRounds = <LineRound>[
     why:
         'The mode is the tallest stack and nothing else. A set can have no '
         'mode at all, or several, which is why it is the least useful of the '
-        'three centres and the easiest to read.',
+        'three centers and the easiest to read.',
     source: 'stat-ctd-q1',
   ),
   LineRound(
@@ -186,7 +186,7 @@ class _ReadTheLineGameState extends State<ReadTheLineGame> {
 
     return BoardShell(
       session: _session,
-      brief: centreBrief,
+      brief: centerBrief,
       buttonLabel: answered ? _session.advanceLabel : 'Lock it in',
       onButton: answered
           ? () {

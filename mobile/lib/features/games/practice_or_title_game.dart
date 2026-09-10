@@ -72,8 +72,8 @@ const verdictCases = <VerdictCase>[
     answer: Verdict.title,
     rule: 'Model Law 110.20 A.3(b)',
     why:
-        'No engineering was practised and the law was still broken. Holding '
-        'yourself out as a Professional Engineer is its own offence, whatever '
+        'No engineering was practiced and the law was still broken. Holding '
+        'yourself out as a Professional Engineer is its own offense, whatever '
         'you actually spend the day doing.',
     source: 'eth-dpe-q3',
   ),
@@ -122,7 +122,7 @@ const verdictCases = <VerdictCase>[
   VerdictCase(
     subject: 'a licence that stops at the state line',
     scene:
-        'An engineer is licensed in one state and not in the neighbouring one. '
+        'An engineer is licensed in one state and not in the neighboring one. '
         'Their firm\'s website advertises them by name, with PE after it, as '
         'available for work in both.',
     answer: Verdict.title,
@@ -130,7 +130,7 @@ const verdictCases = <VerdictCase>[
     why:
         'The licence is real and it stops at the state line. Being advertised '
         'as a Professional Engineer available in a state that has not licensed '
-        'you is the representation offence, before a single piece of work has '
+        'you is the representation offense, before a single piece of work has '
         'been taken on there.',
     source: 'eth-dpe-q3',
   ),
@@ -165,7 +165,7 @@ class _PracticeOrTitleGameState extends State<PracticeOrTitleGame> {
         session: _session,
         title: 'Practice, or the Title',
         closing:
-            'Two separate offences that usually arrive together. Doing the '
+            'Two separate offenses that usually arrive together. Doing the '
             'work without a licence is one, and claiming the title without a '
             'licence is the other, and either is enough on its own. The medium '
             'the work is delivered on has never been part of the test.',

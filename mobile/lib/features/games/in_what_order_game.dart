@@ -65,7 +65,7 @@ const ladderRounds = <LadderRound>[
     order: [1, 3, 0],
     never:
         'A public forum reaches everyone except the people who can fix it, and '
-        'it is not a channel the rules recognise.',
+        'it is not a channel the rules recognize.',
     why:
         'The colleague first, because they may simply not have seen it. Then '
         'the firm, which has both the standing and the obligation to correct '
@@ -107,7 +107,7 @@ const ladderRounds = <LadderRound>[
     order: [0, 2, 1],
     never:
         'Recommending them is the thing the rule exists to prevent, and the '
-        'firm being good at its job is not a defence.',
+        'firm being good at its job is not a defense.',
     why:
         'Disclose before you recuse, or the recusal is a gap in the record '
         'that nobody can read. Then step out of this decision only, and let '
@@ -333,7 +333,7 @@ class _StepRow extends StatelessWidget {
     if (locked && rightStep >= 0) {
       // Once it is answered the rows show the RIGHT sequence, numbered, in
       // green. Marking a row red for being in the wrong place would leave the
-      // student staring at the correct answer in the colour of a mistake.
+      // student staring at the correct answer in the color of a mistake.
       border = AppColors.forest;
       fill = AppColors.forestBg;
     } else if (locked && step >= 0) {

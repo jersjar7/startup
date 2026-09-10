@@ -106,7 +106,7 @@ const protectionRounds = <ProtectionRound>[
     subject: 'the shape of a cover',
     asset:
         'A foundry has a manhole cover with a distinctive ornamental pattern. '
-        'The pattern does nothing structural; it is there to be recognised.',
+        'The pattern does nothing structural; it is there to be recognized.',
     answer: 1,
     why:
         'Nothing about it is functional, so there is no invention to claim. '

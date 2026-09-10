@@ -124,7 +124,7 @@ class TriangleGeometry {
 }
 
 /// A right triangle with one angle marked, optionally with a side picked out
-/// and its sides labelled.
+/// and its sides labeled.
 class TrianglePainter extends CustomPainter {
   const TrianglePainter({
     required this.angleAtTop,
@@ -350,7 +350,7 @@ class ForcePainter extends CustomPainter {
     final reach = math.cos(rad) * length;
     final rise = math.sin(rad) * length;
 
-    // Centred on what is actually drawn. Pinned to a fixed fraction of the
+    // Centerd on what is actually drawn. Pinned to a fixed fraction of the
     // width, a steep force left the right half of the box empty with the
     // horizontal axis running out into nothing.
     final axisRun = math.max(reach + 36, size.width * 0.34);
