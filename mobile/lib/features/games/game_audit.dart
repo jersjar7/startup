@@ -84,6 +84,9 @@ import 'what_the_support_gives_game.dart';
 import 'where_it_all_acts_game.dart';
 import 'can_statics_solve_it_game.dart';
 import 'above_or_below_game.dart';
+import 'move_it_right_game.dart';
+import 'rank_by_stiffness_game.dart';
+import 'which_barely_matters_game.dart';
 import 'along_it_or_not_game.dart';
 import 'does_it_multiply_game.dart';
 import 'frame_figures.dart';
@@ -1647,6 +1650,42 @@ List<GameAudit> auditAllGames() => [
         RoundAudit(
           source: r.source,
           options: [for (final d in r.drops) d.label],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'rank-by-stiffness',
+    lessonId: 'area-moments-of-inertia',
+    problemPrefix: 'stat-ami-',
+    rounds: [
+      // The answer is an ORDER over the three sections rather than one of
+      // them, so no index into a shortlist names it.
+      for (final r in rankRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'move-it-right',
+    lessonId: 'area-moments-of-inertia',
+    problemPrefix: 'stat-ami-',
+    rounds: [
+      for (final r in axisRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Transfer.values) v.name],
+          answer: Transfer.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-barely-matters',
+    lessonId: 'area-moments-of-inertia',
+    problemPrefix: 'stat-ami-',
+    rounds: [
+      for (final r in shareRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.names,
           answer: r.answer,
         ),
     ],

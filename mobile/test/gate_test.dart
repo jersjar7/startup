@@ -182,6 +182,12 @@ void main() {
       'along-it-or-not',
       'does-it-multiply',
       'frame-truss-or-machine',
+      // The rectangle problem is the only one in the lesson about where the
+      // material sits, and where it sits is the whole item.
+      'rank-by-stiffness',
+      // The composite problem is the only one in the lesson with more than one
+      // piece in it, and which piece carries the section is the whole item.
+      'which-barely-matters',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

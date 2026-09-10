@@ -70,6 +70,32 @@ class Piece {
 
   Rect get box => Rect.fromLTWH(at.dx, at.dy, _w, _h);
 
+  /// The second moment of area about this shape's OWN horizontal centroidal
+  /// axis, straight from the handbook table. Never integrated: the exam does
+  /// not ask you to and neither does this.
+  double get ownIx => switch (kind) {
+        Slab.box => _w * _h * _h * _h / 12,
+        Slab.rightTri || Slab.isoTri => _w * _h * _h * _h / 36,
+        // An ellipse of semi-axes w/2 and h/2.
+        Slab.disc => math.pi * _w * _h * _h * _h / 64,
+        // Half of that ellipse, moved onto its own centroid.
+        Slab.halfDisc => (math.pi / 16 - 4 / (9 * math.pi)) * _w * _h * _h * _h / 4,
+        Slab.quarterDisc =>
+          (math.pi / 16 - 4 / (9 * math.pi)) * _w * _h * _h * _h / 4,
+      };
+
+  /// The same about the vertical centroidal axis, which is the other half of
+  /// the trap: the dimension that gets cubed is the one square to the axis.
+  double get ownIy => switch (kind) {
+        Slab.box => _h * _w * _w * _w / 12,
+        Slab.rightTri => _h * _w * _w * _w / 36,
+        Slab.isoTri => _h * _w * _w * _w / 48,
+        Slab.disc => math.pi * _h * _w * _w * _w / 64,
+        Slab.halfDisc => math.pi * _h * _w * _w * _w / 64,
+        Slab.quarterDisc =>
+          (math.pi / 16 - 4 / (9 * math.pi)) * _h * _w * _w * _w / 4,
+      };
+
   /// The outline, in world units with y upward.
   Path outline() {
     final l = at.dx;
@@ -136,6 +162,46 @@ class Profile {
     return box!;
   }
 
+  /// The second moment of area of the whole section about a horizontal axis
+  /// at [axisY], by the parallel axis theorem piece by piece.
+  ///
+  /// Every piece contributes its own centroidal value AND a transfer term, and
+  /// dropping either of them is the mistake this lesson is mostly about.
+  double iAboutX(double axisY) {
+    var total = 0.0;
+    for (final p in pieces) {
+      final d = p.centroid.dy - axisY;
+      final own = p.hole ? -p.ownIx : p.ownIx;
+      total += own + p.area * d * d;
+    }
+    return total;
+  }
+
+  double iAboutY(double axisX) {
+    var total = 0.0;
+    for (final p in pieces) {
+      final d = p.centroid.dx - axisX;
+      final own = p.hole ? -p.ownIy : p.ownIy;
+      total += own + p.area * d * d;
+    }
+    return total;
+  }
+
+  /// About the section's own centroidal axes, which is what a table would
+  /// give you and what a beam actually bends about.
+  double get ownIx => iAboutX(centroid.dy);
+  double get ownIy => iAboutY(centroid.dx);
+
+  /// What one piece contributes to the whole section's stiffness: its own
+  /// share plus its transfer term. On most real sections the transfer term is
+  /// the bigger half by a long way.
+  double shareOf(int piece) {
+    final p = pieces[piece];
+    final d = p.centroid.dy - centroid.dy;
+    final own = p.hole ? -p.ownIx : p.ownIx;
+    return own + p.area * d * d;
+  }
+
   /// The bottom edge and the top edge, in world y.
   ///
   /// Named rather than reached for through the Rect, because a Rect thinks y
@@ -161,6 +227,30 @@ class Profile {
 /// Where the centroid sits against the middle of the height.
 enum Sit { above, onIt, below }
 
+/// A horizontal axis drawn on a section, at a stated height.
+@immutable
+class Datum {
+  const Datum(this.y, this.label);
+
+  /// In world units, measured the same way the section is built.
+  final double y;
+
+  final String label;
+}
+
+/// What the parallel axis theorem does when you move between two axes.
+enum Transfer {
+  /// Leaving the centroidal axis, so the transfer term is added on.
+  add,
+
+  /// Arriving at the centroidal axis, so it comes back off.
+  subtract,
+
+  /// Neither axis is the centroidal one, and the theorem will not go
+  /// directly between them at all.
+  cannot,
+}
+
 /// One candidate distance, drawn as a dimension beside the section.
 @immutable
 class Drop {
@@ -184,6 +274,7 @@ class ProfilePainter extends CustomPainter {
     this.truth = -1,
     this.locked = false,
     this.markCentroid = false,
+    this.axes = const [],
   });
 
   final Profile profile;
@@ -205,6 +296,9 @@ class ProfilePainter extends CustomPainter {
   final bool locked;
   final bool markCentroid;
 
+  /// Axes drawn across the section, labelled where they sit.
+  final List<Datum> axes;
+
   static const _dim = 46.0;
 
   /// Room round the drawing. The right hand margin exists only to hold the
@@ -217,9 +311,21 @@ class ProfilePainter extends CustomPainter {
         22,
       );
 
-  static double _scale(
-      Profile profile, Size size, List<Drop> drops, bool hasLabel) {
-    final b = profile.bounds;
+  /// What the figure has to hold: the section, and any axis drawn across it.
+  /// An axis can sit well outside the metal, and framing to the metal alone
+  /// puts it off the bottom of the box.
+  static Rect _frame(Profile profile, List<Datum> axes) {
+    var box = profile.bounds;
+    for (final a in axes) {
+      box = box.expandToInclude(
+          Rect.fromLTWH(box.left, a.y, box.width, 0));
+    }
+    return box;
+  }
+
+  static double _scale(Profile profile, Size size, List<Drop> drops,
+      bool hasLabel, List<Datum> axes) {
+    final b = _frame(profile, axes);
     final room = _roomFor(hasDrops: drops.isNotEmpty, hasLabel: hasLabel);
     // Every dimension takes a lane down the left, and the lanes are measured
     // rather than guessed at.
@@ -231,11 +337,13 @@ class ProfilePainter extends CustomPainter {
   }
 
   static Offset toScreen(Profile profile, Offset world, Size size,
-      {List<Drop> drops = const [], bool hasLabel = false}) {
-    final b = profile.bounds;
+      {List<Drop> drops = const [],
+      bool hasLabel = false,
+      List<Datum> axes = const []}) {
+    final b = _frame(profile, axes);
     final room = _roomFor(hasDrops: drops.isNotEmpty, hasLabel: hasLabel);
     final lanes = drops.length * _dim;
-    final s = _scale(profile, size, drops, hasLabel);
+    final s = _scale(profile, size, drops, hasLabel, axes);
     return Offset(
       room.left +
           lanes +
@@ -247,6 +355,17 @@ class ProfilePainter extends CustomPainter {
     );
   }
 
+  /// The box one piece is drawn in, so it can be tapped on rather than near.
+  static Rect pieceRect(Profile profile, Size size, int piece,
+      {bool hasLabel = false, List<Datum> axes = const []}) {
+    final b = profile.pieces[piece].box;
+    final a = toScreen(profile, Offset(b.left, b.bottom), size,
+        hasLabel: hasLabel, axes: axes);
+    final c = toScreen(profile, Offset(b.right, b.top), size,
+        hasLabel: hasLabel, axes: axes);
+    return Rect.fromPoints(a, c);
+  }
+
   /// Where a dimension's line runs down the figure, so the tap target can sit
   /// on it rather than near it.
   static double laneFor(
@@ -255,8 +374,8 @@ class ProfilePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Offset at(Offset w) =>
-        toScreen(profile, w, size, drops: drops, hasLabel: showMiddle);
+    Offset at(Offset w) => toScreen(profile, w, size,
+        drops: drops, hasLabel: showMiddle, axes: axes);
 
     for (var i = 0; i < profile.pieces.length; i++) {
       final piece = profile.pieces[i];
@@ -330,6 +449,23 @@ class ProfilePainter extends CustomPainter {
           size, taken));
     }
 
+    for (var i = 0; i < axes.length; i++) {
+      final y = at(Offset(box.left, axes[i].y)).dy;
+      final onCentroid = (axes[i].y - profile.centroid.dy).abs() < 0.01;
+      final colour = onCentroid ? AppColors.forest : AppColors.info;
+      final left = at(Offset(box.left, 0)).dx - 22;
+      final right = at(Offset(box.right, 0)).dx + 22;
+      if (onCentroid) {
+        // A centroidal axis is drawn as a chain line, the way a drawing
+        // office marks one, so it is not just another line.
+        _chain(canvas, Offset(left, y), Offset(right, y), colour);
+      } else {
+        _dash(canvas, Offset(left, y), Offset(right, y), colour);
+      }
+      taken.add(_write(canvas, axes[i].label, Offset(left - 4, y - 7), colour,
+          size, taken));
+    }
+
     if (markCentroid) {
       final here = at(profile.centroid);
       final ink = Paint()
@@ -359,10 +495,10 @@ class ProfilePainter extends CustomPainter {
   }
 
   Path _onScreen(Piece piece, Size size) {
-    final b = profile.bounds;
-    final s = _scale(profile, size, drops, showMiddle);
+    final b = _frame(profile, axes);
+    final s = _scale(profile, size, drops, showMiddle, axes);
     final origin = toScreen(profile, Offset(b.left, b.bottom), size,
-        drops: drops, hasLabel: showMiddle);
+        drops: drops, hasLabel: showMiddle, axes: axes);
     return piece.outline().transform(Matrix4(
           s, 0, 0, 0, //
           0, -s, 0, 0, //
@@ -420,6 +556,25 @@ class ProfilePainter extends CustomPainter {
     ));
   }
 
+  /// Long dash, short dash: the drawing office mark for a centre line.
+  void _chain(Canvas canvas, Offset from, Offset to, Color colour) {
+    final total = (to - from).distance;
+    if (total < 1) return;
+    final step = (to - from) / total;
+    final paint = Paint()
+      ..color = colour
+      ..strokeWidth = 1.8;
+    var d = 0.0;
+    var long = true;
+    while (d < total) {
+      final run = long ? 12.0 : 3.0;
+      canvas.drawLine(
+          from + step * d, from + step * math.min(d + run, total), paint);
+      d += run + 4;
+      long = !long;
+    }
+  }
+
   void _dash(Canvas canvas, Offset from, Offset to, Color colour) {
     final total = (to - from).distance;
     if (total < 1) return;
@@ -463,4 +618,150 @@ class ProfilePainter extends CustomPainter {
       old.picked != picked ||
       old.locked != locked ||
       old.spotlight != spotlight;
+}
+
+/// Several sections drawn side by side to be compared.
+///
+/// They share ONE scale. Two shapes each stretched to fill their own cell are
+/// two shapes you cannot compare, and comparing them is the whole point.
+class LineUpPainter extends CustomPainter {
+  const LineUpPainter({
+    required this.shapes,
+    this.order = const [],
+    this.truth = const [],
+    this.locked = false,
+  });
+
+  final List<Profile> shapes;
+
+  /// Which have been tapped, in the order they were tapped.
+  final List<int> order;
+
+  /// The right order, stiffest first.
+  final List<int> truth;
+
+  final bool locked;
+
+  static const _room = EdgeInsets.fromLTRB(6, 28, 6, 32);
+  static const _gap = 8.0;
+
+  static double _cell(List<Profile> shapes, Size size) =>
+      (size.width - _room.horizontal - _gap * (shapes.length - 1)) /
+      shapes.length;
+
+  static double scaleFor(List<Profile> shapes, Size size) {
+    var widest = 0.0;
+    var tallest = 0.0;
+    for (final s in shapes) {
+      widest = math.max(widest, s.bounds.width);
+      tallest = math.max(tallest, s.bounds.height);
+    }
+    return math.min(
+      (_cell(shapes, size) - 8) / math.max(widest, 0.001),
+      (size.height - _room.vertical) / math.max(tallest, 0.001),
+    );
+  }
+
+  /// The box one shape is drawn in, which is also where it is tapped.
+  static Rect cellFor(List<Profile> shapes, Size size, int i) {
+    final w = _cell(shapes, size);
+    return Rect.fromLTWH(
+      _room.left + i * (w + _gap),
+      _room.top,
+      w,
+      size.height - _room.vertical,
+    );
+  }
+
+  static Offset _toScreen(
+      List<Profile> shapes, Size size, int i, Offset world) {
+    final cell = cellFor(shapes, size, i);
+    final s = scaleFor(shapes, size);
+    final b = shapes[i].bounds;
+    return Offset(
+      cell.center.dx - b.width * s / 2 + (world.dx - b.left) * s,
+      cell.center.dy + b.height * s / 2 - (world.dy - b.top) * s,
+    );
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final s = scaleFor(shapes, size);
+
+    for (var i = 0; i < shapes.length; i++) {
+      final profile = shapes[i];
+      final rank = order.indexOf(i);
+      final right = locked && truth.indexOf(i) == rank;
+      final Color edge;
+      if (locked) {
+        edge = right ? AppColors.forest : AppColors.error;
+      } else if (rank >= 0) {
+        edge = AppColors.ember;
+      } else {
+        edge = AppColors.charcoal;
+      }
+
+      final b = profile.bounds;
+      final origin = _toScreen(shapes, size, i, Offset(b.left, b.bottom));
+      final matrix = Matrix4(
+        s, 0, 0, 0, //
+        0, -s, 0, 0, //
+        0, 0, 1, 0, //
+        origin.dx - b.left * s, origin.dy + b.bottom * s, 0, 1, //
+      ).storage;
+
+      for (final piece in profile.pieces) {
+        final path = piece.outline().transform(matrix);
+        canvas.drawPath(
+          path,
+          Paint()
+            ..color = piece.hole ? AppColors.cream : AppColors.sunbeamBg,
+        );
+        canvas.drawPath(
+          path,
+          Paint()
+            ..color = edge
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = rank >= 0 || locked ? 2.6 : 2,
+        );
+      }
+
+      // The axis it bends about, drawn through its own centroid and running
+      // the width of the cell so it reads as an axis rather than a chord.
+      final cell = cellFor(shapes, size, i);
+      final axis = _toScreen(shapes, size, i, profile.centroid).dy;
+      final dash = Paint()
+        ..color = AppColors.ink3
+        ..strokeWidth = 1.4;
+      for (var x = cell.left + 2; x < cell.right - 2; x += 8) {
+        canvas.drawLine(
+            Offset(x, axis), Offset(x + 4.5, axis), dash);
+      }
+
+      if (rank >= 0) {
+        _badge(canvas, Offset(cell.center.dx, cell.top - 15), '${rank + 1}',
+            locked ? (right ? AppColors.forest : AppColors.error) : AppColors.ember);
+      }
+      if (locked && truth.indexOf(i) != rank) {
+        _badge(canvas, Offset(cell.center.dx, cell.bottom + 17),
+            '${truth.indexOf(i) + 1}', AppColors.forest);
+      }
+    }
+  }
+
+  void _badge(Canvas canvas, Offset at, String text, Color colour) {
+    canvas.drawCircle(at, 11, Paint()..color = colour);
+    final tp = TextPainter(
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 12, color: AppColors.white),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    tp.paint(canvas, at - Offset(tp.width / 2, tp.height / 2));
+  }
+
+  @override
+  bool shouldRepaint(LineUpPainter old) =>
+      old.shapes != shapes || old.order != order || old.locked != locked;
 }

@@ -1444,6 +1444,32 @@ const staticsMap = ChapterMap(
       id: 'area-moments-of-inertia',
       name: 'Area Moments of Inertia',
       subtopicId: 'section-properties',
+      games: [
+        GameDef(
+          id: 'rank-by-stiffness',
+          rounds: 6,
+          name: 'Rank Them by Stiffness',
+          blurb: 'Three sections, one scale. Tap them stiffest first.',
+          built: true,
+          brief: farFromAxisBrief,
+        ),
+        GameDef(
+          id: 'move-it-right',
+          rounds: 6,
+          name: 'Move It Right',
+          blurb: 'Two axes. Does the transfer term go on, or come off?',
+          built: true,
+          brief: transferBrief,
+        ),
+        GameDef(
+          id: 'which-barely-matters',
+          rounds: 6,
+          name: 'Which One Barely Matters',
+          blurb: 'Tap the piece you could very nearly leave out.',
+          built: true,
+          brief: transferBrief,
+        ),
+      ],
     ),
   ],
 );

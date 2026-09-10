@@ -53,6 +53,9 @@ import 'package:mobile/features/games/which_ones_turn_it_game.dart';
 import 'package:mobile/features/games/what_the_support_gives_game.dart';
 import 'package:mobile/features/games/where_it_all_acts_game.dart';
 import 'package:mobile/features/games/above_or_below_game.dart';
+import 'package:mobile/features/games/move_it_right_game.dart';
+import 'package:mobile/features/games/rank_by_stiffness_game.dart';
+import 'package:mobile/features/games/which_barely_matters_game.dart';
 import 'package:mobile/features/games/along_it_or_not_game.dart';
 import 'package:mobile/features/games/can_statics_solve_it_game.dart';
 import 'package:mobile/features/games/does_it_multiply_game.dart';
@@ -977,6 +980,24 @@ void main() {
       rounds: dropRounds.length,
       height: 1350,
     ),
+    'rank-by-stiffness': (
+      lesson: '42-inertia',
+      build: RankByStiffnessGame.new,
+      rounds: rankRounds.length,
+      height: 1200,
+    ),
+    'move-it-right': (
+      lesson: '42-inertia',
+      build: MoveItRightGame.new,
+      rounds: axisRounds.length,
+      height: 1450,
+    ),
+    'which-barely-matters': (
+      lesson: '42-inertia',
+      build: WhichBarelyMattersGame.new,
+      rounds: shareRounds.length,
+      height: 1200,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1186,6 +1207,12 @@ void main() {
       ('area-weighted', areaWeightedBrief),
       ('table', tableBrief),
       ('reference', referenceBrief),
+    ],
+    // Two cards, not three: the last two items both lean on the parallel axis
+    // theorem, and inventing a third card to fill the row would be pretending.
+    '42-inertia': [
+      ('far-from-axis', farFromAxisBrief),
+      ('transfer', transferBrief),
     ],
   };
 

@@ -164,6 +164,8 @@ enum BriefFigure {
   areaWeighted,
   table,
   reference,
+  farFromAxis,
+  transfer,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2352,6 +2354,46 @@ const sectionBrief = BriefSection(
   handbook: 'Handbook p. 95',
 );
 
+const farFromAxisBrief = BriefSection(
+  title: 'Distance does the work',
+  body:
+      'The moment of inertia is a sum of area times distance SQUARED, so where '
+      'the material sits matters far more than how much of it there is. Metal '
+      'near the axis is very nearly wasted, because its distance is nearly '
+      'zero and squaring it makes it smaller still. For a rectangle the depth '
+      'appears cubed and the width only once, which is why turning a joist on '
+      'edge multiplies its stiffness many times over for exactly the same '
+      'timber, and why an I-beam puts its steel out in the flanges and leaves '
+      'the web as thin as shear will allow.',
+  formulas: [
+    ('What it is', r'I_x = \int y^2\, dA'),
+    ('Rectangle', r'I_{xc} = \frac{bh^3}{12}'),
+    ('Circle', r'I_{xc} = \frac{\pi r^4}{4}'),
+  ],
+  figure: BriefFigure.farFromAxis,
+  handbook: 'Handbook pp. 98 to 100',
+);
+
+const transferBrief = BriefSection(
+  title: 'Moving it to another axis',
+  body:
+      'A shape has its SMALLEST moment of inertia about its own centroidal '
+      'axis. Move to any parallel axis and you add the transfer term, area '
+      'times the distance between them squared. Come back and you take it off. '
+      'The theorem only runs between the centroidal axis and some other one: '
+      'it will not go straight from one non-centroidal axis to another, and '
+      'the way through is always back via the centroid. On a composite section '
+      'every piece gets its own transfer, measured to the COMPOSITE centroid, '
+      'and those terms are usually the bigger half of the answer.',
+  formulas: [
+    ('Parallel axis theorem', r'I_x = \bar{I}_{xc} + Ad^2'),
+    ('Composite', r'I_x = \sum \left( \bar{I}_i + A_i d_i^2 \right)'),
+    ('Radius of gyration', r'r = \sqrt{\frac{I}{A}}'),
+  ],
+  figure: BriefFigure.transfer,
+  handbook: 'Handbook p. 95',
+);
+
 const areaWeightedBrief = BriefSection(
   title: 'Where the area is, not where the height is',
   body:
@@ -3322,6 +3364,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{fixed alone} = 3 \;\Rightarrow\; \text{solvable}", true),
             (r"\text{a couple adds an unknown}", false),
             (r"\text{two rollers} \;\Rightarrow\; \text{it stands up}", false),
+          ],
+        );
+      case BriefFigure.farFromAxis:
+        return const _RuleList(
+          rules: [
+            (r"\text{far from the axis} \;\Rightarrow\; \text{stiffer}", true),
+            (r"\text{depth is cubed, width is not}", true),
+            (r"\text{twice the area} \;\Rightarrow\; \text{twice the stiffness}", false),
+            (r"\text{metal on the axis works as hard as any}", false),
+          ],
+        );
+      case BriefFigure.transfer:
+        return const _RuleList(
+          rules: [
+            (r"\text{leaving the centroidal axis} \;\Rightarrow\; +Ad^2", true),
+            (r"\text{arriving at it} \;\Rightarrow\; -Ad^2", true),
+            (r"\text{between two non-centroidal axes in one step}", false),
+            (r"\text{the } Ad^2 \text{ term is usually the small one}", false),
           ],
         );
       case BriefFigure.areaWeighted:

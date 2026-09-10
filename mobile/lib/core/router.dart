@@ -91,6 +91,9 @@ import '../features/games/match_the_dollars_game.dart';
 import '../features/games/what_the_support_gives_game.dart';
 import '../features/games/where_it_all_acts_game.dart';
 import '../features/games/above_or_below_game.dart';
+import '../features/games/move_it_right_game.dart';
+import '../features/games/rank_by_stiffness_game.dart';
+import '../features/games/which_barely_matters_game.dart';
 import '../features/games/along_it_or_not_game.dart';
 import '../features/games/can_statics_solve_it_game.dart';
 import '../features/games/does_it_multiply_game.dart';
@@ -306,6 +309,9 @@ GoRouter buildRouter(AuthController auth) {
           'above-or-below-middle' => const AboveOrBelowGame(),
           'tap-its-centroid' => const TapItsCentroidGame(),
           'which-distance-goes-in' => const WhichDistanceGoesInGame(),
+          'rank-by-stiffness' => const RankByStiffnessGame(),
+          'move-it-right' => const MoveItRightGame(),
+          'which-barely-matters' => const WhichBarelyMattersGame(),
           _ => const _UnknownGame(),
         },
       ),
