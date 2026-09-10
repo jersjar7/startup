@@ -60,6 +60,9 @@ import 'package:mobile/features/games/which_area_twists_it_game.dart';
 import 'package:mobile/features/games/where_on_the_curve_game.dart';
 import 'package:mobile/features/games/stiff_strong_or_stretchy_game.dart';
 import 'package:mobile/features/games/can_you_get_there_game.dart';
+import 'package:mobile/features/games/which_diagram_belongs_game.dart';
+import 'package:mobile/features/games/where_it_peaks_game.dart';
+import 'package:mobile/features/games/jump_bend_or_neither_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1092,6 +1095,24 @@ void main() {
           rounds: roadRounds.length,
           height: 1500,
         ),
+        'which-diagram-belongs': (
+          lesson: '46-shear-moment',
+          build: WhichDiagramBelongsGame.new,
+          rounds: shapeRounds.length,
+          height: 1650,
+        ),
+        'where-it-peaks': (
+          lesson: '46-shear-moment',
+          build: WhereItPeaksGame.new,
+          rounds: peakRounds.length,
+          height: 1350,
+        ),
+        'jump-bend-or-neither': (
+          lesson: '46-shear-moment',
+          build: JumpBendOrNeitherGame.new,
+          rounds: markRounds.length,
+          height: 1600,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1327,6 +1348,11 @@ void main() {
       ('curve', curveBrief),
       ('stiff-strong', stiffStrongBrief),
       ('linked', linkedBrief),
+    ],
+    '46-shear-moment': [
+      ('slope-rules', slopeRulesBrief),
+      ('peak', peakBrief),
+      ('jump', jumpBrief),
     ],
   };
 

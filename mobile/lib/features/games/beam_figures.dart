@@ -211,7 +211,12 @@ class BeamPainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeWidth = heavy ? 2.4 : 1.6,
       );
-      _write(canvas, station.label, Offset(x, y + 14), colour, size);
+      // A mark that sits on a support has the support's own drawing under it,
+      // so its label goes below that rather than through the hatching.
+      final onSupport =
+          supports.any((s) => (s.at.dx - station.at).abs() < 1e-9);
+      _write(canvas, station.label, Offset(x, y + (onSupport ? 32 : 14)),
+          colour, size);
     }
   }
 

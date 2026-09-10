@@ -93,6 +93,9 @@ import 'curve_figures.dart';
 import 'where_on_the_curve_game.dart';
 import 'stiff_strong_or_stretchy_game.dart';
 import 'can_you_get_there_game.dart';
+import 'which_diagram_belongs_game.dart';
+import 'where_it_peaks_game.dart';
+import 'jump_bend_or_neither_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -1872,6 +1875,50 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final v in Road.values) v.name],
           answer: Road.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-diagram-belongs',
+    lessonId: 'shear-moment-diagrams',
+    problemPrefix: 'mm-smd-',
+    rounds: [
+      // The options are three drawings, named here by what is wrong with each
+      // of them.
+      for (final r in shapeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final t in r.options) t.name],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-it-peaks',
+    lessonId: 'shear-moment-diagrams',
+    problemPrefix: 'mm-smd-',
+    rounds: [
+      // Places along a beam, so two of them being the same number is two
+      // different PLACES and not a repeated choice.
+      for (final r in peakRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final x in r.spots) '$x m'],
+          answer: r.answer,
+          positional: true,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'jump-bend-or-neither',
+    lessonId: 'shear-moment-diagrams',
+    problemPrefix: 'mm-smd-',
+    rounds: [
+      for (final r in markRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final d in Does.values) d.name],
+          answer: Does.values.indexOf(r.answer),
         ),
     ],
   ),

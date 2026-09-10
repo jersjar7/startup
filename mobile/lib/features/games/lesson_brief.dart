@@ -180,6 +180,9 @@ enum BriefFigure {
   curve,
   stiffStrong,
   linked,
+  slopeRules,
+  peak,
+  jump,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2567,6 +2570,73 @@ const linkedBrief = BriefSection(
   handbook: 'Handbook p. 130',
 );
 
+const slopeRulesBrief = BriefSection(
+  title: 'Two rules decide both shapes',
+  body:
+      'The slope of the shear diagram is minus the load, and the slope of the '
+      'moment diagram is the shear. Everything a diagram does follows from '
+      'those. Nothing spread along a stretch of beam means the shear is FLAT '
+      'there and the moment runs STRAIGHT. A uniform load means the shear '
+      'SLOPES and the moment CURVES, and drawing that curve as a pair of '
+      'straight lines to the peak is the commonest wrong diagram in the '
+      'topic. One step further up: a load that itself changes as it goes, a '
+      'triangle, gives a curved shear and a moment curving harder still. The '
+      'same rules read the other way are the area method: the change in '
+      'moment between two points is the AREA under the shear between them.',
+  formulas: [
+    ('Load to shear', r'\frac{dV}{dx} = -w(x)'),
+    ('Shear to moment', r'\frac{dM}{dx} = V(x)'),
+    ('Which is to say', r'M_B - M_A = \int_A^B V\,dx'),
+  ],
+  figure: BriefFigure.slopeRules,
+  handbook: 'Handbook p. 140',
+);
+
+const peakBrief = BriefSection(
+  title: 'The moment peaks where the shear crosses zero',
+  body:
+      'A beam is sized for its worst moment, so finding WHERE that is comes '
+      'before working out how big it is. It is wherever the shear passes '
+      'through zero, which follows from the moment climbing at the rate of '
+      'the shear: while the shear is positive the moment is still rising, and '
+      'the moment it turns negative the moment starts coming back down. Under '
+      'a single load, that is under the load, wherever the load happens to '
+      'be. On a symmetric uniform load it is the middle. On a cantilever it is '
+      'at the wall, and on an overhang it is over the support, hogging rather '
+      'than sagging. Midspan is the right answer often enough to be a habit '
+      'and it is the named trap in this lesson\'s hard problem.',
+  formulas: [
+    ('Peak where', r'V = 0'),
+    ('Load at midspan', r'M_{max} = \frac{PL}{4}'),
+    ('Load anywhere', r'M_{max} = \frac{Pab}{L}'),
+    ('Uniform load', r'M_{max} = \frac{wL^2}{8}'),
+  ],
+  figure: BriefFigure.peak,
+  handbook: 'Handbook p. 140',
+);
+
+const jumpBrief = BriefSection(
+  title: 'What each thing does at the point it acts',
+  body:
+      'A vertical force STEPS the shear by its own size, upward forces up and '
+      'downward forces down, and that includes the reactions: an upward '
+      'reaction steps the shear up. It does nothing sudden to the moment, '
+      'which merely changes the rate it is climbing at, so the moment diagram '
+      'bends there without a break. A couple is the opposite: it steps the '
+      'MOMENT by its own size and leaves the shear untouched, because no '
+      'vertical force has been added. Where a spread load starts or stops, '
+      'nothing steps at all, the shear just changes the angle it is running '
+      'at. And a pinned or rolling end holds no moment, so both ends of a '
+      'simply supported beam start and finish at zero.',
+  formulas: [
+    ('A force', r'\Delta V = \pm P \text{, and } M \text{ only bends}'),
+    ('A couple', r'\Delta M = \pm C \text{, and } V \text{ is unchanged}'),
+    ('A pin or roller end', r'M = 0'),
+  ],
+  figure: BriefFigure.jump,
+  handbook: 'Handbook p. 140',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -3719,6 +3789,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.slopeRules:
+        return const _RuleList(
+          rules: [
+            (r"\text{no spread load} \;\Rightarrow\; V \text{ flat}, M \text{ straight}", true),
+            (r"\text{uniform load} \;\Rightarrow\; V \text{ slopes}, M \text{ curves}", true),
+            (r"\text{a uniform load gives a straight } M", false),
+            (r"\text{a point load slopes } V", false),
+          ],
+        );
+      case BriefFigure.peak:
+        return const _RuleList(
+          rules: [
+            (r"M \text{ peaks where } V = 0", true),
+            (r"\text{one load} \;\Rightarrow\; \text{peak under it}", true),
+            (r"\text{the peak is at midspan}", false),
+            (r"\text{the worst moment is always sagging}", false),
+          ],
+        );
+      case BriefFigure.jump:
+        return const _RuleList(
+          rules: [
+            (r"\text{a force steps } V \text{ by its own size}", true),
+            (r"\text{a couple steps } M \text{, not } V", true),
+            (r"\text{a point load steps } M", false),
+            (r"\text{a spread load steps } V \text{ where it starts}", false),
           ],
         );
       case BriefFigure.curve:

@@ -98,6 +98,9 @@ import '../features/games/which_area_twists_it_game.dart';
 import '../features/games/where_on_the_curve_game.dart';
 import '../features/games/stiff_strong_or_stretchy_game.dart';
 import '../features/games/can_you_get_there_game.dart';
+import '../features/games/which_diagram_belongs_game.dart';
+import '../features/games/where_it_peaks_game.dart';
+import '../features/games/jump_bend_or_neither_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -338,6 +341,9 @@ GoRouter buildRouter(AuthController auth) {
           'where-on-the-curve' => const WhereOnTheCurveGame(),
           'stiff-strong-or-stretchy' => const StiffStrongOrStretchyGame(),
           'can-you-get-there' => const CanYouGetThereGame(),
+          'which-diagram-belongs' => const WhichDiagramBelongsGame(),
+          'where-it-peaks' => const WhereItPeaksGame(),
+          'jump-bend-or-neither' => const JumpBendOrNeitherGame(),
           _ => const _UnknownGame(),
         },
       ),

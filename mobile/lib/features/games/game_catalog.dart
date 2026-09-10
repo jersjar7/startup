@@ -1617,6 +1617,32 @@ const mechanicsMaterialsMap = ChapterMap(
       id: 'shear-moment-diagrams',
       name: 'Shear & Moment Diagrams',
       subtopicId: 'beams',
+      games: [
+        GameDef(
+          id: 'which-diagram-belongs',
+          rounds: 6,
+          name: 'Which Diagram Belongs',
+          blurb: 'One beam, three diagrams. Only one of them is its own.',
+          built: true,
+          brief: slopeRulesBrief,
+        ),
+        GameDef(
+          id: 'where-it-peaks',
+          rounds: 6,
+          name: 'Where It Peaks',
+          blurb: 'Tap the place on the beam that bends the hardest.',
+          built: true,
+          brief: peakBrief,
+        ),
+        GameDef(
+          id: 'jump-bend-or-neither',
+          rounds: 6,
+          name: 'Jump, Bend or Neither',
+          blurb: 'One marked point. Say what the diagram does there.',
+          built: true,
+          brief: jumpBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'bending-shear-stresses',
