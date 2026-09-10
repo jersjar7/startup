@@ -413,7 +413,7 @@ class _Role extends StatelessWidget {
           Text(label, style: AppTheme.overline(color: AppColors.ink3)),
           const SizedBox(height: 4),
           Text(
-            column ?? '—',
+            column ?? '?',
             style: AppTheme.mono(size: 13, color: AppColors.charcoal),
           ),
         ],

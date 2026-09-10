@@ -281,7 +281,7 @@ class _ShadowFallsGameState extends State<ShadowFallsGame> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  _picked == null ? '—' : '$_picked',
+                  _picked == null ? '?' : '$_picked',
                   style: AppTheme.mono(size: 14, color: AppColors.ember),
                 ),
               ),

@@ -443,7 +443,7 @@ class _Slot extends StatelessWidget {
             ),
           ),
           child: Text(
-            locked && !right ? '${value ?? '—'} / $truth' : (value ?? ''),
+            locked && !right ? '${value ?? '?'} / $truth' : (value ?? ''),
             style: AppTheme.mono(size: 13, color: AppColors.charcoal),
           ),
         ),

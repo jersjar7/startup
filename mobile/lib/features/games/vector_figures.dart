@@ -148,6 +148,10 @@ class VectorPainter extends CustomPainter {
     for (var i = -span; i <= span; i += 2) {
       if (i == 0) continue;
       _tick(canvas, '$i', g.toScreen(i, 0) + const Offset(0, 13));
+      // The x-axis writes its numbers below the line, so the first y number
+      // below the origin lands in among them. Skip that one; the lattice is
+      // still there to count on.
+      if (i < 0 && i.abs() * g.step < 30) continue;
       _tick(canvas, '$i', g.toScreen(0, i) + const Offset(-15, 0));
     }
 
@@ -332,8 +336,20 @@ class VectorPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    // Sit the label just past the head, pushed clear of the shaft.
-    final place = to + unit * 12 + left * 10;
+    // Beside the head, and pushed off whichever axis the arrow runs along. A
+    // label set beyond the head of an arrow lying on the x-axis lands exactly
+    // where that axis writes its numbers, which is where "A" was coming out
+    // as "A 6".
+    final flat = unit.dy.abs() < 0.35;
+    final upright = unit.dx.abs() < 0.35;
+    final Offset place;
+    if (flat) {
+      place = to + unit * 7 + Offset(0, -tp.height - 5);
+    } else if (upright) {
+      place = to + Offset(tp.width / 2 + 10, unit.dy * 7);
+    } else {
+      place = to + unit * 12 + left * 10;
+    }
     tp.paint(canvas, place - Offset(tp.width / 2, tp.height / 2));
   }
 

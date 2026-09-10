@@ -97,6 +97,19 @@ class RegionPainter extends CustomPainter {
   final Region region;
   final Color color;
 
+  /// Everything is drawn with the shared edge lying flat.
+  ///
+  /// Turned the way the numbers happen to give it, the box came out leaning
+  /// and read as a second parallelogram, which is the one thing these three
+  /// cards must not do. Rotating loses nothing: area does not care which way
+  /// up the page is.
+  Vec _flat(Vec p) {
+    final theta = math.atan2(u.y, u.x);
+    final c = math.cos(-theta);
+    final sn = math.sin(-theta);
+    return Vec(p.x * c - p.y * sn, p.x * sn + p.y * c);
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     // The three regions share one scale, so the box really does look bigger
@@ -108,7 +121,7 @@ class RegionPainter extends CustomPainter {
       v,
       u + v,
       ..._boxCorners(),
-    ];
+    ].map(_flat).toList();
     final maxX = all.map((p) => p.x).reduce(math.max);
     final minX = all.map((p) => p.x).reduce(math.min);
     final maxY = all.map((p) => p.y).reduce(math.max);
@@ -120,10 +133,13 @@ class RegionPainter extends CustomPainter {
     // Centred in whatever room is left over.
     final padX = (size.width - (maxX - minX) * scale) / 2;
     final padY = (size.height - (maxY - minY) * scale) / 2;
-    Offset at(double x, double y) => Offset(
-      padX + (x - minX) * scale,
-      size.height - padY - (y - minY) * scale,
-    );
+    Offset at(double x, double y) {
+      final p = _flat(Vec(x, y));
+      return Offset(
+        padX + (p.x - minX) * scale,
+        size.height - padY - (p.y - minY) * scale,
+      );
+    }
 
     final corners = switch (region) {
       Region.triangle => [const Vec(0, 0), u, v],
@@ -154,6 +170,27 @@ class RegionPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
     canvas.drawLine(at(0, 0), at(u.x, u.y), edge);
     canvas.drawLine(at(0, 0), at(v.x, v.y), edge);
+
+    // A square corner on the box, so it cannot be read as one more leaning
+    // shape at thumbnail size.
+    if (region == Region.rectangle) {
+      final box = _boxCorners();
+      final o = at(0, 0);
+      final alongU = at(box[1].x, box[1].y) - o;
+      final alongV = at(box[3].x, box[3].y) - o;
+      final a = o + alongU / alongU.distance * 9;
+      final b = o + alongV / alongV.distance * 9;
+      canvas.drawPath(
+        Path()
+          ..moveTo(a.dx, a.dy)
+          ..lineTo(a.dx + (b - o).dx, a.dy + (b - o).dy)
+          ..lineTo(b.dx, b.dy),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 1.4
+          ..style = PaintingStyle.stroke,
+      );
+    }
   }
 
   /// The rectangle whose area is the two LENGTHS multiplied, which is what
