@@ -83,11 +83,15 @@ import 'find_the_factor_game.dart';
 import 'what_the_support_gives_game.dart';
 import 'where_it_all_acts_game.dart';
 import 'can_statics_solve_it_game.dart';
+import 'above_or_below_game.dart';
 import 'along_it_or_not_game.dart';
 import 'does_it_multiply_game.dart';
 import 'frame_figures.dart';
 import 'frame_truss_or_machine_game.dart';
 import 'friction_figures.dart';
+import 'section_figures.dart';
+import 'tap_its_centroid_game.dart';
+import 'which_distance_goes_in_game.dart';
 import 'harder_or_easier_game.dart';
 import 'is_it_about_to_move_game.dart';
 import 'which_side_is_tight_game.dart';
@@ -1602,6 +1606,48 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final v in Kind.values) v.name],
           answer: Kind.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'above-or-below-middle',
+    lessonId: 'centroids-composite-shapes',
+    problemPrefix: 'stat-ccs-',
+    rounds: [
+      for (final r in sitRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Sit.values) v.name],
+          answer: Sit.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'tap-its-centroid',
+    lessonId: 'centroids-composite-shapes',
+    problemPrefix: 'stat-ccs-',
+    rounds: [
+      // The answer is a POINT on the drawing, so the choices are places
+      // rather than words and two rounds offer the same three places.
+      for (final r in spotRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final at in r.spots) '${at.dx},${at.dy}'],
+          answer: r.answer,
+          positional: true,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-distance-goes-in',
+    lessonId: 'centroids-composite-shapes',
+    problemPrefix: 'stat-ccs-',
+    rounds: [
+      for (final r in dropRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final d in r.drops) d.label],
+          answer: r.answer,
         ),
     ],
   ),

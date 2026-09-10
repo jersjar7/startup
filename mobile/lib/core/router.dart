@@ -90,10 +90,13 @@ import '../features/games/where_the_cost_went_game.dart';
 import '../features/games/match_the_dollars_game.dart';
 import '../features/games/what_the_support_gives_game.dart';
 import '../features/games/where_it_all_acts_game.dart';
+import '../features/games/above_or_below_game.dart';
 import '../features/games/along_it_or_not_game.dart';
 import '../features/games/can_statics_solve_it_game.dart';
 import '../features/games/does_it_multiply_game.dart';
 import '../features/games/frame_truss_or_machine_game.dart';
+import '../features/games/tap_its_centroid_game.dart';
+import '../features/games/which_distance_goes_in_game.dart';
 import '../features/games/harder_or_easier_game.dart';
 import '../features/games/is_it_about_to_move_game.dart';
 import '../features/games/which_side_is_tight_game.dart';
@@ -300,6 +303,9 @@ GoRouter buildRouter(AuthController auth) {
           'along-it-or-not' => const AlongItOrNotGame(),
           'does-it-multiply' => const DoesItMultiplyGame(),
           'frame-truss-or-machine' => const FrameTrussOrMachineGame(),
+          'above-or-below-middle' => const AboveOrBelowGame(),
+          'tap-its-centroid' => const TapItsCentroidGame(),
+          'which-distance-goes-in' => const WhichDistanceGoesInGame(),
           _ => const _UnknownGame(),
         },
       ),

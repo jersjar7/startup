@@ -52,10 +52,13 @@ import 'package:mobile/features/games/which_distance_counts_game.dart';
 import 'package:mobile/features/games/which_ones_turn_it_game.dart';
 import 'package:mobile/features/games/what_the_support_gives_game.dart';
 import 'package:mobile/features/games/where_it_all_acts_game.dart';
+import 'package:mobile/features/games/above_or_below_game.dart';
 import 'package:mobile/features/games/along_it_or_not_game.dart';
 import 'package:mobile/features/games/can_statics_solve_it_game.dart';
 import 'package:mobile/features/games/does_it_multiply_game.dart';
 import 'package:mobile/features/games/frame_truss_or_machine_game.dart';
+import 'package:mobile/features/games/tap_its_centroid_game.dart';
+import 'package:mobile/features/games/which_distance_goes_in_game.dart';
 import 'package:mobile/features/games/harder_or_easier_game.dart';
 import 'package:mobile/features/games/is_it_about_to_move_game.dart';
 import 'package:mobile/features/games/which_side_is_tight_game.dart';
@@ -956,6 +959,24 @@ void main() {
       rounds: kindRounds.length,
       height: 1300,
     ),
+    'above-or-below-middle': (
+      lesson: '41-centroids',
+      build: AboveOrBelowGame.new,
+      rounds: sitRounds.length,
+      height: 1300,
+    ),
+    'tap-its-centroid': (
+      lesson: '41-centroids',
+      build: TapItsCentroidGame.new,
+      rounds: spotRounds.length,
+      height: 1250,
+    ),
+    'which-distance-goes-in': (
+      lesson: '41-centroids',
+      build: WhichDistanceGoesInGame.new,
+      rounds: dropRounds.length,
+      height: 1350,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1160,6 +1181,11 @@ void main() {
       ('two-force', twoForceBrief),
       ('lever', leverBrief),
       ('what-it-is', whatItIsBrief),
+    ],
+    '41-centroids': [
+      ('area-weighted', areaWeightedBrief),
+      ('table', tableBrief),
+      ('reference', referenceBrief),
     ],
   };
 

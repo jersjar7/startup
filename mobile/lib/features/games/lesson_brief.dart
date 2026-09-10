@@ -161,6 +161,9 @@ enum BriefFigure {
   twoForce,
   lever,
   whatItIs,
+  areaWeighted,
+  table,
+  reference,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2349,6 +2352,66 @@ const sectionBrief = BriefSection(
   handbook: 'Handbook p. 95',
 );
 
+const areaWeightedBrief = BriefSection(
+  title: 'Where the area is, not where the height is',
+  body:
+      'A centroid is an area-weighted average, so it sits toward whichever '
+      'end of the section carries the most material. The middle of the overall '
+      'height is right only when the section is symmetric about that line, and '
+      'it is the wrong answer named in every problem in this lesson. So is the '
+      'plain average of the piece centroids, which throws away the very '
+      'weighting that makes it an average of areas. A hole is an ordinary '
+      'piece with a NEGATIVE area: it comes off the top of the fraction and '
+      'off the bottom of it, and it drags the centroid away from itself.',
+  formulas: [
+    ('Composite centroid', r'\bar{y} = \frac{\sum A_i\, y_i}{\sum A_i}'),
+    ('A hole', r'A_i < 0'),
+    ('First moment of area', r'Q_x = \sum A_i\, y_i = \bar{y}A'),
+  ],
+  figure: BriefFigure.areaWeighted,
+  handbook: 'Handbook p. 95',
+);
+
+const tableBrief = BriefSection(
+  title: 'What the tables already give you',
+  body:
+      'You are never asked to integrate for a centroid on this exam. The '
+      'handbook lists them for rectangles, triangles, circles, half discs, '
+      'quarter discs and parabolic segments, and the work is knowing which '
+      'shape is in front of you and which corner the table measures from. A '
+      'triangle sits a third of the way up from its base and a third of the '
+      'way in from its right angle, so mirroring the triangle moves the '
+      'answer. A half disc is four r over three pi from its flat side, a shade '
+      'over four tenths of the radius. The middle of the box a shape fits in '
+      'is the centroid of the box, and of nothing else.',
+  formulas: [
+    ('Rectangle', r'\bar{y} = \frac{h}{2}'),
+    ('Triangle, from the base', r'\bar{y} = \frac{h}{3}'),
+    ('Half disc, from the flat side', r'\bar{y} = \frac{4r}{3\pi}'),
+  ],
+  figure: BriefFigure.table,
+  handbook: 'Handbook pp. 98 to 100',
+);
+
+const referenceBrief = BriefSection(
+  title: 'One axis, and every piece measured from it',
+  body:
+      'Choose a reference axis before anything else, usually the bottom edge '
+      'or the left edge, and then measure every single piece from that one '
+      'line. What you measure to is that piece\'s OWN centroid, not where the '
+      'piece begins and not where it ends. The commonest mistake in the whole '
+      'topic is changing reference partway through because one piece is easier '
+      'to measure another way: the arithmetic still works, the units still '
+      'look right, and the answer is wrong.',
+  formulas: [
+    ('Each term', r'A_i\,y_i'),
+    ('Where y is measured from', r'\text{the one axis you chose}'),
+    ('Where y is measured to', r"\text{to that piece's own centroid}"),
+  ],
+  figure: BriefFigure.reference,
+  handbook: 'Handbook p. 95',
+);
+
 const twoForceBrief = BriefSection(
   title: 'Two forces, and only two',
   body:
@@ -3259,6 +3322,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{fixed alone} = 3 \;\Rightarrow\; \text{solvable}", true),
             (r"\text{a couple adds an unknown}", false),
             (r"\text{two rollers} \;\Rightarrow\; \text{it stands up}", false),
+          ],
+        );
+      case BriefFigure.areaWeighted:
+        return const _RuleList(
+          rules: [
+            (r"\text{the centroid follows the area}", true),
+            (r"\text{a hole counts as a negative area}", true),
+            (r"\bar{y} = \tfrac{1}{2}\,\text{height}", false),
+            (r"\bar{y} = \text{the average of the piece centroids}", false),
+          ],
+        );
+      case BriefFigure.table:
+        return const _RuleList(
+          rules: [
+            (r"\text{triangle: } \tfrac{h}{3} \text{ from the wide end}", true),
+            (r"\text{half disc: } \tfrac{4r}{3\pi} \text{ from the flat side}", true),
+            (r"\text{triangle: } \tfrac{h}{2}", false),
+            (r"\text{the middle of the box it fits in}", false),
+          ],
+        );
+      case BriefFigure.reference:
+        return const _RuleList(
+          rules: [
+            (r"\text{every piece measured from ONE axis}", true),
+            (r"\text{to that piece's own centroid}", true),
+            (r"\text{to where the piece begins}", false),
+            (r"\text{a new axis for an awkward piece}", false),
           ],
         );
       case BriefFigure.twoForce:

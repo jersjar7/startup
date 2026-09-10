@@ -1413,6 +1413,32 @@ const staticsMap = ChapterMap(
       id: 'centroids-composite-shapes',
       name: 'Centroids & Composite Shapes',
       subtopicId: 'section-properties',
+      games: [
+        GameDef(
+          id: 'above-or-below-middle',
+          rounds: 6,
+          name: 'Above or Below the Middle',
+          blurb: 'The centroid sits where the metal is. Which side?',
+          built: true,
+          brief: areaWeightedBrief,
+        ),
+        GameDef(
+          id: 'tap-its-centroid',
+          rounds: 6,
+          name: 'Tap Its Centroid',
+          blurb: 'One shape, three candidates. The table knows.',
+          built: true,
+          brief: tableBrief,
+        ),
+        GameDef(
+          id: 'which-distance-goes-in',
+          rounds: 6,
+          name: 'Which Distance Goes In',
+          blurb: 'One axis, every piece. Tap the one that belongs.',
+          built: true,
+          brief: referenceBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'area-moments-of-inertia',
