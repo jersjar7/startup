@@ -52,7 +52,7 @@ needs two things present:
 ## Reinstalling the provisioning profile
 
 Expect to do this on most builds. The profile has not survived between
-builds 520, 521 and 522 on this machine, so pull it from App Store Connect
+builds 520 through 525 on this machine, so pull it from App Store Connect
 before step 3 rather than waiting for step 3 to fail. The API
 key id and issuer are in `secrets/appstore-connect.json` (gitignored) and the
 `.p8` lives at `~/.appstoreconnect/private_keys/AuthKey_<key_id>.p8`, never in
@@ -105,3 +105,4 @@ The profile in use expires **2027-06-23**.
 | 522   | Ethics, all seven lessons; chapter three complete |
 | 523   | Economics, all six lessons; chapter four complete |
 | 524   | Statics, all seven lessons; chapter five complete |
+| 525   | Mechanics of Materials opens; four lessons that were a game short get their fourth; the untappable arrow |
