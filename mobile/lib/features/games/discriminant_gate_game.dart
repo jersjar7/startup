@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -434,7 +436,34 @@ class ParaPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final axisY = size.height * 0.56;
+    const margin = 8.0;
+    final usable = size.height - margin * 2;
+
+    // Frame the curve rather than pinning the datum at a fixed height. With
+    // the datum fixed, a curve peaking BELOW it drew entirely in the bottom
+    // half of the box with the top half empty, and the thumbnails cut the
+    // vertex off altogether.
+    //
+    // Everything below is measured from the datum, which sits at zero, with
+    // negative upward the way a canvas counts.
+    var vertexAt = -para.vertexY * 26;
+    var arm = usable * 0.60;
+
+    // What has to fit: the datum, the vertex, and the ends of both arms.
+    var top = math.min(0.0, para.opensUp ? vertexAt - arm : vertexAt);
+    var bottom = math.max(0.0, para.opensUp ? vertexAt : vertexAt + arm);
+    final span = bottom - top;
+    if (span > usable) {
+      final shrink = usable / span;
+      vertexAt *= shrink;
+      arm *= shrink;
+      top *= shrink;
+      bottom *= shrink;
+    }
+
+    // Centre whatever is left over, so a shallow curve is not stuck to one
+    // edge of the box.
+    final axisY = margin + (usable - (bottom - top)) / 2 - top;
 
     canvas.drawLine(
       Offset(0, axisY),
@@ -444,11 +473,9 @@ class ParaPainter extends CustomPainter {
         ..strokeWidth = 2,
     );
 
-    // Vertex offset in pixels; vertexY is in "grid squares" above the axis.
-    final vertex = Offset(size.width / 2, axisY - para.vertexY * 26);
-    // Chosen so the arms reach roughly the top (or bottom) of the card at the
-    // edges, whatever the card's size.
-    final k = 3.4 * size.height / (size.width * size.width);
+    final vertex = Offset(size.width / 2, axisY + vertexAt);
+    final half = size.width / 2;
+    final k = arm / (half * half);
     final path = Path();
     for (double x = 0; x <= size.width; x += 3) {
       final dx = x - vertex.dx;

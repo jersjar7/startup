@@ -297,10 +297,7 @@ class _Line extends StatelessWidget {
             children: [
               SizedBox(
                 width: 42,
-                child: Text(
-                  name,
-                  style: AppTheme.code(size: 15, color: AppColors.cream),
-                ),
+                child: _Symbol(name),
               ),
               Expanded(
                 child: Text(
@@ -377,6 +374,32 @@ class _NotThereButton extends StatelessWidget {
             style: AppTheme.heading(size: 14.5),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// A readout's symbol, with a macron drawn as a real bar over the letter.
+///
+/// A combining macron is given a full advance by the mono face, so "x̄" came
+/// out as an x with a stroke floating off its shoulder. An overline decoration
+/// puts the bar where a bar goes.
+class _Symbol extends StatelessWidget {
+  const _Symbol(this.name);
+
+  final String name;
+
+  static const _macron = '\u0304';
+
+  @override
+  Widget build(BuildContext context) {
+    final barred = name.contains(_macron);
+    return Text(
+      barred ? name.replaceAll(_macron, '') : name,
+      style: AppTheme.code(size: 15, color: AppColors.cream).copyWith(
+        decoration: barred ? TextDecoration.overline : null,
+        decorationColor: AppColors.cream,
+        decorationThickness: 1.4,
       ),
     );
   }

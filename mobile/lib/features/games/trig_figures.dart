@@ -237,7 +237,10 @@ class TrianglePainter extends CustomPainter {
 
     final bisect = (toSquare + toOther) / 2;
     final at2 = at + bisect / bisect.distance * 40;
-    _text(canvas, angleLabel, at2, AppColors.ember, 15, bold: true);
+    // Mono, not the heading face: DM Sans carries no Greek at all, so the
+    // theta was drawing as a missing-glyph box on every round.
+    _text(canvas, angleLabel, at2, AppColors.ember, 15,
+        bold: true, mono: true);
   }
 
   /// Labels sit ALONGSIDE their side, turned to its angle, never across it. A
@@ -289,15 +292,22 @@ class TrianglePainter extends CustomPainter {
     Color color,
     double size, {
     bool bold = false,
+    bool mono = false,
   }) {
     final tp = TextPainter(
       text: TextSpan(
         text: text,
-        style: AppTheme.heading(
-          size: size,
-          weight: bold ? FontWeight.w700 : FontWeight.w600,
-          color: color,
-        ),
+        style: mono
+            ? AppTheme.mono(
+                size: size,
+                weight: bold ? FontWeight.w700 : FontWeight.w500,
+                color: color,
+              )
+            : AppTheme.heading(
+                size: size,
+                weight: bold ? FontWeight.w700 : FontWeight.w600,
+                color: color,
+              ),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
@@ -334,17 +344,31 @@ class ForcePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final origin = Offset(size.width * 0.16, size.height * 0.82);
     final fromHorizontal = fromVertical ? 90 - degrees : degrees;
     final rad = fromHorizontal * math.pi / 180;
     final length = math.min(size.width * 0.62, size.height * 0.72);
-    final tip = origin + Offset(math.cos(rad), -math.sin(rad)) * length;
+    final reach = math.cos(rad) * length;
+    final rise = math.sin(rad) * length;
+
+    // Centred on what is actually drawn. Pinned to a fixed fraction of the
+    // width, a steep force left the right half of the box empty with the
+    // horizontal axis running out into nothing.
+    final axisRun = math.max(reach + 36, size.width * 0.34);
+    final origin = Offset(
+      (size.width - axisRun) / 2,
+      size.height * 0.84,
+    );
+    final tip = origin + Offset(reach, -rise);
 
     final axis = Paint()
       ..color = AppColors.ink3.withValues(alpha: 0.5)
       ..strokeWidth = 1.5;
-    canvas.drawLine(origin, Offset(size.width * 0.92, origin.dy), axis);
-    canvas.drawLine(origin, Offset(origin.dx, size.height * 0.1), axis);
+    canvas.drawLine(origin, Offset(origin.dx + axisRun, origin.dy), axis);
+    canvas.drawLine(
+      origin,
+      Offset(origin.dx, math.max(origin.dy - rise - 30, size.height * 0.14)),
+      axis,
+    );
 
     // Components.
     final corner = Offset(tip.dx, origin.dy);
@@ -385,9 +409,12 @@ class ForcePainter extends CustomPainter {
 
     // The angle, swept from whichever axis it is measured from: up from the
     // horizontal, or across from the vertical.
+    // Sized off the force rather than fixed, so a short vector does not carry
+    // an arc bigger than itself and a long one still reads as an angle.
     final degreesRad = degrees * math.pi / 180;
+    final arc = math.min(length * 0.34, 44.0).clamp(22.0, 44.0);
     canvas.drawArc(
-      Rect.fromCircle(center: origin, radius: 30),
+      Rect.fromCircle(center: origin, radius: arc),
       fromVertical ? -math.pi / 2 : 0.0,
       fromVertical ? degreesRad : -degreesRad,
       false,

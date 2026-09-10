@@ -342,12 +342,6 @@ class _StretchCard extends StatelessWidget {
                     : AppColors.ember,
               ),
               const SizedBox(width: 14),
-              SizedBox(
-                width: 68,
-                height: 44,
-                child: CustomPaint(painter: _RampPainter()),
-              ),
-              const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -358,8 +352,9 @@ class _StretchCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'rise ${_trim(stretch.rise)} ft   ·   run ${stretch.runLabel}',
+                      'rise ${_trim(stretch.rise)} ft · run ${stretch.runLabel}',
                       style: AppTheme.mono(size: 12.5, color: AppColors.ink2),
+                      maxLines: 1,
                     ),
                   ],
                 ),
@@ -411,32 +406,3 @@ class _RankBadge extends StatelessWidget {
 
 /// A plain road-profile mark. Deliberately the same on every card: the ranking
 /// has to come from the numbers, not from a picture that gives it away.
-class _RampPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final ground = Paint()
-      ..color = AppColors.charcoal.withValues(alpha: 0.25)
-      ..strokeWidth = 2;
-    final road = Paint()
-      ..color = AppColors.ember
-      ..strokeWidth = 3
-      ..strokeCap = StrokeCap.round;
-
-    final base = size.height - 8;
-    canvas.drawLine(Offset(2, base), Offset(size.width - 2, base), ground);
-    canvas.drawLine(
-      Offset(4, base - 2),
-      Offset(size.width - 4, base - size.height * 0.6),
-      road,
-    );
-    // The rise, marked at the far end.
-    canvas.drawLine(
-      Offset(size.width - 4, base),
-      Offset(size.width - 4, base - size.height * 0.6),
-      ground,
-    );
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter old) => false;
-}
