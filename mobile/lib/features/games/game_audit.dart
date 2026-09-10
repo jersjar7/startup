@@ -83,6 +83,10 @@ import 'find_the_factor_game.dart';
 import 'what_the_support_gives_game.dart';
 import 'where_it_all_acts_game.dart';
 import 'can_statics_solve_it_game.dart';
+import 'along_it_or_not_game.dart';
+import 'does_it_multiply_game.dart';
+import 'frame_figures.dart';
+import 'frame_truss_or_machine_game.dart';
 import 'friction_figures.dart';
 import 'harder_or_easier_game.dart';
 import 'is_it_about_to_move_game.dart';
@@ -1562,6 +1566,42 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final v in Shift.values) v.name],
           answer: Shift.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'along-it-or-not',
+    lessonId: 'frames-machines',
+    problemPrefix: 'stat-fm-',
+    rounds: [
+      // The answer is an ARROW on the drawing, and on half the rounds it is
+      // none of them, so no index into a shortlist names it.
+      for (final r in pinRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-it-multiply',
+    lessonId: 'frames-machines',
+    problemPrefix: 'stat-fm-',
+    rounds: [
+      for (final r in leverRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Pull.values) v.name],
+          answer: Pull.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'frame-truss-or-machine',
+    lessonId: 'frames-machines',
+    problemPrefix: 'stat-fm-',
+    rounds: [
+      for (final r in kindRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Kind.values) v.name],
+          answer: Kind.values.indexOf(r.answer),
         ),
     ],
   ),

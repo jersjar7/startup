@@ -1382,6 +1382,32 @@ const staticsMap = ChapterMap(
       id: 'frames-machines',
       name: 'Frames & Machines',
       subtopicId: 'trusses-and-friction',
+      games: [
+        GameDef(
+          id: 'along-it-or-not',
+          rounds: 6,
+          name: 'Along It or Not',
+          blurb: 'Tap the arrow, or say the shape does not settle it.',
+          built: true,
+          brief: twoForceBrief,
+        ),
+        GameDef(
+          id: 'does-it-multiply',
+          rounds: 6,
+          name: 'Does It Multiply',
+          blurb: 'Look at which arm is longer before anything else.',
+          built: true,
+          brief: leverBrief,
+        ),
+        GameDef(
+          id: 'frame-truss-or-machine',
+          rounds: 6,
+          name: 'Frame, Truss or Machine',
+          blurb: 'What it is called decides what you may assume.',
+          built: true,
+          brief: whatItIsBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'centroids-composite-shapes',

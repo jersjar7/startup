@@ -52,7 +52,10 @@ import 'package:mobile/features/games/which_distance_counts_game.dart';
 import 'package:mobile/features/games/which_ones_turn_it_game.dart';
 import 'package:mobile/features/games/what_the_support_gives_game.dart';
 import 'package:mobile/features/games/where_it_all_acts_game.dart';
+import 'package:mobile/features/games/along_it_or_not_game.dart';
 import 'package:mobile/features/games/can_statics_solve_it_game.dart';
+import 'package:mobile/features/games/does_it_multiply_game.dart';
+import 'package:mobile/features/games/frame_truss_or_machine_game.dart';
 import 'package:mobile/features/games/harder_or_easier_game.dart';
 import 'package:mobile/features/games/is_it_about_to_move_game.dart';
 import 'package:mobile/features/games/which_side_is_tight_game.dart';
@@ -935,6 +938,24 @@ void main() {
       rounds: changeRounds.length,
       height: 1300,
     ),
+    'along-it-or-not': (
+      lesson: '40-frames',
+      build: AlongItOrNotGame.new,
+      rounds: pinRounds.length,
+      height: 1350,
+    ),
+    'does-it-multiply': (
+      lesson: '40-frames',
+      build: DoesItMultiplyGame.new,
+      rounds: leverRounds.length,
+      height: 1450,
+    ),
+    'frame-truss-or-machine': (
+      lesson: '40-frames',
+      build: FrameTrussOrMachineGame.new,
+      rounds: kindRounds.length,
+      height: 1300,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1134,6 +1155,11 @@ void main() {
       ('ceiling', ceilingBrief),
       ('belt', beltBrief),
       ('normal-force', normalForceBrief),
+    ],
+    '40-frames': [
+      ('two-force', twoForceBrief),
+      ('lever', leverBrief),
+      ('what-it-is', whatItIsBrief),
     ],
   };
 

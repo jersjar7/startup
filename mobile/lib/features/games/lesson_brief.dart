@@ -158,6 +158,9 @@ enum BriefFigure {
   ceiling,
   belt,
   normalForce,
+  twoForce,
+  lever,
+  whatItIs,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2346,6 +2349,64 @@ const sectionBrief = BriefSection(
   handbook: 'Handbook p. 95',
 );
 
+const twoForceBrief = BriefSection(
+  title: 'Two forces, and only two',
+  body:
+      'Count the places something acts on a member. Exactly two, and '
+      'equilibrium forces those two to be equal, opposite and in line with '
+      'each other, which means along the line joining the two points. Three '
+      'or more, and the member carries shear and bending and its pin forces '
+      'point wherever they have to. A bend in the member changes nothing: the '
+      'line runs between the ends, not along the metal. And a load hung at a '
+      'PIN is carried by the joint, so it leaves every member there still '
+      'touched at just its own two ends.',
+  formulas: [
+    ('Two-force member', r'\text{touched at exactly two points}'),
+    ('Where its force acts', r'\text{along the line joining those points}'),
+    ('Multi-force member', r'\text{touched three or more times}'),
+  ],
+  figure: BriefFigure.twoForce,
+  handbook: 'Handbook p. 97',
+);
+
+const leverBrief = BriefSection(
+  title: 'Moments about the pivot',
+  body:
+      'A lever is one moment equation and nothing more: the force out is the '
+      'force in, scaled by YOUR arm over ITS arm. Long effort arm and the '
+      'machine hands you more force than you put in. Short effort arm and it '
+      'hands you less, and what it buys instead is reach and speed, which is '
+      'what a fishing rod and your own forearm are for. Effort and load on the '
+      'same side of the pivot works the same way, you just pull up instead of '
+      'pushing down.',
+  formulas: [
+    ('Moments about the pivot', r'F_{out}\,a_{out} = F_{in}\,a_{in}'),
+    ('So the force out is', r'F_{out} = F_{in}\,\frac{a_{in}}{a_{out}}'),
+    ('Mechanical advantage', r'\frac{a_{in}}{a_{out}}'),
+  ],
+  figure: BriefFigure.lever,
+  handbook: 'Handbook p. 97',
+);
+
+const whatItIsBrief = BriefSection(
+  title: 'Truss, frame or machine',
+  body:
+      'Three names, and the one you choose decides what you may assume about '
+      'every member. Does it move? Then it is a machine, however it is built. '
+      'If it holds still, count the places something touches each member. All '
+      'of them touched twice and it is a truss, so every force runs along its '
+      'own member and the joints can be walked one at a time. Any member '
+      'touched three times and it is a frame, and that member bends. Frames '
+      'and machines are taken apart and solved the same way.',
+  formulas: [
+    ('Truss', r'\text{holds still, every member two-force}'),
+    ('Frame', r'\text{holds still, at least one bends}'),
+    ('Machine', r'\text{parts move against each other}'),
+  ],
+  figure: BriefFigure.whatItIs,
+  handbook: 'Handbook p. 97',
+);
+
 const ceilingBrief = BriefSection(
   title: 'Friction is a ceiling, not a value',
   body:
@@ -3198,6 +3259,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{fixed alone} = 3 \;\Rightarrow\; \text{solvable}", true),
             (r"\text{a couple adds an unknown}", false),
             (r"\text{two rollers} \;\Rightarrow\; \text{it stands up}", false),
+          ],
+        );
+      case BriefFigure.twoForce:
+        return const _RuleList(
+          rules: [
+            (r"\text{2 points} \;\Rightarrow\; \text{along the line joining them}", true),
+            (r"\text{a bend in it does not move that line}", true),
+            (r"\text{a straight member is always two-force}", false),
+            (r"\text{a load at a pin makes its members bend}", false),
+          ],
+        );
+      case BriefFigure.lever:
+        return const _RuleList(
+          rules: [
+            (r"a_{in} > a_{out} \;\Rightarrow\; \text{more force out}", true),
+            (r"\text{effort and load on one side still works}", true),
+            (r"\text{a lever always multiplies force}", false),
+            (r"\text{a heavier bar gives more advantage}", false),
+          ],
+        );
+      case BriefFigure.whatItIs:
+        return const _RuleList(
+          rules: [
+            (r"\text{all members two-force, and still} \;\Rightarrow\; \text{truss}", true),
+            (r"\text{still, one member bends} \;\Rightarrow\; \text{frame}", true),
+            (r"\text{a frame may have a part that moves}", false),
+            (r"\text{a machine is solved a different way}", false),
           ],
         );
       case BriefFigure.ceiling:

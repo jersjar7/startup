@@ -176,6 +176,12 @@ void main() {
       // Belt friction is one problem in the lesson and the only one with a
       // drum in it, so every round is built from it.
       'which-side-is-tight',
+      // Lesson forty has three problems and they ARE its three topics: what a
+      // two-force member is, what a lever does, and what the thing is called.
+      // One item each, by construction.
+      'along-it-or-not',
+      'does-it-multiply',
+      'frame-truss-or-machine',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }
