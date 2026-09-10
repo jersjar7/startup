@@ -85,16 +85,6 @@ class CashFlowPainter extends CustomPainter {
           ..color = AppColors.ink2
           ..strokeWidth = 1,
       );
-      if (i == 0 || i == periods) {
-        // On a diagram of nothing but costs the arrows own the space under
-        // the line, so the numbers go over it instead.
-        _write(
-          canvas,
-          '$i',
-          Offset(x, anyUp ? axis + 6 : axis - 15),
-          color: AppColors.ink3,
-        );
-      }
     }
     if (unit.isNotEmpty) {
       // In the right margin, past the last tick. Beside the final period
@@ -102,7 +92,7 @@ class CashFlowPainter extends CustomPainter {
       _write(
         canvas,
         unit,
-        Offset(size.width - 4, axis + 6),
+        Offset(size.width - 4, anyUp ? axis + 6 : axis - 15),
         color: AppColors.ink3,
         align: -1,
       );
@@ -149,6 +139,22 @@ class CashFlowPainter extends CustomPainter {
         );
       }
     }
+
+    // The end numbers go on last, on a patch of canvas and nudged off the
+    // tick. An arrow standing at the first or last period runs its shaft
+    // straight through the number for that period, and drawing the number
+    // first only put it underneath.
+    for (final i in [0, periods]) {
+      // On a diagram of nothing but costs the arrows own the space under the
+      // line, so the numbers go over it instead.
+      _write(
+        canvas,
+        '$i',
+        Offset(_x(size, i) - 9, anyUp ? axis + 6 : axis - 15),
+        color: AppColors.ink3,
+        patch: true,
+      );
+    }
   }
 
   void _write(
@@ -157,6 +163,7 @@ class CashFlowPainter extends CustomPainter {
     Offset at, {
     required Color color,
     int align = 0,
+    bool patch = false,
   }) {
     final tp = TextPainter(
       text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
@@ -167,7 +174,14 @@ class CashFlowPainter extends CustomPainter {
       -1 => tp.width,
       _ => tp.width / 2,
     };
-    tp.paint(canvas, at - Offset(dx, 0));
+    final at2 = at - Offset(dx, 0);
+    if (patch) {
+      canvas.drawRect(
+        Rect.fromLTWH(at2.dx - 2, at2.dy, tp.width + 4, tp.height),
+        Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+      );
+    }
+    tp.paint(canvas, at2);
   }
 
   @override
