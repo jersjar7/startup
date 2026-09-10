@@ -1351,6 +1351,32 @@ const staticsMap = ChapterMap(
       id: 'friction',
       name: 'Friction',
       subtopicId: 'trusses-and-friction',
+      games: [
+        GameDef(
+          id: 'is-it-about-to-move',
+          rounds: 6,
+          name: 'Is It About to Move',
+          blurb: 'Friction is a ceiling. Say where it is sitting right now.',
+          built: true,
+          brief: ceilingBrief,
+        ),
+        GameDef(
+          id: 'which-side-is-tight',
+          rounds: 6,
+          name: 'Which Side Is Tight',
+          blurb: 'Follow the chevrons. Tap the end carrying more.',
+          built: true,
+          brief: beltBrief,
+        ),
+        GameDef(
+          id: 'harder-or-easier',
+          rounds: 6,
+          name: 'Harder or Easier',
+          blurb: 'One thing changes. Does it take more push, or less?',
+          built: true,
+          brief: normalForceBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'frames-machines',

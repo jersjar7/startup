@@ -53,6 +53,9 @@ import 'package:mobile/features/games/which_ones_turn_it_game.dart';
 import 'package:mobile/features/games/what_the_support_gives_game.dart';
 import 'package:mobile/features/games/where_it_all_acts_game.dart';
 import 'package:mobile/features/games/can_statics_solve_it_game.dart';
+import 'package:mobile/features/games/harder_or_easier_game.dart';
+import 'package:mobile/features/games/is_it_about_to_move_game.dart';
+import 'package:mobile/features/games/which_side_is_tight_game.dart';
 import 'package:mobile/features/games/stretched_or_squashed_game.dart';
 import 'package:mobile/features/games/where_do_you_cut_game.dart';
 import 'package:mobile/features/games/which_carry_nothing_game.dart';
@@ -914,6 +917,24 @@ void main() {
       rounds: cutRounds.length,
       height: 1400,
     ),
+    'is-it-about-to-move': (
+      lesson: '39-friction',
+      build: IsItAboutToMoveGame.new,
+      rounds: vergeRounds.length,
+      height: 1450,
+    ),
+    'which-side-is-tight': (
+      lesson: '39-friction',
+      build: WhichSideIsTightGame.new,
+      rounds: lapRounds.length,
+      height: 1200,
+    ),
+    'harder-or-easier': (
+      lesson: '39-friction',
+      build: HarderOrEasierGame.new,
+      rounds: changeRounds.length,
+      height: 1300,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1108,6 +1129,11 @@ void main() {
       ('zero-force', zeroForceBrief),
       ('sense-of-force', senseOfForceBrief),
       ('section', sectionBrief),
+    ],
+    '39-friction': [
+      ('ceiling', ceilingBrief),
+      ('belt', beltBrief),
+      ('normal-force', normalForceBrief),
     ],
   };
 

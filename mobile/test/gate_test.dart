@@ -173,6 +173,9 @@ void main() {
       // The section problem is the only one in the lesson that asks for a
       // single member's force, and where to take the cut is the whole item.
       'where-do-you-cut',
+      // Belt friction is one problem in the lesson and the only one with a
+      // drum in it, so every round is built from it.
+      'which-side-is-tight',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

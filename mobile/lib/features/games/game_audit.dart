@@ -83,6 +83,10 @@ import 'find_the_factor_game.dart';
 import 'what_the_support_gives_game.dart';
 import 'where_it_all_acts_game.dart';
 import 'can_statics_solve_it_game.dart';
+import 'friction_figures.dart';
+import 'harder_or_easier_game.dart';
+import 'is_it_about_to_move_game.dart';
+import 'which_side_is_tight_game.dart';
 import 'stretched_or_squashed_game.dart';
 import 'where_do_you_cut_game.dart';
 import 'which_carry_nothing_game.dart';
@@ -1519,6 +1523,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final c in r.cuts) c.label],
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'is-it-about-to-move',
+    lessonId: 'friction',
+    problemPrefix: 'stat-fri-',
+    rounds: [
+      for (final r in vergeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final g in Grip.values) g.name],
+          answer: Grip.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-side-is-tight',
+    lessonId: 'friction',
+    problemPrefix: 'stat-fri-',
+    rounds: [
+      for (final r in lapRounds)
+        RoundAudit(
+          source: r.source,
+          options: [r.lap.startLabel, r.lap.endLabel],
+          answer: r.answer ? 1 : 0,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'harder-or-easier',
+    lessonId: 'friction',
+    problemPrefix: 'stat-fri-',
+    rounds: [
+      for (final r in changeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Shift.values) v.name],
+          answer: Shift.values.indexOf(r.answer),
         ),
     ],
   ),

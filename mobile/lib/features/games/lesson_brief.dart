@@ -155,6 +155,9 @@ enum BriefFigure {
   zeroForce,
   senseOfForce,
   section,
+  ceiling,
+  belt,
+  normalForce,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2343,6 +2346,64 @@ const sectionBrief = BriefSection(
   handbook: 'Handbook p. 95',
 );
 
+const ceilingBrief = BriefSection(
+  title: 'Friction is a ceiling, not a value',
+  body:
+      'The formula gives you the MOST a surface can hold back, not what it is '
+      'holding back. Friction sits at whatever keeps the thing still, anywhere '
+      'from nothing at all up to that ceiling, and it only reaches the ceiling '
+      'at the instant motion is impending. So read the problem before reaching '
+      'for the formula. Words like about to slide, on the verge, or the '
+      'maximum force before moving are what put you at the ceiling. Without '
+      'them you are somewhere below it and the formula answers a question '
+      'nobody asked.',
+  formulas: [
+    ('What is always true', r'F \le \mu_s N'),
+    ('At impending motion, and only there', r'F = \mu_s N'),
+    ('The angle it lets go at', r'\tan\theta = \mu_s'),
+  ],
+  figure: BriefFigure.ceiling,
+  handbook: 'Handbook p. 96',
+);
+
+const beltBrief = BriefSection(
+  title: 'The tight side, then the angle',
+  body:
+      'A belt round a drum holds far more on one side than the other, and '
+      'which side is which is decided before any arithmetic: the tight side is '
+      'the end the belt is being dragged toward, because friction has been '
+      'adding to it the whole way round. Then the contact angle, in radians '
+      'and never in degrees, and it is free to pass a full turn. The growth is '
+      'exponential rather than proportional, which is why a couple of extra '
+      'turns round a bollard let one person hold a ship.',
+  formulas: [
+    ('Belt friction', r'F_1 = F_2\, e^{\mu\theta}'),
+    ('Tight side', r'F_1 \text{ is downstream of the slip}'),
+    ('Half a turn', r'\theta = \pi \text{ radians}'),
+  ],
+  figure: BriefFigure.belt,
+  handbook: 'Handbook p. 96',
+);
+
+const normalForceBrief = BriefSection(
+  title: 'What the surface is pressed with',
+  body:
+      'Every friction answer is only as good as the normal force under it, and '
+      'the normal force is the weight ONLY on level ground with nothing else '
+      'acting. Tilt the surface and it drops to the part of the weight square '
+      'to it. Slant the push and it moves again, up if the push presses in and '
+      'down if it lifts. That last one is the whole of the ramp problem: a '
+      'horizontal push on a slope helps you along and fights you at the same '
+      'time. How much of the block is touching never enters into it.',
+  formulas: [
+    ('Level ground, nothing else', r'N = W'),
+    ('On a slope', r'N = W\cos\theta'),
+    ('With a push at an angle to the surface', r'N = W\cos\theta - P\sin\beta'),
+  ],
+  figure: BriefFigure.normalForce,
+  handbook: 'Handbook p. 96',
+);
+
 const determinacyBrief = BriefSection(
   title: 'Three equations, and no more',
   body:
@@ -3137,6 +3198,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{fixed alone} = 3 \;\Rightarrow\; \text{solvable}", true),
             (r"\text{a couple adds an unknown}", false),
             (r"\text{two rollers} \;\Rightarrow\; \text{it stands up}", false),
+          ],
+        );
+      case BriefFigure.ceiling:
+        return const _RuleList(
+          rules: [
+            (r"F \le \mu_s N \;\text{ always}", true),
+            (r"F = \mu_s N \;\text{ only when motion is impending}", true),
+            (r"F = \mu_s N \;\text{ whenever it is sitting still}", false),
+            (r"\text{a bigger } N \Rightarrow \text{ a bigger friction force}", false),
+          ],
+        );
+      case BriefFigure.belt:
+        return const _RuleList(
+          rules: [
+            (r"F_1 \text{ is the end the belt is dragged toward}", true),
+            (r"\theta \text{ in radians}", true),
+            (r"F_1 = F_2 + \mu F_2", false),
+            (r"\theta \text{ can never pass } 2\pi", false),
+          ],
+        );
+      case BriefFigure.normalForce:
+        return const _RuleList(
+          rules: [
+            (r"\text{a push aimed into the surface raises } N", true),
+            (r"N = W \text{ on level ground, and nothing else on it}", true),
+            (r"N \text{ is the weight, wherever it is}", false),
+            (r"\text{a wider block grips better}", false),
           ],
         );
       case BriefFigure.zeroForce:
