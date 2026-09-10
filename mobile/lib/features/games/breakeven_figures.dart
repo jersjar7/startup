@@ -65,7 +65,9 @@ class BreakEvenPainter extends CustomPainter {
       )..layout();
       if (tp.width > widest) widest = tp.width;
     }
-    return widest + 12;
+    // The eight is the gap between the line's end and its name; the six keeps
+    // the name off the edge of the card, which it was sitting flush against.
+    return widest + 8 + 6;
   }
 
   static const _colors = [AppColors.sunbeam, AppColors.forest];
