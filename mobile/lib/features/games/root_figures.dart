@@ -60,7 +60,22 @@ class RootPainter extends CustomPainter {
     // their labels on top of each other is unreadable.
     final bandHeight = brackets.isEmpty ? 0.0 : brackets.length * 15.0 + 10;
     final plot = Size(size.width, size.height - bandHeight);
-    final g = CurveGeometry(plot, x0: x0, x1: x1, yLo: yLo, yHi: yHi);
+
+    // Candidate numbers are written under the axis, in two rows where they
+    // would otherwise touch. On a curve whose minimum is barely below zero
+    // the axis sits near the floor of the box and that second row fell off
+    // it, so the window is opened downward until there is room.
+    var floor = yLo;
+    if (candidates.isNotEmpty && yHi > 0) {
+      const need = 48.0;
+      final usable = plot.height - 38;
+      if (usable > need * 2) {
+        final k = need / usable;
+        final wanted = yHi * (1 - 1 / (1 - k));
+        if (floor > wanted) floor = wanted;
+      }
+    }
+    final g = CurveGeometry(plot, x0: x0, x1: x1, yLo: floor, yHi: yHi);
 
     canvas.drawLine(
       g.toScreen(x0, 0),
@@ -117,10 +132,13 @@ class RootPainter extends CustomPainter {
       final onCurve = g.toScreen(start, y);
       canvas.drawCircle(onCurve, 9, Paint()..color = AppColors.emberBg);
       canvas.drawCircle(onCurve, 5.5, Paint()..color = AppColors.ember);
+      // Away from the axis, because that is where the candidate markers live.
+      // Always above, the label landed among them whenever the starting point
+      // sat below the line.
       _label(
         canvas,
         'start',
-        onCurve + const Offset(0, -18),
+        onCurve + Offset(0, y < 0 ? 20 : -18),
         color: AppColors.ember,
       );
     }
@@ -151,12 +169,22 @@ class RootPainter extends CustomPainter {
       );
     }
 
+    // Two candidates half a unit apart are twenty pixels apart on the axis,
+    // which is closer than either their rings or their numbers. The rings are
+    // smaller and the numbers drop to a second row when they would touch.
+    var lastLabelX = -1e9;
+    var lowRow = false;
     for (final (i, x) in candidates.indexed) {
       final at = g.toScreen(x, 0);
+      lowRow = at.dx - lastLabelX < 34 && !lowRow;
+      lastLabelX = at.dx;
+      // On a patch of canvas: a starting point whose value lands near the
+      // axis is drawn right where its own number goes.
       _label(
         canvas,
         x == x.roundToDouble() ? '${x.toInt()}' : '$x',
-        at + const Offset(0, 20),
+        at + Offset(0, lowRow ? 32 : 20),
+        patch: true,
       );
       final isTruth = revealed && truth == i;
       final isWrong = revealed && picked == i && truth != i;
@@ -167,10 +195,10 @@ class RootPainter extends CustomPainter {
           : picked == i
           ? AppColors.ember
           : AppColors.ink3;
-      canvas.drawCircle(at, 8, Paint()..color = color);
+      canvas.drawCircle(at, 6.5, Paint()..color = color);
       canvas.drawCircle(
         at,
-        14,
+        11,
         Paint()
           ..color = color.withValues(alpha: 0.3)
           ..style = PaintingStyle.stroke
@@ -184,11 +212,23 @@ class RootPainter extends CustomPainter {
     String text,
     Offset at, {
     Color color = AppColors.ink3,
+    bool patch = false,
   }) {
     final tp = TextPainter(
       text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
       textDirection: TextDirection.ltr,
     )..layout();
+    if (patch) {
+      canvas.drawRect(
+        Rect.fromLTWH(
+          at.dx - tp.width / 2 - 3,
+          at.dy - tp.height / 2,
+          tp.width + 6,
+          tp.height,
+        ),
+        Paint()..color = AppColors.cream.withValues(alpha: 0.9),
+      );
+    }
     tp.paint(canvas, at - Offset(tp.width / 2, tp.height / 2));
   }
 
