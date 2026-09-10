@@ -78,6 +78,9 @@ import 'which_one_do_you_build_game.dart';
 import 'which_side_wins_game.dart';
 import 'which_way_points_game.dart';
 import 'which_way_it_pushes_game.dart';
+import 'balance_the_rate_game.dart';
+import 'over_the_bar_game.dart';
+import 'which_earns_more_game.dart';
 import 'where_does_it_go_game.dart';
 import 'roll_it_back_game.dart';
 import 'who_has_to_agree_game.dart';
@@ -1261,6 +1264,42 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in r.options) o.$1],
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'balance-the-rate',
+    lessonId: 'rate-of-return',
+    problemPrefix: 'econ-ror-',
+    rounds: [
+      for (final r in meetRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final s in r.stops) '$s%'],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'over-the-bar',
+    lessonId: 'rate-of-return',
+    problemPrefix: 'econ-ror-',
+    rounds: [
+      // The answer is a SET of projects whose size the student is not told,
+      // and on one round it is empty.
+      for (final r in hurdleRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-earns-more',
+    lessonId: 'rate-of-return',
+    problemPrefix: 'econ-ror-',
+    rounds: [
+      for (final r in earnsRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final e in Earns.values) e.name],
+          answer: Earns.values.indexOf(r.answer),
         ),
     ],
   ),

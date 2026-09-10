@@ -1180,6 +1180,32 @@ const economicsMap = ChapterMap(
       id: 'rate-of-return',
       name: 'Rate of Return',
       subtopicId: 'cost-and-economic-analysis',
+      games: [
+        GameDef(
+          id: 'balance-the-rate',
+          rounds: 6,
+          name: 'Balance the Rate',
+          blurb: 'Two bars and a line. Find the rate that meets it.',
+          built: true,
+          brief: irrBrief,
+        ),
+        GameDef(
+          id: 'over-the-bar',
+          rounds: 6,
+          name: 'Over the Bar',
+          blurb: 'The hurdle is drawn. Who clears it?',
+          built: true,
+          brief: marrBrief,
+        ),
+        GameDef(
+          id: 'which-earns-more',
+          rounds: 6,
+          name: 'Which Earns More',
+          blurb: 'Two diagrams, one scale. The bigger total often loses.',
+          built: true,
+          brief: timingBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'depreciation-taxation-inflation',

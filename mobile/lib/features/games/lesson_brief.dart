@@ -140,6 +140,9 @@ enum BriefFigure {
   bcRatio,
   incremental,
   rollback,
+  internalRate,
+  hurdle,
+  ratePerYear,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2054,6 +2057,66 @@ const rollbackBrief = BriefSection(
   handbook: 'Handbook p. 231',
 );
 
+const irrBrief = BriefSection(
+  title: 'The rate that balances it',
+  body:
+      'The internal rate of return is the interest rate at which everything '
+      'coming in is worth exactly what goes out, which is the same as saying '
+      'net present worth is zero. Nothing else it gets confused with is a rate '
+      'at all: undiscounted profit ignores time entirely, a payback period is '
+      'measured in years, and a salvage value is money. Over a single period '
+      'the return is just the gain over what you PUT IN, so a thousand coming '
+      'back as 1,150 earns fifteen percent, not the thirteen you get by '
+      'dividing by the 1,150.',
+  formulas: [
+    ('At the rate', r'PW_{\text{in}} - PW_{\text{out}} = 0'),
+    ('One period', r'i = \frac{F - P}{P}'),
+    ('So', r'\frac{1{,}150 - 1{,}000}{1{,}000} = 15\%'),
+  ],
+  figure: BriefFigure.internalRate,
+  handbook: 'Handbook p. 229',
+);
+
+const marrBrief = BriefSection(
+  title: 'Over the hurdle or not',
+  body:
+      'Accept a project when its return reaches the minimum the money is '
+      'required to earn, and reject it when it does not. Exactly on the '
+      'hurdle is an acceptance: the project breaks even in time-value terms '
+      'and nothing is lost. A positive return is not the test, a near miss is '
+      'not a pass, and the same project can clear one year and fail the next '
+      'because the hurdle belongs to the money rather than to the project. '
+      'One thing this rule does NOT do is choose between mutually exclusive '
+      'alternatives: for that, take the rate of return on the DIFFERENCE '
+      'between them and put that against the hurdle instead.',
+  formulas: [
+    ('Accept', r'IRR \geq MARR'),
+    ('Reject', r'IRR < MARR'),
+    ('Choosing between two', r'IRR_{\Delta} \geq MARR'),
+  ],
+  figure: BriefFigure.hurdle,
+  handbook: 'Handbook p. 229',
+);
+
+const timingBrief = BriefSection(
+  title: 'A rate is not a total',
+  body:
+      'A return is money per year on the money at risk, so two things move it '
+      'and one thing does not. Money that comes back sooner earns a higher '
+      'rate than the same money later. A smaller stake earning the same '
+      'dollars is a higher rate than a larger one. And multiplying every cash '
+      'flow in a project by the same number leaves the rate exactly where it '
+      'was, which is why the biggest total on the page is so often the lower '
+      'return.',
+  formulas: [
+    ('Sooner', r'\frac{1{,}200}{1{,}000} \text{ in one year} = 20\%'),
+    ('Later', r'\sqrt{\frac{1{,}200}{1{,}000}} - 1 = 9.5\%'),
+    ('Scaled', r'\frac{2{,}300}{2{,}000} = \frac{1{,}150}{1{,}000}'),
+  ],
+  figure: BriefFigure.ratePerYear,
+  handbook: 'Handbook p. 229',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2721,6 +2784,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the cost today} \;\Rightarrow\; \text{the branch}", false),
             (r"\text{the worst ending} \;\Rightarrow\; \text{the branch}", false),
             (r"\text{an unlabeled branch carries the rest}", true),
+          ],
+        );
+      case BriefFigure.internalRate:
+        return const _RuleList(
+          rules: [
+            (r"\text{the rate where } PW_{\text{in}} = PW_{\text{out}}", true),
+            (r"\tfrac{1{,}150 - 1{,}000}{1{,}000} = 15\%", true),
+            (r"\tfrac{1{,}150 - 1{,}000}{1{,}150} = 13\%", false),
+            (r"\text{the biggest undiscounted profit}", false),
+          ],
+        );
+      case BriefFigure.hurdle:
+        return const _RuleList(
+          rules: [
+            (r"IRR \geq MARR \;\Rightarrow\; \text{accept}", true),
+            (r"IRR = MARR \;\Rightarrow\; \text{accept, it breaks even}", true),
+            (r"IRR > 0 \;\Rightarrow\; \text{accept}", false),
+            (r"11\% \text{ against } 12\% \;\Rightarrow\; \text{close enough}", false),
+          ],
+        );
+      case BriefFigure.ratePerYear:
+        return const _RuleList(
+          rules: [
+            (r"\text{sooner} \;\Rightarrow\; \text{a higher rate}", true),
+            (r"\text{every cash flow doubled} \;\Rightarrow\; \text{same rate}", true),
+            (r"\text{the bigger total} \;\Rightarrow\; \text{the higher rate}", false),
+            (r"\text{the bigger project} \;\Rightarrow\; \text{the higher rate}", false),
           ],
         );
       case BriefFigure.lawChoice:

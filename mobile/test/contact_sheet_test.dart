@@ -41,6 +41,9 @@ import 'package:mobile/features/games/what_is_the_saving_game.dart';
 import 'package:mobile/features/games/where_does_it_go_game.dart';
 import 'package:mobile/features/games/which_one_do_you_build_game.dart';
 import 'package:mobile/features/games/roll_it_back_game.dart';
+import 'package:mobile/features/games/balance_the_rate_game.dart';
+import 'package:mobile/features/games/over_the_bar_game.dart';
+import 'package:mobile/features/games/which_earns_more_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
@@ -809,6 +812,24 @@ void main() {
       rounds: treeRounds.length,
       height: 1400,
     ),
+    'balance-the-rate': (
+      lesson: '34-rate-of-return',
+      build: BalanceTheRateGame.new,
+      rounds: meetRounds.length,
+      height: 1350,
+    ),
+    'over-the-bar': (
+      lesson: '34-rate-of-return',
+      build: OverTheBarGame.new,
+      rounds: hurdleRounds.length,
+      height: 1350,
+    ),
+    'which-earns-more': (
+      lesson: '34-rate-of-return',
+      build: WhichEarnsMoreGame.new,
+      rounds: earnsRounds.length,
+      height: 1520,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -978,6 +999,11 @@ void main() {
       ('ratio', ratioBrief),
       ('incremental', incrementalBrief),
       ('rollback', rollbackBrief),
+    ],
+    '34-rate-of-return': [
+      ('irr', irrBrief),
+      ('marr', marrBrief),
+      ('timing', timingBrief),
     ],
   };
 
