@@ -54,6 +54,9 @@ import 'package:mobile/features/games/what_the_support_gives_game.dart';
 import 'package:mobile/features/games/where_it_all_acts_game.dart';
 import 'package:mobile/features/games/above_or_below_game.dart';
 import 'package:mobile/features/games/does_it_build_stress_game.dart';
+import 'package:mobile/features/games/which_j_is_it_game.dart';
+import 'package:mobile/features/games/stress_or_twist_game.dart';
+import 'package:mobile/features/games/which_area_twists_it_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1050,6 +1053,24 @@ void main() {
           rounds: heatRounds.length,
           height: 1300,
         ),
+        'which-j-is-it': (
+          lesson: '44-torsion',
+          build: WhichJIsItGame.new,
+          rounds: jRounds.length,
+          height: 1350,
+        ),
+        'stress-or-twist': (
+          lesson: '44-torsion',
+          build: StressOrTwistGame.new,
+          rounds: shaftRounds.length,
+          height: 1400,
+        ),
+        'which-area-twists-it': (
+          lesson: '44-torsion',
+          build: WhichAreaTwistsItGame.new,
+          rounds: areaRounds.length,
+          height: 1300,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1275,6 +1296,11 @@ void main() {
       ('deformation', deformationBrief),
       ('units', unitsBrief),
       ('thermal', thermalBrief),
+    ],
+    '44-torsion': [
+      ('polar-j', polarJBrief),
+      ('twist', twistBrief),
+      ('thin-wall', thinWallBrief),
     ],
   };
 

@@ -174,6 +174,9 @@ enum BriefFigure {
   deformation,
   units,
   thermal,
+  polarJ,
+  twist,
+  thinWall,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2424,6 +2427,74 @@ const thermalBrief = BriefSection(
   handbook: 'Handbook p. 130',
 );
 
+const polarJBrief = BriefSection(
+  title: 'What goes under Tc',
+  body:
+      'Torsion in a round shaft is one formula and two chances to be out by a '
+      'factor of two. The J is the POLAR moment, pi d to the fourth over '
+      'THIRTY-TWO. The area moment I, over sixty-four, is the bending one, and '
+      'it is half as big, so reaching for it doubles the stress you report and '
+      'doubles the twist as well. The c is the outer RADIUS, and using the '
+      'diameter there doubles the stress too. A bore is taken '
+      'out by subtracting fourth powers, not diameters and not areas: the '
+      'metal nearest the middle was barely working, so removing it costs far '
+      'less stiffness than it saves weight, which is why shafts are hollow. '
+      'And c stays the OUTER radius on a hollow shaft, because that is still '
+      'where the stress is highest.',
+  formulas: [
+    ('Round shaft', r'\tau = \frac{Tc}{J}'),
+    ('Solid', r'J = \frac{\pi d^4}{32}'),
+    ('Hollow', r'J = \frac{\pi (d_o^4 - d_i^4)}{32}'),
+    ('And', r'c = \frac{d_o}{2},\quad J = 2I'),
+  ],
+  figure: BriefFigure.polarJ,
+  handbook: 'Handbook p. 133',
+);
+
+const twistBrief = BriefSection(
+  title: 'What moves the stress and what moves the twist',
+  body:
+      'Two formulas share a shaft and they do not respond to the same things. '
+      'The stress cares about the torque and the shape of the section and '
+      'nothing else: make the shaft longer and the stress does not move, '
+      'change to a softer metal and the stress does not move. The twist cares '
+      'about all four, length and stiffness included, so a longer shaft or a '
+      'softer metal twists further under the same torque and at the same '
+      'stress. The stiffness is just that formula turned around, the torque '
+      'needed per radian. Note which modulus appears: torsion uses G, the '
+      'shear modulus, never E. For steel G is about 80 GPa against E at 200.',
+  formulas: [
+    ('Stress', r'\tau = \frac{Tc}{J}'),
+    ('Twist, in radians', r'\phi = \frac{TL}{GJ}'),
+    ('Stiffness', r'k = \frac{T}{\phi} = \frac{GJ}{L}'),
+    ('And the two moduli', r'G = \frac{E}{2(1+\nu)}'),
+  ],
+  figure: BriefFigure.twist,
+  handbook: 'Handbook p. 134',
+);
+
+const thinWallBrief = BriefSection(
+  title: 'The area the wall encloses',
+  body:
+      'A thin tube of any shape, round or square or oblong, gets its own '
+      'formula, and the area in it is the one the MIDDLE of the wall encloses. '
+      'That is not the metal, which is the area anybody would name if asked '
+      'for the area of a tube and which on a thin wall is a small fraction of '
+      'the right number. It is not the bore and it is not the outside face '
+      'either, though on a thin wall those two sit close on each side of the '
+      'answer. Draw the line halfway through the wall all the way round and '
+      'take everything inside it, metal or not. Use this only while the wall '
+      'is thin, under about a tenth of the radius; thicker than that and you '
+      'are back to the round-shaft formula.',
+  formulas: [
+    ('Thin-walled tube', r'\tau = \frac{T}{2\,t\,A_m}'),
+    ('Where A is', r'A_m = \text{enclosed by the median line}'),
+    ('Good while', r't < 0.1\,r'),
+  ],
+  figure: BriefFigure.thinWall,
+  handbook: 'Handbook p. 133',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -3576,6 +3647,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.polarJ:
+        return const _RuleList(
+          rules: [
+            (r"J = \tfrac{\pi d^4}{32} \text{, and } c = \tfrac{d}{2}", true),
+            (r"\text{a bore subtracts } d_i^4 \text{, not } d_i^2", true),
+            (r"\text{use } I = \tfrac{\pi d^4}{64} \text{ for torsion}", false),
+            (r"\text{on a hollow shaft } c = \tfrac{d_i}{2}", false),
+          ],
+        );
+      case BriefFigure.twist:
+        return const _RuleList(
+          rules: [
+            (r"\text{longer or softer} \;\Rightarrow\; \text{more twist}", true),
+            (r"\text{longer or softer} \;\Rightarrow\; \text{same stress}", true),
+            (r"\text{torsion uses } E", false),
+            (r"\text{whatever moves } \phi \text{ moves } \tau", false),
+          ],
+        );
+      case BriefFigure.thinWall:
+        return const _RuleList(
+          rules: [
+            (r"A_m = \text{enclosed by the middle of the wall}", true),
+            (r"\text{any thin shape, not just round}", true),
+            (r"A_m = \text{the area of the metal}", false),
+            (r"A_m = \text{the area of the bore}", false),
           ],
         );
       case BriefFigure.polar:

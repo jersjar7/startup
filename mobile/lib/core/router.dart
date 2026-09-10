@@ -92,6 +92,9 @@ import '../features/games/what_the_support_gives_game.dart';
 import '../features/games/where_it_all_acts_game.dart';
 import '../features/games/above_or_below_game.dart';
 import '../features/games/does_it_build_stress_game.dart';
+import '../features/games/which_j_is_it_game.dart';
+import '../features/games/stress_or_twist_game.dart';
+import '../features/games/which_area_twists_it_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -326,6 +329,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-stretches-more' => const WhichStretchesMoreGame(),
           'what-comes-out' => const WhatComesOutGame(),
           'does-it-build-stress' => const DoesItBuildStressGame(),
+          'which-j-is-it' => const WhichJIsItGame(),
+          'stress-or-twist' => const StressOrTwistGame(),
+          'which-area-twists-it' => const WhichAreaTwistsItGame(),
           _ => const _UnknownGame(),
         },
       ),

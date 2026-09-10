@@ -86,6 +86,9 @@ import 'can_statics_solve_it_game.dart';
 import 'above_or_below_game.dart';
 import 'axial_figures.dart';
 import 'does_it_build_stress_game.dart';
+import 'which_j_is_it_game.dart';
+import 'stress_or_twist_game.dart';
+import 'which_area_twists_it_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -1781,6 +1784,49 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final v in Outcome.values) v.name],
           answer: Outcome.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-j-is-it',
+    lessonId: 'torsion',
+    problemPrefix: 'mm-tor-',
+    rounds: [
+      // Every round carries a standing last choice, "none of them fits this
+      // section", so it is a real option and is audited as one.
+      for (final r in jRounds)
+        RoundAudit(
+          source: r.source,
+          options: [...r.options, 'none of them'],
+          answer: r.answer == -1 ? r.options.length : r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'stress-or-twist',
+    lessonId: 'torsion',
+    problemPrefix: 'mm-tor-',
+    rounds: [
+      for (final r in shaftRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Moves.values) v.name],
+          answer: Moves.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-area-twists-it',
+    lessonId: 'torsion',
+    problemPrefix: 'mm-tor-',
+    rounds: [
+      // Three panels, and which one is right moves every round, so the option
+      // names are the regions in the order they are drawn.
+      for (final r in areaRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in r.panels) p.name],
+          answer: r.answer,
         ),
     ],
   ),

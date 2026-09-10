@@ -1555,6 +1555,32 @@ const mechanicsMaterialsMap = ChapterMap(
       id: 'torsion',
       name: 'Torsion',
       subtopicId: 'stress-strain-fundamentals',
+      games: [
+        GameDef(
+          id: 'which-j-is-it',
+          rounds: 6,
+          name: 'Which J Is It',
+          blurb: 'The formula is written. Pick what goes under Tc.',
+          built: true,
+          brief: polarJBrief,
+        ),
+        GameDef(
+          id: 'stress-or-twist',
+          rounds: 6,
+          name: 'Stress or Twist',
+          blurb: 'Change one thing about the shaft. Say what moved.',
+          built: true,
+          brief: twistBrief,
+        ),
+        GameDef(
+          id: 'which-area-twists-it',
+          rounds: 6,
+          name: 'Which Area Twists It',
+          blurb: 'Three shaded areas on a tube. Only one belongs in the formula.',
+          built: true,
+          brief: thinWallBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'stress-strain-diagrams',

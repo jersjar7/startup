@@ -198,6 +198,9 @@ void main() {
       // The thermal problem is the only one in the lesson with a temperature
       // in it, and what a restrained bar does is the whole item.
       'does-it-build-stress',
+      // The hollow-shaft problem is the only one in the lesson with a wall in
+      // it, and which area the thin-walled formula wants is the whole item.
+      'which-area-twists-it',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }
