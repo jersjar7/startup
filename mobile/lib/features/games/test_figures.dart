@@ -273,7 +273,11 @@ class CellsPainter extends CustomPainter {
     final barW = math.min(slot * 0.56, 46.0);
     final floor = size.height - _padB;
 
-    double heightOf(num v) => v / (tallest * 1.12) * (floor - _padT);
+    // Room at the top for the count that sits above the tallest thing on the
+    // chart. Scaled by a flat factor instead, the biggest bar's number was
+    // drawn half outside the box.
+    const labelRoom = 24.0;
+    double heightOf(num v) => v / tallest * (floor - _padT - labelRoom);
 
     for (final (i, cell) in cells.indexed) {
       final cx = slot * (i + 0.5);
@@ -321,8 +325,15 @@ class CellsPainter extends CustomPainter {
           ..strokeWidth = 2.2,
       );
 
-      _write(canvas, '${cell.observed}', Offset(cx, rect.top - 12),
-          color: AppColors.ink3);
+      // Above whichever is higher, the bar or the line it is being compared
+      // with. Pinned to the bar alone, a count below its expected value was
+      // printed straight through the expected line.
+      _write(
+        canvas,
+        '${cell.observed}',
+        Offset(cx, math.min(rect.top, ey) - 12),
+        color: AppColors.ink3,
+      );
       _write(canvas, cell.name, Offset(cx, floor + 6), color: AppColors.ink3);
     }
   }

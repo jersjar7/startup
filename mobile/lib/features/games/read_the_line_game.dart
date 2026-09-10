@@ -225,7 +225,7 @@ class _ReadTheLineGameState extends State<ReadTheLineGame> {
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: SizedBox(
-              height: 230,
+              height: DotPlotPainter.heightFor(r.values),
               width: double.infinity,
               child: EngineeringGrid(
                 minor: 18,

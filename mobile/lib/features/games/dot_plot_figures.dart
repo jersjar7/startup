@@ -37,6 +37,22 @@ class DotPlotPainter extends CustomPainter {
   static const _padX = 22.0;
   static const _axis = 34.0;
 
+  /// How tall the box has to be for a given set of readings.
+  ///
+  /// A fixed height sized for the worst case left a round with no repeats
+  /// sitting in the bottom fifth of an empty box. The plot is as tall as its
+  /// tallest stack and no taller.
+  static double heightFor(List<int> values) {
+    final counts = <int, int>{};
+    var tallest = 1;
+    for (final v in values) {
+      final n = (counts[v] ?? 0) + 1;
+      counts[v] = n;
+      if (n > tallest) tallest = n;
+    }
+    return _axis + 11 + (tallest - 1) * 17 + 7 + 16;
+  }
+
   double xOf(Size size, int v) =>
       _padX + (v - from) / (to - from) * (size.width - _padX * 2);
 
