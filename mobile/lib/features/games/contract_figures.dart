@@ -163,20 +163,38 @@ class DeliveryPainter extends CustomPainter {
 
       // A party the owner holds a contract with is joined to the owner. One
       // that does not is joined to the party that hired it.
-      final from = box.$2
-          ? Offset(ownerRect.center.dx, ownerRect.bottom)
-          : Offset(slot * (i - 0.5), rect.top - 12);
-      canvas.drawPath(
-        Path()
-          ..moveTo(from.dx, from.dy)
-          ..lineTo(from.dx, rect.top - 12)
-          ..lineTo(cx, rect.top - 12)
-          ..lineTo(cx, rect.top),
-        Paint()
-          ..color = box.$2 ? color : AppColors.ink3.withValues(alpha: 0.6)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = box.$2 ? 2.2 : 1.2,
-      );
+      if (box.$2) {
+        // A contract the owner holds: down out of the owner's box.
+        final from = Offset(ownerRect.center.dx, ownerRect.bottom);
+        canvas.drawPath(
+          Path()
+            ..moveTo(from.dx, from.dy)
+            ..lineTo(from.dx, rect.top - 12)
+            ..lineTo(cx, rect.top - 12)
+            ..lineTo(cx, rect.top),
+          Paint()
+            ..color = color
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2.2,
+        );
+      } else {
+        // One the owner does NOT hold: joined straight across to whoever did
+        // the hiring. Routed up over the row instead, it ran along under the
+        // owner's own line and could not be told apart from it, which is the
+        // one distinction this figure exists to draw.
+        final prev = Rect.fromCenter(
+          center: Offset(slot * (i - 0.5), rect.center.dy),
+          width: slot * 0.86,
+          height: topH,
+        );
+        canvas.drawLine(
+          Offset(prev.right, rect.center.dy),
+          Offset(rect.left, rect.center.dy),
+          Paint()
+            ..color = AppColors.ink3
+            ..strokeWidth = 1.6,
+        );
+      }
       _box(canvas, rect, box.$1, strong: false);
     }
   }
@@ -307,12 +325,14 @@ class TwoClocksPainter extends CustomPainter {
           Paint()..color = AppColors.charcoal,
         );
       }
-      _write(canvas, name, Offset(x, labelY), color: AppColors.ink3);
+      _write(canvas, name, Offset(x, labelY),
+          color: AppColors.ink3, size: size);
       _write(
         canvas,
         '$year',
         Offset(x, labelY + 11),
         color: AppColors.charcoal,
+        size: size,
       );
     }
   }
@@ -344,7 +364,8 @@ class TwoClocksPainter extends CustomPainter {
           ..strokeWidth = 2,
       );
     }
-    _write(canvas, label, Offset(a + 4, y - 20), color: color, align: 1);
+    _write(canvas, label, Offset(a + 4, y - 20),
+        color: color, align: 1, size: size);
   }
 
   void _write(
@@ -353,6 +374,7 @@ class TwoClocksPainter extends CustomPainter {
     Offset at, {
     required Color color,
     int align = 0,
+    Size? size,
   }) {
     final tp = TextPainter(
       text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
@@ -363,7 +385,14 @@ class TwoClocksPainter extends CustomPainter {
       -1 => tp.width,
       _ => tp.width / 2,
     };
-    tp.paint(canvas, at - Offset(dx, 0));
+    var x = at.dx - dx;
+    // A window that opens late in the span had its name running off the right
+    // of the card: "limitations, from dis".
+    if (size != null) {
+      if (x + tp.width > size.width - 2) x = size.width - 2 - tp.width;
+      if (x < 2) x = 2;
+    }
+    tp.paint(canvas, Offset(x, at.dy));
   }
 
   @override
