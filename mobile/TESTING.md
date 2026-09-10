@@ -32,3 +32,21 @@ Regenerate content/figures if the curriculum changes:
 ```
 npm run gen:content && npm run gen:figures
 ```
+
+## Checking the drawn figures
+
+Most items answer by pointing at a picture, so the picture is the question. Two
+things guard them:
+
+```
+flutter test test/figures_test.dart      # fonts, path building, drawn text
+flutter test --update-goldens test/contact_sheet_test.dart
+python3 tool/contact_sheet.py            # build/contact-sheets/
+```
+
+The test catches what eyes miss: a character no bundled face can draw, a path
+that never draws at all, a combining mark that lands on a letter's shoulder.
+Framing and collisions still need looking at, one figure at a time and blown
+up — reading the contact sheets at three across is the wrong scale for it.
+
+`docs/mobile/figures.md` has the rules and the review pass.

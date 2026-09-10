@@ -131,7 +131,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                       const Padding(
                         padding: EdgeInsets.only(bottom: 10),
                         child: Text(
-                          'Progress markers are unavailable right now. Your work is saved — this is only the display.',
+                          'Progress markers are unavailable right now. Your work is saved; this is only the display.',
                           style: TextStyle(fontSize: 11, color: AppColors.ink3, height: 1.4),
                         ),
                       ),
