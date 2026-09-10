@@ -146,6 +146,9 @@ enum BriefFigure {
   macrs,
   bookValue,
   dollarsMatch,
+  resolve,
+  moment,
+  sense,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2178,6 +2181,67 @@ const inflationBrief = BriefSection(
   handbook: 'Handbook p. 230',
 );
 
+const resolveBrief = BriefSection(
+  title: 'Which component gets the cosine',
+  body:
+      'The cosine goes with the axis the angle is measured FROM, and nothing '
+      'else decides it. An angle off the horizontal gives a horizontal '
+      'component of F cos and a vertical one of F sin; an angle off the '
+      'vertical swaps them. When the direction is given as geometry instead of '
+      'an angle there is no trig at all: the horizontal leg over the '
+      'hypotenuse, times the force. Whichever route you take, a component is '
+      'always shorter than the force it came out of, so a component equal to '
+      'the whole force means something was divided by the wrong number.',
+  formulas: [
+    ('From the horizontal', r'F_x = F\cos\theta, \; F_y = F\sin\theta'),
+    ('By geometry', r'F_x = \frac{x}{R} F, \; R = \sqrt{x^2 + y^2}'),
+    ('So', r'\frac{5}{13}(1{,}300) = 500'),
+  ],
+  figure: BriefFigure.resolve,
+  handbook: 'Handbook p. 94',
+);
+
+const momentBrief = BriefSection(
+  title: 'The arm is a perpendicular',
+  body:
+      'A moment is the force times the PERPENDICULAR distance from the point '
+      'to the force\'s line of action. Draw that line first: the arm is '
+      'measured to the line, not to the place the force happens to be applied, '
+      'so the length of the member is almost never the answer. A vertical '
+      'force has a horizontal arm and a horizontal force has a vertical one. '
+      'A force whose line passes through the point makes no moment at all, '
+      'however large it is. Splitting the force into components and taking '
+      'each one\'s moment separately gives the same answer and is usually '
+      'quicker.',
+  formulas: [
+    ('In general', r'M = F d_{\perp}'),
+    ('In two dimensions', r'M_z = x F_y - y F_x'),
+    ('A couple', r'M = F d \text{, about any point}'),
+  ],
+  figure: BriefFigure.moment,
+  handbook: 'Handbook p. 94',
+);
+
+const senseBrief = BriefSection(
+  title: 'Pick a direction and hold it',
+  body:
+      'Which way a force turns a body depends on which SIDE of the point it '
+      'acts as well as which way it points: a downward force to the right of a '
+      'pin and an upward force to the left both turn it clockwise. Choose '
+      'clockwise or counterclockwise as positive at the start of a problem and '
+      'do not change your mind halfway, because mixing the two is the fastest '
+      'way to a wrong answer that looks reasonable. A force aimed through the '
+      'point counts as zero, and two equal opposite forces on opposite sides '
+      'add rather than cancel.',
+  formulas: [
+    ('Sense', r'M_z = x F_y - y F_x'),
+    ('Positive', r'\text{counterclockwise, if you choose it so}'),
+    ('Through the point', r'd_{\perp} = 0 \;\Rightarrow\; M = 0'),
+  ],
+  figure: BriefFigure.sense,
+  handbook: 'Handbook p. 94',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2899,6 +2963,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{constant dollars} \;\Rightarrow\; i", true),
             (r"\text{actual dollars} \;\Rightarrow\; i + f", false),
             (r"\text{actual dollars} \;\Rightarrow\; i", false),
+          ],
+        );
+      case BriefFigure.resolve:
+        return const _RuleList(
+          rules: [
+            (r"\theta \text{ off the horizontal} \;\Rightarrow\; F_x = F\cos\theta", true),
+            (r"\theta \text{ off the vertical} \;\Rightarrow\; F_y = F\cos\theta", true),
+            (r"\text{the horizontal leg} \;\Rightarrow\; \text{the horizontal component}", true),
+            (r"\text{a component larger than } F", false),
+          ],
+        );
+      case BriefFigure.moment:
+        return const _RuleList(
+          rules: [
+            (r"\text{a vertical force} \;\Rightarrow\; \text{a horizontal arm}", true),
+            (r"\text{the line through the point} \;\Rightarrow\; M = 0", true),
+            (r"\text{the length of the member}", false),
+            (r"\text{the distance to where it is applied}", false),
+          ],
+        );
+      case BriefFigure.sense:
+        return const _RuleList(
+          rules: [
+            (r"\text{down, right of the pin} \;\Rightarrow\; \text{clockwise}", true),
+            (r"\text{up, left of the pin} \;\Rightarrow\; \text{clockwise}", true),
+            (r"\text{down} \;\Rightarrow\; \text{always clockwise}", false),
+            (r"\text{a couple} \;\Rightarrow\; \text{the two cancel}", false),
           ],
         );
       case BriefFigure.lawChoice:

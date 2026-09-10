@@ -155,6 +155,11 @@ void main() {
       'which-rate', // nominal against effective, which is one problem
       'which-side-wins', // the break-even chart, which is one problem
       'what-is-the-saving', // the payback saving, which is one problem
+      // The crane problem is the only one in the lesson with a moment in it,
+      // and these two items are both about moments: one asks which distance
+      // is the arm, the other which way each force turns the body.
+      'which-distance-counts',
+      'which-ones-turn-it',
       // Inflation is one problem in the lesson and the only one with a rate
       // in it, so every round is built from it.
       'match-the-dollars',

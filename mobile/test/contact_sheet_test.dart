@@ -47,6 +47,9 @@ import 'package:mobile/features/games/which_earns_more_game.dart';
 import 'package:mobile/features/games/find_the_factor_game.dart';
 import 'package:mobile/features/games/where_the_cost_went_game.dart';
 import 'package:mobile/features/games/match_the_dollars_game.dart';
+import 'package:mobile/features/games/which_arrow_is_that_game.dart';
+import 'package:mobile/features/games/which_distance_counts_game.dart';
+import 'package:mobile/features/games/which_ones_turn_it_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
@@ -851,6 +854,24 @@ void main() {
       rounds: dollarsRounds.length,
       height: 1150,
     ),
+    'which-arrow-is-that': (
+      lesson: '36-force-systems',
+      build: WhichArrowIsThatGame.new,
+      rounds: arrowRounds.length,
+      height: 1300,
+    ),
+    'which-distance-counts': (
+      lesson: '36-force-systems',
+      build: WhichDistanceCountsGame.new,
+      rounds: armRounds.length,
+      height: 1350,
+    ),
+    'which-ones-turn-it': (
+      lesson: '36-force-systems',
+      build: WhichOnesTurnItGame.new,
+      rounds: senseRounds.length,
+      height: 1350,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1030,6 +1051,11 @@ void main() {
       ('macrs', macrsBrief),
       ('book-value', bookValueBrief),
       ('inflation', inflationBrief),
+    ],
+    '36-force-systems': [
+      ('resolve', resolveBrief),
+      ('moment', momentBrief),
+      ('sense', senseBrief),
     ],
   };
 

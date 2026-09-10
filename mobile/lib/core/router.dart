@@ -88,6 +88,9 @@ import '../features/games/which_earns_more_game.dart';
 import '../features/games/find_the_factor_game.dart';
 import '../features/games/where_the_cost_went_game.dart';
 import '../features/games/match_the_dollars_game.dart';
+import '../features/games/which_arrow_is_that_game.dart';
+import '../features/games/which_distance_counts_game.dart';
+import '../features/games/which_ones_turn_it_game.dart';
 import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_law_game.dart';
@@ -270,6 +273,9 @@ GoRouter buildRouter(AuthController auth) {
           'find-the-factor' => const FindTheFactorGame(),
           'where-the-cost-went' => const WhereTheCostWentGame(),
           'match-the-dollars' => const MatchTheDollarsGame(),
+          'which-arrow-is-that' => const WhichArrowIsThatGame(),
+          'which-distance-counts' => const WhichDistanceCountsGame(),
+          'which-ones-turn-it' => const WhichOnesTurnItGame(),
           _ => const _UnknownGame(),
         },
       ),

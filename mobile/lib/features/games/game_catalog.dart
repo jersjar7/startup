@@ -1241,11 +1241,89 @@ const economicsMap = ChapterMap(
   ],
 );
 
+/// Chapter 5. Lesson and subtopic names match the web content exactly
+/// (`src/data/chapters/statics.js`, `src/data/lessons/statics/`).
+const staticsMap = ChapterMap(
+  id: 'statics',
+  number: 5,
+  name: 'Statics',
+  examLine: '8 to 12 questions on the real exam',
+  subtopics: [
+    Subtopic('forces-and-equilibrium', 'Forces & Equilibrium'),
+    Subtopic('trusses-and-friction', 'Trusses & Friction'),
+    Subtopic('section-properties', 'Section Properties'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'force-systems-resultants',
+      name: 'Force Systems & Resultants',
+      subtopicId: 'forces-and-equilibrium',
+      games: [
+        GameDef(
+          id: 'which-arrow-is-that',
+          rounds: 6,
+          name: 'Which Arrow Is That',
+          blurb: 'One number, three arrows, all drawn to scale.',
+          built: true,
+          brief: resolveBrief,
+        ),
+        GameDef(
+          id: 'which-distance-counts',
+          rounds: 6,
+          name: 'Which Distance Counts',
+          blurb: 'Every distance on the drawing is real. One is the arm.',
+          built: true,
+          brief: momentBrief,
+        ),
+        GameDef(
+          id: 'which-ones-turn-it',
+          rounds: 6,
+          name: 'Which Ones Turn It',
+          blurb: 'No magnitudes. Just which way each one rolls it.',
+          built: true,
+          brief: senseBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'equilibrium-free-body-diagrams',
+      name: 'Equilibrium & Free-Body Diagrams',
+      subtopicId: 'forces-and-equilibrium',
+    ),
+    LessonNode(
+      id: 'trusses-joints-sections',
+      name: 'Trusses: Joints & Sections',
+      subtopicId: 'trusses-and-friction',
+    ),
+    LessonNode(
+      id: 'friction',
+      name: 'Friction',
+      subtopicId: 'trusses-and-friction',
+    ),
+    LessonNode(
+      id: 'frames-machines',
+      name: 'Frames & Machines',
+      subtopicId: 'trusses-and-friction',
+    ),
+    LessonNode(
+      id: 'centroids-composite-shapes',
+      name: 'Centroids & Composite Shapes',
+      subtopicId: 'section-properties',
+    ),
+    LessonNode(
+      id: 'area-moments-of-inertia',
+      name: 'Area Moments of Inertia',
+      subtopicId: 'section-properties',
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
   'ethics': ethicsMap,
   'economics': economicsMap,
+  'statics': staticsMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

@@ -80,6 +80,9 @@ import 'which_way_points_game.dart';
 import 'which_way_it_pushes_game.dart';
 import 'balance_the_rate_game.dart';
 import 'find_the_factor_game.dart';
+import 'which_arrow_is_that_game.dart';
+import 'which_distance_counts_game.dart';
+import 'which_ones_turn_it_game.dart';
 import 'where_the_cost_went_game.dart';
 import 'match_the_dollars_game.dart';
 import 'over_the_bar_game.dart';
@@ -1268,6 +1271,38 @@ List<GameAudit> auditAllGames() => [
           options: [for (final o in r.options) o.$1],
           answer: r.answer,
         ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-arrow-is-that',
+    lessonId: 'force-systems-resultants',
+    problemPrefix: 'stat-fsr-',
+    rounds: [
+      for (final r in arrowRounds)
+        RoundAudit(
+          source: r.source,
+          options: ['horizontal', 'vertical', 'the force'],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-distance-counts',
+    lessonId: 'force-systems-resultants',
+    problemPrefix: 'stat-fsr-',
+    rounds: [
+      // The answer is a distance drawn on the figure, and on one round there
+      // is no arm at all, so no index into a shortlist names it.
+      for (final r in armRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-ones-turn-it',
+    lessonId: 'force-systems-resultants',
+    problemPrefix: 'stat-fsr-',
+    rounds: [
+      // A SET of arrows on the drawing, which on one round is empty.
+      for (final r in senseRounds) RoundAudit(source: r.source),
     ],
   ),
   GameAudit(
