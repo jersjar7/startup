@@ -284,7 +284,13 @@ class SigmaTrianglePainter extends CustomPainter {
       _padL,
       (size.width - flat * scale) / 2,
     );
-    final corner = Offset(left, size.height - _padB);
+    // Centred in both directions. Anchored to the bottom, a wide flat pair of
+    // spreads sat in the lower third with the top of the box empty.
+    final room = size.height - _padT - _padB;
+    final corner = Offset(
+      left,
+      _padT + (room + up * scale) / 2,
+    );
     final along = corner + Offset(flat * scale, 0);
     final rise = corner + Offset(0, -up * scale);
 

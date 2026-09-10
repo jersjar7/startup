@@ -179,9 +179,29 @@ class MarginCurvePainter extends CustomPainter {
       _padL +
       (n - nFrom) / (nTo - nFrom) * (size.width - _padL - _padR);
 
-  double _y(Size size, double m) =>
-      size.height - _padB - (m / (target * 2.4)).clamp(0.0, 1.0) *
-          (size.height - _padB - _padT);
+  /// The band of margins worth showing: the candidates and the line they are
+  /// being measured against, with room round them.
+  ///
+  /// Scaled from zero, a round decided by one sample put its three candidates
+  /// a pixel and a half apart and the picture could not answer its own
+  /// question. Zooming to the band is what a plot is for.
+  (double, double) get _band {
+    var lo = target;
+    var hi = target;
+    for (final n in candidates) {
+      final m = _margin(n.toDouble());
+      if (m < lo) lo = m;
+      if (m > hi) hi = m;
+    }
+    final pad = math.max((hi - lo) * 0.6, hi * 0.06);
+    return (lo - pad, hi + pad);
+  }
+
+  double _y(Size size, double m) {
+    final (lo, hi) = _band;
+    final t = ((m - lo) / (hi - lo)).clamp(0.0, 1.0);
+    return size.height - _padB - t * (size.height - _padB - _padT);
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -220,13 +240,26 @@ class MarginCurvePainter extends CustomPainter {
       align: -1,
     );
 
+    // A flag, not the path's own bounds: a path holding nothing but moveTo
+    // reports empty bounds, so every point took the moveTo branch and the
+    // curve was never drawn at all.
     final curve = Path();
+    final (_, bandTop) = _band;
+    var started = false;
     for (var i = 0; i <= 240; i++) {
       final n = nFrom + (nTo - nFrom) * (i / 240);
       if (n < 0.4) continue;
+      // Off the top of the band, the clamp drew a flat run along the ceiling
+      // with a hard corner where it came down. Let the curve simply enter
+      // from the top edge instead.
+      if (_margin(n) > bandTop) {
+        started = false;
+        continue;
+      }
       final p = Offset(_x(size, n), _y(size, _margin(n)));
-      if (curve.getBounds().isEmpty) {
+      if (!started) {
         curve.moveTo(p.dx, p.dy);
+        started = true;
       } else {
         curve.lineTo(p.dx, p.dy);
       }
