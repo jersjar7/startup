@@ -98,6 +98,7 @@ import '../features/games/move_it_right_game.dart';
 import '../features/games/rank_by_stiffness_game.dart';
 import '../features/games/which_barely_matters_game.dart';
 import '../features/games/which_second_moment_game.dart';
+import '../features/games/will_it_hold_itself_game.dart';
 import '../features/games/along_it_or_not_game.dart';
 import '../features/games/can_statics_solve_it_game.dart';
 import '../features/games/does_it_multiply_game.dart';
@@ -317,6 +318,7 @@ GoRouter buildRouter(AuthController auth) {
           'move-it-right' => const MoveItRightGame(),
           'which-barely-matters' => const WhichBarelyMattersGame(),
           'which-second-moment' => const WhichSecondMomentGame(),
+          'will-it-hold-itself' => const WillItHoldItselfGame(),
           'which-stretches-more' => const WhichStretchesMoreGame(),
           'what-comes-out' => const WhatComesOutGame(),
           'does-it-build-stress' => const DoesItBuildStressGame(),

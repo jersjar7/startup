@@ -92,6 +92,7 @@ import 'move_it_right_game.dart';
 import 'rank_by_stiffness_game.dart';
 import 'which_barely_matters_game.dart';
 import 'which_second_moment_game.dart';
+import 'will_it_hold_itself_game.dart';
 import 'along_it_or_not_game.dart';
 import 'does_it_multiply_game.dart';
 import 'frame_figures.dart';
@@ -1692,6 +1693,19 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: r.names,
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'will-it-hold-itself',
+    lessonId: 'friction',
+    problemPrefix: 'stat-fri-',
+    rounds: [
+      for (final r in screwRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Effort.values) v.name],
+          answer: Effort.values.indexOf(r.answer),
         ),
     ],
   ),

@@ -621,3 +621,222 @@ class DrumPainter extends CustomPainter {
   bool shouldRepaint(DrumPainter old) =>
       old.lap != lap || old.picked != picked || old.locked != locked;
 }
+
+/// A screw jack: a thread with a pitch, a load on it, and a job to do.
+///
+/// The whole of it comes down to comparing two angles. The thread's pitch
+/// angle is how steep the ramp is if you unwrap one turn of it, and the
+/// friction angle is how steep a ramp that surface could hold on. Whichever
+/// is bigger decides what the screw does when you let go of it.
+@immutable
+class Screw {
+  const Screw({
+    required this.pitchDeg,
+    required this.mu,
+    required this.raising,
+  });
+
+  /// The pitch angle of the thread, in degrees.
+  final double pitchDeg;
+
+  final double mu;
+
+  /// Whether the job is to raise the load or to lower it.
+  final bool raising;
+
+  /// The friction angle, which is the slope this surface would just hold on.
+  double get frictionDeg => math.atan(mu) * 180 / math.pi;
+
+  /// A thread whose pitch is shallower than its friction angle will not run
+  /// back on its own, which is the only reason a car jack holds a car up.
+  bool get selfLocking => frictionDeg > pitchDeg;
+
+  /// What you have to do, worked out by comparing the two angles.
+  Effort get effort {
+    if (raising) return Effort.driveItUp;
+    return selfLocking ? Effort.driveItDown : Effort.holdItBack;
+  }
+}
+
+/// What the person on the handle has to do.
+enum Effort {
+  /// Turn against the load to raise it. Always work.
+  driveItUp,
+
+  /// Turn to lower it, because it will not come down by itself.
+  driveItDown,
+
+  /// Hold it, because the load is driving the screw down on its own.
+  holdItBack,
+}
+
+/// The jack, and the two angles the answer turns on.
+class ScrewPainter extends CustomPainter {
+  const ScrewPainter({required this.screw, this.showWinner = false});
+
+  final Screw screw;
+
+  /// After answering, marks which of the two angles won.
+  final bool showWinner;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final split = size.width * 0.42;
+    _jack(canvas, Size(split, size.height));
+    canvas.save();
+    canvas.translate(split, 0);
+    _angles(canvas, Size(size.width - split, size.height));
+    canvas.restore();
+  }
+
+  /// A screw with a load on top and a handle being turned.
+  void _jack(Canvas canvas, Size box) {
+    final ink = Paint()
+      ..color = AppColors.charcoal
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+    final midX = box.width / 2;
+    final base = box.height - 34;
+    final top = 58.0;
+
+    // The screw itself, drawn as a thread rather than a plain bar.
+    canvas.drawLine(Offset(midX, base), Offset(midX, top),
+        Paint()
+          ..color = AppColors.ink2
+          ..strokeWidth = 9);
+    for (var y = top + 6; y < base - 2; y += 11) {
+      canvas.drawLine(Offset(midX - 9, y + 4), Offset(midX + 9, y - 4),
+          Paint()
+            ..color = AppColors.charcoal
+            ..strokeWidth = 1.6);
+    }
+
+    // The foot it stands on.
+    canvas.drawRect(
+        Rect.fromLTWH(midX - 26, base, 52, 10), Paint()..color = AppColors.ink2);
+    for (var x = midX - 26.0; x < midX + 26; x += 8) {
+      canvas.drawLine(Offset(x, base + 10), Offset(x - 6, base + 17),
+          Paint()
+            ..color = AppColors.ink3
+            ..strokeWidth = 1.3);
+    }
+
+    // The load it is holding up.
+    final load = Rect.fromLTWH(midX - 30, top - 26, 60, 26);
+    canvas.drawRect(load, Paint()..color = AppColors.sunbeamBg);
+    canvas.drawRect(load, ink);
+
+    // Which way it is being turned, and what that is trying to do.
+    final turn = Paint()
+      ..color = AppColors.ember
+      ..strokeWidth = 2.8
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+    final hub = Offset(midX, base - 26);
+    canvas.drawArc(Rect.fromCircle(center: hub, radius: 22),
+        screw.raising ? -0.5 : 2.6, screw.raising ? 2.6 : -2.6, false, turn);
+    final headAt = screw.raising ? 2.1 : 0.0;
+    final tip = hub + Offset(math.cos(headAt), math.sin(headAt)) * 22;
+    final along =
+        Offset(-math.sin(headAt), math.cos(headAt)) * (screw.raising ? 1 : -1);
+    final side = Offset(-along.dy, along.dx);
+    canvas.drawPath(
+      Path()
+        ..moveTo(tip.dx, tip.dy)
+        ..lineTo(tip.dx - along.dx * 9 + side.dx * 4.5,
+            tip.dy - along.dy * 9 + side.dy * 4.5)
+        ..lineTo(tip.dx - along.dx * 9 - side.dx * 4.5,
+            tip.dy - along.dy * 9 - side.dy * 4.5)
+        ..close(),
+      Paint()..color = AppColors.ember,
+    );
+
+    _write(canvas, screw.raising ? 'raising' : 'lowering',
+        Offset(midX, 8), AppColors.ember, box);
+  }
+
+  /// The two angles side by side on one baseline, which is the comparison the
+  /// answer is made of. Drawn rather than described: unwrap one turn of the
+  /// thread and it is a ramp, and the friction angle is the steepest ramp
+  /// that surface could hold on.
+  ///
+  /// The rise is EXAGGERATED, the way a road profile is drawn, because these
+  /// angles are only a few degrees and two of them drawn true land on top of
+  /// each other. The exaggeration is one factor for both, so the ratio between
+  /// them is still honest and the steeper one is still the steeper one.
+  void _angles(Canvas canvas, Size box) {
+    final base = box.height - 46;
+    const left = 14.0;
+    final run = box.width - 44;
+    final origin = Offset(left, base);
+
+    canvas.drawLine(origin, Offset(left + run, base),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.6);
+
+    final steep = math.max(
+      math.tan(screw.pitchDeg * math.pi / 180),
+      math.tan(screw.frictionDeg * math.pi / 180),
+    );
+    // The bigger of the two always draws at the same height, so the smaller
+    // one's height IS the ratio between them.
+    final lift = (base - 34) / math.max(steep, 1e-6);
+
+    final taken = <Rect>[];
+    void ramp(double degrees, Color colour, String label, bool heavy) {
+      final rise = math.tan(degrees * math.pi / 180) * lift;
+      final tip = Offset(left + run, base - rise);
+      canvas.drawLine(
+        origin,
+        tip,
+        Paint()
+          ..color = colour
+          ..strokeWidth = heavy ? 3.6 : 2.2
+          ..strokeCap = StrokeCap.round,
+      );
+      taken.add(_write(canvas, label, Offset(left + run + 3, tip.dy - 7),
+          colour, box, fromLeft: true, avoid: taken));
+    }
+
+    final winner =
+        showWinner ? (screw.selfLocking ? 'friction' : 'thread') : '';
+    // Whichever is shallower is drawn first, so its label is the one that
+    // moves if the two crowd each other.
+    final threadFirst = screw.pitchDeg <= screw.frictionDeg;
+    if (threadFirst) {
+      ramp(screw.pitchDeg, AppColors.charcoal, 'thread', winner == 'thread');
+      ramp(screw.frictionDeg, AppColors.info, 'friction', winner == 'friction');
+    } else {
+      ramp(screw.frictionDeg, AppColors.info, 'friction', winner == 'friction');
+      ramp(screw.pitchDeg, AppColors.charcoal, 'thread', winner == 'thread');
+    }
+    _write(canvas, 'steeper wins, rise exaggerated',
+        Offset(box.width / 2, base + 16), AppColors.ink3, box, avoid: taken);
+  }
+
+  Rect _write(Canvas canvas, String text, Offset at, Color colour, Size box,
+      {bool fromLeft = false, List<Rect> avoid = const []}) {
+    final tp = TextPainter(
+      text: TextSpan(text: text, style: AppTheme.mono(size: 10.5, color: colour)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    var x = fromLeft ? at.dx : at.dx - tp.width / 2;
+    if (x + tp.width > box.width - 1) x = box.width - 1 - tp.width;
+    if (x < 1) x = 1;
+    var y = at.dy;
+    Rect at_() => Rect.fromLTWH(x - 2, y, tp.width + 4, tp.height);
+    for (var tries = 0; tries < 3; tries++) {
+      if (!avoid.any((r) => r.overlaps(at_()))) break;
+      y -= tp.height + 3;
+    }
+    canvas.drawRect(
+        at_(), Paint()..color = AppColors.cream.withValues(alpha: 0.92));
+    tp.paint(canvas, Offset(x, y));
+    return at_();
+  }
+
+  @override
+  bool shouldRepaint(ScrewPainter old) =>
+      old.screw != screw || old.showWinner != showWinner;
+}

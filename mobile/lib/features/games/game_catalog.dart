@@ -1376,6 +1376,14 @@ const staticsMap = ChapterMap(
           built: true,
           brief: normalForceBrief,
         ),
+        GameDef(
+          id: 'will-it-hold-itself',
+          rounds: 6,
+          name: 'Will It Hold Itself',
+          blurb: 'Two angles on one baseline. The steeper one decides.',
+          built: true,
+          brief: screwBrief,
+        ),
       ],
     ),
     LessonNode(

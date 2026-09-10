@@ -188,6 +188,10 @@ void main() {
       // The composite problem is the only one in the lesson with more than one
       // piece in it, and which piece carries the section is the whole item.
       'which-barely-matters',
+      // The crate problem is the only one in the lesson with a coefficient in
+      // it, and comparing the thread angle to the friction angle is the whole
+      // item.
+      'will-it-hold-itself',
       // The rectangle problem is the only one in the lesson that names a
       // section property, and which property a job needs is the whole item.
       'which-second-moment',

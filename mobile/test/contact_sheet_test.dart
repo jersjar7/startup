@@ -69,6 +69,7 @@ import 'package:mobile/features/games/which_distance_goes_in_game.dart';
 import 'package:mobile/features/games/harder_or_easier_game.dart';
 import 'package:mobile/features/games/is_it_about_to_move_game.dart';
 import 'package:mobile/features/games/which_side_is_tight_game.dart';
+import 'package:mobile/features/games/will_it_hold_itself_game.dart';
 import 'package:mobile/features/games/stretched_or_squashed_game.dart';
 import 'package:mobile/features/games/where_do_you_cut_game.dart';
 import 'package:mobile/features/games/which_carry_nothing_game.dart';
@@ -948,6 +949,12 @@ void main() {
       rounds: changeRounds.length,
       height: 1300,
     ),
+    'will-it-hold-itself': (
+      lesson: '39-friction',
+      build: WillItHoldItselfGame.new,
+      rounds: screwRounds.length,
+      height: 1350,
+    ),
     'along-it-or-not': (
       lesson: '40-frames',
       build: AlongItOrNotGame.new,
@@ -1225,6 +1232,7 @@ void main() {
       ('ceiling', ceilingBrief),
       ('belt', beltBrief),
       ('normal-force', normalForceBrief),
+      ('screw', screwBrief),
     ],
     '40-frames': [
       ('two-force', twoForceBrief),

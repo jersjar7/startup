@@ -158,6 +158,7 @@ enum BriefFigure {
   ceiling,
   belt,
   normalForce,
+  screw,
   twoForce,
   lever,
   whatItIs,
@@ -2619,6 +2620,28 @@ const whatItIsBrief = BriefSection(
   handbook: 'Handbook p. 97',
 );
 
+const screwBrief = BriefSection(
+  title: 'Whether a screw holds itself',
+  body:
+      'Unwrap one turn of a thread and it is a ramp, and its steepness is the '
+      'pitch angle. The friction angle is the steepest ramp that surface could '
+      'hold on. Compare the two and everything follows. Raising a load is '
+      'always work and the friction angle is added on. Lowering is where it '
+      'gets interesting: a thread shallower than the friction angle is '
+      'SELF-LOCKING and has to be driven down, which is why a car jack holds a '
+      'car and a bolt stays done up. A thread steeper than it runs away under '
+      'the load and has to be held back. Self-locking is not a property of the '
+      'thread alone: grease a jack and you can drop the friction angle under '
+      'the pitch angle without changing a single dimension.',
+  formulas: [
+    ('Screw jack moment', r'M = Pr\tan(\alpha \pm \phi)'),
+    ('Friction angle', r'\phi = \arctan\mu'),
+    ('Self-locking when', r'\phi > \alpha'),
+  ],
+  figure: BriefFigure.screw,
+  handbook: 'Handbook p. 97',
+);
+
 const ceilingBrief = BriefSection(
   title: 'Friction is a ceiling, not a value',
   body:
@@ -3588,6 +3611,15 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{still, one member bends} \;\Rightarrow\; \text{frame}", true),
             (r"\text{a frame may have a part that moves}", false),
             (r"\text{a machine is solved a different way}", false),
+          ],
+        );
+      case BriefFigure.screw:
+        return const _RuleList(
+          rules: [
+            (r"\text{raising} \;\Rightarrow\; M = Pr\tan(\alpha + \phi)", true),
+            (r"\phi > \alpha \;\Rightarrow\; \text{self-locking}", true),
+            (r"\text{a fine thread is always self-locking}", false),
+            (r"\text{greasing it cannot make it unsafe}", false),
           ],
         );
       case BriefFigure.ceiling:

@@ -7,6 +7,7 @@ import 'package:mobile/features/games/friction_figures.dart';
 import 'package:mobile/features/games/harder_or_easier_game.dart';
 import 'package:mobile/features/games/is_it_about_to_move_game.dart';
 import 'package:mobile/features/games/which_side_is_tight_game.dart';
+import 'package:mobile/features/games/will_it_hold_itself_game.dart';
 
 /// Lesson thirty-nine, friction. The engine that answers all three items is
 /// one equilibrium, so it is checked here against the lesson's own worked
@@ -393,6 +394,97 @@ void main() {
       expect(r.after.pushDeg, 0);
       expect(r.before.pushToSlide, closeTo(1008, 2));
       expect(r.after.pushToSlide, closeTo(700.6, 2));
+    });
+  });
+
+  group('whether a screw holds itself up', () {
+    const expected = <int, Effort>{
+      0: Effort.driveItUp,
+      1: Effort.driveItDown,
+      2: Effort.holdItBack,
+      3: Effort.driveItUp,
+      4: Effort.holdItBack,
+      5: Effort.driveItDown,
+    };
+
+    test('the app and the hand-worked set agree', () {
+      for (var i = 0; i < screwRounds.length; i++) {
+        expect(screwRounds[i].answer, expected[i],
+            reason: 'round ${i + 1} of will-it-hold-itself');
+      }
+    });
+
+    test('the friction angle really is the arctangent of the coefficient', () {
+      // Checked a second way: the friction angle is the slope at which a block
+      // on a plain ramp is just on the point of sliding, which is the first
+      // item in this lesson.
+      for (final r in screwRounds) {
+        expect(math.tan(r.screw.frictionDeg * math.pi / 180),
+            closeTo(r.screw.mu, 1e-9),
+            reason: 'the two ways of saying the same angle disagree');
+      }
+    });
+
+    test('self-locking is the two angles compared and nothing else', () {
+      for (var i = 0; i < screwRounds.length; i++) {
+        final s = screwRounds[i].screw;
+        expect(s.selfLocking, s.frictionDeg > s.pitchDeg,
+            reason: 'round ${i + 1} decides self-locking some other way');
+        if (!s.raising) {
+          expect(screwRounds[i].answer,
+              s.selfLocking ? Effort.driveItDown : Effort.holdItBack,
+              reason: 'round ${i + 1} lowers and answers wrongly for its '
+                  'angles');
+        }
+      }
+    });
+
+    test('raising always answers the same way whatever the thread', () {
+      for (final r in screwRounds) {
+        if (!r.screw.raising) continue;
+        expect(r.answer, Effort.driveItUp);
+      }
+      // And it is genuinely tested on both kinds of thread, not just one.
+      final raisers = screwRounds.where((r) => r.screw.raising).toList();
+      expect(raisers.any((r) => r.screw.selfLocking), isTrue);
+      expect(raisers.any((r) => !r.screw.selfLocking), isTrue);
+    });
+
+    test('the greased round is the one that earns its place', () {
+      // A shallow thread that is still not self-locking, which is the whole
+      // point: self-locking is not a property of the thread alone.
+      final greased = screwRounds[4].screw;
+      final jack = screwRounds[1].screw;
+      expect(greased.pitchDeg, lessThan(6));
+      expect(greased.selfLocking, isFalse);
+      expect(jack.selfLocking, isTrue);
+      expect(greased.pitchDeg, greaterThan(jack.pitchDeg));
+      expect(greased.mu, lessThan(jack.mu));
+    });
+
+    test('no round is a near miss between the two angles', () {
+      // Degrees are the wrong measure of "can you see it": the figure draws
+      // the two slopes with the steeper filling the box, so what the eye
+      // compares is the RATIO of their tangents.
+      for (var i = 0; i < screwRounds.length; i++) {
+        final s = screwRounds[i].screw;
+        final ratio = math.tan(s.frictionDeg * math.pi / 180) /
+            math.tan(s.pitchDeg * math.pi / 180);
+        expect(ratio > 1.25 || ratio < 0.8, isTrue,
+            reason: 'round ${i + 1} draws its two slopes too close together '
+                'to tell apart');
+      }
+    });
+
+    test('every answer appears and none of them dominates', () {
+      final counts = {
+        for (final v in Effort.values)
+          v: screwRounds.where((r) => r.answer == v).length,
+      };
+      for (final v in Effort.values) {
+        expect(counts[v], greaterThanOrEqualTo(1), reason: '${v.name} never');
+      }
+      expect(counts.values.reduce(math.max), lessThanOrEqualTo(3));
     });
   });
 }
