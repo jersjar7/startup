@@ -18,7 +18,7 @@ const {
 const { daysUntilExam } = require('./profile.js');
 const { hasPurchased } = require('./db/purchases.js');
 const { shouldPitchSimInDigest } = require('./digestPitch.js');
-const { canSendLifecycle } = require('./sendBudget.js');
+const { canSendLifecycle, counts: budgetCounts, DAILY_CAP, MONTHLY_CAP } = require('./sendBudget.js');
 
 const TZ = process.env.LIFECYCLE_TZ || TZ_DEFAULT;
 const SEND_HOUR = Number(process.env.LIFECYCLE_HOUR) || 8;
@@ -414,7 +414,12 @@ async function runLifecycleEmails(now = new Date()) {
     const winback = await sendWinbacks(now);
     const purged = await purgeStaleUnverified(now);
     if (welcome || verify || winback || exam || weekly || simFollow || purged) {
-      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam} weekly=${weekly} simFollow=${simFollow} purged=${purged}`);
+      // Report the day's remaining headroom alongside the batch. The batch runs
+      // mid-UTC-day, so what is left here has to cover every signup for the rest
+      // of the US day; seeing it in the log is how a squeeze gets noticed before
+      // a verification email is the thing that fails.
+      const { day, month } = await budgetCounts(now);
+      console.log(`[lifecycle] sent welcome=${welcome} verify=${verify} winback=${winback} exam=${exam} weekly=${weekly} simFollow=${simFollow} purged=${purged} — budget ${day}/${DAILY_CAP} today (${Math.max(0, DAILY_CAP - day)} left for verification and reset), ${month}/${MONTHLY_CAP} this month`);
     }
     return { welcome, verify, winback, exam, weekly, simFollow, purged };
   } catch (e) {
