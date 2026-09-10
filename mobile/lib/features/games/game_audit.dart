@@ -91,6 +91,8 @@ import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
 import 'rank_by_stiffness_game.dart';
 import 'which_barely_matters_game.dart';
+import 'how_do_they_sit_game.dart';
+import 'venn_figures.dart';
 import 'when_does_it_land_game.dart';
 import 'which_second_moment_game.dart';
 import 'will_it_hold_itself_game.dart';
@@ -1694,6 +1696,19 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: r.names,
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-do-they-sit',
+    lessonId: 'probability-distributions',
+    problemPrefix: 'stat-dist-',
+    rounds: [
+      for (final r in linkRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final v in Link.values) v.name],
+          answer: Link.values.indexOf(r.answer),
         ),
     ],
   ),

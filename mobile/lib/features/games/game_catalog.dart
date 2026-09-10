@@ -705,6 +705,14 @@ const statisticsMap = ChapterMap(
           built: true,
           brief: normalTableBrief,
         ),
+        GameDef(
+          id: 'how-do-they-sit',
+          rounds: 6,
+          name: 'How Do They Sit',
+          blurb: 'Can both happen? Does one move the other? Then pick a rule.',
+          built: true,
+          brief: lawsBrief,
+        ),
       ],
     ),
     LessonNode(

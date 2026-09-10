@@ -59,6 +59,7 @@ import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
 import 'package:mobile/features/games/rank_by_stiffness_game.dart';
 import 'package:mobile/features/games/which_barely_matters_game.dart';
+import 'package:mobile/features/games/how_do_they_sit_game.dart';
 import 'package:mobile/features/games/when_does_it_land_game.dart';
 import 'package:mobile/features/games/which_second_moment_game.dart';
 import 'package:mobile/features/games/along_it_or_not_game.dart';
@@ -580,6 +581,12 @@ void main() {
           build: SamePickGame.new,
           rounds: pickRounds.length,
           height: 1250,
+        ),
+        'how-do-they-sit': (
+          lesson: '19-distributions',
+          build: HowDoTheySitGame.new,
+          rounds: linkRounds.length,
+          height: 1350,
         ),
         'build-the-binomial': (
           lesson: '19-distributions',
@@ -1142,6 +1149,7 @@ void main() {
       ('counting', countingBrief),
       ('binomial', binomialBrief),
       ('normal-table', normalTableBrief),
+      ('laws', lawsBrief),
     ],
     '20-expected-value': [
       ('expected-value', expectedValueBrief),

@@ -2,6 +2,9 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'package:mobile/features/games/how_do_they_sit_game.dart';
+import 'package:mobile/features/games/venn_figures.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile/features/games/build_the_binomial_game.dart';
@@ -419,6 +422,96 @@ void main() {
       await tester.tap(find.text('Lock it in'));
       await tester.pumpAndSettle();
       expect(find.text('THE OTHER PIECE'), findsOneWidget);
+    });
+  });
+
+  group('how two events sit together', () {
+    const expected = <int, Link>{
+      0: Link.exclusive,
+      1: Link.independent,
+      2: Link.dependent,
+      3: Link.independent,
+      4: Link.dependent,
+      5: Link.exclusive,
+    };
+
+    test('the app and the hand-worked set agree', () {
+      for (var i = 0; i < linkRounds.length; i++) {
+        expect(linkRounds[i].answer, expected[i],
+            reason: 'round ${i + 1} of how-do-they-sit');
+      }
+    });
+
+    test('the relationship follows from the facts, not from a label', () {
+      // Checked against the three primitive facts of each scenario rather
+      // than against a name written beside it.
+      for (var i = 0; i < linkRounds.length; i++) {
+        final p = linkRounds[i].pairing;
+        final want = p.oneTrial && !p.canCoexist
+            ? Link.exclusive
+            : (p.firstChangesSecond ? Link.dependent : Link.independent);
+        expect(linkRounds[i].answer, want, reason: 'round ${i + 1}');
+      }
+    });
+
+    test('exclusive events are dependent, which is the trap', () {
+      // Mutually exclusive and independent sound alike and are opposites:
+      // one event happening drops the other to zero.
+      for (final r in linkRounds) {
+        if (r.answer != Link.exclusive) continue;
+        expect(r.pairing.firstChangesSecond, isTrue,
+            reason: 'an exclusive round is set up as though the two events '
+                'did not affect each other, which is the mistake the game '
+                'exists to catch');
+        expect(r.pairing.canCoexist, isFalse);
+      }
+    });
+
+    test('the card pair differs only by putting the card back', () {
+      // Rounds three and four are word for word the same events and answer
+      // differently, which is the whole point of having both.
+      final a = linkRounds[2];
+      final b = linkRounds[3];
+      expect(a.first, b.first);
+      expect(a.second, b.second);
+      expect(a.pairing.firstChangesSecond, isNot(b.pairing.firstChangesSecond));
+      expect(a.answer, isNot(b.answer));
+    });
+
+    test('the dice pair is one die against two', () {
+      final one = linkRounds[0];
+      final two = linkRounds[1];
+      expect(one.pairing.oneTrial, isTrue);
+      expect(two.pairing.oneTrial, isFalse);
+      expect(one.answer, isNot(two.answer));
+    });
+
+    test('an independent round could really have both happen', () {
+      for (var i = 0; i < linkRounds.length; i++) {
+        final r = linkRounds[i];
+        if (r.answer == Link.exclusive) continue;
+        expect(r.pairing.canCoexist, isTrue,
+            reason: 'round ${i + 1} says the two can happen together and is '
+                'set up as though they cannot');
+      }
+    });
+
+    test('every answer appears and none of them dominates', () {
+      final counts = {
+        for (final v in Link.values)
+          v: linkRounds.where((r) => r.answer == v).length,
+      };
+      for (final v in Link.values) {
+        expect(counts[v], greaterThanOrEqualTo(1), reason: '${v.name} never');
+      }
+      expect(counts.values.reduce(math.max), lessThanOrEqualTo(3));
+    });
+
+    test('every round names two events and a source', () {
+      for (final r in linkRounds) {
+        expect(r.first.isNotEmpty && r.second.isNotEmpty, isTrue);
+        expect(r.source, startsWith('stat-dist-'));
+      }
     });
   });
 }

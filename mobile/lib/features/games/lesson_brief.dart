@@ -155,6 +155,7 @@ enum BriefFigure {
   zeroForce,
   senseOfForce,
   section,
+  laws,
   period,
   ceiling,
   belt,
@@ -2621,6 +2622,29 @@ const whatItIsBrief = BriefSection(
   handbook: 'Handbook p. 97',
 );
 
+const lawsBrief = BriefSection(
+  title: 'Two questions before either rule',
+  body:
+      'Could both events happen at once? If not they are mutually exclusive, '
+      'there is no overlap, and their probabilities simply add. If they can, '
+      'the addition rule has to take the overlap back off, because adding them '
+      'straight counts it twice. Then the second question: does the first '
+      'happening change the odds of the second? If not they are independent '
+      'and you may multiply them straight out, and if it does you need the '
+      'conditional probability. Drawing without replacement is the commonest '
+      'way a problem quietly makes two events dependent. And exclusive and '
+      'independent are not two words for one idea: events that cannot both '
+      'happen are as dependent as events get, because one of them drops the '
+      'other to zero.',
+  formulas: [
+    ('Addition rule', r'P(A \cup B) = P(A) + P(B) - P(A \cap B)'),
+    ('Multiplication rule', r'P(A \cap B) = P(A)\,P(B \mid A)'),
+    ('If independent', r'P(B \mid A) = P(B)'),
+  ],
+  figure: BriefFigure.laws,
+  handbook: 'Handbook p. 105',
+);
+
 const periodBrief = BriefSection(
   title: 'Which mark it lands on',
   body:
@@ -3633,6 +3657,15 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{still, one member bends} \;\Rightarrow\; \text{frame}", true),
             (r"\text{a frame may have a part that moves}", false),
             (r"\text{a machine is solved a different way}", false),
+          ],
+        );
+      case BriefFigure.laws:
+        return const _RuleList(
+          rules: [
+            (r"\text{exclusive} \;\Rightarrow\; P(A \cup B) = P(A) + P(B)", true),
+            (r"\text{independent} \;\Rightarrow\; P(A \cap B) = P(A)P(B)", true),
+            (r"\text{exclusive events are independent}", false),
+            (r"\text{two events always overlap by } P(A)P(B)", false),
           ],
         );
       case BriefFigure.period:

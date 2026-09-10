@@ -97,6 +97,7 @@ import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
 import '../features/games/rank_by_stiffness_game.dart';
 import '../features/games/which_barely_matters_game.dart';
+import '../features/games/how_do_they_sit_game.dart';
 import '../features/games/when_does_it_land_game.dart';
 import '../features/games/which_second_moment_game.dart';
 import '../features/games/will_it_hold_itself_game.dart';
@@ -320,6 +321,7 @@ GoRouter buildRouter(AuthController auth) {
           'which-barely-matters' => const WhichBarelyMattersGame(),
           'which-second-moment' => const WhichSecondMomentGame(),
           'when-does-it-land' => const WhenDoesItLandGame(),
+          'how-do-they-sit' => const HowDoTheySitGame(),
           'will-it-hold-itself' => const WillItHoldItselfGame(),
           'which-stretches-more' => const WhichStretchesMoreGame(),
           'what-comes-out' => const WhatComesOutGame(),
