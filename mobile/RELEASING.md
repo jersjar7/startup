@@ -104,3 +104,4 @@ The profile in use expires **2027-06-23**.
 | 521   | Statistics, all six lessons; chapter two complete |
 | 522   | Ethics, all seven lessons; chapter three complete |
 | 523   | Economics, all six lessons; chapter four complete |
+| 524   | Statics, all seven lessons; chapter five complete |
