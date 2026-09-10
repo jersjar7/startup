@@ -552,7 +552,7 @@ class DrumPainter extends CustomPainter {
       ));
     }
 
-    _creepMark(canvas, size, r);
+    _creepMark(canvas, size, r, taken);
   }
 
   /// Chevrons ON the belt, pointing the way it is creeping.
@@ -560,13 +560,23 @@ class DrumPainter extends CustomPainter {
   /// Drawn on the belt and not inside the drum on purpose. An arrow in the
   /// middle of the circle reads as the drum turning, and on a bollard the
   /// post never turns at all: it is the rope that slides.
-  void _creepMark(Canvas canvas, Size size, double r) {
+  void _creepMark(Canvas canvas, Size size, double r, List<Rect> labels) {
     final forward = lap.creep == Creep.counter;
     // These decide the answer, so they are drawn like it: sized off the drum
     // rather than off a number, and heavy enough to read at a glance.
     final arm = (r * 0.20).clamp(7.0, 13.0);
     final step = math.min(0.05, 40 / math.max(lap.sweepDeg, 1));
-    for (final at in [0.25, 0.5, 0.75]) {
+    for (final want in [0.25, 0.5, 0.75]) {
+      // Slid along the belt until it is clear of the labels. A chevron drawn
+      // under a word is the one mark on the figure the answer depends on, put
+      // where it cannot be read.
+      var at = want;
+      for (var tries = 0; tries < 10; tries++) {
+        final box = Rect.fromCircle(center: _on(lap, at, size), radius: arm);
+        if (!labels.any((l) => l.overlaps(box))) break;
+        at = (want + (tries.isEven ? 1 : -1) * 0.035 * (tries ~/ 2 + 1))
+            .clamp(0.06, 0.94);
+      }
       final here = _on(lap, at, size);
       final ahead = _on(lap, at + (forward ? step : -step), size);
       final run = ahead - here;
