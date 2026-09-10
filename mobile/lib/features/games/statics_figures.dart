@@ -80,7 +80,12 @@ class ForceTrianglePainter extends CustomPainter {
     final sx = dx * scale;
     final sy = dy * scale;
 
-    final o = Offset(_padL, size.height - _padB);
+    // Centred in what is left over. Anchored at the corner, a tall narrow
+    // triangle sat in the left third of the box with nothing beside it.
+    final o = Offset(
+      _padL + (room.width - sx) / 2,
+      _padT + (room.height + sy) / 2,
+    );
     final tip = Offset(o.dx + sx, o.dy - sy);
     final alongX = Offset(o.dx + sx, o.dy);
     final alongY = Offset(o.dx, o.dy - sy);
@@ -96,8 +101,11 @@ class ForceTrianglePainter extends CustomPainter {
     if (angleFrom != AngleFrom.none) {
       final from = angleFrom == AngleFrom.horizontal ? 0.0 : -math.pi / 2;
       final to = math.atan2(-sy, sx);
+      // Big enough to read as an angle rather than as a tick, and never more
+      // than half the shorter leg or it runs past the corner it marks.
+      final radius = math.min(math.min(sx, sy) * 0.45, 46.0).clamp(20.0, 46.0);
       canvas.drawArc(
-        Rect.fromCircle(center: o, radius: 26),
+        Rect.fromCircle(center: o, radius: radius),
         from,
         to - from,
         false,
@@ -109,11 +117,19 @@ class ForceTrianglePainter extends CustomPainter {
       // Down the middle of the wedge. On a narrow angle the label is wider
       // than the wedge whatever radius it sits at, so it gets a patch of
       // canvas behind it rather than being drawn over an arrow.
+      // Down the middle of the wedge, and then clear of the axis the angle
+      // was measured from: an angle off the vertical opens into a narrow
+      // wedge beside the vertical arrow, and the label is wider than it.
       final mid = (from + to) / 2;
+      final nudge = angleFrom == AngleFrom.vertical
+          ? _measure(angleLabel).width / 2 + 8
+          : 0.0;
       _write(
         canvas,
         angleLabel,
-        o + Offset(math.cos(mid) * 46, math.sin(mid) * 46 - 7),
+        o +
+            Offset(math.cos(mid) * (radius + 20) + nudge,
+                math.sin(mid) * (radius + 20) - 7),
         AppColors.ink2,
         size,
         patch: true,
@@ -162,12 +178,16 @@ class ForceTrianglePainter extends CustomPainter {
     }
   }
 
+  TextPainter _measure(String text, {Color colour = AppColors.ink2}) =>
+      TextPainter(
+        text:
+            TextSpan(text: text, style: AppTheme.mono(size: 11, color: colour)),
+        textDirection: TextDirection.ltr,
+      )..layout();
+
   void _write(Canvas canvas, String text, Offset at, Color colour, Size size,
       {int align = 0, bool patch = false}) {
-    final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 11, color: colour)),
-      textDirection: TextDirection.ltr,
-    )..layout();
+    final tp = _measure(text, colour: colour);
     final dxOff = switch (align) {
       1 => tp.width / 2,
       -1 => tp.width,
@@ -194,20 +214,31 @@ class ForceTrianglePainter extends CustomPainter {
       old.angleFrom != angleFrom;
 }
 
+/// Where a dimension line sits relative to the thing it measures.
+enum MarkPlace {
+  /// Pushed clear of the figure the way a drafter would: horizontal distances
+  /// below everything, vertical ones out to the left, slanted ones offset
+  /// square to their own axis on the side away from the body.
+  auto,
+
+  /// Drawn exactly where it falls, because its position is the point. A
+  /// perpendicular dropped from a pivot to a line of action means nothing if
+  /// it is moved off the pivot to keep the picture tidy.
+  inPlace,
+}
+
 /// One dimension line on a moment figure: a distance somebody might reach for
 /// when they are looking for the moment arm.
 @immutable
 class Mark {
-  const Mark(this.from, this.to, this.label, {this.offset = 0});
+  const Mark(this.from, this.to, this.label, {this.place = MarkPlace.auto});
 
   /// Both ends, in world units.
   final Offset from;
   final Offset to;
   final String label;
 
-  /// How far to push the line off its own axis, in pixels, so that three
-  /// distances measured from the same corner do not land on top of each other.
-  final double offset;
+  final MarkPlace place;
 }
 
 /// One force on a body: where it acts and which way it pulls.
@@ -290,6 +321,109 @@ class Scene {
       (size.width - _pad * 2) / b.width,
       (size.height - _pad * 2) / b.height,
     );
+  }
+
+  /// Where the body actually sits on the canvas, pivot furniture included.
+  Rect bodyOn(Size size) {
+    var box = Rect.fromCircle(center: toScreen(pivot, size), radius: 1);
+    void swallow(Offset o) {
+      box = box.expandToInclude(Rect.fromCircle(center: o, radius: 1));
+    }
+
+    for (final member in members) {
+      for (final p in member) {
+        swallow(toScreen(p, size));
+      }
+    }
+    for (final f in forces) {
+      swallow(toScreen(f.at, size));
+    }
+    return Rect.fromLTRB(
+      box.left - 9,
+      box.top - 3,
+      box.right + 9,
+      box.bottom + 14,
+    );
+  }
+
+  /// Every dimension line where it actually gets drawn.
+  ///
+  /// A drafter puts horizontal distances below the object, vertical ones out
+  /// to the side, and stacks parallel ones outward. Doing that here rather
+  /// than in the painter means the tap targets and the lines they sit on come
+  /// from one piece of arithmetic and cannot drift apart.
+  List<(Offset, Offset)> placedMarks(Size size) {
+    final box = bodyOn(size);
+    final out = List<(Offset, Offset)?>.filled(marks.length, null);
+
+    // Anything a dimension line should keep away from. Forces go in first;
+    // the square-on distances add themselves as they are placed.
+    final busy = <Offset>[
+      for (final f in forces)
+        toScreen(f.at, size) +
+            Offset(f.dir.dx, -f.dir.dy) / f.dir.distance * 30,
+    ];
+
+    // Pass one: the distances whose placement is not a judgment call.
+    var below = 0;
+    var left = 0;
+    for (final (i, m) in marks.indexed) {
+      final a = toScreen(m.from, size);
+      final b = toScreen(m.to, size);
+      final along = b - a;
+      final len = along.distance;
+      if (len < 0.5) {
+        out[i] = (a, b);
+        continue;
+      }
+      final unit = along / len;
+      Offset? shift;
+      if (m.place == MarkPlace.inPlace) {
+        shift = Offset.zero;
+      } else if (unit.dy.abs() < 0.02) {
+        shift = Offset(0, box.bottom + 20 + 22 * below - a.dy);
+        below++;
+      } else if (unit.dx.abs() < 0.02) {
+        shift = Offset(box.left - 20 - 22 * left - a.dx, 0);
+        left++;
+      }
+      if (shift != null) {
+        out[i] = (a + shift, b + shift);
+        busy.add((a + b) / 2 + shift);
+      }
+    }
+
+    // Pass two: a distance measured along a slanted member has two sides and
+    // both are equally empty of members, so the tie is broken by whatever
+    // else is already on the figure. Taking the side with more room is what
+    // stopped a steep member's dimension landing on the vertical one.
+    for (final (i, m) in marks.indexed) {
+      if (out[i] != null) continue;
+      final a = toScreen(m.from, size);
+      final b = toScreen(m.to, size);
+      final unit = (b - a) / (b - a).distance;
+      final normal = Offset(-unit.dy, unit.dx);
+      final mid = (a + b) / 2;
+
+      var best = 1.0;
+      var room = -1.0;
+      for (final sign in [1.0, -1.0]) {
+        final at = mid + normal * 26 * sign;
+        var nearest = double.infinity;
+        for (final o in busy) {
+          final d = (at - o).distance;
+          if (d < nearest) nearest = d;
+        }
+        if (nearest > room) {
+          room = nearest;
+          best = sign;
+        }
+      }
+      final shift = normal * 26 * best;
+      out[i] = (a + shift, b + shift);
+      busy.add(mid + shift);
+    }
+    return [for (final o in out) o!];
   }
 
   /// World to canvas, with y flipped and the whole thing centred.
@@ -380,6 +514,15 @@ class MomentPainter extends CustomPainter {
     canvas.drawPath(tri, Paint()..color = AppColors.charcoal);
     canvas.drawCircle(p, 3.5, Paint()..color = AppColors.cream);
 
+    // Roughly where the body is, for deciding which side of a force its
+    // label should sit on.
+    var bodyCentre = p;
+    for (final member in scene.members) {
+      for (final pt in member) {
+        bodyCentre = (bodyCentre + at(pt)) / 2;
+      }
+    }
+
     for (final (i, f) in scene.forces.indexed) {
       final picked = mode == SceneMode.forces && chosen.contains(i);
       final isTruth = mode == SceneMode.forces && truths.contains(i);
@@ -396,8 +539,18 @@ class MomentPainter extends CustomPainter {
       }
       _arrow(canvas, origin, origin + unit * 52, colour,
           heavy: picked || (locked && isTruth));
-      _text(canvas, f.label, origin + unit * 64, colour, size);
+      // Beside the head rather than past it. A force pointing straight down
+      // its own member used to write its label on the member. Cleared by half
+      // its own width so it never sits on the arrow or its line of action.
+      final side = Offset(-unit.dy, unit.dx);
+      final away = origin - bodyCentre;
+      final sign = side.dx * away.dx + side.dy * away.dy >= 0 ? 1.0 : -1.0;
+      final tag = _label(f.label, colour);
+      _put(canvas, tag,
+          origin + unit * 48 + side * (tag.width / 2 + 10) * sign, size);
     }
+
+    final placed = scene.placedMarks(size);
 
     for (final (i, m) in scene.marks.indexed) {
       final picked = mode == SceneMode.marks && selected == i;
@@ -406,31 +559,64 @@ class MomentPainter extends CustomPainter {
       final heavy = picked || (locked && isTruth);
       final a = at(m.from);
       final b = at(m.to);
-      final along = b - a;
+      final (from, to) = placed[i];
+      final along = to - from;
       final len = along.distance;
       if (len < 0.5) continue;
       final unit = along / len;
-      final normal = Offset(-unit.dy, unit.dx) * m.offset;
-      final from = a + normal;
-      final to = b + normal;
+      final normal = Offset(-unit.dy, unit.dx);
+      final shift = from - a;
 
       final paint = Paint()
         ..color = colour
-        ..strokeWidth = heavy ? 2.4 : 1.3;
-      canvas.drawLine(from, to, paint);
-      // End ticks, square to the line.
-      final tick = Offset(-unit.dy, unit.dx) * 5;
+        ..strokeWidth = heavy ? 2.2 : 1.3
+        ..strokeCap = StrokeCap.round;
+
+      // The label sits in a break in the line rather than on top of it,
+      // except on a near-vertical one, where a horizontal label eats the
+      // whole line and leaves two stubs. That one goes beside it.
+      final tp = _label(m.label, colour);
+      final upright = unit.dx.abs() < 0.35;
+      final gap = math.max(tp.width, 14) + 12;
+      final mid = (from + to) / 2;
+      final broken = !upright && len > gap + 26;
+      if (broken) {
+        canvas.drawLine(from, mid - unit * (gap / 2), paint);
+        canvas.drawLine(mid + unit * (gap / 2), to, paint);
+      } else {
+        canvas.drawLine(from, to, paint);
+      }
+
+      // Ticks square to the line at both ends.
+      final tick = normal * 5;
       canvas.drawLine(from - tick, from + tick, paint);
       canvas.drawLine(to - tick, to + tick, paint);
-      // A thin leader back to whatever the distance was measured from.
-      if (m.offset.abs() > 0.5) {
-        final faint = Paint()
-          ..color = colour.withValues(alpha: 0.4)
+
+      // Extension lines: out of the body, past the dimension line, with a
+      // gap at the body end so they never touch what they measure.
+      if (shift.distance > 1) {
+        final reach = shift.distance;
+        final away = shift / reach;
+        final thin = Paint()
+          ..color = colour.withValues(alpha: 0.45)
           ..strokeWidth = 1;
-        canvas.drawLine(a, from, faint);
-        canvas.drawLine(b, to, faint);
+        for (final end in [a, b]) {
+          canvas.drawLine(end + away * 7, end + away * (reach + 5), thin);
+        }
       }
-      _text(canvas, m.label, (from + to) / 2 + normal * 0.24, colour, size);
+
+      final Offset tuck;
+      if (broken) {
+        tuck = mid;
+      } else if (upright) {
+        // Out to the side the dimension line was pushed, so it stays clear
+        // of the body.
+        final out = shift.distance > 1 ? shift / shift.distance : normal;
+        tuck = mid + out * (tp.width / 2 + 8);
+      } else {
+        tuck = to + unit * (tp.width / 2 + 9);
+      }
+      _put(canvas, tp, tuck, size);
     }
   }
 
@@ -466,23 +652,22 @@ class MomentPainter extends CustomPainter {
     }
   }
 
-  void _text(Canvas canvas, String text, Offset centre, Color colour, Size size) {
-    if (text.isEmpty) return;
-    final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 11, color: colour)),
-      textDirection: TextDirection.ltr,
-    )..layout();
+  TextPainter _label(String text, Color colour) => TextPainter(
+        text:
+            TextSpan(text: text, style: AppTheme.mono(size: 11, color: colour)),
+        textDirection: TextDirection.ltr,
+      )..layout();
+
+  void _put(Canvas canvas, TextPainter tp, Offset centre, Size size) {
     var x = centre.dx - tp.width / 2;
-    var y = centre.dy - 7;
+    var y = centre.dy - tp.height / 2;
     if (x < 2) x = 2;
     if (x + tp.width > size.width - 2) x = size.width - 2 - tp.width;
     if (y < 1) y = 1;
     if (y + tp.height > size.height - 1) y = size.height - 1 - tp.height;
-    // A patch of canvas behind it, so a label crossing a dashed line stays
-    // readable.
     canvas.drawRect(
-      Rect.fromLTWH(x - 2, y, tp.width + 4, tp.height),
-      Paint()..color = AppColors.cream.withValues(alpha: 0.9),
+      Rect.fromLTWH(x - 3, y, tp.width + 6, tp.height),
+      Paint()..color = AppColors.cream.withValues(alpha: 0.94),
     );
     tp.paint(canvas, Offset(x, y));
   }

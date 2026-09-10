@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -68,9 +70,9 @@ const armRounds = <ArmRound>[
       pivot: Offset(0, 0),
       forces: [StaticForce(Offset(7.66, 6.43), Offset(0, -1), '5,000 N')],
       marks: [
-        Mark(Offset(0, 0), Offset(7.66, 6.43), '10 m', offset: -20),
-        Mark(Offset(0, 0), Offset(7.66, 0), '7.66 m', offset: 24),
-        Mark(Offset(0, 0), Offset(0, 6.43), '6.43 m', offset: 24),
+        Mark(Offset(0, 0), Offset(7.66, 6.43), '10 m'),
+        Mark(Offset(0, 0), Offset(7.66, 0), '7.66 m'),
+        Mark(Offset(0, 0), Offset(0, 6.43), '6.43 m'),
       ],
     ),
     answer: 1,
@@ -95,9 +97,9 @@ const armRounds = <ArmRound>[
       pivot: Offset(0, 0),
       forces: [StaticForce(Offset(2, 7), Offset(1, 0), 'wind')],
       marks: [
-        Mark(Offset(0, 0), Offset(0, 7), '7 m', offset: -34),
-        Mark(Offset(0, 0), Offset(2, 7), '7.28 m', offset: 26),
-        Mark(Offset(0, 0), Offset(2, 0), '2 m', offset: 24),
+        Mark(Offset(0, 0), Offset(0, 7), '7 m'),
+        Mark(Offset(0, 0), Offset(2, 7), '7.28 m'),
+        Mark(Offset(0, 0), Offset(2, 0), '2 m'),
       ],
     ),
     answer: 0,
@@ -119,9 +121,9 @@ const armRounds = <ArmRound>[
       pivot: Offset(0, 0),
       forces: [StaticForce(Offset(6, 3), Offset(-6, -3), 'F')],
       marks: [
-        Mark(Offset(0, 0), Offset(6, 0), '6 m', offset: 24),
-        Mark(Offset(0, 0), Offset(6, 3), '6.7 m', offset: -20),
-        Mark(Offset(0, 0), Offset(0, 3), '3 m', offset: 24),
+        Mark(Offset(0, 0), Offset(6, 0), '6 m'),
+        Mark(Offset(0, 0), Offset(6, 3), '6.7 m'),
+        Mark(Offset(0, 0), Offset(0, 3), '3 m'),
       ],
     ),
     answer: null,
@@ -145,9 +147,10 @@ const armRounds = <ArmRound>[
       pivot: Offset(0, 0),
       forces: [StaticForce(Offset(4, 5), Offset(1, -1), 'cable')],
       marks: [
-        Mark(Offset(0, 0), Offset(4, 0), '4 m', offset: 24),
-        Mark(Offset(0, 0), Offset(0, 5), '5 m', offset: 24),
-        Mark(Offset(0, 0), Offset(4.5, 4.5), '6.36 m'),
+        Mark(Offset(0, 0), Offset(4, 0), '4 m'),
+        Mark(Offset(0, 0), Offset(0, 5), '5 m'),
+        Mark(Offset(0, 0), Offset(4.5, 4.5), '6.36 m',
+            place: MarkPlace.inPlace),
       ],
     ),
     answer: 2,
@@ -174,9 +177,9 @@ const armRounds = <ArmRound>[
         StaticForce(Offset(8, 0), Offset(0, -1), 'F', lineOfAction: false),
       ],
       marks: [
-        Mark(Offset(2, 0), Offset(4, 0), '2 m', offset: -22),
-        Mark(Offset(4, 0), Offset(8, 0), '4 m', offset: 26),
-        Mark(Offset(2, 0), Offset(8, 0), '6 m', offset: 56),
+        Mark(Offset(2, 0), Offset(4, 0), '2 m'),
+        Mark(Offset(4, 0), Offset(8, 0), '4 m'),
+        Mark(Offset(2, 0), Offset(8, 0), '6 m'),
       ],
     ),
     answer: 1,
@@ -199,9 +202,9 @@ const armRounds = <ArmRound>[
       pivot: Offset(0, 0),
       forces: [StaticForce(Offset(7.66, 6.43), Offset(1, 0), 'pull')],
       marks: [
-        Mark(Offset(0, 0), Offset(7.66, 0), '7.66 m', offset: 24),
-        Mark(Offset(0, 0), Offset(7.66, 6.43), '10 m', offset: -20),
-        Mark(Offset(0, 0), Offset(0, 6.43), '6.43 m', offset: 24),
+        Mark(Offset(0, 0), Offset(7.66, 0), '7.66 m'),
+        Mark(Offset(0, 0), Offset(7.66, 6.43), '10 m'),
+        Mark(Offset(0, 0), Offset(0, 6.43), '6.43 m'),
       ],
     ),
     answer: 2,
@@ -383,7 +386,7 @@ class _Figure extends StatelessWidget {
                     ),
                   ),
                   for (var i = 0; i < scene.marks.length; i++)
-                    _zone(i, scene.marks[i], size),
+                    _zone(i, size),
                 ],
               );
             },
@@ -393,31 +396,24 @@ class _Figure extends StatelessWidget {
     );
   }
 
-  Widget _zone(int i, Mark m, Size size) {
-    final a = scene.toScreen(m.from, size);
-    final b = scene.toScreen(m.to, size);
-    final along = b - a;
-    final len = along.distance;
-    final unit = len < 0.5 ? const Offset(1, 0) : along / len;
-    final normal = Offset(-unit.dy, unit.dx) * m.offset;
-    final from = a + normal;
-    final to = b + normal;
+  Widget _zone(int i, Size size) {
+    // Straight from the same placement the painter draws, so a target cannot
+    // sit somewhere its dimension line does not.
+    final (from, to) = scene.placedMarks(size)[i];
 
-    final left = (from.dx < to.dx ? from.dx : to.dx) - 6;
-    final right = (from.dx > to.dx ? from.dx : to.dx) + 6;
-    final top = (from.dy < to.dy ? from.dy : to.dy) - 6;
-    final bottom = (from.dy > to.dy ? from.dy : to.dy) + 6;
+    final left = math.min(from.dx, to.dx) - 6;
+    final right = math.max(from.dx, to.dx) + 6;
+    final top = math.min(from.dy, to.dy) - 6;
+    final bottom = math.max(from.dy, to.dy) + 6;
     // A thin line needs a thicker target than it draws, but not so thick that
-    // three distances off one corner start covering each other.
-    final width = right - left < 40 ? 40.0 : right - left;
-    final height = bottom - top < 34 ? 34.0 : bottom - top;
-    final cx = (left + right) / 2;
-    final cy = (top + bottom) / 2;
+    // two stacked dimensions start covering each other.
+    final width = math.max(right - left, 44.0);
+    final height = math.max(bottom - top, 30.0);
 
     return Positioned(
       key: ValueKey('mark-$i'),
-      left: cx - width / 2,
-      top: cy - height / 2,
+      left: (left + right) / 2 - width / 2,
+      top: (top + bottom) / 2 - height / 2,
       width: width,
       height: height,
       child: GestureDetector(
