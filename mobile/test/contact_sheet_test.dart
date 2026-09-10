@@ -44,6 +44,9 @@ import 'package:mobile/features/games/roll_it_back_game.dart';
 import 'package:mobile/features/games/balance_the_rate_game.dart';
 import 'package:mobile/features/games/over_the_bar_game.dart';
 import 'package:mobile/features/games/which_earns_more_game.dart';
+import 'package:mobile/features/games/find_the_factor_game.dart';
+import 'package:mobile/features/games/where_the_cost_went_game.dart';
+import 'package:mobile/features/games/match_the_dollars_game.dart';
 import 'package:mobile/features/games/what_weights_game.dart';
 import 'package:mobile/features/games/where_it_balances_game.dart';
 import 'package:mobile/features/games/which_readout_game.dart';
@@ -830,6 +833,24 @@ void main() {
       rounds: earnsRounds.length,
       height: 1520,
     ),
+    'find-the-factor': (
+      lesson: '35-depreciation',
+      build: FindTheFactorGame.new,
+      rounds: cellRounds.length,
+      height: 1600,
+    ),
+    'where-the-cost-went': (
+      lesson: '35-depreciation',
+      build: WhereTheCostWentGame.new,
+      rounds: costRounds.length,
+      height: 1200,
+    ),
+    'match-the-dollars': (
+      lesson: '35-depreciation',
+      build: MatchTheDollarsGame.new,
+      rounds: dollarsRounds.length,
+      height: 1150,
+    ),
   };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1004,6 +1025,11 @@ void main() {
       ('irr', irrBrief),
       ('marr', marrBrief),
       ('timing', timingBrief),
+    ],
+    '35-depreciation': [
+      ('macrs', macrsBrief),
+      ('book-value', bookValueBrief),
+      ('inflation', inflationBrief),
     ],
   };
 

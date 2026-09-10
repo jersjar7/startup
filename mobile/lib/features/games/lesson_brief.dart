@@ -143,6 +143,9 @@ enum BriefFigure {
   internalRate,
   hurdle,
   ratePerYear,
+  macrs,
+  bookValue,
+  dollarsMatch,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2117,6 +2120,64 @@ const timingBrief = BriefSection(
   handbook: 'Handbook p. 229',
 );
 
+const macrsBrief = BriefSection(
+  title: 'Read the table, not the name',
+  body:
+      'Straight line spreads the cost evenly and takes the salvage off first. '
+      'MACRS does neither: it front-loads the deduction using percentages the '
+      'handbook prints for you, it depreciates the FULL cost with no salvage '
+      'subtraction, and it runs the book value to zero. The class name is not '
+      'the number of years, because the half-year convention takes half a year '
+      'at each end. Five year property is written off over six years, three '
+      'year over four, seven year over eight. Find the column first, then '
+      'count the rows.',
+  formulas: [
+    ('Straight line', r'D_j = \frac{C - S_n}{n}'),
+    ('MACRS', r'D_j = d_j \times C'),
+    ('So', r'0.32 \times 60{,}000 = 19{,}200'),
+  ],
+  figure: BriefFigure.macrs,
+  handbook: 'Handbook p. 231, MACRS factors',
+);
+
+const bookValueBrief = BriefSection(
+  title: 'What has not been written off',
+  body:
+      'Book value is the cost less EVERY year of depreciation taken so far, '
+      'not less the current year alone. The number people hand in instead is '
+      'the accumulated depreciation, which is the same subtraction read from '
+      'the wrong end: one is what has gone, the other is what is left, and '
+      'together they come to the cost. Book value is also not what the asset '
+      'would fetch. Under MACRS it walks to zero on a schedule while the thing '
+      'itself may still be worth real money.',
+  formulas: [
+    ('Book value', r'BV_j = C - \sum_{k=1}^{j} D_k'),
+    ('Which means', r'BV_j + \textstyle\sum D = C'),
+    ('So', r'500{,}000 - 281{,}350 = 218{,}650'),
+  ],
+  figure: BriefFigure.bookValue,
+  handbook: 'Handbook p. 231',
+);
+
+const inflationBrief = BriefSection(
+  title: 'Match the rate to the dollars',
+  body:
+      'Actual dollars are the money that will really change hands and they '
+      'have inflation in them, so they are discounted at the combined rate. '
+      'Constant dollars are stated in today\'s purchasing power with inflation '
+      'stripped out, so they are discounted at the real rate. Using one on the '
+      'other charges for inflation twice or not at all. And the combined rate '
+      'has three terms: adding the two and stopping is close at small rates '
+      'and most of a point out at large ones.',
+  formulas: [
+    ('Combined', r'd = i + f + i f'),
+    ('Actual dollars', r'\text{discount at } d'),
+    ('Constant dollars', r'\text{discount at } i'),
+  ],
+  figure: BriefFigure.dollarsMatch,
+  handbook: 'Handbook p. 230',
+);
+
 /// Opens one concept over whatever is on screen.
 Future<void> showConcept(BuildContext context, BriefSection section) {
   return showModalBottomSheet<void>(
@@ -2811,6 +2872,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{every cash flow doubled} \;\Rightarrow\; \text{same rate}", true),
             (r"\text{the bigger total} \;\Rightarrow\; \text{the higher rate}", false),
             (r"\text{the bigger project} \;\Rightarrow\; \text{the higher rate}", false),
+          ],
+        );
+      case BriefFigure.macrs:
+        return const _RuleList(
+          rules: [
+            (r"\text{5 year property} \;\Rightarrow\; 6 \text{ years of it}", true),
+            (r"\text{MACRS} \;\Rightarrow\; \text{full cost, no salvage}", true),
+            (r"\text{MACRS} \;\Rightarrow\; \tfrac{C - S_n}{n}", false),
+            (r"\text{5 year property} \;\Rightarrow\; 5 \text{ years of it}", false),
+          ],
+        );
+      case BriefFigure.bookValue:
+        return const _RuleList(
+          rules: [
+            (r"BV_3 = C - (D_1 + D_2 + D_3)", true),
+            (r"BV_3 = C - D_3", false),
+            (r"BV_3 = D_1 + D_2 + D_3", false),
+            (r"\text{book value} = \text{what it would fetch}", false),
+          ],
+        );
+      case BriefFigure.dollarsMatch:
+        return const _RuleList(
+          rules: [
+            (r"\text{actual dollars} \;\Rightarrow\; d = i + f + if", true),
+            (r"\text{constant dollars} \;\Rightarrow\; i", true),
+            (r"\text{actual dollars} \;\Rightarrow\; i + f", false),
+            (r"\text{actual dollars} \;\Rightarrow\; i", false),
           ],
         );
       case BriefFigure.lawChoice:

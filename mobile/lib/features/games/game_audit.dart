@@ -79,6 +79,9 @@ import 'which_side_wins_game.dart';
 import 'which_way_points_game.dart';
 import 'which_way_it_pushes_game.dart';
 import 'balance_the_rate_game.dart';
+import 'find_the_factor_game.dart';
+import 'where_the_cost_went_game.dart';
+import 'match_the_dollars_game.dart';
 import 'over_the_bar_game.dart';
 import 'which_earns_more_game.dart';
 import 'where_does_it_go_game.dart';
@@ -1263,6 +1266,42 @@ List<GameAudit> auditAllGames() => [
         RoundAudit(
           source: r.source,
           options: [for (final o in r.options) o.$1],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'find-the-factor',
+    lessonId: 'depreciation-taxation-inflation',
+    problemPrefix: 'econ-dti-',
+    rounds: [
+      // The answer is a CELL in the handbook's own table rather than one of a
+      // shortlist, so no index names it.
+      for (final r in cellRounds) RoundAudit(source: r.source),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-the-cost-went',
+    lessonId: 'depreciation-taxation-inflation',
+    problemPrefix: 'econ-dti-',
+    rounds: [
+      for (final r in costRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in r.order) p.name],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'match-the-dollars',
+    lessonId: 'depreciation-taxation-inflation',
+    problemPrefix: 'econ-dti-',
+    rounds: [
+      for (final r in dollarsRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final a in r.order) a.name],
           answer: r.answer,
         ),
     ],

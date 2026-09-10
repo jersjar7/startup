@@ -85,6 +85,9 @@ import '../features/games/roll_it_back_game.dart';
 import '../features/games/balance_the_rate_game.dart';
 import '../features/games/over_the_bar_game.dart';
 import '../features/games/which_earns_more_game.dart';
+import '../features/games/find_the_factor_game.dart';
+import '../features/games/where_the_cost_went_game.dart';
+import '../features/games/match_the_dollars_game.dart';
 import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_law_game.dart';
@@ -264,6 +267,9 @@ GoRouter buildRouter(AuthController auth) {
           'balance-the-rate' => const BalanceTheRateGame(),
           'over-the-bar' => const OverTheBarGame(),
           'which-earns-more' => const WhichEarnsMoreGame(),
+          'find-the-factor' => const FindTheFactorGame(),
+          'where-the-cost-went' => const WhereTheCostWentGame(),
+          'match-the-dollars' => const MatchTheDollarsGame(),
           _ => const _UnknownGame(),
         },
       ),

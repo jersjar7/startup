@@ -1211,6 +1211,32 @@ const economicsMap = ChapterMap(
       id: 'depreciation-taxation-inflation',
       name: 'Depreciation, Taxation & Inflation',
       subtopicId: 'depreciation-and-finance',
+      games: [
+        GameDef(
+          id: 'find-the-factor',
+          rounds: 6,
+          name: 'Find the Factor',
+          blurb: 'The table is right there. Tap the cell.',
+          built: true,
+          brief: macrsBrief,
+        ),
+        GameDef(
+          id: 'where-the-cost-went',
+          rounds: 6,
+          name: 'Where the Cost Went',
+          blurb: 'One bar, three stretches. Which one answers it?',
+          built: true,
+          brief: bookValueBrief,
+        ),
+        GameDef(
+          id: 'match-the-dollars',
+          rounds: 6,
+          name: 'Match the Dollars',
+          blurb: 'Four rates, two of them a tenth of a point apart.',
+          built: true,
+          brief: inflationBrief,
+        ),
+      ],
     ),
   ],
 );
