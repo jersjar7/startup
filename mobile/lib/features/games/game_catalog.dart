@@ -2267,6 +2267,52 @@ const materialsMap = ChapterMap(
   ],
 );
 
+/// Chapter 9.
+const fluidMechanicsMap = ChapterMap(
+  id: 'fluid-mechanics',
+  number: 9,
+  name: 'Fluid Mechanics',
+  examLine: '4 to 6 questions on the real exam',
+  subtopics: [
+    Subtopic('fluid-properties-statics', 'Properties & Statics'),
+    Subtopic('fluid-dynamics', 'Fluid Dynamics'),
+    Subtopic('flow-analysis-measurement', 'Flow Analysis & Measurement'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'fluid-properties',
+      name: 'Fluid Properties',
+      subtopicId: 'fluid-properties-statics',
+      games: [
+        GameDef(
+          id: 'which-property',
+          rounds: 6,
+          name: 'Which Property Is That',
+          blurb: 'Three properties, and the units tell you which is which.',
+          built: true,
+          brief: threeNumbersBrief,
+        ),
+        GameDef(
+          id: 'which-drags-more',
+          rounds: 6,
+          name: 'Which One Drags More',
+          blurb: 'A thinner film drags harder. That is the surprising one.',
+          built: true,
+          brief: viscosityBrief,
+        ),
+        GameDef(
+          id: 'which-tube-climbs',
+          rounds: 6,
+          name: 'Which Tube Climbs Higher',
+          blurb: 'Narrow climbs higher, and mercury goes the other way.',
+          built: true,
+          brief: capillaryBrief,
+        ),
+      ],
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
@@ -2276,6 +2322,7 @@ const chapterMaps = <String, ChapterMap>{
   'dynamics': dynamicsMap,
   'mechanics-materials': mechanicsMaterialsMap,
   'materials': materialsMap,
+  'fluid-mechanics': fluidMechanicsMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

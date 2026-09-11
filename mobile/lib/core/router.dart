@@ -157,6 +157,7 @@ import '../features/games/which_barely_matters_game.dart';
 import '../features/games/how_do_they_sit_game.dart';
 import '../features/games/when_does_it_land_game.dart';
 import '../features/games/which_second_moment_game.dart';
+import '../features/games/which_tube_climbs_game.dart';
 import '../features/games/will_it_hold_itself_game.dart';
 import '../features/games/along_it_or_not_game.dart';
 import '../features/games/can_statics_solve_it_game.dart';
@@ -177,6 +178,7 @@ import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_cracks_first_game.dart';
 import '../features/games/which_arm_game.dart';
+import '../features/games/which_drags_more_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_mortar_game.dart';
 import '../features/games/which_weighing_game.dart';
@@ -201,6 +203,7 @@ import '../features/games/wider_or_narrower_game.dart';
 import '../features/games/which_readout_game.dart';
 import '../features/games/which_one_moves_most_game.dart';
 import '../features/games/which_one_goes_game.dart';
+import '../features/games/which_property_game.dart';
 import '../features/games/which_ratio_game.dart';
 import '../features/games/which_way_turns_game.dart';
 import '../features/games/which_way_simpler_game.dart';
@@ -452,6 +455,9 @@ GoRouter buildRouter(AuthController auth) {
           'same-stretch' => const SameStretchGame(),
           'which-one-goes' => const WhichOneGoesGame(),
           'check-every-box' => const CheckEveryBoxGame(),
+          'which-property' => const WhichPropertyGame(),
+          'which-drags-more' => const WhichDragsMoreGame(),
+          'which-tube-climbs' => const WhichTubeClimbsGame(),
           _ => const _UnknownGame(),
         },
       ),

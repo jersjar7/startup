@@ -92,6 +92,7 @@ import 'what_weights_game.dart';
 import 'where_it_balances_game.dart';
 import 'which_cracks_first_game.dart';
 import 'which_arm_game.dart';
+import 'which_drags_more_game.dart';
 import 'which_law_game.dart';
 import 'which_mortar_game.dart';
 import 'wood_figures.dart';
@@ -165,6 +166,7 @@ import 'how_do_they_sit_game.dart';
 import 'venn_figures.dart';
 import 'when_does_it_land_game.dart';
 import 'which_second_moment_game.dart';
+import 'which_tube_climbs_game.dart';
 import 'will_it_hold_itself_game.dart';
 import 'along_it_or_not_game.dart';
 import 'does_it_multiply_game.dart';
@@ -204,6 +206,7 @@ import 'which_rate_game.dart';
 import 'wider_or_narrower_game.dart';
 import 'which_readout_game.dart';
 import 'which_one_goes_game.dart';
+import 'which_property_game.dart';
 import 'which_one_moves_most_game.dart';
 import 'which_ratio_game.dart';
 import 'which_way_turns_game.dart';
@@ -2739,6 +2742,46 @@ List<GameAudit> auditAllGames() => [
           answer: r.answer == null
               ? table.length
               : table.indexWhere((m) => m.metal == r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'which-property',
+    lessonId: 'fluid-properties',
+    problemPrefix: 'fm-fp-',
+    rounds: [
+      for (final r in propertyRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in Property.values) p.name],
+          answer: Property.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-drags-more',
+    lessonId: 'fluid-properties',
+    problemPrefix: 'fm-fp-',
+    rounds: [
+      for (final r in dragRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final d in Drags.values) d.name],
+          answer: Drags.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-tube-climbs',
+    lessonId: 'fluid-properties',
+    problemPrefix: 'fm-fp-',
+    rounds: [
+      for (final r in tubeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final c in Climbs.values) c.name],
+          answer: Climbs.values.indexOf(r.answer),
         ),
     ],
   ),

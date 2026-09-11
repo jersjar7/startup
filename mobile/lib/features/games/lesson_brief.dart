@@ -237,6 +237,9 @@ enum BriefFigure {
   isostrain,
   galvanic,
   picking,
+  threeNumbers,
+  viscosity,
+  capillary,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3849,6 +3852,72 @@ const pickingBrief = BriefSection(
   handbook: 'Handbook p. 119',
 );
 
+const threeNumbersBrief = BriefSection(
+  title: 'Density, weight, and the ratio',
+  body:
+      'Three properties and two multiplications tie them together, and the '
+      'units tell you which is which. DENSITY is the mass packed into a cubic '
+      'meter, so it is kilograms per cubic meter, and water is a thousand of '
+      'them. SPECIFIC WEIGHT is what that cubic meter weighs, so it is '
+      'newtons per cubic meter, and water is 9,810: multiply a density by g '
+      'and you have it. SPECIFIC GRAVITY is the fluid held against water, so '
+      'it has no units at all, and multiplying it by water\'s 9,810 gives the '
+      'fluid\'s specific weight. Pressure formulas want the specific weight, '
+      'because a pressure needs a force in it; feeding them a density leaves '
+      'you a factor of g short.',
+  formulas: [
+    ('Weight from mass', r'\gamma = \rho g'),
+    ('The ratio to water', r'SG = \frac{\rho}{\rho_w} = \frac{\gamma}{\gamma_w}'),
+    ('Water', r'1{,}000\ \text{kg/m}^3,\quad 9{,}810\ \text{N/m}^3'),
+  ],
+  figure: BriefFigure.threeNumbers,
+  handbook: 'Handbook p. 176',
+);
+
+const viscosityBrief = BriefSection(
+  title: 'Speed over gap',
+  body:
+      'Viscosity turns a velocity GRADIENT into a shear stress, and the '
+      'gradient is what matters rather than the speed on its own. Across a '
+      'thin film with a straight-line profile that gradient is just the plate '
+      'speed divided by the film thickness, so the oil and the speed multiply '
+      'and the thickness divides: a thinner film drags harder, which is the '
+      'part that reads backwards, and it is why a bearing runs on a film of '
+      'thousandths. Two cautions. The thickness is almost always given in '
+      'millimeters and the formula wants meters, which is a factor of a '
+      'thousand. And the viscosity here is the DYNAMIC one in pascal '
+      'seconds, never the kinematic one in meters squared a second.',
+  formulas: [
+    ('Newton\'s law', r'\tau = \mu \frac{dv}{dy}'),
+    ('Across a thin film', r'\tau = \mu \frac{v}{\delta}'),
+    ('The other viscosity', r'\nu = \frac{\mu}{\rho}'),
+  ],
+  figure: BriefFigure.viscosity,
+  handbook: 'Handbook p. 176',
+);
+
+const capillaryBrief = BriefSection(
+  title: 'Narrow climbs higher',
+  body:
+      'Surface tension pulls a liquid up the inside of a tube, and the weight '
+      'of the column it has lifted stops it. The pull grows with the '
+      'circumference and the weight grows with the AREA, so the diameter ends '
+      'up underneath: half the bore is twice the climb, and the effect only '
+      'matters in openings a fraction of a millimeter across, which is why it '
+      'governs soil and concrete and not pipework. A heavier liquid climbs '
+      'less, and one that pulls harder at the surface climbs more. The '
+      'contact angle sits inside a cosine: past ninety degrees, which is a '
+      'liquid that will not wet the glass, the cosine goes negative and the '
+      'liquid is pushed DOWN the tube instead. Mercury does exactly that.',
+  formulas: [
+    ('Capillary rise', r'h = \frac{4\sigma \cos\beta}{\gamma d}'),
+    ('Wets the glass', r'\beta < 90^\circ \Rightarrow h > 0'),
+    ('Does not', r'\beta > 90^\circ \Rightarrow h < 0'),
+  ],
+  figure: BriefFigure.capillary,
+  handbook: 'Handbook p. 176',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5291,6 +5360,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{nothing passing is an answer}", true),
             (r"\text{the best conductor wins}", false),
             (r"\text{one column decides it}", false),
+          ],
+        );
+      case BriefFigure.threeNumbers:
+        return const _RuleList(
+          rules: [
+            (r"SG \text{ has no units}", true),
+            (r"\gamma = \rho g", true),
+            (r"\gamma \text{ is in kg/m}^3", false),
+            (r"p = \rho h", false),
+          ],
+        );
+      case BriefFigure.viscosity:
+        return const _RuleList(
+          rules: [
+            (r"\text{thinner film} \Rightarrow \text{more shear}", true),
+            (r"\tau = \mu\, v / \delta", true),
+            (r"\text{thicker film} \Rightarrow \text{more shear}", false),
+            (r"\tau = \nu\, v / \delta", false),
+          ],
+        );
+      case BriefFigure.capillary:
+        return const _RuleList(
+          rules: [
+            (r"\text{half the bore} \Rightarrow \text{twice the rise}", true),
+            (r"\beta > 90^\circ \Rightarrow \text{it goes down}", true),
+            (r"\text{the radius goes underneath}", false),
+            (r"\text{a wider tube climbs higher}", false),
           ],
         );
       case BriefFigure.damping:

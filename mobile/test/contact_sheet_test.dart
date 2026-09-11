@@ -192,6 +192,9 @@ import 'package:mobile/features/games/out_of_the_furnace_game.dart';
 import 'package:mobile/features/games/times_or_divided_game.dart';
 import 'package:mobile/features/games/which_mortar_game.dart';
 import 'package:mobile/features/games/which_one_goes_game.dart';
+import 'package:mobile/features/games/which_drags_more_game.dart';
+import 'package:mobile/features/games/which_property_game.dart';
+import 'package:mobile/features/games/which_tube_climbs_game.dart';
 import 'package:mobile/features/games/which_weighing_game.dart';
 import 'package:mobile/features/games/stronger_or_weaker_game.dart';
 import 'package:mobile/features/games/what_this_job_needs_game.dart';
@@ -1485,6 +1488,24 @@ void main() {
           rounds: boxRounds.length,
           height: 1750,
         ),
+        'which-property': (
+          lesson: '68-fluid-properties',
+          build: WhichPropertyGame.new,
+          rounds: propertyRounds.length,
+          height: 1450,
+        ),
+        'which-drags-more': (
+          lesson: '68-fluid-properties',
+          build: WhichDragsMoreGame.new,
+          rounds: dragRounds.length,
+          height: 1500,
+        ),
+        'which-tube-climbs': (
+          lesson: '68-fluid-properties',
+          build: WhichTubeClimbsGame.new,
+          rounds: tubeRounds.length,
+          height: 1600,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1827,6 +1848,11 @@ void main() {
     '67-corrosion': [
       ('galvanic', galvanicBrief),
       ('picking', pickingBrief),
+    ],
+    '68-fluid-properties': [
+      ('three-numbers', threeNumbersBrief),
+      ('viscosity', viscosityBrief),
+      ('capillary', capillaryBrief),
     ],
   };
 

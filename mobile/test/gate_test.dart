@@ -261,6 +261,12 @@ void main() {
       // it, and crossing candidates off against requirements is the whole
       // item.
       'check-every-box',
+      // Chapter nine lesson one has three problems and they ARE its three
+      // topics: the three linked properties, viscosity, and capillary rise.
+      // One item each, by construction.
+      'which-property',
+      'which-drags-more',
+      'which-tube-climbs',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }
