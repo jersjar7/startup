@@ -318,6 +318,10 @@ void main() {
       // The quadrant question is the whole of the coordinate lesson's third
       // problem.
       'what-do-you-add',
+      // The degree of curve problem is the only one in the curve lesson
+      // with a degree of curve in it, and comparing two of them is the
+      // whole item.
+      'which-curve-is-sharper',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

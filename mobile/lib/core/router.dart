@@ -188,6 +188,7 @@ import '../features/games/which_circle_is_it_game.dart';
 import '../features/games/which_clock_ran_out_game.dart';
 import '../features/games/which_course_takes_the_most_game.dart';
 import '../features/games/which_cracks_first_game.dart';
+import '../features/games/which_curve_is_sharper_game.dart';
 import '../features/games/which_delivery_game.dart';
 import '../features/games/which_diagram_belongs_game.dart';
 import '../features/games/which_distance_counts_game.dart';
@@ -198,6 +199,7 @@ import '../features/games/which_element_missing_game.dart';
 import '../features/games/which_factor_game.dart';
 import '../features/games/which_fiber_is_worst_game.dart';
 import '../features/games/which_formula_gives_more_game.dart';
+import '../features/games/which_is_longer_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -213,6 +215,7 @@ import '../features/games/which_one_needs_a_block_game.dart';
 import '../features/games/which_one_to_match_game.dart';
 import '../features/games/which_ones_turn_it_game.dart';
 import '../features/games/which_piece_drives_it_game.dart';
+import '../features/games/which_piece_is_that_game.dart';
 import '../features/games/which_property_game.dart';
 import '../features/games/which_protection_game.dart';
 import '../features/games/which_rate_game.dart';
@@ -530,6 +533,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-way-are-you-working' => const WhichWayAreYouWorkingGame(),
           'where-does-that-pair-land' => const WhereDoesThatPairLandGame(),
           'what-do-you-add' => const WhatDoYouAddGame(),
+          'which-piece-is-that' => const WhichPieceIsThatGame(),
+          'which-curve-is-sharper' => const WhichCurveIsSharperGame(),
+          'which-is-longer' => const WhichIsLongerGame(),
           _ => const _UnknownGame(),
         },
       ),

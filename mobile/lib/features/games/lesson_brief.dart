@@ -276,6 +276,8 @@ enum BriefFigure {
   cogo,
   pair,
   arctan,
+  roadCurve,
+  degreeOfCurve,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4765,6 +4767,51 @@ const arctanBrief = BriefSection(
   handbook: 'Handbook p. 310',
 );
 
+const roadCurveBrief = BriefSection(
+  title: 'Six lengths on one curve',
+  body:
+      'A circular curve is fixed by two numbers, the radius and the angle the '
+      'road turns through, and everything else is worked out of those. The '
+      'TANGENT runs from the PC out to the PI, along the line the road was on '
+      'before it started turning, and the second tangent from the PI to the '
+      'PT is the same length. The CURVE LENGTH is the arc itself, which is '
+      'the road, and it is what the stationing runs along: never out through '
+      'the PI. The LONG CHORD cuts straight across from PC to PT. The '
+      'EXTERNAL measures from the PI in to the middle of the arc, which is '
+      'how far the road misses the corner by, and the MIDDLE ORDINATE '
+      'measures from the middle of the chord out to the same point. Mistaking '
+      'the arc for the tangent is the confusion the lesson names twice.',
+  formulas: [
+    ('Out to the PI', r'T = R\tan\frac{I}{2}'),
+    ('Round the arc', r'L = \frac{\pi R I}{180}'),
+    ('Across, and the two bulges', r'LC = 2R\sin\frac{I}{2}, \; E, \; M'),
+  ],
+  figure: BriefFigure.roadCurve,
+  handbook: 'Handbook p. 302',
+);
+
+const degreeBrief = BriefSection(
+  title: 'Radius one way, degree the other',
+  body:
+      'A curve gets quoted two ways and they run in opposite directions. The '
+      'RADIUS is a length, and a bigger one is a gentler curve. The DEGREE '
+      'OF CURVE is an angle, the one that a hundred feet of arc turns '
+      'through, so a bigger one is a SHARPER curve. Their product is always '
+      '5,729.58, which is simply the radius whose hundred foot arc turns '
+      'through one degree, so either number gives the other and comparing a '
+      'curve quoted one way against a curve quoted the other is a single '
+      'division. Degree of curve suits laying a curve out in the field by '
+      'deflection angles, and the radius suits coordinate work, so the same '
+      'drawing often carries both.',
+  formulas: [
+    ('Either way', r'D = \frac{5{,}729.58}{R}'),
+    ('So', r'D \times R \approx 5{,}730'),
+    ('Sharper means', r'\text{small } R, \text{ large } D'),
+  ],
+  figure: BriefFigure.degreeOfCurve,
+  handbook: 'Handbook p. 302',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6324,6 +6371,24 @@ class BriefFigureView extends StatelessWidget {
             (r"2L \Rightarrow 2 h_f", true),
             (r"2v \Rightarrow 2 h_f", false),
             (r"f_{Fanning} \text{ goes in as is}", false),
+          ],
+        );
+      case BriefFigure.degreeOfCurve:
+        return const _RuleList(
+          rules: [
+            (r"D \times R \approx 5{,}730", true),
+            (r"\text{bigger } D \Rightarrow \text{sharper}", true),
+            (r"\text{bigger } D \Rightarrow \text{gentler}", false),
+            (r"D = 1° \Rightarrow R = 100 \text{ ft}", false),
+          ],
+        );
+      case BriefFigure.roadCurve:
+        return const _RuleList(
+          rules: [
+            (r"T = R\tan\tfrac{I}{2}", true),
+            (r"\text{the stationing runs round the arc}", true),
+            (r"T = R\tan I", false),
+            (r"\text{the arc is shorter than the chord}", false),
           ],
         );
       case BriefFigure.cogo:

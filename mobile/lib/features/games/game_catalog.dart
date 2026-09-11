@@ -2726,6 +2726,40 @@ const surveyingMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'horizontal-curves',
+      name: 'Horizontal Curves',
+      subtopicId: 'curves',
+      // Superelevation has a formula in the lesson and no problem behind
+      // it, so there is no item: a round citing a problem that does not
+      // exist would be a round about nothing.
+      games: [
+        GameDef(
+          id: 'which-piece-is-that',
+          rounds: 6,
+          name: 'Which Piece Is That',
+          blurb: 'Six lengths on one curve, and five get confused.',
+          built: true,
+          brief: roadCurveBrief,
+        ),
+        GameDef(
+          id: 'which-curve-is-sharper',
+          rounds: 6,
+          name: 'Which Curve Is Sharper',
+          blurb: 'Radius and degree of curve run opposite ways.',
+          built: true,
+          brief: degreeBrief,
+        ),
+        GameDef(
+          id: 'which-is-longer',
+          rounds: 6,
+          name: 'Which Is Longer',
+          blurb: 'The arc, until about 134 degrees. Then the tangent.',
+          built: true,
+          brief: roadCurveBrief,
+        ),
+      ],
+    ),
   ],
 );
 

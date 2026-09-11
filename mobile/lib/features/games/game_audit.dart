@@ -15,6 +15,10 @@ import 'plus_or_minus_game.dart';
 import 'which_method_fits_game.dart';
 import 'which_formula_gives_more_game.dart';
 import 'which_way_are_you_working_game.dart';
+import 'which_piece_is_that_game.dart';
+import 'which_curve_is_sharper_game.dart';
+import 'which_is_longer_game.dart';
+import 'alignment_figures.dart';
 import 'where_does_that_pair_land_game.dart';
 import 'what_do_you_add_game.dart';
 import 'can_you_skip_a_section_game.dart';
@@ -3307,6 +3311,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in AddOn.values) o.name],
           answer: AddOn.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-piece-is-that',
+    lessonId: 'horizontal-curves',
+    problemPrefix: 'surv-hc-',
+    rounds: [
+      for (final r in pieceRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Bit.values) o.name],
+          answer: Bit.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-curve-is-sharper',
+    lessonId: 'horizontal-curves',
+    problemPrefix: 'surv-hc-',
+    rounds: [
+      for (final r in sharpRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Sharper.values) o.name],
+          answer: Sharper.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-is-longer',
+    lessonId: 'horizontal-curves',
+    problemPrefix: 'surv-hc-',
+    rounds: [
+      for (final r in longerRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Longer.values) o.name],
+          answer: Longer.values.indexOf(r.answer),
         ),
     ],
   ),

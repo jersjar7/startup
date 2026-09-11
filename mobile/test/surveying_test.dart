@@ -27,6 +27,10 @@ import 'package:mobile/features/games/cogo_figures.dart';
 import 'package:mobile/features/games/which_way_are_you_working_game.dart';
 import 'package:mobile/features/games/where_does_that_pair_land_game.dart';
 import 'package:mobile/features/games/what_do_you_add_game.dart';
+import 'package:mobile/features/games/alignment_figures.dart';
+import 'package:mobile/features/games/which_piece_is_that_game.dart';
+import 'package:mobile/features/games/which_curve_is_sharper_game.dart';
+import 'package:mobile/features/games/which_is_longer_game.dart';
 
 /// Chapter ten. Every engine here is held against the lesson's own answers
 /// and against the wrong ones it names.
@@ -1010,6 +1014,150 @@ void main() {
       final west = addOnRounds.firstWhere(
           (r) => r.task.deltaNorth == 0 && r.task.deltaEast < 0);
       expect(west.task.trueAzimuth, closeTo(270, 0.001));
+    });
+  });
+
+  group('the curve lesson reproduces its own answers', () {
+    test('a six degree curve is a 955 foot radius', () {
+      expect(5729.58 / 6, closeTo(954.93, 0.01));
+      expect(const Bend2(radius: 954.93, turn: 40).degree, closeTo(6, 0.001));
+      // Its named slips: the numerator itself, a division by ten, and
+      // ten thousand over the degree.
+      expect(5729.58 / 1, closeTo(5730, 1));
+      expect(5729.58 / 10, closeTo(573, 1));
+      expect(10000 / 6, closeTo(1667, 1));
+    });
+
+    test('the tangent is 364 and the arc is 698 on the same curve', () {
+      const bend = Bend2(radius: 1000, turn: 40);
+      expect(bend.tangent, closeTo(364, 0.5));
+      expect(bend.arc, closeTo(698, 0.5));
+      // Its named slips: the whole angle in the tangent, and the sine.
+      expect(1000 * math.tan(40 * math.pi / 180), closeTo(839, 1));
+      expect(1000 * math.sin(20 * math.pi / 180), closeTo(342, 1));
+    });
+
+    test('the station problem adds the arc, not the tangent', () {
+      const bend = Bend2(radius: 800, turn: 50);
+      expect(bend.arc, closeTo(698.13, 0.02));
+      expect(2500 + bend.arc, closeTo(3198.13, 0.02));
+      // Its named slips: half the arc, and twice it.
+      expect(2500 + bend.arc / 2, closeTo(2849.07, 0.02));
+      expect(2500 + 2 * bend.arc, closeTo(3896.26, 0.02));
+    });
+
+    test('the elements come out in the order the drawing shows them', () {
+      const bend = Bend2(radius: 1000, turn: 60);
+      expect(bend.chord, lessThan(bend.arc));
+      expect(bend.middle, lessThan(bend.external));
+      expect(bend.chord, closeTo(1000, 1));
+    });
+  });
+
+  group('naming the pieces', () {
+    test('every round asks for the piece it answers with', () {
+      for (final r in pieceRounds) {
+        expect(r.answer, r.asked, reason: r.subject);
+      }
+      expect(pieceRounds.map((r) => r.asked).toSet().length, 6);
+    });
+
+    test('the piece asked for is far enough from every other to tap', () {
+      const size = Size(286, 280);
+      for (final r in pieceRounds) {
+        final at = AlignPainter.spotOf(size, r.bend, r.asked);
+        expect(at.dx, inInclusiveRange(6, size.width - 6), reason: r.subject);
+        expect(at.dy, inInclusiveRange(6, size.height - 6), reason: r.subject);
+        for (final other in Bit.values) {
+          if (other == r.asked) continue;
+          final gap = (at - AlignPainter.spotOf(size, r.bend, other)).distance;
+          expect(gap, greaterThan(24),
+              reason: '${r.subject}: ${r.asked.name} and ${other.name}');
+        }
+      }
+    });
+  });
+
+  group('radius against degree of curve', () {
+    test('they multiply to the constant in the formula', () {
+      for (final r in [300.0, 955.0, 2865.0]) {
+        expect(Bend2(radius: r, turn: 40).degree * r, closeTo(5729.58, 0.01));
+      }
+    });
+
+    test('every round answers with the smaller radius', () {
+      for (final r in sharpRounds) {
+        if (r.answer == Sharper.left) {
+          expect(r.left.radius, lessThan(r.right.radius), reason: r.subject);
+        } else if (r.answer == Sharper.right) {
+          expect(r.right.radius, lessThan(r.left.radius), reason: r.subject);
+        } else {
+          expect((r.left.radius - r.right.radius).abs(), lessThan(5),
+              reason: r.subject);
+        }
+        // Both curves in a round turn through the same angle, which is what
+        // lets them share one corner on the drawing.
+        expect(r.left.turn, r.right.turn, reason: r.subject);
+      }
+      expect(sharpRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('a round quotes one curve each way and they match', () {
+      final matched = sharpRounds.where((r) => r.answer == Sharper.same);
+      expect(matched.length, greaterThanOrEqualTo(2));
+      expect(
+          matched.any((r) =>
+              r.leftLabel.contains('degree') && r.rightLabel.contains('R ')),
+          isTrue);
+    });
+  });
+
+  group('the arc against the tangent', () {
+    test('they cross at about 134 degrees', () {
+      double gap(double turn) {
+        final b = Bend2(radius: 600, turn: turn);
+        return b.arc - b.tangent;
+      }
+
+      expect(gap(100), greaterThan(0));
+      expect(gap(160), lessThan(0));
+      expect(gap(133.6).abs(), lessThan(600 * 0.01));
+    });
+
+    test('a gentle curve has an arc about twice its tangent', () {
+      const b = Bend2(radius: 1000, turn: 20);
+      expect(b.arc / b.tangent, closeTo(2, 0.05));
+    });
+
+    test('at a right angle the tangent equals the radius', () {
+      const b = Bend2(radius: 800, turn: 90);
+      expect(b.tangent, closeTo(800, 0.5));
+    });
+
+    test('every round answers with the longer of the two', () {
+      for (final r in longerRounds) {
+        if (r.answer == Longer.arc) {
+          expect(r.bend.arc, greaterThan(r.bend.tangent), reason: r.subject);
+        } else if (r.answer == Longer.tangent) {
+          expect(r.bend.tangent, greaterThan(r.bend.arc), reason: r.subject);
+        } else {
+          expect((r.bend.arc - r.bend.tangent).abs(),
+              lessThan(r.bend.radius * 0.01),
+              reason: r.subject);
+        }
+      }
+      expect(longerRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('every curve in the item fits inside its panel', () {
+      const size = Size(286, 260);
+      for (final r in longerRounds) {
+        for (final piece in [Bit.arc, Bit.tangent, Bit.chord]) {
+          final at = AlignPainter.spotOf(size, r.bend, piece);
+          expect(at.dx, inInclusiveRange(0, size.width), reason: r.subject);
+          expect(at.dy, inInclusiveRange(0, size.height), reason: r.subject);
+        }
+      }
     });
   });
 }

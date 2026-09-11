@@ -204,6 +204,9 @@ import 'package:mobile/features/games/which_formula_gives_more_game.dart';
 import 'package:mobile/features/games/which_way_are_you_working_game.dart';
 import 'package:mobile/features/games/where_does_that_pair_land_game.dart';
 import 'package:mobile/features/games/what_do_you_add_game.dart';
+import 'package:mobile/features/games/which_piece_is_that_game.dart';
+import 'package:mobile/features/games/which_curve_is_sharper_game.dart';
+import 'package:mobile/features/games/which_is_longer_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1758,6 +1761,24 @@ void main() {
           rounds: addOnRounds.length,
           height: 1700,
         ),
+        'which-piece-is-that': (
+          lesson: '82-curves',
+          build: WhichPieceIsThatGame.new,
+          rounds: pieceRounds.length,
+          height: 1560,
+        ),
+        'which-curve-is-sharper': (
+          lesson: '82-curves',
+          build: WhichCurveIsSharperGame.new,
+          rounds: sharpRounds.length,
+          height: 1700,
+        ),
+        'which-is-longer': (
+          lesson: '82-curves',
+          build: WhichIsLongerGame.new,
+          rounds: longerRounds.length,
+          height: 1780,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2167,6 +2188,10 @@ void main() {
       ('cogo', cogoBrief),
       ('pair', pairBrief),
       ('arctan', arctanBrief),
+    ],
+    '82-curves': [
+      ('curve', roadCurveBrief),
+      ('degree', degreeBrief),
     ],
   };
 
