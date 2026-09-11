@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/channel_figures.dart';
+import 'package:mobile/features/games/flow_figures.dart';
+import 'package:mobile/features/games/which_way_does_the_ripple_go_game.dart';
+import 'package:mobile/features/games/what_moves_the_critical_depth_game.dart';
+import 'package:mobile/features/games/what_survives_the_jump_game.dart';
 import 'package:mobile/features/games/what_the_water_touches_game.dart';
 import 'package:mobile/features/games/which_one_runs_faster_game.dart';
 import 'package:mobile/features/games/which_number_goes_in_front_game.dart';
@@ -243,6 +247,160 @@ void main() {
       expect(wrong / right, closeTo(0.673, 0.001));
       expect(wrong, closeTo(19.5, 0.15),
           reason: 'the lesson offers exactly this as a wrong answer');
+    });
+  });
+
+  group('the flow regime', () {
+    test('the lesson\'s own critical depth is 2.02 meters', () {
+      const f = Flume(unitFlow: 9, depth: 3);
+      expect(f.criticalDepth, closeTo(2.02, 0.005));
+      expect(f.leastEnergy, closeTo(1.5 * f.criticalDepth, 0.001));
+    });
+
+    test('the lesson\'s own Froude number is 1.81', () {
+      // Four meters a second at half a meter deep.
+      const f = Flume(unitFlow: 2, depth: 0.5);
+      expect(f.speed, closeTo(4, 0.001));
+      expect(f.froude, closeTo(1.81, 0.01));
+      expect(f.isFast, isTrue);
+    });
+
+    test('at the critical depth the two speeds match', () {
+      const f = Flume(unitFlow: 9, depth: 2.02);
+      expect(f.speed, closeTo(f.waveSpeed, 0.02));
+      expect(f.isCritical, isTrue);
+      expect(f.froude, closeTo(1, 0.01));
+    });
+
+    test('the energy is least at the critical depth', () {
+      const f = Flume(unitFlow: 9, depth: 3);
+      for (final y in [0.5, 1.0, 1.5, 2.5, 3.0, 5.0]) {
+        expect(f.energyAt(y), greaterThan(f.leastEnergy), reason: 'at $y');
+      }
+      expect(f.energyAt(f.criticalDepth), closeTo(f.leastEnergy, 0.001));
+    });
+
+    test('every ripple round answers with the two speeds on the drawing', () {
+      for (final r in ringRounds) {
+        switch (r.answer) {
+          case Ring.upstream:
+            expect(r.flume.waveSpeed, greaterThan(r.flume.speed),
+                reason: r.subject);
+          case Ring.downstream:
+            expect(r.flume.speed, greaterThan(r.flume.waveSpeed),
+                reason: r.subject);
+          case Ring.standsStill:
+            expect(r.flume.speed, closeTo(r.flume.waveSpeed, 0.05),
+                reason: r.subject);
+        }
+      }
+      expect(ringRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('one flow rate turns up in both regimes', () {
+      final nine = ringRounds.where((r) => r.flume.unitFlow == 9);
+      expect(nine.map((r) => r.answer).toSet().length, greaterThanOrEqualTo(2),
+          reason: 'the depth, not the discharge, decides the regime');
+    });
+  });
+
+  group('what moves the critical depth', () {
+    test('only the flow per unit width moves it', () {
+      for (final r in shiftRounds) {
+        final sameFlow = r.before.unitFlow == r.after.unitFlow;
+        expect(r.answer == Shifted.nowhere, sameFlow, reason: r.subject);
+      }
+      expect(shiftRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('twice the flow is about 1.6 times the critical depth', () {
+      const before = Flume(unitFlow: 9, depth: 3);
+      const after = Flume(unitFlow: 18, depth: 3);
+      expect(after.criticalDepth / before.criticalDepth, closeTo(1.587, 0.01));
+      expect(after.criticalDepth, closeTo(3.21, 0.01));
+    });
+
+    test('twice the width halves the unit flow and lowers it', () {
+      const wide = Flume(unitFlow: 4.5, depth: 3);
+      expect(wide.criticalDepth, closeTo(1.27, 0.01));
+    });
+
+    test('a third of the flow roughly halves it', () {
+      const dry = Flume(unitFlow: 3, depth: 3);
+      expect(dry.criticalDepth, closeTo(0.97, 0.01));
+    });
+
+    test('the depth the water runs at does not move the nose', () {
+      const shallow = Flume(unitFlow: 9, depth: 1.2);
+      const deep = Flume(unitFlow: 9, depth: 4);
+      expect(shallow.criticalDepth, closeTo(deep.criticalDepth, 0.0001));
+    });
+  });
+
+  group('across the hydraulic jump', () {
+    test('the lesson\'s own jump comes out at 1.51 meters', () {
+      const s = Surge(beforeDepth: 0.4, froudeBefore: 3);
+      expect(s.afterDepth, closeTo(1.51, 0.005));
+      expect(s.before.froude, closeTo(3, 0.001));
+    });
+
+    test('the momentum function is the same on both sides', () {
+      for (final s in [
+        const Surge(beforeDepth: 0.4, froudeBefore: 3),
+        const Surge(beforeDepth: 0.5, froudeBefore: 4),
+        const Surge(beforeDepth: 0.3, froudeBefore: 2.5),
+      ]) {
+        expect(Surge.momentumOf(s.after), closeTo(Surge.momentumOf(s.before), 1e-6),
+            reason: 'Fr ${s.froudeBefore}');
+      }
+    });
+
+    test('energy is always lost and depth always gained', () {
+      for (final s in [
+        const Surge(beforeDepth: 0.4, froudeBefore: 3),
+        const Surge(beforeDepth: 0.5, froudeBefore: 4),
+        const Surge(beforeDepth: 0.3, froudeBefore: 2.5),
+        const Surge(beforeDepth: 1.0, froudeBefore: 1.4),
+      ]) {
+        expect(s.energyLost, greaterThan(0), reason: 'Fr ${s.froudeBefore}');
+        expect(s.afterDepth, greaterThan(s.beforeDepth));
+        expect(s.before.unitFlow, closeTo(s.after.unitFlow, 1e-9));
+      }
+    });
+
+    test('the jump always crosses one', () {
+      for (final s in [
+        const Surge(beforeDepth: 0.4, froudeBefore: 3),
+        const Surge(beforeDepth: 0.3, froudeBefore: 2.5),
+      ]) {
+        expect(s.before.froude, greaterThan(1));
+        expect(s.after.froude, lessThan(1));
+      }
+    });
+
+    test('every round answers with what the jump actually does', () {
+      for (final r in wayRounds) {
+        final before = r.asked.valueOn(r.surge, true);
+        final after = r.asked.valueOn(r.surge, false);
+        switch (r.answer) {
+          case Crossing.up:
+            expect(after, greaterThan(before), reason: r.subject);
+          case Crossing.down:
+            expect(after, lessThan(before), reason: r.subject);
+          case Crossing.same:
+            expect(after, closeTo(before, before.abs() * 0.01 + 1e-9),
+                reason: r.subject);
+        }
+      }
+      expect(wayRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('the rounds cover both of the things that come through', () {
+      final unchanged = wayRounds
+          .where((r) => r.answer == Crossing.same)
+          .map((r) => r.asked)
+          .toSet();
+      expect(unchanged, containsAll([Carried.discharge, Carried.momentum]));
     });
   });
 }

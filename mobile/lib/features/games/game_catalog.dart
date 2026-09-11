@@ -2832,6 +2832,40 @@ const waterResourcesMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'energy-critical-flow',
+      name: 'Specific Energy & Critical Flow',
+      subtopicId: 'hydraulics',
+      // The conjugate depth itself is a square root and a subtraction, so
+      // it stays on paper. What crosses the jump does not, and that is the
+      // third item.
+      games: [
+        GameDef(
+          id: 'which-way-does-the-ripple-go',
+          rounds: 6,
+          name: 'Which Way Does the Ripple Go',
+          blurb: 'The Froude number is a race between two speeds.',
+          built: true,
+          brief: froudeBrief,
+        ),
+        GameDef(
+          id: 'what-moves-the-critical-depth',
+          rounds: 6,
+          name: 'What Moves the Critical Depth',
+          blurb: 'The flow and the width. Not the slope, not the lining.',
+          built: true,
+          brief: criticalBrief,
+        ),
+        GameDef(
+          id: 'what-survives-the-jump',
+          rounds: 6,
+          name: 'What Survives the Jump',
+          blurb: 'Momentum crosses it. Energy is thrown away.',
+          built: true,
+          brief: hydraulicJumpBrief,
+        ),
+      ],
+    ),
   ],
 );
 

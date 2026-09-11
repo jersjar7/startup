@@ -23,6 +23,9 @@ import 'where_it_flattens_out_game.dart';
 import 'what_the_water_touches_game.dart';
 import 'which_one_runs_faster_game.dart';
 import 'which_number_goes_in_front_game.dart';
+import 'which_way_does_the_ripple_go_game.dart';
+import 'what_moves_the_critical_depth_game.dart';
+import 'what_survives_the_jump_game.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
 import 'where_does_that_pair_land_game.dart';
@@ -3408,6 +3411,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Kay.values) o.name],
           answer: Kay.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-way-does-the-ripple-go',
+    lessonId: 'energy-critical-flow',
+    problemPrefix: 'wr-ecf-',
+    rounds: [
+      for (final r in ringRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Ring.values) o.name],
+          answer: Ring.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-moves-the-critical-depth',
+    lessonId: 'energy-critical-flow',
+    problemPrefix: 'wr-ecf-',
+    rounds: [
+      for (final r in shiftRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Shifted.values) o.name],
+          answer: Shifted.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-survives-the-jump',
+    lessonId: 'energy-critical-flow',
+    problemPrefix: 'wr-ecf-',
+    rounds: [
+      for (final r in wayRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Crossing.values) o.name],
+          answer: Crossing.values.indexOf(r.answer),
         ),
     ],
   ),

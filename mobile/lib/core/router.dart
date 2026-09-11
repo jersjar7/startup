@@ -205,6 +205,9 @@ import '../features/games/where_it_flattens_out_game.dart';
 import '../features/games/what_the_water_touches_game.dart';
 import '../features/games/which_one_runs_faster_game.dart';
 import '../features/games/which_number_goes_in_front_game.dart';
+import '../features/games/which_way_does_the_ripple_go_game.dart';
+import '../features/games/what_moves_the_critical_depth_game.dart';
+import '../features/games/what_survives_the_jump_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -546,6 +549,11 @@ GoRouter buildRouter(AuthController auth) {
           'what-the-water-touches' => const WhatTheWaterTouchesGame(),
           'which-one-runs-faster' => const WhichOneRunsFasterGame(),
           'which-number-goes-in-front' => const WhichNumberGoesInFrontGame(),
+          'which-way-does-the-ripple-go' =>
+            const WhichWayDoesTheRippleGoGame(),
+          'what-moves-the-critical-depth' =>
+            const WhatMovesTheCriticalDepthGame(),
+          'what-survives-the-jump' => const WhatSurvivesTheJumpGame(),
           _ => const _UnknownGame(),
         },
       ),

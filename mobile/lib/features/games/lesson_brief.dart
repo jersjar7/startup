@@ -283,6 +283,9 @@ enum BriefFigure {
   wetted,
   manning,
   unitFactor,
+  froude,
+  criticalDepth,
+  hydraulicJump,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4939,6 +4942,80 @@ const unitFactorBrief = BriefSection(
   handbook: 'Handbook p. 297',
 );
 
+const froudeBrief = BriefSection(
+  title: 'Two speeds, and which one wins',
+  body:
+      'The Froude number is not a piece of vocabulary, it is a race. The top '
+      'of the fraction is how fast the water is moving. The bottom is how fast '
+      'a ripple travels over still water of that depth, the square root of g '
+      'times the depth, and nothing else sets it. When the ripple is the '
+      'quicker of the two, a disturbance can work its way UPSTREAM: the flow '
+      'is SUBCRITICAL, deep and tranquil, and a gate or a weir far downstream '
+      'is felt above it. When the water is quicker, nothing gets back up and '
+      'the flow is SUPERCRITICAL, shallow and rapid, which is what a spillway '
+      'or a steep chute produces. When they are equal the upstream edge of a '
+      'ring stands still, and the depth is the critical depth. Getting the '
+      'number right and the label backward is the mistake this lesson names, '
+      'and it stops happening once the fraction is read as a race.',
+  formulas: [
+    ('The race', r'Fr = \frac{v}{\sqrt{g y}}'),
+    ('News gets upstream', r'Fr < 1 \text{: subcritical}'),
+    ('Nothing gets upstream', r'Fr > 1 \text{: supercritical}'),
+  ],
+  figure: BriefFigure.froude,
+  handbook: 'Handbook p. 296',
+);
+
+const criticalBrief = BriefSection(
+  title: 'The depth that needs the least energy',
+  body:
+      'Draw the specific energy of a flow against the depth it is running at '
+      'and you get a curve with two arms and a nose. Every energy above the '
+      'minimum can be carried at TWO depths, one deep and slow on the upper '
+      'arm and one shallow and fast on the lower one, and the nose between '
+      'them is the CRITICAL DEPTH, the depth at which this flow gets by on the '
+      'least energy it possibly can. For a rectangular channel that depth '
+      'comes out of the flow per unit width and nothing else: q to the two '
+      'thirds power, so twice the flow raises it by about 1.6 times and twice '
+      'the width lowers it by the same factor. The slope, the lining, the '
+      'length of the channel and the depth the water happens to be running at '
+      'do not appear and do not move it. What they move is where the flow '
+      'sits on the curve, which is the flow regime, and that is a different '
+      'question.',
+  formulas: [
+    ('Rectangular channel', r'y_c = \left(\frac{q^2}{g}\right)^{1/3}'),
+    ('Flow per unit width', r'q = \frac{Q}{B}'),
+    ('At the nose', r'E_{min} = 1.5\,y_c'),
+    ('Any shape', r'\frac{Q^2}{g} = \frac{A^3}{T}'),
+  ],
+  figure: BriefFigure.criticalDepth,
+  handbook: 'Handbook p. 296',
+);
+
+const hydraulicJumpBrief = BriefSection(
+  title: 'What crosses the jump and what does not',
+  body:
+      'A hydraulic jump runs one way only, from supercritical to '
+      'subcritical: fast shallow water arrives, a churning roller stands in '
+      'the channel, and slow deep water leaves. The DISCHARGE comes through '
+      'unchanged, because nothing is added or taken away, and so does the '
+      'MOMENTUM FUNCTION, which is what the conjugate depth formula is built '
+      'from. The ENERGY does not: a jump is turbulent and throws energy away '
+      'as heat and noise, which is precisely why one is built at the foot of '
+      'a spillway, where the problem is that the water is carrying too much. '
+      'Solving a jump with an energy balance is the classic way to get it '
+      'wrong. The depth goes up, the velocity comes down, and the Froude '
+      'number crosses one on the way, which is the definition of a jump '
+      'rather than a consequence of it.',
+  formulas: [
+    ('Conjugate depth', r'y_2 = \frac{y_1}{2}\left(-1 + \sqrt{1 + 8Fr_1^2}\right)'),
+    ('What balances', r'M = \frac{y^2}{2} + \frac{q^2}{gy}'),
+    ('What is lost', r'\Delta E = E_1 - E_2 > 0'),
+  ],
+  figure: BriefFigure.hydraulicJump,
+  handbook: 'Handbook p. 297',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6561,6 +6638,33 @@ class BriefFigureView extends StatelessWidget {
             (r"n \text{ is the same in both systems}", true),
             (r"\text{the answer's units pick } K", false),
             (r"\text{inches go straight in}", false),
+          ],
+        );
+      case BriefFigure.froude:
+        return const _RuleList(
+          rules: [
+            (r"Fr < 1 \Rightarrow \text{news gets upstream}", true),
+            (r"\text{ripple speed} = \sqrt{gy}", true),
+            (r"Fr > 1 \Rightarrow \text{subcritical}", false),
+            (r"\text{shallow always means } Fr > 1", false),
+          ],
+        );
+      case BriefFigure.criticalDepth:
+        return const _RuleList(
+          rules: [
+            (r"2q \Rightarrow 1.6\,y_c", true),
+            (r"E_{min} = 1.5\,y_c", true),
+            (r"\text{a steeper channel lowers } y_c", false),
+            (r"\text{a smoother lining lowers } y_c", false),
+          ],
+        );
+      case BriefFigure.hydraulicJump:
+        return const _RuleList(
+          rules: [
+            (r"y_2 > y_1 \text{ always}", true),
+            (r"\text{momentum across, energy lost}", true),
+            (r"\text{energy is conserved across a jump}", false),
+            (r"\text{a jump can run deep to shallow}", false),
           ],
         );
       case BriefFigure.cogo:

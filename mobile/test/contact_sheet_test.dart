@@ -212,6 +212,9 @@ import 'package:mobile/features/games/where_it_flattens_out_game.dart';
 import 'package:mobile/features/games/what_the_water_touches_game.dart';
 import 'package:mobile/features/games/which_one_runs_faster_game.dart';
 import 'package:mobile/features/games/which_number_goes_in_front_game.dart';
+import 'package:mobile/features/games/which_way_does_the_ripple_go_game.dart';
+import 'package:mobile/features/games/what_moves_the_critical_depth_game.dart';
+import 'package:mobile/features/games/what_survives_the_jump_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1814,6 +1817,24 @@ void main() {
           rounds: kayRounds.length,
           height: 1760,
         ),
+        'which-way-does-the-ripple-go': (
+          lesson: '85-energy',
+          build: WhichWayDoesTheRippleGoGame.new,
+          rounds: ringRounds.length,
+          height: 1820,
+        ),
+        'what-moves-the-critical-depth': (
+          lesson: '85-energy',
+          build: WhatMovesTheCriticalDepthGame.new,
+          rounds: shiftRounds.length,
+          height: 1860,
+        ),
+        'what-survives-the-jump': (
+          lesson: '85-energy',
+          build: WhatSurvivesTheJumpGame.new,
+          rounds: wayRounds.length,
+          height: 1800,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2236,6 +2257,11 @@ void main() {
       ('wetted', wettedBrief),
       ('manning', manningBrief),
       ('kfactor', unitFactorBrief),
+    ],
+    '85-energy': [
+      ('froude', froudeBrief),
+      ('critical', criticalBrief),
+      ('jump', hydraulicJumpBrief),
     ],
   };
 
