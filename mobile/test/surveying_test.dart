@@ -19,6 +19,10 @@ import 'package:mobile/features/games/area_figures.dart';
 import 'package:mobile/features/games/which_method_fits_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
 import 'package:mobile/features/games/does_the_listing_close_game.dart';
+import 'package:mobile/features/games/earthwork_figures.dart';
+import 'package:mobile/features/games/which_formula_gives_more_game.dart';
+import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
+import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 
 /// Chapter ten. Every engine here is held against the lesson's own answers
 /// and against the wrong ones it names.
@@ -701,6 +705,159 @@ void main() {
             isNot(closeTo(r.parcel.area, 0.001)),
             reason: r.subject);
       }
+    });
+  });
+
+  group('the earthwork lesson reproduces its own answers', () {
+    test('two sections give 15,000 cubic feet', () {
+      const haul = Haul(slabs: [
+        Slab(station: 0, area: 120),
+        Slab(station: 100, area: 180),
+      ]);
+      expect(haul.byEndAreas, closeTo(15000, 0.5));
+      // Its named slips: L not halved, a quarter taken, and the cubic yard
+      // conversion offered where cubic feet were asked for.
+      expect(100 * 300, 30000);
+      expect(100 / 4 * 300, closeTo(7500, 0.5));
+      expect(15000 / 27, closeTo(556, 1));
+    });
+
+    test('three sections give 33,333 by the prismoid and 30,000 by the ends',
+        () {
+      const haul = Haul(slabs: [
+        Slab(station: 0, area: 200),
+        Slab(station: 50, area: 350),
+        Slab(station: 100, area: 400),
+      ]);
+      expect(haul.byPrismoid, closeTo(33333, 1));
+      expect(haul.endToEnd, closeTo(30000, 1));
+      // Its named slips: all three averaged, and the middle area alone.
+      expect((200 + 350 + 400) / 3 * 100, closeTo(31667, 1));
+      expect(350 * 100, 35000);
+    });
+
+    test('the station run gives 40,000, and nothing end to end', () {
+      const haul = Haul(slabs: [
+        Slab(station: 0, area: 0),
+        Slab(station: 100, area: 400),
+        Slab(station: 200, area: 0),
+      ]);
+      expect(haul.byEndAreas, closeTo(40000, 1));
+      expect(haul.endToEnd, 0);
+      // Its named slips: one segment only, L not halved, and the whole run
+      // taken as a single pyramid.
+      expect(100 / 2 * 400, 20000);
+      expect(100 * 400 * 2, 80000);
+      expect(100 * 400 / 3, closeTo(13333, 1));
+    });
+
+    test('a station writes itself the way a road job writes it', () {
+      expect(const Slab(station: 0, area: 0).name, '0+00');
+      expect(const Slab(station: 100, area: 0).name, '1+00');
+      expect(const Slab(station: 250, area: 0).name, '2+50');
+    });
+  });
+
+  group('end areas against the prismoid', () {
+    test('they agree exactly when the middle is the average of the ends', () {
+      const even = Haul(slabs: [
+        Slab(station: 0, area: 100),
+        Slab(station: 50, area: 200),
+        Slab(station: 100, area: 300),
+      ]);
+      expect(even.slabs[1].area, even.endAverage);
+      expect(even.byPrismoid, closeTo(even.byEndAreas, 0.5));
+    });
+
+    test('every round answers with the bigger of the two', () {
+      for (final r in fatterRounds) {
+        final gap = r.haul.byPrismoid - r.haul.byEndAreas;
+        if (r.answer == Fatter.prismoid) {
+          expect(gap, greaterThan(0), reason: r.subject);
+          expect(r.haul.slabs[1].area, greaterThan(r.haul.endAverage),
+              reason: r.subject);
+        } else if (r.answer == Fatter.endAreas) {
+          expect(gap, lessThan(0), reason: r.subject);
+          expect(r.haul.slabs[1].area, lessThan(r.haul.endAverage),
+              reason: r.subject);
+        } else {
+          expect(gap.abs(), lessThan(1), reason: r.subject);
+        }
+      }
+      expect(fatterRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('a run closing to nothing is the overestimate the lesson names', () {
+      final taper = fatterRounds.firstWhere((r) => r.haul.slabs.last.area == 0);
+      expect(taper.answer, Fatter.endAreas);
+    });
+  });
+
+  group('working end to end', () {
+    test('a hill between two zeros books nothing at all', () {
+      const haul = Haul(slabs: [
+        Slab(station: 0, area: 0),
+        Slab(station: 100, area: 400),
+        Slab(station: 200, area: 0),
+      ]);
+      expect(haul.endToEnd, 0);
+      expect(haul.byEndAreas, greaterThan(0));
+    });
+
+    test('an even grade is the one case where skipping is safe', () {
+      const even = Haul(slabs: [
+        Slab(station: 0, area: 0),
+        Slab(station: 100, area: 100),
+        Slab(station: 200, area: 200),
+        Slab(station: 300, area: 300),
+      ]);
+      expect(even.endToEnd, closeTo(even.byEndAreas, 0.5));
+    });
+
+    test('every round answers with what skipping actually does', () {
+      for (final r in skipRounds) {
+        final gap = r.haul.endToEnd - r.haul.byEndAreas;
+        if (r.answer == Skipped.tooBig) {
+          expect(gap, greaterThan(0), reason: r.subject);
+        } else if (r.answer == Skipped.tooSmall) {
+          expect(gap, lessThan(0), reason: r.subject);
+        } else {
+          expect(gap.abs(), lessThan(1), reason: r.subject);
+        }
+      }
+      expect(skipRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('skipping is not always an underestimate', () {
+      expect(skipRounds.any((r) => r.answer == Skipped.tooBig), isTrue);
+      expect(skipRounds.any((r) => r.answer == Skipped.tooSmall), isTrue);
+    });
+  });
+
+  group('how much of the box', () {
+    test('the three shares are one, a half and a third', () {
+      expect(Solid.prism.share, 1);
+      expect(Solid.wedge.share, 0.5);
+      expect(Solid.point.share, closeTo(1 / 3, 1e-9));
+    });
+
+    test('an edge is what the end area formula gives with a zero section',
+        () {
+      const wedge = Haul(slabs: [
+        Slab(station: 0, area: 400),
+        Slab(station: 100, area: 0),
+      ]);
+      expect(wedge.byEndAreas, closeTo(0.5 * 400 * 100, 0.5));
+      // And a point is a third of the same box, which is where the two
+      // differ by half again.
+      expect(400 * 100 / 3, closeTo(13333, 1));
+    });
+
+    test('every round answers with its solid, and all three turn up', () {
+      for (final r in shareRounds2) {
+        expect(r.answer.part, closeTo(r.solid.share, 1e-9), reason: r.subject);
+      }
+      expect(shareRounds2.map((r) => r.answer).toSet().length, 3);
     });
   });
 }

@@ -311,6 +311,10 @@ void main() {
       // quadrilateral is the only one with enough corners to list wrongly.
       'what-weight-does-it-get',
       'does-the-listing-close',
+      // The station run is the only problem in the earthwork lesson with
+      // more than two sections in it, so the round about skipping one leans
+      // on it alone.
+      'can-you-skip-a-section',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

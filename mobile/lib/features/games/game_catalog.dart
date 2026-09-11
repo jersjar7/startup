@@ -2661,6 +2661,37 @@ const surveyingMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'earthwork-volumes',
+      name: 'Earthwork & Volume Computations',
+      subtopicId: 'area-volume-traverse',
+      games: [
+        GameDef(
+          id: 'which-formula-gives-more',
+          rounds: 6,
+          name: 'Which Formula Gives More',
+          blurb: 'Compare the middle section to the average of the ends.',
+          built: true,
+          brief: endAreaBrief,
+        ),
+        GameDef(
+          id: 'can-you-skip-a-section',
+          rounds: 6,
+          name: 'Can You Skip a Section',
+          blurb: 'End to end, a hill between two zeros books nothing.',
+          built: true,
+          brief: stationBrief,
+        ),
+        GameDef(
+          id: 'how-much-of-the-box',
+          rounds: 6,
+          name: 'How Much of the Box',
+          blurb: 'To an edge is a half. To a point is a third.',
+          built: true,
+          brief: solidBrief,
+        ),
+      ],
+    ),
   ],
 );
 

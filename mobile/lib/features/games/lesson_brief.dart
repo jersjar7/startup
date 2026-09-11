@@ -270,6 +270,9 @@ enum BriefFigure {
   shoelace,
   weights,
   method,
+  endArea,
+  stations,
+  solidShare,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4621,6 +4624,75 @@ const shoelaceBrief = BriefSection(
   handbook: 'Handbook p. 310',
 );
 
+const endAreaBrief = BriefSection(
+  title: 'End areas against the prismoid',
+  body:
+      'Both volume formulas take the sections and the length between them, '
+      'and they disagree for one reason. The average end area method assumes '
+      'the section runs straight from one end to the other, which is the '
+      'same as assuming the middle of the run is the average of the two '
+      'ends. The prismoidal formula asks what the middle section actually '
+      'is. So compare the two: a middle standing ABOVE the average of the '
+      'ends means the prismoidal answer is bigger, a middle sagging BELOW it '
+      'means the end area answer is, and a middle sitting exactly on it '
+      'means the two agree to the digit. A fill closing to a point sags a '
+      'long way below, which is the overestimate the end area method is '
+      'known for, and a constant section or an even taper sits right on the '
+      'line, where the end area method is not an approximation at all.',
+  formulas: [
+    ('End areas', r'V = \frac{L}{2}(A_1 + A_2)'),
+    ('Prismoidal', r'V = \frac{L}{6}(A_1 + 4A_m + A_2)'),
+    ('They agree when', r'A_m = \frac{A_1 + A_2}{2}'),
+  ],
+  figure: BriefFigure.endArea,
+  handbook: 'Handbook p. 309',
+);
+
+const stationBrief = BriefSection(
+  title: 'Station by station, then add',
+  body:
+      'The end area formula knows about two sections and the distance '
+      'between them, and nothing in it objects if those two are a thousand '
+      'feet apart with a hill in between. Used once across a whole run it '
+      'reports whatever the two end sections happen to suggest: a hump '
+      'between them goes unbooked, a saddle gets paid for twice, and a run '
+      'that starts and finishes at nothing comes out as no dirt at all, '
+      'which is the lesson\'s own trap. Work every pair of adjacent stations '
+      'separately and add the segments up. The one case where skipping is '
+      'safe is a section that climbs evenly the whole way, because then the '
+      'ends already carry the story. And a station is a hundred feet: 1+00 '
+      'is 100, 2+00 is 200.',
+  formulas: [
+    ('Each segment', r'V_i = \frac{L_i}{2}(A_i + A_{i+1})'),
+    ('Then', r'V = \Sigma V_i'),
+    ('A station', r'1{+}00 = 100 \text{ ft}'),
+  ],
+  figure: BriefFigure.stations,
+  handbook: 'Handbook p. 309',
+);
+
+const solidBrief = BriefSection(
+  title: 'All of it, half of it, a third of it',
+  body:
+      'Carry the section the whole length to make a box around the solid, '
+      'then ask what the far end does. Nothing changes and the solid IS the '
+      'box: area times length. It closes down to an EDGE and the solid is '
+      'half the box, because the section falls away evenly, which is exactly '
+      'what the end area formula gives with one section at zero. It closes '
+      'to a POINT and the solid is a third, because the section is lost in '
+      'two directions at once and falls away as a square: that is the '
+      'pyramid formula, base times height over three, and it holds whether '
+      'the base is round or square. The gap between the half and the third '
+      'is the whole of the end area method\'s overestimate on a taper.',
+  formulas: [
+    ('Constant', r'V = A L'),
+    ('To an edge', r'V = \tfrac{1}{2} A L'),
+    ('To a point', r'V = \tfrac{1}{3} A h'),
+  ],
+  figure: BriefFigure.solidShare,
+  handbook: 'Handbook p. 309',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6180,6 +6252,33 @@ class BriefFigureView extends StatelessWidget {
             (r"2L \Rightarrow 2 h_f", true),
             (r"2v \Rightarrow 2 h_f", false),
             (r"f_{Fanning} \text{ goes in as is}", false),
+          ],
+        );
+      case BriefFigure.endArea:
+        return const _RuleList(
+          rules: [
+            (r"A_m = \tfrac{A_1+A_2}{2} \Rightarrow \text{they agree}", true),
+            (r"\text{a taper} \Rightarrow \text{end areas give more}", true),
+            (r"\text{the prismoid always gives more}", false),
+            (r"\text{end areas need a middle section}", false),
+          ],
+        );
+      case BriefFigure.stations:
+        return const _RuleList(
+          rules: [
+            (r"V = \Sigma \tfrac{L_i}{2}(A_i + A_{i+1})", true),
+            (r"1{+}00 = 100 \text{ ft}", true),
+            (r"\text{one sum end to end is the same}", false),
+            (r"\text{skipping always books too little}", false),
+          ],
+        );
+      case BriefFigure.solidShare:
+        return const _RuleList(
+          rules: [
+            (r"\text{to an edge} \Rightarrow \tfrac{1}{2}", true),
+            (r"\text{to a point} \Rightarrow \tfrac{1}{3}", true),
+            (r"\text{to a point} \Rightarrow \tfrac{1}{2}", false),
+            (r"\text{a cone differs from a pyramid}", false),
           ],
         );
       case BriefFigure.method:

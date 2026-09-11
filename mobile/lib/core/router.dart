@@ -26,6 +26,7 @@ import '../features/games/can_statics_solve_it_game.dart';
 import '../features/games/can_you_claim_that_game.dart';
 import '../features/games/can_you_get_there_game.dart';
 import '../features/games/can_you_seal_it_game.dart';
+import '../features/games/can_you_skip_a_section_game.dart';
 import '../features/games/chapter_map_screen.dart';
 import '../features/games/check_every_box_game.dart';
 import '../features/games/coarse_or_fine_game.dart';
@@ -70,6 +71,7 @@ import '../features/games/how_long_to_compare_game.dart';
 import '../features/games/how_many_protections_game.dart';
 import '../features/games/how_many_samples_game.dart';
 import '../features/games/how_much_faster_game.dart';
+import '../features/games/how_much_of_the_box_game.dart';
 import '../features/games/in_what_order_game.dart';
 import '../features/games/is_it_about_to_move_game.dart';
 import '../features/games/is_r_the_worst_game.dart';
@@ -193,6 +195,7 @@ import '../features/games/which_earns_more_game.dart';
 import '../features/games/which_element_missing_game.dart';
 import '../features/games/which_factor_game.dart';
 import '../features/games/which_fiber_is_worst_game.dart';
+import '../features/games/which_formula_gives_more_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -518,6 +521,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-method-fits' => const WhichMethodFitsGame(),
           'what-weight-does-it-get' => const WhatWeightDoesItGetGame(),
           'does-the-listing-close' => const DoesTheListingCloseGame(),
+          'which-formula-gives-more' => const WhichFormulaGivesMoreGame(),
+          'can-you-skip-a-section' => const CanYouSkipASectionGame(),
+          'how-much-of-the-box' => const HowMuchOfTheBoxGame(),
           _ => const _UnknownGame(),
         },
       ),

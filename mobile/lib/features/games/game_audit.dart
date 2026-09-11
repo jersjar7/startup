@@ -13,6 +13,9 @@ import 'find_it_on_the_plan_game.dart';
 import 'higher_or_lower_game.dart';
 import 'plus_or_minus_game.dart';
 import 'which_method_fits_game.dart';
+import 'which_formula_gives_more_game.dart';
+import 'can_you_skip_a_section_game.dart';
+import 'how_much_of_the_box_game.dart';
 import 'what_weight_does_it_get_game.dart';
 import 'does_the_listing_close_game.dart';
 import 'area_figures.dart';
@@ -3223,6 +3226,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Listed.values) o.name],
           answer: Listed.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-formula-gives-more',
+    lessonId: 'earthwork-volumes',
+    problemPrefix: 'surv-ev-',
+    rounds: [
+      for (final r in fatterRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Fatter.values) o.name],
+          answer: Fatter.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'can-you-skip-a-section',
+    lessonId: 'earthwork-volumes',
+    problemPrefix: 'surv-ev-',
+    rounds: [
+      for (final r in skipRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Skipped.values) o.name],
+          answer: Skipped.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-much-of-the-box',
+    lessonId: 'earthwork-volumes',
+    problemPrefix: 'surv-ev-',
+    rounds: [
+      for (final r in shareRounds2)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Share.values) o.name],
+          answer: Share.values.indexOf(r.answer),
         ),
     ],
   ),

@@ -200,6 +200,9 @@ import 'package:mobile/features/games/find_it_on_the_plan_game.dart';
 import 'package:mobile/features/games/higher_or_lower_game.dart';
 import 'package:mobile/features/games/plus_or_minus_game.dart';
 import 'package:mobile/features/games/which_method_fits_game.dart';
+import 'package:mobile/features/games/which_formula_gives_more_game.dart';
+import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
+import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
 import 'package:mobile/features/games/does_the_listing_close_game.dart';
 import 'package:mobile/features/games/which_course_takes_the_most_game.dart';
@@ -1716,6 +1719,24 @@ void main() {
           rounds: listingRounds.length,
           height: 1660,
         ),
+        'which-formula-gives-more': (
+          lesson: '80-earthwork',
+          build: WhichFormulaGivesMoreGame.new,
+          rounds: fatterRounds.length,
+          height: 1700,
+        ),
+        'can-you-skip-a-section': (
+          lesson: '80-earthwork',
+          build: CanYouSkipASectionGame.new,
+          rounds: skipRounds.length,
+          height: 1720,
+        ),
+        'how-much-of-the-box': (
+          lesson: '80-earthwork',
+          build: HowMuchOfTheBoxGame.new,
+          rounds: shareRounds2.length,
+          height: 1700,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2115,6 +2136,11 @@ void main() {
       ('method', methodBrief),
       ('weights', weightsBrief),
       ('shoelace', shoelaceBrief),
+    ],
+    '80-earthwork': [
+      ('endarea', endAreaBrief),
+      ('stations', stationBrief),
+      ('solid', solidBrief),
     ],
   };
 
