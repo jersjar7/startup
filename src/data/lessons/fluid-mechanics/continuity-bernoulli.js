@@ -24,14 +24,14 @@ export default {
       id: 'fm-cb-q1',
       statement: 'Water flows through a pipe that reduces from $D_1 = 300 \\text{ mm}$ to $D_2 = 150 \\text{ mm}$. If the velocity in the larger section is $v_1 = 2 \\text{ m/s}$, what is the velocity in the smaller section?',
       choices: [
-        { id: 'c1', text: '$16 \\text{ m/s}$' },
+        { id: 'c1', text: '$32 \\text{ m/s}$' },
         { id: 'c2', text: '$4 \\text{ m/s}$' },
         { id: 'c3', text: '$8 \\text{ m/s}$' },
         { id: 'c4', text: '$1 \\text{ m/s}$' },
       ],
       correctAnswerId: 'c3',
       difficulty: 'easy',
-      eli5: 'By continuity, A_1 v_1 = A_2 v_2. Since A = \u03C0D\u00B2/4, the \u03C0/4 cancels: D_1\u00B2 v_1 = D_2\u00B2 v_2. So v_2 = v_1 \u00D7 (D_1/D_2)\u00B2 = 2 \u00D7 (300/150)\u00B2 = 2 \u00D7 4 = 8 m/s. The 4 m/s choice uses the diameter ratio to the first power (2\u00D72=4). The 16 m/s choice squares the diameter ratio twice. The 1 m/s choice reverses the ratio.',
+      eli5: 'By continuity, A_1 v_1 = A_2 v_2. Since A = \u03C0D\u00B2/4, the \u03C0/4 cancels: D_1\u00B2 v_1 = D_2\u00B2 v_2. So v_2 = v_1 \u00D7 (D_1/D_2)\u00B2 = 2 \u00D7 (300/150)\u00B2 = 2 \u00D7 4 = 8 m/s. The 4 m/s choice uses the diameter ratio to the first power (2\u00D72=4). The 32 m/s choice applies the AREA ratio squared, $2 \\times 4^2$, which is the diameter ratio to the fourth. The 1 m/s choice turns the ratio upside down and forgets to square it, $2 \\times 150/300$.',
       hint: 'Velocity ratio equals the SQUARE of the diameter ratio (since area goes as D\u00B2).',
       steps: [
         { text: 'From continuity (areas cancel the $\\pi/4$):', latex: 'v_2 = v_1 \\times \\left(\\frac{D_1}{D_2}\\right)^2' },
@@ -42,7 +42,7 @@ export default {
       videoUrl: null,
       traps: [
         'Using the diameter ratio to the first power instead of squaring it \u2014 gives 4 m/s',
-        'Inverting the ratio (D_2/D_1) \u2014 gives 0.5 m/s or 1 m/s',
+        'Turning the ratio upside down \u2014 with the square it gives 0.5 m/s, and without it 1 m/s (choice D)',
       ],
       diagram: null,
     },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Two steps: continuity first, then Bernoulli. From continuity, v_2 = 1.5 \u00D7 (200/100)\u00B2 = 6.0 m/s. For a horizontal pipe (z_1 = z_2), Bernoulli gives P_2 = P_1 + \u03C1/2 \u00D7 (v_1\u00B2 \u2013 v_2\u00B2) = 250,000 + 500 \u00D7 (2.25 \u2013 36) = 250,000 \u2013 16,875 = 233,125 Pa \u2248 233 kPa. Pressure drops because velocity increases \u2014 that\u2019s Bernoulli\u2019s principle. The 250 kPa option assumes no pressure change. The 268 kPa option adds instead of subtracting. The 214 kPa option over-estimates the velocity.',
+      eli5: 'Two steps: continuity first, then Bernoulli. From continuity, v_2 = 1.5 \u00D7 (200/100)\u00B2 = 6.0 m/s. For a horizontal pipe (z_1 = z_2), Bernoulli gives P_2 = P_1 + \u03C1/2 \u00D7 (v_1\u00B2 \u2013 v_2\u00B2) = 250,000 + 500 \u00D7 (2.25 \u2013 36) = 250,000 \u2013 16,875 = 233,125 Pa \u2248 233 kPa. Pressure drops because velocity increases \u2014 that\u2019s Bernoulli\u2019s principle. The 250 kPa option assumes no pressure change. The 268 kPa option adds the section 2 velocity head instead of subtracting the CHANGE in velocity head: $250 + 18$. The 214 kPa option drops the one half and the upstream term together, taking $\\rho v_2^2$ rather than $\\rho(v_2^2 - v_1^2)/2$.',
       hint: 'Use continuity to find v_2 first, then apply Bernoulli with z_1 = z_2 (horizontal pipe). Pressure drops where velocity increases.',
       steps: [
         { text: 'Find $v_2$ from continuity:', latex: 'v_2 = v_1 \\left(\\frac{D_1}{D_2}\\right)^2 = 1.5 \\times 4 = 6.0 \\text{ m/s}' },
