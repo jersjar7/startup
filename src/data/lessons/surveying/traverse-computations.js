@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Linear error = \u221A(0.08\u00B2 + 0.06\u00B2) = \u221A(0.0064 + 0.0036) = \u221A0.01 = 0.10 m. Precision = 0.10/1,000 = 1/10,000 = 1:10,000. The 1:12,500 option uses only the latitude error. The 1:7,143 option uses 0.14 as linear error (0.08 + 0.06). The 1:100,000 option squares the precision ratio.',
+      eli5: 'Linear error = \u221A(0.08\u00B2 + 0.06\u00B2) = \u221A(0.0064 + 0.0036) = \u221A0.01 = 0.10 m. Precision = 0.10/1,000 = 1/10,000 = 1:10,000. The 1:12,500 option uses only the latitude error. The 1:7,143 option uses 0.14 as linear error (0.08 + 0.06). The 1:100,000 option stops at the 0.01 under the root and never takes the square root of it.',
       hint: 'Find the linear closure error using the Pythagorean theorem, then divide by the total traverse length.',
       steps: [
         { text: 'Linear closure error:', latex: 'E = \\sqrt{0.08^2 + 0.06^2} = \\sqrt{0.0064 + 0.0036} = \\sqrt{0.01} = 0.10 \\text{ m}' },
