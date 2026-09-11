@@ -34,6 +34,8 @@ import 'land_the_resultant_game.dart';
 import 'next_line_game.dart';
 import 'one_log_game.dart';
 import 'open_or_closed_game.dart';
+import 'out_of_the_furnace_game.dart';
+import 'thermal_figures.dart';
 import 'over_the_whole_life_game.dart';
 import 'order_the_moves_game.dart';
 import 'perpendicular_flip_game.dart';
@@ -76,6 +78,7 @@ import 'what_is_the_saving_game.dart';
 import 'what_weights_game.dart';
 import 'where_it_balances_game.dart';
 import 'which_cracks_first_game.dart';
+import 'which_arm_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_section_game.dart';
@@ -184,6 +187,7 @@ import 'which_protection_game.dart';
 import 'which_rate_game.dart';
 import 'wider_or_narrower_game.dart';
 import 'which_readout_game.dart';
+import 'which_one_moves_most_game.dart';
 import 'which_ratio_game.dart';
 import 'which_way_turns_game.dart';
 import 'which_way_simpler_game.dart';
@@ -2471,6 +2475,46 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final g in Goes.values) g.name],
           answer: Goes.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'which-one-moves-most',
+    lessonId: 'thermal-processing-phase-diagrams',
+    problemPrefix: 'mat-tpd-',
+    rounds: [
+      for (final r in growRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final m in Biggest.values) m.name],
+          answer: Biggest.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'out-of-the-furnace',
+    lessonId: 'thermal-processing-phase-diagrams',
+    problemPrefix: 'mat-tpd-',
+    rounds: [
+      for (final r in furnaceRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final c in r.options) c.name],
+          answer: r.options.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-arm',
+    lessonId: 'thermal-processing-phase-diagrams',
+    problemPrefix: 'mat-tpd-',
+    rounds: [
+      for (final r in tieRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final a in Arm.values) a.name],
+          answer: Arm.values.indexOf(r.answer),
         ),
     ],
   ),

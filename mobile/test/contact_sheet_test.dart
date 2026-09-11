@@ -179,6 +179,9 @@ import 'package:mobile/features/games/how_it_settles_game.dart';
 import 'package:mobile/features/games/when_it_runs_away_game.dart';
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/edge_or_inside_game.dart';
+import 'package:mobile/features/games/out_of_the_furnace_game.dart';
+import 'package:mobile/features/games/which_arm_game.dart';
+import 'package:mobile/features/games/which_one_moves_most_game.dart';
 import 'package:mobile/features/games/which_cracks_first_game.dart';
 import 'package:mobile/features/games/read_the_equation_game.dart';
 import 'package:mobile/features/games/true_or_engineering_game.dart';
@@ -1365,6 +1368,24 @@ void main() {
           rounds: firstRounds.length,
           height: 1550,
         ),
+        'which-one-moves-most': (
+          lesson: '60-thermal',
+          build: WhichOneMovesMostGame.new,
+          rounds: growRounds.length,
+          height: 1700,
+        ),
+        'out-of-the-furnace': (
+          lesson: '60-thermal',
+          build: OutOfTheFurnaceGame.new,
+          rounds: furnaceRounds.length,
+          height: 1750,
+        ),
+        'which-arm': (
+          lesson: '60-thermal',
+          build: WhichArmGame.new,
+          rounds: tieRounds.length,
+          height: 1560,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1667,6 +1688,11 @@ void main() {
     '59-fracture': [
       ('crack', crackBrief),
       ('toughness', toughnessBrief),
+    ],
+    '60-thermal': [
+      ('expand', expandBrief),
+      ('furnace', furnaceBrief),
+      ('tie-line', tieLineBrief),
     ],
   };
 

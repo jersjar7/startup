@@ -5,6 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/crack_figures.dart';
+import 'package:mobile/features/games/out_of_the_furnace_game.dart';
+import 'package:mobile/features/games/thermal_figures.dart';
+import 'package:mobile/features/games/which_arm_game.dart';
+import 'package:mobile/features/games/which_one_moves_most_game.dart';
 import 'package:mobile/features/games/edge_or_inside_game.dart';
 import 'package:mobile/features/games/which_cracks_first_game.dart';
 import 'package:mobile/features/games/coupon_figures.dart';
@@ -356,4 +360,209 @@ void main() {
       expect(r.right.flaw.isEdge, isFalse);
     });
   });
+
+  group('thermal movement reproduces the lesson', () {
+    test('the twenty five meter girder moves 10.2 millimeters', () {
+      const girder =
+          Member(stuff: Stuff.steel, meters: 25, from: 5, to: 40);
+      expect(girder.change, 35);
+      expect(girder.movement, closeTo(10.24, 0.02));
+
+      // The named slips: adding the temperatures, and the 25 read as a
+      // temperature change rather than a length.
+      const added = Member(stuff: Stuff.steel, meters: 25, from: -5, to: 40);
+      expect(added.change, 45);
+      expect(added.movement, closeTo(13.2, 0.05));
+      expect(11.7e-6 * 25000 * 25, closeTo(7.3, 0.05));
+      expect(11.7e-6 * 2500 * 35, closeTo(1.02, 0.02));
+    });
+
+    test('the lesson\'s three coefficients are the ones used', () {
+      expect(Stuff.steel.alpha, 11.7e-6);
+      expect(Stuff.concrete.alpha, 10e-6);
+      expect(Stuff.aluminum.alpha, 23e-6);
+    });
+
+    test('every round can be called without a calculator', () {
+      for (final r in growRounds.where((r) => r.answer != Biggest.same)) {
+        expect(r.lead, greaterThan(1.4),
+            reason: '${r.subject}: the top two are too close');
+      }
+    });
+
+    test('the round about thickness is an exact tie', () {
+      final tie = growRounds.firstWhere((r) => r.answer == Biggest.same);
+      final travels = tie.members.map((m) => m.travel).toSet();
+      expect(travels.length, 1);
+      expect(tie.members.map((m) => m.note).toSet().length, 3,
+          reason: 'the three have to differ in something, or there is no '
+              'question');
+    });
+
+    test('the answer matches the arithmetic in every round', () {
+      for (final r in growRounds) {
+        final travels = [for (final m in r.members) m.travel];
+        final best = travels.reduce((a, b) => a > b ? a : b);
+        switch (r.answer) {
+          case Biggest.top:
+            expect(travels[0], best, reason: r.subject);
+          case Biggest.middle:
+            expect(travels[1], best, reason: r.subject);
+          case Biggest.bottom:
+            expect(travels[2], best, reason: r.subject);
+          case Biggest.same:
+            expect(travels.toSet().length, 1, reason: r.subject);
+        }
+      }
+    });
+
+    test('all four answers are used', () {
+      expect(growRounds.map((r) => r.answer).toSet(), Biggest.values.toSet());
+    });
+
+    test('a tap lands in the row it looks like', () {
+      const size = Size(340, 270);
+      for (var i = 0; i < 3; i++) {
+        expect(MemberPainter.rowAt(size, Offset(100, MemberPainter.rowY(size, i))),
+            i);
+      }
+    });
+  });
+
+  group('the furnace rounds follow the lesson\'s own rule', () {
+    test('fast from austenite is martensite, slow is the soft pair', () {
+      for (final r in furnaceRounds) {
+        final cool = r.cool;
+        if (!cool.wasAustenite) {
+          expect(r.answer, Comes.unchanged, reason: r.subject);
+          continue;
+        }
+        // How long it took to come down through the transformation.
+        final crossing = _throughTheChange(cool);
+        switch (r.answer) {
+          case Comes.hardBrittle:
+          case Comes.hardTough:
+            expect(crossing, lessThan(1),
+                reason: '${r.subject}: martensite needs a fast drop');
+          case Comes.softDuctile:
+            expect(crossing, greaterThan(1),
+                reason: '${r.subject}: the soft pair needs a slow one');
+          case Comes.unchanged:
+            fail('${r.subject}: it was austenite, so something happened');
+        }
+      }
+    });
+
+    test('the tempered round is the only one that goes back up', () {
+      for (final r in furnaceRounds) {
+        // A reheat is a rise AFTER the route has left its peak. The first
+        // climb into the furnace is not one.
+        var peak = 0;
+        for (var i = 1; i < r.cool.legs.length; i++) {
+          if (r.cool.legs[i].dy > r.cool.legs[peak].dy) peak = i;
+        }
+        var reheated = false;
+        for (var i = peak + 1; i < r.cool.legs.length; i++) {
+          if (r.cool.legs[i].dy > r.cool.legs[i - 1].dy + 1) reheated = true;
+        }
+        expect(reheated, r.answer == Comes.hardTough, reason: r.subject);
+      }
+    });
+
+    test('every round offers all four outcomes, once each', () {
+      for (final r in furnaceRounds) {
+        expect(r.options.toSet().length, 4, reason: r.subject);
+        expect(r.options.contains(r.answer), isTrue, reason: r.subject);
+      }
+    });
+
+    test('the right answer moves around', () {
+      final spots =
+          furnaceRounds.map((r) => r.options.indexOf(r.answer)).toSet();
+      expect(spots.length, greaterThan(2));
+    });
+
+    test('all four outcomes are the answer somewhere', () {
+      expect(furnaceRounds.map((r) => r.answer).toSet(), Comes.values.toSet());
+    });
+
+    test('every route ends at room temperature', () {
+      for (final r in furnaceRounds) {
+        expect(r.cool.legs.last.dy, lessThan(40), reason: r.subject);
+      }
+    });
+  });
+
+  group('the lever rule is drawn the way it works', () {
+    test('the lesson\'s own tie line gives its own answer', () {
+      const tie = Tie(solid: 10, overall: 30, liquid: 40);
+      expect(tie.liquidShare, closeTo(0.667, 0.001));
+      expect(tie.solidShare, closeTo(0.333, 0.001));
+      expect(tie.liquidShare + tie.solidShare, closeTo(1, 1e-12));
+      // The named slips: the arms swapped, the alloy over the liquid, and a
+      // denominator measured from zero.
+      expect(tie.toLiquid / tie.whole, closeTo(0.333, 0.001));
+      expect(tie.overall / tie.liquid, closeTo(0.75, 0.001));
+      expect(tie.toSolid / tie.liquid, closeTo(0.5, 0.001));
+    });
+
+    test('an alloy near a boundary is mostly that phase', () {
+      final near = tieRounds
+          .firstWhere((r) => r.subject.contains('close to the solid'));
+      expect(near.tie.liquidShare, lessThan(0.25));
+      final far = tieRounds
+          .firstWhere((r) => r.subject.contains('close to the liquid'));
+      expect(far.tie.solidShare, lessThan(0.3));
+    });
+
+    test('the halfway round really is halfway', () {
+      final half =
+          tieRounds.firstWhere((r) => r.subject.contains('halfway'));
+      expect(half.tie.liquidShare, closeTo(0.5, 1e-9));
+    });
+
+    test('every alloy sits between its two boundaries', () {
+      for (final r in tieRounds) {
+        expect(r.tie.overall, greaterThan(r.tie.solid), reason: r.subject);
+        expect(r.tie.overall, lessThan(r.tie.liquid), reason: r.subject);
+      }
+    });
+
+    test('all three pieces get asked for', () {
+      expect(tieRounds.map((r) => r.answer).toSet(), Arm.values.toSet());
+    });
+
+    test('the three bars never overlap, and a tap finds each', () {
+      const size = Size(340, 255);
+      for (final r in tieRounds) {
+        final bars = {
+          for (final a in Arm.values) a: TiePainter.barOf(size, r.tie, a)
+        };
+        expect(bars[Arm.toSolid]!.overlaps(bars[Arm.toLiquid]!), isFalse,
+            reason: r.subject);
+        for (final a in Arm.values) {
+          expect(bars[a]!.width, greaterThan(24),
+              reason: '${r.subject}: ${a.name} is too narrow to tap');
+          expect(TiePainter.nearest(size, r.tie, bars[a]!.center), a,
+              reason: r.subject);
+        }
+      }
+    });
+  });
+}
+
+/// How long a route spends coming down through the austenite line, in the
+/// route's own hours. Short is a quench.
+double _throughTheChange(Cool cool) {
+  for (var i = 1; i < cool.legs.length; i++) {
+    final a = cool.legs[i - 1];
+    final b = cool.legs[i];
+    if (a.dy > Cool.austenite && b.dy < Cool.austenite) {
+      final share = (a.dy - Cool.austenite) / (a.dy - b.dy);
+      final crossed = a.dx + (b.dx - a.dx) * share;
+      // From the crossing to the end of that leg is the drop itself.
+      return b.dx - crossed;
+    }
+  }
+  return double.infinity;
 }

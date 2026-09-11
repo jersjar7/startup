@@ -43,6 +43,7 @@ import '../features/games/land_the_resultant_game.dart';
 import '../features/games/next_line_game.dart';
 import '../features/games/one_log_game.dart';
 import '../features/games/open_or_closed_game.dart';
+import '../features/games/out_of_the_furnace_game.dart';
 import '../features/games/over_the_whole_life_game.dart';
 import '../features/games/order_the_moves_game.dart';
 import '../features/games/perpendicular_flip_game.dart';
@@ -163,6 +164,7 @@ import '../features/games/which_ones_turn_it_game.dart';
 import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_cracks_first_game.dart';
+import '../features/games/which_arm_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_section_game.dart';
@@ -183,6 +185,7 @@ import '../features/games/which_protection_game.dart';
 import '../features/games/which_rate_game.dart';
 import '../features/games/wider_or_narrower_game.dart';
 import '../features/games/which_readout_game.dart';
+import '../features/games/which_one_moves_most_game.dart';
 import '../features/games/which_ratio_game.dart';
 import '../features/games/which_way_turns_game.dart';
 import '../features/games/which_way_simpler_game.dart';
@@ -416,6 +419,9 @@ GoRouter buildRouter(AuthController auth) {
           'true-or-engineering' => const TrueOrEngineeringGame(),
           'edge-or-inside' => const EdgeOrInsideGame(),
           'which-cracks-first' => const WhichCracksFirstGame(),
+          'which-one-moves-most' => const WhichOneMovesMostGame(),
+          'out-of-the-furnace' => const OutOfTheFurnaceGame(),
+          'which-arm' => const WhichArmGame(),
           _ => const _UnknownGame(),
         },
       ),

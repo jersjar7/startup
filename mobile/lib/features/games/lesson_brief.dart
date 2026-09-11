@@ -219,6 +219,9 @@ enum BriefFigure {
   trueStress,
   crack,
   toughness,
+  expand,
+  furnace,
+  tieLine,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3443,6 +3446,74 @@ const toughnessBrief = BriefSection(
   handbook: 'Handbook p. 122',
 );
 
+const expandBrief = BriefSection(
+  title: 'Three things, all multiplying',
+  body:
+      'How far something moves when the temperature changes is the '
+      'coefficient times the length times the change, and all three matter '
+      'equally. The coefficient is the material: aluminum moves about twice '
+      'as readily as steel, and steel and concrete are close enough to each '
+      'other that reinforced concrete survives a summer. The length counts in '
+      'direct proportion, which is why the long uninterrupted run is where '
+      'movement shows up. And the temperature change is a DIFFERENCE between '
+      'two readings, never a sum of them, which is the easiest mark on the '
+      'whole page to throw away. Nothing about the cross-section appears '
+      'anywhere: a heavy column and a thin rod of the same length move the '
+      'same amount.',
+  formulas: [
+    ('How far it moves', r'\Delta L = \alpha L \Delta T'),
+    ('Which is a strain', r'\alpha = \frac{\varepsilon}{\Delta T}'),
+    ('Steel, concrete, aluminum',
+        r'11.7,\; 10,\; 23 \times 10^{-6}\,/^{\circ}C'),
+  ],
+  figure: BriefFigure.expand,
+  handbook: 'Handbook p. 126',
+);
+
+const furnaceBrief = BriefSection(
+  title: 'How fast it came down',
+  body:
+      'Two questions read any heat treatment on this page. Did the steel get '
+      'up above about seven hundred and twenty seven degrees, where it is '
+      'austenite? And how fast did it come back down through that change? '
+      'Fast enough and the atoms never get to move, so the structure is '
+      'trapped part way and what you have is martensite: very hard, very '
+      'brittle. Slow, and they do move, giving the mixture of ferrite and '
+      'cementite that the phase diagram calls for: softer and ductile. '
+      'Reheating a quenched part to a few hundred degrees is tempering, which '
+      'keeps most of the hardness and takes away most of the brittleness. If '
+      'it never reached austenite, a quench does nothing at all.',
+  formulas: [
+    ('Fast from austenite', r'\gamma \rightarrow \text{martensite}'),
+    ('Slow from austenite',
+        r'\gamma \rightarrow \alpha + Fe_3C'),
+    ('Then reheated', r'\text{martensite} \rightarrow \text{tempered}'),
+  ],
+  figure: BriefFigure.furnace,
+  handbook: 'Handbook p. 116',
+);
+
+const tieLineBrief = BriefSection(
+  title: 'The arm on the far side',
+  body:
+      'Inside a two phase region, the horizontal tie line at your temperature '
+      'runs from the solid boundary to the liquid boundary, and your alloy '
+      'sits somewhere along it. The fraction of a phase is the arm on the FAR '
+      'side from that phase, divided by the whole tie line. So the liquid '
+      'fraction uses the arm running back to the SOLID boundary, which is the '
+      'step that feels backwards and is the most missed on the page. Two '
+      'checks cost nothing: the two fractions must add to one, and an alloy '
+      'sitting close to a boundary must be mostly that phase. The '
+      'denominator is measured between the two boundaries, never from zero.',
+  formulas: [
+    ('Fraction liquid', r'f_L = \frac{x_0 - x_\alpha}{x_L - x_\alpha}'),
+    ('Fraction solid', r'f_\alpha = \frac{x_L - x_0}{x_L - x_\alpha}'),
+    ('Always', r'f_L + f_\alpha = 1'),
+  ],
+  figure: BriefFigure.tieLine,
+  handbook: 'Handbook p. 127',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -4723,6 +4794,33 @@ class BriefFigureView extends StatelessWidget {
             (r"2\sigma \Rightarrow 2 \times \text{the driving force}", true),
             (r"\text{the longer crack is always worse}", false),
             (r"K_{IC} \text{ is a stress}", false),
+          ],
+        );
+      case BriefFigure.expand:
+        return const _RuleList(
+          rules: [
+            (r"\Delta T \text{ is a difference, not a sum}", true),
+            (r"\text{twice the length, twice the movement}", true),
+            (r"\text{a thicker member moves more}", false),
+            (r"\text{steel and aluminum move alike}", false),
+          ],
+        );
+      case BriefFigure.furnace:
+        return const _RuleList(
+          rules: [
+            (r"\text{fast from austenite} \Rightarrow \text{martensite}", true),
+            (r"\text{tempering keeps most of the hardness}", true),
+            (r"\text{slow cooling} \Rightarrow \text{martensite}", false),
+            (r"\text{any quench hardens any steel}", false),
+          ],
+        );
+      case BriefFigure.tieLine:
+        return const _RuleList(
+          rules: [
+            (r"f_L \text{ uses the arm to } x_\alpha", true),
+            (r"f_L + f_\alpha = 1", true),
+            (r"f_L \text{ uses the arm to } x_L", false),
+            (r"\text{the denominator starts at zero}", false),
           ],
         );
       case BriefFigure.damping:

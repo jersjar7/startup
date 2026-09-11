@@ -239,6 +239,12 @@ void main() {
       // system to pull aside and let go, and how it settles is the whole
       // item.
       'how-it-settles',
+      // Chapter eight lesson three has three problems and they ARE its three
+      // topics: thermal movement, what the furnace does, and the lever rule.
+      // One item each, by construction.
+      'which-one-moves-most',
+      'out-of-the-furnace',
+      'which-arm',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }
