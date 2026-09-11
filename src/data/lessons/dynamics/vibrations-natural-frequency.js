@@ -63,7 +63,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'Resonance = forcing frequency matches natural frequency. So the question is really "what\'s the natural frequency?" The twist is that weight is given (2,000 N) instead of mass \u2014 divide by g first. Then it\'s the standard \u03C9_n = \u221A(k/m) converted to Hz. The 5.0 Hz choice comes from using the weight as mass (skipping the /g step). The 15.7 rad/s choice is \u03C9_n in rad/s.',
+      eli5: 'Resonance = forcing frequency matches natural frequency. So the question is really "what\'s the natural frequency?" The twist is that weight is given (2,000 N) instead of mass \u2014 divide by g first. Then it\'s the standard \u03C9_n = \u221A(k/m) converted to Hz. The 5.0 choice is two slips stacked: using the weight as the mass gives 5.0 rad/s, and then it is reported as Hz without the conversion. The 25.0 choice goes further still and skips the square root as well. The 15.7 rad/s choice is the right \u03C9_n, simply not converted.',
       hint: 'Resonance occurs at the natural frequency. But first \u2014 is the 2,000 N a mass or a weight?',
       steps: [
         { text: 'Convert weight to mass:', latex: 'm = \\frac{W}{g} = \\frac{2{,}000}{9.81} = 203.9 \\text{ kg}' },
@@ -76,6 +76,7 @@ export default {
       traps: [
         'Using weight (2,000 N) as mass \u2014 must divide by g to get kg',
         'Stopping at \u03C9_n in rad/s and not converting to Hz (distractor C)',
+        'Skipping the square root as well as the mass conversion \u2014 gives 25.0 (distractor A)',
         'Confusing spring stiffness with total force',
       ],
       diagram: null,
