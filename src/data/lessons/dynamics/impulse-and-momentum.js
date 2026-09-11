@@ -62,7 +62,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Two equations, two unknowns. Momentum conservation gives you the sum of the final velocities, and the restitution equation gives you their difference. Add and subtract to solve. Equal masses make the algebra clean \u2014 the striking ball slows to 2 m/s and the struck ball picks up 6 m/s. The 4.0 m/s option assumes each ball gets half the original speed, which only happens at e = 1 for equal masses.',
+      eli5: 'Two equations, two unknowns. Momentum conservation gives you the sum of the final velocities, and the restitution equation gives you their difference. Add and subtract to solve. Equal masses make the algebra clean \u2014 the striking ball slows to 2 m/s and the struck ball picks up 6 m/s. The 4.0 m/s option gives each ball half the original speed, which is what happens at e = 0, when they stick together and move off as one. At e = 1 the striking ball would stop dead and hand over all 8. The 6.0 m/s option is the right answer to the other half of the question, the speed of the ball that was STRUCK.',
       hint: 'You need two equations: conservation of momentum and the restitution formula. Solve them simultaneously.',
       steps: [
         { text: 'Conservation of momentum (equal masses cancel):', latex: 'v_1\' + v_2\' = 8' },
@@ -103,7 +103,7 @@ export default {
       videoUrl: null,
       traps: [
         'Reporting the momentum change (30,000) as the force \u2014 must divide by time',
-        'Using \u0394t = 1.5 s instead of 0.15 s \u2014 misreading the decimal',
+        'Multiplying by the impact time instead of dividing by it \u2014 gives 4,500 N (distractor A)',
         'Forgetting that the vehicle stops (v\u2082 = 0), so the full 20 m/s is the velocity change',
       ],
       diagram: null,
