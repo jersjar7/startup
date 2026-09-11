@@ -245,6 +245,9 @@ enum BriefFigure {
   gauge,
   gate,
   buoyancy,
+  continuity,
+  bernoulli,
+  torricelli,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4033,6 +4036,73 @@ const buoyancyBrief = BriefSection(
   handbook: 'Handbook p. 179',
 );
 
+const continuityBrief = BriefSection(
+  title: 'The same water, a smaller hole',
+  body:
+      'Whatever goes in has to come out, so the flow through every section of '
+      'a pipe is the same and the speed rises exactly as much as the opening '
+      'falls. The catch is that an opening goes as the SQUARE of a diameter '
+      'or a side: halve the bore and the area quarters, so the speed '
+      'quadruples, and a third of the bore is nine times the speed. Read the '
+      'question carefully, because a change quoted as an AREA is a speed '
+      'change in direct proportion with no squaring at all. Length never '
+      'enters it: a longer pipe of the same bore carries the same water at '
+      'the same speed, and what the length costs is pressure, through '
+      'friction, which is a different equation.',
+  formulas: [
+    ('Flow', r'Q = Av'),
+    ('Continuity', r'A_1 v_1 = A_2 v_2'),
+    ('For a round pipe', r'\frac{v_2}{v_1} = \left(\frac{D_1}{D_2}\right)^2'),
+  ],
+  figure: BriefFigure.continuity,
+  handbook: 'Handbook p. 180',
+);
+
+const bernoulliBrief = BriefSection(
+  title: 'The three heads trade',
+  body:
+      'Bernoulli is an energy statement written in meters: pressure head, '
+      'velocity head and elevation head add to the same total everywhere '
+      'along a streamline, as long as there is no friction. So they trade '
+      'against each other, and the trade is the part that feels backwards. '
+      'Where a pipe narrows the water speeds up, the velocity head grows, and '
+      'the PRESSURE falls. Where it opens out again the water slows and the '
+      'pressure comes back. A venturi is that drop sold as an instrument. Two '
+      'warnings: use continuity to get the velocity BEFORE you use Bernoulli, '
+      'and the moment a problem mentions pipe length, roughness or head loss '
+      'you need the energy equation instead, with its friction term.',
+  formulas: [
+    ('Bernoulli',
+        r'\frac{P_1}{\gamma} + \frac{v_1^2}{2g} + z_1 = \frac{P_2}{\gamma} + \frac{v_2^2}{2g} + z_2'),
+    ('Level pipe', r'P_2 = P_1 + \frac{\rho}{2}(v_1^2 - v_2^2)'),
+    ('With friction', r'\dots + h_f'),
+  ],
+  figure: BriefFigure.bernoulli,
+  handbook: 'Handbook p. 180',
+);
+
+const torricelliBrief = BriefSection(
+  title: 'Only the head',
+  body:
+      'A tank open to the air, discharging to the air, with a surface that '
+      'barely moves: the pressures cancel and the surface velocity drops out, '
+      'and Bernoulli collapses to one line. The jet leaves at the root of '
+      'twice g times the head, which is the same speed a stone would reach '
+      'falling that far, and no wonder: it is the same energy trade. What is '
+      'NOT in it is worth more than what is. Not the size of the hole, which '
+      'decides how much comes out and not how fast. Not the width of the '
+      'tank, nor how much water is behind it. A thin tube eight meters tall '
+      'beats a broad pan half a meter deep, four times over. And the square '
+      'root softens the head: four times the depth is twice the jet.',
+  formulas: [
+    ('Torricelli', r'v = \sqrt{2gh}'),
+    ('Which came from', r'z_1 = \frac{v_2^2}{2g}'),
+    ('Four times the head', r'\Rightarrow 2 \times \text{the speed}'),
+  ],
+  figure: BriefFigure.torricelli,
+  handbook: 'Handbook p. 180',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5547,6 +5617,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{floating} \Rightarrow F_B = W", true),
             (r"F_B \text{ uses the body's own } \gamma", false),
             (r"\text{hollow bodies displace less}", false),
+          ],
+        );
+      case BriefFigure.continuity:
+        return const _RuleList(
+          rules: [
+            (r"\text{half the bore} \Rightarrow 4v", true),
+            (r"\text{half the AREA} \Rightarrow 2v", true),
+            (r"\text{half the bore} \Rightarrow 2v", false),
+            (r"\text{a longer pipe runs slower}", false),
+          ],
+        );
+      case BriefFigure.bernoulli:
+        return const _RuleList(
+          rules: [
+            (r"\text{faster} \Rightarrow \text{lower pressure}", true),
+            (r"\text{continuity first, then Bernoulli}", true),
+            (r"\text{narrower} \Rightarrow \text{higher pressure}", false),
+            (r"\text{Bernoulli covers friction}", false),
+          ],
+        );
+      case BriefFigure.torricelli:
+        return const _RuleList(
+          rules: [
+            (r"v = \sqrt{2gh}", true),
+            (r"4h \Rightarrow 2v", true),
+            (r"\text{a bigger hole is a faster jet}", false),
+            (r"\text{a wider tank is a faster jet}", false),
           ],
         );
       case BriefFigure.damping:

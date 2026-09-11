@@ -5,6 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/fluid_figures.dart';
 import 'package:mobile/features/games/float_or_sink_game.dart';
+import 'package:mobile/features/games/how_fast_the_jet_game.dart';
+import 'package:mobile/features/games/how_much_faster_game.dart';
+import 'package:mobile/features/games/pipe_figures.dart';
+import 'package:mobile/features/games/where_the_pressure_is_game.dart';
 import 'package:mobile/features/games/gauge_or_absolute_game.dart';
 import 'package:mobile/features/games/where_it_pushes_game.dart';
 import 'package:mobile/features/games/same_depth_game.dart';
@@ -463,6 +467,150 @@ void main() {
       expect(flooded.volume, empty.volume);
       expect(flooded.buoyancy, closeTo(empty.buoyancy, 1e-9));
       expect(flooded.weight, greaterThan(empty.weight));
+    });
+  });
+
+  group('continuity reproduces the lesson', () {
+    test('300 down to 150 is four times the speed', () {
+      const run = Run(bores: [Bore(millimeters: 300), Bore(millimeters: 150)]);
+      expect(run.speedAt(1) / run.speedAt(0), closeTo(4, 1e-9));
+      // Its named slips: the ratio unsquared, the area ratio squared, and
+      // the ratio upside down without the square.
+      expect(2 * (300 / 150), 4);
+      expect(2 * math.pow(300 / 150, 4), 32);
+      expect(2 * (150 / 300), 1);
+    });
+
+    test('the factor a round asks for is the one the change gives', () {
+      for (final r in fasterRounds) {
+        expect(r.options.contains(r.answer), isTrue, reason: r.subject);
+        expect(r.options.toSet().length, r.options.length, reason: r.subject);
+      }
+      // And every factor offered is a different number, so no two choices
+      // are the same answer wearing different words.
+      for (final r in fasterRounds) {
+        expect(r.options.map((o) => o.times).toSet().length, r.options.length,
+            reason: r.subject);
+      }
+    });
+
+    test('all the answers together cover both directions and a tie', () {
+      final answers = fasterRounds.map((r) => r.answer.times).toSet();
+      expect(answers.any((t) => t > 1), isTrue);
+      expect(answers.any((t) => t < 1), isTrue);
+      expect(answers.contains(1.0), isTrue);
+    });
+  });
+
+  group('Bernoulli along the run', () {
+    test('the narrowest section is the fastest and the lowest pressure', () {
+      for (final r in pressureRounds) {
+        final i = r.answer;
+        for (var j = 0; j < r.run.bores.length; j++) {
+          if (j == i) continue;
+          expect(r.run.speedAt(i), greaterThan(r.run.speedAt(j)),
+              reason: r.subject);
+          expect(r.run.pressureAt(i), lessThan(r.run.pressureAt(j)),
+              reason: r.subject);
+        }
+      }
+    });
+
+    test('the lesson\'s own numbers come out of the run', () {
+      // 200 to 100 at 1.5 m/s in the wide part: the narrow one runs at 6 and
+      // the pressure drops about 17 kPa.
+      const run = Run(
+        bores: [Bore(millimeters: 200), Bore(millimeters: 100)],
+        litersASecond: 47.12,
+      );
+      expect(run.speedAt(0), closeTo(1.5, 0.01));
+      expect(run.speedAt(1), closeTo(6.0, 0.02));
+      expect(run.pressureAt(1), closeTo(-16.9, 0.2));
+    });
+
+    test('both questions get asked of the same run', () {
+      final fastest = pressureRounds.where((r) => r.wantsFastest).length;
+      expect(fastest, greaterThanOrEqualTo(2));
+      expect(pressureRounds.length - fastest, greaterThanOrEqualTo(3));
+    });
+
+    test('the answer is not always the last section', () {
+      expect(pressureRounds.map((r) => r.answer).toSet().length,
+          greaterThan(1));
+    });
+
+    test('every section is wide enough to tap and drawn in the panel', () {
+      const size = Size(340, 210);
+      for (final r in pressureRounds) {
+        for (var i = 0; i < r.run.bores.length; i++) {
+          final rect = RunPainter.sectionOf(size, r.run, i);
+          expect(rect.width, greaterThan(40), reason: r.subject);
+          expect(rect.top, greaterThan(0), reason: r.subject);
+          expect(rect.bottom, lessThan(size.height), reason: r.subject);
+          expect(RunPainter.at(size, r.run, RunPainter.spotOf(size, r.run, i)),
+              i,
+              reason: r.subject);
+        }
+      }
+    });
+  });
+
+  group('the jet reproduces the lesson', () {
+    test('ten meters of head gives 14 meters a second', () {
+      expect(const Squirt(head: 10).speed, closeTo(14.0, 0.05));
+      // Its named slips: the 2 dropped, an extra root 2, and the head left
+      // out altogether.
+      expect(math.sqrt(9.81 * 10), closeTo(9.9, 0.05));
+      expect(math.sqrt(2) * math.sqrt(2 * 9.81 * 10), closeTo(19.8, 0.05));
+      expect(math.sqrt(2 * 9.81), closeTo(4.43, 0.01));
+    });
+
+    test('nothing but the head is in it', () {
+      const small = Squirt(head: 6, holeMillimeters: 10, tankWide: 0.5);
+      const big = Squirt(head: 6, holeMillimeters: 100, tankWide: 8);
+      expect(small.speed, closeTo(big.speed, 1e-9));
+    });
+
+    test('four times the head is twice the jet', () {
+      expect(const Squirt(head: 12).speed,
+          closeTo(const Squirt(head: 3).speed * 2, 1e-9));
+    });
+
+    test('the answer follows from the two heads', () {
+      for (final r in jetRounds) {
+        switch (r.answer) {
+          case Quicker2.left:
+            expect(r.left.speed, greaterThan(r.right.speed), reason: r.subject);
+          case Quicker2.right:
+            expect(r.right.speed, greaterThan(r.left.speed), reason: r.subject);
+          case Quicker2.tie:
+            expect(r.left.head, closeTo(r.right.head, 1e-9),
+                reason: r.subject);
+        }
+      }
+    });
+
+    test('the ties differ in something other than the head', () {
+      for (final r in jetRounds.where((r) => r.answer == Quicker2.tie)) {
+        final same = r.left.holeMillimeters == r.right.holeMillimeters &&
+            r.left.tankWide == r.right.tankWide;
+        expect(same, isFalse,
+            reason: '${r.subject}: a tie between two identical tanks teaches '
+                'nothing');
+      }
+    });
+
+    test('all three answers are used, and both tanks fit their panels', () {
+      expect(jetRounds.map((r) => r.answer).toSet(), Quicker2.values.toSet());
+      const size = Size(160, 210);
+      for (final r in jetRounds) {
+        for (final s in [r.left, r.right]) {
+          final tank = SquirtPainter.tankOf(size, s, r.tallest);
+          expect(tank.top, greaterThan(0), reason: r.subject);
+          expect(tank.bottom, lessThan(size.height), reason: r.subject);
+          expect(tank.width, greaterThan(40), reason: r.subject);
+        }
+      }
     });
   });
 }

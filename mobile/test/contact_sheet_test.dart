@@ -193,10 +193,13 @@ import 'package:mobile/features/games/times_or_divided_game.dart';
 import 'package:mobile/features/games/which_mortar_game.dart';
 import 'package:mobile/features/games/which_one_goes_game.dart';
 import 'package:mobile/features/games/float_or_sink_game.dart';
+import 'package:mobile/features/games/how_fast_the_jet_game.dart';
+import 'package:mobile/features/games/how_much_faster_game.dart';
 import 'package:mobile/features/games/gauge_or_absolute_game.dart';
 import 'package:mobile/features/games/same_depth_game.dart';
 import 'package:mobile/features/games/walk_the_manometer_game.dart';
 import 'package:mobile/features/games/where_it_pushes_game.dart';
+import 'package:mobile/features/games/where_the_pressure_is_game.dart';
 import 'package:mobile/features/games/which_drags_more_game.dart';
 import 'package:mobile/features/games/which_property_game.dart';
 import 'package:mobile/features/games/which_tube_climbs_game.dart';
@@ -1541,6 +1544,24 @@ void main() {
           rounds: floatRounds.length,
           height: 1600,
         ),
+        'how-much-faster': (
+          lesson: '71-bernoulli',
+          build: HowMuchFasterGame.new,
+          rounds: fasterRounds.length,
+          height: 1550,
+        ),
+        'where-the-pressure-is': (
+          lesson: '71-bernoulli',
+          build: WhereThePressureIsGame.new,
+          rounds: pressureRounds.length,
+          height: 1450,
+        ),
+        'how-fast-the-jet': (
+          lesson: '71-bernoulli',
+          build: HowFastTheJetGame.new,
+          rounds: jetRounds.length,
+          height: 1600,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1897,6 +1918,11 @@ void main() {
     '70-gates': [
       ('gate', gateBrief),
       ('buoyancy', buoyancyBrief),
+    ],
+    '71-bernoulli': [
+      ('continuity', continuityBrief),
+      ('bernoulli', bernoulliBrief),
+      ('torricelli', torricelliBrief),
     ],
   };
 

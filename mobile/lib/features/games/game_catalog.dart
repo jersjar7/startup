@@ -2364,6 +2364,37 @@ const fluidMechanicsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'continuity-bernoulli',
+      name: 'Continuity & Bernoulli\'s Equation',
+      subtopicId: 'fluid-dynamics',
+      games: [
+        GameDef(
+          id: 'how-much-faster',
+          rounds: 6,
+          name: 'How Much Faster',
+          blurb: 'Half the bore is four times the speed. Mind the square.',
+          built: true,
+          brief: continuityBrief,
+        ),
+        GameDef(
+          id: 'where-the-pressure-is',
+          rounds: 6,
+          name: 'Where the Pressure Is',
+          blurb: 'Faster water is at lower pressure. It feels backwards.',
+          built: true,
+          brief: bernoulliBrief,
+        ),
+        GameDef(
+          id: 'how-fast-the-jet',
+          rounds: 6,
+          name: 'How Fast the Jet',
+          blurb: 'The head decides it. The hole decides how much.',
+          built: true,
+          brief: torricelliBrief,
+        ),
+      ],
+    ),
   ],
 );
 

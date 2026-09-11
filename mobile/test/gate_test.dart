@@ -273,6 +273,10 @@ void main() {
       // The buoyancy problem is the only one in the lesson with a floating
       // body in it, and which way it goes is the whole item.
       'float-or-sink',
+      // Continuity is one problem in the lesson and the square in it is the
+      // whole item, as is the jet problem and its head.
+      'how-much-faster',
+      'how-fast-the-jet',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

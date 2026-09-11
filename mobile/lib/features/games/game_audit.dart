@@ -35,6 +35,8 @@ import 'happens_first_game.dart';
 import 'is_there_a_deal_game.dart';
 import 'is_that_negligence_game.dart';
 import 'how_many_samples_game.dart';
+import 'how_much_faster_game.dart';
+import 'how_fast_the_jet_game.dart';
 import 'how_long_to_compare_game.dart';
 import 'how_many_protections_game.dart';
 import 'in_what_order_game.dart';
@@ -88,6 +90,7 @@ import 'what_shows_game.dart';
 import 'what_this_job_needs_game.dart';
 import 'where_it_pushes_game.dart';
 import 'where_it_stops_game.dart';
+import 'where_the_pressure_is_game.dart';
 import 'through_the_means_game.dart';
 import 'what_goes_under_game.dart';
 import 'what_it_triggers_game.dart';
@@ -2854,6 +2857,49 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final g in Goes2.values) g.name],
           answer: Goes2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'how-much-faster',
+    lessonId: 'continuity-bernoulli',
+    problemPrefix: 'fm-cb-',
+    rounds: [
+      for (final r in fasterRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final f in r.options) f.name],
+          answer: r.options.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-the-pressure-is',
+    lessonId: 'continuity-bernoulli',
+    problemPrefix: 'fm-cb-',
+    rounds: [
+      for (final r in pressureRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (var i = 0; i < r.run.bores.length; i++)
+              'section ${i + 1} at ${r.run.bores[i].millimeters}',
+          ],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-fast-the-jet',
+    lessonId: 'continuity-bernoulli',
+    problemPrefix: 'fm-cb-',
+    rounds: [
+      for (final r in jetRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final q in Quicker2.values) q.name],
+          answer: Quicker2.values.indexOf(r.answer),
         ),
     ],
   ),

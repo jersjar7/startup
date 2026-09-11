@@ -42,6 +42,8 @@ import '../features/games/happens_first_game.dart';
 import '../features/games/is_there_a_deal_game.dart';
 import '../features/games/is_that_negligence_game.dart';
 import '../features/games/how_many_samples_game.dart';
+import '../features/games/how_much_faster_game.dart';
+import '../features/games/how_fast_the_jet_game.dart';
 import '../features/games/how_long_to_compare_game.dart';
 import '../features/games/how_many_protections_game.dart';
 import '../features/games/in_what_order_game.dart';
@@ -93,6 +95,7 @@ import '../features/games/what_shows_game.dart';
 import '../features/games/what_this_job_needs_game.dart';
 import '../features/games/where_it_pushes_game.dart';
 import '../features/games/where_it_stops_game.dart';
+import '../features/games/where_the_pressure_is_game.dart';
 import '../features/games/through_the_means_game.dart';
 import '../features/games/what_goes_under_game.dart';
 import '../features/games/what_it_triggers_game.dart';
@@ -468,6 +471,9 @@ GoRouter buildRouter(AuthController auth) {
           'walk-the-manometer' => const WalkTheManometerGame(),
           'where-it-pushes' => const WhereItPushesGame(),
           'float-or-sink' => const FloatOrSinkGame(),
+          'how-much-faster' => const HowMuchFasterGame(),
+          'where-the-pressure-is' => const WhereThePressureIsGame(),
+          'how-fast-the-jet' => const HowFastTheJetGame(),
           _ => const _UnknownGame(),
         },
       ),
