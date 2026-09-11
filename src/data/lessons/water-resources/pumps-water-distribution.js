@@ -31,7 +31,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Fluid power = γQH = 9,810 × 0.05 × 30 = 14,715 W ≈ 14.7 kW. Brake power divides by efficiency: 14.7/0.75 = 19.6 kW. The 14.7 kW option is the fluid power, forgetting efficiency. The 11.0 kW option multiplies by 0.75 instead of dividing. The 26.2 kW option divides by 0.75² (≈ 0.5625) or a similar slip.',
+      eli5: 'Fluid power = γQH = 9,810 × 0.05 × 30 = 14,715 W ≈ 14.7 kW. Brake power divides by efficiency: 14.7/0.75 = 19.6 kW. The 14.7 kW option is the fluid power, forgetting efficiency. The 11.0 kW option multiplies by 0.75 instead of dividing. The 26.2 kW option divides by the efficiency twice, 0.75 squared being 0.5625.',
       hint: 'Fluid power = γQH. Brake power = fluid power / η_pump (always larger).',
       steps: [
         { text: 'Fluid (hydraulic) power:', latex: '\\dot W_{fluid} = \\gamma Q H = 9{,}810 \\times 0.05 \\times 30 = 14{,}715\\text{ W}' },
@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a suction lift the static suction head is negative: H_s = −3.0 m. NPSH_A = H_pa + H_s − Σh_L − H_vp = 10.3 − 3.0 − 1.0 − 0.24 = 6.06 ≈ 6.1 m. The 12.1 m choice adds the 3.0 m instead of subtracting (wrong sign for a lift). The 7.3 m choice forgets the friction and vapor terms. The 3.1 m choice mishandles the atmospheric term.',
+      eli5: 'For a suction lift the static suction head is negative: H_s = −3.0 m. NPSH_A = H_pa + H_s − Σh_L − H_vp = 10.3 − 3.0 − 1.0 − 0.24 = 6.06 ≈ 6.1 m. The 12.1 m choice adds the 3.0 m instead of subtracting (wrong sign for a lift). The 7.3 m choice forgets the friction and vapor terms. The 3.1 m choice subtracts the 3.0 m lift twice, once as a negative static head and again as a separate deduction.',
       hint: 'NPSH_A = H_pa + H_s − Σh_L − H_vp, with H_s negative for a suction lift.',
       steps: [
         { text: 'Suction lift makes the static suction head negative:', latex: 'H_s = -3.0\\text{ m}' },
@@ -80,12 +80,12 @@ export default {
       choices: [
         { id: 'c1', text: '$12.5\\text{ hp}$' },
         { id: 'c2', text: '$9.2\\text{ hp}$' },
-        { id: 'c3', text: '$6.2\\text{ hp}$' },
+        { id: 'c3', text: '$6.9\\text{ hp}$' },
         { id: 'c4', text: '$18.7\\text{ hp}$' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Fluid power = γQH = 62.4 × 1.1 × 100 = 6,864 ft·lb/s. Convert to horsepower: 6,864/550 = 12.48 ≈ 12.5 hp. The 9.2 hp option divides by 746 (the SI watts-per-hp) instead of 550 ft·lb/s. The 6.2 hp option over-divides. The 18.7 hp option adds an efficiency factor that the question did not ask for.',
+      eli5: 'Fluid power = γQH = 62.4 × 1.1 × 100 = 6,864 ft·lb/s. Convert to horsepower: 6,864/550 = 12.48 ≈ 12.5 hp. The 9.2 hp option divides by 746 (the SI watts-per-hp) instead of 550 ft·lb/s. The 6.9 hp option treats the 6,864 ft·lb/s as watts and divides by 1,000 to get kilowatts, then labels the result horsepower. The 18.7 hp option divides by a two-thirds efficiency the question never gave; water horsepower is the power in the water, before any efficiency.',
       hint: 'Water horsepower = γQH / 550 when Q is in ft³/s, H in ft, and γ in lb/ft³.',
       steps: [
         { text: 'Fluid power in ft·lb/s:', latex: '\\gamma Q H = 62.4 \\times 1.1 \\times 100 = 6{,}864\\text{ ft·lb/s}' },
