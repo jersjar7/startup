@@ -36,15 +36,12 @@ void main() {
       expect(sag, closeTo(13.5, 0.01));
 
       // And the simply supported entry, which the lesson names as the swap
-      // to avoid: it comes to 1.41 mm, nearly ten times less. Note that the
-      // lesson's trap list points that swap at its 1.69 choice, and 1.69 is
-      // not it. Its own explanation says 1.69 is a wrong coefficient, 64
-      // instead of 8, and that checks out.
+      // to avoid: it comes to 1.41 mm, nearly ten times less, and it is the
+      // fourth choice on the list.
       final wrongTable =
           Entry.ssUdl.sag(load: 8, span: 3000, e: 200000, i: 30e6);
       expect(wrongTable, closeTo(1.41, 0.01));
       expect(sag / wrongTable, closeTo(9.6, 0.001));
-      expect(sag * 8 / 64, closeTo(1.69, 0.01));
     });
 
     test('the two loads add up to eleven millimeters', () {
