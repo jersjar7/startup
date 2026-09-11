@@ -180,6 +180,8 @@ import 'package:mobile/features/games/when_it_runs_away_game.dart';
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/edge_or_inside_game.dart';
 import 'package:mobile/features/games/out_of_the_furnace_game.dart';
+import 'package:mobile/features/games/stronger_or_weaker_game.dart';
+import 'package:mobile/features/games/what_this_job_needs_game.dart';
 import 'package:mobile/features/games/which_arm_game.dart';
 import 'package:mobile/features/games/which_one_moves_most_game.dart';
 import 'package:mobile/features/games/which_cracks_first_game.dart';
@@ -1380,6 +1382,18 @@ void main() {
           rounds: furnaceRounds.length,
           height: 1750,
         ),
+        'stronger-or-weaker': (
+          lesson: '61-concrete-mix',
+          build: StrongerOrWeakerGame.new,
+          rounds: batchRounds.length,
+          height: 1800,
+        ),
+        'what-this-job-needs': (
+          lesson: '61-concrete-mix',
+          build: WhatThisJobNeedsGame.new,
+          rounds: siteRounds.length,
+          height: 1800,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1693,6 +1707,10 @@ void main() {
       ('expand', expandBrief),
       ('furnace', furnaceBrief),
       ('tie-line', tieLineBrief),
+    ],
+    '61-concrete-mix': [
+      ('mix', mixBrief),
+      ('exposure', exposureBrief),
     ],
   };
 

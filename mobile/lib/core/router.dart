@@ -69,6 +69,7 @@ import '../features/games/slide_to_flat_game.dart';
 import '../features/games/shade_the_tail_game.dart';
 import '../features/games/shadow_falls_game.dart';
 import '../features/games/stretch_it_game.dart';
+import '../features/games/stronger_or_weaker_game.dart';
 import '../features/games/take_the_diagonal_game.dart';
 import '../features/games/tap_the_side_game.dart';
 import '../features/games/true_or_engineering_game.dart';
@@ -77,6 +78,7 @@ import '../features/games/what_was_asked_game.dart';
 import '../features/games/whats_missing_game.dart';
 import '../features/games/what_is_missing_yet_game.dart';
 import '../features/games/what_shows_game.dart';
+import '../features/games/what_this_job_needs_game.dart';
 import '../features/games/where_it_stops_game.dart';
 import '../features/games/through_the_means_game.dart';
 import '../features/games/what_goes_under_game.dart';
@@ -422,6 +424,8 @@ GoRouter buildRouter(AuthController auth) {
           'which-one-moves-most' => const WhichOneMovesMostGame(),
           'out-of-the-furnace' => const OutOfTheFurnaceGame(),
           'which-arm' => const WhichArmGame(),
+          'stronger-or-weaker' => const StrongerOrWeakerGame(),
+          'what-this-job-needs' => const WhatThisJobNeedsGame(),
           _ => const _UnknownGame(),
         },
       ),

@@ -2093,6 +2093,29 @@ const materialsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'concrete-mix-design',
+      name: 'Concrete Mix Design',
+      subtopicId: 'concrete-technology',
+      games: [
+        GameDef(
+          id: 'stronger-or-weaker',
+          rounds: 6,
+          name: 'Stronger or Weaker',
+          blurb: 'Somebody changes the mix. Which way does the strength go?',
+          built: true,
+          brief: mixBrief,
+        ),
+        GameDef(
+          id: 'what-this-job-needs',
+          rounds: 6,
+          name: 'What This Job Needs',
+          blurb: 'How strong, and does it freeze? Two separate questions.',
+          built: true,
+          brief: exposureBrief,
+        ),
+      ],
+    ),
   ],
 );
 

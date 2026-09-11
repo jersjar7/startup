@@ -245,6 +245,9 @@ void main() {
       'which-one-moves-most',
       'out-of-the-furnace',
       'which-arm',
+      // The mix selection problem is the only one in the lesson that names an
+      // exposure, and matching a mix to a job is the whole item.
+      'what-this-job-needs',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

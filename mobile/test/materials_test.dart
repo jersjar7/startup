@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/before_or_during_game.dart';
+import 'package:mobile/features/games/concrete_figures.dart';
 import 'package:mobile/features/games/crack_figures.dart';
+import 'package:mobile/features/games/stronger_or_weaker_game.dart';
+import 'package:mobile/features/games/what_this_job_needs_game.dart';
 import 'package:mobile/features/games/out_of_the_furnace_game.dart';
 import 'package:mobile/features/games/thermal_figures.dart';
 import 'package:mobile/features/games/which_arm_game.dart';
@@ -545,6 +548,146 @@ void main() {
               reason: '${r.subject}: ${a.name} is too narrow to tap');
           expect(TiePainter.nearest(size, r.tie, bars[a]!.center), a,
               reason: r.subject);
+        }
+      }
+    });
+  });
+
+  group('the mix curve matches the handbook the lesson quotes', () {
+    test('0.40 is about 6,500 psi and 0.80 about 2,000', () {
+      expect(const Mix(wc: 0.40).strength, closeTo(6500, 250));
+      expect(const Mix(wc: 0.80).strength, closeTo(2000, 150));
+      // And it falls the whole way, which is the lesson's one rule.
+      var last = double.infinity;
+      for (var wc = 0.35; wc <= 0.85; wc += 0.05) {
+        final now = Mix(wc: wc).strength;
+        expect(now, lessThan(last));
+        last = now;
+      }
+    });
+
+    test('the lesson\'s own ratios come out of the weights it gives', () {
+      expect(300 / 600, 0.5);
+      expect(200 / 400, 0.5);
+      expect(200 / 0.40, 500);
+      // Its named wrong readings.
+      expect(600 / 300, 2);
+      expect(300 / 900, closeTo(0.333, 0.001));
+      expect(600 / 900, closeTo(0.667, 0.001));
+    });
+
+    test('air costs strength at the same ratio', () {
+      for (var wc = 0.4; wc <= 0.8; wc += 0.1) {
+        final plain = Mix(wc: wc).strength;
+        final airy = Mix(wc: wc, air: 5).strength;
+        expect(airy, lessThan(plain));
+        expect(airy / plain, closeTo(0.8, 0.01));
+      }
+    });
+
+    test('the parking garage problem comes out the way the lesson says', () {
+      // Four thousand psi, freezing: only the low ratio with air does both.
+      expect(const Mix(wc: 0.45, air: 5).strength, greaterThan(4000));
+      expect(const Mix(wc: 0.70, air: 5).strength, lessThan(4000));
+      expect(const Mix(wc: 0.45).strength, greaterThan(4000));
+    });
+  });
+
+  group('stronger-or-weaker moves one thing at a time', () {
+    test('the answer follows from the two mixes', () {
+      for (final r in batchRounds) {
+        switch (r.answer) {
+          case Way.up:
+            expect(r.after.strength, greaterThan(r.before.strength),
+                reason: r.subject);
+          case Way.down:
+            expect(r.after.strength, lessThan(r.before.strength),
+                reason: r.subject);
+          case Way.level:
+            expect(r.after.strength, closeTo(r.before.strength, 1),
+                reason: r.subject);
+        }
+      }
+    });
+
+    test('a round that moves the strength moves it enough to be sure', () {
+      for (final r in batchRounds.where((r) => r.answer != Way.level)) {
+        final gap =
+            (r.after.strength - r.before.strength).abs() / r.before.strength;
+        expect(gap, greaterThan(0.1),
+            reason: '${r.subject}: too small a move to call');
+      }
+    });
+
+    test('all three answers are used', () {
+      expect(batchRounds.map((r) => r.answer).toSet(), Way.values.toSet());
+    });
+
+    test('the rounds that change nothing really change nothing', () {
+      for (final r in batchRounds.where((r) => r.answer == Way.level)) {
+        expect(r.after.wc, r.before.wc, reason: r.subject);
+        expect(r.after.entrained, r.before.entrained, reason: r.subject);
+      }
+    });
+  });
+
+  group('what-this-job-needs has one mix that passes both tests', () {
+    test('exactly one of the three suits the job', () {
+      for (final r in siteRounds) {
+        final good = [for (final m in r.mixes) if (r.suits(m)) m];
+        expect(good.length, 1,
+            reason: '${r.subject}: ${good.length} mixes suit it');
+        expect(r.suits(r.mixes[r.answer]), isTrue, reason: r.subject);
+      }
+    });
+
+    test('every wrong mix is wrong for a reason the lesson names', () {
+      for (final r in siteRounds) {
+        for (var i = 0; i < r.mixes.length; i++) {
+          if (i == r.answer) continue;
+          final m = r.mixes[i];
+          final weak = m.strength < r.needs;
+          final wrongAir = m.entrained != r.freezes;
+          expect(weak || wrongAir, isTrue,
+              reason: '${r.subject}: mix ${i + 1} is not wrong at all');
+        }
+      }
+    });
+
+    test('both exposures are asked about', () {
+      expect(siteRounds.map((r) => r.freezes).toSet(), {true, false});
+    });
+
+    test('the right mix is not always in the same place', () {
+      expect(siteRounds.map((r) => r.answer).toSet().length, greaterThan(2));
+    });
+
+    test('the three dots are drawn clear of each other', () {
+      const size = Size(340, 240);
+      for (final r in siteRounds) {
+        for (var i = 0; i < r.mixes.length; i++) {
+          for (var j = i + 1; j < r.mixes.length; j++) {
+            final gap = (MixPainter.at(size, r.mixes[i]) -
+                    MixPainter.at(size, r.mixes[j]))
+                .distance;
+            // The choosing is done on the rows below, so these only have to
+            // be told apart by eye, not hit by a thumb.
+            expect(gap, greaterThan(16),
+                reason: '${r.subject}: dots ${i + 1} and ${j + 1} are '
+                    '${gap.round()} apart');
+          }
+        }
+      }
+    });
+
+    test('every dot is inside the panel', () {
+      const size = Size(340, 240);
+      final box = MixPainter.plot(size);
+      for (final r in siteRounds) {
+        for (final m in r.mixes) {
+          final p = MixPainter.at(size, m);
+          expect(box.inflate(1).contains(p), isTrue,
+              reason: '${r.subject}: ${m.plain} is off the chart');
         }
       }
     });

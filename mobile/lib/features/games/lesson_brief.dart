@@ -222,6 +222,8 @@ enum BriefFigure {
   expand,
   furnace,
   tieLine,
+  mix,
+  exposure,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3514,6 +3516,48 @@ const tieLineBrief = BriefSection(
   handbook: 'Handbook p. 127',
 );
 
+const mixBrief = BriefSection(
+  title: 'Water over cement',
+  body:
+      'One ratio runs this page: the weight of the water divided by the '
+      'weight of the CEMENT. Not the total batch, not the aggregate, and not '
+      'the other way up. Lower is stronger, which is the direction people get '
+      'backwards because more water feels like it ought to help. It does help '
+      'the concrete flow, and that is the trap: about 0.40 reaches something '
+      'near 6,500 psi, and by 0.80 there is only about 2,000 left. So you get '
+      'a smaller ratio by adding cement or by taking water out, and when the '
+      'only problem is that the mix will not pour, the answer is a water '
+      'reducer rather than a hose.',
+  formulas: [
+    ('The ratio', r'W/C = \frac{\text{water}}{\text{cement}}'),
+    ('Low ratio', r'0.40 \approx 6{,}500\ \text{psi}'),
+    ('High ratio', r'0.80 \approx 2{,}000\ \text{psi}'),
+  ],
+  figure: BriefFigure.mix,
+  handbook: 'Handbook p. 125',
+);
+
+const exposureBrief = BriefSection(
+  title: 'Strength and exposure are two questions',
+  body:
+      'Choosing a mix means answering two things that have nothing to do with '
+      'each other. How strong must it be, which sets the water-cement ratio '
+      'off the curve. And will this piece of concrete freeze while it is wet, '
+      'which decides whether air is entrained, usually four to seven percent. '
+      'Air is not a free upgrade: it buys freeze and thaw durability and it '
+      'costs roughly a fifth of the strength, so a job that needs both has to '
+      'start from a lower ratio to pay for it. Note that the question is '
+      'whether THIS concrete freezes, not whether the city is cold: a garage '
+      'deck and the footing buried under it get different mixes.',
+  formulas: [
+    ('Strength sets', r'W/C'),
+    ('Exposure sets', r'\text{air, } 4\text{ to }7\%'),
+    ('Air costs', r'\approx 20\%\ \text{of the strength}'),
+  ],
+  figure: BriefFigure.exposure,
+  handbook: 'Handbook p. 125',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -4821,6 +4865,24 @@ class BriefFigureView extends StatelessWidget {
             (r"f_L + f_\alpha = 1", true),
             (r"f_L \text{ uses the arm to } x_L", false),
             (r"\text{the denominator starts at zero}", false),
+          ],
+        );
+      case BriefFigure.mix:
+        return const _RuleList(
+          rules: [
+            (r"\text{more water} \Rightarrow \text{weaker}", true),
+            (r"\text{more cement, same water} \Rightarrow \text{stronger}", true),
+            (r"W/C = \frac{\text{water}}{\text{whole batch}}", false),
+            (r"\text{aggregate changes } W/C", false),
+          ],
+        );
+      case BriefFigure.exposure:
+        return const _RuleList(
+          rules: [
+            (r"\text{it freezes wet} \Rightarrow \text{entrain air}", true),
+            (r"\text{air costs strength}", true),
+            (r"\text{air always improves concrete}", false),
+            (r"\text{water fixes workability}", false),
           ],
         );
       case BriefFigure.damping:

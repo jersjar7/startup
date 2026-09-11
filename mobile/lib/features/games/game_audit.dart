@@ -61,6 +61,7 @@ import 'slide_to_flat_game.dart';
 import 'shade_the_tail_game.dart';
 import 'shadow_falls_game.dart';
 import 'stretch_it_game.dart';
+import 'stronger_or_weaker_game.dart';
 import 'take_the_diagonal_game.dart';
 import 'true_or_engineering_game.dart';
 import 'tap_the_side_game.dart';
@@ -69,6 +70,7 @@ import 'what_was_asked_game.dart';
 import 'whats_missing_game.dart';
 import 'what_is_missing_yet_game.dart';
 import 'what_shows_game.dart';
+import 'what_this_job_needs_game.dart';
 import 'where_it_stops_game.dart';
 import 'through_the_means_game.dart';
 import 'what_goes_under_game.dart';
@@ -2515,6 +2517,33 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final a in Arm.values) a.name],
           answer: Arm.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'stronger-or-weaker',
+    lessonId: 'concrete-mix-design',
+    problemPrefix: 'mat-cmd-',
+    rounds: [
+      for (final r in batchRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final w in Way.values) w.name],
+          answer: Way.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-this-job-needs',
+    lessonId: 'concrete-mix-design',
+    problemPrefix: 'mat-cmd-',
+    rounds: [
+      for (final r in siteRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final m in r.mixes) m.plain],
+          answer: r.answer,
         ),
     ],
   ),
