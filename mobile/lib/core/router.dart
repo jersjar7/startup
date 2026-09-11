@@ -127,6 +127,9 @@ import '../features/games/push_it_or_spin_it_game.dart';
 import '../features/games/where_the_energy_goes_game.dart';
 import '../features/games/does_the_mass_matter_game.dart';
 import '../features/games/more_in_than_out_game.dart';
+import '../features/games/stick_or_bounce_game.dart';
+import '../features/games/what_survives_the_crash_game.dart';
+import '../features/games/stretch_the_time_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -396,6 +399,9 @@ GoRouter buildRouter(AuthController auth) {
           'where-the-energy-goes' => const WhereTheEnergyGoesGame(),
           'does-the-mass-matter' => const DoesTheMassMatterGame(),
           'more-in-than-out' => const MoreInThanOutGame(),
+          'stick-or-bounce' => const StickOrBounceGame(),
+          'what-survives-the-crash' => const WhatSurvivesTheCrashGame(),
+          'stretch-the-time' => const StretchTheTimeGame(),
           _ => const _UnknownGame(),
         },
       ),

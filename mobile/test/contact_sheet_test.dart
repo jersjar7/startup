@@ -89,6 +89,9 @@ import 'package:mobile/features/games/push_it_or_spin_it_game.dart';
 import 'package:mobile/features/games/where_the_energy_goes_game.dart';
 import 'package:mobile/features/games/does_the_mass_matter_game.dart';
 import 'package:mobile/features/games/more_in_than_out_game.dart';
+import 'package:mobile/features/games/stick_or_bounce_game.dart';
+import 'package:mobile/features/games/what_survives_the_crash_game.dart';
+import 'package:mobile/features/games/stretch_the_time_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1295,6 +1298,24 @@ void main() {
           rounds: powerRounds.length,
           height: 1500,
         ),
+        'stick-or-bounce': (
+          lesson: '56-momentum',
+          build: StickOrBounceGame.new,
+          rounds: impactRounds.length,
+          height: 1550,
+        ),
+        'what-survives-the-crash': (
+          lesson: '56-momentum',
+          build: WhatSurvivesTheCrashGame.new,
+          rounds: surviveRounds.length,
+          height: 1500,
+        ),
+        'stretch-the-time': (
+          lesson: '56-momentum',
+          build: StretchTheTimeGame.new,
+          rounds: pulseRounds.length,
+          height: 1650,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1579,6 +1600,11 @@ void main() {
       ('ledger', ledgerBrief),
       ('cancel', cancelBrief),
       ('power', powerBrief),
+    ],
+    '56-momentum': [
+      ('impact', impactBrief),
+      ('survives', survivesBrief),
+      ('impulse', impulseBrief),
     ],
   };
 

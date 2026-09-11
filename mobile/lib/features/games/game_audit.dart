@@ -126,6 +126,9 @@ import 'energy_figures.dart';
 import 'where_the_energy_goes_game.dart';
 import 'does_the_mass_matter_game.dart';
 import 'more_in_than_out_game.dart';
+import 'stick_or_bounce_game.dart';
+import 'what_survives_the_crash_game.dart';
+import 'stretch_the_time_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -2325,6 +2328,49 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final s in r.options) s.name],
           answer: r.options.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'stick-or-bounce',
+    lessonId: 'impulse-and-momentum',
+    problemPrefix: 'dyn-im-',
+    rounds: [
+      for (final r in impactRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final i in Impact.values) i.name],
+          answer: Impact.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-survives-the-crash',
+    lessonId: 'impulse-and-momentum',
+    problemPrefix: 'dyn-im-',
+    rounds: [
+      for (final r in surviveRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final s in Survives.values) s.name],
+          answer: Survives.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'stretch-the-time',
+    lessonId: 'impulse-and-momentum',
+    problemPrefix: 'dyn-im-',
+    rounds: [
+      // Pulses named by how hard and for how long, since two rounds can offer
+      // the same shape in a different order.
+      for (final r in pulseRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (final p in r.options) '${p.force} for ${p.seconds}',
+          ],
+          answer: r.answer,
         ),
     ],
   ),

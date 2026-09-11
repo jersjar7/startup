@@ -209,6 +209,9 @@ enum BriefFigure {
   ledger,
   cancel,
   power,
+  impact,
+  survives,
+  impulse,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3273,6 +3276,75 @@ const powerBrief = BriefSection(
   handbook: 'Handbook p. 107',
 );
 
+const impactBrief = BriefSection(
+  title: 'Stuck, bounced, or somewhere between',
+  body:
+      'The first thing to read out of a collision problem is the word that '
+      'tells you what kind it is. STUCK together, locked, coupled, embedded, '
+      'buried: all of them mean the coefficient of restitution is nothing, the '
+      'two move off as one, and ONE equation does the whole job, with both '
+      'masses added together on the after side. A perfect bounce is an e of '
+      'one and never quite happens in the world. Anything in between needs TWO '
+      'equations, because there are two unknown speeds: the momentum of the '
+      'pair, and the restitution relation, which compares how fast they '
+      'separate with how fast they closed. Note which velocities that '
+      'comparison uses: the ones square to the surface they hit on, never the '
+      'ones sliding along it.',
+  formulas: [
+    ('Momentum of the pair', r"m_1v_1 + m_2v_2 = m_1v_1' + m_2v_2'"),
+    ('Restitution', r"e = \frac{v_2' - v_1'}{v_1 - v_2}"),
+    ('Stuck together', r"e = 0,\quad v_1' = v_2'"),
+    ('Perfect bounce', r'e = 1'),
+  ],
+  figure: BriefFigure.impact,
+  handbook: 'Handbook p. 108',
+);
+
+const survivesBrief = BriefSection(
+  title: 'Momentum always, energy almost never',
+  body:
+      'Momentum comes through every collision unchanged, because nothing '
+      'outside is pushing on the pair while the bang lasts. Kinetic energy '
+      'does not: it survives ONLY a perfect bounce, and everything else spends '
+      'some of it on bending, heating and noise. A crash where things stick '
+      'together spends the most, and a bullet burying itself in a block spends '
+      'over ninety nine percent of it. That is why conserving energy in a '
+      'plastic collision is the named trap in this lesson, and why a ballistic '
+      'pendulum is worked with momentum for the impact and energy only for the '
+      'swing that follows. One more thing worth holding: momentum is conserved '
+      'across the PAIR, never by one body on its own.',
+  formulas: [
+    ('Always', r'\sum p \text{ before} = \sum p \text{ after}'),
+    ('Only when e = 1', r'\sum T \text{ before} = \sum T \text{ after}'),
+    ('Sticking together', r'\text{loses the most}'),
+  ],
+  figure: BriefFigure.survives,
+  handbook: 'Handbook p. 108',
+);
+
+const impulseBrief = BriefSection(
+  title: 'Force times time is the whole of it',
+  body:
+      'Impulse is a force multiplied by how long it acts, and it equals the '
+      'change in momentum exactly. Drawn as force against time, it is the AREA '
+      'under the line. That one sentence explains the safest thing in a '
+      'vehicle: a crash fixes how much momentum has to disappear, so the only '
+      'thing a designer can change is how LONG the stopping takes, and the '
+      'force follows. Twice as long is half as hard, which is a crumple zone, '
+      'an airbag, a catcher drawing their hands back and a run off area. Turn '
+      'it over and you have a pile driver: the same momentum in the shortest '
+      'possible time is the biggest possible force. And if a question gives a '
+      'force and a time, the answer is a momentum, not a force: divide by the '
+      'time only when you want the force back.',
+  formulas: [
+    ('Impulse', r'\int F\,dt = F_{avg}\,\Delta t'),
+    ('Which is', r'F\,\Delta t = m v_2 - m v_1'),
+    ('So a longer stop', r'\text{means a smaller force}'),
+  ],
+  figure: BriefFigure.impulse,
+  handbook: 'Handbook p. 107',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -4425,6 +4497,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.impact:
+        return const _RuleList(
+          rules: [
+            (r"\text{stuck together} \Rightarrow e = 0", true),
+            (r"e \text{ between} \Rightarrow \text{two equations}", true),
+            (r"\text{stuck together} \Rightarrow e = 1", false),
+            (r"\text{momentum alone is always enough}", false),
+          ],
+        );
+      case BriefFigure.survives:
+        return const _RuleList(
+          rules: [
+            (r"\text{momentum survives every collision}", true),
+            (r"\text{energy survives only } e = 1", true),
+            (r"\text{energy survives a plastic crash}", false),
+            (r"\text{one body keeps its own momentum}", false),
+          ],
+        );
+      case BriefFigure.impulse:
+        return const _RuleList(
+          rules: [
+            (r"F\,\Delta t = m\,\Delta v \text{, the area}", true),
+            (r"\text{twice as long} \Rightarrow \text{half as hard}", true),
+            (r"\text{a longer stop is a harder one}", false),
+            (r"F\,\Delta t \text{ is a force}", false),
           ],
         );
       case BriefFigure.ledger:

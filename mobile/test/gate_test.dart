@@ -232,6 +232,9 @@ void main() {
       // The pump problem is the only one in the lesson about power, and which
       // way efficiency runs is the whole item.
       'more-in-than-out',
+      // The barrier problem is the only one in the lesson about a force
+      // acting over a time, and trading force against time is the whole item.
+      'stretch-the-time',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

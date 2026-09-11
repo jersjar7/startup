@@ -1638,6 +1638,32 @@ const dynamicsMap = ChapterMap(
       id: 'impulse-and-momentum',
       name: 'Impulse & Momentum',
       subtopicId: 'momentum-and-vibrations',
+      games: [
+        GameDef(
+          id: 'stick-or-bounce',
+          rounds: 6,
+          name: 'Stick or Bounce',
+          blurb: 'Read the sentence. It tells you how many equations.',
+          built: true,
+          brief: impactBrief,
+        ),
+        GameDef(
+          id: 'what-survives-the-crash',
+          rounds: 6,
+          name: 'What Survives the Crash',
+          blurb: 'Momentum always. Energy hardly ever.',
+          built: true,
+          brief: survivesBrief,
+        ),
+        GameDef(
+          id: 'stretch-the-time',
+          rounds: 6,
+          name: 'Stretch the Time',
+          blurb: 'Same area, different shape. That is a crumple zone.',
+          built: true,
+          brief: impulseBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'vibrations-natural-frequency',
