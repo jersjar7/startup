@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The center of pressure is y_CP = y_C + I_xC/(y_C \u00D7 A). For a vertical surface, y = h. Centroid: y_C = 1.5 m. I_xC = 2(3)^3/12 = 4.5 m^4. A = 6 m\u00B2. Offset = 4.5/(1.5 \u00D7 6) = 0.5 m. So y_CP = 1.5 + 0.5 = 2.0 m. The center of pressure is at 2/3 of the height \u2014 that\u2019s a classic result for a rectangle with its top at the surface. The 1.5 m option is the centroid, not the center of pressure. The 1.0 m option is one-third. The 2.5 m option uses the wrong I formula.',
+      eli5: 'The center of pressure is y_CP = y_C + I_xC/(y_C \u00D7 A). For a vertical surface, y = h. Centroid: y_C = 1.5 m. I_xC = 2(3)^3/12 = 4.5 m^4. A = 6 m\u00B2. Offset = 4.5/(1.5 \u00D7 6) = 0.5 m. So y_CP = 1.5 + 0.5 = 2.0 m. The center of pressure is at 2/3 of the height \u2014 that\u2019s a classic result for a rectangle with its top at the surface. The 1.5 m option is the centroid, not the center of pressure. The 1.0 m option is one-third. The 2.5 m option adds a third of the gate height to the centroid, 1.5 + 1.0, which is the right idea about the shape of the pressure and the wrong distance: the offset here is half a meter, not a third of the height.',
       hint: 'The center of pressure is deeper than the centroid. Use the formula y_CP = y_C + I_xC/(y_C \u00D7 A).',
       steps: [
         { text: 'Centroid depth for vertical surface:', latex: 'y_C = h_C = 1.5 \\text{ m}' },
@@ -69,7 +69,7 @@ export default {
       videoUrl: null,
       traps: [
         'Confusing the centroid with the center of pressure \u2014 they\u2019re not the same (choice B)',
-        'Using the wrong moment of inertia formula (e.g., bh^3/3 instead of bh^3/12)',
+        'Remembering that the resultant sits a third of the way from somewhere and adding h/3 to the centroid \u2014 gives 2.5 m (choice D). The resultant on a surface-topped rectangle sits a third of the height up from the BOTTOM, which is 2.0 m down',
       ],
       diagram: { component: 'SubmergedGate', props: { width: 2, height: 3, topDepth: 0, unit: 'm' } },
     },
