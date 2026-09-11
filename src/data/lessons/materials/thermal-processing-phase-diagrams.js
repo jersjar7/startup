@@ -31,12 +31,12 @@ export default {
       choices: [
         { id: 'c1', text: '$10.2 \\text{ mm}$' },
         { id: 'c2', text: '$13.2 \\text{ mm}$' },
-        { id: 'c3', text: '$5.1 \\text{ mm}$' },
+        { id: 'c3', text: '$7.3 \\text{ mm}$' },
         { id: 'c4', text: '$1.02 \\text{ mm}$' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Plug into $\\Delta L = \\alpha L \\Delta T$. The temperature change is $40 - 5 = 35$\u00B0C (not 45, not 25). $\\Delta L = 11.7 \\times 10^{-6} \\times 25{,}000 \\times 35 = 10.24 \\approx 10.2$ mm. The 13.2 mm choice comes from adding temperatures: $\\Delta T = 45$\u00B0C. The 5.1 mm choice comes from halving the answer \u2014 maybe using $\\Delta T = 17.5$\u00B0C. The 1.02 mm choice comes from using $L = 2.5$ m instead of converting to mm (or equivalently, the answer is correct in cm instead of mm).',
+      eli5: 'Plug into $\\Delta L = \\alpha L \\Delta T$. The temperature change is $40 - 5 = 35$\u00B0C (not 45, not 25). $\\Delta L = 11.7 \\times 10^{-6} \\times 25{,}000 \\times 35 = 10.24 \\approx 10.2$ mm. The 13.2 mm choice comes from adding temperatures: $\\Delta T = 45$\u00B0C. The 7.3 mm choice comes from reading the 25 in the problem as the temperature change instead of the length. The 1.02 mm choice comes from using $L = 2.5$ m instead of 25 m, which is the same as reporting the right answer in centimeters.',
       hint: 'Temperature change is the difference: $\\Delta T = T_{final} - T_{initial}$. Watch your units \u2014 $L$ in mm gives $\\Delta L$ in mm.',
       steps: [
         { text: 'Temperature change:', latex: '\\Delta T = 40 - 5 = 35\\degree\\text{C}' },
@@ -47,7 +47,8 @@ export default {
       videoUrl: null,
       traps: [
         'Adding temperatures instead of subtracting: \u0394T = 45\u00B0C gives 13.2 mm (choice B)',
-        'Using L = 2.5 m or halving the temperature change \u2014 gives 1.02 or 5.1 mm (choices D and C)',
+        'Taking \u0394T from the 25 in the problem, which is the length in meters, not a temperature \u2014 gives 7.3 mm (choice C)',
+        'Slipping a decimal on the length, 2.5 m instead of 25 m \u2014 gives 1.02 mm (choice D)',
       ],
       diagram: null,
     },
@@ -89,7 +90,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'The lever rule says: the fraction of a phase equals the arm on the OPPOSITE side divided by the total tie-line length. For liquid: $f_L = (x_0 - x_\\alpha)/(x_L - x_\\alpha) = (30 - 10)/(40 - 10) = 20/30 = 0.667$. The most common mistake is swapping the arms \u2014 using $(x_L - x_0)$ in the numerator gives the fraction of SOLID (0.33, the 0.33 choice). The 0.50 choice comes from using a wrong denominator like $(40 - 0)$ or averaging. The 0.75 choice comes from dividing $x_0/x_L = 30/40$.',
+      eli5: 'The lever rule says: the fraction of a phase equals the arm on the OPPOSITE side divided by the total tie-line length. For liquid: $f_L = (x_0 - x_\\alpha)/(x_L - x_\\alpha) = (30 - 10)/(40 - 10) = 20/30 = 0.667$. The most common mistake is swapping the arms \u2014 using $(x_L - x_0)$ in the numerator gives the fraction of SOLID (0.33, the 0.33 choice). The 0.50 choice comes from leaving the solid boundary out of the denominator: $(30 - 10)/40$ instead of $(30-10)/(40-10)$. The 0.75 choice comes from dividing $x_0/x_L = 30/40$.',
       hint: 'In the lever rule, the fraction of liquid uses the arm from the overall composition to the SOLID boundary (opposite side), divided by the total tie-line length.',
       steps: [
         { text: 'Identify tie-line endpoints at temperature T:', latex: 'x_\\alpha = 10 \\text{ wt\\%},\\quad x_L = 40 \\text{ wt\\%},\\quad x_0 = 30 \\text{ wt\\%}' },
@@ -101,6 +102,7 @@ export default {
       traps: [
         'Swapping the lever arms \u2014 computing $(x_L - x_0)/(x_L - x_\\alpha)$ gives the solid fraction 0.33, not the liquid fraction (choice B)',
         'Using $x_0/x_L = 30/40 = 0.75$ instead of the proper lever rule (choice A)',
+        'Dividing by the liquid composition rather than by the whole tie line: $(30-10)/40 = 0.50$ (choice C)',
       ],
       diagram: null,
     },
