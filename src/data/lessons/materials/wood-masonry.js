@@ -23,12 +23,12 @@ export default {
       choices: [
         { id: 'c1', text: '$28\\%$' },
         { id: 'c2', text: '$21.9\\%$' },
-        { id: 'c3', text: '$22\\%$' },
+        { id: 'c3', text: '$128\\%$' },
         { id: 'c4', text: '$14\\%$' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'MC = (W_wet − W_OD)/W_OD × 100 = (64 − 50)/50 × 100 = 14/50 × 100 = 28%. This is near the fiber saturation point. The 21.9% and 22% choices divide by the wet weight (64) instead of the oven-dry weight. The 14% choice forgets to divide and reports the raw water mass.',
+      eli5: 'MC = (W_wet − W_OD)/W_OD × 100 = (64 − 50)/50 × 100 = 14/50 × 100 = 28%. This is near the fiber saturation point. The 21.9% choice divides by the wet weight (64) instead of the oven-dry weight. The 128% choice is the wet weight over the dry weight, $64/50$, with the subtraction left out, so it counts the wood itself as if it were water. The 14% choice forgets to divide and reports the raw water mass.',
       hint: 'Moisture content = (wet weight − oven-dry weight) / oven-dry weight × 100.',
       steps: [
         { text: 'Water mass:', latex: 'W_{wet} - W_{OD} = 64 - 50 = 14\\text{ g}' },
@@ -55,7 +55,7 @@ export default {
       correctAnswerId: 'c1',
       difficulty: 'easy',
       eli5: 'Mortar types run M, S, N, O in order of decreasing compressive strength, so Type M is the strongest (and Type O the weakest). Higher-strength mortars trade away some workability and bond flexibility. The "MaSoN wOrK" mnemonic gives the order.',
-      hint: 'The mortar types in strength order spell out of "MaSoN wOrK": M, S, N, O.',
+      hint: 'The mortar types in strength order are the every-other letters of the phrase MaSoN wOrK: M, S, N, O.',
       steps: [
         { text: 'Mortar strength order (high to low): M > S > N > O.', latex: null },
         { text: 'Type M has the highest compressive strength.', latex: null },
