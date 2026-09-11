@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'First the dose: Dose = Demand + Residual = 2.4 + 0.6 = 3.0 mg/L. Then the mass feed: since 1 mg/L = 1 g/m³, mass = 3.0 g/m³ × 4,000 m³/day = 12,000 g/day = 12.0 kg/day. The 9.6 kg/day option uses only the demand (2.4) and forgets the residual. The 2.4 kg/day option just echoes the demand value with a wrong conversion. The 120 kg/day option slips a factor of 10 in the unit conversion.',
+      eli5: 'First the dose: Dose = Demand + Residual = 2.4 + 0.6 = 3.0 mg/L. Then the mass feed: since 1 mg/L = 1 g/m³, mass = 3.0 g/m³ × 4,000 m³/day = 12,000 g/day = 12.0 kg/day. The 9.6 kg/day option uses only the demand (2.4) and forgets the residual. The 2.4 kg/day option copies the demand figure across with the units changed, without multiplying by the flow at all. The 120 kg/day option slips a factor of 10 in the unit conversion.',
       hint: 'Dose = demand + residual. Then mass/day = dose (mg/L = g/m³) × flow (m³/day), converted to kg.',
       steps: [
         { text: 'Required applied dose:', latex: '\\text{Dose} = 2.4 + 0.6 = 3.0\\text{ mg/L}' },

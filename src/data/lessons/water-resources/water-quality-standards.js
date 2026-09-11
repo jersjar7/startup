@@ -28,7 +28,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Convert each ion to CaCO₃ by multiplying by 50/EW. Ca: 40 × (50/20) = 40 × 2.5 = 100. Mg: 24.3 × (50/12.15) = 24.3 × 4.12 = 100. Total = 100 + 100 = 200 mg/L as CaCO₃ (very hard). The 64.3 mg/L option just adds the raw ion concentrations (40 + 24.3) without converting. The 100 mg/L option counts only the calcium. The 150 mg/L option is a partial conversion.',
+      eli5: 'Convert each ion to CaCO₃ by multiplying by 50/EW. Ca: 40 × (50/20) = 40 × 2.5 = 100. Mg: 24.3 × (50/12.15) = 24.3 × 4.12 = 100. Total = 100 + 100 = 200 mg/L as CaCO₃ (very hard). The 64.3 mg/L option just adds the raw ion concentrations (40 + 24.3) without converting. The 100 mg/L option counts only the calcium. The 150 mg/L option uses the atomic weight of magnesium, 24.3, instead of its equivalent weight of 12.15, forgetting that a divalent ion carries two equivalents: it counts the magnesium as 50 rather than 100.',
       hint: 'Multiply each ion by 50/EW, then add. Ca uses 50/20 = 2.5; Mg uses 50/12.15 ≈ 4.12.',
       steps: [
         { text: 'Calcium as CaCO₃:', latex: '40 \\times \\frac{50}{20} = 40 \\times 2.5 = 100' },
@@ -55,7 +55,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Removal efficiency = (in − out)/in = (240 − 30)/240 = 210/240 = 0.875 = 87.5%. The 12.5% option is the fraction REMAINING (30/240 = 12.5%), not the fraction removed. The 8.0% option mis-scales the ratio. The 30% option just reports the effluent number (30 mg/L) as a percent.',
+      eli5: 'Removal efficiency = (in − out)/in = (240 − 30)/240 = 210/240 = 0.875 = 87.5%. The 12.5% option is the fraction REMAINING (30/240 = 12.5%), not the fraction removed. The 8.0% option is the ratio of influent to effluent, 240/30 = 8, which is how many times the plant must reduce the BOD rather than a percentage at all. The 30% option just reports the effluent number (30 mg/L) as a percent.',
       hint: 'Efficiency = (influent − effluent)/influent, expressed as a percent.',
       steps: [
         { text: 'Removal efficiency formula:', latex: 'E = \\frac{S_0 - S}{S_0} \\times 100\\%' },
