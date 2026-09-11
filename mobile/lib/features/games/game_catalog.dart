@@ -2900,6 +2900,33 @@ const waterResourcesMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'pumps-water-distribution',
+      name: 'Pumps & Water Distribution',
+      subtopicId: 'hydraulics',
+      // Two items, not three. The system curve and the operating point are
+      // in the lesson text but no problem asks about them, and the 550 and
+      // 746 horsepower conversions are a units table the handbook hands you
+      // in the exam. Both sit on the cards instead.
+      games: [
+        GameDef(
+          id: 'what-happens-to-the-power',
+          rounds: 6,
+          name: 'What Happens to the Power',
+          blurb: 'Everything multiplies except the efficiency.',
+          built: true,
+          brief: pumpPowerBrief,
+        ),
+        GameDef(
+          id: 'helps-or-hurts',
+          rounds: 6,
+          name: 'Helps or Hurts',
+          blurb: 'What is left before the water boils at the inlet.',
+          built: true,
+          brief: npshBrief,
+        ),
+      ],
+    ),
   ],
 );
 

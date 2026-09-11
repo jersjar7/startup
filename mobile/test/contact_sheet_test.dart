@@ -218,6 +218,8 @@ import 'package:mobile/features/games/what_survives_the_jump_game.dart';
 import 'package:mobile/features/games/which_formula_fits_this_weir_game.dart';
 import 'package:mobile/features/games/which_weir_notices_more_game.dart';
 import 'package:mobile/features/games/smoother_or_rougher_game.dart';
+import 'package:mobile/features/games/what_happens_to_the_power_game.dart';
+import 'package:mobile/features/games/helps_or_hurts_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1856,6 +1858,18 @@ void main() {
           rounds: carryRounds.length,
           height: 1840,
         ),
+        'what-happens-to-the-power': (
+          lesson: '87-pumps',
+          build: WhatHappensToThePowerGame.new,
+          rounds: dutyRounds.length,
+          height: 1880,
+        ),
+        'helps-or-hurts': (
+          lesson: '87-pumps',
+          build: HelpsOrHurtsGame.new,
+          rounds: marginRounds.length,
+          height: 1880,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2288,6 +2302,10 @@ void main() {
       ('weir', weirBrief),
       ('exponent', exponentBrief),
       ('hazen', hazenBrief),
+    ],
+    '87-pumps': [
+      ('power', pumpPowerBrief),
+      ('npsh', npshBrief),
     ],
   };
 

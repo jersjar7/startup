@@ -289,6 +289,8 @@ enum BriefFigure {
   weirShape,
   weirExponent,
   hazen,
+  pumpPower,
+  npsh,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -5089,6 +5091,58 @@ const hazenBrief = BriefSection(
   handbook: 'Handbook p. 297',
 );
 
+const pumpPowerBrief = BriefSection(
+  title: 'Three powers, and they only get bigger',
+  body:
+      'The power a pump costs is a product, so every term in the numerator '
+      'behaves the same simple way: double the FLOW, or the HEAD, or the unit '
+      'weight of what is being moved, and the power doubles. What breaks the '
+      'pattern is the efficiency, which sits UNDERNEATH. Dividing by a number '
+      'below one makes the answer LARGER, so the three powers come in a fixed '
+      'order and never any other: the fluid power that ends up in the water is '
+      'the smallest, the brake power at the shaft is bigger by the pump '
+      'efficiency, and the input power off the meter is bigger again by the '
+      'motor efficiency. Multiplying by the efficiency instead of dividing is '
+      'the mistake the lesson names first, and the giveaway is that it makes '
+      'the shaft work less hard than the water, which cannot happen. A motor '
+      'nameplate is a ceiling, not a consumption: a bigger motor on the same '
+      'duty draws the same power.',
+  formulas: [
+    ('Into the water', r'\dot W_{fluid} = \gamma Q H'),
+    ('At the shaft', r'\dot W_{brake} = \frac{\gamma Q H}{\eta_{pump}}'),
+    ('Off the meter', r'\dot W_{in} = \frac{\dot W_{brake}}{\eta_{motor}}'),
+    ('In US units', r'WHP = \frac{\gamma Q H}{550}'),
+  ],
+  figure: BriefFigure.pumpPower,
+  handbook: 'Handbook p. 191',
+);
+
+const npshBrief = BriefSection(
+  title: 'The margin before the water boils',
+  body:
+      'Water boils at whatever pressure its temperature says it should, and '
+      'inside a pump inlet the pressure is the lowest it gets anywhere in the '
+      'system. NPSH AVAILABLE is how much head is left above that boiling '
+      'point, and cavitation is what happens when it runs out: vapor bubbles '
+      'form and then collapse against the impeller, which sounds like gravel '
+      'and wears metal away. Two things add to the margin. The atmosphere '
+      'pressing on the supply, worth about 10.3 meters at sea level and less '
+      'up a mountain, and any water standing ABOVE the pump. Three things take '
+      'from it: a suction LIFT, which makes the static term negative and is '
+      'the sign error this lesson is built around, friction in the SUCTION '
+      'pipework, and the vapor pressure of the liquid, which climbs steeply '
+      'with temperature. Nothing on the discharge side appears anywhere in '
+      'it. The margin has to beat the NPSH the pump itself requires.',
+  formulas: [
+    ('The margin', r'NPSH_A = H_{pa} + H_s - \sum h_L - H_{vp}'),
+    ('A lift', r'H_s < 0'),
+    ('A flooded suction', r'H_s > 0'),
+    ('No cavitation', r'NPSH_A > NPSH_R'),
+  ],
+  figure: BriefFigure.npsh,
+  handbook: 'Handbook p. 191',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6765,6 +6819,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\frac{Q_A}{Q_B} = \frac{C_A}{C_B}", true),
             (r"\text{bigger } C \Rightarrow \text{rougher}", false),
             (r"\frac{Q_A}{Q_B} = \left(\frac{C_A}{C_B}\right)^{0.63}", false),
+          ],
+        );
+      case BriefFigure.pumpPower:
+        return const _RuleList(
+          rules: [
+            (r"\dot W_{brake} > \dot W_{fluid}", true),
+            (r"2Q \Rightarrow 2\dot W", true),
+            (r"\dot W_{brake} = \eta\,\gamma Q H", false),
+            (r"\text{a bigger motor draws more}", false),
+          ],
+        );
+      case BriefFigure.npsh:
+        return const _RuleList(
+          rules: [
+            (r"\text{a lift}: H_s < 0", true),
+            (r"\text{warm water lowers the margin}", true),
+            (r"\text{discharge losses lower the margin}", false),
+            (r"\text{a lift}: H_s > 0", false),
           ],
         );
       case BriefFigure.cogo:

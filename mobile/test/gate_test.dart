@@ -331,6 +331,10 @@ void main() {
       // about pipes at all: the other two are weirs. Comparing two mains is
       // the whole of it.
       'smoother-or-rougher',
+      // The NPSH problem is the only one in the pump lesson that is about
+      // the suction side at all, and every term in that equation comes out
+      // of it.
+      'helps-or-hurts',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

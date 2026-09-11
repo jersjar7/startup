@@ -211,6 +211,8 @@ import '../features/games/what_survives_the_jump_game.dart';
 import '../features/games/which_formula_fits_this_weir_game.dart';
 import '../features/games/which_weir_notices_more_game.dart';
 import '../features/games/smoother_or_rougher_game.dart';
+import '../features/games/what_happens_to_the_power_game.dart';
+import '../features/games/helps_or_hurts_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -561,6 +563,8 @@ GoRouter buildRouter(AuthController auth) {
             const WhichFormulaFitsThisWeirGame(),
           'which-weir-notices-more' => const WhichWeirNoticesMoreGame(),
           'smoother-or-rougher' => const SmootherOrRougherGame(),
+          'what-happens-to-the-power' => const WhatHappensToThePowerGame(),
+          'helps-or-hurts' => const HelpsOrHurtsGame(),
           _ => const _UnknownGame(),
         },
       ),

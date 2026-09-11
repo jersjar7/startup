@@ -29,6 +29,8 @@ import 'what_survives_the_jump_game.dart';
 import 'which_formula_fits_this_weir_game.dart';
 import 'which_weir_notices_more_game.dart';
 import 'smoother_or_rougher_game.dart';
+import 'what_happens_to_the_power_game.dart';
+import 'helps_or_hurts_game.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
 import 'where_does_that_pair_land_game.dart';
@@ -3492,6 +3494,32 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Carries.values) o.name],
           answer: Carries.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-happens-to-the-power',
+    lessonId: 'pumps-water-distribution',
+    problemPrefix: 'wr-pwd-',
+    rounds: [
+      for (final r in dutyRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Draws.values) o.name],
+          answer: Draws.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'helps-or-hurts',
+    lessonId: 'pumps-water-distribution',
+    problemPrefix: 'wr-pwd-',
+    rounds: [
+      for (final r in marginRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Helps.values) o.name],
+          answer: Helps.values.indexOf(r.answer),
         ),
     ],
   ),

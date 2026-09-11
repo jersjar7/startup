@@ -7,6 +7,9 @@ import 'package:mobile/features/games/channel_figures.dart';
 import 'package:mobile/features/games/flow_figures.dart';
 import 'package:mobile/features/games/weir_figures.dart';
 import 'package:mobile/features/games/hazen_figures.dart';
+import 'package:mobile/features/games/pump_figures.dart';
+import 'package:mobile/features/games/what_happens_to_the_power_game.dart';
+import 'package:mobile/features/games/helps_or_hurts_game.dart';
 import 'package:mobile/features/games/which_formula_fits_this_weir_game.dart';
 import 'package:mobile/features/games/which_weir_notices_more_game.dart';
 import 'package:mobile/features/games/smoother_or_rougher_game.dart';
@@ -529,6 +532,96 @@ void main() {
         }
       }
       expect(carryRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('pump power', () {
+    test('the lesson\'s own duty is 14.7 kW in the water and 19.6 at the shaft',
+        () {
+      const d = Duty(flow: 0.05, head: 30, pumpEfficiency: 0.75);
+      expect(d.fluidPower / 1000, closeTo(14.7, 0.05));
+      expect(d.shaftPower / 1000, closeTo(19.6, 0.05));
+    });
+
+    test('the three powers only ever get bigger', () {
+      const d = Duty(
+          flow: 0.05, head: 30, pumpEfficiency: 0.75, motorEfficiency: 0.9);
+      expect(d.shaftPower, greaterThan(d.fluidPower));
+      expect(d.inputPower, greaterThan(d.shaftPower));
+      // Multiplying by the efficiency instead of dividing lands below the
+      // fluid power, which cannot happen.
+      expect(d.fluidPower * 0.75, lessThan(d.fluidPower));
+    });
+
+    test('everything in the numerator is a plain proportion', () {
+      const base = Duty(flow: 0.05, head: 30, pumpEfficiency: 0.75);
+      const twiceFlow = Duty(flow: 0.1, head: 30, pumpEfficiency: 0.75);
+      const twiceHead = Duty(flow: 0.05, head: 60, pumpEfficiency: 0.75);
+      expect(twiceFlow.shaftPower / base.shaftPower, closeTo(2, 1e-9));
+      expect(twiceHead.shaftPower / base.shaftPower, closeTo(2, 1e-9));
+    });
+
+    test('the US water horsepower in the lesson is 12.5', () {
+      // 62.4 lb/ft3 times 1.1 ft3/s times 100 ft, over 550 ft-lb/s per hp.
+      expect(62.4 * 1.1 * 100 / 550, closeTo(12.5, 0.05));
+      // Dividing by 746 instead is the named trap and gives 9.2.
+      expect(62.4 * 1.1 * 100 / 746, closeTo(9.2, 0.05));
+    });
+
+    test('every round answers with what the two readings do', () {
+      for (final r in dutyRounds) {
+        expect(r.answer, isNotNull, reason: r.subject);
+      }
+      expect(dutyRounds.map((r) => r.answer).toSet().length, 3);
+      // The one that compares two powers on one duty must come out smaller.
+      final pair = dutyRounds.firstWhere((r) => r.against != null);
+      expect(pair.answer, Draws.less);
+    });
+
+    test('a bigger motor on the same duty draws the same power', () {
+      final r = dutyRounds.last;
+      expect(r.answer, Draws.same);
+      expect(r.before.inputPower, closeTo(r.after.inputPower, 1e-9));
+    });
+  });
+
+  group('the margin before the water boils', () {
+    test('the lesson\'s own NPSH comes to 6.1 meters', () {
+      expect(10.3 - 3.0 - 1.0 - 0.24, closeTo(6.06, 0.005));
+      // Getting the sign of the lift wrong gives the 12.1 the lesson offers.
+      expect(10.3 + 3.0 - 1.0 - 0.24, closeTo(12.06, 0.005));
+    });
+
+    test('the two that add and the three that take', () {
+      final helps = marginRounds
+          .where((r) => r.answer == Helps.helps)
+          .map((r) => r.piece)
+          .toSet();
+      final hurts = marginRounds
+          .where((r) => r.answer == Helps.hurts)
+          .map((r) => r.piece)
+          .toSet();
+      expect(helps, containsAll([Piece3.air, Piece3.flooded]));
+      expect(hurts,
+          containsAll([Piece3.lift, Piece3.suctionLine, Piece3.warmth]));
+    });
+
+    test('the discharge side does not come into it', () {
+      final far = marginRounds
+          .firstWhere((r) => r.piece == Piece3.dischargeLine);
+      expect(far.answer, Helps.neither);
+    });
+
+    test('the drawing puts the pump on the right side of the water', () {
+      for (final r in marginRounds) {
+        if (r.piece == Piece3.flooded) {
+          expect(r.above, isFalse, reason: r.subject);
+        }
+        if (r.piece == Piece3.lift) {
+          expect(r.above, isTrue, reason: r.subject);
+        }
+      }
+      expect(marginRounds.map((r) => r.answer).toSet().length, 3);
     });
   });
 }
