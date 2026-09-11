@@ -76,14 +76,14 @@ export default {
       id: 'surv-adb-q3',
       statement: 'A closed traverse has 5 sides. The measured interior angles are $108\\degree$, $120\\degree$, $95\\degree$, $132\\degree$, and $84\\degree$. What is the angular misclosure?',
       choices: [
-        { id: 'c1', text: '$-5\\degree$' },
+        { id: 'c1', text: '$-0.2\\degree$' },
         { id: 'c2', text: '$+1\\degree$' },
         { id: 'c3', text: '$0\\degree$' },
         { id: 'c4', text: '$-1\\degree$' },
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'For a 5-sided polygon, the angles should sum to (5 \u2013 2) \u00D7 180\u00B0 = 540\u00B0. Actual sum = 108 + 120 + 95 + 132 + 84 = 539\u00B0. Misclosure = measured \u2013 theoretical = 539 \u2013 540 = \u20131\u00B0. The survey is 1\u00B0 short. The \u22125\u00b0 distractor reflects a formula error (using n instead of n \u2212 2). The +1\u00b0 distractor gets the sign wrong (it computes theoretical \u2212 measured). The 0\u00b0 distractor assumes the traverse closes perfectly.',
+      eli5: 'For a 5-sided polygon, the angles should sum to (5 \u2013 2) \u00D7 180\u00B0 = 540\u00B0. Actual sum = 108 + 120 + 95 + 132 + 84 = 539\u00B0. Misclosure = measured \u2013 theoretical = 539 \u2013 540 = \u20131\u00B0. The survey is 1\u00B0 short. The \u22120.2\u00b0 distractor is the correction that gets spread over each of the five angles, one fifth of the misclosure, rather than the misclosure itself. The +1\u00b0 distractor gets the sign wrong (it computes theoretical \u2212 measured). The 0\u00b0 distractor assumes the traverse closes perfectly.',
       hint: 'Sum the measured angles and compare to the theoretical sum: (n \u2013 2) \u00D7 180\u00B0.',
       steps: [
         { text: 'Theoretical sum for 5-sided polygon:', latex: '\\Sigma = (5 - 2) \\times 180\\degree = 540\\degree' },
