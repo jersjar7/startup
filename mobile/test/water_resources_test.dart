@@ -9,6 +9,10 @@ import 'package:mobile/features/games/weir_figures.dart';
 import 'package:mobile/features/games/hazen_figures.dart';
 import 'package:mobile/features/games/pump_figures.dart';
 import 'package:mobile/features/games/runoff_figures.dart';
+import 'package:mobile/features/games/hydrograph_figures.dart';
+import 'package:mobile/features/games/what_does_the_storm_do_game.dart';
+import 'package:mobile/features/games/why_is_this_peak_smaller_game.dart';
+import 'package:mobile/features/games/filling_or_emptying_game.dart';
 import 'package:mobile/features/games/which_one_sheds_more_game.dart';
 import 'package:mobile/features/games/where_the_blend_lands_game.dart';
 import 'package:mobile/features/games/does_any_of_it_run_off_game.dart';
@@ -747,6 +751,108 @@ void main() {
         }
       }
       expect(soakRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('the unit hydrograph', () {
+    test('three inches trebles the peak and leaves the times alone', () {
+      const unit = Wave(peak: 500, toPeak: 3, base: 9);
+      final storm = unit.forRain(3);
+      expect(storm.peak, closeTo(1500, 0.001));
+      expect(storm.toPeak, unit.toPeak);
+      expect(storm.base, unit.base);
+    });
+
+    test('the volume scales with the depth', () {
+      const unit = Wave(peak: 500, toPeak: 3, base: 9);
+      expect(unit.forRain(3).volume / unit.volume, closeTo(3, 0.001));
+      expect(unit.forRain(0.5).volume / unit.volume, closeTo(0.5, 0.001));
+    });
+
+    test('stretching the times is a different curve entirely', () {
+      const unit = Wave(peak: 500, toPeak: 3, base: 9);
+      final wrong = unit.stretched(3);
+      expect(wrong.peak, unit.peak);
+      expect(wrong.volume / unit.volume, closeTo(3, 0.001));
+      // Same volume as the right answer, and the wrong shape.
+      expect(wrong.toPeak, isNot(unit.toPeak));
+    });
+
+    test('only a storm of the same duration can be scaled', () {
+      for (final r in stormRounds) {
+        final matches = (r.stormHours - r.unitHours).abs() < 0.01;
+        expect(r.answer == Scaling.flows, matches, reason: r.subject);
+      }
+      expect(stormRounds.map((r) => r.answer).toSet().length, 2,
+          reason: 'stretching the times is never the answer');
+    });
+  });
+
+  group('the time of concentration', () {
+    test('the design storm lasts exactly the travel time', () {
+      const design = Basin(travelTime: 30, stormMinutes: 30);
+      expect(design.tooShort, isFalse);
+      expect(design.tooLong, isFalse);
+      expect(design.contributing, 1);
+    });
+
+    test('a short storm leaves part of the watershed out', () {
+      const burst = Basin(travelTime: 30, stormMinutes: 10);
+      expect(burst.tooShort, isTrue);
+      expect(burst.contributing, closeTo(1 / 3, 0.001));
+    });
+
+    test('a long storm has all of it contributing', () {
+      const soak = Basin(travelTime: 30, stormMinutes: 120);
+      expect(soak.tooLong, isTrue);
+      expect(soak.contributing, 1);
+    });
+
+    test('every round names the reason the drawing shows', () {
+      for (final r in basinRounds) {
+        switch (r.answer) {
+          case Falls.tooShort:
+            expect(r.basin.stormMinutes, lessThan(r.basin.travelTime),
+                reason: r.subject);
+            expect(r.basin.contributing, lessThan(1), reason: r.subject);
+          case Falls.tooLong:
+            expect(r.basin.stormMinutes, greaterThan(r.basin.travelTime),
+                reason: r.subject);
+            expect(r.basin.contributing, 1, reason: r.subject);
+          case Falls.itIsTheDesign:
+            expect(r.basin.stormMinutes, r.basin.travelTime,
+                reason: r.subject);
+        }
+      }
+      expect(basinRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('storage routing', () {
+    test('the lesson\'s own reservoir is filling at 300', () {
+      const p = Pond(inflow: 800, outflow: 500);
+      expect(p.change, closeTo(300, 0.001));
+    });
+
+    test('the subtraction runs inflow first', () {
+      const p = Pond(inflow: 200, outflow: 450);
+      expect(p.change, closeTo(-250, 0.001));
+      // The trap gives the same magnitude with the wrong sign.
+      expect(p.outflow - p.inflow, closeTo(250, 0.001));
+    });
+
+    test('every round answers with the sign of the difference', () {
+      for (final r in pondRounds) {
+        switch (r.answer) {
+          case Store.filling:
+            expect(r.pond.change, greaterThan(0), reason: r.subject);
+          case Store.emptying:
+            expect(r.pond.change, lessThan(0), reason: r.subject);
+          case Store.holding:
+            expect(r.pond.change, closeTo(0, 0.001), reason: r.subject);
+        }
+      }
+      expect(pondRounds.map((r) => r.answer).toSet().length, 3);
     });
   });
 }

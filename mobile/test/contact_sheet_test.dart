@@ -223,6 +223,9 @@ import 'package:mobile/features/games/helps_or_hurts_game.dart';
 import 'package:mobile/features/games/which_one_sheds_more_game.dart';
 import 'package:mobile/features/games/where_the_blend_lands_game.dart';
 import 'package:mobile/features/games/does_any_of_it_run_off_game.dart';
+import 'package:mobile/features/games/what_does_the_storm_do_game.dart';
+import 'package:mobile/features/games/why_is_this_peak_smaller_game.dart';
+import 'package:mobile/features/games/filling_or_emptying_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1891,6 +1894,24 @@ void main() {
           rounds: soakRounds.length,
           height: 1860,
         ),
+        'what-does-the-storm-do': (
+          lesson: '89-hydrograph',
+          build: WhatDoesTheStormDoGame.new,
+          rounds: stormRounds.length,
+          height: 1900,
+        ),
+        'why-is-this-peak-smaller': (
+          lesson: '89-hydrograph',
+          build: WhyIsThisPeakSmallerGame.new,
+          rounds: basinRounds.length,
+          height: 1900,
+        ),
+        'filling-or-emptying': (
+          lesson: '89-hydrograph',
+          build: FillingOrEmptyingGame.new,
+          rounds: pondRounds.length,
+          height: 1840,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2327,6 +2348,11 @@ void main() {
     '87-pumps': [
       ('power', pumpPowerBrief),
       ('npsh', npshBrief),
+    ],
+    '89-hydrograph': [
+      ('unit', unitHydrographBrief),
+      ('concentration', concentrationBrief),
+      ('routing', routingBrief),
     ],
     '88-runoff': [
       ('rational', rationalBrief),

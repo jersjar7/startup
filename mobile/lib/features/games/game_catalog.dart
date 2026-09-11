@@ -2960,6 +2960,39 @@ const waterResourcesMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'hydrograph-watershed',
+      name: 'Hydrographs & Watershed Analysis',
+      subtopicId: 'hydrology-groundwater',
+      // Naming the parts of a hydrograph, the limbs and the baseflow, is in
+      // the lesson text with no problem behind it. The cards carry it.
+      games: [
+        GameDef(
+          id: 'what-does-the-storm-do',
+          rounds: 6,
+          name: 'What Does the Storm Do to the Curve',
+          blurb: 'Depth sets the volume. Duration sets the shape.',
+          built: true,
+          brief: unitHydrographBrief,
+        ),
+        GameDef(
+          id: 'why-is-this-peak-smaller',
+          rounds: 6,
+          name: 'Why Is This Peak Smaller',
+          blurb: 'Too short for the area, or too long for the intensity.',
+          built: true,
+          brief: concentrationBrief,
+        ),
+        GameDef(
+          id: 'filling-or-emptying',
+          rounds: 6,
+          name: 'Filling or Emptying',
+          blurb: 'One subtraction, and the sign is the whole answer.',
+          built: true,
+          brief: routingBrief,
+        ),
+      ],
+    ),
   ],
 );
 

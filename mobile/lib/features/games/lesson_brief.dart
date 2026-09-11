@@ -294,6 +294,9 @@ enum BriefFigure {
   rational,
   runoffBlend,
   curveNumber,
+  unitHydrograph,
+  concentration,
+  routing,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -5216,6 +5219,79 @@ const curveNumberBrief = BriefSection(
   handbook: 'Handbook p. 290',
 );
 
+const unitHydrographBrief = BriefSection(
+  title: 'One inch, and everything else is a multiple',
+  body:
+      'A UNIT HYDROGRAPH is the watershed\'s answer to one inch of excess '
+      'rainfall falling evenly over a stated DURATION. Two numbers define it '
+      'and both matter. For a deeper storm of the same duration, multiply '
+      'every ordinate by the depth and leave the times exactly where they '
+      'are: three inches gives three times the peak at the same hour, and '
+      'three times the volume under the curve, because the watershed routes '
+      'water at its own speed whatever the storm does. For a storm of a '
+      'DIFFERENT duration, no scaling will do. Rain spread over three hours '
+      'gives a lower, longer, flatter response than the same total in one, '
+      'and the way across is to build the three hour hydrograph by lagging '
+      'and adding, not by stretching. Depth sets the volume; duration sets '
+      'the shape. Total streamflow is this direct runoff plus the baseflow '
+      'that was there anyway.',
+  formulas: [
+    ('Scaling for depth', r'Q(t) = P \times Q_{UH}(t)'),
+    ('The times', r'\text{unchanged}'),
+    ('What is under it', r'\text{1 inch over the watershed}'),
+  ],
+  figure: BriefFigure.unitHydrograph,
+  handbook: 'Handbook p. 292',
+);
+
+const concentrationBrief = BriefSection(
+  title: 'Why the design storm lasts exactly that long',
+  body:
+      'The TIME OF CONCENTRATION is how long water takes to travel from the '
+      'most distant corner of a watershed to the outlet, and the Rational '
+      'Method is always run with the storm duration set equal to it. That is '
+      'not a convention, it is where the peak is largest, and the reason is a '
+      'trade. A SHORTER storm is more intense, because intensity and duration '
+      'run opposite ways on an IDF curve, but it ends before the far ground '
+      'has reported in, so the high intensity is applied to only part of the '
+      'area. A LONGER storm has the whole watershed contributing but must use '
+      'the lower intensity quoted for that duration. Both give a smaller peak '
+      'than the storm that lasts exactly the travel time, and knowing which '
+      'of the two reasons applies is what tells you what to change.',
+  formulas: [
+    ('The design storm', r'D = t_c'),
+    ('Then', r'Q = C I_{t_c} A'),
+    ('Shorter', r'\text{part of } A'),
+    ('Longer', r'\text{smaller } I'),
+  ],
+  figure: BriefFigure.concentration,
+  handbook: 'Handbook p. 290',
+);
+
+const routingBrief = BriefSection(
+  title: 'One subtraction, and the sign is the answer',
+  body:
+      'Storage routing is inflow minus outflow equals the rate the storage '
+      'changes. Positive means the pond is FILLING, and getting the '
+      'subtraction the wrong way round gives the right number with the wrong '
+      'story attached, which is this lesson\'s named trap. Everything a '
+      'detention pond does follows from it. On the rising limb far more '
+      'arrives than the small outlet can pass, so the pond fills and the '
+      'catchment downstream never sees the peak that arrived. There is one '
+      'instant when the two flows are equal, and that is when the pond is at '
+      'its fullest and its outflow at its greatest: it falls on the FALLING '
+      'limb of the inflow hydrograph, where the outflow curve crosses it. '
+      'After that the pond empties, and it has to finish emptying before the '
+      'next storm or it has no room left to be useful.',
+  formulas: [
+    ('The rate', r'I - O = \frac{\Delta S}{\Delta t}'),
+    ('Filling', r'I > O'),
+    ('Fullest', r'I = O \text{ on the falling limb}'),
+  ],
+  figure: BriefFigure.routing,
+  handbook: 'Handbook p. 290',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6937,6 +7013,33 @@ class BriefFigureView extends StatelessWidget {
             (r"Q \text{ is a depth in inches}", true),
             (r"Q \text{ is a discharge in cfs}", false),
             (r"S = CN", false),
+          ],
+        );
+      case BriefFigure.unitHydrograph:
+        return const _RuleList(
+          rules: [
+            (r"3P \Rightarrow 3Q \text{ at the same } t", true),
+            (r"\text{another duration needs another UH}", true),
+            (r"3P \Rightarrow 3t", false),
+            (r"\text{one UH fits every storm}", false),
+          ],
+        );
+      case BriefFigure.concentration:
+        return const _RuleList(
+          rules: [
+            (r"D = t_c \Rightarrow \text{the largest peak}", true),
+            (r"D < t_c \Rightarrow \text{part of } A", true),
+            (r"\text{shorter is always worse for } I", false),
+            (r"D > t_c \Rightarrow \text{a bigger peak}", false),
+          ],
+        );
+      case BriefFigure.routing:
+        return const _RuleList(
+          rules: [
+            (r"I > O \Rightarrow \text{filling}", true),
+            (r"I = O \Rightarrow \text{fullest}", true),
+            (r"O - I = \frac{\Delta S}{\Delta t}", false),
+            (r"\text{the pond is fullest at the inflow peak}", false),
           ],
         );
       case BriefFigure.cogo:

@@ -216,6 +216,9 @@ import '../features/games/helps_or_hurts_game.dart';
 import '../features/games/which_one_sheds_more_game.dart';
 import '../features/games/where_the_blend_lands_game.dart';
 import '../features/games/does_any_of_it_run_off_game.dart';
+import '../features/games/what_does_the_storm_do_game.dart';
+import '../features/games/why_is_this_peak_smaller_game.dart';
+import '../features/games/filling_or_emptying_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -571,6 +574,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-one-sheds-more' => const WhichOneShedsMoreGame(),
           'where-the-blend-lands' => const WhereTheBlendLandsGame(),
           'does-any-of-it-run-off' => const DoesAnyOfItRunOffGame(),
+          'what-does-the-storm-do' => const WhatDoesTheStormDoGame(),
+          'why-is-this-peak-smaller' => const WhyIsThisPeakSmallerGame(),
+          'filling-or-emptying' => const FillingOrEmptyingGame(),
           _ => const _UnknownGame(),
         },
       ),

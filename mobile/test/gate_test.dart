@@ -338,6 +338,12 @@ void main() {
       // The SCS problem is the only one in the runoff lesson that uses a
       // curve number at all; the other two are the Rational Method.
       'does-any-of-it-run-off',
+      // Each of the hydrograph lesson's three problems is a different
+      // subject: scaling a unit hydrograph, the time of concentration, and
+      // storage routing. Its three items land one to one on them.
+      'what-does-the-storm-do',
+      'why-is-this-peak-smaller',
+      'filling-or-emptying',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

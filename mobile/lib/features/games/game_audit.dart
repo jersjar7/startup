@@ -34,6 +34,9 @@ import 'helps_or_hurts_game.dart';
 import 'which_one_sheds_more_game.dart';
 import 'where_the_blend_lands_game.dart';
 import 'does_any_of_it_run_off_game.dart';
+import 'what_does_the_storm_do_game.dart';
+import 'why_is_this_peak_smaller_game.dart';
+import 'filling_or_emptying_game.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
 import 'where_does_that_pair_land_game.dart';
@@ -3562,6 +3565,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Runoff3.values) o.name],
           answer: Runoff3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-does-the-storm-do',
+    lessonId: 'hydrograph-watershed',
+    problemPrefix: 'wr-hw-',
+    rounds: [
+      for (final r in stormRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Scaling.values) o.name],
+          answer: Scaling.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'why-is-this-peak-smaller',
+    lessonId: 'hydrograph-watershed',
+    problemPrefix: 'wr-hw-',
+    rounds: [
+      for (final r in basinRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Falls.values) o.name],
+          answer: Falls.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'filling-or-emptying',
+    lessonId: 'hydrograph-watershed',
+    problemPrefix: 'wr-hw-',
+    rounds: [
+      for (final r in pondRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Store.values) o.name],
+          answer: Store.values.indexOf(r.answer),
         ),
     ],
   ),
