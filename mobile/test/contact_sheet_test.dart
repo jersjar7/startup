@@ -180,6 +180,8 @@ import 'package:mobile/features/games/when_it_runs_away_game.dart';
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/edge_or_inside_game.dart';
 import 'package:mobile/features/games/coarse_or_fine_game.dart';
+import 'package:mobile/features/games/something_is_wrong_game.dart';
+import 'package:mobile/features/games/tap_the_voids_game.dart';
 import 'package:mobile/features/games/does_it_make_the_number_game.dart';
 import 'package:mobile/features/games/out_of_the_furnace_game.dart';
 import 'package:mobile/features/games/times_or_divided_game.dart';
@@ -1422,6 +1424,18 @@ void main() {
           rounds: sieveRounds.length,
           height: 1550,
         ),
+        'tap-the-voids': (
+          lesson: '64-asphalt',
+          build: TapTheVoidsGame.new,
+          rounds: voidRounds.length,
+          height: 1500,
+        ),
+        'something-is-wrong': (
+          lesson: '64-asphalt',
+          build: SomethingIsWrongGame.new,
+          rounds: reportRounds.length,
+          height: 1450,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1747,6 +1761,10 @@ void main() {
     '63-aggregate': [
       ('weighing', weighingBrief),
       ('grading', gradingBrief),
+    ],
+    '64-asphalt': [
+      ('voids', voidsBrief),
+      ('check', checkBrief),
     ],
   };
 

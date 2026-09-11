@@ -62,11 +62,14 @@ import 'sign_the_bend_game.dart';
 import 'slide_to_flat_game.dart';
 import 'shade_the_tail_game.dart';
 import 'shadow_falls_game.dart';
+import 'something_is_wrong_game.dart';
 import 'stretch_it_game.dart';
 import 'stronger_or_weaker_game.dart';
 import 'take_the_diagonal_game.dart';
 import 'true_or_engineering_game.dart';
 import 'tap_the_side_game.dart';
+import 'asphalt_figures.dart';
+import 'tap_the_voids_game.dart';
 import 'times_or_divided_game.dart';
 import 'walk_the_circle_game.dart';
 import 'what_was_asked_game.dart';
@@ -2602,6 +2605,33 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final c in Coarser.values) c.name],
           answer: Coarser.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'tap-the-voids',
+    lessonId: 'asphalt-mix-design',
+    problemPrefix: 'mat-asp-',
+    rounds: [
+      for (final r in voidRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in Piece2.values) p.name],
+          answer: Piece2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'something-is-wrong',
+    lessonId: 'asphalt-mix-design',
+    problemPrefix: 'mat-asp-',
+    rounds: [
+      for (final r in reportRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final line in r.lines) '${line.$1} ${line.$2}'],
+          answer: r.answer,
         ),
     ],
   ),

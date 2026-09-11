@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/aggregate_figures.dart';
+import 'package:mobile/features/games/asphalt_figures.dart';
+import 'package:mobile/features/games/something_is_wrong_game.dart';
+import 'package:mobile/features/games/tap_the_voids_game.dart';
 import 'package:mobile/features/games/coarse_or_fine_game.dart';
 import 'package:mobile/features/games/concrete_figures.dart';
 import 'package:mobile/features/games/which_weighing_game.dart';
@@ -952,6 +955,93 @@ void main() {
         expect(most, greaterThan(24),
             reason: '${r.subject}: the curves never separate');
       }
+    });
+  });
+
+  group('asphalt volumetrics reproduce the lesson', () {
+    test('2.400 in 2.500 is four percent air', () {
+      expect(100 * (2.500 - 2.400) / 2.500, closeTo(4.0, 0.01));
+      // Its named slips: over the bulk gravity, the raw difference, and the
+      // ratio of the two gravities.
+      expect(100 * (2.500 - 2.400) / 2.400, closeTo(4.17, 0.01));
+      expect(100 * (2.500 - 2.400), closeTo(10, 0.01));
+      expect(2.400 / 2.500, closeTo(0.96, 0.001));
+    });
+
+    test('fifteen of VMA with four of air is 73 percent filled', () {
+      const puck = Puck(air: 4, binder: 11);
+      expect(puck.vma, closeTo(15, 1e-9));
+      expect(puck.vfa, closeTo(73.3, 0.05));
+      // The named slips: the air-filled share, and air over binder voids.
+      expect(100 * 4 / 15, closeTo(26.7, 0.05));
+      expect(100 * 4 / 11, closeTo(36.4, 0.05));
+    });
+
+    test('the aggregate term is 86 and the VMA what is left', () {
+      expect(2.40 * 95 / 2.65, closeTo(86.0, 0.05));
+      expect(100 - 2.40 * 95 / 2.65, closeTo(14.0, 0.05));
+      // Leaving Ps out gives the other named wrong answer.
+      expect(100 - 100 * 2.40 / 2.65, closeTo(9.4, 0.05));
+    });
+
+    test('every specimen in the item adds up to a hundred', () {
+      for (final r in voidRounds) {
+        expect(r.puck.aggregate + r.puck.binder + r.puck.air,
+            closeTo(100, 1e-9),
+            reason: r.subject);
+        expect(r.puck.vma, greaterThan(r.puck.air), reason: r.subject);
+      }
+    });
+
+    test('all four parts are asked for', () {
+      expect(voidRounds.map((r) => r.answer).toSet(), Piece2.values.toSet());
+    });
+
+    test('the four bands are big enough to tap and never overlap', () {
+      const size = Size(340, 250);
+      for (final r in voidRounds) {
+        final rects = {
+          for (final p in Piece2.values) p: PuckPainter.rectOf(size, r.puck, p)
+        };
+        for (final p in Piece2.values) {
+          expect(rects[p]!.height, greaterThan(20),
+              reason: '${r.subject}: ${p.name} is ${rects[p]!.height.round()} '
+                  'tall, too thin for a thumb');
+          expect(PuckPainter.at(size, r.puck, rects[p]!.center), p,
+              reason: r.subject);
+        }
+        // The three bands stack without overlapping.
+        expect(rects[Piece2.air]!.bottom,
+            closeTo(rects[Piece2.binder]!.top, 0.01));
+        expect(rects[Piece2.binder]!.bottom,
+            closeTo(rects[Piece2.aggregate]!.top, 0.01));
+      }
+    });
+  });
+
+  group('the mix report has exactly one impossible line', () {
+    test('every round points at a line that exists', () {
+      for (final r in reportRounds) {
+        expect(r.answer, greaterThanOrEqualTo(0), reason: r.subject);
+        expect(r.answer, lessThan(r.lines.length), reason: r.subject);
+        expect(r.lines.length, greaterThanOrEqualTo(4), reason: r.subject);
+      }
+    });
+
+    test('no two lines in a round read the same', () {
+      for (final r in reportRounds) {
+        final labels = r.lines.map((l) => l.$1).toSet();
+        expect(labels.length, r.lines.length, reason: r.subject);
+      }
+    });
+
+    test('the bad line is not always in the same place', () {
+      expect(reportRounds.map((r) => r.answer).toSet().length,
+          greaterThan(1));
+    });
+
+    test('all three problems are drawn on', () {
+      expect(reportRounds.map((r) => r.source).toSet().length, 3);
     });
   });
 }

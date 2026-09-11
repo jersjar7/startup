@@ -228,6 +228,8 @@ enum BriefFigure {
   field,
   weighing,
   grading,
+  voids,
+  check,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3649,6 +3651,48 @@ const gradingBrief = BriefSection(
   handbook: 'Handbook p. 123',
 );
 
+const voidsBrief = BriefSection(
+  title: 'Three bands and a bracket',
+  body:
+      'A compacted asphalt specimen is stone, binder and air, and every '
+      'number on this page is one of those as a share of something else. Air '
+      'voids are the air against the WHOLE specimen, which is what the two '
+      'gravities give you: how far the compacted mix is from the same mix '
+      'with no air in it. VMA is the air and the binder together, all the '
+      'space between the stones however it is filled, and it is what the '
+      'hundred minus the stone volume leaves. VFA is the binder as a share of '
+      'that space, never of the whole mix. Design sits near four percent air, '
+      'with enough VMA to carry a proper film of binder around every stone.',
+  formulas: [
+    ('Air voids', r'V_a = 100\,\frac{G_{mm} - G_{mb}}{G_{mm}}'),
+    ('Space between stones', r'VMA = 100 - \frac{G_{mb} P_s}{G_{sb}}'),
+    ('Filled with asphalt', r'VFA = 100\,\frac{VMA - V_a}{VMA}'),
+  ],
+  figure: BriefFigure.voids,
+  handbook: 'Handbook p. 124',
+);
+
+const checkBrief = BriefSection(
+  title: 'Four checks, no calculator',
+  body:
+      'Asphalt volumetrics are numbers that must agree with each other, and '
+      'four checks catch nearly every slip before the arithmetic does. The '
+      'theoretical maximum gravity is ALWAYS bigger than the bulk one, '
+      'because it is the same materials with the air taken out, so a negative '
+      'air void means the two were swapped. The VMA is always bigger than the '
+      'air voids, since the air is only part of that space. The VFA is a '
+      'share of the VMA and therefore stops at a hundred. And a VMA up near '
+      'eighty is not void space at all: it is the stone volume, the term the '
+      'formula was supposed to subtract.',
+  formulas: [
+    ('Always', r'G_{mm} > G_{mb}'),
+    ('Always', r'VMA > V_a'),
+    ('And', r'VFA \le 100\%'),
+  ],
+  figure: BriefFigure.check,
+  handbook: 'Handbook p. 124',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5010,6 +5054,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{cumulative \% RETAINED}", true),
             (r"\text{a higher } FM \text{ is finer}", false),
             (r"FM \text{ describes the whole curve}", false),
+          ],
+        );
+      case BriefFigure.voids:
+        return const _RuleList(
+          rules: [
+            (r"VMA = V_a + \text{binder voids}", true),
+            (r"VFA \text{ is a share of } VMA", true),
+            (r"VFA \text{ is a share of the whole mix}", false),
+            (r"V_a \text{ is a share of } VMA", false),
+          ],
+        );
+      case BriefFigure.check:
+        return const _RuleList(
+          rules: [
+            (r"G_{mm} > G_{mb} \text{ always}", true),
+            (r"VMA > V_a \text{ always}", true),
+            (r"VFA \text{ may pass } 100\%", false),
+            (r"VMA \approx 86\% \text{ is normal}", false),
           ],
         );
       case BriefFigure.damping:

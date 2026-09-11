@@ -2164,6 +2164,29 @@ const materialsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'asphalt-mix-design',
+      name: 'Asphalt Concrete Mix Design',
+      subtopicId: 'construction-materials',
+      games: [
+        GameDef(
+          id: 'tap-the-voids',
+          rounds: 6,
+          name: 'Tap the Voids',
+          blurb: 'Air, binder, stone. Which share is the question about?',
+          built: true,
+          brief: voidsBrief,
+        ),
+        GameDef(
+          id: 'something-is-wrong',
+          rounds: 6,
+          name: 'Something Is Wrong Here',
+          blurb: 'A mix report with one line on it that cannot be true.',
+          built: true,
+          brief: checkBrief,
+        ),
+      ],
+    ),
   ],
 );
 

@@ -70,10 +70,12 @@ import '../features/games/sign_the_bend_game.dart';
 import '../features/games/slide_to_flat_game.dart';
 import '../features/games/shade_the_tail_game.dart';
 import '../features/games/shadow_falls_game.dart';
+import '../features/games/something_is_wrong_game.dart';
 import '../features/games/stretch_it_game.dart';
 import '../features/games/stronger_or_weaker_game.dart';
 import '../features/games/take_the_diagonal_game.dart';
 import '../features/games/tap_the_side_game.dart';
+import '../features/games/tap_the_voids_game.dart';
 import '../features/games/true_or_engineering_game.dart';
 import '../features/games/times_or_divided_game.dart';
 import '../features/games/walk_the_circle_game.dart';
@@ -434,6 +436,8 @@ GoRouter buildRouter(AuthController auth) {
           'does-it-make-the-number' => const DoesItMakeTheNumberGame(),
           'which-weighing' => const WhichWeighingGame(),
           'coarse-or-fine' => const CoarseOrFineGame(),
+          'tap-the-voids' => const TapTheVoidsGame(),
+          'something-is-wrong' => const SomethingIsWrongGame(),
           _ => const _UnknownGame(),
         },
       ),
