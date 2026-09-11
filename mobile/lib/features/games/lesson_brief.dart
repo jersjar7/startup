@@ -273,6 +273,9 @@ enum BriefFigure {
   endArea,
   stations,
   solidShare,
+  cogo,
+  pair,
+  arctan,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4693,6 +4696,75 @@ const solidBrief = BriefSection(
   handbook: 'Handbook p. 309',
 );
 
+const cogoBrief = BriefSection(
+  title: 'Forward one way, inverse the other',
+  body:
+      'Coordinate work runs in two directions on the same two formulas. '
+      'FORWARD takes a point you hold and a course you measured and gives '
+      'you a point you did not have: the length times the sine of the '
+      'azimuth is how far east it went, the length times the cosine is how '
+      'far north, and both are added to the point you started from. INVERSE '
+      'takes two points you hold and gives back the course between them: the '
+      'distance is the hypotenuse of the two differences and the direction '
+      'is their arctangent. Count the points that already have coordinates '
+      'and the job tells you which it is. Most real work is one of each: '
+      'inverse to find out where a line points, then forward to put '
+      'something new along it.',
+  formulas: [
+    ('Forward', r'E_2 = E_1 + L\sin Az, \; N_2 = N_1 + L\cos Az'),
+    ('Inverse', r'L = \sqrt{\Delta E^2 + \Delta N^2}'),
+    ('And', r'Az = \tan^{-1}(\Delta E / \Delta N)'),
+  ],
+  figure: BriefFigure.cogo,
+  handbook: 'Handbook p. 310',
+);
+
+const pairBrief = BriefSection(
+  title: 'Easting first, northing second',
+  body:
+      'A coordinate pair is two numbers and an agreement about which is '
+      'which. Surveying writes the easting first and the northing second, '
+      'across and then up, the same order as x and then y. Plenty of field '
+      'books, deeds and older records write them the other way round, and a '
+      'pair read backwards lands on the far side of the diagonal and then '
+      'behaves perfectly well: every distance and direction computed from it '
+      'comes out as a believable number for the wrong point. When the two '
+      'numbers are far apart the error is obvious. When they are close it is '
+      'small enough to survive a glance and large enough to put a wall on '
+      'the wrong side of a line. Label the columns E and N, and plot the '
+      'point.',
+  formulas: [
+    ('The pair', r'(E, N)'),
+    ('Easting', r'\text{across, the x of the grid}'),
+    ('Northing', r'\text{up, the y of the grid}'),
+  ],
+  figure: BriefFigure.pair,
+  handbook: 'Handbook p. 310',
+);
+
+const arctanBrief = BriefSection(
+  title: 'The calculator only knows half the compass',
+  body:
+      'An arctangent of one number returns something between minus a right '
+      'angle and a right angle. That is half the compass, and an azimuth '
+      'needs all of it, so the other half has to come from the SIGNS of the '
+      'two differences. A negative northing difference means the line runs '
+      'south, and every southbound line has an azimuth between 90 and 270: '
+      'add 180. North and west takes 360. North and east is the one quarter '
+      'the calculator gets right by itself. The trap is that the two minus '
+      'signs of a south-west line cancel inside the division, so the '
+      'calculator hands back a small positive number that looks entirely '
+      'usable and is 180 degrees wrong. A negative answer is never an '
+      'azimuth: azimuths run from 0 to 360.',
+  formulas: [
+    (r'\Delta N > 0, \Delta E > 0', r'Az = \tan^{-1}(\Delta E/\Delta N)'),
+    (r'\Delta N < 0', r'Az = 180° + \tan^{-1}(\Delta E/\Delta N)'),
+    (r'\Delta N > 0, \Delta E < 0', r'Az = 360° + \tan^{-1}(\Delta E/\Delta N)'),
+  ],
+  figure: BriefFigure.arctan,
+  handbook: 'Handbook p. 310',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6252,6 +6324,33 @@ class BriefFigureView extends StatelessWidget {
             (r"2L \Rightarrow 2 h_f", true),
             (r"2v \Rightarrow 2 h_f", false),
             (r"f_{Fanning} \text{ goes in as is}", false),
+          ],
+        );
+      case BriefFigure.cogo:
+        return const _RuleList(
+          rules: [
+            (r"\text{one point and a course} \Rightarrow \text{forward}", true),
+            (r"\text{two points} \Rightarrow \text{inverse}", true),
+            (r"\text{forward needs two known points}", false),
+            (r"\text{an inverse is a field measurement}", false),
+          ],
+        );
+      case BriefFigure.pair:
+        return const _RuleList(
+          rules: [
+            (r"(E, N): \text{ across, then up}", true),
+            (r"\text{a swapped pair still computes}", true),
+            (r"(N, E) \text{ is the surveying order}", false),
+            (r"\text{a swapped pair will not close}", false),
+          ],
+        );
+      case BriefFigure.arctan:
+        return const _RuleList(
+          rules: [
+            (r"\Delta N < 0 \Rightarrow +180°", true),
+            (r"\Delta N > 0, \Delta E < 0 \Rightarrow +360°", true),
+            (r"\text{a negative answer is an azimuth}", false),
+            (r"\text{the arctangent knows the quadrant}", false),
           ],
         );
       case BriefFigure.endArea:

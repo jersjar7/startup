@@ -14,6 +14,9 @@ import 'higher_or_lower_game.dart';
 import 'plus_or_minus_game.dart';
 import 'which_method_fits_game.dart';
 import 'which_formula_gives_more_game.dart';
+import 'which_way_are_you_working_game.dart';
+import 'where_does_that_pair_land_game.dart';
+import 'what_do_you_add_game.dart';
 import 'can_you_skip_a_section_game.dart';
 import 'how_much_of_the_box_game.dart';
 import 'what_weight_does_it_get_game.dart';
@@ -3265,6 +3268,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Share.values) o.name],
           answer: Share.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-way-are-you-working',
+    lessonId: 'coordinate-geometry',
+    problemPrefix: 'surv-cg-',
+    rounds: [
+      for (final r in cogoRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Which2.values) o.name],
+          answer: Which2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-does-that-pair-land',
+    lessonId: 'coordinate-geometry',
+    problemPrefix: 'surv-cg-',
+    rounds: [
+      for (final r in landRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in r.task.known) p.name],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-do-you-add',
+    lessonId: 'coordinate-geometry',
+    problemPrefix: 'surv-cg-',
+    rounds: [
+      for (final r in addOnRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in AddOn.values) o.name],
+          answer: AddOn.values.indexOf(r.answer),
         ),
     ],
   ),

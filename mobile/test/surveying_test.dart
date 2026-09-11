@@ -23,6 +23,10 @@ import 'package:mobile/features/games/earthwork_figures.dart';
 import 'package:mobile/features/games/which_formula_gives_more_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
+import 'package:mobile/features/games/cogo_figures.dart';
+import 'package:mobile/features/games/which_way_are_you_working_game.dart';
+import 'package:mobile/features/games/where_does_that_pair_land_game.dart';
+import 'package:mobile/features/games/what_do_you_add_game.dart';
 
 /// Chapter ten. Every engine here is held against the lesson's own answers
 /// and against the wrong ones it names.
@@ -858,6 +862,154 @@ void main() {
         expect(r.answer.part, closeTo(r.solid.share, 1e-9), reason: r.subject);
       }
       expect(shareRounds2.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('the coordinate lesson reproduces its own answers', () {
+    test('the inverse of the lesson\'s two points is 500 feet', () {
+      const task = Task(
+        known: [Peg2('A', 1000, 1000), Peg2('B', 1300, 1400)],
+      );
+      expect(task.deltaEast, 300);
+      expect(task.deltaNorth, 400);
+      expect(task.distance, closeTo(500, 0.01));
+      // Its named slips: the two added, averaged, and subtracted.
+      expect(300 + 400, 700);
+      expect((300 + 400) / 2, 350);
+      expect(400 - 300, 100);
+    });
+
+    test('the forward computation lands the northing at 5,173.2', () {
+      final dn = 200 * math.cos(30 * math.pi / 180);
+      expect(5000 + dn, closeTo(5173.2, 0.1));
+      // Its named slips: the departure used for the northing, the tangent
+      // for the cosine, and the whole length added.
+      expect(5000 + 200 * math.sin(30 * math.pi / 180), closeTo(5100, 0.1));
+      expect(5000 + 200 * math.tan(30 * math.pi / 180), closeTo(5115.5, 0.1));
+      expect(5000 + 200, 5200);
+    });
+
+    test('the arctangent covers half the compass and no more', () {
+      for (final t in [
+        const Task(known: [Peg2('A', 0, 0), Peg2('B', 3, 4)]),
+        const Task(known: [Peg2('A', 0, 0), Peg2('B', 3, -4)]),
+        const Task(known: [Peg2('A', 0, 0), Peg2('B', -3, -4)]),
+        const Task(known: [Peg2('A', 0, 0), Peg2('B', -3, 4)]),
+      ]) {
+        expect(t.rawArctan, inInclusiveRange(-90, 90));
+        expect((t.rawArctan + t.toAdd) % 360, closeTo(t.trueAzimuth, 0.001));
+      }
+    });
+  });
+
+  group('forward, inverse, or both', () {
+    test('a job with a point missing is forward and two points is inverse',
+        () {
+      expect(
+          const Task(known: [Peg2('A', 0, 0)], wanted: Peg2('B', 1, 1)).work,
+          Work.forward);
+      expect(const Task(known: [Peg2('A', 0, 0), Peg2('B', 1, 1)]).work,
+          Work.inverse);
+    });
+
+    test('every round matches what its drawing holds', () {
+      for (final r in cogoRounds) {
+        if (r.answer == Which2.inverse) {
+          expect(r.task.known.length, 2, reason: r.subject);
+          expect(r.task.wanted, isNull, reason: r.subject);
+        } else {
+          expect(r.task.wanted, isNotNull, reason: r.subject);
+        }
+      }
+      expect(cogoRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('the round that needs both has two known points and a third wanted',
+        () {
+      final both = cogoRounds.where((r) => r.answer == Which2.both);
+      expect(both, isNotEmpty);
+      for (final r in both) {
+        expect(r.task.known.length, 2, reason: r.subject);
+        expect(r.task.wanted, isNotNull, reason: r.subject);
+      }
+    });
+  });
+
+  group('reading a coordinate pair', () {
+    test('every round offers the swap, and exactly one point matches', () {
+      for (final r in landRounds) {
+        final hits = r.task.known
+            .where((p) => p.east == r.east && p.north == r.north);
+        expect(hits.length, 1, reason: r.subject);
+        expect(r.answer, greaterThanOrEqualTo(0), reason: r.subject);
+        // The swapped pair is on the drawing unless the two numbers are
+        // the same, in which case there is nothing to swap.
+        if (r.east != r.north) {
+          expect(
+              r.task.known
+                  .any((p) => p.east == r.north && p.north == r.east),
+              isTrue,
+              reason: r.subject);
+        }
+      }
+    });
+
+    test('the answer moves around the four candidates', () {
+      expect(landRounds.map((r) => r.answer).toSet().length, greaterThan(2));
+      expect(landRounds.every((r) => r.task.known.length == 4), isTrue);
+    });
+
+    test('the points sit apart and inside the panel', () {
+      const size = Size(286, 250);
+      for (final r in landRounds) {
+        for (var i = 0; i < r.task.known.length; i++) {
+          final at = CogoPainter.spotOf(size, r.task, i);
+          expect(at.dx, inInclusiveRange(8, size.width - 8), reason: r.subject);
+          expect(at.dy, inInclusiveRange(8, size.height - 8), reason: r.subject);
+          for (var j = i + 1; j < r.task.known.length; j++) {
+            final gap = (at - CogoPainter.spotOf(size, r.task, j)).distance;
+            expect(gap, greaterThan(30), reason: '${r.subject} $i and $j');
+          }
+        }
+      }
+    });
+  });
+
+  group('what the arctangent needs', () {
+    test('south adds 180, north and west adds 360, north and east adds '
+        'nothing', () {
+      expect(const Task(known: [Peg2('A', 0, 0), Peg2('B', 1, 1)]).toAdd, 0);
+      expect(const Task(known: [Peg2('A', 0, 0), Peg2('B', 1, -1)]).toAdd, 180);
+      expect(const Task(known: [Peg2('A', 0, 0), Peg2('B', -1, -1)]).toAdd, 180);
+      expect(const Task(known: [Peg2('A', 0, 0), Peg2('B', -1, 1)]).toAdd, 360);
+    });
+
+    test('the south-west line is the trap: a usable looking positive number',
+        () {
+      const sw = Task(known: [Peg2('A', 1300, 1400), Peg2('B', 1000, 1000)]);
+      expect(sw.rawArctan, greaterThan(0));
+      expect(sw.trueAzimuth, greaterThan(180));
+      expect(sw.trueAzimuth, lessThan(270));
+    });
+
+    test('every round answers with what its signs ask for', () {
+      for (final r in addOnRounds) {
+        expect(r.answer.value, r.task.toAdd, reason: r.subject);
+        expect((r.task.rawArctan + r.answer.value) % 360,
+            closeTo(r.task.trueAzimuth, 0.001),
+            reason: r.subject);
+      }
+      expect(addOnRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('the two cardinal cases are in the item', () {
+      expect(addOnRounds.any((r) => r.task.deltaNorth == 0), isTrue);
+      final east = addOnRounds.firstWhere(
+          (r) => r.task.deltaNorth == 0 && r.task.deltaEast > 0);
+      expect(east.task.trueAzimuth, closeTo(90, 0.001));
+      final west = addOnRounds.firstWhere(
+          (r) => r.task.deltaNorth == 0 && r.task.deltaEast < 0);
+      expect(west.task.trueAzimuth, closeTo(270, 0.001));
     });
   });
 }

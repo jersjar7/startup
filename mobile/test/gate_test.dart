@@ -315,6 +315,9 @@ void main() {
       // more than two sections in it, so the round about skipping one leans
       // on it alone.
       'can-you-skip-a-section',
+      // The quadrant question is the whole of the coordinate lesson's third
+      // problem.
+      'what-do-you-add',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

@@ -2692,6 +2692,40 @@ const surveyingMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'coordinate-geometry',
+      name: 'Coordinate Geometry & Systems',
+      subtopicId: 'area-volume-traverse',
+      // State Plane gets a paragraph in the lesson and no problem, and a
+      // scale factor with no numbers behind it would be an item about
+      // nothing. It stays on the page.
+      games: [
+        GameDef(
+          id: 'which-way-are-you-working',
+          rounds: 6,
+          name: 'Which Way Are You Working',
+          blurb: 'Count the points that already have coordinates.',
+          built: true,
+          brief: cogoBrief,
+        ),
+        GameDef(
+          id: 'where-does-that-pair-land',
+          rounds: 6,
+          name: 'Where Does That Pair Land',
+          blurb: 'Easting first. A swapped pair computes perfectly well.',
+          built: true,
+          brief: pairBrief,
+        ),
+        GameDef(
+          id: 'what-do-you-add',
+          rounds: 6,
+          name: 'What Do You Add',
+          blurb: 'The arctangent only ever knows half the compass.',
+          built: true,
+          brief: arctanBrief,
+        ),
+      ],
+    ),
   ],
 );
 

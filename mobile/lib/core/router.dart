@@ -144,6 +144,7 @@ import '../features/games/walk_the_circle_game.dart';
 import '../features/games/walk_the_manometer_game.dart';
 import '../features/games/what_are_the_ends_worth_game.dart';
 import '../features/games/what_comes_out_game.dart';
+import '../features/games/what_do_you_add_game.dart';
 import '../features/games/what_does_it_take_game.dart';
 import '../features/games/what_goes_under_game.dart';
 import '../features/games/what_happens_to_the_loss_game.dart';
@@ -164,6 +165,7 @@ import '../features/games/when_does_it_land_game.dart';
 import '../features/games/when_it_runs_away_game.dart';
 import '../features/games/where_do_you_cut_game.dart';
 import '../features/games/where_does_it_go_game.dart';
+import '../features/games/where_does_that_pair_land_game.dart';
 import '../features/games/where_it_all_acts_game.dart';
 import '../features/games/where_it_balances_game.dart';
 import '../features/games/where_it_peaks_game.dart';
@@ -227,6 +229,7 @@ import '../features/games/which_stretches_more_game.dart';
 import '../features/games/which_target_takes_more_game.dart';
 import '../features/games/which_traverse_closed_better_game.dart';
 import '../features/games/which_tube_climbs_game.dart';
+import '../features/games/which_way_are_you_working_game.dart';
 import '../features/games/which_way_does_it_fold_game.dart';
 import '../features/games/which_way_it_pushes_game.dart';
 import '../features/games/which_way_points_game.dart';
@@ -524,6 +527,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-formula-gives-more' => const WhichFormulaGivesMoreGame(),
           'can-you-skip-a-section' => const CanYouSkipASectionGame(),
           'how-much-of-the-box' => const HowMuchOfTheBoxGame(),
+          'which-way-are-you-working' => const WhichWayAreYouWorkingGame(),
+          'where-does-that-pair-land' => const WhereDoesThatPairLandGame(),
+          'what-do-you-add' => const WhatDoYouAddGame(),
           _ => const _UnknownGame(),
         },
       ),

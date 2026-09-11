@@ -201,6 +201,9 @@ import 'package:mobile/features/games/higher_or_lower_game.dart';
 import 'package:mobile/features/games/plus_or_minus_game.dart';
 import 'package:mobile/features/games/which_method_fits_game.dart';
 import 'package:mobile/features/games/which_formula_gives_more_game.dart';
+import 'package:mobile/features/games/which_way_are_you_working_game.dart';
+import 'package:mobile/features/games/where_does_that_pair_land_game.dart';
+import 'package:mobile/features/games/what_do_you_add_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1737,6 +1740,24 @@ void main() {
           rounds: shareRounds2.length,
           height: 1700,
         ),
+        'which-way-are-you-working': (
+          lesson: '81-cogo',
+          build: WhichWayAreYouWorkingGame.new,
+          rounds: cogoRounds.length,
+          height: 1760,
+        ),
+        'where-does-that-pair-land': (
+          lesson: '81-cogo',
+          build: WhereDoesThatPairLandGame.new,
+          rounds: landRounds.length,
+          height: 1520,
+        ),
+        'what-do-you-add': (
+          lesson: '81-cogo',
+          build: WhatDoYouAddGame.new,
+          rounds: addOnRounds.length,
+          height: 1700,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2141,6 +2162,11 @@ void main() {
       ('endarea', endAreaBrief),
       ('stations', stationBrief),
       ('solid', solidBrief),
+    ],
+    '81-cogo': [
+      ('cogo', cogoBrief),
+      ('pair', pairBrief),
+      ('arctan', arctanBrief),
     ],
   };
 
