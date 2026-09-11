@@ -44,6 +44,7 @@ import '../features/games/enough_or_too_far_game.dart';
 import '../features/games/every_rule_game.dart';
 import '../features/games/faster_or_slower_game.dart';
 import '../features/games/fill_the_trace_game.dart';
+import '../features/games/find_it_on_the_plan_game.dart';
 import '../features/games/find_the_factor_game.dart';
 import '../features/games/find_the_slip_game.dart';
 import '../features/games/first_true_wins_game.dart';
@@ -188,6 +189,7 @@ import '../features/games/which_factor_game.dart';
 import '../features/games/which_fiber_is_worst_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
+import '../features/games/which_length_is_which_game.dart';
 import '../features/games/which_line_in_the_table_game.dart';
 import '../features/games/which_method_game.dart';
 import '../features/games/which_mortar_game.dart';
@@ -205,6 +207,7 @@ import '../features/games/which_rate_game.dart';
 import '../features/games/which_ratio_game.dart';
 import '../features/games/which_readout_game.dart';
 import '../features/games/which_region_game.dart';
+import '../features/games/which_rule_turns_it_game.dart';
 import '../features/games/which_second_moment_game.dart';
 import '../features/games/which_section_game.dart';
 import '../features/games/which_side_is_tight_game.dart';
@@ -494,6 +497,9 @@ GoRouter buildRouter(AuthController auth) {
           'too-big-or-too-small' => const TooBigOrTooSmallGame(),
           'which-one-to-match' => const WhichOneToMatchGame(),
           'does-the-model-run-faster' => const DoesTheModelRunFasterGame(),
+          'find-it-on-the-plan' => const FindItOnThePlanGame(),
+          'which-rule-turns-it' => const WhichRuleTurnsItGame(),
+          'which-length-is-which' => const WhichLengthIsWhichGame(),
           _ => const _UnknownGame(),
         },
       ),

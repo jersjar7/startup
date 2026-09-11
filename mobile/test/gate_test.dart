@@ -288,6 +288,14 @@ void main() {
       // comes out is the whole of the other.
       'which-target-takes-more',
       'where-the-block-goes',
+      // Chapter ten lesson one has three problems and they ARE its three
+      // topics: the bearing, the slope shot and the traverse check. Reading
+      // a bearing off a plan and choosing the conversion rule are two
+      // different skills and the lesson names both as traps, so the bearing
+      // problem carries two items and the slope problem one.
+      'find-it-on-the-plan',
+      'which-rule-turns-it',
+      'which-length-is-which',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

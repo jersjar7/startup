@@ -2520,6 +2520,54 @@ const fluidMechanicsMap = ChapterMap(
   ],
 );
 
+/// Chapter 10.
+const surveyingMap = ChapterMap(
+  id: 'surveying',
+  number: 10,
+  name: 'Surveying',
+  examLine: '4 to 6 questions on the real exam',
+  subtopics: [
+    Subtopic('measurement-leveling', 'Measurement & Leveling'),
+    Subtopic('area-volume-traverse', 'Area, Volume & Traverse'),
+    Subtopic('curves', 'Horizontal & Vertical Curves'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'angles-distances-bearings',
+      name: 'Angles, Distances & Bearings',
+      subtopicId: 'measurement-leveling',
+      // The traverse check is a sum of five angles against (n-2) times 180,
+      // which is arithmetic and stays on paper. The card carries it.
+      games: [
+        GameDef(
+          id: 'find-it-on-the-plan',
+          rounds: 6,
+          name: 'Find It on the Plan',
+          blurb: 'The same angle sits in all four quadrants.',
+          built: true,
+          brief: bearingBrief,
+        ),
+        GameDef(
+          id: 'which-rule-turns-it',
+          rounds: 6,
+          name: 'Which Rule Turns It',
+          blurb: 'A clock face with north at twelve settles it.',
+          built: true,
+          brief: azimuthBrief,
+        ),
+        GameDef(
+          id: 'which-length-is-which',
+          rounds: 6,
+          name: 'Which Length Is Which',
+          blurb: 'One shot, three lengths, three different answers.',
+          built: true,
+          brief: shotBrief,
+        ),
+      ],
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
@@ -2530,6 +2578,7 @@ const chapterMaps = <String, ChapterMap>{
   'mechanics-materials': mechanicsMaterialsMap,
   'materials': materialsMap,
   'fluid-mechanics': fluidMechanicsMap,
+  'surveying': surveyingMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

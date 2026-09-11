@@ -9,6 +9,10 @@ import 'add_up_the_losses_game.dart';
 import 'which_target_takes_more_game.dart';
 import 'which_area_goes_in_game.dart';
 import 'which_one_to_match_game.dart';
+import 'find_it_on_the_plan_game.dart';
+import 'which_rule_turns_it_game.dart';
+import 'which_length_is_which_game.dart';
+import 'survey_figures.dart';
 import 'model_figures.dart';
 import 'does_the_model_run_faster_game.dart';
 import 'too_big_or_too_small_game.dart';
@@ -3050,6 +3054,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Runs2.values) o.name],
           answer: Runs2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'find-it-on-the-plan',
+    lessonId: 'angles-distances-bearings',
+    problemPrefix: 'surv-adb-',
+    rounds: [
+      for (final r in planRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final s in r.shots) s.bearing.plain],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-rule-turns-it',
+    lessonId: 'angles-distances-bearings',
+    problemPrefix: 'surv-adb-',
+    rounds: [
+      for (final r in azimuthRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Rule.values) o.name],
+          answer: Rule.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-length-is-which',
+    lessonId: 'angles-distances-bearings',
+    problemPrefix: 'surv-adb-',
+    rounds: [
+      for (final r in shotRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Side3.values) o.name],
+          answer: Side3.values.indexOf(r.answer),
         ),
     ],
   ),

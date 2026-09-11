@@ -196,6 +196,9 @@ import 'package:mobile/features/games/add_up_the_losses_game.dart';
 import 'package:mobile/features/games/which_target_takes_more_game.dart';
 import 'package:mobile/features/games/which_area_goes_in_game.dart';
 import 'package:mobile/features/games/which_one_to_match_game.dart';
+import 'package:mobile/features/games/find_it_on_the_plan_game.dart';
+import 'package:mobile/features/games/which_rule_turns_it_game.dart';
+import 'package:mobile/features/games/which_length_is_which_game.dart';
 import 'package:mobile/features/games/does_the_model_run_faster_game.dart';
 import 'package:mobile/features/games/too_big_or_too_small_game.dart';
 import 'package:mobile/features/games/which_one_needs_a_block_game.dart';
@@ -1632,6 +1635,24 @@ void main() {
           rounds: twinRounds.length,
           height: 1580,
         ),
+        'find-it-on-the-plan': (
+          lesson: '76-bearings',
+          build: FindItOnThePlanGame.new,
+          rounds: planRounds.length,
+          height: 1500,
+        ),
+        'which-rule-turns-it': (
+          lesson: '76-bearings',
+          build: WhichRuleTurnsItGame.new,
+          rounds: azimuthRounds.length,
+          height: 1640,
+        ),
+        'which-length-is-which': (
+          lesson: '76-bearings',
+          build: WhichLengthIsWhichGame.new,
+          rounds: shotRounds.length,
+          height: 1520,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2011,6 +2032,11 @@ void main() {
     '75-similitude': [
       ('similitude', similitudeBrief),
       ('scaling', scalingBrief),
+    ],
+    '76-bearings': [
+      ('bearing', bearingBrief),
+      ('azimuth', azimuthBrief),
+      ('shot', shotBrief),
     ],
   };
 

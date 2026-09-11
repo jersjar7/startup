@@ -258,6 +258,9 @@ enum BriefFigure {
   coefficient,
   similitude,
   scaling,
+  bearing,
+  azimuth,
+  shot,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4339,6 +4342,73 @@ const scalingBrief = BriefSection(
   handbook: 'Handbook p. 196',
 );
 
+const bearingBrief = BriefSection(
+  title: 'Reading a bearing off a plan',
+  body:
+      'A bearing is an instruction rather than a number: face the letter it '
+      'starts with, turn that many degrees toward the letter it ends with, '
+      'and stop. N 52 E means stand facing north and swing 52 degrees toward '
+      'the east. Because it is measured off the nearer end of the meridian '
+      'it is never more than a right angle, which means the angle on its own '
+      'tells you almost nothing: the same 52 degrees appears in all four '
+      'quadrants and the two letters are what separate them. A bearing near '
+      '90 lies almost along the east and west line, and one near nothing '
+      'lies almost along the meridian. Read both halves before converting '
+      'anything.',
+  formulas: [
+    ('A bearing', r'\text{N or S}, \text{ angle} \le 90°, \text{ E or W}'),
+    ('The meridian', r'\text{north is up the sheet}'),
+    ('Back bearing', r'\text{same angle, both letters flipped}'),
+  ],
+  figure: BriefFigure.bearing,
+  handbook: 'Handbook p. 309',
+);
+
+const azimuthBrief = BriefSection(
+  title: 'Bearing to azimuth, by the clock',
+  body:
+      'An azimuth is the whole turn clockwise from north, 0 to 360, so which '
+      'conversion applies is just a question of where the line sits in that '
+      'turn. North-east is reached first and its azimuth IS the bearing '
+      'angle. South-east stops short of due south, so it is 180 less the '
+      'angle. South-west has carried on past due south, so it is 180 plus '
+      'the angle, and this is the one the lesson warns about: taking it off '
+      '360 instead throws the line to the opposite corner of the sheet. '
+      'North-west is nearly the whole way round, so it is 360 less the '
+      'angle. Picture a clock face with north at twelve and the list is not '
+      'worth memorizing.',
+  formulas: [
+    ('NE', r'Az = \text{angle}'),
+    ('SE and SW', r'Az = 180° \mp \text{angle}'),
+    ('NW', r'Az = 360° - \text{angle}'),
+  ],
+  figure: BriefFigure.azimuth,
+  handbook: 'Handbook p. 309',
+);
+
+const shotBrief = BriefSection(
+  title: 'Three lengths out of one shot',
+  body:
+      'A shot up or down a slope makes a right triangle, and the three sides '
+      'are three different answers. The instrument measures along its line '
+      'of sight, and so does a tape dragged over the ground: that is the '
+      'slope distance, and it is the hypotenuse, so it is the longest of the '
+      'three every time. The plan wants the flat distance underneath it, '
+      'which is the slope distance times the cosine and therefore always '
+      'shorter. The upright at the far end is the difference in elevation, '
+      'the slope distance times the sine. Every wrong answer on the '
+      'lesson\'s own problem is one of these three swapped for another, and '
+      'a flat distance that comes out LONGER than the slope distance means '
+      'the cosine went underneath instead of on top.',
+  formulas: [
+    ('Flat, for the plan', r'HD = SD\cos\alpha'),
+    ('Upright, the elevation', r'VD = SD\sin\alpha'),
+    ('Always', r'HD \le SD'),
+  ],
+  figure: BriefFigure.shot,
+  handbook: 'Handbook p. 309',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5898,6 +5968,33 @@ class BriefFigureView extends StatelessWidget {
             (r"2L \Rightarrow 2 h_f", true),
             (r"2v \Rightarrow 2 h_f", false),
             (r"f_{Fanning} \text{ goes in as is}", false),
+          ],
+        );
+      case BriefFigure.bearing:
+        return const _RuleList(
+          rules: [
+            (r"\text{a bearing is never over } 90°", true),
+            (r"\text{the two letters pick the quadrant}", true),
+            (r"\text{the angle alone fixes the line}", false),
+            (r"\text{bearings run clockwise from north}", false),
+          ],
+        );
+      case BriefFigure.azimuth:
+        return const _RuleList(
+          rules: [
+            (r"\text{S } 45° \text{ W} \Rightarrow Az = 225°", true),
+            (r"\text{N } 68° \text{ W} \Rightarrow Az = 292°", true),
+            (r"\text{S } 45° \text{ W} \Rightarrow Az = 315°", false),
+            (r"\text{every quadrant subtracts}", false),
+          ],
+        );
+      case BriefFigure.shot:
+        return const _RuleList(
+          rules: [
+            (r"HD = SD\cos\alpha", true),
+            (r"SD \text{ is the longest of the three}", true),
+            (r"HD = SD/\cos\alpha", false),
+            (r"\text{the plan takes the slope length}", false),
           ],
         );
       case BriefFigure.similitude:
