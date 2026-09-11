@@ -20,6 +20,7 @@ import '../features/games/can_you_seal_it_game.dart';
 import '../features/games/copy_it_down_game.dart';
 import '../features/games/discriminant_gate_game.dart';
 import '../features/games/does_it_hold_game.dart';
+import '../features/games/does_it_make_the_number_game.dart';
 import '../features/games/do_they_agree_game.dart';
 import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
@@ -73,6 +74,7 @@ import '../features/games/stronger_or_weaker_game.dart';
 import '../features/games/take_the_diagonal_game.dart';
 import '../features/games/tap_the_side_game.dart';
 import '../features/games/true_or_engineering_game.dart';
+import '../features/games/times_or_divided_game.dart';
 import '../features/games/walk_the_circle_game.dart';
 import '../features/games/what_was_asked_game.dart';
 import '../features/games/whats_missing_game.dart';
@@ -426,6 +428,8 @@ GoRouter buildRouter(AuthController auth) {
           'which-arm' => const WhichArmGame(),
           'stronger-or-weaker' => const StrongerOrWeakerGame(),
           'what-this-job-needs' => const WhatThisJobNeedsGame(),
+          'times-or-divided' => const TimesOrDividedGame(),
+          'does-it-make-the-number' => const DoesItMakeTheNumberGame(),
           _ => const _UnknownGame(),
         },
       ),

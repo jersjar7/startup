@@ -2116,6 +2116,31 @@ const materialsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'concrete-curing-strength',
+      name: 'Concrete Curing & Strength Development',
+      subtopicId: 'concrete-technology',
+      // Why concrete is reinforced is taught here and asked by no problem in
+      // the lesson, so it is not an item.
+      games: [
+        GameDef(
+          id: 'times-or-divided',
+          rounds: 6,
+          name: 'Times or Divided',
+          blurb: 'One percentage, two directions. Which one is this?',
+          built: true,
+          brief: curingBrief,
+        ),
+        GameDef(
+          id: 'does-it-make-the-number',
+          rounds: 6,
+          name: 'Does It Make the Number',
+          blurb: 'The cylinder was cured in a lab. The slab was not.',
+          built: true,
+          brief: fieldBrief,
+        ),
+      ],
+    ),
   ],
 );
 

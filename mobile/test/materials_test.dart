@@ -6,6 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/concrete_figures.dart';
 import 'package:mobile/features/games/crack_figures.dart';
+import 'package:mobile/features/games/does_it_make_the_number_game.dart';
+import 'package:mobile/features/games/times_or_divided_game.dart';
 import 'package:mobile/features/games/stronger_or_weaker_game.dart';
 import 'package:mobile/features/games/what_this_job_needs_game.dart';
 import 'package:mobile/features/games/out_of_the_furnace_game.dart';
@@ -690,6 +692,130 @@ void main() {
               reason: '${r.subject}: ${m.plain} is off the chart');
         }
       }
+    });
+  });
+
+  group('the curing percentages reproduce the lesson', () {
+    test('2,800 at seven days means about 4,000 at twenty eight', () {
+      expect(2800 / 0.70, closeTo(4000, 1));
+      // Its named slips.
+      expect(2800 * 0.70, closeTo(1960, 1));
+      expect(2800 / 0.30, closeTo(9333, 2));
+    });
+
+    test('ninety percent of 5,200 is 4,680', () {
+      expect(0.90 * 5200, closeTo(4680, 0.5));
+      expect(5200 / 0.90, closeTo(5778, 1));
+      expect(5200 * 0.10, closeTo(520, 0.5));
+    });
+
+    test('the two field pours land where the lesson says', () {
+      const a = Pour(name: 'A', lab: 5400, factor: 0.92, curing: '');
+      const b = Pour(name: 'B', lab: 4600, factor: 0.85, curing: '');
+      expect(a.inPlace, closeTo(4968, 1));
+      expect(b.inPlace, closeTo(3910, 1));
+      expect(a.inPlace >= 4500, isTrue);
+      expect(b.inPlace >= 4500, isFalse);
+      // The named slip: the seven day rule used in place of the factors,
+      // which fails both.
+      expect(5400 * 0.70, lessThan(4500));
+      expect(4600 * 0.70, lessThan(4500));
+    });
+  });
+
+  group('times-or-divided asks only which way', () {
+    test('every round offers the four readings of one percentage', () {
+      for (final r in stepRounds) {
+        expect(r.options.toSet().length, 4, reason: r.subject);
+        expect(r.options.contains(r.answer), isTrue, reason: r.subject);
+        final labels = r.options.map(r.labelFor).toSet();
+        expect(labels.length, 4,
+            reason: '${r.subject}: two choices read the same');
+      }
+    });
+
+    test('the leftover share is never the right answer', () {
+      for (final r in stepRounds) {
+        expect(r.answer == Doing.times || r.answer == Doing.over, isTrue,
+            reason: r.subject);
+      }
+    });
+
+    test('both directions come up', () {
+      final answers = stepRounds.map((r) => r.answer).toSet();
+      expect(answers.contains(Doing.times), isTrue);
+      expect(answers.contains(Doing.over), isTrue);
+    });
+
+    test('the right answer is not always in the same place', () {
+      final spots = stepRounds.map((r) => r.options.indexOf(r.answer)).toSet();
+      expect(spots.length, greaterThan(2));
+    });
+
+    test('every round draws on one of the three problems', () {
+      expect(stepRounds.map((r) => r.source).toSet().length, 3);
+    });
+  });
+
+  group('does-it-make-the-number is decided by the drawn bars', () {
+    test('the answer follows from what the curing leaves', () {
+      for (final r in slabRounds) {
+        final a = r.left.inPlace >= r.needs;
+        final b = r.right.inPlace >= r.needs;
+        switch (r.answer) {
+          case Passes.both:
+            expect(a && b, isTrue, reason: r.subject);
+          case Passes.left:
+            expect(a && !b, isTrue, reason: r.subject);
+          case Passes.right:
+            expect(!a && b, isTrue, reason: r.subject);
+          case Passes.neither:
+            expect(!a && !b, isTrue, reason: r.subject);
+        }
+      }
+    });
+
+    test('no round is decided by a hair', () {
+      for (final r in slabRounds) {
+        // Ten percent of the required strength is about fourteen pixels of
+        // bar on a phone. Less than that is not a question, it is a coin.
+        expect(r.closest, greaterThan(0.09),
+            reason: '${r.subject}: too close to read off the bars');
+      }
+    });
+
+    test('all four answers are used', () {
+      expect(slabRounds.map((r) => r.answer).toSet(), Passes.values.toSet());
+    });
+
+    test('the lab strengths alone would mislead somewhere', () {
+      // If no round punished comparing the lab figures straight to the
+      // specification, the item would not be teaching the lesson's own trap.
+      final fooled = slabRounds.where((r) {
+        final labs = r.left.lab >= r.needs && r.right.lab >= r.needs;
+        return labs && r.answer != Passes.both;
+      });
+      expect(fooled, isNotEmpty);
+    });
+
+    test('every bar is inside its panel', () {
+      const size = Size(340, 250);
+      final box = PourPainter.plot(size);
+      for (final r in slabRounds) {
+        final painter =
+            PourPainter(pours: [r.left, r.right], needs: r.needs);
+        expect(painter.pours.length, 2);
+        expect(box.height, greaterThan(60), reason: r.subject);
+      }
+    });
+
+    test('a tap lands on the bar it looks like', () {
+      const size = Size(340, 250);
+      final box = PourPainter.plot(size);
+      expect(PourPainter.barAt(size, 2, Offset(box.left + box.width * 0.25, box.center.dy)),
+          0);
+      expect(PourPainter.barAt(size, 2, Offset(box.left + box.width * 0.75, box.center.dy)),
+          1);
     });
   });
 }

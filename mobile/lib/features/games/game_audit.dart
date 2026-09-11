@@ -12,6 +12,7 @@ import 'can_you_seal_it_game.dart';
 import 'copy_it_down_game.dart';
 import 'discriminant_gate_game.dart';
 import 'does_it_hold_game.dart';
+import 'does_it_make_the_number_game.dart';
 import 'do_they_agree_game.dart';
 import 'enough_or_too_far_game.dart';
 import 'edge_or_inside_game.dart';
@@ -65,6 +66,7 @@ import 'stronger_or_weaker_game.dart';
 import 'take_the_diagonal_game.dart';
 import 'true_or_engineering_game.dart';
 import 'tap_the_side_game.dart';
+import 'times_or_divided_game.dart';
 import 'walk_the_circle_game.dart';
 import 'what_was_asked_game.dart';
 import 'whats_missing_game.dart';
@@ -2544,6 +2546,33 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final m in r.mixes) m.plain],
           answer: r.answer,
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'times-or-divided',
+    lessonId: 'concrete-curing-strength',
+    problemPrefix: 'mat-ccs-',
+    rounds: [
+      for (final r in stepRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final d in r.options) r.labelFor(d)],
+          answer: r.options.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-it-make-the-number',
+    lessonId: 'concrete-curing-strength',
+    problemPrefix: 'mat-ccs-',
+    rounds: [
+      for (final r in slabRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in Passes.values) p.name],
+          answer: Passes.values.indexOf(r.answer),
         ),
     ],
   ),

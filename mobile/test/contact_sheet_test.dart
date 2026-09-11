@@ -179,7 +179,9 @@ import 'package:mobile/features/games/how_it_settles_game.dart';
 import 'package:mobile/features/games/when_it_runs_away_game.dart';
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/edge_or_inside_game.dart';
+import 'package:mobile/features/games/does_it_make_the_number_game.dart';
 import 'package:mobile/features/games/out_of_the_furnace_game.dart';
+import 'package:mobile/features/games/times_or_divided_game.dart';
 import 'package:mobile/features/games/stronger_or_weaker_game.dart';
 import 'package:mobile/features/games/what_this_job_needs_game.dart';
 import 'package:mobile/features/games/which_arm_game.dart';
@@ -1394,6 +1396,18 @@ void main() {
           rounds: siteRounds.length,
           height: 1800,
         ),
+        'times-or-divided': (
+          lesson: '62-curing',
+          build: TimesOrDividedGame.new,
+          rounds: stepRounds.length,
+          height: 1700,
+        ),
+        'does-it-make-the-number': (
+          lesson: '62-curing',
+          build: DoesItMakeTheNumberGame.new,
+          rounds: slabRounds.length,
+          height: 1850,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1711,6 +1725,10 @@ void main() {
     '61-concrete-mix': [
       ('mix', mixBrief),
       ('exposure', exposureBrief),
+    ],
+    '62-curing': [
+      ('curing', curingBrief),
+      ('field', fieldBrief),
     ],
   };
 

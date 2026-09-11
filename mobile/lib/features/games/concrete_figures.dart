@@ -221,3 +221,185 @@ class MixPainter extends CustomPainter {
       old.locked != locked ||
       old.showMarks != showMarks;
 }
+
+/// A pour: what the cylinders broke at in the lab, and what the curing on
+/// site will leave of it.
+@immutable
+class Pour {
+  const Pour({
+    required this.name,
+    required this.lab,
+    required this.factor,
+    required this.curing,
+  });
+
+  /// What the round calls it, what the lab cylinders reached in psi, and the
+  /// share of that the field curing will leave.
+  final String name;
+  final double lab;
+  final double factor;
+
+  /// How it is being cured, in the words a specification would use.
+  final String curing;
+
+  double get inPlace => lab * factor;
+
+  double get lost => lab - inPlace;
+}
+
+/// Two pours as bars, with what the curing takes off drawn on top of what is
+/// left, and the strength the job needs drawn across both.
+///
+/// The reader compares a solid bar to a line. The multiplying is done by the
+/// drawing, which is the point: the exam question is whether you remembered
+/// to apply the factor at all, not whether you can multiply.
+class PourPainter extends CustomPainter {
+  const PourPainter({
+    required this.pours,
+    required this.needs,
+    this.picked,
+    this.answer,
+    this.locked = false,
+  });
+
+  final List<Pour> pours;
+  final double needs;
+
+  /// Which bars the reader chose and which were right, as flags per bar.
+  final List<bool>? picked;
+  final List<bool>? answer;
+  final bool locked;
+
+  static Rect plot(Size size) =>
+      Rect.fromLTRB(40, 16, size.width - 10, size.height - 34);
+
+  /// The tallest thing on the chart, so both bars and the line are drawn to
+  /// one scale.
+  double _ceilingOf() {
+    var most = needs;
+    for (final p in pours) {
+      if (p.lab > most) most = p.lab;
+    }
+    return most * 1.18;
+  }
+
+  /// The bar a tap landed on.
+  static int? barAt(Size size, int count, Offset tap) {
+    final box = plot(size);
+    if (!box.inflate(20).contains(tap)) return null;
+    final slot = box.width / count;
+    final i = ((tap.dx - box.left) / slot).floor();
+    return i.clamp(0, count - 1);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final box = plot(size);
+    final ceiling = _ceilingOf();
+    double y(double psi) => box.bottom - box.height * psi / ceiling;
+
+    canvas
+      ..drawLine(box.bottomLeft, box.bottomRight,
+          Paint()..color = AppColors.charcoal..strokeWidth = 1.4)
+      ..drawLine(box.bottomLeft, box.topLeft,
+          Paint()..color = AppColors.charcoal..strokeWidth = 1.4);
+
+    final slot = box.width / pours.length;
+    for (var i = 0; i < pours.length; i++) {
+      final p = pours[i];
+      final middle = box.left + slot * (i + 0.5);
+      final wide = slot * 0.42;
+      final Color tone;
+      if (locked && (answer?[i] ?? false)) {
+        tone = AppColors.forest;
+      } else if (locked && (picked?[i] ?? false)) {
+        tone = AppColors.error;
+      } else if (picked?[i] ?? false) {
+        tone = AppColors.ember;
+      } else {
+        tone = AppColors.info;
+      }
+
+      // What the curing takes off, drawn hollow above what is left.
+      final gone = Rect.fromLTRB(
+          middle - wide / 2, y(p.lab), middle + wide / 2, y(p.inPlace));
+      canvas.drawRect(
+        gone,
+        Paint()..color = AppColors.error.withValues(alpha: 0.12),
+      );
+      for (var h = gone.top; h < gone.bottom; h += 6) {
+        canvas.drawLine(
+          Offset(gone.left, h),
+          Offset(gone.right, h),
+          Paint()
+            ..color = AppColors.error.withValues(alpha: 0.5)
+            ..strokeWidth = 0.8,
+        );
+      }
+      canvas.drawRect(
+        gone,
+        Paint()
+          ..color = AppColors.error.withValues(alpha: 0.6)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1,
+      );
+
+      final left = Rect.fromLTRB(
+          middle - wide / 2, y(p.inPlace), middle + wide / 2, box.bottom);
+      canvas
+        ..drawRect(left, Paint()..color = tone.withValues(alpha: 0.32))
+        ..drawRect(
+          left,
+          Paint()
+            ..color = tone
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = (picked?[i] ?? false) || (locked && (answer?[i] ?? false))
+                ? 2.4
+                : 1.4,
+        );
+
+      _write(canvas, size, p.name, Offset(middle - 24, box.bottom + 4), tone);
+      _write(canvas, size, p.curing, Offset(middle - 46, box.bottom + 18),
+          AppColors.ink3);
+    }
+
+    // What the job needs, across both bars.
+    final line = y(needs);
+    final paint = Paint()
+      ..color = AppColors.forest
+      ..strokeWidth = 1.6;
+    for (var x = box.left; x < box.right; x += 10) {
+      canvas.drawLine(Offset(x, line), Offset(x + 5, line), paint);
+    }
+    _write(canvas, size, 'needs ${(needs / 1000).toStringAsFixed(1)}k',
+        Offset(box.left + 2, line - 13), AppColors.forest);
+    _write(canvas, size, 'psi', const Offset(2, 16), AppColors.ink3);
+    _write(canvas, size, 'lab', Offset(box.right - 30, y(_labTop()) - 13),
+        AppColors.ink3);
+  }
+
+  double _labTop() => pours.map((p) => p.lab).reduce(math.max);
+
+  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
+    final painter = TextPainter(
+      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    var x = at.dx;
+    if (x + painter.width > size.width - 3) x = size.width - 3 - painter.width;
+    if (x < 2) x = 2;
+    final patch = Rect.fromLTWH(
+        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
+    canvas.drawRect(
+        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.88));
+    painter.paint(canvas, Offset(x, at.dy));
+  }
+
+  @override
+  bool shouldRepaint(PourPainter old) =>
+      old.pours != pours ||
+      old.needs != needs ||
+      old.picked != picked ||
+      old.answer != answer ||
+      old.locked != locked;
+}

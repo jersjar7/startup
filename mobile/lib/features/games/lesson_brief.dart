@@ -224,6 +224,8 @@ enum BriefFigure {
   tieLine,
   mix,
   exposure,
+  curing,
+  field,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3558,6 +3560,50 @@ const exposureBrief = BriefSection(
   handbook: 'Handbook p. 125',
 );
 
+const curingBrief = BriefSection(
+  title: 'Which way the percentage goes',
+  body:
+      'All of this page is one percentage applied to one strength, and every '
+      'wrong answer in it is that percentage applied the wrong way round. Two '
+      'habits fix it. First, decide before you touch the number whether the '
+      'answer should come out BIGGER or smaller: going toward the smaller '
+      'figure multiplies, coming back to the bigger one divides. Second, use '
+      'the share you were given and not what is left over: ninety percent '
+      'means multiply by 0.90, never by 0.10. The numbers worth carrying are '
+      'that seven day strength runs near seventy percent of the twenty eight '
+      'day figure, and that concrete allowed to dry early may keep only '
+      'fifty five to sixty five percent of what it could have had.',
+  formulas: [
+    ('Seven days', r'f_{c,7} \approx 0.70\, f_{c,28}'),
+    ('So the later one', r'f_{c,28} = \frac{f_{c,7}}{0.70}'),
+    ('Dried out early', r'0.55 \text{ to } 0.65 \text{ of the best}'),
+  ],
+  figure: BriefFigure.curing,
+  handbook: 'Handbook p. 125',
+);
+
+const fieldBrief = BriefSection(
+  title: 'The cylinder is not the slab',
+  body:
+      'A test cylinder is cured in a laboratory under water. The structure it '
+      'came from is cured by whoever is on site that week, and the difference '
+      'is worth more than most changes to the mix. So the lab break is never '
+      'the number to hold against the specification: take the curing off '
+      'first, and compare what is LEFT. A pour kept wet for a fortnight might '
+      'keep ninety five percent of its cylinder strength, while one stripped '
+      'at three days into hot wind keeps around sixty. That gap is bigger '
+      'than the gap between a good mix and a mediocre one, which is why '
+      'curing is the cheapest strength on the job and the first thing a tight '
+      'schedule gives away.',
+  formulas: [
+    ('What the slab gets', r'f_{c,\text{field}} = k \, f_{c,\text{lab}}'),
+    ('Cured properly', r'k \approx 0.92 \text{ to } 0.95'),
+    ('Dried out early', r'k \approx 0.60'),
+  ],
+  figure: BriefFigure.field,
+  handbook: 'Handbook p. 125',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -4883,6 +4929,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{air costs strength}", true),
             (r"\text{air always improves concrete}", false),
             (r"\text{water fixes workability}", false),
+          ],
+        );
+      case BriefFigure.curing:
+        return const _RuleList(
+          rules: [
+            (r"f_{c,28} = f_{c,7} \div 0.70", true),
+            (r"\text{toward the smaller number: multiply}", true),
+            (r"f_{c,28} = f_{c,7} \times 0.70", false),
+            (r"90\% \Rightarrow \text{multiply by } 0.10", false),
+          ],
+        );
+      case BriefFigure.field:
+        return const _RuleList(
+          rules: [
+            (r"\text{take the curing off, then compare}", true),
+            (r"\text{dried out early} \Rightarrow \text{a third gone}", true),
+            (r"\text{the lab break is what the slab has}", false),
+            (r"\text{a richer mix beats better curing}", false),
           ],
         );
       case BriefFigure.damping:
