@@ -96,6 +96,9 @@ import 'can_you_get_there_game.dart';
 import 'which_diagram_belongs_game.dart';
 import 'where_it_peaks_game.dart';
 import 'jump_bend_or_neither_game.dart';
+import 'which_fiber_is_worst_game.dart';
+import 'which_width_which_area_game.dart';
+import 'which_one_gets_worse_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -1919,6 +1922,53 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final d in Does.values) d.name],
           answer: Does.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-fiber-is-worst',
+    lessonId: 'bending-shear-stresses',
+    problemPrefix: 'mm-bss-',
+    rounds: [
+      // Five layers through the depth, named bottom first. Two rounds can
+      // share a name for different heights on different sections, so they are
+      // places rather than repeated choices.
+      for (final r in fiberRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final l in r.layers) l.label],
+          answer: r.answer,
+          positional: true,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-width-which-area',
+    lessonId: 'bending-shear-stresses',
+    problemPrefix: 'mm-bss-',
+    rounds: [
+      // Three drawings of one section, each marking a different thing.
+      for (final r in sliceRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (final m in r.marks)
+              m.isWidth ? 'width at ${m.y}' : 'band ${m.from} to ${m.to}',
+          ],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-one-gets-worse',
+    lessonId: 'bending-shear-stresses',
+    problemPrefix: 'mm-bss-',
+    rounds: [
+      for (final r in swapRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final w in Worse.values) w.name],
+          answer: Worse.values.indexOf(r.answer),
         ),
     ],
   ),

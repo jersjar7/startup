@@ -101,6 +101,9 @@ import '../features/games/can_you_get_there_game.dart';
 import '../features/games/which_diagram_belongs_game.dart';
 import '../features/games/where_it_peaks_game.dart';
 import '../features/games/jump_bend_or_neither_game.dart';
+import '../features/games/which_fiber_is_worst_game.dart';
+import '../features/games/which_width_which_area_game.dart';
+import '../features/games/which_one_gets_worse_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -344,6 +347,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-diagram-belongs' => const WhichDiagramBelongsGame(),
           'where-it-peaks' => const WhereItPeaksGame(),
           'jump-bend-or-neither' => const JumpBendOrNeitherGame(),
+          'which-fiber-is-worst' => const WhichFiberIsWorstGame(),
+          'which-width-which-area' => const WhichWidthWhichAreaGame(),
+          'which-one-gets-worse' => const WhichOneGetsWorseGame(),
           _ => const _UnknownGame(),
         },
       ),

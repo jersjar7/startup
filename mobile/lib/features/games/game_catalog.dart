@@ -1648,6 +1648,32 @@ const mechanicsMaterialsMap = ChapterMap(
       id: 'bending-shear-stresses',
       name: 'Bending & Shear Stresses in Beams',
       subtopicId: 'beams',
+      games: [
+        GameDef(
+          id: 'which-fiber-is-worst',
+          rounds: 6,
+          name: 'Which Fiber Is Worst',
+          blurb: 'Tap the layer of the section that is working hardest.',
+          built: true,
+          brief: fiberBrief,
+        ),
+        GameDef(
+          id: 'which-width-which-area',
+          rounds: 6,
+          name: 'Which Width, Which Area',
+          blurb: 'One cut, three candidates. What goes into VQ over Ib?',
+          built: true,
+          brief: cutBrief,
+        ),
+        GameDef(
+          id: 'which-one-gets-worse',
+          rounds: 6,
+          name: 'Which One Gets Worse',
+          blurb: 'Change one thing about the beam. Say which stress goes up.',
+          built: true,
+          brief: governsBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'beam-deflections',

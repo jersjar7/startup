@@ -183,6 +183,9 @@ enum BriefFigure {
   slopeRules,
   peak,
   jump,
+  fiber,
+  cut,
+  governs,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2637,6 +2640,78 @@ const jumpBrief = BriefSection(
   handbook: 'Handbook p. 140',
 );
 
+const fiberBrief = BriefSection(
+  title: 'The two stresses live in opposite places',
+  body:
+      'Through the depth of a beam, bending stress is NOTHING at the neutral '
+      'axis and worst at the two faces, running straight between them. That is '
+      'the c in M c over I: the distance from the axis to the fiber you care '
+      'about, and the fiber that decides the beam is the furthest one. Shear '
+      'stress does the opposite: nothing at the faces, worst at the neutral '
+      'axis, running as a parabola, and on a rectangle its peak is half again '
+      'the plain average of V over A. Sagging stretches the bottom and squashes '
+      'the top; over a support it is the other way round, which is where the '
+      'reinforcement in a continuous beam moves to. And the neutral axis is '
+      'the CENTROID of the section, which is halfway up only when the section '
+      'is symmetric about it.',
+  formulas: [
+    ('Bending, at distance c', r'\sigma = \frac{Mc}{I}'),
+    ('Worst shear in a rectangle', r'\tau_{max} = \frac{3V}{2A}'),
+    ('Which is', r'1.5 \times \text{the average } V/A'),
+    ('The neutral axis is', r'\text{the centroid of the section}'),
+  ],
+  figure: BriefFigure.fiber,
+  handbook: 'Handbook p. 135',
+);
+
+const cutBrief = BriefSection(
+  title: 'Q and b both belong to the cut',
+  body:
+      'The shear formula is written for a PLACE in the section, and its two '
+      'awkward ingredients both change when you move that place. The b is the '
+      'width of the material at the cut. On an I-beam just under the flange '
+      'that is the web thickness, not the flange width, and this lesson names '
+      'that swap as an error of fifteen times. The Q is the first moment of '
+      'the material beyond the cut, its area times the distance from ITS OWN '
+      'centroid to the neutral axis. Taking the material on the other side of '
+      'the cut gives the same number, because the two sides balance about the '
+      'centroid; taking the WHOLE section gives exactly zero, which is what '
+      'being the centroid means. On a rectangle the width never changes, which '
+      'is the only reason the three V over two A shortcut exists.',
+  formulas: [
+    ('Shear at a cut', r'\tau = \frac{VQ}{Ib}'),
+    ('Q is', r'Q = A_{beyond}\,\bar{y}_{beyond}'),
+    ('b is', r'\text{the width AT the cut}'),
+    ('Shear flow, for the fixings', r'q = \frac{VQ}{I}'),
+  ],
+  figure: BriefFigure.cut,
+  handbook: 'Handbook p. 135',
+);
+
+const governsBrief = BriefSection(
+  title: 'What each stress answers to',
+  body:
+      'The span is in the moment and not in the shear: double the span and the '
+      'bending stress doubles while every support carries exactly what it did '
+      'before. That one fact is why a long beam is a bending problem and a '
+      'short stubby one is a shear problem. Depth is in both, unevenly: the '
+      'section modulus carries it SQUARED, so twice the depth quarters the '
+      'bending stress, while the area carries it once and only halves the '
+      'shear. Turning a joist on its side changes the bending badly and leaves '
+      'the shear alone, since the area is the same timber either way up. And '
+      'the material is in NEITHER formula: a steel beam of the same size under '
+      'the same load carries the same stresses as a timber one. What it has is '
+      'more strength to meet them with.',
+  formulas: [
+    ('Section modulus', r'S = \frac{I}{c},\quad \sigma = \frac{M}{S}'),
+    ('For a rectangle', r'S = \frac{bh^2}{6}'),
+    ('Span moves', r'M \text{, not } V'),
+    ('Neither formula holds', r'E'),
+  ],
+  figure: BriefFigure.governs,
+  handbook: 'Handbook p. 135',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -3789,6 +3864,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.fiber:
+        return const _RuleList(
+          rules: [
+            (r"\text{bending: nothing at the axis, worst at the faces}", true),
+            (r"\text{shear: nothing at the faces, worst at the axis}", true),
+            (r"\text{the neutral axis is halfway up}", false),
+            (r"\text{both stresses peak in the same fiber}", false),
+          ],
+        );
+      case BriefFigure.cut:
+        return const _RuleList(
+          rules: [
+            (r"b = \text{the width AT the cut}", true),
+            (r"Q = \text{the material BEYOND the cut}", true),
+            (r"b = \text{the widest part of the section}", false),
+            (r"Q = \text{the first moment of the whole section}", false),
+          ],
+        );
+      case BriefFigure.governs:
+        return const _RuleList(
+          rules: [
+            (r"\text{twice the span} \;\Rightarrow\; \text{twice } \sigma", true),
+            (r"\text{twice the depth} \;\Rightarrow\; \sigma/4,\; \tau/2", true),
+            (r"\text{twice the span} \;\Rightarrow\; \text{twice } \tau", false),
+            (r"\text{a stronger material lowers the stress}", false),
           ],
         );
       case BriefFigure.slopeRules:

@@ -63,6 +63,9 @@ import 'package:mobile/features/games/can_you_get_there_game.dart';
 import 'package:mobile/features/games/which_diagram_belongs_game.dart';
 import 'package:mobile/features/games/where_it_peaks_game.dart';
 import 'package:mobile/features/games/jump_bend_or_neither_game.dart';
+import 'package:mobile/features/games/which_fiber_is_worst_game.dart';
+import 'package:mobile/features/games/which_width_which_area_game.dart';
+import 'package:mobile/features/games/which_one_gets_worse_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1113,6 +1116,24 @@ void main() {
           rounds: markRounds.length,
           height: 1600,
         ),
+        'which-fiber-is-worst': (
+          lesson: '47-bending-shear',
+          build: WhichFiberIsWorstGame.new,
+          rounds: fiberRounds.length,
+          height: 1150,
+        ),
+        'which-width-which-area': (
+          lesson: '47-bending-shear',
+          build: WhichWidthWhichAreaGame.new,
+          rounds: sliceRounds.length,
+          height: 1250,
+        ),
+        'which-one-gets-worse': (
+          lesson: '47-bending-shear',
+          build: WhichOneGetsWorseGame.new,
+          rounds: swapRounds.length,
+          height: 1700,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1353,6 +1374,11 @@ void main() {
       ('slope-rules', slopeRulesBrief),
       ('peak', peakBrief),
       ('jump', jumpBrief),
+    ],
+    '47-bending-shear': [
+      ('fiber', fiberBrief),
+      ('cut', cutBrief),
+      ('governs', governsBrief),
     ],
   };
 
