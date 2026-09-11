@@ -2310,6 +2310,37 @@ const fluidMechanicsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'hydrostatic-pressure',
+      name: 'Hydrostatic Pressure & Manometers',
+      subtopicId: 'fluid-properties-statics',
+      games: [
+        GameDef(
+          id: 'same-depth',
+          rounds: 6,
+          name: 'Same Depth, Same Pressure',
+          blurb: 'The shape of the vessel is not in the formula anywhere.',
+          built: true,
+          brief: depthBrief,
+        ),
+        GameDef(
+          id: 'gauge-or-absolute',
+          rounds: 6,
+          name: 'Gauge or Absolute',
+          blurb: 'Which zero the number you are holding counts from.',
+          built: true,
+          brief: gaugeBrief,
+        ),
+        GameDef(
+          id: 'walk-the-manometer',
+          rounds: 6,
+          name: 'Walk the Manometer',
+          blurb: 'Down adds, up subtracts, sideways does nothing.',
+          built: true,
+          brief: manometerBrief,
+        ),
+      ],
+    ),
   ],
 );
 

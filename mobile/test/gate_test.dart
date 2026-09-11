@@ -267,6 +267,9 @@ void main() {
       'which-property',
       'which-drags-more',
       'which-tube-climbs',
+      // The manometer is the only problem in the lesson with a U-tube in it,
+      // and walking it a step at a time is the whole item.
+      'walk-the-manometer',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

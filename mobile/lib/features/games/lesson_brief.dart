@@ -240,6 +240,9 @@ enum BriefFigure {
   threeNumbers,
   viscosity,
   capillary,
+  depth,
+  manometer,
+  gauge,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3918,6 +3921,71 @@ const capillaryBrief = BriefSection(
   handbook: 'Handbook p. 176',
 );
 
+const depthBrief = BriefSection(
+  title: 'Only depth and the liquid',
+  body:
+      'Pressure in a still liquid is the specific weight times the DEPTH of '
+      'the point below the free surface, and nothing else is in it. Not the '
+      'shape of the vessel, not how much liquid there is, not how wide the '
+      'surface is: a thin pipe of water and a lake press equally hard at the '
+      'same depth, which is why a header tank on a roof can pressurize a '
+      'whole building and why the pressure on a dam is drawn as a triangle, '
+      'nothing at the top and most at the bottom. Sideways makes no '
+      'difference either: two points at the same depth in the same connected '
+      'liquid are at the same pressure. Use the specific weight, not the '
+      'density, or the answer is short by a factor of g.',
+  formulas: [
+    ('Pressure at depth', r'p = \gamma h = \rho g h'),
+    ('Water', r'\gamma_w = 9{,}810\ \text{N/m}^3'),
+    ('So five meters', r'\approx 49\ \text{kPa}'),
+  ],
+  figure: BriefFigure.depth,
+  handbook: 'Handbook p. 177',
+);
+
+const manometerBrief = BriefSection(
+  title: 'Start where you know, then walk',
+  body:
+      'A manometer is solved by walking it, not by recalling a formula. Start '
+      'at the end where the pressure is known, usually the open one where the '
+      'gauge pressure is zero, and step along the tube. Going DOWN a column '
+      'adds its weight; coming UP one subtracts it; moving sideways in the '
+      'same connected fluid changes nothing at all, because pressure depends '
+      'on depth alone; and a stretch of air changes nothing worth counting, '
+      'since air weighs almost nothing beside a liquid. Each fluid carries '
+      'its OWN specific weight, so a meter of water adds about a thirteenth '
+      'of what a meter of mercury would. And the higher column always stands '
+      'on the lower-pressure side.',
+  formulas: [
+    ('Down a column', r'+\,\gamma h'),
+    ('Up a column', r'-\,\gamma h'),
+    ('A simple U-tube', r'P_0 = P_2 + \gamma_2 h_2 - \gamma_1 h_1'),
+  ],
+  figure: BriefFigure.manometer,
+  handbook: 'Handbook p. 178',
+);
+
+const gaugeBrief = BriefSection(
+  title: 'Which zero you are counting from',
+  body:
+      'Gauge pressure counts from atmospheric and absolute counts from a '
+      'vacuum, so they differ by one constant: about 101.3 kilopascals of '
+      'air. Anything open to the sky is at zero gauge on its surface, which '
+      'is why the depth formula hands you a gauge pressure directly, and why '
+      'a manometer with one open end reads one too. Civil work quotes gauge '
+      'almost always, because the atmosphere presses on both sides of nearly '
+      'everything we build and cancels itself out. Convert only when the '
+      'problem says the word absolute, and remember that a gauge pressure can '
+      'be negative, which is a vacuum, while an absolute one never can.',
+  formulas: [
+    ('The link', r'P_{abs} = P_{atm} + P_{gauge}'),
+    ('The atmosphere', r'101.3\ \text{kPa} = 14.7\ \text{psi}'),
+    ('Open to the air', r'P_{gauge} = 0'),
+  ],
+  figure: BriefFigure.gauge,
+  handbook: 'Handbook p. 177',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5387,6 +5455,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\beta > 90^\circ \Rightarrow \text{it goes down}", true),
             (r"\text{the radius goes underneath}", false),
             (r"\text{a wider tube climbs higher}", false),
+          ],
+        );
+      case BriefFigure.depth:
+        return const _RuleList(
+          rules: [
+            (r"p = \gamma h", true),
+            (r"\text{same depth} \Rightarrow \text{same pressure}", true),
+            (r"\text{a wider vessel presses harder}", false),
+            (r"p = \rho h", false),
+          ],
+        );
+      case BriefFigure.manometer:
+        return const _RuleList(
+          rules: [
+            (r"\text{down a column} \Rightarrow +\gamma h", true),
+            (r"\text{sideways} \Rightarrow \text{no change}", true),
+            (r"\text{up a column} \Rightarrow +\gamma h", false),
+            (r"\text{one } \gamma \text{ for the whole tube}", false),
+          ],
+        );
+      case BriefFigure.gauge:
+        return const _RuleList(
+          rules: [
+            (r"P_{abs} = P_{atm} + P_{gauge}", true),
+            (r"\text{open to the air} \Rightarrow P_{gauge} = 0", true),
+            (r"\gamma h \text{ gives an absolute pressure}", false),
+            (r"P_{gauge} \text{ cannot be negative}", false),
           ],
         );
       case BriefFigure.damping:

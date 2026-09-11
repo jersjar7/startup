@@ -34,6 +34,7 @@ import '../features/games/enough_or_too_far_game.dart';
 import '../features/games/fill_the_trace_game.dart';
 import '../features/games/first_true_wins_game.dart';
 import '../features/games/fix_the_sign_game.dart';
+import '../features/games/gauge_or_absolute_game.dart';
 import '../features/games/grade_sense_game.dart';
 import '../features/games/grounds_or_not_game.dart';
 import '../features/games/happens_first_game.dart';
@@ -62,6 +63,7 @@ import '../features/games/mind_the_order_game.dart';
 import '../features/games/r_or_r2_game.dart';
 import '../features/games/read_the_line_game.dart';
 import '../features/games/reject_or_not_game.dart';
+import '../features/games/same_depth_game.dart';
 import '../features/games/same_pick_game.dart';
 import '../features/games/same_stretch_game.dart';
 import '../features/games/read_the_scatter_game.dart';
@@ -82,6 +84,7 @@ import '../features/games/tap_the_voids_game.dart';
 import '../features/games/true_or_engineering_game.dart';
 import '../features/games/times_or_divided_game.dart';
 import '../features/games/walk_the_circle_game.dart';
+import '../features/games/walk_the_manometer_game.dart';
 import '../features/games/what_was_asked_game.dart';
 import '../features/games/whats_missing_game.dart';
 import '../features/games/what_is_missing_yet_game.dart';
@@ -458,6 +461,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-property' => const WhichPropertyGame(),
           'which-drags-more' => const WhichDragsMoreGame(),
           'which-tube-climbs' => const WhichTubeClimbsGame(),
+          'same-depth' => const SameDepthGame(),
+          'gauge-or-absolute' => const GaugeOrAbsoluteGame(),
+          'walk-the-manometer' => const WalkTheManometerGame(),
           _ => const _UnknownGame(),
         },
       ),

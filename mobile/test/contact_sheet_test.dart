@@ -192,6 +192,9 @@ import 'package:mobile/features/games/out_of_the_furnace_game.dart';
 import 'package:mobile/features/games/times_or_divided_game.dart';
 import 'package:mobile/features/games/which_mortar_game.dart';
 import 'package:mobile/features/games/which_one_goes_game.dart';
+import 'package:mobile/features/games/gauge_or_absolute_game.dart';
+import 'package:mobile/features/games/same_depth_game.dart';
+import 'package:mobile/features/games/walk_the_manometer_game.dart';
 import 'package:mobile/features/games/which_drags_more_game.dart';
 import 'package:mobile/features/games/which_property_game.dart';
 import 'package:mobile/features/games/which_tube_climbs_game.dart';
@@ -1506,6 +1509,24 @@ void main() {
           rounds: tubeRounds.length,
           height: 1600,
         ),
+        'same-depth': (
+          lesson: '69-hydrostatic',
+          build: SameDepthGame.new,
+          rounds: depthRounds.length,
+          height: 1550,
+        ),
+        'gauge-or-absolute': (
+          lesson: '69-hydrostatic',
+          build: GaugeOrAbsoluteGame.new,
+          rounds: gaugeRounds.length,
+          height: 1600,
+        ),
+        'walk-the-manometer': (
+          lesson: '69-hydrostatic',
+          build: WalkTheManometerGame.new,
+          rounds: walkRounds.length,
+          height: 1650,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1853,6 +1874,11 @@ void main() {
       ('three-numbers', threeNumbersBrief),
       ('viscosity', viscosityBrief),
       ('capillary', capillaryBrief),
+    ],
+    '69-hydrostatic': [
+      ('depth', depthBrief),
+      ('gauge', gaugeBrief),
+      ('manometer', manometerBrief),
     ],
   };
 

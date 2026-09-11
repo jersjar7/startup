@@ -27,6 +27,7 @@ import 'fill_the_trace_game.dart';
 import 'first_true_wins_game.dart';
 import 'fix_the_sign_game.dart';
 import 'follow_the_tangent_game.dart';
+import 'gauge_or_absolute_game.dart';
 import 'grade_sense_game.dart';
 import 'grounds_or_not_game.dart';
 import 'happens_first_game.dart';
@@ -56,6 +57,7 @@ import 'mind_the_order_game.dart';
 import 'r_or_r2_game.dart';
 import 'read_the_line_game.dart';
 import 'reject_or_not_game.dart';
+import 'same_depth_game.dart';
 import 'same_pick_game.dart';
 import 'same_stretch_game.dart';
 import 'read_the_scatter_game.dart';
@@ -77,6 +79,7 @@ import 'asphalt_figures.dart';
 import 'tap_the_voids_game.dart';
 import 'times_or_divided_game.dart';
 import 'walk_the_circle_game.dart';
+import 'walk_the_manometer_game.dart';
 import 'what_was_asked_game.dart';
 import 'whats_missing_game.dart';
 import 'what_is_missing_yet_game.dart';
@@ -2782,6 +2785,46 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final c in Climbs.values) c.name],
           answer: Climbs.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'same-depth',
+    lessonId: 'hydrostatic-pressure',
+    problemPrefix: 'fm-hp-',
+    rounds: [
+      for (final r in depthRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final h in Harder.values) h.name],
+          answer: Harder.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'gauge-or-absolute',
+    lessonId: 'hydrostatic-pressure',
+    problemPrefix: 'fm-hp-',
+    rounds: [
+      for (final r in gaugeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final f in Fix.values) f.name],
+          answer: Fix.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'walk-the-manometer',
+    lessonId: 'hydrostatic-pressure',
+    problemPrefix: 'fm-hp-',
+    rounds: [
+      for (final r in walkRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final s in Step2.values) s.name],
+          answer: Step2.values.indexOf(r.answer),
         ),
     ],
   ),
