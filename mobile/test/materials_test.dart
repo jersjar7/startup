@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/before_or_during_game.dart';
+import 'package:mobile/features/games/crack_figures.dart';
+import 'package:mobile/features/games/edge_or_inside_game.dart';
+import 'package:mobile/features/games/which_cracks_first_game.dart';
 import 'package:mobile/features/games/coupon_figures.dart';
 import 'package:mobile/features/games/curve_figures.dart';
 import 'package:mobile/features/games/true_or_engineering_game.dart';
@@ -199,6 +202,158 @@ void main() {
 
     test('all three answers are used', () {
       expect(readingRounds.map((r) => r.answer).toSet(), Reading.values.toSet());
+    });
+  });
+
+  group('the fracture formula reproduces the lesson', () {
+    test('the steel plate with a ten millimeter edge crack holds 236', () {
+      const plate = Plate(
+        flaw: Flaw.edgeLeft,
+        crackMm: 10,
+        stress: 200,
+        toughness: 46,
+        material: 'steel',
+      );
+      expect(plate.y, 1.1);
+      expect(plate.a, closeTo(0.010, 1e-12));
+      expect(plate.criticalStress, closeTo(236, 1));
+
+      // Its named slips: the interior factor, and the factor squared.
+      const asInternal = Plate(
+        flaw: Flaw.internal,
+        crackMm: 20,
+        stress: 200,
+        toughness: 46,
+        material: 'steel',
+      );
+      expect(asInternal.a, closeTo(0.010, 1e-12));
+      expect(asInternal.criticalStress, closeTo(260, 1));
+      expect(46 / (1.21 * math.sqrt(math.pi * 0.01)), closeTo(215, 1));
+      // And the crack left in millimeters.
+      expect(46 / (1.1 * math.sqrt(math.pi * 10)), closeTo(7.5, 0.1));
+    });
+
+    test('the aluminum part tolerates a 3.8 millimeter edge crack', () {
+      const plate = Plate(
+        flaw: Flaw.edgeLeft,
+        crackMm: 1,
+        stress: 200,
+        toughness: 24,
+        material: 'aluminum',
+      );
+      expect(plate.criticalCrackMm, closeTo(3.8, 0.1));
+
+      // With the interior factor instead, 4.6, which is the named slip.
+      const asInternal = Plate(
+        flaw: Flaw.internal,
+        crackMm: 1,
+        stress: 200,
+        toughness: 24,
+        material: 'aluminum',
+      );
+      expect(asInternal.criticalCrackMm / 2, closeTo(4.6, 0.1));
+    });
+  });
+
+  group('edge-or-inside offers one right reading', () {
+    test('the answer follows from where the crack is', () {
+      for (final r in crackRounds) {
+        expect(r.answer.y, r.plate.y, reason: r.subject);
+        expect(r.answer.half, !r.plate.flaw.isEdge, reason: r.subject);
+      }
+    });
+
+    test('every round offers all four readings, once each', () {
+      for (final r in crackRounds) {
+        expect(r.options.toSet().length, 4, reason: r.subject);
+        expect(r.options.contains(r.answer), isTrue, reason: r.subject);
+      }
+    });
+
+    test('no two choices in a round read the same', () {
+      for (final r in crackRounds) {
+        final labels = r.options.map(r.labelFor).toSet();
+        expect(labels.length, r.options.length, reason: r.subject);
+      }
+    });
+
+    test('the right answer is not always in the same place', () {
+      final spots = crackRounds.map((r) => r.options.indexOf(r.answer)).toSet();
+      expect(spots.length, greaterThan(2));
+    });
+
+    test('both geometries are asked about', () {
+      expect(crackRounds.map((r) => r.plate.flaw.isEdge).toSet(), {true, false});
+    });
+
+    test('the crack is drawn inside the plate it is in', () {
+      const size = Size(340, 180);
+      final box = PlatePainter.body(size);
+      for (final r in crackRounds) {
+        final (from, to) = PlatePainter.crackLine(r.plate, size);
+        expect(from.dx, greaterThanOrEqualTo(box.left - 0.01), reason: r.subject);
+        expect(to.dx, lessThanOrEqualTo(box.right + 0.01), reason: r.subject);
+        expect(to.dx - from.dx, greaterThan(14),
+            reason: '${r.subject}: the crack is too small to see');
+        if (r.plate.flaw == Flaw.internal) {
+          expect(from.dx, greaterThan(box.left + 8),
+              reason: '${r.subject}: an internal crack must not touch an edge');
+          expect(to.dx, lessThan(box.right - 8), reason: r.subject);
+        }
+      }
+    });
+  });
+
+  group('which-cracks-first is callable without a calculator', () {
+    test('the answer is whichever has used more of its toughness', () {
+      for (final r in firstRounds) {
+        switch (r.answer) {
+          case Goes.left:
+            expect(r.left.usedUp, greaterThan(r.right.usedUp),
+                reason: r.subject);
+          case Goes.right:
+            expect(r.right.usedUp, greaterThan(r.left.usedUp),
+                reason: r.subject);
+          case Goes.together:
+            expect(r.left.usedUp, closeTo(r.right.usedUp, 1e-9),
+                reason: r.subject);
+        }
+      }
+    });
+
+    test('a round with a winner has a clear one', () {
+      for (final r in firstRounds.where((r) => r.answer != Goes.together)) {
+        expect(r.ratio, greaterThan(1.3),
+            reason: '${r.subject}: too close to call by eye');
+      }
+    });
+
+    test('the round that cancels really cancels', () {
+      final tie = firstRounds.firstWhere((r) => r.answer == Goes.together);
+      expect(tie.right.crackMm, tie.left.crackMm * 4);
+      expect(tie.right.stress, tie.left.stress / 2);
+      expect(tie.left.driving, closeTo(tie.right.driving, 1e-9));
+    });
+
+    test('no plate is already broken before the round starts', () {
+      for (final r in firstRounds) {
+        expect(r.left.broken, isFalse, reason: r.subject);
+        expect(r.right.broken, isFalse, reason: r.subject);
+      }
+    });
+
+    test('all three answers are used', () {
+      expect(firstRounds.map((r) => r.answer).toSet(), Goes.values.toSet());
+    });
+
+    test('the pair that measures the same is drawn the same', () {
+      // The round about an edge crack against an internal one of the same
+      // length would be a trick if the drawing gave it away by length.
+      final r = firstRounds
+          .firstWhere((x) => x.subject.contains('an internal one'));
+      expect(r.left.crackMm, r.right.crackMm);
+      expect(r.left.flaw.isEdge, isTrue);
+      expect(r.right.flaw.isEdge, isFalse);
     });
   });
 }

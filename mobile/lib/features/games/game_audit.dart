@@ -14,6 +14,7 @@ import 'discriminant_gate_game.dart';
 import 'does_it_hold_game.dart';
 import 'do_they_agree_game.dart';
 import 'enough_or_too_far_game.dart';
+import 'edge_or_inside_game.dart';
 import 'every_rule_game.dart';
 import 'find_the_slip_game.dart';
 import 'fill_the_trace_game.dart';
@@ -74,6 +75,7 @@ import 'what_does_it_take_game.dart';
 import 'what_is_the_saving_game.dart';
 import 'what_weights_game.dart';
 import 'where_it_balances_game.dart';
+import 'which_cracks_first_game.dart';
 import 'which_law_game.dart';
 import 'which_region_game.dart';
 import 'which_section_game.dart';
@@ -2442,6 +2444,33 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final x in Reading.values) x.name],
           answer: Reading.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'edge-or-inside',
+    lessonId: 'hardness-impact-fatigue',
+    problemPrefix: 'mat-hif-',
+    rounds: [
+      for (final r in crackRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in r.options) p.name],
+          answer: r.options.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-cracks-first',
+    lessonId: 'hardness-impact-fatigue',
+    problemPrefix: 'mat-hif-',
+    rounds: [
+      for (final r in firstRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final g in Goes.values) g.name],
+          answer: Goes.values.indexOf(r.answer),
         ),
     ],
   ),

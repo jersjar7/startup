@@ -25,6 +25,7 @@ import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
 import '../features/games/follow_the_tangent_game.dart';
 import '../features/games/game_catalog.dart';
+import '../features/games/edge_or_inside_game.dart';
 import '../features/games/enough_or_too_far_game.dart';
 import '../features/games/fill_the_trace_game.dart';
 import '../features/games/first_true_wins_game.dart';
@@ -161,6 +162,7 @@ import '../features/games/which_distance_counts_game.dart';
 import '../features/games/which_ones_turn_it_game.dart';
 import '../features/games/what_weights_game.dart';
 import '../features/games/where_it_balances_game.dart';
+import '../features/games/which_cracks_first_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_section_game.dart';
@@ -412,6 +414,8 @@ GoRouter buildRouter(AuthController auth) {
           'how-it-settles' => const HowItSettlesGame(),
           'before-or-during' => const BeforeOrDuringGame(),
           'true-or-engineering' => const TrueOrEngineeringGame(),
+          'edge-or-inside' => const EdgeOrInsideGame(),
+          'which-cracks-first' => const WhichCracksFirstGame(),
           _ => const _UnknownGame(),
         },
       ),

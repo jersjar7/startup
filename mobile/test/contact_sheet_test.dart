@@ -178,6 +178,8 @@ import 'package:mobile/features/games/faster_or_slower_game.dart';
 import 'package:mobile/features/games/how_it_settles_game.dart';
 import 'package:mobile/features/games/when_it_runs_away_game.dart';
 import 'package:mobile/features/games/before_or_during_game.dart';
+import 'package:mobile/features/games/edge_or_inside_game.dart';
+import 'package:mobile/features/games/which_cracks_first_game.dart';
 import 'package:mobile/features/games/read_the_equation_game.dart';
 import 'package:mobile/features/games/true_or_engineering_game.dart';
 import 'package:mobile/features/games/resolve_it_game.dart';
@@ -1351,6 +1353,18 @@ void main() {
           rounds: readingRounds.length,
           height: 1600,
         ),
+        'edge-or-inside': (
+          lesson: '59-fracture',
+          build: EdgeOrInsideGame.new,
+          rounds: crackRounds.length,
+          height: 1650,
+        ),
+        'which-cracks-first': (
+          lesson: '59-fracture',
+          build: WhichCracksFirstGame.new,
+          rounds: firstRounds.length,
+          height: 1550,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1649,6 +1663,10 @@ void main() {
     '58-tensile-test': [
       ('underneath', underneathBrief),
       ('true-stress', trueStressBrief),
+    ],
+    '59-fracture': [
+      ('crack', crackBrief),
+      ('toughness', toughnessBrief),
     ],
   };
 

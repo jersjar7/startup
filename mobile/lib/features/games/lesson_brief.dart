@@ -217,6 +217,8 @@ enum BriefFigure {
   damping,
   underneath,
   trueStress,
+  crack,
+  toughness,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3396,6 +3398,51 @@ const trueStressBrief = BriefSection(
   handbook: 'Handbook p. 121',
 );
 
+const crackBrief = BriefSection(
+  title: 'Where the crack is',
+  body:
+      'One formula covers cracking, and the two numbers you feed it are both '
+      'decided by where the crack sits rather than by any arithmetic. A crack '
+      'running in from an EDGE takes a geometry factor of 1.1, and the a is '
+      'the whole depth of it, because there is nothing behind it holding it '
+      'shut. A crack buried INSIDE the plate takes 1.0, and the a is HALF the '
+      'length you can see: an internal crack is described as being of length '
+      '2a, and that halving is the single most missed step in the whole '
+      'lesson. Then convert to meters. A crack left in millimeters puts the '
+      'answer out by more than thirty times, which is the kind of wrong that '
+      'looks like a different question.',
+  formulas: [
+    ('The formula', r'K_{IC} = Y\sigma\sqrt{\pi a}'),
+    ('From an edge', r'Y = 1.1,\quad a = \text{the whole depth}'),
+    ('Inside', r'Y = 1.0,\quad a = \tfrac{1}{2}\,\text{of the length}'),
+  ],
+  figure: BriefFigure.crack,
+  handbook: 'Handbook p. 122',
+);
+
+const toughnessBrief = BriefSection(
+  title: 'A crack and a stress together',
+  body:
+      'Fracture toughness is a property of the material, like a strength, and '
+      'what it is held against is the stress and the crack TOGETHER. Neither '
+      'means anything alone: a long crack at a low stress and a short one at '
+      'a high stress can sit in exactly the same trouble. The crack is under '
+      'a square root and the stress is not, which is worth knowing in the '
+      'field: four times the crack is only twice the driving force, while '
+      'twice the load is twice the driving force straight off. That is why a '
+      'cracked member can often be de-rated and kept in service, and why the '
+      'same flaw in aluminum is nearer to going than it is in steel.',
+  formulas: [
+    ('Driving the crack', r'K = Y\sigma\sqrt{\pi a}'),
+    ('The most stress it can take',
+        r'\sigma_{max} = \frac{K_{IC}}{Y\sqrt{\pi a}}'),
+    ('The biggest crack it can carry',
+        r'a_{max} = \frac{1}{\pi}\left(\frac{K_{IC}}{Y\sigma}\right)^2'),
+  ],
+  figure: BriefFigure.toughness,
+  handbook: 'Handbook p. 122',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -4658,6 +4705,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{UTS is the peak ENGINEERING stress}", true),
             (r"\text{the drop at the end means it weakened}", false),
             (r"\sigma_T = \sigma/(1 + \varepsilon)", false),
+          ],
+        );
+      case BriefFigure.crack:
+        return const _RuleList(
+          rules: [
+            (r"\text{an edge crack goes in whole}", true),
+            (r"\text{an internal crack is } 2a", true),
+            (r"Y = 1.0 \text{ for an edge crack}", false),
+            (r"\text{millimeters go straight in}", false),
+          ],
+        );
+      case BriefFigure.toughness:
+        return const _RuleList(
+          rules: [
+            (r"4a \Rightarrow 2 \times \text{the driving force}", true),
+            (r"2\sigma \Rightarrow 2 \times \text{the driving force}", true),
+            (r"\text{the longer crack is always worse}", false),
+            (r"K_{IC} \text{ is a stress}", false),
           ],
         );
       case BriefFigure.damping:

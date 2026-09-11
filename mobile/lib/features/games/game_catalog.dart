@@ -2035,6 +2035,33 @@ const materialsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'hardness-impact-fatigue',
+      name: 'Hardness, Impact & Fatigue Testing',
+      subtopicId: 'mechanical-properties',
+      // The lesson's other three topics have no problem behind them: hardness
+      // is one multiplication, and the Charpy transition and the endurance
+      // limit are taught here but never asked. Items are built from problems,
+      // so those stay on paper.
+      games: [
+        GameDef(
+          id: 'edge-or-inside',
+          rounds: 6,
+          name: 'Edge or Inside',
+          blurb: 'Where the crack sits decides both numbers you feed in.',
+          built: true,
+          brief: crackBrief,
+        ),
+        GameDef(
+          id: 'which-cracks-first',
+          rounds: 6,
+          name: 'Which One Cracks First',
+          blurb: 'A crack length means nothing without the stress beside it.',
+          built: true,
+          brief: toughnessBrief,
+        ),
+      ],
+    ),
   ],
 );
 
