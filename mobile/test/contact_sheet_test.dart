@@ -174,6 +174,9 @@ import 'package:mobile/features/games/practice_or_title_game.dart';
 import 'package:mobile/features/games/place_the_center_game.dart';
 import 'package:mobile/features/games/point_at_the_inside_game.dart';
 import 'package:mobile/features/games/quadrant_signs_game.dart';
+import 'package:mobile/features/games/faster_or_slower_game.dart';
+import 'package:mobile/features/games/how_it_settles_game.dart';
+import 'package:mobile/features/games/when_it_runs_away_game.dart';
 import 'package:mobile/features/games/read_the_equation_game.dart';
 import 'package:mobile/features/games/resolve_it_game.dart';
 import 'package:mobile/features/games/rule_or_trap_game.dart';
@@ -1316,6 +1319,24 @@ void main() {
           rounds: pulseRounds.length,
           height: 1650,
         ),
+        'faster-or-slower': (
+          lesson: '57-vibrations',
+          build: FasterOrSlowerGame.new,
+          rounds: pairRounds3.length,
+          height: 1500,
+        ),
+        'when-it-runs-away': (
+          lesson: '57-vibrations',
+          build: WhenItRunsAwayGame.new,
+          rounds: tuneRounds.length,
+          height: 1500,
+        ),
+        'how-it-settles': (
+          lesson: '57-vibrations',
+          build: HowItSettlesGame.new,
+          rounds: settleRounds.length,
+          height: 1500,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1605,6 +1626,11 @@ void main() {
       ('impact', impactBrief),
       ('survives', survivesBrief),
       ('impulse', impulseBrief),
+    ],
+    '57-vibrations': [
+      ('natural', naturalBrief),
+      ('resonance', resonanceBrief),
+      ('damping', dampingBrief),
     ],
   };
 

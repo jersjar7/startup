@@ -92,7 +92,7 @@ const absentRounds = <AbsentRound>[
     wanted: Known.distance,
     why:
         'Time. Nobody mentioned it and nobody asked for it, so the equation '
-        'you want is the one with no t in it: v squared equals v nought '
+        'you want is the one with no t in it: v squared equals v naught '
         'squared plus two a s. This is the lesson\'s own first problem and its '
         'own tip. You could find the time first and then the distance, and you '
         'would get the same answer after twice the work.',
@@ -107,7 +107,7 @@ const absentRounds = <AbsentRound>[
     wanted: Known.distance,
     why:
         'The speed it ends at. It is never mentioned and it is not what was '
-        'asked, so reach for s equals v nought t plus a half a t squared. '
+        'asked, so reach for s equals v naught t plus a half a t squared. '
         'Working out the final speed first is not wrong, it is just a step you '
         'were never asked to take.',
     source: 'dyn-pk-q1',
@@ -121,7 +121,7 @@ const absentRounds = <AbsentRound>[
     wanted: Known.acceleration,
     why:
         'How far it went. The distance is neither given nor asked for, so use '
-        'v equals v nought plus a t, which is the only one of the four with no '
+        'v equals v naught plus a t, which is the only one of the four with no '
         's in it. Note the sign: slowing down means a comes out negative, and '
         'the lesson names dropping that sign as its first trap.',
     source: 'dyn-pk-q1',
@@ -204,7 +204,7 @@ class _WhatIsMissingGameState extends State<WhatIsMissingGame> {
             'Five quantities, four equations, and each equation leaves exactly '
             'one of them out. Find the one the problem never mentions and it '
             'has chosen your equation for you. The one that comes up most is '
-            'time: no seconds anywhere means v squared equals v nought squared '
+            'time: no seconds anywhere means v squared equals v naught squared '
             'plus two a s.',
       );
     }

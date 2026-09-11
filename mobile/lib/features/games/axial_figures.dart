@@ -431,7 +431,7 @@ extension WrittenFacts on Written {
       };
 
   /// Which length this unit is written in: one for millimeters, two for
-  /// meters, nought for units that carry no length at all.
+  /// meters, zero for units that carry no length at all.
   int get base => switch (this) {
         Written.mm || Written.mmSq || Written.mpa => 1,
         Written.meter || Written.mSq => 2,

@@ -382,6 +382,9 @@ void main() {
         'whilst': 'while',
         'amongst': 'among',
         'grey': 'gray',
+        // "v naught" spelled the American way is fine and stays; this is the
+        // British way of saying the digit zero.
+        'nought': 'zero',
         'storey': 'story',
         'cheque': 'check',
         'ageing': 'aging',

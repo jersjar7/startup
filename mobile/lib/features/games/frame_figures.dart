@@ -522,7 +522,7 @@ class Lever {
     required this.loadAt,
   });
 
-  /// Fractions along the bar, from nought at the left end to one at the right.
+  /// Fractions along the bar, from zero at the left end to one at the right.
   final double pivotAt;
   final double effortAt;
   final double loadAt;

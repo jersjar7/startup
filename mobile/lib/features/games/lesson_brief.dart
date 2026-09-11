@@ -212,6 +212,9 @@ enum BriefFigure {
   impact,
   survives,
   impulse,
+  natural,
+  resonance,
+  damping,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2958,7 +2961,7 @@ const endsBrief = BriefSection(
       'match the picture to one of them. Both ends pinned is the base case at '
       'one. Both ends fixed against turning bends the column into an S and '
       'halves it, and half the length is four times the load. One of each is '
-      'nought point seven. And anything with a FREE end is two, because the '
+      'zero point seven. And anything with a FREE end is two, because the '
       'column bends like half of a pinned one twice as long: that is the case '
       'students forget, and it is sixteen times weaker than the fixed pair. '
       'Since the effective length is squared, getting this wrong is never a '
@@ -3029,7 +3032,7 @@ const missingBrief = BriefSection(
       'equation leaves exactly ONE of the five out. So the question that picks '
       'the equation is which quantity the problem never mentions and never '
       'asks for. No seconds anywhere is the commonest, and it points at v '
-      'squared equals v nought squared plus two a s. Two warnings: slowing '
+      'squared equals v naught squared plus two a s. Two warnings: slowing '
       'down means the acceleration is negative, and none of these equations '
       'is allowed unless the acceleration is CONSTANT.',
   formulas: [
@@ -3345,6 +3348,80 @@ const impulseBrief = BriefSection(
   handbook: 'Handbook p. 107',
 );
 
+const naturalBrief = BriefSection(
+  title: 'Stiffness over mass, under a square root',
+  body:
+      'One expression carries this whole page: the natural frequency is the '
+      'square root of the stiffness over the mass. Stiffer is quicker, heavier '
+      'is slower, and the square root softens both, so FOUR times the '
+      'stiffness is only twice the frequency. What it depends on is the RATIO '
+      'of the two, so doubling both changes nothing at all. What it does not '
+      'depend on is how far you pulled it: amplitude appears nowhere in the '
+      'formula, and a big swing simply travels further at the same rate. Watch '
+      'the two units: omega comes out in radians a second and a question '
+      'usually wants hertz, which is omega over two pi. And watch for a WEIGHT '
+      'given where the formula wants a mass. Torsion is the same expression '
+      'with the torsional stiffness on top and the mass moment of inertia '
+      'underneath.',
+  formulas: [
+    ('Natural frequency', r'\omega_n = \sqrt{\frac{k}{m}}'),
+    ('In hertz', r'f_n = \frac{\omega_n}{2\pi}'),
+    ('The period', r'T_n = \frac{1}{f_n}'),
+    ('Twisting', r'\omega_n = \sqrt{\frac{k_t}{I}}'),
+  ],
+  figure: BriefFigure.natural,
+  handbook: 'Handbook pp. 112 to 113',
+);
+
+const resonanceBrief = BriefSection(
+  title: 'Resonance is a match, not a property',
+  body:
+      'A structure does not resonate on its own. Resonance is what happens '
+      'when something pushes it AT its natural frequency, so that every push '
+      'arrives in time with the last swing and adds to it, and the amplitude '
+      'climbs until the damping or the structure gives way. That makes the '
+      'design question a comparison: work out the natural frequency, find out '
+      'what is going to be shaking it, and keep the two apart. Far above is '
+      'safe and far below is safe; only the middle is dangerous. Machine '
+      'mountings are deliberately made soft so that the running speed sits '
+      'well above the natural frequency, which does mean the machine passes '
+      'through resonance on its way up to speed. Before comparing anything, '
+      'get both numbers into the same units.',
+  formulas: [
+    ('Resonance when', r'\omega = \omega_n'),
+    ('Same thing in hertz', r'1\ \mathrm{Hz} = 2\pi\ \mathrm{rad/s}'),
+    ('And from a machine plate', r'1\ \mathrm{Hz} = 60\ \mathrm{rpm}'),
+  ],
+  figure: BriefFigure.resonance,
+  handbook: 'Handbook p. 112',
+);
+
+const dampingBrief = BriefSection(
+  title: 'What the damping decides',
+  body:
+      'Pull a system aside, let it go, and the damping ratio decides what '
+      'happens next. UNDER one it swings and dies away inside a shrinking '
+      'envelope, which is almost every real structure: buildings and bridges '
+      'run at a few percent and ring for a long time. AT one, critically '
+      'damped, it returns in the shortest time possible without overshooting '
+      'at all, which is what a door closer, a gun recoil and an instrument '
+      'needle are tuned to. OVER one it still does not swing and it takes '
+      'LONGER, which is the piece people expect to go the other way: past the '
+      'critical point, more damping is slower, not quicker. At ZERO it swings '
+      'forever at the same height, which nothing real does, and every free '
+      'vibration formula on this page, the natural frequency included, is '
+      'written for exactly that undamped ideal.',
+  formulas: [
+    ('Damping ratio', r'\zeta = \frac{c}{2\sqrt{km}} = \frac{c}{c_c}'),
+    ('Swings and never shrinks', r'\zeta = 0'),
+    ('Swings and decays', r'\zeta < 1'),
+    ('Back fastest, no swing', r'\zeta = 1'),
+    ('No swing, slower', r'\zeta > 1'),
+  ],
+  figure: BriefFigure.damping,
+  handbook: 'Handbook p. 112',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -3574,7 +3651,7 @@ const periodBrief = BriefSection(
       'instant as the end of year n minus one, so it sits on period n minus '
       'one, and the beginning of year one is today. An ordinary annuity starts '
       'at the end of the first period rather than now, which is what every '
-      'uniform series factor in the handbook assumes. A gradient is nought in '
+      'uniform series factor in the handbook assumes. A gradient is zero in '
       'the first period by definition and its first step lands at the end of '
       'period two. Draw the diagram before choosing a factor: a cash flow one '
       'period out leaves no trace at all in the arithmetic that follows.',
@@ -4497,6 +4574,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.natural:
+        return const _RuleList(
+          rules: [
+            (r"4\times k \Rightarrow 2\times \omega_n", true),
+            (r"\text{double both} \Rightarrow \text{no change}", true),
+            (r"\text{a bigger pull raises } \omega_n", false),
+            (r"\omega_n \text{ is already in hertz}", false),
+          ],
+        );
+      case BriefFigure.resonance:
+        return const _RuleList(
+          rules: [
+            (r"\text{trouble when } \omega = \omega_n", true),
+            (r"\text{far above or far below is safe}", true),
+            (r"\text{a structure resonates on its own}", false),
+            (r"\mathrm{rpm} \text{ and } \mathrm{Hz} \text{ compare directly}", false),
+          ],
+        );
+      case BriefFigure.damping:
+        return const _RuleList(
+          rules: [
+            (r"\zeta = 1 \text{ is back fastest, no swing}", true),
+            (r"\zeta = 0 \text{ swings and never shrinks}", true),
+            (r"\zeta > 1 \text{ is quicker still}", false),
+            (r"\text{real structures are near } \zeta = 1", false),
           ],
         );
       case BriefFigure.impact:

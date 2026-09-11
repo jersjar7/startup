@@ -130,6 +130,9 @@ import '../features/games/more_in_than_out_game.dart';
 import '../features/games/stick_or_bounce_game.dart';
 import '../features/games/what_survives_the_crash_game.dart';
 import '../features/games/stretch_the_time_game.dart';
+import '../features/games/faster_or_slower_game.dart';
+import '../features/games/when_it_runs_away_game.dart';
+import '../features/games/how_it_settles_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -402,6 +405,9 @@ GoRouter buildRouter(AuthController auth) {
           'stick-or-bounce' => const StickOrBounceGame(),
           'what-survives-the-crash' => const WhatSurvivesTheCrashGame(),
           'stretch-the-time' => const StretchTheTimeGame(),
+          'faster-or-slower' => const FasterOrSlowerGame(),
+          'when-it-runs-away' => const WhenItRunsAwayGame(),
+          'how-it-settles' => const HowItSettlesGame(),
           _ => const _UnknownGame(),
         },
       ),

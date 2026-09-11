@@ -235,6 +235,10 @@ void main() {
       // The barrier problem is the only one in the lesson about a force
       // acting over a time, and trading force against time is the whole item.
       'stretch-the-time',
+      // The spring and mass problem is the only one in the lesson with a
+      // system to pull aside and let go, and how it settles is the whole
+      // item.
+      'how-it-settles',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

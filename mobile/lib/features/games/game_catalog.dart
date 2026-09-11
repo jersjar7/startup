@@ -1669,6 +1669,32 @@ const dynamicsMap = ChapterMap(
       id: 'vibrations-natural-frequency',
       name: 'Vibrations & Natural Frequency',
       subtopicId: 'momentum-and-vibrations',
+      games: [
+        GameDef(
+          id: 'faster-or-slower',
+          rounds: 6,
+          name: 'Faster or Slower',
+          blurb: 'Stiffness over mass, and nothing else gets a say.',
+          built: true,
+          brief: naturalBrief,
+        ),
+        GameDef(
+          id: 'when-it-runs-away',
+          rounds: 6,
+          name: 'When It Runs Away',
+          blurb: 'Two frequencies, three units. Are they too close?',
+          built: true,
+          brief: resonanceBrief,
+        ),
+        GameDef(
+          id: 'how-it-settles',
+          rounds: 6,
+          name: 'How It Settles',
+          blurb: 'Pulled aside and let go. Which curve is this?',
+          built: true,
+          brief: dampingBrief,
+        ),
+      ],
     ),
   ],
 );

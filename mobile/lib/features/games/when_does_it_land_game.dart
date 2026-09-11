@@ -106,7 +106,7 @@ const momentRounds = <MomentRound>[
         'lands on.',
     moment: Moment(year: 2, atEnd: true),
     why:
-        'Period two. A gradient is nought in the first period by definition, '
+        'Period two. A gradient is zero in the first period by definition, '
         'and the first step appears at the end of period two. The flat ten '
         'thousand runs from period one and the triangle starts a period later, '
         'which is why the two have to be handled as separate cash flows.',

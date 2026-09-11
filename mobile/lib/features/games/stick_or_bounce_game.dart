@@ -79,7 +79,7 @@ const impactRounds = <ImpactRound>[
     subject: 'a ball with a restitution given',
     setting:
         'A two kilogram ball at eight meters a second strikes an identical '
-        'ball at rest. The coefficient of restitution is nought point five.',
+        'ball at rest. The coefficient of restitution is zero point five.',
     crash: Crash(massA: 2, massB: 2, speedA: 8, e: 0.5),
     why:
         'In between, and that takes TWO equations: momentum for the pair, and '
@@ -137,7 +137,7 @@ const impactRounds = <ImpactRound>[
     why:
         'In between. It clearly bounces, so e is not nothing, and it does not '
         'come back to where it started, so e is not one either: coming back to '
-        'half the height means an e of about nought point seven, since the '
+        'half the height means an e of about zero point seven, since the '
         'height goes with the square of the speed. A real impact is nearly '
         'always in this middle country.',
     source: 'dyn-im-q2',

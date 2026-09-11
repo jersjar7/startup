@@ -93,7 +93,7 @@ const endsRounds = <EndsRound>[
         'the top with a single bolt that lets it rotate.',
     post: Post(length: 5000, top: End.pinned, bottom: End.fixed),
     why:
-        'Nought point seven. One end held against turning and one not, so the '
+        'Zero point seven. One end held against turning and one not, so the '
         'shape leaves the base straight and comes back to the pin at the top. '
         'The lesson\'s second problem is exactly this, and reaching for one, '
         'as though both ends were pinned, understates the column by half.',
@@ -106,7 +106,7 @@ const endsRounds = <EndsRound>[
         'same two conditions as the last round, the other way up.',
     post: Post(length: 5000, top: End.fixed, bottom: End.pinned),
     why:
-        'Nought point seven again. Which end is fixed makes no difference at '
+        'Zero point seven again. Which end is fixed makes no difference at '
         'all: the table cares that ONE end is held against turning and the '
         'other is not. The buckled shape is simply the last one turned over.',
     source: 'mm-cb-q2',
@@ -156,7 +156,7 @@ class _WhatAreTheEndsWorthGameState extends State<WhatAreTheEndsWorthGame> {
         title: 'What Are the Ends Worth',
         closing:
             'Four cases and the handbook gives them to you. Both ends pinned '
-            'is one. Both fixed is a half. One of each is nought point seven. '
+            'is one. Both fixed is a half. One of each is zero point seven. '
             'Anything with a free end is two, and that is sixteen times weaker '
             'than the fixed pair. Read how each end is held, then look up the '
             'number.',

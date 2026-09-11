@@ -91,7 +91,7 @@ const surviveRounds = <SurviveRound>[
     subject: 'the lesson\'s two balls',
     setting:
         'Equal masses, eight meters a second into one at rest, with a '
-        'restitution of nought point five.',
+        'restitution of zero point five.',
     crash: Crash(massA: 2, massB: 2, speedA: 8, e: 0.5),
     why:
         'The momentum only, again. Anything short of a perfect bounce loses '

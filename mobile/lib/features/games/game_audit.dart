@@ -129,6 +129,9 @@ import 'more_in_than_out_game.dart';
 import 'stick_or_bounce_game.dart';
 import 'what_survives_the_crash_game.dart';
 import 'stretch_the_time_game.dart';
+import 'faster_or_slower_game.dart';
+import 'when_it_runs_away_game.dart';
+import 'how_it_settles_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -2371,6 +2374,45 @@ List<GameAudit> auditAllGames() => [
             for (final p in r.options) '${p.force} for ${p.seconds}',
           ],
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'faster-or-slower',
+    lessonId: 'vibrations-natural-frequency',
+    problemPrefix: 'dyn-vib-',
+    rounds: [
+      for (final r in pairRounds3)
+        RoundAudit(
+          source: r.source,
+          options: [for (final q in Quicker.values) q.name],
+          answer: Quicker.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'when-it-runs-away',
+    lessonId: 'vibrations-natural-frequency',
+    problemPrefix: 'dyn-vib-',
+    rounds: [
+      for (final r in tuneRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final d in Danger.values) d.name],
+          answer: Danger.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-it-settles',
+    lessonId: 'vibrations-natural-frequency',
+    problemPrefix: 'dyn-vib-',
+    rounds: [
+      for (final r in settleRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final d in r.options) d.name],
+          answer: r.options.indexOf(r.answer),
         ),
     ],
   ),
