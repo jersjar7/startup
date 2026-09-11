@@ -1,4 +1,5 @@
 import 'above_the_point_game.dart';
+import 'along_or_across_game.dart';
 import 'acute_or_obtuse_game.dart';
 import 'balance_both_sides_game.dart';
 import 'before_or_during_game.dart';
@@ -55,6 +56,7 @@ import 'r_or_r2_game.dart';
 import 'read_the_line_game.dart';
 import 'reject_or_not_game.dart';
 import 'same_pick_game.dart';
+import 'same_stretch_game.dart';
 import 'read_the_scatter_game.dart';
 import 'resolve_it_game.dart';
 import 'rule_or_trap_game.dart';
@@ -2676,6 +2678,33 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final p in Moves2.values) p.name],
           answer: Moves2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'along-or-across',
+    lessonId: 'composite-materials',
+    problemPrefix: 'mat-com-',
+    rounds: [
+      for (final r in layRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final m in r.options) m.name],
+          answer: r.options.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'same-stretch',
+    lessonId: 'composite-materials',
+    problemPrefix: 'mat-com-',
+    rounds: [
+      for (final r in phaseRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in Phase2.values) p.name],
+          answer: Phase2.values.indexOf(r.answer),
         ),
     ],
   ),

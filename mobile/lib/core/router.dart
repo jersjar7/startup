@@ -62,6 +62,7 @@ import '../features/games/r_or_r2_game.dart';
 import '../features/games/read_the_line_game.dart';
 import '../features/games/reject_or_not_game.dart';
 import '../features/games/same_pick_game.dart';
+import '../features/games/same_stretch_game.dart';
 import '../features/games/read_the_scatter_game.dart';
 import '../features/games/resolve_it_game.dart';
 import '../features/games/rule_or_trap_game.dart';
@@ -102,6 +103,7 @@ import '../features/games/where_the_cost_went_game.dart';
 import '../features/games/match_the_dollars_game.dart';
 import '../features/games/what_the_support_gives_game.dart';
 import '../features/games/where_it_all_acts_game.dart';
+import '../features/games/along_or_across_game.dart';
 import '../features/games/above_or_below_game.dart';
 import '../features/games/above_the_point_game.dart';
 import '../features/games/does_it_build_stress_game.dart';
@@ -444,6 +446,8 @@ GoRouter buildRouter(AuthController auth) {
           'above-the-point' => const AboveThePointGame(),
           'which-mortar' => const WhichMortarGame(),
           'does-it-go-up' => const DoesItGoUpGame(),
+          'along-or-across' => const AlongOrAcrossGame(),
+          'same-stretch' => const SameStretchGame(),
           _ => const _UnknownGame(),
         },
       ),

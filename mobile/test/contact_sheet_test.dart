@@ -180,8 +180,10 @@ import 'package:mobile/features/games/when_it_runs_away_game.dart';
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/edge_or_inside_game.dart';
 import 'package:mobile/features/games/above_the_point_game.dart';
+import 'package:mobile/features/games/along_or_across_game.dart';
 import 'package:mobile/features/games/coarse_or_fine_game.dart';
 import 'package:mobile/features/games/does_it_go_up_game.dart';
+import 'package:mobile/features/games/same_stretch_game.dart';
 import 'package:mobile/features/games/something_is_wrong_game.dart';
 import 'package:mobile/features/games/tap_the_voids_game.dart';
 import 'package:mobile/features/games/does_it_make_the_number_game.dart';
@@ -1457,6 +1459,18 @@ void main() {
           rounds: ndsRounds.length,
           height: 1500,
         ),
+        'along-or-across': (
+          lesson: '66-composites',
+          build: AlongOrAcrossGame.new,
+          rounds: layRounds.length,
+          height: 1650,
+        ),
+        'same-stretch': (
+          lesson: '66-composites',
+          build: SameStretchGame.new,
+          rounds: phaseRounds.length,
+          height: 1600,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1791,6 +1805,10 @@ void main() {
       ('moisture', moistureBrief),
       ('mortar', mortarBrief),
       ('factor', factorBrief),
+    ],
+    '66-composites': [
+      ('blend', blendBrief),
+      ('isostrain', isostrainBrief),
     ],
   };
 

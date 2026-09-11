@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/above_the_point_game.dart';
+import 'package:mobile/features/games/along_or_across_game.dart';
+import 'package:mobile/features/games/fiber_figures.dart';
+import 'package:mobile/features/games/same_stretch_game.dart';
 import 'package:mobile/features/games/aggregate_figures.dart';
 import 'package:mobile/features/games/does_it_go_up_game.dart';
 import 'package:mobile/features/games/which_mortar_game.dart';
@@ -1162,6 +1165,121 @@ void main() {
 
     test('more than one factor is asked about', () {
       expect(ndsRounds.map((r) => r.factor).toSet().length, greaterThan(2));
+    });
+  });
+
+  group('the rule of mixtures reproduces the lesson', () {
+    test('glass in polymer comes to 1,590', () {
+      expect(0.30 * 2500 + 0.70 * 1200, closeTo(1590, 0.5));
+      // Its named slips: equal fractions, and the two added unweighted.
+      expect(0.5 * 2500 + 0.5 * 1200, closeTo(1850, 0.5));
+      expect(2500 + 1200, 3700);
+    });
+
+    test('carbon and epoxy give 94.1 along and 5.8 across', () {
+      const carbon = Blend(fiberE: 230, matrixE: 3.5, fiberShare: 0.40);
+      expect(carbon.along, closeTo(94.1, 0.05));
+      expect(carbon.across, closeTo(5.8, 0.05));
+      // The named slip of equal fractions.
+      expect(0.5 * 230 + 0.5 * 3.5, closeTo(116.75, 0.01));
+    });
+
+    test('the steel fiber composite puts 383 in its fibers', () {
+      const steel = Blend(fiberE: 200, matrixE: 3, fiberShare: 0.25);
+      expect(steel.along, closeTo(52.25, 0.01));
+      expect(steel.fiberStress(100), closeTo(383, 1));
+      expect(steel.matrixStress(100), closeTo(5.7, 0.2));
+      // And the fibers carry nearly all of the load.
+      expect(steel.fiberLoadShare, greaterThan(0.95));
+    });
+
+    test('across is always the smaller of the two', () {
+      for (final r in layRounds) {
+        expect(r.blend.across, lessThan(r.blend.along), reason: r.subject);
+        // And both land between the two materials, as an average must.
+        expect(r.blend.along, lessThan(r.blend.fiberE), reason: r.subject);
+        expect(r.blend.across, greaterThan(r.blend.matrixE), reason: r.subject);
+      }
+    });
+  });
+
+  group('along-or-across is decided by the drawn direction', () {
+    test('the stiffness rounds follow the load direction', () {
+      for (final r in layRounds.where((r) => !r.setting.contains('density'))) {
+        if (r.answer == Mixes.additive && r.source != 'mat-com-q1') {
+          expect(r.lay, Lay.along, reason: r.subject);
+        }
+        if (r.answer == Mixes.reciprocal) {
+          expect(r.lay, Lay.across, reason: r.subject);
+        }
+      }
+    });
+
+    test('a plain average is never the answer', () {
+      for (final r in layRounds) {
+        expect(r.answer, isNot(Mixes.plainAverage), reason: r.subject);
+      }
+    });
+
+    test('every round offers all three, in changing places', () {
+      for (final r in layRounds) {
+        expect(r.options.toSet().length, 3, reason: r.subject);
+        expect(r.options.contains(r.answer), isTrue, reason: r.subject);
+      }
+      expect(layRounds.map((r) => r.options.indexOf(r.answer)).toSet().length,
+          greaterThan(1));
+    });
+
+    test('both problems are drawn on', () {
+      expect(layRounds.map((r) => r.source).toSet().length, 2);
+    });
+  });
+
+  group('same-stretch keeps the two conditions straight', () {
+    test('along the fibers the strain is shared and the stress is not', () {
+      final along = phaseRounds.where((r) => r.lay == Lay.along);
+      expect(along, isNotEmpty);
+      for (final r in along) {
+        if (r.asked.contains('stretches more')) {
+          expect(r.answer, Phase2.equal, reason: r.subject);
+        }
+        if (r.asked.contains('higher stress')) {
+          expect(r.answer, Phase2.fiber, reason: r.subject);
+        }
+      }
+    });
+
+    test('across the fibers the stress is shared and the strain is not', () {
+      final across = phaseRounds.where((r) => r.lay == Lay.across);
+      expect(across, isNotEmpty);
+      for (final r in across) {
+        if (r.asked.contains('higher stress')) {
+          expect(r.answer, Phase2.equal, reason: r.subject);
+        }
+        if (r.asked.contains('stretches more')) {
+          expect(r.answer, Phase2.matrix, reason: r.subject);
+        }
+      }
+    });
+
+    test('all three answers are used', () {
+      expect(phaseRounds.map((r) => r.answer).toSet(), Phase2.values.toSet());
+    });
+
+    test('every blend really does have a stiff phase and a soft one', () {
+      for (final r in phaseRounds) {
+        expect(r.blend.fiberE / r.blend.matrixE, greaterThan(10),
+            reason: '${r.subject}: the two are too alike for the round to '
+                'mean anything');
+      }
+    });
+
+    test('the block is drawn inside its panel', () {
+      const size = Size(340, 220);
+      final box = BlendPainter.block(size);
+      expect(box.left, greaterThan(0));
+      expect(box.right, lessThan(size.width));
+      expect(box.height, greaterThan(60));
     });
   });
 }

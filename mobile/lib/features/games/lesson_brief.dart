@@ -233,6 +233,8 @@ enum BriefFigure {
   moisture,
   mortar,
   factor,
+  blend,
+  isostrain,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3760,6 +3762,48 @@ const factorBrief = BriefSection(
   handbook: 'Handbook p. 129',
 );
 
+const blendBrief = BriefSection(
+  title: 'Two rules, and the direction picks',
+  body:
+      'A composite has a direction in it, and that is the whole of this page. '
+      'Loaded ALONG the fibers, both materials are forced to stretch by the '
+      'same amount, so their moduli add up weighted by volume: the additive '
+      'rule, and a stiff composite. Loaded ACROSS them, the two sit one '
+      'behind the other carrying the same stress, the soft matrix gives way, '
+      'and the reciprocals add instead: always a smaller answer, usually not '
+      'much more than the matrix on its own. The exam nearly always asks the '
+      'parallel case. Density is different: it is a weighted average by '
+      'volume whichever way the fibers run, because weight has no direction.',
+  formulas: [
+    ('Along the fibers', r'E_c = f_1 E_1 + f_2 E_2'),
+    ('Across them', r'\frac{1}{E_c} = \frac{f_1}{E_1} + \frac{f_2}{E_2}'),
+    ('Density, either way', r'\rho_c = f_1\rho_1 + f_2\rho_2'),
+  ],
+  figure: BriefFigure.blend,
+  handbook: 'Handbook p. 123',
+);
+
+const isostrainBrief = BriefSection(
+  title: 'Whichever one is shared',
+  body:
+      'Pulled along the fibers, the two materials are stuck together and have '
+      'to stretch by the same amount. Equal STRAIN, so the stresses are not '
+      'equal at all: stress is modulus times strain, and the stiff fiber can '
+      'sit at many times the stress in the matrix. That is why a composite '
+      'carrying a hundred megapascals overall can have four hundred in its '
+      'fibers, and why fibers at a quarter of the volume carry almost all of '
+      'the load. Turn the load across the fibers and it reverses: the same '
+      'STRESS passes through both and the soft matrix does nearly all the '
+      'moving. Whichever quantity is shared, the other one is not.',
+  formulas: [
+    ('Along: shared strain', r'\varepsilon_1 = \varepsilon_2'),
+    ('So the stresses split', r'\sigma_1 = E_1\varepsilon,\; \sigma_2 = E_2\varepsilon'),
+    ('Across: shared stress', r'\sigma_1 = \sigma_2'),
+  ],
+  figure: BriefFigure.isostrain,
+  handbook: 'Handbook p. 123',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5166,6 +5210,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{wet service: } C_M < 1", true),
             (r"\text{permanent load: } C_D > 1", false),
             (r"C_D = 1 \text{ for every load}", false),
+          ],
+        );
+      case BriefFigure.blend:
+        return const _RuleList(
+          rules: [
+            (r"\text{along} \Rightarrow f_1E_1 + f_2E_2", true),
+            (r"\text{across gives the smaller } E_c", true),
+            (r"\text{across} \Rightarrow f_1E_1 + f_2E_2", false),
+            (r"\rho_c \text{ depends on direction}", false),
+          ],
+        );
+      case BriefFigure.isostrain:
+        return const _RuleList(
+          rules: [
+            (r"\text{along: } \varepsilon_1 = \varepsilon_2", true),
+            (r"\text{the stiffer phase takes the stress}", true),
+            (r"\text{along: } \sigma_1 = \sigma_2", false),
+            (r"\text{stress splits by volume}", false),
           ],
         );
       case BriefFigure.damping:

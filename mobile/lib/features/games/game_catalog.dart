@@ -2218,6 +2218,29 @@ const materialsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'composite-materials',
+      name: 'Composite Materials',
+      subtopicId: 'composites-selection',
+      games: [
+        GameDef(
+          id: 'along-or-across',
+          rounds: 6,
+          name: 'Along or Across',
+          blurb: 'Two rules for one composite. The load direction picks.',
+          built: true,
+          brief: blendBrief,
+        ),
+        GameDef(
+          id: 'same-stretch',
+          rounds: 6,
+          name: 'Same Stretch, Different Stress',
+          blurb: 'Whichever one the two phases share, the other one splits.',
+          built: true,
+          brief: isostrainBrief,
+        ),
+      ],
+    ),
   ],
 );
 
