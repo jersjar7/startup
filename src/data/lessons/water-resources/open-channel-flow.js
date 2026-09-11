@@ -25,12 +25,12 @@ export default {
       choices: [
         { id: 'c1', text: '$28.9 \\text{ ft}^3\\text{/s}$' },
         { id: 'c2', text: '$19.5 \\text{ ft}^3\\text{/s}$' },
-        { id: 'c3', text: '$42.3 \\text{ ft}^3\\text{/s}$' },
-        { id: 'c4', text: '$14.5 \\text{ ft}^3\\text{/s}$' },
+        { id: 'c3', text: '$45.9 \\text{ ft}^3\\text{/s}$' },
+        { id: 'c4', text: '$22.1 \\text{ ft}^3\\text{/s}$' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'A = 4 \u00D7 2 = 8 ft\u00B2. P = 4 + 2(2) = 8 ft. R_H = 8/8 = 1.0 ft. Q = (1.486/0.013)(8)(1.0)^(2/3)(0.001)^(1/2) = 114.3 \u00D7 8 \u00D7 1.0 \u00D7 0.0316 = 28.9 cfs. The 42.3 cfs choice uses width alone for the wetted perimeter (P = 4 instead of 8), inflating R_H. The 19.5 cfs choice forgets the 1.486 factor. The 14.5 cfs choice halves the correct answer by miscalculating R_H.',
+      eli5: 'A = 4 \u00D7 2 = 8 ft\u00B2. P = 4 + 2(2) = 8 ft. R_H = 8/8 = 1.0 ft. Q = (1.486/0.013)(8)(1.0)^(2/3)(0.001)^(1/2) = 114.3 \u00D7 8 \u00D7 1.0 \u00D7 0.0316 = 28.9 cfs. The 45.9 cfs choice uses the width alone as the wetted perimeter, P = 4 instead of 8, which doubles R_H to 2.0 ft. The 19.5 cfs choice forgets the 1.486 factor. The 22.1 cfs choice counts the water surface in the perimeter, making P 12 ft instead of 8, which is the mistake open-channel flow exists to rule out: the top is open to the air.',
       hint: 'Find A, P, and R_H first. Remember K = 1.486 for US Customary units.',
       steps: [
         { text: 'Flow area:', latex: 'A = 4 \\times 2 = 8 \\text{ ft}^2' },
@@ -52,14 +52,14 @@ export default {
       id: 'wr-ocf-q2',
       statement: 'A concrete circular storm sewer ($n = 0.015$) has a diameter of $D = 3 \\text{ ft}$ and flows full on a slope of $S = 0.002$. What is the full-pipe discharge?',
       choices: [
-        { id: 'c1', text: '$40.6 \\text{ ft}^3\\text{/s}$' },
+        { id: 'c1', text: '$41.0 \\text{ ft}^3\\text{/s}$' },
         { id: 'c2', text: '$17.4 \\text{ ft}^3\\text{/s}$' },
         { id: 'c3', text: '$25.9 \\text{ ft}^3\\text{/s}$' },
-        { id: 'c4', text: '$10.3 \\text{ ft}^3\\text{/s}$' },
+        { id: 'c4', text: '$12.9 \\text{ ft}^3\\text{/s}$' },
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Full circular pipe: A = \u03C0(3)\u00B2/4 = 7.069 ft\u00B2. R_H = D/4 = 0.75 ft. (0.75)^(2/3) = 0.826. (0.002)^(1/2) = 0.04472. Q = (1.486/0.015)(7.069)(0.826)(0.04472) = 99.07 \u00D7 7.069 \u00D7 0.0369 = 25.9 cfs. The 17.4 cfs distractor forgets the 1.486 unit factor (uses K=1). The 40.6 cfs distractor uses R_H = D/2 = 1.5 instead of D/4 = 0.75. The 10.3 cfs distractor applies an incorrect (too-small) hydraulic radius.',
+      eli5: 'Full circular pipe: A = \u03C0(3)\u00B2/4 = 7.069 ft\u00B2. R_H = D/4 = 0.75 ft. (0.75)^(2/3) = 0.826. (0.002)^(1/2) = 0.04472. Q = (1.486/0.015)(7.069)(0.826)(0.04472) = 99.07 \u00D7 7.069 \u00D7 0.0369 = 25.9 cfs. The 17.4 cfs distractor forgets the 1.486 unit factor (uses K=1). The 41.0 cfs distractor uses R_H = D/2 = 1.5 instead of D/4 = 0.75. The 12.9 cfs distractor is what this pipe carries running HALF full: half the area, but the same hydraulic radius and so the same velocity.',
       hint: 'For a full circular pipe, R_H = D/4 (not D/2). Don\'t forget K = 1.486 for USCS.',
       steps: [
         { text: 'Flow area (full pipe):', latex: 'A = \\frac{\\pi D^2}{4} = \\frac{\\pi(3)^2}{4} = 7.069 \\text{ ft}^2' },
@@ -88,7 +88,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Since v = (K/n) R_H^(2/3) S^(1/2), and everything except n is the same, the velocity ratio is v_A/v_B = n_B/n_A = 0.025/0.013 = 1.92 \u2248 1.9. The smoother channel (lower n) has higher velocity. The "same velocity" choice ignores the effect of roughness. The "1.5 times faster" choice uses the wrong ratio. The "Channel B is 1.9 times faster" choice inverts the relationship (it applies n_A/n_B and assigns the gain to the rougher channel).',
+      eli5: 'Since v = (K/n) R_H^(2/3) S^(1/2), and everything except n is the same, the velocity ratio is v_A/v_B = n_B/n_A = 0.025/0.013 = 1.92 \u2248 1.9. The smoother channel (lower n) has higher velocity. The "same velocity" choice ignores the effect of roughness. The "1.5 times faster" choice raises the roughness ratio to the two-thirds power, 1.92^(2/3) = 1.55, as if n sat alongside the hydraulic radius instead of underneath on its own. The "Channel B is 1.9 times faster" choice inverts the relationship (it applies n_A/n_B and assigns the gain to the rougher channel).',
       hint: 'With the same geometry and slope, velocity is inversely proportional to Manning\'s n.',
       steps: [
         { text: 'Since both channels have the same $R_H$, $S$, and $K$:', latex: '\\frac{v_A}{v_B} = \\frac{n_B}{n_A}' },
