@@ -92,6 +92,7 @@ import '../features/games/over_the_whole_life_game.dart';
 import '../features/games/perpendicular_flip_game.dart';
 import '../features/games/pick_u_game.dart';
 import '../features/games/place_the_center_game.dart';
+import '../features/games/plus_or_minus_game.dart';
 import '../features/games/point_at_the_inside_game.dart';
 import '../features/games/practice_or_title_game.dart';
 import '../features/games/push_it_or_spin_it_game.dart';
@@ -179,6 +180,7 @@ import '../features/games/which_carry_nothing_game.dart';
 import '../features/games/which_cell_hurts_game.dart';
 import '../features/games/which_circle_is_it_game.dart';
 import '../features/games/which_clock_ran_out_game.dart';
+import '../features/games/which_course_takes_the_most_game.dart';
 import '../features/games/which_cracks_first_game.dart';
 import '../features/games/which_delivery_game.dart';
 import '../features/games/which_diagram_belongs_game.dart';
@@ -217,6 +219,7 @@ import '../features/games/which_side_is_tight_game.dart';
 import '../features/games/which_side_wins_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/which_target_takes_more_game.dart';
+import '../features/games/which_traverse_closed_better_game.dart';
 import '../features/games/which_tube_climbs_game.dart';
 import '../features/games/which_way_does_it_fold_game.dart';
 import '../features/games/which_way_it_pushes_game.dart';
@@ -506,6 +509,9 @@ GoRouter buildRouter(AuthController auth) {
           'higher-or-lower' => const HigherOrLowerGame(),
           'what-is-that-point' => const WhatIsThatPointGame(),
           'which-run-is-allowed-more' => const WhichRunIsAllowedMoreGame(),
+          'plus-or-minus' => const PlusOrMinusGame(),
+          'which-course-takes-the-most' => const WhichCourseTakesTheMostGame(),
+          'which-traverse-closed-better' => const WhichTraverseClosedBetterGame(),
           _ => const _UnknownGame(),
         },
       ),

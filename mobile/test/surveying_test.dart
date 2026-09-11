@@ -11,6 +11,10 @@ import 'package:mobile/features/games/level_figures.dart';
 import 'package:mobile/features/games/higher_or_lower_game.dart';
 import 'package:mobile/features/games/what_is_that_point_game.dart';
 import 'package:mobile/features/games/which_run_is_allowed_more_game.dart';
+import 'package:mobile/features/games/traverse_figures.dart';
+import 'package:mobile/features/games/plus_or_minus_game.dart';
+import 'package:mobile/features/games/which_course_takes_the_most_game.dart';
+import 'package:mobile/features/games/which_traverse_closed_better_game.dart';
 
 /// Chapter ten. Every engine here is held against the lesson's own answers
 /// and against the wrong ones it names.
@@ -376,6 +380,167 @@ void main() {
         }
       }
       expect(slackRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('the traverse lesson reproduces its own answers', () {
+    test('a 200 meter course at azimuth 60 is 100.0 north and 173.2 east',
+        () {
+      const c = Course(azimuth: 60, length: 200);
+      expect(c.latitude, closeTo(100.0, 0.05));
+      expect(c.departure, closeTo(173.2, 0.05));
+      expect(c.quad, Quad.ne);
+      // Its named slips: the two swapped, and the 45 degree pair.
+      expect(const Course(azimuth: 30, length: 200).latitude,
+          closeTo(173.2, 0.05));
+      expect(const Course(azimuth: 45, length: 200).latitude,
+          closeTo(141.4, 0.05));
+    });
+
+    test('the closure is the diagonal, not the sum', () {
+      const trip = Trip(
+        lengths: [250, 250, 250, 250],
+        driftNorth: 0.08,
+        driftEast: -0.06,
+      );
+      expect(trip.closure, closeTo(0.10, 0.0001));
+      expect(trip.perimeter, 1000);
+      expect(trip.precision, closeTo(10000, 1));
+      // Its named slips: the two added, one component alone, and the root
+      // never taken.
+      expect(1000 / 0.14, closeTo(7143, 2));
+      expect(1000 / 0.08, closeTo(12500, 2));
+      expect(1000 / 0.01, closeTo(100000, 2));
+    });
+
+    test('the compass rule share is the length over the perimeter', () {
+      const trip = Trip(lengths: [250, 250, 250, 250]);
+      expect(250 / trip.perimeter, closeTo(0.25, 1e-9));
+      expect(-0.08 * 0.25, closeTo(-0.020, 1e-9));
+      // Its named slips: the whole error on one course, and the wrong
+      // denominator.
+      expect(-0.08 * (250 / 10000), closeTo(-0.002, 1e-9));
+    });
+  });
+
+  group('the two signs', () {
+    test('each quadrant gives the pair it should', () {
+      expect(const Course(azimuth: 60, length: 100).quad, Quad.ne);
+      expect(const Course(azimuth: 135, length: 100).quad, Quad.se);
+      expect(const Course(azimuth: 200, length: 100).quad, Quad.sw);
+      expect(const Course(azimuth: 310, length: 100).quad, Quad.nw);
+      for (final a in [10.0, 100.0, 190.0, 280.0]) {
+        final c = Course(azimuth: a, length: 100);
+        final northish = c.quad == Quad.ne || c.quad == Quad.nw;
+        final eastish = c.quad == Quad.ne || c.quad == Quad.se;
+        expect(c.latitude.sign, northish ? 1 : -1);
+        expect(c.departure.sign, eastish ? 1 : -1);
+      }
+    });
+
+    test('all four quadrants are asked, and the round agrees with its '
+        'course', () {
+      for (final r in signPairRounds) {
+        expect(r.answer, r.course.quad, reason: r.subject);
+      }
+      expect(signPairRounds.map((r) => r.answer).toSet().length, 4);
+    });
+
+    test('a course just past a cardinal direction still turns its sign', () {
+      // Five degrees past due east is south, however little.
+      const c = Course(azimuth: 95, length: 300);
+      expect(c.quad, Quad.se);
+      expect(c.latitude, lessThan(0));
+      expect(c.latitude.abs(), lessThan(30));
+      expect(signPairRounds.any((r) => r.course.azimuth == 95), isTrue);
+    });
+  });
+
+  group('sharing out the closure', () {
+    test('the biggest share goes to the longest course and nothing else', () {
+      for (final r in courseRounds) {
+        final lengths = r.trip.lengths;
+        final longest = lengths.reduce(math.max);
+        expect(lengths.where((l) => l == longest).length, 1,
+            reason: r.subject);
+        expect(lengths[r.answer], longest, reason: r.subject);
+      }
+      expect(courseRounds.map((r) => r.answer).toSet().length, greaterThan(2));
+    });
+
+    test('one round puts the longest course where the eye does not expect '
+        'it', () {
+      // Not always last, not always first.
+      expect(courseRounds.any((r) => r.answer != 0), isTrue);
+      expect(
+          courseRounds.any((r) => r.answer != r.trip.lengths.length - 1),
+          isTrue);
+    });
+
+    test('every traverse in the item actually failed to close', () {
+      for (final r in courseRounds) {
+        expect(r.trip.closure, greaterThan(0), reason: r.subject);
+      }
+    });
+
+    test('the courses sit apart and inside the panel', () {
+      const size = Size(286, 250);
+      for (final r in courseRounds) {
+        for (var i = 0; i < r.trip.lengths.length; i++) {
+          final at = TripPainter.spotOf(size, r.trip, i);
+          expect(at.dx, inInclusiveRange(8, size.width - 8), reason: r.subject);
+          expect(at.dy, inInclusiveRange(8, size.height - 8), reason: r.subject);
+          for (var j = i + 1; j < r.trip.lengths.length; j++) {
+            final gap =
+                (at - TripPainter.spotOf(size, r.trip, j)).distance;
+            expect(gap, greaterThan(30), reason: '${r.subject} $i and $j');
+          }
+        }
+      }
+    });
+  });
+
+  group('precision as a ratio', () {
+    test('doubling both changes nothing', () {
+      const small = Trip(
+          lengths: [150, 150, 150, 150], driftNorth: 0.048, driftEast: 0.064);
+      const big = Trip(
+          lengths: [300, 300, 300, 300], driftNorth: 0.096, driftEast: 0.128);
+      expect(small.precision, closeTo(big.precision, 1));
+      expect(small.precision, closeTo(7500, 5));
+    });
+
+    test('a bigger gap can still be the better traverse', () {
+      const lot = Trip(
+          lengths: [15, 15, 15, 15], driftNorth: 0.006, driftEast: 0.008);
+      const control = Trip(
+          lengths: [750, 750, 750, 750], driftNorth: 0.18, driftEast: 0.24);
+      expect(control.closure, greaterThan(lot.closure));
+      expect(control.precision, greaterThan(lot.precision));
+    });
+
+    test('every round answers with the better ratio', () {
+      for (final r in closedRounds) {
+        if (r.answer == Better.left) {
+          expect(r.left.precision, greaterThan(r.right.precision),
+              reason: r.subject);
+        } else if (r.answer == Better.right) {
+          expect(r.right.precision, greaterThan(r.left.precision),
+              reason: r.subject);
+        } else {
+          expect(r.left.precision, closeTo(r.right.precision, 1),
+              reason: r.subject);
+        }
+      }
+      expect(closedRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('a round exists where the smaller gap is the worse traverse', () {
+      expect(
+          closedRounds.any((r) =>
+              (r.answer == Better.right && r.right.closure > r.left.closure) ||
+              (r.answer == Better.left && r.left.closure > r.right.closure)),
+          isTrue);
     });
   });
 }

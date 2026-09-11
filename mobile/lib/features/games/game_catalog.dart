@@ -2596,6 +2596,40 @@ const surveyingMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'traverse-computations',
+      name: 'Traverse Computations',
+      subtopicId: 'area-volume-traverse',
+      // The sines, the square root and the ratio are all desk work. What
+      // travels is the judgment around them: the two signs, how the closure
+      // is shared out, and why precision is written as a ratio at all.
+      games: [
+        GameDef(
+          id: 'plus-or-minus',
+          rounds: 6,
+          name: 'Plus or Minus',
+          blurb: 'The quadrant settles both signs before any trigonometry.',
+          built: true,
+          brief: latDepBrief,
+        ),
+        GameDef(
+          id: 'which-course-takes-the-most',
+          rounds: 6,
+          name: 'Which Course Takes the Most',
+          blurb: 'By length. Not by latitude, not an equal share each.',
+          built: true,
+          brief: compassBrief,
+        ),
+        GameDef(
+          id: 'which-traverse-closed-better',
+          rounds: 6,
+          name: 'Which Traverse Closed Better',
+          blurb: 'The gap alone says nothing about the work.',
+          built: true,
+          brief: precisionBrief,
+        ),
+      ],
+    ),
   ],
 );
 

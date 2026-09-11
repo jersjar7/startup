@@ -11,6 +11,9 @@ import 'which_area_goes_in_game.dart';
 import 'which_one_to_match_game.dart';
 import 'find_it_on_the_plan_game.dart';
 import 'higher_or_lower_game.dart';
+import 'plus_or_minus_game.dart';
+import 'which_course_takes_the_most_game.dart';
+import 'which_traverse_closed_better_game.dart';
 import 'what_is_that_point_game.dart';
 import 'which_run_is_allowed_more_game.dart';
 import 'level_figures.dart';
@@ -3136,6 +3139,47 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Roomier.values) o.name],
           answer: Roomier.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'plus-or-minus',
+    lessonId: 'traverse-computations',
+    problemPrefix: 'surv-tc-',
+    rounds: [
+      for (final r in signPairRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final q in Quad.values) q.name],
+          answer: Quad.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-course-takes-the-most',
+    lessonId: 'traverse-computations',
+    problemPrefix: 'surv-tc-',
+    rounds: [
+      for (final r in courseRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (var i = 0; i < r.trip.lengths.length; i++) 'course-$i',
+          ],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-traverse-closed-better',
+    lessonId: 'traverse-computations',
+    problemPrefix: 'surv-tc-',
+    rounds: [
+      for (final r in closedRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Better.values) o.name],
+          answer: Better.values.indexOf(r.answer),
         ),
     ],
   ),

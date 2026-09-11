@@ -264,6 +264,9 @@ enum BriefFigure {
   sightLine,
   runRoles,
   closure,
+  latDep,
+  compass,
+  precision,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4480,6 +4483,75 @@ const closureBrief = BriefSection(
   handbook: 'Handbook p. 309',
 );
 
+const latDepBrief = BriefSection(
+  title: 'How far north, how far east',
+  body:
+      'A course of a traverse is turned into two numbers: the latitude, '
+      'which is how far north it went, and the departure, which is how far '
+      'east. Latitude takes the cosine of the azimuth because north is where '
+      'the azimuth is measured from, and departure takes the sine. The two '
+      'sines and cosines are desk work. The two SIGNS are not, and they are '
+      'where the damage happens, because a sign error produces a perfectly '
+      'believable pair of numbers that puts the next station in the wrong '
+      'quarter of the county. The quadrant settles both: north-east both '
+      'plus, south-east latitude minus, south-west both minus, north-west '
+      'departure minus. A closed traverse has to run through more than one '
+      'quarter, because latitudes that are all positive can never add to '
+      'nothing.',
+  formulas: [
+    ('North and south', r'\text{Lat} = L\cos\theta'),
+    ('East and west', r'\text{Dep} = L\sin\theta'),
+    ('Closed', r'\Sigma \text{Lat} = 0, \; \Sigma \text{Dep} = 0'),
+  ],
+  figure: BriefFigure.latDep,
+  handbook: 'Handbook p. 309',
+);
+
+const compassBrief = BriefSection(
+  title: 'Spreading the closure by length',
+  body:
+      'A traverse never closes exactly, and the compass rule is the ordinary '
+      'way of tidying it up. Its one assumption is that the error crept in '
+      'evenly along the way, so each course is handed the total error times '
+      'its own length over the whole perimeter: the longest course takes the '
+      'largest share. Not the course that covered the most latitude, not an '
+      'equal share each, and never the whole closure dumped on the one '
+      'course that felt wrong in the field. If you actually know which '
+      'course is bad, the answer is to measure it again rather than to '
+      'adjust it. And the correction always carries the opposite sign to the '
+      'error: a traverse that drifted north gets pushed south.',
+  formulas: [
+    ('Each course', r'\text{Corr}_i = -E \times \frac{L_i}{\Sigma L}'),
+    ('Longest course', r'\text{biggest share}'),
+    ('Sign', r'\text{opposite to the drift}'),
+  ],
+  figure: BriefFigure.compass,
+  handbook: 'Handbook p. 309',
+);
+
+const precisionBrief = BriefSection(
+  title: 'Why precision is a ratio',
+  body:
+      'The closing gap is the two sums put together the way any two '
+      'perpendicular things are put together, under a square root, so it '
+      'comes out bigger than either sum and smaller than the two added. '
+      'Then it is divided by the whole length the traverse ran, and written '
+      'as one over something. That division is the part that matters: the '
+      'gap on its own says nothing about the quality of the work. A '
+      'centimeter out around a small lot can be worse than thirty '
+      'centimeters out around three kilometers of control. Double the gap '
+      'and double the distance and the ratio has not moved, which is why a '
+      'specification can ask for 1 in 10,000 and mean the same thing on '
+      'every job. The shape of the figure never comes into it.',
+  formulas: [
+    ('The gap', r'E = \sqrt{E_L^2 + E_D^2}'),
+    ('The ratio', r'\frac{E}{\Sigma L} = \frac{1}{N}'),
+    ('Bigger N', r'\text{better work}'),
+  ],
+  figure: BriefFigure.precision,
+  handbook: 'Handbook p. 309',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6039,6 +6111,33 @@ class BriefFigureView extends StatelessWidget {
             (r"2L \Rightarrow 2 h_f", true),
             (r"2v \Rightarrow 2 h_f", false),
             (r"f_{Fanning} \text{ goes in as is}", false),
+          ],
+        );
+      case BriefFigure.latDep:
+        return const _RuleList(
+          rules: [
+            (r"\text{Lat} = L\cos\theta", true),
+            (r"\text{south-west} \Rightarrow \text{both minus}", true),
+            (r"\text{Lat} = L\sin\theta", false),
+            (r"\text{every latitude is positive}", false),
+          ],
+        );
+      case BriefFigure.compass:
+        return const _RuleList(
+          rules: [
+            (r"\text{longest course, biggest share}", true),
+            (r"\text{the correction opposes the drift}", true),
+            (r"\text{an equal share for each course}", false),
+            (r"\text{all of it on the course that felt wrong}", false),
+          ],
+        );
+      case BriefFigure.precision:
+        return const _RuleList(
+          rules: [
+            (r"E = \sqrt{E_L^2 + E_D^2}", true),
+            (r"2E \text{ over } 2\Sigma L \Rightarrow \text{no change}", true),
+            (r"E = E_L + E_D", false),
+            (r"\text{the smaller gap is the better traverse}", false),
           ],
         );
       case BriefFigure.sightLine:

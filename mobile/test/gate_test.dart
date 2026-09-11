@@ -301,6 +301,11 @@ void main() {
       // each lean on the one problem that has them.
       'higher-or-lower',
       'which-run-is-allowed-more',
+      // The traverse lesson has one problem per topic as well: the course
+      // and its two signs, the precision ratio, and the compass rule.
+      'plus-or-minus',
+      'which-course-takes-the-most',
+      'which-traverse-closed-better',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

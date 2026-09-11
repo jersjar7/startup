@@ -198,6 +198,9 @@ import 'package:mobile/features/games/which_area_goes_in_game.dart';
 import 'package:mobile/features/games/which_one_to_match_game.dart';
 import 'package:mobile/features/games/find_it_on_the_plan_game.dart';
 import 'package:mobile/features/games/higher_or_lower_game.dart';
+import 'package:mobile/features/games/plus_or_minus_game.dart';
+import 'package:mobile/features/games/which_course_takes_the_most_game.dart';
+import 'package:mobile/features/games/which_traverse_closed_better_game.dart';
 import 'package:mobile/features/games/what_is_that_point_game.dart';
 import 'package:mobile/features/games/which_run_is_allowed_more_game.dart';
 import 'package:mobile/features/games/which_rule_turns_it_game.dart';
@@ -1674,6 +1677,24 @@ void main() {
           rounds: slackRounds.length,
           height: 1580,
         ),
+        'plus-or-minus': (
+          lesson: '78-traverse',
+          build: PlusOrMinusGame.new,
+          rounds: signPairRounds.length,
+          height: 1700,
+        ),
+        'which-course-takes-the-most': (
+          lesson: '78-traverse',
+          build: WhichCourseTakesTheMostGame.new,
+          rounds: courseRounds.length,
+          height: 1620,
+        ),
+        'which-traverse-closed-better': (
+          lesson: '78-traverse',
+          build: WhichTraverseClosedBetterGame.new,
+          rounds: closedRounds.length,
+          height: 1620,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2063,6 +2084,11 @@ void main() {
       ('sight', sightBrief),
       ('run', runBrief),
       ('closure', closureBrief),
+    ],
+    '78-traverse': [
+      ('latdep', latDepBrief),
+      ('compass', compassBrief),
+      ('precision', precisionBrief),
     ],
   };
 
