@@ -251,6 +251,9 @@ enum BriefFigure {
   reynolds,
   darcy,
   minor,
+  deflection,
+  thrust,
+  block,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4172,6 +4175,73 @@ const minorBrief = BriefSection(
   handbook: 'Handbook p. 182',
 );
 
+const deflectionBrief = BriefSection(
+  title: 'A jet pushes by being turned',
+  body:
+      'A jet delivers force by having its momentum changed, not by arriving '
+      'somewhere. Run it through a sleeve and it leaves the same way at the '
+      'same speed: nothing changed, no force, whatever the pressure or the '
+      'size of the jet. Stop its motion along the jet with a flat plate and '
+      'you take all of it, which is the rho A v squared in the lesson\'s own '
+      'problem. Turn it right back on itself and you take that twice, which '
+      'is where the wrong answer of 4,500 N comes from: correct for a cup, '
+      'and double for a plate. Speed sits in the sum twice over, once in how '
+      'much water arrives each second and once in what each kilogram '
+      'carries, so twice the speed is four times the push. So is twice the '
+      'bore, for the same reason on the area side.',
+  formulas: [
+    ('A jet turned through an angle', r'F = \rho Q v (1 - \cos\alpha)'),
+    ('Flat plate', r'F = \rho A v^2'),
+    ('Turned right back', r'F = 2\rho A v^2'),
+  ],
+  figure: BriefFigure.deflection,
+  handbook: 'Handbook p. 186',
+);
+
+const thrustBrief = BriefSection(
+  title: 'Where a main needs holding',
+  body:
+      'Pressure on its own pushes a straight pipe nowhere. It presses '
+      'outward everywhere at once, and along the line those pushes face each '
+      'other off, which is why a plain joint in a straight length of one '
+      'bore needs nothing holding it at any pressure at all. A net force '
+      'turns up only where the water is made to do something different: '
+      'change direction at a bend, change speed at a reducer, or stop at a '
+      'dead end or a shut valve. Those three get thrust blocks or restrained '
+      'joints. The force is the pressure term plus the momentum term, and '
+      'on a water main the pressure term is usually the far bigger of the '
+      'two, which is why the mistake of leaving it out is so expensive.',
+  formulas: [
+    ('Each direction', r'F = PA + \rho Q v'),
+    ('A straight length', r'\text{the two ends cancel}'),
+    ('What leaves a force', r'\text{turn, change of bore, stop}'),
+  ],
+  figure: BriefFigure.thrust,
+  handbook: 'Handbook p. 186',
+);
+
+const blockBrief = BriefSection(
+  title: 'Which way a bend is shoved',
+  body:
+      'Write the bend as vectors and both halves of the force line up the '
+      'same way: the water arriving still wants to carry on the way it came '
+      'in, and the pressure on the inlet face pushes that way too, while the '
+      'outlet leg pushes back along where the water is going. What is left '
+      'runs along the inlet direction minus the outlet direction, and that '
+      'always lands on the OUTSIDE of the turn, splitting the angle the two '
+      'legs make and heading away from the corner. Never along one leg, '
+      'never into the inside of the elbow. On a square bend the two '
+      'components are equal, and the whole push is one of them times the '
+      'root of two, not twice one of them.',
+  formulas: [
+    ('Which way', r'F \propto \hat{u}_{in} - \hat{u}_{out}'),
+    ('A square bend', r'F_x = F_y = PA + \rho Q v'),
+    ('Put together', r'F_R = F_x\sqrt{2}'),
+  ],
+  figure: BriefFigure.block,
+  handbook: 'Handbook p. 186',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5731,6 +5801,33 @@ class BriefFigureView extends StatelessWidget {
             (r"2L \Rightarrow 2 h_f", true),
             (r"2v \Rightarrow 2 h_f", false),
             (r"f_{Fanning} \text{ goes in as is}", false),
+          ],
+        );
+      case BriefFigure.deflection:
+        return const _RuleList(
+          rules: [
+            (r"\text{flat plate} \Rightarrow F = \rho A v^2", true),
+            (r"\text{turned right back} \Rightarrow 2\rho A v^2", true),
+            (r"\text{straight through} \Rightarrow \text{a push}", false),
+            (r"2v \Rightarrow 2F", false),
+          ],
+        );
+      case BriefFigure.thrust:
+        return const _RuleList(
+          rules: [
+            (r"\text{a bend needs holding}", true),
+            (r"\text{a dead end needs holding}", true),
+            (r"\text{high pressure alone needs holding}", false),
+            (r"\text{a longer straight needs holding}", false),
+          ],
+        );
+      case BriefFigure.block:
+        return const _RuleList(
+          rules: [
+            (r"F \propto \hat{u}_{in} - \hat{u}_{out}", true),
+            (r"F_R = F_x\sqrt{2} \text{ at a square bend}", true),
+            (r"\text{the push runs along the outlet leg}", false),
+            (r"F_R = 2F_x \text{ at a square bend}", false),
           ],
         );
       case BriefFigure.minor:

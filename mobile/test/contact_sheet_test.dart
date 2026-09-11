@@ -193,6 +193,9 @@ import 'package:mobile/features/games/times_or_divided_game.dart';
 import 'package:mobile/features/games/which_mortar_game.dart';
 import 'package:mobile/features/games/which_one_goes_game.dart';
 import 'package:mobile/features/games/add_up_the_losses_game.dart';
+import 'package:mobile/features/games/which_target_takes_more_game.dart';
+import 'package:mobile/features/games/which_one_needs_a_block_game.dart';
+import 'package:mobile/features/games/where_the_block_goes_game.dart';
 import 'package:mobile/features/games/float_or_sink_game.dart';
 import 'package:mobile/features/games/laminar_or_turbulent_game.dart';
 import 'package:mobile/features/games/how_fast_the_jet_game.dart';
@@ -1583,6 +1586,24 @@ void main() {
           rounds: tallyRounds.length,
           height: 1650,
         ),
+        'which-target-takes-more': (
+          lesson: '73-momentum',
+          build: WhichTargetTakesMoreGame.new,
+          rounds: hitRounds.length,
+          height: 1500,
+        ),
+        'which-one-needs-a-block': (
+          lesson: '73-momentum',
+          build: WhichOneNeedsABlockGame.new,
+          rounds: anchorRounds.length,
+          height: 1500,
+        ),
+        'where-the-block-goes': (
+          lesson: '73-momentum',
+          build: WhereTheBlockGoesGame.new,
+          rounds: blockRounds.length,
+          height: 1560,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1949,6 +1970,11 @@ void main() {
       ('reynolds', reynoldsBrief),
       ('darcy', darcyBrief),
       ('minor', minorBrief),
+    ],
+    '73-momentum': [
+      ('deflection', deflectionBrief),
+      ('thrust', thrustBrief),
+      ('block', blockBrief),
     ],
   };
 

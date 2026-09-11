@@ -282,6 +282,12 @@ void main() {
       // is the fittings problem and its addition.
       'laminar-or-turbulent',
       'add-up-the-losses',
+      // The jet problem is the only one in the lesson with a free jet in it,
+      // and how far the face turns the water is the whole item. The bend
+      // problem is the only one with a bend in it, and which way the push
+      // comes out is the whole of the other.
+      'which-target-takes-more',
+      'where-the-block-goes',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

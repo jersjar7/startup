@@ -6,6 +6,9 @@ import 'before_or_during_game.dart';
 import 'coupon_figures.dart';
 import 'add_the_squares_game.dart';
 import 'add_up_the_losses_game.dart';
+import 'which_target_takes_more_game.dart';
+import 'which_one_needs_a_block_game.dart';
+import 'where_the_block_goes_game.dart';
 import 'both_sides_game.dart';
 import 'build_the_binomial_game.dart';
 import 'build_the_identity_game.dart';
@@ -2943,6 +2946,49 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final w in r.options) w.name],
           answer: r.options.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'which-target-takes-more',
+    lessonId: 'momentum-equation',
+    problemPrefix: 'fm-me-',
+    rounds: [
+      for (final r in hitRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final h in r.faces) h.tag],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-one-needs-a-block',
+    lessonId: 'momentum-equation',
+    problemPrefix: 'fm-me-',
+    rounds: [
+      for (final r in anchorRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (var i = 0; i < r.trunk.spots; i++)
+              '${r.trunk.jointAt(i).name}-$i',
+          ],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-the-block-goes',
+    lessonId: 'momentum-equation',
+    problemPrefix: 'fm-me-',
+    rounds: [
+      for (final r in blockRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (var i = 0; i < 4; i++) 'block-$i'],
+          answer: r.answer,
         ),
     ],
   ),

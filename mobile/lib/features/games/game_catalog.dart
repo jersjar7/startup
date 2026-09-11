@@ -2428,6 +2428,41 @@ const fluidMechanicsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'momentum-equation',
+      name: 'Momentum Equation',
+      subtopicId: 'fluid-dynamics',
+      // Working the force out is paper: it is an area, a flow rate, two
+      // terms and a resultant, and no phone should be adding those up. What
+      // the phone can carry is the judgment around it: what makes a force at
+      // all, how big the turn makes it, and which way it goes.
+      games: [
+        GameDef(
+          id: 'which-target-takes-more',
+          rounds: 6,
+          name: 'Which Target Takes More',
+          blurb: 'It pushes by being turned, not by arriving.',
+          built: true,
+          brief: deflectionBrief,
+        ),
+        GameDef(
+          id: 'which-one-needs-a-block',
+          rounds: 6,
+          name: 'Which One Needs a Block',
+          blurb: 'Pressure alone moves nothing. Change does.',
+          built: true,
+          brief: thrustBrief,
+        ),
+        GameDef(
+          id: 'where-the-block-goes',
+          rounds: 6,
+          name: 'Where the Block Goes',
+          blurb: 'Always out on the outside of the turn.',
+          built: true,
+          brief: blockBrief,
+        ),
+      ],
+    ),
   ],
 );
 

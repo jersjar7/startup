@@ -19,6 +19,10 @@ import 'package:mobile/features/games/walk_the_manometer_game.dart';
 import 'package:mobile/features/games/which_drags_more_game.dart';
 import 'package:mobile/features/games/which_property_game.dart';
 import 'package:mobile/features/games/which_tube_climbs_game.dart';
+import 'package:mobile/features/games/momentum_figures.dart';
+import 'package:mobile/features/games/which_target_takes_more_game.dart';
+import 'package:mobile/features/games/which_one_needs_a_block_game.dart';
+import 'package:mobile/features/games/where_the_block_goes_game.dart';
 
 /// Chapter nine. Every engine here is held against the lesson's own answers
 /// and against the wrong ones it names.
@@ -714,6 +718,255 @@ void main() {
       expect(answers.contains(Wrote.missingFriction), isTrue);
       expect(answers.contains(Wrote.missingFittings), isTrue);
       expect(answers.contains(Wrote.doubled), isTrue);
+    });
+  });
+
+  group('the momentum equation reproduces the lesson', () {
+    test('the jet on the flat plate is 2,250 newtons', () {
+      const rho = 1000.0, a = 0.01, v = 15.0;
+      expect(rho * a * v * v, closeTo(2250, 1));
+      // Its named slips: the velocity left unsquared, the plate treated as
+      // a cup that turns the water right back, and the area a thousandth of
+      // what it is.
+      expect(rho * a * v, closeTo(150, 1));
+      expect(2 * rho * a * v * v, closeTo(4500, 1));
+      expect(rho * 0.001 * v * v, closeTo(225, 1));
+    });
+
+    test('the square bend is 21.6 kilonewtons, not 28.3', () {
+      final area = math.pi * 0.3 * 0.3 / 4;
+      expect(area, closeTo(0.0707, 0.0001));
+      final q = area * 4;
+      final each = 200000 * area + 1000 * q * 4;
+      expect(each, closeTo(15271, 4));
+      expect(each * math.sqrt2 / 1000, closeTo(21.6, 0.05));
+      // Its named slips: one component alone, twice the pressure force
+      // instead of the root two, and the momentum term on its own.
+      expect(200000 * area / 1000, closeTo(14.1, 0.05));
+      expect(2 * 200000 * area / 1000, closeTo(28.3, 0.05));
+      expect(1000 * q * 4 * math.sqrt2 / 1000, closeTo(1.6, 0.05));
+    });
+
+    test('the nozzle subtracts the momentum rather than adding it', () {
+      final a1 = math.pi * 0.1 * 0.1 / 4;
+      final a2 = math.pi * 0.025 * 0.025 / 4;
+      final v2 = 2 * a1 / a2;
+      expect(v2, closeTo(32, 0.01));
+      final q = a1 * 2;
+      expect(350000 * a1, closeTo(2749, 2));
+      expect(1000 * q * (v2 - 2), closeTo(471, 2));
+      expect(350000 * a1 - 1000 * q * (v2 - 2), closeTo(2278, 3));
+      // Its named slips, all three of them: the pressure force alone, the
+      // momentum of the jet leaving alone, and the two added.
+      expect(1000 * q * v2, closeTo(502, 2));
+      expect(350000 * a1 + 1000 * q * v2, closeTo(3251, 3));
+    });
+  });
+
+  group('what a jet does to a face', () {
+    test('the plate takes all of it and the cup takes twice', () {
+      expect(const Hit(face: Face.through).taken, closeTo(0, 1e-9));
+      expect(const Hit(face: Face.plate).taken, closeTo(1, 1e-9));
+      expect(const Hit(face: Face.cup).taken, closeTo(2, 1e-9));
+      // Past square keeps climbing; a gentle vane takes far less than a
+      // right angle rather than half of it.
+      expect(const Hit(face: Face.scoop).taken, closeTo(1.707, 0.001));
+      expect(const Hit(face: Face.vane).taken, closeTo(0.293, 0.001));
+    });
+
+    test('speed and bore both count twice over', () {
+      const plain = Hit(face: Face.plate);
+      expect(const Hit(face: Face.plate, speed: 2).push / plain.push,
+          closeTo(4, 1e-9));
+      expect(const Hit(face: Face.plate, bore: 2).push / plain.push,
+          closeTo(4, 1e-9));
+      // However fast or fat, a jet that is not turned delivers nothing.
+      expect(const Hit(face: Face.through, speed: 3, bore: 2).push, 0);
+    });
+
+    test('every round has one hardest face, and it moves around', () {
+      for (final r in hitRounds) {
+        final pushes = [for (final f in r.faces) f.push];
+        final best = pushes.reduce(math.max);
+        expect(pushes.where((p) => p == best).length, 1, reason: r.subject);
+        expect(r.faces.map((f) => f.tag).toSet().length, 4, reason: r.subject);
+        expect(r.faces[r.answer].push, best, reason: r.subject);
+      }
+      expect(hitRounds.map((r) => r.answer).toSet().length, greaterThan(2));
+    });
+
+    test('the doubling trap and the squared speed both get a round', () {
+      expect(hitRounds.any((r) => r.faces[r.answer].face == Face.cup), isTrue);
+      expect(hitRounds.any((r) => r.faces[r.answer].speed == 2), isTrue);
+      expect(hitRounds.any((r) => r.faces[r.answer].bore == 2), isTrue);
+    });
+  });
+
+  group('where a main needs holding', () {
+    test('a plain joint in a straight length carries nothing', () {
+      const straight = Trunk(legs: [
+        Leg(heading: Heading.east),
+        Leg(heading: Heading.east),
+      ]);
+      expect(straight.jointAt(0), Fitting.coupling);
+      expect(straight.thrustsAt(0), isFalse);
+    });
+
+    test('a turn, a change of bore and a stop each leave a force', () {
+      const bend = Trunk(legs: [
+        Leg(heading: Heading.east),
+        Leg(heading: Heading.north),
+      ]);
+      const reducer = Trunk(legs: [
+        Leg(heading: Heading.east),
+        Leg(heading: Heading.east, bore: 150),
+      ]);
+      const capped = Trunk(legs: [
+        Leg(heading: Heading.east),
+        Leg(heading: Heading.east),
+      ], capped: true);
+      expect(bend.jointAt(0), Fitting.bend);
+      expect(reducer.jointAt(0), Fitting.reducer);
+      expect(capped.jointAt(1), Fitting.cap);
+      for (final t in [bend, reducer, capped]) {
+        expect(t.thrustsAt(t.culprit), isTrue);
+      }
+      expect(capped.spots, 2);
+    });
+
+    test('every round has exactly one place to hold, and it moves', () {
+      for (final r in anchorRounds) {
+        final held = [
+          for (var i = 0; i < r.trunk.spots; i++)
+            if (r.trunk.thrustsAt(i)) i,
+        ];
+        expect(held.length, 1, reason: r.subject);
+        expect(r.answer, held.single, reason: r.subject);
+        expect(r.trunk.spots, greaterThanOrEqualTo(3), reason: r.subject);
+      }
+      expect(anchorRounds.map((r) => r.answer).toSet().length, greaterThan(1));
+    });
+
+    test('all three kinds of thrust turn up across the rounds', () {
+      final kinds =
+          anchorRounds.map((r) => r.trunk.jointAt(r.answer)).toSet();
+      expect(kinds.contains(Fitting.bend), isTrue);
+      expect(kinds.contains(Fitting.reducer), isTrue);
+      expect(kinds.contains(Fitting.cap), isTrue);
+    });
+
+    test('the marked spots never land on top of each other', () {
+      const size = Size(340, 230);
+      for (final r in anchorRounds) {
+        for (var i = 0; i < r.trunk.spots; i++) {
+          for (var j = i + 1; j < r.trunk.spots; j++) {
+            final gap = (TrunkPainter.spotOf(size, r.trunk, i) -
+                    TrunkPainter.spotOf(size, r.trunk, j))
+                .distance;
+            expect(gap, greaterThan(30), reason: '${r.subject} $i and $j');
+          }
+        }
+      }
+    });
+
+    test('the whole run is drawn inside the panel', () {
+      const size = Size(340, 230);
+      for (final r in anchorRounds) {
+        for (var i = 0; i < r.trunk.spots; i++) {
+          final at = TrunkPainter.spotOf(size, r.trunk, i);
+          expect(at.dx, inInclusiveRange(12, size.width - 12),
+              reason: r.subject);
+          expect(at.dy, inInclusiveRange(12, size.height - 12),
+              reason: r.subject);
+        }
+      }
+    });
+  });
+
+  group('which way a bend is shoved', () {
+    test('a square bend is pushed out on the bisector', () {
+      // In from the west, out to the north: the push is down and to the
+      // right on the panel, which is the outside of that turn.
+      const bend = Elbow(comesFrom: 0, goesTo: 90);
+      expect(bend.push.dx, closeTo(math.sqrt1_2, 0.001));
+      expect(bend.push.dy, closeTo(math.sqrt1_2, 0.001));
+      expect(bend.turn, 90);
+    });
+
+    test('turning the bend over turns the push over', () {
+      const down = Elbow(comesFrom: 0, goesTo: 270);
+      expect(down.push.dx, closeTo(math.sqrt1_2, 0.001));
+      expect(down.push.dy, closeTo(-math.sqrt1_2, 0.001));
+    });
+
+    test('the push splits the angle the two legs make', () {
+      for (final bend in [
+        const Elbow(comesFrom: 0, goesTo: 45),
+        const Elbow(comesFrom: 0, goesTo: 90),
+        const Elbow(comesFrom: 0, goesTo: 135),
+        const Elbow(comesFrom: 90, goesTo: 0),
+      ]) {
+        // The two legs, as directions out of the corner: back along the way
+        // the water came in, and on along the way it leaves.
+        final into = Elbow.unit(bend.comesFrom);
+        final outOf = Elbow.unit(bend.goesTo);
+        final legs = [-into, outOf];
+        final away = [
+          for (final leg in legs) leg.dx * bend.push.dx + leg.dy * bend.push.dy
+        ];
+        // It leans away from both legs by the same amount, and away means
+        // away: the push is never along either leg.
+        expect(away[0], closeTo(away[1], 0.001));
+        expect(away[0], lessThan(0));
+      }
+    });
+
+    test('a sharper turn is a bigger push', () {
+      double size(Elbow e) =>
+          (Elbow.unit(e.comesFrom) - Elbow.unit(e.goesTo)).distance;
+      expect(size(const Elbow(comesFrom: 0, goesTo: 45)),
+          lessThan(size(const Elbow(comesFrom: 0, goesTo: 90))));
+      expect(size(const Elbow(comesFrom: 0, goesTo: 90)),
+          lessThan(size(const Elbow(comesFrom: 0, goesTo: 135))));
+      // A square bend puts the same force in both directions, and the two
+      // of them together are the root of two times one, not twice one.
+      final square = size(const Elbow(comesFrom: 0, goesTo: 90));
+      expect(square, closeTo(math.sqrt2, 1e-9));
+    });
+
+    test('the right block is the one in the way, and the letter moves', () {
+      for (final r in blockRounds) {
+        expect(r.elbow.order.toSet().length, 4, reason: r.subject);
+        expect(r.answer, r.elbow.order.indexOf(0), reason: r.subject);
+        // The other three are quarter turns off it, so none of them is a
+        // near miss for the one that takes the load.
+        final right = r.elbow.directionOf(r.answer);
+        for (var i = 0; i < 4; i++) {
+          if (i == r.answer) continue;
+          final other = r.elbow.directionOf(i);
+          expect(right.dx * other.dx + right.dy * other.dy, lessThan(0.01),
+              reason: '${r.subject} $i');
+        }
+      }
+      expect(blockRounds.map((r) => r.answer).toSet().length,
+          greaterThanOrEqualTo(4));
+    });
+
+    test('the four blocks sit well apart and inside the panel', () {
+      const size = Size(340, 250);
+      for (final r in blockRounds) {
+        for (var i = 0; i < 4; i++) {
+          final at = ElbowPainter.spotOf(size, r.elbow, i);
+          expect(at.dx, inInclusiveRange(16, size.width - 16),
+              reason: r.subject);
+          expect(at.dy, inInclusiveRange(14, size.height - 14),
+              reason: r.subject);
+          for (var j = i + 1; j < 4; j++) {
+            final gap = (at - ElbowPainter.spotOf(size, r.elbow, j)).distance;
+            expect(gap, greaterThan(34), reason: '${r.subject} $i and $j');
+          }
+        }
+      }
     });
   });
 }
