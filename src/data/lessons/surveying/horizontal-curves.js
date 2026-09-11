@@ -58,7 +58,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'T = R tan(I/2) = 1,000 \u00D7 tan(20\u00B0) = 1,000 \u00D7 0.3640 = 364 ft. The 839 ft choice uses tan(I) = tan(40\u00B0) instead of tan(I/2). The 342 ft choice uses sin(I/2) instead of tan(I/2) (1,000 \u00D7 sin(20\u00B0) = 342). The 698 ft choice doubles the correct result.',
+      eli5: 'T = R tan(I/2) = 1,000 \u00D7 tan(20\u00B0) = 1,000 \u00D7 0.3640 = 364 ft. The 839 ft choice uses tan(I) = tan(40\u00B0) instead of tan(I/2). The 342 ft choice uses sin(I/2) instead of tan(I/2) (1,000 \u00D7 sin(20\u00B0) = 342). The 698 ft choice is the curve LENGTH, \u03C0RI/180, which is the arc from PC to PT rather than the straight run out to the PI.',
       hint: 'The tangent distance uses HALF the intersection angle: T = R tan(I/2).',
       steps: [
         { text: 'Tangent distance:', latex: 'T = R\\tan\\frac{I}{2} = 1{,}000 \\times \\tan 20\\degree' },
