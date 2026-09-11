@@ -2395,6 +2395,39 @@ const fluidMechanicsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'pipe-flow-head-loss',
+      name: 'Pipe Flow & Head Loss',
+      subtopicId: 'fluid-dynamics',
+      // Hazen-Williams is in the lesson and in no problem, so it stays on
+      // paper rather than getting an item with nothing behind it.
+      games: [
+        GameDef(
+          id: 'laminar-or-turbulent',
+          rounds: 6,
+          name: 'Laminar or Turbulent',
+          blurb: 'The number decides which method comes next.',
+          built: true,
+          brief: reynoldsBrief,
+        ),
+        GameDef(
+          id: 'what-happens-to-the-loss',
+          rounds: 6,
+          name: 'What Happens to the Loss',
+          blurb: 'The velocity is squared. One pipe size up is worth thirty.',
+          built: true,
+          brief: darcyBrief,
+        ),
+        GameDef(
+          id: 'add-up-the-losses',
+          rounds: 6,
+          name: 'Add Up the Losses',
+          blurb: 'A line of working with one piece missing, or in twice.',
+          built: true,
+          brief: minorBrief,
+        ),
+      ],
+    ),
   ],
 );
 

@@ -248,6 +248,9 @@ enum BriefFigure {
   continuity,
   bernoulli,
   torricelli,
+  reynolds,
+  darcy,
+  minor,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4103,6 +4106,72 @@ const torricelliBrief = BriefSection(
   handbook: 'Handbook p. 180',
 );
 
+const reynoldsBrief = BriefSection(
+  title: 'Which band the flow is in',
+  body:
+      'The Reynolds number is the speed times the diameter over the kinematic '
+      'viscosity, and what it buys you is not a number but a DECISION. Under '
+      '2,100 the flow is laminar and the friction factor is simply 64 over '
+      'the Reynolds number, with no diagram to read. Over 10,000 it is fully '
+      'turbulent and the factor comes off the Moody diagram or out of '
+      'Colebrook. Between the two it is transitional, uncertain, and no place '
+      'to design. Water is so thin that anything moving at a sensible speed '
+      'in a pipe you could crawl through is deeply turbulent, so a Reynolds '
+      'number in the thousands for a water main usually means the diameter '
+      'went in as millimeters.',
+  formulas: [
+    ('Reynolds', r'Re = \frac{\rho v D}{\mu} = \frac{vD}{\nu}'),
+    ('Laminar', r'Re < 2{,}100 \Rightarrow f = \frac{64}{Re}'),
+    ('Turbulent', r'Re > 10{,}000 \Rightarrow \text{Moody}'),
+  ],
+  figure: BriefFigure.reynolds,
+  handbook: 'Handbook p. 181',
+);
+
+const darcyBrief = BriefSection(
+  title: 'What the friction costs',
+  body:
+      'Darcy-Weisbach is four things multiplied: the friction factor, the '
+      'length over the diameter, and the velocity head. Two of them behave as '
+      'you would guess, since the length and the factor are in direct '
+      'proportion, and two do not. The velocity is SQUARED, so twice the '
+      'speed is four times the loss, which is why pipes are sized by '
+      'velocity. And the diameter does more than the formula shows: at a '
+      'fixed FLOW, doubling the bore quarters the velocity as well as halving '
+      'the L over D, so the loss falls by about thirty times. One pipe size '
+      'up is the cheapest head on any job. The factor here is the DARCY one; '
+      'the Fanning factor is a quarter of it.',
+  formulas: [
+    ('Darcy-Weisbach', r'h_f = f \frac{L}{D} \frac{v^2}{2g}'),
+    ('Laminar factor', r'f = \frac{64}{Re}'),
+    ('At fixed flow', r'2D \Rightarrow \approx \frac{h_f}{32}'),
+  ],
+  figure: BriefFigure.darcy,
+  handbook: 'Handbook p. 182',
+);
+
+const minorBrief = BriefSection(
+  title: 'Add the pipe and the fittings',
+  body:
+      'The total head loss is the pipe friction PLUS every fitting, and each '
+      'fitting is its own coefficient times the same velocity head, because '
+      'the water is going the same speed through all of them. They are called '
+      'minor losses and frequently are not minor: a globe valve at C = 10 can '
+      'cost more than a hundred meters of the pipe it sits in. Three things '
+      'go wrong with the addition, and they are the three wrong answers on '
+      'the lesson\'s own problem: the fittings quoted alone, the friction '
+      'quoted alone, and a total that has had the friction added to it twice. '
+      'Count the fittings off the drawing one at a time, and label every '
+      'number you write down.',
+  formulas: [
+    ('Each fitting', r'h = C \frac{v^2}{2g}'),
+    ('The total', r'h_{total} = h_f + \Sigma C \frac{v^2}{2g}'),
+    ('One velocity head', r'\text{serves them all}'),
+  ],
+  figure: BriefFigure.minor,
+  handbook: 'Handbook p. 182',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5644,6 +5713,33 @@ class BriefFigureView extends StatelessWidget {
             (r"4h \Rightarrow 2v", true),
             (r"\text{a bigger hole is a faster jet}", false),
             (r"\text{a wider tank is a faster jet}", false),
+          ],
+        );
+      case BriefFigure.reynolds:
+        return const _RuleList(
+          rules: [
+            (r"Re < 2{,}100 \Rightarrow f = 64/Re", true),
+            (r"Re > 10{,}000 \Rightarrow \text{Moody}", true),
+            (r"\text{water mains are usually laminar}", false),
+            (r"Re \text{ has units of m/s}", false),
+          ],
+        );
+      case BriefFigure.darcy:
+        return const _RuleList(
+          rules: [
+            (r"2v \Rightarrow 4 h_f", true),
+            (r"2L \Rightarrow 2 h_f", true),
+            (r"2v \Rightarrow 2 h_f", false),
+            (r"f_{Fanning} \text{ goes in as is}", false),
+          ],
+        );
+      case BriefFigure.minor:
+        return const _RuleList(
+          rules: [
+            (r"h_{total} = h_f + \Sigma C \frac{v^2}{2g}", true),
+            (r"\text{one } v^2/2g \text{ for every fitting}", true),
+            (r"\text{minor losses are always small}", false),
+            (r"\text{each fitting gets its own } v", false),
           ],
         );
       case BriefFigure.damping:

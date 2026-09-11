@@ -5,7 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/fluid_figures.dart';
 import 'package:mobile/features/games/float_or_sink_game.dart';
+import 'package:mobile/features/games/add_up_the_losses_game.dart';
 import 'package:mobile/features/games/how_fast_the_jet_game.dart';
+import 'package:mobile/features/games/laminar_or_turbulent_game.dart';
+import 'package:mobile/features/games/what_happens_to_the_loss_game.dart';
 import 'package:mobile/features/games/how_much_faster_game.dart';
 import 'package:mobile/features/games/pipe_figures.dart';
 import 'package:mobile/features/games/where_the_pressure_is_game.dart';
@@ -611,6 +614,106 @@ void main() {
           expect(tank.width, greaterThan(40), reason: r.subject);
         }
       }
+    });
+  });
+
+  group('the Reynolds number reproduces the lesson', () {
+    test('two meters a second in a 100 mm pipe is 199,000', () {
+      expect(2 * 0.1 / 1.003e-6, closeTo(199400, 100));
+      // Its named slips, both of them the diameter in the wrong units.
+      expect(2 * 0.001 / 1.003e-6, closeTo(1994, 5));
+      expect(2 * 0.01 / 1.003e-6, closeTo(19940, 20));
+    });
+
+    test('the thresholds are the lesson\'s own', () {
+      expect(RegimeWords.of(2099), Regime.laminar);
+      expect(RegimeWords.of(2101), Regime.between);
+      expect(RegimeWords.of(9999), Regime.between);
+      expect(RegimeWords.of(10001), Regime.turbulent);
+    });
+
+    test('every round names the band its number falls in', () {
+      for (final r in reynoldsRounds) {
+        expect(r.answer, RegimeWords.of(r.reynolds), reason: r.subject);
+      }
+    });
+
+    test('all three bands come up', () {
+      expect(reynoldsRounds.map((r) => r.answer).toSet(), Regime.values.toSet());
+    });
+  });
+
+  group('Darcy-Weisbach behaves the way the rounds claim', () {
+    double loss({
+      double f = 0.02,
+      double l = 100,
+      double d = 0.2,
+      double v = 3,
+    }) =>
+        f * (l / d) * v * v / (2 * 9.81);
+
+    test('the lesson\'s pipe loses 4.59 meters', () {
+      expect(loss(), closeTo(4.59, 0.01));
+      // Its named slips: the 2 dropped, and two wrong diameters.
+      expect(0.02 * (100 / 0.2) * 9 / 9.81, closeTo(9.17, 0.01));
+      expect(loss(d: 0.02), closeTo(45.9, 0.1));
+      expect(loss(d: 2), closeTo(0.459, 0.001));
+    });
+
+    test('twice the speed is four times the loss', () {
+      expect(loss(v: 6) / loss(), closeTo(4, 1e-9));
+    });
+
+    test('twice the length is twice, and twice the bore is half', () {
+      expect(loss(l: 200) / loss(), closeTo(2, 1e-9));
+      expect(loss(d: 0.4) / loss(), closeTo(0.5, 1e-9));
+    });
+
+    test('at a fixed flow, twice the bore is about a thirtieth', () {
+      // Doubling the bore quarters the velocity as well as halving L over D.
+      final before = loss();
+      final after = loss(d: 0.4, v: 3 / 4);
+      expect(before / after, closeTo(32, 0.5));
+    });
+
+    test('every round offers its answer once, among distinct choices', () {
+      for (final r in lossRounds) {
+        expect(r.options.contains(r.answer), isTrue, reason: r.subject);
+        expect(r.options.toSet().length, r.options.length, reason: r.subject);
+      }
+      expect(lossRounds.map((r) => r.answer).toSet().length, greaterThan(3));
+    });
+  });
+
+  group('the head loss tally', () {
+    test('the lesson\'s system adds to 6.96 meters', () {
+      const head = 2.5 * 2.5 / (2 * 9.81);
+      expect(head, closeTo(0.3185, 0.001));
+      expect(2 * 0.9 + 10.0, 11.8);
+      expect(3.2 + 11.8 * head, closeTo(6.96, 0.01));
+      // Its named slips: each piece alone, and the friction counted twice.
+      expect(11.8 * head, closeTo(3.76, 0.01));
+      expect(3.2 + (3.2 + 11.8 * head), closeTo(10.16, 0.01));
+    });
+
+    test('exactly one round is a correct line', () {
+      expect(tallyRounds.where((r) => r.answer == Wrote.right).length, 1);
+    });
+
+    test('every round offers its answer, and the answer moves around', () {
+      for (final r in tallyRounds) {
+        expect(r.options.contains(r.answer), isTrue, reason: r.subject);
+        expect(r.options.toSet().length, r.options.length, reason: r.subject);
+      }
+      expect(tallyRounds.map((r) => r.options.indexOf(r.answer)).toSet().length,
+          greaterThan(1));
+    });
+
+    test('every named mistake in the lesson is one of the rounds', () {
+      final answers = tallyRounds.map((r) => r.answer).toSet();
+      expect(answers.contains(Wrote.missingFriction), isTrue);
+      expect(answers.contains(Wrote.missingFittings), isTrue);
+      expect(answers.contains(Wrote.doubled), isTrue);
     });
   });
 }

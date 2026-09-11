@@ -192,12 +192,15 @@ import 'package:mobile/features/games/out_of_the_furnace_game.dart';
 import 'package:mobile/features/games/times_or_divided_game.dart';
 import 'package:mobile/features/games/which_mortar_game.dart';
 import 'package:mobile/features/games/which_one_goes_game.dart';
+import 'package:mobile/features/games/add_up_the_losses_game.dart';
 import 'package:mobile/features/games/float_or_sink_game.dart';
+import 'package:mobile/features/games/laminar_or_turbulent_game.dart';
 import 'package:mobile/features/games/how_fast_the_jet_game.dart';
 import 'package:mobile/features/games/how_much_faster_game.dart';
 import 'package:mobile/features/games/gauge_or_absolute_game.dart';
 import 'package:mobile/features/games/same_depth_game.dart';
 import 'package:mobile/features/games/walk_the_manometer_game.dart';
+import 'package:mobile/features/games/what_happens_to_the_loss_game.dart';
 import 'package:mobile/features/games/where_it_pushes_game.dart';
 import 'package:mobile/features/games/where_the_pressure_is_game.dart';
 import 'package:mobile/features/games/which_drags_more_game.dart';
@@ -1562,6 +1565,24 @@ void main() {
           rounds: jetRounds.length,
           height: 1600,
         ),
+        'laminar-or-turbulent': (
+          lesson: '72-head-loss',
+          build: LaminarOrTurbulentGame.new,
+          rounds: reynoldsRounds.length,
+          height: 1450,
+        ),
+        'what-happens-to-the-loss': (
+          lesson: '72-head-loss',
+          build: WhatHappensToTheLossGame.new,
+          rounds: lossRounds.length,
+          height: 1550,
+        ),
+        'add-up-the-losses': (
+          lesson: '72-head-loss',
+          build: AddUpTheLossesGame.new,
+          rounds: tallyRounds.length,
+          height: 1650,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1923,6 +1944,11 @@ void main() {
       ('continuity', continuityBrief),
       ('bernoulli', bernoulliBrief),
       ('torricelli', torricelliBrief),
+    ],
+    '72-head-loss': [
+      ('reynolds', reynoldsBrief),
+      ('darcy', darcyBrief),
+      ('minor', minorBrief),
     ],
   };
 

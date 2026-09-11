@@ -5,6 +5,7 @@ import 'balance_both_sides_game.dart';
 import 'before_or_during_game.dart';
 import 'coupon_figures.dart';
 import 'add_the_squares_game.dart';
+import 'add_up_the_losses_game.dart';
 import 'both_sides_game.dart';
 import 'build_the_binomial_game.dart';
 import 'build_the_identity_game.dart';
@@ -40,6 +41,7 @@ import 'how_fast_the_jet_game.dart';
 import 'how_long_to_compare_game.dart';
 import 'how_many_protections_game.dart';
 import 'in_what_order_game.dart';
+import 'laminar_or_turbulent_game.dart';
 import 'land_the_resultant_game.dart';
 import 'next_line_game.dart';
 import 'one_log_game.dart';
@@ -147,6 +149,7 @@ import 'what_are_the_ends_worth_game.dart';
 import 'which_way_does_it_fold_game.dart';
 import 'buckle_or_squash_game.dart';
 import 'kinematics_figures.dart';
+import 'what_happens_to_the_loss_game.dart';
 import 'what_is_missing_game.dart';
 import 'tap_the_trajectory_game.dart';
 import 'speeding_up_or_turning_game.dart';
@@ -2900,6 +2903,46 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final q in Quicker2.values) q.name],
           answer: Quicker2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'laminar-or-turbulent',
+    lessonId: 'pipe-flow-head-loss',
+    problemPrefix: 'fm-pfh-',
+    rounds: [
+      for (final r in reynoldsRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final g in Regime.values) g.name],
+          answer: Regime.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-happens-to-the-loss',
+    lessonId: 'pipe-flow-head-loss',
+    problemPrefix: 'fm-pfh-',
+    rounds: [
+      for (final r in lossRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final l in r.options) l.name],
+          answer: r.options.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'add-up-the-losses',
+    lessonId: 'pipe-flow-head-loss',
+    problemPrefix: 'fm-pfh-',
+    rounds: [
+      for (final r in tallyRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final w in r.options) w.name],
+          answer: r.options.indexOf(r.answer),
         ),
     ],
   ),

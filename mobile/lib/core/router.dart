@@ -10,6 +10,7 @@ import '../features/games/acute_or_obtuse_game.dart';
 import '../features/games/balance_both_sides_game.dart';
 import '../features/games/before_or_during_game.dart';
 import '../features/games/add_the_squares_game.dart';
+import '../features/games/add_up_the_losses_game.dart';
 import '../features/games/both_sides_game.dart';
 import '../features/games/build_the_binomial_game.dart';
 import '../features/games/build_the_identity_game.dart';
@@ -47,6 +48,7 @@ import '../features/games/how_fast_the_jet_game.dart';
 import '../features/games/how_long_to_compare_game.dart';
 import '../features/games/how_many_protections_game.dart';
 import '../features/games/in_what_order_game.dart';
+import '../features/games/laminar_or_turbulent_game.dart';
 import '../features/games/land_the_resultant_game.dart';
 import '../features/games/next_line_game.dart';
 import '../features/games/one_log_game.dart';
@@ -140,6 +142,7 @@ import '../features/games/is_r_the_worst_game.dart';
 import '../features/games/what_are_the_ends_worth_game.dart';
 import '../features/games/which_way_does_it_fold_game.dart';
 import '../features/games/buckle_or_squash_game.dart';
+import '../features/games/what_happens_to_the_loss_game.dart';
 import '../features/games/what_is_missing_game.dart';
 import '../features/games/tap_the_trajectory_game.dart';
 import '../features/games/speeding_up_or_turning_game.dart';
@@ -474,6 +477,9 @@ GoRouter buildRouter(AuthController auth) {
           'how-much-faster' => const HowMuchFasterGame(),
           'where-the-pressure-is' => const WhereThePressureIsGame(),
           'how-fast-the-jet' => const HowFastTheJetGame(),
+          'laminar-or-turbulent' => const LaminarOrTurbulentGame(),
+          'what-happens-to-the-loss' => const WhatHappensToTheLossGame(),
+          'add-up-the-losses' => const AddUpTheLossesGame(),
           _ => const _UnknownGame(),
         },
       ),

@@ -277,6 +277,11 @@ void main() {
       // whole item, as is the jet problem and its head.
       'how-much-faster',
       'how-fast-the-jet',
+      // The Reynolds problem is the only one in the lesson with a flow regime
+      // in it, and reading the number against the thresholds is the item. So
+      // is the fittings problem and its addition.
+      'laminar-or-turbulent',
+      'add-up-the-losses',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }
