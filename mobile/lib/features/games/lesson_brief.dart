@@ -203,6 +203,9 @@ enum BriefFigure {
   bend,
   spin,
   spinInertia,
+  weight,
+  slope,
+  twoEquations,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3130,6 +3133,75 @@ const spinInertiaBrief = BriefSection(
   handbook: 'Handbook pp. 110 and 114 to 115',
 );
 
+const weightBrief = BriefSection(
+  title: 'Kilograms are not newtons',
+  body:
+      'F equals m a wants a FORCE on one side and a MASS on the other, so the '
+      'first job on any dynamics problem is reading which of the two you were '
+      'handed. Kilograms and slugs are mass. Newtons and pounds are force, '
+      'which is to say a weight when gravity is what is causing it. A five '
+      'hundred newton block has a mass of about fifty one kilograms, and using '
+      'the five hundred as a mass makes it nearly ten times heavier than it '
+      'is. Going the other way, a fifty kilogram block weighs four hundred and '
+      'ninety newtons. The conversion is one multiply or one divide by g, '
+      'which is nine point eight one in metric and thirty two point two in US '
+      'units, and the commonest mistake after using the wrong one is doing the '
+      'conversion to something that never needed it.',
+  formulas: [
+    ('Weight from mass', r'W = mg'),
+    ('Mass from weight', r'm = \frac{W}{g}'),
+    ('And', r'g = 9.81\ \mathrm{m/s^2} = 32.2\ \mathrm{ft/s^2}'),
+  ],
+  figure: BriefFigure.weight,
+  handbook: 'Handbook p. 105',
+);
+
+const slopeBrief = BriefSection(
+  title: 'Gravity pulls down, and the slope splits it',
+  body:
+      'Draw the free body diagram first: every problem in this lesson is won '
+      'or lost there. On a slope, the weight still points straight down, and '
+      'because the block cannot go straight down it is worth splitting that '
+      'pull into two pieces along the directions that matter. The piece '
+      'running DOWN THE SURFACE, weight times the SINE of the slope, is the '
+      'only one that accelerates the block. The piece pressing INTO the '
+      'surface, weight times the COSINE, is answered exactly by the surface '
+      'pushing back, so it accelerates nothing, though it is what sets the '
+      'friction available. Swapping the two is the named trap. Note where they '
+      'cross: past forty five degrees the driving piece is the bigger of the '
+      'two, and on a frictionless slope the acceleration is g sine theta '
+      'whatever the block weighs.',
+  formulas: [
+    ('Down the slope', r'W\sin\theta = ma'),
+    ('Into the slope', r'N = W\cos\theta'),
+    ('So', r'a = g\sin\theta \text{, whatever the mass}'),
+  ],
+  figure: BriefFigure.slope,
+  handbook: 'Handbook p. 105',
+);
+
+const twoEquationsBrief = BriefSection(
+  title: 'A rigid body has two equations',
+  body:
+      'Forces move the mass center and moments about that center spin the '
+      'body, and a rigid body problem can need either or both. What decides it '
+      'is what is HOLDING the body and where the force LANDS. An axle through '
+      'the middle stops the body moving off, so only the moment equation is '
+      'left. A force whose line passes through the mass center has no arm '
+      'about it, so it spins nothing and only the force equation is left. A '
+      'free body pushed off center does both at once. And a force is not a '
+      'moment until you multiply it by its distance from the center: dropping '
+      'that step is a named trap, and so is reaching for F equals m a on a '
+      'problem where nothing moves off anywhere.',
+  formulas: [
+    ('Forces', r'\sum F = ma_c'),
+    ('Moments about the center', r'\sum M_c = I_c\alpha'),
+    ('A force becomes a moment by', r'M = F d'),
+  ],
+  figure: BriefFigure.twoEquations,
+  handbook: 'Handbook pp. 105 and 109',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -4282,6 +4354,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.weight:
+        return const _RuleList(
+          rules: [
+            (r"\text{newtons and pounds are FORCE}", true),
+            (r"m = \frac{W}{g} \text{, when given a weight}", true),
+            (r"\text{kilograms can go straight in as a force}", false),
+            (r"\text{convert every number you are given}", false),
+          ],
+        );
+      case BriefFigure.slope:
+        return const _RuleList(
+          rules: [
+            (r"\text{down the slope: } W\sin\theta", true),
+            (r"a = g\sin\theta \text{, whatever the mass}", true),
+            (r"\text{the driving piece is } W\cos\theta", false),
+            (r"\text{gravity pulls along the slope}", false),
+          ],
+        );
+      case BriefFigure.twoEquations:
+        return const _RuleList(
+          rules: [
+            (r"\text{an axle} \Rightarrow \text{moments only}", true),
+            (r"\text{through the center} \Rightarrow \text{no spin}", true),
+            (r"\text{a force can go straight into } \sum M", false),
+            (r"\text{one equation is always enough}", false),
           ],
         );
       case BriefFigure.spin:

@@ -83,6 +83,9 @@ import 'package:mobile/features/games/tap_the_trajectory_game.dart';
 import 'package:mobile/features/games/speeding_up_or_turning_game.dart';
 import 'package:mobile/features/games/same_spin_different_speed_game.dart';
 import 'package:mobile/features/games/harder_to_spin_game.dart';
+import 'package:mobile/features/games/mass_or_weight_game.dart';
+import 'package:mobile/features/games/which_piece_drives_it_game.dart';
+import 'package:mobile/features/games/push_it_or_spin_it_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1253,6 +1256,24 @@ void main() {
           rounds: pairRounds2.length,
           height: 1500,
         ),
+        'mass-or-weight': (
+          lesson: '54-force-accel',
+          build: MassOrWeightGame.new,
+          rounds: unitRounds.length,
+          height: 1600,
+        ),
+        'which-piece-drives-it': (
+          lesson: '54-force-accel',
+          build: WhichPieceDrivesItGame.new,
+          rounds: slopeRounds.length,
+          height: 1400,
+        ),
+        'push-it-or-spin-it': (
+          lesson: '54-force-accel',
+          build: PushItOrSpinItGame.new,
+          rounds: shoveRounds.length,
+          height: 1600,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1527,6 +1548,11 @@ void main() {
     '53-rigid-body': [
       ('spin', spinBrief),
       ('spin-inertia', spinInertiaBrief),
+    ],
+    '54-force-accel': [
+      ('weight', weightBrief),
+      ('slope', slopeBrief),
+      ('two-equations', twoEquationsBrief),
     ],
   };
 

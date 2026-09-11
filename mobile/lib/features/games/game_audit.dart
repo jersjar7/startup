@@ -119,6 +119,10 @@ import 'tap_the_trajectory_game.dart';
 import 'speeding_up_or_turning_game.dart';
 import 'same_spin_different_speed_game.dart';
 import 'harder_to_spin_game.dart';
+import 'kinetics_figures.dart';
+import 'mass_or_weight_game.dart';
+import 'which_piece_drives_it_game.dart';
+import 'push_it_or_spin_it_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -2237,6 +2241,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: ['the left one', 'the right one'],
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'mass-or-weight',
+    lessonId: 'force-and-acceleration',
+    problemPrefix: 'dyn-fa-',
+    rounds: [
+      for (final r in unitRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in Prep.values) p.name],
+          answer: Prep.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-piece-drives-it',
+    lessonId: 'force-and-acceleration',
+    problemPrefix: 'dyn-fa-',
+    rounds: [
+      for (final r in slopeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final a in r.arrows) a.name],
+          answer: r.arrows.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'push-it-or-spin-it',
+    lessonId: 'force-and-acceleration',
+    problemPrefix: 'dyn-fa-',
+    rounds: [
+      for (final r in shoveRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final n in Needs2.values) n.name],
+          answer: Needs2.values.indexOf(r.answer),
         ),
     ],
   ),

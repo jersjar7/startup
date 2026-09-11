@@ -1576,6 +1576,32 @@ const dynamicsMap = ChapterMap(
       id: 'force-and-acceleration',
       name: 'Force & Acceleration',
       subtopicId: 'kinetics-and-energy',
+      games: [
+        GameDef(
+          id: 'mass-or-weight',
+          rounds: 6,
+          name: 'Mass or Weight',
+          blurb: 'Read the units before you write anything down.',
+          built: true,
+          brief: weightBrief,
+        ),
+        GameDef(
+          id: 'which-piece-drives-it',
+          rounds: 6,
+          name: 'Which Piece Drives It',
+          blurb: 'Gravity pulls down. The slope decides what gets through.',
+          built: true,
+          brief: slopeBrief,
+        ),
+        GameDef(
+          id: 'push-it-or-spin-it',
+          rounds: 6,
+          name: 'Push It or Spin It',
+          blurb: 'One force, two equations. Which one does this need?',
+          built: true,
+          brief: twoEquationsBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'work-energy-power',

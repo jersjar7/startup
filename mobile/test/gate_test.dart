@@ -226,6 +226,9 @@ void main() {
       // takes to spin something up, and comparing arrangements is the whole
       // item.
       'harder-to-spin',
+      // The block on the slope is the only problem in the lesson with a free
+      // body worth drawing, and taking the weight apart is the whole item.
+      'which-piece-drives-it',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

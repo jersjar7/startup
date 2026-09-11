@@ -121,6 +121,9 @@ import '../features/games/tap_the_trajectory_game.dart';
 import '../features/games/speeding_up_or_turning_game.dart';
 import '../features/games/same_spin_different_speed_game.dart';
 import '../features/games/harder_to_spin_game.dart';
+import '../features/games/mass_or_weight_game.dart';
+import '../features/games/which_piece_drives_it_game.dart';
+import '../features/games/push_it_or_spin_it_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -384,6 +387,9 @@ GoRouter buildRouter(AuthController auth) {
           'speeding-up-or-turning' => const SpeedingUpOrTurningGame(),
           'same-spin-different-speed' => const SameSpinDifferentSpeedGame(),
           'harder-to-spin' => const HarderToSpinGame(),
+          'mass-or-weight' => const MassOrWeightGame(),
+          'which-piece-drives-it' => const WhichPieceDrivesItGame(),
+          'push-it-or-spin-it' => const PushItOrSpinItGame(),
           _ => const _UnknownGame(),
         },
       ),
