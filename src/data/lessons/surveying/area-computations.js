@@ -26,11 +26,11 @@ export default {
         { id: 'c1', text: '$12 \\text{ sq units}$' },
         { id: 'c2', text: '$24 \\text{ sq units}$' },
         { id: 'c3', text: '$6 \\text{ sq units}$' },
-        { id: 'c4', text: '$18 \\text{ sq units}$' },
+        { id: 'c4', text: '$8 \\text{ sq units}$' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Cross products: (0\u00D70 \u2013 6\u00D70) + (6\u00D74 \u2013 3\u00D70) + (3\u00D70 \u2013 0\u00D74) = 0 + 24 + 0 = 24... wait, let me redo: (x_A \u00D7 y_B \u2013 x_B \u00D7 y_A) + (x_B \u00D7 y_C \u2013 x_C \u00D7 y_B) + (x_C \u00D7 y_A \u2013 x_A \u00D7 y_C) = (0\u00D70 \u2013 6\u00D70) + (6\u00D74 \u2013 3\u00D70) + (3\u00D70 \u2013 0\u00D74) = 0 + 24 + 0 = 24. Area = |24|/2 = 12. You can verify with base \u00D7 height / 2 = 6 \u00D7 4 / 2 = 12. 24 sq units forgets to divide by 2. 6 sq units divides by 4 instead. 18 sq units uses 1.5 \u00D7 sum.',
+      eli5: 'Cross products: (x_A \u00D7 y_B \u2013 x_B \u00D7 y_A) + (x_B \u00D7 y_C \u2013 x_C \u00D7 y_B) + (x_C \u00D7 y_A \u2013 x_A \u00D7 y_C) = (0\u00D70 \u2013 6\u00D70) + (6\u00D74 \u2013 3\u00D70) + (3\u00D70 \u2013 0\u00D74) = 0 + 24 + 0 = 24. Area = |24|/2 = 12. You can verify with base \u00D7 height / 2 = 6 \u00D7 4 / 2 = 12. The 24 forgets to divide by 2. The 6 divides by 4 instead. The 8 treats the triangle as a rectangle of average height: the three y values average 4/3, and 4/3 times the base of 6 is 8.',
       hint: 'Set up the cross products for each adjacent vertex pair, sum them, take the absolute value, and divide by 2.',
       steps: [
         { text: 'List vertices in order and compute cross products:', latex: '\\sum = (0 \\cdot 0 - 6 \\cdot 0) + (6 \\cdot 4 - 3 \\cdot 0) + (3 \\cdot 0 - 0 \\cdot 4)' },
@@ -57,7 +57,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'medium',
-      eli5: 'Cross products: AB: (0)(0) \u2013 (10)(0) = 0. BC: (10)(6) \u2013 (8)(0) = 60. CD: (8)(5) \u2013 (2)(6) = 40 \u2013 12 = 28. DA: (2)(0) \u2013 (0)(5) = 0. Sum = 0 + 60 + 28 + 0 = 88. Area = |88|/2 = 44. The 50 sq units option uses a rough rectangle approximation. The 88 sq units option forgets to divide by 2. The 22 sq units option divides by 4.',
+      eli5: 'Cross products: AB: (0)(0) \u2013 (10)(0) = 0. BC: (10)(6) \u2013 (8)(0) = 60. CD: (8)(5) \u2013 (2)(6) = 40 \u2013 12 = 28. DA: (2)(0) \u2013 (0)(5) = 0. Sum = 0 + 60 + 28 + 0 = 88. Area = |88|/2 = 44. The 50 sq units option skips the method and takes it as a rectangle, 10 wide by 5 tall. The 88 sq units option forgets to divide by 2. The 22 sq units option divides by 4.',
       hint: 'Four vertices means four cross-product pairs. Don\u2019t forget to pair the last vertex back with the first to close the polygon.',
       steps: [
         { text: 'Cross products for each edge:', latex: null },
@@ -83,12 +83,12 @@ export default {
       choices: [
         { id: 'c1', text: '$480 \\text{ m}^2$' },
         { id: 'c2', text: '$600 \\text{ m}^2$' },
-        { id: 'c3', text: '$800 \\text{ m}^2$' },
+        { id: 'c3', text: '$640 \\text{ m}^2$' },
         { id: 'c4', text: '$300 \\text{ m}^2$' },
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Trapezoidal rule: A = w[(h_1 + h_n)/2 + h_2 + h_3 + ... + h_{n-1}] = 20[(0 + 0)/2 + 8 + 12 + 10] = 20[0 + 30] = 600 m\u00B2. The first and last offsets are 0, so their average is 0. The 480 m\u00b2 choice mis-applies w/2 to all terms. The 800 m\u00b2 choice uses Simpson\u2019s coefficients incorrectly. The 300 m\u00b2 choice divides the correct area by 2 again.',
+      eli5: 'Trapezoidal rule: A = w[(h_1 + h_n)/2 + h_2 + h_3 + ... + h_{n-1}] = 20[(0 + 0)/2 + 8 + 12 + 10] = 20[0 + 30] = 600 m\u00B2. The first and last offsets are 0, so their average is 0. The 480 m\u00b2 choice averages ALL five offsets, 6 m, and multiplies by the 80 m baseline, which is the first trap listed below. The 640 m\u00b2 choice is Simpson\u2019s 1/3 rule, which is a fine rule and not the one the question asked for. The 300 m\u00b2 choice divides the correct area by 2 again.',
       hint: 'Average the first and last offsets, add all the middle offsets at full value, then multiply by the interval width.',
       steps: [
         { text: 'Apply trapezoidal rule:', latex: 'A = w\\left(\\frac{h_1 + h_n}{2} + h_2 + h_3 + h_4\\right)' },
