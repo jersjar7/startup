@@ -280,6 +280,9 @@ enum BriefFigure {
   degreeOfCurve,
   tangentOffset,
   highPoint,
+  wetted,
+  manning,
+  unitFactor,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4862,6 +4865,80 @@ const highPointBrief = BriefSection(
   handbook: 'Handbook p. 301',
 );
 
+const wettedBrief = BriefSection(
+  title: 'What the water is rubbing against',
+  body:
+      'Manning\'s equation runs on the hydraulic radius, the flow AREA divided '
+      'by the WETTED PERIMETER, and the perimeter is where the mistakes live. '
+      'It is the length of boundary the water is in contact with, so two '
+      'things are never in it: the free water surface, because the top is open '
+      'to the air and air does not hold water back, and anything above the '
+      'water line, however tall the wall is built. For a rectangle that leaves '
+      'the bed plus TWICE the depth, one wall on each side. For a trapezoid it '
+      'is the bed plus both sides measured ALONG the slope, which is longer '
+      'than the depth. For a pipe running full there is no free surface at '
+      'all, so the whole circle counts. The hydraulic radius is not a radius '
+      'of anything: it is area per unit of rubbing, and more of it means '
+      'faster water.',
+  formulas: [
+    ('Area per unit of rubbing', r'R_H = \frac{A}{P}'),
+    ('A rectangle', r'P = b + 2y'),
+    ('A trapezoid', r'P = b + 2y\sqrt{1 + z^2}'),
+    ('A pipe running full', r'R_H = \frac{D}{4}'),
+  ],
+  figure: BriefFigure.wetted,
+  handbook: 'Handbook p. 297',
+);
+
+const manningBrief = BriefSection(
+  title: 'What actually sets the speed',
+  body:
+      'Manning\'s equation is one line with three things in it that a channel '
+      'can differ by, and they do not pull equally. ROUGHNESS sits underneath, '
+      'so it acts in full: concrete at 0.013 against bare earth at 0.025 is '
+      'nearly twice the velocity, and the ratio is the roughnesses the other '
+      'way up. SLOPE is under a square root, so four times the grade buys only '
+      'twice the speed, which is why steepening a sewer is an expensive way to '
+      'buy capacity. The HYDRAULIC RADIUS is to the two thirds power, and it '
+      'rewards a section that holds a lot of water against not much boundary: '
+      'deep and narrow beats wide and shallow at the same flow area. One '
+      'consequence is worth memorizing. A pipe running half full has the same '
+      'hydraulic radius as the same pipe running full, a quarter of the '
+      'diameter, so it carries half the water at exactly the same velocity.',
+  formulas: [
+    ('The velocity', r'v = \frac{K}{n} R_H^{2/3} S^{1/2}'),
+    ('Roughness, in full', r'\frac{v_1}{v_2} = \frac{n_2}{n_1}'),
+    ('Slope, under a root', r'4S \Rightarrow 2v'),
+    ('Full or half full', r'R_H = \frac{D}{4} \text{ either way}'),
+  ],
+  figure: BriefFigure.manning,
+  handbook: 'Handbook p. 297',
+);
+
+const unitFactorBrief = BriefSection(
+  title: 'The only place the units show up',
+  body:
+      'Manning\'s equation carries a constant in front of it that is nothing '
+      'but a unit conversion. In meters it is 1.0, which is to say there is '
+      'nothing to convert. In feet it is 1.486, and leaving it out makes every '
+      'answer a third too small, which is the trap the lesson names first. '
+      'What decides it is the units the LENGTHS are in, and nothing else: the '
+      'roughness n is dimensionless and is the same number in both systems, '
+      'the slope is a rise over a run and has no units either, and the units '
+      'somebody wants the answer reported in have no bearing at all. Work the '
+      'equation in the units of the drawing and convert the answer once at the '
+      'end. Inches and millimeters are not units the equation takes, so a '
+      'drawing in either gets fixed before anything else happens, and a pipe '
+      'diameter left in inches is the usual way that goes wrong.',
+  formulas: [
+    ('In feet', r'K = 1.486'),
+    ('In meters', r'K = 1.0'),
+    ('Dimensionless, both ways', r'n, \; S'),
+  ],
+  figure: BriefFigure.unitFactor,
+  handbook: 'Handbook p. 297',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6457,6 +6534,33 @@ class BriefFigureView extends StatelessWidget {
             (r"x_m \text{ outside } 0..L \Rightarrow \text{none on the curve}", true),
             (r"x_m \text{ is under the PVI}", false),
             (r"x_m = K", false),
+          ],
+        );
+      case BriefFigure.wetted:
+        return const _RuleList(
+          rules: [
+            (r"P_{rect} = b + 2y", true),
+            (r"\text{a full pipe: } R_H = \tfrac{D}{4}", true),
+            (r"\text{the water surface counts}", false),
+            (r"\text{a full pipe: } R_H = \tfrac{D}{2}", false),
+          ],
+        );
+      case BriefFigure.manning:
+        return const _RuleList(
+          rules: [
+            (r"\text{half } n \Rightarrow \text{double } v", true),
+            (r"4S \Rightarrow 2v", true),
+            (r"\text{a full pipe beats a half full one}", false),
+            (r"4S \Rightarrow 4v", false),
+          ],
+        );
+      case BriefFigure.unitFactor:
+        return const _RuleList(
+          rules: [
+            (r"\text{feet} \Rightarrow K = 1.486", true),
+            (r"n \text{ is the same in both systems}", true),
+            (r"\text{the answer's units pick } K", false),
+            (r"\text{inches go straight in}", false),
           ],
         );
       case BriefFigure.cogo:

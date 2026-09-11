@@ -20,6 +20,10 @@ import 'which_curve_is_sharper_game.dart';
 import 'which_is_longer_game.dart';
 import 'road_or_grade_line_game.dart';
 import 'where_it_flattens_out_game.dart';
+import 'what_the_water_touches_game.dart';
+import 'which_one_runs_faster_game.dart';
+import 'which_number_goes_in_front_game.dart';
+import 'channel_figures.dart';
 import 'alignment_figures.dart';
 import 'where_does_that_pair_land_game.dart';
 import 'what_do_you_add_game.dart';
@@ -3365,6 +3369,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Sits3.values) o.name],
           answer: Sits3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-the-water-touches',
+    lessonId: 'open-channel-flow',
+    problemPrefix: 'wr-ocf-',
+    rounds: [
+      for (final r in touchRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Edge.values) o.name],
+          answer: Edge.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-one-runs-faster',
+    lessonId: 'open-channel-flow',
+    problemPrefix: 'wr-ocf-',
+    rounds: [
+      for (final r in swiftRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Swifter.values) o.name],
+          answer: Swifter.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-number-goes-in-front',
+    lessonId: 'open-channel-flow',
+    problemPrefix: 'wr-ocf-',
+    rounds: [
+      for (final r in kayRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Kay.values) o.name],
+          answer: Kay.values.indexOf(r.answer),
         ),
     ],
   ),

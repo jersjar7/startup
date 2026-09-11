@@ -202,6 +202,9 @@ import '../features/games/which_formula_gives_more_game.dart';
 import '../features/games/which_is_longer_game.dart';
 import '../features/games/road_or_grade_line_game.dart';
 import '../features/games/where_it_flattens_out_game.dart';
+import '../features/games/what_the_water_touches_game.dart';
+import '../features/games/which_one_runs_faster_game.dart';
+import '../features/games/which_number_goes_in_front_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -540,6 +543,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-is-longer' => const WhichIsLongerGame(),
           'road-or-grade-line' => const RoadOrGradeLineGame(),
           'where-it-flattens-out' => const WhereItFlattensOutGame(),
+          'what-the-water-touches' => const WhatTheWaterTouchesGame(),
+          'which-one-runs-faster' => const WhichOneRunsFasterGame(),
+          'which-number-goes-in-front' => const WhichNumberGoesInFrontGame(),
           _ => const _UnknownGame(),
         },
       ),

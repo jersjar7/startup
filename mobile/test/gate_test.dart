@@ -322,6 +322,11 @@ void main() {
       // with a degree of curve in it, and comparing two of them is the
       // whole item.
       'which-curve-is-sharper',
+      // The channel problem is the only one in the open-channel lesson with
+      // a wetted perimeter to get wrong: the pipe runs full and the third
+      // problem is about roughness. Six ways of getting one perimeter wrong
+      // is the item, and it is on purpose.
+      'what-the-water-touches',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

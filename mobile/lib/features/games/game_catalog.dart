@@ -2790,6 +2790,51 @@ const surveyingMap = ChapterMap(
   ],
 );
 
+const waterResourcesMap = ChapterMap(
+  id: 'water-resources',
+  number: 11,
+  name: 'Water Resources & Environmental',
+  examLine: '14 to 21 questions on the real exam',
+  subtopics: [
+    Subtopic('hydraulics', 'Hydraulics'),
+    Subtopic('hydrology-groundwater', 'Hydrology & Groundwater'),
+    Subtopic('water-quality-treatment', 'Water Quality & Treatment'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'open-channel-flow',
+      name: 'Open-Channel Flow & Manning\'s Equation',
+      subtopicId: 'hydraulics',
+      games: [
+        GameDef(
+          id: 'what-the-water-touches',
+          rounds: 6,
+          name: 'What the Water Touches',
+          blurb: 'The surface is open to the air, so it never counts.',
+          built: true,
+          brief: wettedBrief,
+        ),
+        GameDef(
+          id: 'which-one-runs-faster',
+          rounds: 6,
+          name: 'Which One Runs Faster',
+          blurb: 'Change one thing at a time and watch what it buys.',
+          built: true,
+          brief: manningBrief,
+        ),
+        GameDef(
+          id: 'which-number-goes-in-front',
+          rounds: 6,
+          name: 'Which Number Goes In Front',
+          blurb: 'The lengths decide it. Nothing else does.',
+          built: true,
+          brief: unitFactorBrief,
+        ),
+      ],
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
@@ -2801,6 +2846,7 @@ const chapterMaps = <String, ChapterMap>{
   'materials': materialsMap,
   'fluid-mechanics': fluidMechanicsMap,
   'surveying': surveyingMap,
+  'water-resources': waterResourcesMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

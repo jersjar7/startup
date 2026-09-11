@@ -209,6 +209,9 @@ import 'package:mobile/features/games/which_curve_is_sharper_game.dart';
 import 'package:mobile/features/games/which_is_longer_game.dart';
 import 'package:mobile/features/games/road_or_grade_line_game.dart';
 import 'package:mobile/features/games/where_it_flattens_out_game.dart';
+import 'package:mobile/features/games/what_the_water_touches_game.dart';
+import 'package:mobile/features/games/which_one_runs_faster_game.dart';
+import 'package:mobile/features/games/which_number_goes_in_front_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1793,6 +1796,24 @@ void main() {
           rounds: topRounds.length,
           height: 1560,
         ),
+        'what-the-water-touches': (
+          lesson: '84-channel',
+          build: WhatTheWaterTouchesGame.new,
+          rounds: touchRounds.length,
+          height: 1620,
+        ),
+        'which-one-runs-faster': (
+          lesson: '84-channel',
+          build: WhichOneRunsFasterGame.new,
+          rounds: swiftRounds.length,
+          height: 1900,
+        ),
+        'which-number-goes-in-front': (
+          lesson: '84-channel',
+          build: WhichNumberGoesInFrontGame.new,
+          rounds: kayRounds.length,
+          height: 1760,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2210,6 +2231,11 @@ void main() {
     '83-profile': [
       ('tangent', tangentOffsetBrief),
       ('highpoint', highPointBrief),
+    ],
+    '84-channel': [
+      ('wetted', wettedBrief),
+      ('manning', manningBrief),
+      ('kfactor', unitFactorBrief),
     ],
   };
 
