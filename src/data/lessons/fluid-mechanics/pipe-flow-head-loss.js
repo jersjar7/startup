@@ -60,7 +60,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Straight Darcy-Weisbach: h_f = f \u00D7 L/D \u00D7 v\u00B2/(2g) = 0.02 \u00D7 100/0.2 \u00D7 3\u00B2/(2\u00D79.81) = 0.02 \u00D7 500 \u00D7 0.4587 = 10 \u00D7 0.4587 = 4.587 m \u2248 4.59 m. The 9.17 m choice doubles the answer (maybe using L/D = 1000 by error). The 45.9 m choice uses L/D = 5000 (used D = 0.02). The 0.459 m choice uses L/D = 50 (used D = 2).',
+      eli5: 'Straight Darcy-Weisbach: h_f = f \u00D7 L/D \u00D7 v\u00B2/(2g) = 0.02 \u00D7 100/0.2 \u00D7 3\u00B2/(2\u00D79.81) = 0.02 \u00D7 500 \u00D7 0.4587 = 10 \u00D7 0.4587 = 4.587 m \u2248 4.59 m. The 9.17 m choice leaves the 2 out of the velocity head, using $v^2/g$ rather than $v^2/2g$, which doubles it. The 45.9 m choice uses L/D = 5000 (used D = 0.02). The 0.459 m choice uses L/D = 50 (used D = 2).',
       hint: 'Plug directly into Darcy-Weisbach. Watch the units \u2014 L and D must be in the same units.',
       steps: [
         { text: 'Velocity head:', latex: '\\frac{v^2}{2g} = \\frac{3^2}{2 \\times 9.81} = \\frac{9}{19.62} = 0.4587 \\text{ m}' },
@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Total head loss = major (friction) + minor (fittings). Velocity head = v\u00B2/(2g) = 2.5\u00B2/19.62 = 0.3184 m. Sum of minor loss coefficients: 2\u00D70.9 + 10.0 = 11.8. Minor losses = 11.8 \u00D7 0.3184 = 3.757 m. Total = 3.2 + 3.757 = 6.96 m. The 3.76 m option is the minor loss alone, forgetting to add the 3.2 m friction loss. The 3.20 m option ignores minor losses entirely. The 10.16 m option overcounts the fitting coefficients.',
+      eli5: 'Total head loss = major (friction) + minor (fittings). Velocity head = v\u00B2/(2g) = 2.5\u00B2/19.62 = 0.3184 m. Sum of minor loss coefficients: 2\u00D70.9 + 10.0 = 11.8. Minor losses = 11.8 \u00D7 0.3184 = 3.757 m. Total = 3.2 + 3.757 = 6.96 m. The 3.76 m option is the minor loss alone, forgetting to add the 3.2 m friction loss. The 3.20 m option ignores minor losses entirely. The 10.16 m option adds the friction loss twice: the correct 6.96 total, with the 3.2 put in again on top.',
       hint: 'Add up all the minor loss coefficients (\u03A3C), multiply by v\u00B2/(2g), then add the major (friction) head loss.',
       steps: [
         { text: 'Velocity head:', latex: '\\frac{v^2}{2g} = \\frac{2.5^2}{2 \\times 9.81} = \\frac{6.25}{19.62} = 0.3185 \\text{ m}' },
