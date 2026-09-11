@@ -55,12 +55,12 @@ export default {
       choices: [
         { id: 'c1', text: '$1{,}184 \\text{ kN}$' },
         { id: 'c2', text: '$2{,}420 \\text{ kN}$' },
-        { id: 'c3', text: '$4{,}935 \\text{ kN}$' },
-        { id: 'c4', text: '$9{,}870 \\text{ kN}$' },
+        { id: 'c3', text: '$4{,}737 \\text{ kN}$' },
+        { id: 'c4', text: '$296 \\text{ kN}$' },
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'The key step is identifying K = 0.7 for fixed-pinned (one end can\'t rotate, the other can). Then KL = 3,500 mm instead of 5,000 mm \u2014 the fixed end effectively shortens the column. The 1,184 kN option comes from using K = 1.0 (pinned-pinned \u2014 ignoring the fixity). The 4,935 kN option comes from using K \u2248 0.5 (fixed-fixed \u2014 both ends fixed, not just one). The 9,870 kN option comes from another K error or arithmetic mistake. Always read the end conditions carefully.',
+      eli5: 'The key step is identifying K = 0.7 for fixed-pinned (one end can\'t rotate, the other can). Then KL = 3,500 mm instead of 5,000 mm \u2014 the fixed end effectively shortens the column. The 1,184 kN option comes from using K = 1.0 (pinned-pinned \u2014 ignoring the fixity). The 4,737 kN option comes from using K = 0.5 (fixed-fixed \u2014 both ends fixed, not just one). The 296 kN option comes from using K = 2.0 (fixed-free), which is the cantilever case and does not apply here either. Always read the end conditions carefully: every wrong answer on this list is the right formula with the wrong K.',
       hint: 'One end is fixed and one is pinned. What K value does that correspond to?',
       steps: [
         { text: 'Effective length factor: $K = 0.7$ (fixed-pinned)', latex: null },
@@ -72,7 +72,8 @@ export default {
       videoUrl: null,
       traps: [
         'Using K = 1.0 (pinned-pinned) instead of K = 0.7 \u2014 underestimates capacity (choice A)',
-        'Using K = 0.5 (fixed-fixed) instead of K = 0.7 \u2014 the other end is pinned, not fixed (choice C)',
+        'Using K = 0.5 (fixed-fixed) instead of K = 0.7 \u2014 the other end is pinned, not fixed, and this overstates the capacity (choice C)',
+        'Using K = 2.0 (fixed-free) \u2014 that is a column with nothing holding its top, and it gives 296 kN (choice D)',
         'Forgetting to square KL in the denominator',
       ],
       diagram: { component: 'ColumnSupports', props: { length: 5, topCondition: 'pin', bottomCondition: 'fixed' } },

@@ -50,11 +50,8 @@ void main() {
       double withK(double k) =>
           math.pi * math.pi * 200000 * 15e6 / math.pow(k * 5000, 2) / 1000;
       expect(withK(1), closeTo(1184, 1));
-      // The second does not. The lesson says its 4,935 choice comes from
-      // using K = 0.5 on this column; that gives 4,737. And its fourth
-      // choice, 9,870, is the fixed-fixed answer to the PREVIOUS problem,
-      // which has a different length and a different I. Recorded here rather
-      // than guessed at again later.
+      // And so do the other two, now that they are the fixed-fixed and the
+      // cantilever values for THIS column.
       expect(withK(0.5), closeTo(4737, 2));
       expect(withK(2), closeTo(296, 1));
     });
