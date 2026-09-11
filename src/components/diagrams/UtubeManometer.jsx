@@ -68,10 +68,11 @@ export function UtubeManometer({
     hgLeftY = pipeRefY - h1 * scale;
     hgRightY = pipeRefY - h2 * scale;
   } else {
-    // Simple mode: left (air) side is HIGHER, right (atm) side is LOWER
+    // Simple mode: the air pressure pushes the mercury DOWN on its own side
+    // and up the open one, so the atmospheric (right) side stands higher.
     const midLevel = bendInnerY - 30;
-    hgRightY = midLevel;
-    hgLeftY = midLevel - h * scale;
+    hgLeftY = midLevel;
+    hgRightY = midLevel - h * scale;
   }
 
   // ── Pipe stub (dual mode) ──
