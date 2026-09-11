@@ -10,6 +10,10 @@ import 'which_target_takes_more_game.dart';
 import 'which_area_goes_in_game.dart';
 import 'which_one_to_match_game.dart';
 import 'find_it_on_the_plan_game.dart';
+import 'higher_or_lower_game.dart';
+import 'what_is_that_point_game.dart';
+import 'which_run_is_allowed_more_game.dart';
+import 'level_figures.dart';
 import 'which_rule_turns_it_game.dart';
 import 'which_length_is_which_game.dart';
 import 'survey_figures.dart';
@@ -3093,6 +3097,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Side3.values) o.name],
           answer: Side3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'higher-or-lower',
+    lessonId: 'leveling',
+    problemPrefix: 'surv-lev-',
+    rounds: [
+      for (final r in sightRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Perch.values) o.name],
+          answer: Perch.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-is-that-point',
+    lessonId: 'leveling',
+    problemPrefix: 'surv-lev-',
+    rounds: [
+      for (final r in runRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Peg.values) o.name],
+          answer: Peg.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-run-is-allowed-more',
+    lessonId: 'leveling',
+    problemPrefix: 'surv-lev-',
+    rounds: [
+      for (final r in slackRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Roomier.values) o.name],
+          answer: Roomier.values.indexOf(r.answer),
         ),
     ],
   ),

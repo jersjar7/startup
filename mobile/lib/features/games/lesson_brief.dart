@@ -261,6 +261,9 @@ enum BriefFigure {
   bearing,
   azimuth,
   shot,
+  sightLine,
+  runRoles,
+  closure,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4409,6 +4412,74 @@ const shotBrief = BriefSection(
   handbook: 'Handbook p. 309',
 );
 
+const sightBrief = BriefSection(
+  title: 'One level plane over the whole setup',
+  body:
+      'A level\'s line of sight is dead horizontal, so over one setup it is a '
+      'single flat plane hanging above the ground, and a rod reading is '
+      'nothing more than how far the ground at that rod sits below it. Two '
+      'things follow and both are worth more than the formula. The BIGGER '
+      'reading is the LOWER point, which catches most sign errors before '
+      'they happen. And two equal readings mean two points at the same '
+      'elevation, which is how a level checks a slab or a row of bases with '
+      'no arithmetic at all. The height of instrument is just where that '
+      'plane sits: add the backsight to the elevation you know, then take '
+      'the foresight off it to get the one you want.',
+  formulas: [
+    ('Up to the plane', r'HI = \text{Elev} + BS'),
+    ('Back down from it', r'\text{Elev} = HI - FS'),
+    ('The check', r'\text{bigger reading} \Rightarrow \text{lower ground}'),
+  ],
+  figure: BriefFigure.sightLine,
+  handbook: 'Handbook p. 309',
+);
+
+const runBrief = BriefSection(
+  title: 'Three kinds of point in a run',
+  body:
+      'Count the instruments that can see the rod and the bookkeeping tells '
+      'itself. One instrument, at the start: a backsight, taken on the only '
+      'elevation you already know, and added. One instrument, at the end: a '
+      'foresight, taken on the point you want, and subtracted. Two '
+      'instruments: a turning point, read forward from the old setup to fix '
+      'its elevation and then back from the new one to fix the new height of '
+      'instrument. That second reading is the part people drop, and dropping '
+      'it means carrying the old height of instrument forward, which is the '
+      'lesson\'s own trap and its 252.67. A run has exactly one backsight '
+      'point at the start, exactly one foresight point at the end, and a '
+      'turning point everywhere the level moved.',
+  formulas: [
+    ('Start', r'BS \text{ on a known point, added}'),
+    ('End', r'FS \text{ on the wanted point, subtracted}'),
+    ('Between', r'\text{turning point: FS then BS}'),
+  ],
+  figure: BriefFigure.runRoles,
+  handbook: 'Handbook p. 309',
+);
+
+const closureBrief = BriefSection(
+  title: 'What a loop may be out by',
+  body:
+      'Run a loop back to the benchmark it started from and the elevation '
+      'you compute will not be the elevation you started with. The gap is '
+      'the misclosure, and whether it is acceptable depends on two things: '
+      'the class of work, which sets the constant, and the length of the '
+      'run, which enters under a square root. That root is the part worth '
+      'remembering. Four times the distance is only twice the allowance, '
+      'because errors in a long run cancel as often as they pile up. Below a '
+      'mile it works the other way and tightens the allowance instead. A '
+      'tight constant on a long run can allow less than a loose one on a '
+      'short run, so work out both sides before deciding. If the misclosure '
+      'is bigger than the allowance, the run is done again.',
+  formulas: [
+    ('The gap', r'\text{misclosure} = \text{computed} - \text{known}'),
+    ('What is allowed', r'C\sqrt{M}'),
+    ('So', r'4M \Rightarrow 2\times \text{ the allowance}'),
+  ],
+  figure: BriefFigure.closure,
+  handbook: 'Handbook p. 309',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5968,6 +6039,33 @@ class BriefFigureView extends StatelessWidget {
             (r"2L \Rightarrow 2 h_f", true),
             (r"2v \Rightarrow 2 h_f", false),
             (r"f_{Fanning} \text{ goes in as is}", false),
+          ],
+        );
+      case BriefFigure.sightLine:
+        return const _RuleList(
+          rules: [
+            (r"\text{the bigger reading is the lower point}", true),
+            (r"HI = \text{Elev} + BS", true),
+            (r"\text{the bigger reading is the higher point}", false),
+            (r"\text{the instrument must be above both}", false),
+          ],
+        );
+      case BriefFigure.runRoles:
+        return const _RuleList(
+          rules: [
+            (r"\text{a turning point is read twice}", true),
+            (r"\text{one backsight point, at the start}", true),
+            (r"\text{one } HI \text{ serves the whole run}", false),
+            (r"\text{a turning point is a foresight only}", false),
+          ],
+        );
+      case BriefFigure.closure:
+        return const _RuleList(
+          rules: [
+            (r"4M \Rightarrow 2 \times \text{ allowance}", true),
+            (r"\text{tighter work} \Rightarrow \text{smaller } C", true),
+            (r"4M \Rightarrow 4 \times \text{ allowance}", false),
+            (r"\text{longer always means more room}", false),
           ],
         );
       case BriefFigure.bearing:

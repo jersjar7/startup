@@ -60,6 +60,7 @@ import '../features/games/grounds_or_not_game.dart';
 import '../features/games/happens_first_game.dart';
 import '../features/games/harder_or_easier_game.dart';
 import '../features/games/harder_to_spin_game.dart';
+import '../features/games/higher_or_lower_game.dart';
 import '../features/games/how_do_they_sit_game.dart';
 import '../features/games/how_far_has_it_yielded_game.dart';
 import '../features/games/how_fast_the_jet_game.dart';
@@ -144,6 +145,7 @@ import '../features/games/what_goes_under_game.dart';
 import '../features/games/what_happens_to_the_loss_game.dart';
 import '../features/games/what_is_missing_game.dart';
 import '../features/games/what_is_missing_yet_game.dart';
+import '../features/games/what_is_that_point_game.dart';
 import '../features/games/what_is_the_saving_game.dart';
 import '../features/games/what_it_triggers_game.dart';
 import '../features/games/what_shows_game.dart';
@@ -208,6 +210,7 @@ import '../features/games/which_ratio_game.dart';
 import '../features/games/which_readout_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_rule_turns_it_game.dart';
+import '../features/games/which_run_is_allowed_more_game.dart';
 import '../features/games/which_second_moment_game.dart';
 import '../features/games/which_section_game.dart';
 import '../features/games/which_side_is_tight_game.dart';
@@ -500,6 +503,9 @@ GoRouter buildRouter(AuthController auth) {
           'find-it-on-the-plan' => const FindItOnThePlanGame(),
           'which-rule-turns-it' => const WhichRuleTurnsItGame(),
           'which-length-is-which' => const WhichLengthIsWhichGame(),
+          'higher-or-lower' => const HigherOrLowerGame(),
+          'what-is-that-point' => const WhatIsThatPointGame(),
+          'which-run-is-allowed-more' => const WhichRunIsAllowedMoreGame(),
           _ => const _UnknownGame(),
         },
       ),

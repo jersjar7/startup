@@ -7,6 +7,10 @@ import 'package:mobile/features/games/survey_figures.dart';
 import 'package:mobile/features/games/find_it_on_the_plan_game.dart';
 import 'package:mobile/features/games/which_rule_turns_it_game.dart';
 import 'package:mobile/features/games/which_length_is_which_game.dart';
+import 'package:mobile/features/games/level_figures.dart';
+import 'package:mobile/features/games/higher_or_lower_game.dart';
+import 'package:mobile/features/games/what_is_that_point_game.dart';
+import 'package:mobile/features/games/which_run_is_allowed_more_game.dart';
 
 /// Chapter ten. Every engine here is held against the lesson's own answers
 /// and against the wrong ones it names.
@@ -195,6 +199,183 @@ void main() {
           }
         }
       }
+    });
+  });
+
+  group('leveling reproduces the lesson', () {
+    test('one setup: HI 101.52 and point A at 99.17', () {
+      const run = Level(
+        marks: [Stake(name: 'BM', elevation: 100), Stake(name: 'A', elevation: 99.17)],
+        clearances: [1.52],
+      );
+      expect(run.sightAt(0), closeTo(101.52, 0.001));
+      expect(run.readingAt(0, 0), closeTo(1.52, 0.001));
+      expect(run.readingAt(0, 1), closeTo(2.35, 0.001));
+      // Its named slips: the two readings swapped, both added, both taken
+      // off.
+      expect(100 - 1.52 + 2.35, closeTo(100.83, 0.001));
+      expect(100 + 1.52 + 2.35, closeTo(103.87, 0.001));
+      expect(100 - 1.52 - 2.35, closeTo(96.13, 0.001));
+    });
+
+    test('two setups: TP-1 at 251.44 and B at 254.70', () {
+      const run = Level(
+        marks: [
+          Stake(name: 'BM-1', elevation: 250),
+          Stake(name: 'TP-1', elevation: 251.44),
+          Stake(name: 'B', elevation: 254.7),
+        ],
+        clearances: [3.18, 1.95],
+      );
+      expect(run.setups, 2);
+      expect(run.sightAt(0), closeTo(254.62, 0.001));
+      expect(run.readingAt(0, 0), closeTo(4.62, 0.001));
+      expect(run.readingAt(0, 1), closeTo(3.18, 0.001));
+      // Its named slip, now that it is a choice: the first height of
+      // instrument carried into the second setup.
+      expect(254.62 - 1.95, closeTo(252.67, 0.001));
+    });
+
+    test('the loop closure and its two named slips', () {
+      const loop = Loop(miles: 4, constant: 0.05);
+      expect(loop.allowable, closeTo(0.10, 0.0001));
+      expect((499.97 - 500).abs(), closeTo(0.03, 0.0001));
+      expect(0.05 / math.sqrt(4), closeTo(0.025, 0.0001));
+      expect(0.05 * 4, closeTo(0.20, 0.0001));
+    });
+  });
+
+  group('reading a pair of rods', () {
+    test('the bigger reading is always the lower point', () {
+      for (final r in sightRounds) {
+        final first = r.level.readingAt(0, 0);
+        final last = r.level.readingAt(0, 1);
+        if (r.answer == Perch.lower) {
+          expect(last, greaterThan(first), reason: r.subject);
+        } else if (r.answer == Perch.higher) {
+          expect(last, lessThan(first), reason: r.subject);
+        } else {
+          expect(last, closeTo(first, 0.001), reason: r.subject);
+        }
+      }
+    });
+
+    test('every round says the readings its drawing shows', () {
+      for (final r in sightRounds) {
+        for (final i in [0, 1]) {
+          final shown = r.level.readingAt(0, i).toStringAsFixed(2);
+          expect(r.setting.contains(shown), isTrue,
+              reason: '${r.subject} wants $shown');
+        }
+      }
+    });
+
+    test('all three answers turn up', () {
+      expect(sightRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('the ground is never drawn before the answer is in', () {
+      // The painter takes showGround, and the item passes `answered`. If a
+      // round could be read off the drawing it would not be a question.
+      for (final r in sightRounds) {
+        expect(r.level.marks.length, 2, reason: r.subject);
+      }
+    });
+  });
+
+  group('what each point is in the book', () {
+    test('first is a backsight, last a foresight, the rest turning points',
+        () {
+      for (final r in runRounds) {
+        final n = r.level.marks.length;
+        if (r.asking == 0) {
+          expect(r.answer, Peg.back, reason: r.subject);
+        } else if (r.asking == n - 1) {
+          expect(r.answer, Peg.fore, reason: r.subject);
+        } else {
+          expect(r.answer, Peg.turning, reason: r.subject);
+        }
+      }
+    });
+
+    test('a turning point is read from two setups and the ends from one', () {
+      const run = Level(
+        marks: [
+          Stake(name: 'BM', elevation: 60),
+          Stake(name: 'TP-1', elevation: 61.8),
+          Stake(name: 'P', elevation: 62.4),
+        ],
+      );
+      expect(run.setups, 2);
+      expect(run.roleOf(0), Peg.back);
+      expect(run.roleOf(1), Peg.turning);
+      expect(run.roleOf(2), Peg.fore);
+    });
+
+    test('all three answers turn up, and turning points twice', () {
+      final answers = runRounds.map((r) => r.answer).toList();
+      expect(answers.toSet().length, 3);
+      expect(answers.where((a) => a == Peg.turning).length,
+          greaterThanOrEqualTo(2));
+    });
+
+    test('the runs are drawn inside the panel and spread across it', () {
+      const size = Size(286, 220);
+      for (final r in runRounds) {
+        for (var i = 0; i < r.level.marks.length; i++) {
+          final at = LevelPainter.spotOf(size, r.level, i);
+          expect(at.dx, inInclusiveRange(10, size.width - 10),
+              reason: r.subject);
+          expect(at.dy, inInclusiveRange(10, size.height - 10),
+              reason: r.subject);
+        }
+        // The sight line has to clear the rods it reads.
+        for (var s = 0; s < r.level.setups; s++) {
+          expect(r.level.readingAt(s, s), greaterThan(0), reason: r.subject);
+          expect(r.level.readingAt(s, s + 1), greaterThan(0),
+              reason: r.subject);
+        }
+      }
+    });
+  });
+
+  group('what a loop is allowed to be out by', () {
+    test('four times the distance is twice the allowance', () {
+      const short = Loop(miles: 1, constant: 0.05);
+      const long = Loop(miles: 4, constant: 0.05);
+      expect(long.allowable / short.allowable, closeTo(2, 1e-9));
+    });
+
+    test('under a mile the root tightens it instead', () {
+      expect(const Loop(miles: 0.25, constant: 0.05).allowable,
+          closeTo(0.025, 1e-9));
+    });
+
+    test('a longer run can still be allowed less', () {
+      final shortLoose = const Loop(miles: 1, constant: 0.05).allowable;
+      final longTight = const Loop(miles: 4, constant: 0.024).allowable;
+      expect(shortLoose, greaterThan(longTight));
+      // And the round that says so is in the item.
+      expect(
+          slackRounds.any((r) =>
+              r.answer == Roomier.left && r.right.miles > r.left.miles),
+          isTrue);
+    });
+
+    test('every round answers with the bigger allowance', () {
+      for (final r in slackRounds) {
+        if (r.answer == Roomier.left) {
+          expect(r.left.allowable, greaterThan(r.right.allowable),
+              reason: r.subject);
+        } else if (r.answer == Roomier.right) {
+          expect(r.right.allowable, greaterThan(r.left.allowable),
+              reason: r.subject);
+        } else {
+          expect(r.left.allowable, closeTo(r.right.allowable, 1e-9),
+              reason: r.subject);
+        }
+      }
+      expect(slackRounds.map((r) => r.answer).toSet().length, 3);
     });
   });
 }

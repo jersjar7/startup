@@ -197,6 +197,9 @@ import 'package:mobile/features/games/which_target_takes_more_game.dart';
 import 'package:mobile/features/games/which_area_goes_in_game.dart';
 import 'package:mobile/features/games/which_one_to_match_game.dart';
 import 'package:mobile/features/games/find_it_on_the_plan_game.dart';
+import 'package:mobile/features/games/higher_or_lower_game.dart';
+import 'package:mobile/features/games/what_is_that_point_game.dart';
+import 'package:mobile/features/games/which_run_is_allowed_more_game.dart';
 import 'package:mobile/features/games/which_rule_turns_it_game.dart';
 import 'package:mobile/features/games/which_length_is_which_game.dart';
 import 'package:mobile/features/games/does_the_model_run_faster_game.dart';
@@ -1653,6 +1656,24 @@ void main() {
           rounds: shotRounds.length,
           height: 1520,
         ),
+        'higher-or-lower': (
+          lesson: '77-leveling',
+          build: HigherOrLowerGame.new,
+          rounds: sightRounds.length,
+          height: 1660,
+        ),
+        'what-is-that-point': (
+          lesson: '77-leveling',
+          build: WhatIsThatPointGame.new,
+          rounds: runRounds.length,
+          height: 1600,
+        ),
+        'which-run-is-allowed-more': (
+          lesson: '77-leveling',
+          build: WhichRunIsAllowedMoreGame.new,
+          rounds: slackRounds.length,
+          height: 1580,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2037,6 +2058,11 @@ void main() {
       ('bearing', bearingBrief),
       ('azimuth', azimuthBrief),
       ('shot', shotBrief),
+    ],
+    '77-leveling': [
+      ('sight', sightBrief),
+      ('run', runBrief),
+      ('closure', closureBrief),
     ],
   };
 

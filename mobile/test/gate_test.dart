@@ -296,6 +296,11 @@ void main() {
       'find-it-on-the-plan',
       'which-rule-turns-it',
       'which-length-is-which',
+      // The leveling lesson's first problem is one setup and its third is
+      // the loop closure, so reading a pair of rods and reading a tolerance
+      // each lean on the one problem that has them.
+      'higher-or-lower',
+      'which-run-is-allowed-more',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

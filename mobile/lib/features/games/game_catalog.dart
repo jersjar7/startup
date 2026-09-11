@@ -2565,6 +2565,37 @@ const surveyingMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'leveling',
+      name: 'Differential Leveling',
+      subtopicId: 'measurement-leveling',
+      games: [
+        GameDef(
+          id: 'higher-or-lower',
+          rounds: 6,
+          name: 'Higher or Lower',
+          blurb: 'The bigger reading is the lower point. Always.',
+          built: true,
+          brief: sightBrief,
+        ),
+        GameDef(
+          id: 'what-is-that-point',
+          rounds: 6,
+          name: 'What Is That Point',
+          blurb: 'Count the instruments that can see the rod.',
+          built: true,
+          brief: runBrief,
+        ),
+        GameDef(
+          id: 'which-run-is-allowed-more',
+          rounds: 6,
+          name: 'Which Run Is Allowed More',
+          blurb: 'Four times the distance buys twice the room.',
+          built: true,
+          brief: closureBrief,
+        ),
+      ],
+    ),
   ],
 );
 
