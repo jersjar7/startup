@@ -103,6 +103,9 @@ import 'diagram_figures.dart' show Loading;
 import 'which_line_in_the_table_game.dart';
 import 'fix_the_bounce_game.dart';
 import 'add_it_up_game.dart';
+import 'widen_the_stiff_one_game.dart';
+import 'same_strain_game.dart';
+import 'how_far_has_it_yielded_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -2022,6 +2025,45 @@ List<GameAudit> auditAllGames() => [
             'no split needed',
           ],
           answer: r.answer == -1 ? r.pairs.length : r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'widen-the-stiff-one',
+    lessonId: 'transformed-sections-plastic',
+    problemPrefix: 'mom-tsp-',
+    rounds: [
+      for (final r in transformRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final d in r.options) d.name],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'same-strain',
+    lessonId: 'transformed-sections-plastic',
+    problemPrefix: 'mom-tsp-',
+    rounds: [
+      for (final r in joinRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final a in Across.values) a.name],
+          answer: Across.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-far-has-it-yielded',
+    lessonId: 'transformed-sections-plastic',
+    problemPrefix: 'mom-tsp-',
+    rounds: [
+      for (final r in yieldRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final s in r.options) s.name],
+          answer: r.answer,
         ),
     ],
   ),

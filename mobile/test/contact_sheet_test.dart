@@ -69,6 +69,9 @@ import 'package:mobile/features/games/which_one_gets_worse_game.dart';
 import 'package:mobile/features/games/which_line_in_the_table_game.dart';
 import 'package:mobile/features/games/fix_the_bounce_game.dart';
 import 'package:mobile/features/games/add_it_up_game.dart';
+import 'package:mobile/features/games/widen_the_stiff_one_game.dart';
+import 'package:mobile/features/games/same_strain_game.dart';
+import 'package:mobile/features/games/how_far_has_it_yielded_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1155,6 +1158,24 @@ void main() {
           rounds: splitRounds.length,
           height: 1600,
         ),
+        'widen-the-stiff-one': (
+          lesson: '49-transformed',
+          build: WidenTheStiffOneGame.new,
+          rounds: transformRounds.length,
+          height: 1600,
+        ),
+        'same-strain': (
+          lesson: '49-transformed',
+          build: SameStrainGame.new,
+          rounds: joinRounds.length,
+          height: 1550,
+        ),
+        'how-far-has-it-yielded': (
+          lesson: '49-transformed',
+          build: HowFarHasItYieldedGame.new,
+          rounds: yieldRounds.length,
+          height: 1400,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1405,6 +1426,11 @@ void main() {
       ('table-line', tableBrief2),
       ('bounce', bounceBrief),
       ('add-up', addBrief),
+    ],
+    '49-transformed': [
+      ('transform', transformBrief),
+      ('join', joinBrief),
+      ('plastic', plasticBrief),
     ],
   };
 

@@ -1710,6 +1710,32 @@ const mechanicsMaterialsMap = ChapterMap(
       id: 'transformed-sections-plastic',
       name: 'Transformed Sections & Plastic Moment',
       subtopicId: 'beams',
+      games: [
+        GameDef(
+          id: 'widen-the-stiff-one',
+          rounds: 6,
+          name: 'Widen the Stiff One',
+          blurb: 'Two materials, one section. Tap the transformed one.',
+          built: true,
+          brief: transformBrief,
+        ),
+        GameDef(
+          id: 'same-strain',
+          rounds: 6,
+          name: 'Same Strain, Different Stress',
+          blurb: 'At the join, which one is carrying more?',
+          built: true,
+          brief: joinBrief,
+        ),
+        GameDef(
+          id: 'how-far-has-it-yielded',
+          rounds: 6,
+          name: 'How Far Has It Yielded',
+          blurb: 'Four stages from elastic to fully plastic. Tap the block.',
+          built: true,
+          brief: plasticBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'combined-stresses-mohrs-circle',

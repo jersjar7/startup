@@ -201,6 +201,12 @@ void main() {
       // The hollow-shaft problem is the only one in the lesson with a wall in
       // it, and which area the thin-walled formula wants is the whole item.
       'which-area-twists-it',
+      // The transformed section problem is the only one in the lesson about
+      // what the two materials feel, and the join is the whole item.
+      'same-strain',
+      // The plastic moment problem is the only one in the lesson about
+      // yielding, and how far it has spread is the whole item.
+      'how-far-has-it-yielded',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

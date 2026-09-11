@@ -189,6 +189,9 @@ enum BriefFigure {
   tableLine,
   bounce,
   addUp,
+  transform,
+  join,
+  plastic,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2783,6 +2786,74 @@ const addBrief = BriefSection(
   handbook: 'Handbook pp. 140 to 141',
 );
 
+const transformBrief = BriefSection(
+  title: 'Write it as one material',
+  body:
+      'Two materials bonded together bend as one thing, and the trick is to '
+      'rewrite the section as though it were all made of the SOFTER one. The '
+      'stiffer material gets n times WIDER, where n is its modulus divided by '
+      'the softer modulus, because that is how much of the soft stuff it '
+      'would take to do the same job. Three things that must not happen: the '
+      'widening never goes to the softer material, it is never a division, and '
+      'it is never a change of DEPTH. Depth is how far material sits from the '
+      'axis and that is what bending is about, so moving it would be a '
+      'different beam. Once transformed, everything from the bending lesson '
+      'works unchanged: find the centroid, find I, use M y over I.',
+  formulas: [
+    ('Modular ratio', r'n = \frac{E_{stiff}}{E_{soft}} > 1'),
+    ('Transform by', r'b_{new} = n\,b_{stiff}'),
+    ('Never', r'\text{a depth, and never the soft one}'),
+  ],
+  figure: BriefFigure.transform,
+  handbook: 'Handbook p. 136',
+);
+
+const joinBrief = BriefSection(
+  title: 'Strain is shared, stress is not',
+  body:
+      'Two materials glued together cannot stretch by different amounts where '
+      'they meet, so the STRAIN is the same on both sides of the join. Their '
+      'stiffnesses are not the same, and stress is stiffness times strain, so '
+      'the STRESS jumps across that line by exactly the modular ratio. That is '
+      'the whole of the extra n in the formula: the transformed section hands '
+      'you the stress the SOFT material would feel, and the stiff material at '
+      'the same height feels n times it. It also explains something worth '
+      'carrying into design: the stiffer material attracts load whether or not '
+      'you meant it to.',
+  formulas: [
+    ('Across the join', r'\varepsilon_1 = \varepsilon_2'),
+    ('So', r'\sigma = E\varepsilon \Rightarrow \sigma_1 = n\,\sigma_2'),
+    ('In the transformed section', r'\sigma_1 = \frac{nMy}{I_T}'),
+    ('And', r'\sigma_2 = \frac{My}{I_T}'),
+  ],
+  figure: BriefFigure.join,
+  handbook: 'Handbook p. 136',
+);
+
+const plasticBrief = BriefSection(
+  title: 'First yield is not the end of the beam',
+  body:
+      'Load a ductile section and the stress through its depth goes through '
+      'four pictures. A straight line while everything is elastic. A straight '
+      'line just touching yield at the two faces, which is the YIELD moment, '
+      'F y times the elastic S. Then yielding eats inward from both faces '
+      'while an elastic core holds on in the middle, with the moment still '
+      'climbing. Finally it goes square, yielded right through, and that is '
+      'the PLASTIC moment, F y times Z. Z is the plastic section modulus and '
+      'it is bigger than S; using S for the plastic moment is this lesson\'s '
+      'named trap. The ratio between them, the shape factor, is about one and '
+      'a half for a rectangle and only about one and a tenth for a wide '
+      'flange, which already has most of its material at the faces.',
+  formulas: [
+    ('First yield', r'M_y = F_y S'),
+    ('Fully plastic', r'M_p = F_y Z'),
+    ('Shape factor', r'\frac{Z}{S} \approx 1.5 \text{ rectangle}'),
+    ('And', r'\frac{Z}{S} \approx 1.1 \text{ wide flange}'),
+  ],
+  figure: BriefFigure.plastic,
+  handbook: 'Handbook pp. 136 and 281',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -3935,6 +4006,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.transform:
+        return const _RuleList(
+          rules: [
+            (r"\text{widen the STIFFER material by } n", true),
+            (r"\text{every depth stays exactly where it was}", true),
+            (r"\text{widen the softer one instead}", false),
+            (r"\text{divide the stiff width by } n", false),
+          ],
+        );
+      case BriefFigure.join:
+        return const _RuleList(
+          rules: [
+            (r"\varepsilon \text{ is equal across the join}", true),
+            (r"\sigma_{stiff} = n\,\sigma_{soft}", true),
+            (r"\sigma \text{ is equal across the join}", false),
+            (r"\text{the softer material takes more}", false),
+          ],
+        );
+      case BriefFigure.plastic:
+        return const _RuleList(
+          rules: [
+            (r"M_p = F_y Z \text{, the square block}", true),
+            (r"Z > S \text{, so } M_p > M_y", true),
+            (r"M_p = F_y S", false),
+            (r"\text{the section is finished at first yield}", false),
           ],
         );
       case BriefFigure.tableLine:

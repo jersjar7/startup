@@ -107,6 +107,9 @@ import '../features/games/which_one_gets_worse_game.dart';
 import '../features/games/which_line_in_the_table_game.dart';
 import '../features/games/fix_the_bounce_game.dart';
 import '../features/games/add_it_up_game.dart';
+import '../features/games/widen_the_stiff_one_game.dart';
+import '../features/games/same_strain_game.dart';
+import '../features/games/how_far_has_it_yielded_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -356,6 +359,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-line-in-the-table' => const WhichLineInTheTableGame(),
           'fix-the-bounce' => const FixTheBounceGame(),
           'add-it-up' => const AddItUpGame(),
+          'widen-the-stiff-one' => const WidenTheStiffOneGame(),
+          'same-strain' => const SameStrainGame(),
+          'how-far-has-it-yielded' => const HowFarHasItYieldedGame(),
           _ => const _UnknownGame(),
         },
       ),
