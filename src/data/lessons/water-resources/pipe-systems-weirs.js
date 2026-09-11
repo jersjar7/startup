@@ -82,12 +82,12 @@ export default {
       choices: [
         { id: 'c1', text: '$2.25$' },
         { id: 'c2', text: '$1.50$' },
-        { id: 'c3', text: '$1.22$' },
+        { id: 'c3', text: '$1.29$' },
         { id: 'c4', text: '$0.67$' },
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Since Q = k\u2081 C A R_H^0.63 S^0.54, and everything except C is the same, Q_A/Q_B = C_A/C_B = 150/100 = 1.50. The newer, smoother pipe carries 50% more flow. The $2.25$ option squares the ratio (1.5\u00B2 = 2.25). The $1.22$ option takes the 0.63 power of the ratio. The $0.67$ option inverts it.',
+      eli5: 'Since Q = k\u2081 C A R_H^0.63 S^0.54, and everything except C is the same, Q_A/Q_B = C_A/C_B = 150/100 = 1.50. The newer, smoother pipe carries 50% more flow. The $2.25$ option squares the ratio (1.5\u00B2 = 2.25). The $1.29$ option takes the 0.63 power of the ratio, which is the power that belongs to the hydraulic radius rather than to C. The $0.67$ option inverts it.',
       hint: 'With identical pipe geometry and gradient, flow is directly proportional to C.',
       steps: [
         { text: 'Since all parameters except $C$ are identical:', latex: '\\frac{Q_A}{Q_B} = \\frac{C_A}{C_B}' },
