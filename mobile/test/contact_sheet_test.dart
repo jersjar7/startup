@@ -179,12 +179,15 @@ import 'package:mobile/features/games/how_it_settles_game.dart';
 import 'package:mobile/features/games/when_it_runs_away_game.dart';
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/edge_or_inside_game.dart';
+import 'package:mobile/features/games/above_the_point_game.dart';
 import 'package:mobile/features/games/coarse_or_fine_game.dart';
+import 'package:mobile/features/games/does_it_go_up_game.dart';
 import 'package:mobile/features/games/something_is_wrong_game.dart';
 import 'package:mobile/features/games/tap_the_voids_game.dart';
 import 'package:mobile/features/games/does_it_make_the_number_game.dart';
 import 'package:mobile/features/games/out_of_the_furnace_game.dart';
 import 'package:mobile/features/games/times_or_divided_game.dart';
+import 'package:mobile/features/games/which_mortar_game.dart';
 import 'package:mobile/features/games/which_weighing_game.dart';
 import 'package:mobile/features/games/stronger_or_weaker_game.dart';
 import 'package:mobile/features/games/what_this_job_needs_game.dart';
@@ -1436,6 +1439,24 @@ void main() {
           rounds: reportRounds.length,
           height: 1450,
         ),
+        'above-the-point': (
+          lesson: '65-wood',
+          build: AboveThePointGame.new,
+          rounds: moistureRounds.length,
+          height: 1600,
+        ),
+        'which-mortar': (
+          lesson: '65-wood',
+          build: WhichMortarGame.new,
+          rounds: mortarRounds.length,
+          height: 1350,
+        ),
+        'does-it-go-up': (
+          lesson: '65-wood',
+          build: DoesItGoUpGame.new,
+          rounds: ndsRounds.length,
+          height: 1500,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1765,6 +1786,11 @@ void main() {
     '64-asphalt': [
       ('voids', voidsBrief),
       ('check', checkBrief),
+    ],
+    '65-wood': [
+      ('moisture', moistureBrief),
+      ('mortar', mortarBrief),
+      ('factor', factorBrief),
     ],
   };
 

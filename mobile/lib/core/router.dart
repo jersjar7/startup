@@ -20,6 +20,7 @@ import '../features/games/can_you_seal_it_game.dart';
 import '../features/games/coarse_or_fine_game.dart';
 import '../features/games/copy_it_down_game.dart';
 import '../features/games/discriminant_gate_game.dart';
+import '../features/games/does_it_go_up_game.dart';
 import '../features/games/does_it_hold_game.dart';
 import '../features/games/does_it_make_the_number_game.dart';
 import '../features/games/do_they_agree_game.dart';
@@ -102,6 +103,7 @@ import '../features/games/match_the_dollars_game.dart';
 import '../features/games/what_the_support_gives_game.dart';
 import '../features/games/where_it_all_acts_game.dart';
 import '../features/games/above_or_below_game.dart';
+import '../features/games/above_the_point_game.dart';
 import '../features/games/does_it_build_stress_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/stress_or_twist_game.dart';
@@ -173,6 +175,7 @@ import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_cracks_first_game.dart';
 import '../features/games/which_arm_game.dart';
 import '../features/games/which_law_game.dart';
+import '../features/games/which_mortar_game.dart';
 import '../features/games/which_weighing_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_section_game.dart';
@@ -438,6 +441,9 @@ GoRouter buildRouter(AuthController auth) {
           'coarse-or-fine' => const CoarseOrFineGame(),
           'tap-the-voids' => const TapTheVoidsGame(),
           'something-is-wrong' => const SomethingIsWrongGame(),
+          'above-the-point' => const AboveThePointGame(),
+          'which-mortar' => const WhichMortarGame(),
+          'does-it-go-up' => const DoesItGoUpGame(),
           _ => const _UnknownGame(),
         },
       ),

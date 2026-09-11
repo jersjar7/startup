@@ -251,6 +251,12 @@ void main() {
       // The sieve problem is the only one in the lesson about gradation, and
       // what its one number means is the whole item.
       'coarse-or-fine',
+      // Chapter eight lesson eight has three problems and they ARE its three
+      // topics: what moisture does to timber, the mortar order, and which way
+      // the adjustment factors push. One item each, by construction.
+      'above-the-point',
+      'which-mortar',
+      'does-it-go-up',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

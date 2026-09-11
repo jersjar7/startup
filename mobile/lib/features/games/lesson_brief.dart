@@ -230,6 +230,9 @@ enum BriefFigure {
   grading,
   voids,
   check,
+  moisture,
+  mortar,
+  factor,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3693,6 +3696,70 @@ const checkBrief = BriefSection(
   handbook: 'Handbook p. 124',
 );
 
+const moistureBrief = BriefSection(
+  title: 'One threshold in wood',
+  body:
+      'Moisture content in timber is the water divided by the OVEN DRY weight '
+      'of the wood, never by the wet weight, which is why green timber can '
+      'read well over a hundred percent: there can be more water than wood. '
+      'The number matters against one threshold, the fiber saturation point '
+      'at about thirty percent. Above it the cell walls are already full and '
+      'the extra water sits loose in the cavities, so it can come and go and '
+      'the timber is no stronger or weaker for it. Below it the water is in '
+      'the walls themselves: drying shrinks the wood and stiffens and '
+      'strengthens it, and wetting swells and softens it again.',
+  formulas: [
+    ('Moisture content', r'MC = \frac{W_{wet} - W_{OD}}{W_{OD}} \times 100'),
+    ('The threshold', r'FSP \approx 30\%'),
+    ('Below it', r'\text{drier} \Rightarrow \text{smaller and stronger}'),
+  ],
+  figure: BriefFigure.moisture,
+  handbook: 'Handbook p. 129',
+);
+
+const mortarBrief = BriefSection(
+  title: 'M, S, N, O',
+  body:
+      'Four mortar types, strongest to weakest, in an order that follows '
+      'nothing you could work out: M, S, N, O. They are the every-other '
+      'letters of MaSoN wOrK, which is the only reason anybody remembers '
+      'them. Strength is not the whole story and the strongest is not the '
+      'best: high strength mortars are stiffer to work with and less '
+      'forgiving of movement, and a joint harder than the brick around it '
+      'puts the cracking into the brick, which costs far more to put right. '
+      'M goes below grade, S where there is lateral load or soil contact, N '
+      'is general purpose above grade, and O is for soft old masonry indoors.',
+  formulas: [
+    ('Strongest to weakest', r'M > S > N > O'),
+    ('The phrase', r'\text{MaSoN wOrK}'),
+    ('And', r'\text{strength} \downarrow \Rightarrow \text{workability} \uparrow'),
+  ],
+  figure: BriefFigure.mortar,
+  handbook: 'Handbook p. 130',
+);
+
+const factorBrief = BriefSection(
+  title: 'The factors and their directions',
+  body:
+      'A wood design value is a published reference number multiplied by a '
+      'string of adjustment factors, and what the exam asks is which way each '
+      'one pushes. Nearly all of them are penalties: wet service, sustained '
+      'heat, and size all take capacity away. The load duration factor is the '
+      'exception, and the one to know cold. Wood carries MORE the more '
+      'briefly it is loaded, so the ladder runs from 0.9 for a permanent load '
+      'through 1.0 for normal occupancy, which is the case the reference '
+      'values were quoted for, up to 1.25 for a week and 1.6 for wind or '
+      'seismic. Shorter is always higher, which is the direction people get '
+      'backwards.',
+  formulas: [
+    ('The chain', r'F\prime = F \times C_D \times C_M \times C_t \times \dots'),
+    ('Wind or seismic', r'C_D = 1.6'),
+    ('Permanent load', r'C_D = 0.9'),
+  ],
+  figure: BriefFigure.factor,
+  handbook: 'Handbook p. 129',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5072,6 +5139,33 @@ class BriefFigureView extends StatelessWidget {
             (r"VMA > V_a \text{ always}", true),
             (r"VFA \text{ may pass } 100\%", false),
             (r"VMA \approx 86\% \text{ is normal}", false),
+          ],
+        );
+      case BriefFigure.moisture:
+        return const _RuleList(
+          rules: [
+            (r"MC \text{ divides by the DRY weight}", true),
+            (r"MC > 100\% \text{ is possible}", true),
+            (r"\text{drying above } 30\% \text{ shrinks it}", false),
+            (r"\text{wetter wood is stronger}", false),
+          ],
+        );
+      case BriefFigure.mortar:
+        return const _RuleList(
+          rules: [
+            (r"M > S > N > O", true),
+            (r"\text{the weakest works the easiest}", true),
+            (r"\text{the strongest is always the best}", false),
+            (r"\text{the order runs } M < S < N < O", false),
+          ],
+        );
+      case BriefFigure.factor:
+        return const _RuleList(
+          rules: [
+            (r"\text{wind: } C_D = 1.6", true),
+            (r"\text{wet service: } C_M < 1", true),
+            (r"\text{permanent load: } C_D > 1", false),
+            (r"C_D = 1 \text{ for every load}", false),
           ],
         );
       case BriefFigure.damping:

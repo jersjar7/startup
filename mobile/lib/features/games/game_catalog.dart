@@ -2187,6 +2187,37 @@ const materialsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'wood-masonry',
+      name: 'Wood & Masonry',
+      subtopicId: 'construction-materials',
+      games: [
+        GameDef(
+          id: 'above-the-point',
+          rounds: 6,
+          name: 'Above the Point',
+          blurb: 'Thirty percent decides whether drying changes anything.',
+          built: true,
+          brief: moistureBrief,
+        ),
+        GameDef(
+          id: 'which-mortar',
+          rounds: 6,
+          name: 'Which Mortar',
+          blurb: 'Four letters in an order you cannot work out. Learn it.',
+          built: true,
+          brief: mortarBrief,
+        ),
+        GameDef(
+          id: 'does-it-go-up',
+          rounds: 6,
+          name: 'Does It Go Up',
+          blurb: 'Wood carries more the more briefly you ask it to.',
+          built: true,
+          brief: factorBrief,
+        ),
+      ],
+    ),
   ],
 );
 

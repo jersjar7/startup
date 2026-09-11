@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/before_or_during_game.dart';
+import 'package:mobile/features/games/above_the_point_game.dart';
 import 'package:mobile/features/games/aggregate_figures.dart';
+import 'package:mobile/features/games/does_it_go_up_game.dart';
+import 'package:mobile/features/games/which_mortar_game.dart';
+import 'package:mobile/features/games/wood_figures.dart';
 import 'package:mobile/features/games/asphalt_figures.dart';
 import 'package:mobile/features/games/something_is_wrong_game.dart';
 import 'package:mobile/features/games/tap_the_voids_game.dart';
@@ -1042,6 +1046,122 @@ void main() {
 
     test('all three problems are drawn on', () {
       expect(reportRounds.map((r) => r.source).toSet().length, 3);
+    });
+  });
+
+  group('wood moisture reproduces the lesson', () {
+    test('64 wet and 50 dry is 28 percent', () {
+      expect((64 - 50) / 50 * 100, closeTo(28, 0.01));
+      // Its named slips: over the wet weight, the wet over the dry with no
+      // subtraction, and the raw water mass.
+      expect((64 - 50) / 64 * 100, closeTo(21.9, 0.05));
+      expect(64 / 50 * 100, closeTo(128, 0.01));
+      expect(64 - 50, 14);
+    });
+
+    test('only the stretch below the saturation point counts', () {
+      expect(const Drying(from: 95, to: 45).belowMoved, 0);
+      expect(const Drying(from: 25, to: 10).belowMoved, closeTo(15, 1e-9));
+      expect(const Drying(from: 70, to: 12).belowMoved, closeTo(18, 1e-9));
+      expect(const Drying(from: 8, to: 22).belowMoved, closeTo(14, 1e-9));
+      expect(const Drying(from: 40, to: 80).belowMoved, 0);
+    });
+
+    test('the answer follows from the move, never from a label', () {
+      for (final r in moistureRounds) {
+        switch (r.answer) {
+          case Wets.nothing:
+            expect(r.move.touchesWood, isFalse, reason: r.subject);
+          case Wets.shrinks:
+            expect(r.move.touchesWood && r.move.drying, isTrue,
+                reason: r.subject);
+          case Wets.swells:
+            expect(r.move.touchesWood && !r.move.drying, isTrue,
+                reason: r.subject);
+        }
+      }
+    });
+
+    test('all three answers are used', () {
+      expect(moistureRounds.map((r) => r.answer).toSet(), Wets.values.toSet());
+    });
+
+    test('every move is drawn inside the scale', () {
+      const size = Size(340, 210);
+      final box = DryingPainter.plot(size);
+      for (final r in moistureRounds) {
+        for (final mc in [r.move.from, r.move.to]) {
+          final x = DryingPainter.xOf(size, mc);
+          expect(x, greaterThanOrEqualTo(box.left), reason: r.subject);
+          expect(x, lessThanOrEqualTo(box.right), reason: r.subject);
+        }
+        // And the two ends are far enough apart to read as a move.
+        expect(
+            (DryingPainter.xOf(size, r.move.from) -
+                    DryingPainter.xOf(size, r.move.to))
+                .abs(),
+            greaterThan(10),
+            reason: '${r.subject}: the arrow is too short to see');
+      }
+    });
+  });
+
+  group('the mortar order is the one the lesson gives', () {
+    test('M is strongest and O is weakest', () {
+      expect(Mortar.values.first, Mortar.m);
+      expect(Mortar.values.last, Mortar.o);
+      expect(Mortar.m.rank, lessThan(Mortar.s.rank));
+      expect(Mortar.s.rank, lessThan(Mortar.n.rank));
+      expect(Mortar.n.rank, lessThan(Mortar.o.rank));
+    });
+
+    test('every type is the answer to something', () {
+      expect(mortarRounds.map((r) => r.answer).toSet(), Mortar.values.toSet());
+    });
+
+    test('every round is asked from the one problem in the lesson', () {
+      for (final r in mortarRounds) {
+        expect(r.source, 'mat-wm-q2', reason: r.subject);
+      }
+    });
+  });
+
+  group('the adjustment factors push the way the code says', () {
+    test('the duration ladder runs shorter is higher', () {
+      final wind = ndsRounds.firstWhere((r) => r.subject.contains('gust'));
+      final dead = ndsRounds.firstWhere((r) => r.subject.contains('weight of'));
+      final normal = ndsRounds.firstWhere((r) => r.subject.contains('ten year'));
+      expect(wind.value, '1.6');
+      expect(wind.answer, Moves2.up);
+      expect(dead.value, '0.9');
+      expect(dead.answer, Moves2.down);
+      expect(normal.value, '1.0');
+      expect(normal.answer, Moves2.flat);
+    });
+
+    test('a factor quoted above one goes up and below one goes down', () {
+      for (final r in ndsRounds) {
+        final quoted = double.tryParse(r.value);
+        if (quoted == null) {
+          // The ones given in words are all penalties.
+          expect(r.answer, Moves2.down, reason: r.subject);
+          continue;
+        }
+        final expected = quoted > 1
+            ? Moves2.up
+            : quoted < 1
+                ? Moves2.down
+                : Moves2.flat;
+        expect(r.answer, expected, reason: r.subject);
+      }
+    });
+
+    test('all three directions come up', () {
+      expect(ndsRounds.map((r) => r.answer).toSet(), Moves2.values.toSet());
+    });
+
+    test('more than one factor is asked about', () {
+      expect(ndsRounds.map((r) => r.factor).toSet().length, greaterThan(2));
     });
   });
 }

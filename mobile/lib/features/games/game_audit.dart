@@ -1,3 +1,4 @@
+import 'above_the_point_game.dart';
 import 'acute_or_obtuse_game.dart';
 import 'balance_both_sides_game.dart';
 import 'before_or_during_game.dart';
@@ -12,6 +13,7 @@ import 'can_you_seal_it_game.dart';
 import 'coarse_or_fine_game.dart';
 import 'copy_it_down_game.dart';
 import 'discriminant_gate_game.dart';
+import 'does_it_go_up_game.dart';
 import 'does_it_hold_game.dart';
 import 'does_it_make_the_number_game.dart';
 import 'do_they_agree_game.dart';
@@ -88,6 +90,8 @@ import 'where_it_balances_game.dart';
 import 'which_cracks_first_game.dart';
 import 'which_arm_game.dart';
 import 'which_law_game.dart';
+import 'which_mortar_game.dart';
+import 'wood_figures.dart';
 import 'which_weighing_game.dart';
 import 'which_region_game.dart';
 import 'which_section_game.dart';
@@ -2632,6 +2636,46 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final line in r.lines) '${line.$1} ${line.$2}'],
           answer: r.answer,
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'above-the-point',
+    lessonId: 'wood-masonry',
+    problemPrefix: 'mat-wm-',
+    rounds: [
+      for (final r in moistureRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final w in Wets.values) w.name],
+          answer: Wets.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-mortar',
+    lessonId: 'wood-masonry',
+    problemPrefix: 'mat-wm-',
+    rounds: [
+      for (final r in mortarRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final m in Mortar.values) m.name],
+          answer: Mortar.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-it-go-up',
+    lessonId: 'wood-masonry',
+    problemPrefix: 'mat-wm-',
+    rounds: [
+      for (final r in ndsRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in Moves2.values) p.name],
+          answer: Moves2.values.indexOf(r.answer),
         ),
     ],
   ),
