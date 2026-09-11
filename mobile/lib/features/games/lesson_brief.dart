@@ -267,6 +267,9 @@ enum BriefFigure {
   latDep,
   compass,
   precision,
+  shoelace,
+  weights,
+  method,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4552,6 +4555,72 @@ const precisionBrief = BriefSection(
   handbook: 'Handbook p. 309',
 );
 
+const methodBrief = BriefSection(
+  title: 'Which of the three methods',
+  body:
+      'The ground decides. Straight sides between corners you have '
+      'coordinates for: the coordinate method, and it is EXACT, however '
+      'irregular the figure and however many sides it has. A boundary that '
+      'wanders, a creek or a wetland edge: run a baseline and measure '
+      'offsets off it at a constant interval, and then the count of offsets '
+      'decides which rule. Simpson fits a parabola across every PAIR of '
+      'intervals, so it needs an even number of intervals, which is an odd '
+      'number of offsets. Odd count, use Simpson and get a better answer on '
+      'a curve. Even count, Simpson does not apply at all and the '
+      'trapezoidal rule is what is left.',
+  formulas: [
+    ('Corners', r'A = \tfrac{1}{2}\left|\sum (x_i y_{i+1} - x_{i+1} y_i)\right|'),
+    ('Odd offsets', r'\text{Simpson: } \tfrac{w}{3}(1,4,2,\dots,1)'),
+    ('Even offsets', r'\text{trapezoidal}'),
+  ],
+  figure: BriefFigure.method,
+  handbook: 'Handbook p. 310',
+);
+
+const weightsBrief = BriefSection(
+  title: 'The weights are the rule',
+  body:
+      'Both offset rules have the same shape: multiply every offset by '
+      'something, add them up, multiply by the interval. The list of '
+      'somethings is the only difference. The trapezoidal rule halves the '
+      'two ENDS and takes everything between them whole, because a middle '
+      'offset is shared by the strip on each side of it while an end offset '
+      'belongs to one strip. Simpson takes the ends once and then alternates '
+      'four and two: the middle of each parabola carries it, and the offsets '
+      'where one parabola hands over to the next are counted for both. One, '
+      'four, two, four, one. If the pattern does not end on a one with a '
+      'four before it, something has been miscounted.',
+  formulas: [
+    ('Trapezoidal', r'\tfrac{1}{2}, 1, 1, \dots, \tfrac{1}{2}'),
+    ('Simpson', r'1, 4, 2, 4, \dots, 1'),
+    ('Then', r'\times w, \text{ and } \div 3 \text{ for Simpson}'),
+  ],
+  figure: BriefFigure.weights,
+  handbook: 'Handbook p. 310',
+);
+
+const shoelaceBrief = BriefSection(
+  title: 'The formula does not check the listing',
+  body:
+      'Area by coordinates is exact, and that is what makes it dangerous: it '
+      'returns a tidy number for any list of coordinates handed to it, '
+      'including lists that are not the parcel. Two things go wrong and '
+      'neither shows in the arithmetic. Corners listed out of order draw a '
+      'bowtie, and the sum comes back as the difference between two loops '
+      'rather than the area of anything. A corner left out draws a smaller '
+      'figure that closes perfectly well and gives an area that is simply '
+      'too small. Walking the boundary backwards is fine: the sum turns '
+      'negative and the absolute value is there for exactly that. Plot the '
+      'listing before trusting it.',
+  formulas: [
+    ('Round the boundary', r'A = \tfrac{1}{2}\left|\sum (x_i y_{i+1} - x_{i+1} y_i)\right|'),
+    ('Close it', r'\text{last corner pairs back to the first}'),
+    ('Either direction', r'\text{the absolute value covers it}'),
+  ],
+  figure: BriefFigure.shoelace,
+  handbook: 'Handbook p. 310',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6111,6 +6180,34 @@ class BriefFigureView extends StatelessWidget {
             (r"2L \Rightarrow 2 h_f", true),
             (r"2v \Rightarrow 2 h_f", false),
             (r"f_{Fanning} \text{ goes in as is}", false),
+          ],
+        );
+      case BriefFigure.method:
+        return const _RuleList(
+          rules: [
+            (r"\text{straight sides, corners known} \Rightarrow \text{exact}",
+                true),
+            (r"\text{odd offsets} \Rightarrow \text{Simpson fits}", true),
+            (r"\text{even offsets} \Rightarrow \text{Simpson fits}", false),
+            (r"\text{a curved boundary} \Rightarrow \text{coordinates}", false),
+          ],
+        );
+      case BriefFigure.weights:
+        return const _RuleList(
+          rules: [
+            (r"\text{trapezoidal: the two ends halved}", true),
+            (r"\text{Simpson: } 1, 4, 2, 4, 1", true),
+            (r"\text{trapezoidal: every offset halved}", false),
+            (r"\text{Simpson: the ends halved}", false),
+          ],
+        );
+      case BriefFigure.shoelace:
+        return const _RuleList(
+          rules: [
+            (r"\text{backwards is fine}", true),
+            (r"\text{the last corner pairs back to the first}", true),
+            (r"\text{a crossed listing gives the area}", false),
+            (r"\text{a corner left out will not close}", false),
           ],
         );
       case BriefFigure.latDep:

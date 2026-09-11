@@ -306,6 +306,11 @@ void main() {
       'plus-or-minus',
       'which-course-takes-the-most',
       'which-traverse-closed-better',
+      // The offsets problem is the only one in the area lesson with a
+      // baseline in it, and the weights are the whole of the two rules. The
+      // quadrilateral is the only one with enough corners to list wrongly.
+      'what-weight-does-it-get',
+      'does-the-listing-close',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

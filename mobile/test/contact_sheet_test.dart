@@ -199,6 +199,9 @@ import 'package:mobile/features/games/which_one_to_match_game.dart';
 import 'package:mobile/features/games/find_it_on_the_plan_game.dart';
 import 'package:mobile/features/games/higher_or_lower_game.dart';
 import 'package:mobile/features/games/plus_or_minus_game.dart';
+import 'package:mobile/features/games/which_method_fits_game.dart';
+import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
+import 'package:mobile/features/games/does_the_listing_close_game.dart';
 import 'package:mobile/features/games/which_course_takes_the_most_game.dart';
 import 'package:mobile/features/games/which_traverse_closed_better_game.dart';
 import 'package:mobile/features/games/what_is_that_point_game.dart';
@@ -1695,6 +1698,24 @@ void main() {
           rounds: closedRounds.length,
           height: 1620,
         ),
+        'which-method-fits': (
+          lesson: '79-area',
+          build: WhichMethodFitsGame.new,
+          rounds: areaMethodRounds.length,
+          height: 1680,
+        ),
+        'what-weight-does-it-get': (
+          lesson: '79-area',
+          build: WhatWeightDoesItGetGame.new,
+          rounds: offsetWeightRounds.length,
+          height: 1700,
+        ),
+        'does-the-listing-close': (
+          lesson: '79-area',
+          build: DoesTheListingCloseGame.new,
+          rounds: listingRounds.length,
+          height: 1660,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2089,6 +2110,11 @@ void main() {
       ('latdep', latDepBrief),
       ('compass', compassBrief),
       ('precision', precisionBrief),
+    ],
+    '79-area': [
+      ('method', methodBrief),
+      ('weights', weightsBrief),
+      ('shoelace', shoelaceBrief),
     ],
   };
 

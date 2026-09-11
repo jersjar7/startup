@@ -2630,6 +2630,37 @@ const surveyingMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'area-computations',
+      name: 'Area Computations',
+      subtopicId: 'area-volume-traverse',
+      games: [
+        GameDef(
+          id: 'which-method-fits',
+          rounds: 6,
+          name: 'Which Method Fits the Ground',
+          blurb: 'Corners or offsets, and then the count decides.',
+          built: true,
+          brief: methodBrief,
+        ),
+        GameDef(
+          id: 'what-weight-does-it-get',
+          rounds: 6,
+          name: 'What Weight Does It Get',
+          blurb: 'One, four, two, four, one. The weights are the rule.',
+          built: true,
+          brief: weightsBrief,
+        ),
+        GameDef(
+          id: 'does-the-listing-close',
+          rounds: 6,
+          name: 'Does the Listing Close',
+          blurb: 'A bowtie gives a tidy number for nothing on the ground.',
+          built: true,
+          brief: shoelaceBrief,
+        ),
+      ],
+    ),
   ],
 );
 

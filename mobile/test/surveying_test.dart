@@ -15,6 +15,10 @@ import 'package:mobile/features/games/traverse_figures.dart';
 import 'package:mobile/features/games/plus_or_minus_game.dart';
 import 'package:mobile/features/games/which_course_takes_the_most_game.dart';
 import 'package:mobile/features/games/which_traverse_closed_better_game.dart';
+import 'package:mobile/features/games/area_figures.dart';
+import 'package:mobile/features/games/which_method_fits_game.dart';
+import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
+import 'package:mobile/features/games/does_the_listing_close_game.dart';
 
 /// Chapter ten. Every engine here is held against the lesson's own answers
 /// and against the wrong ones it names.
@@ -541,6 +545,162 @@ void main() {
               (r.answer == Better.right && r.right.closure > r.left.closure) ||
               (r.answer == Better.left && r.left.closure > r.right.closure)),
           isTrue);
+    });
+  });
+
+  group('the area lesson reproduces its own answers', () {
+    test('the triangle is 12 and the quadrilateral is 44', () {
+      const tri = Parcel(corners: [
+        Corner2('A', 0, 0),
+        Corner2('B', 6, 0),
+        Corner2('C', 3, 4),
+      ]);
+      expect(tri.sumFor([0, 1, 2]), 24);
+      expect(tri.area, 12);
+      const quad = Parcel(corners: [
+        Corner2('A', 0, 0),
+        Corner2('B', 10, 0),
+        Corner2('C', 8, 6),
+        Corner2('D', 2, 5),
+      ]);
+      expect(quad.sumFor([0, 1, 2, 3]), 88);
+      expect(quad.area, 44);
+      // Its named slips: the halving forgotten, and a quarter taken.
+      expect(88 / 1, 88);
+      expect(88 / 4, 22);
+    });
+
+    test('walking the boundary backwards is the same parcel', () {
+      const quad = Parcel(corners: [
+        Corner2('A', 0, 0),
+        Corner2('B', 10, 0),
+        Corner2('C', 8, 6),
+        Corner2('D', 2, 5),
+      ]);
+      expect(quad.sumFor([0, 3, 2, 1]), -88);
+      expect(quad.walksTheBoundary([0, 3, 2, 1]), isTrue);
+      // And a swapped pair is a bowtie, which the formula never notices.
+      expect(quad.walksTheBoundary([0, 1, 3, 2]), isFalse);
+      expect(quad.sumFor([0, 1, 3, 2]).abs() / 2, isNot(44));
+    });
+
+    test('the offsets give 600 by trapezoid and 640 by Simpson', () {
+      const strip = Strip(offsets: [0, 8, 12, 10, 0], step: 20);
+      expect(strip.byTrapezoid, closeTo(600, 0.01));
+      expect(strip.bySimpson, closeTo(640, 0.01));
+      expect(strip.simpsonFits, isTrue);
+      expect(strip.baseline, 80);
+      // Its named slips: every offset averaged, and the answer halved again.
+      expect(30 / 5 * 80, closeTo(480, 0.01));
+      expect(600 / 2, 300);
+    });
+  });
+
+  group('which method the ground asks for', () {
+    test('corners mean coordinates and offsets mean one of the two rules',
+        () {
+      for (final r in areaMethodRounds) {
+        if (r.parcel != null) {
+          expect(r.answer, Way3.coordinates, reason: r.subject);
+          expect(r.strip, isNull, reason: r.subject);
+        } else {
+          expect(r.answer,
+              r.strip!.simpsonFits ? Way3.simpson : Way3.trapezoid,
+              reason: r.subject);
+        }
+      }
+    });
+
+    test('Simpson needs an odd count of offsets and nothing else', () {
+      expect(const Strip(offsets: [0, 5, 0], step: 10).simpsonFits, isTrue);
+      expect(
+          const Strip(offsets: [0, 5, 6, 0], step: 10).simpsonFits, isFalse);
+      expect(const Strip(offsets: [0, 5, 6, 7, 0], step: 10).simpsonFits,
+          isTrue);
+      expect(const Strip(offsets: [0, 5, 6, 0], step: 10).bySimpson.isNaN,
+          isTrue);
+    });
+
+    test('all three methods are asked for', () {
+      expect(areaMethodRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('one pair of rounds differs only in the count', () {
+      final offsetRounds =
+          areaMethodRounds.where((r) => r.strip != null).toList();
+      expect(offsetRounds.length, greaterThanOrEqualTo(2));
+      expect(offsetRounds.map((r) => r.answer).toSet().length, 2);
+    });
+  });
+
+  group('the weights are the rule', () {
+    test('the trapezoidal rule halves the ends and takes the rest whole', () {
+      const strip = Strip(offsets: [0, 8, 12, 10, 0], step: 20);
+      expect(strip.trapezoidWeight(0), 0.5);
+      expect(strip.trapezoidWeight(4), 0.5);
+      for (final i in [1, 2, 3]) {
+        expect(strip.trapezoidWeight(i), 1);
+      }
+    });
+
+    test('Simpson runs one, four, two, four, one', () {
+      const strip = Strip(offsets: [2, 7, 13, 15, 12, 6, 3], step: 10);
+      expect([for (var i = 0; i < 7; i++) strip.simpsonWeight(i)],
+          [1, 4, 2, 4, 2, 4, 1]);
+    });
+
+    test('every round answers with the weight its rule gives', () {
+      for (final r in offsetWeightRounds) {
+        final w = r.rule == Way3.simpson
+            ? r.strip.simpsonWeight(r.at)
+            : r.strip.trapezoidWeight(r.at);
+        expect(r.answer.value, w, reason: r.subject);
+      }
+      expect(offsetWeightRounds.map((r) => r.answer).toSet().length, 4);
+    });
+
+    test('both rules get rounds, and Simpson is only asked where it fits',
+        () {
+      expect(offsetWeightRounds.map((r) => r.rule).toSet().length, 2);
+      for (final r in offsetWeightRounds) {
+        if (r.rule == Way3.simpson) {
+          expect(r.strip.simpsonFits, isTrue, reason: r.subject);
+        }
+      }
+    });
+  });
+
+  group('whether a listing is the parcel', () {
+    test('a crossed listing and a short one are both caught', () {
+      for (final r in listingRounds) {
+        if (r.answer == Listed.missing) {
+          expect(r.order.length, lessThan(r.parcel.corners.length),
+              reason: r.subject);
+        } else if (r.answer == Listed.crosses) {
+          expect(r.parcel.walksTheBoundary(r.order), isFalse,
+              reason: r.subject);
+        } else {
+          expect(r.order.length, r.parcel.corners.length, reason: r.subject);
+          expect(r.parcel.walksTheBoundary(r.order), isTrue,
+              reason: r.subject);
+        }
+      }
+    });
+
+    test('all three verdicts turn up, and one good listing runs backwards',
+        () {
+      expect(listingRounds.map((r) => r.answer).toSet().length, 3);
+      final good = listingRounds.where((r) => r.answer == Listed.boundary);
+      expect(good.any((r) => r.parcel.sumFor(r.order) < 0), isTrue);
+      expect(good.any((r) => r.parcel.sumFor(r.order) > 0), isTrue);
+    });
+
+    test('a bowtie really does give a different number', () {
+      for (final r in listingRounds.where((r) => r.answer == Listed.crosses)) {
+        expect(r.parcel.sumFor(r.order).abs() / 2,
+            isNot(closeTo(r.parcel.area, 0.001)),
+            reason: r.subject);
+      }
     });
   });
 }

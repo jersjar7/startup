@@ -37,6 +37,7 @@ import '../features/games/does_it_go_up_game.dart';
 import '../features/games/does_it_hold_game.dart';
 import '../features/games/does_it_make_the_number_game.dart';
 import '../features/games/does_it_multiply_game.dart';
+import '../features/games/does_the_listing_close_game.dart';
 import '../features/games/does_the_mass_matter_game.dart';
 import '../features/games/does_the_model_run_faster_game.dart';
 import '../features/games/edge_or_inside_game.dart';
@@ -154,6 +155,7 @@ import '../features/games/what_survives_the_crash_game.dart';
 import '../features/games/what_the_support_gives_game.dart';
 import '../features/games/what_this_job_needs_game.dart';
 import '../features/games/what_was_asked_game.dart';
+import '../features/games/what_weight_does_it_get_game.dart';
 import '../features/games/what_weights_game.dart';
 import '../features/games/whats_missing_game.dart';
 import '../features/games/when_does_it_land_game.dart';
@@ -195,6 +197,7 @@ import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
 import '../features/games/which_line_in_the_table_game.dart';
+import '../features/games/which_method_fits_game.dart';
 import '../features/games/which_method_game.dart';
 import '../features/games/which_mortar_game.dart';
 import '../features/games/which_one_do_you_build_game.dart';
@@ -512,6 +515,9 @@ GoRouter buildRouter(AuthController auth) {
           'plus-or-minus' => const PlusOrMinusGame(),
           'which-course-takes-the-most' => const WhichCourseTakesTheMostGame(),
           'which-traverse-closed-better' => const WhichTraverseClosedBetterGame(),
+          'which-method-fits' => const WhichMethodFitsGame(),
+          'what-weight-does-it-get' => const WhatWeightDoesItGetGame(),
+          'does-the-listing-close' => const DoesTheListingCloseGame(),
           _ => const _UnknownGame(),
         },
       ),

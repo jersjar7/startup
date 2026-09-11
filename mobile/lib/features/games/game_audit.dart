@@ -12,6 +12,10 @@ import 'which_one_to_match_game.dart';
 import 'find_it_on_the_plan_game.dart';
 import 'higher_or_lower_game.dart';
 import 'plus_or_minus_game.dart';
+import 'which_method_fits_game.dart';
+import 'what_weight_does_it_get_game.dart';
+import 'does_the_listing_close_game.dart';
+import 'area_figures.dart';
 import 'which_course_takes_the_most_game.dart';
 import 'which_traverse_closed_better_game.dart';
 import 'what_is_that_point_game.dart';
@@ -3180,6 +3184,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Better.values) o.name],
           answer: Better.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-method-fits',
+    lessonId: 'area-computations',
+    problemPrefix: 'surv-ac-',
+    rounds: [
+      for (final r in areaMethodRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Way3.values) o.name],
+          answer: Way3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-weight-does-it-get',
+    lessonId: 'area-computations',
+    problemPrefix: 'surv-ac-',
+    rounds: [
+      for (final r in offsetWeightRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Weight.values) o.name],
+          answer: Weight.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-the-listing-close',
+    lessonId: 'area-computations',
+    problemPrefix: 'surv-ac-',
+    rounds: [
+      for (final r in listingRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Listed.values) o.name],
+          answer: Listed.values.indexOf(r.answer),
         ),
     ],
   ),
