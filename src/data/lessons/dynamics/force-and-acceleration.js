@@ -37,7 +37,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'This is the simplest possible \u03A3F = ma problem. One force, one direction, no friction. Just divide force by mass. The $0.33 \\text{ m/s}^2$ choice comes from dividing mass by force (flipped). The $29.4 \\text{ m/s}^2$ choice comes from accidentally using weight (80 \u00D7 9.81) as the force.',
+      eli5: 'This is the simplest possible \u03A3F = ma problem. One force, one direction, no friction. Just divide force by mass. The $0.33 \\text{ m/s}^2$ choice comes from dividing mass by force (flipped). The $29.4 \\text{ m/s}^2$ choice comes from treating the 240 N as a mass and multiplying it by g to get a force: (240 \u00D7 9.81)/80. Using the crate\'s weight as the force instead would give 9.81, which is not on the list.',
       hint: 'Only one horizontal force acts on the crate. Apply \u03A3F = ma directly.',
       steps: [
         { text: 'Frictionless floor, horizontal force \u2014 only horizontal equation matters:', latex: '\\sum F_x = ma_x' },
@@ -102,7 +102,8 @@ export default {
       handbookFormula: '\\sum M_c = I_c \\alpha',
       videoUrl: null,
       traps: [
-        'Using I = mR\u00B2 instead of \u00BDmR\u00B2 for a solid disk \u2014 gives 33.3 rad/s\u00B2',
+        'Using I = mR\u00B2 instead of \u00BDmR\u00B2 for a solid disk \u2014 halves the answer to 5.0 rad/s\u00B2 (distractor A)',
+        'Dividing the force by I without turning it into a torque first \u2014 gives 33.3 rad/s\u00B2 (distractor B)',
         'Applying \u03A3F = ma instead of \u03A3M = I\u03B1 \u2014 this is a rotation problem, not translation',
         'Forgetting to multiply the force by the radius to get torque',
       ],
