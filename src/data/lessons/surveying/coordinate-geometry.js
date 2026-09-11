@@ -25,11 +25,11 @@ export default {
         { id: 'c1', text: '$500\\text{ ft}$' },
         { id: 'c2', text: '$700\\text{ ft}$' },
         { id: 'c3', text: '$350\\text{ ft}$' },
-        { id: 'c4', text: '$250\\text{ ft}$' },
+        { id: 'c4', text: '$100\\text{ ft}$' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'ΔE = 1,300 − 1,000 = 300; ΔN = 1,400 − 1,000 = 400. Distance = √(300² + 400²) = √(90,000 + 160,000) = √250,000 = 500 ft (a 3-4-5 triangle). The 700 ft choice just adds ΔE + ΔN. The 350 ft choice averages them. The 250 ft choice halves ΔE.',
+      eli5: 'ΔE = 1,300 − 1,000 = 300; ΔN = 1,400 − 1,000 = 400. Distance = √(300² + 400²) = √(90,000 + 160,000) = √250,000 = 500 ft (a 3-4-5 triangle). The 700 ft choice just adds ΔE + ΔN. The 350 ft choice averages them. The 100 ft choice subtracts the two differences instead of combining them.',
       hint: 'Distance = √(ΔE² + ΔN²).',
       steps: [
         { text: 'Coordinate differences:', latex: '\\Delta E = 300, \\quad \\Delta N = 400' },
@@ -50,12 +50,12 @@ export default {
       choices: [
         { id: 'c1', text: '$5{,}173.2$' },
         { id: 'c2', text: '$5{,}100.0$' },
-        { id: 'c3', text: '$5{,}183.0$' },
+        { id: 'c3', text: '$5{,}115.5$' },
         { id: 'c4', text: '$5{,}200.0$' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'Latitude ΔN = L·cos(Az) = 200·cos(30°) = 200(0.8660) = 173.2. New northing = 5,000 + 173.2 = 5,173.2. The 5,100.0 choice mistakenly uses the departure (200·sin30° = 100). The 5,183.0 choice uses a slightly off trig value. The 5,200.0 choice just adds the full length.',
+      eli5: 'Latitude ΔN = L·cos(Az) = 200·cos(30°) = 200(0.8660) = 173.2. New northing = 5,000 + 173.2 = 5,173.2. The 5,100.0 choice mistakenly uses the departure (200·sin30° = 100). The 5,115.5 choice uses the tangent where the cosine belongs: 200·tan30° = 115.5. The 5,200.0 choice just adds the full length.',
       hint: 'Northing change = L·cos(azimuth); add it to the starting northing.',
       steps: [
         { text: 'Latitude (northing change):', latex: '\\Delta N = 200\\cos 30\\degree = 200(0.8660) = 173.2' },
