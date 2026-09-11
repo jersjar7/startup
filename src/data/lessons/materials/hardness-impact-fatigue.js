@@ -20,7 +20,7 @@ export default {
     { type: 'text', body: 'For fully reversed loading, $R = -1$. For zero-to-tension, $R = 0$. Steel has a definite endurance limit (roughly 40\u201350% of UTS); aluminum does not \u2014 it will eventually fail at any cyclic stress given enough cycles.' },
     { type: 'heading', body: 'Fracture Toughness' },
     { type: 'formula', latex: 'K_{IC} = Y\\sigma\\sqrt{\\pi a}', label: 'Critical stress intensity factor' },
-    { type: 'text', body: '$K_{IC}$ is a material property (units: MPa\u00B7m$^{1/2}$). $\\sigma$ is the applied stress, $a$ is the crack length, and $Y$ is a geometry factor: $Y = 1.1$ for an edge crack, $Y = 1.0$ for an internal crack.' },
+    { type: 'text', body: '$K_{IC}$ is a material property (units: MPa\u00B7m$^{1/2}$). $\\sigma$ is the applied stress and $Y$ is a geometry factor: $Y = 1.1$ for an edge crack, $Y = 1.0$ for an internal crack. Watch what $a$ means, because it changes with the geometry: for an edge crack $a$ is the full depth of the crack, while for an internal crack $a$ is HALF the crack length (an internal crack of total length $2a$). Both go into the formula in meters.' },
     { type: 'callout', variant: 'exam', body: 'The handbook (p. 122) gives the fracture toughness formula and a table of K_IC values for common materials. Remember: edge cracks use Y = 1.1, internal cracks use Y = 1.0. Always convert crack length to meters before plugging in.' },
   ],
   illustration: null,
@@ -46,7 +46,8 @@ export default {
       videoUrl: null,
       traps: [
         'Dividing BHN by 3.45 instead of multiplying \u2014 gives 58 MPa (choice B)',
-        'Using the psi factor (500) but reporting in MPa \u2014 gives 100,000 which doesn\u2019t match any choice, but confusing factors gives ~1,000 (choice C)',
+        'Half-remembering the factor as 5 instead of 3.45 \u2014 gives 1,000 MPa (choice C)',
+        'Mixing the two forms up: 500 \u00D7 BHN is the answer in psi, not in MPa. The two are the same rule, since 100,000 psi is about 690 MPa',
       ],
       diagram: null,
     },
@@ -90,7 +91,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Rearrange $K_{IC} = Y\\sigma\\sqrt{\\pi a}$ to solve for $a$. For an edge crack, $Y = 1.1$. Square both sides after isolating the square root: $\\sqrt{\\pi a} = K/(Y\\sigma)$, so $\\pi a = [K/(Y\\sigma)]^2$, and $a = [K/(Y\\sigma)]^2/\\pi$. Plugging in: $\\sqrt{\\pi a} = 24/(1.1 \\times 200) = 0.1091$, $\\pi a = 0.01190$, $a = 0.00379$ m $= 3.8$ mm. The 4.6 mm choice uses $Y = 1.0$ for an interior crack. The 7.6 mm choice is $2a$ \u2014 the student reported total crack length instead of the half-length $a$. The 11.9 mm choice comes from forgetting $\\pi$ inside the square root.',
+      eli5: 'Rearrange $K_{IC} = Y\\sigma\\sqrt{\\pi a}$ to solve for $a$. For an edge crack, $Y = 1.1$. Square both sides after isolating the square root: $\\sqrt{\\pi a} = K/(Y\\sigma)$, so $\\pi a = [K/(Y\\sigma)]^2$, and $a = [K/(Y\\sigma)]^2/\\pi$. Plugging in: $\\sqrt{\\pi a} = 24/(1.1 \\times 200) = 0.1091$, $\\pi a = 0.01190$, $a = 0.00379$ m $= 3.8$ mm. The 4.6 mm choice uses $Y = 1.0$ for an interior crack. The 7.6 mm choice is $2a$, which would be right if this were an internal crack, where $a$ is the half-length \u2014 but an edge crack\u2019s $a$ is the whole crack. The 11.9 mm choice comes from forgetting $\\pi$ inside the square root.',
       hint: 'Rearrange the fracture toughness formula to isolate $a$. Remember to square both sides to remove the square root, and don\u2019t forget $\\pi$ in the denominator.',
       steps: [
         { text: 'Rearrange for the square root term:', latex: '\\sqrt{\\pi a} = \\frac{K_{IC}}{Y\\sigma} = \\frac{24}{1.1 \\times 200} = \\frac{24}{220} = 0.1091' },
@@ -102,7 +103,7 @@ export default {
       videoUrl: null,
       traps: [
         'Using $Y = 1.0$ (interior) instead of $Y = 1.1$ (edge) \u2014 gives 4.6 mm (choice B)',
-        'Reporting $2a$ (total crack length for interior crack) instead of $a$ \u2014 gives 7.6 mm (choice C)',
+        'Doubling the answer, which is right only for an INTERNAL crack, where $a$ is the half-length. This crack is an edge crack and $a$ is the whole of it \u2014 doubling gives 7.6 mm (choice C)',
         'Forgetting $\\pi$ inside the square root, using $K = Y\\sigma\\sqrt{a}$ instead of $K = Y\\sigma\\sqrt{\\pi a}$ \u2014 gives 11.9 mm (choice A)',
       ],
       diagram: null,
