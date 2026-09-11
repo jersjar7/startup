@@ -59,11 +59,11 @@ export default {
         { id: 'c1', text: '$56.5 \\text{ m/s}$' },
         { id: 'c2', text: '$28.3 \\text{ m/s}$' },
         { id: 'c3', text: '$540 \\text{ m/s}$' },
-        { id: 'c4', text: '$1{,}696 \\text{ m/s}$' },
+        { id: 'c4', text: '$3{,}393 \\text{ m/s}$' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'The key step is converting rpm to rad/s \u2014 multiply by 2\u03C0/60. Then it\'s just v = r\u03C9. The classic trap is forgetting the conversion: 3,600 \u00D7 0.15 = 540 m/s (the 540 m/s choice) is wrong because rpm isn\'t rad/s. The 1,696 m/s choice is 3,600 \u00D7 2\u03C0 \u00D7 0.15 (forgetting to divide by 60).',
+      eli5: 'The key step is converting rpm to rad/s \u2014 multiply by 2\u03C0/60. Then it\'s just v = r\u03C9. The classic trap is forgetting the conversion: 3,600 \u00D7 0.15 = 540 m/s (the 540 m/s choice) is wrong because rpm isn\'t rad/s. The 3,393 m/s choice is 3,600 \u00D7 2\u03C0 \u00D7 0.15 (forgetting to divide by 60). The 28.3 m/s choice is half the right answer, which is what dropping the 2 from 2\u03C0 gives you.',
       hint: 'What unit must angular velocity be in before using v = r\u03C9?',
       steps: [
         { text: 'Convert rpm to rad/s:', latex: '\\omega = 3{,}600 \\times \\frac{2\\pi}{60} = 376.99 \\text{ rad/s}' },
@@ -74,7 +74,8 @@ export default {
       videoUrl: null,
       traps: [
         'Using rpm directly without converting to rad/s \u2014 gives 540 m/s (distractor C)',
-        'Multiplying by 2\u03C0 but forgetting to divide by 60 \u2014 gives 1,696 m/s (distractor D)',
+        'Multiplying by 2\u03C0 but forgetting to divide by 60 \u2014 gives 3,393 m/s (distractor D)',
+        'Dropping the 2 from 2\u03C0 \u2014 halves the answer to 28.3 m/s (distractor B)',
       ],
       diagram: null,
     },

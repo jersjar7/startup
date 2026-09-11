@@ -29,12 +29,9 @@ void main() {
       // Its two named wrong answers: rpm used straight, and the sixty left
       // out of the conversion.
       expect(3600 * 0.15, closeTo(540, 0.5));
-      // The lesson says its 1,696 choice is what you get by leaving the
-      // sixty out of the conversion. That comes to 3,393. The 1,696 is what
-      // you get by dropping the 2 from two pi instead. Recorded rather than
-      // guessed at again later.
       expect(3600 * 2 * math.pi * 0.15, closeTo(3393, 1));
-      expect(3600 * math.pi * 0.15, closeTo(1696, 1));
+      // And the third, half the answer, which is the 2 dropped from two pi.
+      expect(3600 * math.pi / 60 * 0.15, closeTo(28.3, 0.05));
     });
 
     test('the offset cylinder comes to 3.24', () {
