@@ -302,12 +302,21 @@ class CogoPainter extends CustomPainter {
 
     // The course, where one was measured but its far end is not yet fixed.
     if (task.length != null && task.azimuth != null) {
+      final run = to - from;
+      final along = run.distance < 1 ? const Offset(0, -1) : run / run.distance;
+      final square = Offset(-along.dy, along.dx);
+      // To the left of the way the course runs, which is the side of the
+      // line the point labels are not on.
+      final at = Offset((from.dx + to.dx) / 2, (from.dy + to.dy) / 2) -
+          square * 14;
       _write(
-          canvas,
-          size,
-          '${_num(task.length!)} ft at ${_num(task.azimuth!)}°',
-          Offset((from.dx + to.dx) / 2 - 46, (from.dy + to.dy) / 2 - 18),
-          AppColors.ember);
+        canvas,
+        size,
+        '${_num(task.length!)} ft at ${_num(task.azimuth!)}°',
+        at + Offset(square.dx >= 0 ? 0 : -4, -5),
+        AppColors.ember,
+        fromRight: square.dx < 0,
+      );
     }
 
     for (var i = 0; i < pts.length; i++) {
@@ -340,7 +349,21 @@ class CogoPainter extends CustomPainter {
           : held
               ? '${p.name} (${_num(p.east)}, ${_num(p.north)})'
               : '${p.name} (?, ?)';
-      _write(canvas, size, label, at + const Offset(8, -17), tone);
+      // Hung off the side of the point that faces away from the line, so
+      // the label never lies across the very thing it names.
+      final mid = Offset((from.dx + to.dx) / 2, (from.dy + to.dy) / 2);
+      final off = at - mid;
+      final away = off.distance < 1
+          ? const Offset(1, -1)
+          : off / off.distance;
+      _write(
+        canvas,
+        size,
+        label,
+        at + Offset(away.dx >= 0 ? 9 : -9, away.dy >= 0 ? 12 : -17),
+        tone,
+        fromRight: away.dx < 0,
+      );
     }
 
     if (scale > 0) viewTag(canvas, size, Looking.plan, note: 'E across, N up');
@@ -363,12 +386,13 @@ String _sign(double v) => v == 0 ? '0' : (v > 0 ? '+' : '-');
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
 
-void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
+void _write(Canvas canvas, Size size, String text, Offset at, Color color,
+    {bool fromRight = false}) {
   final painter = TextPainter(
     text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
     textDirection: TextDirection.ltr,
   )..layout();
-  var x = at.dx;
+  var x = fromRight ? at.dx - painter.width : at.dx;
   if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
   if (x < 2) x = 2;
   final patch =
