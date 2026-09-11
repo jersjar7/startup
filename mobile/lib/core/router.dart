@@ -8,6 +8,7 @@ import '../features/auth/signin_screen.dart';
 import '../features/auth/verify_screen.dart';
 import '../features/games/acute_or_obtuse_game.dart';
 import '../features/games/balance_both_sides_game.dart';
+import '../features/games/before_or_during_game.dart';
 import '../features/games/add_the_squares_game.dart';
 import '../features/games/both_sides_game.dart';
 import '../features/games/build_the_binomial_game.dart';
@@ -68,6 +69,7 @@ import '../features/games/shadow_falls_game.dart';
 import '../features/games/stretch_it_game.dart';
 import '../features/games/take_the_diagonal_game.dart';
 import '../features/games/tap_the_side_game.dart';
+import '../features/games/true_or_engineering_game.dart';
 import '../features/games/walk_the_circle_game.dart';
 import '../features/games/what_was_asked_game.dart';
 import '../features/games/whats_missing_game.dart';
@@ -408,6 +410,8 @@ GoRouter buildRouter(AuthController auth) {
           'faster-or-slower' => const FasterOrSlowerGame(),
           'when-it-runs-away' => const WhenItRunsAwayGame(),
           'how-it-settles' => const HowItSettlesGame(),
+          'before-or-during' => const BeforeOrDuringGame(),
+          'true-or-engineering' => const TrueOrEngineeringGame(),
           _ => const _UnknownGame(),
         },
       ),

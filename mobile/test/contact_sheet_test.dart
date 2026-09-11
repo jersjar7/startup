@@ -177,7 +177,9 @@ import 'package:mobile/features/games/quadrant_signs_game.dart';
 import 'package:mobile/features/games/faster_or_slower_game.dart';
 import 'package:mobile/features/games/how_it_settles_game.dart';
 import 'package:mobile/features/games/when_it_runs_away_game.dart';
+import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/read_the_equation_game.dart';
+import 'package:mobile/features/games/true_or_engineering_game.dart';
 import 'package:mobile/features/games/resolve_it_game.dart';
 import 'package:mobile/features/games/rule_or_trap_game.dart';
 import 'package:mobile/features/games/set_it_up_game.dart';
@@ -1337,6 +1339,18 @@ void main() {
           rounds: settleRounds.length,
           height: 1500,
         ),
+        'before-or-during': (
+          lesson: '58-tensile-test',
+          build: BeforeOrDuringGame.new,
+          rounds: dimRounds.length,
+          height: 1600,
+        ),
+        'true-or-engineering': (
+          lesson: '58-tensile-test',
+          build: TrueOrEngineeringGame.new,
+          rounds: readingRounds.length,
+          height: 1600,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1631,6 +1645,10 @@ void main() {
       ('natural', naturalBrief),
       ('resonance', resonanceBrief),
       ('damping', dampingBrief),
+    ],
+    '58-tensile-test': [
+      ('underneath', underneathBrief),
+      ('true-stress', trueStressBrief),
     ],
   };
 

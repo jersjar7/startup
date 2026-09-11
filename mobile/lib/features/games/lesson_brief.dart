@@ -215,6 +215,8 @@ enum BriefFigure {
   natural,
   resonance,
   damping,
+  underneath,
+  trueStress,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3348,6 +3350,52 @@ const impulseBrief = BriefSection(
   handbook: 'Handbook p. 107',
 );
 
+const underneathBrief = BriefSection(
+  title: 'What goes underneath',
+  body:
+      'Every number on this page is a force or a stretch over one measurement, '
+      'and the whole skill is knowing which. ENGINEERING stress and strain '
+      'divide by the bar you put in the machine: the area it started with and '
+      'the gauge length it started with. They keep dividing by those even '
+      'after the bar has thinned, which is exactly why the reported stress '
+      'falls at the end of a test while the steel is doing nothing of the '
+      'kind. TRUE stress and strain divide by the bar you have at that '
+      'instant, the waist included. And a strain is a length over a length, '
+      'so it comes out a bare number with no units on it. If what you wrote '
+      'down still has millimeters after it, it is a stretch, and using it as '
+      'a strain puts the modulus out by the whole gauge length.',
+  formulas: [
+    ('Engineering stress', r'\sigma = \frac{F}{A_0}'),
+    ('Engineering strain', r'\varepsilon = \frac{\Delta L}{L_0}'),
+    ('True stress', r'\sigma_T = \frac{F}{A}'),
+    ('True strain', r'\varepsilon_T = \ln(1 + \varepsilon)'),
+  ],
+  figure: BriefFigure.underneath,
+  handbook: 'Handbook p. 121',
+);
+
+const trueStressBrief = BriefSection(
+  title: 'The same test, divided twice',
+  body:
+      'One tensile test gives two curves, and they are the same line until '
+      'the stretching gets serious. Past that, true stress is always the '
+      'bigger of the two, because the area underneath it is shrinking while '
+      'the engineering one holds the original area fixed. Volume is conserved '
+      'while the bar thins evenly, which is where the conversion comes from, '
+      'so check the direction before you trust a number: multiplying by one '
+      'plus the strain RAISES it. The engineering curve turns over and comes '
+      'down once a waist forms, and its highest point is the ultimate tensile '
+      'strength, which is the number a mill certificate quotes. The true '
+      'curve has no peak at all. It climbs until the bar parts.',
+  formulas: [
+    ('True from engineering', r'\sigma_T = \sigma(1 + \varepsilon)'),
+    ('True strain', r'\varepsilon_T = \ln(1 + \varepsilon)'),
+    ('Why', r'A \approx \frac{A_0}{1 + \varepsilon}'),
+  ],
+  figure: BriefFigure.trueStress,
+  handbook: 'Handbook p. 121',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -4592,6 +4640,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{far above or far below is safe}", true),
             (r"\text{a structure resonates on its own}", false),
             (r"\mathrm{rpm} \text{ and } \mathrm{Hz} \text{ compare directly}", false),
+          ],
+        );
+      case BriefFigure.underneath:
+        return const _RuleList(
+          rules: [
+            (r"\varepsilon \text{ has no units at all}", true),
+            (r"\text{engineering keeps } A_0 \text{ after necking}", true),
+            (r"\text{the stretch itself is the strain}", false),
+            (r"\sigma_T \text{ divides by } A_0", false),
+          ],
+        );
+      case BriefFigure.trueStress:
+        return const _RuleList(
+          rules: [
+            (r"\sigma_T > \sigma \text{ once it has stretched}", true),
+            (r"\text{UTS is the peak ENGINEERING stress}", true),
+            (r"\text{the drop at the end means it weakened}", false),
+            (r"\sigma_T = \sigma/(1 + \varepsilon)", false),
           ],
         );
       case BriefFigure.damping:

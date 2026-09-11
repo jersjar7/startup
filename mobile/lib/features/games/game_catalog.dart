@@ -1994,6 +1994,50 @@ const mechanicsMaterialsMap = ChapterMap(
   ],
 );
 
+/// Chapter 8. Its first lesson shares a name with chapter seven's opener and
+/// almost nothing else: this one is about what a test REPORT says, which is
+/// where engineering and true values part company.
+const materialsMap = ChapterMap(
+  id: 'materials',
+  number: 8,
+  name: 'Materials',
+  examLine: '4 to 6 questions on the real exam',
+  subtopics: [
+    Subtopic('mechanical-properties', 'Mechanical Properties'),
+    Subtopic('concrete-technology', 'Concrete Technology'),
+    Subtopic('construction-materials', 'Construction Materials'),
+    Subtopic('composites-selection', 'Composites & Selection'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'stress-strain-material-behavior',
+      name: 'Stress-Strain Behavior & Material Properties',
+      subtopicId: 'mechanical-properties',
+      // Stiffness against strength is this lesson's other idea, and chapter
+      // seven already teaches it in Stiff, Strong or Stretchy. Building it
+      // twice would be a worse item and a wasted sitting, so it is not here.
+      games: [
+        GameDef(
+          id: 'before-or-during',
+          rounds: 6,
+          name: 'Before or During',
+          blurb: 'Force over which area? Stretch over which length?',
+          built: true,
+          brief: underneathBrief,
+        ),
+        GameDef(
+          id: 'true-or-engineering',
+          rounds: 6,
+          name: 'True or Engineering',
+          blurb: 'One test, two curves. Which one is a report quoting?',
+          built: true,
+          brief: trueStressBrief,
+        ),
+      ],
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
@@ -2002,6 +2046,7 @@ const chapterMaps = <String, ChapterMap>{
   'statics': staticsMap,
   'dynamics': dynamicsMap,
   'mechanics-materials': mechanicsMaterialsMap,
+  'materials': materialsMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

@@ -1,5 +1,7 @@
 import 'acute_or_obtuse_game.dart';
 import 'balance_both_sides_game.dart';
+import 'before_or_during_game.dart';
+import 'coupon_figures.dart';
 import 'add_the_squares_game.dart';
 import 'both_sides_game.dart';
 import 'build_the_binomial_game.dart';
@@ -57,6 +59,7 @@ import 'shade_the_tail_game.dart';
 import 'shadow_falls_game.dart';
 import 'stretch_it_game.dart';
 import 'take_the_diagonal_game.dart';
+import 'true_or_engineering_game.dart';
 import 'tap_the_side_game.dart';
 import 'walk_the_circle_game.dart';
 import 'what_was_asked_game.dart';
@@ -2413,6 +2416,32 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final d in r.options) d.name],
           answer: r.options.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'before-or-during',
+    lessonId: 'stress-strain-material-behavior',
+    problemPrefix: 'mat-ssm-',
+    rounds: [
+      for (final r in dimRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final d in Dim.values) d.name],
+          answer: Dim.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'true-or-engineering',
+    lessonId: 'stress-strain-material-behavior',
+    problemPrefix: 'mat-ssm-',
+    rounds: [
+      for (final r in readingRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final x in Reading.values) x.name],
+          answer: Reading.values.indexOf(r.answer),
         ),
     ],
   ),

@@ -38,6 +38,7 @@ class Specimen {
     this.plateau = 0,
     this.necksTo = 1,
     this.proportionalShare = 0.85,
+    this.areaAtBreak,
   });
 
   /// What the round calls it.
@@ -64,6 +65,12 @@ class Specimen {
   /// Where Hooke's law gives out, as a share of the yield stress.
   final double proportionalShare;
 
+  /// What is left of the original cross-section when the bar finally parts,
+  /// as a share of it. A test report calls this the reduction in area. Null
+  /// means the bar thins evenly the whole way, which is what something that
+  /// never necks does.
+  final double? areaAtBreak;
+
   double get proportionalStress => yieldStress * proportionalShare;
   double get proportionalStrain => proportionalStress / e;
 
@@ -88,6 +95,28 @@ class Specimen {
   /// about where it yields, having stretched almost nowhere.
   bool get brittle =>
       elongation < 5 && (ultimate - yieldStress) < 0.05 * ultimate;
+
+  /// How much of the original cross-section is still there at a given
+  /// engineering strain.
+  ///
+  /// While the bar thins evenly, volume is conserved and the area is the
+  /// original one over one plus the strain, which is where the lesson's
+  /// conversion comes from. Once a waist forms, the thinning runs away at the
+  /// waist and the area there drops far faster than that.
+  double areaShareAt(double strain) {
+    final even = 1 / (1 + strain);
+    if (necksTo >= 1 || strain <= ultimateStrain) return even;
+    final atNeck = 1 / (1 + ultimateStrain);
+    final atBreak = areaAtBreak ?? (1 / (1 + fractureStrain));
+    final t = (strain - ultimateStrain) / (fractureStrain - ultimateStrain);
+    return atNeck + (atBreak - atNeck) * t;
+  }
+
+  /// The same test read against the bar as it is at that instant, which is
+  /// the true stress. Plotted against the same engineering strain, so the two
+  /// curves can be held beside each other.
+  List<Offset> get trueTrace =>
+      [for (final p in trace) Offset(p.dx, p.dy / areaShareAt(p.dx))];
 
   /// Strain and stress of a named point.
   Offset pointAt(Mark mark) => switch (mark) {
@@ -166,7 +195,7 @@ class Frame {
   /// width big enough to see and to put a thumb on. A material with no yield
   /// plateau is drawn with no flat run, which is the whole tell, and at true
   /// scale nobody could see either one.
-  factory Frame.over(List<Specimen> all) {
+  factory Frame.over(List<Specimen> all, {double headroom = 1.18}) {
     final s = all.first;
     final knots = <double>[0, s.proportionalStrain, s.yieldStrain];
     final spots = <double>[0, 0.16, 0.32];
@@ -187,7 +216,7 @@ class Frame {
       prop: s.proportionalStrain,
       knee: s.yieldStrain,
       maxStrain: s.fractureStrain,
-      maxStress: s.ultimate * 1.18,
+      maxStress: s.ultimate * headroom,
       knots: knots,
       spots: spots,
     );
@@ -464,4 +493,198 @@ class PairPainter extends CustomPainter {
   @override
   bool shouldRepaint(PairPainter old) =>
       old.left != left || old.right != right;
+}
+
+/// The engineering curve and the true curve of ONE test, on one set of axes.
+///
+/// Both are drawn against the engineering strain the machine reports, which
+/// is how the lesson writes the conversion and the only way the pair can be
+/// read side by side. Which curve is which is never written on the drawing
+/// until the round is over, because that is the question.
+class BothPainter extends CustomPainter {
+  const BothPainter({
+    required this.specimen,
+    required this.frame,
+    this.glow,
+    this.wrong,
+    this.named = false,
+    this.waistLine = false,
+    this.elasticBand = false,
+  });
+
+  final Specimen specimen;
+  final Frame frame;
+
+  /// A round that asks about the stretch AFTER the waist forms marks where
+  /// that is, because a question about a region nobody can see is a guess.
+  final bool waistLine;
+
+  /// The same for a round about the part that still springs back.
+  final bool elasticBand;
+
+  /// Zero is the engineering curve and one is the true curve: what the reader
+  /// has chosen, and what they chose wrongly once the round is locked.
+  final int? glow;
+  final int? wrong;
+
+  /// Names beside the two curves, drawn once the answer is out.
+  final bool named;
+
+  static const engineering = 0;
+  static const truth = 1;
+
+  /// The points of one of the two curves, in canvas coordinates.
+  static List<Offset> pointsOf(Specimen s, Frame frame, Size size, int which) {
+    final trace = which == truth ? s.trueTrace : s.trace;
+    return [for (final p in trace) TensilePainter.at(frame, size, p)];
+  }
+
+  /// Which curve a tap is nearer to, or nothing if it was near neither.
+  ///
+  /// Where the two lie on top of each other there is no honest answer, and
+  /// the round that asks about that stretch offers a third choice instead.
+  static int? nearest(Specimen s, Frame frame, Size size, Offset tap,
+      {double within = 26}) {
+    int? best;
+    var bestGap = within;
+    for (final which in [engineering, truth]) {
+      for (final p in pointsOf(s, frame, size, which)) {
+        final gap = (p - tap).distance;
+        if (gap < bestGap) {
+          bestGap = gap;
+          best = which;
+        }
+      }
+    }
+    return best;
+  }
+
+  Color _toneOf(int which) {
+    if (wrong == which) return AppColors.error;
+    final base = which == truth ? AppColors.ember : AppColors.info;
+    if (glow == which) return base;
+    // With one curve chosen, the other steps back, so a reader can see which
+    // of two lines this close together they actually landed on.
+    if (glow != null) return base.withValues(alpha: 0.28);
+    return base.withValues(alpha: 0.75);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (elasticBand) _band(canvas, size);
+    if (waistLine) _waist(canvas, size);
+    // The engineering curve carries the axes, and the true one is laid over
+    // it, since the true one is the one that leaves the top of the page in a
+    // real test and this frame is sized to hold it.
+    TensilePainter(specimen: specimen, frame: frame, tone: _toneOf(engineering))
+        .paint(canvas, size);
+
+    final path = Path();
+    final points = pointsOf(specimen, frame, size, truth);
+    for (var i = 0; i < points.length; i++) {
+      i == 0
+          ? path.moveTo(points[i].dx, points[i].dy)
+          : path.lineTo(points[i].dx, points[i].dy);
+    }
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = _toneOf(truth)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = glow == truth || wrong == truth ? 3.4 : 2.4
+        ..strokeJoin = StrokeJoin.round,
+    );
+
+    if (glow == engineering || wrong == engineering) {
+      final over = Path();
+      final line = pointsOf(specimen, frame, size, engineering);
+      for (var i = 0; i < line.length; i++) {
+        i == 0
+            ? over.moveTo(line[i].dx, line[i].dy)
+            : over.lineTo(line[i].dx, line[i].dy);
+      }
+      canvas.drawPath(
+        over,
+        Paint()
+          ..color = _toneOf(engineering)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 3.4
+          ..strokeJoin = StrokeJoin.round,
+      );
+    }
+
+    if (named) {
+      final end = pointsOf(specimen, frame, size, engineering).last;
+      final tip = points.last;
+      _name(canvas, size, 'engineering', end, AppColors.info);
+      _name(canvas, size, 'true', tip, AppColors.ember);
+    }
+  }
+
+  /// The stretch that still springs back, shaded and named.
+  void _band(Canvas canvas, Size size) {
+    final box = TensilePainter.plot(size);
+    final edge = TensilePainter.at(
+        frame, size, Offset(specimen.yieldStrain, 0));
+    canvas.drawRect(
+      Rect.fromLTRB(box.left, box.top, edge.dx, box.bottom),
+      Paint()..color = AppColors.forest.withValues(alpha: 0.08),
+    );
+    _write(canvas, 'springs back', Offset(box.left + 3, box.top + 2),
+        AppColors.forest);
+  }
+
+  /// Where the bar starts to draw down, which is the top of the engineering
+  /// curve and the point every question about necking is asking around.
+  void _waist(Canvas canvas, Size size) {
+    final box = TensilePainter.plot(size);
+    final at = TensilePainter.at(
+        frame, size, specimen.pointAt(Mark.ultimate));
+    final paint = Paint()
+      ..color = AppColors.ink3
+      ..strokeWidth = 1;
+    for (var y = box.top; y < box.bottom; y += 9) {
+      canvas.drawLine(Offset(at.dx, y), Offset(at.dx, y + 5), paint);
+    }
+    _write(canvas, 'waist starts', Offset(at.dx - 62, box.bottom - 13),
+        AppColors.ink3);
+  }
+
+  void _write(Canvas canvas, String text, Offset at, Color color) {
+    final painter = TextPainter(
+      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    final patch = Rect.fromLTWH(
+        at.dx - 2, at.dy - 1, painter.width + 4, painter.height + 2);
+    canvas.drawRect(
+        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.85));
+    painter.paint(canvas, at);
+  }
+
+  /// A curve's name at its own end, patched so the grid does not read through.
+  void _name(Canvas canvas, Size size, String text, Offset at, Color tone) {
+    final painter = TextPainter(
+      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: tone)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    var x = at.dx - painter.width - 6;
+    var y = at.dy - painter.height - 6;
+    if (x < 2) x = 2;
+    if (y < 1) y = at.dy + 6;
+    final patch =
+        Rect.fromLTWH(x - 2, y - 1, painter.width + 4, painter.height + 2);
+    canvas.drawRect(
+        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
+    painter.paint(canvas, Offset(x, y));
+  }
+
+  @override
+  bool shouldRepaint(BothPainter old) =>
+      old.specimen != specimen ||
+      old.glow != glow ||
+      old.wrong != wrong ||
+      old.named != named ||
+      old.waistLine != waistLine ||
+      old.elasticBand != elasticBand;
 }
