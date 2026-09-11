@@ -78,6 +78,9 @@ import 'package:mobile/features/games/is_r_the_worst_game.dart';
 import 'package:mobile/features/games/what_are_the_ends_worth_game.dart';
 import 'package:mobile/features/games/which_way_does_it_fold_game.dart';
 import 'package:mobile/features/games/buckle_or_squash_game.dart';
+import 'package:mobile/features/games/what_is_missing_game.dart';
+import 'package:mobile/features/games/tap_the_trajectory_game.dart';
+import 'package:mobile/features/games/speeding_up_or_turning_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1218,6 +1221,24 @@ void main() {
           rounds: slenderRounds.length,
           height: 1700,
         ),
+        'what-is-missing': (
+          lesson: '52-kinematics',
+          build: WhatIsMissingGame.new,
+          rounds: absentRounds.length,
+          height: 1500,
+        ),
+        'tap-the-trajectory': (
+          lesson: '52-kinematics',
+          build: TapTheTrajectoryGame.new,
+          rounds: arcRounds.length,
+          height: 1550,
+        ),
+        'speeding-up-or-turning': (
+          lesson: '52-kinematics',
+          build: SpeedingUpOrTurningGame.new,
+          rounds: cornerRounds.length,
+          height: 1500,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1483,6 +1504,11 @@ void main() {
       ('ends', endsBrief),
       ('weak-axis', weakAxisBrief),
       ('slender', slenderBrief),
+    ],
+    '52-kinematics': [
+      ('missing', missingBrief),
+      ('flight', flightBrief),
+      ('bend', bendBrief),
     ],
   };
 

@@ -198,6 +198,9 @@ enum BriefFigure {
   ends,
   weakAxis,
   slender,
+  missing,
+  flight,
+  bend,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3006,6 +3009,76 @@ const slenderBrief = BriefSection(
   handbook: 'Handbook p. 136',
 );
 
+const missingBrief = BriefSection(
+  title: 'The equation is chosen by what is absent',
+  body:
+      'Straight line motion at a steady acceleration has five quantities: the '
+      'speed you started at, the speed you ended at, how far, how long, and '
+      'the acceleration. Any three of them give you the other two, and each '
+      'equation leaves exactly ONE of the five out. So the question that picks '
+      'the equation is which quantity the problem never mentions and never '
+      'asks for. No seconds anywhere is the commonest, and it points at v '
+      'squared equals v nought squared plus two a s. Two warnings: slowing '
+      'down means the acceleration is negative, and none of these equations '
+      'is allowed unless the acceleration is CONSTANT.',
+  formulas: [
+    ('No distance', r'v = v_0 + at'),
+    ('No time', r'v^2 = v_0^2 + 2a(s - s_0)'),
+    ('No final speed', r's = s_0 + v_0t + \tfrac{1}{2}at^2'),
+    ('No acceleration', r's = s_0 + \tfrac{1}{2}(v_0 + v)t'),
+  ],
+  figure: BriefFigure.missing,
+  handbook: 'Handbook p. 104',
+);
+
+const flightBrief = BriefSection(
+  title: 'Across and up and down never mix',
+  body:
+      'A projectile is two problems side by side. ACROSS there is no force at '
+      'all once it has left, so that speed never changes for the whole flight: '
+      'it is the same at the launch, at the top and at the landing. UP AND '
+      'DOWN gravity pulls the whole time, so that speed runs steadily downhill '
+      'through zero and out the other side, and the instant it passes zero is '
+      'the top of the arc. That is what makes the top solvable: the vertical '
+      'speed there is nothing, and the lesson\'s own problem is exactly that '
+      'step. Two things people say that are wrong: that the ball stops at the '
+      'top, when it is still traveling across, and that its acceleration is '
+      'less there, when gravity is pulling just as hard as it was at the '
+      'start. Split it into the two directions before anything else, and use '
+      'the vertical PIECE of the launch speed, never the whole of it.',
+  formulas: [
+    ('Across', r'v_x = v_0\cos\theta \text{, unchanging}'),
+    ('Up and down', r'v_y = v_0\sin\theta - gt'),
+    ('At the top', r'v_y = 0'),
+    ('Everywhere', r'a = g \text{, downward}'),
+  ],
+  figure: BriefFigure.flight,
+  handbook: 'Handbook p. 104',
+);
+
+const bendBrief = BriefSection(
+  title: 'Two accelerations at right angles',
+  body:
+      'Anything on a curved path is accelerating in two ways at once. ALONG '
+      'the path, the tangential piece, changes how fast it is going and is the '
+      'only one the speedometer knows about. Square to the path, pointing at '
+      'the middle of the bend, the normal piece changes which way it is going, '
+      'and it is v SQUARED over the radius, so speed counts twice over and a '
+      'tighter bend is worse. The one worth holding on to: something going '
+      'round a bend at a perfectly steady speed IS accelerating, because its '
+      'direction is changing, and that is what the tires and the rails have to '
+      'push against. The two sit at right angles, so the total is the two '
+      'combined as the sides of a right triangle and never the two added up.',
+  formulas: [
+    ('Along the path', r'a_t = \dot{v}'),
+    ('Toward the middle', r'a_n = \frac{v^2}{\rho}'),
+    ('Together', r'a = \sqrt{a_t^2 + a_n^2}'),
+    ('Steady speed', r'a_t = 0 \text{, and } a_n \text{ is still there}'),
+  ],
+  figure: BriefFigure.bend,
+  handbook: 'Handbook p. 103',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -4158,6 +4231,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.missing:
+        return const _RuleList(
+          rules: [
+            (r"\text{no time given} \Rightarrow v^2 = v_0^2 + 2as", true),
+            (r"\text{slowing down} \Rightarrow a < 0", true),
+            (r"\text{they work for any acceleration}", false),
+            (r"\text{you always need all five}", false),
+          ],
+        );
+      case BriefFigure.flight:
+        return const _RuleList(
+          rules: [
+            (r"v_x \text{ never changes}", true),
+            (r"\text{at the top } v_y = 0", true),
+            (r"\text{the ball stops at the top}", false),
+            (r"\text{use } v_0 \text{, not } v_0\sin\theta", false),
+          ],
+        );
+      case BriefFigure.bend:
+        return const _RuleList(
+          rules: [
+            (r"\text{steady speed still accelerates}", true),
+            (r"a_n = \tfrac{v^2}{\rho} \text{, toward the middle}", true),
+            (r"a = a_t + a_n", false),
+            (r"\text{constant speed} \Rightarrow \text{no acceleration}", false),
           ],
         );
       case BriefFigure.ends:

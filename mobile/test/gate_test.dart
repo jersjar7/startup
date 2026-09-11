@@ -213,6 +213,12 @@ void main() {
       // The slender column problem is the only one in the lesson that checks
       // against yield, and that check is the whole item.
       'buckle-or-squash',
+      // The projectile problem is the only one in the lesson with a flight in
+      // it, and reading that flight is the whole item.
+      'tap-the-trajectory',
+      // The curved road problem is the only one in the lesson with a bend in
+      // it, and telling the two accelerations apart is the whole item.
+      'speeding-up-or-turning',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

@@ -1506,9 +1506,79 @@ const staticsMap = ChapterMap(
   ],
 );
 
-/// Chapter 7. Chapter six, Dynamics, is not built yet: this one follows
-/// Statics because the centroid and second moment lessons that close chapter
-/// five are exactly what bending stress needs.
+/// Chapter 6.
+const dynamicsMap = ChapterMap(
+  id: 'dynamics',
+  number: 6,
+  name: 'Dynamics',
+  examLine: '4 to 6 questions on the real exam',
+  subtopics: [
+    Subtopic('kinematics', 'Kinematics'),
+    Subtopic('kinetics-and-energy', 'Kinetics & Energy'),
+    Subtopic('momentum-and-vibrations', 'Momentum & Vibrations'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'particle-kinematics',
+      name: 'Particle Kinematics',
+      subtopicId: 'kinematics',
+      games: [
+        GameDef(
+          id: 'what-is-missing',
+          rounds: 6,
+          name: 'What Is Missing',
+          blurb: 'Four equations, and the one you want is decided by absence.',
+          built: true,
+          brief: missingBrief,
+        ),
+        GameDef(
+          id: 'tap-the-trajectory',
+          rounds: 6,
+          name: 'Tap the Trajectory',
+          blurb: 'One arc, five moments. Which one is the question about?',
+          built: true,
+          brief: flightBrief,
+        ),
+        GameDef(
+          id: 'speeding-up-or-turning',
+          rounds: 6,
+          name: 'Speeding Up or Turning',
+          blurb: 'On a bend, two accelerations at right angles. Which is which?',
+          built: true,
+          brief: bendBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'rigid-body-kinematics-mass-moi',
+      name: 'Rigid Body Kinematics & Mass Moments of Inertia',
+      subtopicId: 'kinematics',
+    ),
+    LessonNode(
+      id: 'force-and-acceleration',
+      name: 'Force & Acceleration',
+      subtopicId: 'kinetics-and-energy',
+    ),
+    LessonNode(
+      id: 'work-energy-power',
+      name: 'Work, Energy & Power',
+      subtopicId: 'kinetics-and-energy',
+    ),
+    LessonNode(
+      id: 'impulse-and-momentum',
+      name: 'Impulse & Momentum',
+      subtopicId: 'momentum-and-vibrations',
+    ),
+    LessonNode(
+      id: 'vibrations-natural-frequency',
+      name: 'Vibrations & Natural Frequency',
+      subtopicId: 'momentum-and-vibrations',
+    ),
+  ],
+);
+
+/// Chapter 7, which follows Statics because the centroid and second moment
+/// lessons that close chapter five are exactly what bending stress needs.
 const mechanicsMaterialsMap = ChapterMap(
   id: 'mechanics-materials',
   number: 7,
@@ -1808,6 +1878,7 @@ const chapterMaps = <String, ChapterMap>{
   'ethics': ethicsMap,
   'economics': economicsMap,
   'statics': staticsMap,
+  'dynamics': dynamicsMap,
   'mechanics-materials': mechanicsMaterialsMap,
 };
 

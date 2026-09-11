@@ -113,6 +113,10 @@ import 'column_figures.dart';
 import 'what_are_the_ends_worth_game.dart';
 import 'which_way_does_it_fold_game.dart';
 import 'buckle_or_squash_game.dart';
+import 'kinematics_figures.dart';
+import 'what_is_missing_game.dart';
+import 'tap_the_trajectory_game.dart';
+import 'speeding_up_or_turning_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -2152,6 +2156,52 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final g in Governs.values) g.name],
           answer: Governs.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-is-missing',
+    lessonId: 'particle-kinematics',
+    problemPrefix: 'dyn-pk-',
+    rounds: [
+      for (final r in absentRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final k in Known.values) k.name],
+          answer: Known.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'tap-the-trajectory',
+    lessonId: 'particle-kinematics',
+    problemPrefix: 'dyn-pk-',
+    rounds: [
+      // Five moments on the arc and a standing last choice for the rounds
+      // whose honest answer is that nothing changes along it.
+      for (final r in arcRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (final m in Moment.values) m.name,
+            'the same the whole way',
+          ],
+          answer: r.everywhere
+              ? Moment.values.length
+              : Moment.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'speeding-up-or-turning',
+    lessonId: 'particle-kinematics',
+    problemPrefix: 'dyn-pk-',
+    rounds: [
+      for (final r in cornerRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final p in r.shown) p.name],
+          answer: r.shown.indexOf(r.answer),
         ),
     ],
   ),
