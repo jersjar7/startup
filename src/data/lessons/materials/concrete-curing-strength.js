@@ -82,7 +82,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Compute the expected field strength for each mix. Mix A: $5{,}400 \\times 0.92 = 4{,}968$ psi $\\geq 4{,}500$. Mix B: $4{,}600 \\times 0.85 = 3{,}910$ psi $< 4{,}500$. Only Mix A meets the requirement. The "Both mixes" choice ignores the curing reduction \u2014 the lab strengths (5,400 and 4,600) both look adequate until you apply the field curing factors. The "Only Mix B" choice reverses the conclusion. The "Neither mix" choice miscalculates.',
+      eli5: 'Compute the expected field strength for each mix. Mix A: $5{,}400 \\times 0.92 = 4{,}968$ psi $\\geq 4{,}500$. Mix B: $4{,}600 \\times 0.85 = 3{,}910$ psi $< 4{,}500$. Only Mix A meets the requirement. The "Both mixes" choice ignores the curing reduction \u2014 the lab strengths (5,400 and 4,600) both look adequate until you apply the field curing factors. The "Only Mix B" choice reverses the conclusion. The "Neither mix" choice comes from applying the 7-day rule of 70% instead of the field curing factors: $5{,}400 \\times 0.70 = 3{,}780$ and $4{,}600 \\times 0.70 = 3{,}220$, which fails both.',
       hint: 'Multiply each mix\u2019s lab-tested strength by its curing factor to get the expected field strength, then compare to 4,500 psi.',
       steps: [
         { text: 'Mix A field strength:', latex: 'f\'_{c,A} = 5{,}400 \\times 0.92 = 4{,}968 \\text{ psi} \\geq 4{,}500 \\; \\checkmark' },
@@ -93,7 +93,7 @@ export default {
       handbookFormula: '\\text{Concrete strength vs. curing conditions (graph)}',
       videoUrl: null,
       traps: [
-        'Comparing lab strengths directly without applying curing factors \u2014 both lab values > 4,500 so you\u2019d pick "both" (choice B)',
+        'Comparing lab strengths directly without applying curing factors \u2014 both lab values are above 4,500, so you would pick "Both mixes" (choice A)',
         'Forgetting that air entrainment slightly reduces strength compared to non-air mixes at the same W/C',
       ],
       diagram: null,
