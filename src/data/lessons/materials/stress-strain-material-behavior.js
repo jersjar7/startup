@@ -27,13 +27,13 @@ export default {
       statement: 'A tensile test specimen has an original cross-sectional area of $A_0 = 150 \\text{ mm}^2$ and is pulled with a force of $P = 60 \\text{ kN}$. What is the engineering stress?',
       choices: [
         { id: 'c1', text: '$400 \\text{ MPa}$' },
-        { id: 'c2', text: '$40 \\text{ MPa}$' },
+        { id: 'c2', text: '$0.4 \\text{ MPa}$' },
         { id: 'c3', text: '$4{,}000 \\text{ MPa}$' },
         { id: 'c4', text: '$200 \\text{ MPa}$' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Straight $P/A$ problem. Convert kN to N first: 60 kN = 60,000 N. Then $\\sigma = 60{,}000 / 150 = 400$ MPa. The 40 MPa option comes from using 60 instead of 60,000 \u2014 forgetting the kN-to-N conversion. The 4,000 MPa option comes from using the area as 15 mm\u00B2. The 200 MPa option comes from doubling the area to 300 mm\u00B2.',
+      eli5: 'Straight $P/A$ problem. Convert kN to N first: 60 kN = 60,000 N. Then $\\sigma = 60{,}000 / 150 = 400$ MPa. The 0.4 MPa option is what you get by dividing the 60 straight by 150 and forgetting that the force is in kilonewtons. The 4,000 MPa option comes from using the area as 15 mm\u00B2. The 200 MPa option comes from doubling the area to 300 mm\u00B2.',
       hint: 'Convert kN to N before dividing by the area in mm\u00B2. The result is in MPa (N/mm\u00B2 = MPa).',
       steps: [
         { text: 'Convert force to newtons:', latex: 'P = 60 \\text{ kN} = 60{,}000 \\text{ N}' },
@@ -43,7 +43,7 @@ export default {
       handbookFormula: '\\sigma = \\frac{F}{A_0}',
       videoUrl: null,
       traps: [
-        'Forgetting to convert kN to N \u2014 gives 60/150 = 0.4 or 40 MPa with a unit mixup (choice B)',
+        'Forgetting to convert kN to N \u2014 gives 60/150 = 0.4 MPa (choice B)',
         'Using the wrong area (misreading 150 as 15 or 300) \u2014 gives 4,000 or 200 MPa',
       ],
       diagram: null,
@@ -59,7 +59,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'medium',
-      eli5: 'Two steps: first find strain, then use Hooke\u2019s law. $\\varepsilon = \\Delta L / L_0 = 0.125/50 = 0.0025$. Then $E = \\sigma / \\varepsilon = 175/0.0025 = 70{,}000$ MPa $= 70$ GPa. The big trap is forgetting to divide $\\Delta L$ by the gauge length \u2014 if you use $\\varepsilon = 0.125$ (the elongation itself), you get $E = 175/0.125 = 1{,}400$ MPa $= 1.4$ GPa (the $1.4 \\text{ GPa}$ choice). That\u2019s off by a factor of 50.',
+      eli5: 'Two steps: first find strain, then use Hooke\u2019s law. $\\varepsilon = \\Delta L / L_0 = 0.125/50 = 0.0025$. Then $E = \\sigma / \\varepsilon = 175/0.0025 = 70{,}000$ MPa $= 70$ GPa. The big trap is forgetting to divide $\\Delta L$ by the gauge length \u2014 if you use $\\varepsilon = 0.125$ (the elongation itself), you get $E = 175/0.125 = 1{,}400$ MPa $= 1.4$ GPa (the $1.4 \\text{ GPa}$ choice). That\u2019s off by a factor of 50. The $7 \\text{ GPa}$ choice is a decimal slip in the strain, 0.025 instead of 0.0025, which lands ten times low.',
       hint: 'Strain is not the same as elongation. Divide $\\Delta L$ by the gauge length to get dimensionless strain first.',
       steps: [
         { text: 'Engineering strain:', latex: '\\varepsilon = \\frac{\\Delta L}{L_0} = \\frac{0.125}{50} = 0.0025' },
@@ -71,6 +71,7 @@ export default {
       traps: [
         'Using elongation $\\Delta L$ directly as strain (forgetting to divide by gauge length) \u2014 gives $E = 1.4$ GPa (choice B)',
         'Using wrong gauge length (500 instead of 50) \u2014 gives E = 700 GPa (choice A)',
+        'Slipping a decimal in the strain (0.025 instead of 0.0025) \u2014 gives E = 7 GPa (choice D)',
       ],
       diagram: null,
     },
