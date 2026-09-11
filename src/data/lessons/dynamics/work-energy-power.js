@@ -39,7 +39,7 @@ export default {
       ],
       correctAnswerId: 'c1',
       difficulty: 'easy',
-      eli5: 'Conservation of energy: all the potential energy at the top converts to kinetic energy at the bottom. Set mgh = \u00BDmv\u00B2. Notice mass cancels \u2014 the answer is actually v = \u221A(2gh) regardless of mass. That gives \u221A(2 \u00D7 9.81 \u00D7 3) = 7.67 m/s. The 29.4 m/s option is just 2gh without the square root.',
+      eli5: 'Conservation of energy: all the potential energy at the top converts to kinetic energy at the bottom. Set mgh = \u00BDmv\u00B2. Notice mass cancels \u2014 the answer is actually v = \u221A(2gh) regardless of mass. That gives \u221A(2 \u00D7 9.81 \u00D7 3) = 7.67 m/s. The 29.4 m/s option is gh, with both the 2 and the square root missing. The 5.42 m/s option is the square root of gh, with only the 2 missing. The 58.9 m/s option is 2gh with the root missing.',
       hint: 'With no friction, potential energy at the top equals kinetic energy at the bottom.',
       steps: [
         { text: 'No friction \u2014 use conservation of energy:', latex: 'T_1 + V_1 = T_2 + V_2' },
@@ -95,7 +95,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'Friction does negative work (removes kinetic energy). Start with the initial KE (\u00BDmv\u00B2), set it equal to the friction work (\u03BCmgd), and solve for d. Notice mass cancels again: d = v\u00B2/(2\u03BCg). The traps are using \u03BC = 0.3 \u00D7 10 = 3 as the friction force (forgetting to multiply by g) or dividing by 2\u03BCg incorrectly.',
+      eli5: 'Friction does negative work (removes kinetic energy). Start with the initial KE (\u00BDmv\u00B2), set it equal to the friction work (\u03BCmgd), and solve for d. Notice mass cancels again: d = v\u00B2/(2\u03BCg). The wrong answers are all the same formula with a piece missing: 21.7 m leaves the 2 out of the kinetic energy, 6.52 m leaves the coefficient out altogether, and 2.17 m divides the square of the speed by the friction force without the mass and the half that belong on top.',
       hint: 'All the kinetic energy is removed by friction work. Set \u00BDmv\u00B2 = \u03BCmgd and solve for d.',
       steps: [
         { text: 'Friction force:', latex: 'F_f = \\mu_k mg = 0.3(10)(9.81) = 29.43 \\text{ N}' },
@@ -106,6 +106,8 @@ export default {
       handbookFormula: 'T_1 + U_{1 \\to 2} = T_2',
       videoUrl: null,
       traps: [
+        'Leaving the 2 out of the kinetic energy \u2014 doubles the distance to 21.7 m (distractor D)',
+        'Leaving the coefficient out \u2014 gives 6.52 m (distractor B)',
         'Forgetting to multiply by g when computing the friction force \u2014 N = mg, not just m',
         'Using v instead of v\u00B2 in the kinetic energy \u2014 \u00BDmv gives wrong units',
         'Not recognizing that friction work is negative (removes energy from the system)',
