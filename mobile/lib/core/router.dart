@@ -222,6 +222,17 @@ import '../features/games/filling_or_emptying_game.dart';
 import '../features/games/which_speed_is_that_game.dart';
 import '../features/games/which_well_formula_game.dart';
 import '../features/games/double_the_drawdown_game.dart';
+import '../features/games/how_much_is_used_up_game.dart';
+import '../features/games/multiply_or_divide_game.dart';
+import '../features/games/warmer_or_colder_game.dart';
+import '../features/games/does_it_settle_out_game.dart';
+import '../features/games/hours_or_days_game.dart';
+import '../features/games/what_moves_the_ratio_game.dart';
+import '../features/games/what_do_you_feed_game.dart';
+import '../features/games/what_buys_the_ct_game.dart';
+import '../features/games/health_or_taste_game.dart';
+import '../features/games/which_ion_counts_more_game.dart';
+import '../features/games/removed_or_remaining_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -583,6 +594,17 @@ GoRouter buildRouter(AuthController auth) {
           'which-speed-is-that' => const WhichSpeedIsThatGame(),
           'which-well-formula' => const WhichWellFormulaGame(),
           'double-the-drawdown' => const DoubleTheDrawdownGame(),
+          'how-much-is-used-up' => const HowMuchIsUsedUpGame(),
+          'multiply-or-divide' => const MultiplyOrDivideGame(),
+          'warmer-or-colder' => const WarmerOrColderGame(),
+          'does-it-settle-out' => const DoesItSettleOutGame(),
+          'hours-or-days' => const HoursOrDaysGame(),
+          'what-moves-the-ratio' => const WhatMovesTheRatioGame(),
+          'what-do-you-feed' => const WhatDoYouFeedGame(),
+          'what-buys-the-ct' => const WhatBuysTheCtGame(),
+          'health-or-taste' => const HealthOrTasteGame(),
+          'which-ion-counts-more' => const WhichIonCountsMoreGame(),
+          'removed-or-remaining' => const RemovedOrRemainingGame(),
           _ => const _UnknownGame(),
         },
       ),

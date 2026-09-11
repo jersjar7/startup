@@ -40,6 +40,18 @@ import 'filling_or_emptying_game.dart';
 import 'which_speed_is_that_game.dart';
 import 'which_well_formula_game.dart';
 import 'double_the_drawdown_game.dart';
+import 'how_much_is_used_up_game.dart';
+import 'multiply_or_divide_game.dart';
+import 'warmer_or_colder_game.dart';
+import 'does_it_settle_out_game.dart';
+import 'hours_or_days_game.dart';
+import 'what_moves_the_ratio_game.dart';
+import 'what_do_you_feed_game.dart';
+import 'what_buys_the_ct_game.dart';
+import 'health_or_taste_game.dart';
+import 'which_ion_counts_more_game.dart';
+import 'removed_or_remaining_game.dart';
+import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
 import 'where_does_that_pair_land_game.dart';
@@ -3646,6 +3658,149 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Buys.values) o.name],
           answer: Buys.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-much-is-used-up',
+    lessonId: 'water-quality',
+    problemPrefix: 'wr-wq-',
+    rounds: [
+      for (final r in usedRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Used.values) o.name],
+          answer: Used.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'multiply-or-divide',
+    lessonId: 'water-quality',
+    problemPrefix: 'wr-wq-',
+    rounds: [
+      for (final r in bodStepRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Step3.values) o.name],
+          answer: Step3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'warmer-or-colder',
+    lessonId: 'water-quality',
+    problemPrefix: 'wr-wq-',
+    rounds: [
+      for (final r in warmRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Rate3.values) o.name],
+          answer: Rate3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-it-settle-out',
+    lessonId: 'water-treatment',
+    problemPrefix: 'wr-wt-',
+    rounds: [
+      for (final r in captureRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Settles.values) o.name],
+          answer: Settles.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'hours-or-days',
+    lessonId: 'water-treatment',
+    problemPrefix: 'wr-wt-',
+    rounds: [
+      for (final r in twoClockRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Stay.values) o.name],
+          answer: Stay.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-moves-the-ratio',
+    lessonId: 'water-treatment',
+    problemPrefix: 'wr-wt-',
+    rounds: [
+      for (final r in fmRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Ratio3.values) o.name],
+          answer: Ratio3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-do-you-feed',
+    lessonId: 'drinking-water-treatment',
+    problemPrefix: 'wr-dwt-',
+    rounds: [
+      for (final r in feedRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Portion.values) o.name],
+          answer: Portion.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-buys-the-ct',
+    lessonId: 'drinking-water-treatment',
+    problemPrefix: 'wr-dwt-',
+    rounds: [
+      for (final r in creditRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Credit.values) o.name],
+          answer: Credit.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'health-or-taste',
+    lessonId: 'water-quality-standards',
+    problemPrefix: 'wr-wqs-',
+    rounds: [
+      for (final r in tierRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in [Tier.primary, Tier.secondary]) o.name],
+          answer: r.answer == Tier.primary ? 0 : 1,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-ion-counts-more',
+    lessonId: 'water-quality-standards',
+    problemPrefix: 'wr-wqs-',
+    rounds: [
+      for (final r in ionRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Counts.values) o.name],
+          answer: Counts.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'removed-or-remaining',
+    lessonId: 'water-quality-standards',
+    problemPrefix: 'wr-wqs-',
+    rounds: [
+      for (final r in dutyRounds2)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Duty3.values) o.name],
+          answer: Duty3.values.indexOf(r.answer),
         ),
     ],
   ),

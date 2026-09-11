@@ -299,6 +299,16 @@ enum BriefFigure {
   routing,
   seepage,
   wells,
+  bod,
+  rateTemperature,
+  overflow,
+  residence,
+  foodRatio,
+  chlorineDose,
+  contactTime,
+  tiers,
+  hardness,
+  efficiency,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -5346,6 +5356,250 @@ const wellBrief = BriefSection(
   handbook: 'Handbook pp. 292 to 293',
 );
 
+const bodBrief = BriefSection(
+  title: 'The five day test is not the whole of it',
+  body:
+      'BOD is the oxygen that bacteria will take while they break down the '
+      'organic matter in a sample, and it arrives over time rather than all '
+      'at once. The ULTIMATE BOD is the whole of it, and the standard '
+      'laboratory test reads a bottle at FIVE DAYS at twenty degrees, which '
+      'catches only part. How much part depends on the decay rate: 68 percent '
+      'at the standard k of 0.23 a day, under 40 percent in slow cold water, '
+      'and nearly all of it in a fast warm sample. The 68 percent figure is '
+      'not a law. Two numbers matter at any moment and they add to the '
+      'ultimate: the BOD EXERTED, which is what the test measures, and the '
+      'BOD REMAINING, which is still to come. Going from the ultimate to a '
+      'measurement you MULTIPLY by the fraction and the answer gets smaller; '
+      'going from a measurement back to the ultimate you DIVIDE and it gets '
+      'larger. The ultimate is always the bigger of the two, which is the '
+      'check that catches a division done upside down.',
+  formulas: [
+    ('Exerted by day t', r'BOD_t = L_0\left(1 - e^{-kt}\right)'),
+    ('Still to come', r'L_0 - BOD_t = L_0 e^{-kt}'),
+    ('Working backward', r'L_0 = \frac{BOD_t}{1 - e^{-kt}}'),
+  ],
+  figure: BriefFigure.bod,
+  handbook: 'Handbook p. 321',
+);
+
+const temperatureBrief = BriefSection(
+  title: 'Temperature moves the rate, not the total',
+  body:
+      'Warm water means busy bacteria, so a rate constant quoted at twenty '
+      'degrees has to be corrected for the temperature the water is actually '
+      'at. The exponent is T MINUS 20: above the reference the factor is '
+      'greater than one and the decay speeds up, below it the factor is less '
+      'than one and the decay crawls. Writing 20 minus T gives a slower rate '
+      'for a warmer river, which cannot happen, and it is the trap this '
+      'lesson names. What the correction does NOT touch is the ultimate BOD: '
+      'the same organic matter needs the same oxygen in the end, it simply '
+      'gets there sooner, so the warm curve climbs more steeply to the same '
+      'ceiling. Which theta to use depends on the process and the range: '
+      '1.135 for BOD from 4 to 20 degrees, 1.056 from 21 to 30, and 1.024 for '
+      'reaeration.',
+  formulas: [
+    ('The correction', r'k_T = k_{20}\,\theta^{(T-20)}'),
+    ('BOD, warm', r'\theta = 1.056'),
+    ('BOD, cold', r'\theta = 1.135'),
+    ('Reaeration', r'\theta = 1.024'),
+  ],
+  figure: BriefFigure.rateTemperature,
+  handbook: 'Handbook p. 322',
+);
+
+const overflowBrief = BriefSection(
+  title: 'A rate with the units of a speed',
+  body:
+      'The OVERFLOW RATE of a settling tank is the flow divided by the '
+      'SURFACE area, and although it gets quoted in gallons a day per square '
+      'foot, those units cancel to a velocity. Read it that way and the tank '
+      'explains itself: it is the speed the water rises on its way to the '
+      'weir, so a particle that falls faster than that reaches the floor and '
+      'one that falls slower is carried out. Everything the tank removes is '
+      'decided by that one comparison. The depth appears nowhere in it. '
+      'Building the tank deeper buys DETENTION TIME, which is volume over '
+      'flow and matters for other things, and captures not one extra '
+      'particle; building it wider buys capture. Doubling the flow doubles '
+      'the overflow rate, which is why a storm can wash a clarifier out. '
+      'Primary tanks run at 800 to 1,200 and secondary ones at 400 to 800, '
+      'because biological floc settles far more slowly than grit.',
+  formulas: [
+    ('The overflow rate', r'v_o = \frac{Q}{A_{surface}}'),
+    ('Captured when', r'v_s > v_o'),
+    ('Detention time', r'\theta = \frac{V}{Q}'),
+  ],
+  figure: BriefFigure.overflow,
+  handbook: 'Handbook p. 339',
+);
+
+const residenceBrief = BriefSection(
+  title: 'Two clocks in one plant',
+  body:
+      'An activated sludge plant runs two residence times and they are not '
+      'the same one. The HYDRAULIC time is volume over flow: how long the '
+      'WATER spends crossing the plant, a few hours, because the water goes '
+      'through once and leaves. The SOLIDS time is the mass of solids held in '
+      'the system over the mass leaving each day, and it comes out in DAYS, '
+      'typically four to fifteen, because the solids settle in the clarifier '
+      'and are pumped back to the basin to go round again until they are '
+      'deliberately wasted. The units are the quickest way to tell which is '
+      'which: hours means water, days means solids. The denominator of the '
+      'solids time has two parts, the waste sludge AND the solids that escape '
+      'over the weir, and dropping the second is a common slip. Wasting more '
+      'sludge shortens the solids time and does nothing at all to the '
+      'hydraulic one.',
+  formulas: [
+    ('The water', r'\theta = \frac{V}{Q}'),
+    ('The solids', r'\theta_c = \frac{V X_A}{Q_w X_w + Q_e X_e}'),
+  ],
+  figure: BriefFigure.residence,
+  handbook: 'Handbook p. 333',
+);
+
+const foodRatioBrief = BriefSection(
+  title: 'Food over the mouths that eat it',
+  body:
+      'The food to microorganism ratio is the organic load arriving each day '
+      'divided by the mass of biology available to treat it, and the four '
+      'quantities in it sort themselves by which side of the line they sit '
+      'on. The FLOW and the influent BOD are the food, and only their PRODUCT '
+      'matters: a storm that doubles the flow and halves the strength brings '
+      'the same kilograms of BOD and moves the ratio not at all. The BASIN '
+      'VOLUME and the MIXED LIQUOR SOLIDS are the bugs, and their product is '
+      'the biomass being carried, so a second basin at the same concentration '
+      'halves the ratio just as surely as doubling the concentration would. '
+      'The concentration units cancel, which is why the answer comes out per '
+      'day. Conventional plants are held between about 0.2 and 0.4, and the '
+      'waste pump is the lever that gets them there.',
+  formulas: [
+    ('The ratio', r'F{:}M = \frac{Q S_0}{V X_A}'),
+    ('The food', r'Q S_0 \text{, a load per day}'),
+    ('The bugs', r'V X_A \text{, a mass}'),
+  ],
+  figure: BriefFigure.foodRatio,
+  handbook: 'Handbook p. 333',
+);
+
+const doseBrief = BriefSection(
+  title: 'Three numbers, and the pump is set to the sum',
+  body:
+      'Chlorination has three quantities in it and two of them get confused. '
+      'The DEMAND belongs to the water: the organic matter, ammonia and iron '
+      'in it consume chlorine before any is left over, and a dirty raw water '
+      'has a high demand. The RESIDUAL is what must still be measurable at '
+      'the far end of the distribution system, and it is the only one of the '
+      'three anybody can sample for out in the mains, which is why '
+      'regulations are written on it. The DOSE is what the feed pump is set '
+      'to, and it is the SUM of the other two: feed only the demand and '
+      'nothing reaches the customer, feed only the residual and the water '
+      'consumes it before it leaves the works. Mass per day comes off the '
+      'dose, not the demand, and a milligram a liter is a gram a cubic meter, '
+      'so the conversion is easier than it looks.',
+  formulas: [
+    ('The balance', r'\text{dose} = \text{demand} + \text{residual}'),
+    ('Mass per day', r'\dot m = \text{dose} \times Q'),
+    ('The handy identity', r'1 \text{ mg/L} = 1 \text{ g/m}^3'),
+  ],
+  figure: BriefFigure.chlorineDose,
+  handbook: 'Handbook p. 346',
+);
+
+const contactBrief = BriefSection(
+  title: 'Credit is a product, and the time is the honest one',
+  body:
+      'Disinfection credit is CT, the free chlorine RESIDUAL multiplied by '
+      'the contact time, so there are two ways to buy it and they trade off '
+      'exactly: half again the residual does what half again the time would. '
+      'Note that it runs on the residual and not on the dose, so chlorine '
+      'consumed by the demand buys no credit at all. The time is the part '
+      'worth care. It is not the volume over the flow, which assumes every '
+      'drop takes the same path, but t10, the time the fastest TENTH of the '
+      'water gets, and in an unbaffled tank that can be a third of the '
+      'theoretical figure or less because some water short circuits from the '
+      'inlet to the outlet. Baffles are the cheap way to close the gap, and '
+      'compliance is checked at peak flow, when the time is shortest.',
+  formulas: [
+    ('The credit', r'CT = C \times t_{10}'),
+    ('The honest time', r't_{10} < \frac{V}{Q}'),
+    ('What it is for', r'3\text{-log Giardia}, \; 4\text{-log virus}'),
+  ],
+  figure: BriefFigure.contactTime,
+  handbook: 'Handbook p. 346',
+);
+
+const standardsBrief = BriefSection(
+  title: 'Two tiers, and only one is law',
+  body:
+      'The Safe Drinking Water Act sets PRIMARY standards, which are health '
+      'based and legally enforceable, and SECONDARY standards, which cover '
+      'taste, color, staining and scale and are advisory. Exceeding a primary '
+      'limit is a violation with public notice attached; exceeding a '
+      'secondary one produces complaints. Primary: arsenic at 0.010 mg/L, '
+      'nitrate as nitrogen at 10, the lead action level at 0.015, turbidity, '
+      'the pathogens. Secondary: iron at 0.3, manganese at 0.05, total '
+      'dissolved solids at 500, chloride at 250, pH between 6.5 and 8.5. The '
+      'SIZE of a limit says nothing about which tier it belongs to, only '
+      'about how harmful the substance is. Wastewater is a different act '
+      'entirely: the Clean Water Act licenses discharges through NPDES '
+      'permits, and conventional secondary treatment is about 30 mg/L of BOD '
+      'and suspended solids, roughly 85 percent removal.',
+  formulas: [
+    ('Primary', r'\text{health, enforceable}'),
+    ('Secondary', r'\text{aesthetic, advisory}'),
+    ('Secondary treatment', r'\approx 30 \text{ mg/L BOD}_5'),
+  ],
+  figure: BriefFigure.tiers,
+  handbook: 'Handbook, water quality standards',
+);
+
+const hardnessBrief = BriefSection(
+  title: 'Everything on one basis',
+  body:
+      'Hardness comes from divalent cations, mostly calcium and magnesium, '
+      'and they cannot be added together as they come because a milligram of '
+      'one is not chemically equal to a milligram of the other. Converting '
+      'each to an equivalent concentration of calcium carbonate puts them on '
+      'one basis, and the multiplier is 50 divided by the ion\'s own '
+      'equivalent weight: 50 over 20 is 2.5 for calcium, and 50 over 12.15 is '
+      '4.12 for magnesium. Magnesium therefore counts for MORE, milligram '
+      'for milligram, because it is the lighter ion. The conversion can '
+      'reverse which of the two dominates, so it has to be done before '
+      'anything is compared as well as before anything is added, and adding '
+      'the raw concentrations understates the hardness every time. The bands '
+      'are soft under 60, moderately hard to 120, hard to 180, and very hard '
+      'above that.',
+  formulas: [
+    ('On one basis', r'\text{as CaCO}_3 = \sum C_i \frac{50}{EW_i}'),
+    ('Calcium', r'\times 2.5'),
+    ('Magnesium', r'\times 4.12'),
+  ],
+  figure: BriefFigure.hardness,
+  handbook: 'Handbook, hardness',
+);
+
+const efficiencyBrief = BriefSection(
+  title: 'What came out, over what went in',
+  body:
+      'Removal efficiency is the influent less the effluent, over the '
+      'influent, and the trap is reporting the other piece: the fraction '
+      'still there, which is the effluent over the influent. The two add to '
+      'one, so a plant at 87.5 percent leaves 12.5, and both numbers usually '
+      'appear among the choices. The FLOW is in neither term and cancels '
+      'entirely, so only the ratio of the two concentrations matters, and '
+      'doubling the influent and the permit together changes nothing at all '
+      'even though the plant is removing twice the mass. The last part is '
+      'worth carrying: near the top of the range five percentage points '
+      'halves what is discharged, 90 to 95 taking a 20 mg/L effluent down to '
+      '10. Percentages flatter a good plant, which is why permits are written '
+      'on concentrations.',
+  formulas: [
+    ('Removed', r'E = \frac{S_0 - S}{S_0}'),
+    ('Left', r'\frac{S}{S_0} = 1 - E'),
+  ],
+  figure: BriefFigure.efficiency,
+  handbook: 'Handbook, treatment performance',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -7112,6 +7366,97 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{unconfined} \Rightarrow \text{heads squared}", true),
             (r"\log_{10} \text{ in the denominator}", false),
             (r"T = Kb \text{ for an unconfined aquifer}", false),
+          ],
+        );
+      case BriefFigure.bod:
+        return const _RuleList(
+          rules: [
+            (r"BOD_5 < L_0 \text{ always}", true),
+            (r"\text{exerted} + \text{remaining} = L_0", true),
+            (r"BOD_5 = 0.68 L_0 \text{ for any } k", false),
+            (r"BOD_5 = L_0", false),
+          ],
+        );
+      case BriefFigure.rateTemperature:
+        return const _RuleList(
+          rules: [
+            (r"T > 20 \Rightarrow \text{bigger } k", true),
+            (r"L_0 \text{ does not move}", true),
+            (r"\theta^{(20-T)}", false),
+            (r"\text{warm water raises } L_0", false),
+          ],
+        );
+      case BriefFigure.overflow:
+        return const _RuleList(
+          rules: [
+            (r"v_s > v_o \Rightarrow \text{captured}", true),
+            (r"\text{deeper changes } \theta, \text{ not } v_o", true),
+            (r"\text{a deeper tank captures more}", false),
+            (r"v_o = \frac{Q}{V}", false),
+          ],
+        );
+      case BriefFigure.residence:
+        return const _RuleList(
+          rules: [
+            (r"\theta \text{ in hours}, \theta_c \text{ in days}", true),
+            (r"\text{more wasting} \Rightarrow \text{shorter } \theta_c", true),
+            (r"\theta_c = \frac{V}{Q}", false),
+            (r"\text{the effluent solids do not count}", false),
+          ],
+        );
+      case BriefFigure.foodRatio:
+        return const _RuleList(
+          rules: [
+            (r"2Q \text{ and } \tfrac{S_0}{2} \Rightarrow \text{no change}",
+                true),
+            (r"\text{more MLSS} \Rightarrow \text{lower } F{:}M", true),
+            (r"\text{a bigger basin raises } F{:}M", false),
+            (r"F{:}M = \frac{Q S_0}{V}", false),
+          ],
+        );
+      case BriefFigure.chlorineDose:
+        return const _RuleList(
+          rules: [
+            (r"\text{dose} = \text{demand} + \text{residual}", true),
+            (r"1 \text{ mg/L} = 1 \text{ g/m}^3", true),
+            (r"\text{dose} = \text{residual}", false),
+            (r"\text{the demand is set by the plant}", false),
+          ],
+        );
+      case BriefFigure.contactTime:
+        return const _RuleList(
+          rules: [
+            (r"CT = C \times t_{10}", true),
+            (r"t_{10} < \frac{V}{Q}", true),
+            (r"CT = \text{dose} \times \frac{V}{Q}", false),
+            (r"\text{baffles do not change } t_{10}", false),
+          ],
+        );
+      case BriefFigure.tiers:
+        return const _RuleList(
+          rules: [
+            (r"\text{arsenic: primary}", true),
+            (r"\text{iron: secondary}", true),
+            (r"\text{a small limit means primary}", false),
+            (r"\text{secondary limits are enforceable}", false),
+          ],
+        );
+      case BriefFigure.hardness:
+        return const _RuleList(
+          rules: [
+            (r"Ca \times 2.5, \; Mg \times 4.12", true),
+            (r"\text{convert, then add}", true),
+            (r"\text{add, then convert}", false),
+            (r"\text{one multiplier fits both}", false),
+          ],
+        );
+      case BriefFigure.efficiency:
+        return const _RuleList(
+          rules: [
+            (r"E = \frac{S_0 - S}{S_0}", true),
+            (r"\text{the flow cancels}", true),
+            (r"E = \frac{S}{S_0}", false),
+            (r"\text{more flow raises the required } E", false),
           ],
         );
       case BriefFigure.cogo:

@@ -229,6 +229,17 @@ import 'package:mobile/features/games/filling_or_emptying_game.dart';
 import 'package:mobile/features/games/which_speed_is_that_game.dart';
 import 'package:mobile/features/games/which_well_formula_game.dart';
 import 'package:mobile/features/games/double_the_drawdown_game.dart';
+import 'package:mobile/features/games/how_much_is_used_up_game.dart';
+import 'package:mobile/features/games/multiply_or_divide_game.dart';
+import 'package:mobile/features/games/warmer_or_colder_game.dart';
+import 'package:mobile/features/games/does_it_settle_out_game.dart';
+import 'package:mobile/features/games/hours_or_days_game.dart';
+import 'package:mobile/features/games/what_moves_the_ratio_game.dart';
+import 'package:mobile/features/games/what_do_you_feed_game.dart';
+import 'package:mobile/features/games/what_buys_the_ct_game.dart';
+import 'package:mobile/features/games/health_or_taste_game.dart';
+import 'package:mobile/features/games/which_ion_counts_more_game.dart';
+import 'package:mobile/features/games/removed_or_remaining_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1933,6 +1944,72 @@ void main() {
           rounds: drawRounds.length,
           height: 1900,
         ),
+        'how-much-is-used-up': (
+          lesson: '91-bod',
+          build: HowMuchIsUsedUpGame.new,
+          rounds: usedRounds.length,
+          height: 1880,
+        ),
+        'multiply-or-divide': (
+          lesson: '91-bod',
+          build: MultiplyOrDivideGame.new,
+          rounds: bodStepRounds.length,
+          height: 1900,
+        ),
+        'warmer-or-colder': (
+          lesson: '91-bod',
+          build: WarmerOrColderGame.new,
+          rounds: warmRounds.length,
+          height: 1860,
+        ),
+        'does-it-settle-out': (
+          lesson: '92-treatment',
+          build: DoesItSettleOutGame.new,
+          rounds: captureRounds.length,
+          height: 1860,
+        ),
+        'hours-or-days': (
+          lesson: '92-treatment',
+          build: HoursOrDaysGame.new,
+          rounds: twoClockRounds.length,
+          height: 1900,
+        ),
+        'what-moves-the-ratio': (
+          lesson: '92-treatment',
+          build: WhatMovesTheRatioGame.new,
+          rounds: fmRounds.length,
+          height: 1900,
+        ),
+        'what-do-you-feed': (
+          lesson: '93-chlorine',
+          build: WhatDoYouFeedGame.new,
+          rounds: feedRounds.length,
+          height: 1900,
+        ),
+        'what-buys-the-ct': (
+          lesson: '93-chlorine',
+          build: WhatBuysTheCtGame.new,
+          rounds: creditRounds.length,
+          height: 1920,
+        ),
+        'health-or-taste': (
+          lesson: '94-standards',
+          build: HealthOrTasteGame.new,
+          rounds: tierRounds.length,
+          height: 1820,
+        ),
+        'which-ion-counts-more': (
+          lesson: '94-standards',
+          build: WhichIonCountsMoreGame.new,
+          rounds: ionRounds.length,
+          height: 1840,
+        ),
+        'removed-or-remaining': (
+          lesson: '94-standards',
+          build: RemovedOrRemainingGame.new,
+          rounds: dutyRounds2.length,
+          height: 1880,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2369,6 +2446,24 @@ void main() {
     '87-pumps': [
       ('power', pumpPowerBrief),
       ('npsh', npshBrief),
+    ],
+    '94-standards': [
+      ('tiers', standardsBrief),
+      ('hardness', hardnessBrief),
+      ('efficiency', efficiencyBrief),
+    ],
+    '93-chlorine': [
+      ('dose', doseBrief),
+      ('contact', contactBrief),
+    ],
+    '92-treatment': [
+      ('overflow', overflowBrief),
+      ('residence', residenceBrief),
+      ('foodratio', foodRatioBrief),
+    ],
+    '91-bod': [
+      ('bod', bodBrief),
+      ('temperature', temperatureBrief),
     ],
     '90-groundwater': [
       ('seepage', seepageBrief),

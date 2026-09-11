@@ -1172,7 +1172,7 @@ const economicsMap = ChapterMap(
           name: 'Where Does It Go',
           blurb: 'On top, off the top, or underneath. One of three.',
           built: true,
-          brief: ratioBrief,
+          brief: foodRatioBrief,
         ),
         GameDef(
           id: 'which-one-do-you-build',
@@ -3021,6 +3021,128 @@ const waterResourcesMap = ChapterMap(
           blurb: 'Why the squared heads are doing something.',
           built: true,
           brief: wellBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'water-quality',
+      name: 'Water Quality & BOD',
+      subtopicId: 'water-quality-treatment',
+      // The dissolved oxygen sag and the critical point are in the lesson
+      // text with no problem behind them, so they stay on paper.
+      games: [
+        GameDef(
+          id: 'how-much-is-used-up',
+          rounds: 6,
+          name: 'How Much Is Used Up',
+          blurb: 'The 68 percent is a rate, not a rule.',
+          built: true,
+          brief: bodBrief,
+        ),
+        GameDef(
+          id: 'multiply-or-divide',
+          rounds: 6,
+          name: 'Multiply or Divide',
+          blurb: 'The ultimate is always the larger number.',
+          built: true,
+          brief: bodBrief,
+        ),
+        GameDef(
+          id: 'warmer-or-colder',
+          rounds: 6,
+          name: 'Warmer or Colder',
+          blurb: 'It moves the rate and leaves the total alone.',
+          built: true,
+          brief: temperatureBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'water-treatment',
+      name: 'Water & Wastewater Treatment',
+      subtopicId: 'water-quality-treatment',
+      games: [
+        GameDef(
+          id: 'does-it-settle-out',
+          rounds: 6,
+          name: 'Does It Settle Out',
+          blurb: 'The overflow rate is a speed. Read it as one.',
+          built: true,
+          brief: overflowBrief,
+        ),
+        GameDef(
+          id: 'hours-or-days',
+          rounds: 6,
+          name: 'Hours or Days',
+          blurb: 'The water goes through once. The solids go round.',
+          built: true,
+          brief: residenceBrief,
+        ),
+        GameDef(
+          id: 'what-moves-the-ratio',
+          rounds: 6,
+          name: 'What Moves the Ratio',
+          blurb: 'Two quantities are food and two are mouths.',
+          built: true,
+          brief: foodRatioBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'drinking-water-treatment',
+      name: 'Drinking Water Treatment & Disinfection',
+      subtopicId: 'water-quality-treatment',
+      // Two items. The order of the treatment train is in the lesson text
+      // with no problem behind it, and the filter loading rate is the
+      // clarifier's overflow rate applied to a different box, which the
+      // settling item already teaches. Both are on the cards.
+      games: [
+        GameDef(
+          id: 'what-do-you-feed',
+          rounds: 6,
+          name: 'What Do You Feed',
+          blurb: 'Demand, residual, dose, and only one goes in the pump.',
+          built: true,
+          brief: doseBrief,
+        ),
+        GameDef(
+          id: 'what-buys-the-ct',
+          rounds: 6,
+          name: 'What Buys the CT',
+          blurb: 'The residual, the time, and which time counts.',
+          built: true,
+          brief: contactBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'water-quality-standards',
+      name: 'Drinking Water Standards & Hardness',
+      subtopicId: 'water-quality-treatment',
+      games: [
+        GameDef(
+          id: 'health-or-taste',
+          rounds: 6,
+          name: 'Health or Taste',
+          blurb: 'The size of a limit says nothing about its tier.',
+          built: true,
+          brief: standardsBrief,
+        ),
+        GameDef(
+          id: 'which-ion-counts-more',
+          rounds: 6,
+          name: 'Which Ion Counts More',
+          blurb: 'Magnesium, milligram for milligram. It is lighter.',
+          built: true,
+          brief: hardnessBrief,
+        ),
+        GameDef(
+          id: 'removed-or-remaining',
+          rounds: 6,
+          name: 'Removed or Remaining',
+          blurb: 'The flow cancels. Only the ratio matters.',
+          built: true,
+          brief: efficiencyBrief,
         ),
       ],
     ),

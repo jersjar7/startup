@@ -11,6 +11,21 @@ import 'package:mobile/features/games/pump_figures.dart';
 import 'package:mobile/features/games/runoff_figures.dart';
 import 'package:mobile/features/games/hydrograph_figures.dart';
 import 'package:mobile/features/games/aquifer_figures.dart';
+import 'package:mobile/features/games/bod_figures.dart';
+import 'package:mobile/features/games/clarifier_figures.dart';
+import 'package:mobile/features/games/chlorine_figures.dart';
+import 'package:mobile/features/games/standards_figures.dart';
+import 'package:mobile/features/games/health_or_taste_game.dart';
+import 'package:mobile/features/games/which_ion_counts_more_game.dart';
+import 'package:mobile/features/games/removed_or_remaining_game.dart';
+import 'package:mobile/features/games/what_do_you_feed_game.dart';
+import 'package:mobile/features/games/what_buys_the_ct_game.dart';
+import 'package:mobile/features/games/does_it_settle_out_game.dart';
+import 'package:mobile/features/games/hours_or_days_game.dart';
+import 'package:mobile/features/games/what_moves_the_ratio_game.dart';
+import 'package:mobile/features/games/how_much_is_used_up_game.dart';
+import 'package:mobile/features/games/multiply_or_divide_game.dart';
+import 'package:mobile/features/games/warmer_or_colder_game.dart';
 import 'package:mobile/features/games/which_speed_is_that_game.dart';
 import 'package:mobile/features/games/which_well_formula_game.dart';
 import 'package:mobile/features/games/double_the_drawdown_game.dart';
@@ -958,6 +973,328 @@ void main() {
         }
       }
       expect(drawRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('BOD', () {
+    test('the lesson\'s own five day figure is 205', () {
+      const d = Demand(ultimate: 300, rate: 0.23);
+      expect(d.exertedAt(5), closeTo(205, 1));
+      expect(d.remainingAt(5), closeTo(95, 1));
+      expect(d.exertedAt(5) + d.remainingAt(5), closeTo(300, 0.001));
+      expect(d.fractionAt(5), closeTo(0.683, 0.002));
+    });
+
+    test('working backward from a measurement', () {
+      const d = Demand(ultimate: 285, rate: 0.20);
+      expect(d.exertedAt(5), closeTo(180, 1));
+      // The ultimate is always the larger of the two.
+      expect(d.ultimate, greaterThan(d.exertedAt(5)));
+    });
+
+    test('the 68 percent is a rate, not a rule', () {
+      expect(const Demand(ultimate: 300, rate: 0.10).fractionAt(5),
+          closeTo(0.393, 0.002));
+      expect(const Demand(ultimate: 300, rate: 0.40).fractionAt(5),
+          closeTo(0.865, 0.002));
+    });
+
+    test('every round is read off the curve', () {
+      for (final r in usedRounds) {
+        final share = r.demand.fractionAt(r.day);
+        switch (r.answer) {
+          case Used.most:
+            expect(share, greaterThan(0.58), reason: r.subject);
+          case Used.little:
+            expect(share, lessThan(0.42), reason: r.subject);
+          case Used.half:
+            expect(share, closeTo(0.5, 0.08), reason: r.subject);
+        }
+      }
+      expect(usedRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('the direction rounds agree with the arithmetic', () {
+      for (final r in bodStepRounds) {
+        final fraction = r.demand.fractionAt(r.day);
+        expect(fraction, lessThan(1), reason: r.subject);
+        if (r.answer == Step3.divide) {
+          expect(r.demand.exertedAt(r.day) / fraction,
+              closeTo(r.demand.ultimate, 1), reason: r.subject);
+        }
+      }
+      expect(bodStepRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('the temperature correction', () {
+    test('the lesson\'s own correction gives 0.36', () {
+      const d = Demand(ultimate: 300, rate: 0.23);
+      expect(d.atTemperature(28).rate, closeTo(0.356, 0.002));
+      // Turning the exponent around is the named trap and goes the wrong way.
+      expect(d.atTemperature(12).rate, lessThan(d.rate));
+    });
+
+    test('it moves the rate and never the ultimate', () {
+      const d = Demand(ultimate: 300, rate: 0.23);
+      for (final t in [5.0, 10.0, 20.0, 28.0, 30.0]) {
+        expect(d.atTemperature(t).ultimate, d.ultimate, reason: 'at $t');
+      }
+      expect(d.atTemperature(20).rate, closeTo(d.rate, 1e-9));
+    });
+
+    test('every round answers with what the correction does', () {
+      for (final r in warmRounds) {
+        switch (r.answer) {
+          case Rate3.faster:
+            expect(r.corrected.rate, greaterThan(r.base.rate),
+                reason: r.subject);
+          case Rate3.slower:
+            expect(r.corrected.rate, lessThan(r.base.rate),
+                reason: r.subject);
+          case Rate3.unchanged:
+            if (r.asks) {
+              expect(r.corrected.rate, closeTo(r.base.rate, 1e-9),
+                  reason: r.subject);
+            } else {
+              expect(r.corrected.ultimate, r.base.ultimate,
+                  reason: r.subject);
+            }
+        }
+      }
+      expect(warmRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('the clarifier', () {
+    test('the lesson\'s own tank runs at 708 gpd per square foot', () {
+      const c = Clarifier(flowGpd: 2000000, diameter: 60, depth: 10);
+      expect(c.area, closeTo(2827, 1));
+      expect(c.overflowRate, closeTo(707, 1));
+    });
+
+    test('the depth is nowhere in the overflow rate', () {
+      const shallow = Clarifier(flowGpd: 2000000, diameter: 60, depth: 10);
+      const deep = Clarifier(flowGpd: 2000000, diameter: 60, depth: 16);
+      expect(deep.overflowRate, closeTo(shallow.overflowRate, 0.001));
+      // What it does change is the time the water is in there.
+      expect(deep.detentionHours, greaterThan(shallow.detentionHours));
+    });
+
+    test('wider captures more and doubling the flow captures less', () {
+      const base = Clarifier(flowGpd: 2000000, diameter: 60, depth: 10);
+      const wide = Clarifier(flowGpd: 2000000, diameter: 90, depth: 10);
+      const storm = Clarifier(flowGpd: 4000000, diameter: 60, depth: 10);
+      expect(wide.overflowRate, lessThan(base.overflowRate));
+      expect(storm.overflowRate, closeTo(2 * base.overflowRate, 1));
+    });
+
+    test('every round is settled by the two velocities', () {
+      for (final r in captureRounds) {
+        final caught = r.falling > r.clarifier.riseFeetPerHour;
+        expect(r.answer == Settles.caught, caught, reason: r.subject);
+      }
+      expect(captureRounds.map((r) => r.answer).toSet().length, 2);
+    });
+
+    test('one round keeps the flow and changes only the depth', () {
+      final deeper = captureRounds.firstWhere((r) => r.clarifier.depth > 12);
+      final same = captureRounds.firstWhere(
+          (r) => r.clarifier.depth == 10 && r.falling == deeper.falling);
+      expect(deeper.answer, same.answer,
+          reason: 'a deeper tank captures nothing extra');
+    });
+  });
+
+  group('the two residence times', () {
+    test('every round names one of them', () {
+      for (final r in twoClockRounds) {
+        expect(r.answer, isNot(Stay.neither), reason: r.subject);
+      }
+      expect(twoClockRounds.map((r) => r.answer).toSet().length, 2);
+    });
+
+    test('the lesson\'s own numbers', () {
+      // HRT: 1,500 over 5,000 is 0.3 days, which the lesson offers wrongly.
+      expect(1500 / 5000, closeTo(0.3, 0.001));
+      // SRT with both terms in the denominator.
+      expect(1500 * 3500 / (50 * 10000 + 5000 * 20), closeTo(8.75, 0.01));
+      // Dropping the effluent solids gives the other distractor.
+      expect(1500 * 3500 / (50 * 10000), closeTo(10.5, 0.01));
+    });
+  });
+
+  group('the food to microorganism ratio', () {
+    test('the lesson\'s own ratio is 0.133 a day', () {
+      expect(4000 * 200 / (2000 * 3000), closeTo(0.133, 0.001));
+    });
+
+    test('only the product of flow and strength matters', () {
+      final storm = fmRounds.firstWhere((r) => r.answer == Ratio3.same);
+      expect(storm.flow.$1 * storm.strength.$1,
+          closeTo(storm.flow.$2 * storm.strength.$2, 0.001));
+    });
+
+    test('every round is worked off the four quantities', () {
+      for (final r in fmRounds) {
+        switch (r.answer) {
+          case Ratio3.up:
+            expect(r.after, greaterThan(r.before), reason: r.subject);
+          case Ratio3.down:
+            expect(r.after, lessThan(r.before), reason: r.subject);
+          case Ratio3.same:
+            expect(r.after, closeTo(r.before, 1e-9), reason: r.subject);
+        }
+      }
+      expect(fmRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('chlorination', () {
+    test('the lesson\'s own dose and mass feed', () {
+      const c = Chlorine(demand: 2.4, residual: 0.6);
+      expect(c.dose, closeTo(3.0, 0.001));
+      expect(c.kilogramsPerDay(4000), closeTo(12.0, 0.01));
+      // Feeding only the demand under-buys, which the lesson offers.
+      expect(2.4 * 4000 / 1000, closeTo(9.6, 0.01));
+    });
+
+    test('every round names one of the three', () {
+      for (final r in feedRounds) {
+        expect(r.chlorine.dose,
+            closeTo(r.chlorine.demand + r.chlorine.residual, 1e-9),
+            reason: r.subject);
+      }
+      expect(feedRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('the lesson\'s own contact time is 60 minutes', () {
+      // CT of 90 at a residual of 1.5 needs 60 minutes of t10.
+      expect(90 / 1.5, closeTo(60, 0.001));
+      const basin = Contact(residual: 1.5, theoretical: 100, baffled: 0.6);
+      expect(basin.t10, closeTo(60, 0.001));
+      expect(basin.ct, closeTo(90, 0.01));
+    });
+
+    test('the honest time is always shorter than volume over flow', () {
+      for (final b in [
+        const Contact(residual: 1.0, theoretical: 90, baffled: 0.3),
+        const Contact(residual: 1.2, theoretical: 60, baffled: 0.7),
+      ]) {
+        expect(b.t10, lessThan(b.theoretical));
+        expect(b.overclaimed, greaterThan(b.ct));
+      }
+    });
+
+    test('every round is worked off the two basins', () {
+      for (final r in creditRounds) {
+        switch (r.answer) {
+          case Credit.up:
+            expect(r.after.ct, greaterThan(r.before.ct), reason: r.subject);
+          case Credit.down:
+            expect(r.after.ct, lessThan(r.before.ct), reason: r.subject);
+          case Credit.same:
+            expect(r.after.ct, closeTo(r.before.ct, 1e-9), reason: r.subject);
+        }
+      }
+      expect(creditRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('the credit runs on the residual and not the dose', () {
+      final noChange = creditRounds.firstWhere((r) => r.answer == Credit.same);
+      expect(noChange.after.residual, noChange.before.residual);
+    });
+  });
+
+  group('standards and hardness', () {
+    test('the lesson\'s own sample is 200 as calcium carbonate', () {
+      const ca = Ion(name: 'Calcium', concentration: 40, equivalentWeight: 20);
+      const mg =
+          Ion(name: 'Magnesium', concentration: 24.3, equivalentWeight: 12.15);
+      expect(ca.factor, closeTo(2.5, 0.001));
+      expect(mg.factor, closeTo(4.115, 0.01));
+      expect(ca.asCaCO3, closeTo(100, 0.5));
+      expect(mg.asCaCO3, closeTo(100, 0.5));
+      // Adding the raw figures is the named trap and gives 64.3.
+      expect(ca.concentration + mg.concentration, closeTo(64.3, 0.01));
+    });
+
+    test('magnesium counts for more, milligram for milligram', () {
+      const ca = Ion(name: 'Calcium', concentration: 30, equivalentWeight: 20);
+      const mg =
+          Ion(name: 'Magnesium', concentration: 30, equivalentWeight: 12.15);
+      expect(mg.asCaCO3, greaterThan(ca.asCaCO3));
+    });
+
+    test('every round is settled after conversion, not before', () {
+      for (final r in ionRounds) {
+        final a = r.ions.first.asCaCO3;
+        final b = r.ions.last.asCaCO3;
+        switch (r.answer) {
+          case Counts.first:
+            expect(a, greaterThan(b), reason: r.subject);
+          case Counts.second:
+            expect(b, greaterThan(a), reason: r.subject);
+          case Counts.level:
+            expect(a, closeTo(b, b * 0.02), reason: r.subject);
+        }
+      }
+      expect(ionRounds.map((r) => r.answer).toSet().length, 3);
+      // One round has to reverse when converted, or the item teaches
+      // nothing about why the conversion matters.
+      expect(
+          ionRounds.any((r) =>
+              (r.ions.first.concentration > r.ions.last.concentration) !=
+              (r.ions.first.asCaCO3 > r.ions.last.asCaCO3)),
+          isTrue);
+    });
+
+    test('both tiers turn up and the sizes do not sort them', () {
+      final primary =
+          tierRounds.where((r) => r.answer == Tier.primary).length;
+      final secondary =
+          tierRounds.where((r) => r.answer == Tier.secondary).length;
+      expect(primary, greaterThanOrEqualTo(2));
+      expect(secondary, greaterThanOrEqualTo(2));
+    });
+
+    test('the lesson\'s own removal is 87.5 percent', () {
+      const r = Removal(influent: 240, limit: 30);
+      expect(r.efficiency, closeTo(0.875, 0.001));
+      // The fraction remaining is the named trap.
+      expect(r.remaining, closeTo(0.125, 0.001));
+      expect(r.efficiency + r.remaining, closeTo(1, 1e-9));
+    });
+
+    test('the flow is nowhere in it', () {
+      const a = Removal(influent: 200, limit: 20);
+      const b = Removal(influent: 400, limit: 40);
+      expect(a.efficiency, closeTo(b.efficiency, 1e-9));
+    });
+
+    test('five points near the top halves the discharge', () {
+      const ninety = Removal(influent: 200, limit: 20);
+      const ninetyFive = Removal(influent: 200, limit: 10);
+      expect(ninety.efficiency, closeTo(0.90, 0.001));
+      expect(ninetyFive.efficiency, closeTo(0.95, 0.001));
+      expect(ninetyFive.limit, closeTo(ninety.limit / 2, 0.001));
+    });
+
+    test('every round is worked off the two duties', () {
+      for (final r in dutyRounds2) {
+        switch (r.answer) {
+          case Duty3.up:
+            expect(r.after.efficiency, greaterThan(r.before.efficiency),
+                reason: r.subject);
+          case Duty3.down:
+            expect(r.after.efficiency, lessThan(r.before.efficiency),
+                reason: r.subject);
+          case Duty3.same:
+            expect(r.after.efficiency, closeTo(r.before.efficiency, 1e-9),
+                reason: r.subject);
+        }
+      }
+      expect(dutyRounds2.map((r) => r.answer).toSet().length, 3);
     });
   });
 }

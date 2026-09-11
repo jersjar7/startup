@@ -347,6 +347,24 @@ void main() {
       // The seepage velocity problem is the only one in the groundwater
       // lesson that is not about a well.
       'which-speed-is-that',
+      // The temperature correction is the whole of the BOD lesson's third
+      // problem and does not appear in the other two.
+      'warmer-or-colder',
+      // The treatment lesson's three problems ARE its three subjects: the
+      // clarifier, the food ratio, and the solids time. One item each.
+      'does-it-settle-out',
+      'hours-or-days',
+      'what-moves-the-ratio',
+      // The drinking water lesson's chlorine problems are one each: the
+      // dose balance and the CT product.
+      'what-do-you-feed',
+      'what-buys-the-ct',
+      // The standards lesson's three problems ARE its three subjects:
+      // hardness, removal efficiency, and the two tiers of standard. One
+      // item each, by construction.
+      'health-or-taste',
+      'which-ion-counts-more',
+      'removed-or-remaining',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }
