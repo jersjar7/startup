@@ -215,6 +215,9 @@ import 'package:mobile/features/games/which_number_goes_in_front_game.dart';
 import 'package:mobile/features/games/which_way_does_the_ripple_go_game.dart';
 import 'package:mobile/features/games/what_moves_the_critical_depth_game.dart';
 import 'package:mobile/features/games/what_survives_the_jump_game.dart';
+import 'package:mobile/features/games/which_formula_fits_this_weir_game.dart';
+import 'package:mobile/features/games/which_weir_notices_more_game.dart';
+import 'package:mobile/features/games/smoother_or_rougher_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1835,6 +1838,24 @@ void main() {
           rounds: wayRounds.length,
           height: 1800,
         ),
+        'which-formula-fits-this-weir': (
+          lesson: '86-weirs',
+          build: WhichFormulaFitsThisWeirGame.new,
+          rounds: weirRounds.length,
+          height: 1800,
+        ),
+        'which-weir-notices-more': (
+          lesson: '86-weirs',
+          build: WhichWeirNoticesMoreGame.new,
+          rounds: noticeRounds.length,
+          height: 1960,
+        ),
+        'smoother-or-rougher': (
+          lesson: '86-weirs',
+          build: SmootherOrRougherGame.new,
+          rounds: carryRounds.length,
+          height: 1840,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2262,6 +2283,11 @@ void main() {
       ('froude', froudeBrief),
       ('critical', criticalBrief),
       ('jump', hydraulicJumpBrief),
+    ],
+    '86-weirs': [
+      ('weir', weirBrief),
+      ('exponent', exponentBrief),
+      ('hazen', hazenBrief),
     ],
   };
 

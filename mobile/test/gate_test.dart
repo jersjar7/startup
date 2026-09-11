@@ -327,6 +327,10 @@ void main() {
       // problem is about roughness. Six ways of getting one perimeter wrong
       // is the item, and it is on purpose.
       'what-the-water-touches',
+      // The Hazen-Williams problem is the only one in its lesson that is
+      // about pipes at all: the other two are weirs. Comparing two mains is
+      // the whole of it.
+      'smoother-or-rougher',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

@@ -5,6 +5,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/channel_figures.dart';
 import 'package:mobile/features/games/flow_figures.dart';
+import 'package:mobile/features/games/weir_figures.dart';
+import 'package:mobile/features/games/hazen_figures.dart';
+import 'package:mobile/features/games/which_formula_fits_this_weir_game.dart';
+import 'package:mobile/features/games/which_weir_notices_more_game.dart';
+import 'package:mobile/features/games/smoother_or_rougher_game.dart';
 import 'package:mobile/features/games/which_way_does_the_ripple_go_game.dart';
 import 'package:mobile/features/games/what_moves_the_critical_depth_game.dart';
 import 'package:mobile/features/games/what_survives_the_jump_game.dart';
@@ -401,6 +406,129 @@ void main() {
           .map((r) => r.asked)
           .toSet();
       expect(unchanged, containsAll([Carried.discharge, Carried.momentum]));
+    });
+  });
+
+  group('weirs', () {
+    test('the lesson\'s own rectangular weir passes 30.6 cfs', () {
+      const w = Weir(notch: Notch.fullWidth, head: 1.5, crest: 5, channel: 5);
+      expect(w.coefficient, 3.33);
+      expect(w.exponent, 1.5);
+      expect(w.effectiveCrest, closeTo(5, 0.0001));
+      expect(w.flow, closeTo(30.6, 0.05));
+    });
+
+    test('the lesson\'s own V-notch passes 14.4 cfs', () {
+      const w = Weir(notch: Notch.vee, head: 2, channel: 6);
+      expect(w.coefficient, 2.54);
+      expect(w.exponent, 2.5);
+      expect(w.flow, closeTo(14.4, 0.05));
+    });
+
+    test('a contracted weir loses a fifth of the head off its length', () {
+      const w = Weir(notch: Notch.contracted, head: 1.4, crest: 3, channel: 9);
+      expect(w.effectiveCrest, closeTo(3 - 0.28, 0.0001));
+      const same =
+          Weir(notch: Notch.fullWidth, head: 1.4, crest: 3, channel: 9);
+      expect(w.flow, lessThan(same.flow));
+    });
+
+    test('the metric coefficients are the other pair', () {
+      const r = Weir(notch: Notch.fullWidth, head: 1, crest: 2, metric: true);
+      const v = Weir(notch: Notch.vee, head: 1, metric: true);
+      expect(r.coefficient, 1.84);
+      expect(v.coefficient, 1.40);
+    });
+
+    test('every round is answered by the shape of the opening', () {
+      for (final r in weirRounds) {
+        expect(r.answer == Rule3.fiveHalves, r.weir.notch == Notch.vee,
+            reason: r.subject);
+        expect(r.answer == Rule3.trimmed, r.weir.notch == Notch.contracted,
+            reason: r.subject);
+      }
+      expect(weirRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('what the exponent means', () {
+    test('doubling the head: 2.8 times on a crest, 5.7 on a V', () {
+      const rect = Weir(notch: Notch.fullWidth, head: 1, crest: 4);
+      const vee = Weir(notch: Notch.vee, head: 1);
+      expect(rect.flowAt(2) / rect.flow, closeTo(2.83, 0.01));
+      expect(vee.flowAt(2) / vee.flow, closeTo(5.66, 0.01));
+    });
+
+    test('only the ratio of the heads counts, not where it started', () {
+      const low = Weir(notch: Notch.vee, head: 0.5);
+      const high = Weir(notch: Notch.vee, head: 1.5);
+      expect(low.flowAt(1) / low.flow,
+          closeTo(high.flowAt(3) / high.flow, 0.0001));
+    });
+
+    test('the crest length scales the flow but not the response', () {
+      const short = Weir(notch: Notch.fullWidth, head: 0.8, crest: 2);
+      const long = Weir(notch: Notch.fullWidth, head: 0.8, crest: 8);
+      expect(long.flow / short.flow, closeTo(4, 0.0001));
+      expect(short.flowAt(1.6) / short.flow,
+          closeTo(long.flowAt(1.6) / long.flow, 0.0001));
+    });
+
+    test('every round answers with the bigger factor', () {
+      for (final r in noticeRounds) {
+        switch (r.answer) {
+          case Notices.top:
+            expect((r.factorTop - 1).abs(),
+                greaterThan((r.factorBottom - 1).abs()),
+                reason: r.subject);
+          case Notices.bottom:
+            expect((r.factorBottom - 1).abs(),
+                greaterThan((r.factorTop - 1).abs()),
+                reason: r.subject);
+          case Notices.same:
+            expect(r.factorTop, closeTo(r.factorBottom, 0.0001),
+                reason: r.subject);
+        }
+      }
+      expect(noticeRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('a round that falls as well as rounds that rise', () {
+      expect(noticeRounds.any((r) => r.factorTop < 1), isTrue);
+      expect(noticeRounds.any((r) => r.factorTop > 1), isTrue);
+    });
+  });
+
+  group('Hazen-Williams', () {
+    test('the flow is in the plain ratio of the coefficients', () {
+      const pvc = Main(material: 'PVC', coefficient: 150);
+      const old = Main(material: 'old iron', coefficient: 100);
+      expect(pvc.carries / old.carries, closeTo(1.5, 0.0001));
+      // Not the 0.63 power, which belongs to the hydraulic radius.
+      expect(pvc.carries / old.carries, isNot(closeTo(1.29, 0.01)));
+    });
+
+    test('twice the coefficient is twice the water', () {
+      const a = Main(material: 'plastic', coefficient: 150);
+      const b = Main(material: 'bad iron', coefficient: 75);
+      expect(a.carries / b.carries, closeTo(2, 0.0001));
+    });
+
+    test('every round answers with the higher coefficient', () {
+      for (final r in carryRounds) {
+        switch (r.answer) {
+          case Carries.top:
+            expect(r.top.coefficient, greaterThan(r.bottom.coefficient),
+                reason: r.subject);
+          case Carries.bottom:
+            expect(r.bottom.coefficient, greaterThan(r.top.coefficient),
+                reason: r.subject);
+          case Carries.same:
+            expect(r.top.coefficient, r.bottom.coefficient,
+                reason: r.subject);
+        }
+      }
+      expect(carryRounds.map((r) => r.answer).toSet().length, 3);
     });
   });
 }

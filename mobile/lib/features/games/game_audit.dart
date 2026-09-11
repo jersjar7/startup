@@ -26,6 +26,9 @@ import 'which_number_goes_in_front_game.dart';
 import 'which_way_does_the_ripple_go_game.dart';
 import 'what_moves_the_critical_depth_game.dart';
 import 'what_survives_the_jump_game.dart';
+import 'which_formula_fits_this_weir_game.dart';
+import 'which_weir_notices_more_game.dart';
+import 'smoother_or_rougher_game.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
 import 'where_does_that_pair_land_game.dart';
@@ -3450,6 +3453,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Crossing.values) o.name],
           answer: Crossing.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-formula-fits-this-weir',
+    lessonId: 'pipe-systems-weirs',
+    problemPrefix: 'wr-psw-',
+    rounds: [
+      for (final r in weirRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Rule3.values) o.name],
+          answer: Rule3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-weir-notices-more',
+    lessonId: 'pipe-systems-weirs',
+    problemPrefix: 'wr-psw-',
+    rounds: [
+      for (final r in noticeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Notices.values) o.name],
+          answer: Notices.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'smoother-or-rougher',
+    lessonId: 'pipe-systems-weirs',
+    problemPrefix: 'wr-psw-',
+    rounds: [
+      for (final r in carryRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Carries.values) o.name],
+          answer: Carries.values.indexOf(r.answer),
         ),
     ],
   ),

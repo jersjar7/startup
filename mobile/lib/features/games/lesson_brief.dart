@@ -286,6 +286,9 @@ enum BriefFigure {
   froude,
   criticalDepth,
   hydraulicJump,
+  weirShape,
+  weirExponent,
+  hazen,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -5016,6 +5019,76 @@ const hydraulicJumpBrief = BriefSection(
   handbook: 'Handbook p. 297',
 );
 
+const weirBrief = BriefSection(
+  title: 'The shape of the hole picks the formula',
+  body:
+      'A weir measures flow by how deep the water stands above its crest, and '
+      'three formulas sit next to each other on the handbook page. Which one '
+      'applies is decided by the opening and nothing else. A crest running '
+      'wall to wall is SUPPRESSED and takes C times L times H to the three '
+      'halves. A crest that stops short of the walls is CONTRACTED: the water '
+      'curls in around each end, so a tenth of the head comes off each side '
+      'and the length used is L minus 0.2H. A V-NOTCH has no crest length at '
+      'all, and takes C times H to the five halves. The coefficients are '
+      'different for each shape AND for each unit system: a rectangular weir '
+      'takes 3.33 in feet and 1.84 in meters, a 90 degree V-notch 2.54 and '
+      '1.40. Reaching for the wrong exponent is the trap both of this '
+      'lesson\'s weir problems name.',
+  formulas: [
+    ('Wall to wall', r'Q = C\,L\,H^{3/2}'),
+    ('Stopping short', r'Q = C\,(L - 0.2H)\,H^{3/2}'),
+    ('A 90 degree V', r'Q = C\,H^{5/2}'),
+  ],
+  figure: BriefFigure.weirShape,
+  handbook: 'Handbook p. 297',
+);
+
+const exponentBrief = BriefSection(
+  title: 'What an exponent is really telling you',
+  body:
+      'The power on the head is a SENSITIVITY, and reading it that way makes '
+      'a whole class of question answerable without arithmetic. Three halves '
+      'means that doubling the head multiplies the flow by 2 to the three '
+      'halves, about 2.8. Five halves means doubling it multiplies the flow '
+      'by about 5.7. Halving the head cuts them by the same factors the other '
+      'way, to about a third and about a sixth. Only the RATIO the head '
+      'changed by matters, never where it started, and the crest length sits '
+      'outside the power so it scales the flow without ever changing the '
+      'response. That steepness is why a V-notch is what gets installed to '
+      'measure a small flow well, and why it runs out of range so quickly '
+      'when the flow comes up.',
+  formulas: [
+    ('A flat crest', r'2H \Rightarrow 2^{3/2} \approx 2.8\,Q'),
+    ('A V-notch', r'2H \Rightarrow 2^{5/2} \approx 5.7\,Q'),
+    ('Only the ratio counts', r'\frac{Q_2}{Q_1} = \left(\frac{H_2}{H_1}\right)^{n}'),
+  ],
+  figure: BriefFigure.weirExponent,
+  handbook: 'Handbook p. 297',
+);
+
+const hazenBrief = BriefSection(
+  title: 'A coefficient that runs the other way',
+  body:
+      'Hazen-Williams sizes water mains on one number for the pipe wall, and '
+      'that number runs OPPOSITE to the one in Manning\'s equation two pages '
+      'away. A bigger C is a SMOOTHER pipe carrying MORE water: plastic is '
+      'about 150, new cast iron about 130, and the same cast iron after '
+      'twenty years in the ground about 100. Manning\'s n is the reverse, '
+      'bigger meaning rougher, and mixing the two up inverts the answer. C '
+      'sits on the top of the equation in the FIRST power, so two mains alike '
+      'in everything but material carry flows in the plain ratio of their '
+      'coefficients: twice the C is twice the water. The 0.63 and the 0.54 '
+      'belong to the hydraulic radius and the gradient, and applying either '
+      'of them to C is the second trap the lesson names.',
+  formulas: [
+    ('The equation', r'Q = k_1 C A R_H^{0.63} S_v^{0.54}'),
+    ('Two like mains', r'\frac{Q_A}{Q_B} = \frac{C_A}{C_B}'),
+    ('The constant', r'k_1 = 1.318 \text{ (ft)}, \; 0.849 \text{ (m)}'),
+  ],
+  figure: BriefFigure.hazen,
+  handbook: 'Handbook p. 297',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6665,6 +6738,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{momentum across, energy lost}", true),
             (r"\text{energy is conserved across a jump}", false),
             (r"\text{a jump can run deep to shallow}", false),
+          ],
+        );
+      case BriefFigure.weirShape:
+        return const _RuleList(
+          rules: [
+            (r"\text{V-notch: } Q = C H^{5/2}", true),
+            (r"\text{contracted: } L - 0.2H", true),
+            (r"\text{a V-notch has a crest length}", false),
+            (r"\text{one } C \text{ fits every weir}", false),
+          ],
+        );
+      case BriefFigure.weirExponent:
+        return const _RuleList(
+          rules: [
+            (r"2H \Rightarrow 5.7Q \text{ on a V}", true),
+            (r"\text{only the ratio of heads counts}", true),
+            (r"2H \Rightarrow 2Q", false),
+            (r"\text{a longer crest responds faster}", false),
+          ],
+        );
+      case BriefFigure.hazen:
+        return const _RuleList(
+          rules: [
+            (r"\text{bigger } C \Rightarrow \text{smoother}", true),
+            (r"\frac{Q_A}{Q_B} = \frac{C_A}{C_B}", true),
+            (r"\text{bigger } C \Rightarrow \text{rougher}", false),
+            (r"\frac{Q_A}{Q_B} = \left(\frac{C_A}{C_B}\right)^{0.63}", false),
           ],
         );
       case BriefFigure.cogo:

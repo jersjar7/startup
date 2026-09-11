@@ -208,6 +208,9 @@ import '../features/games/which_number_goes_in_front_game.dart';
 import '../features/games/which_way_does_the_ripple_go_game.dart';
 import '../features/games/what_moves_the_critical_depth_game.dart';
 import '../features/games/what_survives_the_jump_game.dart';
+import '../features/games/which_formula_fits_this_weir_game.dart';
+import '../features/games/which_weir_notices_more_game.dart';
+import '../features/games/smoother_or_rougher_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -554,6 +557,10 @@ GoRouter buildRouter(AuthController auth) {
           'what-moves-the-critical-depth' =>
             const WhatMovesTheCriticalDepthGame(),
           'what-survives-the-jump' => const WhatSurvivesTheJumpGame(),
+          'which-formula-fits-this-weir' =>
+            const WhichFormulaFitsThisWeirGame(),
+          'which-weir-notices-more' => const WhichWeirNoticesMoreGame(),
+          'smoother-or-rougher' => const SmootherOrRougherGame(),
           _ => const _UnknownGame(),
         },
       ),

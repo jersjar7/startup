@@ -2866,6 +2866,40 @@ const waterResourcesMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'pipe-systems-weirs',
+      name: 'Hazen-Williams & Weir Formulas',
+      subtopicId: 'hydraulics',
+      // Which C belongs to which pipe material is a table the handbook
+      // hands you in the exam, so there is no item for memorizing it. The
+      // direction it runs in is a different matter and gets one.
+      games: [
+        GameDef(
+          id: 'which-formula-fits-this-weir',
+          rounds: 6,
+          name: 'Which Formula Fits This Weir',
+          blurb: 'The shape of the opening picks it.',
+          built: true,
+          brief: weirBrief,
+        ),
+        GameDef(
+          id: 'which-weir-notices-more',
+          rounds: 6,
+          name: 'Which Weir Notices More',
+          blurb: 'An exponent is a sensitivity, not a piece of notation.',
+          built: true,
+          brief: exponentBrief,
+        ),
+        GameDef(
+          id: 'smoother-or-rougher',
+          rounds: 6,
+          name: 'Smoother or Rougher',
+          blurb: 'A bigger C is a smoother pipe. Manning is the reverse.',
+          built: true,
+          brief: hazenBrief,
+        ),
+      ],
+    ),
   ],
 );
 
