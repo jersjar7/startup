@@ -86,6 +86,9 @@ import 'package:mobile/features/games/harder_to_spin_game.dart';
 import 'package:mobile/features/games/mass_or_weight_game.dart';
 import 'package:mobile/features/games/which_piece_drives_it_game.dart';
 import 'package:mobile/features/games/push_it_or_spin_it_game.dart';
+import 'package:mobile/features/games/where_the_energy_goes_game.dart';
+import 'package:mobile/features/games/does_the_mass_matter_game.dart';
+import 'package:mobile/features/games/more_in_than_out_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1274,6 +1277,24 @@ void main() {
           rounds: shoveRounds.length,
           height: 1600,
         ),
+        'where-the-energy-goes': (
+          lesson: '55-energy',
+          build: WhereTheEnergyGoesGame.new,
+          rounds: ledgerRounds.length,
+          height: 1600,
+        ),
+        'does-the-mass-matter': (
+          lesson: '55-energy',
+          build: DoesTheMassMatterGame.new,
+          rounds: massRounds.length,
+          height: 1450,
+        ),
+        'more-in-than-out': (
+          lesson: '55-energy',
+          build: MoreInThanOutGame.new,
+          rounds: powerRounds.length,
+          height: 1500,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1553,6 +1574,11 @@ void main() {
       ('weight', weightBrief),
       ('slope', slopeBrief),
       ('two-equations', twoEquationsBrief),
+    ],
+    '55-energy': [
+      ('ledger', ledgerBrief),
+      ('cancel', cancelBrief),
+      ('power', powerBrief),
     ],
   };
 

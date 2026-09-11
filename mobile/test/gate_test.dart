@@ -229,6 +229,9 @@ void main() {
       // The block on the slope is the only problem in the lesson with a free
       // body worth drawing, and taking the weight apart is the whole item.
       'which-piece-drives-it',
+      // The pump problem is the only one in the lesson about power, and which
+      // way efficiency runs is the whole item.
+      'more-in-than-out',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

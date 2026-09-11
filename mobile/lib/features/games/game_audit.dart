@@ -119,10 +119,13 @@ import 'tap_the_trajectory_game.dart';
 import 'speeding_up_or_turning_game.dart';
 import 'same_spin_different_speed_game.dart';
 import 'harder_to_spin_game.dart';
-import 'kinetics_figures.dart';
 import 'mass_or_weight_game.dart';
 import 'which_piece_drives_it_game.dart';
 import 'push_it_or_spin_it_game.dart';
+import 'energy_figures.dart';
+import 'where_the_energy_goes_game.dart';
+import 'does_the_mass_matter_game.dart';
+import 'more_in_than_out_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -2283,6 +2286,48 @@ List<GameAudit> auditAllGames() => [
         ),
     ],
   ),
+  GameAudit(
+    gameId: 'where-the-energy-goes',
+    lessonId: 'work-energy-power',
+    problemPrefix: 'dyn-wep-',
+    rounds: [
+      // Three accounts, named by what is in each bucket.
+      for (final r in ledgerRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (final o in r.options) _account(o),
+          ],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-the-mass-matter',
+    lessonId: 'work-energy-power',
+    problemPrefix: 'dyn-wep-',
+    rounds: [
+      for (final r in massRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final h in Heavier.values) h.name],
+          answer: Heavier.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'more-in-than-out',
+    lessonId: 'work-energy-power',
+    problemPrefix: 'dyn-wep-',
+    rounds: [
+      for (final r in powerRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final s in r.options) s.name],
+          answer: r.options.indexOf(r.answer),
+        ),
+    ],
+  ),
 ];
 
 /// A beam named by what it is, so two panels showing the same pair of beams
@@ -2295,4 +2340,12 @@ String _name(Loading beam) {
   if (beam.spreads.isNotEmpty) return '$held spread';
   final at = beam.points.first.$1;
   return at == beam.span / 2 ? '$held midspan' : '$held point at $at';
+}
+
+/// An energy account named by which buckets it fills, so two panels showing
+/// the same story read as the same option to the gate.
+String _account(Ledger ledger) {
+  String side(List<(Bucket, double)> stack) =>
+      stack.map((b) => b.$1.name).join(' and ');
+  return '${side(ledger.before)} becomes ${side(ledger.after)}';
 }

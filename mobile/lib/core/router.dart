@@ -124,6 +124,9 @@ import '../features/games/harder_to_spin_game.dart';
 import '../features/games/mass_or_weight_game.dart';
 import '../features/games/which_piece_drives_it_game.dart';
 import '../features/games/push_it_or_spin_it_game.dart';
+import '../features/games/where_the_energy_goes_game.dart';
+import '../features/games/does_the_mass_matter_game.dart';
+import '../features/games/more_in_than_out_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -390,6 +393,9 @@ GoRouter buildRouter(AuthController auth) {
           'mass-or-weight' => const MassOrWeightGame(),
           'which-piece-drives-it' => const WhichPieceDrivesItGame(),
           'push-it-or-spin-it' => const PushItOrSpinItGame(),
+          'where-the-energy-goes' => const WhereTheEnergyGoesGame(),
+          'does-the-mass-matter' => const DoesTheMassMatterGame(),
+          'more-in-than-out' => const MoreInThanOutGame(),
           _ => const _UnknownGame(),
         },
       ),

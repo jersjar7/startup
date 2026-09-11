@@ -206,6 +206,9 @@ enum BriefFigure {
   weight,
   slope,
   twoEquations,
+  ledger,
+  cancel,
+  power,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3202,6 +3205,74 @@ const twoEquationsBrief = BriefSection(
   handbook: 'Handbook pp. 105 and 109',
 );
 
+const ledgerBrief = BriefSection(
+  title: 'Energy is an account, and it balances',
+  body:
+      'What a thing started with, plus anything put in from outside, minus '
+      'anything rubbed away, is what it ends with. That one sentence is the '
+      'work energy theorem, and the whole skill is reading which of those '
+      'buckets a situation actually has. Height and movement trade with each '
+      'other freely. A SPRING is a store, not a loss: what was squeezed into '
+      'it comes back out. FRICTION and drag take and never return, which is '
+      'the one term that makes the after side smaller than the before. A motor '
+      'or an engine ADDS from outside. When nothing is taken and nothing '
+      'added, the two sides are equal and it is a conservation problem. Energy '
+      'methods are the fast road when you know two positions and a speed and '
+      'do not care about the time between them.',
+  formulas: [
+    ('The full account', r'T_1 + V_1 + U^{nc}_{1\to2} = T_2 + V_2'),
+    ('Moving', r'T = \tfrac{1}{2}mv^2'),
+    ('Height and spring', r'V_g = mgh, \quad V_e = \tfrac{1}{2}ks^2'),
+  ],
+  figure: BriefFigure.ledger,
+  handbook: 'Handbook p. 106',
+);
+
+const cancelBrief = BriefSection(
+  title: 'When the mass cancels, and when it does not',
+  body:
+      'Two of this lesson\'s three problems have the mass drop out, and it is '
+      'worth knowing which way a problem will go before starting it. Mass '
+      'cancels when it sits on BOTH sides of an energy balance: a heavier '
+      'block starts with more energy and needs more of it to reach any given '
+      'speed or height, so the speed at the bottom of a ramp, the height of a '
+      'throw and even the stopping distance under friction are the same '
+      'whatever it weighs, since friction scales with weight too. Mass does '
+      'NOT cancel when it appears on one side only: the energy a thing '
+      'carries, the power to lift it, and the speed a spring of fixed squeeze '
+      'can give it. The last one catches people, because a lighter block '
+      'leaves the same spring FASTER.',
+  formulas: [
+    ('Cancels', r'v = \sqrt{2gh}, \quad d = \frac{v^2}{2\mu g}'),
+    ('Does not', r'T = \tfrac{1}{2}mv^2, \quad P = \dot{m}gh'),
+    ('And a spring gives', r'v = \sqrt{\frac{ks^2}{m}}'),
+  ],
+  figure: BriefFigure.cancel,
+  handbook: 'Handbook p. 106',
+);
+
+const powerBrief = BriefSection(
+  title: 'Power, and the direction efficiency runs',
+  body:
+      'Power is the rate of doing work, and there are two ways to write it '
+      'that mean the same thing: the energy divided by the time it took, or '
+      'the force multiplied by the speed. The second is the one line answer '
+      'whenever something moves steadily against a resistance. Efficiency is '
+      'where the marks go. A machine always takes in MORE than it gives out, '
+      'so the useful output is the input times the efficiency, and the input '
+      'you need is the output DIVIDED by it. Stopping at the useful power when '
+      'the question asked for the motor is the named trap in this lesson, and '
+      'multiplying where you should divide gives an answer smaller than the '
+      'work being done, which is the check that catches it.',
+  formulas: [
+    ('Power', r'P = \frac{dU}{dt} = F v'),
+    ('Efficiency', r'\eta = \frac{P_{out}}{P_{in}} < 1'),
+    ('So the motor needs', r'P_{in} = \frac{P_{out}}{\eta}'),
+  ],
+  figure: BriefFigure.power,
+  handbook: 'Handbook p. 107',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -4354,6 +4425,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.ledger:
+        return const _RuleList(
+          rules: [
+            (r"\text{a spring stores and gives back}", true),
+            (r"\text{friction takes and never returns}", true),
+            (r"\text{energy is always conserved}", false),
+            (r"\text{a spring is a loss}", false),
+          ],
+        );
+      case BriefFigure.cancel:
+        return const _RuleList(
+          rules: [
+            (r"v = \sqrt{2gh} \text{, whatever the mass}", true),
+            (r"\text{a light block leaves a spring faster}", true),
+            (r"\text{mass always cancels}", false),
+            (r"\text{the heavy one always wins}", false),
+          ],
+        );
+      case BriefFigure.power:
+        return const _RuleList(
+          rules: [
+            (r"P_{in} = \frac{P_{out}}{\eta} > P_{out}", true),
+            (r"P = Fv \text{ at a steady speed}", true),
+            (r"P_{in} = P_{out}\,\eta", false),
+            (r"\text{the useful power is the bigger one}", false),
           ],
         );
       case BriefFigure.weight:

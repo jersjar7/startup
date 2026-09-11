@@ -1607,6 +1607,32 @@ const dynamicsMap = ChapterMap(
       id: 'work-energy-power',
       name: 'Work, Energy & Power',
       subtopicId: 'kinetics-and-energy',
+      games: [
+        GameDef(
+          id: 'where-the-energy-goes',
+          rounds: 6,
+          name: 'Where the Energy Goes',
+          blurb: 'Before and after, in buckets. Which account is this?',
+          built: true,
+          brief: ledgerBrief,
+        ),
+        GameDef(
+          id: 'does-the-mass-matter',
+          rounds: 6,
+          name: 'Does the Mass Matter',
+          blurb: 'Heavy, light, or no difference at all?',
+          built: true,
+          brief: cancelBrief,
+        ),
+        GameDef(
+          id: 'more-in-than-out',
+          rounds: 6,
+          name: 'More In Than Out',
+          blurb: 'Power in one step, and which way efficiency runs.',
+          built: true,
+          brief: powerBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'impulse-and-momentum',
