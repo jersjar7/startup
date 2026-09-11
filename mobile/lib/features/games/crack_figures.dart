@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// Where the crack is, which is the only thing that decides both numbers the
 /// fracture formula needs.
@@ -119,15 +120,17 @@ class PlatePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final box = body(size);
-    canvas
-      ..drawRect(box, Paint()..color = AppColors.cream)
-      ..drawRect(
-        box,
-        Paint()
-          ..color = tone
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.6,
-      );
+    // The plate is a piece of steel, so it is drawn as one: hatched, not an
+    // empty outline with a red line inside it.
+    canvas.drawRect(box, Paint()..color = AppColors.cream);
+    hatchIn(canvas, Path()..addRect(box), step: 11);
+    canvas.drawRect(
+      box,
+      Paint()
+        ..color = tone
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.6,
+    );
 
     // The pull, top and bottom, which is what opens the crack.
     for (final way in [-1.0, 1.0]) {
@@ -217,6 +220,7 @@ class PlatePainter extends CustomPainter {
     canvas.drawRect(
         patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
     painter.paint(canvas, at);
+    viewTag(canvas, size, Looking.elevation, note: 'plate seen flat');
   }
 
   @override

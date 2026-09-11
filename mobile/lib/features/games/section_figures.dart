@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// The simple shapes the handbook tables cover, which is all you are ever
 /// expected to split a section into.
@@ -485,6 +486,7 @@ class ProfilePainter extends CustomPainter {
           ..strokeWidth = 2.4,
       );
     }
+    viewTag(canvas, size, Looking.section);
   }
 
   Color _shade(int i) {

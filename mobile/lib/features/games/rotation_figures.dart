@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// A thing that spins, and the places on it a round can ask about.
 ///
@@ -162,6 +163,7 @@ class SpinnerPainter extends CustomPainter {
       Offset(6, 4),
       AppColors.ink3,
     );
+    viewTag(canvas, size, Looking.plan, note: 'axis toward you');
   }
 
   /// The arrow that says it is turning, drawn clear of the body.
@@ -418,6 +420,7 @@ class BodyPainter extends CustomPainter {
     if (label.isNotEmpty) {
       _write(canvas, label, const Offset(5, 3), AppColors.ink3);
     }
+    viewTag(canvas, size, Looking.plan, note: 'axis toward you');
   }
 
   void _write(Canvas canvas, String text, Offset at, Color color) {

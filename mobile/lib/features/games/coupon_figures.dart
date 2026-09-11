@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// The four measurements a tensile test has on the table at any moment: the
 /// two the bar started with and the two it has right now.
@@ -160,6 +161,7 @@ class CouponPainter extends CustomPainter {
     for (final dim in Dim.values) {
       _callout(canvas, size, dim);
     }
+    viewTag(canvas, size, Looking.elevation);
   }
 
   /// A bar, with a waist in it once it has started to neck.

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// A projectile launched from the ground.
 ///
@@ -130,15 +131,10 @@ class FlightPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // The ground.
+    // The ground, with its ticks: a plain line could be anything.
     final ground = at(flight, size, Offset.zero).dy;
-    canvas.drawLine(
-      Offset(4, ground),
-      Offset(size.width - 4, ground),
-      Paint()
-        ..color = AppColors.ink3
-        ..strokeWidth = 1.2,
-    );
+    groundLine(canvas, Offset(4, ground), Offset(size.width - 4, ground),
+        color: AppColors.ink3);
 
     final path = Path();
     for (var k = 0; k <= 80; k++) {
@@ -173,6 +169,7 @@ class FlightPainter extends CustomPainter {
         ..drawCircle(p, 7, Paint()..color = AppColors.cream)
         ..drawCircle(p, chosen || isTruth ? 6 : 4.5, Paint()..color = color);
     }
+    viewTag(canvas, size, Looking.elevation);
   }
 
   void _arrow(Canvas canvas, Offset from, Offset to, Color color) {
@@ -359,6 +356,7 @@ class BendPainter extends CustomPainter {
         Offset(middle.dx + 8, middle.dy - 4), AppColors.ink3);
     _write(canvas, 'along the road', Offset(size.width - 92, 4),
         AppColors.ink3);
+    viewTag(canvas, size, Looking.plan);
   }
 
   void _arrow(Canvas canvas, Offset from, Offset to, Color color,

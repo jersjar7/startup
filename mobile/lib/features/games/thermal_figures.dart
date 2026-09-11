@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// The three materials this lesson gives a coefficient for, and nothing else,
 /// because a number that is not in the lesson is a number nobody can check.
@@ -178,6 +179,7 @@ class MemberPainter extends CustomPainter {
       _write(canvas, size, head, Offset(_left + 4, y - 30), AppColors.charcoal);
       _write(canvas, size, tail, Offset(_left + 4, y + 17), AppColors.ink3);
     }
+    viewTag(canvas, size, Looking.elevation);
   }
 
   static String _num(double v) =>

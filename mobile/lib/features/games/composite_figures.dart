@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'section_figures.dart';
 
 /// What a layer of a built-up beam is made of, and the only property of it
@@ -202,6 +203,7 @@ class MadePainter extends CustomPainter {
         ..layout(maxWidth: size.width - 8)
         ..paint(canvas, const Offset(4, 2));
     }
+    viewTag(canvas, size, Looking.section);
   }
 
   @override

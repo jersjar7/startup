@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// Two bodies meeting head on.
 ///
@@ -89,11 +90,16 @@ class CrashPainter extends CustomPainter {
       final bX =
           aX + _widthOf(crash.massA) / 2 + gap + _widthOf(crash.massB) / 2;
 
+      // The road they run along, so the two are travelling on something
+      // rather than floating in the panel.
+      groundLine(canvas, Offset(6, y + 11), Offset(size.width - 6, y + 11),
+          color: AppColors.ink3);
       _block(canvas, Offset(aX, y), crash.massA, 'A', speedA);
       _block(canvas, Offset(bX, y), crash.massB, 'B', speedB);
       _write(canvas, after ? 'after' : 'before', Offset(6, y - 8),
           AppColors.ink3);
     }
+    viewTag(canvas, size, Looking.elevation);
   }
 
   double _widthOf(double mass) =>
