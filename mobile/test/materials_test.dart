@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/above_the_point_game.dart';
+import 'package:mobile/features/games/check_every_box_game.dart';
+import 'package:mobile/features/games/corrosion_figures.dart';
+import 'package:mobile/features/games/which_one_goes_game.dart';
 import 'package:mobile/features/games/along_or_across_game.dart';
 import 'package:mobile/features/games/fiber_figures.dart';
 import 'package:mobile/features/games/same_stretch_game.dart';
@@ -1280,6 +1283,117 @@ void main() {
       expect(box.left, greaterThan(0));
       expect(box.right, lessThan(size.width));
       expect(box.height, greaterThan(60));
+    });
+  });
+
+  group('the galvanic series decides who corrodes', () {
+    test('the lesson\'s own three metals rank the way it says', () {
+      expect(Metal.aluminum.activity, lessThan(Metal.steel.activity));
+      expect(Metal.steel.activity, lessThan(Metal.copper.activity));
+      expect(Metal.zinc.activity, lessThan(Metal.steel.activity));
+    });
+
+    test('the answer follows from the pair, never from a label', () {
+      for (final r in coupleRounds) {
+        final c = r.couple;
+        switch (r.answer) {
+          case Eaten.neither:
+            expect(c.cell, isFalse, reason: r.subject);
+          case Eaten.left:
+            expect(c.anode, c.left, reason: r.subject);
+          case Eaten.right:
+            expect(c.anode, c.right, reason: r.subject);
+        }
+      }
+    });
+
+    test('a cell needs all of water, a path and two metals', () {
+      const wet = Couple(left: Metal.aluminum, right: Metal.copper);
+      expect(wet.cell, isTrue);
+      expect(
+          const Couple(left: Metal.aluminum, right: Metal.copper, wet: false)
+              .cell,
+          isFalse);
+      expect(
+          const Couple(
+                  left: Metal.aluminum,
+                  right: Metal.copper,
+                  connected: false)
+              .cell,
+          isFalse);
+      expect(const Couple(left: Metal.steel, right: Metal.steel).cell, isFalse);
+    });
+
+    test('steel is eaten in one round and protected in another', () {
+      final eaten = coupleRounds.where((r) =>
+          r.couple.anode == Metal.steel);
+      final saved = coupleRounds.where((r) =>
+          r.couple.cell &&
+          r.couple.anode != Metal.steel &&
+          (r.couple.left == Metal.steel || r.couple.right == Metal.steel));
+      expect(eaten, isNotEmpty);
+      expect(saved, isNotEmpty);
+    });
+
+    test('all three answers are used', () {
+      expect(coupleRounds.map((r) => r.answer).toSet(), Eaten.values.toSet());
+    });
+
+    test('both problems are drawn on, and the plates can be tapped', () {
+      expect(coupleRounds.map((r) => r.source).toSet().length, 2);
+      const size = Size(340, 200);
+      expect(CouplePainter.at(size, CouplePainter.plateOf(size, 0).center), 0);
+      expect(CouplePainter.at(size, CouplePainter.plateOf(size, 1).center), 1);
+      expect(CouplePainter.plateOf(size, 0).height, greaterThan(30));
+    });
+  });
+
+  group('the selection table has one survivor per round', () {
+    test('the handbook numbers are the ones the lesson quotes', () {
+      double of(Metal m) =>
+          table.firstWhere((l) => l.metal == m).conducts;
+      expect(of(Metal.copper), 403);
+      expect(of(Metal.aluminum), 236);
+      expect(of(Metal.steel), 83.5);
+      expect(of(Metal.titanium), 22);
+      expect(table.firstWhere((l) => l.metal == Metal.aluminum).density, 2698);
+      expect(table.firstWhere((l) => l.metal == Metal.copper).density, 8933);
+    });
+
+    test('exactly one metal passes, or none when none is the answer', () {
+      for (final r in boxRounds) {
+        final pass = table.where(r.suits).toList();
+        if (r.answer == null) {
+          expect(pass, isEmpty, reason: '${r.subject}: something passes');
+        } else {
+          expect(pass.length, 1,
+              reason: '${r.subject}: ${pass.length} metals pass');
+          expect(pass.single.metal, r.answer, reason: r.subject);
+        }
+      }
+    });
+
+    test('every round rules out at least two of the four', () {
+      for (final r in boxRounds) {
+        expect(table.where(r.suits).length, lessThanOrEqualTo(2),
+            reason: '${r.subject}: the requirements barely separate anything');
+      }
+    });
+
+    test('the answer moves around, and nothing passing comes up once', () {
+      expect(boxRounds.map((r) => r.answer).toSet().length, greaterThan(2));
+      expect(boxRounds.where((r) => r.answer == null).length, 1);
+    });
+
+    test('the round that names a winner in one column is a trap round', () {
+      // The lesson's own problem: copper wins the conductivity column and
+      // loses on weight. If no round did that, the item would not be
+      // teaching its trap.
+      final lesson = boxRounds.first;
+      expect(lesson.answer, Metal.aluminum);
+      final copper = table.firstWhere((l) => l.metal == Metal.copper);
+      expect(copper.conducts, greaterThan(236));
+      expect(lesson.suits(copper), isFalse);
     });
   });
 }

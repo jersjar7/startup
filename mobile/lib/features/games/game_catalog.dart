@@ -2241,6 +2241,29 @@ const materialsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'corrosion-material-selection',
+      name: 'Corrosion & Material Selection',
+      subtopicId: 'composites-selection',
+      games: [
+        GameDef(
+          id: 'which-one-goes',
+          rounds: 6,
+          name: 'Which One Goes',
+          blurb: 'Two metals and some water. One of them is being eaten.',
+          built: true,
+          brief: galvanicBrief,
+        ),
+        GameDef(
+          id: 'check-every-box',
+          rounds: 6,
+          name: 'Check Every Box',
+          blurb: 'The metal that wins a column rarely passes them all.',
+          built: true,
+          brief: pickingBrief,
+        ),
+      ],
+    ),
   ],
 );
 

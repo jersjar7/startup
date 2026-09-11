@@ -11,6 +11,7 @@ import 'build_the_identity_game.dart';
 import 'can_it_start_game.dart';
 import 'can_you_claim_that_game.dart';
 import 'can_you_seal_it_game.dart';
+import 'check_every_box_game.dart';
 import 'coarse_or_fine_game.dart';
 import 'copy_it_down_game.dart';
 import 'discriminant_gate_game.dart';
@@ -202,6 +203,7 @@ import 'which_protection_game.dart';
 import 'which_rate_game.dart';
 import 'wider_or_narrower_game.dart';
 import 'which_readout_game.dart';
+import 'which_one_goes_game.dart';
 import 'which_one_moves_most_game.dart';
 import 'which_ratio_game.dart';
 import 'which_way_turns_game.dart';
@@ -2705,6 +2707,38 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final p in Phase2.values) p.name],
           answer: Phase2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'which-one-goes',
+    lessonId: 'corrosion-material-selection',
+    problemPrefix: 'mat-cms-',
+    rounds: [
+      for (final r in coupleRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final e in Eaten.values) r.labelFor(e)],
+          answer: Eaten.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'check-every-box',
+    lessonId: 'corrosion-material-selection',
+    problemPrefix: 'mat-cms-',
+    rounds: [
+      for (final r in boxRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (final m in table) m.metal.name,
+            'none',
+          ],
+          answer: r.answer == null
+              ? table.length
+              : table.indexWhere((m) => m.metal == r.answer),
         ),
     ],
   ),

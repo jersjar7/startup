@@ -257,6 +257,10 @@ void main() {
       'above-the-point',
       'which-mortar',
       'does-it-go-up',
+      // The table problem is the only one in the lesson with properties in
+      // it, and crossing candidates off against requirements is the whole
+      // item.
+      'check-every-box',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

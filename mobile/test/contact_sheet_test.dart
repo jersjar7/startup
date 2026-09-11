@@ -181,6 +181,7 @@ import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/edge_or_inside_game.dart';
 import 'package:mobile/features/games/above_the_point_game.dart';
 import 'package:mobile/features/games/along_or_across_game.dart';
+import 'package:mobile/features/games/check_every_box_game.dart';
 import 'package:mobile/features/games/coarse_or_fine_game.dart';
 import 'package:mobile/features/games/does_it_go_up_game.dart';
 import 'package:mobile/features/games/same_stretch_game.dart';
@@ -190,6 +191,7 @@ import 'package:mobile/features/games/does_it_make_the_number_game.dart';
 import 'package:mobile/features/games/out_of_the_furnace_game.dart';
 import 'package:mobile/features/games/times_or_divided_game.dart';
 import 'package:mobile/features/games/which_mortar_game.dart';
+import 'package:mobile/features/games/which_one_goes_game.dart';
 import 'package:mobile/features/games/which_weighing_game.dart';
 import 'package:mobile/features/games/stronger_or_weaker_game.dart';
 import 'package:mobile/features/games/what_this_job_needs_game.dart';
@@ -1471,6 +1473,18 @@ void main() {
           rounds: phaseRounds.length,
           height: 1600,
         ),
+        'which-one-goes': (
+          lesson: '67-corrosion',
+          build: WhichOneGoesGame.new,
+          rounds: coupleRounds.length,
+          height: 1600,
+        ),
+        'check-every-box': (
+          lesson: '67-corrosion',
+          build: CheckEveryBoxGame.new,
+          rounds: boxRounds.length,
+          height: 1750,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1809,6 +1823,10 @@ void main() {
     '66-composites': [
       ('blend', blendBrief),
       ('isostrain', isostrainBrief),
+    ],
+    '67-corrosion': [
+      ('galvanic', galvanicBrief),
+      ('picking', pickingBrief),
     ],
   };
 

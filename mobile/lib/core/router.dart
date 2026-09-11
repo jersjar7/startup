@@ -18,6 +18,7 @@ import '../features/games/can_it_start_game.dart';
 import '../features/games/can_you_claim_that_game.dart';
 import '../features/games/can_you_seal_it_game.dart';
 import '../features/games/coarse_or_fine_game.dart';
+import '../features/games/check_every_box_game.dart';
 import '../features/games/copy_it_down_game.dart';
 import '../features/games/discriminant_gate_game.dart';
 import '../features/games/does_it_go_up_game.dart';
@@ -199,6 +200,7 @@ import '../features/games/which_rate_game.dart';
 import '../features/games/wider_or_narrower_game.dart';
 import '../features/games/which_readout_game.dart';
 import '../features/games/which_one_moves_most_game.dart';
+import '../features/games/which_one_goes_game.dart';
 import '../features/games/which_ratio_game.dart';
 import '../features/games/which_way_turns_game.dart';
 import '../features/games/which_way_simpler_game.dart';
@@ -448,6 +450,8 @@ GoRouter buildRouter(AuthController auth) {
           'does-it-go-up' => const DoesItGoUpGame(),
           'along-or-across' => const AlongOrAcrossGame(),
           'same-stretch' => const SameStretchGame(),
+          'which-one-goes' => const WhichOneGoesGame(),
+          'check-every-box' => const CheckEveryBoxGame(),
           _ => const _UnknownGame(),
         },
       ),

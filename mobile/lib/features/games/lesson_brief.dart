@@ -235,6 +235,8 @@ enum BriefFigure {
   factor,
   blend,
   isostrain,
+  galvanic,
+  picking,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3804,6 +3806,49 @@ const isostrainBrief = BriefSection(
   handbook: 'Handbook p. 123',
 );
 
+const galvanicBrief = BriefSection(
+  title: 'The more active one is eaten',
+  body:
+      'Corrosion in a couple needs four things at once: two DIFFERENT metals, '
+      'an electrolyte such as rainwater or damp soil, and an electrical path '
+      'between them. Given all four, the more active metal of the pair '
+      'becomes the anode and dissolves, and the nobler one is the cathode and '
+      'is protected. No metal is safe or unsafe on its own: steel is '
+      'protected beside aluminum and eaten beside copper. That is the whole '
+      'of galvanizing, and of a sacrificial anode bolted to a hull. And it is '
+      'the whole of the fix as well: take away any one of the four, usually '
+      'the water or the path, and nothing happens at all.',
+  formulas: [
+    ('At the anode', r'M^0 \rightarrow M^{n+} + ne^-'),
+    ('Active to noble', r'Mg,\; Zn,\; Al,\; \text{steel},\; Cu,\; Ti'),
+    ('A cell needs', r'\text{two metals} + \text{water} + \text{a path}'),
+  ],
+  figure: BriefFigure.galvanic,
+  handbook: 'Handbook p. 116',
+);
+
+const pickingBrief = BriefSection(
+  title: 'Cross them off one column at a time',
+  body:
+      'A selection question hands you a table and a list of requirements, and '
+      'the metal that wins any one column is rarely the one that passes them '
+      'all. Copper conducts heat better than anything else on the page and is '
+      'three times too heavy for a light part. Titanium survives seawater '
+      'that eats everything and barely conducts at all. Steel is cheap and '
+      'rusts. So take the requirements one at a time, in whatever order is '
+      'quickest to check, and cross candidates off until one is left. Two '
+      'outcomes are worth recognizing: when a requirement rules nothing out '
+      'it is not doing any work, and when nothing passes, the specification '
+      'is what needs changing.',
+  formulas: [
+    ('Copper', r'403\ \text{W/mK},\; 8{,}933\ \text{kg/m}^3'),
+    ('Aluminum', r'236\ \text{W/mK},\; 2{,}698\ \text{kg/m}^3'),
+    ('Steel, titanium', r'83.5\ \text{and}\ 22\ \text{W/mK}'),
+  ],
+  figure: BriefFigure.picking,
+  handbook: 'Handbook p. 119',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5228,6 +5273,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the stiffer phase takes the stress}", true),
             (r"\text{along: } \sigma_1 = \sigma_2", false),
             (r"\text{stress splits by volume}", false),
+          ],
+        );
+      case BriefFigure.galvanic:
+        return const _RuleList(
+          rules: [
+            (r"\text{the more active metal corrodes}", true),
+            (r"\text{no water} \Rightarrow \text{no cell}", true),
+            (r"\text{the exposed metal corrodes}", false),
+            (r"\text{a metal is safe on its own terms}", false),
+          ],
+        );
+      case BriefFigure.picking:
+        return const _RuleList(
+          rules: [
+            (r"\text{cross off column by column}", true),
+            (r"\text{nothing passing is an answer}", true),
+            (r"\text{the best conductor wins}", false),
+            (r"\text{one column decides it}", false),
           ],
         );
       case BriefFigure.damping:
