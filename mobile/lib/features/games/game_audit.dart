@@ -99,6 +99,10 @@ import 'jump_bend_or_neither_game.dart';
 import 'which_fiber_is_worst_game.dart';
 import 'which_width_which_area_game.dart';
 import 'which_one_gets_worse_game.dart';
+import 'diagram_figures.dart' show Loading;
+import 'which_line_in_the_table_game.dart';
+import 'fix_the_bounce_game.dart';
+import 'add_it_up_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -1972,4 +1976,65 @@ List<GameAudit> auditAllGames() => [
         ),
     ],
   ),
+  GameAudit(
+    gameId: 'which-line-in-the-table',
+    lessonId: 'beam-deflections',
+    problemPrefix: 'mm-bdf-',
+    rounds: [
+      // Three table entries and a standing last choice for the beam that
+      // needs two of them added together.
+      for (final r in tableRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (final e in r.options) e.name,
+            'needs two lines',
+          ],
+          answer: r.answer == -1 ? r.options.length : r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'fix-the-bounce',
+    lessonId: 'beam-deflections',
+    problemPrefix: 'mm-bdf-',
+    rounds: [
+      for (final r in bounceRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final c in r.cures) c.label],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'add-it-up',
+    lessonId: 'beam-deflections',
+    problemPrefix: 'mm-bdf-',
+    rounds: [
+      // Three ways of splitting the beam, plus a standing refusal for the
+      // beam that is a table entry already.
+      for (final r in splitRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (final p in r.pairs) '${_name(p.$1)} + ${_name(p.$2)}',
+            'no split needed',
+          ],
+          answer: r.answer == -1 ? r.pairs.length : r.answer,
+        ),
+    ],
+  ),
 ];
+
+/// A beam named by what it is, so two panels showing the same pair of beams
+/// read as the same option to the gate.
+String _name(Loading beam) {
+  // One support means it is built in at that end; two means simply
+  // supported. Read off the beam rather than through an enum that two
+  // lessons happen to share a name for.
+  final held = beam.supportsAt.length == 1 ? 'cantilever' : 'simple';
+  if (beam.spreads.isNotEmpty) return '$held spread';
+  final at = beam.points.first.$1;
+  return at == beam.span / 2 ? '$held midspan' : '$held point at $at';
+}

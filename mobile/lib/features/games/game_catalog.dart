@@ -1679,6 +1679,32 @@ const mechanicsMaterialsMap = ChapterMap(
       id: 'beam-deflections',
       name: 'Beam Deflections',
       subtopicId: 'beams',
+      games: [
+        GameDef(
+          id: 'which-line-in-the-table',
+          rounds: 6,
+          name: 'Which Line in the Table',
+          blurb: 'Read the supports and the load. Pick the entry.',
+          built: true,
+          brief: tableBrief2,
+        ),
+        GameDef(
+          id: 'fix-the-bounce',
+          rounds: 6,
+          name: 'Fix the Bounce',
+          blurb: 'The floor is springy. Which one change buys the most?',
+          built: true,
+          brief: bounceBrief,
+        ),
+        GameDef(
+          id: 'add-it-up',
+          rounds: 6,
+          name: 'Add It Up',
+          blurb: 'Two loads at once. Which split adds back up to the beam?',
+          built: true,
+          brief: addBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'transformed-sections-plastic',

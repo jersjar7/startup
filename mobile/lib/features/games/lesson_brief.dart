@@ -186,6 +186,9 @@ enum BriefFigure {
   fiber,
   cut,
   governs,
+  tableLine,
+  bounce,
+  addUp,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2712,6 +2715,74 @@ const governsBrief = BriefSection(
   handbook: 'Handbook p. 135',
 );
 
+const tableBrief2 = BriefSection(
+  title: 'Read the supports, then the load',
+  body:
+      'Nothing in this lesson is derived. The handbook has a table of beams '
+      'and you match the one in front of you to a line in it, so the whole '
+      'skill is reading the picture: is it held at BOTH ENDS or built in at '
+      'one, and is the load GATHERED at a point or SPREAD along? Those two '
+      'questions pick the line. Getting them wrong is not a few percent out: '
+      'the same load on a cantilever instead of a simply supported beam is '
+      'sixteen times the sag, and a spread load taken as a cantilever rather '
+      'than simply supported is nearly ten. Note which powers appear: a point '
+      'load brings L cubed and a spread load brings L to the fourth, because '
+      'the longer the beam the more spread load there is on it.',
+  formulas: [
+    ('Held both ends, load in the middle', r'\delta = \frac{PL^3}{48EI}'),
+    ('Held both ends, load spread', r'\delta = \frac{5wL^4}{384EI}'),
+    ('Built in, load at the tip', r'\delta = \frac{PL^3}{3EI}'),
+    ('Built in, load spread', r'\delta = \frac{wL^4}{8EI}'),
+  ],
+  figure: BriefFigure.tableLine,
+  handbook: 'Handbook pp. 140 to 141',
+);
+
+const bounceBrief = BriefSection(
+  title: 'What actually stiffens a beam',
+  body:
+      'Deflection, not strength, is what usually decides a beam: a floor can '
+      'be perfectly safe and still feel like a trampoline, which is why the '
+      'codes cap it at around the span over three hundred and sixty. When one '
+      'is too soft, the powers tell you what to change. SPAN is cubed under a '
+      'point load and to the fourth under a spread one, so it is the biggest '
+      'lever and usually the one you cannot touch. DEPTH is cubed inside I, so '
+      'a quarter more depth is nearly double the stiffness. WIDTH and LOAD '
+      'each count once. The MATERIAL counts once through E, which is nothing '
+      'between two grades of steel, since every grade has the same E, and '
+      'everything between timber and steel.',
+  formulas: [
+    ('Everything sits on', r'EI'),
+    ('For a rectangle', r'I = \frac{bh^3}{12}'),
+    ('Serviceability, typically', r'\delta \le \frac{L}{360}'),
+    ('A stronger steel', r'\text{same } E \Rightarrow \text{same sag}'),
+  ],
+  figure: BriefFigure.bounce,
+  handbook: 'Handbook pp. 140 to 141',
+);
+
+const addBrief = BriefSection(
+  title: 'Two loads, two lookups, one sum',
+  body:
+      'A beam carrying more than one thing is rarely in the table, and it does '
+      'not need to be. Work out the sag from each load as though the others '
+      'were not there, then ADD the answers. That is allowed because sag is '
+      'proportional to load while the material stays elastic: double the load '
+      'and you double the sag, so the pieces cannot interfere with each other. '
+      'The rule that keeps it honest is that you split the LOAD and never the '
+      'supports: every piece must be the same beam, held the same way, '
+      'carrying part of what the real one carries. The same line can be used '
+      'twice with different numbers, and a beam that is already in the table '
+      'needs no splitting at all.',
+  formulas: [
+    ('Superposition', r'\delta_{total} = \delta_1 + \delta_2 + \dots'),
+    ('Because', r'\delta \propto \text{load, while elastic}'),
+    ('Split', r'\text{the load, not the supports}'),
+  ],
+  figure: BriefFigure.addUp,
+  handbook: 'Handbook pp. 140 to 141',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -3864,6 +3935,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.tableLine:
+        return const _RuleList(
+          rules: [
+            (r"\text{point load} \;\Rightarrow\; L^3", true),
+            (r"\text{spread load} \;\Rightarrow\; L^4", true),
+            (r"\text{the supports hardly matter}", false),
+            (r"\text{a cantilever uses } \tfrac{PL^3}{48EI}", false),
+          ],
+        );
+      case BriefFigure.bounce:
+        return const _RuleList(
+          rules: [
+            (r"\text{depth is cubed inside } I", true),
+            (r"\text{span is cubed or to the fourth}", true),
+            (r"\text{a stronger steel sags less}", false),
+            (r"\text{width helps as much as depth}", false),
+          ],
+        );
+      case BriefFigure.addUp:
+        return const _RuleList(
+          rules: [
+            (r"\delta_{total} = \delta_1 + \delta_2", true),
+            (r"\text{the same line may be used twice}", true),
+            (r"\text{split the supports as well as the load}", false),
+            (r"\text{every beam needs splitting}", false),
           ],
         );
       case BriefFigure.fiber:

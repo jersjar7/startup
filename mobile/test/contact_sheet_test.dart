@@ -66,6 +66,9 @@ import 'package:mobile/features/games/jump_bend_or_neither_game.dart';
 import 'package:mobile/features/games/which_fiber_is_worst_game.dart';
 import 'package:mobile/features/games/which_width_which_area_game.dart';
 import 'package:mobile/features/games/which_one_gets_worse_game.dart';
+import 'package:mobile/features/games/which_line_in_the_table_game.dart';
+import 'package:mobile/features/games/fix_the_bounce_game.dart';
+import 'package:mobile/features/games/add_it_up_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1134,6 +1137,24 @@ void main() {
           rounds: swapRounds.length,
           height: 1700,
         ),
+        'which-line-in-the-table': (
+          lesson: '48-deflections',
+          build: WhichLineInTheTableGame.new,
+          rounds: tableRounds.length,
+          height: 1700,
+        ),
+        'fix-the-bounce': (
+          lesson: '48-deflections',
+          build: FixTheBounceGame.new,
+          rounds: bounceRounds.length,
+          height: 1550,
+        ),
+        'add-it-up': (
+          lesson: '48-deflections',
+          build: AddItUpGame.new,
+          rounds: splitRounds.length,
+          height: 1600,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1379,6 +1400,11 @@ void main() {
       ('fiber', fiberBrief),
       ('cut', cutBrief),
       ('governs', governsBrief),
+    ],
+    '48-deflections': [
+      ('table-line', tableBrief2),
+      ('bounce', bounceBrief),
+      ('add-up', addBrief),
     ],
   };
 
