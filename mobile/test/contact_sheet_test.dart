@@ -192,9 +192,11 @@ import 'package:mobile/features/games/out_of_the_furnace_game.dart';
 import 'package:mobile/features/games/times_or_divided_game.dart';
 import 'package:mobile/features/games/which_mortar_game.dart';
 import 'package:mobile/features/games/which_one_goes_game.dart';
+import 'package:mobile/features/games/float_or_sink_game.dart';
 import 'package:mobile/features/games/gauge_or_absolute_game.dart';
 import 'package:mobile/features/games/same_depth_game.dart';
 import 'package:mobile/features/games/walk_the_manometer_game.dart';
+import 'package:mobile/features/games/where_it_pushes_game.dart';
 import 'package:mobile/features/games/which_drags_more_game.dart';
 import 'package:mobile/features/games/which_property_game.dart';
 import 'package:mobile/features/games/which_tube_climbs_game.dart';
@@ -1527,6 +1529,18 @@ void main() {
           rounds: walkRounds.length,
           height: 1650,
         ),
+        'where-it-pushes': (
+          lesson: '70-gates',
+          build: WhereItPushesGame.new,
+          rounds: pushRounds2.length,
+          height: 1600,
+        ),
+        'float-or-sink': (
+          lesson: '70-gates',
+          build: FloatOrSinkGame.new,
+          rounds: floatRounds.length,
+          height: 1600,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1879,6 +1893,10 @@ void main() {
       ('depth', depthBrief),
       ('gauge', gaugeBrief),
       ('manometer', manometerBrief),
+    ],
+    '70-gates': [
+      ('gate', gateBrief),
+      ('buoyancy', buoyancyBrief),
     ],
   };
 

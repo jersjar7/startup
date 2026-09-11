@@ -2341,6 +2341,29 @@ const fluidMechanicsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'hydrostatic-forces-buoyancy',
+      name: 'Hydrostatic Forces & Buoyancy',
+      subtopicId: 'fluid-properties-statics',
+      games: [
+        GameDef(
+          id: 'where-it-pushes',
+          rounds: 6,
+          name: 'Where It Pushes',
+          blurb: 'Force from the centroid, moment from somewhere lower.',
+          built: true,
+          brief: gateBrief,
+        ),
+        GameDef(
+          id: 'float-or-sink',
+          rounds: 6,
+          name: 'Float or Sink',
+          blurb: 'Its weight against the weight of what it shoves aside.',
+          built: true,
+          brief: buoyancyBrief,
+        ),
+      ],
+    ),
   ],
 );
 

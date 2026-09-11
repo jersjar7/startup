@@ -243,6 +243,8 @@ enum BriefFigure {
   depth,
   manometer,
   gauge,
+  gate,
+  buoyancy,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3986,6 +3988,51 @@ const gaugeBrief = BriefSection(
   handbook: 'Handbook p. 177',
 );
 
+const gateBrief = BriefSection(
+  title: 'Two depths, not one',
+  body:
+      'A submerged gate has two depths in play and they are never the same '
+      'one. The FORCE is the pressure at the CENTROID times the area, because '
+      'the pressure at the centroid is the average over the face. But it does '
+      'not act there: the pressure grows with depth, so the push is bottom '
+      'heavy and the resultant sits below the middle, at the center of '
+      'pressure. For a rectangle with its top at the surface that works out '
+      'to two thirds of the way down, which is a result worth knowing by '
+      'heart. The offset is the second moment over the centroid depth times '
+      'the area, so it shrinks as the gate goes deeper: a gate far down is '
+      'very nearly uniformly loaded. Force from the centroid, moment from the '
+      'center of pressure.',
+  formulas: [
+    ('The force', r'F_R = \gamma h_C A'),
+    ('Where it acts', r'y_{CP} = y_C + \frac{I_{xC}}{y_C A}'),
+    ('A rectangle', r'I_{xC} = \frac{bh^3}{12}'),
+  ],
+  figure: BriefFigure.gate,
+  handbook: 'Handbook p. 179',
+);
+
+const buoyancyBrief = BriefSection(
+  title: 'What the water it shoves aside weighs',
+  body:
+      'The push on a submerged body is the weight of the fluid it displaces, '
+      'and nothing else: not what the body is made of, not whether it is '
+      'hollow. Hold that against the body\'s own weight. Push bigger and it '
+      'rises, weight bigger and it sinks, equal and it hangs where it is, '
+      'which is what a floating body has already arranged: it settles until '
+      'it has shoved aside exactly its own weight. Two consequences worth '
+      'carrying. A steel box floats and a steel block does not, because the '
+      'box displaces far more water for the same steel. And an empty buried '
+      'tank in wet ground is pushed UP, which is a real way for tanks to '
+      'leave the ground they were buried in.',
+  formulas: [
+    ('The push', r'F_B = \gamma V_{displaced}'),
+    ('Net', r'F_{net} = F_B - W'),
+    ('Floating', r'F_B = W'),
+  ],
+  figure: BriefFigure.buoyancy,
+  handbook: 'Handbook p. 179',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5482,6 +5529,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{open to the air} \Rightarrow P_{gauge} = 0", true),
             (r"\gamma h \text{ gives an absolute pressure}", false),
             (r"P_{gauge} \text{ cannot be negative}", false),
+          ],
+        );
+      case BriefFigure.gate:
+        return const _RuleList(
+          rules: [
+            (r"F_R \text{ uses the centroid depth}", true),
+            (r"y_{CP} \text{ is always deeper than } y_C", true),
+            (r"F_R \text{ acts at the centroid}", false),
+            (r"F_R \text{ uses the bottom depth}", false),
+          ],
+        );
+      case BriefFigure.buoyancy:
+        return const _RuleList(
+          rules: [
+            (r"F_B = \gamma V_{displaced}", true),
+            (r"\text{floating} \Rightarrow F_B = W", true),
+            (r"F_B \text{ uses the body's own } \gamma", false),
+            (r"\text{hollow bodies displace less}", false),
           ],
         );
       case BriefFigure.damping:

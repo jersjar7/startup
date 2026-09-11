@@ -27,6 +27,7 @@ import '../features/games/does_it_make_the_number_game.dart';
 import '../features/games/do_they_agree_game.dart';
 import '../features/games/every_rule_game.dart';
 import '../features/games/find_the_slip_game.dart';
+import '../features/games/float_or_sink_game.dart';
 import '../features/games/follow_the_tangent_game.dart';
 import '../features/games/game_catalog.dart';
 import '../features/games/edge_or_inside_game.dart';
@@ -90,6 +91,7 @@ import '../features/games/whats_missing_game.dart';
 import '../features/games/what_is_missing_yet_game.dart';
 import '../features/games/what_shows_game.dart';
 import '../features/games/what_this_job_needs_game.dart';
+import '../features/games/where_it_pushes_game.dart';
 import '../features/games/where_it_stops_game.dart';
 import '../features/games/through_the_means_game.dart';
 import '../features/games/what_goes_under_game.dart';
@@ -464,6 +466,8 @@ GoRouter buildRouter(AuthController auth) {
           'same-depth' => const SameDepthGame(),
           'gauge-or-absolute' => const GaugeOrAbsoluteGame(),
           'walk-the-manometer' => const WalkTheManometerGame(),
+          'where-it-pushes' => const WhereItPushesGame(),
+          'float-or-sink' => const FloatOrSinkGame(),
           _ => const _UnknownGame(),
         },
       ),

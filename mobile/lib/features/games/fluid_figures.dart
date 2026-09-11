@@ -721,3 +721,370 @@ class UTubePainter extends CustomPainter {
   bool shouldRepaint(UTubePainter old) =>
       old.tube != tube || old.from != from || old.to != to;
 }
+
+/// A flat vertical gate holding water back, which is every hydrostatic force
+/// problem on the exam.
+@immutable
+class Gate {
+  const Gate({
+    required this.wide,
+    required this.tall,
+    this.topDepth = 0,
+  });
+
+  /// Meters across, meters down the face, and how far the top edge sits
+  /// below the free surface.
+  final double wide;
+  final double tall;
+  final double topDepth;
+
+  double get area => wide * tall;
+
+  /// The depth of the centroid, which is what the force formula wants.
+  double get centroid => topDepth + tall / 2;
+
+  double get bottom => topDepth + tall;
+
+  /// Second moment of the face about its own centroid.
+  double get inertia => wide * tall * tall * tall / 12;
+
+  /// How far below the centroid the resultant actually acts.
+  double get offset => inertia / (centroid * area);
+
+  /// The center of pressure, always deeper than the centroid and always
+  /// closer to it the deeper the gate is.
+  double get centerOfPressure => centroid + offset;
+
+  /// The resultant, in kilonewtons, with water behind it.
+  double force({double gamma = 9810}) => gamma * centroid * area / 1000;
+}
+
+/// The named places on a gate a round can ask about.
+enum Mark3 { topEdge, centroid, pressure, bottomEdge }
+
+extension MarkWords on Mark3 {
+  String get plain => switch (this) {
+        Mark3.topEdge => 'the top edge',
+        Mark3.centroid => 'the centroid',
+        Mark3.pressure => 'the center of pressure',
+        Mark3.bottomEdge => 'the bottom edge',
+      };
+}
+
+/// The gate in section, with the water beside it, the pressure growing with
+/// depth, and each named place marked.
+class GatePainter extends CustomPainter {
+  const GatePainter({
+    required this.gate,
+    required this.among,
+    this.picked,
+    this.answer,
+    this.locked = false,
+  });
+
+  final Gate gate;
+
+  /// Which places this round offers. A round about a deeply drowned gate
+  /// leaves the center of pressure off, because at that depth it sits a few
+  /// centimeters from the centroid and nothing honest can be drawn.
+  final List<Mark3> among;
+
+  final Mark3? picked;
+  final Mark3? answer;
+  final bool locked;
+
+  static const _surfaceY = 26.0;
+  static const _brokenTop = 92.0;
+
+  /// A gate far below the surface is drawn with the water column broken, or
+  /// the gate itself ends up a few pixels tall and nothing on it can be
+  /// pointed at. The panel says the depth in words instead.
+  static bool broken(Gate gate) => gate.topDepth > 2 * gate.tall;
+
+  /// How much canvas one meter of the gate gets.
+  static double scaleFor(Size size, Gate gate) => broken(gate)
+      ? (size.height - _brokenTop - 30) / gate.tall
+      : (size.height - _surfaceY - 24) / gate.bottom;
+
+  static double yOf(Size size, Gate gate, double depth) => broken(gate)
+      ? _brokenTop + (depth - gate.topDepth) * scaleFor(size, gate)
+      : _surfaceY + depth * scaleFor(size, gate);
+
+  static double depthOf(Gate gate, Mark3 mark) => switch (mark) {
+        Mark3.topEdge => gate.topDepth,
+        Mark3.centroid => gate.centroid,
+        Mark3.pressure => gate.centerOfPressure,
+        Mark3.bottomEdge => gate.bottom,
+      };
+
+  /// Where a named place is drawn.
+  static Offset spotOf(Size size, Gate gate, Mark3 mark) =>
+      Offset(size.width * 0.62, yOf(size, gate, depthOf(gate, mark)));
+
+  /// The named place nearest a tap, among the ones this round offers.
+  static Mark3? nearest(
+      Size size, Gate gate, List<Mark3> among, Offset tap,
+      {double within = 34}) {
+    Mark3? best;
+    var bestGap = within;
+    for (final mark in among) {
+      final gap = (spotOf(size, gate, mark) - tap).distance;
+      if (gap < bestGap) {
+        bestGap = gap;
+        best = mark;
+      }
+    }
+    return best;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final faceX = size.width * 0.62;
+    final top = yOf(size, gate, gate.topDepth);
+    final foot = yOf(size, gate, gate.bottom);
+
+    // The water, and its surface.
+    canvas
+      ..drawRect(
+        Rect.fromLTRB(10, _surfaceY, faceX, size.height - 10),
+        Paint()..color = AppColors.info.withValues(alpha: 0.18),
+      )
+      ..drawLine(
+        Offset(10, _surfaceY),
+        Offset(size.width - 10, _surfaceY),
+        Paint()
+          ..color = AppColors.info
+          ..strokeWidth = 1.6,
+      );
+    _write(canvas, size, 'surface', const Offset(12, _surfaceY - 16),
+        AppColors.info);
+
+    // The break in the water column, for a gate a long way down.
+    if (broken(gate)) {
+      final y = _surfaceY + 34;
+      final zig = Path()..moveTo(10, y);
+      for (var x = 10.0; x < size.width - 10; x += 16) {
+        zig
+          ..lineTo(x + 8, y - 6)
+          ..lineTo(x + 16, y);
+      }
+      canvas.drawPath(
+        zig,
+        Paint()
+          ..color = AppColors.cream
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 6,
+      );
+      canvas.drawPath(
+        zig,
+        Paint()
+          ..color = AppColors.info
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.4,
+      );
+      _write(canvas, size, '${_num(gate.topDepth)} m of water above',
+          Offset(12, y + 8), AppColors.info);
+    }
+
+    // The pressure, growing straight with depth. This is the picture the
+    // center of pressure comes out of: more of the push is down low.
+    final arrows = Paint()
+      ..color = AppColors.ember
+      ..strokeWidth = 1.6;
+    for (var i = 0; i <= 6; i++) {
+      final depth = gate.topDepth + (gate.tall) * i / 6;
+      final y = yOf(size, gate, depth);
+      final len = 46 * depth / gate.bottom;
+      canvas
+        ..drawLine(Offset(faceX - len, y), Offset(faceX, y), arrows)
+        ..drawLine(Offset(faceX, y), Offset(faceX - 5, y - 3), arrows)
+        ..drawLine(Offset(faceX, y), Offset(faceX - 5, y + 3), arrows);
+    }
+
+    // The gate itself.
+    canvas.drawRect(
+      Rect.fromLTRB(faceX, top, faceX + 12, foot),
+      Paint()..color = AppColors.charcoal,
+    );
+    if (gate.topDepth > 0) {
+      canvas.drawRect(
+        Rect.fromLTRB(faceX, _surfaceY, faceX + 12, top),
+        Paint()..color = AppColors.ink3.withValues(alpha: 0.35),
+      );
+    }
+
+    _write(canvas, size, '${_num(gate.wide)} m wide', Offset(12, _surfaceY + 8),
+        AppColors.ink3);
+    _write(canvas, size, '${_num(gate.tall)} m tall',
+        Offset(12, _surfaceY + 22), AppColors.ink3);
+    // With a break drawn, the depth is already written across it.
+    if (gate.topDepth > 0 && !broken(gate)) {
+      _write(canvas, size, 'top ${_num(gate.topDepth)} m down',
+          Offset(12, _surfaceY + 36), AppColors.ink3);
+    }
+
+    for (final mark in among) {
+      final spot = spotOf(size, gate, mark);
+      final Color tone;
+      if (locked && answer == mark) {
+        tone = AppColors.forest;
+      } else if (locked && picked == mark) {
+        tone = AppColors.error;
+      } else if (picked == mark) {
+        tone = AppColors.ember;
+      } else {
+        tone = AppColors.charcoal;
+      }
+      canvas
+        ..drawCircle(spot, 7, Paint()..color = AppColors.cream)
+        ..drawCircle(spot, 5, Paint()..color = tone);
+      if (locked) {
+        _write(canvas, size, mark.plain, spot + const Offset(12, -6), tone);
+      }
+    }
+  }
+
+  static String _num(double v) =>
+      v == v.roundToDouble() ? v.round().toString() : v.toString();
+
+  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
+    final painter = TextPainter(
+      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    var x = at.dx;
+    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
+    if (x < 2) x = 2;
+    final patch = Rect.fromLTWH(
+        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
+    canvas.drawRect(
+        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
+    painter.paint(canvas, Offset(x, at.dy));
+  }
+
+  @override
+  bool shouldRepaint(GatePainter old) =>
+      old.gate != gate ||
+      old.among != among ||
+      old.picked != picked ||
+      old.answer != answer ||
+      old.locked != locked;
+}
+
+/// A body in water, with its weight and the push of the water it displaces.
+@immutable
+class Lump {
+  const Lump({
+    required this.volume,
+    required this.weight,
+    this.name = 'the tank',
+    this.gamma = 9810,
+  });
+
+  /// Cubic meters and kilonewtons.
+  final double volume;
+  final double weight;
+  final String name;
+  final double gamma;
+
+  /// The push of the water it shoves aside, in kilonewtons.
+  double get buoyancy => gamma * volume / 1000;
+
+  /// Positive means it is pushed up.
+  double get net => buoyancy - weight;
+
+  bool get floats => net > 0.01;
+  bool get sinks => net < -0.01;
+}
+
+/// The body under water with the two forces on it drawn to one scale.
+class LumpPainter extends CustomPainter {
+  const LumpPainter({required this.lump, this.showForces = true});
+
+  final Lump lump;
+
+  /// The arrows are drawn only once the answer is in: their lengths ARE the
+  /// answer.
+  final bool showForces;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final box = Rect.fromCenter(
+      center: Offset(size.width / 2, size.height * 0.54),
+      width: 86,
+      height: 62,
+    );
+
+    canvas
+      ..drawRect(
+        Rect.fromLTRB(8, 22, size.width - 8, size.height - 8),
+        Paint()..color = AppColors.info.withValues(alpha: 0.18),
+      )
+      ..drawLine(
+        const Offset(8, 22),
+        Offset(size.width - 8, 22),
+        Paint()
+          ..color = AppColors.info
+          ..strokeWidth = 1.6,
+      )
+      ..drawRect(box, Paint()..color = AppColors.sunbeam.withValues(alpha: 0.4))
+      ..drawRect(
+        box,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.8,
+      );
+
+    _write(canvas, size, lump.name, Offset(box.left, box.top - 16),
+        AppColors.ink3);
+    _write(canvas, size, '${_num(lump.volume)} m3, ${_num(lump.weight)} kN',
+        Offset(box.left - 18, box.bottom + 8), AppColors.ink3);
+
+    if (!showForces) return;
+    final most = lump.buoyancy > lump.weight ? lump.buoyancy : lump.weight;
+    final up = 54 * lump.buoyancy / most;
+    final down = 54 * lump.weight / most;
+    _arrow(canvas, box.topCenter, box.topCenter - Offset(0, up),
+        AppColors.info);
+    _arrow(canvas, box.bottomCenter, box.bottomCenter + Offset(0, down),
+        AppColors.error);
+    _write(canvas, size, 'push ${_num(lump.buoyancy)} kN',
+        box.topCenter - Offset(-8, up + 4), AppColors.info);
+    _write(canvas, size, 'weight ${_num(lump.weight)} kN',
+        box.bottomCenter + Offset(8, down - 6), AppColors.error);
+  }
+
+  void _arrow(Canvas canvas, Offset from, Offset to, Color color) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 2.6;
+    final way = to.dy < from.dy ? -1.0 : 1.0;
+    canvas
+      ..drawLine(from, to, paint)
+      ..drawLine(to, to + Offset(-4, -5 * way), paint)
+      ..drawLine(to, to + Offset(4, -5 * way), paint);
+  }
+
+  static String _num(double v) =>
+      v == v.roundToDouble() ? v.round().toString() : v.toStringAsFixed(2);
+
+  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
+    final painter = TextPainter(
+      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    var x = at.dx;
+    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
+    if (x < 2) x = 2;
+    final patch = Rect.fromLTWH(
+        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
+    canvas.drawRect(
+        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
+    painter.paint(canvas, Offset(x, at.dy));
+  }
+
+  @override
+  bool shouldRepaint(LumpPainter old) =>
+      old.lump != lump || old.showForces != showForces;
+}

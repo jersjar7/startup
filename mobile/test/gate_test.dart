@@ -270,6 +270,9 @@ void main() {
       // The manometer is the only problem in the lesson with a U-tube in it,
       // and walking it a step at a time is the whole item.
       'walk-the-manometer',
+      // The buoyancy problem is the only one in the lesson with a floating
+      // body in it, and which way it goes is the whole item.
+      'float-or-sink',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

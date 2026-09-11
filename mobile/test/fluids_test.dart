@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/fluid_figures.dart';
+import 'package:mobile/features/games/float_or_sink_game.dart';
 import 'package:mobile/features/games/gauge_or_absolute_game.dart';
+import 'package:mobile/features/games/where_it_pushes_game.dart';
 import 'package:mobile/features/games/same_depth_game.dart';
 import 'package:mobile/features/games/walk_the_manometer_game.dart';
 import 'package:mobile/features/games/which_drags_more_game.dart';
@@ -333,6 +335,134 @@ void main() {
 
     test('all three problems are drawn on', () {
       expect(gaugeRounds.map((r) => r.source).toSet().length, 3);
+    });
+  });
+
+  group('the gate reproduces the lesson', () {
+    test('the two by three gate takes 88 kilonewtons', () {
+      const gate = Gate(wide: 2, tall: 3);
+      expect(gate.centroid, 1.5);
+      expect(gate.area, 6);
+      expect(gate.force(), closeTo(88.29, 0.05));
+      // Its named slips: the bottom depth, a third, and half a meter.
+      expect(9810 * 3.0 * 6 / 1000, closeTo(176.6, 0.1));
+      expect(9810 * 1.0 * 6 / 1000, closeTo(58.9, 0.1));
+      expect(9810 * 0.5 * 6 / 1000, closeTo(29.4, 0.1));
+    });
+
+    test('its center of pressure is two thirds of the way down', () {
+      const gate = Gate(wide: 2, tall: 3);
+      expect(gate.inertia, closeTo(4.5, 1e-9));
+      expect(gate.offset, closeTo(0.5, 1e-9));
+      expect(gate.centerOfPressure, closeTo(2.0, 1e-9));
+      // And the named slip: a third of the height added to the centroid.
+      expect(1.5 + 3 / 3, closeTo(2.5, 1e-9));
+    });
+
+    test('the center of pressure is always deeper, and closes up with depth',
+        () {
+      var lastOffset = double.infinity;
+      for (final top in [0.0, 2.0, 6.0, 12.0]) {
+        final gate = Gate(wide: 2, tall: 3, topDepth: top);
+        expect(gate.centerOfPressure, greaterThan(gate.centroid));
+        expect(gate.offset, lessThan(lastOffset));
+        lastOffset = gate.offset;
+      }
+      expect(const Gate(wide: 2, tall: 3, topDepth: 12).offset, lessThan(0.07));
+    });
+
+    test('a round that offers the center of pressure can be tapped', () {
+      const size = Size(340, 260);
+      for (final r in pushRounds2) {
+        for (var i = 0; i < r.among.length; i++) {
+          for (var j = i + 1; j < r.among.length; j++) {
+            final gap = (GatePainter.spotOf(size, r.gate, r.among[i]) -
+                    GatePainter.spotOf(size, r.gate, r.among[j]))
+                .distance;
+            expect(gap, greaterThan(28),
+                reason: '${r.subject}: ${r.among[i].name} and '
+                    '${r.among[j].name} are ${gap.round()} apart');
+          }
+        }
+        for (final mark in r.among) {
+          expect(
+              GatePainter.nearest(
+                  size, r.gate, r.among, GatePainter.spotOf(size, r.gate, mark)),
+              mark,
+              reason: r.subject);
+        }
+      }
+    });
+
+    test('the deep rounds do not offer a point nobody could hit', () {
+      for (final r in pushRounds2) {
+        if (r.gate.offset < 0.2) {
+          expect(r.among.contains(Mark3.pressure), isFalse,
+              reason: '${r.subject}: the center of pressure is '
+                  '${(r.gate.offset * 100).round()} cm from the centroid');
+        }
+      }
+    });
+
+    test('both problems are drawn on, and every point is an answer', () {
+      expect(pushRounds2.map((r) => r.source).toSet().length, 2);
+      expect(pushRounds2.map((r) => r.answer).toSet(),
+          {Mark3.centroid, Mark3.pressure});
+    });
+
+    test('every marked point is inside the panel', () {
+      const size = Size(340, 260);
+      for (final r in pushRounds2) {
+        for (final mark in r.among) {
+          final p = GatePainter.spotOf(size, r.gate, mark);
+          expect(p.dy, inInclusiveRange(0, size.height), reason: r.subject);
+        }
+      }
+    });
+  });
+
+  group('buoyancy reproduces the lesson', () {
+    test('two cubic meters lifts with 19.62 kilonewtons', () {
+      const tank = Lump(volume: 2, weight: 15);
+      expect(tank.buoyancy, closeTo(19.62, 0.01));
+      expect(tank.net, closeTo(4.62, 0.01));
+      expect(tank.floats, isTrue);
+    });
+
+    test('the answer follows from the two forces', () {
+      for (final r in floatRounds) {
+        switch (r.answer) {
+          case Goes2.up:
+            expect(r.lump.buoyancy, greaterThan(r.lump.weight),
+                reason: r.subject);
+          case Goes2.down:
+            expect(r.lump.weight, greaterThan(r.lump.buoyancy),
+                reason: r.subject);
+          case Goes2.still:
+            expect(r.lump.buoyancy, closeTo(r.lump.weight, 0.01),
+                reason: r.subject);
+        }
+      }
+    });
+
+    test('no round is decided by a hair', () {
+      for (final r in floatRounds.where((r) => r.answer != Goes2.still)) {
+        final gap = r.lump.net.abs() / r.lump.buoyancy;
+        expect(gap, greaterThan(0.1),
+            reason: '${r.subject}: too close to call');
+      }
+    });
+
+    test('all three answers are used', () {
+      expect(floatRounds.map((r) => r.answer).toSet(), Goes2.values.toSet());
+    });
+
+    test('the flooded tank displaces exactly what the empty one did', () {
+      final empty = floatRounds.first.lump;
+      final flooded = floatRounds[1].lump;
+      expect(flooded.volume, empty.volume);
+      expect(flooded.buoyancy, closeTo(empty.buoyancy, 1e-9));
+      expect(flooded.weight, greaterThan(empty.weight));
     });
   });
 }

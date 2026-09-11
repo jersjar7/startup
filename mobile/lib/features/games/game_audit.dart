@@ -26,6 +26,7 @@ import 'find_the_slip_game.dart';
 import 'fill_the_trace_game.dart';
 import 'first_true_wins_game.dart';
 import 'fix_the_sign_game.dart';
+import 'float_or_sink_game.dart';
 import 'follow_the_tangent_game.dart';
 import 'gauge_or_absolute_game.dart';
 import 'grade_sense_game.dart';
@@ -85,6 +86,7 @@ import 'whats_missing_game.dart';
 import 'what_is_missing_yet_game.dart';
 import 'what_shows_game.dart';
 import 'what_this_job_needs_game.dart';
+import 'where_it_pushes_game.dart';
 import 'where_it_stops_game.dart';
 import 'through_the_means_game.dart';
 import 'what_goes_under_game.dart';
@@ -2825,6 +2827,33 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final s in Step2.values) s.name],
           answer: Step2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'where-it-pushes',
+    lessonId: 'hydrostatic-forces-buoyancy',
+    problemPrefix: 'fm-hfb-',
+    rounds: [
+      for (final r in pushRounds2)
+        RoundAudit(
+          source: r.source,
+          options: [for (final m in r.among) m.name],
+          answer: r.among.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'float-or-sink',
+    lessonId: 'hydrostatic-forces-buoyancy',
+    problemPrefix: 'fm-hfb-',
+    rounds: [
+      for (final r in floatRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final g in Goes2.values) g.name],
+          answer: Goes2.values.indexOf(r.answer),
         ),
     ],
   ),
