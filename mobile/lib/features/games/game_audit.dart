@@ -8,6 +8,9 @@ import 'add_the_squares_game.dart';
 import 'add_up_the_losses_game.dart';
 import 'which_target_takes_more_game.dart';
 import 'which_area_goes_in_game.dart';
+import 'which_one_to_match_game.dart';
+import 'model_figures.dart';
+import 'does_the_model_run_faster_game.dart';
 import 'too_big_or_too_small_game.dart';
 import 'which_one_needs_a_block_game.dart';
 import 'where_the_block_goes_game.dart';
@@ -3020,6 +3023,33 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Sits.values) o.name],
           answer: Sits.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'which-one-to-match',
+    lessonId: 'dimensional-analysis-similitude',
+    problemPrefix: 'fm-das-',
+    rounds: [
+      for (final r in benchRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final l in Law.values) l.name],
+          answer: Law.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-the-model-run-faster',
+    lessonId: 'dimensional-analysis-similitude',
+    problemPrefix: 'fm-das-',
+    rounds: [
+      for (final r in twinRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Runs2.values) o.name],
+          answer: Runs2.values.indexOf(r.answer),
         ),
     ],
   ),

@@ -19,6 +19,9 @@ import 'package:mobile/features/games/walk_the_manometer_game.dart';
 import 'package:mobile/features/games/which_drags_more_game.dart';
 import 'package:mobile/features/games/which_property_game.dart';
 import 'package:mobile/features/games/which_tube_climbs_game.dart';
+import 'package:mobile/features/games/model_figures.dart';
+import 'package:mobile/features/games/which_one_to_match_game.dart';
+import 'package:mobile/features/games/does_the_model_run_faster_game.dart';
 import 'package:mobile/features/games/meter_figures.dart';
 import 'package:mobile/features/games/which_area_goes_in_game.dart';
 import 'package:mobile/features/games/too_big_or_too_small_game.dart';
@@ -1129,6 +1132,97 @@ void main() {
         for (final r in meterRounds) r.source,
       };
       expect(sources, containsAll(['fm-fme-q1', 'fm-fme-q2', 'fm-fme-q3']));
+    });
+  });
+
+  group('similitude reproduces the lesson', () {
+    test('Buckingham Pi counts 7 variables less 3 dimensions', () {
+      expect(7 - 3, 4);
+      // Its named slips: n on its own, the product, and a fourth base
+      // dimension counted as if force were independent of M, L and T.
+      expect(7 - 4, 3);
+      expect(7 * 3, 21);
+    });
+
+    test('the spillway model runs at 2 meters a second', () {
+      expect(10 * math.sqrt(1 / 25), closeTo(2.0, 0.001));
+      // Its named slips: the length ratio used whole, and the wrong way up.
+      expect(10 / 25, closeTo(0.4, 0.001));
+      expect(10 * 5, 50);
+    });
+
+    test('the pipeline model runs at 30 meters a second', () {
+      expect(3 * (10 / 1), 30);
+      // Its named slips: the ratio inverted, and Froude scaling used where
+      // Reynolds belongs.
+      expect(3 / 10, closeTo(0.3, 0.001));
+      expect(3 * math.sqrt(1 / 10), closeTo(0.949, 0.001));
+    });
+  });
+
+  group('which law a test has to match', () {
+    test('a free surface means Froude, and no surface means Reynolds', () {
+      for (final r in benchRounds) {
+        if (r.scale == 1) {
+          expect(r.answer, Law.either, reason: r.subject);
+          continue;
+        }
+        expect(r.answer, r.bench.hasSurface ? Law.froude : Law.reynolds,
+            reason: r.subject);
+      }
+    });
+
+    test('all three answers turn up, and full size is the only either', () {
+      final answers = benchRounds.map((r) => r.answer).toList();
+      expect(answers.toSet().length, 3);
+      expect(answers.where((a) => a == Law.either).length, 1);
+      expect(benchRounds.where((r) => r.scale == 1).length, 1);
+    });
+
+    test('both of the lesson\'s model problems are drawn on', () {
+      final sources = benchRounds.map((r) => r.source).toSet();
+      expect(sources, containsAll(['fm-das-q2', 'fm-das-q3']));
+    });
+
+    test('every kind of rig gets used', () {
+      expect(benchRounds.map((r) => r.bench).toSet().length,
+          Bench.values.length);
+    });
+  });
+
+  group('what the law asks of the model speed', () {
+    test('Froude scales as the root, Reynolds as the inverse', () {
+      expect(const Twins(law: Law.froude, model: 1, proto: 25).ratio,
+          closeTo(0.2, 1e-9));
+      expect(const Twins(law: Law.reynolds, model: 1, proto: 10).ratio,
+          closeTo(10, 1e-9));
+      // Both laws agree the moment the model stops being smaller.
+      expect(const Twins(law: Law.froude, model: 1, proto: 1).ratio,
+          closeTo(1, 1e-9));
+      expect(const Twins(law: Law.reynolds, model: 1, proto: 1).ratio,
+          closeTo(1, 1e-9));
+    });
+
+    test('neither law means faster or slower on its own', () {
+      final froude = twinRounds.where((r) => r.twins.law == Law.froude);
+      final reynolds = twinRounds.where((r) => r.twins.law == Law.reynolds);
+      expect(froude.map((r) => r.answer).toSet().length, greaterThan(1));
+      expect(reynolds.map((r) => r.answer).toSet().length, greaterThan(1));
+      // An oversized model is what turns each rule around.
+      expect(twinRounds.where((r) => r.twins.model > r.twins.proto).length,
+          greaterThanOrEqualTo(2));
+    });
+
+    test('all three answers turn up', () {
+      expect(twinRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('the lesson\'s own two scales are both rounds', () {
+      final scales = {
+        for (final r in twinRounds) '${r.twins.law.name}-${r.twins.proto}'
+      };
+      expect(scales.contains('froude-25.0'), isTrue);
+      expect(scales.contains('reynolds-10.0'), isTrue);
     });
   });
 }

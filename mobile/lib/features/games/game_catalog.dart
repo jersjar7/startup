@@ -2490,6 +2490,33 @@ const fluidMechanicsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'dimensional-analysis-similitude',
+      name: 'Dimensional Analysis & Similitude',
+      subtopicId: 'flow-analysis-measurement',
+      // Buckingham Pi is a subtraction, and the phone does not do
+      // arithmetic. Counting variables and dimensions belongs on paper; what
+      // is left, and what the two model problems are really about, is which
+      // law governs and what it then asks of the model.
+      games: [
+        GameDef(
+          id: 'which-one-to-match',
+          rounds: 6,
+          name: 'Which One to Match',
+          blurb: 'Look for the free surface. It settles which number.',
+          built: true,
+          brief: similitudeBrief,
+        ),
+        GameDef(
+          id: 'does-the-model-run-faster',
+          rounds: 6,
+          name: 'Does the Model Run Faster',
+          blurb: 'One law says slower, the other says ten times faster.',
+          built: true,
+          brief: scalingBrief,
+        ),
+      ],
+    ),
   ],
 );
 

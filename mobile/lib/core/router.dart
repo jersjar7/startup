@@ -38,6 +38,7 @@ import '../features/games/does_it_hold_game.dart';
 import '../features/games/does_it_make_the_number_game.dart';
 import '../features/games/does_it_multiply_game.dart';
 import '../features/games/does_the_mass_matter_game.dart';
+import '../features/games/does_the_model_run_faster_game.dart';
 import '../features/games/edge_or_inside_game.dart';
 import '../features/games/enough_or_too_far_game.dart';
 import '../features/games/every_rule_game.dart';
@@ -195,6 +196,7 @@ import '../features/games/which_one_gets_worse_game.dart';
 import '../features/games/which_one_goes_game.dart';
 import '../features/games/which_one_moves_most_game.dart';
 import '../features/games/which_one_needs_a_block_game.dart';
+import '../features/games/which_one_to_match_game.dart';
 import '../features/games/which_ones_turn_it_game.dart';
 import '../features/games/which_piece_drives_it_game.dart';
 import '../features/games/which_property_game.dart';
@@ -490,6 +492,8 @@ GoRouter buildRouter(AuthController auth) {
           'where-the-block-goes' => const WhereTheBlockGoesGame(),
           'which-area-goes-in' => const WhichAreaGoesInGame(),
           'too-big-or-too-small' => const TooBigOrTooSmallGame(),
+          'which-one-to-match' => const WhichOneToMatchGame(),
+          'does-the-model-run-faster' => const DoesTheModelRunFasterGame(),
           _ => const _UnknownGame(),
         },
       ),

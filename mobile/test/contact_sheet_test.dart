@@ -195,6 +195,8 @@ import 'package:mobile/features/games/which_one_goes_game.dart';
 import 'package:mobile/features/games/add_up_the_losses_game.dart';
 import 'package:mobile/features/games/which_target_takes_more_game.dart';
 import 'package:mobile/features/games/which_area_goes_in_game.dart';
+import 'package:mobile/features/games/which_one_to_match_game.dart';
+import 'package:mobile/features/games/does_the_model_run_faster_game.dart';
 import 'package:mobile/features/games/too_big_or_too_small_game.dart';
 import 'package:mobile/features/games/which_one_needs_a_block_game.dart';
 import 'package:mobile/features/games/where_the_block_goes_game.dart';
@@ -1618,6 +1620,18 @@ void main() {
           rounds: slipRounds.length,
           height: 1620,
         ),
+        'which-one-to-match': (
+          lesson: '75-similitude',
+          build: WhichOneToMatchGame.new,
+          rounds: benchRounds.length,
+          height: 1620,
+        ),
+        'does-the-model-run-faster': (
+          lesson: '75-similitude',
+          build: DoesTheModelRunFasterGame.new,
+          rounds: twinRounds.length,
+          height: 1580,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1993,6 +2007,10 @@ void main() {
     '74-metering': [
       ('metering', meteringBrief),
       ('coefficient', coefficientBrief),
+    ],
+    '75-similitude': [
+      ('similitude', similitudeBrief),
+      ('scaling', scalingBrief),
     ],
   };
 

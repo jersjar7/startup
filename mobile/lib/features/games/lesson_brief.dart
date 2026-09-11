@@ -256,6 +256,8 @@ enum BriefFigure {
   block,
   metering,
   coefficient,
+  similitude,
+  scaling,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4291,6 +4293,52 @@ const coefficientBrief = BriefSection(
   handbook: 'Handbook p. 194',
 );
 
+const similitudeBrief = BriefSection(
+  title: 'Froude or Reynolds',
+  body:
+      'Two flows are alike when the numbers that matter to them are alike, '
+      'and which number matters follows from what is shaping the flow. Look '
+      'for a free water surface. If there is one and the thing being studied '
+      'happens at it, gravity is doing the shaping and the Froude number has '
+      'to match: spillways, weirs, rivers, hulls. If there is no surface in '
+      'it, gravity has nothing to pull against, and what is left is '
+      'viscosity against momentum, which is the Reynolds number: pipe '
+      'fittings, valves, submerged bodies, wind tunnels. At the same scale '
+      'in the same fluid you cannot hold both at once, which is why a river '
+      'model is run on Froude and its Reynolds mismatch is simply accepted, '
+      'with the model made big enough to stay turbulent.',
+  formulas: [
+    ('Gravity', r'Fr = \frac{v}{\sqrt{gl}}'),
+    ('Viscosity', r'Re = \frac{\rho v l}{\mu}'),
+    ('Buckingham Pi', r'k = n - r'),
+  ],
+  figure: BriefFigure.similitude,
+  handbook: 'Handbook p. 196',
+);
+
+const scalingBrief = BriefSection(
+  title: 'What the law asks of the model',
+  body:
+      'Once the law is chosen it fixes the model speed, and the two laws '
+      'pull opposite ways. Froude has the speed sitting over the square root '
+      'of the length, so the speed follows the size by its square root: a '
+      'model a twenty fifth the size runs at a fifth the speed. Reynolds has '
+      'the speed multiplying the length, so to hold the product still the '
+      'speed goes the other way by the whole ratio: a model a tenth the size '
+      'must run ten times as fast. Neither law means faster or slower by '
+      'itself, it depends which way the size went. And the Reynolds demand '
+      'is often the end of a plan: ten times the speed through a small tank '
+      'may be impossible, which is why those models get built oversized '
+      'instead.',
+  formulas: [
+    ('Froude', r'\frac{v_m}{v_p} = \sqrt{\frac{l_m}{l_p}}'),
+    ('Reynolds, same fluid', r'\frac{v_m}{v_p} = \frac{l_p}{l_m}'),
+    ('At full size', r'\text{both ask the same}'),
+  ],
+  figure: BriefFigure.scaling,
+  handbook: 'Handbook p. 196',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5850,6 +5898,24 @@ class BriefFigureView extends StatelessWidget {
             (r"2L \Rightarrow 2 h_f", true),
             (r"2v \Rightarrow 2 h_f", false),
             (r"f_{Fanning} \text{ goes in as is}", false),
+          ],
+        );
+      case BriefFigure.similitude:
+        return const _RuleList(
+          rules: [
+            (r"\text{free surface} \Rightarrow \text{Froude}", true),
+            (r"\text{no surface} \Rightarrow \text{Reynolds}", true),
+            (r"\text{match both at one scale}", false),
+            (r"\text{a wind tunnel needs Froude}", false),
+          ],
+        );
+      case BriefFigure.scaling:
+        return const _RuleList(
+          rules: [
+            (r"\text{Froude}, \tfrac{1}{25} \Rightarrow \tfrac{1}{5}v", true),
+            (r"\text{Reynolds}, \tfrac{1}{10} \Rightarrow 10v", true),
+            (r"\text{Reynolds always means faster}", false),
+            (r"\text{Froude}, \tfrac{1}{25} \Rightarrow \tfrac{1}{25}v", false),
           ],
         );
       case BriefFigure.metering:
