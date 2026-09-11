@@ -75,7 +75,7 @@ export default {
     },
     {
       id: 'fm-hp-q3',
-      statement: 'A U-tube manometer connects a pressurized air line to the atmosphere. The manometer fluid is mercury ($SG = 13.6$, $\\gamma_w = 9{,}810 \\text{ N/m}^3$). The mercury column on the air side is $h = 250 \\text{ mm}$ higher than on the atmospheric side. What is the gauge pressure in the air line?',
+      statement: 'A U-tube manometer connects a pressurized air line to the atmosphere. The manometer fluid is mercury ($SG = 13.6$, $\\gamma_w = 9{,}810 \\text{ N/m}^3$). The mercury column on the atmospheric side stands $h = 250 \\text{ mm}$ higher than on the air side. What is the gauge pressure in the air line?',
       choices: [
         { id: 'c1', text: '$133.4 \\text{ kPa}$' },
         { id: 'c2', text: '$2.45 \\text{ kPa}$' },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'The mercury is higher on the air side, meaning the air pressure pushes the mercury down on the air side and up on the atmospheric side. So P_air = \u03B3_Hg \u00D7 h. First get \u03B3_Hg = 13.6 \u00D7 9,810 = 133,416 N/m\u00B3. Convert h = 250 mm = 0.25 m. P = 133,416 \u00D7 0.25 = 33,354 Pa = 33.35 kPa. The 2.45 kPa choice uses water\u2019s \u03B3 instead of mercury\u2019s. The 333.5 kPa choice slips a decimal in the conversion, using 2.5 m where 250 mm is 0.25 m. The 133.4 kPa choice uses h = 1 m.',
+      eli5: 'The air pressure pushes the mercury DOWN on the air side and up the open one, which is why the higher column is the atmospheric one. That height difference is what the air pressure is holding up. So P_air = \u03B3_Hg \u00D7 h. First get \u03B3_Hg = 13.6 \u00D7 9,810 = 133,416 N/m\u00B3. Convert h = 250 mm = 0.25 m. P = 133,416 \u00D7 0.25 = 33,354 Pa = 33.35 kPa. The 2.45 kPa choice uses water\u2019s \u03B3 instead of mercury\u2019s. The 333.5 kPa choice slips a decimal in the conversion, using 2.5 m where 250 mm is 0.25 m. The 133.4 kPa choice uses h = 1 m.',
       hint: 'The pressure difference equals the specific weight of the manometer fluid times the height difference. Don\u2019t forget to use mercury\u2019s specific weight, not water\u2019s.',
       steps: [
         { text: 'Specific weight of mercury:', latex: '\\gamma_{Hg} = 13.6 \\times 9{,}810 = 133{,}416 \\text{ N/m}^3' },
@@ -97,7 +97,7 @@ export default {
       traps: [
         'Using \u03B3_water instead of \u03B3_mercury \u2014 gives a result 13.6\u00D7 too small',
         'Slipping a decimal converting the height \u2014 2.5 m instead of 0.25 m gives 333.5 kPa (choice C)',
-        'Getting the manometer direction wrong \u2014 the higher mercury column is on the higher-pressure side',
+        'Getting the direction backwards \u2014 the higher mercury column stands on the LOWER pressure side, so mercury higher on the air side would mean the line is under a vacuum',
       ],
       diagram: { component: 'UtubeManometer', props: { h: 250, unit: 'mm' } },
     },
