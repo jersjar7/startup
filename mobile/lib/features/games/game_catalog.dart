@@ -2463,6 +2463,33 @@ const fluidMechanicsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'flow-measurement',
+      name: 'Flow Measurement',
+      subtopicId: 'flow-analysis-measurement',
+      // Two items, not three. The third thing the lesson teaches is how to
+      // read a Pitot tube, and that is Bernoulli with one velocity set to
+      // zero: the same concept as the Bernoulli lesson two nodes back, and
+      // it does not earn a second item of its own.
+      games: [
+        GameDef(
+          id: 'which-area-goes-in',
+          rounds: 6,
+          name: 'Which Area Goes In',
+          blurb: 'The throat, and the tappings are how you find it.',
+          built: true,
+          brief: meteringBrief,
+        ),
+        GameDef(
+          id: 'too-big-or-too-small',
+          rounds: 6,
+          name: 'Too Big or Too Small',
+          blurb: 'Which way each slip pushes a number nobody can check.',
+          built: true,
+          brief: coefficientBrief,
+        ),
+      ],
+    ),
   ],
 );
 

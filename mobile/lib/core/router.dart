@@ -131,6 +131,7 @@ import '../features/games/tap_the_trajectory_game.dart';
 import '../features/games/tap_the_voids_game.dart';
 import '../features/games/through_the_means_game.dart';
 import '../features/games/times_or_divided_game.dart';
+import '../features/games/too_big_or_too_small_game.dart';
 import '../features/games/true_or_engineering_game.dart';
 import '../features/games/walk_the_circle_game.dart';
 import '../features/games/walk_the_manometer_game.dart';
@@ -164,6 +165,7 @@ import '../features/games/where_the_block_goes_game.dart';
 import '../features/games/where_the_cost_went_game.dart';
 import '../features/games/where_the_energy_goes_game.dart';
 import '../features/games/where_the_pressure_is_game.dart';
+import '../features/games/which_area_goes_in_game.dart';
 import '../features/games/which_area_twists_it_game.dart';
 import '../features/games/which_arm_game.dart';
 import '../features/games/which_arrow_is_that_game.dart';
@@ -486,6 +488,8 @@ GoRouter buildRouter(AuthController auth) {
           'which-target-takes-more' => const WhichTargetTakesMoreGame(),
           'which-one-needs-a-block' => const WhichOneNeedsABlockGame(),
           'where-the-block-goes' => const WhereTheBlockGoesGame(),
+          'which-area-goes-in' => const WhichAreaGoesInGame(),
+          'too-big-or-too-small' => const TooBigOrTooSmallGame(),
           _ => const _UnknownGame(),
         },
       ),

@@ -254,6 +254,8 @@ enum BriefFigure {
   deflection,
   thrust,
   block,
+  metering,
+  coefficient,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4242,6 +4244,53 @@ const blockBrief = BriefSection(
   handbook: 'Handbook p. 186',
 );
 
+const meteringBrief = BriefSection(
+  title: 'Which opening the meter meters on',
+  body:
+      'A venturi and an orifice plate are the same formula with a different '
+      'coefficient in front, and in both of them every area is the SMALL '
+      'one: the throat or the hole. The upstream pipe appears once, inside '
+      'the ratio underneath, and never on its own. Metering on the pipe '
+      'instead is the biggest single mistake in the lesson, and on a meter '
+      'that halves the bore it makes the answer four times too large. The '
+      'way to find the right opening on a drawing is the pair of pressure '
+      'tappings, not the search for the narrowest thing in sight: a reducer '
+      'or a valve can be narrower than the throat and it is measuring '
+      'nothing, because nobody is reading a difference across it. The jet '
+      'squeezes below the hole just past an orifice plate, and that squeeze '
+      'is already paid for by the coefficient.',
+  formulas: [
+    ('Venturi', r'Q = C_v A_2 \sqrt{\frac{2gh}{1 - (A_2/A_1)^2}}'),
+    ('Orifice', r'Q = C A_0 \sqrt{\frac{2gh}{1 - (A_0/A_1)^2}}'),
+    ('The head', r'h = \frac{P_1 - P_2}{\gamma} + z_1 - z_2'),
+  ],
+  figure: BriefFigure.metering,
+  handbook: 'Handbook p. 195',
+);
+
+const coefficientBrief = BriefSection(
+  title: 'Which way a slip pushes the answer',
+  body:
+      'You never get to check a meter reading against the truth, so knowing '
+      'which way each mistake moves the number is the whole defense. Every '
+      'coefficient is below one, because it is there to bring the ideal '
+      'formula down to what a real meter passes, so leaving one out or '
+      'putting in a bigger one sends the answer up. So does anything that '
+      'shrinks the correction underneath, since it sits under the line. '
+      'Losing the 2 in front of g sends it down, though only by three tenths, '
+      'because the loss happens under a square root. Leaving pressure in '
+      'kilopascals sends it down by about thirty times, which is far enough '
+      'to look ridiculous and be caught. And on a level meter the elevation '
+      'terms change nothing at all.',
+  formulas: [
+    ('Every coefficient', r'C < 1'),
+    ('Under the line', r'\text{smaller} \Rightarrow \text{bigger } Q'),
+    ('A level meter', r'z_1 - z_2 = 0'),
+  ],
+  figure: BriefFigure.coefficient,
+  handbook: 'Handbook p. 194',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -5801,6 +5850,25 @@ class BriefFigureView extends StatelessWidget {
             (r"2L \Rightarrow 2 h_f", true),
             (r"2v \Rightarrow 2 h_f", false),
             (r"f_{Fanning} \text{ goes in as is}", false),
+          ],
+        );
+      case BriefFigure.metering:
+        return const _RuleList(
+          rules: [
+            (r"\text{the area is the throat or the hole}", true),
+            (r"\text{the tappings say where the meter is}", true),
+            (r"\text{the area is the narrowest pipe drawn}", false),
+            (r"\text{meter on the squeezed jet, then apply } C", false),
+          ],
+        );
+      case BriefFigure.coefficient:
+        return const _RuleList(
+          rules: [
+            (r"\text{no } C \Rightarrow \text{the answer is too big}", true),
+            (r"\text{level meter} \Rightarrow z_1 - z_2 \text{ changes nothing}",
+                true),
+            (r"C > 1 \text{ for a good venturi}", false),
+            (r"\text{kPa left as kPa} \Rightarrow \text{too big}", false),
           ],
         );
       case BriefFigure.deflection:

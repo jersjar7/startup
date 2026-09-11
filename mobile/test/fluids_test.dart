@@ -19,6 +19,9 @@ import 'package:mobile/features/games/walk_the_manometer_game.dart';
 import 'package:mobile/features/games/which_drags_more_game.dart';
 import 'package:mobile/features/games/which_property_game.dart';
 import 'package:mobile/features/games/which_tube_climbs_game.dart';
+import 'package:mobile/features/games/meter_figures.dart';
+import 'package:mobile/features/games/which_area_goes_in_game.dart';
+import 'package:mobile/features/games/too_big_or_too_small_game.dart';
 import 'package:mobile/features/games/momentum_figures.dart';
 import 'package:mobile/features/games/which_target_takes_more_game.dart';
 import 'package:mobile/features/games/which_one_needs_a_block_game.dart';
@@ -967,6 +970,165 @@ void main() {
           }
         }
       }
+    });
+  });
+
+  group('the meters reproduce the lesson', () {
+    test('the Pitot tube is 7.07 meters a second', () {
+      expect(math.sqrt(2 * 25000 / 1000), closeTo(7.07, 0.01));
+      // Its named slips: no 2, the kilopascals left alone, and the number
+      // under the root handed in as the answer.
+      expect(math.sqrt(25000 / 1000), closeTo(5.0, 0.01));
+      expect(math.sqrt(2 * 25 / 1000), closeTo(0.224, 0.001));
+      expect(2 * 25000 / 1000, 50);
+    });
+
+    test('the venturi is 0.0711 cubic meters a second', () {
+      final a1 = math.pi * 0.2 * 0.2 / 4;
+      final a2 = math.pi * 0.1 * 0.1 / 4;
+      final head = 40000 / 9810;
+      final ratio = (a2 / a1) * (a2 / a1);
+      expect(ratio, closeTo(0.0625, 1e-6));
+      final root = math.sqrt(2 * 9.81 * head / (1 - ratio));
+      expect(0.98 * a2 * root, closeTo(0.0711, 0.0001));
+      // Its named slips, each one now the number its own words give: the
+      // coefficient left off, the ratio not squared, and the pipe metered
+      // on instead of the throat.
+      expect(a2 * root, closeTo(0.0726, 0.0001));
+      expect(0.98 * a2 * math.sqrt(2 * 9.81 * head / 0.75), closeTo(0.0795, 0.0001));
+      expect(0.98 * a1 * root, closeTo(0.284, 0.001));
+    });
+
+    test('the orifice is 0.00974 cubic meters a second', () {
+      final a0 = math.pi * 0.05 * 0.05 / 4;
+      final pipe = math.pi * 0.1 * 0.1 / 4;
+      final head = 30000 / 9810;
+      final root = math.sqrt(2 * 9.81 * head / 0.9375);
+      expect(root, closeTo(8.0, 0.01));
+      expect(0.62 * a0 * root, closeTo(0.00974, 0.00001));
+      // Its named slips: the velocity coefficient used as the discharge
+      // one, the pipe metered on, and the 2 gone from under the root.
+      expect(0.98 * a0 * root, closeTo(0.0154, 0.0001));
+      expect(0.62 * pipe * root, closeTo(0.0390, 0.0001));
+      expect(0.62 * a0 * math.sqrt(9.81 * head / 0.9375), closeTo(0.00689, 0.00001));
+    });
+  });
+
+  group('which opening a meter meters on', () {
+    test('every round marks exactly one metering opening', () {
+      for (final r in meterRounds) {
+        expect(r.gauge.stations.where((s) => s.meters).length, 1,
+            reason: r.subject);
+        expect(r.gauge.stations.length, greaterThanOrEqualTo(4),
+            reason: r.subject);
+        expect(r.answer, greaterThanOrEqualTo(0), reason: r.subject);
+      }
+      expect(meterRounds.map((r) => r.answer).toSet().length, greaterThan(2));
+    });
+
+    test('the metering opening is the one between the tappings', () {
+      for (final r in meterRounds) {
+        final at = r.gauge.stations[r.answer].at;
+        final (first, second) = r.gauge.taps;
+        expect(at, greaterThanOrEqualTo(math.min(first, second)),
+            reason: r.subject);
+        expect(at, lessThanOrEqualTo(math.max(first, second)),
+            reason: r.subject);
+      }
+    });
+
+    test('it is the narrowest opening between them, and not always the '
+        'narrowest on the drawing', () {
+      for (final r in meterRounds) {
+        final answer = r.gauge.stations[r.answer];
+        final bore = answer.bore ?? r.gauge.boreAt(answer.at);
+        for (final s in r.gauge.stations) {
+          final (first, second) = r.gauge.taps;
+          if (s.at < math.min(first, second) ||
+              s.at > math.max(first, second)) {
+            continue;
+          }
+          if (s.bore != null) continue;
+          expect(r.gauge.boreAt(s.at), greaterThanOrEqualTo(bore - 0.01),
+              reason: r.subject);
+        }
+      }
+      // At least two rounds put something narrower outside the tappings, so
+      // hunting for the smallest number on the drawing loses.
+      final decoyed = meterRounds.where((r) {
+        final answer = r.gauge.stations[r.answer];
+        final bore = answer.bore ?? r.gauge.boreAt(answer.at);
+        return r.gauge.stations.any((s) =>
+            (s.bore ?? r.gauge.boreAt(s.at)) < bore);
+      });
+      expect(decoyed.length, greaterThanOrEqualTo(2));
+    });
+
+    test('a squeezed jet is drawn, and it is never the answer', () {
+      final withJet = meterRounds.where((r) => r.gauge.jet != null);
+      expect(withJet, isNotEmpty);
+      for (final r in withJet) {
+        expect(r.gauge.stations[r.answer].bore, isNull, reason: r.subject);
+      }
+    });
+
+    test('the stations sit well apart and inside the panel', () {
+      const size = Size(340, 190);
+      for (final r in meterRounds) {
+        for (var i = 0; i < r.gauge.stations.length; i++) {
+          final at = GaugePainter.spotOf(size, r.gauge, i);
+          // Clear of the panel edges and of the flow arrow drawn at the head
+          // of the run.
+          expect(at.dx, inInclusiveRange(40, size.width - 12),
+              reason: r.subject);
+          for (var j = i + 1; j < r.gauge.stations.length; j++) {
+            final gap = (at - GaugePainter.spotOf(size, r.gauge, j)).distance;
+            // Far enough apart for a thumb, and for the bore labels, which
+            // are written on two rows so neighbours can sit this close.
+            expect(gap, greaterThan(30), reason: '${r.subject} $i and $j');
+            if (j == i + 2) {
+              expect(gap, greaterThan(46), reason: '${r.subject} $i and $j');
+            }
+          }
+        }
+      }
+    });
+  });
+
+  group('which way a slip pushes the answer', () {
+    test('every round lands where its two numbers say it does', () {
+      for (final r in slipRounds) {
+        if (r.answer == Sits.tooBig) {
+          expect(r.got, greaterThan(r.right), reason: r.subject);
+        } else if (r.answer == Sits.tooSmall) {
+          expect(r.got, lessThan(r.right), reason: r.subject);
+        } else {
+          expect(r.got, closeTo(r.right, r.right * 0.001), reason: r.subject);
+        }
+      }
+    });
+
+    test('all three answers turn up, and one slip changes nothing', () {
+      final answers = slipRounds.map((r) => r.answer).toList();
+      expect(answers.toSet().length, 3);
+      expect(answers.where((a) => a == Sits.same).length, 1);
+    });
+
+    test('the numbers are the lesson\'s own', () {
+      final numbers = {for (final r in slipRounds) r.got};
+      expect(numbers.contains(0.0726), isTrue);
+      expect(numbers.contains(0.0795), isTrue);
+      expect(numbers.contains(0.0154), isTrue);
+      expect(numbers.contains(0.00689), isTrue);
+      expect(numbers.contains(0.224), isTrue);
+    });
+
+    test('every problem in the lesson is drawn on', () {
+      final sources = {
+        for (final r in slipRounds) r.source,
+        for (final r in meterRounds) r.source,
+      };
+      expect(sources, containsAll(['fm-fme-q1', 'fm-fme-q2', 'fm-fme-q3']));
     });
   });
 }

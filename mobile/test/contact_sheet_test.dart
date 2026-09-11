@@ -194,6 +194,8 @@ import 'package:mobile/features/games/which_mortar_game.dart';
 import 'package:mobile/features/games/which_one_goes_game.dart';
 import 'package:mobile/features/games/add_up_the_losses_game.dart';
 import 'package:mobile/features/games/which_target_takes_more_game.dart';
+import 'package:mobile/features/games/which_area_goes_in_game.dart';
+import 'package:mobile/features/games/too_big_or_too_small_game.dart';
 import 'package:mobile/features/games/which_one_needs_a_block_game.dart';
 import 'package:mobile/features/games/where_the_block_goes_game.dart';
 import 'package:mobile/features/games/float_or_sink_game.dart';
@@ -1604,6 +1606,18 @@ void main() {
           rounds: blockRounds.length,
           height: 1560,
         ),
+        'which-area-goes-in': (
+          lesson: '74-metering',
+          build: WhichAreaGoesInGame.new,
+          rounds: meterRounds.length,
+          height: 1500,
+        ),
+        'too-big-or-too-small': (
+          lesson: '74-metering',
+          build: TooBigOrTooSmallGame.new,
+          rounds: slipRounds.length,
+          height: 1620,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1975,6 +1989,10 @@ void main() {
       ('deflection', deflectionBrief),
       ('thrust', thrustBrief),
       ('block', blockBrief),
+    ],
+    '74-metering': [
+      ('metering', meteringBrief),
+      ('coefficient', coefficientBrief),
     ],
   };
 

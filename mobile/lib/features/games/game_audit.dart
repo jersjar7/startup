@@ -7,6 +7,8 @@ import 'coupon_figures.dart';
 import 'add_the_squares_game.dart';
 import 'add_up_the_losses_game.dart';
 import 'which_target_takes_more_game.dart';
+import 'which_area_goes_in_game.dart';
+import 'too_big_or_too_small_game.dart';
 import 'which_one_needs_a_block_game.dart';
 import 'where_the_block_goes_game.dart';
 import 'both_sides_game.dart';
@@ -2989,6 +2991,35 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (var i = 0; i < 4; i++) 'block-$i'],
           answer: r.answer,
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'which-area-goes-in',
+    lessonId: 'flow-measurement',
+    problemPrefix: 'fm-fme-',
+    rounds: [
+      for (final r in meterRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (var i = 0; i < r.gauge.stations.length; i++) 'station-$i',
+          ],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'too-big-or-too-small',
+    lessonId: 'flow-measurement',
+    problemPrefix: 'fm-fme-',
+    rounds: [
+      for (final r in slipRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Sits.values) o.name],
+          answer: Sits.values.indexOf(r.answer),
         ),
     ],
   ),
