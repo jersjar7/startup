@@ -213,6 +213,9 @@ import '../features/games/which_weir_notices_more_game.dart';
 import '../features/games/smoother_or_rougher_game.dart';
 import '../features/games/what_happens_to_the_power_game.dart';
 import '../features/games/helps_or_hurts_game.dart';
+import '../features/games/which_one_sheds_more_game.dart';
+import '../features/games/where_the_blend_lands_game.dart';
+import '../features/games/does_any_of_it_run_off_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -565,6 +568,9 @@ GoRouter buildRouter(AuthController auth) {
           'smoother-or-rougher' => const SmootherOrRougherGame(),
           'what-happens-to-the-power' => const WhatHappensToThePowerGame(),
           'helps-or-hurts' => const HelpsOrHurtsGame(),
+          'which-one-sheds-more' => const WhichOneShedsMoreGame(),
+          'where-the-blend-lands' => const WhereTheBlendLandsGame(),
+          'does-any-of-it-run-off' => const DoesAnyOfItRunOffGame(),
           _ => const _UnknownGame(),
         },
       ),

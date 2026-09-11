@@ -291,6 +291,9 @@ enum BriefFigure {
   hazen,
   pumpPower,
   npsh,
+  rational,
+  runoffBlend,
+  curveNumber,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -5143,6 +5146,76 @@ const npshBrief = BriefSection(
   handbook: 'Handbook p. 191',
 );
 
+const rationalBrief = BriefSection(
+  title: 'Three numbers multiplied, and the units are built in',
+  body:
+      'The Rational Method is Q equals C times I times A, and the thing that '
+      'makes it pleasant is that the units come out right on their own: an '
+      'acre of ground under an inch an hour of rain is almost exactly one '
+      'cubic foot a second, so there is no conversion to do and reaching for '
+      'one is a mistake. C is the fraction of the rain that runs off rather '
+      'than soaking in, from about 0.95 for paving down to about 0.15 for '
+      'woodland, and it is dimensionless. With the same storm on two '
+      'catchments the intensity cancels and only C TIMES A separates them, '
+      'which means neither cover nor acreage wins on its own: a small hard '
+      'site and a large soft one can come to the same peak. The method is '
+      'for SMALL catchments, under about 200 acres; past that the SCS method '
+      'takes over.',
+  formulas: [
+    ('The peak', r'Q = C I A'),
+    ('Why no conversion', r'1 \text{ acre-in/hr} \approx 1.008 \text{ cfs}'),
+    ('Several covers', r'Q = I \sum C_i A_i'),
+  ],
+  figure: BriefFigure.rational,
+  handbook: 'Handbook p. 290',
+);
+
+const catchmentBrief = BriefSection(
+  title: 'One coefficient for a patchwork',
+  body:
+      'A catchment draining to one inlet needs one runoff coefficient, and '
+      'when the ground has two covers on it that coefficient is weighted BY '
+      'AREA: add up C times A for each piece and divide by the total area. '
+      'Averaging the two coefficients on their own is the trap this lesson '
+      'names, and it goes wrong in proportion to how unequal the areas are. '
+      'The useful form of the rule is a direction rather than a formula: the '
+      'blend always leans toward whichever cover has more ground under it, '
+      'and it lands halfway only when the two areas are equal, which is the '
+      'one case where the plain average happens to be right. Naming which end '
+      'it leans toward is usually enough to reject half the choices on an '
+      'exam question before any arithmetic starts.',
+  formulas: [
+    ('Weighted by area', r'C = \frac{\sum C_i A_i}{\sum A_i}'),
+    ('Or equivalently', r'Q = I \sum C_i A_i'),
+  ],
+  figure: BriefFigure.runoffBlend,
+  handbook: 'Handbook p. 290',
+);
+
+const curveNumberBrief = BriefSection(
+  title: 'The ground takes its share first',
+  body:
+      'The SCS method answers a different question from the Rational Method '
+      'and answers it in different units: it gives the DEPTH of runoff in '
+      'inches, not a discharge in cubic feet a second. Reporting it as a flow '
+      'is the trap the lesson names. It works off a curve number, which is a '
+      'measure of how readily the ground sheds water: about 98 for paving, '
+      'around 70 for ordinary mixed ground, down into the fifties for woods '
+      'on good soil. From it comes the RETENTION, the most the ground could '
+      'hold, and the ground takes the first fifth of that, the initial '
+      'abstraction, before anything at all runs off. Below that threshold the '
+      'runoff is a hard zero rather than something small. Above it the '
+      'fraction that runs off climbs with the storm, slowly at first and then '
+      'approaching all of it.',
+  formulas: [
+    ('Runoff depth', r'Q = \frac{(P - 0.2S)^2}{P + 0.8S}'),
+    ('Retention', r'S = \frac{1{,}000}{CN} - 10'),
+    ('Nothing below', r'P \le 0.2S \Rightarrow Q = 0'),
+  ],
+  figure: BriefFigure.curveNumber,
+  handbook: 'Handbook p. 290',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6837,6 +6910,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{warm water lowers the margin}", true),
             (r"\text{discharge losses lower the margin}", false),
             (r"\text{a lift}: H_s > 0", false),
+          ],
+        );
+      case BriefFigure.rational:
+        return const _RuleList(
+          rules: [
+            (r"1 \text{ acre-in/hr} \approx 1 \text{ cfs}", true),
+            (r"C \text{ is dimensionless}", true),
+            (r"\text{convert the acres to square feet}", false),
+            (r"\text{good for a 2,000 acre basin}", false),
+          ],
+        );
+      case BriefFigure.runoffBlend:
+        return const _RuleList(
+          rules: [
+            (r"C = \frac{\sum C_i A_i}{\sum A_i}", true),
+            (r"\text{equal areas} \Rightarrow \text{halfway}", true),
+            (r"C = \frac{C_1 + C_2}{2}", false),
+            (r"\text{the bigger } C \text{ always wins}", false),
+          ],
+        );
+      case BriefFigure.curveNumber:
+        return const _RuleList(
+          rules: [
+            (r"P \le 0.2S \Rightarrow Q = 0", true),
+            (r"Q \text{ is a depth in inches}", true),
+            (r"Q \text{ is a discharge in cfs}", false),
+            (r"S = CN", false),
           ],
         );
       case BriefFigure.cogo:

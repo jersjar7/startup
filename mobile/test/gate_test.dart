@@ -335,6 +335,9 @@ void main() {
       // the suction side at all, and every term in that equation comes out
       // of it.
       'helps-or-hurts',
+      // The SCS problem is the only one in the runoff lesson that uses a
+      // curve number at all; the other two are the Rational Method.
+      'does-any-of-it-run-off',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

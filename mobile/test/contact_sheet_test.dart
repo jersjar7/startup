@@ -220,6 +220,9 @@ import 'package:mobile/features/games/which_weir_notices_more_game.dart';
 import 'package:mobile/features/games/smoother_or_rougher_game.dart';
 import 'package:mobile/features/games/what_happens_to_the_power_game.dart';
 import 'package:mobile/features/games/helps_or_hurts_game.dart';
+import 'package:mobile/features/games/which_one_sheds_more_game.dart';
+import 'package:mobile/features/games/where_the_blend_lands_game.dart';
+import 'package:mobile/features/games/does_any_of_it_run_off_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1870,6 +1873,24 @@ void main() {
           rounds: marginRounds.length,
           height: 1880,
         ),
+        'which-one-sheds-more': (
+          lesson: '88-runoff',
+          build: WhichOneShedsMoreGame.new,
+          rounds: shedRounds.length,
+          height: 1920,
+        ),
+        'where-the-blend-lands': (
+          lesson: '88-runoff',
+          build: WhereTheBlendLandsGame.new,
+          rounds: blendRounds.length,
+          height: 1800,
+        ),
+        'does-any-of-it-run-off': (
+          lesson: '88-runoff',
+          build: DoesAnyOfItRunOffGame.new,
+          rounds: soakRounds.length,
+          height: 1860,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2306,6 +2327,11 @@ void main() {
     '87-pumps': [
       ('power', pumpPowerBrief),
       ('npsh', npshBrief),
+    ],
+    '88-runoff': [
+      ('rational', rationalBrief),
+      ('blend', catchmentBrief),
+      ('curvenumber', curveNumberBrief),
     ],
   };
 

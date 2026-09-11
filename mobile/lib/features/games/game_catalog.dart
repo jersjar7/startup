@@ -1444,7 +1444,7 @@ const staticsMap = ChapterMap(
           name: 'Above or Below the Middle',
           blurb: 'The centroid sits where the metal is. Which side?',
           built: true,
-          brief: areaWeightedBrief,
+          brief: catchmentBrief,
         ),
         GameDef(
           id: 'tap-its-centroid',
@@ -2229,7 +2229,7 @@ const materialsMap = ChapterMap(
           name: 'Along or Across',
           blurb: 'Two rules for one composite. The load direction picks.',
           built: true,
-          brief: blendBrief,
+          brief: catchmentBrief,
         ),
         GameDef(
           id: 'same-stretch',
@@ -2924,6 +2924,39 @@ const waterResourcesMap = ChapterMap(
           blurb: 'What is left before the water boils at the inlet.',
           built: true,
           brief: npshBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'rainfall-runoff',
+      name: 'Rainfall-Runoff Methods',
+      subtopicId: 'hydrology-groundwater',
+      // The surface water budget is in the lesson text and no problem uses
+      // it, so it stays on paper.
+      games: [
+        GameDef(
+          id: 'which-one-sheds-more',
+          rounds: 6,
+          name: 'Which One Sheds More',
+          blurb: 'Cover times acreage, and neither wins on its own.',
+          built: true,
+          brief: rationalBrief,
+        ),
+        GameDef(
+          id: 'where-the-blend-lands',
+          rounds: 6,
+          name: 'Where the Blend Lands',
+          blurb: 'It leans toward whichever cover has more ground.',
+          built: true,
+          brief: catchmentBrief,
+        ),
+        GameDef(
+          id: 'does-any-of-it-run-off',
+          rounds: 6,
+          name: 'Does Any of It Run Off',
+          blurb: 'Below the threshold the answer is a hard zero.',
+          built: true,
+          brief: curveNumberBrief,
         ),
       ],
     ),

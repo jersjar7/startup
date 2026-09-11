@@ -159,14 +159,29 @@ class WeirPainter extends CustomPainter {
           ..addRect(
               Rect.fromLTRB(middle - half, waterY, middle + half, floorY)));
     canvas.drawPath(wet, waterFill);
-    waterLevel(canvas, Offset(middle - half - 12, waterY),
-        Offset(middle + half + 12, waterY),
-        markAt: middle - half - 2);
+    // The surface line covers exactly the water you can see through the
+    // opening, and no more. Running it on across the plate or into the
+    // walls draws water inside the structure, which is not where it is.
+    final surfaceHalf = switch (weir.notch) {
+      Notch.fullWidth => half,
+      Notch.contracted => half * 0.62,
+      Notch.vee => math.min(weir.head * scale, half),
+    };
+    waterLevel(canvas, Offset(middle - surfaceHalf, waterY),
+        Offset(middle + surfaceHalf, waterY),
+        markAt: middle - surfaceHalf + math.min(14, surfaceHalf * 0.4));
 
     // Where the water would stand after the change the round describes.
     if (thenHead != null) {
       final thenY = crestY - thenHead! * scale;
-      for (var x = middle - half - 12; x < middle + half + 12; x += 9) {
+      // The same rule for the level after the change: only where there is
+      // water to have a surface.
+      final thenHalf = switch (weir.notch) {
+        Notch.fullWidth => half,
+        Notch.contracted => half * 0.62,
+        Notch.vee => math.min(thenHead! * scale, half),
+      };
+      for (var x = middle - thenHalf; x < middle + thenHalf; x += 9) {
         canvas.drawLine(
             Offset(x, thenY),
             Offset(x + 5, thenY),
@@ -175,7 +190,7 @@ class WeirPainter extends CustomPainter {
               ..strokeWidth = 1.6);
       }
       writeOn(canvas, size, 'then H ${_num(thenHead!)}',
-          Offset(middle - half - 10, thenY - 13), AppColors.forest,
+          Offset(middle - thenHalf + 2, thenY - 13), AppColors.forest,
           fontSize: 9);
     }
 

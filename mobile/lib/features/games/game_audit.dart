@@ -31,6 +31,9 @@ import 'which_weir_notices_more_game.dart';
 import 'smoother_or_rougher_game.dart';
 import 'what_happens_to_the_power_game.dart';
 import 'helps_or_hurts_game.dart';
+import 'which_one_sheds_more_game.dart';
+import 'where_the_blend_lands_game.dart';
+import 'does_any_of_it_run_off_game.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
 import 'where_does_that_pair_land_game.dart';
@@ -3520,6 +3523,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Helps.values) o.name],
           answer: Helps.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-one-sheds-more',
+    lessonId: 'rainfall-runoff',
+    problemPrefix: 'wr-rr-',
+    rounds: [
+      for (final r in shedRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Sheds.values) o.name],
+          answer: Sheds.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-the-blend-lands',
+    lessonId: 'rainfall-runoff',
+    problemPrefix: 'wr-rr-',
+    rounds: [
+      for (final r in blendRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Leans.values) o.name],
+          answer: Leans.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-any-of-it-run-off',
+    lessonId: 'rainfall-runoff',
+    problemPrefix: 'wr-rr-',
+    rounds: [
+      for (final r in soakRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Runoff3.values) o.name],
+          answer: Runoff3.values.indexOf(r.answer),
         ),
     ],
   ),

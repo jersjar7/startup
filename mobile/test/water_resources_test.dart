@@ -8,6 +8,10 @@ import 'package:mobile/features/games/flow_figures.dart';
 import 'package:mobile/features/games/weir_figures.dart';
 import 'package:mobile/features/games/hazen_figures.dart';
 import 'package:mobile/features/games/pump_figures.dart';
+import 'package:mobile/features/games/runoff_figures.dart';
+import 'package:mobile/features/games/which_one_sheds_more_game.dart';
+import 'package:mobile/features/games/where_the_blend_lands_game.dart';
+import 'package:mobile/features/games/does_any_of_it_run_off_game.dart';
 import 'package:mobile/features/games/what_happens_to_the_power_game.dart';
 import 'package:mobile/features/games/helps_or_hurts_game.dart';
 import 'package:mobile/features/games/which_formula_fits_this_weir_game.dart';
@@ -622,6 +626,127 @@ void main() {
         }
       }
       expect(marginRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('the Rational Method', () {
+    test('the lesson\'s own site comes to 170 cfs', () {
+      const site = Catchment(
+          [Patch(cover: 'commercial', acres: 50, coefficient: 0.85)]);
+      expect(site.peakAt(4), closeTo(170, 0.01));
+    });
+
+    test('the composite site comes to 122.5 cfs', () {
+      const site = Catchment([
+        Patch(cover: 'A', acres: 30, coefficient: 0.90),
+        Patch(cover: 'B', acres: 20, coefficient: 0.40),
+      ]);
+      expect(site.peakAt(3.5), closeTo(122.5, 0.01));
+      expect(site.weighted, closeTo(0.70, 0.0001));
+      // The trap: a plain average gives 0.65 and 113.8 cfs.
+      expect(site.unweighted, closeTo(0.65, 0.0001));
+      expect(3.5 * 50 * site.unweighted, closeTo(113.75, 0.01));
+    });
+
+    test('every round answers with C times A', () {
+      for (final r in shedRounds) {
+        final a = r.top.peakAt(r.rain);
+        final b = r.bottom.peakAt(r.rain);
+        switch (r.answer) {
+          case Sheds.top:
+            expect(a, greaterThan(b), reason: r.subject);
+          case Sheds.bottom:
+            expect(b, greaterThan(a), reason: r.subject);
+          case Sheds.same:
+            expect(a, closeTo(b, b * 0.01), reason: r.subject);
+        }
+      }
+      expect(shedRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('a small hard site and a large soft one can tie', () {
+      final tie = shedRounds.where((r) => r.answer == Sheds.same);
+      expect(tie, isNotEmpty);
+      // At least one tie is between catchments of different size, which is
+      // the point: area and cover trade off exactly.
+      expect(tie.any((r) => r.top.acres != r.bottom.acres), isTrue);
+      // And at least one is the same area under a patchwork against one
+      // equivalent coefficient, which is what weighting means.
+      expect(
+          tie.any((r) =>
+              r.top.acres == r.bottom.acres &&
+              r.top.patches.length != r.bottom.patches.length),
+          isTrue);
+    });
+  });
+
+  group('the blended coefficient', () {
+    test('it leans toward whichever cover has more ground', () {
+      for (final r in blendRounds) {
+        final big = r.first.acres >= r.second.acres ? r.first : r.second;
+        final small = r.first.acres >= r.second.acres ? r.second : r.first;
+        if (r.answer == Leans.halfway) {
+          expect(r.first.acres, closeTo(r.second.acres, 0.001),
+              reason: r.subject);
+          expect(r.catchment.weighted, closeTo(r.catchment.unweighted, 1e-9));
+        } else {
+          expect(
+              (r.catchment.weighted - big.coefficient).abs(),
+              lessThan((r.catchment.weighted - small.coefficient).abs()),
+              reason: r.subject);
+        }
+      }
+      expect(blendRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('the plain average is right only when the areas are equal', () {
+      for (final r in blendRounds) {
+        final agrees =
+            (r.catchment.weighted - r.catchment.unweighted).abs() < 1e-9;
+        expect(agrees, r.answer == Leans.halfway, reason: r.subject);
+      }
+    });
+  });
+
+  group('the curve number', () {
+    test('the lesson\'s own watershed sheds 2.89 inches', () {
+      const s = Soak(curveNumber: 80, rain: 5);
+      expect(s.retention, closeTo(2.5, 0.001));
+      expect(s.abstraction, closeTo(0.5, 0.001));
+      expect(s.runoff, closeTo(2.89, 0.005));
+    });
+
+    test('below the threshold the runoff is a hard zero', () {
+      const s = Soak(curveNumber: 60, rain: 0.8);
+      expect(s.abstraction, greaterThan(s.rain));
+      expect(s.runoff, 0);
+    });
+
+    test('paving sheds nearly everything', () {
+      const s = Soak(curveNumber: 98, rain: 2);
+      expect(s.fraction, greaterThan(0.85));
+    });
+
+    test('the same ground sheds a larger share of a bigger storm', () {
+      const small = Soak(curveNumber: 70, rain: 1.5);
+      const big = Soak(curveNumber: 70, rain: 10);
+      expect(big.fraction, greaterThan(small.fraction));
+      expect(small.fraction, lessThan(0.1));
+    });
+
+    test('every round answers with what the equation gives', () {
+      for (final r in soakRounds) {
+        switch (r.answer) {
+          case Runoff3.none:
+            expect(r.soak.runoff, 0, reason: r.subject);
+          case Runoff3.part:
+            expect(r.soak.fraction, inExclusiveRange(0, 0.5),
+                reason: r.subject);
+          case Runoff3.nearlyAll:
+            expect(r.soak.fraction, greaterThan(0.5), reason: r.subject);
+        }
+      }
+      expect(soakRounds.map((r) => r.answer).toSet().length, 3);
     });
   });
 }
