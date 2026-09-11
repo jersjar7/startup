@@ -207,6 +207,12 @@ void main() {
       // The plastic moment problem is the only one in the lesson about
       // yielding, and how far it has spread is the whole item.
       'how-far-has-it-yielded',
+      // The pinned column problem is the only one in the lesson that names a
+      // section property, and which axis it folds about is the whole item.
+      'which-way-does-it-fold',
+      // The slender column problem is the only one in the lesson that checks
+      // against yield, and that check is the whole item.
+      'buckle-or-squash',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

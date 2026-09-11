@@ -113,6 +113,9 @@ import '../features/games/how_far_has_it_yielded_game.dart';
 import '../features/games/read_the_circle_game.dart';
 import '../features/games/which_circle_is_it_game.dart';
 import '../features/games/is_r_the_worst_game.dart';
+import '../features/games/what_are_the_ends_worth_game.dart';
+import '../features/games/which_way_does_it_fold_game.dart';
+import '../features/games/buckle_or_squash_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -368,6 +371,9 @@ GoRouter buildRouter(AuthController auth) {
           'read-the-circle' => const ReadTheCircleGame(),
           'which-circle-is-it' => const WhichCircleIsItGame(),
           'is-r-the-worst' => const IsRTheWorstGame(),
+          'what-are-the-ends-worth' => const WhatAreTheEndsWorthGame(),
+          'which-way-does-it-fold' => const WhichWayDoesItFoldGame(),
+          'buckle-or-squash' => const BuckleOrSquashGame(),
           _ => const _UnknownGame(),
         },
       ),

@@ -195,6 +195,9 @@ enum BriefFigure {
   circle,
   build,
   worst,
+  ends,
+  weakAxis,
+  slender,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2932,6 +2935,77 @@ const worstBrief = BriefSection(
   handbook: 'Handbook p. 132',
 );
 
+const endsBrief = BriefSection(
+  title: 'The ends decide almost everything',
+  body:
+      'Euler\'s load does not use the length of the column, it uses the '
+      'EFFECTIVE length, which is the distance between the points the buckled '
+      'shape passes straight through. The handbook gives four cases and you '
+      'match the picture to one of them. Both ends pinned is the base case at '
+      'one. Both ends fixed against turning bends the column into an S and '
+      'halves it, and half the length is four times the load. One of each is '
+      'nought point seven. And anything with a FREE end is two, because the '
+      'column bends like half of a pinned one twice as long: that is the case '
+      'students forget, and it is sixteen times weaker than the fixed pair. '
+      'Since the effective length is squared, getting this wrong is never a '
+      'small error.',
+  formulas: [
+    ('Euler', r'P_{cr} = \frac{\pi^2 EI}{(KL)^2}'),
+    ('Pinned both ends', r'K = 1.0'),
+    ('Fixed both ends', r'K = 0.5'),
+    ('One of each, and a free end', r'K = 0.7,\quad K = 2.0'),
+  ],
+  figure: BriefFigure.ends,
+  handbook: 'Handbook p. 136',
+);
+
+const weakAxisBrief = BriefSection(
+  title: 'It folds about the axis it is weakest around',
+  body:
+      'The I in Euler\'s formula is the MINIMUM one. A column has no say in '
+      'which way it goes and it will not wait for the strong axis, so the only '
+      'second moment that matters is the smaller of the two. Using the bigger '
+      'one does not fail safely: it says the column is stronger than it is. On '
+      'a wide flange section that means the minor axis, which is why building '
+      'columns get braced sideways rather than front to back. A section that '
+      'is the same both ways, a square tube or a round one, has no weak axis '
+      'at all, and that is exactly what makes it a good column: none of the '
+      'material is wasted propping up a strong axis that will never be tested. '
+      'The same idea in stress form is the minimum radius of gyration, r '
+      'equals the square root of I over A.',
+  formulas: [
+    ('Use', r'I_{min} \text{, always}'),
+    ('Or in stress form', r'r = \sqrt{\frac{I}{A}} \text{, the smaller one}'),
+    ('Square or round', r'I_x = I_y \text{, no weak axis}'),
+  ],
+  figure: BriefFigure.weakAxis,
+  handbook: 'Handbook p. 136',
+);
+
+const slenderBrief = BriefSection(
+  title: 'Long columns buckle, short ones squash',
+  body:
+      'Euler describes a column bowing sideways while the material is still '
+      'elastic, and a stocky column never gets the chance: it reaches its '
+      'yield stress and squashes. So the formula is only allowed when the '
+      'stress it gives comes out BELOW yield, which is the check the lesson\'s '
+      'hardest problem is really asking for. Draw the two ideas together and '
+      'it is one picture: Euler\'s hyperbola falling away as the column gets '
+      'slenderer, the yield stress capping the short end, and a crossing '
+      'between them at a slenderness of pi times the square root of E over the '
+      'yield stress, about eighty nine for ordinary steel. And note what is '
+      'NOT in Euler\'s formula: the strength of the material. A stronger steel '
+      'does nothing for a slender column and everything for a stocky one.',
+  formulas: [
+    ('Critical stress', r'\sigma_{cr} = \frac{\pi^2 E}{(KL/r)^2}'),
+    ('Only when', r'\sigma_{cr} < \sigma_y'),
+    ('They cross at', r'\frac{KL}{r} = \pi\sqrt{\frac{E}{\sigma_y}}'),
+    ('Which for mild steel is', r'\approx 89'),
+  ],
+  figure: BriefFigure.slender,
+  handbook: 'Handbook p. 136',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -4084,6 +4158,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.ends:
+        return const _RuleList(
+          rules: [
+            (r"\text{a free end} \Rightarrow K = 2", true),
+            (r"\text{both fixed} \Rightarrow K = 0.5 \Rightarrow 4\times \text{the load}", true),
+            (r"\text{the length in the formula is the real length}", false),
+            (r"\text{fixing an end makes it weaker}", false),
+          ],
+        );
+      case BriefFigure.weakAxis:
+        return const _RuleList(
+          rules: [
+            (r"\text{use } I_{min} \text{, the smaller one}", true),
+            (r"\text{square or round} \Rightarrow \text{no weak axis}", true),
+            (r"\text{use } I \text{ about the stronger axis}", false),
+            (r"\text{it waits for the axis you loaded it about}", false),
+          ],
+        );
+      case BriefFigure.slender:
+        return const _RuleList(
+          rules: [
+            (r"\text{Euler holds while } \sigma_{cr} < \sigma_y", true),
+            (r"\text{stocky columns yield instead}", true),
+            (r"\text{a stronger steel helps a slender column}", false),
+            (r"\sigma_y \text{ appears in Euler's formula}", false),
           ],
         );
       case BriefFigure.circle:

@@ -75,6 +75,9 @@ import 'package:mobile/features/games/how_far_has_it_yielded_game.dart';
 import 'package:mobile/features/games/read_the_circle_game.dart';
 import 'package:mobile/features/games/which_circle_is_it_game.dart';
 import 'package:mobile/features/games/is_r_the_worst_game.dart';
+import 'package:mobile/features/games/what_are_the_ends_worth_game.dart';
+import 'package:mobile/features/games/which_way_does_it_fold_game.dart';
+import 'package:mobile/features/games/buckle_or_squash_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1197,6 +1200,24 @@ void main() {
           rounds: worstRounds.length,
           height: 1600,
         ),
+        'what-are-the-ends-worth': (
+          lesson: '51-buckling',
+          build: WhatAreTheEndsWorthGame.new,
+          rounds: endsRounds.length,
+          height: 1500,
+        ),
+        'which-way-does-it-fold': (
+          lesson: '51-buckling',
+          build: WhichWayDoesItFoldGame.new,
+          rounds: foldRounds.length,
+          height: 1650,
+        ),
+        'buckle-or-squash': (
+          lesson: '51-buckling',
+          build: BuckleOrSquashGame.new,
+          rounds: slenderRounds.length,
+          height: 1700,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1457,6 +1478,11 @@ void main() {
       ('circle', circleBrief),
       ('build', buildBrief),
       ('worst', worstBrief),
+    ],
+    '51-buckling': [
+      ('ends', endsBrief),
+      ('weak-axis', weakAxisBrief),
+      ('slender', slenderBrief),
     ],
   };
 

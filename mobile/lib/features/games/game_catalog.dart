@@ -1772,6 +1772,32 @@ const mechanicsMaterialsMap = ChapterMap(
       id: 'column-buckling',
       name: 'Column Buckling',
       subtopicId: 'combined-loading-stability',
+      games: [
+        GameDef(
+          id: 'what-are-the-ends-worth',
+          rounds: 6,
+          name: 'What Are the Ends Worth',
+          blurb: 'Read how each end is held. Pick the factor.',
+          built: true,
+          brief: endsBrief,
+        ),
+        GameDef(
+          id: 'which-way-does-it-fold',
+          rounds: 6,
+          name: 'Which Way Does It Fold',
+          blurb: 'A column picks its weakest axis. Which one is it?',
+          built: true,
+          brief: weakAxisBrief,
+        ),
+        GameDef(
+          id: 'buckle-or-squash',
+          rounds: 6,
+          name: 'Buckle or Squash',
+          blurb: 'One curve says which failure gets there first.',
+          built: true,
+          brief: slenderBrief,
+        ),
+      ],
     ),
   ],
 );

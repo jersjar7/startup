@@ -109,6 +109,10 @@ import 'how_far_has_it_yielded_game.dart';
 import 'read_the_circle_game.dart';
 import 'which_circle_is_it_game.dart';
 import 'is_r_the_worst_game.dart';
+import 'column_figures.dart';
+import 'what_are_the_ends_worth_game.dart';
+import 'which_way_does_it_fold_game.dart';
+import 'buckle_or_squash_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -2108,6 +2112,46 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final w in Worst.values) w.name],
           answer: Worst.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-are-the-ends-worth',
+    lessonId: 'column-buckling',
+    problemPrefix: 'mm-cb-',
+    rounds: [
+      // The same four factors every round, since that is the whole table.
+      for (final r in endsRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final k in EndsRound.values) k.toString()],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-way-does-it-fold',
+    lessonId: 'column-buckling',
+    problemPrefix: 'mm-cb-',
+    rounds: [
+      for (final r in foldRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final a in About.values) a.name],
+          answer: About.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'buckle-or-squash',
+    lessonId: 'column-buckling',
+    problemPrefix: 'mm-cb-',
+    rounds: [
+      for (final r in slenderRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final g in Governs.values) g.name],
+          answer: Governs.values.indexOf(r.answer),
         ),
     ],
   ),
