@@ -2141,6 +2141,29 @@ const materialsMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'aggregate-properties',
+      name: 'Aggregate Properties & Gradation',
+      subtopicId: 'construction-materials',
+      games: [
+        GameDef(
+          id: 'which-weighing',
+          rounds: 6,
+          name: 'Which Weighing',
+          blurb: 'Three weighings, four numbers, and they are not alike.',
+          built: true,
+          brief: weighingBrief,
+        ),
+        GameDef(
+          id: 'coarse-or-fine',
+          rounds: 6,
+          name: 'Coarse or Fine',
+          blurb: 'A higher fineness modulus means coarser. Read the curve.',
+          built: true,
+          brief: gradingBrief,
+        ),
+      ],
+    ),
   ],
 );
 

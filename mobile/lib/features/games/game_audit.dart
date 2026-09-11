@@ -9,6 +9,7 @@ import 'build_the_identity_game.dart';
 import 'can_it_start_game.dart';
 import 'can_you_claim_that_game.dart';
 import 'can_you_seal_it_game.dart';
+import 'coarse_or_fine_game.dart';
 import 'copy_it_down_game.dart';
 import 'discriminant_gate_game.dart';
 import 'does_it_hold_game.dart';
@@ -84,6 +85,7 @@ import 'where_it_balances_game.dart';
 import 'which_cracks_first_game.dart';
 import 'which_arm_game.dart';
 import 'which_law_game.dart';
+import 'which_weighing_game.dart';
 import 'which_region_game.dart';
 import 'which_section_game.dart';
 import 'which_one_do_you_build_game.dart';
@@ -2573,6 +2575,33 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final p in Passes.values) p.name],
           answer: Passes.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+
+  GameAudit(
+    gameId: 'which-weighing',
+    lessonId: 'aggregate-properties',
+    problemPrefix: 'mat-agg-',
+    rounds: [
+      for (final r in weighRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in r.options) o.name],
+          answer: r.options.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'coarse-or-fine',
+    lessonId: 'aggregate-properties',
+    problemPrefix: 'mat-agg-',
+    rounds: [
+      for (final r in sieveRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final c in Coarser.values) c.name],
+          answer: Coarser.values.indexOf(r.answer),
         ),
     ],
   ),

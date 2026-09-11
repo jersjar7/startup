@@ -17,6 +17,7 @@ import '../features/games/chapter_map_screen.dart';
 import '../features/games/can_it_start_game.dart';
 import '../features/games/can_you_claim_that_game.dart';
 import '../features/games/can_you_seal_it_game.dart';
+import '../features/games/coarse_or_fine_game.dart';
 import '../features/games/copy_it_down_game.dart';
 import '../features/games/discriminant_gate_game.dart';
 import '../features/games/does_it_hold_game.dart';
@@ -170,6 +171,7 @@ import '../features/games/where_it_balances_game.dart';
 import '../features/games/which_cracks_first_game.dart';
 import '../features/games/which_arm_game.dart';
 import '../features/games/which_law_game.dart';
+import '../features/games/which_weighing_game.dart';
 import '../features/games/which_region_game.dart';
 import '../features/games/which_section_game.dart';
 import '../features/games/which_side_wins_game.dart';
@@ -430,6 +432,8 @@ GoRouter buildRouter(AuthController auth) {
           'what-this-job-needs' => const WhatThisJobNeedsGame(),
           'times-or-divided' => const TimesOrDividedGame(),
           'does-it-make-the-number' => const DoesItMakeTheNumberGame(),
+          'which-weighing' => const WhichWeighingGame(),
+          'coarse-or-fine' => const CoarseOrFineGame(),
           _ => const _UnknownGame(),
         },
       ),

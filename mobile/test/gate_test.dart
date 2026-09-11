@@ -248,6 +248,9 @@ void main() {
       // The mix selection problem is the only one in the lesson that names an
       // exposure, and matching a mix to a job is the whole item.
       'what-this-job-needs',
+      // The sieve problem is the only one in the lesson about gradation, and
+      // what its one number means is the whole item.
+      'coarse-or-fine',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

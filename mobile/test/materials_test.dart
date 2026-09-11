@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/before_or_during_game.dart';
+import 'package:mobile/features/games/aggregate_figures.dart';
+import 'package:mobile/features/games/coarse_or_fine_game.dart';
 import 'package:mobile/features/games/concrete_figures.dart';
+import 'package:mobile/features/games/which_weighing_game.dart';
 import 'package:mobile/features/games/crack_figures.dart';
 import 'package:mobile/features/games/does_it_make_the_number_game.dart';
 import 'package:mobile/features/games/times_or_divided_game.dart';
@@ -816,6 +819,139 @@ void main() {
           0);
       expect(PourPainter.barAt(size, 2, Offset(box.left + box.width * 0.75, box.center.dy)),
           1);
+    });
+  });
+
+  group('the aggregate weighings reproduce the lesson', () {
+    test('480, 500 and 300 give 2.40, 2.50 and 2.67', () {
+      const s = Sample(dry: 480, ssd: 500, submerged: 300);
+      expect(s.bulkDry, closeTo(2.40, 0.005));
+      expect(s.bulkSsd, closeTo(2.50, 0.005));
+      expect(s.apparent, closeTo(2.67, 0.005));
+      // The fourth named slip: the submerged weight used alone.
+      expect(480 / 300, closeTo(1.60, 0.005));
+    });
+
+    test('510 against 500 is two percent absorption', () {
+      const s = Sample(dry: 500, ssd: 510, submerged: 310);
+      expect(s.absorption, closeTo(2.0, 0.001));
+      // Its named slips: over the saturated weight, and the fraction written
+      // down as a percent.
+      expect(10 / 510 * 100, closeTo(1.96, 0.01));
+      expect(10 / 500, closeTo(0.02, 1e-9));
+    });
+
+    test('apparent is always the largest and bulk dry the smallest', () {
+      for (final r in weighRounds) {
+        final s = r.sample;
+        expect(s.apparent, greaterThan(s.bulkSsd), reason: r.subject);
+        expect(s.bulkSsd, greaterThan(s.bulkDry), reason: r.subject);
+      }
+    });
+
+    test('every round offers all four, once each', () {
+      for (final r in weighRounds) {
+        expect(r.options.toSet().length, 4, reason: r.subject);
+        expect(r.options.contains(r.answer), isTrue, reason: r.subject);
+        expect(r.options.map((o) => o.tex).toSet().length, 4,
+            reason: r.subject);
+      }
+    });
+
+    test('all four are the answer somewhere, in changing places', () {
+      expect(weighRounds.map((r) => r.answer).toSet(), Recipe.values.toSet());
+      expect(weighRounds.map((r) => r.options.indexOf(r.answer)).toSet().length,
+          greaterThan(2));
+    });
+
+    test('both problems are drawn on', () {
+      expect(weighRounds.map((r) => r.source).toSet().length, 2);
+    });
+
+    test('a tap lands on the state it looks like', () {
+      const size = Size(340, 190);
+      for (final w in Weighing.values) {
+        expect(SamplePainter.at(size, SamplePainter.cellOf(size, w).center), w);
+      }
+    });
+  });
+
+  group('the fineness modulus comes out of the curve', () {
+    test('a medium sand lands in the range a concrete sand must', () {
+      final medium = sieveRounds.first.left;
+      expect(medium.fm, greaterThan(2.3));
+      expect(medium.fm, lessThan(3.1));
+    });
+
+    test('the modulus is the cumulative retained over a hundred', () {
+      for (final r in sieveRounds) {
+        for (final g in [r.left, r.right]) {
+          final sum = g.retained.reduce((a, b) => a + b);
+          expect(g.fm, closeTo(sum / 100, 1e-9), reason: g.name);
+          // And what the lesson warns against: passing is not retained.
+          final passing = g.passing.reduce((a, b) => a + b);
+          expect(passing / 100, isNot(closeTo(g.fm, 0.01)));
+        }
+      }
+    });
+
+    test('the answer follows from the two moduli', () {
+      for (final r in sieveRounds) {
+        switch (r.answer) {
+          case Coarser.first:
+            expect(r.left.fm, greaterThan(r.right.fm), reason: r.subject);
+          case Coarser.second:
+            expect(r.right.fm, greaterThan(r.left.fm), reason: r.subject);
+          case Coarser.alike:
+            expect(r.left.fm, closeTo(r.right.fm, 0.05), reason: r.subject);
+        }
+      }
+    });
+
+    test('a round with a winner is clear about it', () {
+      for (final r in sieveRounds.where((r) => r.answer != Coarser.alike)) {
+        expect(r.spread, greaterThan(0.25),
+            reason: '${r.subject}: the two moduli are too close to see');
+      }
+    });
+
+    test('every curve only ever falls, as a sieve curve must', () {
+      for (final r in sieveRounds) {
+        for (final g in [r.left, r.right]) {
+          for (var i = 1; i < g.passing.length; i++) {
+            expect(g.passing[i], lessThanOrEqualTo(g.passing[i - 1]),
+                reason: '${g.name} lets more through a finer sieve');
+          }
+        }
+      }
+    });
+
+    test('the gap graded round really does have a gap', () {
+      final r = sieveRounds.firstWhere((x) => x.subject.contains('gap'));
+      expect(r.right.biggestJump, greaterThan(25),
+          reason: 'the gapped sand needs a visible jump');
+      expect(r.left.biggestJump, lessThan(25),
+          reason: 'and the smooth one must not have one');
+      expect(r.answer, Coarser.alike);
+    });
+
+    test('all three answers are used', () {
+      expect(sieveRounds.map((r) => r.answer).toSet(), Coarser.values.toSet());
+    });
+
+    test('the two curves are far enough apart to tap', () {
+      const size = Size(340, 240);
+      for (final r in sieveRounds.where((r) => r.answer != Coarser.alike)) {
+        final a = GradingPainter.pointsOf(size, r.left);
+        final b = GradingPainter.pointsOf(size, r.right);
+        var most = 0.0;
+        for (var i = 0; i < a.length; i++) {
+          final gap = (a[i] - b[i]).distance;
+          if (gap > most) most = gap;
+        }
+        expect(most, greaterThan(24),
+            reason: '${r.subject}: the curves never separate');
+      }
     });
   });
 }

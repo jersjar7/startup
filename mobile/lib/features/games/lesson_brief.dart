@@ -226,6 +226,8 @@ enum BriefFigure {
   exposure,
   curing,
   field,
+  weighing,
+  grading,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3604,6 +3606,49 @@ const fieldBrief = BriefSection(
   handbook: 'Handbook p. 125',
 );
 
+const weighingBrief = BriefSection(
+  title: 'Three weighings, four numbers',
+  body:
+      'An aggregate sample gets weighed three ways: oven dry with the pores '
+      'empty (A), saturated with the surface wiped dry (B), and hanging in '
+      'water (C). Everything on this page is built from those three, and the '
+      'differences matter. B minus C is the water the WHOLE particle pushed '
+      'aside, pores included, which is what makes a specific gravity bulk. A '
+      'minus C leaves the water-filled pores out of the volume, which makes '
+      'it apparent, and apparent always comes out the largest of the three. '
+      'Absorption is the water the pores hold divided by the DRY mass: over '
+      'the saturated weight instead is the slip the lesson names.',
+  formulas: [
+    ('Bulk, oven dry', r'G_{sb} = \frac{A}{B - C}'),
+    ('Bulk, saturated', r'G_{ssd} = \frac{B}{B - C}'),
+    ('Apparent', r'G_{sa} = \frac{A}{A - C}'),
+    ('Absorption', r'\frac{B - A}{A} \times 100'),
+  ],
+  figure: BriefFigure.weighing,
+  handbook: 'Handbook p. 123',
+);
+
+const gradingBrief = BriefSection(
+  title: 'One number for a whole curve',
+  body:
+      'A sieve analysis reports how much of a sand passes each standard '
+      'sieve, and the fineness modulus squeezes that whole curve into one '
+      'number: add up the CUMULATIVE percent retained on the standard sieves '
+      'and divide by a hundred. Retained, not passing, and cumulative, not '
+      'sieve by sieve. A higher modulus means COARSER, which reads backwards '
+      'off the name, and a concrete sand is normally asked to fall between '
+      '2.3 and 3.1. Remember what one number cannot do: two sands with the '
+      'same modulus can have completely different curves, and a gap in the '
+      'sizes leaves voids that have to be filled with paste.',
+  formulas: [
+    ('The modulus', r'FM = \frac{\sum \text{cumulative \% retained}}{100}'),
+    ('A concrete sand', r'2.3 \le FM \le 3.1'),
+    ('Higher means', r'\text{coarser}'),
+  ],
+  figure: BriefFigure.grading,
+  handbook: 'Handbook p. 123',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -4947,6 +4992,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{dried out early} \Rightarrow \text{a third gone}", true),
             (r"\text{the lab break is what the slab has}", false),
             (r"\text{a richer mix beats better curing}", false),
+          ],
+        );
+      case BriefFigure.weighing:
+        return const _RuleList(
+          rules: [
+            (r"B - C \text{ is the whole particle}", true),
+            (r"G_{sa} \text{ is the largest of the three}", true),
+            (r"\text{absorption divides by } B", false),
+            (r"A - C \text{ is the bulk volume}", false),
+          ],
+        );
+      case BriefFigure.grading:
+        return const _RuleList(
+          rules: [
+            (r"\text{a higher } FM \text{ is coarser}", true),
+            (r"\text{cumulative \% RETAINED}", true),
+            (r"\text{a higher } FM \text{ is finer}", false),
+            (r"FM \text{ describes the whole curve}", false),
           ],
         );
       case BriefFigure.damping:

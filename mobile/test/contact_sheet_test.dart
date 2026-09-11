@@ -179,9 +179,11 @@ import 'package:mobile/features/games/how_it_settles_game.dart';
 import 'package:mobile/features/games/when_it_runs_away_game.dart';
 import 'package:mobile/features/games/before_or_during_game.dart';
 import 'package:mobile/features/games/edge_or_inside_game.dart';
+import 'package:mobile/features/games/coarse_or_fine_game.dart';
 import 'package:mobile/features/games/does_it_make_the_number_game.dart';
 import 'package:mobile/features/games/out_of_the_furnace_game.dart';
 import 'package:mobile/features/games/times_or_divided_game.dart';
+import 'package:mobile/features/games/which_weighing_game.dart';
 import 'package:mobile/features/games/stronger_or_weaker_game.dart';
 import 'package:mobile/features/games/what_this_job_needs_game.dart';
 import 'package:mobile/features/games/which_arm_game.dart';
@@ -1408,6 +1410,18 @@ void main() {
           rounds: slabRounds.length,
           height: 1850,
         ),
+        'which-weighing': (
+          lesson: '63-aggregate',
+          build: WhichWeighingGame.new,
+          rounds: weighRounds.length,
+          height: 1750,
+        ),
+        'coarse-or-fine': (
+          lesson: '63-aggregate',
+          build: CoarseOrFineGame.new,
+          rounds: sieveRounds.length,
+          height: 1550,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -1729,6 +1743,10 @@ void main() {
     '62-curing': [
       ('curing', curingBrief),
       ('field', fieldBrief),
+    ],
+    '63-aggregate': [
+      ('weighing', weighingBrief),
+      ('grading', gradingBrief),
     ],
   };
 
