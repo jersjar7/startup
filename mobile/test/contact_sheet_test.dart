@@ -240,6 +240,8 @@ import 'package:mobile/features/games/what_buys_the_ct_game.dart';
 import 'package:mobile/features/games/health_or_taste_game.dart';
 import 'package:mobile/features/games/which_ion_counts_more_game.dart';
 import 'package:mobile/features/games/removed_or_remaining_game.dart';
+import 'package:mobile/features/games/enough_or_too_many_game.dart';
+import 'package:mobile/features/games/the_count_says_yes_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2010,6 +2012,18 @@ void main() {
           rounds: dutyRounds2.length,
           height: 1880,
         ),
+        'enough-or-too-many': (
+          lesson: '95-determinacy',
+          build: EnoughOrTooManyGame.new,
+          rounds: tallyRounds2.length,
+          height: 1900,
+        ),
+        'the-count-says-yes': (
+          lesson: '95-determinacy',
+          build: TheCountSaysYesGame.new,
+          rounds: standRounds.length,
+          height: 1940,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2446,6 +2460,10 @@ void main() {
     '87-pumps': [
       ('power', pumpPowerBrief),
       ('npsh', npshBrief),
+    ],
+    '95-determinacy': [
+      ('count', countBrief),
+      ('stability', stabilityBrief),
     ],
     '94-standards': [
       ('tiers', standardsBrief),

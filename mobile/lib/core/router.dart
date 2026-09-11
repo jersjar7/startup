@@ -233,6 +233,8 @@ import '../features/games/what_buys_the_ct_game.dart';
 import '../features/games/health_or_taste_game.dart';
 import '../features/games/which_ion_counts_more_game.dart';
 import '../features/games/removed_or_remaining_game.dart';
+import '../features/games/enough_or_too_many_game.dart';
+import '../features/games/the_count_says_yes_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -605,6 +607,8 @@ GoRouter buildRouter(AuthController auth) {
           'health-or-taste' => const HealthOrTasteGame(),
           'which-ion-counts-more' => const WhichIonCountsMoreGame(),
           'removed-or-remaining' => const RemovedOrRemainingGame(),
+          'enough-or-too-many' => const EnoughOrTooManyGame(),
+          'the-count-says-yes' => const TheCountSaysYesGame(),
           _ => const _UnknownGame(),
         },
       ),

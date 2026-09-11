@@ -51,6 +51,8 @@ import 'what_buys_the_ct_game.dart';
 import 'health_or_taste_game.dart';
 import 'which_ion_counts_more_game.dart';
 import 'removed_or_remaining_game.dart';
+import 'enough_or_too_many_game.dart';
+import 'the_count_says_yes_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -3801,6 +3803,32 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Duty3.values) o.name],
           answer: Duty3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'enough-or-too-many',
+    lessonId: 'determinacy-stability',
+    problemPrefix: 'str-ds-',
+    rounds: [
+      for (final r in tallyRounds2)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Tally.values) o.name],
+          answer: Tally.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'the-count-says-yes',
+    lessonId: 'determinacy-stability',
+    problemPrefix: 'str-ds-',
+    rounds: [
+      for (final r in standRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in WillItStand.values) o.name],
+          answer: WillItStand.values.indexOf(r.answer),
         ),
     ],
   ),

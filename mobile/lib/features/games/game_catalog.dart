@@ -3149,6 +3149,47 @@ const waterResourcesMap = ChapterMap(
   ],
 );
 
+const structuralMap = ChapterMap(
+  id: 'structural',
+  number: 12,
+  name: 'Structural Engineering',
+  examLine: '12 to 18 questions on the real exam',
+  subtopics: [
+    Subtopic('analysis-loads', 'Analysis & Load Combinations'),
+    Subtopic('rc-design', 'Reinforced Concrete Design'),
+    Subtopic('steel-design', 'Steel Design'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'determinacy-stability',
+      name: 'Determinacy & Stability',
+      subtopicId: 'analysis-loads',
+      // Two items, not three. What each support is worth in reactions is
+      // already an item in statics, and so is telling a truss from a frame
+      // by looking at it. What is new here is the COUNT those two feed, and
+      // the fact that passing it guarantees nothing.
+      games: [
+        GameDef(
+          id: 'enough-or-too-many',
+          rounds: 6,
+          name: 'Enough or Too Many',
+          blurb: 'Short of it moves. Over it needs compatibility.',
+          built: true,
+          brief: countBrief,
+        ),
+        GameDef(
+          id: 'the-count-says-yes',
+          rounds: 6,
+          name: 'The Count Says Yes',
+          blurb: 'And the structure falls over anyway.',
+          built: true,
+          brief: stabilityBrief,
+        ),
+      ],
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
@@ -3161,6 +3202,7 @@ const chapterMaps = <String, ChapterMap>{
   'fluid-mechanics': fluidMechanicsMap,
   'surveying': surveyingMap,
   'water-resources': waterResourcesMap,
+  'structural': structuralMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

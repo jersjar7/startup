@@ -309,6 +309,8 @@ enum BriefFigure {
   tiers,
   hardness,
   efficiency,
+  determinacyCount,
+  stability,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -5600,6 +5602,55 @@ const efficiencyBrief = BriefSection(
   handbook: 'Handbook, treatment performance',
 );
 
+const countBrief = BriefSection(
+  title: 'Two counts, and the joints pick which',
+  body:
+      'Before anything is analyzed a structure has to be classified, and the '
+      'count depends on what the joints do rather than on what the outline '
+      'looks like. PINNED joints throughout carry no moment, so each joint '
+      'gives two equations and the count is m plus r against 2j. RIGID joints '
+      'carry moment, each gives three equations, and the count is 3m plus r '
+      'against 3j plus c, where c is one for every internal hinge or other '
+      'release, because each of those hands you an extra equation for free. A '
+      'triangle with welded corners is a frame, however much it resembles a '
+      'truss. Count the reactions carefully: a roller is one component, a pin '
+      'two, a fixed support three. Short of the requirement is a mechanism, '
+      'exactly it is determinate, and over it is indeterminate by the '
+      'difference, which is how many extra unknowns equilibrium cannot '
+      'reach.',
+  formulas: [
+    ('A truss', r'm + r \text{ vs } 2j'),
+    ('A frame', r'3m + r \text{ vs } 3j + c'),
+    ('The degree', r'\text{supply} - \text{need}'),
+    ('Reactions', r'\text{roller } 1, \text{ pin } 2, \text{ fixed } 3'),
+  ],
+  figure: BriefFigure.determinacyCount,
+  handbook: 'Handbook p. 271',
+);
+
+const stabilityBrief = BriefSection(
+  title: 'Necessary, and never sufficient',
+  body:
+      'The determinacy count can be satisfied exactly and the structure can '
+      'still fall over, which is the single most examinable idea in this '
+      'lesson. The count sees how many members, joints and reactions there '
+      'are; it cannot see where any of them POINT. Two arrangements give it '
+      'away. Reactions all PARALLEL, three rollers on level ground being the '
+      'usual case, can sum to nothing across their own direction, so any load '
+      'sideways has nothing to react against and the structure slides. '
+      'Reactions all CONCURRENT, passing through a single point, have no '
+      'lever arm about that point, so the structure turns about it as a rigid '
+      'body. Neither is cured by adding more of the same: a structure with '
+      'four parallel reactions is indeterminate by the count and just as '
+      'unstable. Check the count, then look at the picture.',
+  formulas: [
+    ('Necessary', r'm + r \ge 2j'),
+    ('Not sufficient', r'\text{parallel or concurrent} \Rightarrow \text{unstable}'),
+  ],
+  figure: BriefFigure.stability,
+  handbook: 'Handbook p. 271',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -7457,6 +7508,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the flow cancels}", true),
             (r"E = \frac{S}{S_0}", false),
             (r"\text{more flow raises the required } E", false),
+          ],
+        );
+      case BriefFigure.determinacyCount:
+        return const _RuleList(
+          rules: [
+            (r"\text{a fixed support is } r = 3", true),
+            (r"\text{each hinge adds one to } c", true),
+            (r"\text{a triangle is always a truss}", false),
+            (r"\text{a fixed support is } r = 2", false),
+          ],
+        );
+      case BriefFigure.stability:
+        return const _RuleList(
+          rules: [
+            (r"\text{parallel reactions} \Rightarrow \text{unstable}", true),
+            (r"\text{indeterminate can still be unstable}", true),
+            (r"m + r = 2j \Rightarrow \text{stable}", false),
+            (r"\text{more reactions always help}", false),
           ],
         );
       case BriefFigure.cogo:
