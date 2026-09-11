@@ -119,6 +119,8 @@ import '../features/games/buckle_or_squash_game.dart';
 import '../features/games/what_is_missing_game.dart';
 import '../features/games/tap_the_trajectory_game.dart';
 import '../features/games/speeding_up_or_turning_game.dart';
+import '../features/games/same_spin_different_speed_game.dart';
+import '../features/games/harder_to_spin_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -380,6 +382,8 @@ GoRouter buildRouter(AuthController auth) {
           'what-is-missing' => const WhatIsMissingGame(),
           'tap-the-trajectory' => const TapTheTrajectoryGame(),
           'speeding-up-or-turning' => const SpeedingUpOrTurningGame(),
+          'same-spin-different-speed' => const SameSpinDifferentSpeedGame(),
+          'harder-to-spin' => const HarderToSpinGame(),
           _ => const _UnknownGame(),
         },
       ),

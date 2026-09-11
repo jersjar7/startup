@@ -1553,6 +1553,24 @@ const dynamicsMap = ChapterMap(
       id: 'rigid-body-kinematics-mass-moi',
       name: 'Rigid Body Kinematics & Mass Moments of Inertia',
       subtopicId: 'kinematics',
+      games: [
+        GameDef(
+          id: 'same-spin-different-speed',
+          rounds: 6,
+          name: 'Same Spin, Different Speed',
+          blurb: 'One body turning. Every point at its own speed.',
+          built: true,
+          brief: spinBrief,
+        ),
+        GameDef(
+          id: 'harder-to-spin',
+          rounds: 6,
+          name: 'Harder to Spin',
+          blurb: 'Same mass both sides. Where it sits decides.',
+          built: true,
+          brief: spinInertiaBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'force-and-acceleration',

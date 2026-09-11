@@ -81,6 +81,8 @@ import 'package:mobile/features/games/buckle_or_squash_game.dart';
 import 'package:mobile/features/games/what_is_missing_game.dart';
 import 'package:mobile/features/games/tap_the_trajectory_game.dart';
 import 'package:mobile/features/games/speeding_up_or_turning_game.dart';
+import 'package:mobile/features/games/same_spin_different_speed_game.dart';
+import 'package:mobile/features/games/harder_to_spin_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1239,6 +1241,18 @@ void main() {
           rounds: cornerRounds.length,
           height: 1500,
         ),
+        'same-spin-different-speed': (
+          lesson: '53-rigid-body',
+          build: SameSpinDifferentSpeedGame.new,
+          rounds: spinRounds.length,
+          height: 1550,
+        ),
+        'harder-to-spin': (
+          lesson: '53-rigid-body',
+          build: HarderToSpinGame.new,
+          rounds: pairRounds2.length,
+          height: 1500,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1509,6 +1523,10 @@ void main() {
       ('missing', missingBrief),
       ('flight', flightBrief),
       ('bend', bendBrief),
+    ],
+    '53-rigid-body': [
+      ('spin', spinBrief),
+      ('spin-inertia', spinInertiaBrief),
     ],
   };
 

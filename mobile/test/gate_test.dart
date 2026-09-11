@@ -219,6 +219,13 @@ void main() {
       // The curved road problem is the only one in the lesson with a bend in
       // it, and telling the two accelerations apart is the whole item.
       'speeding-up-or-turning',
+      // The grinding wheel problem is the only one in the lesson that relates
+      // a spin to a speed, and reading that off the body is the whole item.
+      'same-spin-different-speed',
+      // The cylinder problem is the only one in the lesson about what it
+      // takes to spin something up, and comparing arrangements is the whole
+      // item.
+      'harder-to-spin',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

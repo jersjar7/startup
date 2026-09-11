@@ -201,6 +201,8 @@ enum BriefFigure {
   missing,
   flight,
   bend,
+  spin,
+  spinInertia,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -3079,6 +3081,55 @@ const bendBrief = BriefSection(
   handbook: 'Handbook p. 103',
 );
 
+const spinBrief = BriefSection(
+  title: 'One spin, a speed for every radius',
+  body:
+      'A rigid body has ONE angular velocity: every point on it turns through '
+      'the same angle in the same time, which is what being rigid means. It '
+      'does not have one speed. A point\'s speed is r times omega, so it grows '
+      'straight with the distance out from the axis and the rim of a wheel can '
+      'be doing fifty meters a second while a point near the hub strolls. The '
+      'pull toward the middle grows too, as r omega squared. Neither depends '
+      'on where a point sits AROUND the circle, only on how far out it is. And '
+      'the units trap the lesson names: rpm is not omega. Turns a minute times '
+      'two pi over sixty gets you radians a second, and using rpm straight in '
+      'v equals r omega is out by a factor of about ten.',
+  formulas: [
+    ('Speed of a point', r'v = r\omega'),
+    ('Toward the middle', r'a_n = r\omega^2 = \frac{v^2}{r}'),
+    ('Along the path', r'a_t = r\alpha'),
+    ('From rpm', r'\omega = \text{rpm}\times\frac{2\pi}{60}'),
+  ],
+  figure: BriefFigure.spin,
+  handbook: 'Handbook p. 103',
+);
+
+const spinInertiaBrief = BriefSection(
+  title: 'How hard it is to spin up',
+  body:
+      'Mass moment of inertia is the rotating twin of mass: it is what decides '
+      'how much moment it takes to get something turning. It is not a property '
+      'of the body alone, it belongs to the body AND the axis, and the '
+      'handbook gives the standard shapes so nothing is derived. Read the '
+      'coefficients as a story about where the material sits: a hoop, with '
+      'everything at the rim, is m r squared; a solid disc, with most of it '
+      'closer in, is half that; a sphere, closer in still, is two fifths. A '
+      'rod about its middle is a twelfth of m L squared and about its END it '
+      'is a third, four times more, with nothing about the rod changed. To '
+      'move an axis, add m d squared, and only ever FROM the centroid: going '
+      'between two off-center axes needs two steps through the middle. Once '
+      'the axis is further off than the body is wide, that transfer term is '
+      'the whole answer.',
+  formulas: [
+    ('Hoop, disc, sphere', r'mr^2,\quad \tfrac{1}{2}mr^2,\quad \tfrac{2}{5}mr^2'),
+    ('Rod, middle and end', r'\tfrac{1}{12}mL^2,\quad \tfrac{1}{3}mL^2'),
+    ('Moving the axis', r'I = I_c + md^2'),
+    ('Only ever', r'\text{from the centroid outward}'),
+  ],
+  figure: BriefFigure.spinInertia,
+  handbook: 'Handbook pp. 110 and 114 to 115',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -4231,6 +4282,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.spin:
+        return const _RuleList(
+          rules: [
+            (r"\text{one } \omega \text{ for the whole body}", true),
+            (r"v = r\omega \text{, so the rim is fastest}", true),
+            (r"\text{every point has the same speed}", false),
+            (r"\text{rpm can go straight into } v = r\omega", false),
+          ],
+        );
+      case BriefFigure.spinInertia:
+        return const _RuleList(
+          rules: [
+            (r"\text{mass at the rim counts most}", true),
+            (r"\text{rod about its end} = 4\times \text{about its middle}", true),
+            (r"I \text{ belongs to the body alone}", false),
+            (r"\text{transfer between any two axes}", false),
           ],
         );
       case BriefFigure.missing:

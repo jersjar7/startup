@@ -117,6 +117,8 @@ import 'kinematics_figures.dart';
 import 'what_is_missing_game.dart';
 import 'tap_the_trajectory_game.dart';
 import 'speeding_up_or_turning_game.dart';
+import 'same_spin_different_speed_game.dart';
+import 'harder_to_spin_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -2202,6 +2204,39 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final p in r.shown) p.name],
           answer: r.shown.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'same-spin-different-speed',
+    lessonId: 'rigid-body-kinematics-mass-moi',
+    problemPrefix: 'dyn-rbk-',
+    rounds: [
+      // Points on a body, so two of them at the same radius are two different
+      // PLACES rather than a repeated choice, plus the standing answer for
+      // the rounds where they share the quantity asked about.
+      for (final r in spinRounds)
+        RoundAudit(
+          source: r.source,
+          options: [
+            for (var i = 0; i < r.spinner.marks.length; i++) 'point $i',
+            'they are equal',
+          ],
+          answer: r.everywhere ? r.spinner.marks.length : r.answer,
+          positional: true,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'harder-to-spin',
+    lessonId: 'rigid-body-kinematics-mass-moi',
+    problemPrefix: 'dyn-rbk-',
+    rounds: [
+      for (final r in pairRounds2)
+        RoundAudit(
+          source: r.source,
+          options: ['the left one', 'the right one'],
+          answer: r.answer,
         ),
     ],
   ),
