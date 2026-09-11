@@ -69,7 +69,7 @@ export default {
       traps: [
         'Giving gauge pressure instead of absolute when the problem asks for absolute (choice B)',
         'Forgetting to adjust \u03B3 for the oil\u2019s specific gravity \u2014 using water\u2019s \u03B3 instead',
-        'Forgetting to add the hydrostatic column to the surface pressure (choice C)',
+        'Forgetting to add the hydrostatic column to the surface pressure \u2014 gives 121.3 kPa (choice A)',
       ],
       diagram: null,
     },
@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'The mercury is higher on the air side, meaning the air pressure pushes the mercury down on the air side and up on the atmospheric side. So P_air = \u03B3_Hg \u00D7 h. First get \u03B3_Hg = 13.6 \u00D7 9,810 = 133,416 N/m\u00B3. Convert h = 250 mm = 0.25 m. P = 133,416 \u00D7 0.25 = 33,354 Pa = 33.35 kPa. The 2.45 kPa choice uses water\u2019s \u03B3 instead of mercury\u2019s. The 333.5 kPa choice forgets to convert mm to m. The 133.4 kPa choice uses h = 1 m.',
+      eli5: 'The mercury is higher on the air side, meaning the air pressure pushes the mercury down on the air side and up on the atmospheric side. So P_air = \u03B3_Hg \u00D7 h. First get \u03B3_Hg = 13.6 \u00D7 9,810 = 133,416 N/m\u00B3. Convert h = 250 mm = 0.25 m. P = 133,416 \u00D7 0.25 = 33,354 Pa = 33.35 kPa. The 2.45 kPa choice uses water\u2019s \u03B3 instead of mercury\u2019s. The 333.5 kPa choice slips a decimal in the conversion, using 2.5 m where 250 mm is 0.25 m. The 133.4 kPa choice uses h = 1 m.',
       hint: 'The pressure difference equals the specific weight of the manometer fluid times the height difference. Don\u2019t forget to use mercury\u2019s specific weight, not water\u2019s.',
       steps: [
         { text: 'Specific weight of mercury:', latex: '\\gamma_{Hg} = 13.6 \\times 9{,}810 = 133{,}416 \\text{ N/m}^3' },
@@ -96,7 +96,7 @@ export default {
       videoUrl: null,
       traps: [
         'Using \u03B3_water instead of \u03B3_mercury \u2014 gives a result 13.6\u00D7 too small',
-        'Forgetting to convert mm to m \u2014 off by a factor of 1,000',
+        'Slipping a decimal converting the height \u2014 2.5 m instead of 0.25 m gives 333.5 kPa (choice C)',
         'Getting the manometer direction wrong \u2014 the higher mercury column is on the higher-pressure side',
       ],
       diagram: { component: 'UtubeManometer', props: { h: 250, unit: 'mm' } },
