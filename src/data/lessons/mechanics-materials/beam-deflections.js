@@ -56,11 +56,11 @@ export default {
         { id: 'c1', text: '$6.75 \\text{ mm}$' },
         { id: 'c2', text: '$13.5 \\text{ mm}$' },
         { id: 'c3', text: '$27.0 \\text{ mm}$' },
-        { id: 'c4', text: '$1.69 \\text{ mm}$' },
+        { id: 'c4', text: '$1.41 \\text{ mm}$' },
       ],
       correctAnswerId: 'c2',
       difficulty: 'medium',
-      eli5: 'Cantilever with UDL: \u03B4 = wL\u2074/8EI. Note it\'s L to the fourth power, not third \u2014 because the distributed load spreads over the length. The 6.75 mm option comes from using wL\u2074/16EI (doubling the denominator). The 27.0 mm option comes from using wL\u2074/4EI (halving the denominator). The 1.69 mm option comes from using wL\u2074/64EI (an under-stiff or wrong-coefficient slip). Always check: is it cantilever or simply supported?',
+      eli5: 'Cantilever with UDL: \u03B4 = wL\u2074/8EI. Note it\'s L to the fourth power, not third \u2014 because the distributed load spreads over the length. The 6.75 mm option comes from using wL\u2074/16EI (doubling the denominator). The 27.0 mm option comes from using wL\u2074/4EI (halving the denominator). The 1.41 mm option comes from using the simply supported formula 5wL\u2074/384EI on a beam that is built in at one end \u2014 nearly ten times too small, and exactly the mix-up this lesson warns about. Always check: is it cantilever or simply supported?',
       hint: 'This is a cantilever, not simply supported. Which formula applies?',
       steps: [
         { text: 'Convert: $w = 8$ N/mm, $L = 3{,}000$ mm, $E = 200{,}000$ MPa, $I = 30 \\times 10^6$ mm\u2074', latex: null },
@@ -70,7 +70,7 @@ export default {
       handbookFormula: '\\delta_{max} = \\frac{wL^4}{8EI}',
       videoUrl: null,
       traps: [
-        'Using the simply supported UDL formula (5wL\u2074/384EI) instead of the cantilever formula (wL\u2074/8EI) (choice D)',
+        'Using the simply supported UDL formula (5wL\u2074/384EI) instead of the cantilever formula (wL\u2074/8EI) \u2014 gives 1.41 mm, nearly ten times too small (choice D)',
         'Forgetting that w must be in N/mm (not kN/m) when other units are in mm',
         'Using L\u00B3 instead of L\u2074 \u2014 UDL deflection uses the fourth power of length',
       ],
