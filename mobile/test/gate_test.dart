@@ -344,6 +344,9 @@ void main() {
       'what-does-the-storm-do',
       'why-is-this-peak-smaller',
       'filling-or-emptying',
+      // The seepage velocity problem is the only one in the groundwater
+      // lesson that is not about a well.
+      'which-speed-is-that',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

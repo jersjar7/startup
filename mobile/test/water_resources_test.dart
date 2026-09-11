@@ -10,6 +10,10 @@ import 'package:mobile/features/games/hazen_figures.dart';
 import 'package:mobile/features/games/pump_figures.dart';
 import 'package:mobile/features/games/runoff_figures.dart';
 import 'package:mobile/features/games/hydrograph_figures.dart';
+import 'package:mobile/features/games/aquifer_figures.dart';
+import 'package:mobile/features/games/which_speed_is_that_game.dart';
+import 'package:mobile/features/games/which_well_formula_game.dart';
+import 'package:mobile/features/games/double_the_drawdown_game.dart';
 import 'package:mobile/features/games/what_does_the_storm_do_game.dart';
 import 'package:mobile/features/games/why_is_this_peak_smaller_game.dart';
 import 'package:mobile/features/games/filling_or_emptying_game.dart';
@@ -853,6 +857,107 @@ void main() {
         }
       }
       expect(pondRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('groundwater', () {
+    test('the lesson\'s own seepage velocity is 3.33e-5', () {
+      const s = Seep(
+          conductivity: 5e-4, gradient: 0.02, porosity: 0.30, area: 200);
+      expect(s.darcy, closeTo(1.0e-5, 1e-9));
+      expect(s.seepage, closeTo(3.33e-5, 1e-7));
+      expect(s.flow, closeTo(2.0e-3, 1e-7));
+    });
+
+    test('the seepage velocity is always the larger', () {
+      for (final n in [0.2, 0.3, 0.45, 0.5]) {
+        final s = Seep(
+            conductivity: 1e-4, gradient: 0.01, porosity: n, area: 10);
+        expect(s.seepage, greaterThan(s.darcy), reason: 'porosity $n');
+        // Multiplying by the porosity is the named trap and goes the wrong
+        // way.
+        expect(s.darcy * n, lessThan(s.darcy));
+      }
+    });
+
+    test('every round asks for one of the three', () {
+      for (final r in seepRounds) {
+        expect(r.value, greaterThan(0), reason: r.subject);
+      }
+      expect(seepRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('the lesson\'s own wells come out right', () {
+      const dupuit = Aquifer(
+          kind: Ground.unconfined,
+          conductivity: 5e-4,
+          headAtWell: 40,
+          radiusAtWell: 0.5,
+          headOut: 60,
+          radiusOut: 200);
+      expect(dupuit.discharge, closeTo(0.52, 0.01));
+      const thiem = Aquifer(
+          kind: Ground.confined,
+          conductivity: 3e-5,
+          headAtWell: 25,
+          radiusAtWell: 10,
+          headOut: 30,
+          radiusOut: 100,
+          thickness: 20);
+      expect(thiem.transmissivity, closeTo(6e-4, 1e-9));
+      expect(thiem.discharge, closeTo(0.0082, 0.0002));
+    });
+
+    test('the formula follows the cap and nothing else', () {
+      for (final r in wellRounds) {
+        expect(r.answer == Formula2.dupuit,
+            r.aquifer.kind == Ground.unconfined,
+            reason: r.subject);
+      }
+      expect(wellRounds.map((r) => r.answer).toSet().length, 2);
+    });
+
+    test('a confined aquifer is a plain proportion', () {
+      const before = Aquifer(
+          kind: Ground.confined,
+          conductivity: 3e-5,
+          headAtWell: 25,
+          radiusAtWell: 10,
+          headOut: 30,
+          radiusOut: 100);
+      expect(before.copyWith(headAtWell: 20).discharge / before.discharge,
+          closeTo(2, 0.001));
+      expect(before.copyWith(conductivity: 6e-5).discharge / before.discharge,
+          closeTo(2, 0.001));
+      expect(before.copyWith(thickness: 40).discharge / before.discharge,
+          closeTo(2, 0.001));
+    });
+
+    test('an unconfined aquifer is not', () {
+      const before = Aquifer(
+          kind: Ground.unconfined,
+          conductivity: 5e-4,
+          headAtWell: 40,
+          radiusAtWell: 0.5,
+          headOut: 60,
+          radiusOut: 200);
+      // Pulling the well down twice as far buys less than twice.
+      expect(before.copyWith(headAtWell: 20).discharge / before.discharge,
+          closeTo(1.6, 0.01));
+    });
+
+    test('every round is worked off the two wells', () {
+      for (final r in drawRounds) {
+        switch (r.answer) {
+          case Buys.exactly:
+            expect(r.ratio, closeTo(2, 0.01), reason: r.subject);
+          case Buys.more:
+            expect(r.ratio, greaterThan(2.01), reason: r.subject);
+          case Buys.less:
+            expect(r.ratio, lessThan(1.99), reason: r.subject);
+        }
+      }
+      expect(drawRounds.map((r) => r.answer).toSet().length, 3);
     });
   });
 }

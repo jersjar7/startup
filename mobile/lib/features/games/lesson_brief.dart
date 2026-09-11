@@ -297,6 +297,8 @@ enum BriefFigure {
   unitHydrograph,
   concentration,
   routing,
+  seepage,
+  wells,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -5292,6 +5294,58 @@ const routingBrief = BriefSection(
   handbook: 'Handbook p. 290',
 );
 
+const seepageBrief = BriefSection(
+  title: 'Three numbers that are easy to mix up',
+  body:
+      'Darcy\'s law gives K times the hydraulic gradient, and that quantity '
+      'has the units of a speed while being the speed of nothing at all. It '
+      'is the DARCY VELOCITY, also called the specific discharge: the volume '
+      'passing through a square meter of soil, grains and voids together, as '
+      'if the grains were not in the way. Water can only use the voids, so it '
+      'has to move faster than that, and the SEEPAGE VELOCITY, the Darcy '
+      'velocity divided by the porosity, is what a dye tracer actually '
+      'travels at. It is always the larger of the two, and multiplying by the '
+      'porosity instead of dividing is the mistake the lesson names. '
+      'Multiplying the Darcy velocity by the cross-section gives a third '
+      'thing entirely, a volume a second, which is a discharge and not a '
+      'speed. Read the units of what is being asked for before reaching for '
+      'a formula.',
+  formulas: [
+    ('Through the whole face', r'q = K i'),
+    ('Through the pores', r'v = \frac{q}{n}'),
+    ('The volume', r'Q = q A = K i A'),
+  ],
+  figure: BriefFigure.seepage,
+  handbook: 'Handbook p. 292',
+);
+
+const wellBrief = BriefSection(
+  title: 'Clay on top decides everything',
+  body:
+      'Two well formulas, and the only question that picks between them is '
+      'whether something impermeable caps the aquifer. Under clay the aquifer '
+      'is CONFINED: it cannot change thickness however hard you pump, the '
+      'transmissivity is a fixed K times b, and the heads go into THIEM as '
+      'they are. The surface the heads describe is a pressure level in a '
+      'standpipe, not a water table, and water standing above the top of the '
+      'aquifer is the giveaway. With a free water table the aquifer is '
+      'UNCONFINED: the saturated thickness falls as the water table is drawn '
+      'down, so there is less ground to carry water near the well, and '
+      'DUPUIT squares the heads to account for it. That squaring is not a '
+      'convention. Since the difference of two squares is the difference '
+      'times the sum, pulling the well down twice as far buys LESS than twice '
+      'the water, while a wetter year that lifts the whole water table buys '
+      'more. Both formulas divide by the natural log of the radius ratio, '
+      'never the base ten log.',
+  formulas: [
+    ('Unconfined', r'Q = \frac{\pi K (h_2^2 - h_1^2)}{\ln(r_2/r_1)}'),
+    ('Confined', r'Q = \frac{2\pi T (h_2 - h_1)}{\ln(r_2/r_1)}'),
+    ('Transmissivity', r'T = K b'),
+  ],
+  figure: BriefFigure.wells,
+  handbook: 'Handbook pp. 292 to 293',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -7040,6 +7094,24 @@ class BriefFigureView extends StatelessWidget {
             (r"I = O \Rightarrow \text{fullest}", true),
             (r"O - I = \frac{\Delta S}{\Delta t}", false),
             (r"\text{the pond is fullest at the inflow peak}", false),
+          ],
+        );
+      case BriefFigure.seepage:
+        return const _RuleList(
+          rules: [
+            (r"v = \frac{q}{n} > q", true),
+            (r"qA \text{ is a volume a second}", true),
+            (r"v = q n", false),
+            (r"\text{a tracer moves at } q", false),
+          ],
+        );
+      case BriefFigure.wells:
+        return const _RuleList(
+          rules: [
+            (r"\text{confined} \Rightarrow \text{heads as they are}", true),
+            (r"\text{unconfined} \Rightarrow \text{heads squared}", true),
+            (r"\log_{10} \text{ in the denominator}", false),
+            (r"T = Kb \text{ for an unconfined aquifer}", false),
           ],
         );
       case BriefFigure.cogo:

@@ -219,6 +219,9 @@ import '../features/games/does_any_of_it_run_off_game.dart';
 import '../features/games/what_does_the_storm_do_game.dart';
 import '../features/games/why_is_this_peak_smaller_game.dart';
 import '../features/games/filling_or_emptying_game.dart';
+import '../features/games/which_speed_is_that_game.dart';
+import '../features/games/which_well_formula_game.dart';
+import '../features/games/double_the_drawdown_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -577,6 +580,9 @@ GoRouter buildRouter(AuthController auth) {
           'what-does-the-storm-do' => const WhatDoesTheStormDoGame(),
           'why-is-this-peak-smaller' => const WhyIsThisPeakSmallerGame(),
           'filling-or-emptying' => const FillingOrEmptyingGame(),
+          'which-speed-is-that' => const WhichSpeedIsThatGame(),
+          'which-well-formula' => const WhichWellFormulaGame(),
+          'double-the-drawdown' => const DoubleTheDrawdownGame(),
           _ => const _UnknownGame(),
         },
       ),

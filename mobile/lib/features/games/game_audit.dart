@@ -37,6 +37,9 @@ import 'does_any_of_it_run_off_game.dart';
 import 'what_does_the_storm_do_game.dart';
 import 'why_is_this_peak_smaller_game.dart';
 import 'filling_or_emptying_game.dart';
+import 'which_speed_is_that_game.dart';
+import 'which_well_formula_game.dart';
+import 'double_the_drawdown_game.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
 import 'where_does_that_pair_land_game.dart';
@@ -3604,6 +3607,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Store.values) o.name],
           answer: Store.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-speed-is-that',
+    lessonId: 'groundwater-wells',
+    problemPrefix: 'wr-gw-',
+    rounds: [
+      for (final r in seepRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Quantity3.values) o.name],
+          answer: Quantity3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-well-formula',
+    lessonId: 'groundwater-wells',
+    problemPrefix: 'wr-gw-',
+    rounds: [
+      for (final r in wellRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Formula2.values) o.name],
+          answer: Formula2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'double-the-drawdown',
+    lessonId: 'groundwater-wells',
+    problemPrefix: 'wr-gw-',
+    rounds: [
+      for (final r in drawRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Buys.values) o.name],
+          answer: Buys.values.indexOf(r.answer),
         ),
     ],
   ),

@@ -226,6 +226,9 @@ import 'package:mobile/features/games/does_any_of_it_run_off_game.dart';
 import 'package:mobile/features/games/what_does_the_storm_do_game.dart';
 import 'package:mobile/features/games/why_is_this_peak_smaller_game.dart';
 import 'package:mobile/features/games/filling_or_emptying_game.dart';
+import 'package:mobile/features/games/which_speed_is_that_game.dart';
+import 'package:mobile/features/games/which_well_formula_game.dart';
+import 'package:mobile/features/games/double_the_drawdown_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1912,6 +1915,24 @@ void main() {
           rounds: pondRounds.length,
           height: 1840,
         ),
+        'which-speed-is-that': (
+          lesson: '90-groundwater',
+          build: WhichSpeedIsThatGame.new,
+          rounds: seepRounds.length,
+          height: 1900,
+        ),
+        'which-well-formula': (
+          lesson: '90-groundwater',
+          build: WhichWellFormulaGame.new,
+          rounds: wellRounds.length,
+          height: 1860,
+        ),
+        'double-the-drawdown': (
+          lesson: '90-groundwater',
+          build: DoubleTheDrawdownGame.new,
+          rounds: drawRounds.length,
+          height: 1900,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2348,6 +2369,10 @@ void main() {
     '87-pumps': [
       ('power', pumpPowerBrief),
       ('npsh', npshBrief),
+    ],
+    '90-groundwater': [
+      ('seepage', seepageBrief),
+      ('wells', wellBrief),
     ],
     '89-hydrograph': [
       ('unit', unitHydrographBrief),
