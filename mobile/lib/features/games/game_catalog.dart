@@ -1741,6 +1741,32 @@ const mechanicsMaterialsMap = ChapterMap(
       id: 'combined-stresses-mohrs-circle',
       name: "Combined Stresses & Mohr's Circle",
       subtopicId: 'combined-loading-stability',
+      games: [
+        GameDef(
+          id: 'read-the-circle',
+          rounds: 6,
+          name: 'Read the Circle',
+          blurb: 'Every answer is a place on it. Tap the right one.',
+          built: true,
+          brief: circleBrief,
+        ),
+        GameDef(
+          id: 'which-circle-is-it',
+          rounds: 6,
+          name: 'Which Circle Is It',
+          blurb: 'One stressed point, three circles. Only one fits.',
+          built: true,
+          brief: buildBrief,
+        ),
+        GameDef(
+          id: 'is-r-the-worst',
+          rounds: 6,
+          name: 'Is R the Worst',
+          blurb: 'The radius, or something worse out of the page?',
+          built: true,
+          brief: worstBrief,
+        ),
+      ],
     ),
     LessonNode(
       id: 'column-buckling',

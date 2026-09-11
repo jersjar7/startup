@@ -192,6 +192,9 @@ enum BriefFigure {
   transform,
   join,
   plastic,
+  circle,
+  build,
+  worst,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -2854,6 +2857,81 @@ const plasticBrief = BriefSection(
   handbook: 'Handbook pp. 136 and 281',
 );
 
+const circleBrief = BriefSection(
+  title: 'Every answer is a place on the circle',
+  body:
+      'Mohr\'s circle is not a drawing exercise, it is a map of every plane '
+      'through one point. The CENTER sits on the normal stress axis at the '
+      'average of the two normal stresses, and rotating the element never '
+      'moves it. The RADIUS is the worst shear on any plane in the page. The '
+      'two ENDS are the principal stresses, where the shear has run out to '
+      'nothing: sigma one is the right hand end and sigma two the left, '
+      'whatever the signs are, so on a circle that sits entirely in '
+      'compression sigma one is the SMALLEST squeeze. The face your numbers '
+      'came from is just another point on the circle, at the normal stress you '
+      'were given and the shear you were given. And angles double: a plane '
+      'turned by theta in the material moves two theta round the circle, which '
+      'is why the worst shear sits forty five degrees from the principal '
+      'planes.',
+  formulas: [
+    ('Center', r'C = \frac{\sigma_x + \sigma_y}{2}'),
+    ('Radius', r'R = \sqrt{\left(\frac{\sigma_x-\sigma_y}{2}\right)^2 + \tau_{xy}^2}'),
+    ('Ends', r'\sigma_{1,2} = C \pm R'),
+    ('Angles', r'\theta \text{ in the material} = 2\theta \text{ on the circle}'),
+  ],
+  figure: BriefFigure.circle,
+  handbook: 'Handbook p. 131',
+);
+
+const buildBrief = BriefSection(
+  title: 'Three special circles worth knowing on sight',
+  body:
+      'PURE SHEAR, with no normal stress on either face, is a circle centered '
+      'on the origin: principal stresses of plus tau and minus tau, so pure '
+      'shear is tension one way and compression square to it at forty five '
+      'degrees. That is why a brittle shaft in torsion cracks on a spiral. '
+      'UNIAXIAL TENSION runs from zero out to the stress applied, with its '
+      'worst shear at half of it on a forty five degree plane, which is why a '
+      'ductile bar necks on the slant. EQUAL STRESS BOTH WAYS with no shear is '
+      'not a circle at all but a single POINT: no shear on any plane, and '
+      'turning the element changes nothing. In every other case, remember that '
+      'any shear at all pushes sigma one further out than the normal stress '
+      'you started with.',
+  formulas: [
+    ('Pure shear', r'\sigma_{1,2} = \pm\tau \text{, centered on } 0'),
+    ('Uniaxial', r'\sigma_1 = \sigma,\ \sigma_2 = 0,\ R = \frac{\sigma}{2}'),
+    ('Equal both ways', r'R = 0 \text{, a point}'),
+    ('With any shear', r'\sigma_1 > \sigma_x'),
+  ],
+  figure: BriefFigure.build,
+  handbook: 'Handbook p. 131',
+);
+
+const worstBrief = BriefSection(
+  title: 'The third principal stress is zero, and it counts',
+  body:
+      'The radius is the worst shear on the planes you can see in the page. '
+      'The worst shear AT THE POINT is half the spread between the largest and '
+      'smallest of all THREE principal stresses, and the third one, out of the '
+      'page, is zero at any free surface. So the test is one look at the '
+      'drawing: if the circle crosses the zero mark, zero is already inside '
+      'the spread and the radius is the answer. If the whole circle sits to '
+      'one side of zero, which happens whenever both principal stresses have '
+      'the same sign, the real spread runs from zero to the far end and the '
+      'worst shear is half of THAT, which is always bigger than the radius. '
+      'The case that punishes a habit hardest is two similar tensions: a tiny '
+      'circle a long way out, almost no in-plane shear, and a serious shear on '
+      'a plane out of the page.',
+  formulas: [
+    ('Worst at the point', r'\tau_{abs} = \frac{\sigma_{max} - \sigma_{min}}{2}'),
+    ('Out of plane', r'\sigma_3 = 0'),
+    ('Circle crosses zero', r'\tau_{abs} = R'),
+    ('Circle clear of zero', r'\tau_{abs} = \frac{|\sigma_{far}|}{2} > R'),
+  ],
+  figure: BriefFigure.worst,
+  handbook: 'Handbook p. 132',
+);
+
 const farFromAxisBrief = BriefSection(
   title: 'Distance does the work',
   body:
@@ -4006,6 +4084,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the } Ad^2 \text{ term is usually the bigger half}", true),
             (r"\text{a piece on the axis pulls its weight}", false),
             (r"\text{the biggest piece contributes most}", false),
+          ],
+        );
+      case BriefFigure.circle:
+        return const _RuleList(
+          rules: [
+            (r"\text{the ends are } \sigma_1 \text{ and } \sigma_2", true),
+            (r"\text{the radius is the worst in-plane shear}", true),
+            (r"\sigma_1 \text{ is the biggest in SIZE}", false),
+            (r"\text{the center moves as you rotate}", false),
+          ],
+        );
+      case BriefFigure.build:
+        return const _RuleList(
+          rules: [
+            (r"\text{pure shear sits on the origin}", true),
+            (r"\text{equal both ways is a point}", true),
+            (r"\text{the circle is centered on } \sigma_x", false),
+            (r"\sigma_1 = \sigma_x + \tau_{xy}", false),
+          ],
+        );
+      case BriefFigure.worst:
+        return const _RuleList(
+          rules: [
+            (r"\text{circle crosses zero} \Rightarrow \tau_{abs} = R", true),
+            (r"\text{circle clear of zero} \Rightarrow \tau_{abs} > R", true),
+            (r"\tau_{abs} = R \text{ always}", false),
+            (r"\sigma_3 \text{ can be ignored}", false),
           ],
         );
       case BriefFigure.transform:

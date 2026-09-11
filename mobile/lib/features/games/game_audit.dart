@@ -106,6 +106,9 @@ import 'add_it_up_game.dart';
 import 'widen_the_stiff_one_game.dart';
 import 'same_strain_game.dart';
 import 'how_far_has_it_yielded_game.dart';
+import 'read_the_circle_game.dart';
+import 'which_circle_is_it_game.dart';
+import 'is_r_the_worst_game.dart';
 import 'what_comes_out_game.dart';
 import 'which_stretches_more_game.dart';
 import 'move_it_right_game.dart';
@@ -2064,6 +2067,47 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final s in r.options) s.name],
           answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'read-the-circle',
+    lessonId: 'combined-stresses-mohrs-circle',
+    problemPrefix: 'mm-csm-',
+    rounds: [
+      // The same five places are marked on every circle, so the choices are
+      // the same list every round and only the question moves.
+      for (final r in mohrRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final s in MohrRound.spots) s.name],
+          answer: MohrRound.spots.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-circle-is-it',
+    lessonId: 'combined-stresses-mohrs-circle',
+    problemPrefix: 'mm-csm-',
+    rounds: [
+      for (final r in madeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final b in r.options) b.name],
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'is-r-the-worst',
+    lessonId: 'combined-stresses-mohrs-circle',
+    problemPrefix: 'mm-csm-',
+    rounds: [
+      for (final r in worstRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final w in Worst.values) w.name],
+          answer: Worst.values.indexOf(r.answer),
         ),
     ],
   ),

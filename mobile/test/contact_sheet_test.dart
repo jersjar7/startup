@@ -72,6 +72,9 @@ import 'package:mobile/features/games/add_it_up_game.dart';
 import 'package:mobile/features/games/widen_the_stiff_one_game.dart';
 import 'package:mobile/features/games/same_strain_game.dart';
 import 'package:mobile/features/games/how_far_has_it_yielded_game.dart';
+import 'package:mobile/features/games/read_the_circle_game.dart';
+import 'package:mobile/features/games/which_circle_is_it_game.dart';
+import 'package:mobile/features/games/is_r_the_worst_game.dart';
 import 'package:mobile/features/games/what_comes_out_game.dart';
 import 'package:mobile/features/games/which_stretches_more_game.dart';
 import 'package:mobile/features/games/move_it_right_game.dart';
@@ -1176,6 +1179,24 @@ void main() {
           rounds: yieldRounds.length,
           height: 1400,
         ),
+        'read-the-circle': (
+          lesson: '50-mohr',
+          build: ReadTheCircleGame.new,
+          rounds: mohrRounds.length,
+          height: 1500,
+        ),
+        'which-circle-is-it': (
+          lesson: '50-mohr',
+          build: WhichCircleIsItGame.new,
+          rounds: madeRounds.length,
+          height: 1700,
+        ),
+        'is-r-the-worst': (
+          lesson: '50-mohr',
+          build: IsRTheWorstGame.new,
+          rounds: worstRounds.length,
+          height: 1600,
+        ),
       };
 
   // The reference card behind each item, captured the same way. These teach;
@@ -1431,6 +1452,11 @@ void main() {
       ('transform', transformBrief),
       ('join', joinBrief),
       ('plastic', plasticBrief),
+    ],
+    '50-mohr': [
+      ('circle', circleBrief),
+      ('build', buildBrief),
+      ('worst', worstBrief),
     ],
   };
 

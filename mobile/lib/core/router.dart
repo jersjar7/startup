@@ -110,6 +110,9 @@ import '../features/games/add_it_up_game.dart';
 import '../features/games/widen_the_stiff_one_game.dart';
 import '../features/games/same_strain_game.dart';
 import '../features/games/how_far_has_it_yielded_game.dart';
+import '../features/games/read_the_circle_game.dart';
+import '../features/games/which_circle_is_it_game.dart';
+import '../features/games/is_r_the_worst_game.dart';
 import '../features/games/what_comes_out_game.dart';
 import '../features/games/which_stretches_more_game.dart';
 import '../features/games/move_it_right_game.dart';
@@ -362,6 +365,9 @@ GoRouter buildRouter(AuthController auth) {
           'widen-the-stiff-one' => const WidenTheStiffOneGame(),
           'same-strain' => const SameStrainGame(),
           'how-far-has-it-yielded' => const HowFarHasItYieldedGame(),
+          'read-the-circle' => const ReadTheCircleGame(),
+          'which-circle-is-it' => const WhichCircleIsItGame(),
+          'is-r-the-worst' => const IsRTheWorstGame(),
           _ => const _UnknownGame(),
         },
       ),
