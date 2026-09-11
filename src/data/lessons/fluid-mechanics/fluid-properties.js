@@ -52,13 +52,13 @@ export default {
       statement: 'A flat plate moves at $v = 0.5 \\text{ m/s}$ over a $\\delta = 2 \\text{ mm}$ thick oil film with dynamic viscosity $\\mu = 0.1 \\text{ Pa}\\cdot\\text{s}$. The velocity profile in the film is linear. What is the shear stress on the plate?',
       choices: [
         { id: 'c1', text: '$25 \\text{ Pa}$' },
-        { id: 'c2', text: '$0.05 \\text{ Pa}$' },
+        { id: 'c2', text: '$0.025 \\text{ Pa}$' },
         { id: 'c3', text: '$250 \\text{ Pa}$' },
         { id: 'c4', text: '$0.25 \\text{ Pa}$' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a linear velocity profile, $dv/dy = v/\\delta$. The unit trap is converting mm to m: $2$ mm $= 0.002$ m. So $\\tau = \\mu \\times v/\\delta = 0.1 \\times 0.5/0.002 = 25$ Pa. The 0.05 Pa distractor omits the film thickness entirely, computing $\\mu \\times v = 0.1 \\times 0.5 = 0.05$ (treating $\\delta$ as 1 m). Note that using $\\delta = 2$ m directly would give 0.025 Pa, not 0.05 Pa. The 250 Pa distractor uses $\\delta = 0.0002$ m (converting mm to m incorrectly). The 0.25 Pa distractor uses $\\delta = 0.2$ m.',
+      eli5: 'For a linear velocity profile, $dv/dy = v/\\delta$. The unit trap is converting mm to m: $2$ mm $= 0.002$ m. So $\\tau = \\mu \\times v/\\delta = 0.1 \\times 0.5/0.002 = 25$ Pa. The 0.025 Pa distractor is the named trap: leaving the thickness in millimeters, so dividing by 2 instead of by 0.002, which is off by a factor of a thousand. The 250 Pa distractor uses $\\delta = 0.0002$ m (converting mm to m incorrectly). The 0.25 Pa distractor uses $\\delta = 0.2$ m.',
       hint: 'For a linear velocity profile, $dv/dy = v/\\delta$. Convert the film thickness to meters before dividing.',
       steps: [
         { text: 'Convert film thickness to meters:', latex: '\\delta = 2 \\text{ mm} = 0.002 \\text{ m}' },
@@ -85,7 +85,7 @@ export default {
       ],
       correctAnswerId: 'c4',
       difficulty: 'hard',
-      eli5: 'Plug into $h = 4\\sigma \\cos\\beta / (\\gamma d)$. With $\\beta = 0\\degree$, $\\cos 0\\degree = 1$. Convert $d = 1.5$ mm $= 0.0015$ m. Then $h = 4(0.0728)(1) / (9{,}789 \\times 0.0015) = 0.2912 / 14.684 = 0.01983$ m $\\approx 19.8$ mm. The 9.9 mm choice drops the factor of 4 \u2014 using $\\sigma \\cos\\beta / (\\gamma d)$ instead. The 39.7 mm choice uses the radius instead of the diameter (doubling the answer). The 4.95 mm choice uses 2 instead of 4 in the numerator.',
+      eli5: 'Plug into $h = 4\\sigma \\cos\\beta / (\\gamma d)$. With $\\beta = 0\\degree$, $\\cos 0\\degree = 1$. Convert $d = 1.5$ mm $= 0.0015$ m. Then $h = 4(0.0728)(1) / (9{,}789 \\times 0.0015) = 0.2912 / 14.684 = 0.01983$ m $\\approx 19.8$ mm. The 9.9 mm choice uses 2 in the numerator instead of 4, which halves it. The 4.95 mm choice drops the factor entirely, using $\\sigma \\cos\\beta / (\\gamma d)$, which is a quarter of the answer. The 39.7 mm choice uses the radius instead of the diameter, which doubles it.',
       hint: 'The capillary rise formula uses diameter (not radius) in the denominator, and there\u2019s a factor of 4 in the numerator.',
       steps: [
         { text: 'Convert diameter to meters:', latex: 'd = 1.5 \\text{ mm} = 0.0015 \\text{ m}' },
@@ -96,7 +96,8 @@ export default {
       handbookFormula: 'h = \\frac{4\\sigma \\cos \\beta}{\\gamma d}',
       videoUrl: null,
       traps: [
-        'Dropping the factor of 4 in the numerator \u2014 gives half the correct answer',
+        'Dropping the factor of 4 in the numerator \u2014 gives a quarter of the answer, 4.95 mm (choice A)',
+        'Using 2 rather than 4, as though the formula were written for a radius \u2014 gives 9.9 mm (choice B)',
         'Using radius instead of diameter \u2014 doubles the answer',
         'Forgetting to convert mm to m for the tube diameter',
       ],
