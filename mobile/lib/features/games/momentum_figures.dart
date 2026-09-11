@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// What a jet runs into, named by how far around it turns the water.
 ///
@@ -113,9 +114,13 @@ class HitPainter extends CustomPainter {
       ..color = AppColors.charcoal
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.6;
+    final nozzle = Path()
+      ..addRect(Rect.fromLTRB(6, cy - thick - 7, 18, cy - thick - 2))
+      ..addRect(Rect.fromLTRB(6, cy + thick + 2, 18, cy + thick + 7));
+    canvas.drawPath(nozzle, Paint()..color = AppColors.cream);
+    hatchIn(canvas, nozzle, step: 4);
     canvas
-      ..drawLine(Offset(6, cy - thick - 3), Offset(18, cy - thick - 3), wall)
-      ..drawLine(Offset(6, cy + thick + 3), Offset(18, cy + thick + 3), wall)
+      ..drawPath(nozzle, wall)
       ..drawLine(
         Offset(18, cy),
         Offset(faceX - 2, cy),
@@ -140,36 +145,53 @@ class HitPainter extends CustomPainter {
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
     final here = Offset(faceX, cy);
+    // Each face is drawn as a piece of solid steel, hatched, so that none of
+    // them can be read as a stray line on the drawing.
+    void solid(Path shape) {
+      canvas.drawPath(shape, Paint()..color = AppColors.cream);
+      hatchIn(canvas, shape, step: 5);
+      canvas.drawPath(shape, face);
+    }
+
     switch (hit.face) {
       case Face.through:
-        canvas
-          ..drawLine(Offset(faceX, cy - thick - 4),
-              Offset(size.width - 10, cy - thick - 4), face)
-          ..drawLine(Offset(faceX, cy + thick + 4),
-              Offset(size.width - 10, cy + thick + 4), face)
-          ..drawLine(here, Offset(size.width - 12, cy), leaving);
+        final sleeve = Path()
+          ..addRect(Rect.fromLTRB(faceX, cy - thick - 9, size.width - 10,
+              cy - thick - 4))
+          ..addRect(Rect.fromLTRB(faceX, cy + thick + 4, size.width - 10,
+              cy + thick + 9));
+        solid(sleeve);
+        canvas.drawLine(here, Offset(size.width - 12, cy), leaving);
       case Face.vane:
-        canvas
-          ..drawLine(Offset(faceX - 12, cy + 16), Offset(faceX + 16, cy - 20),
-              face)
-          ..drawLine(here, here + const Offset(26, -26), leaving);
+        solid(Path()
+          ..moveTo(faceX - 12, cy + 16)
+          ..lineTo(faceX + 16, cy - 20)
+          ..lineTo(faceX + 21, cy - 16)
+          ..lineTo(faceX - 7, cy + 20)
+          ..close());
+        canvas.drawLine(here, here + const Offset(26, -26), leaving);
       case Face.plate:
+        solid(Path()
+          ..addRect(Rect.fromLTRB(faceX, cy - 26, faceX + 6, cy + 26)));
         canvas
-          ..drawLine(Offset(faceX, cy - 26), Offset(faceX, cy + 26), face)
           ..drawLine(here, here + const Offset(-7, -30), leaving)
           ..drawLine(here, here + const Offset(-7, 30), leaving);
       case Face.scoop:
+        solid(Path()
+          ..addArc(Rect.fromCircle(center: here, radius: 24), -1.15, 2.3)
+          ..arcTo(Rect.fromCircle(center: here, radius: 30), 1.15, -2.3, false)
+          ..close());
         canvas
-          ..drawArc(Rect.fromCircle(center: here, radius: 24), -1.15, 2.3,
-              false, face)
           ..drawLine(here + const Offset(-4, -14),
               here + const Offset(-26, -30), leaving)
           ..drawLine(
               here + const Offset(-4, 14), here + const Offset(-26, 30), leaving);
       case Face.cup:
+        solid(Path()
+          ..addArc(Rect.fromCircle(center: here, radius: 26), -1.6, 3.2)
+          ..arcTo(Rect.fromCircle(center: here, radius: 32), 1.6, -3.2, false)
+          ..close());
         canvas
-          ..drawArc(Rect.fromCircle(center: here, radius: 26), -1.6, 3.2,
-              false, face)
           ..drawLine(Offset(faceX - 6, cy - 22), Offset(faceX - 30, cy - 22),
               leaving)
           ..drawLine(Offset(faceX - 6, cy + 22), Offset(faceX - 30, cy + 22),
@@ -208,6 +230,7 @@ class HitPainter extends CustomPainter {
     }
     _write(canvas, size, hit.face.label, Offset(6, size.height - 15),
         AppColors.ink2);
+    viewTag(canvas, size, Looking.elevation);
   }
 
   @override
@@ -435,6 +458,7 @@ class TrunkPainter extends CustomPainter {
               ..strokeWidth = 2.2);
       _write(canvas, size, '${i + 1}', spot + const Offset(-3, -6), tone);
     }
+    viewTag(canvas, size, Looking.plan, note: 'seen from above');
   }
 
   @override
@@ -606,6 +630,7 @@ class ElbowPainter extends CustomPainter {
               ..strokeWidth = 2);
       _write(canvas, size, letters[i], spot + const Offset(-4, -6), tone);
     }
+    viewTag(canvas, size, Looking.plan, note: 'seen from above');
   }
 
   @override

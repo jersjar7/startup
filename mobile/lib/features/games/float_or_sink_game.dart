@@ -90,7 +90,8 @@ const floatRounds = <FloatRound>[
     setting:
         'A buried tank of four cubic meters weighing 22 kilonewtons, with the '
         'water table risen above it.',
-    lump: Lump(volume: 4, weight: 22, name: 'the buried tank'),
+    lump: Lump(
+        volume: 4, weight: 22, name: 'the buried tank', inGround: true),
     why:
         'Up, by about 17 kilonewtons, and this is a real failure that happens '
         'on real sites: an empty tank floats out of wet ground and lifts the '

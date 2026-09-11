@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// One place along the run that a round marks and can be tapped.
 @immutable
@@ -140,25 +141,46 @@ class GaugePainter extends CustomPainter {
           jet..close(), Paint()..color = AppColors.info.withValues(alpha: 0.3));
     }
 
-    final wall = Paint()
-      ..color = AppColors.charcoal
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.8;
-    canvas
-      ..drawPath(side(gauge.wall, -1), wall)
-      ..drawPath(side(gauge.wall, 1), wall);
+    // The pipe wall itself, as a band of steel rather than a bare line: the
+    // flow path offset outward by a wall thickness, hatched between the two.
+    final outer = [
+      for (final w in gauge.wall) (w.$1, w.$2 + 2 * 0.09 * gauge.widest)
+    ];
+    for (final sign in [-1, 1]) {
+      final band = Path.from(side(outer, sign));
+      for (var i = gauge.wall.length - 1; i >= 0; i--) {
+        band.lineTo(_x(size, gauge.wall[i].$1),
+            middle + sign * _half(size, gauge, gauge.wall[i].$2));
+      }
+      band.close();
+      canvas.drawPath(band, Paint()..color = AppColors.cream);
+      hatchIn(canvas, band, step: 6);
+      canvas.drawPath(
+          band,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.4);
+    }
 
     // The plate, drawn in from both walls to the edge of the hole.
     if (gauge.plateAt != null) {
       final x = _x(size, gauge.plateAt!);
       final hole = _half(size, gauge, gauge.boreAt(gauge.plateAt!));
-      final outer = _half(size, gauge, gauge.widest);
-      final plate = Paint()
-        ..color = AppColors.charcoal
-        ..strokeWidth = 4;
-      canvas
-        ..drawLine(Offset(x, middle - outer), Offset(x, middle - hole), plate)
-        ..drawLine(Offset(x, middle + hole), Offset(x, middle + outer), plate);
+      final outerHalf = _half(size, gauge, gauge.widest);
+      for (final sign in [-1, 1]) {
+        final leaf = Path()
+          ..addRect(Rect.fromLTRB(x - 2.5, middle + sign * hole, x + 2.5,
+              middle + sign * outerHalf));
+        canvas.drawPath(leaf, Paint()..color = AppColors.cream);
+        hatchIn(canvas, leaf, step: 4);
+        canvas.drawPath(
+            leaf,
+            Paint()
+              ..color = AppColors.charcoal
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1.4);
+      }
     }
 
     // Which way it runs.
@@ -184,6 +206,7 @@ class GaugePainter extends CustomPainter {
     }
     _write(canvas, size, 'the two tappings', Offset(_x(size, 0.5) - 42, 6),
         AppColors.ember);
+    viewTag(canvas, size, Looking.section);
 
     for (var i = 0; i < gauge.stations.length; i++) {
       final spot = spotOf(size, gauge, i);
@@ -207,7 +230,7 @@ class GaugePainter extends CustomPainter {
               ..style = PaintingStyle.stroke
               ..strokeWidth = 2.2);
       _write(canvas, size, '${i + 1}', spot + const Offset(-3, -6), tone);
-      // Two rows of bore labels, so neighbouring stations never write over
+      // Two rows of bore labels, so neighboring stations never write over
       // each other.
       _write(
           canvas,

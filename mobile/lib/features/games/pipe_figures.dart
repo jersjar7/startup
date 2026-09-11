@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// One length of pipe at one diameter.
 @immutable
@@ -127,13 +128,26 @@ class RunPainter extends CustomPainter {
 
     canvas.drawPath(
         water, Paint()..color = AppColors.info.withValues(alpha: 0.22));
-    final wall = Paint()
-      ..color = AppColors.charcoal
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.8;
-    canvas
-      ..drawPath(top, wall)
-      ..drawPath(bottom, wall);
+    // The pipe wall, as a band rather than a line, so it reads as pipe.
+    for (final (line, way) in [(top, -1.0), (bottom, 1.0)]) {
+      final band = Path.from(line);
+      for (var i = run.bores.length - 1; i >= 0; i--) {
+        final r = sectionOf(size, run, i);
+        final edge = way < 0 ? r.top : r.bottom;
+        band
+          ..lineTo(r.right, edge + way * 6)
+          ..lineTo(r.left, edge + way * 6);
+      }
+      band.close();
+      canvas.drawPath(band, Paint()..color = AppColors.cream);
+      hatchIn(canvas, band, step: 5);
+      canvas.drawPath(
+          band,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.4);
+    }
 
     // Which way it is going.
     final flow = Paint()
@@ -173,6 +187,7 @@ class RunPainter extends CustomPainter {
 
     _write(canvas, size, '${_num(run.litersASecond)} liters a second, all of it',
         Offset(10, size.height - 16), AppColors.ink3);
+    viewTag(canvas, size, Looking.section);
   }
 
   static String _num(double v) =>
@@ -258,16 +273,29 @@ class SquirtPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final tank = tankOf(size, squirt, tallest);
-    canvas
-      ..drawRect(tank, Paint()..color = AppColors.info.withValues(alpha: 0.25))
-      ..drawLine(tank.topLeft, tank.bottomLeft,
-          Paint()..color = tone..strokeWidth = 1.8)
-      ..drawLine(tank.bottomLeft, tank.bottomRight,
-          Paint()..color = tone..strokeWidth = 1.8)
-      ..drawLine(tank.topRight, tank.bottomRight,
-          Paint()..color = tone..strokeWidth = 1.8)
-      ..drawLine(tank.topLeft, tank.topRight,
-          Paint()..color = AppColors.info..strokeWidth = 1.4);
+    // The tank wall is a band of steel with the water inside it, and the
+    // water surface carries the level mark. A bare rectangle leaves the
+    // reader guessing which line is the tank and which is the water.
+    const wall = 5.0;
+    final shell = Path()
+      ..addRect(Rect.fromLTRB(
+          tank.left - wall, tank.top, tank.left, tank.bottom + wall))
+      ..addRect(Rect.fromLTRB(
+          tank.right, tank.top, tank.right + wall, tank.bottom + wall))
+      ..addRect(Rect.fromLTRB(tank.left - wall, tank.bottom,
+          tank.right + wall, tank.bottom + wall));
+    canvas.drawRect(
+        tank, Paint()..color = AppColors.info.withValues(alpha: 0.25));
+    hatchIn(canvas, shell, step: 5, color: tone);
+    canvas.drawPath(
+        shell,
+        Paint()
+          ..color = tone
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.4);
+    waterLevel(canvas, tank.topLeft, tank.topRight, markAt: tank.left + 20);
+    groundLine(canvas, Offset(tank.left - 26, tank.bottom + wall),
+        Offset(tank.right + 26, tank.bottom + wall));
 
     // The hole, drawn bigger than it is so it can be seen at all.
     final hole = math.max(6.0, math.min(20.0, squirt.holeMillimeters / 3));
@@ -294,7 +322,8 @@ class SquirtPainter extends CustomPainter {
     _write(canvas, size, '${_num(squirt.head)} m head',
         Offset(tank.left + 4, tank.top + 6), AppColors.ink3);
     _write(canvas, size, '${_num(squirt.holeMillimeters)} mm hole',
-        Offset(tank.left - 4, tank.bottom + 6), AppColors.ink3);
+        Offset(tank.left - 4, tank.bottom + 14), AppColors.ink3);
+    viewTag(canvas, size, Looking.section);
   }
 
   static String _num(double v) =>

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// A plate sliding on a film of oil, which is the whole of this lesson's
 /// viscosity problem.
@@ -124,6 +125,9 @@ class FilmPainter extends CustomPainter {
         Offset(plate.left + 4, plate.bottom + gap / 2 - 6), AppColors.ink3);
     _write(canvas, size, '${film.fluid}, ${_num(film.mu)} Pa s',
         Offset(plate.left, floor + 14), AppColors.ink3);
+    _write(canvas, size, 'fixed', Offset(plate.right - 40, floor + 4),
+        AppColors.ink3);
+    viewTag(canvas, size, Looking.section);
   }
 
   static String _num(double v) =>
@@ -253,9 +257,11 @@ class CapillaryPainter extends CustomPainter {
       canvas
         ..drawRect(dish, Paint()..color = AppColors.info.withValues(alpha: 0.25))
         ..drawLine(dish.bottomLeft, dish.bottomRight,
-            Paint()..color = AppColors.charcoal..strokeWidth = 2)
-        ..drawLine(dish.topLeft, dish.topRight,
-            Paint()..color = AppColors.info..strokeWidth = 1);
+            Paint()
+              ..color = AppColors.charcoal
+              ..strokeWidth = 2);
+      waterLevel(canvas, dish.topLeft, dish.topRight,
+          markAt: dish.left + 18);
       _write(canvas, size, straws[i].liquid,
           Offset(dish.left + 4, dish.bottom + 4), AppColors.ink3);
     }
@@ -291,6 +297,7 @@ class CapillaryPainter extends CustomPainter {
       _write(canvas, size, '${_num(straws[i].millimeters)} mm',
           Offset(tube.center.dx - 16, tube.top - 14), tone);
     }
+    viewTag(canvas, size, Looking.section);
   }
 
   static String _num(double v) =>
@@ -464,16 +471,15 @@ class PotPainter extends CustomPainter {
         Paint()
           ..color = tone
           ..style = PaintingStyle.stroke
-          ..strokeWidth = (picked == i || (locked && answer == i)) ? 2.6 : 1.6,
+          ..strokeWidth = (picked == i || (locked && answer == i)) ? 3.4 : 2.6,
       );
 
-      // The free surface and the point of interest.
-      canvas.drawLine(
+      // The free surface, with the level mark on it: the vessel wall and the
+      // water line are both lines, and this is what tells them apart.
+      waterLevel(
+        canvas,
         Offset(cell.center.dx - topHalf, surface),
         Offset(cell.center.dx + topHalf, surface),
-        Paint()
-          ..color = AppColors.info
-          ..strokeWidth = 1.4,
       );
       final spot = spotOf(size, pots, deepest, i);
       canvas
@@ -485,6 +491,10 @@ class PotPainter extends CustomPainter {
       _write(canvas, size, pot.liquid,
           Offset(cell.center.dx - 18, floor + 6), AppColors.ink3);
     }
+
+    // They are standing on the floor, not floating in the panel.
+    groundLine(canvas, Offset(6, floor), Offset(size.width - 6, floor));
+    viewTag(canvas, size, Looking.section);
   }
 
   static String _num(double v) =>
@@ -650,6 +660,15 @@ class UTubePainter extends CustomPainter {
       ..lineTo(right - bore / 2, top);
     canvas.drawPath(path, glass);
 
+    // The two mercury surfaces carry the level mark, so neither of them can
+    // be taken for a piece of the glass.
+    waterLevel(canvas, Offset(left - bore / 2, leftSurface),
+        Offset(left + bore / 2, leftSurface),
+        color: AppColors.charcoal);
+    waterLevel(canvas, Offset(right - bore / 2, rightSurface),
+        Offset(right + bore / 2, rightSurface),
+        color: AppColors.charcoal);
+
     _write(canvas, size, 'air line', Offset(left - 54, top - 2),
         AppColors.ink3);
     _write(canvas, size, 'open', Offset(right + 10, top - 2), AppColors.ink3);
@@ -700,6 +719,7 @@ class UTubePainter extends CustomPainter {
         : Offset(spot.dx + 8, spot.dy + dy);
     _write(canvas, size, 'from', beside(a, -14), AppColors.ember);
     _write(canvas, size, 'to', beside(b, 4), AppColors.forest);
+    viewTag(canvas, size, Looking.section);
   }
 
   void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
@@ -844,18 +864,13 @@ class GatePainter extends CustomPainter {
     final foot = yOf(size, gate, gate.bottom);
 
     // The water, and its surface.
-    canvas
-      ..drawRect(
-        Rect.fromLTRB(10, _surfaceY, faceX, size.height - 10),
-        Paint()..color = AppColors.info.withValues(alpha: 0.18),
-      )
-      ..drawLine(
-        Offset(10, _surfaceY),
+    canvas.drawRect(
+      Rect.fromLTRB(10, _surfaceY, faceX, size.height - 10),
+      Paint()..color = AppColors.info.withValues(alpha: 0.18),
+    );
+    waterLevel(canvas, const Offset(10, _surfaceY),
         Offset(size.width - 10, _surfaceY),
-        Paint()
-          ..color = AppColors.info
-          ..strokeWidth = 1.6,
-      );
+        markAt: size.width * 0.40);
     _write(canvas, size, 'surface', const Offset(12, _surfaceY - 16),
         AppColors.info);
 
@@ -901,11 +916,19 @@ class GatePainter extends CustomPainter {
         ..drawLine(Offset(faceX, y), Offset(faceX - 5, y + 3), arrows);
     }
 
-    // The gate itself.
-    canvas.drawRect(
-      Rect.fromLTRB(faceX, top, faceX + 12, foot),
-      Paint()..color = AppColors.charcoal,
-    );
+    // The gate itself, hatched as the piece of steel it is, on a bed.
+    groundLine(canvas, Offset(10, size.height - 10),
+        Offset(size.width - 10, size.height - 10));
+    final leaf = Path()
+      ..addRect(Rect.fromLTRB(faceX, top, faceX + 12, foot));
+    canvas.drawPath(leaf, Paint()..color = AppColors.cream);
+    hatchIn(canvas, leaf, step: 5);
+    canvas.drawPath(
+        leaf,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.8);
     if (gate.topDepth > 0) {
       canvas.drawRect(
         Rect.fromLTRB(faceX, _surfaceY, faceX + 12, top),
@@ -942,6 +965,7 @@ class GatePainter extends CustomPainter {
         _write(canvas, size, mark.plain, spot + const Offset(12, -6), tone);
       }
     }
+    viewTag(canvas, size, Looking.section);
   }
 
   static String _num(double v) =>
@@ -979,7 +1003,13 @@ class Lump {
     required this.weight,
     this.name = 'the tank',
     this.gamma = 9810,
+    this.inGround = false,
   });
+
+  /// Whether it is buried in saturated ground rather than hanging in open
+  /// water. The sum is identical, which is the whole point of the round,
+  /// but the drawing has to say which it is or it teaches the wrong picture.
+  final bool inGround;
 
   /// Cubic meters and kilonewtons.
   final double volume;
@@ -1015,18 +1045,29 @@ class LumpPainter extends CustomPainter {
       height: 62,
     );
 
+    final wet = Rect.fromLTRB(8, 22, size.width - 8, size.height - 8);
+    canvas.drawRect(
+        wet, Paint()..color = AppColors.info.withValues(alpha: 0.18));
+    if (lump.inGround) {
+      // Saturated ground: soil hatched right through, with the water table
+      // marked on top of it. Water everywhere in the pores, and the same
+      // buoyancy, but it is not a pond.
+      final soil = Path()..addRect(wet);
+      hatchIn(canvas, soil, step: 9);
+      groundLine(canvas, const Offset(8, 22), Offset(size.width - 8, 22));
+      waterLevel(canvas, const Offset(8, 14), Offset(size.width - 8, 14),
+          markAt: 44);
+      _write(canvas, size, 'water table', const Offset(58, 2),
+          AppColors.info);
+      _write(canvas, size, 'saturated ground', Offset(8, size.height - 20),
+          AppColors.ink3);
+    } else {
+      waterLevel(canvas, const Offset(8, 22), Offset(size.width - 8, 22),
+          markAt: 40);
+    }
     canvas
-      ..drawRect(
-        Rect.fromLTRB(8, 22, size.width - 8, size.height - 8),
-        Paint()..color = AppColors.info.withValues(alpha: 0.18),
-      )
-      ..drawLine(
-        const Offset(8, 22),
-        Offset(size.width - 8, 22),
-        Paint()
-          ..color = AppColors.info
-          ..strokeWidth = 1.6,
-      )
+      // Cream first, so the soil hatching does not run through the tank.
+      ..drawRect(box, Paint()..color = AppColors.cream)
       ..drawRect(box, Paint()..color = AppColors.sunbeam.withValues(alpha: 0.4))
       ..drawRect(
         box,
@@ -1040,6 +1081,7 @@ class LumpPainter extends CustomPainter {
         AppColors.ink3);
     _write(canvas, size, '${_num(lump.volume)} m3, ${_num(lump.weight)} kN',
         Offset(box.left - 18, box.bottom + 8), AppColors.ink3);
+    viewTag(canvas, size, Looking.section);
 
     if (!showForces) return;
     final most = lump.buoyancy > lump.weight ? lump.buoyancy : lump.weight;
