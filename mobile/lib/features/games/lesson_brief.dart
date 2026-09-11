@@ -278,6 +278,8 @@ enum BriefFigure {
   arctan,
   roadCurve,
   degreeOfCurve,
+  tangentOffset,
+  highPoint,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -4812,6 +4814,54 @@ const degreeBrief = BriefSection(
   handbook: 'Handbook p. 302',
 );
 
+const tangentOffsetBrief = BriefSection(
+  title: 'Two elevations at one station',
+  body:
+      'A vertical curve is a parabola hung between two straight grades, and at '
+      'any station there are TWO elevations to be had. The grade line produced '
+      'from the PVC gives one, and at the middle of the curve that line is the '
+      'PVI elevation, because the PVI is simply where the two straight grades '
+      'meet. The road itself gives the other. The gap between them starts at '
+      'nothing at the PVC, grows as the SQUARE of the distance from it, and is '
+      'largest under the PVI. Which way the road bends off its incoming grade '
+      'is decided by the sign of the grade CHANGE: down to a lower grade and '
+      'the road runs below the line, up to a higher one and it runs above, '
+      'whether or not the road ever crests or sags. Reading the tangent '
+      'elevation where the question wanted the road is the mistake this lesson '
+      'is built around.',
+  formulas: [
+    ('On the grade line', r'Y = Y_{PVC} + g_1 x'),
+    ('On the road', r'Y = Y_{PVC} + g_1 x + \frac{g_2 - g_1}{2L}x^2'),
+    ('The gap under the PVI', r'E = \frac{A L}{8}'),
+  ],
+  figure: BriefFigure.tangentOffset,
+  handbook: 'Handbook p. 301',
+);
+
+const highPointBrief = BriefSection(
+  title: 'Where the road turns around',
+  body:
+      'The road stops climbing, or stops falling, where the grade it arrived '
+      'with has been used up. That point is measured from the PVC and it leans '
+      'toward the SHALLOWER of the two grades: on a curve from plus 4 to minus '
+      '2, two thirds of the way along. It sits halfway, under the PVI, only '
+      'when the two grades are equal and opposite, which is the case common '
+      'enough to make the midpoint a habit and wrong the rest of the time. '
+      'When both grades run the same way the formula returns a distance '
+      'outside 0 to L, and that is it telling you the turning point is off the '
+      'curve: the road simply climbs, or falls, from end to end. The rate K is '
+      'a different quantity entirely, the feet of curve bought per percent of '
+      'grade change, and a bigger K is a gentler curve. K is not a distance '
+      'along the road.',
+  formulas: [
+    ('From the PVC', r'x_m = \frac{-g_1 L}{g_2 - g_1}'),
+    ('The grade change', r'A = |g_1 - g_2|'),
+    ('The rate, not a distance', r'K = \frac{L}{A}'),
+  ],
+  figure: BriefFigure.highPoint,
+  handbook: 'Handbook p. 301',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -6389,6 +6439,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the stationing runs round the arc}", true),
             (r"T = R\tan I", false),
             (r"\text{the arc is shorter than the chord}", false),
+          ],
+        );
+      case BriefFigure.tangentOffset:
+        return const _RuleList(
+          rules: [
+            (r"\text{the gap grows as } x^2", true),
+            (r"g_2 < g_1 \Rightarrow \text{road below the line}", true),
+            (r"\text{the PVI is on the road}", false),
+            (r"\text{the gap is the same all along}", false),
+          ],
+        );
+      case BriefFigure.highPoint:
+        return const _RuleList(
+          rules: [
+            (r"|g_1| = |g_2| \Rightarrow x_m = \tfrac{L}{2}", true),
+            (r"x_m \text{ outside } 0..L \Rightarrow \text{none on the curve}", true),
+            (r"x_m \text{ is under the PVI}", false),
+            (r"x_m = K", false),
           ],
         );
       case BriefFigure.cogo:

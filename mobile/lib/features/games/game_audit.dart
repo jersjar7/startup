@@ -18,6 +18,8 @@ import 'which_way_are_you_working_game.dart';
 import 'which_piece_is_that_game.dart';
 import 'which_curve_is_sharper_game.dart';
 import 'which_is_longer_game.dart';
+import 'road_or_grade_line_game.dart';
+import 'where_it_flattens_out_game.dart';
 import 'alignment_figures.dart';
 import 'where_does_that_pair_land_game.dart';
 import 'what_do_you_add_game.dart';
@@ -3350,6 +3352,34 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Longer.values) o.name],
           answer: Longer.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'road-or-grade-line',
+    lessonId: 'vertical-curves',
+    problemPrefix: 'surv-vc-',
+    rounds: [
+      for (final r in sitsRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Sits3.values) o.name],
+          answer: Sits3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-it-flattens-out',
+    lessonId: 'vertical-curves',
+    problemPrefix: 'surv-vc-',
+    rounds: [
+      for (final r in topRounds)
+        RoundAudit(
+          // The marked points are places on one drawing, so they are named
+          // by the station they sit at rather than by any shared word.
+          source: r.source,
+          options: [for (final x in r.spots) '${x.round()} ft from the PVC'],
+          answer: r.answer,
         ),
     ],
   ),

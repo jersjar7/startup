@@ -31,6 +31,9 @@ import 'package:mobile/features/games/alignment_figures.dart';
 import 'package:mobile/features/games/which_piece_is_that_game.dart';
 import 'package:mobile/features/games/which_curve_is_sharper_game.dart';
 import 'package:mobile/features/games/which_is_longer_game.dart';
+import 'package:mobile/features/games/profile_figures.dart';
+import 'package:mobile/features/games/road_or_grade_line_game.dart';
+import 'package:mobile/features/games/where_it_flattens_out_game.dart';
 
 /// Chapter ten. Every engine here is held against the lesson's own answers
 /// and against the wrong ones it names.
@@ -1157,6 +1160,152 @@ void main() {
           expect(at.dx, inInclusiveRange(0, size.width), reason: r.subject);
           expect(at.dy, inInclusiveRange(0, size.height), reason: r.subject);
         }
+      }
+    });
+  });
+
+  group('the road against the grade line', () {
+    test('the lesson\'s own pair: 112 on the line, 107.5 on the road', () {
+      const v = Vert(gradeIn: 4, gradeOut: -2, length: 600);
+      expect(v.tangentAt(300), closeTo(112, 0.01));
+      expect(v.roadAt(300), closeTo(107.5, 0.01));
+      expect(v.pviElevation, closeTo(112, 0.01));
+      expect(v.endElevation, closeTo(106, 0.01));
+    });
+
+    test('the gap under the PVI is A times L over eight', () {
+      for (final v in [
+        const Vert(gradeIn: 4, gradeOut: -2, length: 600),
+        const Vert(gradeIn: -3, gradeOut: 2, length: 500),
+        const Vert(gradeIn: 1, gradeOut: 4, length: 600),
+      ]) {
+        final gap = (v.roadAt(v.length / 2) - v.tangentAt(v.length / 2)).abs();
+        expect(gap, closeTo(v.change / 100 * v.length / 8, 0.001),
+            reason: '${v.gradeIn} to ${v.gradeOut}');
+      }
+    });
+
+    test('the gap grows as the square of the distance from the PVC', () {
+      const v = Vert(gradeIn: 4, gradeOut: -2, length: 600);
+      double gap(double x) => (v.roadAt(x) - v.tangentAt(x)).abs();
+      expect(gap(0), closeTo(0, 1e-9));
+      expect(gap(300) / gap(150), closeTo(4, 0.001));
+      expect(gap(600) / gap(300), closeTo(4, 0.001));
+    });
+
+    test('the grade change alone decides which side the road runs', () {
+      for (final r in sitsRounds) {
+        final change = r.vert.gradeOut - r.vert.gradeIn;
+        if (r.station == 0) {
+          expect(r.answer, Sits3.onIt, reason: r.subject);
+        } else {
+          expect(r.answer, change < 0 ? Sits3.below : Sits3.above,
+              reason: r.subject);
+        }
+      }
+      expect(sitsRounds.map((r) => r.answer).toSet().length, 3);
+    });
+
+    test('a curve with both grades climbing still runs above its line', () {
+      const v = Vert(gradeIn: 1, gradeOut: 4, length: 600);
+      expect(v.roadAt(300), greaterThan(v.tangentAt(300)));
+      // It never crests or sags: the road climbs from end to end.
+      expect(v.endElevation, greaterThan(v.startElevation));
+      expect(v.turnsOnTheCurve, isFalse);
+    });
+
+    test('every marked station sits inside its panel', () {
+      const size = Size(286, 240);
+      for (final r in sitsRounds) {
+        final x = RoadProfilePainter.xOf(size, r.vert, r.station);
+        expect(x, inInclusiveRange(0, size.width), reason: r.subject);
+        for (final y in [
+          RoadProfilePainter.yOf(size, r.vert, r.vert.roadAt(r.station)),
+          RoadProfilePainter.yOf(size, r.vert, r.vert.tangentAt(r.station)),
+        ]) {
+          expect(y, inInclusiveRange(0, size.height), reason: r.subject);
+        }
+      }
+    });
+  });
+
+  group('where the road turns around', () {
+    test('the lesson\'s own crest turns at 300 of 400 feet', () {
+      const v = Vert(gradeIn: 3, gradeOut: -1, length: 400);
+      expect(v.turningPoint, closeTo(300, 0.01));
+      expect(v.turnsOnTheCurve, isTrue);
+      // The 100 foot distractor is this curve's K value, not a distance.
+      expect(v.k, closeTo(100, 0.01));
+      expect(v.change, closeTo(4, 0.001));
+    });
+
+    test('equal and opposite grades put it at the midpoint', () {
+      const v = Vert(gradeIn: 3, gradeOut: -3, length: 600);
+      expect(v.turningPoint, closeTo(300, 0.01));
+    });
+
+    test('grades running the same way put it off the curve', () {
+      const v = Vert(gradeIn: 1, gradeOut: 4, length: 600);
+      expect(v.turningPoint, closeTo(-200, 0.01));
+      expect(v.turnsOnTheCurve, isFalse);
+    });
+
+    test('the turning point leans toward the shallower grade', () {
+      const v = Vert(gradeIn: 4, gradeOut: -2, length: 600);
+      expect(v.turningPoint, closeTo(400, 0.01));
+      expect(v.turningPoint, greaterThan(v.length / 2));
+    });
+
+    test('every round marks the turning point, or the nearest end', () {
+      for (final r in topRounds) {
+        final want = r.vert.turnsOnTheCurve
+            ? r.vert.turningPoint
+            : (r.vert.turningPoint <= 0 ? 0.0 : r.vert.length);
+        expect(r.spots[r.answer], closeTo(want, 0.01), reason: r.subject);
+        expect(r.wantsHigh, r.vert.isCrest, reason: r.subject);
+      }
+    });
+
+    test('no round offers the same station twice', () {
+      for (final r in topRounds) {
+        expect(r.spots.toSet().length, r.spots.length, reason: r.subject);
+      }
+    });
+
+    test('the midpoint is offered wherever it is not the answer', () {
+      final trap = topRounds.where(
+          (r) => r.spots.contains(r.vert.length / 2) && r.answer != 1);
+      expect(trap.length, greaterThanOrEqualTo(3));
+    });
+
+    test('the marked points stay far enough apart to tap', () {
+      const size = Size(286, 260);
+      for (final r in topRounds) {
+        for (var i = 0; i < r.spots.length; i++) {
+          final a = RoadProfilePainter.spotOf(size, r.vert, r.spots, i);
+          expect(a.dx, inInclusiveRange(0, size.width), reason: r.subject);
+          expect(a.dy, inInclusiveRange(0, size.height), reason: r.subject);
+          for (var j = i + 1; j < r.spots.length; j++) {
+            final b = RoadProfilePainter.spotOf(size, r.vert, r.spots, j);
+            expect((a - b).distance, greaterThan(24), reason: r.subject);
+          }
+        }
+      }
+    });
+
+    test('a tap on a marked point finds it and nothing else', () {
+      const size = Size(286, 260);
+      for (final r in topRounds) {
+        for (var i = 0; i < r.spots.length; i++) {
+          final at = RoadProfilePainter.spotOf(size, r.vert, r.spots, i);
+          expect(RoadProfilePainter.at(size, r.vert, r.spots, at), i,
+              reason: r.subject);
+        }
+        expect(
+            RoadProfilePainter.at(
+                size, r.vert, r.spots, const Offset(4, 4)),
+            isNull,
+            reason: r.subject);
       }
     });
   });

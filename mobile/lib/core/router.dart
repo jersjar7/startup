@@ -200,6 +200,8 @@ import '../features/games/which_factor_game.dart';
 import '../features/games/which_fiber_is_worst_game.dart';
 import '../features/games/which_formula_gives_more_game.dart';
 import '../features/games/which_is_longer_game.dart';
+import '../features/games/road_or_grade_line_game.dart';
+import '../features/games/where_it_flattens_out_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -536,6 +538,8 @@ GoRouter buildRouter(AuthController auth) {
           'which-piece-is-that' => const WhichPieceIsThatGame(),
           'which-curve-is-sharper' => const WhichCurveIsSharperGame(),
           'which-is-longer' => const WhichIsLongerGame(),
+          'road-or-grade-line' => const RoadOrGradeLineGame(),
+          'where-it-flattens-out' => const WhereItFlattensOutGame(),
           _ => const _UnknownGame(),
         },
       ),

@@ -207,6 +207,8 @@ import 'package:mobile/features/games/what_do_you_add_game.dart';
 import 'package:mobile/features/games/which_piece_is_that_game.dart';
 import 'package:mobile/features/games/which_curve_is_sharper_game.dart';
 import 'package:mobile/features/games/which_is_longer_game.dart';
+import 'package:mobile/features/games/road_or_grade_line_game.dart';
+import 'package:mobile/features/games/where_it_flattens_out_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1779,6 +1781,18 @@ void main() {
           rounds: longerRounds.length,
           height: 1780,
         ),
+        'road-or-grade-line': (
+          lesson: '83-profile',
+          build: RoadOrGradeLineGame.new,
+          rounds: sitsRounds.length,
+          height: 1740,
+        ),
+        'where-it-flattens-out': (
+          lesson: '83-profile',
+          build: WhereItFlattensOutGame.new,
+          rounds: topRounds.length,
+          height: 1560,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2192,6 +2206,10 @@ void main() {
     '82-curves': [
       ('curve', roadCurveBrief),
       ('degree', degreeBrief),
+    ],
+    '83-profile': [
+      ('tangent', tangentOffsetBrief),
+      ('highpoint', highPointBrief),
     ],
   };
 

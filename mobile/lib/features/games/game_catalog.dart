@@ -2760,6 +2760,33 @@ const surveyingMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'vertical-curves',
+      name: 'Vertical Curves',
+      subtopicId: 'curves',
+      // K and the sight distance tables have a formula in the lesson and no
+      // problem behind them: K shows up only as a wrong answer. It sits on
+      // the second card, where it belongs, rather than in an item that would
+      // have nothing to ask.
+      games: [
+        GameDef(
+          id: 'road-or-grade-line',
+          rounds: 6,
+          name: 'Road or Grade Line',
+          blurb: 'Two elevations at one station, and the gap between them.',
+          built: true,
+          brief: tangentOffsetBrief,
+        ),
+        GameDef(
+          id: 'where-it-flattens-out',
+          rounds: 6,
+          name: 'Where It Flattens Out',
+          blurb: 'The top of the road is rarely under the PVI.',
+          built: true,
+          brief: highPointBrief,
+        ),
+      ],
+    ),
   ],
 );
 
