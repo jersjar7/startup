@@ -53,11 +53,11 @@ export default {
         { id: 'c1', text: '$21.6 \\text{ kN}$' },
         { id: 'c2', text: '$14.1 \\text{ kN}$' },
         { id: 'c3', text: '$28.3 \\text{ kN}$' },
-        { id: 'c4', text: '$1.01 \\text{ kN}$' },
+        { id: 'c4', text: '$1.6 \\text{ kN}$' },
       ],
       correctAnswerId: 'c1',
       difficulty: 'medium',
-      eli5: 'For a 90\u00B0 bend with constant diameter, v_1 = v_2 = v and P_1 = P_2 = P. Set x as the inlet direction, y as the outlet direction. In x: F_x = PA + \u03C1Qv (momentum in, nothing goes out in x). In y: F_y = PA + \u03C1Qv (momentum out, nothing comes in from y). A = \u03C0(0.3)\u00B2/4 = 0.0707 m\u00B2. Q = 0.0707 \u00D7 4 = 0.2827 m\u00B3/s. PA = 200,000 \u00D7 0.0707 = 14,140 N. \u03C1Qv = 1,000 \u00D7 0.2827 \u00D7 4 = 1,131 N. So F_x = F_y = 14,140 + 1,131 = 15,271 N. Resultant = \u221A(F_x\u00B2 + F_y\u00B2) = 15,271\u221A2 = 21,593 N \u2248 21.6 kN. The 14.1 kN choice is just PA = 14,140 N \u2014 a single component, forgetting both the momentum term and the \u221A2 resultant factor. The 28.3 kN choice is 2\u00B7PA = 28,280 N (uses 2PA instead of the correct PA\u221A2 resultant). The 1.01 kN choice keeps only the momentum term (\u2248\u03C1Qv ~ 1.1 kN), dropping the dominant pressure force PA.',
+      eli5: 'For a 90\u00B0 bend with constant diameter, v_1 = v_2 = v and P_1 = P_2 = P. Set x as the inlet direction, y as the outlet direction. In x: F_x = PA + \u03C1Qv (momentum in, nothing goes out in x). In y: F_y = PA + \u03C1Qv (momentum out, nothing comes in from y). A = \u03C0(0.3)\u00B2/4 = 0.0707 m\u00B2. Q = 0.0707 \u00D7 4 = 0.2827 m\u00B3/s. PA = 200,000 \u00D7 0.0707 = 14,140 N. \u03C1Qv = 1,000 \u00D7 0.2827 \u00D7 4 = 1,131 N. So F_x = F_y = 14,140 + 1,131 = 15,271 N. Resultant = \u221A(F_x\u00B2 + F_y\u00B2) = 15,271\u221A2 = 21,593 N \u2248 21.6 kN. The 14.1 kN choice is just PA = 14,140 N \u2014 a single component, forgetting both the momentum term and the \u221A2 resultant factor. The 28.3 kN choice is 2\u00B7PA = 28,280 N (uses 2PA instead of the correct PA\u221A2 resultant). The 1.6 kN choice keeps only the momentum term and combines it the same way: 1,131 N in each direction is 1.6 kN as a resultant, with the dominant pressure force left out.',
       hint: 'For a 90\u00B0 bend with the same pipe diameter, both F_x and F_y have the same magnitude. The resultant force is F\u221A2.',
       steps: [
         { text: 'Pipe area:', latex: 'A = \\frac{\\pi (0.3)^2}{4} = 0.0707 \\text{ m}^2' },
@@ -87,7 +87,7 @@ export default {
       ],
       correctAnswerId: 'c3',
       difficulty: 'hard',
-      eli5: 'First, continuity: v_2 = v_1(D_1/D_2)\u00B2 = 2 \u00D7 (100/25)\u00B2 = 2 \u00D7 16 = 32 m/s. A_1 = \u03C0(0.1)\u00B2/4 = 0.00785 m\u00B2. Q = A_1 v_1 = 0.00785 \u00D7 2 = 0.01571 m\u00B3/s. Momentum equation in x: P_1 A_1 - F = \u03C1Q(v_2 - v_1). So F = P_1 A_1 - \u03C1Q(v_2 - v_1) = 350,000 \u00D7 0.00785 - 1,000 \u00D7 0.01571 \u00D7 (32 - 2) = 2,747.5 - 471.3 = 2,278 N. The nozzle holder must push forward (against the flow direction) because the pressure force on the inlet face exceeds the momentum change.',
+      eli5: 'First, continuity: v_2 = v_1(D_1/D_2)\u00B2 = 2 \u00D7 (100/25)\u00B2 = 2 \u00D7 16 = 32 m/s. A_1 = \u03C0(0.1)\u00B2/4 = 0.00785 m\u00B2. Q = A_1 v_1 = 0.00785 \u00D7 2 = 0.01571 m\u00B3/s. Momentum equation in x: P_1 A_1 - F = \u03C1Q(v_2 - v_1). So F = P_1 A_1 - \u03C1Q(v_2 - v_1) = 350,000 \u00D7 0.00785 - 1,000 \u00D7 0.01571 \u00D7 (32 - 2) = 2,747.5 - 471.3 = 2,278 N. The nozzle holder must push forward (against the flow direction) because the pressure force on the inlet face exceeds the momentum change. The 2,749 N choice is that pressure force alone, with the momentum change never subtracted. The 502 N choice is the momentum of the jet leaving, $\\rho Q v_2$, with the pressure force left out. The 3,251 N choice adds those two together, 2,749 plus 502, instead of subtracting the momentum change.',
       hint: 'Apply continuity to find v_2, then the momentum equation including the inlet pressure force (the exit is atmospheric).',
       steps: [
         { text: 'Exit velocity by continuity:', latex: 'v_2 = v_1 \\left(\\frac{D_1}{D_2}\\right)^2 = 2 \\times \\left(\\frac{100}{25}\\right)^2 = 2 \\times 16 = 32 \\text{ m/s}' },
