@@ -84,7 +84,7 @@ export default {
       ],
       correctAnswerId: 'c2',
       difficulty: 'hard',
-      eli5: 'Two segments: 0+00 to 1+00 and 1+00 to 2+00. V_1 = 100/2 \u00D7 (0 + 400) = 50 \u00D7 400 = 20,000 ft\u00B3. V_2 = 100/2 \u00D7 (400 + 0) = 20,000 ft\u00B3. Total = 40,000 ft\u00B3. The 20,000 ft\u00b3 choice only computes one segment. The 80,000 ft\u00b3 choice uses L instead of L/2. The 13,333 ft\u00b3 choice uses the prismoidal formula by mistake.',
+      eli5: 'Two segments: 0+00 to 1+00 and 1+00 to 2+00. V_1 = 100/2 \u00D7 (0 + 400) = 50 \u00D7 400 = 20,000 ft\u00B3. V_2 = 100/2 \u00D7 (400 + 0) = 20,000 ft\u00B3. Total = 40,000 ft\u00B3. The 20,000 ft\u00b3 choice only computes one segment. The 80,000 ft\u00b3 choice uses L instead of L/2. The 13,333 ft\u00b3 choice treats the whole thing as one pyramid off the 400 section, 100 \u00D7 400/3, using the third formula in the lesson where the first one belongs.',
       hint: 'Apply the average end area formula to each pair of adjacent stations, then sum the segment volumes.',
       steps: [
         { text: 'Segment 1 (Sta 0+00 to 1+00):', latex: 'V_1 = \\frac{100}{2}(0 + 400) = 20{,}000 \\text{ ft}^3' },
