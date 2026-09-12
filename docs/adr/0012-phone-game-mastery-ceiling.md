@@ -4,7 +4,11 @@ Date: 2026-09-07
 
 ## Status
 
-Accepted. Implements the games direction set on 2026-09-07 and obeys
+Superseded by [0013](0013-games-keep-their-own-score.md) on 2026-09-12: games
+now keep their own score and mastery stays desk-earned. The reasoning below is
+left as it was written.
+
+Originally: Accepted. Implements the games direction set on 2026-09-07 and obeys
 [`../mobile-app-north-star.md`](../mobile-app-north-star.md), whose third rule
 (honest readiness signalling) is the reason the cap exists.
 
