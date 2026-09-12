@@ -464,6 +464,10 @@ void main() {
       'which-step-is-that',
       'who-gets-the-trips',
       'farther-means-fewer',
+      // The warrant problem is the only one in the devices lesson that is
+      // not about a sign, so everything about signals comes out of it. The
+      // sign item draws on the other two.
+      'does-it-need-a-signal',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

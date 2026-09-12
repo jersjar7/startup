@@ -139,6 +139,9 @@ import 'demand_figures.dart';
 import 'which_step_is_that_game.dart';
 import 'who_gets_the_trips_game.dart';
 import 'farther_means_fewer_game.dart';
+import 'sign_figures.dart';
+import 'read_it_by_its_shape_game.dart';
+import 'does_it_need_a_signal_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4838,6 +4841,28 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'trans-td-',
     rounds: [
       for (final r in frictionRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'read-it-by-its-shape',
+    lessonId: 'traffic-control-devices',
+    problemPrefix: 'trans-tcd-',
+    rounds: [
+      for (final r in signKindRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in SignKind.values) o.name],
+          answer: SignKind.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-it-need-a-signal',
+    lessonId: 'traffic-control-devices',
+    problemPrefix: 'trans-tcd-',
+    rounds: [
+      for (final r in warrantRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

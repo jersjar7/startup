@@ -321,6 +321,8 @@ import 'package:mobile/features/games/what_the_letter_measures_game.dart';
 import 'package:mobile/features/games/which_step_is_that_game.dart';
 import 'package:mobile/features/games/who_gets_the_trips_game.dart';
 import 'package:mobile/features/games/farther_means_fewer_game.dart';
+import 'package:mobile/features/games/read_it_by_its_shape_game.dart';
+import 'package:mobile/features/games/does_it_need_a_signal_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2577,6 +2579,18 @@ void main() {
           rounds: frictionRounds.length,
           height: 2240,
         ),
+        'read-it-by-its-shape': (
+          lesson: '125-devices',
+          build: ReadItByItsShapeGame.new,
+          rounds: signKindRounds.length,
+          height: 2140,
+        ),
+        'does-it-need-a-signal': (
+          lesson: '125-devices',
+          build: DoesItNeedASignalGame.new,
+          rounds: warrantRounds.length,
+          height: 2200,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3098,6 +3112,10 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '125-devices': [
+      ('signs', signCategoryBrief),
+      ('warrants', warrantBrief),
     ],
     '124-demand': [
       ('steps', fourStepBrief),

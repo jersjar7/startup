@@ -4106,6 +4106,34 @@ const transportationMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'traffic-control-devices',
+      name: 'Traffic Control Devices & Warrants',
+      subtopicId: 'planning-operations',
+      // Two items. The lesson's five requirements for a device, that it
+      // fulfill a need, command attention, convey a clear meaning, command
+      // respect and give time to respond, have no problem behind them, so
+      // they sit on the second card rather than in an item with nothing to
+      // ask.
+      games: [
+        GameDef(
+          id: 'read-it-by-its-shape',
+          rounds: 6,
+          name: 'Read It by Its Shape',
+          blurb: 'The category arrives before the words do.',
+          built: true,
+          brief: signCategoryBrief,
+        ),
+        GameDef(
+          id: 'does-it-need-a-signal',
+          rounds: 6,
+          name: 'Does It Need a Signal',
+          blurb: 'A signal is not automatically an improvement.',
+          built: true,
+          brief: warrantBrief,
+        ),
+      ],
+    ),
   ],
 );
 

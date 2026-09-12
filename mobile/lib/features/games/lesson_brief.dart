@@ -390,6 +390,8 @@ enum BriefFigure {
   fourStep,
   gravity,
   friction,
+  signCategory,
+  signalWarrant,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7536,6 +7538,54 @@ const frictionBrief = BriefSection(
   handbook: 'Handbook, gravity model',
 );
 
+const signCategoryBrief = BriefSection(
+  title: 'Shape first, then the words',
+  body:
+      'A sign carries its category in its shape and color, before a word of '
+      'it is read. REGULATORY signs impose a legal requirement and are '
+      'mostly white rectangles with black legends, with two shapes held '
+      'back for the two messages that must be readable at any angle: the red '
+      'octagon for STOP and the triangle for YIELD. WARNING signs are yellow '
+      'diamonds and describe what is ahead without requiring anything, which '
+      'is why a speed on a warning sign is advisory and sits on its own '
+      'yellow plate. GUIDE signs are green and carry directions, distances '
+      'and destinations, and ask nothing at all. The point of the manual is '
+      'that this holds everywhere, so a driver recognizes a sign before '
+      'reading it, and the recognition is what buys the reaction time.',
+  formulas: [
+    ('Regulatory', r'\text{white rectangle, red octagon}'),
+    ('Warning', r'\text{yellow diamond}'),
+    ('Guide', r'\text{green}'),
+  ],
+  figure: BriefFigure.signCategory,
+  handbook: 'MUTCD, sign categories',
+);
+
+const warrantBrief = BriefSection(
+  title: 'A signal has to earn its place',
+  body:
+      'A traffic signal is not automatically an improvement. It stops '
+      'traffic that did not have to stop before, so it buys delay and '
+      'rear-end crashes, and an unwarranted one teaches drivers to '
+      'disregard a red. That is why the manual requires a WARRANT analysis '
+      'first. The warrants are not all about vehicle counts: there is one '
+      'for eight hours of heavy volume, one for a single very heavy peak '
+      'hour, one for people waiting to cross on foot, one for a school '
+      'crossing, and one for a crash history the signal would fix. An '
+      'intersection can qualify on any single one. And meeting a warrant '
+      'makes a signal JUSTIFIED rather than required: engineering judgment '
+      'still decides, and sometimes decides on a roundabout instead. The '
+      'trade a signal makes is the right-angle crash, which injures people, '
+      'against the rear-end crash, which usually does not.',
+  formulas: [
+    ('Before installing', r'\text{a warrant must be met}'),
+    ('Meeting one', r'\text{justified, not required}'),
+    ('The trade', r'\text{fewer angle, more rear-end}'),
+  ],
+  figure: BriefFigure.signalWarrant,
+  handbook: 'MUTCD, signal warrants',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -10192,6 +10242,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{a big zone can beat a far one}", true),
             (r"\text{longer trip} \Rightarrow F \text{ rises}", false),
             (r"\text{a faster road makes new trips}", false),
+          ],
+        );
+      case BriefFigure.signCategory:
+        return const _RuleList(
+          rules: [
+            (r"\text{yellow diamond: warning}", true),
+            (r"\text{red octagon: regulatory}", true),
+            (r"\text{green: regulatory}", false),
+            (r"\text{a warning sign sets a legal speed}", false),
+          ],
+        );
+      case BriefFigure.signalWarrant:
+        return const _RuleList(
+          rules: [
+            (r"\text{a warrant comes before a signal}", true),
+            (r"\text{a met warrant justifies, not requires}", true),
+            (r"\text{a signal is always an improvement}", false),
+            (r"\text{only volumes can meet a warrant}", false),
           ],
         );
       case BriefFigure.rankine:

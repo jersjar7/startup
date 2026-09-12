@@ -314,6 +314,8 @@ import '../features/games/what_the_letter_measures_game.dart';
 import '../features/games/which_step_is_that_game.dart';
 import '../features/games/who_gets_the_trips_game.dart';
 import '../features/games/farther_means_fewer_game.dart';
+import '../features/games/read_it_by_its_shape_game.dart';
+import '../features/games/does_it_need_a_signal_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -776,6 +778,8 @@ GoRouter buildRouter(AuthController auth) {
           'which-step-is-that' => const WhichStepIsThatGame(),
           'who-gets-the-trips' => const WhoGetsTheTripsGame(),
           'farther-means-fewer' => const FartherMeansFewerGame(),
+          'read-it-by-its-shape' => const ReadItByItsShapeGame(),
+          'does-it-need-a-signal' => const DoesItNeedASignalGame(),
           _ => const _UnknownGame(),
         },
       ),

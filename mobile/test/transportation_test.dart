@@ -25,6 +25,9 @@ import 'package:mobile/features/games/demand_figures.dart';
 import 'package:mobile/features/games/which_step_is_that_game.dart';
 import 'package:mobile/features/games/who_gets_the_trips_game.dart';
 import 'package:mobile/features/games/farther_means_fewer_game.dart';
+import 'package:mobile/features/games/sign_figures.dart';
+import 'package:mobile/features/games/read_it_by_its_shape_game.dart';
+import 'package:mobile/features/games/does_it_need_a_signal_game.dart';
 
 void main() {
   group('stopping sight distance', () {
@@ -812,6 +815,75 @@ void main() {
         expect(answers.toSet().length, greaterThan(2),
             reason: 'the correct option sits in too few positions');
       }
+    });
+  });
+
+
+  group('traffic control devices', () {
+    test('every sign in the item is the category its face implies', () {
+      for (final r in signKindRounds) {
+        final sign = r.sign;
+        if (sign.color == 'yellow' && sign.shape == SignShape.diamond) {
+          expect(sign.kind, SignKind.warning, reason: r.subject);
+        }
+        if (sign.color == 'red' && sign.shape == SignShape.octagon) {
+          expect(sign.kind, SignKind.regulatory, reason: r.subject);
+        }
+        if (sign.color == 'green') {
+          expect(sign.kind, SignKind.guide, reason: r.subject);
+        }
+        // And the figure never disagrees with the answer.
+        expect(sign.kind, r.answer, reason: r.subject);
+      }
+    });
+
+    test('all three categories are asked about, and never twice running', () {
+      expect(signKindRounds.map((r) => r.answer).toSet(),
+          SignKind.values.toSet());
+      for (var i = 1; i < signKindRounds.length; i++) {
+        expect(signKindRounds[i].answer, isNot(signKindRounds[i - 1].answer),
+            reason: 'round ${i + 1} repeats the category above it');
+      }
+    });
+
+    test('the dark faced signs get light lettering', () {
+      for (final r in signKindRounds) {
+        if (r.sign.color == 'red' || r.sign.color == 'green') {
+          expect(r.sign.darkFace, isTrue, reason: r.subject);
+        } else {
+          expect(r.sign.darkFace, isFalse, reason: r.subject);
+        }
+      }
+    });
+
+    test('the warrant rounds name a warrant the list actually carries', () {
+      for (final r in warrantRounds) {
+        final met = r.crossing.warrantMet;
+        if (met != null) {
+          expect(WarrantPainter.warrants, contains(met), reason: r.subject);
+        }
+      }
+    });
+
+    test('the quiet crossroads meets no warrant, and says why', () {
+      final quiet = warrantRounds
+          .firstWhere((r) => r.subject.contains('quiet'));
+      expect(quiet.crossing.warrantMet, isNull);
+      expect(quiet.crossing.note, isNotNull);
+    });
+
+    test('the warrants cover more than vehicle counts', () {
+      expect(WarrantPainter.warrants.where((w) => w.contains('foot')),
+          isNotEmpty);
+      expect(WarrantPainter.warrants.where((w) => w.contains('school')),
+          isNotEmpty);
+      expect(WarrantPainter.warrants.where((w) => w.contains('crash')),
+          isNotEmpty);
+    });
+
+    test('the signal item keeps the answer moving between the slots', () {
+      expect(warrantRounds.map((r) => r.answer).toSet().length,
+          greaterThan(1));
     });
   });
 
