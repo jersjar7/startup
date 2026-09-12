@@ -3958,6 +3958,26 @@ const transportationMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'horizontal-curves',
+      name: 'Horizontal Curve Design',
+      subtopicId: 'geometric-design',
+      // One item only. Two of this lesson's three problems are the radius
+      // against the degree of curve and the tangent out to the PI, and the
+      // SURVEYING chapter teaches both already: `which-curve-is-sharper`
+      // has the 5,729.58, and `which-piece-is-that` has all six lengths
+      // including T = R tan(I/2). Superelevation is the part that is new.
+      games: [
+        GameDef(
+          id: 'how-much-bank',
+          rounds: 6,
+          name: 'How Much Bank',
+          blurb: 'The tires take a share, the tilt takes the rest.',
+          built: true,
+          brief: superelevationBrief,
+        ),
+      ],
+    ),
   ],
 );
 

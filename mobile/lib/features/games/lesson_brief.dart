@@ -377,6 +377,7 @@ enum BriefFigure {
   peakHour,
   crestSag,
   gradeBreak,
+  superelevation,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7214,6 +7215,31 @@ const gradeBreakBrief = BriefSection(
   handbook: 'Handbook, vertical curves',
 );
 
+const superelevationBrief = BriefSection(
+  title: 'The tires and the tilt',
+  body:
+      'A curve asks for the design speed SQUARED over fifteen times the '
+      'radius, and two things supply it: the sideways grip of the tires, '
+      'which is the side friction factor, and the tilt of the pavement '
+      'toward the inside of the turn, which is the superelevation. The '
+      'friction is help already in hand, so it comes OFF the demand and what '
+      'is left is what the tilt has to provide. Forgetting it asks the '
+      'pavement for the whole demand, which on the lesson\'s curve is 22.5 '
+      'per cent, a tilt no road is built at: a stopped vehicle would slide '
+      'into the ditch. The rate is quoted in per cent, which is what the '
+      '0.01 in the formula is for, so an answer of 0.075 per cent is the '
+      'right number with the wrong label on it. Of the three quantities the '
+      'designer really chooses only two, the radius and the tilt: friction '
+      'belongs to the tire and the pavement.',
+  formulas: [
+    ('What the curve asks', r'0.01e + f = \dfrac{V^2}{15R}'),
+    ('What is left', r'0.01e = \dfrac{V^2}{15R} - f'),
+    ('The levers', r'2V \Rightarrow 4\times, \; 2R \Rightarrow \tfrac{1}{2}'),
+  ],
+  figure: BriefFigure.superelevation,
+  handbook: 'Handbook, superelevation',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -9753,6 +9779,15 @@ class BriefFigureView extends StatelessWidget {
             (r"g_2 < g_1 \Rightarrow \text{a crest}", true),
             (r"+3 \text{ into } -5 \Rightarrow A = 2", false),
             (r"\text{a negative } g_2 \text{ means a sag}", false),
+          ],
+        );
+      case BriefFigure.superelevation:
+        return const _RuleList(
+          rules: [
+            (r"0.01e = V^2/(15R) - f", true),
+            (r"2V \Rightarrow 4\times \text{ the demand}", true),
+            (r"0.01e = V^2/(15R) + f", false),
+            (r"e \text{ is quoted as a decimal}", false),
           ],
         );
       case BriefFigure.rankine:

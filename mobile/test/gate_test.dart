@@ -436,6 +436,10 @@ void main() {
       'think-then-brake',
       'uphill-or-down',
       'the-worst-fifteen-minutes',
+      // The horizontal curve lesson gets one item, since the surveying
+      // chapter already teaches its other two problems, and that item is
+      // built entirely on the superelevation problem.
+      'how-much-bank',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

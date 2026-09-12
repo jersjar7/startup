@@ -308,6 +308,7 @@ import 'package:mobile/features/games/uphill_or_down_game.dart';
 import 'package:mobile/features/games/the_worst_fifteen_minutes_game.dart';
 import 'package:mobile/features/games/crest_or_sag_game.dart';
 import 'package:mobile/features/games/how_big_is_the_break_game.dart';
+import 'package:mobile/features/games/how_much_bank_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2486,6 +2487,12 @@ void main() {
           rounds: breakRounds.length,
           height: 2160,
         ),
+        'how-much-bank': (
+          lesson: '120-horizcurves',
+          build: HowMuchBankGame.new,
+          rounds: tiltRounds.length,
+          height: 2200,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3007,6 +3014,9 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '120-horizcurves': [
+      ('bank', superelevationBrief),
     ],
     '119-vertcurves': [
       ('criterion', crestSagBrief),

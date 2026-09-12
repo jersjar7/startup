@@ -7,6 +7,8 @@ import 'package:mobile/features/games/the_worst_fifteen_minutes_game.dart';
 import 'package:mobile/features/games/vertical_curve_figures.dart';
 import 'package:mobile/features/games/crest_or_sag_game.dart';
 import 'package:mobile/features/games/how_big_is_the_break_game.dart';
+import 'package:mobile/features/games/superelevation_figures.dart';
+import 'package:mobile/features/games/how_much_bank_game.dart';
 
 void main() {
   group('stopping sight distance', () {
@@ -251,6 +253,65 @@ void main() {
         expect(answers.toSet().length, greaterThan(2),
             reason: 'the correct option sits in too few positions');
       }
+    });
+  });
+
+
+  group('superelevation', () {
+    // The lesson's own curve: 45 mph round 600 ft, side friction 0.15.
+    const curve = Superelevation(speed: 45, radius: 600, friction: 0.15);
+
+    test('the rate matches the lesson', () {
+      expect(curve.demand, closeTo(0.225, 0.0001));
+      expect(curve.fromTilt, closeTo(0.075, 0.0001));
+      expect(curve.ratePerCent, closeTo(7.5, 0.001));
+    });
+
+    test('the lesson wrong answers come out of the same numbers', () {
+      // Forgetting the friction gives 22.5 per cent.
+      expect(curve.forgettingFriction, closeTo(22.5, 0.01));
+      // Leaving the rate a decimal gives 0.075, called a per cent.
+      expect(curve.leavingItDecimal, closeTo(0.075, 0.0001));
+      // And they differ from the right answer by a factor of three and of
+      // a hundred, which is how each is recognized.
+      expect(curve.forgettingFriction / curve.ratePerCent, closeTo(3, 0.01));
+      expect(curve.ratePerCent / curve.leavingItDecimal, closeTo(100, 0.01));
+    });
+
+    test('speed is squared and radius is not', () {
+      const faster = Superelevation(speed: 90, radius: 600, friction: 0.15);
+      const flatter = Superelevation(speed: 45, radius: 1200, friction: 0.15);
+      expect(faster.demand / curve.demand, closeTo(4, 0.0001));
+      expect(flatter.demand / curve.demand, closeTo(0.5, 0.0001));
+    });
+
+    test('a gentle enough curve needs no tilt at all', () {
+      const gentle = Superelevation(speed: 30, radius: 1500, friction: 0.15);
+      expect(gentle.demand, lessThan(gentle.friction));
+      expect(gentle.flatWouldDo, isTrue);
+      expect(gentle.ratePerCent, lessThan(0));
+    });
+
+    test('the friction never adds to the demand', () {
+      // A round that said the two add would be claiming 0.375.
+      expect(curve.demand + curve.friction, closeTo(0.375, 0.0001));
+      expect(curve.fromTilt, lessThan(curve.demand));
+    });
+
+    test('each round uses the curve its words describe', () {
+      for (final r in tiltRounds) {
+        if (r.subject.contains('faster')) {
+          expect(r.curve.speed, greaterThan(curve.speed), reason: r.subject);
+        }
+        if (r.subject.contains('Flattening') ||
+            r.subject.contains('flattening')) {
+          expect(r.curve.radius, greaterThan(curve.radius), reason: r.subject);
+        }
+      }
+    });
+
+    test('the item keeps the answer moving between the slots', () {
+      expect(tiltRounds.map((r) => r.answer).toSet().length, greaterThan(2));
     });
   });
 

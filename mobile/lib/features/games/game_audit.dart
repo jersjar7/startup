@@ -125,6 +125,7 @@ import 'uphill_or_down_game.dart';
 import 'the_worst_fifteen_minutes_game.dart';
 import 'crest_or_sag_game.dart';
 import 'how_big_is_the_break_game.dart';
+import 'how_much_bank_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4703,6 +4704,15 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'trans-vc-',
     rounds: [
       for (final r in breakRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-much-bank',
+    lessonId: 'horizontal-curves',
+    problemPrefix: 'trans-hc-',
+    rounds: [
+      for (final r in tiltRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
