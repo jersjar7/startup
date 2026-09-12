@@ -384,6 +384,9 @@ enum BriefFigure {
   greenshields,
   speedDensity,
   crashRate,
+  heavyVehicle,
+  demandFlow,
+  levelOfService,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7388,6 +7391,77 @@ const crashRateBrief = BriefSection(
   handbook: 'Handbook, crash rates',
 );
 
+const heavyVehicleBrief = BriefSection(
+  title: 'A truck is two cars, or three',
+  body:
+      'Capacity is a question about ROOM, so everything is counted in '
+      'passenger cars. A truck is longer, pulls away slowly and needs a '
+      'bigger gap, so on level ground it takes the space of two cars and on '
+      'rolling ground three. Only the EXTRA space counts, which is why the '
+      'formula carries the equivalent less one. A tenth of trucks on the '
+      'level means a hundred vehicles fill a hundred and ten car spaces, so '
+      'the factor is one over 1.10, about 0.909. It is always between zero '
+      'and one, and it is DIVIDED by, which pushes the flow rate up: the '
+      'traffic is worse than the raw count suggests. Two things go wrong '
+      'here. Reporting the denominator, which gives a factor above one and '
+      'is impossible. And using the wrong terrain, which on the lesson\'s '
+      'numbers moves the factor from 0.909 to 0.833.',
+  formulas: [
+    ('The factor', r'f_{HV} = \dfrac{1}{1 + P_T(E_T - 1)}'),
+    ('The equivalents', r'E_T = 2 \text{ level}, \; 3 \text{ rolling}'),
+    ('Its range', r'0 < f_{HV} \leq 1'),
+  ],
+  figure: BriefFigure.heavyVehicle,
+  handbook: 'Handbook, freeway capacity',
+);
+
+const demandFlowBrief = BriefSection(
+  title: 'One volume, three divisions',
+  body:
+      'The demand flow rate is not the traffic on the road: it is passenger '
+      'cars an hour in ONE lane at the rate of the busiest quarter hour, and '
+      'three divisions get it there. By the peak hour factor, which turns '
+      'the hour into the rate its worst quarter implies, and which the sight '
+      'distance lesson already covered. By the number of lanes, to get one '
+      'lane. And by the heavy vehicle factor, to count in cars. The two '
+      'factors are under one so dividing by them raises the answer, while '
+      'dividing by the lanes lowers it: knowing which way each step should '
+      'move the number catches most mistakes. On the lesson\'s freeway the '
+      'answer is 1,793. Leave out the trucks and it is 1,630. Leave out the '
+      'peak factor and it is 1,650. Two wrong answers of nearly the same '
+      'size from two different omissions.',
+  formulas: [
+    ('The flow rate', r'v_p = \dfrac{V}{PHF \times N \times f_{HV}}'),
+    ('It is per lane', r'\text{and in passenger cars}'),
+    ('Direction', r'\text{factors raise it, lanes lower it}'),
+  ],
+  figure: BriefFigure.demandFlow,
+  handbook: 'Handbook, freeway capacity',
+);
+
+const levelOfServiceBrief = BriefSection(
+  title: 'The letter comes off the density',
+  body:
+      'Level of service is read against DENSITY, in vehicles to a mile of '
+      'lane, not against volume and not against speed. Two roads can carry '
+      'the same volume at quite different densities, and speed holds near '
+      'its free flow value until a road is nearly full, so neither of those '
+      'sorts the letters out. Work the flow per lane first, then divide by '
+      'the mean speed, which follows from flow being speed times density and '
+      'checks out in the units: cars an hour over miles an hour leaves cars '
+      'a mile. Then read the band. The bands are narrow near capacity, so a '
+      'single missing adjustment moves the letter: forgetting the trucks on '
+      'the lesson\'s road gives 33 a mile instead of 37, which reads as D '
+      'rather than E.',
+  formulas: [
+    ('The density', r'D = v_p / S'),
+    ('The bands', r'A \leq 11, \; B \leq 18, \; C \leq 26'),
+    ('And on', r'D \leq 35, \; E \leq 45, \; F \text{ above}'),
+  ],
+  figure: BriefFigure.levelOfService,
+  handbook: 'Handbook, level of service',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -9990,6 +10064,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{a segment carries its length}", true),
             (r"RMEV = A \times 10^6 / ADT", false),
             (r"\text{more crashes means more dangerous}", false),
+          ],
+        );
+      case BriefFigure.heavyVehicle:
+        return const _RuleList(
+          rules: [
+            (r"f_{HV} = 1/(1 + P_T(E_T - 1))", true),
+            (r"0 < f_{HV} \leq 1", true),
+            (r"f_{HV} > 1 \text{ with few trucks}", false),
+            (r"\text{multiply the volume by } f_{HV}", false),
+          ],
+        );
+      case BriefFigure.demandFlow:
+        return const _RuleList(
+          rules: [
+            (r"v_p = V/(PHF \cdot N \cdot f_{HV})", true),
+            (r"\text{per lane, in passenger cars}", true),
+            (r"v_p = V/(N \cdot f_{HV})", false),
+            (r"v_p = V \cdot PHF / N", false),
+          ],
+        );
+      case BriefFigure.levelOfService:
+        return const _RuleList(
+          rules: [
+            (r"D = v_p / S", true),
+            (r"\text{the letter follows the density}", true),
+            (r"\text{the letter follows the volume}", false),
+            (r"D = v_p \times S", false),
           ],
         );
       case BriefFigure.rankine:

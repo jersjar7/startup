@@ -132,6 +132,9 @@ import 'three_parts_of_a_walk_game.dart';
 import 'half_of_each_game.dart';
 import 'what_is_left_of_the_speed_game.dart';
 import 'per_million_what_game.dart';
+import 'how_many_cars_is_a_truck_game.dart';
+import 'three_divisions_game.dart';
+import 'what_the_letter_measures_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4773,6 +4776,33 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'trans-tf-',
     rounds: [
       for (final r in exposureRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-many-cars-is-a-truck',
+    lessonId: 'capacity-los',
+    problemPrefix: 'trans-cl-',
+    rounds: [
+      for (final r in mixRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'three-things-to-divide-by',
+    lessonId: 'capacity-los',
+    problemPrefix: 'trans-cl-',
+    rounds: [
+      for (final r in divideRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-the-letter-measures',
+    lessonId: 'capacity-los',
+    problemPrefix: 'trans-cl-',
+    rounds: [
+      for (final r in letterRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

@@ -315,6 +315,9 @@ import 'package:mobile/features/games/three_parts_of_a_walk_game.dart';
 import 'package:mobile/features/games/half_of_each_game.dart';
 import 'package:mobile/features/games/what_is_left_of_the_speed_game.dart';
 import 'package:mobile/features/games/per_million_what_game.dart';
+import 'package:mobile/features/games/how_many_cars_is_a_truck_game.dart';
+import 'package:mobile/features/games/three_divisions_game.dart';
+import 'package:mobile/features/games/what_the_letter_measures_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2535,6 +2538,24 @@ void main() {
           rounds: exposureRounds.length,
           height: 2200,
         ),
+        'how-many-cars-is-a-truck': (
+          lesson: '123-capacity',
+          build: HowManyCarsIsATruckGame.new,
+          rounds: mixRounds.length,
+          height: 2180,
+        ),
+        'three-things-to-divide-by': (
+          lesson: '123-capacity',
+          build: ThreeDivisionsGame.new,
+          rounds: divideRounds.length,
+          height: 2240,
+        ),
+        'what-the-letter-measures': (
+          lesson: '123-capacity',
+          build: WhatTheLetterMeasuresGame.new,
+          rounds: letterRounds.length,
+          height: 2240,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3056,6 +3077,11 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '123-capacity': [
+      ('trucks', heavyVehicleBrief),
+      ('flow', demandFlowBrief),
+      ('letter', levelOfServiceBrief),
     ],
     '122-flow': [
       ('peak', greenshieldsBrief),

@@ -4040,6 +4040,41 @@ const transportationMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'capacity-los',
+      name: 'Freeway Capacity & Level of Service',
+      subtopicId: 'traffic-engineering',
+      // The peak hour factor itself belongs to the sight distance lesson,
+      // where it has a problem of its own. Here it is one divisor of three,
+      // and the middle item teaches how the three stack rather than
+      // teaching the factor again.
+      games: [
+        GameDef(
+          id: 'how-many-cars-is-a-truck',
+          rounds: 6,
+          name: 'How Many Cars Is a Truck',
+          blurb: 'Two on the level, three on a hill.',
+          built: true,
+          brief: heavyVehicleBrief,
+        ),
+        GameDef(
+          id: 'three-things-to-divide-by',
+          rounds: 6,
+          name: 'Three Things to Divide By',
+          blurb: 'The surge, the lanes, and the trucks.',
+          built: true,
+          brief: demandFlowBrief,
+        ),
+        GameDef(
+          id: 'what-the-letter-measures',
+          rounds: 6,
+          name: 'What the Letter Measures',
+          blurb: 'Density, never volume and never speed.',
+          built: true,
+          brief: levelOfServiceBrief,
+        ),
+      ],
+    ),
   ],
 );
 

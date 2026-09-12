@@ -452,6 +452,12 @@ void main() {
       // of the three, so it is not in this list.
       'what-is-left-of-the-speed',
       'per-million-what',
+      // The capacity lesson's three problems ARE its three steps: the
+      // truck factor, the flow rate, and the letter. Its three items land
+      // one to one on them.
+      'how-many-cars-is-a-truck',
+      'three-things-to-divide-by',
+      'what-the-letter-measures',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

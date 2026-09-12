@@ -17,6 +17,10 @@ import 'package:mobile/features/games/traffic_flow_figures.dart';
 import 'package:mobile/features/games/half_of_each_game.dart';
 import 'package:mobile/features/games/what_is_left_of_the_speed_game.dart';
 import 'package:mobile/features/games/per_million_what_game.dart';
+import 'package:mobile/features/games/los_figures.dart';
+import 'package:mobile/features/games/how_many_cars_is_a_truck_game.dart';
+import 'package:mobile/features/games/three_divisions_game.dart';
+import 'package:mobile/features/games/what_the_letter_measures_game.dart';
 
 void main() {
   group('stopping sight distance', () {
@@ -531,6 +535,125 @@ void main() {
       for (final r in exposureRounds) {
         if (r.subject.contains('length of road')) {
           expect(r.rate.isSegment, isTrue, reason: r.subject);
+        }
+      }
+    });
+  });
+
+
+  group('freeway capacity and level of service', () {
+    const level = TruckMix(trucks: 0.10, equivalent: 2.0);
+    const rolling = TruckMix(trucks: 0.10, equivalent: 3.0);
+
+    test('the heavy vehicle factor matches the lesson, terrain and all', () {
+      expect(level.factor, closeTo(0.909, 0.001));
+      expect(rolling.factor, closeTo(0.833, 0.001));
+      expect(level.carSpaces, closeTo(110, 0.001));
+      expect(rolling.carSpaces, closeTo(120, 0.001));
+    });
+
+    test('the factor never leaves the range it belongs in', () {
+      for (final p in [0.0, 0.05, 0.2, 0.35, 0.5]) {
+        for (final e in [2.0, 3.0]) {
+          final mix = TruckMix(trucks: p, equivalent: e);
+          expect(mix.factor, lessThanOrEqualTo(1.0));
+          expect(mix.factor, greaterThan(0));
+        }
+      }
+      // The lesson's wrong answer, 1.10, is the denominator on its own.
+      expect(1 + 0.10 * (2.0 - 1), closeTo(1.10, 0.001));
+    });
+
+    test('more trucks means a smaller factor', () {
+      const heavy = TruckMix(trucks: 0.30, equivalent: 2.0);
+      expect(heavy.factor, lessThan(level.factor));
+      expect(heavy.factor, closeTo(0.769, 0.001));
+    });
+
+    test('the flow rate matches the lesson, and both its wrong answers', () {
+      const road = Freeway(
+          volume: 4500, peakHourFactor: 0.92, lanes: 3, mix: level);
+      expect(road.flowPerLane, closeTo(1793, 1));
+      expect(road.withoutTrucks, closeTo(1630, 1));
+      expect(road.withoutPeak, closeTo(1650, 1));
+      // Both omissions understate the flow, which is the unsafe direction.
+      expect(road.withoutTrucks, lessThan(road.flowPerLane));
+      expect(road.withoutPeak, lessThan(road.flowPerLane));
+    });
+
+    test('fewer lanes and a peakier hour both raise the flow per lane', () {
+      const three = Freeway(
+          volume: 4500, peakHourFactor: 0.92, lanes: 3, mix: level);
+      const two = Freeway(
+          volume: 4500, peakHourFactor: 0.92, lanes: 2, mix: level);
+      const peaky = Freeway(
+          volume: 4500, peakHourFactor: 0.78, lanes: 3, mix: level);
+      expect(two.flowPerLane / three.flowPerLane, closeTo(1.5, 0.001));
+      expect(peaky.flowPerLane, greaterThan(three.flowPerLane));
+    });
+
+    test('the lesson case comes out at service E', () {
+      const road = Freeway(
+          volume: 3600, peakHourFactor: 0.90, lanes: 2, mix: level);
+      expect(road.flowPerLane, closeTo(2200, 1));
+      expect(road.density, closeTo(36.7, 0.1));
+      expect(road.level, 'E');
+    });
+
+    test('forgetting the trucks reports one band too good', () {
+      const road = Freeway(
+          volume: 3600, peakHourFactor: 0.90, lanes: 2, mix: level);
+      final wrongDensity = road.withoutTrucks / road.speed;
+      expect(wrongDensity, closeTo(33.3, 0.1));
+      expect(road.levelFor(wrongDensity), 'D');
+      expect(road.level, 'E');
+    });
+
+    test('a third lane improves the letter and slower traffic worsens it',
+        () {
+      const two = Freeway(
+          volume: 3600, peakHourFactor: 0.90, lanes: 2, mix: level);
+      const three = Freeway(
+          volume: 3600, peakHourFactor: 0.90, lanes: 3, mix: level);
+      const slow = Freeway(
+          volume: 3600,
+          peakHourFactor: 0.90,
+          lanes: 2,
+          mix: level,
+          speed: 45);
+      expect(three.density, lessThan(two.density));
+      expect(three.level, 'C');
+      expect(slow.density, greaterThan(two.density));
+      expect(slow.level, 'F');
+    });
+
+    test('the bands run in order and cover the ladder', () {
+      const road = Freeway(
+          volume: 3600, peakHourFactor: 0.90, lanes: 2, mix: level);
+      expect(road.levelFor(5), 'A');
+      expect(road.levelFor(11), 'A');
+      expect(road.levelFor(11.1), 'B');
+      expect(road.levelFor(26), 'C');
+      expect(road.levelFor(35), 'D');
+      expect(road.levelFor(45), 'E');
+      expect(road.levelFor(60), 'F');
+    });
+
+    test('the three items keep the answer moving between the slots', () {
+      for (final answers in [
+        mixRounds.map((r) => r.answer).toList(),
+        divideRounds.map((r) => r.answer).toList(),
+        letterRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
+    });
+
+    test('the rolling terrain rounds really use rolling terrain', () {
+      for (final r in mixRounds) {
+        if (r.subject.contains('hill')) {
+          expect(r.mix.rolling, isTrue, reason: r.subject);
         }
       }
     });
