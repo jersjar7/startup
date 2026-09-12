@@ -592,7 +592,7 @@ const mathematicsMap = ChapterMap(
           name: 'Which Method',
           blurb: 'Fast and demanding, or slow and guaranteed.',
           built: true,
-          brief: methodChoiceBrief,
+          brief: trussRouteBrief,
         ),
       ],
     ),
@@ -3184,6 +3184,40 @@ const structuralMap = ChapterMap(
           blurb: 'And the structure falls over anyway.',
           built: true,
           brief: stabilityBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'truss-analysis-methods',
+      name: 'Truss Analysis: Joints & Sections',
+      subtopicId: 'analysis-loads',
+      // Zero force members, the tension and compression convention, and
+      // where to put the cut are all items in statics already. What is left
+      // to this lesson is what comes after the cut.
+      games: [
+        GameDef(
+          id: 'where-do-you-take-moments',
+          rounds: 6,
+          name: 'Where Do You Take Moments',
+          blurb: 'Put the pivot where the other two cross.',
+          built: true,
+          brief: momentCenterBrief,
+        ),
+        GameDef(
+          id: 'bigger-than-the-load',
+          rounds: 6,
+          name: 'Bigger Than the Load',
+          blurb: 'A diagonal always carries more than it holds up.',
+          built: true,
+          brief: jointForceBrief,
+        ),
+        GameDef(
+          id: 'joints-or-sections',
+          rounds: 6,
+          name: 'Joints or Sections',
+          blurb: 'And the reactions before either of them.',
+          built: true,
+          brief: trussRouteBrief,
         ),
       ],
     ),

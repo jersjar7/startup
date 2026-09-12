@@ -53,6 +53,9 @@ import 'which_ion_counts_more_game.dart';
 import 'removed_or_remaining_game.dart';
 import 'enough_or_too_many_game.dart';
 import 'the_count_says_yes_game.dart';
+import 'where_do_you_take_moments_game.dart';
+import 'bigger_than_the_load_game.dart';
+import 'joints_or_sections_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -3829,6 +3832,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in WillItStand.values) o.name],
           answer: WillItStand.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-do-you-take-moments',
+    lessonId: 'truss-analysis-methods',
+    problemPrefix: 'str-tam-',
+    rounds: [
+      for (final r in pivotRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Pivot.values) o.name],
+          answer: Pivot.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'bigger-than-the-load',
+    lessonId: 'truss-analysis-methods',
+    problemPrefix: 'str-tam-',
+    rounds: [
+      for (final r in webRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in HowBig.values) o.name],
+          answer: HowBig.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'joints-or-sections',
+    lessonId: 'truss-analysis-methods',
+    problemPrefix: 'str-tam-',
+    rounds: [
+      for (final r in routeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Route3.values) o.name],
+          answer: Route3.values.indexOf(r.answer),
         ),
     ],
   ),

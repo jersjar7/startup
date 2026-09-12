@@ -235,6 +235,9 @@ import '../features/games/which_ion_counts_more_game.dart';
 import '../features/games/removed_or_remaining_game.dart';
 import '../features/games/enough_or_too_many_game.dart';
 import '../features/games/the_count_says_yes_game.dart';
+import '../features/games/where_do_you_take_moments_game.dart';
+import '../features/games/bigger_than_the_load_game.dart';
+import '../features/games/joints_or_sections_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -609,6 +612,10 @@ GoRouter buildRouter(AuthController auth) {
           'removed-or-remaining' => const RemovedOrRemainingGame(),
           'enough-or-too-many' => const EnoughOrTooManyGame(),
           'the-count-says-yes' => const TheCountSaysYesGame(),
+          'where-do-you-take-moments' =>
+            const WhereDoYouTakeMomentsGame(),
+          'bigger-than-the-load' => const BiggerThanTheLoadGame(),
+          'joints-or-sections' => const JointsOrSectionsGame(),
           _ => const _UnknownGame(),
         },
       ),

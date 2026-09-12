@@ -365,6 +365,11 @@ void main() {
       'health-or-taste',
       'which-ion-counts-more',
       'removed-or-remaining',
+      // The section problem is the only one in the truss lesson with a cut
+      // in it, and where the pivot goes is the whole of that problem.
+      'where-do-you-take-moments',
+      // The joint problem is the only one with a diagonal resolving a load.
+      'bigger-than-the-load',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

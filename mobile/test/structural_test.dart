@@ -1,9 +1,15 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/determinacy_figures.dart';
 import 'package:mobile/features/games/enough_or_too_many_game.dart';
 import 'package:mobile/features/games/the_count_says_yes_game.dart';
+import 'package:mobile/features/games/truss_section_figures.dart';
+import 'package:mobile/features/games/where_do_you_take_moments_game.dart';
+import 'package:mobile/features/games/bigger_than_the_load_game.dart';
+import 'package:mobile/features/games/joints_or_sections_game.dart';
 
 void main() {
   group('the determinacy count', () {
@@ -126,6 +132,97 @@ void main() {
           expect(p.dy, inInclusiveRange(0, size.height));
         }
       }
+    });
+  });
+
+  group('the method of sections', () {
+    test('the cut severs the three members the round names', () {
+      for (final r in pivotRounds) {
+        final through = r.cut.through(r.truss);
+        expect(through, contains(r.target), reason: r.subject);
+        expect(through.length, lessThanOrEqualTo(3), reason: r.subject);
+      }
+    });
+
+    test('the pivot is where the other two cut members meet', () {
+      for (final r in pivotRounds) {
+        if (r.answer == Pivot.neither) continue;
+        final anchor = r.answer == Pivot.first ? r.anchors.first : r.anchors.last;
+        final others =
+            r.cut.through(r.truss).where((m) => m != r.target).toList();
+        for (final m in others) {
+          final (a, b) = r.truss.members[m];
+          final p = r.truss.joints[a].at;
+          final q = r.truss.joints[b].at;
+          // The anchor lies on the line of every member it is meant to
+          // kill, which is what gives it no lever arm about it.
+          final cross = (q.dx - p.dx) * (anchor.at.dy - p.dy) -
+              (q.dy - p.dy) * (anchor.at.dx - p.dx);
+          expect(cross.abs(), lessThan(0.001),
+              reason: '${r.subject}: member $m misses the pivot');
+        }
+      }
+    });
+
+    test('the parallel chord rounds really have no pivot', () {
+      for (final r in pivotRounds.where((r) => r.answer == Pivot.neither)) {
+        final others =
+            r.cut.through(r.truss).where((m) => m != r.target).toList();
+        expect(others.length, 2, reason: r.subject);
+        // Both are horizontal, so they never cross.
+        for (final m in others) {
+          final (a, b) = r.truss.members[m];
+          expect(r.truss.joints[a].at.dy,
+              closeTo(r.truss.joints[b].at.dy, 0.001),
+              reason: r.subject);
+        }
+      }
+      expect(pivotRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('the force in a diagonal', () {
+    test('it is the load over the sine, and always the larger', () {
+      for (final r in webRounds) {
+        expect(r.corner.diagonal, greaterThan(r.corner.load),
+            reason: r.subject);
+        final sine = math.sin(r.corner.degrees * math.pi / 180);
+        expect(r.corner.diagonal, closeTo(r.corner.load / sine, 0.001),
+            reason: r.subject);
+        expect(r.corner.ratio, closeTo(1 / sine, 0.001), reason: r.subject);
+        expect(r.corner.flat,
+            closeTo(r.corner.diagonal * math.cos(r.corner.degrees * math.pi / 180), 0.001),
+            reason: r.subject);
+      }
+    });
+
+    test('the lesson\'s own joint is 707 pounds', () {
+      const joint = Corner(load: 500, degrees: 45);
+      expect(joint.diagonal, closeTo(707, 1));
+      expect(joint.flat, closeTo(500, 1));
+    });
+
+    test('three four five gives 1.67 and 40 across', () {
+      const joint = Corner(load: 30, degrees: 36.87);
+      expect(joint.ratio, closeTo(1.667, 0.005));
+      expect(joint.diagonal, closeTo(50, 0.1));
+      expect(joint.flat, closeTo(40, 0.1));
+    });
+
+    test('a shallower member always works harder', () {
+      const steep = Corner(load: 10, degrees: 75);
+      const flat = Corner(load: 10, degrees: 10);
+      expect(flat.diagonal, greaterThan(steep.diagonal));
+      expect(webRounds.map((r) => r.answer).toSet().length, 2,
+          reason: 'smaller than the load can never happen');
+    });
+  });
+
+  group('choosing the method', () {
+    test('every round names one of the three routes', () {
+      expect(routeRounds.map((r) => r.answer).toSet().length, 3);
+      expect(routeRounds.where((r) => r.answer == Route3.reactions).length,
+          greaterThanOrEqualTo(2));
     });
   });
 }

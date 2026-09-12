@@ -383,7 +383,12 @@ class TrussPainter extends CustomPainter {
     }
   }
 
-  void _support(Canvas canvas, Offset p, Prop kind) {
+  void _support(Canvas canvas, Offset p, Prop kind) =>
+      supportMark(canvas, p, kind);
+
+  /// The ground symbol under a joint, shared with the other truss figures
+  /// so every drawing in the chapter supports a truss the same way.
+  static void supportMark(Canvas canvas, Offset p, Prop kind) {
     final ink = Paint()
       ..color = AppColors.charcoal
       ..strokeWidth = 1.6

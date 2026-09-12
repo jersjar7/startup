@@ -242,6 +242,9 @@ import 'package:mobile/features/games/which_ion_counts_more_game.dart';
 import 'package:mobile/features/games/removed_or_remaining_game.dart';
 import 'package:mobile/features/games/enough_or_too_many_game.dart';
 import 'package:mobile/features/games/the_count_says_yes_game.dart';
+import 'package:mobile/features/games/where_do_you_take_moments_game.dart';
+import 'package:mobile/features/games/bigger_than_the_load_game.dart';
+import 'package:mobile/features/games/joints_or_sections_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2024,6 +2027,24 @@ void main() {
           rounds: standRounds.length,
           height: 1940,
         ),
+        'where-do-you-take-moments': (
+          lesson: '96-trussmethods',
+          build: WhereDoYouTakeMomentsGame.new,
+          rounds: pivotRounds.length,
+          height: 1960,
+        ),
+        'bigger-than-the-load': (
+          lesson: '96-trussmethods',
+          build: BiggerThanTheLoadGame.new,
+          rounds: webRounds.length,
+          height: 1880,
+        ),
+        'joints-or-sections': (
+          lesson: '96-trussmethods',
+          build: JointsOrSectionsGame.new,
+          rounds: routeRounds.length,
+          height: 1860,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2460,6 +2481,11 @@ void main() {
     '87-pumps': [
       ('power', pumpPowerBrief),
       ('npsh', npshBrief),
+    ],
+    '96-trussmethods': [
+      ('pivot', momentCenterBrief),
+      ('joint', jointForceBrief),
+      ('route', trussRouteBrief),
     ],
     '95-determinacy': [
       ('count', countBrief),

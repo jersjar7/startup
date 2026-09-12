@@ -311,6 +311,9 @@ enum BriefFigure {
   efficiency,
   determinacyCount,
   stability,
+  momentCenter,
+  jointForce,
+  trussRoute,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -5651,6 +5654,78 @@ const stabilityBrief = BriefSection(
   handbook: 'Handbook p. 271',
 );
 
+const momentCenterBrief = BriefSection(
+  title: 'Where the pivot goes',
+  body:
+      'A section cut through three members leaves three unknown forces on the '
+      'piece you keep, and three equations to find them with. The moment '
+      'equation is the one worth spending carefully: take moments about the '
+      'point where the TWO MEMBERS YOU DO NOT WANT cross, and neither of them '
+      'has a lever arm about it, so both fall out and the equation has one '
+      'unknown left. The pivot therefore moves with the member you are after: '
+      'the same cut takes a different point for the top chord than for the '
+      'bottom one, and the point can sit outside the piece of truss you are '
+      'holding, because it is a point in space rather than a joint. When the '
+      'two unwanted members are the parallel chords of a parallel chord truss '
+      'they never cross, so no pivot works: use the vertical force equation '
+      'instead, which is why the diagonals of such a truss are said to carry '
+      'the shear.',
+  formulas: [
+    ('The pivot', r'\sum M_{point} = 0'),
+    ('Chords', r'\text{pivot where the other two meet}'),
+    ('Diagonals', r'\sum F_y = 0'),
+  ],
+  figure: BriefFigure.momentCenter,
+  handbook: 'Handbook p. 271',
+);
+
+const jointForceBrief = BriefSection(
+  title: 'Why the diagonal is the big one',
+  body:
+      'At a joint carrying a vertical load, the only member with anything '
+      'pointing upward is the diagonal, so the whole load has to be carried '
+      'by its vertical COMPONENT. A member is always bigger than its own '
+      'component, so the diagonal force is bigger than the load, every time: '
+      'the load over the sine of the angle. How much bigger is all in the '
+      'geometry. At 75 degrees the factor is 1.04 and the member barely '
+      'notices; at 45 it is 1.41; on the three four five triangle that hides '
+      'in most textbook trusses it is 1.67, with sine 0.6 and cosine 0.8 '
+      'worth knowing by sight; at 10 degrees it is nearly six. The flatter '
+      'the member, the more force it takes to hold the same load, running '
+      'away toward infinity as it approaches horizontal. Steep is efficient, '
+      'which is why depth is worth paying for in a truss.',
+  formulas: [
+    ('The diagonal', r'F = \frac{P}{\sin\theta}'),
+    ('The flat member', r'F\cos\theta'),
+    ('Always', r'F > P'),
+  ],
+  figure: BriefFigure.jointForce,
+  handbook: 'Handbook p. 271',
+);
+
+const trussRouteBrief = BriefSection(
+  title: 'Which one is quicker, and what comes first',
+  body:
+      'Both methods work on any determinate truss and the choice is about '
+      'time. ONE member, especially a chord deep in the truss, wants the '
+      'method of SECTIONS: a single cut and a single moment equation against '
+      'four or five joints worked in turn. SEVERAL members at one connection '
+      'want the method of JOINTS, because that joint is exactly the free body '
+      'the question is describing, and near a support it is quicker still '
+      'since the reaction is already sitting there. Whichever is used, the '
+      'support REACTIONS come first, from the whole truss taken as one free '
+      'body: a cut leaves you holding a piece whose other external force is a '
+      'reaction, and a joint at a support IS a reaction. Skipping that step '
+      'is the commonest way to stall.',
+  formulas: [
+    ('One member, deep', r'\text{sections}'),
+    ('A whole connection', r'\text{joints}'),
+    ('Before either', r'\text{the reactions}'),
+  ],
+  figure: BriefFigure.trussRoute,
+  handbook: 'Handbook p. 271',
+);
+
 const naturalBrief = BriefSection(
   title: 'Stiffness over mass, under a square root',
   body:
@@ -7526,6 +7601,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{indeterminate can still be unstable}", true),
             (r"m + r = 2j \Rightarrow \text{stable}", false),
             (r"\text{more reactions always help}", false),
+          ],
+        );
+      case BriefFigure.momentCenter:
+        return const _RuleList(
+          rules: [
+            (r"\text{pivot where the unwanted two cross}", true),
+            (r"\text{parallel chords: use } \sum F_y", true),
+            (r"\text{one pivot suits every member}", false),
+            (r"\text{the pivot must be a joint you kept}", false),
+          ],
+        );
+      case BriefFigure.jointForce:
+        return const _RuleList(
+          rules: [
+            (r"F = \frac{P}{\sin\theta} > P", true),
+            (r"3\text{-}4\text{-}5: \; \sin = 0.6", true),
+            (r"F < P \text{ for a steep member}", false),
+            (r"F = P\sin\theta", false),
+          ],
+        );
+      case BriefFigure.trussRoute:
+        return const _RuleList(
+          rules: [
+            (r"\text{one deep member} \Rightarrow \text{sections}", true),
+            (r"\text{reactions before either}", true),
+            (r"\text{sections for a whole joint}", false),
+            (r"\text{joints is always quicker}", false),
           ],
         );
       case BriefFigure.cogo:
