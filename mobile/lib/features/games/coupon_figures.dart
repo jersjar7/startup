@@ -150,6 +150,12 @@ class CouponPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // The pull arrows continue past the ends of the specimen.
+    // Clipped here rather than left to the widget, so that anything
+    // leaving the panel is deliberate and the bounds check stays
+    // honest.
+    canvas.clipRect(Offset.zero & size);
+
     _bar(canvas, size, _beforeBar(size), necked: false);
     _bar(canvas, size, _nowBar(size), necked: coupon.necked);
 

@@ -84,7 +84,10 @@ class EnvelopePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final left = 40.0;
     final right = size.width - 20;
-    final bottom = size.height - 28;
+    // Two rows of writing go under the axis: the stress values on the
+    // circle, then what the axis is. At 28 they were written on the same
+    // line and read as one run-on word.
+    final bottom = size.height - 38;
     final top = 22.0;
 
     final widest = math.max(
@@ -115,7 +118,7 @@ class EnvelopePainter extends CustomPainter {
     writeOn(canvas, size, 'shear', Offset(4, top - 14), AppColors.ink3,
         fontSize: 9.5);
     writeOn(canvas, size, 'normal stress on the plane',
-        Offset(left + 6, bottom + 8), AppColors.ink3, fontSize: 9.5);
+        Offset(left + 6, bottom + 22), AppColors.ink3, fontSize: 9.5);
 
     if (!reveal) {
       writeOn(canvas, size, 'which envelope applies is the question',
@@ -148,9 +151,16 @@ class EnvelopePainter extends CustomPainter {
     // A test circle, touching the envelope where the soil gave way.
     final t = test;
     if (t != null) {
-      canvas.drawCircle(
-          Offset(xOf(t.center), yOf(0)),
-          (xOf(t.radius) - xOf(0)).abs(),
+      // A semicircle, not a circle. The lower half is the mirror of the
+      // upper one and carries nothing, which is why Mohr-Coulomb diagrams
+      // are drawn this way; drawn full, it hung below the panel and was cut
+      // off by the edge of the figure anyway.
+      final radius = (xOf(t.radius) - xOf(0)).abs();
+      canvas.drawArc(
+          Rect.fromCircle(center: Offset(xOf(t.center), yOf(0)), radius: radius),
+          math.pi,
+          math.pi,
+          false,
           Paint()
             ..color = AppColors.info
             ..style = PaintingStyle.stroke
@@ -166,7 +176,7 @@ class EnvelopePainter extends CustomPainter {
               ..color = AppColors.info
               ..strokeWidth = 2);
         writeOn(canvas, size, '$name ${v.toStringAsFixed(0)}',
-            Offset(xOf(v) - 20, bottom + 8), AppColors.info, fontSize: 9.5);
+            Offset(xOf(v) - 20, bottom + 6), AppColors.info, fontSize: 9.5);
       }
     }
 

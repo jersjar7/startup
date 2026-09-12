@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 
 /// One length of pipe at one diameter.
@@ -177,36 +176,21 @@ class RunPainter extends CustomPainter {
       canvas
         ..drawCircle(spot, 8, Paint()..color = AppColors.cream)
         ..drawCircle(spot, 6, Paint()..color = tone);
-      _write(canvas, size, '${i + 1}', spot + const Offset(-3, -19), tone);
+      writeOn(canvas, size, '${i + 1}', spot + const Offset(-3, -19), tone);
       // All the bore labels on one line, below the widest section, so a
       // narrow throat's label does not land on the wall beside it.
       final belowAll = size.height * 0.45 + 46 + 12;
-      _write(canvas, size, '${_num(run.bores[i].millimeters)} mm',
+      writeOn(canvas, size, '${_num(run.bores[i].millimeters)} mm',
           Offset(r.center.dx - 24, belowAll), AppColors.ink3);
     }
 
-    _write(canvas, size, '${_num(run.litersASecond)} liters a second, all of it',
+    writeOn(canvas, size, '${_num(run.litersASecond)} liters a second, all of it',
         Offset(10, size.height - 16), AppColors.ink3);
     viewTag(canvas, size, Looking.section);
   }
 
   static String _num(double v) =>
       v == v.roundToDouble() ? v.round().toString() : v.toString();
-
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, Offset(x, at.dy));
-  }
 
   @override
   bool shouldRepaint(RunPainter old) =>
@@ -265,9 +249,28 @@ class SquirtPainter extends CustomPainter {
     final tall = math.max(
         46.0, (size.height - 60) * squirt.head / tallest);
     final top = floor - tall;
-    final half = math.max(26.0, math.min(54.0, 16 * squirt.tankWide));
-    return Rect.fromLTRB(
-        size.width / 2 - half, top, size.width / 2 + half, floor);
+    // Half the tank's width, capped so that the tank AND the ground it
+    // stands on, which overhangs it by 26 either side, both fit. The widest
+    // tank in a reference-card panel used to hang its ground line out past
+    // the edge of the drawing.
+    final room = math.max(20.0, (size.width - 64) / 2);
+    final half =
+        math.max(20.0, math.min(math.min(54.0, room), 16 * squirt.tankWide));
+    // Not centered. The jet leaves the RIGHT wall and its arrow is as long
+    // as the speed is fast, with the speed written over it, so the tank is
+    // pushed left to leave that room. Centered, the fastest jets ran off
+    // the side of the panel and took the answer with them.
+    const jetRoom = 76.0;
+    // ...but never so far left that the tank wall and the ground it stands
+    // on go off the other side. The brief card draws this figure in a panel
+    // less than half a phone wide, where there is not room for both, and
+    // there the tank stays put and the jet is the one that gives way.
+    final ideal = size.width - jetRoom - half;
+    final leftMost = half + 32;
+    final rightMost = math.max(leftMost, size.width - half - 32);
+    final middle = math.min(
+        rightMost, math.max(leftMost, math.min(size.width / 2, ideal)));
+    return Rect.fromLTRB(middle - half, top, middle + half, floor);
   }
 
   @override
@@ -309,40 +312,30 @@ class SquirtPainter extends CustomPainter {
       final paint = Paint()
         ..color = AppColors.ember
         ..strokeWidth = 2.4;
-      final len = 20 + 34 * squirt.speed / math.sqrt(2 * 9.81 * tallest);
+      // Longer for a faster jet, but never longer than the room left to the
+      // right of the hole. In the narrow panel on the reference card there
+      // is no room to give, and an arrow drawn out through the side of the
+      // figure is just a line that stops.
+      final wants = 20 + 34 * squirt.speed / math.sqrt(2 * 9.81 * tallest);
+      final len = math.min(wants, size.width - 10 - at.dx);
       final tip = at + Offset(len, 10);
       canvas
         ..drawLine(at, tip, paint)
         ..drawLine(tip, tip + const Offset(-7, -2), paint)
         ..drawLine(tip, tip + const Offset(-4, -6), paint);
-      _write(canvas, size, '${squirt.speed.toStringAsFixed(1)} m/s',
+      writeOn(canvas, size, '${squirt.speed.toStringAsFixed(1)} m/s',
           at + const Offset(6, -16), AppColors.ember);
     }
 
-    _write(canvas, size, '${_num(squirt.head)} m head',
+    writeOn(canvas, size, '${_num(squirt.head)} m head',
         Offset(tank.left + 4, tank.top + 6), AppColors.ink3);
-    _write(canvas, size, '${_num(squirt.holeMillimeters)} mm hole',
+    writeOn(canvas, size, '${_num(squirt.holeMillimeters)} mm hole',
         Offset(tank.left - 4, tank.bottom + 14), AppColors.ink3);
     viewTag(canvas, size, Looking.section);
   }
 
   static String _num(double v) =>
       v == v.roundToDouble() ? v.round().toString() : v.toString();
-
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, Offset(x, at.dy));
-  }
 
   @override
   bool shouldRepaint(SquirtPainter old) =>

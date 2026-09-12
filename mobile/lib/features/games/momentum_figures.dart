@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 
 /// What a jet runs into, named by how far around it turns the water.
@@ -209,7 +208,7 @@ class HitPainter extends CustomPainter {
       final reach = biggest <= 0 ? 0.0 : 40 * hit.push / biggest;
       final from = Offset(faceX + 4, size.height - 30);
       if (reach < 1) {
-        _write(canvas, size, 'no push', from + const Offset(-8, -7), tone);
+        writeOn(canvas, size, 'no push', from + const Offset(-8, -7), tone);
       } else {
         final to = from + Offset(reach, 0);
         canvas
@@ -225,10 +224,10 @@ class HitPainter extends CustomPainter {
       if (hit.bore != 1) 'bore x${_num(hit.bore)}',
     ];
     if (notes.isNotEmpty) {
-      _write(canvas, size, notes.join(', '), Offset(6, size.height - 27),
+      writeOn(canvas, size, notes.join(', '), Offset(6, size.height - 27),
           AppColors.ember);
     }
-    _write(canvas, size, hit.face.label, Offset(6, size.height - 15),
+    writeOn(canvas, size, hit.face.label, Offset(6, size.height - 15),
         AppColors.ink2);
     viewTag(canvas, size, Looking.elevation);
   }
@@ -404,7 +403,7 @@ class TrunkPainter extends CustomPainter {
       if (trunk.mixedBores &&
           (i == 0 || trunk.legs[i].bore != trunk.legs[i - 1].bore)) {
         final mid = Offset((a.dx + b.dx) / 2, (a.dy + b.dy) / 2);
-        _write(canvas, size, '${_num(trunk.legs[i].bore)} mm',
+        writeOn(canvas, size, '${_num(trunk.legs[i].bore)} mm',
             mid + const Offset(-16, 14), AppColors.ink3);
       }
     }
@@ -456,7 +455,7 @@ class TrunkPainter extends CustomPainter {
               ..color = tone
               ..style = PaintingStyle.stroke
               ..strokeWidth = 2.2);
-      _write(canvas, size, '${i + 1}', spot + const Offset(-3, -6), tone);
+      writeOn(canvas, size, '${i + 1}', spot + const Offset(-3, -6), tone);
     }
     viewTag(canvas, size, Looking.plan, note: 'seen from above');
   }
@@ -628,7 +627,7 @@ class ElbowPainter extends CustomPainter {
               ..color = tone
               ..style = PaintingStyle.stroke
               ..strokeWidth = 2);
-      _write(canvas, size, letters[i], spot + const Offset(-4, -6), tone);
+      writeOn(canvas, size, letters[i], spot + const Offset(-4, -6), tone);
     }
     viewTag(canvas, size, Looking.plan, note: 'seen from above');
   }
@@ -641,17 +640,3 @@ class ElbowPainter extends CustomPainter {
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
 
-void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-  final painter = TextPainter(
-    text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-    textDirection: TextDirection.ltr,
-  )..layout();
-  var x = at.dx;
-  if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-  if (x < 2) x = 2;
-  final patch =
-      Rect.fromLTWH(x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-  canvas.drawRect(
-      patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-  painter.paint(canvas, Offset(x, at.dy));
-}

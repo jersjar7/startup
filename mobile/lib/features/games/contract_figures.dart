@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// A job's cost against what it was priced at, drawn as one bar.
 ///
@@ -66,6 +67,7 @@ class CostBarPainter extends CustomPainter {
       );
       _write(
         canvas,
+        size,
         'the overrun',
         Offset(overrun.center.dx, y - h / 2 - 15),
         color: revealed ? AppColors.error : AppColors.ember,
@@ -97,14 +99,19 @@ class CostBarPainter extends CustomPainter {
     // and the end of the bar says what it cost without being told to.
     _write(
       canvas,
+      size,
       pricedLabel,
       Offset(px, y + h / 2 + 12),
       color: AppColors.ink3,
     );
   }
 
+  /// `at` is where the text wants to be, `align` says which part of it sits
+  /// there. Both labels here are centered on something near the right end of
+  /// the bar, so both used to run off the panel and lose their last words.
   void _write(
     Canvas canvas,
+    Size size,
     String text,
     Offset at, {
     required Color color,
@@ -119,7 +126,7 @@ class CostBarPainter extends CustomPainter {
       -1 => tp.width,
       _ => tp.width / 2,
     };
-    tp.paint(canvas, at - Offset(dx, 0));
+    paintInside(canvas, size, tp, at - Offset(dx, 0));
   }
 
   @override

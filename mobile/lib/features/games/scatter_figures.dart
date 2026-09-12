@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// A paired reading. Whole numbers, so a scatter can be drawn on a grid a
 /// student can count squares on.
@@ -118,8 +119,10 @@ class ScatterPainter extends CustomPainter {
         fine,
       );
     }
-    _label(canvas, 'x', _at(size, xTo.toDouble(), 0) + const Offset(6, 12));
-    _label(canvas, 'y', _at(size, 0, yTo.toDouble()) + const Offset(-14, -6));
+    _label(canvas, 'x', _at(size, xTo.toDouble(), 0) + const Offset(6, 12),
+        size: size);
+    _label(canvas, 'y', _at(size, 0, yTo.toDouble()) + const Offset(-14, -6),
+        size: size);
 
     final residual = residualsFor;
     if (residual != null) {
@@ -157,13 +160,19 @@ class ScatterPainter extends CustomPainter {
       );
       final label = line.label;
       if (label != null) {
-        // At the end of the line, and off to whichever side has room.
+        // At the end of the line, on whichever side has room. A line that
+        // leaves through the TOP ends within a few points of the panel edge,
+        // so a label placed above it is cut in half by the rounded box the
+        // figure sits in: the reader gets the bottom of a letter. Those go
+        // below the end and off to the left instead, clear of the line.
         final at = _at(size, to, line.at(to));
+        final leavesRight = to >= xTo - 0.01;
         _label(
           canvas,
           label,
-          at + Offset(to >= xTo - 0.01 ? 8 : 0, to >= xTo - 0.01 ? 0 : -12),
+          at + (leavesRight ? const Offset(8, 0) : const Offset(-11, 10)),
           color: color,
+          size: size,
         );
       }
     }
@@ -204,21 +213,25 @@ class ScatterPainter extends CustomPainter {
           ..strokeWidth = 2.5,
       );
       _label(canvas, 'means', at + const Offset(0, -17),
-          color: const Color(0xFFB07C0C));
+          color: const Color(0xFFB07C0C), size: size);
     }
   }
 
+  /// `at` is where the label should be CENTERED. Nothing is allowed outside
+  /// the panel, because the panel is clipped and a label that goes over the
+  /// edge is not shrunk, it is cut.
   void _label(
     Canvas canvas,
     String text,
     Offset at, {
     Color color = AppColors.ink3,
+    required Size size,
   }) {
     final tp = TextPainter(
       text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
       textDirection: TextDirection.ltr,
     )..layout();
-    tp.paint(canvas, at - Offset(tp.width / 2, tp.height / 2));
+    paintInside(canvas, size, tp, at - Offset(tp.width / 2, tp.height / 2));
   }
 
   @override

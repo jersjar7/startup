@@ -9,6 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile/core/theme/app_theme.dart';
+
+import 'figure_bounds.dart';
 import 'package:mobile/features/games/acute_or_obtuse_game.dart';
 import 'package:mobile/features/games/balance_both_sides_game.dart';
 import 'package:mobile/features/games/build_the_identity_game.dart';
@@ -3641,10 +3643,56 @@ void main() {
             matchesGoldenFile('goldens/answered/${item.lesson}/$id.png'),
           );
         }
+
+        // Anything a figure paints outside its own panel is clipped away by
+        // the rounded box it sits in, so it cannot be seen in a screenshot:
+        // it shows up as a label with its top cut off, or missing. Check
+        // both states of every round. FIGURE_BOUNDS=report collects them
+        // instead of failing, which is how the list gets made.
+        if (Platform.environment['FIGURE_BOUNDS'] != null) {
+          await _checkBounds(tester, id, round, 'asked');
+          if (Platform.environment['FIGURE_BOUNDS'] != null &&
+      Platform.environment['FIGURE_BOUNDS'] != 'fail') {
+            await _answerSomething(tester);
+            await _checkBounds(tester, id, round, 'answered');
+          }
+        }
       }
       GameProgress.instance.reset(id);
     });
   }
+}
+
+/// Repaint every figure on screen into a bigger canvas and see what fell
+/// outside. In `report` mode the findings are appended to a file and the
+/// test carries on; otherwise the first one fails the run.
+Future<void> _checkBounds(
+  WidgetTester tester,
+  String id,
+  int round,
+  String state,
+) async {
+  // FIGURE_BOUNDS=save also writes the oversized render, panel edge drawn
+  // in, so an offender can be looked at rather than guessed at from source.
+  final spills = await findSpills(
+    tester,
+    saveAs: Platform.environment['FIGURE_BOUNDS'] == 'save'
+        ? '$id-r${round + 1}-$state'
+        : null,
+  );
+  if (spills.isEmpty) return;
+  final lines = spills
+      .map((s) => '$id  round ${round + 1}  $state  $s')
+      .join('\n');
+  // Only FIGURE_BOUNDS=fail stops the run. The other modes collect, because
+  // the point of a sweep is the whole list, not the first entry in it.
+  if (Platform.environment['FIGURE_BOUNDS'] != 'fail') {
+    final out = File('build/figure-bounds.txt');
+    out.parent.createSync(recursive: true);
+    out.writeAsStringSync('$lines\n', mode: FileMode.append);
+    return;
+  }
+  fail('Ink outside the panel:\n$lines');
 }
 
 /// Get a board into its answered state without knowing how it takes an

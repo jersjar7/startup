@@ -1,7 +1,10 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// A plain coordinate grid you can point at.
 ///
@@ -84,18 +87,53 @@ class GridPainter extends CustomPainter {
 
     for (var i = -span; i <= span; i += 2) {
       if (i == 0) continue;
-      _tick(canvas, '$i', g.toScreen(i, 0) + const Offset(0, 14));
-      _tick(canvas, '$i', g.toScreen(0, i) + const Offset(-16, 0));
+      _tick(canvas, size, '$i', g.toScreen(i, 0) + const Offset(0, 14));
+      _tick(canvas, size, '$i', g.toScreen(0, i) + const Offset(-16, 0));
     }
 
     if (revealed && truth != null && radius != null) {
-      canvas.drawCircle(
-        g.toScreen(truth!.$1, truth!.$2),
-        radius! * g.step,
+      final middle = g.toScreen(truth!.$1, truth!.$2);
+      // The circle is clipped to the panel, because a radius of 8 on a grid
+      // that runs to 6 does not fit and never will. What must not be lost
+      // is the radius itself: the whole point of the reveal is that the 64
+      // on the right of the equation is r SQUARED. So the radius is drawn
+      // as a spoke with its length on it, and the circle behind it is
+      // whatever happens to fit.
+      canvas
+        ..save()
+        ..clipRect(Offset.zero & size)
+        ..drawCircle(
+          middle,
+          radius! * g.step,
+          Paint()
+            ..color = AppColors.forest.withValues(alpha: 0.55)
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2.5,
+        )
+        ..restore();
+
+      // The spoke goes whichever way has the most room, so it stays on the
+      // drawing even when the center sits in a corner.
+      final toLeft = middle.dx > size.width / 2;
+      final end = middle + Offset(toLeft ? -1 : 1, 0) * (radius! * g.step);
+      final stop = Offset(
+        end.dx.clamp(14.0, size.width - 14),
+        end.dy,
+      );
+      canvas.drawLine(
+        middle,
+        stop,
         Paint()
-          ..color = AppColors.forest.withValues(alpha: 0.55)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.5,
+          ..color = AppColors.forest
+          ..strokeWidth = 2,
+      );
+      writeOn(
+        canvas,
+        size,
+        'r = ${_plain(radius!)}',
+        Offset(math.min(middle.dx, stop.dx) + 4, middle.dy - 16),
+        AppColors.forest,
+        fontSize: 10,
       );
     }
 
@@ -118,7 +156,10 @@ class GridPainter extends CustomPainter {
     if (revealed && truth != null) dot(truth!, AppColors.forest);
   }
 
-  void _tick(Canvas canvas, String text, Offset at) {
+  static String _plain(double v) =>
+      v == v.roundToDouble() ? v.round().toString() : v.toString();
+
+  void _tick(Canvas canvas, Size size, String text, Offset at) {
     final tp = TextPainter(
       text: TextSpan(
         text: text,
@@ -126,7 +167,7 @@ class GridPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    tp.paint(canvas, at - Offset(tp.width / 2, tp.height / 2));
+    paintInside(canvas, size, tp, at - Offset(tp.width / 2, tp.height / 2));
   }
 
   @override

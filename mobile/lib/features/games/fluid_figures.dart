@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 
 /// A plate sliding on a film of oil, which is the whole of this lesson's
@@ -119,34 +118,19 @@ class FilmPainter extends CustomPainter {
       ..drawLine(tip, tip + const Offset(-6, -4), pull)
       ..drawLine(tip, tip + const Offset(-6, 4), pull);
 
-    _write(canvas, size, '${_num(film.speed)} m/s',
+    writeOn(canvas, size, '${_num(film.speed)} m/s',
         Offset(plate.right - 52, plate.top - 16), AppColors.ember);
-    _write(canvas, size, '${_num(film.millimeters)} mm',
+    writeOn(canvas, size, '${_num(film.millimeters)} mm',
         Offset(plate.left + 4, plate.bottom + gap / 2 - 6), AppColors.ink3);
-    _write(canvas, size, '${film.fluid}, ${_num(film.mu)} Pa s',
+    writeOn(canvas, size, '${film.fluid}, ${_num(film.mu)} Pa s',
         Offset(plate.left, floor + 14), AppColors.ink3);
-    _write(canvas, size, 'fixed', Offset(plate.right - 40, floor + 4),
+    writeOn(canvas, size, 'fixed', Offset(plate.right - 40, floor + 4),
         AppColors.ink3);
     viewTag(canvas, size, Looking.section);
   }
 
   static String _num(double v) =>
       v == v.roundToDouble() ? v.round().toString() : v.toString();
-
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, Offset(x, at.dy));
-  }
 
   @override
   bool shouldRepaint(FilmPainter old) =>
@@ -262,7 +246,7 @@ class CapillaryPainter extends CustomPainter {
               ..strokeWidth = 2);
       waterLevel(canvas, dish.topLeft, dish.topRight,
           markAt: dish.left + 18);
-      _write(canvas, size, straws[i].liquid,
+      writeOn(canvas, size, straws[i].liquid,
           Offset(dish.left + 4, dish.bottom + 4), AppColors.ink3);
     }
 
@@ -294,7 +278,7 @@ class CapillaryPainter extends CustomPainter {
         ..drawLine(tube.topRight, tube.bottomRight,
             Paint()..color = tone..strokeWidth = tone == AppColors.charcoal ? 1.6 : 2.6);
 
-      _write(canvas, size, '${_num(straws[i].millimeters)} mm',
+      writeOn(canvas, size, '${_num(straws[i].millimeters)} mm',
           Offset(tube.center.dx - 16, tube.top - 14), tone);
     }
     viewTag(canvas, size, Looking.section);
@@ -302,21 +286,6 @@ class CapillaryPainter extends CustomPainter {
 
   static String _num(double v) =>
       v == v.roundToDouble() ? v.round().toString() : v.toString();
-
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, Offset(x, at.dy));
-  }
 
   @override
   bool shouldRepaint(CapillaryPainter old) =>
@@ -486,9 +455,9 @@ class PotPainter extends CustomPainter {
         ..drawCircle(spot, 6, Paint()..color = AppColors.cream)
         ..drawCircle(spot, 4.5, Paint()..color = tone);
 
-      _write(canvas, size, '${_num(pot.at)} m deep',
+      writeOn(canvas, size, '${_num(pot.at)} m deep',
           Offset(cell.center.dx - 28, surface - 30), AppColors.ink3);
-      _write(canvas, size, pot.liquid,
+      writeOn(canvas, size, pot.liquid,
           Offset(cell.center.dx - 18, floor + 6), AppColors.ink3);
     }
 
@@ -499,21 +468,6 @@ class PotPainter extends CustomPainter {
 
   static String _num(double v) =>
       v == v.roundToDouble() ? v.round().toString() : v.toString();
-
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, Offset(x, at.dy));
-  }
 
   @override
   bool shouldRepaint(PotPainter old) =>
@@ -640,7 +594,7 @@ class UTubePainter extends CustomPainter {
         Rect.fromLTRB(left - bore / 2, top + 18, left + bore / 2, leftSurface),
         Paint()..color = AppColors.info.withValues(alpha: 0.35),
       );
-      _write(canvas, size, tube.lightName, Offset(left - 48, top + 24),
+      writeOn(canvas, size, tube.lightName, Offset(left - 48, top + 24),
           AppColors.info);
     }
 
@@ -669,12 +623,12 @@ class UTubePainter extends CustomPainter {
         Offset(right + bore / 2, rightSurface),
         color: AppColors.charcoal);
 
-    _write(canvas, size, 'air line', Offset(left - 54, top - 2),
+    writeOn(canvas, size, 'air line', Offset(left - 54, top - 2),
         AppColors.ink3);
-    _write(canvas, size, 'open', Offset(right + 10, top - 2), AppColors.ink3);
+    writeOn(canvas, size, 'open', Offset(right + 10, top - 2), AppColors.ink3);
     // Under the bend, clear of the walk's own labels, which live beside the
     // legs and used to run into this one.
-    _write(canvas, size, tube.heavyName, Offset(left - 10, bottom + 6),
+    writeOn(canvas, size, tube.heavyName, Offset(left - 10, bottom + 6),
         AppColors.ink3);
 
     // The height between the two mercury surfaces, which is what the
@@ -690,7 +644,7 @@ class UTubePainter extends CustomPainter {
       ..drawLine(Offset(right + bore / 2 + 20, rightSurface),
           Offset(right + bore / 2 + 20, leftSurface),
           Paint()..color = AppColors.ember..strokeWidth = 1.6);
-    _write(canvas, size, 'h', Offset(right + bore / 2 + 24,
+    writeOn(canvas, size, 'h', Offset(right + bore / 2 + 24,
         (leftSurface + rightSurface) / 2 - 7), AppColors.ember);
 
     // The step being asked about.
@@ -717,24 +671,9 @@ class UTubePainter extends CustomPainter {
     Offset beside(Offset spot, double dy) => spot.dx > size.width / 2
         ? Offset(spot.dx - 36, spot.dy + dy)
         : Offset(spot.dx + 8, spot.dy + dy);
-    _write(canvas, size, 'from', beside(a, -14), AppColors.ember);
-    _write(canvas, size, 'to', beside(b, 4), AppColors.forest);
+    writeOn(canvas, size, 'from', beside(a, -14), AppColors.ember);
+    writeOn(canvas, size, 'to', beside(b, 4), AppColors.forest);
     viewTag(canvas, size, Looking.section);
-  }
-
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, Offset(x, at.dy));
   }
 
   @override
@@ -871,7 +810,7 @@ class GatePainter extends CustomPainter {
     waterLevel(canvas, const Offset(10, _surfaceY),
         Offset(size.width - 10, _surfaceY),
         markAt: size.width * 0.40);
-    _write(canvas, size, 'surface', const Offset(12, _surfaceY - 16),
+    writeOn(canvas, size, 'surface', const Offset(12, _surfaceY - 16),
         AppColors.info);
 
     // The break in the water column, for a gate a long way down.
@@ -897,7 +836,7 @@ class GatePainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.4,
       );
-      _write(canvas, size, '${_num(gate.topDepth)} m of water above',
+      writeOn(canvas, size, '${_num(gate.topDepth)} m of water above',
           Offset(12, y + 8), AppColors.info);
     }
 
@@ -936,13 +875,13 @@ class GatePainter extends CustomPainter {
       );
     }
 
-    _write(canvas, size, '${_num(gate.wide)} m wide', Offset(12, _surfaceY + 8),
+    writeOn(canvas, size, '${_num(gate.wide)} m wide', Offset(12, _surfaceY + 8),
         AppColors.ink3);
-    _write(canvas, size, '${_num(gate.tall)} m tall',
+    writeOn(canvas, size, '${_num(gate.tall)} m tall',
         Offset(12, _surfaceY + 22), AppColors.ink3);
     // With a break drawn, the depth is already written across it.
     if (gate.topDepth > 0 && !broken(gate)) {
-      _write(canvas, size, 'top ${_num(gate.topDepth)} m down',
+      writeOn(canvas, size, 'top ${_num(gate.topDepth)} m down',
           Offset(12, _surfaceY + 36), AppColors.ink3);
     }
 
@@ -962,7 +901,7 @@ class GatePainter extends CustomPainter {
         ..drawCircle(spot, 7, Paint()..color = AppColors.cream)
         ..drawCircle(spot, 5, Paint()..color = tone);
       if (locked) {
-        _write(canvas, size, mark.plain, spot + const Offset(12, -6), tone);
+        writeOn(canvas, size, mark.plain, spot + const Offset(12, -6), tone);
       }
     }
     viewTag(canvas, size, Looking.section);
@@ -970,21 +909,6 @@ class GatePainter extends CustomPainter {
 
   static String _num(double v) =>
       v == v.roundToDouble() ? v.round().toString() : v.toString();
-
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, Offset(x, at.dy));
-  }
 
   @override
   bool shouldRepaint(GatePainter old) =>
@@ -1057,9 +981,9 @@ class LumpPainter extends CustomPainter {
       groundLine(canvas, const Offset(8, 22), Offset(size.width - 8, 22));
       waterLevel(canvas, const Offset(8, 14), Offset(size.width - 8, 14),
           markAt: 44);
-      _write(canvas, size, 'water table', const Offset(58, 2),
+      writeOn(canvas, size, 'water table', const Offset(58, 2),
           AppColors.info);
-      _write(canvas, size, 'saturated ground', Offset(8, size.height - 20),
+      writeOn(canvas, size, 'saturated ground', Offset(8, size.height - 20),
           AppColors.ink3);
     } else {
       waterLevel(canvas, const Offset(8, 22), Offset(size.width - 8, 22),
@@ -1077,9 +1001,9 @@ class LumpPainter extends CustomPainter {
           ..strokeWidth = 1.8,
       );
 
-    _write(canvas, size, lump.name, Offset(box.left, box.top - 16),
+    writeOn(canvas, size, lump.name, Offset(box.left, box.top - 16),
         AppColors.ink3);
-    _write(canvas, size, '${_num(lump.volume)} m3, ${_num(lump.weight)} kN',
+    writeOn(canvas, size, '${_num(lump.volume)} m3, ${_num(lump.weight)} kN',
         Offset(box.left - 18, box.bottom + 8), AppColors.ink3);
     viewTag(canvas, size, Looking.section);
 
@@ -1091,9 +1015,9 @@ class LumpPainter extends CustomPainter {
         AppColors.info);
     _arrow(canvas, box.bottomCenter, box.bottomCenter + Offset(0, down),
         AppColors.error);
-    _write(canvas, size, 'push ${_num(lump.buoyancy)} kN',
+    writeOn(canvas, size, 'push ${_num(lump.buoyancy)} kN',
         box.topCenter - Offset(-8, up + 4), AppColors.info);
-    _write(canvas, size, 'weight ${_num(lump.weight)} kN',
+    writeOn(canvas, size, 'weight ${_num(lump.weight)} kN',
         box.bottomCenter + Offset(8, down - 6), AppColors.error);
   }
 
@@ -1110,21 +1034,6 @@ class LumpPainter extends CustomPainter {
 
   static String _num(double v) =>
       v == v.roundToDouble() ? v.round().toString() : v.toStringAsFixed(2);
-
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, Offset(x, at.dy));
-  }
 
   @override
   bool shouldRepaint(LumpPainter old) =>

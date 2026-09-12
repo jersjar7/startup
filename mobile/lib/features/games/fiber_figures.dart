@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// Which way the load runs against the fibers, which is the only thing that
 /// decides how a composite behaves.
@@ -126,22 +126,20 @@ class BlendPainter extends CustomPainter {
       }
     }
 
-    _write(canvas, size, blend.fiberName, Offset(2, box.top - 4), fiberTone);
-    _write(
-        canvas,
+    writeOn(canvas, size, blend.fiberName, Offset(2, box.top - 4), fiberTone);
+    writeOn(        canvas,
         size,
         '${_num(blend.fiberE)} GPa, ${(blend.fiberShare * 100).round()}%',
         Offset(2, box.top + 10),
         AppColors.ink3);
-    _write(canvas, size, blend.matrixName, Offset(2, box.bottom - 16),
+    writeOn(canvas, size, blend.matrixName, Offset(2, box.bottom - 16),
         AppColors.charcoal);
-    _write(
-        canvas,
+    writeOn(        canvas,
         size,
         '${_num(blend.matrixE)} GPa, ${(blend.matrixShare * 100).round()}%',
         Offset(2, box.bottom - 2),
         AppColors.ink3);
-    _write(canvas, size, lay.plain, Offset(box.left, size.height - 16),
+    writeOn(canvas, size, lay.plain, Offset(box.left, size.height - 16),
         AppColors.ink3);
 
     if (!stretched) return;
@@ -153,10 +151,10 @@ class BlendPainter extends CustomPainter {
     if (lay == Lay.along) {
       canvas.drawLine(Offset(box.right + 2, box.top - 6),
           Offset(box.right + 16, box.top - 6), grew);
-      _write(canvas, size, 'both stretch the same',
+      writeOn(canvas, size, 'both stretch the same',
           Offset(box.left, box.bottom + 12), AppColors.forest);
     } else {
-      _write(canvas, size, 'the matrix gives way first',
+      writeOn(canvas, size, 'the matrix gives way first',
           Offset(box.left, box.bottom + 12), AppColors.forest);
     }
   }
@@ -183,21 +181,6 @@ class BlendPainter extends CustomPainter {
       ..drawLine(from, to, paint)
       ..drawLine(to, to - unit * 7 + side * 4, paint)
       ..drawLine(to, to - unit * 7 - side * 4, paint);
-  }
-
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, Offset(x, at.dy));
   }
 
   @override

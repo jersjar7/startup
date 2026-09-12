@@ -163,7 +163,8 @@ class FlightPainter extends CustomPainter {
       if (showVelocities) {
         final v = flight.velocityAt(flight.airborne * m.share);
         final scale = 2.2;
-        _arrow(canvas, p, p + Offset(v.dx * scale, -v.dy * scale), color);
+        _arrow(canvas, size, p, p + Offset(v.dx * scale, -v.dy * scale),
+            color);
       }
       canvas
         ..drawCircle(p, 7, Paint()..color = AppColors.cream)
@@ -172,8 +173,22 @@ class FlightPainter extends CustomPainter {
     viewTag(canvas, size, Looking.elevation);
   }
 
-  void _arrow(Canvas canvas, Offset from, Offset to, Color color) {
+  /// The velocity at a moment, drawn leaving the point.
+  ///
+  /// Except at the landing, where it points down and forward and would be
+  /// drawn off the bottom corner of the panel: the figure is clipped, so
+  /// that arrow simply disappeared, and it is the one the item is usually
+  /// asking about. When the head would land outside, the same arrow is
+  /// drawn ARRIVING at the point instead. Same direction, same length, and
+  /// it reads as the velocity carrying the ball into the ground.
+  void _arrow(Canvas canvas, Size size, Offset from, Offset to, Color color) {
     if ((to - from).distance < 2) return;
+    final panel = (Offset.zero & size).deflate(5);
+    if (!panel.contains(to)) {
+      final along = to - from;
+      from = from - along;
+      to = from + along;
+    }
     final paint = Paint()
       ..color = color
       ..strokeWidth = 2;

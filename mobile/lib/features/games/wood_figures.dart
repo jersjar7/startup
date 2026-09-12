@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// A move in moisture content, from where the timber was to where it ends up.
 @immutable
@@ -81,13 +81,13 @@ class DryingPainter extends CustomPainter {
     // The three rows of writing are kept on their own lines: the saturation
     // point at the very top, the move's two ends against the bar, and the
     // two grounds named underneath.
-    _write(canvas, size, 'saturation point, 30%', Offset(fsp - 58, 4),
+    writeOn(canvas, size, 'saturation point, 30%', Offset(fsp - 58, 4),
         AppColors.ember);
     // Kept short: the left ground is only a quarter of the scale wide, and a
     // longer caption runs straight into the one beside it.
-    _write(canvas, size, 'in the walls',
+    writeOn(canvas, size, 'in the walls',
         Offset(box.left + 2, box.bottom + 22), AppColors.ink3);
-    _write(canvas, size, 'free in the cavities',
+    writeOn(canvas, size, 'free in the cavities',
         Offset(fsp + 6, box.bottom + 22), AppColors.ink3);
 
     for (final mc in [0.0, 30.0, 60.0, 90.0, 120.0]) {
@@ -95,11 +95,11 @@ class DryingPainter extends CustomPainter {
       canvas.drawLine(Offset(x, box.bottom), Offset(x, box.bottom + 4),
           Paint()..color = AppColors.ink3..strokeWidth = 1);
       if (mc != 30) {
-        _write(canvas, size, '${mc.round()}', Offset(x - 7, box.bottom + 38),
+        writeOn(canvas, size, '${mc.round()}', Offset(x - 7, box.bottom + 38),
             AppColors.ink3);
       }
     }
-    _write(canvas, size, 'moisture content, percent of the dry wood',
+    writeOn(canvas, size, 'moisture content, percent of the dry wood',
         Offset(box.left, box.bottom + 54), AppColors.ink3);
 
     if (!showMove) return;
@@ -116,29 +116,14 @@ class DryingPainter extends CustomPainter {
       ..drawLine(Offset(to, y), Offset(to - 6 * way, y - 5), paint)
       ..drawLine(Offset(to, y), Offset(to - 6 * way, y + 5), paint)
       ..drawCircle(Offset(from, y), 4, Paint()..color = AppColors.charcoal);
-    _write(canvas, size, '${_num(move.from)}%', Offset(from - 14, box.top - 16),
+    writeOn(canvas, size, '${_num(move.from)}%', Offset(from - 14, box.top - 16),
         AppColors.charcoal);
-    _write(canvas, size, '${_num(move.to)}%', Offset(to - 14, box.bottom + 6),
+    writeOn(canvas, size, '${_num(move.to)}%', Offset(to - 14, box.bottom + 6),
         AppColors.charcoal);
   }
 
   static String _num(double v) =>
       v == v.roundToDouble() ? v.round().toString() : v.toStringAsFixed(1);
-
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, Offset(x, at.dy));
-  }
 
   @override
   bool shouldRepaint(DryingPainter old) =>

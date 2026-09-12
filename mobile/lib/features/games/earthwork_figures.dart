@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 
 /// One cross-section taken at a station along a job.
@@ -151,7 +150,7 @@ class HaulPainter extends CustomPainter {
               ..strokeWidth = 1.4);
       }
       // In the margin at the left end of the line, where no section stands.
-      _write(canvas, size, 'avg', Offset(6, y - 5), AppColors.info);
+      writeOn(canvas, size, 'avg', Offset(6, y - 5), AppColors.info);
     }
 
     for (var i = 0; i < haul.slabs.length; i++) {
@@ -170,17 +169,17 @@ class HaulPainter extends CustomPainter {
       if (s.area > 0) {
         canvas.drawCircle(Offset(x, top), 3, Paint()..color = tone);
       }
-      _write(canvas, size, _num(s.area), Offset(x - 12, top - 15), tone);
-      _write(canvas, size, s.name, Offset(x - 14, base + 6), AppColors.ink3);
+      writeOn(canvas, size, _num(s.area), Offset(x - 12, top - 15), tone);
+      writeOn(canvas, size, s.name, Offset(x - 14, base + 6), AppColors.ink3);
     }
 
     if (skipMiddle) {
       // Along the top, which is clear: the stationing runs along the
       // bottom and the section numbers sit on their own bars.
-      _write(canvas, size, 'worked end to end, the middle ignored',
+      writeOn(canvas, size, 'worked end to end, the middle ignored',
           const Offset(12, 6), AppColors.error);
     }
-    _write(canvas, size, 'areas in square feet', Offset(12, size.height - 16),
+    writeOn(canvas, size, 'areas in square feet', Offset(12, size.height - 16),
         AppColors.ink3);
     viewTag(canvas, size, Looking.elevation, note: 'along the job');
   }
@@ -306,10 +305,10 @@ class SolidPainter extends CustomPainter {
           ..drawPath(face([at(0, 0, 0), at(0, 0, 1), tip]), ink);
     }
 
-    _write(canvas, size, 'the section', Offset(o.dx - 22, o.dy - tall - 20),
+    writeOn(canvas, size, 'the section', Offset(o.dx - 22, o.dy - tall - 20),
         AppColors.charcoal);
     if (showBox) {
-      _write(canvas, size, 'the box around it',
+      writeOn(canvas, size, 'the box around it',
           Offset(size.width - 110, size.height - 30), AppColors.ink3);
     }
     viewTag(canvas, size, Looking.elevation, note: 'drawn in the round');
@@ -323,17 +322,3 @@ class SolidPainter extends CustomPainter {
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
 
-void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-  final painter = TextPainter(
-    text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-    textDirection: TextDirection.ltr,
-  )..layout();
-  var x = at.dx;
-  if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-  if (x < 2) x = 2;
-  final patch =
-      Rect.fromLTWH(x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-  canvas.drawRect(
-      patch, Paint()..color = AppColors.cream.withValues(alpha: 0.92));
-  painter.paint(canvas, Offset(x, at.dy));
-}

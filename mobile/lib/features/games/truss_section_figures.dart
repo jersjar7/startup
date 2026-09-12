@@ -246,23 +246,28 @@ class CornerPainter extends CustomPainter {
       // closing horizontal. The diagonal is the hypotenuse, so it is the
       // longest side, always.
       final base = Offset(size.width * 0.74, size.height * 0.78);
-      const up = 46.0;
-      final across = up / math.tan(corner.radians);
+      // The triangle is built from the angle, so a shallow diagonal makes a
+      // very long one: at ten degrees it reached back past the left edge of
+      // the panel and its label landed on the joint. The horizontal is
+      // capped and the vertical follows it, which keeps the same angle and
+      // the same shape, just smaller.
+      const tallest = 46.0;
+      final across = math.min(tallest / math.tan(corner.radians), 104.0);
+      final up = across * math.tan(corner.radians);
       final ink = Paint()
         ..color = AppColors.forest
         ..strokeWidth = 2.4;
       canvas
-        ..drawLine(base, base + const Offset(0, -up), ink)
-        ..drawLine(base + const Offset(0, -up),
-            base + Offset(-across, -up), ink)
+        ..drawLine(base, base + Offset(0, -up), ink)
+        ..drawLine(base + Offset(0, -up), base + Offset(-across, -up), ink)
         ..drawLine(base + Offset(-across, -up), base, ink);
-      writeOn(canvas, size, 'load', base + const Offset(4, -up / 2),
+      writeOn(canvas, size, 'load', base + Offset(4, -up / 2),
           AppColors.forest, fontSize: 9);
       writeOn(
           canvas,
           size,
           'diagonal, ${corner.ratio.toStringAsFixed(2)} times the load',
-          base + Offset(-across - 30, -up - 16),
+          base + Offset(-across, -up - 15),
           AppColors.forest,
           fontSize: 9);
     }

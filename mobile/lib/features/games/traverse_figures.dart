@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 import 'survey_figures.dart';
 
@@ -55,6 +54,13 @@ class LegPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // The north line runs the full height, past the drawing at both
+    // ends.
+    // Clipped here rather than left to the widget, so that anything
+    // leaving the panel is deliberate and the bounds check stays
+    // honest.
+    canvas.clipRect(Offset.zero & size);
+
     // The course is drawn from the corner it starts at, to scale in
     // direction, sized to fit whichever way it runs.
     final r = course.azimuth * math.pi / 180;
@@ -121,8 +127,7 @@ class LegPainter extends CustomPainter {
         ..strokeWidth = 1.5,
     );
     final mid = -math.pi / 2 + r / 2;
-    _write(
-        canvas,
+    writeOn(        canvas,
         size,
         '${_num(course.azimuth)}°',
         a + Offset(math.cos(mid), math.sin(mid)) * 40 + const Offset(-10, -6),
@@ -133,20 +138,20 @@ class LegPainter extends CustomPainter {
       canvas
         ..drawCircle(p, 5, Paint()..color = AppColors.cream)
         ..drawCircle(p, 3.4, Paint()..color = AppColors.charcoal);
-      _write(canvas, size, name, p + const Offset(7, -16), AppColors.charcoal);
+      writeOn(canvas, size, name, p + const Offset(7, -16), AppColors.charcoal);
     }
 
     final latMid = Offset(a.dx, (a.dy + corner.dy) / 2);
     final depMid = Offset((corner.dx + b.dx) / 2, b.dy);
-    _write(canvas, size, showSigns
+    writeOn(canvas, size, showSigns
         ? 'lat ${course.latitude >= 0 ? '+' : '-'}'
         : 'lat', latMid + const Offset(-30, -6), AppColors.info);
-    _write(canvas, size, showSigns
+    writeOn(canvas, size, showSigns
         ? 'dep ${course.departure >= 0 ? '+' : '-'}'
         : 'dep', depMid + const Offset(-12, 8), AppColors.forest);
-    _write(canvas, size, 'N', Offset(a.dx - 3, a.dy - room - 30),
+    writeOn(canvas, size, 'N', Offset(a.dx - 3, a.dy - room - 30),
         AppColors.ink2);
-    _write(canvas, size, '${_num(course.length)} m long',
+    writeOn(canvas, size, '${_num(course.length)} m long',
         const Offset(8, 8), AppColors.ink3);
 
     viewTag(canvas, size, Looking.plan, note: 'north up the sheet');
@@ -273,7 +278,7 @@ class TripPainter extends CustomPainter {
             ..color = tone
             ..strokeWidth = (picked == i || (locked && answer == i)) ? 3 : 1.8);
       final mid = spotOf(size, trip, i);
-      _write(canvas, size, '${_num(trip.lengths[i])} m',
+      writeOn(canvas, size, '${_num(trip.lengths[i])} m',
           mid + const Offset(-16, -6), tone);
       if (short) {
         canvas.drawLine(
@@ -288,7 +293,7 @@ class TripPainter extends CustomPainter {
         final gapAt = Offset((end.dx + b.dx) / 2, (end.dy + b.dy) / 2);
         final out = gapAt - middle;
         final away = out.distance < 1 ? const Offset(0, -1) : out / out.distance;
-        _write(canvas, size, 'gap', gapAt + away * 18 + const Offset(-8, -6),
+        writeOn(canvas, size, 'gap', gapAt + away * 18 + const Offset(-8, -6),
             AppColors.error);
       }
     }
@@ -301,17 +306,17 @@ class TripPainter extends CustomPainter {
         ..drawCircle(pts[i], 5, Paint()..color = AppColors.cream)
         ..drawCircle(pts[i], 3.4, Paint()..color = AppColors.charcoal);
       if (roomy) {
-        _write(canvas, size, trip.names[i % trip.names.length],
+        writeOn(canvas, size, trip.names[i % trip.names.length],
             pts[i] + const Offset(7, -16), AppColors.ink2);
       }
     }
 
     // The two numbers the whole check runs on, each on its own row and both
     // clear of the view tag along the bottom.
-    _write(canvas, size, '${_num(trip.perimeter)} m round',
+    writeOn(canvas, size, '${_num(trip.perimeter)} m round',
         Offset(8, size.height - 40), AppColors.ink3);
     if (showGap && trip.closure > 0) {
-      _write(canvas, size, 'out by ${trip.closure.toStringAsFixed(2)} m',
+      writeOn(canvas, size, 'out by ${trip.closure.toStringAsFixed(2)} m',
           Offset(8, size.height - 28), AppColors.error);
     }
     viewTag(canvas, size, Looking.plan,
@@ -330,17 +335,3 @@ class TripPainter extends CustomPainter {
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
 
-void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-  final painter = TextPainter(
-    text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-    textDirection: TextDirection.ltr,
-  )..layout();
-  var x = at.dx;
-  if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-  if (x < 2) x = 2;
-  final patch =
-      Rect.fromLTWH(x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-  canvas.drawRect(
-      patch, Paint()..color = AppColors.cream.withValues(alpha: 0.92));
-  painter.paint(canvas, Offset(x, at.dy));
-}

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// The metals this lesson names, in the order the galvanic series puts them:
 /// most active first, so the one nearer the top of this list corrodes.
@@ -102,11 +102,11 @@ class CouplePainter extends CustomPainter {
           10, size.height * 0.46, size.width - 10, size.height * 0.70);
       canvas.drawRect(
           pool, Paint()..color = AppColors.info.withValues(alpha: 0.16));
-      _write(canvas, size, 'rainwater', Offset(14, pool.bottom - 14),
+      writeOn(canvas, size, 'rainwater', Offset(14, pool.bottom - 14),
           AppColors.info);
     } else {
       // At the top, clear of the bolt label underneath the plates.
-      _write(canvas, size, 'dry: no water anywhere near it',
+      writeOn(canvas, size, 'dry: no water anywhere near it',
           const Offset(14, 6), AppColors.ink3);
     }
 
@@ -136,7 +136,7 @@ class CouplePainter extends CustomPainter {
             ..style = PaintingStyle.stroke
             ..strokeWidth = (picked == i || (locked && answer == i)) ? 2.6 : 1.6,
         );
-      _write(canvas, size, metal.plain, Offset(rect.left + 4, rect.top - 16),
+      writeOn(canvas, size, metal.plain, Offset(rect.left + 4, rect.top - 16),
           tone);
     }
 
@@ -149,31 +149,16 @@ class CouplePainter extends CustomPainter {
         Rect.fromLTRB(middle - 9, top + high * 0.3, middle + 9, top + high * 0.7),
         Paint()..color = AppColors.charcoal,
       );
-      _write(canvas, size, 'bolted', Offset(middle - 18, top + high + 6),
+      writeOn(canvas, size, 'bolted', Offset(middle - 18, top + high + 6),
           AppColors.ink3);
     } else {
       canvas.drawRect(
         Rect.fromLTRB(middle - 6, top, middle + 6, top + high),
         Paint()..color = AppColors.error.withValues(alpha: 0.35),
       );
-      _write(canvas, size, 'insulating gasket between them',
+      writeOn(canvas, size, 'insulating gasket between them',
           Offset(middle - 80, top + high + 6), AppColors.error);
     }
-  }
-
-  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    final patch = Rect.fromLTWH(
-        x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-    painter.paint(canvas, Offset(x, at.dy));
   }
 
   @override

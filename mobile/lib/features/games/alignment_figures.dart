@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 
 /// The pieces of a circular curve that a road alignment is made of.
@@ -199,6 +198,13 @@ class AlignPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // The tangents run past PC and PT, which is the point of
+    // drawing them.
+    // Clipped here rather than left to the widget, so that anything
+    // leaving the panel is deliberate and the bounds check stays
+    // honest.
+    canvas.clipRect(Offset.zero & size);
+
     final f = _frame(size, bend);
     final half = bend.turn / 2 * math.pi / 180;
     final centre = f.crest + Offset(0, f.r);
@@ -241,7 +247,7 @@ class AlignPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.4,
     );
-    _write(canvas, size, 'I ${_num(bend.turn)}°',
+    writeOn(canvas, size, 'I ${_num(bend.turn)}°',
         f.pi + Offset(14, -6), AppColors.ember);
 
     // The radius: a stub off each end running toward a center that is not
@@ -259,7 +265,7 @@ class AlignPainter extends CustomPainter {
         ..drawLine(end, end - toCentre * 8 + side, tip)
         ..drawLine(end, end - toCentre * 8 - side, tip);
     }
-    _write(canvas, size, 'to the center, off the sheet',
+    writeOn(canvas, size, 'to the center, off the sheet',
         Offset(size.width / 2 - 78, size.height - 30), AppColors.ink3);
 
     // The pieces, each drawn where it lies.
@@ -313,7 +319,7 @@ class AlignPainter extends CustomPainter {
               ..color = AppColors.charcoal
               ..style = PaintingStyle.stroke
               ..strokeWidth = 1.8);
-      _write(canvas, size, name, at + off, AppColors.charcoal);
+      writeOn(canvas, size, name, at + off, AppColors.charcoal);
     }
 
     // The second curve, fitted into the same corner between the same two
@@ -361,14 +367,14 @@ class AlignPainter extends CustomPainter {
         final innerAt = centre +
             Offset(math.sin(halfOther * 0.6) * g.r,
                 -math.cos(halfOther * 0.6) * g.r);
-        _write(canvas, size, names!.$1, outerAt + const Offset(-18, 2),
+        writeOn(canvas, size, names!.$1, outerAt + const Offset(-18, 2),
             tone(0));
-        _write(canvas, size, names!.$2, innerAt + const Offset(8, -4),
+        writeOn(canvas, size, names!.$2, innerAt + const Offset(8, -4),
             tone(1));
       }
     }
 
-    _write(canvas, size, label ?? 'R ${_num(bend.radius)} ft',
+    writeOn(canvas, size, label ?? 'R ${_num(bend.radius)} ft',
         Offset(10, size.height - 16), AppColors.ink3);
     viewTag(canvas, size, Looking.plan);
   }
@@ -389,17 +395,3 @@ class AlignPainter extends CustomPainter {
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toStringAsFixed(1);
 
-void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-  final painter = TextPainter(
-    text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-    textDirection: TextDirection.ltr,
-  )..layout();
-  var x = at.dx;
-  if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-  if (x < 2) x = 2;
-  final patch =
-      Rect.fromLTWH(x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-  canvas.drawRect(
-      patch, Paint()..color = AppColors.cream.withValues(alpha: 0.92));
-  painter.paint(canvas, Offset(x, at.dy));
-}

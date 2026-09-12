@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 
 /// Which quarter of the compass a bearing sits in.
@@ -153,10 +152,10 @@ class RosePainter extends CustomPainter {
     dashed(o, o + Offset(0, down));
     dashed(o, o + Offset(right, 0));
     dashed(o, o + Offset(-left, 0));
-    _write(canvas, size, 'N', o + Offset(-3, -up - 12), AppColors.ink2);
-    _write(canvas, size, 'S', o + Offset(-3, down + 2), AppColors.ink2);
-    _write(canvas, size, 'E', o + Offset(right + 4, -5), AppColors.ink2);
-    _write(canvas, size, 'W', o + Offset(-left - 12, -5), AppColors.ink2);
+    writeOn(canvas, size, 'N', o + Offset(-3, -up - 12), AppColors.ink2);
+    writeOn(canvas, size, 'S', o + Offset(-3, down + 2), AppColors.ink2);
+    writeOn(canvas, size, 'E', o + Offset(right + 4, -5), AppColors.ink2);
+    writeOn(canvas, size, 'W', o + Offset(-left - 12, -5), AppColors.ink2);
 
     // The north arrow, in the corner where a plan carries it.
     final nx = size.width - 20;
@@ -177,7 +176,7 @@ class RosePainter extends CustomPainter {
           Paint()
             ..color = AppColors.charcoal
             ..strokeWidth = 1.2);
-    _write(canvas, size, 'N', Offset(nx - 3, ny + 27), AppColors.charcoal);
+    writeOn(canvas, size, 'N', Offset(nx - 3, ny + 27), AppColors.charcoal);
 
     // The angle off the meridian, when the round is showing it.
     if (arcOn != null) {
@@ -199,8 +198,7 @@ class RosePainter extends CustomPainter {
           ..strokeWidth = 1.6,
       );
       final mid = start + sweep / 2;
-      _write(
-          canvas,
+      writeOn(          canvas,
           size,
           '${_num(b.degrees)}°',
           o + Offset(math.cos(mid), math.sin(mid)) * 48 + const Offset(-9, -6),
@@ -237,7 +235,7 @@ class RosePainter extends CustomPainter {
               ..style = PaintingStyle.stroke
               ..strokeWidth = 2)
         ..drawCircle(end, 2.4, Paint()..color = tone);
-      _write(canvas, size, shots[i].name, end + const Offset(10, -16), tone);
+      writeOn(canvas, size, shots[i].name, end + const Offset(10, -16), tone);
     }
 
     // The station: the triangle a control point is drawn with.
@@ -318,9 +316,20 @@ class SlopePainter extends CustomPainter {
       Offset(size.width * 0.16, size.height * 0.62);
 
   static Offset _target(Size size, Sight sight) {
-    final long = size.width * 0.62;
-    final up = long * math.tan(sight.angle * math.pi / 180);
-    return _instrument(size) + Offset(long, -up);
+    final a = _instrument(size);
+    final slope = math.tan(sight.angle * math.pi / 180);
+    // The sight is shortened until the target fits. A steep uphill shot at
+    // the full width put the target above the top of the panel, where it
+    // was cut in half by the edge of the figure: it is a thing the student
+    // has to be able to see and tap, so the drawing shrinks to hold it
+    // rather than running past the frame.
+    var long = size.width * 0.62;
+    if (slope > 0.01) {
+      long = math.min(long, (a.dy - 22) / slope);
+    } else if (slope < -0.01) {
+      long = math.min(long, (size.height - 34 - a.dy) / -slope);
+    }
+    return a + Offset(long, -long * slope);
   }
 
   /// Where each of the three lengths is tapped: the middle of its own side.
@@ -433,7 +442,7 @@ class SlopePainter extends CustomPainter {
           ..color = AppColors.ember
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.4);
-    _write(canvas, size, '${_num(sight.angle.abs())}°',
+    writeOn(canvas, size, '${_num(sight.angle.abs())}°',
         a + Offset(34, sight.angle >= 0 ? -20 : 10), AppColors.ember);
 
     for (final side in Side3.values) {
@@ -464,17 +473,3 @@ class SlopePainter extends CustomPainter {
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
 
-void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-  final painter = TextPainter(
-    text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-    textDirection: TextDirection.ltr,
-  )..layout();
-  var x = at.dx;
-  if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-  if (x < 2) x = 2;
-  final patch =
-      Rect.fromLTWH(x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-  canvas.drawRect(
-      patch, Paint()..color = AppColors.cream.withValues(alpha: 0.92));
-  painter.paint(canvas, Offset(x, at.dy));
-}

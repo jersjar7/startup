@@ -275,7 +275,11 @@ class BlockPainter extends CustomPainter {
       final lean = rig.pushDeg * math.pi / 180;
       final dir = l.along * math.cos(lean) + l.up * math.sin(lean);
       final tip = l.backFace;
-      final tail = tip - dir * 50;
+      // Shortened if it has to be. The arrow is drawn backwards from the
+      // face it lands on, and on a flat surface the block sits far enough
+      // left that a full-length shaft started outside the panel: the tail
+      // was cut off and the arrow looked like it grew out of the frame.
+      final tail = tip - dir * _reachBack(tip, dir, 50, size);
       _arrow(canvas, tail, tip, AppColors.ember);
       if (pushLabel != null) {
         // Above the middle of the shaft, so a long one does not get shoved
@@ -292,6 +296,22 @@ class BlockPainter extends CustomPainter {
       final root = l.seat + l.up * 6;
       _arrow(canvas, root, root + l.along * reach, AppColors.forest);
     }
+  }
+
+  /// How far back from `tip`, along `dir`, an arrow can start and still have
+  /// its tail inside the panel. Never more than `want`.
+  static double _reachBack(Offset tip, Offset dir, double want, Size size) {
+    const pad = 4.0;
+    var room = want;
+    if (dir.dx > 0.01) room = math.min(room, (tip.dx - pad) / dir.dx);
+    if (dir.dx < -0.01) {
+      room = math.min(room, (tip.dx - size.width + pad) / dir.dx);
+    }
+    if (dir.dy > 0.01) room = math.min(room, (tip.dy - pad) / dir.dy);
+    if (dir.dy < -0.01) {
+      room = math.min(room, (tip.dy - size.height + pad) / dir.dy);
+    }
+    return math.max(14.0, room);
   }
 
   void _hatch(Canvas canvas, Offset from, Offset to) {

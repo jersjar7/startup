@@ -116,6 +116,12 @@ class VectorPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // The axes run edge to edge.
+    // Clipped here rather than left to the widget, so that anything
+    // leaving the panel is deliberate and the bounds check stays
+    // honest.
+    canvas.clipRect(Offset.zero & size);
+
     final g = GridGeometry(size, span: span);
 
     final fine = Paint()

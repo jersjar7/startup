@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 
 /// What the book does with a point in a level run. Every point in a run is
@@ -189,7 +188,7 @@ class LevelPainter extends CustomPainter {
             Rect.fromCenter(
                 center: Offset(x, sightY - 4), width: 16, height: 9),
             Paint()..color = AppColors.charcoal);
-      _write(canvas, size, 'setup ${s + 1}', Offset(x - 20, sightY - 20),
+      writeOn(canvas, size, 'setup ${s + 1}', Offset(x - 20, sightY - 20),
           AppColors.ink3);
     }
 
@@ -252,11 +251,11 @@ class LevelPainter extends CustomPainter {
       }
 
       if (readings) {
-        _write(canvas, size, level.readingAt(s, i).toStringAsFixed(2),
+        writeOn(canvas, size, level.readingAt(s, i).toStringAsFixed(2),
             Offset(x + 9, yOf(size, level, level.sightAt(s)) - 6),
             AppColors.info);
       }
-      _write(canvas, size, level.marks[i].name, Offset(x - 12, base + 6), tone);
+      writeOn(canvas, size, level.marks[i].name, Offset(x - 12, base + 6), tone);
 
       // The point itself, marked where the rod stands.
       canvas
@@ -265,7 +264,7 @@ class LevelPainter extends CustomPainter {
     }
 
     if (!showGround) {
-      _write(canvas, size, 'the ground is drawn once you answer',
+      writeOn(canvas, size, 'the ground is drawn once you answer',
           const Offset(10, 6), AppColors.ink3);
     }
     viewTag(canvas, size, Looking.section, note: 'sight line level');
@@ -351,12 +350,12 @@ class LoopPainter extends CustomPainter {
             ..color = AppColors.charcoal
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.6);
-    _write(canvas, size, 'BM', bm + const Offset(9, -14), AppColors.charcoal);
+    writeOn(canvas, size, 'BM', bm + const Offset(9, -14), AppColors.charcoal);
     // Both halves of the allowance are on the drawing, or there is nothing
     // to judge it by: how far it runs, and what class of work it is.
     final miles = loop.miles == 1 ? '1 mile round' : '${_num(loop.miles)} miles round';
-    _write(canvas, size, miles, Offset(10, size.height - 28), AppColors.ink3);
-    _write(canvas, size, 'C = ${loop.constant}', Offset(10, size.height - 16),
+    writeOn(canvas, size, miles, Offset(10, size.height - 28), AppColors.ink3);
+    writeOn(canvas, size, 'C = ${loop.constant}', Offset(10, size.height - 16),
         AppColors.ember);
     viewTag(canvas, size, Looking.plan);
   }
@@ -369,17 +368,3 @@ class LoopPainter extends CustomPainter {
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
 
-void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-  final painter = TextPainter(
-    text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-    textDirection: TextDirection.ltr,
-  )..layout();
-  var x = at.dx;
-  if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-  if (x < 2) x = 2;
-  final patch =
-      Rect.fromLTWH(x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-  canvas.drawRect(
-      patch, Paint()..color = AppColors.cream.withValues(alpha: 0.92));
-  painter.paint(canvas, Offset(x, at.dy));
-}

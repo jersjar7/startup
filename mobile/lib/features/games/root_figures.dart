@@ -49,6 +49,13 @@ class RootPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // The curve and its tangent run out of the frame, which is what
+    // a tangent shooting off to the next guess looks like.
+    // Clipped here rather than left to the widget, so that anything
+    // leaving the panel is deliberate and the bounds check stays
+    // honest.
+    canvas.clipRect(Offset.zero & size);
+
     final (lo, hi) = poly.range(x0, x1);
     // Always keep the axis itself in view: a root hunt with no axis on screen
     // is a picture of nothing.

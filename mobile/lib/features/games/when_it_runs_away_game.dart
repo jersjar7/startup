@@ -6,6 +6,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/math_text.dart';
 import 'board.dart';
+import 'figure_ink.dart';
 import 'lesson_brief.dart';
 
 /// When It Runs Away — the second item for `vibrations-natural-frequency`.
@@ -340,9 +341,9 @@ class _TunePainter extends CustomPainter {
         ..color = AppColors.ink3
         ..strokeWidth = 0.8,
     );
-    _write(canvas, 'natural', Offset(x(naturalHz) - 18, floor + 4),
+    _write(canvas, size, 'natural', Offset(x(naturalHz) - 18, floor + 4),
         AppColors.ink3);
-    _write(canvas, 'how far it swings', const Offset(2, 2), AppColors.ink3);
+    _write(canvas, size, 'how far it swings', const Offset(2, 2), AppColors.ink3);
 
     if (forcingHz != null) {
       final at = x(forcingHz!);
@@ -355,17 +356,18 @@ class _TunePainter extends CustomPainter {
             ..strokeWidth = 2,
         )
         ..drawCircle(Offset(at, 14), 4, Paint()..color = AppColors.ember);
-      _write(canvas, 'forcing', Offset(at - 14, floor + 4), AppColors.ember);
+      _write(canvas, size, 'forcing', Offset(at - 14, floor + 4), AppColors.ember);
     }
   }
 
-  void _write(Canvas canvas, String text, Offset at, Color color) {
-    TextPainter(
+  /// A forcing frequency at the top of the range puts its label hard against
+  /// the right edge, so every label here is kept inside the panel.
+  void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
+    final tp = TextPainter(
       text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
       textDirection: TextDirection.ltr,
-    )
-      ..layout()
-      ..paint(canvas, at);
+    )..layout();
+    paintInside(canvas, size, tp, at);
   }
 
   @override

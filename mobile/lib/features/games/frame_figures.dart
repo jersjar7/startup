@@ -273,6 +273,13 @@ class FramePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // Load arrows are drawn at a fixed length and a load at the top
+    // of the frame puts its tail above the drawing.
+    // Clipped here rather than left to the widget, so that anything
+    // leaving the panel is deliberate and the bounds check stays
+    // honest.
+    canvas.clipRect(Offset.zero & size);
+
     Offset at(Offset w) =>
         toScreen(rig, w, size, limb: spotlight, pin: atPin, aims: aims);
 

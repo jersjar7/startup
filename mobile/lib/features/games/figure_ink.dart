@@ -143,6 +143,34 @@ void waterLevel(
 Paint get waterFill =>
     Paint()..color = AppColors.info.withValues(alpha: 0.22);
 
+/// Where a label can actually go: the offset moved, if it has to be, so the
+/// whole of the text lands inside the panel.
+///
+/// Panels are clipped by the rounded box they sit in, so a label placed
+/// past an edge is not drawn small or drawn faintly, it is cut in half and
+/// the reader gets the bottom of a letter. It happens most often at the end
+/// of a line that runs to the top of the drawing: the label goes above the
+/// line end, and the line end is already at the edge.
+///
+/// Clamping is the floor, not the fix. A label shoved back inside can land
+/// on top of the thing it names, so a painter that knows it is near an edge
+/// should choose the other side first and let this catch what it missed.
+Offset insidePanel(Size size, Size text, Offset at, {double pad = 2}) {
+  var x = at.dx;
+  var y = at.dy;
+  if (x + text.width > size.width - pad) x = size.width - pad - text.width;
+  if (x < pad) x = pad;
+  if (y + text.height > size.height - pad) y = size.height - pad - text.height;
+  if (y < pad) y = pad;
+  return Offset(x, y);
+}
+
+/// Paints a laid-out label at `at`, moved if it has to be so that none of it
+/// falls off the panel. `at` is the top left of the text.
+void paintInside(Canvas canvas, Size size, TextPainter text, Offset at) {
+  text.paint(canvas, insidePanel(size, text.size, at));
+}
+
 /// A small label written on a figure, kept inside the panel and given a
 /// patch of background so it never sits on top of a line.
 void writeOn(
@@ -153,17 +181,19 @@ void writeOn(
   Color color, {
   double fontSize = 10,
 }) {
+  // Laid out against the panel width, so a sentence longer than the drawing
+  // wraps onto a second line instead of running off the side and being cut.
+  // Several of the explanation notes are full sentences and were losing
+  // their last few words to the edge.
   final painter = TextPainter(
     text: TextSpan(
         text: text, style: AppTheme.mono(size: fontSize, color: color)),
     textDirection: TextDirection.ltr,
-  )..layout();
-  var x = at.dx;
-  if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-  if (x < 2) x = 2;
-  final patch =
-      Rect.fromLTWH(x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
+  )..layout(maxWidth: (size.width - 8).clamp(1.0, double.infinity));
+  final place = insidePanel(size, painter.size, at);
+  final patch = Rect.fromLTWH(
+      place.dx - 2, place.dy - 1, painter.width + 4, painter.height + 2);
   canvas.drawRect(
       patch, Paint()..color = AppColors.cream.withValues(alpha: 0.92));
-  painter.paint(canvas, Offset(x, at.dy));
+  painter.paint(canvas, place);
 }

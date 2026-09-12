@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -412,10 +414,12 @@ class _GripGlyph extends CustomPainter {
 
     if (option == Grip.none) return;
 
-    // The arrow runs along the floor, from under the block backward.
+    // The arrow runs along the floor, from under the block backward. The
+    // glyph is tiny, so the long version reached past the left edge and had
+    // its head cut off, which is the only part that carries meaning.
     final full = option == Grip.atTheLimit ? 20.0 : 11.0;
     final root = Offset(size.width / 2 - 13, floor - 5);
-    final tip = root - Offset(full, 0);
+    final tip = Offset(math.max(4.0, root.dx - full), root.dy);
     final paint = Paint()
       ..color = AppColors.forest
       ..strokeWidth = 2.2

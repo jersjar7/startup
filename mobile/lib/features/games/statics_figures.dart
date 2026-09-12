@@ -534,6 +534,13 @@ class MomentPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // A line of action is a line: it does not stop where the
+    // drawing does.
+    // Clipped here rather than left to the widget, so that anything
+    // leaving the panel is deliberate and the bounds check stays
+    // honest.
+    canvas.clipRect(Offset.zero & size);
+
     Offset at(Offset w) => scene.toScreen(w, size);
 
     for (final member in scene.members) {

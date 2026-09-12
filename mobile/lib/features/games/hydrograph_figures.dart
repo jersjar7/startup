@@ -208,6 +208,12 @@ class PondPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // The ground surface runs out of the section at both sides.
+    // Clipped here rather than left to the widget, so that anything
+    // leaving the panel is deliberate and the bounds check stays
+    // honest.
+    canvas.clipRect(Offset.zero & size);
+
     const groundY = 58.0;
     final bedY = size.height - 42;
     final bedLeft = 104.0;

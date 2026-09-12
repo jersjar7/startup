@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 
 /// One place along the run that a round marks and can be tapped.
@@ -204,7 +203,7 @@ class GaugePainter extends CustomPainter {
         ..drawLine(Offset(x, top), Offset(x, top - 16), stand)
         ..drawCircle(Offset(x, top - 20), 4, stand);
     }
-    _write(canvas, size, 'the two tappings', Offset(_x(size, 0.5) - 42, 6),
+    writeOn(canvas, size, 'the two tappings', Offset(_x(size, 0.5) - 42, 6),
         AppColors.ember);
     viewTag(canvas, size, Looking.section);
 
@@ -229,11 +228,10 @@ class GaugePainter extends CustomPainter {
               ..color = tone
               ..style = PaintingStyle.stroke
               ..strokeWidth = 2.2);
-      _write(canvas, size, '${i + 1}', spot + const Offset(-3, -6), tone);
+      writeOn(canvas, size, '${i + 1}', spot + const Offset(-3, -6), tone);
       // Two rows of bore labels, so neighboring stations never write over
       // each other.
-      _write(
-          canvas,
+      writeOn(          canvas,
           size,
           '${_num(gauge.stations[i].bore ?? gauge.boreAt(gauge.stations[i].at))} mm',
           Offset(spot.dx - 20, size.height - (i.isEven ? 27 : 15)),
@@ -250,17 +248,3 @@ class GaugePainter extends CustomPainter {
 /// a drawing of a water main is noise.
 String _num(double v) => v.round().toString();
 
-void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-  final painter = TextPainter(
-    text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-    textDirection: TextDirection.ltr,
-  )..layout();
-  var x = at.dx;
-  if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-  if (x < 2) x = 2;
-  final patch =
-      Rect.fromLTWH(x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-  canvas.drawRect(
-      patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
-  painter.paint(canvas, Offset(x, at.dy));
-}

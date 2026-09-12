@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 
 /// A vertical curve: a parabola laid between two grades.
@@ -193,20 +192,19 @@ class RoadProfilePainter extends CustomPainter {
         // would read as a collision rather than as the answer.
         canvas.drawCircle(
             Offset(x, onRoad), 4.5, Paint()..color = AppColors.charcoal);
-        _write(canvas, size, 'road on the grade line',
+        writeOn(canvas, size, 'road on the grade line',
             Offset(x + 8, onRoad - 6), AppColors.charcoal);
       } else {
         canvas
           ..drawCircle(Offset(x, onTangent), 4, Paint()..color = AppColors.ink3)
           ..drawCircle(
               Offset(x, onRoad), 4.5, Paint()..color = AppColors.charcoal);
-        _write(
-            canvas,
+        writeOn(            canvas,
             size,
             markIsPvi ? 'grade line, at the PVI' : 'grade line',
             Offset(x + 8, onTangent - 6),
             AppColors.ink3);
-        _write(canvas, size, 'road', Offset(x + 8, onRoad - 6),
+        writeOn(canvas, size, 'road', Offset(x + 8, onRoad - 6),
             AppColors.charcoal);
       }
     }
@@ -218,7 +216,7 @@ class RoadProfilePainter extends CustomPainter {
       dashed(Offset(x, y), Offset(x, size.height - 34), AppColors.forest, 1.2);
       // Clear of the marked point that sits on it, which is green too once
       // the round is over.
-      _write(canvas, size, vert.isCrest ? 'high point' : 'low point',
+      writeOn(canvas, size, vert.isCrest ? 'high point' : 'low point',
           Offset(x - 26, math.max(y - 32, 22)), AppColors.forest);
     }
 
@@ -242,7 +240,7 @@ class RoadProfilePainter extends CustomPainter {
               ..color = AppColors.ink2
               ..style = PaintingStyle.stroke
               ..strokeWidth = 1.6);
-      if (name.isNotEmpty) _write(canvas, size, name, at + off, AppColors.ink2);
+      if (name.isNotEmpty) writeOn(canvas, size, name, at + off, AppColors.ink2);
     }
 
     // The candidates a round offers, drawn on the road.
@@ -267,11 +265,10 @@ class RoadProfilePainter extends CustomPainter {
               ..color = tone
               ..style = PaintingStyle.stroke
               ..strokeWidth = 2.2);
-      _write(canvas, size, '${i + 1}', at + const Offset(-3, -6), tone);
+      writeOn(canvas, size, '${i + 1}', at + const Offset(-3, -6), tone);
     }
 
-    _write(
-        canvas,
+    writeOn(        canvas,
         size,
         'g1 ${vert.gradeIn > 0 ? '+' : ''}${_num(vert.gradeIn)}%   '
             'g2 ${vert.gradeOut > 0 ? '+' : ''}${_num(vert.gradeOut)}%   '
@@ -295,17 +292,3 @@ class RoadProfilePainter extends CustomPainter {
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
 
-void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-  final painter = TextPainter(
-    text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-    textDirection: TextDirection.ltr,
-  )..layout();
-  var x = at.dx;
-  if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-  if (x < 2) x = 2;
-  final patch =
-      Rect.fromLTWH(x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-  canvas.drawRect(
-      patch, Paint()..color = AppColors.cream.withValues(alpha: 0.92));
-  painter.paint(canvas, Offset(x, at.dy));
-}

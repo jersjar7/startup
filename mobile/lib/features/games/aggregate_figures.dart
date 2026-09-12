@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 
 /// The three weighings a specific gravity test takes, which are the only
 /// three numbers any formula on this page is built from.
@@ -117,7 +118,11 @@ class SamplePainter extends CustomPainter {
         tone,
         11,
       );
-      _write(canvas, size, which.plain, Offset(cell.left + 4, cell.bottom - 18),
+      // The plain-words caption wraps onto two lines in a column this
+      // narrow, so it is hung high enough for the second line to land
+      // inside the panel. At 18 the second line fell off the bottom and
+      // half of every caption was invisible.
+      _write(canvas, size, which.plain, Offset(cell.left + 4, cell.bottom - 26),
           AppColors.ink3, 8);
     }
   }
@@ -192,6 +197,8 @@ class SamplePainter extends CustomPainter {
     }
   }
 
+  /// Laid out to a third of the panel, because each weighing gets its own
+  /// column and a caption has to stay in its own.
   void _write(Canvas canvas, Size size, String text, Offset at, Color color,
       double points) {
     final painter = TextPainter(
@@ -199,10 +206,7 @@ class SamplePainter extends CustomPainter {
           TextSpan(text: text, style: AppTheme.mono(size: points, color: color)),
       textDirection: TextDirection.ltr,
     )..layout(maxWidth: size.width / 3 - 6);
-    var x = at.dx;
-    if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-    if (x < 2) x = 2;
-    painter.paint(canvas, Offset(x, at.dy));
+    paintInside(canvas, size, painter, at);
   }
 
   @override
@@ -270,8 +274,12 @@ class GradingPainter extends CustomPainter {
   final int? answer;
   final bool locked;
 
+  // The right inset carries the last sieve name, which is the widest of
+  // them ("No 100") and is written centered under its own tick. At 12 it
+  // ran off the side of the panel and the last point on the chart had no
+  // label at all.
   static Rect plot(Size size) =>
-      Rect.fromLTRB(34, 28, size.width - 12, size.height - 30);
+      Rect.fromLTRB(34, 28, size.width - 28, size.height - 30);
 
   /// Where a sieve and a percentage land. The size axis is logarithmic,
   /// which is how every gradation chart in the world is drawn.
@@ -323,16 +331,16 @@ class GradingPainter extends CustomPainter {
         Offset(box.right, y),
         Paint()..color = AppColors.line..strokeWidth = 0.8,
       );
-      _write(canvas, '$pc', Offset(6, y - 6), AppColors.ink3);
+      writeOn(canvas, size, '$pc', Offset(6, y - 6), AppColors.ink3);
     }
-    _write(canvas, 'percent passing', const Offset(2, 2), AppColors.ink3);
+    writeOn(canvas, size, 'percent passing', const Offset(2, 2), AppColors.ink3);
     for (var i = 0; i < Grading.sieves.length; i += 2) {
       final x = at(size, i, 0).dx;
-      _write(canvas, Grading.names[i], Offset(x - 12, box.bottom + 5),
+      writeOn(canvas, size, Grading.names[i], Offset(x - 12, box.bottom + 5),
           AppColors.ink3);
     }
-    _write(canvas, 'coarse', Offset(box.left, box.bottom + 17), AppColors.ink3);
-    _write(canvas, 'fine', Offset(box.right - 22, box.bottom + 17),
+    writeOn(canvas, size, 'coarse', Offset(box.left, box.bottom + 17), AppColors.ink3);
+    writeOn(canvas, size, 'fine', Offset(box.right - 22, box.bottom + 17),
         AppColors.ink3);
 
     for (var i = 0; i < gradings.length; i++) {
@@ -362,18 +370,6 @@ class GradingPainter extends CustomPainter {
         canvas.drawCircle(p, 3, Paint()..color = tone);
       }
     }
-  }
-
-  void _write(Canvas canvas, String text, Offset at, Color color) {
-    final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
-      textDirection: TextDirection.ltr,
-    )..layout();
-    final patch = Rect.fromLTWH(
-        at.dx - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.85));
-    painter.paint(canvas, at);
   }
 
   @override

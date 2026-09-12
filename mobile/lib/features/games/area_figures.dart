@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_theme.dart';
 import 'figure_ink.dart';
 
 /// One corner of a parcel, as it comes off a survey: a name and a pair of
@@ -148,7 +147,7 @@ class ParcelPainter extends CustomPainter {
               ..style = PaintingStyle.stroke
               ..strokeWidth = 1.6)
         ..drawCircle(p, 1.6, Paint()..color = AppColors.charcoal);
-      _write(
+      writeOn(
           canvas,
           size,
           showCoordinates
@@ -316,15 +315,15 @@ class OffsetsPainter extends CustomPainter {
       canvas
         ..drawCircle(Offset(x, base), 3, Paint()..color = AppColors.charcoal)
         ..drawCircle(Offset(x, top), 2.6, Paint()..color = tone);
-      _write(canvas, size, _num(strip.offsets[i]), Offset(x - 6, top - 15),
+      writeOn(canvas, size, _num(strip.offsets[i]), Offset(x - 6, top - 15),
           tone);
     }
 
     // How many offsets there are, which is what decides whether Simpson can
     // be used at all, and how far apart they were chained.
-    _write(canvas, size, '${strip.offsets.length} offsets at ${_num(strip.step)} m',
+    writeOn(canvas, size, '${strip.offsets.length} offsets at ${_num(strip.step)} m',
         Offset(10, size.height - 28), AppColors.ink3);
-    _write(canvas, size, 'baseline', Offset(size.width - 74, base + 6),
+    writeOn(canvas, size, 'baseline', Offset(size.width - 74, base + 6),
         AppColors.charcoal);
     viewTag(canvas, size, Looking.plan);
   }
@@ -340,17 +339,3 @@ class OffsetsPainter extends CustomPainter {
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();
 
-void _write(Canvas canvas, Size size, String text, Offset at, Color color) {
-  final painter = TextPainter(
-    text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-    textDirection: TextDirection.ltr,
-  )..layout();
-  var x = at.dx;
-  if (x + painter.width > size.width - 2) x = size.width - 2 - painter.width;
-  if (x < 2) x = 2;
-  final patch =
-      Rect.fromLTWH(x - 2, at.dy - 1, painter.width + 4, painter.height + 2);
-  canvas.drawRect(
-      patch, Paint()..color = AppColors.cream.withValues(alpha: 0.92));
-  painter.paint(canvas, Offset(x, at.dy));
-}
