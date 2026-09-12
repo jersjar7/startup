@@ -390,6 +390,24 @@ void main() {
       // clock in it: the other two are settlement amounts. Everything about
       // the drainage path comes out of that one problem.
       'how-long-does-it-take',
+      // The quick condition problem is the only one in the seepage lesson
+      // with a gradient in it that matters: the other two are a flow rate
+      // and a flow net. Everything about boiling comes out of that one.
+      'when-the-sand-boils',
+      // The slope lesson's first two problems are the SAME slope dry and
+      // wet, so the dry item draws on the dry one and the wet item on the
+      // wet one, by construction.
+      'steeper-than-its-friction',
+      'after-the-rain',
+      // The bearing lesson's hard problem is the only one with all three
+      // terms AND a factor of safety in it, so the item about what gets
+      // divided is built on that one problem from every angle.
+      'what-gets-divided',
+      // The coefficient problem is the only one in the earth pressure lesson
+      // that asks WHICH state applies: the other two both hand the student
+      // the active case and ask for a force. Active against at rest against
+      // passive is the whole of that one problem.
+      'which-way-did-the-wall-move',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

@@ -349,6 +349,20 @@ enum BriefFigure {
   settlementCase,
   clayMemory,
   drainagePath,
+  mohrCoulomb,
+  drainage,
+  soilCircle,
+  flowNet,
+  quickCondition,
+  infiniteSlope,
+  slopeSeepage,
+  slipWedge,
+  threeTerms,
+  footingFix,
+  allowablePressure,
+  rankine,
+  pressureShape,
+  wallForce,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -6595,6 +6609,349 @@ const drainageBrief = BriefSection(
   handbook: 'Handbook, consolidation',
 );
 
+const mohrCoulombBrief = BriefSection(
+  title: 'A constant, plus what pressing buys',
+  body:
+      'Shear strength has two terms and which of them a soil has decides how '
+      'it behaves. COHESION is there whatever happens, the part that holds a '
+      'clay together on its own. FRICTION grows in proportion to how hard the '
+      'grains are pressed, so it is worth nothing at the surface and a great '
+      'deal at depth. A clean sand has friction only: its envelope starts at '
+      'the origin, which is why dry sand cannot stand in a vertical face and '
+      'why the same sand is far stronger thirty feet down. A saturated clay '
+      'loaded faster than its water can escape has cohesion only, with the '
+      'friction angle taken as zero, because squeezing it harder raises the '
+      'pore pressure instead of pressing the grains: its envelope is flat and '
+      'one number describes the whole layer. Most real soils have some of '
+      'each, and the two are added.',
+  formulas: [
+    ('The criterion', r"\tau_f = c' + \sigma_N' \tan\phi'"),
+    ('A clean sand', r"c' = 0"),
+    ('A fast-loaded clay', r'\phi_u = 0, \; \tau_f = c_u'),
+  ],
+  figure: BriefFigure.mohrCoulomb,
+  handbook: 'Handbook, shear strength',
+);
+
+const drainedBrief = BriefSection(
+  title: 'It is a question about time',
+  body:
+      'Soil strength comes in two matched sets and they never mix. The '
+      'EFFECTIVE set, c prime and phi prime, goes with effective stresses and '
+      'describes the soil once the water has had time to move. The UNDRAINED '
+      'set, a single strength with no friction angle, goes with TOTAL '
+      'stresses and describes a saturated clay loaded faster than its water '
+      'can escape. Which one a problem wants is a question about time rather '
+      'than about the soil: a tank filled in a day is an undrained problem, '
+      'the same tank twenty years later is an effective stress problem, and '
+      'the clay is STRONGER in the second one, which is the opposite of how '
+      'most materials behave. A sand drains as fast as it is loaded, so its '
+      'undrained case never really exists. The trap the lesson names is '
+      'taking a parameter from one set and a stress from the other: an '
+      'effective friction angle on a total stress overstates the strength by '
+      'the pore pressure times its tangent.',
+  formulas: [
+    ('Long term', r"c', \phi' \text{ with } \sigma'"),
+    ('Short term', r'c_u, \phi_u = 0 \text{ with } \sigma'),
+    ('Undrained strength', r'c_u = \frac{\sigma_1 - \sigma_3}{2}'),
+  ],
+  figure: BriefFigure.drainage,
+  handbook: 'Handbook, shear strength',
+);
+
+const mohrCircleBrief = BriefSection(
+  title: 'What the test circle tells you',
+  body:
+      'A triaxial test gives two stresses and the circle turns them into the '
+      'two that matter: the MIDDLE, which is their average, and the RADIUS, '
+      'which is half their difference. Every point on that circle is the '
+      'normal stress and shear on some plane through the sample, and the '
+      'point where it touches the envelope is the plane that gave way. Two '
+      'readings follow. A flat undrained envelope touches the circle at its '
+      'top, one radius up, so the undrained strength is HALF the deviator, '
+      'and quoting the whole of it overstates the clay by a factor of two. '
+      'And for a soil with no cohesion the envelope runs through the origin, '
+      'which makes a right triangle whose hypotenuse is the distance to the '
+      'center: the SINE of the friction angle is the radius over the middle. '
+      'Reaching for the arctangent there is the wrong answer the lesson '
+      'prints.',
+  formulas: [
+    ('Middle and radius', r's = \frac{\sigma_1+\sigma_3}{2}, \; t = \frac{\sigma_1-\sigma_3}{2}'),
+    ('No cohesion', r'\sin\phi = t/s'),
+    ('Undrained', r'c_u = t'),
+  ],
+  figure: BriefFigure.soilCircle,
+  handbook: 'Handbook, shear strength',
+);
+
+const flowNetBrief = BriefSection(
+  title: 'Two counts, the right way up',
+  body:
+      'A flow net turns a seepage problem into two counts. The CHANNELS are '
+      'the lanes between flow lines, each carrying the same share of the '
+      'water, so the count is one less than the number of lines drawn. The '
+      'DROPS are equal steps of head: twelve of them across six meters means '
+      'half a meter each, and counting drops is how the head at any point in '
+      'the ground is read. The seepage is the conductivity times the head '
+      'times CHANNELS OVER DROPS, and the fraction has to be that way up: '
+      'more lanes means more water, more steps means the head is being spent '
+      'more gradually. Turning it over is the wrong answer the lesson prints '
+      'and it is out by a factor of nine. One more thing worth knowing: the '
+      'net itself is geometry. Make the soil ten times more permeable and the '
+      'drawing does not change at all, only the quantity it is multiplied '
+      'by.',
+  formulas: [
+    ('The seepage', r'q = k H \frac{N_f}{N_d}'),
+    ('Each step', r'\Delta h = H / N_d'),
+    ('A deeper wall', r'N_d \uparrow \Rightarrow q \downarrow'),
+  ],
+  figure: BriefFigure.flowNet,
+  handbook: 'Handbook, seepage',
+);
+
+const quickBrief = BriefSection(
+  title: 'When the grains stop pressing',
+  body:
+      'Water climbing through a sand drags on every grain it passes, and when '
+      'that drag matches what the grains weigh under water there is nothing '
+      'left pressing them together: the effective stress reaches zero, and a '
+      'sand whose strength was all friction has none at all. It behaves like '
+      'a heavy liquid, which is what a quick condition means. The gradient at '
+      'which this happens is the BUOYANT unit weight over the unit weight of '
+      'water, which works out as the specific gravity less one over one plus '
+      'the void ratio. For ordinary sands that lands near one, though rarely '
+      'exactly one, and a loose sand boils at less because there is less '
+      'solid in it to hold down. The factor of safety is the critical '
+      'gradient over the actual exit gradient, and when it is uncomfortable '
+      'the fix is to make the water travel further, or to put a filter and '
+      'some weight where it comes out.',
+  formulas: [
+    ('The critical gradient', r"i_c = \frac{\gamma'}{\gamma_w} = \frac{G_s - 1}{1 + e}"),
+    ('Safety', r'FS = i_c / i_{exit}'),
+    ('At boiling', r"\sigma' = 0"),
+  ],
+  figure: BriefFigure.quickCondition,
+  handbook: 'Handbook, seepage',
+);
+
+const infiniteSlopeBrief = BriefSection(
+  title: 'Flatter than its friction angle',
+  body:
+      'A dry slope of cohesionless soil is the one case in the chapter with a '
+      'one-line answer: it stands as long as it is FLATTER than the friction '
+      'angle of the soil, and the factor of safety is the tangent of the '
+      'friction angle over the tangent of the slope. Depth and unit weight '
+      'cancel out of it completely, because a deeper slice weighs more, which '
+      'drives it harder, and presses down harder, which holds it better, in '
+      'exactly equal measure. So the answer is a pair of angles and nothing '
+      'else. At the friction angle exactly the factor of safety is one and '
+      'the slope is at its angle of repose, which is the slope a poured heap '
+      'settles at on its own, and is not a design. Compacting a sand raises '
+      'its friction angle, which is most of why fill is compacted at all.',
+  formulas: [
+    ('Dry and cohesionless', r'FS = \frac{\tan\phi}{\tan\beta}'),
+    ('It stands when', r'\beta < \phi'),
+    ('What cancels', r'\text{depth and unit weight}'),
+  ],
+  figure: BriefFigure.infiniteSlope,
+  handbook: 'Handbook, slope stability',
+);
+
+const seepageSlopeBrief = BriefSection(
+  title: 'Rain halves it',
+  body:
+      'Steady seepage running down a slope roughly HALVES the factor of '
+      'safety, and the reason is worth carrying: the full weight of the soil '
+      'still drives the slide, while buoyancy leaves only the submerged '
+      'weight pressing the grains together to make friction. The factor it '
+      'brings is the buoyant unit weight over the saturated one, which for '
+      'ordinary soils is about a half. So a slope that stood at 1.85 dry is '
+      'at 0.93 wet, which is past failing, and a slope that stood at 1.1 dry '
+      'is nowhere at all. Nothing was added and nothing was dug out: it '
+      'rained. That is why slopes that have stood for twenty summers go in a '
+      'wet winter, why a cut should be designed for the state it will spend '
+      'its worst week in, and why draining a slope is worth a doubling all on '
+      'its own.',
+  formulas: [
+    ('With seepage', r"FS = \frac{\gamma'}{\gamma_{sat}}\cdot\frac{\tan\phi}{\tan\beta}"),
+    ('The factor', r"\gamma'/\gamma_{sat} \approx 0.5"),
+    ('The fix', r'\text{flatten it, or drain it}'),
+  ],
+  figure: BriefFigure.slopeSeepage,
+  handbook: 'Handbook, slope stability',
+);
+
+const wedgeBrief = BriefSection(
+  title: 'Everything holding, over everything driving',
+  body:
+      'A block of soil on a planar slip surface shows plainly what a factor '
+      'of safety is. The weight does BOTH jobs: its component along the '
+      'plane, the weight times the sine, drives the slide, and its component '
+      'across the plane, the weight times the cosine, presses the block down '
+      'and buys friction in proportion. The angle of the plane decides how '
+      'the weight is split between those two, which is why a steeper slip '
+      'surface is the dangerous one. Then the cohesion adds a third term, the '
+      'cohesion times the LENGTH of the surface, which owes nothing to the '
+      'weight: that is what saves shallow slips, where a thin wedge has '
+      'little friction to call on but just as much surface. Drop the cohesion '
+      'term by accident and a factor of safety of 1.5 becomes 0.8, which is '
+      'the wrong answer the lesson prints.',
+  formulas: [
+    ('The general form', r'FS = \frac{\text{resisting}}{\text{driving}}'),
+    ('A wedge', r'FS = \frac{cL_s + W\cos\alpha\tan\phi}{W\sin\alpha}'),
+    ('Cohesion', r'\text{owes nothing to } W'),
+  ],
+  figure: BriefFigure.slipWedge,
+  handbook: 'Handbook, slope stability',
+);
+
+const terzaghiBrief = BriefSection(
+  title: 'Three terms, and what kills each',
+  body:
+      'The bearing capacity equation is a sum of three, and most problems '
+      'kill one of them before any arithmetic starts. The COHESION term is '
+      'the soil holding itself together, and a clean sand has none. The DEPTH '
+      'term is the soil beside the footing, which has to be lifted and pushed '
+      'out of the way before the footing can punch down, so a footing laid on '
+      'the surface loses it entirely, and on a clean sand that is most of the '
+      'capacity. The WIDTH term comes from the weight of soil under the '
+      'footing shearing sideways, and for an undrained clay its factor is '
+      'ZERO, so it contributes nothing however wide the footing is. When a '
+      'soil has both cohesion and friction all three are there, and the '
+      'cohesion term is usually the largest. The factors themselves are '
+      'always given in the question: nothing about them needs remembering.',
+  formulas: [
+    ('The whole of it', r"q_{ult} = cN_c + \gamma' D_f N_q + \tfrac{1}{2}\gamma' B N_\gamma"),
+    ('Undrained clay', r'q_{ult} = 5.14 c_u + \gamma D_f'),
+    ('A clean sand', r'c = 0, \text{ so the first term goes}'),
+  ],
+  figure: BriefFigure.threeTerms,
+  handbook: 'Handbook, bearing capacity',
+);
+
+const footingFixBrief = BriefSection(
+  title: 'Widening and burying are not the same',
+  body:
+      'A footing short of capacity can be made wider or buried deeper, and '
+      'which of those helps is decided by the soil. On a SAND both work and '
+      'burying works better, because the depth factor is larger than the '
+      'width factor and the width term is halved besides. On an UNDRAINED '
+      'CLAY widening raises the pressure the soil can take by nothing at all, '
+      'since the term the width would have grown has a factor of zero: '
+      'widening still spreads the structural load over more area, which helps '
+      'the structure, but the ground is not getting any stronger. Burying '
+      'works on both, and the reason is physical: a bearing failure is soil '
+      'squeezing sideways and up, so the deeper the footing sits the more '
+      'soil is in the way. One more thing to watch: both of those terms are '
+      'weights, so a water table rising above the footing halves them.',
+  formulas: [
+    ('On clay', r'N_\gamma = 0, \text{ width buys nothing}'),
+    ('On sand', r'N_q > N_\gamma, \text{ depth buys more}'),
+    ('Under water', r"\gamma \to \gamma', \text{ both terms halve}"),
+  ],
+  figure: BriefFigure.footingFix,
+  handbook: 'Handbook, bearing capacity',
+);
+
+const allowableBrief = BriefSection(
+  title: 'Divide the capacity, not the load',
+  body:
+      'The equation gives the pressure at which the soil FAILS, and nobody '
+      'builds to that. A factor of safety, usually three for bearing, divides '
+      'the ultimate capacity to give an allowable pressure, and it is that '
+      'allowable pressure the real foundation pressure is compared with: '
+      'pressure against pressure, so the column load has to be spread over '
+      'the footing area first. Dividing the load instead, or forgetting to '
+      'divide at all, are the two wrong answers the lesson prints side by '
+      'side. Three is larger than the factors used on manufactured materials '
+      'for good reasons: the soil is known from a handful of boreholes, it '
+      'varies between them, and a bearing failure gives no warning and cannot '
+      'be repaired from above. And passing this check says nothing about '
+      'SETTLEMENT, which on a soft clay is usually the one that decides the '
+      'footing.',
+  formulas: [
+    ('Allowable', r'q_{allow} = q_{ult} / FS'),
+    ('The comparison', r'\frac{P}{A} \le q_{allow}'),
+    ('The other check', r'\text{settlement, separately}'),
+  ],
+  figure: BriefFigure.allowablePressure,
+  handbook: 'Handbook, bearing capacity',
+);
+
+const rankineBrief = BriefSection(
+  title: 'Three states of the same soil',
+  body:
+      'The same soil against the same wall presses with three quite different '
+      'forces, and which one applies depends on what the WALL has done. Let '
+      'it lean away by even a fraction of an inch and the soil stretches, '
+      'takes up some of the load itself, and settles into its ACTIVE state, '
+      'the smallest of the three. Hold it perfectly still, as a basement wall '
+      'propped by its slab is held, and the soil stays AT REST, which is '
+      'noticeably larger: a basement wall designed for active pressure is '
+      'under-designed. Push the wall INTO the soil, as the toe of a sliding '
+      'wall does, and it answers with PASSIVE pressure, which for a thirty '
+      'degree soil is nine times the active value and takes a great deal of '
+      'movement to develop. The order never changes, and the active and '
+      'passive coefficients are reciprocals: if one is a third the other is '
+      'three, which is the fastest check there is against swapping the two '
+      'formulas.',
+  formulas: [
+    ('Active', r'K_a = \tan^2(45 - \phi/2)'),
+    ('Passive', r'K_p = \tan^2(45 + \phi/2)'),
+    ('At rest', r'K_0 \approx 1 - \sin\phi'),
+  ],
+  figure: BriefFigure.rankine,
+  handbook: 'Handbook, lateral earth pressure',
+);
+
+const diagramShapeBrief = BriefSection(
+  title: 'A triangle and a rectangle',
+  body:
+      'Two things press on a retaining wall and they press differently. The '
+      'SOIL weighs more the deeper you go, so its pressure runs from nothing '
+      'at the surface to its largest at the base: a triangle, whose resultant '
+      'acts a THIRD of the height up. A SURCHARGE on the ground behind the '
+      'wall presses down everywhere alike and the soil passes a share of it '
+      'sideways at every depth, so it adds the same pressure all the way '
+      'down: a rectangle, whose resultant acts at MID height. The two forces '
+      'add, but their heights do not, so an overturning check has to take '
+      'each about its own arm. And a modest surcharge is worth more than it '
+      'looks, because its rectangle covers the whole wall while the soil '
+      'triangle spends its first few feet near nothing.',
+  formulas: [
+    ('The soil', r'\tfrac{1}{2}K_a\gamma H^2 \text{ at } H/3'),
+    ('A surcharge', r'K_a q H \text{ at } H/2'),
+    ('Together', r'\text{they add}'),
+  ],
+  figure: BriefFigure.pressureShape,
+  handbook: 'Handbook, lateral earth pressure',
+);
+
+const wallForceBrief = BriefSection(
+  title: 'The half and the square',
+  body:
+      'Two things in the active force formula are worth feeling rather than '
+      'memorizing. The HALF is the area of a triangle: the pressure averages '
+      'half its value at the base, so the force is that average times the '
+      'height. Dropping it doubles the answer, which is the wrong choice the '
+      'lesson prints. The SQUARE on the height means a wall twice as tall '
+      'carries FOUR times the force, since there is twice as much soil and '
+      'twice the pressure at the base and the two multiply. Worse, the '
+      'overturning moment grows EIGHT times, because the arm doubles as well. '
+      'That cube is why tall walls get expensive out of all proportion to '
+      'their height and why a bank is often terraced instead. The unit weight '
+      'and the coefficient, by contrast, scale the answer straight. And the '
+      'force is only an input: sliding, overturning and bearing are three '
+      'separate checks after it.',
+  formulas: [
+    ('The force', r'P_a = \tfrac{1}{2}K_a\gamma H^2'),
+    ('Twice as tall', r'4\times \text{ the force}'),
+    ('The moment', r'8\times, \text{ arm and all}'),
+  ],
+  figure: BriefFigure.wallForce,
+  handbook: 'Handbook, lateral earth pressure',
+);
+
 const trussRouteBrief = BriefSection(
   title: 'Which one is quicker, and what comes first',
   body:
@@ -8835,6 +9192,132 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{one rock face} \Rightarrow 4\times \text{ the wait}", true),
             (r"\text{a bigger load settles slower}", false),
             (r"H_{dr} = H \text{ when both faces drain}", false),
+          ],
+        );
+      case BriefFigure.mohrCoulomb:
+        return const _RuleList(
+          rules: [
+            (r"\text{a sand: } c' = 0", true),
+            (r"\text{a fast-loaded clay: } \phi_u = 0", true),
+            (r"\text{a sand is strong at the surface}", false),
+            (r"\text{pressing a fast clay harder helps}", false),
+          ],
+        );
+      case BriefFigure.drainage:
+        return const _RuleList(
+          rules: [
+            (r"c_u, \phi_u \text{ go with } \sigma", true),
+            (r"\text{long term} \Rightarrow \text{effective}", true),
+            (r"\phi' \text{ with a total stress}", false),
+            (r"\text{a clay is weakest in the long run}", false),
+          ],
+        );
+      case BriefFigure.soilCircle:
+        return const _RuleList(
+          rules: [
+            (r"c_u = \frac{\sigma_1-\sigma_3}{2}", true),
+            (r"\sin\phi = t/s \text{ when } c = 0", true),
+            (r"c_u = \sigma_1 - \sigma_3", false),
+            (r"\tan\phi = t/s", false),
+          ],
+        );
+      case BriefFigure.flowNet:
+        return const _RuleList(
+          rules: [
+            (r"q = k H \frac{N_f}{N_d}", true),
+            (r"\text{a channel is a lane, not a line}", true),
+            (r"q = k H \frac{N_d}{N_f}", false),
+            (r"\text{a more permeable soil changes the net}", false),
+          ],
+        );
+      case BriefFigure.quickCondition:
+        return const _RuleList(
+          rules: [
+            (r"i_c = \frac{G_s - 1}{1 + e}", true),
+            (r"\text{looser sand boils sooner}", true),
+            (r"i_c = 1 \text{ exactly}", false),
+            (r"\text{raise the upstream water to help}", false),
+          ],
+        );
+      case BriefFigure.infiniteSlope:
+        return const _RuleList(
+          rules: [
+            (r"FS = \tan\phi / \tan\beta", true),
+            (r"\text{depth cancels out}", true),
+            (r"\text{a deeper slope is less safe}", false),
+            (r"FS = \tan\beta / \tan\phi", false),
+          ],
+        );
+      case BriefFigure.slopeSeepage:
+        return const _RuleList(
+          rules: [
+            (r"\text{seepage} \Rightarrow FS \text{ about halved}", true),
+            (r"\gamma'/\gamma_{sat} \approx 0.5", true),
+            (r"\text{rain weakens the grains}", false),
+            (r"\text{a dry } FS = 1.1 \text{ is enough}", false),
+          ],
+        );
+      case BriefFigure.slipWedge:
+        return const _RuleList(
+          rules: [
+            (r"W\sin\alpha \text{ drives}, \; W\cos\alpha \text{ holds}", true),
+            (r"cL_s \text{ owes nothing to } W", true),
+            (r"\text{cohesion is a small term}", false),
+            (r"FS = \text{driving}/\text{resisting}", false),
+          ],
+        );
+      case BriefFigure.threeTerms:
+        return const _RuleList(
+          rules: [
+            (r"\text{on the surface: no depth term}", true),
+            (r"\phi = 0 \Rightarrow N_\gamma = 0", true),
+            (r"\text{a clean sand has a cohesion term}", false),
+            (r"\text{the factors must be memorized}", false),
+          ],
+        );
+      case BriefFigure.footingFix:
+        return const _RuleList(
+          rules: [
+            (r"\text{on sand, deeper beats wider}", true),
+            (r"\text{on clay, wider buys no pressure}", true),
+            (r"\text{widening always helps the soil}", false),
+            (r"\text{the water table does not matter}", false),
+          ],
+        );
+      case BriefFigure.allowablePressure:
+        return const _RuleList(
+          rules: [
+            (r"q_{allow} = q_{ult}/FS", true),
+            (r"\text{compare pressure with pressure}", true),
+            (r"\text{divide the load by } FS", false),
+            (r"\text{bearing covers settlement}", false),
+          ],
+        );
+      case BriefFigure.rankine:
+        return const _RuleList(
+          rules: [
+            (r"K_a < K_0 < K_p", true),
+            (r"K_a K_p = 1", true),
+            (r"\text{a propped wall gets } K_a", false),
+            (r"\text{passive needs no movement}", false),
+          ],
+        );
+      case BriefFigure.pressureShape:
+        return const _RuleList(
+          rules: [
+            (r"\text{soil: a triangle, at } H/3", true),
+            (r"\text{surcharge: a rectangle, at } H/2", true),
+            (r"\text{a surcharge is triangular too}", false),
+            (r"\text{both act at the same height}", false),
+          ],
+        );
+      case BriefFigure.wallForce:
+        return const _RuleList(
+          rules: [
+            (r"P_a = \tfrac{1}{2}K_a\gamma H^2", true),
+            (r"2H \Rightarrow 4P, \; 8M", true),
+            (r"P_a = K_a \gamma H^2", false),
+            (r"2H \Rightarrow 2P", false),
           ],
         );
       case BriefFigure.cogo:

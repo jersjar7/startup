@@ -96,6 +96,23 @@ import 'consolidation_figures.dart';
 import 'which_case_is_it_game.dart';
 import 'stiff_until_it_remembers_game.dart';
 import 'how_long_does_it_take_game.dart';
+import 'shear_strength_figures.dart';
+import 'two_terms_game.dart';
+import 'drained_or_not_game.dart';
+import 'reading_the_circle_game.dart';
+import 'counting_the_net_game.dart';
+import 'when_the_sand_boils_game.dart';
+import 'steeper_than_its_friction_game.dart';
+import 'after_the_rain_game.dart';
+import 'what_holds_the_wedge_game.dart';
+import 'bearing_figures.dart';
+import 'which_term_drops_out_game.dart';
+import 'wider_or_deeper_game.dart';
+import 'what_gets_divided_game.dart';
+import 'earth_pressure_figures.dart';
+import 'which_way_did_the_wall_move_game.dart';
+import 'triangle_or_rectangle_game.dart';
+import 'double_the_wall_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4362,6 +4379,188 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-co-',
     rounds: [
       for (final r in timeRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'two-terms',
+    lessonId: 'shear-strength',
+    problemPrefix: 'geo-ss-',
+    rounds: [
+      for (final r in twoTermRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Term2.values) o.name],
+          answer: Term2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'drained-or-not',
+    lessonId: 'shear-strength',
+    problemPrefix: 'geo-ss-',
+    rounds: [
+      for (final r in drainRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Set2.values) o.name],
+          answer: Set2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'reading-the-circle',
+    lessonId: 'shear-strength',
+    problemPrefix: 'geo-ss-',
+    rounds: [
+      for (final r in triaxialRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'counting-the-net',
+    lessonId: 'permeability-seepage',
+    problemPrefix: 'geo-seep-',
+    rounds: [
+      for (final r in netRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'when-the-sand-boils',
+    lessonId: 'permeability-seepage',
+    problemPrefix: 'geo-seep-',
+    rounds: [
+      for (final r in boilRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'steeper-than-its-friction',
+    lessonId: 'slope-stability',
+    problemPrefix: 'geo-slp-',
+    rounds: [
+      for (final r in bankRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Stands.values) o.name],
+          answer: Stands.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'after-the-rain',
+    lessonId: 'slope-stability',
+    problemPrefix: 'geo-slp-',
+    rounds: [
+      for (final r in rainRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Stands.values) o.name],
+          answer: Stands.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-holds-the-wedge',
+    lessonId: 'slope-stability',
+    problemPrefix: 'geo-slp-',
+    rounds: [
+      for (final r in wedgeRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-term-drops-out',
+    lessonId: 'bearing-capacity',
+    problemPrefix: 'geo-bc-',
+    rounds: [
+      for (final r in termGoneRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Piece4.values) o.name],
+          answer: Piece4.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'wider-or-deeper',
+    lessonId: 'bearing-capacity',
+    problemPrefix: 'geo-bc-',
+    rounds: [
+      for (final r in fixRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Remedy.values) o.name],
+          answer: Remedy.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-gets-divided',
+    lessonId: 'bearing-capacity',
+    problemPrefix: 'geo-bc-',
+    rounds: [
+      for (final r in safetyRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-way-did-the-wall-move',
+    lessonId: 'lateral-earth-pressure',
+    problemPrefix: 'geo-le-',
+    rounds: [
+      for (final r in wallMoveRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in WallState.values) o.name],
+          answer: WallState.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'triangle-or-rectangle',
+    lessonId: 'lateral-earth-pressure',
+    problemPrefix: 'geo-le-',
+    rounds: [
+      for (final r in shapeRounds2)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'double-the-wall',
+    lessonId: 'lateral-earth-pressure',
+    problemPrefix: 'geo-le-',
+    rounds: [
+      for (final r in wallHeightRounds)
         RoundAudit(
           source: r.source,
           options: r.options,

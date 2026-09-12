@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mobile/features/games/phase_figures.dart';
@@ -11,6 +13,19 @@ import 'package:mobile/features/games/which_stress_is_that_game.dart';
 import 'package:mobile/features/games/what_the_water_table_does_game.dart';
 import 'package:mobile/features/games/consolidation_figures.dart';
 import 'package:mobile/features/games/which_case_is_it_game.dart';
+import 'package:mobile/features/games/shear_strength_figures.dart';
+import 'package:mobile/features/games/two_terms_game.dart';
+import 'package:mobile/features/games/seepage_figures.dart';
+import 'package:mobile/features/games/slope_figures.dart';
+import 'package:mobile/features/games/bearing_figures.dart';
+import 'package:mobile/features/games/earth_pressure_figures.dart';
+import 'package:mobile/features/games/which_way_did_the_wall_move_game.dart';
+import 'package:mobile/features/games/triangle_or_rectangle_game.dart';
+import 'package:mobile/features/games/double_the_wall_game.dart';
+import 'package:mobile/features/games/which_term_drops_out_game.dart';
+import 'package:mobile/features/games/steeper_than_its_friction_game.dart';
+import 'package:mobile/features/games/after_the_rain_game.dart';
+import 'package:mobile/features/games/drained_or_not_game.dart';
 import 'package:mobile/features/games/both_or_neither_game.dart';
 
 void main() {
@@ -441,4 +456,333 @@ void main() {
       expect(tv * onRock.path * onRock.path / cv, closeTo(39.4, 0.1));
     });
   });
+
+  group('shear strength', () {
+    test('the lesson\'s own soil adds both terms', () {
+      const soil = Failure(cohesion: 200, friction: 30);
+      expect(soil.strengthAt(1000), closeTo(777, 1));
+      expect(soil.strengthAt(0), 200);
+    });
+
+    test('a clean sand is worth nothing at the surface', () {
+      const sand = Failure(cohesion: 0, friction: 34);
+      expect(sand.sand, isTrue);
+      expect(sand.strengthAt(0), 0);
+      expect(sand.strengthAt(3600), greaterThan(2000));
+    });
+
+    test('a fast-loaded clay does not care how hard it is pressed', () {
+      const clay = Failure(cohesion: 1200, friction: 0);
+      expect(clay.undrained, isTrue);
+      expect(clay.strengthAt(2000), closeTo(1200, 0.001));
+      expect(clay.strengthAt(4000), closeTo(1200, 0.001));
+    });
+
+    test('the lesson\'s triaxial tests read the way it says', () {
+      const sand = Triaxial(cell: 2000, deviator: 4000);
+      expect(sand.center, 4000);
+      expect(sand.radius, 2000);
+      expect(sand.sinPhi, closeTo(0.5, 0.001));
+      expect(sand.phi, closeTo(30, 0.1));
+
+      const clay = Triaxial(cell: 1500, deviator: 2400);
+      expect(clay.undrainedStrength, closeTo(1200, 0.5));
+    });
+
+    test('the sine and the tangent are not the same answer', () {
+      const sand = Triaxial(cell: 2000, deviator: 4000);
+      final wrong = math.atan(sand.sinPhi) * 180 / math.pi;
+      expect(wrong, closeTo(26.6, 0.1));
+      expect(sand.phi, isNot(closeTo(wrong, 1)));
+    });
+
+    test('a straight envelope through the origin scales the test', () {
+      const low = Triaxial(cell: 2000, deviator: 4000);
+      const high = Triaxial(cell: 4000, deviator: 8000);
+      expect(high.sinPhi, closeTo(low.sinPhi, 0.001));
+    });
+
+    test('every answer gets used in each item', () {
+      expect(twoTermRounds.map((r) => r.answer).toSet().length,
+          greaterThanOrEqualTo(3));
+      expect(drainRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('seepage', () {
+    test('the lesson\'s own flow net', () {
+      const net = FlowNet(channels: 4, drops: 12, head: 6, k: 2e-5);
+      expect(net.seepage, closeTo(4.0e-5, 1e-7));
+      expect(net.dropSize, closeTo(0.5, 0.001));
+    });
+
+    test('more channels means more water, more drops means less', () {
+      const base = FlowNet(channels: 4, drops: 12, head: 6, k: 2e-5);
+      const wider = FlowNet(channels: 6, drops: 12, head: 6, k: 2e-5);
+      const deeper = FlowNet(channels: 4, drops: 18, head: 6, k: 2e-5);
+      expect(wider.seepage / base.seepage, closeTo(1.5, 0.001));
+      expect(deeper.seepage / base.seepage, closeTo(2 / 3, 0.001));
+    });
+
+    test('turning the fraction over is out by a factor of nine', () {
+      const net = FlowNet(channels: 4, drops: 12, head: 6, k: 2e-5);
+      final inverted = net.k * net.head * net.drops / net.channels;
+      expect(inverted / net.seepage, closeTo(9, 0.001));
+    });
+
+    test('the lesson\'s own critical gradient is not quite one', () {
+      const sand = Quick(gs: 2.70, voidRatio: 0.85, exitGradient: 0.45);
+      expect(sand.critical, closeTo(0.92, 0.005));
+      expect(sand.critical, lessThan(1));
+      expect(sand.factorOfSafety, closeTo(2.04, 0.02));
+      expect(sand.boiling, isFalse);
+    });
+
+    test('a looser sand boils at a smaller gradient', () {
+      const dense = Quick(gs: 2.70, voidRatio: 0.85, exitGradient: 0.5);
+      const loose = Quick(gs: 2.65, voidRatio: 1.20, exitGradient: 0.5);
+      expect(loose.critical, lessThan(dense.critical));
+      expect(loose.critical, closeTo(0.75, 0.005));
+    });
+
+    test('reaching the critical gradient is boiling', () {
+      const atIt = Quick(gs: 2.70, voidRatio: 0.85, exitGradient: 0.92);
+      expect(atIt.boiling, isTrue);
+      expect(atIt.factorOfSafety, closeTo(1, 0.01));
+    });
+  });
+
+  group('slopes', () {
+    test('the lesson\'s own slope, dry and wet', () {
+      const dry = Bank(slopeAngle: 20, friction: 34);
+      const wet = Bank(slopeAngle: 20, friction: 34, seeping: true);
+      expect(dry.factorOfSafety, closeTo(1.85, 0.01));
+      expect(wet.factorOfSafety, closeTo(0.93, 0.01));
+      expect(dry.stands, isTrue);
+      expect(wet.stands, isFalse);
+    });
+
+    test('seepage takes about half of it', () {
+      const wet = Bank(slopeAngle: 20, friction: 34, seeping: true);
+      expect(wet.seepageFactor, closeTo(0.5, 0.01));
+    });
+
+    test('at the friction angle the factor of safety is one', () {
+      const edge = Bank(slopeAngle: 34, friction: 34);
+      expect(edge.factorOfSafety, closeTo(1, 0.001));
+    });
+
+    test('depth and unit weight are nowhere in it', () {
+      const light = Bank(slopeAngle: 20, friction: 34, saturatedWeight: 17);
+      const heavy = Bank(slopeAngle: 20, friction: 34, saturatedWeight: 22);
+      expect(light.factorOfSafety, closeTo(heavy.factorOfSafety, 0.0001));
+    });
+
+    test('every round agrees with its own angles', () {
+      for (final r in bankRounds) {
+        final fs = r.bank.factorOfSafety;
+        final expected = (fs - 1).abs() < 0.02
+            ? Stands.onTheEdge
+            : (fs > 1 ? Stands.holds : Stands.slides);
+        expect(r.answer, expected, reason: r.subject);
+      }
+      for (final r in rainRounds) {
+        final fs = r.bank.factorOfSafety;
+        final expected = (fs - 1).abs() < 0.02
+            ? Stands.onTheEdge
+            : (fs > 1 ? Stands.holds : Stands.slides);
+        expect(r.answer, expected, reason: r.subject);
+      }
+    });
+
+    test('the lesson\'s own wedge, with and without its cohesion', () {
+      const full =
+          Wedge2(cohesionForce: 120, weight: 400, slipAngle: 25, friction: 20);
+      const without =
+          Wedge2(cohesionForce: 0, weight: 400, slipAngle: 25, friction: 20);
+      expect(full.driving, closeTo(169, 1));
+      expect(full.resisting, closeTo(252, 1));
+      expect(full.factorOfSafety, closeTo(1.49, 0.02));
+      expect(without.factorOfSafety, closeTo(0.78, 0.02));
+    });
+
+    test('a steeper slip plane drives more and holds less', () {
+      const shallow =
+          Wedge2(cohesionForce: 120, weight: 400, slipAngle: 15, friction: 20);
+      const steep =
+          Wedge2(cohesionForce: 120, weight: 400, slipAngle: 35, friction: 20);
+      expect(steep.driving, greaterThan(shallow.driving));
+      expect(steep.normal, lessThan(shallow.normal));
+      expect(steep.factorOfSafety, lessThan(shallow.factorOfSafety));
+    });
+  });
+
+  group('bearing capacity', () {
+    const onClay = Footing(
+        width: 6, depth: 0, cohesion: 1500, unitWeight: 115,
+        nc: 5.14, nq: 1, nGamma: 0);
+    const onSand = Footing(
+        width: 4, depth: 3, cohesion: 0, unitWeight: 120,
+        nc: 30.14, nq: 18.40, nGamma: 15.07);
+    const mixed = Footing(
+        width: 5, depth: 3, cohesion: 500, unitWeight: 115,
+        nc: 14.83, nq: 6.40, nGamma: 3.54);
+
+    test('the lesson\'s three problems', () {
+      expect(onClay.ultimate, closeTo(7710, 1));
+      expect(onSand.ultimate, closeTo(10241, 1));
+      expect(mixed.ultimate, closeTo(10641, 1));
+      expect(mixed.allowable, closeTo(3547, 1));
+    });
+
+    test('a surface footing has no depth term', () {
+      expect(onClay.depthTerm, 0);
+    });
+
+    test('an undrained clay gets nothing from its width', () {
+      const narrow = Footing(
+          width: 3, depth: 3, cohesion: 1500, unitWeight: 115,
+          nc: 5.14, nq: 1, nGamma: 0);
+      const wide = Footing(
+          width: 12, depth: 3, cohesion: 1500, unitWeight: 115,
+          nc: 5.14, nq: 1, nGamma: 0);
+      expect(wide.ultimate, closeTo(narrow.ultimate, 0.001));
+    });
+
+    test('on a sand, burying beats widening foot for foot', () {
+      const deeper = Footing(
+          width: 4, depth: 4, cohesion: 0, unitWeight: 120,
+          nc: 30.14, nq: 18.40, nGamma: 15.07);
+      const wider = Footing(
+          width: 5, depth: 3, cohesion: 0, unitWeight: 120,
+          nc: 30.14, nq: 18.40, nGamma: 15.07);
+      expect(deeper.ultimate - onSand.ultimate,
+          greaterThan(wider.ultimate - onSand.ultimate));
+    });
+
+    test('the factor of safety divides the capacity', () {
+      expect(mixed.allowable * mixed.safety, closeTo(mixed.ultimate, 0.001));
+      expect(mixed.allowable, lessThan(mixed.ultimate));
+    });
+
+    test('every round names a term its own footing really has or lacks', () {
+      for (final r in termGoneRounds) {
+        switch (r.answer) {
+          case Piece4.cohesion:
+            // Either the only one left, or the missing one.
+            expect(
+                r.footing.cohesionTerm == 0 ||
+                    (r.footing.depthTerm == 0 && r.footing.widthTerm == 0),
+                isTrue,
+                reason: r.subject);
+          case Piece4.depth:
+            expect(r.footing.depthTerm == 0 || r.footing.depth > 0, isTrue,
+                reason: r.subject);
+          case Piece4.width:
+            expect(r.footing.widthTerm, 0, reason: r.subject);
+          case Piece4.none:
+            expect(r.footing.cohesionTerm, greaterThan(0), reason: r.subject);
+            expect(r.footing.depthTerm, greaterThan(0), reason: r.subject);
+            expect(r.footing.widthTerm, greaterThan(0), reason: r.subject);
+        }
+      }
+    });
+  });
+
+  group('lateral earth pressure', () {
+    // The lesson's own wall: fifteen feet, 120 pound fill, thirty degrees.
+    const wall = Backfill(height: 15, unitWeight: 120, friction: 30);
+    const loaded =
+        Backfill(height: 12, unitWeight: 120, friction: 30, surcharge: 200);
+
+    test('the three coefficients match the lesson', () {
+      expect(wall.ka, closeTo(0.333, 0.002));
+      expect(wall.kp, closeTo(3.0, 0.01));
+      expect(wall.k0, closeTo(0.5, 0.001));
+    });
+
+    test('active and passive are reciprocals, which is the lesson check', () {
+      for (final phi in [20.0, 26.0, 30.0, 34.0, 40.0]) {
+        final soil = Backfill(height: 10, unitWeight: 120, friction: phi);
+        expect(soil.ka * soil.kp, closeTo(1, 0.0001),
+            reason: '$phi degrees: the two should multiply to one');
+      }
+    });
+
+    test('the order never changes, whatever the soil', () {
+      for (final phi in [15.0, 22.0, 28.0, 30.0, 35.0, 42.0]) {
+        final soil = Backfill(height: 10, unitWeight: 120, friction: phi);
+        expect(soil.ka, lessThan(soil.k0), reason: '$phi degrees');
+        expect(soil.k0, lessThan(soil.kp), reason: '$phi degrees');
+      }
+    });
+
+    test('the force on the lesson wall is 4,500 pounds a foot', () {
+      expect(wall.soilForce, closeTo(4500, 15));
+      expect(wall.surchargeForce, 0);
+      expect(wall.total, closeTo(4500, 15));
+    });
+
+    test('the surcharged wall adds a rectangle to a triangle', () {
+      expect(loaded.soilForce, closeTo(2880, 12));
+      expect(loaded.surchargeForce, closeTo(800, 4));
+      expect(loaded.total, closeTo(3680, 16));
+    });
+
+    test('the two resultants act at different heights', () {
+      expect(loaded.soilArm, closeTo(4, 0.001));
+      expect(loaded.surchargeArm, closeTo(6, 0.001));
+      expect(loaded.soilArm, lessThan(loaded.surchargeArm));
+    });
+
+    test('twice the height is four times the force and eight the moment', () {
+      const tall = Backfill(height: 30, unitWeight: 120, friction: 30);
+      expect(tall.soilForce / wall.soilForce, closeTo(4, 0.0001));
+      expect((tall.soilForce * tall.soilArm) / (wall.soilForce * wall.soilArm),
+          closeTo(8, 0.0001));
+    });
+
+    test('unit weight scales the force straight, with no power on it', () {
+      const lighter = Backfill(height: 15, unitWeight: 100, friction: 30);
+      expect(lighter.soilForce / wall.soilForce, closeTo(100 / 120, 0.0001));
+    });
+
+    test('the surcharge is worth more than its pressure suggests', () {
+      // Round six of the shapes item rests on these two ratios.
+      final pressureRatio = (loaded.ka * loaded.surcharge) /
+          (loaded.ka * loaded.unitWeight * loaded.height);
+      expect(pressureRatio, closeTo(1 / 7.2, 0.01));
+      expect(loaded.surchargeForce / loaded.soilForce, greaterThan(0.25));
+    });
+
+    test('the states item names each of the three at least once', () {
+      expect(wallMoveRounds.map((r) => r.answer).toSet(),
+          WallState.values.toSet());
+      for (var i = 1; i < wallMoveRounds.length; i++) {
+        expect(wallMoveRounds[i].answer, isNot(wallMoveRounds[i - 1].answer),
+            reason: 'round ${i + 1} repeats the answer above it');
+      }
+    });
+
+    test('the shape and height items do not park the answer in one slot', () {
+      for (final answers in [
+        shapeRounds2.map((r) => r.answer).toList(),
+        wallHeightRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
+    });
+
+    test('only the rounds with a surcharge use a surcharged wall', () {
+      for (final r in shapeRounds2) {
+        if (r.backfill.surcharge > 0) {
+          expect(r.subject + r.asked + r.why,
+              contains(RegExp('surcharge|rectangle')),
+              reason: r.subject);
+        }
+      }
+    });
+  });
+
 }

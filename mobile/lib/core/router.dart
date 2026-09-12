@@ -273,6 +273,20 @@ import '../features/games/the_short_way_down_game.dart';
 import '../features/games/which_case_is_it_game.dart';
 import '../features/games/stiff_until_it_remembers_game.dart';
 import '../features/games/how_long_does_it_take_game.dart';
+import '../features/games/two_terms_game.dart';
+import '../features/games/drained_or_not_game.dart';
+import '../features/games/reading_the_circle_game.dart';
+import '../features/games/counting_the_net_game.dart';
+import '../features/games/when_the_sand_boils_game.dart';
+import '../features/games/steeper_than_its_friction_game.dart';
+import '../features/games/after_the_rain_game.dart';
+import '../features/games/what_holds_the_wedge_game.dart';
+import '../features/games/which_term_drops_out_game.dart';
+import '../features/games/wider_or_deeper_game.dart';
+import '../features/games/what_gets_divided_game.dart';
+import '../features/games/which_way_did_the_wall_move_game.dart';
+import '../features/games/triangle_or_rectangle_game.dart';
+import '../features/games/double_the_wall_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -691,6 +705,22 @@ GoRouter buildRouter(AuthController auth) {
           'stiff-until-it-remembers' =>
             const StiffUntilItRemembersGame(),
           'how-long-does-it-take' => const HowLongDoesItTakeGame(),
+          'two-terms' => const TwoTermsGame(),
+          'drained-or-not' => const DrainedOrNotGame(),
+          'reading-the-circle' => const ReadingTheCircleGame(),
+          'counting-the-net' => const CountingTheNetGame(),
+          'when-the-sand-boils' => const WhenTheSandBoilsGame(),
+          'steeper-than-its-friction' =>
+            const SteeperThanItsFrictionGame(),
+          'after-the-rain' => const AfterTheRainGame(),
+          'what-holds-the-wedge' => const WhatHoldsTheWedgeGame(),
+          'which-term-drops-out' => const WhichTermDropsOutGame(),
+          'wider-or-deeper' => const WiderOrDeeperGame(),
+          'what-gets-divided' => const WhatGetsDividedGame(),
+          'which-way-did-the-wall-move' =>
+            const WhichWayDidTheWallMoveGame(),
+          'triangle-or-rectangle' => const TriangleOrRectangleGame(),
+          'double-the-wall' => const DoubleTheWallGame(),
           _ => const _UnknownGame(),
         },
       ),

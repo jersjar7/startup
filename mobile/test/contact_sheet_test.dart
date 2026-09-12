@@ -280,6 +280,20 @@ import 'package:mobile/features/games/the_short_way_down_game.dart';
 import 'package:mobile/features/games/which_case_is_it_game.dart';
 import 'package:mobile/features/games/stiff_until_it_remembers_game.dart';
 import 'package:mobile/features/games/how_long_does_it_take_game.dart';
+import 'package:mobile/features/games/two_terms_game.dart';
+import 'package:mobile/features/games/drained_or_not_game.dart';
+import 'package:mobile/features/games/reading_the_circle_game.dart';
+import 'package:mobile/features/games/counting_the_net_game.dart';
+import 'package:mobile/features/games/when_the_sand_boils_game.dart';
+import 'package:mobile/features/games/steeper_than_its_friction_game.dart';
+import 'package:mobile/features/games/after_the_rain_game.dart';
+import 'package:mobile/features/games/what_holds_the_wedge_game.dart';
+import 'package:mobile/features/games/which_term_drops_out_game.dart';
+import 'package:mobile/features/games/wider_or_deeper_game.dart';
+import 'package:mobile/features/games/what_gets_divided_game.dart';
+import 'package:mobile/features/games/which_way_did_the_wall_move_game.dart';
+import 'package:mobile/features/games/triangle_or_rectangle_game.dart';
+import 'package:mobile/features/games/double_the_wall_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2290,6 +2304,90 @@ void main() {
           rounds: timeRounds.length,
           height: 2080,
         ),
+        'two-terms': (
+          lesson: '110-shear',
+          build: TwoTermsGame.new,
+          rounds: twoTermRounds.length,
+          height: 2100,
+        ),
+        'drained-or-not': (
+          lesson: '110-shear',
+          build: DrainedOrNotGame.new,
+          rounds: drainRounds.length,
+          height: 2080,
+        ),
+        'reading-the-circle': (
+          lesson: '110-shear',
+          build: ReadingTheCircleGame.new,
+          rounds: triaxialRounds.length,
+          height: 2140,
+        ),
+        'counting-the-net': (
+          lesson: '111-seepage',
+          build: CountingTheNetGame.new,
+          rounds: netRounds.length,
+          height: 2120,
+        ),
+        'when-the-sand-boils': (
+          lesson: '111-seepage',
+          build: WhenTheSandBoilsGame.new,
+          rounds: boilRounds.length,
+          height: 2140,
+        ),
+        'steeper-than-its-friction': (
+          lesson: '112-slopes',
+          build: SteeperThanItsFrictionGame.new,
+          rounds: bankRounds.length,
+          height: 2060,
+        ),
+        'after-the-rain': (
+          lesson: '112-slopes',
+          build: AfterTheRainGame.new,
+          rounds: rainRounds.length,
+          height: 2100,
+        ),
+        'what-holds-the-wedge': (
+          lesson: '112-slopes',
+          build: WhatHoldsTheWedgeGame.new,
+          rounds: wedgeRounds.length,
+          height: 2120,
+        ),
+        'which-term-drops-out': (
+          lesson: '113-bearing',
+          build: WhichTermDropsOutGame.new,
+          rounds: termGoneRounds.length,
+          height: 2160,
+        ),
+        'wider-or-deeper': (
+          lesson: '113-bearing',
+          build: WiderOrDeeperGame.new,
+          rounds: fixRounds.length,
+          height: 2180,
+        ),
+        'what-gets-divided': (
+          lesson: '113-bearing',
+          build: WhatGetsDividedGame.new,
+          rounds: safetyRounds.length,
+          height: 2160,
+        ),
+        'which-way-did-the-wall-move': (
+          lesson: '114-earthpressure',
+          build: WhichWayDidTheWallMoveGame.new,
+          rounds: wallMoveRounds.length,
+          height: 2060,
+        ),
+        'triangle-or-rectangle': (
+          lesson: '114-earthpressure',
+          build: TriangleOrRectangleGame.new,
+          rounds: shapeRounds2.length,
+          height: 2180,
+        ),
+        'double-the-wall': (
+          lesson: '114-earthpressure',
+          build: DoubleTheWallGame.new,
+          rounds: wallHeightRounds.length,
+          height: 2180,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2792,6 +2890,30 @@ void main() {
       ('cases', caseBrief),
       ('memory', memoryBrief),
       ('time', drainageBrief),
+    ],
+    '110-shear': [
+      ('terms', mohrCoulombBrief),
+      ('drained', drainedBrief),
+      ('circle', mohrCircleBrief),
+    ],
+    '111-seepage': [
+      ('net', flowNetBrief),
+      ('quick', quickBrief),
+    ],
+    '112-slopes': [
+      ('dry', infiniteSlopeBrief),
+      ('wet', seepageSlopeBrief),
+      ('wedge', wedgeBrief),
+    ],
+    '113-bearing': [
+      ('terms', terzaghiBrief),
+      ('fix', footingFixBrief),
+      ('allowable', allowableBrief),
+    ],
+    '114-earthpressure': [
+      ('states', rankineBrief),
+      ('shapes', diagramShapeBrief),
+      ('force', wallForceBrief),
     ],
     '95-determinacy': [
       ('count', countBrief),
