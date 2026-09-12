@@ -1,0 +1,747 @@
+<Rive version="1" kind="fragment">
+    <!--
+        One lesson node on the chapter path.
+
+        The app owns every decision: which of the four states the node is in,
+        how far the wedge has filled, whether a finger is on it, and when the
+        finished moment fires. This file only decides how each of those looks
+        and moves. The contract is the LessonNode view model at the bottom;
+        docs/mobile/lesson-node-rive.md explains it.
+
+        Geometry mirrors the Flutter painter it replaces: a 100pt face, a 7pt
+        plinth below it, 12pt of air around both so the finished pop and its
+        halo have room. The face's top-left corner is at (12, 12).
+    -->
+    <Artboard defaultStateMachineId="0:70" viewModelId="0:100" viewModelInstanceId="0:101"
+              width="124" height="131" styleId="0:3" name="LessonNode" id="0:2">
+        <LayoutComponentStyle name="Artboard Style" id="0:3"/>
+
+        <!-- Everything that moves when pressed. The plinth stays put. -->
+        <Node x="62" y="62" name="Press" id="0:20">
+
+            <!-- Everything that pops when the lesson is finished. -->
+            <Node x="0" y="0" name="Pop" id="0:24">
+
+                <!-- The finished check. -->
+                <Shape x="0" y="0" opacity="0" name="Check" id="0:46">
+                    <PointsPath isClosed="false" name="Path">
+                        <StraightVertex x="-15.6" y="0.9"/>
+                        <StraightVertex x="-5.5" y="11"/>
+                        <StraightVertex x="15.6" y="-8.2"/>
+                    </PointsPath>
+                    <Stroke thickness="4.6" cap="round" join="round" name="Stroke">
+                        <SolidColor colorValue="FFFFF9F0" name="Ink" id="0:47">
+                            <DataBindContext sourcePathIds="0:100-0:110" propertyKey="37"/>
+                        </SolidColor>
+                    </Stroke>
+                </Shape>
+
+                <!-- The "not written yet" ellipsis. -->
+                <Shape x="0" y="0" opacity="0" name="Dots" id="0:48">
+                    <Ellipse x="-6.1" y="0" width="4.1" height="4.1" name="L"/>
+                    <Ellipse x="0" y="0" width="4.1" height="4.1" name="M"/>
+                    <Ellipse x="6.1" y="0" width="4.1" height="4.1" name="R"/>
+                    <Fill name="Fill">
+                        <SolidColor colorValue="FFA79B87" name="Ink" id="0:49">
+                            <DataBindContext sourcePathIds="0:100-0:110" propertyKey="37"/>
+                        </SolidColor>
+                    </Fill>
+                </Shape>
+
+                <!--
+                    The progress wedge: a thick stroke on a small circle, trimmed
+                    from the top. Thickness equals the circle's diameter, so the
+                    trimmed stroke reads as a filled pie slice, not an arc.
+                    Radius 47.25 matches the painter: the face radius less the rim
+                    and a hair of inset.
+                -->
+                <Node x="0" y="0" opacity="0" name="WedgeGroup" id="0:38">
+                    <Shape x="0" y="0" name="Wedge" id="0:40">
+                        <DataBindContext sourcePathIds="0:100-0:103" propertyKey="18" converterId="0:131"/>
+                        <Ellipse width="47.25" height="47.25" name="Path" id="0:41"/>
+                        <Stroke thickness="47.25" cap="butt" name="Stroke" id="0:42">
+                            <SolidColor colorValue="FFE8683A" name="Wedge" id="0:43">
+                                <DataBindContext sourcePathIds="0:100-0:109" propertyKey="37"/>
+                            </SolidColor>
+                            <TrimPath start="0" end="0.15" name="Sweep" id="0:44">
+                                <DataBindContext sourcePathIds="0:100-0:103" propertyKey="115" converterId="0:130"/>
+                            </TrimPath>
+                        </Stroke>
+                    </Shape>
+                </Node>
+
+                <!-- The rim, on the two unfinished circle states. -->
+                <Shape x="0" y="0" opacity="1" name="Rim" id="0:34">
+                    <Rectangle width="97.3" height="97.3" cornerRadiusTL="48.65" name="Path" id="0:35"/>
+                    <Stroke thickness="2.7" name="Stroke">
+                        <SolidColor colorValue="FF2C2C2C" name="Rim" id="0:36">
+                            <DataBindContext sourcePathIds="0:100-0:108" propertyKey="37"/>
+                        </SolidColor>
+                    </Stroke>
+                </Shape>
+
+                <!-- The face. Circle or rounded square, decided by the state. -->
+                <Shape x="0" y="0" name="Face" id="0:30">
+                    <Rectangle width="100" height="100" cornerRadiusTL="50" name="Path" id="0:31"/>
+                    <Fill name="Fill">
+                        <SolidColor colorValue="FFFFFFFF" name="Face" id="0:32">
+                            <DataBindContext sourcePathIds="0:100-0:106" propertyKey="37"/>
+                        </SolidColor>
+                    </Fill>
+                </Shape>
+            </Node>
+
+            <!-- The halo that leaves the face at the finished moment. Invisible at rest. -->
+            <Shape x="0" y="0" opacity="0" name="Halo" id="0:22">
+                <Ellipse width="100" height="100" name="Path" id="0:23"/>
+                <Stroke thickness="3" name="Stroke">
+                    <SolidColor colorValue="FF2D7A5F" name="Halo" id="0:25">
+                        <DataBindContext sourcePathIds="0:100-0:111" propertyKey="37"/>
+                    </SolidColor>
+                </Stroke>
+            </Shape>
+        </Node>
+
+        <!-- The plinth: the face's own outline, 7pt lower, in a tone of the face. -->
+        <Shape x="62" y="69" name="Plinth" id="0:12">
+            <Rectangle width="100" height="100" cornerRadiusTL="50" name="Path" id="0:13"/>
+            <Fill name="Fill">
+                <SolidColor colorValue="FFC2BAAD" name="Plinth" id="0:14">
+                    <DataBindContext sourcePathIds="0:100-0:107" propertyKey="37"/>
+                </SolidColor>
+            </Fill>
+        </Shape>
+
+        <!-- A soft warm shadow under the plinth, in place of the painter's box shadow. -->
+        <Shape x="62" y="82" name="Shadow" id="0:10">
+            <Ellipse width="112" height="44" name="Path"/>
+            <Fill name="Fill">
+                <RadialGradient startX="0" startY="0" endX="56" endY="0" name="Soft">
+                    <GradientStop colorValue="1A2C2C2C" position="0"/>
+                    <GradientStop colorValue="0A2C2C2C" position="0.55"/>
+                    <GradientStop colorValue="002C2C2C" position="1"/>
+                </RadialGradient>
+            </Fill>
+        </Shape>
+
+        <!-- ================= Animations: one hold pose per state ================= -->
+        <LinearAnimation duration="1" name="NotBuilt" id="0:60">
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="72" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="72" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="20.16" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="72" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="72" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="20.16" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="69.3" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="69.3" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="18.81" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:34">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:46">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:48">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="1" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:38">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="NotStarted" id="0:61">
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="50" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="50" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="97.3" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="97.3" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="48.65" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:34">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="1" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:46">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:48">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:38">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="InProgress" id="0:62">
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="50" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="50" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="97.3" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="97.3" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="48.65" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:34">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="1" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:46">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:48">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:38">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="1" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="Cleared" id="0:63">
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:31">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="50" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="100" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:13">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="50" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="20">
+                    <KeyFrameDouble value="97.3" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="21">
+                    <KeyFrameDouble value="97.3" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:35">
+                <KeyedProperty propertyKey="31">
+                    <KeyFrameDouble value="48.65" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:34">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:46">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="1" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:48">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:38">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="PressUp" id="0:64">
+            <KeyedObject objectId="0:20">
+                <KeyedProperty propertyKey="14">
+                    <KeyFrameDouble value="62" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="PressDown" id="0:65">
+            <KeyedObject objectId="0:20">
+                <KeyedProperty propertyKey="14">
+                    <KeyFrameDouble value="68" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="1" name="Idle" id="0:66">
+            <KeyedObject objectId="0:24">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble value="1" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:24">
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble value="1" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:22">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble value="1" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:22">
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble value="1" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:22">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation duration="40" name="Celebrate" id="0:67">
+            <KeyedObject objectId="0:24">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble value="1" frame="0" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1.09" frame="9" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="0.985" frame="22" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="40"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:24">
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble value="1" frame="0" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1.09" frame="9" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="0.985" frame="22" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1" frame="40"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:22">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble value="1" frame="0" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1.42" frame="40"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:22">
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble value="1" frame="0" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1.42" frame="40"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:22">
+                <KeyedProperty propertyKey="18">
+                    <KeyFrameDouble value="0.55" frame="0" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="0" frame="40"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+
+        <!-- ================= State machine ================= -->
+        <StateMachine name="Node" id="0:70">
+            <StateMachineLayer name="State" id="0:71">
+                <AnyState x="640" y="-120"/>
+                <ExitState x="760" y="-120"/>
+                <EntryState x="0" y="16">
+                    <StateTransition stateToId="0:81"/>
+                </EntryState>
+                <AnimationState animationId="0:60" x="160" y="0" id="0:80">
+                <StateTransition stateToId="0:81" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:122"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                <StateTransition stateToId="0:82" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:123"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                <StateTransition stateToId="0:83" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:124"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                </AnimationState>
+                <AnimationState animationId="0:61" x="320" y="0" id="0:81">
+                <StateTransition stateToId="0:80" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:121"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                <StateTransition stateToId="0:82" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:123"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                <StateTransition stateToId="0:83" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:124"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                </AnimationState>
+                <AnimationState animationId="0:62" x="480" y="0" id="0:82">
+                <StateTransition stateToId="0:80" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:121"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                <StateTransition stateToId="0:81" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:122"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                <StateTransition stateToId="0:83" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:124"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                </AnimationState>
+                <AnimationState animationId="0:63" x="640" y="0" id="0:83">
+                <StateTransition stateToId="0:80" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:121"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                <StateTransition stateToId="0:81" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:122"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                <StateTransition stateToId="0:82" duration="220" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyEnum>
+                                <DataBindContext sourcePathIds="0:100-0:102" propertyKey="637"/>
+                            </BindablePropertyEnum>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueEnumComparator value="0:123"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
+            <StateMachineLayer name="Press" id="0:72">
+                <AnyState x="480" y="-120"/>
+                <ExitState x="600" y="-120"/>
+                <EntryState x="0" y="16">
+                    <StateTransition stateToId="0:84"/>
+                </EntryState>
+                <AnimationState animationId="0:64" x="160" y="0" id="0:84">
+                <StateTransition stateToId="0:85" duration="90" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyBoolean>
+                                <DataBindContext sourcePathIds="0:100-0:104" propertyKey="634"/>
+                            </BindablePropertyBoolean>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueBooleanComparator value="true"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                </AnimationState>
+                <AnimationState animationId="0:65" x="320" y="0" id="0:85">
+                <StateTransition stateToId="0:84" duration="90" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyBoolean>
+                                <DataBindContext sourcePathIds="0:100-0:104" propertyKey="634"/>
+                            </BindablePropertyBoolean>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueBooleanComparator value="false"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
+            <StateMachineLayer name="Clear" id="0:73">
+                <AnyState x="480" y="-120"/>
+                <ExitState x="600" y="-120"/>
+                <EntryState x="0" y="16">
+                    <StateTransition stateToId="0:86"/>
+                </EntryState>
+                <AnimationState animationId="0:66" x="160" y="0" id="0:86">
+                <StateTransition stateToId="0:87" duration="0">
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyTrigger>
+                                <DataBindContext sourcePathIds="0:100-0:105" propertyKey="686"/>
+                            </BindablePropertyTrigger>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueTriggerComparator/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                </AnimationState>
+                <AnimationState animationId="0:67" reset="true" x="320" y="0" id="0:87">
+                <StateTransition stateToId="0:86" duration="0" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+                </AnimationState>
+            </StateMachineLayer>
+        </StateMachine>
+    </Artboard>
+
+    <!--
+        progress 0..1 -> trim end, as a fraction of the circle. Equal input and
+        output ranges make this a clamp, not a remap: a tenth stays a tenth,
+        but the wedge is never a sliver (54 degrees) and never closes (330),
+        so "barely started" and "nearly done" both stay readable and neither
+        can impersonate a finished node.
+    -->
+    <DataConverterRangeMapper minInput="0.15" maxInput="0.9166667" minOutput="0.15" maxOutput="0.9166667"
+                              clampLower="true" clampUpper="true" name="ToSweep" id="0:130"/>
+    <!-- progress 0 hides the wedge entirely; anything past a whisker shows it. -->
+    <DataConverterRangeMapper minInput="0" maxInput="0.02" minOutput="0" maxOutput="1"
+                              clampLower="true" clampUpper="true" name="ToVisible" id="0:131"/>
+
+    <DataEnumCustom name="NodeState" id="0:120">
+        <DataEnumValue key="notBuilt" value="Not built" id="0:121"/>
+        <DataEnumValue key="notStarted" value="Not started" id="0:122"/>
+        <DataEnumValue key="inProgress" value="In progress" id="0:123"/>
+        <DataEnumValue key="cleared" value="Cleared" id="0:124"/>
+    </DataEnumCustom>
+
+    <!--
+        The contract with the app. Names are the public surface; the app sets
+        these by name and nothing else in this file is reachable from outside.
+    -->
+    <ViewModel defaultInstanceId="0:101" name="LessonNode" id="0:100">
+        <ViewModelPropertyEnumCustom enumId="0:120" name="state" id="0:102"/>
+        <ViewModelPropertyNumber name="progress" id="0:103"/>
+        <ViewModelPropertyBoolean name="pressed" id="0:104"/>
+        <ViewModelPropertyTrigger name="celebrate" id="0:105"/>
+        <ViewModelPropertyColor name="face" id="0:106"/>
+        <ViewModelPropertyColor name="plinth" id="0:107"/>
+        <ViewModelPropertyColor name="rim" id="0:108"/>
+        <ViewModelPropertyColor name="wedge" id="0:109"/>
+        <ViewModelPropertyColor name="ink" id="0:110"/>
+        <ViewModelPropertyColor name="halo" id="0:111"/>
+        <ViewModelInstance exports="true" name="Default" id="0:101">
+            <ViewModelInstanceEnum propertyValue="0:122" viewModelPropertyId="0:102"/>
+            <ViewModelInstanceNumber propertyValue="0" viewModelPropertyId="0:103"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="0:104"/>
+            <ViewModelInstanceTrigger viewModelPropertyId="0:105"/>
+            <ViewModelInstanceColor propertyValue="FFFFFFFF" viewModelPropertyId="0:106"/>
+            <ViewModelInstanceColor propertyValue="FFC2BAAD" viewModelPropertyId="0:107"/>
+            <ViewModelInstanceColor propertyValue="FF2C2C2C" viewModelPropertyId="0:108"/>
+            <ViewModelInstanceColor propertyValue="FFE8683A" viewModelPropertyId="0:109"/>
+            <ViewModelInstanceColor propertyValue="FF2C2C2C" viewModelPropertyId="0:110"/>
+            <ViewModelInstanceColor propertyValue="FF2D7A5F" viewModelPropertyId="0:111"/>
+        </ViewModelInstance>
+    </ViewModel>
+</Rive>

@@ -41,6 +41,7 @@ dependencies:
   provider: ^6.1.5+1
   url_launcher: ^6.3.2
   flutter_math_fork: ^0.7.4
+  rive: ^0.14.11
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,9 @@ flutter:
     # The brand fonts, bundled rather than fetched at runtime: the app is for
     # studying on a bus, and type that arrives late (or never) is not type.
     - assets/fonts/
+    # The lesson node artwork, built from mobile/rive/lesson_node with the
+    # Rive CLI (see docs/mobile/lesson-node-rive.md).
+    - assets/rive/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

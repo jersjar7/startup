@@ -1,0 +1,10 @@
+# The lesson node on the chapter path. Built with the Rive CLI:
+#   rive mobile/rive/lesson_node --once
+# writes ../../assets/rive/lesson_node.riv, which the app bundles.
+name: lesson_node
+main: LessonNode
+output:
+  dir: ../../assets/rive
+logs:
+  file: build/rive.log
+  problems: build/problems.log

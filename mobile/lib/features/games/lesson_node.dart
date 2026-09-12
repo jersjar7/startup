@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
+import 'lesson_node_rive.dart';
 
 /// Where a lesson stands on the path. Nothing here knows about content: hand
 /// it a state and a fraction and it draws that, which is what makes it
@@ -202,7 +203,7 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
           onTapUp: (_) => setState(() => _pressed = false),
           onTap: widget.onTap,
           child: AnimatedBuilder(
-            animation: _fraction,
+            animation: Listenable.merge([_fraction, LessonNodeArt.file]),
             builder: (context, _) {
               // Hold the unfinished face until the wedge has actually closed.
               final showing =
@@ -210,6 +211,22 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
                   ? NodeState.inProgress
                   : widget.state;
               final skin = widget.skin ?? NodeSkin.of(showing);
+
+              // Once the artwork is in, Rive draws the node. Everything
+              // above this line (what state, how full, when it turns over)
+              // is decided the same way either way.
+              final art = LessonNodeArt.file.value;
+              if (art != null) {
+                return RiveLessonNode(
+                  file: art,
+                  showing: showing,
+                  skin: skin,
+                  fraction: _fraction.value,
+                  pressed: _pressed,
+                  size: size,
+                );
+              }
+
               final face = size * skin.widthFactor;
 
               return SizedBox(
