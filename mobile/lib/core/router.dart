@@ -329,6 +329,8 @@ import '../features/games/what_float_is_game.dart';
 import '../features/games/the_chain_with_no_slack_game.dart';
 import '../features/games/which_variance_is_which_game.dart';
 import '../features/games/what_it_will_cost_game.dart';
+import '../features/games/five_feet_and_twenty_game.dart';
+import '../features/games/six_feet_up_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -806,6 +808,8 @@ GoRouter buildRouter(AuthController auth) {
           'the-chain-with-no-slack' => const TheChainWithNoSlackGame(),
           'which-variance-is-which' => const WhichVarianceIsWhichGame(),
           'what-it-will-cost' => const WhatItWillCostGame(),
+          'five-feet-and-twenty' => const FiveFeetAndTwentyGame(),
+          'six-feet-up' => const SixFeetUpGame(),
           _ => const _UnknownGame(),
         },
       ),

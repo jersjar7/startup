@@ -336,6 +336,8 @@ import 'package:mobile/features/games/what_float_is_game.dart';
 import 'package:mobile/features/games/the_chain_with_no_slack_game.dart';
 import 'package:mobile/features/games/which_variance_is_which_game.dart';
 import 'package:mobile/features/games/what_it_will_cost_game.dart';
+import 'package:mobile/features/games/five_feet_and_twenty_game.dart';
+import 'package:mobile/features/games/six_feet_up_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2682,6 +2684,18 @@ void main() {
           rounds: forecastRounds.length,
           height: 2220,
         ),
+        'five-feet-and-twenty': (
+          lesson: '133-safety',
+          build: FiveFeetAndTwentyGame.new,
+          rounds: trenchRounds.length,
+          height: 2200,
+        ),
+        'six-feet-up': (
+          lesson: '133-safety',
+          build: SixFeetUpGame.new,
+          rounds: heightRounds2.length,
+          height: 2200,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3203,6 +3217,10 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '133-safety': [
+      ('trench', excavationBrief),
+      ('height', fallProtectionBrief),
     ],
     '131-earnedvalue': [
       ('variances', earnedValueBrief),

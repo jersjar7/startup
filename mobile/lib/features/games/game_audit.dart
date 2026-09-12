@@ -155,6 +155,8 @@ import 'what_float_is_game.dart';
 import 'the_chain_with_no_slack_game.dart';
 import 'which_variance_is_which_game.dart';
 import 'what_it_will_cost_game.dart';
+import 'five_feet_and_twenty_game.dart';
+import 'six_feet_up_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4993,6 +4995,24 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'const-pf-',
     rounds: [
       for (final r in forecastRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'five-feet-and-twenty',
+    lessonId: 'construction-safety',
+    problemPrefix: 'const-cs-',
+    rounds: [
+      for (final r in trenchRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'six-feet-up',
+    lessonId: 'construction-safety',
+    problemPrefix: 'const-cs-',
+    rounds: [
+      for (final r in heightRounds2)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

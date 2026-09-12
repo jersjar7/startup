@@ -405,6 +405,8 @@ enum BriefFigure {
   criticalPath,
   earnedValue,
   forecast,
+  excavation,
+  fallProtection,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7911,6 +7913,57 @@ const forecastBrief = BriefSection(
   handbook: 'Handbook, earned value forecasting',
 );
 
+const excavationBrief = BriefSection(
+  title: 'Five feet, and twenty',
+  body:
+      'Two depths change what an excavation needs. Past FIVE feet a trench '
+      'requires a protective system, and any of three will do: sloping or '
+      'benching the sides back to a safe angle, shoring to hold them in '
+      'place, or a trench box to protect the people rather than the hole. '
+      'Which one gets used is a question of soil, room and cost, not of the '
+      'rule, and the weakest soil, type C, needs the flattest slope at one '
+      'and a half horizontal to one vertical, which is often what pushes a '
+      'job toward a box instead. Past TWENTY feet the system has to be '
+      'designed by a registered professional engineer, because the '
+      'manufacturer tabulated data most systems rely on stops there. Below '
+      'five feet the rule does not bite, which is not the same as the hole '
+      'being safe: a cubic yard of soil weighs about as much as a car, and a '
+      'trench gives no warning before it comes in.',
+  formulas: [
+    ('Over five feet', r'\text{sloping, shoring or a box}'),
+    ('Over twenty', r'\text{designed by a PE}'),
+    ('Type C soil', r'1.5\text{H}:1\text{V}'),
+  ],
+  figure: BriefFigure.excavation,
+  handbook: 'OSHA 29 CFR 1926, excavations',
+);
+
+const fallProtectionBrief = BriefSection(
+  title: 'Six feet in the air',
+  body:
+      'Fall protection is required at SIX feet in general construction, and '
+      'three things satisfy it: guardrails, which stop the fall happening, '
+      'safety nets, which catch the person, and a personal fall arrest '
+      'system, a harness and lanyard that stops them short. As with '
+      'excavations the rule names an outcome and leaves the method to the '
+      'job. Steel erection connectors are the exception worth knowing, with '
+      'a trigger of fifteen feet, on the argument that the equipment needed '
+      'to protect them lower down creates hazards of its own. Five in the '
+      'ground and six in the air are the two numbers that get swapped, and '
+      'they are worth one deliberate moment. The engineer meets all of this '
+      'in the design and the administration, by designing for '
+      'constructability and specifying measures such as shoring where they '
+      'are needed, and not by directing the crew: the means and methods '
+      'belong to the contractor.',
+  formulas: [
+    ('General construction', r'6 \text{ ft}'),
+    ('Steel connectors', r'15 \text{ ft}'),
+    ('The pair', r'5 \text{ down}, \; 6 \text{ up}'),
+  ],
+  figure: BriefFigure.fallProtection,
+  handbook: 'OSHA 29 CFR 1926, fall protection',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -10702,6 +10755,24 @@ class BriefFigureView extends StatelessWidget {
             (r"EAC = ACWP + ETC", true),
             (r"CPI = ACWP / BCWP", false),
             (r"ETC = BAC - BCWP", false),
+          ],
+        );
+      case BriefFigure.excavation:
+        return const _RuleList(
+          rules: [
+            (r"\text{over } 5 \text{ ft: a protective system}", true),
+            (r"\text{over } 20 \text{ ft: designed by a PE}", true),
+            (r"\text{firm looking soil needs nothing}", false),
+            (r"\text{only shoring is acceptable}", false),
+          ],
+        );
+      case BriefFigure.fallProtection:
+        return const _RuleList(
+          rules: [
+            (r"6 \text{ ft in general construction}", true),
+            (r"15 \text{ ft for steel connectors}", true),
+            (r"10 \text{ ft in general construction}", false),
+            (r"\text{only a harness counts}", false),
           ],
         );
       case BriefFigure.rankine:

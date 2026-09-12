@@ -4314,6 +4314,35 @@ const constructionMap = ChapterMap(
         ),
       ],
     ),
+    // The web chapter has a Project Delivery Methods lesson here and this
+    // map has no node for it, on purpose. Design-bid-build, design-build
+    // and construction manager at risk are the whole of the ETHICS
+    // chapter's `which-delivery` item, which is built on the same three
+    // contract shapes and asks the same question. Nothing in this lesson
+    // is new to a student who has played that one.
+    LessonNode(
+      id: 'construction-safety',
+      name: 'Construction Safety',
+      subtopicId: 'project-delivery',
+      games: [
+        GameDef(
+          id: 'five-feet-and-twenty',
+          rounds: 6,
+          name: 'Five Feet and Twenty',
+          blurb: 'Two depths that change what a trench needs.',
+          built: true,
+          brief: excavationBrief,
+        ),
+        GameDef(
+          id: 'six-feet-up',
+          rounds: 6,
+          name: 'Six Feet Up',
+          blurb: 'Five in the ground, six in the air.',
+          built: true,
+          brief: fallProtectionBrief,
+        ),
+      ],
+    ),
   ],
 );
 

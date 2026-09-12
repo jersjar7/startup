@@ -9,6 +9,9 @@ import 'package:mobile/features/games/the_chain_with_no_slack_game.dart';
 import 'package:mobile/features/games/earned_value_figures.dart';
 import 'package:mobile/features/games/which_variance_is_which_game.dart';
 import 'package:mobile/features/games/what_it_will_cost_game.dart';
+import 'package:mobile/features/games/safety_figures.dart';
+import 'package:mobile/features/games/five_feet_and_twenty_game.dart';
+import 'package:mobile/features/games/six_feet_up_game.dart';
 
 void main() {
   // The network the three scheduling lessons share.
@@ -268,6 +271,64 @@ void main() {
         forecastRounds.map((r) => r.answer).toList(),
       ]) {
         expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
+    });
+  });
+
+
+  group('construction safety', () {
+    test('the excavation thresholds sit where the rule puts them', () {
+      expect(const Trench(depth: 4).required_, Protection.none);
+      expect(const Trench(depth: 5).required_, Protection.none);
+      expect(const Trench(depth: 7).required_, Protection.anySystem);
+      expect(const Trench(depth: 20).required_, Protection.anySystem);
+      expect(const Trench(depth: 22).required_, Protection.engineerDesigned);
+    });
+
+    test('a deep trench with nothing in it is a violation', () {
+      expect(const Trench(depth: 7).violation, isTrue);
+      expect(const Trench(depth: 7, protected: true).violation, isFalse);
+      expect(const Trench(depth: 4).violation, isFalse);
+    });
+
+    test('fall protection starts at six feet, and fifteen for connectors',
+        () {
+      expect(const Working(height: 5).needsProtection, isFalse);
+      expect(const Working(height: 6).needsProtection, isTrue);
+      expect(const Working(height: 8).needsProtection, isTrue);
+      expect(
+          const Working(height: 12, steelConnector: true).needsProtection,
+          isFalse);
+      expect(
+          const Working(height: 16, steelConnector: true).needsProtection,
+          isTrue);
+    });
+
+    test('each round draws the case its words describe', () {
+      for (final r in trenchRounds) {
+        if (r.subject.contains('Seven feet') ||
+            r.subject.contains('seven feet')) {
+          expect(r.trench.depth, 7, reason: r.subject);
+        }
+        if (r.subject.contains('second line')) {
+          expect(r.trench.required_, Protection.engineerDesigned,
+              reason: r.subject);
+        }
+      }
+      for (final r in heightRounds2) {
+        if (r.subject.contains('different trade')) {
+          expect(r.work.steelConnector, isTrue, reason: r.subject);
+        }
+      }
+    });
+
+    test('the safety items keep the answer moving between the slots', () {
+      for (final answers in [
+        trenchRounds.map((r) => r.answer).toList(),
+        heightRounds2.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(1),
             reason: 'the correct option sits in too few positions');
       }
     });
