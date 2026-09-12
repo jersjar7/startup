@@ -8,12 +8,12 @@
         and moves. The contract is the LessonNode view model at the bottom;
         docs/mobile/lesson-node-rive.md explains it.
 
-        Geometry mirrors the Flutter painter it replaces: a 100pt face, a 7pt
-        plinth below it, 12pt of air around both so the finished pop and its
-        halo have room. The face's top-left corner is at (12, 12).
+        Geometry: a 100pt face, a 10pt plinth below it (the painter had 7; a
+        button wants more edge), 12pt of air around both so the finished pop
+        and its halo have room. The face's top-left corner is at (12, 12).
     -->
     <Artboard defaultStateMachineId="0:70" viewModelId="0:100" viewModelInstanceId="0:101"
-              width="124" height="131" styleId="0:3" name="LessonNode" id="0:2">
+              width="124" height="134" styleId="0:3" name="LessonNode" id="0:2">
         <LayoutComponentStyle name="Artboard Style" id="0:3"/>
 
         <!-- Everything that moves when pressed. The plinth stays put. -->
@@ -88,6 +88,20 @@
                             <DataBindContext sourcePathIds="0:100-0:106" propertyKey="37"/>
                         </SolidColor>
                     </Fill>
+                    <!-- Light from above: a touch of white along the top edge. -->
+                    <Fill name="Top light">
+                        <LinearGradient startX="0" startY="-50" endX="0" endY="10" name="Light">
+                            <GradientStop colorValue="40FFFFFF" position="0"/>
+                            <GradientStop colorValue="00FFFFFF" position="1"/>
+                        </LinearGradient>
+                    </Fill>
+                    <!-- And a little shade gathering at the bottom, above the plinth. -->
+                    <Fill name="Bottom shade">
+                        <LinearGradient startX="0" startY="10" endX="0" endY="50" name="Shade">
+                            <GradientStop colorValue="002C2C2C" position="0"/>
+                            <GradientStop colorValue="1E2C2C2C" position="1"/>
+                        </LinearGradient>
+                    </Fill>
                 </Shape>
             </Node>
 
@@ -102,23 +116,29 @@
             </Shape>
         </Node>
 
-        <!-- The plinth: the face's own outline, 7pt lower, in a tone of the face. -->
-        <Shape x="62" y="69" name="Plinth" id="0:12">
+        <!-- The plinth: the face's own outline, 10pt lower, in a tone of the face. -->
+        <Shape x="62" y="72" name="Plinth" id="0:12">
             <Rectangle width="100" height="100" cornerRadiusTL="50" name="Path" id="0:13"/>
             <Fill name="Fill">
                 <SolidColor colorValue="FFC2BAAD" name="Plinth" id="0:14">
                     <DataBindContext sourcePathIds="0:100-0:107" propertyKey="37"/>
                 </SolidColor>
             </Fill>
+            <Fill name="Lip">
+                <LinearGradient startX="0" startY="30" endX="0" endY="50" name="Lip shade">
+                    <GradientStop colorValue="002C2C2C" position="0"/>
+                    <GradientStop colorValue="262C2C2C" position="1"/>
+                </LinearGradient>
+            </Fill>
         </Shape>
 
         <!-- A soft warm shadow under the plinth, in place of the painter's box shadow. -->
-        <Shape x="62" y="82" name="Shadow" id="0:10">
-            <Ellipse width="112" height="44" name="Path"/>
+        <Shape x="62" y="86" name="Shadow" id="0:10">
+            <Ellipse width="104" height="34" name="Path"/>
             <Fill name="Fill">
-                <RadialGradient startX="0" startY="0" endX="56" endY="0" name="Soft">
-                    <GradientStop colorValue="1A2C2C2C" position="0"/>
-                    <GradientStop colorValue="0A2C2C2C" position="0.55"/>
+                <RadialGradient startX="0" startY="0" endX="52" endY="0" name="Soft">
+                    <GradientStop colorValue="242C2C2C" position="0"/>
+                    <GradientStop colorValue="0E2C2C2C" position="0.6"/>
                     <GradientStop colorValue="002C2C2C" position="1"/>
                 </RadialGradient>
             </Fill>
@@ -403,7 +423,7 @@
         <LinearAnimation duration="1" name="PressDown" id="0:65">
             <KeyedObject objectId="0:20">
                 <KeyedProperty propertyKey="14">
-                    <KeyFrameDouble value="68" frame="0"/>
+                    <KeyFrameDouble value="71" frame="0"/>
                 </KeyedProperty>
             </KeyedObject>
         </LinearAnimation>
@@ -699,11 +719,11 @@
     <!--
         progress 0..1 -> trim end, as a fraction of the circle. Equal input and
         output ranges make this a clamp, not a remap: a tenth stays a tenth,
-        but the wedge is never a sliver (54 degrees) and never closes (330),
-        so "barely started" and "nearly done" both stay readable and neither
-        can impersonate a finished node.
+        but the wedge is never a sliver (54 degrees), so "barely started" is
+        readable. It does close at 1: the app holds the closed circle for a
+        beat before turning the node over, and that is the finishing moment.
     -->
-    <DataConverterRangeMapper minInput="0.15" maxInput="0.9166667" minOutput="0.15" maxOutput="0.9166667"
+    <DataConverterRangeMapper minInput="0.15" maxInput="1" minOutput="0.15" maxOutput="1"
                               clampLower="true" clampUpper="true" name="ToSweep" id="0:130"/>
     <!-- progress 0 hides the wedge entirely; anything past a whisker shows it. -->
     <DataConverterRangeMapper minInput="0" maxInput="0.02" minOutput="0" maxOutput="1"

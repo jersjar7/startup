@@ -7,21 +7,28 @@ import 'package:mobile/features/games/lesson_node.dart';
 /// map, a lesson or a server. The bug this pins: the wedge used to fill while
 /// the sitting was still covering the map, so the student never saw it move.
 void main() {
-  Widget host(Widget child) =>
-      MaterialApp(home: Scaffold(body: Center(child: child)));
+  Widget host(Widget child) => MaterialApp(
+    home: Scaffold(body: Center(child: child)),
+  );
 
   double? settled;
 
   setUp(() => settled = null);
 
-  testWidgets('the wedge fills from where it was to where it is', (tester) async {
-    await tester.pumpWidget(host(LessonNodeWidget(
-      state: NodeState.inProgress,
-      fractionFrom: 0,
-      fractionTo: 2 / 3,
-      size: 78,
-      onSettled: (v) => settled = v,
-    )));
+  testWidgets('the wedge fills from where it was to where it is', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      host(
+        LessonNodeWidget(
+          state: NodeState.inProgress,
+          fractionFrom: 0,
+          fractionTo: 2 / 3,
+          size: 78,
+          onSettled: (v) => settled = v,
+        ),
+      ),
+    );
 
     // Mid-flight it is somewhere between, not already parked at the end.
     await tester.pump(const Duration(milliseconds: 200));
@@ -31,15 +38,20 @@ void main() {
     expect(settled, closeTo(2 / 3, 0.001));
   });
 
-  testWidgets('a finished lesson stays unfinished until the wedge closes',
-      (tester) async {
-    await tester.pumpWidget(host(LessonNodeWidget(
-      state: NodeState.cleared,
-      fractionFrom: 2 / 3,
-      fractionTo: 1,
-      size: 78,
-      onSettled: (v) => settled = v,
-    )));
+  testWidgets('a finished lesson stays unfinished until the wedge closes', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      host(
+        LessonNodeWidget(
+          state: NodeState.cleared,
+          fractionFrom: 2 / 3,
+          fractionTo: 1,
+          size: 78,
+          onSettled: (v) => settled = v,
+        ),
+      ),
+    );
 
     // Still the underway face while the wedge is closing. That face carries
     // no glyph at all under this design, so the absence of the check is the
@@ -47,32 +59,46 @@ void main() {
     await tester.pump(const Duration(milliseconds: 100));
     expect(find.byIcon(Icons.check_rounded), findsNothing);
 
-    await tester.pump(const Duration(milliseconds: 1300));
+    // The wedge is closed by now, and the node is still holding the full
+    // circle for its beat: no check yet.
+    await tester.pump(const Duration(milliseconds: 1100));
+    expect(find.byIcon(Icons.check_rounded), findsNothing);
+    expect(settled, isNull);
+
+    await tester.pump(
+      LessonNodeWidget.closedHold + const Duration(milliseconds: 100),
+    );
     expect(find.byIcon(Icons.check_rounded), findsOneWidget);
     expect(settled, 1.0);
   });
 
   testWidgets('nothing animates when nothing changed', (tester) async {
-    await tester.pumpWidget(host(LessonNodeWidget(
-      state: NodeState.cleared,
-      fractionFrom: 1,
-      fractionTo: 1,
-      size: 78,
-      onSettled: (v) => settled = v,
-    )));
+    await tester.pumpWidget(
+      host(
+        LessonNodeWidget(
+          state: NodeState.cleared,
+          fractionFrom: 1,
+          fractionTo: 1,
+          size: 78,
+          onSettled: (v) => settled = v,
+        ),
+      ),
+    );
     await tester.pump(const Duration(milliseconds: 50));
     expect(find.byIcon(Icons.check_rounded), findsOneWidget);
     expect(settled, isNull);
   });
 
   testWidgets('a later change animates too', (tester) async {
-    Widget at(double to) => host(LessonNodeWidget(
-          state: NodeState.inProgress,
-          fractionFrom: 0,
-          fractionTo: to,
-          size: 78,
-          onSettled: (v) => settled = v,
-        ));
+    Widget at(double to) => host(
+      LessonNodeWidget(
+        state: NodeState.inProgress,
+        fractionFrom: 0,
+        fractionTo: to,
+        size: 78,
+        onSettled: (v) => settled = v,
+      ),
+    );
 
     await tester.pumpWidget(at(1 / 3));
     await tester.pump(const Duration(milliseconds: 1200));
@@ -96,12 +122,16 @@ void main() {
       (NodeState.cleared, Icons.check_rounded),
       (NodeState.notBuilt, Icons.more_horiz_rounded),
     ]) {
-      await tester.pumpWidget(host(LessonNodeWidget(
-        state: state,
-        fractionFrom: 1,
-        fractionTo: 1,
-        size: 78,
-      )));
+      await tester.pumpWidget(
+        host(
+          LessonNodeWidget(
+            state: state,
+            fractionFrom: 1,
+            fractionTo: 1,
+            size: 78,
+          ),
+        ),
+      );
       await tester.pump();
       if (icon == null) {
         expect(find.byType(Icon), findsNothing, reason: '$state');

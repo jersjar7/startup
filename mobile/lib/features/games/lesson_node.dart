@@ -104,8 +104,9 @@ class NodeSkin {
 /// so the wedge had finished filling before the student ever saw it.
 ///
 /// A lesson that has just been finished keeps its unfinished face until the
-/// wedge has actually closed, then turns over. Otherwise the finished face
-/// arrives before the fill and the fill is pointless.
+/// wedge has actually closed, holds the closed circle for a beat, then turns
+/// over. Otherwise the finished face arrives before the fill and the fill is
+/// pointless.
 class LessonNodeWidget extends StatefulWidget {
   const LessonNodeWidget({
     super.key,
@@ -146,6 +147,10 @@ class LessonNodeWidget extends StatefulWidget {
   /// How far the plinth shows below the face.
   static const bodyShow = 7.0;
 
+  /// How long a just-closed wedge stays on screen before the node turns
+  /// over. Long enough to register as "full", short enough not to stall.
+  static const closedHold = Duration(milliseconds: 320);
+
   @override
   State<LessonNodeWidget> createState() => _LessonNodeWidgetState();
 }
@@ -171,15 +176,37 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
 
   void _run(double from) {
     _c.stop();
-    _fraction = Tween<double>(
+    final fill = Tween<double>(
       begin: from,
       end: widget.fractionTo,
-    ).animate(CurvedAnimation(parent: _c, curve: Curves.easeOutCubic));
+    ).chain(CurveTween(curve: Curves.easeOutCubic));
+
+    // A wedge that is closing keeps the closed circle on screen for a beat
+    // before the face turns over, so the moment of finishing is seen and not
+    // just implied. The hold is part of the same animation, so the tests'
+    // clock and onSettled both see one run.
+    final closing = widget.state == NodeState.cleared && widget.fractionTo >= 1;
+    final hold = closing ? LessonNodeWidget.closedHold : Duration.zero;
+    final fillMs = widget.duration.inMilliseconds.toDouble();
+    _fraction =
+        (hold == Duration.zero
+                ? fill
+                : TweenSequence<double>([
+                    TweenSequenceItem(tween: fill, weight: fillMs),
+                    TweenSequenceItem(
+                      tween: ConstantTween(widget.fractionTo),
+                      weight: hold.inMilliseconds.toDouble(),
+                    ),
+                  ]))
+            .animate(_c);
     _c
-      ..duration = widget.duration
+      ..duration = widget.duration + hold
       ..value = 0
       ..forward().then((_) {
-        if (mounted) widget.onSettled?.call(widget.fractionTo);
+        if (mounted) {
+          setState(() {}); // the face may turn over now
+          widget.onSettled?.call(widget.fractionTo);
+        }
       });
   }
 
@@ -205,9 +232,12 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
           child: AnimatedBuilder(
             animation: Listenable.merge([_fraction, LessonNodeArt.file]),
             builder: (context, _) {
-              // Hold the unfinished face until the wedge has actually closed.
+              // Hold the unfinished face until the wedge has closed and had
+              // its beat: a node whose animation is still running has not
+              // turned over yet, whatever the wedge reads this frame.
               final showing =
-                  widget.state == NodeState.cleared && _fraction.value < 0.999
+                  widget.state == NodeState.cleared &&
+                      (_c.isAnimating || _fraction.value < 0.999)
                   ? NodeState.inProgress
                   : widget.state;
               final skin = widget.skin ?? NodeSkin.of(showing);

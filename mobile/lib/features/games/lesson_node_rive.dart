@@ -36,11 +36,11 @@ abstract final class LessonNodeArt {
   ];
 
   /// The artboard's own geometry, in artboard units. The face is 100 across
-  /// with a 7 plinth under it and 12 of air on every side, so the finished
+  /// with a 10 plinth under it and 12 of air on every side, so the finished
   /// pop and its halo have room to leave the face without being clipped.
   static const faceSize = 100.0;
   static const artWidth = 124.0;
-  static const artHeight = 131.0;
+  static const artHeight = 134.0;
   static const pad = 12.0;
 
   /// The loaded file, or null while loading and after a failure.

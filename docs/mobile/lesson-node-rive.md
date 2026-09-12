@@ -89,25 +89,41 @@ moment never have to know about each other:
   100 circle, or a 72 rounded square for `notBuilt`), the rim's opacity, the
   check's opacity, the ellipsis's opacity, and the wedge group's opacity.
   Circle to square is a morph, not a swap.
-- **Press**: `pressed` moves everything but the plinth down 6 units in 90 ms,
-  the same travel the painter used.
+- **Press**: `pressed` moves everything but the plinth down 9 units in 90 ms,
+  onto the plinth.
 - **Clear**: `celebrate` plays a 40-frame pop (the face lifts to 1.09, settles
   to 0.985, returns) while a stroke-only ring scales out to 1.42 and fades.
   It returns to idle on its own.
 
 Two things are bound directly rather than keyed. The wedge's trim end is
 bound to `progress` through a clamp so the wedge is never a sliver below 54
-degrees and never closes past 330, exactly as the painter drew it. The wedge's
-own opacity is bound to `progress` through a 0..0.02 ramp, so a fraction of
-zero hides it entirely (the painter's `fraction > 0` rule).
+degrees; it does close at 1. (The painter also capped it at 330 degrees so a
+nearly-done node could not pass for a finished one. That mattered when
+finished looked like a full wedge; now finished is a charcoal face with a
+check, so the cap only cost the finishing moment.) The wedge's own opacity is
+bound to `progress` through a 0..0.02 ramp, so a fraction of zero hides it
+entirely (the painter's `fraction > 0` rule).
 
-Geometry is in artboard units where the face is 100 across. The plinth shows 7
-below it and there is 12 of air on every side, so the pop and halo have room.
-`RiveLessonNode` positions the artboard so the face lands exactly where the
-painter's face was in the node's slot, and lets it hang over the edges. One
-knowing difference from the painter: the plinth is 7% of the face rather than
-a fixed 7 points, so at the map's 62 to 82 point nodes it shows 4.3 to 5.7
-points. It reads the same.
+**The finishing moment**, in order: the wedge fills to a full circle (1100 ms
+in Dart), the closed circle holds for `LessonNodeWidget.closedHold` (320 ms,
+also Dart), then the state turns to `cleared` and Rive cross-fades the face to
+charcoal with the check while `celebrate` plays the pop and halo. The hold is
+part of the same animation run, so `onSettled` fires once, after it.
+
+**The button look.** The face carries two low-alpha gradient fills over its
+bound color: a touch of white along the top edge and a little charcoal shade
+along the bottom, so it reads as lit from above whatever color the app sends.
+The plinth has a darker lip along its bottom so it reads as a side rather
+than a smear, and a soft ground shadow sits under it. Pressing sinks the face
+9 of the plinth's 10 units, so it lands on the plinth rather than floating.
+
+Geometry is in artboard units where the face is 100 across. The plinth shows
+10 below it (the painter had 7; a button wants more edge) and there is 12 of
+air on every side, so the pop and halo have room. `RiveLessonNode` positions
+the artboard so the face lands exactly where the painter's face was in the
+node's slot, and lets it hang over the edges. The plinth is therefore 10% of
+the face rather than a fixed 7 points: at the map's 62 to 82 point nodes it
+shows 6 to 8 points.
 
 ## Checking the artwork without the app
 
