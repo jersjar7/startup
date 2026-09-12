@@ -126,6 +126,9 @@ import 'the_worst_fifteen_minutes_game.dart';
 import 'crest_or_sag_game.dart';
 import 'how_big_is_the_break_game.dart';
 import 'how_much_bank_game.dart';
+import 'feet_not_miles_game.dart';
+import 'all_the_way_across_game.dart';
+import 'three_parts_of_a_walk_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4713,6 +4716,33 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'trans-hc-',
     rounds: [
       for (final r in tiltRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'feet-not-miles',
+    lessonId: 'signal-timing',
+    problemPrefix: 'trans-st-',
+    rounds: [
+      for (final r in yellowRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'all-the-way-across',
+    lessonId: 'signal-timing',
+    problemPrefix: 'trans-st-',
+    rounds: [
+      for (final r in clearanceRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'three-parts-of-a-walk',
+    lessonId: 'signal-timing',
+    problemPrefix: 'trans-st-',
+    rounds: [
+      for (final r in greenRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

@@ -9,6 +9,10 @@ import 'package:mobile/features/games/crest_or_sag_game.dart';
 import 'package:mobile/features/games/how_big_is_the_break_game.dart';
 import 'package:mobile/features/games/superelevation_figures.dart';
 import 'package:mobile/features/games/how_much_bank_game.dart';
+import 'package:mobile/features/games/signal_figures.dart';
+import 'package:mobile/features/games/feet_not_miles_game.dart';
+import 'package:mobile/features/games/all_the_way_across_game.dart';
+import 'package:mobile/features/games/three_parts_of_a_walk_game.dart';
 
 void main() {
   group('stopping sight distance', () {
@@ -312,6 +316,116 @@ void main() {
 
     test('the item keeps the answer moving between the slots', () {
       expect(tiltRounds.map((r) => r.answer).toSet().length, greaterThan(2));
+    });
+  });
+
+
+  group('signal timing', () {
+    const approach = Yellow(speedMph: 50);
+
+    test('the yellow matches the lesson, and so do its three wrong answers',
+        () {
+      expect(approach.speedFps, closeTo(73.3, 0.1));
+      expect(approach.seconds, closeTo(4.7, 0.05));
+      expect(approach.usingMilesPerHour, closeTo(3.5, 0.05));
+      expect(approach.withoutReaction, closeTo(3.7, 0.05));
+      expect(approach.halvingNothing, closeTo(8.3, 0.05));
+    });
+
+    test('a slower approach keeps the whole reaction second', () {
+      const slow = Yellow(speedMph: 30);
+      expect(slow.seconds, closeTo(3.2, 0.05));
+      // Not half of the 50 mph answer, because one second of it is fixed.
+      expect(slow.seconds, greaterThan(approach.seconds / 2));
+    });
+
+    test('a downgrade lengthens the yellow and a climb shortens it', () {
+      const down = Yellow(speedMph: 50, grade: -0.04);
+      const up = Yellow(speedMph: 50, grade: 0.04);
+      expect(down.seconds, greaterThan(approach.seconds));
+      expect(up.seconds, lessThan(approach.seconds));
+    });
+
+    test('the all-red matches the lesson, and its two wrong answers', () {
+      const crossing = Clearance(width: 60, vehicleLength: 20, speedMph: 50);
+      expect(crossing.distance, 80);
+      expect(crossing.seconds, closeTo(1.1, 0.02));
+      expect(crossing.forgettingTheCar, closeTo(0.8, 0.02));
+      expect(crossing.usingMilesPerHour, closeTo(1.6, 0.02));
+      // Forgetting the vehicle is short, and using mph is long: only one of
+      // the two mistakes fails in a safe direction.
+      expect(crossing.forgettingTheCar, lessThan(crossing.seconds));
+      expect(crossing.usingMilesPerHour, greaterThan(crossing.seconds));
+    });
+
+    test('a longer vehicle and a wider slower street both want more', () {
+      const truck = Clearance(width: 60, vehicleLength: 65, speedMph: 50);
+      const wideSlow = Clearance(width: 120, vehicleLength: 20, speedMph: 25);
+      const base = Clearance(width: 60, vehicleLength: 20, speedMph: 50);
+      expect(truck.seconds, greaterThan(base.seconds));
+      expect(wideSlow.seconds, greaterThan(3));
+    });
+
+    test('the pedestrian green matches the lesson, piece by piece', () {
+      const crossing = Walk(crosswalk: 56, people: 15);
+      expect(Walk.startUp, 3.2);
+      expect(crossing.walking, closeTo(16.0, 0.01));
+      expect(crossing.forTheCrowd, closeTo(4.05, 0.01));
+      expect(crossing.seconds, closeTo(23.25, 0.01));
+    });
+
+    test('the lesson wrong answers drop one piece each', () {
+      const crossing = Walk(crosswalk: 56, people: 15);
+      // Forgetting the crowd.
+      expect(Walk.startUp + crossing.walking, closeTo(19.2, 0.05));
+      // Walking too fast.
+      const brisk = Walk(crosswalk: 56, pace: 4.0, people: 15);
+      expect(brisk.seconds, closeTo(21.25, 0.01));
+      expect(brisk.seconds, lessThan(crossing.seconds));
+      // Forgetting the walk itself.
+      expect(Walk.startUp + crossing.forTheCrowd, closeTo(7.3, 0.05));
+    });
+
+    test('only the walking piece grows with the width of the road', () {
+      const narrow = Walk(crosswalk: 56, people: 15);
+      const wide = Walk(crosswalk: 90, people: 15);
+      expect(wide.walking, greaterThan(narrow.walking));
+      expect(wide.forTheCrowd, closeTo(narrow.forTheCrowd, 0.001));
+    });
+
+    test('only the crowd piece grows with the people waiting', () {
+      const busy = Walk(crosswalk: 56, people: 15);
+      const quiet = Walk(crosswalk: 56, people: 2);
+      expect(busy.forTheCrowd, greaterThan(quiet.forTheCrowd));
+      expect(busy.walking, closeTo(quiet.walking, 0.001));
+    });
+
+    test('each round uses the case its words describe', () {
+      for (final r in clearanceRounds) {
+        if (r.subject.contains('longer vehicle')) {
+          expect(r.clearance.vehicleLength, greaterThan(40),
+              reason: r.subject);
+        }
+      }
+      for (final r in greenRounds) {
+        if (r.subject.contains('nobody')) {
+          expect(r.walk.people, lessThan(5), reason: r.subject);
+        }
+        if (r.subject.contains('wider')) {
+          expect(r.walk.crosswalk, greaterThan(56), reason: r.subject);
+        }
+      }
+    });
+
+    test('the three items keep the answer moving between the slots', () {
+      for (final answers in [
+        yellowRounds.map((r) => r.answer).toList(),
+        clearanceRounds.map((r) => r.answer).toList(),
+        greenRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
     });
   });
 

@@ -309,6 +309,9 @@ import 'package:mobile/features/games/the_worst_fifteen_minutes_game.dart';
 import 'package:mobile/features/games/crest_or_sag_game.dart';
 import 'package:mobile/features/games/how_big_is_the_break_game.dart';
 import 'package:mobile/features/games/how_much_bank_game.dart';
+import 'package:mobile/features/games/feet_not_miles_game.dart';
+import 'package:mobile/features/games/all_the_way_across_game.dart';
+import 'package:mobile/features/games/three_parts_of_a_walk_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2493,6 +2496,24 @@ void main() {
           rounds: tiltRounds.length,
           height: 2200,
         ),
+        'feet-not-miles': (
+          lesson: '121-signals',
+          build: FeetNotMilesGame.new,
+          rounds: yellowRounds.length,
+          height: 2200,
+        ),
+        'all-the-way-across': (
+          lesson: '121-signals',
+          build: AllTheWayAcrossGame.new,
+          rounds: clearanceRounds.length,
+          height: 2220,
+        ),
+        'three-parts-of-a-walk': (
+          lesson: '121-signals',
+          build: ThreePartsOfAWalkGame.new,
+          rounds: greenRounds.length,
+          height: 2200,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3014,6 +3035,11 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '121-signals': [
+      ('yellow', yellowBrief),
+      ('allred', allRedBrief),
+      ('walk', pedestrianGreenBrief),
     ],
     '120-horizcurves': [
       ('bank', superelevationBrief),

@@ -440,6 +440,12 @@ void main() {
       // chapter already teaches its other two problems, and that item is
       // built entirely on the superelevation problem.
       'how-much-bank',
+      // The signal timing lesson's three problems ARE its three intervals:
+      // the yellow, the all-red and the pedestrian green. Its three items
+      // land one to one on them.
+      'feet-not-miles',
+      'all-the-way-across',
+      'three-parts-of-a-walk',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

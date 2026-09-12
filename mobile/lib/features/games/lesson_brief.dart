@@ -378,6 +378,9 @@ enum BriefFigure {
   crestSag,
   gradeBreak,
   superelevation,
+  yellowInterval,
+  allRed,
+  pedestrianGreen,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7240,6 +7243,77 @@ const superelevationBrief = BriefSection(
   handbook: 'Handbook, superelevation',
 );
 
+const yellowBrief = BriefSection(
+  title: 'A second, then the stop',
+  body:
+      'The yellow interval exists so that a driver approaching the light can '
+      'either stop comfortably or carry on through, with no stretch of road '
+      'where neither is possible. It is a moment to react, about a second, '
+      'plus the time to shed the approach speed. That second part is the '
+      'speed over TWICE the deceleration, because a car slowing steadily '
+      'averages half its speed over the stop. Every quantity is in feet and '
+      'seconds: the deceleration is feet per second squared, so the speed '
+      'must be feet per second, and 1.467 makes the swap from miles per '
+      'hour. On a 50 mph approach the right answer is about 4.7 seconds. '
+      'Miles per hour straight in gives 3.5. No reaction time gives 3.7. No '
+      'two in the denominator gives 8.3. The grade enters through the 64.4, '
+      'which is twice gravity, plus for up and minus for down.',
+  formulas: [
+    ('The yellow', r'y = t + \dfrac{v}{2a \pm 64.4G}'),
+    ('The units', r'1\text{ mph} = 1.467\text{ ft/s}'),
+    ('Why the two', r'\text{it averages half the speed}'),
+  ],
+  figure: BriefFigure.yellowInterval,
+  handbook: 'Handbook, signal timing',
+);
+
+const allRedBrief = BriefSection(
+  title: 'Until the back bumper is out',
+  body:
+      'After the yellow, every direction holds a red for a moment. That '
+      'moment belongs to one specific vehicle: the one that entered legally '
+      'on the yellow and is still inside the intersection. It is clear when '
+      'its BACK bumper passes the far curb, not when its nose does, so the '
+      'distance to cover is the width curb to curb PLUS the length of the '
+      'vehicle. Divide by the approach speed, in feet per second as always. '
+      'Forgetting the vehicle length on the lesson\'s crossing gives 0.8 '
+      'seconds where 1.1 belongs, a third of the protection gone. Dividing '
+      'by miles per hour gives 1.6, which is not seconds at all and is '
+      'LARGER than the right answer, so it does not even fail in a safe '
+      'direction. A wide crossing on a slow street can want three or four '
+      'seconds, and a long design vehicle pushes it further.',
+  formulas: [
+    ('The all-red', r'r = \dfrac{W + l}{v}'),
+    ('Why the length', r'\text{the back bumper decides}'),
+    ('The speed', r'\text{feet per second}'),
+  ],
+  figure: BriefFigure.allRed,
+  handbook: 'Handbook, signal timing',
+);
+
+const pedestrianGreenBrief = BriefSection(
+  title: 'Getting going, walking, and the crowd',
+  body:
+      'A pedestrian green is three separate things added together. A fixed '
+      '3.2 seconds for people to notice the signal and step off the curb, '
+      'which does not depend on the road at all. The walk itself, the '
+      'crosswalk length over a walking pace of 3.5 feet a second. And about '
+      'a quarter of a second for each person waiting, because a crowd takes '
+      'time to leave the curb. The pace is deliberately slower than a brisk '
+      'adult: the timing is set for the slowest people crossing, and using '
+      '4.0 instead shortens the green for exactly the people who need it. '
+      'On the lesson\'s crossing the three come to 3.2, 16.0 and 4.1 '
+      'seconds, and every wrong answer it prints is one of them dropped or '
+      'mis-set.',
+  formulas: [
+    ('The green', r'G_p = 3.2 + \dfrac{L}{S_p} + 0.27 N'),
+    ('The pace', r'S_p = 3.5 \text{ ft/s}'),
+    ('The pieces', r'\text{start-up, walk, crowd}'),
+  ],
+  figure: BriefFigure.pedestrianGreen,
+  handbook: 'Handbook, signal timing',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -9788,6 +9862,33 @@ class BriefFigureView extends StatelessWidget {
             (r"2V \Rightarrow 4\times \text{ the demand}", true),
             (r"0.01e = V^2/(15R) + f", false),
             (r"e \text{ is quoted as a decimal}", false),
+          ],
+        );
+      case BriefFigure.yellowInterval:
+        return const _RuleList(
+          rules: [
+            (r"y = t + v/(2a)", true),
+            (r"v \text{ in feet per second}", true),
+            (r"y = t + v/a", false),
+            (r"v \text{ in miles per hour}", false),
+          ],
+        );
+      case BriefFigure.allRed:
+        return const _RuleList(
+          rules: [
+            (r"r = (W + l)/v", true),
+            (r"\text{the back bumper clears it}", true),
+            (r"r = W/v", false),
+            (r"r = v/(W + l)", false),
+          ],
+        );
+      case BriefFigure.pedestrianGreen:
+        return const _RuleList(
+          rules: [
+            (r"G_p = 3.2 + L/S_p + 0.27N", true),
+            (r"S_p = 3.5 \text{ ft/s}", true),
+            (r"G_p = 3.2 + L/S_p", false),
+            (r"S_p = 4.0 \text{ ft/s}", false),
           ],
         );
       case BriefFigure.rankine:

@@ -3978,6 +3978,37 @@ const transportationMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'signal-timing',
+      name: 'Traffic Signal Timing',
+      subtopicId: 'traffic-engineering',
+      games: [
+        GameDef(
+          id: 'feet-not-miles',
+          rounds: 6,
+          name: 'Feet, Not Miles',
+          blurb: 'A second to react, then the time to stop.',
+          built: true,
+          brief: yellowBrief,
+        ),
+        GameDef(
+          id: 'all-the-way-across',
+          rounds: 6,
+          name: 'All the Way Across',
+          blurb: 'Clear means the back bumper, not the nose.',
+          built: true,
+          brief: allRedBrief,
+        ),
+        GameDef(
+          id: 'three-parts-of-a-walk',
+          rounds: 6,
+          name: 'Three Parts of a Walk',
+          blurb: 'Getting going, walking, and the crowd.',
+          built: true,
+          brief: pedestrianGreenBrief,
+        ),
+      ],
+    ),
   ],
 );
 

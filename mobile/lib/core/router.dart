@@ -302,6 +302,9 @@ import '../features/games/the_worst_fifteen_minutes_game.dart';
 import '../features/games/crest_or_sag_game.dart';
 import '../features/games/how_big_is_the_break_game.dart';
 import '../features/games/how_much_bank_game.dart';
+import '../features/games/feet_not_miles_game.dart';
+import '../features/games/all_the_way_across_game.dart';
+import '../features/games/three_parts_of_a_walk_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -752,6 +755,9 @@ GoRouter buildRouter(AuthController auth) {
           'crest-or-sag' => const CrestOrSagGame(),
           'how-big-is-the-break' => const HowBigIsTheBreakGame(),
           'how-much-bank' => const HowMuchBankGame(),
+          'feet-not-miles' => const FeetNotMilesGame(),
+          'all-the-way-across' => const AllTheWayAcrossGame(),
+          'three-parts-of-a-walk' => const ThreePartsOfAWalkGame(),
           _ => const _UnknownGame(),
         },
       ),
