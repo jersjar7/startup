@@ -253,9 +253,9 @@ class SquirtPainter extends CustomPainter {
     // stands on, which overhangs it by 26 either side, both fit. The widest
     // tank in a reference-card panel used to hang its ground line out past
     // the edge of the drawing.
-    final room = math.max(20.0, (size.width - 64) / 2);
+    final room = math.max(26.0, (size.width - 64) / 2);
     final half =
-        math.max(20.0, math.min(math.min(54.0, room), 16 * squirt.tankWide));
+        math.max(26.0, math.min(math.min(54.0, room), 16 * squirt.tankWide));
     // Not centered. The jet leaves the RIGHT wall and its arrow is as long
     // as the speed is fast, with the speed written over it, so the tank is
     // pushed left to leave that room. Centered, the fastest jets ran off
