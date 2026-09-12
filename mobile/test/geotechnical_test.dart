@@ -19,6 +19,10 @@ import 'package:mobile/features/games/seepage_figures.dart';
 import 'package:mobile/features/games/slope_figures.dart';
 import 'package:mobile/features/games/bearing_figures.dart';
 import 'package:mobile/features/games/earth_pressure_figures.dart';
+import 'package:mobile/features/games/wall_stability_figures.dart';
+import 'package:mobile/features/games/moments_or_forces_game.dart';
+import 'package:mobile/features/games/from_the_toe_or_the_center_game.dart';
+import 'package:mobile/features/games/what_tips_the_pressure_game.dart';
 import 'package:mobile/features/games/which_way_did_the_wall_move_game.dart';
 import 'package:mobile/features/games/triangle_or_rectangle_game.dart';
 import 'package:mobile/features/games/double_the_wall_game.dart';
@@ -782,6 +786,99 @@ void main() {
               reason: r.subject);
         }
       }
+    });
+  });
+
+
+  group('retaining wall stability', () {
+    // The lesson's three walls, in its own numbers.
+    const first = Gravity(
+        baseWidth: 6, vertical: 5000, resisting: 15000, overturning: 5000);
+    const second = Gravity(
+        baseWidth: 6, vertical: 5000, resisting: 18000, overturning: 6000);
+    const third = Gravity(
+        baseWidth: 8, vertical: 8000, resisting: 30000, overturning: 6000);
+
+    test('the overturning factor of safety is resisting over overturning', () {
+      expect(first.fsOverturning, closeTo(3.0, 0.0001));
+      // Upside down is the lesson's own wrong answer, and it is the
+      // reciprocal every time.
+      expect(1 / first.fsOverturning, closeTo(0.333, 0.001));
+    });
+
+    test('the resultant lands where the lesson says it does', () {
+      expect(second.fromToe, closeTo(2.40, 0.001));
+      expect(second.eccentricity, closeTo(0.60, 0.001));
+      expect(third.fromToe, closeTo(3.00, 0.001));
+      expect(third.eccentricity, closeTo(1.00, 0.001));
+    });
+
+    test('the middle third is a sixth of the base either side', () {
+      expect(second.middleThird, closeTo(1.0, 0.001));
+      expect(third.middleThird, closeTo(1.333, 0.001));
+      expect(second.inMiddleThird, isTrue);
+      expect(third.inMiddleThird, isTrue);
+    });
+
+    test('a resultant near the toe leaves the middle third', () {
+      // Same base, but nearly all the resisting moment taken away.
+      const tipping = Gravity(
+          baseWidth: 6, vertical: 5000, resisting: 11000, overturning: 6000);
+      expect(tipping.fromToe, closeTo(1.0, 0.001));
+      expect(tipping.eccentricity, closeTo(2.0, 0.001));
+      expect(tipping.inMiddleThird, isFalse);
+    });
+
+    test('the toe pressure matches the lesson, and the heel is its mirror',
+        () {
+      expect(third.averagePressure, closeTo(1000, 0.1));
+      expect(third.toePressure, closeTo(1750, 0.5));
+      expect(third.heelPressure, closeTo(250, 0.5));
+      // A trapezoid averages its two ends, which is the free check.
+      expect((third.toePressure + third.heelPressure) / 2,
+          closeTo(third.averagePressure, 0.5));
+    });
+
+    test('a centered load gives the same pressure everywhere', () {
+      const centered = Gravity(
+          baseWidth: 8, vertical: 8000, resisting: 38000, overturning: 6000);
+      expect(centered.eccentricity, closeTo(0, 0.0001));
+      expect(centered.toePressure, closeTo(centered.averagePressure, 0.001));
+      expect(centered.heelPressure, closeTo(centered.averagePressure, 0.001));
+    });
+
+    test('the toe always takes more than the heel when the load is off center',
+        () {
+      for (final v in [4000.0, 6000.0, 9000.0]) {
+        final w = Gravity(
+            baseWidth: 8, vertical: v, resisting: 30000, overturning: 6000);
+        if (w.eccentricity <= 0) continue;
+        expect(w.toePressure, greaterThan(w.heelPressure));
+      }
+    });
+
+    test('the three items keep the answer moving between the slots', () {
+      for (final answers in [
+        checkRounds.map((r) => r.answer).toList(),
+        landingRounds.map((r) => r.answer).toList(),
+        tipRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
+    });
+
+    test('every check named in the first item is one of the three', () {
+      expect(checkRounds.map((r) => r.which).toSet().length, greaterThan(1));
+      for (final r in checkRounds) {
+        expect(Check.values, contains(r.which));
+      }
+    });
+
+    test('the round about where it lands does not draw where it lands', () {
+      final hidden = landingRounds.where((r) => !r.showResultant);
+      expect(hidden.length, 1);
+      expect(hidden.first.asked, contains('subtract'));
     });
   });
 

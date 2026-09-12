@@ -294,6 +294,9 @@ import 'package:mobile/features/games/what_gets_divided_game.dart';
 import 'package:mobile/features/games/which_way_did_the_wall_move_game.dart';
 import 'package:mobile/features/games/triangle_or_rectangle_game.dart';
 import 'package:mobile/features/games/double_the_wall_game.dart';
+import 'package:mobile/features/games/moments_or_forces_game.dart';
+import 'package:mobile/features/games/from_the_toe_or_the_center_game.dart';
+import 'package:mobile/features/games/what_tips_the_pressure_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2388,6 +2391,24 @@ void main() {
           rounds: wallHeightRounds.length,
           height: 2180,
         ),
+        'moments-or-forces': (
+          lesson: '115-retainingwalls',
+          build: MomentsOrForcesGame.new,
+          rounds: checkRounds.length,
+          height: 2180,
+        ),
+        'from-the-toe-or-the-center': (
+          lesson: '115-retainingwalls',
+          build: FromTheToeOrTheCenterGame.new,
+          rounds: landingRounds.length,
+          height: 2180,
+        ),
+        'what-tips-the-pressure': (
+          lesson: '115-retainingwalls',
+          build: WhatTipsThePressureGame.new,
+          rounds: tipRounds.length,
+          height: 2200,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2909,6 +2930,11 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '115-retainingwalls': [
+      ('checks', threeChecksBrief),
+      ('landing', middleThirdBrief),
+      ('pressure', basePressureBrief),
     ],
     '114-earthpressure': [
       ('states', rankineBrief),

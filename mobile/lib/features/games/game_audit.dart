@@ -113,6 +113,9 @@ import 'earth_pressure_figures.dart';
 import 'which_way_did_the_wall_move_game.dart';
 import 'triangle_or_rectangle_game.dart';
 import 'double_the_wall_game.dart';
+import 'moments_or_forces_game.dart';
+import 'from_the_toe_or_the_center_game.dart';
+import 'what_tips_the_pressure_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4566,6 +4569,33 @@ List<GameAudit> auditAllGames() => [
           options: r.options,
           answer: r.answer,
         ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'moments-or-forces',
+    lessonId: 'retaining-walls',
+    problemPrefix: 'geo-rw-',
+    rounds: [
+      for (final r in checkRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'from-the-toe-or-the-center',
+    lessonId: 'retaining-walls',
+    problemPrefix: 'geo-rw-',
+    rounds: [
+      for (final r in landingRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-tips-the-pressure',
+    lessonId: 'retaining-walls',
+    problemPrefix: 'geo-rw-',
+    rounds: [
+      for (final r in tipRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
   GameAudit(

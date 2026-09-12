@@ -287,6 +287,9 @@ import '../features/games/what_gets_divided_game.dart';
 import '../features/games/which_way_did_the_wall_move_game.dart';
 import '../features/games/triangle_or_rectangle_game.dart';
 import '../features/games/double_the_wall_game.dart';
+import '../features/games/moments_or_forces_game.dart';
+import '../features/games/from_the_toe_or_the_center_game.dart';
+import '../features/games/what_tips_the_pressure_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -721,6 +724,9 @@ GoRouter buildRouter(AuthController auth) {
             const WhichWayDidTheWallMoveGame(),
           'triangle-or-rectangle' => const TriangleOrRectangleGame(),
           'double-the-wall' => const DoubleTheWallGame(),
+          'moments-or-forces' => const MomentsOrForcesGame(),
+          'from-the-toe-or-the-center' => const FromTheToeOrTheCenterGame(),
+          'what-tips-the-pressure' => const WhatTipsThePressureGame(),
           _ => const _UnknownGame(),
         },
       ),

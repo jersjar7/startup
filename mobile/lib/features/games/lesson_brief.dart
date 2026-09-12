@@ -363,6 +363,9 @@ enum BriefFigure {
   rankine,
   pressureShape,
   wallForce,
+  threeChecks,
+  middleThird,
+  basePressure,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -6878,6 +6881,78 @@ const allowableBrief = BriefSection(
   handbook: 'Handbook, bearing capacity',
 );
 
+const threeChecksBrief = BriefSection(
+  title: 'Three checks, three quantities',
+  body:
+      'A retaining wall has to pass three separate tests and they compare '
+      'three different kinds of thing. OVERTURNING is a contest of MOMENTS '
+      'about the toe: the weight of the wall and the soil on its heel '
+      'holding it down, against the earth pressure trying to turn it. '
+      'SLIDING is a contest of FORCES along the base, the friction under the '
+      'footing against the push. BEARING is a contest of PRESSURES, what the '
+      'soil can carry against what the base puts on it. In all three what '
+      'RESISTS goes on top, so a number above one is safe and upside down is '
+      'the classic slip: a third where three belongs. The minimums differ, '
+      'roughly one and a half for sliding, one and a half to two for '
+      'overturning, and about three for bearing, and they do not trade '
+      'against one another. A wall that will not tip but will slide is a '
+      'wall that slides.',
+  formulas: [
+    ('Overturning', r'FS = \Sigma M_R / M_O'),
+    ('Sliding', r'FS = \Sigma F_R / \Sigma F_D'),
+    ('Bearing', r'FS = q_{ult} / q_{applied}'),
+  ],
+  figure: BriefFigure.threeChecks,
+  handbook: 'Handbook, retaining wall stability',
+);
+
+const middleThirdBrief = BriefSection(
+  title: 'From the toe, then from the middle',
+  body:
+      'Two distances come out of this calculation and only the second one is '
+      'the eccentricity. First find where the resultant of the vertical '
+      'forces crosses the base, measured from the TOE: the net moment, '
+      'resisting minus overturning, divided by the vertical force. Then the '
+      'eccentricity is how far THAT is from the middle of the base. '
+      'Reporting the first as the second is the wrong answer the lesson '
+      'prints, and it is easy to catch, because the distance from the toe is '
+      'usually far too big to be an eccentricity. Keep the resultant within '
+      'a sixth of the base either side of center and it stays in the middle '
+      'third, which means the whole base stays pressed into the soil. Beyond '
+      'that the arithmetic starts asking the heel to pull down on the ground, '
+      'and soil does not pull.',
+  formulas: [
+    ('From the toe', r'\bar{x} = (\Sigma M_R - M_O)/\Sigma V'),
+    ('Off center', r'e = B/2 - \bar{x}'),
+    ('The middle third', r'e \leq B/6'),
+  ],
+  figure: BriefFigure.middleThird,
+  handbook: 'Handbook, retaining wall stability',
+);
+
+const basePressureBrief = BriefSection(
+  title: 'Uniform only when centered',
+  body:
+      'The pressure under a footing is the load over the base ONLY when the '
+      'load lands dead center, and a retaining wall is the one footing that '
+      'almost never does, because something is pushing it sideways by '
+      'definition. Off center, the pressure tilts into a trapezoid with the '
+      'most under the toe, the end everything is leaning toward. The 6e/B '
+      'term is that tilt and nothing else: set the eccentricity to zero and '
+      'the bracket becomes one and the formula falls back to the average. '
+      'The two ends straddle that average, so if the toe is above it the '
+      'heel is below it by the same amount, which is a free check on any '
+      'answer. And the whole formula holds only while the resultant is '
+      'inside the middle third.',
+  formulas: [
+    ('At the toe', r'q = \tfrac{\Sigma V}{B}\left(1 + \tfrac{6e}{B}\right)'),
+    ('At the heel', r'q = \tfrac{\Sigma V}{B}\left(1 - \tfrac{6e}{B}\right)'),
+    ('Centered', r'e = 0 \Rightarrow q = \Sigma V / B'),
+  ],
+  figure: BriefFigure.basePressure,
+  handbook: 'Handbook, retaining wall stability',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -9291,6 +9366,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{compare pressure with pressure}", true),
             (r"\text{divide the load by } FS", false),
             (r"\text{bearing covers settlement}", false),
+          ],
+        );
+      case BriefFigure.threeChecks:
+        return const _RuleList(
+          rules: [
+            (r"\text{overturning: moments about the toe}", true),
+            (r"\text{sliding: forces along the base}", true),
+            (r"\text{one good check covers another}", false),
+            (r"FS = M_O / \Sigma M_R", false),
+          ],
+        );
+      case BriefFigure.middleThird:
+        return const _RuleList(
+          rules: [
+            (r"\bar{x} = (\Sigma M_R - M_O)/\Sigma V", true),
+            (r"e = B/2 - \bar{x}", true),
+            (r"e = \bar{x}", false),
+            (r"\text{the middle third means } e \leq B/3", false),
+          ],
+        );
+      case BriefFigure.basePressure:
+        return const _RuleList(
+          rules: [
+            (r"e = 0 \Rightarrow q = \Sigma V / B", true),
+            (r"q_{toe} > \Sigma V/B > q_{heel}", true),
+            (r"q = \Sigma V / B \text{ always}", false),
+            (r"\text{the heel takes the most}", false),
           ],
         );
       case BriefFigure.rankine:

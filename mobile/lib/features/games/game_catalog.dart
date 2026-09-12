@@ -3781,6 +3781,41 @@ const geotechnicalMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'retaining-walls',
+      name: 'Retaining Wall Stability',
+      subtopicId: 'foundations-walls',
+      games: [
+        // The idea that a factor of safety is what resists over what drives
+        // is NOT new here: the slope lesson taught it. What this item
+        // teaches is what is particular to a wall, that there are three
+        // separate checks comparing three different kinds of quantity.
+        GameDef(
+          id: 'moments-or-forces',
+          rounds: 6,
+          name: 'Moments or Forces',
+          blurb: 'Three checks, and they compare different things.',
+          built: true,
+          brief: threeChecksBrief,
+        ),
+        GameDef(
+          id: 'from-the-toe-or-the-center',
+          rounds: 6,
+          name: 'From the Toe or the Center',
+          blurb: 'Two distances, and only one is the eccentricity.',
+          built: true,
+          brief: middleThirdBrief,
+        ),
+        GameDef(
+          id: 'what-tips-the-pressure',
+          rounds: 6,
+          name: 'What Tips the Pressure',
+          blurb: 'Uniform only when the load lands dead center.',
+          built: true,
+          brief: basePressureBrief,
+        ),
+      ],
+    ),
   ],
 );
 

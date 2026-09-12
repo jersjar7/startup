@@ -408,6 +408,15 @@ void main() {
       // the active case and ask for a force. Active against at rest against
       // passive is the whole of that one problem.
       'which-way-did-the-wall-move',
+      // The overturning problem is the only one in the retaining wall lesson
+      // with a factor of safety in it at all: the other two are the
+      // eccentricity and the base pressure. Which sums each of the three
+      // checks compares is the whole of that one problem.
+      'moments-or-forces',
+      // And the toe pressure problem is the only one with a pressure in it,
+      // so everything about the trapezoid under the base comes out of that
+      // one problem.
+      'what-tips-the-pressure',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }
