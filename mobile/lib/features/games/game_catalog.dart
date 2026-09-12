@@ -3221,6 +3221,63 @@ const structuralMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'deflection-virtual-work',
+      name: 'Deflection of Determinate Structures',
+      subtopicId: 'analysis-loads',
+      // Two items, not three. Reading the handbook deflection table and
+      // ranking what makes a beam stiffer are both items in mechanics of
+      // materials already, and so is adding two load cases together. What is
+      // new here is the unit-load method, and the arithmetic in it belongs on
+      // paper: what the phone can settle is what to hang on the structure and
+      // which terms of the sum survive.
+      games: [
+        GameDef(
+          id: 'what-do-you-hang-on-it',
+          rounds: 6,
+          name: 'What Do You Hang On It',
+          blurb: 'A force for a movement, a moment for a turn.',
+          built: true,
+          brief: unitLoadBrief,
+        ),
+        GameDef(
+          id: 'does-this-one-count',
+          rounds: 6,
+          name: 'Does This One Count',
+          blurb: 'Half the members drop out. The signs do the rest.',
+          built: true,
+          brief: termSignBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'indeterminate-structures',
+      name: 'Elementary Indeterminate Structures',
+      subtopicId: 'analysis-loads',
+      // Two items, not three. Counting the degree is the determinacy
+      // lesson's own item and is not repeated here, and looking a standard
+      // case up in the handbook table is an item in mechanics of materials.
+      // What belongs to this lesson is what you do once the count says you
+      // are short, and which way each standard result moves.
+      games: [
+        GameDef(
+          id: 'what-do-you-let-go',
+          rounds: 6,
+          name: 'What Do You Let Go',
+          blurb: 'Release it, then pay for it with a deflection.',
+          built: true,
+          brief: redundantBrief,
+        ),
+        GameDef(
+          id: 'more-less-or-the-same',
+          rounds: 6,
+          name: 'More, Less or the Same',
+          blurb: 'What building an end in moves, and what it leaves alone.',
+          built: true,
+          brief: fixityBrief,
+        ),
+      ],
+    ),
   ],
 );
 

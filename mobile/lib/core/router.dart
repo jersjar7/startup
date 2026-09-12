@@ -238,6 +238,10 @@ import '../features/games/the_count_says_yes_game.dart';
 import '../features/games/where_do_you_take_moments_game.dart';
 import '../features/games/bigger_than_the_load_game.dart';
 import '../features/games/joints_or_sections_game.dart';
+import '../features/games/what_do_you_hang_on_it_game.dart';
+import '../features/games/does_this_one_count_game.dart';
+import '../features/games/what_do_you_let_go_game.dart';
+import '../features/games/more_less_or_the_same_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -616,6 +620,10 @@ GoRouter buildRouter(AuthController auth) {
             const WhereDoYouTakeMomentsGame(),
           'bigger-than-the-load' => const BiggerThanTheLoadGame(),
           'joints-or-sections' => const JointsOrSectionsGame(),
+          'what-do-you-hang-on-it' => const WhatDoYouHangOnItGame(),
+          'does-this-one-count' => const DoesThisOneCountGame(),
+          'what-do-you-let-go' => const WhatDoYouLetGoGame(),
+          'more-less-or-the-same' => const MoreLessOrTheSameGame(),
           _ => const _UnknownGame(),
         },
       ),

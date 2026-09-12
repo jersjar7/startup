@@ -314,6 +314,10 @@ enum BriefFigure {
   momentCenter,
   jointForce,
   trussRoute,
+  unitLoad,
+  termSign,
+  redundant,
+  fixity,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -5703,6 +5707,108 @@ const jointForceBrief = BriefSection(
   handbook: 'Handbook p. 271',
 );
 
+const unitLoadBrief = BriefSection(
+  title: 'The load that asks the question',
+  body:
+      'The unit load is not a load on the structure so much as the question '
+      'written in a form the equation can answer, and three things about it '
+      'are decided before any arithmetic starts. It MATCHES what is wanted: a '
+      'unit force pairs with a movement, a unit moment pairs with a rotation. '
+      'It sits AT the point asked about, not where the real load happens to '
+      'be and not where a handbook table happens to have an entry, and it '
+      'points in the direction being measured, so a sideways answer needs a '
+      'sideways unit load. And it acts ALONE, in a second analysis of the '
+      'same structure with every real load taken off: the real loads give N, '
+      'the unit load by itself gives n, and the formula multiplies the two '
+      'sets together afterward. Adding the unit load on top of the real loads '
+      'produces one set of forces that is neither, and everything after that '
+      'is wasted.',
+  formulas: [
+    ('A truss', r'\delta = \sum \frac{n N L}{A E}'),
+    ('A beam or frame', r'\delta = \int \frac{m M}{E I}\,dx'),
+    ('A rotation', r'\text{unit moment, not a unit force}'),
+  ],
+  figure: BriefFigure.unitLoad,
+  handbook: 'Handbook p. 271',
+);
+
+const termSignBrief = BriefSection(
+  title: 'Which terms survive, and which way',
+  body:
+      'The sum has one term per member and most of them can be settled by '
+      'looking. Either factor zero and the term is zero: a member the unit '
+      'load does not reach contributes nothing however hard it is working, '
+      'and a zero-force member in the real structure contributes nothing '
+      'however much the unit load stretches it. Running the unit-load '
+      'analysis first and crossing off every member it leaves at zero often '
+      'halves the work. What is left is decided by the two signs AGREEING, '
+      'not by their being positive: tension with tension and compression with '
+      'compression both give a positive term that moves the joint the way the '
+      'unit load points, and one of each pulls the joint back. Two '
+      'compressions catching people out is the reason to carry the signs '
+      'through rather than the sizes. A total that comes out negative is not '
+      'an error either: it says the joint moved opposite to the direction the '
+      'unit load was pointed.',
+  formulas: [
+    ('One term', r'\frac{n N L}{A E}'),
+    ('Drops out', r'n = 0 \;\text{ or }\; N = 0'),
+    ('Same signs', r'nN > 0 \Rightarrow \text{with the unit load}'),
+  ],
+  figure: BriefFigure.termSign,
+  handbook: 'Handbook p. 271',
+);
+
+const redundantBrief = BriefSection(
+  title: 'Let one thing go, and pay for it',
+  body:
+      'An indeterminate structure has more unknowns than the three equations '
+      'equilibrium hands out, so something from outside statics has to make '
+      'up the difference, and that something is how far the structure '
+      'actually bends. The method is the same every time. RELEASE as many '
+      'things as the count is over by, choosing releases that leave a stable '
+      'determinate structure behind, and carry each released thing as an '
+      'unknown. Then write the movement the real support would not have '
+      'allowed: release a force and the deflection there has to come back to '
+      'zero, release a moment and the rotation there has to come back to '
+      'zero. That is one equation per release, which is exactly the shortfall. '
+      'Which thing to release is a free choice and the finished forces are '
+      'the same whichever is picked, so pick the one whose deflection is '
+      'easiest to work out. Once the redundant has a number it is an ordinary '
+      'known force and statics finishes the rest.',
+  formulas: [
+    ('The shortfall', r'DSI = (\text{unknowns}) - 3'),
+    ('A released force', r'\delta = 0 \text{ where the support was}'),
+    ('A released moment', r'\theta = 0 \text{ where the wall was}'),
+  ],
+  figure: BriefFigure.redundant,
+  handbook: 'Handbook p. 271',
+);
+
+const fixityBrief = BriefSection(
+  title: 'What building an end in changes',
+  body:
+      'Every standard result in this lesson is the same story told with '
+      'numbers, and knowing the direction of each one beats memorizing any of '
+      'them. Building an end in makes it STIFF, and load goes where the '
+      'stiffness is: the propped cantilever gives its prop three eighths of '
+      'the load where a simple support would take a half, and the built-in '
+      'end picks up the other five eighths. Moment moves the same way. A '
+      'simple support carries none, a built-in end carries plenty, and what '
+      'appears at the ends comes out of the middle: a fixed-fixed beam under '
+      'a uniform load carries wL squared over 12 at each support and only wL '
+      'squared over 24 at midspan, against wL squared over 8 in the middle of '
+      'a simple span. The sag drops for the same reason, to a fifth of the '
+      'simply supported value. The one thing fixity does NOT change is the '
+      'vertical split on a symmetric beam: half at each end, built in or not.',
+  formulas: [
+    ('The prop', r'R = \frac{3wL}{8}'),
+    ('A fixed end', r'M = \frac{wL^2}{12}'),
+    ('A simple span', r'M = \frac{wL^2}{8}'),
+  ],
+  figure: BriefFigure.fixity,
+  handbook: 'Handbook p. 271',
+);
+
 const trussRouteBrief = BriefSection(
   title: 'Which one is quicker, and what comes first',
   body:
@@ -7628,6 +7734,42 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{reactions before either}", true),
             (r"\text{sections for a whole joint}", false),
             (r"\text{joints is always quicker}", false),
+          ],
+        );
+      case BriefFigure.unitLoad:
+        return const _RuleList(
+          rules: [
+            (r"\text{a rotation wants a unit MOMENT}", true),
+            (r"\text{the unit load acts alone}", true),
+            (r"\text{put it where the real load is}", false),
+            (r"\text{one unit load suits every question}", false),
+          ],
+        );
+      case BriefFigure.termSign:
+        return const _RuleList(
+          rules: [
+            (r"n = 0 \Rightarrow \text{the term is gone}", true),
+            (r"\text{two compressions} \Rightarrow nN > 0", true),
+            (r"\text{a big } N \text{ always counts}", false),
+            (r"\delta < 0 \Rightarrow \text{a sign error}", false),
+          ],
+        );
+      case BriefFigure.redundant:
+        return const _RuleList(
+          rules: [
+            (r"\text{a released force} \Rightarrow \delta = 0", true),
+            (r"\text{a released moment} \Rightarrow \theta = 0", true),
+            (r"\text{only one release will do}", false),
+            (r"\text{releasing makes it a mechanism}", false),
+          ],
+        );
+      case BriefFigure.fixity:
+        return const _RuleList(
+          rules: [
+            (r"R_{prop} = \frac{3wL}{8} < \frac{wL}{2}", true),
+            (r"\text{symmetric: still } \frac{wL}{2} \text{ each end}", true),
+            (r"M_{end} = \frac{wL^2}{8}", false),
+            (r"\text{fixity raises the midspan moment}", false),
           ],
         );
       case BriefFigure.cogo:

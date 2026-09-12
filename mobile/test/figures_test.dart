@@ -399,7 +399,13 @@ void main() {
         for (final entry in british.entries) {
           // "programme" would be here too, but it is the front of
           // "programmer", which is spelled the same on both sides of the water.
-          if (text.contains(entry.key)) {
+          // "analyses" is the plural of "analysis" and is spelled that way on
+          // both sides of the water, so it is taken out before the British
+          // verb "analyse" is looked for. Anything else still trips.
+          final probe = entry.key == 'analyse'
+              ? text.replaceAll('analyses', '')
+              : text;
+          if (probe.contains(entry.key)) {
             trouble.add('${literal.where}: "${entry.key}" should be '
                 '"${entry.value}"');
           }

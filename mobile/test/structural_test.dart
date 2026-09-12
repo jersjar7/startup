@@ -10,6 +10,12 @@ import 'package:mobile/features/games/truss_section_figures.dart';
 import 'package:mobile/features/games/where_do_you_take_moments_game.dart';
 import 'package:mobile/features/games/bigger_than_the_load_game.dart';
 import 'package:mobile/features/games/joints_or_sections_game.dart';
+import 'package:mobile/features/games/virtual_work_figures.dart';
+import 'package:mobile/features/games/what_do_you_hang_on_it_game.dart';
+import 'package:mobile/features/games/does_this_one_count_game.dart';
+import 'package:mobile/features/games/redundant_figures.dart';
+import 'package:mobile/features/games/what_do_you_let_go_game.dart';
+import 'package:mobile/features/games/more_less_or_the_same_game.dart';
 
 void main() {
   group('the determinacy count', () {
@@ -223,6 +229,173 @@ void main() {
       expect(routeRounds.map((r) => r.answer).toSet().length, 3);
       expect(routeRounds.where((r) => r.answer == Route3.reactions).length,
           greaterThanOrEqualTo(2));
+    });
+  });
+
+  group('the unit load', () {
+    test('a rotation asks for a moment and a movement asks for a force', () {
+      // The figure and the wording have to agree: the round that marks a
+      // rotation is the round whose right answer is a moment.
+      for (final r in hangRounds) {
+        final right = r.options[r.answer].toLowerCase();
+        expect(right, contains('unit'), reason: r.subject);
+        if (r.probe.measured == Measured.turn) {
+          expect(right, contains('moment'), reason: r.subject);
+        } else {
+          // A movement is never answered with a moment, whatever else the
+          // round is testing.
+          expect(right, isNot(contains('moment')), reason: r.subject);
+        }
+      }
+    });
+
+    test('a sideways answer is asked for sideways', () {
+      final sway = hangRounds.where((r) => r.probe.measured == Measured.sway);
+      expect(sway, isNotEmpty);
+      for (final r in sway) {
+        expect(r.options[r.answer].toLowerCase(), contains('horizontal'),
+            reason: r.subject);
+      }
+    });
+
+    test('every round marks a point on the structure', () {
+      for (final r in hangRounds) {
+        expect(r.probe.at >= 0 && r.probe.at <= 1, isTrue, reason: r.subject);
+        expect(r.probe.loadAt >= 0 && r.probe.loadAt <= 1, isTrue,
+            reason: r.subject);
+      }
+    });
+
+    test('all three structures and all three quantities get used', () {
+      expect(hangRounds.map((r) => r.probe.stand).toSet().length, 3);
+      expect(hangRounds.map((r) => r.probe.measured).toSet().length, 3);
+    });
+  });
+
+  group('which terms survive', () {
+    test('a zero in either factor is the only way a term dies', () {
+      for (final r in termRounds.where((r) => !r.term.wholeSum)) {
+        expect(r.term.dead, r.answer == Adds.nothing, reason: r.subject);
+      }
+    });
+
+    test('like signs push the joint the way the unit load points', () {
+      for (final r in termRounds.where((r) => !r.term.wholeSum)) {
+        if (r.term.dead) continue;
+        expect(r.term.along, r.answer == Adds.along, reason: r.subject);
+      }
+    });
+
+    test('two compressions agree, and that is the trap', () {
+      const both = Contribution(member: 3, real: -60, virt: -0.5);
+      expect(both.dead, isFalse);
+      expect(both.along, isTrue);
+      const mixed = Contribution(member: 8, real: -40, virt: 0.6);
+      expect(mixed.along, isFalse);
+      // The lesson's own numbers, both tension.
+      const lesson = Contribution(member: 1, real: 50, virt: 0.5);
+      expect(lesson.along, isTrue);
+    });
+
+    test('the member called zero really is a zero-force member', () {
+      // The round that says the unit load misses a member has to have hung
+      // the unit load somewhere that leaves it at nothing. Here that is the
+      // vertical whose foot joint carries no load and has the two bottom
+      // chords running straight through it.
+      final r = termRounds.firstWhere((r) => r.term.virt == 0);
+      final (a, b) = ContributionPainter.members[r.term.member];
+      final foot = a < b ? a : b;
+      expect(foot, isNot(r.term.hangAt),
+          reason: 'the unit load is sitting on the member it is said to miss');
+      final touching = <int>[
+        for (final (p, q) in ContributionPainter.members)
+          if (p == foot) q else if (q == foot) p,
+      ];
+      // The foot joint has exactly three members: two collinear chords and
+      // this vertical.
+      expect(touching.length, 3, reason: 'not the zero-force arrangement');
+    });
+
+    test('the finished total reports against the unit load', () {
+      final total = termRounds.firstWhere((r) => r.term.wholeSum);
+      expect(total.term.sumNegative, isTrue);
+      expect(total.answer, Adds.opposite);
+    });
+  });
+
+  group('letting one go', () {
+    test('every release leaves something determinate behind', () {
+      // A release that leaves a mechanism is not a release, it is a mistake.
+      // The propped cantilever gives up either its prop, leaving a
+      // cantilever, or its end moment, leaving a simple span.
+      for (final r in letGoRounds) {
+        expect(r.span.extra, greaterThan(0), reason: r.subject);
+        expect(r.release, isNot(Release.none), reason: r.subject);
+      }
+    });
+
+    test('the count says how many things come off', () {
+      expect(const Span(ends: Ends.pinRoller).extra, 0);
+      expect(const Span(ends: Ends.fixedFree).extra, 0);
+      expect(const Span(ends: Ends.fixedRoller).extra, 1);
+      expect(const Span(ends: Ends.fixedFixed).extra, 3);
+    });
+
+    test('both kinds of release get an outing', () {
+      expect(letGoRounds.map((r) => r.release).toSet(),
+          {Release.theProp, Release.theFixedMoment});
+    });
+
+    test('the rounds lean on more than one of the lesson\'s problems', () {
+      expect(letGoRounds.map((r) => r.source).toSet().length,
+          greaterThanOrEqualTo(3));
+    });
+  });
+
+  group('against the simple span', () {
+    test('the symmetric beam keeps its half and half split', () {
+      final same = compareRounds.where((r) => r.answer == Change.same);
+      expect(same, isNotEmpty);
+      for (final r in same) {
+        expect(r.ends, Ends.fixedFixed,
+            reason: 'only a symmetric beam splits its load evenly');
+        expect(r.topNote, r.bottomNote,
+            reason: 'the same answer has to be written on both beams');
+      }
+    });
+
+    test('a quantity that changes is written differently on the two beams',
+        () {
+      for (final r in compareRounds.where((r) => r.answer != Change.same)) {
+        expect(r.topNote, isNot(r.bottomNote), reason: r.subject);
+      }
+    });
+
+    test('the propped cantilever gives up at one end what it takes at the '
+        'other', () {
+      final prop =
+          compareRounds.firstWhere((r) => r.subject.contains('the prop'));
+      final wall =
+          compareRounds.firstWhere((r) => r.subject.contains('built-in end'));
+      expect(prop.answer, Change.less);
+      expect(wall.answer, Change.more);
+      expect(prop.bottomNote, '3wL/8');
+      expect(wall.bottomNote, '5wL/8');
+    });
+
+    test('fixity moves moment from the middle to the ends', () {
+      final mid =
+          compareRounds.firstWhere((r) => r.marked == Marked.midMoment);
+      final end =
+          compareRounds.firstWhere((r) => r.marked == Marked.endMoment);
+      expect(mid.answer, Change.less);
+      expect(end.answer, Change.more);
+      expect(end.topNote, 'zero',
+          reason: 'a simple support carries no moment at all');
+    });
+
+    test('all three answers are used', () {
+      expect(compareRounds.map((r) => r.answer).toSet().length, 3);
     });
   });
 }

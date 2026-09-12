@@ -245,6 +245,10 @@ import 'package:mobile/features/games/the_count_says_yes_game.dart';
 import 'package:mobile/features/games/where_do_you_take_moments_game.dart';
 import 'package:mobile/features/games/bigger_than_the_load_game.dart';
 import 'package:mobile/features/games/joints_or_sections_game.dart';
+import 'package:mobile/features/games/what_do_you_hang_on_it_game.dart';
+import 'package:mobile/features/games/does_this_one_count_game.dart';
+import 'package:mobile/features/games/what_do_you_let_go_game.dart';
+import 'package:mobile/features/games/more_less_or_the_same_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2045,6 +2049,30 @@ void main() {
           rounds: routeRounds.length,
           height: 1860,
         ),
+        'what-do-you-hang-on-it': (
+          lesson: '97-deflection',
+          build: WhatDoYouHangOnItGame.new,
+          rounds: hangRounds.length,
+          height: 2040,
+        ),
+        'does-this-one-count': (
+          lesson: '97-deflection',
+          build: DoesThisOneCountGame.new,
+          rounds: termRounds.length,
+          height: 1840,
+        ),
+        'what-do-you-let-go': (
+          lesson: '98-indeterminate',
+          build: WhatDoYouLetGoGame.new,
+          rounds: letGoRounds.length,
+          height: 2020,
+        ),
+        'more-less-or-the-same': (
+          lesson: '98-indeterminate',
+          build: MoreLessOrTheSameGame.new,
+          rounds: compareRounds.length,
+          height: 1960,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2486,6 +2514,14 @@ void main() {
       ('pivot', momentCenterBrief),
       ('joint', jointForceBrief),
       ('route', trussRouteBrief),
+    ],
+    '97-deflection': [
+      ('unit', unitLoadBrief),
+      ('terms', termSignBrief),
+    ],
+    '98-indeterminate': [
+      ('release', redundantBrief),
+      ('fixity', fixityBrief),
     ],
     '95-determinacy': [
       ('count', countBrief),

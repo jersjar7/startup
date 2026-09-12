@@ -56,6 +56,10 @@ import 'the_count_says_yes_game.dart';
 import 'where_do_you_take_moments_game.dart';
 import 'bigger_than_the_load_game.dart';
 import 'joints_or_sections_game.dart';
+import 'what_do_you_hang_on_it_game.dart';
+import 'does_this_one_count_game.dart';
+import 'what_do_you_let_go_game.dart';
+import 'more_less_or_the_same_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -3871,6 +3875,58 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Route3.values) o.name],
           answer: Route3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-do-you-hang-on-it',
+    lessonId: 'deflection-virtual-work',
+    problemPrefix: 'str-dvw-',
+    rounds: [
+      for (final r in hangRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'does-this-one-count',
+    lessonId: 'deflection-virtual-work',
+    problemPrefix: 'str-dvw-',
+    rounds: [
+      for (final r in termRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Adds.values) o.name],
+          answer: Adds.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-do-you-let-go',
+    lessonId: 'indeterminate-structures',
+    problemPrefix: 'str-ind-',
+    rounds: [
+      for (final r in letGoRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'more-less-or-the-same',
+    lessonId: 'indeterminate-structures',
+    problemPrefix: 'str-ind-',
+    rounds: [
+      for (final r in compareRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Change.values) o.name],
+          answer: Change.values.indexOf(r.answer),
         ),
     ],
   ),

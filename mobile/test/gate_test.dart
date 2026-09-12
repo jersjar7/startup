@@ -370,6 +370,10 @@ void main() {
       'where-do-you-take-moments',
       // The joint problem is the only one with a diagonal resolving a load.
       'bigger-than-the-load',
+      // The truss problem is the only one in the deflection lesson with a
+      // virtual force in it at all: the other two are beam table lookups.
+      // Which terms of the sum survive is the whole of that one problem.
+      'does-this-one-count',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }
