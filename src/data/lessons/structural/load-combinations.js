@@ -2,7 +2,7 @@ export default {
   id: 'load-combinations',
   name: 'Loads & Load Combinations',
   subtopicId: 'analysis-loads',
-  application: 'Every structural design begins with load combinations from ASCE 7. You factor dead, live, wind, snow, and seismic loads using prescribed multipliers to ensure adequate safety. LRFD (strength design) factors loads up and compares to nominal strength; ASD (allowable stress) uses unfactored loads against reduced allowable capacity. On the FE, expect problems computing the controlling factored load and applying live load reduction.',
+  application: 'Every structural design begins with load combinations from ASCE 7. You factor dead, live, wind, snow, and seismic loads using prescribed multipliers to ensure adequate safety. LRFD (strength design) factors loads up and compares them with the design strength, which is the nominal strength times a resistance factor; ASD (allowable stress) uses unfactored loads against the nominal strength divided by a safety factor. On the FE, expect problems computing the controlling factored load and applying live load reduction.',
   content: [
     { type: 'text', body: 'ASCE 7-16 defines two parallel sets of load combinations: LRFD (Load and Resistance Factor Design) and ASD (Allowable Stress Design). Both produce safe designs but use different philosophies.' },
     { type: 'heading', body: 'LRFD Load Combinations' },
@@ -10,7 +10,7 @@ export default {
     { type: 'formula', latex: '1.4D', label: 'LRFD Combination 1' },
     { type: 'formula', latex: '1.2D + 1.6L + 0.5(L_r \\text{ or } S \\text{ or } R)', label: 'LRFD Combination 2' },
     { type: 'formula', latex: '1.2D + 1.6(L_r \\text{ or } S \\text{ or } R) + (L \\text{ or } 0.5W)', label: 'LRFD Combination 3' },
-    { type: 'text', body: 'Where $D$ = dead load, $L$ = floor live load, $L_r$ = roof live load, $S$ = snow, $R$ = rain, $W$ = wind, $E$ = earthquake. The controlling combination produces the largest total factored load.' },
+    { type: 'text', body: 'Where $D$ = dead load, $L$ = floor live load, $L_r$ = roof live load, $S$ = snow, $R$ = rain, $W$ = wind, $E$ = earthquake. The controlling combination produces the largest total factored load. On the strength side, LRFD compares that factored load with the DESIGN strength $\\phi R_n$, the nominal strength reduced by a resistance factor, so LRFD puts some of the safety on each side of the comparison.' },
     { type: 'heading', body: 'ASD Load Combinations' },
     { type: 'text', body: 'ASD combinations use unfactored (service) loads. The basic ones are $D$, $D + L$, and $D + 0.75L + 0.75(L_r \\text{ or } S \\text{ or } R)$. ASD compares service loads to allowable capacity = nominal strength / safety factor $\\Omega$.' },
     { type: 'heading', body: 'Live Load Reduction' },

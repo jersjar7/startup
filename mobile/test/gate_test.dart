@@ -374,6 +374,10 @@ void main() {
       // virtual force in it at all: the other two are beam table lookups.
       // Which terms of the sum survive is the whole of that one problem.
       'does-this-one-count',
+      // The live load reduction problem is the only one in the load lesson
+      // with a tributary area in it: the other two are combinations. Every
+      // way of getting that one rule wrong is the item.
+      'how-much-comes-off',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

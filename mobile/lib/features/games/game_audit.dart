@@ -60,6 +60,10 @@ import 'what_do_you_hang_on_it_game.dart';
 import 'does_this_one_count_game.dart';
 import 'what_do_you_let_go_game.dart';
 import 'more_less_or_the_same_game.dart';
+import 'factored_or_service_game.dart';
+import 'which_one_controls_game.dart';
+import 'how_much_comes_off_game.dart';
+import 'load_figures.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -3927,6 +3931,45 @@ List<GameAudit> auditAllGames() => [
           source: r.source,
           options: [for (final o in Change.values) o.name],
           answer: Change.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'factored-or-service',
+    lessonId: 'load-combinations',
+    problemPrefix: 'str-lc-',
+    rounds: [
+      for (final r in designRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-one-controls',
+    lessonId: 'load-combinations',
+    problemPrefix: 'str-lc-',
+    rounds: [
+      for (final r in controlRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Combo.values) o.name],
+          answer: Combo.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-much-comes-off',
+    lessonId: 'load-combinations',
+    problemPrefix: 'str-lc-',
+    rounds: [
+      for (final r in reduceRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
         ),
     ],
   ),

@@ -318,6 +318,12 @@ enum BriefFigure {
   termSign,
   redundant,
   fixity,
+  lrfd,
+  controls,
+  reduction,
+  influenceRead,
+  influenceShapes,
+  influencePlace,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -5809,6 +5815,151 @@ const fixityBrief = BriefSection(
   handbook: 'Handbook p. 271',
 );
 
+const lrfdBrief = BriefSection(
+  title: 'Read the stem before the numbers',
+  body:
+      'There are two ways to buy the same margin and the halves do not mix. '
+      'LRFD multiplies the loads UP, dead by 1.2 because its weight is '
+      'already drawn and well known, floor live by 1.6 because it is a guess '
+      'about how the place will be used, and compares the total with the '
+      'design strength, the nominal strength cut down by a resistance factor. '
+      'Allowable stress design takes the loads exactly as the building sees '
+      'them and divides the STRENGTH instead, by a safety factor. Both are in '
+      'the code and either may be used, and their numbers are not comparable '
+      'with each other. The one real error is taking half of one and half of '
+      'the other: factor the loads AND divide the strength and the member '
+      'pays twice, take service loads against an undivided strength and it '
+      'hardly pays at all.',
+  formulas: [
+    ('LRFD', r'1.2D + 1.6L \le \phi R_n'),
+    ('ASD', r'D + L \le R_n / \Omega'),
+    ('Why 1.2 and 1.6', r'\text{how well the load is known}'),
+  ],
+  figure: BriefFigure.lrfd,
+  handbook: 'Handbook, design loads',
+);
+
+const controlsBrief = BriefSection(
+  title: 'The big factor follows the big load',
+  body:
+      'Three combinations cover ordinary gravity work and which of them wins '
+      'can be read off the loading before any arithmetic. Combination 2 puts '
+      '1.6 on the FLOOR live load and brings the roof load along at half, so '
+      'it wins whenever the floor live load is the big one, which is most of '
+      'the time. Combination 3 puts 1.6 on the ROOF load, snow or roof live '
+      'or rain, and brings the floor live load along at its face value, so it '
+      'takes over when the roof load is the bigger of the two. Combination 1 '
+      'is 1.4 on the dead load alone, and it only matters when there is '
+      'hardly any live load for the 1.6 to work on, a heavy slab carrying '
+      'next to nothing. Whichever combination points its big factor at the '
+      'load that is actually there is the one to design for.',
+  formulas: [
+    ('Combination 1', r'1.4D'),
+    ('Combination 2', r'1.2D + 1.6L + 0.5S'),
+    ('Combination 3', r'1.2D + 1.6S + L'),
+  ],
+  figure: BriefFigure.controls,
+  handbook: 'Handbook, design loads',
+);
+
+const reductionBrief = BriefSection(
+  title: 'A big floor is never full at once',
+  body:
+      'Live load may be reduced because the chance of every square foot of a '
+      'large floor being loaded to the full at the same moment is small, so '
+      'the more floor a member carries the less of the nominal load it will '
+      'ever see together. The rule multiplies the tributary area by K first, '
+      'which is 4 for a column and 2 for a beam because that is roughly how '
+      'much floor can reach each of them, and a column therefore gets the '
+      'bigger reduction off the same bay. Three things bound it. It never '
+      'becomes an increase, so below 400 for K times the area there is no '
+      'reduction at all. It stops at half the unreduced load for a member '
+      'carrying one floor and at four tenths for one carrying two or more. '
+      'And it touches live load only: the slab weighs what it weighs.',
+  formulas: [
+    ('The rule', r'L = L_o\left(0.25 + \frac{15}{\sqrt{K_{LL} A_T}}\right)'),
+    ('The element factor', r'K_{LL} = 4 \text{ column}, \; 2 \text{ beam}'),
+    ('The floor', r'L \ge 0.50 L_o \text{ for one floor}'),
+  ],
+  figure: BriefFigure.reduction,
+  handbook: 'Handbook, design loads',
+);
+
+const influenceBrief = BriefSection(
+  title: 'One answer, as the load walks across',
+  body:
+      'An influence line answers a different question from every other '
+      'diagram in the chapter, and looking exactly like them is what makes it '
+      'hard. A shear or moment DIAGRAM is drawn for one fixed set of loads '
+      'and reads across the beam: this is what the beam is carrying, here. An '
+      'influence line is drawn for one fixed PLACE and reads across all the '
+      'positions a moving load might take: this is what that one place feels '
+      'while the load is over there. So the across-axis is where the load is '
+      'standing, and the height is the reaction, shear or moment at the '
+      'marked place while it stands there. The two pictures agree by '
+      'coincidence for a moment at midspan under a single central load, and '
+      'nowhere else. Because the line is built from a UNIT load, a real load '
+      'is simply its own size times the height beneath it, and several loads '
+      'add up.',
+  formulas: [
+    ('Using it', r'R = \sum P_i \, \eta_i'),
+    ('A spread load', r'\text{the area under the line beneath it}'),
+    ('Across', r'\text{where the moving load stands}'),
+  ],
+  figure: BriefFigure.influenceRead,
+  handbook: 'Handbook, influence lines',
+);
+
+const shapesBrief = BriefSection(
+  title: 'Three shapes and no others',
+  body:
+      'On a simply supported span every influence line in the lesson is made '
+      'of straight pieces, and there are only three of them to know. A '
+      'REACTION line runs straight from one, over its own support, down to '
+      'nothing over the other: a load standing on a support is carried '
+      'entirely by it. A MOMENT line at a section is a triangle whose peak '
+      'sits over that section and is worth a times (L minus a) over L, which '
+      'comes to a quarter of the span when the section is at midspan. A SHEAR '
+      'line at a section has two sloping pieces and a STEP of exactly one '
+      'where the section is, because the load crossing the cut changes sides '
+      'all at once. The step is the only sure way to tell a shear line from a '
+      'moment line, since both are drawn about a section, and the two '
+      'reaction lines always add to one at every position, which checks a '
+      'pair of them in a second.',
+  formulas: [
+    ('A reaction', r'\eta = \frac{L - x}{L}'),
+    ('A moment at a', r'\eta_{peak} = \frac{a(L-a)}{L}'),
+    ('A shear at a', r'1 - \frac{a}{L} \text{ and } -\frac{a}{L}'),
+  ],
+  figure: BriefFigure.influenceShapes,
+  handbook: 'Handbook, influence lines',
+);
+
+const placeBrief = BriefSection(
+  title: 'Park it where the line is tallest',
+  body:
+      'The exam question is usually not what the line is but where to stand '
+      'the load, and the answer is always the same: on the tallest part of '
+      'the line, because the effect is the load times the height under it. '
+      'For a moment that means on the section itself, wherever the section '
+      'is, and not at midspan out of habit. For a positive shear it means '
+      'just to the RIGHT of the section, since a step to the left of it turns '
+      'the ordinate negative and the same load now works the other way. For a '
+      'reaction it means over the support. When several loads travel together '
+      'they cannot all stand on the peak, so the HEAVIEST one takes it: '
+      'straddling the peak fairly gives every load a middling height and is '
+      'worth less. A load that is spread out contributes the area under the '
+      'line beneath it, so it covers only the ground where the line is on the '
+      'side you want and stops there.',
+  formulas: [
+    ('One load', r'\text{on the peak}'),
+    ('Several', r'\text{the heaviest on the peak}'),
+    ('Spread', r'\text{cover the positive part only}'),
+  ],
+  figure: BriefFigure.influencePlace,
+  handbook: 'Handbook, influence lines',
+);
+
 const trussRouteBrief = BriefSection(
   title: 'Which one is quicker, and what comes first',
   body:
@@ -7770,6 +7921,60 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{symmetric: still } \frac{wL}{2} \text{ each end}", true),
             (r"M_{end} = \frac{wL^2}{8}", false),
             (r"\text{fixity raises the midspan moment}", false),
+          ],
+        );
+      case BriefFigure.lrfd:
+        return const _RuleList(
+          rules: [
+            (r"\text{LRFD: } 1.2D + 1.6L \le \phi R_n", true),
+            (r"\text{ASD: } D + L \le R_n/\Omega", true),
+            (r"\text{ASD: } 1.6L \le R_n/\Omega", false),
+            (r"\text{ASD is no longer allowed}", false),
+          ],
+        );
+      case BriefFigure.controls:
+        return const _RuleList(
+          rules: [
+            (r"\text{floor live biggest} \Rightarrow \text{combo 2}", true),
+            (r"\text{roof load biggest} \Rightarrow \text{combo 3}", true),
+            (r"\text{combo 2 always controls}", false),
+            (r"\text{combo 2 drops the snow}", false),
+          ],
+        );
+      case BriefFigure.reduction:
+        return const _RuleList(
+          rules: [
+            (r"\text{bigger } A_T \Rightarrow \text{bigger reduction}", true),
+            (r"K_{LL} = 4 \text{ for a column}", true),
+            (r"\text{dead load reduces too}", false),
+            (r"L \text{ may fall below } 0.5 L_o \text{ on one floor}", false),
+          ],
+        );
+      case BriefFigure.influenceRead:
+        return const _RuleList(
+          rules: [
+            (r"\text{across: where the load stands}", true),
+            (r"R = \sum P_i \eta_i", true),
+            (r"\text{it is the moment diagram}", false),
+            (r"\text{the height is the moment under the load}", false),
+          ],
+        );
+      case BriefFigure.influenceShapes:
+        return const _RuleList(
+          rules: [
+            (r"\text{a step of } 1 \Rightarrow \text{shear}", true),
+            (r"\eta_{peak} = \frac{a(L-a)}{L}", true),
+            (r"\text{the moment peak is at midspan}", false),
+            (r"\text{a reaction line is a triangle}", false),
+          ],
+        );
+      case BriefFigure.influencePlace:
+        return const _RuleList(
+          rules: [
+            (r"\text{the heaviest load on the peak}", true),
+            (r"\text{shear: just right of the section}", true),
+            (r"\text{straddle the peak evenly}", false),
+            (r"\text{a spread load covers the whole span}", false),
           ],
         );
       case BriefFigure.cogo:

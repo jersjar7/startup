@@ -16,6 +16,9 @@ import 'package:mobile/features/games/does_this_one_count_game.dart';
 import 'package:mobile/features/games/redundant_figures.dart';
 import 'package:mobile/features/games/what_do_you_let_go_game.dart';
 import 'package:mobile/features/games/more_less_or_the_same_game.dart';
+import 'package:mobile/features/games/load_figures.dart';
+import 'package:mobile/features/games/factored_or_service_game.dart';
+import 'package:mobile/features/games/which_one_controls_game.dart';
 
 void main() {
   group('the determinacy count', () {
@@ -396,6 +399,105 @@ void main() {
 
     test('all three answers are used', () {
       expect(compareRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('factored or service', () {
+    test('every round keeps the two halves of a check together', () {
+      // The right answer always pairs factored loads with a design strength
+      // or service loads with a divided one, and never one of each.
+      for (final r in designRounds) {
+        final right = r.options[r.answer].toLowerCase();
+        final factored = right.contains('1.2') || right.contains('1.6');
+        final divided = right.contains('divided by');
+        if (factored && right.contains('against')) {
+          expect(divided, isFalse, reason: r.subject);
+        }
+      }
+    });
+
+    test('the two checks are both offered somewhere', () {
+      final all = designRounds.expand((r) => r.options).join(' ').toLowerCase();
+      expect(all, contains('design strength'));
+      expect(all, contains('divided by a safety factor'));
+    });
+  });
+
+  group('which combination controls', () {
+    test('the combinations are the ones the lesson prints', () {
+      const b = Bundle(dead: 30, live: 50, snow: 20);
+      expect(b.combo1, closeTo(42, 0.01));
+      expect(b.combo2, closeTo(126, 0.01));
+      expect(b.combo3, closeTo(118, 0.01));
+      expect(b.controls, Combo.two, reason: 'the lesson works this one out');
+    });
+
+    test('the beam in the first problem comes to 88 kips', () {
+      const b = Bundle(dead: 20, live: 40);
+      expect(b.combo2, closeTo(88, 0.01));
+      expect(b.controls, Combo.two);
+    });
+
+    test('a roof load bigger than the floor load hands it to combination 3',
+        () {
+      const b = Bundle(dead: 30, live: 10, snow: 60);
+      expect(b.controls, Combo.three);
+      expect(b.combo3, greaterThan(b.combo2));
+    });
+
+    test('almost no live load hands it to combination 1', () {
+      const b = Bundle(dead: 100, live: 5);
+      expect(b.controls, Combo.one);
+    });
+
+    test('no combination can come out under the largest load in it', () {
+      for (final r in controlRounds) {
+        final biggest = [
+          r.bundle.dead,
+          r.bundle.live,
+          r.bundle.snow,
+        ].reduce((a, b) => a > b ? a : b);
+        expect(r.bundle.worst, greaterThanOrEqualTo(biggest),
+            reason: r.subject);
+      }
+    });
+
+    test('all three combinations get to win a round', () {
+      expect(controlRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('the live load reduction', () {
+    test('a column reduces more than a beam over the same floor', () {
+      const column = Tributary(area: 600, column: true);
+      const beam = Tributary(area: 600, column: false);
+      expect(column.reduced, lessThan(beam.reduced));
+      expect(column.kll, 4);
+      expect(beam.kll, 2);
+    });
+
+    test('more floor means a bigger reduction', () {
+      const small = Tributary(area: 200, column: true);
+      const large = Tributary(area: 1200, column: true);
+      expect(large.reduced, lessThan(small.reduced));
+    });
+
+    test('it never becomes an increase', () {
+      const tiny = Tributary(area: 120, column: false);
+      expect(tiny.allowed, isFalse);
+      expect(tiny.reduced, tiny.unreduced);
+    });
+
+    test('one floor stops at half', () {
+      const huge = Tributary(area: 8000, column: true);
+      expect(huge.factor, lessThan(0.5));
+      expect(huge.reduced, closeTo(0.5 * huge.unreduced, 0.001));
+    });
+
+    test('the lesson\'s own column comes to 28 psf', () {
+      const own = Tributary(area: 600, column: true);
+      expect(own.reduced, closeTo(27.8, 0.2));
+      expect(own.reduced, greaterThan(0.5 * own.unreduced));
     });
   });
 }

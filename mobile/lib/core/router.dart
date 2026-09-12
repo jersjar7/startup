@@ -242,6 +242,9 @@ import '../features/games/what_do_you_hang_on_it_game.dart';
 import '../features/games/does_this_one_count_game.dart';
 import '../features/games/what_do_you_let_go_game.dart';
 import '../features/games/more_less_or_the_same_game.dart';
+import '../features/games/factored_or_service_game.dart';
+import '../features/games/which_one_controls_game.dart';
+import '../features/games/how_much_comes_off_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -624,6 +627,9 @@ GoRouter buildRouter(AuthController auth) {
           'does-this-one-count' => const DoesThisOneCountGame(),
           'what-do-you-let-go' => const WhatDoYouLetGoGame(),
           'more-less-or-the-same' => const MoreLessOrTheSameGame(),
+          'factored-or-service' => const FactoredOrServiceGame(),
+          'which-one-controls' => const WhichOneControlsGame(),
+          'how-much-comes-off' => const HowMuchComesOffGame(),
           _ => const _UnknownGame(),
         },
       ),

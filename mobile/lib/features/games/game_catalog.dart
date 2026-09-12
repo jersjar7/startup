@@ -3278,6 +3278,37 @@ const structuralMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'load-combinations',
+      name: 'Loads & Load Combinations',
+      subtopicId: 'analysis-loads',
+      games: [
+        GameDef(
+          id: 'factored-or-service',
+          rounds: 6,
+          name: 'Factored or Service',
+          blurb: 'Both halves of a check come from the same method.',
+          built: true,
+          brief: lrfdBrief,
+        ),
+        GameDef(
+          id: 'which-one-controls',
+          rounds: 6,
+          name: 'Which One Controls',
+          blurb: 'The big factor follows the big load.',
+          built: true,
+          brief: controlsBrief,
+        ),
+        GameDef(
+          id: 'how-much-comes-off',
+          rounds: 6,
+          name: 'How Much Comes Off',
+          blurb: 'A big floor is never full everywhere at once.',
+          built: true,
+          brief: reductionBrief,
+        ),
+      ],
+    ),
   ],
 );
 

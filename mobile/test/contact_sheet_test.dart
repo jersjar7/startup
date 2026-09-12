@@ -249,6 +249,9 @@ import 'package:mobile/features/games/what_do_you_hang_on_it_game.dart';
 import 'package:mobile/features/games/does_this_one_count_game.dart';
 import 'package:mobile/features/games/what_do_you_let_go_game.dart';
 import 'package:mobile/features/games/more_less_or_the_same_game.dart';
+import 'package:mobile/features/games/factored_or_service_game.dart';
+import 'package:mobile/features/games/which_one_controls_game.dart';
+import 'package:mobile/features/games/how_much_comes_off_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2073,6 +2076,24 @@ void main() {
           rounds: compareRounds.length,
           height: 1960,
         ),
+        'factored-or-service': (
+          lesson: '99-loads',
+          build: FactoredOrServiceGame.new,
+          rounds: designRounds.length,
+          height: 2060,
+        ),
+        'which-one-controls': (
+          lesson: '99-loads',
+          build: WhichOneControlsGame.new,
+          rounds: controlRounds.length,
+          height: 1860,
+        ),
+        'how-much-comes-off': (
+          lesson: '99-loads',
+          build: HowMuchComesOffGame.new,
+          rounds: reduceRounds.length,
+          height: 1980,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2522,6 +2543,11 @@ void main() {
     '98-indeterminate': [
       ('release', redundantBrief),
       ('fixity', fixityBrief),
+    ],
+    '99-loads': [
+      ('method', lrfdBrief),
+      ('controls', controlsBrief),
+      ('reduction', reductionBrief),
     ],
     '95-determinacy': [
       ('count', countBrief),
