@@ -395,6 +395,9 @@ enum BriefFigure {
   structuralNumber,
   layerThickness,
   esal,
+  rigidVsFlexible,
+  pavementJoint,
+  subgradeReaction,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7661,6 +7664,78 @@ const esalBrief = BriefSection(
   handbook: 'Handbook, load equivalency',
 );
 
+const rigidVsFlexibleBrief = BriefSection(
+  title: 'A beam, or a blanket',
+  body:
+      'A concrete slab is stiff enough to BEND across a wheel load, like a '
+      'beam, and hand it to a patch of subgrade many times the size of the '
+      'tire. An asphalt section does the opposite: each course passes the '
+      'load down to the next, spreading it a little on the way, so every '
+      'course has to be strong in its own right. Everything else follows '
+      'from that. The slab bridges a soft spot the way a beam bridges a gap, '
+      'so rigid pavement minds a weak or variable subgrade far less. It is '
+      'designed on the bending strength of the concrete, its modulus of '
+      'rupture, rather than on a structural number, because bending is how '
+      'it works. And it costs more to build, which is why the choice usually '
+      'turns on whole life cost: heavy traffic, a long service life and poor '
+      'ground favor the slab.',
+  formulas: [
+    ('Rigid', r'\text{bends, spreads wide}'),
+    ('Flexible', r'\text{passes it down, course by course}'),
+    ('Designed on', r'\text{rupture strength vs } SN'),
+  ],
+  figure: BriefFigure.rigidVsFlexible,
+  handbook: 'Handbook, rigid pavement',
+);
+
+const jointBrief = BriefSection(
+  title: 'Smooth lets go, deformed holds on',
+  body:
+      'Concrete shrinks as it cures and moves with the temperature, so a '
+      'slab will crack. Joints decide where. CONTRACTION joints are sawn in '
+      'within hours and give the crack a tidy line to follow. EXPANSION '
+      'joints leave room for growth, used sparingly and mostly at '
+      'structures. CONSTRUCTION joints are simply where paving stopped. The '
+      'steel across a joint comes in two kinds and they do opposite jobs. A '
+      'DOWEL is smooth and greased: it carries the wheel load from one slab '
+      'to the next while letting the two move, and it lives in transverse '
+      'joints. A TIE BAR is deformed and bonded into both sides: it holds a '
+      'longitudinal joint shut so lanes do not drift apart, and it is meant '
+      'not to move at all. Where a joint has no steel, the rough crack faces '
+      'below the saw cut interlock instead, which works while the joint '
+      'stays tight.',
+  formulas: [
+    ('Dowel', r'\text{load transfer, movement allowed}'),
+    ('Tie bar', r'\text{holds the joint closed}'),
+    ('No steel', r'\text{aggregate interlock}'),
+  ],
+  figure: BriefFigure.pavementJoint,
+  handbook: 'Handbook, rigid pavement joints',
+);
+
+const subgradeReactionBrief = BriefSection(
+  title: 'A bed of springs',
+  body:
+      'The modulus of subgrade reaction, k, is a STIFFNESS and not a '
+      'strength: the pressure it takes to push the ground down one inch, so '
+      'its units are pounds per square inch per inch, which is pounds per '
+      'cubic inch. The picture is a bed of springs under the slab, each '
+      'pushing back as it is pressed. A higher k gives less under the same '
+      'pressure, so the slab bends less and the tension at the bottom of the '
+      'concrete is lower, which is what actually breaks a slab. What k is '
+      'NOT is a bearing capacity: capacity asks when the ground fails, while '
+      'k asks how far it moves long before that. And because the slab '
+      'already spreads the load so widely, improving k buys less under '
+      'concrete than the same improvement would buy under asphalt.',
+  formulas: [
+    ('What it is', r'k = \dfrac{\text{pressure}}{\text{deflection}}'),
+    ('Units', r'\text{pounds per cubic inch}'),
+    ('Higher k', r'\text{stiffer, less deflection}'),
+  ],
+  figure: BriefFigure.subgradeReaction,
+  handbook: 'Handbook, rigid pavement',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -10362,6 +10437,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{damage climbs faster than load}", true),
             (r"\text{every axle counts alike}", false),
             (r"LEF \text{ is the weight ratio}", false),
+          ],
+        );
+      case BriefFigure.rigidVsFlexible:
+        return const _RuleList(
+          rules: [
+            (r"\text{a slab bends and spreads the load}", true),
+            (r"\text{rigid minds the subgrade less}", true),
+            (r"\text{rigid is designed on } SN", false),
+            (r"\text{flexible bridges a soft spot}", false),
+          ],
+        );
+      case BriefFigure.pavementJoint:
+        return const _RuleList(
+          rules: [
+            (r"\text{dowel: transfers load, lets it move}", true),
+            (r"\text{tie bar: holds the joint shut}", true),
+            (r"\text{a dowel ties the slabs together}", false),
+            (r"\text{joints are cut to save concrete}", false),
+          ],
+        );
+      case BriefFigure.subgradeReaction:
+        return const _RuleList(
+          rules: [
+            (r"k = \text{pressure} / \text{deflection}", true),
+            (r"\text{higher } k \Rightarrow \text{less movement}", true),
+            (r"k \text{ is a bearing capacity}", false),
+            (r"\text{higher } k \Rightarrow \text{more movement}", false),
           ],
         );
       case BriefFigure.rankine:

@@ -4165,6 +4165,44 @@ const transportationMap = ChapterMap(
         ),
       ],
     ),
+    // The web chapter has an Earthwork Volumes lesson here and this map has
+    // no node for it, on purpose. Its two formulas, the average end area
+    // and the prismoidal, and the question of which one gives more, are
+    // the whole of the SURVEYING chapter's earthwork lesson, which already
+    // has three items on them. All this one adds is dividing cubic feet by
+    // twenty seven, which is a unit conversion and not a concept. Teaching
+    // it twice would cost the student time and teach nothing new.
+    LessonNode(
+      id: 'rigid-pavement',
+      name: 'Rigid Pavement Design',
+      subtopicId: 'pavement-earthwork',
+      games: [
+        GameDef(
+          id: 'beam-or-blanket',
+          rounds: 6,
+          name: 'Beam or Blanket',
+          blurb: 'One bridges the soft spot. One sinks into it.',
+          built: true,
+          brief: rigidVsFlexibleBrief,
+        ),
+        GameDef(
+          id: 'what-the-bar-is-for',
+          rounds: 6,
+          name: 'What the Bar Is For',
+          blurb: 'Smooth lets go. Deformed holds on.',
+          built: true,
+          brief: jointBrief,
+        ),
+        GameDef(
+          id: 'what-k-measures',
+          rounds: 6,
+          name: 'What k Measures',
+          blurb: 'A stiffness, not a strength.',
+          built: true,
+          brief: subgradeReactionBrief,
+        ),
+      ],
+    ),
   ],
 );
 

@@ -32,6 +32,10 @@ import 'package:mobile/features/games/pavement_figures.dart';
 import 'package:mobile/features/games/what_each_inch_buys_game.dart';
 import 'package:mobile/features/games/how_thick_must_it_be_game.dart';
 import 'package:mobile/features/games/damage_not_weight_game.dart';
+import 'package:mobile/features/games/rigid_figures.dart';
+import 'package:mobile/features/games/beam_or_blanket_game.dart';
+import 'package:mobile/features/games/what_the_bar_is_for_game.dart';
+import 'package:mobile/features/games/what_k_measures_game.dart';
 
 void main() {
   group('stopping sight distance', () {
@@ -1016,6 +1020,72 @@ void main() {
         pavementSectionRounds.map((r) => r.answer).toList(),
         thicknessRounds.map((r) => r.answer).toList(),
         loadRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
+    });
+  });
+
+
+  group('rigid pavement', () {
+    test('a slab spreads the load much wider than a flexible section', () {
+      const slab = Loaded(kind: Surfacing.rigid);
+      const layers = Loaded(kind: Surfacing.flexible);
+      expect(slab.spread, greaterThan(layers.spread * 2));
+      expect(slab.pressureShare, lessThan(layers.pressureShare));
+      expect(slab.caresAboutSubgrade, isFalse);
+      expect(layers.caresAboutSubgrade, isTrue);
+    });
+
+    test('each round draws the pavement its words are about', () {
+      for (final r in loadPathRounds) {
+        if (r.subject.contains('asphalt section')) {
+          expect(r.load.kind, Surfacing.flexible, reason: r.subject);
+        }
+        if (r.subject.contains('slab carries')) {
+          expect(r.load.kind, Surfacing.rigid, reason: r.subject);
+        }
+      }
+    });
+
+    test('a dowel lets the slabs move and a tie bar does not', () {
+      const dowel = Joint(
+          name: 'transverse', steel: Steel.dowel, whatItDoes: 'transfers');
+      const tie =
+          Joint(name: 'longitudinal', steel: Steel.tie, whatItDoes: 'holds');
+      const plain =
+          Joint(name: 'contraction', steel: Steel.nothing, whatItDoes: 'none');
+      expect(dowel.lets, isTrue);
+      expect(tie.lets, isFalse);
+      expect(plain.lets, isTrue);
+    });
+
+    test('the joint rounds put the right steel in the right joint', () {
+      for (final r in jointRounds) {
+        if (r.subject.contains('dowel')) {
+          expect(r.joint.steel, Steel.dowel, reason: r.subject);
+        }
+        if (r.subject.contains('tie bar')) {
+          expect(r.joint.steel, Steel.tie, reason: r.subject);
+        }
+        if (r.subject.contains('no bar')) {
+          expect(r.joint.steel, Steel.nothing, reason: r.subject);
+        }
+      }
+    });
+
+    test('the subgrade rounds span soft, ordinary and stiff', () {
+      final values = supportRounds.map((r) => r.stiffness).toSet();
+      expect(values.where((k) => k < 120), isNotEmpty);
+      expect(values.where((k) => k >= 300), isNotEmpty);
+    });
+
+    test('the three items keep the answer moving between the slots', () {
+      for (final answers in [
+        loadPathRounds.map((r) => r.answer).toList(),
+        jointRounds.map((r) => r.answer).toList(),
+        supportRounds.map((r) => r.answer).toList(),
       ]) {
         expect(answers.toSet().length, greaterThan(2),
             reason: 'the correct option sits in too few positions');

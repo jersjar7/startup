@@ -474,6 +474,12 @@ void main() {
       'what-each-inch-buys',
       'how-thick-must-it-be',
       'damage-not-weight',
+      // The rigid pavement lesson's three problems ARE its three subjects:
+      // how a slab carries load, what the bars in a joint do, and what the
+      // subgrade modulus means. Its three items land one to one on them.
+      'beam-or-blanket',
+      'what-the-bar-is-for',
+      'what-k-measures',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

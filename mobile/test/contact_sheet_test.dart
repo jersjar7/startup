@@ -326,6 +326,9 @@ import 'package:mobile/features/games/does_it_need_a_signal_game.dart';
 import 'package:mobile/features/games/what_each_inch_buys_game.dart';
 import 'package:mobile/features/games/how_thick_must_it_be_game.dart';
 import 'package:mobile/features/games/damage_not_weight_game.dart';
+import 'package:mobile/features/games/beam_or_blanket_game.dart';
+import 'package:mobile/features/games/what_the_bar_is_for_game.dart';
+import 'package:mobile/features/games/what_k_measures_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2612,6 +2615,24 @@ void main() {
           rounds: loadRounds.length,
           height: 2200,
         ),
+        'beam-or-blanket': (
+          lesson: '127-rigid',
+          build: BeamOrBlanketGame.new,
+          rounds: loadPathRounds.length,
+          height: 2200,
+        ),
+        'what-the-bar-is-for': (
+          lesson: '127-rigid',
+          build: WhatTheBarIsForGame.new,
+          rounds: jointRounds.length,
+          height: 2200,
+        ),
+        'what-k-measures': (
+          lesson: '127-rigid',
+          build: WhatKMeasuresGame.new,
+          rounds: supportRounds.length,
+          height: 2180,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3133,6 +3154,11 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '127-rigid': [
+      ('slab', rigidVsFlexibleBrief),
+      ('joints', jointBrief),
+      ('support', subgradeReactionBrief),
     ],
     '126-pavement': [
       ('section', structuralNumberBrief),

@@ -319,6 +319,9 @@ import '../features/games/does_it_need_a_signal_game.dart';
 import '../features/games/what_each_inch_buys_game.dart';
 import '../features/games/how_thick_must_it_be_game.dart';
 import '../features/games/damage_not_weight_game.dart';
+import '../features/games/beam_or_blanket_game.dart';
+import '../features/games/what_the_bar_is_for_game.dart';
+import '../features/games/what_k_measures_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -786,6 +789,9 @@ GoRouter buildRouter(AuthController auth) {
           'what-each-inch-buys' => const WhatEachInchBuysGame(),
           'how-thick-must-it-be' => const HowThickMustItBeGame(),
           'damage-not-weight' => const DamageNotWeightGame(),
+          'beam-or-blanket' => const BeamOrBlanketGame(),
+          'what-the-bar-is-for' => const WhatTheBarIsForGame(),
+          'what-k-measures' => const WhatKMeasuresGame(),
           _ => const _UnknownGame(),
         },
       ),

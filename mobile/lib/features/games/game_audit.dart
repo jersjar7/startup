@@ -145,6 +145,9 @@ import 'does_it_need_a_signal_game.dart';
 import 'what_each_inch_buys_game.dart';
 import 'how_thick_must_it_be_game.dart';
 import 'damage_not_weight_game.dart';
+import 'beam_or_blanket_game.dart';
+import 'what_the_bar_is_for_game.dart';
+import 'what_k_measures_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4893,6 +4896,33 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'trans-pd-',
     rounds: [
       for (final r in loadRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'beam-or-blanket',
+    lessonId: 'rigid-pavement',
+    problemPrefix: 'trans-rp-',
+    rounds: [
+      for (final r in loadPathRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-the-bar-is-for',
+    lessonId: 'rigid-pavement',
+    problemPrefix: 'trans-rp-',
+    rounds: [
+      for (final r in jointRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-k-measures',
+    lessonId: 'rigid-pavement',
+    problemPrefix: 'trans-rp-',
+    rounds: [
+      for (final r in supportRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),
