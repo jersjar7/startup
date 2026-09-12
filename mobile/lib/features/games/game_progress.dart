@@ -24,6 +24,10 @@ class GameProgress extends ChangeNotifier {
   /// gameId -> how many rounds were cleared on the first attempt.
   final Map<String, int> _firstTry = {};
 
+  /// The game a round was last cleared in. The map uses it to mark the
+  /// lesson the student is in the middle of.
+  String? _lastGame;
+
   Future<void> load(AppStorage storage) async {
     _storage = storage;
     try {
@@ -37,6 +41,7 @@ class GameProgress extends ChangeNotifier {
           in (data['firstTry'] as Map<String, dynamic>? ?? {}).entries) {
         _firstTry[entry.key] = entry.value as int;
       }
+      _lastGame = data['lastGame'] as String?;
       notifyListeners();
     } catch (_) {
       // A corrupt mirror is not worth failing a launch over: the server still
@@ -54,6 +59,7 @@ class GameProgress extends ChangeNotifier {
         jsonEncode({
           'rounds': _rounds.map((k, v) => MapEntry(k, v.toList()..sort())),
           'firstTry': _firstTry,
+          if (_lastGame != null) 'lastGame': _lastGame,
         }),
       );
     } catch (_) {
@@ -78,11 +84,12 @@ class GameProgress extends ChangeNotifier {
 
   void markRoundCleared(String gameId, int round, {required bool firstTry}) {
     final set = _rounds.putIfAbsent(gameId, () => <int>{});
+    _lastGame = gameId;
     if (set.add(round)) {
       if (firstTry) _firstTry[gameId] = (_firstTry[gameId] ?? 0) + 1;
-      notifyListeners();
-      _save();
     }
+    notifyListeners();
+    _save();
   }
 
   /// Start the whole thing over (the "play again" path).
@@ -101,6 +108,31 @@ class GameProgress extends ChangeNotifier {
   };
 
   static int roundsIn(String gameId) => _roundCounts[gameId] ?? 0;
+
+  /// Which lesson each game belongs to, read from the catalog once.
+  static final Map<String, String> _lessonOfGame = {
+    for (final chapter in chapterMaps.values)
+      for (final lesson in chapter.lessons)
+        for (final game in lesson.games) game.id: lesson.id,
+  };
+
+  /// The lesson in [chapter] the student is in the middle of, if any: the one
+  /// they last played a round in while it is still unfinished, otherwise the
+  /// first unfinished-but-started lesson on the path. Never a lesson they
+  /// have not touched: nothing on the map locks, so pointing at an untouched
+  /// node would imply an order the map does not impose.
+  String? currentLessonIn(ChapterMap chapter) {
+    final last = _lastGame == null ? null : _lessonOfGame[_lastGame];
+    for (final lesson in chapter.lessons) {
+      if (lesson.id == last && stateOf(lesson) == LessonState.inProgress) {
+        return lesson.id;
+      }
+    }
+    for (final lesson in chapter.lessons) {
+      if (stateOf(lesson) == LessonState.inProgress) return lesson.id;
+    }
+    return null;
+  }
 
   /// How far through a lesson's items the student is, 0 to 1.
   double fractionOf(LessonNode lesson) {

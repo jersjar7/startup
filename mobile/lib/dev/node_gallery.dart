@@ -103,6 +103,7 @@ class _GalleryState extends State<_Gallery> {
                       fractionFrom: _shown,
                       fractionTo: target,
                       size: 82,
+                      current: true,
                       onTap: _advance,
                       onSettled: (v) => _shown = v,
                     ),

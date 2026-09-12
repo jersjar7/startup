@@ -41,6 +41,7 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
   final Map<String, double> _shown = {};
   final Map<String, double> _target = {};
   final Map<String, NodeState> _state = {};
+  String? _current;
 
   @override
   void initState() {
@@ -60,6 +61,7 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
         LessonState.cleared => NodeState.cleared,
       };
     }
+    _current = p.currentLessonIn(widget.chapter);
   }
 
   /// Open a lesson, then take in what changed once we are back on screen.
@@ -99,6 +101,7 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
                     shown: _shown,
                     target: _target,
                     state: _state,
+                    current: _current,
                     onTap: _openLesson,
                     onSettled: (id, value) =>
                         setState(() => _shown[id] = value),
@@ -223,6 +226,7 @@ class _Path extends StatelessWidget {
     required this.shown,
     required this.target,
     required this.state,
+    this.current,
     required this.onTap,
     required this.onSettled,
   });
@@ -232,6 +236,9 @@ class _Path extends StatelessWidget {
   final Map<String, double> shown;
   final Map<String, double> target;
   final Map<String, NodeState> state;
+
+  /// The lesson the student is in the middle of, if any. It breathes.
+  final String? current;
   final ValueChanged<LessonNode> onTap;
   final void Function(String lessonId, double value) onSettled;
 
@@ -299,6 +306,7 @@ class _Path extends StatelessWidget {
                 child: LessonNodeWidget(
                   key: ValueKey(slot.lesson!.id),
                   state: state[slot.lesson!.id] ?? NodeState.notBuilt,
+                  current: slot.lesson!.id == current,
                   fractionFrom: shown[slot.lesson!.id] ?? 0,
                   fractionTo: target[slot.lesson!.id] ?? 0,
                   size: nodeSize,

@@ -73,6 +73,7 @@ these properties by name and nothing else in the file is reachable.
 | `wedge` | color | the progress wedge |
 | `ink` | color | the glyph on the face (check, or ellipsis) |
 | `halo` | color | the ring that leaves the face at the finished moment |
+| `current` | boolean | this is the lesson the student is in the middle of |
 
 `lesson_node_rive_test.dart` reads `scene.rml` and fails if this list, the
 enum values, the artboard name, the state machine name or the artboard size
@@ -81,8 +82,8 @@ breaking change on both sides; do it in both places and rebuild the `.riv`.
 
 ## What the artboard does with it
 
-Three state machine layers run at once, so press, state and the finished
-moment never have to know about each other:
+Four state machine layers run at once, so press, state, the breath and the
+finished moment never have to know about each other:
 
 - **State**: one hold pose per `NodeState`, with a 220 ms eased transition
   between every pair. The pose keys the face's width and corner radius (a
@@ -91,6 +92,13 @@ moment never have to know about each other:
   Circle to square is a morph, not a swap.
 - **Press**: `pressed` moves everything but the plinth down 9 units in 90 ms,
   onto the plinth.
+- **Breathe**: `current` fades in (300 ms) a slow ping-pong breath, 1.0 to
+  1.035 over 1.3 s each way, on everything but the plinth. Nothing on the map
+  locks, so this is the one cue about where to go. `GameProgress.
+  currentLessonIn` names the lesson: the one a round was last cleared in
+  while it is still unfinished, else the first started-but-unfinished lesson
+  on the path, else none. Never an untouched lesson, for the same reason the
+  old "start here" pill was dropped.
 - **Clear**: `celebrate` plays a 40-frame pop (the face lifts to 1.09, settles
   to 0.985, returns) while a stroke-only ring scales out to 1.42 and fades.
   It returns to idle on its own.
@@ -139,6 +147,12 @@ rive . --screenshot=build/b.png --data=state=cleared --data=celebrate=1 --advanc
 220 ms to arrive at whatever `--data` asked for. The headless render uses the
 authored default colors (a white face), not the app's; the app overwrites all
 six the moment the widget mounts.
+
+## Haptics
+
+Two, both in `LessonNodeWidget` so they happen with or without Rive: a light
+impact on touch-down, and a medium impact at the turn-over, after the closed
+circle's hold and before the face changes. Nothing on the fill itself.
 
 ## Runtime notes
 

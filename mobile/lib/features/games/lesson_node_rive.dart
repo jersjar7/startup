@@ -33,6 +33,7 @@ abstract final class LessonNodeArt {
     'wedge',
     'ink',
     'halo',
+    'current',
   ];
 
   /// The artboard's own geometry, in artboard units. The face is 100 across
@@ -84,6 +85,7 @@ class RiveLessonNode extends StatefulWidget {
     required this.skin,
     required this.fraction,
     required this.pressed,
+    required this.current,
     required this.size,
   });
 
@@ -92,6 +94,7 @@ class RiveLessonNode extends StatefulWidget {
   final NodeSkin skin;
   final double fraction;
   final bool pressed;
+  final bool current;
   final double size;
 
   @override
@@ -105,6 +108,7 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
   late final rive.ViewModelInstanceEnum _state;
   late final rive.ViewModelInstanceNumber _progress;
   late final rive.ViewModelInstanceBoolean _pressed;
+  late final rive.ViewModelInstanceBoolean _current;
   late final rive.ViewModelInstanceTrigger _celebrate;
   late final Map<String, rive.ViewModelInstanceColor> _colors;
 
@@ -131,6 +135,7 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     _state = _vmi.enumerator('state')!;
     _progress = _vmi.number('progress')!;
     _pressed = _vmi.boolean('pressed')!;
+    _current = _vmi.boolean('current')!;
     _celebrate = _vmi.trigger('celebrate')!;
     _colors = {for (final name in _Palette.names) name: _vmi.color(name)!};
 
@@ -139,6 +144,7 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     _state.value = widget.showing.name;
     _progress.value = widget.fraction;
     _pressed.value = widget.pressed;
+    _current.value = widget.current;
 
     _tint.addListener(() {
       _push(_Palette.lerp(_from, _to, Curves.easeOut.transform(_tint.value)));
@@ -157,6 +163,7 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     }
     if (old.fraction != widget.fraction) _progress.value = widget.fraction;
     if (old.pressed != widget.pressed) _pressed.value = widget.pressed;
+    if (old.current != widget.current) _current.value = widget.current;
 
     final next = _Palette.of(widget.skin, previous: _to);
     if (next != _to) {
@@ -181,6 +188,7 @@ class _RiveLessonNodeState extends State<RiveLessonNode>
     _state.dispose();
     _progress.dispose();
     _pressed.dispose();
+    _current.dispose();
     _celebrate.dispose();
     _vmi.dispose();
     _controller.dispose();

@@ -427,6 +427,37 @@
                 </KeyedProperty>
             </KeyedObject>
         </LinearAnimation>
+        <!-- The node the student is in the middle of: a slow, small breath. -->
+        <LinearAnimation duration="1" name="Still" id="0:68">
+            <KeyedObject objectId="0:20">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble value="1" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:20">
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble value="1" frame="0"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
+        <LinearAnimation loopValue="pingPong" duration="78" name="Breathing" id="0:69">
+            <KeyedObject objectId="0:20">
+                <KeyedProperty propertyKey="16">
+                    <KeyFrameDouble value="1" frame="0" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1.035" frame="78"/>
+                </KeyedProperty>
+            </KeyedObject>
+            <KeyedObject objectId="0:20">
+                <KeyedProperty propertyKey="17">
+                    <KeyFrameDouble value="1" frame="0" interpolationType="cubic">
+                        <CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/>
+                    </KeyFrameDouble>
+                    <KeyFrameDouble value="1.035" frame="78"/>
+                </KeyedProperty>
+            </KeyedObject>
+        </LinearAnimation>
         <LinearAnimation duration="1" name="Idle" id="0:66">
             <KeyedObject objectId="0:24">
                 <KeyedProperty propertyKey="16">
@@ -691,6 +722,39 @@
                 </StateTransition>
                 </AnimationState>
             </StateMachineLayer>
+            <StateMachineLayer name="Breathe" id="0:74">
+                <AnyState x="480" y="-120"/>
+                <ExitState x="600" y="-120"/>
+                <EntryState x="0" y="16">
+                    <StateTransition stateToId="0:88"/>
+                </EntryState>
+                <AnimationState animationId="0:68" x="160" y="0" id="0:88">
+                <StateTransition stateToId="0:89" duration="300" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyBoolean>
+                                <DataBindContext sourcePathIds="0:100-0:112" propertyKey="634"/>
+                            </BindablePropertyBoolean>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueBooleanComparator value="true"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                </AnimationState>
+                <AnimationState animationId="0:69" reset="true" x="320" y="0" id="0:89">
+                <StateTransition stateToId="0:88" duration="300" interpolationType="cubic">
+                    <CubicEaseInterpolator x1="0" y1="0" x2="0.58" y2="1"/>
+                    <TransitionViewModelCondition opValue="equal">
+                        <TransitionPropertyViewModelComparator>
+                            <BindablePropertyBoolean>
+                                <DataBindContext sourcePathIds="0:100-0:112" propertyKey="634"/>
+                            </BindablePropertyBoolean>
+                        </TransitionPropertyViewModelComparator>
+                        <TransitionValueBooleanComparator value="false"/>
+                    </TransitionViewModelCondition>
+                </StateTransition>
+                </AnimationState>
+            </StateMachineLayer>
             <StateMachineLayer name="Clear" id="0:73">
                 <AnyState x="480" y="-120"/>
                 <ExitState x="600" y="-120"/>
@@ -751,6 +815,7 @@
         <ViewModelPropertyColor name="wedge" id="0:109"/>
         <ViewModelPropertyColor name="ink" id="0:110"/>
         <ViewModelPropertyColor name="halo" id="0:111"/>
+        <ViewModelPropertyBoolean name="current" id="0:112"/>
         <ViewModelInstance exports="true" name="Default" id="0:101">
             <ViewModelInstanceEnum propertyValue="0:122" viewModelPropertyId="0:102"/>
             <ViewModelInstanceNumber propertyValue="0" viewModelPropertyId="0:103"/>
@@ -762,6 +827,7 @@
             <ViewModelInstanceColor propertyValue="FFE8683A" viewModelPropertyId="0:109"/>
             <ViewModelInstanceColor propertyValue="FF2C2C2C" viewModelPropertyId="0:110"/>
             <ViewModelInstanceColor propertyValue="FF2D7A5F" viewModelPropertyId="0:111"/>
+            <ViewModelInstanceBoolean propertyValue="false" viewModelPropertyId="0:112"/>
         </ViewModelInstance>
     </ViewModel>
 </Rive>

@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../core/theme/app_colors.dart';
 import 'lesson_node_rive.dart';
@@ -114,6 +115,7 @@ class LessonNodeWidget extends StatefulWidget {
     required this.fractionFrom,
     required this.fractionTo,
     required this.size,
+    this.current = false,
     this.skin,
     this.onTap,
     this.onSettled,
@@ -121,6 +123,10 @@ class LessonNodeWidget extends StatefulWidget {
   });
 
   final NodeState state;
+
+  /// The lesson the student is in the middle of. Nothing on the map locks,
+  /// so this is the one cue about where to go: the node breathes.
+  final bool current;
 
   /// Where the wedge was when the student last looked, and where it is now.
   final double fractionFrom;
@@ -204,6 +210,8 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
       ..value = 0
       ..forward().then((_) {
         if (mounted) {
+          // The turn-over is felt as well as seen.
+          if (closing) HapticFeedback.mediumImpact();
           setState(() {}); // the face may turn over now
           widget.onSettled?.call(widget.fractionTo);
         }
@@ -225,7 +233,10 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
         const SizedBox(height: LessonNodeWidget.topSpace),
         GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTapDown: (_) => setState(() => _pressed = true),
+          onTapDown: (_) {
+            HapticFeedback.lightImpact();
+            setState(() => _pressed = true);
+          },
           onTapCancel: () => setState(() => _pressed = false),
           onTapUp: (_) => setState(() => _pressed = false),
           onTap: widget.onTap,
@@ -253,6 +264,7 @@ class _LessonNodeWidgetState extends State<LessonNodeWidget>
                   skin: skin,
                   fraction: _fraction.value,
                   pressed: _pressed,
+                  current: widget.current,
                   size: size,
                 );
               }
