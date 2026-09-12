@@ -387,6 +387,9 @@ enum BriefFigure {
   heavyVehicle,
   demandFlow,
   levelOfService,
+  fourStep,
+  gravity,
+  friction,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7462,6 +7465,77 @@ const levelOfServiceBrief = BriefSection(
   handbook: 'Handbook, level of service',
 );
 
+const fourStepBrief = BriefSection(
+  title: 'Four steps, in order',
+  body:
+      'A regional travel forecast is four models run one after another, each '
+      'consuming what the one before it made. GENERATION counts how many '
+      'trips each zone produces and attracts, from land use: a quantity and '
+      'nothing else. DISTRIBUTION decides where those trips go, and this is '
+      'where the gravity model works. MODE CHOICE splits them among car, '
+      'transit and foot. ASSIGNMENT loads them onto particular routes, and '
+      'produces the volumes a designer actually uses. The order is not a '
+      'convention, it is a dependency: distribution has nothing to share out '
+      'until generation has produced it. Worth remembering which step a '
+      'change lands in. A new employer moves attractions, so distribution '
+      'notices. A new fare moves mode choice. A new bridge moves '
+      'assignment.',
+  formulas: [
+    ('First, how many', r'\text{generation}'),
+    ('Then, where', r'\text{distribution}'),
+    ('Then how, then which road', r'\text{mode, assignment}'),
+  ],
+  figure: BriefFigure.fourStep,
+  handbook: 'Handbook, travel demand',
+);
+
+const gravityBrief = BriefSection(
+  title: 'Shares that add to one',
+  body:
+      'The gravity model gives every destination a WEIGHT, its attractions '
+      'times the friction factor for that trip, and then shares the '
+      'origin\'s trips out in proportion to those weights. The step people '
+      'drop is the last one: dividing by the SUM of all the weights. Without '
+      'it the shares do not add to one and the model sends out more or fewer '
+      'trips than the origin ever made. Using the attractions alone is the '
+      'other wrong answer the lesson prints, and it fails in a particular '
+      'way: it hands trips to a big destination that is too far away to '
+      'earn them. Two checks come free. The shares add to one, and the trips '
+      'add to the origin\'s productions exactly.',
+  formulas: [
+    ('The weight', r'A_j F_{ij} K_{ij}'),
+    ('The share', r'T_{ij} = P_i \dfrac{A_j F_{ij} K_{ij}}{\sum_j A_j F_{ij} K_{ij}}'),
+    ('The check', r'\textstyle\sum_j T_{ij} = P_i'),
+  ],
+  figure: BriefFigure.gravity,
+  handbook: 'Handbook, gravity model',
+);
+
+const frictionBrief = BriefSection(
+  title: 'Big attracts, far repels',
+  body:
+      'The friction factor is the part of the model that behaves like '
+      'distance in gravity itself: it FALLS as the travel time between two '
+      'zones rises, so distant destinations receive fewer trips. The name '
+      'misleads a little, because a HIGH friction factor means an EASY trip. '
+      'It is written that way so it can multiply the attractions directly. '
+      'Distance does not always win, though. A destination five times the '
+      'size can still take the majority of the trips despite being much '
+      'harder to reach, which is why a regional mall draws from half a '
+      'county. And when a new road cuts the travel time, the factor rises '
+      'and trips move toward that zone, without the origin producing a '
+      'single extra trip: distribution moves trips, it does not create '
+      'them. The K factor is a correction for what the model cannot see, '
+      'and it is one when there is nothing to correct.',
+  formulas: [
+    ('Longer trip', r'F_{ij} \text{ falls}'),
+    ('The balance', r'A_j \text{ up against } F_{ij} \text{ down}'),
+    ('No new trips', r'\textstyle\sum_j T_{ij} = P_i \text{ still}'),
+  ],
+  figure: BriefFigure.friction,
+  handbook: 'Handbook, gravity model',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -10091,6 +10165,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{the letter follows the density}", true),
             (r"\text{the letter follows the volume}", false),
             (r"D = v_p \times S", false),
+          ],
+        );
+      case BriefFigure.fourStep:
+        return const _RuleList(
+          rules: [
+            (r"\text{generation, then distribution}", true),
+            (r"\text{the gravity model is step two}", true),
+            (r"\text{assignment comes first}", false),
+            (r"\text{mode choice sets the trip count}", false),
+          ],
+        );
+      case BriefFigure.gravity:
+        return const _RuleList(
+          rules: [
+            (r"T_{ij} = P_i \cdot \tfrac{A_j F_{ij}}{\sum_j A_j F_{ij}}", true),
+            (r"\textstyle\sum_j T_{ij} = P_i", true),
+            (r"T_{ij} = P_i A_j F_{ij}", false),
+            (r"\text{split by attractions alone}", false),
+          ],
+        );
+      case BriefFigure.friction:
+        return const _RuleList(
+          rules: [
+            (r"\text{longer trip} \Rightarrow F \text{ falls}", true),
+            (r"\text{a big zone can beat a far one}", true),
+            (r"\text{longer trip} \Rightarrow F \text{ rises}", false),
+            (r"\text{a faster road makes new trips}", false),
           ],
         );
       case BriefFigure.rankine:

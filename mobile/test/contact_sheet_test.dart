@@ -318,6 +318,9 @@ import 'package:mobile/features/games/per_million_what_game.dart';
 import 'package:mobile/features/games/how_many_cars_is_a_truck_game.dart';
 import 'package:mobile/features/games/three_divisions_game.dart';
 import 'package:mobile/features/games/what_the_letter_measures_game.dart';
+import 'package:mobile/features/games/which_step_is_that_game.dart';
+import 'package:mobile/features/games/who_gets_the_trips_game.dart';
+import 'package:mobile/features/games/farther_means_fewer_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2556,6 +2559,24 @@ void main() {
           rounds: letterRounds.length,
           height: 2240,
         ),
+        'which-step-is-that': (
+          lesson: '124-demand',
+          build: WhichStepIsThatGame.new,
+          rounds: forecastStepRounds.length,
+          height: 2200,
+        ),
+        'who-gets-the-trips': (
+          lesson: '124-demand',
+          build: WhoGetsTheTripsGame.new,
+          rounds: tripShareRounds.length,
+          height: 2240,
+        ),
+        'farther-means-fewer': (
+          lesson: '124-demand',
+          build: FartherMeansFewerGame.new,
+          rounds: frictionRounds.length,
+          height: 2240,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3077,6 +3098,11 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '124-demand': [
+      ('steps', fourStepBrief),
+      ('gravity', gravityBrief),
+      ('friction', frictionBrief),
     ],
     '123-capacity': [
       ('trucks', heavyVehicleBrief),

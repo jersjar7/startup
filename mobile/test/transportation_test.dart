@@ -21,6 +21,10 @@ import 'package:mobile/features/games/los_figures.dart';
 import 'package:mobile/features/games/how_many_cars_is_a_truck_game.dart';
 import 'package:mobile/features/games/three_divisions_game.dart';
 import 'package:mobile/features/games/what_the_letter_measures_game.dart';
+import 'package:mobile/features/games/demand_figures.dart';
+import 'package:mobile/features/games/which_step_is_that_game.dart';
+import 'package:mobile/features/games/who_gets_the_trips_game.dart';
+import 'package:mobile/features/games/farther_means_fewer_game.dart';
 
 void main() {
   group('stopping sight distance', () {
@@ -655,6 +659,158 @@ void main() {
         if (r.subject.contains('hill')) {
           expect(r.mix.rolling, isTrue, reason: r.subject);
         }
+      }
+    });
+  });
+
+
+  group('travel demand', () {
+    const lesson = Spread(
+      produced: 1000,
+      destinations: [
+        Destination(name: 'zone 1', attractions: 200, friction: 0.5),
+        Destination(name: 'zone 2', attractions: 300, friction: 0.2),
+      ],
+    );
+
+    test('the gravity split matches the lesson', () {
+      final one = lesson.destinations[0];
+      final two = lesson.destinations[1];
+      expect(one.weight, closeTo(100, 0.001));
+      expect(two.weight, closeTo(60, 0.001));
+      expect(lesson.total, closeTo(160, 0.001));
+      expect(lesson.tripsTo(one), closeTo(625, 0.5));
+      expect(lesson.tripsTo(two), closeTo(375, 0.5));
+    });
+
+    test('the trips always add up to what the origin produced', () {
+      for (final spread in [
+        lesson,
+        const Spread(produced: 1200, destinations: [
+          Destination(name: 'a', attractions: 200, friction: 0.5),
+          Destination(name: 'b', attractions: 300, friction: 0.2),
+          Destination(name: 'c', attractions: 100, friction: 0.4),
+        ]),
+      ]) {
+        final sent = spread.destinations
+            .fold<double>(0, (sum, d) => sum + spread.tripsTo(d));
+        expect(sent, closeTo(spread.produced, 0.001));
+        final shares = spread.destinations
+            .fold<double>(0, (sum, d) => sum + spread.shareOf(d));
+        expect(shares, closeTo(1, 0.000001));
+      }
+    });
+
+    test('attractions alone gives the lesson wrong answer', () {
+      expect(lesson.attractionsOnly(lesson.destinations[0]),
+          closeTo(400, 0.5));
+      expect(lesson.attractionsOnly(lesson.destinations[0]),
+          lessThan(lesson.tripsTo(lesson.destinations[0])));
+    });
+
+    test('equal weights split the trips evenly', () {
+      const even = Spread(
+        produced: 1000,
+        destinations: [
+          Destination(name: 'a', attractions: 200, friction: 0.4),
+          Destination(name: 'b', attractions: 400, friction: 0.2),
+        ],
+      );
+      expect(even.destinations[0].weight,
+          closeTo(even.destinations[1].weight, 0.001));
+      expect(even.tripsTo(even.destinations[0]), closeTo(500, 0.5));
+    });
+
+    test('adding a destination takes share from the others', () {
+      const three = Spread(
+        produced: 1000,
+        destinations: [
+          Destination(name: 'zone 1', attractions: 200, friction: 0.5),
+          Destination(name: 'zone 2', attractions: 300, friction: 0.2),
+          Destination(name: 'zone 3', attractions: 100, friction: 0.4),
+        ],
+      );
+      expect(three.shareOf(three.destinations[0]),
+          lessThan(lesson.shareOf(lesson.destinations[0])));
+      expect(three.total, greaterThan(lesson.total));
+    });
+
+    test('with equal attractions the nearer zone wins', () {
+      const nearFar = Spread(
+        produced: 1000,
+        destinations: [
+          Destination(name: 'near', attractions: 250, friction: 0.6),
+          Destination(name: 'far', attractions: 250, friction: 0.15),
+        ],
+      );
+      expect(nearFar.tripsTo(nearFar.destinations[0]),
+          greaterThan(nearFar.tripsTo(nearFar.destinations[1])));
+      expect(nearFar.shareOf(nearFar.destinations[0]), closeTo(0.8, 0.001));
+    });
+
+    test('a big enough destination beats a long trip', () {
+      const farButBig = Spread(
+        produced: 1000,
+        destinations: [
+          Destination(name: 'near', attractions: 250, friction: 0.6),
+          Destination(name: 'far', attractions: 1200, friction: 0.15),
+        ],
+      );
+      expect(farButBig.tripsTo(farButBig.destinations[1]),
+          greaterThan(farButBig.tripsTo(farButBig.destinations[0])));
+    });
+
+    test('a faster road moves trips without making any', () {
+      const before = Spread(
+        produced: 1000,
+        destinations: [
+          Destination(name: 'near', attractions: 250, friction: 0.6),
+          Destination(name: 'far', attractions: 250, friction: 0.15),
+        ],
+      );
+      const after = Spread(
+        produced: 1000,
+        destinations: [
+          Destination(name: 'near', attractions: 250, friction: 0.6),
+          Destination(name: 'far', attractions: 250, friction: 0.35),
+        ],
+      );
+      expect(after.shareOf(after.destinations[1]),
+          greaterThan(before.shareOf(before.destinations[1])));
+      expect(after.produced, before.produced);
+    });
+
+    test('the four steps stay in their order', () {
+      expect(Forecast.values.map((s) => s.title).toList(),
+          ['generation', 'distribution', 'mode choice', 'assignment']);
+      expect(Forecast.values.indexOf(Forecast.generation),
+          lessThan(Forecast.values.indexOf(Forecast.distribution)));
+    });
+
+    test('every step is asked about at least once, and never twice over',
+        () {
+      expect(forecastStepRounds.map((r) => r.answer).toSet(),
+          Forecast.values.toSet());
+      for (var i = 1; i < forecastStepRounds.length; i++) {
+        expect(forecastStepRounds[i].answer,
+            isNot(forecastStepRounds[i - 1].answer),
+            reason: 'round ${i + 1} repeats the step above it');
+      }
+    });
+
+    test('the figure picks out the step that is the answer', () {
+      for (final r in forecastStepRounds) {
+        expect(r.highlight, r.answer, reason: r.subject);
+      }
+    });
+
+    test('the two gravity items keep the answer moving', () {
+      for (final answers in [
+        tripShareRounds.map((r) => r.answer).toList(),
+        frictionRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
       }
     });
   });

@@ -4075,6 +4075,37 @@ const transportationMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'travel-demand',
+      name: 'Travel Demand & Trip Distribution',
+      subtopicId: 'planning-operations',
+      games: [
+        GameDef(
+          id: 'which-step-is-that',
+          rounds: 6,
+          name: 'Which Step Is That',
+          blurb: 'Four steps, and each one feeds the next.',
+          built: true,
+          brief: fourStepBrief,
+        ),
+        GameDef(
+          id: 'who-gets-the-trips',
+          rounds: 6,
+          name: 'Who Gets the Trips',
+          blurb: 'Weights, and then shares that add to one.',
+          built: true,
+          brief: gravityBrief,
+        ),
+        GameDef(
+          id: 'farther-means-fewer',
+          rounds: 6,
+          name: 'Farther Means Fewer',
+          blurb: 'Big attracts, far repels, and size can win.',
+          built: true,
+          brief: frictionBrief,
+        ),
+      ],
+    ),
   ],
 );
 

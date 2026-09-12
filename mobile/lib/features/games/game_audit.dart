@@ -135,6 +135,10 @@ import 'per_million_what_game.dart';
 import 'how_many_cars_is_a_truck_game.dart';
 import 'three_divisions_game.dart';
 import 'what_the_letter_measures_game.dart';
+import 'demand_figures.dart';
+import 'which_step_is_that_game.dart';
+import 'who_gets_the_trips_game.dart';
+import 'farther_means_fewer_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4803,6 +4807,37 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'trans-cl-',
     rounds: [
       for (final r in letterRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-step-is-that',
+    lessonId: 'travel-demand',
+    problemPrefix: 'trans-td-',
+    rounds: [
+      for (final r in forecastStepRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Forecast.values) o.name],
+          answer: Forecast.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'who-gets-the-trips',
+    lessonId: 'travel-demand',
+    problemPrefix: 'trans-td-',
+    rounds: [
+      for (final r in tripShareRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'farther-means-fewer',
+    lessonId: 'travel-demand',
+    problemPrefix: 'trans-td-',
+    rounds: [
+      for (final r in frictionRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

@@ -311,6 +311,9 @@ import '../features/games/per_million_what_game.dart';
 import '../features/games/how_many_cars_is_a_truck_game.dart';
 import '../features/games/three_divisions_game.dart';
 import '../features/games/what_the_letter_measures_game.dart';
+import '../features/games/which_step_is_that_game.dart';
+import '../features/games/who_gets_the_trips_game.dart';
+import '../features/games/farther_means_fewer_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -770,6 +773,9 @@ GoRouter buildRouter(AuthController auth) {
           'how-many-cars-is-a-truck' => const HowManyCarsIsATruckGame(),
           'three-things-to-divide-by' => const ThreeDivisionsGame(),
           'what-the-letter-measures' => const WhatTheLetterMeasuresGame(),
+          'which-step-is-that' => const WhichStepIsThatGame(),
+          'who-gets-the-trips' => const WhoGetsTheTripsGame(),
+          'farther-means-fewer' => const FartherMeansFewerGame(),
           _ => const _UnknownGame(),
         },
       ),

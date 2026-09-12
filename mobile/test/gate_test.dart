@@ -458,6 +458,12 @@ void main() {
       'how-many-cars-is-a-truck',
       'three-things-to-divide-by',
       'what-the-letter-measures',
+      // The travel demand lesson's three problems ARE its three subjects:
+      // the gravity sum, which step it belongs to, and which way the
+      // friction factor runs. Its three items land one to one on them.
+      'which-step-is-that',
+      'who-gets-the-trips',
+      'farther-means-fewer',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }
