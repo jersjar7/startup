@@ -423,6 +423,13 @@ void main() {
       // that contrasts the two measures draws on a second problem.
       'wetter-is-not-denser',
       'lime-or-cement',
+      // The deep foundation lesson's three problems ARE its three subjects:
+      // the capacity sum, why go deep at all, and downdrag. Its three items
+      // land one to one on them, group behavior included, since the lesson
+      // prints no group problem to draw on.
+      'tip-or-shaft',
+      'why-go-deeper',
+      'which-way-the-friction-acts',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

@@ -3847,6 +3847,41 @@ const geotechnicalMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'deep-foundations',
+      name: 'Deep Foundations',
+      subtopicId: 'deep-foundations-improvement',
+      games: [
+        GameDef(
+          id: 'tip-or-shaft',
+          rounds: 6,
+          name: 'Tip or Shaft',
+          blurb: 'Two resistances, and each has its own area.',
+          built: true,
+          brief: pileCapacityBrief,
+        ),
+        // The lesson prints no pile GROUP problem, only text, so the group
+        // rounds here are authored from that text and cite the problem that
+        // sets the scene. Worth knowing: they are the only rounds in the
+        // chapter not taken from a problem of their own.
+        GameDef(
+          id: 'why-go-deeper',
+          rounds: 6,
+          name: 'Why Go Deeper',
+          blurb: 'Past the layer that settles, and what a group changes.',
+          built: true,
+          brief: goingDeepBrief,
+        ),
+        GameDef(
+          id: 'which-way-the-friction-acts',
+          rounds: 6,
+          name: 'Which Way the Friction Acts',
+          blurb: 'Sometimes it holds the pile up. Sometimes it hangs on it.',
+          built: true,
+          brief: downdragBrief,
+        ),
+      ],
+    ),
   ],
 );
 

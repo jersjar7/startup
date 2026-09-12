@@ -293,6 +293,9 @@ import '../features/games/what_tips_the_pressure_game.dart';
 import '../features/games/wetter_is_not_denser_game.dart';
 import '../features/games/which_measure_is_it_game.dart';
 import '../features/games/lime_or_cement_game.dart';
+import '../features/games/tip_or_shaft_game.dart';
+import '../features/games/why_go_deeper_game.dart';
+import '../features/games/which_way_the_friction_acts_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -733,6 +736,10 @@ GoRouter buildRouter(AuthController auth) {
           'wetter-is-not-denser' => const WetterIsNotDenserGame(),
           'which-measure-is-it' => const WhichMeasureIsItGame(),
           'lime-or-cement' => const LimeOrCementGame(),
+          'tip-or-shaft' => const TipOrShaftGame(),
+          'why-go-deeper' => const WhyGoDeeperGame(),
+          'which-way-the-friction-acts' =>
+            const WhichWayTheFrictionActsGame(),
           _ => const _UnknownGame(),
         },
       ),

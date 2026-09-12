@@ -21,6 +21,10 @@ import 'package:mobile/features/games/bearing_figures.dart';
 import 'package:mobile/features/games/earth_pressure_figures.dart';
 import 'package:mobile/features/games/wall_stability_figures.dart';
 import 'package:mobile/features/games/compaction_figures.dart';
+import 'package:mobile/features/games/pile_figures.dart';
+import 'package:mobile/features/games/tip_or_shaft_game.dart';
+import 'package:mobile/features/games/why_go_deeper_game.dart';
+import 'package:mobile/features/games/which_way_the_friction_acts_game.dart';
 import 'package:mobile/features/games/wetter_is_not_denser_game.dart';
 import 'package:mobile/features/games/which_measure_is_it_game.dart';
 import 'package:mobile/features/games/lime_or_cement_game.dart';
@@ -990,6 +994,81 @@ void main() {
         proctorRounds.map((r) => r.answer).toList(),
         packingRounds.map((r) => r.answer).toList(),
         soilFixRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
+    });
+  });
+
+
+  group('deep foundations', () {
+    // The lesson's own pile: 400 kN under the tip, 600 down the shaft.
+    const pile = Pile(
+        tipResistance: 2000, tipArea: 0.20, skinFriction: 50, shaftArea: 12);
+
+    test('the capacity is the two parts added, as the lesson has it', () {
+      expect(pile.endBearing, closeTo(400, 0.001));
+      expect(pile.shaftResistance, closeTo(600, 0.001));
+      expect(pile.ultimate, closeTo(1000, 0.001));
+    });
+
+    test('the lesson wrong answers are each one part on its own', () {
+      // 400 and 600 are the two halves, and they add to the right answer.
+      expect(pile.endBearing + pile.shaftResistance, pile.ultimate);
+      expect(pile.endBearing, lessThan(pile.ultimate));
+      expect(pile.shaftResistance, lessThan(pile.ultimate));
+    });
+
+    test('putting the shaft area under the tip resistance is enormous', () {
+      final muddled = pile.tipResistance * pile.shaftArea;
+      expect(muddled / pile.ultimate, greaterThan(20));
+    });
+
+    test('a pile on rock is nearly all tip, one in clay nearly all shaft', () {
+      const onRock = Pile(
+          tipResistance: 9000, tipArea: 0.20, skinFriction: 15, shaftArea: 6);
+      const inClay = Pile(
+          tipResistance: 900, tipArea: 0.20, skinFriction: 45, shaftArea: 28);
+      expect(onRock.carries, Carry.tip);
+      expect(onRock.shaftShare, lessThan(0.1));
+      expect(inClay.carries, Carry.shaft);
+      expect(inClay.shaftShare, greaterThan(0.8));
+    });
+
+    test('doubling the tip area buys less than doubling the capacity', () {
+      const wider = Pile(
+          tipResistance: 2000, tipArea: 0.40, skinFriction: 50, shaftArea: 12);
+      expect(wider.ultimate, closeTo(1400, 0.001));
+      expect(wider.ultimate / pile.ultimate, lessThan(1.5));
+    });
+
+    test('the rounds that show rock really are the tip-bearing ones', () {
+      for (final r in pileRounds) {
+        if (r.onRock) expect(r.pile.carries, Carry.tip, reason: r.subject);
+      }
+    });
+
+    test('the round about a working pile is the one without settling ground',
+        () {
+      final steady = downdragRounds.where((r) => !r.dragging);
+      expect(steady.length, 1);
+      expect(steady.first.why, startsWith('Upward'));
+    });
+
+    test('the group rounds are the ones that draw more than one pile', () {
+      final groups = deepRounds.where((r) => r.piles > 1);
+      expect(groups.length, 3);
+      for (final r in groups) {
+        expect(r.onFooting, isFalse, reason: r.subject);
+      }
+    });
+
+    test('the three items keep the answer moving between the slots', () {
+      for (final answers in [
+        pileRounds.map((r) => r.answer).toList(),
+        deepRounds.map((r) => r.answer).toList(),
+        downdragRounds.map((r) => r.answer).toList(),
       ]) {
         expect(answers.toSet().length, greaterThan(2),
             reason: 'the correct option sits in too few positions');

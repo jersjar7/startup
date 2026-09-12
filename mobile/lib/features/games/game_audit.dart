@@ -117,6 +117,9 @@ import 'what_tips_the_pressure_game.dart';
 import 'wetter_is_not_denser_game.dart';
 import 'which_measure_is_it_game.dart';
 import 'lime_or_cement_game.dart';
+import 'tip_or_shaft_game.dart';
+import 'why_go_deeper_game.dart';
+import 'which_way_the_friction_acts_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4623,6 +4626,33 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-cmp-',
     rounds: [
       for (final r in soilFixRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'tip-or-shaft',
+    lessonId: 'deep-foundations',
+    problemPrefix: 'geo-dfn-',
+    rounds: [
+      for (final r in pileRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'why-go-deeper',
+    lessonId: 'deep-foundations',
+    problemPrefix: 'geo-dfn-',
+    rounds: [
+      for (final r in deepRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-way-the-friction-acts',
+    lessonId: 'deep-foundations',
+    problemPrefix: 'geo-dfn-',
+    rounds: [
+      for (final r in downdragRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

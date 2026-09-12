@@ -300,6 +300,9 @@ import 'package:mobile/features/games/what_tips_the_pressure_game.dart';
 import 'package:mobile/features/games/wetter_is_not_denser_game.dart';
 import 'package:mobile/features/games/which_measure_is_it_game.dart';
 import 'package:mobile/features/games/lime_or_cement_game.dart';
+import 'package:mobile/features/games/tip_or_shaft_game.dart';
+import 'package:mobile/features/games/why_go_deeper_game.dart';
+import 'package:mobile/features/games/which_way_the_friction_acts_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2430,6 +2433,24 @@ void main() {
           rounds: soilFixRounds.length,
           height: 2140,
         ),
+        'tip-or-shaft': (
+          lesson: '117-piles',
+          build: TipOrShaftGame.new,
+          rounds: pileRounds.length,
+          height: 2240,
+        ),
+        'why-go-deeper': (
+          lesson: '117-piles',
+          build: WhyGoDeeperGame.new,
+          rounds: deepRounds.length,
+          height: 2220,
+        ),
+        'which-way-the-friction-acts': (
+          lesson: '117-piles',
+          build: WhichWayTheFrictionActsGame.new,
+          rounds: downdragRounds.length,
+          height: 2240,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2951,6 +2972,11 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '117-piles': [
+      ('capacity', pileCapacityBrief),
+      ('deep', goingDeepBrief),
+      ('downdrag', downdragBrief),
     ],
     '116-compaction': [
       ('proctor', proctorBrief),

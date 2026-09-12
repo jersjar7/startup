@@ -369,6 +369,9 @@ enum BriefFigure {
   proctor,
   relativeDensity,
   stabilizer,
+  pileCapacity,
+  goingDeep,
+  downdrag,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7023,6 +7026,75 @@ const stabilizerBrief = BriefSection(
   handbook: 'Handbook, soil stabilization',
 );
 
+const pileCapacityBrief = BriefSection(
+  title: 'Two resistances, two areas',
+  body:
+      'A pile holds a load up in two places at once. The TIP works like a '
+      'very small footing, and its resistance is a pressure times the area '
+      'of the tip, which is a fraction of a square meter. The SHAFT grips '
+      'the soil all the way down, and its resistance is a much smaller '
+      'pressure times the surface area of the whole side of the pile, which '
+      'runs into tens of square meters. Add the two. Reporting either one on '
+      'its own is the wrong answer the lesson prints twice, and putting the '
+      'shaft area with the tip resistance throws the answer out by a factor '
+      'of fifty. Which one dominates depends on where the pile ends: driven '
+      'onto rock it is nearly all tip, and long in uniform clay it is nearly '
+      'all shaft. In a friction pile, length buys capacity and width buys '
+      'very little.',
+  formulas: [
+    ('Together', r'Q_{ult} = Q_p + Q_s'),
+    ('Each part', r'Q_{ult} = q_p A_p + f_s A_s'),
+    ('The areas', r'A_p \text{ is small}, \; A_s \text{ is large}'),
+  ],
+  figure: BriefFigure.pileCapacity,
+  handbook: 'Handbook, deep foundations',
+);
+
+const goingDeepBrief = BriefSection(
+  title: 'Past the layer that settles',
+  body:
+      'Piles are chosen to carry a load THROUGH ground that would settle and '
+      'hand it to something firm below. Not because they are cheap, since '
+      'they usually are not, and never to press the weak layer harder. Note '
+      'that the deciding question is often settlement rather than strength: '
+      'a soft clay can be strong enough not to fail and still drop a '
+      'building further than it can stand. Once piles come in a GROUP the '
+      'arithmetic changes again. The piles are close enough to work the same '
+      'soil as their neighbors, so in clay the group carries LESS than the '
+      'sum of the singles, and the group efficiency is below one. And '
+      'because the whole cap acts as one wide load, the stressed ground '
+      'reaches much deeper than any single pile would reach, so the group '
+      'settles more and is checked as a block.',
+  formulas: [
+    ('Why deep', r'\text{settlement, not price}'),
+    ('Group in clay', r'\text{efficiency} < 1'),
+    ('Group settlement', r'\text{deeper, so more}'),
+  ],
+  figure: BriefFigure.goingDeep,
+  handbook: 'Handbook, deep foundations',
+);
+
+const downdragBrief = BriefSection(
+  title: 'The friction that is a load',
+  body:
+      'Shaft friction points whichever way the RELATIVE movement tells it '
+      'to, and that is the only thing deciding it. A pile pushed down '
+      'through still soil rubs upward against it: the friction holds the '
+      'pile up and counts toward capacity. Soil settling PAST a pile, as '
+      'when new fill squeezes a compressible clay for years, rubs downward '
+      'on the shaft and hangs on it. That is negative skin friction, or '
+      'downdrag, and it costs twice: the drag goes onto the load side of the '
+      'sum, and the stretch of shaft doing the dragging gives no resistance '
+      'either. It is never capacity. Same surface, same grip, opposite sign.',
+  formulas: [
+    ('Normally', r'\text{soil resists: } +Q_s'),
+    ('Settling ground', r'\text{soil drags: an added load}'),
+    ('Decided by', r'\text{which one moves down}'),
+  ],
+  figure: BriefFigure.downdrag,
+  handbook: 'Handbook, deep foundations',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -9490,6 +9562,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{granular soil: cement}", true),
             (r"\text{cement suits every soil}", false),
             (r"\text{water improves a swelling clay}", false),
+          ],
+        );
+      case BriefFigure.pileCapacity:
+        return const _RuleList(
+          rules: [
+            (r"Q_{ult} = q_p A_p + f_s A_s", true),
+            (r"\text{on rock: mostly the tip}", true),
+            (r"Q_{ult} = q_p A_s", false),
+            (r"\text{the tip is always the larger part}", false),
+          ],
+        );
+      case BriefFigure.goingDeep:
+        return const _RuleList(
+          rules: [
+            (r"\text{deep to get past a settling layer}", true),
+            (r"\text{a group in clay: efficiency} < 1", true),
+            (r"\text{piles are chosen to save money}", false),
+            (r"\text{a group settles like one pile}", false),
+          ],
+        );
+      case BriefFigure.downdrag:
+        return const _RuleList(
+          rules: [
+            (r"\text{soil settling past it: a load}", true),
+            (r"\text{direction follows relative movement}", true),
+            (r"\text{downdrag adds capacity}", false),
+            (r"\text{friction is always a resistance}", false),
           ],
         );
       case BriefFigure.rankine:
