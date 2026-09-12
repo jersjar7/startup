@@ -398,6 +398,11 @@ enum BriefFigure {
   rigidVsFlexible,
   pavementJoint,
   subgradeReaction,
+  forwardPass,
+  projectDuration,
+  passes,
+  float,
+  criticalPath,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7736,6 +7741,124 @@ const subgradeReactionBrief = BriefSection(
   handbook: 'Handbook, rigid pavement',
 );
 
+const forwardPassBrief = BriefSection(
+  title: 'Two rules and no more',
+  body:
+      'The forward pass through a network is two rules applied in order. An '
+      'activity FINISHES its own duration after it starts, so early finish '
+      'is early start plus duration. And it STARTS when the last of the '
+      'things it waits on has finished, which is the only rule that matters '
+      'at a merge: the latest predecessor governs, never the earliest and '
+      'never an average. Two activities waiting on the same thing both begin '
+      'the moment it ends, since nothing in the network says they take '
+      'turns. Durations in series ADD and never multiply. And watch what the '
+      'question asked for: the finish of the activity itself, not the finish '
+      'of the one before it and not its own duration, both of which are '
+      'numbers sitting right there in the problem.',
+  formulas: [
+    ('The finish', r'EF = ES + D'),
+    ('At a merge', r'ES = \max(EF \text{ of predecessors})'),
+    ('In series', r'\text{durations add}'),
+  ],
+  figure: BriefFigure.forwardPass,
+  handbook: 'Handbook, CPM scheduling',
+);
+
+const projectDurationBrief = BriefSection(
+  title: 'As long as its longest path',
+  body:
+      'A project takes as long as the LONGEST path through its network. Not '
+      'the sum of every duration, which counts parallel work twice over, and '
+      'not the longest single activity. Everything off that longest path has '
+      'slack: it finishes and then waits, so shortening it changes nothing '
+      'at all and money spent accelerating it is wasted. The special case '
+      'worth noticing is a network with no branches, where the longest path '
+      'IS the sum, which is where the habit of adding everything comes from. '
+      'And the longest path is a property of the numbers rather than of the '
+      'drawing: lengthen a branch that had slack and the critical route '
+      'moves to it, which is why a schedule is re-run rather than drawn '
+      'once.',
+  formulas: [
+    ('The duration', r'\text{the longest path}'),
+    ('Not', r'\textstyle\sum \text{all durations}'),
+    ('Off the path', r'\text{it has slack}'),
+  ],
+  figure: BriefFigure.projectDuration,
+  handbook: 'Handbook, CPM scheduling',
+);
+
+const passesBrief = BriefSection(
+  title: 'Forward, then backward',
+  body:
+      'Two sweeps, opposite ways, answering two different questions. The '
+      'FORWARD pass runs from the start and finds the earliest each activity '
+      'can happen: add the duration, and at a merge take the LATEST finish '
+      'in front of you. The BACKWARD pass runs from the project finish, '
+      'which the forward pass has just produced, and finds the latest each '
+      'activity can happen without pushing that finish out: subtract the '
+      'duration, and where an activity feeds several others take the '
+      'EARLIEST of their late starts, since it has to be out of the way for '
+      'all of them. That flip is the thing to hold on to. Forward takes the '
+      'latest, backward takes the earliest. A late start is a limit and not '
+      'a plan: starting earlier is normally wiser, and the gap between the '
+      'two is float.',
+  formulas: [
+    ('Forward', r'EF = ES + D, \; ES = \max(EF_{pred})'),
+    ('Backward', r'LS = LF - D, \; LF = \min(LS_{succ})'),
+    ('Starts from', r'LF_{last} = \text{the duration}'),
+  ],
+  figure: BriefFigure.passes,
+  handbook: 'Handbook, CPM scheduling',
+);
+
+const floatBrief = BriefSection(
+  title: 'Room to slip',
+  body:
+      'TOTAL float is the latest start less the earliest, or equally the '
+      'latest finish less the earliest finish: the two give the same number '
+      'and checking one against the other is free. It says how far an '
+      'activity can slip without the PROJECT finishing later. FREE float '
+      'asks a smaller question: how far it can slip without pushing the very '
+      'next activity, which is the earliest successor start less this '
+      'activity\'s early finish. Free float is never the larger of the two. '
+      'Between them lies the ground where a delay pushes the successor but '
+      'not the finish date. And total float belongs to the PATH rather than '
+      'to the activity: two activities in a row showing four days each are '
+      'sharing the same four days, and whichever spends it first takes it '
+      'from the other. Zero total float means critical.',
+  formulas: [
+    ('Total float', r'TF = LS - ES = LF - EF'),
+    ('Free float', r'FF = \min(ES_{succ}) - EF'),
+    ('Critical', r'TF = 0'),
+  ],
+  figure: BriefFigure.float,
+  handbook: 'Handbook, CPM scheduling',
+);
+
+const criticalPathBrief = BriefSection(
+  title: 'The chain that decides',
+  body:
+      'The critical path is the longest path through the network, and it is '
+      'also the chain of activities with ZERO total float: the same '
+      'activities described two ways, since any slack on the longest path '
+      'would mean a longer path existed. Its length is the project duration. '
+      'A day lost on it is a day lost to the project, straight through, '
+      'because there is no cushion anywhere along it. A day lost OFF it only '
+      'spends float, and when that float runs out, that path becomes '
+      'critical too. A network can carry two critical paths at once, when '
+      'two routes come out the same length, and then shortening only one of '
+      'them buys nothing. The practical payoff is the whole reason for the '
+      'method: it says exactly where acceleration buys time and where it '
+      'buys none.',
+  formulas: [
+    ('Longest path', r'= \text{the project duration}'),
+    ('And also', r'\text{the chain with } TF = 0'),
+    ('A day lost there', r'\text{is a day lost to the project}'),
+  ],
+  figure: BriefFigure.criticalPath,
+  handbook: 'Handbook, CPM scheduling',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -10464,6 +10587,51 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{higher } k \Rightarrow \text{less movement}", true),
             (r"k \text{ is a bearing capacity}", false),
             (r"\text{higher } k \Rightarrow \text{more movement}", false),
+          ],
+        );
+      case BriefFigure.forwardPass:
+        return const _RuleList(
+          rules: [
+            (r"EF = ES + D", true),
+            (r"ES = \max(EF \text{ of predecessors})", true),
+            (r"ES = \min(EF \text{ of predecessors})", false),
+            (r"\text{durations in series multiply}", false),
+          ],
+        );
+      case BriefFigure.projectDuration:
+        return const _RuleList(
+          rules: [
+            (r"\text{duration} = \text{the longest path}", true),
+            (r"\text{off the path there is slack}", true),
+            (r"\text{duration} = \textstyle\sum D", false),
+            (r"\text{shortening any activity helps}", false),
+          ],
+        );
+      case BriefFigure.passes:
+        return const _RuleList(
+          rules: [
+            (r"\text{forward: } \max, \text{ backward: } \min", true),
+            (r"LS = LF - D", true),
+            (r"\text{backward runs first}", false),
+            (r"\text{a late start is the plan}", false),
+          ],
+        );
+      case BriefFigure.float:
+        return const _RuleList(
+          rules: [
+            (r"TF = LS - ES = LF - EF", true),
+            (r"FF \leq TF", true),
+            (r"TF = EF - ES", false),
+            (r"\text{each activity owns its total float}", false),
+          ],
+        );
+      case BriefFigure.criticalPath:
+        return const _RuleList(
+          rules: [
+            (r"\text{the longest path, } TF = 0", true),
+            (r"\text{two paths can be critical}", true),
+            (r"\text{the critical path is the shortest}", false),
+            (r"\text{a day lost off it delays the job}", false),
           ],
         );
       case BriefFigure.rankine:

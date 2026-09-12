@@ -148,6 +148,11 @@ import 'damage_not_weight_game.dart';
 import 'beam_or_blanket_game.dart';
 import 'what_the_bar_is_for_game.dart';
 import 'what_k_measures_game.dart';
+import 'when_can_it_start_game.dart';
+import 'how_long_in_all_game.dart';
+import 'which_way_the_pass_runs_game.dart';
+import 'what_float_is_game.dart';
+import 'the_chain_with_no_slack_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4923,6 +4928,51 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'trans-rp-',
     rounds: [
       for (final r in supportRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'when-can-it-start',
+    lessonId: 'cpm-fundamentals',
+    problemPrefix: 'const-cpm-',
+    rounds: [
+      for (final r in startRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-long-in-all',
+    lessonId: 'cpm-fundamentals',
+    problemPrefix: 'const-cpm-',
+    rounds: [
+      for (final r in lengthRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-way-the-pass-runs',
+    lessonId: 'forward-backward-pass',
+    problemPrefix: 'const-fb-',
+    rounds: [
+      for (final r in passRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-float-is',
+    lessonId: 'float-critical-path',
+    problemPrefix: 'const-fl-',
+    rounds: [
+      for (final r in totalFloatRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'the-chain-with-no-slack',
+    lessonId: 'float-critical-path',
+    problemPrefix: 'const-fl-',
+    rounds: [
+      for (final r in criticalRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

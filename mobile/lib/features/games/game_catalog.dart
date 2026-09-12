@@ -4206,6 +4206,84 @@ const transportationMap = ChapterMap(
   ],
 );
 
+const constructionMap = ChapterMap(
+  id: 'construction',
+  number: 15,
+  name: 'Construction Engineering',
+  examLine: '4 to 6 questions on the real exam',
+  subtopics: [
+    Subtopic('scheduling-cpm', 'CPM Scheduling'),
+    Subtopic('earned-value', 'Earned Value Management'),
+    Subtopic('project-delivery', 'Project Delivery & Safety'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'cpm-fundamentals',
+      name: 'CPM Fundamentals',
+      subtopicId: 'scheduling-cpm',
+      games: [
+        GameDef(
+          id: 'when-can-it-start',
+          rounds: 6,
+          name: 'When Can It Start',
+          blurb: 'It waits for the last thing in front of it.',
+          built: true,
+          brief: forwardPassBrief,
+        ),
+        GameDef(
+          id: 'how-long-in-all',
+          rounds: 6,
+          name: 'How Long in All',
+          blurb: 'The longest way through, not the sum.',
+          built: true,
+          brief: projectDurationBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'forward-backward-pass',
+      name: 'Forward & Backward Pass',
+      subtopicId: 'scheduling-cpm',
+      // One item. This lesson works the same network the first one set up,
+      // and what is new in it is the BACKWARD pass and the way the junction
+      // rule flips. Its forward pass rounds would repeat when-can-it-start.
+      games: [
+        GameDef(
+          id: 'which-way-the-pass-runs',
+          rounds: 6,
+          name: 'Which Way the Pass Runs',
+          blurb: 'The latest in front, the earliest behind.',
+          built: true,
+          brief: passesBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'float-critical-path',
+      name: 'Float & the Critical Path',
+      subtopicId: 'scheduling-cpm',
+      games: [
+        GameDef(
+          id: 'what-float-is',
+          rounds: 6,
+          name: 'What Float Is',
+          blurb: 'Total belongs to the path. Free belongs to the activity.',
+          built: true,
+          brief: floatBrief,
+        ),
+        GameDef(
+          id: 'the-chain-with-no-slack',
+          rounds: 6,
+          name: 'The Chain With No Slack',
+          blurb: 'Where a lost day is a lost day.',
+          built: true,
+          brief: criticalPathBrief,
+        ),
+      ],
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
@@ -4221,6 +4299,7 @@ const chapterMaps = <String, ChapterMap>{
   'structural': structuralMap,
   'geotechnical': geotechnicalMap,
   'transportation': transportationMap,
+  'construction': constructionMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

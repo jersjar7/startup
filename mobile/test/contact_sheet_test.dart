@@ -329,6 +329,11 @@ import 'package:mobile/features/games/damage_not_weight_game.dart';
 import 'package:mobile/features/games/beam_or_blanket_game.dart';
 import 'package:mobile/features/games/what_the_bar_is_for_game.dart';
 import 'package:mobile/features/games/what_k_measures_game.dart';
+import 'package:mobile/features/games/when_can_it_start_game.dart';
+import 'package:mobile/features/games/how_long_in_all_game.dart';
+import 'package:mobile/features/games/which_way_the_pass_runs_game.dart';
+import 'package:mobile/features/games/what_float_is_game.dart';
+import 'package:mobile/features/games/the_chain_with_no_slack_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2633,6 +2638,36 @@ void main() {
           rounds: supportRounds.length,
           height: 2180,
         ),
+        'when-can-it-start': (
+          lesson: '128-cpm',
+          build: WhenCanItStartGame.new,
+          rounds: startRounds.length,
+          height: 2220,
+        ),
+        'how-long-in-all': (
+          lesson: '128-cpm',
+          build: HowLongInAllGame.new,
+          rounds: lengthRounds.length,
+          height: 2200,
+        ),
+        'which-way-the-pass-runs': (
+          lesson: '129-passes',
+          build: WhichWayThePassRunsGame.new,
+          rounds: passRounds.length,
+          height: 2220,
+        ),
+        'what-float-is': (
+          lesson: '130-float',
+          build: WhatFloatIsGame.new,
+          rounds: totalFloatRounds.length,
+          height: 2220,
+        ),
+        'the-chain-with-no-slack': (
+          lesson: '130-float',
+          build: TheChainWithNoSlackGame.new,
+          rounds: criticalRounds.length,
+          height: 2220,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3154,6 +3189,17 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '128-cpm': [
+      ('forward', forwardPassBrief),
+      ('duration', projectDurationBrief),
+    ],
+    '129-passes': [
+      ('passes', passesBrief),
+    ],
+    '130-float': [
+      ('float', floatBrief),
+      ('critical', criticalPathBrief),
     ],
     '127-rigid': [
       ('slab', rigidVsFlexibleBrief),

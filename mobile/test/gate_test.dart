@@ -480,6 +480,13 @@ void main() {
       'beam-or-blanket',
       'what-the-bar-is-for',
       'what-k-measures',
+      // The four activity network problem is the only one in the CPM
+      // fundamentals lesson with a whole project in it, so everything about
+      // the longest path comes out of that one.
+      'how-long-in-all',
+      // And the three path problem is the only one in the float lesson
+      // about the critical path itself: the other two are float sums.
+      'the-chain-with-no-slack',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }
