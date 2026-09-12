@@ -142,6 +142,9 @@ import 'farther_means_fewer_game.dart';
 import 'sign_figures.dart';
 import 'read_it_by_its_shape_game.dart';
 import 'does_it_need_a_signal_game.dart';
+import 'what_each_inch_buys_game.dart';
+import 'how_thick_must_it_be_game.dart';
+import 'damage_not_weight_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4863,6 +4866,33 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'trans-tcd-',
     rounds: [
       for (final r in warrantRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-each-inch-buys',
+    lessonId: 'pavement-design',
+    problemPrefix: 'trans-pd-',
+    rounds: [
+      for (final r in pavementSectionRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-thick-must-it-be',
+    lessonId: 'pavement-design',
+    problemPrefix: 'trans-pd-',
+    rounds: [
+      for (final r in thicknessRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'damage-not-weight',
+    lessonId: 'pavement-design',
+    problemPrefix: 'trans-pd-',
+    rounds: [
+      for (final r in loadRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

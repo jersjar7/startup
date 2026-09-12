@@ -323,6 +323,9 @@ import 'package:mobile/features/games/who_gets_the_trips_game.dart';
 import 'package:mobile/features/games/farther_means_fewer_game.dart';
 import 'package:mobile/features/games/read_it_by_its_shape_game.dart';
 import 'package:mobile/features/games/does_it_need_a_signal_game.dart';
+import 'package:mobile/features/games/what_each_inch_buys_game.dart';
+import 'package:mobile/features/games/how_thick_must_it_be_game.dart';
+import 'package:mobile/features/games/damage_not_weight_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2591,6 +2594,24 @@ void main() {
           rounds: warrantRounds.length,
           height: 2200,
         ),
+        'what-each-inch-buys': (
+          lesson: '126-pavement',
+          build: WhatEachInchBuysGame.new,
+          rounds: pavementSectionRounds.length,
+          height: 2240,
+        ),
+        'how-thick-must-it-be': (
+          lesson: '126-pavement',
+          build: HowThickMustItBeGame.new,
+          rounds: thicknessRounds.length,
+          height: 2240,
+        ),
+        'damage-not-weight': (
+          lesson: '126-pavement',
+          build: DamageNotWeightGame.new,
+          rounds: loadRounds.length,
+          height: 2200,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3112,6 +3133,11 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '126-pavement': [
+      ('section', structuralNumberBrief),
+      ('thickness', layerThicknessBrief),
+      ('esals', esalBrief),
     ],
     '125-devices': [
       ('signs', signCategoryBrief),

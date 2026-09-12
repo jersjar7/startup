@@ -468,6 +468,12 @@ void main() {
       // not about a sign, so everything about signals comes out of it. The
       // sign item draws on the other two.
       'does-it-need-a-signal',
+      // The pavement lesson's three problems ARE its three subjects: the
+      // structural number, solving it for a course, and the load
+      // equivalency. Its three items land one to one on them.
+      'what-each-inch-buys',
+      'how-thick-must-it-be',
+      'damage-not-weight',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

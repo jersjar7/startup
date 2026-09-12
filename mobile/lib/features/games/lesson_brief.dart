@@ -392,6 +392,9 @@ enum BriefFigure {
   friction,
   signCategory,
   signalWarrant,
+  structuralNumber,
+  layerThickness,
+  esal,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7586,6 +7589,78 @@ const warrantBrief = BriefSection(
   handbook: 'MUTCD, signal warrants',
 );
 
+const structuralNumberBrief = BriefSection(
+  title: 'What each inch is worth',
+  body:
+      'The structural number is one index for the whole flexible section, '
+      'and it is a plain sum: for every course, its layer coefficient times '
+      'its thickness times its drainage coefficient. An inch of hot mix '
+      'asphalt is worth about 0.44, an inch of crushed stone base about '
+      '0.14, and an inch of granular subbase about 0.11, so one inch of '
+      'asphalt does the structural work of roughly THREE inches of base. '
+      'That ratio is the economics of a pavement: designers trade the '
+      'courses against each other until the cost is lowest for the same '
+      'number. The surface course takes a drainage coefficient of one by '
+      'convention, since it is not granular and is not meant to hold water. '
+      'The base and subbase take whatever the problem states, and assuming '
+      'one when a lower value was given undersizes the pavement.',
+  formulas: [
+    ('The sum', r'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3'),
+    ('Typical values', r'a \approx 0.44, \; 0.14, \; 0.11'),
+    ('The surface', r'm_1 = 1.0 \text{ by convention}'),
+  ],
+  figure: BriefFigure.structuralNumber,
+  handbook: 'Handbook, AASHTO flexible pavement',
+);
+
+const layerThicknessBrief = BriefSection(
+  title: 'The same sum, read backwards',
+  body:
+      'With a required structural number and every course but one already '
+      'fixed, the missing thickness falls out in two steps: take what the '
+      'fixed courses contribute AWAY from the target, then divide what is '
+      'left by what an inch of the missing course is worth, its coefficient '
+      'times its drainage factor. The drainage factor is where this goes '
+      'wrong. A subbase at 0.80 contributes a fifth less than the same '
+      'subbase draining properly, and the base has to make that up, which on '
+      'the lesson\'s section is nearly two extra inches. A negative answer '
+      'is not a mistake either: it means the fixed courses already meet the '
+      'target, and a minimum construction thickness will govern instead.',
+  formulas: [
+    ('Solve for one', r'D_2 = \dfrac{SN - a_1 D_1 - a_3 D_3 m_3}{a_2 m_2}'),
+    ('Poor drainage', r'\text{less from that course, more from the rest}'),
+    ('Negative', r'\text{already there}'),
+  ],
+  figure: BriefFigure.layerThickness,
+  handbook: 'Handbook, AASHTO flexible pavement',
+);
+
+const esalBrief = BriefSection(
+  title: 'Counted in standard axles',
+  body:
+      'Pavement traffic is not counted in vehicles, because the damage an '
+      'axle does climbs far faster than its weight, roughly with the fourth '
+      'power of the load. So every axle is converted into equivalent '
+      'standard eighteen kip single axle loads by its LOAD EQUIVALENCY '
+      'FACTOR, and the conversion is a multiplication: passes times factor. '
+      'The numbers are worth a feel. A car axle is worth about two ten '
+      'thousandths of a standard load, so it takes thousands of cars to '
+      'match one loaded truck axle. A 24 kip axle weighs a third more than '
+      'the standard and does three times the damage. A 12 kip axle weighs '
+      'two thirds as much and does under a fifth. That steepness is why a '
+      'road with no trucks lasts almost indefinitely, and why taking a '
+      'little weight off an axle takes a great deal of damage off the road. '
+      'The total over the design life is what sets the structural number the '
+      'section has to reach.',
+  formulas: [
+    ('The conversion', r'\text{ESALs} = \text{passes} \times LEF'),
+    ('The standard', r'18 \text{ kip single axle}'),
+    ('Steeply', r'\text{damage} \sim \text{load}^4'),
+  ],
+  figure: BriefFigure.esal,
+  handbook: 'Handbook, load equivalency',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -10260,6 +10335,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{a met warrant justifies, not requires}", true),
             (r"\text{a signal is always an improvement}", false),
             (r"\text{only volumes can meet a warrant}", false),
+          ],
+        );
+      case BriefFigure.structuralNumber:
+        return const _RuleList(
+          rules: [
+            (r"SN = \textstyle\sum a_i D_i m_i", true),
+            (r"1 \text{ in asphalt} \approx 3 \text{ in base}", true),
+            (r"m = 1 \text{ for every course}", false),
+            (r"SN \text{ is a thickness}", false),
+          ],
+        );
+      case BriefFigure.layerThickness:
+        return const _RuleList(
+          rules: [
+            (r"D_2 = (SN - \text{the rest})/(a_2 m_2)", true),
+            (r"\text{poor drainage} \Rightarrow \text{thicker base}", true),
+            (r"D_2 = SN/(a_2 m_2)", false),
+            (r"\text{a negative } D_2 \text{ is an error}", false),
+          ],
+        );
+      case BriefFigure.esal:
+        return const _RuleList(
+          rules: [
+            (r"\text{ESALs} = \text{passes} \times LEF", true),
+            (r"\text{damage climbs faster than load}", true),
+            (r"\text{every axle counts alike}", false),
+            (r"LEF \text{ is the weight ratio}", false),
           ],
         );
       case BriefFigure.rankine:

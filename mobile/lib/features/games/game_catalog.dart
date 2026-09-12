@@ -4134,6 +4134,37 @@ const transportationMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'pavement-design',
+      name: 'Pavement Design (AASHTO)',
+      subtopicId: 'pavement-earthwork',
+      games: [
+        GameDef(
+          id: 'what-each-inch-buys',
+          rounds: 6,
+          name: 'What Each Inch Buys',
+          blurb: 'One inch of asphalt, three inches of stone.',
+          built: true,
+          brief: structuralNumberBrief,
+        ),
+        GameDef(
+          id: 'how-thick-must-it-be',
+          rounds: 6,
+          name: 'How Thick Must It Be',
+          blurb: 'Subtract what you have, divide by what an inch buys.',
+          built: true,
+          brief: layerThicknessBrief,
+        ),
+        GameDef(
+          id: 'damage-not-weight',
+          rounds: 6,
+          name: 'Damage, Not Weight',
+          blurb: 'A car is nothing. A truck axle is everything.',
+          built: true,
+          brief: esalBrief,
+        ),
+      ],
+    ),
   ],
 );
 

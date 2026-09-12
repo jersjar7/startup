@@ -28,6 +28,10 @@ import 'package:mobile/features/games/farther_means_fewer_game.dart';
 import 'package:mobile/features/games/sign_figures.dart';
 import 'package:mobile/features/games/read_it_by_its_shape_game.dart';
 import 'package:mobile/features/games/does_it_need_a_signal_game.dart';
+import 'package:mobile/features/games/pavement_figures.dart';
+import 'package:mobile/features/games/what_each_inch_buys_game.dart';
+import 'package:mobile/features/games/how_thick_must_it_be_game.dart';
+import 'package:mobile/features/games/damage_not_weight_game.dart';
 
 void main() {
   group('stopping sight distance', () {
@@ -884,6 +888,138 @@ void main() {
     test('the signal item keeps the answer moving between the slots', () {
       expect(warrantRounds.map((r) => r.answer).toSet().length,
           greaterThan(1));
+    });
+  });
+
+
+  group('pavement design', () {
+    const lesson = Pavement(courses: [
+      Course(name: 'asphalt', coefficient: 0.44, thickness: 3),
+      Course(name: 'base', coefficient: 0.14, thickness: 8),
+      Course(name: 'subbase', coefficient: 0.11, thickness: 10),
+    ]);
+
+    test('the structural number matches the lesson', () {
+      expect(lesson.structuralNumber, closeTo(3.54, 0.001));
+      expect(lesson.courses[0].contribution, closeTo(1.32, 0.001));
+      expect(lesson.courses[1].contribution, closeTo(1.12, 0.001));
+      expect(lesson.courses[2].contribution, closeTo(1.10, 0.001));
+    });
+
+    test('an inch of asphalt is worth about three of base', () {
+      final asphalt = lesson.courses[0].perInch;
+      final base = lesson.courses[1].perInch;
+      expect(asphalt / base, closeTo(3.14, 0.01));
+    });
+
+    test('poor drainage costs the section its share', () {
+      const wet = Pavement(courses: [
+        Course(name: 'asphalt', coefficient: 0.44, thickness: 3),
+        Course(name: 'base', coefficient: 0.14, thickness: 8),
+        Course(
+            name: 'subbase',
+            coefficient: 0.11,
+            thickness: 10,
+            drainage: 0.80),
+      ]);
+      expect(wet.structuralNumber, closeTo(3.32, 0.001));
+      expect(wet.courses[2].contribution, closeTo(0.88, 0.001));
+      expect(wet.structuralNumber, lessThan(lesson.structuralNumber));
+    });
+
+    test('the sum is linear in every thickness', () {
+      const thicker = Pavement(courses: [
+        Course(name: 'asphalt', coefficient: 0.44, thickness: 6),
+        Course(name: 'base', coefficient: 0.14, thickness: 8),
+        Course(name: 'subbase', coefficient: 0.11, thickness: 10),
+      ]);
+      expect(thicker.structuralNumber - lesson.structuralNumber,
+          closeTo(1.32, 0.001));
+    });
+
+    test('solving for the base matches the lesson', () {
+      const needsBase = Pavement(
+        required_: 4.0,
+        courses: [
+          Course(name: 'asphalt', coefficient: 0.44, thickness: 4),
+          Course(
+              name: 'subbase',
+              coefficient: 0.11,
+              thickness: 12,
+              drainage: 0.80),
+        ],
+      );
+      const base = Course(name: 'base', coefficient: 0.14, thickness: 0);
+      expect(needsBase.shortfall, closeTo(1.184, 0.001));
+      expect(needsBase.inchesNeededOf(base), closeTo(8.46, 0.02));
+    });
+
+    test('a drained subbase wants about two inches less base', () {
+      const drained = Pavement(
+        required_: 4.0,
+        courses: [
+          Course(name: 'asphalt', coefficient: 0.44, thickness: 4),
+          Course(name: 'subbase', coefficient: 0.11, thickness: 12),
+        ],
+      );
+      const base = Course(name: 'base', coefficient: 0.14, thickness: 0);
+      expect(drained.inchesNeededOf(base), closeTo(6.57, 0.02));
+    });
+
+    test('a section already at the target gives a negative thickness', () {
+      const already = Pavement(
+        required_: 2.5,
+        courses: [
+          Course(name: 'asphalt', coefficient: 0.44, thickness: 4),
+          Course(
+              name: 'subbase',
+              coefficient: 0.11,
+              thickness: 12,
+              drainage: 0.80),
+        ],
+      );
+      const base = Course(name: 'base', coefficient: 0.14, thickness: 0);
+      expect(already.shortfall, lessThan(0));
+      expect(already.inchesNeededOf(base), lessThan(0));
+    });
+
+    test('the round that claims a negative answer really has one', () {
+      final r = thicknessRounds
+          .firstWhere((r) => r.subject.contains('nothing more'));
+      expect(r.pavement.shortfall, lessThan(0));
+    });
+
+    test('the standard load conversion matches the lesson', () {
+      const truck = Axle(
+          name: 'the truck here', kips: 24, factor: 3.03, passes: 1000);
+      expect(truck.esals, closeTo(3030, 0.5));
+      expect(truck.esals, greaterThan(truck.passes));
+    });
+
+    test('damage climbs faster than weight, in both directions', () {
+      const car = Axle(name: 'car', kips: 2, factor: 0.0002);
+      const light = Axle(name: 'light truck', kips: 12, factor: 0.19);
+      const standard = Axle(name: 'standard', kips: 18, factor: 1.0);
+      const heavy = Axle(name: 'heavy', kips: 24, factor: 3.03);
+      // A third more weight, three times the damage.
+      expect(heavy.kips / standard.kips, closeTo(1.33, 0.01));
+      expect(heavy.factor / standard.factor, closeTo(3.03, 0.01));
+      // Two thirds the weight, under a fifth of the damage.
+      expect(light.kips / standard.kips, closeTo(0.667, 0.01));
+      expect(light.factor, lessThan(0.2));
+      // And thousands of cars to one truck axle.
+      expect(heavy.factor / car.factor, greaterThan(10000));
+    });
+
+    test('the three items keep the answer moving between the slots', () {
+      for (final answers in [
+        pavementSectionRounds.map((r) => r.answer).toList(),
+        thicknessRounds.map((r) => r.answer).toList(),
+        loadRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
     });
   });
 
