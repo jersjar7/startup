@@ -290,6 +290,9 @@ import '../features/games/double_the_wall_game.dart';
 import '../features/games/moments_or_forces_game.dart';
 import '../features/games/from_the_toe_or_the_center_game.dart';
 import '../features/games/what_tips_the_pressure_game.dart';
+import '../features/games/wetter_is_not_denser_game.dart';
+import '../features/games/which_measure_is_it_game.dart';
+import '../features/games/lime_or_cement_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -727,6 +730,9 @@ GoRouter buildRouter(AuthController auth) {
           'moments-or-forces' => const MomentsOrForcesGame(),
           'from-the-toe-or-the-center' => const FromTheToeOrTheCenterGame(),
           'what-tips-the-pressure' => const WhatTipsThePressureGame(),
+          'wetter-is-not-denser' => const WetterIsNotDenserGame(),
+          'which-measure-is-it' => const WhichMeasureIsItGame(),
+          'lime-or-cement' => const LimeOrCementGame(),
           _ => const _UnknownGame(),
         },
       ),

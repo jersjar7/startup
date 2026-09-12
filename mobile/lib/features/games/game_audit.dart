@@ -96,7 +96,6 @@ import 'consolidation_figures.dart';
 import 'which_case_is_it_game.dart';
 import 'stiff_until_it_remembers_game.dart';
 import 'how_long_does_it_take_game.dart';
-import 'shear_strength_figures.dart';
 import 'two_terms_game.dart';
 import 'drained_or_not_game.dart';
 import 'reading_the_circle_game.dart';
@@ -105,7 +104,6 @@ import 'when_the_sand_boils_game.dart';
 import 'steeper_than_its_friction_game.dart';
 import 'after_the_rain_game.dart';
 import 'what_holds_the_wedge_game.dart';
-import 'bearing_figures.dart';
 import 'which_term_drops_out_game.dart';
 import 'wider_or_deeper_game.dart';
 import 'what_gets_divided_game.dart';
@@ -116,6 +114,9 @@ import 'double_the_wall_game.dart';
 import 'moments_or_forces_game.dart';
 import 'from_the_toe_or_the_center_game.dart';
 import 'what_tips_the_pressure_game.dart';
+import 'wetter_is_not_denser_game.dart';
+import 'which_measure_is_it_game.dart';
+import 'lime_or_cement_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4595,6 +4596,33 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-rw-',
     rounds: [
       for (final r in tipRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'wetter-is-not-denser',
+    lessonId: 'compaction-stabilization',
+    problemPrefix: 'geo-cmp-',
+    rounds: [
+      for (final r in proctorRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-measure-is-it',
+    lessonId: 'compaction-stabilization',
+    problemPrefix: 'geo-cmp-',
+    rounds: [
+      for (final r in packingRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'lime-or-cement',
+    lessonId: 'compaction-stabilization',
+    problemPrefix: 'geo-cmp-',
+    rounds: [
+      for (final r in soilFixRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

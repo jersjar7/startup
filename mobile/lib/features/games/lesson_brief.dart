@@ -366,6 +366,9 @@ enum BriefFigure {
   threeChecks,
   middleThird,
   basePressure,
+  proctor,
+  relativeDensity,
+  stabilizer,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -6953,6 +6956,73 @@ const basePressureBrief = BriefSection(
   handbook: 'Handbook, retaining wall stability',
 );
 
+const proctorBrief = BriefSection(
+  title: 'A hump, not a slope',
+  body:
+      'Compaction squeezes AIR out, and water is only its helper. Dry of the '
+      'optimum the grains grind and will not slide into place, so adding '
+      'water makes the soil denser. Past the optimum the voids are nearly '
+      'full and the water holds the grains apart, so adding more makes it '
+      'LOOSER, and no number of roller passes will get it back. The peak of '
+      'that hump is the laboratory maximum dry unit weight for one soil at '
+      'one compaction effort, which is why a specification has to say which '
+      'Proctor it means: the modified test uses more effort, produces a '
+      'higher maximum, and so gives a lower percentage for the same fill. '
+      'Relative compaction is the field value over the laboratory one, that '
+      'way up. Upside down, a short fill reads as just over a hundred per '
+      'cent and passes.',
+  formulas: [
+    ('Relative compaction', r'RC = \tfrac{\gamma_{d,field}}{\gamma_{d,max}} \times 100'),
+    ('Typical specification', r'RC \geq 90\text{ to }95\%'),
+    ('Upside down', r'\text{reads just over }100\%'),
+  ],
+  figure: BriefFigure.proctor,
+  handbook: 'Handbook, compaction',
+);
+
+const relativeDensityBrief = BriefSection(
+  title: 'Two ways to say how tight',
+  body:
+      'Relative COMPACTION compares a field dry unit weight against a '
+      'laboratory Proctor maximum, and any soil with a Proctor test can be '
+      'checked that way. Relative DENSITY is for clean sands and gravels, '
+      'and it asks something different: how far the in-place void ratio sits '
+      'between the loosest and the tightest packings that soil can be got '
+      'into. The measurement runs from the LOOSE end, so a low void ratio, '
+      'meaning tightly packed, gives a HIGH percentage. Start from the other '
+      'end and the two answers always add to a hundred, which is what gives '
+      'the mistake away. The two measures compare against different things, '
+      'share no terms, and are not interchangeable.',
+  formulas: [
+    ('Relative density', r'D_r = \tfrac{e_{max} - e}{e_{max} - e_{min}} \times 100'),
+    ('The wrong end', r'\tfrac{e - e_{min}}{e_{max} - e_{min}}'),
+    ('Together', r'\text{the two add to }100\%'),
+  ],
+  figure: BriefFigure.relativeDensity,
+  handbook: 'Handbook, relative density',
+);
+
+const stabilizerBrief = BriefSection(
+  title: 'Match the help to the soil',
+  body:
+      'When rolling alone will not do, the soil gets help, and which help '
+      'depends on what the soil is. LIME goes into plastic clays: it reacts '
+      'with the clay minerals, brings the plasticity index down and stops '
+      'the swelling. CEMENT goes into granular and low-plasticity soils, '
+      'where it binds the grains into something stiff; in a fat clay it can '
+      'hardly be mixed through. A GEOSYNTHETIC is not chemistry at all: it '
+      'separates a stone base from the mud under it, reinforces, or drains. '
+      'And where water is what keeps coming back, DRAINAGE comes before any '
+      'of them, because water will undo every treatment you pay for.',
+  formulas: [
+    ('Plastic clay', r'\text{lime}'),
+    ('Granular soil', r'\text{cement}'),
+    ('Water first', r'\text{drainage}'),
+  ],
+  figure: BriefFigure.stabilizer,
+  handbook: 'Handbook, soil stabilization',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -9393,6 +9463,33 @@ class BriefFigureView extends StatelessWidget {
             (r"q_{toe} > \Sigma V/B > q_{heel}", true),
             (r"q = \Sigma V / B \text{ always}", false),
             (r"\text{the heel takes the most}", false),
+          ],
+        );
+      case BriefFigure.proctor:
+        return const _RuleList(
+          rules: [
+            (r"RC = \gamma_{d,field} / \gamma_{d,max}", true),
+            (r"\text{past the optimum, water loosens it}", true),
+            (r"\text{wetter is always denser}", false),
+            (r"RC = \gamma_{d,max} / \gamma_{d,field}", false),
+          ],
+        );
+      case BriefFigure.relativeDensity:
+        return const _RuleList(
+          rules: [
+            (r"D_r = (e_{max} - e)/(e_{max} - e_{min})", true),
+            (r"\text{low } e \Rightarrow \text{high } D_r", true),
+            (r"D_r = (e - e_{min})/(e_{max} - e_{min})", false),
+            (r"\text{clays get a relative density}", false),
+          ],
+        );
+      case BriefFigure.stabilizer:
+        return const _RuleList(
+          rules: [
+            (r"\text{plastic clay: lime}", true),
+            (r"\text{granular soil: cement}", true),
+            (r"\text{cement suits every soil}", false),
+            (r"\text{water improves a swelling clay}", false),
           ],
         );
       case BriefFigure.rankine:

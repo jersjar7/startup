@@ -417,6 +417,12 @@ void main() {
       // so everything about the trapezoid under the base comes out of that
       // one problem.
       'what-tips-the-pressure',
+      // The compaction lesson's three problems ARE its three subjects: the
+      // Proctor test, relative density, and which stabilizer suits which
+      // soil. Two of its items land one to one on them, and only the item
+      // that contrasts the two measures draws on a second problem.
+      'wetter-is-not-denser',
+      'lime-or-cement',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

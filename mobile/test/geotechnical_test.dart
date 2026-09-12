@@ -20,6 +20,10 @@ import 'package:mobile/features/games/slope_figures.dart';
 import 'package:mobile/features/games/bearing_figures.dart';
 import 'package:mobile/features/games/earth_pressure_figures.dart';
 import 'package:mobile/features/games/wall_stability_figures.dart';
+import 'package:mobile/features/games/compaction_figures.dart';
+import 'package:mobile/features/games/wetter_is_not_denser_game.dart';
+import 'package:mobile/features/games/which_measure_is_it_game.dart';
+import 'package:mobile/features/games/lime_or_cement_game.dart';
 import 'package:mobile/features/games/moments_or_forces_game.dart';
 import 'package:mobile/features/games/from_the_toe_or_the_center_game.dart';
 import 'package:mobile/features/games/what_tips_the_pressure_game.dart';
@@ -879,6 +883,117 @@ void main() {
       final hidden = landingRounds.where((r) => !r.showResultant);
       expect(hidden.length, 1);
       expect(hidden.first.asked, contains('subtract'));
+    });
+  });
+
+
+  group('compaction and soil improvement', () {
+    // The lesson's own fill: 118 pcf against a modified maximum of 124.
+    const fill = Proctor(
+      maxDryUnitWeight: 124,
+      optimum: 12,
+      fieldDryUnitWeight: 118,
+      fieldMoisture: 10.5,
+    );
+
+    test('relative compaction matches the lesson', () {
+      expect(fill.relativeCompaction, closeTo(95.2, 0.1));
+      expect(fill.passes, isTrue);
+    });
+
+    test('upside down is the lesson wrong answer, and it reads over a hundred',
+        () {
+      final inverted =
+          fill.maxDryUnitWeight / fill.fieldDryUnitWeight * 100;
+      expect(inverted, closeTo(105.1, 0.2));
+      expect(inverted, greaterThan(100));
+    });
+
+    test('a fill just under the specification fails it', () {
+      const short = Proctor(
+        maxDryUnitWeight: 124,
+        optimum: 12,
+        fieldDryUnitWeight: 114,
+        fieldMoisture: 16,
+      );
+      expect(short.relativeCompaction, lessThan(95));
+      expect(short.passes, isFalse);
+    });
+
+    test('the curve really is a hump with its top at the optimum', () {
+      expect(fill.dryUnitWeightAt(fill.optimum),
+          closeTo(fill.maxDryUnitWeight, 0.001));
+      for (final off in [1.0, 3.0, 6.0]) {
+        expect(fill.dryUnitWeightAt(fill.optimum - off),
+            lessThan(fill.maxDryUnitWeight),
+            reason: 'dry of the optimum');
+        expect(fill.dryUnitWeightAt(fill.optimum + off),
+            lessThan(fill.maxDryUnitWeight),
+            reason: 'wet of the optimum');
+      }
+      // Wet of the optimum falls away faster, which is what a real one does.
+      expect(fill.dryUnitWeightAt(fill.optimum + 4),
+          lessThan(fill.dryUnitWeightAt(fill.optimum - 4)));
+    });
+
+    test('each round sits on the side of the optimum its words claim', () {
+      for (final r in proctorRounds) {
+        if (r.subject.contains('too wet')) {
+          expect(r.test.side, Side.wet, reason: r.subject);
+        }
+      }
+      expect(fill.side, Side.dry);
+    });
+
+    test('relative density matches the lesson, and so does the wrong end', () {
+      const sand = Granular(loosest: 0.90, densest: 0.40, inPlace: 0.60);
+      expect(sand.relativeDensity, closeTo(60, 0.1));
+      expect(sand.upsideDown, closeTo(40, 0.1));
+      // The two always add to a hundred, which is what gives the slip away.
+      expect(sand.relativeDensity + sand.upsideDown, closeTo(100, 0.001));
+      expect(sand.state, 'medium dense');
+      expect(sand.nearerDensest, isTrue);
+    });
+
+    test('a tightly packed sand scores high and a loose one low', () {
+      const tight = Granular(loosest: 0.90, densest: 0.40, inPlace: 0.45);
+      const loose = Granular(loosest: 0.90, densest: 0.40, inPlace: 0.82);
+      expect(tight.relativeDensity, greaterThan(85));
+      expect(tight.state, 'dense');
+      expect(loose.relativeDensity, lessThan(20));
+      expect(loose.state, 'loose');
+      expect(loose.nearerDensest, isFalse);
+    });
+
+    test('the loose sand round really is a loose sand', () {
+      final r = packingRounds.firstWhere(
+          (r) => r.subject.contains('hardly been touched'));
+      expect(r.soil.state, 'loose');
+    });
+
+    test('every stabilizer round names a soil at the end it claims', () {
+      for (final r in soilFixRounds) {
+        if (r.why.startsWith('Lime')) {
+          expect(r.ground.plastic, isTrue, reason: r.subject);
+        }
+        if (r.why.startsWith('Cement')) {
+          expect(r.ground.granular, isTrue, reason: r.subject);
+        }
+        if (r.why.startsWith('Drainage')) {
+          expect(r.ground.wet, isTrue, reason: r.subject);
+        }
+      }
+    });
+
+    test('the three items keep the answer moving between the slots', () {
+      for (final answers in [
+        proctorRounds.map((r) => r.answer).toList(),
+        packingRounds.map((r) => r.answer).toList(),
+        soilFixRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
     });
   });
 

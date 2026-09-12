@@ -297,6 +297,9 @@ import 'package:mobile/features/games/double_the_wall_game.dart';
 import 'package:mobile/features/games/moments_or_forces_game.dart';
 import 'package:mobile/features/games/from_the_toe_or_the_center_game.dart';
 import 'package:mobile/features/games/what_tips_the_pressure_game.dart';
+import 'package:mobile/features/games/wetter_is_not_denser_game.dart';
+import 'package:mobile/features/games/which_measure_is_it_game.dart';
+import 'package:mobile/features/games/lime_or_cement_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2409,6 +2412,24 @@ void main() {
           rounds: tipRounds.length,
           height: 2200,
         ),
+        'wetter-is-not-denser': (
+          lesson: '116-compaction',
+          build: WetterIsNotDenserGame.new,
+          rounds: proctorRounds.length,
+          height: 2200,
+        ),
+        'which-measure-is-it': (
+          lesson: '116-compaction',
+          build: WhichMeasureIsItGame.new,
+          rounds: packingRounds.length,
+          height: 2180,
+        ),
+        'lime-or-cement': (
+          lesson: '116-compaction',
+          build: LimeOrCementGame.new,
+          rounds: soilFixRounds.length,
+          height: 2140,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2930,6 +2951,11 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '116-compaction': [
+      ('proctor', proctorBrief),
+      ('packing', relativeDensityBrief),
+      ('stabilizer', stabilizerBrief),
     ],
     '115-retainingwalls': [
       ('checks', threeChecksBrief),

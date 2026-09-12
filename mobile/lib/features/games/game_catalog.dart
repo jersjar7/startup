@@ -3816,6 +3816,37 @@ const geotechnicalMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'compaction-stabilization',
+      name: 'Compaction & Soil Improvement',
+      subtopicId: 'deep-foundations-improvement',
+      games: [
+        GameDef(
+          id: 'wetter-is-not-denser',
+          rounds: 6,
+          name: 'Wetter Is Not Denser',
+          blurb: 'The Proctor curve is a hump, not a slope.',
+          built: true,
+          brief: proctorBrief,
+        ),
+        GameDef(
+          id: 'which-measure-is-it',
+          rounds: 6,
+          name: 'Which Measure Is It',
+          blurb: 'Two ways to say how tight, and they do not mix.',
+          built: true,
+          brief: relativeDensityBrief,
+        ),
+        GameDef(
+          id: 'lime-or-cement',
+          rounds: 6,
+          name: 'Lime or Cement',
+          blurb: 'Match the help to the soil.',
+          built: true,
+          brief: stabilizerBrief,
+        ),
+      ],
+    ),
   ],
 );
 
