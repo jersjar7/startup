@@ -19,6 +19,9 @@ import 'package:mobile/features/games/more_less_or_the_same_game.dart';
 import 'package:mobile/features/games/load_figures.dart';
 import 'package:mobile/features/games/factored_or_service_game.dart';
 import 'package:mobile/features/games/which_one_controls_game.dart';
+import 'package:mobile/features/games/influence_figures.dart';
+import 'package:mobile/features/games/which_line_is_it_game.dart';
+import 'package:mobile/features/games/where_do_you_park_it_game.dart';
 
 void main() {
   group('the determinacy count', () {
@@ -498,6 +501,92 @@ void main() {
       const own = Tributary(area: 600, column: true);
       expect(own.reduced, closeTo(27.8, 0.2));
       expect(own.reduced, greaterThan(0.5 * own.unreduced));
+    });
+  });
+
+  group('the influence line itself', () {
+    test('a reaction line runs from one to nothing', () {
+      const left = Influence(span: 24, response: Response.leftReaction);
+      expect(left.ordinateAt(0), closeTo(1, 0.001));
+      expect(left.ordinateAt(24), closeTo(0, 0.001));
+      expect(left.ordinateAt(12), closeTo(0.5, 0.001));
+    });
+
+    test('the two reaction lines always add to one', () {
+      const a = Influence(span: 30, response: Response.leftReaction);
+      const b = Influence(span: 30, response: Response.rightReaction);
+      for (var x = 0.0; x <= 30; x += 3) {
+        expect(a.ordinateAt(x) + b.ordinateAt(x), closeTo(1, 0.001));
+      }
+    });
+
+    test('a shear line steps by exactly one at the section', () {
+      const v = Influence(span: 24, response: Response.shearAt, at: 6);
+      final justLeft = v.ordinateAt(6, fromRight: false);
+      final justRight = v.ordinateAt(6);
+      expect(justRight - justLeft, closeTo(1, 0.001));
+      // The lesson works this one out: 1 - 6/24 is 0.75.
+      expect(justRight, closeTo(0.75, 0.001));
+      expect(justLeft, closeTo(-0.25, 0.001));
+    });
+
+    test('a moment line peaks over its own section', () {
+      const m = Influence(span: 30, response: Response.momentAt, at: 10);
+      expect(m.ordinateAt(10), closeTo(m.peak, 0.001));
+      expect(m.peak, closeTo(10 * 20 / 30, 0.001));
+      expect(m.ordinateAt(0), closeTo(0, 0.001));
+      expect(m.ordinateAt(30), closeTo(0, 0.001));
+    });
+
+    test('at midspan the moment peak is a quarter of the span', () {
+      const m = Influence(span: 30, response: Response.momentAt, at: 15);
+      expect(m.peak, closeTo(30 / 4, 0.001));
+      // The lesson's own answer: 20 kips on that peak gives 150 kip-ft.
+      expect(20 * m.peak, closeTo(150, 0.01));
+    });
+
+    test('only the shear line jumps', () {
+      for (final r in ilShapeRounds) {
+        expect(r.line.jumps, r.line.response == Response.shearAt,
+            reason: r.subject);
+      }
+    });
+
+    test('every shape gets a round of its own', () {
+      expect(ilShapeRounds.map((r) => r.answer).toSet().length, 4);
+    });
+  });
+
+  group('parking the load', () {
+    test('the heavier load takes the peak, and it beats straddling', () {
+      const m = Influence(span: 40, response: Response.momentAt, at: 20);
+      // The lesson's own pair: 20 kips and 10 kips, eight feet apart.
+      final onThePeak = 20 * m.ordinateAt(20) + 10 * m.ordinateAt(28);
+      final straddling = 20 * m.ordinateAt(16) + 10 * m.ordinateAt(24);
+      final lighterOnPeak = 10 * m.ordinateAt(20) + 20 * m.ordinateAt(12);
+      expect(onThePeak, closeTo(260, 0.01));
+      expect(straddling, closeTo(240, 0.01));
+      expect(onThePeak, greaterThan(straddling));
+      expect(onThePeak, greaterThan(lighterOnPeak));
+    });
+
+    test('the parked loads really are on the best spot', () {
+      for (final r in parkRounds.where((r) => r.parked.length == 1)) {
+        final me = r.line.ordinateAt(r.parked.first.$1);
+        for (var x = 0.0; x <= r.line.span; x += r.line.span / 40) {
+          expect(me, greaterThanOrEqualTo(r.line.ordinateAt(x) - 0.001),
+              reason: '${r.subject}: a taller spot exists');
+        }
+      }
+    });
+
+    test('the shear round parks on the tall side of the step', () {
+      final shear = parkRounds.firstWhere((r) =>
+          r.line.response == Response.shearAt && r.parked.isNotEmpty);
+      final at = shear.parked.first.$1;
+      expect(at, greaterThanOrEqualTo(shear.line.at));
+      expect(shear.line.ordinateAt(at),
+          greaterThan(shear.line.ordinateAt(at, fromRight: false)));
     });
   });
 }

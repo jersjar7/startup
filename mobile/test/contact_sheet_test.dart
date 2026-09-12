@@ -252,6 +252,9 @@ import 'package:mobile/features/games/more_less_or_the_same_game.dart';
 import 'package:mobile/features/games/factored_or_service_game.dart';
 import 'package:mobile/features/games/which_one_controls_game.dart';
 import 'package:mobile/features/games/how_much_comes_off_game.dart';
+import 'package:mobile/features/games/what_the_height_means_game.dart';
+import 'package:mobile/features/games/which_line_is_it_game.dart';
+import 'package:mobile/features/games/where_do_you_park_it_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2094,6 +2097,24 @@ void main() {
           rounds: reduceRounds.length,
           height: 1980,
         ),
+        'what-the-height-means': (
+          lesson: '100-influence',
+          build: WhatTheHeightMeansGame.new,
+          rounds: heightRounds.length,
+          height: 2000,
+        ),
+        'which-line-is-it': (
+          lesson: '100-influence',
+          build: WhichLineIsItGame.new,
+          rounds: ilShapeRounds.length,
+          height: 1960,
+        ),
+        'where-do-you-park-it': (
+          lesson: '100-influence',
+          build: WhereDoYouParkItGame.new,
+          rounds: parkRounds.length,
+          height: 2060,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2548,6 +2569,11 @@ void main() {
       ('method', lrfdBrief),
       ('controls', controlsBrief),
       ('reduction', reductionBrief),
+    ],
+    '100-influence': [
+      ('reading', influenceBrief),
+      ('shapes', shapesBrief),
+      ('placing', placeBrief),
     ],
     '95-determinacy': [
       ('count', countBrief),

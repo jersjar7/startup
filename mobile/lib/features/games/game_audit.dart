@@ -64,6 +64,10 @@ import 'factored_or_service_game.dart';
 import 'which_one_controls_game.dart';
 import 'how_much_comes_off_game.dart';
 import 'load_figures.dart';
+import 'influence_figures.dart';
+import 'what_the_height_means_game.dart';
+import 'which_line_is_it_game.dart';
+import 'where_do_you_park_it_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -3966,6 +3970,45 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-lc-',
     rounds: [
       for (final r in reduceRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-the-height-means',
+    lessonId: 'influence-lines',
+    problemPrefix: 'str-il-',
+    rounds: [
+      for (final r in heightRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-line-is-it',
+    lessonId: 'influence-lines',
+    problemPrefix: 'str-il-',
+    rounds: [
+      for (final r in ilShapeRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Response.values) o.name],
+          answer: Response.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'where-do-you-park-it',
+    lessonId: 'influence-lines',
+    problemPrefix: 'str-il-',
+    rounds: [
+      for (final r in parkRounds)
         RoundAudit(
           source: r.source,
           options: r.options,

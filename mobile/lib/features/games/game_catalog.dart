@@ -3309,6 +3309,37 @@ const structuralMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'influence-lines',
+      name: 'Influence Lines',
+      subtopicId: 'analysis-loads',
+      games: [
+        GameDef(
+          id: 'what-the-height-means',
+          rounds: 6,
+          name: 'What the Height Means',
+          blurb: 'Across is where the load stands, not where you are looking.',
+          built: true,
+          brief: influenceBrief,
+        ),
+        GameDef(
+          id: 'which-line-is-it',
+          rounds: 6,
+          name: 'Which Line Is It',
+          blurb: 'Three shapes, and the step of one gives shear away.',
+          built: true,
+          brief: shapesBrief,
+        ),
+        GameDef(
+          id: 'where-do-you-park-it',
+          rounds: 6,
+          name: 'Where Do You Park It',
+          blurb: 'The heaviest load goes on the tallest part of the line.',
+          built: true,
+          brief: placeBrief,
+        ),
+      ],
+    ),
   ],
 );
 

@@ -245,6 +245,9 @@ import '../features/games/more_less_or_the_same_game.dart';
 import '../features/games/factored_or_service_game.dart';
 import '../features/games/which_one_controls_game.dart';
 import '../features/games/how_much_comes_off_game.dart';
+import '../features/games/what_the_height_means_game.dart';
+import '../features/games/which_line_is_it_game.dart';
+import '../features/games/where_do_you_park_it_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -630,6 +633,9 @@ GoRouter buildRouter(AuthController auth) {
           'factored-or-service' => const FactoredOrServiceGame(),
           'which-one-controls' => const WhichOneControlsGame(),
           'how-much-comes-off' => const HowMuchComesOffGame(),
+          'what-the-height-means' => const WhatTheHeightMeansGame(),
+          'which-line-is-it' => const WhichLineIsItGame(),
+          'where-do-you-park-it' => const WhereDoYouParkItGame(),
           _ => const _UnknownGame(),
         },
       ),
