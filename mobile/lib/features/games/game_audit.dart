@@ -123,6 +123,8 @@ import 'which_way_the_friction_acts_game.dart';
 import 'think_then_brake_game.dart';
 import 'uphill_or_down_game.dart';
 import 'the_worst_fifteen_minutes_game.dart';
+import 'crest_or_sag_game.dart';
+import 'how_big_is_the_break_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4683,6 +4685,24 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'trans-ssd-',
     rounds: [
       for (final r in surgeRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'crest-or-sag',
+    lessonId: 'vertical-curves',
+    problemPrefix: 'trans-vc-',
+    rounds: [
+      for (final r in criterionRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-big-is-the-break',
+    lessonId: 'vertical-curves',
+    problemPrefix: 'trans-vc-',
+    rounds: [
+      for (final r in breakRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

@@ -375,6 +375,8 @@ enum BriefFigure {
   sightDistance,
   gradeSign,
   peakHour,
+  crestSag,
+  gradeBreak,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7165,6 +7167,53 @@ const peakHourBrief = BriefSection(
   handbook: 'Handbook, peak hour factor',
 );
 
+const crestSagBrief = BriefSection(
+  title: 'Seeing over, or lighting into',
+  body:
+      'Both kinds of vertical curve are sized by sight distance, but by very '
+      'different pictures of it. A CREST is limited by the hilltop itself '
+      'blocking the view: eye at three and a half feet, object at two, and '
+      'the flatter the curve the further ahead the driver sees. Its formula '
+      'divides by 2,158, a constant. A SAG is fine by day and limited at '
+      'NIGHT, because the headlight beam tips only about a degree up and the '
+      'road curves away from it. Its formula divides by 400 plus three and a '
+      'half times the sight distance, which moves as the sight distance '
+      'does. That is the quickest way to tell them apart: if the bottom of '
+      'the fraction has an S in it, it is a sag. Both come in two versions. '
+      'Start by assuming the sight distance fits inside the curve, work the '
+      'length, then check it: if the length comes out shorter than the sight '
+      'distance, switch.',
+  formulas: [
+    ('Crest', r'L = \dfrac{A S^2}{2{,}158}'),
+    ('Sag', r'L = \dfrac{A S^2}{400 + 3.5S}'),
+    ('Then check', r'S \leq L ?'),
+  ],
+  figure: BriefFigure.crestSag,
+  handbook: 'Handbook, vertical curves',
+);
+
+const gradeBreakBrief = BriefSection(
+  title: 'How much the grade changes',
+  body:
+      'A is the algebraic difference between the two grades, taken as a size '
+      'and quoted in per cent. Grades on OPPOSITE sides add: plus three into '
+      'minus five is a break of eight, not two, and that is the mistake the '
+      'lesson is built around. Grades on the SAME side subtract: minus two '
+      'into minus five is a break of three. Which kind of curve it is does '
+      'not depend on any sign either, only on whether the second grade is '
+      'LESS than the first, which makes a crest, or more, which makes a sag. '
+      'Everything else follows from A: twice the break in the same length is '
+      'twice the offset and half the K, where K is the length over the '
+      'break, feet of curve per per cent, and a bigger K is a flatter curve.',
+  formulas: [
+    ('The break', r'A = |g_2 - g_1|'),
+    ('A crest', r'g_2 < g_1'),
+    ('Rate of curvature', r'K = L / A'),
+  ],
+  figure: BriefFigure.gradeBreak,
+  handbook: 'Handbook, vertical curves',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -9686,6 +9735,24 @@ class BriefFigureView extends StatelessWidget {
             (r"0.25 \leq PHF \leq 1.00", true),
             (r"\text{flow rate} = V \times PHF", false),
             (r"\text{a low } PHF \text{ needs less capacity}", false),
+          ],
+        );
+      case BriefFigure.crestSag:
+        return const _RuleList(
+          rules: [
+            (r"\text{crest: divide by } 2{,}158", true),
+            (r"\text{sag: divide by } 400 + 3.5S", true),
+            (r"\text{a sag is set by daylight sight}", false),
+            (r"\text{the two denominators swap freely}", false),
+          ],
+        );
+      case BriefFigure.gradeBreak:
+        return const _RuleList(
+          rules: [
+            (r"+3 \text{ into } -5 \Rightarrow A = 8", true),
+            (r"g_2 < g_1 \Rightarrow \text{a crest}", true),
+            (r"+3 \text{ into } -5 \Rightarrow A = 2", false),
+            (r"\text{a negative } g_2 \text{ means a sag}", false),
           ],
         );
       case BriefFigure.rankine:

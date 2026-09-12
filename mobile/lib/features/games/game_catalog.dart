@@ -3930,6 +3930,34 @@ const transportationMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'vertical-curves',
+      name: 'Vertical Curve Design',
+      subtopicId: 'geometric-design',
+      // Two items, not three. This lesson's third problem is the tangent
+      // offset at the PVI, and the SURVEYING chapter already teaches that
+      // one twice over: `road-or-grade-line` is built on the two elevations
+      // at a station and its card carries E = AL/8. Building it again here
+      // would be the same item with a different hat on.
+      games: [
+        GameDef(
+          id: 'crest-or-sag',
+          rounds: 6,
+          name: 'Crest or Sag',
+          blurb: 'Seeing over a hill, or lighting into a dip.',
+          built: true,
+          brief: crestSagBrief,
+        ),
+        GameDef(
+          id: 'how-big-is-the-break',
+          rounds: 6,
+          name: 'How Big Is the Break',
+          blurb: 'Plus three into minus five is eight, not two.',
+          built: true,
+          brief: gradeBreakBrief,
+        ),
+      ],
+    ),
   ],
 );
 

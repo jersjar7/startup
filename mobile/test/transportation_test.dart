@@ -4,6 +4,9 @@ import 'package:mobile/features/games/sight_figures.dart';
 import 'package:mobile/features/games/think_then_brake_game.dart';
 import 'package:mobile/features/games/uphill_or_down_game.dart';
 import 'package:mobile/features/games/the_worst_fifteen_minutes_game.dart';
+import 'package:mobile/features/games/vertical_curve_figures.dart';
+import 'package:mobile/features/games/crest_or_sag_game.dart';
+import 'package:mobile/features/games/how_big_is_the_break_game.dart';
 
 void main() {
   group('stopping sight distance', () {
@@ -144,4 +147,111 @@ void main() {
       }
     });
   });
+
+  group('vertical curves', () {
+    test('the crest length matches the lesson, and its check holds', () {
+      const crest = Criterion(breakSize: 8, sight: 500, sag: false);
+      expect(crest.lengthShortSight, closeTo(927, 1));
+      expect(crest.fitsInside, isTrue);
+      expect(crest.length, closeTo(927, 1));
+    });
+
+    test('the sag length matches the lesson, and the crest rule undershoots',
+        () {
+      const sag = Criterion(breakSize: 8, sight: 300, sag: true);
+      expect(sag.lengthShortSight, closeTo(497, 1));
+      expect(sag.fitsInside, isTrue);
+      // The lesson's own wrong answer, from using 2,158 on a sag.
+      expect(sag.underTheOtherOne, closeTo(334, 1));
+      expect(sag.underTheOtherOne, lessThan(sag.length));
+    });
+
+    test('a gentle crest fails the check and switches formulas', () {
+      const gentle = Criterion(breakSize: 2, sight: 600, sag: false);
+      expect(gentle.lengthShortSight, lessThan(gentle.sight));
+      expect(gentle.fitsInside, isFalse);
+      expect(gentle.length, closeTo(gentle.lengthLongSight, 0.001));
+    });
+
+    test('which criterion asks for more depends on the sight distance', () {
+      // The two denominators are equal at 2,158 = 400 + 3.5 S, which is
+      // about 502 ft. Below that the sag wants the longer curve and above
+      // it the crest does, so neither rule is simply the harsher one.
+      for (final s in [200.0, 300.0, 450.0]) {
+        final sag = Criterion(breakSize: 6, sight: s, sag: true);
+        final crest = Criterion(breakSize: 6, sight: s, sag: false);
+        expect(sag.lengthShortSight, greaterThan(crest.lengthShortSight),
+            reason: '$s ft of sight distance');
+      }
+      for (final s in [600.0, 800.0]) {
+        final sag = Criterion(breakSize: 6, sight: s, sag: true);
+        final crest = Criterion(breakSize: 6, sight: s, sag: false);
+        expect(crest.lengthShortSight, greaterThan(sag.lengthShortSight),
+            reason: '$s ft of sight distance');
+      }
+    });
+
+    test('opposite grades add and matching grades subtract', () {
+      const crest = Vertical(gradeIn: 3, gradeOut: -5, length: 800);
+      const sag = Vertical(gradeIn: -4, gradeOut: 4, length: 800);
+      const gentle = Vertical(gradeIn: -2, gradeOut: -5, length: 600);
+      expect(crest.breakSize, closeTo(8, 0.0001));
+      expect(sag.breakSize, closeTo(8, 0.0001));
+      expect(gentle.breakSize, closeTo(3, 0.0001));
+    });
+
+    test('a crest is where the second grade is the lesser one', () {
+      expect(const Vertical(gradeIn: 3, gradeOut: -5).crest, isTrue);
+      expect(const Vertical(gradeIn: -2, gradeOut: -5).crest, isTrue);
+      expect(const Vertical(gradeIn: -4, gradeOut: 4).crest, isFalse);
+      expect(const Vertical(gradeIn: -5, gradeOut: -2).sag, isTrue);
+    });
+
+    test('the offset at the middle matches the lesson and scales straight',
+        () {
+      const curve = Vertical(gradeIn: 3, gradeOut: -5, length: 800);
+      const longer = Vertical(gradeIn: 3, gradeOut: -5, length: 1600);
+      expect(curve.offsetAtMiddle, closeTo(8.0, 0.001));
+      expect(longer.offsetAtMiddle, closeTo(16.0, 0.001));
+      // And an L over 4 is the lesson's own doubled wrong answer.
+      expect(curve.breakSize / 100 * curve.length / 4, closeTo(16, 0.001));
+    });
+
+    test('the offset really is largest at the middle of the curve', () {
+      const curve = Vertical(gradeIn: 3, gradeOut: -5, length: 800);
+      double gapAt(double x) =>
+          (curve.offsetAt(x) - 0).abs();
+      expect(gapAt(400), greaterThan(gapAt(200)));
+      expect(gapAt(400), lessThan(gapAt(800)));
+      // Half way along is a quarter of the full tangent offset, which is
+      // where the eight in the shortcut comes from.
+      expect(gapAt(400) / gapAt(800), closeTo(0.25, 0.0001));
+    });
+
+    test('K is feet of curve per per cent of break', () {
+      const curve = Vertical(gradeIn: 3, gradeOut: -5, length: 800);
+      expect(curve.k, closeTo(100, 0.001));
+      const flatter = Vertical(gradeIn: 3, gradeOut: -5, length: 1600);
+      expect(flatter.k, greaterThan(curve.k));
+    });
+
+    test('the sag rounds really use the sag criterion', () {
+      for (final r in criterionRounds) {
+        if (r.subject.contains('sag')) {
+          expect(r.criterion.sag, isTrue, reason: r.subject);
+        }
+      }
+    });
+
+    test('the two items keep the answer moving between the slots', () {
+      for (final answers in [
+        criterionRounds.map((r) => r.answer).toList(),
+        breakRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
+    });
+  });
+
 }

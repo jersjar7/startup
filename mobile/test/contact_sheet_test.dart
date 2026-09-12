@@ -306,6 +306,8 @@ import 'package:mobile/features/games/which_way_the_friction_acts_game.dart';
 import 'package:mobile/features/games/think_then_brake_game.dart';
 import 'package:mobile/features/games/uphill_or_down_game.dart';
 import 'package:mobile/features/games/the_worst_fifteen_minutes_game.dart';
+import 'package:mobile/features/games/crest_or_sag_game.dart';
+import 'package:mobile/features/games/how_big_is_the_break_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2472,6 +2474,18 @@ void main() {
           rounds: surgeRounds.length,
           height: 2180,
         ),
+        'crest-or-sag': (
+          lesson: '119-vertcurves',
+          build: CrestOrSagGame.new,
+          rounds: criterionRounds.length,
+          height: 2180,
+        ),
+        'how-big-is-the-break': (
+          lesson: '119-vertcurves',
+          build: HowBigIsTheBreakGame.new,
+          rounds: breakRounds.length,
+          height: 2160,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2993,6 +3007,10 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '119-vertcurves': [
+      ('criterion', crestSagBrief),
+      ('break', gradeBreakBrief),
     ],
     '118-ssd': [
       ('distance', sightDistanceBrief),

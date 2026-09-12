@@ -299,6 +299,8 @@ import '../features/games/which_way_the_friction_acts_game.dart';
 import '../features/games/think_then_brake_game.dart';
 import '../features/games/uphill_or_down_game.dart';
 import '../features/games/the_worst_fifteen_minutes_game.dart';
+import '../features/games/crest_or_sag_game.dart';
+import '../features/games/how_big_is_the_break_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -746,6 +748,8 @@ GoRouter buildRouter(AuthController auth) {
           'think-then-brake' => const ThinkThenBrakeGame(),
           'uphill-or-down' => const UphillOrDownGame(),
           'the-worst-fifteen-minutes' => const TheWorstFifteenMinutesGame(),
+          'crest-or-sag' => const CrestOrSagGame(),
+          'how-big-is-the-break' => const HowBigIsTheBreakGame(),
           _ => const _UnknownGame(),
         },
       ),
