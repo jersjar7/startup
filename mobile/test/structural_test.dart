@@ -29,6 +29,7 @@ import 'package:mobile/features/games/too_little_or_too_much_game.dart';
 import 'package:mobile/features/games/steel_figures.dart';
 import 'package:mobile/features/games/how_far_between_braces_game.dart';
 import 'package:mobile/features/games/which_axis_wins_now_game.dart';
+import 'package:mobile/features/games/tension_figures.dart';
 
 void main() {
   group('the determinacy count', () {
@@ -793,6 +794,112 @@ void main() {
       for (final r in bothAxisRounds) {
         expect(r.answer, r.post.decides, reason: r.subject);
       }
+    });
+  });
+
+  group('the tension member', () {
+    test('a hole costs the bolt plus an eighth', () {
+      const t = Tie(
+          width: 10,
+          thickness: 0.5,
+          holes: 2,
+          boltDiameter: 0.875,
+          fy: 36,
+          fu: 58);
+      expect(t.holeLoss, closeTo(1.0, 0.0001));
+      // The lesson works this one out: 4.00 square inches.
+      expect(t.net, closeTo(4.0, 0.0001));
+      expect(t.gross, closeTo(5.0, 0.0001));
+    });
+
+    test('the lesson\'s own bar with no holes yields first', () {
+      const t = Tie(
+          width: 6,
+          thickness: 0.5,
+          holes: 0,
+          boltDiameter: 0.75,
+          fy: 36,
+          fu: 58);
+      expect(t.net, t.gross);
+      expect(t.yieldStrength, closeTo(97.2, 0.1));
+      expect(t.controls, Limit.yielding);
+    });
+
+    test('the lesson\'s hard problem ruptures at 152 kips', () {
+      const t = Tie(
+          width: 8,
+          thickness: 0.5,
+          holes: 2,
+          boltDiameter: 0.75,
+          fy: 50,
+          fu: 65);
+      expect(t.net, closeTo(3.125, 0.001));
+      expect(t.yieldStrength, closeTo(180, 0.1));
+      expect(t.ruptureStrength, closeTo(152.3, 0.1));
+      expect(t.controls, Limit.rupture);
+      expect(t.design, closeTo(152.3, 0.1));
+    });
+
+    test('the design strength is always the smaller of the two', () {
+      for (final t in [
+        const Tie(
+            width: 8,
+            thickness: 0.5,
+            holes: 2,
+            boltDiameter: 0.75,
+            fy: 50,
+            fu: 65),
+        const Tie(
+            width: 6,
+            thickness: 0.5,
+            holes: 0,
+            boltDiameter: 0.75,
+            fy: 36,
+            fu: 58),
+      ]) {
+        expect(t.design, lessThanOrEqualTo(t.yieldStrength));
+        expect(t.design, lessThanOrEqualTo(t.ruptureStrength));
+      }
+    });
+
+    test('shear lag only ever takes capacity away', () {
+      const full = Tie(
+          width: 8,
+          thickness: 0.5,
+          holes: 2,
+          boltDiameter: 0.75,
+          fy: 50,
+          fu: 65);
+      const lagged = Tie(
+          width: 8,
+          thickness: 0.5,
+          holes: 2,
+          boltDiameter: 0.75,
+          fy: 50,
+          fu: 65,
+          u: 0.85);
+      expect(lagged.effective, lessThan(full.effective));
+      expect(lagged.yieldStrength, full.yieldStrength,
+          reason: 'the yielding check never sees U');
+      expect(lagged.ruptureStrength, lessThan(full.ruptureStrength));
+    });
+
+    test('a thicker plate loses more area to the same bolt', () {
+      const thin = Tie(
+          width: 10,
+          thickness: 0.25,
+          holes: 2,
+          boltDiameter: 0.875,
+          fy: 36,
+          fu: 58);
+      const thick = Tie(
+          width: 10,
+          thickness: 0.75,
+          holes: 2,
+          boltDiameter: 0.875,
+          fy: 36,
+          fu: 58);
+      expect(thick.gross - thick.net, greaterThan(thin.gross - thin.net));
     });
   });
 }

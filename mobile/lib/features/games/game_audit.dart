@@ -80,6 +80,9 @@ import 'z_or_s_game.dart';
 import 'which_flange_needs_holding_game.dart';
 import 'which_axis_wins_now_game.dart';
 import 'what_the_table_gives_you_game.dart';
+import 'gross_or_net_game.dart';
+import 'how_big_is_the_hole_game.dart';
+import 'is_all_of_it_connected_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4151,6 +4154,45 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-sc-',
     rounds: [
       for (final r in columnTableRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'gross-or-net',
+    lessonId: 'steel-tension',
+    problemPrefix: 'str-st-',
+    rounds: [
+      for (final r in limitRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-big-is-the-hole',
+    lessonId: 'steel-tension',
+    problemPrefix: 'str-st-',
+    rounds: [
+      for (final r in holeRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'is-all-of-it-connected',
+    lessonId: 'steel-tension',
+    problemPrefix: 'str-st-',
+    rounds: [
+      for (final r in lagRounds)
         RoundAudit(
           source: r.source,
           options: r.options,

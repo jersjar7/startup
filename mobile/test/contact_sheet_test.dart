@@ -265,6 +265,9 @@ import 'package:mobile/features/games/z_or_s_game.dart';
 import 'package:mobile/features/games/which_flange_needs_holding_game.dart';
 import 'package:mobile/features/games/which_axis_wins_now_game.dart';
 import 'package:mobile/features/games/what_the_table_gives_you_game.dart';
+import 'package:mobile/features/games/gross_or_net_game.dart';
+import 'package:mobile/features/games/how_big_is_the_hole_game.dart';
+import 'package:mobile/features/games/is_all_of_it_connected_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2185,6 +2188,24 @@ void main() {
           rounds: columnTableRounds.length,
           height: 1900,
         ),
+        'gross-or-net': (
+          lesson: '105-tension',
+          build: GrossOrNetGame.new,
+          rounds: limitRounds.length,
+          height: 2060,
+        ),
+        'how-big-is-the-hole': (
+          lesson: '105-tension',
+          build: HowBigIsTheHoleGame.new,
+          rounds: holeRounds.length,
+          height: 2000,
+        ),
+        'is-all-of-it-connected': (
+          lesson: '105-tension',
+          build: IsAllOfItConnectedGame.new,
+          rounds: lagRounds.length,
+          height: 2040,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2662,6 +2683,11 @@ void main() {
     '104-steelcolumns': [
       ('axis', axisBrief),
       ('table', tableBrief3),
+    ],
+    '105-tension': [
+      ('limits', twoLimitsBrief),
+      ('net', netAreaBrief),
+      ('lag', shearLagBrief),
     ],
     '95-determinacy': [
       ('count', countBrief),

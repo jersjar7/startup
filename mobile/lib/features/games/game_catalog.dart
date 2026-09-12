@@ -3458,6 +3458,37 @@ const structuralMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'steel-tension',
+      name: 'Steel Tension Members',
+      subtopicId: 'steel-design',
+      games: [
+        GameDef(
+          id: 'gross-or-net',
+          rounds: 6,
+          name: 'Gross or Net',
+          blurb: 'Two checks, two areas, and the smaller answer wins.',
+          built: true,
+          brief: twoLimitsBrief,
+        ),
+        GameDef(
+          id: 'how-big-is-the-hole',
+          rounds: 6,
+          name: 'How Big Is the Hole',
+          blurb: 'The bolt plus an eighth, off the width.',
+          built: true,
+          brief: netAreaBrief,
+        ),
+        GameDef(
+          id: 'is-all-of-it-connected',
+          rounds: 6,
+          name: 'Is All of It Connected',
+          blurb: 'What the bolts miss has to catch up along the length.',
+          built: true,
+          brief: shearLagBrief,
+        ),
+      ],
+    ),
   ],
 );
 

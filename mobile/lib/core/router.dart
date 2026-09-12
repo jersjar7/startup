@@ -258,6 +258,9 @@ import '../features/games/z_or_s_game.dart';
 import '../features/games/which_flange_needs_holding_game.dart';
 import '../features/games/which_axis_wins_now_game.dart';
 import '../features/games/what_the_table_gives_you_game.dart';
+import '../features/games/gross_or_net_game.dart';
+import '../features/games/how_big_is_the_hole_game.dart';
+import '../features/games/is_all_of_it_connected_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -658,6 +661,9 @@ GoRouter buildRouter(AuthController auth) {
           'which-axis-wins-now' => const WhichAxisWinsNowGame(),
           'what-the-table-gives-you' =>
             const WhatTheTableGivesYouGame(),
+          'gross-or-net' => const GrossOrNetGame(),
+          'how-big-is-the-hole' => const HowBigIsTheHoleGame(),
+          'is-all-of-it-connected' => const IsAllOfItConnectedGame(),
           _ => const _UnknownGame(),
         },
       ),

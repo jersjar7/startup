@@ -334,6 +334,9 @@ enum BriefFigure {
   flanges,
   whichAxis,
   columnTable,
+  twoLimits,
+  netArea,
+  shearLag,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -6214,6 +6217,81 @@ const tableBrief3 = BriefSection(
   handbook: 'Handbook, steel columns',
 );
 
+const twoLimitsBrief = BriefSection(
+  title: 'Two ways to lose a tension member',
+  body:
+      'A member in tension has two limit states and both are always checked, '
+      'with the smaller design strength deciding what the member is worth. '
+      'YIELDING is the whole bar stretching, so it uses the GROSS area with '
+      'nothing taken off for holes, the yield stress, and a factor of 0.90: a '
+      'few inches of steel yielding beside a bolt hole does not lose anybody '
+      'a building, so the check is made on the section that represents most '
+      'of the length. RUPTURE is a tear across one cross-section, so it uses '
+      'the EFFECTIVE NET area through the line of holes, the ultimate stress, '
+      'and a factor of 0.75, the smaller factor because a fracture arrives '
+      'without warning. The ultimate stress is well above the yield stress, '
+      'which makes people assume yielding always wins; it does not, because '
+      'the holes take area away and the factor is lower, and the two together '
+      'usually swallow the difference.',
+  formulas: [
+    ('Yielding', r'\phi P_n = 0.90 F_y A_g'),
+    ('Rupture', r'\phi P_n = 0.75 F_u A_e'),
+    ('The member', r'\min \text{ of the two}'),
+  ],
+  figure: BriefFigure.twoLimits,
+  handbook: 'Handbook, tension members',
+);
+
+const netAreaBrief = BriefSection(
+  title: 'The hole is bigger than the bolt',
+  body:
+      'Three sentences cover the net area and each of them is a wrong answer '
+      'somewhere. First, a hole costs the bolt diameter PLUS an eighth of an '
+      'inch: a sixteenth so the bolt goes in and another sixteenth written '
+      'off because punching tears the steel at the edge. A seven-eighths bolt '
+      'therefore costs a full inch of width. Second, the allowance comes off '
+      'the WIDTH, and the reduced width is multiplied by the thickness '
+      'afterward, so the same bolt costs more area in a thicker plate; '
+      'subtracting it from the area instead is wrong by a factor of the '
+      'thickness. Third, only the holes lying on ONE cross-section come off '
+      'that section, so bolts strung out along the line of pull do not add '
+      'up, which is much of why connections are made long rather than wide. '
+      'None of this touches the gross area that the yielding check uses.',
+  formulas: [
+    ('Each hole', r'd_b + \tfrac{1}{8}\text{ in}'),
+    ('The net area', r'A_n = \left[b_g - \Sigma(d_b + \tfrac{1}{8})\right] t'),
+    ('Where it applies', r'\text{the rupture check only}'),
+  ],
+  figure: BriefFigure.netArea,
+  handbook: 'Handbook, tension members',
+);
+
+const shearLagBrief = BriefSection(
+  title: 'Load needs room to spread',
+  body:
+      'When a member is connected through only part of its section, the load '
+      'arrives in the connected part and has to work its way across into the '
+      'rest, and that takes LENGTH. Right at the critical section the '
+      'spreading has hardly begun, so the far-off parts are not yet pulling '
+      'their share and the whole net area is not really working. The factor U '
+      'is how much of it is, and the effective net area is U times the net '
+      'area. Bolted right across the width, as a flat bar is, U is one and '
+      'there is nothing to allow for. Through one leg of an angle, or through '
+      'the flanges of a W with the web left out, U is less than one. The fix '
+      'is a LONGER connection, since U is one less the distance out to the '
+      'centroid divided by the connection length. Bigger bolts do not help: '
+      'their holes take more area away. And the whole idea belongs to the '
+      'rupture check, never to yielding, which happens far from the '
+      'connection where the load has long since spread itself out.',
+  formulas: [
+    ('Effective', r'A_e = U A_n'),
+    ('The factor', r'U = 1 - \bar{x}/L'),
+    ('A flat bar', r'U = 1.0'),
+  ],
+  figure: BriefFigure.shearLag,
+  handbook: 'Handbook, tension members',
+);
+
 const trussRouteBrief = BriefSection(
   title: 'Which one is quicker, and what comes first',
   body:
@@ -8319,6 +8397,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{elastic buckling ignores } F_y", true),
             (r"\text{multiply the table value by } 0.90", false),
             (r"F_y A_g \text{ is the design strength}", false),
+          ],
+        );
+      case BriefFigure.twoLimits:
+        return const _RuleList(
+          rules: [
+            (r"\text{yielding: } 0.90 F_y A_g", true),
+            (r"\text{rupture: } 0.75 F_u A_e", true),
+            (r"F_u > F_y \Rightarrow \text{yielding controls}", false),
+            (r"\text{holes reduce } A_g", false),
+          ],
+        );
+      case BriefFigure.netArea:
+        return const _RuleList(
+          rules: [
+            (r"\text{each hole costs } d_b + \tfrac{1}{8}", true),
+            (r"\text{it comes off the width}", true),
+            (r"\text{bolts in a row all come off one cut}", false),
+            (r"\text{the bolt fills the hole}", false),
+          ],
+        );
+      case BriefFigure.shearLag:
+        return const _RuleList(
+          rules: [
+            (r"A_e = U A_n", true),
+            (r"\text{a longer connection raises } U", true),
+            (r"U \text{ applies to yielding too}", false),
+            (r"\text{an angle on one leg has } U = 1", false),
           ],
         );
       case BriefFigure.cogo:
