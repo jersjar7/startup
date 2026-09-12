@@ -129,6 +129,9 @@ import 'how_much_bank_game.dart';
 import 'feet_not_miles_game.dart';
 import 'all_the_way_across_game.dart';
 import 'three_parts_of_a_walk_game.dart';
+import 'half_of_each_game.dart';
+import 'what_is_left_of_the_speed_game.dart';
+import 'per_million_what_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4743,6 +4746,33 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'trans-st-',
     rounds: [
       for (final r in greenRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'half-of-each',
+    lessonId: 'traffic-flow',
+    problemPrefix: 'trans-tf-',
+    rounds: [
+      for (final r in peakFlowRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-is-left-of-the-speed',
+    lessonId: 'traffic-flow',
+    problemPrefix: 'trans-tf-',
+    rounds: [
+      for (final r in speedRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'per-million-what',
+    lessonId: 'traffic-flow',
+    problemPrefix: 'trans-tf-',
+    rounds: [
+      for (final r in exposureRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

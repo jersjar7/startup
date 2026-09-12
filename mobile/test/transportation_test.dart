@@ -13,6 +13,10 @@ import 'package:mobile/features/games/signal_figures.dart';
 import 'package:mobile/features/games/feet_not_miles_game.dart';
 import 'package:mobile/features/games/all_the_way_across_game.dart';
 import 'package:mobile/features/games/three_parts_of_a_walk_game.dart';
+import 'package:mobile/features/games/traffic_flow_figures.dart';
+import 'package:mobile/features/games/half_of_each_game.dart';
+import 'package:mobile/features/games/what_is_left_of_the_speed_game.dart';
+import 'package:mobile/features/games/per_million_what_game.dart';
 
 void main() {
   group('stopping sight distance', () {
@@ -425,6 +429,109 @@ void main() {
       ]) {
         expect(answers.toSet().length, greaterThan(2),
             reason: 'the correct option sits in too few positions');
+      }
+    });
+  });
+
+
+  group('traffic flow', () {
+    const freeway = Stream(freeFlow: 70, jamDensity: 180);
+    const arterial = Stream(freeFlow: 60, jamDensity: 120);
+
+    test('the peak flow matches the lesson, and its three wrong answers', () {
+      expect(freeway.maxFlow, closeTo(3150, 1));
+      expect(freeway.freeFlow * freeway.jamDensity, closeTo(12600, 1));
+      expect(freeway.freeFlow * freeway.jamDensity / 2, closeTo(6300, 1));
+      expect(freeway.freeFlow * freeway.jamDensity / 8, closeTo(1575, 1));
+    });
+
+    test('the peak really does sit at half of each', () {
+      expect(freeway.optimumDensity, closeTo(90, 0.001));
+      expect(freeway.optimumSpeed, closeTo(35, 0.001));
+      expect(freeway.speedAt(freeway.optimumDensity),
+          closeTo(freeway.optimumSpeed, 0.001));
+      expect(freeway.flowAt(freeway.optimumDensity),
+          closeTo(freeway.maxFlow, 0.001));
+    });
+
+    test('nothing on the curve beats the peak', () {
+      for (var d = 0.0; d <= freeway.jamDensity; d += 5) {
+        expect(freeway.flowAt(d), lessThanOrEqualTo(freeway.maxFlow + 0.001),
+            reason: '$d a mile');
+      }
+    });
+
+    test('the same flow happens at two densities, one either side', () {
+      // 2,000 an hour, below the peak of 3,150.
+      final below = <double>[];
+      for (var d = 1.0; d < freeway.jamDensity; d += 1) {
+        if ((freeway.flowAt(d) - 2000).abs() < 20) below.add(d);
+      }
+      expect(below.where((d) => d < freeway.optimumDensity), isNotEmpty);
+      expect(below.where((d) => d > freeway.optimumDensity), isNotEmpty);
+    });
+
+    test('the speed at a density matches the lesson, and its two traps', () {
+      expect(arterial.speedAt(40), closeTo(40, 0.001));
+      // The reduction on its own, which the lesson prints as a choice.
+      expect(arterial.lostAt(40), closeTo(20, 0.001));
+      // And the optimum speed, which belongs to a different density.
+      expect(arterial.optimumSpeed, closeTo(30, 0.001));
+      expect(arterial.speedAt(arterial.optimumDensity),
+          closeTo(arterial.optimumSpeed, 0.001));
+    });
+
+    test('speed never exceeds the free flow speed and never goes negative',
+        () {
+      for (var d = 0.0; d <= arterial.jamDensity; d += 10) {
+        expect(arterial.speedAt(d), lessThanOrEqualTo(arterial.freeFlow));
+        expect(arterial.speedAt(d), greaterThanOrEqualTo(-0.001));
+      }
+    });
+
+    test('a nearly jammed lane has nearly no speed left', () {
+      expect(arterial.speedAt(108), closeTo(6, 0.001));
+    });
+
+    test('the crash rate matches the lesson, and its two wrong answers', () {
+      const junction = CrashRate(crashes: 12, dailyTraffic: 8000);
+      expect(junction.exposure, closeTo(2920000, 1));
+      expect(junction.perMillion, closeTo(4.11, 0.01));
+      expect(junction.forgettingTheYear, closeTo(1500, 1));
+      expect(junction.forgettingTheMillion, lessThan(0.0001));
+    });
+
+    test('a busier junction with more crashes can have the better rate', () {
+      const quiet = CrashRate(crashes: 12, dailyTraffic: 8000);
+      const busy = CrashRate(crashes: 20, dailyTraffic: 30000);
+      expect(busy.crashes, greaterThan(quiet.crashes));
+      expect(busy.perMillion, lessThan(quiet.perMillion));
+    });
+
+    test('a segment carries its length in the denominator', () {
+      const segment = CrashRate(crashes: 15, dailyTraffic: 10000, miles: 3);
+      const asJunction = CrashRate(crashes: 15, dailyTraffic: 10000);
+      expect(segment.isSegment, isTrue);
+      expect(segment.exposure, closeTo(asJunction.exposure * 3, 1));
+      expect(segment.perMillion, closeTo(asJunction.perMillion / 3, 0.001));
+    });
+
+    test('the three items keep the answer moving between the slots', () {
+      for (final answers in [
+        peakFlowRounds.map((r) => r.answer).toList(),
+        speedRounds.map((r) => r.answer).toList(),
+        exposureRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
+    });
+
+    test('the rounds about a segment really use one', () {
+      for (final r in exposureRounds) {
+        if (r.subject.contains('length of road')) {
+          expect(r.rate.isSegment, isTrue, reason: r.subject);
+        }
       }
     });
   });

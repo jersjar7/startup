@@ -305,6 +305,9 @@ import '../features/games/how_much_bank_game.dart';
 import '../features/games/feet_not_miles_game.dart';
 import '../features/games/all_the_way_across_game.dart';
 import '../features/games/three_parts_of_a_walk_game.dart';
+import '../features/games/half_of_each_game.dart';
+import '../features/games/what_is_left_of_the_speed_game.dart';
+import '../features/games/per_million_what_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -758,6 +761,9 @@ GoRouter buildRouter(AuthController auth) {
           'feet-not-miles' => const FeetNotMilesGame(),
           'all-the-way-across' => const AllTheWayAcrossGame(),
           'three-parts-of-a-walk' => const ThreePartsOfAWalkGame(),
+          'half-of-each' => const HalfOfEachGame(),
+          'what-is-left-of-the-speed' => const WhatIsLeftOfTheSpeedGame(),
+          'per-million-what' => const PerMillionWhatGame(),
           _ => const _UnknownGame(),
         },
       ),

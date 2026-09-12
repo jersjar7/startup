@@ -4009,6 +4009,37 @@ const transportationMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'traffic-flow',
+      name: 'Traffic Flow & Crash Rates',
+      subtopicId: 'traffic-engineering',
+      games: [
+        GameDef(
+          id: 'half-of-each',
+          rounds: 6,
+          name: 'Half of Each',
+          blurb: 'The peak sits at half the speed and half the density.',
+          built: true,
+          brief: greenshieldsBrief,
+        ),
+        GameDef(
+          id: 'what-is-left-of-the-speed',
+          rounds: 6,
+          name: 'What Is Left of the Speed',
+          blurb: 'Start full, subtract what the traffic took.',
+          built: true,
+          brief: speedDensityBrief,
+        ),
+        GameDef(
+          id: 'per-million-what',
+          rounds: 6,
+          name: 'Per Million What',
+          blurb: 'A count ranks nothing until it is divided.',
+          built: true,
+          brief: crashRateBrief,
+        ),
+      ],
+    ),
   ],
 );
 

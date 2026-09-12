@@ -312,6 +312,9 @@ import 'package:mobile/features/games/how_much_bank_game.dart';
 import 'package:mobile/features/games/feet_not_miles_game.dart';
 import 'package:mobile/features/games/all_the_way_across_game.dart';
 import 'package:mobile/features/games/three_parts_of_a_walk_game.dart';
+import 'package:mobile/features/games/half_of_each_game.dart';
+import 'package:mobile/features/games/what_is_left_of_the_speed_game.dart';
+import 'package:mobile/features/games/per_million_what_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2514,6 +2517,24 @@ void main() {
           rounds: greenRounds.length,
           height: 2200,
         ),
+        'half-of-each': (
+          lesson: '122-flow',
+          build: HalfOfEachGame.new,
+          rounds: peakFlowRounds.length,
+          height: 2240,
+        ),
+        'what-is-left-of-the-speed': (
+          lesson: '122-flow',
+          build: WhatIsLeftOfTheSpeedGame.new,
+          rounds: speedRounds.length,
+          height: 2240,
+        ),
+        'per-million-what': (
+          lesson: '122-flow',
+          build: PerMillionWhatGame.new,
+          rounds: exposureRounds.length,
+          height: 2200,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3035,6 +3056,11 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '122-flow': [
+      ('peak', greenshieldsBrief),
+      ('line', speedDensityBrief),
+      ('rate', crashRateBrief),
     ],
     '121-signals': [
       ('yellow', yellowBrief),

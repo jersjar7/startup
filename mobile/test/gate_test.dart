@@ -446,6 +446,12 @@ void main() {
       'feet-not-miles',
       'all-the-way-across',
       'three-parts-of-a-walk',
+      // The speed problem is the only one in the traffic flow lesson that
+      // asks for a speed at a stated density, and the crash problem the
+      // only one about crashes at all. The item on the peak draws on two
+      // of the three, so it is not in this list.
+      'what-is-left-of-the-speed',
+      'per-million-what',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

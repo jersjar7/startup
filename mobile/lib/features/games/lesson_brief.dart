@@ -381,6 +381,9 @@ enum BriefFigure {
   yellowInterval,
   allRed,
   pedestrianGreen,
+  greenshields,
+  speedDensity,
+  crashRate,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7314,6 +7317,77 @@ const pedestrianGreenBrief = BriefSection(
   handbook: 'Handbook, signal timing',
 );
 
+const greenshieldsBrief = BriefSection(
+  title: 'A quarter of the product',
+  body:
+      'Flow is speed times density: how fast they are going, times how many '
+      'of them there are in a mile. Greenshields assumes the speed falls in '
+      'a straight LINE as the lane fills, from the free flow speed on an '
+      'empty road to nothing at a jam. A product of one term rising while '
+      'another falls peaks in the middle, so maximum flow happens at half '
+      'the free flow speed AND half the jam density, and the peak is '
+      'therefore a QUARTER of their product. Forget the four and you report '
+      'the product itself, which is the lesson\'s wrong answer. Two things '
+      'are worth carrying away. Maximum flow is not a comfortable road: it '
+      'is a crowded one at half speed, on the edge of breaking down. And '
+      'every flow below the peak happens at TWO densities, one either side, '
+      'which is why level of service is judged on density rather than '
+      'volume.',
+  formulas: [
+    ('The fundamentals', r'V = S \times D'),
+    ('The peak', r'V_m = \dfrac{D_j S_f}{4}'),
+    ('Where it sits', r'D_o = D_j/2, \; S_o = S_f/2'),
+  ],
+  figure: BriefFigure.greenshields,
+  handbook: 'Handbook, traffic flow',
+);
+
+const speedDensityBrief = BriefSection(
+  title: 'Start full, subtract the traffic',
+  body:
+      'The speed line is the free flow speed LESS what the traffic already '
+      'there has taken away, and the answer is the difference, never either '
+      'piece on its own. The piece that is subtracted is the free flow speed '
+      'over the jam density, times the density, and that first part is '
+      'simply the slope of the line: how much speed each extra vehicle a '
+      'mile costs. Two traps sit here. Reporting the reduction instead of '
+      'what is left, and reaching for half the free flow speed when the '
+      'density is not half the jam density, since those halves go together '
+      'and apart from each other mean nothing. One free check: nothing on '
+      'the road can be faster than the free flow speed, so any answer above '
+      'it is wrong before it is examined.',
+  formulas: [
+    ('The line', r'S = S_f - \dfrac{S_f}{D_j} D'),
+    ('The slope', r'\dfrac{S_f}{D_j} \text{ mph per veh/mi}'),
+    ('The ceiling', r'S \leq S_f \text{ always}'),
+  ],
+  figure: BriefFigure.speedDensity,
+  handbook: 'Handbook, traffic flow',
+);
+
+const crashRateBrief = BriefSection(
+  title: 'Crashes over what was exposed',
+  body:
+      'A crash count on its own cannot rank anything: a busy junction has '
+      'more crashes than a quiet one simply by having more vehicles. The '
+      'rate divides the crashes by the traffic exposed to them, and building '
+      'that denominator is the whole job. A daily count has to be '
+      'ANNUALIZED, so a year of crashes sits over a year of traffic: the '
+      'daily figure times 365. Dividing by the daily count instead gives an '
+      'answer in the thousands, which cannot be right, since it claims more '
+      'crashes than vehicles. The million is there to bring the answer into '
+      'a range people can read. For a junction the exposure is entering '
+      'VEHICLES, and for a stretch of road it is vehicle MILES, because a '
+      'vehicle on three miles of highway is exposed three times as long.',
+  formulas: [
+    ('A junction', r'RMEV = \dfrac{A \times 10^6}{ADT \times 365}'),
+    ('A segment', r'RMVM = \dfrac{A \times 10^6}{ADT \times 365 \times L}'),
+    ('The point', r'\text{a count alone ranks nothing}'),
+  ],
+  figure: BriefFigure.crashRate,
+  handbook: 'Handbook, crash rates',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -9889,6 +9963,33 @@ class BriefFigureView extends StatelessWidget {
             (r"S_p = 3.5 \text{ ft/s}", true),
             (r"G_p = 3.2 + L/S_p", false),
             (r"S_p = 4.0 \text{ ft/s}", false),
+          ],
+        );
+      case BriefFigure.greenshields:
+        return const _RuleList(
+          rules: [
+            (r"V_m = D_j S_f / 4", true),
+            (r"D_o = D_j/2, \; S_o = S_f/2", true),
+            (r"V_m = D_j S_f", false),
+            (r"\text{max flow is a comfortable road}", false),
+          ],
+        );
+      case BriefFigure.speedDensity:
+        return const _RuleList(
+          rules: [
+            (r"S = S_f - (S_f/D_j)D", true),
+            (r"S \leq S_f \text{ always}", true),
+            (r"S = (S_f/D_j)D", false),
+            (r"S = S_f/2 \text{ at any density}", false),
+          ],
+        );
+      case BriefFigure.crashRate:
+        return const _RuleList(
+          rules: [
+            (r"RMEV = A \times 10^6 / (ADT \times 365)", true),
+            (r"\text{a segment carries its length}", true),
+            (r"RMEV = A \times 10^6 / ADT", false),
+            (r"\text{more crashes means more dangerous}", false),
           ],
         );
       case BriefFigure.rankine:
