@@ -120,6 +120,9 @@ import 'lime_or_cement_game.dart';
 import 'tip_or_shaft_game.dart';
 import 'why_go_deeper_game.dart';
 import 'which_way_the_friction_acts_game.dart';
+import 'think_then_brake_game.dart';
+import 'uphill_or_down_game.dart';
+import 'the_worst_fifteen_minutes_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4653,6 +4656,33 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'geo-dfn-',
     rounds: [
       for (final r in downdragRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'think-then-brake',
+    lessonId: 'stopping-sight-distance',
+    problemPrefix: 'trans-ssd-',
+    rounds: [
+      for (final r in stoppingRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'uphill-or-down',
+    lessonId: 'stopping-sight-distance',
+    problemPrefix: 'trans-ssd-',
+    rounds: [
+      for (final r in hillRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'the-worst-fifteen-minutes',
+    lessonId: 'stopping-sight-distance',
+    problemPrefix: 'trans-ssd-',
+    rounds: [
+      for (final r in surgeRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

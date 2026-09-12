@@ -372,6 +372,9 @@ enum BriefFigure {
   pileCapacity,
   goingDeep,
   downdrag,
+  sightDistance,
+  gradeSign,
+  peakHour,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7095,6 +7098,73 @@ const downdragBrief = BriefSection(
   handbook: 'Handbook, deep foundations',
 );
 
+const sightDistanceBrief = BriefSection(
+  title: 'Thinking, then braking',
+  body:
+      'Stopping sight distance is two stretches of road laid end to end. The '
+      'first is covered while the driver has not noticed anything yet, at '
+      'full speed the whole way: speed times reaction time, with a 1.47 in '
+      'front only to turn miles per hour into feet per second. The second is '
+      'the braking distance. Add them. Reporting either one alone is the '
+      'wrong answer the lesson prints, twice. They also grow differently: '
+      'the thinking stretch grows straight with speed and straight with '
+      'reaction time, while braking grows with the SQUARE of the speed. So '
+      'at 30 mph most of the distance is spent not reacting, at 60 mph most '
+      'of it is spent braking, and doubling a design speed more than doubles '
+      'the sight distance it needs.',
+  formulas: [
+    ('Thinking', r'1.47\,V t'),
+    ('Braking', r'\dfrac{V^2}{30\left(\frac{a}{32.2} \pm G\right)}'),
+    ('The 1.47', r'5{,}280/3{,}600'),
+  ],
+  figure: BriefFigure.sightDistance,
+  handbook: 'Handbook, stopping sight distance',
+);
+
+const gradeSignBrief = BriefSection(
+  title: 'Uphill helps, downhill hurts',
+  body:
+      'The grade goes into the denominator of the braking term as a '
+      'FRACTION, positive uphill and negative downhill. Climbing, the car\'s '
+      'own weight pulls it back and helps the brakes, so the denominator is '
+      'larger, the braking distance smaller and the sight distance SHORTER. '
+      'Descending, the weight pushes the car along, the denominator shrinks '
+      'and the distance is LONGER. Only the braking half moves: during the '
+      'thinking stretch nothing has happened yet and the car covers the same '
+      'ground on any hill. Reversing the sign on the lesson\'s own four per '
+      'cent grade moves the answer about eighty feet, and always toward less '
+      'sight distance than the road really needs.',
+  formulas: [
+    ('Uphill', r'+G \Rightarrow \text{shorter}'),
+    ('Downhill', r'-G \Rightarrow \text{longer}'),
+    ('As a fraction', r'4\% \Rightarrow 0.04'),
+  ],
+  figure: BriefFigure.gradeSign,
+  handbook: 'Handbook, stopping sight distance',
+);
+
+const peakHourBrief = BriefSection(
+  title: 'Designed for the surge',
+  body:
+      'An hour of traffic does not arrive evenly, and a road either works '
+      'during its busiest fifteen minutes or it does not. So the design flow '
+      'rate is what the hour WOULD come to at the rate of that worst '
+      'quarter: four times the fifteen minute count. That number is always '
+      'at least the hourly volume, and an answer below the volume is wrong '
+      'before the arithmetic is checked. The peak hour factor is the volume '
+      'divided by that rate. It runs from 0.25, the whole hour in one '
+      'quarter, to 1.00, perfectly even, with real roads around 0.85 to '
+      '0.95. Read the direction carefully: a LOW factor means a peaky hour '
+      'and a HIGH design flow.',
+  formulas: [
+    ('Flow rate', r'4 \times V_{15}'),
+    ('The factor', r'PHF = \dfrac{V}{4 V_{15}}'),
+    ('Its range', r'0.25 \leq PHF \leq 1.00'),
+  ],
+  figure: BriefFigure.peakHour,
+  handbook: 'Handbook, peak hour factor',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -9589,6 +9659,33 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{direction follows relative movement}", true),
             (r"\text{downdrag adds capacity}", false),
             (r"\text{friction is always a resistance}", false),
+          ],
+        );
+      case BriefFigure.sightDistance:
+        return const _RuleList(
+          rules: [
+            (r"SSD = 1.47Vt + \text{braking}", true),
+            (r"\text{braking grows as } V^2", true),
+            (r"SSD = \text{braking alone}", false),
+            (r"\text{both halves grow alike}", false),
+          ],
+        );
+      case BriefFigure.gradeSign:
+        return const _RuleList(
+          rules: [
+            (r"\text{uphill } +G: \text{ shorter}", true),
+            (r"\text{downhill } -G: \text{ longer}", true),
+            (r"\text{downhill is easier to stop on}", false),
+            (r"\text{the grade changes the thinking part}", false),
+          ],
+        );
+      case BriefFigure.peakHour:
+        return const _RuleList(
+          rules: [
+            (r"\text{flow rate} = 4V_{15} \geq V", true),
+            (r"0.25 \leq PHF \leq 1.00", true),
+            (r"\text{flow rate} = V \times PHF", false),
+            (r"\text{a low } PHF \text{ needs less capacity}", false),
           ],
         );
       case BriefFigure.rankine:

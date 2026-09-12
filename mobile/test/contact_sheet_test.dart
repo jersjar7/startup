@@ -303,6 +303,9 @@ import 'package:mobile/features/games/lime_or_cement_game.dart';
 import 'package:mobile/features/games/tip_or_shaft_game.dart';
 import 'package:mobile/features/games/why_go_deeper_game.dart';
 import 'package:mobile/features/games/which_way_the_friction_acts_game.dart';
+import 'package:mobile/features/games/think_then_brake_game.dart';
+import 'package:mobile/features/games/uphill_or_down_game.dart';
+import 'package:mobile/features/games/the_worst_fifteen_minutes_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2451,6 +2454,24 @@ void main() {
           rounds: downdragRounds.length,
           height: 2240,
         ),
+        'think-then-brake': (
+          lesson: '118-ssd',
+          build: ThinkThenBrakeGame.new,
+          rounds: stoppingRounds.length,
+          height: 2200,
+        ),
+        'uphill-or-down': (
+          lesson: '118-ssd',
+          build: UphillOrDownGame.new,
+          rounds: hillRounds.length,
+          height: 2180,
+        ),
+        'the-worst-fifteen-minutes': (
+          lesson: '118-ssd',
+          build: TheWorstFifteenMinutesGame.new,
+          rounds: surgeRounds.length,
+          height: 2180,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2972,6 +2993,11 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '118-ssd': [
+      ('distance', sightDistanceBrief),
+      ('grade', gradeSignBrief),
+      ('peak', peakHourBrief),
     ],
     '117-piles': [
       ('capacity', pileCapacityBrief),

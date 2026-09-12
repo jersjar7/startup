@@ -296,6 +296,9 @@ import '../features/games/lime_or_cement_game.dart';
 import '../features/games/tip_or_shaft_game.dart';
 import '../features/games/why_go_deeper_game.dart';
 import '../features/games/which_way_the_friction_acts_game.dart';
+import '../features/games/think_then_brake_game.dart';
+import '../features/games/uphill_or_down_game.dart';
+import '../features/games/the_worst_fifteen_minutes_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -740,6 +743,9 @@ GoRouter buildRouter(AuthController auth) {
           'why-go-deeper' => const WhyGoDeeperGame(),
           'which-way-the-friction-acts' =>
             const WhichWayTheFrictionActsGame(),
+          'think-then-brake' => const ThinkThenBrakeGame(),
+          'uphill-or-down' => const UphillOrDownGame(),
+          'the-worst-fifteen-minutes' => const TheWorstFifteenMinutesGame(),
           _ => const _UnknownGame(),
         },
       ),

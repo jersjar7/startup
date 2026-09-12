@@ -3885,6 +3885,54 @@ const geotechnicalMap = ChapterMap(
   ],
 );
 
+const transportationMap = ChapterMap(
+  id: 'transportation',
+  number: 14,
+  name: 'Transportation Engineering',
+  examLine: '8 to 12 questions on the real exam',
+  subtopics: [
+    Subtopic('geometric-design', 'Geometric Design'),
+    Subtopic('traffic-engineering', 'Traffic Engineering'),
+    // The web calls this Planning & Traffic Operations, which is wider than
+    // the heading pill on a phone.
+    Subtopic('planning-operations', 'Planning & Operations'),
+    Subtopic('pavement-earthwork', 'Pavement Design & Earthwork'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'stopping-sight-distance',
+      name: 'Stopping Sight Distance & PHF',
+      subtopicId: 'geometric-design',
+      games: [
+        GameDef(
+          id: 'think-then-brake',
+          rounds: 6,
+          name: 'Think Then Brake',
+          blurb: 'Two stretches of road, and they grow differently.',
+          built: true,
+          brief: sightDistanceBrief,
+        ),
+        GameDef(
+          id: 'uphill-or-down',
+          rounds: 6,
+          name: 'Uphill or Down',
+          blurb: 'One sign, and it moves the answer the unsafe way.',
+          built: true,
+          brief: gradeSignBrief,
+        ),
+        GameDef(
+          id: 'the-worst-fifteen-minutes',
+          rounds: 6,
+          name: 'The Worst Fifteen Minutes',
+          blurb: 'A road is designed for the surge, not the hour.',
+          built: true,
+          brief: peakHourBrief,
+        ),
+      ],
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
@@ -3899,6 +3947,7 @@ const chapterMaps = <String, ChapterMap>{
   'water-resources': waterResourcesMap,
   'structural': structuralMap,
   'geotechnical': geotechnicalMap,
+  'transportation': transportationMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

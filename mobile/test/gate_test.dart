@@ -430,6 +430,12 @@ void main() {
       'tip-or-shaft',
       'why-go-deeper',
       'which-way-the-friction-acts',
+      // The sight distance lesson's three problems ARE its three subjects:
+      // the two component distances, the sign on the grade, and the peak
+      // hour factor. Its three items land one to one on them.
+      'think-then-brake',
+      'uphill-or-down',
+      'the-worst-fifteen-minutes',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }
