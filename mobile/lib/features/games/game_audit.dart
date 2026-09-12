@@ -153,6 +153,8 @@ import 'how_long_in_all_game.dart';
 import 'which_way_the_pass_runs_game.dart';
 import 'what_float_is_game.dart';
 import 'the_chain_with_no_slack_game.dart';
+import 'which_variance_is_which_game.dart';
+import 'what_it_will_cost_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4973,6 +4975,24 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'const-fl-',
     rounds: [
       for (final r in criticalRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-variance-is-which',
+    lessonId: 'earned-value-analysis',
+    problemPrefix: 'const-ev-',
+    rounds: [
+      for (final r in valueRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-it-will-cost',
+    lessonId: 'project-forecasting',
+    problemPrefix: 'const-pf-',
+    rounds: [
+      for (final r in forecastRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

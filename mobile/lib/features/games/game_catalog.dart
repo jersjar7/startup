@@ -4281,6 +4281,39 @@ const constructionMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'earned-value-analysis',
+      name: 'Earned Value Analysis',
+      subtopicId: 'earned-value',
+      // One item. All three of this lesson's problems are the same two
+      // subtractions asked about different numbers, so they make one item
+      // with six rounds rather than three items repeating each other.
+      games: [
+        GameDef(
+          id: 'which-variance-is-which',
+          rounds: 6,
+          name: 'Which Variance Is Which',
+          blurb: 'Both start from what the work is worth.',
+          built: true,
+          brief: earnedValueBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'project-forecasting',
+      name: 'Project Forecasting',
+      subtopicId: 'earned-value',
+      games: [
+        GameDef(
+          id: 'what-it-will-cost',
+          rounds: 6,
+          name: 'What It Will Cost by the End',
+          blurb: 'Divide what is left by the rate you are really going.',
+          built: true,
+          brief: forecastBrief,
+        ),
+      ],
+    ),
   ],
 );
 

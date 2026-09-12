@@ -334,6 +334,8 @@ import 'package:mobile/features/games/how_long_in_all_game.dart';
 import 'package:mobile/features/games/which_way_the_pass_runs_game.dart';
 import 'package:mobile/features/games/what_float_is_game.dart';
 import 'package:mobile/features/games/the_chain_with_no_slack_game.dart';
+import 'package:mobile/features/games/which_variance_is_which_game.dart';
+import 'package:mobile/features/games/what_it_will_cost_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2668,6 +2670,18 @@ void main() {
           rounds: criticalRounds.length,
           height: 2220,
         ),
+        'which-variance-is-which': (
+          lesson: '131-earnedvalue',
+          build: WhichVarianceIsWhichGame.new,
+          rounds: valueRounds.length,
+          height: 2180,
+        ),
+        'what-it-will-cost': (
+          lesson: '132-forecast',
+          build: WhatItWillCostGame.new,
+          rounds: forecastRounds.length,
+          height: 2220,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3189,6 +3203,12 @@ void main() {
       ('terms', terzaghiBrief),
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
+    ],
+    '131-earnedvalue': [
+      ('variances', earnedValueBrief),
+    ],
+    '132-forecast': [
+      ('forecast', forecastBrief),
     ],
     '128-cpm': [
       ('forward', forwardPassBrief),

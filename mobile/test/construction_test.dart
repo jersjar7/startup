@@ -6,6 +6,9 @@ import 'package:mobile/features/games/how_long_in_all_game.dart';
 import 'package:mobile/features/games/which_way_the_pass_runs_game.dart';
 import 'package:mobile/features/games/what_float_is_game.dart';
 import 'package:mobile/features/games/the_chain_with_no_slack_game.dart';
+import 'package:mobile/features/games/earned_value_figures.dart';
+import 'package:mobile/features/games/which_variance_is_which_game.dart';
+import 'package:mobile/features/games/what_it_will_cost_game.dart';
 
 void main() {
   // The network the three scheduling lessons share.
@@ -180,4 +183,94 @@ void main() {
       }
     });
   });
+
+  group('earned value', () {
+    test('the cost variance matches the lesson and reads over budget', () {
+      const p = Progress(planned: 420000, earned: 400000, actual: 450000);
+      expect(p.costVariance, -50000);
+      expect(p.overBudget, isTrue);
+    });
+
+    test('the schedule variance is a different subtraction', () {
+      const p = Progress(planned: 500000, earned: 420000, actual: 480000);
+      expect(p.scheduleVariance, -80000);
+      expect(p.costVariance, -60000);
+      // The lesson prints the cost variance as a wrong answer to the
+      // schedule question, and they are genuinely different numbers.
+      expect(p.scheduleVariance, isNot(p.costVariance));
+    });
+
+    test('behind schedule and under budget is a real combination', () {
+      const p = Progress(planned: 300000, earned: 270000, actual: 250000);
+      expect(p.behindSchedule, isTrue);
+      expect(p.overBudget, isFalse);
+      expect(p.scheduleVariance, -30000);
+      expect(p.costVariance, 20000);
+    });
+
+    test('both variances start from the earned value', () {
+      const p = Progress(planned: 500000, earned: 420000, actual: 480000);
+      expect(p.costVariance, p.earned - p.actual);
+      expect(p.scheduleVariance, p.earned - p.planned);
+    });
+  });
+
+  group('forecasting', () {
+    const job = Progress(
+      planned: 700000,
+      earned: 600000,
+      actual: 750000,
+      budget: 2000000,
+    );
+
+    test('the cost index matches the lesson, and inverting it does not', () {
+      expect(job.costIndex, closeTo(0.80, 0.001));
+      expect(job.actual / job.earned, closeTo(1.25, 0.001));
+    });
+
+    test('the estimate to complete divides by the index', () {
+      expect(job.remainingAtBudget, 1400000);
+      expect(job.toComplete, closeTo(1750000, 1));
+      expect(job.toComplete, greaterThan(job.remainingAtBudget));
+    });
+
+    test('the estimate at completion adds what is already spent', () {
+      expect(job.atCompletion, closeTo(2500000, 1));
+      expect(job.atCompletion, job.actual + job.toComplete);
+      expect(job.atCompletion, greaterThan(job.budget!));
+    });
+
+    test('an index of one forecasts the original budget', () {
+      const even = Progress(
+        planned: 700000,
+        earned: 700000,
+        actual: 700000,
+        budget: 2000000,
+      );
+      expect(even.costIndex, 1);
+      expect(even.atCompletion, closeTo(2000000, 1));
+    });
+
+    test('an index above one forecasts a saving', () {
+      const good = Progress(
+        planned: 700000,
+        earned: 700000,
+        actual: 560000,
+        budget: 2000000,
+      );
+      expect(good.costIndex, greaterThan(1));
+      expect(good.atCompletion, lessThan(good.budget!));
+    });
+
+    test('the two earned value items keep the answer moving', () {
+      for (final answers in [
+        valueRounds.map((r) => r.answer).toList(),
+        forecastRounds.map((r) => r.answer).toList(),
+      ]) {
+        expect(answers.toSet().length, greaterThan(2),
+            reason: 'the correct option sits in too few positions');
+      }
+    });
+  });
+
 }

@@ -403,6 +403,8 @@ enum BriefFigure {
   passes,
   float,
   criticalPath,
+  earnedValue,
+  forecast,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7859,6 +7861,56 @@ const criticalPathBrief = BriefSection(
   handbook: 'Handbook, CPM scheduling',
 );
 
+const earnedValueBrief = BriefSection(
+  title: 'Three numbers, two subtractions',
+  body:
+      'On any date a project has three numbers. What the plan said would be '
+      'done by now, what the work actually finished is WORTH at budgeted '
+      'rates, and what has actually been spent. The middle one, earned '
+      'value, is the one that matters, because it is the only one that '
+      'reflects progress rather than intentions or invoices. Both variances '
+      'start from it. Earned less SPENT is the cost variance: negative means '
+      'more money went out than the work was worth, which is over budget. '
+      'Earned less PLANNED is the schedule variance: negative means less got '
+      'done than the plan called for, which is behind. Two subtractions from '
+      'the same starting point, and the commonest mistakes are doing the '
+      'wrong one, or getting the sign right and then reading it backwards. '
+      'The two are reported separately because a project is often behind and '
+      'under budget at once: an efficient crew that is short handed.',
+  formulas: [
+    ('Cost', r'CV = BCWP - ACWP'),
+    ('Schedule', r'SV = BCWP - BCWS'),
+    ('Either one', r'\text{negative is bad}'),
+  ],
+  figure: BriefFigure.earnedValue,
+  handbook: 'Handbook, earned value',
+);
+
+const forecastBrief = BriefSection(
+  title: 'At this rate, what will it cost',
+  body:
+      'The cost performance index is earned value over actual cost, EARNED '
+      'on top, and it says how much value each dollar is buying. Below one '
+      'is trouble; turning the ratio over gives a number above one that '
+      'looks healthy and is the wrong answer the lesson prints. Both '
+      'forecasts assume the rate persists. The estimate to complete is the '
+      'budgeted work still to do, the whole budget less what has been '
+      'earned, DIVIDED by the index: at eighty cents on the dollar, 1.4 '
+      'million of remaining work will cost 1.75 million. Reporting the 1.4 '
+      'assumes the crew suddenly starts hitting budget. The estimate at '
+      'completion is then what is already spent PLUS that, and each half of '
+      'that sum on its own is one of the printed wrong answers. An index of '
+      'exactly one makes the division do nothing and lands the forecast back '
+      'on the original budget.',
+  formulas: [
+    ('The index', r'CPI = BCWP / ACWP'),
+    ('The rest', r'ETC = (BAC - BCWP)/CPI'),
+    ('The whole', r'EAC = ACWP + ETC'),
+  ],
+  figure: BriefFigure.forecast,
+  handbook: 'Handbook, earned value forecasting',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -10632,6 +10684,24 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{two paths can be critical}", true),
             (r"\text{the critical path is the shortest}", false),
             (r"\text{a day lost off it delays the job}", false),
+          ],
+        );
+      case BriefFigure.earnedValue:
+        return const _RuleList(
+          rules: [
+            (r"CV = BCWP - ACWP", true),
+            (r"SV = BCWP - BCWS", true),
+            (r"CV = ACWP - BCWP", false),
+            (r"\text{a negative variance is good news}", false),
+          ],
+        );
+      case BriefFigure.forecast:
+        return const _RuleList(
+          rules: [
+            (r"CPI = BCWP / ACWP", true),
+            (r"EAC = ACWP + ETC", true),
+            (r"CPI = ACWP / BCWP", false),
+            (r"ETC = BAC - BCWP", false),
           ],
         );
       case BriefFigure.rankine:
