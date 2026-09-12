@@ -3492,6 +3492,148 @@ const structuralMap = ChapterMap(
   ],
 );
 
+const geotechnicalMap = ChapterMap(
+  id: 'geotechnical',
+  number: 13,
+  name: 'Geotechnical Engineering',
+  examLine: '9 to 14 questions on the real exam',
+  subtopics: [
+    Subtopic('soil-properties', 'Soil Properties & Classification'),
+    Subtopic('consolidation-strength', 'Consolidation & Shear Strength'),
+    Subtopic('seepage-stability', 'Seepage & Slope Stability'),
+    Subtopic('foundations-walls', 'Foundations & Earth Pressures'),
+    // The web calls this one Deep Foundations & Soil Improvement, which is
+    // a character too long for the heading pill on a phone.
+    Subtopic('deep-foundations-improvement', 'Deep Foundations & Improvement'),
+  ],
+  lessons: [
+    LessonNode(
+      id: 'phase-relations',
+      name: 'Phase Relations',
+      subtopicId: 'soil-properties',
+      games: [
+        GameDef(
+          id: 'over-what',
+          rounds: 6,
+          name: 'Over What',
+          blurb: 'The denominators are not all the same, on purpose.',
+          built: true,
+          brief: phaseBrief,
+        ),
+        GameDef(
+          id: 'when-does-it-simplify',
+          rounds: 6,
+          name: 'When Does It Simplify',
+          blurb: 'One line crosses the diagram. It needs S to be one.',
+          built: true,
+          brief: masterBrief,
+        ),
+        GameDef(
+          id: 'which-gamma',
+          rounds: 6,
+          name: 'Which Gamma',
+          blurb: 'One soil, four weights, in a fixed order.',
+          built: true,
+          brief: gammaBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'soil-classification',
+      name: 'Soil Classification',
+      subtopicId: 'soil-properties',
+      games: [
+        GameDef(
+          id: 'which-fork-first',
+          rounds: 6,
+          name: 'Which Fork First',
+          blurb: 'The No. 200 sieve asks the first question.',
+          built: true,
+          brief: forkBrief,
+        ),
+        GameDef(
+          id: 'above-or-below-the-line',
+          rounds: 6,
+          name: 'Above or Below the Line',
+          blurb: 'Two lines on a chart, and four soils.',
+          built: true,
+          brief: chartBrief,
+        ),
+        GameDef(
+          id: 'both-or-neither',
+          rounds: 6,
+          name: 'Both or Neither',
+          blurb: 'One coefficient passing is not enough.',
+          built: true,
+          brief: gradationBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'effective-stress',
+      name: 'Effective Stress',
+      subtopicId: 'soil-properties',
+      games: [
+        GameDef(
+          id: 'which-stress-is-that',
+          rounds: 6,
+          name: 'Which Stress Is That',
+          blurb: 'Three at every point, and only one of them decides.',
+          built: true,
+          brief: threeStressBrief,
+        ),
+        GameDef(
+          id: 'what-the-water-table-does',
+          rounds: 6,
+          name: 'What the Water Table Does',
+          blurb: 'Pump it down and the grains take up the slack.',
+          built: true,
+          brief: waterTableBrief,
+        ),
+        GameDef(
+          id: 'the-short-way-down',
+          rounds: 6,
+          name: 'The Short Way Down',
+          blurb: 'Buoyant below the table, and never above it.',
+          built: true,
+          brief: shortWayBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'consolidation',
+      name: 'Consolidation & Settlement',
+      subtopicId: 'consolidation-strength',
+      games: [
+        GameDef(
+          id: 'which-case-is-it',
+          rounds: 6,
+          name: 'Which Case Is It',
+          blurb: 'Three formulas, and the memory picks one.',
+          built: true,
+          brief: caseBrief,
+        ),
+        GameDef(
+          id: 'stiff-until-it-remembers',
+          rounds: 6,
+          name: 'Stiff Until It Remembers',
+          blurb: 'A shallow line, a corner, and a steep one.',
+          built: true,
+          brief: memoryBrief,
+        ),
+        GameDef(
+          id: 'how-long-does-it-take',
+          rounds: 6,
+          name: 'How Long Does It Take',
+          blurb: 'The wait goes as the square of the journey.',
+          built: true,
+          brief: drainageBrief,
+        ),
+      ],
+    ),
+  ],
+);
+
 const chapterMaps = <String, ChapterMap>{
   'mathematics': mathematicsMap,
   'statistics': statisticsMap,
@@ -3505,6 +3647,7 @@ const chapterMaps = <String, ChapterMap>{
   'surveying': surveyingMap,
   'water-resources': waterResourcesMap,
   'structural': structuralMap,
+  'geotechnical': geotechnicalMap,
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];

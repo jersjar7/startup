@@ -337,6 +337,18 @@ enum BriefFigure {
   twoLimits,
   netArea,
   shearLag,
+  phaseDiagram,
+  masterRelation,
+  unitWeights,
+  uscsTree,
+  plasticityChart,
+  gradation,
+  threeStresses,
+  waterTable,
+  buoyantWalk,
+  settlementCase,
+  clayMemory,
+  drainagePath,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -6292,6 +6304,297 @@ const shearLagBrief = BriefSection(
   handbook: 'Handbook, tension members',
 );
 
+const phaseBrief = BriefSection(
+  title: 'Every property is one part over another',
+  body:
+      'A soil sample is solids, water and air, and the phase diagram draws it '
+      'as three blocks with the VOLUMES down one side and the WEIGHTS down '
+      'the other. Every index property in the lesson is one part of that '
+      'picture divided by another, and the denominators are deliberately not '
+      'all the same. Void ratio is the voids over the SOLIDS, which is why it '
+      'can pass one: squeeze a soil and the voids shrink while the solids do '
+      'not, so the bottom of that fraction never moves. Porosity is the same '
+      'voids over the WHOLE sample, so it cannot reach one at all. Saturation '
+      'is the water over the voids, asking how much of the available space is '
+      'wet. And water content is the odd one out, the only one taken from the '
+      'weight side, water over SOLIDS, which is why a soft clay can hold more '
+      'than 100 per cent.',
+  formulas: [
+    ('Void ratio', r'e = \frac{V_v}{V_s}'),
+    ('Porosity', r'n = \frac{V_v}{V} = \frac{e}{1+e}'),
+    ('Water content', r'\omega = \frac{W_w}{W_s}'),
+  ],
+  figure: BriefFigure.phaseDiagram,
+  handbook: 'Handbook, soil phase relationships',
+);
+
+const masterBrief = BriefSection(
+  title: 'The line that crosses the diagram',
+  body:
+      'Water content lives on the weight side and void ratio and saturation '
+      'live on the volume side, so something has to carry you between them. '
+      'That something is the specific gravity, and the relationship it sits '
+      'in is S times e equals w times Gs. At FULL saturation the S becomes '
+      'one and the void ratio is simply w times Gs, which unlocks it from two '
+      'numbers any lab reports as a matter of routine. Only then, though: '
+      'with air still in the voids the void ratio is w times Gs divided by S, '
+      'which is LARGER, so assuming saturation the stem never claimed makes '
+      'the answer come out small. Two habits keep it safe. Put the water '
+      'content in as a decimal, since the formula wants 0.20 and the lab '
+      'reports 20. And sanity-check the result: real void ratios run from '
+      'about 0.3 in dense sand to perhaps 3 in a very soft clay.',
+  formulas: [
+    ('The bridge', r'S e = \omega G_s'),
+    ('Saturated', r'e = \omega G_s'),
+    ('Backwards', r'\omega = \frac{e}{G_s} \text{ when } S = 1'),
+  ],
+  figure: BriefFigure.masterRelation,
+  handbook: 'Handbook, soil phase relationships',
+);
+
+const gammaBrief = BriefSection(
+  title: 'One soil, four weights',
+  body:
+      'A problem will name whichever unit weight it likes and they are not '
+      'interchangeable. DRY is the solids alone over the volume the sample '
+      'occupies in the ground, which is why compaction is always specified '
+      'against it: it describes how tightly the grains are packed and does '
+      'not move with the weather. TOTAL is the sample as it stands, with '
+      'whatever water happened to be in it, and dividing it by one plus the '
+      'water content lands you on the dry weight. SATURATED is the heaviest, '
+      'every void full, the same skeleton with its empty spaces filled. '
+      'SUBMERGED is the smallest by far, the saturated weight less the weight '
+      'of water, because below the water table the grains float in their own '
+      'pore water and pass on only what is left. Using the total weight below '
+      'the water table overstates the stress, and the next lesson is built on '
+      'getting this one right.',
+  formulas: [
+    ('From total', r'\gamma_d = \frac{\gamma}{1+\omega}'),
+    ('Saturated', r'\gamma_{sat} = \frac{(G_s + e)\gamma_w}{1+e}'),
+    ('Submerged', r"\gamma' = \gamma_{sat} - \gamma_w"),
+  ],
+  figure: BriefFigure.unitWeights,
+  handbook: 'Handbook, soil phase relationships',
+);
+
+const forkBrief = BriefSection(
+  title: 'The first sieve asks the first question',
+  body:
+      'Classification is a decision tree and the marks are lost at the top of '
+      'it. The No. 200 sieve comes first, every time: more than half retained '
+      'and the soil is COARSE, judged on the shape of its grain size curve, '
+      'and otherwise it is FINE, judged on the plasticity chart with its '
+      'coarse grains playing no part at all. The two halves of the tree share '
+      'nothing, so taking the wrong branch makes every careful step after it '
+      'answer a different question. A coarse soil then splits at the No. 4: '
+      'most of the coarse fraction passing makes it a sand, most retained '
+      'makes it a gravel, and that fork matters because a gravel needs a '
+      'uniformity of only 4 where a sand needs 6. Note which side of the '
+      'boundary belongs where: it takes MORE than half retained to be coarse, '
+      'so an even split goes to the plasticity chart.',
+  formulas: [
+    ('First', r'\text{No. 200: coarse or fine}'),
+    ('Then', r'\text{No. 4: gravel or sand}'),
+    ('Fine soils', r'\text{the plasticity chart}'),
+  ],
+  figure: BriefFigure.uscsTree,
+  handbook: 'Handbook, soil classification',
+);
+
+const chartBrief = BriefSection(
+  title: 'Two lines, four quarters',
+  body:
+      'A fine-grained soil is classified by where its point lands on the '
+      'plasticity chart, and the chart is only two lines. The A-LINE runs '
+      'across it, clays above and silts below, and that split is a statement '
+      'about behavior rather than a name: a silt drains and settles quickly '
+      'while a clay holds its water and keeps moving for years. The LIQUID '
+      'LIMIT of 50 runs down it, low plasticity to the left and high to the '
+      'right. Four quarters, four symbols: CL, CH, ML, MH. The quarter people '
+      'forget is MH, a soil that holds a great deal of water and is still not '
+      'a clay, because a high liquid limit on its own does not put a point '
+      'above the A-line. Near the line the plasticity index is worth reading '
+      'carefully: seven points can be the difference between a clay and a '
+      'silt at the same liquid limit.',
+  formulas: [
+    ('The A-line', r'PI = 0.73(LL - 20)'),
+    ('Above it', r'\text{clay, C}'),
+    ('Past LL 50', r'\text{high plasticity, H}'),
+  ],
+  figure: BriefFigure.plasticityChart,
+  handbook: 'Handbook, soil classification',
+);
+
+const gradationBrief = BriefSection(
+  title: 'Both coefficients, or it is poorly graded',
+  body:
+      'A coarse soil earns its W only if BOTH numbers pass, and the lesson '
+      'says so twice because one of them passing is what tempts people. The '
+      'UNIFORMITY, D60 over D10, asks whether the sample spans a wide range '
+      'of sizes: a gravel needs 4 and a sand needs 6. The CONCAVITY, D30 '
+      'squared over D10 times D60, asks whether the middle of that range is '
+      'actually there, and it has to land between 1 and 3. A soil with a '
+      'huge uniformity and a failing concavity is GAP graded: plenty of '
+      'coarse, plenty of fine, and almost nothing between them, which packs '
+      'like neither half. What both coefficients are really asking is whether '
+      'the small grains can fill the spaces between the big ones, because '
+      'that is what makes a fill compact to something dense and strong.',
+  formulas: [
+    ('Uniformity', r'C_u = \frac{D_{60}}{D_{10}}'),
+    ('Concavity', r'C_c = \frac{D_{30}^2}{D_{10} D_{60}}'),
+    ('Well graded', r'\text{both, or neither counts}'),
+  ],
+  figure: BriefFigure.gradation,
+  handbook: 'Handbook, soil classification',
+);
+
+const threeStressBrief = BriefSection(
+  title: 'Three stresses at every point',
+  body:
+      'TOTAL stress is the weight of everything above the point: the grains, '
+      'the water in their pores, and anything stacked on the surface. It is '
+      'the easiest of the three to work out and on its own it decides '
+      'nothing. WATER pressure is the height of water above the point times '
+      'the unit weight of water, and the height is measured from the WATER '
+      'TABLE down, not from the ground surface. Above the water table it is '
+      'zero. EFFECTIVE stress is what is left when the water pressure is '
+      'taken off, and it is the one that matters: how strong the soil is and '
+      'how much it settles both follow from it and from nothing else. A '
+      'surcharge shows the difference neatly, since it adds its full weight '
+      'to the total, leaves the water alone, and therefore lands entirely on '
+      'the grains.',
+  formulas: [
+    ('The whole of it', r"\sigma' = \sigma - u"),
+    ('Water pressure', r'u = h_w \gamma_w'),
+    ('Above the table', r"u = 0, \; \sigma' = \sigma"),
+  ],
+  figure: BriefFigure.threeStresses,
+  handbook: 'Handbook, effective stress',
+);
+
+const waterTableBrief = BriefSection(
+  title: 'Move the water, move the stress',
+  body:
+      'Every interesting thing in this lesson is a direction rather than a '
+      'number. Pump the water table DOWN and the water pressure falls while '
+      'the total stress barely moves, so the grains take up the slack and the '
+      'effective stress RISES: that is dewatering, and it is why the ground '
+      'settles and why pumping on one site can crack a building on the next. '
+      'Let the water table RISE and buoyancy takes its share back, the '
+      'effective stress falls, and a slope that stood all summer can go after '
+      'a week of rain. A SURCHARGE adds to the total and nothing to the '
+      'water, so all of it lands on the grains, which is why fill is piled on '
+      'a soft site deliberately and taken away again once the settlement has '
+      'happened. And standing water over an already saturated site changes '
+      'NOTHING, because it adds the same amount to both sides of the '
+      'subtraction.',
+  formulas: [
+    ('Pump it down', r"u \downarrow \Rightarrow \sigma' \uparrow"),
+    ('Surcharge', r"q \Rightarrow \sigma' \uparrow \text{ by } q"),
+    ('Standing water', r"\sigma \uparrow, \; u \uparrow, \; \sigma' \text{ flat}"),
+  ],
+  figure: BriefFigure.waterTable,
+  handbook: 'Handbook, effective stress',
+);
+
+const shortWayBrief = BriefSection(
+  title: 'Walk it down, buoyant below',
+  body:
+      'Two routes reach the same answer. The long one adds up the total '
+      'stress and subtracts the water pressure at the end. The short one '
+      'walks down the profile adding each layer as it goes, using the layer '
+      'own weight ABOVE the water table and the SUBMERGED weight below it, '
+      'which for most soils is roughly half as much. They agree exactly, '
+      'because taking the water pressure off at the end is the same as taking '
+      'a foot of water off every foot of submerged soil on the way down. Two '
+      'rules keep the short way honest. Never buoy a layer that sits above '
+      'the water table: there is no water up there holding anything up, and '
+      'doing it understates the effective stress by 62 pounds a square foot '
+      'for every foot. And a surcharge is never buoyed either, since it '
+      'presses on everything below it and the water pressure does not notice '
+      'it at all.',
+  formulas: [
+    ('Above the table', r'\gamma H'),
+    ('Below it', r"\gamma' H = (\gamma_{sat} - \gamma_w) H"),
+    ('A surcharge', r'q, \text{ in full}'),
+  ],
+  figure: BriefFigure.buoyantWalk,
+  handbook: 'Handbook, effective stress',
+);
+
+const caseBrief = BriefSection(
+  title: 'Everything turns on what it remembers',
+  body:
+      'Three settlement formulas sit in the handbook and choosing between '
+      'them is the whole of the hard part. What decides is the PRECONSOLIDATION '
+      'pressure, the largest effective stress the clay has ever carried. If '
+      'the load leaves the clay still under that memory, the whole move is '
+      'recompression and uses the stiff index alone. If the clay is already '
+      'at its memory, which is what NORMALLY CONSOLIDATED means, every pound '
+      'is virgin ground on the soft index. And if the load CROSSES the '
+      'memory, the move has to be split: stiff from where it starts up to the '
+      'memory, soft from the memory to where it ends. Running a crossing move '
+      'on one index alone is the wrong answer the exam offers most often, and '
+      'it is offered in both flavors.',
+  formulas: [
+    ('Under the memory', r'\Delta H = \frac{H_0}{1+e_0} C_r \log\frac{p_1}{p_0}'),
+    ('On the virgin line', r'\Delta H = \frac{H_0}{1+e_0} C_c \log\frac{p_1}{p_0}'),
+    ('Crossing it', r'C_r \log\frac{p_c}{p_0} + C_c \log\frac{p_1}{p_c}'),
+  ],
+  figure: BriefFigure.settlementCase,
+  handbook: 'Handbook, consolidation',
+);
+
+const memoryBrief = BriefSection(
+  title: 'A shallow line, a corner, a steep one',
+  body:
+      'Plot the void ratio against the log of the stress and a clay draws two '
+      'straight lines with a corner between them. The corner is the largest '
+      'pressure the clay has ever carried. To the left of it the clay is '
+      'being pushed back over ground it has covered before and it goes '
+      'stiffly, on an index about a SIXTH of the other. To the right the clay '
+      'is doing something new and the grains rearrange in earnest. So the '
+      'same load on the same clay can settle six times as much depending only '
+      'on which side of the corner it lands, which is why the '
+      'preconsolidation pressure is worth paying a lab to find. A clay comes '
+      'by its memory honestly: ground that has since been eroded away, ice '
+      'that has melted, or simply drying, which shrinks a clay as fiercely as '
+      'a load. And because the formula takes a log, equal RATIOS settle '
+      'equally: the first few hundred pounds on a lightly loaded clay cost '
+      'far more than the same few hundred added later.',
+  formulas: [
+    ('The two indexes', r'C_r \approx C_c / 6'),
+    ('From the limits', r'C_c \approx 0.009(LL - 10)'),
+    ('Equal ratios', r'\log\frac{2p}{p} = \log\frac{4p}{2p}'),
+  ],
+  figure: BriefFigure.clayMemory,
+  handbook: 'Handbook, consolidation',
+);
+
+const drainageBrief = BriefSection(
+  title: 'How far the water has to go',
+  body:
+      'How MUCH a clay settles and how LONG it takes are separate questions '
+      'with separate inputs. The time turns on the drainage path, which is '
+      'the longest journey any squeezed-out water has to make to escape: HALF '
+      'the layer when sand lies above and below, since the unluckiest drop is '
+      'in the middle and can go either way, and the WHOLE layer when one face '
+      'is rock. And the time goes as the SQUARE of that path, so a single '
+      'impermeable boundary makes the wait four times as long, and so does '
+      'doubling the thickness. That square is also why vertical sand drains '
+      'work so well: cut the journey to a tenth and the wait falls to a '
+      'hundredth. What does NOT change the schedule is the size of the load: '
+      'a bigger load settles further, not slower, and half of a large '
+      'settlement arrives on the same day as half of a small one.',
+  formulas: [
+    ('The time', r't = \frac{T_v H_{dr}^2}{c_v}'),
+    ('Both faces drain', r'H_{dr} = H/2'),
+    ('One face only', r'H_{dr} = H, \text{ four times the wait}'),
+  ],
+  figure: BriefFigure.drainagePath,
+  handbook: 'Handbook, consolidation',
+);
+
 const trussRouteBrief = BriefSection(
   title: 'Which one is quicker, and what comes first',
   body:
@@ -8424,6 +8727,114 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{a longer connection raises } U", true),
             (r"U \text{ applies to yielding too}", false),
             (r"\text{an angle on one leg has } U = 1", false),
+          ],
+        );
+      case BriefFigure.phaseDiagram:
+        return const _RuleList(
+          rules: [
+            (r"e = \frac{V_v}{V_s} \text{ can pass } 1", true),
+            (r"\omega \text{ is a ratio of WEIGHTS}", true),
+            (r"n \text{ and } e \text{ are the same thing}", false),
+            (r"S = \frac{V_w}{V}", false),
+          ],
+        );
+      case BriefFigure.masterRelation:
+        return const _RuleList(
+          rules: [
+            (r"S e = \omega G_s", true),
+            (r"S = 1 \Rightarrow e = \omega G_s", true),
+            (r"e = \omega G_s \text{ always}", false),
+            (r"\omega = 20 \text{ goes straight in}", false),
+          ],
+        );
+      case BriefFigure.unitWeights:
+        return const _RuleList(
+          rules: [
+            (r"\gamma_{sat} > \gamma > \gamma_d", true),
+            (r"\gamma' = \gamma_{sat} - \gamma_w", true),
+            (r"\gamma_d \text{ uses a shrunken volume}", false),
+            (r"\text{use } \gamma \text{ below the water table}", false),
+          ],
+        );
+      case BriefFigure.uscsTree:
+        return const _RuleList(
+          rules: [
+            (r"\text{No. 200 decides coarse or fine}", true),
+            (r"\text{a gravel needs only } C_u \ge 4", true),
+            (r"\text{fines go on the grain size curve}", false),
+            (r"\text{half retained is coarse}", false),
+          ],
+        );
+      case BriefFigure.plasticityChart:
+        return const _RuleList(
+          rules: [
+            (r"\text{above the A-line} \Rightarrow \text{clay}", true),
+            (r"LL \ge 50 \Rightarrow H", true),
+            (r"\text{high } LL \Rightarrow \text{clay}", false),
+            (r"\text{below the A-line} \Rightarrow CL", false),
+          ],
+        );
+      case BriefFigure.gradation:
+        return const _RuleList(
+          rules: [
+            (r"\text{both } C_u \text{ and } C_c \text{ must pass}", true),
+            (r"1 \le C_c \le 3", true),
+            (r"\text{a big } C_u \text{ is enough}", false),
+            (r"C_u \ge 6 \text{ for every soil}", false),
+          ],
+        );
+      case BriefFigure.threeStresses:
+        return const _RuleList(
+          rules: [
+            (r"\sigma' = \sigma - u", true),
+            (r"u = 0 \text{ above the water table}", true),
+            (r"u \text{ is measured from the surface}", false),
+            (r"\text{a surcharge raises } u", false),
+          ],
+        );
+      case BriefFigure.waterTable:
+        return const _RuleList(
+          rules: [
+            (r"\text{pump it down} \Rightarrow \sigma' \uparrow", true),
+            (r"\text{standing water changes nothing}", true),
+            (r"\text{a rising table raises } \sigma'", false),
+            (r"\text{a surcharge raises } u \text{ for good}", false),
+          ],
+        );
+      case BriefFigure.buoyantWalk:
+        return const _RuleList(
+          rules: [
+            (r"\text{below the table use } \gamma'", true),
+            (r"\text{both routes agree exactly}", true),
+            (r"\text{buoy the layer above the table}", false),
+            (r"\text{a surcharge is buoyed too}", false),
+          ],
+        );
+      case BriefFigure.settlementCase:
+        return const _RuleList(
+          rules: [
+            (r"p_1 < p_c \Rightarrow C_r \text{ alone}", true),
+            (r"p_0 < p_c < p_1 \Rightarrow \text{both, in two}", true),
+            (r"\text{one index always does}", false),
+            (r"p_c \text{ is the current stress}", false),
+          ],
+        );
+      case BriefFigure.clayMemory:
+        return const _RuleList(
+          rules: [
+            (r"C_r \approx C_c/6", true),
+            (r"\text{the corner is } p_c", true),
+            (r"\text{the curve has one slope}", false),
+            (r"\text{a load alone gives the settlement}", false),
+          ],
+        );
+      case BriefFigure.drainagePath:
+        return const _RuleList(
+          rules: [
+            (r"t \propto H_{dr}^2", true),
+            (r"\text{one rock face} \Rightarrow 4\times \text{ the wait}", true),
+            (r"\text{a bigger load settles slower}", false),
+            (r"H_{dr} = H \text{ when both faces drain}", false),
           ],
         );
       case BriefFigure.cogo:

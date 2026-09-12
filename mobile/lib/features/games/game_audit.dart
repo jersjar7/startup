@@ -83,6 +83,19 @@ import 'what_the_table_gives_you_game.dart';
 import 'gross_or_net_game.dart';
 import 'how_big_is_the_hole_game.dart';
 import 'is_all_of_it_connected_game.dart';
+import 'over_what_game.dart';
+import 'when_does_it_simplify_game.dart';
+import 'which_gamma_game.dart';
+import 'which_fork_first_game.dart';
+import 'above_or_below_the_line_game.dart';
+import 'both_or_neither_game.dart';
+import 'which_stress_is_that_game.dart';
+import 'what_the_water_table_does_game.dart';
+import 'the_short_way_down_game.dart';
+import 'consolidation_figures.dart';
+import 'which_case_is_it_game.dart';
+import 'stiff_until_it_remembers_game.dart';
+import 'how_long_does_it_take_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4193,6 +4206,162 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-st-',
     rounds: [
       for (final r in lagRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'over-what',
+    lessonId: 'phase-relations',
+    problemPrefix: 'geo-pr-',
+    rounds: [
+      for (final r in overRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Under.values) o.name],
+          answer: Under.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'when-does-it-simplify',
+    lessonId: 'phase-relations',
+    problemPrefix: 'geo-pr-',
+    rounds: [
+      for (final r in masterRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-gamma',
+    lessonId: 'phase-relations',
+    problemPrefix: 'geo-pr-',
+    rounds: [
+      for (final r in gammaRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Gamma.values) o.name],
+          answer: Gamma.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-fork-first',
+    lessonId: 'soil-classification',
+    problemPrefix: 'geo-sc-',
+    rounds: [
+      for (final r in forkRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Fork.values) o.name],
+          answer: Fork.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'above-or-below-the-line',
+    lessonId: 'soil-classification',
+    problemPrefix: 'geo-sc-',
+    rounds: [
+      for (final r in chartRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Quarter.values) o.name],
+          answer: Quarter.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'both-or-neither',
+    lessonId: 'soil-classification',
+    problemPrefix: 'geo-sc-',
+    rounds: [
+      for (final r in wellGradedRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Graded2.values) o.name],
+          answer: Graded2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-stress-is-that',
+    lessonId: 'effective-stress',
+    problemPrefix: 'geo-es-',
+    rounds: [
+      for (final r in stressRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Stress.values) o.name],
+          answer: Stress.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-the-water-table-does',
+    lessonId: 'effective-stress',
+    problemPrefix: 'geo-es-',
+    rounds: [
+      for (final r in tableMoveRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Moves3.values) o.name],
+          answer: Moves3.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'the-short-way-down',
+    lessonId: 'effective-stress',
+    problemPrefix: 'geo-es-',
+    rounds: [
+      for (final r in profileWalkRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-case-is-it',
+    lessonId: 'consolidation',
+    problemPrefix: 'geo-co-',
+    rounds: [
+      for (final r in caseRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Case.values) o.name],
+          answer: Case.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'stiff-until-it-remembers',
+    lessonId: 'consolidation',
+    problemPrefix: 'geo-co-',
+    rounds: [
+      for (final r in indexRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-long-does-it-take',
+    lessonId: 'consolidation',
+    problemPrefix: 'geo-co-',
+    rounds: [
+      for (final r in timeRounds)
         RoundAudit(
           source: r.source,
           options: r.options,

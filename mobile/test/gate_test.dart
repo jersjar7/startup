@@ -382,6 +382,14 @@ void main() {
       // section to measure: the other two are shear. Every dimension in the
       // drawing comes out of it, and telling them apart is the item.
       'which-one-is-d',
+      // The sand problem is the only one in the classification lesson with a
+      // grain size in it at all: the other two are fine-grained soils on the
+      // plasticity chart. Six ways of reading two coefficients is the item.
+      'both-or-neither',
+      // The time problem is the only one in the consolidation lesson with a
+      // clock in it: the other two are settlement amounts. Everything about
+      // the drainage path comes out of that one problem.
+      'how-long-does-it-take',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

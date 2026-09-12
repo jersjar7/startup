@@ -261,6 +261,18 @@ import '../features/games/what_the_table_gives_you_game.dart';
 import '../features/games/gross_or_net_game.dart';
 import '../features/games/how_big_is_the_hole_game.dart';
 import '../features/games/is_all_of_it_connected_game.dart';
+import '../features/games/over_what_game.dart';
+import '../features/games/when_does_it_simplify_game.dart';
+import '../features/games/which_gamma_game.dart';
+import '../features/games/which_fork_first_game.dart';
+import '../features/games/above_or_below_the_line_game.dart';
+import '../features/games/both_or_neither_game.dart';
+import '../features/games/which_stress_is_that_game.dart';
+import '../features/games/what_the_water_table_does_game.dart';
+import '../features/games/the_short_way_down_game.dart';
+import '../features/games/which_case_is_it_game.dart';
+import '../features/games/stiff_until_it_remembers_game.dart';
+import '../features/games/how_long_does_it_take_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -664,6 +676,21 @@ GoRouter buildRouter(AuthController auth) {
           'gross-or-net' => const GrossOrNetGame(),
           'how-big-is-the-hole' => const HowBigIsTheHoleGame(),
           'is-all-of-it-connected' => const IsAllOfItConnectedGame(),
+          'over-what' => const OverWhatGame(),
+          'when-does-it-simplify' => const WhenDoesItSimplifyGame(),
+          'which-gamma' => const WhichGammaGame(),
+          'which-fork-first' => const WhichForkFirstGame(),
+          'above-or-below-the-line' =>
+            const AboveOrBelowTheLineGame(),
+          'both-or-neither' => const BothOrNeitherGame(),
+          'which-stress-is-that' => const WhichStressIsThatGame(),
+          'what-the-water-table-does' =>
+            const WhatTheWaterTableDoesGame(),
+          'the-short-way-down' => const TheShortWayDownGame(),
+          'which-case-is-it' => const WhichCaseIsItGame(),
+          'stiff-until-it-remembers' =>
+            const StiffUntilItRemembersGame(),
+          'how-long-does-it-take' => const HowLongDoesItTakeGame(),
           _ => const _UnknownGame(),
         },
       ),

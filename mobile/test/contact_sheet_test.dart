@@ -268,6 +268,18 @@ import 'package:mobile/features/games/what_the_table_gives_you_game.dart';
 import 'package:mobile/features/games/gross_or_net_game.dart';
 import 'package:mobile/features/games/how_big_is_the_hole_game.dart';
 import 'package:mobile/features/games/is_all_of_it_connected_game.dart';
+import 'package:mobile/features/games/over_what_game.dart';
+import 'package:mobile/features/games/when_does_it_simplify_game.dart';
+import 'package:mobile/features/games/which_gamma_game.dart';
+import 'package:mobile/features/games/which_fork_first_game.dart';
+import 'package:mobile/features/games/above_or_below_the_line_game.dart';
+import 'package:mobile/features/games/both_or_neither_game.dart';
+import 'package:mobile/features/games/which_stress_is_that_game.dart';
+import 'package:mobile/features/games/what_the_water_table_does_game.dart';
+import 'package:mobile/features/games/the_short_way_down_game.dart';
+import 'package:mobile/features/games/which_case_is_it_game.dart';
+import 'package:mobile/features/games/stiff_until_it_remembers_game.dart';
+import 'package:mobile/features/games/how_long_does_it_take_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2206,6 +2218,78 @@ void main() {
           rounds: lagRounds.length,
           height: 2040,
         ),
+        'over-what': (
+          lesson: '106-phases',
+          build: OverWhatGame.new,
+          rounds: overRounds.length,
+          height: 2060,
+        ),
+        'when-does-it-simplify': (
+          lesson: '106-phases',
+          build: WhenDoesItSimplifyGame.new,
+          rounds: masterRounds.length,
+          height: 2100,
+        ),
+        'which-gamma': (
+          lesson: '106-phases',
+          build: WhichGammaGame.new,
+          rounds: gammaRounds.length,
+          height: 1900,
+        ),
+        'which-fork-first': (
+          lesson: '107-classify',
+          build: WhichForkFirstGame.new,
+          rounds: forkRounds.length,
+          height: 2080,
+        ),
+        'above-or-below-the-line': (
+          lesson: '107-classify',
+          build: AboveOrBelowTheLineGame.new,
+          rounds: chartRounds.length,
+          height: 2080,
+        ),
+        'both-or-neither': (
+          lesson: '107-classify',
+          build: BothOrNeitherGame.new,
+          rounds: wellGradedRounds.length,
+          height: 2140,
+        ),
+        'which-stress-is-that': (
+          lesson: '108-effective',
+          build: WhichStressIsThatGame.new,
+          rounds: stressRounds.length,
+          height: 2140,
+        ),
+        'what-the-water-table-does': (
+          lesson: '108-effective',
+          build: WhatTheWaterTableDoesGame.new,
+          rounds: tableMoveRounds.length,
+          height: 2160,
+        ),
+        'the-short-way-down': (
+          lesson: '108-effective',
+          build: TheShortWayDownGame.new,
+          rounds: profileWalkRounds.length,
+          height: 2180,
+        ),
+        'which-case-is-it': (
+          lesson: '109-consolidation',
+          build: WhichCaseIsItGame.new,
+          rounds: caseRounds.length,
+          height: 2020,
+        ),
+        'stiff-until-it-remembers': (
+          lesson: '109-consolidation',
+          build: StiffUntilItRemembersGame.new,
+          rounds: indexRounds.length,
+          height: 2080,
+        ),
+        'how-long-does-it-take': (
+          lesson: '109-consolidation',
+          build: HowLongDoesItTakeGame.new,
+          rounds: timeRounds.length,
+          height: 2080,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2688,6 +2772,26 @@ void main() {
       ('limits', twoLimitsBrief),
       ('net', netAreaBrief),
       ('lag', shearLagBrief),
+    ],
+    '106-phases': [
+      ('diagram', phaseBrief),
+      ('master', masterBrief),
+      ('weights', gammaBrief),
+    ],
+    '107-classify': [
+      ('tree', forkBrief),
+      ('chart', chartBrief),
+      ('grading', gradationBrief),
+    ],
+    '108-effective': [
+      ('three', threeStressBrief),
+      ('table', waterTableBrief),
+      ('walk', shortWayBrief),
+    ],
+    '109-consolidation': [
+      ('cases', caseBrief),
+      ('memory', memoryBrief),
+      ('time', drainageBrief),
     ],
     '95-determinacy': [
       ('count', countBrief),
