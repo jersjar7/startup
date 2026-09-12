@@ -331,6 +331,12 @@ import '../features/games/which_variance_is_which_game.dart';
 import '../features/games/what_it_will_cost_game.dart';
 import '../features/games/five_feet_and_twenty_game.dart';
 import '../features/games/six_feet_up_game.dart';
+import '../features/games/how_many_yards_game.dart';
+import '../features/games/which_one_fits_the_job_game.dart';
+import '../features/games/sharper_or_flatter_game.dart';
+import '../features/games/how_far_below_the_corner_game.dart';
+import '../features/games/stiff_is_not_strong_game.dart';
+import '../features/games/how_fast_through_the_sand_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -810,6 +816,12 @@ GoRouter buildRouter(AuthController auth) {
           'what-it-will-cost' => const WhatItWillCostGame(),
           'five-feet-and-twenty' => const FiveFeetAndTwentyGame(),
           'six-feet-up' => const SixFeetUpGame(),
+          'how-many-yards' => const HowManyYardsGame(),
+          'which-one-fits-the-job' => const WhichOneFitsTheJobGame(),
+          'sharper-or-flatter' => const SharperOrFlatterGame(),
+          'how-far-below-the-corner' => const HowFarBelowTheCornerGame(),
+          'stiff-is-not-strong' => const StiffIsNotStrongGame(),
+          'how-fast-through-the-sand' => const HowFastThroughTheSandGame(),
           _ => const _UnknownGame(),
         },
       ),

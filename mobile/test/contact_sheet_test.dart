@@ -338,6 +338,12 @@ import 'package:mobile/features/games/which_variance_is_which_game.dart';
 import 'package:mobile/features/games/what_it_will_cost_game.dart';
 import 'package:mobile/features/games/five_feet_and_twenty_game.dart';
 import 'package:mobile/features/games/six_feet_up_game.dart';
+import 'package:mobile/features/games/how_many_yards_game.dart';
+import 'package:mobile/features/games/which_one_fits_the_job_game.dart';
+import 'package:mobile/features/games/sharper_or_flatter_game.dart';
+import 'package:mobile/features/games/how_far_below_the_corner_game.dart';
+import 'package:mobile/features/games/stiff_is_not_strong_game.dart';
+import 'package:mobile/features/games/how_fast_through_the_sand_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -1532,6 +1538,12 @@ void main() {
           rounds: settleRounds.length,
           height: 1500,
         ),
+        'stiff-is-not-strong': (
+          lesson: '58-tensile-test',
+          build: StiffIsNotStrongGame.new,
+          rounds: stiffRounds.length,
+          height: 2240,
+        ),
         'before-or-during': (
           lesson: '58-tensile-test',
           build: BeforeOrDuringGame.new,
@@ -2077,6 +2089,12 @@ void main() {
           build: WhatMovesTheRatioGame.new,
           rounds: fmRounds.length,
           height: 1900,
+        ),
+        'how-fast-through-the-sand': (
+          lesson: '93-chlorine',
+          build: HowFastThroughTheSandGame.new,
+          rounds: filterRounds.length,
+          height: 2240,
         ),
         'what-do-you-feed': (
           lesson: '93-chlorine',
@@ -2696,6 +2714,30 @@ void main() {
           rounds: heightRounds2.length,
           height: 2200,
         ),
+        'how-many-yards': (
+          lesson: '134-earthwork',
+          build: HowManyYardsGame.new,
+          rounds: yardRounds.length,
+          height: 2220,
+        ),
+        'which-one-fits-the-job': (
+          lesson: '135-delivery',
+          build: WhichOneFitsTheJobGame.new,
+          rounds: fitRounds.length,
+          height: 2180,
+        ),
+        'sharper-or-flatter': (
+          lesson: '120-horizcurves',
+          build: SharperOrFlatterGame.new,
+          rounds: curveQuoteRounds.length,
+          height: 2240,
+        ),
+        'how-far-below-the-corner': (
+          lesson: '119-vertcurves',
+          build: HowFarBelowTheCornerGame.new,
+          rounds: pviOffsetRounds.length,
+          height: 2200,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -3000,6 +3042,7 @@ void main() {
     '58-tensile-test': [
       ('underneath', underneathBrief),
       ('true-stress', trueStressBrief),
+      ('stiffness', stiffnessBrief),
     ],
     '59-fracture': [
       ('crack', crackBrief),
@@ -3218,6 +3261,12 @@ void main() {
       ('fix', footingFixBrief),
       ('allowable', allowableBrief),
     ],
+    '134-earthwork': [
+      ('yards', yardsBrief),
+    ],
+    '135-delivery': [
+      ('fit', deliveryFitBrief),
+    ],
     '133-safety': [
       ('trench', excavationBrief),
       ('height', fallProtectionBrief),
@@ -3274,11 +3323,13 @@ void main() {
       ('walk', pedestrianGreenBrief),
     ],
     '120-horizcurves': [
+      ('curves', curveConversionBrief),
       ('bank', superelevationBrief),
     ],
     '119-vertcurves': [
       ('criterion', crestSagBrief),
       ('break', gradeBreakBrief),
+      ('corner', cornerOffsetBrief),
     ],
     '118-ssd': [
       ('distance', sightDistanceBrief),
@@ -3317,6 +3368,7 @@ void main() {
     '93-chlorine': [
       ('dose', doseBrief),
       ('contact', contactBrief),
+      ('filter', filterRateBrief),
     ],
     '92-treatment': [
       ('overflow', overflowBrief),

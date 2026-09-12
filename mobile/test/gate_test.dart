@@ -487,6 +487,13 @@ void main() {
       // And the three path problem is the only one in the float lesson
       // about the critical path itself: the other two are float sums.
       'the-chain-with-no-slack',
+      // The modulus problem is the only one in the stress-strain lesson
+      // about the elastic range at all: the other two are stress
+      // definitions. Everything about stiffness comes out of that one.
+      'stiff-is-not-strong',
+      // And the filter problem is the only one in the drinking water lesson
+      // that is not about chlorine.
+      'how-fast-through-the-sand',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

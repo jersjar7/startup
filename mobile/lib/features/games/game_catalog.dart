@@ -2013,9 +2013,10 @@ const materialsMap = ChapterMap(
       id: 'stress-strain-material-behavior',
       name: 'Stress-Strain Behavior & Material Properties',
       subtopicId: 'mechanical-properties',
-      // Stiffness against strength is this lesson's other idea, and chapter
-      // seven already teaches it in Stiff, Strong or Stretchy. Building it
-      // twice would be a worse item and a wasted sitting, so it is not here.
+      // Chapter seven also teaches stiffness against strength, in Stiff,
+      // Strong or Stretchy. It is taught here too, because this lesson has
+      // its own problem behind the modulus and a student may never have
+      // opened chapter seven: the path does not force an order.
       games: [
         GameDef(
           id: 'before-or-during',
@@ -2024,6 +2025,14 @@ const materialsMap = ChapterMap(
           blurb: 'Force over which area? Stretch over which length?',
           built: true,
           brief: underneathBrief,
+        ),
+        GameDef(
+          id: 'stiff-is-not-strong',
+          rounds: 6,
+          name: 'Stiff Is Not Strong',
+          blurb: 'Stress over strain is a slope, not a height.',
+          built: true,
+          brief: stiffnessBrief,
         ),
         GameDef(
           id: 'true-or-engineering',
@@ -3092,10 +3101,12 @@ const waterResourcesMap = ChapterMap(
       id: 'drinking-water-treatment',
       name: 'Drinking Water Treatment & Disinfection',
       subtopicId: 'water-quality-treatment',
-      // Two items. The order of the treatment train is in the lesson text
-      // with no problem behind it, and the filter loading rate is the
-      // clarifier's overflow rate applied to a different box, which the
-      // settling item already teaches. Both are on the cards.
+      // The order of the treatment train is in the lesson text with no
+      // problem behind it, so it stays on a card. The filter loading rate
+      // is the same arithmetic as the clarifier overflow rate, which the
+      // settling lesson teaches, but it has its own problem here and its
+      // own acceptable range, so it gets an item that makes the comparison
+      // explicit rather than being left out.
       games: [
         GameDef(
           id: 'what-do-you-feed',
@@ -3104,6 +3115,14 @@ const waterResourcesMap = ChapterMap(
           blurb: 'Demand, residual, dose, and only one goes in the pump.',
           built: true,
           brief: doseBrief,
+        ),
+        GameDef(
+          id: 'how-fast-through-the-sand',
+          rounds: 6,
+          name: 'How Fast Through the Sand',
+          blurb: 'Flow over the area of the bed, looked at from above.',
+          built: true,
+          brief: filterRateBrief,
         ),
         GameDef(
           id: 'what-buys-the-ct',
@@ -3956,18 +3975,35 @@ const transportationMap = ChapterMap(
           built: true,
           brief: gradeBreakBrief,
         ),
+        GameDef(
+          id: 'how-far-below-the-corner',
+          rounds: 6,
+          name: 'How Far Below the Corner',
+          blurb: 'The break, times the length, over eight.',
+          built: true,
+          brief: cornerOffsetBrief,
+        ),
       ],
     ),
     LessonNode(
       id: 'horizontal-curves',
       name: 'Horizontal Curve Design',
       subtopicId: 'geometric-design',
-      // One item only. Two of this lesson's three problems are the radius
-      // against the degree of curve and the tangent out to the PI, and the
-      // SURVEYING chapter teaches both already: `which-curve-is-sharper`
-      // has the 5,729.58, and `which-piece-is-that` has all six lengths
-      // including T = R tan(I/2). Superelevation is the part that is new.
+      // The surveying chapter teaches the radius against the degree of
+      // curve and the six lengths of a curve, and this lesson teaches them
+      // again rather than assuming a student has been there: the path does
+      // not force an order. The framing is this lesson's own, the two
+      // conversions a designer does, with the half-angle trap its problem
+      // is built around.
       games: [
+        GameDef(
+          id: 'sharper-or-flatter',
+          rounds: 6,
+          name: 'Sharper or Flatter',
+          blurb: 'The constant over the degree, and half the turn.',
+          built: true,
+          brief: curveConversionBrief,
+        ),
         GameDef(
           id: 'how-much-bank',
           rounds: 6,
@@ -4165,13 +4201,27 @@ const transportationMap = ChapterMap(
         ),
       ],
     ),
-    // The web chapter has an Earthwork Volumes lesson here and this map has
-    // no node for it, on purpose. Its two formulas, the average end area
-    // and the prismoidal, and the question of which one gives more, are
-    // the whole of the SURVEYING chapter's earthwork lesson, which already
-    // has three items on them. All this one adds is dividing cubic feet by
-    // twenty seven, which is a unit conversion and not a concept. Teaching
-    // it twice would cost the student time and teach nothing new.
+    LessonNode(
+      id: 'earthwork',
+      name: 'Earthwork Volumes',
+      subtopicId: 'pavement-earthwork',
+      // The surveying chapter also teaches these two formulas, from the
+      // other end: which of them gives more, and whether a section can be
+      // skipped. A student may well arrive here first, so this lesson
+      // teaches them too, asked the way an estimator asks: how many cubic
+      // YARDS of cut and fill, which is where this lesson's own problems
+      // and its own printed traps live.
+      games: [
+        GameDef(
+          id: 'how-many-yards',
+          rounds: 6,
+          name: 'How Many Yards',
+          blurb: 'Both formulas, then divide by twenty seven.',
+          built: true,
+          brief: yardsBrief,
+        ),
+      ],
+    ),
     LessonNode(
       id: 'rigid-pavement',
       name: 'Rigid Pavement Design',
@@ -4314,12 +4364,26 @@ const constructionMap = ChapterMap(
         ),
       ],
     ),
-    // The web chapter has a Project Delivery Methods lesson here and this
-    // map has no node for it, on purpose. Design-bid-build, design-build
-    // and construction manager at risk are the whole of the ETHICS
-    // chapter's `which-delivery` item, which is built on the same three
-    // contract shapes and asks the same question. Nothing in this lesson
-    // is new to a student who has played that one.
+    LessonNode(
+      id: 'delivery-methods',
+      name: 'Project Delivery Methods',
+      subtopicId: 'project-delivery',
+      // The ethics chapter draws these three as contract shapes, which is
+      // how the law sees them. This lesson asks the construction manager's
+      // question instead, which job fits which method and what the
+      // schedule looks like when it does, and it is here rather than
+      // omitted because nothing makes a student visit ethics first.
+      games: [
+        GameDef(
+          id: 'which-one-fits-the-job',
+          rounds: 6,
+          name: 'Which One Fits the Job',
+          blurb: 'The job in front of you picks the method.',
+          built: true,
+          brief: deliveryFitBrief,
+        ),
+      ],
+    ),
     LessonNode(
       id: 'construction-safety',
       name: 'Construction Safety',

@@ -157,6 +157,13 @@ import 'which_variance_is_which_game.dart';
 import 'what_it_will_cost_game.dart';
 import 'five_feet_and_twenty_game.dart';
 import 'six_feet_up_game.dart';
+import 'delivery_figures.dart';
+import 'how_many_yards_game.dart';
+import 'which_one_fits_the_job_game.dart';
+import 'sharper_or_flatter_game.dart';
+import 'how_far_below_the_corner_game.dart';
+import 'stiff_is_not_strong_game.dart';
+import 'how_fast_through_the_sand_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -5013,6 +5020,64 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'const-cs-',
     rounds: [
       for (final r in heightRounds2)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-many-yards',
+    lessonId: 'earthwork',
+    problemPrefix: 'trans-ew-',
+    rounds: [
+      for (final r in yardRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-one-fits-the-job',
+    lessonId: 'delivery-methods',
+    problemPrefix: 'const-dm-',
+    rounds: [
+      for (final r in fitRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Deliver.values) o.name],
+          answer: Deliver.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'sharper-or-flatter',
+    lessonId: 'horizontal-curves',
+    problemPrefix: 'trans-hc-',
+    rounds: [
+      for (final r in curveQuoteRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-far-below-the-corner',
+    lessonId: 'vertical-curves',
+    problemPrefix: 'trans-vc-',
+    rounds: [
+      for (final r in pviOffsetRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'stiff-is-not-strong',
+    lessonId: 'stress-strain-material-behavior',
+    problemPrefix: 'mat-ssm-',
+    rounds: [
+      for (final r in stiffRounds)
+        RoundAudit(source: r.source, options: r.options, answer: r.answer),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-fast-through-the-sand',
+    lessonId: 'drinking-water-treatment',
+    problemPrefix: 'wr-dwt-',
+    rounds: [
+      for (final r in filterRounds)
         RoundAudit(source: r.source, options: r.options, answer: r.answer),
     ],
   ),

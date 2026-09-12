@@ -407,6 +407,12 @@ enum BriefFigure {
   forecast,
   excavation,
   fallProtection,
+  yards,
+  deliveryFit,
+  curveConversion,
+  cornerOffset,
+  stiffness,
+  filterRate,
 }
 
 /// One concept per item. Each is the reference for the item it sits behind and
@@ -7964,6 +7970,154 @@ const fallProtectionBrief = BriefSection(
   handbook: 'OSHA 29 CFR 1926, fall protection',
 );
 
+const yardsBrief = BriefSection(
+  title: 'Cut and fill, in yards',
+  body:
+      'Both volume formulas take whatever units go into them, so sections in '
+      'square feet and stations in feet give cubic FEET. Earthwork is bid, '
+      'hauled and paid for in cubic YARDS, and a cubic yard is three feet '
+      'each way, which is twenty seven cubic feet. Dividing by three instead '
+      'leaves the answer nine times too big, and forgetting the conversion '
+      'altogether leaves it twenty seven times too big: both are printed as '
+      'choices. The average end area method gives the LARGER volume whenever '
+      'the real middle section sags below the average of the two ends, which '
+      'it usually does, and on a corridor carrying millions of yards a few '
+      'per cent is real money. That is why the contract says which method '
+      'measures the work. The quantities themselves are what price the cut '
+      'and the fill and decide how far material has to be hauled, so a grade '
+      'line that balances the two is cheaper than one that does not.',
+  formulas: [
+    ('End areas', r'V = \frac{L}{2}(A_1 + A_2)'),
+    ('Prismoidal', r'V = \frac{L}{6}(A_1 + 4A_m + A_2)'),
+    ('Then', r'\div 27 \text{ for cubic yards}'),
+  ],
+  figure: BriefFigure.yards,
+  handbook: 'Handbook, earthwork volumes',
+);
+
+const deliveryFitBrief = BriefSection(
+  title: 'Matching the method to the job',
+  body:
+      'Three shapes, and the job in front of you picks one. DESIGN, BID, '
+      'BUILD when the drawings are finished and the price has to be '
+      'competitive: everything happens in sequence, every bidder prices the '
+      'same complete package, and nothing can be fast-tracked because there '
+      'is nothing to bid until the design is done. DESIGN-BUILD when speed '
+      'and single point responsibility matter more: one agreement covers '
+      'both, so construction can start with the design part finished, and '
+      'the owner accepts less certainty about what is being built in '
+      'exchange. MANAGER AT RISK when the owner wants a builder\'s advice '
+      'during design but keeps its own designer: the manager commits to a '
+      'GUARANTEED MAXIMUM part way through the design and carries whatever '
+      'goes over it, which is what at risk means.',
+  formulas: [
+    ('Complete drawings, must bid', r'\text{design, bid, build}'),
+    ('Speed, one firm', r'\text{design-build}'),
+    ('Advice plus a ceiling', r'\text{manager at risk}'),
+  ],
+  figure: BriefFigure.deliveryFit,
+  handbook: 'Handbook, project delivery',
+);
+
+const curveConversionBrief = BriefSection(
+  title: 'Radius, degree, and the tangent',
+  body:
+      'A curve is quoted two ways and they run in opposite directions. The '
+      'RADIUS is a length and the DEGREE OF CURVE is the angle a hundred '
+      'feet of arc turns through, so their product is fixed at 5,729.58 and '
+      'a big degree means a sharp curve. Dividing the constant by the degree '
+      'gives the radius; multiplying gives an answer in the tens of '
+      'thousands of feet, which is not a highway curve but almost a straight '
+      'line, and that is enough to catch the slip without redoing it. The '
+      'distance from the start of the curve out to the corner is the radius '
+      'times the tangent of HALF the turn angle, because the curve is '
+      'symmetrical about that corner and each tangent sees half the total '
+      'turn. Using the whole angle roughly doubles the answer and is the '
+      'mistake the handbook page warns about in as many words.',
+  formulas: [
+    ('The two quotes', r'R = \dfrac{5{,}729.58}{D}'),
+    ('Out to the corner', r'T = R\tan\dfrac{I}{2}'),
+    ('Around the arc', r'L = \dfrac{\pi R I}{180}'),
+  ],
+  figure: BriefFigure.curveConversion,
+  handbook: 'Handbook, horizontal curves',
+);
+
+const cornerOffsetBrief = BriefSection(
+  title: 'How far the road misses the corner',
+  body:
+      'The two grades cross at a corner no vehicle could drive, and the road '
+      'passes inside it: below on a crest, above in a sag. The distance is '
+      'the break in grade as a DECIMAL, times the length, over EIGHT. The '
+      'eight comes out of the parabola, since the offset grows with the '
+      'square of the distance from the start and half way along is a quarter '
+      'of the way to the full tangent offset. An L over 4 doubles the answer '
+      'and per cent in place of a decimal multiplies it by a hundred, and '
+      'both are printed as choices. The offset matters because it is a real '
+      'elevation: the corner is known from the grades alone, so this is what '
+      'every station elevation and every yard of cut is worked from. Twice '
+      'the length is twice the offset, which is why a gentler curve costs '
+      'excavation.',
+  formulas: [
+    ('At the middle', r'E = \dfrac{(g_2 - g_1)L}{8}'),
+    ('Because', r'\text{the offset grows as } x^2'),
+    ('As a decimal', r'8\% \Rightarrow 0.08'),
+  ],
+  figure: BriefFigure.cornerOffset,
+  handbook: 'Handbook, vertical curves',
+);
+
+const stiffnessBrief = BriefSection(
+  title: 'A slope, not a height',
+  body:
+      'Strain is a stretch over an original length, so it has no units at '
+      'all. Stress divided by strain, anywhere on the straight part of the '
+      'curve, is the ELASTIC MODULUS, and it is the SLOPE of that straight '
+      'part. A slope is not a height. Stiffness says how far the thing '
+      'stretches under load; STRENGTH is how high the curve goes before the '
+      'material gives way; and ductility is how far along it goes before it '
+      'breaks. Three questions, three different features of one drawing, and '
+      'a material can have any combination: glass is stiff and breaks '
+      'without warning, cast iron is stiffer than most steels and much '
+      'weaker in tension. Two numbers are worth carrying: structural steel '
+      'near 200 GPa and aluminum near 70, which is why an aluminum member of '
+      'the same shape deflects about three times as much. A floor that '
+      'bounces is a stiffness problem, and specifying a stronger steel '
+      'changes almost nothing.',
+  formulas: [
+    ('Strain', r'\varepsilon = \Delta L / L_0'),
+    ('The modulus', r'E = \sigma / \varepsilon'),
+    ('Worth carrying', r'E_{steel} \approx 200\text{ GPa}, \; E_{al} \approx 70'),
+  ],
+  figure: BriefFigure.stiffness,
+  handbook: 'Handbook, mechanical properties',
+);
+
+const filterRateBrief = BriefSection(
+  title: 'Down through the bed',
+  body:
+      'A filter loading rate is the flow divided by the PLAN area of the '
+      'bed, the surface looked at from above, because the water goes '
+      'straight down through the sand. Divide by one dimension instead and '
+      'the units give it away: a rate per foot is not a rate per square '
+      'foot. Ranges matter as much as the arithmetic. Rapid sand filters run '
+      'between about two and ten gallons a minute to the square foot, so a '
+      'plant at four and a half is mid range, while SLOW sand runs nearer a '
+      'tenth of a gallon and therefore needs tens of times the area for the '
+      'same flow, buying a biological layer and paying for it in land. Twice '
+      'the bed halves the rate, which is the design lever. And note the '
+      'family resemblance: a clarifier overflow rate is the same arithmetic '
+      'on a different box, quoted per DAY, with an acceptable range in the '
+      'hundreds. The pattern carries across and the numbers do not.',
+  formulas: [
+    ('The rate', r'v = Q / A_{plan}'),
+    ('Rapid sand', r'2 \text{ to } 10 \text{ gpm/ft}^2'),
+    ('Slow sand', r'\approx 0.1 \text{ gpm/ft}^2'),
+  ],
+  figure: BriefFigure.filterRate,
+  handbook: 'Handbook, filtration',
+);
+
 const rankineBrief = BriefSection(
   title: 'Three states of the same soil',
   body:
@@ -10773,6 +10927,60 @@ class BriefFigureView extends StatelessWidget {
             (r"15 \text{ ft for steel connectors}", true),
             (r"10 \text{ ft in general construction}", false),
             (r"\text{only a harness counts}", false),
+          ],
+        );
+      case BriefFigure.yards:
+        return const _RuleList(
+          rules: [
+            (r"1 \text{ yd}^3 = 27 \text{ ft}^3", true),
+            (r"\text{end areas} \geq \text{prismoidal, usually}", true),
+            (r"1 \text{ yd}^3 = 3 \text{ ft}^3", false),
+            (r"\text{the two methods always agree}", false),
+          ],
+        );
+      case BriefFigure.deliveryFit:
+        return const _RuleList(
+          rules: [
+            (r"\text{complete drawings: design, bid, build}", true),
+            (r"\text{a guaranteed maximum: manager at risk}", true),
+            (r"\text{design, bid, build can be fast-tracked}", false),
+            (r"\text{design-build keeps your own designer}", false),
+          ],
+        );
+      case BriefFigure.curveConversion:
+        return const _RuleList(
+          rules: [
+            (r"R = 5{,}729.58 / D", true),
+            (r"T = R\tan(I/2)", true),
+            (r"R = 5{,}729.58 \times D", false),
+            (r"T = R\tan I", false),
+          ],
+        );
+      case BriefFigure.cornerOffset:
+        return const _RuleList(
+          rules: [
+            (r"E = (g_2 - g_1)L/8", true),
+            (r"2L \Rightarrow 2E", true),
+            (r"E = (g_2 - g_1)L/4", false),
+            (r"\text{the break goes in as per cent}", false),
+          ],
+        );
+      case BriefFigure.stiffness:
+        return const _RuleList(
+          rules: [
+            (r"E = \sigma / \varepsilon", true),
+            (r"\text{stiffness is a slope}", true),
+            (r"\text{a stiff material is a strong one}", false),
+            (r"\varepsilon \text{ has units of mm}", false),
+          ],
+        );
+      case BriefFigure.filterRate:
+        return const _RuleList(
+          rules: [
+            (r"v = Q / A_{plan}", true),
+            (r"\text{rapid sand: } 2\text{ to }10 \text{ gpm/ft}^2", true),
+            (r"v = Q / L", false),
+            (r"\text{a clarifier range fits a filter}", false),
           ],
         );
       case BriefFigure.rankine:

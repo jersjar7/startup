@@ -59,6 +59,16 @@ class Haul {
   /// Where the average of the two end sections sits, which is the line the
   /// middle section gets compared against.
   double get endAverage => (slabs.first.area + slabs.last.area) / 2;
+
+  /// Quantities get paid for in cubic yards, and a cubic yard is twenty
+  /// seven cubic feet.
+  static const double cubicFeetPerYard = 27;
+
+  double get endAreaYards => byEndAreas / cubicFeetPerYard;
+  double get prismoidYards => byPrismoid / cubicFeetPerYard;
+
+  /// Forgetting the two in the average, which doubles the answer.
+  double get withoutTheHalf => length * (slabs.first.area + slabs.last.area);
 }
 
 /// The run drawn as a profile: a cross-section standing at every station,
