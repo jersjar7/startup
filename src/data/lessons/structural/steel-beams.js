@@ -15,7 +15,7 @@ export default {
     { type: 'heading', body: 'Shear' },
     { type: 'formula', latex: 'V_n = 0.6 F_y A_w C_{v1}', label: 'Shear capacity' },
     { type: 'text', body: 'Where $A_w = d \\times t_w$ (web area) and $C_{v1} = 1.0$ for most rolled W-shapes. Use $\\phi_v = 1.00$ (LRFD).' },
-    { type: 'callout', variant: 'warning', body: 'Z_x (plastic modulus) is for LRFD. S_x (elastic modulus) is for ASD or for the LTB formula. Using S_x instead of Z_x for the plastic moment underestimates capacity by 10\u201315%.' },
+    { type: 'callout', variant: 'warning', body: 'The plastic moment uses Z_x in BOTH methods: the nominal strength belongs to the member, and LRFD and ASD differ only in what they do with it afterward (\u00d70.90 against \u00f71.67). S_x (elastic modulus) is what appears inside the LTB equation, where the steel is still elastic. Using S_x instead of Z_x for the plastic moment underestimates capacity by 10\u201315%.' },
     { type: 'callout', variant: 'tip', body: 'If the problem says \"fully braced\" or \"continuous lateral support,\" L_b \u2264 L_p and M_n = F_y Z_x. Skip the LTB check entirely.' },
   ],
   illustration: null,

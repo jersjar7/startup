@@ -3340,6 +3340,124 @@ const structuralMap = ChapterMap(
         ),
       ],
     ),
+    LessonNode(
+      id: 'rc-flexure-shear',
+      name: 'RC Beams: Flexure & Shear',
+      subtopicId: 'rc-design',
+      games: [
+        GameDef(
+          id: 'which-one-is-d',
+          rounds: 6,
+          name: 'Which One Is d',
+          blurb: 'It stops at the middle of the bars, not the bottom.',
+          built: true,
+          brief: whichDepthBrief,
+        ),
+        GameDef(
+          id: 'stirrups-or-not',
+          rounds: 6,
+          name: 'Stirrups or Not',
+          blurb: 'Four answers, and the ladder decides which.',
+          built: true,
+          brief: stirrupBrief,
+        ),
+        GameDef(
+          id: 'nominal-or-design',
+          rounds: 6,
+          name: 'Nominal or Design',
+          blurb: 'What it can do against what you may count on.',
+          built: true,
+          brief: phiBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'rc-columns',
+      name: 'RC Columns',
+      subtopicId: 'rc-design',
+      // Two items, not three. The strain classification that decides phi is
+      // a ladder to read, and the beams lesson already asks why a ductile
+      // failure earns the bigger factor: a second ladder would be the same
+      // item wearing a different hat. What is left here is the pair of
+      // multipliers and the window round the steel.
+      games: [
+        GameDef(
+          id: 'both-factors-or-one',
+          rounds: 6,
+          name: 'Both Factors or One',
+          blurb: 'The eccentricity allowance, and then phi.',
+          built: true,
+          brief: columnFactorBrief,
+        ),
+        GameDef(
+          id: 'too-little-or-too-much',
+          rounds: 6,
+          name: 'Too Little or Too Much',
+          blurb: 'One per cent to eight, and both ends are inclusive.',
+          built: true,
+          brief: steelWindowBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'steel-beams',
+      name: 'Steel Beams',
+      subtopicId: 'steel-design',
+      games: [
+        GameDef(
+          id: 'how-far-between-braces',
+          rounds: 6,
+          name: 'How Far Between Braces',
+          blurb: 'The section is only half the story.',
+          built: true,
+          brief: bracingBrief,
+        ),
+        GameDef(
+          id: 'z-or-s',
+          rounds: 6,
+          name: 'Z or S',
+          blurb: 'Yielded right through, or just at the outer fiber.',
+          built: true,
+          brief: modulusBrief,
+        ),
+        GameDef(
+          id: 'which-flange-needs-holding',
+          rounds: 6,
+          name: 'Which Flange Needs Holding',
+          blurb: 'Over a support it is the bottom one.',
+          built: true,
+          brief: flangeBrief,
+        ),
+      ],
+    ),
+    LessonNode(
+      id: 'steel-columns',
+      name: 'Steel Columns',
+      subtopicId: 'steel-design',
+      // Two items, not three. What the ends are worth, which axis a bare
+      // column folds about and whether it buckles or squashes are three
+      // items in mechanics of materials already. What is left to steel
+      // design is what happens when the two axes are held differently, and
+      // what the column table hands over.
+      games: [
+        GameDef(
+          id: 'which-axis-wins-now',
+          rounds: 6,
+          name: 'Which Axis Wins Now',
+          blurb: 'A brace shortens one direction and not the other.',
+          built: true,
+          brief: axisBrief,
+        ),
+        GameDef(
+          id: 'what-the-table-gives-you',
+          rounds: 6,
+          name: 'What the Table Gives You',
+          blurb: 'A design stress with the factor already in it.',
+          built: true,
+          brief: tableBrief3,
+        ),
+      ],
+    ),
   ],
 );
 

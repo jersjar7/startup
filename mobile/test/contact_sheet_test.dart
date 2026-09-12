@@ -255,6 +255,16 @@ import 'package:mobile/features/games/how_much_comes_off_game.dart';
 import 'package:mobile/features/games/what_the_height_means_game.dart';
 import 'package:mobile/features/games/which_line_is_it_game.dart';
 import 'package:mobile/features/games/where_do_you_park_it_game.dart';
+import 'package:mobile/features/games/which_one_is_d_game.dart';
+import 'package:mobile/features/games/stirrups_or_not_game.dart';
+import 'package:mobile/features/games/nominal_or_design_game.dart';
+import 'package:mobile/features/games/both_factors_or_one_game.dart';
+import 'package:mobile/features/games/too_little_or_too_much_game.dart';
+import 'package:mobile/features/games/how_far_between_braces_game.dart';
+import 'package:mobile/features/games/z_or_s_game.dart';
+import 'package:mobile/features/games/which_flange_needs_holding_game.dart';
+import 'package:mobile/features/games/which_axis_wins_now_game.dart';
+import 'package:mobile/features/games/what_the_table_gives_you_game.dart';
 import 'package:mobile/features/games/can_you_skip_a_section_game.dart';
 import 'package:mobile/features/games/how_much_of_the_box_game.dart';
 import 'package:mobile/features/games/what_weight_does_it_get_game.dart';
@@ -2115,6 +2125,66 @@ void main() {
           rounds: parkRounds.length,
           height: 2060,
         ),
+        'which-one-is-d': (
+          lesson: '101-rcbeams',
+          build: WhichOneIsDGame.new,
+          rounds: rcDepthRounds.length,
+          height: 2120,
+        ),
+        'stirrups-or-not': (
+          lesson: '101-rcbeams',
+          build: StirrupsOrNotGame.new,
+          rounds: shearRounds.length,
+          height: 1980,
+        ),
+        'nominal-or-design': (
+          lesson: '101-rcbeams',
+          build: NominalOrDesignGame.new,
+          rounds: phiRounds.length,
+          height: 1900,
+        ),
+        'both-factors-or-one': (
+          lesson: '102-rccolumns',
+          build: BothFactorsOrOneGame.new,
+          rounds: columnFactorRounds.length,
+          height: 2140,
+        ),
+        'too-little-or-too-much': (
+          lesson: '102-rccolumns',
+          build: TooLittleOrTooMuchGame.new,
+          rounds: windowRounds.length,
+          height: 1980,
+        ),
+        'how-far-between-braces': (
+          lesson: '103-steelbeams',
+          build: HowFarBetweenBracesGame.new,
+          rounds: braceRounds.length,
+          height: 2060,
+        ),
+        'z-or-s': (
+          lesson: '103-steelbeams',
+          build: ZOrSGame.new,
+          rounds: modulusRounds.length,
+          height: 1960,
+        ),
+        'which-flange-needs-holding': (
+          lesson: '103-steelbeams',
+          build: WhichFlangeNeedsHoldingGame.new,
+          rounds: flangeRounds.length,
+          height: 2000,
+        ),
+        'which-axis-wins-now': (
+          lesson: '104-steelcolumns',
+          build: WhichAxisWinsNowGame.new,
+          rounds: bothAxisRounds.length,
+          height: 2080,
+        ),
+        'what-the-table-gives-you': (
+          lesson: '104-steelcolumns',
+          build: WhatTheTableGivesYouGame.new,
+          rounds: columnTableRounds.length,
+          height: 1900,
+        ),
         'which-arm': (
           lesson: '60-thermal',
           build: WhichArmGame.new,
@@ -2574,6 +2644,24 @@ void main() {
       ('reading', influenceBrief),
       ('shapes', shapesBrief),
       ('placing', placeBrief),
+    ],
+    '101-rcbeams': [
+      ('depth', whichDepthBrief),
+      ('stirrups', stirrupBrief),
+      ('phi', phiBrief),
+    ],
+    '102-rccolumns': [
+      ('factors', columnFactorBrief),
+      ('window', steelWindowBrief),
+    ],
+    '103-steelbeams': [
+      ('bracing', bracingBrief),
+      ('moduli', modulusBrief),
+      ('flanges', flangeBrief),
+    ],
+    '104-steelcolumns': [
+      ('axis', axisBrief),
+      ('table', tableBrief3),
     ],
     '95-determinacy': [
       ('count', countBrief),

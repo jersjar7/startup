@@ -378,6 +378,10 @@ void main() {
       // with a tributary area in it: the other two are combinations. Every
       // way of getting that one rule wrong is the item.
       'how-much-comes-off',
+      // The flexure problem is the only one in the concrete lesson with a
+      // section to measure: the other two are shear. Every dimension in the
+      // drawing comes out of it, and telling them apart is the item.
+      'which-one-is-d',
     ], reason: 'a NEW item now leans on one problem: intended, or an accident?');
   });
 }

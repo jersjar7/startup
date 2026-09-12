@@ -22,6 +22,13 @@ import 'package:mobile/features/games/which_one_controls_game.dart';
 import 'package:mobile/features/games/influence_figures.dart';
 import 'package:mobile/features/games/which_line_is_it_game.dart';
 import 'package:mobile/features/games/where_do_you_park_it_game.dart';
+import 'package:mobile/features/games/rc_figures.dart';
+import 'package:mobile/features/games/which_one_is_d_game.dart';
+import 'package:mobile/features/games/stirrups_or_not_game.dart';
+import 'package:mobile/features/games/too_little_or_too_much_game.dart';
+import 'package:mobile/features/games/steel_figures.dart';
+import 'package:mobile/features/games/how_far_between_braces_game.dart';
+import 'package:mobile/features/games/which_axis_wins_now_game.dart';
 
 void main() {
   group('the determinacy count', () {
@@ -587,6 +594,205 @@ void main() {
       expect(at, greaterThanOrEqualTo(shear.line.at));
       expect(shear.line.ordinateAt(at),
           greaterThan(shear.line.ordinateAt(at, fromRight: false)));
+    });
+  });
+
+  group('the concrete section', () {
+    test('d stops at the middle of the bars', () {
+      const s = RcSection(width: 12, height: 21);
+      // 21 less 1.5 cover, less a 3/8 stirrup, less half of a one inch bar.
+      expect(s.effective, closeTo(21 - 1.5 - 0.375 - 0.5, 0.001));
+      expect(s.effective, lessThan(s.height));
+    });
+
+    test('bigger bars push d further up', () {
+      const small = RcSection(width: 12, height: 21, barDiameter: 0.75);
+      const big = RcSection(width: 12, height: 21, barDiameter: 1.41);
+      expect(big.effective, lessThan(small.effective));
+    });
+
+    test('the lever arm is shorter than d', () {
+      const s = RcSection(width: 12, height: 21, blockDepth: 4.41);
+      expect(s.leverArm, closeTo(s.effective - 4.41 / 2, 0.001));
+      expect(s.leverArm, lessThan(s.effective));
+    });
+
+    test('every dimension the item names gets a round', () {
+      expect(rcDepthRounds.map((r) => r.marked).toSet().length,
+          Depth.values.length);
+    });
+  });
+
+  group('the shear ladder', () {
+    test('the lesson\'s own beam needs designed stirrups', () {
+      const c = ShearCheck(concrete: 26.3, demand: 22);
+      expect(c.usable, closeTo(19.7, 0.05));
+      expect(c.half, closeTo(9.9, 0.05));
+      expect(c.verdict, Stirrups.designed);
+      expect(c.stirrupShare, closeTo(3.0, 0.1));
+    });
+
+    test('the lesson\'s hard problem sizes the stirrups for 51 kips', () {
+      const c = ShearCheck(concrete: 42.5, demand: 70);
+      expect(c.verdict, Stirrups.designed);
+      expect(c.stirrupShare, closeTo(50.8, 0.2));
+      expect(c.stirrupShare, lessThan(c.ceiling));
+    });
+
+    test('the bands run in order', () {
+      const concrete = 26.3;
+      expect(const ShearCheck(concrete: concrete, demand: 5).verdict,
+          Stirrups.none);
+      expect(const ShearCheck(concrete: concrete, demand: 15).verdict,
+          Stirrups.minimum);
+      expect(const ShearCheck(concrete: concrete, demand: 30).verdict,
+          Stirrups.designed);
+      expect(const ShearCheck(concrete: concrete, demand: 200).verdict,
+          Stirrups.tooSmall);
+    });
+
+    test('landing on the threshold stays in the band below it', () {
+      const c = ShearCheck(concrete: 26.3, demand: 19.725);
+      expect(c.demand, closeTo(c.usable, 0.001));
+      expect(c.verdict, Stirrups.minimum);
+    });
+
+    test('all four answers get a round', () {
+      expect(shearRounds.map((r) => r.answer).toSet().length, 4);
+    });
+  });
+
+  group('the column cage', () {
+    test('the lesson\'s own column is just under the minimum', () {
+      const c = Cage(width: 18, depth: 18, bars: 4, barArea: 0.79);
+      expect(c.ratio, closeTo(0.00975, 0.0001));
+      expect(c.tooLittle, isTrue);
+      expect(c.tooMuch, isFalse);
+    });
+
+    test('the capacity problem\'s column sits inside the window', () {
+      const c = Cage(width: 16, depth: 16, bars: 8, barArea: 1.0);
+      expect(c.ratio, closeTo(8 / 256, 0.0001));
+      expect(c.tooLittle, isFalse);
+      expect(c.tooMuch, isFalse);
+    });
+
+    test('the same bars in a bigger column give a smaller ratio', () {
+      const small = Cage(width: 16, depth: 16, bars: 8, barArea: 1.0);
+      const big = Cage(width: 24, depth: 24, bars: 8, barArea: 1.0);
+      expect(big.ratio, lessThan(small.ratio));
+      expect(big.tooLittle, isFalse);
+    });
+
+    test('a crowded cage is over the top', () {
+      const c = Cage(width: 12, depth: 12, bars: 12, barArea: 1.0);
+      expect(c.tooMuch, isTrue);
+    });
+
+    test('exactly one per cent counts as inside', () {
+      const c = Cage(width: 20, depth: 20, bars: 4, barArea: 1.0);
+      expect(c.ratio, closeTo(0.01, 0.0001));
+      expect(c.tooLittle, isFalse);
+    });
+
+    test('a spiral improves both multipliers', () {
+      const tied = Cage(width: 16, depth: 16, bars: 8, barArea: 1.0);
+      const spiral =
+          Cage(width: 16, depth: 16, bars: 8, barArea: 1.0, spiral: true);
+      expect(tied.allowance, 0.80);
+      expect(tied.phi, 0.65);
+      expect(spiral.allowance, greaterThan(tied.allowance));
+      expect(spiral.phi, greaterThan(tied.phi));
+    });
+
+    test('every round\'s verdict matches its own drawing', () {
+      for (final r in windowRounds) {
+        final expected = r.cage.tooLittle
+            ? Window.under
+            : (r.cage.tooMuch ? Window.over : Window.inside);
+        expect(r.answer, expected, reason: r.subject);
+      }
+    });
+  });
+
+  group('the braced beam', () {
+    test('a slab on top leaves nothing unbraced', () {
+      const b = Braced(span: 30, braceEvery: 0, lp: 8, lr: 25, continuous: true);
+      expect(b.unbraced, 0);
+      expect(b.reach, Gets.fullPlastic);
+    });
+
+    test('the three bands run in order', () {
+      expect(const Braced(span: 30, braceEvery: 6, lp: 8, lr: 25).reach,
+          Gets.fullPlastic);
+      expect(const Braced(span: 30, braceEvery: 15, lp: 8, lr: 25).reach,
+          Gets.inelastic);
+      expect(const Braced(span: 30, braceEvery: 30, lp: 8, lr: 25).reach,
+          Gets.elastic);
+    });
+
+    test('landing exactly on the first limit keeps everything', () {
+      const b = Braced(span: 32, braceEvery: 8, lp: 8, lr: 25);
+      expect(b.unbraced, b.lp);
+      expect(b.reach, Gets.fullPlastic);
+    });
+
+    test('the limits belong to the shape, not to the spacing', () {
+      const narrow = Braced(span: 36, braceEvery: 12, lp: 8, lr: 25);
+      const stocky = Braced(span: 36, braceEvery: 12, lp: 14, lr: 40);
+      expect(narrow.reach, Gets.inelastic);
+      expect(stocky.reach, Gets.fullPlastic);
+    });
+
+    test('the braces land where the drawing says', () {
+      const b = Braced(span: 30, braceEvery: 6, lp: 8, lr: 25);
+      expect(b.braces, [0, 6, 12, 18, 24, 30]);
+    });
+
+    test('all three bands get a round', () {
+      expect(braceRounds.map((r) => r.answer).toSet().length, 3);
+    });
+  });
+
+  group('the column axes', () {
+    test('a bare column goes the shallow way', () {
+      const p = Post(height: 24, rx: 6.0, ry: 2.5);
+      expect(p.decides, Axis2.weak);
+    });
+
+    test('one brace halves that axis and nothing else', () {
+      const p = Post(height: 24, rx: 6.0, ry: 2.5, weakBraces: 2);
+      expect(p.weakLength, 12);
+      expect(p.strongLength, 24);
+      // Still the weak axis: 57.6 against 48.
+      expect(p.decides, Axis2.weak);
+    });
+
+    test('a stockier shape flips on the same brace', () {
+      const p = Post(height: 24, rx: 4.0, ry: 2.5, weakBraces: 2);
+      expect(p.decides, Axis2.strong);
+    });
+
+    test('three bays beat a ratio of 2.4', () {
+      const p = Post(height: 24, rx: 6.0, ry: 2.5, weakBraces: 3);
+      expect(p.decides, Axis2.strong);
+    });
+
+    test('a square tube has no weak axis', () {
+      const p = Post(height: 20, rx: 3.0, ry: 3.0);
+      expect(p.decides, Axis2.either);
+    });
+
+    test('the lesson\'s own slenderness comes to 94', () {
+      const p = Post(height: 15, rx: 5.85, ry: 1.91);
+      expect(p.weakRatio, closeTo(94.2, 0.2));
+      expect(p.strongRatio, closeTo(30.8, 0.2));
+    });
+
+    test('every round agrees with its own column', () {
+      for (final r in bothAxisRounds) {
+        expect(r.answer, r.post.decides, reason: r.subject);
+      }
     });
   });
 }

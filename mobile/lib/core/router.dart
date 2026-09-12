@@ -248,6 +248,16 @@ import '../features/games/how_much_comes_off_game.dart';
 import '../features/games/what_the_height_means_game.dart';
 import '../features/games/which_line_is_it_game.dart';
 import '../features/games/where_do_you_park_it_game.dart';
+import '../features/games/which_one_is_d_game.dart';
+import '../features/games/stirrups_or_not_game.dart';
+import '../features/games/nominal_or_design_game.dart';
+import '../features/games/both_factors_or_one_game.dart';
+import '../features/games/too_little_or_too_much_game.dart';
+import '../features/games/how_far_between_braces_game.dart';
+import '../features/games/z_or_s_game.dart';
+import '../features/games/which_flange_needs_holding_game.dart';
+import '../features/games/which_axis_wins_now_game.dart';
+import '../features/games/what_the_table_gives_you_game.dart';
 import '../features/games/which_j_is_it_game.dart';
 import '../features/games/which_law_game.dart';
 import '../features/games/which_length_is_which_game.dart';
@@ -636,6 +646,18 @@ GoRouter buildRouter(AuthController auth) {
           'what-the-height-means' => const WhatTheHeightMeansGame(),
           'which-line-is-it' => const WhichLineIsItGame(),
           'where-do-you-park-it' => const WhereDoYouParkItGame(),
+          'which-one-is-d' => const WhichOneIsDGame(),
+          'stirrups-or-not' => const StirrupsOrNotGame(),
+          'nominal-or-design' => const NominalOrDesignGame(),
+          'both-factors-or-one' => const BothFactorsOrOneGame(),
+          'too-little-or-too-much' => const TooLittleOrTooMuchGame(),
+          'how-far-between-braces' => const HowFarBetweenBracesGame(),
+          'z-or-s' => const ZOrSGame(),
+          'which-flange-needs-holding' =>
+            const WhichFlangeNeedsHoldingGame(),
+          'which-axis-wins-now' => const WhichAxisWinsNowGame(),
+          'what-the-table-gives-you' =>
+            const WhatTheTableGivesYouGame(),
           _ => const _UnknownGame(),
         },
       ),

@@ -68,6 +68,18 @@ import 'influence_figures.dart';
 import 'what_the_height_means_game.dart';
 import 'which_line_is_it_game.dart';
 import 'where_do_you_park_it_game.dart';
+import 'rc_figures.dart';
+import 'which_one_is_d_game.dart';
+import 'stirrups_or_not_game.dart';
+import 'nominal_or_design_game.dart';
+import 'both_factors_or_one_game.dart';
+import 'too_little_or_too_much_game.dart';
+import 'steel_figures.dart';
+import 'how_far_between_braces_game.dart';
+import 'z_or_s_game.dart';
+import 'which_flange_needs_holding_game.dart';
+import 'which_axis_wins_now_game.dart';
+import 'what_the_table_gives_you_game.dart';
 import 'standards_figures.dart';
 import 'channel_figures.dart';
 import 'alignment_figures.dart';
@@ -4009,6 +4021,136 @@ List<GameAudit> auditAllGames() => [
     problemPrefix: 'str-il-',
     rounds: [
       for (final r in parkRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-one-is-d',
+    lessonId: 'rc-flexure-shear',
+    problemPrefix: 'str-rfs-',
+    rounds: [
+      for (final r in rcDepthRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Depth.values) o.name],
+          answer: Depth.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'stirrups-or-not',
+    lessonId: 'rc-flexure-shear',
+    problemPrefix: 'str-rfs-',
+    rounds: [
+      for (final r in shearRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Stirrups.values) o.name],
+          answer: Stirrups.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'nominal-or-design',
+    lessonId: 'rc-flexure-shear',
+    problemPrefix: 'str-rfs-',
+    rounds: [
+      for (final r in phiRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'both-factors-or-one',
+    lessonId: 'rc-columns',
+    problemPrefix: 'str-rcc-',
+    rounds: [
+      for (final r in columnFactorRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'too-little-or-too-much',
+    lessonId: 'rc-columns',
+    problemPrefix: 'str-rcc-',
+    rounds: [
+      for (final r in windowRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Window.values) o.name],
+          answer: Window.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'how-far-between-braces',
+    lessonId: 'steel-beams',
+    problemPrefix: 'str-sb-',
+    rounds: [
+      for (final r in braceRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Gets.values) o.name],
+          answer: Gets.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'z-or-s',
+    lessonId: 'steel-beams',
+    problemPrefix: 'str-sb-',
+    rounds: [
+      for (final r in modulusRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-flange-needs-holding',
+    lessonId: 'steel-beams',
+    problemPrefix: 'str-sb-',
+    rounds: [
+      for (final r in flangeRounds)
+        RoundAudit(
+          source: r.source,
+          options: r.options,
+          answer: r.answer,
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'which-axis-wins-now',
+    lessonId: 'steel-columns',
+    problemPrefix: 'str-sc-',
+    rounds: [
+      for (final r in bothAxisRounds)
+        RoundAudit(
+          source: r.source,
+          options: [for (final o in Axis2.values) o.name],
+          answer: Axis2.values.indexOf(r.answer),
+        ),
+    ],
+  ),
+  GameAudit(
+    gameId: 'what-the-table-gives-you',
+    lessonId: 'steel-columns',
+    problemPrefix: 'str-sc-',
+    rounds: [
+      for (final r in columnTableRounds)
         RoundAudit(
           source: r.source,
           options: r.options,
