@@ -3625,8 +3625,83 @@ void main() {
             'goldens/${item.lesson}/$id-${(round + 1).toString().padLeft(2, '0')}.png',
           ),
         );
+
+        // The sheets above show every board as the reader first meets it,
+        // unanswered. Most figures have a SECOND state, the one that comes
+        // out with the answer, and it carries the longest labels and the
+        // most ink. Run with REVIEW_ANSWERED=1 to photograph that state too,
+        // one board per item, so it can be reviewed as a sheet like the
+        // rest. It is off by default because it is a review pass and not a
+        // regression: the pictures are large and they change whenever any
+        // reveal wording does.
+        if (round == 0 && Platform.environment['REVIEW_ANSWERED'] == '1') {
+          await _answerSomething(tester);
+          await expectLater(
+            find.byType(MaterialApp),
+            matchesGoldenFile('goldens/answered/${item.lesson}/$id.png'),
+          );
+        }
       }
       GameProgress.instance.reset(id);
     });
+  }
+}
+
+/// Get a board into its answered state without knowing how it takes an
+/// answer. Items differ: most offer a list of choices, some want a tap on
+/// the figure itself, and a few want several. This tries the cheap ways in
+/// order and gives up quietly, because a board that stays unanswered still
+/// photographs usefully: the button label says which state it is in.
+Future<void> _answerSomething(WidgetTester tester) async {
+  Future<bool> lockIn() async {
+    final lock = find.text('Lock it in');
+    if (lock.evaluate().isEmpty) return false;
+    await tester.tap(lock, warnIfMissed: false);
+    await tester.pumpAndSettle();
+    return find.text('Lock it in').evaluate().isEmpty;
+  }
+
+  // A choice list, which is how most items ask. The card button in the bar
+  // is an InkWell too, and tapping it opens the reference card instead of
+  // answering anything, so take the first one that carries words rather
+  // than an icon.
+  final choices = find.byWidgetPredicate((w) => w is InkWell);
+  for (final candidate in choices.evaluate()) {
+    final subtree = find.descendant(
+      of: find.byWidget(candidate.widget),
+      matching: find.byType(Text),
+    );
+    final icons = find.descendant(
+      of: find.byWidget(candidate.widget),
+      matching: find.byType(Icon),
+    );
+    if (subtree.evaluate().isEmpty || icons.evaluate().isNotEmpty) continue;
+    await tester.tap(find.byWidget(candidate.widget), warnIfMissed: false);
+    await tester.pumpAndSettle();
+    if (await lockIn()) return;
+    break;
+  }
+
+  // Otherwise the figure itself is the answer, and the target is somewhere
+  // on it: a member of a truss, a point on a curve, a cell in a table. Walk
+  // a grid across the drawing until something takes.
+  for (final figure in [
+    find.byType(CustomPaint).last,
+    ...find.byType(CustomPaint).evaluate().length > 2
+        ? [find.byType(CustomPaint).at(1)]
+        : const <Finder>[],
+  ]) {
+    if (figure.evaluate().isEmpty) continue;
+    final box = tester.getRect(figure);
+    for (var row = 1; row <= 5; row++) {
+      for (var col = 1; col <= 5; col++) {
+        await tester.tapAt(Offset(
+          box.left + box.width * col / 6,
+          box.top + box.height * row / 6,
+        ));
+        await tester.pumpAndSettle();
+        if (await lockIn()) return;
+      }
+    }
   }
 }

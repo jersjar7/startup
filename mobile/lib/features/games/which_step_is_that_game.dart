@@ -206,7 +206,7 @@ class _WhichStepIsThatGameState extends State<WhichStepIsThatGame> {
           ),
           const SizedBox(height: 12),
           Container(
-            height: 190,
+            height: 206,
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(12),

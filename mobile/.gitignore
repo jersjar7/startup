@@ -46,3 +46,9 @@ app.*.map.json
 
 # Golden-test diff debris, written whenever a sheet test fails.
 test/failures/
+
+# Answered-state review captures (REVIEW_ANSWERED=1 in the contact sheet
+# test). One per item, about 30 MB, and they change whenever any reveal
+# wording does: they are a review pass, not a regression baseline.
+test/goldens/answered/
+build/review/

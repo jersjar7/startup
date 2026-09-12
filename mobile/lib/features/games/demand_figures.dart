@@ -69,9 +69,20 @@ class StepsPainter extends CustomPainter {
               ..strokeWidth = 1.2);
       }
 
-      if (answered) {
-        writeOn(canvas, size, step.does, Offset(box.left + 2, top + 44 + i * 15),
-            picked ? AppColors.ember : AppColors.ink3, fontSize: 9.5);
+    }
+
+    // What each step does, once the round is answered. These lines are far
+    // wider than the boxes above them, so they are stacked down the left
+    // and numbered rather than written under their own box: under the boxes
+    // they ran into each other and the last one fell off the drawing.
+    if (answered) {
+      for (var i = 0; i < Forecast.values.length; i++) {
+        final step = Forecast.values[i];
+        final picked = highlight == step;
+        writeOn(canvas, size, '${i + 1}  ${step.does}',
+            Offset(left, top + 44 + i * 14),
+            picked ? AppColors.ember : AppColors.ink3,
+            fontSize: 9.5);
       }
     }
 
