@@ -7,8 +7,10 @@ import '../../core/network/api_exception.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
+import '../games/game_progress.dart';
 import '../shared/widgets/mastery_ring.dart';
 import '../study/content_repository.dart';
+import '../study/study_tab.dart' show conceptsHeld, totalConcepts;
 
 /// Tab 3 — Profile: the mastery hero, the three stats, and account actions.
 class ProfileTab extends StatefulWidget {
@@ -134,6 +136,22 @@ class _ProfileTabState extends State<ProfileTab> {
             ],
           ),
           const SizedBox(height: 22),
+          // The phone's number and the website's number, one under the
+          // other. They are never added: see ADR 0013. These lived on the
+          // Study tab until the home became one chapter and one button
+          // (ADR 0015); neither helps decide what to play next.
+          Text('PROGRESS', style: AppTheme.overline()),
+          ListenableBuilder(
+            listenable: GameProgress.instance,
+            builder: (context, _) => _ledger(
+              'Concepts held on the phone',
+              '${conceptsHeld(GameProgress.instance)} / $totalConcepts',
+            ),
+          ),
+          const Divider(height: 1),
+          _ledger('Problems answered on the website',
+              '${(user['problemsAnswered'] ?? 0) as int}'),
+          const SizedBox(height: 22),
           Text('ACCOUNT', style: AppTheme.overline()),
           _row(Icons.open_in_new, 'Open the website',
               () => launchUrl(Uri.parse('https://fe4raccoons.com'), mode: LaunchMode.externalApplication)),
@@ -164,6 +182,21 @@ class _ProfileTabState extends State<ProfileTab> {
             Text(label, style: const TextStyle(fontSize: 10.5, color: AppColors.ink3)),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _ledger(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(label,
+                style: const TextStyle(fontSize: 13, color: AppColors.ink2)),
+          ),
+          Text(value, style: AppTheme.mono(size: 13)),
+        ],
       ),
     );
   }
