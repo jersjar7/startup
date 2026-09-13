@@ -9,12 +9,16 @@ they do not each get a build.
 ```sh
 cd mobile
 
-# 1. Bump the build number only. The version stays 1.0.0 until there is a
-#    reason for it not to; TestFlight testers see "same version, new build".
-#    pubspec.yaml -> version: 1.0.0+<n+1>
+# 1. The build number is the git commit count, the same rule the fastlane
+#    lane uses (ios/fastlane/Fastfile, git_build_number). Do NOT bump
+#    pubspec.yaml: on 2026-09-13 a pubspec bump produced build 526 while
+#    fastlane had already shipped 788-794 from the commit count, and
+#    TestFlight only offers the highest number, so 526 never reached the
+#    phone. Commit everything first, then read the count.
+N=$(git rev-list --count HEAD)
 
 # 2. Archive. This succeeds; the IPA step inside it does not, see below.
-flutter build ipa --release
+flutter build ipa --release --build-number=$N
 
 # 3. Export a signed IPA with MANUAL signing.
 xcodebuild -exportArchive \
@@ -106,4 +110,6 @@ The profile in use expires **2027-06-23**.
 | 523   | Economics, all six lessons; chapter four complete |
 | 524   | Statics, all seven lessons; chapter five complete |
 | 525   | Mechanics of Materials opens; four lessons that were a game short get their fourth; the untappable arrow |
-| 526   | The home is one chapter and one button: pager, overview, ring; Profile carries the two numbers (ADR 0015) |
+| 788-794 | Rive lesson nodes, chapter marks, Study tab rebuilt around two numbers (fastlane, commit-count numbering) |
+| 526   | Mis-numbered from pubspec; same code as 797. Expired on App Store Connect. |
+| 797   | The home is one chapter and one button: pager, overview, ring; Profile carries the two numbers (ADR 0015) |
