@@ -519,13 +519,17 @@ class _ChapterCard extends StatelessWidget {
 
     final onDark = state == _CardState.cleared;
     final markColor = switch (state) {
-      _CardState.untouched => AppColors.ink3.withValues(alpha: 0.5),
+      // Full ink3, not a faded version of it. Half strength made the
+      // drawings so pale that the one thing the card is for disappeared on
+      // the eleven chapters a new student has not opened yet, which is
+      // every chapter on day one.
+      _CardState.untouched => AppColors.ink3,
       _CardState.started => AppColors.forest,
       _CardState.current => AppColors.ember,
       _CardState.cleared => AppColors.mint,
     };
 
-    final mark = ChapterMark(chapterId: chapter.id, color: markColor, width: 46);
+    final mark = ChapterMark(chapterId: chapter.id, color: markColor, size: 44);
     final number = Text(
       chapter.number.toString().padLeft(2, '0'),
       style: AppTheme.mono(
