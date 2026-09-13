@@ -16,10 +16,12 @@ import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/study/chapter_bands.dart';
+import 'package:mobile/features/study/chapter_overview.dart';
 import 'package:mobile/features/study/study_tab.dart';
 
-/// The Study tab, photographed in the two states that matter: a new account
-/// where every number is zero, and one a few weeks in.
+/// The Study tab is one chapter and one button (ADR 0015). Photographed in
+/// the states that matter: a new account on day one, a student a few weeks
+/// in, and the overview that the dots open.
 ///
 /// Day one is the state the old screen lost on, so it is the one that has to
 /// be looked at rather than assumed.
@@ -79,6 +81,18 @@ void _wipe() {
   }
 }
 
+Future<void> _settle(WidgetTester tester) async {
+  await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 60)));
+  await tester.pumpAndSettle();
+}
+
+void _phone(WidgetTester tester) {
+  tester.view.physicalSize = const Size(390, 844);
+  tester.view.devicePixelRatio = 1;
+  addTearDown(tester.view.reset);
+}
+
 void main() {
   setUpAll(() async {
     GoogleFonts.config.allowRuntimeFetching = false;
@@ -89,17 +103,11 @@ void main() {
   tearDown(_wipe);
 
   test('the bands hold every chapter exactly once', () {
+    // The bands are no longer drawn on the tab, but the contact sheet still
+    // lays the marks out by them.
     final listed = [for (final b in chapterBands) ...b.chapterIds];
     expect(listed.length, chapterMaps.length);
     expect(listed.toSet(), chapterMaps.keys.toSet());
-  });
-
-  test('each band adds up its own chapters', () {
-    // Not typed by hand: if a chapter's examLine ever changes, the heading
-    // has to change with it.
-    expect(chapterBands[0].examRange, '23-35 q');
-    expect(chapterBands[1].examRange, '27-41 q');
-    expect(chapterBands[2].examRange, '51-77 q');
   });
 
   test('every chapter has a mark of its own', () {
@@ -116,35 +124,40 @@ void main() {
 
   test('the concept total is the whole built catalog', () {
     expect(totalConcepts, 375);
+    expect(conceptsHeld(GameProgress.instance), 0);
   });
 
-  testWidgets('day one: nothing done, no exam date', (tester) async {
-    tester.view.physicalSize = const Size(390, 1500);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.reset);
+  test('days to the exam never go negative and never invent a date', () {
+    expect(daysUntil(null), isNull);
+    expect(daysUntil(''), isNull);
+    expect(daysUntil('not a date'), isNull);
+    final past = DateTime.now().subtract(const Duration(days: 3));
+    expect(daysUntil(past.toIso8601String()), isNull);
+    final soon = DateTime.now().add(const Duration(days: 10));
+    expect(daysUntil(soon.toIso8601String()), 10);
+  });
 
+  testWidgets('day one: opens on Mathematics with a Start button',
+      (tester) async {
+    _phone(tester);
     await tester.pumpWidget(_app({'firstName': 'Jerson'}));
-    await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 60)));
-    await tester.pumpAndSettle();
+    await _settle(tester);
 
-    // The chip cannot promise a countdown nobody gave us.
-    expect(find.text('Set exam date'), findsOneWidget);
-    expect(find.text('375 waiting'), findsOneWidget);
-    expect(find.text('Open Mathematics'), findsOneWidget);
-    // All three bands are on the page.
-    expect(find.text('BEFORE THE ENGINEERING'), findsOneWidget);
-    expect(find.text('CIVIL PRACTICE'), findsOneWidget);
+    // The line cannot promise a countdown nobody gave us.
+    expect(find.text('Set your exam date'), findsOneWidget);
+    expect(find.text('Mathematics & Computational Tools'), findsOneWidget);
+    expect(find.text('STARTS WITH'), findsOneWidget);
+    expect(find.text('Start'), findsOneWidget);
+    expect(find.text('Continue'), findsNothing);
+    // The screen does not scroll: everything is inside the frame.
+    expect(tester.getBottomRight(find.text('Start')).dy, lessThan(844));
 
     await expectLater(find.byType(MaterialApp),
         matchesGoldenFile('goldens/home/day-one.png'));
   });
 
-  testWidgets('week five: three in flight, one cleared', (tester) async {
-    tester.view.physicalSize = const Size(390, 1500);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.reset);
-
+  testWidgets('week five: opens on the chapter in flight', (tester) async {
+    _phone(tester);
     _clear('mathematics', 9);
     _clear('ethics', 4);
     _clear('statics', chapterMaps['statics']!.lessons.length);
@@ -157,18 +170,67 @@ void main() {
       'problemsAnswered': 41,
       'examDate': exam.toIso8601String(),
     }));
-    await tester.runAsync(
-        () => Future<void>.delayed(const Duration(milliseconds: 60)));
-    await tester.pumpAndSettle();
+    await _settle(tester);
 
-    expect(find.text('61 days'), findsOneWidget);
-    expect(find.text('41'), findsOneWidget);
-    // Statics is finished, so its card says so rather than counting.
-    expect(find.text('all 7 cleared'), findsOneWidget);
-    // The action card resumes rather than offering Mathematics again.
+    expect(find.text('61 days to the exam'), findsOneWidget);
+    // Fluids was touched last, so the home lands there, on lesson 4.
+    expect(find.text('Fluid Mechanics'), findsOneWidget);
+    expect(find.text('NEXT'), findsOneWidget);
+    expect(find.text(chapterMaps['fluid-mechanics']!.lessons[3].name),
+        findsOneWidget);
     expect(find.text('Continue'), findsOneWidget);
+    // The website's number is not on this screen any more.
+    expect(find.text('41'), findsNothing);
 
     await expectLater(find.byType(MaterialApp),
         matchesGoldenFile('goldens/home/week-five.png'));
+  });
+
+  testWidgets('a cleared chapter says so and still opens', (tester) async {
+    _phone(tester);
+    _clear('statics', chapterMaps['statics']!.lessons.length);
+
+    await tester.pumpWidget(_app({'firstName': 'Jerson'}));
+    await _settle(tester);
+
+    // Nothing is in flight, so the home opens on Mathematics. Swipe to
+    // Statics (chapter 5) by hand.
+    for (var i = 0; i < 4; i++) {
+      await tester.drag(find.byType(PageView), const Offset(-390, 0));
+      await tester.pumpAndSettle();
+    }
+    expect(find.text('Statics'), findsOneWidget);
+    expect(find.text('Every lesson cleared'), findsOneWidget);
+    expect(find.text('Open chapter'), findsOneWidget);
+  });
+
+  testWidgets('the dots open the overview and a tap jumps the pager',
+      (tester) async {
+    _phone(tester);
+    _clear('mathematics', 3);
+
+    await tester.pumpWidget(_app({'firstName': 'Jerson'}));
+    await _settle(tester);
+    expect(find.text('Mathematics & Computational Tools'), findsOneWidget);
+
+    await tester.tap(find.bySemanticsLabel('All chapters'));
+    await tester.pumpAndSettle();
+    expect(find.byType(ChapterOverview), findsOneWidget);
+    expect(find.text('Chapters'), findsOneWidget);
+    // All fifteen are on the one screen, with their counts. Mathematics
+    // goes by its card name here so it fits.
+    for (final chapter in chapterMaps.values) {
+      expect(find.text(cardNameFor(chapter)), findsOneWidget);
+    }
+    expect(find.text('3/16'), findsOneWidget);
+
+    await expectLater(find.byType(MaterialApp),
+        matchesGoldenFile('goldens/home/overview.png'));
+
+    await tester.tap(find.text('Geotechnical Engineering'));
+    await tester.pumpAndSettle();
+    expect(find.byType(ChapterOverview), findsNothing);
+    expect(find.text('Geotechnical Engineering'), findsOneWidget);
+    expect(find.text('Start'), findsOneWidget);
   });
 }
