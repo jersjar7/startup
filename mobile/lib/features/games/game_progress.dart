@@ -116,6 +116,54 @@ class GameProgress extends ChangeNotifier {
         for (final game in lesson.games) game.id: lesson.id,
   };
 
+  /// Which chapter each game belongs to, read from the catalog once.
+  static final Map<String, String> _chapterOfGame = {
+    for (final chapter in chapterMaps.values)
+      for (final lesson in chapter.lessons)
+        for (final game in lesson.games) game.id: chapter.id,
+  };
+
+  /// The last item a round was cleared in, if any.
+  String? get lastGameId => _lastGame;
+
+  /// The chapter the student last did anything in, if it is still unfinished.
+  ChapterMap? get lastChapter {
+    final id = _lastGame == null ? null : _chapterOfGame[_lastGame];
+    if (id == null) return null;
+    final chapter = chapterMaps[id];
+    if (chapter == null) return null;
+    return nextLessonIn(chapter) == null ? null : chapter;
+  }
+
+  /// What to do next in a chapter: the lesson being worked through if there
+  /// is one, otherwise the first lesson not yet cleared.
+  ///
+  /// Null means the chapter is finished. Nothing here implies an order the
+  /// map does not impose: a student can open any node, this only decides what
+  /// the one Continue button on the home screen points at.
+  LessonNode? nextLessonIn(ChapterMap chapter) {
+    for (final lesson in chapter.lessons) {
+      if (stateOf(lesson) == LessonState.inProgress) return lesson;
+    }
+    for (final lesson in chapter.lessons) {
+      final state = stateOf(lesson);
+      if (state != LessonState.cleared && state != LessonState.notBuilt) {
+        return lesson;
+      }
+    }
+    return null;
+  }
+
+  /// True once any round anywhere in [chapter] has been cleared.
+  bool hasTouched(ChapterMap chapter) {
+    for (final lesson in chapter.lessons) {
+      for (final game in lesson.builtGames) {
+        if (isStarted(game.id)) return true;
+      }
+    }
+    return false;
+  }
+
   /// The lesson in [chapter] the student is in the middle of, if any: the one
   /// they last played a round in while it is still unfinished, otherwise the
   /// first unfinished-but-started lesson on the path. Never a lesson they

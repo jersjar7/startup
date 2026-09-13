@@ -25,6 +25,10 @@ abstract final class AppColors {
   static const forest = Color(0xFF2D7A5F);
   static const forestBg = Color(0xFFE8F5EE);
 
+  /// Forest, lightened enough to read on charcoal. A cleared chapter card
+  /// inverts to charcoal, and forest on charcoal is too dark to see.
+  static const mint = Color(0xFF7FC3A5);
+
   // Streak / highlight (the one warm pop)
   static const sunbeam = Color(0xFFF5B731);
   static const sunbeamBg = Color(0xFFFEF7E0);
