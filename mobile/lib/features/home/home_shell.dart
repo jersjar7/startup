@@ -4,7 +4,10 @@ import '../../core/theme/app_colors.dart';
 import '../profile/profile_tab.dart';
 import '../study/study_tab.dart';
 
-/// The authenticated home: a bottom-nav shell over Study and Profile.
+/// The authenticated home: a bottom-nav shell over Profile and Study.
+///
+/// Profile is first and is the tab the app opens on (owner's call,
+/// 2026-09-13); Study is on the right.
 ///
 /// There were three tabs. The middle one was Review, which pulled the
 /// student's missed problems off the website and practised them here. That
@@ -29,8 +32,8 @@ class _HomeShellState extends State<HomeShell> {
       body: IndexedStack(
         index: _index,
         children: const [
-          StudyTab(),
           ProfileTab(),
+          StudyTab(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -40,14 +43,14 @@ class _HomeShellState extends State<HomeShell> {
         indicatorColor: AppColors.emberBg,
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.menu_book_outlined, color: AppColors.ink3),
-            selectedIcon: Icon(Icons.menu_book, color: AppColors.ember),
-            label: 'Study',
-          ),
-          NavigationDestination(
             icon: Icon(Icons.person_outline, color: AppColors.ink3),
             selectedIcon: Icon(Icons.person, color: AppColors.ember),
             label: 'Profile',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.menu_book_outlined, color: AppColors.ink3),
+            selectedIcon: Icon(Icons.menu_book, color: AppColors.ember),
+            label: 'Study',
           ),
         ],
       ),
