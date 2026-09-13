@@ -106,3 +106,4 @@ The profile in use expires **2027-06-23**.
 | 523   | Economics, all six lessons; chapter four complete |
 | 524   | Statics, all seven lessons; chapter five complete |
 | 525   | Mechanics of Materials opens; four lessons that were a game short get their fourth; the untappable arrow |
+| 526   | The home is one chapter and one button: pager, overview, ring; Profile carries the two numbers (ADR 0015) |
