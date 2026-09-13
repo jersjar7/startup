@@ -11,7 +11,7 @@ import '../games/chapter_map_screen.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
 import 'chapter_marks.dart';
-import 'chapter_overview.dart';
+import 'chapter_grid.dart';
 
 /// Tab 1 — the home of the app: one chapter on the screen, one button.
 ///
@@ -22,8 +22,8 @@ import 'chapter_overview.dart';
 ///
 /// The other fourteen chapters are one swipe away. This is a pager, one
 /// chapter per page, and it opens on the chapter in flight. All fifteen at
-/// once are one tap away: the row of dots opens [ChapterOverview], tap a
-/// chapter there and the pager jumps to it. See ADR 0015.
+/// once are one tap away: the toggle at the top right flips the tab to
+/// [ChapterGrid], and back. See ADR 0015.
 ///
 /// Two figures used to live here and moved to Profile: concepts held on the
 /// phone and problems answered on the website. Neither helps decide what to
@@ -42,6 +42,10 @@ class _StudyTabState extends State<StudyTab> {
 
   late final PageController _pager;
 
+  /// Which of the two views is up. Kept for the life of the tab, so a
+  /// student who prefers the grid finds it there when they come back.
+  bool _grid = false;
+
   @override
   void initState() {
     super.initState();
@@ -58,21 +62,7 @@ class _StudyTabState extends State<StudyTab> {
     super.dispose();
   }
 
-  Future<void> _openOverview() async {
-    final picked = await Navigator.of(context).push<String>(
-      MaterialPageRoute(
-        fullscreenDialog: true,
-        builder: (_) => ChapterOverview(
-          chapters: _chapters,
-          currentChapterId: resumeTarget(GameProgress.instance)?.$1.id,
-        ),
-      ),
-    );
-    if (picked == null || !mounted) return;
-    final index = _chapters.indexWhere((c) => c.id == picked);
-    if (index < 0) return;
-    _pager.jumpToPage(index);
-  }
+  void _toggle() => setState(() => _grid = !_grid);
 
   @override
   Widget build(BuildContext context) {
@@ -93,24 +83,35 @@ class _StudyTabState extends State<StudyTab> {
           child: Column(
             children: [
               const SizedBox(height: 8),
-              _ExamLine(days: days),
-              Expanded(
-                child: PageView.builder(
-                  controller: _pager,
-                  itemCount: _chapters.length,
-                  itemBuilder: (context, i) => _ChapterPage(
-                    chapter: _chapters[i],
+              _TopLine(days: days, grid: _grid, onToggle: _toggle),
+              if (_grid)
+                Expanded(
+                  child: ChapterGrid(
+                    chapters: _chapters,
                     progress: progress,
-                    isCurrent: _chapters[i].id == current,
+                    currentChapterId: current,
+                    onOpen: (chapter) => _open(context, chapter),
+                  ),
+                )
+              else ...[
+                Expanded(
+                  child: PageView.builder(
+                    controller: _pager,
+                    itemCount: _chapters.length,
+                    itemBuilder: (context, i) => _ChapterPage(
+                      chapter: _chapters[i],
+                      progress: progress,
+                      isCurrent: _chapters[i].id == current,
+                    ),
                   ),
                 ),
-              ),
-              _Dots(
-                controller: _pager,
-                count: _chapters.length,
-                onTap: _openOverview,
-              ),
-              const SizedBox(height: 10),
+                _Dots(
+                  controller: _pager,
+                  count: _chapters.length,
+                  onTap: _toggle,
+                ),
+                const SizedBox(height: 10),
+              ],
             ],
           ),
         );
@@ -180,30 +181,58 @@ int? daysUntil(String? iso) {
 
 // ───────────────────────────── the top line ────────────────────────
 
+/// The exam line, centered, with the view toggle at the right edge. The
+/// toggle shows the view you would switch TO: a grid in the single view, a
+/// single square in the grid.
+///
 /// A new account has no exam date, because nothing in sign-up asks for one.
 /// Saying "87 days" to somebody who never gave us a date would be a lie, so
 /// the line says what it is instead.
-class _ExamLine extends StatelessWidget {
-  const _ExamLine({required this.days});
+class _TopLine extends StatelessWidget {
+  const _TopLine({
+    required this.days,
+    required this.grid,
+    required this.onToggle,
+  });
 
   final int? days;
+  final bool grid;
+  final VoidCallback onToggle;
 
   @override
   Widget build(BuildContext context) {
     final d = days;
+    // Full width, or the strip shrinks to the text and "right: 8" puts the
+    // toggle on top of it.
     return SizedBox(
-      height: 20,
-      child: Center(
-        child: Text(
-          d == null
-              ? 'Set your exam date'
-              : d == 0
-                  ? 'Your exam is today'
-                  : d == 1
-                      ? '1 day to the exam'
-                      : '$d days to the exam',
-          style: AppTheme.mono(size: 12, color: AppColors.ink2),
-        ),
+      height: 44,
+      width: double.infinity,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Text(
+            d == null
+                ? 'Set your exam date'
+                : d == 0
+                    ? 'Your exam is today'
+                    : d == 1
+                        ? '1 day to the exam'
+                        : '$d days to the exam',
+            style: AppTheme.mono(size: 12, color: AppColors.ink2),
+          ),
+          Positioned(
+            right: 8,
+            child: IconButton(
+              onPressed: onToggle,
+              tooltip: grid ? 'One chapter' : 'All chapters',
+              iconSize: 22,
+              color: AppColors.charcoal,
+              icon: Icon(
+                grid ? Icons.crop_square_rounded : Icons.grid_view_rounded,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -445,8 +474,9 @@ class _Button extends StatelessWidget {
 
 // ───────────────────────────── the dots ────────────────────────────
 
-/// Fifteen dots, the current page's a little larger. Tapping the row opens
-/// the overview; the whole strip is the target, not the dots.
+/// Fifteen dots, the current page's a little larger. Tapping the row flips
+/// to the grid, same as the toggle; the whole strip is the target, not the
+/// dots.
 class _Dots extends StatelessWidget {
   const _Dots({
     required this.controller,

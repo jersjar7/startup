@@ -16,12 +16,13 @@ import 'package:mobile/features/auth/auth_controller.dart';
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/study/chapter_bands.dart';
-import 'package:mobile/features/study/chapter_overview.dart';
+import 'package:mobile/features/games/chapter_map_screen.dart';
+import 'package:mobile/features/study/chapter_grid.dart';
 import 'package:mobile/features/study/study_tab.dart';
 
 /// The Study tab is one chapter and one button (ADR 0015). Photographed in
 /// the states that matter: a new account on day one, a student a few weeks
-/// in, and the overview that the dots open.
+/// in, and the grid behind the toggle.
 ///
 /// Day one is the state the old screen lost on, so it is the one that has to
 /// be looked at rather than assumed.
@@ -204,7 +205,7 @@ void main() {
     expect(find.text('Open chapter'), findsOneWidget);
   });
 
-  testWidgets('the dots open the overview and a tap jumps the pager',
+  testWidgets('the toggle flips to the grid and a tap opens the chapter',
       (tester) async {
     _phone(tester);
     _clear('mathematics', 3);
@@ -212,11 +213,15 @@ void main() {
     await tester.pumpWidget(_app({'firstName': 'Jerson'}));
     await _settle(tester);
     expect(find.text('Mathematics & Computational Tools'), findsOneWidget);
+    expect(find.byType(ChapterGrid), findsNothing);
 
-    await tester.tap(find.bySemanticsLabel('All chapters'));
+    await tester.tap(find.byTooltip('All chapters'));
     await tester.pumpAndSettle();
-    expect(find.byType(ChapterOverview), findsOneWidget);
-    expect(find.text('Chapters'), findsOneWidget);
+    expect(find.byType(ChapterGrid), findsOneWidget);
+    expect(find.byType(PageView), findsNothing);
+    // The exam line and the toggle stay; the toggle now offers the way back.
+    expect(find.text('Set your exam date'), findsOneWidget);
+    expect(find.byTooltip('One chapter'), findsOneWidget);
     // All fifteen are on the one screen, with their counts. Mathematics
     // goes by its card name here so it fits.
     for (final chapter in chapterMaps.values) {
@@ -225,12 +230,31 @@ void main() {
     expect(find.text('3/16'), findsOneWidget);
 
     await expectLater(find.byType(MaterialApp),
-        matchesGoldenFile('goldens/home/overview.png'));
+        matchesGoldenFile('goldens/home/grid.png'));
 
+    // A chapter in the grid opens its path directly.
     await tester.tap(find.text('Geotechnical Engineering'));
     await tester.pumpAndSettle();
-    expect(find.byType(ChapterOverview), findsNothing);
-    expect(find.text('Geotechnical Engineering'), findsOneWidget);
-    expect(find.text('Start'), findsOneWidget);
+    expect(find.byType(ChapterMapScreen), findsOneWidget);
+
+    // Back on the tab, the grid is still the view.
+    tester.state<NavigatorState>(find.byType(Navigator)).pop();
+    await tester.pumpAndSettle();
+    expect(find.byType(ChapterGrid), findsOneWidget);
+
+    await tester.tap(find.byTooltip('One chapter'));
+    await tester.pumpAndSettle();
+    expect(find.byType(PageView), findsOneWidget);
+    expect(find.text('Mathematics & Computational Tools'), findsOneWidget);
+  });
+
+  testWidgets('the dots are a second way into the grid', (tester) async {
+    _phone(tester);
+    await tester.pumpWidget(_app({'firstName': 'Jerson'}));
+    await _settle(tester);
+
+    await tester.tap(find.bySemanticsLabel('All chapters'));
+    await tester.pumpAndSettle();
+    expect(find.byType(ChapterGrid), findsOneWidget);
   });
 }
