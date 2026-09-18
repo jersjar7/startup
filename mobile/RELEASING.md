@@ -120,3 +120,4 @@ The profile in use expires **2027-06-23**.
 | 812   | Welcome is the signed-out root; the tour is three pages behind Let's go; back arrows return to Welcome |
 | 814   | The tour-seen flag moves out of the keychain so a fresh install shows the tour |
 | 816   | Welcome cards carry the chapter marks instead of formulas; the fan no longer hides anything |
+| 818   | Back slides back: the signed-out flow pushes and pops, sign in and out fade, the email-to-password step slides |
