@@ -1,4 +1,8 @@
-# Mobile visual language — LOCKED
+# Mobile visual language — SUPERSEDED
+
+_Superseded on 2026-09-18 by `mobile/design/DESIGN.md` (ADR 0016): the phone
+now has its own app language and a palette derived from the brand. The honesty
+rules in "Copy rules" below carry over unchanged. Kept for the record._
 
 _Approved 2026-06-10. This is the agreed style for the FE for Raccoons mobile
 app. Reference render: `visual-language.png` (the "Today / trap card / paper
