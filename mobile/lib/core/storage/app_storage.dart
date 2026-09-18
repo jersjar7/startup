@@ -1,8 +1,13 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Persists the auth token in the OS secure store (iOS Keychain / Android
-/// Keystore) and the "onboarding seen" flag. Never use plain preferences for
-/// the token.
+/// Keystore). Never use plain preferences for the token.
+///
+/// The "tour seen" flag is deliberately NOT in the keychain: the keychain
+/// survives deleting the app, so a fresh install would skip the tour
+/// (2026-09-18, the owner deleted the app and landed on a form). It lives in
+/// plain preferences, which die with the app.
 class AppStorage {
   AppStorage([FlutterSecureStorage? storage])
       : _storage = storage ?? const FlutterSecureStorage();
@@ -23,8 +28,18 @@ class AppStorage {
   Future<void> writeGameProgress(String json) =>
       _storage.write(key: _kGameProgress, value: json);
 
-  Future<bool> onboardingSeen() async =>
-      (await _storage.read(key: _kOnboardingSeen)) == 'true';
-  Future<void> setOnboardingSeen() =>
-      _storage.write(key: _kOnboardingSeen, value: 'true');
+  Future<bool> onboardingSeen() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getBool(_kOnboardingSeen) ?? false;
+    } catch (_) {
+      // No preferences (a test, a broken install): show the tour.
+      return false;
+    }
+  }
+
+  Future<void> setOnboardingSeen() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_kOnboardingSeen, true);
+  }
 }
