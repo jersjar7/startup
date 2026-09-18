@@ -74,7 +74,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
                 RoundIconButton(
                   icon: Icons.chevron_left_rounded,
                   label: 'Back',
-                  onTap: () => context.go('/signin'),
+                  onTap: () =>
+                      context.canPop() ? context.pop() : context.go('/signin'),
                 ),
               ],
             ),
@@ -108,7 +109,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
               children: [
                 TextAction(
                   label: 'Back to log in',
-                  onTap: () => context.go('/signin'),
+                  onTap: () =>
+                      context.canPop() ? context.pop() : context.go('/signin'),
                 ),
                 RoundNextButton(
                   onTap: _submit,
@@ -147,7 +149,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
               SheetButton(
                 label: 'Back to log in',
                 filled: false,
-                onTap: () => context.go('/signin'),
+                onTap: () =>
+                    context.canPop() ? context.pop() : context.go('/signin'),
               ),
             ],
           ),

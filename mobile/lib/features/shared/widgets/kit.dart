@@ -196,6 +196,65 @@ class StepBar extends StatelessWidget {
   }
 }
 
+/// Swaps one step for the next with a directional slide: a higher step
+/// arrives from the right, a lower one from the left. Give each step's
+/// widget a key that changes with the step.
+class StepSwitcher extends StatefulWidget {
+  const StepSwitcher({super.key, required this.step, required this.child});
+
+  final int step;
+  final Widget child;
+
+  @override
+  State<StepSwitcher> createState() => _StepSwitcherState();
+}
+
+class _StepSwitcherState extends State<StepSwitcher> {
+  late int _last = widget.step;
+  bool _forward = true;
+
+  @override
+  void didUpdateWidget(StepSwitcher old) {
+    super.didUpdateWidget(old);
+    if (old.step != widget.step) {
+      _forward = widget.step > _last;
+      _last = widget.step;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 260),
+      switchInCurve: Curves.easeOutCubic,
+      switchOutCurve: Curves.easeInCubic,
+      transitionBuilder: (child, animation) {
+        // The incoming child gets a forward animation, the outgoing one a
+        // reversed animation, so the same tween slides both the right way.
+        final incoming = child.key == ValueKey(widget.step);
+        final from = incoming
+            ? (_forward ? const Offset(1, 0) : const Offset(-1, 0))
+            : (_forward ? const Offset(-1, 0) : const Offset(1, 0));
+        return FadeTransition(
+          opacity: animation,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: from,
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
+        );
+      },
+      layoutBuilder: (current, previous) => Stack(
+        alignment: Alignment.topCenter,
+        children: [...previous, ?current],
+      ),
+      child: KeyedSubtree(key: ValueKey(widget.step), child: widget.child),
+    );
+  }
+}
+
 /// The oversized field: no box, a 3 underline, DM Sans 600 at 30, one
 /// caption under it. One per screen. The underline and caret are forest on
 /// a light ground and charcoal on an accent ground.

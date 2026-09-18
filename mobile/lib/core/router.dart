@@ -388,8 +388,24 @@ import '../features/onboarding/onboarding_screen.dart';
 import '../features/onboarding/welcome_screen.dart';
 import '../features/splash/splash_screen.dart';
 
+/// A page that fades in. For the screens the gate lands on after a state
+/// change (splash, welcome, home): signing in or out is not a step forward
+/// or back, so it should not slide like one.
+Page<void> _fade(GoRouterState state, Widget child) =>
+    CustomTransitionPage<void>(
+      key: state.pageKey,
+      child: child,
+      transitionDuration: const Duration(milliseconds: 220),
+      transitionsBuilder: (_, animation, _, child) =>
+          FadeTransition(opacity: animation, child: child),
+    );
+
 /// The launch gate. The home (tabs) is reachable only when authenticated.
 /// `refreshListenable: auth` re-runs `redirect` whenever auth state changes.
+///
+/// Direction matters (owner's audit, 2026-09-18): every forward move in the
+/// signed-out flow is a push and every back is a pop, so back slides back.
+/// Only the gate's own landings (splash, welcome, home) fade.
 GoRouter buildRouter(AuthController auth) {
   const authRoutes = {
     '/welcome',
@@ -429,14 +445,23 @@ GoRouter buildRouter(AuthController auth) {
       return null;
     },
     routes: [
-      GoRoute(path: '/splash', builder: (_, _) => const SplashScreen()),
-      GoRoute(path: '/welcome', builder: (_, _) => const WelcomeScreen()),
+      GoRoute(
+        path: '/splash',
+        pageBuilder: (_, s) => _fade(s, const SplashScreen()),
+      ),
+      GoRoute(
+        path: '/welcome',
+        pageBuilder: (_, s) => _fade(s, const WelcomeScreen()),
+      ),
       GoRoute(path: '/onboarding', builder: (_, _) => const OnboardingScreen()),
       GoRoute(path: '/signin', builder: (_, _) => const SignInScreen()),
       GoRoute(path: '/create', builder: (_, _) => const CreateScreen()),
       GoRoute(path: '/forgot', builder: (_, _) => const ForgotScreen()),
       GoRoute(path: '/verify', builder: (_, _) => const VerifyScreen()),
-      GoRoute(path: '/home', builder: (_, _) => const HomeShell()),
+      GoRoute(
+        path: '/home',
+        pageBuilder: (_, s) => _fade(s, const HomeShell()),
+      ),
       GoRoute(
         path: '/games/chapter/mathematics',
         builder: (_, _) => const ChapterMapScreen(chapter: mathematicsMap),

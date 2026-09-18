@@ -104,7 +104,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         icon: Icons.chevron_left_rounded,
                         label: 'Back',
                         onTap: onEmail
-                            ? () => context.go('/welcome')
+                            ? () => context.canPop()
+                                  ? context.pop()
+                                  : context.go('/welcome')
                             : () => setState(() {
                                 _step = 0;
                                 _error = null;
@@ -112,77 +114,85 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 30),
-                  Text.rich(
-                    onEmail
-                        ? const TextSpan(
-                            children: [
-                              TextSpan(text: 'Hey again.\n'),
-                              TextSpan(
-                                text: "What's your email?",
-                                style: TextStyle(color: AppColors.forest),
-                              ),
-                            ],
-                          )
-                        : const TextSpan(
-                            children: [
-                              TextSpan(text: 'And your\n'),
-                              TextSpan(
-                                text: 'password.',
-                                style: TextStyle(color: AppColors.forest),
-                              ),
-                            ],
-                          ),
-                    style: AppTheme.display(),
-                  ),
-                  const SizedBox(height: 30),
-                  if (onEmail)
-                    XLField(
-                      key: const ValueKey('email'),
-                      controller: _email,
-                      label: 'Email',
-                      hint: 'you@school.edu',
-                      keyboardType: TextInputType.emailAddress,
-                      autofillHints: const [AutofillHints.email],
-                      caption: expired
-                          ? 'Your session expired. Log in again.'
-                          : 'Your password comes next.',
-                      error: _error,
-                      onSubmitted: (_) => _next(),
-                    )
-                  else
-                    XLField(
-                      key: const ValueKey('password'),
-                      controller: _password,
-                      label: 'Password',
-                      hint: '••••••••',
-                      obscure: true,
-                      autofocus: true,
-                      autofillHints: const [AutofillHints.password],
-                      caption: _email.text.trim(),
-                      error: _error,
-                      onSubmitted: (_) => _submit(),
-                    ),
-                  const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      if (onEmail)
-                        TextAction(
-                          label: 'Create an account',
-                          onTap: () => context.go('/create'),
-                        )
-                      else
-                        TextAction(
-                          label: 'Forgot password?',
-                          onTap: () => context.go('/forgot'),
+                  StepSwitcher(
+                    step: _step,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 30),
+                        Text.rich(
+                          onEmail
+                              ? const TextSpan(
+                                  children: [
+                                    TextSpan(text: 'Hey again.\n'),
+                                    TextSpan(
+                                      text: "What's your email?",
+                                      style: TextStyle(color: AppColors.forest),
+                                    ),
+                                  ],
+                                )
+                              : const TextSpan(
+                                  children: [
+                                    TextSpan(text: 'And your\n'),
+                                    TextSpan(
+                                      text: 'password.',
+                                      style: TextStyle(color: AppColors.forest),
+                                    ),
+                                  ],
+                                ),
+                          style: AppTheme.display(),
                         ),
-                      RoundNextButton(
-                        onTap: onEmail ? _next : _submit,
-                        label: onEmail ? 'Next' : 'Log in',
-                        loading: _loading,
-                      ),
-                    ],
+                        const SizedBox(height: 30),
+                        if (onEmail)
+                          XLField(
+                            key: const ValueKey('email'),
+                            controller: _email,
+                            label: 'Email',
+                            hint: 'you@school.edu',
+                            keyboardType: TextInputType.emailAddress,
+                            autofillHints: const [AutofillHints.email],
+                            caption: expired
+                                ? 'Your session expired. Log in again.'
+                                : 'Your password comes next.',
+                            error: _error,
+                            onSubmitted: (_) => _next(),
+                          )
+                        else
+                          XLField(
+                            key: const ValueKey('password'),
+                            controller: _password,
+                            label: 'Password',
+                            hint: '••••••••',
+                            obscure: true,
+                            autofocus: true,
+                            autofillHints: const [AutofillHints.password],
+                            caption: _email.text.trim(),
+                            error: _error,
+                            onSubmitted: (_) => _submit(),
+                          ),
+                        const SizedBox(height: 30),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (onEmail)
+                              TextAction(
+                                label: 'Create an account',
+                                onTap: () => context.pushReplacement('/create'),
+                              )
+                            else
+                              TextAction(
+                                label: 'Forgot password?',
+                                onTap: () => context.push('/forgot'),
+                              ),
+                            RoundNextButton(
+                              onTap: onEmail ? _next : _submit,
+                              label: onEmail ? 'Next' : 'Log in',
+                              loading: _loading,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

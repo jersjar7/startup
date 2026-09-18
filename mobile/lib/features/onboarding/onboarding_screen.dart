@@ -50,8 +50,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     try {
       await context.read<AuthController>().completeOnboarding();
     } catch (_) {}
-    if (mounted) context.go(route);
+    if (mounted) context.push(route);
   }
+
+  /// Back from the first page returns to the root, sliding back.
+  void _leave() => context.canPop() ? context.pop() : context.go('/welcome');
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           onPageChanged: (i) => setState(() => _page = i),
           children: [
             _TryOne(
-              onBack: () => context.go('/welcome'),
+              onBack: _leave,
               onSkip: () => _go('/create'),
               onNext: () => _to(1),
             ),

@@ -96,7 +96,9 @@ class _CreateScreenState extends State<CreateScreen> {
                       icon: Icons.chevron_left_rounded,
                       label: 'Back',
                       onTap: onEmail
-                          ? () => context.go('/welcome')
+                          ? () => context.canPop()
+                                ? context.pop()
+                                : context.go('/welcome')
                           : () => setState(() {
                               _step = 0;
                               _error = null;
@@ -107,68 +109,76 @@ class _CreateScreenState extends State<CreateScreen> {
                   ],
                 ),
                 const SizedBox(height: 30),
-                Text.rich(
-                  onEmail
-                      ? const TextSpan(
-                          children: [
-                            TextSpan(text: 'First,\n'),
-                            TextSpan(
-                              text: 'your email.',
-                              style: TextStyle(color: AppColors.forest),
-                            ),
-                          ],
+                StepSwitcher(
+                  step: _step,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text.rich(
+                        onEmail
+                            ? const TextSpan(
+                                children: [
+                                  TextSpan(text: 'First,\n'),
+                                  TextSpan(
+                                    text: 'your email.',
+                                    style: TextStyle(color: AppColors.forest),
+                                  ),
+                                ],
+                              )
+                            : const TextSpan(text: 'Pick a\npassword.'),
+                        style: AppTheme.display(),
+                      ),
+                      const SizedBox(height: 30),
+                      if (onEmail)
+                        XLField(
+                          key: const ValueKey('email'),
+                          controller: _email,
+                          label: 'Email',
+                          hint: 'you@school.edu',
+                          keyboardType: TextInputType.emailAddress,
+                          autofillHints: const [AutofillHints.email],
+                          caption:
+                              'Completely free. Your progress follows you to the website.',
+                          error: _error,
+                          onSubmitted: (_) => _next(),
                         )
-                      : const TextSpan(text: 'Pick a\npassword.'),
-                  style: AppTheme.display(),
-                ),
-                const SizedBox(height: 30),
-                if (onEmail)
-                  XLField(
-                    key: const ValueKey('email'),
-                    controller: _email,
-                    label: 'Email',
-                    hint: 'you@school.edu',
-                    keyboardType: TextInputType.emailAddress,
-                    autofillHints: const [AutofillHints.email],
-                    caption:
-                        'Completely free. Your progress follows you to the website.',
-                    error: _error,
-                    onSubmitted: (_) => _next(),
-                  )
-                else
-                  XLField(
-                    key: const ValueKey('password'),
-                    controller: _password,
-                    label: 'Password',
-                    hint: '••••••••',
-                    obscure: true,
-                    autofocus: true,
-                    accent: AppColors.charcoal,
-                    autofillHints: const [AutofillHints.newPassword],
-                    caption:
-                        'Eight characters or more. You can reset it by email any time.',
-                    error: _error,
-                    onSubmitted: (_) => _submit(),
+                      else
+                        XLField(
+                          key: const ValueKey('password'),
+                          controller: _password,
+                          label: 'Password',
+                          hint: '••••••••',
+                          obscure: true,
+                          autofocus: true,
+                          accent: AppColors.charcoal,
+                          autofillHints: const [AutofillHints.newPassword],
+                          caption:
+                              'Eight characters or more. You can reset it by email any time.',
+                          error: _error,
+                          onSubmitted: (_) => _submit(),
+                        ),
+                      const SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (onEmail)
+                            TextAction(
+                              label: _emailTaken
+                                  ? 'Log in with it instead'
+                                  : 'Log in instead',
+                              onTap: () => context.pushReplacement('/signin'),
+                            )
+                          else
+                            const SizedBox.shrink(),
+                          RoundNextButton(
+                            onTap: onEmail ? _next : _submit,
+                            label: onEmail ? 'Next' : 'Create account',
+                            loading: _loading,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (onEmail)
-                      TextAction(
-                        label: _emailTaken
-                            ? 'Log in with it instead'
-                            : 'Log in instead',
-                        onTap: () => context.go('/signin'),
-                      )
-                    else
-                      const SizedBox.shrink(),
-                    RoundNextButton(
-                      onTap: onEmail ? _next : _submit,
-                      label: onEmail ? 'Next' : 'Create account',
-                      loading: _loading,
-                    ),
-                  ],
                 ),
                 if (!onEmail) ...[const Spacer(), const LegalLine()],
               ],

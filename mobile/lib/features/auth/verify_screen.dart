@@ -65,7 +65,9 @@ class _VerifyScreenState extends State<VerifyScreen>
 
   Future<void> _wrongEmail() async {
     await context.read<AuthController>().signOut();
-    if (mounted) context.go('/create');
+    if (!mounted) return;
+    context.go('/welcome');
+    context.push('/create');
   }
 
   @override

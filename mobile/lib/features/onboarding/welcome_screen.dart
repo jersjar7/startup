@@ -42,12 +42,12 @@ class WelcomeScreen extends StatelessWidget {
               const SizedBox(height: 22),
               PillButton(
                 label: "Let's go",
-                onTap: () => context.go(seen ? '/create' : '/onboarding'),
+                onTap: () => context.push(seen ? '/create' : '/onboarding'),
               ),
               const SizedBox(height: 14),
               Center(
                 child: TextButton(
-                  onPressed: () => context.go('/signin'),
+                  onPressed: () => context.push('/signin'),
                   child: Text(
                     'I already have an account',
                     style: AppTheme.body(
