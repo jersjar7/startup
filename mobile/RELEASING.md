@@ -117,3 +117,4 @@ The profile in use expires **2027-06-23**.
 | 806   | The app language, step one: fog ground, spring accent, bundled fonts; Profile home with the hero tile and account sheet, Study tile and grid, the floating dock (ADR 0016) |
 | 808   | The dock becomes a full-bleed labeled bar under the content; nothing slides under it any more |
 | 810   | The app language, step two: splash, onboarding on four grounds with a real round, two-step create and log in, the verify and forgot sheets |
+| 812   | Welcome is the signed-out root; the tour is three pages behind Let's go; back arrows return to Welcome |
