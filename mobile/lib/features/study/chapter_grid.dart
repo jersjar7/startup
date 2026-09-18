@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
+import '../shared/widgets/kit.dart';
 import 'chapter_bands.dart' show cardNameFor;
 import 'chapter_marks.dart';
 
-/// All fifteen chapters at a glance, laid out like a home screen of icons:
-/// a mark, a name, a count. No boxes. The Study tab's second view, behind
-/// the toggle; tapping a chapter opens its path.
-///
-/// This is the only place the whole exam is on one screen.
+/// All fifteen chapters at a glance: three columns of cream tiles, each a
+/// mark, a name and a count. The chapter in flight is a spring tile. The
+/// Study tab's second view, behind the toggle; tapping a chapter opens its
+/// path. (`mobile/design/reference-screens/10-study-grid`)
 class ChapterGrid extends StatelessWidget {
   const ChapterGrid({
     super.key,
@@ -25,34 +24,34 @@ class ChapterGrid extends StatelessWidget {
   final List<ChapterMap> chapters;
   final GameProgress progress;
 
-  /// The chapter in flight, the one the single view opened on. Drawn in
-  /// ember.
+  /// The chapter in flight, the one the single view opened on.
   final String? currentChapterId;
 
   final void Function(ChapterMap chapter) onOpen;
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 3,
-      padding: const EdgeInsets.fromLTRB(16, 18, 16, 28),
-      mainAxisSpacing: 14,
-      childAspectRatio: 0.86,
-      children: [
-        for (final chapter in chapters)
-          _Item(
-            chapter: chapter,
-            progress: progress,
-            isCurrent: chapter.id == currentChapterId,
-            onTap: () => onOpen(chapter),
-          ),
-      ],
+    return GridView.builder(
+      padding: const EdgeInsets.fromLTRB(0, 2, 0, FloatingDock.clearance),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        mainAxisExtent: 116,
+      ),
+      itemCount: chapters.length,
+      itemBuilder: (context, i) => _Tile(
+        chapter: chapters[i],
+        progress: progress,
+        isCurrent: chapters[i].id == currentChapterId,
+        onTap: () => onOpen(chapters[i]),
+      ),
     );
   }
 }
 
-class _Item extends StatelessWidget {
-  const _Item({
+class _Tile extends StatelessWidget {
+  const _Tile({
     required this.chapter,
     required this.progress,
     required this.isCurrent,
@@ -72,47 +71,46 @@ class _Item extends StatelessWidget {
         .length;
     final started = done > 0 || progress.hasTouched(chapter);
 
-    final markColor = isCurrent
-        ? AppColors.ember
-        : started
-            ? AppColors.charcoal
-            : AppColors.ink3;
+    final markColor = isCurrent || started ? AppColors.charcoal : AppColors.ink2;
     final countColor = isCurrent
-        ? AppColors.ember
-        : started
+        ? AppColors.charcoal
+        : done > 0
             ? AppColors.forest
-            : AppColors.ink3;
+            : AppColors.ink2;
 
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
-        child: Column(
-          children: [
-            ChapterMark(chapterId: chapter.id, color: markColor, size: 48),
-            const SizedBox(height: 8),
-            // The card name ("Mathematics"), and three lines, so no chapter
-            // has to be read off an ellipsis.
-            Text(
-              cardNameFor(chapter),
-              textAlign: TextAlign.center,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.dmSans(
-                fontWeight: FontWeight.w600,
-                fontSize: 12,
-                height: 1.2,
-                letterSpacing: -0.2,
-                color: isCurrent ? AppColors.ember : AppColors.charcoal,
+    return Material(
+      color: isCurrent ? AppColors.spring : AppColors.cream,
+      borderRadius: BorderRadius.circular(24),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(24),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 14, 12, 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ChapterMark(chapterId: chapter.id, color: markColor, size: 28),
+              const Spacer(),
+              // The card name ("Mathematics"), and three lines, so no chapter
+              // has to be read off an ellipsis.
+              Text(
+                cardNameFor(chapter),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: AppTheme.display(
+                  size: 11.5,
+                  weight: FontWeight.w700,
+                  height: 1.15,
+                  tracking: -0.02,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              '$done/$total',
-              style: AppTheme.mono(size: 10, color: countColor),
-            ),
-          ],
+              const SizedBox(height: 3),
+              Text(
+                '$done/$total',
+                style: AppTheme.mono(size: 10, weight: FontWeight.w600, color: countColor),
+              ),
+            ],
+          ),
         ),
       ),
     );

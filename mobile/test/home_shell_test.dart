@@ -39,11 +39,12 @@ void main() {
     expect(study, findsOneWidget);
     expect(tester.widget<IndexedStack>(find.byType(IndexedStack)).index, 0);
 
-    final profileTab = tester.getCenter(find.text('Profile'));
-    final studyTab = tester.getCenter(find.text('Study'));
+    // The dock is icon-only; the items carry their names as semantics.
+    final profileTab = tester.getCenter(find.bySemanticsLabel('Profile'));
+    final studyTab = tester.getCenter(find.bySemanticsLabel('Study'));
     expect(profileTab.dx, lessThan(studyTab.dx));
 
-    await tester.tap(find.text('Study'));
+    await tester.tap(find.bySemanticsLabel('Study'));
     await tester.pump();
     expect(tester.widget<IndexedStack>(find.byType(IndexedStack)).index, 1);
 

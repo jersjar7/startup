@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../profile/profile_tab.dart';
+import '../shared/widgets/kit.dart';
 import '../study/study_tab.dart';
 
-/// The authenticated home: a bottom-nav shell over Profile and Study.
+/// The authenticated home: the floating dock over Profile and Study.
 ///
 /// Profile is first and is the tab the app opens on (owner's call,
-/// 2026-09-13); Study is on the right.
+/// 2026-09-13); Study is on the right. The dock floats over both tabs, so
+/// each tab leaves [FloatingDock.clearance] at its bottom.
 ///
 /// There were three tabs. The middle one was Review, which pulled the
 /// student's missed problems off the website and practised them here. That
-/// is the model the chapter path replaced, and guessing what somebody needs
-/// to revisit is not something we can do honestly yet: no one has played
-/// these items outside TestFlight, so there is nothing to base a schedule
-/// on. Revisiting is left to the student, who can open any node whenever
-/// they like. See docs/adr/0013-games-keep-their-own-score.md.
+/// is the model the chapter path replaced; see ADR 0014.
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
 
@@ -26,31 +24,34 @@ class HomeShell extends StatefulWidget {
 class _HomeShellState extends State<HomeShell> {
   int _index = 0;
 
+  static const _items = [
+    DockItem(icon: Icons.person_outline_rounded, activeIcon: Icons.person_rounded, label: 'Profile'),
+    DockItem(icon: Icons.menu_book_outlined, activeIcon: Icons.menu_book_rounded, label: 'Study'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _index,
-        children: const [
-          ProfileTab(),
-          StudyTab(),
-        ],
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _index,
-        onDestinationSelected: (i) => setState(() => _index = i),
-        backgroundColor: AppColors.cream,
-        indicatorColor: AppColors.emberBg,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.person_outline, color: AppColors.ink3),
-            selectedIcon: Icon(Icons.person, color: AppColors.ember),
-            label: 'Profile',
+      backgroundColor: AppColors.fog,
+      body: Stack(
+        children: [
+          IndexedStack(
+            index: _index,
+            children: const [
+              ProfileTab(),
+              StudyTab(),
+            ],
           ),
-          NavigationDestination(
-            icon: Icon(Icons.menu_book_outlined, color: AppColors.ink3),
-            selectedIcon: Icon(Icons.menu_book, color: AppColors.ember),
-            label: 'Study',
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SafeArea(
+              top: false,
+              child: FloatingDock(
+                items: _items,
+                index: _index,
+                onSelect: (i) => setState(() => _index = i),
+              ),
+            ),
           ),
         ],
       ),

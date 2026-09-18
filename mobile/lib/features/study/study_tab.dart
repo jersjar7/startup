@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -10,24 +9,21 @@ import '../auth/auth_controller.dart';
 import '../games/chapter_map_screen.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
-import 'chapter_marks.dart';
+import '../shared/widgets/kit.dart';
 import 'chapter_grid.dart';
+import 'chapter_marks.dart';
 
-/// Tab 1 — the home of the app: one chapter on the screen, one button.
+/// Tab 2 — Study: one chapter on the screen, one button.
 ///
-/// A student opens the app to play the next concept. So the home screen is
-/// the next concept and nothing else: the chapter's mark, drawn large inside
-/// its progress ring; its name; the lesson that comes next; one button. It
-/// does not scroll.
+/// A student opens this tab to play the next concept. So it shows the next
+/// concept and nothing else: the chapter's mark, large, on its tile; its
+/// name; the lesson that comes next; one pill. It does not scroll.
 ///
 /// The other fourteen chapters are one swipe away. This is a pager, one
 /// chapter per page, and it opens on the chapter in flight. All fifteen at
 /// once are one tap away: the toggle at the top right flips the tab to
-/// [ChapterGrid], and back. See ADR 0015.
-///
-/// Two figures used to live here and moved to Profile: concepts held on the
-/// phone and problems answered on the website. Neither helps decide what to
-/// do right now. Days to the exam stays, as one line, because it does.
+/// [ChapterGrid], and back. See ADR 0015 for the structure and ADR 0016 for
+/// the look (`mobile/design/reference-screens/09-study`, `10-study-grid`).
 class StudyTab extends StatefulWidget {
   const StudyTab({super.key});
 
@@ -41,6 +37,7 @@ class _StudyTabState extends State<StudyTab> {
     ..sort((a, b) => a.number.compareTo(b.number));
 
   late final PageController _pager;
+  late int _page;
 
   /// Which of the two views is up. Kept for the life of the tab, so a
   /// student who prefers the grid finds it there when they come back.
@@ -53,7 +50,8 @@ class _StudyTabState extends State<StudyTab> {
     // progress changing underneath does not yank the pager anywhere.
     final resume = resumeTarget(GameProgress.instance);
     final start = resume == null ? 0 : _chapters.indexOf(resume.$1);
-    _pager = PageController(initialPage: math.max(0, start));
+    _page = math.max(0, start);
+    _pager = PageController(initialPage: _page);
   }
 
   @override
@@ -77,42 +75,55 @@ class _StudyTabState extends State<StudyTab> {
       builder: (context, _) {
         final progress = GameProgress.instance;
         final current = resumeTarget(progress)?.$1.id;
+        final shown = _chapters[_page];
+        final facts = ChapterFacts.of(shown, progress);
 
         return SafeArea(
           bottom: false,
-          child: Column(
-            children: [
-              const SizedBox(height: 8),
-              _TopLine(days: days, grid: _grid, onToggle: _toggle),
-              if (_grid)
-                Expanded(
-                  child: ChapterGrid(
-                    chapters: _chapters,
-                    progress: progress,
-                    currentChapterId: current,
-                    onOpen: (chapter) => _open(context, chapter),
-                  ),
-                )
-              else ...[
-                Expanded(
-                  child: PageView.builder(
-                    controller: _pager,
-                    itemCount: _chapters.length,
-                    itemBuilder: (context, i) => _ChapterPage(
-                      chapter: _chapters[i],
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 4, 24, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _TopLine(days: days, grid: _grid, onToggle: _toggle),
+                const SizedBox(height: 16),
+                if (_grid)
+                  Expanded(
+                    child: ChapterGrid(
+                      chapters: _chapters,
                       progress: progress,
-                      isCurrent: _chapters[i].id == current,
+                      currentChapterId: current,
+                      onOpen: (chapter) => _open(context, chapter),
+                    ),
+                  )
+                else ...[
+                  Expanded(
+                    child: PageView.builder(
+                      controller: _pager,
+                      onPageChanged: (i) => setState(() => _page = i),
+                      itemCount: _chapters.length,
+                      itemBuilder: (context, i) => _ChapterTile(
+                        chapter: _chapters[i],
+                        progress: progress,
+                        isCurrent: _chapters[i].id == current,
+                      ),
                     ),
                   ),
-                ),
-                _Dots(
-                  controller: _pager,
-                  count: _chapters.length,
-                  onTap: _toggle,
-                ),
-                const SizedBox(height: 10),
+                  const SizedBox(height: 18),
+                  PillButton(
+                    label: facts.button,
+                    onTap: () => _open(context, shown),
+                  ),
+                  const SizedBox(height: 14),
+                  _Dots(
+                    count: _chapters.length,
+                    page: _page,
+                    onTap: _toggle,
+                  ),
+                  const SizedBox(height: FloatingDock.clearance - 44),
+                ],
               ],
-            ],
+            ),
           ),
         );
       },
@@ -154,6 +165,19 @@ int? daysUntil(String? iso) {
   return days < 0 ? null : days;
 }
 
+/// The exam line at the top of Study and the countdown tile on Profile say
+/// the same thing; this is the one place the words are chosen.
+///
+/// A new account has no exam date, because nothing in sign-up asks for one.
+/// Saying "87 days" to somebody who never gave us a date would be a lie, so
+/// the line says what it is instead.
+String examLine(int? days) => switch (days) {
+      null => 'Set your exam date',
+      0 => 'Your exam is today',
+      1 => '1 day to the exam',
+      final d => '$d days to the exam',
+    };
+
 /// What the home opens on and what its button points at: the chapter the
 /// student last worked in and the next lesson there.
 ///
@@ -179,15 +203,71 @@ int? daysUntil(String? iso) {
   return null;
 }
 
+/// The words a chapter's tile, button and home hero share. Worked out once
+/// so the three can never disagree.
+class ChapterFacts {
+  ChapterFacts._({
+    required this.total,
+    required this.done,
+    required this.started,
+    required this.cleared,
+    required this.next,
+  });
+
+  factory ChapterFacts.of(ChapterMap chapter, GameProgress progress) {
+    final total = chapter.lessons.length;
+    final done = chapter.lessons
+        .where((l) => progress.stateOf(l) == LessonState.cleared)
+        .length;
+    return ChapterFacts._(
+      total: total,
+      done: done,
+      started: done > 0 || progress.hasTouched(chapter),
+      cleared: total > 0 && done == total,
+      next: progress.nextLessonIn(chapter),
+    );
+  }
+
+  final int total;
+  final int done;
+  final bool started;
+  final bool cleared;
+  final LessonNode? next;
+
+  int get remaining => total - done;
+
+  /// "6 lessons · starts with: Logarithms", "3 of 16 lessons · next: …",
+  /// "all 7 lessons cleared".
+  String get caption {
+    if (cleared) return 'all $total lessons cleared';
+    final count = started ? '$done of $total lessons' : '$total lessons';
+    final n = next;
+    if (n == null) return count;
+    return '$count · ${started ? 'next' : 'starts with'}: ${n.name}';
+  }
+
+  String get button => cleared || next == null
+      ? 'Open chapter'
+      : started
+          ? 'Continue'
+          : 'Start';
+}
+
+void _open(BuildContext context, ChapterMap chapter) {
+  Navigator.of(context).push(
+    MaterialPageRoute(builder: (_) => ChapterMapScreen(chapter: chapter)),
+  );
+}
+
+/// "11 to 17 questions on the real exam" -> "11 to 17 on the exam".
+String examWeight(ChapterMap chapter) =>
+    chapter.examLine.replaceAll(' questions on the real exam', ' on the exam');
+
 // ───────────────────────────── the top line ────────────────────────
 
-/// The exam line, centered, with the view toggle at the right edge. The
-/// toggle shows the view you would switch TO: a grid in the single view, a
-/// single square in the grid.
-///
-/// A new account has no exam date, because nothing in sign-up asks for one.
-/// Saying "87 days" to somebody who never gave us a date would be a lie, so
-/// the line says what it is instead.
+/// The exam line at the left, the view toggle at the right. The toggle
+/// shows the view you would switch TO: a grid in the single view, a single
+/// square in the grid.
 class _TopLine extends StatelessWidget {
   const _TopLine({
     required this.days,
@@ -201,47 +281,32 @@ class _TopLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final d = days;
-    // Full width, or the strip shrinks to the text and "right: 8" puts the
-    // toggle on top of it.
-    return SizedBox(
-      height: 44,
-      width: double.infinity,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Text(
-            d == null
-                ? 'Set your exam date'
-                : d == 0
-                    ? 'Your exam is today'
-                    : d == 1
-                        ? '1 day to the exam'
-                        : '$d days to the exam',
-            style: AppTheme.mono(size: 12, color: AppColors.ink2),
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            examLine(days).toUpperCase(),
+            style: AppTheme.eyebrow(color: AppColors.ink2),
           ),
-          Positioned(
-            right: 8,
-            child: IconButton(
-              onPressed: onToggle,
-              tooltip: grid ? 'One chapter' : 'All chapters',
-              iconSize: 22,
-              color: AppColors.charcoal,
-              icon: Icon(
-                grid ? Icons.crop_square_rounded : Icons.grid_view_rounded,
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+        RoundIconButton(
+          icon: grid ? Icons.crop_square_rounded : Icons.grid_view_rounded,
+          onTap: onToggle,
+          label: grid ? 'One chapter' : 'All chapters',
+        ),
+      ],
     );
   }
 }
 
 // ───────────────────────────── one chapter ─────────────────────────
 
-class _ChapterPage extends StatelessWidget {
-  const _ChapterPage({
+/// The Study view's one object: a cream tile, radius 36, with the chapter's
+/// mark at 108 inside a 176 circle, the name in display type, and one mono
+/// caption. The circle is spring on the chapter in flight, charcoal with a
+/// spring mark on a cleared chapter, and cream-dark otherwise.
+class _ChapterTile extends StatelessWidget {
+  const _ChapterTile({
     required this.chapter,
     required this.progress,
     required this.isCurrent,
@@ -249,224 +314,70 @@ class _ChapterPage extends StatelessWidget {
 
   final ChapterMap chapter;
   final GameProgress progress;
-
-  /// The one chapter the home opened on. Its mark and its ring are ember;
-  /// every other chapter keeps to charcoal and forest.
   final bool isCurrent;
 
   @override
   Widget build(BuildContext context) {
-    final total = chapter.lessons.length;
-    final done = chapter.lessons
-        .where((l) => progress.stateOf(l) == LessonState.cleared)
-        .length;
-    final next = progress.nextLessonIn(chapter);
-    final started = done > 0 || progress.hasTouched(chapter);
-    final cleared = total > 0 && done == total;
-
-    final String kicker;
-    final String what;
-    final String button;
-    if (cleared) {
-      kicker = 'Done';
-      what = 'Every lesson cleared';
-      button = 'Open chapter';
-    } else if (next == null) {
-      // Touched, nothing left that is built. Say so rather than invent.
-      kicker = 'Done';
-      what = 'Nothing left to play here yet';
-      button = 'Open chapter';
-    } else if (started) {
-      kicker = 'Next';
-      what = next.name;
-      button = 'Continue';
+    final facts = ChapterFacts.of(chapter, progress);
+    final Color circle;
+    final Color mark;
+    if (isCurrent) {
+      circle = AppColors.spring;
+      mark = AppColors.charcoal;
+    } else if (facts.cleared) {
+      circle = AppColors.charcoal;
+      mark = AppColors.spring;
     } else {
-      kicker = 'Starts with';
-      what = next.name;
-      button = 'Start';
+      circle = AppColors.creamDark;
+      mark = AppColors.charcoal;
     }
 
-    final accent = isCurrent ? AppColors.ember : AppColors.forest;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28),
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.circular(36),
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _Ring(
-                  fraction: total == 0 ? 0 : done / total,
-                  color: accent,
-                  child: ChapterMark(
-                    chapterId: chapter.id,
-                    color: isCurrent ? AppColors.ember : AppColors.charcoal,
-                    size: 112,
-                  ),
-                ),
-                const SizedBox(height: 26),
-                Text(
-                  chapter.name,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.dmSans(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 28,
-                    height: 1.1,
-                    letterSpacing: -0.9,
-                    color: AppColors.charcoal,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                // "4 to 6 exam questions", not "4 to 6 questions on the
-                // exam": with the lesson count in front, the longer form
-                // wraps at this size.
-                Text(
-                  '${started ? '$done of $total lessons' : '$total lessons'}'
-                  ' · ${_questions(chapter.examLine)}',
-                  textAlign: TextAlign.center,
-                  style: AppTheme.mono(size: 12, color: AppColors.ink2),
-                ),
-                const SizedBox(height: 30),
-                Text(
-                  kicker.toUpperCase(),
-                  style: AppTheme.overline(
-                    color: isCurrent ? AppColors.ember : AppColors.ink3,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  what,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.dmSans(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 17,
-                    height: 1.25,
-                    letterSpacing: -0.3,
-                    color: AppColors.charcoal,
-                  ),
-                ),
-              ],
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Text('CHAPTER ${chapter.number}', style: AppTheme.eyebrow()),
+              ),
+              Text(
+                examWeight(chapter).toUpperCase(),
+                style: AppTheme.eyebrow(color: AppColors.ink2),
+              ),
+            ],
           ),
-          _Button(label: button, onTap: () => _open(context, chapter)),
-          const SizedBox(height: 18),
-        ],
-      ),
-    );
-  }
-
-  /// "11 to 17 questions on the real exam" -> "11 to 17 exam questions".
-  static String _questions(String examLine) =>
-      examLine.replaceAll(' questions on the real exam', ' exam questions');
-}
-
-void _open(BuildContext context, ChapterMap chapter) {
-  Navigator.of(context).push(
-    MaterialPageRoute(builder: (_) => ChapterMapScreen(chapter: chapter)),
-  );
-}
-
-/// The chapter's lesson progress, drawn as a 3-point ring around the mark.
-/// On a chapter with nothing done it is just the frame around the drawing,
-/// which is honest.
-class _Ring extends StatelessWidget {
-  const _Ring({
-    required this.fraction,
-    required this.color,
-    required this.child,
-  });
-
-  final double fraction;
-  final Color color;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 220,
-      height: 220,
-      child: CustomPaint(
-        painter: _RingPainter(fraction: fraction, color: color),
-        child: Center(child: child),
-      ),
-    );
-  }
-}
-
-class _RingPainter extends CustomPainter {
-  const _RingPainter({required this.fraction, required this.color});
-
-  final double fraction;
-  final Color color;
-
-  static const _stroke = 3.0;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = size.center(Offset.zero);
-    final radius = (size.shortestSide - _stroke) / 2 - 12;
-    canvas.drawCircle(
-      center,
-      radius,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = _stroke
-        ..color = AppColors.creamDark,
-    );
-    if (fraction <= 0) return;
-    canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius),
-      -math.pi / 2,
-      2 * math.pi * fraction.clamp(0, 1),
-      false,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = _stroke
-        ..strokeCap = StrokeCap.round
-        ..color = color,
-    );
-  }
-
-  @override
-  bool shouldRepaint(_RingPainter old) =>
-      old.fraction != fraction || old.color != color;
-}
-
-/// The one filled element on the screen.
-class _Button extends StatelessWidget {
-  const _Button({required this.label, required this.onTap});
-
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.ember,
-      borderRadius: BorderRadius.circular(10),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(10),
-        onTap: onTap,
-        child: SizedBox(
-          height: 54,
-          width: double.infinity,
-          child: Center(
-            child: Text(
-              label,
-              style: GoogleFonts.dmSans(
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-                letterSpacing: -0.2,
-                color: Colors.white,
+          Expanded(
+            child: Center(
+              child: Container(
+                width: 176,
+                height: 176,
+                decoration: BoxDecoration(color: circle, shape: BoxShape.circle),
+                child: Center(
+                  child: ChapterMark(chapterId: chapter.id, color: mark, size: 108),
+                ),
               ),
             ),
           ),
-        ),
+          Text(
+            chapter.name,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.display(size: chapter.name.length > 22 ? 32 : 40),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            facts.caption,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.mono(size: 13, color: AppColors.ink2),
+          ),
+        ],
       ),
     );
   }
@@ -478,54 +389,39 @@ class _Button extends StatelessWidget {
 /// to the grid, same as the toggle; the whole strip is the target, not the
 /// dots.
 class _Dots extends StatelessWidget {
-  const _Dots({
-    required this.controller,
-    required this.count,
-    required this.onTap,
-  });
+  const _Dots({required this.count, required this.page, required this.onTap});
 
-  final PageController controller;
   final int count;
+  final int page;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: 'All chapters',
+      label: 'Chapter ${page + 1} of $count, tap for all chapters',
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: SizedBox(
           height: 44,
-          width: double.infinity,
           child: Center(
-            child: AnimatedBuilder(
-              animation: controller,
-              builder: (context, _) {
-                final page = controller.hasClients && controller.page != null
-                    ? controller.page!.round()
-                    : controller.initialPage;
-                return Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    for (var i = 0; i < count; i++) ...[
-                      if (i > 0) const SizedBox(width: 6),
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 150),
-                        width: i == page ? 7 : 5,
-                        height: i == page ? 7 : 5,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: i == page
-                              ? AppColors.charcoal
-                              : const Color(0x332C2C2C),
-                        ),
-                      ),
-                    ],
-                  ],
-                );
-              },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                for (var i = 0; i < count; i++) ...[
+                  if (i > 0) const SizedBox(width: 6),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 150),
+                    width: i == page ? 7 : 5,
+                    height: i == page ? 7 : 5,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: i == page ? AppColors.charcoal : AppColors.pipOff,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ),
         ),

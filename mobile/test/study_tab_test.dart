@@ -145,9 +145,9 @@ void main() {
     await _settle(tester);
 
     // The line cannot promise a countdown nobody gave us.
-    expect(find.text('Set your exam date'), findsOneWidget);
+    expect(find.text('SET YOUR EXAM DATE'), findsOneWidget);
     expect(find.text('Mathematics & Computational Tools'), findsOneWidget);
-    expect(find.text('STARTS WITH'), findsOneWidget);
+    expect(find.textContaining('starts with: Straight Lines'), findsOneWidget);
     expect(find.text('Start'), findsOneWidget);
     expect(find.text('Continue'), findsNothing);
     // The screen does not scroll: everything is inside the frame.
@@ -173,11 +173,12 @@ void main() {
     }));
     await _settle(tester);
 
-    expect(find.text('61 days to the exam'), findsOneWidget);
-    // Fluids was touched last, so the home lands there, on lesson 4.
+    expect(find.text('61 DAYS TO THE EXAM'), findsOneWidget);
+    // Fluids was touched last, so the tab lands there, on lesson 4.
     expect(find.text('Fluid Mechanics'), findsOneWidget);
-    expect(find.text('NEXT'), findsOneWidget);
-    expect(find.text(chapterMaps['fluid-mechanics']!.lessons[3].name),
+    expect(
+        find.textContaining(
+            'next: ${chapterMaps['fluid-mechanics']!.lessons[3].name}'),
         findsOneWidget);
     expect(find.text('Continue'), findsOneWidget);
     // The website's number is not on this screen any more.
@@ -201,7 +202,7 @@ void main() {
       await tester.pumpAndSettle();
     }
     expect(find.text('Statics'), findsOneWidget);
-    expect(find.text('Every lesson cleared'), findsOneWidget);
+    expect(find.text('all 7 lessons cleared'), findsOneWidget);
     expect(find.text('Open chapter'), findsOneWidget);
   });
 
@@ -220,7 +221,7 @@ void main() {
     expect(find.byType(ChapterGrid), findsOneWidget);
     expect(find.byType(PageView), findsNothing);
     // The exam line and the toggle stay; the toggle now offers the way back.
-    expect(find.text('Set your exam date'), findsOneWidget);
+    expect(find.text('SET YOUR EXAM DATE'), findsOneWidget);
     expect(find.byTooltip('One chapter'), findsOneWidget);
     // All fifteen are on the one screen, with their counts. Mathematics
     // goes by its card name here so it fits.
@@ -253,7 +254,7 @@ void main() {
     await tester.pumpWidget(_app({'firstName': 'Jerson'}));
     await _settle(tester);
 
-    await tester.tap(find.bySemanticsLabel('All chapters'));
+    await tester.tap(find.bySemanticsLabel(RegExp('tap for all chapters')));
     await tester.pumpAndSettle();
     expect(find.byType(ChapterGrid), findsOneWidget);
   });
