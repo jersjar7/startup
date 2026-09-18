@@ -6,6 +6,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
 import '../shared/widgets/kit.dart';
+import '../study/chapter_marks.dart';
 
 /// The root of the signed-out app: the only screen a signed-out student
 /// lands on, from a first launch or a sign-out. Two ways forward and no
@@ -65,9 +66,12 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-/// Three floating cards: a statics prompt on spring, a fluids prompt on
-/// ember, the concept count on cream. Decoration, not data. The formulas
-/// are set in the mono face, which has Greek; DM Sans does not.
+/// Three floating cards that read as one set: the statics mark on spring,
+/// the fluids mark on ember, and what they add up to on cream. The marks
+/// are the app's own chapter drawings, so they stay legible at any size,
+/// and the fan is loose enough that no card covers another's payload
+/// (owner's review of build 814: the formulas that were here hid under
+/// the concepts card).
 class WelcomeCards extends StatelessWidget {
   const WelcomeCards({super.key});
 
@@ -87,7 +91,7 @@ class WelcomeCards extends StatelessWidget {
         child: Container(
           width: width,
           height: height,
-          padding: const EdgeInsets.all(22),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(30),
@@ -105,18 +109,12 @@ class WelcomeCards extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(eyebrow, style: AppTheme.eyebrow(size: 11)),
-              const Spacer(),
-              body,
+              Expanded(child: Center(child: body)),
             ],
           ),
         ),
       );
     }
-
-    final formula = AppTheme.mono(
-      size: 54,
-      weight: FontWeight.w700,
-    ).copyWith(height: 0.95, letterSpacing: -2);
 
     return LayoutBuilder(
       builder: (context, box) {
@@ -125,42 +123,49 @@ class WelcomeCards extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             Positioned(
-              top: 24,
-              left: -2,
+              top: 18,
+              left: 0,
               child: card(
                 color: AppColors.spring,
                 eyebrow: 'STATICS',
-                width: w * 0.62,
-                height: 264,
-                angle: -0.12,
-                body: Text('ΣF\n= 0', style: formula),
+                width: w * 0.58,
+                height: 236,
+                angle: -0.10,
+                body: const ChapterMark(
+                  chapterId: 'statics',
+                  color: AppColors.charcoal,
+                  size: 128,
+                ),
               ),
             ),
             Positioned(
-              top: 96,
-              right: -30,
+              top: 74,
+              right: -18,
               child: card(
                 color: AppColors.ember,
                 eyebrow: 'FLUIDS',
-                width: w * 0.56,
-                height: 236,
-                angle: 0.16,
-                body: Text('Q =\nVA', style: formula.copyWith(fontSize: 46)),
+                width: w * 0.5,
+                height: 214,
+                angle: 0.14,
+                body: const ChapterMark(
+                  chapterId: 'fluid-mechanics',
+                  color: AppColors.charcoal,
+                  size: 112,
+                ),
               ),
             ),
             Positioned(
-              top: 250,
-              left: w * 0.24,
+              top: 300,
+              left: w * 0.22,
               child: card(
                 color: AppColors.cream,
                 eyebrow: 'CONCEPTS',
-                width: 190,
-                height: 138,
-                angle: -0.035,
+                width: 196,
+                height: 122,
+                angle: -0.03,
                 shadow: true,
                 body: FittedBox(
                   fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.baseline,
                     textBaseline: TextBaseline.alphabetic,

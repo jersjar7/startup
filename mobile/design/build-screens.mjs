@@ -127,20 +127,15 @@ ${item('09-study.html', 'Study', book(false), book(true), active === 'study')}
 // ── 01 welcome ──
 const welcome = page('Welcome', C.fog, C.charcoal, `
 <div style="position: absolute; top: 62px; left: 24px;">${eyebrow('FE for Raccoons', C.mutedOnLight)}</div>
-<div aria-hidden="true" style="position: absolute; top: 112px; left: 22px; width: 232px; height: 284px; box-sizing: border-box; padding: 22px; border-radius: 30px; background: ${C.spring}; color: ${C.charcoal}; display: flex; flex-direction: column; justify-content: space-between; animation: floatA 7s ease-in-out infinite;">
+<div aria-hidden="true" style="position: absolute; top: 112px; left: 24px; width: 200px; height: 236px; box-sizing: border-box; padding: 20px; border-radius: 30px; background: ${C.spring}; color: ${C.charcoal}; display: flex; flex-direction: column; transform: rotate(-6deg); animation: floatA 7s ease-in-out infinite;">
 ${eyebrow('Statics')}
-<div style="font-family: ${F.display}; font-weight: 800; font-size: 58px; line-height: 0.95; letter-spacing: -0.05em;">&Sigma;F<br>= 0</div>
-<div style="display: flex; gap: 8px;">
-<span style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 19px; border: 2px solid ${C.charcoal}; font-family: ${F.mono}; font-size: 12px; font-weight: 700;">A</span>
-<span style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 19px; background: ${C.charcoal}; color: ${C.spring}; font-family: ${F.mono}; font-size: 12px; font-weight: 700;">B</span>
-<span style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 19px; border: 2px solid ${C.charcoal}; font-family: ${F.mono}; font-size: 12px; font-weight: 700;">C</span>
+<div style="flex-grow: 1; display: flex; align-items: center; justify-content: center;">${mark('statics', C.charcoal, 128, 1.15)}</div>
 </div>
-</div>
-<div aria-hidden="true" style="position: absolute; top: 186px; right: -26px; width: 206px; height: 246px; box-sizing: border-box; padding: 22px; border-radius: 30px; background: ${C.ember}; color: ${C.charcoal}; display: flex; flex-direction: column; justify-content: space-between; animation: floatB 8s ease-in-out infinite;">
+<div aria-hidden="true" style="position: absolute; top: 168px; right: -18px; width: 172px; height: 214px; box-sizing: border-box; padding: 20px; border-radius: 30px; background: ${C.ember}; color: ${C.charcoal}; display: flex; flex-direction: column; transform: rotate(8deg); animation: floatB 8s ease-in-out infinite;">
 ${eyebrow('Fluids')}
-<div style="font-family: ${F.display}; font-weight: 800; font-size: 50px; line-height: 0.95; letter-spacing: -0.05em;">Q =<br>VA</div>
+<div style="flex-grow: 1; display: flex; align-items: center; justify-content: center;">${mark('fluid-mechanics', C.charcoal, 112, 1.15)}</div>
 </div>
-<div aria-hidden="true" style="position: absolute; top: 348px; left: 112px; width: 190px; height: 138px; box-sizing: border-box; padding: 20px; border-radius: 28px; background: ${C.cream}; color: ${C.charcoal}; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 18px 40px rgba(44,44,44,0.16); animation: floatC 6s ease-in-out infinite;">
+<div aria-hidden="true" style="position: absolute; top: 394px; left: 98px; width: 196px; height: 122px; box-sizing: border-box; padding: 20px; border-radius: 28px; background: ${C.cream}; color: ${C.charcoal}; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 18px 40px rgba(44,44,44,0.16); animation: floatC 6s ease-in-out infinite;">
 ${eyebrow('Concepts')}
 <div style="display: flex; align-items: baseline; gap: 6px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 54px; line-height: 0.82; letter-spacing: -0.06em;">375</span><span style="font-family: ${F.display}; font-weight: 700; font-size: 16px;">free</span></div>
 </div>
@@ -149,8 +144,8 @@ ${headline('The FE Civil,<br>one concept at a time.', 44)}
 ${pill('02-create-email.html', "Let's go")}
 <a href="03-log-in.html" style="align-self: center; font-size: 15px; font-weight: 500; color: ${C.mutedOnLight}; text-decoration: none;">I already have an account</a>
 </div>`, `
-@keyframes floatA{0%,100%{transform:rotate(-7deg) translateY(0)}50%{transform:rotate(-6deg) translateY(-8px)}}
-@keyframes floatB{0%,100%{transform:rotate(9deg) translateY(0)}50%{transform:rotate(10deg) translateY(7px)}}
+@keyframes floatA{0%,100%{transform:rotate(-6deg) translateY(0)}50%{transform:rotate(-5deg) translateY(-8px)}}
+@keyframes floatB{0%,100%{transform:rotate(8deg) translateY(0)}50%{transform:rotate(9deg) translateY(7px)}}
 @keyframes floatC{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(-3deg) translateY(-5px)}}`);
 
 // ── 02 create account: email, password, check your email ──
