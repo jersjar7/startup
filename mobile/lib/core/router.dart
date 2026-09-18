@@ -385,12 +385,19 @@ import '../features/games/wider_or_narrower_game.dart';
 import '../features/games/will_it_hold_itself_game.dart';
 import '../features/home/home_shell.dart';
 import '../features/onboarding/onboarding_screen.dart';
+import '../features/onboarding/welcome_screen.dart';
 import '../features/splash/splash_screen.dart';
 
 /// The launch gate. The home (tabs) is reachable only when authenticated.
 /// `refreshListenable: auth` re-runs `redirect` whenever auth state changes.
 GoRouter buildRouter(AuthController auth) {
-  const authRoutes = {'/signin', '/create', '/forgot', '/onboarding'};
+  const authRoutes = {
+    '/welcome',
+    '/signin',
+    '/create',
+    '/forgot',
+    '/onboarding',
+  };
 
   return GoRouter(
     initialLocation: '/splash',
@@ -414,14 +421,16 @@ GoRouter buildRouter(AuthController auth) {
         return null;
       }
 
-      // Unauthenticated: first run -> onboarding, otherwise sign in. Never home.
+      // Signed out: the welcome screen is the root, every time. It decides
+      // between the tour and sign-up itself. Never home.
       if (loc == '/splash' || loc == '/home' || loc == '/verify') {
-        return auth.onboardingSeen ? '/signin' : '/onboarding';
+        return '/welcome';
       }
       return null;
     },
     routes: [
       GoRoute(path: '/splash', builder: (_, _) => const SplashScreen()),
+      GoRoute(path: '/welcome', builder: (_, _) => const WelcomeScreen()),
       GoRoute(path: '/onboarding', builder: (_, _) => const OnboardingScreen()),
       GoRoute(path: '/signin', builder: (_, _) => const SignInScreen()),
       GoRoute(path: '/create', builder: (_, _) => const CreateScreen()),
@@ -660,7 +669,8 @@ GoRouter buildRouter(AuthController auth) {
           'which-run-is-allowed-more' => const WhichRunIsAllowedMoreGame(),
           'plus-or-minus' => const PlusOrMinusGame(),
           'which-course-takes-the-most' => const WhichCourseTakesTheMostGame(),
-          'which-traverse-closed-better' => const WhichTraverseClosedBetterGame(),
+          'which-traverse-closed-better' =>
+            const WhichTraverseClosedBetterGame(),
           'which-method-fits' => const WhichMethodFitsGame(),
           'what-weight-does-it-get' => const WhatWeightDoesItGetGame(),
           'does-the-listing-close' => const DoesTheListingCloseGame(),
@@ -678,8 +688,7 @@ GoRouter buildRouter(AuthController auth) {
           'what-the-water-touches' => const WhatTheWaterTouchesGame(),
           'which-one-runs-faster' => const WhichOneRunsFasterGame(),
           'which-number-goes-in-front' => const WhichNumberGoesInFrontGame(),
-          'which-way-does-the-ripple-go' =>
-            const WhichWayDoesTheRippleGoGame(),
+          'which-way-does-the-ripple-go' => const WhichWayDoesTheRippleGoGame(),
           'what-moves-the-critical-depth' =>
             const WhatMovesTheCriticalDepthGame(),
           'what-survives-the-jump' => const WhatSurvivesTheJumpGame(),
@@ -711,8 +720,7 @@ GoRouter buildRouter(AuthController auth) {
           'removed-or-remaining' => const RemovedOrRemainingGame(),
           'enough-or-too-many' => const EnoughOrTooManyGame(),
           'the-count-says-yes' => const TheCountSaysYesGame(),
-          'where-do-you-take-moments' =>
-            const WhereDoYouTakeMomentsGame(),
+          'where-do-you-take-moments' => const WhereDoYouTakeMomentsGame(),
           'bigger-than-the-load' => const BiggerThanTheLoadGame(),
           'joints-or-sections' => const JointsOrSectionsGame(),
           'what-do-you-hang-on-it' => const WhatDoYouHangOnItGame(),
@@ -732,11 +740,9 @@ GoRouter buildRouter(AuthController auth) {
           'too-little-or-too-much' => const TooLittleOrTooMuchGame(),
           'how-far-between-braces' => const HowFarBetweenBracesGame(),
           'z-or-s' => const ZOrSGame(),
-          'which-flange-needs-holding' =>
-            const WhichFlangeNeedsHoldingGame(),
+          'which-flange-needs-holding' => const WhichFlangeNeedsHoldingGame(),
           'which-axis-wins-now' => const WhichAxisWinsNowGame(),
-          'what-the-table-gives-you' =>
-            const WhatTheTableGivesYouGame(),
+          'what-the-table-gives-you' => const WhatTheTableGivesYouGame(),
           'gross-or-net' => const GrossOrNetGame(),
           'how-big-is-the-hole' => const HowBigIsTheHoleGame(),
           'is-all-of-it-connected' => const IsAllOfItConnectedGame(),
@@ -744,31 +750,26 @@ GoRouter buildRouter(AuthController auth) {
           'when-does-it-simplify' => const WhenDoesItSimplifyGame(),
           'which-gamma' => const WhichGammaGame(),
           'which-fork-first' => const WhichForkFirstGame(),
-          'above-or-below-the-line' =>
-            const AboveOrBelowTheLineGame(),
+          'above-or-below-the-line' => const AboveOrBelowTheLineGame(),
           'both-or-neither' => const BothOrNeitherGame(),
           'which-stress-is-that' => const WhichStressIsThatGame(),
-          'what-the-water-table-does' =>
-            const WhatTheWaterTableDoesGame(),
+          'what-the-water-table-does' => const WhatTheWaterTableDoesGame(),
           'the-short-way-down' => const TheShortWayDownGame(),
           'which-case-is-it' => const WhichCaseIsItGame(),
-          'stiff-until-it-remembers' =>
-            const StiffUntilItRemembersGame(),
+          'stiff-until-it-remembers' => const StiffUntilItRemembersGame(),
           'how-long-does-it-take' => const HowLongDoesItTakeGame(),
           'two-terms' => const TwoTermsGame(),
           'drained-or-not' => const DrainedOrNotGame(),
           'reading-the-circle' => const ReadingTheCircleGame(),
           'counting-the-net' => const CountingTheNetGame(),
           'when-the-sand-boils' => const WhenTheSandBoilsGame(),
-          'steeper-than-its-friction' =>
-            const SteeperThanItsFrictionGame(),
+          'steeper-than-its-friction' => const SteeperThanItsFrictionGame(),
           'after-the-rain' => const AfterTheRainGame(),
           'what-holds-the-wedge' => const WhatHoldsTheWedgeGame(),
           'which-term-drops-out' => const WhichTermDropsOutGame(),
           'wider-or-deeper' => const WiderOrDeeperGame(),
           'what-gets-divided' => const WhatGetsDividedGame(),
-          'which-way-did-the-wall-move' =>
-            const WhichWayDidTheWallMoveGame(),
+          'which-way-did-the-wall-move' => const WhichWayDidTheWallMoveGame(),
           'triangle-or-rectangle' => const TriangleOrRectangleGame(),
           'double-the-wall' => const DoubleTheWallGame(),
           'moments-or-forces' => const MomentsOrForcesGame(),
@@ -779,8 +780,7 @@ GoRouter buildRouter(AuthController auth) {
           'lime-or-cement' => const LimeOrCementGame(),
           'tip-or-shaft' => const TipOrShaftGame(),
           'why-go-deeper' => const WhyGoDeeperGame(),
-          'which-way-the-friction-acts' =>
-            const WhichWayTheFrictionActsGame(),
+          'which-way-the-friction-acts' => const WhichWayTheFrictionActsGame(),
           'think-then-brake' => const ThinkThenBrakeGame(),
           'uphill-or-down' => const UphillOrDownGame(),
           'the-worst-fifteen-minutes' => const TheWorstFifteenMinutesGame(),

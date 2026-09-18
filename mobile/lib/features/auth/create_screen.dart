@@ -96,7 +96,7 @@ class _CreateScreenState extends State<CreateScreen> {
                       icon: Icons.chevron_left_rounded,
                       label: 'Back',
                       onTap: onEmail
-                          ? () => context.go('/onboarding')
+                          ? () => context.go('/welcome')
                           : () => setState(() {
                               _step = 0;
                               _error = null;

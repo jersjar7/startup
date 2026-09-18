@@ -9,10 +9,11 @@ import '../shared/widgets/kit.dart';
 import '../shared/widgets/legal_line.dart';
 import '../study/chapter_marks.dart';
 
-/// First-run onboarding: welcome, one real round, the honest paper hand-off,
-/// the chapter peek, then sign up. Four pages, each on its own ground so
-/// moving forward is felt (`mobile/design/reference-screens/01, 05, 05b,
-/// 06`; ADR 0016).
+/// The first-run tour: one real round, the honest paper hand-off, the
+/// chapter peek, then sign up. Three pages, each on its own ground so
+/// moving forward is felt (`mobile/design/reference-screens/05, 05b, 06`;
+/// ADR 0016). Its root is [WelcomeScreen]: back from the first page and
+/// Skip both leave the tour, and both mark it seen.
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -63,19 +64,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           controller: _pc,
           onPageChanged: (i) => setState(() => _page = i),
           children: [
-            _Welcome(onGo: () => _to(1), onSignIn: () => _go('/signin')),
             _TryOne(
-              onBack: () => _to(0),
-              onSkip: () => _to(3),
-              onNext: () => _to(2),
+              onBack: () => context.go('/welcome'),
+              onSkip: () => _go('/create'),
+              onNext: () => _to(1),
             ),
             _HandOff(
-              onBack: () => _to(1),
-              onSkip: () => _to(3),
-              onNext: () => _to(3),
+              onBack: () => _to(0),
+              onSkip: () => _go('/create'),
+              onNext: () => _to(2),
             ),
             _Chapters(
-              onBack: () => _to(2),
+              onBack: () => _to(1),
               onCreate: () => _go('/create'),
               onSignIn: () => _go('/signin'),
             ),
@@ -114,191 +114,7 @@ class _StepRow extends StatelessWidget {
 
 const _pad = EdgeInsets.fromLTRB(24, 4, 24, 34);
 
-// ── 1. welcome ─────────────────────────────────────────────────────────
-
-class _Welcome extends StatelessWidget {
-  const _Welcome({required this.onGo, required this.onSignIn});
-
-  final VoidCallback onGo;
-  final VoidCallback onSignIn;
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: _pad,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 8),
-            Text(
-              'FE FOR RACCOONS',
-              style: AppTheme.eyebrow(color: AppColors.ink2),
-            ),
-            Expanded(child: _Cards()),
-            Text(
-              'The FE Civil,\none concept at a time.',
-              style: AppTheme.display(size: 44),
-            ),
-            const SizedBox(height: 22),
-            PillButton(label: "Let's go", onTap: onGo),
-            const SizedBox(height: 14),
-            Center(
-              child: TextButton(
-                onPressed: onSignIn,
-                child: Text(
-                  'I already have an account',
-                  style: AppTheme.body(
-                    size: 15,
-                    weight: FontWeight.w500,
-                    color: AppColors.ink2,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Three floating cards: a statics prompt on spring, a fluids prompt on
-/// ember, the concept count on cream. Decoration, not data.
-class _Cards extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    Widget card({
-      required Color color,
-      required String eyebrow,
-      required Widget body,
-      required double width,
-      required double height,
-      required double angle,
-      bool shadow = false,
-    }) {
-      return Transform.rotate(
-        angle: angle,
-        child: Container(
-          width: width,
-          height: height,
-          padding: const EdgeInsets.all(22),
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: shadow
-                ? const [
-                    BoxShadow(
-                      color: Color(0x292C2C2C),
-                      blurRadius: 40,
-                      offset: Offset(0, 18),
-                    ),
-                  ]
-                : null,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(eyebrow, style: AppTheme.eyebrow(size: 11)),
-              const Spacer(),
-              body,
-            ],
-          ),
-        ),
-      );
-    }
-
-    return LayoutBuilder(
-      builder: (context, box) {
-        final w = box.maxWidth;
-        return Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Positioned(
-              top: 24,
-              left: -2,
-              child: card(
-                color: AppColors.spring,
-                eyebrow: 'STATICS',
-                width: w * 0.62,
-                height: 264,
-                angle: -0.12,
-                body: Text(
-                  'ΣF\n= 0',
-                  style: AppTheme.mono(
-                    size: 54,
-                    weight: FontWeight.w700,
-                    color: AppColors.charcoal,
-                  ).copyWith(height: 0.95, letterSpacing: -2),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 96,
-              right: -30,
-              child: card(
-                color: AppColors.ember,
-                eyebrow: 'FLUIDS',
-                width: w * 0.56,
-                height: 236,
-                angle: 0.16,
-                body: Text(
-                  'Q =\nVA',
-                  style: AppTheme.mono(
-                    size: 46,
-                    weight: FontWeight.w700,
-                    color: AppColors.charcoal,
-                  ).copyWith(height: 0.95, letterSpacing: -2),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 250,
-              left: w * 0.24,
-              child: card(
-                color: AppColors.cream,
-                eyebrow: 'CONCEPTS',
-                width: 190,
-                height: 138,
-                angle: -0.035,
-                shadow: true,
-                body: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: [
-                      Text(
-                        '375',
-                        style: AppTheme.display(
-                          size: 54,
-                          height: 0.82,
-                          tracking: -0.06,
-                        ),
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        'free',
-                        style: AppTheme.display(
-                          size: 16,
-                          weight: FontWeight.w700,
-                          height: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-// ── 2. try one: a real round, on ember ─────────────────────────────────
+// ── 1. try one: a real round, on ember ─────────────────────────────────
 
 class _TryOne extends StatefulWidget {
   const _TryOne({
@@ -475,7 +291,7 @@ class _Answer extends StatelessWidget {
   }
 }
 
-// ── 3. the paper hand-off, on fog ──────────────────────────────────────
+// ── 2. the paper hand-off, on fog ──────────────────────────────────────
 
 class _HandOff extends StatelessWidget {
   const _HandOff({
@@ -577,7 +393,7 @@ class _HandOff extends StatelessWidget {
   }
 }
 
-// ── 4. fifteen chapters, on sunbeam, then sign up ──────────────────────
+// ── 3. fifteen chapters, on sunbeam, then sign up ──────────────────────
 
 class _Chapters extends StatelessWidget {
   const _Chapters({

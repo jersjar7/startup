@@ -16,6 +16,7 @@ import 'package:mobile/features/auth/forgot_screen.dart';
 import 'package:mobile/features/auth/signin_screen.dart';
 import 'package:mobile/features/auth/verify_screen.dart';
 import 'package:mobile/features/onboarding/onboarding_screen.dart';
+import 'package:mobile/features/onboarding/welcome_screen.dart';
 import 'package:mobile/features/splash/splash_screen.dart';
 
 /// The launch flow in the app language (ADR 0016): splash, the four
@@ -54,8 +55,19 @@ Widget _app(Widget home, {Map<String, dynamic>? user}) {
     initialLocation: '/here',
     routes: [
       GoRoute(path: '/here', builder: (_, _) => home),
-      for (final p in ['/onboarding', '/signin', '/create', '/forgot', '/verify', '/home'])
-        GoRoute(path: p, builder: (_, _) => Scaffold(body: Center(child: Text('at $p')))),
+      for (final p in [
+        '/welcome',
+        '/onboarding',
+        '/signin',
+        '/create',
+        '/forgot',
+        '/verify',
+        '/home',
+      ])
+        GoRoute(
+          path: p,
+          builder: (_, _) => Scaffold(body: Center(child: Text('at $p'))),
+        ),
     ],
   );
   return ChangeNotifierProvider<AuthController>.value(
@@ -69,7 +81,9 @@ Widget _app(Widget home, {Map<String, dynamic>? user}) {
 }
 
 Future<void> _settle(WidgetTester tester) async {
-  await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 60)));
+  await tester.runAsync(
+    () => Future<void>.delayed(const Duration(milliseconds: 60)),
+  );
   await tester.pumpAndSettle();
 }
 
@@ -79,8 +93,10 @@ void _phone(WidgetTester tester) {
   addTearDown(tester.view.reset);
 }
 
-Future<void> _golden(WidgetTester tester, String name) =>
-    expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/launch/$name.png'));
+Future<void> _golden(WidgetTester tester, String name) => expectLater(
+  find.byType(MaterialApp),
+  matchesGoldenFile('goldens/launch/$name.png'),
+);
 
 void main() {
   setUpAll(() async {
@@ -96,17 +112,55 @@ void main() {
     await _golden(tester, 'splash');
   });
 
-  testWidgets('onboarding: four pages, each on its own ground', (tester) async {
+  testWidgets('welcome: the signed-out root', (tester) async {
+    _phone(tester);
+    await tester.pumpWidget(_app(const WelcomeScreen()));
+    await _settle(tester);
+    expect(find.text('The FE Civil,\none concept at a time.'), findsOneWidget);
+    await _golden(tester, 'welcome');
+
+    // First run: the tour. "I already have an account" is log in.
+    await tester.tap(find.text('I already have an account'));
+    await tester.pumpAndSettle();
+    expect(find.text('at /signin'), findsOneWidget);
+  });
+
+  testWidgets('welcome sends a returning student straight to sign-up', (
+    tester,
+  ) async {
+    _phone(tester);
+    final auth = AuthController(api: ApiClient(), storage: AppStorage())
+      ..onboardingSeen = true;
+    final router = GoRouter(
+      initialLocation: '/welcome',
+      routes: [
+        GoRoute(path: '/welcome', builder: (_, _) => const WelcomeScreen()),
+        GoRoute(
+          path: '/onboarding',
+          builder: (_, _) => const Text('at /onboarding'),
+        ),
+        GoRoute(path: '/create', builder: (_, _) => const Text('at /create')),
+        GoRoute(path: '/signin', builder: (_, _) => const Text('at /signin')),
+      ],
+    );
+    await tester.pumpWidget(
+      ChangeNotifierProvider<AuthController>.value(
+        value: auth,
+        child: MaterialApp.router(theme: AppTheme.light, routerConfig: router),
+      ),
+    );
+    await _settle(tester);
+    await tester.tap(find.text("Let's go"));
+    await tester.pumpAndSettle();
+    expect(find.text('at /create'), findsOneWidget);
+  });
+
+  testWidgets('the tour: three pages, each on its own ground', (tester) async {
     _phone(tester);
     await tester.pumpWidget(_app(const OnboardingScreen()));
     await _settle(tester);
-    expect(find.text('The FE Civil,\none concept at a time.'), findsOneWidget);
-    await _golden(tester, 'onboarding-1-welcome');
-
-    await tester.tap(find.text("Let's go"));
-    await tester.pumpAndSettle();
     expect(find.textContaining('A crate'), findsOneWidget);
-    await _golden(tester, 'onboarding-2-try-one');
+    await _golden(tester, 'onboarding-1-try-one');
 
     // The round is real: the right answer turns spring, the wrong one says why.
     await tester.tap(find.text('500 N'));
@@ -115,31 +169,30 @@ void main() {
     await tester.tap(find.text('200 N'));
     await tester.pumpAndSettle();
     expect(find.textContaining("That's it"), findsOneWidget);
-    await _golden(tester, 'onboarding-2-try-one-answered');
+    await _golden(tester, 'onboarding-1-try-one-answered');
 
     await tester.tap(find.byTooltip('Next'));
     await tester.pumpAndSettle();
     expect(find.text('Some problems\nbelong on paper.'), findsOneWidget);
-    await _golden(tester, 'onboarding-3-hand-off');
+    await _golden(tester, 'onboarding-2-hand-off');
 
     await tester.tap(find.byTooltip('Next'));
     await tester.pumpAndSettle();
     expect(find.text('Fifteen chapters.\nTap any.'), findsOneWidget);
     expect(find.text('Create my account'), findsOneWidget);
-    await _golden(tester, 'onboarding-4-chapters');
+    await _golden(tester, 'onboarding-3-chapters');
 
-    // Skip from page two lands on the last page.
+    // Back from the first page leaves the tour for the root.
     await tester.tap(find.byTooltip('Back'));
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Back'));
     await tester.pumpAndSettle();
+    expect(find.textContaining('A crate'), findsOneWidget);
+
+    // Skip is a way to sign-up, not to the last page. Remembering "seen"
+    // goes through the keychain plugin, absent here; the hand-off must
+    // still happen.
     await tester.tap(find.text('Skip'));
-    await tester.pumpAndSettle();
-    expect(find.text('Create my account'), findsOneWidget);
-
-    // Remembering "seen" goes through the keychain plugin, absent here; the
-    // hand-off must still happen.
-    await tester.tap(find.text('Create my account'));
     await _settle(tester);
     expect(find.text('at /create'), findsOneWidget);
   });
@@ -180,7 +233,10 @@ void main() {
     await tester.tap(find.byTooltip('Next'));
     await tester.pumpAndSettle();
     expect(find.text('Forgot password?'), findsOneWidget);
-    expect(find.text('you@school.edu'), findsOneWidget); // the caption reminds you
+    expect(
+      find.text('you@school.edu'),
+      findsOneWidget,
+    ); // the caption reminds you
     await _golden(tester, 'log-in-2-password');
 
     await tester.tap(find.byTooltip('Log in'));
@@ -190,7 +246,9 @@ void main() {
 
   testWidgets('verify: the check-your-email sheet', (tester) async {
     _phone(tester);
-    await tester.pumpWidget(_app(const VerifyScreen(), user: {'email': 'you@school.edu'}));
+    await tester.pumpWidget(
+      _app(const VerifyScreen(), user: {'email': 'you@school.edu'}),
+    );
     await _settle(tester);
     expect(find.text('Check your email.'), findsOneWidget);
     expect(find.text('Open email app'), findsOneWidget);

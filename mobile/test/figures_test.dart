@@ -242,7 +242,7 @@ void main() {
         'a calculator readout, drawn in mono',
         ),
         (
-        'lib/features/onboarding/onboarding_screen.dart',
+        'lib/features/onboarding/welcome_screen.dart',
         'the welcome card formula, drawn in mono; DM Sans has no Greek',
         ),
       ],
