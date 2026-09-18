@@ -566,13 +566,12 @@ class AccountSheet extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 22),
-            _SheetButton(
+            SheetButton(
               label: 'Open the website',
-              filled: true,
               onTap: () => launchUrl(Uri.parse('https://fe4raccoons.com'), mode: LaunchMode.externalApplication),
             ),
             const SizedBox(height: 10),
-            _SheetButton(
+            SheetButton(
               label: 'Sign out',
               filled: false,
               onTap: () {
@@ -627,44 +626,6 @@ class _Figure extends StatelessWidget {
             const SizedBox(height: 8),
             Text(value, style: AppTheme.display(size: 26, height: 0.9, tracking: -0.04)),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SheetButton extends StatelessWidget {
-  const _SheetButton({required this.label, required this.filled, required this.onTap});
-
-  final String label;
-  final bool filled;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: filled ? AppColors.charcoal : Colors.transparent,
-      borderRadius: BorderRadius.circular(32),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(32),
-        child: Container(
-          height: 64,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(32),
-            border: filled ? null : Border.all(color: AppColors.charcoal, width: 2),
-          ),
-          child: Center(
-            child: Text(
-              label,
-              style: AppTheme.body(
-                size: 17,
-                weight: FontWeight.w600,
-                color: filled ? AppColors.cream : AppColors.charcoal,
-                height: 1,
-              ),
-            ),
-          ),
         ),
       ),
     );

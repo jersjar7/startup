@@ -6,9 +6,11 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/network/api_exception.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
-import '../shared/widgets/app_button.dart';
+import '../shared/widgets/kit.dart';
 import 'auth_controller.dart';
 
+/// Check your email: a cream sheet over the faded welcome cards, with the
+/// link's destination in bold (`mobile/design/reference-screens/02c`).
 class VerifyScreen extends StatefulWidget {
   const VerifyScreen({super.key});
 
@@ -16,7 +18,8 @@ class VerifyScreen extends StatefulWidget {
   State<VerifyScreen> createState() => _VerifyScreenState();
 }
 
-class _VerifyScreenState extends State<VerifyScreen> with WidgetsBindingObserver {
+class _VerifyScreenState extends State<VerifyScreen>
+    with WidgetsBindingObserver {
   bool _resending = false;
 
   @override
@@ -55,7 +58,9 @@ class _VerifyScreenState extends State<VerifyScreen> with WidgetsBindingObserver
     }
     if (!mounted) return;
     setState(() => _resending = false);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   Future<void> _wrongEmail() async {
@@ -65,61 +70,178 @@ class _VerifyScreenState extends State<VerifyScreen> with WidgetsBindingObserver
 
   @override
   Widget build(BuildContext context) {
-    final email = context.select<AuthController, String?>((a) => a.email) ?? 'your email';
+    final email =
+        context.select<AuthController, String?>((a) => a.email) ?? 'your email';
     return Scaffold(
-      appBar: AppBar(automaticallyImplyLeading: false),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 4, 28, 28),
-          child: Column(
-            children: [
-              const Spacer(),
-              const Icon(Icons.mark_email_unread_outlined, size: 92, color: AppColors.ember),
-              const SizedBox(height: 24),
-              Text('Check your email', style: AppTheme.heading()),
-              const SizedBox(height: 12),
-              Text.rich(
+      backgroundColor: AppColors.fog,
+      body: Stack(
+        children: [
+          const FadedCards(),
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 4, 24, 0),
+              child: Row(
+                children: [
+                  const SizedBox(width: 48, height: 48),
+                  const SizedBox(width: 14),
+                  Expanded(child: StepBar(count: 3, at: 3)),
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Sheet(
+              title: 'Check your email.',
+              body: Text.rich(
                 TextSpan(
-                  style: const TextStyle(color: AppColors.ink2, fontSize: 14, height: 1.55),
+                  style: AppTheme.body(size: 16, color: AppColors.ink2),
                   children: [
-                    const TextSpan(text: 'We sent a verification link to '),
+                    const TextSpan(text: 'We sent a link to '),
                     TextSpan(
-                        text: email,
-                        style: const TextStyle(
-                            color: AppColors.charcoal, fontWeight: FontWeight.w700)),
-                    const TextSpan(text: '. Tap it to finish setting up your account.'),
+                      text: email,
+                      style: const TextStyle(
+                        color: AppColors.charcoal,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const TextSpan(text: ". Tap it and you're in."),
                   ],
                 ),
-                textAlign: TextAlign.center,
               ),
-              const Spacer(),
-              AppButton(
-                label: 'Open email app',
-                onPressed: () => launchUrl(Uri.parse('message://'),
-                        mode: LaunchMode.externalApplication)
-                    .catchError((_) => false),
+              children: [
+                SheetButton(
+                  label: 'Open email app',
+                  onTap: () => launchUrl(
+                    Uri.parse('message://'),
+                    mode: LaunchMode.externalApplication,
+                  ).catchError((_) => false),
+                ),
+                const SizedBox(height: 10),
+                SheetButton(
+                  label: 'Resend link',
+                  filled: false,
+                  loading: _resending,
+                  loadingLabel: 'Sending…',
+                  onTap: _resend,
+                ),
+                const SizedBox(height: 12),
+                Center(
+                  child: TextAction(
+                    label: 'Wrong email? Go back',
+                    onTap: _wrongEmail,
+                  ),
+                ),
+                Center(
+                  child: TextButton(
+                    onPressed: () => context.go('/home'),
+                    child: Text(
+                      'Continue to the app',
+                      style: AppTheme.body(
+                        size: 14,
+                        weight: FontWeight.w600,
+                        color: AppColors.forest,
+                        height: 1,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// The cream bottom sheet: grabber, a display title, one body line, then
+/// whatever buttons the screen needs.
+class Sheet extends StatelessWidget {
+  const Sheet({
+    super.key,
+    required this.title,
+    required this.body,
+    required this.children,
+  });
+
+  final String title;
+  final Widget body;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Container(
+                  width: 44,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: AppColors.charcoal.withValues(alpha: 0.25),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ),
               ),
-              const SizedBox(height: 12),
-              AppButton(
-                label: 'Resend link',
-                ghost: true,
-                loading: _resending,
-                loadingLabel: 'Sending…',
-                onPressed: _resend,
-              ),
-              const SizedBox(height: 4),
-              TextButton(
-                onPressed: () => context.go('/home'),
-                child: const Text('Continue to the app'),
-              ),
-              TextButton(
-                onPressed: _wrongEmail,
-                child: const Text('Wrong email? Go back',
-                    style: TextStyle(color: AppColors.ink3)),
-              ),
+              const SizedBox(height: 22),
+              Text(title, style: AppTheme.display(size: 38, height: 1)),
+              const SizedBox(height: 8),
+              body,
+              const SizedBox(height: 22),
+              ...children,
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The welcome screen's two colored cards, faded and behind a sheet.
+class FadedCards extends StatelessWidget {
+  const FadedCards({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget card(Color color, double w, double h, double angle) =>
+        Transform.rotate(
+          angle: angle,
+          child: Container(
+            width: w,
+            height: h,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.45),
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+        );
+    return IgnorePointer(
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            top: 96,
+            left: 22,
+            child: card(AppColors.spring, 232, 284, -0.12),
+          ),
+          Positioned(
+            top: 160,
+            right: -26,
+            child: card(AppColors.ember, 206, 246, 0.16),
+          ),
+        ],
       ),
     );
   }

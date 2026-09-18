@@ -47,14 +47,16 @@ class AuthController extends ChangeNotifier {
   }
 
   Future<void> signIn(String email, String password) async {
-    final data = await api.post('/auth/login', {'email': email, 'password': password})
-        as Map<String, dynamic>;
+    final data =
+        await api.post('/auth/login', {'email': email, 'password': password})
+            as Map<String, dynamic>;
     await _accept(data);
   }
 
   Future<void> register(String email, String password) async {
-    final data = await api.post('/auth/create', {'email': email, 'password': password})
-        as Map<String, dynamic>;
+    final data =
+        await api.post('/auth/create', {'email': email, 'password': password})
+            as Map<String, dynamic>;
     await _accept(data);
   }
 
@@ -64,7 +66,9 @@ class AuthController extends ChangeNotifier {
     try {
       user = await api.get('/auth/me') as Map<String, dynamic>;
       notifyListeners();
-    } catch (_) {/* ignore transient errors */}
+    } catch (_) {
+      /* ignore transient errors */
+    }
   }
 
   Future<void> completeOnboarding() async {
@@ -76,14 +80,19 @@ class AuthController extends ChangeNotifier {
   Future<void> signOut() async {
     try {
       await api.delete('/auth/logout');
-    } catch (_) {/* sign out locally regardless */}
+    } catch (_) {
+      /* sign out locally regardless */
+    }
     await _clear();
     status = AuthStatus.unauthenticated;
     notifyListeners();
   }
 
   Future<void> deleteAccount(String password) async {
-    await api.delete('/auth/account', {'password': password, 'confirmation': 'DELETE'});
+    await api.delete('/auth/account', {
+      'password': password,
+      'confirmation': 'DELETE',
+    });
     await _clear();
     status = AuthStatus.unauthenticated;
     notifyListeners();

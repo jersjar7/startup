@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
-import '../shared/widgets/app_button.dart';
-import '../shared/widgets/engineering_grid.dart';
+import '../shared/widgets/kit.dart';
 import '../shared/widgets/legal_line.dart';
-import '../shared/widgets/mastery_ring.dart';
-import '../shared/widgets/wordmark.dart';
+import '../study/chapter_marks.dart';
 
-/// First-run onboarding — the "show the app" flow: welcome, companion (a real
-/// exercise), the honest hand-off, and a peek at the chapter list, then sign up.
+/// First-run onboarding: welcome, one real round, the honest paper hand-off,
+/// the chapter peek, then sign up. Four pages, each on its own ground so
+/// moving forward is felt (`mobile/design/reference-screens/01, 05, 05b,
+/// 06`; ADR 0016).
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -25,7 +24,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final _pc = PageController();
   int _page = 0;
 
-  static const _count = 4;
+  static const _grounds = [
+    AppColors.fog,
+    AppColors.ember,
+    AppColors.fog,
+    AppColors.sunbeam,
+  ];
 
   @override
   void dispose() {
@@ -33,80 +37,45 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.dispose();
   }
 
-  void _next() => _pc.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-
-  void _skip() => _pc.animateToPage(
-        _count - 1,
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeOut,
-      );
+  void _to(int page) => _pc.animateToPage(
+    page,
+    duration: const Duration(milliseconds: 320),
+    curve: Curves.easeOut,
+  );
 
   Future<void> _go(String route) async {
-    await context.read<AuthController>().completeOnboarding();
+    // Remembering that onboarding was seen is a convenience; a storage
+    // failure must never stand between a student and the sign-up.
+    try {
+      await context.read<AuthController>().completeOnboarding();
+    } catch (_) {}
     if (mounted) context.go(route);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 320),
+      color: _grounds[_page],
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: PageView(
+          controller: _pc,
+          onPageChanged: (i) => setState(() => _page = i),
           children: [
-            // Skip (middle slides only)
-            SizedBox(
-              height: 40,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: AnimatedOpacity(
-                  opacity: (_page == 1 || _page == 2) ? 1 : 0,
-                  duration: const Duration(milliseconds: 150),
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 22),
-                    child: GestureDetector(
-                      onTap: _skip,
-                      child: Text('Skip',
-                          style: GoogleFonts.dmSans(
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.ink3)),
-                    ),
-                  ),
-                ),
-              ),
+            _Welcome(onGo: () => _to(1), onSignIn: () => _go('/signin')),
+            _TryOne(
+              onBack: () => _to(0),
+              onSkip: () => _to(3),
+              onNext: () => _to(2),
             ),
-            Expanded(
-              child: PageView(
-                controller: _pc,
-                onPageChanged: (i) => setState(() => _page = i),
-                children: const [
-                  _WelcomeSlide(),
-                  _Slide(
-                    hero: _ExercisePreview(),
-                    title: 'The website teaches.\nThis keeps it sharp.',
-                    body:
-                        'Learn the concepts and full solutions on fe4raccoons.com. Use the app for quick recall practice, wherever you are.',
-                  ),
-                  _Slide(
-                    hero: _GrabPaperPreview(),
-                    title: 'Some problems\nbelong on paper.',
-                    body:
-                        'When a question needs real working, the app says so and saves it for your desk. No faking it on a phone.',
-                  ),
-                  _Slide(
-                    hero: _ChapterPreview(),
-                    title: 'Ready when\nyou are.',
-                    body:
-                        "It's completely free. Create an account to save your progress across the app and the website.",
-                  ),
-                ],
-              ),
+            _HandOff(
+              onBack: () => _to(1),
+              onSkip: () => _to(3),
+              onNext: () => _to(3),
             ),
-            _BottomBar(
-              page: _page,
-              count: _count,
-              onNext: _next,
+            _Chapters(
+              onBack: () => _to(2),
               onCreate: () => _go('/create'),
               onSignIn: () => _go('/signin'),
             ),
@@ -117,260 +86,385 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 }
 
-// ── Slide scaffolds ──────────────────────────────────────────────────────────
+// ── the top row every step shares ─────────────────────────────────────
 
-class _WelcomeSlide extends StatelessWidget {
-  const _WelcomeSlide();
+class _StepRow extends StatelessWidget {
+  const _StepRow({required this.at, required this.onBack, this.onSkip});
+
+  final int at;
+  final VoidCallback onBack;
+  final VoidCallback? onSkip;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Wordmark(size: 56),
-          const SizedBox(height: 28),
-          Container(
-            height: 6,
-            width: 54,
-            decoration: BoxDecoration(
-                color: AppColors.ember, borderRadius: BorderRadius.circular(99)),
-          ),
-          const SizedBox(height: 28),
-          Text('Keep the FE fresh,\nanywhere.',
-              textAlign: TextAlign.center, style: AppTheme.heading(size: 26)),
-          const SizedBox(height: 14),
-          Text(
-            'The free, no-pressure way to keep your FE Civil concepts sharp between study sessions.',
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-                color: AppColors.ink2, fontSize: 15, height: 1.6),
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        RoundIconButton(
+          icon: Icons.chevron_left_rounded,
+          onTap: onBack,
+          label: 'Back',
+        ),
+        const SizedBox(width: 14),
+        Expanded(child: StepBar(count: 3, at: at)),
+        if (onSkip != null) TextAction(label: 'Skip', onTap: onSkip!),
+      ],
     );
   }
 }
 
-class _Slide extends StatelessWidget {
-  const _Slide({required this.hero, required this.title, required this.body});
+const _pad = EdgeInsets.fromLTRB(24, 4, 24, 34);
 
-  final Widget hero;
-  final String title;
-  final String body;
+// ── 1. welcome ─────────────────────────────────────────────────────────
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          hero,
-          const SizedBox(height: 34),
-          Text(title, style: AppTheme.heading(size: 30)),
-          const SizedBox(height: 14),
-          Text(body,
-              style: const TextStyle(
-                  color: AppColors.ink2, fontSize: 15, height: 1.6)),
-        ],
-      ),
-    );
-  }
-}
+class _Welcome extends StatelessWidget {
+  const _Welcome({required this.onGo, required this.onSignIn});
 
-// ── Bottom bar: dots + the page's action(s) ─────────────────────────────────
-
-class _BottomBar extends StatelessWidget {
-  const _BottomBar({
-    required this.page,
-    required this.count,
-    required this.onNext,
-    required this.onCreate,
-    required this.onSignIn,
-  });
-
-  final int page;
-  final int count;
-  final VoidCallback onNext;
-  final VoidCallback onCreate;
+  final VoidCallback onGo;
   final VoidCallback onSignIn;
 
   @override
   Widget build(BuildContext context) {
-    final isLast = page == count - 1;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(28, 6, 28, 28),
-      child: Column(
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(count, (i) {
-              final on = i == page;
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                margin: const EdgeInsets.symmetric(horizontal: 3.5),
-                width: on ? 22 : 7,
-                height: 7,
-                decoration: BoxDecoration(
-                  color: on ? AppColors.ember : AppColors.creamDark,
-                  borderRadius: BorderRadius.circular(99),
-                ),
-              );
-            }),
-          ),
-          const SizedBox(height: 16),
-          if (!isLast)
-            AppButton(label: page == 0 ? 'Get started' : 'Next', onPressed: onNext)
-          else ...[
-            AppButton(label: 'Create account', onPressed: onCreate),
-            const SizedBox(height: 4),
-            TextButton(
-              onPressed: onSignIn,
-              child: RichText(
-                text: TextSpan(
-                  style: GoogleFonts.dmSans(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13.5,
-                      color: AppColors.ink2),
-                  children: const [
-                    TextSpan(text: 'I already have an account · '),
-                    TextSpan(
-                        text: 'Sign in',
-                        style: TextStyle(color: AppColors.ember)),
-                  ],
+    return SafeArea(
+      child: Padding(
+        padding: _pad,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 8),
+            Text(
+              'FE FOR RACCOONS',
+              style: AppTheme.eyebrow(color: AppColors.ink2),
+            ),
+            Expanded(child: _Cards()),
+            Text(
+              'The FE Civil,\none concept at a time.',
+              style: AppTheme.display(size: 44),
+            ),
+            const SizedBox(height: 22),
+            PillButton(label: "Let's go", onTap: onGo),
+            const SizedBox(height: 14),
+            Center(
+              child: TextButton(
+                onPressed: onSignIn,
+                child: Text(
+                  'I already have an account',
+                  style: AppTheme.body(
+                    size: 15,
+                    weight: FontWeight.w500,
+                    color: AppColors.ink2,
+                  ),
                 ),
               ),
             ),
-            const LegalLine(),
           ],
-        ],
-      ),
-    );
-  }
-}
-
-// ── Mini app previews ───────────────────────────────────────────────────────
-
-BoxDecoration _previewCard() => BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(18),
-      boxShadow: const [
-        BoxShadow(color: Color(0x122C2C2C), blurRadius: 50, offset: Offset(0, 24)),
-        BoxShadow(color: Color(0x0F2C2C2C), blurRadius: 16, offset: Offset(0, 6)),
-      ],
-    );
-
-class _ExercisePreview extends StatelessWidget {
-  const _ExercisePreview();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 290,
-      clipBehavior: Clip.antiAlias,
-      decoration: _previewCard(),
-      child: EngineeringGrid(
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _pill('EASY', AppColors.forestBg, AppColors.forest),
-                  Text('1 of 3', style: AppTheme.mono(size: 10, color: AppColors.ink3)),
-                ],
-              ),
-              const SizedBox(height: 10),
-              const Text('A crate, μₛ = 0.40. Max friction force before it slides?',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, height: 1.35)),
-              const SizedBox(height: 12),
-              _option('200 N', correct: true),
-              const SizedBox(height: 7),
-              _option('500 N', label: 'B'),
-            ],
-          ),
         ),
       ),
     );
   }
+}
 
-  Widget _option(String text, {bool correct = false, String label = 'B'}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
-      decoration: BoxDecoration(
-        color: correct ? AppColors.forestBg : Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-            color: correct ? AppColors.forest : AppColors.line, width: 1.3),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 20,
-            height: 20,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                color: correct ? AppColors.forest : AppColors.creamDark,
-                shape: BoxShape.circle),
-            child: correct
-                ? const Icon(Icons.check, size: 13, color: Colors.white)
-                : Text(label, style: AppTheme.mono(size: 10, weight: FontWeight.w700, color: AppColors.ink2)),
+/// Three floating cards: a statics prompt on spring, a fluids prompt on
+/// ember, the concept count on cream. Decoration, not data.
+class _Cards extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Widget card({
+      required Color color,
+      required String eyebrow,
+      required Widget body,
+      required double width,
+      required double height,
+      required double angle,
+      bool shadow = false,
+    }) {
+      return Transform.rotate(
+        angle: angle,
+        child: Container(
+          width: width,
+          height: height,
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: shadow
+                ? const [
+                    BoxShadow(
+                      color: Color(0x292C2C2C),
+                      blurRadius: 40,
+                      offset: Offset(0, 18),
+                    ),
+                  ]
+                : null,
           ),
-          const SizedBox(width: 9),
-          Text(text, style: AppTheme.mono(size: 12)),
-        ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(eyebrow, style: AppTheme.eyebrow(size: 11)),
+              const Spacer(),
+              body,
+            ],
+          ),
+        ),
+      );
+    }
+
+    return LayoutBuilder(
+      builder: (context, box) {
+        final w = box.maxWidth;
+        return Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              top: 24,
+              left: -2,
+              child: card(
+                color: AppColors.spring,
+                eyebrow: 'STATICS',
+                width: w * 0.62,
+                height: 264,
+                angle: -0.12,
+                body: Text(
+                  'ΣF\n= 0',
+                  style: AppTheme.mono(
+                    size: 54,
+                    weight: FontWeight.w700,
+                    color: AppColors.charcoal,
+                  ).copyWith(height: 0.95, letterSpacing: -2),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 96,
+              right: -30,
+              child: card(
+                color: AppColors.ember,
+                eyebrow: 'FLUIDS',
+                width: w * 0.56,
+                height: 236,
+                angle: 0.16,
+                body: Text(
+                  'Q =\nVA',
+                  style: AppTheme.mono(
+                    size: 46,
+                    weight: FontWeight.w700,
+                    color: AppColors.charcoal,
+                  ).copyWith(height: 0.95, letterSpacing: -2),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 250,
+              left: w * 0.24,
+              child: card(
+                color: AppColors.cream,
+                eyebrow: 'CONCEPTS',
+                width: 190,
+                height: 138,
+                angle: -0.035,
+                shadow: true,
+                body: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        '375',
+                        style: AppTheme.display(
+                          size: 54,
+                          height: 0.82,
+                          tracking: -0.06,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        'free',
+                        style: AppTheme.display(
+                          size: 16,
+                          weight: FontWeight.w700,
+                          height: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+// ── 2. try one: a real round, on ember ─────────────────────────────────
+
+class _TryOne extends StatefulWidget {
+  const _TryOne({
+    required this.onBack,
+    required this.onSkip,
+    required this.onNext,
+  });
+
+  final VoidCallback onBack;
+  final VoidCallback onSkip;
+  final VoidCallback onNext;
+
+  @override
+  State<_TryOne> createState() => _TryOneState();
+}
+
+class _TryOneState extends State<_TryOne> {
+  int? _picked;
+
+  static const _answers = ['200 N', '500 N'];
+  static const _right = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final picked = _picked;
+    return SafeArea(
+      child: Padding(
+        padding: _pad,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _StepRow(at: 1, onBack: widget.onBack, onSkip: widget.onSkip),
+            const SizedBox(height: 30),
+            Row(
+              children: [
+                Expanded(
+                  child: Text('STATICS · EASY', style: AppTheme.eyebrow()),
+                ),
+                Text('1 / 3', style: AppTheme.eyebrow()),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'A crate, µ = 0.40. Max friction force before it slides?',
+              style: AppTheme.display(size: 38),
+            ),
+            const Spacer(),
+            if (picked != null) ...[
+              Text(
+                picked == _right
+                    ? "That's it. Friction tops out at μ times the normal force: 0.40 × 500 N."
+                    : 'Not that one. 500 N is the weight; friction tops out at 0.40 × 500 N.',
+                style: AppTheme.body(
+                  size: 15,
+                  weight: FontWeight.w500,
+                  height: 1.4,
+                ),
+              ),
+              const SizedBox(height: 18),
+            ],
+            for (var i = 0; i < _answers.length; i++) ...[
+              if (i > 0) const SizedBox(height: 10),
+              _Answer(
+                text: _answers[i],
+                letter: String.fromCharCode(65 + i),
+                state: picked == null
+                    ? _AnswerState.open
+                    : i == _right
+                    ? _AnswerState.right
+                    : i == picked
+                    ? _AnswerState.wrong
+                    : _AnswerState.open,
+                onTap: () => setState(() => _picked = i),
+              ),
+            ],
+            const SizedBox(height: 26),
+            Row(
+              children: [
+                Expanded(child: Pips(count: 3, filled: picked == null ? 0 : 1)),
+                const SizedBox(width: 22),
+                RoundNextButton(onTap: widget.onNext),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _GrabPaperPreview extends StatelessWidget {
-  const _GrabPaperPreview();
+enum _AnswerState { open, right, wrong }
+
+/// A 76 cream answer block with the letter in a 52 circle at the right.
+class _Answer extends StatelessWidget {
+  const _Answer({
+    required this.text,
+    required this.letter,
+    required this.state,
+    required this.onTap,
+  });
+
+  final String text;
+  final String letter;
+  final _AnswerState state;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 290,
-      clipBehavior: Clip.antiAlias,
-      decoration: _previewCard(),
-      child: EngineeringGrid(
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    final fill = switch (state) {
+      _AnswerState.right => AppColors.spring,
+      _ => AppColors.cream,
+    };
+    return Material(
+      color: fill,
+      borderRadius: BorderRadius.circular(38),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(38),
+        child: Container(
+          height: 76,
+          padding: const EdgeInsets.fromLTRB(26, 0, 12, 0),
+          child: Row(
             children: [
-              _pill('GEOTECH', AppColors.emberBg, const Color(0xFFB8431C)),
-              const SizedBox(height: 10),
-              const Text(
-                  'Ultimate bearing capacity of a 2 m square footing in sand (φ = 32°).',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, height: 1.35)),
-              const SizedBox(height: 14),
+              Expanded(
+                child: Text(
+                  text,
+                  style: AppTheme.display(
+                    size: 24,
+                    weight: FontWeight.w700,
+                    height: 1,
+                    tracking: -0.02,
+                  ),
+                ),
+              ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 11),
+                width: 52,
+                height: 52,
                 decoration: BoxDecoration(
-                    color: AppColors.emberBg, borderRadius: BorderRadius.circular(12)),
-                child: Row(
-                  children: [
-                    const Icon(Icons.edit_outlined, size: 18, color: AppColors.ember),
-                    const SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Now grab paper',
-                            style: GoogleFonts.dmSans(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 12,
-                                color: const Color(0xFFB8431C))),
-                        const Text('Table lookups, real working',
-                            style: TextStyle(fontSize: 10.5, color: Color(0xFFA8694A))),
-                      ],
-                    ),
-                  ],
+                  shape: BoxShape.circle,
+                  color: state == _AnswerState.open
+                      ? Colors.transparent
+                      : AppColors.charcoal,
+                  border: state == _AnswerState.open
+                      ? Border.all(color: AppColors.charcoal, width: 2)
+                      : null,
+                ),
+                child: Center(
+                  child: state == _AnswerState.right
+                      ? const Icon(
+                          Icons.check_rounded,
+                          size: 24,
+                          color: AppColors.spring,
+                        )
+                      : state == _AnswerState.wrong
+                      ? const Icon(
+                          Icons.close_rounded,
+                          size: 22,
+                          color: AppColors.cream,
+                        )
+                      : Text(
+                          letter,
+                          style: AppTheme.mono(
+                            size: 13,
+                            weight: FontWeight.w700,
+                          ),
+                        ),
                 ),
               ),
             ],
@@ -381,64 +475,253 @@ class _GrabPaperPreview extends StatelessWidget {
   }
 }
 
-class _ChapterPreview extends StatelessWidget {
-  const _ChapterPreview();
+// ── 3. the paper hand-off, on fog ──────────────────────────────────────
 
-  static const _rows = [
-    ('Statics', 95, 'Mastered', AppColors.forest),
-    ('Geotechnical Eng.', 45, 'Building', AppColors.ember),
-    ('Fluid Mechanics', 0, 'New', AppColors.ink3),
-  ];
+class _HandOff extends StatelessWidget {
+  const _HandOff({
+    required this.onBack,
+    required this.onSkip,
+    required this.onNext,
+  });
+
+  final VoidCallback onBack;
+  final VoidCallback onSkip;
+  final VoidCallback onNext;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 290,
-      decoration: _previewCard(),
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        children: [
-          for (var i = 0; i < _rows.length; i++) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 11),
-              child: Row(
+    return SafeArea(
+      child: Padding(
+        padding: _pad,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _StepRow(at: 2, onBack: onBack, onSkip: onSkip),
+            const SizedBox(height: 30),
+            Text('Some problems\nbelong on paper.', style: AppTheme.display()),
+            const SizedBox(height: 12),
+            Text(
+              'When a question needs real working, the app says so and saves it for your desk. No faking it on a phone.',
+              style: AppTheme.body(
+                size: 16,
+                height: 1.45,
+                color: AppColors.ink2,
+              ),
+            ),
+            const Spacer(),
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: AppColors.cream,
+                borderRadius: BorderRadius.circular(36),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  MasteryRing(pct: _rows[i].$2, size: 38, stroke: 4),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(_rows[i].$1,
-                            style: GoogleFonts.dmSans(
-                                fontWeight: FontWeight.w600, fontSize: 13)),
-                        const SizedBox(height: 1),
-                        Text(_rows[i].$3,
-                            style: TextStyle(
-                                fontSize: 10.5,
-                                fontWeight: FontWeight.w600,
-                                color: _rows[i].$4)),
-                      ],
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'SAVED FOR YOUR DESK',
+                          style: AppTheme.eyebrow(),
+                        ),
+                      ),
+                      Text(
+                        'STATICS',
+                        style: AppTheme.eyebrow(color: AppColors.ink2),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  Text(
+                    'Find the force in member BC of the truss.',
+                    style: AppTheme.display(
+                      size: 22,
+                      weight: FontWeight.w700,
+                      height: 1.15,
+                      tracking: -0.03,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Table lookups, real working. Method of sections, three equations.',
+                    style: AppTheme.body(
+                      size: 14,
+                      height: 1.45,
+                      color: AppColors.ink2,
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  // The hand-off as the student will meet it: an ember pill.
+                  // Decoration here, so it goes nowhere.
+                  IgnorePointer(
+                    child: PillButton(
+                      label: 'Now grab paper',
+                      onTap: () {},
+                      fill: AppColors.ember,
+                      circle: AppColors.charcoal,
                     ),
                   ),
                 ],
               ),
             ),
-            if (i < _rows.length - 1) const Divider(height: 1),
+            const SizedBox(height: 26),
+            Align(
+              alignment: Alignment.centerRight,
+              child: RoundNextButton(onTap: onNext),
+            ),
           ],
-        ],
+        ),
       ),
     );
   }
 }
 
-Widget _pill(String text, Color bg, Color fg) => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(20)),
-      child: Text(text,
-          style: GoogleFonts.dmSans(
-              fontWeight: FontWeight.w700,
-              fontSize: 9,
-              letterSpacing: 0.4,
-              color: fg)),
+// ── 4. fifteen chapters, on sunbeam, then sign up ──────────────────────
+
+class _Chapters extends StatelessWidget {
+  const _Chapters({
+    required this.onBack,
+    required this.onCreate,
+    required this.onSignIn,
+  });
+
+  final VoidCallback onBack;
+  final VoidCallback onCreate;
+  final VoidCallback onSignIn;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: _pad,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _StepRow(at: 3, onBack: onBack),
+            const SizedBox(height: 30),
+            Text('Fifteen chapters.\nTap any.', style: AppTheme.display()),
+            const SizedBox(height: 10),
+            Text(
+              'Nothing locks. Swipe to browse.',
+              style: AppTheme.body(size: 16, weight: FontWeight.w500),
+            ),
+            const SizedBox(height: 26),
+            const Expanded(child: _Deck()),
+            const SizedBox(height: 22),
+            PillButton(label: 'Create my account', onTap: onCreate),
+            const SizedBox(height: 6),
+            Center(
+              child: TextButton(
+                onPressed: onSignIn,
+                child: Text(
+                  'I already have an account',
+                  style: AppTheme.body(
+                    size: 15,
+                    weight: FontWeight.w500,
+                    color: AppColors.charcoal,
+                  ),
+                ),
+              ),
+            ),
+            const LegalLine(),
+          ],
+        ),
+      ),
     );
+  }
+}
+
+/// The cream chapter card over two rotated backing cards.
+class _Deck extends StatelessWidget {
+  const _Deck();
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned.fill(
+          top: 16,
+          left: 10,
+          right: 10,
+          child: Transform.rotate(
+            angle: 0.087,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: AppColors.charcoal,
+                borderRadius: BorderRadius.circular(36),
+              ),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          top: 8,
+          left: 4,
+          right: 4,
+          bottom: 6,
+          child: Transform.rotate(
+            angle: -0.061,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: AppColors.spring,
+                borderRadius: BorderRadius.circular(36),
+              ),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          bottom: 14,
+          child: Container(
+            padding: const EdgeInsets.all(26),
+            decoration: BoxDecoration(
+              color: AppColors.cream,
+              borderRadius: BorderRadius.circular(36),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text('05 / 15', style: AppTheme.eyebrow(size: 13)),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        '8 TO 12 EXAM QUESTIONS',
+                        textAlign: TextAlign.right,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.eyebrow(
+                          size: 11,
+                          color: AppColors.ink2,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const Expanded(
+                  child: Center(
+                    child: ChapterMark(
+                      chapterId: 'statics',
+                      color: AppColors.forest,
+                      size: 140,
+                    ),
+                  ),
+                ),
+                Text('Statics', style: AppTheme.display(size: 46)),
+                const SizedBox(height: 10),
+                Text(
+                  '7 lessons · trusses, frames, centroids, friction',
+                  style: AppTheme.body(
+                    size: 15,
+                    height: 1.4,
+                    color: AppColors.ink2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

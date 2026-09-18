@@ -30,7 +30,9 @@ class PillButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onFill = fill == AppColors.charcoal ? AppColors.cream : AppColors.charcoal;
+    final onFill = fill == AppColors.charcoal
+        ? AppColors.cream
+        : AppColors.charcoal;
     final onCircle = circle == AppColors.spring || circle == AppColors.cream
         ? AppColors.charcoal
         : AppColors.spring;
@@ -81,6 +83,7 @@ class RoundIconButton extends StatelessWidget {
     this.fill = AppColors.charcoal,
     this.iconColor = AppColors.cream,
     this.size = 48,
+    this.loading = false,
   });
 
   final IconData icon;
@@ -92,6 +95,9 @@ class RoundIconButton extends StatelessWidget {
   final Color iconColor;
   final double size;
 
+  /// Replaces the icon with a spinner and ignores taps.
+  final bool loading;
+
   @override
   Widget build(BuildContext context) {
     return Semantics(
@@ -100,12 +106,23 @@ class RoundIconButton extends StatelessWidget {
       child: Tooltip(
         message: label,
         child: _Pressable(
-          onTap: onTap,
+          onTap: loading ? () {} : onTap,
           child: Container(
             width: size,
             height: size,
             decoration: BoxDecoration(color: fill, shape: BoxShape.circle),
-            child: Icon(icon, size: size * 0.42, color: iconColor),
+            child: loading
+                ? Center(
+                    child: SizedBox(
+                      width: size * 0.36,
+                      height: size * 0.36,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        color: iconColor,
+                      ),
+                    ),
+                  )
+                : Icon(icon, size: size * 0.42, color: iconColor),
           ),
         ),
       ),
@@ -116,10 +133,16 @@ class RoundIconButton extends StatelessWidget {
 /// A 72 round arrow button, charcoal with a spring arrow. Bottom right of a
 /// step, with a text action at bottom left.
 class RoundNextButton extends StatelessWidget {
-  const RoundNextButton({super.key, required this.onTap, this.label = 'Next'});
+  const RoundNextButton({
+    super.key,
+    required this.onTap,
+    this.label = 'Next',
+    this.loading = false,
+  });
 
   final VoidCallback onTap;
   final String label;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +152,186 @@ class RoundNextButton extends StatelessWidget {
       label: label,
       size: 72,
       iconColor: AppColors.spring,
+      loading: loading,
+    );
+  }
+}
+
+/// The step indicator: 8 dots, the current step a 36 bar, in one color at
+/// two opacities. No "1 of 3" text.
+class StepBar extends StatelessWidget {
+  const StepBar({
+    super.key,
+    required this.count,
+    required this.at,
+    this.color = AppColors.charcoal,
+  });
+
+  final int count;
+  final int at;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'Step $at of $count',
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (var i = 1; i <= count; i++) ...[
+            if (i > 1) const SizedBox(width: 6),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: i == at ? 36 : 8,
+              height: 8,
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: i == at ? 1 : 0.35),
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// The oversized field: no box, a 3 underline, DM Sans 600 at 30, one
+/// caption under it. One per screen. The underline and caret are forest on
+/// a light ground and charcoal on an accent ground.
+class XLField extends StatelessWidget {
+  const XLField({
+    super.key,
+    required this.controller,
+    required this.label,
+    required this.hint,
+    this.caption,
+    this.error,
+    this.keyboardType,
+    this.obscure = false,
+    this.autofocus = false,
+    this.onSubmitted,
+    this.accent = AppColors.forest,
+    this.autofillHints,
+  });
+
+  final TextEditingController controller;
+  final String label;
+  final String hint;
+  final String? caption;
+  final String? error;
+  final TextInputType? keyboardType;
+  final bool obscure;
+  final bool autofocus;
+  final ValueChanged<String>? onSubmitted;
+  final Color accent;
+  final Iterable<String>? autofillHints;
+
+  @override
+  Widget build(BuildContext context) {
+    final line = error != null ? AppColors.error : accent;
+    final style = GoogleFonts.dmSans(
+      fontSize: 30,
+      fontWeight: FontWeight.w600,
+      letterSpacing: -0.9,
+      color: AppColors.charcoal,
+      height: 1.2,
+    );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Semantics(
+          label: label,
+          textField: true,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: line, width: 3)),
+            ),
+            child: TextField(
+              controller: controller,
+              keyboardType: keyboardType,
+              obscureText: obscure,
+              autofocus: autofocus,
+              autocorrect: false,
+              enableSuggestions: !obscure,
+              autofillHints: autofillHints,
+              textInputAction: TextInputAction.done,
+              onSubmitted: onSubmitted,
+              cursorColor: accent,
+              style: style,
+              decoration: InputDecoration(
+                isDense: true,
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.fromLTRB(0, 8, 0, 10),
+                hintText: hint,
+                hintStyle: style.copyWith(color: AppColors.placeholder),
+              ),
+            ),
+          ),
+        ),
+        if (error != null || caption != null) ...[
+          const SizedBox(height: 12),
+          Text(
+            error ?? caption!,
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              height: 1.45,
+              color: error != null ? AppColors.error : AppColors.ink2,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+/// A 64 round button for sheets and stacks: charcoal filled, or a 2
+/// charcoal outline.
+class SheetButton extends StatelessWidget {
+  const SheetButton({
+    super.key,
+    required this.label,
+    required this.onTap,
+    this.filled = true,
+    this.loading = false,
+    this.loadingLabel,
+  });
+
+  final String label;
+  final VoidCallback onTap;
+  final bool filled;
+  final bool loading;
+  final String? loadingLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: filled ? AppColors.charcoal : Colors.transparent,
+      borderRadius: BorderRadius.circular(32),
+      child: InkWell(
+        onTap: loading ? null : onTap,
+        borderRadius: BorderRadius.circular(32),
+        child: Container(
+          height: 64,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(32),
+            border: filled
+                ? null
+                : Border.all(color: AppColors.charcoal, width: 2),
+          ),
+          child: Center(
+            child: Text(
+              loading ? (loadingLabel ?? label) : label,
+              style: GoogleFonts.inter(
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                color: filled ? AppColors.cream : AppColors.charcoal,
+                height: 1,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -206,7 +409,11 @@ class Pips extends StatelessWidget {
 
 /// One destination of the dock.
 class DockItem {
-  const DockItem({required this.icon, required this.activeIcon, required this.label});
+  const DockItem({
+    required this.icon,
+    required this.activeIcon,
+    required this.label,
+  });
   final IconData icon;
   final IconData activeIcon;
   final String label;
@@ -237,7 +444,11 @@ class BottomDock extends StatelessWidget {
         color: AppColors.cream,
         borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
         boxShadow: [
-          BoxShadow(color: Color(0x1F2C2C2C), blurRadius: 30, offset: Offset(0, -6)),
+          BoxShadow(
+            color: Color(0x1F2C2C2C),
+            blurRadius: 30,
+            offset: Offset(0, -6),
+          ),
         ],
       ),
       child: SafeArea(
@@ -265,13 +476,17 @@ class BottomDock extends StatelessWidget {
                             width: 54,
                             height: 54,
                             decoration: BoxDecoration(
-                              color: i == index ? AppColors.spring : Colors.transparent,
+                              color: i == index
+                                  ? AppColors.spring
+                                  : Colors.transparent,
                               shape: BoxShape.circle,
                             ),
                             child: Icon(
                               i == index ? items[i].activeIcon : items[i].icon,
                               size: 24,
-                              color: i == index ? AppColors.charcoal : AppColors.ink2,
+                              color: i == index
+                                  ? AppColors.charcoal
+                                  : AppColors.ink2,
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -282,7 +497,9 @@ class BottomDock extends StatelessWidget {
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: -0.1,
-                                color: i == index ? AppColors.charcoal : AppColors.ink2,
+                                color: i == index
+                                    ? AppColors.charcoal
+                                    : AppColors.ink2,
                               ),
                             ),
                           ),

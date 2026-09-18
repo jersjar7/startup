@@ -241,20 +241,12 @@ void main() {
         'lib/features/games/which_readout_game.dart',
         'a calculator readout, drawn in mono',
         ),
+        (
+        'lib/features/onboarding/onboarding_screen.dart',
+        'the welcome card formula, drawn in mono; DM Sans has no Greek',
+        ),
       ],
       'μ': [
-        (
-        'lib/features/onboarding/onboarding_screen.dart',
-        'body text, which is Inter',
-        ),
-      ],
-      'ₛ': [
-        (
-        'lib/features/onboarding/onboarding_screen.dart',
-        'body text, which is Inter; mono has no subscripts',
-        ),
-      ],
-      'φ': [
         (
         'lib/features/onboarding/onboarding_screen.dart',
         'body text, which is Inter',
