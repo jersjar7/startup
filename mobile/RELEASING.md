@@ -114,3 +114,4 @@ The profile in use expires **2027-06-23**.
 | 526   | Mis-numbered from pubspec; same code as 797. Expired on App Store Connect. |
 | 797   | The home is one chapter and one button: pager, overview, ring; Profile carries the two numbers (ADR 0015) |
 | 799   | Profile first and the opening tab; Study toggles between one chapter and the grid (built from the working tree one commit before c47dcf3's follow-up landed, so it carries the commit after it too) |
+| 806   | The app language, step one: fog ground, spring accent, bundled fonts; Profile home with the hero tile and account sheet, Study tile and grid, the floating dock (ADR 0016) |
