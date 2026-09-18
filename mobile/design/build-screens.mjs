@@ -346,6 +346,203 @@ ${mark(id, cur || done ? C.charcoal : C.mutedOnLight, 28, 1.6)}
 </div>
 ${dock('study')}`);
 
+
+// ── 00 splash ──
+const splash = page('Splash', C.fog, C.charcoal, `
+<div style="height: 844px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;">
+<div style="display: flex; align-items: center; gap: 12px;">
+<span style="display: block; width: 18px; height: 18px; border-radius: 9px; background: ${C.spring};"></span>
+<span style="font-family: ${F.display}; font-weight: 800; font-size: 40px; letter-spacing: -0.045em;">FE for Raccoons</span>
+</div>
+</div>`);
+
+// ── 05b the paper hand-off (onboarding slide 3, "Some problems belong on paper") ──
+const handOff = page('Onboarding: the paper hand-off', C.fog, C.charcoal, `
+<div style="box-sizing: border-box; padding: 56px 24px 34px; height: 844px; display: flex; flex-direction: column;">
+<div style="display: flex; align-items: center; gap: 14px;">${roundIcon('05-try-one.html', 'Back', chevronLeft)}${steps(3, 2)}${textAction('06-chapters.html', 'Skip')}</div>
+<div style="margin-top: 30px;">${headline('Some problems<br>belong on paper.')}</div>
+<p style="margin: 12px 0 0; font-size: 16px; line-height: 1.45; color: ${C.mutedOnLight};">When a question needs real working, the app says so and saves it for your desk. No faking it on a phone.</p>
+<div style="flex-grow: 1;"></div>
+<div style="display: flex; flex-direction: column; gap: 18px; box-sizing: border-box; padding: 24px; border-radius: 36px; background: ${C.cream};">
+<div style="display: flex; justify-content: space-between;">${eyebrow('Saved for your desk')}${eyebrow('Statics', C.mutedOnLight)}</div>
+<div style="font-family: ${F.display}; font-weight: 700; font-size: 22px; line-height: 1.15; letter-spacing: -0.03em;">Find the force in member BC of the truss.</div>
+<div style="font-size: 14px; line-height: 1.45; color: ${C.mutedOnLight};">Table lookups, real working. Method of sections, three equations.</div>
+<a href="06-chapters.html" style="display: flex; align-items: center; justify-content: space-between; height: 72px; box-sizing: border-box; padding: 0 8px 0 28px; border-radius: 36px; background: ${C.ember}; color: ${C.charcoal}; text-decoration: none;">
+<span style="font-family: ${F.display}; font-weight: 700; font-size: 22px; letter-spacing: -0.02em;">Now grab paper</span>
+<span style="display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 28px; background: ${C.charcoal}; color: ${C.ember};">${arrow}</span>
+</a>
+</div>
+<div style="display: flex; justify-content: flex-end; margin-top: 26px;">${roundNext('06-chapters.html')}</div>
+</div>`);
+
+// ── 03b forgot password ──
+const forgot = page('Forgot password', C.fog, C.charcoal, `
+<div style="position: relative; box-sizing: border-box; padding: 56px 24px 0; display: flex; flex-direction: column; gap: 30px;">
+${roundIcon('03-log-in.html', 'Back', chevronLeft)}
+${headline(`Reset your<br><span style="color: ${C.forest};">password.</span>`)}
+${field('fp-email', 'Email', 'you@school.edu', 'email', "We'll email you a reset link.")}
+<div style="display: flex; align-items: center; justify-content: space-between;">
+${textAction('03-log-in.html', 'Back to log in')}
+${roundNext('03-log-in.html', 'Send reset link')}
+</div>
+</div>`);
+
+// ── 11 chapter map: the path ──
+const node = (x, y, state, label, sub, side) => {
+  const circle = state === 'cleared'
+    ? `<span style="display: flex; align-items: center; justify-content: center; width: 84px; height: 84px; border-radius: 42px; background: ${C.charcoal}; color: ${C.spring};"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>`
+    : state === 'current'
+      ? `<span style="position: relative; display: flex; align-items: center; justify-content: center; width: 84px; height: 84px; border-radius: 42px; background: ${C.spring};"><span style="width: 62px; height: 62px; border-radius: 31px; background: ${C.cream};"></span><span style="position: absolute; inset: 0; border-radius: 42px; background: conic-gradient(${C.charcoal} 0 33%, transparent 33% 100%); mask: radial-gradient(circle, transparent 30px, black 31px); -webkit-mask: radial-gradient(circle, transparent 30px, black 31px);"></span></span>`
+      : `<span style="display: block; width: 84px; height: 84px; border-radius: 42px; background: ${C.cream};"></span>`;
+  const tile = `<span style="display: flex; flex-direction: column; gap: 3px; width: 150px; box-sizing: border-box; padding: 12px 14px; border-radius: 20px; background: ${state === 'current' ? C.spring : C.cream}; color: ${C.charcoal};"><span style="font-family: ${F.display}; font-weight: 700; font-size: 13.5px; line-height: 1.15; letter-spacing: -0.02em;">${label}</span><span style="font-family: ${F.mono}; font-size: 10px; color: ${state === 'untouched' ? C.mutedOnLight : state === 'current' ? C.charcoal : C.forest};">${sub}</span></span>`;
+  return `<div style="position: absolute; top: ${y}px; ${side === 'right' ? `left: ${x}px;` : `right: ${390 - x}px;`} display: flex; align-items: center; gap: 12px; ${side === 'right' ? '' : 'flex-direction: row-reverse;'}">${circle}${tile}</div>`;
+};
+const chapterMap = page('Chapter map', C.fog, C.charcoal, `
+<div style="box-sizing: border-box; padding: 56px 24px 0; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; align-items: center; justify-content: space-between;">${roundIcon('09-study.html', 'Back', chevronLeft)}${eyebrow('Chapter 1', C.mutedOnLight)}</div>
+${headline('Mathematics &amp; Computational Tools', 34)}
+<div style="display: flex; gap: 8px;">
+<span style="display: flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 17px; background: ${C.charcoal}; color: ${C.spring}; font-family: ${F.mono}; font-size: 12px; font-weight: 600;">3 of 16 cleared</span>
+<span style="display: flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 17px; background: ${C.cream}; color: ${C.charcoal}; font-family: ${F.mono}; font-size: 12px; font-weight: 600;">11 to 17 on the exam</span>
+</div>
+</div>
+<div style="position: relative; height: 600px; margin-top: 18px; overflow: hidden;">
+<svg aria-hidden="true" width="390" height="600" viewBox="0 0 390 600" style="position: absolute; inset: 0;" fill="none">
+<path d="M150 78 C 230 78, 250 146, 240 196 S 140 286, 140 336 S 250 416, 240 466 S 150 536, 150 578" stroke="${C.charcoal}" stroke-width="14" stroke-linecap="round"></path>
+<path d="M150 78 C 230 78, 250 146, 240 196 S 140 286, 140 336" stroke="${C.spring}" stroke-width="6" stroke-linecap="round" stroke-dasharray="14 12"></path>
+</svg>
+<div style="position: absolute; top: 0; left: 24px;">${eyebrow('Analytic geometry · 6', C.mutedOnLight)}</div>
+${node(108, 36, 'cleared', 'Straight Lines &amp; Quadratics', 'all 3 done', 'right')}
+${node(282, 154, 'cleared', 'Logarithms', 'all 3 done', 'left')}
+${node(98, 294, 'current', 'Right Triangle Trigonometry', '1 of 3 done', 'right')}
+${node(282, 424, 'untouched', 'Law of Sines &amp; Cosines', '0 of 3 done', 'left')}
+${node(108, 536, 'untouched', 'Unit Circle &amp; Trig Identities', '0 of 3 done', 'right')}
+</div>`);
+
+// ── 12 lesson sheet (tap a node) ──
+const lessonSheet = page('Lesson sheet', C.fog, C.charcoal, `
+<div aria-hidden="true" style="position: absolute; inset: 0; opacity: 0.35; background: ${C.fog};"></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; box-sizing: border-box; padding: 12px 24px 34px; border-radius: 40px 40px 0 0; background: ${C.cream}; color: ${C.charcoal}; display: flex; flex-direction: column; gap: 20px; animation: sheetUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;">
+<div style="align-self: center; width: 44px; height: 5px; border-radius: 3px; background: ${C.charcoal}; opacity: 0.25;"></div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+${eyebrow('Lesson 3 · 1 of 3 done', C.mutedOnLight)}
+${headline('Right Triangle Trigonometry', 34)}
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+${[['Tap the Side', 'Name the side the ratio wants.', 'done'], ['Which Ratio', 'Pick sin, cos or tan for the sides you have.', 'next'], ['Resolve It', 'Split a force into its two components.', 'todo']].map(([n, b, s]) => `
+<a href="13-game-round.html" style="display: flex; align-items: center; gap: 14px; box-sizing: border-box; padding: 16px 12px 16px 20px; border-radius: 24px; background: ${s === 'next' ? C.spring : C.creamDark}; color: ${C.charcoal}; text-decoration: none;">
+<span style="display: flex; flex-direction: column; gap: 3px; flex-grow: 1;"><span style="font-family: ${F.display}; font-weight: 700; font-size: 17px; letter-spacing: -0.02em;">${n}</span><span style="font-size: 13px; color: ${s === 'next' ? C.charcoal : C.mutedOnLight};">${b}</span></span>
+<span style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 22px; background: ${C.charcoal}; color: ${s === 'next' ? C.spring : C.cream};">${s === 'done' ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>` : `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5l11 7-11 7z"></path></svg>`}</span>
+</a>`).join('')}
+</div>
+<a href="14-lesson-brief.html" style="display: flex; align-items: center; justify-content: center; height: 64px; box-sizing: border-box; border-radius: 32px; border: 2px solid ${C.charcoal}; color: ${C.charcoal}; font-weight: 600; font-size: 17px; text-decoration: none;">Read the concept first</a>
+</div>`, `@keyframes sheetUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}`);
+
+// ── 13 a game round: the shared frame in the new language, the board as it is ──
+const gameHeader = (done, total, count) => `
+<div style="display: flex; align-items: center; gap: 14px;">
+${roundIcon('12-lesson-sheet.html', 'Close', `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>`)}
+<div style="flex-grow: 1; display: grid; grid-template-columns: repeat(${total}, minmax(0, 1fr)); gap: 4px;" aria-label="${count} of ${total}">${Array.from({ length: total }, (_, i) => `<span style="height: 12px; border-radius: 6px; background: ${i < done ? C.charcoal : C.pipOff};"></span>`).join('')}</div>
+${eyebrow(count + ' / ' + total)}
+<a href="14-lesson-brief.html" aria-label="The concept" style="display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 24px; background: ${C.cream}; color: ${C.charcoal}; text-decoration: none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21z"></path><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2z"></path></svg></a>
+</div>`;
+const figure = (slope) => `
+<div style="height: 210px; border-radius: 24px; background-color: #FDFCF8; background-image: linear-gradient(rgba(100,160,140,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(100,160,140,0.10) 1px, transparent 1px), linear-gradient(rgba(100,160,140,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(100,160,140,0.05) 1px, transparent 1px); background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px; position: relative; overflow: hidden;">
+<svg width="342" height="210" viewBox="0 0 342 210" fill="none" style="position: absolute; inset: 0;"><path d="${slope}" stroke="${C.charcoal}" stroke-width="3" stroke-linecap="round"></path><circle cx="171" cy="105" r="5" fill="#FDFCF8" stroke="${C.charcoal}" stroke-width="2.5"></circle></svg>
+</div>`;
+const boardBody = (built, tone) => `
+<div style="display: flex; flex-direction: column; gap: 6px;">${eyebrow('Lay it perpendicular', C.forest)}
+<div style="font-size: 17px; line-height: 1.35; font-weight: 500;">A retaining wall falls away at this slope. The tieback anchor runs perpendicular into the soil behind it.</div></div>
+${figure('M40 20 L302 190')}
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+<div style="display: flex; flex-direction: column; gap: 4px;">${eyebrow('Boundary', C.mutedOnLight)}<span style="font-family: ${F.mono}; font-size: 22px; font-weight: 600;">m = -3/4</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px;">${eyebrow('You built', C.mutedOnLight)}<span style="font-family: ${F.mono}; font-size: 22px; font-weight: 600; color: ${tone};">m = ${built}</span></div>
+</div>`;
+const choice = (title, sub, on) => `
+<button type="button" aria-pressed="${on}" style="display: flex; align-items: center; gap: 14px; box-sizing: border-box; padding: 0 12px 0 22px; height: 64px; border: none; border-radius: 32px; background: ${on ? C.charcoal : C.cream}; color: ${on ? C.cream : C.charcoal}; text-align: left;">
+<span style="display: flex; flex-direction: column; gap: 2px; flex-grow: 1;"><span style="font-family: ${F.display}; font-weight: 700; font-size: 16px; letter-spacing: -0.02em;">${title}</span><span style="font-size: 12.5px; color: ${on ? C.mutedOnDark : C.mutedOnLight};">${sub}</span></span>
+<span style="display: block; width: 26px; height: 26px; box-sizing: border-box; border-radius: 13px; ${on ? `background: ${C.spring};` : `border: 2px solid ${C.charcoal}; opacity: 0.35;`}"></span>
+</button>`;
+const gameRound = page('Game round', C.fog, C.charcoal, `
+<div style="box-sizing: border-box; padding: 56px 24px 34px; height: 844px; display: flex; flex-direction: column; gap: 18px;">
+${gameHeader(1, 8, 2)}
+${boardBody('-3/4', C.ember)}
+<div style="flex-grow: 1;"></div>
+<div style="display: flex; flex-direction: column; gap: 8px;">${choice('Flip the fraction', 'Swap rise and run', true)}${choice('Change the sign', 'Plus becomes minus, minus becomes plus', false)}</div>
+${pill('13b-game-answered.html', 'Confirm this line')}
+</div>`);
+
+// ── 13b the same round, answered right ──
+const gameAnswered = page('Game round: answered', C.fog, C.charcoal, `
+<div style="box-sizing: border-box; padding: 56px 24px 34px; height: 844px; display: flex; flex-direction: column; gap: 18px;">
+${gameHeader(2, 8, 2)}
+${boardBody('4/3', C.forest)}
+<div style="flex-grow: 1;"></div>
+<div style="display: flex; flex-direction: column; gap: 8px; box-sizing: border-box; padding: 20px 22px; border-radius: 28px; background: ${C.spring}; color: ${C.charcoal}; animation: rise 0.4s ease-out both;">
+<div style="font-family: ${F.display}; font-weight: 800; font-size: 26px; letter-spacing: -0.03em;">Perpendicular.</div>
+<div style="font-size: 14px; line-height: 1.45;">Flip 3/4 to 4/3 and change the sign: the two lines now cross at a right angle. Doing only one of the two gives a plausible wrong line.</div>
+</div>
+${pill('13c-game-done.html', 'Next')}
+</div>`);
+
+// ── 13c the done screen ──
+const gameDone = page('Game done', C.fog, C.charcoal, `
+<div style="box-sizing: border-box; padding: 56px 24px 34px; height: 844px; display: flex; flex-direction: column;">
+<div style="display: flex; align-items: center; gap: 14px;">${roundIcon('12-lesson-sheet.html', 'Close', `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>`)}</div>
+<div style="flex-grow: 1;"></div>
+<div style="display: flex; flex-direction: column; justify-content: space-between; height: 300px; box-sizing: border-box; padding: 24px; border-radius: 36px; background: ${C.spring}; color: ${C.charcoal}; animation: rise 0.5s ease-out both;">
+<div style="display: flex; justify-content: space-between;">${eyebrow('All done')}${eyebrow('Perpendicular Flip')}</div>
+<div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 120px; line-height: 0.8; letter-spacing: -0.07em;">8</span><span style="font-family: ${F.display}; font-weight: 700; font-size: 28px; letter-spacing: -0.03em;">of 8</span></div>
+<div style="font-size: 15px; font-weight: 500;">6 on the first try. The two you missed came back and you got them.</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 10px;">
+<div style="display: flex; flex-direction: column; justify-content: space-between; height: 132px; box-sizing: border-box; padding: 18px; border-radius: 32px; background: ${C.cream};">${eyebrow('First try')}<div style="display: flex; align-items: baseline; gap: 6px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 56px; line-height: 0.82; letter-spacing: -0.06em;">6</span><span style="font-size: 14px; font-weight: 600;">of 8</span></div></div>
+<div style="display: flex; flex-direction: column; justify-content: space-between; height: 132px; box-sizing: border-box; padding: 18px; border-radius: 32px; background: ${C.sunbeam};">${eyebrow('Lesson')}<div style="display: flex; align-items: baseline; gap: 6px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 56px; line-height: 0.82; letter-spacing: -0.06em;">2</span><span style="font-size: 14px; font-weight: 600;">of 3 done</span></div></div>
+</div>
+<div style="flex-grow: 1;"></div>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 14px;">
+${textAction('13-game-round.html', 'Start over')}
+<div style="flex-grow: 1;">${pill('11-chapter-map.html', 'Done')}</div>
+</div>
+</div>`);
+
+// ── 14 the lesson brief (the concept card behind the book icon) ──
+const lessonBrief = page('Lesson brief', C.fog, C.charcoal, `
+<div style="box-sizing: border-box; padding: 56px 24px 34px; height: 844px; display: flex; flex-direction: column; gap: 22px;">
+<div style="display: flex; align-items: center; gap: 14px;">${roundIcon('13-game-round.html', 'Back', chevronLeft)}${eyebrow('The concept · handbook p. 36', C.mutedOnLight)}</div>
+${headline('Parallel and perpendicular', 38)}
+<div style="display: flex; flex-direction: column; gap: 14px; box-sizing: border-box; padding: 22px; border-radius: 32px; background: ${C.cream};">
+<p style="margin: 0; font-size: 16px; line-height: 1.5;">Parallel lines never meet, and that is the same as saying they have the same slope. Perpendicular lines cross at a right angle, and their slopes are negative reciprocals: flip the fraction and change the sign. Doing only one of the two gets you a line that looks plausible and is wrong.</p>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+<div style="display: flex; flex-direction: column; gap: 8px; box-sizing: border-box; padding: 16px; border-radius: 22px; background: ${C.creamDark};">${eyebrow('Parallel', C.mutedOnLight)}<span style="font-family: ${F.mono}; font-size: 20px; font-weight: 600;">m₁ = m₂</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px; box-sizing: border-box; padding: 16px; border-radius: 22px; background: ${C.creamDark};">${eyebrow('Perpendicular', C.mutedOnLight)}<span style="font-family: ${F.mono}; font-size: 20px; font-weight: 600;">m⊥ = −1/m</span></div>
+</div>
+</div>
+<div style="flex-grow: 1;"></div>
+<div style="font-size: 14px; line-height: 1.45; color: ${C.mutedOnLight};">Knowing this is not the same as solving with it. The full problems belong at a desk, on paper.</div>
+${pill('13-game-round.html', 'Back to the round')}
+</div>`);
+
+// ── 15 account sheet (the avatar on home) ──
+const accountSheet = page('Account sheet', C.fog, C.charcoal, `
+<div aria-hidden="true" style="position: absolute; inset: 0; opacity: 0.35; background: ${C.fog};"></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; box-sizing: border-box; padding: 12px 24px 34px; border-radius: 40px 40px 0 0; background: ${C.cream}; color: ${C.charcoal}; display: flex; flex-direction: column; gap: 22px; animation: sheetUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;">
+<div style="align-self: center; width: 44px; height: 5px; border-radius: 3px; background: ${C.charcoal}; opacity: 0.25;"></div>
+<div style="display: flex; align-items: center; gap: 14px;">
+<span style="display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 28px; background: ${C.charcoal}; color: ${C.cream}; font-family: ${F.display}; font-weight: 700; font-size: 18px;">JG</span>
+<span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 24px; letter-spacing: -0.03em;">Jerson Garcia</span><span style="font-family: ${F.mono}; font-size: 12px; color: ${C.mutedOnLight};">jerson@example.com</span></span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+${[['Total XP', '1,240'], ['Badges', '3'], ['Concepts', '14']].map(([k, v]) => `<div style="display: flex; flex-direction: column; gap: 8px; box-sizing: border-box; padding: 14px; border-radius: 22px; background: ${C.creamDark};">${eyebrow(k, C.mutedOnLight)}<span style="font-family: ${F.display}; font-weight: 800; font-size: 26px; line-height: 0.9; letter-spacing: -0.04em;">${v}</span></div>`).join('')}
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<a href="#website" style="display: flex; align-items: center; justify-content: center; height: 64px; border-radius: 32px; background: ${C.charcoal}; color: ${C.cream}; font-weight: 600; font-size: 17px; text-decoration: none;">Open the website</a>
+<a href="04-exam-date.html" style="display: flex; align-items: center; justify-content: center; height: 64px; box-sizing: border-box; border-radius: 32px; border: 2px solid ${C.charcoal}; color: ${C.charcoal}; font-weight: 600; font-size: 17px; text-decoration: none;">Set your exam date</a>
+<a href="01-welcome.html" style="display: flex; align-items: center; justify-content: center; height: 64px; box-sizing: border-box; border-radius: 32px; border: 2px solid ${C.charcoal}; color: ${C.charcoal}; font-weight: 600; font-size: 17px; text-decoration: none;">Sign out</a>
+</div>
+<a href="#delete" style="align-self: center; font-size: 14px; font-weight: 600; color: ${C.error}; text-decoration: underline; text-underline-offset: 4px;">Delete account</a>
+</div>`, `@keyframes sheetUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}`);
+
 mkdirSync(new URL('./reference-screens/html/', import.meta.url), { recursive: true });
 const out = {
   '01-welcome.html': welcome,
@@ -359,6 +556,16 @@ const out = {
   '08-home.html': home,
   '09-study.html': study,
   '10-study-grid.html': studyGrid,
+  '00-splash.html': splash,
+  '05b-hand-off.html': handOff,
+  '03b-forgot.html': forgot,
+  '11-chapter-map.html': chapterMap,
+  '12-lesson-sheet.html': lessonSheet,
+  '13-game-round.html': gameRound,
+  '13b-game-answered.html': gameAnswered,
+  '13c-game-done.html': gameDone,
+  '14-lesson-brief.html': lessonBrief,
+  '15-account-sheet.html': accountSheet,
 };
 for (const [name, html] of Object.entries(out)) {
   writeFileSync(new URL(`./reference-screens/html/${name}`, import.meta.url), html);

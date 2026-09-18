@@ -13,7 +13,8 @@ in the brand's three faces.
 - `tokens.json`: colors, type styles, radii, spacing, sizes and motion in a
   stack-neutral format. Map into `lib/core/theme/` once.
 - `AGENT-INSTRUCTIONS.md`: the block that lives in the repo's CLAUDE.md.
-- `reference-screens/png/`: eleven screenshots at 2x (780 by 1688).
+- `reference-screens/png/`: twenty-one screenshots at 2x (780 by 1688): every
+  current screen of the app in the new language, plus the exam-date proposal.
 - `reference-screens/html/`: the same screens as plain HTML with inline
   styles, generated from `tokens.json`.
 - `build-screens.mjs`, `render.mjs`: regenerate the HTML and the PNGs
@@ -27,10 +28,13 @@ passwordless link, the campus code, the study-hours gauge, the solid-or-shaky
 self-rating deck, the five-week plan route, daily sets and "drill 10 quick
 ones", the five-destination dock.
 
-Rebuilt on what the app has: email and password sign-up with a verify-by-link
-sheet, log in with a password step, the onboarding exercise as a real round,
-the chapter peek, the Profile home with the exam countdown, days studied and
-concept mastery, the Study tab's one-chapter and grid views, a two-item dock.
+Rebuilt on what the app has: splash; the onboarding exercise as a real round,
+the paper hand-off and the chapter peek; email and password sign-up with a
+verify-by-link sheet; log in, forgot password; the Profile home with the exam
+countdown, days studied and concept mastery, and its account sheet; the Study
+tab's one-chapter and grid views; the chapter map, the lesson sheet and the
+lesson brief; a game round from the shared frame through answered to done; a
+two-item dock.
 
 Kept as a proposal, not built: `04-exam-date`, setting the exam date on the
 phone. Today the date is set on the website.

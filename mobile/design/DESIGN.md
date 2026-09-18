@@ -228,7 +228,11 @@ Short, direct, a little playful. A study partner, not a registration system.
 | Study, one chapter | Mark in a hairline ring, 54 rectangle | The chapter tile, pill CTA, dots, dock | 09 |
 | Study, all chapters | Bare marks on the ground | Grid tiles, the chapter in flight in spring | 10 |
 | Set exam date | A date picker in a dialog | Hero date, month chips, day scrubber, on a spring ground (proposal) | 04 |
-| A game round | Web question page | Full-screen question, answer blocks in the thumb zone, pips | 05 |
+| A game round | Restyle 375 games | Restyle the shared frame only (board.dart): round close button, pips, mono counter, the concept button; the confirm as a pill; feedback as a spring or ember panel; done as a hero tile. The board content stays as each game draws it | 13, 13b, 13c |
+| Chapter map | Bordered label cards, hairline road | Charcoal road with a spring dashed overlay for the cleared stretch; cleared nodes charcoal with a spring check, the current node a spring ring, untouched cream; labels as cream tiles, the current one spring | 11 |
+| Lesson sheet | Hairline game rows | Cream sheet; each game a creamDark row tile, the next one spring, with a 44 round play or check | 12 |
+| Lesson brief | Web article card | Headline, one cream card with the copy and creamDark formula tiles, the paper line, pill back | 14 |
+| Account | Hairline rows on the Profile tab | Cream sheet from the avatar: name, three creamDark numbers, 64 round buttons, delete as red text | 15 |
 
 ## Banned
 
