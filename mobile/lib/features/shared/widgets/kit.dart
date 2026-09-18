@@ -255,6 +255,84 @@ class _StepSwitcherState extends State<StepSwitcher> {
   }
 }
 
+/// A huge faint word off the bottom-left of a screen, anchored by its
+/// BASELINE a few points above the bottom edge, so the bottom stroke of
+/// every letter shows on every screen size. Anchored by pixels from the
+/// bottom, "FE" lost the foot of its E and read as two Fs (owner, 2026-09-18).
+class Watermark extends StatelessWidget {
+  const Watermark({
+    super.key,
+    this.text = 'FE',
+    this.size = 440,
+    this.left = -24,
+    this.baselineInset = 16,
+    this.color = AppColors.creamDark,
+  });
+
+  final String text;
+  final double size;
+  final double left;
+
+  /// Points between the baseline and the bottom edge of the screen.
+  final double baselineInset;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: IgnorePointer(
+        child: CustomPaint(
+          painter: _WatermarkPainter(
+            text: text,
+            style: GoogleFonts.dmSans(
+              fontSize: size,
+              fontWeight: FontWeight.w800,
+              letterSpacing: -0.08 * size,
+              height: 1,
+              color: color,
+            ),
+            left: left,
+            baselineInset: baselineInset,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _WatermarkPainter extends CustomPainter {
+  const _WatermarkPainter({
+    required this.text,
+    required this.style,
+    required this.left,
+    required this.baselineInset,
+  });
+
+  final String text;
+  final TextStyle style;
+  final double left;
+  final double baselineInset;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final tp = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    final baseline = tp.computeDistanceToActualBaseline(
+      TextBaseline.alphabetic,
+    );
+    tp.paint(canvas, Offset(left, size.height - baselineInset - baseline));
+  }
+
+  @override
+  bool shouldRepaint(_WatermarkPainter old) =>
+      old.text != text ||
+      old.style != style ||
+      old.left != left ||
+      old.baselineInset != baselineInset;
+}
+
 /// The oversized field: no box, a 3 underline, DM Sans 600 at 30, one
 /// caption under it. One per screen. The underline and caret are forest on
 /// a light ground and charcoal on an accent ground.

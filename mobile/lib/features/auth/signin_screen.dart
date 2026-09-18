@@ -76,22 +76,9 @@ class _SignInScreenState extends State<SignInScreen> {
       backgroundColor: AppColors.fog,
       body: Stack(
         children: [
-          // The watermark: a huge, faint "FE" off the bottom left.
-          Positioned(
-            left: -24,
-            bottom: -130,
-            child: IgnorePointer(
-              child: Text(
-                'FE',
-                style: AppTheme.display(
-                  size: 440,
-                  height: 1,
-                  tracking: -0.08,
-                  color: AppColors.creamDark,
-                ),
-              ),
-            ),
-          ),
+          // The watermark: a huge, faint "FE" off the bottom left, anchored
+          // by its baseline so the E keeps its foot on every screen.
+          const Watermark(),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(24, 4, 24, 34),

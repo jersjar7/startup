@@ -192,7 +192,7 @@ ${textAction('02-create-email.html', 'Wrong email? Go back')}
 
 // ── 03 log in ──
 const logIn = page('Log in', C.fog, C.charcoal, `
-<div aria-hidden="true" style="position: absolute; left: -24px; bottom: -130px; font-family: ${F.display}; font-weight: 800; font-size: 440px; line-height: 1; letter-spacing: -0.08em; color: ${C.creamDark};">FE</div>
+<div aria-hidden="true" style="position: absolute; left: -24px; bottom: 6px; font-family: ${F.display}; font-weight: 800; font-size: 440px; line-height: 1; letter-spacing: -0.08em; color: ${C.creamDark};">FE</div>
 <div style="position: relative; box-sizing: border-box; padding: 56px 24px 0; display: flex; flex-direction: column; gap: 30px;">
 ${roundIcon('01-welcome.html', 'Back', chevronLeft)}
 ${headline(`Hey again.<br><span style="color: ${C.forest};">What's your email?</span>`)}
