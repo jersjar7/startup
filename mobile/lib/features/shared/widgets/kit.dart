@@ -212,10 +212,14 @@ class DockItem {
   final String label;
 }
 
-/// The floating dock: inset 28, height 72, fully round, a dark tile with a
-/// deep soft shadow. Icon-only; the active item is a spring circle.
-class FloatingDock extends StatelessWidget {
-  const FloatingDock({
+/// The dock: a full-bleed cream bar with its top corners rounded, sitting
+/// under the content rather than over it, so nothing can slide beneath it.
+/// Each destination is a 54 circle (spring when active) over a small label.
+/// Distinct from the charcoal pill above it by being light, wide and
+/// labeled; the owner rejected a floating dark pill (2026-09-18) because it
+/// read as a second CTA.
+class BottomDock extends StatelessWidget {
+  const BottomDock({
     super.key,
     required this.items,
     required this.index,
@@ -226,52 +230,69 @@ class FloatingDock extends StatelessWidget {
   final int index;
   final ValueChanged<int> onSelect;
 
-  /// Space a page must leave at the bottom so its last content clears the dock.
-  static const double clearance = 28 + 72 + 16;
-
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(28, 0, 28, 28),
-      child: Container(
-        height: 72,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(
-          color: AppColors.tile,
-          borderRadius: BorderRadius.circular(36),
-          border: Border.all(color: AppColors.lineOnDark),
-          boxShadow: const [
-            BoxShadow(color: Color(0x472C2C2C), blurRadius: 40, offset: Offset(0, 18)),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            for (var i = 0; i < items.length; i++)
-              Semantics(
-                button: true,
-                selected: i == index,
-                label: items[i].label,
-                child: _Pressable(
-                  onTap: () => onSelect(i),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 180),
-                    curve: Curves.easeOut,
-                    width: 54,
-                    height: 54,
-                    decoration: BoxDecoration(
-                      color: i == index ? AppColors.spring : Colors.transparent,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      i == index ? items[i].activeIcon : items[i].icon,
-                      size: 22,
-                      color: i == index ? AppColors.charcoal : AppColors.mutedOnDark,
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+        boxShadow: [
+          BoxShadow(color: Color(0x1F2C2C2C), blurRadius: 30, offset: Offset(0, -6)),
+        ],
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 12, 24, 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              for (var i = 0; i < items.length; i++)
+                Semantics(
+                  button: true,
+                  selected: i == index,
+                  label: items[i].label,
+                  child: _Pressable(
+                    onTap: () => onSelect(i),
+                    child: SizedBox(
+                      width: 96,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 180),
+                            curve: Curves.easeOut,
+                            width: 54,
+                            height: 54,
+                            decoration: BoxDecoration(
+                              color: i == index ? AppColors.spring : Colors.transparent,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              i == index ? items[i].activeIcon : items[i].icon,
+                              size: 24,
+                              color: i == index ? AppColors.charcoal : AppColors.ink2,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          ExcludeSemantics(
+                            child: Text(
+                              items[i].label,
+                              style: GoogleFonts.dmSans(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: -0.1,
+                                color: i == index ? AppColors.charcoal : AppColors.ink2,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -129,7 +129,7 @@ baseline ("73 days", "6 to go").
 ## Shape and spacing
 
 - Screen side padding 24. Bento screens 16 so tiles run wide.
-- Top padding 56 to 58 below the safe area. Bottom 34, or 28 under the dock.
+- Top padding 56 to 58 below the safe area. Bottom 34; on a docked screen the dock carries the inset.
 - Radii: tiles and cards 32 to 36, grid tiles 24, bottom sheet top 40, pills
   and round buttons fully round. Nothing under 22 except the 12 pip.
 - Gaps: 8 to 10 between tiles, 22 to 30 between major blocks.
@@ -184,10 +184,12 @@ spring tile; untouched marks are `mutedOnLight`. (10)
 **Pips.** Equal capsules 12 tall, gap 4. Filled charcoal, unfilled pipOff.
 Under about 20 items prefer pips to a bar.
 
-**Floating dock.** Inset 28, height 72, fully round, `tile` fill with a
-1 `line` border and a deep soft shadow. Two icon-only destinations, Profile
-then Study, each a 54 circle; the active one a spring circle with a filled
-charcoal icon. No labels. (08 to 10)
+**Dock.** A full-bleed cream bar with its top corners at 40, under the
+content (the scaffold's bottom bar, never an overlay), with a soft upward
+shadow. Two labeled destinations, Profile then Study, each a 54 circle over a
+12 DM Sans label; the active one a spring circle with a filled charcoal icon.
+Light, wide and labeled so it can never be mistaken for the charcoal pill
+above it. (08 to 10)
 
 **Chapter marks.** Drawn by the app (`chapter_marks.dart`, designed at 512).
 The SVG stand-ins in the references only show placement and size.

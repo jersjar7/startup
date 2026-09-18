@@ -64,9 +64,8 @@ class _ProfileTabState extends State<ProfileTab> {
         final facts = ChapterFacts.of(chapter, progress);
 
         return SafeArea(
-          bottom: false,
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(16, 6, 16, FloatingDock.clearance),
+            padding: const EdgeInsets.fromLTRB(16, 6, 16, 24),
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),

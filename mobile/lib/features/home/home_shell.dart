@@ -5,11 +5,11 @@ import '../profile/profile_tab.dart';
 import '../shared/widgets/kit.dart';
 import '../study/study_tab.dart';
 
-/// The authenticated home: the floating dock over Profile and Study.
+/// The authenticated home: the dock under Profile and Study.
 ///
 /// Profile is first and is the tab the app opens on (owner's call,
-/// 2026-09-13); Study is on the right. The dock floats over both tabs, so
-/// each tab leaves [FloatingDock.clearance] at its bottom.
+/// 2026-09-13); Study is on the right. The dock is the scaffold's bottom
+/// bar, so the tabs are laid out above it and nothing can slide under it.
 ///
 /// There were three tabs. The middle one was Review, which pulled the
 /// student's missed problems off the website and practised them here. That
@@ -33,27 +33,17 @@ class _HomeShellState extends State<HomeShell> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.fog,
-      body: Stack(
-        children: [
-          IndexedStack(
-            index: _index,
-            children: const [
-              ProfileTab(),
-              StudyTab(),
-            ],
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SafeArea(
-              top: false,
-              child: FloatingDock(
-                items: _items,
-                index: _index,
-                onSelect: (i) => setState(() => _index = i),
-              ),
-            ),
-          ),
+      body: IndexedStack(
+        index: _index,
+        children: const [
+          ProfileTab(),
+          StudyTab(),
         ],
+      ),
+      bottomNavigationBar: BottomDock(
+        items: _items,
+        index: _index,
+        onSelect: (i) => setState(() => _index = i),
       ),
     );
   }

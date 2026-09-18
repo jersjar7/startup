@@ -104,15 +104,21 @@ const field = (id, label, placeholder, type = 'text', caption = '') => `
 <input id="${id}" type="${type}" placeholder="${placeholder}" style="width: 100%; box-sizing: border-box; height: 64px; padding: 0; border: none; border-bottom: 3px solid ${C.forest}; border-radius: 0; background: transparent; color: ${C.charcoal}; caret-color: ${C.forest}; font-family: ${F.display}; font-weight: 600; font-size: 30px; letter-spacing: -0.03em;">
 ${caption ? `<p style="margin: 0; font-size: 14px; line-height: 1.45; color: ${C.mutedOnLight};">${caption}</p>` : ''}
 </div>`;
-// The floating dock: two destinations, Profile (home) and Study. Charcoal
-// tile on the fog ground, active item a spring circle.
+// The dock: a full-bleed cream bar with rounded top corners under the
+// content (owner's call, 2026-09-18: a floating dark pill read as a second
+// CTA and the content slid under it). Two labeled destinations, the active
+// one a spring circle.
+const DOCK_H = 106; // 12 + 54 + 4 + 16 label + 8, plus the 34 home-indicator inset below
 const dock = (active) => {
-  const item = (href, label, svgOff, svgOn, on) =>
-    `<a href="${href}" aria-label="${label}"${on ? ' aria-current="page"' : ''} style="display: flex; align-items: center; justify-content: center; width: 54px; height: 54px; border-radius: 27px; ${on ? `background: ${C.spring}; color: ${C.charcoal};` : `color: ${C.mutedOnDark};`}">${on ? svgOn : svgOff}</a>`;
-  const person = (fill) => `<svg width="22" height="22" viewBox="0 0 24 24" fill="${fill ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.5"></circle><path d="M5 20c1-4 4-5.5 7-5.5s6 1.5 7 5.5z"></path></svg>`;
-  const book = (fill) => `<svg width="22" height="22" viewBox="0 0 24 24" fill="${fill ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21z"></path><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2z"></path></svg>`;
+  const item = (href, label, svgOff, svgOn, on) => `
+<a href="${href}" aria-label="${label}"${on ? ' aria-current="page"' : ''} style="display: flex; flex-direction: column; align-items: center; gap: 4px; width: 96px; text-decoration: none; color: ${on ? C.charcoal : C.mutedOnLight};">
+<span style="display: flex; align-items: center; justify-content: center; width: 54px; height: 54px; border-radius: 27px; ${on ? `background: ${C.spring}; color: ${C.charcoal};` : ''}">${on ? svgOn : svgOff}</span>
+<span style="font-family: ${F.display}; font-size: 12px; font-weight: 600; letter-spacing: -0.01em;">${label}</span>
+</a>`;
+  const person = (fill) => `<svg width="24" height="24" viewBox="0 0 24 24" fill="${fill ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.5"></circle><path d="M5 20c1-4 4-5.5 7-5.5s6 1.5 7 5.5z"></path></svg>`;
+  const book = (fill) => `<svg width="24" height="24" viewBox="0 0 24 24" fill="${fill ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21z"></path><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2z"></path></svg>`;
   return `
-<nav aria-label="Main" style="position: absolute; left: 28px; right: 28px; bottom: 28px; height: 72px; box-sizing: border-box; padding: 0 10px; display: flex; align-items: center; justify-content: space-around; border-radius: 36px; background: ${C.tile}; border: 1px solid ${C.line}; box-shadow: 0 18px 40px rgba(44,44,44,0.28);">
+<nav aria-label="Main" style="position: absolute; left: 0; right: 0; bottom: 0; box-sizing: border-box; padding: 12px 24px 42px; display: flex; align-items: flex-start; justify-content: space-around; border-radius: 40px 40px 0 0; background: ${C.cream}; box-shadow: 0 -6px 30px rgba(44,44,44,0.12);">
 ${item('08-home.html', 'Profile', person(false), person(true), active === 'profile')}
 ${item('09-study.html', 'Study', book(false), book(true), active === 'study')}
 </nav>`;
@@ -268,7 +274,7 @@ const chaptersPeek = page('Onboarding: fifteen chapters', C.sunbeam, C.charcoal,
 // ── 08 home: the Profile tab, first thing you see ──
 const pip = (on) => `<span style="height: 12px; border-radius: 6px; background: ${on ? C.charcoal : C.pipOff};"></span>`;
 const home = page('Home (Profile tab)', C.fog, C.charcoal, `
-<div style="box-sizing: border-box; padding: 58px 16px 0; display: flex; flex-direction: column; gap: 10px;">
+<div style="box-sizing: border-box; height: 704px; overflow: hidden; padding: 58px 16px 0; display: flex; flex-direction: column; gap: 10px;">
 <div style="display: flex; align-items: center; justify-content: space-between; padding: 0 8px 8px;">
 <div style="font-family: ${F.display}; font-weight: 800; font-size: 30px; letter-spacing: -0.04em;">Morning, Jerson</div>
 <a href="#account" aria-label="Account" style="display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 24px; background: ${C.charcoal}; color: ${C.cream}; font-family: ${F.display}; font-weight: 700; font-size: 16px; text-decoration: none;">JG</a>
@@ -314,9 +320,9 @@ const toggle = (href, label, svg) =>
 const gridIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"></rect><rect x="13" y="4" width="7" height="7" rx="2"></rect><rect x="4" y="13" width="7" height="7" rx="2"></rect><rect x="13" y="13" width="7" height="7" rx="2"></rect></svg>`;
 const oneIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="4"></rect></svg>`;
 const study = page('Study: one chapter', C.fog, C.charcoal, `
-<div style="box-sizing: border-box; padding: 58px 24px 0; display: flex; flex-direction: column; gap: 22px;">
+<div style="box-sizing: border-box; height: 704px; padding: 58px 24px 0; display: flex; flex-direction: column; gap: 18px;">
 <div style="display: flex; align-items: center; justify-content: space-between;">${eyebrow('73 days to the exam', C.mutedOnLight)}${toggle('10-study-grid.html', 'All chapters', gridIcon)}</div>
-<div style="display: flex; flex-direction: column; justify-content: space-between; height: 470px; box-sizing: border-box; padding: 24px; border-radius: 36px; background: ${C.cream}; animation: rise 0.5s ease-out both;">
+<div style="display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; box-sizing: border-box; padding: 24px; border-radius: 36px; background: ${C.cream}; animation: rise 0.5s ease-out both;">
 <div style="display: flex; justify-content: space-between;">${eyebrow('Chapter 2')}${eyebrow('4 to 6 on the exam', C.mutedOnLight)}</div>
 <div style="display: flex; justify-content: center;"><span style="display: flex; align-items: center; justify-content: center; width: 176px; height: 176px; border-radius: 88px; background: ${C.spring};">${mark('statistics', C.charcoal, 108, 1.15)}</span></div>
 <div style="display: flex; flex-direction: column; gap: 10px;">
@@ -331,7 +337,7 @@ ${dock('study')}`);
 
 // ── 10 study: the grid ──
 const studyGrid = page('Study: all chapters', C.fog, C.charcoal, `
-<div style="box-sizing: border-box; padding: 58px 16px 0; display: flex; flex-direction: column; gap: 16px;">
+<div style="box-sizing: border-box; height: 704px; overflow: hidden; padding: 58px 16px 0; display: flex; flex-direction: column; gap: 16px;">
 <div style="display: flex; align-items: center; justify-content: space-between; padding: 0 8px;">${eyebrow('73 days to the exam', C.mutedOnLight)}${toggle('09-study.html', 'One chapter', oneIcon)}</div>
 <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
 ${chapters.map(([id, name, lessons], i) => { const cur = i === 1; const done = i === 0 ? 3 : 0; return `

@@ -4,7 +4,6 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
 import '../games/game_progress.dart';
-import '../shared/widgets/kit.dart';
 import 'chapter_bands.dart' show cardNameFor;
 import 'chapter_marks.dart';
 
@@ -32,7 +31,7 @@ class ChapterGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.fromLTRB(0, 2, 0, FloatingDock.clearance),
+      padding: const EdgeInsets.fromLTRB(0, 2, 0, 24),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisSpacing: 8,

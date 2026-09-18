@@ -79,7 +79,6 @@ class _StudyTabState extends State<StudyTab> {
         final facts = ChapterFacts.of(shown, progress);
 
         return SafeArea(
-          bottom: false,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(24, 4, 24, 0),
             child: Column(
@@ -120,7 +119,7 @@ class _StudyTabState extends State<StudyTab> {
                     page: _page,
                     onTap: _toggle,
                   ),
-                  const SizedBox(height: FloatingDock.clearance - 44),
+                  const SizedBox(height: 6),
                 ],
               ],
             ),
