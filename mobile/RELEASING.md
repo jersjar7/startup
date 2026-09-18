@@ -119,3 +119,4 @@ The profile in use expires **2027-06-23**.
 | 810   | The app language, step two: splash, onboarding on four grounds with a real round, two-step create and log in, the verify and forgot sheets |
 | 812   | Welcome is the signed-out root; the tour is three pages behind Let's go; back arrows return to Welcome |
 | 814   | The tour-seen flag moves out of the keychain so a fresh install shows the tour |
+| 816   | Welcome cards carry the chapter marks instead of formulas; the fan no longer hides anything |
