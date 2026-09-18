@@ -92,6 +92,45 @@ abstract final class AppTheme {
     );
   }
 
+  /// Display (DM Sans 800, tight): headlines, hero numbers, tile numbers.
+  /// The app language's dominant element on every screen.
+  static TextStyle display({
+    double size = 48,
+    FontWeight weight = FontWeight.w800,
+    Color color = AppColors.charcoal,
+    double height = 0.98,
+    double tracking = -0.045,
+  }) {
+    return GoogleFonts.dmSans(
+      fontSize: size,
+      fontWeight: weight,
+      color: color,
+      height: height,
+      letterSpacing: tracking * size,
+    );
+  }
+
+  /// Eyebrow (JetBrains Mono 600, uppercase, +0.06em): the only uppercase
+  /// text in the app language. Pass the text already uppercased.
+  static TextStyle eyebrow({double size = 12, Color color = AppColors.charcoal}) {
+    return GoogleFonts.jetBrainsMono(
+      fontSize: size,
+      fontWeight: FontWeight.w600,
+      color: color,
+      letterSpacing: 0.06 * size,
+    );
+  }
+
+  /// Body (Inter).
+  static TextStyle body({
+    double size = 16,
+    FontWeight weight = FontWeight.w400,
+    Color color = AppColors.charcoal,
+    double height = 1.4,
+  }) {
+    return GoogleFonts.inter(fontSize: size, fontWeight: weight, color: color, height: height);
+  }
+
   /// Overline / kicker (DM Sans 600, uppercase, tracked).
   static TextStyle overline({Color color = AppColors.ink3}) {
     return GoogleFonts.dmSans(
