@@ -13,6 +13,7 @@ import 'package:mobile/features/auth/signin_screen.dart';
 import 'package:mobile/features/auth/verify_screen.dart';
 import 'package:mobile/features/onboarding/onboarding_screen.dart';
 import 'package:mobile/features/onboarding/welcome_screen.dart';
+import 'package:mobile/features/shared/widgets/kit.dart' show Watermark;
 import 'package:mobile/features/splash/splash_screen.dart';
 
 import 'support/fonts.dart';
@@ -211,6 +212,26 @@ void main() {
     await tester.tap(find.byTooltip('Log in'));
     await tester.pumpAndSettle();
     expect(find.text('Enter your password.'), findsOneWidget);
+  });
+
+  testWidgets('log in: the keyboard lifts the form, not the watermark', (
+    tester,
+  ) async {
+    _phone(tester);
+    // A keyboard about the height of the iPhone's, as the window reports it.
+    tester.view.viewInsets = const FakeViewPadding(bottom: 336);
+    await tester.pumpWidget(_app(const SignInScreen()));
+    await _settle(tester);
+    final screen = tester.getRect(find.byType(SignInScreen));
+    // The body keeps the phone's full height ...
+    expect(screen.height, 844);
+    // ... the next button sits above the keyboard ...
+    final next = tester.getRect(find.byTooltip('Next'));
+    expect(next.bottom, lessThanOrEqualTo(844 - 336));
+    // ... and the watermark stays pinned to the bottom, behind it.
+    final mark = tester.getRect(find.byType(Watermark));
+    expect(mark.bottom, 844);
+    await _golden(tester, 'log-in-1-keyboard');
   });
 
   testWidgets('verify: the check-your-email sheet', (tester) async {

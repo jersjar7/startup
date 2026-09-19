@@ -74,8 +74,14 @@ class _SignInScreenState extends State<SignInScreen> {
     );
     final onEmail = _step == 0;
 
+    // The keyboard must not shrink the body: the watermark is anchored to
+    // the bottom of the phone and stays there, under the keyboard. Only the
+    // form is lifted, by the keyboard's height.
+    final keyboard = MediaQuery.viewInsetsOf(context).bottom;
+
     return Scaffold(
       backgroundColor: AppColors.fog,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           // The watermark: a huge, faint "FE" off the bottom left, anchored
@@ -83,7 +89,7 @@ class _SignInScreenState extends State<SignInScreen> {
           const Watermark(),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 4, 24, 34),
+              padding: EdgeInsets.fromLTRB(24, 4, 24, 34 + keyboard),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
