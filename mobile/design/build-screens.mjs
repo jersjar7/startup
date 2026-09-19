@@ -131,7 +131,7 @@ const welcome = page('Welcome', C.fog, C.charcoal, `
 ${eyebrow('Statics')}
 <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center;">${mark('statics', C.charcoal, 128, 1.15)}</div>
 </div>
-<div aria-hidden="true" style="position: absolute; top: 168px; right: -18px; width: 172px; height: 214px; box-sizing: border-box; padding: 20px; border-radius: 30px; background: ${C.ember}; color: ${C.charcoal}; display: flex; flex-direction: column; transform: rotate(8deg); animation: floatB 8s ease-in-out infinite;">
+<div aria-hidden="true" style="position: absolute; top: 168px; right: -18px; width: 172px; height: 214px; box-sizing: border-box; padding: 20px; border-radius: 30px; background: ${C.peach}; color: ${C.charcoal}; display: flex; flex-direction: column; transform: rotate(8deg); animation: floatB 8s ease-in-out infinite;">
 ${eyebrow('Fluids')}
 <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center;">${mark('fluid-mechanics', C.charcoal, 112, 1.15)}</div>
 </div>
@@ -172,7 +172,7 @@ ${roundNext('02c-check-email.html', 'Create account')}
 
 const checkEmail = page('Create account: check your email', C.fog, C.charcoal, `
 <div aria-hidden="true" style="position: absolute; top: 96px; left: 22px; width: 232px; height: 284px; box-sizing: border-box; padding: 22px; border-radius: 30px; background: ${C.spring}; opacity: 0.45; transform: rotate(-7deg);"></div>
-<div aria-hidden="true" style="position: absolute; top: 160px; right: -26px; width: 206px; height: 246px; border-radius: 30px; background: ${C.ember}; opacity: 0.45; transform: rotate(9deg);"></div>
+<div aria-hidden="true" style="position: absolute; top: 160px; right: -26px; width: 206px; height: 246px; border-radius: 30px; background: ${C.peach}; opacity: 0.45; transform: rotate(9deg);"></div>
 <div style="position: absolute; top: 56px; left: 24px; display: flex; align-items: center; gap: 14px; right: 24px;">${roundIcon('02b-create-password.html', 'Back', chevronLeft)}${steps(3, 3)}</div>
 <div style="position: absolute; left: 0; right: 0; bottom: 0; box-sizing: border-box; padding: 12px 24px 34px; border-radius: 40px 40px 0 0; background: ${C.cream}; color: ${C.charcoal}; display: flex; flex-direction: column; gap: 22px; animation: sheetUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;">
 <div style="align-self: center; width: 44px; height: 5px; border-radius: 3px; background: ${C.charcoal}; opacity: 0.25;"></div>
@@ -192,7 +192,7 @@ ${textAction('02-create-email.html', 'Wrong email? Go back')}
 
 // ── 03 log in ──
 const logIn = page('Log in', C.fog, C.charcoal, `
-<div aria-hidden="true" style="position: absolute; left: -24px; bottom: 6px; font-family: ${F.display}; font-weight: 800; font-size: 440px; line-height: 1; letter-spacing: -0.08em; color: ${C.creamDark};">FE</div>
+<div aria-hidden="true" style="position: absolute; left: -24px; bottom: -84px; font-family: ${F.display}; font-weight: 800; font-size: 360px; line-height: 1; letter-spacing: -0.08em; color: ${C.creamDark};">FE</div>
 <div style="position: relative; box-sizing: border-box; padding: 56px 24px 0; display: flex; flex-direction: column; gap: 30px;">
 ${roundIcon('01-welcome.html', 'Back', chevronLeft)}
 ${headline(`Hey again.<br><span style="color: ${C.forest};">What's your email?</span>`)}
@@ -230,7 +230,7 @@ ${roundNext('08-home.html', 'Save')}
 </div>`);
 
 // ── 05 try one: a real round from onboarding ──
-const tryOne = page('Onboarding: try one', C.ember, C.charcoal, `
+const tryOne = page('Onboarding: try one', C.peach, C.charcoal, `
 <div style="box-sizing: border-box; padding: 56px 24px 34px; height: 844px; display: flex; flex-direction: column;">
 <div style="display: flex; align-items: center; gap: 14px;">${roundIcon('01-welcome.html', 'Back', chevronLeft)}${steps(3, 2)}${textAction('06-chapters.html', 'Skip')}</div>
 <div style="margin-top: 30px; display: flex; justify-content: space-between;">${eyebrow('Statics · easy')}${eyebrow('1 / 3')}</div>
@@ -368,7 +368,7 @@ const handOff = page('Onboarding: the paper hand-off', C.fog, C.charcoal, `
 <div style="display: flex; justify-content: space-between;">${eyebrow('Saved for your desk')}${eyebrow('Statics', C.mutedOnLight)}</div>
 <div style="font-family: ${F.display}; font-weight: 700; font-size: 22px; line-height: 1.15; letter-spacing: -0.03em;">Find the force in member BC of the truss.</div>
 <div style="font-size: 14px; line-height: 1.45; color: ${C.mutedOnLight};">Table lookups, real working. Method of sections, three equations.</div>
-<a href="06-chapters.html" style="display: flex; align-items: center; justify-content: space-between; height: 72px; box-sizing: border-box; padding: 0 8px 0 28px; border-radius: 36px; background: ${C.ember}; color: ${C.charcoal}; text-decoration: none;">
+<a href="06-chapters.html" style="display: flex; align-items: center; justify-content: space-between; height: 72px; box-sizing: border-box; padding: 0 8px 0 28px; border-radius: 36px; background: ${C.peach}; color: ${C.charcoal}; text-decoration: none;">
 <span style="font-family: ${F.display}; font-weight: 700; font-size: 22px; letter-spacing: -0.02em;">Now grab paper</span>
 <span style="display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 28px; background: ${C.charcoal}; color: ${C.ember};">${arrow}</span>
 </a>

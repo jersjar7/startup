@@ -18,10 +18,16 @@ abstract final class AppColors {
   static const white = Color(0xFFFFFFFF);
 
   // Charcoal and its dark surfaces
-  static const charcoal = Color(0xFF2C2C2C); // text; dark tiles, dock, round buttons
-  static const tile = Color(0xFF3A3936); // dark surface: the dock, the mastery row
+  static const charcoal = Color(
+    0xFF2C2C2C,
+  ); // text; dark tiles, dock, round buttons
+  static const tile = Color(
+    0xFF3A3936,
+  ); // dark surface: the dock, the mastery row
   static const tile2 = Color(0xFF47453F); // surface on tile
-  static const lineOnDark = Color(0xFF4F4C45); // the rare divider on a dark tile
+  static const lineOnDark = Color(
+    0xFF4F4C45,
+  ); // the rare divider on a dark tile
 
   // Type
   static const ink2 = Color(0xFF6B6358); // secondary on fog or cream
@@ -34,6 +40,11 @@ abstract final class AppColors {
 
   // The identity accent: hot ground, warnings, the mastery figure
   static const ember = Color(0xFFE8683A);
+
+  /// Ember's hue at L 0.84. The hot GROUND: every surface that was ember
+  /// is peach (owner's call, 2026-09-18). Ember itself stays for text,
+  /// strokes and the mastery figure.
+  static const peach = Color(0xFFFEB89C);
   static const emberBg = Color(0xFFFEF0EA);
 
   // The brand green as text, marks and counts on light surfaces

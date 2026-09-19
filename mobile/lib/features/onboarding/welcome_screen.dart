@@ -142,7 +142,7 @@ class WelcomeCards extends StatelessWidget {
               top: 74,
               right: -18,
               child: card(
-                color: AppColors.ember,
+                color: AppColors.peach,
                 eyebrow: 'FLUIDS',
                 width: w * 0.5,
                 height: 214,

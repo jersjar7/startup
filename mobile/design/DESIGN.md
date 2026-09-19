@@ -71,7 +71,8 @@ brand tokens; every pairing below passes WCAG AA.
 | cream | `#FFF9F0` | Paper. Sheets, light tiles, answer blocks |
 | creamDark | `#F5EDE0` | Second light tile, watermark text on fog |
 | spring | `#63F0A8` | THE accent. CTA circle, hero tile, active dock item, the chapter in flight. The brand green (forest) at L 0.86 on the same hue |
-| ember | `#F0703F` | Hot ground (the try-one step), warnings, the mastery figure. Web ember two steps brighter so charcoal text passes 4.5:1 |
+| peach | `#FEB89C` | The hot ground: any surface that would have been ember (a tour step, the fluids card). Ember's hue at L 0.84; charcoal on it 8.3:1 |
+| ember | `#F0703F` | Warnings, the mastery figure, the answer highlight, strokes. Never a ground (owner's call, 2026-09-18). Web ember two steps brighter so charcoal text passes 4.5:1 |
 | sunbeam | `#F5B731` | Streak and days studied, the chapters step ground |
 | forest | `#2D7A5F` | The brand green as TEXT: field underline and caret, headline accent, done counts. The only green allowed as text on a light ground |
 | error | `#D64045` | Errors only |
@@ -85,12 +86,12 @@ Rules:
 - Text on spring, ember, sunbeam, cream and fog is always charcoal. Never
   cream or white text on spring, ember or sunbeam.
 - Text on charcoal and tile is cream, with `mutedOnDark` for secondary.
-- A screen uses one ground color edge to edge: fog, spring, ember or sunbeam.
+- A screen uses one ground color edge to edge: fog, spring, peach or sunbeam.
   Charcoal is never a ground (owner's call, 2026-09-18). Consecutive steps in
   a flow change ground color so progress is felt: the sign-up goes fog,
-  spring, fog-with-sheet; onboarding goes fog, ember, sunbeam.
-- Spring, ember and sunbeam are fills. They never appear as thin borders or
-  small text on a light ground. Spring on cream is 1.4:1: unreadable.
+  spring, fog-with-sheet; the tour goes fog, peach, sunbeam.
+- Spring, peach and sunbeam are fills. They never appear as thin borders or
+  small text on a light ground; ember is never a ground. Spring on cream is 1.4:1: unreadable.
 - Two accents per screen at most, counting the ground.
 - No gradients. No translucent glass. No hues beyond these.
 
