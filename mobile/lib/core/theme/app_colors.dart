@@ -31,6 +31,8 @@ abstract final class AppColors {
 
   // Type
   static const ink2 = Color(0xFF6B6358); // secondary on fog or cream
+  /// The kit's name for [ink2]: secondary text on fog or cream.
+  static const mutedOnLight = ink2;
   static const ink3 = Color(0xFF9C9488); // tertiary on light
   static const mutedOnDark = Color(0xFFB5ADA3); // secondary on charcoal or tile
   static const placeholder = Color(0xFF8C8377);

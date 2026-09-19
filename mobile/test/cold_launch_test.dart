@@ -63,7 +63,7 @@ void main() {
     expect(node.state, NodeState.cleared);
     expect(node.fractionTo, 1);
     expect(node.fractionFrom, 1, reason: 'nothing to animate on a cold launch');
-    expect(find.text('All 3 done'), findsOneWidget);
+    expect(find.text('all 3 done'), findsOneWidget);
 
     // And the road out of it is already walked.
     final road = tester

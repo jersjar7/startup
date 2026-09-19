@@ -688,3 +688,22 @@ class _PressableState extends State<_Pressable> {
     );
   }
 }
+
+/// The bottom sheet's handle: 44 by 5, charcoal at a quarter, centered.
+class Grabber extends StatelessWidget {
+  const Grabber({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        width: 44,
+        height: 5,
+        decoration: BoxDecoration(
+          color: AppColors.charcoal.withValues(alpha: 0.25),
+          borderRadius: BorderRadius.circular(3),
+        ),
+      ),
+    );
+  }
+}

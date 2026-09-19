@@ -12,6 +12,8 @@ import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/lesson_node.dart';
 
+import 'support/fonts.dart';
+
 /// The chapter path itself, photographed.
 ///
 /// Two things went wrong on this screen that only a picture catches: a
@@ -32,37 +34,16 @@ Future<void> _loadIconFont() async {
   await loader.load();
 }
 
-Future<void> _loadBrandFonts() async {
-  final dir = Directory('assets/fonts');
-  if (!dir.existsSync()) return;
-  for (final family in const {
-    'DM Sans': 'DMSans',
-    'Inter': 'Inter',
-    'JetBrains Mono': 'JetBrainsMono',
-  }.entries) {
-    final files = dir
-        .listSync()
-        .whereType<File>()
-        .where((f) => f.path.contains(family.value))
-        .toList();
-    if (files.isEmpty) continue;
-    final loader = FontLoader(family.key);
-    for (final f in files) {
-      loader.addFont(Future.value(f.readAsBytesSync().buffer.asByteData()));
-    }
-    await loader.load();
-  }
-}
-
 void main() {
   setUpAll(() async {
     GoogleFonts.config.allowRuntimeFetching = false;
-    await _loadBrandFonts();
+    await loadBrandFonts();
+    await loadMathFonts();
     await _loadIconFont();
   });
 
   testWidgets('the chapter path, part way through', (tester) async {
-    tester.view.physicalSize = const Size(390, 1400);
+    tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
 
@@ -104,6 +85,24 @@ void main() {
     await expectLater(
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/00-map/mathematics-partway.png'),
+    );
+
+    // Tap the lesson underway: its sheet, with the next game in spring.
+    await tester.tap(find.byKey(ValueKey(third.id)));
+    await tester.pumpAndSettle();
+    expect(find.text('Read the concept first'), findsOneWidget);
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/00-map/lesson-sheet.png'),
+    );
+
+    // And the concept behind the next game, over the sheet.
+    await tester.tap(find.text('Read the concept first'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('THE CONCEPT'), findsOneWidget);
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/00-map/concept-sheet.png'),
     );
   });
 
@@ -149,7 +148,8 @@ void main() {
       expect(
         gap,
         greaterThanOrEqualTo(18),
-        reason: '$state has only ${gap.toStringAsFixed(1)} L* between its '
+        reason:
+            '$state has only ${gap.toStringAsFixed(1)} L* between its '
             'face and its plinth, which reads as one lumpy shape',
       );
     }

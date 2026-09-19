@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import '../shared/widgets/kit.dart';
 import '../shared/widgets/engineering_grid.dart';
 import '../shared/widgets/math_text.dart';
 import 'discriminant_gate_game.dart' show Para, ParaPainter;
@@ -826,10 +827,7 @@ const concavityBrief = BriefSection(
   formulas: [
     ('Concave up, a smile', r"f''(x) > 0"),
     ('Concave down, a frown', r"f''(x) < 0"),
-    (
-      'Inflection point',
-      r"f''(a) = 0 \;\text{and}\; f'' \text{ changes sign}",
-    ),
+    ('Inflection point', r"f''(a) = 0 \;\text{and}\; f'' \text{ changes sign}"),
   ],
   figure: BriefFigure.bendFlip,
   handbook: 'Handbook p. 46',
@@ -882,7 +880,10 @@ const byPartsBrief = BriefSection(
       'earlier ones get easier when you differentiate them.',
   formulas: [
     ('The rule', r'\int u\,dv = uv - \int v\,du'),
-    ('LIATE, best first', r'\text{L} \;\;\text{I} \;\;\text{A} \;\;\text{T} \;\;\text{E}'),
+    (
+      'LIATE, best first',
+      r'\text{L} \;\;\text{I} \;\;\text{A} \;\;\text{T} \;\;\text{E}',
+    ),
   ],
   figure: BriefFigure.liate,
   handbook: 'Handbook p. 50',
@@ -1033,10 +1034,7 @@ const dotProductBrief = BriefSection(
       'plain number: if your answer still has an i or a j in it, you have done '
       'the other product.',
   formulas: [
-    (
-      'Component form',
-      r'\vec{A} \cdot \vec{B} = A_xB_x + A_yB_y + A_zB_z',
-    ),
+    ('Component form', r'\vec{A} \cdot \vec{B} = A_xB_x + A_yB_y + A_zB_z'),
     ('And it is a scalar', r'\vec{A} \cdot \vec{B} \in \mathbb{R}'),
   ],
   figure: BriefFigure.dotProduct,
@@ -1365,9 +1363,7 @@ const weightedBrief = BriefSection(
       'count ran, how many cylinders were tested, how thick a layer is. If the '
       'weights are all equal it collapses back to the ordinary mean, and if you '
       'swap the two roles the arithmetic runs perfectly to the wrong answer.',
-  formulas: [
-    ('Weighted mean', r'\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}'),
-  ],
+  formulas: [('Weighted mean', r'\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}')],
   figure: BriefFigure.weighted,
   handbook: 'Handbook p. 63',
 );
@@ -1505,10 +1501,7 @@ const expectedValueBrief = BriefSection(
       'is often a value that can never actually occur.',
   formulas: [
     ('Expected value', r'E(X) = \sum_{k=1}^{n} x_k \cdot P(x_k)'),
-    (
-      'So',
-      r'120(0.25) + 80(0.50) + 20(0.25) = 75',
-    ),
+    ('So', r'120(0.25) + 80(0.50) + 20(0.25) = 75'),
   ],
   figure: BriefFigure.expectedValue,
   handbook: 'Handbook p. 65',
@@ -1544,7 +1537,10 @@ const combiningBrief = BriefSection(
       'two sides.',
   formulas: [
     ('Means', r'E(a_1X_1 + a_2X_2) = a_1E(X_1) + a_2E(X_2)'),
-    ('Variances', r'\text{Var}(a_1X_1 + a_2X_2) = a_1^2\sigma_1^2 + a_2^2\sigma_2^2'),
+    (
+      'Variances',
+      r'\text{Var}(a_1X_1 + a_2X_2) = a_1^2\sigma_1^2 + a_2^2\sigma_2^2',
+    ),
     ('So', r'\sigma_T = \sqrt{3^2 + 8^2} = \sqrt{73} = 8.54'),
   ],
   figure: BriefFigure.combining,
@@ -1566,7 +1562,10 @@ const marginOfErrorBrief = BriefSection(
       r'\bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} \le \mu \le '
           r'\bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}',
     ),
-    ('The three multipliers', r'90\% : 1.645 \quad 95\% : 1.960 \quad 99\% : 2.576'),
+    (
+      'The three multipliers',
+      r'90\% : 1.645 \quad 95\% : 1.960 \quad 99\% : 2.576',
+    ),
     ('So', r'42 \pm 1.960\frac{5}{\sqrt{25}} = 42 \pm 1.96'),
   ],
   figure: BriefFigure.marginOfError,
@@ -1624,8 +1623,11 @@ const hypothesesBrief = BriefSection(
       'missing a false one is Type II.',
   formulas: [
     ('One-tailed', r'H_1: \mu > \mu_0 \quad \text{or} \quad H_1: \mu < \mu_0'),
-    ('Two-tailed', r'H_1: \mu \neq \mu_0 \;\Rightarrow\; \tfrac{\alpha}{2}'
-        r'\text{ in each tail}'),
+    (
+      'Two-tailed',
+      r'H_1: \mu \neq \mu_0 \;\Rightarrow\; \tfrac{\alpha}{2}'
+          r'\text{ in each tail}',
+    ),
   ],
   figure: BriefFigure.hypotheses,
   handbook: 'Handbook p. 72',
@@ -1644,8 +1646,11 @@ const decisionRuleBrief = BriefSection(
   formulas: [
     ('Z-test', r'z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}}'),
     ('t-test', r't = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}, \quad v = n - 1'),
-    ('The rule', r'|\text{statistic}| > \text{critical} \;\Rightarrow\; '
-        r'\text{reject } H_0'),
+    (
+      'The rule',
+      r'|\text{statistic}| > \text{critical} \;\Rightarrow\; '
+          r'\text{reject } H_0',
+    ),
   ],
   figure: BriefFigure.decisionRule,
   handbook: 'Handbook p. 73',
@@ -1664,8 +1669,11 @@ const goodnessOfFitBrief = BriefSection(
   formulas: [
     ('Chi-square', r'\chi^2 = \sum_{i=1}^{k} \frac{(O_i - E_i)^2}{E_i}'),
     ('Degrees of freedom', r'v = k - 1'),
-    ('So', r'\frac{(60-50)^2}{50} = 2.0 \quad \text{but} \quad '
-        r'\frac{(28-20)^2}{20} = 3.2'),
+    (
+      'So',
+      r'\frac{(60-50)^2}{50} = 2.0 \quad \text{but} \quad '
+          r'\frac{(28-20)^2}{20} = 3.2',
+    ),
   ],
   figure: BriefFigure.goodnessOfFit,
   handbook: 'Handbook p. 75',
@@ -1706,7 +1714,10 @@ const escalationBrief = BriefSection(
       'first and explain afterwards.',
   formulas: [
     ('The ladder', r'\text{colleague} \to \text{firm} \to \text{board}'),
-    ('Overruled', r'\text{in writing} \to \text{employer} \to \text{authority}'),
+    (
+      'Overruled',
+      r'\text{in writing} \to \text{employer} \to \text{authority}',
+    ),
     ('Imminent danger', r'\text{stop the work, then the chain}'),
   ],
   figure: BriefFigure.escalation,
@@ -1748,7 +1759,10 @@ const competenceBrief = BriefSection(
   formulas: [
     ('B.1', r'\text{Only accept work you are qualified for.}'),
     ('B.2', r'\text{Seal only your field, under your responsible charge.}'),
-    ('B.3', r'\text{You may coordinate, if each segment is sealed by its own.}'),
+    (
+      'B.3',
+      r'\text{You may coordinate, if each segment is sealed by its own.}',
+    ),
   ],
   figure: BriefFigure.competence,
   handbook: 'Handbook p. 5, Model Rules B.1 to B.3',
@@ -1847,7 +1861,10 @@ const holdingOutBrief = BriefSection(
       'Professional Engineer when you are not, by sign, card, letterhead or '
       'website, is a violation even if you never do a day of engineering.',
   formulas: [
-    ('110.20 A.3', r'\text{Work needing engineering judgment, reaching the public.}'),
+    (
+      '110.20 A.3',
+      r'\text{Work needing engineering judgment, reaching the public.}',
+    ),
     ('A.3(a)', r'\text{Practices, or holds out as able to practice.}'),
     ('A.3(b)', r'\text{Represents themselves as a PE by any means.}'),
   ],
@@ -1925,7 +1942,10 @@ const formationBrief = BriefSection(
       'and the award accepts it, which is why the firms that lost have nothing '
       'to enforce.',
   formulas: [
-    ('The five', r'\text{offer, acceptance, consideration, capacity, legality}'),
+    (
+      'The five',
+      r'\text{offer, acceptance, consideration, capacity, legality}',
+    ),
     ('Not required', r'\text{notarisation, or a witness}'),
     ('A counter-offer', r'\text{ends the offer it answered}'),
   ],
@@ -2083,8 +2103,11 @@ const lifeCycleBrief = BriefSection(
       'than a verdict: sometimes the cheap option really is the cheap option, '
       'and the assessment is what tells you which case you are in.',
   formulas: [
-    ('The whole life', r'\text{build} + \text{operate} + \text{maintain} + '
-        r'\text{take away}'),
+    (
+      'The whole life',
+      r'\text{build} + \text{operate} + \text{maintain} + '
+          r'\text{take away}',
+    ),
     ('Not', r'\text{the first segment on its own}'),
     ('The triple bottom line', r'\text{economic, environmental, social}'),
   ],
@@ -2261,7 +2284,10 @@ const paybackBrief = BriefSection(
       'one-off grant comes off the investment instead. And if the new annual '
       'cost is larger than the saving there is no payback period at all.',
   formulas: [
-    ('Simple payback', r'n = \frac{\text{investment}}{\text{net annual saving}}'),
+    (
+      'Simple payback',
+      r'n = \frac{\text{investment}}{\text{net annual saving}}',
+    ),
     ('Net saving', r'\text{savings} - \text{new annual costs}'),
     ('So', r'\frac{1{,}400{,}000}{280{,}000 - 80{,}000} = 7 \text{ years}'),
   ],
@@ -2537,7 +2563,10 @@ const resultantBrief = BriefSection(
       'cantilever moment.',
   formulas: [
     ('Uniform', r'W = wL \text{ at } L/2'),
-    ('Triangle', r'W = \tfrac{1}{2} w L \text{ at } L/3 \text{ from the heavy end}'),
+    (
+      'Triangle',
+      r'W = \tfrac{1}{2} w L \text{ at } L/3 \text{ from the heavy end}',
+    ),
     ('So', r'3(4) = 12 \text{ kN at } 2 \text{ m}'),
   ],
   figure: BriefFigure.resultant,
@@ -2634,7 +2663,10 @@ const unitsBrief = BriefSection(
       'the one quantity with no unit at all, so a strain quoted in anything is '
       'a strain someone has misread.',
   formulas: [
-    ('The set that never needs converting', r'\mathrm{N},\; \mathrm{mm},\; \mathrm{N/mm^2}'),
+    (
+      'The set that never needs converting',
+      r'\mathrm{N},\; \mathrm{mm},\; \mathrm{N/mm^2}',
+    ),
     ('And that last one is', r'1\ \mathrm{MPa} = 1\ \mathrm{N/mm^2}'),
     ('Strain', r'\varepsilon \text{ has no unit}'),
   ],
@@ -2657,7 +2689,10 @@ const thermalBrief = BriefSection(
   formulas: [
     ('Free movement', r'\delta_t = \alpha L \Delta T'),
     ('Fully restrained', r'\sigma_t = E \alpha \Delta T'),
-    ('With a gap to close first', r'\sigma_t = \frac{E(\delta_t - \text{gap})}{L}'),
+    (
+      'With a gap to close first',
+      r'\sigma_t = \frac{E(\delta_t - \text{gap})}{L}',
+    ),
   ],
   figure: BriefFigure.thermal,
   handbook: 'Handbook p. 130',
@@ -2746,7 +2781,10 @@ const curveBrief = BriefSection(
       'dividing by the area the bar started with, while the bar itself has '
       'necked down to something thinner.',
   formulas: [
-    ('Slope of the straight run', r'E = \frac{\Delta\sigma}{\Delta\varepsilon}'),
+    (
+      'Slope of the straight run',
+      r'E = \frac{\Delta\sigma}{\Delta\varepsilon}',
+    ),
     ('Top of the curve', r'\sigma_u \text{, where necking starts}'),
     ('Engineering stress uses', r'A_0 \text{, the original area}'),
   ],
@@ -2771,7 +2809,10 @@ const stiffStrongBrief = BriefSection(
     ('Stiff', r'E = \frac{\sigma}{\varepsilon} \text{, the slope}'),
     ('Strong', r'\sigma_y \text{ and } \sigma_u \text{, the height}'),
     ('Stretchy', r'\%\,El = \frac{L_f - L_0}{L_0}\times 100'),
-    ('Brittle reads as', r'\sigma_y \approx \sigma_u \text{ with } \%\,El \text{ tiny}'),
+    (
+      'Brittle reads as',
+      r'\sigma_y \approx \sigma_u \text{ with } \%\,El \text{ tiny}',
+    ),
   ],
   figure: BriefFigure.stiffStrong,
   handbook: 'Handbook p. 129',
@@ -2793,7 +2834,10 @@ const linkedBrief = BriefSection(
   formulas: [
     ('The link', r'G = \frac{E}{2(1+\nu)}'),
     ('E from a test point', r'E = \frac{\sigma}{\varepsilon}'),
-    ("Poisson's ratio", r'\nu = -\frac{\varepsilon_{lat}}{\varepsilon_{axial}}'),
+    (
+      "Poisson's ratio",
+      r'\nu = -\frac{\varepsilon_{lat}}{\varepsilon_{axial}}',
+    ),
     ('For steel', r'\nu \approx 0.3,\quad G \approx 0.38E'),
   ],
   figure: BriefFigure.linked,
@@ -3093,9 +3137,15 @@ const circleBrief = BriefSection(
       'planes.',
   formulas: [
     ('Center', r'C = \frac{\sigma_x + \sigma_y}{2}'),
-    ('Radius', r'R = \sqrt{\left(\frac{\sigma_x-\sigma_y}{2}\right)^2 + \tau_{xy}^2}'),
+    (
+      'Radius',
+      r'R = \sqrt{\left(\frac{\sigma_x-\sigma_y}{2}\right)^2 + \tau_{xy}^2}',
+    ),
     ('Ends', r'\sigma_{1,2} = C \pm R'),
-    ('Angles', r'\theta \text{ in the material} = 2\theta \text{ on the circle}'),
+    (
+      'Angles',
+      r'\theta \text{ in the material} = 2\theta \text{ on the circle}',
+    ),
   ],
   figure: BriefFigure.circle,
   handbook: 'Handbook p. 131',
@@ -3141,7 +3191,10 @@ const worstBrief = BriefSection(
       'circle a long way out, almost no in-plane shear, and a serious shear on '
       'a plane out of the page.',
   formulas: [
-    ('Worst at the point', r'\tau_{abs} = \frac{\sigma_{max} - \sigma_{min}}{2}'),
+    (
+      'Worst at the point',
+      r'\tau_{abs} = \frac{\sigma_{max} - \sigma_{min}}{2}',
+    ),
     ('Out of plane', r'\sigma_3 = 0'),
     ('Circle crosses zero', r'\tau_{abs} = R'),
     ('Circle clear of zero', r'\tau_{abs} = \frac{|\sigma_{far}|}{2} > R'),
@@ -3331,7 +3384,10 @@ const spinInertiaBrief = BriefSection(
       'the axis is further off than the body is wide, that transfer term is '
       'the whole answer.',
   formulas: [
-    ('Hoop, disc, sphere', r'mr^2,\quad \tfrac{1}{2}mr^2,\quad \tfrac{2}{5}mr^2'),
+    (
+      'Hoop, disc, sphere',
+      r'mr^2,\quad \tfrac{1}{2}mr^2,\quad \tfrac{2}{5}mr^2',
+    ),
     ('Rod, middle and end', r'\tfrac{1}{12}mL^2,\quad \tfrac{1}{3}mL^2'),
     ('Moving the axis', r'I = I_c + md^2'),
     ('Only ever', r'\text{from the centroid outward}'),
@@ -3628,10 +3684,14 @@ const toughnessBrief = BriefSection(
       'same flaw in aluminum is nearer to going than it is in steel.',
   formulas: [
     ('Driving the crack', r'K = Y\sigma\sqrt{\pi a}'),
-    ('The most stress it can take',
-        r'\sigma_{max} = \frac{K_{IC}}{Y\sqrt{\pi a}}'),
-    ('The biggest crack it can carry',
-        r'a_{max} = \frac{1}{\pi}\left(\frac{K_{IC}}{Y\sigma}\right)^2'),
+    (
+      'The most stress it can take',
+      r'\sigma_{max} = \frac{K_{IC}}{Y\sqrt{\pi a}}',
+    ),
+    (
+      'The biggest crack it can carry',
+      r'a_{max} = \frac{1}{\pi}\left(\frac{K_{IC}}{Y\sigma}\right)^2',
+    ),
   ],
   figure: BriefFigure.toughness,
   handbook: 'Handbook p. 122',
@@ -3654,8 +3714,10 @@ const expandBrief = BriefSection(
   formulas: [
     ('How far it moves', r'\Delta L = \alpha L \Delta T'),
     ('Which is a strain', r'\alpha = \frac{\varepsilon}{\Delta T}'),
-    ('Steel, concrete, aluminum',
-        r'11.7,\; 10,\; 23 \times 10^{-6}\,/^{\circ}C'),
+    (
+      'Steel, concrete, aluminum',
+      r'11.7,\; 10,\; 23 \times 10^{-6}\,/^{\circ}C',
+    ),
   ],
   figure: BriefFigure.expand,
   handbook: 'Handbook p. 126',
@@ -3676,8 +3738,7 @@ const furnaceBrief = BriefSection(
       'it never reached austenite, a quench does nothing at all.',
   formulas: [
     ('Fast from austenite', r'\gamma \rightarrow \text{martensite}'),
-    ('Slow from austenite',
-        r'\gamma \rightarrow \alpha + Fe_3C'),
+    ('Slow from austenite', r'\gamma \rightarrow \alpha + Fe_3C'),
     ('Then reheated', r'\text{martensite} \rightarrow \text{tempered}'),
   ],
   figure: BriefFigure.furnace,
@@ -3912,7 +3973,10 @@ const mortarBrief = BriefSection(
   formulas: [
     ('Strongest to weakest', r'M > S > N > O'),
     ('The phrase', r'\text{MaSoN wOrK}'),
-    ('And', r'\text{strength} \downarrow \Rightarrow \text{workability} \uparrow'),
+    (
+      'And',
+      r'\text{strength} \downarrow \Rightarrow \text{workability} \uparrow',
+    ),
   ],
   figure: BriefFigure.mortar,
   handbook: 'Handbook p. 130',
@@ -3975,7 +4039,10 @@ const isostrainBrief = BriefSection(
       'moving. Whichever quantity is shared, the other one is not.',
   formulas: [
     ('Along: shared strain', r'\varepsilon_1 = \varepsilon_2'),
-    ('So the stresses split', r'\sigma_1 = E_1\varepsilon,\; \sigma_2 = E_2\varepsilon'),
+    (
+      'So the stresses split',
+      r'\sigma_1 = E_1\varepsilon,\; \sigma_2 = E_2\varepsilon',
+    ),
     ('Across: shared stress', r'\sigma_1 = \sigma_2'),
   ],
   figure: BriefFigure.isostrain,
@@ -4040,7 +4107,10 @@ const threeNumbersBrief = BriefSection(
       'you a factor of g short.',
   formulas: [
     ('Weight from mass', r'\gamma = \rho g'),
-    ('The ratio to water', r'SG = \frac{\rho}{\rho_w} = \frac{\gamma}{\gamma_w}'),
+    (
+      'The ratio to water',
+      r'SG = \frac{\rho}{\rho_w} = \frac{\gamma}{\gamma_w}',
+    ),
     ('Water', r'1{,}000\ \text{kg/m}^3,\quad 9{,}810\ \text{N/m}^3'),
   ],
   figure: BriefFigure.threeNumbers,
@@ -4237,8 +4307,10 @@ const bernoulliBrief = BriefSection(
       'and the moment a problem mentions pipe length, roughness or head loss '
       'you need the energy equation instead, with its friction term.',
   formulas: [
-    ('Bernoulli',
-        r'\frac{P_1}{\gamma} + \frac{v_1^2}{2g} + z_1 = \frac{P_2}{\gamma} + \frac{v_2^2}{2g} + z_2'),
+    (
+      'Bernoulli',
+      r'\frac{P_1}{\gamma} + \frac{v_1^2}{2g} + z_1 = \frac{P_2}{\gamma} + \frac{v_2^2}{2g} + z_2',
+    ),
     ('Level pipe', r'P_2 = P_1 + \frac{\rho}{2}(v_1^2 - v_2^2)'),
     ('With friction', r'\dots + h_f'),
   ],
@@ -4712,7 +4784,10 @@ const methodBrief = BriefSection(
       'a curve. Even count, Simpson does not apply at all and the '
       'trapezoidal rule is what is left.',
   formulas: [
-    ('Corners', r'A = \tfrac{1}{2}\left|\sum (x_i y_{i+1} - x_{i+1} y_i)\right|'),
+    (
+      'Corners',
+      r'A = \tfrac{1}{2}\left|\sum (x_i y_{i+1} - x_{i+1} y_i)\right|',
+    ),
     ('Odd offsets', r'\text{Simpson: } \tfrac{w}{3}(1,4,2,\dots,1)'),
     ('Even offsets', r'\text{trapezoidal}'),
   ],
@@ -4756,7 +4831,10 @@ const shoelaceBrief = BriefSection(
       'negative and the absolute value is there for exactly that. Plot the '
       'listing before trusting it.',
   formulas: [
-    ('Round the boundary', r'A = \tfrac{1}{2}\left|\sum (x_i y_{i+1} - x_{i+1} y_i)\right|'),
+    (
+      'Round the boundary',
+      r'A = \tfrac{1}{2}\left|\sum (x_i y_{i+1} - x_{i+1} y_i)\right|',
+    ),
     ('Close it', r'\text{last corner pairs back to the first}'),
     ('Either direction', r'\text{the absolute value covers it}'),
   ],
@@ -4896,7 +4974,10 @@ const arctanBrief = BriefSection(
   formulas: [
     (r'\Delta N > 0, \Delta E > 0', r'Az = \tan^{-1}(\Delta E/\Delta N)'),
     (r'\Delta N < 0', r'Az = 180° + \tan^{-1}(\Delta E/\Delta N)'),
-    (r'\Delta N > 0, \Delta E < 0', r'Az = 360° + \tan^{-1}(\Delta E/\Delta N)'),
+    (
+      r'\Delta N > 0, \Delta E < 0',
+      r'Az = 360° + \tan^{-1}(\Delta E/\Delta N)',
+    ),
   ],
   figure: BriefFigure.arctan,
   handbook: 'Handbook p. 310',
@@ -5135,7 +5216,10 @@ const hydraulicJumpBrief = BriefSection(
       'number crosses one on the way, which is the definition of a jump '
       'rather than a consequence of it.',
   formulas: [
-    ('Conjugate depth', r'y_2 = \frac{y_1}{2}\left(-1 + \sqrt{1 + 8Fr_1^2}\right)'),
+    (
+      'Conjugate depth',
+      r'y_2 = \frac{y_1}{2}\left(-1 + \sqrt{1 + 8Fr_1^2}\right)',
+    ),
     ('What balances', r'M = \frac{y^2}{2} + \frac{q^2}{gy}'),
     ('What is lost', r'\Delta E = E_1 - E_2 > 0'),
   ],
@@ -5184,7 +5268,10 @@ const exponentBrief = BriefSection(
   formulas: [
     ('A flat crest', r'2H \Rightarrow 2^{3/2} \approx 2.8\,Q'),
     ('A V-notch', r'2H \Rightarrow 2^{5/2} \approx 5.7\,Q'),
-    ('Only the ratio counts', r'\frac{Q_2}{Q_1} = \left(\frac{H_2}{H_1}\right)^{n}'),
+    (
+      'Only the ratio counts',
+      r'\frac{Q_2}{Q_1} = \left(\frac{H_2}{H_1}\right)^{n}',
+    ),
   ],
   figure: BriefFigure.weirExponent,
   handbook: 'Handbook p. 297',
@@ -5747,7 +5834,10 @@ const stabilityBrief = BriefSection(
       'unstable. Check the count, then look at the picture.',
   formulas: [
     ('Necessary', r'm + r \ge 2j'),
-    ('Not sufficient', r'\text{parallel or concurrent} \Rightarrow \text{unstable}'),
+    (
+      'Not sufficient',
+      r'\text{parallel or concurrent} \Rightarrow \text{unstable}',
+    ),
   ],
   figure: BriefFigure.stability,
   handbook: 'Handbook p. 271',
@@ -6137,7 +6227,10 @@ const columnFactorBrief = BriefSection(
       'the core and buys toughness. Dropping either multiplier is the wrong '
       'answer the exam offers most often.',
   formulas: [
-    ('Tied', r'\phi P_n = 0.80\phi\left[0.85f_c^{\prime}(A_g - A_{st}) + A_{st}f_y\right]'),
+    (
+      'Tied',
+      r'\phi P_n = 0.80\phi\left[0.85f_c^{\prime}(A_g - A_{st}) + A_{st}f_y\right]',
+    ),
     ('Tied factors', r'0.80 \text{ and } \phi = 0.65'),
     ('Spiral factors', r'0.85 \text{ and } \phi = 0.75'),
   ],
@@ -6555,7 +6648,10 @@ const waterTableBrief = BriefSection(
   formulas: [
     ('Pump it down', r"u \downarrow \Rightarrow \sigma' \uparrow"),
     ('Surcharge', r"q \Rightarrow \sigma' \uparrow \text{ by } q"),
-    ('Standing water', r"\sigma \uparrow, \; u \uparrow, \; \sigma' \text{ flat}"),
+    (
+      'Standing water',
+      r"\sigma \uparrow, \; u \uparrow, \; \sigma' \text{ flat}",
+    ),
   ],
   figure: BriefFigure.waterTable,
   handbook: 'Handbook, effective stress',
@@ -6601,8 +6697,14 @@ const caseBrief = BriefSection(
       'on one index alone is the wrong answer the exam offers most often, and '
       'it is offered in both flavors.',
   formulas: [
-    ('Under the memory', r'\Delta H = \frac{H_0}{1+e_0} C_r \log\frac{p_1}{p_0}'),
-    ('On the virgin line', r'\Delta H = \frac{H_0}{1+e_0} C_c \log\frac{p_1}{p_0}'),
+    (
+      'Under the memory',
+      r'\Delta H = \frac{H_0}{1+e_0} C_r \log\frac{p_1}{p_0}',
+    ),
+    (
+      'On the virgin line',
+      r'\Delta H = \frac{H_0}{1+e_0} C_c \log\frac{p_1}{p_0}',
+    ),
     ('Crossing it', r'C_r \log\frac{p_c}{p_0} + C_c \log\frac{p_1}{p_c}'),
   ],
   figure: BriefFigure.settlementCase,
@@ -6726,7 +6828,10 @@ const mohrCircleBrief = BriefSection(
       'Reaching for the arctangent there is the wrong answer the lesson '
       'prints.',
   formulas: [
-    ('Middle and radius', r's = \frac{\sigma_1+\sigma_3}{2}, \; t = \frac{\sigma_1-\sigma_3}{2}'),
+    (
+      'Middle and radius',
+      r's = \frac{\sigma_1+\sigma_3}{2}, \; t = \frac{\sigma_1-\sigma_3}{2}',
+    ),
     ('No cohesion', r'\sin\phi = t/s'),
     ('Undrained', r'c_u = t'),
   ],
@@ -6776,7 +6881,10 @@ const quickBrief = BriefSection(
       'the fix is to make the water travel further, or to put a filter and '
       'some weight where it comes out.',
   formulas: [
-    ('The critical gradient', r"i_c = \frac{\gamma'}{\gamma_w} = \frac{G_s - 1}{1 + e}"),
+    (
+      'The critical gradient',
+      r"i_c = \frac{\gamma'}{\gamma_w} = \frac{G_s - 1}{1 + e}",
+    ),
     ('Safety', r'FS = i_c / i_{exit}'),
     ('At boiling', r"\sigma' = 0"),
   ],
@@ -6823,7 +6931,10 @@ const seepageSlopeBrief = BriefSection(
       'its worst week in, and why draining a slope is worth a doubling all on '
       'its own.',
   formulas: [
-    ('With seepage', r"FS = \frac{\gamma'}{\gamma_{sat}}\cdot\frac{\tan\phi}{\tan\beta}"),
+    (
+      'With seepage',
+      r"FS = \frac{\gamma'}{\gamma_{sat}}\cdot\frac{\tan\phi}{\tan\beta}",
+    ),
     ('The factor', r"\gamma'/\gamma_{sat} \approx 0.5"),
     ('The fix', r'\text{flatten it, or drain it}'),
   ],
@@ -6871,7 +6982,10 @@ const terzaghiBrief = BriefSection(
       'cohesion term is usually the largest. The factors themselves are '
       'always given in the question: nothing about them needs remembering.',
   formulas: [
-    ('The whole of it', r"q_{ult} = cN_c + \gamma' D_f N_q + \tfrac{1}{2}\gamma' B N_\gamma"),
+    (
+      'The whole of it',
+      r"q_{ult} = cN_c + \gamma' D_f N_q + \tfrac{1}{2}\gamma' B N_\gamma",
+    ),
     ('Undrained clay', r'q_{ult} = 5.14 c_u + \gamma D_f'),
     ('A clean sand', r'c = 0, \text{ so the first term goes}'),
   ],
@@ -7016,7 +7130,10 @@ const proctorBrief = BriefSection(
       'way up. Upside down, a short fill reads as just over a hundred per '
       'cent and passes.',
   formulas: [
-    ('Relative compaction', r'RC = \tfrac{\gamma_{d,field}}{\gamma_{d,max}} \times 100'),
+    (
+      'Relative compaction',
+      r'RC = \tfrac{\gamma_{d,field}}{\gamma_{d,max}} \times 100',
+    ),
     ('Typical specification', r'RC \geq 90\text{ to }95\%'),
     ('Upside down', r'\text{reads just over }100\%'),
   ],
@@ -7038,7 +7155,10 @@ const relativeDensityBrief = BriefSection(
       'the mistake away. The two measures compare against different things, '
       'share no terms, and are not interchangeable.',
   formulas: [
-    ('Relative density', r'D_r = \tfrac{e_{max} - e}{e_{max} - e_{min}} \times 100'),
+    (
+      'Relative density',
+      r'D_r = \tfrac{e_{max} - e}{e_{max} - e_{min}} \times 100',
+    ),
     ('The wrong end', r'\tfrac{e - e_{min}}{e_{max} - e_{min}}'),
     ('Together', r'\text{the two add to }100\%'),
   ],
@@ -7527,7 +7647,10 @@ const gravityBrief = BriefSection(
       'add to the origin\'s productions exactly.',
   formulas: [
     ('The weight', r'A_j F_{ij} K_{ij}'),
-    ('The share', r'T_{ij} = P_i \dfrac{A_j F_{ij} K_{ij}}{\sum_j A_j F_{ij} K_{ij}}'),
+    (
+      'The share',
+      r'T_{ij} = P_i \dfrac{A_j F_{ij} K_{ij}}{\sum_j A_j F_{ij} K_{ij}}',
+    ),
     ('The check', r'\textstyle\sum_j T_{ij} = P_i'),
   ],
   figure: BriefFigure.gravity,
@@ -8087,7 +8210,10 @@ const stiffnessBrief = BriefSection(
   formulas: [
     ('Strain', r'\varepsilon = \Delta L / L_0'),
     ('The modulus', r'E = \sigma / \varepsilon'),
-    ('Worth carrying', r'E_{steel} \approx 200\text{ GPa}, \; E_{al} \approx 70'),
+    (
+      'Worth carrying',
+      r'E_{steel} \approx 200\text{ GPa}, \; E_{al} \approx 70',
+    ),
   ],
   figure: BriefFigure.stiffness,
   handbook: 'Handbook, mechanical properties',
@@ -8630,44 +8756,97 @@ const determinacyBrief = BriefSection(
   handbook: 'Handbook p. 94',
 );
 
-/// Opens one concept over whatever is on screen.
-Future<void> showConcept(BuildContext context, BriefSection section) {
+/// Opens one concept over whatever is on screen: a cream sheet (reference
+/// 14) with the headline, the copy, the formulas as creamDark tiles, the
+/// figure, the paper line and a pill back to where you came from.
+Future<void> showConcept(
+  BuildContext context,
+  BriefSection section, {
+  String back = 'Back to the round',
+}) {
   return showModalBottomSheet<void>(
     context: context,
     backgroundColor: AppColors.cream,
-    showDragHandle: true,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
     ),
-    builder: (_) => FractionallySizedBox(
-      heightFactor: 0.9,
-      child: ConceptView(section: section),
+    builder: (context) => FractionallySizedBox(
+      heightFactor: 0.92,
+      child: Column(
+        children: [
+          const Padding(padding: EdgeInsets.only(top: 12), child: Grabber()),
+          Expanded(
+            child: ConceptView(
+              section: section,
+              back: back,
+              onBack: () => Navigator.of(context).pop(),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }
 
 /// The concept behind the item you are on, and only that one.
 class ConceptView extends StatelessWidget {
-  const ConceptView({super.key, required this.section});
+  const ConceptView({
+    super.key,
+    required this.section,
+    this.back = 'Back to the round',
+    this.onBack,
+  });
 
   final BriefSection section;
 
+  /// What the pill at the bottom says, and does. Without [onBack] the pill
+  /// pops whatever route the view sits in.
+  final String back;
+  final VoidCallback? onBack;
+
   @override
   Widget build(BuildContext context) {
+    final handbook = section.handbook;
     return SafeArea(
       top: false,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 34),
         children: [
-          Text(section.title, style: AppTheme.heading(size: 25)),
-          const SizedBox(height: 16),
-          _SectionCard(section: section),
+          Text(
+            handbook == null
+                ? 'THE CONCEPT'
+                : 'THE CONCEPT · ${handbook.toUpperCase()}',
+            style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+          ),
           const SizedBox(height: 14),
-          const Text(
+          Text(section.title, style: AppTheme.display(size: 38, height: 1.0)),
+          const SizedBox(height: 22),
+          Text(section.body, style: AppTheme.body(size: 16, height: 1.5)),
+          if (section.formula != null) ...[
+            const SizedBox(height: 14),
+            _FormulaTile(latex: section.formula!),
+          ],
+          for (final (label, latex) in section.formulas) ...[
+            const SizedBox(height: 10),
+            _FormulaTile(label: label, latex: latex),
+          ],
+          const SizedBox(height: 14),
+          BriefFigureView(figure: section.figure),
+          const SizedBox(height: 26),
+          Text(
             'Knowing this is not the same as solving with it. The full '
             'problems belong at a desk, on paper.',
-            style: TextStyle(fontSize: 13, height: 1.55, color: AppColors.ink3),
+            style: AppTheme.body(
+              size: 14,
+              height: 1.45,
+              color: AppColors.mutedOnLight,
+            ),
+          ),
+          const SizedBox(height: 18),
+          PillButton(
+            label: back,
+            onTap: onBack ?? () => Navigator.of(context).maybePop(),
           ),
         ],
       ),
@@ -8675,60 +8854,33 @@ class ConceptView extends StatelessWidget {
   }
 }
 
-class _SectionCard extends StatelessWidget {
-  const _SectionCard({required this.section});
+/// One expression on a creamDark tile, with its name as an eyebrow.
+class _FormulaTile extends StatelessWidget {
+  const _FormulaTile({this.label, required this.latex});
 
-  final BriefSection section;
+  final String? label;
+  final String latex;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(18),
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: AppColors.line),
+        color: AppColors.creamDark,
+        borderRadius: BorderRadius.circular(22),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            section.body,
-            style: const TextStyle(
-              fontSize: 14.5,
-              height: 1.6,
-              color: AppColors.charcoal,
+          if (label != null) ...[
+            Text(
+              label!.toUpperCase(),
+              style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
             ),
-          ),
-          if (section.formula != null) ...[
-            const SizedBox(height: 14),
-            Center(child: MathBlock(section.formula!, fontSize: 20)),
+            const SizedBox(height: 8),
           ],
-          for (final (label, latex) in section.formulas) ...[
-            const SizedBox(height: 14),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-              decoration: BoxDecoration(
-                color: AppColors.cream,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(label.toUpperCase(), style: AppTheme.overline()),
-                  const SizedBox(height: 10),
-                  Center(child: MathBlock(latex, fontSize: 19)),
-                ],
-              ),
-            ),
-          ],
-          const SizedBox(height: 14),
-          BriefFigureView(figure: section.figure),
-          if (section.handbook != null) ...[
-            const SizedBox(height: 12),
-            Text(section.handbook!.toUpperCase(), style: AppTheme.overline()),
-          ],
+          MathBlock(latex, fontSize: 20),
         ],
       ),
     );
@@ -8873,14 +9025,23 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{leans up, tight} \;\Rightarrow\; r \approx +1", null),
             (r"\text{leans down, tight} \;\Rightarrow\; r \approx -1", null),
             (r"\text{no lean} \;\Rightarrow\; r \approx 0", null),
-            (r"\text{an arch} \;\Rightarrow\; r \approx 0 \text{ as well}", null),
+            (
+              r"\text{an arch} \;\Rightarrow\; r \approx 0 \text{ as well}",
+              null,
+            ),
           ],
         );
       case BriefFigure.regressionLine:
         return const _RuleList(
           rules: [
-            (r"\hat{y} = a + bx \text{ passes through } (\bar{x}, \bar{y})", true),
-            (r"\bar{y} = 75,\ b = 4.2,\ \bar{x} = 15 \;\Rightarrow\; a = 12", true),
+            (
+              r"\hat{y} = a + bx \text{ passes through } (\bar{x}, \bar{y})",
+              true,
+            ),
+            (
+              r"\bar{y} = 75,\ b = 4.2,\ \bar{x} = 15 \;\Rightarrow\; a = 12",
+              true,
+            ),
             (r"\hat{y}(20) = 12 + 4.2(20) = 96", true),
             (r"\hat{y}(20) = 4.2(20) = 84", false),
           ],
@@ -8954,7 +9115,10 @@ class BriefFigureView extends StatelessWidget {
             (r"E = z_{\alpha/2}\frac{\sigma}{\sqrt{n}}", true),
             (r"E = z_{\alpha/2}\frac{\sigma}{n}", false),
             (r"E = z_{\alpha/2}\,\sigma", false),
-            (r"4\times \text{the samples} \;\Rightarrow\; \tfrac{1}{2}\text{ the margin}", true),
+            (
+              r"4\times \text{the samples} \;\Rightarrow\; \tfrac{1}{2}\text{ the margin}",
+              true,
+            ),
           ],
         );
       case BriefFigure.zOrT:
@@ -8962,14 +9126,23 @@ class BriefFigureView extends StatelessWidget {
           rules: [
             (r"\text{given } \sigma \;\Rightarrow\; z", true),
             (r"\text{given } s \;\Rightarrow\; t \text{ with } v = n-1", true),
-            (r"t \text{ is WIDER than } z \text{ at the same confidence}", true),
-            (r"\text{a higher } \bar{x} \;\Rightarrow\; \text{a wider interval}", false),
+            (
+              r"t \text{ is WIDER than } z \text{ at the same confidence}",
+              true,
+            ),
+            (
+              r"\text{a higher } \bar{x} \;\Rightarrow\; \text{a wider interval}",
+              false,
+            ),
           ],
         );
       case BriefFigure.sampleSize:
         return const _RuleList(
           rules: [
-            (r"n = \left(\tfrac{1.960 \times 800}{200}\right)^2 = 61.47 \to 62", true),
+            (
+              r"n = \left(\tfrac{1.960 \times 800}{200}\right)^2 = 61.47 \to 62",
+              true,
+            ),
             (r"n = \tfrac{1.960 \times 800}{200} = 7.84 \to 8", false),
             (r"n = 61.47", false),
             (r"n = 61", false),
@@ -8989,7 +9162,10 @@ class BriefFigureView extends StatelessWidget {
           rules: [
             (r"t = 2.4 > 1.753 \;\Rightarrow\; \text{reject}", true),
             (r"|t| = 2.9 > 2.131 \;\Rightarrow\; \text{reject}", true),
-            (r"\chi^2 = 5.0 < 7.815 \;\Rightarrow\; \text{fail to reject}", true),
+            (
+              r"\chi^2 = 5.0 < 7.815 \;\Rightarrow\; \text{fail to reject}",
+              true,
+            ),
             (r"\text{fail to reject} \;\Rightarrow\; \mu = \mu_0", false),
           ],
         );
@@ -9007,7 +9183,10 @@ class BriefFigureView extends StatelessWidget {
           rules: [
             (r"\text{public safety} > \text{employer} > \text{self}", true),
             (r"\text{a seal says it meets accepted standards}", true),
-            (r"\text{noting a deviation in the file makes it acceptable}", false),
+            (
+              r"\text{noting a deviation in the file makes it acceptable}",
+              false,
+            ),
             (r"\text{every disagreement is a violation}", false),
           ],
         );
@@ -9059,10 +9238,16 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.standing:
         return const _RuleList(
           rules: [
-            (r"\text{passed the FE} \;\Rightarrow\; \text{certified, not licensed}", true),
+            (
+              r"\text{passed the FE} \;\Rightarrow\; \text{certified, not licensed}",
+              true,
+            ),
             (r"\text{only a licensed PE may seal}", true),
             (r"\text{an intern may seal if a PE reviews it}", false),
-            (r"\text{writing ``Engineer Intern'' beside the seal fixes it}", false),
+            (
+              r"\text{writing ``Engineer Intern'' beside the seal fixes it}",
+              false,
+            ),
           ],
         );
       case BriefFigure.exemption:
@@ -9086,7 +9271,10 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.ladder:
         return const _RuleList(
           rules: [
-            (r"\text{degree} \to \text{FE} \to \text{experience} \to \text{PE}", true),
+            (
+              r"\text{degree} \to \text{FE} \to \text{experience} \to \text{PE}",
+              true,
+            ),
             (r"\text{BS and 4 years} \;\Rightarrow\; \text{ready}", true),
             (r"\text{BS and 2 years} \;\Rightarrow\; \text{ready}", false),
             (r"\text{the same degree counted twice}", false),
@@ -9105,7 +9293,10 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"\text{licensed} \;\Rightarrow\; \text{the licensee list}", true),
-            (r"\text{revoked} \;\Rightarrow\; \text{the unlicensed list}", true),
+            (
+              r"\text{revoked} \;\Rightarrow\; \text{the unlicensed list}",
+              true,
+            ),
             (r"\text{expired} \;\Rightarrow\; \text{the licensee list}", false),
             (r"\text{rudeness} \;\Rightarrow\; \text{either list}", false),
           ],
@@ -9125,16 +9316,28 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{lump sum} \;\Rightarrow\; \text{the contractor}", true),
             (r"\text{cost plus} \;\Rightarrow\; \text{the owner}", true),
             (r"\text{cost plus} \;\Rightarrow\; \text{the contractor}", false),
-            (r"\text{a scope change} \;\Rightarrow\; \text{the contractor}", false),
+            (
+              r"\text{a scope change} \;\Rightarrow\; \text{the contractor}",
+              false,
+            ),
           ],
         );
       case BriefFigure.delivery:
         return const _RuleList(
           rules: [
             (r"\text{one contract} \;\Rightarrow\; \text{design-build}", true),
-            (r"\text{two, design finished first} \;\Rightarrow\; \text{DBB}", true),
-            (r"\text{two, with a guaranteed maximum} \;\Rightarrow\; \text{CMAR}", true),
-            (r"\text{design-build} \;\Rightarrow\; \text{the owner holds the designer}", false),
+            (
+              r"\text{two, design finished first} \;\Rightarrow\; \text{DBB}",
+              true,
+            ),
+            (
+              r"\text{two, with a guaranteed maximum} \;\Rightarrow\; \text{CMAR}",
+              true,
+            ),
+            (
+              r"\text{design-build} \;\Rightarrow\; \text{the owner holds the designer}",
+              false,
+            ),
           ],
         );
       case BriefFigure.standardOfCare:
@@ -9149,7 +9352,10 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.negligence:
         return const _RuleList(
           rules: [
-            (r"\text{duty} + \text{breach} + \text{causation} + \text{damages}", true),
+            (
+              r"\text{duty} + \text{breach} + \text{causation} + \text{damages}",
+              true,
+            ),
             (r"\text{a breach with no measurable loss}", false),
             (r"\text{a breach that did not cause the loss}", false),
             (r"\text{intent is a fifth element}", false),
@@ -9167,9 +9373,18 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.property:
         return const _RuleList(
           rules: [
-            (r"\text{not disclosing it} \;\Rightarrow\; \text{a trade secret}", true),
-            (r"\text{the brand on the box} \;\Rightarrow\; \text{a trademark}", true),
-            (r"\text{the paper about it} \;\Rightarrow\; \text{a copyright}", true),
+            (
+              r"\text{not disclosing it} \;\Rightarrow\; \text{a trade secret}",
+              true,
+            ),
+            (
+              r"\text{the brand on the box} \;\Rightarrow\; \text{a trademark}",
+              true,
+            ),
+            (
+              r"\text{the paper about it} \;\Rightarrow\; \text{a copyright}",
+              true,
+            ),
             (r"\text{a trademark stops others making the goods}", false),
           ],
         );
@@ -9185,7 +9400,10 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.lifeCycle:
         return const _RuleList(
           rules: [
-            (r"\text{cheapest to build} \;\Rightarrow\; \text{cheapest to own}", false),
+            (
+              r"\text{cheapest to build} \;\Rightarrow\; \text{cheapest to own}",
+              false,
+            ),
             (r"\text{add every stage, including taking it away}", true),
             (r"\text{sometimes the cheap option wins outright}", true),
             (r"\text{always choose the costlier option}", false),
@@ -9203,7 +9421,10 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.rates:
         return const _RuleList(
           rules: [
-            (r"n \text{ in months} \;\Rightarrow\; \text{the monthly rate}", true),
+            (
+              r"n \text{ in months} \;\Rightarrow\; \text{the monthly rate}",
+              true,
+            ),
             (r"12\% \text{ monthly} \;\Rightarrow\; i_e = 12.68\%", true),
             (r"12\% \text{ monthly} \;\Rightarrow\; i_e = 12\%", false),
             (r"\text{comparing two quoted rates directly}", false),
@@ -9230,18 +9451,39 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.studyPeriod:
         return const _RuleList(
           rules: [
-            (r"6 \text{ and } 4 \text{ by PW} \;\Rightarrow\; 12 \text{ years}", true),
-            (r"6 \text{ and } 4 \text{ by AW} \;\Rightarrow\; \text{as they are}", true),
-            (r"6 \text{ and } 4 \text{ by PW} \;\Rightarrow\; \text{as they are}", false),
-            (r"20 \text{ and } 20 \;\Rightarrow\; \text{a multiple is needed}", false),
+            (
+              r"6 \text{ and } 4 \text{ by PW} \;\Rightarrow\; 12 \text{ years}",
+              true,
+            ),
+            (
+              r"6 \text{ and } 4 \text{ by AW} \;\Rightarrow\; \text{as they are}",
+              true,
+            ),
+            (
+              r"6 \text{ and } 4 \text{ by PW} \;\Rightarrow\; \text{as they are}",
+              false,
+            ),
+            (
+              r"20 \text{ and } 20 \;\Rightarrow\; \text{a multiple is needed}",
+              false,
+            ),
           ],
         );
       case BriefFigure.methodsAgree:
         return const _RuleList(
           rules: [
-            (r"\text{same period, same rate} \;\Rightarrow\; \text{same ranking}", true),
-            (r"\text{unequal lives by PW} \;\Rightarrow\; \text{they can differ}", true),
-            (r"\text{different MARRs} \;\Rightarrow\; \text{they can differ}", true),
+            (
+              r"\text{same period, same rate} \;\Rightarrow\; \text{same ranking}",
+              true,
+            ),
+            (
+              r"\text{unequal lives by PW} \;\Rightarrow\; \text{they can differ}",
+              true,
+            ),
+            (
+              r"\text{different MARRs} \;\Rightarrow\; \text{they can differ}",
+              true,
+            ),
             (r"PW \text{ and } AW \text{ often just disagree}", false),
           ],
         );
@@ -9250,17 +9492,26 @@ class BriefFigureView extends StatelessWidget {
           rules: [
             (r"\text{rent, insurance} \;\Rightarrow\; \text{fixed}", true),
             (r"\text{fuel per yard} \;\Rightarrow\; \text{variable}", true),
-            (r"\text{a study already paid for} \;\Rightarrow\; \text{in}", false),
+            (
+              r"\text{a study already paid for} \;\Rightarrow\; \text{in}",
+              false,
+            ),
             (r"\text{land you already own} \;\Rightarrow\; \text{free}", false),
           ],
         );
       case BriefFigure.breakEven:
         return const _RuleList(
           rules: [
-            (r"\text{below the crossing} \;\Rightarrow\; \text{the cheap start}", true),
+            (
+              r"\text{below the crossing} \;\Rightarrow\; \text{the cheap start}",
+              true,
+            ),
             (r"\text{above it} \;\Rightarrow\; \text{the cheap rate}", true),
             (r"\text{compare the rates alone}", false),
-            (r"\text{higher start AND steeper} \;\Rightarrow\; \text{a crossing}", false),
+            (
+              r"\text{higher start AND steeper} \;\Rightarrow\; \text{a crossing}",
+              false,
+            ),
           ],
         );
       case BriefFigure.payback:
@@ -9269,22 +9520,34 @@ class BriefFigureView extends StatelessWidget {
             (r"\tfrac{1{,}400}{280 - 80} = 7 \text{ years}", true),
             (r"\tfrac{1{,}400}{280} = 5 \text{ years}", false),
             (r"\text{a one-off grant, in the annual figure}", false),
-            (r"\text{new cost} > \text{saving} \;\Rightarrow\; \text{no payback}", true),
+            (
+              r"\text{new cost} > \text{saving} \;\Rightarrow\; \text{no payback}",
+              true,
+            ),
           ],
         );
       case BriefFigure.bcRatio:
         return const _RuleList(
           rules: [
             (r"\text{operating cost} \;\Rightarrow\; \text{denominator}", true),
-            (r"\text{harm to the public} \;\Rightarrow\; \text{off the top}", true),
-            (r"\text{harm to the public} \;\Rightarrow\; \text{denominator}", false),
+            (
+              r"\text{harm to the public} \;\Rightarrow\; \text{off the top}",
+              true,
+            ),
+            (
+              r"\text{harm to the public} \;\Rightarrow\; \text{denominator}",
+              false,
+            ),
             (r"\text{only the construction cost underneath}", false),
           ],
         );
       case BriefFigure.incremental:
         return const _RuleList(
           rules: [
-            (r"\text{the highest } B/C \;\Rightarrow\; \text{build that one}", false),
+            (
+              r"\text{the highest } B/C \;\Rightarrow\; \text{build that one}",
+              false,
+            ),
             (r"B/C < 1 \;\Rightarrow\; \text{out before you start}", true),
             (r"\Delta B/C \geq 1 \;\Rightarrow\; \text{step up}", true),
             (r"\text{compare against the last one that survived}", true),
@@ -9295,7 +9558,10 @@ class BriefFigureView extends StatelessWidget {
           rules: [
             (r"\text{a circle lands between its endings}", true),
             (r"\text{the cost today} \;\Rightarrow\; \text{the branch}", false),
-            (r"\text{the worst ending} \;\Rightarrow\; \text{the branch}", false),
+            (
+              r"\text{the worst ending} \;\Rightarrow\; \text{the branch}",
+              false,
+            ),
             (r"\text{an unlabeled branch carries the rest}", true),
           ],
         );
@@ -9314,25 +9580,46 @@ class BriefFigureView extends StatelessWidget {
             (r"IRR \geq MARR \;\Rightarrow\; \text{accept}", true),
             (r"IRR = MARR \;\Rightarrow\; \text{accept, it breaks even}", true),
             (r"IRR > 0 \;\Rightarrow\; \text{accept}", false),
-            (r"11\% \text{ against } 12\% \;\Rightarrow\; \text{close enough}", false),
+            (
+              r"11\% \text{ against } 12\% \;\Rightarrow\; \text{close enough}",
+              false,
+            ),
           ],
         );
       case BriefFigure.ratePerYear:
         return const _RuleList(
           rules: [
             (r"\text{sooner} \;\Rightarrow\; \text{a higher rate}", true),
-            (r"\text{every cash flow doubled} \;\Rightarrow\; \text{same rate}", true),
-            (r"\text{the bigger total} \;\Rightarrow\; \text{the higher rate}", false),
-            (r"\text{the bigger project} \;\Rightarrow\; \text{the higher rate}", false),
+            (
+              r"\text{every cash flow doubled} \;\Rightarrow\; \text{same rate}",
+              true,
+            ),
+            (
+              r"\text{the bigger total} \;\Rightarrow\; \text{the higher rate}",
+              false,
+            ),
+            (
+              r"\text{the bigger project} \;\Rightarrow\; \text{the higher rate}",
+              false,
+            ),
           ],
         );
       case BriefFigure.macrs:
         return const _RuleList(
           rules: [
-            (r"\text{5 year property} \;\Rightarrow\; 6 \text{ years of it}", true),
-            (r"\text{MACRS} \;\Rightarrow\; \text{full cost, no salvage}", true),
+            (
+              r"\text{5 year property} \;\Rightarrow\; 6 \text{ years of it}",
+              true,
+            ),
+            (
+              r"\text{MACRS} \;\Rightarrow\; \text{full cost, no salvage}",
+              true,
+            ),
             (r"\text{MACRS} \;\Rightarrow\; \tfrac{C - S_n}{n}", false),
-            (r"\text{5 year property} \;\Rightarrow\; 5 \text{ years of it}", false),
+            (
+              r"\text{5 year property} \;\Rightarrow\; 5 \text{ years of it}",
+              false,
+            ),
           ],
         );
       case BriefFigure.bookValue:
@@ -9356,16 +9643,28 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.resolve:
         return const _RuleList(
           rules: [
-            (r"\theta \text{ off the horizontal} \;\Rightarrow\; F_x = F\cos\theta", true),
-            (r"\theta \text{ off the vertical} \;\Rightarrow\; F_y = F\cos\theta", true),
-            (r"\text{the horizontal leg} \;\Rightarrow\; \text{the horizontal component}", true),
+            (
+              r"\theta \text{ off the horizontal} \;\Rightarrow\; F_x = F\cos\theta",
+              true,
+            ),
+            (
+              r"\theta \text{ off the vertical} \;\Rightarrow\; F_y = F\cos\theta",
+              true,
+            ),
+            (
+              r"\text{the horizontal leg} \;\Rightarrow\; \text{the horizontal component}",
+              true,
+            ),
             (r"\text{a component larger than } F", false),
           ],
         );
       case BriefFigure.moment:
         return const _RuleList(
           rules: [
-            (r"\text{a vertical force} \;\Rightarrow\; \text{a horizontal arm}", true),
+            (
+              r"\text{a vertical force} \;\Rightarrow\; \text{a horizontal arm}",
+              true,
+            ),
             (r"\text{the line through the point} \;\Rightarrow\; M = 0", true),
             (r"\text{the length of the member}", false),
             (r"\text{the distance to where it is applied}", false),
@@ -9374,8 +9673,14 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.sense:
         return const _RuleList(
           rules: [
-            (r"\text{down, right of the pin} \;\Rightarrow\; \text{clockwise}", true),
-            (r"\text{up, left of the pin} \;\Rightarrow\; \text{clockwise}", true),
+            (
+              r"\text{down, right of the pin} \;\Rightarrow\; \text{clockwise}",
+              true,
+            ),
+            (
+              r"\text{up, left of the pin} \;\Rightarrow\; \text{clockwise}",
+              true,
+            ),
             (r"\text{down} \;\Rightarrow\; \text{always clockwise}", false),
             (r"\text{a couple} \;\Rightarrow\; \text{the two cancel}", false),
           ],
@@ -9383,25 +9688,43 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.supports:
         return const _RuleList(
           rules: [
-            (r"\text{roller} \;\Rightarrow\; \text{1, square to the surface}", true),
+            (
+              r"\text{roller} \;\Rightarrow\; \text{1, square to the surface}",
+              true,
+            ),
             (r"\text{pin} \;\Rightarrow\; \text{2, and no moment}", true),
             (r"\text{fixed} \;\Rightarrow\; \text{2 and a moment}", true),
-            (r"\text{a roller on a slope} \;\Rightarrow\; \text{vertical}", false),
+            (
+              r"\text{a roller on a slope} \;\Rightarrow\; \text{vertical}",
+              false,
+            ),
           ],
         );
       case BriefFigure.resultant:
         return const _RuleList(
           rules: [
-            (r"\text{uniform} \;\Rightarrow\; \text{middle of the loaded part}", true),
-            (r"\text{triangle} \;\Rightarrow\; \tfrac{1}{3} \text{ from the heavy end}", true),
-            (r"\text{uniform} \;\Rightarrow\; \text{middle of the member}", false),
+            (
+              r"\text{uniform} \;\Rightarrow\; \text{middle of the loaded part}",
+              true,
+            ),
+            (
+              r"\text{triangle} \;\Rightarrow\; \tfrac{1}{3} \text{ from the heavy end}",
+              true,
+            ),
+            (
+              r"\text{uniform} \;\Rightarrow\; \text{middle of the member}",
+              false,
+            ),
             (r"\text{at the far end of the load}", false),
           ],
         );
       case BriefFigure.determinacy:
         return const _RuleList(
           rules: [
-            (r"\text{pin} + \text{roller} = 3 \;\Rightarrow\; \text{solvable}", true),
+            (
+              r"\text{pin} + \text{roller} = 3 \;\Rightarrow\; \text{solvable}",
+              true,
+            ),
             (r"\text{fixed alone} = 3 \;\Rightarrow\; \text{solvable}", true),
             (r"\text{a couple adds an unknown}", false),
             (r"\text{two rollers} \;\Rightarrow\; \text{it stands up}", false),
@@ -9410,8 +9733,14 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.deformation:
         return const _RuleList(
           rules: [
-            (r"\text{more load or more length} \;\Rightarrow\; \text{more stretch}", true),
-            (r"\text{more area or a stiffer material} \;\Rightarrow\; \text{less}", true),
+            (
+              r"\text{more load or more length} \;\Rightarrow\; \text{more stretch}",
+              true,
+            ),
+            (
+              r"\text{more area or a stiffer material} \;\Rightarrow\; \text{less}",
+              true,
+            ),
             (r"\text{a longer bar carries more stress}", false),
             (r"\text{doubling every dimension changes nothing}", false),
           ],
@@ -9419,7 +9748,10 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.units:
         return const _RuleList(
           rules: [
-            (r"\text{N, mm and N/mm}^2 \;\Rightarrow\; \text{answers in mm}", true),
+            (
+              r"\text{N, mm and N/mm}^2 \;\Rightarrow\; \text{answers in mm}",
+              true,
+            ),
             (r"\text{strain has no unit at all}", true),
             (r"\text{cancelling units means the answer is right}", false),
             (r"\text{meters beside millimeters is fine if they cancel}", false),
@@ -9428,8 +9760,14 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.thermal:
         return const _RuleList(
           rules: [
-            (r"\text{restrained and warmed} \;\Rightarrow\; \text{compression}", true),
-            (r"\text{restrained and cooled} \;\Rightarrow\; \text{tension}", true),
+            (
+              r"\text{restrained and warmed} \;\Rightarrow\; \text{compression}",
+              true,
+            ),
+            (
+              r"\text{restrained and cooled} \;\Rightarrow\; \text{tension}",
+              true,
+            ),
             (r"\text{heating a bar makes stress}", false),
             (r"\sigma_t \text{ depends on the cross-section}", false),
           ],
@@ -9458,7 +9796,10 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{trouble when } \omega = \omega_n", true),
             (r"\text{far above or far below is safe}", true),
             (r"\text{a structure resonates on its own}", false),
-            (r"\mathrm{rpm} \text{ and } \mathrm{Hz} \text{ compare directly}", false),
+            (
+              r"\mathrm{rpm} \text{ and } \mathrm{Hz} \text{ compare directly}",
+              false,
+            ),
           ],
         );
       case BriefFigure.underneath:
@@ -9528,7 +9869,10 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"\text{more water} \Rightarrow \text{weaker}", true),
-            (r"\text{more cement, same water} \Rightarrow \text{stronger}", true),
+            (
+              r"\text{more cement, same water} \Rightarrow \text{stronger}",
+              true,
+            ),
             (r"W/C = \frac{\text{water}}{\text{whole batch}}", false),
             (r"\text{aggregate changes } W/C", false),
           ],
@@ -9807,7 +10151,10 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"|g_1| = |g_2| \Rightarrow x_m = \tfrac{L}{2}", true),
-            (r"x_m \text{ outside } 0..L \Rightarrow \text{none on the curve}", true),
+            (
+              r"x_m \text{ outside } 0..L \Rightarrow \text{none on the curve}",
+              true,
+            ),
             (r"x_m \text{ is under the PVI}", false),
             (r"x_m = K", false),
           ],
@@ -10022,8 +10369,10 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.foodRatio:
         return const _RuleList(
           rules: [
-            (r"2Q \text{ and } \tfrac{S_0}{2} \Rightarrow \text{no change}",
-                true),
+            (
+              r"2Q \text{ and } \tfrac{S_0}{2} \Rightarrow \text{no change}",
+              true,
+            ),
             (r"\text{more MLSS} \Rightarrow \text{lower } F{:}M", true),
             (r"\text{a bigger basin raises } F{:}M", false),
             (r"F{:}M = \frac{Q S_0}{V}", false),
@@ -10429,7 +10778,10 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"t \propto H_{dr}^2", true),
-            (r"\text{one rock face} \Rightarrow 4\times \text{ the wait}", true),
+            (
+              r"\text{one rock face} \Rightarrow 4\times \text{ the wait}",
+              true,
+            ),
             (r"\text{a bigger load settles slower}", false),
             (r"H_{dr} = H \text{ when both faces drain}", false),
           ],
@@ -11067,8 +11419,10 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.method:
         return const _RuleList(
           rules: [
-            (r"\text{straight sides, corners known} \Rightarrow \text{exact}",
-                true),
+            (
+              r"\text{straight sides, corners known} \Rightarrow \text{exact}",
+              true,
+            ),
             (r"\text{odd offsets} \Rightarrow \text{Simpson fits}", true),
             (r"\text{even offsets} \Rightarrow \text{Simpson fits}", false),
             (r"\text{a curved boundary} \Rightarrow \text{coordinates}", false),
@@ -11204,8 +11558,10 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"\text{no } C \Rightarrow \text{the answer is too big}", true),
-            (r"\text{level meter} \Rightarrow z_1 - z_2 \text{ changes nothing}",
-                true),
+            (
+              r"\text{level meter} \Rightarrow z_1 - z_2 \text{ changes nothing}",
+              true,
+            ),
             (r"C > 1 \text{ for a good venturi}", false),
             (r"\text{kPa left as kPa} \Rightarrow \text{too big}", false),
           ],
@@ -11349,7 +11705,10 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"\text{mass at the rim counts most}", true),
-            (r"\text{rod about its end} = 4\times \text{about its middle}", true),
+            (
+              r"\text{rod about its end} = 4\times \text{about its middle}",
+              true,
+            ),
             (r"I \text{ belongs to the body alone}", false),
             (r"\text{transfer between any two axes}", false),
           ],
@@ -11378,14 +11737,20 @@ class BriefFigureView extends StatelessWidget {
             (r"\text{steady speed still accelerates}", true),
             (r"a_n = \tfrac{v^2}{\rho} \text{, toward the middle}", true),
             (r"a = a_t + a_n", false),
-            (r"\text{constant speed} \Rightarrow \text{no acceleration}", false),
+            (
+              r"\text{constant speed} \Rightarrow \text{no acceleration}",
+              false,
+            ),
           ],
         );
       case BriefFigure.ends:
         return const _RuleList(
           rules: [
             (r"\text{a free end} \Rightarrow K = 2", true),
-            (r"\text{both fixed} \Rightarrow K = 0.5 \Rightarrow 4\times \text{the load}", true),
+            (
+              r"\text{both fixed} \Rightarrow K = 0.5 \Rightarrow 4\times \text{the load}",
+              true,
+            ),
             (r"\text{the length in the formula is the real length}", false),
             (r"\text{fixing an end makes it weaker}", false),
           ],
@@ -11510,17 +11875,32 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.governs:
         return const _RuleList(
           rules: [
-            (r"\text{twice the span} \;\Rightarrow\; \text{twice } \sigma", true),
-            (r"\text{twice the depth} \;\Rightarrow\; \sigma/4,\; \tau/2", true),
-            (r"\text{twice the span} \;\Rightarrow\; \text{twice } \tau", false),
+            (
+              r"\text{twice the span} \;\Rightarrow\; \text{twice } \sigma",
+              true,
+            ),
+            (
+              r"\text{twice the depth} \;\Rightarrow\; \sigma/4,\; \tau/2",
+              true,
+            ),
+            (
+              r"\text{twice the span} \;\Rightarrow\; \text{twice } \tau",
+              false,
+            ),
             (r"\text{a stronger material lowers the stress}", false),
           ],
         );
       case BriefFigure.slopeRules:
         return const _RuleList(
           rules: [
-            (r"\text{no spread load} \;\Rightarrow\; V \text{ flat}, M \text{ straight}", true),
-            (r"\text{uniform load} \;\Rightarrow\; V \text{ slopes}, M \text{ curves}", true),
+            (
+              r"\text{no spread load} \;\Rightarrow\; V \text{ flat}, M \text{ straight}",
+              true,
+            ),
+            (
+              r"\text{uniform load} \;\Rightarrow\; V \text{ slopes}, M \text{ curves}",
+              true,
+            ),
             (r"\text{a uniform load gives a straight } M", false),
             (r"\text{a point load slopes } V", false),
           ],
@@ -11582,8 +11962,14 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.twist:
         return const _RuleList(
           rules: [
-            (r"\text{longer or softer} \;\Rightarrow\; \text{more twist}", true),
-            (r"\text{longer or softer} \;\Rightarrow\; \text{same stress}", true),
+            (
+              r"\text{longer or softer} \;\Rightarrow\; \text{more twist}",
+              true,
+            ),
+            (
+              r"\text{longer or softer} \;\Rightarrow\; \text{same stress}",
+              true,
+            ),
             (r"\text{torsion uses } E", false),
             (r"\text{whatever moves } \phi \text{ moves } \tau", false),
           ],
@@ -11600,7 +11986,10 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.polar:
         return const _RuleList(
           rules: [
-            (r"\text{bending} \;\Rightarrow\; I \text{, square to the load}", true),
+            (
+              r"\text{bending} \;\Rightarrow\; I \text{, square to the load}",
+              true,
+            ),
             (r"\text{twisting} \;\Rightarrow\; J = I_x + I_y", true),
             (r"\text{bending is about the stronger axis}", false),
             (r"\text{torsion uses } I", false),
@@ -11611,7 +12000,10 @@ class BriefFigureView extends StatelessWidget {
           rules: [
             (r"\text{far from the axis} \;\Rightarrow\; \text{stiffer}", true),
             (r"\text{depth is cubed, width is not}", true),
-            (r"\text{twice the area} \;\Rightarrow\; \text{twice the stiffness}", false),
+            (
+              r"\text{twice the area} \;\Rightarrow\; \text{twice the stiffness}",
+              false,
+            ),
             (r"\text{metal on the axis works as hard as any}", false),
           ],
         );
@@ -11637,7 +12029,10 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"\text{triangle: } \tfrac{h}{3} \text{ from the wide end}", true),
-            (r"\text{half disc: } \tfrac{4r}{3\pi} \text{ from the flat side}", true),
+            (
+              r"\text{half disc: } \tfrac{4r}{3\pi} \text{ from the flat side}",
+              true,
+            ),
             (r"\text{triangle: } \tfrac{h}{2}", false),
             (r"\text{the middle of the box it fits in}", false),
           ],
@@ -11654,7 +12049,10 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.twoForce:
         return const _RuleList(
           rules: [
-            (r"\text{2 points} \;\Rightarrow\; \text{along the line joining them}", true),
+            (
+              r"\text{2 points} \;\Rightarrow\; \text{along the line joining them}",
+              true,
+            ),
             (r"\text{a bend in it does not move that line}", true),
             (r"\text{a straight member is always two-force}", false),
             (r"\text{a load at a pin makes its members bend}", false),
@@ -11672,8 +12070,14 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.whatItIs:
         return const _RuleList(
           rules: [
-            (r"\text{all members two-force, and still} \;\Rightarrow\; \text{truss}", true),
-            (r"\text{still, one member bends} \;\Rightarrow\; \text{frame}", true),
+            (
+              r"\text{all members two-force, and still} \;\Rightarrow\; \text{truss}",
+              true,
+            ),
+            (
+              r"\text{still, one member bends} \;\Rightarrow\; \text{frame}",
+              true,
+            ),
             (r"\text{a frame may have a part that moves}", false),
             (r"\text{a machine is solved a different way}", false),
           ],
@@ -11681,8 +12085,14 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.laws:
         return const _RuleList(
           rules: [
-            (r"\text{exclusive} \;\Rightarrow\; P(A \cup B) = P(A) + P(B)", true),
-            (r"\text{independent} \;\Rightarrow\; P(A \cap B) = P(A)P(B)", true),
+            (
+              r"\text{exclusive} \;\Rightarrow\; P(A \cup B) = P(A) + P(B)",
+              true,
+            ),
+            (
+              r"\text{independent} \;\Rightarrow\; P(A \cap B) = P(A)P(B)",
+              true,
+            ),
             (r"\text{exclusive events are independent}", false),
             (r"\text{two events always overlap by } P(A)P(B)", false),
           ],
@@ -11691,7 +12101,10 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"\text{end of year } n \;\Rightarrow\; \text{period } n", true),
-            (r"\text{beginning of year } n \;\Rightarrow\; \text{period } n-1", true),
+            (
+              r"\text{beginning of year } n \;\Rightarrow\; \text{period } n-1",
+              true,
+            ),
             (r"\text{a series starts at period 0}", false),
             (r"\text{a gradient has a step in period 1}", false),
           ],
@@ -11711,7 +12124,10 @@ class BriefFigureView extends StatelessWidget {
             (r"F \le \mu_s N \;\text{ always}", true),
             (r"F = \mu_s N \;\text{ only when motion is impending}", true),
             (r"F = \mu_s N \;\text{ whenever it is sitting still}", false),
-            (r"\text{a bigger } N \Rightarrow \text{ a bigger friction force}", false),
+            (
+              r"\text{a bigger } N \Rightarrow \text{ a bigger friction force}",
+              false,
+            ),
           ],
         );
       case BriefFigure.belt:
@@ -11735,8 +12151,14 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.zeroForce:
         return const _RuleList(
           rules: [
-            (r"\text{2 members, unloaded joint} \;\Rightarrow\; \text{both zero}", true),
-            (r"\text{3 members, 2 in line, unloaded} \;\Rightarrow\; \text{odd one zero}", true),
+            (
+              r"\text{2 members, unloaded joint} \;\Rightarrow\; \text{both zero}",
+              true,
+            ),
+            (
+              r"\text{3 members, 2 in line, unloaded} \;\Rightarrow\; \text{odd one zero}",
+              true,
+            ),
             (r"\text{2 members, load on the joint}", false),
             (r"\text{a zero-force member can be removed}", false),
           ],
@@ -11745,8 +12167,14 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"\text{assume tension, always}", true),
-            (r"T > 0 \;\Rightarrow\; \text{tension, the member is stretched}", true),
-            (r"T < 0 \;\Rightarrow\; \text{compression, the member is squashed}", true),
+            (
+              r"T > 0 \;\Rightarrow\; \text{tension, the member is stretched}",
+              true,
+            ),
+            (
+              r"T < 0 \;\Rightarrow\; \text{compression, the member is squashed}",
+              true,
+            ),
             (r"\text{a magnitude on its own is the answer}", false),
           ],
         );
@@ -11894,8 +12322,14 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.maxMin:
         return const _RuleList(
           rules: [
-            (r"f'(a) = 0 \;\text{and}\; f''(a) < 0 \Rightarrow \text{maximum}", true),
-            (r"f'(a) = 0 \;\text{and}\; f''(a) > 0 \Rightarrow \text{minimum}", true),
+            (
+              r"f'(a) = 0 \;\text{and}\; f''(a) < 0 \Rightarrow \text{maximum}",
+              true,
+            ),
+            (
+              r"f'(a) = 0 \;\text{and}\; f''(a) > 0 \Rightarrow \text{minimum}",
+              true,
+            ),
             (r"f'(a) = 0 \Rightarrow \text{maximum}", false),
           ],
         );
@@ -11904,7 +12338,10 @@ class BriefFigureView extends StatelessWidget {
           rules: [
             (r"f''(x) > 0 \Rightarrow \text{concave up, a smile}", null),
             (r"f''(x) < 0 \Rightarrow \text{concave down, a frown}", null),
-            (r"f''(a) = 0 \text{ and the sign flips} \Rightarrow \text{inflection}", true),
+            (
+              r"f''(a) = 0 \text{ and the sign flips} \Rightarrow \text{inflection}",
+              true,
+            ),
             (r"f'(a) = 0 \Rightarrow \text{inflection}", false),
           ],
         );
@@ -11947,7 +12384,10 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"\frac{0}{0} \;\Rightarrow\; \text{the rule applies}", null),
-            (r"\frac{\infty}{\infty} \;\Rightarrow\; \text{the rule applies}", null),
+            (
+              r"\frac{\infty}{\infty} \;\Rightarrow\; \text{the rule applies}",
+              null,
+            ),
             (r"\frac{1}{1} \;\Rightarrow\; \text{you already have it}", null),
             (r"\frac{1}{0} \;\Rightarrow\; \text{a blow up, not a form}", null),
           ],
@@ -11955,12 +12395,18 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.separately:
         return const _RuleList(
           rules: [
-            (r"\lim\frac{\sin x}{x} \;\Rightarrow\; \lim\frac{\cos x}{1}", true),
+            (
+              r"\lim\frac{\sin x}{x} \;\Rightarrow\; \lim\frac{\cos x}{1}",
+              true,
+            ),
             (
               r"\lim\frac{\sin x}{x} \;\Rightarrow\; \lim\frac{x\cos x - \sin x}{x^2}",
               false,
             ),
-            (r"\lim\frac{\sin x}{x} \;\Rightarrow\; \lim\frac{\cos x}{x}", false),
+            (
+              r"\lim\frac{\sin x}{x} \;\Rightarrow\; \lim\frac{\cos x}{x}",
+              false,
+            ),
           ],
         );
       case BriefFigure.bothSides:
@@ -11968,21 +12414,30 @@ class BriefFigureView extends StatelessWidget {
           rules: [
             (r"\text{both sides run up} \;\Rightarrow\; +\infty", null),
             (r"\text{both sides run down} \;\Rightarrow\; -\infty", null),
-            (r"\text{sides disagree} \;\Rightarrow\; \text{does not exist}", null),
+            (
+              r"\text{sides disagree} \;\Rightarrow\; \text{does not exist}",
+              null,
+            ),
           ],
         );
       case BriefFigure.vectorAdd:
         return const _RuleList(
           rules: [
             (r"(3\hat{i}) + (0\hat{i} + 4\hat{j}) = 3\hat{i} + 4\hat{j}", true),
-            (r"|3\hat{i}| + |4\hat{j}| = 7 \;\Rightarrow\; \text{the resultant}", false),
+            (
+              r"|3\hat{i}| + |4\hat{j}| = 7 \;\Rightarrow\; \text{the resultant}",
+              false,
+            ),
             (r"(4\hat{i} + 4\hat{j}) + (-4\hat{i} - 4\hat{j}) = 0", true),
           ],
         );
       case BriefFigure.unitVector:
         return const _RuleList(
           rules: [
-            (r"\vec{d} = 3\hat{i} + 4\hat{j} \;\Rightarrow\; |\vec{d}| = 5", null),
+            (
+              r"\vec{d} = 3\hat{i} + 4\hat{j} \;\Rightarrow\; |\vec{d}| = 5",
+              null,
+            ),
             (r"\hat{u} = 0.6\hat{i} + 0.8\hat{j}", null),
             (r"25\,\hat{u} = 15\hat{i} + 20\hat{j}", null),
             (r"-2\,\hat{u} \;\Rightarrow\; \text{same line, other way}", null),
@@ -12008,18 +12463,39 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.dotAngle:
         return const _RuleList(
           rules: [
-            (r"\theta < 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} > 0", null),
-            (r"\theta = 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} = 0", null),
-            (r"\theta > 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} < 0", null),
-            (r"\cos\theta = \tfrac{1}{\sqrt{2}} \;\Rightarrow\; \theta = 45^\circ", true),
+            (
+              r"\theta < 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} > 0",
+              null,
+            ),
+            (
+              r"\theta = 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} = 0",
+              null,
+            ),
+            (
+              r"\theta > 90^\circ \;\Rightarrow\; \vec{A} \cdot \vec{B} < 0",
+              null,
+            ),
+            (
+              r"\cos\theta = \tfrac{1}{\sqrt{2}} \;\Rightarrow\; \theta = 45^\circ",
+              true,
+            ),
           ],
         );
       case BriefFigure.projection:
         return const _RuleList(
           rules: [
-            (r"\frac{\vec{F} \cdot \vec{d}}{|\vec{d}|} = \frac{1500}{3} = 500", true),
-            (r"\vec{F} \cdot \vec{d} = 1500 \;\Rightarrow\; \text{the component}", false),
-            (r"\frac{\vec{F} \cdot \vec{d}}{|\vec{F}|} \;\Rightarrow\; \text{the component}", false),
+            (
+              r"\frac{\vec{F} \cdot \vec{d}}{|\vec{d}|} = \frac{1500}{3} = 500",
+              true,
+            ),
+            (
+              r"\vec{F} \cdot \vec{d} = 1500 \;\Rightarrow\; \text{the component}",
+              false,
+            ),
+            (
+              r"\frac{\vec{F} \cdot \vec{d}}{|\vec{F}|} \;\Rightarrow\; \text{the component}",
+              false,
+            ),
           ],
         );
       case BriefFigure.rightHand:
@@ -12034,9 +12510,18 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.crossArea:
         return const _RuleList(
           rules: [
-            (r"|\vec{u} \times \vec{v}| \;\Rightarrow\; \text{parallelogram}", null),
-            (r"\tfrac{1}{2}|\vec{u} \times \vec{v}| \;\Rightarrow\; \text{triangle}", null),
-            (r"|\vec{u}||\vec{v}| \;\Rightarrow\; \text{the box round it}", null),
+            (
+              r"|\vec{u} \times \vec{v}| \;\Rightarrow\; \text{parallelogram}",
+              null,
+            ),
+            (
+              r"\tfrac{1}{2}|\vec{u} \times \vec{v}| \;\Rightarrow\; \text{triangle}",
+              null,
+            ),
+            (
+              r"|\vec{u}||\vec{v}| \;\Rightarrow\; \text{the box round it}",
+              null,
+            ),
           ],
         );
       case BriefFigure.cofactor:
@@ -12051,8 +12536,14 @@ class BriefFigureView extends StatelessWidget {
       case BriefFigure.references:
         return const _RuleList(
           rules: [
-            (r"\text{C1: =A1*\$B\$1} \;\Rightarrow\; \text{C2: =A2*\$B\$1}", true),
-            (r"\text{C1: =A1*\$B\$1} \;\Rightarrow\; \text{C2: =A1*\$B\$2}", false),
+            (
+              r"\text{C1: =A1*\$B\$1} \;\Rightarrow\; \text{C2: =A2*\$B\$1}",
+              true,
+            ),
+            (
+              r"\text{C1: =A1*\$B\$1} \;\Rightarrow\; \text{C2: =A1*\$B\$2}",
+              false,
+            ),
             (r"\text{C1: =A1*B1} \;\Rightarrow\; \text{C2: =A2*B2}", true),
           ],
         );
@@ -12070,7 +12561,10 @@ class BriefFigureView extends StatelessWidget {
           rules: [
             (r"\text{=SUM(B1:B3)} \;\Rightarrow\; \text{adds all three}", null),
             (r"\text{=COUNT(A1:A4)} \;\Rightarrow\; \text{numbers only}", null),
-            (r"\text{=IF(test, yes, no)} \;\Rightarrow\; \text{one of the two}", null),
+            (
+              r"\text{=IF(test, yes, no)} \;\Rightarrow\; \text{one of the two}",
+              null,
+            ),
             (r"\text{=IF(...)} \;\Rightarrow\; 1 \text{ for true}", false),
           ],
         );
@@ -12111,24 +12605,45 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"f(a)\cdot f(b) < 0 \;\Rightarrow\; \text{it can start}", true),
-            (r"f(a) > 0 \text{ and } f(b) > 0 \;\Rightarrow\; \text{it can start}", false),
-            (r"\text{two roots inside} \;\Rightarrow\; \text{it can start}", false),
+            (
+              r"f(a) > 0 \text{ and } f(b) > 0 \;\Rightarrow\; \text{it can start}",
+              false,
+            ),
+            (
+              r"\text{two roots inside} \;\Rightarrow\; \text{it can start}",
+              false,
+            ),
           ],
         );
       case BriefFigure.methodChoice:
         return const _RuleList(
           rules: [
-            (r"\text{close guess, has } f' \;\Rightarrow\; \text{Newton}", null),
-            (r"\text{only a sign change} \;\Rightarrow\; \text{bisection}", null),
-            (r"f' \text{ near zero} \;\Rightarrow\; \text{Newton may run away}", null),
-            (r"\text{far guess} \;\Rightarrow\; \text{Newton may run away}", null),
+            (
+              r"\text{close guess, has } f' \;\Rightarrow\; \text{Newton}",
+              null,
+            ),
+            (
+              r"\text{only a sign change} \;\Rightarrow\; \text{bisection}",
+              null,
+            ),
+            (
+              r"f' \text{ near zero} \;\Rightarrow\; \text{Newton may run away}",
+              null,
+            ),
+            (
+              r"\text{far guess} \;\Rightarrow\; \text{Newton may run away}",
+              null,
+            ),
           ],
         );
       case BriefFigure.center:
         return const _RuleList(
           rules: [
             (r"11,\ 12,\ 13,\ 14,\ 16 \;\Rightarrow\; \text{median } 13", true),
-            (r"10,\ 11,\ 12,\ 13,\ 14,\ 15,\ 24 \;\Rightarrow\; \text{median } 13", true),
+            (
+              r"10,\ 11,\ 12,\ 13,\ 14,\ 15,\ 24 \;\Rightarrow\; \text{median } 13",
+              true,
+            ),
             (r"\text{the same set} \;\Rightarrow\; \text{mean } 14.1", true),
             (r"\text{one stray reading moves the median}", false),
           ],
@@ -12146,8 +12661,14 @@ class BriefFigureView extends StatelessWidget {
         return const _RuleList(
           rules: [
             (r"\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}", null),
-            (r"\text{equal weights} \;\Rightarrow\; \text{the plain mean}", null),
-            (r"\text{roles swapped} \;\Rightarrow\; \text{a tidy wrong answer}", null),
+            (
+              r"\text{equal weights} \;\Rightarrow\; \text{the plain mean}",
+              null,
+            ),
+            (
+              r"\text{roles swapped} \;\Rightarrow\; \text{a tidy wrong answer}",
+              null,
+            ),
           ],
         );
       case BriefFigure.logRules:

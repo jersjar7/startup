@@ -187,16 +187,7 @@ class Sheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
-                child: Container(
-                  width: 44,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: AppColors.charcoal.withValues(alpha: 0.25),
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                ),
-              ),
+              const Grabber(),
               const SizedBox(height: 22),
               Text(title, style: AppTheme.display(size: 38, height: 1)),
               const SizedBox(height: 8),

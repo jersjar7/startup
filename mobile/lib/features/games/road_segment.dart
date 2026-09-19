@@ -105,8 +105,8 @@ class _RoadSegmentState extends State<RoadSegment>
   }
 }
 
-/// The road itself: a warm track with a dashed center line, and the walked
-/// part of it painted over in forest.
+/// The road itself: a charcoal track, and the walked part of it marked with
+/// spring dashes.
 class RoadPainter extends CustomPainter {
   RoadPainter({
     required this.from,
@@ -177,44 +177,39 @@ class RoadPainter extends CustomPainter {
   @visibleForTesting
   Path debugRoad() => _road();
 
+  /// The road's width and the walked overlay's, in logical pixels.
+  static const roadWidth = 14.0;
+  static const walkWidth = 6.0;
+
   @override
   void paint(Canvas canvas, Size size) {
     final road = _road();
 
+    // Charcoal, edge to edge: the path is the one heavy line on the screen.
     canvas.drawPath(
       road,
       Paint()
-        ..color = const Color(0xFFEADFCD)
-        ..strokeWidth = 12
+        ..color = AppColors.charcoal
+        ..strokeWidth = roadWidth
         ..strokeCap = StrokeCap.round
         ..style = PaintingStyle.stroke,
     );
-    _dash(canvas, road, const Color(0xFFCBBBA0), 3);
 
     if (travelled <= 0) return;
 
-    // The walked part, painted forward from the finished node.
+    // The walked part: spring dashes laid forward from the finished node, so
+    // clearing a lesson visibly opens the way to the next one.
     for (final metric in road.computeMetrics()) {
       final walked = metric.extractPath(
         0,
         metric.length * travelled.clamp(0, 1),
       );
-      canvas.drawPath(
-        walked,
-        Paint()
-          // Paved, not green: finished is charcoal on this map now, and a
-          // green road would be the only green left on the screen.
-          ..color = const Color(0xFF6B665F)
-          ..strokeWidth = 12
-          ..strokeCap = StrokeCap.round
-          ..style = PaintingStyle.stroke,
-      );
-      _dash(canvas, walked, AppColors.cream.withValues(alpha: 0.85), 3);
+      _dash(canvas, walked, AppColors.spring, walkWidth);
     }
   }
 
   void _dash(Canvas canvas, Path path, Color color, double width) {
-    const dash = 10.0, space = 9.0;
+    const dash = 14.0, space = 12.0;
     final paint = Paint()
       ..color = color
       ..strokeWidth = width

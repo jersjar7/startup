@@ -1,13 +1,12 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
-import '../shared/widgets/mastery_ring.dart';
+import '../shared/widgets/kit.dart';
 import 'game_catalog.dart';
 import 'game_progress.dart';
+import 'lesson_brief.dart';
 import 'lesson_node.dart';
 import 'road_segment.dart';
 
@@ -20,13 +19,19 @@ import 'road_segment.dart';
 /// - **No chests, no coins, no mascot.** We borrow the shape of the path and
 ///   nothing else. Node states speak our own language: not started, in
 ///   progress, cleared, and not built yet.
+///
+/// Drawn in the app language (ADR 0016, reference 11): one fog ground, the
+/// chapter name as the headline, two chips, a charcoal road with a spring
+/// dashed stretch where the student has walked, and the lesson names as cream
+/// tiles, the one in flight in spring.
 class ChapterMapScreen extends StatefulWidget {
   const ChapterMapScreen({super.key, required this.chapter, this.masteryPct});
 
   final ChapterMap chapter;
 
-  /// Chapter mastery from the server, when the caller already has it (the
-  /// Study tab does). Null means not known, which is not the same as zero.
+  /// Chapter mastery from the server, when the caller already has it. The
+  /// Study tile shows it; the map no longer repeats it, so this is kept only
+  /// for callers that still pass it.
   final int? masteryPct;
 
   @override
@@ -66,15 +71,7 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
 
   /// Open a lesson, then take in what changed once we are back on screen.
   Future<void> _openLesson(LessonNode lesson) async {
-    final gameId = await showModalBottomSheet<String>(
-      context: context,
-      backgroundColor: AppColors.cream,
-      showDragHandle: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-      ),
-      builder: (_) => _LessonSheet(lesson: lesson),
-    );
+    final gameId = await showLessonSheet(context, widget.chapter, lesson);
     if (gameId == null || !mounted) return;
 
     await context.push('/games/play/$gameId');
@@ -84,123 +81,123 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cleared = widget.chapter.lessons
+        .where((l) => _state[l.id] == NodeState.cleared)
+        .length;
+
     return Scaffold(
-      backgroundColor: AppColors.cream,
+      backgroundColor: AppColors.fog,
       body: SafeArea(
         bottom: false,
-        child: Column(
-          children: [
-            _Header(chapter: widget.chapter, masteryPct: widget.masteryPct),
-            Expanded(
-              child: LayoutBuilder(
-                builder: (context, box) => SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: _Path(
-                    chapter: widget.chapter,
-                    width: box.maxWidth,
-                    shown: _shown,
-                    target: _target,
-                    state: _state,
-                    current: _current,
-                    onTap: _openLesson,
-                    onSettled: (id, value) =>
-                        setState(() => _shown[id] = value),
-                  ),
+        child: LayoutBuilder(
+          builder: (context, box) => SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _Header(chapter: widget.chapter, cleared: cleared),
+                _Path(
+                  chapter: widget.chapter,
+                  width: box.maxWidth,
+                  shown: _shown,
+                  target: _target,
+                  state: _state,
+                  current: _current,
+                  onTap: _openLesson,
+                  onSettled: (id, value) => setState(() => _shown[id] = value),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
+/// "11 to 17 questions on the real exam" is the Study tile's line; the chip
+/// has room for "11 to 17 on the exam".
+String examChip(ChapterMap chapter) => chapter.examLine.replaceFirst(
+  ' questions on the real exam',
+  ' on the exam',
+);
+
 class _Header extends StatelessWidget {
-  const _Header({required this.chapter, required this.masteryPct});
+  const _Header({required this.chapter, required this.cleared});
 
   final ChapterMap chapter;
-  final int? masteryPct;
+  final int cleared;
 
   @override
   Widget build(BuildContext context) {
-    final progress = GameProgress.instance;
-    final playable = chapter.lessons.where((l) => l.playable).length;
-    final cleared = chapter.lessons
-        .where((l) => progress.stateOf(l) == LessonState.cleared)
-        .length;
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(20, 2, 20, 18),
-      decoration: const BoxDecoration(
-        color: AppColors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x0F2C2C2C),
-            blurRadius: 18,
-            offset: Offset(0, 6),
-          ),
-        ],
-      ),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              IconButton(
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
-                onPressed: () =>
+              RoundIconButton(
+                icon: Icons.chevron_left_rounded,
+                label: 'Back',
+                onTap: () =>
                     context.canPop() ? context.pop() : context.go('/home'),
-                icon: const Icon(
-                  Icons.arrow_back_rounded,
-                  color: AppColors.ink2,
-                  size: 22,
-                ),
               ),
-              const SizedBox(width: 6),
-              Text('CHAPTER ${chapter.number}', style: AppTheme.overline()),
+              const Spacer(),
+              Text(
+                'CHAPTER ${chapter.number}',
+                style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+              ),
             ],
           ),
-          const SizedBox(height: 6),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          const SizedBox(height: 16),
+          Text(chapter.name, style: AppTheme.display(size: 34)),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(chapter.name, style: AppTheme.heading(size: 24)),
-                    const SizedBox(height: 8),
-                    Text(
-                      chapter.examLine,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.ink2,
-                        height: 1.4,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${chapter.lessons.length} lessons · '
-                      '$playable ready · $cleared cleared',
-                      style: const TextStyle(
-                        fontSize: 12.5,
-                        color: AppColors.ink3,
-                        height: 1.4,
-                      ),
-                    ),
-                  ],
-                ),
+              _Chip(
+                '$cleared of ${chapter.lessons.length} cleared',
+                fill: AppColors.charcoal,
+                ink: AppColors.spring,
               ),
-              if (masteryPct != null) ...[
-                const SizedBox(width: 14),
-                MasteryRing(pct: masteryPct!, size: 56, stroke: 5.5),
-              ],
+              _Chip(
+                examChip(chapter),
+                fill: AppColors.cream,
+                ink: AppColors.charcoal,
+              ),
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _Chip extends StatelessWidget {
+  const _Chip(this.text, {required this.fill, required this.ink});
+
+  final String text;
+  final Color fill;
+  final Color ink;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 34,
+      padding: const EdgeInsets.symmetric(horizontal: 14),
+      decoration: BoxDecoration(
+        color: fill,
+        borderRadius: BorderRadius.circular(17),
+      ),
+      // Sized to its text: a chip is never a bar.
+      child: Center(
+        widthFactor: 1,
+        child: Text(
+          text,
+          style: AppTheme.eyebrow(color: ink).copyWith(letterSpacing: 0),
+        ),
       ),
     );
   }
@@ -237,18 +234,24 @@ class _Path extends StatelessWidget {
   final Map<String, double> target;
   final Map<String, NodeState> state;
 
-  /// The lesson the student is in the middle of, if any. It breathes.
+  /// The lesson the student is in the middle of, if any. It breathes, and
+  /// its label is the one spring tile on the map.
   final String? current;
   final ValueChanged<LessonNode> onTap;
   final void Function(String lessonId, double value) onSettled;
 
-  static const _rowHeight = 152.0;
-  static const _headerHeight = 82.0;
+  static const _rowHeight = 124.0;
+  static const _headerHeight = 48.0;
+  static const _labelGap = 12.0;
+  static const _labelWidth = 150.0;
+  static const _edge = 12.0;
 
   /// Nodes and the swing of the path scale with the screen, so a narrow phone
   /// gets a smaller disc and a tighter weave instead of a squeezed label.
-  static double nodeSizeFor(double width) => (width * 0.21).clamp(62.0, 82.0);
-  static double _ampFor(double width) => math.min(width * 0.24, 98.0);
+  static double nodeSizeFor(double width) => (width * 0.215).clamp(62.0, 84.0);
+
+  /// Nodes alternate left and right of center by this much.
+  static double _ampFor(double width) => (width * 0.115).clamp(34.0, 45.0);
 
   /// Distance from a slot's top to the center of its node face.
   static double faceCenterFor(double width) =>
@@ -260,20 +263,20 @@ class _Path extends StatelessWidget {
     final nodeSize = nodeSizeFor(width);
     final faceCenter = faceCenterFor(width);
     final amp = _ampFor(width);
-    var y = 8.0;
+    var y = 26.0;
     var n = 0;
 
     for (final sub in chapter.subtopics) {
       slots.add(_Slot.header(sub, y));
       y += _headerHeight;
       for (final lesson in chapter.lessonsIn(sub.id)) {
-        final x = width / 2 + math.sin(n * math.pi / 3) * amp;
+        final x = width / 2 + (n.isEven ? -amp : amp);
         slots.add(_Slot.node(lesson, y, x));
         y += _rowHeight;
         n++;
       }
     }
-    y += 56;
+    y += 40;
 
     final nodes = slots.where((s) => s.isNode).toList(growable: false);
 
@@ -297,6 +300,17 @@ class _Path extends StatelessWidget {
                   : 0,
               startDelay: const Duration(milliseconds: 120),
             ),
+          // Section names sit in a fog gap in the road, painted over it.
+          for (final slot in slots)
+            if (!slot.isNode)
+              Positioned(
+                top: slot.y,
+                left: 24,
+                child: _SubtopicHeader(
+                  subtopic: slot.header!,
+                  count: chapter.lessonsIn(slot.header!.id).length,
+                ),
+              ),
           for (final slot in slots)
             if (slot.isNode) ...[
               Positioned(
@@ -314,59 +328,43 @@ class _Path extends StatelessWidget {
                   onSettled: (v) => onSettled(slot.lesson!.id, v),
                 ),
               ),
-              _label(slot, width, nodeSize, state[slot.lesson!.id]),
-            ] else
-              Positioned(
-                top: slot.y,
-                left: 20,
-                right: 20,
-                child: _SubtopicHeader(
-                  subtopic: slot.header!,
-                  count: chapter.lessonsIn(slot.header!.id).length,
-                ),
-              ),
+              _label(slot, nodeSize),
+            ],
         ],
       ),
     );
   }
-}
 
-/// The lesson name, parked on whichever side of the node has more room.
-Widget _label(_Slot slot, double width, double nodeSize, NodeState? nodeState) {
-  final lesson = slot.lesson!;
-  final progress = GameProgress.instance;
-  final state = nodeState ?? NodeState.notBuilt;
-  final built = state != NodeState.notBuilt;
-  final total = lesson.builtGames.length;
-  final done = progress.clearedIn(lesson);
+  /// The lesson name, parked on whichever side of the node has more room.
+  Widget _label(_Slot slot, double nodeSize) {
+    final lesson = slot.lesson!;
+    final nodeState = state[lesson.id] ?? NodeState.notBuilt;
+    final onRight = slot.x <= width / 2;
+    final label = _NodeLabel(
+      lesson: lesson,
+      state: nodeState,
+      current: lesson.id == current,
+    );
 
-  final onRight = slot.x <= width / 2;
-  final label = _NodeLabel(
-    text: lesson.name,
-    muted: !built,
-    detail: built && total > 0
-        ? (state == NodeState.cleared
-              ? (total == 1 ? 'Done' : 'All $total done')
-              : '$done of $total done')
-        : null,
-  );
+    // Line the tile up with the middle of the node face.
+    final top = slot.y + faceCenterFor(width);
+    final room = onRight
+        ? width - (slot.x + nodeSize / 2 + _labelGap) - _edge
+        : slot.x - nodeSize / 2 - _labelGap - _edge;
+    final w = _labelWidth.clamp(60.0, room);
 
-  // Line the chip up with the middle of the node face.
-  final top = slot.y + _Path.faceCenterFor(width) - 26;
-
-  return onRight
-      ? Positioned(
-          top: top,
-          left: slot.x + nodeSize / 2 + 12,
-          right: 12,
-          child: Align(alignment: Alignment.centerLeft, child: label),
-        )
-      : Positioned(
-          top: top,
-          left: 12,
-          width: math.max(slot.x - nodeSize / 2 - 24, 60),
-          child: Align(alignment: Alignment.centerRight, child: label),
-        );
+    return Positioned(
+      top: top,
+      left: onRight
+          ? slot.x + nodeSize / 2 + _labelGap
+          : slot.x - nodeSize / 2 - _labelGap - w,
+      width: w,
+      child: FractionalTranslation(
+        translation: const Offset(0, -0.5),
+        child: label,
+      ),
+    );
+  }
 }
 
 class _SubtopicHeader extends StatelessWidget {
@@ -377,145 +375,161 @@ class _SubtopicHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 26),
-      child: Row(
-        children: [
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-              decoration: BoxDecoration(
-                color: AppColors.creamDark,
-                borderRadius: BorderRadius.circular(999),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: Text(
-                      subtopic.name.toUpperCase(),
-                      // Two lines rather than a truncated name: the pill only
-                      // gets half the row, and "Single-Variable Calculus" does
-                      // not fit on one line of it.
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTheme.overline(color: AppColors.ink2),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '$count',
-                    style: AppTheme.mono(size: 11, color: AppColors.ink3),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          const Expanded(child: Divider(color: AppColors.line)),
-        ],
+    return Container(
+      padding: const EdgeInsets.fromLTRB(0, 6, 10, 6),
+      decoration: BoxDecoration(
+        color: AppColors.fog,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        '${subtopic.name.toUpperCase()} · $count',
+        style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
       ),
     );
   }
 }
 
 class _NodeLabel extends StatelessWidget {
-  const _NodeLabel({required this.text, required this.muted, this.detail});
+  const _NodeLabel({
+    required this.lesson,
+    required this.state,
+    required this.current,
+  });
 
-  final String text;
-  final bool muted;
-  final String? detail;
+  final LessonNode lesson;
+  final NodeState state;
+  final bool current;
 
   @override
   Widget build(BuildContext context) {
+    final progress = GameProgress.instance;
+    final built = state != NodeState.notBuilt;
+    final total = lesson.builtGames.length;
+    final done = progress.clearedIn(lesson);
+    final detail = !built
+        ? 'not written yet'
+        : state == NodeState.cleared
+        ? (total == 1 ? 'done' : 'all $total done')
+        : '$done of $total done';
+    final detailColor = current
+        ? AppColors.charcoal
+        : done > 0
+        ? AppColors.forest
+        : AppColors.mutedOnLight;
+
     return Container(
-      constraints: const BoxConstraints(maxWidth: 152),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
       decoration: BoxDecoration(
-        color: muted ? AppColors.creamDark : AppColors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.line),
-        boxShadow: muted
-            ? null
-            : const [
-                BoxShadow(
-                  color: Color(0x0D2C2C2C),
-                  blurRadius: 10,
-                  offset: Offset(0, 3),
-                ),
-              ],
+        color: current ? AppColors.spring : AppColors.cream,
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            text,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.heading(
-              size: 12.5,
-              weight: FontWeight.w600,
-              height: 1.25,
-              color: muted ? AppColors.ink3 : AppColors.charcoal,
+            lesson.name,
+            style: AppTheme.display(
+              size: 13.5,
+              weight: FontWeight.w700,
+              height: 1.15,
+              tracking: -0.02,
+              color: built ? AppColors.charcoal : AppColors.mutedOnLight,
             ),
           ),
-          if (detail != null) ...[
-            const SizedBox(height: 3),
-            Text(
-              detail!,
-              style: AppTheme.mono(size: 10, color: AppColors.ink3),
-            ),
-          ],
+          const SizedBox(height: 3),
+          Text(detail, style: AppTheme.mono(size: 10, color: detailColor)),
         ],
       ),
     );
   }
 }
 
-class _LessonSheet extends StatelessWidget {
-  const _LessonSheet({required this.lesson});
+/// The lesson sheet: the lesson's games as tiles, the next one in spring, and
+/// the concept behind it (reference 12). Resolves with the id of the game to
+/// play, or null.
+Future<String?> showLessonSheet(
+  BuildContext context,
+  ChapterMap chapter,
+  LessonNode lesson,
+) {
+  return showModalBottomSheet<String>(
+    context: context,
+    backgroundColor: AppColors.cream,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
+    ),
+    builder: (_) => LessonSheet(chapter: chapter, lesson: lesson),
+  );
+}
 
+class LessonSheet extends StatelessWidget {
+  const LessonSheet({super.key, required this.chapter, required this.lesson});
+
+  final ChapterMap chapter;
   final LessonNode lesson;
 
   @override
   Widget build(BuildContext context) {
+    final progress = GameProgress.instance;
+    final number = chapter.lessons.indexOf(lesson) + 1;
+    final built = lesson.builtGames;
+    final done = progress.clearedIn(lesson);
+    // The game to play next: the first one not yet cleared.
+    final next = built.where((g) => !progress.isCleared(g.id)).firstOrNull;
+    final concept = (next ?? built.firstOrNull)?.brief;
+
     return SafeArea(
       top: false,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24, 12, 24, 34),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('LESSON', style: AppTheme.overline()),
-            const SizedBox(height: 6),
-            Text(lesson.name, style: AppTheme.heading(size: 23)),
-            const SizedBox(height: 16),
+            const Grabber(),
+            const SizedBox(height: 20),
+            Text(
+              built.isEmpty
+                  ? 'LESSON $number'
+                  : 'LESSON $number · $done OF ${built.length} DONE',
+              style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+            ),
+            const SizedBox(height: 8),
+            Text(lesson.name, style: AppTheme.display(size: 34)),
+            const SizedBox(height: 20),
             if (lesson.games.isEmpty)
               Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.line),
+                  color: AppColors.creamDark,
+                  borderRadius: BorderRadius.circular(24),
                 ),
-                child: const Text(
+                child: Text(
                   'This lesson is not ready yet. Each one is built from its '
                   'own problems and traps, one lesson at a time.',
-                  style: TextStyle(
-                    fontSize: 14,
-                    height: 1.55,
-                    color: AppColors.ink2,
-                  ),
+                  style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
                 ),
               )
             else
               for (final game in lesson.games) ...[
-                _GameRow(game: game),
+                _GameTile(
+                  game: game,
+                  cleared: progress.isCleared(game.id),
+                  next: game.id == next?.id,
+                ),
                 const SizedBox(height: 10),
               ],
+            if (concept != null) ...[
+              const SizedBox(height: 10),
+              SheetButton(
+                label: 'Read the concept first',
+                filled: false,
+                onTap: () =>
+                    showConcept(context, concept, back: 'Back to the lesson'),
+              ),
+            ],
           ],
         ),
       ),
@@ -523,72 +537,75 @@ class _LessonSheet extends StatelessWidget {
   }
 }
 
-class _GameRow extends StatelessWidget {
-  const _GameRow({required this.game});
+class _GameTile extends StatelessWidget {
+  const _GameTile({
+    required this.game,
+    required this.cleared,
+    required this.next,
+  });
 
   final GameDef game;
+  final bool cleared;
+  final bool next;
 
   @override
   Widget build(BuildContext context) {
-    final cleared = GameProgress.instance.isCleared(game.id);
-
     return Opacity(
       opacity: game.built ? 1 : 0.55,
       child: Material(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
+        color: next ? AppColors.spring : AppColors.creamDark,
+        borderRadius: BorderRadius.circular(24),
         child: InkWell(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(24),
           onTap: game.built ? () => context.pop(game.id) : null,
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: cleared ? AppColors.forest : AppColors.line,
-                width: cleared ? 1.5 : 1,
-              ),
-            ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 12, 16),
             child: Row(
               children: [
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(game.name, style: AppTheme.heading(size: 16)),
-                      const SizedBox(height: 4),
+                      Text(
+                        game.name,
+                        style: AppTheme.display(
+                          size: 17,
+                          weight: FontWeight.w700,
+                          height: 1.2,
+                          tracking: -0.02,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
                       Text(
                         game.blurb,
-                        style: const TextStyle(
-                          fontSize: 13,
-                          height: 1.45,
-                          color: AppColors.ink2,
+                        style: AppTheme.body(
+                          size: 13,
+                          color: next
+                              ? AppColors.charcoal
+                              : AppColors.mutedOnLight,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 14),
                 if (!game.built)
-                  Text('SOON', style: AppTheme.overline())
-                else if (cleared)
-                  const Icon(
-                    Icons.check_circle_rounded,
-                    color: AppColors.forest,
-                    size: 30,
+                  Text(
+                    'SOON',
+                    style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
                   )
                 else
                   Container(
-                    width: 34,
-                    height: 34,
+                    width: 44,
+                    height: 44,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.ember,
+                      color: AppColors.charcoal,
                     ),
-                    child: const Icon(
-                      Icons.play_arrow_rounded,
-                      color: Colors.white,
-                      size: 22,
+                    child: Icon(
+                      cleared ? Icons.check_rounded : Icons.play_arrow_rounded,
+                      color: next ? AppColors.spring : AppColors.cream,
+                      size: cleared ? 22 : 24,
                     ),
                   ),
               ],
@@ -610,34 +627,28 @@ class ChapterGamesPendingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.cream,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).maybePop(),
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: AppColors.ink2,
-            size: 22,
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(chapterName, style: AppTheme.heading(size: 26)),
-            const SizedBox(height: 12),
-            const Text(
-              'This chapter is not ready yet. Its lessons open one at a time, '
-              'each built from its own problems and traps.',
-              style: TextStyle(
-                fontSize: 15,
-                height: 1.6,
-                color: AppColors.ink2,
+      backgroundColor: AppColors.fog,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RoundIconButton(
+                icon: Icons.chevron_left_rounded,
+                label: 'Back',
+                onTap: () => Navigator.of(context).maybePop(),
               ),
-            ),
-          ],
+              const SizedBox(height: 30),
+              Text(chapterName, style: AppTheme.display(size: 40)),
+              const SizedBox(height: 16),
+              Text(
+                'This chapter is not ready yet. Its lessons open one at a '
+                'time, each built from its own problems and traps.',
+                style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -62,33 +62,35 @@ class NodeSkin {
 
   static NodeSkin of(NodeState state) => switch (state) {
     // The heaviest ink on the page, because "what have I finished" is the
-    // first thing the screen has to answer.
+    // first thing the screen has to answer. The check is spring: the one
+    // accent, spent on the one thing that is done.
     NodeState.cleared => const NodeSkin(
       face: AppColors.charcoal,
       shape: NodeShape.circle,
       glyph: Icons.check_rounded,
-      ink: AppColors.cream,
+      ink: AppColors.spring,
     ),
-    // A gauge. The white left in it is the work left in the lesson.
+    // A gauge: a cream face in a spring ring, the charcoal wedge is the work
+    // done and the cream left in it is the work left in the lesson.
     NodeState.inProgress => const NodeSkin(
-      face: AppColors.white,
+      face: AppColors.cream,
       shape: NodeShape.circle,
-      rim: AppColors.charcoal,
-      wedge: AppColors.ember,
+      rim: AppColors.spring,
+      wedge: AppColors.charcoal,
     ),
+    // Plain paper: a cream disc on its plinth, nothing on it yet.
     NodeState.notStarted => const NodeSkin(
-      face: AppColors.white,
+      face: AppColors.cream,
       shape: NodeShape.circle,
-      rim: AppColors.charcoal,
     ),
     // A square among circles, which is the fastest difference to read at any
     // size. It says the app has not written this yet; it never says locked,
     // because nothing in this app is.
     NodeState.notBuilt => const NodeSkin(
-      face: Color(0xFFF5EDE0),
+      face: AppColors.creamDark,
       shape: NodeShape.roundedSquare,
       glyph: Icons.more_horiz_rounded,
-      ink: Color(0xFFA79B87),
+      ink: AppColors.placeholder,
     ),
   };
 

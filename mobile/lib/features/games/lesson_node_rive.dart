@@ -245,8 +245,8 @@ class _Palette {
     'rim': skin.rim ?? previous?['rim'] ?? skin.ink,
     'wedge': skin.wedge ?? previous?['wedge'] ?? AppColors.ember,
     'ink': skin.ink,
-    // The halo marks a finished lesson, and finished is forest.
-    'halo': AppColors.forest,
+    // The halo marks a finished lesson, and finished is spring.
+    'halo': AppColors.spring,
   });
 
   static _Palette lerp(_Palette a, _Palette b, double t) =>
