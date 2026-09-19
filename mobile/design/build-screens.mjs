@@ -403,7 +403,7 @@ const chapterMap = page('Chapter map', C.fog, C.charcoal, `
 <div style="display: flex; align-items: center; justify-content: space-between;">${roundIcon('09-study.html', 'Back', chevronLeft)}${eyebrow('Chapter 1', C.mutedOnLight)}</div>
 ${headline('Mathematics &amp; Computational Tools', 34)}
 <div style="display: flex; gap: 8px;">
-<span style="display: flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 17px; background: ${C.charcoal}; color: ${C.spring}; font-family: ${F.mono}; font-size: 12px; font-weight: 600;">3 of 16 cleared</span>
+<span style="display: flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 17px; background: ${C.charcoal}; color: ${C.spring}; font-family: ${F.mono}; font-size: 12px; font-weight: 600;">3 of 15 cleared</span>
 <span style="display: flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 17px; background: ${C.cream}; color: ${C.charcoal}; font-family: ${F.mono}; font-size: 12px; font-weight: 600;">11 to 17 on the exam</span>
 </div>
 </div>
@@ -416,7 +416,7 @@ ${headline('Mathematics &amp; Computational Tools', 34)}
 ${node(108, 36, 'cleared', 'Straight Lines &amp; Quadratics', 'all 3 done', 'right')}
 ${node(282, 154, 'cleared', 'Logarithms', 'all 3 done', 'left')}
 ${node(98, 294, 'current', 'Right Triangle Trigonometry', '1 of 3 done', 'right')}
-${node(282, 424, 'untouched', 'Law of Sines &amp; Cosines', '0 of 3 done', 'left')}
+${node(282, 424, 'untouched', 'Law of Sines &amp; Law of Cosines', '0 of 3 done', 'left')}
 ${node(108, 536, 'untouched', 'Unit Circle &amp; Trig Identities', '0 of 3 done', 'right')}
 </div>`);
 
