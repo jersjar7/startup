@@ -33,6 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _next() {
+    FocusManager.instance.primaryFocus?.unfocus();
     if (_email.text.trim().isEmpty) {
       setState(() => _error = 'Enter your email.');
       return;
@@ -44,6 +45,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Future<void> _submit() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final email = _email.text.trim();
     final password = _password.text;
     if (password.isEmpty) {

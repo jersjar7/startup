@@ -42,6 +42,13 @@ class _FeRaccoonsAppState extends State<FeRaccoonsApp> {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         routerConfig: _router,
+        // A tap anywhere that is not a field puts the keyboard away. Every
+        // form in the app gets this without asking (owner, 2026-09-18).
+        builder: (context, child) => GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: child,
+        ),
       ),
     );
   }

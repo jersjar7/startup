@@ -32,6 +32,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
   }
 
   Future<void> _submit() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final email = _email.text.trim();
     if (email.isEmpty) {
       setState(() => _error = 'Enter your email.');

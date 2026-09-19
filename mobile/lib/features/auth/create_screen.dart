@@ -35,6 +35,7 @@ class _CreateScreenState extends State<CreateScreen> {
   }
 
   void _next() {
+    FocusManager.instance.primaryFocus?.unfocus();
     final email = _email.text.trim();
     if (email.isEmpty || !email.contains('@')) {
       setState(() => _error = 'Enter your email.');
@@ -48,6 +49,7 @@ class _CreateScreenState extends State<CreateScreen> {
   }
 
   Future<void> _submit() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     final email = _email.text.trim();
     final password = _password.text;
     if (password.length < 8) {
