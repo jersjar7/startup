@@ -70,12 +70,11 @@ class NodeSkin {
       glyph: Icons.check_rounded,
       ink: AppColors.spring,
     ),
-    // A gauge: a cream face with a spring track around its edge, and the
-    // charcoal arc on it is the work done.
+    // A gauge: a cream face, and the charcoal arc around its edge is the
+    // work done. No track under it (owner's call, 2026-09-19).
     NodeState.inProgress => const NodeSkin(
       face: AppColors.cream,
       shape: NodeShape.circle,
-      rim: AppColors.spring,
       wedge: AppColors.charcoal,
     ),
     // Plain paper: a cream disc on its plinth, nothing on it yet.

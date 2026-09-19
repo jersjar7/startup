@@ -69,7 +69,7 @@
                     </Shape>
                 </Node>
 
-                <!-- The track the ring runs on: the same 8pt circle, only while underway. -->
+                <!-- The track under the ring. Kept in the contract but off in every state since 2026-09-19: the arc stands alone. -->
                 <Shape x="0" y="0" opacity="1" name="Rim" id="0:34">
                     <Ellipse width="92" height="92" name="Path" id="0:35"/>
                     <Stroke thickness="8" name="Stroke">
@@ -314,7 +314,7 @@
             </KeyedObject>
             <KeyedObject objectId="0:34">
                 <KeyedProperty propertyKey="18">
-                    <KeyFrameDouble value="1" frame="0"/>
+                    <KeyFrameDouble value="0" frame="0"/>
                 </KeyedProperty>
             </KeyedObject>
             <KeyedObject objectId="0:46">

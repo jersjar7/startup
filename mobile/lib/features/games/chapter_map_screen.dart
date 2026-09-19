@@ -115,13 +115,6 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
   }
 }
 
-/// "11 to 17 questions on the real exam" is the Study tile's line; the chip
-/// has room for "11 to 17 on the exam".
-String examChip(ChapterMap chapter) => chapter.examLine.replaceFirst(
-  ' questions on the real exam',
-  ' on the exam',
-);
-
 class _Header extends StatelessWidget {
   const _Header({required this.chapter, required this.cleared});
 
@@ -153,19 +146,14 @@ class _Header extends StatelessWidget {
           const SizedBox(height: 16),
           Text(chapter.name, style: AppTheme.display(size: 34)),
           const SizedBox(height: 16),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
+          // One chip. The exam share is on the Study tile the student just
+          // came from (owner's call, 2026-09-19).
+          Row(
             children: [
               _Chip(
                 '$cleared of ${chapter.lessons.length} cleared',
                 fill: AppColors.charcoal,
                 ink: AppColors.spring,
-              ),
-              _Chip(
-                examChip(chapter),
-                fill: AppColors.cream,
-                ink: AppColors.charcoal,
               ),
             ],
           ),

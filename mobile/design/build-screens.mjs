@@ -404,7 +404,7 @@ const chapterMap = page('Chapter map', C.fog, C.charcoal, `
 ${headline('Mathematics &amp; Computational Tools', 34)}
 <div style="display: flex; gap: 8px;">
 <span style="display: flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 17px; background: ${C.charcoal}; color: ${C.spring}; font-family: ${F.mono}; font-size: 12px; font-weight: 600;">3 of 16 cleared</span>
-<span style="display: flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 17px; background: ${C.cream}; color: ${C.charcoal}; font-family: ${F.mono}; font-size: 12px; font-weight: 600;">11 to 17 on the exam</span>
+
 </div>
 </div>
 <div style="position: relative; height: 600px; margin-top: 18px; overflow: hidden;">
