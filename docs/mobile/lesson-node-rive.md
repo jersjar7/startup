@@ -53,8 +53,10 @@ numbers the same.
 load, or has not loaded yet, the node paints itself exactly as it did before
 Rive existed. Widget tests and goldens never load the file, so they exercise
 the painter and every piece of app logic, and none of them need a native
-library. The visual result of the Rive path is checked by eye, in the
-simulator or with the CLI's headless renderer (below).
+library. The visual result of the Rive path is checked by eye:
+`integration_test/node_art_test.dart` photographs the four states on a
+simulator into `/tmp/node_art.png`
+(`flutter test integration_test/node_art_test.dart -d <simulator id>`).
 
 ## The contract: view model `LessonNode`
 
@@ -69,8 +71,8 @@ these properties by name and nothing else in the file is reachable.
 | `celebrate` | trigger | fire once when a lesson has just been finished |
 | `face` | color | the face |
 | `plinth` | color | the slab under the face |
-| `rim` | color | the stroke around an unfinished circle |
-| `wedge` | color | the progress wedge |
+| `rim` | color | the track the progress ring runs on, shown only while underway |
+| `wedge` | color | the progress arc on the track (the name is historical: it was a pie until 2026-09-19) |
 | `ink` | color | the glyph on the face (check, or ellipsis) |
 | `halo` | color | the ring that leaves the face at the finished moment |
 | `current` | boolean | this is the lesson the student is in the middle of |
@@ -103,14 +105,20 @@ finished moment never have to know about each other:
   to 0.985, returns) while a stroke-only ring scales out to 1.42 and fades.
   It returns to idle on its own.
 
-Two things are bound directly rather than keyed. The wedge's trim end is
-bound to `progress` through a clamp so the wedge is never a sliver below 54
+Two things are bound directly rather than keyed. The arc's trim end is
+bound to `progress` through a clamp so the arc is never a sliver below 54
 degrees; it does close at 1. (The painter also capped it at 330 degrees so a
 nearly-done node could not pass for a finished one. That mattered when
 finished looked like a full wedge; now finished is a charcoal face with a
-check, so the cap only cost the finishing moment.) The wedge's own opacity is
+check, so the cap only cost the finishing moment.) The arc's own opacity is
 bound to `progress` through a 0..0.02 ramp, so a fraction of zero hides it
 entirely (the painter's `fraction > 0` rule).
+
+Progress is drawn as a RING since 2026-09-19: an 8pt spring track on a 92
+circle, and the charcoal arc over it, so the ring is the rim of the disc and
+not a chart on its face. The pie it replaced read as a dashboard idiom next
+to the plain discs. The untouched disc wears no track at all, and there is no
+soft shadow under the plinth any more: the plinth alone carries the depth.
 
 **The finishing moment**, in order: the wedge fills to a full circle (1100 ms
 in Dart), the closed circle holds for `LessonNodeWidget.closedHold` (320 ms,

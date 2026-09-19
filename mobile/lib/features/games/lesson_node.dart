@@ -70,8 +70,8 @@ class NodeSkin {
       glyph: Icons.check_rounded,
       ink: AppColors.spring,
     ),
-    // A gauge: a cream face in a spring ring, the charcoal wedge is the work
-    // done and the cream left in it is the work left in the lesson.
+    // A gauge: a cream face with a spring track around its edge, and the
+    // charcoal arc on it is the work done.
     NodeState.inProgress => const NodeSkin(
       face: AppColors.cream,
       shape: NodeShape.circle,
@@ -336,13 +336,6 @@ class _Slab extends StatelessWidget {
         borderRadius: BorderRadius.circular(
           shape == NodeShape.circle ? width / 2 : 0.28 * width,
         ),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x142C2C2C),
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
       ),
     );
   }
@@ -387,9 +380,9 @@ class _FacePainter extends CustomPainter {
   final NodeSkin skin;
   final double fraction;
 
-  /// Stroke and wedge geometry, as fractions of the face.
-  static const _rim = 0.027;
-  static const _wedgeInset = 0.014;
+  /// The ring's thickness as a fraction of the face: the track and the
+  /// progress arc share it, and the arc's outer edge sits on the face's edge.
+  static const _ring = 0.08;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -409,34 +402,38 @@ class _FacePainter extends CustomPainter {
         );
     }
 
+    final rim = skin.rim;
+    if (rim != null) {
+      // The track.
+      canvas.drawCircle(
+        c,
+        d / 2 - _ring * d / 2,
+        Paint()
+          ..color = rim
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = _ring * d,
+      );
+    }
+
     final wedge = skin.wedge;
     if (wedge != null && fraction > 0) {
-      // The wedge never vanishes at a tenth and never closes at nine tenths,
+      // The arc never vanishes at a tenth and never closes at nine tenths,
       // so "barely started" and "nearly done" both stay readable and neither
       // can impersonate a finished node.
       final sweep = (fraction * 2 * math.pi).clamp(
         54 * math.pi / 180,
         330 * math.pi / 180,
       );
-      final inset = _rim * d / 2 + _wedgeInset * d;
       canvas.drawArc(
-        Rect.fromCircle(center: c, radius: d / 2 - inset),
+        Rect.fromCircle(center: c, radius: d / 2 - _ring * d / 2),
         -math.pi / 2,
         sweep,
-        true,
-        Paint()..color = wedge,
-      );
-    }
-
-    final rim = skin.rim;
-    if (rim != null) {
-      canvas.drawCircle(
-        c,
-        d / 2 - _rim * d / 2,
+        false,
         Paint()
-          ..color = rim
+          ..color = wedge
           ..style = PaintingStyle.stroke
-          ..strokeWidth = _rim * d,
+          ..strokeCap = StrokeCap.round
+          ..strokeWidth = _ring * d,
       );
     }
   }

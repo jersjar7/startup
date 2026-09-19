@@ -178,8 +178,8 @@ class RoadPainter extends CustomPainter {
   Path debugRoad() => _road();
 
   /// The road's width and the walked overlay's, in logical pixels.
-  static const roadWidth = 14.0;
-  static const walkWidth = 6.0;
+  static const roadWidth = 10.0;
+  static const walkWidth = 5.0;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -209,7 +209,7 @@ class RoadPainter extends CustomPainter {
   }
 
   void _dash(Canvas canvas, Path path, Color color, double width) {
-    const dash = 14.0, space = 12.0;
+    const dash = 12.0, space = 10.0;
     final paint = Paint()
       ..color = color
       ..strokeWidth = width

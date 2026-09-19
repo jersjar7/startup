@@ -243,15 +243,16 @@ class _Path extends StatelessWidget {
   static const _rowHeight = 124.0;
   static const _headerHeight = 48.0;
   static const _labelGap = 12.0;
-  static const _labelWidth = 150.0;
+  static const _labelWidth = 156.0;
   static const _edge = 12.0;
 
   /// Nodes and the swing of the path scale with the screen, so a narrow phone
   /// gets a smaller disc and a tighter weave instead of a squeezed label.
   static double nodeSizeFor(double width) => (width * 0.215).clamp(62.0, 84.0);
 
-  /// Nodes alternate left and right of center by this much.
-  static double _ampFor(double width) => (width * 0.115).clamp(34.0, 45.0);
+  /// Nodes alternate left and right of center by this much: a real weave,
+  /// wide enough that the road is a path and not a wobble.
+  static double _ampFor(double width) => (width * 0.18).clamp(52.0, 72.0);
 
   /// Distance from a slot's top to the center of its node face.
   static double faceCenterFor(double width) =>
@@ -344,6 +345,7 @@ class _Path extends StatelessWidget {
       lesson: lesson,
       state: nodeState,
       current: lesson.id == current,
+      onRight: onRight,
     );
 
     // Line the tile up with the middle of the node face.
@@ -394,11 +396,16 @@ class _NodeLabel extends StatelessWidget {
     required this.lesson,
     required this.state,
     required this.current,
+    required this.onRight,
   });
 
   final LessonNode lesson;
   final NodeState state;
   final bool current;
+
+  /// Which side of the node the label sits on; the text leans toward the
+  /// node either way.
+  final bool onRight;
 
   @override
   Widget build(BuildContext context) {
@@ -417,30 +424,37 @@ class _NodeLabel extends StatelessWidget {
         ? AppColors.forest
         : AppColors.mutedOnLight;
 
+    final text = Column(
+      crossAxisAlignment: onRight
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          lesson.name,
+          textAlign: onRight ? TextAlign.left : TextAlign.right,
+          style: AppTheme.display(
+            size: 14,
+            weight: FontWeight.w700,
+            height: 1.15,
+            tracking: -0.02,
+            color: built ? AppColors.charcoal : AppColors.mutedOnLight,
+          ),
+        ),
+        const SizedBox(height: 3),
+        Text(detail, style: AppTheme.mono(size: 10.5, color: detailColor)),
+      ],
+    );
+
+    // Only the lesson in flight gets a tile: the one place to look.
+    if (!current) return text;
     return Container(
       padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
       decoration: BoxDecoration(
-        color: current ? AppColors.spring : AppColors.cream,
+        color: AppColors.spring,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            lesson.name,
-            style: AppTheme.display(
-              size: 13.5,
-              weight: FontWeight.w700,
-              height: 1.15,
-              tracking: -0.02,
-              color: built ? AppColors.charcoal : AppColors.mutedOnLight,
-            ),
-          ),
-          const SizedBox(height: 3),
-          Text(detail, style: AppTheme.mono(size: 10, color: detailColor)),
-        ],
-      ),
+      child: text,
     );
   }
 }

@@ -49,18 +49,17 @@
                 </Shape>
 
                 <!--
-                    The progress wedge: a thick stroke on a small circle, trimmed
-                    from the top. Thickness equals the circle's diameter, so the
-                    trimmed stroke reads as a filled pie slice, not an arc.
-                    Radius 47.25 matches the painter: the face radius less the rim
-                    and a hair of inset.
+                    The progress ring: an 8pt arc on a 92 circle, trimmed from
+                    the top, drawn over the track below it. Radius 46 puts the
+                    arc's outer edge on the face's edge, so the ring reads as
+                    the rim of the disc, not a chart on it.
                 -->
                 <Node x="0" y="0" opacity="0" name="WedgeGroup" id="0:38">
                     <Shape x="0" y="0" name="Wedge" id="0:40">
                         <DataBindContext sourcePathIds="0:100-0:103" propertyKey="18" converterId="0:131"/>
-                        <Ellipse width="47.25" height="47.25" name="Path" id="0:41"/>
-                        <Stroke thickness="47.25" cap="butt" name="Stroke" id="0:42">
-                            <SolidColor colorValue="FFE8683A" name="Wedge" id="0:43">
+                        <Ellipse width="92" height="92" name="Path" id="0:41"/>
+                        <Stroke thickness="8" cap="round" name="Stroke" id="0:42">
+                            <SolidColor colorValue="FF2C2C2C" name="Wedge" id="0:43">
                                 <DataBindContext sourcePathIds="0:100-0:109" propertyKey="37"/>
                             </SolidColor>
                             <TrimPath start="0" end="0.15" name="Sweep" id="0:44">
@@ -70,11 +69,11 @@
                     </Shape>
                 </Node>
 
-                <!-- The rim, on the two unfinished circle states. -->
+                <!-- The track the ring runs on: the same 8pt circle, only while underway. -->
                 <Shape x="0" y="0" opacity="1" name="Rim" id="0:34">
-                    <Rectangle width="97.3" height="97.3" cornerRadiusTL="48.65" name="Path" id="0:35"/>
-                    <Stroke thickness="2.7" name="Stroke">
-                        <SolidColor colorValue="FF2C2C2C" name="Rim" id="0:36">
+                    <Ellipse width="92" height="92" name="Path" id="0:35"/>
+                    <Stroke thickness="8" name="Stroke">
+                        <SolidColor colorValue="FF63F0A8" name="Rim" id="0:36">
                             <DataBindContext sourcePathIds="0:100-0:108" propertyKey="37"/>
                         </SolidColor>
                     </Stroke>
@@ -129,18 +128,6 @@
                     <GradientStop colorValue="002C2C2C" position="0"/>
                     <GradientStop colorValue="262C2C2C" position="1"/>
                 </LinearGradient>
-            </Fill>
-        </Shape>
-
-        <!-- A soft warm shadow under the plinth, in place of the painter's box shadow. -->
-        <Shape x="62" y="86" name="Shadow" id="0:10">
-            <Ellipse width="104" height="34" name="Path"/>
-            <Fill name="Fill">
-                <RadialGradient startX="0" startY="0" endX="52" endY="0" name="Soft">
-                    <GradientStop colorValue="242C2C2C" position="0"/>
-                    <GradientStop colorValue="0E2C2C2C" position="0.6"/>
-                    <GradientStop colorValue="002C2C2C" position="1"/>
-                </RadialGradient>
             </Fill>
         </Shape>
 
@@ -260,7 +247,7 @@
             </KeyedObject>
             <KeyedObject objectId="0:34">
                 <KeyedProperty propertyKey="18">
-                    <KeyFrameDouble value="1" frame="0"/>
+                    <KeyFrameDouble value="0" frame="0"/>
                 </KeyedProperty>
             </KeyedObject>
             <KeyedObject objectId="0:46">
