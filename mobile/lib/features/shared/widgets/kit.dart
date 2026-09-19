@@ -256,24 +256,29 @@ class _StepSwitcherState extends State<StepSwitcher> {
 }
 
 /// A huge faint word off the bottom-left of a screen, anchored by its
-/// BASELINE a few points above the bottom edge, so the bottom stroke of
-/// every letter shows on every screen size. Anchored by pixels from the
-/// bottom, "FE" lost the foot of its E and read as two Fs (owner, 2026-09-18).
+/// BASELINE, so the same slice of every letter shows on every screen size.
+/// The baseline sits a little below the edge: the E's bottom bar peeks in,
+/// enough to say E and no more (owner, 2026-09-18). Anchored by pixels from
+/// the bottom instead, the foot was cut on some phones and it read as FF.
 class Watermark extends StatelessWidget {
   const Watermark({
     super.key,
     this.text = 'FE',
-    this.size = 440,
-    this.left = -24,
-    this.baselineInset = 16,
+    this.size = 360,
+    this.left = -24.5,
+    this.baselineInset = -26,
     this.color = AppColors.creamDark,
   });
 
   final String text;
   final double size;
+
+  /// The F in DM Sans carries a 0.068em side bearing; -0.068 × size puts
+  /// the stem itself on the edge.
   final double left;
 
-  /// Points between the baseline and the bottom edge of the screen.
+  /// Points from the bottom edge of the screen up to the baseline; negative
+  /// puts the baseline below the edge.
   final double baselineInset;
   final Color color;
 
