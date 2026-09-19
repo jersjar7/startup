@@ -62,6 +62,21 @@ app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 app.use(requestLogger);
 
+// Universal Links (iOS) and App Links (Android): the same
+// https://fe4raccoons.com/verify-email/<token> link opens the app when it is
+// installed and this site when it is not. Apple requires the file as
+// application/json; it must answer before the SPA catch-all can. See
+// docs/mobile/universal-links.md.
+const appLinks = require('./appLinks.js');
+app.get('/.well-known/apple-app-site-association', (req, res) => {
+  res.type('application/json').send(appLinks.appleAppSiteAssociation());
+});
+app.get('/.well-known/assetlinks.json', (req, res) => {
+  const links = appLinks.androidAssetLinks();
+  if (!links) return res.status(404).end();
+  res.type('application/json').send(links);
+});
+
 // Global rate limit per IP. Generous because the SPA makes several read
 // requests per navigation; skips static assets and the cheap auth-check poll
 // so normal usage (incl. shared NAT) doesn't trip it.
