@@ -5,15 +5,23 @@ import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
+import '../games/stretched_or_squashed_game.dart' show workRounds;
+import '../games/truss_figures.dart';
+import '../shared/widgets/engineering_grid.dart';
 import '../shared/widgets/kit.dart';
 import '../shared/widgets/legal_line.dart';
-import '../study/chapter_marks.dart';
 
-/// The first-run tour: one real round, the honest paper hand-off, the
-/// chapter peek, then sign up. Three pages, each on its own ground so
-/// moving forward is felt (`mobile/design/reference-screens/05, 05b, 06`;
-/// ADR 0016). Its root is [WelcomeScreen]: back from the first page and
-/// Skip both leave the tour, and both mark it seen.
+/// The first-run tour: what the phone is, how it works with the website,
+/// and what it honestly is not. Then sign up. Three pages, each on its own
+/// ground so moving forward is felt (ADR 0016). Its root is
+/// [WelcomeScreen]: back from the first page and Skip both leave the tour,
+/// and both mark it seen.
+///
+/// Every claim here is checked against the code: games are boards of
+/// rounds (board.dart), every round is sent to the account
+/// (game_sync.dart), and the website caps phone-earned mastery at 60
+/// percent (service/mastery.js, ADR 0012). The pages that were here before
+/// showed a paper hand-off the app does not have.
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -25,12 +33,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final _pc = PageController();
   int _page = 0;
 
-  static const _grounds = [
-    AppColors.fog,
-    AppColors.ember,
-    AppColors.fog,
-    AppColors.sunbeam,
-  ];
+  static const _grounds = [AppColors.fog, AppColors.peach, AppColors.sunbeam];
 
   @override
   void dispose() {
@@ -67,17 +70,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           controller: _pc,
           onPageChanged: (i) => setState(() => _page = i),
           children: [
-            _TryOne(
+            _Games(
               onBack: _leave,
               onSkip: () => _go('/create'),
               onNext: () => _to(1),
             ),
-            _HandOff(
+            _Together(
               onBack: () => _to(0),
               onSkip: () => _go('/create'),
               onNext: () => _to(2),
             ),
-            _Chapters(
+            _Honest(
               onBack: () => _to(1),
               onCreate: () => _go('/create'),
               onSignIn: () => _go('/signin'),
@@ -117,10 +120,10 @@ class _StepRow extends StatelessWidget {
 
 const _pad = EdgeInsets.fromLTRB(24, 4, 24, 34);
 
-// ── 1. try one: a real round, on ember ─────────────────────────────────
+// ── 1. what the phone is: short games, one concept each ──────────────
 
-class _TryOne extends StatefulWidget {
-  const _TryOne({
+class _Games extends StatelessWidget {
+  const _Games({
     required this.onBack,
     required this.onSkip,
     required this.onNext,
@@ -131,75 +134,31 @@ class _TryOne extends StatefulWidget {
   final VoidCallback onNext;
 
   @override
-  State<_TryOne> createState() => _TryOneState();
-}
-
-class _TryOneState extends State<_TryOne> {
-  int? _picked;
-
-  static const _answers = ['200 N', '500 N'];
-  static const _right = 0;
-
-  @override
   Widget build(BuildContext context) {
-    final picked = _picked;
     return SafeArea(
       child: Padding(
         padding: _pad,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _StepRow(at: 1, onBack: widget.onBack, onSkip: widget.onSkip),
+            _StepRow(at: 1, onBack: onBack, onSkip: onSkip),
             const SizedBox(height: 30),
-            Row(
-              children: [
-                Expanded(
-                  child: Text('STATICS · EASY', style: AppTheme.eyebrow()),
-                ),
-                Text('1 / 3', style: AppTheme.eyebrow()),
-              ],
-            ),
+            Text('Short games.\nOne concept each.', style: AppTheme.display()),
             const SizedBox(height: 12),
             Text(
-              'A crate, µ = 0.40. Max friction force before it slides?',
-              style: AppTheme.display(size: 38),
+              'Every lesson on the phone is a few quick rounds: read the figure, make the call. Fifteen chapters, and nothing locks.',
+              style: AppTheme.body(
+                size: 16,
+                height: 1.45,
+                color: AppColors.ink2,
+              ),
             ),
-            const Spacer(),
-            if (picked != null) ...[
-              Text(
-                picked == _right
-                    ? "That's it. Friction tops out at μ times the normal force: 0.40 × 500 N."
-                    : 'Not that one. 500 N is the weight; friction tops out at 0.40 × 500 N.',
-                style: AppTheme.body(
-                  size: 15,
-                  weight: FontWeight.w500,
-                  height: 1.4,
-                ),
-              ),
-              const SizedBox(height: 18),
-            ],
-            for (var i = 0; i < _answers.length; i++) ...[
-              if (i > 0) const SizedBox(height: 10),
-              _Answer(
-                text: _answers[i],
-                letter: String.fromCharCode(65 + i),
-                state: picked == null
-                    ? _AnswerState.open
-                    : i == _right
-                    ? _AnswerState.right
-                    : i == picked
-                    ? _AnswerState.wrong
-                    : _AnswerState.open,
-                onTap: () => setState(() => _picked = i),
-              ),
-            ],
-            const SizedBox(height: 26),
-            Row(
-              children: [
-                Expanded(child: Pips(count: 3, filled: picked == null ? 0 : 1)),
-                const SizedBox(width: 22),
-                RoundNextButton(onTap: widget.onNext),
-              ],
+            const SizedBox(height: 22),
+            const Expanded(child: _BoardPreview()),
+            const SizedBox(height: 22),
+            Align(
+              alignment: Alignment.centerRight,
+              child: RoundNextButton(onTap: onNext),
             ),
           ],
         ),
@@ -208,96 +167,117 @@ class _TryOneState extends State<_TryOne> {
   }
 }
 
-enum _AnswerState { open, right, wrong }
-
-/// A 76 cream answer block with the letter in a 52 circle at the right.
-class _Answer extends StatelessWidget {
-  const _Answer({
-    required this.text,
-    required this.letter,
-    required this.state,
-    required this.onTap,
-  });
-
-  final String text;
-  final String letter;
-  final _AnswerState state;
-  final VoidCallback onTap;
+/// A real round, drawn the way a board looks: the second round of
+/// Stretched or Squashed from the Statics chapter, its truss drawn by the
+/// game's own painter with the member in question picked out. Static; the
+/// real one is a tap away once you are in.
+class _BoardPreview extends StatelessWidget {
+  const _BoardPreview();
 
   @override
   Widget build(BuildContext context) {
-    final fill = switch (state) {
-      _AnswerState.right => AppColors.spring,
-      _ => AppColors.cream,
-    };
-    return Material(
-      color: fill,
-      borderRadius: BorderRadius.circular(38),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(38),
-        child: Container(
-          height: 76,
-          padding: const EdgeInsets.fromLTRB(26, 0, 12, 0),
-          child: Row(
+    final round = workRounds[1];
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.cream,
+        borderRadius: BorderRadius.circular(36),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
-              Expanded(
-                child: Text(
-                  text,
-                  style: AppTheme.display(
-                    size: 24,
-                    weight: FontWeight.w700,
-                    height: 1,
-                    tracking: -0.02,
-                  ),
-                ),
-              ),
-              Container(
-                width: 52,
-                height: 52,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: state == _AnswerState.open
-                      ? Colors.transparent
-                      : AppColors.charcoal,
-                  border: state == _AnswerState.open
-                      ? Border.all(color: AppColors.charcoal, width: 2)
-                      : null,
-                ),
-                child: Center(
-                  child: state == _AnswerState.right
-                      ? const Icon(
-                          Icons.check_rounded,
-                          size: 24,
-                          color: AppColors.spring,
-                        )
-                      : state == _AnswerState.wrong
-                      ? const Icon(
-                          Icons.close_rounded,
-                          size: 22,
-                          color: AppColors.cream,
-                        )
-                      : Text(
-                          letter,
-                          style: AppTheme.mono(
-                            size: 13,
-                            weight: FontWeight.w700,
-                          ),
-                        ),
-                ),
-              ),
+              const Expanded(child: Pips(count: 6, filled: 1)),
+              const SizedBox(width: 14),
+              Text('2 / 6', style: AppTheme.eyebrow()),
             ],
           ),
+          const SizedBox(height: 16),
+          Text(
+            'WHICH WAY IS IT BEING WORKED',
+            style: AppTheme.eyebrow(size: 11, color: AppColors.forest),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            round.setting,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.body(
+              size: 14,
+              weight: FontWeight.w500,
+              height: 1.35,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: EngineeringGrid(
+                minor: 18,
+                major: 90,
+                child: CustomPaint(
+                  painter: TrussPainter(
+                    truss: round.truss,
+                    mode: TrussMode.oneMember,
+                    spotlight: round.member,
+                  ),
+                  child: const SizedBox.expand(),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(child: _Choice(label: 'Stretched', on: false)),
+              const SizedBox(width: 6),
+              Expanded(child: _Choice(label: 'Squashed', on: true)),
+              const SizedBox(width: 6),
+              Expanded(child: _Choice(label: 'Neither', on: false)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Choice extends StatelessWidget {
+  const _Choice({required this.label, required this.on});
+
+  final String label;
+  final bool on;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 44,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: on ? AppColors.charcoal : AppColors.creamDark,
+        borderRadius: BorderRadius.circular(22),
+      ),
+      child: Text(
+        label,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: AppTheme.display(
+          size: 13,
+          weight: FontWeight.w700,
+          height: 1,
+          tracking: -0.02,
+          color: on ? AppColors.cream : AppColors.charcoal,
         ),
       ),
     );
   }
 }
 
-// ── 2. the paper hand-off, on fog ──────────────────────────────────────
+// ── 2. one account, two places ─────────────────────────────────────────
 
-class _HandOff extends StatelessWidget {
-  const _HandOff({
+class _Together extends StatelessWidget {
+  const _Together({
     required this.onBack,
     required this.onSkip,
     required this.onNext,
@@ -317,74 +297,48 @@ class _HandOff extends StatelessWidget {
           children: [
             _StepRow(at: 2, onBack: onBack, onSkip: onSkip),
             const SizedBox(height: 30),
-            Text('Some problems\nbelong on paper.', style: AppTheme.display()),
+            Text('One account.\nTwo places.', style: AppTheme.display()),
             const SizedBox(height: 12),
             Text(
-              'When a question needs real working, the app says so and saves it for your desk. No faking it on a phone.',
+              'The website teaches. The phone keeps it sharp. Every round you play here is saved to your account and shows up there.',
               style: AppTheme.body(
                 size: 16,
                 height: 1.45,
-                color: AppColors.ink2,
+                color: AppColors.charcoal,
               ),
             ),
             const Spacer(),
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: AppColors.cream,
-                borderRadius: BorderRadius.circular(36),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'SAVED FOR YOUR DESK',
-                          style: AppTheme.eyebrow(),
-                        ),
-                      ),
-                      Text(
-                        'STATICS',
-                        style: AppTheme.eyebrow(color: AppColors.ink2),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 18),
-                  Text(
-                    'Find the force in member BC of the truss.',
-                    style: AppTheme.display(
-                      size: 22,
-                      weight: FontWeight.w700,
-                      height: 1.15,
-                      tracking: -0.03,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'Table lookups, real working. Method of sections, three equations.',
-                    style: AppTheme.body(
-                      size: 14,
-                      height: 1.45,
-                      color: AppColors.ink2,
-                    ),
-                  ),
-                  const SizedBox(height: 18),
-                  // The hand-off as the student will meet it: an ember pill.
-                  // Decoration here, so it goes nowhere.
-                  IgnorePointer(
-                    child: PillButton(
-                      label: 'Now grab paper',
-                      onTap: () {},
-                      fill: AppColors.ember,
-                      circle: AppColors.charcoal,
-                    ),
-                  ),
-                ],
+            const _PlaceTile(
+              color: AppColors.cream,
+              eyebrow: 'fe4raccoons.com',
+              title: 'Learn it',
+              lines: [
+                '135 lessons with full solutions',
+                '1,126 exam-style problems',
+                'The 6-hour exam simulation',
+                'Your mastery, chapter by chapter',
+              ],
+            ),
+            const SizedBox(height: 10),
+            const Center(
+              child: Icon(
+                Icons.sync_alt_rounded,
+                size: 28,
+                color: AppColors.charcoal,
               ),
             ),
-            const SizedBox(height: 26),
+            const SizedBox(height: 10),
+            const _PlaceTile(
+              color: AppColors.spring,
+              eyebrow: 'This phone',
+              title: 'Keep it',
+              lines: [
+                '375 concept games, a minute each',
+                'Any chapter, any time',
+                'Counts toward the same mastery',
+              ],
+            ),
+            const SizedBox(height: 22),
             Align(
               alignment: Alignment.centerRight,
               child: RoundNextButton(onTap: onNext),
@@ -396,10 +350,75 @@ class _HandOff extends StatelessWidget {
   }
 }
 
-// ── 3. fifteen chapters, on sunbeam, then sign up ──────────────────────
+class _PlaceTile extends StatelessWidget {
+  const _PlaceTile({
+    required this.color,
+    required this.eyebrow,
+    required this.title,
+    required this.lines,
+  });
 
-class _Chapters extends StatelessWidget {
-  const _Chapters({
+  final Color color;
+  final String eyebrow;
+  final String title;
+  final List<String> lines;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(32),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 104,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  eyebrow.toUpperCase(),
+                  maxLines: 2,
+                  style: AppTheme.eyebrow(size: 10),
+                ),
+                const SizedBox(height: 6),
+                Text(title, style: AppTheme.display(size: 26, height: 1)),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final l in lines)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: Text(
+                      l,
+                      style: AppTheme.body(
+                        size: 13.5,
+                        weight: FontWeight.w500,
+                        height: 1.3,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── 3. honest by design, then sign up ──────────────────────────────────
+
+class _Honest extends StatelessWidget {
+  const _Honest({
     required this.onBack,
     required this.onCreate,
     required this.onSignIn,
@@ -419,14 +438,74 @@ class _Chapters extends StatelessWidget {
           children: [
             _StepRow(at: 3, onBack: onBack),
             const SizedBox(height: 30),
-            Text('Fifteen chapters.\nTap any.', style: AppTheme.display()),
-            const SizedBox(height: 10),
+            Text('Honest by\ndesign.', style: AppTheme.display()),
+            const SizedBox(height: 12),
             Text(
-              'Nothing locks. Swipe to browse.',
-              style: AppTheme.body(size: 16, weight: FontWeight.w500),
+              'A game proves you know the concept, not that you can solve the full problem. So phone play counts toward mastery, but only so far. The rest is earned at a desk.',
+              style: AppTheme.body(size: 16, height: 1.45),
             ),
-            const SizedBox(height: 26),
-            const Expanded(child: _Deck()),
+            const Spacer(),
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: AppColors.cream,
+                borderRadius: BorderRadius.circular(36),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'WHAT THE PHONE CAN EARN',
+                    style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
+                  ),
+                  const SizedBox(height: 14),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        '60',
+                        style: AppTheme.display(
+                          size: 88,
+                          height: 0.82,
+                          tracking: -0.06,
+                        ),
+                      ),
+                      Text(
+                        '%',
+                        style: AppTheme.display(
+                          size: 34,
+                          weight: FontWeight.w700,
+                          height: 1,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          'of a chapter\'s mastery',
+                          style: AppTheme.body(
+                            size: 14,
+                            weight: FontWeight.w600,
+                            height: 1.2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  const Pips(count: 10, filled: 6),
+                  const SizedBox(height: 10),
+                  Text(
+                    'The other 40 comes from problems worked on the website.',
+                    style: AppTheme.body(
+                      size: 13,
+                      color: AppColors.ink2,
+                      height: 1.35,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 22),
             PillButton(label: 'Create my account', onTap: onCreate),
             const SizedBox(height: 6),
@@ -447,100 +526,6 @@ class _Chapters extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-/// The cream chapter card over two rotated backing cards.
-class _Deck extends StatelessWidget {
-  const _Deck();
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          top: 16,
-          left: 10,
-          right: 10,
-          child: Transform.rotate(
-            angle: 0.087,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: AppColors.charcoal,
-                borderRadius: BorderRadius.circular(36),
-              ),
-            ),
-          ),
-        ),
-        Positioned.fill(
-          top: 8,
-          left: 4,
-          right: 4,
-          bottom: 6,
-          child: Transform.rotate(
-            angle: -0.061,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: AppColors.spring,
-                borderRadius: BorderRadius.circular(36),
-              ),
-            ),
-          ),
-        ),
-        Positioned.fill(
-          bottom: 14,
-          child: Container(
-            padding: const EdgeInsets.all(26),
-            decoration: BoxDecoration(
-              color: AppColors.cream,
-              borderRadius: BorderRadius.circular(36),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text('05 / 15', style: AppTheme.eyebrow(size: 13)),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        '8 TO 12 EXAM QUESTIONS',
-                        textAlign: TextAlign.right,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTheme.eyebrow(
-                          size: 11,
-                          color: AppColors.ink2,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Expanded(
-                  child: Center(
-                    child: ChapterMark(
-                      chapterId: 'statics',
-                      color: AppColors.forest,
-                      size: 140,
-                    ),
-                  ),
-                ),
-                Text('Statics', style: AppTheme.display(size: 46)),
-                const SizedBox(height: 10),
-                Text(
-                  '7 lessons · trusses, frames, centroids, friction',
-                  style: AppTheme.body(
-                    size: 15,
-                    height: 1.4,
-                    color: AppColors.ink2,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

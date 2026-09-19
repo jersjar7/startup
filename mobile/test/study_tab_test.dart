@@ -1,12 +1,8 @@
 @Tags(['contact-sheet'])
 library;
 
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:mobile/core/network/api_client.dart';
@@ -20,30 +16,14 @@ import 'package:mobile/features/games/chapter_map_screen.dart';
 import 'package:mobile/features/study/chapter_grid.dart';
 import 'package:mobile/features/study/study_tab.dart';
 
+import 'support/fonts.dart';
+
 /// The Study tab is one chapter and one button (ADR 0015). Photographed in
 /// the states that matter: a new account on day one, a student a few weeks
 /// in, and the grid behind the toggle.
 ///
 /// Day one is the state the old screen lost on, so it is the one that has to
 /// be looked at rather than assumed.
-
-Future<void> _loadFonts() async {
-  final dir = Directory('assets/fonts');
-  if (!dir.existsSync()) return;
-  final byFamily = <String, List<File>>{};
-  for (final file in dir.listSync().whereType<File>()) {
-    if (!file.path.endsWith('.ttf')) continue;
-    final family = file.uri.pathSegments.last.split('-').first;
-    byFamily.putIfAbsent(family, () => []).add(file);
-  }
-  for (final entry in byFamily.entries) {
-    final loader = FontLoader(entry.key);
-    for (final file in entry.value) {
-      loader.addFont(Future.value(file.readAsBytesSync().buffer.asByteData()));
-    }
-    await loader.load();
-  }
-}
 
 Widget _app(Map<String, dynamic> user) {
   final auth = AuthController(api: ApiClient(), storage: AppStorage())
@@ -84,7 +64,8 @@ void _wipe() {
 
 Future<void> _settle(WidgetTester tester) async {
   await tester.runAsync(
-      () => Future<void>.delayed(const Duration(milliseconds: 60)));
+    () => Future<void>.delayed(const Duration(milliseconds: 60)),
+  );
   await tester.pumpAndSettle();
 }
 
@@ -96,8 +77,9 @@ void _phone(WidgetTester tester) {
 
 void main() {
   setUpAll(() async {
-    GoogleFonts.config.allowRuntimeFetching = false;
-    await _loadFonts();
+    await loadBrandFonts();
+    // A Friday morning, so the greeting and the exam date never drift.
+    appClock = () => DateTime(2026, 9, 18, 10);
   });
 
   setUp(_wipe);
@@ -115,10 +97,21 @@ void main() {
     // The fallback box is only drawn when an id is not recognized, so this
     // is really a check that chapter_marks and the catalog agree.
     const drawn = {
-      'mathematics', 'statistics', 'ethics', 'economics', 'statics',
-      'dynamics', 'mechanics-materials', 'materials', 'fluid-mechanics',
-      'surveying', 'water-resources', 'structural', 'geotechnical',
-      'transportation', 'construction',
+      'mathematics',
+      'statistics',
+      'ethics',
+      'economics',
+      'statics',
+      'dynamics',
+      'mechanics-materials',
+      'materials',
+      'fluid-mechanics',
+      'surveying',
+      'water-resources',
+      'structural',
+      'geotechnical',
+      'transportation',
+      'construction',
     };
     expect(drawn, chapterMaps.keys.toSet());
   });
@@ -132,14 +125,15 @@ void main() {
     expect(daysUntil(null), isNull);
     expect(daysUntil(''), isNull);
     expect(daysUntil('not a date'), isNull);
-    final past = DateTime.now().subtract(const Duration(days: 3));
+    final past = appClock().subtract(const Duration(days: 3));
     expect(daysUntil(past.toIso8601String()), isNull);
-    final soon = DateTime.now().add(const Duration(days: 10));
+    final soon = appClock().add(const Duration(days: 10));
     expect(daysUntil(soon.toIso8601String()), 10);
   });
 
-  testWidgets('day one: opens on Mathematics with a Start button',
-      (tester) async {
+  testWidgets('day one: opens on Mathematics with a Start button', (
+    tester,
+  ) async {
     _phone(tester);
     await tester.pumpWidget(_app({'firstName': 'Jerson'}));
     await _settle(tester);
@@ -153,8 +147,10 @@ void main() {
     // The screen does not scroll: everything is inside the frame.
     expect(tester.getBottomRight(find.text('Start')).dy, lessThan(844));
 
-    await expectLater(find.byType(MaterialApp),
-        matchesGoldenFile('goldens/home/day-one.png'));
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/home/day-one.png'),
+    );
   });
 
   testWidgets('week five: opens on the chapter in flight', (tester) async {
@@ -165,27 +161,33 @@ void main() {
     _clear('surveying', 4);
     _clear('fluid-mechanics', 3);
 
-    final exam = DateTime.now().add(const Duration(days: 61));
-    await tester.pumpWidget(_app({
-      'firstName': 'Jerson',
-      'problemsAnswered': 41,
-      'examDate': exam.toIso8601String(),
-    }));
+    final exam = appClock().add(const Duration(days: 61));
+    await tester.pumpWidget(
+      _app({
+        'firstName': 'Jerson',
+        'problemsAnswered': 41,
+        'examDate': exam.toIso8601String(),
+      }),
+    );
     await _settle(tester);
 
     expect(find.text('61 DAYS TO THE EXAM'), findsOneWidget);
     // Fluids was touched last, so the tab lands there, on lesson 4.
     expect(find.text('Fluid Mechanics'), findsOneWidget);
     expect(
-        find.textContaining(
-            'next: ${chapterMaps['fluid-mechanics']!.lessons[3].name}'),
-        findsOneWidget);
+      find.textContaining(
+        'next: ${chapterMaps['fluid-mechanics']!.lessons[3].name}',
+      ),
+      findsOneWidget,
+    );
     expect(find.text('Continue'), findsOneWidget);
     // The website's number is not on this screen any more.
     expect(find.text('41'), findsNothing);
 
-    await expectLater(find.byType(MaterialApp),
-        matchesGoldenFile('goldens/home/week-five.png'));
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/home/week-five.png'),
+    );
   });
 
   testWidgets('a cleared chapter says so and still opens', (tester) async {
@@ -206,8 +208,9 @@ void main() {
     expect(find.text('Open chapter'), findsOneWidget);
   });
 
-  testWidgets('the toggle flips to the grid and a tap opens the chapter',
-      (tester) async {
+  testWidgets('the toggle flips to the grid and a tap opens the chapter', (
+    tester,
+  ) async {
     _phone(tester);
     _clear('mathematics', 3);
 
@@ -230,8 +233,10 @@ void main() {
     }
     expect(find.text('3/16'), findsOneWidget);
 
-    await expectLater(find.byType(MaterialApp),
-        matchesGoldenFile('goldens/home/grid.png'));
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/home/grid.png'),
+    );
 
     // A chapter in the grid opens its path directly.
     await tester.tap(find.text('Geotechnical Engineering'));

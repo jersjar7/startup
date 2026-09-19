@@ -1,10 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:mobile/core/network/api_client.dart';
@@ -19,28 +15,12 @@ import 'package:mobile/features/onboarding/onboarding_screen.dart';
 import 'package:mobile/features/onboarding/welcome_screen.dart';
 import 'package:mobile/features/splash/splash_screen.dart';
 
+import 'support/fonts.dart';
+
 /// The launch flow in the app language (ADR 0016): splash, the four
 /// onboarding pages, create account's two steps, log in's two steps, the
 /// verify sheet and forgot password. Photographed, and the step logic
 /// exercised without a server: nothing here submits a request.
-
-Future<void> _loadFonts() async {
-  final dir = Directory('assets/fonts');
-  if (!dir.existsSync()) return;
-  final byFamily = <String, List<File>>{};
-  for (final file in dir.listSync().whereType<File>()) {
-    if (!file.path.endsWith('.ttf')) continue;
-    final family = file.uri.pathSegments.last.split('-').first;
-    byFamily.putIfAbsent(family, () => []).add(file);
-  }
-  for (final entry in byFamily.entries) {
-    final loader = FontLoader(entry.key);
-    for (final file in entry.value) {
-      loader.addFont(Future.value(file.readAsBytesSync().buffer.asByteData()));
-    }
-    await loader.load();
-  }
-}
 
 /// A router with the real paths, so `context.go` inside a screen resolves,
 /// and a placeholder at every other path.
@@ -82,7 +62,7 @@ Widget _app(Widget home, {Map<String, dynamic>? user}) {
 
 Future<void> _settle(WidgetTester tester) async {
   await tester.runAsync(
-    () => Future<void>.delayed(const Duration(milliseconds: 60)),
+    () => Future<void>.delayed(const Duration(milliseconds: 250)),
   );
   await tester.pumpAndSettle();
 }
@@ -99,10 +79,7 @@ Future<void> _golden(WidgetTester tester, String name) => expectLater(
 );
 
 void main() {
-  setUpAll(() async {
-    GoogleFonts.config.allowRuntimeFetching = false;
-    await _loadFonts();
-  });
+  setUpAll(loadBrandFonts);
 
   testWidgets('splash', (tester) async {
     _phone(tester);
@@ -159,35 +136,27 @@ void main() {
     _phone(tester);
     await tester.pumpWidget(_app(const OnboardingScreen()));
     await _settle(tester);
-    expect(find.textContaining('A crate'), findsOneWidget);
-    await _golden(tester, 'onboarding-1-try-one');
-
-    // The round is real: the right answer turns spring, the wrong one says why.
-    await tester.tap(find.text('500 N'));
-    await tester.pumpAndSettle();
-    expect(find.textContaining('Not that one'), findsOneWidget);
-    await tester.tap(find.text('200 N'));
-    await tester.pumpAndSettle();
-    expect(find.textContaining("That's it"), findsOneWidget);
-    await _golden(tester, 'onboarding-1-try-one-answered');
+    expect(find.text('Short games.\nOne concept each.'), findsOneWidget);
+    expect(find.text('WHICH WAY IS IT BEING WORKED'), findsOneWidget);
+    await _golden(tester, 'onboarding-1-games');
 
     await tester.tap(find.byTooltip('Next'));
-    await tester.pumpAndSettle();
-    expect(find.text('Some problems\nbelong on paper.'), findsOneWidget);
-    await _golden(tester, 'onboarding-2-hand-off');
+    await _settle(tester);
+    expect(find.text('One account.\nTwo places.'), findsOneWidget);
+    await _golden(tester, 'onboarding-2-together');
 
     await tester.tap(find.byTooltip('Next'));
-    await tester.pumpAndSettle();
-    expect(find.text('Fifteen chapters.\nTap any.'), findsOneWidget);
+    await _settle(tester);
+    expect(find.text('Honest by\ndesign.'), findsOneWidget);
     expect(find.text('Create my account'), findsOneWidget);
-    await _golden(tester, 'onboarding-3-chapters');
+    await _golden(tester, 'onboarding-3-honest');
 
     // Back from the first page leaves the tour for the root.
     await tester.tap(find.byTooltip('Back'));
     await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Back'));
     await tester.pumpAndSettle();
-    expect(find.textContaining('A crate'), findsOneWidget);
+    expect(find.text('Short games.\nOne concept each.'), findsOneWidget);
 
     // Skip is a way to sign-up, not to the last page. Remembering "seen"
     // goes through the keychain plugin, absent here; the hand-off must

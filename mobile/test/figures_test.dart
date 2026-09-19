@@ -107,8 +107,7 @@ class _Font {
           final delta = _data.getInt16(deltaAt + s * 2);
           return (codePoint + delta) & 0xFFFF != 0;
         }
-        final glyphAt =
-            rangeAt + s * 2 + rangeOffset + (codePoint - start) * 2;
+        final glyphAt = rangeAt + s * 2 + rangeOffset + (codePoint - start) * 2;
         if (glyphAt + 1 >= _bytes.lengthInBytes) return false;
         return _data.getUint16(glyphAt) != 0;
       }
@@ -166,8 +165,11 @@ List<_Literal> _literalsIn(File file) {
       }
     }
     // Strings, raw or not, single or triple quoted.
-    if (c == "'" || c == '"' || (c == 'r' && i + 1 < src.length &&
-        (src[i + 1] == "'" || src[i + 1] == '"'))) {
+    if (c == "'" ||
+        c == '"' ||
+        (c == 'r' &&
+            i + 1 < src.length &&
+            (src[i + 1] == "'" || src[i + 1] == '"'))) {
       final raw = c == 'r';
       if (raw) i++;
       final quote = src[i];
@@ -195,12 +197,13 @@ List<_Literal> _literalsIn(File file) {
   return out;
 }
 
-List<File> _dartFiles(String root) => Directory(root)
-    .listSync(recursive: true)
-    .whereType<File>()
-    .where((f) => f.path.endsWith('.dart'))
-    .toList()
-  ..sort((a, b) => a.path.compareTo(b.path));
+List<File> _dartFiles(String root) =>
+    Directory(root)
+        .listSync(recursive: true)
+        .whereType<File>()
+        .where((f) => f.path.endsWith('.dart'))
+        .toList()
+      ..sort((a, b) => a.path.compareTo(b.path));
 
 void main() {
   final lib = _dartFiles('lib');
@@ -232,26 +235,20 @@ void main() {
       ],
       'σ': [
         (
-        'lib/features/games/which_readout_game.dart',
-        'a calculator readout, drawn in mono',
+          'lib/features/games/which_readout_game.dart',
+          'a calculator readout, drawn in mono',
         ),
       ],
       'Σ': [
         (
-        'lib/features/games/which_readout_game.dart',
-        'a calculator readout, drawn in mono',
-        ),
-      ],
-      'μ': [
-        (
-        'lib/features/onboarding/onboarding_screen.dart',
-        'body text, which is Inter',
+          'lib/features/games/which_readout_game.dart',
+          'a calculator readout, drawn in mono',
         ),
       ],
       '̄': [
         (
-        'lib/features/games/which_readout_game.dart',
-        'the macron is stripped and drawn as a real overline',
+          'lib/features/games/which_readout_game.dart',
+          'the macron is stripped and drawn as a real overline',
         ),
       ],
     };
@@ -265,8 +262,10 @@ void main() {
           if (allowed[char]?.any((e) => e.$1 == literal.file) ?? false) {
             continue;
           }
-          final missing =
-              fonts.where((f) => !f.has(rune)).map((f) => f.name).toList();
+          final missing = fonts
+              .where((f) => !f.has(rune))
+              .map((f) => f.name)
+              .toList();
           if (missing.isNotEmpty) {
             trouble.add(
               '${literal.where}: "$char" (U+${rune.toRadixString(16).toUpperCase().padLeft(4, '0')}) '
@@ -275,27 +274,42 @@ void main() {
           }
         }
       }
-      expect(trouble, isEmpty,
-          reason: 'A character no bundled face can draw comes out as an empty '
-              'box. Either draw it in a face that has it and record that here, '
-              'or write it another way.\n${trouble.join('\n')}');
+      expect(
+        trouble,
+        isEmpty,
+        reason:
+            'A character no bundled face can draw comes out as an empty '
+            'box. Either draw it in a face that has it and record that here, '
+            'or write it another way.\n${trouble.join('\n')}',
+      );
     });
 
     test('every allowlist entry is still earning its place', () {
       // Otherwise the list quietly becomes somewhere anything is fine.
       for (final entry in allowed.entries) {
         for (final (file, _) in entry.value) {
-          expect(File(file).existsSync(), isTrue,
-              reason: '$file is gone, so the entry for "${entry.key}" '
-                  'should be');
-          expect(File(file).readAsStringSync().contains(entry.key), isTrue,
-              reason: '$file no longer uses "${entry.key}"');
+          expect(
+            File(file).existsSync(),
+            isTrue,
+            reason:
+                '$file is gone, so the entry for "${entry.key}" '
+                'should be',
+          );
+          expect(
+            File(file).readAsStringSync().contains(entry.key),
+            isTrue,
+            reason: '$file no longer uses "${entry.key}"',
+          );
         }
         if (entry.key == '̄') continue;
         final rune = entry.key.runes.first;
-        expect(fonts.any((f) => !f.has(rune)), isTrue,
-            reason: '"${entry.key}" is in every bundled face now, so it needs '
-                'no entry at all');
+        expect(
+          fonts.any((f) => !f.has(rune)),
+          isTrue,
+          reason:
+              '"${entry.key}" is in every bundled face now, so it needs '
+              'no entry at all',
+        );
       }
     });
   });
@@ -316,9 +330,13 @@ void main() {
           }
         }
       }
-      expect(trouble, isEmpty,
-          reason: 'A combining mark does not sit over the letter it belongs '
-              'to.\n${trouble.join('\n')}');
+      expect(
+        trouble,
+        isEmpty,
+        reason:
+            'A combining mark does not sit over the letter it belongs '
+            'to.\n${trouble.join('\n')}',
+      );
     });
 
     test('no em dashes in anything the app shows', () {
@@ -326,9 +344,13 @@ void main() {
         for (final literal in literals)
           if (literal.text.contains('—')) '${literal.where}: ${literal.text}',
       ];
-      expect(trouble, isEmpty,
-          reason: 'House style, and the app already uses "?" for an empty '
-              'slot.\n${trouble.join('\n')}');
+      expect(
+        trouble,
+        isEmpty,
+        reason:
+            'House style, and the app already uses "?" for an empty '
+            'slot.\n${trouble.join('\n')}',
+      );
     });
 
     test('American spelling only', () {
@@ -394,8 +416,10 @@ void main() {
               ? text.replaceAll('analyses', '')
               : text;
           if (probe.contains(entry.key)) {
-            trouble.add('${literal.where}: "${entry.key}" should be '
-                '"${entry.value}"');
+            trouble.add(
+              '${literal.where}: "${entry.key}" should be '
+              '"${entry.value}"',
+            );
           }
         }
       }
@@ -420,9 +444,13 @@ void main() {
           }
         }
       });
-      expect(trouble, isEmpty,
-          reason: 'Track the first point with a flag instead.\n'
-              '${trouble.join('\n')}');
+      expect(
+        trouble,
+        isEmpty,
+        reason:
+            'Track the first point with a flag instead.\n'
+            '${trouble.join('\n')}',
+      );
     });
 
     test('an open path is never handed to a filling Paint', () {
@@ -442,7 +470,9 @@ void main() {
           }
           final name = m.group(1)!;
           // How that path was built, from its declaration onward.
-          final declared = RegExp('(?:final|var)\\s+$name\\s*=').firstMatch(src);
+          final declared = RegExp(
+            '(?:final|var)\\s+$name\\s*=',
+          ).firstMatch(src);
           if (declared == null) continue;
           final body = src.substring(declared.start, m.start);
           if (body.contains('lineTo') && !body.contains('close()')) {
@@ -451,9 +481,13 @@ void main() {
           }
         }
       });
-      expect(trouble, isEmpty,
-          reason: 'Either close the path or give the Paint a stroke '
-              'style.\n${trouble.join('\n')}');
+      expect(
+        trouble,
+        isEmpty,
+        reason:
+            'Either close the path or give the Paint a stroke '
+            'style.\n${trouble.join('\n')}',
+      );
     });
   });
 }

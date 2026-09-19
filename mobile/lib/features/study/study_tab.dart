@@ -114,11 +114,7 @@ class _StudyTabState extends State<StudyTab> {
                     onTap: () => _open(context, shown),
                   ),
                   const SizedBox(height: 14),
-                  _Dots(
-                    count: _chapters.length,
-                    page: _page,
-                    onTap: _toggle,
-                  ),
+                  _Dots(count: _chapters.length, page: _page, onTap: _toggle),
                   const SizedBox(height: 6),
                 ],
               ],
@@ -151,16 +147,22 @@ int conceptsHeld(GameProgress progress) {
   return held;
 }
 
+/// The one clock the tabs read, so a test can pin the greeting and the
+/// countdown instead of chasing the wall clock.
+DateTime Function() appClock = DateTime.now;
+
 /// Whole days from today to an ISO date, null when there is no date or it
 /// has passed.
 int? daysUntil(String? iso) {
   if (iso == null || iso.isEmpty) return null;
   final when = DateTime.tryParse(iso);
   if (when == null) return null;
-  final now = DateTime.now();
-  final days = DateTime(when.year, when.month, when.day)
-      .difference(DateTime(now.year, now.month, now.day))
-      .inDays;
+  final now = appClock();
+  final days = DateTime(
+    when.year,
+    when.month,
+    when.day,
+  ).difference(DateTime(now.year, now.month, now.day)).inDays;
   return days < 0 ? null : days;
 }
 
@@ -171,11 +173,11 @@ int? daysUntil(String? iso) {
 /// Saying "87 days" to somebody who never gave us a date would be a lie, so
 /// the line says what it is instead.
 String examLine(int? days) => switch (days) {
-      null => 'Set your exam date',
-      0 => 'Your exam is today',
-      1 => '1 day to the exam',
-      final d => '$d days to the exam',
-    };
+  null => 'Set your exam date',
+  0 => 'Your exam is today',
+  1 => '1 day to the exam',
+  final d => '$d days to the exam',
+};
 
 /// What the home opens on and what its button points at: the chapter the
 /// student last worked in and the next lesson there.
@@ -248,14 +250,14 @@ class ChapterFacts {
   String get button => cleared || next == null
       ? 'Open chapter'
       : started
-          ? 'Continue'
-          : 'Start';
+      ? 'Continue'
+      : 'Start';
 }
 
 void _open(BuildContext context, ChapterMap chapter) {
-  Navigator.of(context).push(
-    MaterialPageRoute(builder: (_) => ChapterMapScreen(chapter: chapter)),
-  );
+  Navigator.of(
+    context,
+  ).push(MaterialPageRoute(builder: (_) => ChapterMapScreen(chapter: chapter)));
 }
 
 /// "11 to 17 questions on the real exam" -> "11 to 17 on the exam".
@@ -343,7 +345,10 @@ class _ChapterTile extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text('CHAPTER ${chapter.number}', style: AppTheme.eyebrow()),
+                child: Text(
+                  'CHAPTER ${chapter.number}',
+                  style: AppTheme.eyebrow(),
+                ),
               ),
               Text(
                 examWeight(chapter).toUpperCase(),
@@ -356,9 +361,16 @@ class _ChapterTile extends StatelessWidget {
               child: Container(
                 width: 176,
                 height: 176,
-                decoration: BoxDecoration(color: circle, shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                  color: circle,
+                  shape: BoxShape.circle,
+                ),
                 child: Center(
-                  child: ChapterMark(chapterId: chapter.id, color: mark, size: 108),
+                  child: ChapterMark(
+                    chapterId: chapter.id,
+                    color: mark,
+                    size: 108,
+                  ),
                 ),
               ),
             ),

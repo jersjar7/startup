@@ -73,10 +73,16 @@ class _ProfileTabState extends State<ProfileTab> {
                   children: [
                     Expanded(
                       child: Text(
-                        first.isNotEmpty ? '${_greeting()}, $first' : _greeting(),
+                        first.isNotEmpty
+                            ? '${_greeting()}, $first'
+                            : _greeting(),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTheme.display(size: 30, height: 1.1, tracking: -0.04),
+                        style: AppTheme.display(
+                          size: 30,
+                          height: 1.1,
+                          tracking: -0.04,
+                        ),
                       ),
                     ),
                     _Avatar(user: user, onTap: () => _openAccount(auth)),
@@ -87,13 +93,20 @@ class _ProfileTabState extends State<ProfileTab> {
                 chapter: chapter,
                 facts: facts,
                 onPlay: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => ChapterMapScreen(chapter: chapter)),
+                  MaterialPageRoute(
+                    builder: (_) => ChapterMapScreen(chapter: chapter),
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Expanded(child: _ExamTile(days: days, iso: user['examDate'] as String?)),
+                  Expanded(
+                    child: _ExamTile(
+                      days: days,
+                      iso: user['examDate'] as String?,
+                    ),
+                  ),
                   const SizedBox(width: 10),
                   Expanded(child: _StreakTile(streak: streak)),
                 ],
@@ -111,7 +124,7 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   static String _greeting() {
-    final h = DateTime.now().hour;
+    final h = appClock().hour;
     if (h < 12) return 'Morning';
     if (h < 18) return 'Afternoon';
     return 'Evening';
@@ -126,10 +139,8 @@ class _ProfileTabState extends State<ProfileTab> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
       ),
-      builder: (_) => AccountSheet(
-        auth: auth,
-        onDelete: () => _confirmDelete(auth),
-      ),
+      builder: (_) =>
+          AccountSheet(auth: auth, onDelete: () => _confirmDelete(auth)),
     );
   }
 
@@ -143,8 +154,13 @@ class _ProfileTabState extends State<ProfileTab> {
         return StatefulBuilder(
           builder: (ctx, setLocal) => AlertDialog(
             backgroundColor: AppColors.cream,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-            title: Text('Delete account?', style: AppTheme.display(size: 26, height: 1.1)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(32),
+            ),
+            title: Text(
+              'Delete account?',
+              style: AppTheme.display(size: 26, height: 1.1),
+            ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,16 +173,28 @@ class _ProfileTabState extends State<ProfileTab> {
                 TextField(
                   controller: pw,
                   obscureText: true,
-                  decoration: const InputDecoration(hintText: 'Password', border: OutlineInputBorder()),
+                  decoration: const InputDecoration(
+                    hintText: 'Password',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
                 if (error != null) ...[
                   const SizedBox(height: 8),
-                  Text(error!, style: const TextStyle(color: AppColors.error, fontSize: 12)),
+                  Text(
+                    error!,
+                    style: const TextStyle(
+                      color: AppColors.error,
+                      fontSize: 12,
+                    ),
+                  ),
                 ],
               ],
             ),
             actions: [
-              TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('Cancel')),
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('Cancel'),
+              ),
               TextButton(
                 onPressed: loading
                     ? null
@@ -177,7 +205,8 @@ class _ProfileTabState extends State<ProfileTab> {
                         });
                         try {
                           await auth.deleteAccount(pw.text);
-                          if (ctx.mounted) Navigator.of(ctx).pop(); // gate routes out
+                          if (ctx.mounted)
+                            Navigator.of(ctx).pop(); // gate routes out
                         } on ApiException catch (e) {
                           setLocal(() {
                             loading = false;
@@ -185,7 +214,10 @@ class _ProfileTabState extends State<ProfileTab> {
                           });
                         }
                       },
-                child: Text(loading ? 'Deleting…' : 'Delete', style: const TextStyle(color: AppColors.error)),
+                child: Text(
+                  loading ? 'Deleting…' : 'Delete',
+                  style: const TextStyle(color: AppColors.error),
+                ),
               ),
             ],
           ),
@@ -223,12 +255,19 @@ class _Avatar extends StatelessWidget {
           child: Container(
             width: 48,
             height: 48,
-            decoration: const BoxDecoration(color: AppColors.charcoal, shape: BoxShape.circle),
+            decoration: const BoxDecoration(
+              color: AppColors.charcoal,
+              shape: BoxShape.circle,
+            ),
             child: Center(
               child: Text(
                 initialsOf(user),
                 style: AppTheme.display(
-                    size: 16, weight: FontWeight.w700, tracking: -0.02, color: AppColors.cream),
+                  size: 16,
+                  weight: FontWeight.w700,
+                  tracking: -0.02,
+                  color: AppColors.cream,
+                ),
               ),
             ),
           ),
@@ -243,7 +282,11 @@ class _Avatar extends StatelessWidget {
 /// The spring hero: how many lessons are left in the chapter in flight, a
 /// play button, one pip per lesson, and what comes next.
 class _HeroTile extends StatelessWidget {
-  const _HeroTile({required this.chapter, required this.facts, required this.onPlay});
+  const _HeroTile({
+    required this.chapter,
+    required this.facts,
+    required this.onPlay,
+  });
 
   final ChapterMap chapter;
   final ChapterFacts facts;
@@ -252,15 +295,17 @@ class _HeroTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final next = facts.next;
-    final lessonNo = next == null ? facts.total : chapter.lessons.indexOf(next) + 1;
+    final lessonNo = next == null
+        ? facts.total
+        : chapter.lessons.indexOf(next) + 1;
     final eyebrow = facts.cleared
         ? '${cardNameFor(chapter)} · all cleared'
         : '${cardNameFor(chapter)} · lesson $lessonNo of ${facts.total}';
     final upNext = facts.cleared
         ? 'Every lesson cleared. Pick another chapter.'
         : next == null
-            ? 'Nothing left to play here yet'
-            : '${facts.started ? 'Up next' : 'Starts with'}: ${next.name}';
+        ? 'Nothing left to play here yet'
+        : '${facts.started ? 'Up next' : 'Starts with'}: ${next.name}';
 
     return GestureDetector(
       onTap: onPlay,
@@ -292,13 +337,22 @@ class _HeroTile extends StatelessWidget {
                     children: [
                       Text(
                         '${facts.remaining}',
-                        style: AppTheme.display(size: 108, height: 0.8, tracking: -0.07),
+                        style: AppTheme.display(
+                          size: 108,
+                          height: 0.8,
+                          tracking: -0.07,
+                        ),
                       ),
                       const SizedBox(width: 8),
                       Flexible(
                         child: Text(
                           'to go',
-                          style: AppTheme.display(size: 28, weight: FontWeight.w700, height: 1, tracking: -0.03),
+                          style: AppTheme.display(
+                            size: 28,
+                            weight: FontWeight.w700,
+                            height: 1,
+                            tracking: -0.03,
+                          ),
                         ),
                       ),
                     ],
@@ -320,7 +374,11 @@ class _HeroTile extends StatelessWidget {
               upNext,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: AppTheme.body(size: 14, weight: FontWeight.w500, height: 1.2),
+              style: AppTheme.body(
+                size: 14,
+                weight: FontWeight.w500,
+                height: 1.2,
+              ),
             ),
           ],
         ),
@@ -338,7 +396,20 @@ class _ExamTile extends StatelessWidget {
   final String? iso;
 
   static const _wd = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  static const _mo = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  static const _mo = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -353,7 +424,10 @@ class _ExamTile extends StatelessWidget {
               children: [
                 Text('Not set', style: AppTheme.display(size: 26, height: 1)),
                 const SizedBox(height: 6),
-                Text('Set it on the website', style: AppTheme.mono(size: 11, color: AppColors.ink2)),
+                Text(
+                  'Set it on the website',
+                  style: AppTheme.mono(size: 11, color: AppColors.ink2),
+                ),
               ],
             )
           : Column(
@@ -362,7 +436,9 @@ class _ExamTile extends StatelessWidget {
                 _BigNumber(value: '$d', unit: d == 1 ? 'day' : 'days'),
                 const SizedBox(height: 4),
                 Text(
-                  when == null ? '' : '${_wd[when.weekday - 1]}, ${_mo[when.month - 1]} ${when.day}',
+                  when == null
+                      ? ''
+                      : '${_wd[when.weekday - 1]}, ${_mo[when.month - 1]} ${when.day}',
                   style: AppTheme.mono(size: 12, color: AppColors.ink2),
                 ),
               ],
@@ -396,7 +472,11 @@ class _StreakTile extends StatelessWidget {
 }
 
 class _HalfTile extends StatelessWidget {
-  const _HalfTile({required this.color, required this.eyebrow, required this.child});
+  const _HalfTile({
+    required this.color,
+    required this.eyebrow,
+    required this.child,
+  });
 
   final Color color;
   final String eyebrow;
@@ -407,7 +487,10 @@ class _HalfTile extends StatelessWidget {
     return Container(
       height: 172,
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(32)),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(32),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -432,9 +515,15 @@ class _BigNumber extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
-        Text(value, style: AppTheme.display(size: 64, height: 0.82, tracking: -0.06)),
+        Text(
+          value,
+          style: AppTheme.display(size: 64, height: 0.82, tracking: -0.06),
+        ),
         const SizedBox(width: 6),
-        Text(unit, style: AppTheme.body(size: 15, weight: FontWeight.w600, height: 1)),
+        Text(
+          unit,
+          style: AppTheme.body(size: 15, weight: FontWeight.w600, height: 1),
+        ),
       ],
     );
   }
@@ -450,7 +539,10 @@ class _MasteryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => launchUrl(Uri.parse('https://fe4raccoons.com'), mode: LaunchMode.externalApplication),
+      onTap: () => launchUrl(
+        Uri.parse('https://fe4raccoons.com'),
+        mode: LaunchMode.externalApplication,
+      ),
       child: Container(
         height: 96,
         padding: const EdgeInsets.fromLTRB(22, 0, 12, 0),
@@ -462,7 +554,12 @@ class _MasteryRow extends StatelessWidget {
           children: [
             Text(
               pct == null ? '…' : '$pct%',
-              style: AppTheme.display(size: 40, height: 1, tracking: -0.05, color: AppColors.ember),
+              style: AppTheme.display(
+                size: 40,
+                height: 1,
+                tracking: -0.05,
+                color: AppColors.ember,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -470,19 +567,39 @@ class _MasteryRow extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Concept mastery',
-                      style: AppTheme.body(size: 17, weight: FontWeight.w600, color: AppColors.cream, height: 1.2)),
+                  Text(
+                    'Concept mastery',
+                    style: AppTheme.body(
+                      size: 17,
+                      weight: FontWeight.w600,
+                      color: AppColors.cream,
+                      height: 1.2,
+                    ),
+                  ),
                   const SizedBox(height: 3),
-                  Text('Not a probability of passing',
-                      style: AppTheme.body(size: 13, color: AppColors.mutedOnDark, height: 1.2)),
+                  Text(
+                    'Not a probability of passing',
+                    style: AppTheme.body(
+                      size: 13,
+                      color: AppColors.mutedOnDark,
+                      height: 1.2,
+                    ),
+                  ),
                 ],
               ),
             ),
             Container(
               width: 52,
               height: 52,
-              decoration: const BoxDecoration(color: AppColors.tile2, shape: BoxShape.circle),
-              child: const Icon(Icons.chevron_right_rounded, size: 24, color: AppColors.cream),
+              decoration: const BoxDecoration(
+                color: AppColors.tile2,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.chevron_right_rounded,
+                size: 24,
+                color: AppColors.cream,
+              ),
             ),
           ],
         ),
@@ -534,10 +651,20 @@ class AccountSheet extends StatelessWidget {
                 Container(
                   width: 56,
                   height: 56,
-                  decoration: const BoxDecoration(color: AppColors.charcoal, shape: BoxShape.circle),
+                  decoration: const BoxDecoration(
+                    color: AppColors.charcoal,
+                    shape: BoxShape.circle,
+                  ),
                   child: Center(
-                    child: Text(initialsOf(user),
-                        style: AppTheme.display(size: 18, weight: FontWeight.w700, tracking: -0.02, color: AppColors.cream)),
+                    child: Text(
+                      initialsOf(user),
+                      style: AppTheme.display(
+                        size: 18,
+                        weight: FontWeight.w700,
+                        tracking: -0.02,
+                        color: AppColors.cream,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -545,11 +672,23 @@ class AccountSheet extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(name, maxLines: 1, overflow: TextOverflow.ellipsis,
-                          style: AppTheme.display(size: 24, height: 1.1, tracking: -0.03)),
+                      Text(
+                        name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTheme.display(
+                          size: 24,
+                          height: 1.1,
+                          tracking: -0.03,
+                        ),
+                      ),
                       if (email.isNotEmpty)
-                        Text(email, maxLines: 1, overflow: TextOverflow.ellipsis,
-                            style: AppTheme.mono(size: 12, color: AppColors.ink2)),
+                        Text(
+                          email,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTheme.mono(size: 12, color: AppColors.ink2),
+                        ),
                     ],
                   ),
                 ),
@@ -568,7 +707,10 @@ class AccountSheet extends StatelessWidget {
             const SizedBox(height: 22),
             SheetButton(
               label: 'Open the website',
-              onTap: () => launchUrl(Uri.parse('https://fe4raccoons.com'), mode: LaunchMode.externalApplication),
+              onTap: () => launchUrl(
+                Uri.parse('https://fe4raccoons.com'),
+                mode: LaunchMode.externalApplication,
+              ),
             ),
             const SizedBox(height: 10),
             SheetButton(
@@ -618,13 +760,22 @@ class _Figure extends StatelessWidget {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(color: AppColors.creamDark, borderRadius: BorderRadius.circular(22)),
+        decoration: BoxDecoration(
+          color: AppColors.creamDark,
+          borderRadius: BorderRadius.circular(22),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label.toUpperCase(), style: AppTheme.eyebrow(size: 11, color: AppColors.ink2)),
+            Text(
+              label.toUpperCase(),
+              style: AppTheme.eyebrow(size: 11, color: AppColors.ink2),
+            ),
             const SizedBox(height: 8),
-            Text(value, style: AppTheme.display(size: 26, height: 0.9, tracking: -0.04)),
+            Text(
+              value,
+              style: AppTheme.display(size: 26, height: 0.9, tracking: -0.04),
+            ),
           ],
         ),
       ),
