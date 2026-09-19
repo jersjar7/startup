@@ -96,6 +96,12 @@ for p in get("profiles?limit=200")["data"]:
 
 The profile in use expires **2027-06-23**.
 
+The profile carries the **Associated Domains** capability (Universal Links,
+`applinks:fe4raccoons.com`, see `docs/mobile/universal-links.md`). It was
+regenerated on 2026-09-18 after the capability was enabled on the App ID; a
+profile carries the capabilities of the moment it was made, so if the App ID
+ever gains another capability, delete and recreate the profile the same way.
+
 ## Build log
 
 | Build | What was in it |

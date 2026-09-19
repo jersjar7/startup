@@ -5,6 +5,7 @@ import '../features/auth/auth_controller.dart';
 import '../features/auth/create_screen.dart';
 import '../features/auth/forgot_screen.dart';
 import '../features/auth/signin_screen.dart';
+import '../features/auth/verify_link_screen.dart';
 import '../features/auth/verify_screen.dart';
 import '../features/games/above_or_below_game.dart';
 import '../features/games/above_the_point_game.dart';
@@ -425,6 +426,10 @@ GoRouter buildRouter(AuthController auth) {
       // designed (see docs/mobile/question-design.md).
       if (loc.startsWith('/games/')) return null;
 
+      // The verification email's link, arriving as a Universal Link. It
+      // works signed in or out (docs/mobile/universal-links.md).
+      if (loc.startsWith('/verify-email/')) return null;
+
       // Still deciding (token check in flight) — stay on splash.
       if (auth.status == AuthStatus.unknown) {
         return loc == '/splash' ? null : '/splash';
@@ -458,6 +463,10 @@ GoRouter buildRouter(AuthController auth) {
       GoRoute(path: '/create', builder: (_, _) => const CreateScreen()),
       GoRoute(path: '/forgot', builder: (_, _) => const ForgotScreen()),
       GoRoute(path: '/verify', builder: (_, _) => const VerifyScreen()),
+      GoRoute(
+        path: '/verify-email/:token',
+        builder: (_, s) => VerifyLinkScreen(token: s.pathParameters['token']!),
+      ),
       GoRoute(
         path: '/home',
         pageBuilder: (_, s) => _fade(s, const HomeShell()),
