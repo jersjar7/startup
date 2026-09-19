@@ -224,7 +224,7 @@ ${eyebrow('Saturday')}
 ${day('WE', 25)}${day('TH', 26)}${day('FR', 27)}${day('SA', 28, true)}${day('SU', 29)}${day('MO', 30)}${day('TU', 1)}
 </div>
 <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 34px;">
-${textAction('08-home.html', 'No date yet')}
+${textAction('08-home.html', 'Clear the date')}
 ${roundNext('08-home.html', 'Save')}
 </div>
 </div>`);
@@ -545,6 +545,64 @@ ${[['Total XP', '1,240'], ['Badges', '3'], ['Concepts', '14']].map(([k, v]) => `
 </div>`, `@keyframes sheetUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}`);
 
 mkdirSync(new URL('./reference-screens/html/', import.meta.url), { recursive: true });
+
+// ── 16 concept mastery: the breakdown behind the dark row on home ──
+const masteryRows = [
+  ['mathematics', 'Mathematics', '11–17', 62], ['statistics', 'Probability & Statistics', '4–6', 35],
+  ['ethics', 'Ethics & Professional Practice', '4–6', 84], ['economics', 'Engineering Economics', '4–6', 51],
+  ['statics', 'Statics', '8–12', 48], ['dynamics', 'Dynamics', '4–6', 12], ['mechanics-materials', 'Mechanics of Materials', '7–11', 27],
+  ['materials', 'Materials', '4–6', 0], ['fluid-mechanics', 'Fluid Mechanics', '4–6', 9], ['surveying', 'Surveying', '4–6', 0],
+  ['water-resources', 'Water Resources & Environmental', '14–21', 21], ['structural', 'Structural Engineering', '12–18', 16],
+  ['geotechnical', 'Geotechnical Engineering', '9–14', 0], ['transportation', 'Transportation Engineering', '8–12', 6],
+  ['construction', 'Construction Engineering', '4–6', 0],
+];
+const stage = (p) => p >= 80 ? 'Mastered' : p >= 50 ? 'Familiar' : p >= 10 ? 'Building' : 'New';
+const masteryTile = ([id, name, q, p], accent) => `
+<div style="display: flex; flex-direction: column; justify-content: space-between; height: 164px; box-sizing: border-box; padding: 16px 14px; border-radius: 24px; background: ${accent || (p >= 80 ? C.spring : C.cream)};">
+<div style="display: flex; justify-content: space-between; align-items: center; white-space: nowrap;">${mark(id, C.charcoal, 24, 1.8)}${eyebrow(q + ' Q', accent ? C.charcoal : C.mutedOnLight)}</div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-family: ${F.display}; font-weight: 700; font-size: 12.5px; line-height: 1.15; letter-spacing: -0.02em;">${name}</span>
+<div style="display: flex; flex-direction: column; gap: 5px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 34px; line-height: 0.85; letter-spacing: -0.05em;">${p}<span style="font-size: 18px;">%</span></span>${eyebrow(stage(p), p === 0 || accent ? C.charcoal : C.mutedOnLight)}</div>
+</div>
+</div>`;
+const focus = masteryRows.filter((r) => r[3] < 90).map((r) => [r, (100 - r[3]) * parseInt(r[2].split('–')[1], 10)]).sort((a, b) => b[1] - a[1]).slice(0, 3).map((x) => x[0]);
+const masteryPage = page('Concept mastery', C.fog, C.charcoal, `
+<div style="box-sizing: border-box; padding: 56px 24px 34px; display: flex; flex-direction: column; gap: 22px;">
+<div style="display: flex; align-items: center; justify-content: space-between;">${roundIcon('08-home.html', 'Back', chevronLeft)}${eyebrow('Concept mastery', C.mutedOnLight)}</div>
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: baseline; gap: 10px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 124px; line-height: 0.82; letter-spacing: -0.07em; color: ${C.ember};">28<span style="font-size: 56px; letter-spacing: -0.04em;">%</span></span></div>
+<div style="font-size: 15px; line-height: 1.4; color: ${C.mutedOnLight};">Of the concepts the FE Civil tests, weighted by how many questions each chapter gets. Not a probability of passing.</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+${eyebrow('Where effort moves it most', C.mutedOnLight)}
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">${focus.map((r) => masteryTile(r, C.peach)).join('')}</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+${eyebrow('Every chapter', C.mutedOnLight)}
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">${masteryRows.map((r) => masteryTile(r)).join('')}</div>
+</div>
+</div>`);
+
+// ── 17 days studied: the calendar behind the butter tile on home ──
+const calCell = (n, studied, today, muted) => `<span style="display: flex; align-items: center; justify-content: center; height: 44px; border-radius: 22px; font-family: ${F.mono}; font-size: 14px; font-weight: 600; ${studied ? `background: ${C.charcoal}; color: ${C.butter};` : today ? `background: ${C.cream}; color: ${C.charcoal};` : `color: ${C.charcoal}; opacity: ${muted ? 0.28 : 0.6};`}">${n}</span>`;
+const studied = new Set([1, 2, 4, 5, 8, 9, 11, 12, 15, 16, 18]);
+const daysPage = page('Days studied', C.butter, C.charcoal, `
+<div style="box-sizing: border-box; padding: 56px 24px 34px; height: 844px; display: flex; flex-direction: column;">
+<div style="display: flex; align-items: center; justify-content: space-between;">${roundIcon('08-home.html', 'Back', chevronLeft)}${eyebrow('Days studied', C.mutedOnLight)}</div>
+<div style="margin-top: 30px; display: flex; align-items: baseline; gap: 10px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 124px; line-height: 0.82; letter-spacing: -0.07em;">27</span><span style="font-family: ${F.display}; font-weight: 700; font-size: 28px; letter-spacing: -0.03em;">days</span></div>
+<div style="margin-top: 14px; font-size: 15px; line-height: 1.4; color: ${C.mutedOnLight};">Since Aug 3. Every day you open a game or a lesson counts once, and the number only ever goes up.</div>
+<div style="flex-grow: 1;"></div>
+<div style="display: flex; gap: 6px;">
+${['Sep', 'Aug', 'Jul'].map((m, i) => `<button type="button" style="display: flex; align-items: center; justify-content: center; height: 40px; padding: 0 16px; border: none; border-radius: 20px; font-family: ${F.mono}; font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; ${i === 0 ? `background: ${C.charcoal}; color: ${C.butter};` : `background: transparent; color: ${C.charcoal}; opacity: 0.7;`}">${m}</button>`).join('')}
+</div>
+<div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 22px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 34px; letter-spacing: -0.045em;">September</span>${eyebrow('11 of 19 days', C.mutedOnLight)}</div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; margin-top: 16px;">
+${['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'].map((d) => `<span style="display: flex; justify-content: center;">${eyebrow(d, C.mutedOnLight)}</span>`).join('')}
+${['', ''].map(() => '<span></span>').join('')}
+${Array.from({ length: 30 }, (_, i) => calCell(i + 1, studied.has(i + 1), i + 1 === 19, i + 1 > 19)).join('')}
+</div>
+</div>`);
+
 const out = {
   '01-welcome.html': welcome,
   '02-create-email.html': createEmail,
@@ -567,6 +625,8 @@ const out = {
   '13c-game-done.html': gameDone,
   '14-lesson-brief.html': lessonBrief,
   '15-account-sheet.html': accountSheet,
+  '16-mastery.html': masteryPage,
+  '17-days-studied.html': daysPage,
 };
 for (const [name, html] of Object.entries(out)) {
   writeFileSync(new URL(`./reference-screens/html/${name}`, import.meta.url), html);

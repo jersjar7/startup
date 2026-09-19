@@ -13,6 +13,10 @@ import '../shared/widgets/kit.dart';
 import '../study/chapter_bands.dart' show cardNameFor;
 import '../study/content_repository.dart';
 import '../study/study_tab.dart';
+import 'exam_date_screen.dart';
+import 'mastery_model.dart';
+import 'mastery_screen.dart';
+import 'study_days_screen.dart';
 
 /// Tab 1 — Profile, the tab the app opens on: a greeting, the next-concept
 /// hero tile, exam day and days studied, the mastery row. Account actions
@@ -31,7 +35,7 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
-  late Future<int> _mastery; // overall concept mastery %
+  late Future<Map<String, int>> _mastery; // chapterId -> percent
 
   @override
   void initState() {
@@ -39,11 +43,7 @@ class _ProfileTabState extends State<ProfileTab> {
     final auth = context.read<AuthController>();
     auth.refreshMe(); // freshen XP / days / badges
     final repo = ContentRepository(auth.api);
-    _mastery = repo.mastery().then((m) {
-      if (m.isEmpty) return 0;
-      final avg = m.values.fold<int>(0, (a, b) => a + b) / m.values.length;
-      return avg.round();
-    });
+    _mastery = repo.mastery();
   }
 
   @override
@@ -105,16 +105,45 @@ class _ProfileTabState extends State<ProfileTab> {
                     child: _ExamTile(
                       days: days,
                       iso: user['examDate'] as String?,
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => ExamDateScreen(
+                            initial: user['examDate'] as String?,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Expanded(child: _StreakTile(streak: streak)),
+                  Expanded(
+                    child: _StreakTile(
+                      streak: streak,
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => StudyDaysScreen(count: streak),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 10),
-              FutureBuilder<int>(
+              FutureBuilder<Map<String, int>>(
                 future: _mastery,
-                builder: (context, snap) => _MasteryRow(pct: snap.data),
+                builder: (context, snap) {
+                  final m = snap.data;
+                  return _MasteryRow(
+                    // The website's weighting, so one number shows everywhere.
+                    pct: m == null ? null : weightedMastery(m),
+                    onTap: m == null
+                        ? null
+                        : () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => MasteryScreen(mastery: m),
+                            ),
+                          ),
+                  );
+                },
               ),
             ],
           ),
@@ -391,10 +420,11 @@ class _HeroTile extends StatelessWidget {
 /// Exam day on cream. Without a date it says so rather than counting; the
 /// date is set on the website today.
 class _ExamTile extends StatelessWidget {
-  const _ExamTile({required this.days, required this.iso});
+  const _ExamTile({required this.days, required this.iso, required this.onTap});
 
   final int? days;
   final String? iso;
+  final VoidCallback onTap;
 
   static const _wd = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   static const _mo = [
@@ -419,6 +449,7 @@ class _ExamTile extends StatelessWidget {
     return _HalfTile(
       color: AppColors.cream,
       eyebrow: 'Exam day',
+      onTap: onTap,
       child: d == null
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -426,7 +457,7 @@ class _ExamTile extends StatelessWidget {
                 Text('Not set', style: AppTheme.display(size: 26, height: 1)),
                 const SizedBox(height: 6),
                 Text(
-                  'Set it on the website',
+                  'Tap to set it',
                   style: AppTheme.mono(size: 11, color: AppColors.ink2),
                 ),
               ],
@@ -451,15 +482,17 @@ class _ExamTile extends StatelessWidget {
 /// Days studied on sunbeam, from the website's streak, with the last seven
 /// as pips.
 class _StreakTile extends StatelessWidget {
-  const _StreakTile({required this.streak});
+  const _StreakTile({required this.streak, required this.onTap});
 
   final int streak;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return _HalfTile(
       color: AppColors.butter,
       eyebrow: 'Days studied',
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -477,28 +510,34 @@ class _HalfTile extends StatelessWidget {
     required this.color,
     required this.eyebrow,
     required this.child,
+    required this.onTap,
   });
 
   final Color color;
   final String eyebrow;
   final Widget child;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 172,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(32),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(eyebrow.toUpperCase(), style: AppTheme.eyebrow()),
-          const Spacer(),
-          child,
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        height: 172,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(32),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(eyebrow.toUpperCase(), style: AppTheme.eyebrow()),
+            const Spacer(),
+            child,
+          ],
+        ),
       ),
     );
   }
@@ -530,20 +569,18 @@ class _BigNumber extends StatelessWidget {
   }
 }
 
-/// The dark row: concept mastery from the website, with the standing honest
-/// line. Opens the website, where the per-chapter breakdown lives.
+/// The dark row: concept mastery, weighted the way the website weights it,
+/// with the standing honest line. Opens the breakdown, in the app.
 class _MasteryRow extends StatelessWidget {
-  const _MasteryRow({required this.pct});
+  const _MasteryRow({required this.pct, required this.onTap});
 
   final int? pct;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => launchUrl(
-        Uri.parse('https://fe4raccoons.com'),
-        mode: LaunchMode.externalApplication,
-      ),
+      onTap: onTap,
       child: Container(
         height: 96,
         padding: const EdgeInsets.fromLTRB(22, 0, 12, 0),

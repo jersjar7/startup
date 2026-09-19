@@ -71,9 +71,8 @@ Before building or changing any screen in `mobile/`:
    a screen.
 
 The reference screens define the visual language only. They are not a
-feature list: every screen in them is a feature the app has, except
-`04-exam-date`, which is a proposal. Do not add features, screens or content
-because they appear in a reference. Build what the owner asks for, styled
+feature list: every screen in them is a feature the app has. Do not add
+features, screens or content because they appear in a reference. Build what the owner asks for, styled
 like the references.
 
 If a screen starts to look like a web form (stacked labeled inputs, bordered

@@ -18,11 +18,11 @@ changing any screen. Adopted 2026-09-18 (ADR 0016); it supersedes
 **Every reference screen is a feature the app has.** They were rebuilt from an
 AI-generated kit whose screens showed sign-in providers, a campus code, a
 study-hours gauge, a self-rating deck and a weekly plan. None of those exist
-here and none of them are in these references. The one exception is
-`04-exam-date`, which the owner has asked to see and which is not built yet;
-today the exam date is set on the website and only read on the phone. Do not
-build features because they appear in a reference. Build what the owner asks
-for, and make it look and behave like these references.
+here and none of them are in these references. (`04-exam-date` started as a
+proposal; it was built on 2026-09-19, along with `16-mastery` and
+`17-days-studied`, the pages behind the three Profile tiles.) Do not build
+features because they appear in a reference. Build what the owner asks for,
+and make it look and behave like these references.
 
 ## The one rule
 
@@ -231,7 +231,9 @@ Short, direct, a little playful. A study partner, not a registration system.
 | Profile (home) | Avatar row, stat tiles with icons, hairline account list | Greeting, the next-concept hero tile, exam day and days studied, the mastery row, dock. Account actions go in a sheet from the avatar | 08 |
 | Study, one chapter | Mark in a hairline ring, 54 rectangle | The chapter tile, pill CTA, dots, dock | 09 |
 | Study, all chapters | Bare marks on the ground | Grid tiles, the chapter in flight in spring | 10 |
-| Set exam date | A date picker in a dialog | Hero date, month chips, day scrubber, on a spring ground (proposal) | 04 |
+| Set exam date | A date picker in a dialog | Hero date, month chips, day strip, save at the right and "Clear the date" at the left, on a spring ground | 04 |
+| Concept mastery | A table of chapters and percentages, or the website | The weighted figure as the hero, the three chapters worth the most effort in peach, every chapter as a tile with its stage word | 16 |
+| Days studied | A streak counter, or a bar chart | The count as the hero, month chips, a month grid with each studied day a charcoal disc, on a butter ground | 17 |
 | A game round | Restyle 375 games | Restyle the shared frame only (board.dart): round close button, pips, mono counter, the concept button; the confirm as a pill; feedback as a spring or ember panel; done as a hero tile. The board content stays as each game draws it | 13, 13b, 13c |
 | Chapter map | Bordered label cards, hairline road | Charcoal road with a spring dashed overlay for the cleared stretch; cleared nodes charcoal with a spring check, the current node a spring ring, untouched cream; labels as cream tiles, the current one spring | 11 |
 | Lesson sheet | Hairline game rows | Cream sheet; each game a creamDark row tile, the next one spring, with a 44 round play or check | 12 |
