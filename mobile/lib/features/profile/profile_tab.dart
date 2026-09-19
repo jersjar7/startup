@@ -205,8 +205,9 @@ class _ProfileTabState extends State<ProfileTab> {
                         });
                         try {
                           await auth.deleteAccount(pw.text);
-                          if (ctx.mounted)
+                          if (ctx.mounted) {
                             Navigator.of(ctx).pop(); // gate routes out
+                          }
                         } on ApiException catch (e) {
                           setLocal(() {
                             loading = false;
@@ -742,7 +743,9 @@ class AccountSheet extends StatelessWidget {
     final s = n.toString();
     final out = StringBuffer();
     for (var i = 0; i < s.length; i++) {
-      if (i > 0 && (s.length - i) % 3 == 0) out.write(',');
+      if (i > 0 && (s.length - i) % 3 == 0) {
+        out.write(',');
+      }
       out.write(s[i]);
     }
     return out.toString();
