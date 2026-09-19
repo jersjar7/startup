@@ -246,7 +246,7 @@ const tryOne = page('Onboarding: try one', C.peach, C.charcoal, `
 </div>`);
 
 // ── 06 chapters: the peek, then sign up ──
-const chaptersPeek = page('Onboarding: fifteen chapters', C.sunbeam, C.charcoal, `
+const chaptersPeek = page('Onboarding: fifteen chapters', C.butter, C.charcoal, `
 <div style="box-sizing: border-box; padding: 56px 24px 34px; height: 844px; display: flex; flex-direction: column;">
 <div style="display: flex; align-items: center; gap: 14px;">${roundIcon('05-try-one.html', 'Back', chevronLeft)}${steps(3, 3)}</div>
 <div style="margin-top: 30px;">${headline('Fifteen chapters.<br>Tap any.')}</div>
@@ -293,7 +293,7 @@ ${eyebrow('Exam day')}
 <div style="font-family: ${F.mono}; font-size: 12px; color: ${C.mutedOnLight};">Sat, Nov 28</div>
 </div>
 </a>
-<div style="display: flex; flex-direction: column; justify-content: space-between; height: 172px; box-sizing: border-box; padding: 20px; border-radius: 32px; background: ${C.sunbeam}; color: ${C.charcoal}; animation: rise 0.5s 0.14s ease-out both;">
+<div style="display: flex; flex-direction: column; justify-content: space-between; height: 172px; box-sizing: border-box; padding: 20px; border-radius: 32px; background: ${C.butter}; color: ${C.charcoal}; animation: rise 0.5s 0.14s ease-out both;">
 ${eyebrow('Days studied')}
 <div style="display: flex; flex-direction: column; gap: 10px;">
 <div style="display: flex; align-items: baseline; gap: 6px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 68px; line-height: 0.82; letter-spacing: -0.06em;">6</span><span style="font-size: 15px; font-weight: 600;">days</span></div>
@@ -498,7 +498,7 @@ const gameDone = page('Game done', C.fog, C.charcoal, `
 </div>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 10px;">
 <div style="display: flex; flex-direction: column; justify-content: space-between; height: 132px; box-sizing: border-box; padding: 18px; border-radius: 32px; background: ${C.cream};">${eyebrow('First try')}<div style="display: flex; align-items: baseline; gap: 6px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 56px; line-height: 0.82; letter-spacing: -0.06em;">6</span><span style="font-size: 14px; font-weight: 600;">of 8</span></div></div>
-<div style="display: flex; flex-direction: column; justify-content: space-between; height: 132px; box-sizing: border-box; padding: 18px; border-radius: 32px; background: ${C.sunbeam};">${eyebrow('Lesson')}<div style="display: flex; align-items: baseline; gap: 6px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 56px; line-height: 0.82; letter-spacing: -0.06em;">2</span><span style="font-size: 14px; font-weight: 600;">of 3 done</span></div></div>
+<div style="display: flex; flex-direction: column; justify-content: space-between; height: 132px; box-sizing: border-box; padding: 18px; border-radius: 32px; background: ${C.butter};">${eyebrow('Lesson')}<div style="display: flex; align-items: baseline; gap: 6px;"><span style="font-family: ${F.display}; font-weight: 800; font-size: 56px; line-height: 0.82; letter-spacing: -0.06em;">2</span><span style="font-size: 14px; font-weight: 600;">of 3 done</span></div></div>
 </div>
 <div style="flex-grow: 1;"></div>
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px;">

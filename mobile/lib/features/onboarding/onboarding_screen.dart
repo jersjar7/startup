@@ -33,7 +33,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final _pc = PageController();
   int _page = 0;
 
-  static const _grounds = [AppColors.fog, AppColors.peach, AppColors.sunbeam];
+  static const _grounds = [AppColors.fog, AppColors.peach, AppColors.butter];
 
   @override
   void dispose() {

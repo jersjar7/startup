@@ -54,8 +54,13 @@ abstract final class AppColors {
   /// Forest, lightened enough to read on charcoal.
   static const mint = Color(0xFF7FC3A5);
 
-  // Streak, days studied, highlight; the third ground
+  // Streak, days studied, highlight
   static const sunbeam = Color(0xFFF5B731);
+
+  /// Sunbeam's hue at L 0.88: the yellow GROUND, as peach is to ember.
+  /// Every surface that was sunbeam is butter (owner's call, 2026-09-18);
+  /// sunbeam itself stays for pips, highlights and small marks.
+  static const butter = Color(0xFFF9D28A);
   static const sunbeamBg = Color(0xFFFEF7E0);
 
   // Errors

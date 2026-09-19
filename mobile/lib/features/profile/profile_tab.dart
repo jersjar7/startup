@@ -458,7 +458,7 @@ class _StreakTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _HalfTile(
-      color: AppColors.sunbeam,
+      color: AppColors.butter,
       eyebrow: 'Days studied',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
