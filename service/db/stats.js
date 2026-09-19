@@ -1,4 +1,5 @@
 const { userStatsCollection, problemHistoryCollection, sessionLogCollection } = require('./connection');
+const { studyDayUpdate } = require('../studyDays.js');
 
 // Reviews are WEAK-SPOTS-ONLY and graduate out (study-load policy "B", 2026-06-29).
 // The old model scheduled EVERY solved problem and never let it graduate, so the
@@ -14,12 +15,29 @@ async function getUserStats(email) {
 }
 
 async function updateUserStats(email, update) {
+  // A write that moves lastSessionDate also records the day (studyDays.js).
   await userStatsCollection.updateOne(
     { email: email },
-    { $set: update },
+    studyDayUpdate(update),
     { upsert: true }
   );
   return userStatsCollection.findOne({ email: email });
+}
+
+/** Every calendar day this user studied, oldest first. */
+async function getStudyDays(email) {
+  const stats = await userStatsCollection.findOne({ email }, { projection: { studyDays: 1 } });
+  return [...(stats?.studyDays || [])].sort();
+}
+
+/** Adds days to the set without touching anything else (the backfill). */
+async function addStudyDays(email, days) {
+  if (!days.length) return;
+  await userStatsCollection.updateOne(
+    { email },
+    { $addToSet: { studyDays: { $each: days } } },
+    { upsert: true }
+  );
 }
 
 async function getProblemHistoryForUser(email) {
@@ -137,4 +155,6 @@ module.exports = {
   getProblemsForReview,
   getDueReviewCount,
   logSession,
+  getStudyDays,
+  addStudyDays,
 };

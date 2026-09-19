@@ -66,6 +66,7 @@ async function ping() {
 }
 
 module.exports = {
+  client,
   db,
   ping,
   userCollection,

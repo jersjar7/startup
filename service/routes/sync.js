@@ -197,6 +197,23 @@ router.get('/today', verifyAuth, async (req, res) => {
   }
 });
 
+// The days this student studied, for the phone's calendar. The count is the
+// same cumulative "days studied" the dashboard shows; the list is what the
+// calendar can place (days before the list existed were backfilled from the
+// dated records, so an old account may hold fewer days than its count).
+router.get('/study-days', verifyAuth, async (req, res) => {
+  try {
+    const [days, stats] = await Promise.all([
+      DB.getStudyDays(req.user.email),
+      DB.getUserStats(req.user.email),
+    ]);
+    res.send({ days, count: (stats && stats.currentStreak) || 0 });
+  } catch (err) {
+    console.error('[sync] study-days failed:', err.message);
+    res.status(500).send({ msg: 'study-days failed' });
+  }
+});
+
 module.exports = router;
 // Exported for tests: the mobile game client builds this exact shape, and a
 // drift here fails silently in the app (the push is caught and reported as

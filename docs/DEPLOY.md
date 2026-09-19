@@ -48,6 +48,18 @@ Using `-s fe4raccoons` silently deploys to `services/fe4raccoons/` — a directo
 found", leaving the live site unchanged. `.env` is preserved across deploys
 (the scripts back it up and restore it).
 
+## One-time after the 2026-09-19 deploy: backfill study days
+
+The phone's "days studied" calendar reads `userStats.studyDays`, which every
+stats write now maintains (`service/studyDays.js`). Days from before that
+exist only in the dated records, so run the backfill ONCE on the box after
+that deploy (safe to re-run; it only adds):
+
+```sh
+ssh -i secrets/jerson-cs260-key.pem ubuntu@fe4raccoons.com \
+  'bash -ilc "cd services/startup && set -a && . ./.env && set +a && node scripts/backfillStudyDays.js"'
+```
+
 ## ⚠️ Never deploy on top of an in-progress exam simulation
 
 The paid **Exam Simulation** is a single timed **6-hour (5h20m)** in-app
