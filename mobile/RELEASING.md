@@ -33,6 +33,19 @@ xcrun altool --upload-app -f build/ios/signed/mobile.ipa -t ios \
   --apiKey "$KEY" --apiIssuer "$ISS"
 ```
 
+## Signing, since 2026-09-18
+
+Release and Profile sign MANUALLY in the Xcode project (Apple Distribution,
+the "com.fe4raccoons.mobile AppStore" profile). They have to: the app claims
+`applinks:fe4raccoons.com` (`Runner/Runner.entitlements`), and Xcode's
+automatic signing reaches for a generic team profile that has no Associated
+Domains capability, so the archive fails to sign. Debug stays automatic and
+uses `RunnerDebug.entitlements`, which claims nothing, so `flutter run` on a
+simulator or a device still works; Universal Links are simply off in a debug
+run. If two profiles with the same name are installed, Xcode may pick the
+stale one (that produced a false "profile doesn't include the Associated
+Domains capability" error on 2026-09-18), so keep exactly one copy installed.
+
 ## Why step 3 exists
 
 `flutter build ipa` archives fine and then fails the export with:
