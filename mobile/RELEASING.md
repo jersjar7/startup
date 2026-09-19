@@ -144,3 +144,4 @@ ever gains another capability, delete and recreate the profile the same way.
 | 825   | Peach replaces every ember background; the tour rewritten around what the phone is, the website, and the 60 percent cap; the watermark where the owner set it |
 | 827   | Butter replaces every sunbeam background |
 | 832   | The keyboard leaves when focus does; the verification email link opens the app (Universal Links, signed with the regenerated profile) |
+| 837   | The chapter map, lesson sheet and concept sheet in the app language; Rive nodes and plinths kept, recolored; the log-in watermark stays put under the keyboard |
