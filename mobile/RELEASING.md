@@ -150,3 +150,4 @@ ever gains another capability, delete and recreate the profile the same way.
 | 844   | The map keeps one chip; the progress arc stands alone, no spring track |
 | 848   | The game frame in the app language: pips, book with a one-time dot, the flag above the pill with its own dot after a first miss, the feedback sheet, spring/peach panels, the done hero tile. Feedback needs the 2026-09-19 backend deploy |
 | 851   | The feedback chips follow the round: four parts before an answer, six after |
+| 853   | The thank-you after feedback stays until put away |
