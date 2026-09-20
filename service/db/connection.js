@@ -17,6 +17,7 @@ const examAttemptsCollection = db.collection('examAttempts');
 const funnelEventsCollection = db.collection('funnelEvents');
 const reviewEventsCollection = db.collection('reviewEvents');
 const paperFlagsCollection = db.collection('paperFlags');
+const gameFeedbackCollection = db.collection('gameFeedback');
 const sessionsCollection = db.collection('sessions');
 // Daily/monthly email send counters (keyed 'day:YYYY-MM-DD' / 'month:YYYY-MM'),
 // so the mailer can stay under Resend's free 100/day + 3000/month caps.
@@ -48,6 +49,8 @@ const mailMetaCollection = db.collection('mailMeta');
     await reviewEventsCollection.createIndex({ email: 1, localDate: 1, source: 1 });
     await paperFlagsCollection.createIndex({ email: 1, itemId: 1, localDate: 1 }, { unique: true });
     await paperFlagsCollection.createIndex({ email: 1, localDate: 1 });
+    await gameFeedbackCollection.createIndex({ email: 1, createdAt: -1 });
+    await gameFeedbackCollection.createIndex({ createdAt: -1 });
     // Per-device auth sessions (web + mobile concurrently). The TTL index
     // auto-removes a session 30 days after its last activity; sliding lastSeen
     // keeps an active session alive.
@@ -81,6 +84,7 @@ module.exports = {
   funnelEventsCollection,
   reviewEventsCollection,
   paperFlagsCollection,
+  gameFeedbackCollection,
   sessionsCollection,
   mailMetaCollection,
 };

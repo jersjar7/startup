@@ -36,9 +36,9 @@ if (usingTestSender) {
 // Low-level send. Returns { ok, id?, error? } — never throws — so callers can
 // decide how to react (analytics never breaks a flow, but the student-code
 // flow needs to know whether the code actually went out).
-async function sendEmail({ to, subject, html, text, headers, from }) {
+async function sendEmail({ to, subject, html, text, headers, from, replyTo }) {
   try {
-    const payload = { from: from || fromHeader, to, subject, replyTo: replyToEmail };
+    const payload = { from: from || fromHeader, to, subject, replyTo: replyTo || replyToEmail };
     if (html) payload.html = html;   // omit for pure plain-text sends (better Primary placement)
     if (text) payload.text = text;
     if (headers) payload.headers = headers;
@@ -645,12 +645,38 @@ async function sendSaleAlertEmail({ buyerEmail = null, amountCents = 0, tier = n
   });
 }
 
+// Internal owner alert — one per report from the flag on a game round. Reply
+// goes straight to the student, so thanking them is one keystroke.
+async function sendFeedbackAlertEmail({ email, gameId, gameName = null, chapterId, round = null, kind, text, build = null } = {}) {
+  const to = process.env.OWNER_ALERT_EMAIL || 'jersondevs@gmail.com';
+  const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  const rows = [
+    `<strong>Game:</strong> ${esc(gameName || gameId)} (${esc(gameId)})`,
+    `<strong>Chapter:</strong> ${esc(chapterId)}`,
+    round != null ? `<strong>Round:</strong> ${round}` : null,
+    `<strong>About:</strong> ${esc(kind)}`,
+    `<strong>From:</strong> ${esc(email)}`,
+    build ? `<strong>App build:</strong> ${esc(build)}` : null,
+  ];
+  return sendEmail({
+    to,
+    replyTo: email,
+    subject: `Game feedback: ${gameName || gameId} (${kind})`,
+    html: emailLayout({
+      preheader: text.slice(0, 120),
+      heading: 'A student flagged a round',
+      inner: para(`<em>${esc(text)}</em>`) + bullets(rows) + para('Reply to this email and it goes to them.'),
+    }),
+  });
+}
+
 function getEmailConfig() {
   return { from: fromEmail, usingTestSender, appUrl };
 }
 
 module.exports = {
   sendSaleAlertEmail,
+  sendFeedbackAlertEmail,
   sendPasswordResetEmail,
   sendVerificationEmail,
   sendVerifyReminderEmail,

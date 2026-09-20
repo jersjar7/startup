@@ -87,6 +87,12 @@ router.get('/email-status', verifyAuth, requireAdmin, async (req, res) => {
 
 // GET /api/admin/exam-dates — how many users are testing on each date (from the
 // exam date they set in their profile), for the upcoming-exams calendar.
+// The latest reports from the flag on a game round, newest first.
+router.get('/feedback', verifyAuth, requireAdmin, async (req, res) => {
+  const limit = Math.min(500, Math.max(1, parseInt(req.query.limit, 10) || 100));
+  res.send({ reports: await DB.listGameFeedback(limit) });
+});
+
 router.get('/exam-dates', verifyAuth, requireAdmin, async (req, res) => {
   try {
     res.send(await DB.getExamDateDistribution());

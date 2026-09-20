@@ -60,6 +60,13 @@ ssh -i secrets/jerson-cs260-key.pem ubuntu@fe4raccoons.com \
   'bash -ilc "cd services/startup && set -a && . ./.env && set +a && node scripts/backfillStudyDays.js"'
 ```
 
+## Game feedback (the flag on a phone round)
+
+`POST /api/feedback/game` stores each report in `gameFeedback` and emails the
+owner once per report (`OWNER_ALERT_EMAIL`, defaulting to the owner's inbox,
+reply-to set to the student). `GET /api/admin/feedback` lists the latest.
+Verified accounts only, 1000 characters, five per hour per account.
+
 ## ⚠️ Never deploy on top of an in-progress exam simulation
 
 The paid **Exam Simulation** is a single timed **6-hour (5h20m)** in-app

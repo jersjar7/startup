@@ -164,6 +164,7 @@ apiRouter.use('/exam', require('./routes/exam.js'));
 apiRouter.use('/admin', require('./routes/admin.js'));
 apiRouter.use('/email', require('./routes/email.js'));
 apiRouter.use('/track', require('./routes/track.js'));
+apiRouter.use('/feedback', require('./routes/feedback.js'));
 
 // Clean click-tracking redirects used in the plain-text founder emails.
 app.use('/go', require('./routes/go.js'));
