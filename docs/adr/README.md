@@ -49,7 +49,7 @@ that supersedes it, so the history of thinking stays readable.
 | [0015](0015-the-home-is-one-chapter.md) | The phone's home is one chapter and one button | 2026-09-13 | Accepted |
 | [0016](0016-mobile-app-language-and-palette.md) | The phone gets its own app language and a palette derived from the brand | 2026-09-18 | Accepted |
 | [0017](0017-mastery-one-number-two-halves.md) | Mastery is one number with two halves: the desk to 100, the games to 50 | 2026-09-20 | Accepted |
-| [0018](0018-one-record-per-account.md) | One record per account: the server holds the truth, both surfaces are views | 2026-09-20 | Proposed |
+| [0018](0018-one-record-per-account.md) | One record per account: the server holds the truth, both surfaces are views | 2026-09-20 | Accepted |
 
 Records 0002–0005 were written on 2026-08-04, backfilled from commit messages.
 The **Date** column is when the decision was made, not when it was written up.

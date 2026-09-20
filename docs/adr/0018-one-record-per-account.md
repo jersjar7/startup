@@ -1,9 +1,10 @@
 # 0018. One record per account: the server holds the truth, both surfaces are views
 
 Date: 2026-09-20
-Status: Proposed. Waiting on the owner's decision; nothing here is built.
-Builds on the audit in `docs/mobile/sync-audit.md` and its nine fixes, all
-live as of 2026-09-20.
+Status: Accepted 2026-09-20 (the owner's decision of 2026-09-19 to
+centralize each account's data in one source of truth; this is the design it
+turns into). Builds on the audit in `docs/mobile/sync-audit.md` and its nine
+fixes, all live as of 2026-09-20. Work starts with the migration's step 1.
 
 ## Context
 
@@ -36,7 +37,7 @@ correctly and have one organized source of truth per user account", and
 said storage cost is not a constraint as long as the kept data serves a
 more informative preparation. It does, and this is the design.
 
-## Decision (proposed)
+## Decision
 
 **The event log is the record. Everything else is derived from it, on the
 server, by one module, and served to both surfaces the same way.**
