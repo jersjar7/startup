@@ -284,6 +284,8 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     return {
       masteryPct: pct,
       gamesHalf: cm && cm.gamesHalf > 0 ? Math.min(50, cm.gamesHalf) : 0,
+      gamesCleared: cm && cm.gamesCleared > 0 ? cm.gamesCleared : 0,
+      gamesTotal: cm && cm.gamesTotal > 0 ? cm.gamesTotal : 0,
       masteryName: stageName(pct),
       decaying: false,
     };
@@ -342,7 +344,6 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
   return (
     <main>
-      <SimPitchBanner examDate={examDate} problemsAnswered={problemsAnswered} />
       {/* ── Header ── */}
       <div className="dash-header">
         <div>
@@ -357,128 +358,42 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       {/* Account-setup logistics live in the right column (SetupTodo), so the
           main panel stays focused on preparation. */}
 
-      {/* ── Top bar: Stats + Review ── */}
-      <div className="dash-topbar">
-        <div className="stat-pill stat-pill--sunbeam">
-          <Lightning weight="bold" size={18} />
-          <span className="stat-pill-value">{stats.totalXp}</span>
-          <span className="stat-pill-label">XP</span>
+      {/* ── The strip: four numbers, one band (2026-09-20 redesign) ── */}
+      <div className="stat-strip">
+        <div className="stat-card stat-card--xp">
+          <span className="stat-card-label"><Lightning weight="bold" size={13} /> XP</span>
+          <span className="stat-card-value">{stats.totalXp}</span>
         </div>
-        {/* days-studied pill is sunbeam everywhere (brand token + matches mobile) */}
-        <div className="stat-pill stat-pill--sunbeam">
-          <Fire weight="bold" size={18} />
-          {stats.currentStreak > 0 ? (
-            <>
-              <span className="stat-pill-value">{stats.currentStreak}</span>
-              <span className="stat-pill-label">{stats.currentStreak === 1 ? 'Day studied' : 'Days studied'}</span>
-            </>
+        <div className="stat-card stat-card--days">
+          <span className="stat-card-label"><Fire weight="bold" size={13} /> Days studied</span>
+          <span className="stat-card-value">
+            {stats.currentStreak}
+            {syncState ? <small>site + app</small> : null}
+          </span>
+        </div>
+        <div className="stat-card stat-card--fe">
+          <span className="stat-card-label"><CalendarBlank weight="bold" size={13} /> Days to the FE</span>
+          {examDays !== null && examDays >= 0 ? (
+            <span className="stat-card-value">
+              {examDays === 0 ? 'Today' : examDays}
+              {examDays > 0 && examDate ? <small>{new Date(`${examDate}T00:00:00`).toLocaleDateString([], { month: 'short', day: 'numeric' })}</small> : null}
+            </span>
           ) : (
-            <span className="stat-pill-label">Start studying</span>
+            <button className="stat-card-set" onClick={() => navigate('/profile')}>Set your exam date</button>
           )}
         </div>
-        {examDays !== null && examDays >= 0 && (
-          <div className="stat-pill stat-pill--forest">
-            <CalendarBlank weight="bold" size={18} />
-            <span className="stat-pill-value">{examDays === 0 ? 'Today' : examDays}</span>
-            <span className="stat-pill-label">{examDays === 0 ? 'FE exam day!' : examDays === 1 ? 'day to FE' : 'days to FE'}</span>
+        <div className="stat-card stat-card--mastery">
+          <span className="stat-card-label"><Gauge weight="bold" size={13} /> Total concept mastery</span>
+          <span className="stat-card-value" style={{ color: getMasteryColor(readiness) }}>{readiness}<small>%</small></span>
+          <div className="mastery-bar-pct stat-card-bar">
+            <div className="mastery-bar-fill" style={{ width: `${readiness}%`, background: getMasteryColor(readiness) }} />
           </div>
-        )}
-        {reviewDue > 0 ? (
-          <button className="review-btn review-btn--due" onClick={() => navigate('/review')}>
-            <Timer weight="bold" size={16} />
-            Review
-            <span className="review-due-badge">{reviewDue > 10 ? '10+' : reviewDue}</span>
-            <ArrowRight weight="bold" size={14} />
-          </button>
-        ) : hasActivity ? (
-          <span className="review-btn review-btn--done" title="No reviews due right now">
-            <Timer weight="bold" size={16} />
-            No reviews due
+          <span className="stat-card-cap">
+            All 15 chapters, weighted by how many exam questions each gets.{' '}
+            <button className="scoring-trigger scoring-trigger--inline" onClick={() => setScoringOpen(true)}>How is this scored?</button>
           </span>
-        ) : null}
+        </div>
       </div>
-
-      {/* Phone work shows up the same evening — the Tuesday test */}
-      {phoneToday && (
-        <div className="phone-today-line">
-          <DeviceMobile weight="bold" size={16} />
-          <span>
-            Today on your phone: {phoneToday.cards} {phoneToday.cards === 1 ? 'card' : 'cards'}
-            {phoneToday.misses > 0 ? ` · ${phoneToday.misses} ${phoneToday.misses === 1 ? 'miss' : 'misses'}` : ''}
-          </span>
-        </div>
-      )}
-
-      {/* Visible sync state: when + which device last synced (never assume iPhone) */}
-      {syncState && syncState.at && (() => {
-        const d = new Date(syncState.at);
-        const sameDay = d.toDateString() === new Date().toDateString();
-        const when = sameDay
-          ? d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
-          : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
-        const device = syncState.device ? `your ${syncState.device}` : 'your phone';
-        return (
-          <div className="sync-state-line">
-            <DeviceMobile weight="regular" size={14} />
-            <span>Last synced {when} from {device}</span>
-          </div>
-        );
-      })()}
-
-      {/* The hand-off: problems the phone set aside for paper become tonight's
-          desk work (falls back to missed concepts when nothing was flagged). */}
-      {phoneToday && (() => {
-        const flags = phoneToday.paperFlags || [];
-        const missed = phoneToday.missed || [];
-        const fromPaper = flags.length > 0;
-        const items = fromPaper ? flags : missed;
-        if (!items.length) return null;
-        const byCh = {};
-        for (const m of items) byCh[m.chapterId] = (byCh[m.chapterId] || 0) + 1;
-        const topCh = Object.keys(byCh).sort((a, b) => byCh[b] - byCh[a])[0];
-        const chMeta = CHAPTERS.find((c) => c.id === topCh);
-        if (!chMeta) return null;
-        const n = items.length;
-        const body = fromPaper
-          ? `${n} ${n === 1 ? 'problem' : 'problems'} you set aside for paper on your phone. Grab a pencil and start with ${chMeta.name}.`
-          : `${n} ${n === 1 ? 'concept' : 'concepts'} from your phone need full problems. Start with ${chMeta.name}.`;
-        return (
-          <div className="tonight-card">
-            <div>
-              <span className="tonight-title">Tonight</span>
-              <span className="tonight-body">{body}</span>
-            </div>
-            <button className="tonight-btn" onClick={() => navigate(`/problems/${topCh}`)}>
-              Practice <ArrowRight weight="bold" size={13} />
-            </button>
-          </div>
-        );
-      })()}
-
-      {/* ── Exam Readiness ── */}
-      {hasActivity && (
-        <div className="readiness-card">
-          <div className="readiness-head">
-            <Gauge weight="bold" size={18} />
-            <span className="readiness-title">Concept mastery</span>
-            <span className="readiness-info" data-tooltip="How much of the concepts the FE Civil tests you've mastered, weighted by how many questions each chapter gets on the exam. It rises as your chapter mastery grows — it is not a probability of passing.">
-              <Info weight="regular" size={13} />
-            </span>
-            <span className="readiness-pct" style={{ color: getMasteryColor(readiness) }}>{readiness}%</span>
-          </div>
-          <div className="readiness-bar">
-            <div
-              className="readiness-bar-fill"
-              style={{ width: `${readiness}%`, background: getMasteryColor(readiness) }}
-            />
-          </div>
-          <span className="readiness-label">{readinessLabel(readiness)}</span>
-          <button className="scoring-trigger" onClick={() => setScoringOpen(true)}>How is this scored?</button>
-        </div>
-      )}
-
-      {/* ── Diagnostic Card ── */}
-      <DiagnosticCard diagnosticStatus={diagnosticStatus} quickstart={quickstart} onSkip={handleDiagnosticSkip} />
 
       {/* Attribution survey lives at the bottom of the right rail — see below. */}
 
@@ -487,10 +402,55 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
         {/* ── LEFT: 15 Chapters ── */}
         <section className="dash-chapters">
-          <h3 className="dash-section-label">
-            <BookOpenText weight="bold" size={18} />
-            Chapters
-          </h3>
+          <div className="ch-head">
+            <h3 className="dash-section-label">
+              <BookOpenText weight="bold" size={18} />
+              Chapters
+            </h3>
+            <div className="ch-head-actions">
+              {reviewDue > 0 ? (
+                <button className="review-btn review-btn--due" onClick={() => navigate('/review')}>
+                  <Timer weight="bold" size={16} />
+                  Review
+                  <span className="review-due-badge">{reviewDue > 10 ? '10+' : reviewDue}</span>
+                  <ArrowRight weight="bold" size={14} />
+                </button>
+              ) : hasActivity ? (
+                <span className="review-btn review-btn--done" title="No reviews due right now">
+                  <Timer weight="bold" size={16} />
+                  No reviews due
+                </span>
+              ) : null}
+              {(() => {
+                const qsTotal = CHAPTERS.length;
+                const qsCount = quickstart?.sampledCount || 0;
+                const label = qsCount === 0
+                  ? 'See where you stand'
+                  : qsCount < qsTotal
+                    ? `Readiness map · ${qsCount} of ${qsTotal}`
+                    : 'Readiness map · complete';
+                return (
+                  <button className="readiness-btn" onClick={() => navigate('/quickstart')}>
+                    {label} <ArrowRight weight="bold" size={13} />
+                  </button>
+                );
+              })()}
+            </div>
+          </div>
+          {syncState && syncState.at && (() => {
+            const d = new Date(syncState.at);
+            const sameDay = d.toDateString() === new Date().toDateString();
+            const when = sameDay
+              ? d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+              : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+            const device = syncState.device ? `your ${syncState.device}` : 'your phone';
+            return (
+              <p className="ch-phone-line">
+                <DeviceMobile weight="bold" size={13} />
+                <b>Games played on your phone</b> show under a chapter&apos;s bar. Last synced {when} from {device}.
+              </p>
+            );
+          })()}
           <div className="ch-list">
             <div className="ch-list-header">
               <span></span>
@@ -520,7 +480,6 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
               const prog = getProgress(ch);
               const pct = prog.masteryPct;
               const barColor = getMasteryColor(pct);
-              const pctLabel = pct > 0 ? `${pct}%` : '';
 
               return (
                 <button key={ch.id} className="ch-row-dash" onClick={() => handleChapterClick(ch)}>
@@ -528,20 +487,19 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                   <Icon weight="bold" size={18} className={`ch-icon-d ch-icon-d--${ch.accent}`} />
                   <span className="ch-name-d">{ch.name}</span>
                   <div className="ch-mastery">
-                    {/* The games half only shows for an account that has
-                        used the phone app; everyone else sees the one bar
-                        they always had, until the app is out. */}
-                    <div className="mastery-bar-pct" title={syncState ? 'Games on the phone reach the mark; the desk takes it the rest of the way' : undefined}>
+                    <span className={`ch-pct${pct > 0 ? '' : ' ch-pct--zero'}`} style={pct > 0 ? { color: barColor } : undefined}>{pct}%</span>
+                    {/* The mark at 50 and the games line show only where games
+                        were played: nobody sees them for an app they cannot use. */}
+                    <div className="mastery-bar-pct" title={prog.gamesCleared > 0 ? 'Games can take a chapter up to 50%. The rest is desk work here.' : undefined}>
                       <div
                         className="mastery-bar-fill"
                         style={{ width: `${pct}%`, background: barColor }}
                       />
-                      {syncState ? <span className="mastery-bar-mark" aria-hidden="true" /> : null}
+                      {prog.gamesCleared > 0 ? <span className="mastery-bar-mark" aria-hidden="true" /> : null}
                     </div>
-                    <span className="ch-status" style={pct > 0 ? { color: barColor, fontWeight: 600 } : undefined}>
-                      {pctLabel ? `${prog.masteryName} · ${pctLabel}` : prog.masteryName}
-                      {syncState && prog.gamesHalf > 0 ? <span className="ch-games">games {prog.gamesHalf} of 50</span> : null}
-                    </span>
+                    {prog.gamesCleared > 0 ? (
+                      <span className="ch-games"><DeviceMobile weight="regular" size={10} /> {prog.gamesCleared} of {prog.gamesTotal} games</span>
+                    ) : null}
                   </div>
                   {/* badge color encodes exam weight (one scale), not the chapter's accent */}
                   <span className={`ch-badge-d ch-badge-d--${weightClass(getExamWeight(ch.id))}`}>{ch.qs} Qs</span>
@@ -557,12 +515,63 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
 
         {/* ── RIGHT: Sidebar ── */}
         <aside className="dash-sidebar">
+          {/* From your phone: everything the app contributes, in one place,
+              only for an account that has synced from one. */}
+          {syncState && syncState.at && (() => {
+            const d = new Date(syncState.at);
+            const sameDay = d.toDateString() === new Date().toDateString();
+            const when = sameDay
+              ? d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+              : d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+            const device = syncState.device ? `your ${syncState.device}` : 'your phone';
+            const items = phoneToday ? (phoneToday.paperFlags?.length ? phoneToday.paperFlags : (phoneToday.missed || [])) : [];
+            const byCh = {};
+            for (const m of items) byCh[m.chapterId] = (byCh[m.chapterId] || 0) + 1;
+            const topCh = Object.keys(byCh).sort((x, y) => byCh[y] - byCh[x])[0];
+            const chMeta = topCh ? CHAPTERS.find((c) => c.id === topCh) : null;
+            return (
+              <div className="sidebar-block phone-block">
+                <h3 className="dash-section-label phone-block-label">
+                  <DeviceMobile weight="bold" size={18} />
+                  From your phone
+                </h3>
+                <p className="phone-block-line">
+                  {phoneToday
+                    ? <>Today on the app: <b>{phoneToday.cards} {phoneToday.cards === 1 ? 'round' : 'rounds'}</b>{phoneToday.misses > 0 ? `, ${phoneToday.misses} ${phoneToday.misses === 1 ? 'miss' : 'misses'}` : ''}. </>
+                    : <>Nothing from the app today. </>}
+                  Last synced {when} from {device}.
+                </p>
+                <p className="phone-block-sub">Games can take a chapter up to 50%. The rest is desk work here.</p>
+                {chMeta && (
+                  <button className="tonight-btn" onClick={() => navigate(`/problems/${topCh}`)}>
+                    Practice what the app missed: {chMeta.name} <ArrowRight weight="bold" size={13} />
+                  </button>
+                )}
+              </div>
+            );
+          })()}
+
           {/* Account setup — logistics, kept out of the left prep panel */}
           <SetupTodo
             emailVerified={emailVerified}
             hasName={!!firstName}
             hasExam={!!examDate}
           />
+
+          {/* The simulation pitch lives here now, not across the top */}
+          <div className="sidebar-pitch">
+            <SimPitchBanner examDate={examDate} problemsAnswered={problemsAnswered} />
+          </div>
+
+          {/* The readiness map's own card, for the states the head button
+              cannot carry: the first-time pitch, and the retake states. */}
+          {(() => {
+            const qsCount = quickstart?.sampledCount || 0;
+            const inProgressOrDone = qsCount > 0 && !diagnosticStatus?.diagnosticCompleted;
+            return inProgressOrDone ? null : (
+              <DiagnosticCard diagnosticStatus={diagnosticStatus} quickstart={quickstart} onSkip={handleDiagnosticSkip} />
+            );
+          })()}
 
           {/* Focus Areas */}
           {hasActivity && focusAreas.length > 0 && (

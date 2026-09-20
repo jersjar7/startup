@@ -205,7 +205,7 @@
 /* ── Chapter list header ── */
 .ch-list-header {
   display: grid;
-  grid-template-columns: 32px 22px 1fr 160px 80px 18px;
+  grid-template-columns: 32px 22px minmax(0, 1fr) 120px 80px 18px;
   align-items: center;
   gap: 0.65rem;
   padding: 0 0.75rem 0.35rem;
@@ -993,4 +993,209 @@
   font-size: 0.85rem;
   cursor: pointer;
   white-space: nowrap;
+}
+
+/* ── 2026-09-20 redesign: one strip of four cards, chapters first ── */
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0 0 1.4rem;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: 92px;
+  padding: 0.9rem 1.1rem;
+  background: white;
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 3px rgba(44,44,44,0.04), 0 4px 16px rgba(44,44,44,0.06);
+}
+
+.stat-card-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+.stat-card-value {
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.stat-card-value small {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--gray-500);
+  margin-left: 0.4rem;
+}
+
+.stat-card--xp .stat-card-value,
+.stat-card--days .stat-card-value { color: var(--sunbeam); }
+.stat-card--fe .stat-card-value { color: var(--forest); }
+
+.stat-card-set {
+  align-self: flex-start;
+  margin-top: 0.15rem;
+  padding: 0.35rem 0.7rem;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--ember-bg);
+  color: var(--ember);
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.stat-card-bar { width: 100%; }
+
+.stat-card-cap {
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: var(--gray-500);
+}
+
+.scoring-trigger--inline {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+}
+
+.ch-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.ch-head .dash-section-label { margin: 0; }
+
+.ch-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ch-head-actions .review-btn { margin-left: 0; }
+
+.readiness-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.9rem;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  background: white;
+  color: var(--charcoal);
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.readiness-btn:hover { border-color: var(--gray-300); }
+
+.ch-phone-line {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin: 0 0 0.6rem;
+  font-size: 0.78rem;
+  color: var(--gray-500);
+}
+
+.ch-phone-line b { color: var(--charcoal); font-weight: 600; }
+.ch-phone-line svg { color: var(--forest); }
+
+/* The mastery block: the percent over the bar's right end, the games line under it */
+.ch-mastery {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  justify-content: center;
+}
+
+.ch-mastery .mastery-bar-pct { width: 120px; }
+
+.ch-pct {
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.ch-pct--zero { color: var(--gray-400); }
+
+.ch-games {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--charcoal);
+  opacity: 0.75;
+}
+
+/* The sidebar's phone card and the pitch in the sidebar */
+.phone-block { border-top: 4px solid var(--forest); }
+.phone-block-label { color: var(--forest); }
+.phone-block-line { margin: 0 0 0.5rem; font-size: 0.82rem; line-height: 1.5; color: var(--charcoal); }
+.phone-block-sub { margin: 0 0 0.6rem; font-size: 0.78rem; line-height: 1.5; color: var(--gray-500); }
+.phone-block .tonight-btn { width: 100%; justify-content: center; }
+
+.sidebar-pitch .sim-pitch-banner {
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0;
+}
+
+.sidebar-pitch .sim-pitch-actions { justify-content: flex-start; }
+
+@media (max-width: 900px) {
+  .stat-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .stat-strip {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.35rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .stat-card {
+    flex: 0 0 auto;
+    min-width: 150px;
+    scroll-snap-align: start;
+  }
+
+  .ch-head-actions { width: 100%; }
+  .ch-head-actions .review-btn,
+  .ch-head-actions .readiness-btn { flex: 1; justify-content: center; }
+
+  /* The mastery column stays hidden on a phone, as before the redesign. */
+  .ch-mastery { display: none; }
 }

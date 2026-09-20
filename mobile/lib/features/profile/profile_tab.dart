@@ -606,7 +606,7 @@ class _MasteryRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Concept mastery',
+                    'Total concept mastery',
                     style: AppTheme.body(
                       size: 17,
                       weight: FontWeight.w600,

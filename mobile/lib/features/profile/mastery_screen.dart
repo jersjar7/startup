@@ -41,7 +41,7 @@ class MasteryScreen extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'CONCEPT MASTERY',
+                    'TOTAL CONCEPT MASTERY',
                     style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
                   ),
                 ],
