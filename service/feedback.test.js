@@ -2,13 +2,19 @@ import { describe, it, expect } from 'vitest';
 import { validateFeedback, overTheHourlyLimit, MAX_TEXT, PER_HOUR } from './feedback.js';
 
 describe('validateFeedback', () => {
-  const good = { kind: 'explanation', text: ' The sign rule was not clear. ', gameId: 'set-it-up', chapterId: 'mathematics', round: 3, build: '850' };
+  const good = { kind: 'explanation', kindLabel: 'The explanation', text: ' The sign rule was not clear. ', gameId: 'set-it-up', chapterId: 'mathematics', round: 3, build: '850' };
 
   it('cleans a good report', () => {
     expect(validateFeedback(good)).toEqual({
       ok: true,
-      value: { kind: 'explanation', text: 'The sign rule was not clear.', gameId: 'set-it-up', chapterId: 'mathematics', round: 3, build: '850' },
+      value: { kind: 'explanation', kindLabel: 'The explanation', text: 'The sign rule was not clear.', gameId: 'set-it-up', chapterId: 'mathematics', round: 3, build: '850' },
     });
+  });
+
+  it('knows every part of a round, and falls back to the id as the label', () => {
+    for (const kind of ['question', 'drawing', 'howto', 'concept', 'answer', 'explanation']) {
+      expect(validateFeedback({ ...good, kind, kindLabel: '' }).value.kindLabel).toBe(kind);
+    }
   });
 
   it('refuses an unknown kind, an empty line, and a wall of text', () => {

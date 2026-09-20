@@ -647,21 +647,21 @@ async function sendSaleAlertEmail({ buyerEmail = null, amountCents = 0, tier = n
 
 // Internal owner alert — one per report from the flag on a game round. Reply
 // goes straight to the student, so thanking them is one keystroke.
-async function sendFeedbackAlertEmail({ email, gameId, gameName = null, chapterId, round = null, kind, text, build = null } = {}) {
+async function sendFeedbackAlertEmail({ email, gameId, gameName = null, chapterId, round = null, kind, kindLabel = null, text, build = null } = {}) {
   const to = process.env.OWNER_ALERT_EMAIL || 'jersondevs@gmail.com';
   const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
   const rows = [
     `<strong>Game:</strong> ${esc(gameName || gameId)} (${esc(gameId)})`,
     `<strong>Chapter:</strong> ${esc(chapterId)}`,
     round != null ? `<strong>Round:</strong> ${round}` : null,
-    `<strong>About:</strong> ${esc(kind)}`,
+    `<strong>About:</strong> ${esc(kindLabel || kind)}`,
     `<strong>From:</strong> ${esc(email)}`,
     build ? `<strong>App build:</strong> ${esc(build)}` : null,
   ];
   return sendEmail({
     to,
     replyTo: email,
-    subject: `Game feedback: ${gameName || gameId} (${kind})`,
+    subject: `Game feedback: ${gameName || gameId} (${kindLabel || kind})`,
     html: emailLayout({
       preheader: text.slice(0, 120),
       heading: 'A student flagged a round',

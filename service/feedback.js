@@ -5,7 +5,9 @@
 // owner gets one email per report, with the game, the round, the account and
 // the app build attached, so nobody has to ask which one they meant.
 
-const KINDS = new Set(['explanation', 'game', 'answer', 'other']);
+// The parts of a round (feedback_sheet.dart names them the same). 'game' and
+// 'other' are what build 848 sent before the list grew.
+const KINDS = new Set(['question', 'drawing', 'howto', 'concept', 'answer', 'explanation', 'game', 'other']);
 const MAX_TEXT = 1000;
 const PER_HOUR = 5;
 
@@ -25,7 +27,11 @@ function validateFeedback(body) {
   if (!gameId || !chapterId) return { ok: false, msg: 'Which game this is about got lost. Try again.' };
   const round = Number.isInteger(body.round) && body.round >= 0 && body.round < 1000 ? body.round : null;
   const build = typeof body.build === 'string' ? body.build.trim().slice(0, 20) : null;
-  return { ok: true, value: { kind, text, gameId, chapterId, round, build } };
+  // The chip's wording, as the student saw it; what the owner reads.
+  const kindLabel = typeof body.kindLabel === 'string' && body.kindLabel.trim()
+    ? body.kindLabel.trim().slice(0, 40)
+    : kind;
+  return { ok: true, value: { kind, kindLabel, text, gameId, chapterId, round, build } };
 }
 
 /** True when this account has already sent PER_HOUR reports in the last hour. */
