@@ -120,6 +120,33 @@ each, the log is a few hundred megabytes, within the database plan.
 Roughly two weeks, with a deploy after steps 1, 3 and 4, and the proof
 script before each.
 
+## Step 1, measured (2026-09-20)
+
+The deriver (`service/derive.js`) rebuilt all 340 accounts from the log,
+read-only (`scripts/deriveCompare.js`). The log holds 46,788 answers since
+2026-06-11, when the website started writing to it; the phone since
+2026-09-07. Agreement with the stored figures: chapter mastery 268 of 340,
+problem-history counts 312, the review queue 306, study days 148.
+
+Every disagreement has one of four causes, none of them a deriver bug:
+
+1. **Answers before the log.** 13 accounts, 428 problem rows, 333 sessions
+   from before 2026-06-11. The log cannot know them. Step 2 writes them in
+   once as opening-balance events dated by the row's last answer.
+2. **Days the log never saw.** The days list was backfilled from the session
+   log, the diagnostics and the simulation, which never wrote events. Step 2
+   adds those event kinds and writes the past ones in once.
+3. **Maturity the log knows and the rows do not.** The rows only started
+   recording intervals on 2026-09-20; the log has every answer's day since
+   June, so the deriver gives spaced re-answers their maturity retroactively
+   and lands higher on some chapters (one account's Statics 29 stored, 37
+   derived). That is the deriver being right; the re-derive in step 3 adopts
+   it.
+4. **The old review policy.** Rows written before the weak-spots-only rule
+   of 2026-06-29 carry queue flags the current rules would not set. The
+   opening-balance events carry the flags as they stand, so nobody's queue
+   changes under them.
+
 ## Consequences
 
 - The formula lives in one file. A change to how mastery is scored is one
