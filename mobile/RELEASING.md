@@ -152,3 +152,4 @@ ever gains another capability, delete and recreate the profile the same way.
 | 851   | The feedback chips follow the round: four parts before an answer, six after |
 | 853   | The thank-you after feedback stays until put away |
 | 859   | Mastery as one number with two halves on every tile (games N of 50); the map hands off to the desk once every game is cleared; a new phone rebuilds its map from the server; the dead lesson screens are gone |
+| 863   | The mastery row and page say "Total concept mastery", the website's name for the same number |
