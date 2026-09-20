@@ -18,7 +18,7 @@ cd mobile
 N=$(git rev-list --count HEAD)
 
 # 2. Archive. This succeeds; the IPA step inside it does not, see below.
-flutter build ipa --release --build-number=$N
+flutter build ipa --release --build-number=$N --dart-define=BUILD_NUMBER=$N
 
 # 3. Export a signed IPA with MANUAL signing.
 xcodebuild -exportArchive \

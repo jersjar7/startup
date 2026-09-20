@@ -23,7 +23,10 @@ class PillButton extends StatelessWidget {
   });
 
   final String label;
-  final VoidCallback onTap;
+
+  /// Null draws the pill at rest, faded, taking no taps: the round's
+  /// confirm before a choice is made.
+  final VoidCallback? onTap;
   final Color fill;
   final Color circle;
   final IconData icon;
@@ -36,37 +39,45 @@ class PillButton extends StatelessWidget {
     final onCircle = circle == AppColors.spring || circle == AppColors.cream
         ? AppColors.charcoal
         : AppColors.spring;
+    final tap = onTap;
     return _Pressable(
-      onTap: onTap,
-      child: Container(
-        height: 72,
-        padding: const EdgeInsets.fromLTRB(28, 0, 8, 0),
-        decoration: BoxDecoration(
-          color: fill,
-          borderRadius: BorderRadius.circular(36),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.dmSans(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 22,
-                  letterSpacing: -0.44,
-                  color: onFill,
+      onTap: tap ?? () {},
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 180),
+        opacity: tap == null ? 0.4 : 1,
+        child: Container(
+          height: 72,
+          padding: const EdgeInsets.fromLTRB(28, 0, 8, 0),
+          decoration: BoxDecoration(
+            color: fill,
+            borderRadius: BorderRadius.circular(36),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.dmSans(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 22,
+                    letterSpacing: -0.44,
+                    color: onFill,
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(color: circle, shape: BoxShape.circle),
-              child: Icon(icon, size: 28, color: onCircle),
-            ),
-          ],
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: circle,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, size: 28, color: onCircle),
+              ),
+            ],
+          ),
         ),
       ),
     );

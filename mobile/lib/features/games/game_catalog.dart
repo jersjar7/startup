@@ -4429,3 +4429,12 @@ const chapterMaps = <String, ChapterMap>{
 };
 
 ChapterMap? mapForChapter(String chapterId) => chapterMaps[chapterId];
+
+/// Every game by id, for the frame to name the one on screen.
+final Map<String, GameDef> _gameById = {
+  for (final chapter in chapterMaps.values)
+    for (final lesson in chapter.lessons)
+      for (final game in lesson.games) game.id: game,
+};
+
+GameDef? gameDefFor(String gameId) => _gameById[gameId];

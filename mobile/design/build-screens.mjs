@@ -440,13 +440,25 @@ ${[['Tap the Side', 'Name the side the ratio wants.', 'done'], ['Which Ratio', '
 </div>`, `@keyframes sheetUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}`);
 
 // ── 13 a game round: the shared frame in the new language, the board as it is ──
-const gameHeader = (done, total, count) => `
-<div style="display: flex; align-items: center; gap: 14px;">
+// A one-time cue: a small ember dot on the top right of a round button. The
+// book's shows on the first round ever; the flag's, after the first wrong
+// answer. Each goes for good once its button is tapped.
+const dot = `<span aria-hidden="true" style="position: absolute; top: 2px; right: 2px; width: 12px; height: 12px; border-radius: 6px; background: ${C.ember}; box-shadow: 0 0 0 2.5px ${C.fog};"></span>`;
+const headerButton = (href, label, svg, withDot) =>
+  `<a href="${href}" aria-label="${label}" style="position: relative; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 24px; background: ${C.cream}; color: ${C.charcoal}; text-decoration: none;">${svg}${withDot ? dot : ''}</a>`;
+const bookSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21z"></path><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2z"></path></svg>`;
+const flagSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"></path><path d="M5 4h12l-2.5 4.5L17 13H5"></path></svg>`;
+const gameHeader = (done, total, count, { bookDot = false, flagDot = false } = {}) => `
+<div style="display: flex; align-items: center; gap: 12px;">
 ${roundIcon('12-lesson-sheet.html', 'Close', `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>`)}
 <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(${total}, minmax(0, 1fr)); gap: 4px;" aria-label="${count} of ${total}">${Array.from({ length: total }, (_, i) => `<span style="height: 12px; border-radius: 6px; background: ${i < done ? C.charcoal : C.pipOff};"></span>`).join('')}</div>
 ${eyebrow(count + ' / ' + total)}
-<a href="14-lesson-brief.html" aria-label="The concept" style="display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 24px; background: ${C.cream}; color: ${C.charcoal}; text-decoration: none;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H12v16H6.5A2.5 2.5 0 0 0 4 21z"></path><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H12v16h5.5a2.5 2.5 0 0 1 2.5 2z"></path></svg></a>
+${headerButton('14-lesson-brief.html', 'The concept', bookSvg, bookDot)}
 </div>`;
+// The flag: a 44 cream circle, right-aligned above the pill before an
+// answer, and on the explanation panel's corner after one.
+const flag = (withDot) =>
+  `<a href="18-feedback-sheet.html" aria-label="Something unclear?" style="position: relative; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 22px; background: ${C.cream}; color: ${C.charcoal}; text-decoration: none;">${flagSvg.replace('width="20" height="20"', 'width="18" height="18"')}${withDot ? dot : ''}</a>`;
 const figure = (slope) => `
 <div style="height: 210px; border-radius: 24px; background-color: #FDFCF8; background-image: linear-gradient(rgba(100,160,140,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(100,160,140,0.10) 1px, transparent 1px), linear-gradient(rgba(100,160,140,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(100,160,140,0.05) 1px, transparent 1px); background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px; position: relative; overflow: hidden;">
 <svg width="342" height="210" viewBox="0 0 342 210" fill="none" style="position: absolute; inset: 0;"><path d="${slope}" stroke="${C.charcoal}" stroke-width="3" stroke-linecap="round"></path><circle cx="171" cy="105" r="5" fill="#FDFCF8" stroke="${C.charcoal}" stroke-width="2.5"></circle></svg>
@@ -466,10 +478,11 @@ const choice = (title, sub, on) => `
 </button>`;
 const gameRound = page('Game round', C.fog, C.charcoal, `
 <div style="box-sizing: border-box; padding: 56px 24px 34px; height: 844px; display: flex; flex-direction: column; gap: 18px;">
-${gameHeader(1, 8, 2)}
+${gameHeader(1, 8, 2, { bookDot: true })}
 ${boardBody('-3/4', C.ember)}
 <div style="flex-grow: 1;"></div>
 <div style="display: flex; flex-direction: column; gap: 8px;">${choice('Flip the fraction', 'Swap rise and run', true)}${choice('Change the sign', 'Plus becomes minus, minus becomes plus', false)}</div>
+<div style="display: flex; justify-content: flex-end; margin-top: 4px;">${flag(false)}</div>
 ${pill('13b-game-answered.html', 'Confirm this line')}
 </div>`);
 
@@ -479,8 +492,9 @@ const gameAnswered = page('Game round: answered', C.fog, C.charcoal, `
 ${gameHeader(2, 8, 2)}
 ${boardBody('4/3', C.forest)}
 <div style="flex-grow: 1;"></div>
-<div style="display: flex; flex-direction: column; gap: 8px; box-sizing: border-box; padding: 20px 22px; border-radius: 28px; background: ${C.spring}; color: ${C.charcoal}; animation: rise 0.4s ease-out both;">
-<div style="font-family: ${F.display}; font-weight: 800; font-size: 26px; letter-spacing: -0.03em;">Perpendicular.</div>
+<div style="position: relative; display: flex; flex-direction: column; gap: 8px; box-sizing: border-box; padding: 20px 22px; border-radius: 28px; background: ${C.spring}; color: ${C.charcoal}; animation: rise 0.4s ease-out both;">
+<div style="position: absolute; top: 12px; right: 12px;">${flag(true)}</div>
+<div style="font-family: ${F.display}; font-weight: 800; font-size: 26px; letter-spacing: -0.03em; padding-right: 52px;">Perpendicular.</div>
 <div style="font-size: 14px; line-height: 1.45;">Flip 3/4 to 4/3 and change the sign: the two lines now cross at a right angle. Doing only one of the two gives a plausible wrong line.</div>
 </div>
 ${pill('13c-game-done.html', 'Next')}
@@ -603,6 +617,25 @@ ${Array.from({ length: 30 }, (_, i) => calCell(i + 1, studied.has(i + 1), i + 1 
 </div>
 </div>`);
 
+
+// ── 18 the feedback sheet (the flag on a round) ──
+const chip = (label, on) => `<button type="button" aria-pressed="${on}" style="display: flex; align-items: center; height: 44px; padding: 0 18px; border: none; border-radius: 22px; font-family: ${F.display}; font-weight: 700; font-size: 15px; letter-spacing: -0.02em; ${on ? `background: ${C.charcoal}; color: ${C.cream};` : `background: ${C.creamDark}; color: ${C.charcoal};`}">${label}</button>`;
+const feedbackSheet = page('Feedback sheet', C.fog, C.charcoal, `
+<div aria-hidden="true" style="position: absolute; inset: 0; opacity: 0.35; background: ${C.fog};"></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; box-sizing: border-box; padding: 12px 24px 34px; border-radius: 40px 40px 0 0; background: ${C.cream}; color: ${C.charcoal}; display: flex; flex-direction: column; gap: 22px; animation: sheetUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;">
+<div style="align-self: center; width: 44px; height: 5px; border-radius: 3px; background: ${C.charcoal}; opacity: 0.25;"></div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+${eyebrow('Set it up · round 3', C.mutedOnLight)}
+${headline('Something unclear?', 38)}
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">${chip('The explanation', true)}${chip('The game', false)}${chip('The answer', false)}</div>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<div style="font-family: ${F.display}; font-weight: 600; font-size: 22px; letter-spacing: -0.03em; line-height: 1.2; color: ${C.placeholder}; padding: 6px 0 10px; border-bottom: 3px solid ${C.forest};">What tripped you up?</div>
+<div style="font-size: 14px; color: ${C.mutedOnLight};">We read every one. Your round and game come along, so you can keep it short.</div>
+</div>
+${pill('13b-game-answered.html', 'Send it')}
+</div>`, `@keyframes sheetUp{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}`);
+
 const out = {
   '01-welcome.html': welcome,
   '02-create-email.html': createEmail,
@@ -627,6 +660,7 @@ const out = {
   '15-account-sheet.html': accountSheet,
   '16-mastery.html': masteryPage,
   '17-days-studied.html': daysPage,
+  '18-feedback-sheet.html': feedbackSheet,
 };
 for (const [name, html] of Object.entries(out)) {
   writeFileSync(new URL(`./reference-screens/html/${name}`, import.meta.url), html);

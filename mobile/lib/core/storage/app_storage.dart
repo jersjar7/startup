@@ -17,6 +17,9 @@ class AppStorage {
   static const _kToken = 'auth_token';
   static const _kOnboardingSeen = 'onboarding_seen';
   static const _kGameProgress = 'game_progress';
+  static const _kBookDotSeen = 'book_dot_seen';
+  static const _kFlagDotSeen = 'flag_dot_seen';
+  static const _kMissedOnce = 'missed_once';
 
   Future<String?> readToken() => _storage.read(key: _kToken);
   Future<void> writeToken(String token) => _storage.write(key: _kToken, value: token);
@@ -42,4 +45,32 @@ class AppStorage {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_kOnboardingSeen, true);
   }
+
+  // The one-time cues on a game round (plain preferences, like the tour flag).
+  // The book's dot shows until the book is tapped once; the flag's dot shows
+  // after the first wrong answer ever, until the flag is tapped once.
+
+  Future<bool> _flag(String key) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getBool(key) ?? false;
+    } catch (_) {
+      // No preferences (a test, a broken install): no cue.
+      return false;
+    }
+  }
+
+  Future<void> _setFlag(String key) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(key, true);
+    } catch (_) {}
+  }
+
+  Future<bool> bookDotSeen() => _flag(_kBookDotSeen);
+  Future<void> setBookDotSeen() => _setFlag(_kBookDotSeen);
+  Future<bool> flagDotSeen() => _flag(_kFlagDotSeen);
+  Future<void> setFlagDotSeen() => _setFlag(_kFlagDotSeen);
+  Future<bool> missedOnce() => _flag(_kMissedOnce);
+  Future<void> setMissedOnce() => _setFlag(_kMissedOnce);
 }

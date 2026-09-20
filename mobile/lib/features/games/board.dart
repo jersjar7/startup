@@ -5,7 +5,10 @@ import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../auth/auth_controller.dart';
-import '../shared/widgets/app_button.dart';
+import '../../core/storage/app_storage.dart';
+import '../shared/widgets/kit.dart';
+import 'feedback_sheet.dart';
+import 'game_catalog.dart';
 import 'game_progress.dart';
 import 'game_sync.dart';
 import 'lesson_brief.dart';
@@ -137,9 +140,10 @@ class BoardSession extends ChangeNotifier {
   }
 }
 
-/// The frame every sitting shares: a close button, a progress bar, the game's
-/// own body, and one button along the bottom.
-class BoardShell extends StatelessWidget {
+/// The frame every sitting shares (reference 13): a round close button, the
+/// rounds as pips, a mono counter, the book; the game's own body; the flag
+/// above the pill along the bottom. Every ground is fog.
+class BoardShell extends StatefulWidget {
   const BoardShell({
     super.key,
     required this.session,
@@ -159,22 +163,153 @@ class BoardShell extends StatelessWidget {
   final BriefSection? brief;
 
   @override
+  State<BoardShell> createState() => _BoardShellState();
+}
+
+class _BoardShellState extends State<BoardShell> {
+  final _storage = AppStorage();
+
+  /// The one-time cues. The book's dot shows until the book is tapped; the
+  /// flag's after the first wrong answer ever, until the flag is tapped.
+  bool _bookDot = false;
+  bool _flagDot = false;
+  bool _flagSeen = true;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.session.addListener(_onSession);
+    _load();
+  }
+
+  @override
+  void didUpdateWidget(BoardShell old) {
+    super.didUpdateWidget(old);
+    if (old.session != widget.session) {
+      old.session.removeListener(_onSession);
+      widget.session.addListener(_onSession);
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.session.removeListener(_onSession);
+    super.dispose();
+  }
+
+  Future<void> _load() async {
+    final bookSeen = await _storage.bookDotSeen();
+    final flagSeen = await _storage.flagDotSeen();
+    final missed = await _storage.missedOnce();
+    if (!mounted) return;
+    setState(() {
+      _bookDot = !bookSeen;
+      _flagSeen = flagSeen;
+      _flagDot = missed && !flagSeen;
+    });
+  }
+
+  void _onSession() {
+    final s = widget.session;
+    if (s.answered && s.correct == false && !_flagSeen && !_flagDot) {
+      _storage.setMissedOnce();
+      setState(() => _flagDot = true);
+    }
+  }
+
+  void _openBook() {
+    if (_bookDot) {
+      _storage.setBookDotSeen();
+      setState(() => _bookDot = false);
+    }
+    showConcept(context, widget.brief!);
+  }
+
+  void _openFlag() {
+    if (!_flagSeen) {
+      _storage.setFlagDotSeen();
+      setState(() {
+        _flagSeen = true;
+        _flagDot = false;
+      });
+    }
+    final s = widget.session;
+    showFeedbackSheet(
+      context,
+      gameId: s.gameId,
+      gameName: gameDefFor(s.gameId)?.name ?? s.gameId,
+      chapterId: s.chapterId,
+      round: s.round + 1,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final session = widget.session;
     return Scaffold(
-      backgroundColor: AppColors.cream,
+      backgroundColor: AppColors.fog,
       body: SafeArea(
         child: Column(
           children: [
-            _BoardHeader(session: session, brief: brief),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+              child: Row(
+                children: [
+                  RoundIconButton(
+                    icon: Icons.close_rounded,
+                    label: 'Close',
+                    onTap: () =>
+                        context.canPop() ? context.pop() : context.go('/home'),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Pips(
+                      count: session.total,
+                      filled: session.clearedCount,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    '${session.clearedCount}/${session.total}',
+                    style: AppTheme.eyebrow(),
+                  ),
+                  if (widget.brief != null) ...[
+                    const SizedBox(width: 12),
+                    CueButton(
+                      icon: Icons.menu_book_outlined,
+                      label: widget.brief!.title,
+                      dot: _bookDot,
+                      onTap: _openBook,
+                    ),
+                  ],
+                ],
+              ),
+            ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+                padding: const EdgeInsets.fromLTRB(24, 6, 24, 34),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    child,
-                    const SizedBox(height: 20),
-                    AppButton(label: buttonLabel, onPressed: onButton),
+                    widget.child,
+                    const SizedBox(height: 18),
+                    // The flag, right above the pill on the right: about this
+                    // round, not about the frame (owner's placement).
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: CueButton(
+                        icon: Icons.outlined_flag_rounded,
+                        label: 'Something unclear?',
+                        dot: _flagDot,
+                        size: 44,
+                        onTap: _openFlag,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    PillButton(
+                      label: widget.buttonLabel,
+                      onTap: widget.onButton,
+                    ),
                   ],
                 ),
               ),
@@ -186,61 +321,59 @@ class BoardShell extends StatelessWidget {
   }
 }
 
-class _BoardHeader extends StatelessWidget {
-  const _BoardHeader({required this.session, required this.brief});
+/// A cream round button with an optional one-time ember dot on its shoulder.
+class CueButton extends StatelessWidget {
+  const CueButton({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.dot = false,
+    this.size = 48,
+  });
 
-  final BoardSession session;
-  final BriefSection? brief;
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  final bool dot;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 4, 20, 8),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () =>
-                context.canPop() ? context.pop() : context.go('/home'),
-            icon: const Icon(
-              Icons.close_rounded,
-              color: AppColors.ink3,
-              size: 22,
-            ),
-          ),
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(999),
-              child: LinearProgressIndicator(
-                value: session.clearedCount / session.total,
-                minHeight: 8,
-                backgroundColor: AppColors.creamDark,
-                valueColor: const AlwaysStoppedAnimation(AppColors.forest),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        RoundIconButton(
+          icon: icon,
+          label: label,
+          onTap: onTap,
+          size: size,
+          fill: AppColors.cream,
+          iconColor: AppColors.charcoal,
+        ),
+        if (dot)
+          Positioned(
+            top: 1,
+            right: 1,
+            child: IgnorePointer(
+              child: Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  color: AppColors.ember,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.fog, width: 2.5),
+                ),
               ),
             ),
           ),
-          const SizedBox(width: 12),
-          Text(
-            '${session.clearedCount}/${session.total}',
-            style: AppTheme.mono(size: 13, color: AppColors.ink2),
-          ),
-          if (brief != null)
-            IconButton(
-              tooltip: brief!.title,
-              onPressed: () => showConcept(context, brief!),
-              icon: const Icon(
-                Icons.menu_book_rounded,
-                color: AppColors.ink3,
-                size: 20,
-              ),
-            ),
-        ],
-      ),
+      ],
     );
   }
 }
 
-/// The panel under the question after an answer: green when right, red when
-/// wrong, carrying the game's own explanation.
+/// The panel under the question after an answer: spring when right, peach
+/// when wrong, carrying the game's own explanation.
 class BoardFeedback extends StatelessWidget {
   const BoardFeedback({
     super.key,
@@ -257,34 +390,36 @@ class BoardFeedback extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(22, 20, 22, 20),
       decoration: BoxDecoration(
-        color: correct ? AppColors.forestBg : AppColors.errorBg,
-        borderRadius: BorderRadius.circular(14),
+        color: correct ? AppColors.spring : AppColors.peach,
+        borderRadius: BorderRadius.circular(28),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: AppTheme.overline(
-              color: correct ? AppColors.forest : AppColors.error,
-            ),
-          ),
-          const SizedBox(height: 6),
+          // The games wrote their titles as overlines ("NOT THAT ONE"), and
+          // 375 of them read as one voice that way: an eyebrow, not a shout.
+          Text(title, style: AppTheme.eyebrow()),
+          const SizedBox(height: 8),
           Text(
             body,
-            style: const TextStyle(
-              fontSize: 14,
-              height: 1.55,
-              color: AppColors.charcoal,
+            style: AppTheme.body(
+              size: 16,
+              weight: FontWeight.w500,
+              height: 1.45,
             ),
           ),
           if (!correct) ...[
-            const SizedBox(height: 6),
-            const Text(
+            const SizedBox(height: 8),
+            Text(
               'It comes back later in this set.',
-              style: TextStyle(fontSize: 12.5, color: AppColors.ink2),
+              style: AppTheme.body(
+                size: 13,
+                weight: FontWeight.w500,
+                color: AppColors.charcoal.withValues(alpha: 0.7),
+              ),
             ),
           ],
         ],
@@ -293,8 +428,9 @@ class BoardFeedback extends StatelessWidget {
   }
 }
 
-/// The end of a sitting. Bounded, quiet, and honest about where the real work
-/// happens.
+/// The end of a sitting (reference 13c): the count as the hero on a spring
+/// tile, first tries and the lesson as half tiles, and the honest line about
+/// where the real work happens.
 class BoardDone extends StatelessWidget {
   const BoardDone({
     super.key,
@@ -311,80 +447,215 @@ class BoardDone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final total = session.total;
+    final first = session.firstTryCount;
+    final missed = total - first;
+    final game = gameDefFor(session.gameId);
+    final lesson = _lessonOf(session.gameId);
+    final lessonDone = lesson == null
+        ? null
+        : GameProgress.instance.clearedIn(lesson);
+
     return Scaffold(
-      backgroundColor: AppColors.cream,
+      backgroundColor: AppColors.fog,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 34),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Spacer(),
-              Text(
-                'ALL DONE',
-                style: AppTheme.overline(color: AppColors.forest),
+              Row(
+                children: [
+                  RoundIconButton(
+                    icon: Icons.close_rounded,
+                    label: 'Close',
+                    onTap: () =>
+                        context.canPop() ? context.pop() : context.go('/home'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
+              Container(
+                height: 300,
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: AppColors.spring,
+                  borderRadius: BorderRadius.circular(36),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text('ALL DONE', style: AppTheme.eyebrow()),
+                        const Spacer(),
+                        const SizedBox(width: 16),
+                        Flexible(
+                          child: Text(
+                            (game?.name ?? '').toUpperCase(),
+                            maxLines: 2,
+                            textAlign: TextAlign.right,
+                            style: AppTheme.eyebrow(),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text.rich(
+                      TextSpan(
+                        text: '$total',
+                        style: AppTheme.display(
+                          size: 120,
+                          height: 0.8,
+                          tracking: -0.07,
+                        ),
+                        children: [
+                          const TextSpan(text: ' '),
+                          TextSpan(
+                            text: 'of $total',
+                            style: AppTheme.display(
+                              size: 28,
+                              weight: FontWeight.w700,
+                              height: 0.8,
+                              tracking: -0.03,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      missed == 0
+                          ? 'Every one on the first try.'
+                          : '$first on the first try. The $missed you missed '
+                                'came back and you got ${missed == 1 ? 'it' : 'them'}.',
+                      style: AppTheme.body(size: 15, weight: FontWeight.w500),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 10),
-              Text(title, style: AppTheme.heading(size: 32)),
-              const SizedBox(height: 16),
-              Text(
-                'You finished all ${session.total}. '
-                '${session.firstTryCount} landed on the first try.',
-                style: const TextStyle(
-                  fontSize: 15,
-                  height: 1.6,
-                  color: AppColors.ink2,
-                ),
-              ),
-              const SizedBox(height: 24),
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.line),
-                ),
-                child: Text(
-                  closing,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    height: 1.6,
-                    color: AppColors.ink2,
+              Row(
+                children: [
+                  Expanded(
+                    child: _HalfTile(
+                      color: AppColors.cream,
+                      eyebrow: 'FIRST TRY',
+                      value: '$first',
+                      unit: 'of $total',
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _HalfTile(
+                      color: AppColors.butter,
+                      eyebrow: 'LESSON',
+                      value: '${lessonDone ?? 0}',
+                      unit: lesson == null
+                          ? ''
+                          : 'of ${lesson.builtGames.length} done',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 22),
+              Text(title, style: AppTheme.display(size: 22, height: 1.1)),
+              const SizedBox(height: 8),
+              Text(
+                closing,
+                style: AppTheme.body(size: 14, color: AppColors.mutedOnLight),
               ),
               if (session.syncFailed) ...[
-                const SizedBox(height: 12),
+                const SizedBox(height: 14),
                 Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(18),
                   decoration: BoxDecoration(
-                    color: AppColors.sunbeamBg,
-                    borderRadius: BorderRadius.circular(16),
+                    color: AppColors.peach,
+                    borderRadius: BorderRadius.circular(24),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Some of this did not reach your account, so it has not '
                     'counted toward your mastery yet.',
-                    style: TextStyle(
-                      fontSize: 13.5,
-                      height: 1.55,
-                      color: AppColors.charcoal,
-                    ),
+                    style: AppTheme.body(size: 14),
                   ),
                 ),
               ],
-              const Spacer(),
-              AppButton(label: 'Start over', onPressed: session.restart),
-              const SizedBox(height: 10),
-              AppButton(
-                label: 'Done',
-                ghost: true,
-                onPressed: () =>
-                    context.canPop() ? context.pop() : context.go('/home'),
+              const SizedBox(height: 26),
+              Row(
+                children: [
+                  TextAction(label: 'Start over', onTap: session.restart),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: PillButton(
+                      label: 'Done',
+                      onTap: () => context.canPop()
+                          ? context.pop()
+                          : context.go('/home'),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  static LessonNode? _lessonOf(String gameId) {
+    for (final chapter in chapterMaps.values) {
+      for (final lesson in chapter.lessons) {
+        if (lesson.games.any((g) => g.id == gameId)) return lesson;
+      }
+    }
+    return null;
+  }
+}
+
+class _HalfTile extends StatelessWidget {
+  const _HalfTile({
+    required this.color,
+    required this.eyebrow,
+    required this.value,
+    required this.unit,
+  });
+
+  final Color color;
+  final String eyebrow;
+  final String value;
+  final String unit;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 132,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(32),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(eyebrow, style: AppTheme.eyebrow()),
+          Text.rich(
+            TextSpan(
+              text: value,
+              style: AppTheme.display(size: 56, height: 0.82, tracking: -0.06),
+              children: [
+                const TextSpan(text: ' '),
+                TextSpan(
+                  text: unit,
+                  // The parent span's tight tracking would be inherited.
+                  style: AppTheme.body(
+                    size: 14,
+                    weight: FontWeight.w600,
+                  ).copyWith(letterSpacing: 0),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
