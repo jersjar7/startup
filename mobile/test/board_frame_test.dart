@@ -111,6 +111,32 @@ void main() {
     );
   });
 
+  testWidgets('the thank-you waits to be put away', (tester) async {
+    _phone(tester);
+    await tester.pumpWidget(
+      _app(
+        const Scaffold(
+          backgroundColor: AppColors.fog,
+          body: FeedbackSheet(
+            gameId: 'perpendicular-flip',
+            gameName: 'Perpendicular Flip',
+            chapterId: 'mathematics',
+            round: 2,
+            answered: true,
+            sent: true,
+          ),
+        ),
+      ),
+    );
+    await _settle(tester);
+    expect(find.text('Thanks. That helps.'), findsOneWidget);
+    expect(find.text('Back to the round'), findsOneWidget);
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/00-frame/feedback-sent.png'),
+    );
+  });
+
   testWidgets('a miss: the peach panel', (tester) async {
     _phone(tester);
     await tester.pumpWidget(

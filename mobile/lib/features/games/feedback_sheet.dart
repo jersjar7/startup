@@ -45,6 +45,7 @@ class FeedbackSheet extends StatefulWidget {
     required this.chapterId,
     required this.round,
     required this.answered,
+    this.sent = false,
   });
 
   final String gameId;
@@ -57,6 +58,9 @@ class FeedbackSheet extends StatefulWidget {
   /// Whether the round has been answered: the answer and its explanation
   /// only exist after that, so they are only offered after that.
   final bool answered;
+
+  /// Opens on the thank-you. Only a photograph needs this.
+  final bool sent;
 
   /// The parts of a round a student can find unclear, in the order they
   /// meet them. The label is what the owner reads in the report.
@@ -86,7 +90,7 @@ class _FeedbackSheetState extends State<FeedbackSheet> {
   List<(String, String)> get _kinds =>
       widget.answered ? FeedbackSheet.after : FeedbackSheet.before;
   bool _sending = false;
-  bool _sent = false;
+  late bool _sent = widget.sent;
   String? _error;
 
   @override
@@ -118,9 +122,9 @@ class _FeedbackSheetState extends State<FeedbackSheet> {
         'build': appBuild,
       });
       if (!mounted) return;
+      // The thank-you stays until the student puts it away (owner's call:
+      // a timed one vanished before it could be read).
       setState(() => _sent = true);
-      await Future<void>.delayed(const Duration(milliseconds: 1400));
-      if (mounted) Navigator.of(context).maybePop();
     } on ApiException catch (e) {
       if (!mounted) return;
       setState(() {
@@ -162,7 +166,11 @@ class _FeedbackSheetState extends State<FeedbackSheet> {
                   'We read every one, and it makes the next round better.',
                   style: AppTheme.body(size: 16, color: AppColors.mutedOnLight),
                 ),
-                const SizedBox(height: 22),
+                const SizedBox(height: 26),
+                PillButton(
+                  label: 'Back to the round',
+                  onTap: () => Navigator.of(context).maybePop(),
+                ),
               ] else ...[
                 Text(
                   '${widget.gameName.toUpperCase()} · ROUND ${widget.round}',
