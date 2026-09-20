@@ -626,9 +626,9 @@ const feedbackSheet = page('Feedback sheet', C.fog, C.charcoal, `
 <div style="align-self: center; width: 44px; height: 5px; border-radius: 3px; background: ${C.charcoal}; opacity: 0.25;"></div>
 <div style="display: flex; flex-direction: column; gap: 8px;">
 ${eyebrow('Set it up · round 3', C.mutedOnLight)}
-${headline('Something unclear?', 38)}
+${headline('Something unclear?', 34)}
 </div>
-<div style="display: flex; gap: 8px; flex-wrap: wrap;">${chip('The explanation', true)}${chip('The game', false)}${chip('The answer', false)}</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;">${chip('The question', false)}${chip('The drawing', false)}${chip('The answer', false)}${chip('The explanation', true)}${chip('The concept', false)}${chip('How to play', false)}</div>
 <div style="display: flex; flex-direction: column; gap: 10px;">
 <div style="font-family: ${F.display}; font-weight: 600; font-size: 22px; letter-spacing: -0.03em; line-height: 1.2; color: ${C.placeholder}; padding: 6px 0 10px; border-bottom: 3px solid ${C.forest};">What tripped you up?</div>
 <div style="font-size: 14px; color: ${C.mutedOnLight};">We read every one. Your round and game come along, so you can keep it short.</div>

@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobile/core/theme/app_colors.dart';
 import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/games/board.dart';
+import 'package:mobile/features/games/feedback_sheet.dart';
 import 'package:mobile/features/games/game_progress.dart';
 import 'package:mobile/features/games/perpendicular_flip_game.dart';
 
@@ -70,7 +71,10 @@ void main() {
     await tester.tap(find.byTooltip('Something unclear?'));
     await tester.pumpAndSettle();
     expect(find.text('Something unclear?'), findsOneWidget);
-    expect(find.text('The explanation'), findsOneWidget);
+    // Before an answer there is no answer or explanation to flag.
+    expect(find.text('The question'), findsOneWidget);
+    expect(find.text('How to play'), findsOneWidget);
+    expect(find.text('The explanation'), findsNothing);
     await expectLater(
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/00-frame/feedback-sheet.png'),
@@ -79,6 +83,32 @@ void main() {
     await tester.tap(find.text('Send it'));
     await tester.pumpAndSettle();
     expect(find.text('Write a line first.'), findsOneWidget);
+  });
+
+  testWidgets('after an answer the sheet offers all six parts', (tester) async {
+    _phone(tester);
+    await tester.pumpWidget(
+      _app(
+        const Scaffold(
+          backgroundColor: AppColors.fog,
+          body: FeedbackSheet(
+            gameId: 'perpendicular-flip',
+            gameName: 'Perpendicular Flip',
+            chapterId: 'mathematics',
+            round: 2,
+            answered: true,
+          ),
+        ),
+      ),
+    );
+    await _settle(tester);
+    for (final label in FeedbackSheet.after.map((k) => k.$2)) {
+      expect(find.text(label), findsOneWidget, reason: label);
+    }
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/00-frame/feedback-sheet-answered.png'),
+    );
   });
 
   testWidgets('a miss: the peach panel', (tester) async {

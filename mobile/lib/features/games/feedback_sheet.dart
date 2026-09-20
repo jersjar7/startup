@@ -18,6 +18,7 @@ Future<void> showFeedbackSheet(
   required String gameName,
   required String chapterId,
   required int round,
+  required bool answered,
 }) {
   return showModalBottomSheet<void>(
     context: context,
@@ -31,6 +32,7 @@ Future<void> showFeedbackSheet(
       gameName: gameName,
       chapterId: chapterId,
       round: round,
+      answered: answered,
     ),
   );
 }
@@ -42,6 +44,7 @@ class FeedbackSheet extends StatefulWidget {
     required this.gameName,
     required this.chapterId,
     required this.round,
+    required this.answered,
   });
 
   final String gameId;
@@ -51,19 +54,37 @@ class FeedbackSheet extends StatefulWidget {
   /// 1-based, as the student sees it.
   final int round;
 
+  /// Whether the round has been answered: the answer and its explanation
+  /// only exist after that, so they are only offered after that.
+  final bool answered;
+
+  /// The parts of a round a student can find unclear, in the order they
+  /// meet them. The label is what the owner reads in the report.
+  static const before = [
+    ('question', 'The question'),
+    ('drawing', 'The drawing'),
+    ('howto', 'How to play'),
+    ('concept', 'The concept'),
+  ];
+  static const after = [
+    ('question', 'The question'),
+    ('drawing', 'The drawing'),
+    ('answer', 'The answer'),
+    ('explanation', 'The explanation'),
+    ('concept', 'The concept'),
+    ('howto', 'How to play'),
+  ];
+
   @override
   State<FeedbackSheet> createState() => _FeedbackSheetState();
 }
 
 class _FeedbackSheetState extends State<FeedbackSheet> {
-  static const kinds = [
-    ('explanation', 'The explanation'),
-    ('game', 'The game'),
-    ('answer', 'The answer'),
-  ];
-
   final _text = TextEditingController();
-  String _kind = 'explanation';
+  late String _kind = widget.answered ? 'explanation' : 'question';
+
+  List<(String, String)> get _kinds =>
+      widget.answered ? FeedbackSheet.after : FeedbackSheet.before;
   bool _sending = false;
   bool _sent = false;
   String? _error;
@@ -92,6 +113,7 @@ class _FeedbackSheetState extends State<FeedbackSheet> {
         'chapterId': widget.chapterId,
         'round': widget.round,
         'kind': _kind,
+        'kindLabel': _kinds.firstWhere((k) => k.$1 == _kind).$2,
         'text': text,
         'build': appBuild,
       });
@@ -149,14 +171,14 @@ class _FeedbackSheetState extends State<FeedbackSheet> {
                 const SizedBox(height: 8),
                 Text(
                   'Something unclear?',
-                  style: AppTheme.display(size: 38, height: 1),
+                  style: AppTheme.display(size: 34, height: 1),
                 ),
                 const SizedBox(height: 22),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
                   children: [
-                    for (final (id, label) in kinds)
+                    for (final (id, label) in _kinds)
                       _KindChip(
                         label: label,
                         on: _kind == id,

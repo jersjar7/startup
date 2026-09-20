@@ -240,6 +240,7 @@ class _BoardShellState extends State<BoardShell> {
       gameName: gameDefFor(s.gameId)?.name ?? s.gameId,
       chapterId: s.chapterId,
       round: s.round + 1,
+      answered: s.answered,
     );
   }
 
