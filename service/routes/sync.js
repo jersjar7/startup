@@ -3,7 +3,7 @@ const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { computeStudyMastery, composeMastery } = require('../mastery.js');
 const { clearedGames, gamesHalf, gamesIn } = require('../gamesHalf.js');
-const { calculateStreak } = require('../streak.js');
+const { rederiveAccount } = require('../rederive.js');
 const { getWeekId } = require('./leaderboard.js');
 const { XP, phoneXp } = require('../xp.js');
 const { evaluateBadges } = require('../badges.js');
@@ -63,93 +63,14 @@ const parentId = (itemId) => itemId.split(':')[0];
 async function ingestPhoneEvents(email, events, device) {
   const phone = events.filter((e) => e.source !== 'web');
   if (!phone.length) return;
-  const answers = phone.filter((e) => (e.kind || 'answer') === 'answer');
-
-  // 1) Same-day dedupe + schedule push: each reviewed item updates the
-  //    parent problem's history, so it leaves today's web due queue.
-  const touchedChapters = new Map();
-  for (const e of answers) {
-    await DB.upsertProblemHistory(
-      email, parentId(e.itemId), e.chapterId, e.grade !== 'forgot', 'phone');
-    touchedChapters.set(e.chapterId, true);
-  }
-
-  // 2) The games half: 50 times the share of the chapter's games cleared,
-  //    from every phone event on the chapter (gamesHalf.js). The desk half is
-  //    recomputed too, since problem history just moved; phone-only rows add
-  //    nothing to it. One formula (mastery.js composeMastery).
-  const currentStats = (await DB.getUserStats(email)) || {};
-  const chapterMastery = { ...(currentStats.chapterMastery || {}) };
-  for (const ch of touchedChapters.keys()) {
-    const [hist, phoneEvents] = await Promise.all([
-      DB.getProblemHistoryForChapter(email, ch),
-      DB.getPhoneEventsForChapter(email, ch),
-    ]);
-    const cleared = clearedGames(ch, phoneEvents);
-    chapterMastery[ch] = composeMastery({
-      ...(chapterMastery[ch] || {}),
-      studyScore: computeStudyMastery(hist),
-      gamesHalf: gamesHalf(ch, cleared),
-      gamesCleared: cleared.length,
-      gamesTotal: Object.keys(gamesIn(ch)).length,
-    });
-  }
-
-  // 3) One streak: credit the event's CLIENT-local day (offline Tuesday
-  //    synced Wednesday still counts Tuesday).
-  const latestDay = phone.map((e) => e.localDate).sort().pop();
-  const streakResult = calculateStreak(currentStats, latestDay);
-
-  // 4) Derived XP, capped per local day: recompute the day's capped total
-  //    with and without this batch — the delta is what's newly earned.
-  let xpDelta = 0;
-  const byDay = new Map();
-  for (const e of answers) {
-    const c = byDay.get(e.localDate) || { gotIt: 0, fuzzy: 0, forgot: 0 };
-    c[e.grade]++;
-    byDay.set(e.localDate, c);
-  }
-  for (const [day, fresh] of byDay) {
-    const after = await DB.getPhoneGradeCounts(email, day); // includes fresh (already inserted)
-    const before = {
-      gotIt: after.gotIt - fresh.gotIt,
-      fuzzy: after.fuzzy - fresh.fuzzy,
-      forgot: after.forgot - fresh.forgot,
-    };
-    xpDelta += Math.min(XP.phoneDailyCap, phoneXp(after)) - Math.min(XP.phoneDailyCap, phoneXp(before));
-  }
-  const weekId = getWeekId();
-  const weeklyXp = (currentStats.weekId === weekId ? currentStats.weeklyXp || 0 : 0) + xpDelta;
-
-  // Visible sync state: which device synced and when. Source comes from the
-  // events; the human label comes from the client (never assume iPhone).
+  // The log is the record (ADR 0018, step 3): the events are already in it;
+  // derive everything from the whole log. The deriver caps phone XP per local
+  // day, folds each round into its problem, and reads the games half from
+  // the chapter's rounds. The visible sync state rides along: which device
+  // synced and when (the label comes from the client, never assumed).
   const latest = phone.reduce((a, b) => (b.ts > a.ts ? b : a));
-
-  // 5) Badges (audit F7): the phone earns them the same as the desk, and
-  //    the count on the account sheet moves the moment they land.
-  const forBadges = {
-    ...currentStats,
-    totalXp: (currentStats.totalXp || 0) + xpDelta,
-    currentStreak: streakResult.currentStreak,
-    longestStreak: streakResult.longestStreak,
-    badges: currentStats.badges || [],
-  };
-  const newBadgeIds = evaluateBadges(forBadges, { correct: 0, total: 0 });
-  const badges = newBadgeIds.length ? [...forBadges.badges, ...newBadgeIds] : forBadges.badges;
-
-  await DB.updateUserStats(email, {
-    chapterMastery,
-    badges,
-    currentStreak: streakResult.currentStreak,
-    longestStreak: streakResult.longestStreak,
-    freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
-    lastSessionDate: streakResult.lastSessionDate,
-    totalXp: (currentStats.totalXp || 0) + xpDelta,
-    weekId,
-    weeklyXp,
-    lastSyncAt: Date.now(),
-    lastSyncSource: latest.source,
-    lastSyncDevice: device || null,
+  await rederiveAccount(email, {
+    extra: { lastSyncAt: Date.now(), lastSyncSource: latest.source, lastSyncDevice: device || null },
   });
 }
 

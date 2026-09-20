@@ -25,6 +25,29 @@ async function updateUserStats(email, update) {
   return userStatsCollection.findOne({ email: email });
 }
 
+/**
+ * The derived state, written whole (rederive.js). $set, not replace: the
+ * fields that are not progress (the phone's last sync, the quick start's
+ * sampled list, freeze flags) stay as they are unless passed.
+ */
+async function replaceUserStats(email, stats) {
+  await userStatsCollection.updateOne({ email }, { $set: stats }, { upsert: true });
+}
+
+/** Every derived problem row, written whole; rows the log does not know stay. */
+async function replaceProblemHistory(email, history) {
+  const ops = Object.entries(history).map(([problemId, r]) => ({
+    updateOne: {
+      filter: { email, problemId },
+      update: { $set: { email, problemId, topicId: r.topicId, lastSeen: r.lastSeen, timesCorrect: r.timesCorrect, timesIncorrect: r.timesIncorrect,
+        deskAttempts: r.deskAttempts, reviewActive: r.reviewActive, correctSinceMiss: r.correctSinceMiss, nextReview: r.nextReview,
+        interval: r.interval, lastCorrectAt: r.lastCorrectAt } },
+      upsert: true,
+    },
+  }));
+  for (let i = 0; i < ops.length; i += 500) await problemHistoryCollection.bulkWrite(ops.slice(i, i + 500), { ordered: false });
+}
+
 /** Every calendar day this user studied, oldest first. */
 async function getStudyDays(email) {
   const stats = await userStatsCollection.findOne({ email }, { projection: { studyDays: 1 } });
@@ -164,4 +187,6 @@ module.exports = {
   logSession,
   getStudyDays,
   addStudyDays,
+  replaceUserStats,
+  replaceProblemHistory,
 };

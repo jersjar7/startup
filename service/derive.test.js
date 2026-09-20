@@ -41,7 +41,7 @@ describe('deriveAccount: an account from its log', () => {
   it('is empty from an empty log', () => {
     expect(deriveAccount({ events: [] })).toEqual({
       history: {}, chapterMastery: {}, studyDays: [], daysStudied: 0, lastSessionDate: null, phoneXp: 0, webXp: 0, totalXp: 0,
-      sessions: { practice: 0, review: 0, diagnostic: 0, quickstart: 0, exam: 0 }, examDate: null, problemsAnswered: 0,
+      sessions: { practice: 0, review: 0, diagnostic: 0, quickstart: 0, exam: 0 }, examDate: null, xpByDay: {}, topicProgress: {}, problemsAnswered: 0,
     });
   });
 
@@ -102,6 +102,8 @@ describe('deriveAccount: an account from its log', () => {
     expect(s.chapterMastery.statics.diagnosticScore).toBe(30);
     expect(s.chapterMastery.dynamics.totalMastery).toBe(12);
     expect(s.examDate).toBe('2026-11-28');
+    expect(s.xpByDay).toEqual({ '2026-06-01': 75, '2026-06-02': 35, '2026-06-03': 450, '2026-06-04': 180 });
+    expect(s.topicProgress.mathematics).toEqual({ attempted: 5, correct: 5, sessionsCompleted: 1, masteryLevel: 2, lastStudied: '2026-06-01' });
     expect(s.studyDays).toEqual(['2026-06-01', '2026-06-02', '2026-06-03', '2026-06-04', '2026-06-05']);
     const row = s.history['math-q1'];
     expect(row.timesCorrect).toBe(3);

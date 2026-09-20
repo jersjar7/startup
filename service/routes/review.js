@@ -4,7 +4,7 @@ const uuid = require('uuid');
 const DB = require('../database.js');
 const { calculateEarnedMastery, computeStudyMastery, composeMastery } = require('../mastery.js');
 const { XP, reviewXp } = require('../xp.js');
-const { calculateStreak } = require('../streak.js');
+const { rederiveAccount } = require('../rederive.js');
 const { dayFor } = require('../studyDays.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -133,82 +133,17 @@ router.post('/', verifyAuth, async (req, res) => {
   const xpReviewBonus = XP.reviewBonus;
   const xpTotal = reviewXp(correctCount, incorrectCount);
 
-  // Update problem history
-  await Promise.all(
-    answers.map((a) => DB.upsertProblemHistory(email, a.problemId, a.topicId, a.isCorrect))
-  );
-  await emitWebEvents(email, answers, (a) => a.topicId, req.body.localDate);
-
-  // Update user stats (XP + streak, but not per-topic sessionsCompleted)
-  const currentStats = (await DB.getUserStats(email)) || {
-    email,
-    totalXp: 0,
-    currentStreak: 0,
-    longestStreak: 0,
-    lastSessionDate: null,
-    topicProgress: {},
-  };
-
+  // The log is the record (ADR 0018, step 3).
   const today = dayFor(req.body); // the student's day (studyDays.js)
-  const streakResult = calculateStreak(currentStats, today);
-
-  // Update per-topic attempted/correct counts and sessionsCompleted
-  const topicProgress = currentStats.topicProgress || {};
   const topicsInReview = new Set(answers.map((a) => a.topicId).filter(Boolean));
-  for (const a of answers) {
-    const tp = topicProgress[a.topicId] || {
-      attempted: 0,
-      correct: 0,
-      sessionsCompleted: 0,
-      masteryLevel: 0,
-      lastStudied: null,
-    };
-    tp.attempted++;
-    if (a.isCorrect) tp.correct++;
-    tp.lastStudied = today;
-    topicProgress[a.topicId] = tp;
-  }
-  // Increment sessionsCompleted once per topic that appeared in this review
-  for (const tid of topicsInReview) {
-    if (topicProgress[tid]) {
-      topicProgress[tid].sessionsCompleted++;
-      topicProgress[tid].masteryLevel = calculateEarnedMastery(topicProgress[tid]);
-    }
-  }
-
-  // Recompute study-driven mastery for every chapter touched in this review —
-  // spaced/matured recalls are where mastery climbs the most.
-  const chapterMastery = { ...(currentStats.chapterMastery || {}) };
-  for (const tid of topicsInReview) {
-    const hist = await DB.getProblemHistoryForChapter(email, tid);
-    const studyScore = computeStudyMastery(hist);
-    chapterMastery[tid] = composeMastery({ ...(chapterMastery[tid] || {}), studyScore });
-  }
-
-  // Track weekly XP for leaderboard
-  const weekId = getWeekId();
-  const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
-
-  const updatedStats = {
-    email,
-    totalXp: currentStats.totalXp + xpTotal,
-    weekId,
-    weeklyXp: currentWeeklyXp + xpTotal,
-    currentStreak: streakResult.currentStreak,
-    longestStreak: streakResult.longestStreak,
-    freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
-    lastSessionDate: streakResult.lastSessionDate,
-    topicProgress,
-    chapterMastery,
-    badges: currentStats.badges || [],
-  };
-
-  const newBadgeIds = evaluateBadges(updatedStats, { correct: correctCount, total: answers.length });
-  if (newBadgeIds.length > 0) {
-    updatedStats.badges = [...updatedStats.badges, ...newBadgeIds];
-  }
-
-  await DB.updateUserStats(email, updatedStats);
+  await emitWebEvents(email, answers, (a) => a.topicId, today);
+  await DB.appendEvent(email, {
+    kind: 'session', chapterId: null, localDate: today,
+    data: { type: 'review', topicIds: [...topicsInReview], correct: correctCount, total: answers.length, xp: xpTotal, durationSeconds: req.body.durationSeconds ?? null },
+  });
+  const state = await rederiveAccount(email, { sessionContext: { correct: correctCount, total: answers.length } });
+  const streakResult = { currentStreak: state.daysStudied, longestStreak: state.longestStreak };
+  const newBadgeIds = state.newBadgeIds;
 
   // Log review session for audit trail
   await DB.logSession(email, {
@@ -219,10 +154,6 @@ router.post('/', verifyAuth, async (req, res) => {
     streak: streakResult.currentStreak,
     durationSeconds: req.body.durationSeconds,
   });
-  await DB.appendEvent(email, {
-    kind: 'session', chapterId: null, localDate: today,
-    data: { type: 'review', topicIds: [...topicsInReview], correct: correctCount, total: answers.length, xp: xpTotal, durationSeconds: req.body.durationSeconds ?? null },
-  }).catch(() => {});
 
   res.send({
     sessionSummary: {

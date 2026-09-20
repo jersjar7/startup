@@ -15,7 +15,7 @@
 // (an opening balance from before the log), session, diagnostic, quickstart,
 // exam, profile, feedback, lesson-opened, concept-read.
 
-const { composeMastery, computeStudyMastery, nextMaturity } = require('./mastery.js');
+const { composeMastery, computeStudyMastery, nextMaturity, calculateEarnedMastery } = require('./mastery.js');
 const { clearedGames, gamesHalf, gamesIn } = require('./gamesHalf.js');
 const { XP, phoneXp } = require('./xp.js');
 
@@ -87,6 +87,10 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
   let webXp = 0;
   const sessions = { practice: 0, review: 0, diagnostic: 0, quickstart: 0, exam: 0 };
   let examDate = null;
+  const xpByDay = {};      // localDate -> XP earned that day (web; phone added after its cap)
+  const topicProgress = {}; // the old per-chapter ladder the website still keeps
+  const topic = (id) => (topicProgress[id] ||= { attempted: 0, correct: 0, sessionsCompleted: 0, masteryLevel: 0, lastStudied: null });
+  const earn = (day, xp) => { xpByDay[day] = (xpByDay[day] || 0) + (xp || 0); };
 
   for (const e of ordered(events)) {
     if (!e || !DAY_RE.test(e.localDate || '')) continue;
@@ -124,22 +128,30 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
         }
         break;
       }
-      case 'session':
-        webXp += d.xp || 0;
-        sessions[d.type === 'review' ? 'review' : 'practice'] += 1;
+      case 'session': {
+        webXp += d.xp || 0; earn(e.localDate, d.xp);
+        if (d.type === 'review') {
+          sessions.review += 1;
+          for (const tid of d.topicIds || []) { const t = topic(tid); t.sessionsCompleted += 1; t.lastStudied = e.localDate; }
+        } else {
+          sessions.practice += 1;
+          const tid = d.topicId || e.chapterId;
+          if (tid) { const t = topic(tid); t.attempted += d.total || 0; t.correct += d.correct || 0; t.sessionsCompleted += 1; t.lastStudied = e.localDate; }
+        }
         break;
+      }
       case 'diagnostic':
-        webXp += d.xp || 0;
+        webXp += d.xp || 0; earn(e.localDate, d.xp);
         sessions.diagnostic += 1;
         for (const [ch, v] of Object.entries(d.chapterScores || {})) diag[ch] = Math.max(diag[ch] || 0, v || 0);
         break;
       case 'quickstart':
-        webXp += d.xp || 0;
+        webXp += d.xp || 0; earn(e.localDate, d.xp);
         sessions.quickstart += 1;
         if (e.chapterId) diag[e.chapterId] = Math.max(diag[e.chapterId] || 0, d.familiarity || 0);
         break;
       case 'exam':
-        webXp += d.xp || 0;
+        webXp += d.xp || 0; earn(e.localDate, d.xp);
         sessions.exam += 1;
         break;
       case 'profile':
@@ -166,7 +178,12 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
   }
 
   let phoneXpTotal = 0;
-  for (const c of Object.values(phoneByDay)) phoneXpTotal += Math.min(XP.phoneDailyCap, phoneXp(c));
+  for (const [day, c] of Object.entries(phoneByDay)) {
+    const capped = Math.min(XP.phoneDailyCap, phoneXp(c));
+    phoneXpTotal += capped;
+    earn(day, capped);
+  }
+  for (const t of Object.values(topicProgress)) t.masteryLevel = calculateEarnedMastery(t);
 
   const days = [...studyDays].sort();
   return {
@@ -180,6 +197,8 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
     totalXp: phoneXpTotal + webXp,
     sessions,
     examDate,
+    xpByDay,
+    topicProgress,
     problemsAnswered: Object.keys(history).length,
   };
 }

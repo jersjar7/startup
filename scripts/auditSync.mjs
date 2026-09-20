@@ -158,7 +158,8 @@ check(sameDay ? 'same day: no extra tick from the late phone round' : 'the late 
   sameDay ? s5.dayCount === s4.dayCount : s5.dayCount === s4.dayCount + 1, `${s4.dayCount} -> ${s5.dayCount}`);
 
 // ---- the phone could rebuild itself from the server ------------------------
-check('the event log holds every round from both surfaces', s5.eventsOnServer === s0.eventsOnServer + 8 + 4 + 5 + 1, `${s0.eventsOnServer} -> ${s5.eventsOnServer}`);
+// 18 answers, plus the website session itself as one event (ADR 0018).
+check('the event log holds every round from both surfaces, and the session', s5.eventsOnServer === s0.eventsOnServer + 8 + 4 + 5 + 1 + 1, `${s0.eventsOnServer} -> ${s5.eventsOnServer}`);
 
 // ---- report ---------------------------------------------------------------
 const snaps = [s0, s1, s2, s3, s4, s5];

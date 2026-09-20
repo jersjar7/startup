@@ -1,7 +1,7 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
-const { calculateStreak } = require('../streak.js');
+const { rederiveAccount } = require('../rederive.js');
 const { composeMastery } = require('../mastery.js');
 const { dayFor } = require('../studyDays.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
@@ -95,57 +95,16 @@ router.post('/submit', verifyAuth, async (req, res) => {
 
   await DB.saveDiagnosticResult(email, result);
 
-  // Update user stats: XP, streak, mastery
-  const currentStats = (await DB.getUserStats(email)) || {
-    email,
-    totalXp: 0,
-    currentStreak: 0,
-    longestStreak: 0,
-    lastSessionDate: null,
-    topicProgress: {},
-    badges: [],
-  };
-
+  // The log is the record (ADR 0018, step 3).
   const today = dayFor(req.body); // the student's day (studyDays.js)
-  const streakResult = calculateStreak(currentStats, today);
-  const weekId = getWeekId();
-  const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
-
-  // Build chapter mastery from diagnostic
-  // Keep every chapter the account already has (audit F10: this used to
-  // rebuild from an empty object and drop unknown keys); raise the
-  // diagnostic score where the diagnostic measured one, never lower it.
-  const chapterMastery = { ...(currentStats.chapterMastery || {}) };
-  for (const ch of CHAPTERS) {
-    const existing = chapterMastery[ch] || {};
-    const diagnosticScore = Math.max(existing.diagnosticScore || 0, chapterScores[ch].masterySeeded);
-    // ONE formula everywhere (mastery.js composeMastery).
-    chapterMastery[ch] = composeMastery({ ...existing, diagnosticScore });
-  }
-
-  const updatedStats = {
-    email,
-    totalXp: currentStats.totalXp + xpTotal,
-    weekId,
-    weeklyXp: currentWeeklyXp + xpTotal,
-    currentStreak: streakResult.currentStreak,
-    longestStreak: streakResult.longestStreak,
-    freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
-    lastSessionDate: streakResult.lastSessionDate,
-    topicProgress: currentStats.topicProgress || {},
-    badges: currentStats.badges || [],
-    diagnosticCompleted: true,
-    diagnosticAttempts: attemptNumber,
-    chapterMastery,
-  };
-
-  // Evaluate badges
-  const newBadgeIds = evaluateBadges(updatedStats, { correct: totalCorrect, total: questions.length });
-  if (newBadgeIds.length > 0) {
-    updatedStats.badges = [...updatedStats.badges, ...newBadgeIds];
-  }
-
-  await DB.updateUserStats(email, updatedStats);
+  await DB.appendEvent(email, {
+    kind: 'diagnostic', chapterId: null, localDate: today,
+    data: { chapterScores: Object.fromEntries(Object.entries(chapterScores).map(([ch, v]) => [ch, v.masterySeeded])), correct: totalCorrect, total: questions.length, xp: xpTotal, attemptNumber },
+  });
+  const state = await rederiveAccount(email, { sessionContext: { correct: totalCorrect, total: questions.length } });
+  const streakResult = { currentStreak: state.daysStudied, longestStreak: state.longestStreak };
+  const newBadgeIds = state.newBadgeIds;
+  const chapterMastery = state.chapterMastery;
 
   // Log session for audit trail
   await DB.logSession(email, {
@@ -155,10 +114,6 @@ router.post('/submit', verifyAuth, async (req, res) => {
     xpEarned: xpTotal,
     streak: streakResult.currentStreak,
   });
-  await DB.appendEvent(email, {
-    kind: 'diagnostic', chapterId: null, localDate: today,
-    data: { chapterScores: Object.fromEntries(Object.entries(chapterScores).map(([ch, v]) => [ch, v.masterySeeded])), correct: totalCorrect, total: questions.length, xp: xpTotal },
-  }).catch(() => {});
 
   res.send({
     attemptNumber,

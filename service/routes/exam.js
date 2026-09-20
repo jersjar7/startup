@@ -1,7 +1,7 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
-const { calculateStreak } = require('../streak.js');
+const { rederiveAccount } = require('../rederive.js');
 const { dayFor } = require('../studyDays.js');
 const { composeMastery, computeStudyMastery } = require('../mastery.js');
 const { examXp } = require('../xp.js');
@@ -84,50 +84,23 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
     xpEarned: xpTotal,
   });
 
-  const currentStats = (await DB.getUserStats(email)) || {
-    email, totalXp: 0, currentStreak: 0, longestStreak: 0,
-    lastSessionDate: null, topicProgress: {}, badges: [],
-  };
-
   const today = dayFor({ localDate }); // the student's day; UTC on an expiry
-  const streakResult = calculateStreak(currentStats, today);
-  const weekId = getWeekId();
-  const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
 
-  // The simulation is desk work (audit F6): every ANSWERED question lands
-  // on its problem's history like a practice answer, and the chapters it
-  // touched recompute their desk half. A blank is a miss on the real exam
-  // but says nothing about the concept, so it writes no history.
+  // The log is the record (ADR 0018, step 3): the answered questions as
+  // answers (source web, the simulation is desk work), the attempt as one
+  // event, then everything derived from the whole log.
   const answered = scoredQuestions.filter((q) => q.selectedAnswerId && q.id && q.chapterId);
-  for (const q of answered) {
-    await DB.upsertProblemHistory(email, q.id, q.chapterId, q.isCorrect, 'desk');
-  }
-  const chapterMastery = { ...(currentStats.chapterMastery || {}) };
-  for (const ch of new Set(answered.map((q) => q.chapterId))) {
-    const hist = await DB.getProblemHistoryForChapter(email, ch);
-    chapterMastery[ch] = composeMastery({ ...(chapterMastery[ch] || {}), studyScore: computeStudyMastery(hist) });
-  }
-
-  const updatedStats = {
-    email,
-    totalXp: currentStats.totalXp + xpTotal,
-    weekId,
-    weeklyXp: currentWeeklyXp + xpTotal,
-    currentStreak: streakResult.currentStreak,
-    longestStreak: streakResult.longestStreak,
-    freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
-    lastSessionDate: streakResult.lastSessionDate,
-    topicProgress: currentStats.topicProgress || {},
-    badges: currentStats.badges || [],
-    diagnosticCompleted: currentStats.diagnosticCompleted,
-    diagnosticAttempts: currentStats.diagnosticAttempts,
-    chapterMastery,
-  };
-
-  const newBadgeIds = evaluateBadges(updatedStats, { correct: totalCorrect, total: attempt.totalQuestions });
-  if (newBadgeIds.length > 0) updatedStats.badges = [...updatedStats.badges, ...newBadgeIds];
-
-  await DB.updateUserStats(email, updatedStats);
+  await DB.insertReviewEvents(email, answered.map((q) => ({
+    eventId: `exam-${attemptId}-${q.id}`.slice(0, 64), kind: 'answer', itemId: q.id, chapterId: q.chapterId,
+    grade: q.isCorrect ? 'gotIt' : 'forgot', source: 'web', ts: Date.now(), localDate: today,
+  })));
+  await DB.appendEvent(email, {
+    kind: 'exam', chapterId: null, localDate: today,
+    data: { attemptId, totalCorrect, totalAttempted, chapterScores, xp: xpTotal, autoSubmitted },
+  });
+  const state = await rederiveAccount(email, { sessionContext: { correct: totalCorrect, total: attempt.totalQuestions } });
+  const streakResult = { currentStreak: state.daysStudied, longestStreak: state.longestStreak };
+  const newBadgeIds = state.newBadgeIds;
 
   await DB.logSession(email, {
     topicId: 'exam-simulation',
@@ -136,16 +109,6 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
     xpEarned: xpTotal,
     streak: streakResult.currentStreak,
   });
-  // The simulation in the log: one event for the attempt, and the answered
-  // questions as answers (source web), so the deriver sees the desk work.
-  await DB.insertReviewEvents(email, answered.map((q) => ({
-    eventId: `exam-${attemptId}-${q.id}`.slice(0, 64), kind: 'answer', itemId: q.id, chapterId: q.chapterId,
-    grade: q.isCorrect ? 'gotIt' : 'forgot', source: 'web', ts: Date.now(), localDate: today,
-  }))).catch(() => {});
-  await DB.appendEvent(email, {
-    kind: 'exam', chapterId: null, localDate: today,
-    data: { attemptId, totalCorrect, totalAttempted, chapterScores, xp: xpTotal, autoSubmitted },
-  }).catch(() => {});
 
   return {
     attemptId,

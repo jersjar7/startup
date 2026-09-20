@@ -4,7 +4,7 @@ const uuid = require('uuid');
 const DB = require('../database.js');
 const { calculateEarnedMastery, computeStudyMastery, composeMastery } = require('../mastery.js');
 const { XP, sessionXp } = require('../xp.js');
-const { calculateStreak } = require('../streak.js');
+const { rederiveAccount } = require('../rederive.js');
 const { dayFor } = require('../studyDays.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -61,83 +61,18 @@ router.post('/', verifyAuth, async (req, res) => {
   const xpSessionBonus = XP.sessionBonus;
   const xpTotal = sessionXp(correctCount, incorrectCount);
 
-  // Get current user stats
+  // The log is the record (ADR 0018, step 3): append the answers and the
+  // session, then derive everything the surfaces read from the whole log.
   const email = req.user.email;
-  const currentStats = (await DB.getUserStats(email)) || {
-    email,
-    totalXp: 0,
-    currentStreak: 0,
-    longestStreak: 0,
-    lastSessionDate: null,
-    topicProgress: {},
-  };
-
-  // Update streak (with freeze support)
   const today = dayFor(req.body); // the student's day (studyDays.js)
-  const streakResult = calculateStreak(currentStats, today);
-
-  // Update topic progress
-  const topicProgress = currentStats.topicProgress || {};
-  const currentTopicProgress = topicProgress[topicId] || {
-    attempted: 0,
-    correct: 0,
-    sessionsCompleted: 0,
-    masteryLevel: 0,
-    lastStudied: null,
-  };
-
-  const updatedProgress = {
-    attempted: currentTopicProgress.attempted + answers.length,
-    correct: currentTopicProgress.correct + correctCount,
-    sessionsCompleted: currentTopicProgress.sessionsCompleted + 1,
-    lastStudied: today,
-  };
-  updatedProgress.masteryLevel = calculateEarnedMastery(updatedProgress);
-
-  topicProgress[topicId] = updatedProgress;
-
-  // Update per-problem history for spaced repetition
-  await Promise.all(
-    answers.map((a) => DB.upsertProblemHistory(email, a.problemId, topicId, a.isCorrect))
-  );
-  await emitWebEvents(email, answers, () => topicId, req.body.localDate);
-
-  // Recompute study-driven mastery for this chapter from its full problem
-  // history, so practice actually moves the chapter's mastery / readiness.
-  const chapterHistory = await DB.getProblemHistoryForChapter(email, topicId);
-  const studyScore = computeStudyMastery(chapterHistory);
-  const chapterMastery = { ...(currentStats.chapterMastery || {}) };
-  // One formula (mastery.js composeMastery): the games half stays as the
-  // phone last left it, the desk half moves.
-  chapterMastery[topicId] = composeMastery({ ...(chapterMastery[topicId] || {}), studyScore });
-
-  // Build updated stats for badge evaluation
-  // Track weekly XP for leaderboard
-  const weekId = getWeekId();
-  const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
-
-  const updatedStats = {
-    email,
-    totalXp: currentStats.totalXp + xpTotal,
-    weekId,
-    weeklyXp: currentWeeklyXp + xpTotal,
-    currentStreak: streakResult.currentStreak,
-    longestStreak: streakResult.longestStreak,
-    freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
-    lastSessionDate: streakResult.lastSessionDate,
-    topicProgress,
-    chapterMastery,
-    badges: currentStats.badges || [],
-  };
-
-  // Evaluate badges
-  const newBadgeIds = evaluateBadges(updatedStats, { correct: correctCount, total: answers.length });
-  if (newBadgeIds.length > 0) {
-    updatedStats.badges = [...updatedStats.badges, ...newBadgeIds];
-  }
-
-  // Save to database
-  await DB.updateUserStats(email, updatedStats);
+  await emitWebEvents(email, answers, () => topicId, today);
+  await DB.appendEvent(email, {
+    kind: 'session', chapterId: topicId, localDate: today,
+    data: { type: 'practice', topicId, correct: correctCount, total: answers.length, xp: xpTotal, durationSeconds: req.body.durationSeconds ?? null },
+  });
+  const state = await rederiveAccount(email, { sessionContext: { correct: correctCount, total: answers.length } });
+  const streakResult = { currentStreak: state.daysStudied, longestStreak: state.longestStreak };
+  const newBadgeIds = state.newBadgeIds;
 
   // Log session for audit trail
   await DB.logSession(email, {
@@ -148,12 +83,6 @@ router.post('/', verifyAuth, async (req, res) => {
     streak: streakResult.currentStreak,
     durationSeconds: req.body.durationSeconds,
   });
-  // The session as one event in the log (ADR 0018): the boundary and the
-  // bonus the answers alone cannot carry. Never breaks the flow.
-  await DB.appendEvent(email, {
-    kind: 'session', chapterId: topicId, localDate: today,
-    data: { type: 'practice', topicId, correct: correctCount, total: answers.length, xp: xpTotal, durationSeconds: req.body.durationSeconds ?? null },
-  }).catch(() => {});
 
   res.send({
     sessionSummary: {

@@ -1,7 +1,7 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
-const { calculateStreak } = require('../streak.js');
+const { rederiveAccount } = require('../rederive.js');
 const { composeMastery } = require('../mastery.js');
 const { evaluateBadges } = require('../badges.js');
 const { dayFor } = require('../studyDays.js');
@@ -132,55 +132,24 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
   const xpCorrect = correct * XP.diagnosticCorrect;
   const xpTotal = diagnosticXp(attempted, correct);
 
-  const currentStats = (await DB.getUserStats(email)) || {
-    email, totalXp: 0, currentStreak: 0, longestStreak: 0,
-    lastSessionDate: null, topicProgress: {}, badges: [],
-  };
-
+  const currentStats = (await DB.getUserStats(email)) || {};
   const today = dayFor(req.body); // the student's day (studyDays.js)
-  const streakResult = calculateStreak(currentStats, today);
-  const weekId = getWeekId();
-  const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
-
-  // Merge the familiarity read into chapterMastery — never lower an existing
-  // score (a re-sample or a prior study run keeps its higher value).
-  const existingMastery = currentStats.chapterMastery || {};
-  const prev = existingMastery[chapterId] || {};
-  const diagnosticScore = Math.max(prev.diagnosticScore || 0, familiarity);
-  // ONE formula everywhere (mastery.js composeMastery). This used to ADD the
-  // two scores (audit F5), the only writer that did.
-  const chapterMastery = {
-    ...existingMastery,
-    [chapterId]: composeMastery({ ...prev, diagnosticScore }),
-  };
 
   // Mark the chapter sampled, keeping the canonical system order.
   const sampledSet = new Set(currentStats.quickstartSampled || []);
   sampledSet.add(chapterId);
   const quickstartSampled = SEGMENT_ORDER.filter((ch) => sampledSet.has(ch));
 
-  // $set-merge (see db/stats.js): only these fields change; topicProgress,
-  // badges, diagnosticCompleted, etc. are preserved.
-  // Badges (audit F7): the quick start pays out what it earns, like every
-  // other desk writer.
-  const newBadgeIds = evaluateBadges(
-    { ...currentStats, totalXp: currentStats.totalXp + xpTotal, currentStreak: streakResult.currentStreak, longestStreak: streakResult.longestStreak, badges: currentStats.badges || [] },
-    { correct, total },
-  );
-  const badges = newBadgeIds.length ? [...(currentStats.badges || []), ...newBadgeIds] : (currentStats.badges || []);
-
-  await DB.updateUserStats(email, {
-    badges,
-    totalXp: (currentStats.totalXp || 0) + xpTotal,
-    weekId,
-    weeklyXp: currentWeeklyXp + xpTotal,
-    currentStreak: streakResult.currentStreak,
-    longestStreak: streakResult.longestStreak,
-    freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
-    lastSessionDate: streakResult.lastSessionDate,
-    chapterMastery,
-    quickstartSampled,
+  // The log is the record (ADR 0018, step 3): the read as one event, then
+  // everything derived from the whole log. The sampled list is not
+  // progress, so it rides along as an extra field.
+  await DB.appendEvent(email, {
+    kind: 'quickstart', chapterId, localDate: today,
+    data: { chapterId, familiarity, correct, total, xp: xpTotal },
   });
+  const derived = await rederiveAccount(email, { sessionContext: { correct, total }, extra: { quickstartSampled } });
+  const streakResult = { currentStreak: derived.daysStudied, longestStreak: derived.longestStreak };
+  const chapterMastery = derived.chapterMastery;
 
   await DB.logSession(email, {
     topicId: chapterId,
@@ -190,10 +159,6 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
     streak: streakResult.currentStreak,
     durationSeconds: req.body.durationSeconds,
   });
-  await DB.appendEvent(email, {
-    kind: 'quickstart', chapterId, localDate: today,
-    data: { chapterId, familiarity, correct, total, xp: xpTotal },
-  }).catch(() => {});
 
   const state = buildState({ quickstartSampled, chapterMastery });
 
