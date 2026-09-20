@@ -2,7 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const uuid = require('uuid');
 const DB = require('../database.js');
-const { calculateEarnedMastery, computeStudyMastery } = require('../mastery.js');
+const { calculateEarnedMastery, computeStudyMastery, composeMastery } = require('../mastery.js');
 const { XP, reviewXp } = require('../xp.js');
 const { calculateStreak } = require('../streak.js');
 const { dayFor } = require('../studyDays.js');
@@ -182,12 +182,7 @@ router.post('/', verifyAuth, async (req, res) => {
   for (const tid of topicsInReview) {
     const hist = await DB.getProblemHistoryForChapter(email, tid);
     const studyScore = computeStudyMastery(hist);
-    const ex = chapterMastery[tid] || { diagnosticScore: 0 };
-    chapterMastery[tid] = {
-      diagnosticScore: ex.diagnosticScore || 0,
-      studyScore,
-      totalMastery: Math.max(ex.diagnosticScore || 0, studyScore),
-    };
+    chapterMastery[tid] = composeMastery({ ...(chapterMastery[tid] || {}), studyScore });
   }
 
   // Track weekly XP for leaderboard

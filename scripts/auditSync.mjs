@@ -21,11 +21,14 @@ const RESET = args.includes('--reset');
 const creds = JSON.parse(readFileSync(new URL('../secrets/qa-login.json', import.meta.url)));
 const content = JSON.parse(readFileSync(new URL('../service/content.json', import.meta.url)));
 
+// One number, two halves (docs/mobile/sync-audit.md fix 2): the desk half is
+// the study curve over desk problems, the games half is 50 times the share of
+// the chapter's games cleared, the number is the smaller of 100 and the sum.
 const STUDY_TAU = 25;
-const PHONE_CEILING = 60; // what the server enforces today (ADR 0012); the owner has chosen 50
-const PHONE_CAP_EVIDENCE = -STUDY_TAU * Math.log(1 - PHONE_CEILING / 100);
-const model = (desk, phone) =>
-  Math.round(100 * (1 - Math.exp(-(0.4 * desk + Math.min(0.4 * phone, PHONE_CAP_EVIDENCE)) / STUDY_TAU)));
+const MATH_GAMES = 48;
+const deskCurve = (desk) => Math.round(100 * (1 - Math.exp(-(0.4 * desk) / STUDY_TAU)));
+const gamesHalf = (cleared) => Math.round((50 * cleared) / MATH_GAMES);
+const model = (desk, cleared) => Math.min(100, deskCurve(desk) + gamesHalf(cleared));
 
 let token = null;
 async function api(method, path, body) {
@@ -59,6 +62,7 @@ async function snapshot(label) {
     totalXp: me.totalXp, currentStreak: me.currentStreak, badges: (me.badges || []).length,
     problemsAnswered: me.problemsAnswered,
     mathTotal: math.totalMastery ?? 0, mathStudy: math.studyScore ?? 0, mathDiag: math.diagnosticScore ?? 0,
+    mathGames: math.gamesHalf ?? 0, mathGamesCleared: math.gamesCleared ?? 0,
     studyDays: days.days, dayCount: days.count,
     dueReviews: reviewCount.count ?? reviewCount.due ?? reviewCount,
     phoneCardsToday: today.cards, lastSync: today.lastSync,
@@ -92,16 +96,18 @@ const s0 = await snapshot('start');
 // ---- phone: one game, eight rounds, all on one website problem -------------
 // Perpendicular Flip is authored from math-slq-q2 for all eight rounds, exactly
 // as the app ships it.
-const phoneRound = (itemId, r) => ({
-  eventId: randomUUID(), itemId, chapterId: 'mathematics', grade: 'gotIt', source: 'ios',
+// itemId is <problemId>:<gameId>:<round>, round 1-based, as the app sends it.
+const phoneRound = (problemId, gameId, r) => ({
+  eventId: randomUUID(), itemId: `${problemId}:${gameId}:${r + 1}`, chapterId: 'mathematics', grade: 'gotIt', source: 'ios',
   ts: Date.now() - (8 - r) * 1000, localDate: localDay(),
 });
-const batchA = { events: Array.from({ length: 8 }, (_, r) => phoneRound('math-slq-q2', r)), device: 'audit' };
+const batchA = { events: Array.from({ length: 8 }, (_, r) => phoneRound('math-slq-q2', 'perpendicular-flip', r)), device: 'audit' };
 const pushA = await api('POST', '/sync/events', batchA);
 const s1 = await snapshot('after one phone game');
 check('phone push accepted 8 new events', pushA.accepted === 8, JSON.stringify(pushA));
-check('one problem of phone evidence moves Mathematics to the model value',
-  s1.mathStudy === model(0, 1) && s1.mathTotal === s1.mathStudy, `study ${s1.mathStudy}, model ${model(0, 1)}`);
+check('one game cleared: the games half is 50 x 1/48 = 1, the desk half untouched',
+  s1.mathGamesCleared === 1 && s1.mathGames === gamesHalf(1) && s1.mathStudy === 0 && s1.mathTotal === model(0, 1),
+  `games ${s1.mathGames} (cleared ${s1.mathGamesCleared}), study ${s1.mathStudy}, total ${s1.mathTotal}`);
 check('phone XP: 8 gotIt = 40, under the 60 daily cap', s1.totalXp - s0.totalXp === 40, `+${s1.totalXp - s0.totalXp}`);
 check('a study day ticked once and today (local) is in the list',
   s1.dayCount === s0.dayCount + 1 && s1.studyDays.includes(localDay()), `count ${s0.dayCount} -> ${s1.dayCount}`);
@@ -115,10 +121,12 @@ check('a retried batch is all duplicates', pushA2.accepted === 0 && pushA2.dupli
 check('a retry moves nothing', s2.totalXp === s1.totalXp && s2.dayCount === s1.dayCount && s2.mathStudy === s1.mathStudy, '');
 
 // ---- phone: three more games on four more distinct problems ---------------
-const batchB = { events: ['math-slq-q1', 'math-slq-q3', 'math-log-q1', 'math-log-q2'].map((id, i) => phoneRound(id, i)), device: 'audit' };
+// Four single rounds of four other games: none cleared, so the games half
+// does not move; the rounds still count as phone work and XP.
+const batchB = { events: [['math-slq-q1', 'grade-sense'], ['math-slq-q3', 'discriminant-gate'], ['math-log-q1', 'rule-or-trap'], ['math-log-q2', 'one-log']].map(([id, g], i) => phoneRound(id, g, i)), device: 'audit' };
 await api('POST', '/sync/events', batchB);
-const s3 = await snapshot('after four more problems on the phone');
-check('five phone-only problems -> the model value', s3.mathStudy === model(0, 5), `study ${s3.mathStudy}, model ${model(0, 5)}`);
+const s3 = await snapshot('after four single rounds on the phone');
+check('rounds that clear no game leave both halves alone', s3.mathGames === gamesHalf(1) && s3.mathStudy === 0 && s3.mathTotal === model(0, 1), `games ${s3.mathGames}, study ${s3.mathStudy}`);
 check('phone XP capped per local day at 60', s3.totalXp - s0.totalXp === 60, `+${s3.totalXp - s0.totalXp} total from 12 gotIt (=60 uncapped, cap 60)`);
 check('still one study day', s3.dayCount === s1.dayCount, `${s3.dayCount}`);
 
@@ -130,7 +138,7 @@ const mathIds = Object.entries(idx).filter(([, m]) => (m.chapterId || m.topicId)
 const session = { topicId: 'mathematics', answers: mathIds.map((problemId) => ({ problemId, isCorrect: true })), localDate: localDay(), durationSeconds: 120 };
 await api('POST', '/sessions', session);
 const s4 = await snapshot('after one website session');
-check('desk evidence adds in full: 5 desk + 5 phone -> the model value', s4.mathStudy === model(5, 5), `study ${s4.mathStudy}, model ${model(5, 5)}`);
+check('five desk problems: the desk half is the curve, the number is desk + games', s4.mathStudy === deskCurve(5) && s4.mathTotal === model(5, 1), `study ${s4.mathStudy} (curve ${deskCurve(5)}), total ${s4.mathTotal} (model ${model(5, 1)})`);
 check('website XP: 5 correct + session bonus = 75', s4.totalXp - s3.totalXp === 75, `+${s4.totalXp - s3.totalXp}`);
 const sameDay = utcDay() === localDay();
 check(sameDay ? 'same UTC and local day: the study day did not tick twice' : 'UTC day differs from local day: a second day was ticked for one evening (the two-clock gap)',
@@ -142,9 +150,9 @@ check('badges: awarded on the web path, catching up on phone XP', s4.badges > s3
 check('problems answered counts both surfaces', s4.problemsAnswered === 10, `${s4.problemsAnswered}`);
 
 // ---- phone re-answers a desk problem: stays desk, no double count ----------
-await api('POST', '/sync/events', { events: [phoneRound(mathIds[0], 0)], device: 'audit' });
+await api('POST', '/sync/events', { events: [phoneRound(mathIds[0], 'grade-sense', 1)], device: 'audit' });
 const s5 = await snapshot('after the phone re-answers a desk problem');
-check('a desk problem answered on the phone stays desk evidence', s5.mathStudy === model(5, 5), `study ${s5.mathStudy}`);
+check('a desk problem answered on the phone stays desk evidence', s5.mathStudy === deskCurve(5) && s5.mathTotal === model(5, 1), `study ${s5.mathStudy}`);
 check('problems answered is still 10 distinct', s5.problemsAnswered === 10, `${s5.problemsAnswered}`);
 check(sameDay ? 'same day: no extra tick from the late phone round' : 'the late phone round ticked a THIRD day for one evening (the two-clock gap, both directions)',
   sameDay ? s5.dayCount === s4.dayCount : s5.dayCount === s4.dayCount + 1, `${s4.dayCount} -> ${s5.dayCount}`);
@@ -155,7 +163,7 @@ check('the event log holds every round from both surfaces', s5.eventsOnServer ==
 // ---- report ---------------------------------------------------------------
 const snaps = [s0, s1, s2, s3, s4, s5];
 console.log('\nsnapshots');
-for (const k of ['totalXp', 'currentStreak', 'dayCount', 'badges', 'problemsAnswered', 'mathStudy', 'mathTotal', 'dueReviews', 'phoneCardsToday', 'eventsOnServer']) {
+for (const k of ['totalXp', 'currentStreak', 'dayCount', 'badges', 'problemsAnswered', 'mathStudy', 'mathGames', 'mathTotal', 'dueReviews', 'phoneCardsToday', 'eventsOnServer']) {
   console.log(`  ${k.padEnd(18)} ${snaps.map((s) => String(s[k]).padStart(6)).join('')}`);
 }
 console.log(`  ${'labels'.padEnd(18)} ${snaps.map((s, i) => `s${i}`.padStart(6)).join('')}`);

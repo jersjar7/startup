@@ -97,6 +97,14 @@ async function getPhoneActivity(email, localDate) {
   };
 }
 
+/** Every phone event (any source but web) for one chapter: the games half reads these. */
+async function getPhoneEventsForChapter(email, chapterId) {
+  return reviewEventsCollection
+    .find({ email, chapterId, source: { $ne: 'web' } })
+    .project({ itemId: 1, grade: 1, source: 1 })
+    .toArray();
+}
+
 /** Grade tallies for a local day's phone events (XP cap accounting). */
 async function getPhoneGradeCounts(email, localDate) {
   const rows = await reviewEventsCollection
@@ -108,4 +116,4 @@ async function getPhoneGradeCounts(email, localDate) {
   return counts;
 }
 
-module.exports = { insertReviewEvents, getReviewEventsSince, getPhoneActivity, getPhoneGradeCounts };
+module.exports = { insertReviewEvents, getReviewEventsSince, getPhoneActivity, getPhoneGradeCounts, getPhoneEventsForChapter };

@@ -10,6 +10,7 @@ import 'package:mobile/features/profile/exam_date_screen.dart';
 import 'package:mobile/features/profile/mastery_model.dart';
 import 'package:mobile/features/profile/mastery_screen.dart';
 import 'package:mobile/features/profile/study_days_screen.dart';
+import 'package:mobile/features/study/content_repository.dart';
 import 'package:mobile/features/study/study_tab.dart' show appClock;
 
 import 'support/fonts.dart';
@@ -45,7 +46,8 @@ void _phone(WidgetTester tester, [double height = 844]) {
   addTearDown(tester.view.reset);
 }
 
-const _sample = <String, int>{
+/// Both halves per chapter: total, and the games share of it.
+const _totals = <String, int>{
   'mathematics': 62,
   'statistics': 35,
   'ethics': 84,
@@ -58,6 +60,17 @@ const _sample = <String, int>{
   'structural': 16,
   'transportation': 6,
 };
+const _games = <String, int>{'mathematics': 30, 'ethics': 50, 'statics': 20};
+final _sample = <String, ChapterMastery>{
+  for (final e in _totals.entries)
+    e.key: ChapterMastery(
+      total: e.value,
+      desk: e.value - (_games[e.key] ?? 0),
+      games: _games[e.key] ?? 0,
+      gamesCleared: _games[e.key] == null ? 0 : 5,
+      gamesTotal: 10,
+    ),
+};
 
 void main() {
   setUpAll(loadBrandFonts);
@@ -67,7 +80,7 @@ void main() {
   test('the weighted figure is the website\'s, not a plain average', () {
     // 62*13 + 35*4 + 84*4 + 51*4 + 48*8 + 12*4 + 27*8 + 9*4 + 21*14 + 16*13 + 6*10
     // = 806+140+336+204+384+48+216+36+294+208+60 = 2732, over 110 questions.
-    expect(weightedMastery(_sample), 25);
+    expect(weightedMastery(totalsOf(_sample)), 25);
     expect(weightedMastery({}), 0);
     expect(stageName(84), 'Mastered');
     expect(stageName(51), 'Familiar');
@@ -77,20 +90,22 @@ void main() {
 
   test('focus is low mastery times high weight, mastered chapters out', () {
     expect(
-      focusChapters(_sample),
+      focusChapters(totalsOf(_sample)),
       // (100-21)*14 = 1106, (100-0)*11 = 1100, (100-16)*13 = 1092.
       ['water-resources', 'geotechnical', 'structural'],
     );
-    expect(focusChapters(_sample).first, 'water-resources');
+    expect(focusChapters(totalsOf(_sample)).first, 'water-resources');
     expect(focusChapters({'ethics': 95}), isNot(contains('ethics')));
   });
 
   testWidgets('concept mastery: the breakdown', (tester) async {
     _phone(tester, 1700);
-    await tester.pumpWidget(_app(const MasteryScreen(mastery: _sample)));
+    await tester.pumpWidget(_app(MasteryScreen(mastery: _sample)));
     await _settle(tester);
     expect(find.text('25%', findRichText: true), findsOneWidget);
     expect(find.text('MASTERED'), findsOneWidget); // ethics
+    expect(find.text('games 50 of 50'), findsOneWidget); // ethics, the cap
+    expect(find.text('games 30 of 50'), findsOneWidget); // mathematics
     await expectLater(
       find.byType(MaterialApp),
       matchesGoldenFile('goldens/home/mastery.png'),

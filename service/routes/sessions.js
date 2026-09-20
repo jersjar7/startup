@@ -2,7 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const uuid = require('uuid');
 const DB = require('../database.js');
-const { calculateEarnedMastery, computeStudyMastery } = require('../mastery.js');
+const { calculateEarnedMastery, computeStudyMastery, composeMastery } = require('../mastery.js');
 const { XP, sessionXp } = require('../xp.js');
 const { calculateStreak } = require('../streak.js');
 const { dayFor } = require('../studyDays.js');
@@ -107,12 +107,9 @@ router.post('/', verifyAuth, async (req, res) => {
   const chapterHistory = await DB.getProblemHistoryForChapter(email, topicId);
   const studyScore = computeStudyMastery(chapterHistory);
   const chapterMastery = { ...(currentStats.chapterMastery || {}) };
-  const existingCM = chapterMastery[topicId] || { diagnosticScore: 0 };
-  chapterMastery[topicId] = {
-    diagnosticScore: existingCM.diagnosticScore || 0,
-    studyScore,
-    totalMastery: Math.max(existingCM.diagnosticScore || 0, studyScore),
-  };
+  // One formula (mastery.js composeMastery): the games half stays as the
+  // phone last left it, the desk half moves.
+  chapterMastery[topicId] = composeMastery({ ...(chapterMastery[topicId] || {}), studyScore });
 
   // Build updated stats for badge evaluation
   // Track weekly XP for leaderboard

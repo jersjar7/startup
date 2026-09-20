@@ -386,11 +386,29 @@
 
 /* Percentage-based mastery bar (new 4-tier system) */
 .mastery-bar-pct {
+  position: relative;
   width: 72px;
   height: 6px;
   background: var(--gray-200);
   border-radius: 3px;
   overflow: hidden;
+}
+
+/* The games half stops here: a hairline at 50 on every chapter bar. */
+.mastery-bar-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: var(--charcoal);
+  opacity: 0.35;
+}
+
+.ch-games {
+  font-weight: 500;
+  color: var(--charcoal);
+  opacity: 0.7;
 }
 
 .mastery-bar-fill {

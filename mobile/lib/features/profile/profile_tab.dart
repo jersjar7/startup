@@ -35,7 +35,7 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
-  late Future<Map<String, int>> _mastery; // chapterId -> percent
+  late Future<Map<String, ChapterMastery>> _mastery; // chapterId -> both halves
 
   @override
   void initState() {
@@ -128,13 +128,13 @@ class _ProfileTabState extends State<ProfileTab> {
                 ],
               ),
               const SizedBox(height: 10),
-              FutureBuilder<Map<String, int>>(
+              FutureBuilder<Map<String, ChapterMastery>>(
                 future: _mastery,
                 builder: (context, snap) {
                   final m = snap.data;
                   return _MasteryRow(
                     // The website's weighting, so one number shows everywhere.
-                    pct: m == null ? null : weightedMastery(m),
+                    pct: m == null ? null : weightedMastery(totalsOf(m)),
                     onTap: m == null
                         ? null
                         : () => Navigator.of(context).push(

@@ -275,11 +275,15 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     if (pct >= 10) return 'Building';
     return 'New';
   };
+  // One number, two halves: the desk half (practice, review, the diagnostic)
+  // can take a chapter to 100 on its own; the games half from the phone is 50
+  // times the share of the chapter's games cleared, at most 50.
   const getProgress = (chapter) => {
     const cm = chapterMastery[chapter.id];
     const pct = cm && cm.totalMastery > 0 ? cm.totalMastery : 0;
     return {
       masteryPct: pct,
+      gamesHalf: cm && cm.gamesHalf > 0 ? Math.min(50, cm.gamesHalf) : 0,
       masteryName: stageName(pct),
       decaying: false,
     };
@@ -524,14 +528,16 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                   <Icon weight="bold" size={18} className={`ch-icon-d ch-icon-d--${ch.accent}`} />
                   <span className="ch-name-d">{ch.name}</span>
                   <div className="ch-mastery">
-                    <div className="mastery-bar-pct">
+                    <div className="mastery-bar-pct" title="Games on the phone reach the mark; the desk takes it the rest of the way">
                       <div
                         className="mastery-bar-fill"
                         style={{ width: `${pct}%`, background: barColor }}
                       />
+                      <span className="mastery-bar-mark" aria-hidden="true" />
                     </div>
                     <span className="ch-status" style={pct > 0 ? { color: barColor, fontWeight: 600 } : undefined}>
                       {pctLabel ? `${prog.masteryName} · ${pctLabel}` : prog.masteryName}
+                      {prog.gamesHalf > 0 ? <span className="ch-games"> · games {prog.gamesHalf}/50</span> : null}
                     </span>
                   </div>
                   {/* badge color encodes exam weight (one scale), not the chapter's accent */}

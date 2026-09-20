@@ -2,6 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { calculateStreak } = require('../streak.js');
+const { composeMastery } = require('../mastery.js');
 const { dayFor } = require('../studyDays.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -111,22 +112,15 @@ router.post('/submit', verifyAuth, async (req, res) => {
   const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
 
   // Build chapter mastery from diagnostic
-  const existingMastery = currentStats.chapterMastery || {};
-  const chapterMastery = {};
+  // Keep every chapter the account already has (audit F10: this used to
+  // rebuild from an empty object and drop unknown keys); raise the
+  // diagnostic score where the diagnostic measured one, never lower it.
+  const chapterMastery = { ...(currentStats.chapterMastery || {}) };
   for (const ch of CHAPTERS) {
-    const existing = existingMastery[ch] || { diagnosticScore: 0, studyScore: 0, totalMastery: 0 };
-    const newDiagnosticScore = chapterScores[ch].masterySeeded;
-    // Take the higher diagnostic score (in case of retake improvement)
-    const diagnosticScore = Math.max(existing.diagnosticScore || 0, newDiagnosticScore);
-    const studyScore = existing.studyScore || 0;
-    chapterMastery[ch] = {
-      diagnosticScore,
-      studyScore,
-      // ONE formula everywhere (matches /api/sessions and /api/review): the
-      // diagnostic seeds familiarity, study proves it — take the stronger
-      // signal, never the inflated sum.
-      totalMastery: Math.max(diagnosticScore, studyScore),
-    };
+    const existing = chapterMastery[ch] || {};
+    const diagnosticScore = Math.max(existing.diagnosticScore || 0, chapterScores[ch].masterySeeded);
+    // ONE formula everywhere (mastery.js composeMastery).
+    chapterMastery[ch] = composeMastery({ ...existing, diagnosticScore });
   }
 
   const updatedStats = {

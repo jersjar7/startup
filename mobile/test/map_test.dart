@@ -131,6 +131,51 @@ void main() {
     );
   });
 
+  testWidgets('every game cleared: the map hands off to the desk', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    final p = GameProgress.instance;
+    for (final lesson in constructionMap.lessons) {
+      for (final game in lesson.builtGames) {
+        for (var r = 0; r < game.rounds; r++) {
+          p.markRoundCleared(game.id, r, firstTry: true);
+        }
+      }
+    }
+    addTearDown(() {
+      for (final lesson in constructionMap.lessons) {
+        for (final game in lesson.builtGames) {
+          p.reset(game.id);
+        }
+      }
+    });
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.light,
+        debugShowCheckedModeBanner: false,
+        home: const ChapterMapScreen(chapter: constructionMap),
+      ),
+    );
+    await tester.runAsync(
+      () => Future<void>.delayed(const Duration(milliseconds: 60)),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('7 of 7 cleared'), findsOneWidget);
+    expect(
+      find.text('Games have taken this chapter as far as they can.'),
+      findsOneWidget,
+    );
+    await expectLater(
+      find.byType(MaterialApp),
+      matchesGoldenFile('goldens/00-map/construction-handoff.png'),
+    );
+  });
+
   test('every plinth is a readable tone apart from its own face', () {
     // The finished node once had half the separation of the untouched one and
     // read as a misshapen circle. The plinth is derived from the face now, and

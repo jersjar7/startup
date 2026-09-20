@@ -2,6 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { calculateStreak } = require('../streak.js');
+const { composeMastery } = require('../mastery.js');
 const { dayFor } = require('../studyDays.js');
 const { XP, diagnosticXp } = require('../xp.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -143,16 +144,13 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
   // Merge the familiarity read into chapterMastery — never lower an existing
   // score (a re-sample or a prior study run keeps its higher value).
   const existingMastery = currentStats.chapterMastery || {};
-  const prev = existingMastery[chapterId] || { diagnosticScore: 0, studyScore: 0, totalMastery: 0 };
+  const prev = existingMastery[chapterId] || {};
   const diagnosticScore = Math.max(prev.diagnosticScore || 0, familiarity);
-  const studyScore = prev.studyScore || 0;
+  // ONE formula everywhere (mastery.js composeMastery). This used to ADD the
+  // two scores (audit F5), the only writer that did.
   const chapterMastery = {
     ...existingMastery,
-    [chapterId]: {
-      diagnosticScore,
-      studyScore,
-      totalMastery: Math.min(diagnosticScore + studyScore, 100),
-    },
+    [chapterId]: composeMastery({ ...prev, diagnosticScore }),
   };
 
   // Mark the chapter sampled, keeping the canonical system order.

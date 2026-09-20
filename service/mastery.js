@@ -54,15 +54,12 @@ function masteryName(level) {
 // as evidence accrues. See docs/mastery-progress-model.md.
 const STUDY_TAU = 25; // "Balanced": ~25 retained problems ≈ 63%, ~55 ≈ ~90%.
 
-// Phone games are genuine retrieval, but tapping the right method is not proof
-// you can finish the problem on paper. Evidence that has ONLY ever come from
-// the phone is therefore capped: games alone can carry a chapter to 60% and no
-// further, and the rest has to be earned at the desk (web practice, review, or
-// the exam simulation). Owner decision, 2026-09-07; see
-// docs/adr/0012-phone-game-mastery-ceiling.md.
-const PHONE_ONLY_CEILING_PCT = 60;
-const PHONE_ONLY_EVIDENCE_CAP = -STUDY_TAU * Math.log(1 - PHONE_ONLY_CEILING_PCT / 100);
-
+// Phone rounds are not problem evidence any more (2026-09-20, owner's
+// decision, docs/mobile/sync-audit.md fix 2): the games half of a chapter is
+// 50 times the share of its games cleared (gamesHalf.js), and the desk half is
+// this curve over DESK work only. `deskAttempts` on a problemHistory row says
+// whether the desk ever touched it; rows written before source tracking have
+// none and are treated as desk work, never devalued retroactively.
 // Per-problem retention weight in [0, 1] from its problemHistory row.
 function problemRetention({ timesCorrect = 0, timesIncorrect = 0, interval = 0 } = {}) {
   if (timesCorrect <= 0) return 0;
@@ -80,24 +77,37 @@ function hasDeskEvidence(h = {}) {
   return h.deskAttempts === undefined || h.deskAttempts === null || h.deskAttempts > 0;
 }
 
-// Study mastery (0–100) for one chapter, from its problemHistory rows.
-// Desk evidence counts in full; phone-only evidence is capped so that games on
-// their own saturate at PHONE_ONLY_CEILING_PCT. The cap is applied to the
-// evidence, not the percentage, so desk work resumes the same smooth curve
-// instead of stepping.
+// Study mastery (0–100) for one chapter: the desk half, from the chapter's
+// problemHistory rows that the desk has touched. Phone-only rows count for
+// nothing here; they count in the games half instead.
 function computeStudyMastery(history = []) {
-  let deskEvidence = 0;
-  let phoneEvidence = 0;
+  let evidence = 0;
   for (const h of history) {
-    if (hasDeskEvidence(h)) deskEvidence += problemRetention(h);
-    else phoneEvidence += problemRetention(h);
+    if (hasDeskEvidence(h)) evidence += problemRetention(h);
   }
-  const evidence = deskEvidence + Math.min(phoneEvidence, PHONE_ONLY_EVIDENCE_CAP);
   return Math.round(100 * (1 - Math.exp(-evidence / STUDY_TAU)));
 }
 
+// One number, two halves. The desk half is the higher of the diagnostic and
+// the study curve, 0 to 100 on its own; the games half is 0 to 50; the
+// number is the smaller of 100 and their sum. Every writer composes a
+// chapter's entry through here, so there is exactly one formula.
+function composeMastery({ diagnosticScore = 0, studyScore = 0, gamesHalf = 0, gamesCleared = 0, gamesTotal = 0 } = {}) {
+  const desk = Math.max(diagnosticScore || 0, studyScore || 0);
+  const games = Math.max(0, Math.min(50, gamesHalf || 0));
+  return {
+    diagnosticScore: diagnosticScore || 0,
+    studyScore: studyScore || 0,
+    deskScore: desk,
+    gamesHalf: games,
+    gamesCleared: gamesCleared || 0,
+    gamesTotal: gamesTotal || 0,
+    totalMastery: Math.min(100, desk + games),
+  };
+}
+
 module.exports = {
-  calculateEarnedMastery, applyDecay, isDecaying, masteryName,
+  calculateEarnedMastery, applyDecay, isDecaying, masteryName, composeMastery,
   computeStudyMastery, problemRetention, STUDY_TAU,
-  hasDeskEvidence, PHONE_ONLY_CEILING_PCT, PHONE_ONLY_EVIDENCE_CAP,
+  hasDeskEvidence,
 };

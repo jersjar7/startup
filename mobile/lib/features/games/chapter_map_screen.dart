@@ -84,6 +84,11 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
     final cleared = widget.chapter.lessons
         .where((l) => _state[l.id] == NodeState.cleared)
         .length;
+    // Every game in the chapter cleared: the games half is at 50 and the
+    // rest is desk work. The cap is the hand-off (owner's call, 2026-09-20).
+    final gamesDone = widget.chapter.lessons.every(
+      (l) => !l.playable || _state[l.id] == NodeState.cleared,
+    );
 
     return Scaffold(
       backgroundColor: AppColors.fog,
@@ -95,7 +100,11 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _Header(chapter: widget.chapter, cleared: cleared),
+                _Header(
+                  chapter: widget.chapter,
+                  cleared: cleared,
+                  gamesDone: gamesDone,
+                ),
                 _Path(
                   chapter: widget.chapter,
                   width: box.maxWidth,
@@ -116,10 +125,15 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({required this.chapter, required this.cleared});
+  const _Header({
+    required this.chapter,
+    required this.cleared,
+    required this.gamesDone,
+  });
 
   final ChapterMap chapter;
   final int cleared;
+  final bool gamesDone;
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +171,35 @@ class _Header extends StatelessWidget {
               ),
             ],
           ),
+          if (gamesDone) ...[
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+              decoration: BoxDecoration(
+                color: AppColors.peach,
+                borderRadius: BorderRadius.circular(28),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Games have taken this chapter as far as they can.',
+                    style: AppTheme.display(
+                      size: 20,
+                      height: 1.1,
+                      tracking: -0.03,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'That is 50 of its 100. The rest is desk work on the '
+                    'website: practice, review, the exam simulation.',
+                    style: AppTheme.body(size: 14, height: 1.4),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ],
       ),
     );

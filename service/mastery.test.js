@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-const { calculateEarnedMastery, applyDecay, isDecaying, masteryName, computeStudyMastery, problemRetention, PHONE_ONLY_CEILING_PCT } = require('./mastery.js');
+const { calculateEarnedMastery, applyDecay, isDecaying, masteryName, computeStudyMastery, composeMastery, problemRetention } = require('./mastery.js');
 
 describe('calculateEarnedMastery', () => {
   it('returns 0 when no sessions completed', () => {
@@ -159,37 +159,44 @@ describe('computeStudyMastery (retrieval + spacing curve, τ=25)', () => {
   });
 });
 
-describe('phone-only mastery ceiling (games alone stop at 60%)', () => {
-  // Same rows as the curve tests above, tagged by where the answers came from.
+describe('the desk half ignores phone-only rows (the games half counts them instead)', () => {
   const phone = (n) =>
     Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21, deskAttempts: 0 }));
   const desk = (n) =>
     Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21, deskAttempts: 2 }));
   const legacy = (n) =>
-    Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21 })); // pre-ceiling rows
+    Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21 })); // pre-tracking rows
 
-  it('never passes the ceiling on phone evidence alone, however much is played', () => {
-    expect(computeStudyMastery(phone(40))).toBeLessThanOrEqual(PHONE_ONLY_CEILING_PCT);
-    expect(computeStudyMastery(phone(200))).toBe(PHONE_ONLY_CEILING_PCT);
+  it('phone-only rows add nothing to the desk half', () => {
+    expect(computeStudyMastery(phone(200))).toBe(0);
+    expect(computeStudyMastery([...phone(200), ...desk(20)])).toBe(computeStudyMastery(desk(20)));
   });
 
-  it('still moves normally below the ceiling', () => {
-    expect(computeStudyMastery(phone(20))).toBe(55);
-  });
-
-  it('leaves desk-earned mastery untouched', () => {
+  it('desk rows count in full, legacy rows as desk', () => {
     expect(computeStudyMastery(desk(40))).toBe(80);
-    expect(computeStudyMastery(desk(55))).toBe(89);
-  });
-
-  it('does not devalue rows written before source tracking existed', () => {
     expect(computeStudyMastery(legacy(40))).toBe(80);
   });
+});
 
-  it('lets desk work carry a capped chapter past the ceiling', () => {
-    const capped = computeStudyMastery(phone(200));
-    const withDesk = computeStudyMastery([...phone(200), ...desk(20)]);
-    expect(capped).toBe(PHONE_ONLY_CEILING_PCT);
-    expect(withDesk).toBeGreaterThan(PHONE_ONLY_CEILING_PCT);
+describe('composeMastery: one number, two halves', () => {
+  it('takes the higher of the diagnostic and the study curve as the desk half', () => {
+    expect(composeMastery({ diagnosticScore: 40, studyScore: 30 }).deskScore).toBe(40);
+    expect(composeMastery({ diagnosticScore: 40, studyScore: 55 }).deskScore).toBe(55);
+  });
+
+  it('adds the games half and stops at 100', () => {
+    expect(composeMastery({ studyScore: 30, gamesHalf: 20 }).totalMastery).toBe(50);
+    expect(composeMastery({ studyScore: 90, gamesHalf: 50 }).totalMastery).toBe(100);
+    expect(composeMastery({ gamesHalf: 50 }).totalMastery).toBe(50);
+    expect(composeMastery({}).totalMastery).toBe(0);
+  });
+
+  it('never lets the games half pass 50', () => {
+    expect(composeMastery({ gamesHalf: 80 }).gamesHalf).toBe(50);
+  });
+
+  it('carries the counts through for the surfaces to show', () => {
+    const m = composeMastery({ studyScore: 10, gamesHalf: 15, gamesCleared: 3, gamesTotal: 10 });
+    expect(m).toEqual({ diagnosticScore: 0, studyScore: 10, deskScore: 10, gamesHalf: 15, gamesCleared: 3, gamesTotal: 10, totalMastery: 25 });
   });
 });

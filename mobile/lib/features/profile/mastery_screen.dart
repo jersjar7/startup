@@ -5,6 +5,7 @@ import '../../core/theme/app_theme.dart';
 import '../games/game_catalog.dart';
 import '../shared/widgets/kit.dart';
 import '../study/chapter_marks.dart';
+import '../study/content_repository.dart';
 import 'mastery_model.dart';
 
 /// The breakdown behind the dark mastery row on home (reference 16): the
@@ -13,13 +14,14 @@ import 'mastery_model.dart';
 class MasteryScreen extends StatelessWidget {
   const MasteryScreen({super.key, required this.mastery});
 
-  /// chapterId -> percent, as the server reports it.
-  final Map<String, int> mastery;
+  /// chapterId -> both halves, as the server composes them.
+  final Map<String, ChapterMastery> mastery;
 
   @override
   Widget build(BuildContext context) {
-    final overall = weightedMastery(mastery);
-    final focus = focusChapters(mastery);
+    final totals = totalsOf(mastery);
+    final overall = weightedMastery(totals);
+    final focus = focusChapters(totals);
 
     return Scaffold(
       backgroundColor: AppColors.fog,
@@ -70,7 +72,8 @@ class MasteryScreen extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 'Of the concepts the FE Civil tests, weighted by how many '
-                'questions each chapter gets. Not a probability of passing.',
+                'questions each chapter gets. Games take a chapter to 50; '
+                'the desk takes it to 100. Not a probability of passing.',
                 style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
               ),
               const SizedBox(height: 22),
@@ -89,7 +92,7 @@ class MasteryScreen extends StatelessWidget {
                       Expanded(
                         child: _ChapterTile(
                           chapter: chapterMaps[focus[i]]!,
-                          pct: mastery[focus[i]] ?? 0,
+                          mastery: mastery[focus[i]],
                           fill: AppColors.peach,
                         ),
                       ),
@@ -107,14 +110,14 @@ class MasteryScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
-                childAspectRatio: 167 / 180,
+                childAspectRatio: 167 / 206,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   for (final chapter in chapterMaps.values)
                     _ChapterTile(
                       chapter: chapter,
-                      pct: mastery[chapter.id] ?? 0,
+                      mastery: mastery[chapter.id],
                     ),
                 ],
               ),
@@ -127,21 +130,23 @@ class MasteryScreen extends StatelessWidget {
 }
 
 class _ChapterTile extends StatelessWidget {
-  const _ChapterTile({required this.chapter, required this.pct, this.fill});
+  const _ChapterTile({required this.chapter, required this.mastery, this.fill});
 
   final ChapterMap chapter;
-  final int pct;
+  final ChapterMastery? mastery;
 
   /// Peach for a focus tile; otherwise spring when mastered, cream below.
   final Color? fill;
 
   @override
   Widget build(BuildContext context) {
+    final pct = mastery?.total ?? 0;
+    final games = mastery?.games ?? 0;
     final accent = fill != null;
     final color = fill ?? (pct >= 80 ? AppColors.spring : AppColors.cream);
     final muted = accent ? AppColors.charcoal : AppColors.mutedOnLight;
     return Container(
-      constraints: const BoxConstraints(minHeight: 172),
+      constraints: const BoxConstraints(minHeight: 196),
       padding: const EdgeInsets.fromLTRB(14, 16, 14, 16),
       decoration: BoxDecoration(
         color: color,
@@ -205,6 +210,13 @@ class _ChapterTile extends StatelessWidget {
             style: AppTheme.eyebrow(
               color: pct == 0 || accent ? AppColors.charcoal : muted,
             ),
+          ),
+          const SizedBox(height: 4),
+          // The games half, so the cap is visible: this much from the phone,
+          // the rest from the desk.
+          Text(
+            games == 0 ? 'games 0 of 50' : 'games $games of 50',
+            style: AppTheme.mono(size: 10.5, color: muted),
           ),
         ],
       ),

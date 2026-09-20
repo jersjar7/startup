@@ -1,4 +1,10 @@
 import '../games/game_catalog.dart';
+import '../study/content_repository.dart';
+
+/// The one number per chapter, for the weighting and the focus list.
+Map<String, int> totalsOf(Map<String, ChapterMastery> m) => {
+  for (final e in m.entries) e.key: e.value.total,
+};
 
 /// How many of the FE Civil exam's 110 questions each chapter gets, the same
 /// figures the website weights by (`src/data/exam-bank/index.js`,

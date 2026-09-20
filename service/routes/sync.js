@@ -1,7 +1,8 @@
 const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
-const { computeStudyMastery } = require('../mastery.js');
+const { computeStudyMastery, composeMastery } = require('../mastery.js');
+const { clearedGames, gamesHalf, gamesIn } = require('../gamesHalf.js');
 const { calculateStreak } = require('../streak.js');
 const { getWeekId } = require('./leaderboard.js');
 const { XP, phoneXp } = require('../xp.js');
@@ -67,18 +68,25 @@ async function ingestPhoneEvents(email, events, device) {
     touchedChapters.set(e.chapterId, true);
   }
 
-  // 2) Phone reps strengthen web mastery (one brain).
+  // 2) The games half: 50 times the share of the chapter's games cleared,
+  //    from every phone event on the chapter (gamesHalf.js). The desk half is
+  //    recomputed too, since problem history just moved; phone-only rows add
+  //    nothing to it. One formula (mastery.js composeMastery).
   const currentStats = (await DB.getUserStats(email)) || {};
   const chapterMastery = { ...(currentStats.chapterMastery || {}) };
   for (const ch of touchedChapters.keys()) {
-    const hist = await DB.getProblemHistoryForChapter(email, ch);
-    const studyScore = computeStudyMastery(hist);
-    const ex = chapterMastery[ch] || { diagnosticScore: 0 };
-    chapterMastery[ch] = {
-      diagnosticScore: ex.diagnosticScore || 0,
-      studyScore,
-      totalMastery: Math.max(ex.diagnosticScore || 0, studyScore),
-    };
+    const [hist, phoneEvents] = await Promise.all([
+      DB.getProblemHistoryForChapter(email, ch),
+      DB.getPhoneEventsForChapter(email, ch),
+    ]);
+    const cleared = clearedGames(ch, phoneEvents);
+    chapterMastery[ch] = composeMastery({
+      ...(chapterMastery[ch] || {}),
+      studyScore: computeStudyMastery(hist),
+      gamesHalf: gamesHalf(ch, cleared),
+      gamesCleared: cleared.length,
+      gamesTotal: Object.keys(gamesIn(ch)).length,
+    });
   }
 
   // 3) One streak: credit the event's CLIENT-local day (offline Tuesday
