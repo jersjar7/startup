@@ -4,22 +4,31 @@
 // consecutive-day streak (with weekly freeze), which was a daily-habit mechanic
 // that silently reset on the sporadic/weekly studier we want to encourage.
 //
-// Contract unchanged: callers pass the user's stats with the PREVIOUS
-// lastSessionDate, call this, then set lastSessionDate to `today`. The same-day
-// guard prevents double-counting multiple sessions on one day. Return shape is
-// kept identical (currentStreak = the cumulative count; longestStreak retained
-// for back-compat; freezeUsedThisWeek passed through, now unused) so none of the
-// 6 callers need to change.
+// Contract: callers pass the user's stats (with the PREVIOUS lastSessionDate
+// and the studyDays list), call this, then set lastSessionDate to the
+// returned one. `today` is the STUDENT's calendar day (studyDays.js dayFor):
+// since 2026-09-20 every writer dates the day by the client's clock, so one
+// evening is one day on every surface. A day already in the list never ticks
+// again. Return shape: currentStreak = the cumulative count; longestStreak
+// retained for back-compat; freezeUsedThisWeek passed through, now unused.
 function calculateStreak(currentStats, today) {
   const count = currentStats.currentStreak || 0;
   const freezeUsedThisWeek = currentStats.freezeUsedThisWeek || null;
+  const last = currentStats.lastSessionDate || null;
+  // The day never moves backwards: an offline day synced late keeps the
+  // newest day as the last one.
+  const lastSessionDate = last && last > today ? last : today;
 
-  // Already counted today — no change.
-  if (currentStats.lastSessionDate === today) {
+  // Already counted: today is the last day, or it is already in the list of
+  // days (a phone round after a web session on the same evening, or an
+  // offline day synced after a newer one).
+  const days = Array.isArray(currentStats.studyDays) ? currentStats.studyDays : [];
+  if (last === today || days.includes(today)) {
     return {
       currentStreak: count,
       longestStreak: Math.max(currentStats.longestStreak || 0, count),
       freezeUsedThisWeek,
+      lastSessionDate,
     };
   }
 
@@ -29,6 +38,7 @@ function calculateStreak(currentStats, today) {
     currentStreak: newCount,
     longestStreak: Math.max(currentStats.longestStreak || 0, newCount),
     freezeUsedThisWeek,
+    lastSessionDate,
   };
 }
 

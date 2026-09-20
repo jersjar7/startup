@@ -17,6 +17,7 @@ import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import { priceForEmail } from '../data/pricing';
 import '../diagnostic/diagnostic.css';
 import './exam.css';
+import { localDate } from '../data/localDate';
 
 const TIME_LIMIT = 5 * 3600 + 20 * 60; // 5h 20min in seconds
 const BREAK_AFTER_QUESTION = 55; // Halfway through — like the real FE exam
@@ -480,7 +481,7 @@ export function ExamSession({ userName, preview = false }) {
       const res = await fetch('/api/exam/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ attemptId, answers, timeUsedSeconds }),
+        body: JSON.stringify({ attemptId, answers, timeUsedSeconds, localDate: localDate() }),
       });
 
       if (!res.ok) throw new Error('Submit failed');

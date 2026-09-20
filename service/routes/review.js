@@ -5,6 +5,7 @@ const DB = require('../database.js');
 const { calculateEarnedMastery, computeStudyMastery } = require('../mastery.js');
 const { XP, reviewXp } = require('../xp.js');
 const { calculateStreak } = require('../streak.js');
+const { dayFor } = require('../studyDays.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
 const { computeDailyPlan } = require('../shared/scheduler.js');
@@ -148,7 +149,7 @@ router.post('/', verifyAuth, async (req, res) => {
     topicProgress: {},
   };
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = dayFor(req.body); // the student's day (studyDays.js)
   const streakResult = calculateStreak(currentStats, today);
 
   // Update per-topic attempted/correct counts and sessionsCompleted
@@ -201,7 +202,7 @@ router.post('/', verifyAuth, async (req, res) => {
     currentStreak: streakResult.currentStreak,
     longestStreak: streakResult.longestStreak,
     freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
-    lastSessionDate: today,
+    lastSessionDate: streakResult.lastSessionDate,
     topicProgress,
     chapterMastery,
     badges: currentStats.badges || [],

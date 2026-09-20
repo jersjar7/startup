@@ -10,6 +10,7 @@ import { getProblemById } from '../data/problemPool';
 import { computeFocusAreas } from '../data/readiness';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import './problems.css';
+import { localDate } from '../data/localDate';
 
 // States: LOADING -> SESSION -> SUMMARY
 // Within SESSION each problem: ANSWERING -> REVIEWED
@@ -189,8 +190,8 @@ export function Problems({ userName, onLogout, reviewMode = false }) {
         ? Math.round((Date.now() - sessionStartRef.current) / 1000)
         : undefined;
       const submitBody = reviewMode
-        ? { answers: updatedAnswers, durationSeconds }
-        : { topicId, answers: updatedAnswers, durationSeconds };
+        ? { answers: updatedAnswers, durationSeconds, localDate: localDate() }
+        : { topicId, answers: updatedAnswers, durationSeconds, localDate: localDate() };
 
       fetch(submitUrl, {
         method: 'POST',

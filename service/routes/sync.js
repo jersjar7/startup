@@ -116,7 +116,7 @@ async function ingestPhoneEvents(email, events, device) {
     currentStreak: streakResult.currentStreak,
     longestStreak: streakResult.longestStreak,
     freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
-    lastSessionDate: latestDay,
+    lastSessionDate: streakResult.lastSessionDate,
     totalXp: (currentStats.totalXp || 0) + xpDelta,
     weekId,
     weeklyXp,

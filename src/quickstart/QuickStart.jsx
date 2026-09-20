@@ -17,6 +17,7 @@ import { getExamBankForChapter } from '../data/exam-bank/index';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import { ChapterMap } from './ChapterMap';
 import './quickstart.css';
+import { localDate } from '../data/localDate';
 
 const DEFAULT_SEGMENT = 5;
 const DIFFICULTY_RANK = { easy: 0, medium: 1, hard: 2 };
@@ -129,7 +130,7 @@ export function QuickStart({ userName }) {
     fetch('/api/quickstart/submit-segment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chapterId, answers: payload }),
+      body: JSON.stringify({ chapterId, answers: payload, localDate: localDate() }),
     })
       .then((res) => { if (!res.ok) throw new Error(); return res.json(); })
       .then((result) => {

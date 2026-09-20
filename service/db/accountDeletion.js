@@ -8,6 +8,9 @@ const {
   examAttemptsCollection,
   funnelEventsCollection,
   sessionsCollection,
+  reviewEventsCollection,
+  paperFlagsCollection,
+  gameFeedbackCollection,
 } = require('./connection');
 
 // Remove every trace of a user across all collections — email-keyed AND
@@ -22,6 +25,10 @@ async function deleteAllUserData(email, userId) {
     sessionsCollection.deleteMany({ email }),
     diagnosticResultsCollection.deleteMany({ email }),
     funnelEventsCollection.deleteMany({ email }),
+    // The phone's log, its hand-offs and its feedback (missed until 2026-09-20).
+    reviewEventsCollection.deleteMany({ email }),
+    paperFlagsCollection.deleteMany({ email }),
+    gameFeedbackCollection.deleteMany({ email }),
     ...(userId ? [
       purchasesCollection.deleteMany({ userId }),
       examAttemptsCollection.deleteMany({ userId }),

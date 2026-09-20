@@ -14,6 +14,7 @@ import { CHAPTERS } from '../data/chapters';
 import { getDiagnosticQuestions } from '../data/exam-bank/index';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import './diagnostic.css';
+import { localDate } from '../data/localDate';
 
 const TIME_PER_QUESTION = 174.6; // 2.91 minutes in seconds
 
@@ -151,7 +152,7 @@ export function DiagnosticExam({ userName }) {
     fetch('/api/diagnostic/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ questions: questionData, timeUsedSeconds }),
+      body: JSON.stringify({ questions: questionData, timeUsedSeconds, localDate: localDate() }),
     })
       .then(res => {
         if (!res.ok) throw new Error('Submit failed');

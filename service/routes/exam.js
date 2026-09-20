@@ -2,6 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { calculateStreak } = require('../streak.js');
+const { dayFor } = require('../studyDays.js');
 const { examXp } = require('../xp.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -45,7 +46,7 @@ async function requirePurchase(req, res, next) {
 //
 // answerMap is keyed by questionId. `autoSubmitted` records that the customer
 // never pressed submit, so the result can be labelled honestly.
-async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeconds, autoSubmitted = false }) {
+async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeconds, autoSubmitted = false, localDate = null }) {
   const attemptId = attempt._id.toString();
   const {
     scoredQuestions, chapterScores, totalCorrect, totalAttempted, overallPercentage,
@@ -87,7 +88,7 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
     lastSessionDate: null, topicProgress: {}, badges: [],
   };
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = dayFor({ localDate }); // the student's day; UTC on an expiry
   const streakResult = calculateStreak(currentStats, today);
   const weekId = getWeekId();
   const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
@@ -100,7 +101,7 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
     currentStreak: streakResult.currentStreak,
     longestStreak: streakResult.longestStreak,
     freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
-    lastSessionDate: today,
+    lastSessionDate: streakResult.lastSessionDate,
     topicProgress: currentStats.topicProgress || {},
     badges: currentStats.badges || [],
     diagnosticCompleted: currentStats.diagnosticCompleted,
@@ -363,6 +364,7 @@ router.post('/submit', verifyAuth, requirePurchase, async (req, res) => {
 
   const result = await finalizeAttempt({
     attempt, userId, email, answerMap, timeUsedSeconds, autoSubmitted: false,
+    localDate: req.body.localDate,
   });
   res.send(result);
   } catch (err) {

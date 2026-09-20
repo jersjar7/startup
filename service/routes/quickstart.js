@@ -2,6 +2,7 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { calculateStreak } = require('../streak.js');
+const { dayFor } = require('../studyDays.js');
 const { XP, diagnosticXp } = require('../xp.js');
 const { getWeekId } = require('./leaderboard.js');
 
@@ -134,7 +135,7 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
     lastSessionDate: null, topicProgress: {}, badges: [],
   };
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = dayFor(req.body); // the student's day (studyDays.js)
   const streakResult = calculateStreak(currentStats, today);
   const weekId = getWeekId();
   const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
@@ -168,7 +169,7 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
     currentStreak: streakResult.currentStreak,
     longestStreak: streakResult.longestStreak,
     freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
-    lastSessionDate: today,
+    lastSessionDate: streakResult.lastSessionDate,
     chapterMastery,
     quickstartSampled,
   });

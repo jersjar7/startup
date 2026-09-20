@@ -29,6 +29,7 @@ import { useShuffledChoices } from '../utils/shuffleChoices';
 import { LessonContent } from '../components/LessonContent';
 import { DIAGRAM_REGISTRY } from '../components/diagrams';
 import './lesson.css';
+import { localDate } from '../data/localDate';
 
 /* ── Problem diagram renderer ── */
 function ProblemDiagram({ diagram, className = 'lesson-diagram' }) {
@@ -192,7 +193,7 @@ export function LessonPage({ userName }) {
     fetch('/api/sessions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topicId: chapterId, answers: sessionAnswers }),
+      body: JSON.stringify({ topicId: chapterId, answers: sessionAnswers, localDate: localDate() }),
     })
       .then((res) => {
         if (!res.ok) throw new Error('Session save failed');

@@ -98,4 +98,16 @@ describe('calculateStreak (cumulative days studied)', () => {
     expect(result.currentStreak).toBe(4);
     expect(result.longestStreak).toBe(4);
   });
+
+  it('does not tick a day that is already in the list (one evening, two clocks)', () => {
+    const r = calculateStreak({ currentStreak: 2, lastSessionDate: '2026-09-20', studyDays: ['2026-09-19', '2026-09-20'] }, '2026-09-19');
+    expect(r.currentStreak).toBe(2);
+    expect(r.lastSessionDate).toBe('2026-09-20');
+  });
+
+  it('ticks an older offline day once and keeps the newest day as the last', () => {
+    const r = calculateStreak({ currentStreak: 2, lastSessionDate: '2026-09-20', studyDays: ['2026-09-18', '2026-09-20'] }, '2026-09-17');
+    expect(r.currentStreak).toBe(3);
+    expect(r.lastSessionDate).toBe('2026-09-20');
+  });
 });

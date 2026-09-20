@@ -55,4 +55,14 @@ function collectStudyDays({ sessions = [], events = [], diagnostics = [], attemp
   return [...days].sort();
 }
 
-module.exports = { studyDayUpdate, collectStudyDays, utcDay, DAY_RE };
+/**
+ * The day a write counts toward: the student's own calendar day when the
+ * client sent one (`localDate`, YYYY-MM-DD), else the server's UTC day. The
+ * website and the phone both send it, so an evening's work lands on one day.
+ */
+function dayFor(body) {
+  const d = body && body.localDate;
+  return typeof d === 'string' && DAY_RE.test(d) ? d : utcDay(new Date());
+}
+
+module.exports = { studyDayUpdate, collectStudyDays, utcDay, dayFor, DAY_RE };
