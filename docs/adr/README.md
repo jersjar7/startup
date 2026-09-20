@@ -44,8 +44,12 @@ that supersedes it, so the history of thinking stays readable.
 | [0010](0010-uncollected-purchases-are-not-revenue.md) | A granted purchase we were never paid for is not revenue | 2026-08-28 | Accepted |
 | [0011](0011-a-refund-revokes-the-product.md) | A refund revokes the product, and `status` is how we say so | 2026-09-07 | Accepted |
 | [0012](0012-phone-game-mastery-ceiling.md) | Phone games feed the one mastery number, capped at 60 percent | 2026-09-07 | Superseded by [0013](0013-games-keep-their-own-score.md) |
-| [0013](0013-games-keep-their-own-score.md) | Games keep their own score; mastery stays desk-earned | 2026-09-12 | Accepted, amended by [0014](0014-no-scheduled-review-on-the-phone.md) |
+| [0013](0013-games-keep-their-own-score.md) | Games keep their own score; mastery stays desk-earned | 2026-09-12 | Superseded in part by [0017](0017-mastery-one-number-two-halves.md); amended by [0014](0014-no-scheduled-review-on-the-phone.md) |
 | [0014](0014-no-scheduled-review-on-the-phone.md) | No scheduled review on the phone; the student chooses what to revisit | 2026-09-12 | Accepted |
+| [0015](0015-the-home-is-one-chapter.md) | The phone's home is one chapter and one button | 2026-09-13 | Accepted |
+| [0016](0016-mobile-app-language-and-palette.md) | The phone gets its own app language and a palette derived from the brand | 2026-09-18 | Accepted |
+| [0017](0017-mastery-one-number-two-halves.md) | Mastery is one number with two halves: the desk to 100, the games to 50 | 2026-09-20 | Accepted |
+| [0018](0018-one-record-per-account.md) | One record per account: the server holds the truth, both surfaces are views | 2026-09-20 | Proposed |
 
 Records 0002–0005 were written on 2026-08-04, backfilled from commit messages.
 The **Date** column is when the decision was made, not when it was written up.

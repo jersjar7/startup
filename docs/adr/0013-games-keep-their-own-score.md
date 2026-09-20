@@ -4,7 +4,10 @@ Date: 2026-09-12
 
 ## Status
 
-Accepted. Supersedes
+Accepted, then superseded in part by
+[0017](0017-mastery-one-number-two-halves.md) on 2026-09-20: games keep
+their own count on the phone, but mastery is one number with a games half
+again, capped at 50. Supersedes
 [0012](0012-phone-game-mastery-ceiling.md), which had phone games feeding the
 one mastery number under a 60 percent ceiling.
 
