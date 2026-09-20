@@ -3,6 +3,7 @@ const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { calculateStreak } = require('../streak.js');
 const { dayFor } = require('../studyDays.js');
+const { composeMastery, computeStudyMastery } = require('../mastery.js');
 const { examXp } = require('../xp.js');
 const { evaluateBadges, getBadgeDetails } = require('../badges.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -93,6 +94,20 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
   const weekId = getWeekId();
   const currentWeeklyXp = currentStats.weekId === weekId ? (currentStats.weeklyXp || 0) : 0;
 
+  // The simulation is desk work (audit F6): every ANSWERED question lands
+  // on its problem's history like a practice answer, and the chapters it
+  // touched recompute their desk half. A blank is a miss on the real exam
+  // but says nothing about the concept, so it writes no history.
+  const answered = scoredQuestions.filter((q) => q.selectedAnswerId && q.id && q.chapterId);
+  for (const q of answered) {
+    await DB.upsertProblemHistory(email, q.id, q.chapterId, q.isCorrect, 'desk');
+  }
+  const chapterMastery = { ...(currentStats.chapterMastery || {}) };
+  for (const ch of new Set(answered.map((q) => q.chapterId))) {
+    const hist = await DB.getProblemHistoryForChapter(email, ch);
+    chapterMastery[ch] = composeMastery({ ...(chapterMastery[ch] || {}), studyScore: computeStudyMastery(hist) });
+  }
+
   const updatedStats = {
     email,
     totalXp: currentStats.totalXp + xpTotal,
@@ -106,7 +121,7 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
     badges: currentStats.badges || [],
     diagnosticCompleted: currentStats.diagnosticCompleted,
     diagnosticAttempts: currentStats.diagnosticAttempts,
-    chapterMastery: currentStats.chapterMastery || {},
+    chapterMastery,
   };
 
   const newBadgeIds = evaluateBadges(updatedStats, { correct: totalCorrect, total: attempt.totalQuestions });

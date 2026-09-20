@@ -1,5 +1,6 @@
 const { userStatsCollection, problemHistoryCollection, sessionLogCollection } = require('./connection');
 const { studyDayUpdate } = require('../studyDays.js');
+const { nextMaturity } = require('../mastery.js');
 
 // Reviews are WEAK-SPOTS-ONLY and graduate out (study-load policy "B", 2026-06-29).
 // The old model scheduled EVERY solved problem and never let it graduate, so the
@@ -99,12 +100,18 @@ async function upsertProblemHistory(email, problemId, topicId, isCorrect, source
   const deskAttempts =
     (existing?.deskAttempts ?? (existing ? 1 : 0)) + (source === 'desk' ? 1 : 0);
 
+  // Maturity (mastery.js nextMaturity): a right desk answer after a gap
+  // grows the interval the retention weight reads.
+  const { interval, lastCorrectAt } = nextMaturity(existing || {}, { isCorrect, today, source });
+
   const fields = {
     topicId,
     lastSeen: today,
     timesCorrect,
     timesIncorrect,
     deskAttempts,
+    interval,
+    lastCorrectAt,
     reviewActive,
     correctSinceMiss,
     // Only carry a due date while actively in the queue.

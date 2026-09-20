@@ -3,6 +3,7 @@ const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { calculateStreak } = require('../streak.js');
 const { composeMastery } = require('../mastery.js');
+const { evaluateBadges } = require('../badges.js');
 const { dayFor } = require('../studyDays.js');
 const { XP, diagnosticXp } = require('../xp.js');
 const { getWeekId } = require('./leaderboard.js');
@@ -160,7 +161,16 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
 
   // $set-merge (see db/stats.js): only these fields change; topicProgress,
   // badges, diagnosticCompleted, etc. are preserved.
+  // Badges (audit F7): the quick start pays out what it earns, like every
+  // other desk writer.
+  const newBadgeIds = evaluateBadges(
+    { ...currentStats, totalXp: currentStats.totalXp + xpTotal, currentStreak: streakResult.currentStreak, longestStreak: streakResult.longestStreak, badges: currentStats.badges || [] },
+    { correct, total },
+  );
+  const badges = newBadgeIds.length ? [...(currentStats.badges || []), ...newBadgeIds] : (currentStats.badges || []);
+
   await DB.updateUserStats(email, {
+    badges,
     totalXp: (currentStats.totalXp || 0) + xpTotal,
     weekId,
     weeklyXp: currentWeeklyXp + xpTotal,

@@ -106,7 +106,32 @@ function composeMastery({ diagnosticScore = 0, studyScore = 0, gamesHalf = 0, ga
   };
 }
 
+// ── Maturity: how a problem's interval grows ────────────────────────────────
+// The spaced-repetition maturity that problemRetention reads was never
+// written before 2026-09-20 (audit F1), so every problem sat at the lowest
+// weight and the desk could not reach 100. The rule: a DESK answer that is
+// right, given `gap` days after the previous right answer, sets the interval
+// to the larger of the old interval and that gap; a wrong answer resets it.
+// Phone rounds never mature a problem (they are the games half instead).
+function daysBetween(fromDay, toDay) {
+  if (!fromDay || !toDay) return 0;
+  const a = new Date(`${fromDay}T00:00:00Z`).getTime();
+  const b = new Date(`${toDay}T00:00:00Z`).getTime();
+  if (Number.isNaN(a) || Number.isNaN(b)) return 0;
+  return Math.max(0, Math.round((b - a) / 86400000));
+}
+
+function nextMaturity(existing = {}, { isCorrect, today, source = 'desk' }) {
+  const interval = existing.interval || 0;
+  const lastCorrectAt = existing.lastCorrectAt || null;
+  if (source !== 'desk') return { interval, lastCorrectAt };
+  if (!isCorrect) return { interval: 0, lastCorrectAt };
+  const gap = daysBetween(lastCorrectAt, today);
+  return { interval: Math.max(interval, gap), lastCorrectAt: today };
+}
+
 module.exports = {
+  nextMaturity, daysBetween,
   calculateEarnedMastery, applyDecay, isDecaying, masteryName, composeMastery,
   computeStudyMastery, problemRetention, STUDY_TAU,
   hasDeskEvidence,

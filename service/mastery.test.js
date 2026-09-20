@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-const { calculateEarnedMastery, applyDecay, isDecaying, masteryName, computeStudyMastery, composeMastery, problemRetention } = require('./mastery.js');
+const { calculateEarnedMastery, applyDecay, isDecaying, masteryName, computeStudyMastery, composeMastery, nextMaturity, problemRetention } = require('./mastery.js');
 
 describe('calculateEarnedMastery', () => {
   it('returns 0 when no sessions completed', () => {
@@ -198,5 +198,34 @@ describe('composeMastery: one number, two halves', () => {
   it('carries the counts through for the surfaces to show', () => {
     const m = composeMastery({ studyScore: 10, gamesHalf: 15, gamesCleared: 3, gamesTotal: 10 });
     expect(m).toEqual({ diagnosticScore: 0, studyScore: 10, deskScore: 10, gamesHalf: 15, gamesCleared: 3, gamesTotal: 10, totalMastery: 25 });
+  });
+});
+
+describe('nextMaturity: a right desk answer after a gap grows the interval', () => {
+  it('starts at zero on the first right answer and remembers the day', () => {
+    expect(nextMaturity({}, { isCorrect: true, today: '2026-09-01' })).toEqual({ interval: 0, lastCorrectAt: '2026-09-01' });
+  });
+
+  it('grows to the gap since the last right answer, and never shrinks on a right answer', () => {
+    const a = nextMaturity({ interval: 0, lastCorrectAt: '2026-09-01' }, { isCorrect: true, today: '2026-09-09' });
+    expect(a).toEqual({ interval: 8, lastCorrectAt: '2026-09-09' });
+    const b = nextMaturity(a, { isCorrect: true, today: '2026-09-12' });
+    expect(b.interval).toBe(8);
+    const c = nextMaturity(b, { isCorrect: true, today: '2026-10-05' });
+    expect(c.interval).toBe(23);
+  });
+
+  it('a wrong answer resets the interval', () => {
+    expect(nextMaturity({ interval: 23, lastCorrectAt: '2026-10-05' }, { isCorrect: false, today: '2026-10-06' })).toEqual({ interval: 0, lastCorrectAt: '2026-10-05' });
+  });
+
+  it('phone rounds do not mature a problem', () => {
+    expect(nextMaturity({ interval: 8, lastCorrectAt: '2026-09-09' }, { isCorrect: true, today: '2026-10-09', source: 'phone' })).toEqual({ interval: 8, lastCorrectAt: '2026-09-09' });
+  });
+
+  it('feeds the retention weight the model documents: 0.4, then 0.7 at 7 days, 1.0 at 21', () => {
+    expect(problemRetention({ timesCorrect: 1, interval: 0 })).toBeCloseTo(0.4);
+    expect(problemRetention({ timesCorrect: 1, interval: 8 })).toBeCloseTo(0.7);
+    expect(problemRetention({ timesCorrect: 1, interval: 23 })).toBe(1);
   });
 });

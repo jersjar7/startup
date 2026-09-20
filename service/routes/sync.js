@@ -6,6 +6,7 @@ const { clearedGames, gamesHalf, gamesIn } = require('../gamesHalf.js');
 const { calculateStreak } = require('../streak.js');
 const { getWeekId } = require('./leaderboard.js');
 const { XP, phoneXp } = require('../xp.js');
+const { evaluateBadges } = require('../badges.js');
 
 const router = express.Router();
 
@@ -119,8 +120,21 @@ async function ingestPhoneEvents(email, events, device) {
   // events; the human label comes from the client (never assume iPhone).
   const latest = phone.reduce((a, b) => (b.ts > a.ts ? b : a));
 
+  // 5) Badges (audit F7): the phone earns them the same as the desk, and
+  //    the count on the account sheet moves the moment they land.
+  const forBadges = {
+    ...currentStats,
+    totalXp: (currentStats.totalXp || 0) + xpDelta,
+    currentStreak: streakResult.currentStreak,
+    longestStreak: streakResult.longestStreak,
+    badges: currentStats.badges || [],
+  };
+  const newBadgeIds = evaluateBadges(forBadges, { correct: 0, total: 0 });
+  const badges = newBadgeIds.length ? [...forBadges.badges, ...newBadgeIds] : forBadges.badges;
+
   await DB.updateUserStats(email, {
     chapterMastery,
+    badges,
     currentStreak: streakResult.currentStreak,
     longestStreak: streakResult.longestStreak,
     freezeUsedThisWeek: streakResult.freezeUsedThisWeek,
