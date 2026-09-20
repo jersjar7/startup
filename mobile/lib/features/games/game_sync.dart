@@ -28,10 +28,12 @@ class GameEvent {
   String get itemId => '$sourceProblemId:$gameId:$round';
 }
 
-/// Pushes game results into the SAME pipeline the phone's cards and the web
-/// already use (`POST /api/sync/events`): one brain, one mastery number, one
-/// streak. Phone XP is derived server-side and capped there, and phone-only
-/// evidence is capped at 60% chapter mastery (see service/mastery.js).
+/// Pushes game results into the SAME pipeline the web already uses
+/// (`POST /api/sync/events`): one brain, one mastery number, one streak.
+/// Phone XP is derived server-side and capped there; the games half of a
+/// chapter's mastery is 50 times the share of its games cleared, read from
+/// these events (service/gamesHalf.js). [pullAll] reads the whole log back,
+/// which is how a new phone rebuilds its map.
 class GameSync {
   GameSync(this._api);
 
@@ -75,5 +77,32 @@ class GameSync {
     } catch (_) {
       return false;
     }
+  }
+
+  /// Every event on the account, oldest first, from `GET /api/sync/changes`
+  /// (paged by cursor, 500 a page). Empty on any failure: the caller keeps
+  /// what it has.
+  Future<List<Map<String, dynamic>>> pullAll() async {
+    final out = <Map<String, dynamic>>[];
+    String? cursor;
+    try {
+      for (var page = 0; page < 40; page++) {
+        final path = cursor == null
+            ? '/sync/changes'
+            : '/sync/changes?since=$cursor';
+        final data = await _api.get(path) as Map<String, dynamic>;
+        final events = (data['events'] as List? ?? const [])
+            .whereType<Map>()
+            .map((e) => e.cast<String, dynamic>())
+            .toList();
+        out.addAll(events);
+        final next = data['cursor'] as String?;
+        if (events.length < 500 || next == null || next == cursor) break;
+        cursor = next;
+      }
+    } catch (_) {
+      return const [];
+    }
+    return out;
   }
 }

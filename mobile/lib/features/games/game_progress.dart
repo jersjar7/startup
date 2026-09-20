@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import '../../core/network/api_client.dart';
 import '../../core/storage/app_storage.dart';
 import 'game_catalog.dart';
+import 'game_sync.dart';
 
 /// What the student has finished, held per ROUND so a sitting can be left
 /// half way and picked up later.
@@ -90,6 +92,48 @@ class GameProgress extends ChangeNotifier {
     }
     notifyListeners();
     _save();
+  }
+
+  /// Folds the server's log into this mirror (audit F8): every round the
+  /// account ever cleared on any phone, so a new phone starts with the map
+  /// it earned. Rounds already here stay; nothing is ever removed. A round
+  /// counts as first-try when the log holds no miss on it before the clear.
+  /// Returns how many rounds were new.
+  int applyServerEvents(Iterable<Map<String, dynamic>> events) {
+    var added = 0;
+    final missed = <String>{};
+    for (final e in events) {
+      if (e['source'] == 'web') continue;
+      final parts = (e['itemId'] as String? ?? '').split(':');
+      if (parts.length != 3) continue;
+      final gameId = parts[1];
+      final round = int.tryParse(parts[2]);
+      if (round == null || round < 1 || roundsIn(gameId) == 0) continue;
+      final key = '$gameId:$round';
+      if (e['grade'] == 'forgot') {
+        missed.add(key);
+        continue;
+      }
+      final set = _rounds.putIfAbsent(gameId, () => <int>{});
+      if (set.add(round - 1)) {
+        added++;
+        if (!missed.contains(key)) {
+          _firstTry[gameId] = (_firstTry[gameId] ?? 0) + 1;
+        }
+      }
+    }
+    if (added > 0) {
+      notifyListeners();
+      _save();
+    }
+    return added;
+  }
+
+  /// Pulls the log and folds it in. Called once the account is known, at
+  /// launch and after sign-in; a failed pull changes nothing.
+  Future<int> restoreFromServer(ApiClient api) async {
+    final events = await GameSync(api).pullAll();
+    return applyServerEvents(events);
   }
 
   /// Start the whole thing over (the "play again" path).

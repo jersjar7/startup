@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
 import '../../core/network/api_client.dart';
 import '../../core/storage/app_storage.dart';
+import '../games/game_progress.dart';
 
 enum AuthStatus { unknown, authenticated, unauthenticated }
 
@@ -39,6 +42,8 @@ class AuthController extends ChangeNotifier {
     try {
       user = await api.get('/auth/me') as Map<String, dynamic>;
       status = AuthStatus.authenticated;
+      // The map this account earned on any phone (audit F8).
+      unawaited(GameProgress.instance.restoreFromServer(api));
     } catch (_) {
       await _clear();
       status = AuthStatus.unauthenticated;
@@ -108,6 +113,8 @@ class AuthController extends ChangeNotifier {
     sessionExpired = false;
     status = AuthStatus.authenticated;
     notifyListeners();
+    // The map this account earned on any phone (audit F8).
+    unawaited(GameProgress.instance.restoreFromServer(api));
   }
 
   void _onSessionLost() {

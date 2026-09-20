@@ -177,3 +177,39 @@ After 1 to 3 the single record is honest and the numbers on the two surfaces
 mean the same thing. 8 is what makes the phone a view of the record rather
 than a second one, which is the door to the "one source of truth" design the
 owner asked about; that design note follows this audit.
+
+## 5. Status, 2026-09-20
+
+Owner's decisions on the morning of the 20th: the cap is 50; mastery is one
+number with two halves, the desk alone to 100, the games to 50; the cap is
+the hand-off; the clock is the student's; the phone becomes a view; deletion
+clears everything. All six were built and deployed the same day, in three
+deploys' worth of commits shipped as one:
+
+| Fix | Commit | State |
+|---|---|---|
+| 3 One clock (F3) | aa0c241 | live; the proof shows one day for one evening |
+| 4 Deletion clears everything (F4) | aa0c241 | live; the proof starts from an empty log after a reset |
+| 2 Games half, one formula (F2, F5, F9, part of F10) | ad9e5f6 | live; every account recomputed (340); both surfaces show the games share |
+| 1 Maturity (F1) | 5645d88 | live; grows from the next spaced right answer on |
+| 6 Simulation as desk work (F6) | 5645d88 | live |
+| 7 Badges everywhere (F7) | 5645d88 | live |
+| 8 The phone rebuilds from the server (F8) | mobile, build after 853 | on sign-in and at launch |
+| 9 Tidy (F10) | mobile ad9e5f6, server after | dead lesson screens and the dead writer removed; the topics GET write and the paper-flag card left as they are, documented below |
+
+The proof, `node scripts/auditSync.mjs --reset`, passed 20 of 20 against
+fe4raccoons.com after the deploy.
+
+Two things left alone on purpose. `GET /api/topics` still persists the old
+level ladder's decay on read; it is the legacy ladder the website's study
+page no longer shows, and removing the write changes nothing a student sees,
+so it waits for the single-record design. The website's Tonight card falls
+back to the day's phone misses when there are no paper flags, so it is not
+empty; the flag route stays for a future hand-off feature.
+
+One thing the maturity fix does not do on its own: a problem answered right
+once and never again stays at the lowest weight, because the review queue
+holds only missed problems (the study-load policy of 2026-06-29). The desk
+reaches 100 through spaced re-answers, which today come from practice
+repeats and the simulation. Whether known problems should come back at 7
+and 21 days is a policy question for the owner, not a bug.

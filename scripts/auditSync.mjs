@@ -112,7 +112,7 @@ check('phone XP: 8 gotIt = 40, under the 60 daily cap', s1.totalXp - s0.totalXp 
 check('a study day ticked once and today (local) is in the list',
   s1.dayCount === s0.dayCount + 1 && s1.studyDays.includes(localDay()), `count ${s0.dayCount} -> ${s1.dayCount}`);
 check('the website sees the phone work for today', s1.phoneCardsToday === 8 && s1.lastSync?.device === 'audit', JSON.stringify({ cards: s1.phoneCardsToday, lastSync: s1.lastSync }));
-check('badges: none from the phone path (expected gap)', s1.badges === s0.badges, `${s0.badges} -> ${s1.badges}`);
+check('badges: none due yet at 40 XP (the phone path evaluates them since 2026-09-20)', s1.badges === s0.badges, `${s0.badges} -> ${s1.badges}`);
 
 // ---- phone: a retry of the same batch must change nothing -----------------
 const pushA2 = await api('POST', '/sync/events', batchA);
@@ -146,7 +146,7 @@ check(sameDay ? 'same UTC and local day: the study day did not tick twice' : 'UT
 // Badges are only evaluated on the web paths, so the web session also pays
 // out what the phone XP earned earlier (xp-100 here): a catch-up, not a bug in
 // the count, but the phone never shows a badge the moment it is earned.
-check('badges: awarded on the web path, catching up on phone XP', s4.badges > s3.badges, `${s3.badges} -> ${s4.badges}`);
+check('badges: the first session and the XP crossings land on the web path', s4.badges > s3.badges, `${s3.badges} -> ${s4.badges}`);
 check('problems answered counts both surfaces', s4.problemsAnswered === 10, `${s4.problemsAnswered}`);
 
 // ---- phone re-answers a desk problem: stays desk, no double count ----------

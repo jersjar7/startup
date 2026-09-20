@@ -24,20 +24,6 @@ async function getDiagnosticById(email, attemptNumber) {
   return diagnosticResultsCollection.findOne({ email, attemptNumber });
 }
 
-async function updateChapterMastery(email, chapterMastery, diagnosticCompleted, diagnosticAttempts) {
-  await userStatsCollection.updateOne(
-    { email },
-    {
-      $set: {
-        chapterMastery,
-        diagnosticCompleted,
-        diagnosticAttempts,
-      },
-    },
-    { upsert: true }
-  );
-}
-
 async function getChapterMastery(email) {
   const stats = await userStatsCollection.findOne({ email });
   return {
@@ -53,6 +39,5 @@ module.exports = {
   getLatestDiagnostic,
   getDiagnosticAttemptCount,
   getDiagnosticById,
-  updateChapterMastery,
   getChapterMastery,
 };
