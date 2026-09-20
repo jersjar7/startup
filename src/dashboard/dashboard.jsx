@@ -528,16 +528,19 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                   <Icon weight="bold" size={18} className={`ch-icon-d ch-icon-d--${ch.accent}`} />
                   <span className="ch-name-d">{ch.name}</span>
                   <div className="ch-mastery">
-                    <div className="mastery-bar-pct" title="Games on the phone reach the mark; the desk takes it the rest of the way">
+                    {/* The games half only shows for an account that has
+                        used the phone app; everyone else sees the one bar
+                        they always had, until the app is out. */}
+                    <div className="mastery-bar-pct" title={syncState ? 'Games on the phone reach the mark; the desk takes it the rest of the way' : undefined}>
                       <div
                         className="mastery-bar-fill"
                         style={{ width: `${pct}%`, background: barColor }}
                       />
-                      <span className="mastery-bar-mark" aria-hidden="true" />
+                      {syncState ? <span className="mastery-bar-mark" aria-hidden="true" /> : null}
                     </div>
                     <span className="ch-status" style={pct > 0 ? { color: barColor, fontWeight: 600 } : undefined}>
                       {pctLabel ? `${prog.masteryName} · ${pctLabel}` : prog.masteryName}
-                      {prog.gamesHalf > 0 ? <span className="ch-games"> · games {prog.gamesHalf}/50</span> : null}
+                      {syncState && prog.gamesHalf > 0 ? <span className="ch-games">games {prog.gamesHalf} of 50</span> : null}
                     </span>
                   </div>
                   {/* badge color encodes exam weight (one scale), not the chapter's accent */}
