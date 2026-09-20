@@ -33,17 +33,21 @@ function validPaperFlag(f) {
   );
 }
 
+// The kinds the phone may push. Answers are the default (no `kind`); the
+// others carry a small `data` object (ADR 0018, step 2).
+const PHONE_KINDS = new Set(['answer', 'lesson-opened', 'concept-read']);
+
 function validEvent(e) {
-  return (
-    e &&
-    typeof e.eventId === 'string' && e.eventId.length >= 8 && e.eventId.length <= 64 &&
-    typeof e.itemId === 'string' && e.itemId.length <= 80 &&
-    typeof e.chapterId === 'string' && e.chapterId.length <= 40 &&
-    GRADES.has(e.grade) &&
-    SOURCES.has(e.source) &&
-    typeof e.ts === 'number' &&
-    typeof e.localDate === 'string' && DATE_RE.test(e.localDate)
-  );
+  if (!e || typeof e.eventId !== 'string' || e.eventId.length < 8 || e.eventId.length > 64) return false;
+  const kind = e.kind === undefined ? 'answer' : e.kind;
+  if (!PHONE_KINDS.has(kind)) return false;
+  if (typeof e.source !== 'string' || !SOURCES.has(e.source)) return false;
+  if (typeof e.ts !== 'number' || typeof e.localDate !== 'string' || !DATE_RE.test(e.localDate)) return false;
+  if (typeof e.chapterId !== 'string' || e.chapterId.length > 40) return false;
+  if (kind === 'answer') {
+    return typeof e.itemId === 'string' && e.itemId.length <= 80 && GRADES.has(e.grade);
+  }
+  return e.data === undefined || (typeof e.data === 'object' && e.data !== null && JSON.stringify(e.data).length <= 2000);
 }
 
 // Card ids derive from their parent problem (math-slq-q1:fc → math-slq-q1);
@@ -59,11 +63,12 @@ const parentId = (itemId) => itemId.split(':')[0];
 async function ingestPhoneEvents(email, events, device) {
   const phone = events.filter((e) => e.source !== 'web');
   if (!phone.length) return;
+  const answers = phone.filter((e) => (e.kind || 'answer') === 'answer');
 
   // 1) Same-day dedupe + schedule push: each reviewed item updates the
   //    parent problem's history, so it leaves today's web due queue.
   const touchedChapters = new Map();
-  for (const e of phone) {
+  for (const e of answers) {
     await DB.upsertProblemHistory(
       email, parentId(e.itemId), e.chapterId, e.grade !== 'forgot', 'phone');
     touchedChapters.set(e.chapterId, true);
@@ -99,7 +104,7 @@ async function ingestPhoneEvents(email, events, device) {
   //    with and without this batch — the delta is what's newly earned.
   let xpDelta = 0;
   const byDay = new Map();
-  for (const e of phone) {
+  for (const e of answers) {
     const c = byDay.get(e.localDate) || { gotIt: 0, fuzzy: 0, forgot: 0 };
     c[e.grade]++;
     byDay.set(e.localDate, c);

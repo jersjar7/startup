@@ -155,6 +155,10 @@ router.post('/submit', verifyAuth, async (req, res) => {
     xpEarned: xpTotal,
     streak: streakResult.currentStreak,
   });
+  await DB.appendEvent(email, {
+    kind: 'diagnostic', chapterId: null, localDate: today,
+    data: { chapterScores: Object.fromEntries(Object.entries(chapterScores).map(([ch, v]) => [ch, v.masterySeeded])), correct: totalCorrect, total: questions.length, xp: xpTotal },
+  }).catch(() => {});
 
   res.send({
     attemptNumber,

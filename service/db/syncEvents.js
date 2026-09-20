@@ -20,13 +20,17 @@ async function insertReviewEvents(email, events) {
   const docs = events.map((e) => ({
     email,
     eventId: e.eventId,
-    itemId: e.itemId,
-    chapterId: e.chapterId,
-    grade: e.grade,
+    // The kind of action (ADR 0018). Answers are the default and carry
+    // itemId and grade; other kinds carry `data`.
+    kind: e.kind || 'answer',
+    itemId: e.itemId ?? null,
+    chapterId: e.chapterId ?? null,
+    grade: e.grade ?? null,
     source: e.source,
     deviceId: e.deviceId || null,
     ts: e.ts,
     localDate: e.localDate,
+    ...(e.data !== undefined ? { data: e.data } : {}),
     receivedAt: new Date(),
   }));
   try {
@@ -56,6 +60,7 @@ async function getReviewEventsSince(email, sinceId, limit = 500) {
   return {
     events: rows.map((r) => ({
       eventId: r.eventId,
+      kind: r.kind || 'answer',
       itemId: r.itemId,
       chapterId: r.chapterId,
       grade: r.grade,
@@ -63,6 +68,7 @@ async function getReviewEventsSince(email, sinceId, limit = 500) {
       deviceId: r.deviceId,
       ts: r.ts,
       localDate: r.localDate,
+      ...(r.data !== undefined ? { data: r.data } : {}),
     })),
     cursor: rows.length ? String(rows[rows.length - 1]._id) : sinceId || null,
   };
@@ -71,7 +77,7 @@ async function getReviewEventsSince(email, sinceId, limit = 500) {
 /** Today's phone work (non-web events for a local date) — the dashboard line. */
 async function getPhoneActivity(email, localDate) {
   const rows = await reviewEventsCollection
-    .find({ email, localDate, source: { $ne: 'web' } })
+    .find({ email, localDate, source: { $ne: 'web' }, kind: { $in: [null, 'answer'] } })
     .project({ chapterId: 1, ts: 1, grade: 1, itemId: 1 })
     .toArray();
   const chapters = {};
@@ -100,7 +106,7 @@ async function getPhoneActivity(email, localDate) {
 /** Every phone event (any source but web) for one chapter: the games half reads these. */
 async function getPhoneEventsForChapter(email, chapterId) {
   return reviewEventsCollection
-    .find({ email, chapterId, source: { $ne: 'web' } })
+    .find({ email, chapterId, source: { $ne: 'web' }, kind: { $in: [null, 'answer'] } })
     .project({ itemId: 1, grade: 1, source: 1 })
     .toArray();
 }
@@ -108,7 +114,7 @@ async function getPhoneEventsForChapter(email, chapterId) {
 /** Grade tallies for a local day's phone events (XP cap accounting). */
 async function getPhoneGradeCounts(email, localDate) {
   const rows = await reviewEventsCollection
-    .find({ email, localDate, source: { $ne: 'web' } })
+    .find({ email, localDate, source: { $ne: 'web' }, kind: { $in: [null, 'answer'] } })
     .project({ grade: 1 })
     .toArray();
   const counts = { gotIt: 0, fuzzy: 0, forgot: 0 };
@@ -116,4 +122,10 @@ async function getPhoneGradeCounts(email, localDate) {
   return counts;
 }
 
-module.exports = { insertReviewEvents, getReviewEventsSince, getPhoneActivity, getPhoneGradeCounts, getPhoneEventsForChapter };
+/** One server-written event of any kind (a session, a diagnostic, an exam ...). */
+async function appendEvent(email, { kind, chapterId = null, localDate, ts = Date.now(), data = {}, source = 'web' }) {
+  const { randomUUID } = require('node:crypto');
+  return insertReviewEvents(email, [{ eventId: randomUUID(), kind, chapterId, source, ts, localDate, data }]);
+}
+
+module.exports = { appendEvent, insertReviewEvents, getReviewEventsSince, getPhoneActivity, getPhoneGradeCounts, getPhoneEventsForChapter };

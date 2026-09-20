@@ -8,12 +8,12 @@
 // account from scratch, which is also how the migration and the nightly
 // drift check run (scripts/deriveCompare.js).
 //
-// What it derives today: problem history (counts, desk attempts, maturity,
-// the weak-spots review queue), both halves of chapter mastery, study days,
-// and phone XP. What it cannot yet: web XP (a session's bonus needs the
-// session boundary the log does not record), badges, diagnostic scores.
-// Step 2 of the migration adds those event kinds; the deriver grows with
-// them and the compare script says when the two agree.
+// What it derives: problem history (counts, desk attempts, maturity, the
+// weak-spots review queue), both halves of chapter mastery, study days, XP
+// from both surfaces, the session counts badges need, and the exam date.
+// The log's kinds (step 2 of the migration): answer (the default), snapshot
+// (an opening balance from before the log), session, diagnostic, quickstart,
+// exam, profile, feedback, lesson-opened, concept-read.
 
 const { composeMastery, computeStudyMastery, nextMaturity } = require('./mastery.js');
 const { clearedGames, gamesHalf, gamesIn } = require('./gamesHalf.js');
@@ -75,7 +75,7 @@ function foldAnswer(row, { isCorrect, day, source }) {
  * The account's state from its log.
  * @param {object} input
  * @param {Array} input.events   reviewEvents rows for the account
- * @param {object} [input.diagnosticScores]  chapterId -> diagnosticScore (not in the log yet)
+ * @param {object} [input.diagnosticScores]  chapterId -> diagnosticScore, for logs written before the diagnostic and quick-start kinds existed
  */
 function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
   const history = {};   // problemId -> row (+ topicId)
@@ -83,30 +83,81 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
   const byChapter = {}; // chapterId -> phone events
   const phoneByDay = {}; // localDate -> {gotIt, fuzzy, forgot}
 
+  const diag = { ...diagnosticScores }; // chapterId -> the highest diagnostic or quick-start read
+  let webXp = 0;
+  const sessions = { practice: 0, review: 0, diagnostic: 0, quickstart: 0, exam: 0 };
+  let examDate = null;
+
   for (const e of ordered(events)) {
     if (!e || !DAY_RE.test(e.localDate || '')) continue;
+    const kind = e.kind || 'answer';
     const source = e.source === 'web' ? 'desk' : 'phone';
-    const isCorrect = e.grade !== 'forgot';
-    const problemId = parentId(e.itemId);
-    if (problemId) {
-      const row = foldAnswer(history[problemId], { isCorrect, day: e.localDate, source });
-      history[problemId] = { ...row, topicId: e.chapterId };
+    const d = e.data || {};
+    switch (kind) {
+      case 'answer': {
+        const isCorrect = e.grade !== 'forgot';
+        const problemId = parentId(e.itemId);
+        if (problemId) {
+          const row = foldAnswer(history[problemId], { isCorrect, day: e.localDate, source });
+          history[problemId] = { ...row, topicId: e.chapterId };
+        }
+        if (source === 'phone') {
+          (byChapter[e.chapterId] ||= []).push(e);
+          const c = (phoneByDay[e.localDate] ||= { gotIt: 0, fuzzy: 0, forgot: 0 });
+          if (c[e.grade] !== undefined) c[e.grade] += 1;
+        }
+        break;
+      }
+      case 'snapshot': {
+        // An opening balance: a problem's row as it stood before the log
+        // existed. Taken as the starting row, never folded twice.
+        const problemId = parentId(e.itemId);
+        if (problemId && !history[problemId]) {
+          history[problemId] = {
+            timesCorrect: d.timesCorrect || 0, timesIncorrect: d.timesIncorrect || 0,
+            deskAttempts: d.deskAttempts ?? ((d.timesCorrect || 0) + (d.timesIncorrect || 0)),
+            reviewActive: !!d.reviewActive, correctSinceMiss: d.correctSinceMiss || 0,
+            nextReview: d.reviewActive ? d.nextReview || null : null,
+            interval: d.interval || 0, lastCorrectAt: d.lastCorrectAt || null,
+            lastSeen: e.localDate, topicId: e.chapterId,
+          };
+        }
+        break;
+      }
+      case 'session':
+        webXp += d.xp || 0;
+        sessions[d.type === 'review' ? 'review' : 'practice'] += 1;
+        break;
+      case 'diagnostic':
+        webXp += d.xp || 0;
+        sessions.diagnostic += 1;
+        for (const [ch, v] of Object.entries(d.chapterScores || {})) diag[ch] = Math.max(diag[ch] || 0, v || 0);
+        break;
+      case 'quickstart':
+        webXp += d.xp || 0;
+        sessions.quickstart += 1;
+        if (e.chapterId) diag[e.chapterId] = Math.max(diag[e.chapterId] || 0, d.familiarity || 0);
+        break;
+      case 'exam':
+        webXp += d.xp || 0;
+        sessions.exam += 1;
+        break;
+      case 'profile':
+        if ('examDate' in d) examDate = d.examDate;
+        break;
+      default:
+        break; // lesson-opened, concept-read, feedback: they count as a day, nothing else yet
     }
     studyDays.add(e.localDate);
-    if (source === 'phone') {
-      (byChapter[e.chapterId] ||= []).push(e);
-      const c = (phoneByDay[e.localDate] ||= { gotIt: 0, fuzzy: 0, forgot: 0 });
-      if (c[e.grade] !== undefined) c[e.grade] += 1;
-    }
   }
 
-  const chapters = new Set([...Object.keys(byChapter), ...Object.values(history).map((h) => h.topicId), ...Object.keys(diagnosticScores)].filter(Boolean));
+  const chapters = new Set([...Object.keys(byChapter), ...Object.values(history).map((h) => h.topicId), ...Object.keys(diag)].filter(Boolean));
   const chapterMastery = {};
   for (const ch of chapters) {
     const rows = Object.values(history).filter((h) => h.topicId === ch);
     const cleared = clearedGames(ch, byChapter[ch] || []);
     chapterMastery[ch] = composeMastery({
-      diagnosticScore: diagnosticScores[ch] || 0,
+      diagnosticScore: diag[ch] || 0,
       studyScore: computeStudyMastery(rows),
       gamesHalf: gamesHalf(ch, cleared),
       gamesCleared: cleared.length,
@@ -125,6 +176,10 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
     daysStudied: days.length,
     lastSessionDate: days[days.length - 1] || null,
     phoneXp: phoneXpTotal,
+    webXp,
+    totalXp: phoneXpTotal + webXp,
+    sessions,
+    examDate,
     problemsAnswered: Object.keys(history).length,
   };
 }

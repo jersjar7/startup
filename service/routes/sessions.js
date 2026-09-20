@@ -148,6 +148,12 @@ router.post('/', verifyAuth, async (req, res) => {
     streak: streakResult.currentStreak,
     durationSeconds: req.body.durationSeconds,
   });
+  // The session as one event in the log (ADR 0018): the boundary and the
+  // bonus the answers alone cannot carry. Never breaks the flow.
+  await DB.appendEvent(email, {
+    kind: 'session', chapterId: topicId, localDate: today,
+    data: { type: 'practice', topicId, correct: correctCount, total: answers.length, xp: xpTotal, durationSeconds: req.body.durationSeconds ?? null },
+  }).catch(() => {});
 
   res.send({
     sessionSummary: {

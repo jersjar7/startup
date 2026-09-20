@@ -219,6 +219,10 @@ router.post('/', verifyAuth, async (req, res) => {
     streak: streakResult.currentStreak,
     durationSeconds: req.body.durationSeconds,
   });
+  await DB.appendEvent(email, {
+    kind: 'session', chapterId: null, localDate: today,
+    data: { type: 'review', topicIds: [...topicsInReview], correct: correctCount, total: answers.length, xp: xpTotal, durationSeconds: req.body.durationSeconds ?? null },
+  }).catch(() => {});
 
   res.send({
     sessionSummary: {

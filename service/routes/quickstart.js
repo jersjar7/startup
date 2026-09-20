@@ -190,6 +190,10 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
     streak: streakResult.currentStreak,
     durationSeconds: req.body.durationSeconds,
   });
+  await DB.appendEvent(email, {
+    kind: 'quickstart', chapterId, localDate: today,
+    data: { chapterId, familiarity, correct, total, xp: xpTotal },
+  }).catch(() => {});
 
   const state = buildState({ quickstartSampled, chapterMastery });
 

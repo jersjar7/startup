@@ -40,7 +40,8 @@ describe('foldAnswer: the review-queue rules, from the student\'s day', () => {
 describe('deriveAccount: an account from its log', () => {
   it('is empty from an empty log', () => {
     expect(deriveAccount({ events: [] })).toEqual({
-      history: {}, chapterMastery: {}, studyDays: [], daysStudied: 0, lastSessionDate: null, phoneXp: 0, problemsAnswered: 0,
+      history: {}, chapterMastery: {}, studyDays: [], daysStudied: 0, lastSessionDate: null, phoneXp: 0, webXp: 0, totalXp: 0,
+      sessions: { practice: 0, review: 0, diagnostic: 0, quickstart: 0, exam: 0 }, examDate: null, problemsAnswered: 0,
     });
   });
 
@@ -81,5 +82,30 @@ describe('deriveAccount: an account from its log', () => {
     // the miss came first, then the right answer: in the queue, one right since the miss
     expect(s.history['math-q1'].correctSinceMiss).toBe(1);
     expect(s.history['math-q1'].reviewActive).toBe(true);
+  });
+
+  it('reads the other kinds: sessions carry XP, the diagnostic and quick start the floor, a snapshot the past', () => {
+    const events = [
+      { kind: 'snapshot', itemId: 'math-q1', chapterId: 'mathematics', source: 'web', localDate: '2026-06-01', ts: 1,
+        data: { timesCorrect: 2, timesIncorrect: 1, deskAttempts: 3, reviewActive: true, correctSinceMiss: 1, nextReview: '2026-06-05' } },
+      { kind: 'session', chapterId: 'mathematics', source: 'web', localDate: '2026-06-01', ts: 2, data: { type: 'practice', xp: 75, correct: 5, total: 5 } },
+      { kind: 'quickstart', chapterId: 'statics', source: 'web', localDate: '2026-06-02', ts: 3, data: { familiarity: 24, xp: 35 } },
+      { kind: 'diagnostic', chapterId: null, source: 'web', localDate: '2026-06-03', ts: 4, data: { chapterScores: { statics: 30, dynamics: 12 }, xp: 450 } },
+      { kind: 'exam', chapterId: null, source: 'web', localDate: '2026-06-04', ts: 5, data: { xp: 180 } },
+      { kind: 'profile', chapterId: null, source: 'web', localDate: '2026-06-04', ts: 6, data: { examDate: '2026-11-28' } },
+      ev('math-q1', { source: 'web', day: '2026-06-05', ts: 7 }), // graduates the snapshot's queue entry
+    ];
+    const s = deriveAccount({ events });
+    expect(s.webXp).toBe(740);
+    expect(s.totalXp).toBe(740);
+    expect(s.sessions).toEqual({ practice: 1, review: 0, diagnostic: 1, quickstart: 1, exam: 1 });
+    expect(s.chapterMastery.statics.diagnosticScore).toBe(30);
+    expect(s.chapterMastery.dynamics.totalMastery).toBe(12);
+    expect(s.examDate).toBe('2026-11-28');
+    expect(s.studyDays).toEqual(['2026-06-01', '2026-06-02', '2026-06-03', '2026-06-04', '2026-06-05']);
+    const row = s.history['math-q1'];
+    expect(row.timesCorrect).toBe(3);
+    expect(row.reviewActive).toBe(false);
+    expect(row.deskAttempts).toBe(4);
   });
 });

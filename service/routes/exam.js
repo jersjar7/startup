@@ -136,6 +136,16 @@ async function finalizeAttempt({ attempt, userId, email, answerMap, timeUsedSeco
     xpEarned: xpTotal,
     streak: streakResult.currentStreak,
   });
+  // The simulation in the log: one event for the attempt, and the answered
+  // questions as answers (source web), so the deriver sees the desk work.
+  await DB.insertReviewEvents(email, answered.map((q) => ({
+    eventId: `exam-${attemptId}-${q.id}`.slice(0, 64), kind: 'answer', itemId: q.id, chapterId: q.chapterId,
+    grade: q.isCorrect ? 'gotIt' : 'forgot', source: 'web', ts: Date.now(), localDate: today,
+  }))).catch(() => {});
+  await DB.appendEvent(email, {
+    kind: 'exam', chapterId: null, localDate: today,
+    data: { attemptId, totalCorrect, totalAttempted, chapterScores, xp: xpTotal, autoSubmitted },
+  }).catch(() => {});
 
   return {
     attemptId,

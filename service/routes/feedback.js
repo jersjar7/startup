@@ -22,6 +22,10 @@ router.post('/game', verifyAuth, async (req, res) => {
 
   const report = { ...checked.value, gameName: typeof req.body.gameName === 'string' ? req.body.gameName.slice(0, 80) : null };
   await DB.insertGameFeedback(req.user.email, report);
+  await DB.appendEvent(req.user.email, {
+    kind: 'feedback', chapterId: report.chapterId, localDate: new Date().toISOString().slice(0, 10),
+    data: { gameId: report.gameId, round: report.round, about: report.kind },
+  }).catch(() => {});
   // The email never blocks the thank-you; a send failure is logged by email.js.
   sendFeedbackAlertEmail({ email: req.user.email, ...report }).catch(() => {});
   res.send({ ok: true });
