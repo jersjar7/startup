@@ -35,8 +35,14 @@ async function main() {
           reviewActive: !!r.reviewActive, correctSinceMiss: r.correctSinceMiss || 0, nextReview: r.nextReview || null, interval: r.interval || 0, lastCorrectAt: r.lastCorrectAt || null } });
       totals.snapshot++;
     }
-    // 2. every logged session: the boundary and its XP
-    const sessions = await sessionLogCollection.find({ email }).toArray();
+    // 2. every logged session: the boundary and its XP. Sessions after the
+    //    writers started appending their own session events are already in
+    //    the log; only what predates the first live one is written here.
+    const firstLive = await reviewEventsCollection.find({ email, kind: { $in: ['session', 'quickstart', 'diagnostic', 'exam'] }, eventId: { $not: /^open-/ } })
+      .sort({ receivedAt: 1 }).limit(1).project({ receivedAt: 1 }).toArray();
+    const cutoff = firstLive[0]?.receivedAt || null;
+    const sessions = (await sessionLogCollection.find({ email }).toArray())
+      .filter((s) => !cutoff || !s.completedAt || new Date(s.completedAt) < cutoff);
     for (const s of sessions) {
       const day = utcDay(s.completedAt) || LOG_START;
       const ts = new Date(s.completedAt || `${day}T12:00:00Z`).getTime();
@@ -57,7 +63,8 @@ async function main() {
       }
     }
     // 3. the diagnostics, with their chapter scores
-    const diags = await diagnosticResultsCollection.find({ email }).toArray();
+    const diags = (await diagnosticResultsCollection.find({ email }).toArray())
+      .filter((dgn) => !cutoff || !dgn.completedAt || new Date(dgn.completedAt) < cutoff);
     for (const dgn of diags) {
       const day = utcDay(dgn.completedAt) || LOG_START;
       const chapterScores = Object.fromEntries(Object.entries(dgn.chapterScores || {}).map(([ch, v]) => [ch, v?.masterySeeded || 0]));
