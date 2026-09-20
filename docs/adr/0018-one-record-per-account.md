@@ -147,6 +147,29 @@ Every disagreement has one of four causes, none of them a deriver bug:
    opening-balance events carry the flags as they stand, so nobody's queue
    changes under them.
 
+## Step 2, measured (2026-09-20)
+
+The log gained its kinds and the writers started appending them
+(deployed 2026-09-20). The opening balances were written once: 658
+problem snapshots, 13,010 session boundaries, 1,983 quick-start reads, 3
+diagnostics, 62 simulation attempts; 15,716 events, no duplicates, every
+one of 341 accounts now has a log. Agreement after the write:
+
+| Figure | Agree | Of |
+|---|---|---|
+| XP | 340 | 341 |
+| The diagnostic floor | 341 | 341 |
+| Study days | 335 | 341 |
+| Problem-history counts | 323 | 341 |
+| The review queue | 308 | 341 |
+| Chapter mastery | 276 | 341 |
+
+What is left is what step 1 predicted: mastery differs where the log gives
+spaced re-answers their maturity and the rows cannot (the deriver is
+right); the queue differs on rows from the old review policy and on day
+boundaries; a few dozen rows have counts the log does not reproduce, to
+be read row by row in step 3 before the writers switch.
+
 ## Consequences
 
 - The formula lives in one file. A change to how mastery is scored is one
