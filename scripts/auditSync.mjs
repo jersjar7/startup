@@ -140,9 +140,9 @@ await api('POST', '/sessions', session);
 const s4 = await snapshot('after one website session');
 check('five desk problems: the desk half is the curve, the number is desk + games', s4.mathStudy === deskCurve(5) && s4.mathTotal === model(5, 1), `study ${s4.mathStudy} (curve ${deskCurve(5)}), total ${s4.mathTotal} (model ${model(5, 1)})`);
 check('website XP: 5 correct + session bonus = 75', s4.totalXp - s3.totalXp === 75, `+${s4.totalXp - s3.totalXp}`);
-const sameDay = utcDay() === localDay();
-check(sameDay ? 'same UTC and local day: the study day did not tick twice' : 'UTC day differs from local day: a second day was ticked for one evening (the two-clock gap)',
-  sameDay ? s4.dayCount === s3.dayCount : s4.dayCount === s3.dayCount + 1, `${s3.dayCount} -> ${s4.dayCount}; utc ${utcDay()} local ${localDay()}`);
+// One clock (audit F3, fixed 2026-09-20): the website session is dated by the
+// student's day, so one evening is one day whatever the UTC date is.
+check('the website session did not tick a second day for the same evening', s4.dayCount === s3.dayCount, `${s3.dayCount} -> ${s4.dayCount}; utc ${utcDay()} local ${localDay()}`);
 // Badges are only evaluated on the web paths, so the web session also pays
 // out what the phone XP earned earlier (xp-100 here): a catch-up, not a bug in
 // the count, but the phone never shows a badge the moment it is earned.
@@ -154,8 +154,7 @@ await api('POST', '/sync/events', { events: [phoneRound(mathIds[0], 'grade-sense
 const s5 = await snapshot('after the phone re-answers a desk problem');
 check('a desk problem answered on the phone stays desk evidence', s5.mathStudy === deskCurve(5) && s5.mathTotal === model(5, 1), `study ${s5.mathStudy}`);
 check('problems answered is still 10 distinct', s5.problemsAnswered === 10, `${s5.problemsAnswered}`);
-check(sameDay ? 'same day: no extra tick from the late phone round' : 'the late phone round ticked a THIRD day for one evening (the two-clock gap, both directions)',
-  sameDay ? s5.dayCount === s4.dayCount : s5.dayCount === s4.dayCount + 1, `${s4.dayCount} -> ${s5.dayCount}`);
+check('the late phone round did not tick another day either', s5.dayCount === s4.dayCount, `${s4.dayCount} -> ${s5.dayCount}`);
 
 // ---- the phone could rebuild itself from the server ------------------------
 // 18 answers, plus the website session itself as one event (ADR 0018).
