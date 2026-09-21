@@ -180,6 +180,22 @@ knows and the rows did not). The comparison afterwards: 341 of 341 on
 mastery, days, problem counts, the queue, XP and the diagnostic floor.
 `scripts/rederiveAll.js` is the nightly drift check from here.
 
+## Steps 4 and 5, done (2026-09-20)
+
+`GET /api/account/state` derives the account from its log on request and
+is what the dashboard reads for mastery and the due count, and what the
+phone reads to rebuild its map (build 874), with the whole log as the
+fallback for an older server. The nightly re-derive runs in-process at
+4 am Eastern and logs what moved. Account deletion already clears the log
+and every cache since the audit's fix 4, so step 5 needed no more code.
+
+The migration is complete. What stays for later, none of it changing a
+number: the website still reads XP, days and badges from `/api/user/me`
+(the same derived record, served from the cache) and could move to the
+one read; the session log and the diagnostic results remain as secondary
+records the log now duplicates and can be retired; the old level ladder
+on `/api/topics` and the paper-flag route retire with them.
+
 ## Consequences
 
 - The formula lives in one file. A change to how mastery is scored is one

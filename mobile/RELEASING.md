@@ -153,3 +153,4 @@ ever gains another capability, delete and recreate the profile the same way.
 | 853   | The thank-you after feedback stays until put away |
 | 859   | Mastery as one number with two halves on every tile (games N of 50); the map hands off to the desk once every game is cleared; a new phone rebuilds its map from the server; the dead lesson screens are gone |
 | 863   | The mastery row and page say "Total concept mastery", the website's name for the same number |
+| 874   | The phone rebuilds its map from the account read (GET /api/account/state), the same derived state the website reads; the whole log stays as the fallback |
