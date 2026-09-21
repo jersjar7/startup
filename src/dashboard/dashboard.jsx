@@ -152,9 +152,11 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       fetch('/api/user/me').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/leaderboard').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/diagnostic/can-retake').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
-      fetch('/api/diagnostic/mastery').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+      // One read for both surfaces (ADR 0018): mastery and the due count come
+      // from the account's state, derived from its log, the same the phone reads.
+      fetch(`/api/account/state?date=${new Date().toLocaleDateString('en-CA')}`).then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/diagnostic/history').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
-      fetch('/api/review/count').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
+      Promise.resolve(null), // the due count now rides on the account read above
       fetch('/api/leaderboard/alltime').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch('/api/quickstart/state').then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
       fetch(`/api/sync/today?date=${new Date().toLocaleDateString('en-CA')}`).then((res) => { if (!res.ok) throw new Error(); return res.json(); }),
@@ -219,10 +221,11 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
       // Chapter mastery from diagnostic
       if (masteryResult.status === 'fulfilled') {
         setChapterMastery(masteryResult.value.chapterMastery || {});
+        setReviewDue(masteryResult.value.dueReviews || 0);
       }
 
       // Reviews due (for the Review badge)
-      if (reviewCountResult.status === 'fulfilled') {
+      if (reviewCountResult.status === 'fulfilled' && reviewCountResult.value) {
         setReviewDue(reviewCountResult.value.count || 0);
       }
 

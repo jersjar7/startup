@@ -59,4 +59,28 @@ void main() {
     expect(p.isCleared('perpendicular-flip'), isTrue);
     expect(p.firstTryCount('perpendicular-flip'), 8);
   });
+
+  test('the account read folds in the rounds and first tries per game', () {
+    final p = GameProgress.instance;
+    p.markRoundCleared('grade-sense', 0, firstTry: true);
+    final added = p.applyServerGames({
+      'perpendicular-flip': {
+        'rounds': [1, 2, 3],
+        'firstTry': 2,
+      },
+      'grade-sense': {
+        'rounds': [1, 2],
+        'firstTry': 2,
+      },
+      'no-such-game': {
+        'rounds': [1],
+        'firstTry': 1,
+      },
+    });
+    expect(added, 4);
+    expect(p.roundsCleared('perpendicular-flip'), {0, 1, 2});
+    expect(p.firstTryCount('perpendicular-flip'), 2);
+    expect(p.roundsCleared('grade-sense'), {0, 1});
+    expect(p.firstTryCount('grade-sense'), 2);
+  });
 }

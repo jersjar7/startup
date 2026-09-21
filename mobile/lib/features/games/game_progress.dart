@@ -129,9 +129,43 @@ class GameProgress extends ChangeNotifier {
     return added;
   }
 
-  /// Pulls the log and folds it in. Called once the account is known, at
-  /// launch and after sign-in; a failed pull changes nothing.
+  /// Folds the server's own view of the games in (ADR 0018, step 4):
+  /// `GET /api/account/state` carries, per game, the rounds cleared and the
+  /// first tries, derived from the log. Rounds already here stay; nothing is
+  /// ever removed. Returns how many rounds were new.
+  int applyServerGames(Map<String, dynamic> games) {
+    var added = 0;
+    for (final entry in games.entries) {
+      final gameId = entry.key;
+      if (roundsIn(gameId) == 0 || entry.value is! Map) continue;
+      final g = entry.value as Map;
+      final rounds = (g['rounds'] as List? ?? const []).whereType<num>();
+      final set = _rounds.putIfAbsent(gameId, () => <int>{});
+      for (final r in rounds) {
+        if (set.add(r.toInt() - 1)) added++;
+      }
+      final firstTry = (g['firstTry'] as num?)?.toInt() ?? 0;
+      if (firstTry > (_firstTry[gameId] ?? 0)) _firstTry[gameId] = firstTry;
+    }
+    if (added > 0) {
+      notifyListeners();
+      _save();
+    }
+    return added;
+  }
+
+  /// Reads the account's state and folds the games in. Called once the
+  /// account is known, at launch and after sign-in; a failed read changes
+  /// nothing. Falls back to the whole log for a server without the read.
   Future<int> restoreFromServer(ApiClient api) async {
+    try {
+      final data = await api.get('/account/state') as Map<String, dynamic>;
+      final games = ((data['phone'] as Map?)?['games'] as Map?)
+          ?.cast<String, dynamic>();
+      if (games != null) return applyServerGames(games);
+    } catch (_) {
+      // fall through to the log
+    }
     final events = await GameSync(api).pullAll();
     return applyServerEvents(events);
   }

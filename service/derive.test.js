@@ -41,7 +41,7 @@ describe('deriveAccount: an account from its log', () => {
   it('is empty from an empty log', () => {
     expect(deriveAccount({ events: [] })).toEqual({
       history: {}, chapterMastery: {}, studyDays: [], daysStudied: 0, lastSessionDate: null, phoneXp: 0, webXp: 0, totalXp: 0,
-      sessions: { practice: 0, review: 0, diagnostic: 0, quickstart: 0, exam: 0 }, examDate: null, xpByDay: {}, topicProgress: {}, problemsAnswered: 0,
+      sessions: { practice: 0, review: 0, diagnostic: 0, quickstart: 0, exam: 0 }, examDate: null, xpByDay: {}, topicProgress: {}, games: {}, problemsAnswered: 0,
     });
   });
 
@@ -66,6 +66,7 @@ describe('deriveAccount: an account from its log', () => {
     expect(m.totalMastery).toBe(7);
     expect(s.history['math-q14'].reviewActive).toBe(true);
     expect(s.history['math-slq-q2'].deskAttempts).toBe(0);
+    expect(s.games['perpendicular-flip']).toEqual({ rounds: [1, 2, 3, 4, 5, 6, 7, 8], firstTry: 8 });
   });
 
   it('takes the diagnostic score it cannot derive yet as an input', () => {

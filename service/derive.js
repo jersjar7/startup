@@ -87,6 +87,8 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
   let webXp = 0;
   const sessions = { practice: 0, review: 0, diagnostic: 0, quickstart: 0, exam: 0 };
   let examDate = null;
+  const games = {};        // gameId -> { rounds: Set of 1-based rounds cleared, firstTry }
+  const missedRounds = new Set();
   const xpByDay = {};      // localDate -> XP earned that day (web; phone added after its cap)
   const topicProgress = {}; // the old per-chapter ladder the website still keeps
   const topic = (id) => (topicProgress[id] ||= { attempted: 0, correct: 0, sessionsCompleted: 0, masteryLevel: 0, lastStudied: null });
@@ -109,6 +111,18 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
           (byChapter[e.chapterId] ||= []).push(e);
           const c = (phoneByDay[e.localDate] ||= { gotIt: 0, fuzzy: 0, forgot: 0 });
           if (c[e.grade] !== undefined) c[e.grade] += 1;
+          // The phone's own view: which rounds of which game are cleared,
+          // and how many were cleared on the first try (no miss before).
+          const parts = String(e.itemId || '').split(':');
+          const round = parts.length === 3 ? Number(parts[2]) : NaN;
+          if (Number.isInteger(round) && round >= 1) {
+            const key = `${parts[1]}:${round}`;
+            if (e.grade === 'forgot') missedRounds.add(key);
+            else {
+              const g = (games[parts[1]] ||= { rounds: new Set(), firstTry: 0 });
+              if (!g.rounds.has(round)) { g.rounds.add(round); if (!missedRounds.has(key)) g.firstTry += 1; }
+            }
+          }
         }
         break;
       }
@@ -199,6 +213,7 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
     examDate,
     xpByDay,
     topicProgress,
+    games: Object.fromEntries(Object.entries(games).map(([id, g]) => [id, { rounds: [...g.rounds].sort((a, b) => a - b), firstTry: g.firstTry }])),
     problemsAnswered: Object.keys(history).length,
   };
 }

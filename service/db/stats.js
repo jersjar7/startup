@@ -48,6 +48,12 @@ async function replaceProblemHistory(email, history) {
   for (let i = 0; i < ops.length; i += 500) await problemHistoryCollection.bulkWrite(ops.slice(i, i + 500), { ordered: false });
 }
 
+/** Every account that has stats, by email. */
+async function listUserStatsEmails() {
+  const rows = await userStatsCollection.find({}, { projection: { email: 1 } }).toArray();
+  return rows.map((r) => r.email);
+}
+
 /** Every calendar day this user studied, oldest first. */
 async function getStudyDays(email) {
   const stats = await userStatsCollection.findOne({ email }, { projection: { studyDays: 1 } });
@@ -189,4 +195,5 @@ module.exports = {
   addStudyDays,
   replaceUserStats,
   replaceProblemHistory,
+  listUserStatsEmails,
 };
