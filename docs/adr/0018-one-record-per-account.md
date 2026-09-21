@@ -170,6 +170,16 @@ right); the queue differs on rows from the old review policy and on day
 boundaries; a few dozen rows have counts the log does not reproduce, to
 be read row by row in step 3 before the writers switch.
 
+## Step 3, done (2026-09-20)
+
+Every writer appends its events and calls `rederive.js`; none computes a
+figure of its own. Deployed, then every account re-derived once: 77 of
+341 changed (days studied up on 29, by 1 to 11; XP up on 1; 202 chapter
+figures moved, 178 up and 24 down by at most 18, the maturity the log
+knows and the rows did not). The comparison afterwards: 341 of 341 on
+mastery, days, problem counts, the queue, XP and the diagnostic floor.
+`scripts/rederiveAll.js` is the nightly drift check from here.
+
 ## Consequences
 
 - The formula lives in one file. A change to how mastery is scored is one
