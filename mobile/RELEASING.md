@@ -154,3 +154,4 @@ ever gains another capability, delete and recreate the profile the same way.
 | 859   | Mastery as one number with two halves on every tile (games N of 50); the map hands off to the desk once every game is cleared; a new phone rebuilds its map from the server; the dead lesson screens are gone |
 | 863   | The mastery row and page say "Total concept mastery", the website's name for the same number |
 | 874   | The phone rebuilds its map from the account read (GET /api/account/state), the same derived state the website reads; the whole log stays as the fallback |
+| 880   | Games no longer count toward mastery: the tile says "games N of M cleared" beside the number, the mastery page says games here do not count, and the hand-off tile says every game cleared, the ideas are covered, mastery is earned at the desk |
