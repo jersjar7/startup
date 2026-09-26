@@ -25,7 +25,7 @@ async function main() {
       const cleared = clearedGames(ch, events.filter((e) => e.chapterId === ch));
       after[ch] = composeMastery({
         diagnosticScore: before[ch]?.diagnosticScore || 0,
-        studyScore: computeStudyMastery(history.filter((h) => h.topicId === ch)),
+        studyScore: computeStudyMastery(history.filter((h) => h.topicId === ch), ch),
         gamesHalf: gamesHalf(ch, cleared),
         gamesCleared: cleared.length,
         gamesTotal: Object.keys(gamesIn(ch)).length,

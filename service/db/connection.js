@@ -24,7 +24,9 @@ const sessionsCollection = db.collection('sessions');
 const mailMetaCollection = db.collection('mailMeta');
 
 // Test connection and create indexes on startup
-(async function testConnection() {
+// Unit tests import route modules that pull this in; they never touch the
+// database, so do not try to reach it (and never exit the test runner).
+if (!process.env.VITEST) (async function testConnection() {
   try {
     await db.command({ ping: 1 });
     console.log(`DB connected to ${process.env.DB_HOSTNAME}`);

@@ -61,9 +61,9 @@ describe('deriveAccount: an account from its log', () => {
     const m = s.chapterMastery.mathematics;
     expect(m.gamesCleared).toBe(1);
     expect(m.gamesHalf).toBe(1);
-    // four right desk problems at the lowest maturity: 100*(1-e^(-1.6/25)) = 6
-    expect(m.studyScore).toBe(6);
-    expect(m.totalMastery).toBe(7);
+    // four right desk problems of Mathematics' 135: coverage 3
+    expect(m.studyScore).toBe(3);
+    expect(m.totalMastery).toBe(4);
     expect(s.history['math-q14'].reviewActive).toBe(true);
     expect(s.history['math-slq-q2'].deskAttempts).toBe(0);
     expect(s.games['perpendicular-flip']).toEqual({ rounds: [1, 2, 3, 4, 5, 6, 7, 8], firstTry: 8 });

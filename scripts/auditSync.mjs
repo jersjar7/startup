@@ -24,9 +24,10 @@ const content = JSON.parse(readFileSync(new URL('../service/content.json', impor
 // One number, two halves (docs/mobile/sync-audit.md fix 2): the desk half is
 // the study curve over desk problems, the games half is 50 times the share of
 // the chapter's games cleared, the number is the smaller of 100 and the sum.
-const STUDY_TAU = 25;
 const MATH_GAMES = 48;
-const deskCurve = (desk) => Math.round(100 * (1 - Math.exp(-(0.4 * desk) / STUDY_TAU)));
+const MATH_PROBLEMS = 135;
+// The desk half is coverage (2026-09-25): problems held over the chapter's problems.
+const deskCurve = (desk) => Math.round((100 * desk) / MATH_PROBLEMS);
 const gamesHalf = (cleared) => Math.round((50 * cleared) / MATH_GAMES);
 const model = (desk, cleared) => Math.min(100, deskCurve(desk) + gamesHalf(cleared));
 

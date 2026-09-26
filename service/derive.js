@@ -184,7 +184,7 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
     const cleared = clearedGames(ch, byChapter[ch] || []);
     chapterMastery[ch] = composeMastery({
       diagnosticScore: diag[ch] || 0,
-      studyScore: computeStudyMastery(rows),
+      studyScore: computeStudyMastery(rows, ch),
       gamesHalf: gamesHalf(ch, cleared),
       gamesCleared: cleared.length,
       gamesTotal: Object.keys(gamesIn(ch)).length,

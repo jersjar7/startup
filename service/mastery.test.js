@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-const { calculateEarnedMastery, applyDecay, isDecaying, masteryName, computeStudyMastery, composeMastery, nextMaturity, problemRetention } = require('./mastery.js');
+const { calculateEarnedMastery, applyDecay, isDecaying, masteryName, computeStudyMastery, composeMastery, nextMaturity, problemsInChapter, holdsProblem } = require('./mastery.js');
 
 describe('calculateEarnedMastery', () => {
   it('returns 0 when no sessions completed', () => {
@@ -126,55 +126,40 @@ describe('masteryName', () => {
   });
 });
 
-describe('computeStudyMastery (retrieval + spacing curve, τ=25)', () => {
-  const learned = (n) => Array.from({ length: n }, () => ({ timesCorrect: 1, timesIncorrect: 0, interval: 1 }));   // crammed today
-  const matured = (n) => Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21 }));  // recalled across weeks
+describe('computeStudyMastery: the desk half is coverage', () => {
+  const held = (n, topicId = 'mathematics') => Array.from({ length: n }, () => ({ topicId, timesCorrect: 1, timesIncorrect: 0, deskAttempts: 1 }));
+  const phone = (n, topicId = 'mathematics') => Array.from({ length: n }, () => ({ topicId, timesCorrect: 3, timesIncorrect: 0, deskAttempts: 0 }));
+  const legacy = (n, topicId = 'mathematics') => Array.from({ length: n }, () => ({ topicId, timesCorrect: 1, timesIncorrect: 0 }));
 
-  it('gives 0 for no history', () => {
-    expect(computeStudyMastery([])).toBe(0);
+  it("knows the chapters' sizes from the content build", () => {
+    expect(problemsInChapter('mathematics')).toBe(135);
+    expect(problemsInChapter('economics')).toBe(50);
+    expect(problemsInChapter('nowhere')).toBe(0);
   });
 
-  it('matches the worked example: cram 20 → 27%', () => {
-    expect(computeStudyMastery(learned(20))).toBe(27);
+  it("is the share of the chapter's problems held, and 100 when every one is", () => {
+    expect(computeStudyMastery([], 'mathematics')).toBe(0);
+    expect(computeStudyMastery(held(27), 'mathematics')).toBe(20);
+    expect(computeStudyMastery(held(135), 'mathematics')).toBe(100);
+    expect(computeStudyMastery(held(50, 'economics'), 'economics')).toBe(100);
   });
 
-  it('rewards spacing: same 20, matured → 55% (≈ double the cram)', () => {
-    expect(computeStudyMastery(matured(20))).toBe(55);
+  it('a problem counts once answered right, and not while open in the queue since a miss', () => {
+    expect(holdsProblem({ timesCorrect: 1, timesIncorrect: 0, deskAttempts: 1 })).toBe(true);
+    expect(holdsProblem({ timesCorrect: 0, timesIncorrect: 2, deskAttempts: 2 })).toBe(false);
+    expect(holdsProblem({ timesCorrect: 1, timesIncorrect: 1, deskAttempts: 2, reviewActive: true, correctSinceMiss: 0 })).toBe(false);
+    expect(holdsProblem({ timesCorrect: 2, timesIncorrect: 1, deskAttempts: 3, reviewActive: true, correctSinceMiss: 1 })).toBe(true);
   });
 
-  it('saturates with diminishing returns', () => {
-    expect(computeStudyMastery(matured(40))).toBe(80);
-    expect(computeStudyMastery(matured(55))).toBe(89);
+  it('phone-only rows add nothing to the desk half; legacy rows count as desk', () => {
+    expect(computeStudyMastery(phone(50), 'mathematics')).toBe(0);
+    expect(computeStudyMastery([...phone(50), ...held(27)], 'mathematics')).toBe(20);
+    expect(computeStudyMastery(legacy(27), 'mathematics')).toBe(20);
   });
 
-  it('a problem never answered correctly contributes nothing', () => {
-    expect(problemRetention({ timesCorrect: 0, timesIncorrect: 5, interval: 0 })).toBe(0);
-  });
-
-  it('lowers credit for lapses (accuracy gate)', () => {
-    const half = problemRetention({ timesCorrect: 1, timesIncorrect: 1, interval: 21 }); // 1.0 * 0.5
-    const clean = problemRetention({ timesCorrect: 1, timesIncorrect: 0, interval: 21 }); // 1.0 * 1.0
-    expect(half).toBeCloseTo(0.5);
-    expect(clean).toBe(1);
-  });
-});
-
-describe('the desk half ignores phone-only rows (the games half counts them instead)', () => {
-  const phone = (n) =>
-    Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21, deskAttempts: 0 }));
-  const desk = (n) =>
-    Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21, deskAttempts: 2 }));
-  const legacy = (n) =>
-    Array.from({ length: n }, () => ({ timesCorrect: 3, timesIncorrect: 0, interval: 21 })); // pre-tracking rows
-
-  it('phone-only rows add nothing to the desk half', () => {
-    expect(computeStudyMastery(phone(200))).toBe(0);
-    expect(computeStudyMastery([...phone(200), ...desk(20)])).toBe(computeStudyMastery(desk(20)));
-  });
-
-  it('desk rows count in full, legacy rows as desk', () => {
-    expect(computeStudyMastery(desk(40))).toBe(80);
-    expect(computeStudyMastery(legacy(40))).toBe(80);
+  it("reads the chapter from the rows when not told, and ignores other chapters' rows", () => {
+    expect(computeStudyMastery(held(27))).toBe(20);
+    expect(computeStudyMastery([...held(27), ...held(10, 'statics')], 'mathematics')).toBe(20);
   });
 });
 
@@ -223,9 +208,4 @@ describe('nextMaturity: a right desk answer after a gap grows the interval', () 
     expect(nextMaturity({ interval: 8, lastCorrectAt: '2026-09-09' }, { isCorrect: true, today: '2026-10-09', source: 'phone' })).toEqual({ interval: 8, lastCorrectAt: '2026-09-09' });
   });
 
-  it('feeds the retention weight the model documents: 0.4, then 0.7 at 7 days, 1.0 at 21', () => {
-    expect(problemRetention({ timesCorrect: 1, interval: 0 })).toBeCloseTo(0.4);
-    expect(problemRetention({ timesCorrect: 1, interval: 8 })).toBeCloseTo(0.7);
-    expect(problemRetention({ timesCorrect: 1, interval: 23 })).toBe(1);
-  });
 });

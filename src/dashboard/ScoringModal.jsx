@@ -12,14 +12,14 @@ const PRINCIPLES = [
   {
     Icon: ArrowsClockwise,
     accent: 'forest',
-    title: 'Spacing beats cramming',
-    body: 'A problem you nail again a few days later counts far more than ten in one sitting — that’s how knowledge holds up on exam day. When you miss one, Review brings it back a few days later so it sticks.',
+    title: 'Coverage, not repetition',
+    body: 'A chapter’s number is the share of its problems you have answered right. Miss one and it stays out of the count until you get it right in Review, which brings it back a day later, then four.',
   },
   {
     Icon: ChartLineUp,
     accent: 'sunbeam',
-    title: 'The last stretch is earned',
-    body: 'The first chunk of a chapter comes quickly; the final climb to true mastery takes review. That’s on purpose — it mirrors how ready you really are, not just how busy you’ve been.',
+    title: 'Two halves, one number',
+    body: 'Games on the phone can take a chapter to 50; the desk takes it to 100. Answer every problem in a chapter right and it reads 100 — nothing is asked twice to get there.',
   },
   {
     Icon: Compass,

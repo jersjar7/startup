@@ -47,45 +47,62 @@ function masteryName(level) {
   return MASTERY_NAMES[level] || 'Not Started';
 }
 
-// ── Study-driven mastery (0–100) ────────────────────────────────────────────
-// Methodology-first: rewards retrieval + spaced repetition + coverage, with
-// diminishing returns. Each problem contributes evidence weighted by its
-// spaced-repetition maturity (interval) and accuracy; chapter mastery saturates
-// as evidence accrues. See docs/mastery-progress-model.md.
-const STUDY_TAU = 25; // "Balanced": ~25 retained problems ≈ 63%, ~55 ≈ ~90%.
+// ── The desk half: coverage (0–100) ─────────────────────────────────────────
+// Owner's decision, 2026-09-25 (ADR 0017, amended): the desk half of a chapter
+// is the share of its problems the student has answered right and holds. A
+// problem counts once it has a right desk answer and is not sitting in the
+// review queue unanswered since a miss. Every problem right once reads 100;
+// nothing is asked twice to feed the number. This replaced the retrieval
+// curve, whose maturity weighting could only be earned by re-answering known
+// problems, which the website never asks for.
+//
+// Rows written before source tracking have no `deskAttempts` and are treated
+// as desk work, never devalued retroactively; phone-only rows belong to the
+// games half and count for nothing here.
+const CHAPTER_PROBLEM_COUNTS = (() => {
+  try {
+    const content = require('./content.json');
+    const counts = {};
+    for (const meta of Object.values(content.problemIndex || {})) {
+      const ch = meta && (meta.chapterId || meta.topicId);
+      if (ch) counts[ch] = (counts[ch] || 0) + 1;
+    }
+    return counts;
+  } catch {
+    return {};
+  }
+})();
 
-// Phone rounds are not problem evidence any more (2026-09-20, owner's
-// decision, docs/mobile/sync-audit.md fix 2): the games half of a chapter is
-// 50 times the share of its games cleared (gamesHalf.js), and the desk half is
-// this curve over DESK work only. `deskAttempts` on a problemHistory row says
-// whether the desk ever touched it; rows written before source tracking have
-// none and are treated as desk work, never devalued retroactively.
-// Per-problem retention weight in [0, 1] from its problemHistory row.
-function problemRetention({ timesCorrect = 0, timesIncorrect = 0, interval = 0 } = {}) {
-  if (timesCorrect <= 0) return 0;
-  const accuracy = timesCorrect / (timesCorrect + timesIncorrect);
-  // Maturity: how well the problem has stuck across spaced reviews.
-  const maturity = interval >= 21 ? 1.0 : interval >= 7 ? 0.7 : 0.4;
-  return maturity * accuracy;
+/** How many problems a chapter has (the content build's index). */
+function problemsInChapter(chapterId) {
+  return CHAPTER_PROBLEM_COUNTS[chapterId] || 0;
 }
 
 // True when a problem's history contains desk work (web practice, review, or
 // the exam simulation). Rows written before source tracking have no
-// `deskAttempts` field and are treated as desk work: they were earned before
-// the ceiling existed and must never be devalued retroactively.
+// `deskAttempts` field and are treated as desk work.
 function hasDeskEvidence(h = {}) {
   return h.deskAttempts === undefined || h.deskAttempts === null || h.deskAttempts > 0;
 }
 
-// Study mastery (0–100) for one chapter: the desk half, from the chapter's
-// problemHistory rows that the desk has touched. Phone-only rows count for
-// nothing here; they count in the games half instead.
-function computeStudyMastery(history = []) {
-  let evidence = 0;
-  for (const h of history) {
-    if (hasDeskEvidence(h)) evidence += problemRetention(h);
-  }
-  return Math.round(100 * (1 - Math.exp(-evidence / STUDY_TAU)));
+/** A problem the student holds: answered right at the desk, not open in the queue since a miss. */
+function holdsProblem(h = {}) {
+  if (!hasDeskEvidence(h) || !(h.timesCorrect > 0)) return false;
+  if (h.reviewActive && !(h.correctSinceMiss > 0)) return false;
+  return true;
+}
+
+/**
+ * The desk half for one chapter: held problems over the chapter's problems.
+ * Rows from other chapters are ignored; a chapter the index does not know
+ * reads 0.
+ */
+function computeStudyMastery(history = [], chapterId = null) {
+  const ch = chapterId || (history.find((h) => h && h.topicId) || {}).topicId;
+  const total = problemsInChapter(ch);
+  if (!total) return 0;
+  const held = history.filter((h) => h && (h.topicId === ch || !h.topicId) && holdsProblem(h)).length;
+  return Math.min(100, Math.round((100 * held) / total));
 }
 
 // One number, two halves. The desk half is the higher of the diagnostic and
@@ -107,9 +124,8 @@ function composeMastery({ diagnosticScore = 0, studyScore = 0, gamesHalf = 0, ga
 }
 
 // ── Maturity: how a problem's interval grows ────────────────────────────────
-// The spaced-repetition maturity that problemRetention reads was never
-// written before 2026-09-20 (audit F1), so every problem sat at the lowest
-// weight and the desk could not reach 100. The rule: a DESK answer that is
+// Kept on each row for the queue and for later study of retention; since
+// 2026-09-25 the number no longer reads it (coverage). The rule: a DESK answer that is
 // right, given `gap` days after the previous right answer, sets the interval
 // to the larger of the old interval and that gap; a wrong answer resets it.
 // Phone rounds never mature a problem (they are the games half instead).
@@ -133,6 +149,6 @@ function nextMaturity(existing = {}, { isCorrect, today, source = 'desk' }) {
 module.exports = {
   nextMaturity, daysBetween,
   calculateEarnedMastery, applyDecay, isDecaying, masteryName, composeMastery,
-  computeStudyMastery, problemRetention, STUDY_TAU,
+  computeStudyMastery, problemsInChapter, holdsProblem,
   hasDeskEvidence,
 };
