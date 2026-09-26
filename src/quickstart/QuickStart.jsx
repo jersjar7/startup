@@ -314,11 +314,11 @@ export function QuickStart({ userName }) {
           <span className="qs-overline"><CheckCircle size={14} weight="bold" /> Early read</span>
           <h1 className="qs-title">{chapterName(segResult.chapterId)}</h1>
           <p className="qs-result-score">
-            You got <strong>{segResult.correct} of {segResult.total}</strong>. Early read: <strong>{fam}% familiar</strong>.
+            You got <strong>{segResult.correct} of {segResult.total}</strong>. That starts the chapter at <strong>{fam}% mastery</strong>.
           </p>
           <p className="qs-honest">
-            This is a starting point, not a grade — getting these right means you're
-            <em> familiar</em>, not yet exam-ready. Mastery grows as you study and review.
+            This is a starting point, not a grade — a short read can seed a chapter with at most 25.
+            The rest is earned at the desk, one problem at a time.
           </p>
 
           <div className="qs-reward">

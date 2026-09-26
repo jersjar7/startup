@@ -19,7 +19,8 @@ const CHAPTERS = [
 const QUESTIONS_PER_CHAPTER = 2;
 const TOTAL_QUESTIONS = CHAPTERS.length * QUESTIONS_PER_CHAPTER; // 30
 const TIME_PER_QUESTION_SEC = 174.6; // 2.91 minutes
-const MASTERY_CAP = 60;
+const { DIAGNOSTIC_CAP } = require('../mastery.js');
+const MASTERY_CAP = DIAGNOSTIC_CAP; // 25 (ADR 0020)
 const RETAKE_THRESHOLD_MASTERY = 60;
 const RETAKE_THRESHOLD_CHAPTERS = 11;
 
@@ -61,7 +62,7 @@ router.post('/submit', verifyAuth, async (req, res) => {
     }
   }
 
-  // Calculate mastery seeded per chapter (capped at 60%)
+  // Calculate mastery seeded per chapter (capped at 25%)
   for (const ch of CHAPTERS) {
     const score = chapterScores[ch];
     if (score.total > 0) {
@@ -99,7 +100,7 @@ router.post('/submit', verifyAuth, async (req, res) => {
   const today = dayFor(req.body); // the student's day (studyDays.js)
   await DB.appendEvent(email, {
     kind: 'diagnostic', chapterId: null, localDate: today,
-    data: { chapterScores: Object.fromEntries(Object.entries(chapterScores).map(([ch, v]) => [ch, v.masterySeeded])), correct: totalCorrect, total: questions.length, xp: xpTotal, attemptNumber },
+    data: { chapterScores: Object.fromEntries(Object.entries(chapterScores).map(([ch, v]) => [ch, { correct: v.correct, total: v.total }])), cap: MASTERY_CAP, correct: totalCorrect, total: questions.length, xp: xpTotal, attemptNumber },
   });
   const state = await rederiveAccount(email, { sessionContext: { correct: totalCorrect, total: questions.length } });
   const streakResult = { currentStreak: state.daysStudied, longestStreak: state.longestStreak };

@@ -60,18 +60,18 @@ describe('deriveAccount: an account from its log', () => {
     expect(s.phoneXp).toBe(40);
     const m = s.chapterMastery.mathematics;
     expect(m.gamesCleared).toBe(1);
-    expect(m.gamesHalf).toBe(1);
-    // four right desk problems of Mathematics' 135: coverage 3
+    expect(m.gamesTotal).toBe(48);
+    // four right desk problems of Mathematics' 135: coverage 3; the game is a warm-up, not in the number
     expect(m.studyScore).toBe(3);
-    expect(m.totalMastery).toBe(4);
+    expect(m.totalMastery).toBe(3);
     expect(s.history['math-q14'].reviewActive).toBe(true);
     expect(s.history['math-slq-q2'].deskAttempts).toBe(0);
     expect(s.games['perpendicular-flip']).toEqual({ rounds: [1, 2, 3, 4, 5, 6, 7, 8], firstTry: 8 });
   });
 
-  it('takes the diagnostic score it cannot derive yet as an input', () => {
+  it('takes an opening diagnostic balance as an input, rescaled from the old 40 cap', () => {
     const s = deriveAccount({ events: [], diagnosticScores: { statics: 40 } });
-    expect(s.chapterMastery.statics.totalMastery).toBe(40);
+    expect(s.chapterMastery.statics.totalMastery).toBe(25);
   });
 
   it('orders by the student\'s day, not by arrival', () => {
@@ -100,8 +100,9 @@ describe('deriveAccount: an account from its log', () => {
     expect(s.webXp).toBe(740);
     expect(s.totalXp).toBe(740);
     expect(s.sessions).toEqual({ practice: 1, review: 0, diagnostic: 1, quickstart: 1, exam: 1 });
-    expect(s.chapterMastery.statics.diagnosticScore).toBe(30);
-    expect(s.chapterMastery.dynamics.totalMastery).toBe(12);
+    // quick start 24 of 40 -> 15; legacy diagnostic 30 of 60 -> 13, 12 of 60 -> 5
+    expect(s.chapterMastery.statics.diagnosticScore).toBe(15);
+    expect(s.chapterMastery.dynamics.totalMastery).toBe(5);
     expect(s.examDate).toBe('2026-11-28');
     expect(s.xpByDay).toEqual({ '2026-06-01': 75, '2026-06-02': 35, '2026-06-03': 450, '2026-06-04': 180 });
     expect(s.topicProgress.mathematics).toEqual({ attempted: 5, correct: 5, sessionsCompleted: 1, masteryLevel: 2, lastStudied: '2026-06-01' });

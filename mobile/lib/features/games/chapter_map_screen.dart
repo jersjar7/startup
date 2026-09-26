@@ -85,7 +85,7 @@ class _ChapterMapScreenState extends State<ChapterMapScreen> {
         .where((l) => _state[l.id] == NodeState.cleared)
         .length;
     // Every game in the chapter cleared: the games half is at 50 and the
-    // rest is desk work. The cap is the hand-off (owner's call, 2026-09-20).
+    // rest is desk work. The last game is the hand-off (ADR 0020).
     final gamesDone = widget.chapter.lessons.every(
       (l) => !l.playable || _state[l.id] == NodeState.cleared,
     );
@@ -183,7 +183,7 @@ class _Header extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Games have taken this chapter as far as they can.',
+                    'Warm-up done. The ideas are covered.',
                     style: AppTheme.display(
                       size: 20,
                       height: 1.1,
@@ -192,8 +192,8 @@ class _Header extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    'That is 50 of its 100. The rest is desk work on the '
-                    'website: practice, review, the exam simulation.',
+                    'Mastery is earned at the desk on the website: practice, '
+                    'review, the exam simulation, one problem at a time.',
                     style: AppTheme.body(size: 14, height: 1.4),
                   ),
                 ],

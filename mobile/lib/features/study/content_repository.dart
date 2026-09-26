@@ -65,12 +65,11 @@ class ContentRepository {
 /// One chapter's mastery as the server composes it: one number, two halves.
 /// The desk half is the website's study curve (with the diagnostic as its
 /// floor), 0 to 100; the games half is 50 times the share of the chapter's
-/// games cleared on the phone, 0 to 50; the number is their sum, at most 100.
+/// games cleared on the phone, a warm-up shown beside it and never added.
 class ChapterMastery {
   const ChapterMastery({
     required this.total,
     this.desk = 0,
-    this.games = 0,
     this.gamesCleared = 0,
     this.gamesTotal = 0,
   });
@@ -80,7 +79,6 @@ class ChapterMastery {
     return ChapterMastery(
       total: n('totalMastery'),
       desk: n('deskScore'),
-      games: n('gamesHalf'),
       gamesCleared: n('gamesCleared'),
       gamesTotal: n('gamesTotal'),
     );
@@ -88,10 +86,9 @@ class ChapterMastery {
 
   final int total;
   final int desk;
-  final int games;
   final int gamesCleared;
   final int gamesTotal;
 
-  /// Games have taken this chapter as far as they can.
+  /// Every game in the chapter is cleared: the warm-up is done.
   bool get gamesDone => gamesTotal > 0 && gamesCleared >= gamesTotal;
 }

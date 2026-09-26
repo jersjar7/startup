@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-const { calculateEarnedMastery, applyDecay, isDecaying, masteryName, computeStudyMastery, composeMastery, nextMaturity, problemsInChapter, holdsProblem } = require('./mastery.js');
+const { calculateEarnedMastery, applyDecay, isDecaying, masteryName, computeStudyMastery, composeMastery, diagnosticRead, nextMaturity, problemsInChapter, holdsProblem } = require('./mastery.js');
 
 describe('calculateEarnedMastery', () => {
   it('returns 0 when no sessions completed', () => {
@@ -163,26 +163,48 @@ describe('computeStudyMastery: the desk half is coverage', () => {
   });
 });
 
-describe('composeMastery: one number, two halves', () => {
-  it('takes the higher of the diagnostic and the study curve as the desk half', () => {
-    expect(composeMastery({ diagnosticScore: 40, studyScore: 30 }).deskScore).toBe(40);
-    expect(composeMastery({ diagnosticScore: 40, studyScore: 55 }).deskScore).toBe(55);
+describe('composeMastery: mastery is desk-earned (ADR 0020)', () => {
+  it('takes the higher of the diagnostic floor and coverage', () => {
+    expect(composeMastery({ diagnosticScore: 20, studyScore: 12 }).deskScore).toBe(20);
+    expect(composeMastery({ diagnosticScore: 20, studyScore: 55 }).deskScore).toBe(55);
   });
 
-  it('adds the games half and stops at 100', () => {
-    expect(composeMastery({ studyScore: 30, gamesHalf: 20 }).totalMastery).toBe(50);
-    expect(composeMastery({ studyScore: 90, gamesHalf: 50 }).totalMastery).toBe(100);
-    expect(composeMastery({ gamesHalf: 50 }).totalMastery).toBe(50);
+  it('caps the diagnostic at 25: a five-question read is a floor, not mastery', () => {
+    expect(composeMastery({ diagnosticScore: 40 }).diagnosticScore).toBe(25);
+    expect(composeMastery({ diagnosticScore: 40 }).totalMastery).toBe(25);
+  });
+
+  it('games never enter the number, whatever was cleared', () => {
+    expect(composeMastery({ studyScore: 30, gamesCleared: 10, gamesTotal: 10 }).totalMastery).toBe(30);
+    expect(composeMastery({ gamesCleared: 10, gamesTotal: 10 }).totalMastery).toBe(0);
+    expect(composeMastery({ gamesHalf: 50 }).totalMastery).toBe(0); // an old caller's field is ignored
     expect(composeMastery({}).totalMastery).toBe(0);
   });
 
-  it('never lets the games half pass 50', () => {
-    expect(composeMastery({ gamesHalf: 80 }).gamesHalf).toBe(50);
+  it('reaches 100 on coverage alone and never past it', () => {
+    expect(composeMastery({ studyScore: 100, diagnosticScore: 25 }).totalMastery).toBe(100);
+    expect(composeMastery({ studyScore: 140 }).totalMastery).toBe(100);
   });
 
-  it('carries the counts through for the surfaces to show', () => {
-    const m = composeMastery({ studyScore: 10, gamesHalf: 15, gamesCleared: 3, gamesTotal: 10 });
-    expect(m).toEqual({ diagnosticScore: 0, studyScore: 10, deskScore: 10, gamesHalf: 15, gamesCleared: 3, gamesTotal: 10, totalMastery: 25 });
+  it('carries the games count through for the surfaces to show as a warm-up', () => {
+    const m = composeMastery({ studyScore: 10, gamesCleared: 3, gamesTotal: 10 });
+    expect(m).toEqual({ diagnosticScore: 0, studyScore: 10, deskScore: 10, gamesCleared: 3, gamesTotal: 10, totalMastery: 10 });
+  });
+});
+
+describe('diagnosticRead: every read lands on the 25 scale', () => {
+  it('uses the raw count when it is there', () => {
+    expect(diagnosticRead({ correct: 5, total: 5 })).toBe(25);
+    expect(diagnosticRead({ correct: 3, total: 5 })).toBe(15);
+    expect(diagnosticRead({ correct: 0, total: 3 })).toBe(0);
+  });
+
+  it('rescales reads written under the old caps', () => {
+    expect(diagnosticRead({ value: 40, legacyCap: 40 })).toBe(25); // quick start, 5 of 5
+    expect(diagnosticRead({ value: 24, legacyCap: 40 })).toBe(15); // quick start, 3 of 5
+    expect(diagnosticRead({ value: 60, legacyCap: 60 })).toBe(25); // legacy diagnostic, all right
+    expect(diagnosticRead({ value: 12, legacyCap: 60 })).toBe(5);
+    expect(diagnosticRead({ value: 25, cap: 25 })).toBe(25);      // written after the change
   });
 });
 

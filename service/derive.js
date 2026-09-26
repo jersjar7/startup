@@ -15,8 +15,8 @@
 // (an opening balance from before the log), session, diagnostic, quickstart,
 // exam, profile, feedback, lesson-opened, concept-read.
 
-const { composeMastery, computeStudyMastery, nextMaturity, calculateEarnedMastery } = require('./mastery.js');
-const { clearedGames, gamesHalf, gamesIn } = require('./gamesHalf.js');
+const { composeMastery, computeStudyMastery, nextMaturity, calculateEarnedMastery, diagnosticRead } = require('./mastery.js');
+const { clearedGames, gamesIn } = require('./gamesHalf.js');
 const { XP, phoneXp } = require('./xp.js');
 
 const GRADUATE_AFTER = 2;
@@ -83,7 +83,9 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
   const byChapter = {}; // chapterId -> phone events
   const phoneByDay = {}; // localDate -> {gotIt, fuzzy, forgot}
 
-  const diag = { ...diagnosticScores }; // chapterId -> the highest diagnostic or quick-start read
+  // chapterId -> the highest diagnostic or quick-start read, on the 25 scale.
+  // Opening balances predate the cap and sit on the quick start's 40 scale.
+  const diag = Object.fromEntries(Object.entries(diagnosticScores).map(([ch, v]) => [ch, diagnosticRead({ value: v, legacyCap: 40 })]));
   let webXp = 0;
   const sessions = { practice: 0, review: 0, diagnostic: 0, quickstart: 0, exam: 0 };
   let examDate = null;
@@ -157,12 +159,15 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
       case 'diagnostic':
         webXp += d.xp || 0; earn(e.localDate, d.xp);
         sessions.diagnostic += 1;
-        for (const [ch, v] of Object.entries(d.chapterScores || {})) diag[ch] = Math.max(diag[ch] || 0, v || 0);
+        for (const [ch, v] of Object.entries(d.chapterScores || {})) {
+          const read = v && typeof v === 'object' ? diagnosticRead({ correct: v.correct, total: v.total }) : diagnosticRead({ value: v, cap: d.cap, legacyCap: 60 });
+          diag[ch] = Math.max(diag[ch] || 0, read);
+        }
         break;
       case 'quickstart':
         webXp += d.xp || 0; earn(e.localDate, d.xp);
         sessions.quickstart += 1;
-        if (e.chapterId) diag[e.chapterId] = Math.max(diag[e.chapterId] || 0, d.familiarity || 0);
+        if (e.chapterId) diag[e.chapterId] = Math.max(diag[e.chapterId] || 0, diagnosticRead({ correct: d.correct, total: d.total, value: d.familiarity, cap: d.cap, legacyCap: 40 }));
         break;
       case 'exam':
         webXp += d.xp || 0; earn(e.localDate, d.xp);
@@ -185,7 +190,6 @@ function deriveAccount({ events = [], diagnosticScores = {} } = {}) {
     chapterMastery[ch] = composeMastery({
       diagnosticScore: diag[ch] || 0,
       studyScore: computeStudyMastery(rows, ch),
-      gamesHalf: gamesHalf(ch, cleared),
       gamesCleared: cleared.length,
       gamesTotal: Object.keys(gamesIn(ch)).length,
     });

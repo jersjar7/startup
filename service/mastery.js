@@ -109,18 +109,32 @@ function computeStudyMastery(history = [], chapterId = null) {
 // the study curve, 0 to 100 on its own; the games half is 0 to 50; the
 // number is the smaller of 100 and their sum. Every writer composes a
 // chapter's entry through here, so there is exactly one formula.
-function composeMastery({ diagnosticScore = 0, studyScore = 0, gamesHalf = 0, gamesCleared = 0, gamesTotal = 0 } = {}) {
-  const desk = Math.max(diagnosticScore || 0, studyScore || 0);
-  const games = Math.max(0, Math.min(50, gamesHalf || 0));
+// Mastery is desk-earned (ADR 0020): coverage of the chapter's problems, with
+// the diagnostic read as a floor worth at most 25. Games on the phone are a
+// warm-up; their count rides along for display and never enters the number.
+const DIAGNOSTIC_CAP = 25;
+
+function composeMastery({ diagnosticScore = 0, studyScore = 0, gamesCleared = 0, gamesTotal = 0 } = {}) {
+  const diag = Math.max(0, Math.min(DIAGNOSTIC_CAP, Math.round(diagnosticScore || 0)));
+  const study = Math.max(0, Math.min(100, studyScore || 0));
+  const desk = Math.max(diag, study);
   return {
-    diagnosticScore: diagnosticScore || 0,
-    studyScore: studyScore || 0,
+    diagnosticScore: diag,
+    studyScore: study,
     deskScore: desk,
-    gamesHalf: games,
     gamesCleared: gamesCleared || 0,
     gamesTotal: gamesTotal || 0,
-    totalMastery: Math.min(100, desk + games),
+    totalMastery: desk,
   };
+}
+
+// A diagnostic or quick-start read, rescaled to the 25 cap. Reads written
+// before the cap changed carry no `cap`; they were scaled to 40 (quick start)
+// or 60 (the legacy diagnostic). When the raw count is there, use it.
+function diagnosticRead({ correct, total, value, cap, legacyCap }) {
+  if (total > 0 && correct >= 0) return Math.min(DIAGNOSTIC_CAP, Math.round((DIAGNOSTIC_CAP * correct) / total));
+  const scale = cap || legacyCap || DIAGNOSTIC_CAP;
+  return Math.min(DIAGNOSTIC_CAP, Math.round(((value || 0) * DIAGNOSTIC_CAP) / scale));
 }
 
 // ── Maturity: how a problem's interval grows ────────────────────────────────
@@ -149,6 +163,8 @@ function nextMaturity(existing = {}, { isCorrect, today, source = 'desk' }) {
 module.exports = {
   nextMaturity, daysBetween,
   calculateEarnedMastery, applyDecay, isDecaying, masteryName, composeMastery,
+  diagnosticRead,
+  DIAGNOSTIC_CAP,
   computeStudyMastery, problemsInChapter, holdsProblem,
   hasDeskEvidence,
 };

@@ -5,7 +5,7 @@
 //
 //   cd services/startup && set -a && . ./.env && set +a && node scripts/recomputeMastery.js
 const { composeMastery, computeStudyMastery } = require('../mastery.js');
-const { clearedGames, gamesHalf, gamesIn } = require('../gamesHalf.js');
+const { clearedGames, gamesIn } = require('../gamesHalf.js');
 const {
   userStatsCollection, problemHistoryCollection, reviewEventsCollection, client,
 } = require('../db/connection');
@@ -26,7 +26,6 @@ async function main() {
       after[ch] = composeMastery({
         diagnosticScore: before[ch]?.diagnosticScore || 0,
         studyScore: computeStudyMastery(history.filter((h) => h.topicId === ch), ch),
-        gamesHalf: gamesHalf(ch, cleared),
         gamesCleared: cleared.length,
         gamesTotal: Object.keys(gamesIn(ch)).length,
       });

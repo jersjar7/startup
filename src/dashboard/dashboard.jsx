@@ -278,15 +278,14 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
     if (pct >= 10) return 'Building';
     return 'New';
   };
-  // One number, two halves: the desk half (practice, review, the diagnostic)
-  // can take a chapter to 100 on its own; the games half from the phone is 50
-  // times the share of the chapter's games cleared, at most 50.
+  // Mastery is desk-earned (ADR 0020): coverage of the chapter's problems,
+  // with the readiness read as a floor worth at most 25. Games on the phone
+  // are a warm-up; their count is shown, never added.
   const getProgress = (chapter) => {
     const cm = chapterMastery[chapter.id];
     const pct = cm && cm.totalMastery > 0 ? cm.totalMastery : 0;
     return {
       masteryPct: pct,
-      gamesHalf: cm && cm.gamesHalf > 0 ? Math.min(50, cm.gamesHalf) : 0,
       gamesCleared: cm && cm.gamesCleared > 0 ? cm.gamesCleared : 0,
       gamesTotal: cm && cm.gamesTotal > 0 ? cm.gamesTotal : 0,
       masteryName: stageName(pct),
@@ -491,17 +490,17 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                   <span className="ch-name-d">{ch.name}</span>
                   <div className="ch-mastery">
                     <span className={`ch-pct${pct > 0 ? '' : ' ch-pct--zero'}`} style={pct > 0 ? { color: barColor } : undefined}>{pct}%</span>
-                    {/* The mark at 50 and the games line show only where games
-                        were played: nobody sees them for an app they cannot use. */}
-                    <div className="mastery-bar-pct" title={prog.gamesCleared > 0 ? 'Games can take a chapter up to 50%. The rest is desk work here.' : undefined}>
+                    <div className="mastery-bar-pct">
                       <div
                         className="mastery-bar-fill"
                         style={{ width: `${pct}%`, background: barColor }}
                       />
-                      {prog.gamesCleared > 0 ? <span className="mastery-bar-mark" aria-hidden="true" /> : null}
                     </div>
+                    {/* The warm-up line shows only where games were played:
+                        nobody sees it for an app they cannot use. It sits off
+                        the bar because it is not part of the number. */}
                     {prog.gamesCleared > 0 ? (
-                      <span className="ch-games"><DeviceMobile weight="regular" size={10} /> {prog.gamesCleared} of {prog.gamesTotal} games</span>
+                      <span className="ch-games" title="Games on the app are a warm-up. They do not count toward mastery."><DeviceMobile weight="regular" size={10} /> warm-up {prog.gamesCleared} of {prog.gamesTotal} games</span>
                     ) : null}
                   </div>
                   {/* badge color encodes exam weight (one scale), not the chapter's accent */}
@@ -544,7 +543,7 @@ export function Dashboard({ userName, onLogout, displayName, firstName, examDate
                     : <>Nothing from the app today. </>}
                   Last synced {when} from {device}.
                 </p>
-                <p className="phone-block-sub">Games can take a chapter up to 50%. The rest is desk work here.</p>
+                <p className="phone-block-sub">Games on the app are a warm-up. Mastery is earned here, one problem at a time.</p>
                 {chMeta && (
                   <button className="tonight-btn" onClick={() => navigate(`/problems/${topCh}`)}>
                     Practice what the app missed: {chMeta.name} <ArrowRight weight="bold" size={13} />

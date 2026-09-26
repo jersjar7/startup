@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { clearedGames, gamesHalf, gamesIn, parseGameItem, GAMES_HALF_MAX } from './gamesHalf.js';
+import { clearedGames, gamesIn, parseGameItem } from './gamesHalf.js';
 
 const ev = (itemId, grade = 'gotIt', source = 'ios') => ({ itemId, grade, source });
 
-describe('the games half', () => {
+describe('cleared games', () => {
   it('knows every chapter of the catalog', () => {
     expect(Object.keys(gamesIn('mathematics')).length).toBe(48);
     expect(gamesIn('mathematics')['perpendicular-flip']).toBe(8);
@@ -33,12 +33,8 @@ describe('the games half', () => {
     expect(clearedGames('statistics', eight.map((e) => ({ ...e, source: 'ios' })))).toEqual([]);
   });
 
-  it('is 50 times the share of games cleared, and 50 at the last one', () => {
-    const all = Object.keys(gamesIn('construction'));
-    expect(all.length).toBe(10);
-    expect(gamesHalf('construction', [])).toBe(0);
-    expect(gamesHalf('construction', all.slice(0, 3))).toBe(15);
-    expect(gamesHalf('construction', all)).toBe(GAMES_HALF_MAX);
-    expect(gamesHalf('mathematics', ['perpendicular-flip'])).toBe(1);
+  it('knows how many games a chapter has', () => {
+    expect(Object.keys(gamesIn('construction')).length).toBe(10);
+    expect(Object.keys(gamesIn('mathematics')).length).toBe(48);
   });
 });

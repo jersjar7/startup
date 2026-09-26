@@ -193,7 +193,7 @@ deploys' worth of commits shipped as one:
 |---|---|---|
 | 3 One clock (F3) | aa0c241 | live; the proof shows one day for one evening |
 | 4 Deletion clears everything (F4) | aa0c241 | live; the proof starts from an empty log after a reset |
-| 2 Games half, one formula (F2, F5, F9, part of F10) | ad9e5f6 | live; every account recomputed (340); both surfaces show the games share |
+| 2 Games half, one formula (F2, F5, F9, part of F10) | ad9e5f6 | live 2026-09-20; withdrawn 2026-09-25 by ADR 0020: games are a warm-up and no longer enter the number, the readiness read is capped at 25 |
 | 1 Maturity (F1) | 5645d88 | live; grows from the next spaced right answer on |
 | 6 Simulation as desk work (F6) | 5645d88 | live |
 | 7 Badges everywhere (F7) | 5645d88 | live |

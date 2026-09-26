@@ -72,8 +72,9 @@ class MasteryScreen extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 'Of the concepts the FE Civil tests, weighted by how many '
-                'questions each chapter gets. Games take a chapter to 50; '
-                'the desk takes it to 100. Not a probability of passing.',
+                'questions each chapter gets. Earned at the desk on the '
+                'website; games here are the warm-up. Not a probability of '
+                'passing.',
                 style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
               ),
               const SizedBox(height: 22),
@@ -141,7 +142,8 @@ class _ChapterTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pct = mastery?.total ?? 0;
-    final games = mastery?.games ?? 0;
+    final cleared = mastery?.gamesCleared ?? 0;
+    final total = mastery?.gamesTotal ?? 0;
     final accent = fill != null;
     final color = fill ?? (pct >= 80 ? AppColors.spring : AppColors.cream);
     final muted = accent ? AppColors.charcoal : AppColors.mutedOnLight;
@@ -212,10 +214,10 @@ class _ChapterTile extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          // The games half, so the cap is visible: this much from the phone,
-          // the rest from the desk.
+          // The warm-up count, so the phone's part is visible without ever
+          // reading as part of the number.
           Text(
-            games == 0 ? 'games 0 of 50' : 'games $games of 50',
+            total == 0 ? 'no games yet' : 'warm-up $cleared of $total',
             style: AppTheme.mono(size: 10.5, color: muted),
           ),
         ],

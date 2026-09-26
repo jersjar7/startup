@@ -18,8 +18,8 @@ const PRINCIPLES = [
   {
     Icon: ChartLineUp,
     accent: 'sunbeam',
-    title: 'Two halves, one number',
-    body: 'Games on the phone can take a chapter to 50; the desk takes it to 100. Answer every problem in a chapter right and it reads 100 — nothing is asked twice to get there.',
+    title: 'Mastery is earned at the desk',
+    body: 'Games on the app are a warm-up and do not count. The readiness map gives a chapter a floor of at most 25 until your desk work passes it. Answer every problem in a chapter right and it reads 100.',
   },
   {
     Icon: Compass,

@@ -395,16 +395,6 @@
 }
 
 /* The games half stops here: a hairline at 50 on every chapter bar. */
-.mastery-bar-mark {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 2px;
-  background: var(--charcoal);
-  opacity: 0.35;
-}
-
 .ch-games {
   display: block;
   font-family: var(--font-mono);

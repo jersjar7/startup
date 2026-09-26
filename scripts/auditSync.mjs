@@ -21,15 +21,11 @@ const RESET = args.includes('--reset');
 const creds = JSON.parse(readFileSync(new URL('../secrets/qa-login.json', import.meta.url)));
 const content = JSON.parse(readFileSync(new URL('../service/content.json', import.meta.url)));
 
-// One number, two halves (docs/mobile/sync-audit.md fix 2): the desk half is
-// the study curve over desk problems, the games half is 50 times the share of
-// the chapter's games cleared, the number is the smaller of 100 and the sum.
-const MATH_GAMES = 48;
+// Mastery is desk-earned (ADR 0020): coverage, the problems held over the
+// chapter's problems. Games on the phone are a warm-up and never enter it.
 const MATH_PROBLEMS = 135;
-// The desk half is coverage (2026-09-25): problems held over the chapter's problems.
 const deskCurve = (desk) => Math.round((100 * desk) / MATH_PROBLEMS);
-const gamesHalf = (cleared) => Math.round((50 * cleared) / MATH_GAMES);
-const model = (desk, cleared) => Math.min(100, deskCurve(desk) + gamesHalf(cleared));
+const model = (desk) => Math.min(100, deskCurve(desk));
 
 let token = null;
 async function api(method, path, body) {
@@ -63,7 +59,7 @@ async function snapshot(label) {
     totalXp: me.totalXp, currentStreak: me.currentStreak, badges: (me.badges || []).length,
     problemsAnswered: me.problemsAnswered,
     mathTotal: math.totalMastery ?? 0, mathStudy: math.studyScore ?? 0, mathDiag: math.diagnosticScore ?? 0,
-    mathGames: math.gamesHalf ?? 0, mathGamesCleared: math.gamesCleared ?? 0,
+    mathGamesCleared: math.gamesCleared ?? 0, mathGamesTotal: math.gamesTotal ?? 0,
     studyDays: days.days, dayCount: days.count,
     dueReviews: reviewCount.count ?? reviewCount.due ?? reviewCount,
     phoneCardsToday: today.cards, lastSync: today.lastSync,
@@ -106,9 +102,9 @@ const batchA = { events: Array.from({ length: 8 }, (_, r) => phoneRound('math-sl
 const pushA = await api('POST', '/sync/events', batchA);
 const s1 = await snapshot('after one phone game');
 check('phone push accepted 8 new events', pushA.accepted === 8, JSON.stringify(pushA));
-check('one game cleared: the games half is 50 x 1/48 = 1, the desk half untouched',
-  s1.mathGamesCleared === 1 && s1.mathGames === gamesHalf(1) && s1.mathStudy === 0 && s1.mathTotal === model(0, 1),
-  `games ${s1.mathGames} (cleared ${s1.mathGamesCleared}), study ${s1.mathStudy}, total ${s1.mathTotal}`);
+check('one game cleared: the count shows 1 of 48, mastery stays 0 (games are a warm-up)',
+  s1.mathGamesCleared === 1 && s1.mathGamesTotal === 48 && s1.mathStudy === 0 && s1.mathTotal === 0,
+  `cleared ${s1.mathGamesCleared} of ${s1.mathGamesTotal}, study ${s1.mathStudy}, total ${s1.mathTotal}`);
 check('phone XP: 8 gotIt = 40, under the 60 daily cap', s1.totalXp - s0.totalXp === 40, `+${s1.totalXp - s0.totalXp}`);
 check('a study day ticked once and today (local) is in the list',
   s1.dayCount === s0.dayCount + 1 && s1.studyDays.includes(localDay()), `count ${s0.dayCount} -> ${s1.dayCount}`);
@@ -127,7 +123,7 @@ check('a retry moves nothing', s2.totalXp === s1.totalXp && s2.dayCount === s1.d
 const batchB = { events: [['math-slq-q1', 'grade-sense'], ['math-slq-q3', 'discriminant-gate'], ['math-log-q1', 'rule-or-trap'], ['math-log-q2', 'one-log']].map(([id, g], i) => phoneRound(id, g, i)), device: 'audit' };
 await api('POST', '/sync/events', batchB);
 const s3 = await snapshot('after four single rounds on the phone');
-check('rounds that clear no game leave both halves alone', s3.mathGames === gamesHalf(1) && s3.mathStudy === 0 && s3.mathTotal === model(0, 1), `games ${s3.mathGames}, study ${s3.mathStudy}`);
+check('rounds that clear no game move nothing', s3.mathGamesCleared === 1 && s3.mathStudy === 0 && s3.mathTotal === 0, `cleared ${s3.mathGamesCleared}, study ${s3.mathStudy}`);
 check('phone XP capped per local day at 60', s3.totalXp - s0.totalXp === 60, `+${s3.totalXp - s0.totalXp} total from 12 gotIt (=60 uncapped, cap 60)`);
 check('still one study day', s3.dayCount === s1.dayCount, `${s3.dayCount}`);
 
@@ -139,7 +135,7 @@ const mathIds = Object.entries(idx).filter(([, m]) => (m.chapterId || m.topicId)
 const session = { topicId: 'mathematics', answers: mathIds.map((problemId) => ({ problemId, isCorrect: true })), localDate: localDay(), durationSeconds: 120 };
 await api('POST', '/sessions', session);
 const s4 = await snapshot('after one website session');
-check('five desk problems: the desk half is the curve, the number is desk + games', s4.mathStudy === deskCurve(5) && s4.mathTotal === model(5, 1), `study ${s4.mathStudy} (curve ${deskCurve(5)}), total ${s4.mathTotal} (model ${model(5, 1)})`);
+check('five desk problems: coverage 5 of 135, the number is the desk alone', s4.mathStudy === deskCurve(5) && s4.mathTotal === model(5), `study ${s4.mathStudy} (coverage ${deskCurve(5)}), total ${s4.mathTotal} (model ${model(5)})`);
 check('website XP: 5 correct + session bonus = 75', s4.totalXp - s3.totalXp === 75, `+${s4.totalXp - s3.totalXp}`);
 // One clock (audit F3, fixed 2026-09-20): the website session is dated by the
 // student's day, so one evening is one day whatever the UTC date is.
@@ -153,7 +149,7 @@ check('problems answered counts both surfaces', s4.problemsAnswered === 10, `${s
 // ---- phone re-answers a desk problem: stays desk, no double count ----------
 await api('POST', '/sync/events', { events: [phoneRound(mathIds[0], 'grade-sense', 1)], device: 'audit' });
 const s5 = await snapshot('after the phone re-answers a desk problem');
-check('a desk problem answered on the phone stays desk evidence', s5.mathStudy === deskCurve(5) && s5.mathTotal === model(5, 1), `study ${s5.mathStudy}`);
+check('a desk problem answered on the phone stays desk evidence', s5.mathStudy === deskCurve(5) && s5.mathTotal === model(5), `study ${s5.mathStudy}`);
 check('problems answered is still 10 distinct', s5.problemsAnswered === 10, `${s5.problemsAnswered}`);
 check('the late phone round did not tick another day either', s5.dayCount === s4.dayCount, `${s4.dayCount} -> ${s5.dayCount}`);
 

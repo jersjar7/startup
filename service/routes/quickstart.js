@@ -50,7 +50,8 @@ const MAX_SEGMENT = 5;
 const countFor = (ch) => QUESTIONS_PER_CHAPTER[ch] || MAX_SEGMENT;
 
 // A short sample is a rough read, never mastery — cap it well below 100.
-const FAMILIARITY_CAP = 40;
+const { DIAGNOSTIC_CAP } = require('../mastery.js');
+const FAMILIARITY_CAP = DIAGNOSTIC_CAP; // 25: a five-question read is a floor, not mastery (ADR 0020)
 
 function nextChapter(sampled) {
   const done = new Set(sampled || []);
@@ -124,7 +125,7 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
     if (a.selectedAnswerId && a.isCorrect) correct++;
   }
 
-  // familiarity = round(correct/total * 40), capped at 40. 5/5 → 40, never 100.
+  // familiarity = round(correct/total * 25), capped at 25. 5/5 → 25, never 100.
   const familiarity = Math.min(Math.round((correct / total) * FAMILIARITY_CAP), FAMILIARITY_CAP);
 
   // XP on the same scale as the legacy diagnostic: 10 per attempted + 5 per correct.
@@ -145,7 +146,7 @@ router.post('/submit-segment', verifyAuth, async (req, res) => {
   // progress, so it rides along as an extra field.
   await DB.appendEvent(email, {
     kind: 'quickstart', chapterId, localDate: today,
-    data: { chapterId, familiarity, correct, total, xp: xpTotal },
+    data: { chapterId, familiarity, correct, total, cap: FAMILIARITY_CAP, xp: xpTotal },
   });
   const derived = await rederiveAccount(email, { sessionContext: { correct, total }, extra: { quickstartSampled } });
   const streakResult = { currentStreak: derived.daysStudied, longestStreak: derived.longestStreak };

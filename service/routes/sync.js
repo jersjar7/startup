@@ -2,7 +2,6 @@ const express = require('express');
 const { verifyAuth } = require('../middleware/auth.js');
 const DB = require('../database.js');
 const { computeStudyMastery, composeMastery } = require('../mastery.js');
-const { clearedGames, gamesHalf, gamesIn } = require('../gamesHalf.js');
 const { rederiveAccount } = require('../rederive.js');
 const { getWeekId } = require('./leaderboard.js');
 const { XP, phoneXp } = require('../xp.js');

@@ -1,13 +1,8 @@
-// The games half of chapter mastery.
+// Which of a chapter's games the phone has cleared.
 //
-// Owner's decision (2026-09-20, docs/mobile/sync-audit.md fix 2): a chapter's
-// mastery is one number with two halves. The desk half is the study curve
-// from website work, 0 to 100. The games half is 50 times the share of the
-// chapter's games the student has cleared on the phone, 0 to 50, so the
-// hand-off ("games have taken this chapter as far as they can") fires exactly
-// when the last game is cleared. The number is the smaller of 100 and the
-// sum. This replaces the old cap on phone-only evidence: phone rounds no
-// longer count as problem evidence at all.
+// Games are a warm-up (ADR 0020, 2026-09-25): the count is shown on both
+// surfaces and never enters the mastery number. A round on the phone is not
+// problem evidence either.
 //
 // A game is cleared when the phone's events cover every one of its rounds
 // with a right answer. Events name the round: itemId is
@@ -15,7 +10,6 @@
 
 const catalog = require('./gameCatalog.json'); // {chapterId: {gameId: rounds}}
 
-const GAMES_HALF_MAX = 50;
 
 /** The games of one chapter, {gameId: rounds}; empty for an unknown chapter. */
 function gamesIn(chapterId) {
@@ -52,10 +46,5 @@ function clearedGames(chapterId, events) {
 }
 
 /** 50 times the share of the chapter's games cleared, rounded. */
-function gamesHalf(chapterId, cleared) {
-  const total = Object.keys(gamesIn(chapterId)).length;
-  if (total === 0) return 0;
-  return Math.round((GAMES_HALF_MAX * cleared.length) / total);
-}
 
-module.exports = { GAMES_HALF_MAX, gamesIn, parseGameItem, clearedGames, gamesHalf };
+module.exports = { gamesIn, parseGameItem, clearedGames };
