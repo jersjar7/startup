@@ -167,7 +167,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('7 of 7 cleared'), findsOneWidget);
     expect(
-      find.text('Games have taken this chapter as far as they can.'),
+      find.text('Warm-up done. The ideas are covered.'),
       findsOneWidget,
     );
     await expectLater(
