@@ -150,6 +150,9 @@ same steps gave XP 0, 40, 40, 60, 135, 135 and events 10 to 28.
 1. **Make the desk reach 100 (F1).** Write and grow `interval` on problem
    history as the model intended: a correct answer after 7 or 21 days raises
    the problem's maturity. Medium; one server file, tests, no migration.
+   Done 2026-09-20, then replaced 2026-09-25: the desk half is now coverage
+   (share of the chapter's problems held), see ADR 0019. No re-asks feed
+   the number.
 2. **Define the games half so the hand-off is exact (F2, F9).** Recommended:
    the games half of a chapter is 50 times the share of its games cleared,
    the desk half is the study curve from desk evidence with the diagnostic

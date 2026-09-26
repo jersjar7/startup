@@ -1,7 +1,9 @@
 # 0017. Mastery is one number with two halves: the desk to 100, the games to 50
 
 Date: 2026-09-20
-Status: Accepted. Supersedes the "never combined" rule of
+Status: Accepted; the desk-half bullet is superseded by
+[0019](0019-desk-half-is-coverage.md) (coverage, not a repetition curve).
+Supersedes the "never combined" rule of
 [0013](0013-games-keep-their-own-score.md); keeps its "games get their own
 number" on the phone's map.
 
