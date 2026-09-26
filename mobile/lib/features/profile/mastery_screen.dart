@@ -73,8 +73,8 @@ class MasteryScreen extends StatelessWidget {
               Text(
                 'Of the concepts the FE Civil tests, weighted by how many '
                 'questions each chapter gets. Earned at the desk on the '
-                'website; games here are the warm-up. Not a probability of '
-                'passing.',
+                'website. Games here do not count toward it. Not a '
+                'probability of passing.',
                 style: AppTheme.body(size: 15, color: AppColors.mutedOnLight),
               ),
               const SizedBox(height: 22),
@@ -214,10 +214,10 @@ class _ChapterTile extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          // The warm-up count, so the phone's part is visible without ever
+          // The games count, so the phone's part is visible without ever
           // reading as part of the number.
           Text(
-            total == 0 ? 'no games yet' : 'warm-up $cleared of $total',
+            total == 0 ? 'no games yet' : 'games $cleared of $total cleared',
             style: AppTheme.mono(size: 10.5, color: muted),
           ),
         ],

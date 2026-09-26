@@ -183,7 +183,7 @@ class _Header extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Warm-up done. The ideas are covered.',
+                    'Every game cleared. The ideas are covered.',
                     style: AppTheme.display(
                       size: 20,
                       height: 1.1,

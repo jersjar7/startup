@@ -65,7 +65,7 @@ class ContentRepository {
 /// One chapter's mastery as the server composes it: one number, two halves.
 /// The desk half is the website's study curve (with the diagnostic as its
 /// floor), 0 to 100; the games half is 50 times the share of the chapter's
-/// games cleared on the phone, a warm-up shown beside it and never added.
+/// games cleared on the phone, shown beside it and never added.
 class ChapterMastery {
   const ChapterMastery({
     required this.total,
@@ -89,6 +89,6 @@ class ChapterMastery {
   final int gamesCleared;
   final int gamesTotal;
 
-  /// Every game in the chapter is cleared: the warm-up is done.
+  /// Every game in the chapter is cleared.
   bool get gamesDone => gamesTotal > 0 && gamesCleared >= gamesTotal;
 }

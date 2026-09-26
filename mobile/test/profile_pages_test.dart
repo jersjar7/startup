@@ -46,7 +46,7 @@ void _phone(WidgetTester tester, [double height = 844]) {
   addTearDown(tester.view.reset);
 }
 
-/// Per chapter: the number, and the warm-up count shown beside it.
+/// Per chapter: the number, and the games count shown beside it.
 const _totals = <String, int>{
   'mathematics': 62,
   'statistics': 35,
@@ -103,7 +103,7 @@ void main() {
     await _settle(tester);
     expect(find.text('25%', findRichText: true), findsOneWidget);
     expect(find.text('MASTERED'), findsOneWidget); // ethics
-    expect(find.text('warm-up 5 of 10'), findsNWidgets(3)); // the three played
+    expect(find.text('games 5 of 10 cleared'), findsNWidgets(3)); // the three played
     expect(find.text('no games yet'), findsWidgets);
     await expectLater(
       find.byType(MaterialApp),
