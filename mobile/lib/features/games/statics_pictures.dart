@@ -447,13 +447,13 @@ Widget tablePicture() => ConceptPair(
 Widget referencePicture() => ConceptPicture(
   painter: ProfilePainter(
     profile: _tee,
+    axes: const [Datum(0, 'the line you chose')],
+    spots: const [Offset(3, 2), Offset(3, 4.7)],
     markCentroid: true,
-    drops: const [Drop(0, 2, 'to the web'), Drop(0, 4.7, 'to the flange')],
-    locked: true,
   ),
   caption:
-      'one line at the bottom, and every piece measured from it to its own '
-      'middle',
+      'one line at the bottom. 1 and 2 are the two pieces, each measured from '
+      'that line to its own middle',
   height: 210,
 );
 
@@ -466,14 +466,10 @@ final Profile _onEdge = Profile([
 final Profile _flat = Profile([const Piece(Slab.box, Offset.zero, Size(6, 2))]);
 
 Widget farFromAxisPicture() => ConceptPicture(
-  painter: LineUpPainter(
-    shapes: [_onEdge, _flat],
-    truth: const [0, 1],
-    locked: true,
-  ),
+  painter: LineUpPainter(shapes: [_onEdge, _flat]),
   caption:
-      'the same plank both ways up. standing tall, its material sits far from '
-      'the middle, and that is what stiffness counts',
+      'the same plank both ways up, drawn to one scale. standing tall, its '
+      'material sits far from the middle, and that is what counts',
   height: 200,
 );
 
