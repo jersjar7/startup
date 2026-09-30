@@ -10746,200 +10746,450 @@ const dampingBrief = BriefSection(
 );
 
 const farFromAxisBrief = BriefSection(
-  title: 'Distance does the work',
-  body:
-      'The moment of inertia is a sum of area times distance SQUARED, so where '
-      'the material sits matters far more than how much of it there is. Metal '
-      'near the axis is very nearly wasted, because its distance is nearly '
-      'zero and squaring it makes it smaller still. For a rectangle the depth '
-      'appears cubed and the width only once, which is why turning a joist on '
-      'edge multiplies its stiffness many times over for exactly the same '
-      'timber, and why an I-beam puts its steel out in the flanges and leaves '
-      'the web as thin as shear will allow.',
-  formulas: [
-    ('What it is', r'I_x = \int y^2\, dA'),
-    ('Rectangle', r'I_{xc} = \frac{bh^3}{12}'),
-    ('Circle', r'I_{xc} = \frac{\pi r^4}{4}'),
+  title: 'Distance does the work, not amount',
+  picture: farFromAxisPicture,
+  steps: [
+    (
+      'Try to bend a ruler',
+      'Flat side up, it bends easily. Turn it on edge and you can barely move '
+          'it. Same ruler, same material, same amount of plastic. Only the '
+          'direction changed.',
+    ),
+    (
+      'Why: distance counts twice over',
+      'Stiffness adds up area times distance from the middle SQUARED. '
+          'Squared, so material twice as far out counts four times as much. '
+          'Material sitting on the middle line counts almost nothing.',
+    ),
+    (
+      'For a rectangle, depth is cubed',
+      'Width counts once, depth counts three times over. Make a joist twice '
+          'as deep and it is eight times stiffer. Make it twice as wide and it is '
+          'only twice as stiff.',
+    ),
+    (
+      'Which is why an I beam looks like that',
+      'All the steel is pushed out to the top and bottom flanges, far from '
+          'the middle, and the web in between is only as thick as it has to be.',
+    ),
   ],
-  figure: BriefFigure.farFromAxis,
+  spoken: [
+    (
+      'What it is',
+      r'I_x = \int y^2\, dA',
+      'every bit of area, times its distance from the middle squared',
+    ),
+    (
+      'Rectangle',
+      r'I_{xc} = \frac{bh^3}{12}',
+      'width times depth cubed, over twelve',
+    ),
+    (
+      'Circle',
+      r'I_{xc} = \frac{\pi r^4}{4}',
+      'pi times the radius to the fourth, over four',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 98 to 100',
 );
 
 const transferBrief = BriefSection(
-  title: 'Moving it to another axis',
-  body:
-      'A shape has its SMALLEST moment of inertia about its own centroidal '
-      'axis. Move to any parallel axis and you add the transfer term, area '
-      'times the distance between them squared. Come back and you take it off. '
-      'The theorem only runs between the centroidal axis and some other one: '
-      'it will not go straight from one non-centroidal axis to another, and '
-      'the way through is always back via the centroid.',
-  formulas: [
-    ('Parallel axis theorem', r'I_x = \bar{I}_{xc} + Ad^2'),
-    ('Leaving the centroidal axis', r'+\,Ad^2'),
-    ('Arriving at it', r'-\,Ad^2'),
+  title: 'Moving the stiffness to another line',
+  picture: transferPicture,
+  steps: [
+    (
+      'A shape is least stiff about its own middle',
+      'Measure stiffness about the shape\'s own balance line and you get the '
+          'smallest number there is. Any other line gives a bigger one.',
+    ),
+    (
+      'Moving away costs area times distance squared',
+      'Shift to a line a distance d away and you ADD the area times d '
+          'squared. That extra term is often bigger than the shape\'s own '
+          'stiffness.',
+    ),
+    (
+      'Coming back takes it off',
+      'Going the other way, from some line back to the shape\'s own middle, '
+          'you subtract the same term.',
+    ),
+    (
+      'It only runs through the middle line',
+      'The rule cannot jump straight between two lines that are both off '
+          'center. Go back to the shape\'s own middle first, then out to the new '
+          'line.',
+    ),
   ],
-  figure: BriefFigure.transfer,
+  spoken: [
+    (
+      'Parallel axis theorem',
+      r'I_x = \bar{I}_{xc} + Ad^2',
+      'its own stiffness, plus area times the distance squared',
+    ),
+    ('Leaving its own middle', r'+\,Ad^2', 'add the transfer term'),
+    ('Arriving at its own middle', r'-\,Ad^2', 'take the transfer term off'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
 const compositeIBrief = BriefSection(
   title: 'Where a built-up section gets its stiffness',
-  body:
-      'Add a composite section up piece by piece: each one brings its own '
-      'centroidal value AND a transfer term, and the transfer is measured to '
-      'the COMPOSITE centroid, not to the piece or to the base. On almost any '
-      'real section those transfer terms are the bigger half of the answer, '
-      'and that has a consequence worth carrying: because the distance is '
-      'squared, a piece sitting on the axis contributes almost nothing however '
-      'much material is in it, and a small piece a long way out can carry most '
-      'of the section. It is why an I-beam has fat flanges and a thin web, and '
-      'why a service hole goes through the middle of a beam depth.',
-  formulas: [
-    ('Piece by piece', r'I_x = \sum \left( \bar{I}_i + A_i d_i^2 \right)'),
-    ('Measured to', r'\text{the composite centroid}'),
-    ('Which is why', r'd^2 \text{, so material on the axis is wasted}'),
+  picture: compositeIPicture,
+  steps: [
+    (
+      'Add it up piece by piece',
+      'Each piece brings two things: its own stiffness about its own middle, '
+          'and the transfer term for how far it sits from the WHOLE section\'s '
+          'balance line.',
+    ),
+    (
+      'Measure to the whole section\'s middle, every time',
+      'Not to the piece, not to the base. That one line, for every piece. '
+          'Mixing them up is the usual way this goes wrong.',
+    ),
+    (
+      'The transfer terms are usually the bigger half',
+      'On almost any real section, how far the pieces sit out matters more '
+          'than how stiff they are on their own.',
+    ),
+    (
+      'So position beats size',
+      'A small piece far out can carry most of the section. A big piece '
+          'sitting on the middle line adds almost nothing. That is why an I beam '
+          'has fat flanges and a thin web, and why service holes go through the '
+          'middle of a beam.',
+    ),
   ],
-  figure: BriefFigure.compositeI,
+  spoken: [
+    (
+      'Piece by piece',
+      r'I_x = \sum \left( \bar{I}_i + A_i d_i^2 \right)',
+      'each piece\'s own stiffness plus its area times its distance squared',
+    ),
+    (
+      'Measured to',
+      r'\text{the balance line of the whole section}',
+      'the same line for every piece',
+    ),
+    (
+      'Which is why',
+      r'd^2',
+      'squared, so material on the middle line is wasted',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
 const polarBrief = BriefSection(
   title: 'Bending needs I, twisting needs J',
-  body:
-      'Two different jobs and two different properties, and reaching for the '
-      'wrong one is on this chapter\'s own trap list. Bending needs I, and it '
-      'is I about the axis SQUARE to the load: push a member down and it bends '
-      'about its horizontal axis, push it sideways and it bends about its '
-      'vertical one, whichever way round the section happens to be drawn and '
-      'whichever axis is the stronger. Twisting about the member\'s own length '
-      'needs the polar moment, which is simply the two I values added about '
-      'the same point. For a round shaft J works out to exactly twice I, so '
-      'using one for the other costs you a factor of two.',
-  formulas: [
-    ('Bending', r'\sigma = \frac{Mc}{I}'),
-    ('Twisting', r'\tau = \frac{Tc}{J}'),
-    ('And the polar moment is', r'J = I_x + I_y'),
+  picture: polarPicture,
+  steps: [
+    (
+      'Two different jobs',
+      'Pushing a beam sideways bends it. Twisting a shaft along its own '
+          'length wrings it. They use two different stiffness numbers and mixing '
+          'them up is on this chapter\'s trap list.',
+    ),
+    (
+      'Bending uses the axis SQUARE to the push',
+      'Push down and the beam bends about its flat, horizontal axis. Push '
+          'sideways and it bends about the upright one. It does not matter which '
+          'axis is the stronger; the push decides.',
+    ),
+    (
+      'Twisting uses the polar one',
+      'Twist about the member\'s own length and every bit of material '
+          'resists, in every direction. That is J, and it is simply the two I '
+          'values added about the same point.',
+    ),
+    (
+      'For a round shaft, J is exactly twice I',
+      'Because the two I values are equal. So reaching for the wrong one '
+          'costs you a clean factor of two.',
+    ),
   ],
-  figure: BriefFigure.polar,
+  spoken: [
+    (
+      'Bending',
+      r'\sigma = \frac{Mc}{I}',
+      'bending stress uses I, about the axis square to the push',
+    ),
+    ('Twisting', r'\tau = \frac{Tc}{J}', 'twisting stress uses the polar J'),
+    ('And the polar one is', r'J = I_x + I_y', 'the two I values added'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
 const areaWeightedBrief = BriefSection(
-  title: 'Where the area is, not where the height is',
-  body:
-      'A centroid is an area-weighted average, so it sits toward whichever '
-      'end of the section carries the most material. The middle of the overall '
-      'height is right only when the section is symmetric about that line, and '
-      'it is the wrong answer named in every problem in this lesson. So is the '
-      'plain average of the piece centroids, which throws away the very '
-      'weighting that makes it an average of areas. A hole is an ordinary '
-      'piece with a NEGATIVE area: it comes off the top of the fraction and '
-      'off the bottom of it, and it drags the centroid away from itself.',
-  formulas: [
-    ('Composite centroid', r'\bar{y} = \frac{\sum A_i\, y_i}{\sum A_i}'),
-    ('A hole', r'A_i < 0'),
-    ('First moment of area', r'Q_x = \sum A_i\, y_i = \bar{y}A'),
+  title: 'The balance point sits where the material is',
+  picture: areaWeightedPicture,
+  steps: [
+    (
+      'Cut the shape out of card and balance it',
+      'The point it balances on is the centroid. It slides toward whichever '
+          'end has more material, exactly the way a seesaw tips toward the '
+          'heavier child.',
+    ),
+    (
+      'So halfway up is usually wrong',
+      'The middle of the height is only right when the shape is the same '
+          'above and below that line. A tee has a big flange on top, so its '
+          'balance point sits high.',
+    ),
+    (
+      'Weight each piece by its area',
+      'Break the shape into simple pieces. Multiply each piece\'s area by how '
+          'far up its own middle sits, add those up, and divide by the total '
+          'area.',
+    ),
+    (
+      'A hole is a piece with negative area',
+      'Subtract it, top and bottom of the fraction. A hole pushes the balance '
+          'point AWAY from itself, because the material it removed was holding '
+          'that side down.',
+    ),
   ],
-  figure: BriefFigure.areaWeighted,
+  spoken: [
+    (
+      'Composite centroid',
+      r'\bar{y} = \frac{\sum A_i\, y_i}{\sum A_i}',
+      'each area times its own height, added, over the total area',
+    ),
+    ('A hole', r'A_i < 0', 'counted as a negative area'),
+    (
+      'First moment of area',
+      r'Q_x = \sum A_i\, y_i',
+      'the top of that fraction on its own',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
 const tableBrief = BriefSection(
-  title: 'What the tables already give you',
-  body:
-      'You are never asked to integrate for a centroid on this exam. The '
-      'handbook lists them for rectangles, triangles, circles, half discs, '
-      'quarter discs and parabolic segments, and the work is knowing which '
-      'shape is in front of you and which corner the table measures from. A '
-      'triangle sits a third of the way up from its base and a third of the '
-      'way in from its right angle, so mirroring the triangle moves the '
-      'answer. A half disc is four r over three pi from its flat side, a shade '
-      'over four tenths of the radius. The middle of the box a shape fits in '
-      'is the centroid of the box, and of nothing else.',
-  formulas: [
-    ('Rectangle', r'\bar{y} = \frac{h}{2}'),
-    ('Triangle, from the base', r'\bar{y} = \frac{h}{3}'),
-    ('Half disc, from the flat side', r'\bar{y} = \frac{4r}{3\pi}'),
+  title: 'The handbook already has every shape',
+  picture: tablePicture,
+  steps: [
+    (
+      'You never integrate for this on the exam',
+      'The handbook lists the balance point of rectangles, triangles, '
+          'circles, half discs, quarter discs and parabolas. The work is '
+          'recognizing the shape and reading from the right corner.',
+    ),
+    (
+      'A triangle sits a third of the way up',
+      'Measured from the base, not the point. And a third of the way in from '
+          'the upright side. Mirror the triangle and the answer moves with it.',
+    ),
+    (
+      'A half circle sits a little over four tenths of the radius',
+      'Measured up from the flat side. Four r over three pi, which works out '
+          'to about 0.42 r, noticeably lower than half the radius.',
+    ),
+    (
+      'The middle of the box is a trap',
+      'The center of the rectangle a shape fits inside is the centroid of '
+          'that RECTANGLE, and of nothing else. It is the wrong answer offered in '
+          'nearly every problem here.',
+    ),
   ],
-  figure: BriefFigure.table,
+  spoken: [
+    ('Rectangle', r'\bar{y} = \frac{h}{2}', 'halfway up'),
+    (
+      'Triangle, from the base',
+      r'\bar{y} = \frac{h}{3}',
+      'a third of the height up from the base',
+    ),
+    (
+      'Half disc, from the flat side',
+      r'\bar{y} = \frac{4r}{3\pi}',
+      'four radii over three pi, about 0.42 of the radius',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 98 to 100',
 );
 
 const referenceBrief = BriefSection(
-  title: 'One axis, and every piece measured from it',
-  body:
-      'Choose a reference axis before anything else, usually the bottom edge '
-      'or the left edge, and then measure every single piece from that one '
-      'line. What you measure to is that piece\'s OWN centroid, not where the '
-      'piece begins and not where it ends. The commonest mistake in the whole '
-      'topic is changing reference partway through because one piece is easier '
-      'to measure another way: the arithmetic still works, the units still '
-      'look right, and the answer is wrong.',
-  formulas: [
-    ('Each term', r'A_i\,y_i'),
-    ('Where y is measured from', r'\text{the one axis you chose}'),
-    ('Where y is measured to', r"\text{to that piece's own centroid}"),
+  title: 'One line, and every piece measured from it',
+  picture: referencePicture,
+  steps: [
+    (
+      'Pick your line before you start',
+      'Usually the bottom edge or the left edge. Draw it. Everything from '
+          'here on gets measured from that one line.',
+    ),
+    (
+      'Measure to each piece\'s own middle',
+      'Not to where the piece starts, and not to where it ends. To the middle '
+          'of that piece, the balance point it would have on its own.',
+    ),
+    (
+      'Never change lines partway',
+      'It is tempting when one piece is easier to measure from the top. Do '
+          'not. The arithmetic still works, the units still look right, and the '
+          'answer is wrong. This is the commonest mistake in the whole topic.',
+    ),
   ],
-  figure: BriefFigure.reference,
+  spoken: [
+    ('Each term', r'A_i\,y_i', 'that piece\'s area times its own height'),
+    (
+      'Measured from',
+      r'\text{the one line you chose}',
+      'the same line for every piece',
+    ),
+    (
+      'Measured to',
+      r"\text{that piece's own middle}",
+      'not its edge, its middle',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
 const twoForceBrief = BriefSection(
-  title: 'Two forces, and only two',
-  body:
-      'Count the places something acts on a member. Exactly two, and '
-      'equilibrium forces those two to be equal, opposite and in line with '
-      'each other, which means along the line joining the two points. Three '
-      'or more, and the member carries shear and bending and its pin forces '
-      'point wherever they have to. A bend in the member changes nothing: the '
-      'line runs between the ends, not along the metal. And a load hung at a '
-      'PIN is carried by the joint, so it leaves every member there still '
-      'touched at just its own two ends.',
-  formulas: [
-    ('Two-force member', r'\text{touched at exactly two points}'),
-    ('Where its force acts', r'\text{along the line joining those points}'),
-    ('Multi-force member', r'\text{touched three or more times}'),
+  title: 'Touched in exactly two places',
+  picture: twoForcePicture,
+  steps: [
+    (
+      'Count where things touch the member',
+      'Go along one member and count every place something acts on it: a pin '
+          'joining it to something else, a load hung on it, a support. Just count '
+          'them.',
+    ),
+    (
+      'Exactly two, and its force has nowhere else to point',
+      'For it to stay still, the two forces must be equal, opposite, and in '
+          'line with each other. The only line they can share is the one joining '
+          'the two places. So the force runs straight along that line.',
+    ),
+    (
+      'A bend in the member changes nothing',
+      'The line runs between the two ends, not along the metal. A bent link '
+          'touched only at its two ends still pushes straight from end to end.',
+    ),
+    (
+      'Three or more places and all bets are off',
+      'That member bends, and its pin forces point wherever they need to. Note '
+          'a load hung on a PIN is carried by the joint, so every member there is '
+          'still only touched at its own ends.',
+    ),
   ],
-  figure: BriefFigure.twoForce,
+  spoken: [
+    (
+      'Two-force member',
+      r'\text{touched at exactly two points}',
+      'count the places something acts on it',
+    ),
+    (
+      'Where its force points',
+      r'\text{along the line joining those points}',
+      'straight from one end to the other',
+    ),
+    (
+      'Multi-force member',
+      r'\text{touched three or more times}',
+      'it bends, and its forces point anywhere',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 97',
 );
 
 const leverBrief = BriefSection(
-  title: 'Moments about the pivot',
-  body:
-      'A lever is one moment equation and nothing more: the force out is the '
-      'force in, scaled by YOUR arm over ITS arm. Long effort arm and the '
-      'machine hands you more force than you put in. Short effort arm and it '
-      'hands you less, and what it buys instead is reach and speed, which is '
-      'what a fishing rod and your own forearm are for. Effort and load on the '
-      'same side of the pivot works the same way, you just pull up instead of '
-      'pushing down.',
-  formulas: [
-    ('Moments about the pivot', r'F_{out}\,a_{out} = F_{in}\,a_{in}'),
-    ('So the force out is', r'F_{out} = F_{in}\,\frac{a_{in}}{a_{out}}'),
-    ('Mechanical advantage', r'\frac{a_{in}}{a_{out}}'),
+  title: 'A lever is one moment equation',
+  picture: leverPicture,
+  steps: [
+    (
+      'Far from the pivot beats close to it',
+      'On a seesaw, a small child far from the middle balances a big one '
+          'close in. What matters is force times distance from the pivot, on each '
+          'side.',
+    ),
+    (
+      'So the force out is scaled by the arms',
+      'Your force, times your distance, equals the load, times its distance. '
+          'Rearranged: the force out is the force in, times YOUR arm over ITS '
+          'arm.',
+    ),
+    (
+      'Long effort arm: more force, less movement',
+      'A crowbar. You push a long way and the load barely moves, but it moves '
+          'with enormous force.',
+    ),
+    (
+      'Short effort arm: less force, more speed',
+      'A fishing rod, or your own forearm. You put in more force and what you '
+          'buy is reach and speed at the far end.',
+    ),
   ],
-  figure: BriefFigure.lever,
+  spoken: [
+    (
+      'Moments about the pivot',
+      r'F_{out}\,a_{out} = F_{in}\,a_{in}',
+      'force times arm on one side equals force times arm on the other',
+    ),
+    (
+      'So the force out is',
+      r'F_{out} = F_{in}\,\frac{a_{in}}{a_{out}}',
+      'your force, times your arm divided by the load arm',
+    ),
+    (
+      'Mechanical advantage',
+      r'\frac{a_{in}}{a_{out}}',
+      'how many times your force is multiplied',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 97',
 );
 
 const whatItIsBrief = BriefSection(
   title: 'Truss, frame or machine',
-  body:
-      'Three names, and the one you choose decides what you may assume about '
-      'every member. Does it move? Then it is a machine, however it is built. '
-      'If it holds still, count the places something touches each member. All '
-      'of them touched twice and it is a truss, so every force runs along its '
-      'own member and the joints can be walked one at a time. Any member '
-      'touched three times and it is a frame, and that member bends. Frames '
-      'and machines are taken apart and solved the same way.',
-  formulas: [
-    ('Truss', r'\text{holds still, every member two-force}'),
-    ('Frame', r'\text{holds still, at least one bends}'),
-    ('Machine', r'\text{parts move against each other}'),
+  picture: whatItIsPicture,
+  steps: [
+    (
+      'Ask first: does it move',
+      'If the parts move against each other, like pliers or a crane arm, it '
+          'is a machine. That is decided before anything else, however it is '
+          'built.',
+    ),
+    (
+      'If it holds still, count the touches',
+      'Go member by member and count where things act on each one, the way '
+          'you did for two-force members.',
+    ),
+    (
+      'Every member touched twice: a truss',
+      'Then every force runs along its own member, and you can solve the '
+          'joints one at a time. That is what makes a truss easy.',
+    ),
+    (
+      'Any member touched three times: a frame',
+      'That member bends, so the truss shortcuts are gone. Frames and '
+          'machines are both taken apart member by member and solved the same '
+          'way.',
+    ),
   ],
-  figure: BriefFigure.whatItIs,
+  spoken: [
+    (
+      'Truss',
+      r'\text{still, every member touched twice}',
+      'every bar just pushes or pulls along itself',
+    ),
+    (
+      'Frame',
+      r'\text{still, at least one member bends}',
+      'one or more members touched three times or more',
+    ),
+    ('Machine', r'\text{the parts move}', 'it is built to move'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 97',
 );
 
