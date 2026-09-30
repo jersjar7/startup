@@ -7,6 +7,8 @@
 // ConceptPicture and ConceptPair tiles. The few painters that exist only
 // here draw a comparison no game needed to draw.
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -18,7 +20,6 @@ import 'mechanics_pictures.dart' show ConceptPair, ConceptPicture;
 import 'normal_figures.dart';
 import 'scatter_figures.dart';
 import 'test_figures.dart';
-import 'venn_figures.dart';
 
 // ---------------------------------------------------------------------------
 // Central tendency and dispersion
@@ -70,12 +71,36 @@ const _loose = [
   Pair(6, 2),
 ];
 
-Widget correlationPicture() => const ConceptPair(
-  left: ScatterPainter(points: _tight, xTo: 7, yTo: 10),
-  right: ScatterPainter(points: _loose, xTo: 7, yTo: 10),
-  leftCaption: 'tight and rising: r near plus one',
-  rightCaption: 'loose and falling: r about minus a half',
-  height: 170,
+/// Rises, then falls. Perfectly symmetric, so r is exactly zero while the
+/// shape is as obvious as a shape gets.
+const _arch = [
+  Pair(1, 3),
+  Pair(2, 6),
+  Pair(3, 8),
+  Pair(4, 8),
+  Pair(5, 6),
+  Pair(6, 3),
+];
+
+Widget correlationPicture() => const Column(
+  children: [
+    ConceptPair(
+      left: ScatterPainter(points: _tight, xTo: 7, yTo: 10),
+      right: ScatterPainter(points: _loose, xTo: 7, yTo: 10),
+      leftCaption: 'tight and rising: r near plus one',
+      rightCaption: 'loose and falling: r about minus a half',
+      height: 170,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: ScatterPainter(points: _arch, xTo: 7, yTo: 10),
+      caption:
+          'and this one has r of exactly zero. There is plainly a pattern, it '
+          'is just not a straight one. r near zero means no straight line, '
+          'not no relationship',
+      height: 175,
+    ),
+  ],
 );
 
 Widget regressionLinePicture() => const ConceptPicture(
@@ -120,28 +145,60 @@ Widget binomialPicture() => const ConceptPicture(
   height: 190,
 );
 
-Widget normalTablePicture() => const ConceptPicture(
-  painter: NormalPainter(
-    regions: [
-      CurveRegion(spans: [(zMin, -1.67)], column: r'1 - F(1.67) = 0.0475'),
-      CurveRegion(spans: [(-1.67, zMax)], column: r'F(1.67) = 0.9525'),
-    ],
-    cuts: [-1.67],
-    labels: ['4,000 psi'],
-    truth: 0,
-    revealed: true,
-  ),
-  caption:
-      'one cut on the curve. The shaded tail is the fail rate; the rest is the pass rate',
-  height: 180,
+Widget normalTablePicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: NormalPainter(
+        regions: [
+          CurveRegion(spans: [(zMin, 1.2)], column: 'F'),
+        ],
+        cuts: [1.2],
+        labels: ['4,000 psi'],
+        truth: 0,
+        revealed: true,
+      ),
+      caption: 'F: everything to the LEFT of the cut, here the fail rate',
+      height: 140,
+    ),
+    SizedBox(height: 10),
+    ConceptPicture(
+      painter: NormalPainter(
+        regions: [
+          CurveRegion(spans: [(1.2, zMax)], column: 'R'),
+        ],
+        cuts: [1.2],
+        labels: ['4,000 psi'],
+        truth: 0,
+        revealed: true,
+      ),
+      caption:
+          'R: everything to the RIGHT of it, here the pass rate. F and R '
+          'together make one',
+      height: 140,
+    ),
+    SizedBox(height: 10),
+    ConceptPicture(
+      painter: NormalPainter(
+        regions: [
+          CurveRegion(spans: [(-1.2, 1.2)], column: 'W'),
+        ],
+        cuts: [-1.2, 1.2],
+        labels: ['minus z', 'plus z'],
+        truth: 0,
+        revealed: true,
+      ),
+      caption: 'W: the band in the middle, the same distance either side',
+      height: 140,
+    ),
+  ],
 );
 
 Widget lawsPicture() => const ConceptPair(
-  left: VennPainter(link: Link.exclusive, left: 'A', right: 'B'),
-  right: VennPainter(link: Link.dependent, left: 'A', right: 'B'),
-  leftCaption: 'cannot both happen: no overlap, just add',
-  rightCaption: 'can both happen: the overlap was counted twice',
-  height: 160,
+  left: _OverlapPainter(overlap: false),
+  right: _OverlapPainter(overlap: true),
+  leftCaption: 'cannot both happen: nothing shared, just add',
+  rightCaption: 'can both happen: the middle got counted twice',
+  height: 185,
 );
 
 // ---------------------------------------------------------------------------
@@ -319,6 +376,123 @@ Paint _stroke(Color color, [double width = 2]) => Paint()
   ..style = PaintingStyle.stroke
   ..strokeWidth = width
   ..strokeCap = StrokeCap.round;
+
+/// Two events as two areas, with the shared middle made loud.
+///
+/// The game's own Venn is drawn in the pale background tints, which is right
+/// beside an answered round and too quiet to carry a sheet. The whole idea
+/// here is that the middle belongs to BOTH circles, so adding the two areas
+/// counts it a second time. That only lands if the middle is the loudest
+/// thing in the picture.
+class _OverlapPainter extends CustomPainter {
+  const _OverlapPainter({required this.overlap});
+
+  final bool overlap;
+
+  void _write(
+    Canvas canvas,
+    String s,
+    Offset at, {
+    double size = 10.5,
+    Color color = AppColors.ink2,
+    FontWeight weight = FontWeight.w500,
+  }) {
+    final tp = _text(s, size: size, color: color, weight: weight);
+    tp.paint(canvas, Offset(at.dx - tp.width / 2, at.dy - tp.height / 2));
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final r = math.min(size.width * 0.27, size.height * 0.26);
+    final mid = Offset(size.width / 2, size.height * 0.42);
+    final gap = overlap ? r * 0.58 : r * 1.22;
+    final a = mid - Offset(gap, 0);
+    final b = mid + Offset(gap, 0);
+
+    canvas.drawCircle(
+      a,
+      r,
+      Paint()..color = AppColors.ember.withValues(alpha: 0.45),
+    );
+    canvas.drawCircle(
+      b,
+      r,
+      Paint()..color = AppColors.sunbeam.withValues(alpha: 0.5),
+    );
+
+    if (overlap) {
+      // the lens itself, in the loudest tone on the panel
+      canvas.save();
+      canvas.clipPath(Path()..addOval(Rect.fromCircle(center: a, radius: r)));
+      canvas.drawCircle(
+        b,
+        r,
+        Paint()..color = AppColors.forest.withValues(alpha: 0.85),
+      );
+      canvas.restore();
+    }
+
+    for (final at in [a, b]) {
+      canvas.drawCircle(at, r, _stroke(AppColors.charcoal, 1.8));
+    }
+
+    _write(
+      canvas,
+      'A',
+      Offset(a.dx - r * 0.42, mid.dy),
+      size: 13,
+      color: AppColors.charcoal,
+      weight: FontWeight.w700,
+    );
+    _write(
+      canvas,
+      'B',
+      Offset(b.dx + r * 0.42, mid.dy),
+      size: 13,
+      color: AppColors.charcoal,
+      weight: FontWeight.w700,
+    );
+
+    if (overlap) {
+      _write(
+        canvas,
+        'both',
+        mid,
+        size: 10.5,
+        color: AppColors.cream,
+        weight: FontWeight.w700,
+      );
+      _write(
+        canvas,
+        'inside A and inside B,',
+        Offset(size.width / 2, mid.dy + r + 16),
+        color: AppColors.forest,
+        weight: FontWeight.w700,
+      );
+      _write(
+        canvas,
+        'so take it off once',
+        Offset(size.width / 2, mid.dy + r + 32),
+        color: AppColors.forest,
+        weight: FontWeight.w700,
+      );
+    } else {
+      _write(
+        canvas,
+        'nothing is inside both,',
+        Offset(size.width / 2, mid.dy + r + 16),
+      );
+      _write(
+        canvas,
+        'so nothing to take off',
+        Offset(size.width / 2, mid.dy + r + 32),
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_OverlapPainter old) => old.overlap != overlap;
+}
 
 /// A calculator's statistics screen: the mean, then the two spreads two
 /// lines apart, with the sample one marked.

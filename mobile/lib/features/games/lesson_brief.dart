@@ -2637,11 +2637,14 @@ const correlationBrief = BriefSection(
       'from minus one, a perfect fall, to plus one, a perfect rise',
     ),
     (
-      'Correlation',
-      r'r = \frac{n\sum x_i y_i - \sum x_i \sum y_i}'
-          r'{\sqrt{\left[n\sum x_i^2 - (\sum x_i)^2\right]'
-          r'\left[n\sum y_i^2 - (\sum y_i)^2\right]}}',
-      'four sums from the data, combined. The calculator does this one',
+      'A perfect rise, and a perfect fall',
+      r'r = +1 \;\text{or}\; r = -1',
+      'every dot exactly on one straight line',
+    ),
+    (
+      'No straight line at all',
+      r'r \approx 0',
+      'either a shapeless cloud, or a shape that is not straight',
     ),
   ],
   figure: BriefFigure.none,
@@ -3190,22 +3193,27 @@ const decisionRuleBrief = BriefSection(
   steps: [
     (
       'One number against one line',
-      'Every test here boils down to a statistic worked out from the data '
-          'and a critical value looked up in a table. Put both on one scale. If '
-          'the statistic lands past the line, reject the null.',
+      'Work one number out of your data. Look one number up in a table. Put '
+          'both on the same scale. If your number lands past the line, the '
+          'boring claim is rejected. That is the whole test.',
     ),
     (
-      'Two-tailed tests compare size',
-      'When the claim had no direction, only the distance from zero '
-          'matters. A statistic of minus 2.9 against a critical value of 2.131 '
-          'is past the line. It rejects.',
+      'What the two numbers are',
+      'Yours says how far the sample strayed from the claim. The table one '
+          'is the line drawn where straying that far stops being believable. '
+          'It is called the critical value, and it is chosen before you look.',
     ),
     (
-      'Failing to reject is not a finding',
-      'If the statistic stays short of the line, the data did not catch the '
-          'null out. That is all. It does not prove the null true, and an '
-          'answer that says the mean equals the claimed value is wrong however '
-          'right the decision beside it looks.',
+      'With no direction, size is all that counts',
+      'When the claim did not say which way, only the distance from zero '
+          'matters. Minus 2.9 against a line at 2.131 is past it, because 2.9 '
+          'is further from zero. It rejects.',
+    ),
+    (
+      'Staying short of the line proves nothing',
+      'It means the data did not catch the boring claim out. That is all. '
+          'An answer saying the mean really does equal the claimed value is '
+          'wrong, however right the decision beside it looks.',
     ),
   ],
   spoken: [
