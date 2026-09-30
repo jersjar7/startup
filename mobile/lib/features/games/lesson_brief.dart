@@ -9551,512 +9551,1064 @@ const scalingBrief = BriefSection(
 );
 
 const bearingBrief = BriefSection(
-  title: 'Reading a bearing off a plan',
-  body:
-      'A bearing is an instruction rather than a number: face the letter it '
-      'starts with, turn that many degrees toward the letter it ends with, '
-      'and stop. N 52 E means stand facing north and swing 52 degrees toward '
-      'the east. Because it is measured off the nearer end of the meridian '
-      'it is never more than a right angle, which means the angle on its own '
-      'tells you almost nothing: the same 52 degrees appears in all four '
-      'quadrants and the two letters are what separate them. A bearing near '
-      '90 lies almost along the east and west line, and one near nothing '
-      'lies almost along the meridian. Read both halves before converting '
-      'anything.',
-  formulas: [
-    ('A bearing', r'\text{N or S}, \text{ angle} \le 90°, \text{ E or W}'),
-    ('The meridian', r'\text{north is up the sheet}'),
-    ('Back bearing', r'\text{same angle, both letters flipped}'),
+  title: 'A bearing is an instruction, not just a number',
+  picture: bearingPicture,
+  steps: [
+    (
+      'Face, then turn',
+      'N 52 E means stand facing north and swing 52 degrees toward the east. '
+          'The first letter says which way to face, the number says how far to '
+          'turn, the last letter says which way to turn.',
+    ),
+    (
+      'Never more than a quarter turn',
+      'The angle is always measured from the nearer end of the north and '
+          'south line, so it never passes 90. That is why the same 52 degrees '
+          'turns up in all four corners of the drawing.',
+    ),
+    (
+      'So the number alone tells you nothing',
+      'Read both letters before you do anything with the angle. A bearing '
+          'near 90 runs almost due east or west. A bearing near zero runs almost '
+          'along the north and south line.',
+    ),
+    (
+      'Turning round',
+      'Walk the line the other way and the angle is the same. Both letters '
+          'flip: N 52 E backwards is S 52 W.',
+    ),
   ],
-  figure: BriefFigure.bearing,
+  spoken: [
+    (
+      'A bearing',
+      r'\text{N or S}, \text{ angle} \le 90^\circ, \text{ E or W}',
+      'a letter, an angle no bigger than a quarter turn, then a letter',
+    ),
+    (
+      'The meridian',
+      r'\text{north is up the sheet}',
+      'north points up the page, the way every plan is drawn',
+    ),
+    (
+      'Back bearing',
+      r'\text{same angle, both letters flipped}',
+      'the same angle, with each letter swapped for its opposite',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const azimuthBrief = BriefSection(
   title: 'Bearing to azimuth, by the clock',
-  body:
-      'An azimuth is the whole turn clockwise from north, 0 to 360, so which '
-      'conversion applies is just a question of where the line sits in that '
-      'turn. North-east is reached first and its azimuth IS the bearing '
-      'angle. South-east stops short of due south, so it is 180 less the '
-      'angle. South-west has carried on past due south, so it is 180 plus '
-      'the angle, and this is the one the lesson warns about: taking it off '
-      '360 instead throws the line to the opposite corner of the sheet. '
-      'North-west is nearly the whole way round, so it is 360 less the '
-      'angle. Picture a clock face with north at twelve and the list is not '
-      'worth memorizing.',
-  formulas: [
-    ('NE', r'Az = \text{angle}'),
-    ('SE and SW', r'Az = 180° \mp \text{angle}'),
-    ('NW', r'Az = 360° - \text{angle}'),
+  picture: azimuthPicture,
+  steps: [
+    (
+      'One number instead of two letters',
+      'An azimuth is the whole turn clockwise from north, from 0 all the way '
+          'to 360. Think of a clock face with north at twelve. No letters, just '
+          'how far round you have gone.',
+    ),
+    (
+      'North and east comes first',
+      'A line into the north-east corner is reached before a quarter turn, '
+          'so its azimuth IS the bearing angle. Nothing to do.',
+    ),
+    (
+      'Past south, keep adding',
+      'South-east stops short of due south, so it is 180 minus the angle. '
+          'South-west has gone past due south, so it is 180 plus. Taking it off '
+          '360 instead throws the line to the opposite corner.',
+    ),
+    (
+      'North-west is nearly all the way round',
+      'It is 360 minus the angle. Picture the clock and you never have to '
+          'memorize the list.',
+    ),
   ],
-  figure: BriefFigure.azimuth,
+  spoken: [
+    (
+      'North and east',
+      r'Az = \text{angle}',
+      'the azimuth is the bearing angle itself',
+    ),
+    (
+      'South-east and south-west',
+      r'Az = 180^\circ \mp \text{angle}',
+      '180 minus the angle going east, 180 plus it going west',
+    ),
+    (
+      'North-west',
+      r'Az = 360^\circ - \text{angle}',
+      'a full turn minus the angle',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const shotBrief = BriefSection(
-  title: 'Three lengths out of one shot',
-  body:
-      'A shot up or down a slope makes a right triangle, and the three sides '
-      'are three different answers. The instrument measures along its line '
-      'of sight, and so does a tape dragged over the ground: that is the '
-      'slope distance, and it is the hypotenuse, so it is the longest of the '
-      'three every time. The plan wants the flat distance underneath it, '
-      'which is the slope distance times the cosine and therefore always '
-      'shorter. The upright at the far end is the difference in elevation, '
-      'the slope distance times the sine. Every wrong answer on the '
-      'lesson\'s own problem is one of these three swapped for another, and '
-      'a flat distance that comes out LONGER than the slope distance means '
-      'the cosine went underneath instead of on top.',
-  formulas: [
-    ('Flat, for the plan', r'HD = SD\cos\alpha'),
-    ('Upright, the elevation', r'VD = SD\sin\alpha'),
-    ('Always', r'HD \le SD'),
+  title: 'Three lengths come out of one shot',
+  picture: shotPicture,
+  steps: [
+    (
+      'Sighting up a hill makes a triangle',
+      'The instrument looks up the slope at a target. The line of sight, the '
+          'flat ground under it, and the height between the two ends make a right '
+          'triangle. Three sides, three different answers.',
+    ),
+    (
+      'What the instrument measures',
+      'It measures along its own line of sight, and so does a tape dragged '
+          'over the ground. That is the slope distance, the sloping side, and it '
+          'is the longest of the three every time.',
+    ),
+    (
+      'What the plan wants',
+      'A plan is drawn looking straight down, so it wants the flat distance '
+          'underneath. Cosine gives it, and it is always shorter than the slope '
+          'distance. Sine gives the height instead.',
+    ),
+    (
+      'The check that catches it',
+      'If your flat distance comes out LONGER than the slope distance, the '
+          'cosine went in the wrong place. The flat one can never win.',
+    ),
   ],
-  figure: BriefFigure.shot,
+  spoken: [
+    (
+      'Flat, for the plan',
+      r'HD = SD\cos\alpha',
+      'the slope distance times the cosine of the slope angle',
+    ),
+    (
+      'Upright, the elevation',
+      r'VD = SD\sin\alpha',
+      'the slope distance times the sine of the slope angle',
+    ),
+    (
+      'Always',
+      r'HD \le SD',
+      'the flat distance is never longer than the sloping one',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const sightBrief = BriefSection(
-  title: 'One level plane over the whole setup',
-  body:
-      'A level\'s line of sight is dead horizontal, so over one setup it is a '
-      'single flat plane hanging above the ground, and a rod reading is '
-      'nothing more than how far the ground at that rod sits below it. Two '
-      'things follow and both are worth more than the formula. The BIGGER '
-      'reading is the LOWER point, which catches most sign errors before '
-      'they happen. And two equal readings mean two points at the same '
-      'elevation, which is how a level checks a slab or a row of bases with '
-      'no arithmetic at all. The height of instrument is just where that '
-      'plane sits: add the backsight to the elevation you know, then take '
-      'the foresight off it to get the one you want.',
-  formulas: [
-    ('Up to the plane', r'HI = \text{Elev} + BS'),
-    ('Back down from it', r'\text{Elev} = HI - FS'),
-    ('The check', r'\text{bigger reading} \Rightarrow \text{lower ground}'),
+  title: 'One level plane hangs over the whole setup',
+  picture: sightPicture,
+  steps: [
+    (
+      'The line of sight is dead flat',
+      'A level looks out perfectly horizontally. Over one setup that line of '
+          'sight is a single flat plane hanging above the ground, like a sheet of '
+          'glass.',
+    ),
+    (
+      'A rod reading is a drop',
+      'Stand a rod on a point and read where the flat line crosses it. That '
+          'reading is nothing more than how far the ground there sits BELOW the '
+          'plane.',
+    ),
+    (
+      'So the bigger reading is the lower point',
+      'Further below the plane means a bigger number. This catches most sign '
+          'errors before they happen, and two equal readings mean two points at '
+          'the same height, with no arithmetic at all.',
+    ),
+    (
+      'The height of instrument is just that plane',
+      'Add the reading on a point you know to its elevation and you have the '
+          'height of the plane. Take the next reading off it to get the point you '
+          'want.',
+    ),
   ],
-  figure: BriefFigure.sightLine,
+  spoken: [
+    (
+      'Up to the plane',
+      r'HI = \text{Elev} + BS',
+      'the known elevation plus the reading on it',
+    ),
+    (
+      'Back down from it',
+      r'\text{Elev} = HI - FS',
+      'the plane, minus the reading on the new point',
+    ),
+    (
+      'The check',
+      r'\text{bigger reading} \Rightarrow \text{lower ground}',
+      'a bigger rod reading always means lower ground',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const runBrief = BriefSection(
-  title: 'Three kinds of point in a run',
-  body:
-      'Count the instruments that can see the rod and the bookkeeping tells '
-      'itself. One instrument, at the start: a backsight, taken on the only '
-      'elevation you already know, and added. One instrument, at the end: a '
-      'foresight, taken on the point you want, and subtracted. Two '
-      'instruments: a turning point, read forward from the old setup to fix '
-      'its elevation and then back from the new one to fix the new height of '
-      'instrument. That second reading is the part people drop, and dropping '
-      'it means carrying the old height of instrument forward, which is the '
-      'lesson\'s own trap and its 252.67. A run has exactly one backsight '
-      'point at the start, exactly one foresight point at the end, and a '
-      'turning point everywhere the level moved.',
-  formulas: [
-    ('Start', r'BS \text{ on a known point, added}'),
-    ('End', r'FS \text{ on the wanted point, subtracted}'),
-    ('Between', r'\text{turning point: FS then BS}'),
+  title: 'Three kinds of point in a level run',
+  picture: runPicture,
+  steps: [
+    (
+      'Count the setups that can see the rod',
+      'The level cannot see round a hill, so it gets moved. Which kind of '
+          'point you are looking at is decided by how many setups read it: one, '
+          'one, or two.',
+    ),
+    (
+      'The start and the end',
+      'The first point is read from one setup only, and it is the one '
+          'elevation you already know: that reading gets ADDED. The last point is '
+          'read from one setup only too, and it is the one you want: that reading '
+          'gets TAKEN OFF.',
+    ),
+    (
+      'The point in the middle',
+      'Where the level moves, one point is read twice: forward from the old '
+          'setup to fix its elevation, then back from the new setup to fix the '
+          'new plane. That is a turning point.',
+    ),
+    (
+      'The reading people drop',
+      'Forgetting the second reading means carrying the OLD plane forward '
+          'into the new setup, and every elevation after it is wrong.',
+    ),
   ],
-  figure: BriefFigure.runRoles,
+  spoken: [
+    (
+      'Start',
+      r'BS \text{ on a known point, added}',
+      'a backsight on the point you already know, added on',
+    ),
+    (
+      'End',
+      r'FS \text{ on the wanted point, subtracted}',
+      'a foresight on the point you want, taken off',
+    ),
+    (
+      'Between',
+      r'\text{turning point: FS then BS}',
+      'a turning point, read forward from one setup and back from the next',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const closureBrief = BriefSection(
-  title: 'What a loop may be out by',
-  body:
-      'Run a loop back to the benchmark it started from and the elevation '
-      'you compute will not be the elevation you started with. The gap is '
-      'the misclosure, and whether it is acceptable depends on two things: '
-      'the class of work, which sets the constant, and the length of the '
-      'run, which enters under a square root. That root is the part worth '
-      'remembering. Four times the distance is only twice the allowance, '
-      'because errors in a long run cancel as often as they pile up. Below a '
-      'mile it works the other way and tightens the allowance instead. A '
-      'tight constant on a long run can allow less than a loose one on a '
-      'short run, so work out both sides before deciding. If the misclosure '
-      'is bigger than the allowance, the run is done again.',
-  formulas: [
-    ('The gap', r'\text{misclosure} = \text{computed} - \text{known}'),
-    ('What is allowed', r'C\sqrt{M}'),
-    ('So', r'4M \Rightarrow 2\times \text{ the allowance}'),
+  title: 'What a loop is allowed to be out by',
+  picture: closurePicture,
+  steps: [
+    (
+      'Walk a loop and you miss',
+      'Level all the way round and back to the mark you started from. The '
+          'elevation you work out will not be the one you started with. The gap '
+          'is the misclosure.',
+    ),
+    (
+      'How much is allowed depends on two things',
+      'The class of work sets a constant, and the length of the run goes '
+          'under a SQUARE ROOT. Careful work gets a small constant, rough work a '
+          'bigger one.',
+    ),
+    (
+      'The square root is the point',
+      'Four times the distance is only TWICE the allowance. Over a long run '
+          'errors cancel as often as they pile up, so the slack grows slower than '
+          'the distance does.',
+    ),
+    (
+      'So work out both sides',
+      'A tight constant on a long run can allow less than a loose one on a '
+          'short run. If the gap is bigger than the allowance, the run is done '
+          'again.',
+    ),
   ],
-  figure: BriefFigure.closure,
+  spoken: [
+    (
+      'The gap',
+      r'\text{misclosure} = \text{computed} - \text{known}',
+      'what you worked out, minus what you started with',
+    ),
+    (
+      'What is allowed',
+      r'C\sqrt{M}',
+      'a constant for the class of work, times the square root of the miles',
+    ),
+    (
+      'So',
+      r'4M \Rightarrow 2\times \text{ the allowance}',
+      'four times the distance buys only twice the slack',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const latDepBrief = BriefSection(
   title: 'How far north, how far east',
-  body:
-      'A course of a traverse is turned into two numbers: the latitude, '
-      'which is how far north it went, and the departure, which is how far '
-      'east. Latitude takes the cosine of the azimuth because north is where '
-      'the azimuth is measured from, and departure takes the sine. The two '
-      'sines and cosines are desk work. The two SIGNS are not, and they are '
-      'where the damage happens, because a sign error produces a perfectly '
-      'believable pair of numbers that puts the next station in the wrong '
-      'quarter of the county. The quadrant settles both: north-east both '
-      'plus, south-east latitude minus, south-west both minus, north-west '
-      'departure minus. A closed traverse has to run through more than one '
-      'quarter, because latitudes that are all positive can never add to '
-      'nothing.',
-  formulas: [
-    ('North and south', r'\text{Lat} = L\cos\theta'),
-    ('East and west', r'\text{Dep} = L\sin\theta'),
-    ('Closed', r'\Sigma \text{Lat} = 0, \; \Sigma \text{Dep} = 0'),
+  picture: latDepPicture,
+  steps: [
+    (
+      'Every leg becomes two numbers',
+      'Walk 100 meters in some direction and you have gone a certain way '
+          'north and a certain way east. Those two are the latitude and the '
+          'departure. They are the sides of the right triangle the leg makes.',
+    ),
+    (
+      'Which one takes the cosine',
+      'The azimuth is measured from north, so the north side is the one '
+          'beside the angle: cosine. The east side is the one opposite it: sine. '
+          'Get them the wrong way round and the leg points somewhere else '
+          'entirely.',
+    ),
+    (
+      'The signs are where the damage is',
+      'Going south makes the latitude negative. Going west makes the '
+          'departure negative. A sign error still gives two believable numbers, '
+          'and puts the next station in the wrong part of the county.',
+    ),
+    (
+      'A closed loop must add to nothing',
+      'Come back where you started and every step north is canceled by a '
+          'step south. So a real traverse has to run through more than one corner '
+          'of the compass.',
+    ),
   ],
-  figure: BriefFigure.latDep,
+  spoken: [
+    (
+      'North and south',
+      r'\text{Lat} = L\cos\theta',
+      'the length times the cosine of the azimuth',
+    ),
+    (
+      'East and west',
+      r'\text{Dep} = L\sin\theta',
+      'the length times the sine of the azimuth',
+    ),
+    (
+      'Closed',
+      r'\Sigma \text{Lat} = 0, \; \Sigma \text{Dep} = 0',
+      'round a loop, both columns add up to nothing',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const compassBrief = BriefSection(
-  title: 'Spreading the closure by length',
-  body:
-      'A traverse never closes exactly, and the compass rule is the ordinary '
-      'way of tidying it up. Its one assumption is that the error crept in '
-      'evenly along the way, so each course is handed the total error times '
-      'its own length over the whole perimeter: the longest course takes the '
-      'largest share. Not the course that covered the most latitude, not an '
-      'equal share each, and never the whole closure dumped on the one '
-      'course that felt wrong in the field. If you actually know which '
-      'course is bad, the answer is to measure it again rather than to '
-      'adjust it. And the correction always carries the opposite sign to the '
-      'error: a traverse that drifted north gets pushed south.',
-  formulas: [
-    ('Each course', r'\text{Corr}_i = -E \times \frac{L_i}{\Sigma L}'),
-    ('Longest course', r'\text{biggest share}'),
-    ('Sign', r'\text{opposite to the drift}'),
+  title: 'Spread the miss along the legs, by length',
+  picture: compassPicture,
+  steps: [
+    (
+      'A loop never closes exactly',
+      'Measure your way round a field and back to the start and you land a '
+          'little off the corner you began at. Every traverse does this. The '
+          'compass rule is the ordinary way of tidying it up.',
+    ),
+    (
+      'Assume the error crept in evenly',
+      'If small mistakes built up steadily as you walked, then the longest '
+          'leg collected the most of them. So the longest leg gets the biggest '
+          'share of the correction.',
+    ),
+    (
+      'Share it by length, nothing else',
+      'Not by how much north a leg covered. Not an equal share each. And '
+          'never the whole miss dumped on the one leg that felt wrong in the '
+          'field: if you know which leg is bad, measure it again.',
+    ),
+    (
+      'The fix points the other way',
+      'A traverse that drifted north gets pushed south. The correction always '
+          'carries the opposite sign to the error.',
+    ),
   ],
-  figure: BriefFigure.compass,
+  spoken: [
+    (
+      'Each leg',
+      r'\text{Corr}_i = -E \times \frac{L_i}{\Sigma L}',
+      'the whole error, times this leg out of the total length, with the sign flipped',
+    ),
+    (
+      'Longest leg',
+      r'\text{biggest share}',
+      'the longest leg takes the most correction',
+    ),
+    (
+      'Sign',
+      r'\text{opposite to the drift}',
+      'the fix pushes back against the way the loop drifted',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const precisionBrief = BriefSection(
-  title: 'Why precision is a ratio',
-  body:
-      'The closing gap is the two sums put together the way any two '
-      'perpendicular things are put together, under a square root, so it '
-      'comes out bigger than either sum and smaller than the two added. '
-      'Then it is divided by the whole length the traverse ran, and written '
-      'as one over something. That division is the part that matters: the '
-      'gap on its own says nothing about the quality of the work. A '
-      'centimeter out around a small lot can be worse than thirty '
-      'centimeters out around three kilometers of control. Double the gap '
-      'and double the distance and the ratio has not moved, which is why a '
-      'specification can ask for 1 in 10,000 and mean the same thing on '
-      'every job. The shape of the figure never comes into it.',
-  formulas: [
-    ('The gap', r'E = \sqrt{E_L^2 + E_D^2}'),
-    ('The ratio', r'\frac{E}{\Sigma L} = \frac{1}{N}'),
-    ('Bigger N', r'\text{better work}'),
+  title: 'Precision is a ratio, not a gap',
+  picture: precisionPicture,
+  steps: [
+    (
+      'First measure the miss',
+      'You are some way off north and some way off east. Put the two together '
+          'the way any two square-on lengths go together, under a square root, '
+          'and that is the closing gap.',
+    ),
+    (
+      'The gap alone says nothing',
+      'A centimeter out round a small garden is worse work than thirty '
+          'centimeters out round three kilometers. How far you walked has to come '
+          'into it.',
+    ),
+    (
+      'So divide by the distance walked',
+      'Write the answer as one over something. Double the gap AND double the '
+          'distance and the ratio has not moved, which is why a specification can '
+          'ask for 1 in 10,000 and mean the same thing on every job.',
+    ),
+    (
+      'Bigger bottom number is better',
+      '1 in 10,000 beats 1 in 3,000. The shape of the figure never comes into '
+          'it at all.',
+    ),
   ],
-  figure: BriefFigure.precision,
+  spoken: [
+    (
+      'The gap',
+      r'E = \sqrt{E_L^2 + E_D^2}',
+      'the north miss and the east miss, combined like the sides of a triangle',
+    ),
+    (
+      'The ratio',
+      r'\frac{E}{\Sigma L} = \frac{1}{N}',
+      'the gap divided by the whole distance walked',
+    ),
+    (
+      'Bigger N',
+      r'\text{better work}',
+      'a bigger bottom number means a tighter survey',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const methodBrief = BriefSection(
-  title: 'Which of the three methods',
-  body:
-      'The ground decides. Straight sides between corners you have '
-      'coordinates for: the coordinate method, and it is EXACT, however '
-      'irregular the figure and however many sides it has. A boundary that '
-      'wanders, a creek or a wetland edge: run a baseline and measure '
-      'offsets off it at a constant interval, and then the count of offsets '
-      'decides which rule. Simpson fits a parabola across every PAIR of '
-      'intervals, so it needs an even number of intervals, which is an odd '
-      'number of offsets. Odd count, use Simpson and get a better answer on '
-      'a curve. Even count, Simpson does not apply at all and the '
-      'trapezoidal rule is what is left.',
-  formulas: [
+  title: 'The ground decides which method',
+  picture: methodPicture,
+  steps: [
+    (
+      'Straight sides and known corners',
+      'A parcel with monuments at the corners and straight lines between them '
+          'is worked from the coordinates. That answer is EXACT, however odd the '
+          'shape and however many sides.',
+    ),
+    (
+      'A boundary that wanders',
+      'A creek or a wetland edge has no corners. Run a straight baseline '
+          'beside it and measure across to the boundary at even spacings. Those '
+          'measurements are the offsets.',
+    ),
+    (
+      'Then count the offsets',
+      'Simpson fits a curve across every PAIR of gaps, so it needs an even '
+          'number of gaps, which is an ODD number of offsets. Odd count: use '
+          'Simpson and get a better answer on a curved edge.',
+    ),
+    (
+      'Even count, Simpson is out',
+      'With an even number of offsets Simpson does not apply at all, and the '
+          'trapezoidal rule is what is left.',
+    ),
+  ],
+  spoken: [
     (
       'Corners',
       r'A = \tfrac{1}{2}\left|\sum (x_i y_{i+1} - x_{i+1} y_i)\right|',
+      'round the corners, cross-multiplying each pair, halved',
     ),
-    ('Odd offsets', r'\text{Simpson: } \tfrac{w}{3}(1,4,2,\dots,1)'),
-    ('Even offsets', r'\text{trapezoidal}'),
+    (
+      'Odd offsets',
+      r'\text{Simpson: } \tfrac{w}{3}(1,4,2,\dots,1)',
+      'Simpson, with the spacing over three',
+    ),
+    (
+      'Even offsets',
+      r'\text{trapezoidal}',
+      'the trapezoidal rule is the only one that fits',
+    ),
   ],
-  figure: BriefFigure.method,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
 const weightsBrief = BriefSection(
-  title: 'The weights are the rule',
-  body:
-      'Both offset rules have the same shape: multiply every offset by '
-      'something, add them up, multiply by the interval. The list of '
-      'somethings is the only difference. The trapezoidal rule halves the '
-      'two ENDS and takes everything between them whole, because a middle '
-      'offset is shared by the strip on each side of it while an end offset '
-      'belongs to one strip. Simpson takes the ends once and then alternates '
-      'four and two: the middle of each parabola carries it, and the offsets '
-      'where one parabola hands over to the next are counted for both. One, '
-      'four, two, four, one. If the pattern does not end on a one with a '
-      'four before it, something has been miscounted.',
-  formulas: [
-    ('Trapezoidal', r'\tfrac{1}{2}, 1, 1, \dots, \tfrac{1}{2}'),
-    ('Simpson', r'1, 4, 2, 4, \dots, 1'),
-    ('Then', r'\times w, \text{ and } \div 3 \text{ for Simpson}'),
+  title: 'The weights are the whole of the rule',
+  picture: weightsPicture,
+  steps: [
+    (
+      'Both rules have the same shape',
+      'Multiply every offset by something, add the results up, multiply by '
+          'the spacing. The only difference between the two rules is the list of '
+          'somethings.',
+    ),
+    (
+      'Why the ends are special',
+      'An offset in the middle is shared by the strip on each side of it. An '
+          'offset at the end belongs to only one strip. So the trapezoidal rule '
+          'halves the two ends and takes everything between them whole.',
+    ),
+    (
+      'Simpson alternates four and two',
+      'One, four, two, four, two, four, one. The middle of each little curve '
+          'carries it, so it gets four. The offsets where one curve hands over to '
+          'the next are counted for both, so they get two.',
+    ),
+    (
+      'The pattern checks itself',
+      'Simpson must start and end on a one, with a four next to each. If it '
+          'does not, something has been miscounted.',
+    ),
   ],
-  figure: BriefFigure.weights,
+  spoken: [
+    (
+      'Trapezoidal',
+      r'\tfrac{1}{2}, 1, 1, \dots, \tfrac{1}{2}',
+      'half, then ones all the way, then half',
+    ),
+    (
+      'Simpson',
+      r'1, 4, 2, 4, \dots, 1',
+      'one, then four and two alternating, ending on one',
+    ),
+    (
+      'Then',
+      r'\times w, \text{ and } \div 3 \text{ for Simpson}',
+      'multiply by the spacing, and divide by three for Simpson',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
 const shoelaceBrief = BriefSection(
-  title: 'The formula does not check the listing',
-  body:
-      'Area by coordinates is exact, and that is what makes it dangerous: it '
-      'returns a tidy number for any list of coordinates handed to it, '
-      'including lists that are not the parcel. Two things go wrong and '
-      'neither shows in the arithmetic. Corners listed out of order draw a '
-      'bowtie, and the sum comes back as the difference between two loops '
-      'rather than the area of anything. A corner left out draws a smaller '
-      'figure that closes perfectly well and gives an area that is simply '
-      'too small. Walking the boundary backwards is fine: the sum turns '
-      'negative and the absolute value is there for exactly that. Plot the '
-      'listing before trusting it.',
-  formulas: [
+  title: 'The formula does not check your listing',
+  picture: shoelacePicture,
+  steps: [
+    (
+      'Exact, and that is the danger',
+      'Area from coordinates is exact for the shape you hand it. But it '
+          'returns a tidy number for ANY list of corners, including lists that '
+          'are not your parcel.',
+    ),
+    (
+      'Corners out of order draw a bowtie',
+      'Swap two corners in the list and the boundary crosses itself. The '
+          'answer that comes back is the difference between two loops, not the '
+          'area of anything.',
+    ),
+    (
+      'A missing corner just shrinks it',
+      'Leave one corner out and you get a smaller shape that closes perfectly '
+          'well. The area is simply too small, and nothing in the arithmetic '
+          'complains.',
+    ),
+    (
+      'Going backwards is fine',
+      'Walk the boundary the other way and the sum turns negative. The '
+          'absolute value is there for exactly that. Plot the listing before you '
+          'trust it.',
+    ),
+  ],
+  spoken: [
     (
       'Round the boundary',
       r'A = \tfrac{1}{2}\left|\sum (x_i y_{i+1} - x_{i+1} y_i)\right|',
+      'cross-multiply each corner with the next, add, halve, ignore the sign',
     ),
-    ('Close it', r'\text{last corner pairs back to the first}'),
-    ('Either direction', r'\text{the absolute value covers it}'),
+    (
+      'Close it',
+      r'\text{last corner pairs back to the first}',
+      'the last corner pairs with the first to shut the loop',
+    ),
+    (
+      'Either direction',
+      r'\text{the absolute value covers it}',
+      'clockwise or not, the size of the answer is the same',
+    ),
   ],
-  figure: BriefFigure.shoelace,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
 const endAreaBrief = BriefSection(
-  title: 'End areas against the prismoid',
-  body:
-      'Both volume formulas take the sections and the length between them, '
-      'and they disagree for one reason. The average end area method assumes '
-      'the section runs straight from one end to the other, which is the '
-      'same as assuming the middle of the run is the average of the two '
-      'ends. The prismoidal formula asks what the middle section actually '
-      'is. So compare the two: a middle standing ABOVE the average of the '
-      'ends means the prismoidal answer is bigger, a middle sagging BELOW it '
-      'means the end area answer is, and a middle sitting exactly on it '
-      'means the two agree to the digit. A fill closing to a point sags a '
-      'long way below, which is the overestimate the end area method is '
-      'known for, and a constant section or an even taper sits right on the '
-      'line, where the end area method is not an approximation at all.',
-  formulas: [
-    ('End areas', r'V = \frac{L}{2}(A_1 + A_2)'),
-    ('Prismoidal', r'V = \frac{L}{6}(A_1 + 4A_m + A_2)'),
-    ('They agree when', r'A_m = \frac{A_1 + A_2}{2}'),
+  title: 'What happens between two sections',
+  picture: endAreaPicture,
+  steps: [
+    (
+      'Dirt is measured by slicing',
+      'Cut a road job across at intervals and measure the area of each cut. '
+          'The volume between two slices is the areas and the distance between '
+          'them, but the two formulas disagree about what happens in the gap.',
+    ),
+    (
+      'End areas draws a straight line',
+      'It assumes the section grows evenly from one slice to the next, which '
+          'is the same as saying the middle is the average of the two ends.',
+    ),
+    (
+      'The prismoidal formula asks',
+      'It measures the middle section instead of assuming it, and gives it '
+          'four times the weight. So compare the real middle against the average '
+          'of the ends and you know which answer is bigger.',
+    ),
+    (
+      'A fill closing to a point sags',
+      'Its middle is well below the average of its ends, so end areas '
+          'overestimates: the famous overpayment. A constant section or an even '
+          'taper sits right on the line and the two agree exactly.',
+    ),
   ],
-  figure: BriefFigure.endArea,
+  spoken: [
+    (
+      'End areas',
+      r'V = \frac{L}{2}(A_1 + A_2)',
+      'the two end areas averaged, times the length',
+    ),
+    (
+      'Prismoidal',
+      r'V = \frac{L}{6}(A_1 + 4A_m + A_2)',
+      'the ends plus four times the middle, over six, times the length',
+    ),
+    (
+      'They agree when',
+      r'A_m = \frac{A_1 + A_2}{2}',
+      'the middle section is exactly the average of the two ends',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const stationBrief = BriefSection(
-  title: 'Station by station, then add',
-  body:
-      'The end area formula knows about two sections and the distance '
-      'between them, and nothing in it objects if those two are a thousand '
-      'feet apart with a hill in between. Used once across a whole run it '
-      'reports whatever the two end sections happen to suggest: a hump '
-      'between them goes unbooked, a saddle gets paid for twice, and a run '
-      'that starts and finishes at nothing comes out as no dirt at all, '
-      'which is the lesson\'s own trap. Work every pair of adjacent stations '
-      'separately and add the segments up. The one case where skipping is '
-      'safe is a section that climbs evenly the whole way, because then the '
-      'ends already carry the story. And a station is a hundred feet: 1+00 '
-      'is 100, 2+00 is 200.',
-  formulas: [
-    ('Each segment', r'V_i = \frac{L_i}{2}(A_i + A_{i+1})'),
-    ('Then', r'V = \Sigma V_i'),
-    ('A station', r'1{+}00 = 100 \text{ ft}'),
+  title: 'Work every pair of stations, then add',
+  picture: stationsPicture,
+  steps: [
+    (
+      'The formula only sees two slices',
+      'Hand it two sections and a distance and it answers. Nothing in it '
+          'objects if those two are a thousand feet apart with a whole hill in '
+          'between.',
+    ),
+    (
+      'So skipping loses the middle',
+      'A hump between two slices goes unbooked. A dip gets paid for twice. '
+          'And a run that starts at nothing and ends at nothing comes out as no '
+          'dirt at all, however much is really there.',
+    ),
+    (
+      'Work each pair, then add the pieces',
+      'Take every pair of neighboring stations on its own and add the '
+          'volumes up. The only safe skip is a section that climbs evenly the '
+          'whole way, because then the ends really do carry the story.',
+    ),
+    (
+      'A station is a hundred feet',
+      '1+00 means 100 feet along, 2+00 means 200. The plus sign separates '
+          'the hundreds from the rest.',
+    ),
   ],
-  figure: BriefFigure.stations,
+  spoken: [
+    (
+      'Each segment',
+      r'V_i = \frac{L_i}{2}(A_i + A_{i+1})',
+      'for each pair of slices, the two areas averaged times their spacing',
+    ),
+    ('Then', r'V = \Sigma V_i', 'add all the segments together'),
+    (
+      'A station',
+      r'1{+}00 = 100 \text{ ft}',
+      'station one plus zero zero is a hundred feet along',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const solidBrief = BriefSection(
   title: 'All of it, half of it, a third of it',
-  body:
-      'Carry the section the whole length to make a box around the solid, '
-      'then ask what the far end does. Nothing changes and the solid IS the '
-      'box: area times length. It closes down to an EDGE and the solid is '
-      'half the box, because the section falls away evenly, which is exactly '
-      'what the end area formula gives with one section at zero. It closes '
-      'to a POINT and the solid is a third, because the section is lost in '
-      'two directions at once and falls away as a square: that is the '
-      'pyramid formula, base times height over three, and it holds whether '
-      'the base is round or square. The gap between the half and the third '
-      'is the whole of the end area method\'s overestimate on a taper.',
-  formulas: [
-    ('Constant', r'V = A L'),
-    ('To an edge', r'V = \tfrac{1}{2} A L'),
-    ('To a point', r'V = \tfrac{1}{3} A h'),
+  picture: solidPicture,
+  steps: [
+    (
+      'Start with the box',
+      'Take the section at one end and carry it the whole length. That makes '
+          'a box around the solid. Now ask what the far end actually does.',
+    ),
+    (
+      'Nothing changes: the whole box',
+      'A section that stays the same all the way IS the box. Area times '
+          'length, and there is no approximating involved.',
+    ),
+    (
+      'Closing to an edge: half',
+      'The section shrinks evenly to a line, so on average it is half of what '
+          'it started as. That is a wedge, and it is what the end area formula '
+          'gives with one section set to zero.',
+    ),
+    (
+      'Closing to a point: a third',
+      'Now it is shrinking in two directions at once, so it falls away as a '
+          'square and only a third of the box is left. That is the pyramid rule, '
+          'and it holds whether the base is round or square.',
+    ),
   ],
-  figure: BriefFigure.solidShare,
+  spoken: [
+    ('Constant', r'V = A L', 'the area times the length: the whole box'),
+    ('To an edge', r'V = \tfrac{1}{2} A L', 'half the box'),
+    (
+      'To a point',
+      r'V = \tfrac{1}{3} A h',
+      'a third of the box: base times height over three',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const cogoBrief = BriefSection(
   title: 'Forward one way, inverse the other',
-  body:
-      'Coordinate work runs in two directions on the same two formulas. '
-      'FORWARD takes a point you hold and a course you measured and gives '
-      'you a point you did not have: the length times the sine of the '
-      'azimuth is how far east it went, the length times the cosine is how '
-      'far north, and both are added to the point you started from. INVERSE '
-      'takes two points you hold and gives back the course between them: the '
-      'distance is the hypotenuse of the two differences and the direction '
-      'is their arctangent. Count the points that already have coordinates '
-      'and the job tells you which it is. Most real work is one of each: '
-      'inverse to find out where a line points, then forward to put '
-      'something new along it.',
-  formulas: [
-    ('Forward', r'E_2 = E_1 + L\sin Az, \; N_2 = N_1 + L\cos Az'),
-    ('Inverse', r'L = \sqrt{\Delta E^2 + \Delta N^2}'),
-    ('And', r'Az = \tan^{-1}(\Delta E / \Delta N)'),
+  picture: cogoPicture,
+  steps: [
+    (
+      'Count what you already hold',
+      'Coordinate work runs in two directions on the same triangle. Which '
+          'direction you are going is decided by how many points already have '
+          'coordinates.',
+    ),
+    (
+      'Forward: one point and a measured line',
+      'You stand on a known point and measure a length and a direction to '
+          'something new. Break that line into its east part and its north part, '
+          'add both to where you started, and the new point has coordinates.',
+    ),
+    (
+      'Inverse: two points, find the line',
+      'You hold both ends and want the line between them. Subtract to get how '
+          'far east and how far north, then the distance is the long side of that '
+          'triangle and the direction is its arctangent.',
+    ),
+    (
+      'Most real work is one of each',
+      'Inverse first, to find out which way a line points. Then forward, to '
+          'set something new along it.',
+    ),
   ],
-  figure: BriefFigure.cogo,
+  spoken: [
+    (
+      'Forward',
+      r'E_2 = E_1 + L\sin Az, \; N_2 = N_1 + L\cos Az',
+      'add the east part and the north part to the point you held',
+    ),
+    (
+      'Inverse',
+      r'L = \sqrt{\Delta E^2 + \Delta N^2}',
+      'the distance is the long side of the triangle the two gaps make',
+    ),
+    (
+      'And',
+      r'Az = \tan^{-1}(\Delta E / \Delta N)',
+      'the direction is the arctangent of east over north',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
 const pairBrief = BriefSection(
   title: 'Easting first, northing second',
-  body:
-      'A coordinate pair is two numbers and an agreement about which is '
-      'which. Surveying writes the easting first and the northing second, '
-      'across and then up, the same order as x and then y. Plenty of field '
-      'books, deeds and older records write them the other way round, and a '
-      'pair read backwards lands on the far side of the diagonal and then '
-      'behaves perfectly well: every distance and direction computed from it '
-      'comes out as a believable number for the wrong point. When the two '
-      'numbers are far apart the error is obvious. When they are close it is '
-      'small enough to survive a glance and large enough to put a wall on '
-      'the wrong side of a line. Label the columns E and N, and plot the '
-      'point.',
-  formulas: [
-    ('The pair', r'(E, N)'),
-    ('Easting', r'\text{across, the x of the grid}'),
-    ('Northing', r'\text{up, the y of the grid}'),
+  picture: pairPicture,
+  steps: [
+    (
+      'Two numbers and an agreement',
+      'A coordinate pair says how far across and how far up. Surveying writes '
+          'the easting first and the northing second: across, then up, the same '
+          'order as x then y.',
+    ),
+    (
+      'Plenty of records do it backwards',
+      'Field books, deeds and older files often write northing first. Nothing '
+          'about the two numbers tells you which convention you are looking at.',
+    ),
+    (
+      'A swapped pair still behaves',
+      'Read backwards, the point lands on the far side of the diagonal and '
+          'then works perfectly: every distance and direction computed from it is '
+          'a believable number for the wrong place.',
+    ),
+    (
+      'So label and plot',
+      'When the two numbers are far apart the mistake is obvious. When they '
+          'are close it survives a glance and puts a wall on the wrong side of a '
+          'boundary. Write E and N over the columns and plot the point.',
+    ),
   ],
-  figure: BriefFigure.pair,
+  spoken: [
+    ('The pair', r'(E, N)', 'easting first, northing second'),
+    (
+      'Easting',
+      r'\text{across, the x of the grid}',
+      'how far across, which is the x',
+    ),
+    ('Northing', r'\text{up, the y of the grid}', 'how far up, which is the y'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
 const arctanBrief = BriefSection(
   title: 'The calculator only knows half the compass',
-  body:
-      'An arctangent of one number returns something between minus a right '
-      'angle and a right angle. That is half the compass, and an azimuth '
-      'needs all of it, so the other half has to come from the SIGNS of the '
-      'two differences. A negative northing difference means the line runs '
-      'south, and every southbound line has an azimuth between 90 and 270: '
-      'add 180. North and west takes 360. North and east is the one quarter '
-      'the calculator gets right by itself. The trap is that the two minus '
-      'signs of a south-west line cancel inside the division, so the '
-      'calculator hands back a small positive number that looks entirely '
-      'usable and is 180 degrees wrong. A negative answer is never an '
-      'azimuth: azimuths run from 0 to 360.',
-  formulas: [
-    (r'\Delta N > 0, \Delta E > 0', r'Az = \tan^{-1}(\Delta E/\Delta N)'),
-    (r'\Delta N < 0', r'Az = 180° + \tan^{-1}(\Delta E/\Delta N)'),
+  picture: arctanPicture,
+  steps: [
     (
-      r'\Delta N > 0, \Delta E < 0',
-      r'Az = 360° + \tan^{-1}(\Delta E/\Delta N)',
+      'Arctangent answers within a half turn',
+      'Feed it one number and it hands back something between minus 90 and '
+          'plus 90 degrees. That covers half the compass. An azimuth needs all '
+          'of it.',
+    ),
+    (
+      'The missing half is in the signs',
+      'Only the two differences, how far east and how far north, know which '
+          'quarter the line really runs into. The division throws that away.',
+    ),
+    (
+      'So put it back',
+      'Northing difference negative means the line runs south, and every '
+          'southbound line is between 90 and 270: add 180. North and west: add '
+          '360. North and east is the one quarter the calculator gets right by '
+          'itself.',
+    ),
+    (
+      'Why south-west is the trap',
+      'Both differences are negative, so the two minus signs cancel inside '
+          'the division. The calculator hands back a small positive number that '
+          'looks fine and is 180 degrees wrong.',
     ),
   ],
-  figure: BriefFigure.arctan,
+  spoken: [
+    (
+      'North and east',
+      r'Az = \tan^{-1}(\Delta E/\Delta N)',
+      'take the arctangent and stop',
+    ),
+    (
+      'Anything running south',
+      r'Az = 180^\circ + \tan^{-1}(\Delta E/\Delta N)',
+      'add 180 whenever the northing difference is negative',
+    ),
+    (
+      'North and west',
+      r'Az = 360^\circ + \tan^{-1}(\Delta E/\Delta N)',
+      'add 360 to the negative answer',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 310',
 );
 
 const roadCurveBrief = BriefSection(
-  title: 'Six lengths on one curve',
-  body:
-      'A circular curve is fixed by two numbers, the radius and the angle the '
-      'road turns through, and everything else is worked out of those. The '
-      'TANGENT runs from the PC out to the PI, along the line the road was on '
-      'before it started turning, and the second tangent from the PI to the '
-      'PT is the same length. The CURVE LENGTH is the arc itself, which is '
-      'the road, and it is what the stationing runs along: never out through '
-      'the PI. The LONG CHORD cuts straight across from PC to PT. The '
-      'EXTERNAL measures from the PI in to the middle of the arc, which is '
-      'how far the road misses the corner by, and the MIDDLE ORDINATE '
-      'measures from the middle of the chord out to the same point. Mistaking '
-      'the arc for the tangent is the confusion the lesson names twice.',
-  formulas: [
-    ('Out to the PI', r'T = R\tan\frac{I}{2}'),
-    ('Round the arc', r'L = \frac{\pi R I}{180}'),
-    ('Across, and the two bulges', r'LC = 2R\sin\frac{I}{2}, \; E, \; M'),
+  title: 'Six lengths live on one curve',
+  picture: roadCurvePicture,
+  steps: [
+    (
+      'Two straight roads and a corner',
+      'Where two straights meet, a circle is fitted into the corner so cars '
+          'can get round. The whole curve is fixed by two things: the radius of '
+          'that circle, and how far the road turns.',
+    ),
+    (
+      'The tangent runs out to the corner',
+      'From where the curve starts, out along the old straight to the point '
+          'the two straights would have met. The other side is the same length.',
+    ),
+    (
+      'The curve length is the road',
+      'It is the arc itself, the way the car actually drives, and it is what '
+          'the stationing runs along. Never out through the corner. Mistaking the '
+          'arc for the tangent is the error this lesson names twice.',
+    ),
+    (
+      'The three that measure the bulge',
+      'The long chord cuts straight across from start to finish. The external '
+          'is how far the road misses the corner by. The middle ordinate is from '
+          'the middle of the chord out to the road.',
+    ),
   ],
-  figure: BriefFigure.roadCurve,
+  spoken: [
+    (
+      'Out to the corner',
+      r'T = R\tan\frac{I}{2}',
+      'the radius times the tangent of half the turn',
+    ),
+    (
+      'Round the arc',
+      r'L = \frac{\pi R I}{180}',
+      'the share of a whole circle that the turn takes up',
+    ),
+    (
+      'Across, and the two bulges',
+      r'LC = 2R\sin\frac{I}{2}, \; E, \; M',
+      'the straight chord, plus how far the road misses the corner and the chord',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 302',
 );
 
 const degreeBrief = BriefSection(
   title: 'Radius one way, degree the other',
-  body:
-      'A curve gets quoted two ways and they run in opposite directions. The '
-      'RADIUS is a length, and a bigger one is a gentler curve. The DEGREE '
-      'OF CURVE is an angle, the one that a hundred feet of arc turns '
-      'through, so a bigger one is a SHARPER curve. Their product is always '
-      '5,729.58, which is simply the radius whose hundred foot arc turns '
-      'through one degree, so either number gives the other and comparing a '
-      'curve quoted one way against a curve quoted the other is a single '
-      'division. Degree of curve suits laying a curve out in the field by '
-      'deflection angles, and the radius suits coordinate work, so the same '
-      'drawing often carries both.',
-  formulas: [
-    ('Either way', r'D = \frac{5{,}729.58}{R}'),
-    ('So', r'D \times R \approx 5{,}730'),
-    ('Sharper means', r'\text{small } R, \text{ large } D'),
+  picture: degreePicture,
+  steps: [
+    (
+      'Two ways to quote the same curve',
+      'One is a length: the radius. The other is an angle: the degree of '
+          'curve, which is how much the road turns in a hundred feet of driving.',
+    ),
+    (
+      'They run in opposite directions',
+      'A BIG radius is a gentle curve, because the circle is huge. A BIG '
+          'degree is a SHARP curve, because you turned a lot in a short distance.',
+    ),
+    (
+      'One number always joins them',
+      'Multiply them together and you always get about 5,730. That is simply '
+          'the radius whose hundred feet of arc turns through exactly one degree.',
+    ),
+    (
+      'So comparing is one division',
+      'Degree of curve suits laying a curve out in the field; the radius '
+          'suits coordinate work. The same drawing often carries both.',
+    ),
   ],
-  figure: BriefFigure.degreeOfCurve,
+  spoken: [
+    (
+      'Either way',
+      r'D = \frac{5{,}729.58}{R}',
+      'the degree is 5,730 divided by the radius',
+    ),
+    (
+      'So',
+      r'D \times R \approx 5{,}730',
+      'the two multiplied together are always about 5,730',
+    ),
+    (
+      'Sharper means',
+      r'\text{small } R, \text{ large } D',
+      'a small radius and a large degree are the same sharp curve',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 302',
 );
 
 const tangentOffsetBrief = BriefSection(
-  title: 'Two elevations at one station',
-  body:
-      'A vertical curve is a parabola hung between two straight grades, and at '
-      'any station there are TWO elevations to be had. The grade line produced '
-      'from the PVC gives one, and at the middle of the curve that line is the '
-      'PVI elevation, because the PVI is simply where the two straight grades '
-      'meet. The road itself gives the other. The gap between them starts at '
-      'nothing at the PVC, grows as the SQUARE of the distance from it, and is '
-      'largest under the PVI. Which way the road bends off its incoming grade '
-      'is decided by the sign of the grade CHANGE: down to a lower grade and '
-      'the road runs below the line, up to a higher one and it runs above, '
-      'whether or not the road ever crests or sags. Reading the tangent '
-      'elevation where the question wanted the road is the mistake this lesson '
-      'is built around.',
-  formulas: [
-    ('On the grade line', r'Y = Y_{PVC} + g_1 x'),
-    ('On the road', r'Y = Y_{PVC} + g_1 x + \frac{g_2 - g_1}{2L}x^2'),
-    ('The gap under the PVI', r'E = \frac{A L}{8}'),
+  title: 'Two elevations at the same station',
+  picture: tangentOffsetPicture,
+  steps: [
+    (
+      'A hill is smoothed with a curve',
+      'Where one grade meets another, the road does not kink. A gentle curve '
+          'is laid between them, and it pulls away from the straight grade it '
+          'arrived on.',
+    ),
+    (
+      'So there are two heights at any station',
+      'The straight grade line carried on from the start gives one. The road '
+          'itself gives the other. The question decides which one it wants, and '
+          'reading the wrong one is what this lesson is built around.',
+    ),
+    (
+      'The gap grows as a square',
+      'It is nothing where the curve begins, and it grows by the SQUARE of '
+          'how far along you are, so it is biggest under the corner where the two '
+          'straight grades would have met.',
+    ),
+    (
+      'Which way it pulls',
+      'Heading to a lower grade, the road runs below the line. Heading to a '
+          'higher one, it runs above. That is decided by the change in grade, not '
+          'by whether the road crests or sags.',
+    ),
   ],
-  figure: BriefFigure.tangentOffset,
+  spoken: [
+    (
+      'On the grade line',
+      r'Y = Y_{PVC} + g_1 x',
+      'the start elevation plus the incoming grade times the distance',
+    ),
+    (
+      'On the road',
+      r'Y = Y_{PVC} + g_1 x + \frac{g_2 - g_1}{2L}x^2',
+      'the same, plus a term that grows as the distance squared',
+    ),
+    (
+      'The gap under the corner',
+      r'E = \frac{A L}{8}',
+      'the grade change times the curve length, over eight',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 301',
 );
 
 const highPointBrief = BriefSection(
-  title: 'Where the road turns around',
-  body:
-      'The road stops climbing, or stops falling, where the grade it arrived '
-      'with has been used up. That point is measured from the PVC and it leans '
-      'toward the SHALLOWER of the two grades: on a curve from plus 4 to minus '
-      '2, two thirds of the way along. It sits halfway, under the PVI, only '
-      'when the two grades are equal and opposite, which is the case common '
-      'enough to make the midpoint a habit and wrong the rest of the time. '
-      'When both grades run the same way the formula returns a distance '
-      'outside 0 to L, and that is it telling you the turning point is off the '
-      'curve: the road simply climbs, or falls, from end to end. The rate K is '
-      'a different quantity entirely, the feet of curve bought per percent of '
-      'grade change, and a bigger K is a gentler curve. K is not a distance '
-      'along the road.',
-  formulas: [
-    ('From the PVC', r'x_m = \frac{-g_1 L}{g_2 - g_1}'),
-    ('The grade change', r'A = |g_1 - g_2|'),
-    ('The rate, not a distance', r'K = \frac{L}{A}'),
+  title: 'Where the road stops climbing',
+  picture: highPointPicture,
+  steps: [
+    (
+      'The climb runs out',
+      'Come into a crest at plus 4 percent and leave at minus 2. Somewhere '
+          'between, the road stops going up and starts coming down. That is the '
+          'high point, and it is where water on the road parts.',
+    ),
+    (
+      'It leans toward the gentler grade',
+      'From plus 4 to minus 2 it sits two thirds of the way along, not in the '
+          'middle. The steeper you came in, the further you carry on before the '
+          'climb is used up.',
+    ),
+    (
+      'The middle is a special case',
+      'It only sits under the corner when the two grades are equal and '
+          'opposite. That happens often enough to become a habit, and the habit '
+          'is wrong the rest of the time.',
+    ),
+    (
+      'An answer outside the curve means something',
+      'If both grades run the same way the formula returns a distance past '
+          'the ends. That is it telling you the road simply climbs, or falls, the '
+          'whole way: there is no turning point on the curve at all.',
+    ),
   ],
-  figure: BriefFigure.highPoint,
+  spoken: [
+    (
+      'From the start of the curve',
+      r'x_m = \frac{-g_1 L}{g_2 - g_1}',
+      'the incoming grade and the length, over the change in grade',
+    ),
+    (
+      'The grade change',
+      r'A = |g_1 - g_2|',
+      'how much the grade changes in total, ignoring the sign',
+    ),
+    (
+      'The rate, not a distance',
+      r'K = \frac{L}{A}',
+      'feet of curve bought per percent of grade change: bigger K is gentler',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 301',
 );
 
