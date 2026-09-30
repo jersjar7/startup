@@ -6,6 +6,8 @@
 // with; see mechanics_pictures.dart for the pattern and the shared
 // ConceptPicture and ConceptPair tiles.
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -193,16 +195,31 @@ Widget furnacePicture() => const ConceptPair(
   height: 200,
 );
 
-Widget tieLinePicture() => const ConceptPicture(
-  painter: TiePainter(
-    tie: Tie(solid: 10, overall: 30, liquid: 40),
-    answer: Arm.toSolid,
-    locked: true,
-  ),
-  caption:
-      'the alloy sits between two boundaries. the marked arm is the one that '
-      'gives the liquid share, and it points the other way',
-  height: 210,
+// The phase diagram asks a reader to accept the axes, the lens and which
+// boundary is which before the arms mean anything. The steps already reach
+// for a seesaw, so the seesaw is drawn underneath with the SAME three
+// numbers: the same line twice, once in the alloy's world and once in a
+// world anybody already understands.
+Widget tieLinePicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: TiePainter(
+        tie: Tie(solid: 10, overall: 30, liquid: 40),
+        answer: Arm.toSolid,
+        locked: true,
+      ),
+      caption:
+          'the alloy sits between two boundaries. the marked arm is the one that gives the liquid share, and it points the other way',
+      height: 210,
+    ),
+    SizedBox(height: 14),
+    ConceptPicture(
+      painter: _SeesawPainter(),
+      caption:
+          'the same line as a seesaw. the alloy is the pivot, and each share is weighed by the arm on the FAR side',
+      height: 200,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -269,20 +286,34 @@ Widget weighingPicture() => const ConceptPicture(
   height: 210,
 );
 
-Widget gradingPicture() => const ConceptPair(
-  left: GradingPainter(
-    gradings: [
-      Grading(name: 'coarse', passing: [96, 78, 58, 38, 20, 8, 2]),
-    ],
-  ),
-  right: GradingPainter(
-    gradings: [
-      Grading(name: 'fine', passing: [100, 100, 95, 82, 58, 25, 8]),
-    ],
-  ),
-  leftCaption: 'a coarse sand: less gets through each sieve',
-  rightCaption: 'a fine sand: most of it goes through. its modulus is smaller',
-  height: 200,
+// The curves assume a convention: coarse on the left, and percent PASSING
+// rather than retained. The stack of sieves teaches that convention instead
+// of assuming it, and it is the thing the first step describes.
+Widget gradingPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: _SieveStackPainter(),
+      caption:
+          'sieves stacked coarsest on top. pour the sand in, shake, and each one keeps the grains too big to pass it',
+      height: 230,
+    ),
+    SizedBox(height: 14),
+    ConceptPair(
+      left: GradingPainter(
+        gradings: [
+          Grading(name: 'coarse', passing: [96, 78, 58, 38, 20, 8, 2]),
+        ],
+      ),
+      right: GradingPainter(
+        gradings: [
+          Grading(name: 'fine', passing: [100, 100, 95, 82, 58, 25, 8]),
+        ],
+      ),
+      leftCaption: 'a coarse sand: less gets through each sieve',
+      rightCaption: 'a fine sand: most of it goes through. smaller modulus',
+      height: 200,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -300,16 +331,30 @@ Widget voidsPicture() => const ConceptPicture(
   height: 220,
 );
 
-Widget checkPicture() => const ConceptPicture(
-  painter: PuckPainter(
-    puck: Puck(air: 4, binder: 11),
-    answer: Piece2.air,
-    locked: true,
-  ),
-  caption:
-      'the air is the thin band marked at the top. the bracket beside it is '
-      'the air AND the binder, so it can only ever be bigger',
-  height: 220,
+// The puck carries two of the four checks: the air band is thinner than the
+// VMA bracket, and the stone band is plainly the eighty-something. The check
+// that rested on words alone was the one about the two gravities, so it is
+// drawn: the same specimen weighed with its air and with the air taken out.
+Widget checkPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: PuckPainter(
+        puck: Puck(air: 4, binder: 11),
+        answer: Piece2.air,
+        locked: true,
+      ),
+      caption:
+          'the air is the thin band marked at the top. the bracket beside it is the air AND the binder, so it can only ever be bigger',
+      height: 220,
+    ),
+    SizedBox(height: 14),
+    ConceptPicture(
+      painter: _GravityPairPainter(),
+      caption:
+          'the same specimen, twice. take the air out and the same materials pack into less room, so that gravity is always the bigger one',
+      height: 200,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -391,6 +436,221 @@ Widget pickingPicture() => const ConceptPicture(
 
 // ---------------------------------------------------------------------------
 // Painters that exist only for a sheet
+
+/// The tie line as a seesaw, with the same three numbers the phase diagram
+/// carries: the two boundaries at the ends, the alloy as the pivot. The
+/// share of each phase is the arm on the OTHER side, which is the step of
+/// the lesson everybody gets backwards, and on a seesaw it is obvious.
+class _SeesawPainter extends CustomPainter {
+  const _SeesawPainter();
+
+  static const _solid = 10.0;
+  static const _alloy = 30.0;
+  static const _liquid = 40.0;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.16;
+    final right = size.width * 0.84;
+    final beam = size.height * 0.46;
+    double at(double x) =>
+        left + (right - left) * (x - _solid) / (_liquid - _solid);
+    final pivotX = at(_alloy);
+
+    // The beam, and the pivot under the alloy.
+    canvas
+      ..drawLine(
+        Offset(left, beam),
+        Offset(right, beam),
+        _stroke(AppColors.charcoal, 3),
+      )
+      ..drawPath(
+        Path()
+          ..moveTo(pivotX, beam + 2)
+          ..lineTo(pivotX - 13, beam + 30)
+          ..lineTo(pivotX + 13, beam + 30)
+          ..close(),
+        Paint()..color = AppColors.charcoal,
+      );
+
+    // The two ends, each a boundary of the lens above.
+    for (final (x, name, tone) in [
+      (_solid, 'solid', AppColors.forest),
+      (_liquid, 'liquid', AppColors.info),
+    ]) {
+      final px = at(x);
+      canvas.drawCircle(Offset(px, beam), 6, Paint()..color = tone);
+      final t = _label(name, color: tone);
+      t.paint(canvas, Offset(px - t.width / 2, beam - 26));
+      final n = _label('${x.round()}', size: 10, color: AppColors.ink3);
+      n.paint(canvas, Offset(px - n.width / 2, beam + 34));
+    }
+    final alloy = _label('alloy 30', size: 10, color: AppColors.charcoal);
+    alloy.paint(canvas, Offset(pivotX - alloy.width / 2, beam + 34));
+
+    // The far arm: the one that weighs the liquid share. Drawn from the
+    // pivot BACK toward the solid end, which is the direction that feels
+    // wrong and is right.
+    final armY = beam + 56;
+    _arrow(
+      canvas,
+      Offset(pivotX, armY),
+      Offset(at(_solid), armY),
+      _stroke(AppColors.ember, 2.6),
+    );
+    final arm = _label(
+      'this arm weighs the LIQUID share',
+      size: 10,
+      color: AppColors.ember,
+    );
+    arm.paint(
+      canvas,
+      Offset(
+        (at(_solid) + pivotX) / 2 - arm.width / 2 < 4
+            ? 4
+            : (at(_solid) + pivotX) / 2 - arm.width / 2,
+        armY + 8,
+      ),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_SeesawPainter old) => false;
+}
+
+/// A stack of sieves with sand poured through it: coarsest on top, each one
+/// keeping the grains too big to pass. The curves on this sheet are drawn
+/// coarse to the left and in percent PASSING, and this is where both of
+/// those conventions come from.
+class _SieveStackPainter extends CustomPainter {
+  const _SieveStackPainter();
+
+  /// Each sieve: its name, and how big the grains it holds back are drawn.
+  /// The notes that used to ride beside each row landed on the names, and
+  /// the caption says the same thing once.
+  static const _rows = [
+    ('3/8', 4.0),
+    ('No 8', 2.6),
+    ('No 30', 1.7),
+    ('No 100', 1.1),
+  ];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.20;
+    final right = size.width * 0.62;
+    final top = size.height * 0.16;
+    final gap = (size.height * 0.62) / _rows.length;
+
+    for (final (i, (name, grain)) in _rows.indexed) {
+      final y = top + gap * i;
+      // The frame of one sieve.
+      canvas.drawRect(
+        Rect.fromLTRB(left, y, right, y + gap * 0.62),
+        _stroke(AppColors.charcoal, 1.8),
+      );
+      // Its mesh, drawn finer the further down the stack you go.
+      final step = 4.0 + 8 / (i + 1);
+      for (var x = left + step; x < right; x += step) {
+        canvas.drawLine(
+          Offset(x, y + gap * 0.62),
+          Offset(x, y + gap * 0.62 - 5),
+          _stroke(AppColors.ink3, 1),
+        );
+      }
+      // What this one keeps: grains too big for its mesh.
+      for (var k = 0; k < 4; k++) {
+        canvas.drawCircle(
+          Offset(left + 16 + k * 15.0, y + gap * 0.62 - 7 - grain),
+          grain,
+          Paint()..color = AppColors.sunbeam,
+        );
+      }
+      final t = _label(name, size: 10, color: AppColors.charcoal);
+      t.paint(canvas, Offset(right + 10, y + gap * 0.18));
+    }
+
+    // The sand going in at the top.
+    _arrow(
+      canvas,
+      Offset((left + right) / 2, 6),
+      Offset((left + right) / 2, top - 4),
+      _stroke(AppColors.ember, 2.4),
+    );
+    final pour = _label('pour it in', size: 10, color: AppColors.ember);
+    pour.paint(canvas, Offset((left + right) / 2 + 10, 4));
+
+    // Coarse at the top, fine at the bottom: the order the curves are drawn
+    // in, stood on its end.
+    final down = _label('coarse', size: 9.5, color: AppColors.ink3);
+    down.paint(canvas, Offset(4, top));
+    final fine = _label('fine', size: 9.5, color: AppColors.ink3);
+    fine.paint(canvas, Offset(4, top + gap * (_rows.length - 1)));
+  }
+
+  @override
+  bool shouldRepaint(_SieveStackPainter old) => false;
+}
+
+/// The same asphalt specimen weighed two ways: as compacted, with its air
+/// still in it, and with the air taken out. Same materials, less room, so
+/// the airless one is always the denser number. A negative air void means
+/// somebody swapped these two round.
+class _GravityPairPainter extends CustomPainter {
+  const _GravityPairPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final base = size.height * 0.74;
+    final tall = size.height * 0.40;
+    final wide = math.min(size.width * 0.22, 70.0);
+
+    for (final (i, (title, air, value)) in [
+      ('as compacted', 4.0, '2.38'),
+      ('air taken out', 0.0, '2.48'),
+    ].indexed) {
+      final x = size.width * (i == 0 ? 0.28 : 0.68) - wide / 2;
+      final airHigh = tall * (air / 100) * 6;
+      final solid = Rect.fromLTWH(
+        x,
+        base - tall + airHigh,
+        wide,
+        tall - airHigh,
+      );
+      canvas
+        ..drawRect(
+          solid,
+          Paint()..color = AppColors.charcoal.withValues(alpha: 0.45),
+        )
+        ..drawRect(solid, _stroke(AppColors.charcoal, 1.6));
+      if (air > 0) {
+        final band = Rect.fromLTWH(x, base - tall, wide, airHigh);
+        canvas
+          ..drawRect(
+            band,
+            Paint()..color = AppColors.info.withValues(alpha: 0.35),
+          )
+          ..drawRect(band, _stroke(AppColors.info, 1.4));
+        final a = _label('air', size: 9.5, color: AppColors.info);
+        a.paint(canvas, Offset(x + wide + 5, base - tall - 2));
+      }
+      final t = _label(title, size: 10, color: AppColors.charcoal);
+      t.paint(canvas, Offset(x + wide / 2 - t.width / 2, base + 8));
+      final v = _label(value, size: 12, color: AppColors.ember);
+      v.paint(canvas, Offset(x + wide / 2 - v.width / 2, base + 26));
+    }
+
+    final note = _label(
+      'same materials, less room: the bigger number',
+      size: 9.5,
+      color: AppColors.ink3,
+    );
+    note.paint(canvas, Offset(size.width / 2 - note.width / 2, base + 48));
+  }
+
+  @override
+  bool shouldRepaint(_GravityPairPainter old) => false;
+}
 
 TextPainter _label(String s, {double size = 11, Color color = AppColors.ink2}) {
   return TextPainter(
