@@ -5933,166 +5933,359 @@ const impulseBrief = BriefSection(
 );
 
 const underneathBrief = BriefSection(
-  title: 'What goes underneath',
-  body:
-      'Every number on this page is a force or a stretch over one measurement, '
-      'and the whole skill is knowing which. ENGINEERING stress and strain '
-      'divide by the bar you put in the machine: the area it started with and '
-      'the gauge length it started with. They keep dividing by those even '
-      'after the bar has thinned, which is exactly why the reported stress '
-      'falls at the end of a test while the steel is doing nothing of the '
-      'kind. TRUE stress and strain divide by the bar you have at that '
-      'instant, the waist included. And a strain is a length over a length, '
-      'so it comes out a bare number with no units on it. If what you wrote '
-      'down still has millimeters after it, it is a stretch, and using it as '
-      'a strain puts the modulus out by the whole gauge length.',
-  formulas: [
-    ('Engineering stress', r'\sigma = \frac{F}{A_0}'),
-    ('Engineering strain', r'\varepsilon = \frac{\Delta L}{L_0}'),
-    ('True stress', r'\sigma_T = \frac{F}{A}'),
-    ('True strain', r'\varepsilon_T = \ln(1 + \varepsilon)'),
+  title: 'Which measurement goes underneath',
+  picture: underneathPicture,
+  steps: [
+    (
+      'Pull a bar and watch it change',
+      'A test bar is measured before anything happens: how thick it is and '
+          'how long. Then the machine pulls. It gets longer, and a little '
+          'thinner. Now there are two sets of measurements, the old and the new.',
+    ),
+    (
+      'Engineering numbers use the old ones',
+      'Engineering stress and strain keep dividing by the bar you started '
+          'with, all the way to the break. Those are the numbers you actually '
+          'measured in the shop, so they are the honest ones to report.',
+    ),
+    (
+      'True numbers use the new ones',
+      'True stress divides by the bar you have at that moment, waist and '
+          'all. That area is shrinking, so true stress is always the bigger '
+          'number once the bar starts to thin.',
+    ),
+    (
+      'A strain never has a unit',
+      'Strain is a length divided by a length, so the units cancel to '
+          'nothing. If your number still has millimeters after it, that is a '
+          'stretch, not a strain.',
+    ),
   ],
-  figure: BriefFigure.underneath,
+  spoken: [
+    (
+      'Engineering stress',
+      r'\sigma = \frac{F}{A_0}',
+      'the pull, over the area the bar started with',
+    ),
+    (
+      'Engineering strain',
+      r'\varepsilon = \frac{\Delta L}{L_0}',
+      'how much it grew, over the length it started with',
+    ),
+    (
+      'True stress',
+      r'\sigma_T = \frac{F}{A}',
+      'the pull, over the area it has right now',
+    ),
+    (
+      'True strain',
+      r'\varepsilon_T = \ln(1 + \varepsilon)',
+      'the natural log of one plus the engineering strain',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 121',
 );
 
 const trueStressBrief = BriefSection(
-  title: 'The same test, divided twice',
-  body:
-      'One tensile test gives two curves, and they are the same line until '
-      'the stretching gets serious. Past that, true stress is always the '
-      'bigger of the two, because the area underneath it is shrinking while '
-      'the engineering one holds the original area fixed. Volume is conserved '
-      'while the bar thins evenly, which is where the conversion comes from, '
-      'so check the direction before you trust a number: multiplying by one '
-      'plus the strain RAISES it. The engineering curve turns over and comes '
-      'down once a waist forms, and its highest point is the ultimate tensile '
-      'strength, which is the number a mill certificate quotes. The true '
-      'curve has no peak at all. It climbs until the bar parts.',
-  formulas: [
-    ('True from engineering', r'\sigma_T = \sigma(1 + \varepsilon)'),
-    ('True strain', r'\varepsilon_T = \ln(1 + \varepsilon)'),
-    ('Why', r'A \approx \frac{A_0}{1 + \varepsilon}'),
+  title: 'One test, plotted two ways',
+  picture: trueStressPicture,
+  steps: [
+    (
+      'The same test, two lines',
+      'One pull of one bar gives two curves, depending on which area you '
+          'divide by. At the start the bar has barely changed, so the two lines '
+          'sit on top of each other and nobody can tell them apart.',
+    ),
+    (
+      'They split once the bar thins',
+      'Stretch it seriously and the bar narrows. The true curve is dividing '
+          'by that smaller area, so it climbs above the engineering one and '
+          'stays above it for the rest of the test.',
+    ),
+    (
+      'Only one of them turns over',
+      'A waist forms and the engineering curve peaks and comes back down. '
+          'That peak is the ultimate tensile strength, the number a mill '
+          'certificate quotes. The true curve never peaks; it climbs until the '
+          'bar parts.',
+    ),
+    (
+      'Check the direction before you trust it',
+      'Going from engineering to true means multiplying by one plus the '
+          'strain, and one plus something is bigger than one. So the answer has '
+          'to come out LARGER. If it came out smaller, the formula went in '
+          'upside down.',
+    ),
   ],
-  figure: BriefFigure.trueStress,
+  spoken: [
+    (
+      'True from engineering',
+      r'\sigma_T = \sigma(1 + \varepsilon)',
+      'engineering stress times one plus the strain, so always bigger',
+    ),
+    (
+      'True strain',
+      r'\varepsilon_T = \ln(1 + \varepsilon)',
+      'the natural log of one plus the engineering strain',
+    ),
+    (
+      'Why it works',
+      r'A \approx \frac{A_0}{1 + \varepsilon}',
+      'the bar keeps its volume, so its area shrinks by that same factor',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 121',
 );
 
 const crackBrief = BriefSection(
-  title: 'Where the crack is',
-  body:
-      'One formula covers cracking, and the two numbers you feed it are both '
-      'decided by where the crack sits rather than by any arithmetic. A crack '
-      'running in from an EDGE takes a geometry factor of 1.1, and the a is '
-      'the whole depth of it, because there is nothing behind it holding it '
-      'shut. A crack buried INSIDE the plate takes 1.0, and the a is HALF the '
-      'length you can see: an internal crack is described as being of length '
-      '2a, and that halving is the single most missed step in the whole '
-      'lesson. Then convert to meters. A crack left in millimeters puts the '
-      'answer out by more than thirty times, which is the kind of wrong that '
-      'looks like a different question.',
-  formulas: [
-    ('The formula', r'K_{IC} = Y\sigma\sqrt{\pi a}'),
-    ('From an edge', r'Y = 1.1,\quad a = \text{the whole depth}'),
-    ('Inside', r'Y = 1.0,\quad a = \tfrac{1}{2}\,\text{of the length}'),
+  title: 'Where the crack sits decides both numbers',
+  picture: crackPicture,
+  steps: [
+    (
+      'A crack makes a plate weak',
+      'Pull on a plate with a crack in it and the pull crowds into the tip '
+          'of the crack. One formula says how hard that tip is being worked, and '
+          'it needs two things: how big the crack is, and where it sits.',
+    ),
+    (
+      'From the edge: use the whole thing',
+      'A crack running in from the side has nothing behind it holding it '
+          'shut. Its a is the full depth you can see, and it takes the slightly '
+          'bigger factor of 1.1, because an edge is the worse place to have one.',
+    ),
+    (
+      'Inside: use half of it',
+      'A crack buried in the middle has plate on both sides. It is described '
+          'as being 2a long, so the a in the formula is HALF of what you see. '
+          'That halving is the most missed step on the page.',
+    ),
+    (
+      'Then put it in meters',
+      'Toughness is quoted in units that want meters. Leave the crack in '
+          'millimeters and the answer is out by more than thirty times, which '
+          'looks like the answer to a different question.',
+    ),
   ],
-  figure: BriefFigure.crack,
+  spoken: [
+    (
+      'The formula',
+      r'K = Y\sigma\sqrt{\pi a}',
+      'a shape factor, times the stress, times the root of pi times a',
+    ),
+    (
+      'From an edge',
+      r'Y = 1.1,\quad a = \text{the whole depth}',
+      'factor one point one, and a is everything you can see',
+    ),
+    (
+      'Inside',
+      r'Y = 1.0,\quad a = \tfrac{1}{2}\,\text{of the length}',
+      'factor one, and a is half of what you can see',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 122',
 );
 
 const toughnessBrief = BriefSection(
-  title: 'A crack and a stress together',
-  body:
-      'Fracture toughness is a property of the material, like a strength, and '
-      'what it is held against is the stress and the crack TOGETHER. Neither '
-      'means anything alone: a long crack at a low stress and a short one at '
-      'a high stress can sit in exactly the same trouble. The crack is under '
-      'a square root and the stress is not, which is worth knowing in the '
-      'field: four times the crack is only twice the driving force, while '
-      'twice the load is twice the driving force straight off. That is why a '
-      'cracked member can often be de-rated and kept in service, and why the '
-      'same flaw in aluminum is nearer to going than it is in steel.',
-  formulas: [
-    ('Driving the crack', r'K = Y\sigma\sqrt{\pi a}'),
+  title: 'The crack and the pull, together',
+  picture: toughnessPicture,
+  steps: [
+    (
+      'Neither number means anything alone',
+      'A big crack in a plate nobody is pulling is fine. A hard pull on a '
+          'plate with no crack is fine. Trouble is the two at once, which is why '
+          'the formula multiplies them together.',
+    ),
+    (
+      'Toughness is what you compare against',
+      'Fracture toughness is a property of the material, like a strength. '
+          'Work out how hard the crack tip is being driven, and if that passes '
+          'the toughness, the crack runs.',
+    ),
+    (
+      'The pull counts more than the crack',
+      'The crack sits under a square root and the pull does not. So four '
+          'times the crack only doubles the driving force, while twice the load '
+          'doubles it straight off.',
+    ),
+    (
+      'Which is why cracked parts stay in service',
+      'You cannot make the crack smaller, but you can lower the load. That '
+          'is what de-rating a cracked member means, and it works because the '
+          'pull is the term with the bigger say.',
+    ),
+  ],
+  spoken: [
+    (
+      'Driving the crack',
+      r'K = Y\sigma\sqrt{\pi a}',
+      'how hard the crack tip is being worked',
+    ),
     (
       'The most stress it can take',
       r'\sigma_{max} = \frac{K_{IC}}{Y\sqrt{\pi a}}',
+      'the toughness, over the shape factor times the root of pi a',
     ),
     (
       'The biggest crack it can carry',
       r'a_{max} = \frac{1}{\pi}\left(\frac{K_{IC}}{Y\sigma}\right)^2',
+      'square the toughness over the stress term, then divide by pi',
     ),
   ],
-  figure: BriefFigure.toughness,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 122',
 );
 
 const expandBrief = BriefSection(
-  title: 'Three things, all multiplying',
-  body:
-      'How far something moves when the temperature changes is the '
-      'coefficient times the length times the change, and all three matter '
-      'equally. The coefficient is the material: aluminum moves about twice '
-      'as readily as steel, and steel and concrete are close enough to each '
-      'other that reinforced concrete survives a summer. The length counts in '
-      'direct proportion, which is why the long uninterrupted run is where '
-      'movement shows up. And the temperature change is a DIFFERENCE between '
-      'two readings, never a sum of them, which is the easiest mark on the '
-      'whole page to throw away. Nothing about the cross-section appears '
-      'anywhere: a heavy column and a thin rod of the same length move the '
-      'same amount.',
-  formulas: [
-    ('How far it moves', r'\Delta L = \alpha L \Delta T'),
-    ('Which is a strain', r'\alpha = \frac{\varepsilon}{\Delta T}'),
+  title: 'Three things multiply, and thickness is not one',
+  picture: expandPicture,
+  steps: [
+    (
+      'Warm things get bigger',
+      'Heat a metal bar and it grows a little. How far it grows is three '
+          'things multiplied together, and nothing else.',
+    ),
+    (
+      'What it is made of',
+      'Each material has its own number. Aluminum moves about twice as '
+          'readily as steel. Steel and concrete are close enough to each other '
+          'that reinforced concrete survives a hot summer without tearing '
+          'itself apart.',
+    ),
+    (
+      'How long it is',
+      'Straight proportion: five times the length is five times the '
+          'movement. That is why a long bridge gets expansion joints and a short '
+          'footbridge usually does not.',
+    ),
+    (
+      'How much the temperature changed',
+      'A change, never a reading. Forty degrees minus five is thirty five, '
+          'not forty five. And notice what is missing: thickness. A heavy column '
+          'and a thin rod of the same length move exactly the same amount.',
+    ),
+  ],
+  spoken: [
+    (
+      'How far it moves',
+      r'\Delta L = \alpha L \Delta T',
+      'the material number, times the length, times the temperature change',
+    ),
+    (
+      'Which is a strain',
+      r'\alpha = \frac{\varepsilon}{\Delta T}',
+      'the material number is just strain per degree',
+    ),
     (
       'Steel, concrete, aluminum',
       r'11.7,\; 10,\; 23 \times 10^{-6}\,/^{\circ}C',
+      'aluminum moves about twice as much as steel for the same warming',
     ),
   ],
-  figure: BriefFigure.expand,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 126',
 );
 
 const furnaceBrief = BriefSection(
   title: 'How fast it came down',
-  body:
-      'Two questions read any heat treatment on this page. Did the steel get '
-      'up above about seven hundred and twenty seven degrees, where it is '
-      'austenite? And how fast did it come back down through that change? '
-      'Fast enough and the atoms never get to move, so the structure is '
-      'trapped part way and what you have is martensite: very hard, very '
-      'brittle. Slow, and they do move, giving the mixture of ferrite and '
-      'cementite that the phase diagram calls for: softer and ductile. '
-      'Reheating a quenched part to a few hundred degrees is tempering, which '
-      'keeps most of the hardness and takes away most of the brittleness. If '
-      'it never reached austenite, a quench does nothing at all.',
-  formulas: [
-    ('Fast from austenite', r'\gamma \rightarrow \text{martensite}'),
-    ('Slow from austenite', r'\gamma \rightarrow \alpha + Fe_3C'),
-    ('Then reheated', r'\text{martensite} \rightarrow \text{tempered}'),
+  picture: furnacePicture,
+  steps: [
+    (
+      'Two questions read any heat treatment',
+      'Did the steel get hot enough, above about 727 degrees, to change into '
+          'the form called austenite? And then how fast did it come back down '
+          'through that change?',
+    ),
+    (
+      'Fast down: the atoms get stuck',
+      'Drop a hot part into water and the temperature falls off a cliff. The '
+          'atoms have no time to move where they want to go, so the structure is '
+          'trapped part way. That is martensite: very hard, and very brittle.',
+    ),
+    (
+      'Slow down: the atoms sort themselves out',
+      'Leave it in the furnace and the line strolls down. Now the atoms do '
+          'move, giving the soft, bendable mixture the phase diagram calls for.',
+    ),
+    (
+      'Tempering, and the case where nothing happens',
+      'Reheating a quenched part to a few hundred degrees keeps most of the '
+          'hardness and takes away most of the brittleness. And if the part '
+          'never got hot enough to start with, quenching does nothing at all.',
+    ),
   ],
-  figure: BriefFigure.furnace,
+  spoken: [
+    (
+      'Fast from austenite',
+      r'\gamma \rightarrow \text{martensite}',
+      'quench it and you get the hard, brittle structure',
+    ),
+    (
+      'Slow from austenite',
+      r'\gamma \rightarrow \alpha + Fe_3C',
+      'cool it slowly and you get the soft, bendable mixture',
+    ),
+    (
+      'Then reheated',
+      r'\text{martensite} \rightarrow \text{tempered}',
+      'warming a quenched part trades a little hardness for toughness',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 116',
 );
 
 const tieLineBrief = BriefSection(
   title: 'The arm on the far side',
-  body:
-      'Inside a two phase region, the horizontal tie line at your temperature '
-      'runs from the solid boundary to the liquid boundary, and your alloy '
-      'sits somewhere along it. The fraction of a phase is the arm on the FAR '
-      'side from that phase, divided by the whole tie line. So the liquid '
-      'fraction uses the arm running back to the SOLID boundary, which is the '
-      'step that feels backwards and is the most missed on the page. Two '
-      'checks cost nothing: the two fractions must add to one, and an alloy '
-      'sitting close to a boundary must be mostly that phase. The '
-      'denominator is measured between the two boundaries, never from zero.',
-  formulas: [
-    ('Fraction liquid', r'f_L = \frac{x_0 - x_\alpha}{x_L - x_\alpha}'),
-    ('Fraction solid', r'f_\alpha = \frac{x_L - x_0}{x_L - x_\alpha}'),
-    ('Always', r'f_L + f_\alpha = 1'),
+  picture: tieLinePicture,
+  steps: [
+    (
+      'Half melted, and you want to know how much',
+      'An alloy warmed part way is partly solid and partly liquid. Draw a '
+          'flat line across at your temperature: it runs from the solid boundary '
+          'on the left to the liquid boundary on the right, and your alloy sits '
+          'somewhere along it.',
+    ),
+    (
+      'It behaves like a seesaw',
+      'The alloy is the pivot and the two boundaries are the ends. Sit close '
+          'to the solid end and the mixture is mostly solid. That is why this is '
+          'called the lever rule.',
+    ),
+    (
+      'So each share uses the FAR arm',
+      'The liquid share is the arm running back toward the SOLID boundary, '
+          'over the whole line. That feels backwards, and it is the step people '
+          'miss. Check it at the ends: right against the solid boundary that far '
+          'arm is nearly zero, so there is almost no liquid. Correct.',
+    ),
+    (
+      'Two free checks',
+      'The two shares must add up to one. And the bottom of the fraction is '
+          'measured between the two boundaries, never from zero.',
+    ),
   ],
-  figure: BriefFigure.tieLine,
+  spoken: [
+    (
+      'Fraction liquid',
+      r'f_L = \frac{x_0 - x_\alpha}{x_L - x_\alpha}',
+      'the arm back to the solid boundary, over the whole line',
+    ),
+    (
+      'Fraction solid',
+      r'f_\alpha = \frac{x_L - x_0}{x_L - x_\alpha}',
+      'the arm out to the liquid boundary, over the whole line',
+    ),
+    (
+      'Always',
+      r'f_L + f_\alpha = 1',
+      'the two shares add up to the whole thing',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 127',
 );
 
@@ -10521,31 +10714,53 @@ const cornerOffsetBrief = BriefSection(
 );
 
 const stiffnessBrief = BriefSection(
-  title: 'A slope, not a height',
-  body:
-      'Strain is a stretch over an original length, so it has no units at '
-      'all. Stress divided by strain, anywhere on the straight part of the '
-      'curve, is the ELASTIC MODULUS, and it is the SLOPE of that straight '
-      'part. A slope is not a height. Stiffness says how far the thing '
-      'stretches under load; STRENGTH is how high the curve goes before the '
-      'material gives way; and ductility is how far along it goes before it '
-      'breaks. Three questions, three different features of one drawing, and '
-      'a material can have any combination: glass is stiff and breaks '
-      'without warning, cast iron is stiffer than most steels and much '
-      'weaker in tension. Two numbers are worth carrying: structural steel '
-      'near 200 GPa and aluminum near 70, which is why an aluminum member of '
-      'the same shape deflects about three times as much. A floor that '
-      'bounces is a stiffness problem, and specifying a stronger steel '
-      'changes almost nothing.',
-  formulas: [
-    ('Strain', r'\varepsilon = \Delta L / L_0'),
-    ('The modulus', r'E = \sigma / \varepsilon'),
+  title: 'A slope is not a height',
+  picture: stiffnessPicture,
+  steps: [
     (
-      'Worth carrying',
-      r'E_{steel} \approx 200\text{ GPa}, \; E_{al} \approx 70',
+      'Three questions about one curve',
+      'How hard is it to move at all? How much can it carry before it gives '
+          'way? How far does it go before it breaks? Stiffness, strength and '
+          'stretchiness. Three different features of the same drawing.',
+    ),
+    (
+      'Stiffness is the slope',
+      'Take any point on the straight first part and divide the stress by '
+          'the strain. That is the elastic modulus, and it is just how steeply '
+          'the line starts. Steep means hard to stretch.',
+    ),
+    (
+      'Strength is the height',
+      'How high the curve gets is a separate question. Cast iron starts '
+          'steeply and stops low: stiff but weak. An aluminum alloy starts '
+          'shallow and climbs far higher: springy but strong.',
+    ),
+    (
+      'Which one is your problem',
+      'A floor that bounces is too soft, not too weak, so a stronger steel '
+          'changes nothing: every steel is about equally stiff. Aluminum is a '
+          'third as stiff as steel, so the same beam in aluminum sags about '
+          'three times as far.',
     ),
   ],
-  figure: BriefFigure.stiffness,
+  spoken: [
+    (
+      'Strain',
+      r'\varepsilon = \frac{\Delta L}{L_0}',
+      'how much it grew, over the length it started with',
+    ),
+    (
+      'The modulus',
+      r'E = \frac{\sigma}{\varepsilon}',
+      'stress over strain: the slope of the straight part',
+    ),
+    (
+      'Worth carrying',
+      r'E_{steel} \approx 200\text{ GPa},\; E_{al} \approx 70',
+      'steel is about three times as stiff as aluminum',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, mechanical properties',
 );
 
