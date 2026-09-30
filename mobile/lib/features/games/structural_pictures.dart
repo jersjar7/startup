@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import 'beam_figures.dart' show Prop;
+import 'composite_figures.dart' show Spread3, StressBlockPainter;
 import 'determinacy_figures.dart';
 import 'influence_figures.dart';
 import 'load_figures.dart';
@@ -19,6 +20,7 @@ import 'mechanics_pictures.dart' show ConceptPicture, ConceptPair;
 import 'rc_figures.dart';
 import 'redundant_figures.dart';
 import 'steel_figures.dart' as steel;
+import 'stress_figures.dart' show boxSection;
 import 'tension_figures.dart';
 import 'truss_figures.dart';
 import 'truss_section_figures.dart';
@@ -48,12 +50,23 @@ const _rigidFrame = Skeleton(
   rigid: true,
 );
 
-Widget countPicture() => const ConceptPair(
-  left: SkeletonPainter(skeleton: _pinnedTruss, showCount: true),
-  right: SkeletonPainter(skeleton: _rigidFrame, showCount: true),
-  leftCaption: 'hinged corners: a truss, two equations per joint',
-  rightCaption: 'welded corners: a frame, three equations per joint',
-  height: 200,
+// Stacked rather than side by side: the painter writes its own count across
+// the top of the panel, and at half width that line runs into the elevation
+// label in the corner.
+Widget countPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: SkeletonPainter(skeleton: _pinnedTruss, showCount: true),
+      caption: 'hinged corners: a truss, two equations per joint',
+      height: 170,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: SkeletonPainter(skeleton: _rigidFrame, showCount: true),
+      caption: 'welded corners: a frame, three equations per joint',
+      height: 170,
+    ),
+  ],
 );
 
 /// Three vertical rollers: the count comes out right and it slides sideways.
@@ -105,13 +118,20 @@ const _properlyHeld = Skeleton(
   holds: {0: Hold.pin, 1: Hold.roller, 2: Hold.roller},
 );
 
-Widget stabilityPicture() => const ConceptPair(
-  left: SkeletonPainter(skeleton: _parallelHeld, showWhy: true),
-  right: SkeletonPainter(skeleton: _properlyHeld),
-  leftCaption: 'three rollers: the count says fine, a sideways push slides it',
-  rightCaption:
-      'one of them a pin: now a sideways push has something to hold it',
-  height: 200,
+Widget stabilityPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: SkeletonPainter(skeleton: _parallelHeld, showWhy: true),
+      caption: 'three rollers: the count says fine, a sideways push slides it',
+      height: 175,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: SkeletonPainter(skeleton: _properlyHeld),
+      caption: 'one of them a pin: now a sideways push has something to hold',
+      height: 160,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -201,13 +221,16 @@ Widget trussRoutePicture() => const ConceptPair(
     truth: 0,
     locked: true,
   ),
+  // The four bars that meet at joint B, which is the free body the question
+  // is describing when it names a connection.
   right: TrussPainter(
     truss: _routeTruss,
-    mode: TrussMode.oneMember,
-    spotlight: 4,
+    mode: TrussMode.members,
+    chosen: {0, 1, 5, 6},
+    truths: {0, 1, 5, 6},
   ),
   leftCaption: 'one bar deep inside: cut straight to it',
-  rightCaption: 'everything meeting at one joint: work that joint',
+  rightCaption: 'several bars at one joint: work that joint instead',
   height: 200,
 );
 
@@ -462,12 +485,32 @@ Widget bracingPicture() => const ConceptPair(
   height: 210,
 );
 
-Widget modulusPicture() => const ConceptPicture(
-  painter: _ModuliPainter(),
-  caption:
-      'first yield uses S. yielded right through uses Z, and Z is the bigger one',
-  height: 200,
-);
+// The stress through the depth, drawn by the painter the plastic-moment item
+// already uses, so the wedge and the blocks read the same way here as they do
+// in the round.
+Widget modulusPicture() {
+  final section = boxSection(100, 200);
+  // Full width, stacked: at half width the painter's own yield label runs off
+  // the edge of the panel.
+  return Column(
+    children: [
+      ConceptPicture(
+        painter: StressBlockPainter(
+          profile: section,
+          state: Spread3.firstYield,
+        ),
+        caption: 'a wedge, just touching the limit at the faces: that is S',
+        height: 150,
+      ),
+      const SizedBox(height: 12),
+      ConceptPicture(
+        painter: StressBlockPainter(profile: section, state: Spread3.fully),
+        caption: 'solid blocks, yielded right through: that is Z',
+        height: 150,
+      ),
+    ],
+  );
+}
 
 Widget flangePicture() => const ConceptPair(
   left: steel.ShapePainter(part: steel.Part2.topFlange, answered: true),
@@ -661,13 +704,22 @@ class _NominalDesignPainter extends CustomPainter {
       final name = _text(what, size: 11, color: AppColors.charcoal, bold: true);
       name.paint(canvas, Offset(left, y - 17));
       final got = _text(
-        'you may count on ${(phi * 100).round()}%',
+        'count on ${(phi * 100).round()}%',
         size: 10,
         color: AppColors.cream,
       );
       got.paint(canvas, Offset(left + 8, y + 7));
-      final rest = _text('phi = $phi', size: 10, color: AppColors.ink2);
-      rest.paint(canvas, Offset(left + wide + 8, y + 7));
+      // The leftover strip is what you may not lean on. Label it only when
+      // the strip is wide enough to hold the words without spilling onto the
+      // dark bar beside it.
+      final lost = _text('not this', size: 9.5, color: AppColors.ember);
+      final strip = wide * (1 - phi);
+      if (strip > lost.width + 12) {
+        lost.paint(
+          canvas,
+          Offset(left + wide * phi + (strip - lost.width) / 2, y + 8),
+        );
+      }
     }
 
     final cap = _text('what it can really do', size: 10, color: AppColors.ink2);
@@ -684,66 +736,6 @@ class _NominalDesignPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_NominalDesignPainter old) => false;
-}
-
-/// The stress through the depth at first yield and yielded right through:
-/// the triangle that S belongs to, and the blocks that Z belongs to.
-class _ModuliPainter extends CustomPainter {
-  const _ModuliPainter();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final half = size.width / 2;
-    void block(double x0, String name, bool plastic) {
-      final cx = x0 + half / 2;
-      final top = 44.0;
-      final bottom = size.height - 34;
-      final mid = (top + bottom) / 2;
-      final reach = half * 0.26;
-
-      // the section itself, a plain rectangle
-      final web = Rect.fromLTWH(cx - half * 0.30, top, 16, bottom - top);
-      _bar(canvas, web, AppColors.charcoal, radius: 2);
-
-      // the stress running through the depth beside it
-      final path = Path()..moveTo(cx, top);
-      if (plastic) {
-        path
-          ..lineTo(cx + reach, top)
-          ..lineTo(cx + reach, mid)
-          ..lineTo(cx - reach, mid)
-          ..lineTo(cx - reach, bottom)
-          ..lineTo(cx, bottom);
-      } else {
-        path
-          ..lineTo(cx + reach, top)
-          ..lineTo(cx, mid)
-          ..lineTo(cx - reach, bottom)
-          ..lineTo(cx, bottom);
-      }
-      canvas.drawPath(path, _fill(AppColors.ember.withValues(alpha: 0.28)));
-      canvas.drawPath(path, _stroke(AppColors.ember, 2.5));
-      canvas.drawLine(
-        Offset(cx - reach - 8, mid),
-        Offset(cx + reach + 8, mid),
-        _stroke(AppColors.ink3, 1),
-      );
-
-      final head = _text(name, size: 11, color: AppColors.charcoal, bold: true);
-      head.paint(canvas, Offset(cx - head.width / 2, 16));
-    }
-
-    block(0, 'first yield: S', false);
-    block(half, 'yielded through: Z', true);
-    canvas.drawLine(
-      Offset(half, 12),
-      Offset(half, size.height - 12),
-      _stroke(AppColors.ink3.withValues(alpha: 0.4), 1),
-    );
-  }
-
-  @override
-  bool shouldRepaint(_ModuliPainter old) => false;
 }
 
 /// One row of the column table: a slenderness in, a design stress out, and
@@ -791,8 +783,8 @@ class _TableRowPainter extends CustomPainter {
     }
 
     final note = _text(
-      'phi is already inside the table stress: do not apply it twice',
-      size: 10,
+      'the safety factor is already in there',
+      size: 10.5,
       color: AppColors.ember,
     );
     note.paint(
