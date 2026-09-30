@@ -14905,619 +14905,1195 @@ const downdragBrief = BriefSection(
 
 const sightDistanceBrief = BriefSection(
   title: 'Thinking, then braking',
-  body:
-      'Stopping sight distance is two stretches of road laid end to end. The '
-      'first is covered while the driver has not noticed anything yet, at '
-      'full speed the whole way: speed times reaction time, with a 1.47 in '
-      'front only to turn miles per hour into feet per second. The second is '
-      'the braking distance. Add them. Reporting either one alone is the '
-      'wrong answer the lesson prints, twice. They also grow differently: '
-      'the thinking stretch grows straight with speed and straight with '
-      'reaction time, while braking grows with the SQUARE of the speed. So '
-      'at 30 mph most of the distance is spent not reacting, at 60 mph most '
-      'of it is spent braking, and doubling a design speed more than doubles '
-      'the sight distance it needs.',
-  formulas: [
-    ('Thinking', r'1.47\,V t'),
-    ('Braking', r'\dfrac{V^2}{30\left(\frac{a}{32.2} \pm G\right)}'),
-    ('The 1.47', r'5{,}280/3{,}600'),
+  picture: sightDistancePicture,
+  steps: [
+    (
+      'Something appears in the road',
+      'You do not stop at once. First you have to notice it, and while you '
+          'are noticing, the car keeps going at full speed. Nothing has slowed '
+          'down yet.',
+    ),
+    (
+      'Then the brakes work',
+      'Now the car slows, and that second stretch of road is the braking '
+          'distance. Stopping sight distance is the two stretches added '
+          'together. Giving only one of them is the mistake this lesson prints '
+          'twice.',
+    ),
+    (
+      'The two grow differently',
+      'Thinking distance just doubles when the speed doubles. Braking '
+          'distance goes up with the speed times itself, so it grows much '
+          'faster. At 30 mph most of the road is thinking; at 60 mph most of '
+          'it is braking.',
+    ),
+    (
+      'Why 1.47 keeps appearing',
+      'Speeds are given in miles per hour but distances come out in feet '
+          'per second. Multiplying by 1.47 does that swap, and it is nothing '
+          'more than that.',
+    ),
   ],
-  figure: BriefFigure.sightDistance,
+  spoken: [
+    (
+      'Thinking',
+      r'1.47\,V t',
+      'speed turned into feet per second, times the seconds spent noticing',
+    ),
+    (
+      'Braking',
+      r'\dfrac{V^2}{30\left(\frac{a}{32.2} \pm G\right)}',
+      'speed times itself on top, how hard it slows underneath',
+    ),
+    (
+      'Add them',
+      r'S = 1.47Vt + \text{braking}',
+      'both stretches, never one alone',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, stopping sight distance',
 );
 
 const gradeSignBrief = BriefSection(
   title: 'Uphill helps, downhill hurts',
-  body:
-      'The grade goes into the denominator of the braking term as a '
-      'FRACTION, positive uphill and negative downhill. Climbing, the car\'s '
-      'own weight pulls it back and helps the brakes, so the denominator is '
-      'larger, the braking distance smaller and the sight distance SHORTER. '
-      'Descending, the weight pushes the car along, the denominator shrinks '
-      'and the distance is LONGER. Only the braking half moves: during the '
-      'thinking stretch nothing has happened yet and the car covers the same '
-      'ground on any hill. Reversing the sign on the lesson\'s own four per '
-      'cent grade moves the answer about eighty feet, and always toward less '
-      'sight distance than the road really needs.',
-  formulas: [
-    ('Uphill', r'+G \Rightarrow \text{shorter}'),
-    ('Downhill', r'-G \Rightarrow \text{longer}'),
-    ('As a fraction', r'4\% \Rightarrow 0.04'),
+  picture: gradeSignPicture,
+  steps: [
+    (
+      'Roll a ball up a slope',
+      'It stops quickly, because gravity is pulling it backward. Roll it '
+          'down and it runs on and on. A braking car does the same thing.',
+    ),
+    (
+      'So uphill needs less road',
+      'Climbing, the car\'s own weight helps the brakes, so it stops '
+          'sooner and needs LESS sight distance. Going down, its weight pushes '
+          'it along and it needs MORE.',
+    ),
+    (
+      'Only the braking half moves',
+      'During the thinking stretch nothing has happened yet, so the car '
+          'covers the same ground on any hill. The grade changes the second '
+          'half only.',
+    ),
+    (
+      'Put the grade in as a decimal',
+      'Four per cent goes in as 0.04, plus for up and minus for down. Flip '
+          'that sign on a four per cent hill and the answer moves about eighty '
+          'feet, always toward less road than the driver really needs.',
+    ),
   ],
-  figure: BriefFigure.gradeSign,
+  spoken: [
+    ('Uphill', r'+G', 'the grade is added, so the car stops sooner'),
+    ('Downhill', r'-G', 'the grade is subtracted, so the car needs more road'),
+    ('As a decimal', r'4\% = 0.04', 'per cent divided by a hundred'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, stopping sight distance',
 );
 
 const peakHourBrief = BriefSection(
-  title: 'Designed for the surge',
-  body:
-      'An hour of traffic does not arrive evenly, and a road either works '
-      'during its busiest fifteen minutes or it does not. So the design flow '
-      'rate is what the hour WOULD come to at the rate of that worst '
-      'quarter: four times the fifteen minute count. That number is always '
-      'at least the hourly volume, and an answer below the volume is wrong '
-      'before the arithmetic is checked. The peak hour factor is the volume '
-      'divided by that rate. It runs from 0.25, the whole hour in one '
-      'quarter, to 1.00, perfectly even, with real roads around 0.85 to '
-      '0.95. Read the direction carefully: a LOW factor means a peaky hour '
-      'and a HIGH design flow.',
-  formulas: [
-    ('Flow rate', r'4 \times V_{15}'),
-    ('The factor', r'PHF = \dfrac{V}{4 V_{15}}'),
-    ('Its range', r'0.25 \leq PHF \leq 1.00'),
+  title: 'Designed for the busiest fifteen minutes',
+  picture: peakHourPicture,
+  steps: [
+    (
+      'Traffic does not arrive evenly',
+      'Count an hour in four quarters and one of them is always busier '
+          'than the rest. The road either works during that worst quarter or '
+          'it jams.',
+    ),
+    (
+      'So pretend the whole hour ran that fast',
+      'Take the busiest fifteen minute count and multiply by four. That is '
+          'the flow rate the road is designed for, and it is always at least '
+          'the real hourly total.',
+    ),
+    (
+      'The factor compares the two',
+      'The peak hour factor is the real hour divided by that pretend rate. '
+          'It runs from 0.25, when everything came in one quarter, up to 1.00, '
+          'when all four quarters matched. Real roads sit around 0.85 to 0.95.',
+    ),
+    (
+      'Read the direction carefully',
+      'A LOW factor means a spiky hour, which means a HIGH design flow. If '
+          'your flow rate comes out below the hourly count, it is wrong before '
+          'you check anything else.',
+    ),
   ],
-  figure: BriefFigure.peakHour,
+  spoken: [
+    (
+      'Flow rate',
+      r'4 \times V_{15}',
+      'four times the busiest quarter hour count',
+    ),
+    (
+      'The factor',
+      r'PHF = \dfrac{V}{4 V_{15}}',
+      'the whole hour divided by that flow rate',
+    ),
+    ('Its range', r'0.25 \leq PHF \leq 1.00', 'never above one'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, peak hour factor',
 );
 
 const crestSagBrief = BriefSection(
-  title: 'Seeing over, or lighting into',
-  body:
-      'Both kinds of vertical curve are sized by sight distance, but by very '
-      'different pictures of it. A CREST is limited by the hilltop itself '
-      'blocking the view: eye at three and a half feet, object at two, and '
-      'the flatter the curve the further ahead the driver sees. Its formula '
-      'divides by 2,158, a constant. A SAG is fine by day and limited at '
-      'NIGHT, because the headlight beam tips only about a degree up and the '
-      'road curves away from it. Its formula divides by 400 plus three and a '
-      'half times the sight distance, which moves as the sight distance '
-      'does. That is the quickest way to tell them apart: if the bottom of '
-      'the fraction has an S in it, it is a sag. Both come in two versions. '
-      'Start by assuming the sight distance fits inside the curve, work the '
-      'length, then check it: if the length comes out shorter than the sight '
-      'distance, switch.',
-  formulas: [
-    ('Crest', r'L = \dfrac{A S^2}{2{,}158}'),
-    ('Sag', r'L = \dfrac{A S^2}{400 + 3.5S}'),
-    ('Then check', r'S \leq L ?'),
+  title: 'Seeing over a hill, or lighting into a dip',
+  picture: crestSagPicture,
+  steps: [
+    (
+      'Two shapes, two different problems',
+      'A crest is a hump. A sag is a dip. Both are sized so a driver can '
+          'see far enough ahead, but what blocks the view is different in each.',
+    ),
+    (
+      'On a crest the road blocks you',
+      'The hump itself hides what is beyond it. Your eye sits about three '
+          'and a half feet up and the thing you must see is about two feet '
+          'tall. Flatten the hump and you see further.',
+    ),
+    (
+      'In a sag the headlights run out',
+      'By day a dip is fine. At night your headlights point only about one '
+          'degree up while the road curves away below the beam, so the beam is '
+          'what limits you.',
+    ),
+    (
+      'How to tell the formulas apart',
+      'The crest divides by a fixed 2,158. The sag divides by 400 plus '
+          '3.5 times the sight distance. If the bottom of the fraction has an '
+          'S in it, it is a sag.',
+    ),
   ],
-  figure: BriefFigure.crestSag,
+  spoken: [
+    (
+      'Crest',
+      r'L = \dfrac{A S^2}{2{,}158}',
+      'the grade break times sight distance squared, over a fixed number',
+    ),
+    (
+      'Sag',
+      r'L = \dfrac{A S^2}{400 + 3.5S}',
+      'the same on top, but the bottom moves with the sight distance',
+    ),
+    (
+      'Then check',
+      r'S \leq L',
+      'if the curve came out shorter than the sight distance, switch formulas',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, vertical curves',
 );
 
 const gradeBreakBrief = BriefSection(
   title: 'How much the grade changes',
-  body:
-      'A is the algebraic difference between the two grades, taken as a size '
-      'and quoted in per cent. Grades on OPPOSITE sides add: plus three into '
-      'minus five is a break of eight, not two, and that is the mistake the '
-      'lesson is built around. Grades on the SAME side subtract: minus two '
-      'into minus five is a break of three. Which kind of curve it is does '
-      'not depend on any sign either, only on whether the second grade is '
-      'LESS than the first, which makes a crest, or more, which makes a sag. '
-      'Everything else follows from A: twice the break in the same length is '
-      'twice the offset and half the K, where K is the length over the '
-      'break, feet of curve per per cent, and a bigger K is a flatter curve.',
-  formulas: [
-    ('The break', r'A = |g_2 - g_1|'),
-    ('A crest', r'g_2 < g_1'),
-    ('Rate of curvature', r'K = L / A'),
+  picture: gradeBreakPicture,
+  steps: [
+    (
+      'A is how sharply the road bends',
+      'The road arrives on one slope and leaves on another. A is the '
+          'difference between them, written as a plain size in per cent. '
+          'Everything about the curve follows from it.',
+    ),
+    (
+      'Opposite slopes ADD',
+      'Up three then down five is a break of eight, not two. Going up and '
+          'then down is a big change of direction, and that is the mistake '
+          'this whole lesson is built around.',
+    ),
+    (
+      'Same-side slopes SUBTRACT',
+      'Down two then down five is a break of only three. Both are '
+          'downhill, so the road barely changes direction.',
+    ),
+    (
+      'Crest or sag has nothing to do with signs',
+      'It only depends on whether the second slope is LESS than the first, '
+          'which makes a crest, or more, which makes a sag.',
+    ),
   ],
-  figure: BriefFigure.gradeBreak,
+  spoken: [
+    (
+      'The break',
+      r'A = |g_2 - g_1|',
+      'the difference between the two grades, as a size',
+    ),
+    ('A crest', r'g_2 < g_1', 'the road tips downward through the curve'),
+    (
+      'Rate of curvature',
+      r'K = L / A',
+      'feet of curve for each per cent of grade change; a bigger K is flatter',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, vertical curves',
 );
 
 const superelevationBrief = BriefSection(
-  title: 'The tires and the tilt',
-  body:
-      'A curve asks for the design speed SQUARED over fifteen times the '
-      'radius, and two things supply it: the sideways grip of the tires, '
-      'which is the side friction factor, and the tilt of the pavement '
-      'toward the inside of the turn, which is the superelevation. The '
-      'friction is help already in hand, so it comes OFF the demand and what '
-      'is left is what the tilt has to provide. Forgetting it asks the '
-      'pavement for the whole demand, which on the lesson\'s curve is 22.5 '
-      'per cent, a tilt no road is built at: a stopped vehicle would slide '
-      'into the ditch. The rate is quoted in per cent, which is what the '
-      '0.01 in the formula is for, so an answer of 0.075 per cent is the '
-      'right number with the wrong label on it. Of the three quantities the '
-      'designer really chooses only two, the radius and the tilt: friction '
-      'belongs to the tire and the pavement.',
-  formulas: [
-    ('What the curve asks', r'0.01e + f = \dfrac{V^2}{15R}'),
-    ('What is left', r'0.01e = \dfrac{V^2}{15R} - f'),
-    ('The levers', r'2V \Rightarrow 4\times, \; 2R \Rightarrow \tfrac{1}{2}'),
+  title: 'The tires and the tilt share the job',
+  picture: superelevationPicture,
+  steps: [
+    (
+      'Going round a bend throws you outward',
+      'Something has to hold the car in. How much holding the bend needs '
+          'is the speed times itself, over fifteen times the radius. Faster or '
+          'tighter needs more.',
+    ),
+    (
+      'Two things supply it',
+      'The grip of the tires sideways on the road, and the tilt of the '
+          'pavement toward the inside of the bend. Between them they have to '
+          'cover the whole demand.',
+    ),
+    (
+      'The tires go first',
+      'The grip is already there for free, so take it OFF the demand. What '
+          'is left over is what the tilt has to provide. Forget this and you '
+          'ask the road for everything, which on this bend means a 22.5 per '
+          'cent tilt: a parked car would slide into the ditch.',
+    ),
+    (
+      'The tilt is quoted in per cent',
+      'That is what the 0.01 in the formula is for. An answer of 0.075 per '
+          'cent is the right number wearing the wrong label.',
+    ),
   ],
-  figure: BriefFigure.superelevation,
+  spoken: [
+    (
+      'What the bend asks',
+      r'0.01e + f = \dfrac{V^2}{15R}',
+      'tilt plus grip equals speed squared over fifteen times the radius',
+    ),
+    (
+      'What is left for the road',
+      r'0.01e = \dfrac{V^2}{15R} - f',
+      'the demand with the tire grip taken off',
+    ),
+    (
+      'The levers',
+      r'2V \Rightarrow 4\times',
+      'double the speed and the demand is four times as big',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, superelevation',
 );
 
 const yellowBrief = BriefSection(
-  title: 'A second, then the stop',
-  body:
-      'The yellow interval exists so that a driver approaching the light can '
-      'either stop comfortably or carry on through, with no stretch of road '
-      'where neither is possible. It is a moment to react, about a second, '
-      'plus the time to shed the approach speed. That second part is the '
-      'speed over TWICE the deceleration, because a car slowing steadily '
-      'averages half its speed over the stop. Every quantity is in feet and '
-      'seconds: the deceleration is feet per second squared, so the speed '
-      'must be feet per second, and 1.467 makes the swap from miles per '
-      'hour. On a 50 mph approach the right answer is about 4.7 seconds. '
-      'Miles per hour straight in gives 3.5. No reaction time gives 3.7. No '
-      'two in the denominator gives 8.3. The grade enters through the 64.4, '
-      'which is twice gravity, plus for up and minus for down.',
-  formulas: [
-    ('The yellow', r'y = t + \dfrac{v}{2a \pm 64.4G}'),
-    ('The units', r'1\text{ mph} = 1.467\text{ ft/s}'),
-    ('Why the two', r'\text{it averages half the speed}'),
+  title: 'A moment to react, then the stop',
+  picture: yellowPicture,
+  steps: [
+    (
+      'Why yellow exists',
+      'When the light changes, a driver must be able to either stop '
+          'comfortably or carry on through. Yellow is the time that makes sure '
+          'there is no spot on the road where neither is possible.',
+    ),
+    (
+      'It is two pieces',
+      'About a second to notice and lift off, then the time it takes to '
+          'shed the speed. Add them.',
+    ),
+    (
+      'Why the two in the bottom',
+      'A car slowing steadily is doing full speed at the start and nothing '
+          'at the end, so on average it is doing half. That halving is where '
+          'the two comes from. Leave it out and a 50 mph approach gives 8.3 '
+          'seconds instead of 4.7.',
+    ),
+    (
+      'Everything in feet and seconds',
+      'The slowing rate is feet per second squared, so the speed has to be '
+          'feet per second too. Miles per hour straight in gives 3.5 seconds '
+          'where 4.7 belongs.',
+    ),
   ],
-  figure: BriefFigure.yellowInterval,
+  spoken: [
+    (
+      'The yellow',
+      r'y = t + \dfrac{v}{2a \pm 64.4G}',
+      'reaction time, plus speed over twice the slowing rate',
+    ),
+    (
+      'The units',
+      r'1\text{ mph} = 1.467\text{ ft/s}',
+      'miles per hour into feet per second',
+    ),
+    (
+      'The grade',
+      r'64.4 = 2g',
+      'twice gravity: plus going up, minus going down',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, signal timing',
 );
 
 const allRedBrief = BriefSection(
   title: 'Until the back bumper is out',
-  body:
-      'After the yellow, every direction holds a red for a moment. That '
-      'moment belongs to one specific vehicle: the one that entered legally '
-      'on the yellow and is still inside the intersection. It is clear when '
-      'its BACK bumper passes the far curb, not when its nose does, so the '
-      'distance to cover is the width curb to curb PLUS the length of the '
-      'vehicle. Divide by the approach speed, in feet per second as always. '
-      'Forgetting the vehicle length on the lesson\'s crossing gives 0.8 '
-      'seconds where 1.1 belongs, a third of the protection gone. Dividing '
-      'by miles per hour gives 1.6, which is not seconds at all and is '
-      'LARGER than the right answer, so it does not even fail in a safe '
-      'direction. A wide crossing on a slow street can want three or four '
-      'seconds, and a long design vehicle pushes it further.',
-  formulas: [
-    ('The all-red', r'r = \dfrac{W + l}{v}'),
-    ('Why the length', r'\text{the back bumper decides}'),
-    ('The speed', r'\text{feet per second}'),
+  picture: allRedPicture,
+  steps: [
+    (
+      'A short moment when everyone has red',
+      'After the yellow, every direction is held at red for a beat. That '
+          'beat belongs to one particular car: the one that entered legally on '
+          'the yellow and is still in the middle.',
+    ),
+    (
+      'It is clear when its BACK end is out',
+      'Not its nose. So the distance to cover is the width of the crossing '
+          'PLUS the length of the car. Leave the car length out and you lose a '
+          'third of the protection.',
+    ),
+    (
+      'Then divide by the speed',
+      'In feet per second, as always. Dividing by miles per hour gives a '
+          'bigger number that looks safer and is not seconds at all, so it '
+          'does not even fail in a safe direction.',
+    ),
+    (
+      'What makes it long',
+      'A wide crossing on a slow street can want three or four seconds. A '
+          'long truck as the design vehicle pushes it further still.',
+    ),
   ],
-  figure: BriefFigure.allRed,
+  spoken: [
+    (
+      'The all-red',
+      r'r = \dfrac{W + l}{v}',
+      'crossing width plus vehicle length, over the speed in feet per second',
+    ),
+    ('Why the length', r'W + l', 'the back bumper decides, not the nose'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, signal timing',
 );
 
 const pedestrianGreenBrief = BriefSection(
   title: 'Getting going, walking, and the crowd',
-  body:
-      'A pedestrian green is three separate things added together. A fixed '
-      '3.2 seconds for people to notice the signal and step off the curb, '
-      'which does not depend on the road at all. The walk itself, the '
-      'crosswalk length over a walking pace of 3.5 feet a second. And about '
-      'a quarter of a second for each person waiting, because a crowd takes '
-      'time to leave the curb. The pace is deliberately slower than a brisk '
-      'adult: the timing is set for the slowest people crossing, and using '
-      '4.0 instead shortens the green for exactly the people who need it. '
-      'On the lesson\'s crossing the three come to 3.2, 16.0 and 4.1 '
-      'seconds, and every wrong answer it prints is one of them dropped or '
-      'mis-set.',
-  formulas: [
-    ('The green', r'G_p = 3.2 + \dfrac{L}{S_p} + 0.27 N'),
-    ('The pace', r'S_p = 3.5 \text{ ft/s}'),
-    ('The pieces', r'\text{start-up, walk, crowd}'),
+  picture: pedestrianGreenPicture,
+  steps: [
+    (
+      'Three separate pieces of time',
+      'A fixed 3.2 seconds for people to see the signal and step off the '
+          'curb. Then the walk itself. Then a little extra because a crowd '
+          'cannot all leave at once.',
+    ),
+    (
+      'The walk is length over pace',
+      'The crosswalk length divided by a walking pace of 3.5 feet a '
+          'second. The start-up time does not depend on the road at all, so it '
+          'is the same wherever you are.',
+    ),
+    (
+      'About a quarter second per person',
+      'Fifteen people waiting adds roughly four seconds. That is the piece '
+          'people forget when a busy downtown corner is timed.',
+    ),
+    (
+      'The pace is slow on purpose',
+      'It is set for the slowest people crossing, not a brisk adult. Using '
+          '4.0 shortens the green for exactly the people who need it most.',
+    ),
   ],
-  figure: BriefFigure.pedestrianGreen,
+  spoken: [
+    (
+      'The green',
+      r'G_p = 3.2 + \dfrac{L}{S_p} + 0.27 N',
+      'start-up, plus length over pace, plus a bit for each person waiting',
+    ),
+    ('The pace', r'S_p = 3.5 \text{ ft/s}', 'a slow walk, on purpose'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, signal timing',
 );
 
 const greenshieldsBrief = BriefSection(
-  title: 'A quarter of the product',
-  body:
-      'Flow is speed times density: how fast they are going, times how many '
-      'of them there are in a mile. Greenshields assumes the speed falls in '
-      'a straight LINE as the lane fills, from the free flow speed on an '
-      'empty road to nothing at a jam. A product of one term rising while '
-      'another falls peaks in the middle, so maximum flow happens at half '
-      'the free flow speed AND half the jam density, and the peak is '
-      'therefore a QUARTER of their product. Forget the four and you report '
-      'the product itself, which is the lesson\'s wrong answer. Two things '
-      'are worth carrying away. Maximum flow is not a comfortable road: it '
-      'is a crowded one at half speed, on the edge of breaking down. And '
-      'every flow below the peak happens at TWO densities, one either side, '
-      'which is why level of service is judged on density rather than '
-      'volume.',
-  formulas: [
-    ('The fundamentals', r'V = S \times D'),
-    ('The peak', r'V_m = \dfrac{D_j S_f}{4}'),
-    ('Where it sits', r'D_o = D_j/2, \; S_o = S_f/2'),
+  title: 'The most cars get through at half speed',
+  picture: greenshieldsPicture,
+  steps: [
+    (
+      'Flow is how many cars pass you',
+      'It is how fast they are going times how many of them there are in a '
+          'mile. An empty road has fast cars but almost none of them. A jam has '
+          'plenty of cars going nowhere. Both move very little traffic.',
+    ),
+    (
+      'Speed falls in a straight line',
+      'Greenshields assumes the more crowded the lane gets, the slower '
+          'everyone goes, evenly, from full speed on an empty road down to zero '
+          'in a jam.',
+    ),
+    (
+      'So the best is in the middle',
+      'One thing rising while the other falls always peaks halfway. Maximum '
+          'flow happens at half the free flow speed AND half the jam density, '
+          'so the peak is a QUARTER of the two multiplied together. Forget the '
+          'four and you report the product itself.',
+    ),
+    (
+      'Two things worth keeping',
+      'Maximum flow is not a nice road, it is a crowded one at half speed '
+          'about to break down. And every flow below the peak happens at two '
+          'different densities, one on each side, which is why quality is '
+          'judged on density instead.',
+    ),
   ],
-  figure: BriefFigure.greenshields,
+  spoken: [
+    ('The fundamentals', r'V = S \times D', 'flow is speed times density'),
+    (
+      'The peak',
+      r'V_m = \dfrac{D_j S_f}{4}',
+      'jam density times free flow speed, over four',
+    ),
+    (
+      'Where it sits',
+      r'D_o = D_j/2, \; S_o = S_f/2',
+      'half the jam density and half the free speed, together',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, traffic flow',
 );
 
 const speedDensityBrief = BriefSection(
-  title: 'Start full, subtract the traffic',
-  body:
-      'The speed line is the free flow speed LESS what the traffic already '
-      'there has taken away, and the answer is the difference, never either '
-      'piece on its own. The piece that is subtracted is the free flow speed '
-      'over the jam density, times the density, and that first part is '
-      'simply the slope of the line: how much speed each extra vehicle a '
-      'mile costs. Two traps sit here. Reporting the reduction instead of '
-      'what is left, and reaching for half the free flow speed when the '
-      'density is not half the jam density, since those halves go together '
-      'and apart from each other mean nothing. One free check: nothing on '
-      'the road can be faster than the free flow speed, so any answer above '
-      'it is wrong before it is examined.',
-  formulas: [
-    ('The line', r'S = S_f - \dfrac{S_f}{D_j} D'),
-    ('The slope', r'\dfrac{S_f}{D_j} \text{ mph per veh/mi}'),
-    ('The ceiling', r'S \leq S_f \text{ always}'),
+  title: 'Start at full speed, subtract the traffic',
+  picture: speedDensityPicture,
+  steps: [
+    (
+      'Every extra car costs a little speed',
+      'On an empty road you go the free flow speed. Each vehicle per mile '
+          'added takes a fixed bite out of that. The line falls at a steady '
+          'rate all the way to the jam.',
+    ),
+    (
+      'The bite is the slope',
+      'The free flow speed divided by the jam density is how much speed '
+          'each extra car a mile costs. Multiply that by how many cars are '
+          'there to get the total loss.',
+    ),
+    (
+      'Then SUBTRACT it',
+      'The answer is what is left, never the bite itself. Reporting the '
+          'reduction instead of the remaining speed is the first trap.',
+    ),
+    (
+      'The second trap, and a free check',
+      'Half the free flow speed is only right when the density is half the '
+          'jam density; those halves go together and mean nothing apart. And '
+          'nothing can go faster than free flow, so any answer above it is '
+          'wrong before you look.',
+    ),
   ],
-  figure: BriefFigure.speedDensity,
+  spoken: [
+    (
+      'The line',
+      r'S = S_f - \dfrac{S_f}{D_j} D',
+      'free speed, less the slope times the density',
+    ),
+    (
+      'The slope',
+      r'\dfrac{S_f}{D_j}',
+      'how much speed each extra vehicle per mile costs',
+    ),
+    ('The ceiling', r'S \leq S_f', 'nothing beats the free flow speed'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, traffic flow',
 );
 
 const crashRateBrief = BriefSection(
-  title: 'Crashes over what was exposed',
-  body:
-      'A crash count on its own cannot rank anything: a busy junction has '
-      'more crashes than a quiet one simply by having more vehicles. The '
-      'rate divides the crashes by the traffic exposed to them, and building '
-      'that denominator is the whole job. A daily count has to be '
-      'ANNUALIZED, so a year of crashes sits over a year of traffic: the '
-      'daily figure times 365. Dividing by the daily count instead gives an '
-      'answer in the thousands, which cannot be right, since it claims more '
-      'crashes than vehicles. The million is there to bring the answer into '
-      'a range people can read. For a junction the exposure is entering '
-      'VEHICLES, and for a stretch of road it is vehicle MILES, because a '
-      'vehicle on three miles of highway is exposed three times as long.',
-  formulas: [
-    ('A junction', r'RMEV = \dfrac{A \times 10^6}{ADT \times 365}'),
-    ('A segment', r'RMVM = \dfrac{A \times 10^6}{ADT \times 365 \times L}'),
-    ('The point', r'\text{a count alone ranks nothing}'),
+  title: 'Crashes over the traffic that was exposed',
+  picture: crashRatePicture,
+  steps: [
+    (
+      'A count alone ranks nothing',
+      'A busy junction has more crashes than a quiet one simply because '
+          'more cars go through it. To compare two places you have to divide by '
+          'how much traffic was exposed.',
+    ),
+    (
+      'Build the bottom of the fraction',
+      'Traffic is usually given per DAY, so multiply by 365 to get a year, '
+          'matching a year of crashes. Divide by the daily count instead and '
+          'you get thousands, claiming more crashes than vehicles.',
+    ),
+    (
+      'The million is just for reading',
+      'Rates come out as tiny decimals, so the answer is quoted per million '
+          'vehicles. That is all the ten to the sixth is doing.',
+    ),
+    (
+      'Junction or stretch of road',
+      'At a junction the exposure is vehicles ENTERING. Along a road it is '
+          'vehicle MILES, because a car on three miles of highway is exposed '
+          'three times as long.',
+    ),
   ],
-  figure: BriefFigure.crashRate,
+  spoken: [
+    (
+      'A junction',
+      r'RMEV = \dfrac{A \times 10^6}{ADT \times 365}',
+      'crashes per million vehicles entering',
+    ),
+    (
+      'A segment',
+      r'RMVM = \dfrac{A \times 10^6}{ADT \times 365 \times L}',
+      'crashes per million vehicle miles',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, crash rates',
 );
 
 const heavyVehicleBrief = BriefSection(
-  title: 'A truck is two cars, or three',
-  body:
-      'Capacity is a question about ROOM, so everything is counted in '
-      'passenger cars. A truck is longer, pulls away slowly and needs a '
-      'bigger gap, so on level ground it takes the space of two cars and on '
-      'rolling ground three. Only the EXTRA space counts, which is why the '
-      'formula carries the equivalent less one. A tenth of trucks on the '
-      'level means a hundred vehicles fill a hundred and ten car spaces, so '
-      'the factor is one over 1.10, about 0.909. It is always between zero '
-      'and one, and it is DIVIDED by, which pushes the flow rate up: the '
-      'traffic is worse than the raw count suggests. Two things go wrong '
-      'here. Reporting the denominator, which gives a factor above one and '
-      'is impossible. And using the wrong terrain, which on the lesson\'s '
-      'numbers moves the factor from 0.909 to 0.833.',
-  formulas: [
-    ('The factor', r'f_{HV} = \dfrac{1}{1 + P_T(E_T - 1)}'),
-    ('The equivalents', r'E_T = 2 \text{ level}, \; 3 \text{ rolling}'),
-    ('Its range', r'0 < f_{HV} \leq 1'),
+  title: 'A truck takes the room of two cars, or three',
+  picture: heavyVehiclePicture,
+  steps: [
+    (
+      'Capacity is a question about room',
+      'So everything gets counted in car-sized spaces. A truck is longer, '
+          'pulls away slowly and needs a bigger gap in front, so it fills the '
+          'space of two cars on flat ground and three on hilly ground.',
+    ),
+    (
+      'Only the EXTRA space counts',
+      'A truck is already one vehicle, so it adds one more space, or two on '
+          'hills. That is why the formula carries the equivalent less one.',
+    ),
+    (
+      'Turn that into a factor',
+      'One truck in ten on the level means a hundred vehicles fill a '
+          'hundred and ten spaces, so the factor is one over 1.10, about 0.909. '
+          'It is always between zero and one.',
+    ),
+    (
+      'You DIVIDE by it',
+      'Dividing by a number under one makes the answer bigger: the traffic '
+          'is worse than the raw count suggested. A factor above one is '
+          'impossible, and picking the wrong terrain moves this one from 0.909 '
+          'to 0.833.',
+    ),
   ],
-  figure: BriefFigure.heavyVehicle,
+  spoken: [
+    (
+      'The factor',
+      r'f_{HV} = \dfrac{1}{1 + P_T(E_T - 1)}',
+      'one over, one plus the truck share times the extra space each takes',
+    ),
+    (
+      'The equivalents',
+      r'E_T = 2 \text{ level}, \; 3 \text{ rolling}',
+      'what one truck counts as in cars',
+    ),
+    ('Its range', r'0 < f_{HV} \leq 1', 'never above one'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, freeway capacity',
 );
 
 const demandFlowBrief = BriefSection(
-  title: 'One volume, three divisions',
-  body:
-      'The demand flow rate is not the traffic on the road: it is passenger '
-      'cars an hour in ONE lane at the rate of the busiest quarter hour, and '
-      'three divisions get it there. By the peak hour factor, which turns '
-      'the hour into the rate its worst quarter implies, and which the sight '
-      'distance lesson already covered. By the number of lanes, to get one '
-      'lane. And by the heavy vehicle factor, to count in cars. The two '
-      'factors are under one so dividing by them raises the answer, while '
-      'dividing by the lanes lowers it: knowing which way each step should '
-      'move the number catches most mistakes. On the lesson\'s freeway the '
-      'answer is 1,793. Leave out the trucks and it is 1,630. Leave out the '
-      'peak factor and it is 1,650. Two wrong answers of nearly the same '
-      'size from two different omissions.',
-  formulas: [
-    ('The flow rate', r'v_p = \dfrac{V}{PHF \times N \times f_{HV}}'),
-    ('It is per lane', r'\text{and in passenger cars}'),
-    ('Direction', r'\text{factors raise it, lanes lower it}'),
+  title: 'One count, three divisions',
+  picture: demandFlowPicture,
+  steps: [
+    (
+      'What the answer has to be',
+      'Not the traffic on the road, but passenger cars an hour in ONE lane, '
+          'at the rate of the busiest fifteen minutes. Three divisions get you '
+          'there from the hourly count.',
+    ),
+    (
+      'Divide by the peak hour factor',
+      'That turns the whole hour into the rate its worst quarter implies. '
+          'The factor is under one, so this step raises the number.',
+    ),
+    (
+      'Divide by the lanes, then by the trucks',
+      'Lanes gets you down to one lane, which lowers it. The truck factor '
+          'is under one again, so it raises it, converting the mixture into '
+          'plain car spaces.',
+    ),
+    (
+      'Knowing the direction catches most mistakes',
+      'On this freeway the answer is 1,793. Leave out the trucks and it is '
+          '1,630; leave out the peak factor and it is 1,650. Two different '
+          'omissions giving nearly the same wrong answer.',
+    ),
   ],
-  figure: BriefFigure.demandFlow,
+  spoken: [
+    (
+      'The flow rate',
+      r'v_p = \dfrac{V}{PHF \times N \times f_{HV}}',
+      'the hourly count, divided by the peak factor, the lanes, and the truck factor',
+    ),
+    (
+      'What it is',
+      r'\text{cars per hour per lane}',
+      'passenger cars, one lane, at the busiest quarter hour rate',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, freeway capacity',
 );
 
 const levelOfServiceBrief = BriefSection(
   title: 'The letter comes off the density',
-  body:
-      'Level of service is read against DENSITY, in vehicles to a mile of '
-      'lane, not against volume and not against speed. Two roads can carry '
-      'the same volume at quite different densities, and speed holds near '
-      'its free flow value until a road is nearly full, so neither of those '
-      'sorts the letters out. Work the flow per lane first, then divide by '
-      'the mean speed, which follows from flow being speed times density and '
-      'checks out in the units: cars an hour over miles an hour leaves cars '
-      'a mile. Then read the band. The bands are narrow near capacity, so a '
-      'single missing adjustment moves the letter: forgetting the trucks on '
-      'the lesson\'s road gives 33 a mile instead of 37, which reads as D '
-      'rather than E.',
-  formulas: [
-    ('The density', r'D = v_p / S'),
-    ('The bands', r'A \leq 11, \; B \leq 18, \; C \leq 26'),
-    ('And on', r'D \leq 35, \; E \leq 45, \; F \text{ above}'),
+  picture: levelOfServicePicture,
+  steps: [
+    (
+      'A to F, like a school grade',
+      'A is an open road, F is a jam. The letter is read off DENSITY: how '
+          'many vehicles are packed into a mile of one lane.',
+    ),
+    (
+      'Not volume, and not speed',
+      'Two roads can carry the same volume at very different densities. And '
+          'speed stays near free flow until a road is nearly full, so it cannot '
+          'sort the letters either.',
+    ),
+    (
+      'Work the flow first, then divide by speed',
+      'Flow is speed times density, so density is flow over speed. Check '
+          'the units: cars an hour over miles an hour leaves cars per mile.',
+    ),
+    (
+      'The bands are narrow near the top',
+      'One missing adjustment changes the letter. Forgetting the trucks '
+          'here gives 33 per mile instead of 37, which reads as D rather than '
+          'E.',
+    ),
   ],
-  figure: BriefFigure.levelOfService,
+  spoken: [
+    (
+      'The density',
+      r'D = v_p / S',
+      'the flow rate per lane, divided by the speed',
+    ),
+    (
+      'The bands',
+      r'A \leq 11, \; B \leq 18, \; C \leq 26',
+      'vehicles per mile per lane',
+    ),
+    ('And on', r'D \leq 35, \; E \leq 45', 'anything above is F'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, level of service',
 );
 
 const fourStepBrief = BriefSection(
-  title: 'Four steps, in order',
-  body:
-      'A regional travel forecast is four models run one after another, each '
-      'consuming what the one before it made. GENERATION counts how many '
-      'trips each zone produces and attracts, from land use: a quantity and '
-      'nothing else. DISTRIBUTION decides where those trips go, and this is '
-      'where the gravity model works. MODE CHOICE splits them among car, '
-      'transit and foot. ASSIGNMENT loads them onto particular routes, and '
-      'produces the volumes a designer actually uses. The order is not a '
-      'convention, it is a dependency: distribution has nothing to share out '
-      'until generation has produced it. Worth remembering which step a '
-      'change lands in. A new employer moves attractions, so distribution '
-      'notices. A new fare moves mode choice. A new bridge moves '
-      'assignment.',
-  formulas: [
-    ('First, how many', r'\text{generation}'),
-    ('Then, where', r'\text{distribution}'),
-    ('Then how, then which road', r'\text{mode, assignment}'),
+  title: 'Four steps, and the order is not optional',
+  picture: fourStepPicture,
+  steps: [
+    (
+      'How many trips, and from where',
+      'GENERATION counts the trips each area produces and attracts, from '
+          'what is built there. Houses make trips; shops and offices pull them '
+          'in. It is a quantity and nothing more.',
+    ),
+    (
+      'Where they go, and how',
+      'DISTRIBUTION decides which trip goes to which destination, and this '
+          'is where the gravity model works. MODE CHOICE then splits them '
+          'between car, bus and walking.',
+    ),
+    (
+      'Which road they use',
+      'ASSIGNMENT puts them on particular routes, and produces the volumes '
+          'a designer actually builds for.',
+    ),
+    (
+      'Why the order is fixed',
+      'Each step eats what the one before made: distribution has nothing to '
+          'share out until generation has made it. Worth knowing where a change '
+          'lands too. A new employer moves distribution, a new fare moves mode '
+          'choice, a new bridge moves assignment.',
+    ),
   ],
-  figure: BriefFigure.fourStep,
+  spoken: [
+    (
+      'The order',
+      r'\text{generation} \to \text{distribution}',
+      'first how many, then where they go',
+    ),
+    (
+      'Then',
+      r'\text{mode} \to \text{assignment}',
+      'then how they travel, then which road they take',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, travel demand',
 );
 
 const gravityBrief = BriefSection(
-  title: 'Shares that add to one',
-  body:
-      'The gravity model gives every destination a WEIGHT, its attractions '
-      'times the friction factor for that trip, and then shares the '
-      'origin\'s trips out in proportion to those weights. The step people '
-      'drop is the last one: dividing by the SUM of all the weights. Without '
-      'it the shares do not add to one and the model sends out more or fewer '
-      'trips than the origin ever made. Using the attractions alone is the '
-      'other wrong answer the lesson prints, and it fails in a particular '
-      'way: it hands trips to a big destination that is too far away to '
-      'earn them. Two checks come free. The shares add to one, and the trips '
-      'add to the origin\'s productions exactly.',
-  formulas: [
-    ('The weight', r'A_j F_{ij} K_{ij}'),
+  title: 'Shares that add up to one',
+  picture: gravityPicture,
+  steps: [
+    (
+      'Give every destination a weight',
+      'The weight is how much it attracts, times how easy it is to reach. A '
+          'big place that is hard to get to and a small place next door can '
+          'come out even.',
+    ),
+    (
+      'Then share the trips in proportion',
+      'A place with a third of the total weight gets a third of the trips. '
+          'That is the whole model.',
+    ),
+    (
+      'The step people drop',
+      'Dividing by the SUM of all the weights. Without it the shares do not '
+          'add to one, and the model sends out more or fewer trips than the '
+          'origin ever made.',
+    ),
+    (
+      'Two free checks',
+      'The shares add to one, and the trips add up exactly to what the '
+          'origin produced. Using attractions alone is the other printed wrong '
+          'answer, and it hands trips to a big place too far away to earn them.',
+    ),
+  ],
+  spoken: [
+    (
+      'The weight',
+      r'A_j F_{ij}',
+      'what a place attracts, times how easy it is to reach',
+    ),
     (
       'The share',
-      r'T_{ij} = P_i \dfrac{A_j F_{ij} K_{ij}}{\sum_j A_j F_{ij} K_{ij}}',
+      r'T_{ij} = P_i \dfrac{A_j F_{ij}}{\sum_j A_j F_{ij}}',
+      'its weight divided by all the weights added up',
     ),
-    ('The check', r'\textstyle\sum_j T_{ij} = P_i'),
+    (
+      'The check',
+      r'\textstyle\sum_j T_{ij} = P_i',
+      'the trips sent out equal the trips produced',
+    ),
   ],
-  figure: BriefFigure.gravity,
+  figure: BriefFigure.none,
   handbook: 'Handbook, gravity model',
 );
 
 const frictionBrief = BriefSection(
   title: 'Big attracts, far repels',
-  body:
-      'The friction factor is the part of the model that behaves like '
-      'distance in gravity itself: it FALLS as the travel time between two '
-      'zones rises, so distant destinations receive fewer trips. The name '
-      'misleads a little, because a HIGH friction factor means an EASY trip. '
-      'It is written that way so it can multiply the attractions directly. '
-      'Distance does not always win, though. A destination five times the '
-      'size can still take the majority of the trips despite being much '
-      'harder to reach, which is why a regional mall draws from half a '
-      'county. And when a new road cuts the travel time, the factor rises '
-      'and trips move toward that zone, without the origin producing a '
-      'single extra trip: distribution moves trips, it does not create '
-      'them. The K factor is a correction for what the model cannot see, '
-      'and it is one when there is nothing to correct.',
-  formulas: [
-    ('Longer trip', r'F_{ij} \text{ falls}'),
-    ('The balance', r'A_j \text{ up against } F_{ij} \text{ down}'),
-    ('No new trips', r'\textstyle\sum_j T_{ij} = P_i \text{ still}'),
+  picture: frictionPicture,
+  steps: [
+    (
+      'Distance pushes trips away',
+      'The further apart two places are, the fewer trips run between them. '
+          'The friction factor is the number that carries that, and it FALLS as '
+          'the travel time rises.',
+    ),
+    (
+      'The name is backwards',
+      'A HIGH friction factor means an EASY trip. It is written that way so '
+          'it can multiply the attractions directly, but the word suggests the '
+          'opposite.',
+    ),
+    (
+      'Size can beat distance',
+      'A place five times bigger can still take most of the trips even '
+          'though it is much harder to reach. That is why a regional mall pulls '
+          'from half a county.',
+    ),
+    (
+      'A new road moves trips, it does not make them',
+      'Cut the travel time and the factor rises, so trips shift toward that '
+          'place. The origin still produces exactly what it produced before.',
+    ),
   ],
-  figure: BriefFigure.friction,
+  spoken: [
+    (
+      'Longer trip',
+      r'F_{ij} \text{ falls}',
+      'the harder the trip, the smaller the factor',
+    ),
+    (
+      'The balance',
+      r'A_j \uparrow \text{ against } F_{ij} \downarrow',
+      'size pulling one way, distance the other',
+    ),
+    (
+      'No new trips',
+      r'\textstyle\sum_j T_{ij} = P_i',
+      'the total still equals what the origin made',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, gravity model',
 );
 
 const signCategoryBrief = BriefSection(
-  title: 'Shape first, then the words',
-  body:
-      'A sign carries its category in its shape and color, before a word of '
-      'it is read. REGULATORY signs impose a legal requirement and are '
-      'mostly white rectangles with black legends, with two shapes held '
-      'back for the two messages that must be readable at any angle: the red '
-      'octagon for STOP and the triangle for YIELD. WARNING signs are yellow '
-      'diamonds and describe what is ahead without requiring anything, which '
-      'is why a speed on a warning sign is advisory and sits on its own '
-      'yellow plate. GUIDE signs are green and carry directions, distances '
-      'and destinations, and ask nothing at all. The point of the manual is '
-      'that this holds everywhere, so a driver recognizes a sign before '
-      'reading it, and the recognition is what buys the reaction time.',
-  formulas: [
-    ('Regulatory', r'\text{white rectangle, red octagon}'),
-    ('Warning', r'\text{yellow diamond}'),
-    ('Guide', r'\text{green}'),
+  title: 'Shape and color first, then the words',
+  picture: signCategoryPicture,
+  steps: [
+    (
+      'You know a sign before you read it',
+      'A red octagon is a stop sign even from behind, even in fog, even in '
+          'a language you do not speak. That recognition is what buys a driver '
+          'reaction time.',
+    ),
+    (
+      'REGULATORY signs give an order',
+      'Mostly white rectangles with black words. Two shapes are held back '
+          'for the two messages that must read from any angle: the red octagon '
+          'for stop and the triangle for yield.',
+    ),
+    (
+      'WARNING signs are yellow diamonds',
+      'They tell you what is ahead without ordering anything. That is why a '
+          'speed on a yellow plate is only advice, not a limit.',
+    ),
+    (
+      'GUIDE signs are green',
+      'Directions, distances and destinations. They ask nothing at all. '
+          'The manual holds this the same everywhere so the pattern can be '
+          'trusted.',
+    ),
   ],
-  figure: BriefFigure.signCategory,
+  spoken: [
+    (
+      'Regulatory',
+      r'\text{white rectangle, red octagon, triangle}',
+      'a legal requirement',
+    ),
+    ('Warning', r'\text{yellow diamond}', 'what is ahead, no order given'),
+    ('Guide', r'\text{green}', 'directions and distances'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'MUTCD, sign categories',
 );
 
 const warrantBrief = BriefSection(
   title: 'A signal has to earn its place',
-  body:
-      'A traffic signal is not automatically an improvement. It stops '
-      'traffic that did not have to stop before, so it buys delay and '
-      'rear-end crashes, and an unwarranted one teaches drivers to '
-      'disregard a red. That is why the manual requires a WARRANT analysis '
-      'first. The warrants are not all about vehicle counts: there is one '
-      'for eight hours of heavy volume, one for a single very heavy peak '
-      'hour, one for people waiting to cross on foot, one for a school '
-      'crossing, and one for a crash history the signal would fix. An '
-      'intersection can qualify on any single one. And meeting a warrant '
-      'makes a signal JUSTIFIED rather than required: engineering judgment '
-      'still decides, and sometimes decides on a roundabout instead. The '
-      'trade a signal makes is the right-angle crash, which injures people, '
-      'against the rear-end crash, which usually does not.',
-  formulas: [
-    ('Before installing', r'\text{a warrant must be met}'),
-    ('Meeting one', r'\text{justified, not required}'),
-    ('The trade', r'\text{fewer angle, more rear-end}'),
+  picture: warrantPicture,
+  steps: [
+    (
+      'A signal is not automatically better',
+      'It stops traffic that never had to stop before. That buys delay and '
+          'rear-end crashes, and an unnecessary red teaches drivers to ignore '
+          'reds everywhere.',
+    ),
+    (
+      'So there is a checklist first',
+      'The manual calls them warrants. Eight hours of heavy traffic. One '
+          'very heavy hour. People waiting to cross on foot. A school crossing. '
+          'A crash history a signal would fix.',
+    ),
+    (
+      'Any single one can qualify it',
+      'A crossing does not have to meet them all. Meeting one is enough to '
+          'consider a signal.',
+    ),
+    (
+      'Justified is not the same as required',
+      'Even when a warrant is met, judgment still decides, and sometimes '
+          'decides on a roundabout instead. The trade a signal makes is fewer '
+          'right-angle crashes, which hurt people, for more rear-end crashes, '
+          'which usually do not.',
+    ),
   ],
-  figure: BriefFigure.signalWarrant,
+  spoken: [
+    (
+      'Before installing',
+      r'\text{a warrant must be met}',
+      'the checklist comes first',
+    ),
+    (
+      'Meeting one',
+      r'\text{justified, not required}',
+      'judgment still decides',
+    ),
+    (
+      'The trade',
+      r'\text{fewer angle, more rear-end}',
+      'the crashes that hurt people, traded for the ones that usually do not',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'MUTCD, signal warrants',
 );
 
 const structuralNumberBrief = BriefSection(
-  title: 'What each inch is worth',
-  body:
-      'The structural number is one index for the whole flexible section, '
-      'and it is a plain sum: for every course, its layer coefficient times '
-      'its thickness times its drainage coefficient. An inch of hot mix '
-      'asphalt is worth about 0.44, an inch of crushed stone base about '
-      '0.14, and an inch of granular subbase about 0.11, so one inch of '
-      'asphalt does the structural work of roughly THREE inches of base. '
-      'That ratio is the economics of a pavement: designers trade the '
-      'courses against each other until the cost is lowest for the same '
-      'number. The surface course takes a drainage coefficient of one by '
-      'convention, since it is not granular and is not meant to hold water. '
-      'The base and subbase take whatever the problem states, and assuming '
-      'one when a lower value was given undersizes the pavement.',
-  formulas: [
-    ('The sum', r'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3'),
-    ('Typical values', r'a \approx 0.44, \; 0.14, \; 0.11'),
-    ('The surface', r'm_1 = 1.0 \text{ by convention}'),
+  title: 'What each inch of each layer is worth',
+  picture: structuralNumberPicture,
+  steps: [
+    (
+      'A road is built in layers',
+      'Asphalt on top, crushed stone under it, cheaper gravel under that. '
+          'Each layer helps carry the traffic, but they are not worth the same '
+          'per inch.',
+    ),
+    (
+      'Give every inch a score',
+      'An inch of asphalt is worth about 0.44. An inch of stone base about '
+          '0.14. An inch of gravel subbase about 0.11. So one inch of asphalt '
+          'does the work of roughly THREE inches of base.',
+    ),
+    (
+      'Add them all up',
+      'Multiply each layer\'s score by how many inches thick it is, and add. '
+          'That total is the structural number: one figure for the whole road.',
+    ),
+    (
+      'Drainage can cut a layer\'s score',
+      'A base or subbase that holds water is worth less, so it carries a '
+          'drainage number under one. The surface course is always 1.0 by '
+          'convention. Assume 1.0 when a lower value was given and you build '
+          'the road too thin.',
+    ),
   ],
-  figure: BriefFigure.structuralNumber,
+  spoken: [
+    (
+      'The sum',
+      r'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3',
+      'each layer: its score, times its inches, times its drainage',
+    ),
+    (
+      'Typical scores',
+      r'a \approx 0.44, \; 0.14, \; 0.11',
+      'asphalt, stone base, gravel subbase',
+    ),
+    ('The surface', r'm_1 = 1.0', 'the top layer is not given a drainage cut'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, AASHTO flexible pavement',
 );
 
 const layerThicknessBrief = BriefSection(
   title: 'The same sum, read backwards',
-  body:
-      'With a required structural number and every course but one already '
-      'fixed, the missing thickness falls out in two steps: take what the '
-      'fixed courses contribute AWAY from the target, then divide what is '
-      'left by what an inch of the missing course is worth, its coefficient '
-      'times its drainage factor. The drainage factor is where this goes '
-      'wrong. A subbase at 0.80 contributes a fifth less than the same '
-      'subbase draining properly, and the base has to make that up, which on '
-      'the lesson\'s section is nearly two extra inches. A negative answer '
-      'is not a mistake either: it means the fixed courses already meet the '
-      'target, and a minimum construction thickness will govern instead.',
-  formulas: [
-    ('Solve for one', r'D_2 = \dfrac{SN - a_1 D_1 - a_3 D_3 m_3}{a_2 m_2}'),
-    ('Poor drainage', r'\text{less from that course, more from the rest}'),
-    ('Negative', r'\text{already there}'),
+  picture: layerThicknessPicture,
+  steps: [
+    (
+      'Now the total is given',
+      'The design says the road must reach a certain structural number, and '
+          'every layer but one is already fixed. You are solving for the '
+          'missing thickness.',
+    ),
+    (
+      'Two steps, and that is all',
+      'Add up what the fixed layers give you, and take it away from the '
+          'target. Then divide what is left by what ONE inch of the missing '
+          'layer is worth.',
+    ),
+    (
+      'Drainage is where this goes wrong',
+      'A subbase at 0.80 gives a fifth less than the same subbase draining '
+          'properly, and the base has to make it up: nearly two extra inches on '
+          'this road.',
+    ),
+    (
+      'A negative answer is not a mistake',
+      'It means the fixed layers already beat the target. You still build '
+          'the layer, but a minimum construction thickness decides how thick, '
+          'not the arithmetic.',
+    ),
   ],
-  figure: BriefFigure.layerThickness,
+  spoken: [
+    (
+      'Solve for one',
+      r'D_2 = \dfrac{SN - a_1 D_1 - a_3 D_3 m_3}{a_2 m_2}',
+      'the gap left over, divided by what an inch of that layer is worth',
+    ),
+    (
+      'Poor drainage',
+      r'm < 1',
+      'less from that layer, so more is needed from the rest',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, AASHTO flexible pavement',
 );
 
 const esalBrief = BriefSection(
-  title: 'Counted in standard axles',
-  body:
-      'Pavement traffic is not counted in vehicles, because the damage an '
-      'axle does climbs far faster than its weight, roughly with the fourth '
-      'power of the load. So every axle is converted into equivalent '
-      'standard eighteen kip single axle loads by its LOAD EQUIVALENCY '
-      'FACTOR, and the conversion is a multiplication: passes times factor. '
-      'The numbers are worth a feel. A car axle is worth about two ten '
-      'thousandths of a standard load, so it takes thousands of cars to '
-      'match one loaded truck axle. A 24 kip axle weighs a third more than '
-      'the standard and does three times the damage. A 12 kip axle weighs '
-      'two thirds as much and does under a fifth. That steepness is why a '
-      'road with no trucks lasts almost indefinitely, and why taking a '
-      'little weight off an axle takes a great deal of damage off the road. '
-      'The total over the design life is what sets the structural number the '
-      'section has to reach.',
-  formulas: [
-    ('The conversion', r'\text{ESALs} = \text{passes} \times LEF'),
-    ('The standard', r'18 \text{ kip single axle}'),
-    ('Steeply', r'\text{damage} \sim \text{load}^4'),
+  title: 'Traffic counted in standard axles, not vehicles',
+  picture: esalPicture,
+  steps: [
+    (
+      'Weight hurts far more than it looks',
+      'The damage an axle does to a road goes up roughly with its load '
+          'multiplied by itself four times. So a little more weight is a great '
+          'deal more damage.',
+    ),
+    (
+      'So pick one axle as the yardstick',
+      'The standard is an eighteen thousand pound single axle. Every other '
+          'axle is scored against it: how many standard passes it is worth. '
+          'Multiply that score by how many times it comes past.',
+    ),
+    (
+      'The numbers are startling',
+      'A car axle is worth about two ten-thousandths of a standard pass, so '
+          'thousands of cars equal one loaded truck axle. A 24 kip axle is a '
+          'third heavier than standard and does three times the damage. A 12 '
+          'kip axle does under a fifth.',
+    ),
+    (
+      'What that means for a road',
+      'A street with no trucks lasts almost indefinitely. And taking a '
+          'little weight off an axle takes a great deal of damage off the '
+          'pavement. The lifetime total is what sets the structural number.',
+    ),
   ],
-  figure: BriefFigure.esal,
+  spoken: [
+    (
+      'The conversion',
+      r'\text{ESALs} = \text{passes} \times LEF',
+      'how many times it passes, times what each pass is worth',
+    ),
+    ('The standard', r'18 \text{ kip single axle}', 'the yardstick axle'),
+    (
+      'Steeply',
+      r'\text{damage} \sim \text{load}^4',
+      'damage grows with the load multiplied by itself four times',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, load equivalency',
 );
 
 const rigidVsFlexibleBrief = BriefSection(
   title: 'A beam, or a blanket',
-  body:
-      'A concrete slab is stiff enough to BEND across a wheel load, like a '
-      'beam, and hand it to a patch of subgrade many times the size of the '
-      'tire. An asphalt section does the opposite: each course passes the '
-      'load down to the next, spreading it a little on the way, so every '
-      'course has to be strong in its own right. Everything else follows '
-      'from that. The slab bridges a soft spot the way a beam bridges a gap, '
-      'so rigid pavement minds a weak or variable subgrade far less. It is '
-      'designed on the bending strength of the concrete, its modulus of '
-      'rupture, rather than on a structural number, because bending is how '
-      'it works. And it costs more to build, which is why the choice usually '
-      'turns on whole life cost: heavy traffic, a long service life and poor '
-      'ground favor the slab.',
-  formulas: [
-    ('Rigid', r'\text{bends, spreads wide}'),
-    ('Flexible', r'\text{passes it down, course by course}'),
-    ('Designed on', r'\text{rupture strength vs } SN'),
+  picture: rigidVsFlexiblePicture,
+  steps: [
+    (
+      'Concrete bridges the load',
+      'A slab is stiff enough to bend across the wheel, like a plank across '
+          'a puddle, and hand the weight to a patch of ground many times bigger '
+          'than the tire.',
+    ),
+    (
+      'Asphalt passes it down',
+      'Each layer hands the load to the one below, spreading it a little on '
+          'the way. So every layer has to be strong in its own right, and the '
+          'ground underneath still feels a lot.',
+    ),
+    (
+      'That is why the slab minds soft ground less',
+      'It bridges a weak spot the way a plank bridges a gap. A flexible '
+          'road sitting on the same soft spot has nothing to bridge with.',
+    ),
+    (
+      'And why they are designed differently',
+      'The slab is designed on the bending strength of the concrete, since '
+          'bending is how it works, rather than on a structural number. It '
+          'costs more to build, so the choice usually turns on whole life cost: '
+          'heavy trucks, a long life and poor ground favor concrete.',
+    ),
   ],
-  figure: BriefFigure.rigidVsFlexible,
+  spoken: [
+    (
+      'Rigid',
+      r'\text{bends, spreads the load wide}',
+      'the slab works as a beam',
+    ),
+    (
+      'Flexible',
+      r'\text{passes it down, layer by layer}',
+      'each course carries and spreads a little',
+    ),
+    (
+      'Designed on',
+      r'\text{rupture strength, not } SN',
+      'the bending strength of the concrete',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, rigid pavement',
 );
 
 const jointBrief = BriefSection(
-  title: 'Smooth lets go, deformed holds on',
-  body:
-      'Concrete shrinks as it cures and moves with the temperature, so a '
-      'slab will crack. Joints decide where. CONTRACTION joints are sawn in '
-      'within hours and give the crack a tidy line to follow. EXPANSION '
-      'joints leave room for growth, used sparingly and mostly at '
-      'structures. CONSTRUCTION joints are simply where paving stopped. The '
-      'steel across a joint comes in two kinds and they do opposite jobs. A '
-      'DOWEL is smooth and greased: it carries the wheel load from one slab '
-      'to the next while letting the two move, and it lives in transverse '
-      'joints. A TIE BAR is deformed and bonded into both sides: it holds a '
-      'longitudinal joint shut so lanes do not drift apart, and it is meant '
-      'not to move at all. Where a joint has no steel, the rough crack faces '
-      'below the saw cut interlock instead, which works while the joint '
-      'stays tight.',
-  formulas: [
-    ('Dowel', r'\text{load transfer, movement allowed}'),
-    ('Tie bar', r'\text{holds the joint closed}'),
-    ('No steel', r'\text{aggregate interlock}'),
+  title: 'Smooth bars let go, ribbed bars hold on',
+  picture: jointPicture,
+  steps: [
+    (
+      'Concrete is going to crack',
+      'It shrinks as it cures and moves with the weather. You cannot stop '
+          'that, so joints are cut to decide WHERE it cracks instead of leaving '
+          'it to chance.',
+    ),
+    (
+      'Three kinds of joint',
+      'Contraction joints are sawn in within hours and give the crack a '
+          'tidy line to follow. Expansion joints leave room to grow, used '
+          'sparingly. Construction joints are simply where paving stopped for '
+          'the day.',
+    ),
+    (
+      'A DOWEL is smooth and greased',
+      'It hands the wheel load from one slab to the next while letting the '
+          'two slide apart and together. It goes across the lane, in transverse '
+          'joints.',
+    ),
+    (
+      'A TIE BAR is ribbed and bonded',
+      'It is meant not to move at all: it holds a joint between two lanes '
+          'shut so they cannot drift apart. Where a joint has no steel, the '
+          'rough crack faces below the saw cut grip each other instead.',
+    ),
   ],
-  figure: BriefFigure.pavementJoint,
+  spoken: [
+    (
+      'Dowel',
+      r'\text{carries load, allows movement}',
+      'smooth and greased, across the lane',
+    ),
+    (
+      'Tie bar',
+      r'\text{holds the joint closed}',
+      'ribbed and bonded, between lanes',
+    ),
+    (
+      'No steel',
+      r'\text{aggregate interlock}',
+      'the rough crack faces grip each other',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, rigid pavement joints',
 );
 
 const subgradeReactionBrief = BriefSection(
-  title: 'A bed of springs',
-  body:
-      'The modulus of subgrade reaction, k, is a STIFFNESS and not a '
-      'strength: the pressure it takes to push the ground down one inch, so '
-      'its units are pounds per square inch per inch, which is pounds per '
-      'cubic inch. The picture is a bed of springs under the slab, each '
-      'pushing back as it is pressed. A higher k gives less under the same '
-      'pressure, so the slab bends less and the tension at the bottom of the '
-      'concrete is lower, which is what actually breaks a slab. What k is '
-      'NOT is a bearing capacity: capacity asks when the ground fails, while '
-      'k asks how far it moves long before that. And because the slab '
-      'already spreads the load so widely, improving k buys less under '
-      'concrete than the same improvement would buy under asphalt.',
-  formulas: [
-    ('What it is', r'k = \dfrac{\text{pressure}}{\text{deflection}}'),
-    ('Units', r'\text{pounds per cubic inch}'),
-    ('Higher k', r'\text{stiffer, less deflection}'),
+  title: 'The ground as a bed of springs',
+  picture: subgradeReactionPicture,
+  steps: [
+    (
+      'Picture springs under the slab',
+      'Press down and they squash. How hard you have to press to push the '
+          'ground down one inch is k, the modulus of subgrade reaction.',
+    ),
+    (
+      'So it is a stiffness, not a strength',
+      'Its units are pounds per square inch for each inch of squash, which '
+          'is pounds per cubic inch. Stiff ground gives less under the same '
+          'push.',
+    ),
+    (
+      'Why the slab cares',
+      'Ground that gives less lets the slab bend less, so the concrete is '
+          'pulled less at its underside. That pulling is what actually cracks a '
+          'slab.',
+    ),
+    (
+      'What k is NOT',
+      'It is not a bearing capacity. Capacity asks when the ground gives '
+          'way altogether; k asks how far it moves long before that. And '
+          'because a slab already spreads the load so widely, improving k buys '
+          'less under concrete than under asphalt.',
+    ),
   ],
-  figure: BriefFigure.subgradeReaction,
+  spoken: [
+    (
+      'What it is',
+      r'k = \dfrac{\text{pressure}}{\text{deflection}}',
+      'the push needed for each inch the ground moves',
+    ),
+    ('Units', r'\text{pci}', 'pounds per cubic inch'),
+    ('Higher k', r'\text{stiffer ground}', 'less movement under the same push'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, rigid pavement',
 );
 
@@ -15961,27 +16537,49 @@ const fallProtectionBrief = BriefSection(
 );
 
 const yardsBrief = BriefSection(
-  title: 'Cut and fill, in yards',
-  body:
-      'Both volume formulas take whatever units go into them, so sections in '
-      'square feet and stations in feet give cubic FEET. Earthwork is bid, '
-      'hauled and paid for in cubic YARDS, and a cubic yard is three feet '
-      'each way, which is twenty seven cubic feet. Dividing by three instead '
-      'leaves the answer nine times too big, and forgetting the conversion '
-      'altogether leaves it twenty seven times too big: both are printed as '
-      'choices. The average end area method gives the LARGER volume whenever '
-      'the real middle section sags below the average of the two ends, which '
-      'it usually does, and on a corridor carrying millions of yards a few '
-      'per cent is real money. That is why the contract says which method '
-      'measures the work. The quantities themselves are what price the cut '
-      'and the fill and decide how far material has to be hauled, so a grade '
-      'line that balances the two is cheaper than one that does not.',
-  formulas: [
-    ('End areas', r'V = \frac{L}{2}(A_1 + A_2)'),
-    ('Prismoidal', r'V = \frac{L}{6}(A_1 + 4A_m + A_2)'),
-    ('Then', r'\div 27 \text{ for cubic yards}'),
+  title: 'Cut and fill, paid for in yards',
+  picture: yardsPicture,
+  steps: [
+    (
+      'Slice the road and measure each slice',
+      'At stations along the job, someone measures the area of dirt to be '
+          'cut away or filled in. The volume between two slices is the average '
+          'of their areas, times the distance between them.',
+    ),
+    (
+      'The formula gives cubic FEET',
+      'Areas in square feet and distances in feet can only give cubic feet. '
+          'But earthwork is bid, hauled and paid for in cubic YARDS.',
+    ),
+    (
+      'A cubic yard is 27 cubic feet',
+      'Three feet each way, so three times three times three. Dividing by '
+          'three instead leaves the answer nine times too big; forgetting the '
+          'conversion leaves it twenty seven times too big. Both are printed as '
+          'choices.',
+    ),
+    (
+      'Which method matters commercially',
+      'Averaging the two ends overstates the volume whenever the real '
+          'middle slice sags below that average, which it usually does. On a '
+          'job moving millions of yards, a few per cent is real money, so the '
+          'contract says which method measures the work.',
+    ),
   ],
-  figure: BriefFigure.yards,
+  spoken: [
+    (
+      'End areas',
+      r'V = \frac{L}{2}(A_1 + A_2)',
+      'the average of the two end areas, times the distance',
+    ),
+    (
+      'Prismoidal',
+      r'V = \frac{L}{6}(A_1 + 4A_m + A_2)',
+      'a weighted average that counts the middle slice four times',
+    ),
+    ('Then', r'\div 27', 'cubic feet into cubic yards'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, earthwork volumes',
 );
 
@@ -16033,50 +16631,97 @@ const deliveryFitBrief = BriefSection(
 );
 
 const curveConversionBrief = BriefSection(
-  title: 'Radius, degree, and the tangent',
-  body:
-      'A curve is quoted two ways and they run in opposite directions. The '
-      'RADIUS is a length and the DEGREE OF CURVE is the angle a hundred '
-      'feet of arc turns through, so their product is fixed at 5,729.58 and '
-      'a big degree means a sharp curve. Dividing the constant by the degree '
-      'gives the radius; multiplying gives an answer in the tens of '
-      'thousands of feet, which is not a highway curve but almost a straight '
-      'line, and that is enough to catch the slip without redoing it. The '
-      'distance from the start of the curve out to the corner is the radius '
-      'times the tangent of HALF the turn angle, because the curve is '
-      'symmetrical about that corner and each tangent sees half the total '
-      'turn. Using the whole angle roughly doubles the answer and is the '
-      'mistake the handbook page warns about in as many words.',
-  formulas: [
-    ('The two quotes', r'R = \dfrac{5{,}729.58}{D}'),
-    ('Out to the corner', r'T = R\tan\dfrac{I}{2}'),
-    ('Around the arc', r'L = \dfrac{\pi R I}{180}'),
+  title: 'Radius, degree, and the run out to the corner',
+  picture: curveConversionPicture,
+  steps: [
+    (
+      'A bend is quoted two ways',
+      'The RADIUS is how far away the center of the circle is: a length. '
+          'The DEGREE OF CURVE is how much the road turns in a hundred feet: '
+          'an angle.',
+    ),
+    (
+      'They run in opposite directions',
+      'A tight bend has a small radius and a big degree. Their product is '
+          'always 5,729.58, so you divide that number by one to get the other.',
+    ),
+    (
+      'A free check on the arithmetic',
+      'Multiply instead of divide and you get tens of thousands of feet, '
+          'which is not a highway bend at all but nearly a straight line. That '
+          'catches the slip without redoing the work.',
+    ),
+    (
+      'Out to the corner, use HALF the turn',
+      'The tangent runs from where the curve starts out to where the two '
+          'straight roads would have crossed. The bend is even about that '
+          'point, so each side only sees half the turn. Using the whole angle '
+          'roughly doubles the answer.',
+    ),
   ],
-  figure: BriefFigure.curveConversion,
+  spoken: [
+    (
+      'The two quotes',
+      r'R = \dfrac{5{,}729.58}{D}',
+      'the fixed number divided by the degree of curve gives the radius',
+    ),
+    (
+      'Out to the corner',
+      r'T = R\tan\dfrac{I}{2}',
+      'the radius times the tangent of half the turn angle',
+    ),
+    (
+      'Around the arc',
+      r'L = \dfrac{\pi R I}{180}',
+      'the length of road actually on the curve',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, horizontal curves',
 );
 
 const cornerOffsetBrief = BriefSection(
   title: 'How far the road misses the corner',
-  body:
-      'The two grades cross at a corner no vehicle could drive, and the road '
-      'passes inside it: below on a crest, above in a sag. The distance is '
-      'the break in grade as a DECIMAL, times the length, over EIGHT. The '
-      'eight comes out of the parabola, since the offset grows with the '
-      'square of the distance from the start and half way along is a quarter '
-      'of the way to the full tangent offset. An L over 4 doubles the answer '
-      'and per cent in place of a decimal multiplies it by a hundred, and '
-      'both are printed as choices. The offset matters because it is a real '
-      'elevation: the corner is known from the grades alone, so this is what '
-      'every station elevation and every yard of cut is worked from. Twice '
-      'the length is twice the offset, which is why a gentler curve costs '
-      'excavation.',
-  formulas: [
-    ('At the middle', r'E = \dfrac{(g_2 - g_1)L}{8}'),
-    ('Because', r'\text{the offset grows as } x^2'),
-    ('As a decimal', r'8\% \Rightarrow 0.08'),
+  picture: cornerOffsetPicture,
+  steps: [
+    (
+      'The two slopes meet at a sharp point',
+      'No car could drive over that corner. So the road is curved, and it '
+          'passes INSIDE the corner: below it on a hump, above it in a dip.',
+    ),
+    (
+      'How far inside is the offset',
+      'It is the grade break as a decimal, times the length of the curve, '
+          'divided by eight. The eight comes from the shape of the curve, '
+          'which pulls away from the corner faster and faster.',
+    ),
+    (
+      'Two ways it goes wrong',
+      'Dividing by four instead of eight doubles the answer. Putting the '
+          'break in as a per cent instead of a decimal multiplies it by a '
+          'hundred. Both are printed as choices.',
+    ),
+    (
+      'It is a real height',
+      'Every elevation along the curve and every yard of dirt to be moved '
+          'is worked from this number. Make the curve twice as long and the '
+          'offset doubles, which is why a gentler road costs more digging.',
+    ),
   ],
-  figure: BriefFigure.cornerOffset,
+  spoken: [
+    (
+      'At the middle',
+      r'E = \dfrac{(g_2 - g_1)L}{8}',
+      'the grade break times the curve length, over eight',
+    ),
+    ('As a decimal', r'8\% = 0.08', 'per cent divided by a hundred'),
+    (
+      'Why it is not straight',
+      r'E \propto x^2',
+      'the drop from the corner grows with the distance times itself',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, vertical curves',
 );
 
