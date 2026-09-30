@@ -14369,146 +14369,283 @@ const warrantBrief = BriefSection(
 );
 
 const structuralNumberBrief = BriefSection(
-  title: 'What each inch is worth',
-  body:
-      'The structural number is one index for the whole flexible section, '
-      'and it is a plain sum: for every course, its layer coefficient times '
-      'its thickness times its drainage coefficient. An inch of hot mix '
-      'asphalt is worth about 0.44, an inch of crushed stone base about '
-      '0.14, and an inch of granular subbase about 0.11, so one inch of '
-      'asphalt does the structural work of roughly THREE inches of base. '
-      'That ratio is the economics of a pavement: designers trade the '
-      'courses against each other until the cost is lowest for the same '
-      'number. The surface course takes a drainage coefficient of one by '
-      'convention, since it is not granular and is not meant to hold water. '
-      'The base and subbase take whatever the problem states, and assuming '
-      'one when a lower value was given undersizes the pavement.',
-  formulas: [
-    ('The sum', r'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3'),
-    ('Typical values', r'a \approx 0.44, \; 0.14, \; 0.11'),
-    ('The surface', r'm_1 = 1.0 \text{ by convention}'),
+  title: 'What each inch of each layer is worth',
+  picture: structuralNumberPicture,
+  steps: [
+    (
+      'A road is built in layers',
+      'Asphalt on top, crushed stone under it, cheaper gravel under that. '
+          'Each layer helps carry the traffic, but they are not worth the same '
+          'per inch.',
+    ),
+    (
+      'Give every inch a score',
+      'An inch of asphalt is worth about 0.44. An inch of stone base about '
+          '0.14. An inch of gravel subbase about 0.11. So one inch of asphalt '
+          'does the work of roughly THREE inches of base.',
+    ),
+    (
+      'Add them all up',
+      'Multiply each layer\'s score by how many inches thick it is, and add. '
+          'That total is the structural number: one figure for the whole road.',
+    ),
+    (
+      'Drainage can cut a layer\'s score',
+      'A base or subbase that holds water is worth less, so it carries a '
+          'drainage number under one. The surface course is always 1.0 by '
+          'convention. Assume 1.0 when a lower value was given and you build '
+          'the road too thin.',
+    ),
   ],
-  figure: BriefFigure.structuralNumber,
+  spoken: [
+    (
+      'The sum',
+      r'SN = a_1 D_1 + a_2 D_2 m_2 + a_3 D_3 m_3',
+      'each layer: its score, times its inches, times its drainage',
+    ),
+    (
+      'Typical scores',
+      r'a \approx 0.44, \; 0.14, \; 0.11',
+      'asphalt, stone base, gravel subbase',
+    ),
+    ('The surface', r'm_1 = 1.0', 'the top layer is not given a drainage cut'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, AASHTO flexible pavement',
 );
 
 const layerThicknessBrief = BriefSection(
   title: 'The same sum, read backwards',
-  body:
-      'With a required structural number and every course but one already '
-      'fixed, the missing thickness falls out in two steps: take what the '
-      'fixed courses contribute AWAY from the target, then divide what is '
-      'left by what an inch of the missing course is worth, its coefficient '
-      'times its drainage factor. The drainage factor is where this goes '
-      'wrong. A subbase at 0.80 contributes a fifth less than the same '
-      'subbase draining properly, and the base has to make that up, which on '
-      'the lesson\'s section is nearly two extra inches. A negative answer '
-      'is not a mistake either: it means the fixed courses already meet the '
-      'target, and a minimum construction thickness will govern instead.',
-  formulas: [
-    ('Solve for one', r'D_2 = \dfrac{SN - a_1 D_1 - a_3 D_3 m_3}{a_2 m_2}'),
-    ('Poor drainage', r'\text{less from that course, more from the rest}'),
-    ('Negative', r'\text{already there}'),
+  picture: layerThicknessPicture,
+  steps: [
+    (
+      'Now the total is given',
+      'The design says the road must reach a certain structural number, and '
+          'every layer but one is already fixed. You are solving for the '
+          'missing thickness.',
+    ),
+    (
+      'Two steps, and that is all',
+      'Add up what the fixed layers give you, and take it away from the '
+          'target. Then divide what is left by what ONE inch of the missing '
+          'layer is worth.',
+    ),
+    (
+      'Drainage is where this goes wrong',
+      'A subbase at 0.80 gives a fifth less than the same subbase draining '
+          'properly, and the base has to make it up: nearly two extra inches on '
+          'this road.',
+    ),
+    (
+      'A negative answer is not a mistake',
+      'It means the fixed layers already beat the target. You still build '
+          'the layer, but a minimum construction thickness decides how thick, '
+          'not the arithmetic.',
+    ),
   ],
-  figure: BriefFigure.layerThickness,
+  spoken: [
+    (
+      'Solve for one',
+      r'D_2 = \dfrac{SN - a_1 D_1 - a_3 D_3 m_3}{a_2 m_2}',
+      'the gap left over, divided by what an inch of that layer is worth',
+    ),
+    (
+      'Poor drainage',
+      r'm < 1',
+      'less from that layer, so more is needed from the rest',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, AASHTO flexible pavement',
 );
 
 const esalBrief = BriefSection(
-  title: 'Counted in standard axles',
-  body:
-      'Pavement traffic is not counted in vehicles, because the damage an '
-      'axle does climbs far faster than its weight, roughly with the fourth '
-      'power of the load. So every axle is converted into equivalent '
-      'standard eighteen kip single axle loads by its LOAD EQUIVALENCY '
-      'FACTOR, and the conversion is a multiplication: passes times factor. '
-      'The numbers are worth a feel. A car axle is worth about two ten '
-      'thousandths of a standard load, so it takes thousands of cars to '
-      'match one loaded truck axle. A 24 kip axle weighs a third more than '
-      'the standard and does three times the damage. A 12 kip axle weighs '
-      'two thirds as much and does under a fifth. That steepness is why a '
-      'road with no trucks lasts almost indefinitely, and why taking a '
-      'little weight off an axle takes a great deal of damage off the road. '
-      'The total over the design life is what sets the structural number the '
-      'section has to reach.',
-  formulas: [
-    ('The conversion', r'\text{ESALs} = \text{passes} \times LEF'),
-    ('The standard', r'18 \text{ kip single axle}'),
-    ('Steeply', r'\text{damage} \sim \text{load}^4'),
+  title: 'Traffic counted in standard axles, not vehicles',
+  picture: esalPicture,
+  steps: [
+    (
+      'Weight hurts far more than it looks',
+      'The damage an axle does to a road goes up roughly with its load '
+          'multiplied by itself four times. So a little more weight is a great '
+          'deal more damage.',
+    ),
+    (
+      'So pick one axle as the yardstick',
+      'The standard is an eighteen thousand pound single axle. Every other '
+          'axle is scored against it: how many standard passes it is worth. '
+          'Multiply that score by how many times it comes past.',
+    ),
+    (
+      'The numbers are startling',
+      'A car axle is worth about two ten-thousandths of a standard pass, so '
+          'thousands of cars equal one loaded truck axle. A 24 kip axle is a '
+          'third heavier than standard and does three times the damage. A 12 '
+          'kip axle does under a fifth.',
+    ),
+    (
+      'What that means for a road',
+      'A street with no trucks lasts almost indefinitely. And taking a '
+          'little weight off an axle takes a great deal of damage off the '
+          'pavement. The lifetime total is what sets the structural number.',
+    ),
   ],
-  figure: BriefFigure.esal,
+  spoken: [
+    (
+      'The conversion',
+      r'\text{ESALs} = \text{passes} \times LEF',
+      'how many times it passes, times what each pass is worth',
+    ),
+    ('The standard', r'18 \text{ kip single axle}', 'the yardstick axle'),
+    (
+      'Steeply',
+      r'\text{damage} \sim \text{load}^4',
+      'damage grows with the load multiplied by itself four times',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, load equivalency',
 );
 
 const rigidVsFlexibleBrief = BriefSection(
   title: 'A beam, or a blanket',
-  body:
-      'A concrete slab is stiff enough to BEND across a wheel load, like a '
-      'beam, and hand it to a patch of subgrade many times the size of the '
-      'tire. An asphalt section does the opposite: each course passes the '
-      'load down to the next, spreading it a little on the way, so every '
-      'course has to be strong in its own right. Everything else follows '
-      'from that. The slab bridges a soft spot the way a beam bridges a gap, '
-      'so rigid pavement minds a weak or variable subgrade far less. It is '
-      'designed on the bending strength of the concrete, its modulus of '
-      'rupture, rather than on a structural number, because bending is how '
-      'it works. And it costs more to build, which is why the choice usually '
-      'turns on whole life cost: heavy traffic, a long service life and poor '
-      'ground favor the slab.',
-  formulas: [
-    ('Rigid', r'\text{bends, spreads wide}'),
-    ('Flexible', r'\text{passes it down, course by course}'),
-    ('Designed on', r'\text{rupture strength vs } SN'),
+  picture: rigidVsFlexiblePicture,
+  steps: [
+    (
+      'Concrete bridges the load',
+      'A slab is stiff enough to bend across the wheel, like a plank across '
+          'a puddle, and hand the weight to a patch of ground many times bigger '
+          'than the tire.',
+    ),
+    (
+      'Asphalt passes it down',
+      'Each layer hands the load to the one below, spreading it a little on '
+          'the way. So every layer has to be strong in its own right, and the '
+          'ground underneath still feels a lot.',
+    ),
+    (
+      'That is why the slab minds soft ground less',
+      'It bridges a weak spot the way a plank bridges a gap. A flexible '
+          'road sitting on the same soft spot has nothing to bridge with.',
+    ),
+    (
+      'And why they are designed differently',
+      'The slab is designed on the bending strength of the concrete, since '
+          'bending is how it works, rather than on a structural number. It '
+          'costs more to build, so the choice usually turns on whole life cost: '
+          'heavy trucks, a long life and poor ground favor concrete.',
+    ),
   ],
-  figure: BriefFigure.rigidVsFlexible,
+  spoken: [
+    (
+      'Rigid',
+      r'\text{bends, spreads the load wide}',
+      'the slab works as a beam',
+    ),
+    (
+      'Flexible',
+      r'\text{passes it down, layer by layer}',
+      'each course carries and spreads a little',
+    ),
+    (
+      'Designed on',
+      r'\text{rupture strength, not } SN',
+      'the bending strength of the concrete',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, rigid pavement',
 );
 
 const jointBrief = BriefSection(
-  title: 'Smooth lets go, deformed holds on',
-  body:
-      'Concrete shrinks as it cures and moves with the temperature, so a '
-      'slab will crack. Joints decide where. CONTRACTION joints are sawn in '
-      'within hours and give the crack a tidy line to follow. EXPANSION '
-      'joints leave room for growth, used sparingly and mostly at '
-      'structures. CONSTRUCTION joints are simply where paving stopped. The '
-      'steel across a joint comes in two kinds and they do opposite jobs. A '
-      'DOWEL is smooth and greased: it carries the wheel load from one slab '
-      'to the next while letting the two move, and it lives in transverse '
-      'joints. A TIE BAR is deformed and bonded into both sides: it holds a '
-      'longitudinal joint shut so lanes do not drift apart, and it is meant '
-      'not to move at all. Where a joint has no steel, the rough crack faces '
-      'below the saw cut interlock instead, which works while the joint '
-      'stays tight.',
-  formulas: [
-    ('Dowel', r'\text{load transfer, movement allowed}'),
-    ('Tie bar', r'\text{holds the joint closed}'),
-    ('No steel', r'\text{aggregate interlock}'),
+  title: 'Smooth bars let go, ribbed bars hold on',
+  picture: jointPicture,
+  steps: [
+    (
+      'Concrete is going to crack',
+      'It shrinks as it cures and moves with the weather. You cannot stop '
+          'that, so joints are cut to decide WHERE it cracks instead of leaving '
+          'it to chance.',
+    ),
+    (
+      'Three kinds of joint',
+      'Contraction joints are sawn in within hours and give the crack a '
+          'tidy line to follow. Expansion joints leave room to grow, used '
+          'sparingly. Construction joints are simply where paving stopped for '
+          'the day.',
+    ),
+    (
+      'A DOWEL is smooth and greased',
+      'It hands the wheel load from one slab to the next while letting the '
+          'two slide apart and together. It goes across the lane, in transverse '
+          'joints.',
+    ),
+    (
+      'A TIE BAR is ribbed and bonded',
+      'It is meant not to move at all: it holds a joint between two lanes '
+          'shut so they cannot drift apart. Where a joint has no steel, the '
+          'rough crack faces below the saw cut grip each other instead.',
+    ),
   ],
-  figure: BriefFigure.pavementJoint,
+  spoken: [
+    (
+      'Dowel',
+      r'\text{carries load, allows movement}',
+      'smooth and greased, across the lane',
+    ),
+    (
+      'Tie bar',
+      r'\text{holds the joint closed}',
+      'ribbed and bonded, between lanes',
+    ),
+    (
+      'No steel',
+      r'\text{aggregate interlock}',
+      'the rough crack faces grip each other',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, rigid pavement joints',
 );
 
 const subgradeReactionBrief = BriefSection(
-  title: 'A bed of springs',
-  body:
-      'The modulus of subgrade reaction, k, is a STIFFNESS and not a '
-      'strength: the pressure it takes to push the ground down one inch, so '
-      'its units are pounds per square inch per inch, which is pounds per '
-      'cubic inch. The picture is a bed of springs under the slab, each '
-      'pushing back as it is pressed. A higher k gives less under the same '
-      'pressure, so the slab bends less and the tension at the bottom of the '
-      'concrete is lower, which is what actually breaks a slab. What k is '
-      'NOT is a bearing capacity: capacity asks when the ground fails, while '
-      'k asks how far it moves long before that. And because the slab '
-      'already spreads the load so widely, improving k buys less under '
-      'concrete than the same improvement would buy under asphalt.',
-  formulas: [
-    ('What it is', r'k = \dfrac{\text{pressure}}{\text{deflection}}'),
-    ('Units', r'\text{pounds per cubic inch}'),
-    ('Higher k', r'\text{stiffer, less deflection}'),
+  title: 'The ground as a bed of springs',
+  picture: subgradeReactionPicture,
+  steps: [
+    (
+      'Picture springs under the slab',
+      'Press down and they squash. How hard you have to press to push the '
+          'ground down one inch is k, the modulus of subgrade reaction.',
+    ),
+    (
+      'So it is a stiffness, not a strength',
+      'Its units are pounds per square inch for each inch of squash, which '
+          'is pounds per cubic inch. Stiff ground gives less under the same '
+          'push.',
+    ),
+    (
+      'Why the slab cares',
+      'Ground that gives less lets the slab bend less, so the concrete is '
+          'pulled less at its underside. That pulling is what actually cracks a '
+          'slab.',
+    ),
+    (
+      'What k is NOT',
+      'It is not a bearing capacity. Capacity asks when the ground gives '
+          'way altogether; k asks how far it moves long before that. And '
+          'because a slab already spreads the load so widely, improving k buys '
+          'less under concrete than under asphalt.',
+    ),
   ],
-  figure: BriefFigure.subgradeReaction,
+  spoken: [
+    (
+      'What it is',
+      r'k = \dfrac{\text{pressure}}{\text{deflection}}',
+      'the push needed for each inch the ground moves',
+    ),
+    ('Units', r'\text{pci}', 'pounds per cubic inch'),
+    ('Higher k', r'\text{stiffer ground}', 'less movement under the same push'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, rigid pavement',
 );
 
@@ -14732,27 +14869,49 @@ const fallProtectionBrief = BriefSection(
 );
 
 const yardsBrief = BriefSection(
-  title: 'Cut and fill, in yards',
-  body:
-      'Both volume formulas take whatever units go into them, so sections in '
-      'square feet and stations in feet give cubic FEET. Earthwork is bid, '
-      'hauled and paid for in cubic YARDS, and a cubic yard is three feet '
-      'each way, which is twenty seven cubic feet. Dividing by three instead '
-      'leaves the answer nine times too big, and forgetting the conversion '
-      'altogether leaves it twenty seven times too big: both are printed as '
-      'choices. The average end area method gives the LARGER volume whenever '
-      'the real middle section sags below the average of the two ends, which '
-      'it usually does, and on a corridor carrying millions of yards a few '
-      'per cent is real money. That is why the contract says which method '
-      'measures the work. The quantities themselves are what price the cut '
-      'and the fill and decide how far material has to be hauled, so a grade '
-      'line that balances the two is cheaper than one that does not.',
-  formulas: [
-    ('End areas', r'V = \frac{L}{2}(A_1 + A_2)'),
-    ('Prismoidal', r'V = \frac{L}{6}(A_1 + 4A_m + A_2)'),
-    ('Then', r'\div 27 \text{ for cubic yards}'),
+  title: 'Cut and fill, paid for in yards',
+  picture: yardsPicture,
+  steps: [
+    (
+      'Slice the road and measure each slice',
+      'At stations along the job, someone measures the area of dirt to be '
+          'cut away or filled in. The volume between two slices is the average '
+          'of their areas, times the distance between them.',
+    ),
+    (
+      'The formula gives cubic FEET',
+      'Areas in square feet and distances in feet can only give cubic feet. '
+          'But earthwork is bid, hauled and paid for in cubic YARDS.',
+    ),
+    (
+      'A cubic yard is 27 cubic feet',
+      'Three feet each way, so three times three times three. Dividing by '
+          'three instead leaves the answer nine times too big; forgetting the '
+          'conversion leaves it twenty seven times too big. Both are printed as '
+          'choices.',
+    ),
+    (
+      'Which method matters commercially',
+      'Averaging the two ends overstates the volume whenever the real '
+          'middle slice sags below that average, which it usually does. On a '
+          'job moving millions of yards, a few per cent is real money, so the '
+          'contract says which method measures the work.',
+    ),
   ],
-  figure: BriefFigure.yards,
+  spoken: [
+    (
+      'End areas',
+      r'V = \frac{L}{2}(A_1 + A_2)',
+      'the average of the two end areas, times the distance',
+    ),
+    (
+      'Prismoidal',
+      r'V = \frac{L}{6}(A_1 + 4A_m + A_2)',
+      'a weighted average that counts the middle slice four times',
+    ),
+    ('Then', r'\div 27', 'cubic feet into cubic yards'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, earthwork volumes',
 );
 
