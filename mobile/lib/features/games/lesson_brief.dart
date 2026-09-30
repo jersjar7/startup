@@ -1352,365 +1352,797 @@ const methodChoiceBrief = BriefSection(
 // ── Measures of Central Tendency & Dispersion ───────────────────────────────
 
 const centerBrief = BriefSection(
-  title: 'Three centers, and when they disagree',
-  body:
-      'The mean adds everything up and divides by the count. The median is the '
-      'middle value once the readings are sorted, and with an even count it is '
-      'the average of the middle two. The mode is whatever turns up most often, '
-      'and a set can have none or several of them. They agree on tidy data and '
-      'part company the moment one reading is a long way out: the mean gets '
-      'dragged toward it and the median does not move at all.',
-  formulas: [
-    ('Mean', r'\bar{x} = \frac{1}{n}\sum x_i'),
-    ('Median', r'\text{the middle value, once sorted}'),
+  title: 'Three ways to say where the middle is',
+  picture: centerPicture,
+  steps: [
+    (
+      'Line them up',
+      'Take some readings and stack them over their values, smallest on '
+          'the left. Most of the picture is right there.',
+    ),
+    (
+      'The median is a position',
+      'Count in from both ends until you meet in the middle. That reading is '
+          'the median. With an even count, average the middle two. One far-off '
+          'reading cannot move it, because it is still just the middle one.',
+    ),
+    (
+      'The mean is a total',
+      'Add every reading and divide by how many there are. A reading far out '
+          'to one side drags the mean toward it, because it is in the total.',
+    ),
+    (
+      'The mode is the tallest stack',
+      'Whatever value shows up most often. A set can have no mode, or more '
+          'than one. On tidy data all three agree; one wild reading splits them.',
+    ),
   ],
-  figure: BriefFigure.center,
+  spoken: [
+    (
+      'Mean',
+      r'\bar{x} = \frac{1}{n}\sum x_i',
+      'add them all up, divide by the count',
+    ),
+    (
+      'Median',
+      r'\text{the middle value, once sorted}',
+      'the one in the middle of the line',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 63',
 );
 
 const spreadBrief = BriefSection(
   title: 'Sample or population, and the square root',
-  body:
-      'Variance is the average squared distance from the mean, and the standard '
-      'deviation is its square root, in the units of the data. The only '
-      'difference between the sample and the population version is the '
-      'denominator: n minus one for a sample, N for the whole population. This '
-      'exam almost always means a sample, and dividing by n instead is the '
-      'single most common mistake on the topic. On a calculator that is Sx '
-      'against sigma x, two lines apart on the same screen. The coefficient of '
-      'variation is the standard deviation over the mean, which is '
-      'dimensionless and lets two data sets in different units be compared.',
-  formulas: [
-    ('Sample variance', r's^2 = \frac{\sum (x_i - \bar{x})^2}{n-1}'),
-    ('Population variance', r'\sigma^2 = \frac{\sum (x_i - \mu)^2}{N}'),
-    ('Coefficient of variation', r'CV = \frac{s}{\bar{x}}'),
+  picture: spreadPicture,
+  steps: [
+    (
+      'How spread out are they',
+      'Two sets can have the same middle and look nothing alike, one bunched '
+          'tight and one scattered wide. The variance measures that: the average '
+          'squared distance from the mean.',
+    ),
+    (
+      'Back to real units',
+      'Squaring turns meters into square meters. The standard deviation is '
+          'the square root of the variance, so it is back in the units of the '
+          'data. That is the number people quote.',
+    ),
+    (
+      'Divide by n minus one',
+      'If your readings are a sample of something bigger, which on this exam '
+          'they almost always are, divide by one less than the count. That is '
+          'Sx on the calculator. Sigma x, two lines down, divides by n and is '
+          'for a whole population.',
+    ),
+    (
+      'Comparing spreads in different units',
+      'Divide the standard deviation by the mean. That ratio has no units, '
+          'so a spread in psi can be compared with a spread in days.',
+    ),
   ],
-  figure: BriefFigure.spread,
+  spoken: [
+    (
+      'Sample variance',
+      r's^2 = \frac{\sum (x_i - \bar{x})^2}{n-1}',
+      'the squared gaps from the mean, added, over n minus one',
+    ),
+    (
+      'Population variance',
+      r'\sigma^2 = \frac{\sum (x_i - \mu)^2}{N}',
+      'the same, over the whole count',
+    ),
+    (
+      'Coefficient of variation',
+      r'CV = \frac{s}{\bar{x}}',
+      'the spread as a share of the mean',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 63',
 );
 
 const weightedBrief = BriefSection(
-  title: 'What is averaged, and what counts for more',
-  body:
-      'A weighted average is the same average with some readings counting for '
-      'more than others. The whole difficulty is naming the two roles: what is '
-      'being averaged, and how much each row gets to say. Weight by how long a '
-      'count ran, how many cylinders were tested, how thick a layer is. If the '
-      'weights are all equal it collapses back to the ordinary mean, and if you '
-      'swap the two roles the arithmetic runs perfectly to the wrong answer.',
-  formulas: [('Weighted mean', r'\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}')],
-  figure: BriefFigure.weighted,
+  title: 'Some readings count for more',
+  picture: weightedPicture,
+  steps: [
+    (
+      'Not every row is equal',
+      'Three batches of concrete were tested. One batch had two cylinders, '
+          'one had four, one had ten. Averaging the three batch strengths as if '
+          'they were equal lets two cylinders speak as loudly as ten.',
+    ),
+    (
+      'Give each reading a weight',
+      'Multiply each strength by how many cylinders stood behind it, add '
+          'those up, and divide by the total number of cylinders. The big batch '
+          'now pulls the answer toward itself, as it should.',
+    ),
+    (
+      'Name the two roles first',
+      'What is being averaged goes in as x. How much each row gets to say '
+          'goes in as the weight: how long a count ran, how many were tested, '
+          'how thick a layer is. Swap them and the arithmetic runs perfectly to '
+          'the wrong answer.',
+    ),
+  ],
+  spoken: [
+    (
+      'Weighted mean',
+      r'\bar{x}_w = \frac{\sum w_i x_i}{\sum w_i}',
+      'each value times its weight, added, over the weights added',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 63',
 );
 
 const correlationBrief = BriefSection(
   title: 'What r is telling you',
-  body:
-      'The correlation coefficient runs from minus one to plus one. Its sign '
-      'is the direction the cloud leans and its size is how tightly the '
-      'readings hug a line, and both of those are read off the plot rather '
-      'than computed. What it will not tell you is whether there is a '
-      'relationship at all: r only measures agreement with a STRAIGHT line, '
-      'so a cloud that rises and then falls can have an obvious shape and a '
-      'correlation of nothing.',
-  formulas: [
-    ('The range it lives in', r'-1 \le r \le +1'),
+  picture: correlationPicture,
+  steps: [
+    (
+      'Look at the cloud',
+      'Plot pairs of readings as dots. If the dots rise together they lean '
+          'one way; if one goes up while the other goes down they lean the '
+          'other. If they hug a straight line, the cloud is tight.',
+    ),
+    (
+      'r is that lean and that tightness',
+      'r runs from minus one to plus one. Its sign is the direction of the '
+          'lean. Its size is how tightly the dots hug a line: near one is tight, '
+          'near zero is a shapeless cloud.',
+    ),
+    (
+      'Only straight lines',
+      'r only measures agreement with a STRAIGHT line. A cloud that rises '
+          'and then falls has an obvious shape and an r of about nothing. So r '
+          'near zero does not mean no relationship. It means no straight one.',
+    ),
+  ],
+  spoken: [
+    (
+      'The range it lives in',
+      r'-1 \le r \le +1',
+      'from minus one, a perfect fall, to plus one, a perfect rise',
+    ),
     (
       'Correlation',
       r'r = \frac{n\sum x_i y_i - \sum x_i \sum y_i}'
           r'{\sqrt{\left[n\sum x_i^2 - (\sum x_i)^2\right]'
           r'\left[n\sum y_i^2 - (\sum y_i)^2\right]}}',
+      'four sums from the data, combined. The calculator does this one',
     ),
   ],
-  figure: BriefFigure.correlation,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 69',
 );
 
 const regressionLineBrief = BriefSection(
-  title: 'The line goes through the means',
-  body:
-      'A least-squares line is an intercept plus a slope times x, and it '
-      'always passes through the point where the two means meet. That one '
-      'fact is where the intercept comes from: rearranged, it is the mean of '
-      'y less the slope times the mean of x. It is also why a prediction '
-      'needs both terms. Slope times x and nothing else is a line through the '
-      'origin, which is the right lean in the wrong place.',
-  formulas: [
-    ('The line', r'\hat{y} = a + bx'),
-    ('The intercept', r'a = \bar{y} - b\bar{x}'),
+  title: 'The best line goes through the means',
+  picture: regressionLinePicture,
+  steps: [
     (
-      'Slope',
-      r'b = \frac{n\sum x_i y_i - \sum x_i \sum y_i}'
-          r'{n\sum x_i^2 - (\sum x_i)^2}',
+      'Draw the best straight line',
+      'Through a cloud of dots you can draw one straight line that misses '
+          'them all by the least. That is the regression line, and it lets you '
+          'predict y from an x you never measured.',
+    ),
+    (
+      'It always passes through one point',
+      'Take the mean of all the x values and the mean of all the y values. '
+          'Put a dot there. The best line goes through that dot, every time.',
+    ),
+    (
+      'That is where the intercept comes from',
+      'A line is a slope plus a starting height. Knowing the slope and one '
+          'point on the line gives you the starting height: the mean of y, less '
+          'the slope times the mean of x.',
+    ),
+    (
+      'Slope alone is not a prediction',
+      'Slope times x with nothing added is a line through the origin. It '
+          'leans the right way in the wrong place. A prediction needs both '
+          'parts.',
     ),
   ],
-  figure: BriefFigure.regressionLine,
+  spoken: [
+    (
+      'The line',
+      r'\hat{y} = a + bx',
+      'a starting height, plus the slope times x',
+    ),
+    (
+      'The intercept',
+      r'a = \bar{y} - b\bar{x}',
+      'the mean of y, less the slope times the mean of x',
+    ),
+    (
+      'Slope',
+      r'b = \frac{n\sum x_i y_i - \sum x_i \sum y_i}{n\sum x_i^2 - (\sum x_i)^2}',
+      'sums from the data. The calculator does this one',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 69',
 );
 
 const determinationBrief = BriefSection(
   title: 'Correlation, or determination',
-  body:
-      'These are two numbers and the exam asks for them in English. The '
-      'correlation is r, it carries a sign, and it says which way and how '
-      'tightly. The coefficient of determination is r squared, it is always '
-      'positive, and it is the share of the variation in y that x accounts '
-      'for. Squaring is not the hard part; hearing which one the sentence '
-      'asked for is. And a negative coefficient of determination is not so '
-      'much a wrong answer as an impossible one.',
-  formulas: [
-    ('Determination', r'R^2 = r^2'),
-    ('So', r'r = -0.92 \;\Rightarrow\; R^2 = 0.846'),
-    ('And what is left unexplained', r'1 - R^2'),
+  picture: determinationPicture,
+  steps: [
+    (
+      'Two numbers from one cloud',
+      'r is the correlation: which way the cloud leans and how tightly. r '
+          'squared is the coefficient of determination: the share of the ups '
+          'and downs in y that x accounts for.',
+    ),
+    (
+      'Squaring drops the sign',
+      'r can be negative; r squared never is. An r of minus 0.92 means a '
+          'tight downward lean, and an r squared of 0.85 means x explains 85 '
+          'percent of what y does. The other 15 percent is something else.',
+    ),
+    (
+      'Hear which one was asked',
+      'The exam asks in English. "Correlation" wants r, with its sign. '
+          '"Coefficient of determination" or "share explained" wants r squared. '
+          'A negative coefficient of determination is not wrong, it is '
+          'impossible.',
+    ),
   ],
-  figure: BriefFigure.determination,
+  spoken: [
+    ('Determination', r'R^2 = r^2', 'the correlation, squared'),
+    (
+      'So',
+      r'r = -0.92 \;\Rightarrow\; R^2 = 0.846',
+      'minus 0.92 squared is 0.85, and the minus is gone',
+    ),
+    ('What is left unexplained', r'1 - R^2', 'one minus the share explained'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 69',
 );
 
 const countingBrief = BriefSection(
-  title: 'Order, or just a group',
-  body:
-      'Both counts start from the same pool and the same number of picks. The '
-      'only question is whether the same picks in a different order count as a '
-      'second result. If the positions mean something different from one '
-      'another, a rank, a job, a place in a sequence, then order matters and '
-      'it is a permutation. If the picks all get the same treatment, it is a '
-      'combination, and the permutation answer will be too big by exactly r '
-      'factorial.',
-  formulas: [
-    ('Order matters', r'P(n, r) = \frac{n!}{(n-r)!}'),
-    ('Order does not', r'C(n, r) = \frac{n!}{r!\,(n-r)!}'),
-    ('So', r'P(8,3) = 336 \;\Rightarrow\; C(8,3) = \frac{336}{3!} = 56'),
+  title: 'Does the order count, or just the group',
+  picture: countingPicture,
+  steps: [
+    (
+      'Pick three from a pool',
+      'Say three letters from A, B and C. You could pick them as ABC, or '
+          'ACB, or BAC, and so on. Six ways. But every one of those is the same '
+          'three letters.',
+    ),
+    (
+      'When order matters',
+      'If the first pick gets a different job from the second, a rank, a '
+          'position, a place in a sequence, then ABC and BAC are different '
+          'results. That count is a permutation, and it is the bigger number.',
+    ),
+    (
+      'When it does not',
+      'If all three picks get treated the same, the six orderings are one '
+          'group. That count is a combination. It is the permutation count '
+          'divided by the number of ways to order the picks, which is r '
+          'factorial.',
+    ),
   ],
-  figure: BriefFigure.counting,
+  spoken: [
+    (
+      'Order matters',
+      r'P(n, r) = \frac{n!}{(n-r)!}',
+      'n factorial over the factorial of what is left',
+    ),
+    (
+      'Order does not',
+      r'C(n, r) = \frac{n!}{r!\,(n-r)!}',
+      'the same, divided once more by r factorial',
+    ),
+    (
+      'So',
+      r'P(8,3) = 336 \;\Rightarrow\; C(8,3) = \frac{336}{3!} = 56',
+      'three picks can be ordered six ways, so divide by six',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 64',
 );
 
 const binomialBrief = BriefSection(
   title: 'Three factors, every time',
-  body:
-      'Use it when there is a fixed number of independent trials and each one '
-      'either works or does not. The formula is always the same three pieces '
-      'multiplied: how many ways the successes could be arranged, the '
-      'successes themselves, and the failures. The count in front is a '
-      'COMBINATION, because three failures out of ten is three failures '
-      'whichever three they were. Two cheap checks: the exponents add up to n, '
-      'and whichever outcome you call the success has to be the one x counts.',
-  formulas: [
-    ('The distribution', r'P(X = x) = C(n, x)\,p^x(1-p)^{n-x}'),
-    ('Variance', r'\sigma^2 = npq \quad \text{where } q = 1 - p'),
+  picture: binomialPicture,
+  steps: [
+    (
+      'A fixed number of yes-or-no tries',
+      'Ten pours, each one either passes or fails, and none of them affects '
+          'the others. Ask how likely it is that exactly three fail. That is a '
+          'binomial question.',
+    ),
+    (
+      'Multiply three things',
+      'How many ways the three failures could be spread across the ten '
+          'tries. Times the chance of a failure, three times over. Times the '
+          'chance of a pass, seven times over. Three factors, always.',
+    ),
+    (
+      'The count in front is a combination',
+      'Three failures out of ten is three failures whichever three they '
+          'were, so order does not matter. Use C, not P.',
+    ),
+    (
+      'Two cheap checks',
+      'The two exponents must add up to the number of tries. And whichever '
+          'outcome you call the success has to be the one x is counting.',
+    ),
   ],
-  figure: BriefFigure.binomial,
+  spoken: [
+    (
+      'The distribution',
+      r'P(X = x) = C(n, x)\,p^x(1-p)^{n-x}',
+      'ways to arrange, times p for each success, times one minus p for each failure',
+    ),
+    (
+      'Variance',
+      r'\sigma^2 = npq',
+      'tries, times the chance of a success, times the chance of a failure',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 66',
 );
 
 const normalTableBrief = BriefSection(
-  title: 'Which area the table gives you',
-  body:
-      'The z-score turns any normal variable into the one the handbook has a '
-      'table for. Reading the table is then the whole job, and it has three '
-      'columns: F is everything left of z, R is everything right of it, and W '
-      'is the band between minus z and plus z. The table only runs on positive '
-      'z, so an area on the left of a negative cut comes from the flip. Before '
-      'any of that, decide which piece of the picture the sentence asked for: '
-      'the fail rate and the pass rate come off the same curve and the same '
-      'line.',
-  formulas: [
-    ('Z-score', r'z = \frac{x - \mu}{\sigma}'),
-    ('The flip', r'F(-z) = 1 - F(z)'),
-    ('The other tail', r'R(z) = 1 - F(z)'),
+  title: 'Which piece of the curve was asked for',
+  picture: normalTablePicture,
+  steps: [
+    (
+      'Turn the number into a z',
+      'A normal curve is a bell. Any bell can be turned into the one the '
+          'handbook has a table for: subtract the mean and divide by the '
+          'standard deviation. That is the z-score, how many spreads from the '
+          'middle you are.',
+    ),
+    (
+      'The table has three columns',
+      'F is everything to the left of your cut. R is everything to the '
+          'right. W is the band between minus z and plus z. Pick the column '
+          'that matches the piece you shaded.',
+    ),
+    (
+      'Negative z: flip it',
+      'The table only runs on positive z. The area left of a negative cut '
+          'is one minus the area left of the same positive cut, because the '
+          'bell is symmetric.',
+    ),
+    (
+      'Fail rate and pass rate are the same line',
+      'How many fall below 4,000 psi and how many pass are the two halves '
+          'of one picture. Decide which piece the sentence asked for before '
+          'you open the table.',
+    ),
   ],
-  figure: BriefFigure.normalTable,
+  spoken: [
+    (
+      'Z-score',
+      r'z = \frac{x - \mu}{\sigma}',
+      'the value less the mean, over the standard deviation',
+    ),
+    (
+      'The flip',
+      r'F(-z) = 1 - F(z)',
+      'the area left of minus z is one minus the area left of z',
+    ),
+    (
+      'The other tail',
+      r'R(z) = 1 - F(z)',
+      'right of the cut is one minus left of it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 67',
 );
 
 const expectedValueBrief = BriefSection(
   title: 'A balance point, not a favorite',
-  body:
-      'An expected value is a weighted average where the weights are the '
-      'probabilities. Picture the outcomes loaded onto a beam with those '
-      'weights and it is the point where the beam sits level. That picture '
-      'settles both of the usual mistakes at once: the most likely outcome is '
-      'the tallest block and not the balance point, and the plain average of '
-      'the outcomes throws the weights away. It also explains why the answer '
-      'is often a value that can never actually occur.',
-  formulas: [
-    ('Expected value', r'E(X) = \sum_{k=1}^{n} x_k \cdot P(x_k)'),
-    ('So', r'120(0.25) + 80(0.50) + 20(0.25) = 75'),
+  picture: expectedValuePicture,
+  steps: [
+    (
+      'Load the outcomes onto a beam',
+      'Each possible outcome is a block placed at its value. How likely it '
+          'is sets how heavy the block is. Now find where a fulcrum would hold '
+          'the beam level.',
+    ),
+    (
+      'That point is the expected value',
+      'It is an average where the weights are the probabilities. Multiply '
+          'each outcome by its chance and add. Over many repeats, that is what '
+          'you get per go.',
+    ),
+    (
+      'The two usual mistakes tip the beam',
+      'The most likely outcome is the tallest block, not the balance point: '
+          'a heavy block further out still wins. And the plain middle of the '
+          'range throws the weights away entirely.',
+    ),
+    (
+      'It may be a value that never happens',
+      'A balance point can sit between blocks. An expected 8.4 trucks is a '
+          'fine answer even though no day ever has 8.4 trucks.',
+    ),
   ],
-  figure: BriefFigure.expectedValue,
+  spoken: [
+    (
+      'Expected value',
+      r'E(X) = \sum x_k \cdot P(x_k)',
+      'each outcome times its chance, all added up',
+    ),
+    (
+      'So',
+      r'120(0.25) + 80(0.50) + 20(0.25) = 75',
+      'three outcomes, three chances, one balance point',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 65',
 );
 
 const varianceShortcutBrief = BriefSection(
   title: 'The mean of the squares, less the square of the mean',
-  body:
-      'Two columns of scratch work and one subtraction. Total x times P of x '
-      'to get the mean, total x squared times P of x to get the mean of the '
-      'squares, then subtract the SQUARE of the first from the second. The '
-      'order is the whole trap: E of X squared and E of X, squared, are '
-      'written almost the same and are different numbers, and taking them the '
-      'wrong way round gives a negative variance, which cannot happen.',
-  formulas: [
-    ('Variance', r'\text{Var}(X) = E(X^2) - [E(X)]^2'),
-    ('The two columns', r'E(X) = \sum x P(x), \quad E(X^2) = \sum x^2 P(x)'),
-    ('So', r'8.10 - (2.70)^2 = 8.10 - 7.29 = 0.81'),
+  picture: varianceShortcutPicture,
+  steps: [
+    (
+      'Two columns of scratch work',
+      'For each outcome, write its value times its chance in one column, '
+          'and its value squared times its chance in the other. Total both '
+          'columns.',
+    ),
+    (
+      'One subtraction',
+      'The first total is the mean. Square it. Take that away from the '
+          'second total. What is left is the variance.',
+    ),
+    (
+      'The order is the whole trap',
+      'The mean of the squares and the square of the mean are written '
+          'almost the same and are different numbers. Subtract them the wrong '
+          'way round and you get a negative variance, which cannot happen. '
+          'That sign is your alarm.',
+    ),
   ],
-  figure: BriefFigure.varianceShortcut,
+  spoken: [
+    (
+      'Variance',
+      r'\text{Var}(X) = E(X^2) - [E(X)]^2',
+      'the mean of the squares, less the square of the mean',
+    ),
+    (
+      'The two columns',
+      r'E(X) = \sum x P(x), \quad E(X^2) = \sum x^2 P(x)',
+      'value times chance, and value squared times chance',
+    ),
+    (
+      'So',
+      r'8.10 - (2.70)^2 = 8.10 - 7.29 = 0.81',
+      'second total, less the first total squared',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 65',
 );
 
 const combiningBrief = BriefSection(
   title: 'Variances add, spreads do not',
-  body:
-      'Means add straight, and they add whether or not the variables are '
-      'independent. Variances add only when they are independent, and any '
-      'coefficient gets SQUARED on the way in. Standard deviations never add '
-      'at all: square them, add, and take the root at the end. Two independent '
-      'spreads combine the way two perpendicular legs do, so the total is the '
-      'hypotenuse, and a hypotenuse is always shorter than going round the '
-      'two sides.',
-  formulas: [
-    ('Means', r'E(a_1X_1 + a_2X_2) = a_1E(X_1) + a_2E(X_2)'),
+  picture: combiningPicture,
+  steps: [
+    (
+      'Two uncertain loads on one beam',
+      'One load wobbles by about 3 kN, the other by about 8 kN. How much '
+          'does their total wobble? Not 11. The two rarely wobble the same way '
+          'at the same moment.',
+    ),
+    (
+      'Draw them as a right triangle',
+      'Put 3 along one leg and 8 up the other. The total spread is the '
+          'slanted side, and a slanted side is always shorter than walking '
+          'round the two legs. Here it is 8.54.',
+    ),
+    (
+      'So square, add, then root',
+      'Variances add: 9 plus 64 is 73. The spread is the square root, 8.54. '
+          'Standard deviations never add on their own. Any number multiplying a '
+          'variable gets squared on the way in.',
+    ),
+    (
+      'Means just add',
+      'The average of a total is the totals of the averages, always, even '
+          'when the two are not independent. Only the variances need '
+          'independence to add.',
+    ),
+  ],
+  spoken: [
+    (
+      'Means',
+      r'E(a_1X_1 + a_2X_2) = a_1E(X_1) + a_2E(X_2)',
+      'means add straight, with their multipliers',
+    ),
     (
       'Variances',
       r'\text{Var}(a_1X_1 + a_2X_2) = a_1^2\sigma_1^2 + a_2^2\sigma_2^2',
+      'variances add, and each multiplier is squared',
     ),
-    ('So', r'\sigma_T = \sqrt{3^2 + 8^2} = \sqrt{73} = 8.54'),
+    (
+      'So',
+      r'\sigma_T = \sqrt{3^2 + 8^2} = \sqrt{73} = 8.54',
+      'square each spread, add, take the root',
+    ),
   ],
-  figure: BriefFigure.combining,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 65',
 );
 
 const marginOfErrorBrief = BriefSection(
-  title: 'What sets the width',
-  body:
-      'An interval is a sample mean with a margin on either side, and the '
-      'margin is the multiplier times sigma over the ROOT of n. The root is '
-      'the part that gets dropped, and it is the part that decides everything: '
-      'divide by n instead and the interval collapses to a sliver that claims '
-      'a precision the samples cannot buy. The multiplier comes from the '
-      'confidence level, and the handbook has all three.',
-  formulas: [
+  title: 'What sets the width of the interval',
+  picture: marginOfErrorPicture,
+  steps: [
+    (
+      'A guess with a margin',
+      'You measured 25 samples and got a mean of 42. The true mean is '
+          'probably near 42, but not exactly. A confidence interval is 42 plus '
+          'or minus a margin, wide enough to catch the truth most of the time.',
+    ),
+    (
+      'The margin has three parts',
+      'A multiplier for how sure you want to be. The spread of the '
+          'readings, sigma. And the ROOT of how many you took. More samples '
+          'narrow it, but slowly: four times the samples for half the width.',
+    ),
+    (
+      'The root is the part people drop',
+      'Divide by n instead of the root of n and the interval collapses to a '
+          'sliver. It claims a precision 25 samples cannot buy. If your margin '
+          'looks tiny, check the root.',
+    ),
+  ],
+  spoken: [
     (
       'Sigma known',
-      r'\bar{x} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} \le \mu \le '
-          r'\bar{x} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}',
+      r'\bar{x} \pm z_{\alpha/2}\frac{\sigma}{\sqrt{n}}',
+      'the sample mean, plus or minus the multiplier times sigma over root n',
     ),
     (
       'The three multipliers',
       r'90\% : 1.645 \quad 95\% : 1.960 \quad 99\% : 2.576',
+      'surer means a bigger multiplier and a wider interval',
     ),
-    ('So', r'42 \pm 1.960\frac{5}{\sqrt{25}} = 42 \pm 1.96'),
+    (
+      'So',
+      r'42 \pm 1.960\frac{5}{\sqrt{25}} = 42 \pm 1.96',
+      '25 samples, root 5, a margin of about 2',
+    ),
   ],
-  figure: BriefFigure.marginOfError,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 74',
 );
 
 const zOrTBrief = BriefSection(
   title: 'Sigma or s, and which way the width moves',
-  body:
-      'If the problem hands you sigma, the population spread, use z. If it '
-      'hands you s, computed from the sample, use t with n minus one degrees '
-      'of freedom. The t interval is always the wider one at the same '
-      'confidence, because the spread is now a guess as well and the interval '
-      'pays for it. Three things move the width and the sample mean is not one '
-      'of them: the confidence level, sigma, and how many samples you took.',
-  formulas: [
+  picture: zOrTPicture,
+  steps: [
+    (
+      'Where did the spread come from',
+      'If the problem hands you sigma, the spread of the whole population, '
+          'use the z multiplier. If it hands you s, a spread you worked out '
+          'from your own few samples, use t.',
+    ),
+    (
+      't is always wider',
+      'With s, the spread itself is a guess, and the interval has to pay '
+          'for that. So t at the same confidence is a bigger multiplier than z, '
+          'and the difference shrinks as you take more samples. t uses n minus '
+          'one degrees of freedom.',
+    ),
+    (
+      'What moves the width',
+      'Three things: the confidence you ask for, the spread, and how many '
+          'samples. The sample mean is not one of them. It slides the interval '
+          'along; it does not stretch it.',
+    ),
+  ],
+  spoken: [
     (
       'Sigma unknown',
-      r'\bar{x} \pm t_{\alpha/2,\,n-1}\frac{s}{\sqrt{n}}, \quad v = n - 1',
+      r'\bar{x} \pm t_{\alpha/2,\,n-1}\frac{s}{\sqrt{n}}',
+      'the same shape, with t for z and s for sigma, on n minus one degrees of freedom',
     ),
-    ('Ten samples, 95%', r'z = 1.960 \;\Rightarrow\; t_{0.025,\,9} = 2.262'),
+    (
+      'Ten samples, 95%',
+      r'z = 1.960 \;\Rightarrow\; t_{0.025,\,9} = 2.262',
+      'the t multiplier is bigger, so the interval is wider',
+    ),
   ],
-  figure: BriefFigure.zOrT,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 74',
 );
 
 const sampleSizeBrief = BriefSection(
-  title: 'Working backwards to n',
-  body:
-      'When the margin is fixed before the data is collected, rearrange for n. '
-      'The whole ratio gets SQUARED, which is where both of the usual mistakes '
-      'live: stopping before the square gives a number about eight when the '
-      'answer is sixty two, and the square is also why halving the margin '
-      'costs four times the samples. Then round UP, always. A sample size that '
-      'misses the specification is not a sample size, and there is no such '
-      'thing as most of a test.',
-  formulas: [
-    ('Required n', r'n = \left(\frac{z_{\alpha/2} \cdot \sigma}{e}\right)^2'),
-    ('So', r'\left(\frac{1.960 \times 800}{200}\right)^2 = 7.84^2 = 61.47'),
-    ('Which means', r'n = 62'),
+  title: 'Working backwards to how many samples',
+  picture: sampleSizePicture,
+  steps: [
+    (
+      'Fix the margin first',
+      'Sometimes the margin is decided before any data: the count has to be '
+          'good to within 200 vehicles. The question becomes how many days to '
+          'count.',
+    ),
+    (
+      'Turn the margin formula around',
+      'The margin is the multiplier times sigma over root n. Solve for n: '
+          'multiplier times sigma over the margin, and then SQUARE the whole '
+          'thing. Stop before the square and you get about 8 when the answer '
+          'is 62.',
+    ),
+    (
+      'The square is why halving costs four times',
+      'Cut the margin in half and n goes up by four. The curve of margin '
+          'against samples drops fast at first and then flattens out.',
+    ),
+    (
+      'Round up, always',
+      'The arithmetic gives 61.47. Sixty-one days misses the target, and '
+          'there is no such thing as most of a day. Take 62.',
+    ),
   ],
-  figure: BriefFigure.sampleSize,
+  spoken: [
+    (
+      'Required n',
+      r'n = \left(\frac{z_{\alpha/2} \cdot \sigma}{e}\right)^2',
+      'multiplier times sigma, over the margin, then squared',
+    ),
+    (
+      'So',
+      r'\left(\frac{1.960 \times 800}{200}\right)^2 = 7.84^2 = 61.47',
+      'the ratio is 7.84, and squared it is 61.47',
+    ),
+    ('Which means', r'n = 62', 'rounded up, never down'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 75',
 );
 
 const hypothesesBrief = BriefSection(
-  title: 'What the claim sets up',
-  body:
-      'The null is the status quo and it is what the test assumes until the '
-      'data makes it uncomfortable. The alternative is what somebody is trying '
-      'to show. A directional word, exceeds, reduces, falls short, puts the '
-      'whole of alpha in ONE tail. A claim with no direction in it splits alpha '
-      'between two, which is a different row of the table and a bigger critical '
-      'value. Rejecting a true null is a Type I error and alpha is its chance; '
-      'missing a false one is Type II.',
-  formulas: [
-    ('One-tailed', r'H_1: \mu > \mu_0 \quad \text{or} \quad H_1: \mu < \mu_0'),
+  title: 'Which way the claim points',
+  picture: hypothesesPicture,
+  steps: [
     (
-      'Two-tailed',
-      r'H_1: \mu \neq \mu_0 \;\Rightarrow\; \tfrac{\alpha}{2}'
-          r'\text{ in each tail}',
+      'Two rival statements',
+      'The null is the boring one: nothing has changed, the mean is what it '
+          'always was. The alternative is what somebody is trying to show. The '
+          'test assumes the null until the data makes it uncomfortable.',
+    ),
+    (
+      'Read the claim for a direction',
+      'Words like exceeds, reduces or falls short point one way. Then the '
+          'whole of alpha, the risk you accept of a false alarm, sits in ONE '
+          'tail of the curve.',
+    ),
+    (
+      'No direction, two tails',
+      'A claim like "is different from" could be wrong either way. Alpha '
+          'gets split in half, one piece in each tail. That is a different row '
+          'of the table and a bigger critical value.',
+    ),
+    (
+      'The two ways to be wrong',
+      'Rejecting a null that was true is a Type I error, and alpha is its '
+          'chance. Keeping a null that was false is a Type II error.',
     ),
   ],
-  figure: BriefFigure.hypotheses,
+  spoken: [
+    (
+      'One-tailed',
+      r'H_1: \mu > \mu_0 \quad \text{or} \quad H_1: \mu < \mu_0',
+      'the claim points one way, so alpha sits in one tail',
+    ),
+    (
+      'Two-tailed',
+      r'H_1: \mu \neq \mu_0 \;\Rightarrow\; \tfrac{\alpha}{2}\text{ in each tail}',
+      'the claim could go either way, so alpha is split',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 72',
 );
 
 const decisionRuleBrief = BriefSection(
   title: 'Bigger means reject',
-  body:
-      'Three different tests in this topic and one decision rule between them: '
-      'if the statistic is bigger than the critical value, reject. For a '
-      'two-tailed test that comparison is on SIZE, so a statistic of minus 2.9 '
-      'against a critical value of 2.131 rejects. And failing to reject is '
-      'never a finding. It says the data did not catch the null out, not that '
-      'the null is true, and an answer that says the mean equals the '
-      'hypothesised value is wrong however right the decision beside it looks.',
-  formulas: [
-    ('Z-test', r'z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}}'),
-    ('t-test', r't = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}, \quad v = n - 1'),
+  picture: decisionRulePicture,
+  steps: [
     (
-      'The rule',
-      r'|\text{statistic}| > \text{critical} \;\Rightarrow\; '
-          r'\text{reject } H_0',
+      'One number against one line',
+      'Every test here boils down to a statistic worked out from the data '
+          'and a critical value looked up in a table. Put both on one scale. If '
+          'the statistic lands past the line, reject the null.',
+    ),
+    (
+      'Two-tailed tests compare size',
+      'When the claim had no direction, only the distance from zero '
+          'matters. A statistic of minus 2.9 against a critical value of 2.131 '
+          'is past the line. It rejects.',
+    ),
+    (
+      'Failing to reject is not a finding',
+      'If the statistic stays short of the line, the data did not catch the '
+          'null out. That is all. It does not prove the null true, and an '
+          'answer that says the mean equals the claimed value is wrong however '
+          'right the decision beside it looks.',
     ),
   ],
-  figure: BriefFigure.decisionRule,
+  spoken: [
+    (
+      'Z-test',
+      r'z = \frac{\bar{x} - \mu_0}{\sigma / \sqrt{n}}',
+      'how far the sample mean sits from the claim, in standard errors',
+    ),
+    (
+      't-test',
+      r't = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}',
+      'the same, with s from the sample, on n minus one degrees of freedom',
+    ),
+    (
+      'The rule',
+      r'|\text{statistic}| > \text{critical} \;\Rightarrow\; \text{reject } H_0',
+      'past the line, reject',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 73',
 );
 
 const goodnessOfFitBrief = BriefSection(
   title: 'Every cell pays its own way',
-  body:
-      'Chi-square asks whether counts match a model. Work out what the model '
-      'expects in each category, then add up the gap SQUARED divided by that '
-      'expectation. The division is the whole point and it is the step the '
-      'exam watches for: a gap of ten where a hundred was expected is a small '
-      'surprise, and a gap of eight where twenty was expected is a large one. '
-      'Degrees of freedom are the number of categories less one, and bigger '
-      'means a worse fit.',
-  formulas: [
-    ('Chi-square', r'\chi^2 = \sum_{i=1}^{k} \frac{(O_i - E_i)^2}{E_i}'),
-    ('Degrees of freedom', r'v = k - 1'),
+  picture: goodnessOfFitPicture,
+  steps: [
     (
-      'So',
-      r'\frac{(60-50)^2}{50} = 2.0 \quad \text{but} \quad '
-          r'\frac{(28-20)^2}{20} = 3.2',
+      'Do the counts match the model',
+      'A model says each of four patterns should show up 50 times. You '
+          'counted 62, 45, 53 and 40. Chi-square asks whether those gaps are '
+          'bigger than chance would give.',
+    ),
+    (
+      'Each cell adds its own piece',
+      'For every category: the gap between counted and expected, squared, '
+          'then divided by what was expected. Add the pieces up. Bigger means '
+          'a worse fit.',
+    ),
+    (
+      'The division is the point',
+      'A gap of ten where a hundred was expected is a small surprise. A gap '
+          'of eight where twenty was expected is a big one. Dividing by the '
+          'expectation is what tells them apart, and it is the step the exam '
+          'watches for.',
+    ),
+    (
+      'Degrees of freedom',
+      'One less than the number of categories. Look the critical value up '
+          'on that row and apply the same rule as always: bigger means reject.',
     ),
   ],
-  figure: BriefFigure.goodnessOfFit,
+  spoken: [
+    (
+      'Chi-square',
+      r'\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}',
+      'for each cell, the gap squared over what was expected, all added',
+    ),
+    ('Degrees of freedom', r'v = k - 1', 'the number of categories, less one'),
+    (
+      'So',
+      r'\frac{(60-50)^2}{50} = 2.0 \quad \text{but} \quad \frac{(28-20)^2}{20} = 3.2',
+      'the smaller gap hurts more, because less was expected',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 75',
 );
 
@@ -9310,24 +9742,51 @@ const whatItIsBrief = BriefSection(
 
 const lawsBrief = BriefSection(
   title: 'Two questions before either rule',
-  body:
-      'Could both events happen at once? If not they are mutually exclusive, '
-      'there is no overlap, and their probabilities simply add. If they can, '
-      'the addition rule has to take the overlap back off, because adding them '
-      'straight counts it twice. Then the second question: does the first '
-      'happening change the odds of the second? If not they are independent '
-      'and you may multiply them straight out, and if it does you need the '
-      'conditional probability. Drawing without replacement is the commonest '
-      'way a problem quietly makes two events dependent. And exclusive and '
-      'independent are not two words for one idea: events that cannot both '
-      'happen are as dependent as events get, because one of them drops the '
-      'other to zero.',
-  formulas: [
-    ('Addition rule', r'P(A \cup B) = P(A) + P(B) - P(A \cap B)'),
-    ('Multiplication rule', r'P(A \cap B) = P(A)\,P(B \mid A)'),
-    ('If independent', r'P(B \mid A) = P(B)'),
+  picture: lawsPicture,
+  steps: [
+    (
+      'Can both happen at once',
+      'If two things can never happen together, like a coin landing heads '
+          'and tails, their circles do not overlap. The chance of one OR the '
+          'other is just the two chances added.',
+    ),
+    (
+      'If they can, take the overlap off',
+      'If both can happen, like rain and wind, the circles overlap. Adding '
+          'the two chances counts the overlap twice, so subtract it once.',
+    ),
+    (
+      'Does the first change the second',
+      'For the chance of one AND the other, ask whether the first happening '
+          'changes the odds of the second. If not, they are independent: '
+          'multiply the two chances. If it does, multiply by the chance of the '
+          'second GIVEN the first.',
+    ),
+    (
+      'Exclusive is not independent',
+      'Drawing cards without putting them back quietly makes events '
+          'dependent. And events that cannot both happen are as dependent as '
+          'they come: one of them drops the other to zero.',
+    ),
   ],
-  figure: BriefFigure.laws,
+  spoken: [
+    (
+      'Addition rule',
+      r'P(A \cup B) = P(A) + P(B) - P(A \cap B)',
+      'A or B: add them, take the overlap off once',
+    ),
+    (
+      'Multiplication rule',
+      r'P(A \cap B) = P(A)\,P(B \mid A)',
+      'A and B: the chance of A, times the chance of B given A',
+    ),
+    (
+      'If independent',
+      r'P(B \mid A) = P(B)',
+      'A changes nothing, so just multiply',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 105',
 );
 
