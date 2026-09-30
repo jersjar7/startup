@@ -7811,137 +7811,298 @@ const scalingBrief = BriefSection(
 );
 
 const bearingBrief = BriefSection(
-  title: 'Reading a bearing off a plan',
-  body:
-      'A bearing is an instruction rather than a number: face the letter it '
-      'starts with, turn that many degrees toward the letter it ends with, '
-      'and stop. N 52 E means stand facing north and swing 52 degrees toward '
-      'the east. Because it is measured off the nearer end of the meridian '
-      'it is never more than a right angle, which means the angle on its own '
-      'tells you almost nothing: the same 52 degrees appears in all four '
-      'quadrants and the two letters are what separate them. A bearing near '
-      '90 lies almost along the east and west line, and one near nothing '
-      'lies almost along the meridian. Read both halves before converting '
-      'anything.',
-  formulas: [
-    ('A bearing', r'\text{N or S}, \text{ angle} \le 90°, \text{ E or W}'),
-    ('The meridian', r'\text{north is up the sheet}'),
-    ('Back bearing', r'\text{same angle, both letters flipped}'),
+  title: 'A bearing is an instruction, not just a number',
+  picture: bearingPicture,
+  steps: [
+    (
+      'Face, then turn',
+      'N 52 E means stand facing north and swing 52 degrees toward the east. '
+          'The first letter says which way to face, the number says how far to '
+          'turn, the last letter says which way to turn.',
+    ),
+    (
+      'Never more than a quarter turn',
+      'The angle is always measured from the nearer end of the north and '
+          'south line, so it never passes 90. That is why the same 52 degrees '
+          'turns up in all four corners of the drawing.',
+    ),
+    (
+      'So the number alone tells you nothing',
+      'Read both letters before you do anything with the angle. A bearing '
+          'near 90 runs almost due east or west. A bearing near zero runs almost '
+          'along the north and south line.',
+    ),
+    (
+      'Turning round',
+      'Walk the line the other way and the angle is the same. Both letters '
+          'flip: N 52 E backwards is S 52 W.',
+    ),
   ],
-  figure: BriefFigure.bearing,
+  spoken: [
+    (
+      'A bearing',
+      r'\text{N or S}, \text{ angle} \le 90^\circ, \text{ E or W}',
+      'a letter, an angle no bigger than a quarter turn, then a letter',
+    ),
+    (
+      'The meridian',
+      r'\text{north is up the sheet}',
+      'north points up the page, the way every plan is drawn',
+    ),
+    (
+      'Back bearing',
+      r'\text{same angle, both letters flipped}',
+      'the same angle, with each letter swapped for its opposite',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const azimuthBrief = BriefSection(
   title: 'Bearing to azimuth, by the clock',
-  body:
-      'An azimuth is the whole turn clockwise from north, 0 to 360, so which '
-      'conversion applies is just a question of where the line sits in that '
-      'turn. North-east is reached first and its azimuth IS the bearing '
-      'angle. South-east stops short of due south, so it is 180 less the '
-      'angle. South-west has carried on past due south, so it is 180 plus '
-      'the angle, and this is the one the lesson warns about: taking it off '
-      '360 instead throws the line to the opposite corner of the sheet. '
-      'North-west is nearly the whole way round, so it is 360 less the '
-      'angle. Picture a clock face with north at twelve and the list is not '
-      'worth memorizing.',
-  formulas: [
-    ('NE', r'Az = \text{angle}'),
-    ('SE and SW', r'Az = 180° \mp \text{angle}'),
-    ('NW', r'Az = 360° - \text{angle}'),
+  picture: azimuthPicture,
+  steps: [
+    (
+      'One number instead of two letters',
+      'An azimuth is the whole turn clockwise from north, from 0 all the way '
+          'to 360. Think of a clock face with north at twelve. No letters, just '
+          'how far round you have gone.',
+    ),
+    (
+      'North and east comes first',
+      'A line into the north-east corner is reached before a quarter turn, '
+          'so its azimuth IS the bearing angle. Nothing to do.',
+    ),
+    (
+      'Past south, keep adding',
+      'South-east stops short of due south, so it is 180 minus the angle. '
+          'South-west has gone past due south, so it is 180 plus. Taking it off '
+          '360 instead throws the line to the opposite corner.',
+    ),
+    (
+      'North-west is nearly all the way round',
+      'It is 360 minus the angle. Picture the clock and you never have to '
+          'memorize the list.',
+    ),
   ],
-  figure: BriefFigure.azimuth,
+  spoken: [
+    (
+      'North and east',
+      r'Az = \text{angle}',
+      'the azimuth is the bearing angle itself',
+    ),
+    (
+      'South-east and south-west',
+      r'Az = 180^\circ \mp \text{angle}',
+      '180 minus the angle going east, 180 plus it going west',
+    ),
+    (
+      'North-west',
+      r'Az = 360^\circ - \text{angle}',
+      'a full turn minus the angle',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const shotBrief = BriefSection(
-  title: 'Three lengths out of one shot',
-  body:
-      'A shot up or down a slope makes a right triangle, and the three sides '
-      'are three different answers. The instrument measures along its line '
-      'of sight, and so does a tape dragged over the ground: that is the '
-      'slope distance, and it is the hypotenuse, so it is the longest of the '
-      'three every time. The plan wants the flat distance underneath it, '
-      'which is the slope distance times the cosine and therefore always '
-      'shorter. The upright at the far end is the difference in elevation, '
-      'the slope distance times the sine. Every wrong answer on the '
-      'lesson\'s own problem is one of these three swapped for another, and '
-      'a flat distance that comes out LONGER than the slope distance means '
-      'the cosine went underneath instead of on top.',
-  formulas: [
-    ('Flat, for the plan', r'HD = SD\cos\alpha'),
-    ('Upright, the elevation', r'VD = SD\sin\alpha'),
-    ('Always', r'HD \le SD'),
+  title: 'Three lengths come out of one shot',
+  picture: shotPicture,
+  steps: [
+    (
+      'Sighting up a hill makes a triangle',
+      'The instrument looks up the slope at a target. The line of sight, the '
+          'flat ground under it, and the height between the two ends make a right '
+          'triangle. Three sides, three different answers.',
+    ),
+    (
+      'What the instrument measures',
+      'It measures along its own line of sight, and so does a tape dragged '
+          'over the ground. That is the slope distance, the sloping side, and it '
+          'is the longest of the three every time.',
+    ),
+    (
+      'What the plan wants',
+      'A plan is drawn looking straight down, so it wants the flat distance '
+          'underneath. Cosine gives it, and it is always shorter than the slope '
+          'distance. Sine gives the height instead.',
+    ),
+    (
+      'The check that catches it',
+      'If your flat distance comes out LONGER than the slope distance, the '
+          'cosine went in the wrong place. The flat one can never win.',
+    ),
   ],
-  figure: BriefFigure.shot,
+  spoken: [
+    (
+      'Flat, for the plan',
+      r'HD = SD\cos\alpha',
+      'the slope distance times the cosine of the slope angle',
+    ),
+    (
+      'Upright, the elevation',
+      r'VD = SD\sin\alpha',
+      'the slope distance times the sine of the slope angle',
+    ),
+    (
+      'Always',
+      r'HD \le SD',
+      'the flat distance is never longer than the sloping one',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const sightBrief = BriefSection(
-  title: 'One level plane over the whole setup',
-  body:
-      'A level\'s line of sight is dead horizontal, so over one setup it is a '
-      'single flat plane hanging above the ground, and a rod reading is '
-      'nothing more than how far the ground at that rod sits below it. Two '
-      'things follow and both are worth more than the formula. The BIGGER '
-      'reading is the LOWER point, which catches most sign errors before '
-      'they happen. And two equal readings mean two points at the same '
-      'elevation, which is how a level checks a slab or a row of bases with '
-      'no arithmetic at all. The height of instrument is just where that '
-      'plane sits: add the backsight to the elevation you know, then take '
-      'the foresight off it to get the one you want.',
-  formulas: [
-    ('Up to the plane', r'HI = \text{Elev} + BS'),
-    ('Back down from it', r'\text{Elev} = HI - FS'),
-    ('The check', r'\text{bigger reading} \Rightarrow \text{lower ground}'),
+  title: 'One level plane hangs over the whole setup',
+  picture: sightPicture,
+  steps: [
+    (
+      'The line of sight is dead flat',
+      'A level looks out perfectly horizontally. Over one setup that line of '
+          'sight is a single flat plane hanging above the ground, like a sheet of '
+          'glass.',
+    ),
+    (
+      'A rod reading is a drop',
+      'Stand a rod on a point and read where the flat line crosses it. That '
+          'reading is nothing more than how far the ground there sits BELOW the '
+          'plane.',
+    ),
+    (
+      'So the bigger reading is the lower point',
+      'Further below the plane means a bigger number. This catches most sign '
+          'errors before they happen, and two equal readings mean two points at '
+          'the same height, with no arithmetic at all.',
+    ),
+    (
+      'The height of instrument is just that plane',
+      'Add the reading on a point you know to its elevation and you have the '
+          'height of the plane. Take the next reading off it to get the point you '
+          'want.',
+    ),
   ],
-  figure: BriefFigure.sightLine,
+  spoken: [
+    (
+      'Up to the plane',
+      r'HI = \text{Elev} + BS',
+      'the known elevation plus the reading on it',
+    ),
+    (
+      'Back down from it',
+      r'\text{Elev} = HI - FS',
+      'the plane, minus the reading on the new point',
+    ),
+    (
+      'The check',
+      r'\text{bigger reading} \Rightarrow \text{lower ground}',
+      'a bigger rod reading always means lower ground',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const runBrief = BriefSection(
-  title: 'Three kinds of point in a run',
-  body:
-      'Count the instruments that can see the rod and the bookkeeping tells '
-      'itself. One instrument, at the start: a backsight, taken on the only '
-      'elevation you already know, and added. One instrument, at the end: a '
-      'foresight, taken on the point you want, and subtracted. Two '
-      'instruments: a turning point, read forward from the old setup to fix '
-      'its elevation and then back from the new one to fix the new height of '
-      'instrument. That second reading is the part people drop, and dropping '
-      'it means carrying the old height of instrument forward, which is the '
-      'lesson\'s own trap and its 252.67. A run has exactly one backsight '
-      'point at the start, exactly one foresight point at the end, and a '
-      'turning point everywhere the level moved.',
-  formulas: [
-    ('Start', r'BS \text{ on a known point, added}'),
-    ('End', r'FS \text{ on the wanted point, subtracted}'),
-    ('Between', r'\text{turning point: FS then BS}'),
+  title: 'Three kinds of point in a level run',
+  picture: runPicture,
+  steps: [
+    (
+      'Count the setups that can see the rod',
+      'The level cannot see round a hill, so it gets moved. Which kind of '
+          'point you are looking at is decided by how many setups read it: one, '
+          'one, or two.',
+    ),
+    (
+      'The start and the end',
+      'The first point is read from one setup only, and it is the one '
+          'elevation you already know: that reading gets ADDED. The last point is '
+          'read from one setup only too, and it is the one you want: that reading '
+          'gets TAKEN OFF.',
+    ),
+    (
+      'The point in the middle',
+      'Where the level moves, one point is read twice: forward from the old '
+          'setup to fix its elevation, then back from the new setup to fix the '
+          'new plane. That is a turning point.',
+    ),
+    (
+      'The reading people drop',
+      'Forgetting the second reading means carrying the OLD plane forward '
+          'into the new setup, and every elevation after it is wrong.',
+    ),
   ],
-  figure: BriefFigure.runRoles,
+  spoken: [
+    (
+      'Start',
+      r'BS \text{ on a known point, added}',
+      'a backsight on the point you already know, added on',
+    ),
+    (
+      'End',
+      r'FS \text{ on the wanted point, subtracted}',
+      'a foresight on the point you want, taken off',
+    ),
+    (
+      'Between',
+      r'\text{turning point: FS then BS}',
+      'a turning point, read forward from one setup and back from the next',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
 const closureBrief = BriefSection(
-  title: 'What a loop may be out by',
-  body:
-      'Run a loop back to the benchmark it started from and the elevation '
-      'you compute will not be the elevation you started with. The gap is '
-      'the misclosure, and whether it is acceptable depends on two things: '
-      'the class of work, which sets the constant, and the length of the '
-      'run, which enters under a square root. That root is the part worth '
-      'remembering. Four times the distance is only twice the allowance, '
-      'because errors in a long run cancel as often as they pile up. Below a '
-      'mile it works the other way and tightens the allowance instead. A '
-      'tight constant on a long run can allow less than a loose one on a '
-      'short run, so work out both sides before deciding. If the misclosure '
-      'is bigger than the allowance, the run is done again.',
-  formulas: [
-    ('The gap', r'\text{misclosure} = \text{computed} - \text{known}'),
-    ('What is allowed', r'C\sqrt{M}'),
-    ('So', r'4M \Rightarrow 2\times \text{ the allowance}'),
+  title: 'What a loop is allowed to be out by',
+  picture: closurePicture,
+  steps: [
+    (
+      'Walk a loop and you miss',
+      'Level all the way round and back to the mark you started from. The '
+          'elevation you work out will not be the one you started with. The gap '
+          'is the misclosure.',
+    ),
+    (
+      'How much is allowed depends on two things',
+      'The class of work sets a constant, and the length of the run goes '
+          'under a SQUARE ROOT. Careful work gets a small constant, rough work a '
+          'bigger one.',
+    ),
+    (
+      'The square root is the point',
+      'Four times the distance is only TWICE the allowance. Over a long run '
+          'errors cancel as often as they pile up, so the slack grows slower than '
+          'the distance does.',
+    ),
+    (
+      'So work out both sides',
+      'A tight constant on a long run can allow less than a loose one on a '
+          'short run. If the gap is bigger than the allowance, the run is done '
+          'again.',
+    ),
   ],
-  figure: BriefFigure.closure,
+  spoken: [
+    (
+      'The gap',
+      r'\text{misclosure} = \text{computed} - \text{known}',
+      'what you worked out, minus what you started with',
+    ),
+    (
+      'What is allowed',
+      r'C\sqrt{M}',
+      'a constant for the class of work, times the square root of the miles',
+    ),
+    (
+      'So',
+      r'4M \Rightarrow 2\times \text{ the allowance}',
+      'four times the distance buys only twice the slack',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 309',
 );
 
