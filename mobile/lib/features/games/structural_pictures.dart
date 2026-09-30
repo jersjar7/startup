@@ -7,6 +7,8 @@
 // ConceptPicture and ConceptPair tiles. The few painters that exist only
 // here draw a comparison no game in the chapter needed to draw.
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -253,18 +255,25 @@ Widget unitLoadPicture() => const ConceptPicture(
   height: 210,
 );
 
-Widget termSignPicture() => const ConceptPair(
-  left: ContributionPainter(
-    term: Contribution(member: 1, real: 50, virt: 0.5),
-    answered: true,
-  ),
-  right: ContributionPainter(
-    term: Contribution(member: 1, real: -50, virt: 0.5),
-    answered: true,
-  ),
-  leftCaption: 'both pulling: the term adds',
-  rightCaption: 'one pulling, one pushing: the term takes away',
-  height: 200,
+Widget termSignPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: _AgreePainter(),
+      caption:
+          'two pulls on the same bar. pulling the same way they help each '
+          'other; opposite ways they fight',
+      height: 200,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: ContributionPainter(
+        term: Contribution(member: 1, real: 50, virt: 0.5),
+        answered: true,
+      ),
+      caption: 'in the sum: both pulling, so this term adds',
+      height: 190,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -381,6 +390,16 @@ Widget shapesPicture() => Column(
       caption:
           'a shear at a spot: two slopes with a step of exactly 1 between them',
       height: 130,
+    ),
+    const SizedBox(height: 10),
+    // The step is the one feature of the three that decides answers, and at
+    // the scale above it is a few pixels. This is that step, close up.
+    const ConceptPicture(
+      painter: _StepZoomPainter(),
+      caption:
+          'the step, close up. walk the load past the spot and the shear '
+          'flips, and the drop from one side to the other is exactly 1',
+      height: 190,
     ),
   ],
 );
@@ -576,12 +595,24 @@ Widget netAreaPicture() => const ConceptPicture(
   height: 190,
 );
 
-Widget shearLagPicture() => const ConceptPair(
-  left: GripPainter(grip: Grip.allOfIt, answered: true),
-  right: GripPainter(grip: Grip.oneLeg, answered: true),
-  leftCaption: 'bolted right across: every bit of steel pulls its share',
-  rightCaption: 'bolted through one leg: the far side has not joined in yet',
-  height: 210,
+Widget shearLagPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: _TowelPainter(),
+      caption:
+          'pull a towel by one corner. near your hand it is taut; the far '
+          'corner hangs slack, because the pull has not spread across yet',
+      height: 200,
+    ),
+    SizedBox(height: 12),
+    ConceptPair(
+      left: GripPainter(grip: Grip.allOfIt, answered: true),
+      right: GripPainter(grip: Grip.oneLeg, answered: true),
+      leftCaption: 'bolted right across: every bit of steel pulls its share',
+      rightCaption: 'bolted through one leg: the far side is the slack corner',
+      height: 210,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -667,12 +698,38 @@ class _TwoRoutesPainter extends CustomPainter {
       final s = _text(strengthLabel, size: 10.5, color: AppColors.charcoal);
       s.paint(canvas, Offset(left, strengthTop + 27));
 
-      // the gap between them is the margin
-      canvas.drawLine(
-        Offset(left + wide * loadShare + 6, loadTop + 11),
-        Offset(left + wide * strengthShare - 6, strengthTop + 11),
-        _stroke(AppColors.ink3, 1.5),
+      // The gap between where the load ends and where the strength ends IS
+      // the margin, and it is the subject of the sheet, so it is shaded and
+      // named rather than left as a hairline nobody notices.
+      final loadEnd = left + wide * loadShare;
+      final strengthEnd = left + wide * strengthShare;
+      final bandTop = loadTop + 46;
+      final bandBottom = strengthTop - 6;
+      canvas.drawRect(
+        Rect.fromLTRB(loadEnd, bandTop, strengthEnd, bandBottom),
+        _fill(AppColors.forest.withValues(alpha: 0.20)),
       );
+      for (final x in [loadEnd, strengthEnd]) {
+        canvas.drawLine(
+          Offset(x, bandTop),
+          Offset(x, bandBottom),
+          _stroke(AppColors.forest, 1.8),
+        );
+      }
+      // Named down the band itself: the gap is narrow, so a horizontal label
+      // would either overflow it or land on a bar.
+      final gap = _text(
+        'margin',
+        size: 8.5,
+        color: AppColors.forest,
+        bold: true,
+      );
+      canvas
+        ..save()
+        ..translate((loadEnd + strengthEnd) / 2, (bandTop + bandBottom) / 2)
+        ..rotate(-math.pi / 2);
+      gap.paint(canvas, Offset(-gap.width / 2, -gap.height / 2));
+      canvas.restore();
     }
 
     route(0, 'LRFD', 'loads pushed UP', 0.62, 'strength cut down', 0.86);
@@ -897,3 +954,247 @@ const structuralPictures = <String, Widget Function()>{
   'net': netAreaPicture,
   'lag': shearLagPicture,
 };
+
+/// Two pulls on one bar. Whether they agree is the whole of the sign rule,
+/// and agreeing or fighting is something a reader can see without knowing
+/// what virtual work is.
+class _AgreePainter extends CustomPainter {
+  const _AgreePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final each = size.width / 2;
+
+    /// One bar with a pair of arrows on it: outward is a pull, inward a push.
+    void bar(double left, double right, double y, bool pulling, Color tone) {
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTRB(left + 22, y - 6, right - 22, y + 6),
+          const Radius.circular(3),
+        ),
+        _fill(AppColors.charcoal),
+      );
+      void arrow(double from, double to) {
+        canvas.drawLine(Offset(from, y), Offset(to, y), _stroke(tone, 2.6));
+        final way = to > from ? 1 : -1;
+        final head = Path()
+          ..moveTo(to, y)
+          ..lineTo(to - way * 8, y - 4.5)
+          ..lineTo(to - way * 8, y + 4.5)
+          ..close();
+        canvas.drawPath(head, _fill(tone));
+      }
+
+      if (pulling) {
+        arrow(left + 22, left + 2);
+        arrow(right - 22, right - 2);
+      } else {
+        arrow(left + 2, left + 22);
+        arrow(right - 2, right - 22);
+      }
+    }
+
+    void panel(double x0, bool agree) {
+      final mid = x0 + each / 2;
+      final left = x0 + 14;
+      final right = x0 + each - 14;
+
+      final head = _text(
+        agree ? 'they agree' : 'they fight',
+        size: 12.5,
+        color: AppColors.charcoal,
+        bold: true,
+      );
+      head.paint(canvas, Offset(mid - head.width / 2, size.height * 0.05));
+
+      // The SAME bar under each load in turn. Agreeing means the two arrows
+      // point the same way, which is something a reader can simply see.
+      for (final (i, label, pulling, tone) in [
+        (0, 'real load: pulls', true, AppColors.ember),
+        (
+          1,
+          agree ? 'pretend load: pulls too' : 'pretend load: pushes',
+          agree,
+          AppColors.info,
+        ),
+      ]) {
+        final y = size.height * (0.34 + i * 0.26);
+        bar(left, right, y, pulling, tone);
+        final t = _text(label, size: 9, color: AppColors.ink3);
+        t.paint(canvas, Offset(mid - t.width / 2, y + 12));
+      }
+
+      final verdict = _text(
+        agree ? 'the term ADDS' : 'the term TAKES AWAY',
+        size: 11,
+        color: agree ? AppColors.forest : AppColors.error,
+        bold: true,
+      );
+      verdict.paint(
+        canvas,
+        Offset(mid - verdict.width / 2, size.height * 0.84),
+      );
+    }
+
+    panel(0, true);
+    panel(each, false);
+    canvas.drawLine(
+      Offset(each, size.height * 0.04),
+      Offset(each, size.height * 0.96),
+      _stroke(AppColors.ink3.withValues(alpha: 0.4), 1),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_AgreePainter old) => false;
+}
+
+/// The shear influence line's step, close up. On the full span it is a few
+/// pixels tall, and it is the feature that decides answers.
+class _StepZoomPainter extends CustomPainter {
+  const _StepZoomPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.12;
+    final right = size.width * 0.88;
+    final spot = (left + right) / 2;
+    final zero = size.height * 0.52;
+    final unit = size.height * 0.26;
+
+    // the baseline and the spot the shear is taken at
+    canvas.drawLine(
+      Offset(left, zero),
+      Offset(right, zero),
+      _stroke(AppColors.ink3, 1.2),
+    );
+    canvas.drawLine(
+      Offset(spot, zero - unit - 14),
+      Offset(spot, zero + unit + 14),
+      _stroke(AppColors.ink3.withValues(alpha: 0.5), 1),
+    );
+
+    // the two slopes either side, and the step between them
+    final belowAtSpot = zero + unit * 0.62;
+    final aboveAtSpot = belowAtSpot - unit;
+    canvas
+      ..drawLine(
+        Offset(left, zero),
+        Offset(spot, belowAtSpot),
+        _stroke(AppColors.info, 3),
+      )
+      ..drawLine(
+        Offset(spot, aboveAtSpot),
+        Offset(right, zero),
+        _stroke(AppColors.info, 3),
+      )
+      ..drawCircle(Offset(spot, belowAtSpot), 3.5, _fill(AppColors.info))
+      ..drawCircle(Offset(spot, aboveAtSpot), 3.5, _fill(AppColors.info));
+
+    // the step itself, bracketed and named
+    final x = spot + 26;
+    canvas
+      ..drawLine(
+        Offset(x, aboveAtSpot),
+        Offset(x, belowAtSpot),
+        _stroke(AppColors.ember, 2.4),
+      )
+      ..drawLine(
+        Offset(x - 6, aboveAtSpot),
+        Offset(x + 6, aboveAtSpot),
+        _stroke(AppColors.ember, 2.4),
+      )
+      ..drawLine(
+        Offset(x - 6, belowAtSpot),
+        Offset(x + 6, belowAtSpot),
+        _stroke(AppColors.ember, 2.4),
+      );
+    final one = _text('1', size: 20, color: AppColors.ember, bold: true);
+    one.paint(canvas, Offset(x + 12, (aboveAtSpot + belowAtSpot) / 2 - 12));
+    final exactly = _text('exactly', size: 9.5, color: AppColors.ember);
+    exactly.paint(canvas, Offset(x + 12, (aboveAtSpot + belowAtSpot) / 2 + 10));
+
+    for (final (at, label) in [
+      (left + (spot - left) / 2, 'load left of the spot'),
+      (spot + (right - spot) / 2, 'load right of it'),
+    ]) {
+      final t = _text(label, size: 9, color: AppColors.ink3);
+      t.paint(canvas, Offset(at - t.width / 2, size.height * 0.90));
+    }
+    final here = _text('the spot', size: 9.5, color: AppColors.charcoal);
+    here.paint(canvas, Offset(spot - here.width / 2, size.height * 0.06));
+  }
+
+  @override
+  bool shouldRepaint(_StepZoomPainter old) => false;
+}
+
+/// A towel pulled by one corner: taut where the hand is, slack at the far
+/// corner. That is shear lag, before any steel is mentioned.
+class _TowelPainter extends CustomPainter {
+  const _TowelPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.26;
+    final right = size.width * 0.80;
+    final top = size.height * 0.24;
+    final bottom = size.height * 0.76;
+
+    // the cloth
+    final cloth = Rect.fromLTRB(left, top, right, bottom);
+    canvas
+      ..drawRect(cloth, _fill(AppColors.creamDark))
+      ..drawRect(cloth, _stroke(AppColors.charcoal, 1.8));
+
+    // how hard each thread is working, fading away from the held corner
+    const threads = 7;
+    for (var k = 0; k < threads; k++) {
+      final t = k / (threads - 1);
+      final y = top + (bottom - top) * (0.10 + 0.80 * t);
+      final pull = 1.0 - t;
+      canvas.drawLine(
+        Offset(left + 6, y),
+        Offset(right - 6, y),
+        _stroke(
+          AppColors.ember.withValues(alpha: 0.18 + 0.72 * pull),
+          1.0 + 3.0 * pull,
+        ),
+      );
+    }
+
+    // the hand pulling one corner
+    final grip = Offset(left, top + (bottom - top) * 0.10);
+    canvas.drawCircle(grip, 7, _fill(AppColors.charcoal));
+    canvas.drawLine(
+      Offset(grip.dx - 8, grip.dy),
+      Offset(size.width * 0.06, grip.dy),
+      _stroke(AppColors.charcoal, 3),
+    );
+    final head = Path()
+      ..moveTo(size.width * 0.04, grip.dy)
+      ..lineTo(size.width * 0.04 + 10, grip.dy - 5)
+      ..lineTo(size.width * 0.04 + 10, grip.dy + 5)
+      ..close();
+    canvas.drawPath(head, _fill(AppColors.charcoal));
+
+    final taut = _text(
+      'taut: doing the work',
+      size: 9.5,
+      color: AppColors.ember,
+      bold: true,
+    );
+    taut.paint(canvas, Offset(left + 10, top - 15));
+    final slack = _text(
+      'slack: barely joined in',
+      size: 9.5,
+      color: AppColors.ink3,
+    );
+    slack.paint(canvas, Offset(left + 10, bottom + 6));
+    final pull = _text('you pull here', size: 9.5, color: AppColors.charcoal);
+    pull.paint(canvas, Offset(size.width * 0.04, grip.dy - 20));
+  }
+
+  @override
+  bool shouldRepaint(_TowelPainter old) => false;
+}
