@@ -11849,127 +11849,252 @@ const flangeBrief = BriefSection(
 );
 
 const axisBrief = BriefSection(
-  title: 'Each axis brings its own length',
-  body:
-      'That a bare column folds about its weak axis is a mechanics of '
-      'materials idea and it holds only while both directions are held the '
-      'same way. In a real frame they rarely are: a wall or a beam catches '
-      'the column partway up in ONE direction and does nothing in the other. '
-      'A brace shortens the free length for the axis it is fitted to and for '
-      'no other, so the two directions have to be worked out separately, each '
-      'with its own radius and its own length, and the LARGER of the two '
-      'slendernesses decides the column. Halving the shallow length divides '
-      'that slenderness by two, so the deep way takes over only when its '
-      'radius is less than twice the shallow one. Stocky shapes chosen as '
-      'columns usually are; deep shapes chosen as beams are not. And once the '
-      'deep way has taken over, further bracing the shallow way buys nothing '
-      'at all.',
-  formulas: [
-    ('Each axis', r'\frac{K L}{r} \text{ with its own } L \text{ and } r'),
-    ('Which wins', r'\text{the larger ratio}'),
-    ('One brace', r'\text{halves } L \text{ for that axis only}'),
+  title: 'Each direction brings its own free length',
+  picture: axisPicture,
+  steps: [
+    (
+      'A bare column folds the shallow way',
+      'Stand a ruler on end and press. It bows the easy way, across its thin '
+          'direction. That is true as long as nothing is holding it, and it is '
+          'where most people stop.',
+    ),
+    (
+      'Real buildings hold columns unevenly',
+      'A wall or a beam catches a column partway up in ONE direction and '
+          'does nothing in the other. A brace shortens the free length for its '
+          'own direction and for no other.',
+    ),
+    (
+      'So work out both, separately',
+      'Each direction gets its own free length and its own thickness '
+          'measure. Whichever comes out with the bigger ratio is the one that '
+          'decides the column.',
+    ),
+    (
+      'Which means bracing can stop helping',
+      'Halving the shallow free length halves that ratio. Do it enough and '
+          'the deep direction takes over, and further bracing the shallow way '
+          'buys nothing at all.',
+    ),
   ],
-  figure: BriefFigure.whichAxis,
+  spoken: [
+    (
+      'Each direction',
+      r'\frac{K L}{r}',
+      'its own free length, over its own thickness measure',
+    ),
+    (
+      'Which one decides',
+      r'\text{the larger ratio}',
+      'the column folds whichever way is slenderest',
+    ),
+    (
+      'One brace',
+      r'\text{halves } L \text{ for that direction only}',
+      'it does nothing for the other way',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, steel columns',
 );
 
 const tableBrief3 = BriefSection(
-  title: 'The table has done the hard part',
-  body:
-      'Two formulas give the critical stress, one for columns stocky enough '
-      'to squash partly before they go and one for those that buckle while '
-      'still elastic, and the exam does not want either worked out: the '
-      'column table gives a DESIGN stress directly for any slenderness, with '
-      'the resistance factor already inside it. So the whole calculation is '
-      'that stress times the gross area, and applying 0.90 a second time '
-      'takes another tenth off a column that has already paid. Two things are '
-      'worth carrying beside it. The yield stress times the area is the '
-      'squash load, the answer for a column of no length at all, and it is '
-      'the wrong answer offered most often. And once a column is slender '
-      'enough to buckle elastically, the stress it goes at depends on '
-      'STIFFNESS rather than strength, so a higher grade of steel buys '
-      'nothing: a stockier shape or another brace is what helps.',
-  formulas: [
-    ('The whole of it', r'\phi_c P_n = (\phi_c F_{cr}) A_g'),
-    ('Zero length', r'F_y A_g'),
-    ('Elastic branch', r'F_e = \frac{\pi^2 E}{(KL/r)^2}'),
+  title: 'The table has already done the hard part',
+  picture: columnTablePicture,
+  steps: [
+    (
+      'There are two formulas, and you need neither',
+      'One covers stocky columns that partly squash before they go, the '
+          'other slender ones that bow while still springy. The exam does not '
+          'want either worked out.',
+    ),
+    (
+      'Look the slenderness up instead',
+      'The column table takes how slender the column is and hands back a '
+          'design stress directly. Multiply by the area of the column and you '
+          'are finished.',
+    ),
+    (
+      'The safety factor is already inside it',
+      'That is the trap. Apply the 0.90 again and you take another tenth off '
+          'a column that has already paid. The table stress is a design number, '
+          'not a raw one.',
+    ),
+    (
+      'Two answers worth recognizing',
+      'The yield stress times the area is the squash load, which is the '
+          'answer for a column of no length, and the wrong answer offered most '
+          'often. And once a column is slender, a stronger grade of steel buys '
+          'nothing: bowing depends on stiffness, not strength.',
+    ),
   ],
-  figure: BriefFigure.columnTable,
+  spoken: [
+    (
+      'The whole of it',
+      r'\phi_c P_n = (\phi_c F_{cr}) A_g',
+      'the design stress from the table, times the area of the column',
+    ),
+    (
+      'A column of no length',
+      r'F_y A_g',
+      'the squash load, which no real column reaches',
+    ),
+    (
+      'The slender branch',
+      r'F_e = \frac{\pi^2 E}{(KL/r)^2}',
+      'depends on stiffness, so a stronger steel does not help',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, steel columns',
 );
 
 const twoLimitsBrief = BriefSection(
-  title: 'Two ways to lose a tension member',
-  body:
-      'A member in tension has two limit states and both are always checked, '
-      'with the smaller design strength deciding what the member is worth. '
-      'YIELDING is the whole bar stretching, so it uses the GROSS area with '
-      'nothing taken off for holes, the yield stress, and a factor of 0.90: a '
-      'few inches of steel yielding beside a bolt hole does not lose anybody '
-      'a building, so the check is made on the section that represents most '
-      'of the length. RUPTURE is a tear across one cross-section, so it uses '
-      'the EFFECTIVE NET area through the line of holes, the ultimate stress, '
-      'and a factor of 0.75, the smaller factor because a fracture arrives '
-      'without warning. The ultimate stress is well above the yield stress, '
-      'which makes people assume yielding always wins; it does not, because '
-      'the holes take area away and the factor is lower, and the two together '
-      'usually swallow the difference.',
-  formulas: [
-    ('Yielding', r'\phi P_n = 0.90 F_y A_g'),
-    ('Rupture', r'\phi P_n = 0.75 F_u A_e'),
-    ('The member', r'\min \text{ of the two}'),
+  title: 'Two ways to lose a bar in tension',
+  picture: twoLimitsPicture,
+  steps: [
+    (
+      'Pull hard on a bolted steel bar',
+      'It can fail in two quite different ways, and both have to be checked. '
+          'Whichever gives the smaller answer is what the bar is worth.',
+    ),
+    (
+      'The whole bar stretches out',
+      'This one uses the FULL width with nothing taken off for holes, '
+          'because a few inches of steel yielding beside a bolt does not lose '
+          'anybody a building. It keeps 90 percent.',
+    ),
+    (
+      'Or it tears straight across the holes',
+      'This one uses only the steel left between the holes, and the higher '
+          'breaking stress. It keeps just 75 percent, because a tear arrives '
+          'with no warning.',
+    ),
+    (
+      'Do not assume the first one wins',
+      'The breaking stress is well above the yield stress, so stretching '
+          'looks like the obvious answer. But the holes take area away and the '
+          'factor is lower, and those two together usually swallow the '
+          'difference.',
+    ),
   ],
-  figure: BriefFigure.twoLimits,
+  spoken: [
+    (
+      'Stretching',
+      r'\phi P_n = 0.90 F_y A_g',
+      'ninety percent, on the full area and the yield stress',
+    ),
+    (
+      'Tearing',
+      r'\phi P_n = 0.75 F_u A_e',
+      'seventy-five percent, on the area left between the holes and the breaking stress',
+    ),
+    (
+      'The bar is worth',
+      r'\min \text{ of the two}',
+      'whichever answer comes out smaller',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, tension members',
 );
 
 const netAreaBrief = BriefSection(
-  title: 'The hole is bigger than the bolt',
-  body:
-      'Three sentences cover the net area and each of them is a wrong answer '
-      'somewhere. First, a hole costs the bolt diameter PLUS an eighth of an '
-      'inch: a sixteenth so the bolt goes in and another sixteenth written '
-      'off because punching tears the steel at the edge. A seven-eighths bolt '
-      'therefore costs a full inch of width. Second, the allowance comes off '
-      'the WIDTH, and the reduced width is multiplied by the thickness '
-      'afterward, so the same bolt costs more area in a thicker plate; '
-      'subtracting it from the area instead is wrong by a factor of the '
-      'thickness. Third, only the holes lying on ONE cross-section come off '
-      'that section, so bolts strung out along the line of pull do not add '
-      'up, which is much of why connections are made long rather than wide. '
-      'None of this touches the gross area that the yielding check uses.',
-  formulas: [
-    ('Each hole', r'd_b + \tfrac{1}{8}\text{ in}'),
-    ('The net area', r'A_n = \left[b_g - \Sigma(d_b + \tfrac{1}{8})\right] t'),
-    ('Where it applies', r'\text{the rupture check only}'),
+  title: 'The hole costs more width than the bolt fills',
+  picture: netAreaPicture,
+  steps: [
+    (
+      'The hole is drilled bigger than the bolt',
+      'A sixteenth of an inch of slack so the bolt actually goes in, and '
+          'another sixteenth written off because punching tears the steel at the '
+          'edge. So a hole costs the bolt size plus an eighth.',
+    ),
+    (
+      'A seven-eighths bolt costs a full inch',
+      'That is the arithmetic in one line, and it is the number most often '
+          'got wrong by forgetting the extra eighth.',
+    ),
+    (
+      'It comes off the WIDTH, not the area',
+      'Subtract the holes from the width first, then multiply by the '
+          'thickness. Take them off the area instead and you are wrong by a '
+          'factor of the thickness.',
+    ),
+    (
+      'Only holes on the same line across count',
+      'Bolts strung out ALONG the pull are on different cross-sections, so '
+          'they do not add up. That is much of why connections are made long '
+          'rather than wide.',
+    ),
   ],
-  figure: BriefFigure.netArea,
+  spoken: [
+    (
+      'Each hole costs',
+      r'd_b + \tfrac{1}{8}\text{ in}',
+      'the bolt diameter plus an eighth of an inch',
+    ),
+    (
+      'The area left',
+      r'A_n = \left[b_g - \Sigma(d_b + \tfrac{1}{8})\right] t',
+      'the width less the holes, all times the thickness',
+    ),
+    (
+      'Where it is used',
+      r'\text{the tearing check only}',
+      'the stretching check still uses the full area',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, tension members',
 );
 
 const shearLagBrief = BriefSection(
-  title: 'Load needs room to spread',
-  body:
-      'When a member is connected through only part of its section, the load '
-      'arrives in the connected part and has to work its way across into the '
-      'rest, and that takes LENGTH. Right at the critical section the '
-      'spreading has hardly begun, so the far-off parts are not yet pulling '
-      'their share and the whole net area is not really working. The factor U '
-      'is how much of it is, and the effective net area is U times the net '
-      'area. Bolted right across the width, as a flat bar is, U is one and '
-      'there is nothing to allow for. Through one leg of an angle, or through '
-      'the flanges of a W with the web left out, U is less than one. The fix '
-      'is a LONGER connection, since U is one less the distance out to the '
-      'centroid divided by the connection length. Bigger bolts do not help: '
-      'their holes take more area away. And the whole idea belongs to the '
-      'rupture check, never to yielding, which happens far from the '
-      'connection where the load has long since spread itself out.',
-  formulas: [
-    ('Effective', r'A_e = U A_n'),
-    ('The factor', r'U = 1 - \bar{x}/L'),
-    ('A flat bar', r'U = 1.0'),
+  title: 'Load needs room to spread across',
+  picture: shearLagPicture,
+  steps: [
+    (
+      'Grab a towel by one corner and pull',
+      'The corner you are holding takes nearly all of it. The far corner '
+          'hangs there doing almost nothing, because the pull has not had room '
+          'to spread across yet.',
+    ),
+    (
+      'Steel does the same',
+      'Bolt an angle through one leg only and the load arrives in that leg. '
+          'Right at the connection the other leg has barely joined in, so the '
+          'whole area is not really working.',
+    ),
+    (
+      'That is what the factor U is for',
+      'U says how much of the area is genuinely pulling. Bolted right across '
+          'the width, like a flat bar, U is 1 and there is nothing to allow for. '
+          'Through one leg it is less.',
+    ),
+    (
+      'A longer connection fixes it, bigger bolts do not',
+      'More length gives the load more room to spread, and U climbs toward '
+          '1. Bigger bolts just take more area away. And this belongs to the '
+          'tearing check only, never to stretching.',
+    ),
   ],
-  figure: BriefFigure.shearLag,
+  spoken: [
+    (
+      'What is really working',
+      r'A_e = U A_n',
+      'the area between the holes, times how much of it has joined in',
+    ),
+    (
+      'The factor',
+      r'U = 1 - \bar{x}/L',
+      'one less the reach out to the middle, over the connection length',
+    ),
+    (
+      'A flat bar bolted across',
+      r'U = 1.0',
+      'all of it pulling, nothing to allow for',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, tension members',
 );
 
