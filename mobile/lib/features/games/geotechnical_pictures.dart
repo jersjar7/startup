@@ -12,10 +12,14 @@
 
 import 'package:flutter/material.dart';
 
+import 'bearing_figures.dart';
 import 'consolidation_figures.dart';
 import 'effective_stress_figures.dart';
 import 'mechanics_pictures.dart' show ConceptPicture, ConceptPair;
 import 'phase_figures.dart';
+import 'seepage_figures.dart';
+import 'shear_strength_figures.dart';
+import 'slope_figures.dart';
 import 'soil_class_figures.dart';
 
 /// Two drawings one above the other, full width. The painters in this
@@ -226,6 +230,158 @@ Widget drainagePicture() => const ConceptPair(
   height: 210,
 );
 
+// ---------------------------------------------------------------------------
+// Shear strength
+
+const _cleanSand = Failure(cohesion: 0, friction: 34);
+const _fastClay = Failure(cohesion: 1200, friction: 0);
+
+Widget mohrCoulombPicture() => _stack(
+  const EnvelopePainter(failure: _cleanSand, answered: true),
+  'a clean sand: the line starts at nothing and climbs as the grains are pressed',
+  const EnvelopePainter(failure: _fastClay, answered: true),
+  'a clay loaded fast: a flat line, the same strength however hard you press',
+  height: 190,
+);
+
+Widget drainedPicture() => _stack(
+  const EnvelopePainter(
+    failure: Failure(cohesion: 100, friction: 28),
+    answered: true,
+  ),
+  'the slow set: a small constant and a slope, used with what the grains feel',
+  const EnvelopePainter(failure: _fastClay, answered: true),
+  'the fast set: one number, no slope, used with the whole weight above',
+  height: 190,
+);
+
+// A cell of 4000 with 8000 more on top makes a circle centered on 8000 with
+// a radius of 4000, which touches a line through the origin at 30 degrees
+// exactly. Drawn against any other angle the picture would be a lie.
+Widget mohrCirclePicture() => const ConceptPicture(
+  painter: EnvelopePainter(
+    failure: Failure(cohesion: 0, friction: 30),
+    test: Triaxial(cell: 4000, deviator: 8000),
+    answered: true,
+  ),
+  caption:
+      'one test drawn as a circle. It touches the line at the plane that gave way',
+  height: 230,
+);
+
+// ---------------------------------------------------------------------------
+// Seepage
+
+const _net = FlowNet(channels: 4, drops: 12, head: 6, k: 2e-5);
+const _boiling = Quick(gs: 2.70, voidRatio: 0.85, exitGradient: 0.92);
+
+Widget flowNetPicture() => const ConceptPicture(
+  painter: FlowNetPainter(net: _net, answered: true),
+  caption:
+      'water goes under the wall. Count the lanes across, and the steps along',
+  height: 240,
+);
+
+Widget quickPicture() => const ConceptPicture(
+  painter: BoilPainter(quick: _boiling, answered: true),
+  caption:
+      'water climbing through sand, and what the grains are left pressing with',
+  height: 230,
+);
+
+// ---------------------------------------------------------------------------
+// Slopes
+
+const _drySlope = Bank(slopeAngle: 20, friction: 34);
+const _wetSlope = Bank(slopeAngle: 20, friction: 34, seeping: true);
+const _wedge = Wedge2(
+  cohesionForce: 120,
+  weight: 400,
+  slipAngle: 25,
+  friction: 20,
+);
+
+Widget infiniteSlopePicture() => const ConceptPicture(
+  painter: BankPainter(bank: _drySlope, answered: true),
+  caption: 'a dry sand slope. Its own angle against the angle it can hold',
+  height: 210,
+);
+
+Widget seepageSlopePicture() => _stack(
+  const BankPainter(bank: _drySlope, answered: true),
+  'the same slope dry: it stands, comfortably',
+  const BankPainter(bank: _wetSlope, answered: true),
+  'the same slope with rain running through it: it goes',
+  height: 195,
+);
+
+Widget wedgePicture() => const ConceptPicture(
+  painter: WedgePainter(wedge: _wedge, answered: true),
+  caption:
+      'a block on a sloping surface. Its weight both drives it and holds it on',
+  height: 230,
+);
+
+// ---------------------------------------------------------------------------
+// Bearing capacity
+
+const _mixedFooting = Footing(
+  width: 5,
+  depth: 3,
+  cohesion: 500,
+  unitWeight: 115,
+  nc: 14.83,
+  nq: 6.40,
+  nGamma: 3.54,
+);
+const _onSurface = Footing(
+  width: 4,
+  depth: 0,
+  cohesion: 0,
+  unitWeight: 120,
+  nc: 30.14,
+  nq: 18.40,
+  nGamma: 15.07,
+);
+const _buried = Footing(
+  width: 4,
+  depth: 3,
+  cohesion: 0,
+  unitWeight: 120,
+  nc: 30.14,
+  nq: 18.40,
+  nGamma: 15.07,
+);
+const _clayFooting = Footing(
+  width: 6,
+  depth: 3,
+  cohesion: 1500,
+  unitWeight: 115,
+  nc: 5.14,
+  nq: 1,
+  nGamma: 0,
+);
+
+Widget terzaghiPicture() => const ConceptPicture(
+  painter: FootingPainter(footing: _mixedFooting, answered: true),
+  caption: 'a footing in the ground, and the three things holding it up',
+  height: 240,
+);
+
+Widget footingFixPicture() => _stack(
+  const FootingPainter(footing: _onSurface, answered: true),
+  'a sand footing laid on the surface: the depth term is gone',
+  const FootingPainter(footing: _buried, answered: true),
+  'the same footing buried 3 feet: soil beside it now has to be shifted too',
+  height: 210,
+);
+
+Widget allowablePicture() => const ConceptPicture(
+  painter: FootingPainter(footing: _clayFooting, answered: true),
+  caption: 'the pressure this ground FAILS at. Nobody builds to that number',
+  height: 240,
+);
+
 /// Every picture on this chapter's sheets, by the contact sheet's card name.
 const geotechnicalPictures = <String, Widget Function()>{
   'diagram': phasePicture,
@@ -240,4 +396,15 @@ const geotechnicalPictures = <String, Widget Function()>{
   'cases': casePicture,
   'memory': memoryPicture,
   'time': drainagePicture,
+  'terms': mohrCoulombPicture,
+  'drained': drainedPicture,
+  'circle': mohrCirclePicture,
+  'net': flowNetPicture,
+  'quick': quickPicture,
+  'dry': infiniteSlopePicture,
+  'wet': seepageSlopePicture,
+  'wedge': wedgePicture,
+  'terzaghi': terzaghiPicture,
+  'fix': footingFixPicture,
+  'allowable': allowablePicture,
 };
