@@ -5476,7 +5476,7 @@ const flightBrief = BriefSection(
     ),
     (
       'Two things people say that are wrong',
-      'The ball does not stop at the top: it is still travelling across. And '
+      'The ball does not stop at the top: it is still traveling across. And '
           'gravity is not weaker up there: it pulls just as hard as it did at the '
           'start.',
     ),
@@ -5564,7 +5564,7 @@ const spinBrief = BriefSection(
     (
       'But not one speed',
       'A dot near the rim has a much bigger circle to get round in that same '
-          'time, so it is travelling faster. A dot near the middle strolls.',
+          'time, so it is traveling faster. A dot near the middle strolls.',
     ),
     (
       'Twice as far out, twice as fast',
@@ -5880,7 +5880,7 @@ const cancelBrief = BriefSection(
     ),
     (
       'Does not cancel',
-      r'T = \tfrac{1}{2}mv^2, \quad P = \dot{m}gh',
+      r'T = \tfrac{1}{2}mv^2, \quad P = \frac{mgh}{t}',
       'the energy carried, and the power to lift, both grow with the mass',
     ),
     (
@@ -6085,8 +6085,8 @@ const impulseBrief = BriefSection(
     ),
     (
       'So a longer stop',
-      r'\Delta t \uparrow \Rightarrow F \downarrow',
-      'more time to stop means less force, for the same change in momentum',
+      r'F = \frac{m\,\Delta v}{\Delta t}',
+      'the same change in momentum over more time is a smaller force',
     ),
   ],
   figure: BriefFigure.none,

@@ -64,7 +64,6 @@ Widget spinPicture() => const ConceptPicture(
       marks: [(0.3, 20), (0.2, 150), (0.1, 265)],
     ),
     locked: true,
-    arm: true,
   ),
   caption:
       'one spinning wheel, three dots on it. They all go round together, and the outer one travels furthest',
@@ -149,18 +148,26 @@ Widget powerPicture() => const ConceptPicture(
 // ---------------------------------------------------------------------------
 // Impulse and momentum
 
-Widget impactPicture() => const ConceptPair(
-  left: CrashPainter(
-    crash: Crash(massA: 2, massB: 3, speedA: 6, e: 0),
-    showAfter: true,
-  ),
-  right: CrashPainter(
-    crash: Crash(massA: 2, massB: 3, speedA: 6, e: 1),
-    showAfter: true,
-  ),
-  leftCaption: 'they stick and travel on as one lump',
-  rightCaption: 'they bounce apart, each with its own speed',
-  height: 200,
+Widget impactPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: CrashPainter(
+        crash: Crash(massA: 2, massB: 3, speedA: 6, e: 0),
+        showAfter: true,
+      ),
+      caption: 'no bounce at all: they stick and travel on as one lump',
+      height: 170,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: CrashPainter(
+        crash: Crash(massA: 2, massB: 3, speedA: 6, e: 1),
+        showAfter: true,
+      ),
+      caption: 'a perfect bounce: they part, each with its own speed',
+      height: 170,
+    ),
+  ],
 );
 
 Widget survivesPicture() => const ConceptPicture(
@@ -367,45 +374,42 @@ class _MassOrWeightPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final ground = size.height * 0.62;
+    final x = size.width / 2;
+
+    // what it is made of, above it
+    final note = _text('how much stuff it is made of', size: 10.5);
+    note.paint(canvas, Offset(x - note.width / 2, size.height * 0.08));
+
     final box = Rect.fromCenter(
-      center: Offset(size.width * 0.42, ground - 32),
-      width: 96,
-      height: 64,
+      center: Offset(x, size.height * 0.34),
+      width: 104,
+      height: 54,
     );
     canvas.drawRRect(
       RRect.fromRectAndRadius(box, const Radius.circular(8)),
       Paint()..color = AppColors.charcoal,
     );
-    final mass = _text('50 kg', size: 16, color: AppColors.cream);
+    final mass = _text('50 kg', size: 17, color: AppColors.cream);
     mass.paint(
       canvas,
       Offset(box.center.dx - mass.width / 2, box.center.dy - mass.height / 2),
     );
-    canvas.drawLine(
-      Offset(size.width * 0.08, ground),
-      Offset(size.width * 0.72, ground),
-      _stroke(AppColors.ink2, 1.5),
-    );
-    final note = _text('how much stuff it is made of', size: 10.5);
-    note.paint(canvas, Offset(box.left - 14, ground + 10));
 
-    // the pull of gravity on it
-    final pull = _stroke(AppColors.ember, 3);
+    // how hard gravity pulls it, below it
     _arrow(
       canvas,
-      Offset(box.center.dx, box.bottom + 2),
-      Offset(box.center.dx, ground + 52),
-      pull,
+      Offset(x, box.bottom + 6),
+      Offset(x, size.height * 0.74),
+      _stroke(AppColors.ember, 3),
     );
-    final w = _text('490 N', size: 16, color: AppColors.ember);
-    w.paint(canvas, Offset(box.center.dx + 12, ground + 26));
+    final w = _text('490 N', size: 17, color: AppColors.ember);
+    w.paint(canvas, Offset(x + 14, size.height * 0.56));
     final note2 = _text(
       'how hard gravity pulls it down',
       size: 10.5,
       color: AppColors.ember,
     );
-    note2.paint(canvas, Offset(box.center.dx + 12, ground + 46));
+    note2.paint(canvas, Offset(x - note2.width / 2, size.height * 0.83));
   }
 
   @override
@@ -603,8 +607,6 @@ class _ResonancePainter extends CustomPainter {
     own.paint(canvas, Offset(peakX - own.width / 2, top - 20));
     final xa = _text('how fast you shake it', size: 10.5);
     xa.paint(canvas, Offset(right - xa.width, base + 8));
-    final ya = _text('how big the swing', size: 10.5);
-    ya.paint(canvas, Offset(left - 4, top - 18));
     final safeL = _text('safe', size: 10.5);
     safeL.paint(canvas, Offset(left + 12, base - 24));
     final safeR = _text('safe', size: 10.5);
