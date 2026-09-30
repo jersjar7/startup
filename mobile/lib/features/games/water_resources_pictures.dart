@@ -225,10 +225,16 @@ Widget rationalPicture() => const Column(
         intensity: 2,
         scaleTo: 12,
       ),
-      caption:
-          'twelve acres of woodland drinks most of it. the same storm, and '
-          'nearly the same peak',
+      caption: 'twelve acres of woodland drinks most of it',
       height: 175,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: _PeakBarsPainter(),
+      caption:
+          'the same storm on both. very different ground, and the two peaks '
+          'come out the same',
+      height: 180,
     ),
   ],
 );
@@ -414,14 +420,24 @@ Widget residencePicture() => const Column(
   ],
 );
 
-Widget foodRatioPicture() => const ConceptPicture(
-  painter: PlantPainter(
-    note: 'food arriving each day, over the bugs held to eat it',
-  ),
-  caption:
-      'the load comes in with the water; the biology waiting for it sits in '
-      'the basin',
-  height: 220,
+Widget foodRatioPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: _MouthsPainter(),
+      caption:
+          'the same dinner, shared two ways. few mouths and each one is '
+          'stuffed; many mouths and each one goes hungry',
+      height: 210,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: PlantPainter(
+        note: 'food arrives with the water; the bugs wait in the basin',
+      ),
+      caption: 'in a plant: the load comes in here, the biology sits in there',
+      height: 200,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -463,26 +479,46 @@ Widget filterRatePicture() => const ConceptPicture(
 // ---------------------------------------------------------------------------
 // Standards
 
-Widget tiersPicture() => const ConceptPair(
-  left: TierPainter(label: 'arsenic 0.010 mg/L', settled: Tier.primary),
-  right: TierPainter(label: 'iron 0.3 mg/L', settled: Tier.secondary),
-  leftCaption: 'a health limit: breaking it is a violation',
-  rightCaption: 'a taste and staining limit: breaking it brings complaints',
-  height: 200,
+Widget tiersPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: _ConsequencePainter(),
+      caption:
+          'what happens when each one is broken. that is the whole difference, '
+          'not the size of the number',
+      height: 215,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: TierPainter(label: 'arsenic 0.010 mg/L', settled: Tier.primary),
+      caption: 'arsenic is filed under health, so its limit is law',
+      height: 190,
+    ),
+  ],
 );
 
-Widget hardnessPicture() => const ConceptPicture(
-  painter: HardnessPainter(
-    ions: [
-      Ion(name: 'calcium', concentration: 80, equivalentWeight: 20),
-      Ion(name: 'magnesium', concentration: 30, equivalentWeight: 12.15),
-    ],
-    converted: true,
-  ),
-  caption:
-      'two ions put onto one basis. the lighter one counts for more, '
-      'milligram for milligram',
-  height: 230,
+Widget hardnessPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: _LighterCountsPainter(),
+      caption:
+          'one milligram of each. magnesium is lighter, so a milligram of it '
+          'is more pieces, and pieces are what make water hard',
+      height: 200,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: HardnessPainter(
+        ions: [
+          Ion(name: 'calcium', concentration: 80, equivalentWeight: 20),
+          Ion(name: 'magnesium', concentration: 30, equivalentWeight: 12.15),
+        ],
+        converted: true,
+      ),
+      caption: 'so the lighter ion gets the bigger multiplier',
+      height: 230,
+    ),
+  ],
 );
 
 Widget efficiencyPicture() => const ConceptPicture(
@@ -690,3 +726,279 @@ const waterresourcesPictures = <String, Widget Function()>{
   'hardness': hardnessPicture,
   'efficiency': efficiencyPicture,
 };
+
+/// The two catchments' peaks, side by side. The plans above show ground that
+/// could not look more different; this shows the answer coming out the same,
+/// which is what the sheet is about and the one thing a plan cannot say.
+class _PeakBarsPainter extends CustomPainter {
+  const _PeakBarsPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const cases = [
+      ('4 acres of paving', 4.0, 0.9, AppColors.ember),
+      ('12 acres of woodland', 12.0, 0.3, AppColors.forest),
+    ];
+    const intensity = 2.0;
+    final left = size.width * 0.06;
+    final room = size.width * 0.52;
+    var y = size.height * 0.26;
+
+    for (final (name, acres, c, tone) in cases) {
+      final peak = intensity * acres * c;
+      final width = room * peak / 8.0;
+      final bar = Rect.fromLTWH(left, y, width, 28);
+      canvas
+        ..drawRect(bar, Paint()..color = tone.withValues(alpha: 0.45))
+        ..drawRect(bar, _stroke(AppColors.charcoal, 1.6));
+      final label = _text(name, size: 10.5, color: AppColors.charcoal);
+      label.paint(canvas, Offset(left, y - label.height - 3));
+      final value = _text(
+        '${peak.toStringAsFixed(1)} cfs',
+        size: 13,
+        color: tone,
+        weight: FontWeight.w700,
+      );
+      value.paint(canvas, Offset(bar.right + 10, y + 6));
+      final working = _text(
+        'C ${c.toStringAsFixed(1)} x ${acres.toStringAsFixed(0)} ac x 2 in/hr',
+        size: 9,
+        color: AppColors.ink3,
+      );
+      working.paint(canvas, Offset(left, y + 30));
+      y += 62;
+    }
+
+    // the two ends line up, which is the point
+    final end = left + room * 7.2 / 8.0;
+    canvas.drawLine(
+      Offset(end, size.height * 0.22),
+      Offset(end, size.height * 0.84),
+      _stroke(AppColors.charcoal, 1.4),
+    );
+    final same = _text(
+      'the same peak',
+      size: 10,
+      color: AppColors.charcoal,
+      weight: FontWeight.w700,
+    );
+    same.paint(canvas, Offset(end + 8, size.height * 0.85 - same.height));
+  }
+
+  @override
+  bool shouldRepaint(_PeakBarsPainter old) => false;
+}
+
+/// One dinner shared two ways. A ratio is not a thing you can point at, so
+/// this points at what the ratio decides: how much each bug gets.
+class _MouthsPainter extends CustomPainter {
+  const _MouthsPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const cases = [
+      ('few bugs', 3, 'each one stuffed', 'a high ratio', AppColors.ember),
+      ('many bugs', 9, 'each one hungry', 'a low ratio', AppColors.forest),
+    ];
+    final each = size.width / 2;
+
+    for (var i = 0; i < cases.length; i++) {
+      final (name, mouths, share, verdict, tone) = cases[i];
+      final mid = i * each + each / 2;
+
+      // the same plate of food on both sides
+      final plate = Rect.fromCenter(
+        center: Offset(mid, size.height * 0.26),
+        width: each * 0.58,
+        height: 24,
+      );
+      canvas
+        ..drawRRect(
+          RRect.fromRectAndRadius(plate, const Radius.circular(6)),
+          Paint()..color = AppColors.info.withValues(alpha: 0.45),
+        )
+        ..drawRRect(
+          RRect.fromRectAndRadius(plate, const Radius.circular(6)),
+          _stroke(AppColors.charcoal, 1.6),
+        );
+      final food = _text('the same food', size: 9.5, color: AppColors.ink2);
+      food.paint(canvas, Offset(mid - food.width / 2, plate.top - 15));
+
+      // the mouths waiting for it
+      final cols = mouths <= 3 ? 3 : 5;
+      final r = mouths <= 3 ? 9.0 : 6.0;
+      for (var k = 0; k < mouths; k++) {
+        final col = k % cols;
+        final row = k ~/ cols;
+        final cx = mid + (col - (cols - 1) / 2) * (r * 2 + 7);
+        final cy = size.height * 0.52 + row * (r * 2 + 7);
+        canvas
+          ..drawCircle(Offset(cx, cy), r, Paint()..color = tone)
+          ..drawCircle(Offset(cx, cy), r, _stroke(AppColors.charcoal, 1.2));
+      }
+
+      final who = _text(
+        name,
+        size: 11,
+        color: AppColors.charcoal,
+        weight: FontWeight.w700,
+      );
+      who.paint(canvas, Offset(mid - who.width / 2, size.height * 0.74));
+      final got = _text(share, size: 9.5, color: tone);
+      got.paint(canvas, Offset(mid - got.width / 2, size.height * 0.845));
+      final v = _text(verdict, size: 9, color: AppColors.ink3);
+      v.paint(canvas, Offset(mid - v.width / 2, size.height * 0.925));
+    }
+
+    canvas.drawLine(
+      Offset(size.width / 2, size.height * 0.10),
+      Offset(size.width / 2, size.height * 0.97),
+      _stroke(AppColors.ink3, 1),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_MouthsPainter old) => false;
+}
+
+/// What breaking each kind of limit actually does to somebody. The two tiers
+/// are told apart by harm, not by the size of the number, and harm is a
+/// thing that can be drawn.
+class _ConsequencePainter extends CustomPainter {
+  const _ConsequencePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final each = size.width / 2;
+
+    // Left: a health limit. A glass with a warning over it.
+    final gx = each / 2;
+    final glass = Path()
+      ..moveTo(gx - 20, size.height * 0.36)
+      ..lineTo(gx - 15, size.height * 0.64)
+      ..lineTo(gx + 15, size.height * 0.64)
+      ..lineTo(gx + 20, size.height * 0.36)
+      ..close();
+    canvas
+      ..drawPath(glass, Paint()..color = AppColors.info.withValues(alpha: 0.3))
+      ..drawPath(glass, _stroke(AppColors.charcoal, 2));
+    final tri = Path()
+      ..moveTo(gx, size.height * 0.14)
+      ..lineTo(gx + 16, size.height * 0.31)
+      ..lineTo(gx - 16, size.height * 0.31)
+      ..close();
+    canvas
+      ..drawPath(tri, Paint()..color = AppColors.error.withValues(alpha: 0.85))
+      ..drawPath(tri, _stroke(AppColors.charcoal, 1.6));
+    final bang = _text(
+      '!',
+      size: 12,
+      color: AppColors.cream,
+      weight: FontWeight.w700,
+    );
+    bang.paint(canvas, Offset(gx - bang.width / 2, size.height * 0.195));
+
+    // Right: an aesthetic limit. A stained shirt.
+    final sx = each + each / 2;
+    final shirt = Path()
+      ..moveTo(sx - 26, size.height * 0.32)
+      ..lineTo(sx - 14, size.height * 0.26)
+      ..lineTo(sx + 14, size.height * 0.26)
+      ..lineTo(sx + 26, size.height * 0.32)
+      ..lineTo(sx + 18, size.height * 0.41)
+      ..lineTo(sx + 18, size.height * 0.64)
+      ..lineTo(sx - 18, size.height * 0.64)
+      ..lineTo(sx - 18, size.height * 0.41)
+      ..close();
+    canvas
+      ..drawPath(shirt, Paint()..color = AppColors.cream)
+      ..drawPath(shirt, _stroke(AppColors.charcoal, 2));
+    canvas.drawCircle(
+      Offset(sx + 2, size.height * 0.50),
+      11,
+      Paint()..color = AppColors.ember.withValues(alpha: 0.8),
+    );
+
+    for (final (x, head, tail, tone) in [
+      (gx, 'you could be harmed', 'so the limit is LAW', AppColors.error),
+      (sx, 'your laundry is stained', 'so it is ADVICE', AppColors.ember),
+    ]) {
+      final h = _text(
+        head,
+        size: 10,
+        color: AppColors.charcoal,
+        weight: FontWeight.w700,
+      );
+      h.paint(canvas, Offset(x - h.width / 2, size.height * 0.74));
+      final t = _text(tail, size: 10, color: tone, weight: FontWeight.w700);
+      t.paint(canvas, Offset(x - t.width / 2, size.height * 0.86));
+    }
+
+    canvas.drawLine(
+      Offset(size.width / 2, size.height * 0.08),
+      Offset(size.width / 2, size.height * 0.96),
+      _stroke(AppColors.ink3, 1),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_ConsequencePainter old) => false;
+}
+
+/// Why the lighter ion gets the bigger multiplier: one milligram of it is
+/// more pieces, and it is pieces that make water hard.
+class _LighterCountsPainter extends CustomPainter {
+  const _LighterCountsPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const rows = [
+      ('calcium', 5, 'heavier pieces, so fewer of them', AppColors.info),
+      ('magnesium', 8, 'lighter pieces, so more of them', AppColors.forest),
+    ];
+    final left = size.width * 0.30;
+    final room = size.width * 0.52;
+    var y = size.height * 0.28;
+
+    for (final (name, pieces, note, tone) in rows) {
+      // the same milligram, drawn the same width both times
+      final box = Rect.fromLTWH(left, y, room, 26);
+      canvas.drawRect(box, _stroke(AppColors.charcoal, 1.8));
+      final w = room / pieces;
+      for (var k = 0; k < pieces; k++) {
+        final cell = Rect.fromLTWH(left + k * w + 1.5, y + 1.5, w - 3, 23);
+        canvas.drawRect(cell, Paint()..color = tone.withValues(alpha: 0.5));
+      }
+      final label = _text(
+        name,
+        size: 11,
+        color: AppColors.charcoal,
+        weight: FontWeight.w700,
+      );
+      label.paint(canvas, Offset(size.width * 0.04, y + 7));
+      final n = _text(note, size: 9, color: AppColors.ink3);
+      n.paint(canvas, Offset(left, y + 29));
+      y += 58;
+    }
+
+    final same = _text(
+      'one milligram, both times',
+      size: 10,
+      color: AppColors.ink2,
+      weight: FontWeight.w700,
+    );
+    same.paint(
+      canvas,
+      Offset(left + room / 2 - same.width / 2, size.height * 0.11),
+    );
+    final why = _text(
+      'more pieces per milligram, more hardness per milligram',
+      size: 9.5,
+      color: AppColors.charcoal,
+    );
+    why.paint(canvas, Offset(size.width * 0.04, size.height - why.height - 8));
+  }
+
+  @override
+  bool shouldRepaint(_LighterCountsPainter old) => false;
+}
