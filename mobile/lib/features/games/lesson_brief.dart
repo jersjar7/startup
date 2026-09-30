@@ -6790,136 +6790,293 @@ const pickingBrief = BriefSection(
 );
 
 const threeNumbersBrief = BriefSection(
-  title: 'Density, weight, and the ratio',
-  body:
-      'Three properties and two multiplications tie them together, and the '
-      'units tell you which is which. DENSITY is the mass packed into a cubic '
-      'meter, so it is kilograms per cubic meter, and water is a thousand of '
-      'them. SPECIFIC WEIGHT is what that cubic meter weighs, so it is '
-      'newtons per cubic meter, and water is 9,810: multiply a density by g '
-      'and you have it. SPECIFIC GRAVITY is the fluid held against water, so '
-      'it has no units at all, and multiplying it by water\'s 9,810 gives the '
-      'fluid\'s specific weight. Pressure formulas want the specific weight, '
-      'because a pressure needs a force in it; feeding them a density leaves '
-      'you a factor of g short.',
-  formulas: [
-    ('Weight from mass', r'\gamma = \rho g'),
+  title: 'Three ways to say how heavy a liquid is',
+  picture: threeNumbersPicture,
+  steps: [
+    (
+      'Fill a box one meter each way',
+      'With water, that box holds 1,000 kilograms. That is the DENSITY: how '
+          'much stuff is packed into the space. Oil packs less in, mercury packs '
+          'far more.',
+    ),
+    (
+      'Now weigh it',
+      'Those 1,000 kilograms push down with about 9,810 newtons. That is the '
+          'SPECIFIC WEIGHT: the same box described as a push instead of an '
+          'amount. It is just the density multiplied by gravity.',
+    ),
+    (
+      'Or compare it to water',
+      'Specific gravity is the liquid held up against water. Water is 1. '
+          'Under 1 floats on water, over 1 sinks. It has no units at all, because '
+          'it is one weight divided by another.',
+    ),
+    (
+      'Pressure wants the pushing one',
+      'A pressure is a push, so pressure formulas want the specific weight. '
+          'Hand them a density and the answer comes out about ten times too '
+          'small, because gravity got left out.',
+    ),
+  ],
+  spoken: [
+    (
+      'Weight from mass',
+      r'\gamma = \rho g',
+      'specific weight is density times gravity',
+    ),
     (
       'The ratio to water',
       r'SG = \frac{\rho}{\rho_w} = \frac{\gamma}{\gamma_w}',
+      'the liquid divided by water, which cancels the units away',
     ),
-    ('Water', r'1{,}000\ \text{kg/m}^3,\quad 9{,}810\ \text{N/m}^3'),
+    (
+      'Water',
+      r'1{,}000\ \text{kg/m}^3,\quad 9{,}810\ \text{N/m}^3',
+      'a thousand kilograms in a cubic meter, weighing 9,810 newtons',
+    ),
   ],
-  figure: BriefFigure.threeNumbers,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 176',
 );
 
 const viscosityBrief = BriefSection(
-  title: 'Speed over gap',
-  body:
-      'Viscosity turns a velocity GRADIENT into a shear stress, and the '
-      'gradient is what matters rather than the speed on its own. Across a '
-      'thin film with a straight-line profile that gradient is just the plate '
-      'speed divided by the film thickness, so the oil and the speed multiply '
-      'and the thickness divides: a thinner film drags harder, which is the '
-      'part that reads backwards, and it is why a bearing runs on a film of '
-      'thousandths. Two cautions. The thickness is almost always given in '
-      'millimeters and the formula wants meters, which is a factor of a '
-      'thousand. And the viscosity here is the DYNAMIC one in pascal '
-      'seconds, never the kinematic one in meters squared a second.',
-  formulas: [
-    ('Newton\'s law', r'\tau = \mu \frac{dv}{dy}'),
-    ('Across a thin film', r'\tau = \mu \frac{v}{\delta}'),
-    ('The other viscosity', r'\nu = \frac{\mu}{\rho}'),
+  title: 'A thinner film of oil drags harder',
+  picture: viscosityPicture,
+  steps: [
+    (
+      'Slide a plate on a film of oil',
+      'The oil touching the plate travels with it. The oil touching the fixed '
+          'surface below does not move at all. So the oil in between is smeared, '
+          'and it drags back on the plate.',
+    ),
+    (
+      'What counts is the speed ACROSS the gap',
+      'Not the plate speed on its own. Take the plate speed and divide it by '
+          'the thickness of the film. A thin film has to make the same change of '
+          'speed over a much shorter distance, so it is smeared harder.',
+    ),
+    (
+      'Which is why bearings run on a hair of oil',
+      'Thinner film, more drag. That reads backwards until you look at the '
+          'gap in the picture. Thicker oil drags more too, and so does moving '
+          'faster.',
+    ),
+    (
+      'Two traps',
+      'The gap is nearly always given in millimeters and the formula wants '
+          'meters, a factor of a thousand. And use the thick-or-thin viscosity in '
+          'pascal seconds, never the other one.',
+    ),
   ],
-  figure: BriefFigure.viscosity,
+  spoken: [
+    (
+      "Newton's law",
+      r'\tau = \mu \frac{dv}{dy}',
+      'the drag is the viscosity times how fast the speed changes across the gap',
+    ),
+    (
+      'Across a thin film',
+      r'\tau = \mu \frac{v}{\delta}',
+      'viscosity times plate speed, divided by the film thickness',
+    ),
+    (
+      'The other viscosity',
+      r'\nu = \frac{\mu}{\rho}',
+      'the kinematic one: viscosity divided by density',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 176',
 );
 
 const capillaryBrief = BriefSection(
-  title: 'Narrow climbs higher',
-  body:
-      'Surface tension pulls a liquid up the inside of a tube, and the weight '
-      'of the column it has lifted stops it. The pull grows with the '
-      'circumference and the weight grows with the AREA, so the diameter ends '
-      'up underneath: half the bore is twice the climb, and the effect only '
-      'matters in openings a fraction of a millimeter across, which is why it '
-      'governs soil and concrete and not pipework. A heavier liquid climbs '
-      'less, and one that pulls harder at the surface climbs more. The '
-      'contact angle sits inside a cosine: past ninety degrees, which is a '
-      'liquid that will not wet the glass, the cosine goes negative and the '
-      'liquid is pushed DOWN the tube instead. Mercury does exactly that.',
-  formulas: [
-    ('Capillary rise', r'h = \frac{4\sigma \cos\beta}{\gamma d}'),
-    ('Wets the glass', r'\beta < 90^\circ \Rightarrow h > 0'),
-    ('Does not', r'\beta > 90^\circ \Rightarrow h < 0'),
+  title: 'A narrower straw climbs higher',
+  picture: capillaryPicture,
+  steps: [
+    (
+      'Water creeps up a thin tube by itself',
+      'Stand a very thin tube in water and the water climbs inside it, above '
+          'the level in the dish, with nobody pushing it. The glass is pulling the '
+          'water up around the rim.',
+    ),
+    (
+      'Why thin wins',
+      'The pull happens round the RIM, so it grows with the width. The weight '
+          'of water lifted grows with the AREA, which grows faster. Halve the '
+          'bore and you double the climb.',
+    ),
+    (
+      'So it only matters in tiny spaces',
+      'A fraction of a millimeter across. That is soil and concrete, not '
+          'pipework. In a water pipe the climb is nothing worth counting.',
+    ),
+    (
+      'Some liquids get pushed down instead',
+      'Water wets glass and climbs. Mercury does not wet glass, so the same '
+          'pull works the other way and the mercury sits LOWER inside the tube '
+          'than outside it.',
+    ),
   ],
-  figure: BriefFigure.capillary,
+  spoken: [
+    (
+      'Capillary rise',
+      r'h = \frac{4\sigma \cos\beta}{\gamma d}',
+      'the surface pull over the liquid weight and the bore, so a smaller bore climbs more',
+    ),
+    (
+      'Wets the glass',
+      r'\beta < 90^\circ \Rightarrow h > 0',
+      'the contact angle is small, so the liquid climbs',
+    ),
+    (
+      'Does not',
+      r'\beta > 90^\circ \Rightarrow h < 0',
+      'past ninety degrees the climb goes negative and it is pushed down',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 176',
 );
 
 const depthBrief = BriefSection(
-  title: 'Only depth and the liquid',
-  body:
-      'Pressure in a still liquid is the specific weight times the DEPTH of '
-      'the point below the free surface, and nothing else is in it. Not the '
-      'shape of the vessel, not how much liquid there is, not how wide the '
-      'surface is: a thin pipe of water and a lake press equally hard at the '
-      'same depth, which is why a header tank on a roof can pressurize a '
-      'whole building and why the pressure on a dam is drawn as a triangle, '
-      'nothing at the top and most at the bottom. Sideways makes no '
-      'difference either: two points at the same depth in the same connected '
-      'liquid are at the same pressure. Use the specific weight, not the '
-      'density, or the answer is short by a factor of g.',
-  formulas: [
-    ('Pressure at depth', r'p = \gamma h = \rho g h'),
-    ('Water', r'\gamma_w = 9{,}810\ \text{N/m}^3'),
-    ('So five meters', r'\approx 49\ \text{kPa}'),
+  title: 'Only the depth, and what the liquid is',
+  picture: depthPicture,
+  steps: [
+    (
+      'Dive to the bottom of a pool',
+      'Your ears hurt because of how DEEP you are, not because of how big the '
+          'pool is. Swim to the same depth in a much wider pool and it feels '
+          'exactly the same.',
+    ),
+    (
+      'The shape of the vessel changes nothing',
+      'Look at the two vessels. One flares out and holds far more water, the '
+          'other tapers in. At the same depth the marked points press equally '
+          'hard. How much water sits above and to the side does not come into it.',
+    ),
+    (
+      'Which is why a roof tank pressurizes a building',
+      'A narrow pipe of water high up gives the same pressure as a lake at '
+          'that height. And pressure on a dam is a triangle: nothing at the top, '
+          'most at the bottom.',
+    ),
+    (
+      'Use the weight, not the density',
+      'Multiply the specific weight by the depth. Use the density instead and '
+          'you are short by a factor of gravity.',
+    ),
   ],
-  figure: BriefFigure.depth,
+  spoken: [
+    (
+      'Pressure at depth',
+      r'p = \gamma h = \rho g h',
+      'specific weight times depth, and nothing else',
+    ),
+    (
+      'Water',
+      r'\gamma_w = 9{,}810\ \text{N/m}^3',
+      'water weighs 9,810 newtons a cubic meter',
+    ),
+    (
+      'So five meters down',
+      r'\approx 49\ \text{kPa}',
+      'about 49 kilopascals, whatever the vessel looks like',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 177',
 );
 
 const manometerBrief = BriefSection(
-  title: 'Start where you know, then walk',
-  body:
-      'A manometer is solved by walking it, not by recalling a formula. Start '
-      'at the end where the pressure is known, usually the open one where the '
-      'gauge pressure is zero, and step along the tube. Going DOWN a column '
-      'adds its weight; coming UP one subtracts it; moving sideways in the '
-      'same connected fluid changes nothing at all, because pressure depends '
-      'on depth alone; and a stretch of air changes nothing worth counting, '
-      'since air weighs almost nothing beside a liquid. Each fluid carries '
-      'its OWN specific weight, so a meter of water adds about a thirteenth '
-      'of what a meter of mercury would. And the higher column always stands '
-      'on the lower-pressure side.',
-  formulas: [
-    ('Down a column', r'+\,\gamma h'),
-    ('Up a column', r'-\,\gamma h'),
-    ('A simple U-tube', r'P_0 = P_2 + \gamma_2 h_2 - \gamma_1 h_1'),
+  title: 'Start where you know, then walk the tube',
+  picture: manometerPicture,
+  steps: [
+    (
+      'A bent tube that reads pressure',
+      'Two legs joined at the bottom with a heavy liquid in the bend. Push '
+          'harder on one side and that leg goes down while the other goes up. You '
+          'read the pressure off the difference.',
+    ),
+    (
+      'Do not hunt for a formula. Walk it.',
+      'Start at the end where you already know the pressure, usually the open '
+          'one at zero. Then step along the tube to where you want to be, adding '
+          'and subtracting as you go.',
+    ),
+    (
+      'Three rules for the walk',
+      'Going DOWN a column adds that column\'s weight. Coming UP one '
+          'subtracts it. Moving sideways in the same liquid changes nothing, '
+          'because only depth counts. Air weighs too little to bother with.',
+    ),
+    (
+      'Each liquid carries its own weight',
+      'A meter of mercury is worth about thirteen meters of water. And the '
+          'taller column always stands on the side with LESS pressure.',
+    ),
   ],
-  figure: BriefFigure.manometer,
+  spoken: [
+    ('Down a column', r'+\,\gamma h', 'add the specific weight times the drop'),
+    (
+      'Up a column',
+      r'-\,\gamma h',
+      'subtract the specific weight times the climb',
+    ),
+    (
+      'A simple U-tube',
+      r'P_0 = P_2 + \gamma_2 h_2 - \gamma_1 h_1',
+      'one walk written out: start known, add what you went down, subtract what you came up',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 178',
 );
 
 const gaugeBrief = BriefSection(
   title: 'Which zero you are counting from',
-  body:
-      'Gauge pressure counts from atmospheric and absolute counts from a '
-      'vacuum, so they differ by one constant: about 101.3 kilopascals of '
-      'air. Anything open to the sky is at zero gauge on its surface, which '
-      'is why the depth formula hands you a gauge pressure directly, and why '
-      'a manometer with one open end reads one too. Civil work quotes gauge '
-      'almost always, because the atmosphere presses on both sides of nearly '
-      'everything we build and cancels itself out. Convert only when the '
-      'problem says the word absolute, and remember that a gauge pressure can '
-      'be negative, which is a vacuum, while an absolute one never can.',
-  formulas: [
-    ('The link', r'P_{abs} = P_{atm} + P_{gauge}'),
-    ('The atmosphere', r'101.3\ \text{kPa} = 14.7\ \text{psi}'),
-    ('Open to the air', r'P_{gauge} = 0'),
+  picture: gaugePicture,
+  steps: [
+    (
+      'The air is already pressing on you',
+      'About 101 kilopascals of it, all the time, from every side. You never '
+          'notice, because it has always been there.',
+    ),
+    (
+      'Two places to start counting',
+      'GAUGE pressure counts from the air around us, so a pond surface reads '
+          'zero. ABSOLUTE counts from a perfect vacuum, where there is nothing at '
+          'all. One pressure, two rulers, 101 apart.',
+    ),
+    (
+      'Civil work quotes gauge almost always',
+      'The air presses on both sides of nearly everything we build, so it '
+          'cancels itself out. The depth formula and an open manometer both hand '
+          'you a gauge pressure already.',
+    ),
+    (
+      'Gauge can go negative, absolute cannot',
+      'A gauge reading below zero just means less than the air outside, which '
+          'is a vacuum. Below a perfect vacuum there is nothing left to have.',
+    ),
   ],
-  figure: BriefFigure.gauge,
+  spoken: [
+    (
+      'The link',
+      r'P_{abs} = P_{atm} + P_{gauge}',
+      'absolute is the air pressure plus the gauge reading',
+    ),
+    (
+      'The atmosphere',
+      r'101.3\ \text{kPa} = 14.7\ \text{psi}',
+      'about 101 kilopascals, or 14.7 pounds per square inch',
+    ),
+    (
+      'Open to the air',
+      r'P_{gauge} = 0',
+      'any surface open to the sky reads zero gauge',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 177',
 );
 
