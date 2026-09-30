@@ -2148,437 +2148,977 @@ const goodnessOfFitBrief = BriefSection(
 
 const publicFirstBrief = BriefSection(
   title: 'The public comes first',
-  body:
-      'Ten rules sit in Section A and one of them outranks everything else in '
-      'the book: your first responsibility is the health, safety and welfare '
-      'of the public. It beats the client, the schedule and your employer. '
-      'From there the tree is short. Are you being asked to seal something '
-      'that does not meet code? Refuse. Has your judgment been overruled and '
-      'is the public in danger? Tell your employer and then the authority. Has '
-      'another licensee broken the rules and nobody has fixed it? Tell the '
-      'board. And if none of those is true, a disagreement is only a '
-      'disagreement.',
-  formulas: [
-    ('A.1', r'\text{Safeguard the health, safety and welfare of the public.}'),
-    ('A.2', r'\text{Seal only what meets accepted standards.}'),
-    ('A.3', r'\text{If overruled and the public is endangered, notify.}'),
-    ('A.8', r'\text{Report a licensee who is violating the rules.}'),
+  picture: publicFirstPicture,
+  steps: [
+    (
+      'One rule beats the rest',
+      'Engineers have a short rulebook. One rule sits above every other: '
+          'keep the public safe and well. If the client, your boss or the '
+          'deadline pulls the other way, the public still wins.',
+    ),
+    (
+      'Three things it makes you do',
+      'Asked to put your seal on something that does not meet the code? '
+          'Refuse. Overruled, with people at risk? Tell your employer, then the '
+          'authority. Another engineer breaking the rules and nobody fixing it? '
+          'Tell the board.',
+    ),
+    (
+      'Everything else is just a disagreement',
+      'If nobody is in danger and no rule is broken, two engineers who '
+          'disagree are only two engineers who disagree. The rule does not fire.',
+    ),
   ],
-  figure: BriefFigure.publicFirst,
+  spoken: [
+    (
+      'A.1',
+      r'\text{the public first: health, safety, welfare}',
+      'your first duty is to the people who will use what you build',
+    ),
+    (
+      'A.2',
+      r'\text{seal only what meets the standards}',
+      'never put your stamp on work that falls short of the code',
+    ),
+    (
+      'A.3 and A.8',
+      r'\text{overruled and unsafe} \to \text{notify};\ \text{a rule breaker} \to \text{the board}',
+      'when you are overruled and people are at risk, tell the employer then the authority; report a licensee who breaks the rules',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 4-5, Model Rules 240.15',
 );
 
 const escalationBrief = BriefSection(
-  title: 'Up the chain, one rung at a time',
-  body:
-      'Almost every ethics scenario is about ORDER rather than about caring. '
-      'Start with the person closest to the problem, who may simply not have '
-      'seen it. Then the firm, which has both the standing and the duty to '
-      'correct its own work. Then the authority or the board, when the rungs '
-      'below have been tried and nothing has changed. Skipping a rung turns a '
-      'correctable error into an argument about you. The one exception is '
-      'imminent danger: when people are about to be hurt, you stop the work '
-      'first and explain afterwards.',
-  formulas: [
-    ('The ladder', r'\text{colleague} \to \text{firm} \to \text{board}'),
+  title: 'Up the ladder, one rung at a time',
+  picture: escalationPicture,
+  steps: [
+    (
+      'Start with the person',
+      'You spot a problem in someone\'s work. First tell that person. They '
+          'may simply not have seen it, and most problems end right here.',
+    ),
+    (
+      'Then the firm',
+      'If nothing changes, go to the firm. It has the standing and the duty '
+          'to fix its own work.',
+    ),
+    (
+      'Then the board',
+      'Only when the rungs below have been tried and nothing moved do you go '
+          'to the authority or the board. Skipping a rung turns a fixable error '
+          'into an argument about you.',
+    ),
+    (
+      'The one exception',
+      'When people are about to be hurt, you stop the work first and explain '
+          'afterwards. Danger right now does not wait for the ladder.',
+    ),
+  ],
+  spoken: [
+    (
+      'The ladder',
+      r'\text{the person} \to \text{the firm} \to \text{the board}',
+      'the person, then the firm, then the board, in that order',
+    ),
     (
       'Overruled',
       r'\text{in writing} \to \text{employer} \to \text{authority}',
+      'object in writing, tell your employer, then the authority',
     ),
-    ('Imminent danger', r'\text{stop the work, then the chain}'),
+    (
+      'Imminent danger',
+      r'\text{stop the work, then climb}',
+      'if someone is about to be hurt, stop first and go up the ladder after',
+    ),
   ],
-  figure: BriefFigure.escalation,
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 4-5, Model Rules A.3, A.8',
 );
 
 const proportionBrief = BriefSection(
   title: 'The right amount, not the most',
-  body:
-      'The rules ask for a specific amount of action, and there are two ways '
-      'to miss it. Under-doing it looks like meaning well: evaluating the bids '
-      'objectively without saying anything, or sealing the drawing and writing '
-      'the deviation in the file. Over-doing it looks like conviction: '
-      'resigning from the committee, or calling the client before the firm has '
-      'heard about it. On a conflict of interest the answer is almost always '
-      'the same size, disclose it and step out of that decision, and nothing '
-      'larger is being asked for.',
-  formulas: [
-    ('Too little', r'\text{Meaning well, and saying nothing.}'),
-    ('The rule', r'\text{Disclose, then recuse from that decision.}'),
-    ('Too much', r'\text{Resign from the body altogether.}'),
+  picture: proportionPicture,
+  steps: [
+    (
+      'The rule asks for one exact size',
+      'Most ethics questions are not "should you act" but "how much". The '
+          'rules name a specific amount, and you can miss it on either side.',
+    ),
+    (
+      'Too little looks like meaning well',
+      'Judging the bids fairly but telling nobody about your conflict. '
+          'Sealing the drawing and writing the problem in a file nobody reads. '
+          'Good intentions, wrong size.',
+    ),
+    (
+      'Too much looks like conviction',
+      'Quitting the committee. Calling the client before your own firm has '
+          'heard. Dramatic, and more than the rule asked for.',
+    ),
+    (
+      'The usual right size',
+      'For a conflict of interest it is almost always the same: say it out '
+          'loud, then step out of that one decision. Nothing bigger.',
+    ),
   ],
-  figure: BriefFigure.proportion,
+  spoken: [
+    (
+      'The rule',
+      r'\text{disclose, then step out of that decision}',
+      'tell everyone about the conflict, then do not take part in that one decision',
+    ),
+    (
+      'Too little',
+      r'\text{meaning well and saying nothing}',
+      'staying quiet, however fairly you behave',
+    ),
+    (
+      'Too much',
+      r'\text{resigning from the whole body}',
+      'leaving altogether, which nobody asked for',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 5, Model Rules B.6, B.8',
 );
 
 const competenceBrief = BriefSection(
-  title: 'Your field, and your charge',
-  body:
-      'Take on work you are qualified for by education or experience in the '
-      'SPECIFIC technical field, not the one next door. A seal needs two '
-      'things at once: the work has to be in your field, and it has to have '
-      'been prepared under your responsible charge, which means direct control '
-      'and personal supervision. Reading somebody else\'s calculations '
-      'carefully is not responsible charge, and a colleague reviewing your '
-      'work does not make you competent. Coordinating a whole project is fine, '
-      'as long as each technical segment carries the seal of whoever prepared '
-      'it.',
-  formulas: [
-    ('B.1', r'\text{Only accept work you are qualified for.}'),
-    ('B.2', r'\text{Seal only your field, under your responsible charge.}'),
+  title: 'Your field, and your own charge',
+  picture: competencePicture,
+  steps: [
     (
-      'B.3',
-      r'\text{You may coordinate, if each segment is sealed by its own.}',
+      'Gate one: your field',
+      'Take on only work you are trained or experienced in. Your SPECIFIC '
+          'field, not the one next door. A bridge engineer is not a water '
+          'treatment engineer because both are civil.',
+    ),
+    (
+      'Gate two: your charge',
+      'To seal a drawing it must have been made under your direct control '
+          'and personal supervision. Reading someone else\'s numbers carefully '
+          'afterwards is not that.',
+    ),
+    (
+      'Both gates, or no seal',
+      'A colleague checking your work does not make you competent. Your '
+          'competence does not cover work you did not direct. The seal needs '
+          'both at once.',
+    ),
+    (
+      'You may still run the whole project',
+      'Coordinating a big job is fine, as long as each technical part '
+          'carries the seal of whoever actually prepared it.',
     ),
   ],
-  figure: BriefFigure.competence,
+  spoken: [
+    (
+      'B.1',
+      r'\text{only work you are qualified for}',
+      'accept only jobs in your own field, by education or experience',
+    ),
+    (
+      'B.2',
+      r'\text{seal} = \text{your field} + \text{your responsible charge}',
+      'a seal needs your field and your own direct control, both',
+    ),
+    (
+      'B.3',
+      r'\text{coordinate, with each part sealed by its own engineer}',
+      'you can lead the whole project if every segment is sealed by the one who prepared it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 5, Model Rules B.1 to B.3',
 );
 
 const consentBrief = BriefSection(
-  title: 'Everyone with an interest, in writing',
-  body:
-      'A conflict of interest is not fatal and it is not free. Disclose it, '
-      'and where more than one party is paying you on the same subject matter, '
-      'get every one of them to agree in writing. Silence is not an option '
-      'because the scopes look different, and refusing outright is more than '
-      'the rules ask. What consent cannot repair: a gratuity from somebody '
-      'bidding on your work, and taking work from a public body you sit on. '
-      'Confidential facts belong to the client whose money found them, and '
-      'only they can release them.',
-  formulas: [
-    ('B.4', r'\text{Do not reveal client facts without their consent.}'),
-    ('B.6', r'\text{Disclose every conflict, real or apparent.}'),
-    ('B.7', r'\text{Two payers, one subject: written consent from all.}'),
-    ('B.5 and B.8', r'\text{No gratuities. No work from a body you sit on.}'),
+  title: 'Everyone with a stake says yes, in writing',
+  picture: consentPicture,
+  steps: [
+    (
+      'A conflict is not fatal',
+      'Being paid by two people about the same job is allowed. It is not '
+          'free either. You have to say so, and each of them has to agree in '
+          'writing.',
+    ),
+    (
+      'Silence is not an option',
+      'Even if the two scopes look different, you disclose. Refusing the '
+          'work outright is more than the rule asks. Say it, get the written '
+          'yes, carry on.',
+    ),
+    (
+      'What no consent can fix',
+      'A gift from someone bidding on your work. Taking work from a public '
+          'body you sit on. Those are out, whoever agrees.',
+    ),
+    (
+      'Whose secrets',
+      'Facts your client paid to find belong to that client. Only they can '
+          'let you share them.',
+    ),
   ],
-  figure: BriefFigure.consent,
+  spoken: [
+    (
+      'B.6 and B.7',
+      r'\text{two payers, one subject} \Rightarrow \text{written consent from all}',
+      'when more than one party pays you about the same matter, every one of them agrees in writing',
+    ),
+    (
+      'B.4',
+      r'\text{client facts stay with the client}',
+      'do not reveal what a client paid to learn without their consent',
+    ),
+    (
+      'B.5 and B.8',
+      r'\text{no gifts from bidders, no work from your own board}',
+      'no gratuities from anyone bidding on your work, and no jobs from a public body you sit on',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 5, Model Rules B.4 to B.8',
 );
 
 const claimsBrief = BriefSection(
-  title: 'What you may say you did',
-  body:
-      'Do not misrepresent or exaggerate your responsibility on past work, and '
-      'that applies hardest to anything written to win the next job. The rule '
-      'is not aimed at outright lies. It is aimed at sentences that are true '
-      'if read slowly and flattering if read quickly: managing a bridge is not '
-      'designing it, one system is not the whole plant, and a peer review is '
-      'not the design. Say what you did, say who did the rest, and the claim '
-      'survives the follow-up question.',
-  formulas: [
-    ('C.1', r'\text{Do not exaggerate your role in prior assignments.}'),
-    ('C.3', r"\text{Do not damage another licensee's reputation.}"),
-    ('C.4', r'\text{Tell a licensee directly about a material error.}'),
+  title: 'Say what you did, not what it sounds like',
+  picture: claimsPicture,
+  steps: [
+    (
+      'The whole job and your piece',
+      'A bridge has many hands on it. Your resume may only claim the piece '
+          'that was yours. Claiming the whole thing is exaggerating, even if you '
+          'were on the project.',
+    ),
+    (
+      'The trap is the true-if-read-slowly sentence',
+      'The rule is not about outright lies. It is about lines that flatter '
+          'when read quickly: managing a bridge is not designing it, one system '
+          'is not the whole plant, reviewing is not designing.',
+    ),
+    (
+      'The test',
+      'Say what you did and who did the rest. A claim that survives the '
+          'follow-up question is the right size.',
+    ),
+    (
+      'And about other engineers',
+      'Do not damage another licensee\'s name. If you find a real error in '
+          'their work, tell them directly.',
+    ),
   ],
-  figure: BriefFigure.claims,
+  spoken: [
+    (
+      'C.1',
+      r'\text{do not exaggerate your role}',
+      'claim only the part of past work that was actually yours',
+    ),
+    (
+      'C.3',
+      r'\text{do not harm another licensee\textquotesingle s reputation}',
+      'never run down another engineer to win work',
+    ),
+    (
+      'C.4',
+      r'\text{a material error} \to \text{tell that licensee directly}',
+      'if you find a serious mistake in another engineer\'s work, tell them first',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 5, Model Rules C.1 to C.4',
 );
 
 const standingBrief = BriefSection(
-  title: 'Certified, and licensed',
-  body:
-      'Two words that sound alike and are not. An Engineer Intern has passed '
-      'the FE and been CERTIFIED by the board, which entitles them to the '
-      'title and to sit the second exam once the experience is behind them. A '
-      'Professional Engineer has passed both exams and been LICENSED, and a '
-      'licence is what a seal is an act of. Nothing lends it: not competence, '
-      'not a licensed colleague reading the drawing afterwards, and not '
-      'writing your intern status beside your name. A great deal of real '
-      'engineering work, meanwhile, needs no licence at all.',
-  formulas: [
-    ('Engineer Intern', r'\text{Passed the FE. Certified by the board.}'),
-    ('Professional Engineer', r'\text{Passed both. Licensed by the board.}'),
-    ('The seal', r'\text{Only a licensed PE may sign and seal.}'),
+  title: 'Certified is not licensed',
+  picture: standingPicture,
+  steps: [
+    (
+      'The first badge',
+      'Pass the FE and the board CERTIFIES you as an Engineer Intern. You '
+          'may use the title, and you may sit the second exam once the years of '
+          'experience are done.',
+    ),
+    (
+      'The second badge',
+      'Pass the PE exam too, with the years behind you, and the board '
+          'LICENSES you as a Professional Engineer. The seal is an act of that '
+          'licence and nothing else.',
+    ),
+    (
+      'Nothing lends a seal',
+      'Not being good at the work. Not a licensed colleague reading your '
+          'drawing afterwards. Not writing "intern" beside your name. Either you '
+          'hold the licence or the seal is not yours to use.',
+    ),
+    (
+      'Most engineering needs no licence',
+      'A great deal of real work is done by people with no licence at all, '
+          'under a licensed engineer. The licence is about the seal.',
+    ),
   ],
-  figure: BriefFigure.standing,
+  spoken: [
+    (
+      'Engineer Intern',
+      r'\text{FE passed} \Rightarrow \text{certified}',
+      'passed the FE exam, certified by the board, no seal',
+    ),
+    (
+      'Professional Engineer',
+      r'\text{FE + PE + the years} \Rightarrow \text{licensed}',
+      'passed both exams with the experience, licensed by the board',
+    ),
+    (
+      'The seal',
+      r'\text{only a licensed PE signs and seals}',
+      'a seal is an act of a licence; nobody else can use one',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 6, Model Law 110.20',
 );
 
 const exemptionBrief = BriefSection(
   title: 'When unlicensed work is allowed',
-  body:
-      'The exemption clause is what lets a firm employ anybody at all. An '
-      'unlicensed employee may prepare calculations, produce drawings and '
-      'check documents against one another, on two conditions that both have '
-      'to hold: a licensed engineer is in responsible charge of the work, and '
-      'the final engineering decisions are not the employee\'s. Responsible '
-      'charge means direct control and personal supervision, so telling '
-      'somebody afterwards is not it, and neither is being in the same firm as '
-      'somebody licensed who is not directing you.',
-  formulas: [
-    ('170.20 C', r'\text{A subordinate under the responsible charge of a PE}'),
-    ('And', r'\text{no final engineering designs or decisions}'),
-    ('Responsible charge', r'\text{direct control and personal supervision}'),
+  picture: exemptionPicture,
+  steps: [
+    (
+      'A firm has to be able to hire people',
+      'The exemption clause lets an unlicensed employee do real engineering '
+          'work: calculations, drawings, checking one document against another.',
+    ),
+    (
+      'On two conditions, both at once',
+      'A licensed engineer is in responsible charge of the work. And the '
+          'final engineering decisions are the engineer\'s, not the employee\'s.',
+    ),
+    (
+      'What responsible charge means',
+      'Direct control and personal supervision, while the work happens. '
+          'Being told about it afterwards is not it. Working in the same firm as '
+          'a licensed engineer who is not directing you is not it either.',
+    ),
   ],
-  figure: BriefFigure.exemption,
+  spoken: [
+    (
+      '170.20 C',
+      r'\text{a subordinate under the responsible charge of a PE}',
+      'an unlicensed employee may work under a licensed engineer who directs it',
+    ),
+    (
+      'And',
+      r'\text{no final engineering decisions}',
+      'the final calls are the licensed engineer\'s, never the employee\'s',
+    ),
+    (
+      'Responsible charge',
+      r'\text{direct control and personal supervision}',
+      'the engineer is directing the work as it is done, not hearing about it later',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 11, Model Law 170.20 C',
 );
 
 const holdingOutBrief = BriefSection(
-  title: 'The work, or the title',
-  body:
-      'Two separate offenses. The first is doing the work: any service that '
-      'takes engineering education and judgment and reaches the health, safety '
-      'or welfare of the public is the practice of engineering, and the Model '
-      'Law has never cared what it is delivered on. Drawings, a spreadsheet, a '
-      'book of tables, an app; the medium is not part of the test and pushing '
-      'the last tap onto the user does not move the judgment out of the '
-      'software. The second is the title: representing yourself as a '
-      'Professional Engineer when you are not, by sign, card, letterhead or '
-      'website, is a violation even if you never do a day of engineering.',
-  formulas: [
+  title: 'Doing the work, or wearing the title',
+  picture: holdingOutPicture,
+  steps: [
+    (
+      'Offense one: doing the work',
+      'Any service that takes engineering training and judgment and '
+          'reaches the public\'s safety is the practice of engineering. Doing it '
+          'without a licence is a violation.',
+    ),
+    (
+      'The medium does not matter',
+      'Drawings, a spreadsheet, a book of tables, an app. The law has never '
+          'cared what the judgment is delivered on. Making the user press the '
+          'last button does not move the judgment out of the software.',
+    ),
+    (
+      'Offense two: wearing the title',
+      'Calling yourself a Professional Engineer when you are not, on a sign, '
+          'a card, a letterhead or a website, is a violation even if you never '
+          'do a day of engineering.',
+    ),
+  ],
+  spoken: [
     (
       '110.20 A.3',
-      r'\text{Work needing engineering judgment, reaching the public.}',
+      r'\text{engineering judgment that reaches the public}',
+      'work needing engineering education and judgment, touching public safety, is the practice',
     ),
-    ('A.3(a)', r'\text{Practices, or holds out as able to practice.}'),
-    ('A.3(b)', r'\text{Represents themselves as a PE by any means.}'),
+    (
+      'A.3(a)',
+      r'\text{practices, or offers to practice}',
+      'doing the work, or advertising that you can',
+    ),
+    (
+      'A.3(b)',
+      r'\text{represents themselves as a PE by any means}',
+      'claiming the title in any form, even without doing the work',
+    ),
   ],
-  figure: BriefFigure.holdingOut,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 6, Model Law 110.20 A.3',
 );
 
 const ladderBrief = BriefSection(
-  title: 'The ladder, and the years on it',
-  body:
-      'Five general requirements for anybody: good character, the education, '
-      'the experience, the examinations, and five references acceptable to the '
-      'board. The path runs in order. An accredited degree and the FE make you '
-      'an Engineer Intern; the PE exam and the years make you a Professional '
-      'Engineer. The years depend on the degree, and the degree that bought '
-      'the education requirement cannot be spent again on the experience.',
-  formulas: [
-    ("Bachelor's", r'\text{4 years of progressive experience}'),
-    ("Master's", r'\text{3 years}'),
-    ('Doctorate, with the FE', r'\text{2 years}'),
-    ('Comity', r'\text{another jurisdiction, if the credentials meet ours}'),
+  title: 'The ladder, and the years on each rung',
+  picture: ladderPicture,
+  steps: [
+    (
+      'Five things for anybody',
+      'Good character, the education, the experience, the exams, and five '
+          'references the board accepts. Everyone climbs the same ladder.',
+    ),
+    (
+      'In order',
+      'An accredited degree plus the FE makes you an Engineer Intern. Then '
+          'the years of experience, then the PE exam, and you are a Professional '
+          'Engineer.',
+    ),
+    (
+      'The years depend on the degree',
+      'Four years after a bachelor\'s. Three after a master\'s. Two after a '
+          'doctorate, if you also passed the FE. More schooling, fewer years.',
+    ),
+    (
+      'A degree is spent once',
+      'The degree that paid for the education requirement cannot be spent '
+          'again as experience. The years are real years at work.',
+    ),
   ],
-  figure: BriefFigure.ladder,
+  spoken: [
+    (
+      "Bachelor's",
+      r'\text{4 years of progressive experience}',
+      'four years of real, growing responsibility',
+    ),
+    ("Master's", r'\text{3 years}', 'three years'),
+    ('Doctorate, with the FE', r'\text{2 years}', 'two years'),
+    (
+      'Comity',
+      r'\text{licensed elsewhere} \to \text{licensed here, if it matches}',
+      'a licence from another state carries over when its requirements meet ours',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 8-9, Model Law 130.10',
 );
 
 const disciplineBrief = BriefSection(
   title: 'What the board can act on',
-  body:
-      'For a licensee: fraud in obtaining the licence, negligence or '
-      'incompetence, practising outside your competence, failing to comply '
-      'with a board rule, and conviction of ANY felony, whether or not it '
-      'touches engineering. Misdemeanours are the opposite shape and only '
-      'count when they involve dishonesty or the practice itself, which is why '
-      'a falsified timesheet is grounds and a speeding ticket is not. A clean '
-      'record affects what the board does about it, never whether it may act.',
-  formulas: [
-    ('Any felony', r'\text{whether or not related to the practice}'),
-    ('A misdemeanour', r'\text{only if dishonesty, or the practice}'),
-    ('Also', r'\text{fraud, negligence, incompetence, board rules}'),
+  picture: disciplinePicture,
+  steps: [
+    (
+      'The list',
+      'Lying to get the licence. Negligence or incompetence. Working outside '
+          'your field. Breaking a board rule. And being convicted of a felony.',
+    ),
+    (
+      'Any felony',
+      'A felony counts whether or not it has anything to do with '
+          'engineering. The board may act on it.',
+    ),
+    (
+      'Misdemeanours are the other way round',
+      'A small offense counts only if it involves dishonesty or the '
+          'practice itself. A faked timesheet is grounds. A speeding ticket is '
+          'not.',
+    ),
+    (
+      'A clean record changes the punishment, not the question',
+      'A good history affects what the board does. It never decides whether '
+          'the board may act at all.',
+    ),
   ],
-  figure: BriefFigure.discipline,
+  spoken: [
+    (
+      'Any felony',
+      r'\text{grounds, related to engineering or not}',
+      'a felony conviction is always grounds for discipline',
+    ),
+    (
+      'A misdemeanour',
+      r'\text{grounds only if dishonesty, or the practice}',
+      'a lesser offense counts only when it involves a lie or the engineering work',
+    ),
+    (
+      'Also',
+      r'\text{fraud, negligence, incompetence, a board rule}',
+      'lying for the licence, careless or incompetent work, or breaking a board rule',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 9, Model Law 150.10',
 );
 
 const sectionsBrief = BriefSection(
-  title: 'Licensed, or not, first',
-  body:
-      'Ask whether they hold a licence before anything else, because the two '
-      'lists are different. A licensee can be suspended, revoked, fined or '
-      'reprimanded. Somebody who is not licensed is fined instead, for '
-      'practising, for using the title, for presenting a seal that is not '
-      'theirs, and for using the word engineering in a business name without '
-      'board authorisation; each day of continued violation is a separate '
-      'offense. Revoked, suspended and expired all mean the same thing here, '
-      'which is that there is no licence.',
-  formulas: [
-    ('150.10', r'\text{A licensee: suspend, revoke, fine, reprimand}'),
-    ('150.30', r'\text{Not licensed: fined, each day counted again}'),
-    ('And', r'\text{revoked or expired} \;\Rightarrow\; \text{not licensed}'),
+  title: 'Ask first: do they hold a licence',
+  picture: sectionsPicture,
+  steps: [
+    (
+      'Two roads',
+      'The penalties come in two lists, and which list applies depends on '
+          'one thing: does this person hold a licence right now.',
+    ),
+    (
+      'A licensee',
+      'The board can suspend the licence, revoke it, fine them, or '
+          'reprimand them.',
+    ),
+    (
+      'Not licensed',
+      'They are fined instead: for practising, for using the title, for '
+          'showing a seal that is not theirs, for putting "engineering" in a '
+          'business name without permission. Every day it continues is a new '
+          'offense.',
+    ),
+    (
+      'Expired means not licensed',
+      'Revoked, suspended and expired all land on the second road. There is '
+          'no licence to act against, so the fines apply.',
+    ),
   ],
-  figure: BriefFigure.sections,
+  spoken: [
+    (
+      '150.10, a licensee',
+      r'\text{suspend, revoke, fine, reprimand}',
+      'the board acts on the licence itself',
+    ),
+    (
+      '150.30, not licensed',
+      r'\text{a fine, each day counted again}',
+      'no licence to touch, so a fine, repeated for every day it goes on',
+    ),
+    (
+      'And',
+      r'\text{revoked or expired} \Rightarrow \text{not licensed}',
+      'a licence that is gone puts you on the second road',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 9-10, Model Law 150.10 and 150.30',
 );
 
 const formationBrief = BriefSection(
-  title: 'When it becomes a contract',
-  body:
-      'Five elements, and none of them is a notary. There has to be an OFFER, '
-      'an ACCEPTANCE of that offer as it stands, CONSIDERATION moving both '
-      'ways, parties with the CAPACITY to agree, and a LAWFUL purpose. Two '
-      'things follow that catch people out. A counter-offer is a rejection, so '
-      'the number on the table before it is gone and cannot be taken later. '
-      'And an invitation to bid is not an offer: the bidder makes the offer '
-      'and the award accepts it, which is why the firms that lost have nothing '
-      'to enforce.',
-  formulas: [
+  title: 'When a deal becomes a contract',
+  picture: formationPicture,
+  steps: [
+    (
+      'Five ticks',
+      'Someone makes an OFFER. The other side ACCEPTS it as it stands. '
+          'Something of value moves both ways, the CONSIDERATION. Both have the '
+          'CAPACITY to agree. The purpose is LAWFUL. All five, and it is a '
+          'contract.',
+    ),
+    (
+      'Not on the list',
+      'A notary. A witness. A signature in ink. None of these is needed for '
+          'a contract to exist.',
+    ),
+    (
+      'A counter-offer kills the offer',
+      'Say "I will do it for less" and the original number is gone. You '
+          'cannot go back and take it later.',
+    ),
+    (
+      'An invitation to bid is not an offer',
+      'The owner asking for bids is not offering anything. The bidder makes '
+          'the offer; the award accepts it. That is why the firms that lost have '
+          'nothing to enforce.',
+    ),
+  ],
+  spoken: [
     (
       'The five',
       r'\text{offer, acceptance, consideration, capacity, legality}',
+      'an offer, a yes to it as it stands, value both ways, the ability to agree, and a lawful purpose',
     ),
-    ('Not required', r'\text{notarisation, or a witness}'),
-    ('A counter-offer', r'\text{ends the offer it answered}'),
+    (
+      'Not required',
+      r'\text{a notary or a witness}',
+      'formalities are not what makes a contract',
+    ),
+    (
+      'A counter-offer',
+      r'\text{ends the offer it answered}',
+      'once you counter, the original offer is off the table',
+    ),
   ],
-  figure: BriefFigure.formation,
+  figure: BriefFigure.none,
   handbook: 'Model Rules, contracts',
 );
 
 const riskBrief = BriefSection(
-  title: 'Who carries the overrun',
-  body:
-      'The pricing decides the risk. Lump sum fixes the number, so the '
-      'contractor absorbs anything above it and the owner buys certainty. Cost '
-      'plus a fee and time and materials reimburse what the work actually '
-      'cost, so the owner carries it and an estimate was never a promise. Unit '
-      'price is not an overrun at all: it fixes a rate, and the owner pays for '
-      'every yard that goes in. A guaranteed maximum draws a line and swaps '
-      'the parties at it. And changing the scope hands the risk back whatever '
-      'was signed.',
-  formulas: [
-    ('Lump sum', r'\text{the contractor}'),
-    ('Cost plus, and T and M', r'\text{the owner}'),
-    ('Unit price', r'\text{the owner, per unit actually placed}'),
-    ('Above a GMP', r'\text{the manager at risk}'),
+  title: 'Who pays for the piece past the line',
+  picture: riskPicture,
+  steps: [
+    (
+      'The job cost more than planned',
+      'Every pricing question is this picture. The bar ran past the price. '
+          'Someone has to absorb that piece, and the contract they signed '
+          'decides who.',
+    ),
+    (
+      'A fixed price: the contractor',
+      'Lump sum locks the number. Anything above it is the contractor\'s '
+          'problem. The owner bought certainty.',
+    ),
+    (
+      'Cost plus, or time and materials: the owner',
+      'These pay back whatever the work actually cost, plus a fee. The '
+          'estimate was never a promise, so the owner carries the overrun.',
+    ),
+    (
+      'The two odd ones',
+      'Unit price is not an overrun at all: the owner pays a fixed rate for '
+          'every unit that goes in. A guaranteed maximum draws a line and swaps '
+          'who pays at it. And changing the scope hands the risk back, whatever '
+          'was signed.',
+    ),
   ],
-  figure: BriefFigure.risk,
+  spoken: [
+    (
+      'Lump sum',
+      r'\text{the contractor}',
+      'a fixed price, so the contractor eats the overrun',
+    ),
+    (
+      'Cost plus, time and materials',
+      r'\text{the owner}',
+      'paid back what it cost, so the owner carries it',
+    ),
+    (
+      'Unit price',
+      r'\text{the owner, per unit placed}',
+      'a fixed rate per unit, the owner pays for every one',
+    ),
+    (
+      'Above a guaranteed maximum',
+      r'\text{the manager at risk}',
+      'past the guaranteed line, the construction manager pays',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Model Rules, contract types',
 );
 
 const deliveryBrief = BriefSection(
-  title: 'Count the lines out of the owner',
-  body:
-      'A delivery method is a contract shape wearing an acronym. Design, bid, '
-      'build gives the owner two agreements, one with the designer and one '
-      'with the builder, and nothing between them; the design is finished '
-      'before anybody prices it. Design-build gives the owner ONE agreement, '
-      'and the designer is a subcontractor the owner cannot write to. A '
-      'manager at risk is two agreements again, with the builder advising '
-      'through design and then committing to a guaranteed maximum.',
-  formulas: [
-    ('Design, bid, build', r'\text{two contracts, design finished first}'),
-    ('Design-build', r'\text{one contract, everybody else beneath it}'),
-    ('CM at risk', r'\text{two contracts, and a guaranteed maximum}'),
+  title: 'Count the lines coming out of the owner',
+  picture: deliveryPicture,
+  steps: [
+    (
+      'Forget the acronyms',
+      'A delivery method is just the shape of the contracts. Draw the owner '
+          'as a box and count the lines running out of it.',
+    ),
+    (
+      'Two lines: design, bid, build',
+      'One contract with the designer, one with the builder, nothing between '
+          'them. The design is finished before anyone prices it.',
+    ),
+    (
+      'One line: design-build',
+      'The owner signs with one firm. The designer works for that firm as a '
+          'subcontractor, and the owner cannot write to them directly.',
+    ),
+    (
+      'Two lines again: a manager at risk',
+      'The builder is hired early to advise during design, then commits to '
+          'a guaranteed maximum price. Two contracts, and a line the builder '
+          'promises not to cross.',
+    ),
   ],
-  figure: BriefFigure.delivery,
+  spoken: [
+    (
+      'Design, bid, build',
+      r'\text{two contracts, design finished first}',
+      'the owner holds two contracts and the design is done before bidding',
+    ),
+    (
+      'Design-build',
+      r'\text{one contract, everyone else beneath it}',
+      'one contract; the designer is under the builder',
+    ),
+    (
+      'CM at risk',
+      r'\text{two contracts, and a guaranteed maximum}',
+      'two contracts, with the builder promising a top price',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Model Rules, project delivery',
 );
 
 const standardOfCareBrief = BriefSection(
   title: 'Not perfection, and not intent',
-  body:
-      'An engineer is measured against the degree of skill and diligence a '
-      'reasonably competent engineer would exercise in similar circumstances. '
-      'That cuts both ways. A design that later proves imperfect is not a '
-      'breach if a competent peer would have produced it, and where competent '
-      'engineers could reasonably differ, choosing one of the options is not '
-      'negligence. It also does not need intent: forgetting a required check '
-      'is negligence, and knowing the truth and writing the opposite is '
-      'something worse that the word does not cover.',
-  formulas: [
-    ('The measure', r'\text{what a reasonably competent peer would do}'),
-    ('Not', r'\text{a guarantee of a perfect result}'),
-    ('Not', r'\text{intent, which is a different and graver claim}'),
+  picture: standardOfCarePicture,
+  steps: [
+    (
+      'The measuring stick',
+      'An engineer is judged against what a reasonably competent engineer '
+          'would have done in the same situation. That is a band, not a point.',
+    ),
+    (
+      'Inside the band is fine',
+      'A design that later turns out imperfect is not a breach if a '
+          'competent peer would have produced it. Where good engineers could '
+          'reasonably differ, picking one of the options is not negligence.',
+    ),
+    (
+      'Below the band is negligence',
+      'Forgetting a required check is negligence. You did not mean to, and '
+          'it does not matter. Intent is not part of the word.',
+    ),
+    (
+      'Above the band is not required',
+      'Nobody owes a perfect result. And knowing the truth and writing the '
+          'opposite is something worse than negligence, with a different name.',
+    ),
   ],
-  figure: BriefFigure.standardOfCare,
+  spoken: [
+    (
+      'The measure',
+      r'\text{what a reasonably competent peer would do}',
+      'the ordinary skill and care of a competent engineer in the same spot',
+    ),
+    (
+      'Not',
+      r'\text{a guarantee of a perfect result}',
+      'an imperfect outcome by itself is not a breach',
+    ),
+    ('Not', r'\text{intent}', 'negligence does not need you to have meant it'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Model Rules, liability',
 );
 
 const negligenceBrief = BriefSection(
-  title: 'Four elements, all four',
-  body:
-      'A claim needs a DUTY owed to this plaintiff, a BREACH of it, CAUSATION '
-      'linking the breach to the harm, and DAMAGES that can be measured. '
-      'Intent is not on the list and gets added to it. Causation is on the '
-      'list and gets dropped: a genuine breach beside a genuine loss that had '
-      'nothing to do with each other is still not negligence, and it is where '
-      'most claims against engineers actually fail.',
-  formulas: [
-    ('The four', r'\text{duty, breach, causation, damages}'),
-    ('Not one of them', r'\text{intent}'),
-    ('No damages', r'\text{no claim, however plain the breach}'),
+  title: 'Four links, and all four have to hold',
+  picture: negligencePicture,
+  steps: [
+    (
+      'A claim is a chain',
+      'You owed this person a DUTY. You BROKE it. The break CAUSED the harm. '
+          'The harm has DAMAGES you can measure. Four links.',
+    ),
+    (
+      'One missing link and nothing pulls through',
+      'A real mistake next to a real loss that had nothing to do with each '
+          'other is not negligence. The causation link is missing, and that is '
+          'where most claims against engineers fail.',
+    ),
+    (
+      'Intent is not a link',
+      'People add it to the list. It is not there. A careless slip with no '
+          'bad intention can still be negligence.',
+    ),
   ],
-  figure: BriefFigure.negligence,
+  spoken: [
+    (
+      'The four',
+      r'\text{duty, breach, causation, damages}',
+      'a duty owed, a breach of it, a link from the breach to the harm, and measurable harm',
+    ),
+    ('Not one of them', r'\text{intent}', 'meaning to is not required'),
+    (
+      'No damages',
+      r'\text{no claim, however plain the breach}',
+      'a mistake that hurt nobody is not a claim',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Model Rules, negligence',
 );
 
 const clocksBrief = BriefSection(
   title: 'Two clocks, two starting guns',
-  body:
-      'A statute of LIMITATIONS runs from when the harm happened or was '
-      'discovered, so it waits for the injury. A statute of REPOSE runs from a '
-      'fixed event, usually substantial completion, and nothing that happens '
-      'afterwards extends it. That is the whole difference and it has a sharp '
-      'consequence: repose can bar a claim before the harm has appeared, '
-      'because the window is measured from the day the job finished and not '
-      'from the day anything went wrong. A claim has to land inside both.',
-  formulas: [
-    ('Limitations', r'\text{from the harm, or from its discovery}'),
-    ('Repose', r'\text{from substantial completion, absolutely}'),
-    ('So', r'\text{repose can shut before the injury exists}'),
+  picture: clocksPicture,
+  steps: [
+    (
+      'The first clock waits for the harm',
+      'A statute of LIMITATIONS starts when the harm happens or is found. '
+          'From that day you have a few years to file.',
+    ),
+    (
+      'The second clock starts when the job ends',
+      'A statute of REPOSE starts at a fixed event, usually the day the '
+          'project was substantially complete. Nothing that happens later can '
+          'stretch it.',
+    ),
+    (
+      'A claim must land inside both windows',
+      'Miss either one and the claim is out. That is the whole difference '
+          'between the two words.',
+    ),
+    (
+      'The sharp edge',
+      'Repose can close before the harm even shows up, because it counts '
+          'from the day the job finished, not from the day something went '
+          'wrong.',
+    ),
   ],
-  figure: BriefFigure.clocks,
+  spoken: [
+    (
+      'Limitations',
+      r'\text{from the harm, or from finding it}',
+      'the clock starts when the injury happens or is discovered',
+    ),
+    (
+      'Repose',
+      r'\text{from substantial completion, no extensions}',
+      'the clock starts when the job is done and never moves',
+    ),
+    (
+      'So',
+      r'\text{repose can shut before the injury exists}',
+      'a claim can be dead before anyone knew there was a problem',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Model Rules, time limits',
 );
 
 const propertyBrief = BriefSection(
-  title: 'Four protections, one question',
-  body:
-      'Disclosure decides most of it. A PATENT is a bargain: publish the '
-      'invention and get twenty years from the filing date, and there are '
-      'three kinds, for inventions, for the ornamental look of a made article, '
-      'and for a plant variety reproduced without seed. A TRADE SECRET is the '
-      'opposite bargain, protecting whatever nobody else knows for as long as '
-      'that stays true. A TRADEMARK protects the name and not the goods, so '
-      'anybody may make the same thing under a different mark. A COPYRIGHT '
-      'protects the writing and not the idea inside it.',
-  formulas: [
-    ('Patent', r'\text{published, and 20 years from filing}'),
-    ('Trade secret', r'\text{unpublished, and lasts while it holds}'),
-    ('Trademark', r'\text{the name, not the goods}'),
-    ('Copyright', r'\text{the expression, not the idea}'),
+  title: 'Four protections, and the one question that sorts them',
+  picture: propertyPicture,
+  steps: [
+    (
+      'Do you tell the world, or keep it quiet',
+      'A PATENT is a trade: publish how the invention works and get twenty '
+          'years from the filing date. A TRADE SECRET is the opposite trade: '
+          'keep it quiet and it is protected for as long as nobody knows.',
+    ),
+    (
+      'Three kinds of patent',
+      'For an invention. For the ornamental look of a made thing. For a '
+          'plant variety grown without seed.',
+    ),
+    (
+      'The name, and the words',
+      'A TRADEMARK protects the name, not the product: anyone may make the '
+          'same thing under a different name. A COPYRIGHT protects the writing, '
+          'not the idea inside it.',
+    ),
   ],
-  figure: BriefFigure.property,
+  spoken: [
+    (
+      'Patent',
+      r'\text{published, 20 years from filing}',
+      'you disclose the invention and get twenty years from the day you filed',
+    ),
+    (
+      'Trade secret',
+      r'\text{unpublished, lasts while it holds}',
+      'you keep it quiet and it lasts as long as it stays secret',
+    ),
+    (
+      'Trademark',
+      r'\text{the name, not the goods}',
+      'protects what the product is called',
+    ),
+    (
+      'Copyright',
+      r'\text{the expression, not the idea}',
+      'protects the words and drawings, not the thought behind them',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 12-13',
 );
 
 const portfolioBrief = BriefSection(
-  title: 'They do not compete',
-  body:
-      'One project regularly needs several at once, because they attach to '
-      'different things. An invention, the name it is sold under, the paper '
-      'describing it and the process left out of that paper are four separate '
-      'assets and take four separate protections. A firm that patents the '
-      'invention and stops has protected one of the four. The one pairing that '
-      'cannot happen is a patent and a trade secret on the SAME thing, because '
-      'filing publishes it and a secret only exists while it is not published.',
-  formulas: [
-    ('The invention', r'\text{a patent}'),
-    ('The name', r'\text{a trademark}'),
-    ('The paper', r'\text{a copyright}'),
-    ('What was left out of it', r'\text{a trade secret}'),
+  title: 'One product, four things to protect',
+  picture: portfolioPicture,
+  steps: [
+    (
+      'They do not compete',
+      'A product is not one asset. The invention, the name it is sold '
+          'under, the manual that describes it, and the process left out of the '
+          'manual are four different things.',
+    ),
+    (
+      'Four things, four protections',
+      'The invention gets a patent. The name gets a trademark. The manual '
+          'gets a copyright. The process nobody wrote down stays a trade secret.',
+    ),
+    (
+      'Patenting and stopping covers one of four',
+      'A firm that patents the invention and does nothing else has left the '
+          'name, the manual and the process unprotected.',
+    ),
+    (
+      'The one pairing that cannot happen',
+      'A patent and a trade secret on the SAME thing. Filing publishes it, '
+          'and a secret only exists while it is not published.',
+    ),
   ],
-  figure: BriefFigure.portfolio,
+  spoken: [
+    (
+      'The invention',
+      r'\text{a patent}',
+      'how it works, published, for twenty years',
+    ),
+    ('The name', r'\text{a trademark}', 'what it is called'),
+    (
+      'The manual',
+      r'\text{a copyright}',
+      'the words and drawings that describe it',
+    ),
+    (
+      'What was left out',
+      r'\text{a trade secret}',
+      'the process nobody published',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 12-13',
 );
 
 const lifeCycleBrief = BriefSection(
-  title: 'Add the whole bar',
-  body:
-      'A life-cycle assessment adds what a thing costs across its whole life: '
-      'building it, running it, keeping it, and taking it away at the end. The '
-      'option that is cheapest to build is regularly not the cheapest to own, '
-      'and the segment that decides it is often the one nobody prices, either '
-      'because it arrives as maintenance years later or because it arrives as '
-      'demolition after everybody involved has retired. It is a method rather '
-      'than a verdict: sometimes the cheap option really is the cheap option, '
-      'and the assessment is what tells you which case you are in.',
-  formulas: [
+  title: 'Add up the whole bar',
+  picture: lifeCyclePicture,
+  steps: [
+    (
+      'A thing costs money its whole life',
+      'Building it is only the first piece. Then running it, keeping it '
+          'fixed, and finally taking it away. A life-cycle assessment adds all '
+          'four.',
+    ),
+    (
+      'Cheapest to build is often not cheapest to own',
+      'Look at the picture: the option with the shorter first piece has the '
+          'longer bar. The piece that decides it is usually the one nobody '
+          'priced, maintenance years later or demolition after everyone has '
+          'retired.',
+    ),
+    (
+      'It is a method, not a verdict',
+      'Sometimes the cheap option really is the cheap option. The assessment '
+          'is how you find out which case you are in.',
+    ),
+  ],
+  spoken: [
     (
       'The whole life',
-      r'\text{build} + \text{operate} + \text{maintain} + '
-          r'\text{take away}',
+      r'\text{build} + \text{operate} + \text{maintain} + \text{take away}',
+      'add what it costs to build, to run, to keep, and to remove',
     ),
-    ('Not', r'\text{the first segment on its own}'),
-    ('The triple bottom line', r'\text{economic, environmental, social}'),
+    (
+      'Not',
+      r'\text{the first piece on its own}',
+      'the build cost alone tells you nothing about the total',
+    ),
+    (
+      'The triple bottom line',
+      r'\text{economic, environmental, social}',
+      'money, the planet, and people, all three counted',
+    ),
   ],
-  figure: BriefFigure.lifeCycle,
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 12-13',
 );
 
