@@ -8131,7 +8131,7 @@ const latDepBrief = BriefSection(
     ),
     (
       'A closed loop must add to nothing',
-      'Come back where you started and every step north is cancelled by a '
+      'Come back where you started and every step north is canceled by a '
           'step south. So a real traverse has to run through more than one corner '
           'of the compass.',
     ),
@@ -8470,7 +8470,7 @@ const stationBrief = BriefSection(
     ),
     (
       'Work each pair, then add the pieces',
-      'Take every pair of neighbouring stations on its own and add the '
+      'Take every pair of neighboring stations on its own and add the '
           'volumes up. The only safe skip is a section that climbs evenly the '
           'whole way, because then the ends really do carry the story.',
     ),

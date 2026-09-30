@@ -104,8 +104,8 @@ Widget runPicture() => const ConceptPicture(
 Widget closurePicture() => const ConceptPair(
   left: LoopPainter(loop: Loop(miles: 1, constant: 0.05), biggest: 4),
   right: LoopPainter(loop: Loop(miles: 4, constant: 0.05), biggest: 4),
-  leftCaption: 'one mile round: allowed to be out by 0.05 ft',
-  rightCaption: 'four miles round: four times as far, only twice the slack',
+  leftCaption: 'one mile at C = 0.05: allowed to be out by 0.05 ft',
+  rightCaption: 'four miles at the same C: allowed 0.10 ft, only twice as much',
   height: 200,
 );
 
@@ -164,12 +164,14 @@ const _parcel = Parcel(
 
 const _wander = Strip(offsets: [8, 14, 19, 22, 20, 15, 9], step: 10);
 
-Widget methodPicture() => const ConceptPair(
-  left: ParcelPainter(parcel: _parcel, order: [0, 1, 2, 3]),
-  right: OffsetsPainter(strip: _wander),
-  leftCaption: 'straight sides and known corners: use the coordinates',
-  rightCaption: 'a boundary that wanders: measure offsets off a baseline',
-  height: 210,
+// Two drawings the painters label along their own bottom edge, so they are
+// stacked at full width rather than set side by side: at half width the
+// painter's own labels land on each other.
+Widget methodPicture() => const _Stacked(
+  top: ParcelPainter(parcel: _parcel, order: [0, 1, 2, 3]),
+  bottom: OffsetsPainter(strip: _wander),
+  topCaption: 'straight sides and known corners: use the coordinates',
+  bottomCaption: 'a boundary that wanders: measure offsets off a baseline',
 );
 
 Widget weightsPicture() => const ConceptPicture(
@@ -219,12 +221,13 @@ Widget endAreaPicture() => const ConceptPicture(
   height: 220,
 );
 
-Widget stationsPicture() => const ConceptPicture(
-  painter: HaulPainter(haul: _hump, skipMiddle: true, locked: true),
-  caption:
-      'both ends are zero. skip the middle section and the whole hill is '
-      'booked as no dirt at all',
-  height: 220,
+Widget stationsPicture() => const _Stacked(
+  top: HaulPainter(haul: _hump, locked: true),
+  bottom: HaulPainter(haul: _hump, skipMiddle: true, locked: true),
+  topCaption: 'every pair of stations worked and added: the real hill',
+  bottomCaption:
+      'the two ends only. both are zero, so the whole hill is booked as no '
+      'dirt at all',
 );
 
 Widget solidPicture() {
@@ -293,12 +296,23 @@ Widget arctanPicture() => const ConceptPair(
 // ---------------------------------------------------------------------------
 // Horizontal curves
 
-Widget roadCurvePicture() => const ConceptPicture(
-  painter: AlignPainter(bend: Bend2(radius: 600, turn: 60), locked: true),
-  caption:
-      'one curve joining two straight roads. six different lengths live on '
-      'this one picture',
-  height: 240,
+// The two pieces the lesson says get mixed up, each marked on its own copy
+// of the same curve: the painter marks one at a time.
+Widget roadCurvePicture() => const _Stacked(
+  top: AlignPainter(
+    bend: Bend2(radius: 600, turn: 60),
+    answer: Bit.tangent,
+    locked: true,
+  ),
+  bottom: AlignPainter(
+    bend: Bend2(radius: 600, turn: 60),
+    answer: Bit.arc,
+    locked: true,
+  ),
+  topCaption: 'the tangent: out along the old straight, to the corner',
+  bottomCaption:
+      'the curve length: the arc, which is the road the car actually drives',
+  height: 175,
 );
 
 Widget degreePicture() => const ConceptPicture(
@@ -334,6 +348,36 @@ Widget highPointPicture() => const ConceptPicture(
       'at the middle',
   height: 220,
 );
+
+// ---------------------------------------------------------------------------
+// Two drawings one above the other, each at full width
+
+class _Stacked extends StatelessWidget {
+  const _Stacked({
+    required this.top,
+    required this.bottom,
+    required this.topCaption,
+    required this.bottomCaption,
+    this.height = 155,
+  });
+
+  final CustomPainter top;
+  final CustomPainter bottom;
+  final String topCaption;
+  final String bottomCaption;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ConceptPicture(painter: top, caption: topCaption, height: height),
+        const SizedBox(height: 14),
+        ConceptPicture(painter: bottom, caption: bottomCaption, height: height),
+      ],
+    );
+  }
+}
 
 // ---------------------------------------------------------------------------
 // The one painter that exists only for a sheet
