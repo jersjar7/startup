@@ -55,16 +55,15 @@ Widget azimuthPicture() => const ConceptPair(
   height: 200,
 );
 
+// The game marks the three sides with bare circles, because naming them
+// would be the answer. On a sheet the names ARE the lesson, so they are
+// written on: which line is the slope, which is the flat distance, which is
+// the height.
 Widget shotPicture() => const ConceptPicture(
-  painter: SlopePainter(
-    sight: Sight(slope: 100, angle: 18),
-    answer: Side3.slope,
-    locked: true,
-  ),
+  painter: _NamedShotPainter(),
   caption:
-      'one shot up a hill makes a right triangle. the sloping side is the '
-      'longest of the three every time',
-  height: 210,
+      'one shot up a hill makes a right triangle. the sloping side is the longest of the three every time',
+  height: 220,
 );
 
 // ---------------------------------------------------------------------------
@@ -101,12 +100,27 @@ Widget runPicture() => const ConceptPicture(
   height: 220,
 );
 
-Widget closurePicture() => const ConceptPair(
-  left: LoopPainter(loop: Loop(miles: 1, constant: 0.05), biggest: 4),
-  right: LoopPainter(loop: Loop(miles: 4, constant: 0.05), biggest: 4),
-  leftCaption: 'one mile at C = 0.05: allowed to be out by 0.05 ft',
-  rightCaption: 'four miles at the same C: allowed 0.10 ft, only twice as much',
-  height: 200,
+// Two loops side by side could not carry this: the game's painter
+// deliberately grows a longer loop only a little, so that the drawing never
+// becomes the answer. So the loop is drawn once, and the thing the sheet is
+// actually about, an allowance that grows by the ROOT of the distance, is
+// drawn as its own curve with both cases marked on it.
+Widget closurePicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: LoopPainter(loop: Loop(miles: 1, constant: 0.05), biggest: 1),
+      caption:
+          'a level loop: leave the benchmark, go round, come back to it. whatever you come back with should be the height you left with',
+      height: 200,
+    ),
+    SizedBox(height: 14),
+    ConceptPicture(
+      painter: _RootCurvePainter(),
+      caption:
+          'what it is allowed to be out by, against how far it ran. four times as far buys only twice the allowance, because of the square root',
+      height: 210,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -174,12 +188,26 @@ Widget methodPicture() => const _Stacked(
   bottomCaption: 'a boundary that wanders: measure offsets off a baseline',
 );
 
-Widget weightsPicture() => const ConceptPicture(
-  painter: OffsetsPainter(strip: _wander, marked: 3, locked: true),
-  caption:
-      'seven offsets, six strips. every offset gets multiplied by something '
-      'before the sum',
-  height: 210,
+// The offsets alone show the ground but not the pattern, and the pattern is
+// the whole rule. The second panel writes the two weight lists under the
+// same seven positions, so the halved ends and the alternating four and two
+// can be seen rather than recited.
+Widget weightsPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: OffsetsPainter(strip: _wander, marked: 3, locked: true),
+      caption:
+          'seven offsets, six strips. every offset gets multiplied by something before the sum',
+      height: 210,
+    ),
+    SizedBox(height: 14),
+    ConceptPicture(
+      painter: _WeightsPainter(),
+      caption:
+          'the same seven, with what each one is multiplied by. the ends are the only place the two rules disagree about halves',
+      height: 200,
+    ),
+  ],
 );
 
 Widget shoelacePicture() => const ConceptPair(
@@ -377,6 +405,198 @@ class _Stacked extends StatelessWidget {
       ],
     );
   }
+}
+
+// ---------------------------------------------------------------------------
+// The painters that exist only for a sheet
+
+TextPainter _tp(String s, {double size = 10.5, Color color = AppColors.ink2}) {
+  return TextPainter(
+    text: TextSpan(
+      text: s,
+      style: AppTheme.mono(size: size, color: color),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
+}
+
+/// The game's shot, with the three sides named. The game draws bare circles
+/// on purpose, since naming them would hand over the answer; a sheet has
+/// the opposite job.
+class _NamedShotPainter extends CustomPainter {
+  const _NamedShotPainter();
+
+  static const _sight = Sight(slope: 100, angle: 18);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const SlopePainter(
+      sight: _sight,
+      answer: Side3.slope,
+      locked: true,
+    ).paint(canvas, size);
+
+    for (final (side, words, tone) in [
+      (Side3.slope, 'slope: the longest', AppColors.forest),
+      (Side3.flat, 'flat distance', AppColors.charcoal),
+      (Side3.rise, 'height', AppColors.charcoal),
+    ]) {
+      final spot = SlopePainter.spotOf(size, _sight, side);
+      final t = _tp(words, color: tone);
+      final dy = switch (side) {
+        Side3.slope => -26.0,
+        Side3.flat => 14.0,
+        Side3.rise => -6.0,
+      };
+      var x = switch (side) {
+        Side3.rise => spot.dx + 12,
+        _ => spot.dx - t.width / 2,
+      };
+      x = x.clamp(4.0, size.width - t.width - 4);
+      t.paint(canvas, Offset(x, spot.dy + dy));
+    }
+  }
+
+  @override
+  bool shouldRepaint(_NamedShotPainter old) => false;
+}
+
+/// How big an allowance a loop earns, against how far it ran. The curve
+/// bends over because the allowance grows by the square root, which is the
+/// whole of the sheet: four times the distance buys twice the allowance,
+/// not four times.
+class _RootCurvePainter extends CustomPainter {
+  const _RootCurvePainter();
+
+  static const _c = 0.05;
+  static const _maxMiles = 6.0;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.20;
+    final right = size.width * 0.88;
+    final bottom = size.height * 0.74;
+    final top = size.height * 0.16;
+    final maxAllow = _c * math.sqrt(_maxMiles);
+
+    double x(double miles) => left + (right - left) * miles / _maxMiles;
+    double y(double feet) => bottom - (bottom - top) * feet / maxAllow;
+
+    final axis = Paint()
+      ..color = AppColors.ink2
+      ..strokeWidth = 1.6
+      ..strokeCap = StrokeCap.round;
+    canvas
+      ..drawLine(Offset(left, bottom), Offset(right, bottom), axis)
+      ..drawLine(Offset(left, bottom), Offset(left, top), axis);
+
+    final curve = Path()..moveTo(x(0), y(0));
+    for (var m = 0.05; m <= _maxMiles; m += 0.05) {
+      curve.lineTo(x(m), y(_c * math.sqrt(m)));
+    }
+    canvas.drawPath(
+      curve,
+      Paint()
+        ..color = AppColors.info
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.6
+        ..strokeCap = StrokeCap.round,
+    );
+
+    // The two cases the caption talks about, marked on the curve with
+    // dropped guides so the doubling can be read off the side.
+    final guide = Paint()
+      ..color = AppColors.ink3
+      ..strokeWidth = 1;
+    for (final (miles, label) in [(1.0, '1 mile'), (4.0, '4 miles')]) {
+      final feet = _c * math.sqrt(miles);
+      final at = Offset(x(miles), y(feet));
+      for (var g = left; g < at.dx; g += 7) {
+        canvas.drawLine(Offset(g, at.dy), Offset(g + 3.5, at.dy), guide);
+      }
+      for (var g = at.dy; g < bottom; g += 7) {
+        canvas.drawLine(Offset(at.dx, g), Offset(at.dx, g + 3.5), guide);
+      }
+      canvas
+        ..drawCircle(at, 6, Paint()..color = AppColors.cream)
+        ..drawCircle(at, 4.5, Paint()..color = AppColors.ember);
+      final m = _tp(label, size: 10, color: AppColors.charcoal);
+      m.paint(canvas, Offset(at.dx - m.width / 2, bottom + 6));
+      final f = _tp(
+        '${feet.toStringAsFixed(2)} ft',
+        size: 10,
+        color: AppColors.ember,
+      );
+      f.paint(canvas, Offset(left - f.width - 6, at.dy - 7));
+    }
+
+    final side = _tp('allowed to be out by', size: 9.5, color: AppColors.ink3);
+    side.paint(canvas, Offset(left - 4, top - 14));
+    final along = _tp('miles run', size: 9.5, color: AppColors.ink3);
+    along.paint(canvas, Offset(right - along.width, bottom + 6));
+  }
+
+  @override
+  bool shouldRepaint(_RootCurvePainter old) => false;
+}
+
+/// The two weight lists written under the same seven offsets, so the halved
+/// ends and the alternating four and two are something you look at rather
+/// than something you are told.
+class _WeightsPainter extends CustomPainter {
+  const _WeightsPainter();
+
+  static const _trap = ['1/2', '1', '1', '1', '1', '1', '1/2'];
+  static const _simpson = ['1', '4', '2', '4', '2', '4', '1'];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.14;
+    final right = size.width * 0.92;
+    final step = (right - left) / (_trap.length - 1);
+    final markY = size.height * 0.22;
+
+    // The seven positions, as ticks on one baseline.
+    canvas.drawLine(
+      Offset(left - 10, markY),
+      Offset(right + 10, markY),
+      Paint()
+        ..color = AppColors.ink2
+        ..strokeWidth = 1.4,
+    );
+    for (var i = 0; i < _trap.length; i++) {
+      final px = left + step * i;
+      canvas.drawCircle(
+        Offset(px, markY),
+        3.5,
+        Paint()..color = AppColors.charcoal,
+      );
+    }
+    final head = _tp('the seven offsets', size: 9.5, color: AppColors.ink3);
+    head.paint(canvas, Offset(left - 10, markY - 18));
+
+    for (final (row, (name, weights, tone)) in [
+      ('trapezoidal', _trap, AppColors.charcoal),
+      ('Simpson', _simpson, AppColors.ember),
+    ].indexed) {
+      final y = size.height * (row == 0 ? 0.50 : 0.76);
+      final n = _tp(name, size: 10, color: tone);
+      n.paint(canvas, Offset(left - 10, y - 22));
+      for (var i = 0; i < weights.length; i++) {
+        final px = left + step * i;
+        final ends = i == 0 || i == weights.length - 1;
+        final t = _tp(
+          weights[i],
+          size: ends ? 12 : 11,
+          color: ends ? tone : AppColors.ink2,
+        );
+        t.paint(canvas, Offset(px - t.width / 2, y - 6));
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_WeightsPainter old) => false;
 }
 
 // ---------------------------------------------------------------------------
