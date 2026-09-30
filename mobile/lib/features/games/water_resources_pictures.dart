@@ -13,7 +13,11 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import 'channel_figures.dart';
 import 'flow_figures.dart';
+import 'aquifer_figures.dart';
 import 'hazen_figures.dart';
+import 'hydrograph_figures.dart';
+import 'pump_figures.dart';
+import 'runoff_figures.dart';
 import 'mechanics_pictures.dart' show ConceptPicture, ConceptPair;
 import 'weir_figures.dart';
 
@@ -152,6 +156,182 @@ Widget hazenPicture() => const ConceptPicture(
       'two mains between the same two points, alike but for the wall. the '
       'bigger C carries more water',
   height: 210,
+);
+
+// ---------------------------------------------------------------------------
+// Pumps
+
+Widget pumpPowerPicture() => const ConceptPicture(
+  painter: PowerBarPainter(
+    duty: Duty(
+      flow: 0.05,
+      head: 30,
+      pumpEfficiency: 0.75,
+      motorEfficiency: 0.90,
+    ),
+    caption: 'ONE DUTY, THREE POWERS',
+  ),
+  caption:
+      'the same pump, measured in three places. each bar is bigger than the '
+      'one it feeds',
+  height: 200,
+);
+
+Widget npshPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: PumpSystemPainter(above: true, highlight: Piece3.lift),
+      caption:
+          'the pump has to lift the water up to itself: the margin shrinks',
+      height: 190,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: PumpSystemPainter(above: false, highlight: Piece3.flooded),
+      caption:
+          'the water stands above the pump and pushes in: the margin grows',
+      height: 190,
+    ),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// Runoff
+
+Widget rationalPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: CatchmentPainter(
+        catchment: Catchment([
+          Patch(cover: 'paving', acres: 4, coefficient: 0.9),
+        ]),
+        intensity: 2,
+        scaleTo: 12,
+      ),
+      caption: 'four acres of paving sheds almost all the rain',
+      height: 175,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: CatchmentPainter(
+        catchment: Catchment([
+          Patch(cover: 'woodland', acres: 12, coefficient: 0.3),
+        ]),
+        intensity: 2,
+        scaleTo: 12,
+      ),
+      caption:
+          'twelve acres of woodland drinks most of it. the same storm, and '
+          'nearly the same peak',
+      height: 175,
+    ),
+  ],
+);
+
+Widget catchmentBlendPicture() => const ConceptPicture(
+  painter: CatchmentPainter(
+    catchment: Catchment([
+      Patch(cover: 'roofs and roads', acres: 3, coefficient: 0.9),
+      Patch(cover: 'grass', acres: 9, coefficient: 0.2),
+    ]),
+    showWeighted: true,
+    tag: 'ONE INLET, TWO COVERS',
+  ),
+  caption:
+      'drawn to scale. there is three times as much grass, so the blend '
+      'lands near the grass',
+  height: 230,
+);
+
+Widget curveNumberPicture() => const ConceptPicture(
+  painter: SoakPainter(soak: Soak(curveNumber: 75, rain: 4), answered: true),
+  caption:
+      'the storm as a column. the ground takes the bottom slice first, and '
+      'what is left runs off',
+  height: 240,
+);
+
+// ---------------------------------------------------------------------------
+// Hydrographs
+
+Widget unitHydrographPicture() => const ConceptPicture(
+  painter: HydrographPainter(
+    waves: [
+      Wave(peak: 200, toPeak: 3, base: 9),
+      Wave(peak: 600, toPeak: 3, base: 9),
+    ],
+    names: ['one inch of rain', 'three inches, same duration'],
+    note: 'three times as tall, same hour',
+  ),
+  caption:
+      'the watershed always answers at its own speed. a deeper storm only '
+      'scales the height',
+  height: 230,
+);
+
+Widget concentrationPicture() => const ConceptPair(
+  left: BasinPainter(basin: Basin(travelTime: 30, stormMinutes: 15)),
+  right: BasinPainter(basin: Basin(travelTime: 30, stormMinutes: 30)),
+  leftCaption: 'a short storm: it is over before the far ground reports in',
+  rightCaption: 'a storm as long as the travel time: the whole basin counts',
+  height: 230,
+);
+
+Widget routingPicture() => const ConceptPicture(
+  painter: PondPainter(pond: Pond(inflow: 9, outflow: 3), answered: true),
+  caption:
+      'more arriving than leaving, so the pond is filling and the town '
+      'downstream never sees the peak',
+  height: 230,
+);
+
+// ---------------------------------------------------------------------------
+// Groundwater
+
+Widget seepagePicture() => const ConceptPicture(
+  painter: SoilPainter(
+    seep: Seep(conductivity: 1e-4, gradient: 0.02, porosity: 0.3, area: 10),
+    answered: true,
+  ),
+  caption:
+      'the grains are in the way, so water has to hurry through the gaps '
+      'left between them',
+  height: 240,
+);
+
+Widget wellsPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: AquiferPainter(
+        aquifer: Aquifer(
+          kind: Ground.unconfined,
+          conductivity: 5e-4,
+          headAtWell: 40,
+          radiusAtWell: 0.5,
+          headOut: 60,
+          radiusOut: 200,
+        ),
+      ),
+      caption:
+          'no lid: the water table itself is drawn down, so the aquifer thins',
+      height: 190,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: AquiferPainter(
+        aquifer: Aquifer(
+          kind: Ground.confined,
+          conductivity: 3e-5,
+          headAtWell: 25,
+          radiusAtWell: 10,
+          headOut: 30,
+          radiusOut: 100,
+        ),
+      ),
+      caption: 'a clay lid: the aquifer keeps its thickness whatever you do',
+      height: 190,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -326,4 +506,14 @@ const waterresourcesPictures = <String, Widget Function()>{
   'weir': weirPicture,
   'exponent': exponentPicture,
   'hazen': hazenPicture,
+  'power': pumpPowerPicture,
+  'npsh': npshPicture,
+  'rational': rationalPicture,
+  'blend': catchmentBlendPicture,
+  'curvenumber': curveNumberPicture,
+  'unit': unitHydrographPicture,
+  'concentration': concentrationPicture,
+  'routing': routingPicture,
+  'seepage': seepagePicture,
+  'wells': wellsPicture,
 };
