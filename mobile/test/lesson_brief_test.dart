@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
-import 'package:mobile/features/games/mechanics_pictures.dart';
 
 /// Each item's reference covers that item and nothing else. Opening it mid
 /// round should answer the question in front of you.
@@ -126,88 +125,69 @@ void main() {
 
   // The picture-first sheet (owner's call, 2026-09-30): a drawing the
   // student just played with, then the idea in short steps a reader who has
-  // never heard the words can follow, then each rule read out in words.
-  // Mechanics of Materials is the first chapter written this way; the rest
-  // follow it once it is right.
+  // never heard the words can follow, then each rule read out in words. The
+  // rule applies to every sheet that has been rewritten; the count only
+  // grows until every chapter is done.
   group('picture-first sheets', () {
-    const mechanics = [
-      deformationBrief,
-      unitsBrief,
-      thermalBrief,
-      polarJBrief,
-      twistBrief,
-      thinWallBrief,
-      curveBrief,
-      stiffStrongBrief,
-      linkedBrief,
-      slopeRulesBrief,
-      peakBrief,
-      jumpBrief,
-      fiberBrief,
-      cutBrief,
-      governsBrief,
-      tableBrief2,
-      bounceBrief,
-      addBrief,
-      transformBrief,
-      joinBrief,
-      plasticBrief,
-      circleBrief,
-      buildBrief,
-      worstBrief,
+    final all = <BriefSection>[
+      for (final chapter in chapterMaps.values)
+        for (final lesson in chapter.lessons)
+          for (final game in lesson.builtGames)
+            if (game.brief != null) game.brief!,
     ];
+    final pictureFirst = all.where((c) => c.picture != null).toList();
 
-    test(
-      'every Mechanics sheet has a picture, short steps, and spoken rules',
-      () {
-        expect(mechanics.length, mechanicsPictures.length);
-        for (final c in mechanics) {
-          expect(c.picture, isNotNull, reason: '"${c.title}" has no picture');
-          expect(c.steps.length, inInclusiveRange(3, 4), reason: c.title);
-          for (final (eyebrow, text) in c.steps) {
-            expect(eyebrow.trim(), isNotEmpty, reason: c.title);
-            final words = text.trim().split(RegExp(r'\s+')).length;
-            expect(
-              words,
-              lessThanOrEqualTo(60),
-              reason:
-                  '"${c.title}" step "$eyebrow" runs $words words; one idea, said short',
-            );
-          }
-          expect(c.spoken, isNotEmpty, reason: '"${c.title}" states no rule');
-          for (final (label, latex, words) in c.spoken) {
-            expect(label.trim(), isNotEmpty, reason: c.title);
-            expect(latex.contains(r'\\'), isFalse, reason: c.title);
-            expect(
-              words.trim(),
-              isNotEmpty,
-              reason: '"${c.title}" does not read "$label" out',
-            );
-          }
+    test('the rewrite has not gone backwards', () {
+      expect(pictureFirst.length, greaterThanOrEqualTo(24));
+    });
+
+    test('every picture-first sheet has short steps and spoken rules', () {
+      for (final c in pictureFirst) {
+        expect(c.steps.length, inInclusiveRange(3, 4), reason: c.title);
+        for (final (eyebrow, text) in c.steps) {
+          expect(eyebrow.trim(), isNotEmpty, reason: c.title);
+          final words = text.trim().split(RegExp(r'\s+')).length;
           expect(
-            c.figure,
-            BriefFigure.none,
-            reason: '"${c.title}" still carries a rule list',
+            words,
+            lessThanOrEqualTo(60),
+            reason:
+                '"${c.title}" step "$eyebrow" runs $words words; one idea, said short',
           );
+        }
+        expect(c.spoken, isNotEmpty, reason: '"${c.title}" states no rule');
+        for (final (label, latex, words) in c.spoken) {
+          expect(label.trim(), isNotEmpty, reason: c.title);
+          expect(latex.contains(r'\\'), isFalse, reason: c.title);
           expect(
-            c.body,
-            isEmpty,
-            reason: '"${c.title}" still carries the old paragraph',
+            words.trim(),
+            isNotEmpty,
+            reason: '"${c.title}" does not read "$label" out',
           );
+        }
+        expect(
+          c.figure,
+          BriefFigure.none,
+          reason: '"${c.title}" still carries a rule list',
+        );
+        expect(
+          c.body,
+          isEmpty,
+          reason: '"${c.title}" still carries the old paragraph',
+        );
+      }
+    });
+
+    testWidgets(
+      'every picture-first sheet lays out with no overflow at 320pt',
+      (tester) async {
+        tester.view.physicalSize = const Size(320, 900);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.reset);
+        for (final s in pictureFirst) {
+          await tester.pumpWidget(wrap(s, 320));
+          expect(tester.takeException(), isNull, reason: s.title);
         }
       },
     );
-
-    testWidgets('every Mechanics sheet lays out with no overflow at 320pt', (
-      tester,
-    ) async {
-      tester.view.physicalSize = const Size(320, 900);
-      tester.view.devicePixelRatio = 1;
-      addTearDown(tester.view.reset);
-      for (final s in mechanics) {
-        await tester.pumpWidget(wrap(s, 320));
-        expect(tester.takeException(), isNull, reason: s.title);
-      }
-    });
   });
 }
