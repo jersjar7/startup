@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mobile/features/games/game_catalog.dart';
 import 'package:mobile/features/games/lesson_brief.dart';
+import 'package:mobile/features/games/mechanics_pictures.dart';
 
 /// Each item's reference covers that item and nothing else. Opening it mid
 /// round should answer the question in front of you.
@@ -11,29 +12,37 @@ void main() {
   setUpAll(() => GoogleFonts.config.allowRuntimeFetching = false);
 
   Widget wrap(BriefSection s, double width) => MaterialApp(
-        home: Scaffold(
-          body: MediaQuery(
-            data: MediaQueryData(size: Size(width, 900)),
-            child: ConceptView(section: s),
-          ),
-        ),
-      );
+    home: Scaffold(
+      body: MediaQuery(
+        data: MediaQueryData(size: Size(width, 900)),
+        child: ConceptView(section: s),
+      ),
+    ),
+  );
 
   for (final width in const [320.0, 360.0, 390.0, 430.0]) {
-    testWidgets('every concept lays out with no overflow at ${width.toInt()}pt',
-        (tester) async {
-      tester.view.physicalSize = Size(width, 900);
-      tester.view.devicePixelRatio = 1;
-      addTearDown(tester.view.reset);
+    testWidgets(
+      'every concept lays out with no overflow at ${width.toInt()}pt',
+      (tester) async {
+        tester.view.physicalSize = Size(width, 900);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.reset);
 
-      for (final s in const [perpendicularBrief, discriminantBrief, gradeBrief]) {
-        await tester.pumpWidget(wrap(s, width));
-        expect(tester.takeException(), isNull, reason: s.title);
-      }
-    });
+        for (final s in const [
+          perpendicularBrief,
+          discriminantBrief,
+          gradeBrief,
+        ]) {
+          await tester.pumpWidget(wrap(s, width));
+          expect(tester.takeException(), isNull, reason: s.title);
+        }
+      },
+    );
   }
 
-  testWidgets('the station trap is stated, not left to the item', (tester) async {
+  testWidgets('the station trap is stated, not left to the item', (
+    tester,
+  ) async {
     tester.view.physicalSize = const Size(390, 1600);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
@@ -54,8 +63,11 @@ void main() {
     expect(whichLawBrief.formulas.last.$2, contains(r'\cos C'));
 
     expect(ratiosBrief.formulas.length, 3);
-    expect(discriminantBrief.formulas.any((f) => f.$2.contains('pm')), isTrue,
-        reason: 'the discriminant needs the formula it comes out of');
+    expect(
+      discriminantBrief.formulas.any((f) => f.$2.contains('pm')),
+      isTrue,
+      reason: 'the discriminant needs the formula it comes out of',
+    );
   });
 
   testWidgets('the laws are on screen, not just described', (tester) async {
@@ -87,13 +99,19 @@ void main() {
       obtuseBrief,
     ];
     for (final c in cards) {
-      expect(c.formulas.isNotEmpty || c.formula != null, isTrue,
-          reason: '"${c.title}" states no rule of its own');
+      expect(
+        c.formulas.isNotEmpty || c.formula != null,
+        isTrue,
+        reason: '"${c.title}" states no rule of its own',
+      );
       for (final (label, latex) in c.formulas) {
         expect(label.trim(), isNotEmpty);
         expect(latex.trim(), isNotEmpty);
-        expect(latex.contains(r'\\'), isFalse,
-            reason: 'double-escaped LaTeX in "${c.title}" will not render');
+        expect(
+          latex.contains(r'\\'),
+          isFalse,
+          reason: 'double-escaped LaTeX in "${c.title}" will not render',
+        );
       }
     }
   });
@@ -104,5 +122,92 @@ void main() {
         expect(game.brief, isNotNull, reason: '${game.name} has no reference');
       }
     }
+  });
+
+  // The picture-first sheet (owner's call, 2026-09-30): a drawing the
+  // student just played with, then the idea in short steps a reader who has
+  // never heard the words can follow, then each rule read out in words.
+  // Mechanics of Materials is the first chapter written this way; the rest
+  // follow it once it is right.
+  group('picture-first sheets', () {
+    const mechanics = [
+      deformationBrief,
+      unitsBrief,
+      thermalBrief,
+      polarJBrief,
+      twistBrief,
+      thinWallBrief,
+      curveBrief,
+      stiffStrongBrief,
+      linkedBrief,
+      slopeRulesBrief,
+      peakBrief,
+      jumpBrief,
+      fiberBrief,
+      cutBrief,
+      governsBrief,
+      tableBrief2,
+      bounceBrief,
+      addBrief,
+      transformBrief,
+      joinBrief,
+      plasticBrief,
+      circleBrief,
+      buildBrief,
+      worstBrief,
+    ];
+
+    test(
+      'every Mechanics sheet has a picture, short steps, and spoken rules',
+      () {
+        expect(mechanics.length, mechanicsPictures.length);
+        for (final c in mechanics) {
+          expect(c.picture, isNotNull, reason: '"${c.title}" has no picture');
+          expect(c.steps.length, inInclusiveRange(3, 4), reason: c.title);
+          for (final (eyebrow, text) in c.steps) {
+            expect(eyebrow.trim(), isNotEmpty, reason: c.title);
+            final words = text.trim().split(RegExp(r'\s+')).length;
+            expect(
+              words,
+              lessThanOrEqualTo(60),
+              reason:
+                  '"${c.title}" step "$eyebrow" runs $words words; one idea, said short',
+            );
+          }
+          expect(c.spoken, isNotEmpty, reason: '"${c.title}" states no rule');
+          for (final (label, latex, words) in c.spoken) {
+            expect(label.trim(), isNotEmpty, reason: c.title);
+            expect(latex.contains(r'\\'), isFalse, reason: c.title);
+            expect(
+              words.trim(),
+              isNotEmpty,
+              reason: '"${c.title}" does not read "$label" out',
+            );
+          }
+          expect(
+            c.figure,
+            BriefFigure.none,
+            reason: '"${c.title}" still carries a rule list',
+          );
+          expect(
+            c.body,
+            isEmpty,
+            reason: '"${c.title}" still carries the old paragraph',
+          );
+        }
+      },
+    );
+
+    testWidgets('every Mechanics sheet lays out with no overflow at 320pt', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(320, 900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      for (final s in mechanics) {
+        await tester.pumpWidget(wrap(s, 320));
+        expect(tester.takeException(), isNull, reason: s.title);
+      }
+    });
   });
 }

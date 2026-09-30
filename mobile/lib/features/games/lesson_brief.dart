@@ -8,6 +8,7 @@ import '../shared/widgets/kit.dart';
 import '../shared/widgets/engineering_grid.dart';
 import '../shared/widgets/math_text.dart';
 import 'discriminant_gate_game.dart' show Para, ParaPainter;
+import 'mechanics_pictures.dart';
 import 'oblique_figures.dart';
 import 'trig_figures.dart';
 import 'unit_circle_figures.dart';
@@ -20,15 +21,33 @@ import 'unit_circle_figures.dart';
 class BriefSection {
   const BriefSection({
     required this.title,
-    required this.body,
+    this.body = '',
     required this.figure,
     this.formula,
     this.formulas = const [],
     this.handbook,
+    this.picture,
+    this.steps = const [],
+    this.spoken = const [],
   });
 
   final String title;
   final String body;
+
+  /// The picture-first sheet (owner's call, 2026-09-30): a drawing the
+  /// student can look at before a word is read, built from the game's own
+  /// painters. A tear-off of a top-level function, so the section stays
+  /// const.
+  final Widget Function()? picture;
+
+  /// The idea in short steps, each an eyebrow and a few plain sentences that
+  /// assume the reader has never heard the words. When these are present the
+  /// [body] paragraph is not shown.
+  final List<(String, String)> steps;
+
+  /// The rules, each with its name, the expression, and the expression read
+  /// out in words. When these are present [formulas] is not shown.
+  final List<(String, String, String)> spoken;
 
   /// A single expression, shown big under the body.
   final String? formula;
@@ -42,6 +61,8 @@ class BriefSection {
 }
 
 enum BriefFigure {
+  /// No rule list: the sheet carries a picture and steps instead.
+  none,
   slopePair,
   discriminant,
   grade,
@@ -2631,575 +2652,1172 @@ const sectionBrief = BriefSection(
 );
 
 const deformationBrief = BriefSection(
-  title: 'What makes a bar move',
-  body:
-      'Four things decide how far an axially loaded bar stretches, and which '
-      'side of the fraction each one sits on is the whole of it. The load and '
-      'the length are on top: pull harder or use a longer bar and it moves '
-      'further, in direct proportion. The area and the modulus are underneath: '
-      'a fatter bar or a stiffer material moves less. Stress is a different '
-      'question with a shorter answer, because length does not appear in it at '
-      'all, so two bars of different lengths under the same pull carry exactly '
-      'the same stress and move different distances.',
-  formulas: [
-    ('Stress', r'\sigma = \frac{P}{A}'),
-    ('Stretch', r'\delta = \frac{PL}{AE}'),
-    ('Strain', r'\varepsilon = \frac{\delta}{L} = \frac{\sigma}{E}'),
+  title: 'What makes a bar stretch',
+  picture: deformationPicture,
+  steps: [
+    (
+      'Pull on it',
+      'Hang a weight from a metal bar and the bar gets a tiny bit longer. '
+          'Pull twice as hard and it stretches twice as far.',
+    ),
+    (
+      'Long and thin stretch more',
+      'A longer bar has more metal to stretch, so it moves further. A '
+          'thicker bar shares the pull across more metal, so it moves less. A '
+          'stiffer material, steel instead of aluminum, moves less too.',
+    ),
+    (
+      'Stress is a different question',
+      'Stress is the pull divided by how thick the bar is. Length is not '
+          'in it. Two bars of the same thickness under the same pull carry the '
+          'same stress, even if one is longer and stretches further.',
+    ),
   ],
-  figure: BriefFigure.deformation,
+  spoken: [
+    (
+      'Stress',
+      r'\sigma = \frac{P}{A}',
+      'the pull, divided by the area it is spread over',
+    ),
+    (
+      'Stretch',
+      r'\delta = \frac{PL}{AE}',
+      'pull times length on top, area times stiffness underneath',
+    ),
+    (
+      'Strain',
+      r'\varepsilon = \frac{\delta}{L}',
+      'the stretch, as a share of the original length',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 130',
 );
 
 const unitsBrief = BriefSection(
-  title: 'One set of units, all the way through',
-  body:
-      'Mixing meters and millimeters is named in this lesson as the commonest '
-      'source of wrong answers, and the reason it is so hard to catch is that '
-      'it is dimensionally perfect: the units cancel exactly as they should '
-      'and the answer is a thousand times out. Checking your dimensions will '
-      'not find it. Converting before you start will. Newtons, millimeters and '
-      'newtons per square millimeter go together and never need converting '
-      'again, and a megapascal IS a newton per square millimeter. Strain is '
-      'the one quantity with no unit at all, so a strain quoted in anything is '
-      'a strain someone has misread.',
-  formulas: [
+  title: 'Pick one set of units and stay in it',
+  picture: unitsPicture,
+  steps: [
+    (
+      'Same bar, two names',
+      'A bar two meters long is also two thousand millimeters long. Same '
+          'bar. If you put 2 into one part of a formula and 2000 into another, '
+          'the answer comes out a thousand times wrong.',
+    ),
+    (
+      'Why the mistake hides',
+      'The formula does not complain. The units still cancel the way they '
+          'should, so nothing looks off. Only the size of the number is wrong, '
+          'and by then you have moved on.',
+    ),
+    (
+      'The safe set',
+      'Convert everything before you start. Newtons, millimeters and '
+          'newtons per square millimeter go together and never need converting '
+          'again, because a megapascal IS a newton per square millimeter.',
+    ),
+    (
+      'Strain has no unit',
+      'Strain is a length divided by a length, so the units cancel to '
+          'nothing. A strain quoted in millimeters or percent per meter is a '
+          'strain someone has misread.',
+    ),
+  ],
+  spoken: [
     (
       'The set that never needs converting',
       r'\mathrm{N},\; \mathrm{mm},\; \mathrm{N/mm^2}',
+      'newtons, millimeters, and newtons per square millimeter',
     ),
-    ('And that last one is', r'1\ \mathrm{MPa} = 1\ \mathrm{N/mm^2}'),
-    ('Strain', r'\varepsilon \text{ has no unit}'),
+    (
+      'And that last one is',
+      r'1\ \mathrm{MPa} = 1\ \mathrm{N/mm^2}',
+      'one megapascal is one newton per square millimeter',
+    ),
+    (
+      'Strain',
+      r'\varepsilon = \frac{\Delta L}{L}',
+      'a length over a length, so no unit at all',
+    ),
   ],
-  figure: BriefFigure.units,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 130',
 );
 
 const thermalBrief = BriefSection(
-  title: 'Stopped from moving',
-  body:
-      'Heat does not make stress. Being prevented from moving makes stress. A '
-      'bar free at one end simply gets longer and carries nothing. Hold both '
-      'ends and warm it and the growth it was not allowed to make becomes '
-      'compression; cool it and the shrinkage it was not allowed to make '
-      'becomes tension. Leave it a gap and it may close the gap and never '
-      'touch, in which case nothing happens at all, or close it and then fight '
-      'for what is left over. When it does build stress, the length and the '
-      'cross-section cancel out and only the material and the temperature '
-      'change are left.',
-  formulas: [
-    ('Free movement', r'\delta_t = \alpha L \Delta T'),
-    ('Fully restrained', r'\sigma_t = E \alpha \Delta T'),
+  title: 'Heat only builds stress when the bar cannot move',
+  picture: thermalPicture,
+  steps: [
+    (
+      'Warm it and it grows',
+      'Every metal gets a little longer when it warms and a little shorter '
+          'when it cools. A bar free at one end just grows. Nothing pushes on '
+          'it, so it carries no stress at all.',
+    ),
+    (
+      'Hold it and it pushes back',
+      'Now hold both ends so the bar cannot grow. It still wants to. The '
+          'growth it was not allowed to make turns into a squeeze: the bar is '
+          'in compression. Cool a held bar and it is pulled instead: tension.',
+    ),
+    (
+      'A gap changes the story',
+      'Leave a small gap at one end and the bar grows into the gap for '
+          'free. If it never reaches the wall, no stress. If it closes the gap '
+          'and keeps trying to grow, only the leftover growth becomes stress.',
+    ),
+    (
+      'Length drops out',
+      'A longer bar wants to grow more, but a longer bar is also easier to '
+          'squeeze by the same amount. The two cancel, so a fully held bar\'s '
+          'stress depends only on the metal and how much it warmed.',
+    ),
+  ],
+  spoken: [
+    (
+      'Free movement',
+      r'\delta_t = \alpha L \Delta T',
+      'how much it wants to grow: a material number, times the length, times the temperature change',
+    ),
+    (
+      'Held at both ends',
+      r'\sigma_t = E \alpha \Delta T',
+      'the stress: stiffness times that material number times the temperature change',
+    ),
     (
       'With a gap to close first',
       r'\sigma_t = \frac{E(\delta_t - \text{gap})}{L}',
+      'only the growth left over after the gap closes becomes stress',
     ),
   ],
-  figure: BriefFigure.thermal,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 130',
 );
 
 const polarJBrief = BriefSection(
-  title: 'What goes under Tc',
-  body:
-      'Torsion in a round shaft is one formula and two chances to be out by a '
-      'factor of two. The J is the POLAR moment, pi d to the fourth over '
-      'THIRTY-TWO. The area moment I, over sixty-four, is the bending one, and '
-      'it is half as big, so reaching for it doubles the stress you report and '
-      'doubles the twist as well. The c is the outer RADIUS, and using the '
-      'diameter there doubles the stress too. A bore is taken '
-      'out by subtracting fourth powers, not diameters and not areas: the '
-      'metal nearest the middle was barely working, so removing it costs far '
-      'less stiffness than it saves weight, which is why shafts are hollow. '
-      'And c stays the OUTER radius on a hollow shaft, because that is still '
-      'where the stress is highest.',
-  formulas: [
-    ('Round shaft', r'\tau = \frac{Tc}{J}'),
-    ('Solid', r'J = \frac{\pi d^4}{32}'),
-    ('Hollow', r'J = \frac{\pi (d_o^4 - d_i^4)}{32}'),
-    ('And', r'c = \frac{d_o}{2},\quad J = 2I'),
+  title: 'Twisting a shaft: the outside works hardest',
+  picture: polarJPicture,
+  steps: [
+    (
+      'Twist a shaft',
+      'Grab a round bar at both ends and twist. The metal near the outside '
+          'has to turn the furthest, so it is stressed the most. The metal in '
+          'the middle barely turns and barely works.',
+    ),
+    (
+      'That is why shafts are hollow',
+      'Since the middle does so little, you can take it out and lose very '
+          'little strength while saving a lot of weight. The stress is still '
+          'highest at the outside, so c is always the OUTER radius.',
+    ),
+    (
+      'J measures how the metal is spread out',
+      'J adds up how far every bit of metal sits from the center. It '
+          'grows with the fourth power of the diameter: twice the diameter, '
+          'sixteen times the J. To remove a bore you subtract fourth powers, '
+          'never diameters or areas.',
+    ),
+    (
+      'Two easy slips',
+      'J is pi d to the fourth over THIRTY-TWO. The bending version, I, is '
+          'over sixty-four and is half as big, so using it doubles your answer. '
+          'And c is the radius, not the diameter, or you double it again.',
+    ),
   ],
-  figure: BriefFigure.polarJ,
+  spoken: [
+    (
+      'Round shaft',
+      r'\tau = \frac{Tc}{J}',
+      'the twist stress: torque times outer radius, over J',
+    ),
+    (
+      'Solid',
+      r'J = \frac{\pi d^4}{32}',
+      'pi times the diameter to the fourth, over thirty-two',
+    ),
+    (
+      'Hollow',
+      r'J = \frac{\pi (d_o^4 - d_i^4)}{32}',
+      'the same, with the bore\'s fourth power taken away',
+    ),
+    (
+      'And',
+      r'c = \frac{d_o}{2},\quad J = 2I',
+      'c is half the outer diameter, and J is twice the bending I',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 133',
 );
 
 const twistBrief = BriefSection(
-  title: 'What moves the stress and what moves the twist',
-  body:
-      'Two formulas share a shaft and they do not respond to the same things. '
-      'The stress cares about the torque and the shape of the section and '
-      'nothing else: make the shaft longer and the stress does not move, '
-      'change to a softer metal and the stress does not move. The twist cares '
-      'about all four, length and stiffness included, so a longer shaft or a '
-      'softer metal twists further under the same torque and at the same '
-      'stress. The stiffness is just that formula turned around, the torque '
-      'needed per radian. Note which modulus appears: torsion uses G, the '
-      'shear modulus, never E. For steel G is about 80 GPa against E at 200.',
-  formulas: [
-    ('Stress', r'\tau = \frac{Tc}{J}'),
-    ('Twist, in radians', r'\phi = \frac{TL}{GJ}'),
-    ('Stiffness', r'k = \frac{T}{\phi} = \frac{GJ}{L}'),
-    ('And the two moduli', r'G = \frac{E}{2(1+\nu)}'),
+  title: 'One shaft, two questions',
+  picture: twistPicture,
+  steps: [
+    (
+      'How hard is the metal working',
+      'That is the stress. It depends on how much torque you apply and on '
+          'the shape of the shaft, and nothing else. Make the shaft longer and '
+          'the stress does not change. Switch to a softer metal and it does '
+          'not change either.',
+    ),
+    (
+      'How far does the end turn',
+      'That is the twist. It cares about everything: more torque, a longer '
+          'shaft, a thinner shaft or a softer metal all turn the end further. '
+          'A long shaft and a short one at the same stress twist by very '
+          'different amounts.',
+    ),
+    (
+      'Which stiffness',
+      'Twisting is a shearing kind of stretch, so it uses G, the shear '
+          'stiffness, never E. For steel G is about 80 GPa while E is 200.',
+    ),
   ],
-  figure: BriefFigure.twist,
+  spoken: [
+    (
+      'Stress',
+      r'\tau = \frac{Tc}{J}',
+      'torque times outer radius, over J. No length, no material',
+    ),
+    (
+      'Twist, in radians',
+      r'\phi = \frac{TL}{GJ}',
+      'torque times length on top, shear stiffness times J underneath',
+    ),
+    (
+      'Stiffness',
+      r'k = \frac{T}{\phi} = \frac{GJ}{L}',
+      'the torque it takes to turn the end one radian',
+    ),
+    (
+      'The two moduli',
+      r'G = \frac{E}{2(1+\nu)}',
+      'G comes from E and Poisson\'s ratio',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 134',
 );
 
 const thinWallBrief = BriefSection(
-  title: 'The area the wall encloses',
-  body:
-      'A thin tube of any shape, round or square or oblong, gets its own '
-      'formula, and the area in it is the one the MIDDLE of the wall encloses. '
-      'That is not the metal, which is the area anybody would name if asked '
-      'for the area of a tube and which on a thin wall is a small fraction of '
-      'the right number. It is not the bore and it is not the outside face '
-      'either, though on a thin wall those two sit close on each side of the '
-      'answer. Draw the line halfway through the wall all the way round and '
-      'take everything inside it, metal or not. Use this only while the wall '
-      'is thin, under about a tenth of the radius; thicker than that and you '
-      'are back to the round-shaft formula.',
-  formulas: [
-    ('Thin-walled tube', r'\tau = \frac{T}{2\,t\,A_m}'),
-    ('Where A is', r'A_m = \text{enclosed by the median line}'),
-    ('Good while', r't < 0.1\,r'),
+  title: 'A thin tube uses the area its wall wraps around',
+  picture: thinWallPicture,
+  steps: [
+    (
+      'A thin tube',
+      'A tube with a thin wall, round or square or any shape, twists in a '
+          'simple way: the shear runs round the wall like water in a ring '
+          'pipe, the same everywhere along it.',
+    ),
+    (
+      'The area is the one inside the wall',
+      'The formula wants an area, and it is NOT the area of the metal. '
+          'Draw a line halfway through the wall, all the way round, and take '
+          'everything inside that line, metal or not. That is the area.',
+    ),
+    (
+      'Why not the metal',
+      'On a thin wall the metal is a sliver, a small fraction of the space '
+          'the tube encloses. Use it and the stress comes out many times too '
+          'big. The bore and the outside face sit close to the right answer, '
+          'on either side of it.',
+    ),
+    (
+      'When the shortcut stops working',
+      'Thin means the wall is under about a tenth of the radius. Thicker '
+          'than that and the stress is no longer even through the wall, so '
+          'go back to the round-shaft formula.',
+    ),
   ],
-  figure: BriefFigure.thinWall,
+  spoken: [
+    (
+      'Thin-walled tube',
+      r'\tau = \frac{T}{2\,t\,A_m}',
+      'torque, over twice the wall thickness times the enclosed area',
+    ),
+    (
+      'Where A is',
+      r'A_m = \text{inside the middle of the wall}',
+      'the space the wall\'s centerline wraps around',
+    ),
+    ('Good while', r't < 0.1\,r', 'the wall is under a tenth of the radius'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 133',
 );
 
 const curveBrief = BriefSection(
-  title: 'The five points on the curve',
-  body:
-      'One tensile test, read left to right. The PROPORTIONAL LIMIT is where '
-      'the straight run ends and Hooke\'s law gives out; it is the last point E '
-      'can be read from. The ELASTIC LIMIT is a hair past it and is the last '
-      'point the bar still springs back from, and on a real curve the two are '
-      'so close that nobody separates them. The YIELD POINT is where it '
-      'stretches on without carrying any more, the flat run that mild steel '
-      'has and aluminum does not. The ULTIMATE STRENGTH is the top of the '
-      'curve, and it is also the moment necking starts. The FRACTURE POINT is '
-      'the end, and it is LOWER than the top: engineering stress keeps '
-      'dividing by the area the bar started with, while the bar itself has '
-      'necked down to something thinner.',
-  formulas: [
+  title: 'Pull a bar until it breaks and draw what happened',
+  picture: curvePicture,
+  steps: [
+    (
+      'The straight part',
+      'At first the bar stretches in step with the pull: double the pull, '
+          'double the stretch. The line is straight and its slope is E, how '
+          'stiff the metal is. Let go anywhere here and the bar springs back '
+          'to its old length.',
+    ),
+    (
+      'Where the straight part ends',
+      'The PROPORTIONAL LIMIT is where the line stops being straight. The '
+          'ELASTIC LIMIT is a hair past it, the last point the bar still '
+          'springs back from. On a real curve they sit so close that nobody '
+          'separates them.',
+    ),
+    (
+      'It gives way',
+      'At the YIELD POINT the bar keeps stretching without you pulling any '
+          'harder. Mild steel has a flat run here; aluminum does not. Past '
+          'this the bar is permanently longer.',
+    ),
+    (
+      'The top, and the end',
+      'The ULTIMATE STRENGTH is the highest the curve gets. Right there '
+          'the bar starts to neck, thinning in one spot. It BREAKS at a lower '
+          'stress than the top, because the chart keeps dividing by the '
+          'original thickness while the bar has grown thinner.',
+    ),
+  ],
+  spoken: [
     (
       'Slope of the straight run',
       r'E = \frac{\Delta\sigma}{\Delta\varepsilon}',
+      'stiffness: how much stress it takes for each bit of strain',
     ),
-    ('Top of the curve', r'\sigma_u \text{, where necking starts}'),
-    ('Engineering stress uses', r'A_0 \text{, the original area}'),
+    (
+      'Top of the curve',
+      r'\sigma_u',
+      'the ultimate strength, where necking starts',
+    ),
+    (
+      'Engineering stress uses',
+      r'A_0',
+      'the original area, all the way to the break',
+    ),
   ],
-  figure: BriefFigure.curve,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 129',
 );
 
 const stiffStrongBrief = BriefSection(
-  title: 'Stiff, strong and stretchy are three things',
-  body:
-      'They are read off three different features of the same curve and they '
-      'do not travel together. STIFF is the slope of the straight run: how '
-      'hard it is to move at all, which is E. STRONG is how high the curve '
-      'gets: the yield stress for when it stops being usable, the ultimate for '
-      'when it is carrying the most. STRETCHY, which is ductility, is how far '
-      'to the right it goes before it ends, quoted as percent elongation. A '
-      'material can be strong and brittle, like cast iron or a hardened bolt, '
-      'and it can be weak and very ductile, like annealed copper. The two '
-      'tells for brittle are on the report before you ever see a curve: yield '
-      'and ultimate almost equal, and elongation of a percent or two.',
-  formulas: [
-    ('Stiff', r'E = \frac{\sigma}{\varepsilon} \text{, the slope}'),
-    ('Strong', r'\sigma_y \text{ and } \sigma_u \text{, the height}'),
-    ('Stretchy', r'\%\,El = \frac{L_f - L_0}{L_0}\times 100'),
+  title: 'Stiff, strong and stretchy are three different things',
+  picture: stiffStrongPicture,
+  steps: [
     (
-      'Brittle reads as',
-      r'\sigma_y \approx \sigma_u \text{ with } \%\,El \text{ tiny}',
+      'Stiff: how hard it is to move at all',
+      'Read the slope of the straight part. A steep line means a lot of '
+          'pull for a little stretch. That is E. Steel is stiff; rubber is not.',
+    ),
+    (
+      'Strong: how high the curve gets',
+      'Read the height. The yield stress is where the metal stops being '
+          'usable; the ultimate is the most it can ever carry. A high curve is '
+          'a strong material, whatever its slope.',
+    ),
+    (
+      'Stretchy: how far it goes before it breaks',
+      'Read how far the curve runs to the right. That is ductility, quoted '
+          'as percent elongation. Mild steel runs a long way; cast iron stops '
+          'almost at once.',
+    ),
+    (
+      'They do not travel together',
+      'A material can be strong and brittle, like cast iron or a hardened '
+          'bolt. It can be weak and very stretchy, like soft copper. Two tells '
+          'for brittle: yield and ultimate almost equal, and an elongation of '
+          'a percent or two.',
     ),
   ],
-  figure: BriefFigure.stiffStrong,
+  spoken: [
+    (
+      'Stiff',
+      r'E = \frac{\sigma}{\varepsilon}',
+      'the slope of the straight run',
+    ),
+    (
+      'Strong',
+      r'\sigma_y,\ \sigma_u',
+      'the yield and ultimate stresses, the height of the curve',
+    ),
+    (
+      'Stretchy',
+      r'\%\,El = \frac{L_f - L_0}{L_0}\times 100',
+      'how much longer it got before breaking, as a percent',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 129',
 );
 
 const linkedBrief = BriefSection(
-  title: 'Three constants, any two give the third',
-  body:
-      'E, G and Poisson\'s ratio are not three independent facts about a '
-      'material. They are tied by one equation, so any two of them hand you '
-      'the third, and E itself comes straight out of a stress and a strain in '
-      'the elastic range. That is what makes the extra numbers in an exam '
-      'question worth spotting: the specimen\'s length and diameter, before and '
-      'after, are a full page of arithmetic that changes nothing if E and nu '
-      'are already sitting there. Read what is asked, find the shortest road '
-      'to it, and stop. Watch the direction of the one that catches people: '
-      'the 2 belongs in the denominator, so G comes out well under half of E, '
-      'about 0.38 of it at a Poisson\'s ratio of 0.3.',
-  formulas: [
-    ('The link', r'G = \frac{E}{2(1+\nu)}'),
-    ('E from a test point', r'E = \frac{\sigma}{\varepsilon}'),
+  title: 'Three material numbers, tied together',
+  picture: linkedPicture,
+  steps: [
+    (
+      'Pull it and it gets thinner',
+      'Stretch a bar and it also gets a little thinner across, like a '
+          'rubber band. Poisson\'s ratio, nu, says how much thinner for each '
+          'bit of stretch. For most metals it is about 0.3.',
+    ),
+    (
+      'Three numbers, one link',
+      'E is stiffness in a pull, G is stiffness in a twist, and nu ties '
+          'them. Know any two and one equation hands you the third. They are '
+          'not three separate facts about a material.',
+    ),
+    (
+      'Watch the 2',
+      'The 2 sits underneath, so G comes out well under half of E: about '
+          '0.38 of it at a nu of 0.3. If your G comes out bigger than E, the '
+          'fraction is upside down.',
+    ),
+    (
+      'Skip the arithmetic you do not need',
+      'A question may hand you lengths and diameters before and after. If '
+          'E and nu are already given, that page of arithmetic changes nothing. '
+          'Read what is asked and take the shortest road to it.',
+    ),
+  ],
+  spoken: [
+    ('The link', r'G = \frac{E}{2(1+\nu)}', 'E, over two times one plus nu'),
+    (
+      'E from a test',
+      r'E = \frac{\sigma}{\varepsilon}',
+      'a stress divided by the strain it caused',
+    ),
     (
       "Poisson's ratio",
       r'\nu = -\frac{\varepsilon_{lat}}{\varepsilon_{axial}}',
+      'the sideways shrink, divided by the lengthwise stretch',
     ),
-    ('For steel', r'\nu \approx 0.3,\quad G \approx 0.38E'),
+    (
+      'For steel',
+      r'\nu \approx 0.3,\quad G \approx 0.38E',
+      'nu about 0.3, so G is a bit over a third of E',
+    ),
   ],
-  figure: BriefFigure.linked,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 130',
 );
 
 const slopeRulesBrief = BriefSection(
-  title: 'Two rules decide both shapes',
-  body:
-      'The slope of the shear diagram is minus the load, and the slope of the '
-      'moment diagram is the shear. Everything a diagram does follows from '
-      'those. Nothing spread along a stretch of beam means the shear is FLAT '
-      'there and the moment runs STRAIGHT. A uniform load means the shear '
-      'SLOPES and the moment CURVES, and drawing that curve as a pair of '
-      'straight lines to the peak is the commonest wrong diagram in the '
-      'topic. One step further up: a load that itself changes as it goes, a '
-      'triangle, gives a curved shear and a moment curving harder still. The '
-      'same rules read the other way are the area method: the change in '
-      'moment between two points is the AREA under the shear between them.',
-  formulas: [
-    ('Load to shear', r'\frac{dV}{dx} = -w(x)'),
-    ('Shear to moment', r'\frac{dM}{dx} = V(x)'),
-    ('Which is to say', r'M_B - M_A = \int_A^B V\,dx'),
+  title: 'Two rules draw both diagrams',
+  picture: slopeRulesPicture,
+  steps: [
+    (
+      'Push on a beam',
+      'Rest a plank on two supports and press down on it. Inside the plank '
+          'two things happen at every point: it is being sliced across, which '
+          'is SHEAR, and it is being bent, which is MOMENT. The two diagrams '
+          'just plot each one along the length.',
+    ),
+    (
+      'The shear picture',
+      'Where nothing is pushing on a stretch of beam, the shear stays FLAT. '
+          'Where a load is spread along it, the shear SLOPES down, steadily, '
+          'because each bit of load takes a bit away.',
+    ),
+    (
+      'The moment picture',
+      'The moment climbs as fast as the shear is tall. A flat shear gives a '
+          'STRAIGHT moment line. A sloping shear gives a CURVED moment. Drawing '
+          'that curve as two straight lines to a peak is the commonest wrong '
+          'diagram there is.',
+    ),
+    (
+      'Read it backwards too',
+      'The change in moment between two points is the area under the shear '
+          'between them. That is the same rule read the other way, and it is '
+          'how you get the numbers.',
+    ),
   ],
-  figure: BriefFigure.slopeRules,
+  spoken: [
+    (
+      'Load to shear',
+      r'\frac{dV}{dx} = -w(x)',
+      'the slope of the shear is minus the load at that point',
+    ),
+    (
+      'Shear to moment',
+      r'\frac{dM}{dx} = V(x)',
+      'the slope of the moment is the shear at that point',
+    ),
+    (
+      'Which is to say',
+      r'M_B - M_A = \int_A^B V\,dx',
+      'moment changes by the area under the shear',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 140',
 );
 
 const peakBrief = BriefSection(
-  title: 'The moment peaks where the shear crosses zero',
-  body:
-      'A beam is sized for its worst moment, so finding WHERE that is comes '
-      'before working out how big it is. It is wherever the shear passes '
-      'through zero, which follows from the moment climbing at the rate of '
-      'the shear: while the shear is positive the moment is still rising, and '
-      'the moment it turns negative the moment starts coming back down. Under '
-      'a single load, that is under the load, wherever the load happens to '
-      'be. On a symmetric uniform load it is the middle. On a cantilever it is '
-      'at the wall, and on an overhang it is over the support, hogging rather '
-      'than sagging. Midspan is the right answer often enough to be a habit '
-      'and it is the named trap in this lesson\'s hard problem.',
-  formulas: [
-    ('Peak where', r'V = 0'),
-    ('Load at midspan', r'M_{max} = \frac{PL}{4}'),
-    ('Load anywhere', r'M_{max} = \frac{Pab}{L}'),
-    ('Uniform load', r'M_{max} = \frac{wL^2}{8}'),
+  title: 'The moment is biggest where the shear crosses zero',
+  picture: peakPicture,
+  steps: [
+    (
+      'Why you want the peak',
+      'A beam is sized for its worst bending. So before working out how big '
+          'the moment is, you find WHERE it is biggest.',
+    ),
+    (
+      'Watch the shear',
+      'While the shear is above zero the moment is still climbing. The '
+          'instant the shear drops below zero the moment starts coming back '
+          'down. So the top of the moment is exactly where the shear crosses '
+          'zero.',
+    ),
+    (
+      'Where that usually is',
+      'Under one load, it is under the load, wherever the load sits. Under '
+          'an even spread on a beam held at both ends, it is the middle. On a '
+          'cantilever it is at the wall. Over a support on an overhang it is '
+          'the support, bending the other way.',
+    ),
+    (
+      'Midspan is a habit, not a rule',
+      'Midspan is right often enough to become a reflex. Move the load off '
+          'center and the peak moves with it.',
+    ),
   ],
-  figure: BriefFigure.peak,
+  spoken: [
+    ('Peak where', r'V = 0', 'the shear passes through zero'),
+    (
+      'Load at midspan',
+      r'M_{max} = \frac{PL}{4}',
+      'the load times the span, over four',
+    ),
+    (
+      'Load anywhere',
+      r'M_{max} = \frac{Pab}{L}',
+      'load times the two distances to the supports, over the span',
+    ),
+    (
+      'Even spread',
+      r'M_{max} = \frac{wL^2}{8}',
+      'load per length times span squared, over eight',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 140',
 );
 
 const jumpBrief = BriefSection(
   title: 'What each thing does at the point it acts',
-  body:
-      'A vertical force STEPS the shear by its own size, upward forces up and '
-      'downward forces down, and that includes the reactions: an upward '
-      'reaction steps the shear up. It does nothing sudden to the moment, '
-      'which merely changes the rate it is climbing at, so the moment diagram '
-      'bends there without a break. A couple is the opposite: it steps the '
-      'MOMENT by its own size and leaves the shear untouched, because no '
-      'vertical force has been added. Where a spread load starts or stops, '
-      'nothing steps at all, the shear just changes the angle it is running '
-      'at. And a pinned or rolling end holds no moment, so both ends of a '
-      'simply supported beam start and finish at zero.',
-  formulas: [
-    ('A force', r'\Delta V = \pm P \text{, and } M \text{ only bends}'),
-    ('A couple', r'\Delta M = \pm C \text{, and } V \text{ is unchanged}'),
-    ('A pin or roller end', r'M = 0'),
+  picture: jumpPicture,
+  steps: [
+    (
+      'A force steps the shear',
+      'A push straight down makes the shear diagram drop by exactly that '
+          'much, right there. A push up, like a support holding the beam, '
+          'makes it jump up. The moment does not jump: it only changes the '
+          'angle it is climbing at, so the moment line bends without a break.',
+    ),
+    (
+      'A couple steps the moment',
+      'A couple is a twist applied at one spot with no push up or down. It '
+          'makes the moment diagram jump by its own size and leaves the shear '
+          'exactly as it was.',
+    ),
+    (
+      'A spread load steps nothing',
+      'Where a spread load starts or stops, nothing jumps. The shear just '
+          'changes from flat to sloping, or back.',
+    ),
+    (
+      'The ends',
+      'A pin or a roller cannot hold a moment, so at those ends the moment '
+          'is zero. A simply supported beam starts and finishes at zero.',
+    ),
   ],
-  figure: BriefFigure.jump,
+  spoken: [
+    (
+      'A force',
+      r'\Delta V = \pm P',
+      'the shear steps by the force; the moment only bends',
+    ),
+    (
+      'A couple',
+      r'\Delta M = \pm C',
+      'the moment steps by the couple; the shear is untouched',
+    ),
+    ('A pin or roller end', r'M = 0', 'no moment at a pinned or rolling end'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 140',
 );
 
 const fiberBrief = BriefSection(
-  title: 'The two stresses live in opposite places',
-  body:
-      'Through the depth of a beam, bending stress is NOTHING at the neutral '
-      'axis and worst at the two faces, running straight between them. That is '
-      'the c in M c over I: the distance from the axis to the fiber you care '
-      'about, and the fiber that decides the beam is the furthest one. Shear '
-      'stress does the opposite: nothing at the faces, worst at the neutral '
-      'axis, running as a parabola, and on a rectangle its peak is half again '
-      'the plain average of V over A. Sagging stretches the bottom and squashes '
-      'the top; over a support it is the other way round, which is where the '
-      'reinforcement in a continuous beam moves to. And the neutral axis is '
-      'the CENTROID of the section, which is halfway up only when the section '
-      'is symmetric about it.',
-  formulas: [
-    ('Bending, at distance c', r'\sigma = \frac{Mc}{I}'),
-    ('Worst shear in a rectangle', r'\tau_{max} = \frac{3V}{2A}'),
-    ('Which is', r'1.5 \times \text{the average } V/A'),
-    ('The neutral axis is', r'\text{the centroid of the section}'),
+  title: 'Bending and shear live in opposite places',
+  picture: fiberPicture,
+  steps: [
+    (
+      'Bend a beam',
+      'Bend a plank downward and the top gets squeezed while the bottom '
+          'gets stretched. Right in the middle of the depth nothing is '
+          'squeezed or stretched at all. That middle line is the neutral axis.',
+    ),
+    (
+      'Bending is worst at the faces',
+      'The further a fiber sits from the neutral axis, the more it is '
+          'stretched or squeezed. So bending stress is zero in the middle and '
+          'biggest at the top and bottom faces. The c in the formula is that '
+          'distance, and the face decides the beam.',
+    ),
+    (
+      'Shear is worst in the middle',
+      'Shear does the opposite. It is zero at the faces and biggest at the '
+          'neutral axis, in a smooth hump. On a rectangle the peak is one and a '
+          'half times the plain average.',
+    ),
+    (
+      'Which face, and where the middle is',
+      'Sagging stretches the bottom; over a support it is the top that '
+          'stretches, which is why reinforcement moves there. And the neutral '
+          'axis is the centroid, which is halfway up only for a symmetric '
+          'section.',
+    ),
   ],
-  figure: BriefFigure.fiber,
+  spoken: [
+    (
+      'Bending, at distance c',
+      r'\sigma = \frac{Mc}{I}',
+      'moment times distance from the middle, over I',
+    ),
+    (
+      'Worst shear in a rectangle',
+      r'\tau_{max} = \frac{3V}{2A}',
+      'one and a half times the shear spread over the area',
+    ),
+    (
+      'The neutral axis is',
+      r'\text{the centroid}',
+      'the balance point of the section',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 135',
 );
 
 const cutBrief = BriefSection(
   title: 'Q and b both belong to the cut',
-  body:
-      'The shear formula is written for a PLACE in the section, and its two '
-      'awkward ingredients both change when you move that place. The b is the '
-      'width of the material at the cut. On an I-beam just under the flange '
-      'that is the web thickness, not the flange width, and this lesson names '
-      'that swap as an error of fifteen times. The Q is the first moment of '
-      'the material beyond the cut, its area times the distance from ITS OWN '
-      'centroid to the neutral axis. Taking the material on the other side of '
-      'the cut gives the same number, because the two sides balance about the '
-      'centroid; taking the WHOLE section gives exactly zero, which is what '
-      'being the centroid means. On a rectangle the width never changes, which '
-      'is the only reason the three V over two A shortcut exists.',
-  formulas: [
-    ('Shear at a cut', r'\tau = \frac{VQ}{Ib}'),
-    ('Q is', r'Q = A_{beyond}\,\bar{y}_{beyond}'),
-    ('b is', r'\text{the width AT the cut}'),
-    ('Shear flow, for the fixings', r'q = \frac{VQ}{I}'),
+  picture: cutPicture,
+  steps: [
+    (
+      'Pick a place',
+      'The shear formula answers for ONE height in the section, the cut. '
+          'Move the cut and its two awkward ingredients, b and Q, both change.',
+    ),
+    (
+      'b is the width at the cut',
+      'Not the widest part of the section. On an I-beam just under the '
+          'flange, b is the thin web. Use the flange width instead and the '
+          'answer is out by a factor of fifteen.',
+    ),
+    (
+      'Q is the material beyond the cut',
+      'Take everything on one side of the cut. Q is that area times the '
+          'distance from ITS OWN middle to the neutral axis. Either side gives '
+          'the same number, because the two sides balance. Take the whole '
+          'section and Q is zero.',
+    ),
+    (
+      'Why the rectangle has a shortcut',
+      'On a rectangle the width never changes with height, so b is always '
+          'the same and the formula collapses to three V over two A.',
+    ),
   ],
-  figure: BriefFigure.cut,
+  spoken: [
+    (
+      'Shear at a cut',
+      r'\tau = \frac{VQ}{Ib}',
+      'shear times Q, over I times the width at the cut',
+    ),
+    (
+      'Q is',
+      r'Q = A_{beyond}\,\bar{y}_{beyond}',
+      'the area beyond the cut, times its distance to the middle',
+    ),
+    (
+      'b is',
+      r'\text{the width AT the cut}',
+      'how wide the material is right there',
+    ),
+    (
+      'Shear flow, for the fixings',
+      r'q = \frac{VQ}{I}',
+      'the same without b: force per length along the cut',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 135',
 );
 
 const governsBrief = BriefSection(
   title: 'What each stress answers to',
-  body:
-      'The span is in the moment and not in the shear: double the span and the '
-      'bending stress doubles while every support carries exactly what it did '
-      'before. That one fact is why a long beam is a bending problem and a '
-      'short stubby one is a shear problem. Depth is in both, unevenly: the '
-      'section modulus carries it SQUARED, so twice the depth quarters the '
-      'bending stress, while the area carries it once and only halves the '
-      'shear. Turning a joist on its side changes the bending badly and leaves '
-      'the shear alone, since the area is the same timber either way up. And '
-      'the material is in NEITHER formula: a steel beam of the same size under '
-      'the same load carries the same stresses as a timber one. What it has is '
-      'more strength to meet them with.',
-  formulas: [
-    ('Section modulus', r'S = \frac{I}{c},\quad \sigma = \frac{M}{S}'),
-    ('For a rectangle', r'S = \frac{bh^2}{6}'),
-    ('Span moves', r'M \text{, not } V'),
-    ('Neither formula holds', r'E'),
+  picture: governsPicture,
+  steps: [
+    (
+      'Depth matters most',
+      'Stand a plank on edge and it hardly bends. Lay it flat and it sags. '
+          'Same wood, same load. Depth is in the bending formula squared, so '
+          'twice the depth is a quarter of the bending stress. Shear only '
+          'sees the area, so it halves.',
+    ),
+    (
+      'Span moves bending, not shear',
+      'Make a beam twice as long under the same load and the bending stress '
+          'doubles, while each support carries exactly what it did. That is '
+          'why a long beam is a bending problem and a short stubby one is a '
+          'shear problem.',
+    ),
+    (
+      'The material is in neither',
+      'A steel beam and a timber beam of the same size under the same load '
+          'carry the SAME stresses. What steel has is more strength to meet '
+          'them with.',
+    ),
   ],
-  figure: BriefFigure.governs,
+  spoken: [
+    (
+      'Section modulus',
+      r'S = \frac{I}{c},\quad \sigma = \frac{M}{S}',
+      'bending stress is the moment over S',
+    ),
+    (
+      'For a rectangle',
+      r'S = \frac{bh^2}{6}',
+      'width times depth squared, over six',
+    ),
+    ('Span moves', r'M \text{, not } V', 'the moment, not the shear'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 135',
 );
 
 const tableBrief2 = BriefSection(
   title: 'Read the supports, then the load',
-  body:
-      'Nothing in this lesson is derived. The handbook has a table of beams '
-      'and you match the one in front of you to a line in it, so the whole '
-      'skill is reading the picture: is it held at BOTH ENDS or built in at '
-      'one, and is the load GATHERED at a point or SPREAD along? Those two '
-      'questions pick the line. Getting them wrong is not a few percent out: '
-      'the same load on a cantilever instead of a simply supported beam is '
-      'sixteen times the sag, and a spread load taken as a cantilever rather '
-      'than simply supported is nearly ten. Note which powers appear: a point '
-      'load brings L cubed and a spread load brings L to the fourth, because '
-      'the longer the beam the more spread load there is on it.',
-  formulas: [
-    ('Held both ends, load in the middle', r'\delta = \frac{PL^3}{48EI}'),
-    ('Held both ends, load spread', r'\delta = \frac{5wL^4}{384EI}'),
-    ('Built in, load at the tip', r'\delta = \frac{PL^3}{3EI}'),
-    ('Built in, load spread', r'\delta = \frac{wL^4}{8EI}'),
+  picture: tableLinePicture,
+  steps: [
+    (
+      'Nothing here is worked out',
+      'The handbook has a table of beams with the sag already solved. Your '
+          'job is to match the beam in front of you to the right line.',
+    ),
+    (
+      'Question one: how is it held',
+      'Held at BOTH ENDS, or BUILT IN at one end with the other hanging '
+          'free? A cantilever sags sixteen times more than the same beam held '
+          'at both ends.',
+    ),
+    (
+      'Question two: where is the load',
+      'GATHERED at one point, or SPREAD along the beam? A point load brings '
+          'L cubed; a spread load brings L to the fourth, because a longer '
+          'beam also has more load on it.',
+    ),
   ],
-  figure: BriefFigure.tableLine,
+  spoken: [
+    (
+      'Held both ends, load in the middle',
+      r'\delta = \frac{PL^3}{48EI}',
+      'load times span cubed, over forty-eight EI',
+    ),
+    (
+      'Held both ends, load spread',
+      r'\delta = \frac{5wL^4}{384EI}',
+      'five w L to the fourth, over three-eighty-four EI',
+    ),
+    (
+      'Built in, load at the tip',
+      r'\delta = \frac{PL^3}{3EI}',
+      'load times span cubed, over three EI',
+    ),
+    (
+      'Built in, load spread',
+      r'\delta = \frac{wL^4}{8EI}',
+      'w L to the fourth, over eight EI',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 140 to 141',
 );
 
 const bounceBrief = BriefSection(
   title: 'What actually stiffens a beam',
-  body:
-      'Deflection, not strength, is what usually decides a beam: a floor can '
-      'be perfectly safe and still feel like a trampoline, which is why the '
-      'codes cap it at around the span over three hundred and sixty. When one '
-      'is too soft, the powers tell you what to change. SPAN is cubed under a '
-      'point load and to the fourth under a spread one, so it is the biggest '
-      'lever and usually the one you cannot touch. DEPTH is cubed inside I, so '
-      'a quarter more depth is nearly double the stiffness. WIDTH and LOAD '
-      'each count once. The MATERIAL counts once through E, which is nothing '
-      'between two grades of steel, since every grade has the same E, and '
-      'everything between timber and steel.',
-  formulas: [
-    ('Everything sits on', r'EI'),
-    ('For a rectangle', r'I = \frac{bh^3}{12}'),
-    ('Serviceability, typically', r'\delta \le \frac{L}{360}'),
-    ('A stronger steel', r'\text{same } E \Rightarrow \text{same sag}'),
+  picture: bouncePicture,
+  steps: [
+    (
+      'Bouncy is a real failure',
+      'A floor can be perfectly safe and still feel like a trampoline. So '
+          'codes limit the sag, usually to the span divided by 360.',
+    ),
+    (
+      'Depth is the big lever',
+      'Depth is cubed inside I. Make a joist a quarter deeper and it is '
+          'nearly twice as stiff. Width and load only count once.',
+    ),
+    (
+      'Span is bigger still',
+      'Span is cubed under a point load and to the fourth under a spread '
+          'one. It is the strongest lever of all, and usually the one you '
+          'cannot change.',
+    ),
+    (
+      'A stronger steel does nothing',
+      'Every grade of steel has the same E, so a stronger grade sags exactly '
+          'as much. Changing from timber to steel changes everything; changing '
+          'grades of steel changes nothing.',
+    ),
   ],
-  figure: BriefFigure.bounce,
+  spoken: [
+    (
+      'Everything sits on',
+      r'EI',
+      'stiffness of the material times the shape\'s I',
+    ),
+    (
+      'For a rectangle',
+      r'I = \frac{bh^3}{12}',
+      'width times depth CUBED, over twelve',
+    ),
+    (
+      'Serviceability, typically',
+      r'\delta \le \frac{L}{360}',
+      'sag no more than the span over 360',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 140 to 141',
 );
 
 const addBrief = BriefSection(
   title: 'Two loads, two lookups, one sum',
-  body:
-      'A beam carrying more than one thing is rarely in the table, and it does '
-      'not need to be. Work out the sag from each load as though the others '
-      'were not there, then ADD the answers. That is allowed because sag is '
-      'proportional to load while the material stays elastic: double the load '
-      'and you double the sag, so the pieces cannot interfere with each other. '
-      'The rule that keeps it honest is that you split the LOAD and never the '
-      'supports: every piece must be the same beam, held the same way, '
-      'carrying part of what the real one carries. The same line can be used '
-      'twice with different numbers, and a beam that is already in the table '
-      'needs no splitting at all.',
-  formulas: [
-    ('Superposition', r'\delta_{total} = \delta_1 + \delta_2 + \dots'),
-    ('Because', r'\delta \propto \text{load, while elastic}'),
-    ('Split', r'\text{the load, not the supports}'),
+  picture: addUpPicture,
+  steps: [
+    (
+      'The table has one load at a time',
+      'A real beam often carries two things at once, and that beam is not '
+          'in the table. It does not need to be.',
+    ),
+    (
+      'Split the load, add the sags',
+      'Work out the sag from each load as if the other were not there. Then '
+          'add the two answers. Done.',
+    ),
+    (
+      'Why adding is allowed',
+      'While the beam stays elastic, sag is proportional to load: double the '
+          'load, double the sag. Loads that behave that way cannot interfere '
+          'with each other, so their sags simply add.',
+    ),
+    (
+      'Split the load, never the supports',
+      'Every piece must be the SAME beam, held the same way, carrying part '
+          'of the load. The same table line can be used twice with different '
+          'numbers.',
+    ),
   ],
-  figure: BriefFigure.addUp,
+  spoken: [
+    (
+      'Superposition',
+      r'\delta_{total} = \delta_1 + \delta_2 + \dots',
+      'the total sag is the sags added up',
+    ),
+    (
+      'Because',
+      r'\delta \propto \text{load}',
+      'sag is proportional to load while the beam is elastic',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 140 to 141',
 );
 
 const transformBrief = BriefSection(
-  title: 'Write it as one material',
-  body:
-      'Two materials bonded together bend as one thing, and the trick is to '
-      'rewrite the section as though it were all made of the SOFTER one. The '
-      'stiffer material gets n times WIDER, where n is its modulus divided by '
-      'the softer modulus, because that is how much of the soft stuff it '
-      'would take to do the same job. Three things that must not happen: the '
-      'widening never goes to the softer material, it is never a division, and '
-      'it is never a change of DEPTH. Depth is how far material sits from the '
-      'axis and that is what bending is about, so moving it would be a '
-      'different beam. Once transformed, everything from the bending lesson '
-      'works unchanged: find the centroid, find I, use M y over I.',
-  formulas: [
-    ('Modular ratio', r'n = \frac{E_{stiff}}{E_{soft}} > 1'),
-    ('Transform by', r'b_{new} = n\,b_{stiff}'),
-    ('Never', r'\text{a depth, and never the soft one}'),
+  title: 'Two materials, written as one',
+  picture: transformPicture,
+  steps: [
+    (
+      'Glued together, they bend together',
+      'An aluminum beam with a steel strip glued to it bends as one thing. '
+          'But the formulas want one material. So you pretend the whole beam '
+          'is made of the softer one.',
+    ),
+    (
+      'Make the stiff part wider',
+      'Steel is about three times stiffer than aluminum, and n is that '
+          'ratio. So draw the steel strip n times WIDER, as if it were '
+          'aluminum. That much aluminum would do the same job.',
+    ),
+    (
+      'Three things that must not happen',
+      'Never widen the soft material. Never divide instead of multiply. And '
+          'never change the DEPTH: depth is how far material sits from the '
+          'middle, and that is what bending is about.',
+    ),
+    (
+      'Then it is an ordinary beam',
+      'Find the centroid of the new shape, find its I, and use M y over I '
+          'exactly as before.',
+    ),
   ],
-  figure: BriefFigure.transform,
+  spoken: [
+    (
+      'Modular ratio',
+      r'n = \frac{E_{stiff}}{E_{soft}}',
+      'how many times stiffer the stiff material is',
+    ),
+    (
+      'Transform by',
+      r'b_{new} = n\,b_{stiff}',
+      'the stiff part gets n times wider',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 136',
 );
 
 const joinBrief = BriefSection(
   title: 'Strain is shared, stress is not',
-  body:
-      'Two materials glued together cannot stretch by different amounts where '
-      'they meet, so the STRAIN is the same on both sides of the join. Their '
-      'stiffnesses are not the same, and stress is stiffness times strain, so '
-      'the STRESS jumps across that line by exactly the modular ratio. That is '
-      'the whole of the extra n in the formula: the transformed section hands '
-      'you the stress the SOFT material would feel, and the stiff material at '
-      'the same height feels n times it. It also explains something worth '
-      'carrying into design: the stiffer material attracts load whether or not '
-      'you meant it to.',
-  formulas: [
-    ('Across the join', r'\varepsilon_1 = \varepsilon_2'),
-    ('So', r'\sigma = E\varepsilon \Rightarrow \sigma_1 = n\,\sigma_2'),
-    ('In the transformed section', r'\sigma_1 = \frac{nMy}{I_T}'),
-    ('And', r'\sigma_2 = \frac{My}{I_T}'),
+  picture: joinPicture,
+  steps: [
+    (
+      'Glued means stretched together',
+      'Two materials glued along a line cannot stretch by different amounts '
+          'right at that line. So the STRAIN is the same on both sides of the '
+          'glue.',
+    ),
+    (
+      'Same stretch, different effort',
+      'Stress is stiffness times strain. Steel is n times stiffer than '
+          'aluminum, so at the same strain it carries n times the stress. '
+          'The stress JUMPS at the glue line by exactly n.',
+    ),
+    (
+      'What the transformed section gives you',
+      'It hands you the stress the soft material feels. For the stiff '
+          'material at the same height, multiply by n.',
+    ),
+    (
+      'Worth remembering in design',
+      'The stiffer material attracts load whether you meant it to or not.',
+    ),
   ],
-  figure: BriefFigure.join,
+  spoken: [
+    (
+      'Across the glue',
+      r'\varepsilon_1 = \varepsilon_2',
+      'the same strain on both sides',
+    ),
+    (
+      'So',
+      r'\sigma_1 = n\,\sigma_2',
+      'the stiff side carries n times the stress',
+    ),
+    (
+      'In the transformed section',
+      r'\sigma_{stiff} = \frac{nMy}{I_T},\quad \sigma_{soft} = \frac{My}{I_T}',
+      'the soft stress from the transformed I, times n for the stiff one',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 136',
 );
 
 const plasticBrief = BriefSection(
   title: 'First yield is not the end of the beam',
-  body:
-      'Load a ductile section and the stress through its depth goes through '
-      'four pictures. A straight line while everything is elastic. A straight '
-      'line just touching yield at the two faces, which is the YIELD moment, '
-      'F y times the elastic S. Then yielding eats inward from both faces '
-      'while an elastic core holds on in the middle, with the moment still '
-      'climbing. Finally it goes square, yielded right through, and that is '
-      'the PLASTIC moment, F y times Z. Z is the plastic section modulus and '
-      'it is bigger than S; using S for the plastic moment is this lesson\'s '
-      'named trap. The ratio between them, the shape factor, is about one and '
-      'a half for a rectangle and only about one and a tenth for a wide '
-      'flange, which already has most of its material at the faces.',
-  formulas: [
-    ('First yield', r'M_y = F_y S'),
-    ('Fully plastic', r'M_p = F_y Z'),
-    ('Shape factor', r'\frac{Z}{S} \approx 1.5 \text{ rectangle}'),
-    ('And', r'\frac{Z}{S} \approx 1.1 \text{ wide flange}'),
+  picture: plasticPicture,
+  steps: [
+    (
+      'Four pictures as the load grows',
+      'Elastic: a straight line of stress, small at the middle, biggest at '
+          'the faces. Then the faces just reach yield: that is the YIELD '
+          'moment. Then yield eats inward from both faces while an elastic core '
+          'holds on. Finally the whole depth has yielded: the PLASTIC moment.',
+    ),
+    (
+      'The beam keeps carrying more',
+      'Between the yield moment and the plastic moment the beam is still '
+          'taking more load. First yield is a warning, not the end.',
+    ),
+    (
+      'S and Z',
+      'The yield moment uses S, the elastic section modulus. The plastic '
+          'moment uses Z, which is bigger. Using S for the plastic moment is '
+          'the trap in this lesson.',
+    ),
+    (
+      'How much bigger',
+      'Z over S is the shape factor. About 1.5 for a rectangle, which has '
+          'lots of material near the middle doing little. About 1.1 for a wide '
+          'flange, whose material is already at the faces.',
+    ),
   ],
-  figure: BriefFigure.plastic,
+  spoken: [
+    ('First yield', r'M_y = F_y S', 'yield stress times the elastic modulus S'),
+    (
+      'Fully plastic',
+      r'M_p = F_y Z',
+      'yield stress times the plastic modulus Z',
+    ),
+    (
+      'Shape factor',
+      r'\frac{Z}{S} \approx 1.5 \text{ rectangle},\ 1.1 \text{ wide flange}',
+      'how much more the beam carries after first yield',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 136 and 281',
 );
 
 const circleBrief = BriefSection(
   title: 'Every answer is a place on the circle',
-  body:
-      'Mohr\'s circle is not a drawing exercise, it is a map of every plane '
-      'through one point. The CENTER sits on the normal stress axis at the '
-      'average of the two normal stresses, and rotating the element never '
-      'moves it. The RADIUS is the worst shear on any plane in the page. The '
-      'two ENDS are the principal stresses, where the shear has run out to '
-      'nothing: sigma one is the right hand end and sigma two the left, '
-      'whatever the signs are, so on a circle that sits entirely in '
-      'compression sigma one is the SMALLEST squeeze. The face your numbers '
-      'came from is just another point on the circle, at the normal stress you '
-      'were given and the shear you were given. And angles double: a plane '
-      'turned by theta in the material moves two theta round the circle, which '
-      'is why the worst shear sits forty five degrees from the principal '
-      'planes.',
-  formulas: [
-    ('Center', r'C = \frac{\sigma_x + \sigma_y}{2}'),
+  picture: circlePicture,
+  steps: [
+    (
+      'One point, many planes',
+      'Zoom into one point in a loaded part. Cut through it at any angle '
+          'and the cut face feels some push and some slide. Turn the cut and '
+          'the numbers change. Mohr\'s circle is a map of every angle at once.',
+    ),
+    (
+      'The center and the radius',
+      'The center sits on the push axis at the average of the two pushes '
+          'you were given. Turning the cut never moves it. The radius is the '
+          'biggest slide any cut in the page can feel.',
+    ),
+    (
+      'The two ends',
+      'At the far right and far left the slide has run out to nothing. '
+          'Those are the principal stresses: the biggest push and the smallest. '
+          'Sigma one is always the right-hand end, whatever the signs.',
+    ),
+    (
+      'Angles double',
+      'Turn the cut by an angle in the metal and you move TWICE that angle '
+          'round the circle. That is why the worst slide sits forty-five '
+          'degrees from the principal planes.',
+    ),
+  ],
+  spoken: [
+    (
+      'Center',
+      r'C = \frac{\sigma_x + \sigma_y}{2}',
+      'the average of the two normal stresses',
+    ),
     (
       'Radius',
       r'R = \sqrt{\left(\frac{\sigma_x-\sigma_y}{2}\right)^2 + \tau_{xy}^2}',
+      'half the difference of the pushes, and the shear, combined like the sides of a triangle',
     ),
-    ('Ends', r'\sigma_{1,2} = C \pm R'),
+    ('Ends', r'\sigma_{1,2} = C \pm R', 'center plus and minus the radius'),
     (
       'Angles',
-      r'\theta \text{ in the material} = 2\theta \text{ on the circle}',
+      r'2\theta \text{ on the circle}',
+      'twice the angle turned in the material',
     ),
   ],
-  figure: BriefFigure.circle,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 131',
 );
 
 const buildBrief = BriefSection(
-  title: 'Three special circles worth knowing on sight',
-  body:
-      'PURE SHEAR, with no normal stress on either face, is a circle centered '
-      'on the origin: principal stresses of plus tau and minus tau, so pure '
-      'shear is tension one way and compression square to it at forty five '
-      'degrees. That is why a brittle shaft in torsion cracks on a spiral. '
-      'UNIAXIAL TENSION runs from zero out to the stress applied, with its '
-      'worst shear at half of it on a forty five degree plane, which is why a '
-      'ductile bar necks on the slant. EQUAL STRESS BOTH WAYS with no shear is '
-      'not a circle at all but a single POINT: no shear on any plane, and '
-      'turning the element changes nothing. In every other case, remember that '
-      'any shear at all pushes sigma one further out than the normal stress '
-      'you started with.',
-  formulas: [
-    ('Pure shear', r'\sigma_{1,2} = \pm\tau \text{, centered on } 0'),
-    ('Uniaxial', r'\sigma_1 = \sigma,\ \sigma_2 = 0,\ R = \frac{\sigma}{2}'),
-    ('Equal both ways', r'R = 0 \text{, a point}'),
-    ('With any shear', r'\sigma_1 > \sigma_x'),
+  title: 'Three circles worth knowing on sight',
+  picture: buildPicture,
+  steps: [
+    (
+      'Pure shear: centered on zero',
+      'Only a slide, no push on either face. The circle sits centered on '
+          'zero, so the principal stresses are plus and minus the shear: a pull '
+          'one way and an equal squeeze at forty-five degrees. That is why a '
+          'brittle shaft in torsion cracks on a spiral.',
+    ),
+    (
+      'One pull: from zero out',
+      'A push on one face only. The circle runs from zero out to that '
+          'push, and its worst slide is half of it, on a forty-five degree '
+          'plane. That is why a ductile bar necks on the slant.',
+    ),
+    (
+      'Equal both ways: a dot',
+      'The same push on both faces and no slide. The radius is zero, the '
+          'circle is a single point, and turning the element changes nothing.',
+    ),
+    (
+      'Any shear pushes sigma one out',
+      'In every other case, adding shear makes the circle bigger, so the '
+          'largest principal stress is always further out than the push you '
+          'started with.',
+    ),
   ],
-  figure: BriefFigure.build,
+  spoken: [
+    (
+      'Pure shear',
+      r'\sigma_{1,2} = \pm\tau',
+      'plus and minus the shear, centered on zero',
+    ),
+    (
+      'One pull',
+      r'\sigma_1 = \sigma,\ \sigma_2 = 0,\ R = \frac{\sigma}{2}',
+      'from zero to the pull; worst shear is half of it',
+    ),
+    ('Equal both ways', r'R = 0', 'a point, no shear on any plane'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 131',
 );
 
 const worstBrief = BriefSection(
   title: 'The third principal stress is zero, and it counts',
-  body:
-      'The radius is the worst shear on the planes you can see in the page. '
-      'The worst shear AT THE POINT is half the spread between the largest and '
-      'smallest of all THREE principal stresses, and the third one, out of the '
-      'page, is zero at any free surface. So the test is one look at the '
-      'drawing: if the circle crosses the zero mark, zero is already inside '
-      'the spread and the radius is the answer. If the whole circle sits to '
-      'one side of zero, which happens whenever both principal stresses have '
-      'the same sign, the real spread runs from zero to the far end and the '
-      'worst shear is half of THAT, which is always bigger than the radius. '
-      'The case that punishes a habit hardest is two similar tensions: a tiny '
-      'circle a long way out, almost no in-plane shear, and a serious shear on '
-      'a plane out of the page.',
-  formulas: [
+  picture: worstPicture,
+  steps: [
+    (
+      'There is a third direction',
+      'The circle shows the cuts you can draw in the page. But the metal '
+          'has a third direction, out of the page, and at a free surface the '
+          'stress there is zero. That zero is a principal stress too.',
+    ),
+    (
+      'The worst slide uses the biggest spread',
+      'The worst shear at the point is half the spread between the largest '
+          'and the smallest of all THREE principal stresses. The radius only '
+          'covers the two in the page.',
+    ),
+    (
+      'One look decides it',
+      'If the circle crosses the zero mark, zero is already inside the '
+          'spread and the radius is the answer. If the whole circle sits on one '
+          'side of zero, the real spread runs from zero to the far end, and '
+          'the worst shear is half of THAT, always bigger than the radius.',
+    ),
+    (
+      'The case that punishes a habit',
+      'Two similar pulls: a tiny circle far out from zero, almost no shear '
+          'in the page, and a serious shear on a plane out of the page.',
+    ),
+  ],
+  spoken: [
     (
       'Worst at the point',
       r'\tau_{abs} = \frac{\sigma_{max} - \sigma_{min}}{2}',
+      'half the spread between the biggest and smallest of the three',
     ),
-    ('Out of plane', r'\sigma_3 = 0'),
-    ('Circle crosses zero', r'\tau_{abs} = R'),
-    ('Circle clear of zero', r'\tau_{abs} = \frac{|\sigma_{far}|}{2} > R'),
+    (
+      'Out of plane',
+      r'\sigma_3 = 0',
+      'the third principal stress is zero at a free surface',
+    ),
+    ('Circle crosses zero', r'\tau_{abs} = R', 'the radius is the answer'),
+    (
+      'Circle clear of zero',
+      r'\tau_{abs} = \frac{|\sigma_{far}|}{2}',
+      'half the far end, bigger than the radius',
+    ),
   ],
-  figure: BriefFigure.worst,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 132',
 );
 
@@ -8822,17 +9440,38 @@ class ConceptView extends StatelessWidget {
           const SizedBox(height: 14),
           Text(section.title, style: AppTheme.display(size: 38, height: 1.0)),
           const SizedBox(height: 22),
-          Text(section.body, style: AppTheme.body(size: 16, height: 1.5)),
+          if (section.picture != null) ...[
+            section.picture!(),
+            const SizedBox(height: 22),
+          ],
+          if (section.steps.isEmpty)
+            Text(section.body, style: AppTheme.body(size: 16, height: 1.5)),
+          for (final (i, (eyebrow, text)) in section.steps.indexed) ...[
+            if (i > 0) const SizedBox(height: 18),
+            Text(
+              eyebrow.toUpperCase(),
+              style: AppTheme.eyebrow(color: AppColors.mutedOnLight),
+            ),
+            const SizedBox(height: 6),
+            Text(text, style: AppTheme.body(size: 16, height: 1.5)),
+          ],
           if (section.formula != null) ...[
             const SizedBox(height: 14),
             _FormulaTile(latex: section.formula!),
           ],
-          for (final (label, latex) in section.formulas) ...[
-            const SizedBox(height: 10),
-            _FormulaTile(label: label, latex: latex),
+          if (section.spoken.isEmpty)
+            for (final (label, latex) in section.formulas) ...[
+              const SizedBox(height: 10),
+              _FormulaTile(label: label, latex: latex),
+            ],
+          for (final (i, (label, latex, words)) in section.spoken.indexed) ...[
+            SizedBox(height: i == 0 ? 22 : 10),
+            _FormulaTile(label: label, latex: latex, words: words),
           ],
-          const SizedBox(height: 14),
-          BriefFigureView(figure: section.figure),
+          if (section.figure != BriefFigure.none) ...[
+            const SizedBox(height: 14),
+            BriefFigureView(figure: section.figure),
+          ],
           const SizedBox(height: 26),
           Text(
             'Knowing this is not the same as solving with it. The full '
@@ -8856,10 +9495,14 @@ class ConceptView extends StatelessWidget {
 
 /// One expression on a creamDark tile, with its name as an eyebrow.
 class _FormulaTile extends StatelessWidget {
-  const _FormulaTile({this.label, required this.latex});
+  const _FormulaTile({this.label, required this.latex, this.words});
 
   final String? label;
   final String latex;
+
+  /// The expression read out loud, for a reader who does not yet read the
+  /// symbols.
+  final String? words;
 
   @override
   Widget build(BuildContext context) {
@@ -8881,6 +9524,17 @@ class _FormulaTile extends StatelessWidget {
             const SizedBox(height: 8),
           ],
           MathBlock(latex, fontSize: 20),
+          if (words != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              words!,
+              style: AppTheme.body(
+                size: 14,
+                height: 1.4,
+                color: AppColors.mutedOnLight,
+              ),
+            ),
+          ],
         ],
       ),
     );
@@ -8895,6 +9549,8 @@ class BriefFigureView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (figure) {
+      case BriefFigure.none:
+        return const SizedBox.shrink();
       case BriefFigure.slopePair:
         return Row(
           children: [
