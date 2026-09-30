@@ -14727,221 +14727,440 @@ const subgradeReactionBrief = BriefSection(
 );
 
 const forwardPassBrief = BriefSection(
-  title: 'Two rules and no more',
-  body:
-      'The forward pass through a network is two rules applied in order. An '
-      'activity FINISHES its own duration after it starts, so early finish '
-      'is early start plus duration. And it STARTS when the last of the '
-      'things it waits on has finished, which is the only rule that matters '
-      'at a merge: the latest predecessor governs, never the earliest and '
-      'never an average. Two activities waiting on the same thing both begin '
-      'the moment it ends, since nothing in the network says they take '
-      'turns. Durations in series ADD and never multiply. And watch what the '
-      'question asked for: the finish of the activity itself, not the finish '
-      'of the one before it and not its own duration, both of which are '
-      'numbers sitting right there in the problem.',
-  formulas: [
-    ('The finish', r'EF = ES + D'),
-    ('At a merge', r'ES = \max(EF \text{ of predecessors})'),
-    ('In series', r'\text{durations add}'),
+  title: 'Two rules carry you forward',
+  picture: forwardPassPicture,
+  steps: [
+    (
+      'Jobs wait on other jobs',
+      'You cannot paint a wall before it is built. A schedule is a list of '
+          'jobs, how many days each takes, and which ones have to finish first. '
+          'The drawing is that list with arrows.',
+    ),
+    (
+      'Rule one: add the days',
+      'A job finishes its own number of days after it starts. Start on day '
+          'four, take six days, finish on day ten. Days in a row add up. They '
+          'never multiply.',
+    ),
+    (
+      'Rule two: at a meeting point, wait for the slowest',
+      'When a job waits on two others, it starts when the LATER one '
+          'finishes, not the earlier one and not the average. Two jobs waiting '
+          'on the same thing both start the moment it ends. Nothing makes them '
+          'take turns.',
+    ),
+    (
+      'Answer the question that was asked',
+      'The finish of the job itself, not the finish of the one before it and '
+          'not its own length. Both of those numbers sit right there in the '
+          'problem, waiting to be picked up by mistake.',
+    ),
   ],
-  figure: BriefFigure.forwardPass,
+  spoken: [
+    (
+      'The finish',
+      r'EF = ES + D',
+      'early finish is early start plus how long the job takes',
+    ),
+    (
+      'At a meeting point',
+      r'ES = \max(EF \text{ of the jobs before})',
+      'a job starts when the last thing it waits on has finished',
+    ),
+    (
+      'In a row',
+      r'\text{durations add}',
+      'days one after another simply add up',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, CPM scheduling',
 );
 
 const projectDurationBrief = BriefSection(
-  title: 'As long as its longest path',
-  body:
-      'A project takes as long as the LONGEST path through its network. Not '
-      'the sum of every duration, which counts parallel work twice over, and '
-      'not the longest single activity. Everything off that longest path has '
-      'slack: it finishes and then waits, so shortening it changes nothing '
-      'at all and money spent accelerating it is wasted. The special case '
-      'worth noticing is a network with no branches, where the longest path '
-      'IS the sum, which is where the habit of adding everything comes from. '
-      'And the longest path is a property of the numbers rather than of the '
-      'drawing: lengthen a branch that had slack and the critical route '
-      'moves to it, which is why a schedule is re-run rather than drawn '
-      'once.',
-  formulas: [
-    ('The duration', r'\text{the longest path}'),
-    ('Not', r'\textstyle\sum \text{all durations}'),
-    ('Off the path', r'\text{it has slack}'),
+  title: 'A job takes as long as its longest route',
+  picture: projectDurationPicture,
+  steps: [
+    (
+      'Find the routes, then take the longest',
+      'Trace every path from the start of the drawing to the end and add up '
+          'the days along each. The job takes as long as the longest one. That '
+          'is the whole answer.',
+    ),
+    (
+      'Not everything added up',
+      'Adding every job counts work that happens at the same time twice '
+          'over. And it is not the single longest job either. It is the longest '
+          'ROUTE.',
+    ),
+    (
+      'Everything off that route has spare time',
+      'A job on a shorter route finishes and then waits. Speeding it up '
+          'changes nothing, so money spent rushing it is wasted.',
+    ),
+    (
+      'The longest route can move',
+      'Stretch a branch that had spare time and it becomes the longest one, '
+          'as the second drawing shows. That is why a schedule gets worked out '
+          'again instead of drawn once.',
+    ),
   ],
-  figure: BriefFigure.projectDuration,
+  spoken: [
+    (
+      'How long the job takes',
+      r'\text{the longest route through}',
+      'add the days along each path and take the biggest total',
+    ),
+    (
+      'Not',
+      r'\textstyle\sum \text{every job}',
+      'adding everything counts work that happens side by side twice',
+    ),
+    (
+      'Off that route',
+      r'\text{there is spare time}',
+      'those jobs can slip without moving the finish',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, CPM scheduling',
 );
 
 const passesBrief = BriefSection(
   title: 'Forward, then backward',
-  body:
-      'Two sweeps, opposite ways, answering two different questions. The '
-      'FORWARD pass runs from the start and finds the earliest each activity '
-      'can happen: add the duration, and at a merge take the LATEST finish '
-      'in front of you. The BACKWARD pass runs from the project finish, '
-      'which the forward pass has just produced, and finds the latest each '
-      'activity can happen without pushing that finish out: subtract the '
-      'duration, and where an activity feeds several others take the '
-      'EARLIEST of their late starts, since it has to be out of the way for '
-      'all of them. That flip is the thing to hold on to. Forward takes the '
-      'latest, backward takes the earliest. A late start is a limit and not '
-      'a plan: starting earlier is normally wiser, and the gap between the '
-      'two is float.',
-  formulas: [
-    ('Forward', r'EF = ES + D, \; ES = \max(EF_{pred})'),
-    ('Backward', r'LS = LF - D, \; LF = \min(LS_{succ})'),
-    ('Starts from', r'LF_{last} = \text{the duration}'),
+  picture: passesPicture,
+  steps: [
+    (
+      'Two sweeps, two questions',
+      'Go through the drawing left to right and you learn the earliest each '
+          'job can happen. Come back right to left and you learn the latest it '
+          'can happen without making the whole job late.',
+    ),
+    (
+      'Going forward, add and take the later one',
+      'Add each job length as you go. Where a job waits on two others, take '
+          'the LATER finish, because it cannot start until both are done.',
+    ),
+    (
+      'Coming back, subtract and take the earlier one',
+      'Start from the finish date you just worked out. Subtract each job '
+          'length. Where one job feeds several, take the EARLIEST of their late '
+          'starts, because it has to be out of the way for all of them.',
+    ),
+    (
+      'That flip is the thing to remember',
+      'Forward takes the later. Backward takes the earlier. The gap between '
+          'a job\'s earliest and latest is its spare time.',
+    ),
   ],
-  figure: BriefFigure.passes,
+  spoken: [
+    (
+      'Forward',
+      r'EF = ES + D,\; ES = \max(EF_{\text{before}})',
+      'add the days, and at a meeting point take the later finish',
+    ),
+    (
+      'Backward',
+      r'LS = LF - D,\; LF = \min(LS_{\text{after}})',
+      'subtract the days, and where one job feeds several take the earlier start',
+    ),
+    (
+      'Where backward starts',
+      r'LF_{\text{last}} = \text{the finish date}',
+      'the last job must finish on the date the forward sweep produced',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, CPM scheduling',
 );
 
 const floatBrief = BriefSection(
-  title: 'Room to slip',
-  body:
-      'TOTAL float is the latest start less the earliest, or equally the '
-      'latest finish less the earliest finish: the two give the same number '
-      'and checking one against the other is free. It says how far an '
-      'activity can slip without the PROJECT finishing later. FREE float '
-      'asks a smaller question: how far it can slip without pushing the very '
-      'next activity, which is the earliest successor start less this '
-      'activity\'s early finish. Free float is never the larger of the two. '
-      'Between them lies the ground where a delay pushes the successor but '
-      'not the finish date. And total float belongs to the PATH rather than '
-      'to the activity: two activities in a row showing four days each are '
-      'sharing the same four days, and whichever spends it first takes it '
-      'from the other. Zero total float means critical.',
-  formulas: [
-    ('Total float', r'TF = LS - ES = LF - EF'),
-    ('Free float', r'FF = \min(ES_{succ}) - EF'),
-    ('Critical', r'TF = 0'),
+  title: 'How much a job can slip',
+  picture: floatPicture,
+  steps: [
+    (
+      'Some jobs have room, some have none',
+      'In the drawing, C could start on day three or wait until day eight '
+          'and the job still finishes on time. Those five days are its room to '
+          'slip. The marked chain has no room at all.',
+    ),
+    (
+      'Total float: room before the JOB is late',
+      'Latest start minus earliest start. Or latest finish minus earliest '
+          'finish. Both give the same number, so working out one and checking '
+          'the other is free.',
+    ),
+    (
+      'Free float: room before the NEXT job is pushed',
+      'A smaller question, and a smaller number. It is how long you can slip '
+          'before the thing waiting on you has to move. Free float is never the '
+          'bigger of the two.',
+    ),
+    (
+      'The room belongs to the route, not the job',
+      'Two jobs in a row each showing four days are sharing the same four '
+          'days. Whoever uses it first takes it from the other. No room at all '
+          'means the job is critical.',
+    ),
   ],
-  figure: BriefFigure.float,
+  spoken: [
+    (
+      'Total float',
+      r'TF = LS - ES = LF - EF',
+      'latest minus earliest, either as starts or as finishes',
+    ),
+    (
+      'Free float',
+      r'FF = \min(ES_{\text{after}}) - EF',
+      'the earliest start of what comes next, minus this job\'s early finish',
+    ),
+    ('Critical', r'TF = 0', 'no room to slip at all'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, CPM scheduling',
 );
 
 const criticalPathBrief = BriefSection(
-  title: 'The chain that decides',
-  body:
-      'The critical path is the longest path through the network, and it is '
-      'also the chain of activities with ZERO total float: the same '
-      'activities described two ways, since any slack on the longest path '
-      'would mean a longer path existed. Its length is the project duration. '
-      'A day lost on it is a day lost to the project, straight through, '
-      'because there is no cushion anywhere along it. A day lost OFF it only '
-      'spends float, and when that float runs out, that path becomes '
-      'critical too. A network can carry two critical paths at once, when '
-      'two routes come out the same length, and then shortening only one of '
-      'them buys nothing. The practical payoff is the whole reason for the '
-      'method: it says exactly where acceleration buys time and where it '
-      'buys none.',
-  formulas: [
-    ('Longest path', r'= \text{the project duration}'),
-    ('And also', r'\text{the chain with } TF = 0'),
-    ('A day lost there', r'\text{is a day lost to the project}'),
+  title: 'The chain that decides the finish date',
+  picture: criticalPathPicture,
+  steps: [
+    (
+      'The longest route, marked',
+      'Three ways through this drawing. The marked one is the longest, and '
+          'its length IS how long the job takes.',
+    ),
+    (
+      'It is also the chain with no spare time',
+      'Those are two descriptions of the same jobs. If the longest route had '
+          'spare time in it, a longer route would have to exist somewhere, and '
+          'it does not.',
+    ),
+    (
+      'A day lost there is a day lost everywhere',
+      'There is no cushion anywhere along the chain, so delay goes straight '
+          'through to the finish date. Lose a day off the chain and you only '
+          'spend spare time. Spend it all and that route turns critical too.',
+    ),
+    (
+      'That is the whole point of the method',
+      'It says exactly where hurrying buys time and where it buys nothing. '
+          'Two routes can tie for longest, and then speeding up only one of them '
+          'buys nothing either.',
+    ),
   ],
-  figure: BriefFigure.criticalPath,
+  spoken: [
+    (
+      'The longest route',
+      r'= \text{how long the job takes}',
+      'its length is the finish date',
+    ),
+    (
+      'And also',
+      r'\text{the chain with } TF = 0',
+      'the same jobs, described by having no spare time',
+    ),
+    (
+      'A day lost on it',
+      r'\text{is a day lost to the whole job}',
+      'delay on the critical chain moves the finish date straight away',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, CPM scheduling',
 );
 
 const earnedValueBrief = BriefSection(
   title: 'Three numbers, two subtractions',
-  body:
-      'On any date a project has three numbers. What the plan said would be '
-      'done by now, what the work actually finished is WORTH at budgeted '
-      'rates, and what has actually been spent. The middle one, earned '
-      'value, is the one that matters, because it is the only one that '
-      'reflects progress rather than intentions or invoices. Both variances '
-      'start from it. Earned less SPENT is the cost variance: negative means '
-      'more money went out than the work was worth, which is over budget. '
-      'Earned less PLANNED is the schedule variance: negative means less got '
-      'done than the plan called for, which is behind. Two subtractions from '
-      'the same starting point, and the commonest mistakes are doing the '
-      'wrong one, or getting the sign right and then reading it backwards. '
-      'The two are reported separately because a project is often behind and '
-      'under budget at once: an efficient crew that is short handed.',
-  formulas: [
-    ('Cost', r'CV = BCWP - ACWP'),
-    ('Schedule', r'SV = BCWP - BCWS'),
-    ('Either one', r'\text{negative is bad}'),
+  picture: earnedValuePicture,
+  steps: [
+    (
+      'Three bars on one date',
+      'What the plan said would be done by now. What the work actually '
+          'finished is WORTH, priced at the budget. And what has actually been '
+          'paid out.',
+    ),
+    (
+      'The middle bar is the one that matters',
+      'It is the only one that says what really got done. The first is a '
+          'promise, the third is a stack of bills. Both gaps are measured from '
+          'the middle bar.',
+    ),
+    (
+      'Earned minus SPENT is the money answer',
+      'Negative means more money went out than the work was worth. That is '
+          'over budget.',
+    ),
+    (
+      'Earned minus PLANNED is the calendar answer',
+      'Negative means less got done than the plan asked for. That is behind. '
+          'They are reported separately because a job is often behind AND under '
+          'budget at once: a good crew that is short handed.',
+    ),
   ],
-  figure: BriefFigure.earnedValue,
+  spoken: [
+    (
+      'Money',
+      r'CV = BCWP - ACWP',
+      'what the work was worth, minus what was spent',
+    ),
+    (
+      'Calendar',
+      r'SV = BCWP - BCWS',
+      'what the work was worth, minus what was planned',
+    ),
+    (
+      'Either one',
+      r'\text{negative is bad}',
+      'a minus sign means behind, or over budget',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, earned value',
 );
 
 const forecastBrief = BriefSection(
-  title: 'At this rate, what will it cost',
-  body:
-      'The cost performance index is earned value over actual cost, EARNED '
-      'on top, and it says how much value each dollar is buying. Below one '
-      'is trouble; turning the ratio over gives a number above one that '
-      'looks healthy and is the wrong answer the lesson prints. Both '
-      'forecasts assume the rate persists. The estimate to complete is the '
-      'budgeted work still to do, the whole budget less what has been '
-      'earned, DIVIDED by the index: at eighty cents on the dollar, 1.4 '
-      'million of remaining work will cost 1.75 million. Reporting the 1.4 '
-      'assumes the crew suddenly starts hitting budget. The estimate at '
-      'completion is then what is already spent PLUS that, and each half of '
-      'that sum on its own is one of the printed wrong answers. An index of '
-      'exactly one makes the division do nothing and lands the forecast back '
-      'on the original budget.',
-  formulas: [
-    ('The index', r'CPI = BCWP / ACWP'),
-    ('The rest', r'ETC = (BAC - BCWP)/CPI'),
-    ('The whole', r'EAC = ACWP + ETC'),
+  title: 'At this rate, what will the whole thing cost',
+  picture: forecastPicture,
+  steps: [
+    (
+      'What is each dollar buying',
+      'Divide what the work was worth by what was spent on it. Earned goes '
+          'on TOP. Here that is eighty cents of value for every dollar paid. '
+          'Below one is trouble.',
+    ),
+    (
+      'Do not turn the fraction over',
+      'Upside down it comes out above one and looks healthy. That wrong '
+          'answer is always printed as a choice.',
+    ),
+    (
+      'The rest of the job costs more too',
+      'Take the work still to do, priced at budget, and divide by that same '
+          'rate. At eighty cents on the dollar, 1.4 million of remaining work '
+          'will cost 1.75 million. Reporting the 1.4 assumes the crew suddenly '
+          'starts hitting budget.',
+    ),
+    (
+      'Then add what is already gone',
+      'Spent so far, plus the rest. Each half of that sum on its own is one '
+          'of the wrong answers. A rate of exactly one makes the dividing do '
+          'nothing and lands you back on the original budget.',
+    ),
   ],
-  figure: BriefFigure.forecast,
+  spoken: [
+    ('The rate', r'CPI = BCWP / ACWP', 'value earned divided by money spent'),
+    (
+      'The rest',
+      r'ETC = (BAC - BCWP)/CPI',
+      'the work still to do at budget, divided by the rate you are managing',
+    ),
+    (
+      'The whole thing',
+      r'EAC = ACWP + ETC',
+      'what is already spent, plus what the rest will cost',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, earned value forecasting',
 );
 
 const excavationBrief = BriefSection(
   title: 'Five feet, and twenty',
-  body:
-      'Two depths change what an excavation needs. Past FIVE feet a trench '
-      'requires a protective system, and any of three will do: sloping or '
-      'benching the sides back to a safe angle, shoring to hold them in '
-      'place, or a trench box to protect the people rather than the hole. '
-      'Which one gets used is a question of soil, room and cost, not of the '
-      'rule, and the weakest soil, type C, needs the flattest slope at one '
-      'and a half horizontal to one vertical, which is often what pushes a '
-      'job toward a box instead. Past TWENTY feet the system has to be '
-      'designed by a registered professional engineer, because the '
-      'manufacturer tabulated data most systems rely on stops there. Below '
-      'five feet the rule does not bite, which is not the same as the hole '
-      'being safe: a cubic yard of soil weighs about as much as a car, and a '
-      'trench gives no warning before it comes in.',
-  formulas: [
-    ('Over five feet', r'\text{sloping, shoring or a box}'),
-    ('Over twenty', r'\text{designed by a PE}'),
-    ('Type C soil', r'1.5\text{H}:1\text{V}'),
+  picture: excavationPicture,
+  steps: [
+    (
+      'A hole in the ground can fall in',
+      'A cubic yard of soil weighs about as much as a car, and a trench '
+          'gives no warning before the sides come in. That is why there are '
+          'depth rules at all.',
+    ),
+    (
+      'Past five feet, the sides must be held',
+      'Any of three will do: slope or step the sides back to a safe angle, '
+          'shore them to hold them in place, or drop in a trench box, which '
+          'protects the people rather than the hole. Which one is a question of '
+          'soil, room and cost, not of the rule.',
+    ),
+    (
+      'Past twenty feet, an engineer must design it',
+      'The ready made tables most systems rely on stop at twenty. Deeper '
+          'than that and a registered professional engineer has to design the '
+          'protection.',
+    ),
+    (
+      'Under five feet the rule does not bite',
+      'Which is not the same as the hole being safe. The weakest soil, type '
+          'C, needs the flattest slope, one and a half across for every one '
+          'down, and that is often what pushes a job toward a box instead.',
+    ),
   ],
-  figure: BriefFigure.excavation,
+  spoken: [
+    (
+      'Over five feet',
+      r'\text{slope it, shore it, or box it}',
+      'a protective system is required, and any of the three counts',
+    ),
+    (
+      'Over twenty feet',
+      r'\text{designed by a professional engineer}',
+      'past twenty the tables run out and it has to be engineered',
+    ),
+    (
+      'Type C soil',
+      r'1.5\text{H}:1\text{V}',
+      'one and a half feet across for every foot down',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'OSHA 29 CFR 1926, excavations',
 );
 
 const fallProtectionBrief = BriefSection(
   title: 'Six feet in the air',
-  body:
-      'Fall protection is required at SIX feet in general construction, and '
-      'three things satisfy it: guardrails, which stop the fall happening, '
-      'safety nets, which catch the person, and a personal fall arrest '
-      'system, a harness and lanyard that stops them short. As with '
-      'excavations the rule names an outcome and leaves the method to the '
-      'job. Steel erection connectors are the exception worth knowing, with '
-      'a trigger of fifteen feet, on the argument that the equipment needed '
-      'to protect them lower down creates hazards of its own. Five in the '
-      'ground and six in the air are the two numbers that get swapped, and '
-      'they are worth one deliberate moment. The engineer meets all of this '
-      'in the design and the administration, by designing for '
-      'constructability and specifying measures such as shoring where they '
-      'are needed, and not by directing the crew: the means and methods '
-      'belong to the contractor.',
-  formulas: [
-    ('General construction', r'6 \text{ ft}'),
-    ('Steel connectors', r'15 \text{ ft}'),
-    ('The pair', r'5 \text{ down}, \; 6 \text{ up}'),
+  picture: fallProtectionPicture,
+  steps: [
+    (
+      'Six feet up, something has to be in place',
+      'In general construction work, that is the line. Below it the rule '
+          'does not fire. At or above it, one of three things is required.',
+    ),
+    (
+      'Stop it, catch it, or hold them short',
+      'Guardrails stop the fall happening. Safety nets catch the person. A '
+          'harness and lanyard lets them fall a little and then stops them. The '
+          'rule names the outcome and leaves the method to the job.',
+    ),
+    (
+      'One exception worth knowing',
+      'Workers connecting steel have a higher line, fifteen feet, because '
+          'the gear needed to protect them lower down would create hazards of '
+          'its own.',
+    ),
+    (
+      'Five down, six up',
+      'Five feet is the trench rule, six feet is the fall rule, and these '
+          'two get swapped more than anything else in the chapter. Worth one '
+          'deliberate moment.',
+    ),
   ],
-  figure: BriefFigure.fallProtection,
+  spoken: [
+    (
+      'General construction',
+      r'6 \text{ ft}',
+      'fall protection from six feet up',
+    ),
+    (
+      'Steel connectors',
+      r'15 \text{ ft}',
+      'the higher line for workers connecting steel',
+    ),
+    (
+      'The pair',
+      r'5 \text{ down},\; 6 \text{ up}',
+      'five feet in the ground, six feet in the air',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'OSHA 29 CFR 1926, fall protection',
 );
 
@@ -14971,26 +15190,49 @@ const yardsBrief = BriefSection(
 );
 
 const deliveryFitBrief = BriefSection(
-  title: 'Matching the method to the job',
-  body:
-      'Three shapes, and the job in front of you picks one. DESIGN, BID, '
-      'BUILD when the drawings are finished and the price has to be '
-      'competitive: everything happens in sequence, every bidder prices the '
-      'same complete package, and nothing can be fast-tracked because there '
-      'is nothing to bid until the design is done. DESIGN-BUILD when speed '
-      'and single point responsibility matter more: one agreement covers '
-      'both, so construction can start with the design part finished, and '
-      'the owner accepts less certainty about what is being built in '
-      'exchange. MANAGER AT RISK when the owner wants a builder\'s advice '
-      'during design but keeps its own designer: the manager commits to a '
-      'GUARANTEED MAXIMUM part way through the design and carries whatever '
-      'goes over it, which is what at risk means.',
-  formulas: [
-    ('Complete drawings, must bid', r'\text{design, bid, build}'),
-    ('Speed, one firm', r'\text{design-build}'),
-    ('Advice plus a ceiling', r'\text{manager at risk}'),
+  title: 'Matching the way you build it to the job',
+  picture: deliveryFitPicture,
+  steps: [
+    (
+      'Design, bid, build: finish the drawings first',
+      'Everything in order. The drawings get finished, builders price the '
+          'same complete package, the lowest price wins. Nothing can start '
+          'early, because there is nothing to bid on until the drawings are '
+          'done. Pick it when the design is settled and the price has to '
+          'compete.',
+    ),
+    (
+      'Design-build: one firm does both',
+      'A single agreement covers drawing and building, so building can '
+          'start on a part drawn job and the whole thing finishes sooner. The '
+          'owner has one firm to hold responsible, and accepts less certainty '
+          'about what is being built.',
+    ),
+    (
+      'Manager at risk: a builder in the room early',
+      'The owner keeps its own designer but brings a builder in during '
+          'design for advice. Part way through, that builder names a ceiling '
+          'price and pays for anything over it. That is what at risk means.',
+    ),
   ],
-  figure: BriefFigure.deliveryFit,
+  spoken: [
+    (
+      'Drawings done, price must compete',
+      r'\text{design, bid, build}',
+      'in order, with every bidder pricing the same finished package',
+    ),
+    (
+      'Speed, and one firm responsible',
+      r'\text{design-build}',
+      'one agreement for both, so building can overlap drawing',
+    ),
+    (
+      'Advice during design, plus a ceiling',
+      r'\text{manager at risk}',
+      'the builder joins early and guarantees a maximum price',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, project delivery',
 );
 
