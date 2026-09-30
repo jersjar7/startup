@@ -10614,716 +10614,1379 @@ const highPointBrief = BriefSection(
 
 const wettedBrief = BriefSection(
   title: 'What the water is rubbing against',
-  body:
-      'Manning\'s equation runs on the hydraulic radius, the flow AREA divided '
-      'by the WETTED PERIMETER, and the perimeter is where the mistakes live. '
-      'It is the length of boundary the water is in contact with, so two '
-      'things are never in it: the free water surface, because the top is open '
-      'to the air and air does not hold water back, and anything above the '
-      'water line, however tall the wall is built. For a rectangle that leaves '
-      'the bed plus TWICE the depth, one wall on each side. For a trapezoid it '
-      'is the bed plus both sides measured ALONG the slope, which is longer '
-      'than the depth. For a pipe running full there is no free surface at '
-      'all, so the whole circle counts. The hydraulic radius is not a radius '
-      'of anything: it is area per unit of rubbing, and more of it means '
-      'faster water.',
-  formulas: [
-    ('Area per unit of rubbing', r'R_H = \frac{A}{P}'),
-    ('A rectangle', r'P = b + 2y'),
-    ('A trapezoid', r'P = b + 2y\sqrt{1 + z^2}'),
-    ('A pipe running full', r'R_H = \frac{D}{4}'),
+  picture: wettedPicture,
+  steps: [
+    (
+      'Water is slowed by what it touches',
+      'Run water down a ditch and the sides and bottom drag on it. The more '
+          'boundary it has to rub along, the slower it goes. So before anything '
+          'else you count the rubbing.',
+    ),
+    (
+      'The air does not count',
+      'The top of the water is open to the sky. Air does not hold water back, '
+          'so the surface is never part of the rubbing. Neither is any wall built '
+          'above the water line: if the water is not touching it, it does nothing.',
+    ),
+    (
+      'Count the wet edges',
+      'For a rectangle that is the bed plus one wall on each side, so the bed '
+          'plus twice the depth. For a sloped side, measure ALONG the slope, which '
+          'is longer than the depth. For a pipe running full there is no surface '
+          'at all, so the whole circle counts.',
+    ),
+    (
+      'Then share the water out over the rubbing',
+      'The hydraulic radius is the area of water divided by that wetted '
+          'length. It is not the radius of anything. More water per unit of '
+          'rubbing means faster water.',
+    ),
   ],
-  figure: BriefFigure.wetted,
+  spoken: [
+    (
+      'Water per unit of rubbing',
+      r'R_H = \frac{A}{P}',
+      'the flow area, divided by the wetted length',
+    ),
+    ('A rectangle', r'P = b + 2y', 'the bed plus twice the depth'),
+    (
+      'A sloped side',
+      r'P = b + 2y\sqrt{1 + z^2}',
+      'the bed plus both slopes, each longer than the depth',
+    ),
+    ('A pipe running full', r'R_H = \frac{D}{4}', 'a quarter of the diameter'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const manningBrief = BriefSection(
   title: 'What actually sets the speed',
-  body:
-      'Manning\'s equation is one line with three things in it that a channel '
-      'can differ by, and they do not pull equally. ROUGHNESS sits underneath, '
-      'so it acts in full: concrete at 0.013 against bare earth at 0.025 is '
-      'nearly twice the velocity, and the ratio is the roughnesses the other '
-      'way up. SLOPE is under a square root, so four times the grade buys only '
-      'twice the speed, which is why steepening a sewer is an expensive way to '
-      'buy capacity. The HYDRAULIC RADIUS is to the two thirds power, and it '
-      'rewards a section that holds a lot of water against not much boundary: '
-      'deep and narrow beats wide and shallow at the same flow area. One '
-      'consequence is worth memorizing. A pipe running half full has the same '
-      'hydraulic radius as the same pipe running full, a quarter of the '
-      'diameter, so it carries half the water at exactly the same velocity.',
-  formulas: [
-    ('The velocity', r'v = \frac{K}{n} R_H^{2/3} S^{1/2}'),
-    ('Roughness, in full', r'\frac{v_1}{v_2} = \frac{n_2}{n_1}'),
-    ('Slope, under a root', r'4S \Rightarrow 2v'),
-    ('Full or half full', r'R_H = \frac{D}{4} \text{ either way}'),
+  picture: manningPicture,
+  steps: [
+    (
+      'Three things, pulling unequally',
+      'A channel can differ in how rough it is, how steeply it falls, and what '
+          'shape the water sits in. All three change the speed, but not by the '
+          'same amount.',
+    ),
+    (
+      'Roughness counts in full',
+      'It sits underneath, so it acts at full strength. Smooth concrete '
+          'against bare earth is nearly twice the speed. The ratio of speeds is '
+          'the roughnesses the other way up.',
+    ),
+    (
+      'Slope counts half',
+      'Slope is under a square root. Four times the grade buys only twice the '
+          'speed, which is why steepening a sewer is an expensive way to buy '
+          'capacity.',
+    ),
+    (
+      'Shape rewards deep and narrow',
+      'The hydraulic radius is raised to the two thirds. A deep narrow cut '
+          'holds the same water against far less rubbing than a wide shallow one, '
+          'so it runs faster. A pipe half full has the same hydraulic radius as '
+          'the same pipe full, so it runs at the same speed carrying half as much.',
+    ),
   ],
-  figure: BriefFigure.manning,
+  spoken: [
+    (
+      'The speed',
+      r'v = \frac{K}{n} R_H^{2/3} S^{1/2}',
+      'the constant over the roughness, times the radius to the two thirds, times the square root of the slope',
+    ),
+    (
+      'Roughness, in full',
+      r'\frac{v_1}{v_2} = \frac{n_2}{n_1}',
+      'the speeds go as the roughnesses upside down',
+    ),
+    (
+      'Slope, under a root',
+      r'4S \Rightarrow 2v',
+      'four times the slope gives twice the speed',
+    ),
+    (
+      'Full or half full',
+      r'R_H = \frac{D}{4}',
+      'a quarter of the diameter, either way',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const unitFactorBrief = BriefSection(
   title: 'The only place the units show up',
-  body:
-      'Manning\'s equation carries a constant in front of it that is nothing '
-      'but a unit conversion. In meters it is 1.0, which is to say there is '
-      'nothing to convert. In feet it is 1.486, and leaving it out makes every '
-      'answer a third too small, which is the trap the lesson names first. '
-      'What decides it is the units the LENGTHS are in, and nothing else: the '
-      'roughness n is dimensionless and is the same number in both systems, '
-      'the slope is a rise over a run and has no units either, and the units '
-      'somebody wants the answer reported in have no bearing at all. Work the '
-      'equation in the units of the drawing and convert the answer once at the '
-      'end. Inches and millimeters are not units the equation takes, so a '
-      'drawing in either gets fixed before anything else happens, and a pipe '
-      'diameter left in inches is the usual way that goes wrong.',
-  formulas: [
-    ('In feet', r'K = 1.486'),
-    ('In meters', r'K = 1.0'),
-    ('Dimensionless, both ways', r'n, \; S'),
+  picture: kfactorPicture,
+  steps: [
+    (
+      'One channel, two rulers',
+      'Measure the same channel in feet and in meters and you write down two '
+          'different numbers for the same thing. Manning\'s equation carries a '
+          'constant in front that patches over exactly that.',
+    ),
+    (
+      'Which number to use',
+      'Measuring in meters, the constant is 1.0, which is to say there is '
+          'nothing to fix. Measuring in feet it is 1.486. Leave it out and every '
+          'answer comes out about a third too small.',
+    ),
+    (
+      'Only the lengths decide it',
+      'The roughness has no units and is the same number in both systems. The '
+          'slope is a drop over a run, so it has none either. What units somebody '
+          'wants the answer in does not matter while you are working.',
+    ),
+    (
+      'Fix odd units before you start',
+      'Inches and millimeters are not units this equation takes. Convert them '
+          'first. A pipe diameter left in inches is the usual way this goes wrong.',
+    ),
   ],
-  figure: BriefFigure.unitFactor,
+  spoken: [
+    (
+      'Measuring in feet',
+      r'K = 1.486',
+      'the constant is one point four eight six',
+    ),
+    (
+      'Measuring in meters',
+      r'K = 1.0',
+      'the constant is one, so nothing changes',
+    ),
+    (
+      'No units either way',
+      r'n, \; S',
+      'the roughness and the slope are the same numbers in both systems',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const froudeBrief = BriefSection(
   title: 'Two speeds, and which one wins',
-  body:
-      'The Froude number is not a piece of vocabulary, it is a race. The top '
-      'of the fraction is how fast the water is moving. The bottom is how fast '
-      'a ripple travels over still water of that depth, the square root of g '
-      'times the depth, and nothing else sets it. When the ripple is the '
-      'quicker of the two, a disturbance can work its way UPSTREAM: the flow '
-      'is SUBCRITICAL, deep and tranquil, and a gate or a weir far downstream '
-      'is felt above it. When the water is quicker, nothing gets back up and '
-      'the flow is SUPERCRITICAL, shallow and rapid, which is what a spillway '
-      'or a steep chute produces. When they are equal the upstream edge of a '
-      'ring stands still, and the depth is the critical depth. Getting the '
-      'number right and the label backward is the mistake this lesson names, '
-      'and it stops happening once the fraction is read as a race.',
-  formulas: [
-    ('The race', r'Fr = \frac{v}{\sqrt{g y}}'),
-    ('News gets upstream', r'Fr < 1 \text{: subcritical}'),
-    ('Nothing gets upstream', r'Fr > 1 \text{: supercritical}'),
+  picture: froudePicture,
+  steps: [
+    (
+      'Drop a stone in a stream',
+      'The splash makes a ring that spreads out. Meanwhile the stream is '
+          'carrying that ring downstream. Whether any of it gets back upstream is '
+          'a race between two speeds.',
+    ),
+    (
+      'The two racers',
+      'One is how fast the water is moving. The other is how fast a ripple '
+          'travels over still water that deep, and depth is the only thing that '
+          'sets it: deeper water carries ripples faster.',
+    ),
+    (
+      'Ripple wins: news travels up',
+      'Deep slow water lets the ring work its way upstream. That is '
+          'subcritical, tranquil flow, and a gate far downstream is felt above it.',
+    ),
+    (
+      'Water wins: nothing gets back',
+      'Shallow fast water sweeps every ripple away. That is supercritical '
+          'flow, what a spillway or a steep chute makes. When the two tie, the '
+          'upstream edge of the ring stands still and the depth is the critical '
+          'depth.',
+    ),
   ],
-  figure: BriefFigure.froude,
+  spoken: [
+    (
+      'The race',
+      r'Fr = \frac{v}{\sqrt{g y}}',
+      'the water speed divided by the ripple speed',
+    ),
+    ('News gets upstream', r'Fr < 1', 'under one: deep, slow, tranquil'),
+    ('Nothing gets upstream', r'Fr > 1', 'over one: shallow, fast, rapid'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 296',
 );
 
 const criticalBrief = BriefSection(
   title: 'The depth that needs the least energy',
-  body:
-      'Draw the specific energy of a flow against the depth it is running at '
-      'and you get a curve with two arms and a nose. Every energy above the '
-      'minimum can be carried at TWO depths, one deep and slow on the upper '
-      'arm and one shallow and fast on the lower one, and the nose between '
-      'them is the CRITICAL DEPTH, the depth at which this flow gets by on the '
-      'least energy it possibly can. For a rectangular channel that depth '
-      'comes out of the flow per unit width and nothing else: q to the two '
-      'thirds power, so twice the flow raises it by about 1.6 times and twice '
-      'the width lowers it by the same factor. The slope, the lining, the '
-      'length of the channel and the depth the water happens to be running at '
-      'do not appear and do not move it. What they move is where the flow '
-      'sits on the curve, which is the flow regime, and that is a different '
-      'question.',
-  formulas: [
-    ('Rectangular channel', r'y_c = \left(\frac{q^2}{g}\right)^{1/3}'),
-    ('Flow per unit width', r'q = \frac{Q}{B}'),
-    ('At the nose', r'E_{min} = 1.5\,y_c'),
-    ('Any shape', r'\frac{Q^2}{g} = \frac{A^3}{T}'),
+  picture: criticalPicture,
+  steps: [
+    (
+      'Every flow has an energy',
+      'Water in a channel carries energy two ways: it is piled up to some '
+          'depth, and it is moving at some speed. Plot that total against the '
+          'depth it is running at and you get a curve with a nose.',
+    ),
+    (
+      'Two depths for one energy',
+      'Every energy above the minimum can be carried at two depths: deep and '
+          'slow on the upper arm, shallow and fast on the lower one. Same energy, '
+          'same flow, two ways to do it.',
+    ),
+    (
+      'The nose is the cheapest',
+      'At the nose the flow gets by on the least energy it possibly can. That '
+          'depth is the critical depth.',
+    ),
+    (
+      'What moves it, and what does not',
+      'For a rectangular channel it depends only on how much water crosses '
+          'each unit of width. The slope, the lining, the length, and the depth '
+          'the water happens to be at do not move it. Those decide where the flow '
+          'sits on the curve, which is a different question.',
+    ),
   ],
-  figure: BriefFigure.criticalDepth,
+  spoken: [
+    (
+      'Rectangular channel',
+      r'y_c = \left(\frac{q^2}{g}\right)^{1/3}',
+      'the cube root of the flow per width squared over gravity',
+    ),
+    (
+      'Flow per unit width',
+      r'q = \frac{Q}{B}',
+      'the total flow divided by the width',
+    ),
+    (
+      'At the nose',
+      r'E_{min} = 1.5\,y_c',
+      'the least energy is one and a half critical depths',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 296',
 );
 
 const hydraulicJumpBrief = BriefSection(
   title: 'What crosses the jump and what does not',
-  body:
-      'A hydraulic jump runs one way only, from supercritical to '
-      'subcritical: fast shallow water arrives, a churning roller stands in '
-      'the channel, and slow deep water leaves. The DISCHARGE comes through '
-      'unchanged, because nothing is added or taken away, and so does the '
-      'MOMENTUM FUNCTION, which is what the conjugate depth formula is built '
-      'from. The ENERGY does not: a jump is turbulent and throws energy away '
-      'as heat and noise, which is precisely why one is built at the foot of '
-      'a spillway, where the problem is that the water is carrying too much. '
-      'Solving a jump with an energy balance is the classic way to get it '
-      'wrong. The depth goes up, the velocity comes down, and the Froude '
-      'number crosses one on the way, which is the definition of a jump '
-      'rather than a consequence of it.',
-  formulas: [
+  picture: hydraulicJumpPicture,
+  steps: [
     (
-      'Conjugate depth',
-      r'y_2 = \frac{y_1}{2}\left(-1 + \sqrt{1 + 8Fr_1^2}\right)',
+      'Fast shallow water piles up',
+      'Water racing out from under a gate suddenly rears up into slow deep '
+          'water, with a churning roller standing in between. That is a hydraulic '
+          'jump, and it only ever runs that way: fast to slow, never back.',
     ),
-    ('What balances', r'M = \frac{y^2}{2} + \frac{q^2}{gy}'),
-    ('What is lost', r'\Delta E = E_1 - E_2 > 0'),
+    (
+      'What comes through unchanged',
+      'The amount of water. Nothing was added or taken away, so the same flow '
+          'leaves as arrived. The push of the water, its momentum, balances across '
+          'it too, and that is what the conjugate depth formula is built from.',
+    ),
+    (
+      'What is thrown away',
+      'The energy. All that churning turns into heat and noise. That is '
+          'exactly why a jump is built at the foot of a spillway: the problem '
+          'there is that the water has too much energy.',
+    ),
+    (
+      'So do not solve one with energy',
+      'Balancing energy across a jump is the classic way to get it wrong. '
+          'Depth goes up, speed comes down, and the Froude number crosses one on '
+          'the way through.',
+    ),
   ],
-  figure: BriefFigure.hydraulicJump,
+  spoken: [
+    (
+      'Depth after the jump',
+      r'y_2 = \frac{y_1}{2}\left(-1 + \sqrt{1 + 8Fr_1^2}\right)',
+      'built from the momentum balance, not from energy',
+    ),
+    (
+      'What balances',
+      r'M = \frac{y^2}{2} + \frac{q^2}{gy}',
+      'the momentum function is the same on both sides',
+    ),
+    (
+      'What is lost',
+      r'\Delta E = E_1 - E_2 > 0',
+      'energy afterwards is always less than before',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const weirBrief = BriefSection(
   title: 'The shape of the hole picks the formula',
-  body:
-      'A weir measures flow by how deep the water stands above its crest, and '
-      'three formulas sit next to each other on the handbook page. Which one '
-      'applies is decided by the opening and nothing else. A crest running '
-      'wall to wall is SUPPRESSED and takes C times L times H to the three '
-      'halves. A crest that stops short of the walls is CONTRACTED: the water '
-      'curls in around each end, so a tenth of the head comes off each side '
-      'and the length used is L minus 0.2H. A V-NOTCH has no crest length at '
-      'all, and takes C times H to the five halves. The coefficients are '
-      'different for each shape AND for each unit system: a rectangular weir '
-      'takes 3.33 in feet and 1.84 in meters, a 90 degree V-notch 2.54 and '
-      '1.40. Reaching for the wrong exponent is the trap both of this '
-      'lesson\'s weir problems name.',
-  formulas: [
-    ('Wall to wall', r'Q = C\,L\,H^{3/2}'),
-    ('Stopping short', r'Q = C\,(L - 0.2H)\,H^{3/2}'),
-    ('A 90 degree V', r'Q = C\,H^{5/2}'),
+  picture: weirPicture,
+  steps: [
+    (
+      'A weir is a wall with a gap',
+      'Put a plate across a stream and the water spills over it. Measure how '
+          'deep the water stands above the crest and you can work out the flow. '
+          'That depth is the head.',
+    ),
+    (
+      'A crest running wall to wall',
+      'The water pours straight over the full width. The flow is a coefficient '
+          'times the length times the head to the three halves.',
+    ),
+    (
+      'A crest that stops short',
+      'Now the water has to curl in around each end, which costs a little '
+          'width. A tenth of the head comes off each side, so the length used is '
+          'L minus 0.2 times H.',
+    ),
+    (
+      'A v-notch has no crest at all',
+      'It is a triangle, so there is no length to put in. The flow is a '
+          'coefficient times the head to the FIVE halves. Each shape also has its '
+          'own coefficient, different again in feet and in meters.',
+    ),
   ],
-  figure: BriefFigure.weirShape,
+  spoken: [
+    (
+      'Wall to wall',
+      r'Q = C\,L\,H^{3/2}',
+      'coefficient times length times head to the three halves',
+    ),
+    (
+      'Stopping short',
+      r'Q = C\,(L - 0.2H)\,H^{3/2}',
+      'the same, with a tenth of the head taken off each end',
+    ),
+    (
+      'A 90 degree v',
+      r'Q = C\,H^{5/2}',
+      'coefficient times head to the five halves, no length',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const exponentBrief = BriefSection(
   title: 'What an exponent is really telling you',
-  body:
-      'The power on the head is a SENSITIVITY, and reading it that way makes '
-      'a whole class of question answerable without arithmetic. Three halves '
-      'means that doubling the head multiplies the flow by 2 to the three '
-      'halves, about 2.8. Five halves means doubling it multiplies the flow '
-      'by about 5.7. Halving the head cuts them by the same factors the other '
-      'way, to about a third and about a sixth. Only the RATIO the head '
-      'changed by matters, never where it started, and the crest length sits '
-      'outside the power so it scales the flow without ever changing the '
-      'response. That steepness is why a V-notch is what gets installed to '
-      'measure a small flow well, and why it runs out of range so quickly '
-      'when the flow comes up.',
-  formulas: [
-    ('A flat crest', r'2H \Rightarrow 2^{3/2} \approx 2.8\,Q'),
-    ('A V-notch', r'2H \Rightarrow 2^{5/2} \approx 5.7\,Q'),
+  picture: exponentPicture,
+  steps: [
+    (
+      'The power says how touchy it is',
+      'Raise the water an inch over two weirs and one of them notices far '
+          'more than the other. The power on the head is what says which.',
+    ),
+    (
+      'Three halves, and five halves',
+      'Double the head over a flat crest and the flow goes up about 2.8 times. '
+          'Double it over a v-notch and the flow goes up about 5.7 times. Halve '
+          'the head and they drop by those same factors.',
+    ),
+    (
+      'Only the ratio matters',
+      'Where the head started never comes into it, only what it was multiplied '
+          'by. And the crest length sits outside the power, so it scales the flow '
+          'without changing how touchy the weir is.',
+    ),
+    (
+      'Which is why a v-notch is used',
+      'A small trickle still moves its head a good deal, so it can be measured '
+          'well. The same steepness is why it runs out of range as soon as the '
+          'flow comes up.',
+    ),
+  ],
+  spoken: [
+    (
+      'A flat crest',
+      r'2H \Rightarrow 2^{3/2} \approx 2.8\,Q',
+      'twice the head is about two point eight times the flow',
+    ),
+    (
+      'A v-notch',
+      r'2H \Rightarrow 2^{5/2} \approx 5.7\,Q',
+      'twice the head is about five point seven times the flow',
+    ),
     (
       'Only the ratio counts',
       r'\frac{Q_2}{Q_1} = \left(\frac{H_2}{H_1}\right)^{n}',
+      'the flows go as the head ratio raised to the power',
     ),
   ],
-  figure: BriefFigure.weirExponent,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const hazenBrief = BriefSection(
   title: 'A coefficient that runs the other way',
-  body:
-      'Hazen-Williams sizes water mains on one number for the pipe wall, and '
-      'that number runs OPPOSITE to the one in Manning\'s equation two pages '
-      'away. A bigger C is a SMOOTHER pipe carrying MORE water: plastic is '
-      'about 150, new cast iron about 130, and the same cast iron after '
-      'twenty years in the ground about 100. Manning\'s n is the reverse, '
-      'bigger meaning rougher, and mixing the two up inverts the answer. C '
-      'sits on the top of the equation in the FIRST power, so two mains alike '
-      'in everything but material carry flows in the plain ratio of their '
-      'coefficients: twice the C is twice the water. The 0.63 and the 0.54 '
-      'belong to the hydraulic radius and the gradient, and applying either '
-      'of them to C is the second trap the lesson names.',
-  formulas: [
-    ('The equation', r'Q = k_1 C A R_H^{0.63} S_v^{0.54}'),
-    ('Two like mains', r'\frac{Q_A}{Q_B} = \frac{C_A}{C_B}'),
-    ('The constant', r'k_1 = 1.318 \text{ (ft)}, \; 0.849 \text{ (m)}'),
+  picture: hazenPicture,
+  steps: [
+    (
+      'One number for the pipe wall',
+      'Water mains are sized with a single number, C, that stands for how '
+          'smooth the inside of the pipe is. Plastic is about 150, new cast iron '
+          'about 130, and the same iron after twenty years in the ground about 100.',
+    ),
+    (
+      'Bigger C is smoother, and carries more',
+      'That is the opposite of the roughness in Manning\'s equation two pages '
+          'away, where bigger means rougher. Mixing the two up turns the answer '
+          'upside down.',
+    ),
+    (
+      'It counts in full',
+      'C sits on the top in the first power. Two mains alike in everything but '
+          'the wall carry flows in the plain ratio of their coefficients: half '
+          'again the C is half again the water.',
+    ),
+    (
+      'The odd powers are not for C',
+      'The 0.63 belongs to the hydraulic radius and the 0.54 to the slope of '
+          'the pressure line. Putting either on C is the other trap here.',
+    ),
   ],
-  figure: BriefFigure.hazen,
+  spoken: [
+    (
+      'The equation',
+      r'Q = k_1 C A R_H^{0.63} S_v^{0.54}',
+      'the constant times C times area, times radius and slope to their own powers',
+    ),
+    (
+      'Two like mains',
+      r'\frac{Q_A}{Q_B} = \frac{C_A}{C_B}',
+      'the flows go straight as the coefficients',
+    ),
+    (
+      'The constant',
+      r'k_1 = 1.318 \text{ (ft)}, \; 0.849 \text{ (m)}',
+      'one point three one eight in feet, zero point eight four nine in meters',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const pumpPowerBrief = BriefSection(
   title: 'Three powers, and they only get bigger',
-  body:
-      'The power a pump costs is a product, so every term in the numerator '
-      'behaves the same simple way: double the FLOW, or the HEAD, or the unit '
-      'weight of what is being moved, and the power doubles. What breaks the '
-      'pattern is the efficiency, which sits UNDERNEATH. Dividing by a number '
-      'below one makes the answer LARGER, so the three powers come in a fixed '
-      'order and never any other: the fluid power that ends up in the water is '
-      'the smallest, the brake power at the shaft is bigger by the pump '
-      'efficiency, and the input power off the meter is bigger again by the '
-      'motor efficiency. Multiplying by the efficiency instead of dividing is '
-      'the mistake the lesson names first, and the giveaway is that it makes '
-      'the shaft work less hard than the water, which cannot happen. A motor '
-      'nameplate is a ceiling, not a consumption: a bigger motor on the same '
-      'duty draws the same power.',
-  formulas: [
-    ('Into the water', r'\dot W_{fluid} = \gamma Q H'),
-    ('At the shaft', r'\dot W_{brake} = \frac{\gamma Q H}{\eta_{pump}}'),
-    ('Off the meter', r'\dot W_{in} = \frac{\dot W_{brake}}{\eta_{motor}}'),
-    ('In US units', r'WHP = \frac{\gamma Q H}{550}'),
+  picture: pumpPowerPicture,
+  steps: [
+    (
+      'Follow the energy through the pump',
+      'Electricity goes into the motor. The motor turns the shaft. The shaft '
+          'drives the impeller, which pushes the water. Something is lost at every '
+          'handover, so each stage carries less than the one before it.',
+    ),
+    (
+      'So count backwards from the water',
+      'The power that ends up in the water is the smallest of the three. The '
+          'shaft has to supply more than that, and the meter has to supply more '
+          'again. The order never changes.',
+    ),
+    (
+      'Efficiency is a divide, not a multiply',
+      'Efficiency is a number below one. Dividing by it makes the answer '
+          'bigger, which is what you want. Multiplying instead makes the shaft '
+          'work less hard than the water, which cannot happen, and that is the '
+          'usual slip here.',
+    ),
+    (
+      'What plainly doubles it',
+      'Flow, head, and the weight of what is being moved all sit on top, so '
+          'doubling any of them doubles the power. A bigger motor does not: a '
+          'nameplate is a ceiling, not a bill.',
+    ),
   ],
-  figure: BriefFigure.pumpPower,
+  spoken: [
+    (
+      'Into the water',
+      r'\dot W_{fluid} = \gamma Q H',
+      'unit weight times flow times head',
+    ),
+    (
+      'At the shaft',
+      r'\dot W_{brake} = \frac{\dot W_{fluid}}{\eta_{pump}}',
+      'the water power divided by the pump efficiency',
+    ),
+    (
+      'Off the meter',
+      r'\dot W_{in} = \frac{\dot W_{brake}}{\eta_{motor}}',
+      'the shaft power divided by the motor efficiency',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 191',
 );
 
 const npshBrief = BriefSection(
   title: 'The margin before the water boils',
-  body:
-      'Water boils at whatever pressure its temperature says it should, and '
-      'inside a pump inlet the pressure is the lowest it gets anywhere in the '
-      'system. NPSH AVAILABLE is how much head is left above that boiling '
-      'point, and cavitation is what happens when it runs out: vapor bubbles '
-      'form and then collapse against the impeller, which sounds like gravel '
-      'and wears metal away. Two things add to the margin. The atmosphere '
-      'pressing on the supply, worth about 10.3 meters at sea level and less '
-      'up a mountain, and any water standing ABOVE the pump. Three things take '
-      'from it: a suction LIFT, which makes the static term negative and is '
-      'the sign error this lesson is built around, friction in the SUCTION '
-      'pipework, and the vapor pressure of the liquid, which climbs steeply '
-      'with temperature. Nothing on the discharge side appears anywhere in '
-      'it. The margin has to beat the NPSH the pump itself requires.',
-  formulas: [
-    ('The margin', r'NPSH_A = H_{pa} + H_s - \sum h_L - H_{vp}'),
-    ('A lift', r'H_s < 0'),
-    ('A flooded suction', r'H_s > 0'),
-    ('No cavitation', r'NPSH_A > NPSH_R'),
+  picture: npshPicture,
+  steps: [
+    (
+      'Water boils when the pressure drops far enough',
+      'Not just when it is hot. Drop the pressure and water boils cold. The '
+          'lowest pressure anywhere in a pumping system is right at the pump '
+          'inlet, so that is where it happens.',
+    ),
+    (
+      'And boiling wrecks the pump',
+      'Bubbles form and are carried a little further in, where the pressure '
+          'comes back up and they collapse against the impeller. It sounds like '
+          'pumping gravel and it eats the metal away. That is cavitation.',
+    ),
+    (
+      'What adds to the margin',
+      'The air pressing down on the supply, worth about 10.3 meters at sea '
+          'level and less up a mountain. And any water standing ABOVE the pump, '
+          'which pushes it in for free.',
+    ),
+    (
+      'What eats the margin',
+      'Having to lift water up to the pump, which makes that term negative '
+          'and is the sign error this lesson is built on. Friction in the suction '
+          'pipe. And hot water, whose boiling pressure climbs steeply. Nothing on '
+          'the discharge side matters at all.',
+    ),
   ],
-  figure: BriefFigure.npsh,
+  spoken: [
+    (
+      'The margin',
+      r'NPSH_A = H_{pa} + H_s - \sum h_L - H_{vp}',
+      'air pressure, plus or minus the static height, less friction, less the boiling pressure',
+    ),
+    ('Lifting the water up', r'H_s < 0', 'a lift counts against you'),
+    ('Water above the pump', r'H_s > 0', 'a flooded suction counts for you'),
+    (
+      'Safe',
+      r'NPSH_A > NPSH_R',
+      'the margin you have beats the margin the pump needs',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 191',
 );
 
 const rationalBrief = BriefSection(
-  title: 'Three numbers multiplied, and the units are built in',
-  body:
-      'The Rational Method is Q equals C times I times A, and the thing that '
-      'makes it pleasant is that the units come out right on their own: an '
-      'acre of ground under an inch an hour of rain is almost exactly one '
-      'cubic foot a second, so there is no conversion to do and reaching for '
-      'one is a mistake. C is the fraction of the rain that runs off rather '
-      'than soaking in, from about 0.95 for paving down to about 0.15 for '
-      'woodland, and it is dimensionless. With the same storm on two '
-      'catchments the intensity cancels and only C TIMES A separates them, '
-      'which means neither cover nor acreage wins on its own: a small hard '
-      'site and a large soft one can come to the same peak. The method is '
-      'for SMALL catchments, under about 200 acres; past that the SCS method '
-      'takes over.',
-  formulas: [
-    ('The peak', r'Q = C I A'),
-    ('Why no conversion', r'1 \text{ acre-in/hr} \approx 1.008 \text{ cfs}'),
-    ('Several covers', r'Q = I \sum C_i A_i'),
+  title: 'Three numbers multiplied, and the units look after themselves',
+  picture: rationalPicture,
+  steps: [
+    (
+      'How much rain, on how much ground, on what surface',
+      'Rain falls at some intensity. It falls on some acreage. And some '
+          'fraction of it runs off instead of soaking in. Multiply the three and '
+          'you have the peak flow.',
+    ),
+    (
+      'C is the fraction that runs off',
+      'About 0.95 for paving, which sheds nearly everything. About 0.15 for '
+          'woodland, which drinks nearly all of it. It is a plain fraction with no '
+          'units.',
+    ),
+    (
+      'The units already fit',
+      'An acre under an inch of rain an hour is almost exactly one cubic foot '
+          'a second. So in those units there is nothing to convert, and reaching '
+          'for a conversion is itself the mistake.',
+    ),
+    (
+      'Neither cover nor size wins alone',
+      'Under the same storm the intensity cancels, so only C times A separates '
+          'two catchments. A small hard site and a large soft one can come to the '
+          'same peak. The method is for small catchments, under about 200 acres.',
+    ),
   ],
-  figure: BriefFigure.rational,
+  spoken: [
+    (
+      'The peak',
+      r'Q = C I A',
+      'the runoff fraction, times the rain intensity, times the area',
+    ),
+    (
+      'Why no conversion',
+      r'1 \text{ acre-in/hr} \approx 1.008 \text{ cfs}',
+      'an acre under an inch an hour is about one cubic foot a second',
+    ),
+    (
+      'Several covers',
+      r'Q = I \sum C_i A_i',
+      'add up C times area for each piece, then multiply by the rain',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 290',
 );
 
 const catchmentBrief = BriefSection(
   title: 'One coefficient for a patchwork',
-  body:
-      'A catchment draining to one inlet needs one runoff coefficient, and '
-      'when the ground has two covers on it that coefficient is weighted BY '
-      'AREA: add up C times A for each piece and divide by the total area. '
-      'Averaging the two coefficients on their own is the trap this lesson '
-      'names, and it goes wrong in proportion to how unequal the areas are. '
-      'The useful form of the rule is a direction rather than a formula: the '
-      'blend always leans toward whichever cover has more ground under it, '
-      'and it lands halfway only when the two areas are equal, which is the '
-      'one case where the plain average happens to be right. Naming which end '
-      'it leans toward is usually enough to reject half the choices on an '
-      'exam question before any arithmetic starts.',
-  formulas: [
-    ('Weighted by area', r'C = \frac{\sum C_i A_i}{\sum A_i}'),
-    ('Or equivalently', r'Q = I \sum C_i A_i'),
+  picture: catchmentBlendPicture,
+  steps: [
+    (
+      'One inlet needs one number',
+      'Real ground is a patchwork: some roof, some road, some grass. They all '
+          'drain to the same inlet, so they have to be boiled down to a single '
+          'runoff coefficient.',
+    ),
+    (
+      'Weight it by how much ground there is',
+      'Multiply each cover\'s C by its own area, add those up, and divide by '
+          'the total area. The cover with more ground under it has more say.',
+    ),
+    (
+      'Averaging the two C values is wrong',
+      'That pretends the patches are the same size. The further apart the '
+          'areas are, the more wrong it gets.',
+    ),
+    (
+      'Which way it leans is often enough',
+      'The blend always leans toward whichever cover covers more ground, and '
+          'lands halfway only when the areas are equal. Naming the direction '
+          'throws out half the choices before any arithmetic.',
+    ),
   ],
-  figure: BriefFigure.runoffBlend,
+  spoken: [
+    (
+      'Weighted by area',
+      r'C = \frac{\sum C_i A_i}{\sum A_i}',
+      'each C times its area, added up, over the total area',
+    ),
+    (
+      'Or straight to the flow',
+      r'Q = I \sum C_i A_i',
+      'the rain times the sum of C times area',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 290',
 );
 
 const curveNumberBrief = BriefSection(
   title: 'The ground takes its share first',
-  body:
-      'The SCS method answers a different question from the Rational Method '
-      'and answers it in different units: it gives the DEPTH of runoff in '
-      'inches, not a discharge in cubic feet a second. Reporting it as a flow '
-      'is the trap the lesson names. It works off a curve number, which is a '
-      'measure of how readily the ground sheds water: about 98 for paving, '
-      'around 70 for ordinary mixed ground, down into the fifties for woods '
-      'on good soil. From it comes the RETENTION, the most the ground could '
-      'hold, and the ground takes the first fifth of that, the initial '
-      'abstraction, before anything at all runs off. Below that threshold the '
-      'runoff is a hard zero rather than something small. Above it the '
-      'fraction that runs off climbs with the storm, slowly at first and then '
-      'approaching all of it.',
-  formulas: [
-    ('Runoff depth', r'Q = \frac{(P - 0.2S)^2}{P + 0.8S}'),
-    ('Retention', r'S = \frac{1{,}000}{CN} - 10'),
-    ('Nothing below', r'P \le 0.2S \Rightarrow Q = 0'),
+  picture: curveNumberPicture,
+  steps: [
+    (
+      'This one answers in inches, not flow',
+      'The SCS method gives the DEPTH of water that runs off, in inches. It is '
+          'not a discharge. Reporting it in cubic feet a second is the trap here.',
+    ),
+    (
+      'One number for how thirsty the ground is',
+      'The curve number: about 98 for paving, which drinks nothing, around 70 '
+          'for ordinary mixed ground, down into the fifties for woods on good '
+          'soil. From it comes the retention, the most the ground could hold.',
+    ),
+    (
+      'The first slice is taken before anything runs',
+      'The ground takes a fifth of that retention before a drop runs off. '
+          'Under that threshold the runoff is a hard zero, not a small number.',
+    ),
+    (
+      'Then it climbs toward all of it',
+      'Past the threshold, the share that runs off grows with the storm: '
+          'slowly at first, then approaching the whole of the rain as the ground '
+          'gets saturated.',
+    ),
   ],
-  figure: BriefFigure.curveNumber,
+  spoken: [
+    (
+      'Runoff depth',
+      r'Q = \frac{(P - 0.2S)^2}{P + 0.8S}',
+      'the rain less the first slice, squared, over the rain plus most of the retention',
+    ),
+    (
+      'Retention',
+      r'S = \frac{1{,}000}{CN} - 10',
+      'a thousand over the curve number, less ten',
+    ),
+    (
+      'Nothing below the threshold',
+      r'P \le 0.2S \Rightarrow Q = 0',
+      'if the rain does not clear the first slice, nothing runs off',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 290',
 );
 
 const unitHydrographBrief = BriefSection(
   title: 'One inch, and everything else is a multiple',
-  body:
-      'A UNIT HYDROGRAPH is the watershed\'s answer to one inch of excess '
-      'rainfall falling evenly over a stated DURATION. Two numbers define it '
-      'and both matter. For a deeper storm of the same duration, multiply '
-      'every ordinate by the depth and leave the times exactly where they '
-      'are: three inches gives three times the peak at the same hour, and '
-      'three times the volume under the curve, because the watershed routes '
-      'water at its own speed whatever the storm does. For a storm of a '
-      'DIFFERENT duration, no scaling will do. Rain spread over three hours '
-      'gives a lower, longer, flatter response than the same total in one, '
-      'and the way across is to build the three hour hydrograph by lagging '
-      'and adding, not by stretching. Depth sets the volume; duration sets '
-      'the shape. Total streamflow is this direct runoff plus the baseflow '
-      'that was there anyway.',
-  formulas: [
-    ('Scaling for depth', r'Q(t) = P \times Q_{UH}(t)'),
-    ('The times', r'\text{unchanged}'),
-    ('What is under it', r'\text{1 inch over the watershed}'),
+  picture: unitHydrographPicture,
+  steps: [
+    (
+      'A watershed has one handwriting',
+      'Rain falls, and the river at the outlet rises, peaks, and falls away '
+          'more slowly. That shape is the watershed\'s own. A unit hydrograph is '
+          'that shape for one inch of runoff over a stated number of hours.',
+    ),
+    (
+      'A deeper storm just scales the height',
+      'Three inches instead of one gives three times the flow at every hour, '
+          'peaking at the very same hour. The watershed still moves water at its '
+          'own speed. Only the height changes, never the timing.',
+    ),
+    (
+      'A longer storm does not scale at all',
+      'The same total rain spread over three hours instead of one gives a '
+          'lower, longer, flatter answer. No multiplying gets you there; you build '
+          'it by lagging copies and adding them up.',
+    ),
+    (
+      'So keep the two apart',
+      'Depth sets the volume. Duration sets the shape. And the river you '
+          'actually measure is this runoff added on top of the baseflow that was '
+          'already there.',
+    ),
   ],
-  figure: BriefFigure.unitHydrograph,
+  spoken: [
+    (
+      'Scaling for depth',
+      r'Q(t) = P \times Q_{UH}(t)',
+      'every flow multiplied by the inches of runoff',
+    ),
+    (
+      'The hours',
+      r'\text{unchanged}',
+      'the peak stays at the same hour whatever the depth',
+    ),
+    (
+      'What is under the curve',
+      r'\text{one inch over the watershed}',
+      'a unit hydrograph carries exactly one inch of runoff',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 292',
 );
 
 const concentrationBrief = BriefSection(
   title: 'Why the design storm lasts exactly that long',
-  body:
-      'The TIME OF CONCENTRATION is how long water takes to travel from the '
-      'most distant corner of a watershed to the outlet, and the Rational '
-      'Method is always run with the storm duration set equal to it. That is '
-      'not a convention, it is where the peak is largest, and the reason is a '
-      'trade. A SHORTER storm is more intense, because intensity and duration '
-      'run opposite ways on an IDF curve, but it ends before the far ground '
-      'has reported in, so the high intensity is applied to only part of the '
-      'area. A LONGER storm has the whole watershed contributing but must use '
-      'the lower intensity quoted for that duration. Both give a smaller peak '
-      'than the storm that lasts exactly the travel time, and knowing which '
-      'of the two reasons applies is what tells you what to change.',
-  formulas: [
-    ('The design storm', r'D = t_c'),
-    ('Then', r'Q = C I_{t_c} A'),
-    ('Shorter', r'\text{part of } A'),
-    ('Longer', r'\text{smaller } I'),
+  picture: concentrationPicture,
+  steps: [
+    (
+      'Water from far away arrives late',
+      'A drop landing at the far corner of a catchment takes a while to reach '
+          'the outlet. The time from the furthest corner is the time of '
+          'concentration.',
+    ),
+    (
+      'Too short a storm and half the ground is missing',
+      'A short storm is more intense, because heavy rain never lasts long. But '
+          'it stops before the far ground has reported in, so the heavy rain only '
+          'counts over part of the catchment.',
+    ),
+    (
+      'Too long a storm and the rain is weaker',
+      'Now the whole catchment is contributing, but a storm that lasts longer '
+          'is quoted at a lower intensity, so the peak comes out smaller again.',
+    ),
+    (
+      'The biggest peak is in between',
+      'It falls exactly where the storm lasts as long as the travel time: the '
+          'first moment the whole catchment is in, at the strongest rain that '
+          'lasts that long. That is why the design storm is set equal to it.',
+    ),
   ],
-  figure: BriefFigure.concentration,
+  spoken: [
+    (
+      'The design storm',
+      r'D = t_c',
+      'the storm duration is set to the time of concentration',
+    ),
+    ('Then', r'Q = C I_{t_c} A', 'use the intensity quoted for that duration'),
+    (
+      'Shorter, or longer',
+      r'\text{part of } A, \;\text{or smaller } I',
+      'a short storm loses area, a long one loses intensity',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 290',
 );
 
 const routingBrief = BriefSection(
   title: 'One subtraction, and the sign is the answer',
-  body:
-      'Storage routing is inflow minus outflow equals the rate the storage '
-      'changes. Positive means the pond is FILLING, and getting the '
-      'subtraction the wrong way round gives the right number with the wrong '
-      'story attached, which is this lesson\'s named trap. Everything a '
-      'detention pond does follows from it. On the rising limb far more '
-      'arrives than the small outlet can pass, so the pond fills and the '
-      'catchment downstream never sees the peak that arrived. There is one '
-      'instant when the two flows are equal, and that is when the pond is at '
-      'its fullest and its outflow at its greatest: it falls on the FALLING '
-      'limb of the inflow hydrograph, where the outflow curve crosses it. '
-      'After that the pond empties, and it has to finish emptying before the '
-      'next storm or it has no room left to be useful.',
-  formulas: [
-    ('The rate', r'I - O = \frac{\Delta S}{\Delta t}'),
-    ('Filling', r'I > O'),
-    ('Fullest', r'I = O \text{ on the falling limb}'),
+  picture: routingPicture,
+  steps: [
+    (
+      'A pond is a bath with a small plug hole',
+      'The storm pours in fast. The outlet only lets a trickle out. Take what '
+          'leaves away from what arrives and you have the rate the pond is filling '
+          'or emptying.',
+    ),
+    (
+      'Positive means filling',
+      'More in than out and the level rises. Fewer in than out and it falls. '
+          'Doing the subtraction backwards gives the right number with the wrong '
+          'story attached, which is the trap here.',
+    ),
+    (
+      'That is the whole point of the pond',
+      'While the storm is rising, far more arrives than the outlet can pass, '
+          'so the pond swallows it and the town downstream never sees the peak '
+          'that arrived.',
+    ),
+    (
+      'The fullest moment is when the two are equal',
+      'One instant the inflow has fallen back to match the outflow. That is '
+          'the highest level and the biggest outflow, and it always lands on the '
+          'falling side of the storm. Then it drains, and it must finish draining '
+          'before the next storm.',
+    ),
   ],
-  figure: BriefFigure.routing,
+  spoken: [
+    (
+      'The rate',
+      r'I - O = \frac{\Delta S}{\Delta t}',
+      'in minus out is how fast the stored water changes',
+    ),
+    ('Filling', r'I > O', 'more arriving than leaving'),
+    (
+      'Fullest',
+      r'I = O',
+      'the peak of the pond, on the falling side of the storm',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 290',
 );
 
 const seepageBrief = BriefSection(
   title: 'Three numbers that are easy to mix up',
-  body:
-      'Darcy\'s law gives K times the hydraulic gradient, and that quantity '
-      'has the units of a speed while being the speed of nothing at all. It '
-      'is the DARCY VELOCITY, also called the specific discharge: the volume '
-      'passing through a square meter of soil, grains and voids together, as '
-      'if the grains were not in the way. Water can only use the voids, so it '
-      'has to move faster than that, and the SEEPAGE VELOCITY, the Darcy '
-      'velocity divided by the porosity, is what a dye tracer actually '
-      'travels at. It is always the larger of the two, and multiplying by the '
-      'porosity instead of dividing is the mistake the lesson names. '
-      'Multiplying the Darcy velocity by the cross-section gives a third '
-      'thing entirely, a volume a second, which is a discharge and not a '
-      'speed. Read the units of what is being asked for before reaching for '
-      'a formula.',
-  formulas: [
-    ('Through the whole face', r'q = K i'),
-    ('Through the pores', r'v = \frac{q}{n}'),
-    ('The volume', r'Q = q A = K i A'),
+  picture: seepagePicture,
+  steps: [
+    (
+      'Soil is grains with gaps between them',
+      'Water cannot go through the grains, only around them. So the face of a '
+          'block of soil is mostly solid, and only the gaps are open.',
+    ),
+    (
+      'The first number pretends the grains are not there',
+      'Darcy\'s law gives how much water crosses a square meter of the whole '
+          'face, grains included. It has the units of a speed, but it is the speed '
+          'of nothing real.',
+    ),
+    (
+      'The real water goes faster',
+      'It is squeezed into the gaps, so it has to hurry. Divide the first '
+          'number by the porosity, the fraction that is gap, and you get the speed '
+          'a dye would actually travel at. It is always the larger of the two.',
+    ),
+    (
+      'And the third is not a speed at all',
+      'Multiply the first number by the area and you get a volume per second, '
+          'a discharge. Read the units of what is asked before reaching for a '
+          'formula.',
+    ),
   ],
-  figure: BriefFigure.seepage,
+  spoken: [
+    (
+      'Through the whole face',
+      r'q = K i',
+      'conductivity times the slope of the water table',
+    ),
+    (
+      'Through the gaps',
+      r'v = \frac{q}{n}',
+      'that, divided by the porosity, which makes it bigger',
+    ),
+    ('The volume', r'Q = q A', 'the first number times the area of the face'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 292',
 );
 
 const wellBrief = BriefSection(
   title: 'Clay on top decides everything',
-  body:
-      'Two well formulas, and the only question that picks between them is '
-      'whether something impermeable caps the aquifer. Under clay the aquifer '
-      'is CONFINED: it cannot change thickness however hard you pump, the '
-      'transmissivity is a fixed K times b, and the heads go into THIEM as '
-      'they are. The surface the heads describe is a pressure level in a '
-      'standpipe, not a water table, and water standing above the top of the '
-      'aquifer is the giveaway. With a free water table the aquifer is '
-      'UNCONFINED: the saturated thickness falls as the water table is drawn '
-      'down, so there is less ground to carry water near the well, and '
-      'DUPUIT squares the heads to account for it. That squaring is not a '
-      'convention. Since the difference of two squares is the difference '
-      'times the sum, pulling the well down twice as far buys LESS than twice '
-      'the water, while a wetter year that lifts the whole water table buys '
-      'more. Both formulas divide by the natural log of the radius ratio, '
-      'never the base ten log.',
-  formulas: [
-    ('Unconfined', r'Q = \frac{\pi K (h_2^2 - h_1^2)}{\ln(r_2/r_1)}'),
-    ('Confined', r'Q = \frac{2\pi T (h_2 - h_1)}{\ln(r_2/r_1)}'),
-    ('Transmissivity', r'T = K b'),
+  picture: wellsPicture,
+  steps: [
+    (
+      'Pump a well and the water around it dips',
+      'It sinks into a funnel shape, deepest at the well itself. How much '
+          'water you get depends on how far you have pulled that funnel down.',
+    ),
+    (
+      'No lid: the aquifer gets thinner',
+      'With a free water table, drawing it down leaves less wet ground near '
+          'the well to carry water through. Dupuit handles that by squaring the '
+          'heads.',
+    ),
+    (
+      'A clay lid: the thickness never changes',
+      'Under clay, the aquifer is full to the roof however hard you pump. What '
+          'drops is only the pressure. The heads go into Thiem plain, not squared, '
+          'and the giveaway is water standing above the top of the aquifer.',
+    ),
+    (
+      'Why squaring matters',
+      'Because of the squares, pulling the well down twice as far buys LESS '
+          'than twice the water, while a wet year that lifts the whole water table '
+          'buys more. Both formulas use the natural log of the radius ratio, never '
+          'the base ten log.',
+    ),
   ],
-  figure: BriefFigure.wells,
+  spoken: [
+    (
+      'No lid',
+      r'Q = \frac{\pi K (h_2^2 - h_1^2)}{\ln(r_2/r_1)}',
+      'Dupuit: the heads are squared',
+    ),
+    (
+      'Under a lid',
+      r'Q = \frac{2\pi T (h_2 - h_1)}{\ln(r_2/r_1)}',
+      'Thiem: the heads go in plain',
+    ),
+    (
+      'Transmissivity',
+      r'T = K b',
+      'conductivity times the thickness that cannot change',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 292 to 293',
 );
 
 const bodBrief = BriefSection(
   title: 'The five day test is not the whole of it',
-  body:
-      'BOD is the oxygen that bacteria will take while they break down the '
-      'organic matter in a sample, and it arrives over time rather than all '
-      'at once. The ULTIMATE BOD is the whole of it, and the standard '
-      'laboratory test reads a bottle at FIVE DAYS at twenty degrees, which '
-      'catches only part. How much part depends on the decay rate: 68 percent '
-      'at the standard k of 0.23 a day, under 40 percent in slow cold water, '
-      'and nearly all of it in a fast warm sample. The 68 percent figure is '
-      'not a law. Two numbers matter at any moment and they add to the '
-      'ultimate: the BOD EXERTED, which is what the test measures, and the '
-      'BOD REMAINING, which is still to come. Going from the ultimate to a '
-      'measurement you MULTIPLY by the fraction and the answer gets smaller; '
-      'going from a measurement back to the ultimate you DIVIDE and it gets '
-      'larger. The ultimate is always the bigger of the two, which is the '
-      'check that catches a division done upside down.',
-  formulas: [
-    ('Exerted by day t', r'BOD_t = L_0\left(1 - e^{-kt}\right)'),
-    ('Still to come', r'L_0 - BOD_t = L_0 e^{-kt}'),
-    ('Working backward', r'L_0 = \frac{BOD_t}{1 - e^{-kt}}'),
+  picture: bodPicture,
+  steps: [
+    (
+      'Bacteria eat the muck, and breathe while they do it',
+      'Put dirty water in a bottle and the bacteria in it start working '
+          'through the organic matter, using up oxygen as they go. BOD is how '
+          'much oxygen that takes.',
+    ),
+    (
+      'It arrives slowly, not all at once',
+      'The oxygen is used over days, fast at first and then tailing off '
+          'toward a ceiling. The ceiling is the ultimate BOD: everything the muck '
+          'will ever need.',
+    ),
+    (
+      'The standard test reads at day five',
+      'So it catches only part of the way up. About 68 percent at the usual '
+          'decay rate, under 40 percent in slow cold water, nearly all of it in a '
+          'fast warm one. The 68 percent is not a law.',
+    ),
+    (
+      'Which way you are going decides multiply or divide',
+      'From the ultimate to a five day reading you multiply by the fraction '
+          'and the number gets smaller. From a reading back to the ultimate you '
+          'divide and it gets bigger. The ultimate is always the larger of the '
+          'two, which catches a division done upside down.',
+    ),
   ],
-  figure: BriefFigure.bod,
+  spoken: [
+    (
+      'Used up by day t',
+      r'BOD_t = L_0\left(1 - e^{-kt}\right)',
+      'the ultimate, times the share the bacteria have got through by then',
+    ),
+    (
+      'Still to come',
+      r'L_0 - BOD_t = L_0 e^{-kt}',
+      'the ultimate less what has been used',
+    ),
+    (
+      'Working backward',
+      r'L_0 = \frac{BOD_t}{1 - e^{-kt}}',
+      'the reading divided by the share, which makes it bigger',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 321',
 );
 
 const temperatureBrief = BriefSection(
   title: 'Temperature moves the rate, not the total',
-  body:
-      'Warm water means busy bacteria, so a rate constant quoted at twenty '
-      'degrees has to be corrected for the temperature the water is actually '
-      'at. The exponent is T MINUS 20: above the reference the factor is '
-      'greater than one and the decay speeds up, below it the factor is less '
-      'than one and the decay crawls. Writing 20 minus T gives a slower rate '
-      'for a warmer river, which cannot happen, and it is the trap this '
-      'lesson names. What the correction does NOT touch is the ultimate BOD: '
-      'the same organic matter needs the same oxygen in the end, it simply '
-      'gets there sooner, so the warm curve climbs more steeply to the same '
-      'ceiling. Which theta to use depends on the process and the range: '
-      '1.135 for BOD from 4 to 20 degrees, 1.056 from 21 to 30, and 1.024 for '
-      'reaeration.',
-  formulas: [
-    ('The correction', r'k_T = k_{20}\,\theta^{(T-20)}'),
-    ('BOD, warm', r'\theta = 1.056'),
-    ('BOD, cold', r'\theta = 1.135'),
-    ('Reaeration', r'\theta = 1.024'),
+  picture: temperaturePicture,
+  steps: [
+    (
+      'Warm bacteria work faster',
+      'The same muck in warm water is eaten sooner than in cold water. So a '
+          'decay rate quoted at twenty degrees has to be corrected for the '
+          'temperature the water is really at.',
+    ),
+    (
+      'The ceiling does not move',
+      'The same organic matter needs the same oxygen in the end. Warm water '
+          'only gets there sooner, so the warm curve climbs more steeply to '
+          'exactly the same ceiling.',
+    ),
+    (
+      'Watch which way the exponent runs',
+      'It is the temperature MINUS twenty. Above twenty the factor is bigger '
+          'than one and the decay speeds up. Writing twenty minus T makes a warm '
+          'river slower, which cannot happen, and that is the trap here.',
+    ),
+    (
+      'Which theta belongs to which job',
+      'It depends on the process and the range: 1.135 for BOD from 4 to 20 '
+          'degrees, 1.056 from 21 to 30, and 1.024 for oxygen going back in from '
+          'the air.',
+    ),
   ],
-  figure: BriefFigure.rateTemperature,
+  spoken: [
+    (
+      'The correction',
+      r'k_T = k_{20}\,\theta^{(T-20)}',
+      'the rate at twenty, times theta to the temperature above twenty',
+    ),
+    ('BOD, warm water', r'\theta = 1.056', 'from 21 to 30 degrees'),
+    ('BOD, cold water', r'\theta = 1.135', 'from 4 to 20 degrees'),
+    ('Oxygen from the air', r'\theta = 1.024', 'reaeration'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 322',
 );
 
 const overflowBrief = BriefSection(
   title: 'A rate with the units of a speed',
-  body:
-      'The OVERFLOW RATE of a settling tank is the flow divided by the '
-      'SURFACE area, and although it gets quoted in gallons a day per square '
-      'foot, those units cancel to a velocity. Read it that way and the tank '
-      'explains itself: it is the speed the water rises on its way to the '
-      'weir, so a particle that falls faster than that reaches the floor and '
-      'one that falls slower is carried out. Everything the tank removes is '
-      'decided by that one comparison. The depth appears nowhere in it. '
-      'Building the tank deeper buys DETENTION TIME, which is volume over '
-      'flow and matters for other things, and captures not one extra '
-      'particle; building it wider buys capture. Doubling the flow doubles '
-      'the overflow rate, which is why a storm can wash a clarifier out. '
-      'Primary tanks run at 800 to 1,200 and secondary ones at 400 to 800, '
-      'because biological floc settles far more slowly than grit.',
-  formulas: [
-    ('The overflow rate', r'v_o = \frac{Q}{A_{surface}}'),
-    ('Captured when', r'v_s > v_o'),
-    ('Detention time', r'\theta = \frac{V}{Q}'),
+  picture: overflowPicture,
+  steps: [
+    (
+      'A settling tank is a race',
+      'Water enters at the bottom and creeps up to the weir at the top. '
+          'Meanwhile grains of dirt sink. Whether a grain is caught is simply '
+          'whether it sinks faster than the water rises.',
+    ),
+    (
+      'That rising speed is the overflow rate',
+      'It is the flow divided by the SURFACE area. The units get quoted as '
+          'gallons a day per square foot, but those cancel to a speed, and the '
+          'speed is what the tank is really about.',
+    ),
+    (
+      'So depth buys nothing at all here',
+      'Depth is nowhere in it. A deeper tank holds the water longer, which '
+          'matters for other things, and catches not one extra grain. Making the '
+          'tank WIDER is what catches more.',
+    ),
+    (
+      'And a storm can wash it out',
+      'Double the flow and the water rises twice as fast, so grains that used '
+          'to reach the floor now go over the weir. Primary tanks run at 800 to '
+          '1,200; secondary ones at 400 to 800, because biological floc sinks far '
+          'more slowly than grit.',
+    ),
   ],
-  figure: BriefFigure.overflow,
+  spoken: [
+    (
+      'The rising speed',
+      r'v_o = \frac{Q}{A_{surface}}',
+      'the flow divided by the surface area, which is a speed',
+    ),
+    (
+      'Caught when',
+      r'v_s > v_o',
+      'the grain sinks faster than the water rises',
+    ),
+    (
+      'Detention time',
+      r'\theta = \frac{V}{Q}',
+      'the volume over the flow, which is what depth does buy',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 339',
 );
 
 const residenceBrief = BriefSection(
   title: 'Two clocks in one plant',
-  body:
-      'An activated sludge plant runs two residence times and they are not '
-      'the same one. The HYDRAULIC time is volume over flow: how long the '
-      'WATER spends crossing the plant, a few hours, because the water goes '
-      'through once and leaves. The SOLIDS time is the mass of solids held in '
-      'the system over the mass leaving each day, and it comes out in DAYS, '
-      'typically four to fifteen, because the solids settle in the clarifier '
-      'and are pumped back to the basin to go round again until they are '
-      'deliberately wasted. The units are the quickest way to tell which is '
-      'which: hours means water, days means solids. The denominator of the '
-      'solids time has two parts, the waste sludge AND the solids that escape '
-      'over the weir, and dropping the second is a common slip. Wasting more '
-      'sludge shortens the solids time and does nothing at all to the '
-      'hydraulic one.',
-  formulas: [
-    ('The water', r'\theta = \frac{V}{Q}'),
-    ('The solids', r'\theta_c = \frac{V X_A}{Q_w X_w + Q_e X_e}'),
+  picture: residencePicture,
+  steps: [
+    (
+      'The water passes through once',
+      'It comes in, crosses the plant, and leaves. How long that takes is the '
+          'volume over the flow, and it comes out in HOURS.',
+    ),
+    (
+      'The solids go round and round',
+      'Bugs settle out in the clarifier and get pumped back to the basin to '
+          'work again. They stay for DAYS, typically four to fifteen, until '
+          'somebody deliberately wastes them.',
+    ),
+    (
+      'The units tell you which is which',
+      'Hours means water. Days means solids. That alone answers most '
+          'questions before any arithmetic.',
+    ),
+    (
+      'Two ways solids leave, not one',
+      'The waste pump, and the ones that escape over the weir. Leaving the '
+          'second out of the bottom is a common slip. Wasting more sludge '
+          'shortens the solids clock and does nothing at all to the water clock.',
+    ),
   ],
-  figure: BriefFigure.residence,
+  spoken: [
+    (
+      'The water',
+      r'\theta = \frac{V}{Q}',
+      'the basin volume over the flow, in hours',
+    ),
+    (
+      'The solids',
+      r'\theta_c = \frac{V X_A}{Q_w X_w + Q_e X_e}',
+      'the solids held, over the solids leaving each day by both routes',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 333',
 );
 
 const foodRatioBrief = BriefSection(
   title: 'Food over the mouths that eat it',
-  body:
-      'The food to microorganism ratio is the organic load arriving each day '
-      'divided by the mass of biology available to treat it, and the four '
-      'quantities in it sort themselves by which side of the line they sit '
-      'on. The FLOW and the influent BOD are the food, and only their PRODUCT '
-      'matters: a storm that doubles the flow and halves the strength brings '
-      'the same kilograms of BOD and moves the ratio not at all. The BASIN '
-      'VOLUME and the MIXED LIQUOR SOLIDS are the bugs, and their product is '
-      'the biomass being carried, so a second basin at the same concentration '
-      'halves the ratio just as surely as doubling the concentration would. '
-      'The concentration units cancel, which is why the answer comes out per '
-      'day. Conventional plants are held between about 0.2 and 0.4, and the '
-      'waste pump is the lever that gets them there.',
-  formulas: [
-    ('The ratio', r'F{:}M = \frac{Q S_0}{V X_A}'),
-    ('The food', r'Q S_0 \text{, a load per day}'),
-    ('The bugs', r'V X_A \text{, a mass}'),
+  picture: foodRatioPicture,
+  steps: [
+    (
+      'Dinner, and the number of diners',
+      'Organic matter arrives each day. A mass of bugs sits in the basin '
+          'waiting for it. The ratio between the two says whether the bugs are '
+          'underfed or swamped.',
+    ),
+    (
+      'The food is flow times strength',
+      'Only their product counts. A storm that doubles the flow and halves '
+          'the strength brings exactly the same kilograms of food, so the ratio '
+          'does not budge.',
+    ),
+    (
+      'The bugs are volume times concentration',
+      'Their product is the biomass being carried. A second basin at the same '
+          'concentration halves the ratio just as surely as doubling the '
+          'concentration would.',
+    ),
+    (
+      'And the waste pump is the lever',
+      'Conventional plants are held between about 0.2 and 0.4 per day. '
+          'Wasting more sludge lowers the biomass and pushes the ratio up.',
+    ),
   ],
-  figure: BriefFigure.foodRatio,
+  spoken: [
+    (
+      'The ratio',
+      r'F{:}M = \frac{Q S_0}{V X_A}',
+      'the food arriving each day, over the mass of bugs held',
+    ),
+    ('The food', r'Q S_0', 'flow times incoming strength, a load per day'),
+    ('The bugs', r'V X_A', 'basin volume times solids concentration, a mass'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 333',
 );
 
 const doseBrief = BriefSection(
   title: 'Three numbers, and the pump is set to the sum',
-  body:
-      'Chlorination has three quantities in it and two of them get confused. '
-      'The DEMAND belongs to the water: the organic matter, ammonia and iron '
-      'in it consume chlorine before any is left over, and a dirty raw water '
-      'has a high demand. The RESIDUAL is what must still be measurable at '
-      'the far end of the distribution system, and it is the only one of the '
-      'three anybody can sample for out in the mains, which is why '
-      'regulations are written on it. The DOSE is what the feed pump is set '
-      'to, and it is the SUM of the other two: feed only the demand and '
-      'nothing reaches the customer, feed only the residual and the water '
-      'consumes it before it leaves the works. Mass per day comes off the '
-      'dose, not the demand, and a milligram a liter is a gram a cubic meter, '
-      'so the conversion is easier than it looks.',
-  formulas: [
-    ('The balance', r'\text{dose} = \text{demand} + \text{residual}'),
-    ('Mass per day', r'\dot m = \text{dose} \times Q'),
-    ('The handy identity', r'1 \text{ mg/L} = 1 \text{ g/m}^3'),
+  picture: dosePicture,
+  steps: [
+    (
+      'The water eats the first chlorine you add',
+      'Organic matter, ammonia and iron in the raw water consume it before '
+          'any is left over. That appetite is the DEMAND, and a dirty water has a '
+          'big one.',
+    ),
+    (
+      'What is left over is the residual',
+      'It has to still be measurable at the far end of the mains, which is '
+          'the only place anybody can sample. That is why the rules are written '
+          'on the residual.',
+    ),
+    (
+      'The pump is set to both together',
+      'Feed only the demand and nothing reaches the customer. Feed only the '
+          'residual and the water eats it before it leaves the works. The dose is '
+          'the sum.',
+    ),
+    (
+      'Mass per day comes off the dose',
+      'Not off the demand. And a milligram per liter is a gram per cubic '
+          'meter, which makes the arithmetic easier than it looks.',
+    ),
   ],
-  figure: BriefFigure.chlorineDose,
+  spoken: [
+    (
+      'The balance',
+      r'\text{dose} = \text{demand} + \text{residual}',
+      'what you feed is what the water eats plus what must survive',
+    ),
+    (
+      'Mass per day',
+      r'\dot m = \text{dose} \times Q',
+      'the dose times the flow',
+    ),
+    (
+      'The handy identity',
+      r'1 \text{ mg/L} = 1 \text{ g/m}^3',
+      'one milligram per liter is one gram per cubic meter',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 346',
 );
 
 const contactBrief = BriefSection(
-  title: 'Credit is a product, and the time is the honest one',
-  body:
-      'Disinfection credit is CT, the free chlorine RESIDUAL multiplied by '
-      'the contact time, so there are two ways to buy it and they trade off '
-      'exactly: half again the residual does what half again the time would. '
-      'Note that it runs on the residual and not on the dose, so chlorine '
-      'consumed by the demand buys no credit at all. The time is the part '
-      'worth care. It is not the volume over the flow, which assumes every '
-      'drop takes the same path, but t10, the time the fastest TENTH of the '
-      'water gets, and in an unbaffled tank that can be a third of the '
-      'theoretical figure or less because some water short circuits from the '
-      'inlet to the outlet. Baffles are the cheap way to close the gap, and '
-      'compliance is checked at peak flow, when the time is shortest.',
-  formulas: [
-    ('The credit', r'CT = C \times t_{10}'),
-    ('The honest time', r't_{10} < \frac{V}{Q}'),
-    ('What it is for', r'3\text{-log Giardia}, \; 4\text{-log virus}'),
+  title: 'Credit is a product, and the time is the honest part',
+  picture: contactPicture,
+  steps: [
+    (
+      'Killing bugs takes strength and time',
+      'A strong dose for a short while does about as much as a weak one for '
+          'longer. So the credit is the residual multiplied by the contact time, '
+          'and the two trade off exactly.',
+    ),
+    (
+      'It runs on the residual, not the dose',
+      'Chlorine the water already ate buys nothing. Only what is left over '
+          'is doing any disinfecting.',
+    ),
+    (
+      'The time is not volume over flow',
+      'That would assume every drop takes the same path. Some water short '
+          'circuits from the inlet straight to the outlet. The time that counts '
+          'is what the fastest TENTH gets, which in an unbaffled tank can be a '
+          'third of the theoretical figure.',
+    ),
+    (
+      'Baffles are the cheap fix',
+      'They make the water take the long way round and close most of the gap. '
+          'Compliance is checked at peak flow, when the time is shortest.',
+    ),
   ],
-  figure: BriefFigure.contactTime,
+  spoken: [
+    (
+      'The credit',
+      r'CT = C \times t_{10}',
+      'the residual times the time the fastest tenth gets',
+    ),
+    (
+      'The honest time',
+      r't_{10} < \frac{V}{Q}',
+      'always less than volume over flow',
+    ),
+    (
+      'What it has to buy',
+      r'3\text{-log Giardia}, \; 4\text{-log virus}',
+      'the required kill for each organism',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 346',
 );
 
 const standardsBrief = BriefSection(
   title: 'Two tiers, and only one is law',
-  body:
-      'The Safe Drinking Water Act sets PRIMARY standards, which are health '
-      'based and legally enforceable, and SECONDARY standards, which cover '
-      'taste, color, staining and scale and are advisory. Exceeding a primary '
-      'limit is a violation with public notice attached; exceeding a '
-      'secondary one produces complaints. Primary: arsenic at 0.010 mg/L, '
-      'nitrate as nitrogen at 10, the lead action level at 0.015, turbidity, '
-      'the pathogens. Secondary: iron at 0.3, manganese at 0.05, total '
-      'dissolved solids at 500, chloride at 250, pH between 6.5 and 8.5. The '
-      'SIZE of a limit says nothing about which tier it belongs to, only '
-      'about how harmful the substance is. Wastewater is a different act '
-      'entirely: the Clean Water Act licenses discharges through NPDES '
-      'permits, and conventional secondary treatment is about 30 mg/L of BOD '
-      'and suspended solids, roughly 85 percent removal.',
-  formulas: [
-    ('Primary', r'\text{health, enforceable}'),
-    ('Secondary', r'\text{aesthetic, advisory}'),
-    ('Secondary treatment', r'\approx 30 \text{ mg/L BOD}_5'),
+  picture: tiersPicture,
+  steps: [
+    (
+      'Some limits are about health',
+      'Arsenic, nitrate, lead, turbidity, the pathogens. These are PRIMARY '
+          'standards. Going over one is a violation, and the utility has to tell '
+          'the public.',
+    ),
+    (
+      'Some are about how the water seems',
+      'Iron that stains the laundry, manganese, dissolved solids, chloride, '
+          'pH. These are SECONDARY standards. They are advice, not law. Going '
+          'over one brings complaints, not a notice.',
+    ),
+    (
+      'The size of a limit tells you nothing',
+      'A tiny number is not automatically a health limit. Arsenic is 0.010 '
+          'and iron is 0.3, but what puts them in different tiers is harm, not '
+          'magnitude.',
+    ),
+    (
+      'Wastewater is a different law entirely',
+      'Drinking water is the Safe Drinking Water Act. Discharges are the '
+          'Clean Water Act, permitted through NPDES, with conventional secondary '
+          'treatment around 30 mg/L of BOD and suspended solids.',
+    ),
   ],
-  figure: BriefFigure.tiers,
+  spoken: [
+    (
+      'Primary',
+      r'\text{health based, enforceable}',
+      'breaking it is a violation with public notice',
+    ),
+    (
+      'Secondary',
+      r'\text{aesthetic, advisory}',
+      'taste, color, staining and scale',
+    ),
+    (
+      'Secondary treatment',
+      r'\approx 30 \text{ mg/L BOD}_5',
+      'the conventional discharge standard',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, water quality standards',
 );
 
 const hardnessBrief = BriefSection(
   title: 'Everything on one basis',
-  body:
-      'Hardness comes from divalent cations, mostly calcium and magnesium, '
-      'and they cannot be added together as they come because a milligram of '
-      'one is not chemically equal to a milligram of the other. Converting '
-      'each to an equivalent concentration of calcium carbonate puts them on '
-      'one basis, and the multiplier is 50 divided by the ion\'s own '
-      'equivalent weight: 50 over 20 is 2.5 for calcium, and 50 over 12.15 is '
-      '4.12 for magnesium. Magnesium therefore counts for MORE, milligram '
-      'for milligram, because it is the lighter ion. The conversion can '
-      'reverse which of the two dominates, so it has to be done before '
-      'anything is compared as well as before anything is added, and adding '
-      'the raw concentrations understates the hardness every time. The bands '
-      'are soft under 60, moderately hard to 120, hard to 180, and very hard '
-      'above that.',
-  formulas: [
-    ('On one basis', r'\text{as CaCO}_3 = \sum C_i \frac{50}{EW_i}'),
-    ('Calcium', r'\times 2.5'),
-    ('Magnesium', r'\times 4.12'),
+  picture: hardnessPicture,
+  steps: [
+    (
+      'Hardness comes from two main ions',
+      'Calcium and magnesium. Both make scale and both fight soap. But a '
+          'milligram of one is not chemically worth a milligram of the other, so '
+          'they cannot simply be added up as they come.',
+    ),
+    (
+      'Convert both to one common currency',
+      'Everything gets rewritten as the equivalent amount of calcium '
+          'carbonate. The multiplier is 50 divided by the ion\'s own equivalent '
+          'weight.',
+    ),
+    (
+      'The lighter ion counts for more',
+      'Calcium multiplies by 2.5, magnesium by 4.12, because magnesium is the '
+          'lighter of the two. Milligram for milligram, magnesium brings more '
+          'hardness.',
+    ),
+    (
+      'So convert before comparing, not just before adding',
+      'The conversion can flip which ion dominates. Adding the raw numbers '
+          'understates the hardness every single time. The bands: soft under 60, '
+          'moderately hard to 120, hard to 180, very hard above.',
+    ),
   ],
-  figure: BriefFigure.hardness,
+  spoken: [
+    (
+      'On one basis',
+      r'\text{as CaCO}_3 = \sum C_i \frac{50}{EW_i}',
+      'each concentration times fifty over its own equivalent weight',
+    ),
+    ('Calcium', r'\times 2.5', 'fifty over twenty'),
+    ('Magnesium', r'\times 4.12', 'fifty over twelve point one five'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, hardness',
 );
 
 const efficiencyBrief = BriefSection(
   title: 'What came out, over what went in',
-  body:
-      'Removal efficiency is the influent less the effluent, over the '
-      'influent, and the trap is reporting the other piece: the fraction '
-      'still there, which is the effluent over the influent. The two add to '
-      'one, so a plant at 87.5 percent leaves 12.5, and both numbers usually '
-      'appear among the choices. The FLOW is in neither term and cancels '
-      'entirely, so only the ratio of the two concentrations matters, and '
-      'doubling the influent and the permit together changes nothing at all '
-      'even though the plant is removing twice the mass. The last part is '
-      'worth carrying: near the top of the range five percentage points '
-      'halves what is discharged, 90 to 95 taking a 20 mg/L effluent down to '
-      '10. Percentages flatter a good plant, which is why permits are written '
-      'on concentrations.',
-  formulas: [
-    ('Removed', r'E = \frac{S_0 - S}{S_0}'),
-    ('Left', r'\frac{S}{S_0} = 1 - E'),
+  picture: efficiencyPicture,
+  steps: [
+    (
+      'Two numbers, and the gap between them',
+      'Something strong goes in, something weaker comes out. The removal is '
+          'the size of that gap, written as a share of what went in.',
+    ),
+    (
+      'The trap is reporting the other piece',
+      'What is left over, effluent over influent, is the fraction still '
+          'there. The two add to one, so a plant at 87.5 percent leaves 12.5, and '
+          'both numbers are usually among the choices.',
+    ),
+    (
+      'The flow cancels out',
+      'It is in neither term. Only the ratio of the two concentrations '
+          'matters, so doubling the influent and the permit together changes '
+          'nothing even though twice the mass is being removed.',
+    ),
+    (
+      'Percentages flatter a good plant',
+      'Near the top of the range, five points halves what is discharged: 90 '
+          'to 95 takes a 20 mg/L effluent down to 10. That is why permits are '
+          'written on concentrations, not percentages.',
+    ),
   ],
-  figure: BriefFigure.efficiency,
+  spoken: [
+    ('Removed', r'E = \frac{S_0 - S}{S_0}', 'the gap, divided by what went in'),
+    (
+      'Left behind',
+      r'\frac{S}{S_0} = 1 - E',
+      'what came out over what went in, which is one less the removal',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, treatment performance',
 );
 
@@ -13779,26 +14442,46 @@ const stiffnessBrief = BriefSection(
 
 const filterRateBrief = BriefSection(
   title: 'Down through the bed',
-  body:
-      'A filter loading rate is the flow divided by the PLAN area of the '
-      'bed, the surface looked at from above, because the water goes '
-      'straight down through the sand. Divide by one dimension instead and '
-      'the units give it away: a rate per foot is not a rate per square '
-      'foot. Ranges matter as much as the arithmetic. Rapid sand filters run '
-      'between about two and ten gallons a minute to the square foot, so a '
-      'plant at four and a half is mid range, while SLOW sand runs nearer a '
-      'tenth of a gallon and therefore needs tens of times the area for the '
-      'same flow, buying a biological layer and paying for it in land. Twice '
-      'the bed halves the rate, which is the design lever. And note the '
-      'family resemblance: a clarifier overflow rate is the same arithmetic '
-      'on a different box, quoted per DAY, with an acceptable range in the '
-      'hundreds. The pattern carries across and the numbers do not.',
-  formulas: [
-    ('The rate', r'v = Q / A_{plan}'),
-    ('Rapid sand', r'2 \text{ to } 10 \text{ gpm/ft}^2'),
-    ('Slow sand', r'\approx 0.1 \text{ gpm/ft}^2'),
+  picture: filterRatePicture,
+  steps: [
+    (
+      'The water goes straight down',
+      'A sand filter is a box of sand with water pouring onto the top of it. '
+          'So what matters is the bed seen from above: its plan area, length '
+          'times width.',
+    ),
+    (
+      'Flow over that area is the loading rate',
+      'Divide by one dimension instead and the units give you away. A rate '
+          'per foot is not a rate per square foot.',
+    ),
+    (
+      'The ranges are part of the answer',
+      'Rapid sand runs between about two and ten gallons a minute per square '
+          'foot. Slow sand runs near a tenth of that, so it needs tens of times '
+          'the land for the same flow, and buys a living filter layer with it.',
+    ),
+    (
+      'Twice the bed halves the rate',
+      'That is the design lever. The same arithmetic on a settling tank is '
+          'the overflow rate, quoted per day with ranges in the hundreds. The '
+          'pattern carries across; the numbers do not.',
+    ),
   ],
-  figure: BriefFigure.filterRate,
+  spoken: [
+    (
+      'The rate',
+      r'v = \frac{Q}{A_{plan}}',
+      'the flow divided by the bed seen from above',
+    ),
+    (
+      'Rapid sand',
+      r'2 \text{ to } 10 \text{ gpm/ft}^2',
+      'the usual working range',
+    ),
+    ('Slow sand', r'\approx 0.1 \text{ gpm/ft}^2', 'about a hundredth as fast'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, filtration',
 );
 
