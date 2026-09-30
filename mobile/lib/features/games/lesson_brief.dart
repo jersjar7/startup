@@ -456,48 +456,117 @@ enum BriefFigure {
 /// you, not make you hunt through the rest of the lesson.
 const perpendicularBrief = BriefSection(
   title: 'Parallel and perpendicular',
-  body:
-      'Parallel lines never meet, and that is the same as saying they have '
-      'the same slope. Perpendicular lines cross at a right angle, and their '
-      'slopes are negative reciprocals: flip the fraction and change the '
-      'sign. Doing only one of the two gets you a line that looks plausible '
-      'and is wrong.',
-  formulas: [
-    ('Parallel', r'm_1 = m_2'),
-    ('Perpendicular', r'm_{\perp} = -\frac{1}{m}'),
+  picture: perpendicularPicture,
+  steps: [
+    (
+      'Slope is how steep a line is',
+      'It is how far the line climbs for every step you take across. A big '
+          'slope is a steep line. A small one is nearly flat.',
+    ),
+    (
+      'Same slope means they never meet',
+      'Two lines with the same steepness run alongside each other forever. '
+          'That is what parallel means, and it is the whole test: compare the '
+          'two slopes.',
+    ),
+    (
+      'Square corners need two changes',
+      'To turn a line a quarter turn you flip its slope upside down AND '
+          'change its sign. A slope of 2 becomes minus a half. Doing only one of '
+          'the two gives a line that looks about right and is wrong.',
+    ),
   ],
-  figure: BriefFigure.slopePair,
+  spoken: [
+    ('Parallel', r'm_1 = m_2', 'the two slopes are the same number'),
+    (
+      'Perpendicular',
+      r'm_{\perp} = -\frac{1}{m}',
+      'flip the slope over, then change its sign',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
 const discriminantBrief = BriefSection(
-  title: 'The discriminant',
-  body:
-      'In the quadratic formula, the part under the square root is the '
-      'discriminant. Its sign alone tells you how many real roots there are: '
-      'positive gives two, zero gives one, negative gives none. You can read '
-      'that off a graph without solving anything, and on the exam it lets '
-      'you throw out answers before you start.',
-  formulas: [
-    ('The quadratic formula', r'x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}'),
-    ('The discriminant is the part under the root', r'b^2 - 4ac'),
+  title: 'The part under the square root',
+  picture: discriminantPicture,
+  steps: [
+    (
+      'A curve and a line',
+      'A quadratic draws a U shape. Solving it means asking where that U '
+          'cuts the flat line at zero. Look at the picture: it can cut twice, '
+          'touch once, or miss completely.',
+    ),
+    (
+      'One number decides which',
+      'Inside the quadratic formula there is a square root. The stuff under '
+          'that root is called the discriminant, and its SIGN alone tells you '
+          'which of the three pictures you have.',
+    ),
+    (
+      'Reading the sign',
+      'Positive means the root is a real number you can add and subtract: '
+          'two answers. Zero means adding and subtracting nothing: one answer. '
+          'Negative means no real root at all: the curve misses.',
+    ),
+    (
+      'Why it is worth a look first',
+      'You can throw out wrong answer choices before doing any arithmetic, '
+          'just from that one sign.',
+    ),
   ],
-  figure: BriefFigure.discriminant,
+  spoken: [
+    (
+      'The quadratic formula',
+      r'x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}',
+      'minus b, plus or minus the root, all over two a',
+    ),
+    (
+      'The discriminant is what is under the root',
+      r'b^2 - 4ac',
+      'b squared, take away four times a times c',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
 const gradeBrief = BriefSection(
   title: 'Grade, rise and run',
-  body:
-      'Grade is rise over run, written as a percent. Stations are the trap: '
-      'a station is distance in hundreds of feet, so 3+00 means 300 feet, '
-      'never 3. Convert the stations before you compare anything, or a flat '
-      'road will look like a cliff.',
-  formulas: [
-    ('Grade', r'\text{grade} = \frac{\text{rise}}{\text{run}} \times 100\%'),
-    ('A station is hundreds of feet', r'3{+}00 = 300\ \text{ft}'),
+  picture: gradePicture,
+  steps: [
+    (
+      'A road going uphill',
+      'Grade is just steepness written as a percent. Go along the road and '
+          'see how much it climbs. A grade of 5 percent means it climbs 5 feet '
+          'for every 100 feet you travel along.',
+    ),
+    (
+      'Stations are not plain numbers',
+      'Surveyors mark distance in hundreds of feet and write it with a plus. '
+          'Station 3+00 is 300 feet from station 0+00, not 3 feet.',
+    ),
+    (
+      'Convert first, always',
+      'Take the stations apart before you compare anything. Use 3 instead of '
+          '300 and a gentle road comes out looking like a cliff, a hundred times '
+          'too steep.',
+    ),
   ],
-  figure: BriefFigure.grade,
+  spoken: [
+    (
+      'Grade',
+      r'\text{grade} = \frac{\text{rise}}{\text{run}} \times 100\%',
+      'how much it climbs, over how far it runs, as a percent',
+    ),
+    (
+      'A station is hundreds of feet',
+      r'3{+}00 = 300\ \text{ft}',
+      'three plus zero zero means three hundred feet',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
@@ -506,103 +575,267 @@ const gradeBrief = BriefSection(
 // references show the rules themselves rather than a picture of something.
 
 const logRulesBrief = BriefSection(
-  title: 'The log rules, and the one that does not exist',
-  body:
-      'A logarithm asks what power the base is raised to. Three moves are '
-      'legal: a product inside becomes a sum outside, a quotient becomes a '
-      'difference, and an exponent comes down in front. A sum inside a log has '
-      'no rule at all. Splitting one is the cheapest way to lose a mark on '
-      'this topic.',
-  formulas: [('What a log means', r'\log_b x = c \iff b^c = x')],
-  figure: BriefFigure.logRules,
+  title: 'What a log is, and the rule that does not exist',
+  picture: logRulesPicture,
+  steps: [
+    (
+      'A log asks how many times',
+      'Three 2s multiplied together make 8. So the log of 8, in base 2, is '
+          '3. That is all a logarithm is: how many copies of the base you had to '
+          'multiply.',
+    ),
+    (
+      'Multiplying inside adds outside',
+      'Four 2s times three more 2s is seven 2s. Since the log just counts '
+          'the copies, a product inside a log becomes a SUM outside it. A '
+          'divide becomes a subtract, for the same reason.',
+    ),
+    (
+      'A power drops to the front',
+      'A number raised to a power is that many copies of the copies, so the '
+          'power simply comes down and multiplies.',
+    ),
+    (
+      'There is no rule for a plus inside',
+      'Adding two numbers inside a log tells you nothing about the copies. '
+          'Splitting one is the cheapest way to lose a mark on this topic.',
+    ),
+  ],
+  spoken: [
+    (
+      'What a log means',
+      r'\log_b x = c \iff b^c = x',
+      'the log of x is c exactly when b to the c gives x',
+    ),
+    (
+      'Product',
+      r'\log_b(xy) = \log_b x + \log_b y',
+      'times inside becomes plus outside',
+    ),
+    ('Power', r'\log_b(x^n) = n\log_b x', 'the power comes down in front'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
 const undoExponentBrief = BriefSection(
-  title: 'Undoing an exponent',
-  body:
-      'When the unknown sits in the exponent, the log is what gets it down. '
-      'A log undoes its own base exactly: ln undoes e, and log undoes 10. '
-      'Clear anything multiplying the exponential first, then take the log of '
-      'both sides, and what is left is linear.',
-  formulas: [
+  title: 'Getting the unknown down from the exponent',
+  picture: undoExponentPicture,
+  steps: [
+    (
+      'The unknown is out of reach',
+      'When x sits up in the exponent, nothing you do with plus, minus, '
+          'times or divide will bring it down. You need the tool that is built '
+          'to undo an exponent.',
+    ),
+    (
+      'A log undoes its own base',
+      'ln and e cancel each other exactly. So do log and 10. Take the log of '
+          'both sides and whatever was up in the exponent lands on the ground '
+          'as an ordinary multiplier.',
+    ),
+    (
+      'Clear the front first',
+      'If something is multiplying the exponential, divide it away BEFORE '
+          'you take the log. Take the log too early and you have the log of a '
+          'product instead of a clean exponent.',
+    ),
+    (
+      'What is left is easy',
+      'After the log, the equation is a straight line in x. Divide and you '
+          'are done.',
+    ),
+  ],
+  spoken: [
     (
       'A log undoes its own base',
       r'\ln(e^{x}) = x \qquad \log_{10}(10^{x}) = x',
+      'ln cancels e, and log cancels ten',
     ),
-    ('Which is the definition, read backwards', r'\log_b x = c \iff b^c = x'),
+    (
+      'Which is the definition read backwards',
+      r'\log_b x = c \iff b^c = x',
+      'the log is just the power, named the other way round',
+    ),
   ],
-  figure: BriefFigure.undoExponent,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
 const combineLogsBrief = BriefSection(
-  title: 'Combining logs into one',
-  body:
-      'Terms in the same base collapse into a single log before you evaluate '
-      'anything: added terms multiply inside, subtracted terms divide inside, '
-      'and a coefficient becomes an exponent. Doing it in this order is faster '
-      'and it avoids the classic error of multiplying the separate log values '
-      'together.',
-  formulas: [('Only within one base', r'\log_b(xy) = \log_b x + \log_b y')],
-  figure: BriefFigure.combineLogs,
+  title: 'Squeeze the logs into one first',
+  picture: combineLogsPicture,
+  steps: [
+    (
+      'Several logs, one answer wanted',
+      'A question hands you two or three log terms added and subtracted. '
+          'Work each one out separately and you have three ugly decimals to '
+          'juggle.',
+    ),
+    (
+      'Fold them together instead',
+      'Added terms multiply inside. Subtracted terms divide inside. A number '
+          'in front becomes a power inside. Do that and three terms become one.',
+    ),
+    (
+      'Only within one base',
+      'This folding only works when every log has the same base. Logs of '
+          'different bases will not combine.',
+    ),
+    (
+      'The mistake it avoids',
+      'People multiply the separate log VALUES together. The rule multiplies '
+          'what is inside, never the answers.',
+    ),
+  ],
+  spoken: [
+    (
+      'Added terms multiply inside',
+      r'\log_b x + \log_b y = \log_b(xy)',
+      'plus outside becomes times inside',
+    ),
+    (
+      'Subtracted terms divide inside',
+      r'\log_b x - \log_b y = \log_b\!\left(\frac{x}{y}\right)',
+      'minus outside becomes divide inside',
+    ),
+    (
+      'A coefficient becomes a power',
+      r'n\log_b x = \log_b(x^n)',
+      'a number in front moves up as a power',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 36-37',
 );
 
 // ── Right Triangle Trigonometry ─────────────────────────────────────────────
 
 const ratiosBrief = BriefSection(
-  title: 'The three ratios',
-  body:
-      'Every right triangle gives you three ratios relative to the angle you '
-      'marked. Pick the one that connects what you know to what you want: '
-      'opposite over hypotenuse is sine, adjacent over hypotenuse is cosine, '
-      'opposite over adjacent is tangent. Cos is cozy with the adjacent side, '
-      'the one touching the angle.',
-  formulas: [
-    ('SOH', r'\sin\theta = \frac{\text{opp}}{\text{hyp}}'),
-    ('CAH', r'\cos\theta = \frac{\text{adj}}{\text{hyp}}'),
-    ('TOA', r'\tan\theta = \frac{\text{opp}}{\text{adj}}'),
+  title: 'The three ratios, and picking one',
+  picture: ratiosPicture,
+  steps: [
+    (
+      'Same shape, same ratios',
+      'Every right triangle with the same angle has sides in the same '
+          'proportions, however big it is drawn. Those fixed proportions are '
+          'what sine, cosine and tangent are.',
+    ),
+    (
+      'Three pairings, three names',
+      'Opposite over hypotenuse is sine. Adjacent over hypotenuse is cosine. '
+          'Opposite over adjacent is tangent. SOH CAH TOA is just those three '
+          'read out.',
+    ),
+    (
+      'Pick by what you have',
+      'Do not pick a ratio and hope. List the side you know and the side you '
+          'want, then take the ratio that has both of them in it. Only one will.',
+    ),
+    (
+      'The one people mix up',
+      'Cos is cozy with the adjacent side, the one leaning against the '
+          'angle.',
+    ),
   ],
-  figure: BriefFigure.ratios,
+  spoken: [
+    (
+      'SOH',
+      r'\sin\theta = \frac{\text{opp}}{\text{hyp}}',
+      'sine is opposite over hypotenuse',
+    ),
+    (
+      'CAH',
+      r'\cos\theta = \frac{\text{adj}}{\text{hyp}}',
+      'cosine is adjacent over hypotenuse',
+    ),
+    (
+      'TOA',
+      r'\tan\theta = \frac{\text{opp}}{\text{adj}}',
+      'tangent is opposite over adjacent',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const sideNamesBrief = BriefSection(
   title: 'Opposite, adjacent, hypotenuse',
-  body:
-      'The hypotenuse is always the side across from the right angle, so it '
-      'never moves. The other two names belong to the angle you marked, not to '
-      'the page: opposite is the side that does not touch it, and adjacent is '
-      'the OTHER side that does, the one that is not the hypotenuse. Mark the '
-      'other corner and those two swap without a line moving.',
-  formulas: [
-    ('Always across from the right angle', r'\text{hyp}'),
-    ('Named against the marked angle', r'\text{opp} \;/\; \text{adj}'),
+  picture: sideNamesPicture,
+  steps: [
+    (
+      'One side never moves',
+      'The hypotenuse is the side across from the square corner. It is '
+          'always the longest, and its name never changes no matter which angle '
+          'you are working with.',
+    ),
+    (
+      'The other two are named from YOUR angle',
+      'Mark an angle. The side that does not touch it at all is the '
+          'opposite. The side that does touch it, and is not the hypotenuse, is '
+          'the adjacent.',
+    ),
+    (
+      'Mark the other corner and they swap',
+      'Look at the two pictures: same triangle, nothing moved. Only the '
+          'marked angle changed, and opposite and adjacent traded places.',
+    ),
   ],
-  figure: BriefFigure.sideNames,
+  spoken: [
+    (
+      'Always across from the square corner',
+      r'\text{hyp}',
+      'the hypotenuse, the long side',
+    ),
+    (
+      'Named against the marked angle',
+      r'\text{opp} \;/\; \text{adj}',
+      'the side that misses it, and the side that touches it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const componentsBrief = BriefSection(
-  title: 'Resolving a force',
-  body:
-      'A force at an angle splits into two sides of a right triangle. The '
-      'component along the axis the angle is measured FROM is the adjacent one, '
-      'so it takes the cosine, and the other takes the sine. That is why an '
-      'angle quoted from the vertical swaps the two, and it is the single '
-      'biggest trap in this topic.',
-  formulas: [
+  title: 'Splitting a slanted push into two',
+  picture: componentsPicture,
+  steps: [
     (
-      'Angle from the horizontal',
-      r'F_x = F\cos\theta \qquad F_y = F\sin\theta',
+      'A slanted push does two jobs',
+      'Pull a sled with a rope at an angle and part of your pull drags it '
+          'along and part lifts it. Those two parts are the sides of a right '
+          'triangle with your pull as the long side.',
     ),
     (
-      'Angle from the vertical, the two swap',
-      r'F_x = F\sin\theta \qquad F_y = F\cos\theta',
+      'The side the angle leans on takes cosine',
+      'Cosine goes with the adjacent side, the one the angle is measured '
+          'from. So if the angle is measured up from the ground, the along-the-'
+          'ground piece is the cosine one.',
+    ),
+    (
+      'Measure from upright and they swap',
+      'Look at the second picture. Nothing about the push changed, only '
+          'where the angle was measured from. Now the across piece takes sine.',
+    ),
+    (
+      'So read the drawing, not the habit',
+      'Assuming cosine is always across is the single biggest trap here.',
     ),
   ],
-  figure: BriefFigure.components,
+  spoken: [
+    (
+      'Angle measured from across',
+      r'F_x = F\cos\theta \qquad F_y = F\sin\theta',
+      'across takes cosine, up takes sine',
+    ),
+    (
+      'Angle measured from upright, the two swap',
+      r'F_x = F\sin\theta \qquad F_y = F\cos\theta',
+      'now across takes sine and up takes cosine',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
@@ -610,167 +843,400 @@ const componentsBrief = BriefSection(
 
 const whichLawBrief = BriefSection(
   title: 'Which law, and when',
-  body:
-      'An oblique triangle has no right angle, so there is no hypotenuse and '
-      'no opposite-over-adjacent to fall back on. Two relations hold in every '
-      'triangle instead. The Law of Sines says each side is proportional to '
-      'the sine of the angle facing it, so a side and its own angle fix the '
-      'scale for the whole triangle. The Law of Cosines is the Pythagorean '
-      'theorem with a correction: it subtracts a term that vanishes at 90 '
-      'degrees, because cos 90 is zero, and grows as the angle opens or '
-      'closes.\n\nSo: a side with the angle opposite it opens Sines. Two '
-      'sides with the angle between them, or all three sides, leaves nothing '
-      'paired and it is Cosines.',
-  formulas: [
-    ('Law of Sines', r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}'),
-    ('Law of Cosines', r'c^2 = a^2 + b^2 - 2ab\cos C'),
+  picture: whichLawPicture,
+  steps: [
+    (
+      'No square corner, no SOH CAH TOA',
+      'A triangle with no right angle has no hypotenuse, so the three ratios '
+          'have nothing to hang on. Two other relations hold in EVERY triangle '
+          'instead.',
+    ),
+    (
+      'Sines: a side paired with its own angle',
+      'Each side sits over the sine of the angle facing it, and all three '
+          'of those fractions are equal. So one matched pair sets the scale for '
+          'the whole triangle.',
+    ),
+    (
+      'Cosines: nothing is paired',
+      'It is the Pythagorean theorem with a correction subtracted. Use it '
+          'when you have two sides and the angle squeezed between them, or all '
+          'three sides and no angle.',
+    ),
+    (
+      'The one question to ask',
+      'Do I have a side together with the angle opposite it? Yes means '
+          'sines. No means cosines.',
+    ),
   ],
-  figure: BriefFigure.lawChoice,
+  spoken: [
+    (
+      'Law of Sines',
+      r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}',
+      'each side over the sine of its own angle, all equal',
+    ),
+    (
+      'Law of Cosines',
+      r'c^2 = a^2 + b^2 - 2ab\cos C',
+      'Pythagoras, with a correction taken off for the angle',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const setupBrief = BriefSection(
-  title: 'Writing the two laws',
-  body:
-      'Every side sits over the sine of its OWN angle, which is what makes '
-      'the ratio easy to flip by accident. The Law of Cosines is the '
-      'Pythagorean theorem with a correction term subtracted, never added, and '
-      'the angle in it is always the one opposite the side you are after.',
-  formulas: [
-    ('Law of Sines', r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}'),
-    ('Law of Cosines', r'c^2 = a^2 + b^2 - 2ab\cos C'),
-    ('Rearranged for an angle', r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}'),
+  title: 'Writing the two laws down without flipping them',
+  picture: setupPicture,
+  steps: [
+    (
+      'Small letters face capital letters',
+      'Side a is across from angle A, side b from angle B, side c from C. '
+          'Look at the picture: every side is labelled with the small version of '
+          'the angle staring at it.',
+    ),
+    (
+      'Each side over its OWN angle',
+      'The Law of Sines pairs a with A, never with B. Flipping one of those '
+          'fractions upside down is the usual slip, and it gives an answer that '
+          'looks reasonable.',
+    ),
+    (
+      'The correction is always subtracted',
+      'In the Law of Cosines the last term comes off, never on. And the '
+          'angle in it is the one facing the side you are solving for.',
+    ),
   ],
-  figure: BriefFigure.lawForms,
+  spoken: [
+    (
+      'Law of Sines',
+      r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}',
+      'each side over the sine of the angle facing it',
+    ),
+    (
+      'Law of Cosines',
+      r'c^2 = a^2 + b^2 - 2ab\cos C',
+      'the two known sides squared, minus the correction',
+    ),
+    (
+      'Rearranged for an angle',
+      r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}',
+      'the side facing the angle comes off the top',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const obtuseBrief = BriefSection(
-  title: 'What a negative cosine means',
-  body:
-      'Rearranged for an angle, the Law of Cosines puts the side opposite '
-      'that angle on the top with a minus in front. When the longest side '
-      'squared beats the other two put together, the top goes negative, the '
-      'cosine goes negative, and the angle is obtuse. Inverse cosine already '
-      'returns the obtuse angle, so nothing needs subtracting from 180.',
-  formulas: [
-    ('Rearranged for the angle', r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}'),
-    ('And the test that follows', r'c^2 > a^2 + b^2 \iff C > 90^\circ'),
+  title: 'What a negative cosine is telling you',
+  picture: obtusePicture,
+  steps: [
+    (
+      'Cosine slides from plus one to minus one',
+      'At a tiny angle cosine is nearly 1. At a square corner it is exactly '
+          '0. Past that it goes negative and keeps falling. The sign is a '
+          'message about how open the angle is.',
+    ),
+    (
+      'When the top goes negative',
+      'Rearranged for an angle, the formula puts the side facing that angle '
+          'on top with a minus in front. If that side squared beats the other '
+          'two put together, the top is negative.',
+    ),
+    (
+      'So the angle is past square',
+      'A negative cosine means an obtuse angle. It is not a mistake and it '
+          'is not a sign error to fix.',
+    ),
+    (
+      'Nothing needs subtracting from 180',
+      'The inverse cosine button already hands back the obtuse angle. '
+          '"Correcting" it is how people turn a right answer into a wrong one.',
+    ),
   ],
-  figure: BriefFigure.cosineSign,
+  spoken: [
+    (
+      'Rearranged for the angle',
+      r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}',
+      'the two known sides squared, minus the facing side squared, over two a b',
+    ),
+    (
+      'And the test that follows',
+      r'c^2 > a^2 + b^2 \iff C > 90^\circ',
+      'if the facing side squared wins, the angle is past square',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 // ── Unit Circle & Trig Identities ───────────────────────────────────────────
 
 const unitCircleBrief = BriefSection(
-  title: 'Reading the unit circle',
-  body:
-      'A circle of radius one, with an angle swept from the positive x-axis. '
-      'Wherever that angle lands, the point is (cos, sin): cosine is how far '
-      'ACROSS and sine is how far UP. That is the whole definition, and it is '
-      'why swapping the two swaps 30 degrees for 60. Learn the first quadrant '
-      'and the rest is a mirror.',
-  formulas: [
-    ('The point at any angle', r'(\cos\theta,\; \sin\theta)'),
+  title: 'Across is cosine, up is sine',
+  picture: unitCirclePicture,
+  steps: [
+    (
+      'Walk round a circle of radius one',
+      'Start at the right-hand edge and sweep round anticlockwise. Wherever '
+          'you stop, you are some distance across and some distance up.',
+    ),
+    (
+      'Those two distances have names',
+      'How far ACROSS is the cosine of the angle. How far UP is the sine. '
+          'That is the whole definition, and every other fact follows from it.',
+    ),
+    (
+      'Which is why they are easy to swap',
+      'At 30 degrees you are far across and only a little up. At 60 it is '
+          'the other way. Swapping the two swaps the angle.',
+    ),
+    (
+      'Learn one quarter only',
+      'The other three quarters are mirrors of the first. Get the first '
+          'quarter cold and you have the whole circle.',
+    ),
+  ],
+  spoken: [
+    (
+      'The point at any angle',
+      r'(\cos\theta,\; \sin\theta)',
+      'how far across, then how far up',
+    ),
     (
       'The three worth knowing cold',
       r'30^\circ:\left(\tfrac{\sqrt{3}}{2},\tfrac{1}{2}\right)\quad '
           r'45^\circ:\left(\tfrac{\sqrt{2}}{2},\tfrac{\sqrt{2}}{2}\right)\quad '
           r'60^\circ:\left(\tfrac{1}{2},\tfrac{\sqrt{3}}{2}\right)',
+      'at 45 the two match; at 30 across wins; at 60 up wins',
     ),
   ],
-  figure: BriefFigure.unitCircle,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const quadrantBrief = BriefSection(
-  title: 'Signs by quadrant',
-  body:
-      'The Pythagorean identity can only ever give you the size of a value, '
-      'because squaring throws the sign away. The quadrant puts it back. '
-      'Across is positive to the right, up is positive above, so cosine is '
-      'positive in quadrants one and four and sine is positive in one and '
-      'two. Solving for a value and stopping before the quadrant is the '
-      'mistake this exists for.',
-  formulas: [
-    ('It gives the size', r'\cos\theta = \pm\sqrt{1 - \sin^2\theta}'),
+  title: 'The quarter you are in puts the sign back',
+  picture: quadrantPicture,
+  steps: [
+    (
+      'Squaring throws the sign away',
+      'Minus three squared and plus three squared are both nine. So any '
+          'formula that goes through a square can only ever hand you back the '
+          'SIZE of an answer, never whether it is plus or minus.',
+    ),
+    (
+      'The circle remembers it',
+      'Across is positive to the right and negative to the left. Up is '
+          'positive above the middle and negative below. Look at which quarter '
+          'the angle lands in and both signs are decided.',
+    ),
+    (
+      'So cosine and sine each have two good quarters',
+      'Cosine is positive on the right half, quarters one and four. Sine is '
+          'positive on the top half, quarters one and two.',
+    ),
+    (
+      'Stopping too early is the mistake',
+      'Getting the size from the identity and never checking the quarter '
+          'gets you the right number with the wrong sign.',
+    ),
+  ],
+  spoken: [
+    (
+      'It gives the size',
+      r'\cos\theta = \pm\sqrt{1 - \sin^2\theta}',
+      'the root gives how big, and leaves the sign open',
+    ),
     (
       'The quadrant gives the sign',
       r'\text{Q1}: ++ \quad \text{Q2}: -+ \quad \text{Q3}: -- \quad \text{Q4}: +-',
+      'first is across then up, quarter by quarter',
     ),
   ],
-  figure: BriefFigure.quadrants,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const identitiesBrief = BriefSection(
   title: 'The identities worth knowing',
-  body:
-      'Know the Pythagorean identity cold and recognize the double angles '
-      'when they appear. Doubling an angle is NOT doubling its sine: sin 2θ '
-      'needs both functions and a factor of two out front, and cos 2θ is a '
-      'difference of squares in that order.',
-  formulas: [
-    ('Pythagorean', r'\sin^2\theta + \cos^2\theta = 1'),
-    ('Double angle, sine', r'\sin 2\theta = 2\sin\theta\cos\theta'),
-    ('Double angle, cosine', r'\cos 2\theta = \cos^2\theta - \sin^2\theta'),
+  picture: identitiesPicture,
+  steps: [
+    (
+      'There is a triangle inside the circle',
+      'Drop a line straight down from the point on the circle. You get a '
+          'right triangle whose short sides are cosine and sine, and whose long '
+          'side is the radius, which is 1.',
+    ),
+    (
+      'So Pythagoras gives it to you free',
+      'Short side squared plus short side squared equals long side squared. '
+          'That is sine squared plus cosine squared equals one. It is not a new '
+          'fact, it is the triangle.',
+    ),
+    (
+      'Doubling an angle is not doubling its sine',
+      'Turn twice as far and you do not get twice as high. sin of 2 theta '
+          'needs BOTH functions and a 2 in front.',
+    ),
+    (
+      'And the cosine one is a difference',
+      'cos of 2 theta is cosine squared MINUS sine squared, in that order. '
+          'Flipping the order flips the sign of your answer.',
+    ),
   ],
-  figure: BriefFigure.identities,
+  spoken: [
+    (
+      'Pythagorean',
+      r'\sin^2\theta + \cos^2\theta = 1',
+      'the two short sides squared add to one',
+    ),
+    (
+      'Double angle, sine',
+      r'\sin 2\theta = 2\sin\theta\cos\theta',
+      'two, times sine, times cosine',
+    ),
+    (
+      'Double angle, cosine',
+      r'\cos 2\theta = \cos^2\theta - \sin^2\theta',
+      'cosine squared take away sine squared, that way round',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 // ── Circles & Conic Sections ────────────────────────────────────────────────
 
 const circleFormBrief = BriefSection(
-  title: 'Reading a circle',
-  body:
-      'A circle in standard form hands you everything: the center and the '
-      'radius, with no work. Two things bite. The sign inside each bracket is '
-      'the OPPOSITE of the coordinate, so (y + 3) puts the center three below '
-      'the axis. And the number on the right is the radius SQUARED, so 64 is a '
-      'circle of radius eight.',
-  formulas: [
-    ('Standard form', r'(x-h)^2 + (y-k)^2 = r^2'),
-    ('Which reads as', r'\text{center } (h,k), \quad \text{radius } r'),
+  title: 'Reading a circle off its equation',
+  picture: circleFormPicture,
+  steps: [
+    (
+      'A circle is a place and a reach',
+      'Every circle is fixed by two things: where its middle sits, and how '
+          'far it reaches out. Standard form hands you both with no work at all.',
+    ),
+    (
+      'The sign flips',
+      'Whatever is inside a bracket, the center is the OPPOSITE. So x minus '
+          '2 means the center is 2 to the right, and y plus 3 means 3 BELOW the '
+          'middle. It catches people every time.',
+    ),
+    (
+      'The number on the right is squared',
+      'It is the radius times itself, not the radius. A 64 on the right '
+          'means a reach of 8. Take the square root before you draw anything.',
+    ),
   ],
-  figure: BriefFigure.circleForm,
+  spoken: [
+    (
+      'Standard form',
+      r'(x-h)^2 + (y-k)^2 = r^2',
+      'x minus the across number, y minus the up number, equals the reach squared',
+    ),
+    (
+      'Which reads as',
+      r'\text{center } (h,k), \quad \text{radius } r',
+      'the center is h across and k up, and the reach is r',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 24',
 );
 
 const readingConicsBrief = BriefSection(
-  title: 'The three forms',
-  body:
-      'A circle has both squares, both positive, with the same coefficient. '
-      'A parabola has exactly ONE square, and the sign in front of it decides '
-      'which way the curve opens. An ellipse has both squares over different '
-      'denominators, and the larger denominator lies under the long axis. Most '
-      'of what the exam asks about conics is reading which of the three you '
-      'are holding.',
-  formulas: [
-    ('Circle', r'(x-h)^2 + (y-k)^2 = r^2'),
-    ('Parabola', r'y = a(x-h)^2 + k'),
-    ('Ellipse', r'\frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1'),
-    ('And a parabola\'s peak', r'x = -\frac{b}{2a}'),
+  title: 'Telling the three shapes apart',
+  picture: readingConicsPicture,
+  steps: [
+    (
+      'Count the squared terms',
+      'Look at the equation and ask a single question first: is x squared '
+          'there, is y squared there, or only one of them?',
+    ),
+    (
+      'Only one square is a parabola',
+      'One squared term and one plain one draws a U. The sign in front of '
+          'the square decides whether the U opens up or down.',
+    ),
+    (
+      'Both squares, same number, is a circle',
+      'If x squared and y squared carry exactly the same coefficient, every '
+          'direction reaches the same distance. That is a circle.',
+    ),
+    (
+      'Both squares, different numbers, is an ellipse',
+      'Different denominators stretch it one way. The BIGGER denominator '
+          'sits under the long direction.',
+    ),
   ],
-  figure: BriefFigure.conicForms,
+  spoken: [
+    (
+      'Circle',
+      r'(x-h)^2 + (y-k)^2 = r^2',
+      'both squares, matching, equal to the reach squared',
+    ),
+    (
+      'Parabola',
+      r'y = a(x-h)^2 + k',
+      'one square only, opening up when a is positive',
+    ),
+    (
+      'Ellipse',
+      r'\frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1',
+      'both squares over different bottoms, adding to one',
+    ),
+    (
+      "And a parabola's peak",
+      r'x = -\frac{b}{2a}',
+      'minus b over two a gives where the turning point sits',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 24',
 );
 
 const completeSquareBrief = BriefSection(
   title: 'Completing the square',
-  body:
-      'General form hides the center, so you rewrite it. Take the coefficient '
-      'of the plain x term, halve it, square it, and add that. The sign inside '
-      'does not matter, because squaring removes it. The whole of the '
-      'difficulty is that whatever you add has to be added on BOTH sides: add '
-      'it only on the left and you have quietly changed the equation, and the '
-      'radius you read off at the end is wrong.',
-  formulas: [
-    ('General form', r'x^2 + y^2 + Dx + Ey + F = 0'),
-    ('Halve, square, add to both sides', r'x^2 - 10x \;\to\; (x-5)^2 - 25'),
+  picture: completeSquarePicture,
+  steps: [
+    (
+      'A square with a strip stuck on',
+      'Picture x squared as a real square, and the plain x term as a strip '
+          'laid along its edge. Together they are ALMOST a bigger square, but a '
+          'little corner is missing.',
+    ),
+    (
+      'Cut the strip in half',
+      'Split the strip and lay half along the top and half down the side. '
+          'Now the only thing stopping it from being a perfect square is one '
+          'small corner block.',
+    ),
+    (
+      'That corner is what you add',
+      'Its size is half the x number, squared. Add it and the left side '
+          'folds neatly into one bracket squared.',
+    ),
+    (
+      'Add it to BOTH sides',
+      'Adding it only on the left quietly changes the equation, and the '
+          'radius you read off at the end comes out wrong.',
+    ),
   ],
-  figure: BriefFigure.completingSquare,
+  spoken: [
+    (
+      'General form',
+      r'x^2 + y^2 + Dx + Ey + F = 0',
+      'squares and plain terms all mixed together',
+    ),
+    (
+      'Halve, square, add to both sides',
+      r'x^2 - 10x \;\to\; (x-5)^2 - 25',
+      'half of ten is five, five squared is twenty-five',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 24',
 );
 
