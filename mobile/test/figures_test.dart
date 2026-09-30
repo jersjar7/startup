@@ -228,10 +228,6 @@ void main() {
           'lib/features/games/trig_figures.dart',
           'drawn in mono, which has it; the heading face has no Greek at all',
         ),
-        (
-          'lib/features/games/lesson_brief.dart',
-          'card body prose, which is set in Inter',
-        ),
       ],
       'σ': [
         (

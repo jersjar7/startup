@@ -544,8 +544,8 @@ const gradeBrief = BriefSection(
     ),
     (
       'Stations are not plain numbers',
-      'Surveyors mark distance in hundreds of feet and write it with a plus. '
-          'Station 3+00 is 300 feet from station 0+00, not 3 feet.',
+      'Surveyors mark distance in hundreds of feet and write it with a '
+          'plus. So 3+00 means 300 feet from the start, not 3 feet.',
     ),
     (
       'Convert first, always',
@@ -892,7 +892,7 @@ const setupBrief = BriefSection(
     (
       'Small letters face capital letters',
       'Side a is across from angle A, side b from angle B, side c from C. '
-          'Look at the picture: every side is labelled with the small version of '
+          'Look at the picture: every side is labeled with the small version of '
           'the angle staring at it.',
     ),
     (
@@ -1758,54 +1758,121 @@ const bothSidesBrief = BriefSection(
 
 const vectorAddBrief = BriefSection(
   title: 'Adding arrows, one direction at a time',
-  body:
-      'Vectors add component by component: all the across parts together, all '
-      'the up parts together, signs kept. Never length by length. Two forces '
-      'of 500 do not make 1000 unless they point the same way, and if they '
-      'point opposite ways they make nothing at all. Lay them head to tail and '
-      'the resultant is the arrow from where you started to where you ended.',
-  formulas: [
-    ('Component form', r'\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}'),
+  picture: vectorAddPicture,
+  steps: [
+    (
+      'Lay them head to tail',
+      'Put the start of the second arrow on the tip of the first. The answer '
+          'is the arrow from where you began to where you ended up.',
+    ),
+    (
+      'In numbers, add the parts separately',
+      'All the across parts together, all the up parts together, signs kept. '
+          'Never add the lengths.',
+    ),
+    (
+      'Why lengths do not add',
+      'Two pulls of 500 only make 1000 if they point the same way. Point them '
+          'at each other and they make nothing at all. The direction is doing '
+          'half the work.',
+    ),
+  ],
+  spoken: [
+    (
+      'Component form',
+      r'\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}',
+      'so much across, so much up, so much out',
+    ),
     (
       'Added component by component',
       r'\vec{A} + \vec{B} = (A_x + B_x)\hat{i} + (A_y + B_y)\hat{j}',
+      'across with across, up with up',
     ),
   ],
-  figure: BriefFigure.vectorAdd,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const unitVectorBrief = BriefSection(
   title: 'Direction without size',
-  body:
-      'A unit vector points where you want and is exactly one long, so it '
-      'carries a direction and nothing else. Get one by dividing a vector by '
-      'its own length. Then a force along that line is just the magnitude '
-      'times the unit vector, and every component falls out of it. Multiplying '
-      'by a negative scalar keeps the line and turns the arrow around.',
-  formulas: [
-    ('Divide by its own length', r'\hat{u}_A = \frac{\vec{A}}{|\vec{A}|}'),
-    ('Then size it', r'\vec{F} = F\,\hat{u}'),
-    ('From one point to another', r'\vec{AB} = B - A'),
+  picture: unitVectorPicture,
+  steps: [
+    (
+      'An arrow exactly one long',
+      'A unit vector points where you want and has a length of exactly 1. '
+          'It carries a direction and nothing else.',
+    ),
+    (
+      'Make one by dividing',
+      'Take any arrow and divide it by its own length. Everything about the '
+          'direction survives; only the size is scaled away.',
+    ),
+    (
+      'Then size it to whatever you need',
+      'A force of 200 along that line is just 200 times the unit vector, and '
+          'every component falls straight out.',
+    ),
+    (
+      'A negative turns it around',
+      'Multiplying by a negative number keeps the same line and points the '
+          'arrow the other way.',
+    ),
   ],
-  figure: BriefFigure.unitVector,
+  spoken: [
+    (
+      'Divide by its own length',
+      r'\hat{u}_A = \frac{\vec{A}}{|\vec{A}|}',
+      'the arrow, over how long it is',
+    ),
+    ('Then size it', r'\vec{F} = F\,\hat{u}', 'how big, times which way'),
+    (
+      'From one point to another',
+      r'\vec{AB} = B - A',
+      'the far end take away the near end',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const magnitudeBrief = BriefSection(
-  title: 'A magnitude is not a component',
-  body:
-      'The length of a vector is the square root of the sum of its squared '
-      'components. It is never the components added up, and the squaring is '
-      'why: an arrow that splits its length between two directions gets less '
-      'far than one that spends it all on a single direction. A component on '
-      'its own is only a shadow on one axis, and it is allowed to be negative. '
-      'A length never is.',
-  formulas: [
-    ('Length', r'|\vec{A}| = \sqrt{A_x^2 + A_y^2 + A_z^2}'),
-    ('Worth knowing on sight', r'3, 4, 5 \quad 6, 8, 10'),
+  title: 'A length is not a component',
+  picture: magnitudePicture,
+  steps: [
+    (
+      'The arrow is the long side of a triangle',
+      'Go 3 across and 4 up. The arrow joining start to finish is the '
+          'hypotenuse of that right triangle, so its length is 5, not 7.',
+    ),
+    (
+      'Square, add, then root',
+      'That is Pythagoras, and it works the same way with a third direction '
+          'added on.',
+    ),
+    (
+      'A component is only a shadow',
+      'It is how far the arrow got along ONE axis. It is allowed to be '
+          'negative, because you can go backwards along an axis.',
+    ),
+    (
+      'A length never is',
+      'How far something reached cannot be a negative number. If a length '
+          'comes out negative, something upstream is wrong.',
+    ),
   ],
-  figure: BriefFigure.magnitude,
+  spoken: [
+    (
+      'Length',
+      r'|\vec{A}| = \sqrt{A_x^2 + A_y^2 + A_z^2}',
+      'square each part, add them, take the root',
+    ),
+    (
+      'Worth knowing on sight',
+      r'3, 4, 5 \quad 6, 8, 10',
+      'two triangles that come up again and again',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -1813,61 +1880,124 @@ const magnitudeBrief = BriefSection(
 
 const dotProductBrief = BriefSection(
   title: 'Matching components, and a number at the end',
-  body:
-      'The dot product pairs each component with its OWN partner: across with '
-      'across, up with up, and signs kept. Multiply the pairs and add them. '
-      'Pairing across with up is the cross product wearing the wrong name, and '
-      'it is the fastest way to lose this question. Whatever comes out is a '
-      'plain number: if your answer still has an i or a j in it, you have done '
-      'the other product.',
-  formulas: [
-    ('Component form', r'\vec{A} \cdot \vec{B} = A_xB_x + A_yB_y + A_zB_z'),
-    ('And it is a scalar', r'\vec{A} \cdot \vec{B} \in \mathbb{R}'),
+  picture: dotProductPicture,
+  steps: [
+    (
+      'Pair each part with its own partner',
+      'Across with across, up with up, signs kept. Never across with up: '
+          'that is the other product wearing the wrong name.',
+    ),
+    (
+      'Multiply the pairs, then add',
+      'Two multiplications and one addition in two dimensions, three and two '
+          'in three. That is the whole calculation.',
+    ),
+    (
+      'What comes out is a plain number',
+      'No direction, no arrow, no letters. If your answer still has an i or '
+          'a j in it, you did the cross product instead.',
+    ),
   ],
-  figure: BriefFigure.dotProduct,
+  spoken: [
+    (
+      'Component form',
+      r'\vec{A} \cdot \vec{B} = A_xB_x + A_yB_y + A_zB_z',
+      'multiply the matching parts and add them up',
+    ),
+    (
+      'And it is a scalar',
+      r'\vec{A} \cdot \vec{B} \in \mathbb{R}',
+      'the answer is a plain number, with no direction',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const dotAngleBrief = BriefSection(
   title: 'The sign is the angle',
-  body:
-      'The other formula for the same number is the two lengths times the '
-      'cosine of the angle between them. Lengths are always positive, so the '
-      'sign of a dot product is nothing but the sign of that cosine. Under '
-      'ninety degrees it is positive, over ninety it is negative, and exactly '
-      'ninety makes it zero. That last one is the fastest perpendicularity '
-      'check there is. For the angle itself, rearrange and take the inverse '
-      'cosine, and remember that the cosine is not the angle.',
-  formulas: [
-    ('Angle form', r'\vec{A} \cdot \vec{B} = |\vec{A}||\vec{B}|\cos\theta'),
+  picture: dotAnglePicture,
+  steps: [
+    (
+      'The same number, told another way',
+      'The dot product also equals the two lengths multiplied together, '
+          'times the cosine of the angle between the arrows.',
+    ),
+    (
+      'Lengths are always positive',
+      'So the only thing in that product that can be negative is the cosine. '
+          'The sign of a dot product IS the sign of the cosine.',
+    ),
+    (
+      'Which reads the angle straight off',
+      'Positive means the arrows are closing, under a square corner. '
+          'Negative means they are opening, past it. Zero means exactly square.',
+    ),
+    (
+      'That zero is the quickest test there is',
+      'For the angle itself, rearrange and take the inverse cosine. And '
+          'remember the cosine is not the angle.',
+    ),
+  ],
+  spoken: [
+    (
+      'Angle form',
+      r'\vec{A} \cdot \vec{B} = |\vec{A}||\vec{B}|\cos\theta',
+      'the two lengths, times the cosine of the angle between',
+    ),
     (
       'Rearranged for the angle',
       r'\theta = \cos^{-1}\!\left(\frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}\right)',
+      'divide by both lengths, then undo the cosine',
     ),
-    ('Perpendicular', r'\vec{A} \cdot \vec{B} = 0'),
+    (
+      'Square on',
+      r'\vec{A} \cdot \vec{B} = 0',
+      'zero means the two are at a square corner',
+    ),
   ],
-  figure: BriefFigure.dotAngle,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const projectionBrief = BriefSection(
-  title: "How much of a force lands on a member",
-  body:
-      'The component of a force along a direction is the length of its shadow '
-      'on that direction. Take the dot product and divide by the length of the '
-      'DIRECTION, not of the force. Leaving it undivided gives you the shadow '
-      'multiplied by the member length, which is not a force at all, and '
-      'dividing by the force instead gives you a number that forgot what it '
-      'was measuring. The sign survives: negative means the force runs back '
-      'along the member rather than out along it.',
-  formulas: [
+  title: 'How much of a force lands on a member',
+  picture: projectionPicture,
+  steps: [
+    (
+      'Think of a shadow',
+      'Shine a light straight down onto the member. The shadow the force '
+          'casts along it is how much of that force the member actually feels.',
+    ),
+    (
+      'Dot product, then divide by the MEMBER',
+      'The dot product gives the shadow multiplied by the member length. '
+          'Divide by the member length to get the shadow on its own.',
+    ),
+    (
+      'Dividing by the wrong one breaks it',
+      'Not dividing leaves you something that is not a force. Dividing by '
+          'the force gives a number that has forgotten what it measured.',
+    ),
+    (
+      'The sign still means something',
+      'Negative means the force runs back along the member instead of out '
+          'along it.',
+    ),
+  ],
+  spoken: [
     (
       'Scalar projection',
       r'\text{proj}_{\vec{B}}\vec{A} = \frac{\vec{A} \cdot \vec{B}}{|\vec{B}|}',
+      'the dot product, over the length of the direction',
     ),
-    ('Which is just', r'\vec{A} \cdot \hat{u}_B'),
+    (
+      'Which is just',
+      r'\vec{A} \cdot \hat{u}_B',
+      'the force dotted with the unit arrow along the member',
+    ),
   ],
-  figure: BriefFigure.projection,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -1875,64 +2005,121 @@ const projectionBrief = BriefSection(
 
 const rightHandBrief = BriefSection(
   title: 'Which way it turns, and why order matters',
-  body:
-      'A cross product is a VECTOR, and it points perpendicular to both of the '
-      'arrows that made it. Which of the two perpendicular directions is '
-      'settled by the right hand: fingers along the first arrow, curl them to '
-      'the second, and the thumb is the answer. Sweeping counterclockwise '
-      'brings it out of the page, clockwise sends it in. Swap the two arrows '
-      'and the answer flips, which is why a moment is r cross F and never the '
-      'other way. Two arrows on the same line cross to nothing.',
-  formulas: [
-    ('The moment of a force', r'\vec{M}_O = \vec{r} \times \vec{F}'),
-    ('Order flips it', r'\vec{A} \times \vec{B} = -(\vec{B} \times \vec{A})'),
-    ('And a vector with itself', r'\vec{A} \times \vec{A} = \vec{0}'),
+  picture: rightHandPicture,
+  steps: [
+    (
+      'This one gives back an arrow',
+      'Unlike the dot product, a cross product IS a vector. It points square '
+          'to both of the arrows that made it.',
+    ),
+    (
+      'Your right hand picks which way',
+      'Fingers along the first arrow, curl them toward the second, and your '
+          'thumb points the answer. Sweeping anticlockwise brings it out of the '
+          'page; clockwise sends it in.',
+    ),
+    (
+      'So the order is not a detail',
+      'Swap the two arrows and the answer flips over completely. That is why '
+          'a moment is r cross F, in that order, and never the other way.',
+    ),
+    (
+      'Two arrows on one line give nothing',
+      'There is no turn to measure, so the answer is zero.',
+    ),
   ],
-  figure: BriefFigure.rightHand,
+  spoken: [
+    (
+      'The moment of a force',
+      r'\vec{M}_O = \vec{r} \times \vec{F}',
+      'the arm crossed into the force, that way round',
+    ),
+    (
+      'Order flips it',
+      r'\vec{A} \times \vec{B} = -(\vec{B} \times \vec{A})',
+      'swapping them turns the answer round',
+    ),
+    (
+      'And a vector with itself',
+      r'\vec{A} \times \vec{A} = \vec{0}',
+      'no turn at all, so nothing',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const areaBrief = BriefSection(
   title: 'The parallelogram, and half of it',
-  body:
-      'The size of a cross product is the area of the parallelogram the two '
-      'arrows span. A triangle with those two edges is half of that, so a plot '
-      'bounded by them takes a division by two that the formula will not '
-      'remind you about. The sine is what accounts for the lean: multiplying '
-      'the two lengths on their own would give the box around the whole thing, '
-      'which is only right when the edges meet square.',
-  formulas: [
+  picture: areaPicture,
+  steps: [
+    (
+      'The size of a cross product is an area',
+      'Take the two arrows as two edges and slide them into a leaning box. '
+          'The cross product gives exactly that area.',
+    ),
+    (
+      'A triangle is half of it',
+      'A plot of land bounded by those same two edges is the other half cut '
+          'off. So it takes a divide by two the formula will not remind you '
+          'about.',
+    ),
+    (
+      'The sine accounts for the lean',
+      'Just multiplying the two lengths would give the upright box round the '
+          'whole thing. That is only right when the edges meet at a square '
+          'corner.',
+    ),
+  ],
+  spoken: [
     (
       'Parallelogram',
       r'|\vec{A} \times \vec{B}| = |\vec{A}||\vec{B}|\sin\theta',
+      'the two lengths, times the sine of the angle between',
     ),
-    ('Triangle', r'\tfrac{1}{2}|\vec{A} \times \vec{B}|'),
+    ('Triangle', r'\tfrac{1}{2}|\vec{A} \times \vec{B}|', 'half of that area'),
   ],
-  figure: BriefFigure.crossArea,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const cofactorBrief = BriefSection(
   title: 'Plus, minus, plus',
-  body:
-      'The cross product comes out of a three by three determinant with i, j '
-      'and k across the top. Expanding it gives three components and the '
-      'middle one is SUBTRACTED. That is the whole of the tip and it is worth '
-      'the space: a minus in front of a bracket that already holds a negative '
-      'number is the single most reliable way to hand in a moment that points '
-      'the wrong way. Whatever comes out is a vector, so if the question '
-      'wanted a size, take the magnitude afterwards.',
-  formulas: [
+  picture: cofactorPicture,
+  steps: [
     (
-      'The determinant',
-      r'\vec{A} \times \vec{B} = \begin{vmatrix} \hat{i} & \hat{j} & \hat{k} \\ A_x & A_y & A_z \\ B_x & B_y & B_z \end{vmatrix}',
+      'Three terms come out',
+      'The cross product is worked out from a three by three grid with i, j '
+          'and k across the top. Expanding it gives one term for each.',
+    ),
+    (
+      'The middle one is taken away',
+      'Not added. That single minus sign is the whole of the tip, and it is '
+          'the reason so many moments come out pointing the wrong way.',
+    ),
+    (
+      'A minus in front of a minus',
+      'The bracket it sits in often already holds a negative number. Two '
+          'negatives and a rushed line is exactly where the sign is lost.',
+    ),
+    (
+      'The answer is still a vector',
+      'If the question asked for a size, take the magnitude afterwards.',
+    ),
+  ],
+  spoken: [
+    (
+      'Set out as a grid',
+      r'\hat{i},\ \hat{j},\ \hat{k} \;\text{on top, then each arrow on a row}',
+      'the directions on top, then each arrow on its own row',
     ),
     (
       'Expanded',
       r'(A_yB_z - A_zB_y)\hat{i} - (A_xB_z - A_zB_x)\hat{j} + (A_xB_y - A_yB_x)\hat{k}',
+      'plus, then minus, then plus',
     ),
   ],
-  figure: BriefFigure.cofactor,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -1940,55 +2127,108 @@ const cofactorBrief = BriefSection(
 
 const referencesBrief = BriefSection(
   title: 'What moves when you copy',
-  body:
-      'A plain reference like A1 is relative: copy the formula somewhere else '
-      'and it shifts by however far you moved. A dollar sign pins whatever '
-      'comes straight after it, so \$A\$1 never moves, A\$1 keeps its row and '
-      'slides across, and \$A1 keeps its column and slides down. This is the '
-      'most tested spreadsheet idea on the exam and the missing dollar sign is '
-      'the most common mistake made on it: the rate drifts down the column and '
-      'every row under the first is quietly wrong.',
-  formulas: [
-    ('Moves with the copy', r'\text{A1}'),
-    ('Pinned completely', r'\text{\$A\$1}'),
-    ('Row pinned, column free', r'\text{A\$1}'),
-    ('Column pinned, row free', r'\text{\$A1}'),
+  picture: referencesPicture,
+  steps: [
+    (
+      'A plain reference slides',
+      'Write B1 in a cell and copy the formula one row down. It quietly '
+          'becomes B2. Copy it across and it becomes C1. It shifts by however '
+          'far you moved it.',
+    ),
+    (
+      'A dollar sign nails it down',
+      'Whatever comes straight after a dollar sign cannot move. So B\$1 '
+          'always points at row 1, and \$B1 always points at column B.',
+    ),
+    (
+      'Two dollar signs pin it completely',
+      'A fixed number, like an interest rate in one cell, wants both.',
+    ),
+    (
+      'The mistake it causes',
+      'A missing dollar sign lets the rate drift down the column. The first '
+          'row is right and every row under it is quietly wrong.',
+    ),
   ],
-  figure: BriefFigure.references,
+  spoken: [
+    ('Moves with the copy', r'\text{A1}', 'slides in both directions'),
+    ('Pinned completely', r'\text{\$A\$1}', 'never moves at all'),
+    ('Row pinned, column free', r'\text{A\$1}', 'slides across, never down'),
+    ('Column pinned, row free', r'\text{\$A1}', 'slides down, never across'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, spreadsheet section',
 );
 
 const precedenceBrief = BriefSection(
   title: 'A sheet does not read left to right',
-  body:
-      'Formulas follow the same precedence as algebra: brackets first, then '
-      'powers, then multiplication and division, then addition and '
-      'subtraction. Anything of equal rank runs left to right. So a formula '
-      'adding one cell to another divided by a third does the division first, '
-      'whatever the reading order suggests, and brackets are the only way to '
-      'change that.',
-  formulas: [
-    ('Times before plus', r'\text{=2+3*4} \;\Rightarrow\; 14'),
-    ('Brackets force it', r'\text{=(2+3)*4} \;\Rightarrow\; 20'),
+  picture: precedencePicture,
+  steps: [
+    (
+      'There is an order, and it is not reading order',
+      'Brackets first. Then powers. Then multiply and divide. Then add and '
+          'subtract. Anything of equal rank runs left to right.',
+    ),
+    (
+      'So the times jumps the queue',
+      'Two plus three times four is 14, not 20, however it reads on the '
+          'page. The multiply happens before the add.',
+    ),
+    (
+      'Brackets are the only override',
+      'Put the add in brackets and it goes first. Nothing else changes the '
+          'order.',
+    ),
   ],
-  figure: BriefFigure.precedence,
+  spoken: [
+    (
+      'Times before plus',
+      r'\text{=2+3*4} \;\Rightarrow\; 14',
+      'three fours are twelve, then add two',
+    ),
+    (
+      'Brackets force it',
+      r'\text{=(2+3)*4} \;\Rightarrow\; 20',
+      'five, then four fives',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, spreadsheet section',
 );
 
 const functionsBrief = BriefSection(
-  title: 'What the common functions actually return',
-  body:
-      'SUM adds a range, AVERAGE takes its mean, MAX and MIN pull the biggest '
-      'and smallest, and COUNT counts only the cells holding NUMBERS, so a '
-      'cell of text inside the range is skipped. A colon means every cell from '
-      'one end to the other. IF checks its test first and hands back the '
-      'second argument when the test passes and the third when it fails; it '
-      'returns that value, never a 1 for true.',
-  formulas: [
-    ('A range', r'\text{=SUM(B1:B3)}'),
-    ('Test, then true, then false', r'\text{=IF(A1>=10, A1*2, A1+5)}'),
+  title: 'What the common functions hand back',
+  picture: functionsPicture,
+  steps: [
+    (
+      'The simple ones do what they say',
+      'SUM adds a range up. AVERAGE takes its mean. MAX and MIN pull the '
+          'biggest and the smallest out of it.',
+    ),
+    (
+      'COUNT only counts numbers',
+      'Look at the picture: five cells, but two of them hold words. COUNT '
+          'sees three. Text inside the range is skipped in silence.',
+    ),
+    (
+      'A colon means everything between',
+      'B1 colon B3 is B1, B2 and B3, not just the two ends.',
+    ),
+    (
+      'IF hands back a value, not a true',
+      'It checks the test, then gives you the second thing when the test '
+          'passes and the third when it fails. It never returns a 1.',
+    ),
   ],
-  figure: BriefFigure.functions,
+  spoken: [
+    ('A range', r'\text{=SUM(B1:B3)}', 'add up every cell from B1 to B3'),
+    (
+      'Test, then true, then false',
+      r'\text{=IF(A1>=10, A1*2, A1+5)}',
+      'if the test passes give the middle one, otherwise the last one',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, spreadsheet section',
 );
 
@@ -1996,54 +2236,119 @@ const functionsBrief = BriefSection(
 
 const tracingBrief = BriefSection(
   title: 'Trace it, one row per pass',
-  body:
-      'Every routine is built out of three things: statements in order, a '
-      'choice between paths, and a repeat. On this exam you trace them by '
-      'hand, and the way to do that is to write the variables in a column and '
-      'update them pass by pass rather than trying to hold the whole loop in '
-      'your head. A counted loop from one to four runs FOUR times, because '
-      'both ends are included, and the off-by-one is the trap. The answer is '
-      'usually the last row of the table, not the number of rows.',
-  formulas: [
-    ('Runs four times', r'\text{FOR i = 1 TO 4}'),
-    ('The rows it makes', r'1,\; 3,\; 6,\; 10'),
+  picture: tracingPicture,
+  steps: [
+    (
+      'Only three things ever happen',
+      'Steps in order, a choice between paths, and a repeat. Every routine '
+          'on this exam is built out of those three.',
+    ),
+    (
+      'Write a table, not a guess',
+      'Put the variables in columns and fill in one row for every pass. '
+          'Trying to hold the whole loop in your head is where it goes wrong.',
+    ),
+    (
+      'A counted loop includes both ends',
+      'FOR i = 1 TO 4 runs FOUR times, not three. Both ends are in.',
+    ),
+    (
+      'The answer is the last row',
+      'It is almost never the number of rows. Look at what the variable '
+          'holds at the end, not at how many times you went round.',
+    ),
   ],
-  figure: BriefFigure.tracing,
+  spoken: [
+    (
+      'Runs four times',
+      r'\text{FOR i = 1 TO 4}',
+      'one, two, three, four: both ends counted',
+    ),
+    (
+      'The rows it makes',
+      r'1,\; 3,\; 6,\; 10',
+      'the running total after each pass',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, computational tools',
 );
 
 const selectionBrief = BriefSection(
   title: 'The first true condition wins',
-  body:
-      'A chain of conditions is checked from the top down and it stops at the '
-      'first one that holds. Everything below is skipped, including a later '
-      'test that would also have been true, so a chain is not a search for the '
-      'best fit. The closing ELSE only runs when every test above it has '
-      'failed, and reading the whole chain before deciding is how people end '
-      'up there by mistake. Watch the boundaries: greater than excludes the '
-      'number itself, greater than or equal to includes it.',
-  formulas: [
-    ('Checked in this order', r'\text{IF} \to \text{ELSE IF} \to \text{ELSE}'),
-    ('x = 7 lands here', r'\text{ELSE IF x > 5} \;\Rightarrow\; \text{y = 2}'),
+  picture: selectionPicture,
+  steps: [
+    (
+      'Checked from the top down',
+      'The machine tries each test in order and stops dead at the first one '
+          'that holds. Everything below is skipped.',
+    ),
+    (
+      'Even a later test that is also true',
+      'A chain is not a search for the best match. Look at the picture: x '
+          'is 7, which passes two of the tests, and only the first one runs.',
+    ),
+    (
+      'ELSE is the catch-all',
+      'It only runs when every test above it has failed. Reading the whole '
+          'chain first and picking the best fit is how people land here by '
+          'mistake.',
+    ),
+    (
+      'Watch the boundary',
+      'Greater than leaves the number itself out. Greater than or equal to '
+          'takes it in.',
+    ),
   ],
-  figure: BriefFigure.selection,
+  spoken: [
+    (
+      'Checked in this order',
+      r'\text{IF} \to \text{ELSE IF} \to \text{ELSE}',
+      'top to bottom, stopping at the first one that holds',
+    ),
+    (
+      'x = 7 lands here',
+      r'\text{ELSE IF x > 5} \;\Rightarrow\; \text{y = 2}',
+      'the first test it passes, and no other',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, computational tools',
 );
 
 const iterationBrief = BriefSection(
   title: 'A WHILE checks before it acts',
-  body:
-      'A WHILE loop tests its condition before every pass, including the very '
-      'first one. That has two consequences people lose marks on. The value '
-      'left in the variable at the end is the one that BROKE the condition, '
-      'not the last one that satisfied it, and nothing is capped at the limit '
-      'in the condition. And if the condition is already false when the loop '
-      'is reached, the body never runs at all.',
-  formulas: [
-    ('Doubling from 1 while under 100', r'1,\;2,\;4,\;8,\;16,\;32,\;64,\;128'),
-    ('What is left', r'x = 128'),
+  picture: iterationPicture,
+  steps: [
+    (
+      'The test comes first, every time',
+      'Including the very first pass. If the condition is already false when '
+          'the loop is reached, the body never runs at all.',
+    ),
+    (
+      'So the value left behind broke the test',
+      'Doubling while under 100 does not stop at 64. It doubles to 128, the '
+          'test fails, and 128 is what is left in the variable.',
+    ),
+    (
+      'Nothing is capped at the limit',
+      'The number in the condition is a gate to pass through, not a ceiling '
+          'to stop at.',
+    ),
   ],
-  figure: BriefFigure.iteration,
+  spoken: [
+    (
+      'Doubling from 1 while under 100',
+      r'1,\;2,\;4,\;8,\;16,\;32,\;64,\;128',
+      'each pass doubles, and the last one goes over',
+    ),
+    (
+      'What is left',
+      r'x = 128',
+      'the value that failed the test, not the last one that passed',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, computational tools',
 );
 
@@ -2051,53 +2356,121 @@ const iterationBrief = BriefSection(
 
 const newtonBrief = BriefSection(
   title: 'Slide down the tangent',
-  body:
-      "Newton's method is a picture before it is a formula. Stand on the curve "
-      'at your guess, follow the tangent down to the axis, and stand there '
-      'instead. That is what dividing the function by its slope does. Nearer a '
-      'root every curve is almost straight, which is why the method closes in '
-      'so fast once it is close, and why a nearly flat slope is a disaster: '
-      'the tangent then meets the axis a very long way from anywhere useful.',
-  formulas: [
-    ('One iteration', r"x_{j+1} = x_j - \frac{f(x_j)}{f'(x_j)}"),
-    ('From 4 on x squared minus 4', r'4 - \frac{12}{8} = 2.5'),
+  picture: newtonPicture,
+  steps: [
+    (
+      'It is a picture before it is a formula',
+      'Stand on the curve at your guess. Follow the straight line that just '
+          'touches it there, all the way down to the axis. Stand at that new '
+          'spot and do it again.',
+    ),
+    (
+      'That slide is what the formula does',
+      'Dividing the function by its slope is exactly how far along the '
+          'tangent takes you.',
+    ),
+    (
+      'Why it closes in so fast',
+      'Zoom in near a root and any smooth curve looks almost straight, so '
+          'the tangent lands very close to the truth.',
+    ),
+    (
+      'And why a flat slope ruins it',
+      'A nearly flat tangent runs a very long way before it meets the axis, '
+          'and you land somewhere useless.',
+    ),
   ],
-  figure: BriefFigure.newton,
+  spoken: [
+    (
+      'One iteration',
+      r"x_{j+1} = x_j - \frac{f(x_j)}{f'(x_j)}",
+      'your guess, minus the height divided by the slope',
+    ),
+    (
+      'From 4 on x squared minus 4',
+      r'4 - \frac{12}{8} = 2.5',
+      'height twelve, slope eight, so slide back one and a half',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 61',
 );
 
 const bisectionBrief = BriefSection(
   title: 'Opposite sides, then halve it',
-  body:
-      'Bisection asks for one thing: the function on opposite sides of the '
-      'axis at the two ends of the interval, which is the same as the two '
-      'values multiplying to something negative. Then it halves the interval '
-      'and keeps whichever half still has the sign change. Same-signed ends do '
-      'NOT mean there is no root in there, they mean this method cannot be '
-      'started, which is a different thing. An interval holding two roots '
-      'fails the test for exactly that reason.',
-  formulas: [
-    ('The whole requirement', r'f(a)\cdot f(b) < 0'),
-    ('Then keep the half that still has it', r'[a, m] \text{ or } [m, b]'),
+  picture: bisectionPicture,
+  steps: [
+    (
+      'It asks for one thing only',
+      'The curve below the axis at one end of your interval and above it at '
+          'the other. Then it has to cross somewhere in between.',
+    ),
+    (
+      'The test is a multiplication',
+      'Multiply the two end values. A negative answer means one was positive '
+          'and one negative, which is exactly the sign change you need.',
+    ),
+    (
+      'Then cut it in half, over and over',
+      'Check the middle, keep whichever half still has the sign change, '
+          'repeat. The gap halves every time.',
+    ),
+    (
+      'Same signs does not mean no root',
+      'It means this method cannot be STARTED there, which is a different '
+          'thing. An interval holding two roots fails the test for that reason.',
+    ),
   ],
-  figure: BriefFigure.bisection,
+  spoken: [
+    (
+      'The whole requirement',
+      r'f(a)\cdot f(b) < 0',
+      'the two end values multiply to something negative',
+    ),
+    (
+      'Then keep the half that still has it',
+      r'[a, m] \text{ or } [m, b]',
+      'whichever side of the middle still changes sign',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 61',
 );
 
 const methodChoiceBrief = BriefSection(
   title: 'Fast, or guaranteed',
-  body:
-      "Newton is fast and demanding: it wants the derivative and a guess that "
-      'is already near the root. Give it either a poor guess or a slope near '
-      'zero and it can wander off or swing back and forth without settling. '
-      'Bisection is slow and undemanding: no derivative, no good guess, just a '
-      'sign change to start from, and it cannot fail once it has one. Which '
-      'you reach for is decided by what you have, not by which is cleverer.',
-  formulas: [
-    ('Newton wants', r"f'(x) \text{ and a close } x_0"),
-    ('Bisection wants', r'f(a)\cdot f(b) < 0'),
+  picture: methodChoicePicture,
+  steps: [
+    (
+      'Newton is fast and fussy',
+      'It wants the slope AND a guess that is already near the root. Give it '
+          'a poor guess or a nearly flat slope and it can wander off or swing '
+          'back and forth without ever settling.',
+    ),
+    (
+      'Bisection is slow and reliable',
+      'No slope needed and no good guess needed. Just two ends with opposite '
+          'signs. Once it has that, it cannot fail.',
+    ),
+    (
+      'So the question is what you have',
+      'Not which method is cleverer. Read what the problem hands you and '
+          'pick the one whose requirements are met.',
+    ),
   ],
-  figure: BriefFigure.methodChoice,
+  spoken: [
+    (
+      'Newton wants',
+      r"f'(x) \text{ and a close } x_0",
+      'the slope, and a starting guess near the answer',
+    ),
+    (
+      'Bisection wants',
+      r'f(a)\cdot f(b) < 0',
+      'only two ends on opposite sides of the axis',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 61',
 );
 

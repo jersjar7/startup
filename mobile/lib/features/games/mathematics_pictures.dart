@@ -15,11 +15,14 @@ import '../../core/theme/app_theme.dart';
 import '../shared/widgets/engineering_grid.dart';
 import 'discriminant_gate_game.dart' show Para, ParaPainter;
 import 'calculus_figures.dart';
+import 'cross_figures.dart' show Region, RegionPainter, Turn, TurnGlyphPainter;
 import 'grid_figures.dart';
 import 'mechanics_pictures.dart' show ConceptPicture, ConceptPair;
 import 'oblique_figures.dart';
+import 'root_figures.dart';
 import 'trig_figures.dart';
 import 'unit_circle_figures.dart';
+import 'vector_figures.dart';
 
 // ---------------------------------------------------------------------------
 // Shared helpers
@@ -274,8 +277,7 @@ Widget setupPicture() => const ConceptPicture(
     knownSides: {'a', 'b', 'c'},
     knownAngles: {'A', 'B', 'C'},
   ),
-  caption:
-      'every side is labelled with the small letter of the angle facing it',
+  caption: 'every side is labeled with the small letter of the angle facing it',
   height: 195,
 );
 
@@ -436,6 +438,181 @@ Widget bothSidesPicture() => const ConceptPair(
   leftCaption: 'both sides shoot up: the limit is that infinity',
   rightCaption: 'one up, one down: there is no limit at all',
   height: 185,
+);
+
+// ---------------------------------------------------------------------------
+// 11 vectors
+
+Widget vectorAddPicture() => const ConceptPicture(
+  painter: VectorPainter(
+    arrows: [
+      Arrow(Vec(3, 1), label: 'A', color: AppColors.info),
+      Arrow(Vec(4, 4), from: Vec(3, 1), label: 'B', color: AppColors.forest),
+      Arrow(Vec(4, 4), label: 'A + B', color: AppColors.ember),
+    ],
+    span: 5,
+    lattice: true,
+  ),
+  caption:
+      'lay the second arrow on the tip of the first. The answer runs start to finish',
+  height: 220,
+);
+
+Widget unitVectorPicture() => const ConceptPicture(
+  painter: VectorPainter(
+    arrows: [
+      Arrow(Vec(3, 4), label: 'A, five long', color: AppColors.info),
+      Arrow(Vec(0.6, 0.8), label: 'one long', color: AppColors.ember),
+    ],
+    span: 5,
+    lattice: true,
+  ),
+  caption: 'the same direction, shrunk to a length of exactly one',
+  height: 220,
+);
+
+Widget magnitudePicture() => const ConceptPicture(
+  painter: _LengthPainter(),
+  caption:
+      'the arrow is the long side of a right triangle, so its length is never the two parts added',
+  height: 205,
+);
+
+// ---------------------------------------------------------------------------
+// 12 dot product
+
+Widget dotProductPicture() => const ConceptPicture(
+  painter: _PairUpPainter(),
+  caption:
+      'across pairs with across, up pairs with up. Multiply the pairs and add',
+  height: 195,
+);
+
+Widget dotAnglePicture() => const ConceptPicture(
+  painter: _DotSignPainter(),
+  caption: 'the sign of the answer is the sign of the cosine, and nothing else',
+  height: 195,
+);
+
+Widget projectionPicture() => const ConceptPicture(
+  painter: _ShadowPainter(),
+  caption:
+      'shine a light straight down on the member. The shadow is how much of the force lands on it',
+  height: 200,
+);
+
+// ---------------------------------------------------------------------------
+// 13 cross product
+
+Widget rightHandPicture() => const ConceptPair(
+  left: TurnGlyphPainter(turn: Turn.counter, color: AppColors.forest),
+  right: TurnGlyphPainter(turn: Turn.clockwise, color: AppColors.ember),
+  leftCaption: 'sweeping this way brings the answer out of the page',
+  rightCaption: 'sweeping the other way sends it in',
+  height: 175,
+);
+
+Widget areaPicture() => const ConceptPair(
+  left: RegionPainter(
+    u: Vec(4, 0),
+    v: Vec(1.6, 3),
+    region: Region.parallelogram,
+    color: AppColors.info,
+  ),
+  right: RegionPainter(
+    u: Vec(4, 0),
+    v: Vec(1.6, 3),
+    region: Region.triangle,
+    color: AppColors.forest,
+  ),
+  leftCaption: 'the cross product gives THIS area',
+  rightCaption: 'a triangle on the same two edges is half of it',
+  height: 185,
+);
+
+Widget cofactorPicture() => const ConceptPicture(
+  painter: _SignRowPainter(),
+  caption: 'three terms come out, and the middle one is taken away',
+  height: 185,
+);
+
+// ---------------------------------------------------------------------------
+// 14 spreadsheets
+
+Widget referencesPicture() => const ConceptPicture(
+  painter: _RefPainter(),
+  caption:
+      'copy a formula down and a plain reference slides with it. A dollar sign nails it down',
+  height: 215,
+);
+
+Widget precedencePicture() => const ConceptPicture(
+  painter: _PrecedencePainter(),
+  caption:
+      'the same four symbols, read two ways. Only brackets change the order',
+  height: 190,
+);
+
+Widget functionsPicture() => const ConceptPicture(
+  painter: _CountPainter(),
+  caption: 'five cells, but COUNT only sees the numbers in them',
+  height: 195,
+);
+
+// ---------------------------------------------------------------------------
+// 15 programming
+
+Widget tracingPicture() => const ConceptPicture(
+  painter: _TracePainter(),
+  caption:
+      'one row per pass. The answer is usually the last row, not how many rows there are',
+  height: 215,
+);
+
+Widget selectionPicture() => const ConceptPicture(
+  painter: _ChainPainter(),
+  caption:
+      'checked from the top down, and it stops dead at the first one that holds',
+  height: 205,
+);
+
+Widget iterationPicture() => const ConceptPicture(
+  painter: _WhilePainter(),
+  caption:
+      'the test runs BEFORE each pass, so the value left behind is the one that broke it',
+  height: 200,
+);
+
+// ---------------------------------------------------------------------------
+// 16 numerical methods
+
+const _rootPoly = Poly([-4, 0, 1]); // x squared minus four
+
+Widget newtonPicture() => const ConceptPicture(
+  painter: RootPainter(poly: _rootPoly, x0: 0.2, x1: 4.4, tangentAt: 4),
+  caption:
+      'stand on the curve, slide down the tangent to the axis, and stand there instead',
+  height: 215,
+);
+
+Widget bisectionPicture() => const ConceptPicture(
+  painter: RootPainter(
+    poly: _rootPoly,
+    x0: -0.4,
+    x1: 4.4,
+    brackets: [(1, 4)],
+    truthBracket: 0,
+    revealed: true,
+  ),
+  caption:
+      'one end below the axis, one end above. Somewhere between them it must cross',
+  height: 215,
+);
+
+Widget methodChoicePicture() => const ConceptPicture(
+  painter: _ChoicePainter(),
+  caption: 'what you have decides the method, not which one is cleverer',
+  height: 190,
 );
 
 // ---------------------------------------------------------------------------
@@ -1772,6 +1949,629 @@ class _BlowUpPainter extends CustomPainter {
   bool shouldRepaint(_BlowUpPainter old) => old.agree != agree;
 }
 
+/// An arrow and the right triangle underneath it.
+class _LengthPainter extends CustomPainter {
+  const _LengthPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final o = Offset(size.width * 0.2, size.height * 0.74);
+    final tip = Offset(size.width * 0.62, size.height * 0.22);
+    final foot = Offset(tip.dx, o.dy);
+
+    canvas.drawPath(
+      Path()
+        ..moveTo(o.dx, o.dy)
+        ..lineTo(foot.dx, foot.dy)
+        ..lineTo(tip.dx, tip.dy)
+        ..close(),
+      Paint()..color = AppColors.spring.withValues(alpha: 0.3),
+    );
+    canvas.drawLine(o, foot, _stroke(AppColors.info, 3));
+    canvas.drawLine(foot, tip, _stroke(AppColors.forest, 3));
+    _arrow(canvas, o, tip, _stroke(AppColors.ember, 3));
+
+    _at(
+      canvas,
+      'across, 3',
+      Offset((o.dx + foot.dx) / 2 - 26, o.dy + 8),
+      size: 11,
+      color: AppColors.info,
+    );
+    _at(
+      canvas,
+      'up, 4',
+      Offset(foot.dx + 8, (foot.dy + tip.dy) / 2 - 7),
+      size: 11,
+      color: AppColors.forest,
+    );
+    _at(
+      canvas,
+      'length 5, not 7',
+      Offset(o.dx - 4, size.height * 0.28),
+      size: 11.5,
+      color: AppColors.ember,
+    );
+    _at(
+      canvas,
+      'square them, add, then take the root',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 11,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_LengthPainter old) => false;
+}
+
+/// Components lining up with their own partners.
+class _PairUpPainter extends CustomPainter {
+  const _PairUpPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const a = ['3', '2'];
+    const b = ['4', '5'];
+    const names = ['across', 'up'];
+    final x1 = size.width * 0.2, x2 = size.width * 0.52;
+    for (var i = 0; i < 2; i++) {
+      final y = size.height * (0.26 + i * 0.26);
+      _box(
+        canvas,
+        Rect.fromCenter(center: Offset(x1, y), width: 42, height: 32),
+        a[i],
+        fill: AppColors.info.withValues(alpha: 0.3),
+      );
+      _at(canvas, 'x', Offset((x1 + x2) / 2, y), center: true, size: 12);
+      _box(
+        canvas,
+        Rect.fromCenter(center: Offset(x2, y), width: 42, height: 32),
+        b[i],
+        fill: AppColors.forest.withValues(alpha: 0.3),
+      );
+      _at(canvas, names[i], Offset(size.width * 0.04, y - 7), size: 10.5);
+      _at(
+        canvas,
+        '= ${int.parse(a[i]) * int.parse(b[i])}',
+        Offset(x2 + 32, y - 7),
+        size: 12,
+      );
+    }
+    final y3 = size.height * 0.74;
+    canvas.drawLine(
+      Offset(x2 + 26, y3 - 12),
+      Offset(x2 + 74, y3 - 12),
+      _stroke(AppColors.charcoal.withValues(alpha: 0.5), 1.5),
+    );
+    _at(
+      canvas,
+      '22, a plain number',
+      Offset(x2 + 26, y3 - 4),
+      size: 11.5,
+      color: AppColors.ember,
+    );
+    _at(
+      canvas,
+      'if an i or a j survives, you did the other product',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 10.5,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_PairUpPainter old) => false;
+}
+
+/// Three pairs of arrows: closing, square, opening, with the sign under each.
+class _DotSignPainter extends CustomPainter {
+  const _DotSignPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const cases = [
+      (0.6, 'under square', 'plus', AppColors.forest),
+      (math.pi / 2, 'square on', 'zero', AppColors.info),
+      (2.3, 'past square', 'minus', AppColors.error),
+    ];
+    final w = size.width / 3;
+    final r = math.min(w * 0.3, size.height * 0.22);
+    for (final (i, (angle, name, sign, tone)) in cases.indexed) {
+      final c = Offset(w * (i + 0.5), size.height * 0.4);
+      _arrow(canvas, c, c + Offset(r, 0), _stroke(AppColors.charcoal, 2.5));
+      _arrow(
+        canvas,
+        c,
+        c + Offset(r * math.cos(angle), -r * math.sin(angle)),
+        _stroke(tone, 2.5),
+      );
+      _at(
+        canvas,
+        name,
+        Offset(c.dx, size.height * 0.68),
+        center: true,
+        size: 10.5,
+      );
+      _at(
+        canvas,
+        sign,
+        Offset(c.dx, size.height * 0.82),
+        center: true,
+        size: 12.5,
+        color: tone,
+      );
+    }
+    _at(
+      canvas,
+      'zero is the fastest square-corner test there is',
+      Offset(size.width / 2, size.height - 12),
+      center: true,
+      size: 10.5,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_DotSignPainter old) => false;
+}
+
+/// A force, a member, and the shadow one casts on the other.
+class _ShadowPainter extends CustomPainter {
+  const _ShadowPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final o = Offset(size.width * 0.16, size.height * 0.66);
+    final along = Offset(size.width * 0.82, size.height * 0.66);
+    final tip = Offset(size.width * 0.58, size.height * 0.22);
+
+    _arrow(canvas, o, along, _stroke(AppColors.charcoal, 2.5));
+    _at(canvas, 'the member', Offset(along.dx - 74, along.dy + 8), size: 11);
+    _arrow(canvas, o, tip, _stroke(AppColors.ember, 3));
+    _at(
+      canvas,
+      'the force',
+      Offset(tip.dx + 6, tip.dy - 4),
+      size: 11,
+      color: AppColors.ember,
+    );
+
+    final foot = Offset(tip.dx, o.dy);
+    canvas.drawLine(
+      tip,
+      foot,
+      _stroke(AppColors.charcoal.withValues(alpha: 0.35), 1.5),
+    );
+    canvas.drawLine(o, foot, _stroke(AppColors.forest, 5));
+    _at(
+      canvas,
+      'the shadow',
+      Offset((o.dx + foot.dx) / 2 - 30, o.dy + 10),
+      size: 11,
+      color: AppColors.forest,
+    );
+    _at(
+      canvas,
+      'divide by the length of the MEMBER, not the force',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 10.5,
+      color: AppColors.ember,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_ShadowPainter old) => false;
+}
+
+/// The three cofactor terms with their signs.
+class _SignRowPainter extends CustomPainter {
+  const _SignRowPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const parts = [
+      ('+', 'i part', AppColors.forest),
+      ('-', 'j part', AppColors.error),
+      ('+', 'k part', AppColors.forest),
+    ];
+    final w = size.width / 3;
+    for (final (i, (sign, name, tone)) in parts.indexed) {
+      final c = Offset(w * (i + 0.5), size.height * 0.42);
+      _box(
+        canvas,
+        Rect.fromCenter(center: c, width: w * 0.62, height: 46),
+        name,
+        fill: AppColors.cream,
+        size: 12,
+      );
+      _at(
+        canvas,
+        sign,
+        Offset(c.dx, c.dy - 40),
+        center: true,
+        size: 20,
+        color: tone,
+      );
+    }
+    _at(
+      canvas,
+      'the middle term is SUBTRACTED',
+      Offset(size.width / 2, size.height * 0.76),
+      center: true,
+      size: 12,
+      color: AppColors.error,
+    );
+    _at(
+      canvas,
+      'a minus in front of a minus points it the wrong way',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 10,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_SignRowPainter old) => false;
+}
+
+/// A formula copied down a column, with and without a dollar sign.
+class _RefPainter extends CustomPainter {
+  const _RefPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final colW = size.width * 0.38;
+    const rows = 3;
+    final h = 28.0;
+    for (var side = 0; side < 2; side++) {
+      final x = size.width * (side == 0 ? 0.06 : 0.54);
+      final pinned = side == 1;
+      _at(
+        canvas,
+        pinned ? 'with a dollar sign' : 'plain',
+        Offset(x, size.height * 0.14),
+        size: 11,
+        color: pinned ? AppColors.forest : AppColors.error,
+      );
+      for (var r = 0; r < rows; r++) {
+        final y = size.height * 0.26 + r * (h + 4);
+        _box(
+          canvas,
+          Rect.fromLTWH(x, y, colW, h),
+          pinned ? 'B\$1' : 'B${r + 1}',
+          fill: pinned
+              ? AppColors.spring.withValues(alpha: 0.45)
+              : AppColors.cream,
+          size: 12,
+        );
+      }
+      _at(
+        canvas,
+        pinned ? 'all point at B1' : 'each one slides',
+        Offset(x, size.height * 0.26 + rows * (h + 4) + 6),
+        size: 10.5,
+        color: pinned ? AppColors.forest : AppColors.error,
+      );
+    }
+    _at(
+      canvas,
+      'the missing dollar sign is the commonest sheet mistake',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 10.5,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_RefPainter old) => false;
+}
+
+/// The same formula with and without brackets.
+class _PrecedencePainter extends CustomPainter {
+  const _PrecedencePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    void row(
+      double y,
+      String formula,
+      String order,
+      String answer,
+      Color tone,
+    ) {
+      _box(
+        canvas,
+        Rect.fromLTWH(size.width * 0.08, y, size.width * 0.4, 34),
+        formula,
+        fill: AppColors.cream,
+        size: 12.5,
+      );
+      _arrow(
+        canvas,
+        Offset(size.width * 0.5, y + 17),
+        Offset(size.width * 0.6, y + 17),
+        _stroke(tone, 2.2),
+      );
+      _at(
+        canvas,
+        answer,
+        Offset(size.width * 0.64, y + 9),
+        size: 14,
+        color: tone,
+      );
+      _at(canvas, order, Offset(size.width * 0.08, y + 38), size: 10.5);
+    }
+
+    row(
+      size.height * 0.18,
+      '= 2 + 3 x 4',
+      'the times runs first',
+      '14',
+      AppColors.ember,
+    );
+    row(
+      size.height * 0.58,
+      '= (2 + 3) x 4',
+      'brackets go first',
+      '20',
+      AppColors.forest,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_PrecedencePainter old) => false;
+}
+
+/// Five cells, two of them text, and what COUNT sees.
+class _CountPainter extends CustomPainter {
+  const _CountPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const cells = [
+      ('12', true),
+      ('7', true),
+      ('n/a', false),
+      ('40', true),
+      ('none', false),
+    ];
+    final w = math.min(52.0, (size.width - 30) / 5);
+    var x = size.width / 2 - (5 * w + 4 * 5) / 2;
+    final y = size.height * 0.3;
+    for (final (text, number) in cells) {
+      _box(
+        canvas,
+        Rect.fromLTWH(x, y, w, 36),
+        text,
+        fill: number
+            ? AppColors.spring.withValues(alpha: 0.45)
+            : AppColors.cream,
+        size: 12,
+      );
+      x += w + 5;
+    }
+    _at(
+      canvas,
+      'COUNT sees 3, not 5',
+      Offset(size.width / 2, y + 56),
+      center: true,
+      size: 12,
+      color: AppColors.ember,
+    );
+    _at(
+      canvas,
+      'text in the range is skipped',
+      Offset(size.width / 2, y + 76),
+      center: true,
+      size: 11,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_CountPainter old) => false;
+}
+
+/// A hand trace: one row per pass through the loop.
+class _TracePainter extends CustomPainter {
+  const _TracePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const rows = [('1', '1'), ('2', '3'), ('3', '6'), ('4', '10')];
+    final x = size.width * 0.24;
+    final w = size.width * 0.52;
+    _at(canvas, 'i', Offset(x + w * 0.2, size.height * 0.12), size: 11);
+    _at(canvas, 'total', Offset(x + w * 0.62, size.height * 0.12), size: 11);
+    for (final (k, (i, total)) in rows.indexed) {
+      final y = size.height * 0.24 + k * 30;
+      final last = k == rows.length - 1;
+      _box(
+        canvas,
+        Rect.fromLTWH(x, y, w, 26),
+        '',
+        fill: last ? AppColors.spring.withValues(alpha: 0.5) : AppColors.cream,
+        size: 12,
+      );
+      _at(canvas, i, Offset(x + w * 0.2, y + 6), size: 12);
+      _at(canvas, total, Offset(x + w * 0.62, y + 6), size: 12);
+    }
+    _at(
+      canvas,
+      'FOR i = 1 TO 4 runs four times',
+      Offset(size.width / 2, size.height - 30),
+      center: true,
+      size: 11,
+    );
+    _at(
+      canvas,
+      'the answer is 10, not 4',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 11,
+      color: AppColors.ember,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_TracePainter old) => false;
+}
+
+/// A chain of tests, stopping at the first one that holds.
+class _ChainPainter extends CustomPainter {
+  const _ChainPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const rows = [
+      ('IF x > 10', false),
+      ('ELSE IF x > 5', true),
+      ('ELSE IF x > 2', false),
+      ('ELSE', false),
+    ];
+    final x = size.width * 0.1;
+    final w = size.width * 0.54;
+    for (final (i, (text, hit)) in rows.indexed) {
+      final y = size.height * 0.14 + i * 34;
+      _box(
+        canvas,
+        Rect.fromLTWH(x, y, w, 28),
+        text,
+        fill: hit ? AppColors.spring.withValues(alpha: 0.55) : AppColors.cream,
+        size: 12,
+      );
+      if (hit) {
+        _at(
+          canvas,
+          'x = 7 stops here',
+          Offset(x + w + 8, y + 7),
+          size: 10.5,
+          color: AppColors.forest,
+        );
+      } else if (i > 1) {
+        _at(
+          canvas,
+          'never reached',
+          Offset(x + w + 8, y + 7),
+          size: 10.5,
+          color: AppColors.ink3,
+        );
+      }
+    }
+    _at(
+      canvas,
+      'a later test that is also true never gets a turn',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 10.5,
+      color: AppColors.ember,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_ChainPainter old) => false;
+}
+
+/// Doubling under a limit, and the value that broke the test.
+class _WhilePainter extends CustomPainter {
+  const _WhilePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const values = ['1', '2', '4', '8', '16', '32', '64', '128'];
+    final w = math.min(36.0, (size.width - 40) / values.length);
+    var x = size.width / 2 - (values.length * w + (values.length - 1) * 3) / 2;
+    final y = size.height * 0.34;
+    for (final v in values) {
+      final broke = v == '128';
+      _box(
+        canvas,
+        Rect.fromLTWH(x, y, w, 32),
+        v,
+        fill: broke ? AppColors.ember.withValues(alpha: 0.45) : AppColors.cream,
+        size: 11,
+        radius: 8,
+      );
+      x += w + 3;
+    }
+    _at(
+      canvas,
+      'while under 100, keep doubling',
+      Offset(size.width / 2, y - 24),
+      center: true,
+      size: 11,
+    );
+    _at(
+      canvas,
+      'the one left behind is 128, not 64',
+      Offset(size.width / 2, y + 48),
+      center: true,
+      size: 11.5,
+      color: AppColors.ember,
+    );
+    _at(
+      canvas,
+      'nothing is capped at the number in the test',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 10.5,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_WhilePainter old) => false;
+}
+
+/// What each method asks of you before it will start.
+class _ChoicePainter extends CustomPainter {
+  const _ChoicePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const cols = [
+      (
+        'Newton',
+        ['needs the slope', 'needs a close guess', 'fast when it works'],
+        AppColors.ember,
+      ),
+      (
+        'Bisection',
+        ['needs a sign change', 'no slope, no guess', 'slow but certain'],
+        AppColors.forest,
+      ),
+    ];
+    final w = size.width / 2;
+    for (final (i, (name, lines, tone)) in cols.indexed) {
+      final cx = w * (i + 0.5);
+      _at(
+        canvas,
+        name,
+        Offset(cx, size.height * 0.16),
+        center: true,
+        size: 14,
+        color: tone,
+      );
+      for (final (k, line) in lines.indexed) {
+        _at(
+          canvas,
+          line,
+          Offset(cx, size.height * (0.36 + k * 0.16)),
+          center: true,
+          size: 11,
+        );
+      }
+    }
+    canvas.drawLine(
+      Offset(w, size.height * 0.1),
+      Offset(w, size.height * 0.84),
+      _stroke(AppColors.charcoal.withValues(alpha: 0.2), 1.5),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_ChoicePainter old) => false;
+}
+
 /// Every picture on this chapter's sheets, by the contact sheet's card name.
 const mathematicsPictures = <String, Widget Function()>{
   'perpendicular': perpendicularPicture,
@@ -1804,4 +2604,22 @@ const mathematicsPictures = <String, Widget Function()>{
   'check-the-form': formCheckPicture,
   'separately': separatelyPicture,
   'both-sides': bothSidesPicture,
+  'adding-arrows': vectorAddPicture,
+  'unit-vector': unitVectorPicture,
+  'magnitude': magnitudePicture,
+  'matching-components': dotProductPicture,
+  'sign-and-angle': dotAnglePicture,
+  'projection': projectionPicture,
+  'right-hand': rightHandPicture,
+  'area': areaPicture,
+  'cofactor': cofactorPicture,
+  'references': referencesPicture,
+  'precedence': precedencePicture,
+  'functions': functionsPicture,
+  'tracing': tracingPicture,
+  'selection': selectionPicture,
+  'iteration': iterationPicture,
+  'newton': newtonPicture,
+  'bisection': bisectionPicture,
+  'which-method': methodChoicePicture,
 };
