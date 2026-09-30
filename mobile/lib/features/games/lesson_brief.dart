@@ -11448,199 +11448,403 @@ const placeBrief = BriefSection(
 );
 
 const whichDepthBrief = BriefSection(
-  title: 'd is not the height of the beam',
-  body:
-      'Every reinforced concrete formula in the lesson leans on d, the '
-      'EFFECTIVE depth, which runs from the top of the beam down to the '
-      'CENTROID of the tension steel. It is the overall height less the clear '
-      'cover, less the stirrup, less half a bar diameter, and it gets shorter '
-      'again when there are two layers of bars. Using the height instead '
-      'overstates the capacity of everything you check, which is why the '
-      'lesson says outright that getting d wrong changes everything. The '
-      'lever arm is shorter still: the beam carries moment as a couple, steel '
-      'pulling low and concrete pushing high, and what counts is the distance '
-      'BETWEEN those two forces, which is d less half the depth of the '
-      'compression block. More steel deepens that block and quietly shortens '
-      'the arm.',
-  formulas: [
-    ('The effective depth', r'd = h - \text{cover} - \text{stirrup} - d_b/2'),
-    ('The block', r'a = \frac{A_s f_y}{0.85 f_c^{\prime} b}'),
-    ('The couple', r'M_n = A_s f_y\left(d - \frac{a}{2}\right)'),
+  title: 'd is not how tall the beam is',
+  picture: whichDepthPicture,
+  steps: [
+    (
+      'Concrete cannot be pulled',
+      'Concrete is strong when squashed and nearly useless when pulled. So '
+          'steel bars are buried near the bottom, where a sagging beam is being '
+          'pulled, and they do the pulling instead.',
+    ),
+    (
+      'What counts is how deep those bars sit',
+      'd runs from the top of the beam down to the middle of the steel. It '
+          'is the height LESS the cover, less the stirrup, less half a bar. Two '
+          'layers of bars make it shorter again.',
+    ),
+    (
+      'Using the height instead flatters everything',
+      'Every capacity you work out comes from d, so reaching for the overall '
+          'height makes the beam look stronger than it is. That is the mistake '
+          'this lesson is about.',
+    ),
+    (
+      'And the lever arm is shorter still',
+      'The beam works like a pair of hands, steel pulling low and concrete '
+          'pushing high. What counts is the gap BETWEEN them, which is d less '
+          'half the squashed block. More steel deepens that block and quietly '
+          'shortens the gap.',
+    ),
   ],
-  figure: BriefFigure.effectiveDepth,
+  spoken: [
+    (
+      'The effective depth',
+      r'd = h - \text{cover} - \text{stirrup} - d_b/2',
+      'the height, less everything sitting above the middle of the bars',
+    ),
+    (
+      'The squashed block',
+      r'a = \frac{A_s f_y}{0.85 f_c^{\prime} b}',
+      'how deep the concrete has to squash to match the pull in the steel',
+    ),
+    (
+      'The pair of hands',
+      r'M_n = A_s f_y\left(d - \frac{a}{2}\right)',
+      'the pull in the steel, times the gap between the two forces',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
 const stirrupBrief = BriefSection(
-  title: 'Four answers on one ladder',
-  body:
-      'The shear question is always which band the section has landed in, and '
-      'the bands are marked off against what the concrete can be leaned on '
-      'for, which is phi times its own capacity and not the capacity itself. '
-      'Below HALF of that, no stirrups are required at all. Between half and '
-      'all of it, minimum stirrups: the concrete could manage, but the code '
-      'wants a cage in there to hold the crack together and to give the beam '
-      'some warning before it goes. Above it, stirrups are sized for what is '
-      'left once the demand has been divided by phi and the concrete taken '
-      'off. And there is a ceiling: ask the stirrups for more than four times '
-      'the concrete\'s own share and the concrete between them crushes '
-      'whatever the spacing, so the section has to grow instead.',
-  formulas: [
-    ('The concrete', r'V_c = 2\lambda\sqrt{f_c^{\prime}}\, b_w d'),
-    ('The stirrups', r'V_s = \frac{V_u}{\phi} - V_c'),
-    ('The spacing', r's = \frac{A_v f_y d}{V_s}'),
+  title: 'One ladder with four rungs',
+  picture: stirrupPicture,
+  steps: [
+    (
+      'Stirrups are the loops round the bars',
+      'They are there for shear, the slicing action near the supports, which '
+          'cracks concrete on a slant. The loops hold the crack together.',
+    ),
+    (
+      'Measure the demand against what concrete alone gives you',
+      'Work out what the concrete can take by itself, then take three '
+          'quarters of it, because that is all you are allowed to lean on. That '
+          'number marks the rungs.',
+    ),
+    (
+      'Four bands, four answers',
+      'Under half of it: no stirrups needed. Between half and all of it: '
+          'minimum stirrups, so the beam gives some warning. Above it: stirrups '
+          'sized for whatever is left over.',
+    ),
+    (
+      'And a ceiling',
+      'Ask the stirrups for more than about four times the concrete share '
+          'and the concrete between them crushes no matter how close you space '
+          'them. At that point the beam has to get bigger.',
+    ),
   ],
-  figure: BriefFigure.stirrupLadder,
+  spoken: [
+    (
+      'What the concrete gives',
+      r'V_c = 2\lambda\sqrt{f_c^{\prime}}\, b_w d',
+      'two times the root of the concrete strength, times the beam width and depth',
+    ),
+    (
+      'What the stirrups carry',
+      r'V_s = \frac{V_u}{\phi} - V_c',
+      'the demand divided by the factor, less the concrete share',
+    ),
+    (
+      'How close they go',
+      r's = \frac{A_v f_y d}{V_s}',
+      'more to carry means tighter spacing',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
 const phiBrief = BriefSection(
   title: 'What it can do, and what you may count on',
-  body:
-      'Every capacity in reinforced concrete comes in two versions and the '
-      'exam hands out marks for telling them apart. The NOMINAL strength is '
-      'what the section can actually reach. The DESIGN strength is nominal '
-      'times phi, and it is all you are allowed to count on. Bending gets '
-      '0.90 and shear gets 0.75, because a properly proportioned beam fails '
-      'in bending slowly and visibly while shear failure arrives without '
-      'notice, and the code leans hardest on the failures that give no '
-      'warning. In the check itself the loads are factored UP and the '
-      'capacity is cut DOWN, so margin is bought at both ends. One '
-      'consequence is worth carrying: when the stirrups are being sized, the '
-      'demand is divided by phi BEFORE the concrete is taken off, because '
-      'both capacities are nominal numbers and phi applies to their sum.',
-  formulas: [
-    ('Bending', r'\phi M_n \ge M_u, \; \phi = 0.90'),
-    ('Shear', r'\phi V_n \ge V_u, \; \phi = 0.75'),
-    ('The stirrups', r'V_s = \frac{V_u}{\phi} - V_c'),
+  picture: phiPicture,
+  steps: [
+    (
+      'Every capacity comes in two versions',
+      'The nominal strength is what the section can really reach on a good '
+          'day. The design strength is that number cut down, and it is the only '
+          'one you are allowed to use.',
+    ),
+    (
+      'How much gets cut depends on the warning',
+      'Bending keeps 90 percent, because a properly built beam sags and '
+          'cracks visibly long before it goes. Shear keeps only 75, because a '
+          'shear failure arrives with no warning at all.',
+    ),
+    (
+      'Margin is bought at both ends',
+      'The loads are pushed UP by their factors and the capacity is pulled '
+          'DOWN by this one. Together that is the gap between what arrives and '
+          'what the beam can take.',
+    ),
+    (
+      'Which is why the stirrup sum is ordered that way',
+      'Both the concrete share and the stirrup share are nominal numbers, so '
+          'divide the demand by the factor FIRST, then take the concrete off. '
+          'Doing it the other way mixes the two scales.',
+    ),
   ],
-  figure: BriefFigure.phiFactors,
+  spoken: [
+    (
+      'Bending',
+      r'\phi M_n \ge M_u, \; \phi = 0.90',
+      'ninety percent of what it can bend, against the factored demand',
+    ),
+    (
+      'Shear',
+      r'\phi V_n \ge V_u, \; \phi = 0.75',
+      'seventy-five percent of what it can shear, because shear gives no warning',
+    ),
+    (
+      'The stirrups',
+      r'V_s = \frac{V_u}{\phi} - V_c',
+      'divide first, then take the concrete share off',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
 const columnFactorBrief = BriefSection(
-  title: 'Two multipliers, doing two jobs',
-  body:
-      'The bracket in the column formula is the squash load of the section, '
-      'the concrete on its own area plus the steel on its own, and TWO things '
-      'multiply it. The first, 0.80 for a tied column, is an allowance for '
-      'eccentricity: no column is really loaded down its middle, floors land '
-      'a little off center and members are built a little out of plumb, so '
-      'rather than ask for a moment nobody can predict the code takes a flat '
-      'fifth off. It belongs to columns alone, and seeing it in a problem '
-      'tells you what you are looking at. The second is phi, and for a tied '
-      'column in compression it is 0.65, the smallest in the code, because a '
-      'column that crushes gives no warning and takes the floors above with '
-      'it. A SPIRAL improves both to 0.85 and 0.75, because a spiral confines '
-      'the core and buys toughness. Dropping either multiplier is the wrong '
-      'answer the exam offers most often.',
-  formulas: [
+  title: 'Two multipliers, doing two different jobs',
+  picture: columnFactorPicture,
+  steps: [
     (
-      'Tied',
-      r'\phi P_n = 0.80\phi\left[0.85f_c^{\prime}(A_g - A_{st}) + A_{st}f_y\right]',
+      'Start with the squash load',
+      'Add up what the concrete can take on its own area and what the steel '
+          'bars can take on theirs. That is the most the column could ever '
+          'carry, loaded perfectly down its middle.',
     ),
-    ('Tied factors', r'0.80 \text{ and } \phi = 0.65'),
-    ('Spiral factors', r'0.85 \text{ and } \phi = 0.75'),
+    (
+      'Nothing is ever loaded down its middle',
+      'Floors land slightly off center and columns are built slightly out of '
+          'plumb. Rather than guess at a bending moment nobody can predict, the '
+          'code takes a flat fifth off. That is the 0.80.',
+    ),
+    (
+      'Then the usual cut for safety',
+      'On top of that comes the resistance factor, 0.65 for a column with '
+          'square ties. It is the smallest in the code, because a column that '
+          'crushes takes the floors above it down too.',
+    ),
+    (
+      'A spiral earns better numbers',
+      'A spiral wound round the bars confines the core so it holds together '
+          'after cracking, which buys warning. Both multipliers improve, to 0.85 '
+          'and 0.75. Dropping either one is the wrong answer offered most often.',
+    ),
   ],
-  figure: BriefFigure.columnFactors,
+  spoken: [
+    (
+      'A tied column',
+      r'\phi P_n = 0.80\phi\left[0.85f_c^{\prime}(A_g - A_{st}) + A_{st}f_y\right]',
+      'the squash load, times the off-center allowance, times the safety factor',
+    ),
+    (
+      'Tied numbers',
+      r'0.80 \text{ and } \phi = 0.65',
+      'a fifth off for being off center, then another third off',
+    ),
+    (
+      'Spiral numbers',
+      r'0.85 \text{ and } \phi = 0.75',
+      'both better, because a spiral holds the core together',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
 const steelWindowBrief = BriefSection(
-  title: 'One per cent to eight',
-  body:
-      'The longitudinal steel in a column has a window round it and both ends '
-      'are there for a reason. Below one per cent the column behaves like '
-      'plain concrete as soon as any bending arrives, and plain concrete '
-      'fails without warning; the minimum also covers creep and shrinkage, '
-      'which quietly hand load from the concrete to whatever steel is there '
-      'to take it. Above eight per cent there is nowhere to put the bars: '
-      'they cannot be lapped, and concrete cannot be got down between them, '
-      'so the cage that was drawn is not the cage that gets built. Both '
-      'limits are INCLUSIVE, so a column landing exactly on one per cent is '
-      'inside. Most real columns sit near two per cent. Check the window '
-      'before working anything out, because a capacity computed for a column '
-      'outside it is not a capacity anybody may use.',
-  formulas: [
-    ('The ratio', r'\rho_g = \frac{A_{st}}{A_g}'),
-    ('The window', r'0.01 \le \rho_g \le 0.08'),
-    ('Where most land', r'\rho_g \approx 0.02'),
+  title: 'Between one per cent and eight',
+  picture: steelWindowPicture,
+  steps: [
+    (
+      'A column needs some steel in it',
+      'Below about one per cent of the concrete area, the column behaves '
+          'like plain concrete the moment any bending arrives, and plain '
+          'concrete fails suddenly with nothing to catch it.',
+    ),
+    (
+      'There is also a reason for the minimum you cannot see',
+      'Concrete slowly shrinks and creeps under long load, quietly handing '
+          'its share over to whatever steel is in there. There has to be enough '
+          'steel to take it.',
+    ),
+    (
+      'And a column can hold too much steel',
+      'Above eight per cent there is nowhere to put the bars. They cannot be '
+          'lapped and wet concrete cannot get down between them, so the cage '
+          'that was drawn is not the cage that gets built.',
+    ),
+    (
+      'Check the window first',
+      'Both ends count as inside, so exactly one per cent is fine. Most real '
+          'columns sit near two. A capacity worked out for a column outside the '
+          'window is not a capacity anybody may use.',
+    ),
   ],
-  figure: BriefFigure.steelWindow,
+  spoken: [
+    (
+      'The ratio',
+      r'\rho_g = \frac{A_{st}}{A_g}',
+      'the steel area as a share of the whole column area',
+    ),
+    (
+      'The window',
+      r'0.01 \le \rho_g \le 0.08',
+      'from one per cent up to eight, both ends allowed',
+    ),
+    (
+      'Where most land',
+      r'\rho_g \approx 0.02',
+      'about two per cent in ordinary work',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
 const bracingBrief = BriefSection(
-  title: 'The same beam is worth different amounts',
-  body:
-      'A steel beam\'s bending capacity is not a property of the section on '
-      'its own: it depends on how often the compression flange is held '
-      'against going sideways. Three bands, and each shape brings its own two '
-      'limits from the table. Braced closer together than the first limit, '
-      'the beam reaches its full plastic moment and the whole buckling check '
-      'can be skipped, which is what a problem means when it says fully '
-      'braced or continuously supported. Between the two limits the capacity '
-      'slides down a straight line from the plastic moment toward a lower '
-      'value, interpolating on the unbraced length. Past the second limit the '
-      'flange goes over while the steel is still elastic and the beam never '
-      'gets near yielding. A beam in that last band is being decided by its '
-      'bracing rather than its steel, and another brace is a better answer '
-      'than a heavier section.',
-  formulas: [
-    ('Fully braced', r'L_b \le L_p \Rightarrow M_n = M_p = F_y Z_x'),
-    ('In between', r'L_p < L_b \le L_r \Rightarrow \text{straight line down}'),
-    ('Past it', r'L_b > L_r \Rightarrow \text{elastic buckling}'),
+  title: 'The same beam is worth more when it is held',
+  picture: bracingPicture,
+  steps: [
+    (
+      'A deep beam can flop sideways',
+      'Bend a long ruler on edge and it does not just sag. At some point it '
+          'twists and flips sideways. A steel beam does exactly that, and it '
+          'happens long before the steel is anywhere near its limit.',
+    ),
+    (
+      'Holding it stops that',
+      'Anything that stops the squashed flange from swinging sideways is a '
+          'brace. The closer the braces, the less room the beam has to flop, and '
+          'the more of its strength it actually reaches.',
+    ),
+    (
+      'Three bands',
+      'Braced closer than the first limit, the beam reaches everything it '
+          'has and there is no buckling check at all. Between the two limits the '
+          'capacity slides down a straight line. Past the second, it flops while '
+          'the steel is still springy.',
+    ),
+    (
+      'So the fix is a brace, not a bigger beam',
+      'A beam in that last band is being decided by its bracing rather than '
+          'its steel. Another brace is cheaper and works better than a heavier '
+          'section.',
+    ),
   ],
-  figure: BriefFigure.bracing,
+  spoken: [
+    (
+      'Fully braced',
+      r'L_b \le L_p \Rightarrow M_n = M_p = F_y Z_x',
+      'braced tightly enough, so it reaches its full plastic strength',
+    ),
+    (
+      'In between',
+      r'L_p < L_b \le L_r',
+      'the capacity slides down a straight line as the braces spread out',
+    ),
+    (
+      'Past it',
+      r'L_b > L_r',
+      'it flops sideways while the steel is still springy',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, steel beams',
 );
 
 const modulusBrief = BriefSection(
-  title: 'Two moduli, one shape',
-  body:
-      'Every steel shape carries two section moduli and they are not '
-      'interchangeable. S, the elastic modulus, describes the section when '
-      'its outermost fiber has just reached yield, with the stress varying '
-      'straight across the depth. Z, the plastic modulus, describes the same '
-      'section yielded right through, half of it at yield in tension and half '
-      'in compression, and for a rolled W shape it is the larger by ten to '
-      'fifteen per cent. The plastic moment uses Z, and it does so in BOTH '
-      'design methods: the nominal strength belongs to the member, and the '
-      'methods differ only in what they do with it afterward, 0.90 times in '
-      'LRFD against divided by 1.67 in allowable stress design. S appears '
-      'wherever the steel is still elastic, which in this lesson means inside '
-      'the buckling equation. Using S where Z was wanted costs about a tenth '
-      'of the capacity and looks entirely plausible.',
-  formulas: [
-    ('Yielded through', r'M_p = F_y Z_x'),
-    ('First yield', r'M_y = F_y S_x'),
-    ('The gap', r'Z_x \approx 1.1 \text{ to } 1.15\, S_x'),
+  title: 'Two moduli for one shape, and they are not swappable',
+  picture: modulusPicture,
+  steps: [
+    (
+      'Bend a beam gently and the stress is a wedge',
+      'Nothing in the middle, most at the top and bottom faces, straight '
+          'between. The moment where the outermost fiber just reaches its limit '
+          'uses S, the elastic modulus.',
+    ),
+    (
+      'Keep bending and the yielding spreads inward',
+      'The outside cannot take more, so the inside catches up. Eventually '
+          'the whole depth is at its limit: half pulling, half pushing, in two '
+          'solid blocks instead of a wedge.',
+    ),
+    (
+      'That fully yielded state uses Z',
+      'Z is the plastic modulus and it is the bigger of the two, by ten to '
+          'fifteen per cent on a rolled shape. The plastic moment is Z times the '
+          'yield stress.',
+    ),
+    (
+      'Reaching for the wrong one costs about a tenth',
+      'The plastic moment uses Z in BOTH design methods. S belongs where the '
+          'steel is still springy, which here means inside the buckling check. '
+          'Swapping them looks entirely plausible and is wrong.',
+    ),
   ],
-  figure: BriefFigure.moduli,
+  spoken: [
+    (
+      'Yielded right through',
+      r'M_p = F_y Z_x',
+      'the yield stress times the plastic modulus',
+    ),
+    (
+      'First yield only',
+      r'M_y = F_y S_x',
+      'the yield stress times the elastic modulus',
+    ),
+    (
+      'The gap between them',
+      r'Z_x \approx 1.1 \text{ to } 1.15\, S_x',
+      'Z is about a tenth bigger on a rolled shape',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, steel beams',
 );
 
 const flangeBrief = BriefSection(
   title: 'Hold the flange that is being squashed',
-  body:
-      'Lateral-torsional buckling is the compression flange going over '
-      'sideways and dragging the section into a twist, so a brace only counts '
-      'if it holds THAT flange and stops the twist. Which flange that is '
-      'depends on which way the beam is bending. Sagging in the middle of a '
-      'span, it is the top one, and a slab cast on it braces it continuously '
-      'for nothing. Hogging over an interior support, the bending is the '
-      'other way round and the BOTTOM flange is in compression, with the slab '
-      'sitting uselessly overhead: that region needs bracing underneath, and '
-      'forgetting it is a real mistake rather than an exam trick. A member '
-      'that merely stops the beam moving down is not a brace at all. Shear is '
-      'a separate story and belongs to the web: the whole depth times the web '
-      'thickness, at 0.6 of the yield stress.',
-  formulas: [
-    ('Sagging', r'\text{top flange in compression}'),
-    ('Hogging', r'\text{bottom flange in compression}'),
-    ('Shear', r'V_n = 0.6 F_y A_w'),
+  picture: flangePicture,
+  steps: [
+    (
+      'Only the squashed flange can buckle',
+      'The flange being pulled is fine: pulling straightens things. The one '
+          'being squashed is the one that wants to swing out sideways and drag '
+          'the beam into a twist.',
+    ),
+    (
+      'Which flange that is depends on the bending',
+      'Sagging in the middle of a span, the top is squashed. Over an '
+          'interior support the beam bends the other way, so the BOTTOM is '
+          'squashed.',
+    ),
+    (
+      'So the slab is not always the answer',
+      'A concrete slab cast on the top flange braces it continuously for '
+          'free, which covers the sagging regions. Over a support it sits '
+          'uselessly overhead while the bottom flange needs holding from '
+          'underneath.',
+    ),
+    (
+      'A prop is not a brace',
+      'Something that merely stops the beam moving down does nothing about '
+          'the twist. A brace has to catch the squashed flange sideways.',
+    ),
   ],
-  figure: BriefFigure.flanges,
+  spoken: [
+    (
+      'Sagging',
+      r'\text{top flange squashed}',
+      'in the middle of a span, so the slab braces it',
+    ),
+    (
+      'Hogging',
+      r'\text{bottom flange squashed}',
+      'over a support, so the bracing has to go underneath',
+    ),
+    (
+      'Shear is the web',
+      r'V_n = 0.6 F_y A_w',
+      'six tenths of the yield stress, on the whole depth times the web thickness',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, steel beams',
 );
 
