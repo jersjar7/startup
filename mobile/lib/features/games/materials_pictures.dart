@@ -13,12 +13,14 @@ import '../../core/theme/app_theme.dart';
 import 'aggregate_figures.dart';
 import 'asphalt_figures.dart';
 import 'concrete_figures.dart';
+import 'corrosion_figures.dart';
 import 'coupon_figures.dart';
 import 'crack_figures.dart';
 import 'curve_figures.dart';
-import 'figure_ink.dart';
+import 'fiber_figures.dart';
 import 'mechanics_pictures.dart' show ConceptPicture, ConceptPair;
 import 'thermal_figures.dart';
+import 'wood_figures.dart';
 
 // ---------------------------------------------------------------------------
 // The tensile test
@@ -311,6 +313,83 @@ Widget checkPicture() => const ConceptPicture(
 );
 
 // ---------------------------------------------------------------------------
+// Wood and masonry
+
+Widget moisturePicture() => const ConceptPicture(
+  painter: DryingPainter(move: Drying(from: 60, to: 12)),
+  caption:
+      'timber drying out. nothing happens to its strength until it drops '
+      'past the saturation point at thirty percent',
+  height: 200,
+);
+
+Widget mortarPicture() => const ConceptPicture(
+  painter: _MortarPainter(),
+  caption:
+      'the four mortars, strongest first. the odd letters of MaSoN wOrK are '
+      'the only reason the order is rememberable',
+  height: 200,
+);
+
+Widget factorPicture() => const ConceptPicture(
+  painter: _DurationPainter(),
+  caption:
+      'the load duration factor. the briefer the load, the more the wood is '
+      'allowed to carry',
+  height: 210,
+);
+
+// ---------------------------------------------------------------------------
+// Composites
+
+const _carbon = Blend(
+  fiberE: 230,
+  matrixE: 3.5,
+  fiberShare: 0.40,
+  fiberName: 'carbon fiber',
+  matrixName: 'epoxy',
+);
+
+Widget blendPicture() => const ConceptPair(
+  left: BlendPainter(blend: _carbon, lay: Lay.along),
+  right: BlendPainter(blend: _carbon, lay: Lay.across),
+  leftCaption: 'pulled ALONG the fibers: they take the load',
+  rightCaption: 'pulled ACROSS them: the soft glue between has to take it',
+  height: 210,
+);
+
+Widget isostrainPicture() => const ConceptPicture(
+  painter: BlendPainter(blend: _carbon, lay: Lay.along, stretched: true),
+  caption:
+      'glued together and pulled along, both must stretch the same amount. '
+      'the stiff fiber needs far more stress to do it',
+  height: 210,
+);
+
+// ---------------------------------------------------------------------------
+// Corrosion
+
+Widget galvanicPicture() => const ConceptPicture(
+  painter: CouplePainter(
+    couple: Couple(left: Metal.zinc, right: Metal.steel),
+    answer: 0,
+    locked: true,
+  ),
+  caption:
+      'zinc bolted to steel in wet weather. the marked one is the more '
+      'active, so it is the one eaten away',
+  height: 210,
+);
+
+Widget pickingPicture() => const ConceptPicture(
+  painter: _TablePainter(),
+  caption:
+      'four metals against three requirements. no column has the same winner, '
+      'so you cross off rather than pick',
+  height: 210,
+);
+
+// ---------------------------------------------------------------------------
 // Painters that exist only for a sheet
 
 TextPainter _label(String s, {double size = 11, Color color = AppColors.ink2}) {
@@ -424,6 +503,186 @@ class _PercentPainter extends CustomPainter {
   bool shouldRepaint(_PercentPainter old) => false;
 }
 
+/// The four mortars as a descending stair, with the letters of the phrase
+/// that fixes their order picked out.
+class _MortarPainter extends CustomPainter {
+  const _MortarPainter();
+
+  // The use lines are kept to about ten characters: at this slot width
+  // anything longer runs into its neighbour.
+  static const _steps = <(String, String)>[
+    ('M', 'below grade'),
+    ('S', 'soil load'),
+    ('N', 'general'),
+    ('O', 'old walls'),
+  ];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final base = size.height * 0.80;
+    final top = size.height * 0.16;
+    final tall = base - top;
+    final slot = (size.width - 40) / _steps.length;
+    for (var i = 0; i < _steps.length; i++) {
+      final (letter, use) = _steps[i];
+      final h = tall * (1 - i * 0.22);
+      final box = Rect.fromLTWH(20 + i * slot + 6, base - h, slot - 12, h);
+      canvas
+        ..drawRect(
+          box,
+          Paint()..color = AppColors.sunbeam.withValues(alpha: 0.32),
+        )
+        ..drawRect(box, _stroke(AppColors.charcoal, 1.6));
+      final l = _label(letter, size: 20, color: AppColors.charcoal);
+      l.paint(canvas, Offset(box.center.dx - l.width / 2, box.top + 8));
+      final u = _label(use, size: 9, color: AppColors.ink2);
+      u.paint(canvas, Offset(box.center.dx - u.width / 2, base + 6));
+    }
+    final head = _label('strongest', size: 10, color: AppColors.ink2);
+    head.paint(canvas, Offset(20, top - head.height - 2));
+    final tail = _label('weakest', size: 10, color: AppColors.ink2);
+    tail.paint(
+      canvas,
+      Offset(size.width - 20 - tail.width, top - tail.height - 2),
+    );
+
+    // The phrase, with the letters that name the mortars picked out.
+    var x = 20.0;
+    final y = size.height * 0.90;
+    for (final (piece, ink) in <(String, Color)>[
+      ('M', AppColors.ember),
+      ('a', AppColors.ink3),
+      ('S', AppColors.ember),
+      ('o', AppColors.ink3),
+      ('N', AppColors.ember),
+      (' w', AppColors.ink3),
+      ('O', AppColors.ember),
+      ('rK', AppColors.ink3),
+    ]) {
+      final t = _label(piece, size: 13, color: ink);
+      t.paint(canvas, Offset(x, y));
+      x += t.width;
+    }
+  }
+
+  @override
+  bool shouldRepaint(_MortarPainter old) => false;
+}
+
+/// The load duration factor as a ladder: the briefer the load, the higher
+/// the wood is allowed to go.
+class _DurationPainter extends CustomPainter {
+  const _DurationPainter();
+
+  static const _rungs = <(String, double)>[
+    ('permanent', 0.9),
+    ('normal, ten years', 1.0),
+    ('two months of snow', 1.15),
+    ('seven days', 1.25),
+    ('wind or earthquake', 1.6),
+  ];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.44;
+    final right = size.width - 46;
+    final top = size.height * 0.12;
+    final gap = (size.height * 0.72) / _rungs.length;
+    // The bars run from 0.8 so the difference between 0.9 and 1.6 shows.
+    double xOf(double cd) => left + (right - left) * (cd - 0.8) / 0.9;
+
+    // The line the reference values were quoted at.
+    final oneX = xOf(1.0);
+    canvas.drawLine(
+      Offset(oneX, top - 4),
+      Offset(oneX, top + gap * _rungs.length + 4),
+      _stroke(AppColors.ink3, 1.2),
+    );
+
+    for (var i = 0; i < _rungs.length; i++) {
+      final (name, cd) = _rungs[i];
+      final y = top + gap * (i + 0.5);
+      final tone = cd > 1
+          ? AppColors.forest
+          : (cd < 1 ? AppColors.error : AppColors.charcoal);
+      canvas.drawLine(
+        Offset(left, y),
+        Offset(xOf(cd), y),
+        _stroke(tone.withValues(alpha: 0.85), 9),
+      );
+      final n = _label(name, size: 10, color: AppColors.charcoal);
+      n.paint(canvas, Offset(left - 8 - n.width, y - n.height / 2));
+      final v = _label(cd.toStringAsFixed(2), size: 11, color: tone);
+      v.paint(canvas, Offset(xOf(cd) + 6, y - v.height / 2));
+    }
+    final note = _label(
+      'the line is 1.00, what the book value already assumes',
+      size: 9.5,
+      color: AppColors.ink2,
+    );
+    note.paint(canvas, Offset(14, size.height - note.height - 6));
+  }
+
+  @override
+  bool shouldRepaint(_DurationPainter old) => false;
+}
+
+/// Four metals against three requirements, as a grid of ticks and crosses.
+class _TablePainter extends CustomPainter {
+  const _TablePainter();
+
+  static const _cols = <String>['conducts heat', 'light', 'resists seawater'];
+  static const _rows = <(String, List<bool>)>[
+    ('copper', [true, false, true]),
+    ('aluminum', [true, true, true]),
+    ('steel', [false, false, false]),
+    ('titanium', [false, false, true]),
+  ];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.26;
+    final top = size.height * 0.26;
+    final rowH = (size.height * 0.60) / _rows.length;
+    final colW = (size.width - left - 14) / _cols.length;
+
+    for (var c = 0; c < _cols.length; c++) {
+      final t = _label(_cols[c], size: 9, color: AppColors.ink2);
+      t.paint(
+        canvas,
+        Offset(left + colW * (c + 0.5) - t.width / 2, top - t.height - 8),
+      );
+    }
+    for (var r = 0; r < _rows.length; r++) {
+      final (name, flags) = _rows[r];
+      final y = top + rowH * (r + 0.5);
+      final n = _label(name, size: 11, color: AppColors.charcoal);
+      n.paint(canvas, Offset(left - 10 - n.width, y - n.height / 2));
+      for (var c = 0; c < flags.length; c++) {
+        final x = left + colW * (c + 0.5);
+        final ok = flags[c];
+        final paint = _stroke(ok ? AppColors.forest : AppColors.error, 2.4);
+        if (ok) {
+          canvas.drawPath(
+            Path()
+              ..moveTo(x - 6, y)
+              ..lineTo(x - 1, y + 5)
+              ..lineTo(x + 7, y - 6),
+            paint,
+          );
+        } else {
+          canvas
+            ..drawLine(Offset(x - 5, y - 5), Offset(x + 5, y + 5), paint)
+            ..drawLine(Offset(x + 5, y - 5), Offset(x - 5, y + 5), paint);
+        }
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_TablePainter old) => false;
+}
+
 /// Every picture on this chapter's sheets, by the contact sheet's card name.
 const materialsPictures = <String, Widget Function()>{
   'underneath': underneathPicture,
@@ -442,4 +701,11 @@ const materialsPictures = <String, Widget Function()>{
   'grading': gradingPicture,
   'voids': voidsPicture,
   'check': checkPicture,
+  'moisture': moisturePicture,
+  'mortar': mortarPicture,
+  'factor': factorPicture,
+  'blend': blendPicture,
+  'isostrain': isostrainPicture,
+  'galvanic': galvanicPicture,
+  'picking': pickingPicture,
 };

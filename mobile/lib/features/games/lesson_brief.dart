@@ -6693,156 +6693,347 @@ const checkBrief = BriefSection(
 
 const moistureBrief = BriefSection(
   title: 'One threshold in wood',
-  body:
-      'Moisture content in timber is the water divided by the OVEN DRY weight '
-      'of the wood, never by the wet weight, which is why green timber can '
-      'read well over a hundred percent: there can be more water than wood. '
-      'The number matters against one threshold, the fiber saturation point '
-      'at about thirty percent. Above it the cell walls are already full and '
-      'the extra water sits loose in the cavities, so it can come and go and '
-      'the timber is no stronger or weaker for it. Below it the water is in '
-      'the walls themselves: drying shrinks the wood and stiffens and '
-      'strengthens it, and wetting swells and softens it again.',
-  formulas: [
-    ('Moisture content', r'MC = \frac{W_{wet} - W_{OD}}{W_{OD}} \times 100'),
-    ('The threshold', r'FSP \approx 30\%'),
-    ('Below it', r'\text{drier} \Rightarrow \text{smaller and stronger}'),
+  picture: moisturePicture,
+  steps: [
+    (
+      'Wood carries water in two places',
+      'Some water soaks into the cell walls themselves. The rest just sits '
+          'loose in the hollow spaces inside. Those two behave completely '
+          'differently, and one line separates them.',
+    ),
+    (
+      'Above thirty percent, nothing changes',
+      'The walls are already full, so any extra water is loose in the '
+          'cavities. It can come and go and the timber is no stronger, no '
+          'weaker and no smaller for it.',
+    ),
+    (
+      'Below it, everything changes',
+      'Now the water is leaving the walls themselves. Drying shrinks the '
+          'wood and makes it stiffer and stronger. Wetting swells it and softens '
+          'it again.',
+    ),
+    (
+      'And it divides by the DRY weight',
+      'Moisture content is the water over the oven dry wood, never over the '
+          'wet weight. Green timber can therefore read well over a hundred '
+          'percent: there really can be more water than wood.',
+    ),
   ],
-  figure: BriefFigure.moisture,
+  spoken: [
+    (
+      'Moisture content',
+      r'MC = \frac{W_{wet} - W_{OD}}{W_{OD}} \times 100',
+      'the water, over the oven dry weight of the wood',
+    ),
+    (
+      'The threshold',
+      r'FSP \approx 30\%',
+      'the fiber saturation point, where the cell walls are just full',
+    ),
+    (
+      'Below it',
+      r'\text{drier} \Rightarrow \text{smaller and stronger}',
+      'drying below the threshold shrinks it and stiffens it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 129',
 );
 
 const mortarBrief = BriefSection(
-  title: 'M, S, N, O',
-  body:
-      'Four mortar types, strongest to weakest, in an order that follows '
-      'nothing you could work out: M, S, N, O. They are the every-other '
-      'letters of MaSoN wOrK, which is the only reason anybody remembers '
-      'them. Strength is not the whole story and the strongest is not the '
-      'best: high strength mortars are stiffer to work with and less '
-      'forgiving of movement, and a joint harder than the brick around it '
-      'puts the cracking into the brick, which costs far more to put right. '
-      'M goes below grade, S where there is lateral load or soil contact, N '
-      'is general purpose above grade, and O is for soft old masonry indoors.',
-  formulas: [
-    ('Strongest to weakest', r'M > S > N > O'),
-    ('The phrase', r'\text{MaSoN wOrK}'),
+  title: 'M, S, N, O, and why the strongest is not the best',
+  picture: mortarPicture,
+  steps: [
+    (
+      'Four mortars in an order you cannot work out',
+      'Strongest to weakest, they go M, S, N, O. There is no logic in it. '
+          'They are the every-other letters of MaSoN wOrK, and that is the only '
+          'reason anybody remembers them.',
+    ),
+    (
+      'Strong mortar can be the wrong mortar',
+      'A joint harder than the brick around it does not bend when the wall '
+          'moves. So the brick cracks instead of the joint, and replacing brick '
+          'costs far more than repointing.',
+    ),
+    (
+      'Weaker mortar is easier to work with',
+      'It stays soft under the trowel longer and forgives small movements. '
+          'That is a real advantage, not a compromise.',
+    ),
+    (
+      'Where each one goes',
+      'M below ground. S where there is soil pressure or sideways load. N is '
+          'the general purpose one above grade. O is for soft old masonry '
+          'indoors, where anything harder would do damage.',
+    ),
+  ],
+  spoken: [
+    (
+      'Strongest to weakest',
+      r'M > S > N > O',
+      'the order of the four types by strength',
+    ),
+    (
+      'The phrase',
+      r'\text{MaSoN wOrK}',
+      'take every other letter and you have the order',
+    ),
     (
       'And',
       r'\text{strength} \downarrow \Rightarrow \text{workability} \uparrow',
+      'the weaker ones are the easier ones to lay and the kinder to brick',
     ),
   ],
-  figure: BriefFigure.mortar,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 130',
 );
 
 const factorBrief = BriefSection(
-  title: 'The factors and their directions',
-  body:
-      'A wood design value is a published reference number multiplied by a '
-      'string of adjustment factors, and what the exam asks is which way each '
-      'one pushes. Nearly all of them are penalties: wet service, sustained '
-      'heat, and size all take capacity away. The load duration factor is the '
-      'exception, and the one to know cold. Wood carries MORE the more '
-      'briefly it is loaded, so the ladder runs from 0.9 for a permanent load '
-      'through 1.0 for normal occupancy, which is the case the reference '
-      'values were quoted for, up to 1.25 for a week and 1.6 for wind or '
-      'seismic. Shorter is always higher, which is the direction people get '
-      'backwards.',
-  formulas: [
-    ('The chain', r'F\prime = F \times C_D \times C_M \times C_t \times \dots'),
-    ('Wind or seismic', r'C_D = 1.6'),
-    ('Permanent load', r'C_D = 0.9'),
+  title: 'The factors, and which way each one pushes',
+  picture: factorPicture,
+  steps: [
+    (
+      'A wood value is a book number times a string of factors',
+      'Look up the reference strength, then multiply by a factor for each '
+          'thing about your situation that the book did not assume.',
+    ),
+    (
+      'Nearly all of them are penalties',
+      'Wet service, sustained heat, and being a big member all take capacity '
+          'away. If you are unsure of a factor, betting on below one is usually '
+          'right.',
+    ),
+    (
+      'The duration factor is the exception',
+      'Wood carries MORE the more briefly it is loaded. A permanent load '
+          'gets 0.9. Normal occupancy gets 1.0, which is what the book values '
+          'already assume. A week of snow gets 1.25, and wind or an earthquake '
+          'gets 1.6.',
+    ),
+    (
+      'Shorter is always higher',
+      'That is the direction people get backwards. The shortest load on the '
+          'list is the one allowed the biggest number.',
+    ),
   ],
-  figure: BriefFigure.factor,
+  spoken: [
+    (
+      'The chain',
+      r'F\prime = F \times C_D \times C_M \times C_t \times \dots',
+      'the book value, times a factor for each thing about your case',
+    ),
+    (
+      'Wind or seismic',
+      r'C_D = 1.6',
+      'the briefest load gets the biggest allowance',
+    ),
+    (
+      'Permanent load',
+      r'C_D = 0.9',
+      'a load that never comes off gets a penalty',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 129',
 );
 
 const blendBrief = BriefSection(
-  title: 'Two rules, and the direction picks',
-  body:
-      'A composite has a direction in it, and that is the whole of this page. '
-      'Loaded ALONG the fibers, both materials are forced to stretch by the '
-      'same amount, so their moduli add up weighted by volume: the additive '
-      'rule, and a stiff composite. Loaded ACROSS them, the two sit one '
-      'behind the other carrying the same stress, the soft matrix gives way, '
-      'and the reciprocals add instead: always a smaller answer, usually not '
-      'much more than the matrix on its own. The exam nearly always asks the '
-      'parallel case. Density is different: it is a weighted average by '
-      'volume whichever way the fibers run, because weight has no direction.',
-  formulas: [
-    ('Along the fibers', r'E_c = f_1 E_1 + f_2 E_2'),
-    ('Across them', r'\frac{1}{E_c} = \frac{f_1}{E_1} + \frac{f_2}{E_2}'),
-    ('Density, either way', r'\rho_c = f_1\rho_1 + f_2\rho_2'),
+  title: 'Two rules, and the direction picks between them',
+  picture: blendPicture,
+  steps: [
+    (
+      'A composite has a grain, like wood',
+      'Stiff fibers set in soft glue. Which way you pull matters more than '
+          'anything else about it, and that is the whole of this page.',
+    ),
+    (
+      'Along the fibers: they share the stretch',
+      'Both materials are forced to stretch by the same amount, so their '
+          'stiffnesses add up, each counted by how much of the volume it takes. '
+          'That gives a stiff composite, close to the fibers themselves.',
+    ),
+    (
+      'Across them: they queue up',
+      'Now the load passes through the fiber and the glue one after the '
+          'other, and the soft glue gives way. The reciprocals add instead, and '
+          'the answer is always smaller, usually not much more than the glue on '
+          'its own.',
+    ),
+    (
+      'Density has no direction',
+      'Weight does not care which way you pull, so density is a plain '
+          'weighted average by volume either way. The exam nearly always asks '
+          'for the along case.',
+    ),
   ],
-  figure: BriefFigure.blend,
+  spoken: [
+    (
+      'Along the fibers',
+      r'E_c = f_1 E_1 + f_2 E_2',
+      'each stiffness counted by its share of the volume, added',
+    ),
+    (
+      'Across them',
+      r'\frac{1}{E_c} = \frac{f_1}{E_1} + \frac{f_2}{E_2}',
+      'the upside down versions add, which always gives a smaller answer',
+    ),
+    (
+      'Density, either way',
+      r'\rho_c = f_1\rho_1 + f_2\rho_2',
+      'a plain weighted average, whichever way the fibers run',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
 const isostrainBrief = BriefSection(
-  title: 'Whichever one is shared',
-  body:
-      'Pulled along the fibers, the two materials are stuck together and have '
-      'to stretch by the same amount. Equal STRAIN, so the stresses are not '
-      'equal at all: stress is modulus times strain, and the stiff fiber can '
-      'sit at many times the stress in the matrix. That is why a composite '
-      'carrying a hundred megapascals overall can have four hundred in its '
-      'fibers, and why fibers at a quarter of the volume carry almost all of '
-      'the load. Turn the load across the fibers and it reverses: the same '
-      'STRESS passes through both and the soft matrix does nearly all the '
-      'moving. Whichever quantity is shared, the other one is not.',
-  formulas: [
-    ('Along: shared strain', r'\varepsilon_1 = \varepsilon_2'),
+  title: 'Whichever one is shared, the other is not',
+  picture: isostrainPicture,
+  steps: [
+    (
+      'Glued together means stretched together',
+      'Pull along the fibers and the two materials cannot move independently. '
+          'They stretch by the same amount. Equal strain.',
+    ),
+    (
+      'So the stresses are wildly unequal',
+      'Stress is stiffness times strain. At the same strain, a fiber sixty '
+          'times stiffer than the glue carries sixty times the stress. That is '
+          'why a composite at a hundred megapascals overall can have four '
+          'hundred inside its fibers.',
+    ),
+    (
+      'Which is the point of putting fibers in',
+      'Fibers taking up a quarter of the volume can end up carrying almost '
+          'all of the load. The glue is there mostly to hold them in place and '
+          'pass load between them.',
+    ),
+    (
+      'Turn the load and it flips',
+      'Across the fibers, the same STRESS passes through both, and now the '
+          'soft glue does nearly all the moving. Whichever quantity is shared, '
+          'the other one is not.',
+    ),
+  ],
+  spoken: [
+    (
+      'Along: shared strain',
+      r'\varepsilon_1 = \varepsilon_2',
+      'both stretch the same amount',
+    ),
     (
       'So the stresses split',
       r'\sigma_1 = E_1\varepsilon,\; \sigma_2 = E_2\varepsilon',
+      'the stiffer one carries proportionally more',
     ),
-    ('Across: shared stress', r'\sigma_1 = \sigma_2'),
+    (
+      'Across: shared stress',
+      r'\sigma_1 = \sigma_2',
+      'the same stress passes through both, and the soft one moves most',
+    ),
   ],
-  figure: BriefFigure.isostrain,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
 const galvanicBrief = BriefSection(
   title: 'The more active one is eaten',
-  body:
-      'Corrosion in a couple needs four things at once: two DIFFERENT metals, '
-      'an electrolyte such as rainwater or damp soil, and an electrical path '
-      'between them. Given all four, the more active metal of the pair '
-      'becomes the anode and dissolves, and the nobler one is the cathode and '
-      'is protected. No metal is safe or unsafe on its own: steel is '
-      'protected beside aluminum and eaten beside copper. That is the whole '
-      'of galvanizing, and of a sacrificial anode bolted to a hull. And it is '
-      'the whole of the fix as well: take away any one of the four, usually '
-      'the water or the path, and nothing happens at all.',
-  formulas: [
-    ('At the anode', r'M^0 \rightarrow M^{n+} + ne^-'),
-    ('Active to noble', r'Mg,\; Zn,\; Al,\; \text{steel},\; Cu,\; Ti'),
-    ('A cell needs', r'\text{two metals} + \text{water} + \text{a path}'),
+  picture: galvanicPicture,
+  steps: [
+    (
+      'Corrosion in a couple needs four things at once',
+      'Two DIFFERENT metals. Something wet between them, like rain or damp '
+          'soil. And an electrical path joining them. Take any one away and '
+          'nothing happens.',
+    ),
+    (
+      'Then the more active one dissolves',
+      'Metals sit in an order from active to noble. Of any pair, the more '
+          'active one corrodes and the nobler one is protected. It is a bargain '
+          'struck between the two, not a property of either.',
+    ),
+    (
+      'No metal is safe on its own terms',
+      'Steel is protected beside aluminum and eaten beside copper. Same '
+          'steel. The company it keeps decides.',
+    ),
+    (
+      'Which is how we use it deliberately',
+      'Galvanizing coats steel in zinc, which is more active, so the zinc '
+          'goes first and the steel survives even where the coating is '
+          'scratched. A block bolted to a hull does the same job.',
+    ),
   ],
-  figure: BriefFigure.galvanic,
+  spoken: [
+    (
+      'At the anode',
+      r'M^0 \rightarrow M^{n+} + ne^-',
+      'the active metal gives up electrons and dissolves away',
+    ),
+    (
+      'Active to noble',
+      r'Mg,\; Zn,\; Al,\; \text{steel},\; Cu,\; Ti',
+      'the order: whichever of your pair is further left is the one eaten',
+    ),
+    (
+      'A cell needs',
+      r'\text{two metals} + \text{water} + \text{a path}',
+      'remove any one of them and the corrosion stops',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 116',
 );
 
 const pickingBrief = BriefSection(
   title: 'Cross them off one column at a time',
-  body:
-      'A selection question hands you a table and a list of requirements, and '
-      'the metal that wins any one column is rarely the one that passes them '
-      'all. Copper conducts heat better than anything else on the page and is '
-      'three times too heavy for a light part. Titanium survives seawater '
-      'that eats everything and barely conducts at all. Steel is cheap and '
-      'rusts. So take the requirements one at a time, in whatever order is '
-      'quickest to check, and cross candidates off until one is left. Two '
-      'outcomes are worth recognizing: when a requirement rules nothing out '
-      'it is not doing any work, and when nothing passes, the specification '
-      'is what needs changing.',
-  formulas: [
-    ('Copper', r'403\ \text{W/mK},\; 8{,}933\ \text{kg/m}^3'),
-    ('Aluminum', r'236\ \text{W/mK},\; 2{,}698\ \text{kg/m}^3'),
-    ('Steel, titanium', r'83.5\ \text{and}\ 22\ \text{W/mK}'),
+  picture: pickingPicture,
+  steps: [
+    (
+      'The best at one thing is rarely the answer',
+      'A selection question gives you a table and a list of requirements. '
+          'Copper conducts heat better than anything else there and is three '
+          'times too heavy for a light part. Titanium shrugs off seawater and '
+          'barely conducts at all.',
+    ),
+    (
+      'So do not pick. Eliminate.',
+      'Take the requirements one at a time, in whatever order is quickest to '
+          'check, and cross off every metal that fails. Keep going until one is '
+          'left.',
+    ),
+    (
+      'A requirement that rules nothing out is doing no work',
+      'If every candidate passes it, it is there to fill space. Notice it '
+          'and move on to one that actually separates them.',
+    ),
+    (
+      'And if nothing passes, the spec is wrong',
+      'That is a real answer, not a dead end. When no material can meet '
+          'every requirement, the requirements are what has to change.',
+    ),
   ],
-  figure: BriefFigure.picking,
+  spoken: [
+    (
+      'Copper',
+      r'403\ \text{W/mK},\; 8{,}933\ \text{kg/m}^3',
+      'the best conductor on the page, and much the heaviest',
+    ),
+    (
+      'Aluminum',
+      r'236\ \text{W/mK},\; 2{,}698\ \text{kg/m}^3',
+      'conducts well and is light, which is why it wins so often',
+    ),
+    (
+      'Steel, titanium',
+      r'83.5\ \text{and}\ 22\ \text{W/mK}',
+      'neither is here for conducting heat',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 119',
 );
 
