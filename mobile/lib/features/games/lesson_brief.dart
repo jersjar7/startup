@@ -8937,225 +8937,443 @@ const highPointBrief = BriefSection(
 
 const wettedBrief = BriefSection(
   title: 'What the water is rubbing against',
-  body:
-      'Manning\'s equation runs on the hydraulic radius, the flow AREA divided '
-      'by the WETTED PERIMETER, and the perimeter is where the mistakes live. '
-      'It is the length of boundary the water is in contact with, so two '
-      'things are never in it: the free water surface, because the top is open '
-      'to the air and air does not hold water back, and anything above the '
-      'water line, however tall the wall is built. For a rectangle that leaves '
-      'the bed plus TWICE the depth, one wall on each side. For a trapezoid it '
-      'is the bed plus both sides measured ALONG the slope, which is longer '
-      'than the depth. For a pipe running full there is no free surface at '
-      'all, so the whole circle counts. The hydraulic radius is not a radius '
-      'of anything: it is area per unit of rubbing, and more of it means '
-      'faster water.',
-  formulas: [
-    ('Area per unit of rubbing', r'R_H = \frac{A}{P}'),
-    ('A rectangle', r'P = b + 2y'),
-    ('A trapezoid', r'P = b + 2y\sqrt{1 + z^2}'),
-    ('A pipe running full', r'R_H = \frac{D}{4}'),
+  picture: wettedPicture,
+  steps: [
+    (
+      'Water is slowed by what it touches',
+      'Run water down a ditch and the sides and bottom drag on it. The more '
+          'boundary it has to rub along, the slower it goes. So before anything '
+          'else you count the rubbing.',
+    ),
+    (
+      'The air does not count',
+      'The top of the water is open to the sky. Air does not hold water back, '
+          'so the surface is never part of the rubbing. Neither is any wall built '
+          'above the water line: if the water is not touching it, it does nothing.',
+    ),
+    (
+      'Count the wet edges',
+      'For a rectangle that is the bed plus one wall on each side, so the bed '
+          'plus twice the depth. For a sloped side, measure ALONG the slope, which '
+          'is longer than the depth. For a pipe running full there is no surface '
+          'at all, so the whole circle counts.',
+    ),
+    (
+      'Then share the water out over the rubbing',
+      'The hydraulic radius is the area of water divided by that wetted '
+          'length. It is not the radius of anything. More water per unit of '
+          'rubbing means faster water.',
+    ),
   ],
-  figure: BriefFigure.wetted,
+  spoken: [
+    (
+      'Water per unit of rubbing',
+      r'R_H = \frac{A}{P}',
+      'the flow area, divided by the wetted length',
+    ),
+    ('A rectangle', r'P = b + 2y', 'the bed plus twice the depth'),
+    (
+      'A sloped side',
+      r'P = b + 2y\sqrt{1 + z^2}',
+      'the bed plus both slopes, each longer than the depth',
+    ),
+    ('A pipe running full', r'R_H = \frac{D}{4}', 'a quarter of the diameter'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const manningBrief = BriefSection(
   title: 'What actually sets the speed',
-  body:
-      'Manning\'s equation is one line with three things in it that a channel '
-      'can differ by, and they do not pull equally. ROUGHNESS sits underneath, '
-      'so it acts in full: concrete at 0.013 against bare earth at 0.025 is '
-      'nearly twice the velocity, and the ratio is the roughnesses the other '
-      'way up. SLOPE is under a square root, so four times the grade buys only '
-      'twice the speed, which is why steepening a sewer is an expensive way to '
-      'buy capacity. The HYDRAULIC RADIUS is to the two thirds power, and it '
-      'rewards a section that holds a lot of water against not much boundary: '
-      'deep and narrow beats wide and shallow at the same flow area. One '
-      'consequence is worth memorizing. A pipe running half full has the same '
-      'hydraulic radius as the same pipe running full, a quarter of the '
-      'diameter, so it carries half the water at exactly the same velocity.',
-  formulas: [
-    ('The velocity', r'v = \frac{K}{n} R_H^{2/3} S^{1/2}'),
-    ('Roughness, in full', r'\frac{v_1}{v_2} = \frac{n_2}{n_1}'),
-    ('Slope, under a root', r'4S \Rightarrow 2v'),
-    ('Full or half full', r'R_H = \frac{D}{4} \text{ either way}'),
+  picture: manningPicture,
+  steps: [
+    (
+      'Three things, pulling unequally',
+      'A channel can differ in how rough it is, how steeply it falls, and what '
+          'shape the water sits in. All three change the speed, but not by the '
+          'same amount.',
+    ),
+    (
+      'Roughness counts in full',
+      'It sits underneath, so it acts at full strength. Smooth concrete '
+          'against bare earth is nearly twice the speed. The ratio of speeds is '
+          'the roughnesses the other way up.',
+    ),
+    (
+      'Slope counts half',
+      'Slope is under a square root. Four times the grade buys only twice the '
+          'speed, which is why steepening a sewer is an expensive way to buy '
+          'capacity.',
+    ),
+    (
+      'Shape rewards deep and narrow',
+      'The hydraulic radius is raised to the two thirds. A deep narrow cut '
+          'holds the same water against far less rubbing than a wide shallow one, '
+          'so it runs faster. A pipe half full has the same hydraulic radius as '
+          'the same pipe full, so it runs at the same speed carrying half as much.',
+    ),
   ],
-  figure: BriefFigure.manning,
+  spoken: [
+    (
+      'The speed',
+      r'v = \frac{K}{n} R_H^{2/3} S^{1/2}',
+      'the constant over the roughness, times the radius to the two thirds, times the square root of the slope',
+    ),
+    (
+      'Roughness, in full',
+      r'\frac{v_1}{v_2} = \frac{n_2}{n_1}',
+      'the speeds go as the roughnesses upside down',
+    ),
+    (
+      'Slope, under a root',
+      r'4S \Rightarrow 2v',
+      'four times the slope gives twice the speed',
+    ),
+    (
+      'Full or half full',
+      r'R_H = \frac{D}{4}',
+      'a quarter of the diameter, either way',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const unitFactorBrief = BriefSection(
   title: 'The only place the units show up',
-  body:
-      'Manning\'s equation carries a constant in front of it that is nothing '
-      'but a unit conversion. In meters it is 1.0, which is to say there is '
-      'nothing to convert. In feet it is 1.486, and leaving it out makes every '
-      'answer a third too small, which is the trap the lesson names first. '
-      'What decides it is the units the LENGTHS are in, and nothing else: the '
-      'roughness n is dimensionless and is the same number in both systems, '
-      'the slope is a rise over a run and has no units either, and the units '
-      'somebody wants the answer reported in have no bearing at all. Work the '
-      'equation in the units of the drawing and convert the answer once at the '
-      'end. Inches and millimeters are not units the equation takes, so a '
-      'drawing in either gets fixed before anything else happens, and a pipe '
-      'diameter left in inches is the usual way that goes wrong.',
-  formulas: [
-    ('In feet', r'K = 1.486'),
-    ('In meters', r'K = 1.0'),
-    ('Dimensionless, both ways', r'n, \; S'),
+  picture: kfactorPicture,
+  steps: [
+    (
+      'One channel, two rulers',
+      'Measure the same channel in feet and in meters and you write down two '
+          'different numbers for the same thing. Manning\'s equation carries a '
+          'constant in front that patches over exactly that.',
+    ),
+    (
+      'Which number to use',
+      'Measuring in meters, the constant is 1.0, which is to say there is '
+          'nothing to fix. Measuring in feet it is 1.486. Leave it out and every '
+          'answer comes out about a third too small.',
+    ),
+    (
+      'Only the lengths decide it',
+      'The roughness has no units and is the same number in both systems. The '
+          'slope is a drop over a run, so it has none either. What units somebody '
+          'wants the answer in does not matter while you are working.',
+    ),
+    (
+      'Fix odd units before you start',
+      'Inches and millimeters are not units this equation takes. Convert them '
+          'first. A pipe diameter left in inches is the usual way this goes wrong.',
+    ),
   ],
-  figure: BriefFigure.unitFactor,
+  spoken: [
+    (
+      'Measuring in feet',
+      r'K = 1.486',
+      'the constant is one point four eight six',
+    ),
+    (
+      'Measuring in meters',
+      r'K = 1.0',
+      'the constant is one, so nothing changes',
+    ),
+    (
+      'No units either way',
+      r'n, \; S',
+      'the roughness and the slope are the same numbers in both systems',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const froudeBrief = BriefSection(
   title: 'Two speeds, and which one wins',
-  body:
-      'The Froude number is not a piece of vocabulary, it is a race. The top '
-      'of the fraction is how fast the water is moving. The bottom is how fast '
-      'a ripple travels over still water of that depth, the square root of g '
-      'times the depth, and nothing else sets it. When the ripple is the '
-      'quicker of the two, a disturbance can work its way UPSTREAM: the flow '
-      'is SUBCRITICAL, deep and tranquil, and a gate or a weir far downstream '
-      'is felt above it. When the water is quicker, nothing gets back up and '
-      'the flow is SUPERCRITICAL, shallow and rapid, which is what a spillway '
-      'or a steep chute produces. When they are equal the upstream edge of a '
-      'ring stands still, and the depth is the critical depth. Getting the '
-      'number right and the label backward is the mistake this lesson names, '
-      'and it stops happening once the fraction is read as a race.',
-  formulas: [
-    ('The race', r'Fr = \frac{v}{\sqrt{g y}}'),
-    ('News gets upstream', r'Fr < 1 \text{: subcritical}'),
-    ('Nothing gets upstream', r'Fr > 1 \text{: supercritical}'),
+  picture: froudePicture,
+  steps: [
+    (
+      'Drop a stone in a stream',
+      'The splash makes a ring that spreads out. Meanwhile the stream is '
+          'carrying that ring downstream. Whether any of it gets back upstream is '
+          'a race between two speeds.',
+    ),
+    (
+      'The two racers',
+      'One is how fast the water is moving. The other is how fast a ripple '
+          'travels over still water that deep, and depth is the only thing that '
+          'sets it: deeper water carries ripples faster.',
+    ),
+    (
+      'Ripple wins: news travels up',
+      'Deep slow water lets the ring work its way upstream. That is '
+          'subcritical, tranquil flow, and a gate far downstream is felt above it.',
+    ),
+    (
+      'Water wins: nothing gets back',
+      'Shallow fast water sweeps every ripple away. That is supercritical '
+          'flow, what a spillway or a steep chute makes. When the two tie, the '
+          'upstream edge of the ring stands still and the depth is the critical '
+          'depth.',
+    ),
   ],
-  figure: BriefFigure.froude,
+  spoken: [
+    (
+      'The race',
+      r'Fr = \frac{v}{\sqrt{g y}}',
+      'the water speed divided by the ripple speed',
+    ),
+    ('News gets upstream', r'Fr < 1', 'under one: deep, slow, tranquil'),
+    ('Nothing gets upstream', r'Fr > 1', 'over one: shallow, fast, rapid'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 296',
 );
 
 const criticalBrief = BriefSection(
   title: 'The depth that needs the least energy',
-  body:
-      'Draw the specific energy of a flow against the depth it is running at '
-      'and you get a curve with two arms and a nose. Every energy above the '
-      'minimum can be carried at TWO depths, one deep and slow on the upper '
-      'arm and one shallow and fast on the lower one, and the nose between '
-      'them is the CRITICAL DEPTH, the depth at which this flow gets by on the '
-      'least energy it possibly can. For a rectangular channel that depth '
-      'comes out of the flow per unit width and nothing else: q to the two '
-      'thirds power, so twice the flow raises it by about 1.6 times and twice '
-      'the width lowers it by the same factor. The slope, the lining, the '
-      'length of the channel and the depth the water happens to be running at '
-      'do not appear and do not move it. What they move is where the flow '
-      'sits on the curve, which is the flow regime, and that is a different '
-      'question.',
-  formulas: [
-    ('Rectangular channel', r'y_c = \left(\frac{q^2}{g}\right)^{1/3}'),
-    ('Flow per unit width', r'q = \frac{Q}{B}'),
-    ('At the nose', r'E_{min} = 1.5\,y_c'),
-    ('Any shape', r'\frac{Q^2}{g} = \frac{A^3}{T}'),
+  picture: criticalPicture,
+  steps: [
+    (
+      'Every flow has an energy',
+      'Water in a channel carries energy two ways: it is piled up to some '
+          'depth, and it is moving at some speed. Plot that total against the '
+          'depth it is running at and you get a curve with a nose.',
+    ),
+    (
+      'Two depths for one energy',
+      'Every energy above the minimum can be carried at two depths: deep and '
+          'slow on the upper arm, shallow and fast on the lower one. Same energy, '
+          'same flow, two ways to do it.',
+    ),
+    (
+      'The nose is the cheapest',
+      'At the nose the flow gets by on the least energy it possibly can. That '
+          'depth is the critical depth.',
+    ),
+    (
+      'What moves it, and what does not',
+      'For a rectangular channel it depends only on how much water crosses '
+          'each unit of width. The slope, the lining, the length, and the depth '
+          'the water happens to be at do not move it. Those decide where the flow '
+          'sits on the curve, which is a different question.',
+    ),
   ],
-  figure: BriefFigure.criticalDepth,
+  spoken: [
+    (
+      'Rectangular channel',
+      r'y_c = \left(\frac{q^2}{g}\right)^{1/3}',
+      'the cube root of the flow per width squared over gravity',
+    ),
+    (
+      'Flow per unit width',
+      r'q = \frac{Q}{B}',
+      'the total flow divided by the width',
+    ),
+    (
+      'At the nose',
+      r'E_{min} = 1.5\,y_c',
+      'the least energy is one and a half critical depths',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 296',
 );
 
 const hydraulicJumpBrief = BriefSection(
   title: 'What crosses the jump and what does not',
-  body:
-      'A hydraulic jump runs one way only, from supercritical to '
-      'subcritical: fast shallow water arrives, a churning roller stands in '
-      'the channel, and slow deep water leaves. The DISCHARGE comes through '
-      'unchanged, because nothing is added or taken away, and so does the '
-      'MOMENTUM FUNCTION, which is what the conjugate depth formula is built '
-      'from. The ENERGY does not: a jump is turbulent and throws energy away '
-      'as heat and noise, which is precisely why one is built at the foot of '
-      'a spillway, where the problem is that the water is carrying too much. '
-      'Solving a jump with an energy balance is the classic way to get it '
-      'wrong. The depth goes up, the velocity comes down, and the Froude '
-      'number crosses one on the way, which is the definition of a jump '
-      'rather than a consequence of it.',
-  formulas: [
+  picture: hydraulicJumpPicture,
+  steps: [
     (
-      'Conjugate depth',
-      r'y_2 = \frac{y_1}{2}\left(-1 + \sqrt{1 + 8Fr_1^2}\right)',
+      'Fast shallow water piles up',
+      'Water racing out from under a gate suddenly rears up into slow deep '
+          'water, with a churning roller standing in between. That is a hydraulic '
+          'jump, and it only ever runs that way: fast to slow, never back.',
     ),
-    ('What balances', r'M = \frac{y^2}{2} + \frac{q^2}{gy}'),
-    ('What is lost', r'\Delta E = E_1 - E_2 > 0'),
+    (
+      'What comes through unchanged',
+      'The amount of water. Nothing was added or taken away, so the same flow '
+          'leaves as arrived. The push of the water, its momentum, balances across '
+          'it too, and that is what the conjugate depth formula is built from.',
+    ),
+    (
+      'What is thrown away',
+      'The energy. All that churning turns into heat and noise. That is '
+          'exactly why a jump is built at the foot of a spillway: the problem '
+          'there is that the water has too much energy.',
+    ),
+    (
+      'So do not solve one with energy',
+      'Balancing energy across a jump is the classic way to get it wrong. '
+          'Depth goes up, speed comes down, and the Froude number crosses one on '
+          'the way through.',
+    ),
   ],
-  figure: BriefFigure.hydraulicJump,
+  spoken: [
+    (
+      'Depth after the jump',
+      r'y_2 = \frac{y_1}{2}\left(-1 + \sqrt{1 + 8Fr_1^2}\right)',
+      'built from the momentum balance, not from energy',
+    ),
+    (
+      'What balances',
+      r'M = \frac{y^2}{2} + \frac{q^2}{gy}',
+      'the momentum function is the same on both sides',
+    ),
+    (
+      'What is lost',
+      r'\Delta E = E_1 - E_2 > 0',
+      'energy afterwards is always less than before',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const weirBrief = BriefSection(
   title: 'The shape of the hole picks the formula',
-  body:
-      'A weir measures flow by how deep the water stands above its crest, and '
-      'three formulas sit next to each other on the handbook page. Which one '
-      'applies is decided by the opening and nothing else. A crest running '
-      'wall to wall is SUPPRESSED and takes C times L times H to the three '
-      'halves. A crest that stops short of the walls is CONTRACTED: the water '
-      'curls in around each end, so a tenth of the head comes off each side '
-      'and the length used is L minus 0.2H. A V-NOTCH has no crest length at '
-      'all, and takes C times H to the five halves. The coefficients are '
-      'different for each shape AND for each unit system: a rectangular weir '
-      'takes 3.33 in feet and 1.84 in meters, a 90 degree V-notch 2.54 and '
-      '1.40. Reaching for the wrong exponent is the trap both of this '
-      'lesson\'s weir problems name.',
-  formulas: [
-    ('Wall to wall', r'Q = C\,L\,H^{3/2}'),
-    ('Stopping short', r'Q = C\,(L - 0.2H)\,H^{3/2}'),
-    ('A 90 degree V', r'Q = C\,H^{5/2}'),
+  picture: weirPicture,
+  steps: [
+    (
+      'A weir is a wall with a gap',
+      'Put a plate across a stream and the water spills over it. Measure how '
+          'deep the water stands above the crest and you can work out the flow. '
+          'That depth is the head.',
+    ),
+    (
+      'A crest running wall to wall',
+      'The water pours straight over the full width. The flow is a coefficient '
+          'times the length times the head to the three halves.',
+    ),
+    (
+      'A crest that stops short',
+      'Now the water has to curl in around each end, which costs a little '
+          'width. A tenth of the head comes off each side, so the length used is '
+          'L minus 0.2 times H.',
+    ),
+    (
+      'A v-notch has no crest at all',
+      'It is a triangle, so there is no length to put in. The flow is a '
+          'coefficient times the head to the FIVE halves. Each shape also has its '
+          'own coefficient, different again in feet and in meters.',
+    ),
   ],
-  figure: BriefFigure.weirShape,
+  spoken: [
+    (
+      'Wall to wall',
+      r'Q = C\,L\,H^{3/2}',
+      'coefficient times length times head to the three halves',
+    ),
+    (
+      'Stopping short',
+      r'Q = C\,(L - 0.2H)\,H^{3/2}',
+      'the same, with a tenth of the head taken off each end',
+    ),
+    (
+      'A 90 degree v',
+      r'Q = C\,H^{5/2}',
+      'coefficient times head to the five halves, no length',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const exponentBrief = BriefSection(
   title: 'What an exponent is really telling you',
-  body:
-      'The power on the head is a SENSITIVITY, and reading it that way makes '
-      'a whole class of question answerable without arithmetic. Three halves '
-      'means that doubling the head multiplies the flow by 2 to the three '
-      'halves, about 2.8. Five halves means doubling it multiplies the flow '
-      'by about 5.7. Halving the head cuts them by the same factors the other '
-      'way, to about a third and about a sixth. Only the RATIO the head '
-      'changed by matters, never where it started, and the crest length sits '
-      'outside the power so it scales the flow without ever changing the '
-      'response. That steepness is why a V-notch is what gets installed to '
-      'measure a small flow well, and why it runs out of range so quickly '
-      'when the flow comes up.',
-  formulas: [
-    ('A flat crest', r'2H \Rightarrow 2^{3/2} \approx 2.8\,Q'),
-    ('A V-notch', r'2H \Rightarrow 2^{5/2} \approx 5.7\,Q'),
+  picture: exponentPicture,
+  steps: [
+    (
+      'The power says how touchy it is',
+      'Raise the water an inch over two weirs and one of them notices far '
+          'more than the other. The power on the head is what says which.',
+    ),
+    (
+      'Three halves, and five halves',
+      'Double the head over a flat crest and the flow goes up about 2.8 times. '
+          'Double it over a v-notch and the flow goes up about 5.7 times. Halve '
+          'the head and they drop by those same factors.',
+    ),
+    (
+      'Only the ratio matters',
+      'Where the head started never comes into it, only what it was multiplied '
+          'by. And the crest length sits outside the power, so it scales the flow '
+          'without changing how touchy the weir is.',
+    ),
+    (
+      'Which is why a v-notch is used',
+      'A small trickle still moves its head a good deal, so it can be measured '
+          'well. The same steepness is why it runs out of range as soon as the '
+          'flow comes up.',
+    ),
+  ],
+  spoken: [
+    (
+      'A flat crest',
+      r'2H \Rightarrow 2^{3/2} \approx 2.8\,Q',
+      'twice the head is about two point eight times the flow',
+    ),
+    (
+      'A v-notch',
+      r'2H \Rightarrow 2^{5/2} \approx 5.7\,Q',
+      'twice the head is about five point seven times the flow',
+    ),
     (
       'Only the ratio counts',
       r'\frac{Q_2}{Q_1} = \left(\frac{H_2}{H_1}\right)^{n}',
+      'the flows go as the head ratio raised to the power',
     ),
   ],
-  figure: BriefFigure.weirExponent,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
 const hazenBrief = BriefSection(
   title: 'A coefficient that runs the other way',
-  body:
-      'Hazen-Williams sizes water mains on one number for the pipe wall, and '
-      'that number runs OPPOSITE to the one in Manning\'s equation two pages '
-      'away. A bigger C is a SMOOTHER pipe carrying MORE water: plastic is '
-      'about 150, new cast iron about 130, and the same cast iron after '
-      'twenty years in the ground about 100. Manning\'s n is the reverse, '
-      'bigger meaning rougher, and mixing the two up inverts the answer. C '
-      'sits on the top of the equation in the FIRST power, so two mains alike '
-      'in everything but material carry flows in the plain ratio of their '
-      'coefficients: twice the C is twice the water. The 0.63 and the 0.54 '
-      'belong to the hydraulic radius and the gradient, and applying either '
-      'of them to C is the second trap the lesson names.',
-  formulas: [
-    ('The equation', r'Q = k_1 C A R_H^{0.63} S_v^{0.54}'),
-    ('Two like mains', r'\frac{Q_A}{Q_B} = \frac{C_A}{C_B}'),
-    ('The constant', r'k_1 = 1.318 \text{ (ft)}, \; 0.849 \text{ (m)}'),
+  picture: hazenPicture,
+  steps: [
+    (
+      'One number for the pipe wall',
+      'Water mains are sized with a single number, C, that stands for how '
+          'smooth the inside of the pipe is. Plastic is about 150, new cast iron '
+          'about 130, and the same iron after twenty years in the ground about 100.',
+    ),
+    (
+      'Bigger C is smoother, and carries more',
+      'That is the opposite of the roughness in Manning\'s equation two pages '
+          'away, where bigger means rougher. Mixing the two up turns the answer '
+          'upside down.',
+    ),
+    (
+      'It counts in full',
+      'C sits on the top in the first power. Two mains alike in everything but '
+          'the wall carry flows in the plain ratio of their coefficients: half '
+          'again the C is half again the water.',
+    ),
+    (
+      'The odd powers are not for C',
+      'The 0.63 belongs to the hydraulic radius and the 0.54 to the slope of '
+          'the pressure line. Putting either on C is the other trap here.',
+    ),
   ],
-  figure: BriefFigure.hazen,
+  spoken: [
+    (
+      'The equation',
+      r'Q = k_1 C A R_H^{0.63} S_v^{0.54}',
+      'the constant times C times area, times radius and slope to their own powers',
+    ),
+    (
+      'Two like mains',
+      r'\frac{Q_A}{Q_B} = \frac{C_A}{C_B}',
+      'the flows go straight as the coefficients',
+    ),
+    (
+      'The constant',
+      r'k_1 = 1.318 \text{ (ft)}, \; 0.849 \text{ (m)}',
+      'one point three one eight in feet, nought point eight four nine in meters',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 297',
 );
 
