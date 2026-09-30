@@ -13863,266 +13863,508 @@ const pedestrianGreenBrief = BriefSection(
 );
 
 const greenshieldsBrief = BriefSection(
-  title: 'A quarter of the product',
-  body:
-      'Flow is speed times density: how fast they are going, times how many '
-      'of them there are in a mile. Greenshields assumes the speed falls in '
-      'a straight LINE as the lane fills, from the free flow speed on an '
-      'empty road to nothing at a jam. A product of one term rising while '
-      'another falls peaks in the middle, so maximum flow happens at half '
-      'the free flow speed AND half the jam density, and the peak is '
-      'therefore a QUARTER of their product. Forget the four and you report '
-      'the product itself, which is the lesson\'s wrong answer. Two things '
-      'are worth carrying away. Maximum flow is not a comfortable road: it '
-      'is a crowded one at half speed, on the edge of breaking down. And '
-      'every flow below the peak happens at TWO densities, one either side, '
-      'which is why level of service is judged on density rather than '
-      'volume.',
-  formulas: [
-    ('The fundamentals', r'V = S \times D'),
-    ('The peak', r'V_m = \dfrac{D_j S_f}{4}'),
-    ('Where it sits', r'D_o = D_j/2, \; S_o = S_f/2'),
+  title: 'The most cars get through at half speed',
+  picture: greenshieldsPicture,
+  steps: [
+    (
+      'Flow is how many cars pass you',
+      'It is how fast they are going times how many of them there are in a '
+          'mile. An empty road has fast cars but almost none of them. A jam has '
+          'plenty of cars going nowhere. Both move very little traffic.',
+    ),
+    (
+      'Speed falls in a straight line',
+      'Greenshields assumes the more crowded the lane gets, the slower '
+          'everyone goes, evenly, from full speed on an empty road down to zero '
+          'in a jam.',
+    ),
+    (
+      'So the best is in the middle',
+      'One thing rising while the other falls always peaks halfway. Maximum '
+          'flow happens at half the free flow speed AND half the jam density, '
+          'so the peak is a QUARTER of the two multiplied together. Forget the '
+          'four and you report the product itself.',
+    ),
+    (
+      'Two things worth keeping',
+      'Maximum flow is not a nice road, it is a crowded one at half speed '
+          'about to break down. And every flow below the peak happens at two '
+          'different densities, one on each side, which is why quality is '
+          'judged on density instead.',
+    ),
   ],
-  figure: BriefFigure.greenshields,
+  spoken: [
+    ('The fundamentals', r'V = S \times D', 'flow is speed times density'),
+    (
+      'The peak',
+      r'V_m = \dfrac{D_j S_f}{4}',
+      'jam density times free flow speed, over four',
+    ),
+    (
+      'Where it sits',
+      r'D_o = D_j/2, \; S_o = S_f/2',
+      'half the jam density and half the free speed, together',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, traffic flow',
 );
 
 const speedDensityBrief = BriefSection(
-  title: 'Start full, subtract the traffic',
-  body:
-      'The speed line is the free flow speed LESS what the traffic already '
-      'there has taken away, and the answer is the difference, never either '
-      'piece on its own. The piece that is subtracted is the free flow speed '
-      'over the jam density, times the density, and that first part is '
-      'simply the slope of the line: how much speed each extra vehicle a '
-      'mile costs. Two traps sit here. Reporting the reduction instead of '
-      'what is left, and reaching for half the free flow speed when the '
-      'density is not half the jam density, since those halves go together '
-      'and apart from each other mean nothing. One free check: nothing on '
-      'the road can be faster than the free flow speed, so any answer above '
-      'it is wrong before it is examined.',
-  formulas: [
-    ('The line', r'S = S_f - \dfrac{S_f}{D_j} D'),
-    ('The slope', r'\dfrac{S_f}{D_j} \text{ mph per veh/mi}'),
-    ('The ceiling', r'S \leq S_f \text{ always}'),
+  title: 'Start at full speed, subtract the traffic',
+  picture: speedDensityPicture,
+  steps: [
+    (
+      'Every extra car costs a little speed',
+      'On an empty road you go the free flow speed. Each vehicle per mile '
+          'added takes a fixed bite out of that. The line falls at a steady '
+          'rate all the way to the jam.',
+    ),
+    (
+      'The bite is the slope',
+      'The free flow speed divided by the jam density is how much speed '
+          'each extra car a mile costs. Multiply that by how many cars are '
+          'there to get the total loss.',
+    ),
+    (
+      'Then SUBTRACT it',
+      'The answer is what is left, never the bite itself. Reporting the '
+          'reduction instead of the remaining speed is the first trap.',
+    ),
+    (
+      'The second trap, and a free check',
+      'Half the free flow speed is only right when the density is half the '
+          'jam density; those halves go together and mean nothing apart. And '
+          'nothing can go faster than free flow, so any answer above it is '
+          'wrong before you look.',
+    ),
   ],
-  figure: BriefFigure.speedDensity,
+  spoken: [
+    (
+      'The line',
+      r'S = S_f - \dfrac{S_f}{D_j} D',
+      'free speed, less the slope times the density',
+    ),
+    (
+      'The slope',
+      r'\dfrac{S_f}{D_j}',
+      'how much speed each extra vehicle per mile costs',
+    ),
+    ('The ceiling', r'S \leq S_f', 'nothing beats the free flow speed'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, traffic flow',
 );
 
 const crashRateBrief = BriefSection(
-  title: 'Crashes over what was exposed',
-  body:
-      'A crash count on its own cannot rank anything: a busy junction has '
-      'more crashes than a quiet one simply by having more vehicles. The '
-      'rate divides the crashes by the traffic exposed to them, and building '
-      'that denominator is the whole job. A daily count has to be '
-      'ANNUALIZED, so a year of crashes sits over a year of traffic: the '
-      'daily figure times 365. Dividing by the daily count instead gives an '
-      'answer in the thousands, which cannot be right, since it claims more '
-      'crashes than vehicles. The million is there to bring the answer into '
-      'a range people can read. For a junction the exposure is entering '
-      'VEHICLES, and for a stretch of road it is vehicle MILES, because a '
-      'vehicle on three miles of highway is exposed three times as long.',
-  formulas: [
-    ('A junction', r'RMEV = \dfrac{A \times 10^6}{ADT \times 365}'),
-    ('A segment', r'RMVM = \dfrac{A \times 10^6}{ADT \times 365 \times L}'),
-    ('The point', r'\text{a count alone ranks nothing}'),
+  title: 'Crashes over the traffic that was exposed',
+  picture: crashRatePicture,
+  steps: [
+    (
+      'A count alone ranks nothing',
+      'A busy junction has more crashes than a quiet one simply because '
+          'more cars go through it. To compare two places you have to divide by '
+          'how much traffic was exposed.',
+    ),
+    (
+      'Build the bottom of the fraction',
+      'Traffic is usually given per DAY, so multiply by 365 to get a year, '
+          'matching a year of crashes. Divide by the daily count instead and '
+          'you get thousands, claiming more crashes than vehicles.',
+    ),
+    (
+      'The million is just for reading',
+      'Rates come out as tiny decimals, so the answer is quoted per million '
+          'vehicles. That is all the ten to the sixth is doing.',
+    ),
+    (
+      'Junction or stretch of road',
+      'At a junction the exposure is vehicles ENTERING. Along a road it is '
+          'vehicle MILES, because a car on three miles of highway is exposed '
+          'three times as long.',
+    ),
   ],
-  figure: BriefFigure.crashRate,
+  spoken: [
+    (
+      'A junction',
+      r'RMEV = \dfrac{A \times 10^6}{ADT \times 365}',
+      'crashes per million vehicles entering',
+    ),
+    (
+      'A segment',
+      r'RMVM = \dfrac{A \times 10^6}{ADT \times 365 \times L}',
+      'crashes per million vehicle miles',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, crash rates',
 );
 
 const heavyVehicleBrief = BriefSection(
-  title: 'A truck is two cars, or three',
-  body:
-      'Capacity is a question about ROOM, so everything is counted in '
-      'passenger cars. A truck is longer, pulls away slowly and needs a '
-      'bigger gap, so on level ground it takes the space of two cars and on '
-      'rolling ground three. Only the EXTRA space counts, which is why the '
-      'formula carries the equivalent less one. A tenth of trucks on the '
-      'level means a hundred vehicles fill a hundred and ten car spaces, so '
-      'the factor is one over 1.10, about 0.909. It is always between zero '
-      'and one, and it is DIVIDED by, which pushes the flow rate up: the '
-      'traffic is worse than the raw count suggests. Two things go wrong '
-      'here. Reporting the denominator, which gives a factor above one and '
-      'is impossible. And using the wrong terrain, which on the lesson\'s '
-      'numbers moves the factor from 0.909 to 0.833.',
-  formulas: [
-    ('The factor', r'f_{HV} = \dfrac{1}{1 + P_T(E_T - 1)}'),
-    ('The equivalents', r'E_T = 2 \text{ level}, \; 3 \text{ rolling}'),
-    ('Its range', r'0 < f_{HV} \leq 1'),
+  title: 'A truck takes the room of two cars, or three',
+  picture: heavyVehiclePicture,
+  steps: [
+    (
+      'Capacity is a question about room',
+      'So everything gets counted in car-sized spaces. A truck is longer, '
+          'pulls away slowly and needs a bigger gap in front, so it fills the '
+          'space of two cars on flat ground and three on hilly ground.',
+    ),
+    (
+      'Only the EXTRA space counts',
+      'A truck is already one vehicle, so it adds one more space, or two on '
+          'hills. That is why the formula carries the equivalent less one.',
+    ),
+    (
+      'Turn that into a factor',
+      'One truck in ten on the level means a hundred vehicles fill a '
+          'hundred and ten spaces, so the factor is one over 1.10, about 0.909. '
+          'It is always between zero and one.',
+    ),
+    (
+      'You DIVIDE by it',
+      'Dividing by a number under one makes the answer bigger: the traffic '
+          'is worse than the raw count suggested. A factor above one is '
+          'impossible, and picking the wrong terrain moves this one from 0.909 '
+          'to 0.833.',
+    ),
   ],
-  figure: BriefFigure.heavyVehicle,
+  spoken: [
+    (
+      'The factor',
+      r'f_{HV} = \dfrac{1}{1 + P_T(E_T - 1)}',
+      'one over, one plus the truck share times the extra space each takes',
+    ),
+    (
+      'The equivalents',
+      r'E_T = 2 \text{ level}, \; 3 \text{ rolling}',
+      'what one truck counts as in cars',
+    ),
+    ('Its range', r'0 < f_{HV} \leq 1', 'never above one'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, freeway capacity',
 );
 
 const demandFlowBrief = BriefSection(
-  title: 'One volume, three divisions',
-  body:
-      'The demand flow rate is not the traffic on the road: it is passenger '
-      'cars an hour in ONE lane at the rate of the busiest quarter hour, and '
-      'three divisions get it there. By the peak hour factor, which turns '
-      'the hour into the rate its worst quarter implies, and which the sight '
-      'distance lesson already covered. By the number of lanes, to get one '
-      'lane. And by the heavy vehicle factor, to count in cars. The two '
-      'factors are under one so dividing by them raises the answer, while '
-      'dividing by the lanes lowers it: knowing which way each step should '
-      'move the number catches most mistakes. On the lesson\'s freeway the '
-      'answer is 1,793. Leave out the trucks and it is 1,630. Leave out the '
-      'peak factor and it is 1,650. Two wrong answers of nearly the same '
-      'size from two different omissions.',
-  formulas: [
-    ('The flow rate', r'v_p = \dfrac{V}{PHF \times N \times f_{HV}}'),
-    ('It is per lane', r'\text{and in passenger cars}'),
-    ('Direction', r'\text{factors raise it, lanes lower it}'),
+  title: 'One count, three divisions',
+  picture: demandFlowPicture,
+  steps: [
+    (
+      'What the answer has to be',
+      'Not the traffic on the road, but passenger cars an hour in ONE lane, '
+          'at the rate of the busiest fifteen minutes. Three divisions get you '
+          'there from the hourly count.',
+    ),
+    (
+      'Divide by the peak hour factor',
+      'That turns the whole hour into the rate its worst quarter implies. '
+          'The factor is under one, so this step raises the number.',
+    ),
+    (
+      'Divide by the lanes, then by the trucks',
+      'Lanes gets you down to one lane, which lowers it. The truck factor '
+          'is under one again, so it raises it, converting the mixture into '
+          'plain car spaces.',
+    ),
+    (
+      'Knowing the direction catches most mistakes',
+      'On this freeway the answer is 1,793. Leave out the trucks and it is '
+          '1,630; leave out the peak factor and it is 1,650. Two different '
+          'omissions giving nearly the same wrong answer.',
+    ),
   ],
-  figure: BriefFigure.demandFlow,
+  spoken: [
+    (
+      'The flow rate',
+      r'v_p = \dfrac{V}{PHF \times N \times f_{HV}}',
+      'the hourly count, divided by the peak factor, the lanes, and the truck factor',
+    ),
+    (
+      'What it is',
+      r'\text{cars per hour per lane}',
+      'passenger cars, one lane, at the busiest quarter hour rate',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, freeway capacity',
 );
 
 const levelOfServiceBrief = BriefSection(
   title: 'The letter comes off the density',
-  body:
-      'Level of service is read against DENSITY, in vehicles to a mile of '
-      'lane, not against volume and not against speed. Two roads can carry '
-      'the same volume at quite different densities, and speed holds near '
-      'its free flow value until a road is nearly full, so neither of those '
-      'sorts the letters out. Work the flow per lane first, then divide by '
-      'the mean speed, which follows from flow being speed times density and '
-      'checks out in the units: cars an hour over miles an hour leaves cars '
-      'a mile. Then read the band. The bands are narrow near capacity, so a '
-      'single missing adjustment moves the letter: forgetting the trucks on '
-      'the lesson\'s road gives 33 a mile instead of 37, which reads as D '
-      'rather than E.',
-  formulas: [
-    ('The density', r'D = v_p / S'),
-    ('The bands', r'A \leq 11, \; B \leq 18, \; C \leq 26'),
-    ('And on', r'D \leq 35, \; E \leq 45, \; F \text{ above}'),
+  picture: levelOfServicePicture,
+  steps: [
+    (
+      'A to F, like a school grade',
+      'A is an open road, F is a jam. The letter is read off DENSITY: how '
+          'many vehicles are packed into a mile of one lane.',
+    ),
+    (
+      'Not volume, and not speed',
+      'Two roads can carry the same volume at very different densities. And '
+          'speed stays near free flow until a road is nearly full, so it cannot '
+          'sort the letters either.',
+    ),
+    (
+      'Work the flow first, then divide by speed',
+      'Flow is speed times density, so density is flow over speed. Check '
+          'the units: cars an hour over miles an hour leaves cars per mile.',
+    ),
+    (
+      'The bands are narrow near the top',
+      'One missing adjustment changes the letter. Forgetting the trucks '
+          'here gives 33 per mile instead of 37, which reads as D rather than '
+          'E.',
+    ),
   ],
-  figure: BriefFigure.levelOfService,
+  spoken: [
+    (
+      'The density',
+      r'D = v_p / S',
+      'the flow rate per lane, divided by the speed',
+    ),
+    (
+      'The bands',
+      r'A \leq 11, \; B \leq 18, \; C \leq 26',
+      'vehicles per mile per lane',
+    ),
+    ('And on', r'D \leq 35, \; E \leq 45', 'anything above is F'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, level of service',
 );
 
 const fourStepBrief = BriefSection(
-  title: 'Four steps, in order',
-  body:
-      'A regional travel forecast is four models run one after another, each '
-      'consuming what the one before it made. GENERATION counts how many '
-      'trips each zone produces and attracts, from land use: a quantity and '
-      'nothing else. DISTRIBUTION decides where those trips go, and this is '
-      'where the gravity model works. MODE CHOICE splits them among car, '
-      'transit and foot. ASSIGNMENT loads them onto particular routes, and '
-      'produces the volumes a designer actually uses. The order is not a '
-      'convention, it is a dependency: distribution has nothing to share out '
-      'until generation has produced it. Worth remembering which step a '
-      'change lands in. A new employer moves attractions, so distribution '
-      'notices. A new fare moves mode choice. A new bridge moves '
-      'assignment.',
-  formulas: [
-    ('First, how many', r'\text{generation}'),
-    ('Then, where', r'\text{distribution}'),
-    ('Then how, then which road', r'\text{mode, assignment}'),
+  title: 'Four steps, and the order is not optional',
+  picture: fourStepPicture,
+  steps: [
+    (
+      'How many trips, and from where',
+      'GENERATION counts the trips each area produces and attracts, from '
+          'what is built there. Houses make trips; shops and offices pull them '
+          'in. It is a quantity and nothing more.',
+    ),
+    (
+      'Where they go, and how',
+      'DISTRIBUTION decides which trip goes to which destination, and this '
+          'is where the gravity model works. MODE CHOICE then splits them '
+          'between car, bus and walking.',
+    ),
+    (
+      'Which road they use',
+      'ASSIGNMENT puts them on particular routes, and produces the volumes '
+          'a designer actually builds for.',
+    ),
+    (
+      'Why the order is fixed',
+      'Each step eats what the one before made: distribution has nothing to '
+          'share out until generation has made it. Worth knowing where a change '
+          'lands too. A new employer moves distribution, a new fare moves mode '
+          'choice, a new bridge moves assignment.',
+    ),
   ],
-  figure: BriefFigure.fourStep,
+  spoken: [
+    (
+      'The order',
+      r'\text{generation} \to \text{distribution}',
+      'first how many, then where they go',
+    ),
+    (
+      'Then',
+      r'\text{mode} \to \text{assignment}',
+      'then how they travel, then which road they take',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, travel demand',
 );
 
 const gravityBrief = BriefSection(
-  title: 'Shares that add to one',
-  body:
-      'The gravity model gives every destination a WEIGHT, its attractions '
-      'times the friction factor for that trip, and then shares the '
-      'origin\'s trips out in proportion to those weights. The step people '
-      'drop is the last one: dividing by the SUM of all the weights. Without '
-      'it the shares do not add to one and the model sends out more or fewer '
-      'trips than the origin ever made. Using the attractions alone is the '
-      'other wrong answer the lesson prints, and it fails in a particular '
-      'way: it hands trips to a big destination that is too far away to '
-      'earn them. Two checks come free. The shares add to one, and the trips '
-      'add to the origin\'s productions exactly.',
-  formulas: [
-    ('The weight', r'A_j F_{ij} K_{ij}'),
+  title: 'Shares that add up to one',
+  picture: gravityPicture,
+  steps: [
+    (
+      'Give every destination a weight',
+      'The weight is how much it attracts, times how easy it is to reach. A '
+          'big place that is hard to get to and a small place next door can '
+          'come out even.',
+    ),
+    (
+      'Then share the trips in proportion',
+      'A place with a third of the total weight gets a third of the trips. '
+          'That is the whole model.',
+    ),
+    (
+      'The step people drop',
+      'Dividing by the SUM of all the weights. Without it the shares do not '
+          'add to one, and the model sends out more or fewer trips than the '
+          'origin ever made.',
+    ),
+    (
+      'Two free checks',
+      'The shares add to one, and the trips add up exactly to what the '
+          'origin produced. Using attractions alone is the other printed wrong '
+          'answer, and it hands trips to a big place too far away to earn them.',
+    ),
+  ],
+  spoken: [
+    (
+      'The weight',
+      r'A_j F_{ij}',
+      'what a place attracts, times how easy it is to reach',
+    ),
     (
       'The share',
-      r'T_{ij} = P_i \dfrac{A_j F_{ij} K_{ij}}{\sum_j A_j F_{ij} K_{ij}}',
+      r'T_{ij} = P_i \dfrac{A_j F_{ij}}{\sum_j A_j F_{ij}}',
+      'its weight divided by all the weights added up',
     ),
-    ('The check', r'\textstyle\sum_j T_{ij} = P_i'),
+    (
+      'The check',
+      r'\textstyle\sum_j T_{ij} = P_i',
+      'the trips sent out equal the trips produced',
+    ),
   ],
-  figure: BriefFigure.gravity,
+  figure: BriefFigure.none,
   handbook: 'Handbook, gravity model',
 );
 
 const frictionBrief = BriefSection(
   title: 'Big attracts, far repels',
-  body:
-      'The friction factor is the part of the model that behaves like '
-      'distance in gravity itself: it FALLS as the travel time between two '
-      'zones rises, so distant destinations receive fewer trips. The name '
-      'misleads a little, because a HIGH friction factor means an EASY trip. '
-      'It is written that way so it can multiply the attractions directly. '
-      'Distance does not always win, though. A destination five times the '
-      'size can still take the majority of the trips despite being much '
-      'harder to reach, which is why a regional mall draws from half a '
-      'county. And when a new road cuts the travel time, the factor rises '
-      'and trips move toward that zone, without the origin producing a '
-      'single extra trip: distribution moves trips, it does not create '
-      'them. The K factor is a correction for what the model cannot see, '
-      'and it is one when there is nothing to correct.',
-  formulas: [
-    ('Longer trip', r'F_{ij} \text{ falls}'),
-    ('The balance', r'A_j \text{ up against } F_{ij} \text{ down}'),
-    ('No new trips', r'\textstyle\sum_j T_{ij} = P_i \text{ still}'),
+  picture: frictionPicture,
+  steps: [
+    (
+      'Distance pushes trips away',
+      'The further apart two places are, the fewer trips run between them. '
+          'The friction factor is the number that carries that, and it FALLS as '
+          'the travel time rises.',
+    ),
+    (
+      'The name is backwards',
+      'A HIGH friction factor means an EASY trip. It is written that way so '
+          'it can multiply the attractions directly, but the word suggests the '
+          'opposite.',
+    ),
+    (
+      'Size can beat distance',
+      'A place five times bigger can still take most of the trips even '
+          'though it is much harder to reach. That is why a regional mall pulls '
+          'from half a county.',
+    ),
+    (
+      'A new road moves trips, it does not make them',
+      'Cut the travel time and the factor rises, so trips shift toward that '
+          'place. The origin still produces exactly what it produced before.',
+    ),
   ],
-  figure: BriefFigure.friction,
+  spoken: [
+    (
+      'Longer trip',
+      r'F_{ij} \text{ falls}',
+      'the harder the trip, the smaller the factor',
+    ),
+    (
+      'The balance',
+      r'A_j \uparrow \text{ against } F_{ij} \downarrow',
+      'size pulling one way, distance the other',
+    ),
+    (
+      'No new trips',
+      r'\textstyle\sum_j T_{ij} = P_i',
+      'the total still equals what the origin made',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, gravity model',
 );
 
 const signCategoryBrief = BriefSection(
-  title: 'Shape first, then the words',
-  body:
-      'A sign carries its category in its shape and color, before a word of '
-      'it is read. REGULATORY signs impose a legal requirement and are '
-      'mostly white rectangles with black legends, with two shapes held '
-      'back for the two messages that must be readable at any angle: the red '
-      'octagon for STOP and the triangle for YIELD. WARNING signs are yellow '
-      'diamonds and describe what is ahead without requiring anything, which '
-      'is why a speed on a warning sign is advisory and sits on its own '
-      'yellow plate. GUIDE signs are green and carry directions, distances '
-      'and destinations, and ask nothing at all. The point of the manual is '
-      'that this holds everywhere, so a driver recognizes a sign before '
-      'reading it, and the recognition is what buys the reaction time.',
-  formulas: [
-    ('Regulatory', r'\text{white rectangle, red octagon}'),
-    ('Warning', r'\text{yellow diamond}'),
-    ('Guide', r'\text{green}'),
+  title: 'Shape and color first, then the words',
+  picture: signCategoryPicture,
+  steps: [
+    (
+      'You know a sign before you read it',
+      'A red octagon is a stop sign even from behind, even in fog, even in '
+          'a language you do not speak. That recognition is what buys a driver '
+          'reaction time.',
+    ),
+    (
+      'REGULATORY signs give an order',
+      'Mostly white rectangles with black words. Two shapes are held back '
+          'for the two messages that must read from any angle: the red octagon '
+          'for stop and the triangle for yield.',
+    ),
+    (
+      'WARNING signs are yellow diamonds',
+      'They tell you what is ahead without ordering anything. That is why a '
+          'speed on a yellow plate is only advice, not a limit.',
+    ),
+    (
+      'GUIDE signs are green',
+      'Directions, distances and destinations. They ask nothing at all. '
+          'The manual holds this the same everywhere so the pattern can be '
+          'trusted.',
+    ),
   ],
-  figure: BriefFigure.signCategory,
+  spoken: [
+    (
+      'Regulatory',
+      r'\text{white rectangle, red octagon, triangle}',
+      'a legal requirement',
+    ),
+    ('Warning', r'\text{yellow diamond}', 'what is ahead, no order given'),
+    ('Guide', r'\text{green}', 'directions and distances'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'MUTCD, sign categories',
 );
 
 const warrantBrief = BriefSection(
   title: 'A signal has to earn its place',
-  body:
-      'A traffic signal is not automatically an improvement. It stops '
-      'traffic that did not have to stop before, so it buys delay and '
-      'rear-end crashes, and an unwarranted one teaches drivers to '
-      'disregard a red. That is why the manual requires a WARRANT analysis '
-      'first. The warrants are not all about vehicle counts: there is one '
-      'for eight hours of heavy volume, one for a single very heavy peak '
-      'hour, one for people waiting to cross on foot, one for a school '
-      'crossing, and one for a crash history the signal would fix. An '
-      'intersection can qualify on any single one. And meeting a warrant '
-      'makes a signal JUSTIFIED rather than required: engineering judgment '
-      'still decides, and sometimes decides on a roundabout instead. The '
-      'trade a signal makes is the right-angle crash, which injures people, '
-      'against the rear-end crash, which usually does not.',
-  formulas: [
-    ('Before installing', r'\text{a warrant must be met}'),
-    ('Meeting one', r'\text{justified, not required}'),
-    ('The trade', r'\text{fewer angle, more rear-end}'),
+  picture: warrantPicture,
+  steps: [
+    (
+      'A signal is not automatically better',
+      'It stops traffic that never had to stop before. That buys delay and '
+          'rear-end crashes, and an unnecessary red teaches drivers to ignore '
+          'reds everywhere.',
+    ),
+    (
+      'So there is a checklist first',
+      'The manual calls them warrants. Eight hours of heavy traffic. One '
+          'very heavy hour. People waiting to cross on foot. A school crossing. '
+          'A crash history a signal would fix.',
+    ),
+    (
+      'Any single one can qualify it',
+      'A crossing does not have to meet them all. Meeting one is enough to '
+          'consider a signal.',
+    ),
+    (
+      'Justified is not the same as required',
+      'Even when a warrant is met, judgment still decides, and sometimes '
+          'decides on a roundabout instead. The trade a signal makes is fewer '
+          'right-angle crashes, which hurt people, for more rear-end crashes, '
+          'which usually do not.',
+    ),
   ],
-  figure: BriefFigure.signalWarrant,
+  spoken: [
+    (
+      'Before installing',
+      r'\text{a warrant must be met}',
+      'the checklist comes first',
+    ),
+    (
+      'Meeting one',
+      r'\text{justified, not required}',
+      'judgment still decides',
+    ),
+    (
+      'The trade',
+      r'\text{fewer angle, more rear-end}',
+      'the crashes that hurt people, traded for the ones that usually do not',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'MUTCD, signal warrants',
 );
 

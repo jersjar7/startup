@@ -142,6 +142,168 @@ Widget pedestrianGreenPicture() => const ConceptPicture(
   height: 195,
 );
 
+// ---------------------------------------------------------------------------
+// 122 Traffic flow
+
+Widget greenshieldsPicture() => const ConceptPicture(
+  painter: GreenshieldsPainter(
+    stream: Stream(freeFlow: 70, jamDensity: 180),
+    showPoint: false,
+    answered: true,
+  ),
+  caption: 'speed falling as the lane fills, and the flow that comes out of it',
+  height: 240,
+);
+
+Widget speedDensityPicture() => const ConceptPicture(
+  painter: GreenshieldsPainter(
+    stream: Stream(freeFlow: 70, jamDensity: 180, density: 60),
+    answered: true,
+  ),
+  caption: 'at 60 cars a mile, how much of the free flow speed is left',
+  height: 240,
+);
+
+Widget crashRatePicture() => const ConceptPair(
+  left: ExposurePainter(
+    rate: CrashRate(crashes: 12, dailyTraffic: 8000),
+    answered: true,
+  ),
+  right: ExposurePainter(
+    rate: CrashRate(crashes: 20, dailyTraffic: 30000),
+    answered: true,
+  ),
+  leftCaption: 'twelve crashes, a quiet junction',
+  rightCaption: 'twenty crashes, but far more traffic passed through',
+  height: 200,
+);
+
+// ---------------------------------------------------------------------------
+// 123 Capacity
+
+Widget heavyVehiclePicture() => const ConceptPair(
+  left: TruckPainter(
+    mix: TruckMix(trucks: 0.10, equivalent: 2.0),
+    answered: true,
+  ),
+  right: TruckPainter(
+    mix: TruckMix(trucks: 0.10, equivalent: 3.0),
+    answered: true,
+  ),
+  leftCaption: 'on the level a truck takes the room of two cars',
+  rightCaption: 'on rolling ground it takes three',
+  height: 200,
+);
+
+const _lessonFreeway = Freeway(
+  volume: 4500,
+  peakHourFactor: 0.92,
+  lanes: 3,
+  mix: TruckMix(trucks: 0.10, equivalent: 2.0),
+);
+
+Widget demandFlowPicture() => const ConceptPicture(
+  painter: LosPainter(road: _lessonFreeway, answered: true),
+  caption:
+      'one hourly count, divided three times to reach cars per hour per lane',
+  height: 240,
+);
+
+Widget levelOfServicePicture() => const ConceptPicture(
+  painter: LosPainter(road: _lessonFreeway, showSteps: false, answered: true),
+  caption: 'the six bands, and where this freeway lands on them',
+  height: 230,
+);
+
+// ---------------------------------------------------------------------------
+// 124 Travel demand
+
+Widget fourStepPicture() => const ConceptPicture(
+  painter: StepsPainter(highlight: Forecast.distribution, answered: true),
+  caption: 'the four models, each one fed by the one before it',
+  height: 210,
+);
+
+const _twoZones = Spread(
+  produced: 1000,
+  destinations: [
+    Destination(name: 'zone 1', attractions: 200, friction: 0.5),
+    Destination(name: 'zone 2', attractions: 300, friction: 0.2),
+  ],
+);
+
+Widget gravityPicture() => const ConceptPicture(
+  painter: GravityPainter(spread: _twoZones, answered: true),
+  caption: 'a thousand trips shared between two places, in proportion',
+  height: 215,
+);
+
+Widget frictionPicture() => const ConceptPair(
+  left: GravityPainter(
+    spread: Spread(
+      produced: 1000,
+      destinations: [
+        Destination(name: 'near', attractions: 250, friction: 0.6),
+        Destination(name: 'far', attractions: 250, friction: 0.15),
+      ],
+    ),
+    answered: true,
+  ),
+  right: GravityPainter(
+    spread: Spread(
+      produced: 1000,
+      destinations: [
+        Destination(name: 'near', attractions: 250, friction: 0.6),
+        Destination(name: 'far', attractions: 1200, friction: 0.15),
+      ],
+    ),
+    answered: true,
+  ),
+  leftCaption: 'same size, one further away: the near one wins',
+  rightCaption: 'the far one five times bigger: now it wins anyway',
+  height: 210,
+);
+
+// ---------------------------------------------------------------------------
+// 125 Signs and signals
+
+Widget signCategoryPicture() => const ConceptPair(
+  left: SignPainter(
+    sign: RoadSign(
+      shape: SignShape.octagon,
+      color: 'red',
+      legend: 'STOP',
+      kind: SignKind.regulatory,
+    ),
+    answered: true,
+  ),
+  right: SignPainter(
+    sign: RoadSign(
+      shape: SignShape.diamond,
+      color: 'yellow',
+      legend: 'curve',
+      kind: SignKind.warning,
+    ),
+    answered: true,
+  ),
+  leftCaption: 'a shape and color that mean a rule',
+  rightCaption: 'a shape and color that mean a warning',
+  height: 215,
+);
+
+Widget warrantPicture() => const ConceptPicture(
+  painter: WarrantPainter(
+    crossing: Junction(
+      description: 'a quiet crossroads, a few dozen vehicles an hour',
+      warrantMet: null,
+      note: 'a signal here would add delay and rear-end crashes',
+    ),
+    answered: true,
+  ),
+  caption: 'the list a crossing has to meet before it earns a signal',
+  height: 225,
+);
+
 /// Every picture on this chapter's sheets, by the contact sheet's card name.
 const transportationPictures = <String, Widget Function()>{
   'distance': sightDistancePicture,
@@ -155,4 +317,15 @@ const transportationPictures = <String, Widget Function()>{
   'yellow': yellowPicture,
   'allred': allRedPicture,
   'walk': pedestrianGreenPicture,
+  'peakflow': greenshieldsPicture,
+  'line': speedDensityPicture,
+  'rate': crashRatePicture,
+  'trucks': heavyVehiclePicture,
+  'flow': demandFlowPicture,
+  'letter': levelOfServicePicture,
+  'steps': fourStepPicture,
+  'gravity': gravityPicture,
+  'friction': frictionPicture,
+  'signs': signCategoryPicture,
+  'warrants': warrantPicture,
 };
