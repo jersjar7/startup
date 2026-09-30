@@ -107,29 +107,34 @@ Widget slopePicture() => const ConceptPicture(
   height: 220,
 );
 
-Widget twoEquationsPicture() => const ConceptPair(
-  left: PushPainter(
-    pushed: Pushed(round: true, held: Held2.axle, lands: Lands.rim),
-  ),
-  right: PushPainter(
-    pushed: Pushed(round: false, held: Held2.free, lands: Lands.middle),
-  ),
-  leftCaption: 'pinned on an axle: it can only spin',
-  rightCaption: 'pushed through its middle: it can only slide',
-  height: 200,
+Widget twoEquationsPicture() => const ConceptPicture(
+  painter: _PinOrFreePainter(),
+  caption:
+      'the same push, twice. Bolted down it can only turn; loose and pushed through the middle it can only travel',
+  height: 240,
 );
 
 // ---------------------------------------------------------------------------
 // Work, energy and power
 
+// Every bucket the steps name appears in the one drawing: height and a shove
+// on the before side, movement, a squeezed spring and what friction took on
+// the after side. A ledger with only three of them leaves the spring and the
+// shove to the words.
 Widget ledgerPicture() => const ConceptPicture(
   painter: LedgerPainter(
-    ledger: Ledger(heightStart: 100, movingEnd: 70, gone: 30),
-    tallest: 100,
+    ledger: Ledger(
+      heightStart: 100,
+      added: 20,
+      movingEnd: 40,
+      springEnd: 50,
+      gone: 30,
+    ),
+    tallest: 120,
   ),
   caption:
-      'before and after, as two stacks. Height turned into movement, and a rough patch took the rest',
-  height: 210,
+      'before and after, as two stacks. A shove put some in, a rough patch took some out, and a spring holds the rest',
+  height: 230,
 );
 
 Widget cancelPicture() => const ConceptPicture(
@@ -200,21 +205,45 @@ Widget impulsePicture() => const ConceptPair(
 // ---------------------------------------------------------------------------
 // Vibrations
 
-Widget naturalPicture() => const ConceptPair(
-  left: SpringPainter(
-    bouncer: Bouncer(mass: 2, stiffness: 800),
-    frame: (8, 800),
-    label: 'light block',
-  ),
-  right: SpringPainter(
-    bouncer: Bouncer(mass: 8, stiffness: 800),
-    frame: (8, 800),
-    label: 'heavy block',
-  ),
-  leftCaption: 'same spring, light block: it bounces quickly',
-  rightCaption: 'same spring, four times the weight: half the rate',
-  height: 220,
+// Both levers, one under the other: change the block and change the spring.
+// All four are drawn to one frame, so a fatter coil really is a stiffer
+// spring and a bigger block really is a heavier one. A single pair showed
+// only the weight, which left "same spring" resting on the caption.
+Widget naturalPicture() => const Column(
+  children: [
+    ConceptPair(
+      left: SpringPainter(
+        bouncer: Bouncer(mass: 2, stiffness: 800),
+        frame: _springFrame,
+      ),
+      right: SpringPainter(
+        bouncer: Bouncer(mass: 8, stiffness: 800),
+        frame: _springFrame,
+      ),
+      leftCaption: 'one spring, light block: quick',
+      rightCaption: 'the same spring, four times the weight: half the rate',
+      height: 190,
+    ),
+    SizedBox(height: 14),
+    ConceptPair(
+      left: SpringPainter(
+        bouncer: Bouncer(mass: 4, stiffness: 400),
+        frame: _springFrame,
+      ),
+      right: SpringPainter(
+        bouncer: Bouncer(mass: 4, stiffness: 1600),
+        frame: _springFrame,
+      ),
+      leftCaption: 'one block, floppy spring: slow',
+      rightCaption: 'the same block, four times the stiffness: twice the rate',
+      height: 190,
+    ),
+  ],
 );
+
+/// The heaviest block and the stiffest spring on the sheet, so all four
+/// drawings share one scale.
+const _springFrame = (8.0, 1600.0);
 
 Widget resonancePicture() => const ConceptPicture(
   painter: _ResonancePainter(),
@@ -287,6 +316,161 @@ void _arrow(Canvas canvas, Offset from, Offset to, Paint paint) {
     ..lineTo(to.dx - u.dx * 9 - n.dx * 5, to.dy - u.dy * 9 - n.dy * 5)
     ..close();
   canvas.drawPath(head, Paint()..color = paint.color);
+}
+
+/// The same push on a body that is bolted down and on one that is loose,
+/// with what each body is then ALLOWED to do drawn beside it: a real pin
+/// support under the wheel, and the movement each one cannot make struck
+/// through. A small ring at the middle asks the reader to know what a pin
+/// is; a bolt into hatched ground shows it.
+class _PinOrFreePainter extends CustomPainter {
+  const _PinOrFreePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final half = size.width / 2;
+    _scene(canvas, Rect.fromLTWH(0, 0, half, size.height), pinned: true);
+    _scene(canvas, Rect.fromLTWH(half, 0, half, size.height), pinned: false);
+    canvas.drawLine(
+      Offset(half, 16),
+      Offset(half, size.height - 16),
+      _stroke(AppColors.ink3, 1)..strokeCap = StrokeCap.butt,
+    );
+  }
+
+  void _scene(Canvas canvas, Rect box, {required bool pinned}) {
+    final mid = Offset(box.center.dx, box.top + box.height * 0.34);
+    final r = math.min(box.width, box.height) * 0.19;
+    final ink = _stroke(AppColors.charcoal, 2.2);
+    final fill = Paint()..color = AppColors.info.withValues(alpha: 0.22);
+
+    if (pinned) {
+      canvas
+        ..drawCircle(mid, r, fill)
+        ..drawCircle(mid, r, ink);
+    } else {
+      final rect = Rect.fromCenter(center: mid, width: r * 2, height: r * 1.6);
+      canvas
+        ..drawRect(rect, fill)
+        ..drawRect(rect, ink);
+    }
+
+    // The push, landing at the rim on the left and through the middle on the
+    // right. Same arrow both times: only the holding changes.
+    final at = pinned ? mid + Offset(0, -r) : mid;
+    _arrow(canvas, at - const Offset(46, 0), at, _stroke(AppColors.ember, 2.6));
+    final f = _text('F', color: AppColors.ember);
+    f.paint(canvas, at - Offset(58, f.height / 2));
+
+    if (pinned) {
+      // A pin support: the bolt through the middle, a bracket down to the
+      // ground, and the ground hatched. This is the thing that makes the
+      // wheel unable to go anywhere.
+      final base = box.top + box.height * 0.64;
+      canvas
+        ..drawPath(
+          Path()
+            ..moveTo(mid.dx, mid.dy)
+            ..lineTo(mid.dx - 13, base)
+            ..lineTo(mid.dx + 13, base)
+            ..close(),
+          Paint()..color = AppColors.creamDark,
+        )
+        ..drawPath(
+          Path()
+            ..moveTo(mid.dx, mid.dy)
+            ..lineTo(mid.dx - 13, base)
+            ..lineTo(mid.dx + 13, base)
+            ..close(),
+          _stroke(AppColors.charcoal, 2),
+        )
+        ..drawCircle(mid, 4, Paint()..color = AppColors.charcoal)
+        ..drawLine(
+          Offset(mid.dx - 22, base),
+          Offset(mid.dx + 22, base),
+          _stroke(AppColors.charcoal, 2)..strokeCap = StrokeCap.butt,
+        );
+      for (var h = -20.0; h < 22; h += 7) {
+        canvas.drawLine(
+          Offset(mid.dx + h, base),
+          Offset(mid.dx + h - 5, base + 6),
+          _stroke(AppColors.ink3, 1)..strokeCap = StrokeCap.butt,
+        );
+      }
+      _spin(canvas, mid, r + 12, AppColors.forest);
+      final row = box.bottom - 38;
+      _crossedArrow(
+        canvas,
+        Offset(box.center.dx - 26, row),
+        Offset(box.center.dx + 26, row),
+      );
+      _under(canvas, box, 'turns, cannot travel');
+    } else {
+      final row = box.bottom - 38;
+      _arrow(
+        canvas,
+        Offset(box.center.dx - 44, row),
+        Offset(box.center.dx - 4, row),
+        _stroke(AppColors.forest, 2.6),
+      );
+      _crossedSpin(canvas, Offset(box.center.dx + 30, row), 12);
+      _under(canvas, box, 'travels, does not turn');
+    }
+  }
+
+  /// A curved arrow round the body: what it is free to do.
+  void _spin(Canvas canvas, Offset mid, double r, Color tone) {
+    final rect = Rect.fromCircle(center: mid, radius: r);
+    canvas.drawArc(rect, -0.5, 3.4, false, _stroke(tone, 2.4));
+    final end = mid + Offset(r * math.cos(2.9), r * math.sin(2.9));
+    final tip = mid + Offset(r * math.cos(3.2), r * math.sin(3.2));
+    _arrow(canvas, end, tip, _stroke(tone, 2.4));
+  }
+
+  void _crossedArrow(Canvas canvas, Offset from, Offset to) {
+    _arrow(canvas, from, to, _stroke(AppColors.ink3, 2.2));
+    final m = Offset((from.dx + to.dx) / 2, from.dy);
+    canvas
+      ..drawLine(
+        m + const Offset(-11, -9),
+        m + const Offset(11, 9),
+        _stroke(AppColors.error, 2.2),
+      )
+      ..drawLine(
+        m + const Offset(-11, 9),
+        m + const Offset(11, -9),
+        _stroke(AppColors.error, 2.2),
+      );
+  }
+
+  void _crossedSpin(Canvas canvas, Offset mid, double r) {
+    canvas.drawArc(
+      Rect.fromCircle(center: mid, radius: r),
+      -0.5,
+      3.4,
+      false,
+      _stroke(AppColors.ink3, 2.2),
+    );
+    canvas
+      ..drawLine(
+        mid + const Offset(-11, -9),
+        mid + const Offset(11, 9),
+        _stroke(AppColors.error, 2.2),
+      )
+      ..drawLine(
+        mid + const Offset(-11, 9),
+        mid + const Offset(11, -9),
+        _stroke(AppColors.error, 2.2),
+      );
+  }
+
+  void _under(Canvas canvas, Rect box, String words) {
+    final t = _text(words, size: 9.5, color: AppColors.charcoal);
+    t.paint(canvas, Offset(box.center.dx - t.width / 2, box.bottom - 18));
+  }
+
+  @override
+  bool shouldRepaint(_PinOrFreePainter old) => false;
 }
 
 /// The five quantities of straight line motion, with the absent one struck
