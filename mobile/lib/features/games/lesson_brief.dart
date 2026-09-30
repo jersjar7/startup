@@ -4171,59 +4171,132 @@ const resultantBrief = BriefSection(
 );
 
 const zeroForceBrief = BriefSection(
-  title: 'Members carrying nothing',
-  body:
-      'Two rules, and they are worth a minute before any calculation. Two '
-      'members meeting at a joint with nothing applied to it: both are zero. '
-      'Three members at such a joint with two of them in line: the odd one out '
-      'is zero. Both rules need the joint UNLOADED, so a reaction or a hung '
-      'load at that joint switches them off. A zero-force member is not spare. '
-      'It braces the joint and it takes over the moment the loading changes.',
-  formulas: [
-    ('Two at an unloaded joint', r'F_1 = F_2 = 0'),
-    ('Three, two collinear', r'F_{\text{odd}} = 0'),
-    ('What turns it off', r'\text{any load or reaction at the joint}'),
+  title: 'Some bars carry nothing at all',
+  picture: zeroForcePicture,
+  steps: [
+    (
+      'A truss is bars pinned at their ends',
+      'Every bar can only pull or push along its own length, like a rope or a '
+          'stick. At each pin, all the pulls and pushes have to cancel out, or '
+          'the pin would fly off.',
+    ),
+    (
+      'Two bars meeting with nothing else there',
+      'They point different ways. The only way two forces in different '
+          'directions cancel is if both are zero. So both bars carry nothing.',
+    ),
+    (
+      'Three bars, two of them in a straight line',
+      'The two in line push straight against each other. That leaves the odd '
+          'one out with nothing to balance against, so it carries nothing.',
+    ),
+    (
+      'Hang anything on that pin and the rule is off',
+      'Both rules need the pin EMPTY: no load, no support. A weight hung '
+          'there gives the odd bar something to balance, and it goes to work.',
+    ),
   ],
-  figure: BriefFigure.zeroForce,
+  spoken: [
+    ('Two at an empty pin', r'F_1 = F_2 = 0', 'both carry nothing'),
+    (
+      'Three, two in a line',
+      r'F_{\text{odd}} = 0',
+      'the one out of line carries nothing',
+    ),
+    (
+      'What switches it off',
+      r'\text{any load or support at that pin}',
+      'the pin has to be empty',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
 const senseOfForceBrief = BriefSection(
-  title: 'Tension, compression, and the sign',
-  body:
-      'Draw every unknown member force pulling AWAY from the joint, which is '
-      'assuming tension. Then the algebra tells you the truth: positive means '
-      'the member really is stretched, negative means it is squashed. Answer '
-      'with both parts. Four point two kilonewtons is not an answer on this '
-      'exam. Four point two kilonewtons compression is. Under downward load a '
-      'simply supported truss squashes its top chord and stretches its bottom '
-      'chord, and a cantilever does the opposite.',
-  formulas: [
-    ('The assumption', r'\text{all members in tension}'),
-    ('Positive', r'T > 0 \;\Rightarrow\; \text{tension}'),
-    ('Negative', r'T < 0 \;\Rightarrow\; \text{compression}'),
+  title: 'Stretched or squashed, and how the sign tells you',
+  picture: senseOfForcePicture,
+  steps: [
+    (
+      'A bar is being pulled or squeezed',
+      'Push down on the middle of a truss and it sags a little. The bars '
+          'along the bottom get stretched longer. The bars along the top get '
+          'squeezed shorter. Stretched is tension, squeezed is compression.',
+    ),
+    (
+      'Guess tension every time',
+      'When you draw an unknown bar force, always draw it PULLING away from '
+          'the pin, as if the bar were stretched. Do it for every bar, without '
+          'thinking about it.',
+    ),
+    (
+      'Then the sign corrects you for free',
+      'Work the numbers out. A positive answer means the bar really is '
+          'stretched. A negative answer means it is squashed. You never have to '
+          'guess right.',
+    ),
+    (
+      'Say which one in the answer',
+      '"4.2 kilonewtons" is not a finished answer on this exam. "4.2 '
+          'kilonewtons compression" is. A cantilever flips it: its top is '
+          'stretched and its bottom squeezed.',
+    ),
   ],
-  figure: BriefFigure.senseOfForce,
+  spoken: [
+    (
+      'The guess',
+      r'\text{draw every bar in tension}',
+      'every unknown drawn pulling away from the pin',
+    ),
+    ('Positive', r'T > 0', 'stretched, so tension'),
+    ('Negative', r'T < 0', 'squashed, so compression'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
 const sectionBrief = BriefSection(
-  title: 'Cutting straight to one member',
-  body:
-      'The method of joints walks the truss one pin at a time. A section skips '
-      'the walk: slice right through the truss, throw one half away, and put '
-      'the three equilibrium equations on what is left. The cut has to cross '
-      'the member you were asked for, and it has to cross no more than three '
-      'members altogether, because three equations is all a flat body gives '
-      'you. It does not have to be vertical. Take moments about the point '
-      'where two of the three cut members meet and the third falls out on its '
-      'own.',
-  formulas: [
-    ('On the piece you keep', r'\sum F_x = 0, \; \sum F_y = 0, \; \sum M = 0'),
-    ('The limit', r'\text{members cut} \le 3'),
-    ('The shortcut', r'\sum M \text{ about where the other two meet}'),
+  title: 'Cut straight through to the bar you want',
+  picture: sectionPicture,
+  steps: [
+    (
+      'Walking pin by pin is slow',
+      'You can solve a truss one pin at a time, but if the bar you want is in '
+          'the middle you have to walk half the truss to reach it.',
+    ),
+    (
+      'So cut the truss in half instead',
+      'Slice an imaginary line right through it, throw one half away, and put '
+          'the three equilibrium equations on the half you kept. The bars you cut '
+          'become forces on that half.',
+    ),
+    (
+      'Two rules for where to cut',
+      'It has to go through the bar you were asked about. And it must cross '
+          'no more than three bars in total, because three equations cannot find '
+          'four unknowns. The cut does not have to be vertical.',
+    ),
+    (
+      'The trick that isolates one bar',
+      'Take moments about the point where the other two cut bars meet. Those '
+          'two pass through your pivot, so they have no arm and drop out, and the '
+          'bar you want falls out on its own.',
+    ),
   ],
-  figure: BriefFigure.section,
+  spoken: [
+    (
+      'On the half you keep',
+      r'\sum F_x = 0, \; \sum F_y = 0, \; \sum M = 0',
+      'the same three equations, on the piece that is left',
+    ),
+    ('The limit', r'\text{bars cut} \le 3', 'no more than three bars crossed'),
+    (
+      'The shortcut',
+      r'\sum M \text{ about where the other two meet}',
+      'the other two drop out, leaving the one you want',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 95',
 );
 
@@ -10962,82 +11035,189 @@ const periodBrief = BriefSection(
 );
 
 const screwBrief = BriefSection(
-  title: 'Whether a screw holds itself',
-  body:
-      'Unwrap one turn of a thread and it is a ramp, and its steepness is the '
-      'pitch angle. The friction angle is the steepest ramp that surface could '
-      'hold on. Compare the two and everything follows. Raising a load is '
-      'always work and the friction angle is added on. Lowering is where it '
-      'gets interesting: a thread shallower than the friction angle is '
-      'SELF-LOCKING and has to be driven down, which is why a car jack holds a '
-      'car and a bolt stays done up. A thread steeper than it runs away under '
-      'the load and has to be held back. Self-locking is not a property of the '
-      'thread alone: grease a jack and you can drop the friction angle under '
-      'the pitch angle without changing a single dimension.',
-  formulas: [
-    ('Screw jack moment', r'M = Pr\tan(\alpha \pm \phi)'),
-    ('Friction angle', r'\phi = \arctan\mu'),
-    ('Self-locking when', r'\phi > \alpha'),
+  title: 'Whether a screw holds itself up',
+  picture: screwPicture,
+  steps: [
+    (
+      'A thread is a ramp wrapped round a rod',
+      'Unwrap one turn of a screw thread and flatten it out and you have a '
+          'ramp. How steep that ramp is, is the pitch angle.',
+    ),
+    (
+      'Every surface has a steepest ramp it can hold on',
+      'That is the friction angle. On a rough surface it is large; on a '
+          'slippery one it is small. It comes straight from the friction number.',
+    ),
+    (
+      'Compare the two and you have the answer',
+      'Thread shallower than the friction angle: it stays put on its own, and '
+          'you have to drive it back DOWN. That is why a car jack holds a car and '
+          'a bolt stays done up.',
+    ),
+    (
+      'Steeper, and it runs away',
+      'A thread steeper than the friction angle unwinds under the load and '
+          'has to be held back. Note it is not the thread alone: grease the jack '
+          'and the same thread can go from safe to running away.',
+    ),
   ],
-  figure: BriefFigure.screw,
+  spoken: [
+    (
+      'Screw jack turn',
+      r'M = Pr\tan(\alpha \pm \phi)',
+      'load times radius times the tangent of the two angles, added when raising',
+    ),
+    (
+      'Friction angle',
+      r'\phi = \arctan\mu',
+      'the steepest ramp this surface can hold on',
+    ),
+    (
+      'It holds itself when',
+      r'\phi > \alpha',
+      'the friction angle beats the thread angle',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 97',
 );
 
 const ceilingBrief = BriefSection(
-  title: 'Friction is a ceiling, not a value',
-  body:
-      'The formula gives you the MOST a surface can hold back, not what it is '
-      'holding back. Friction sits at whatever keeps the thing still, anywhere '
-      'from nothing at all up to that ceiling, and it only reaches the ceiling '
-      'at the instant motion is impending. So read the problem before reaching '
-      'for the formula. Words like about to slide, on the verge, or the '
-      'maximum force before moving are what put you at the ceiling. Without '
-      'them you are somewhere below it and the formula answers a question '
-      'nobody asked.',
-  formulas: [
-    ('What is always true', r'F \le \mu_s N'),
-    ('At impending motion, and only there', r'F = \mu_s N'),
-    ('The angle it lets go at', r'\tan\theta = \mu_s'),
+  title: 'Friction is a ceiling, not a fixed amount',
+  picture: ceilingPicture,
+  steps: [
+    (
+      'Push a heavy box, gently',
+      'Nothing moves. Friction is pushing back exactly as hard as you are '
+          'pushing, and no harder. Push a little harder and friction matches you '
+          'again. It gives you exactly what is needed to keep still.',
+    ),
+    (
+      'Until it cannot keep up',
+      'Keep increasing and you reach a point where friction has nothing left. '
+          'That most it could ever give is the ceiling, and the formula gives you '
+          'THAT number, not what friction is doing right now.',
+    ),
+    (
+      'So read the problem before reaching for the formula',
+      'Words like "about to slide", "on the verge", or "the largest push '
+          'before it moves" put you at the ceiling. Without them you are '
+          'somewhere below it and the formula answers a question nobody asked.',
+    ),
+    (
+      'The angle version of the same idea',
+      'Tilt a ramp slowly. The block holds on until the slope reaches the '
+          'angle whose tangent is the friction number, then it goes.',
+    ),
   ],
-  figure: BriefFigure.ceiling,
+  spoken: [
+    (
+      'Always true',
+      r'F \le \mu_s N',
+      'friction is at most the friction number times the press',
+    ),
+    (
+      'At the point of sliding, and only there',
+      r'F = \mu_s N',
+      'friction is exactly at its ceiling',
+    ),
+    (
+      'The angle it lets go at',
+      r'\tan\theta = \mu_s',
+      'the tangent of the slope angle equals the friction number',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 96',
 );
 
 const beltBrief = BriefSection(
-  title: 'The tight side, then the angle',
-  body:
-      'A belt round a drum holds far more on one side than the other, and '
-      'which side is which is decided before any arithmetic: the tight side is '
-      'the end the belt is being dragged toward, because friction has been '
-      'adding to it the whole way round. Then the contact angle, in radians '
-      'and never in degrees, and it is free to pass a full turn. The growth is '
-      'exponential rather than proportional, which is why a couple of extra '
-      'turns round a bollard let one person hold a ship.',
-  formulas: [
-    ('Belt friction', r'F_1 = F_2\, e^{\mu\theta}'),
-    ('Tight side', r'F_1 \text{ is downstream of the slip}'),
-    ('Half a turn', r'\theta = \pi \text{ radians}'),
+  title: 'A rope round a post: the tight side, then the angle',
+  picture: beltPicture,
+  steps: [
+    (
+      'One person can hold a ship',
+      'Wrap a rope a few turns round a bollard and a small pull on your end '
+          'holds an enormous pull on the other. Friction grips a little more at '
+          'every point round the post, and it all adds up.',
+    ),
+    (
+      'Which side is the tight one',
+      'The tight side is the end the rope is being dragged TOWARD, because '
+          'friction has been adding to it the whole way round. The end you hold '
+          'against the slipping is the slack one.',
+    ),
+    (
+      'Then the wrap angle, in radians',
+      'How far round the post the rope lies. Half a turn is pi. A full turn '
+          'is two pi. It can be more than one turn. Degrees will give a wildly '
+          'wrong answer here.',
+    ),
+    (
+      'The growth is not steady, it snowballs',
+      'The pull does not just add up round the post, it multiplies. That is '
+          'why two extra turns are worth so much more than one.',
+    ),
   ],
-  figure: BriefFigure.belt,
+  spoken: [
+    (
+      'Belt friction',
+      r'F_1 = F_2\, e^{\mu\theta}',
+      'the tight pull is the slack pull, multiplied by e to the friction times the wrap angle',
+    ),
+    (
+      'Tight side',
+      r'F_1 \text{ is the end it is dragged toward}',
+      'downstream of the slipping',
+    ),
+    ('Half a turn', r'\theta = \pi', 'pi radians, never 180 in this formula'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 96',
 );
 
 const normalForceBrief = BriefSection(
-  title: 'What the surface is pressed with',
-  body:
-      'Every friction answer is only as good as the normal force under it, and '
-      'the normal force is the weight ONLY on level ground with nothing else '
-      'acting. Tilt the surface and it drops to the part of the weight square '
-      'to it. Slant the push and it moves again, up if the push presses in and '
-      'down if it lifts. That last one is the whole of the ramp problem: a '
-      'horizontal push on a slope helps you along and fights you at the same '
-      'time. How much of the block is touching never enters into it.',
-  formulas: [
-    ('Level ground, nothing else', r'N = W'),
-    ('On a slope', r'N = W\cos\theta'),
-    ('With a push at an angle to the surface', r'N = W\cos\theta - P\sin\beta'),
+  title: 'How hard the surface is pressed',
+  picture: normalForcePicture,
+  steps: [
+    (
+      'Friction depends on the press',
+      'Every friction answer is the friction number times how hard the two '
+          'surfaces are pressed together. Get the press wrong and everything '
+          'after it is wrong.',
+    ),
+    (
+      'Flat ground, nothing else: the press is the weight',
+      'That is the easy case, and it is the only case where the press equals '
+          'the weight.',
+    ),
+    (
+      'On a slope it drops',
+      'Tilt the surface and only part of the weight presses into it; the rest '
+          'is trying to slide the block down. The steeper the slope, the smaller '
+          'the press and the weaker the grip.',
+    ),
+    (
+      'A slanted push changes it again',
+      'Push downward into the surface and the press goes up. Push upward and '
+          'it goes down. That is the whole ramp problem: a slanted push helps you '
+          'along and changes the grip at the same time.',
+    ),
   ],
-  figure: BriefFigure.normalForce,
+  spoken: [
+    ('Flat, nothing else', r'N = W', 'the press is the weight'),
+    (
+      'On a slope',
+      r'N = W\cos\theta',
+      'only the part of the weight square to the surface',
+    ),
+    (
+      'With a slanted push',
+      r'N = W\cos\theta - P\sin\beta',
+      'the press, less the part of the push that lifts',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 96',
 );
 
