@@ -76,14 +76,20 @@ Widget gaugePicture() => const ConceptPicture(
   height: 210,
 );
 
+// The whole journey in one route, because the steps describe walking the
+// tube end to end and a single hop showed only the first move. Drawn open
+// end to air line, so the path itself goes down one leg, across the bend
+// and up the other. Three separate panels collided with the tube's own
+// caption under the bend, which is why this is one picture and not three.
 Widget manometerPicture() => const ConceptPicture(
   painter: UTubePainter(
     tube: UTube(hasLight: true),
     from: Stop.open,
-    to: Stop.rightBottom,
+    to: Stop.line,
   ),
-  caption: 'a U-tube. start at the open end and walk down to the bend',
-  height: 230,
+  caption:
+      'one walk, end to end: start at the open end where you know it is zero, DOWN the right leg (add), across the bend (nothing), UP the left leg (subtract)',
+  height: 250,
 );
 
 // ---------------------------------------------------------------------------
@@ -198,10 +204,15 @@ Widget thrustPicture() => const ConceptPicture(
   height: 220,
 );
 
+// The game's painter letters four candidate spots and marks the right one,
+// which is a quiz rather than an explanation. The sheet draws the reason
+// instead: the water came in going one way, leaves going another, and the
+// change between them is what gets shoved into the pipe.
 Widget blockPicture() => const ConceptPicture(
-  painter: ElbowPainter(elbow: Elbow(comesFrom: 0, goesTo: 90), locked: true),
-  caption: 'a bend from above. the push lands on the outside of the turn',
-  height: 230,
+  painter: _BendThrustPainter(),
+  caption:
+      'a bend from above. the water turns, and the arrow that closes the two directions is the way the pipe is shoved',
+  height: 250,
 );
 
 // ---------------------------------------------------------------------------
@@ -226,10 +237,41 @@ Widget meteringPicture() => const ConceptPicture(
   height: 220,
 );
 
-Widget coefficientPicture() => const ConceptPicture(
-  painter: _SlipPainter(),
-  caption: 'four slips, and which way each one moves the flow you report',
-  height: 220,
+// The table of slips is not a thing you can point at, so the sheet now opens
+// with the reason a coefficient exists at all: the stream that really leaves
+// a hole is narrower than the hole. That is what makes every coefficient
+// less than one, which is the slip that matters most.
+Widget coefficientPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: GaugePainter(
+        gauge: Gauge(
+          wall: [
+            (0, 150),
+            (0.43, 150),
+            (0.44, 75),
+            (0.46, 75),
+            (0.47, 150),
+            (1, 150),
+          ],
+          plateAt: 0.45,
+          jet: [(0.47, 70), (0.58, 52), (0.72, 66), (1, 130)],
+          taps: (0.3, 0.62),
+          stations: [Sta(at: 0.45, meters: true)],
+        ),
+        locked: true,
+      ),
+      caption:
+          'water leaving a hole squeezes narrower than the hole itself. the formula measures the hole, so it always promises more than you get',
+      height: 210,
+    ),
+    SizedBox(height: 14),
+    ConceptPicture(
+      painter: _SlipPainter(),
+      caption: 'four slips, and which way each one moves the flow you report',
+      height: 220,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -279,6 +321,104 @@ Widget scalingPicture() => const Column(
 
 // ---------------------------------------------------------------------------
 // The painters that exist only for a sheet
+
+/// A right angle bend seen from above, with the water's direction in, the
+/// water's direction out, and the arrow that closes the gap between them.
+/// That closing arrow IS the thrust, and it points to the outside of the
+/// turn, which is the whole of the item.
+class _BendThrustPainter extends CustomPainter {
+  const _BendThrustPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final corner = Offset(size.width * 0.44, size.height * 0.42);
+    final leg = math.min(size.width, size.height) * 0.30;
+    final start = corner - const Offset(1, 0) * leg * 1.3;
+    final end = corner - const Offset(0, 1) * leg * 1.25;
+
+    final bent = Path()
+      ..moveTo(start.dx, start.dy)
+      ..lineTo(corner.dx, corner.dy)
+      ..lineTo(end.dx, end.dy);
+    canvas
+      ..drawPath(
+        bent,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeJoin = StrokeJoin.miter
+          ..strokeWidth = 17,
+      )
+      ..drawPath(
+        bent,
+        Paint()
+          ..color = AppColors.info.withValues(alpha: 0.45)
+          ..style = PaintingStyle.stroke
+          ..strokeJoin = StrokeJoin.miter
+          ..strokeWidth = 13,
+      );
+
+    // Which way the water is going, before and after.
+    final flow = _stroke(AppColors.info, 2.6);
+    _arrow(
+      canvas,
+      start + const Offset(4, 0),
+      start + Offset(leg * 0.7, 0),
+      flow,
+    );
+    _arrow(canvas, end + Offset(0, leg * 0.7), end + const Offset(0, 4), flow);
+    final inLabel = _text('in', color: AppColors.info);
+    inLabel.paint(canvas, start + Offset(leg * 0.24, -18));
+    final outLabel = _text('out', color: AppColors.info);
+    outLabel.paint(canvas, end + const Offset(10, -4));
+
+    // The two directions drawn from one point, and the arrow that closes
+    // them. It runs from the way the water LEAVES back to the way it came,
+    // which is the direction the pipe is shoved: the reaction, not the
+    // water's own change, so it is labeled as the shove and not as it.
+    final hub = Offset(size.width * 0.76, size.height * 0.68);
+    const arm = 34.0;
+    final was = hub + const Offset(arm, 0);
+    final now = hub + const Offset(0, -arm);
+    final faint = _stroke(AppColors.info, 2.2);
+    _arrow(canvas, hub, was, faint);
+    _arrow(canvas, hub, now, faint);
+    _arrow(canvas, now, was, _stroke(AppColors.ember, 3));
+    final change = _text('close the gap', size: 10, color: AppColors.ember);
+    change.paint(canvas, hub + const Offset(-20, -54));
+
+    // The same change, put back on the bend: the pipe is shoved this way.
+    final push = Offset(1 / math.sqrt2, 1 / math.sqrt2);
+    _arrow(
+      canvas,
+      corner + push * 12,
+      corner + push * (leg + 30),
+      _stroke(AppColors.ember, 3),
+    );
+    final shove = _text(
+      'the pipe is shoved this way',
+      size: 10,
+      color: AppColors.ember,
+    );
+    shove.paint(
+      canvas,
+      Offset(
+        math.min(corner.dx + 6, size.width - shove.width - 6),
+        corner.dy + leg + 22,
+      ),
+    );
+
+    final tag = _text(
+      'plan, seen from above',
+      size: 9.5,
+      color: AppColors.ink3,
+    );
+    tag.paint(canvas, Offset(size.width - tag.width - 8, 8));
+  }
+
+  @override
+  bool shouldRepaint(_BendThrustPainter old) => false;
+}
 
 TextPainter _text(
   String s, {
