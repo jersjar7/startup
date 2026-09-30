@@ -14880,9 +14880,10 @@ const floatBrief = BriefSection(
   steps: [
     (
       'Some jobs have room, some have none',
-      'In the drawing, C could start on day three or wait until day eight '
-          'and the job still finishes on time. Those five days are its room to '
-          'slip. The marked chain has no room at all.',
+      'Both drawings are the same five jobs. In the first, C runs at its '
+          'earliest, day three to day five. In the second it waits until day '
+          'eight, and the job still finishes on time. Those five days are C\'s '
+          'room to slip.',
     ),
     (
       'Total float: room before the JOB is late',

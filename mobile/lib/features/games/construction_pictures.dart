@@ -12,11 +12,13 @@
 
 import 'package:flutter/material.dart';
 
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme.dart';
 import 'cpm_figures.dart';
 import 'delivery_figures.dart';
 import 'earned_value_figures.dart';
 import 'mechanics_pictures.dart' show ConceptPicture;
-import 'safety_figures.dart';
+import 'safety_figures.dart' show Trench, TrenchPainter;
 
 // ---------------------------------------------------------------------------
 // The networks, matching the ones the games hand out.
@@ -85,13 +87,21 @@ Widget forwardPassPicture() => const ConceptPicture(
 Widget projectDurationPicture() => const Column(
   children: [
     ConceptPicture(
-      painter: NetworkPainter(network: _fourTask, showLate: false),
+      painter: NetworkPainter(
+        network: _fourTask,
+        showLate: false,
+        answered: true,
+      ),
       caption: 'the long way round is A, B, D: twelve days',
       height: 215,
     ),
     SizedBox(height: 12),
     ConceptPicture(
-      painter: NetworkPainter(network: _flipped, showLate: false),
+      painter: NetworkPainter(
+        network: _flipped,
+        showLate: false,
+        answered: true,
+      ),
       caption:
           'the same drawing with C stretched to nine days. now C is the long '
           'way round, and the job takes fifteen',
@@ -114,7 +124,12 @@ Widget passesPicture() => const Column(
     ),
     SizedBox(height: 12),
     ConceptPicture(
-      painter: NetworkPainter(network: _fiveTask, markCritical: false),
+      painter: NetworkPainter(
+        network: _fiveTask,
+        showEarly: false,
+        markCritical: false,
+        answered: true,
+      ),
       caption:
           'coming back: the latest it can happen without the job finishing '
           'late, in green',
@@ -123,16 +138,44 @@ Widget passesPicture() => const Column(
   ],
 );
 
-Widget floatPicture() => const ConceptPicture(
-  painter: NetworkPainter(network: _fiveTask, highlight: 'C'),
-  caption:
-      'C is marked. it can start on day 3 or wait until day 8, so it has '
-      'five days of room. the marked chain has none',
-  height: 235,
+// Early and late numbers are drawn in separate panels rather than together:
+// the painter stacks both inside a 34pt box, where they overlap.
+Widget floatPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: NetworkPainter(
+        network: _fiveTask,
+        highlight: 'C',
+        showLate: false,
+        markCritical: false,
+        answered: true,
+      ),
+      caption: 'C at its earliest: day 3 to day 5',
+      height: 200,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: NetworkPainter(
+        network: _fiveTask,
+        highlight: 'C',
+        showEarly: false,
+        markCritical: false,
+        answered: true,
+      ),
+      caption:
+          'C at its latest: day 8 to day 10, and the job still finishes on '
+          'time. those five days are its room to slip',
+      height: 200,
+    ),
+  ],
 );
 
 Widget criticalPathPicture() => const ConceptPicture(
-  painter: NetworkPainter(network: _threePaths, showLate: false),
+  painter: NetworkPainter(
+    network: _threePaths,
+    showLate: false,
+    answered: true,
+  ),
   caption:
       'three ways through. the marked one is the longest, and it is the one '
       'with no room anywhere along it',
@@ -182,27 +225,25 @@ Widget excavationPicture() => const Column(
     ),
     SizedBox(height: 12),
     ConceptPicture(
-      painter: TrenchPainter(trench: Trench(depth: 7), answered: true),
-      caption: 'seven feet down, with nothing holding the sides back',
+      painter: TrenchPainter(
+        trench: Trench(depth: 7, protected: true),
+        answered: true,
+      ),
+      caption: 'seven feet down, with the sides shored: the rule is met',
       height: 185,
     ),
   ],
 );
 
-Widget fallProtectionPicture() => const Column(
-  children: [
-    ConceptPicture(
-      painter: HeightPainter(work: Working(height: 5), answered: true),
-      caption: 'five feet up: under the line',
-      height: 185,
-    ),
-    SizedBox(height: 12),
-    ConceptPicture(
-      painter: HeightPainter(work: Working(height: 8), answered: true),
-      caption: 'eight feet up: over it, so something has to be in place',
-      height: 185,
-    ),
-  ],
+// Both workers in one drawing. The game's own height painter draws one
+// worker per panel and writes a sentence that runs under its view tag at
+// sheet width, and the whole idea here is the pair either side of the line.
+Widget fallProtectionPicture() => const ConceptPicture(
+  painter: _TriggerPainter(),
+  caption:
+      'two workers and the six foot line. one is under it, one is over it, '
+      'and only one of them needs anything',
+  height: 215,
 );
 
 // ---------------------------------------------------------------------------
@@ -238,6 +279,88 @@ Widget deliveryFitPicture() => const Column(
     ),
   ],
 );
+
+// ---------------------------------------------------------------------------
+// The one painter that exists only for a sheet
+
+TextPainter _text(String s, {double size = 10, Color color = AppColors.ink2}) {
+  return TextPainter(
+    text: TextSpan(
+      text: s,
+      style: AppTheme.mono(size: size, color: color),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
+}
+
+/// Two workers on platforms either side of the six foot line.
+class _TriggerPainter extends CustomPainter {
+  const _TriggerPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final ground = size.height - 34;
+    final top = 42.0;
+    const tallest = 10.0; // feet drawn to the top of the panel
+    double yOf(double feet) => ground - feet / tallest * (ground - top);
+
+    canvas.drawLine(
+      Offset(14, ground),
+      Offset(size.width - 14, ground),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 2,
+    );
+
+    // The line the rule turns on, ruled the whole way across.
+    final trigger = yOf(6);
+    final dash = Paint()
+      ..color = AppColors.error
+      ..strokeWidth = 1.4;
+    for (var x = 14.0; x < size.width - 14; x += 10) {
+      canvas.drawLine(Offset(x, trigger), Offset(x + 5, trigger), dash);
+    }
+    final rule = _text('6 ft, where protection starts', color: AppColors.error);
+    rule.paint(canvas, Offset(16, trigger - rule.height - 3));
+
+    void worker(double centerX, double feet, String label, Color tone) {
+      final deck = yOf(feet);
+      canvas
+        ..drawRect(
+          Rect.fromLTRB(centerX - 52, deck, centerX + 52, deck + 6),
+          Paint()..color = AppColors.charcoal.withValues(alpha: 0.75),
+        )
+        ..drawRect(
+          Rect.fromLTWH(centerX - 5, deck - 20, 10, 20),
+          Paint()..color = AppColors.charcoal,
+        );
+      // The post it stands on, so the height reads as a height.
+      canvas.drawLine(
+        Offset(centerX, deck + 6),
+        Offset(centerX, ground),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.2,
+      );
+      final t = _text(label, size: 10.5, color: tone);
+      t.paint(canvas, Offset(centerX - t.width / 2, deck - 38));
+    }
+
+    worker(size.width * 0.27, 5, '5 ft up', AppColors.forest);
+    worker(size.width * 0.72, 8, '8 ft up', AppColors.error);
+
+    final under = _text('nothing required', color: AppColors.forest);
+    under.paint(
+      canvas,
+      Offset(size.width * 0.27 - under.width / 2, ground + 8),
+    );
+    final over = _text('rails, net or harness', color: AppColors.error);
+    over.paint(canvas, Offset(size.width * 0.72 - over.width / 2, ground + 8));
+  }
+
+  @override
+  bool shouldRepaint(_TriggerPainter old) => false;
+}
 
 /// Every picture on this chapter's sheets, by the contact sheet's card name.
 const constructionPictures = <String, Widget Function()>{
