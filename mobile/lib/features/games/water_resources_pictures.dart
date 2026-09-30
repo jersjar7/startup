@@ -14,10 +14,15 @@ import '../../core/theme/app_theme.dart';
 import 'channel_figures.dart';
 import 'flow_figures.dart';
 import 'aquifer_figures.dart';
+import 'bod_figures.dart';
+import 'chlorine_figures.dart';
+import 'clarifier_figures.dart';
+import 'filter_figures.dart';
 import 'hazen_figures.dart';
 import 'hydrograph_figures.dart';
 import 'pump_figures.dart';
 import 'runoff_figures.dart';
+import 'standards_figures.dart';
 import 'mechanics_pictures.dart' show ConceptPicture, ConceptPair;
 import 'weir_figures.dart';
 
@@ -335,6 +340,163 @@ Widget wellsPicture() => const Column(
 );
 
 // ---------------------------------------------------------------------------
+// Oxygen demand
+
+Widget bodPicture() => const ConceptPicture(
+  painter: BodPainter(demand: Demand(ultimate: 300, rate: 0.23), day: 5),
+  caption:
+      'the oxygen bacteria take, day by day. the test stops at day five, '
+      'part way up',
+  height: 230,
+);
+
+Widget temperaturePicture() => const ConceptPicture(
+  painter: BodPainter(
+    demand: Demand(ultimate: 300, rate: 0.23),
+    day: 5,
+    warmer: Demand(ultimate: 300, rate: 0.40),
+    showSplit: false,
+  ),
+  caption:
+      'the same muck, warm and cold. temperature changes the hurry, never '
+      'the total',
+  height: 230,
+);
+
+// ---------------------------------------------------------------------------
+// Settling and activated sludge
+
+Widget overflowPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: ClarifierPainter(
+        clarifier: Clarifier(flowGpd: 2000000, diameter: 60, depth: 12),
+        settlingFeetPerHour: 6,
+        answered: true,
+      ),
+      caption:
+          'a grain that falls faster than the water rises reaches the floor',
+      height: 175,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: ClarifierPainter(
+        clarifier: Clarifier(flowGpd: 2000000, diameter: 60, depth: 12),
+        settlingFeetPerHour: 1,
+        answered: true,
+      ),
+      caption:
+          'a lighter one falls slower than that, so it is carried out over the weir',
+      height: 175,
+    ),
+  ],
+);
+
+Widget residencePicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: PlantPainter(
+        highlight: Loop2.water,
+        note: 'the water crosses once, in hours',
+      ),
+      caption: 'the water goes in one end and out the other and is gone',
+      height: 185,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: PlantPainter(
+        highlight: Loop2.solids,
+        note: 'the solids go round and round, for days',
+      ),
+      caption: 'the solids settle out and are pumped back to go round again',
+      height: 185,
+    ),
+  ],
+);
+
+Widget foodRatioPicture() => const ConceptPicture(
+  painter: PlantPainter(
+    note: 'food arriving each day, over the bugs held to eat it',
+  ),
+  caption:
+      'the load comes in with the water; the biology waiting for it sits in '
+      'the basin',
+  height: 220,
+);
+
+// ---------------------------------------------------------------------------
+// Chlorine and filters
+
+Widget dosePicture() => const ConceptPicture(
+  painter: DosePainter(
+    chlorine: Chlorine(demand: 2.4, residual: 0.6),
+    note: 'the pump is set to the whole bar, not to either piece',
+  ),
+  caption:
+      'the water eats the first part. what is left over is what reaches the '
+      'customer',
+  height: 220,
+);
+
+Widget contactPicture() => const ConceptPicture(
+  painter: ContactPainter(
+    contact: Contact(residual: 1.2, theoretical: 60, baffled: 0.35),
+    answered: true,
+  ),
+  caption:
+      'some water short circuits straight to the outlet. the credit is set '
+      'by that hurried tenth',
+  height: 230,
+);
+
+Widget filterRatePicture() => const ConceptPicture(
+  painter: FilterPainter(
+    bed: FilterBed(length: 20, width: 15, flowGpm: 1350),
+    answered: true,
+  ),
+  caption:
+      'the water goes straight down, so what matters is the bed seen from '
+      'above',
+  height: 230,
+);
+
+// ---------------------------------------------------------------------------
+// Standards
+
+Widget tiersPicture() => const ConceptPair(
+  left: TierPainter(label: 'arsenic 0.010 mg/L', settled: Tier.primary),
+  right: TierPainter(label: 'iron 0.3 mg/L', settled: Tier.secondary),
+  leftCaption: 'a health limit: breaking it is a violation',
+  rightCaption: 'a taste and staining limit: breaking it brings complaints',
+  height: 200,
+);
+
+Widget hardnessPicture() => const ConceptPicture(
+  painter: HardnessPainter(
+    ions: [
+      Ion(name: 'calcium', concentration: 80, equivalentWeight: 20),
+      Ion(name: 'magnesium', concentration: 30, equivalentWeight: 12.15),
+    ],
+    converted: true,
+  ),
+  caption:
+      'two ions put onto one basis. the lighter one counts for more, '
+      'milligram for milligram',
+  height: 230,
+);
+
+Widget efficiencyPicture() => const ConceptPicture(
+  painter: RemovalPainter(
+    removal: Removal(influent: 200, limit: 25),
+    answered: true,
+  ),
+  caption:
+      'what went in, and what came out. the removal is the gap as a share '
+      'of what went in',
+  height: 220,
+);
+
+// ---------------------------------------------------------------------------
 // The painters that exist only for a sheet
 
 TextPainter _text(
@@ -516,4 +678,15 @@ const waterresourcesPictures = <String, Widget Function()>{
   'routing': routingPicture,
   'seepage': seepagePicture,
   'wells': wellsPicture,
+  'bod': bodPicture,
+  'temperature': temperaturePicture,
+  'overflow': overflowPicture,
+  'residence': residencePicture,
+  'foodratio': foodRatioPicture,
+  'dose': dosePicture,
+  'contact': contactPicture,
+  'filter': filterRatePicture,
+  'tiers': tiersPicture,
+  'hardness': hardnessPicture,
+  'efficiency': efficiencyPicture,
 };

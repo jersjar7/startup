@@ -9370,7 +9370,7 @@ const hazenBrief = BriefSection(
     (
       'The constant',
       r'k_1 = 1.318 \text{ (ft)}, \; 0.849 \text{ (m)}',
-      'one point three one eight in feet, nought point eight four nine in meters',
+      'one point three one eight in feet, zero point eight four nine in meters',
     ),
   ],
   figure: BriefFigure.none,
@@ -9856,245 +9856,460 @@ const wellBrief = BriefSection(
 
 const bodBrief = BriefSection(
   title: 'The five day test is not the whole of it',
-  body:
-      'BOD is the oxygen that bacteria will take while they break down the '
-      'organic matter in a sample, and it arrives over time rather than all '
-      'at once. The ULTIMATE BOD is the whole of it, and the standard '
-      'laboratory test reads a bottle at FIVE DAYS at twenty degrees, which '
-      'catches only part. How much part depends on the decay rate: 68 percent '
-      'at the standard k of 0.23 a day, under 40 percent in slow cold water, '
-      'and nearly all of it in a fast warm sample. The 68 percent figure is '
-      'not a law. Two numbers matter at any moment and they add to the '
-      'ultimate: the BOD EXERTED, which is what the test measures, and the '
-      'BOD REMAINING, which is still to come. Going from the ultimate to a '
-      'measurement you MULTIPLY by the fraction and the answer gets smaller; '
-      'going from a measurement back to the ultimate you DIVIDE and it gets '
-      'larger. The ultimate is always the bigger of the two, which is the '
-      'check that catches a division done upside down.',
-  formulas: [
-    ('Exerted by day t', r'BOD_t = L_0\left(1 - e^{-kt}\right)'),
-    ('Still to come', r'L_0 - BOD_t = L_0 e^{-kt}'),
-    ('Working backward', r'L_0 = \frac{BOD_t}{1 - e^{-kt}}'),
+  picture: bodPicture,
+  steps: [
+    (
+      'Bacteria eat the muck, and breathe while they do it',
+      'Put dirty water in a bottle and the bacteria in it start working '
+          'through the organic matter, using up oxygen as they go. BOD is how '
+          'much oxygen that takes.',
+    ),
+    (
+      'It arrives slowly, not all at once',
+      'The oxygen is used over days, fast at first and then tailing off '
+          'toward a ceiling. The ceiling is the ultimate BOD: everything the muck '
+          'will ever need.',
+    ),
+    (
+      'The standard test reads at day five',
+      'So it catches only part of the way up. About 68 percent at the usual '
+          'decay rate, under 40 percent in slow cold water, nearly all of it in a '
+          'fast warm one. The 68 percent is not a law.',
+    ),
+    (
+      'Which way you are going decides multiply or divide',
+      'From the ultimate to a five day reading you multiply by the fraction '
+          'and the number gets smaller. From a reading back to the ultimate you '
+          'divide and it gets bigger. The ultimate is always the larger of the '
+          'two, which catches a division done upside down.',
+    ),
   ],
-  figure: BriefFigure.bod,
+  spoken: [
+    (
+      'Used up by day t',
+      r'BOD_t = L_0\left(1 - e^{-kt}\right)',
+      'the ultimate, times the share the bacteria have got through by then',
+    ),
+    (
+      'Still to come',
+      r'L_0 - BOD_t = L_0 e^{-kt}',
+      'the ultimate less what has been used',
+    ),
+    (
+      'Working backward',
+      r'L_0 = \frac{BOD_t}{1 - e^{-kt}}',
+      'the reading divided by the share, which makes it bigger',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 321',
 );
 
 const temperatureBrief = BriefSection(
   title: 'Temperature moves the rate, not the total',
-  body:
-      'Warm water means busy bacteria, so a rate constant quoted at twenty '
-      'degrees has to be corrected for the temperature the water is actually '
-      'at. The exponent is T MINUS 20: above the reference the factor is '
-      'greater than one and the decay speeds up, below it the factor is less '
-      'than one and the decay crawls. Writing 20 minus T gives a slower rate '
-      'for a warmer river, which cannot happen, and it is the trap this '
-      'lesson names. What the correction does NOT touch is the ultimate BOD: '
-      'the same organic matter needs the same oxygen in the end, it simply '
-      'gets there sooner, so the warm curve climbs more steeply to the same '
-      'ceiling. Which theta to use depends on the process and the range: '
-      '1.135 for BOD from 4 to 20 degrees, 1.056 from 21 to 30, and 1.024 for '
-      'reaeration.',
-  formulas: [
-    ('The correction', r'k_T = k_{20}\,\theta^{(T-20)}'),
-    ('BOD, warm', r'\theta = 1.056'),
-    ('BOD, cold', r'\theta = 1.135'),
-    ('Reaeration', r'\theta = 1.024'),
+  picture: temperaturePicture,
+  steps: [
+    (
+      'Warm bacteria work faster',
+      'The same muck in warm water is eaten sooner than in cold water. So a '
+          'decay rate quoted at twenty degrees has to be corrected for the '
+          'temperature the water is really at.',
+    ),
+    (
+      'The ceiling does not move',
+      'The same organic matter needs the same oxygen in the end. Warm water '
+          'only gets there sooner, so the warm curve climbs more steeply to '
+          'exactly the same ceiling.',
+    ),
+    (
+      'Watch which way the exponent runs',
+      'It is the temperature MINUS twenty. Above twenty the factor is bigger '
+          'than one and the decay speeds up. Writing twenty minus T makes a warm '
+          'river slower, which cannot happen, and that is the trap here.',
+    ),
+    (
+      'Which theta belongs to which job',
+      'It depends on the process and the range: 1.135 for BOD from 4 to 20 '
+          'degrees, 1.056 from 21 to 30, and 1.024 for oxygen going back in from '
+          'the air.',
+    ),
   ],
-  figure: BriefFigure.rateTemperature,
+  spoken: [
+    (
+      'The correction',
+      r'k_T = k_{20}\,\theta^{(T-20)}',
+      'the rate at twenty, times theta to the temperature above twenty',
+    ),
+    ('BOD, warm water', r'\theta = 1.056', 'from 21 to 30 degrees'),
+    ('BOD, cold water', r'\theta = 1.135', 'from 4 to 20 degrees'),
+    ('Oxygen from the air', r'\theta = 1.024', 'reaeration'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 322',
 );
 
 const overflowBrief = BriefSection(
   title: 'A rate with the units of a speed',
-  body:
-      'The OVERFLOW RATE of a settling tank is the flow divided by the '
-      'SURFACE area, and although it gets quoted in gallons a day per square '
-      'foot, those units cancel to a velocity. Read it that way and the tank '
-      'explains itself: it is the speed the water rises on its way to the '
-      'weir, so a particle that falls faster than that reaches the floor and '
-      'one that falls slower is carried out. Everything the tank removes is '
-      'decided by that one comparison. The depth appears nowhere in it. '
-      'Building the tank deeper buys DETENTION TIME, which is volume over '
-      'flow and matters for other things, and captures not one extra '
-      'particle; building it wider buys capture. Doubling the flow doubles '
-      'the overflow rate, which is why a storm can wash a clarifier out. '
-      'Primary tanks run at 800 to 1,200 and secondary ones at 400 to 800, '
-      'because biological floc settles far more slowly than grit.',
-  formulas: [
-    ('The overflow rate', r'v_o = \frac{Q}{A_{surface}}'),
-    ('Captured when', r'v_s > v_o'),
-    ('Detention time', r'\theta = \frac{V}{Q}'),
+  picture: overflowPicture,
+  steps: [
+    (
+      'A settling tank is a race',
+      'Water enters at the bottom and creeps up to the weir at the top. '
+          'Meanwhile grains of dirt sink. Whether a grain is caught is simply '
+          'whether it sinks faster than the water rises.',
+    ),
+    (
+      'That rising speed is the overflow rate',
+      'It is the flow divided by the SURFACE area. The units get quoted as '
+          'gallons a day per square foot, but those cancel to a speed, and the '
+          'speed is what the tank is really about.',
+    ),
+    (
+      'So depth buys nothing at all here',
+      'Depth is nowhere in it. A deeper tank holds the water longer, which '
+          'matters for other things, and catches not one extra grain. Making the '
+          'tank WIDER is what catches more.',
+    ),
+    (
+      'And a storm can wash it out',
+      'Double the flow and the water rises twice as fast, so grains that used '
+          'to reach the floor now go over the weir. Primary tanks run at 800 to '
+          '1,200; secondary ones at 400 to 800, because biological floc sinks far '
+          'more slowly than grit.',
+    ),
   ],
-  figure: BriefFigure.overflow,
+  spoken: [
+    (
+      'The rising speed',
+      r'v_o = \frac{Q}{A_{surface}}',
+      'the flow divided by the surface area, which is a speed',
+    ),
+    (
+      'Caught when',
+      r'v_s > v_o',
+      'the grain sinks faster than the water rises',
+    ),
+    (
+      'Detention time',
+      r'\theta = \frac{V}{Q}',
+      'the volume over the flow, which is what depth does buy',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 339',
 );
 
 const residenceBrief = BriefSection(
   title: 'Two clocks in one plant',
-  body:
-      'An activated sludge plant runs two residence times and they are not '
-      'the same one. The HYDRAULIC time is volume over flow: how long the '
-      'WATER spends crossing the plant, a few hours, because the water goes '
-      'through once and leaves. The SOLIDS time is the mass of solids held in '
-      'the system over the mass leaving each day, and it comes out in DAYS, '
-      'typically four to fifteen, because the solids settle in the clarifier '
-      'and are pumped back to the basin to go round again until they are '
-      'deliberately wasted. The units are the quickest way to tell which is '
-      'which: hours means water, days means solids. The denominator of the '
-      'solids time has two parts, the waste sludge AND the solids that escape '
-      'over the weir, and dropping the second is a common slip. Wasting more '
-      'sludge shortens the solids time and does nothing at all to the '
-      'hydraulic one.',
-  formulas: [
-    ('The water', r'\theta = \frac{V}{Q}'),
-    ('The solids', r'\theta_c = \frac{V X_A}{Q_w X_w + Q_e X_e}'),
+  picture: residencePicture,
+  steps: [
+    (
+      'The water passes through once',
+      'It comes in, crosses the plant, and leaves. How long that takes is the '
+          'volume over the flow, and it comes out in HOURS.',
+    ),
+    (
+      'The solids go round and round',
+      'Bugs settle out in the clarifier and get pumped back to the basin to '
+          'work again. They stay for DAYS, typically four to fifteen, until '
+          'somebody deliberately wastes them.',
+    ),
+    (
+      'The units tell you which is which',
+      'Hours means water. Days means solids. That alone answers most '
+          'questions before any arithmetic.',
+    ),
+    (
+      'Two ways solids leave, not one',
+      'The waste pump, and the ones that escape over the weir. Leaving the '
+          'second out of the bottom is a common slip. Wasting more sludge '
+          'shortens the solids clock and does nothing at all to the water clock.',
+    ),
   ],
-  figure: BriefFigure.residence,
+  spoken: [
+    (
+      'The water',
+      r'\theta = \frac{V}{Q}',
+      'the basin volume over the flow, in hours',
+    ),
+    (
+      'The solids',
+      r'\theta_c = \frac{V X_A}{Q_w X_w + Q_e X_e}',
+      'the solids held, over the solids leaving each day by both routes',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 333',
 );
 
 const foodRatioBrief = BriefSection(
   title: 'Food over the mouths that eat it',
-  body:
-      'The food to microorganism ratio is the organic load arriving each day '
-      'divided by the mass of biology available to treat it, and the four '
-      'quantities in it sort themselves by which side of the line they sit '
-      'on. The FLOW and the influent BOD are the food, and only their PRODUCT '
-      'matters: a storm that doubles the flow and halves the strength brings '
-      'the same kilograms of BOD and moves the ratio not at all. The BASIN '
-      'VOLUME and the MIXED LIQUOR SOLIDS are the bugs, and their product is '
-      'the biomass being carried, so a second basin at the same concentration '
-      'halves the ratio just as surely as doubling the concentration would. '
-      'The concentration units cancel, which is why the answer comes out per '
-      'day. Conventional plants are held between about 0.2 and 0.4, and the '
-      'waste pump is the lever that gets them there.',
-  formulas: [
-    ('The ratio', r'F{:}M = \frac{Q S_0}{V X_A}'),
-    ('The food', r'Q S_0 \text{, a load per day}'),
-    ('The bugs', r'V X_A \text{, a mass}'),
+  picture: foodRatioPicture,
+  steps: [
+    (
+      'Dinner, and the number of diners',
+      'Organic matter arrives each day. A mass of bugs sits in the basin '
+          'waiting for it. The ratio between the two says whether the bugs are '
+          'underfed or swamped.',
+    ),
+    (
+      'The food is flow times strength',
+      'Only their product counts. A storm that doubles the flow and halves '
+          'the strength brings exactly the same kilograms of food, so the ratio '
+          'does not budge.',
+    ),
+    (
+      'The bugs are volume times concentration',
+      'Their product is the biomass being carried. A second basin at the same '
+          'concentration halves the ratio just as surely as doubling the '
+          'concentration would.',
+    ),
+    (
+      'And the waste pump is the lever',
+      'Conventional plants are held between about 0.2 and 0.4 per day. '
+          'Wasting more sludge lowers the biomass and pushes the ratio up.',
+    ),
   ],
-  figure: BriefFigure.foodRatio,
+  spoken: [
+    (
+      'The ratio',
+      r'F{:}M = \frac{Q S_0}{V X_A}',
+      'the food arriving each day, over the mass of bugs held',
+    ),
+    ('The food', r'Q S_0', 'flow times incoming strength, a load per day'),
+    ('The bugs', r'V X_A', 'basin volume times solids concentration, a mass'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 333',
 );
 
 const doseBrief = BriefSection(
   title: 'Three numbers, and the pump is set to the sum',
-  body:
-      'Chlorination has three quantities in it and two of them get confused. '
-      'The DEMAND belongs to the water: the organic matter, ammonia and iron '
-      'in it consume chlorine before any is left over, and a dirty raw water '
-      'has a high demand. The RESIDUAL is what must still be measurable at '
-      'the far end of the distribution system, and it is the only one of the '
-      'three anybody can sample for out in the mains, which is why '
-      'regulations are written on it. The DOSE is what the feed pump is set '
-      'to, and it is the SUM of the other two: feed only the demand and '
-      'nothing reaches the customer, feed only the residual and the water '
-      'consumes it before it leaves the works. Mass per day comes off the '
-      'dose, not the demand, and a milligram a liter is a gram a cubic meter, '
-      'so the conversion is easier than it looks.',
-  formulas: [
-    ('The balance', r'\text{dose} = \text{demand} + \text{residual}'),
-    ('Mass per day', r'\dot m = \text{dose} \times Q'),
-    ('The handy identity', r'1 \text{ mg/L} = 1 \text{ g/m}^3'),
+  picture: dosePicture,
+  steps: [
+    (
+      'The water eats the first chlorine you add',
+      'Organic matter, ammonia and iron in the raw water consume it before '
+          'any is left over. That appetite is the DEMAND, and a dirty water has a '
+          'big one.',
+    ),
+    (
+      'What is left over is the residual',
+      'It has to still be measurable at the far end of the mains, which is '
+          'the only place anybody can sample. That is why the rules are written '
+          'on the residual.',
+    ),
+    (
+      'The pump is set to both together',
+      'Feed only the demand and nothing reaches the customer. Feed only the '
+          'residual and the water eats it before it leaves the works. The dose is '
+          'the sum.',
+    ),
+    (
+      'Mass per day comes off the dose',
+      'Not off the demand. And a milligram per liter is a gram per cubic '
+          'meter, which makes the arithmetic easier than it looks.',
+    ),
   ],
-  figure: BriefFigure.chlorineDose,
+  spoken: [
+    (
+      'The balance',
+      r'\text{dose} = \text{demand} + \text{residual}',
+      'what you feed is what the water eats plus what must survive',
+    ),
+    (
+      'Mass per day',
+      r'\dot m = \text{dose} \times Q',
+      'the dose times the flow',
+    ),
+    (
+      'The handy identity',
+      r'1 \text{ mg/L} = 1 \text{ g/m}^3',
+      'one milligram per liter is one gram per cubic meter',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 346',
 );
 
 const contactBrief = BriefSection(
-  title: 'Credit is a product, and the time is the honest one',
-  body:
-      'Disinfection credit is CT, the free chlorine RESIDUAL multiplied by '
-      'the contact time, so there are two ways to buy it and they trade off '
-      'exactly: half again the residual does what half again the time would. '
-      'Note that it runs on the residual and not on the dose, so chlorine '
-      'consumed by the demand buys no credit at all. The time is the part '
-      'worth care. It is not the volume over the flow, which assumes every '
-      'drop takes the same path, but t10, the time the fastest TENTH of the '
-      'water gets, and in an unbaffled tank that can be a third of the '
-      'theoretical figure or less because some water short circuits from the '
-      'inlet to the outlet. Baffles are the cheap way to close the gap, and '
-      'compliance is checked at peak flow, when the time is shortest.',
-  formulas: [
-    ('The credit', r'CT = C \times t_{10}'),
-    ('The honest time', r't_{10} < \frac{V}{Q}'),
-    ('What it is for', r'3\text{-log Giardia}, \; 4\text{-log virus}'),
+  title: 'Credit is a product, and the time is the honest part',
+  picture: contactPicture,
+  steps: [
+    (
+      'Killing bugs takes strength and time',
+      'A strong dose for a short while does about as much as a weak one for '
+          'longer. So the credit is the residual multiplied by the contact time, '
+          'and the two trade off exactly.',
+    ),
+    (
+      'It runs on the residual, not the dose',
+      'Chlorine the water already ate buys nothing. Only what is left over '
+          'is doing any disinfecting.',
+    ),
+    (
+      'The time is not volume over flow',
+      'That would assume every drop takes the same path. Some water short '
+          'circuits from the inlet straight to the outlet. The time that counts '
+          'is what the fastest TENTH gets, which in an unbaffled tank can be a '
+          'third of the theoretical figure.',
+    ),
+    (
+      'Baffles are the cheap fix',
+      'They make the water take the long way round and close most of the gap. '
+          'Compliance is checked at peak flow, when the time is shortest.',
+    ),
   ],
-  figure: BriefFigure.contactTime,
+  spoken: [
+    (
+      'The credit',
+      r'CT = C \times t_{10}',
+      'the residual times the time the fastest tenth gets',
+    ),
+    (
+      'The honest time',
+      r't_{10} < \frac{V}{Q}',
+      'always less than volume over flow',
+    ),
+    (
+      'What it has to buy',
+      r'3\text{-log Giardia}, \; 4\text{-log virus}',
+      'the required kill for each organism',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 346',
 );
 
 const standardsBrief = BriefSection(
   title: 'Two tiers, and only one is law',
-  body:
-      'The Safe Drinking Water Act sets PRIMARY standards, which are health '
-      'based and legally enforceable, and SECONDARY standards, which cover '
-      'taste, color, staining and scale and are advisory. Exceeding a primary '
-      'limit is a violation with public notice attached; exceeding a '
-      'secondary one produces complaints. Primary: arsenic at 0.010 mg/L, '
-      'nitrate as nitrogen at 10, the lead action level at 0.015, turbidity, '
-      'the pathogens. Secondary: iron at 0.3, manganese at 0.05, total '
-      'dissolved solids at 500, chloride at 250, pH between 6.5 and 8.5. The '
-      'SIZE of a limit says nothing about which tier it belongs to, only '
-      'about how harmful the substance is. Wastewater is a different act '
-      'entirely: the Clean Water Act licenses discharges through NPDES '
-      'permits, and conventional secondary treatment is about 30 mg/L of BOD '
-      'and suspended solids, roughly 85 percent removal.',
-  formulas: [
-    ('Primary', r'\text{health, enforceable}'),
-    ('Secondary', r'\text{aesthetic, advisory}'),
-    ('Secondary treatment', r'\approx 30 \text{ mg/L BOD}_5'),
+  picture: tiersPicture,
+  steps: [
+    (
+      'Some limits are about health',
+      'Arsenic, nitrate, lead, turbidity, the pathogens. These are PRIMARY '
+          'standards. Going over one is a violation, and the utility has to tell '
+          'the public.',
+    ),
+    (
+      'Some are about how the water seems',
+      'Iron that stains the laundry, manganese, dissolved solids, chloride, '
+          'pH. These are SECONDARY standards. They are advice, not law. Going '
+          'over one brings complaints, not a notice.',
+    ),
+    (
+      'The size of a limit tells you nothing',
+      'A tiny number is not automatically a health limit. Arsenic is 0.010 '
+          'and iron is 0.3, but what puts them in different tiers is harm, not '
+          'magnitude.',
+    ),
+    (
+      'Wastewater is a different law entirely',
+      'Drinking water is the Safe Drinking Water Act. Discharges are the '
+          'Clean Water Act, permitted through NPDES, with conventional secondary '
+          'treatment around 30 mg/L of BOD and suspended solids.',
+    ),
   ],
-  figure: BriefFigure.tiers,
+  spoken: [
+    (
+      'Primary',
+      r'\text{health based, enforceable}',
+      'breaking it is a violation with public notice',
+    ),
+    (
+      'Secondary',
+      r'\text{aesthetic, advisory}',
+      'taste, color, staining and scale',
+    ),
+    (
+      'Secondary treatment',
+      r'\approx 30 \text{ mg/L BOD}_5',
+      'the conventional discharge standard',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, water quality standards',
 );
 
 const hardnessBrief = BriefSection(
   title: 'Everything on one basis',
-  body:
-      'Hardness comes from divalent cations, mostly calcium and magnesium, '
-      'and they cannot be added together as they come because a milligram of '
-      'one is not chemically equal to a milligram of the other. Converting '
-      'each to an equivalent concentration of calcium carbonate puts them on '
-      'one basis, and the multiplier is 50 divided by the ion\'s own '
-      'equivalent weight: 50 over 20 is 2.5 for calcium, and 50 over 12.15 is '
-      '4.12 for magnesium. Magnesium therefore counts for MORE, milligram '
-      'for milligram, because it is the lighter ion. The conversion can '
-      'reverse which of the two dominates, so it has to be done before '
-      'anything is compared as well as before anything is added, and adding '
-      'the raw concentrations understates the hardness every time. The bands '
-      'are soft under 60, moderately hard to 120, hard to 180, and very hard '
-      'above that.',
-  formulas: [
-    ('On one basis', r'\text{as CaCO}_3 = \sum C_i \frac{50}{EW_i}'),
-    ('Calcium', r'\times 2.5'),
-    ('Magnesium', r'\times 4.12'),
+  picture: hardnessPicture,
+  steps: [
+    (
+      'Hardness comes from two main ions',
+      'Calcium and magnesium. Both make scale and both fight soap. But a '
+          'milligram of one is not chemically worth a milligram of the other, so '
+          'they cannot simply be added up as they come.',
+    ),
+    (
+      'Convert both to one common currency',
+      'Everything gets rewritten as the equivalent amount of calcium '
+          'carbonate. The multiplier is 50 divided by the ion\'s own equivalent '
+          'weight.',
+    ),
+    (
+      'The lighter ion counts for more',
+      'Calcium multiplies by 2.5, magnesium by 4.12, because magnesium is the '
+          'lighter of the two. Milligram for milligram, magnesium brings more '
+          'hardness.',
+    ),
+    (
+      'So convert before comparing, not just before adding',
+      'The conversion can flip which ion dominates. Adding the raw numbers '
+          'understates the hardness every single time. The bands: soft under 60, '
+          'moderately hard to 120, hard to 180, very hard above.',
+    ),
   ],
-  figure: BriefFigure.hardness,
+  spoken: [
+    (
+      'On one basis',
+      r'\text{as CaCO}_3 = \sum C_i \frac{50}{EW_i}',
+      'each concentration times fifty over its own equivalent weight',
+    ),
+    ('Calcium', r'\times 2.5', 'fifty over twenty'),
+    ('Magnesium', r'\times 4.12', 'fifty over twelve point one five'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, hardness',
 );
 
 const efficiencyBrief = BriefSection(
   title: 'What came out, over what went in',
-  body:
-      'Removal efficiency is the influent less the effluent, over the '
-      'influent, and the trap is reporting the other piece: the fraction '
-      'still there, which is the effluent over the influent. The two add to '
-      'one, so a plant at 87.5 percent leaves 12.5, and both numbers usually '
-      'appear among the choices. The FLOW is in neither term and cancels '
-      'entirely, so only the ratio of the two concentrations matters, and '
-      'doubling the influent and the permit together changes nothing at all '
-      'even though the plant is removing twice the mass. The last part is '
-      'worth carrying: near the top of the range five percentage points '
-      'halves what is discharged, 90 to 95 taking a 20 mg/L effluent down to '
-      '10. Percentages flatter a good plant, which is why permits are written '
-      'on concentrations.',
-  formulas: [
-    ('Removed', r'E = \frac{S_0 - S}{S_0}'),
-    ('Left', r'\frac{S}{S_0} = 1 - E'),
+  picture: efficiencyPicture,
+  steps: [
+    (
+      'Two numbers, and the gap between them',
+      'Something strong goes in, something weaker comes out. The removal is '
+          'the size of that gap, written as a share of what went in.',
+    ),
+    (
+      'The trap is reporting the other piece',
+      'What is left over, effluent over influent, is the fraction still '
+          'there. The two add to one, so a plant at 87.5 percent leaves 12.5, and '
+          'both numbers are usually among the choices.',
+    ),
+    (
+      'The flow cancels out',
+      'It is in neither term. Only the ratio of the two concentrations '
+          'matters, so doubling the influent and the permit together changes '
+          'nothing even though twice the mass is being removed.',
+    ),
+    (
+      'Percentages flatter a good plant',
+      'Near the top of the range, five points halves what is discharged: 90 '
+          'to 95 takes a 20 mg/L effluent down to 10. That is why permits are '
+          'written on concentrations, not percentages.',
+    ),
   ],
-  figure: BriefFigure.efficiency,
+  spoken: [
+    ('Removed', r'E = \frac{S_0 - S}{S_0}', 'the gap, divided by what went in'),
+    (
+      'Left behind',
+      r'\frac{S}{S_0} = 1 - E',
+      'what came out over what went in, which is one less the removal',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, treatment performance',
 );
 
@@ -12550,26 +12765,46 @@ const stiffnessBrief = BriefSection(
 
 const filterRateBrief = BriefSection(
   title: 'Down through the bed',
-  body:
-      'A filter loading rate is the flow divided by the PLAN area of the '
-      'bed, the surface looked at from above, because the water goes '
-      'straight down through the sand. Divide by one dimension instead and '
-      'the units give it away: a rate per foot is not a rate per square '
-      'foot. Ranges matter as much as the arithmetic. Rapid sand filters run '
-      'between about two and ten gallons a minute to the square foot, so a '
-      'plant at four and a half is mid range, while SLOW sand runs nearer a '
-      'tenth of a gallon and therefore needs tens of times the area for the '
-      'same flow, buying a biological layer and paying for it in land. Twice '
-      'the bed halves the rate, which is the design lever. And note the '
-      'family resemblance: a clarifier overflow rate is the same arithmetic '
-      'on a different box, quoted per DAY, with an acceptable range in the '
-      'hundreds. The pattern carries across and the numbers do not.',
-  formulas: [
-    ('The rate', r'v = Q / A_{plan}'),
-    ('Rapid sand', r'2 \text{ to } 10 \text{ gpm/ft}^2'),
-    ('Slow sand', r'\approx 0.1 \text{ gpm/ft}^2'),
+  picture: filterRatePicture,
+  steps: [
+    (
+      'The water goes straight down',
+      'A sand filter is a box of sand with water pouring onto the top of it. '
+          'So what matters is the bed seen from above: its plan area, length '
+          'times width.',
+    ),
+    (
+      'Flow over that area is the loading rate',
+      'Divide by one dimension instead and the units give you away. A rate '
+          'per foot is not a rate per square foot.',
+    ),
+    (
+      'The ranges are part of the answer',
+      'Rapid sand runs between about two and ten gallons a minute per square '
+          'foot. Slow sand runs near a tenth of that, so it needs tens of times '
+          'the land for the same flow, and buys a living filter layer with it.',
+    ),
+    (
+      'Twice the bed halves the rate',
+      'That is the design lever. The same arithmetic on a settling tank is '
+          'the overflow rate, quoted per day with ranges in the hundreds. The '
+          'pattern carries across; the numbers do not.',
+    ),
   ],
-  figure: BriefFigure.filterRate,
+  spoken: [
+    (
+      'The rate',
+      r'v = \frac{Q}{A_{plan}}',
+      'the flow divided by the bed seen from above',
+    ),
+    (
+      'Rapid sand',
+      r'2 \text{ to } 10 \text{ gpm/ft}^2',
+      'the usual working range',
+    ),
+    ('Slow sand', r'\approx 0.1 \text{ gpm/ft}^2', 'about a hundredth as fast'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, filtration',
 );
 
