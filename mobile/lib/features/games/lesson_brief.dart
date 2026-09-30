@@ -3837,72 +3837,135 @@ const worstBrief = BriefSection(
 
 const endsBrief = BriefSection(
   title: 'The ends decide almost everything',
-  body:
-      'Euler\'s load does not use the length of the column, it uses the '
-      'EFFECTIVE length, which is the distance between the points the buckled '
-      'shape passes straight through. The handbook gives four cases and you '
-      'match the picture to one of them. Both ends pinned is the base case at '
-      'one. Both ends fixed against turning bends the column into an S and '
-      'halves it, and half the length is four times the load. One of each is '
-      'zero point seven. And anything with a FREE end is two, because the '
-      'column bends like half of a pinned one twice as long: that is the case '
-      'students forget, and it is sixteen times weaker than the fixed pair. '
-      'Since the effective length is squared, getting this wrong is never a '
-      'small error.',
-  formulas: [
-    ('Euler', r'P_{cr} = \frac{\pi^2 EI}{(KL)^2}'),
-    ('Pinned both ends', r'K = 1.0'),
-    ('Fixed both ends', r'K = 0.5'),
-    ('One of each, and a free end', r'K = 0.7,\quad K = 2.0'),
+  picture: endsPicture,
+  steps: [
+    (
+      'Push down on a tall thin post',
+      'Press on a ruler stood on end and it does not crush. It bows out '
+          'sideways and gives way. That is buckling, and it happens long before '
+          'the material is anywhere near breaking.',
+    ),
+    (
+      'How the ends are held changes the shape',
+      'Pin both ends and the post bows in one long curve. Clamp both ends so '
+          'they cannot turn and it bends into an S, with straight points a lot '
+          'closer together. Leave the top free and it leans like the top half '
+          'of a post twice as long.',
+    ),
+    (
+      'The formula uses the distance between straight points',
+      'That distance is the EFFECTIVE length, K times L. Pinned both ends is '
+          'K of 1. Clamped both ends is 0.5. One of each is 0.7. A free end is '
+          '2, the case people forget.',
+    ),
+    (
+      'It is squared, so it never goes a little wrong',
+      'Halve the effective length and the post carries four times the load. '
+          'A free-ended post is sixteen times weaker than a clamped pair of the '
+          'same length.',
+    ),
   ],
-  figure: BriefFigure.ends,
+  spoken: [
+    (
+      'Euler',
+      r'P_{cr} = \frac{\pi^2 EI}{(KL)^2}',
+      'the buckling load: pi squared times stiffness times I, over the effective length squared',
+    ),
+    ('Pinned both ends', r'K = 1.0', 'the whole length'),
+    ('Clamped both ends', r'K = 0.5', 'half the length'),
+    (
+      'One of each, and a free end',
+      r'K = 0.7,\quad K = 2.0',
+      'a bit under the length, and twice it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 136',
 );
 
 const weakAxisBrief = BriefSection(
   title: 'It folds about the axis it is weakest around',
-  body:
-      'The I in Euler\'s formula is the MINIMUM one. A column has no say in '
-      'which way it goes and it will not wait for the strong axis, so the only '
-      'second moment that matters is the smaller of the two. Using the bigger '
-      'one does not fail safely: it says the column is stronger than it is. On '
-      'a wide flange section that means the minor axis, which is why building '
-      'columns get braced sideways rather than front to back. A section that '
-      'is the same both ways, a square tube or a round one, has no weak axis '
-      'at all, and that is exactly what makes it a good column: none of the '
-      'material is wasted propping up a strong axis that will never be tested. '
-      'The same idea in stress form is the minimum radius of gyration, r '
-      'equals the square root of I over A.',
-  formulas: [
-    ('Use', r'I_{min} \text{, always}'),
-    ('Or in stress form', r'r = \sqrt{\frac{I}{A}} \text{, the smaller one}'),
-    ('Square or round', r'I_x = I_y \text{, no weak axis}'),
+  picture: weakAxisPicture,
+  steps: [
+    (
+      'A post picks its own way to fold',
+      'Push on a post and it does not ask which way is strong. It bows the '
+          'easiest way there is. For a wide flange that is sideways, about the '
+          'axis with the smaller I.',
+    ),
+    (
+      'So use the smaller I, always',
+      'Euler wants the MINIMUM I. Using the bigger one does not fail safely: '
+          'it says the post is stronger than it really is.',
+    ),
+    (
+      'Why building columns are braced sideways',
+      'Bracing stops the sideways bow, which is the weak direction. Front to '
+          'back the column can already look after itself.',
+    ),
+    (
+      'A square or round tube has no weak way',
+      'Same I in every direction, so no material is wasted propping up a '
+          'strong axis that never gets tested. That is what makes it a good '
+          'column shape.',
+    ),
   ],
-  figure: BriefFigure.weakAxis,
+  spoken: [
+    ('Use', r'I_{min}', 'the smaller of the two I values, always'),
+    (
+      'Or in stress form',
+      r'r = \sqrt{\frac{I}{A}}',
+      'the radius of gyration, the smaller one',
+    ),
+    ('Square or round', r'I_x = I_y', 'the same both ways, so no weak axis'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 136',
 );
 
 const slenderBrief = BriefSection(
   title: 'Long columns buckle, short ones squash',
-  body:
-      'Euler describes a column bowing sideways while the material is still '
-      'elastic, and a stocky column never gets the chance: it reaches its '
-      'yield stress and squashes. So the formula is only allowed when the '
-      'stress it gives comes out BELOW yield, which is the check the lesson\'s '
-      'hardest problem is really asking for. Draw the two ideas together and '
-      'it is one picture: Euler\'s hyperbola falling away as the column gets '
-      'slenderer, the yield stress capping the short end, and a crossing '
-      'between them at a slenderness of pi times the square root of E over the '
-      'yield stress, about eighty nine for ordinary steel. And note what is '
-      'NOT in Euler\'s formula: the strength of the material. A stronger steel '
-      'does nothing for a slender column and everything for a stocky one.',
-  formulas: [
-    ('Critical stress', r'\sigma_{cr} = \frac{\pi^2 E}{(KL/r)^2}'),
-    ('Only when', r'\sigma_{cr} < \sigma_y'),
-    ('They cross at', r'\frac{KL}{r} = \pi\sqrt{\frac{E}{\sigma_y}}'),
-    ('Which for mild steel is', r'\approx 89'),
+  picture: slenderPicture,
+  steps: [
+    (
+      'Two ways to fail',
+      'A short stubby post is crushed: the stress reaches yield and it '
+          'squashes. A long thin post never gets there: it bows sideways first, '
+          'while the material is still fine.',
+    ),
+    (
+      'One picture holds both',
+      'Plot the failing stress against slenderness, how long and thin the '
+          'post is. Euler\'s curve falls away as the post gets slenderer. The '
+          'yield stress is a flat cap across the short end. The post fails at '
+          'whichever is lower.',
+    ),
+    (
+      'Where they cross',
+      'They meet at a slenderness of pi times the square root of E over the '
+          'yield stress, about 89 for ordinary steel. Euler is only allowed when '
+          'the stress it gives comes out below yield.',
+    ),
+    (
+      'Strength is not in Euler',
+      'A stronger steel raises the flat cap and does nothing to the curve. '
+          'It helps a stocky post and does nothing at all for a slender one.',
+    ),
   ],
-  figure: BriefFigure.slender,
+  spoken: [
+    (
+      'Critical stress',
+      r'\sigma_{cr} = \frac{\pi^2 E}{(KL/r)^2}',
+      'pi squared times E, over the slenderness squared',
+    ),
+    ('Only when', r'\sigma_{cr} < \sigma_y', 'the Euler stress is below yield'),
+    (
+      'They cross at',
+      r'\frac{KL}{r} = \pi\sqrt{\frac{E}{\sigma_y}}',
+      'pi times the square root of E over the yield stress, about 89 for mild steel',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 136',
 );
 

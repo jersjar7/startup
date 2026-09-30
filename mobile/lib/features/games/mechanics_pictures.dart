@@ -17,12 +17,14 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/engineering_grid.dart';
 import 'axial_figures.dart';
+import 'column_figures.dart';
 import 'beam_figures.dart' show BeamPainter, Spread;
 import 'composite_figures.dart';
 import 'curve_figures.dart';
 import 'deflection_figures.dart';
 import 'diagram_figures.dart' hide Held;
 import 'mohr_figures.dart';
+import 'section_figures.dart' show Profile;
 import 'stress_figures.dart';
 import 'torsion_figures.dart';
 
@@ -493,6 +495,47 @@ Widget worstPicture() {
 }
 
 // ---------------------------------------------------------------------------
+// Buckling
+
+Widget endsPicture() => const ConceptPair(
+  left: PostPainter(
+    post: Post(length: 3000, top: End.pinned, bottom: End.pinned),
+    bent: true,
+  ),
+  right: PostPainter(
+    post: Post(length: 3000, top: End.free, bottom: End.fixed),
+    bent: true,
+  ),
+  leftCaption: 'pinned at both ends: it bows once, K = 1',
+  rightCaption:
+      'built in below, free above: it leans like half a longer column, K = 2',
+  height: 220,
+);
+
+final Profile _wideFlange = iSection(
+  depth: 200,
+  flangeWidth: 150,
+  flangeThickness: 12,
+  webThickness: 8,
+);
+
+Widget weakAxisPicture() => ConceptPicture(
+  painter: AxisPainter(profile: _wideFlange, highlight: false, locked: true),
+  caption:
+      'a wide flange with both axes drawn. It folds about the one it is weakest around',
+  height: 200,
+);
+
+Widget slenderPicture() => const ConceptPicture(
+  painter: ColumnCurvePainter(
+    post: Post(length: 3200, top: End.pinned, bottom: End.pinned),
+  ),
+  caption:
+      'how much stress a column takes, against how slender it is. Short ones squash at yield; long ones bow first',
+  height: 220,
+);
+
+// ---------------------------------------------------------------------------
 // The painters that exist only for a sheet
 
 TextPainter _text(String s, {double size = 11, Color color = AppColors.ink2}) {
@@ -921,4 +964,7 @@ const mechanicsPictures = <String, Widget Function()>{
   'circle': circlePicture,
   'build': buildPicture,
   'worst': worstPicture,
+  'ends': endsPicture,
+  'weak-axis': weakAxisPicture,
+  'slender': slenderPicture,
 };
