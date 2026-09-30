@@ -6300,492 +6300,1107 @@ const impulseBrief = BriefSection(
 );
 
 const underneathBrief = BriefSection(
-  title: 'What goes underneath',
-  body:
-      'Every number on this page is a force or a stretch over one measurement, '
-      'and the whole skill is knowing which. ENGINEERING stress and strain '
-      'divide by the bar you put in the machine: the area it started with and '
-      'the gauge length it started with. They keep dividing by those even '
-      'after the bar has thinned, which is exactly why the reported stress '
-      'falls at the end of a test while the steel is doing nothing of the '
-      'kind. TRUE stress and strain divide by the bar you have at that '
-      'instant, the waist included. And a strain is a length over a length, '
-      'so it comes out a bare number with no units on it. If what you wrote '
-      'down still has millimeters after it, it is a stretch, and using it as '
-      'a strain puts the modulus out by the whole gauge length.',
-  formulas: [
-    ('Engineering stress', r'\sigma = \frac{F}{A_0}'),
-    ('Engineering strain', r'\varepsilon = \frac{\Delta L}{L_0}'),
-    ('True stress', r'\sigma_T = \frac{F}{A}'),
-    ('True strain', r'\varepsilon_T = \ln(1 + \varepsilon)'),
+  title: 'Which measurement goes underneath',
+  picture: underneathPicture,
+  steps: [
+    (
+      'Pull a bar and watch it change',
+      'A test bar is measured before anything happens: how thick it is and '
+          'how long. Then the machine pulls. It gets longer, and a little '
+          'thinner. Now there are two sets of measurements, the old and the new.',
+    ),
+    (
+      'Engineering numbers use the old ones',
+      'Engineering stress and strain keep dividing by the bar you started '
+          'with, all the way to the break. Those are the numbers you actually '
+          'measured in the shop, so they are the honest ones to report.',
+    ),
+    (
+      'True numbers use the new ones',
+      'True stress divides by the bar you have at that moment, waist and '
+          'all. That area is shrinking, so true stress is always the bigger '
+          'number once the bar starts to thin.',
+    ),
+    (
+      'A strain never has a unit',
+      'Strain is a length divided by a length, so the units cancel to '
+          'nothing. If your number still has millimeters after it, that is a '
+          'stretch, not a strain.',
+    ),
   ],
-  figure: BriefFigure.underneath,
+  spoken: [
+    (
+      'Engineering stress',
+      r'\sigma = \frac{F}{A_0}',
+      'the pull, over the area the bar started with',
+    ),
+    (
+      'Engineering strain',
+      r'\varepsilon = \frac{\Delta L}{L_0}',
+      'how much it grew, over the length it started with',
+    ),
+    (
+      'True stress',
+      r'\sigma_T = \frac{F}{A}',
+      'the pull, over the area it has right now',
+    ),
+    (
+      'True strain',
+      r'\varepsilon_T = \ln(1 + \varepsilon)',
+      'the natural log of one plus the engineering strain',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 121',
 );
 
 const trueStressBrief = BriefSection(
-  title: 'The same test, divided twice',
-  body:
-      'One tensile test gives two curves, and they are the same line until '
-      'the stretching gets serious. Past that, true stress is always the '
-      'bigger of the two, because the area underneath it is shrinking while '
-      'the engineering one holds the original area fixed. Volume is conserved '
-      'while the bar thins evenly, which is where the conversion comes from, '
-      'so check the direction before you trust a number: multiplying by one '
-      'plus the strain RAISES it. The engineering curve turns over and comes '
-      'down once a waist forms, and its highest point is the ultimate tensile '
-      'strength, which is the number a mill certificate quotes. The true '
-      'curve has no peak at all. It climbs until the bar parts.',
-  formulas: [
-    ('True from engineering', r'\sigma_T = \sigma(1 + \varepsilon)'),
-    ('True strain', r'\varepsilon_T = \ln(1 + \varepsilon)'),
-    ('Why', r'A \approx \frac{A_0}{1 + \varepsilon}'),
+  title: 'One test, plotted two ways',
+  picture: trueStressPicture,
+  steps: [
+    (
+      'The same test, two lines',
+      'One pull of one bar gives two curves, depending on which area you '
+          'divide by. At the start the bar has barely changed, so the two lines '
+          'sit on top of each other and nobody can tell them apart.',
+    ),
+    (
+      'They split once the bar thins',
+      'Stretch it seriously and the bar narrows. The true curve is dividing '
+          'by that smaller area, so it climbs above the engineering one and '
+          'stays above it for the rest of the test.',
+    ),
+    (
+      'Only one of them turns over',
+      'A waist forms and the engineering curve peaks and comes back down. '
+          'That peak is the ultimate tensile strength, the number a mill '
+          'certificate quotes. The true curve never peaks; it climbs until the '
+          'bar parts.',
+    ),
+    (
+      'Check the direction before you trust it',
+      'Going from engineering to true means multiplying by one plus the '
+          'strain, and one plus something is bigger than one. So the answer has '
+          'to come out LARGER. If it came out smaller, the formula went in '
+          'upside down.',
+    ),
   ],
-  figure: BriefFigure.trueStress,
+  spoken: [
+    (
+      'True from engineering',
+      r'\sigma_T = \sigma(1 + \varepsilon)',
+      'engineering stress times one plus the strain, so always bigger',
+    ),
+    (
+      'True strain',
+      r'\varepsilon_T = \ln(1 + \varepsilon)',
+      'the natural log of one plus the engineering strain',
+    ),
+    (
+      'Why it works',
+      r'A \approx \frac{A_0}{1 + \varepsilon}',
+      'the bar keeps its volume, so its area shrinks by that same factor',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 121',
 );
 
 const crackBrief = BriefSection(
-  title: 'Where the crack is',
-  body:
-      'One formula covers cracking, and the two numbers you feed it are both '
-      'decided by where the crack sits rather than by any arithmetic. A crack '
-      'running in from an EDGE takes a geometry factor of 1.1, and the a is '
-      'the whole depth of it, because there is nothing behind it holding it '
-      'shut. A crack buried INSIDE the plate takes 1.0, and the a is HALF the '
-      'length you can see: an internal crack is described as being of length '
-      '2a, and that halving is the single most missed step in the whole '
-      'lesson. Then convert to meters. A crack left in millimeters puts the '
-      'answer out by more than thirty times, which is the kind of wrong that '
-      'looks like a different question.',
-  formulas: [
-    ('The formula', r'K_{IC} = Y\sigma\sqrt{\pi a}'),
-    ('From an edge', r'Y = 1.1,\quad a = \text{the whole depth}'),
-    ('Inside', r'Y = 1.0,\quad a = \tfrac{1}{2}\,\text{of the length}'),
+  title: 'Where the crack sits decides both numbers',
+  picture: crackPicture,
+  steps: [
+    (
+      'A crack makes a plate weak',
+      'Pull on a plate with a crack in it and the pull crowds into the tip '
+          'of the crack. One formula says how hard that tip is being worked, and '
+          'it needs two things: how big the crack is, and where it sits.',
+    ),
+    (
+      'From the edge: use the whole thing',
+      'A crack running in from the side has nothing behind it holding it '
+          'shut. Its a is the full depth you can see, and it takes the slightly '
+          'bigger factor of 1.1, because an edge is the worse place to have one.',
+    ),
+    (
+      'Inside: use half of it',
+      'A crack buried in the middle has plate on both sides. It is described '
+          'as being 2a long, so the a in the formula is HALF of what you see. '
+          'That halving is the most missed step on the page.',
+    ),
+    (
+      'Then put it in meters',
+      'Toughness is quoted in units that want meters. Leave the crack in '
+          'millimeters and the answer is out by more than thirty times, which '
+          'looks like the answer to a different question.',
+    ),
   ],
-  figure: BriefFigure.crack,
+  spoken: [
+    (
+      'The formula',
+      r'K = Y\sigma\sqrt{\pi a}',
+      'a shape factor, times the stress, times the root of pi times a',
+    ),
+    (
+      'From an edge',
+      r'Y = 1.1,\quad a = \text{the whole depth}',
+      'factor one point one, and a is everything you can see',
+    ),
+    (
+      'Inside',
+      r'Y = 1.0,\quad a = \tfrac{1}{2}\,\text{of the length}',
+      'factor one, and a is half of what you can see',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 122',
 );
 
 const toughnessBrief = BriefSection(
-  title: 'A crack and a stress together',
-  body:
-      'Fracture toughness is a property of the material, like a strength, and '
-      'what it is held against is the stress and the crack TOGETHER. Neither '
-      'means anything alone: a long crack at a low stress and a short one at '
-      'a high stress can sit in exactly the same trouble. The crack is under '
-      'a square root and the stress is not, which is worth knowing in the '
-      'field: four times the crack is only twice the driving force, while '
-      'twice the load is twice the driving force straight off. That is why a '
-      'cracked member can often be de-rated and kept in service, and why the '
-      'same flaw in aluminum is nearer to going than it is in steel.',
-  formulas: [
-    ('Driving the crack', r'K = Y\sigma\sqrt{\pi a}'),
+  title: 'The crack and the pull, together',
+  picture: toughnessPicture,
+  steps: [
+    (
+      'Neither number means anything alone',
+      'A big crack in a plate nobody is pulling is fine. A hard pull on a '
+          'plate with no crack is fine. Trouble is the two at once, which is why '
+          'the formula multiplies them together.',
+    ),
+    (
+      'Toughness is what you compare against',
+      'Fracture toughness is a property of the material, like a strength. '
+          'Work out how hard the crack tip is being driven, and if that passes '
+          'the toughness, the crack runs.',
+    ),
+    (
+      'The pull counts more than the crack',
+      'The crack sits under a square root and the pull does not. So four '
+          'times the crack only doubles the driving force, while twice the load '
+          'doubles it straight off.',
+    ),
+    (
+      'Which is why cracked parts stay in service',
+      'You cannot make the crack smaller, but you can lower the load. That '
+          'is what de-rating a cracked member means, and it works because the '
+          'pull is the term with the bigger say.',
+    ),
+  ],
+  spoken: [
+    (
+      'Driving the crack',
+      r'K = Y\sigma\sqrt{\pi a}',
+      'how hard the crack tip is being worked',
+    ),
     (
       'The most stress it can take',
       r'\sigma_{max} = \frac{K_{IC}}{Y\sqrt{\pi a}}',
+      'the toughness, over the shape factor times the root of pi a',
     ),
     (
       'The biggest crack it can carry',
       r'a_{max} = \frac{1}{\pi}\left(\frac{K_{IC}}{Y\sigma}\right)^2',
+      'square the toughness over the stress term, then divide by pi',
     ),
   ],
-  figure: BriefFigure.toughness,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 122',
 );
 
 const expandBrief = BriefSection(
-  title: 'Three things, all multiplying',
-  body:
-      'How far something moves when the temperature changes is the '
-      'coefficient times the length times the change, and all three matter '
-      'equally. The coefficient is the material: aluminum moves about twice '
-      'as readily as steel, and steel and concrete are close enough to each '
-      'other that reinforced concrete survives a summer. The length counts in '
-      'direct proportion, which is why the long uninterrupted run is where '
-      'movement shows up. And the temperature change is a DIFFERENCE between '
-      'two readings, never a sum of them, which is the easiest mark on the '
-      'whole page to throw away. Nothing about the cross-section appears '
-      'anywhere: a heavy column and a thin rod of the same length move the '
-      'same amount.',
-  formulas: [
-    ('How far it moves', r'\Delta L = \alpha L \Delta T'),
-    ('Which is a strain', r'\alpha = \frac{\varepsilon}{\Delta T}'),
+  title: 'Three things multiply, and thickness is not one',
+  picture: expandPicture,
+  steps: [
+    (
+      'Warm things get bigger',
+      'Heat a metal bar and it grows a little. How far it grows is three '
+          'things multiplied together, and nothing else.',
+    ),
+    (
+      'What it is made of',
+      'Each material has its own number. Aluminum moves about twice as '
+          'readily as steel. Steel and concrete are close enough to each other '
+          'that reinforced concrete survives a hot summer without tearing '
+          'itself apart.',
+    ),
+    (
+      'How long it is',
+      'Straight proportion: five times the length is five times the '
+          'movement. That is why a long bridge gets expansion joints and a short '
+          'footbridge usually does not.',
+    ),
+    (
+      'How much the temperature changed',
+      'A change, never a reading. Forty degrees minus five is thirty five, '
+          'not forty five. And notice what is missing: thickness. A heavy column '
+          'and a thin rod of the same length move exactly the same amount.',
+    ),
+  ],
+  spoken: [
+    (
+      'How far it moves',
+      r'\Delta L = \alpha L \Delta T',
+      'the material number, times the length, times the temperature change',
+    ),
+    (
+      'Which is a strain',
+      r'\alpha = \frac{\varepsilon}{\Delta T}',
+      'the material number is just strain per degree',
+    ),
     (
       'Steel, concrete, aluminum',
       r'11.7,\; 10,\; 23 \times 10^{-6}\,/^{\circ}C',
+      'aluminum moves about twice as much as steel for the same warming',
     ),
   ],
-  figure: BriefFigure.expand,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 126',
 );
 
 const furnaceBrief = BriefSection(
   title: 'How fast it came down',
-  body:
-      'Two questions read any heat treatment on this page. Did the steel get '
-      'up above about seven hundred and twenty seven degrees, where it is '
-      'austenite? And how fast did it come back down through that change? '
-      'Fast enough and the atoms never get to move, so the structure is '
-      'trapped part way and what you have is martensite: very hard, very '
-      'brittle. Slow, and they do move, giving the mixture of ferrite and '
-      'cementite that the phase diagram calls for: softer and ductile. '
-      'Reheating a quenched part to a few hundred degrees is tempering, which '
-      'keeps most of the hardness and takes away most of the brittleness. If '
-      'it never reached austenite, a quench does nothing at all.',
-  formulas: [
-    ('Fast from austenite', r'\gamma \rightarrow \text{martensite}'),
-    ('Slow from austenite', r'\gamma \rightarrow \alpha + Fe_3C'),
-    ('Then reheated', r'\text{martensite} \rightarrow \text{tempered}'),
+  picture: furnacePicture,
+  steps: [
+    (
+      'Two questions read any heat treatment',
+      'Did the steel get hot enough, above about 727 degrees, to change into '
+          'the form called austenite? And then how fast did it come back down '
+          'through that change?',
+    ),
+    (
+      'Fast down: the atoms get stuck',
+      'Drop a hot part into water and the temperature falls off a cliff. The '
+          'atoms have no time to move where they want to go, so the structure is '
+          'trapped part way. That is martensite: very hard, and very brittle.',
+    ),
+    (
+      'Slow down: the atoms sort themselves out',
+      'Leave it in the furnace and the line strolls down. Now the atoms do '
+          'move, giving the soft, bendable mixture the phase diagram calls for.',
+    ),
+    (
+      'Tempering, and the case where nothing happens',
+      'Reheating a quenched part to a few hundred degrees keeps most of the '
+          'hardness and takes away most of the brittleness. And if the part '
+          'never got hot enough to start with, quenching does nothing at all.',
+    ),
   ],
-  figure: BriefFigure.furnace,
+  spoken: [
+    (
+      'Fast from austenite',
+      r'\gamma \rightarrow \text{martensite}',
+      'quench it and you get the hard, brittle structure',
+    ),
+    (
+      'Slow from austenite',
+      r'\gamma \rightarrow \alpha + Fe_3C',
+      'cool it slowly and you get the soft, bendable mixture',
+    ),
+    (
+      'Then reheated',
+      r'\text{martensite} \rightarrow \text{tempered}',
+      'warming a quenched part trades a little hardness for toughness',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 116',
 );
 
 const tieLineBrief = BriefSection(
   title: 'The arm on the far side',
-  body:
-      'Inside a two phase region, the horizontal tie line at your temperature '
-      'runs from the solid boundary to the liquid boundary, and your alloy '
-      'sits somewhere along it. The fraction of a phase is the arm on the FAR '
-      'side from that phase, divided by the whole tie line. So the liquid '
-      'fraction uses the arm running back to the SOLID boundary, which is the '
-      'step that feels backwards and is the most missed on the page. Two '
-      'checks cost nothing: the two fractions must add to one, and an alloy '
-      'sitting close to a boundary must be mostly that phase. The '
-      'denominator is measured between the two boundaries, never from zero.',
-  formulas: [
-    ('Fraction liquid', r'f_L = \frac{x_0 - x_\alpha}{x_L - x_\alpha}'),
-    ('Fraction solid', r'f_\alpha = \frac{x_L - x_0}{x_L - x_\alpha}'),
-    ('Always', r'f_L + f_\alpha = 1'),
+  picture: tieLinePicture,
+  steps: [
+    (
+      'Half melted, and you want to know how much',
+      'An alloy warmed part way is partly solid and partly liquid. Draw a '
+          'flat line across at your temperature: it runs from the solid boundary '
+          'on the left to the liquid boundary on the right, and your alloy sits '
+          'somewhere along it.',
+    ),
+    (
+      'It behaves like a seesaw',
+      'The alloy is the pivot and the two boundaries are the ends. Sit close '
+          'to the solid end and the mixture is mostly solid. That is why this is '
+          'called the lever rule.',
+    ),
+    (
+      'So each share uses the FAR arm',
+      'The liquid share is the arm running back toward the SOLID boundary, '
+          'over the whole line. That feels backwards, and it is the step people '
+          'miss. Check it at the ends: right against the solid boundary that far '
+          'arm is nearly zero, so there is almost no liquid. Correct.',
+    ),
+    (
+      'Two free checks',
+      'The two shares must add up to one. And the bottom of the fraction is '
+          'measured between the two boundaries, never from zero.',
+    ),
   ],
-  figure: BriefFigure.tieLine,
+  spoken: [
+    (
+      'Fraction liquid',
+      r'f_L = \frac{x_0 - x_\alpha}{x_L - x_\alpha}',
+      'the arm back to the solid boundary, over the whole line',
+    ),
+    (
+      'Fraction solid',
+      r'f_\alpha = \frac{x_L - x_0}{x_L - x_\alpha}',
+      'the arm out to the liquid boundary, over the whole line',
+    ),
+    (
+      'Always',
+      r'f_L + f_\alpha = 1',
+      'the two shares add up to the whole thing',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 127',
 );
 
 const mixBrief = BriefSection(
-  title: 'Water over cement',
-  body:
-      'One ratio runs this page: the weight of the water divided by the '
-      'weight of the CEMENT. Not the total batch, not the aggregate, and not '
-      'the other way up. Lower is stronger, which is the direction people get '
-      'backwards because more water feels like it ought to help. It does help '
-      'the concrete flow, and that is the trap: about 0.40 reaches something '
-      'near 6,500 psi, and by 0.80 there is only about 2,000 left. So you get '
-      'a smaller ratio by adding cement or by taking water out, and when the '
-      'only problem is that the mix will not pour, the answer is a water '
-      'reducer rather than a hose.',
-  formulas: [
-    ('The ratio', r'W/C = \frac{\text{water}}{\text{cement}}'),
-    ('Low ratio', r'0.40 \approx 6{,}500\ \text{psi}'),
-    ('High ratio', r'0.80 \approx 2{,}000\ \text{psi}'),
+  title: 'Water over cement, and lower is stronger',
+  picture: mixPicture,
+  steps: [
+    (
+      'One ratio runs the whole page',
+      'Weigh the water. Weigh the CEMENT. Divide the first by the second. '
+          'Not the whole batch, not the sand and stone, and not the other way '
+          'up.',
+    ),
+    (
+      'More water is weaker, which surprises people',
+      'Extra water makes the mix easier to pour, so it feels helpful. It is '
+          'not. It leaves tiny channels behind when it dries. Around 0.40 the '
+          'concrete reaches about 6,500 psi; by 0.80 only about 2,000 is left.',
+    ),
+    (
+      'Two ways to get the ratio down',
+      'Add cement, or take water out. Both make the bottom bigger or the top '
+          'smaller, and both land you further up the curve.',
+    ),
+    (
+      'When the only problem is pouring',
+      'If the mix is strong enough but will not flow, the answer is a water '
+          'reducer, not a hose. It buys the workability without moving you down '
+          'the slope.',
+    ),
   ],
-  figure: BriefFigure.mix,
+  spoken: [
+    (
+      'The ratio',
+      r'W/C = \frac{\text{water}}{\text{cement}}',
+      'the weight of water, over the weight of cement',
+    ),
+    (
+      'Low ratio',
+      r'0.40 \approx 6{,}500\ \text{psi}',
+      'a dry, stiff mix reaches a high strength',
+    ),
+    (
+      'High ratio',
+      r'0.80 \approx 2{,}000\ \text{psi}',
+      'a sloppy mix is worth about a third as much',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
 const exposureBrief = BriefSection(
-  title: 'Strength and exposure are two questions',
-  body:
-      'Choosing a mix means answering two things that have nothing to do with '
-      'each other. How strong must it be, which sets the water-cement ratio '
-      'off the curve. And will this piece of concrete freeze while it is wet, '
-      'which decides whether air is entrained, usually four to seven percent. '
-      'Air is not a free upgrade: it buys freeze and thaw durability and it '
-      'costs roughly a fifth of the strength, so a job that needs both has to '
-      'start from a lower ratio to pay for it. Note that the question is '
-      'whether THIS concrete freezes, not whether the city is cold: a garage '
-      'deck and the footing buried under it get different mixes.',
-  formulas: [
-    ('Strength sets', r'W/C'),
-    ('Exposure sets', r'\text{air, } 4\text{ to }7\%'),
-    ('Air costs', r'\approx 20\%\ \text{of the strength}'),
+  title: 'Strength and exposure are two separate questions',
+  picture: exposurePicture,
+  steps: [
+    (
+      'Question one: how strong',
+      'How much load will this concrete carry? That sets the water to cement '
+          'ratio straight off the curve, and nothing else.',
+    ),
+    (
+      'Question two: will it freeze while wet',
+      'Water trapped in concrete expands when it freezes and breaks the '
+          'concrete apart from inside. Tiny bubbles of air deliberately mixed in '
+          'give that water somewhere to go. Four to seven percent is usual.',
+    ),
+    (
+      'Air is not free',
+      'Those bubbles are holes, and holes are not concrete. Entrained air '
+          'costs roughly a fifth of the strength. A job needing both has to '
+          'start from a LOWER ratio to pay for it.',
+    ),
+    (
+      'It is this concrete, not this city',
+      'The question is whether this particular piece freezes while wet. A '
+          'garage deck out in the weather and the footing buried warm beneath it '
+          'get different mixes in the same town.',
+    ),
   ],
-  figure: BriefFigure.exposure,
+  spoken: [
+    (
+      'Strength sets',
+      r'W/C',
+      'how strong it must be decides the water to cement ratio',
+    ),
+    (
+      'Exposure sets',
+      r'\text{air, } 4\text{ to }7\%',
+      'whether it freezes while wet decides how much air goes in',
+    ),
+    (
+      'Air costs',
+      r'\approx 20\%\ \text{of the strength}',
+      'about a fifth of the strength, paid for with a lower ratio',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
 const curingBrief = BriefSection(
   title: 'Which way the percentage goes',
-  body:
-      'All of this page is one percentage applied to one strength, and every '
-      'wrong answer in it is that percentage applied the wrong way round. Two '
-      'habits fix it. First, decide before you touch the number whether the '
-      'answer should come out BIGGER or smaller: going toward the smaller '
-      'figure multiplies, coming back to the bigger one divides. Second, use '
-      'the share you were given and not what is left over: ninety percent '
-      'means multiply by 0.90, never by 0.10. The numbers worth carrying are '
-      'that seven day strength runs near seventy percent of the twenty eight '
-      'day figure, and that concrete allowed to dry early may keep only '
-      'fifty five to sixty five percent of what it could have had.',
-  formulas: [
-    ('Seven days', r'f_{c,7} \approx 0.70\, f_{c,28}'),
-    ('So the later one', r'f_{c,28} = \frac{f_{c,7}}{0.70}'),
-    ('Dried out early', r'0.55 \text{ to } 0.65 \text{ of the best}'),
+  picture: curingPicture,
+  steps: [
+    (
+      'Concrete keeps getting stronger',
+      'It does not set and stop. It carries on hardening for weeks, as long '
+          'as it stays damp. Seven day strength runs near seventy percent of the '
+          'twenty eight day figure.',
+    ),
+    (
+      'Decide the direction before you touch the number',
+      'Ask yourself first: should my answer come out BIGGER or smaller? '
+          'Going toward the smaller figure you multiply. Coming back to the '
+          'bigger one you divide. Every wrong answer on this page is that '
+          'choice made backwards.',
+    ),
+    (
+      'Use the share you were given',
+      'Ninety percent means multiply by 0.90, never by 0.10. The leftover is '
+          'not the answer to anything here.',
+    ),
+    (
+      'And drying early is expensive',
+      'Concrete let dry too soon simply stops gaining. It may keep only '
+          'fifty five to sixty five percent of what it could have had, and it '
+          'never catches up.',
+    ),
   ],
-  figure: BriefFigure.curing,
+  spoken: [
+    (
+      'Seven days',
+      r'f_{c,7} \approx 0.70\, f_{c,28}',
+      'the seven day strength is about seventy percent of the later one',
+    ),
+    (
+      'So the later one',
+      r'f_{c,28} = \frac{f_{c,7}}{0.70}',
+      'going back up to the bigger figure, you divide',
+    ),
+    (
+      'Dried out early',
+      r'0.55 \text{ to } 0.65 \text{ of the best}',
+      'barely more than half of what proper curing would have given',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
 const fieldBrief = BriefSection(
   title: 'The cylinder is not the slab',
-  body:
-      'A test cylinder is cured in a laboratory under water. The structure it '
-      'came from is cured by whoever is on site that week, and the difference '
-      'is worth more than most changes to the mix. So the lab break is never '
-      'the number to hold against the specification: take the curing off '
-      'first, and compare what is LEFT. A pour kept wet for a fortnight might '
-      'keep ninety five percent of its cylinder strength, while one stripped '
-      'at three days into hot wind keeps around sixty. That gap is bigger '
-      'than the gap between a good mix and a mediocre one, which is why '
-      'curing is the cheapest strength on the job and the first thing a tight '
-      'schedule gives away.',
-  formulas: [
-    ('What the slab gets', r'f_{c,\text{field}} = k \, f_{c,\text{lab}}'),
-    ('Cured properly', r'k \approx 0.92 \text{ to } 0.95'),
-    ('Dried out early', r'k \approx 0.60'),
+  picture: fieldPicture,
+  steps: [
+    (
+      'Two pieces of the same concrete',
+      'A test cylinder goes to a laboratory and sits under water at a steady '
+          'temperature. The slab it came from is left to whoever is on site that '
+          'week, in whatever weather turns up.',
+    ),
+    (
+      'So the lab number is not the slab number',
+      'The break test tells you what the mix COULD do. Take the curing off '
+          'first, then compare what is left against the specification. Holding '
+          'the raw lab figure against the spec quietly skips the hardest part '
+          'of the job.',
+    ),
+    (
+      'The gap is bigger than you would guess',
+      'A pour kept wet for a fortnight might keep ninety five percent of its '
+          'cylinder strength. One stripped at three days into hot wind keeps '
+          'around sixty.',
+    ),
+    (
+      'Which is why curing is the cheapest strength there is',
+      'That gap is wider than the gap between a good mix and a mediocre one, '
+          'and it costs almost nothing. It is also the first thing a tight '
+          'schedule gives away.',
+    ),
   ],
-  figure: BriefFigure.field,
+  spoken: [
+    (
+      'What the slab gets',
+      r'f_{c,\text{field}} = k \, f_{c,\text{lab}}',
+      'the lab strength, times whatever the curing left',
+    ),
+    (
+      'Cured properly',
+      r'k \approx 0.92 \text{ to } 0.95',
+      'kept wet for a fortnight, it keeps almost all of it',
+    ),
+    (
+      'Dried out early',
+      r'k \approx 0.60',
+      'stripped early into hot wind, it keeps about three fifths',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
 const weighingBrief = BriefSection(
-  title: 'Three weighings, four numbers',
-  body:
-      'An aggregate sample gets weighed three ways: oven dry with the pores '
-      'empty (A), saturated with the surface wiped dry (B), and hanging in '
-      'water (C). Everything on this page is built from those three, and the '
-      'differences matter. B minus C is the water the WHOLE particle pushed '
-      'aside, pores included, which is what makes a specific gravity bulk. A '
-      'minus C leaves the water-filled pores out of the volume, which makes '
-      'it apparent, and apparent always comes out the largest of the three. '
-      'Absorption is the water the pores hold divided by the DRY mass: over '
-      'the saturated weight instead is the slip the lesson names.',
-  formulas: [
-    ('Bulk, oven dry', r'G_{sb} = \frac{A}{B - C}'),
-    ('Bulk, saturated', r'G_{ssd} = \frac{B}{B - C}'),
-    ('Apparent', r'G_{sa} = \frac{A}{A - C}'),
-    ('Absorption', r'\frac{B - A}{A} \times 100'),
+  title: 'Three weighings, and what each one leaves out',
+  picture: weighingPicture,
+  steps: [
+    (
+      'A stone has holes in it',
+      'Aggregate is not solid through. It has pores, and they can be empty '
+          'or full of water. That is why one stone gets weighed three different '
+          'ways.',
+    ),
+    (
+      'The three weighings',
+      'Oven dry, with the pores empty: A. Soaked and then wiped, so the '
+          'pores are full but the outside is dry: B. And hanging in water: C. '
+          'Every number on the page is built from those three.',
+    ),
+    (
+      'Subtracting picks which volume you mean',
+      'B minus C is the water the WHOLE stone pushed aside, pores included, '
+          'which is the bulk volume. A minus C leaves the water-filled pores out '
+          'of the volume, which is the apparent one. A smaller volume means a '
+          'bigger answer, so apparent is always the largest of the three.',
+    ),
+    (
+      'Absorption divides by the dry weight',
+      'It is the water the pores hold as a share of the DRY stone. Dividing '
+          'by the soaked weight instead is the slip this lesson names.',
+    ),
   ],
-  figure: BriefFigure.weighing,
+  spoken: [
+    (
+      'Bulk, oven dry',
+      r'G_{sb} = \frac{A}{B - C}',
+      'the dry weight, over the whole stone volume',
+    ),
+    (
+      'Bulk, saturated',
+      r'G_{ssd} = \frac{B}{B - C}',
+      'the soaked weight, over the same whole volume',
+    ),
+    (
+      'Apparent',
+      r'G_{sa} = \frac{A}{A - C}',
+      'the dry weight, over the volume with the water-filled pores left out',
+    ),
+    (
+      'Absorption',
+      r'\frac{B - A}{A} \times 100',
+      'the water the pores hold, as a percent of the dry weight',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
 const gradingBrief = BriefSection(
   title: 'One number for a whole curve',
-  body:
-      'A sieve analysis reports how much of a sand passes each standard '
-      'sieve, and the fineness modulus squeezes that whole curve into one '
-      'number: add up the CUMULATIVE percent retained on the standard sieves '
-      'and divide by a hundred. Retained, not passing, and cumulative, not '
-      'sieve by sieve. A higher modulus means COARSER, which reads backwards '
-      'off the name, and a concrete sand is normally asked to fall between '
-      '2.3 and 3.1. Remember what one number cannot do: two sands with the '
-      'same modulus can have completely different curves, and a gap in the '
-      'sizes leaves voids that have to be filled with paste.',
-  formulas: [
-    ('The modulus', r'FM = \frac{\sum \text{cumulative \% retained}}{100}'),
-    ('A concrete sand', r'2.3 \le FM \le 3.1'),
-    ('Higher means', r'\text{coarser}'),
+  picture: gradingPicture,
+  steps: [
+    (
+      'Sand is sorted by shaking it',
+      'Stack sieves coarsest on top, pour the sand in, shake. Each sieve '
+          'keeps the grains too big to pass. Now you know how much of the sand '
+          'is each size.',
+    ),
+    (
+      'The fineness modulus squeezes that into one number',
+      'Add up the cumulative percent RETAINED on the standard sieves and '
+          'divide by a hundred. Retained, not passing. Cumulative, not sieve by '
+          'sieve.',
+    ),
+    (
+      'Higher means coarser, which reads backwards',
+      'The name says fineness but the number goes UP for a coarser sand, '
+          'because more is being held back. A concrete sand is normally asked to '
+          'land between 2.3 and 3.1.',
+    ),
+    (
+      'What one number cannot tell you',
+      'Two sands with the same modulus can have completely different curves. '
+          'A sand missing one size in the middle leaves gaps that have to be '
+          'filled with expensive paste, and the modulus will not show it.',
+    ),
   ],
-  figure: BriefFigure.grading,
+  spoken: [
+    (
+      'The modulus',
+      r'FM = \frac{\sum \text{cumulative \% retained}}{100}',
+      'add the cumulative retained percentages and divide by a hundred',
+    ),
+    (
+      'A concrete sand',
+      r'2.3 \le FM \le 3.1',
+      'the usual range for sand going into concrete',
+    ),
+    (
+      'Higher means',
+      r'\text{coarser}',
+      'a bigger number is a coarser sand, not a finer one',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
 const voidsBrief = BriefSection(
-  title: 'Three bands and a bracket',
-  body:
-      'A compacted asphalt specimen is stone, binder and air, and every '
-      'number on this page is one of those as a share of something else. Air '
-      'voids are the air against the WHOLE specimen, which is what the two '
-      'gravities give you: how far the compacted mix is from the same mix '
-      'with no air in it. VMA is the air and the binder together, all the '
-      'space between the stones however it is filled, and it is what the '
-      'hundred minus the stone volume leaves. VFA is the binder as a share of '
-      'that space, never of the whole mix. Design sits near four percent air, '
-      'with enough VMA to carry a proper film of binder around every stone.',
-  formulas: [
-    ('Air voids', r'V_a = 100\,\frac{G_{mm} - G_{mb}}{G_{mm}}'),
-    ('Space between stones', r'VMA = 100 - \frac{G_{mb} P_s}{G_{sb}}'),
-    ('Filled with asphalt', r'VFA = 100\,\frac{VMA - V_a}{VMA}'),
+  title: 'Three things in the mix, and what each share is of',
+  picture: voidsPicture,
+  steps: [
+    (
+      'A road surface is three things',
+      'Compacted asphalt is stone, the black binder that glues it, and air. '
+          'Every number on this page is one of those three as a share of '
+          'something else. Getting the something else right is the whole skill.',
+    ),
+    (
+      'Air voids: air against the WHOLE specimen',
+      'How far the compacted mix is from the same mix with no air left in '
+          'it. That is what the two gravities give you, one measured with air '
+          'and one without.',
+    ),
+    (
+      'VMA: all the space between the stones',
+      'The air and the binder together, however that space happens to be '
+          'filled. It is what is left once you take the stone volume away from '
+          'a hundred.',
+    ),
+    (
+      'VFA: the binder as a share of THAT space',
+      'Not of the whole mix. Design sits near four percent air, with enough '
+          'room between the stones to carry a proper film of binder around '
+          'every one.',
+    ),
   ],
-  figure: BriefFigure.voids,
+  spoken: [
+    (
+      'Air voids',
+      r'V_a = 100\,\frac{G_{mm} - G_{mb}}{G_{mm}}',
+      'how far the compacted mix falls short of the airless one',
+    ),
+    (
+      'Space between stones',
+      r'VMA = 100 - \frac{G_{mb} P_s}{G_{sb}}',
+      'a hundred, less the share that is stone',
+    ),
+    (
+      'Filled with asphalt',
+      r'VFA = 100\,\frac{VMA - V_a}{VMA}',
+      'the binder as a percent of the space between the stones',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 124',
 );
 
 const checkBrief = BriefSection(
-  title: 'Four checks, no calculator',
-  body:
-      'Asphalt volumetrics are numbers that must agree with each other, and '
-      'four checks catch nearly every slip before the arithmetic does. The '
-      'theoretical maximum gravity is ALWAYS bigger than the bulk one, '
-      'because it is the same materials with the air taken out, so a negative '
-      'air void means the two were swapped. The VMA is always bigger than the '
-      'air voids, since the air is only part of that space. The VFA is a '
-      'share of the VMA and therefore stops at a hundred. And a VMA up near '
-      'eighty is not void space at all: it is the stone volume, the term the '
-      'formula was supposed to subtract.',
-  formulas: [
-    ('Always', r'G_{mm} > G_{mb}'),
-    ('Always', r'VMA > V_a'),
-    ('And', r'VFA \le 100\%'),
+  title: 'Four checks that need no calculator',
+  picture: checkPicture,
+  steps: [
+    (
+      'These numbers have to agree with each other',
+      'Air, binder and stone are shares of the same specimen, so some things '
+          'can never happen. Four quick looks catch nearly every slip before the '
+          'arithmetic does.',
+    ),
+    (
+      'The airless gravity is always the bigger one',
+      'It is the same materials with the air taken out, so it must be '
+          'denser. A negative air void means the two were swapped.',
+    ),
+    (
+      'VMA is always bigger than the air voids',
+      'The air is only part of the space between the stones; the binder is '
+          'the rest. And VFA is a share of VMA, so it can never pass a hundred.',
+    ),
+    (
+      'A VMA near eighty is the stone',
+      'Space between stones is normally around fifteen percent. If yours is '
+          'up near eighty, you have calculated the stone volume, which is the '
+          'term the formula was supposed to subtract.',
+    ),
   ],
-  figure: BriefFigure.check,
+  spoken: [
+    (
+      'Always',
+      r'G_{mm} > G_{mb}',
+      'the airless gravity is bigger than the compacted one',
+    ),
+    (
+      'Always',
+      r'VMA > V_a',
+      'the space between the stones is bigger than the air in it',
+    ),
+    (
+      'And',
+      r'VFA \le 100\%',
+      'a share of that space cannot be more than all of it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 124',
 );
 
 const moistureBrief = BriefSection(
   title: 'One threshold in wood',
-  body:
-      'Moisture content in timber is the water divided by the OVEN DRY weight '
-      'of the wood, never by the wet weight, which is why green timber can '
-      'read well over a hundred percent: there can be more water than wood. '
-      'The number matters against one threshold, the fiber saturation point '
-      'at about thirty percent. Above it the cell walls are already full and '
-      'the extra water sits loose in the cavities, so it can come and go and '
-      'the timber is no stronger or weaker for it. Below it the water is in '
-      'the walls themselves: drying shrinks the wood and stiffens and '
-      'strengthens it, and wetting swells and softens it again.',
-  formulas: [
-    ('Moisture content', r'MC = \frac{W_{wet} - W_{OD}}{W_{OD}} \times 100'),
-    ('The threshold', r'FSP \approx 30\%'),
-    ('Below it', r'\text{drier} \Rightarrow \text{smaller and stronger}'),
+  picture: moisturePicture,
+  steps: [
+    (
+      'Wood carries water in two places',
+      'Some water soaks into the cell walls themselves. The rest just sits '
+          'loose in the hollow spaces inside. Those two behave completely '
+          'differently, and one line separates them.',
+    ),
+    (
+      'Above thirty percent, nothing changes',
+      'The walls are already full, so any extra water is loose in the '
+          'cavities. It can come and go and the timber is no stronger, no '
+          'weaker and no smaller for it.',
+    ),
+    (
+      'Below it, everything changes',
+      'Now the water is leaving the walls themselves. Drying shrinks the '
+          'wood and makes it stiffer and stronger. Wetting swells it and softens '
+          'it again.',
+    ),
+    (
+      'And it divides by the DRY weight',
+      'Moisture content is the water over the oven dry wood, never over the '
+          'wet weight. Green timber can therefore read well over a hundred '
+          'percent: there really can be more water than wood.',
+    ),
   ],
-  figure: BriefFigure.moisture,
+  spoken: [
+    (
+      'Moisture content',
+      r'MC = \frac{W_{wet} - W_{OD}}{W_{OD}} \times 100',
+      'the water, over the oven dry weight of the wood',
+    ),
+    (
+      'The threshold',
+      r'FSP \approx 30\%',
+      'the fiber saturation point, where the cell walls are just full',
+    ),
+    (
+      'Below it',
+      r'\text{drier} \Rightarrow \text{smaller and stronger}',
+      'drying below the threshold shrinks it and stiffens it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 129',
 );
 
 const mortarBrief = BriefSection(
-  title: 'M, S, N, O',
-  body:
-      'Four mortar types, strongest to weakest, in an order that follows '
-      'nothing you could work out: M, S, N, O. They are the every-other '
-      'letters of MaSoN wOrK, which is the only reason anybody remembers '
-      'them. Strength is not the whole story and the strongest is not the '
-      'best: high strength mortars are stiffer to work with and less '
-      'forgiving of movement, and a joint harder than the brick around it '
-      'puts the cracking into the brick, which costs far more to put right. '
-      'M goes below grade, S where there is lateral load or soil contact, N '
-      'is general purpose above grade, and O is for soft old masonry indoors.',
-  formulas: [
-    ('Strongest to weakest', r'M > S > N > O'),
-    ('The phrase', r'\text{MaSoN wOrK}'),
+  title: 'M, S, N, O, and why the strongest is not the best',
+  picture: mortarPicture,
+  steps: [
+    (
+      'Four mortars in an order you cannot work out',
+      'Strongest to weakest, they go M, S, N, O. There is no logic in it. '
+          'They are the every-other letters of MaSoN wOrK, and that is the only '
+          'reason anybody remembers them.',
+    ),
+    (
+      'Strong mortar can be the wrong mortar',
+      'A joint harder than the brick around it does not bend when the wall '
+          'moves. So the brick cracks instead of the joint, and replacing brick '
+          'costs far more than repointing.',
+    ),
+    (
+      'Weaker mortar is easier to work with',
+      'It stays soft under the trowel longer and forgives small movements. '
+          'That is a real advantage, not a compromise.',
+    ),
+    (
+      'Where each one goes',
+      'M below ground. S where there is soil pressure or sideways load. N is '
+          'the general purpose one above grade. O is for soft old masonry '
+          'indoors, where anything harder would do damage.',
+    ),
+  ],
+  spoken: [
+    (
+      'Strongest to weakest',
+      r'M > S > N > O',
+      'the order of the four types by strength',
+    ),
+    (
+      'The phrase',
+      r'\text{MaSoN wOrK}',
+      'take every other letter and you have the order',
+    ),
     (
       'And',
       r'\text{strength} \downarrow \Rightarrow \text{workability} \uparrow',
+      'the weaker ones are the easier ones to lay and the kinder to brick',
     ),
   ],
-  figure: BriefFigure.mortar,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 130',
 );
 
 const factorBrief = BriefSection(
-  title: 'The factors and their directions',
-  body:
-      'A wood design value is a published reference number multiplied by a '
-      'string of adjustment factors, and what the exam asks is which way each '
-      'one pushes. Nearly all of them are penalties: wet service, sustained '
-      'heat, and size all take capacity away. The load duration factor is the '
-      'exception, and the one to know cold. Wood carries MORE the more '
-      'briefly it is loaded, so the ladder runs from 0.9 for a permanent load '
-      'through 1.0 for normal occupancy, which is the case the reference '
-      'values were quoted for, up to 1.25 for a week and 1.6 for wind or '
-      'seismic. Shorter is always higher, which is the direction people get '
-      'backwards.',
-  formulas: [
-    ('The chain', r'F\prime = F \times C_D \times C_M \times C_t \times \dots'),
-    ('Wind or seismic', r'C_D = 1.6'),
-    ('Permanent load', r'C_D = 0.9'),
+  title: 'The factors, and which way each one pushes',
+  picture: factorPicture,
+  steps: [
+    (
+      'A wood value is a book number times a string of factors',
+      'Look up the reference strength, then multiply by a factor for each '
+          'thing about your situation that the book did not assume.',
+    ),
+    (
+      'Nearly all of them are penalties',
+      'Wet service, sustained heat, and being a big member all take capacity '
+          'away. If you are unsure of a factor, betting on below one is usually '
+          'right.',
+    ),
+    (
+      'The duration factor is the exception',
+      'Wood carries MORE the more briefly it is loaded. A permanent load '
+          'gets 0.9. Normal occupancy gets 1.0, which is what the book values '
+          'already assume. A week of snow gets 1.25, and wind or an earthquake '
+          'gets 1.6.',
+    ),
+    (
+      'Shorter is always higher',
+      'That is the direction people get backwards. The shortest load on the '
+          'list is the one allowed the biggest number.',
+    ),
   ],
-  figure: BriefFigure.factor,
+  spoken: [
+    (
+      'The chain',
+      r'F\prime = F \times C_D \times C_M \times C_t \times \dots',
+      'the book value, times a factor for each thing about your case',
+    ),
+    (
+      'Wind or seismic',
+      r'C_D = 1.6',
+      'the briefest load gets the biggest allowance',
+    ),
+    (
+      'Permanent load',
+      r'C_D = 0.9',
+      'a load that never comes off gets a penalty',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 129',
 );
 
 const blendBrief = BriefSection(
-  title: 'Two rules, and the direction picks',
-  body:
-      'A composite has a direction in it, and that is the whole of this page. '
-      'Loaded ALONG the fibers, both materials are forced to stretch by the '
-      'same amount, so their moduli add up weighted by volume: the additive '
-      'rule, and a stiff composite. Loaded ACROSS them, the two sit one '
-      'behind the other carrying the same stress, the soft matrix gives way, '
-      'and the reciprocals add instead: always a smaller answer, usually not '
-      'much more than the matrix on its own. The exam nearly always asks the '
-      'parallel case. Density is different: it is a weighted average by '
-      'volume whichever way the fibers run, because weight has no direction.',
-  formulas: [
-    ('Along the fibers', r'E_c = f_1 E_1 + f_2 E_2'),
-    ('Across them', r'\frac{1}{E_c} = \frac{f_1}{E_1} + \frac{f_2}{E_2}'),
-    ('Density, either way', r'\rho_c = f_1\rho_1 + f_2\rho_2'),
+  title: 'Two rules, and the direction picks between them',
+  picture: blendPicture,
+  steps: [
+    (
+      'A composite has a grain, like wood',
+      'Stiff fibers set in soft glue. Which way you pull matters more than '
+          'anything else about it, and that is the whole of this page.',
+    ),
+    (
+      'Along the fibers: they share the stretch',
+      'Both materials are forced to stretch by the same amount, so their '
+          'stiffnesses add up, each counted by how much of the volume it takes. '
+          'That gives a stiff composite, close to the fibers themselves.',
+    ),
+    (
+      'Across them: they queue up',
+      'Now the load passes through the fiber and the glue one after the '
+          'other, and the soft glue gives way. The reciprocals add instead, and '
+          'the answer is always smaller, usually not much more than the glue on '
+          'its own.',
+    ),
+    (
+      'Density has no direction',
+      'Weight does not care which way you pull, so density is a plain '
+          'weighted average by volume either way. The exam nearly always asks '
+          'for the along case.',
+    ),
   ],
-  figure: BriefFigure.blend,
+  spoken: [
+    (
+      'Along the fibers',
+      r'E_c = f_1 E_1 + f_2 E_2',
+      'each stiffness counted by its share of the volume, added',
+    ),
+    (
+      'Across them',
+      r'\frac{1}{E_c} = \frac{f_1}{E_1} + \frac{f_2}{E_2}',
+      'the upside down versions add, which always gives a smaller answer',
+    ),
+    (
+      'Density, either way',
+      r'\rho_c = f_1\rho_1 + f_2\rho_2',
+      'a plain weighted average, whichever way the fibers run',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
 const isostrainBrief = BriefSection(
-  title: 'Whichever one is shared',
-  body:
-      'Pulled along the fibers, the two materials are stuck together and have '
-      'to stretch by the same amount. Equal STRAIN, so the stresses are not '
-      'equal at all: stress is modulus times strain, and the stiff fiber can '
-      'sit at many times the stress in the matrix. That is why a composite '
-      'carrying a hundred megapascals overall can have four hundred in its '
-      'fibers, and why fibers at a quarter of the volume carry almost all of '
-      'the load. Turn the load across the fibers and it reverses: the same '
-      'STRESS passes through both and the soft matrix does nearly all the '
-      'moving. Whichever quantity is shared, the other one is not.',
-  formulas: [
-    ('Along: shared strain', r'\varepsilon_1 = \varepsilon_2'),
+  title: 'Whichever one is shared, the other is not',
+  picture: isostrainPicture,
+  steps: [
+    (
+      'Glued together means stretched together',
+      'Pull along the fibers and the two materials cannot move independently. '
+          'They stretch by the same amount. Equal strain.',
+    ),
+    (
+      'So the stresses are wildly unequal',
+      'Stress is stiffness times strain. At the same strain, a fiber sixty '
+          'times stiffer than the glue carries sixty times the stress. That is '
+          'why a composite at a hundred megapascals overall can have four '
+          'hundred inside its fibers.',
+    ),
+    (
+      'Which is the point of putting fibers in',
+      'Fibers taking up a quarter of the volume can end up carrying almost '
+          'all of the load. The glue is there mostly to hold them in place and '
+          'pass load between them.',
+    ),
+    (
+      'Turn the load and it flips',
+      'Across the fibers, the same STRESS passes through both, and now the '
+          'soft glue does nearly all the moving. Whichever quantity is shared, '
+          'the other one is not.',
+    ),
+  ],
+  spoken: [
+    (
+      'Along: shared strain',
+      r'\varepsilon_1 = \varepsilon_2',
+      'both stretch the same amount',
+    ),
     (
       'So the stresses split',
       r'\sigma_1 = E_1\varepsilon,\; \sigma_2 = E_2\varepsilon',
+      'the stiffer one carries proportionally more',
     ),
-    ('Across: shared stress', r'\sigma_1 = \sigma_2'),
+    (
+      'Across: shared stress',
+      r'\sigma_1 = \sigma_2',
+      'the same stress passes through both, and the soft one moves most',
+    ),
   ],
-  figure: BriefFigure.isostrain,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
 const galvanicBrief = BriefSection(
   title: 'The more active one is eaten',
-  body:
-      'Corrosion in a couple needs four things at once: two DIFFERENT metals, '
-      'an electrolyte such as rainwater or damp soil, and an electrical path '
-      'between them. Given all four, the more active metal of the pair '
-      'becomes the anode and dissolves, and the nobler one is the cathode and '
-      'is protected. No metal is safe or unsafe on its own: steel is '
-      'protected beside aluminum and eaten beside copper. That is the whole '
-      'of galvanizing, and of a sacrificial anode bolted to a hull. And it is '
-      'the whole of the fix as well: take away any one of the four, usually '
-      'the water or the path, and nothing happens at all.',
-  formulas: [
-    ('At the anode', r'M^0 \rightarrow M^{n+} + ne^-'),
-    ('Active to noble', r'Mg,\; Zn,\; Al,\; \text{steel},\; Cu,\; Ti'),
-    ('A cell needs', r'\text{two metals} + \text{water} + \text{a path}'),
+  picture: galvanicPicture,
+  steps: [
+    (
+      'Corrosion in a couple needs four things at once',
+      'Two DIFFERENT metals. Something wet between them, like rain or damp '
+          'soil. And an electrical path joining them. Take any one away and '
+          'nothing happens.',
+    ),
+    (
+      'Then the more active one dissolves',
+      'Metals sit in an order from active to noble. Of any pair, the more '
+          'active one corrodes and the nobler one is protected. It is a bargain '
+          'struck between the two, not a property of either.',
+    ),
+    (
+      'No metal is safe on its own terms',
+      'Steel is protected beside aluminum and eaten beside copper. Same '
+          'steel. The company it keeps decides.',
+    ),
+    (
+      'Which is how we use it deliberately',
+      'Galvanizing coats steel in zinc, which is more active, so the zinc '
+          'goes first and the steel survives even where the coating is '
+          'scratched. A block bolted to a hull does the same job.',
+    ),
   ],
-  figure: BriefFigure.galvanic,
+  spoken: [
+    (
+      'At the anode',
+      r'M^0 \rightarrow M^{n+} + ne^-',
+      'the active metal gives up electrons and dissolves away',
+    ),
+    (
+      'Active to noble',
+      r'Mg,\; Zn,\; Al,\; \text{steel},\; Cu,\; Ti',
+      'the order: whichever of your pair is further left is the one eaten',
+    ),
+    (
+      'A cell needs',
+      r'\text{two metals} + \text{water} + \text{a path}',
+      'remove any one of them and the corrosion stops',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 116',
 );
 
 const pickingBrief = BriefSection(
   title: 'Cross them off one column at a time',
-  body:
-      'A selection question hands you a table and a list of requirements, and '
-      'the metal that wins any one column is rarely the one that passes them '
-      'all. Copper conducts heat better than anything else on the page and is '
-      'three times too heavy for a light part. Titanium survives seawater '
-      'that eats everything and barely conducts at all. Steel is cheap and '
-      'rusts. So take the requirements one at a time, in whatever order is '
-      'quickest to check, and cross candidates off until one is left. Two '
-      'outcomes are worth recognizing: when a requirement rules nothing out '
-      'it is not doing any work, and when nothing passes, the specification '
-      'is what needs changing.',
-  formulas: [
-    ('Copper', r'403\ \text{W/mK},\; 8{,}933\ \text{kg/m}^3'),
-    ('Aluminum', r'236\ \text{W/mK},\; 2{,}698\ \text{kg/m}^3'),
-    ('Steel, titanium', r'83.5\ \text{and}\ 22\ \text{W/mK}'),
+  picture: pickingPicture,
+  steps: [
+    (
+      'The best at one thing is rarely the answer',
+      'A selection question gives you a table and a list of requirements. '
+          'Copper conducts heat better than anything else there and is three '
+          'times too heavy for a light part. Titanium shrugs off seawater and '
+          'barely conducts at all.',
+    ),
+    (
+      'So do not pick. Eliminate.',
+      'Take the requirements one at a time, in whatever order is quickest to '
+          'check, and cross off every metal that fails. Keep going until one is '
+          'left.',
+    ),
+    (
+      'A requirement that rules nothing out is doing no work',
+      'If every candidate passes it, it is there to fill space. Notice it '
+          'and move on to one that actually separates them.',
+    ),
+    (
+      'And if nothing passes, the spec is wrong',
+      'That is a real answer, not a dead end. When no material can meet '
+          'every requirement, the requirements are what has to change.',
+    ),
   ],
-  figure: BriefFigure.picking,
+  spoken: [
+    (
+      'Copper',
+      r'403\ \text{W/mK},\; 8{,}933\ \text{kg/m}^3',
+      'the best conductor on the page, and much the heaviest',
+    ),
+    (
+      'Aluminum',
+      r'236\ \text{W/mK},\; 2{,}698\ \text{kg/m}^3',
+      'conducts well and is light, which is why it wins so often',
+    ),
+    (
+      'Steel, titanium',
+      r'83.5\ \text{and}\ 22\ \text{W/mK}',
+      'neither is here for conducting heat',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 119',
 );
 
@@ -11435,31 +12050,53 @@ const cornerOffsetBrief = BriefSection(
 );
 
 const stiffnessBrief = BriefSection(
-  title: 'A slope, not a height',
-  body:
-      'Strain is a stretch over an original length, so it has no units at '
-      'all. Stress divided by strain, anywhere on the straight part of the '
-      'curve, is the ELASTIC MODULUS, and it is the SLOPE of that straight '
-      'part. A slope is not a height. Stiffness says how far the thing '
-      'stretches under load; STRENGTH is how high the curve goes before the '
-      'material gives way; and ductility is how far along it goes before it '
-      'breaks. Three questions, three different features of one drawing, and '
-      'a material can have any combination: glass is stiff and breaks '
-      'without warning, cast iron is stiffer than most steels and much '
-      'weaker in tension. Two numbers are worth carrying: structural steel '
-      'near 200 GPa and aluminum near 70, which is why an aluminum member of '
-      'the same shape deflects about three times as much. A floor that '
-      'bounces is a stiffness problem, and specifying a stronger steel '
-      'changes almost nothing.',
-  formulas: [
-    ('Strain', r'\varepsilon = \Delta L / L_0'),
-    ('The modulus', r'E = \sigma / \varepsilon'),
+  title: 'A slope is not a height',
+  picture: stiffnessPicture,
+  steps: [
     (
-      'Worth carrying',
-      r'E_{steel} \approx 200\text{ GPa}, \; E_{al} \approx 70',
+      'Three questions about one curve',
+      'How hard is it to move at all? How much can it carry before it gives '
+          'way? How far does it go before it breaks? Stiffness, strength and '
+          'stretchiness. Three different features of the same drawing.',
+    ),
+    (
+      'Stiffness is the slope',
+      'Take any point on the straight first part and divide the stress by '
+          'the strain. That is the elastic modulus, and it is just how steeply '
+          'the line starts. Steep means hard to stretch.',
+    ),
+    (
+      'Strength is the height',
+      'How high the curve gets is a separate question. Cast iron starts '
+          'steeply and stops low: stiff but weak. An aluminum alloy starts '
+          'shallow and climbs far higher: springy but strong.',
+    ),
+    (
+      'Which one is your problem',
+      'A floor that bounces is too soft, not too weak, so a stronger steel '
+          'changes nothing: every steel is about equally stiff. Aluminum is a '
+          'third as stiff as steel, so the same beam in aluminum sags about '
+          'three times as far.',
     ),
   ],
-  figure: BriefFigure.stiffness,
+  spoken: [
+    (
+      'Strain',
+      r'\varepsilon = \frac{\Delta L}{L_0}',
+      'how much it grew, over the length it started with',
+    ),
+    (
+      'The modulus',
+      r'E = \frac{\sigma}{\varepsilon}',
+      'stress over strain: the slope of the straight part',
+    ),
+    (
+      'Worth carrying',
+      r'E_{steel} \approx 200\text{ GPa},\; E_{al} \approx 70',
+      'steel is about three times as stiff as aluminum',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, mechanical properties',
 );
 
