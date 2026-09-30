@@ -13,13 +13,17 @@
 import 'package:flutter/material.dart';
 
 import 'bearing_figures.dart';
+import 'compaction_figures.dart';
 import 'consolidation_figures.dart';
+import 'earth_pressure_figures.dart';
 import 'effective_stress_figures.dart';
 import 'mechanics_pictures.dart' show ConceptPicture, ConceptPair;
 import 'phase_figures.dart';
+import 'pile_figures.dart';
 import 'seepage_figures.dart';
 import 'shear_strength_figures.dart';
 import 'slope_figures.dart';
+import 'wall_stability_figures.dart';
 import 'soil_class_figures.dart';
 
 /// Two drawings one above the other, full width. The painters in this
@@ -382,6 +386,149 @@ Widget allowablePicture() => const ConceptPicture(
   height: 240,
 );
 
+// ---------------------------------------------------------------------------
+// Lateral earth pressure
+
+const _backfill = Backfill(height: 15, unitWeight: 120, friction: 30);
+const _withSurchargeBehind = Backfill(
+  height: 15,
+  unitWeight: 120,
+  friction: 30,
+  surcharge: 300,
+);
+const _tallWall = Backfill(height: 30, unitWeight: 120, friction: 30);
+
+Widget rankinePicture() => const ConceptPicture(
+  painter: CoefficientPainter(backfill: _backfill, answered: true),
+  caption:
+      'the same soil, the same wall, three answers. What changed is what the wall did',
+  height: 230,
+);
+
+Widget diagramShapePicture() => _stack(
+  const WallPainter(backfill: _backfill, answered: true),
+  'soil alone: nothing at the top, most at the bottom, so a triangle',
+  const WallPainter(backfill: _withSurchargeBehind, answered: true),
+  'add a load on the ground behind: a rectangle on top of the triangle',
+  height: 230,
+);
+
+// The painter draws both walls in one panel when it is given `against`, so
+// a pair of these would be the same picture printed twice.
+Widget wallForcePicture() => const ConceptPicture(
+  painter: WallPainter(backfill: _backfill, against: _tallWall, answered: true),
+  caption: 'two walls to one scale. Twice as tall carries four times the force',
+  height: 250,
+);
+
+// ---------------------------------------------------------------------------
+// Retaining wall stability
+
+const _wall = Gravity(
+  baseWidth: 6,
+  vertical: 5000,
+  resisting: 15000,
+  overturning: 5000,
+);
+
+Widget threeChecksPicture() => _stack(
+  const StabilityPainter(wall: _wall, which: Check.overturning, answered: true),
+  'the push tries to turn the wall about its toe: a contest of moments',
+  const StabilityPainter(wall: _wall, which: Check.sliding, answered: true),
+  'the same push tries to shove it along the base: a contest of forces',
+  height: 215,
+);
+
+Widget middleThirdPicture() => const ConceptPicture(
+  painter: BasePainter(wall: _wall, withPressure: false, answered: true),
+  caption:
+      'the base seen from below, with the middle third marked and the resultant standing in it',
+  height: 200,
+);
+
+Widget basePressurePicture() => const ConceptPicture(
+  painter: BasePainter(wall: _wall, answered: true),
+  caption:
+      'the resultant sits off center, so the ground is pressed hardest under the toe',
+  height: 230,
+);
+
+// ---------------------------------------------------------------------------
+// Compaction
+
+const _fill = Proctor(
+  maxDryUnitWeight: 124,
+  optimum: 12,
+  fieldDryUnitWeight: 118,
+  fieldMoisture: 10.5,
+);
+const _tooWet = Proctor(
+  maxDryUnitWeight: 124,
+  optimum: 12,
+  fieldDryUnitWeight: 114,
+  fieldMoisture: 16,
+);
+const _sand = Granular(loosest: 0.90, densest: 0.40, inPlace: 0.60);
+const _swellingClay = Ground(
+  name: 'a swelling clay subgrade',
+  plasticityIndex: 34,
+);
+
+Widget proctorPicture() => _stack(
+  const ProctorPainter(test: _fill, answered: true),
+  'drier than the peak: adding water would help, because the grains can slide',
+  const ProctorPainter(test: _tooWet, answered: true),
+  'wetter than the peak: adding water makes it looser, and rolling will not fix it',
+  height: 210,
+);
+
+Widget relativeDensityPicture() => const ConceptPicture(
+  painter: PackingPainter(soil: _sand, answered: true),
+  caption:
+      'loosest this sand can sit, tightest it can be packed, and where it actually is',
+  height: 200,
+);
+
+Widget stabilizerPicture() => const ConceptPicture(
+  painter: StabilizerPainter(ground: _swellingClay, answered: true),
+  caption:
+      'clean gravel at one end, fat clay at the other, and what suits each',
+  height: 210,
+);
+
+// ---------------------------------------------------------------------------
+// Piles
+
+const _pile = Pile(
+  tipResistance: 2000,
+  tipArea: 0.20,
+  skinFriction: 50,
+  shaftArea: 12,
+);
+
+Widget pileCapacityPicture() => const ConceptPicture(
+  painter: PilePainter(pile: _pile, answered: true),
+  caption:
+      'a pile holds up in two places: grip along the side, and bearing under the tip',
+  height: 250,
+);
+
+Widget goingDeepPicture() => _stack(
+  const DepthPainter(onFooting: true, answered: true),
+  'a footing on soft ground: the load presses the layer that settles',
+  const DepthPainter(piles: 3, answered: true),
+  'piles through it: the load is carried past the soft layer to firm ground',
+  height: 210,
+);
+
+Widget downdragPicture() => _stack(
+  const PilePainter(pile: _pile, answered: true),
+  'the pile pushes down through still soil, so the soil rubs UP: that grip holds it',
+  const PilePainter(pile: _pile, downdrag: true, answered: true),
+  'the ground settles past the pile, so the soil rubs DOWN: the same grip is now a load',
+  height: 230,
+);
+
 /// Every picture on this chapter's sheets, by the contact sheet's card name.
 const geotechnicalPictures = <String, Widget Function()>{
   'diagram': phasePicture,
@@ -407,4 +554,16 @@ const geotechnicalPictures = <String, Widget Function()>{
   'terzaghi': terzaghiPicture,
   'fix': footingFixPicture,
   'allowable': allowablePicture,
+  'states': rankinePicture,
+  'shapes': diagramShapePicture,
+  'force': wallForcePicture,
+  'checks': threeChecksPicture,
+  'landing': middleThirdPicture,
+  'pressure': basePressurePicture,
+  'proctor': proctorPicture,
+  'packing': relativeDensityPicture,
+  'stabilizer': stabilizerPicture,
+  'capacity': pileCapacityPicture,
+  'deep': goingDeepPicture,
+  'downdrag': downdragPicture,
 };

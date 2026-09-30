@@ -13146,216 +13146,444 @@ const allowableBrief = BriefSection(
 );
 
 const threeChecksBrief = BriefSection(
-  title: 'Three checks, three quantities',
-  body:
-      'A retaining wall has to pass three separate tests and they compare '
-      'three different kinds of thing. OVERTURNING is a contest of MOMENTS '
-      'about the toe: the weight of the wall and the soil on its heel '
-      'holding it down, against the earth pressure trying to turn it. '
-      'SLIDING is a contest of FORCES along the base, the friction under the '
-      'footing against the push. BEARING is a contest of PRESSURES, what the '
-      'soil can carry against what the base puts on it. In all three what '
-      'RESISTS goes on top, so a number above one is safe and upside down is '
-      'the classic slip: a third where three belongs. The minimums differ, '
-      'roughly one and a half for sliding, one and a half to two for '
-      'overturning, and about three for bearing, and they do not trade '
-      'against one another. A wall that will not tip but will slide is a '
-      'wall that slides.',
-  formulas: [
-    ('Overturning', r'FS = \Sigma M_R / M_O'),
-    ('Sliding', r'FS = \Sigma F_R / \Sigma F_D'),
-    ('Bearing', r'FS = q_{ult} / q_{applied}'),
+  title: 'Three checks, three different quantities',
+  picture: threeChecksPicture,
+  steps: [
+    (
+      'A wall can fail three ways',
+      'It can tip over. It can slide along its base. Or it can press the '
+          'ground so hard the ground gives way. Each has to be checked '
+          'separately, and they compare different things.',
+    ),
+    (
+      'Tipping is about MOMENTS',
+      'Take moments about the front bottom corner, the toe. The weight of '
+          'the wall and the soil on its heel hold it down; the earth pressure '
+          'tries to turn it.',
+    ),
+    (
+      'Sliding is about FORCES',
+      'Friction under the base against the sideways push. No arms, no '
+          'moments: just force against force.',
+    ),
+    (
+      'Bearing is about PRESSURES',
+      'What the ground can carry against what the base actually puts on it. '
+          'In all three, what RESISTS goes on top, so above one is safe. And '
+          'they do not trade: a wall that will not tip but will slide is a '
+          'wall that slides.',
+    ),
   ],
-  figure: BriefFigure.threeChecks,
+  spoken: [
+    (
+      'Overturning',
+      r'FS = \Sigma M_R / M_O',
+      'the moments holding it, over the moments turning it',
+    ),
+    (
+      'Sliding',
+      r'FS = \Sigma F_R / \Sigma F_D',
+      'the friction holding it, over the push shoving it',
+    ),
+    (
+      'Bearing',
+      r'FS = q_{ult} / q_{applied}',
+      'the pressure the ground can take, over the pressure it gets',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, retaining wall stability',
 );
 
 const middleThirdBrief = BriefSection(
-  title: 'From the toe, then from the middle',
-  body:
-      'Two distances come out of this calculation and only the second one is '
-      'the eccentricity. First find where the resultant of the vertical '
-      'forces crosses the base, measured from the TOE: the net moment, '
-      'resisting minus overturning, divided by the vertical force. Then the '
-      'eccentricity is how far THAT is from the middle of the base. '
-      'Reporting the first as the second is the wrong answer the lesson '
-      'prints, and it is easy to catch, because the distance from the toe is '
-      'usually far too big to be an eccentricity. Keep the resultant within '
-      'a sixth of the base either side of center and it stays in the middle '
-      'third, which means the whole base stays pressed into the soil. Beyond '
-      'that the arithmetic starts asking the heel to pull down on the ground, '
-      'and soil does not pull.',
-  formulas: [
-    ('From the toe', r'\bar{x} = (\Sigma M_R - M_O)/\Sigma V'),
-    ('Off center', r'e = B/2 - \bar{x}'),
-    ('The middle third', r'e \leq B/6'),
+  title: 'First from the toe, then from the middle',
+  picture: middleThirdPicture,
+  steps: [
+    (
+      'Where does the weight land',
+      'All the downward forces on a wall add up to one force, and it crosses '
+          'the base somewhere. Find that spot first, measured from the front '
+          'corner: net moment divided by the vertical force.',
+    ),
+    (
+      'That is NOT the eccentricity',
+      'The eccentricity is how far that spot is from the MIDDLE of the base. '
+          'Two different distances. Reporting the first as the second is the '
+          'usual slip, and it is easy to catch, because the distance from the '
+          'toe is far too big to be an eccentricity.',
+    ),
+    (
+      'Keep it in the middle third',
+      'Stay within a sixth of the base either side of center and the whole '
+          'base stays pressed into the ground.',
+    ),
+    (
+      'Outside it, the sums stop meaning anything',
+      'Beyond the middle third the arithmetic starts asking the heel to PULL '
+          'down on the ground. Soil does not pull.',
+    ),
   ],
-  figure: BriefFigure.middleThird,
+  spoken: [
+    (
+      'From the toe',
+      r'\bar{x} = (\Sigma M_R - M_O)/\Sigma V',
+      'the net moment divided by the downward force',
+    ),
+    (
+      'Off center',
+      r'e = B/2 - \bar{x}',
+      'how far that spot is from the middle of the base',
+    ),
+    (
+      'The middle third',
+      r'e \leq B/6',
+      'within a sixth of the base, either side of center',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, retaining wall stability',
 );
 
 const basePressureBrief = BriefSection(
-  title: 'Uniform only when centered',
-  body:
-      'The pressure under a footing is the load over the base ONLY when the '
-      'load lands dead center, and a retaining wall is the one footing that '
-      'almost never does, because something is pushing it sideways by '
-      'definition. Off center, the pressure tilts into a trapezoid with the '
-      'most under the toe, the end everything is leaning toward. The 6e/B '
-      'term is that tilt and nothing else: set the eccentricity to zero and '
-      'the bracket becomes one and the formula falls back to the average. '
-      'The two ends straddle that average, so if the toe is above it the '
-      'heel is below it by the same amount, which is a free check on any '
-      'answer. And the whole formula holds only while the resultant is '
-      'inside the middle third.',
-  formulas: [
-    ('At the toe', r'q = \tfrac{\Sigma V}{B}\left(1 + \tfrac{6e}{B}\right)'),
-    ('At the heel', r'q = \tfrac{\Sigma V}{B}\left(1 - \tfrac{6e}{B}\right)'),
-    ('Centered', r'e = 0 \Rightarrow q = \Sigma V / B'),
+  title: 'Even pressure only when the load is centered',
+  picture: basePressurePicture,
+  steps: [
+    (
+      'Stand on one foot, evenly',
+      'Load over area gives the pressure underneath, but only if the load '
+          'lands dead center. Lean forward and your toes take more than your '
+          'heel.',
+    ),
+    (
+      'A retaining wall always leans',
+      'Something is pushing it sideways by definition, so the resultant '
+          'never lands in the middle. The pressure tilts into a wedge shape, '
+          'most under the TOE, the end everything leans toward.',
+    ),
+    (
+      'The 6e over B term is that tilt',
+      'Nothing more. Set the eccentricity to zero and the bracket becomes '
+          'one and the formula falls back to plain load over area.',
+    ),
+    (
+      'A free check on your answer',
+      'The two ends straddle the average by the same amount. If the toe is '
+          '20 above the average, the heel is 20 below it. And the formula only '
+          'holds while the resultant is inside the middle third.',
+    ),
   ],
-  figure: BriefFigure.basePressure,
+  spoken: [
+    (
+      'At the toe',
+      r'q = \tfrac{\Sigma V}{B}\left(1 + \tfrac{6e}{B}\right)',
+      'the average pressure, tilted up by how far off center it is',
+    ),
+    (
+      'At the heel',
+      r'q = \tfrac{\Sigma V}{B}\left(1 - \tfrac{6e}{B}\right)',
+      'the same average, tilted down by the same amount',
+    ),
+    (
+      'Centered',
+      r'e = 0 \Rightarrow q = \Sigma V / B',
+      'no tilt, so just the load over the area',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, retaining wall stability',
 );
 
 const proctorBrief = BriefSection(
   title: 'A hump, not a slope',
-  body:
-      'Compaction squeezes AIR out, and water is only its helper. Dry of the '
-      'optimum the grains grind and will not slide into place, so adding '
-      'water makes the soil denser. Past the optimum the voids are nearly '
-      'full and the water holds the grains apart, so adding more makes it '
-      'LOOSER, and no number of roller passes will get it back. The peak of '
-      'that hump is the laboratory maximum dry unit weight for one soil at '
-      'one compaction effort, which is why a specification has to say which '
-      'Proctor it means: the modified test uses more effort, produces a '
-      'higher maximum, and so gives a lower percentage for the same fill. '
-      'Relative compaction is the field value over the laboratory one, that '
-      'way up. Upside down, a short fill reads as just over a hundred per '
-      'cent and passes.',
-  formulas: [
+  picture: proctorPicture,
+  steps: [
+    (
+      'Compacting squeezes AIR out',
+      'Not water. Water is only the helper that lets grains slide past each '
+          'other into tighter packing.',
+    ),
+    (
+      'Too dry and the grains will not slide',
+      'They grind and lock. Adding water here genuinely helps, and the soil '
+          'gets denser.',
+    ),
+    (
+      'Too wet and the water holds them apart',
+      'Past the peak the gaps are nearly full, and more water makes the soil '
+          'LOOSER. No number of roller passes will get it back. That is why '
+          'the curve is a hump and not a slope.',
+    ),
+    (
+      'The peak belongs to one test',
+      'It is the maximum for one soil at one compaction effort, so a '
+          'specification must say WHICH Proctor. The modified test hits harder '
+          'and gives a higher peak, so the same fill scores a lower percentage '
+          'against it. Field over laboratory, that way up: upside down a short '
+          'fill reads just over 100 and passes.',
+    ),
+  ],
+  spoken: [
     (
       'Relative compaction',
       r'RC = \tfrac{\gamma_{d,field}}{\gamma_{d,max}} \times 100',
+      'what you got in the field, over what the lab got',
     ),
-    ('Typical specification', r'RC \geq 90\text{ to }95\%'),
-    ('Upside down', r'\text{reads just over }100\%'),
+    (
+      'A usual specification',
+      r'RC \geq 90\text{ to }95\%',
+      'most of the way to the laboratory peak',
+    ),
+    (
+      'Upside down',
+      r'\text{reads just over }100\%',
+      'which is how you catch the mistake',
+    ),
   ],
-  figure: BriefFigure.proctor,
+  figure: BriefFigure.none,
   handbook: 'Handbook, compaction',
 );
 
 const relativeDensityBrief = BriefSection(
-  title: 'Two ways to say how tight',
-  body:
-      'Relative COMPACTION compares a field dry unit weight against a '
-      'laboratory Proctor maximum, and any soil with a Proctor test can be '
-      'checked that way. Relative DENSITY is for clean sands and gravels, '
-      'and it asks something different: how far the in-place void ratio sits '
-      'between the loosest and the tightest packings that soil can be got '
-      'into. The measurement runs from the LOOSE end, so a low void ratio, '
-      'meaning tightly packed, gives a HIGH percentage. Start from the other '
-      'end and the two answers always add to a hundred, which is what gives '
-      'the mistake away. The two measures compare against different things, '
-      'share no terms, and are not interchangeable.',
-  formulas: [
+  title: 'Two different ways to say how tight',
+  picture: relativeDensityPicture,
+  steps: [
+    (
+      'Shake a jar of sand',
+      'Poured in gently it sits loose. Shaken hard it packs down. Every clean '
+          'sand has a loosest it will sit at and a tightest it can be got to, '
+          'and the real one is somewhere between.',
+    ),
+    (
+      'Relative density asks where between',
+      'Not against a laboratory hump, but against those two extremes for '
+          'that sand. It is the measure for clean sands and gravels.',
+    ),
+    (
+      'Measure from the LOOSE end',
+      'So tightly packed, meaning a small void ratio, gives a HIGH '
+          'percentage. Start from the other end and you get the complement.',
+    ),
+    (
+      'Which is how you catch it',
+      'The right answer and the upside-down one always add to 100. Relative '
+          'compaction and relative density compare against different things '
+          'and are not interchangeable.',
+    ),
+  ],
+  spoken: [
     (
       'Relative density',
       r'D_r = \tfrac{e_{max} - e}{e_{max} - e_{min}} \times 100',
+      'how far from the loosest, over the whole range',
     ),
-    ('The wrong end', r'\tfrac{e - e_{min}}{e_{max} - e_{min}}'),
-    ('Together', r'\text{the two add to }100\%'),
+    (
+      'The wrong end',
+      r'\tfrac{e - e_{min}}{e_{max} - e_{min}}',
+      'measures from the tightest instead',
+    ),
+    (
+      'Together',
+      r'\text{the two add to }100\%',
+      'which is the check that catches the mistake',
+    ),
   ],
-  figure: BriefFigure.relativeDensity,
+  figure: BriefFigure.none,
   handbook: 'Handbook, relative density',
 );
 
 const stabilizerBrief = BriefSection(
   title: 'Match the help to the soil',
-  body:
-      'When rolling alone will not do, the soil gets help, and which help '
-      'depends on what the soil is. LIME goes into plastic clays: it reacts '
-      'with the clay minerals, brings the plasticity index down and stops '
-      'the swelling. CEMENT goes into granular and low-plasticity soils, '
-      'where it binds the grains into something stiff; in a fat clay it can '
-      'hardly be mixed through. A GEOSYNTHETIC is not chemistry at all: it '
-      'separates a stone base from the mud under it, reinforces, or drains. '
-      'And where water is what keeps coming back, DRAINAGE comes before any '
-      'of them, because water will undo every treatment you pay for.',
-  formulas: [
-    ('Plastic clay', r'\text{lime}'),
-    ('Granular soil', r'\text{cement}'),
-    ('Water first', r'\text{drainage}'),
+  picture: stabilizerPicture,
+  steps: [
+    (
+      'Sometimes rolling is not enough',
+      'A subgrade can be too soft, or swell when it rains, whatever you do '
+          'with a roller. Then it gets help, and the right help depends on '
+          'what the soil actually is.',
+    ),
+    (
+      'Lime for plastic clays',
+      'Lime reacts with the clay minerals themselves, brings the plasticity '
+          'down and stops the swelling. It needs a clay to react with.',
+    ),
+    (
+      'Cement for granular and low-plasticity soils',
+      'Cement binds grains into something stiff. In a fat clay you can '
+          'hardly mix it through, so it does little.',
+    ),
+    (
+      'And water beats both',
+      'A geosynthetic is not chemistry: it separates stone from mud, '
+          'reinforces, or drains. And where water keeps coming back, DRAINAGE '
+          'comes first, because water will undo any treatment you pay for.',
+    ),
   ],
-  figure: BriefFigure.stabilizer,
+  spoken: [
+    (
+      'A plastic clay',
+      r'\text{lime}',
+      'it reacts with the clay and brings the plasticity down',
+    ),
+    (
+      'A granular soil',
+      r'\text{cement}',
+      'it binds the grains into something stiff',
+    ),
+    (
+      'Water first',
+      r'\text{drainage}',
+      'before any treatment, or the water undoes it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, soil stabilization',
 );
 
 const pileCapacityBrief = BriefSection(
-  title: 'Two resistances, two areas',
-  body:
-      'A pile holds a load up in two places at once. The TIP works like a '
-      'very small footing, and its resistance is a pressure times the area '
-      'of the tip, which is a fraction of a square meter. The SHAFT grips '
-      'the soil all the way down, and its resistance is a much smaller '
-      'pressure times the surface area of the whole side of the pile, which '
-      'runs into tens of square meters. Add the two. Reporting either one on '
-      'its own is the wrong answer the lesson prints twice, and putting the '
-      'shaft area with the tip resistance throws the answer out by a factor '
-      'of fifty. Which one dominates depends on where the pile ends: driven '
-      'onto rock it is nearly all tip, and long in uniform clay it is nearly '
-      'all shaft. In a friction pile, length buys capacity and width buys '
-      'very little.',
-  formulas: [
-    ('Together', r'Q_{ult} = Q_p + Q_s'),
-    ('Each part', r'Q_{ult} = q_p A_p + f_s A_s'),
-    ('The areas', r'A_p \text{ is small}, \; A_s \text{ is large}'),
+  title: 'Two resistances, and two very different areas',
+  picture: pileCapacityPicture,
+  steps: [
+    (
+      'A pile holds up in two places',
+      'Push a straw into sand. It resists at the bottom end, where it has to '
+          'punch through, and all along its side, where the sand grips it.',
+    ),
+    (
+      'The tip is a tiny footing',
+      'A big pressure, times a small area: the end of the pile is a fraction '
+          'of a square meter.',
+    ),
+    (
+      'The shaft is a huge surface',
+      'A much smaller pressure, times the whole side of the pile, which runs '
+          'into tens of square meters. Each has its OWN area, and swapping '
+          'them throws the answer out by fifty times.',
+    ),
+    (
+      'Which one dominates',
+      'Driven onto rock, nearly all tip. Long in uniform clay, nearly all '
+          'shaft. For a friction pile, length buys capacity and width buys '
+          'very little. Add both, and never report one alone.',
+    ),
   ],
-  figure: BriefFigure.pileCapacity,
+  spoken: [
+    (
+      'Together',
+      r'Q_{ult} = Q_p + Q_s',
+      'the tip plus the shaft, never one of them',
+    ),
+    (
+      'Each part',
+      r'Q_{ult} = q_p A_p + f_s A_s',
+      'each pressure with its own area',
+    ),
+    (
+      'The areas',
+      r'A_p \text{ small}, \; A_s \text{ large}',
+      'the tip is tiny and the side is enormous',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, deep foundations',
 );
 
 const goingDeepBrief = BriefSection(
-  title: 'Past the layer that settles',
-  body:
-      'Piles are chosen to carry a load THROUGH ground that would settle and '
-      'hand it to something firm below. Not because they are cheap, since '
-      'they usually are not, and never to press the weak layer harder. Note '
-      'that the deciding question is often settlement rather than strength: '
-      'a soft clay can be strong enough not to fail and still drop a '
-      'building further than it can stand. Once piles come in a GROUP the '
-      'arithmetic changes again. The piles are close enough to work the same '
-      'soil as their neighbors, so in clay the group carries LESS than the '
-      'sum of the singles, and the group efficiency is below one. And '
-      'because the whole cap acts as one wide load, the stressed ground '
-      'reaches much deeper than any single pile would reach, so the group '
-      'settles more and is checked as a block.',
-  formulas: [
-    ('Why deep', r'\text{settlement, not price}'),
-    ('Group in clay', r'\text{efficiency} < 1'),
-    ('Group settlement', r'\text{deeper, so more}'),
+  title: 'Carrying the load past the layer that settles',
+  picture: goingDeepPicture,
+  steps: [
+    (
+      'Why piles at all',
+      'Not because they are cheap, because they usually are not. They are '
+          'there to carry a load THROUGH ground that would settle and hand it '
+          'to something firm further down.',
+    ),
+    (
+      'Settlement decides it, more often than strength',
+      'A soft clay can be plenty strong enough not to fail and still drop a '
+          'building further than it can stand. That is usually the reason for '
+          'going deep.',
+    ),
+    (
+      'A group is not the sum of its piles',
+      'Put piles close together and they all work the same soil. In clay the '
+          'group carries LESS than the singles added up, so its efficiency is '
+          'below one.',
+    ),
+    (
+      'And a group reaches deeper',
+      'The whole cap acts as one wide load, so the stressed ground goes far '
+          'deeper than any single pile would reach. That means the group '
+          'settles more, and it is checked as one block.',
+    ),
   ],
-  figure: BriefFigure.goingDeep,
+  spoken: [
+    (
+      'Why deep',
+      r'\text{settlement, not price}',
+      'to get past the layer that would settle',
+    ),
+    (
+      'A group in clay',
+      r'\text{efficiency} < 1',
+      'the group carries less than the piles added up',
+    ),
+    (
+      'Group settlement',
+      r'\text{deeper, so more}',
+      'the cap stresses ground no single pile reaches',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, deep foundations',
 );
 
 const downdragBrief = BriefSection(
-  title: 'The friction that is a load',
-  body:
-      'Shaft friction points whichever way the RELATIVE movement tells it '
-      'to, and that is the only thing deciding it. A pile pushed down '
-      'through still soil rubs upward against it: the friction holds the '
-      'pile up and counts toward capacity. Soil settling PAST a pile, as '
-      'when new fill squeezes a compressible clay for years, rubs downward '
-      'on the shaft and hangs on it. That is negative skin friction, or '
-      'downdrag, and it costs twice: the drag goes onto the load side of the '
-      'sum, and the stretch of shaft doing the dragging gives no resistance '
-      'either. It is never capacity. Same surface, same grip, opposite sign.',
-  formulas: [
-    ('Normally', r'\text{soil resists: } +Q_s'),
-    ('Settling ground', r'\text{soil drags: an added load}'),
-    ('Decided by', r'\text{which one moves down}'),
+  title: 'The same friction, working as a load',
+  picture: downdragPicture,
+  steps: [
+    (
+      'Friction points against the movement',
+      'Rub your hand down a rope and the rope rubs your hand upward. '
+          'Friction always opposes whatever is sliding, and it is the RELATIVE '
+          'movement that decides which way.',
+    ),
+    (
+      'Normally the pile is the one moving',
+      'Load a pile and it tries to go down through still soil. The soil rubs '
+          'UP on it, and that grip is holding the pile up. It counts toward '
+          'capacity.',
+    ),
+    (
+      'Sometimes the ground is the one moving',
+      'Dump new fill on soft clay and the clay settles for years, sliding '
+          'DOWN past the pile. Now the soil rubs downward and hangs on the '
+          'pile.',
+    ),
+    (
+      'And that costs twice',
+      'The drag is added to the load the pile must carry, AND that stretch '
+          'of shaft gives no help. Same surface, same grip, opposite sign. It '
+          'is never capacity.',
+    ),
   ],
-  figure: BriefFigure.downdrag,
+  spoken: [
+    (
+      'Pile moving down',
+      r'\text{soil resists: } +Q_s',
+      'the grip holds the pile up',
+    ),
+    (
+      'Ground settling past it',
+      r'\text{soil drags: an added load}',
+      'the same grip now hangs on the pile',
+    ),
+    (
+      'Decided by',
+      r'\text{which one moves down}',
+      'the relative movement, and nothing else',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, deep foundations',
 );
 
@@ -14370,76 +14598,154 @@ const filterRateBrief = BriefSection(
 );
 
 const rankineBrief = BriefSection(
-  title: 'Three states of the same soil',
-  body:
-      'The same soil against the same wall presses with three quite different '
-      'forces, and which one applies depends on what the WALL has done. Let '
-      'it lean away by even a fraction of an inch and the soil stretches, '
-      'takes up some of the load itself, and settles into its ACTIVE state, '
-      'the smallest of the three. Hold it perfectly still, as a basement wall '
-      'propped by its slab is held, and the soil stays AT REST, which is '
-      'noticeably larger: a basement wall designed for active pressure is '
-      'under-designed. Push the wall INTO the soil, as the toe of a sliding '
-      'wall does, and it answers with PASSIVE pressure, which for a thirty '
-      'degree soil is nine times the active value and takes a great deal of '
-      'movement to develop. The order never changes, and the active and '
-      'passive coefficients are reciprocals: if one is a third the other is '
-      'three, which is the fastest check there is against swapping the two '
-      'formulas.',
-  formulas: [
-    ('Active', r'K_a = \tan^2(45 - \phi/2)'),
-    ('Passive', r'K_p = \tan^2(45 + \phi/2)'),
-    ('At rest', r'K_0 \approx 1 - \sin\phi'),
+  title: 'Three states of the very same soil',
+  picture: rankinePicture,
+  steps: [
+    (
+      'The soil pushes on the wall',
+      'Pile earth behind a wall and it presses sideways. How hard is not one '
+          'number: it depends on whether the wall gives way at all.',
+    ),
+    (
+      'Let it lean away a whisker',
+      'Even a fraction of an inch and the soil stretches out behind, takes '
+          'some of the load on itself, and pushes less. That is the ACTIVE '
+          'state, the smallest of the three, and most walls are designed for '
+          'it.',
+    ),
+    (
+      'Hold it dead still',
+      'A basement wall propped by its floor slab cannot move at all, so the '
+          'soil never gets to relax. That is AT REST, and it is noticeably '
+          'bigger. Design a basement wall for active pressure and it is '
+          'under-designed.',
+    ),
+    (
+      'Push the wall INTO the soil',
+      'Now the soil has to be shoved out of the way and it fights hard: '
+          'PASSIVE, about nine times the active value for a typical soil, and '
+          'it takes a lot of movement to wake up. Active and passive are '
+          'reciprocals: if one is a third the other is three.',
+    ),
   ],
-  figure: BriefFigure.rankine,
+  spoken: [
+    (
+      'Active',
+      r'K_a = \tan^2(45 - \phi/2)',
+      'the wall leaned away, so the smallest push',
+    ),
+    (
+      'Passive',
+      r'K_p = \tan^2(45 + \phi/2)',
+      'the wall shoved in, so the biggest push',
+    ),
+    (
+      'At rest',
+      r'K_0 \approx 1 - \sin\phi',
+      'the wall did not move, so somewhere in between',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, lateral earth pressure',
 );
 
 const diagramShapeBrief = BriefSection(
-  title: 'A triangle and a rectangle',
-  body:
-      'Two things press on a retaining wall and they press differently. The '
-      'SOIL weighs more the deeper you go, so its pressure runs from nothing '
-      'at the surface to its largest at the base: a triangle, whose resultant '
-      'acts a THIRD of the height up. A SURCHARGE on the ground behind the '
-      'wall presses down everywhere alike and the soil passes a share of it '
-      'sideways at every depth, so it adds the same pressure all the way '
-      'down: a rectangle, whose resultant acts at MID height. The two forces '
-      'add, but their heights do not, so an overturning check has to take '
-      'each about its own arm. And a modest surcharge is worth more than it '
-      'looks, because its rectangle covers the whole wall while the soil '
-      'triangle spends its first few feet near nothing.',
-  formulas: [
-    ('The soil', r'\tfrac{1}{2}K_a\gamma H^2 \text{ at } H/3'),
-    ('A surcharge', r'K_a q H \text{ at } H/2'),
-    ('Together', r'\text{they add}'),
+  title: 'A triangle, and a rectangle on top of it',
+  picture: diagramShapePicture,
+  steps: [
+    (
+      'Soil presses harder the deeper you go',
+      'At the top of the wall there is almost nothing above, so almost no '
+          'push. At the bottom there is the whole height of soil. Straight '
+          'between the two: a TRIANGLE.',
+    ),
+    (
+      'A triangle pushes a third of the way up',
+      'Its fat end is at the bottom, so the one force standing for the whole '
+          'triangle acts a third of the height up from the base.',
+    ),
+    (
+      'A load on the ground behind is different',
+      'A parking lot or a stockpile presses down everywhere alike, and the '
+          'soil passes a share of that sideways at EVERY depth, top included. '
+          'Same push all the way down: a RECTANGLE, acting at mid height.',
+    ),
+    (
+      'Add the forces, not the heights',
+      'Each one turns the wall about its own arm, so an overturning check '
+          'takes them separately. A modest surcharge is worth more than it '
+          'looks, because its rectangle covers the whole wall while the soil '
+          'triangle spends its top few feet near nothing.',
+    ),
   ],
-  figure: BriefFigure.pressureShape,
+  spoken: [
+    (
+      'The soil',
+      r'\tfrac{1}{2}K_a\gamma H^2 \text{ at } H/3',
+      'the triangle, acting a third of the way up',
+    ),
+    (
+      'A load behind',
+      r'K_a q H \text{ at } H/2',
+      'the rectangle, acting halfway up',
+    ),
+    (
+      'Together',
+      r'\text{the forces add}',
+      'but each keeps its own height above the base',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, lateral earth pressure',
 );
 
 const wallForceBrief = BriefSection(
-  title: 'The half and the square',
-  body:
-      'Two things in the active force formula are worth feeling rather than '
-      'memorizing. The HALF is the area of a triangle: the pressure averages '
-      'half its value at the base, so the force is that average times the '
-      'height. Dropping it doubles the answer, which is the wrong choice the '
-      'lesson prints. The SQUARE on the height means a wall twice as tall '
-      'carries FOUR times the force, since there is twice as much soil and '
-      'twice the pressure at the base and the two multiply. Worse, the '
-      'overturning moment grows EIGHT times, because the arm doubles as well. '
-      'That cube is why tall walls get expensive out of all proportion to '
-      'their height and why a bank is often terraced instead. The unit weight '
-      'and the coefficient, by contrast, scale the answer straight. And the '
-      'force is only an input: sliding, overturning and bearing are three '
-      'separate checks after it.',
-  formulas: [
-    ('The force', r'P_a = \tfrac{1}{2}K_a\gamma H^2'),
-    ('Twice as tall', r'4\times \text{ the force}'),
-    ('The moment', r'8\times, \text{ arm and all}'),
+  title: 'The half, and the square',
+  picture: wallForcePicture,
+  steps: [
+    (
+      'The half is just a triangle',
+      'The push runs from nothing at the top to its biggest at the base, so '
+          'on average it is half the biggest. Force is that average times the '
+          'height. Drop the half and you double your answer.',
+    ),
+    (
+      'The square is two things at once',
+      'Build the wall twice as tall and there is twice as much soil, AND the '
+          'push at the base is twice as big. Two doublings multiply: FOUR '
+          'times the force.',
+    ),
+    (
+      'The moment is worse still',
+      'That bigger force also acts twice as high up, so the turning effect '
+          'goes up EIGHT times. That is why tall walls get expensive out of '
+          'all proportion, and why a bank is often terraced instead.',
+    ),
+    (
+      'The force is only the start',
+      'Weight and the soil coefficient scale the answer straight, no powers. '
+          'And getting the force is not the design: sliding, overturning and '
+          'bearing are three separate checks after it.',
+    ),
   ],
-  figure: BriefFigure.wallForce,
+  spoken: [
+    (
+      'The force',
+      r'P_a = \tfrac{1}{2}K_a\gamma H^2',
+      'half the coefficient times the weight times the height squared',
+    ),
+    (
+      'Twice as tall',
+      r'4\times \text{ the force}',
+      'twice the soil and twice the push at the base',
+    ),
+    (
+      'The turning effect',
+      r'8\times',
+      'four times the force, acting twice as high',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, lateral earth pressure',
 );
 
