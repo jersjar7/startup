@@ -10776,154 +10776,279 @@ const efficiencyBrief = BriefSection(
 );
 
 const countBrief = BriefSection(
-  title: 'Two counts, and the joints pick which',
-  body:
-      'Before anything is analyzed a structure has to be classified, and the '
-      'count depends on what the joints do rather than on what the outline '
-      'looks like. PINNED joints throughout carry no moment, so each joint '
-      'gives two equations and the count is m plus r against 2j. RIGID joints '
-      'carry moment, each gives three equations, and the count is 3m plus r '
-      'against 3j plus c, where c is one for every internal hinge or other '
-      'release, because each of those hands you an extra equation for free. A '
-      'triangle with welded corners is a frame, however much it resembles a '
-      'truss. Count the reactions carefully: a roller is one component, a pin '
-      'two, a fixed support three. Short of the requirement is a mechanism, '
-      'exactly it is determinate, and over it is indeterminate by the '
-      'difference, which is how many extra unknowns equilibrium cannot '
-      'reach.',
-  formulas: [
-    ('A truss', r'm + r \text{ vs } 2j'),
-    ('A frame', r'3m + r \text{ vs } 3j + c'),
-    ('The degree', r'\text{supply} - \text{need}'),
-    ('Reactions', r'\text{roller } 1, \text{ pin } 2, \text{ fixed } 3'),
+  title: 'Count the parts, and count what the joints allow',
+  picture: countPicture,
+  steps: [
+    (
+      'Build it out of straws and pins',
+      'Pin some straws together at their ends and you have a truss. Every '
+          'straw can only pull or push along its own length, and every pin is '
+          'free to swivel, so no corner can hold a bend.',
+    ),
+    (
+      'Weld the corners and it is a different thing',
+      'If the corners cannot swivel, a corner can hold a bend. That is a '
+          'frame. A welded triangle is a frame however much it looks like a '
+          'truss, and it gets counted a different way.',
+    ),
+    (
+      'Count what you have against what you can solve',
+      'Add up the bars and the reactions the supports give you: a roller 1, '
+          'a pin 2, a fixed end 3. That is the supply. Each joint hands you a '
+          'couple of equations, and that is what you can solve with.',
+    ),
+    (
+      'Short, exact, or over',
+      'Short of what you need and it is a mechanism, which means it moves. '
+          'Exactly enough and statics alone finishes it. Over and it is '
+          'indeterminate by the difference, so you need more than statics.',
+    ),
   ],
-  figure: BriefFigure.determinacyCount,
+  spoken: [
+    (
+      'A truss',
+      r'm + r \text{ vs } 2j',
+      'bars plus reactions, against two for every joint',
+    ),
+    (
+      'A frame',
+      r'3m + r \text{ vs } 3j + c',
+      'three per member plus reactions, against three per joint plus one for each hinge',
+    ),
+    (
+      'Reactions',
+      r'\text{roller } 1, \; \text{pin } 2, \; \text{fixed } 3',
+      'how many unknowns each kind of support puts in',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const stabilityBrief = BriefSection(
-  title: 'Necessary, and never sufficient',
-  body:
-      'The determinacy count can be satisfied exactly and the structure can '
-      'still fall over, which is the single most examinable idea in this '
-      'lesson. The count sees how many members, joints and reactions there '
-      'are; it cannot see where any of them POINT. Two arrangements give it '
-      'away. Reactions all PARALLEL, three rollers on level ground being the '
-      'usual case, can sum to nothing across their own direction, so any load '
-      'sideways has nothing to react against and the structure slides. '
-      'Reactions all CONCURRENT, passing through a single point, have no '
-      'lever arm about that point, so the structure turns about it as a rigid '
-      'body. Neither is cured by adding more of the same: a structure with '
-      'four parallel reactions is indeterminate by the count and just as '
-      'unstable. Check the count, then look at the picture.',
-  formulas: [
-    ('Necessary', r'm + r \ge 2j'),
+  title: 'The count can be right and the thing still falls over',
+  picture: stabilityPicture,
+  steps: [
     (
-      'Not sufficient',
-      r'\text{parallel or concurrent} \Rightarrow \text{unstable}',
+      'The count is blind',
+      'Counting sees how many bars, joints and supports there are. It cannot '
+          'see which way any of them POINT, and pointing is what decides whether '
+          'the thing stands up.',
+    ),
+    (
+      'All the supports pointing the same way',
+      'Three rollers on flat ground all push straight up. Push the structure '
+          'sideways and nothing is pushing back sideways, so it slides. The '
+          'count says it is fine.',
+    ),
+    (
+      'All the supports aimed at one spot',
+      'If every support line passes through a single point, none of them can '
+          'stop a turn about that point, so the whole thing spins. Again the '
+          'count says nothing.',
+    ),
+    (
+      'More of the same never fixes it',
+      'Adding a fourth roller makes the count look even better and the thing '
+          'is just as unstable. Do the count, then look at the picture and ask '
+          'which way each support pushes.',
     ),
   ],
-  figure: BriefFigure.stability,
+  spoken: [
+    ('Needed', r'm + r \ge 2j', 'enough bars and reactions to go round'),
+    (
+      'Never enough on its own',
+      r'\text{all parallel, or all through one point}',
+      'either arrangement is unstable whatever the count says',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const momentCenterBrief = BriefSection(
-  title: 'Where the pivot goes',
-  body:
-      'A section cut through three members leaves three unknown forces on the '
-      'piece you keep, and three equations to find them with. The moment '
-      'equation is the one worth spending carefully: take moments about the '
-      'point where the TWO MEMBERS YOU DO NOT WANT cross, and neither of them '
-      'has a lever arm about it, so both fall out and the equation has one '
-      'unknown left. The pivot therefore moves with the member you are after: '
-      'the same cut takes a different point for the top chord than for the '
-      'bottom one, and the point can sit outside the piece of truss you are '
-      'holding, because it is a point in space rather than a joint. When the '
-      'two unwanted members are the parallel chords of a parallel chord truss '
-      'they never cross, so no pivot works: use the vertical force equation '
-      'instead, which is why the diagonals of such a truss are said to carry '
-      'the shear.',
-  formulas: [
-    ('The pivot', r'\sum M_{point} = 0'),
-    ('Chords', r'\text{pivot where the other two meet}'),
-    ('Diagonals', r'\sum F_y = 0'),
+  title: 'Put the pivot where the bars you do not want cross',
+  picture: pivotPicture,
+  steps: [
+    (
+      'Cut the truss in half',
+      'Slice straight through it, throw one half away, and hold the other. '
+          'The cut bars are now pulling on the piece you kept, and you have '
+          'three unknown forces to find.',
+    ),
+    (
+      'Pick your pivot on purpose',
+      'A force that goes THROUGH a point cannot turn anything about that '
+          'point, like pushing a door right at its hinge. It just drops out of '
+          'the sum.',
+    ),
+    (
+      'So aim at the crossing',
+      'Take moments about the point where the two bars you are NOT after '
+          'cross. Both go through it, both drop out, and the equation has your '
+          'one bar left in it.',
+    ),
+    (
+      'Unless they never cross',
+      'Top and bottom chords that run parallel never meet, so no pivot '
+          'works. Add up the up-and-down forces instead, which is why the '
+          'diagonals are said to carry the shear.',
+    ),
   ],
-  figure: BriefFigure.momentCenter,
+  spoken: [
+    (
+      'The pivot',
+      r'\sum M_{point} = 0',
+      'everything turning about your chosen point adds up to nothing',
+    ),
+    (
+      'For a chord',
+      r'\text{pivot where the other two meet}',
+      'so those two drop out of the sum',
+    ),
+    (
+      'For a diagonal',
+      r'\sum F_y = 0',
+      'the up and down forces add up to nothing',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const jointForceBrief = BriefSection(
-  title: 'Why the diagonal is the big one',
-  body:
-      'At a joint carrying a vertical load, the only member with anything '
-      'pointing upward is the diagonal, so the whole load has to be carried '
-      'by its vertical COMPONENT. A member is always bigger than its own '
-      'component, so the diagonal force is bigger than the load, every time: '
-      'the load over the sine of the angle. How much bigger is all in the '
-      'geometry. At 75 degrees the factor is 1.04 and the member barely '
-      'notices; at 45 it is 1.41; on the three four five triangle that hides '
-      'in most textbook trusses it is 1.67, with sine 0.6 and cosine 0.8 '
-      'worth knowing by sight; at 10 degrees it is nearly six. The flatter '
-      'the member, the more force it takes to hold the same load, running '
-      'away toward infinity as it approaches horizontal. Steep is efficient, '
-      'which is why depth is worth paying for in a truss.',
-  formulas: [
-    ('The diagonal', r'F = \frac{P}{\sin\theta}'),
-    ('The flat member', r'F\cos\theta'),
-    ('Always', r'F > P'),
+  title: 'The slanted bar is always bigger than the load',
+  picture: jointForcePicture,
+  steps: [
+    (
+      'Only the slanted bar points upward',
+      'At a joint with a weight hanging on it, the flat bars are horizontal '
+          'and hold nothing up. The whole weight has to be carried by the '
+          'slanted one.',
+    ),
+    (
+      'A slanted bar only spends part of itself going up',
+      'Pull a rope at an angle and only some of that pull is lifting; the '
+          'rest is dragging sideways. So the bar has to pull HARDER than the '
+          'weight to get enough lift out of it.',
+    ),
+    (
+      'How much harder is the angle',
+      'A steep bar is nearly all lift, so it barely notices. A flat bar is '
+          'nearly all sideways, so it needs an enormous pull for the same lift. '
+          'At 45 degrees it is about 1.4 times the load.',
+    ),
+    (
+      'Which is why trusses are deep',
+      'Flatten the bar toward horizontal and the force runs away toward '
+          'enormous. Depth costs material and buys steep bars, and steep bars '
+          'work far less hard.',
+    ),
   ],
-  figure: BriefFigure.jointForce,
+  spoken: [
+    (
+      'The slanted bar',
+      r'F = \frac{P}{\sin\theta}',
+      'the load, divided by how much of the bar points upward',
+    ),
+    ('The flat bar', r'F\cos\theta', 'what is left over, pulling sideways'),
+    ('Always', r'F > P', 'the bar force beats the load, every time'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const unitLoadBrief = BriefSection(
-  title: 'The load that asks the question',
-  body:
-      'The unit load is not a load on the structure so much as the question '
-      'written in a form the equation can answer, and three things about it '
-      'are decided before any arithmetic starts. It MATCHES what is wanted: a '
-      'unit force pairs with a movement, a unit moment pairs with a rotation. '
-      'It sits AT the point asked about, not where the real load happens to '
-      'be and not where a handbook table happens to have an entry, and it '
-      'points in the direction being measured, so a sideways answer needs a '
-      'sideways unit load. And it acts ALONE, in a second analysis of the '
-      'same structure with every real load taken off: the real loads give N, '
-      'the unit load by itself gives n, and the formula multiplies the two '
-      'sets together afterward. Adding the unit load on top of the real loads '
-      'produces one set of forces that is neither, and everything after that '
-      'is wasted.',
-  formulas: [
-    ('A truss', r'\delta = \sum \frac{n N L}{A E}'),
-    ('A beam or frame', r'\delta = \int \frac{m M}{E I}\,dx'),
-    ('A rotation', r'\text{unit moment, not a unit force}'),
+  title: 'The pretend load that asks your question',
+  picture: unitLoadPicture,
+  steps: [
+    (
+      'You want to know how far one spot moves',
+      'The structure is already carrying its real load and bending a little. '
+          'The question is how far one particular point has moved.',
+    ),
+    (
+      'Ask by putting a 1 there',
+      'Put a pretend force of exactly 1 at that spot, pointing the way you '
+          'are measuring. It is not a real load. It is the question, written so '
+          'the equation can answer it.',
+    ),
+    (
+      'Match what you are asking for',
+      'Want a movement, use a unit FORCE. Want a turn, use a unit MOMENT. '
+          'Want a sideways answer, point it sideways. A downward 1 will never '
+          'tell you how far something moved sideways.',
+    ),
+    (
+      'Run it on its own',
+      'Take every real load OFF and work the structure again with just the 1 '
+          'on it. Real loads give one set of bar forces, the 1 gives another, '
+          'and the formula multiplies them together afterward.',
+    ),
   ],
-  figure: BriefFigure.unitLoad,
+  spoken: [
+    (
+      'A truss',
+      r'\delta = \sum \frac{n N L}{A E}',
+      'for every bar: the pretend force times the real force times the length, over area times stiffness',
+    ),
+    (
+      'A beam or frame',
+      r'\delta = \int \frac{m M}{E I}\,dx',
+      'the same idea, added up along the length instead of bar by bar',
+    ),
+    (
+      'For a turn',
+      r'\text{a unit moment, not a unit force}',
+      'ask with a twist if you want a twist',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const termSignBrief = BriefSection(
-  title: 'Which terms survive, and which way',
-  body:
-      'The sum has one term per member and most of them can be settled by '
-      'looking. Either factor zero and the term is zero: a member the unit '
-      'load does not reach contributes nothing however hard it is working, '
-      'and a zero-force member in the real structure contributes nothing '
-      'however much the unit load stretches it. Running the unit-load '
-      'analysis first and crossing off every member it leaves at zero often '
-      'halves the work. What is left is decided by the two signs AGREEING, '
-      'not by their being positive: tension with tension and compression with '
-      'compression both give a positive term that moves the joint the way the '
-      'unit load points, and one of each pulls the joint back. Two '
-      'compressions catching people out is the reason to carry the signs '
-      'through rather than the sizes. A total that comes out negative is not '
-      'an error either: it says the joint moved opposite to the direction the '
-      'unit load was pointed.',
-  formulas: [
-    ('One term', r'\frac{n N L}{A E}'),
-    ('Drops out', r'n = 0 \;\text{ or }\; N = 0'),
-    ('Same signs', r'nN > 0 \Rightarrow \text{with the unit load}'),
+  title: 'Most terms are zero, and the signs do the rest',
+  picture: termSignPicture,
+  steps: [
+    (
+      'One line per bar',
+      'The sum has one term for every bar in the truss. That sounds like a '
+          'lot of work, and most of it is not work at all.',
+    ),
+    (
+      'Either zero kills the term',
+      'A bar the pretend load never reaches contributes nothing, however '
+          'hard it is really working. A bar doing nothing in the real structure '
+          'contributes nothing either. Cross both kinds off first.',
+    ),
+    (
+      'What is left is decided by agreement',
+      'If both forces are pulls, or both are pushes, they agree and the term '
+          'adds. One of each disagrees and the term takes away. Two pushes still '
+          'agree, which is the one that catches people.',
+    ),
+    (
+      'A negative total is an answer',
+      'If everything adds up to a negative number, nothing is wrong. It '
+          'means the point moved the OPPOSITE way to the direction you pointed '
+          'your 1.',
+    ),
   ],
-  figure: BriefFigure.termSign,
+  spoken: [
+    (
+      'One term',
+      r'\frac{n N L}{A E}',
+      'pretend force times real force times length, over area times stiffness',
+    ),
+    (
+      'Drops out',
+      r'n = 0 \;\text{ or }\; N = 0',
+      'either force being zero makes the whole term zero',
+    ),
+    ('They agree', r'nN > 0', 'both pulling or both pushing, so the term adds'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
@@ -13325,25 +13450,51 @@ const wallForceBrief = BriefSection(
 );
 
 const trussRouteBrief = BriefSection(
-  title: 'Which one is quicker, and what comes first',
-  body:
-      'Both methods work on any determinate truss and the choice is about '
-      'time. ONE member, especially a chord deep in the truss, wants the '
-      'method of SECTIONS: a single cut and a single moment equation against '
-      'four or five joints worked in turn. SEVERAL members at one connection '
-      'want the method of JOINTS, because that joint is exactly the free body '
-      'the question is describing, and near a support it is quicker still '
-      'since the reaction is already sitting there. Whichever is used, the '
-      'support REACTIONS come first, from the whole truss taken as one free '
-      'body: a cut leaves you holding a piece whose other external force is a '
-      'reaction, and a joint at a support IS a reaction. Skipping that step '
-      'is the commonest way to stall.',
-  formulas: [
-    ('One member, deep', r'\text{sections}'),
-    ('A whole connection', r'\text{joints}'),
-    ('Before either', r'\text{the reactions}'),
+  title: 'Cut to one bar, or work round one joint',
+  picture: trussRoutePicture,
+  steps: [
+    (
+      'Both ways work, so pick the quick one',
+      'Every determinate truss can be solved either way. The only question '
+          'is how much arithmetic you sign up for.',
+    ),
+    (
+      'One bar, deep in the middle: cut',
+      'A single slice reaches it directly and one equation finishes it. '
+          'Walking joint by joint to the same bar means four or five joints in a '
+          'row, every one of them a chance to slip.',
+    ),
+    (
+      'Several bars at one corner: joints',
+      'If the question names a connection, that connection IS the free body. '
+          'Near a support it is quicker still, because the reaction is already '
+          'sitting there.',
+    ),
+    (
+      'Reactions first, whichever you choose',
+      'Take the whole truss as one object and find what the ground pushes '
+          'back with. A cut leaves you holding a reaction, and a support joint '
+          'IS one. Skip it and you stall.',
+    ),
   ],
-  figure: BriefFigure.trussRoute,
+  spoken: [
+    (
+      'One bar, deep',
+      r'\text{cut a section}',
+      'slice through and take moments once',
+    ),
+    (
+      'A whole connection',
+      r'\text{work the joint}',
+      'that joint is already the free body asked about',
+    ),
+    (
+      'Before either',
+      r'\text{the reactions}',
+      'what the supports push back with',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
