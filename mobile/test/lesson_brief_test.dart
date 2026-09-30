@@ -57,13 +57,13 @@ void main() {
   test('a card that names a law also shows it', () {
     // A reference that says WHEN to use something without showing WHAT it is
     // reads as arbitrary: you cannot learn the law from it.
-    expect(whichLawBrief.formulas.length, 2);
-    expect(whichLawBrief.formulas.first.$2, contains(r'\sin A'));
-    expect(whichLawBrief.formulas.last.$2, contains(r'\cos C'));
+    expect(whichLawBrief.spoken.length, 2);
+    expect(whichLawBrief.spoken.first.$2, contains(r'\sin A'));
+    expect(whichLawBrief.spoken.last.$2, contains(r'\cos C'));
 
-    expect(ratiosBrief.formulas.length, 3);
+    expect(ratiosBrief.spoken.length, 3);
     expect(
-      discriminantBrief.formulas.any((f) => f.$2.contains('pm')),
+      discriminantBrief.spoken.any((f) => f.$2.contains('pm')),
       isTrue,
       reason: 'the discriminant needs the formula it comes out of',
     );
@@ -99,11 +99,11 @@ void main() {
     ];
     for (final c in cards) {
       expect(
-        c.formulas.isNotEmpty || c.formula != null,
+        c.spoken.isNotEmpty || c.formulas.isNotEmpty || c.formula != null,
         isTrue,
         reason: '"${c.title}" states no rule of its own',
       );
-      for (final (label, latex) in c.formulas) {
+      for (final (label, latex, _) in c.spoken) {
         expect(label.trim(), isNotEmpty);
         expect(latex.trim(), isNotEmpty);
         expect(

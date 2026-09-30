@@ -456,48 +456,117 @@ enum BriefFigure {
 /// you, not make you hunt through the rest of the lesson.
 const perpendicularBrief = BriefSection(
   title: 'Parallel and perpendicular',
-  body:
-      'Parallel lines never meet, and that is the same as saying they have '
-      'the same slope. Perpendicular lines cross at a right angle, and their '
-      'slopes are negative reciprocals: flip the fraction and change the '
-      'sign. Doing only one of the two gets you a line that looks plausible '
-      'and is wrong.',
-  formulas: [
-    ('Parallel', r'm_1 = m_2'),
-    ('Perpendicular', r'm_{\perp} = -\frac{1}{m}'),
+  picture: perpendicularPicture,
+  steps: [
+    (
+      'Slope is how steep a line is',
+      'It is how far the line climbs for every step you take across. A big '
+          'slope is a steep line. A small one is nearly flat.',
+    ),
+    (
+      'Same slope means they never meet',
+      'Two lines with the same steepness run alongside each other forever. '
+          'That is what parallel means, and it is the whole test: compare the '
+          'two slopes.',
+    ),
+    (
+      'Square corners need two changes',
+      'To turn a line a quarter turn you flip its slope upside down AND '
+          'change its sign. A slope of 2 becomes minus a half. Doing only one of '
+          'the two gives a line that looks about right and is wrong.',
+    ),
   ],
-  figure: BriefFigure.slopePair,
+  spoken: [
+    ('Parallel', r'm_1 = m_2', 'the two slopes are the same number'),
+    (
+      'Perpendicular',
+      r'm_{\perp} = -\frac{1}{m}',
+      'flip the slope over, then change its sign',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
 const discriminantBrief = BriefSection(
-  title: 'The discriminant',
-  body:
-      'In the quadratic formula, the part under the square root is the '
-      'discriminant. Its sign alone tells you how many real roots there are: '
-      'positive gives two, zero gives one, negative gives none. You can read '
-      'that off a graph without solving anything, and on the exam it lets '
-      'you throw out answers before you start.',
-  formulas: [
-    ('The quadratic formula', r'x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}'),
-    ('The discriminant is the part under the root', r'b^2 - 4ac'),
+  title: 'The part under the square root',
+  picture: discriminantPicture,
+  steps: [
+    (
+      'A curve and a line',
+      'A quadratic draws a U shape. Solving it means asking where that U '
+          'cuts the flat line at zero. Look at the picture: it can cut twice, '
+          'touch once, or miss completely.',
+    ),
+    (
+      'One number decides which',
+      'Inside the quadratic formula there is a square root. The stuff under '
+          'that root is called the discriminant, and its SIGN alone tells you '
+          'which of the three pictures you have.',
+    ),
+    (
+      'Reading the sign',
+      'Positive means the root is a real number you can add and subtract: '
+          'two answers. Zero means adding and subtracting nothing: one answer. '
+          'Negative means no real root at all: the curve misses.',
+    ),
+    (
+      'Why it is worth a look first',
+      'You can throw out wrong answer choices before doing any arithmetic, '
+          'just from that one sign.',
+    ),
   ],
-  figure: BriefFigure.discriminant,
+  spoken: [
+    (
+      'The quadratic formula',
+      r'x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}',
+      'minus b, plus or minus the root, all over two a',
+    ),
+    (
+      'The discriminant is what is under the root',
+      r'b^2 - 4ac',
+      'b squared, take away four times a times c',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
 const gradeBrief = BriefSection(
   title: 'Grade, rise and run',
-  body:
-      'Grade is rise over run, written as a percent. Stations are the trap: '
-      'a station is distance in hundreds of feet, so 3+00 means 300 feet, '
-      'never 3. Convert the stations before you compare anything, or a flat '
-      'road will look like a cliff.',
-  formulas: [
-    ('Grade', r'\text{grade} = \frac{\text{rise}}{\text{run}} \times 100\%'),
-    ('A station is hundreds of feet', r'3{+}00 = 300\ \text{ft}'),
+  picture: gradePicture,
+  steps: [
+    (
+      'A road going uphill',
+      'Grade is just steepness written as a percent. Go along the road and '
+          'see how much it climbs. A grade of 5 percent means it climbs 5 feet '
+          'for every 100 feet you travel along.',
+    ),
+    (
+      'Stations are not plain numbers',
+      'Surveyors mark distance in hundreds of feet and write it with a '
+          'plus. So 3+00 means 300 feet from the start, not 3 feet.',
+    ),
+    (
+      'Convert first, always',
+      'Take the stations apart before you compare anything. Use 3 instead of '
+          '300 and a gentle road comes out looking like a cliff, a hundred times '
+          'too steep.',
+    ),
   ],
-  figure: BriefFigure.grade,
+  spoken: [
+    (
+      'Grade',
+      r'\text{grade} = \frac{\text{rise}}{\text{run}} \times 100\%',
+      'how much it climbs, over how far it runs, as a percent',
+    ),
+    (
+      'A station is hundreds of feet',
+      r'3{+}00 = 300\ \text{ft}',
+      'three plus zero zero means three hundred feet',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
@@ -506,103 +575,267 @@ const gradeBrief = BriefSection(
 // references show the rules themselves rather than a picture of something.
 
 const logRulesBrief = BriefSection(
-  title: 'The log rules, and the one that does not exist',
-  body:
-      'A logarithm asks what power the base is raised to. Three moves are '
-      'legal: a product inside becomes a sum outside, a quotient becomes a '
-      'difference, and an exponent comes down in front. A sum inside a log has '
-      'no rule at all. Splitting one is the cheapest way to lose a mark on '
-      'this topic.',
-  formulas: [('What a log means', r'\log_b x = c \iff b^c = x')],
-  figure: BriefFigure.logRules,
+  title: 'What a log is, and the rule that does not exist',
+  picture: logRulesPicture,
+  steps: [
+    (
+      'A log asks how many times',
+      'Three 2s multiplied together make 8. So the log of 8, in base 2, is '
+          '3. That is all a logarithm is: how many copies of the base you had to '
+          'multiply.',
+    ),
+    (
+      'Multiplying inside adds outside',
+      'Four 2s times three more 2s is seven 2s. Since the log just counts '
+          'the copies, a product inside a log becomes a SUM outside it. A '
+          'divide becomes a subtract, for the same reason.',
+    ),
+    (
+      'A power drops to the front',
+      'A number raised to a power is that many copies of the copies, so the '
+          'power simply comes down and multiplies.',
+    ),
+    (
+      'There is no rule for a plus inside',
+      'Adding two numbers inside a log tells you nothing about the copies. '
+          'Splitting one is the cheapest way to lose a mark on this topic.',
+    ),
+  ],
+  spoken: [
+    (
+      'What a log means',
+      r'\log_b x = c \iff b^c = x',
+      'the log of x is c exactly when b to the c gives x',
+    ),
+    (
+      'Product',
+      r'\log_b(xy) = \log_b x + \log_b y',
+      'times inside becomes plus outside',
+    ),
+    ('Power', r'\log_b(x^n) = n\log_b x', 'the power comes down in front'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
 const undoExponentBrief = BriefSection(
-  title: 'Undoing an exponent',
-  body:
-      'When the unknown sits in the exponent, the log is what gets it down. '
-      'A log undoes its own base exactly: ln undoes e, and log undoes 10. '
-      'Clear anything multiplying the exponential first, then take the log of '
-      'both sides, and what is left is linear.',
-  formulas: [
+  title: 'Getting the unknown down from the exponent',
+  picture: undoExponentPicture,
+  steps: [
+    (
+      'The unknown is out of reach',
+      'When x sits up in the exponent, nothing you do with plus, minus, '
+          'times or divide will bring it down. You need the tool that is built '
+          'to undo an exponent.',
+    ),
+    (
+      'A log undoes its own base',
+      'ln and e cancel each other exactly. So do log and 10. Take the log of '
+          'both sides and whatever was up in the exponent lands on the ground '
+          'as an ordinary multiplier.',
+    ),
+    (
+      'Clear the front first',
+      'If something is multiplying the exponential, divide it away BEFORE '
+          'you take the log. Take the log too early and you have the log of a '
+          'product instead of a clean exponent.',
+    ),
+    (
+      'What is left is easy',
+      'After the log, the equation is a straight line in x. Divide and you '
+          'are done.',
+    ),
+  ],
+  spoken: [
     (
       'A log undoes its own base',
       r'\ln(e^{x}) = x \qquad \log_{10}(10^{x}) = x',
+      'ln cancels e, and log cancels ten',
     ),
-    ('Which is the definition, read backwards', r'\log_b x = c \iff b^c = x'),
+    (
+      'Which is the definition read backwards',
+      r'\log_b x = c \iff b^c = x',
+      'the log is just the power, named the other way round',
+    ),
   ],
-  figure: BriefFigure.undoExponent,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 36',
 );
 
 const combineLogsBrief = BriefSection(
-  title: 'Combining logs into one',
-  body:
-      'Terms in the same base collapse into a single log before you evaluate '
-      'anything: added terms multiply inside, subtracted terms divide inside, '
-      'and a coefficient becomes an exponent. Doing it in this order is faster '
-      'and it avoids the classic error of multiplying the separate log values '
-      'together.',
-  formulas: [('Only within one base', r'\log_b(xy) = \log_b x + \log_b y')],
-  figure: BriefFigure.combineLogs,
+  title: 'Squeeze the logs into one first',
+  picture: combineLogsPicture,
+  steps: [
+    (
+      'Several logs, one answer wanted',
+      'A question hands you two or three log terms added and subtracted. '
+          'Work each one out separately and you have three ugly decimals to '
+          'juggle.',
+    ),
+    (
+      'Fold them together instead',
+      'Added terms multiply inside. Subtracted terms divide inside. A number '
+          'in front becomes a power inside. Do that and three terms become one.',
+    ),
+    (
+      'Only within one base',
+      'This folding only works when every log has the same base. Logs of '
+          'different bases will not combine.',
+    ),
+    (
+      'The mistake it avoids',
+      'People multiply the separate log VALUES together. The rule multiplies '
+          'what is inside, never the answers.',
+    ),
+  ],
+  spoken: [
+    (
+      'Added terms multiply inside',
+      r'\log_b x + \log_b y = \log_b(xy)',
+      'plus outside becomes times inside',
+    ),
+    (
+      'Subtracted terms divide inside',
+      r'\log_b x - \log_b y = \log_b\!\left(\frac{x}{y}\right)',
+      'minus outside becomes divide inside',
+    ),
+    (
+      'A coefficient becomes a power',
+      r'n\log_b x = \log_b(x^n)',
+      'a number in front moves up as a power',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 36-37',
 );
 
 // ── Right Triangle Trigonometry ─────────────────────────────────────────────
 
 const ratiosBrief = BriefSection(
-  title: 'The three ratios',
-  body:
-      'Every right triangle gives you three ratios relative to the angle you '
-      'marked. Pick the one that connects what you know to what you want: '
-      'opposite over hypotenuse is sine, adjacent over hypotenuse is cosine, '
-      'opposite over adjacent is tangent. Cos is cozy with the adjacent side, '
-      'the one touching the angle.',
-  formulas: [
-    ('SOH', r'\sin\theta = \frac{\text{opp}}{\text{hyp}}'),
-    ('CAH', r'\cos\theta = \frac{\text{adj}}{\text{hyp}}'),
-    ('TOA', r'\tan\theta = \frac{\text{opp}}{\text{adj}}'),
+  title: 'The three ratios, and picking one',
+  picture: ratiosPicture,
+  steps: [
+    (
+      'Same shape, same ratios',
+      'Every right triangle with the same angle has sides in the same '
+          'proportions, however big it is drawn. Those fixed proportions are '
+          'what sine, cosine and tangent are.',
+    ),
+    (
+      'Three pairings, three names',
+      'Opposite over hypotenuse is sine. Adjacent over hypotenuse is cosine. '
+          'Opposite over adjacent is tangent. SOH CAH TOA is just those three '
+          'read out.',
+    ),
+    (
+      'Pick by what you have',
+      'Do not pick a ratio and hope. List the side you know and the side you '
+          'want, then take the ratio that has both of them in it. Only one will.',
+    ),
+    (
+      'The one people mix up',
+      'Cos is cozy with the adjacent side, the one leaning against the '
+          'angle.',
+    ),
   ],
-  figure: BriefFigure.ratios,
+  spoken: [
+    (
+      'SOH',
+      r'\sin\theta = \frac{\text{opp}}{\text{hyp}}',
+      'sine is opposite over hypotenuse',
+    ),
+    (
+      'CAH',
+      r'\cos\theta = \frac{\text{adj}}{\text{hyp}}',
+      'cosine is adjacent over hypotenuse',
+    ),
+    (
+      'TOA',
+      r'\tan\theta = \frac{\text{opp}}{\text{adj}}',
+      'tangent is opposite over adjacent',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const sideNamesBrief = BriefSection(
   title: 'Opposite, adjacent, hypotenuse',
-  body:
-      'The hypotenuse is always the side across from the right angle, so it '
-      'never moves. The other two names belong to the angle you marked, not to '
-      'the page: opposite is the side that does not touch it, and adjacent is '
-      'the OTHER side that does, the one that is not the hypotenuse. Mark the '
-      'other corner and those two swap without a line moving.',
-  formulas: [
-    ('Always across from the right angle', r'\text{hyp}'),
-    ('Named against the marked angle', r'\text{opp} \;/\; \text{adj}'),
+  picture: sideNamesPicture,
+  steps: [
+    (
+      'One side never moves',
+      'The hypotenuse is the side across from the square corner. It is '
+          'always the longest, and its name never changes no matter which angle '
+          'you are working with.',
+    ),
+    (
+      'The other two are named from YOUR angle',
+      'Mark an angle. The side that does not touch it at all is the '
+          'opposite. The side that does touch it, and is not the hypotenuse, is '
+          'the adjacent.',
+    ),
+    (
+      'Mark the other corner and they swap',
+      'Look at the two pictures: same triangle, nothing moved. Only the '
+          'marked angle changed, and opposite and adjacent traded places.',
+    ),
   ],
-  figure: BriefFigure.sideNames,
+  spoken: [
+    (
+      'Always across from the square corner',
+      r'\text{hyp}',
+      'the hypotenuse, the long side',
+    ),
+    (
+      'Named against the marked angle',
+      r'\text{opp} \;/\; \text{adj}',
+      'the side that misses it, and the side that touches it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const componentsBrief = BriefSection(
-  title: 'Resolving a force',
-  body:
-      'A force at an angle splits into two sides of a right triangle. The '
-      'component along the axis the angle is measured FROM is the adjacent one, '
-      'so it takes the cosine, and the other takes the sine. That is why an '
-      'angle quoted from the vertical swaps the two, and it is the single '
-      'biggest trap in this topic.',
-  formulas: [
+  title: 'Splitting a slanted push into two',
+  picture: componentsPicture,
+  steps: [
     (
-      'Angle from the horizontal',
-      r'F_x = F\cos\theta \qquad F_y = F\sin\theta',
+      'A slanted push does two jobs',
+      'Pull a sled with a rope at an angle and part of your pull drags it '
+          'along and part lifts it. Those two parts are the sides of a right '
+          'triangle with your pull as the long side.',
     ),
     (
-      'Angle from the vertical, the two swap',
-      r'F_x = F\sin\theta \qquad F_y = F\cos\theta',
+      'The side the angle leans on takes cosine',
+      'Cosine goes with the adjacent side, the one the angle is measured '
+          'from. So if the angle is measured up from the ground, the along-the-'
+          'ground piece is the cosine one.',
+    ),
+    (
+      'Measure from upright and they swap',
+      'Look at the second picture. Nothing about the push changed, only '
+          'where the angle was measured from. Now the across piece takes sine.',
+    ),
+    (
+      'So read the drawing, not the habit',
+      'Assuming cosine is always across is the single biggest trap here.',
     ),
   ],
-  figure: BriefFigure.components,
+  spoken: [
+    (
+      'Angle measured from across',
+      r'F_x = F\cos\theta \qquad F_y = F\sin\theta',
+      'across takes cosine, up takes sine',
+    ),
+    (
+      'Angle measured from upright, the two swap',
+      r'F_x = F\sin\theta \qquad F_y = F\cos\theta',
+      'now across takes sine and up takes cosine',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
@@ -610,167 +843,400 @@ const componentsBrief = BriefSection(
 
 const whichLawBrief = BriefSection(
   title: 'Which law, and when',
-  body:
-      'An oblique triangle has no right angle, so there is no hypotenuse and '
-      'no opposite-over-adjacent to fall back on. Two relations hold in every '
-      'triangle instead. The Law of Sines says each side is proportional to '
-      'the sine of the angle facing it, so a side and its own angle fix the '
-      'scale for the whole triangle. The Law of Cosines is the Pythagorean '
-      'theorem with a correction: it subtracts a term that vanishes at 90 '
-      'degrees, because cos 90 is zero, and grows as the angle opens or '
-      'closes.\n\nSo: a side with the angle opposite it opens Sines. Two '
-      'sides with the angle between them, or all three sides, leaves nothing '
-      'paired and it is Cosines.',
-  formulas: [
-    ('Law of Sines', r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}'),
-    ('Law of Cosines', r'c^2 = a^2 + b^2 - 2ab\cos C'),
+  picture: whichLawPicture,
+  steps: [
+    (
+      'No square corner, no SOH CAH TOA',
+      'A triangle with no right angle has no hypotenuse, so the three ratios '
+          'have nothing to hang on. Two other relations hold in EVERY triangle '
+          'instead.',
+    ),
+    (
+      'Sines: a side paired with its own angle',
+      'Each side sits over the sine of the angle facing it, and all three '
+          'of those fractions are equal. So one matched pair sets the scale for '
+          'the whole triangle.',
+    ),
+    (
+      'Cosines: nothing is paired',
+      'It is the Pythagorean theorem with a correction subtracted. Use it '
+          'when you have two sides and the angle squeezed between them, or all '
+          'three sides and no angle.',
+    ),
+    (
+      'The one question to ask',
+      'Do I have a side together with the angle opposite it? Yes means '
+          'sines. No means cosines.',
+    ),
   ],
-  figure: BriefFigure.lawChoice,
+  spoken: [
+    (
+      'Law of Sines',
+      r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}',
+      'each side over the sine of its own angle, all equal',
+    ),
+    (
+      'Law of Cosines',
+      r'c^2 = a^2 + b^2 - 2ab\cos C',
+      'Pythagoras, with a correction taken off for the angle',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const setupBrief = BriefSection(
-  title: 'Writing the two laws',
-  body:
-      'Every side sits over the sine of its OWN angle, which is what makes '
-      'the ratio easy to flip by accident. The Law of Cosines is the '
-      'Pythagorean theorem with a correction term subtracted, never added, and '
-      'the angle in it is always the one opposite the side you are after.',
-  formulas: [
-    ('Law of Sines', r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}'),
-    ('Law of Cosines', r'c^2 = a^2 + b^2 - 2ab\cos C'),
-    ('Rearranged for an angle', r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}'),
+  title: 'Writing the two laws down without flipping them',
+  picture: setupPicture,
+  steps: [
+    (
+      'Small letters face capital letters',
+      'Side a is across from angle A, side b from angle B, side c from C. '
+          'Look at the picture: every side is labeled with the small version of '
+          'the angle staring at it.',
+    ),
+    (
+      'Each side over its OWN angle',
+      'The Law of Sines pairs a with A, never with B. Flipping one of those '
+          'fractions upside down is the usual slip, and it gives an answer that '
+          'looks reasonable.',
+    ),
+    (
+      'The correction is always subtracted',
+      'In the Law of Cosines the last term comes off, never on. And the '
+          'angle in it is the one facing the side you are solving for.',
+    ),
   ],
-  figure: BriefFigure.lawForms,
+  spoken: [
+    (
+      'Law of Sines',
+      r'\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}',
+      'each side over the sine of the angle facing it',
+    ),
+    (
+      'Law of Cosines',
+      r'c^2 = a^2 + b^2 - 2ab\cos C',
+      'the two known sides squared, minus the correction',
+    ),
+    (
+      'Rearranged for an angle',
+      r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}',
+      'the side facing the angle comes off the top',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const obtuseBrief = BriefSection(
-  title: 'What a negative cosine means',
-  body:
-      'Rearranged for an angle, the Law of Cosines puts the side opposite '
-      'that angle on the top with a minus in front. When the longest side '
-      'squared beats the other two put together, the top goes negative, the '
-      'cosine goes negative, and the angle is obtuse. Inverse cosine already '
-      'returns the obtuse angle, so nothing needs subtracting from 180.',
-  formulas: [
-    ('Rearranged for the angle', r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}'),
-    ('And the test that follows', r'c^2 > a^2 + b^2 \iff C > 90^\circ'),
+  title: 'What a negative cosine is telling you',
+  picture: obtusePicture,
+  steps: [
+    (
+      'Cosine slides from plus one to minus one',
+      'At a tiny angle cosine is nearly 1. At a square corner it is exactly '
+          '0. Past that it goes negative and keeps falling. The sign is a '
+          'message about how open the angle is.',
+    ),
+    (
+      'When the top goes negative',
+      'Rearranged for an angle, the formula puts the side facing that angle '
+          'on top with a minus in front. If that side squared beats the other '
+          'two put together, the top is negative.',
+    ),
+    (
+      'So the angle is past square',
+      'A negative cosine means an obtuse angle. It is not a mistake and it '
+          'is not a sign error to fix.',
+    ),
+    (
+      'Nothing needs subtracting from 180',
+      'The inverse cosine button already hands back the obtuse angle. '
+          '"Correcting" it is how people turn a right answer into a wrong one.',
+    ),
   ],
-  figure: BriefFigure.cosineSign,
+  spoken: [
+    (
+      'Rearranged for the angle',
+      r'\cos C = \frac{a^2 + b^2 - c^2}{2ab}',
+      'the two known sides squared, minus the facing side squared, over two a b',
+    ),
+    (
+      'And the test that follows',
+      r'c^2 > a^2 + b^2 \iff C > 90^\circ',
+      'if the facing side squared wins, the angle is past square',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 // ── Unit Circle & Trig Identities ───────────────────────────────────────────
 
 const unitCircleBrief = BriefSection(
-  title: 'Reading the unit circle',
-  body:
-      'A circle of radius one, with an angle swept from the positive x-axis. '
-      'Wherever that angle lands, the point is (cos, sin): cosine is how far '
-      'ACROSS and sine is how far UP. That is the whole definition, and it is '
-      'why swapping the two swaps 30 degrees for 60. Learn the first quadrant '
-      'and the rest is a mirror.',
-  formulas: [
-    ('The point at any angle', r'(\cos\theta,\; \sin\theta)'),
+  title: 'Across is cosine, up is sine',
+  picture: unitCirclePicture,
+  steps: [
+    (
+      'Walk round a circle of radius one',
+      'Start at the right-hand edge and sweep round anticlockwise. Wherever '
+          'you stop, you are some distance across and some distance up.',
+    ),
+    (
+      'Those two distances have names',
+      'How far ACROSS is the cosine of the angle. How far UP is the sine. '
+          'That is the whole definition, and every other fact follows from it.',
+    ),
+    (
+      'Which is why they are easy to swap',
+      'At 30 degrees you are far across and only a little up. At 60 it is '
+          'the other way. Swapping the two swaps the angle.',
+    ),
+    (
+      'Learn one quarter only',
+      'The other three quarters are mirrors of the first. Get the first '
+          'quarter cold and you have the whole circle.',
+    ),
+  ],
+  spoken: [
+    (
+      'The point at any angle',
+      r'(\cos\theta,\; \sin\theta)',
+      'how far across, then how far up',
+    ),
     (
       'The three worth knowing cold',
       r'30^\circ:\left(\tfrac{\sqrt{3}}{2},\tfrac{1}{2}\right)\quad '
           r'45^\circ:\left(\tfrac{\sqrt{2}}{2},\tfrac{\sqrt{2}}{2}\right)\quad '
           r'60^\circ:\left(\tfrac{1}{2},\tfrac{\sqrt{3}}{2}\right)',
+      'at 45 the two match; at 30 across wins; at 60 up wins',
     ),
   ],
-  figure: BriefFigure.unitCircle,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const quadrantBrief = BriefSection(
-  title: 'Signs by quadrant',
-  body:
-      'The Pythagorean identity can only ever give you the size of a value, '
-      'because squaring throws the sign away. The quadrant puts it back. '
-      'Across is positive to the right, up is positive above, so cosine is '
-      'positive in quadrants one and four and sine is positive in one and '
-      'two. Solving for a value and stopping before the quadrant is the '
-      'mistake this exists for.',
-  formulas: [
-    ('It gives the size', r'\cos\theta = \pm\sqrt{1 - \sin^2\theta}'),
+  title: 'The quarter you are in puts the sign back',
+  picture: quadrantPicture,
+  steps: [
+    (
+      'Squaring throws the sign away',
+      'Minus three squared and plus three squared are both nine. So any '
+          'formula that goes through a square can only ever hand you back the '
+          'SIZE of an answer, never whether it is plus or minus.',
+    ),
+    (
+      'The circle remembers it',
+      'Across is positive to the right and negative to the left. Up is '
+          'positive above the middle and negative below. Look at which quarter '
+          'the angle lands in and both signs are decided.',
+    ),
+    (
+      'So cosine and sine each have two good quarters',
+      'Cosine is positive on the right half, quarters one and four. Sine is '
+          'positive on the top half, quarters one and two.',
+    ),
+    (
+      'Stopping too early is the mistake',
+      'Getting the size from the identity and never checking the quarter '
+          'gets you the right number with the wrong sign.',
+    ),
+  ],
+  spoken: [
+    (
+      'It gives the size',
+      r'\cos\theta = \pm\sqrt{1 - \sin^2\theta}',
+      'the root gives how big, and leaves the sign open',
+    ),
     (
       'The quadrant gives the sign',
       r'\text{Q1}: ++ \quad \text{Q2}: -+ \quad \text{Q3}: -- \quad \text{Q4}: +-',
+      'first is across then up, quarter by quarter',
     ),
   ],
-  figure: BriefFigure.quadrants,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 const identitiesBrief = BriefSection(
   title: 'The identities worth knowing',
-  body:
-      'Know the Pythagorean identity cold and recognize the double angles '
-      'when they appear. Doubling an angle is NOT doubling its sine: sin 2θ '
-      'needs both functions and a factor of two out front, and cos 2θ is a '
-      'difference of squares in that order.',
-  formulas: [
-    ('Pythagorean', r'\sin^2\theta + \cos^2\theta = 1'),
-    ('Double angle, sine', r'\sin 2\theta = 2\sin\theta\cos\theta'),
-    ('Double angle, cosine', r'\cos 2\theta = \cos^2\theta - \sin^2\theta'),
+  picture: identitiesPicture,
+  steps: [
+    (
+      'There is a triangle inside the circle',
+      'Drop a line straight down from the point on the circle. You get a '
+          'right triangle whose short sides are cosine and sine, and whose long '
+          'side is the radius, which is 1.',
+    ),
+    (
+      'So Pythagoras gives it to you free',
+      'Short side squared plus short side squared equals long side squared. '
+          'That is sine squared plus cosine squared equals one. It is not a new '
+          'fact, it is the triangle.',
+    ),
+    (
+      'Doubling an angle is not doubling its sine',
+      'Turn twice as far and you do not get twice as high. sin of 2 theta '
+          'needs BOTH functions and a 2 in front.',
+    ),
+    (
+      'And the cosine one is a difference',
+      'cos of 2 theta is cosine squared MINUS sine squared, in that order. '
+          'Flipping the order flips the sign of your answer.',
+    ),
   ],
-  figure: BriefFigure.identities,
+  spoken: [
+    (
+      'Pythagorean',
+      r'\sin^2\theta + \cos^2\theta = 1',
+      'the two short sides squared add to one',
+    ),
+    (
+      'Double angle, sine',
+      r'\sin 2\theta = 2\sin\theta\cos\theta',
+      'two, times sine, times cosine',
+    ),
+    (
+      'Double angle, cosine',
+      r'\cos 2\theta = \cos^2\theta - \sin^2\theta',
+      'cosine squared take away sine squared, that way round',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 23',
 );
 
 // ── Circles & Conic Sections ────────────────────────────────────────────────
 
 const circleFormBrief = BriefSection(
-  title: 'Reading a circle',
-  body:
-      'A circle in standard form hands you everything: the center and the '
-      'radius, with no work. Two things bite. The sign inside each bracket is '
-      'the OPPOSITE of the coordinate, so (y + 3) puts the center three below '
-      'the axis. And the number on the right is the radius SQUARED, so 64 is a '
-      'circle of radius eight.',
-  formulas: [
-    ('Standard form', r'(x-h)^2 + (y-k)^2 = r^2'),
-    ('Which reads as', r'\text{center } (h,k), \quad \text{radius } r'),
+  title: 'Reading a circle off its equation',
+  picture: circleFormPicture,
+  steps: [
+    (
+      'A circle is a place and a reach',
+      'Every circle is fixed by two things: where its middle sits, and how '
+          'far it reaches out. Standard form hands you both with no work at all.',
+    ),
+    (
+      'The sign flips',
+      'Whatever is inside a bracket, the center is the OPPOSITE. So x minus '
+          '2 means the center is 2 to the right, and y plus 3 means 3 BELOW the '
+          'middle. It catches people every time.',
+    ),
+    (
+      'The number on the right is squared',
+      'It is the radius times itself, not the radius. A 64 on the right '
+          'means a reach of 8. Take the square root before you draw anything.',
+    ),
   ],
-  figure: BriefFigure.circleForm,
+  spoken: [
+    (
+      'Standard form',
+      r'(x-h)^2 + (y-k)^2 = r^2',
+      'x minus the across number, y minus the up number, equals the reach squared',
+    ),
+    (
+      'Which reads as',
+      r'\text{center } (h,k), \quad \text{radius } r',
+      'the center is h across and k up, and the reach is r',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 24',
 );
 
 const readingConicsBrief = BriefSection(
-  title: 'The three forms',
-  body:
-      'A circle has both squares, both positive, with the same coefficient. '
-      'A parabola has exactly ONE square, and the sign in front of it decides '
-      'which way the curve opens. An ellipse has both squares over different '
-      'denominators, and the larger denominator lies under the long axis. Most '
-      'of what the exam asks about conics is reading which of the three you '
-      'are holding.',
-  formulas: [
-    ('Circle', r'(x-h)^2 + (y-k)^2 = r^2'),
-    ('Parabola', r'y = a(x-h)^2 + k'),
-    ('Ellipse', r'\frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1'),
-    ('And a parabola\'s peak', r'x = -\frac{b}{2a}'),
+  title: 'Telling the three shapes apart',
+  picture: readingConicsPicture,
+  steps: [
+    (
+      'Count the squared terms',
+      'Look at the equation and ask a single question first: is x squared '
+          'there, is y squared there, or only one of them?',
+    ),
+    (
+      'Only one square is a parabola',
+      'One squared term and one plain one draws a U. The sign in front of '
+          'the square decides whether the U opens up or down.',
+    ),
+    (
+      'Both squares, same number, is a circle',
+      'If x squared and y squared carry exactly the same coefficient, every '
+          'direction reaches the same distance. That is a circle.',
+    ),
+    (
+      'Both squares, different numbers, is an ellipse',
+      'Different denominators stretch it one way. The BIGGER denominator '
+          'sits under the long direction.',
+    ),
   ],
-  figure: BriefFigure.conicForms,
+  spoken: [
+    (
+      'Circle',
+      r'(x-h)^2 + (y-k)^2 = r^2',
+      'both squares, matching, equal to the reach squared',
+    ),
+    (
+      'Parabola',
+      r'y = a(x-h)^2 + k',
+      'one square only, opening up when a is positive',
+    ),
+    (
+      'Ellipse',
+      r'\frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1',
+      'both squares over different bottoms, adding to one',
+    ),
+    (
+      "And a parabola's peak",
+      r'x = -\frac{b}{2a}',
+      'minus b over two a gives where the turning point sits',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 24',
 );
 
 const completeSquareBrief = BriefSection(
   title: 'Completing the square',
-  body:
-      'General form hides the center, so you rewrite it. Take the coefficient '
-      'of the plain x term, halve it, square it, and add that. The sign inside '
-      'does not matter, because squaring removes it. The whole of the '
-      'difficulty is that whatever you add has to be added on BOTH sides: add '
-      'it only on the left and you have quietly changed the equation, and the '
-      'radius you read off at the end is wrong.',
-  formulas: [
-    ('General form', r'x^2 + y^2 + Dx + Ey + F = 0'),
-    ('Halve, square, add to both sides', r'x^2 - 10x \;\to\; (x-5)^2 - 25'),
+  picture: completeSquarePicture,
+  steps: [
+    (
+      'A square with a strip stuck on',
+      'Picture x squared as a real square, and the plain x term as a strip '
+          'laid along its edge. Together they are ALMOST a bigger square, but a '
+          'little corner is missing.',
+    ),
+    (
+      'Cut the strip in half',
+      'Split the strip and lay half along the top and half down the side. '
+          'Now the only thing stopping it from being a perfect square is one '
+          'small corner block.',
+    ),
+    (
+      'That corner is what you add',
+      'Its size is half the x number, squared. Add it and the left side '
+          'folds neatly into one bracket squared.',
+    ),
+    (
+      'Add it to BOTH sides',
+      'Adding it only on the left quietly changes the equation, and the '
+          'radius you read off at the end comes out wrong.',
+    ),
   ],
-  figure: BriefFigure.completingSquare,
+  spoken: [
+    (
+      'General form',
+      r'x^2 + y^2 + Dx + Ey + F = 0',
+      'squares and plain terms all mixed together',
+    ),
+    (
+      'Halve, square, add to both sides',
+      r'x^2 - 10x \;\to\; (x-5)^2 - 25',
+      'half of ten is five, five squared is twenty-five',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 24',
 );
 
@@ -778,56 +1244,130 @@ const completeSquareBrief = BriefSection(
 
 const whichRuleBrief = BriefSection(
   title: 'Which rule, and how many',
-  body:
-      'The handbook has the table; what it cannot tell you is which rule the '
-      'shape of your function calls for. Ask two questions. Is anything '
-      'multiplied or divided? That is the product or quotient rule. Is any '
-      'argument something other than plain x? That is the chain rule. Both '
-      'answers can be yes at once, and on this exam they usually are.',
-  formulas: [
-    ('Product', r'\frac{d}{dx}(uv) = u\frac{dv}{dx} + v\frac{du}{dx}'),
+  picture: whichRulePicture,
+  steps: [
+    (
+      'Read the shape, not the letters',
+      'The handbook has every rule in a table. What it cannot do is tell you '
+          'which one YOUR function needs. That comes from looking at how the '
+          'function is put together.',
+    ),
+    (
+      'Question one: is anything multiplied or divided',
+      'Two separate things stuck together with a times or a divide means the '
+          'product rule or the quotient rule.',
+    ),
+    (
+      'Question two: is anything wrapped inside anything',
+      'If what sits inside a sine, a root or a bracket is anything other '
+          'than plain x, there is a chain rule to pay.',
+    ),
+    (
+      'Both answers can be yes',
+      'On this exam they usually are. Answer both questions before you start '
+          'writing.',
+    ),
+  ],
+  spoken: [
+    (
+      'Product',
+      r'\frac{d}{dx}(uv) = u\frac{dv}{dx} + v\frac{du}{dx}',
+      'first times the slope of the second, plus second times the slope of the first',
+    ),
     (
       'Quotient',
       r'\frac{d}{dx}\!\left(\frac{u}{v}\right) = \frac{v\frac{du}{dx} - u\frac{dv}{dx}}{v^2}',
+      'bottom times the slope of the top, minus top times the slope of the bottom, over bottom squared',
     ),
-    ('Chain', r"\frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)"),
+    (
+      'Chain',
+      r"\frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)",
+      'the slope of the outside, times the slope of the inside',
+    ),
   ],
-  figure: BriefFigure.whichRule,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 49',
 );
 
 const chainRuleBrief = BriefSection(
   title: 'The chain rule, and the factor people drop',
-  body:
-      'If the argument is anything other than plain x, differentiating the '
-      'outside is only half the job: the derivative of the inside multiplies '
-      'it, from outside. It never moves into the argument. Almost every '
-      'derivative on this exam is a chain rule in disguise, and the missing '
-      'inner factor is the single most common wrong answer.',
-  formulas: [
-    ('The rule', r"\frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)"),
-    ('So', r'\frac{d}{dx}(3x+5)^4 = 4(3x+5)^3 \cdot 3'),
+  picture: chainRulePicture,
+  steps: [
+    (
+      'A function inside a function',
+      'Look at the picture: a bracket raised to a power, with 3x plus 5 '
+          'living inside it. Two layers, like a box in a box.',
+    ),
+    (
+      'Peel the outside first',
+      'Treat the whole inside as one lump and differentiate the outer layer '
+          'normally. Power 4 becomes 4 times power 3, with the lump untouched.',
+    ),
+    (
+      'Then pay for the inside',
+      'The inside is changing too, three times as fast as x. So multiply by '
+          'that 3. It goes OUTSIDE as a factor and never moves into the bracket.',
+    ),
+    (
+      'It is nearly always there',
+      'Almost every derivative on this exam has an inside. The missing inner '
+          'factor is the most common wrong answer there is.',
+    ),
   ],
-  figure: BriefFigure.chainRule,
+  spoken: [
+    (
+      'The rule',
+      r"\frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)",
+      'the slope of the outside, times the slope of the inside',
+    ),
+    (
+      'So',
+      r'\frac{d}{dx}(3x+5)^4 = 4(3x+5)^3 \cdot 3',
+      'four brackets cubed, and then times three for the inside',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 49',
 );
 
 const quotientOrderBrief = BriefSection(
   title: 'Lo d-hi minus hi d-lo',
-  body:
-      'The quotient rule is the biggest generator of sign errors on this '
-      'exam, and the order is the whole reason. The BOTTOM function comes '
-      'first, multiplying the derivative of the top. Swap the two terms and '
-      'the answer comes out with the wrong sign throughout. And the '
-      'denominator is squared, which is the other half people drop.',
-  formulas: [
+  picture: quotientOrderPicture,
+  steps: [
+    (
+      'The order is the whole rule',
+      'The BOTTOM function comes first, multiplying the slope of the top. '
+          'Then you take away the top times the slope of the bottom.',
+    ),
+    (
+      'Swap them and every sign flips',
+      'A minus b is not b minus a. Write the two terms the other way round '
+          'and the answer is exactly the negative of the right one, which still '
+          'looks like a real answer.',
+    ),
+    (
+      'The bottom gets squared',
+      'The denominator is the bottom function times itself. Leaving it as '
+          'just the bottom is the other half people drop.',
+    ),
+    (
+      'Say it out loud while you write',
+      'Lo d-hi, minus hi d-lo, over lo-lo. The rhythm keeps the order.',
+    ),
+  ],
+  spoken: [
     (
       'Quotient rule',
       r'\frac{d}{dx}\!\left(\frac{u}{v}\right) = \frac{v\frac{du}{dx} - u\frac{dv}{dx}}{v^2}',
+      'bottom times slope of top, minus top times slope of bottom, over bottom squared',
     ),
-    ('Said out loud', r'\text{lo d-hi} - \text{hi d-lo, over lo-lo}'),
+    (
+      'Said out loud',
+      r'\text{lo d-hi} - \text{hi d-lo, over lo-lo}',
+      'the bottom always goes first',
+    ),
   ],
-  figure: BriefFigure.quotientOrder,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 49',
 );
 
@@ -835,109 +1375,259 @@ const quotientOrderBrief = BriefSection(
 
 const criticalPointBrief = BriefSection(
   title: 'Flat first, then which way it bends',
-  body:
-      'A curve is at its highest or lowest where its slope is zero, so the '
-      'first move is always the same: differentiate and set it to zero. That '
-      'alone does not tell you which one you found. The second derivative '
-      'does. Negative means the curve frowns, so you are on a hilltop; '
-      'positive means it smiles, so you are in a valley. A curve can have '
-      'both, and on this exam it often does.',
-  formulas: [
-    ("Maximum", r"f'(a) = 0 \;\text{and}\; f''(a) < 0"),
-    ("Minimum", r"f'(a) = 0 \;\text{and}\; f''(a) > 0"),
+  picture: criticalPointPicture,
+  steps: [
+    (
+      'Tops and bottoms are flat',
+      'Walk along a hill. At the very top you are, for an instant, going '
+          'neither up nor down. Same at the bottom of a valley. So the slope is '
+          'zero at both.',
+    ),
+    (
+      'So the first move is always the same',
+      'Differentiate and set that equal to zero. Solving it gives you every '
+          'place the curve levels off.',
+    ),
+    (
+      'Flat alone does not say which',
+      'Zero slope happens at hilltops AND valley bottoms. You have found the '
+          'places, not the kind.',
+    ),
+    (
+      'The second derivative tells you the kind',
+      'Negative means the curve frowns, so you are on a hilltop. Positive '
+          'means it smiles, so you are in a valley. A curve often has both.',
+    ),
   ],
-  figure: BriefFigure.maxMin,
+  spoken: [
+    (
+      'Maximum',
+      r"f'(a) = 0 \;\text{and}\; f''(a) < 0",
+      'flat, and bending downward: a hilltop',
+    ),
+    (
+      'Minimum',
+      r"f'(a) = 0 \;\text{and}\; f''(a) > 0",
+      'flat, and bending upward: a valley',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 46',
 );
 
 const concavityBrief = BriefSection(
   title: 'Smiles, frowns, and the flip',
-  body:
-      'The second derivative is not about the slope, it is about the bend. '
-      'Positive is concave up, a smile; negative is concave down, a frown. An '
-      'inflection point is where the bend changes, and it takes TWO things: '
-      'the second derivative reaches zero AND it comes out the other side '
-      'with the opposite sign. Reaching zero on its own is not enough, and a '
-      'flat spot is not an inflection point.',
-  formulas: [
-    ('Concave up, a smile', r"f''(x) > 0"),
-    ('Concave down, a frown', r"f''(x) < 0"),
-    ('Inflection point', r"f''(a) = 0 \;\text{and}\; f'' \text{ changes sign}"),
+  picture: concavityPicture,
+  steps: [
+    (
+      'Bend is not slope',
+      'A road can be going uphill and still be flattening out. Slope is '
+          'which way you are heading. Bend is whether the road is curving toward '
+          'the sky or toward the ground.',
+    ),
+    (
+      'Smile up, frown down',
+      'The second derivative measures bend. Positive draws a smile, which '
+          'would hold water. Negative draws a frown, which would spill it.',
+    ),
+    (
+      'An inflection point is where it flips',
+      'It is the spot where a frown becomes a smile. Look at the picture: '
+          'the curve is still climbing right through it, so nothing about the '
+          'slope marks it.',
+    ),
+    (
+      'Reaching zero is not enough',
+      'The second derivative must hit zero AND come out the other side with '
+          'the OPPOSITE sign. A flat moment that goes back the way it came is '
+          'not an inflection point.',
+    ),
   ],
-  figure: BriefFigure.bendFlip,
+  spoken: [
+    ('Concave up, a smile', r"f''(x) > 0", 'bending toward the sky'),
+    ('Concave down, a frown', r"f''(x) < 0", 'bending toward the ground'),
+    (
+      'Inflection point',
+      r"f''(a) = 0 \;\text{and}\; f'' \text{ changes sign}",
+      'zero, and coming out the other side the other way',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 46',
 );
 
 const askedForBrief = BriefSection(
-  title: 'Where it happens, or how much',
-  body:
-      'Setting the derivative to zero gives you a LOCATION. Almost half the '
-      'time the question wants the value there instead, which means putting '
-      'that location back into the original function. Both numbers are on '
-      'your page by then and the exam will offer you both. Read the sentence '
-      'again before you pick one.',
-  formulas: [
-    ('Where it happens', r"f'(a) = 0 \Rightarrow a"),
-    ('How much it is there', r'f(a)'),
+  title: 'Where it happens, or how much it is',
+  picture: askedForPicture,
+  steps: [
+    (
+      'A hilltop has two numbers',
+      'How far along it sits, and how high it is. They are different '
+          'numbers and they answer different questions.',
+    ),
+    (
+      'Setting the slope to zero gives the first one',
+      'It hands you the LOCATION and nothing else. That is the along number, '
+          'the x.',
+    ),
+    (
+      'The height needs one more step',
+      'Put that location back into the original function. Only then do you '
+          'have how high, the y.',
+    ),
+    (
+      'The exam offers you both',
+      'Almost half the time the question wants the height, and the location '
+          'is sitting there in the answer choices to catch you. Read the '
+          'sentence again before you pick.',
+    ),
   ],
-  figure: BriefFigure.whereOrHowMuch,
+  spoken: [
+    (
+      'Where it happens',
+      r"f'(a) = 0 \Rightarrow a",
+      'the slope being zero gives the place',
+    ),
+    (
+      'How much it is there',
+      r'f(a)',
+      'put the place back in to get the height',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 46',
 );
 
 // ── Integral Calculus ───────────────────────────────────────────────────────
 
 const substitutionBrief = BriefSection(
-  title: 'Substitution, and what du has to be',
-  body:
-      'Substitution works on one shape and one shape only: something composed '
-      'with something else, multiplied by the derivative of the inside. Call '
-      'the inside u, and the leftover has to BE du, or du off by a constant '
-      'factor. If the derivative of your u is nowhere in the integrand, '
-      'substitution is not the tool and no amount of rearranging will make it '
-      'one.',
-  formulas: [
-    ('The shape it needs', r"\int f(g(x))\,g'(x)\,dx"),
-    ('Let u be the inside', r"u = g(x) \;\Rightarrow\; du = g'(x)\,dx"),
-    ('And it becomes', r'\int f(u)\,du'),
+  title: 'Substitution needs a matched pair',
+  picture: substitutionPicture,
+  steps: [
+    (
+      'It only works on one shape',
+      'Something wrapped inside something else, AND the slope of that inside '
+          'sitting there too, multiplying it. Both halves, or it does not work.',
+    ),
+    (
+      'Name the inside u',
+      'Whatever is wrapped up becomes u. Then du is the slope of that inside '
+          'times dx, which is exactly the leftover you were hoping for.',
+    ),
+    (
+      'A constant off is still fine',
+      'If the leftover is twice du, or half of it, pull the number out front '
+          'and carry on. Only the shape has to match.',
+    ),
+    (
+      'No match, no substitution',
+      'If the slope of your inside is nowhere in the integral, rearranging '
+          'will not conjure it. Pick a different method.',
+    ),
   ],
-  figure: BriefFigure.substitution,
+  spoken: [
+    (
+      'The shape it needs',
+      r"\int f(g(x))\,g'(x)\,dx",
+      'a function of something, times the slope of that something',
+    ),
+    (
+      'Let u be the inside',
+      r"u = g(x) \;\Rightarrow\; du = g'(x)\,dx",
+      'name the inside u, and its slope times dx is du',
+    ),
+    (
+      'And it becomes',
+      r'\int f(u)\,du',
+      'a plain integral in u, with nothing wrapped',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 50',
 );
 
 const byPartsBrief = BriefSection(
   title: 'By parts, and which one is u',
-  body:
-      'By parts trades the integral you have for a different one. It is worth '
-      'doing only when the trade leaves you better off, and what decides that '
-      'is which factor you put in the u slot: u gets differentiated, dv gets '
-      'integrated. LIATE names the order to prefer, Logs then Inverse trig '
-      'then Algebraic then Trig then Exponential, and the reason is that the '
-      'earlier ones get easier when you differentiate them.',
-  formulas: [
-    ('The rule', r'\int u\,dv = uv - \int v\,du'),
+  picture: byPartsPicture,
+  steps: [
+    (
+      'It is a trade, not a solution',
+      'By parts swaps the integral you have for a different one. It is only '
+          'worth doing if the new one is easier than the old one.',
+    ),
+    (
+      'What decides that is your choice of u',
+      'Whatever you call u gets DIFFERENTIATED. Whatever is left gets '
+          'integrated. So put the thing that gets simpler when you '
+          'differentiate it in the u slot.',
+    ),
+    (
+      'LIATE is that list, in order',
+      'Logs, Inverse trig, Algebra, Trig, Exponential. Whichever of your two '
+          'pieces sits higher up the list becomes u.',
+    ),
+    (
+      'Why that order',
+      'A log or a plain x collapses when you differentiate it. A sine or an '
+          'e to the x never gets any simpler, so it goes in the other slot.',
+    ),
+  ],
+  spoken: [
+    (
+      'The rule',
+      r'\int u\,dv = uv - \int v\,du',
+      'u times v, minus the integral of v times du',
+    ),
     (
       'LIATE, best first',
       r'\text{L} \;\;\text{I} \;\;\text{A} \;\;\text{T} \;\;\text{E}',
+      'logs, inverse trig, algebra, trig, exponential',
     ),
   ],
-  figure: BriefFigure.liate,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 50',
 );
 
 const finishingBrief = BriefSection(
   title: 'Finishing an integral',
-  body:
-      'The antiderivative is most of the work and none of the marks. An '
-      'indefinite integral is a family of functions, so it ends in plus C. A '
-      'definite integral is a number: put in the top limit, subtract the '
-      'bottom one, and the constant cancels itself, so plus C has no business '
-      'being there. And if you substituted, the limits belong to the new '
-      'variable.',
-  formulas: [
-    ('Indefinite, a family', r'\int f(x)\,dx = F(x) + C'),
-    ('Definite, a number', r'\int_a^b f(x)\,dx = F(b) - F(a)'),
+  picture: finishingPicture,
+  steps: [
+    (
+      'Without limits you get a family',
+      'Lots of different curves have exactly the same slope everywhere; they '
+          'just sit at different heights. Look at the picture. You cannot tell '
+          'which one, so you write plus C and mean all of them.',
+    ),
+    (
+      'With limits you get one number',
+      'Put in the top limit, then take away the bottom limit. That is an '
+          'area, and it is a single number.',
+    ),
+    (
+      'So plus C has no business there',
+      'Whatever C is, it appears twice and cancels itself in the '
+          'subtraction. Writing it on a definite integral says you have not '
+          'understood what the limits did.',
+    ),
+    (
+      'If you substituted, the limits change too',
+      'The limits belonged to x. After a substitution they belong to u, so '
+          'convert them or change back before you put them in.',
+    ),
   ],
-  figure: BriefFigure.finishing,
+  spoken: [
+    (
+      'Indefinite, a family',
+      r'\int f(x)\,dx = F(x) + C',
+      'every curve with that slope, at any height',
+    ),
+    (
+      'Definite, a number',
+      r'\int_a^b f(x)\,dx = F(b) - F(a)',
+      'the value at the top limit, take away the value at the bottom',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 50',
 );
 
@@ -945,60 +1635,122 @@ const finishingBrief = BriefSection(
 
 const formCheckBrief = BriefSection(
   title: 'Check the form before you differentiate',
-  body:
-      'The rule is a loop with a test in the middle of it. Put the value in '
-      'first. Zero over zero or infinity over infinity means the rule applies, '
-      'so differentiate the top and the bottom and put the value in again. A '
-      'real number means you already have the answer and the rule would only '
-      'change it. A nonzero number over zero is not indeterminate at all, it '
-      'is a blow up, and the rule has nothing to say about it.',
-  formulas: [
+  picture: formCheckPicture,
+  steps: [
+    (
+      'Put the number in first',
+      'Before anything else, substitute the value the limit is heading to '
+          'and see what comes out. What you see decides everything.',
+    ),
+    (
+      'Zero over zero, or big over big',
+      'These are the two readings that tell you nothing yet. Both pieces are '
+          'racing to the same place and you cannot see who wins. Now the rule '
+          'is allowed.',
+    ),
+    (
+      'A plain number means you are done',
+      'If it comes out as 7 over 2, that IS the limit. Using the rule from '
+          'there changes a right answer into a wrong one.',
+    ),
+    (
+      'A number over zero is a blow up',
+      'That is not undecided, it is unbounded. The rule has nothing to say '
+          'about it.',
+    ),
+  ],
+  spoken: [
     (
       'The rule, when the form allows it',
       r"\lim_{x \to a}\frac{f(x)}{g(x)} = \lim_{x \to a}\frac{f'(x)}{g'(x)}",
+      'replace top and bottom by their slopes and look again',
     ),
-    ('The two forms that allow it', r'\frac{0}{0} \quad \frac{\infty}{\infty}'),
+    (
+      'The two forms that allow it',
+      r'\frac{0}{0} \quad \frac{\infty}{\infty}',
+      'zero over zero, or endless over endless',
+    ),
   ],
-  figure: BriefFigure.formCheck,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 48',
 );
 
 const separatelyBrief = BriefSection(
   title: 'Top and bottom, separately',
-  body:
-      'This is not the quotient rule. The quotient rule is for the derivative '
-      'of a fraction; this is the limit of one, and they are different jobs '
-      'with different answers. Differentiate the numerator on its own, '
-      'differentiate the denominator on its own, and put the two results back '
-      'over each other. Nothing multiplies, nothing gets squared.',
-  formulas: [
-    ('What the rule does', r"\frac{f}{g} \;\Rightarrow\; \frac{f'}{g'}"),
+  picture: separatelyPicture,
+  steps: [
+    (
+      'Two different jobs, two different rules',
+      'The quotient rule finds the slope OF a fraction. This rule finds the '
+          'limit of one. They look alike on the page and they give different '
+          'answers.',
+    ),
+    (
+      'Differentiate each one on its own',
+      'Slope of the top, written on top. Slope of the bottom, written '
+          'underneath. Look at the picture: two separate arrows straight across.',
+    ),
+    (
+      'Nothing multiplies, nothing is squared',
+      'There is no product term and no squared denominator. If either '
+          'appears in your working you have reached for the wrong rule.',
+    ),
+  ],
+  spoken: [
+    (
+      'What the rule does',
+      r"\frac{f}{g} \;\Rightarrow\; \frac{f'}{g'}",
+      'slope of the top over slope of the bottom',
+    ),
     (
       'What the quotient rule does, which is not this',
       r"\frac{f'g - fg'}{g^2}",
+      'the one with a product and a squared bottom',
     ),
   ],
-  figure: BriefFigure.separately,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 48',
 );
 
 const bothSidesBrief = BriefSection(
   title: 'Both sides have to agree',
-  body:
-      'When the top settles on something other than zero and the bottom goes '
-      'to zero, the fraction blows up. Which way it blows up depends on the '
-      'sign of the bottom, and that can be different on the two sides of the '
-      'point. If both sides run the same way the limit is that infinity. If '
-      'they run opposite ways there is no two-sided limit at all, and the '
-      'answer is that it does not exist, not that it is infinite.',
-  formulas: [
-    ('Sides agree', r'\lim_{x \to 0}\frac{1}{x^2} = +\infty'),
+  picture: bothSidesPicture,
+  steps: [
+    (
+      'When the bottom goes to zero',
+      'A number divided by something tiny is enormous. So if the top settles '
+          'on anything other than zero and the bottom vanishes, the fraction '
+          'blows up.',
+    ),
+    (
+      'Which way it blows up depends on the sign',
+      'A tiny positive bottom sends it up. A tiny negative bottom sends it '
+          'down. And the sign can be different on the two sides of the point.',
+    ),
+    (
+      'Both sides up: that is the limit',
+      'Left branch and right branch both shoot to the sky, so the answer is '
+          'plus infinity.',
+    ),
+    (
+      'One up and one down: no limit',
+      'The two sides disagree, so there is no single value to approach. The '
+          'answer is that the limit does not exist, NOT that it is infinite.',
+    ),
+  ],
+  spoken: [
+    (
+      'Sides agree',
+      r'\lim_{x \to 0}\frac{1}{x^2} = +\infty',
+      'both branches go up, so plus infinity',
+    ),
     (
       'Sides disagree',
       r'\lim_{x \to 0}\frac{1}{x} \;\Rightarrow\; \text{does not exist}',
+      'one branch up and one down, so there is no limit',
     ),
   ],
-  figure: BriefFigure.bothSides,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 48',
 );
 
@@ -1006,54 +1758,121 @@ const bothSidesBrief = BriefSection(
 
 const vectorAddBrief = BriefSection(
   title: 'Adding arrows, one direction at a time',
-  body:
-      'Vectors add component by component: all the across parts together, all '
-      'the up parts together, signs kept. Never length by length. Two forces '
-      'of 500 do not make 1000 unless they point the same way, and if they '
-      'point opposite ways they make nothing at all. Lay them head to tail and '
-      'the resultant is the arrow from where you started to where you ended.',
-  formulas: [
-    ('Component form', r'\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}'),
+  picture: vectorAddPicture,
+  steps: [
+    (
+      'Lay them head to tail',
+      'Put the start of the second arrow on the tip of the first. The answer '
+          'is the arrow from where you began to where you ended up.',
+    ),
+    (
+      'In numbers, add the parts separately',
+      'All the across parts together, all the up parts together, signs kept. '
+          'Never add the lengths.',
+    ),
+    (
+      'Why lengths do not add',
+      'Two pulls of 500 only make 1000 if they point the same way. Point them '
+          'at each other and they make nothing at all. The direction is doing '
+          'half the work.',
+    ),
+  ],
+  spoken: [
+    (
+      'Component form',
+      r'\vec{A} = A_x\hat{i} + A_y\hat{j} + A_z\hat{k}',
+      'so much across, so much up, so much out',
+    ),
     (
       'Added component by component',
       r'\vec{A} + \vec{B} = (A_x + B_x)\hat{i} + (A_y + B_y)\hat{j}',
+      'across with across, up with up',
     ),
   ],
-  figure: BriefFigure.vectorAdd,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const unitVectorBrief = BriefSection(
   title: 'Direction without size',
-  body:
-      'A unit vector points where you want and is exactly one long, so it '
-      'carries a direction and nothing else. Get one by dividing a vector by '
-      'its own length. Then a force along that line is just the magnitude '
-      'times the unit vector, and every component falls out of it. Multiplying '
-      'by a negative scalar keeps the line and turns the arrow around.',
-  formulas: [
-    ('Divide by its own length', r'\hat{u}_A = \frac{\vec{A}}{|\vec{A}|}'),
-    ('Then size it', r'\vec{F} = F\,\hat{u}'),
-    ('From one point to another', r'\vec{AB} = B - A'),
+  picture: unitVectorPicture,
+  steps: [
+    (
+      'An arrow exactly one long',
+      'A unit vector points where you want and has a length of exactly 1. '
+          'It carries a direction and nothing else.',
+    ),
+    (
+      'Make one by dividing',
+      'Take any arrow and divide it by its own length. Everything about the '
+          'direction survives; only the size is scaled away.',
+    ),
+    (
+      'Then size it to whatever you need',
+      'A force of 200 along that line is just 200 times the unit vector, and '
+          'every component falls straight out.',
+    ),
+    (
+      'A negative turns it around',
+      'Multiplying by a negative number keeps the same line and points the '
+          'arrow the other way.',
+    ),
   ],
-  figure: BriefFigure.unitVector,
+  spoken: [
+    (
+      'Divide by its own length',
+      r'\hat{u}_A = \frac{\vec{A}}{|\vec{A}|}',
+      'the arrow, over how long it is',
+    ),
+    ('Then size it', r'\vec{F} = F\,\hat{u}', 'how big, times which way'),
+    (
+      'From one point to another',
+      r'\vec{AB} = B - A',
+      'the far end take away the near end',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const magnitudeBrief = BriefSection(
-  title: 'A magnitude is not a component',
-  body:
-      'The length of a vector is the square root of the sum of its squared '
-      'components. It is never the components added up, and the squaring is '
-      'why: an arrow that splits its length between two directions gets less '
-      'far than one that spends it all on a single direction. A component on '
-      'its own is only a shadow on one axis, and it is allowed to be negative. '
-      'A length never is.',
-  formulas: [
-    ('Length', r'|\vec{A}| = \sqrt{A_x^2 + A_y^2 + A_z^2}'),
-    ('Worth knowing on sight', r'3, 4, 5 \quad 6, 8, 10'),
+  title: 'A length is not a component',
+  picture: magnitudePicture,
+  steps: [
+    (
+      'The arrow is the long side of a triangle',
+      'Go 3 across and 4 up. The arrow joining start to finish is the '
+          'hypotenuse of that right triangle, so its length is 5, not 7.',
+    ),
+    (
+      'Square, add, then root',
+      'That is Pythagoras, and it works the same way with a third direction '
+          'added on.',
+    ),
+    (
+      'A component is only a shadow',
+      'It is how far the arrow got along ONE axis. It is allowed to be '
+          'negative, because you can go backwards along an axis.',
+    ),
+    (
+      'A length never is',
+      'How far something reached cannot be a negative number. If a length '
+          'comes out negative, something upstream is wrong.',
+    ),
   ],
-  figure: BriefFigure.magnitude,
+  spoken: [
+    (
+      'Length',
+      r'|\vec{A}| = \sqrt{A_x^2 + A_y^2 + A_z^2}',
+      'square each part, add them, take the root',
+    ),
+    (
+      'Worth knowing on sight',
+      r'3, 4, 5 \quad 6, 8, 10',
+      'two triangles that come up again and again',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -1061,61 +1880,124 @@ const magnitudeBrief = BriefSection(
 
 const dotProductBrief = BriefSection(
   title: 'Matching components, and a number at the end',
-  body:
-      'The dot product pairs each component with its OWN partner: across with '
-      'across, up with up, and signs kept. Multiply the pairs and add them. '
-      'Pairing across with up is the cross product wearing the wrong name, and '
-      'it is the fastest way to lose this question. Whatever comes out is a '
-      'plain number: if your answer still has an i or a j in it, you have done '
-      'the other product.',
-  formulas: [
-    ('Component form', r'\vec{A} \cdot \vec{B} = A_xB_x + A_yB_y + A_zB_z'),
-    ('And it is a scalar', r'\vec{A} \cdot \vec{B} \in \mathbb{R}'),
+  picture: dotProductPicture,
+  steps: [
+    (
+      'Pair each part with its own partner',
+      'Across with across, up with up, signs kept. Never across with up: '
+          'that is the other product wearing the wrong name.',
+    ),
+    (
+      'Multiply the pairs, then add',
+      'Two multiplications and one addition in two dimensions, three and two '
+          'in three. That is the whole calculation.',
+    ),
+    (
+      'What comes out is a plain number',
+      'No direction, no arrow, no letters. If your answer still has an i or '
+          'a j in it, you did the cross product instead.',
+    ),
   ],
-  figure: BriefFigure.dotProduct,
+  spoken: [
+    (
+      'Component form',
+      r'\vec{A} \cdot \vec{B} = A_xB_x + A_yB_y + A_zB_z',
+      'multiply the matching parts and add them up',
+    ),
+    (
+      'And it is a scalar',
+      r'\vec{A} \cdot \vec{B} \in \mathbb{R}',
+      'the answer is a plain number, with no direction',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const dotAngleBrief = BriefSection(
   title: 'The sign is the angle',
-  body:
-      'The other formula for the same number is the two lengths times the '
-      'cosine of the angle between them. Lengths are always positive, so the '
-      'sign of a dot product is nothing but the sign of that cosine. Under '
-      'ninety degrees it is positive, over ninety it is negative, and exactly '
-      'ninety makes it zero. That last one is the fastest perpendicularity '
-      'check there is. For the angle itself, rearrange and take the inverse '
-      'cosine, and remember that the cosine is not the angle.',
-  formulas: [
-    ('Angle form', r'\vec{A} \cdot \vec{B} = |\vec{A}||\vec{B}|\cos\theta'),
+  picture: dotAnglePicture,
+  steps: [
+    (
+      'The same number, told another way',
+      'The dot product also equals the two lengths multiplied together, '
+          'times the cosine of the angle between the arrows.',
+    ),
+    (
+      'Lengths are always positive',
+      'So the only thing in that product that can be negative is the cosine. '
+          'The sign of a dot product IS the sign of the cosine.',
+    ),
+    (
+      'Which reads the angle straight off',
+      'Positive means the arrows are closing, under a square corner. '
+          'Negative means they are opening, past it. Zero means exactly square.',
+    ),
+    (
+      'That zero is the quickest test there is',
+      'For the angle itself, rearrange and take the inverse cosine. And '
+          'remember the cosine is not the angle.',
+    ),
+  ],
+  spoken: [
+    (
+      'Angle form',
+      r'\vec{A} \cdot \vec{B} = |\vec{A}||\vec{B}|\cos\theta',
+      'the two lengths, times the cosine of the angle between',
+    ),
     (
       'Rearranged for the angle',
       r'\theta = \cos^{-1}\!\left(\frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}\right)',
+      'divide by both lengths, then undo the cosine',
     ),
-    ('Perpendicular', r'\vec{A} \cdot \vec{B} = 0'),
+    (
+      'Square on',
+      r'\vec{A} \cdot \vec{B} = 0',
+      'zero means the two are at a square corner',
+    ),
   ],
-  figure: BriefFigure.dotAngle,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const projectionBrief = BriefSection(
-  title: "How much of a force lands on a member",
-  body:
-      'The component of a force along a direction is the length of its shadow '
-      'on that direction. Take the dot product and divide by the length of the '
-      'DIRECTION, not of the force. Leaving it undivided gives you the shadow '
-      'multiplied by the member length, which is not a force at all, and '
-      'dividing by the force instead gives you a number that forgot what it '
-      'was measuring. The sign survives: negative means the force runs back '
-      'along the member rather than out along it.',
-  formulas: [
+  title: 'How much of a force lands on a member',
+  picture: projectionPicture,
+  steps: [
+    (
+      'Think of a shadow',
+      'Shine a light straight down onto the member. The shadow the force '
+          'casts along it is how much of that force the member actually feels.',
+    ),
+    (
+      'Dot product, then divide by the MEMBER',
+      'The dot product gives the shadow multiplied by the member length. '
+          'Divide by the member length to get the shadow on its own.',
+    ),
+    (
+      'Dividing by the wrong one breaks it',
+      'Not dividing leaves you something that is not a force. Dividing by '
+          'the force gives a number that has forgotten what it measured.',
+    ),
+    (
+      'The sign still means something',
+      'Negative means the force runs back along the member instead of out '
+          'along it.',
+    ),
+  ],
+  spoken: [
     (
       'Scalar projection',
       r'\text{proj}_{\vec{B}}\vec{A} = \frac{\vec{A} \cdot \vec{B}}{|\vec{B}|}',
+      'the dot product, over the length of the direction',
     ),
-    ('Which is just', r'\vec{A} \cdot \hat{u}_B'),
+    (
+      'Which is just',
+      r'\vec{A} \cdot \hat{u}_B',
+      'the force dotted with the unit arrow along the member',
+    ),
   ],
-  figure: BriefFigure.projection,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -1123,64 +2005,121 @@ const projectionBrief = BriefSection(
 
 const rightHandBrief = BriefSection(
   title: 'Which way it turns, and why order matters',
-  body:
-      'A cross product is a VECTOR, and it points perpendicular to both of the '
-      'arrows that made it. Which of the two perpendicular directions is '
-      'settled by the right hand: fingers along the first arrow, curl them to '
-      'the second, and the thumb is the answer. Sweeping counterclockwise '
-      'brings it out of the page, clockwise sends it in. Swap the two arrows '
-      'and the answer flips, which is why a moment is r cross F and never the '
-      'other way. Two arrows on the same line cross to nothing.',
-  formulas: [
-    ('The moment of a force', r'\vec{M}_O = \vec{r} \times \vec{F}'),
-    ('Order flips it', r'\vec{A} \times \vec{B} = -(\vec{B} \times \vec{A})'),
-    ('And a vector with itself', r'\vec{A} \times \vec{A} = \vec{0}'),
+  picture: rightHandPicture,
+  steps: [
+    (
+      'This one gives back an arrow',
+      'Unlike the dot product, a cross product IS a vector. It points square '
+          'to both of the arrows that made it.',
+    ),
+    (
+      'Your right hand picks which way',
+      'Fingers along the first arrow, curl them toward the second, and your '
+          'thumb points the answer. Sweeping anticlockwise brings it out of the '
+          'page; clockwise sends it in.',
+    ),
+    (
+      'So the order is not a detail',
+      'Swap the two arrows and the answer flips over completely. That is why '
+          'a moment is r cross F, in that order, and never the other way.',
+    ),
+    (
+      'Two arrows on one line give nothing',
+      'There is no turn to measure, so the answer is zero.',
+    ),
   ],
-  figure: BriefFigure.rightHand,
+  spoken: [
+    (
+      'The moment of a force',
+      r'\vec{M}_O = \vec{r} \times \vec{F}',
+      'the arm crossed into the force, that way round',
+    ),
+    (
+      'Order flips it',
+      r'\vec{A} \times \vec{B} = -(\vec{B} \times \vec{A})',
+      'swapping them turns the answer round',
+    ),
+    (
+      'And a vector with itself',
+      r'\vec{A} \times \vec{A} = \vec{0}',
+      'no turn at all, so nothing',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const areaBrief = BriefSection(
   title: 'The parallelogram, and half of it',
-  body:
-      'The size of a cross product is the area of the parallelogram the two '
-      'arrows span. A triangle with those two edges is half of that, so a plot '
-      'bounded by them takes a division by two that the formula will not '
-      'remind you about. The sine is what accounts for the lean: multiplying '
-      'the two lengths on their own would give the box around the whole thing, '
-      'which is only right when the edges meet square.',
-  formulas: [
+  picture: areaPicture,
+  steps: [
+    (
+      'The size of a cross product is an area',
+      'Take the two arrows as two edges and slide them into a leaning box. '
+          'The cross product gives exactly that area.',
+    ),
+    (
+      'A triangle is half of it',
+      'A plot of land bounded by those same two edges is the other half cut '
+          'off. So it takes a divide by two the formula will not remind you '
+          'about.',
+    ),
+    (
+      'The sine accounts for the lean',
+      'Just multiplying the two lengths would give the upright box round the '
+          'whole thing. That is only right when the edges meet at a square '
+          'corner.',
+    ),
+  ],
+  spoken: [
     (
       'Parallelogram',
       r'|\vec{A} \times \vec{B}| = |\vec{A}||\vec{B}|\sin\theta',
+      'the two lengths, times the sine of the angle between',
     ),
-    ('Triangle', r'\tfrac{1}{2}|\vec{A} \times \vec{B}|'),
+    ('Triangle', r'\tfrac{1}{2}|\vec{A} \times \vec{B}|', 'half of that area'),
   ],
-  figure: BriefFigure.crossArea,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const cofactorBrief = BriefSection(
   title: 'Plus, minus, plus',
-  body:
-      'The cross product comes out of a three by three determinant with i, j '
-      'and k across the top. Expanding it gives three components and the '
-      'middle one is SUBTRACTED. That is the whole of the tip and it is worth '
-      'the space: a minus in front of a bracket that already holds a negative '
-      'number is the single most reliable way to hand in a moment that points '
-      'the wrong way. Whatever comes out is a vector, so if the question '
-      'wanted a size, take the magnitude afterwards.',
-  formulas: [
+  picture: cofactorPicture,
+  steps: [
     (
-      'The determinant',
-      r'\vec{A} \times \vec{B} = \begin{vmatrix} \hat{i} & \hat{j} & \hat{k} \\ A_x & A_y & A_z \\ B_x & B_y & B_z \end{vmatrix}',
+      'Three terms come out',
+      'The cross product is worked out from a three by three grid with i, j '
+          'and k across the top. Expanding it gives one term for each.',
+    ),
+    (
+      'The middle one is taken away',
+      'Not added. That single minus sign is the whole of the tip, and it is '
+          'the reason so many moments come out pointing the wrong way.',
+    ),
+    (
+      'A minus in front of a minus',
+      'The bracket it sits in often already holds a negative number. Two '
+          'negatives and a rushed line is exactly where the sign is lost.',
+    ),
+    (
+      'The answer is still a vector',
+      'If the question asked for a size, take the magnitude afterwards.',
+    ),
+  ],
+  spoken: [
+    (
+      'Set out as a grid',
+      r'\hat{i},\ \hat{j},\ \hat{k} \;\text{on top, then each arrow on a row}',
+      'the directions on top, then each arrow on its own row',
     ),
     (
       'Expanded',
       r'(A_yB_z - A_zB_y)\hat{i} - (A_xB_z - A_zB_x)\hat{j} + (A_xB_y - A_yB_x)\hat{k}',
+      'plus, then minus, then plus',
     ),
   ],
-  figure: BriefFigure.cofactor,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -1188,55 +2127,108 @@ const cofactorBrief = BriefSection(
 
 const referencesBrief = BriefSection(
   title: 'What moves when you copy',
-  body:
-      'A plain reference like A1 is relative: copy the formula somewhere else '
-      'and it shifts by however far you moved. A dollar sign pins whatever '
-      'comes straight after it, so \$A\$1 never moves, A\$1 keeps its row and '
-      'slides across, and \$A1 keeps its column and slides down. This is the '
-      'most tested spreadsheet idea on the exam and the missing dollar sign is '
-      'the most common mistake made on it: the rate drifts down the column and '
-      'every row under the first is quietly wrong.',
-  formulas: [
-    ('Moves with the copy', r'\text{A1}'),
-    ('Pinned completely', r'\text{\$A\$1}'),
-    ('Row pinned, column free', r'\text{A\$1}'),
-    ('Column pinned, row free', r'\text{\$A1}'),
+  picture: referencesPicture,
+  steps: [
+    (
+      'A plain reference slides',
+      'Write B1 in a cell and copy the formula one row down. It quietly '
+          'becomes B2. Copy it across and it becomes C1. It shifts by however '
+          'far you moved it.',
+    ),
+    (
+      'A dollar sign nails it down',
+      'Whatever comes straight after a dollar sign cannot move. So B\$1 '
+          'always points at row 1, and \$B1 always points at column B.',
+    ),
+    (
+      'Two dollar signs pin it completely',
+      'A fixed number, like an interest rate in one cell, wants both.',
+    ),
+    (
+      'The mistake it causes',
+      'A missing dollar sign lets the rate drift down the column. The first '
+          'row is right and every row under it is quietly wrong.',
+    ),
   ],
-  figure: BriefFigure.references,
+  spoken: [
+    ('Moves with the copy', r'\text{A1}', 'slides in both directions'),
+    ('Pinned completely', r'\text{\$A\$1}', 'never moves at all'),
+    ('Row pinned, column free', r'\text{A\$1}', 'slides across, never down'),
+    ('Column pinned, row free', r'\text{\$A1}', 'slides down, never across'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, spreadsheet section',
 );
 
 const precedenceBrief = BriefSection(
   title: 'A sheet does not read left to right',
-  body:
-      'Formulas follow the same precedence as algebra: brackets first, then '
-      'powers, then multiplication and division, then addition and '
-      'subtraction. Anything of equal rank runs left to right. So a formula '
-      'adding one cell to another divided by a third does the division first, '
-      'whatever the reading order suggests, and brackets are the only way to '
-      'change that.',
-  formulas: [
-    ('Times before plus', r'\text{=2+3*4} \;\Rightarrow\; 14'),
-    ('Brackets force it', r'\text{=(2+3)*4} \;\Rightarrow\; 20'),
+  picture: precedencePicture,
+  steps: [
+    (
+      'There is an order, and it is not reading order',
+      'Brackets first. Then powers. Then multiply and divide. Then add and '
+          'subtract. Anything of equal rank runs left to right.',
+    ),
+    (
+      'So the times jumps the queue',
+      'Two plus three times four is 14, not 20, however it reads on the '
+          'page. The multiply happens before the add.',
+    ),
+    (
+      'Brackets are the only override',
+      'Put the add in brackets and it goes first. Nothing else changes the '
+          'order.',
+    ),
   ],
-  figure: BriefFigure.precedence,
+  spoken: [
+    (
+      'Times before plus',
+      r'\text{=2+3*4} \;\Rightarrow\; 14',
+      'three fours are twelve, then add two',
+    ),
+    (
+      'Brackets force it',
+      r'\text{=(2+3)*4} \;\Rightarrow\; 20',
+      'five, then four fives',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, spreadsheet section',
 );
 
 const functionsBrief = BriefSection(
-  title: 'What the common functions actually return',
-  body:
-      'SUM adds a range, AVERAGE takes its mean, MAX and MIN pull the biggest '
-      'and smallest, and COUNT counts only the cells holding NUMBERS, so a '
-      'cell of text inside the range is skipped. A colon means every cell from '
-      'one end to the other. IF checks its test first and hands back the '
-      'second argument when the test passes and the third when it fails; it '
-      'returns that value, never a 1 for true.',
-  formulas: [
-    ('A range', r'\text{=SUM(B1:B3)}'),
-    ('Test, then true, then false', r'\text{=IF(A1>=10, A1*2, A1+5)}'),
+  title: 'What the common functions hand back',
+  picture: functionsPicture,
+  steps: [
+    (
+      'The simple ones do what they say',
+      'SUM adds a range up. AVERAGE takes its mean. MAX and MIN pull the '
+          'biggest and the smallest out of it.',
+    ),
+    (
+      'COUNT only counts numbers',
+      'Look at the picture: five cells, but two of them hold words. COUNT '
+          'sees three. Text inside the range is skipped in silence.',
+    ),
+    (
+      'A colon means everything between',
+      'B1 colon B3 is B1, B2 and B3, not just the two ends.',
+    ),
+    (
+      'IF hands back a value, not a true',
+      'It checks the test, then gives you the second thing when the test '
+          'passes and the third when it fails. It never returns a 1.',
+    ),
   ],
-  figure: BriefFigure.functions,
+  spoken: [
+    ('A range', r'\text{=SUM(B1:B3)}', 'add up every cell from B1 to B3'),
+    (
+      'Test, then true, then false',
+      r'\text{=IF(A1>=10, A1*2, A1+5)}',
+      'if the test passes give the middle one, otherwise the last one',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, spreadsheet section',
 );
 
@@ -1244,54 +2236,119 @@ const functionsBrief = BriefSection(
 
 const tracingBrief = BriefSection(
   title: 'Trace it, one row per pass',
-  body:
-      'Every routine is built out of three things: statements in order, a '
-      'choice between paths, and a repeat. On this exam you trace them by '
-      'hand, and the way to do that is to write the variables in a column and '
-      'update them pass by pass rather than trying to hold the whole loop in '
-      'your head. A counted loop from one to four runs FOUR times, because '
-      'both ends are included, and the off-by-one is the trap. The answer is '
-      'usually the last row of the table, not the number of rows.',
-  formulas: [
-    ('Runs four times', r'\text{FOR i = 1 TO 4}'),
-    ('The rows it makes', r'1,\; 3,\; 6,\; 10'),
+  picture: tracingPicture,
+  steps: [
+    (
+      'Only three things ever happen',
+      'Steps in order, a choice between paths, and a repeat. Every routine '
+          'on this exam is built out of those three.',
+    ),
+    (
+      'Write a table, not a guess',
+      'Put the variables in columns and fill in one row for every pass. '
+          'Trying to hold the whole loop in your head is where it goes wrong.',
+    ),
+    (
+      'A counted loop includes both ends',
+      'FOR i = 1 TO 4 runs FOUR times, not three. Both ends are in.',
+    ),
+    (
+      'The answer is the last row',
+      'It is almost never the number of rows. Look at what the variable '
+          'holds at the end, not at how many times you went round.',
+    ),
   ],
-  figure: BriefFigure.tracing,
+  spoken: [
+    (
+      'Runs four times',
+      r'\text{FOR i = 1 TO 4}',
+      'one, two, three, four: both ends counted',
+    ),
+    (
+      'The rows it makes',
+      r'1,\; 3,\; 6,\; 10',
+      'the running total after each pass',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, computational tools',
 );
 
 const selectionBrief = BriefSection(
   title: 'The first true condition wins',
-  body:
-      'A chain of conditions is checked from the top down and it stops at the '
-      'first one that holds. Everything below is skipped, including a later '
-      'test that would also have been true, so a chain is not a search for the '
-      'best fit. The closing ELSE only runs when every test above it has '
-      'failed, and reading the whole chain before deciding is how people end '
-      'up there by mistake. Watch the boundaries: greater than excludes the '
-      'number itself, greater than or equal to includes it.',
-  formulas: [
-    ('Checked in this order', r'\text{IF} \to \text{ELSE IF} \to \text{ELSE}'),
-    ('x = 7 lands here', r'\text{ELSE IF x > 5} \;\Rightarrow\; \text{y = 2}'),
+  picture: selectionPicture,
+  steps: [
+    (
+      'Checked from the top down',
+      'The machine tries each test in order and stops dead at the first one '
+          'that holds. Everything below is skipped.',
+    ),
+    (
+      'Even a later test that is also true',
+      'A chain is not a search for the best match. Look at the picture: x '
+          'is 7, which passes two of the tests, and only the first one runs.',
+    ),
+    (
+      'ELSE is the catch-all',
+      'It only runs when every test above it has failed. Reading the whole '
+          'chain first and picking the best fit is how people land here by '
+          'mistake.',
+    ),
+    (
+      'Watch the boundary',
+      'Greater than leaves the number itself out. Greater than or equal to '
+          'takes it in.',
+    ),
   ],
-  figure: BriefFigure.selection,
+  spoken: [
+    (
+      'Checked in this order',
+      r'\text{IF} \to \text{ELSE IF} \to \text{ELSE}',
+      'top to bottom, stopping at the first one that holds',
+    ),
+    (
+      'x = 7 lands here',
+      r'\text{ELSE IF x > 5} \;\Rightarrow\; \text{y = 2}',
+      'the first test it passes, and no other',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, computational tools',
 );
 
 const iterationBrief = BriefSection(
   title: 'A WHILE checks before it acts',
-  body:
-      'A WHILE loop tests its condition before every pass, including the very '
-      'first one. That has two consequences people lose marks on. The value '
-      'left in the variable at the end is the one that BROKE the condition, '
-      'not the last one that satisfied it, and nothing is capped at the limit '
-      'in the condition. And if the condition is already false when the loop '
-      'is reached, the body never runs at all.',
-  formulas: [
-    ('Doubling from 1 while under 100', r'1,\;2,\;4,\;8,\;16,\;32,\;64,\;128'),
-    ('What is left', r'x = 128'),
+  picture: iterationPicture,
+  steps: [
+    (
+      'The test comes first, every time',
+      'Including the very first pass. If the condition is already false when '
+          'the loop is reached, the body never runs at all.',
+    ),
+    (
+      'So the value left behind broke the test',
+      'Doubling while under 100 does not stop at 64. It doubles to 128, the '
+          'test fails, and 128 is what is left in the variable.',
+    ),
+    (
+      'Nothing is capped at the limit',
+      'The number in the condition is a gate to pass through, not a ceiling '
+          'to stop at.',
+    ),
   ],
-  figure: BriefFigure.iteration,
+  spoken: [
+    (
+      'Doubling from 1 while under 100',
+      r'1,\;2,\;4,\;8,\;16,\;32,\;64,\;128',
+      'each pass doubles, and the last one goes over',
+    ),
+    (
+      'What is left',
+      r'x = 128',
+      'the value that failed the test, not the last one that passed',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'FE Handbook, computational tools',
 );
 
@@ -1299,53 +2356,121 @@ const iterationBrief = BriefSection(
 
 const newtonBrief = BriefSection(
   title: 'Slide down the tangent',
-  body:
-      "Newton's method is a picture before it is a formula. Stand on the curve "
-      'at your guess, follow the tangent down to the axis, and stand there '
-      'instead. That is what dividing the function by its slope does. Nearer a '
-      'root every curve is almost straight, which is why the method closes in '
-      'so fast once it is close, and why a nearly flat slope is a disaster: '
-      'the tangent then meets the axis a very long way from anywhere useful.',
-  formulas: [
-    ('One iteration', r"x_{j+1} = x_j - \frac{f(x_j)}{f'(x_j)}"),
-    ('From 4 on x squared minus 4', r'4 - \frac{12}{8} = 2.5'),
+  picture: newtonPicture,
+  steps: [
+    (
+      'It is a picture before it is a formula',
+      'Stand on the curve at your guess. Follow the straight line that just '
+          'touches it there, all the way down to the axis. Stand at that new '
+          'spot and do it again.',
+    ),
+    (
+      'That slide is what the formula does',
+      'Dividing the function by its slope is exactly how far along the '
+          'tangent takes you.',
+    ),
+    (
+      'Why it closes in so fast',
+      'Zoom in near a root and any smooth curve looks almost straight, so '
+          'the tangent lands very close to the truth.',
+    ),
+    (
+      'And why a flat slope ruins it',
+      'A nearly flat tangent runs a very long way before it meets the axis, '
+          'and you land somewhere useless.',
+    ),
   ],
-  figure: BriefFigure.newton,
+  spoken: [
+    (
+      'One iteration',
+      r"x_{j+1} = x_j - \frac{f(x_j)}{f'(x_j)}",
+      'your guess, minus the height divided by the slope',
+    ),
+    (
+      'From 4 on x squared minus 4',
+      r'4 - \frac{12}{8} = 2.5',
+      'height twelve, slope eight, so slide back one and a half',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 61',
 );
 
 const bisectionBrief = BriefSection(
   title: 'Opposite sides, then halve it',
-  body:
-      'Bisection asks for one thing: the function on opposite sides of the '
-      'axis at the two ends of the interval, which is the same as the two '
-      'values multiplying to something negative. Then it halves the interval '
-      'and keeps whichever half still has the sign change. Same-signed ends do '
-      'NOT mean there is no root in there, they mean this method cannot be '
-      'started, which is a different thing. An interval holding two roots '
-      'fails the test for exactly that reason.',
-  formulas: [
-    ('The whole requirement', r'f(a)\cdot f(b) < 0'),
-    ('Then keep the half that still has it', r'[a, m] \text{ or } [m, b]'),
+  picture: bisectionPicture,
+  steps: [
+    (
+      'It asks for one thing only',
+      'The curve below the axis at one end of your interval and above it at '
+          'the other. Then it has to cross somewhere in between.',
+    ),
+    (
+      'The test is a multiplication',
+      'Multiply the two end values. A negative answer means one was positive '
+          'and one negative, which is exactly the sign change you need.',
+    ),
+    (
+      'Then cut it in half, over and over',
+      'Check the middle, keep whichever half still has the sign change, '
+          'repeat. The gap halves every time.',
+    ),
+    (
+      'Same signs does not mean no root',
+      'It means this method cannot be STARTED there, which is a different '
+          'thing. An interval holding two roots fails the test for that reason.',
+    ),
   ],
-  figure: BriefFigure.bisection,
+  spoken: [
+    (
+      'The whole requirement',
+      r'f(a)\cdot f(b) < 0',
+      'the two end values multiply to something negative',
+    ),
+    (
+      'Then keep the half that still has it',
+      r'[a, m] \text{ or } [m, b]',
+      'whichever side of the middle still changes sign',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 61',
 );
 
 const methodChoiceBrief = BriefSection(
   title: 'Fast, or guaranteed',
-  body:
-      "Newton is fast and demanding: it wants the derivative and a guess that "
-      'is already near the root. Give it either a poor guess or a slope near '
-      'zero and it can wander off or swing back and forth without settling. '
-      'Bisection is slow and undemanding: no derivative, no good guess, just a '
-      'sign change to start from, and it cannot fail once it has one. Which '
-      'you reach for is decided by what you have, not by which is cleverer.',
-  formulas: [
-    ('Newton wants', r"f'(x) \text{ and a close } x_0"),
-    ('Bisection wants', r'f(a)\cdot f(b) < 0'),
+  picture: methodChoicePicture,
+  steps: [
+    (
+      'Newton is fast and fussy',
+      'It wants the slope AND a guess that is already near the root. Give it '
+          'a poor guess or a nearly flat slope and it can wander off or swing '
+          'back and forth without ever settling.',
+    ),
+    (
+      'Bisection is slow and reliable',
+      'No slope needed and no good guess needed. Just two ends with opposite '
+          'signs. Once it has that, it cannot fail.',
+    ),
+    (
+      'So the question is what you have',
+      'Not which method is cleverer. Read what the problem hands you and '
+          'pick the one whose requirements are met.',
+    ),
   ],
-  figure: BriefFigure.methodChoice,
+  spoken: [
+    (
+      'Newton wants',
+      r"f'(x) \text{ and a close } x_0",
+      'the slope, and a starting guess near the answer',
+    ),
+    (
+      'Bisection wants',
+      r'f(a)\cdot f(b) < 0',
+      'only two ends on opposite sides of the axis',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 61',
 );
 
