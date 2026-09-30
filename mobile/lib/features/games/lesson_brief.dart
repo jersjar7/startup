@@ -5605,330 +5605,697 @@ const slenderBrief = BriefSection(
 );
 
 const missingBrief = BriefSection(
-  title: 'The equation is chosen by what is absent',
-  body:
-      'Straight line motion at a steady acceleration has five quantities: the '
-      'speed you started at, the speed you ended at, how far, how long, and '
-      'the acceleration. Any three of them give you the other two, and each '
-      'equation leaves exactly ONE of the five out. So the question that picks '
-      'the equation is which quantity the problem never mentions and never '
-      'asks for. No seconds anywhere is the commonest, and it points at v '
-      'squared equals v naught squared plus two a s. Two warnings: slowing '
-      'down means the acceleration is negative, and none of these equations '
-      'is allowed unless the acceleration is CONSTANT.',
-  formulas: [
-    ('No distance', r'v = v_0 + at'),
-    ('No time', r'v^2 = v_0^2 + 2a(s - s_0)'),
-    ('No final speed', r's = s_0 + v_0t + \tfrac{1}{2}at^2'),
-    ('No acceleration', r's = s_0 + \tfrac{1}{2}(v_0 + v)t'),
+  title: 'The equation is picked by what is missing',
+  picture: missingPicture,
+  steps: [
+    (
+      'Five things describe a trip',
+      'A car speeding up steadily has five numbers to its name: the speed it '
+          'started at, the speed it ended at, how far it went, how long it took, '
+          'and how hard it was speeding up.',
+    ),
+    (
+      'Any three give you the rest',
+      'That is what the four equations are for. Each one uses four of the '
+          'five numbers and ignores the fifth completely.',
+    ),
+    (
+      'So find the one nobody mentions',
+      'Read the problem and ask which of the five is never given and never '
+          'asked for. Then use the equation that leaves that one out. No seconds '
+          'anywhere is the commonest, and it points at the one without time.',
+    ),
+    (
+      'Two warnings',
+      'Slowing down means the speeding up number is negative. And none of '
+          'these equations is allowed unless the speeding up stays the same the '
+          'whole way.',
+    ),
   ],
-  figure: BriefFigure.missing,
+  spoken: [
+    (
+      'No distance',
+      r'v = v_0 + at',
+      'end speed is start speed plus how hard, times how long',
+    ),
+    (
+      'No time',
+      r'v^2 = v_0^2 + 2a(s - s_0)',
+      'end speed squared is start speed squared plus twice how hard, times the distance',
+    ),
+    (
+      'No end speed',
+      r's = s_0 + v_0t + \tfrac{1}{2}at^2',
+      'distance from the start speed, the time, and how hard',
+    ),
+    (
+      'No acceleration',
+      r's = s_0 + \tfrac{1}{2}(v_0 + v)t',
+      'distance is the average of the two speeds, times the time',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 104',
 );
 
 const flightBrief = BriefSection(
   title: 'Across and up and down never mix',
-  body:
-      'A projectile is two problems side by side. ACROSS there is no force at '
-      'all once it has left, so that speed never changes for the whole flight: '
-      'it is the same at the launch, at the top and at the landing. UP AND '
-      'DOWN gravity pulls the whole time, so that speed runs steadily downhill '
-      'through zero and out the other side, and the instant it passes zero is '
-      'the top of the arc. That is what makes the top solvable: the vertical '
-      'speed there is nothing, and the lesson\'s own problem is exactly that '
-      'step. Two things people say that are wrong: that the ball stops at the '
-      'top, when it is still traveling across, and that its acceleration is '
-      'less there, when gravity is pulling just as hard as it was at the '
-      'start. Split it into the two directions before anything else, and use '
-      'the vertical PIECE of the launch speed, never the whole of it.',
-  formulas: [
-    ('Across', r'v_x = v_0\cos\theta \text{, unchanging}'),
-    ('Up and down', r'v_y = v_0\sin\theta - gt'),
-    ('At the top', r'v_y = 0'),
-    ('Everywhere', r'a = g \text{, downward}'),
+  picture: flightPicture,
+  steps: [
+    (
+      'Throw a ball',
+      'Once it has left your hand nothing pushes it sideways. Gravity is the '
+          'only thing acting, and gravity only pulls down. So what happens across '
+          'and what happens up and down have nothing to do with each other.',
+    ),
+    (
+      'Across never changes',
+      'The sideways speed at the launch is the sideways speed at the top and '
+          'the sideways speed at the landing. It is the same number for the whole '
+          'flight.',
+    ),
+    (
+      'Up and down runs downhill',
+      'The upward speed shrinks steadily, passes through zero, and comes out '
+          'the other side as a downward speed. The instant it is zero is the top '
+          'of the arc, and that is what makes the top solvable.',
+    ),
+    (
+      'Two things people say that are wrong',
+      'The ball does not stop at the top: it is still traveling across. And '
+          'gravity is not weaker up there: it pulls just as hard as it did at the '
+          'start.',
+    ),
   ],
-  figure: BriefFigure.flight,
+  spoken: [
+    (
+      'Across',
+      r'v_x = v_0\cos\theta',
+      'the sideways piece of the launch speed, and it never changes',
+    ),
+    (
+      'Up and down',
+      r'v_y = v_0\sin\theta - gt',
+      'the upward piece, shrinking by gravity as the seconds pass',
+    ),
+    ('At the top', r'v_y = 0', 'the upward speed is nothing'),
+    (
+      'Everywhere',
+      r'a = g',
+      'gravity pulls down the whole time, by the same amount',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 104',
 );
 
 const bendBrief = BriefSection(
   title: 'Two accelerations at right angles',
-  body:
-      'Anything on a curved path is accelerating in two ways at once. ALONG '
-      'the path, the tangential piece, changes how fast it is going and is the '
-      'only one the speedometer knows about. Square to the path, pointing at '
-      'the middle of the bend, the normal piece changes which way it is going, '
-      'and it is v SQUARED over the radius, so speed counts twice over and a '
-      'tighter bend is worse. The one worth holding on to: something going '
-      'round a bend at a perfectly steady speed IS accelerating, because its '
-      'direction is changing, and that is what the tires and the rails have to '
-      'push against. The two sit at right angles, so the total is the two '
-      'combined as the sides of a right triangle and never the two added up.',
-  formulas: [
-    ('Along the path', r'a_t = \dot{v}'),
-    ('Toward the middle', r'a_n = \frac{v^2}{\rho}'),
-    ('Together', r'a = \sqrt{a_t^2 + a_n^2}'),
-    ('Steady speed', r'a_t = 0 \text{, and } a_n \text{ is still there}'),
+  picture: bendPicture,
+  steps: [
+    (
+      'Drive round a bend',
+      'Two things about you can change: how fast you are going, and which way '
+          'you are pointing. Each gets its own arrow, and the two sit square to '
+          'each other.',
+    ),
+    (
+      'The arrow along the road',
+      'This one changes your speed, and it is the only one the speedometer '
+          'knows about. Hold a steady speed and it is nothing at all.',
+    ),
+    (
+      'The arrow toward the middle of the bend',
+      'This one changes your direction. It is the speed times itself, divided '
+          'by how wide the bend is. So twice the speed needs four times as much, '
+          'and a tighter bend is worse.',
+    ),
+    (
+      'Steady speed is still accelerating',
+      'Round a bend at a constant speed the first arrow is gone and the '
+          'second is still there. That is what the tires have to push against, '
+          'and it is why you feel pulled sideways.',
+    ),
   ],
-  figure: BriefFigure.bend,
+  spoken: [
+    (
+      'Along the road',
+      r'a_t = \dot{v}',
+      'how fast the speed itself is changing',
+    ),
+    (
+      'Toward the middle',
+      r'a_n = \frac{v^2}{\rho}',
+      'speed times speed, over how wide the bend is',
+    ),
+    (
+      'Together',
+      r'a = \sqrt{a_t^2 + a_n^2}',
+      'the two combined like the sides of a right triangle, never added up',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 103',
 );
 
 const spinBrief = BriefSection(
-  title: 'One spin, a speed for every radius',
-  body:
-      'A rigid body has ONE angular velocity: every point on it turns through '
-      'the same angle in the same time, which is what being rigid means. It '
-      'does not have one speed. A point\'s speed is r times omega, so it grows '
-      'straight with the distance out from the axis and the rim of a wheel can '
-      'be doing fifty meters a second while a point near the hub strolls. The '
-      'pull toward the middle grows too, as r omega squared. Neither depends '
-      'on where a point sits AROUND the circle, only on how far out it is. And '
-      'the units trap the lesson names: rpm is not omega. Turns a minute times '
-      'two pi over sixty gets you radians a second, and using rpm straight in '
-      'v equals r omega is out by a factor of about ten.',
-  formulas: [
-    ('Speed of a point', r'v = r\omega'),
-    ('Toward the middle', r'a_n = r\omega^2 = \frac{v^2}{r}'),
-    ('Along the path', r'a_t = r\alpha'),
-    ('From rpm', r'\omega = \text{rpm}\times\frac{2\pi}{60}'),
+  title: 'One spin rate, a different speed at every radius',
+  picture: spinPicture,
+  steps: [
+    (
+      'Everything turns together',
+      'A wheel is rigid, so every dot on it sweeps through the same angle in '
+          'the same time. The whole wheel has ONE spin rate.',
+    ),
+    (
+      'But not one speed',
+      'A dot near the rim has a much bigger circle to get round in that same '
+          'time, so it is traveling faster. A dot near the middle strolls.',
+    ),
+    (
+      'Twice as far out, twice as fast',
+      'Speed is the spin rate times how far out the dot sits, so it grows '
+          'straight with the distance. Where the dot sits AROUND the circle makes '
+          'no difference at all.',
+    ),
+    (
+      'Turns per minute is not the spin rate',
+      'Change it first: times two pi, divided by sixty, and you have radians '
+          'per second. Putting turns per minute straight into the formula is out '
+          'by about ten.',
+    ),
   ],
-  figure: BriefFigure.spin,
+  spoken: [
+    (
+      'Speed of a dot',
+      r'v = r\omega',
+      'how far out it sits, times the spin rate',
+    ),
+    (
+      'Toward the middle',
+      r'a_n = r\omega^2 = \frac{v^2}{r}',
+      'the pull inward, which also grows with the radius',
+    ),
+    (
+      'From turns per minute',
+      r'\omega = \text{rpm}\times\frac{2\pi}{60}',
+      'turns a minute, times two pi, over sixty',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 103',
 );
 
 const spinInertiaBrief = BriefSection(
-  title: 'How hard it is to spin up',
-  body:
-      'Mass moment of inertia is the rotating twin of mass: it is what decides '
-      'how much moment it takes to get something turning. It is not a property '
-      'of the body alone, it belongs to the body AND the axis, and the '
-      'handbook gives the standard shapes so nothing is derived. Read the '
-      'coefficients as a story about where the material sits: a hoop, with '
-      'everything at the rim, is m r squared; a solid disc, with most of it '
-      'closer in, is half that; a sphere, closer in still, is two fifths. A '
-      'rod about its middle is a twelfth of m L squared and about its END it '
-      'is a third, four times more, with nothing about the rod changed. To '
-      'move an axis, add m d squared, and only ever FROM the centroid: going '
-      'between two off-center axes needs two steps through the middle. Once '
-      'the axis is further off than the body is wide, that transfer term is '
-      'the whole answer.',
-  formulas: [
+  title: 'How hard it is to get something spinning',
+  picture: spinInertiaPicture,
+  steps: [
+    (
+      'The spinning twin of weight',
+      'Weight tells you how hard something is to get moving in a straight '
+          'line. Mass moment of inertia tells you how hard it is to get spinning. '
+          'Same idea, different motion.',
+    ),
+    (
+      'Where the material sits is everything',
+      'Two things of exactly the same weight can be very different to spin '
+          'up. Material far from the middle fights back hard. Material near the '
+          'middle barely fights at all.',
+    ),
+    (
+      'Read the table as a story',
+      'A hoop keeps all of its metal at the rim, so it is the worst. A solid '
+          'disc has most of it closer in, and comes out at half. A sphere is '
+          'closer still, at two fifths.',
+    ),
+    (
+      'It belongs to the axis too',
+      'Spin a rod about its middle and it is a twelfth of its weight times '
+          'its length squared. Spin the same rod about its END and it is a third, '
+          'four times more, with nothing about the rod changed.',
+    ),
+  ],
+  spoken: [
     (
       'Hoop, disc, sphere',
       r'mr^2,\quad \tfrac{1}{2}mr^2,\quad \tfrac{2}{5}mr^2',
+      'all at the rim, then half of that, then two fifths',
     ),
-    ('Rod, middle and end', r'\tfrac{1}{12}mL^2,\quad \tfrac{1}{3}mL^2'),
-    ('Moving the axis', r'I = I_c + md^2'),
-    ('Only ever', r'\text{from the centroid outward}'),
+    (
+      'Rod, middle and end',
+      r'\tfrac{1}{12}mL^2,\quad \tfrac{1}{3}mL^2',
+      'four times harder about the end than about the middle',
+    ),
+    (
+      'Moving the axis',
+      r'I = I_c + md^2',
+      'add the weight times how far the axis moved, squared, always starting from the middle',
+    ),
   ],
-  figure: BriefFigure.spinInertia,
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 110 and 114 to 115',
 );
 
 const weightBrief = BriefSection(
   title: 'Kilograms are not newtons',
-  body:
-      'F equals m a wants a FORCE on one side and a MASS on the other, so the '
-      'first job on any dynamics problem is reading which of the two you were '
-      'handed. Kilograms and slugs are mass. Newtons and pounds are force, '
-      'which is to say a weight when gravity is what is causing it. A five '
-      'hundred newton block has a mass of about fifty one kilograms, and using '
-      'the five hundred as a mass makes it nearly ten times heavier than it '
-      'is. Going the other way, a fifty kilogram block weighs four hundred and '
-      'ninety newtons. The conversion is one multiply or one divide by g, '
-      'which is nine point eight one in metric and thirty two point two in US '
-      'units, and the commonest mistake after using the wrong one is doing the '
-      'conversion to something that never needed it.',
-  formulas: [
-    ('Weight from mass', r'W = mg'),
-    ('Mass from weight', r'm = \frac{W}{g}'),
-    ('And', r'g = 9.81\ \mathrm{m/s^2} = 32.2\ \mathrm{ft/s^2}'),
+  picture: weightPicture,
+  steps: [
+    (
+      'Two different questions about one block',
+      'How much stuff is it made of? That is its mass, in kilograms. How hard '
+          'does gravity pull it down? That is its weight, a force, in newtons. '
+          'They are different numbers.',
+    ),
+    (
+      'The equation wants one of each',
+      'Force equals mass times acceleration needs a FORCE on one side and a '
+          'MASS on the other. So the first job in any problem is reading which of '
+          'the two you were handed.',
+    ),
+    (
+      'How to tell which you got',
+      'Kilograms and slugs are mass. Newtons and pounds are force. A block '
+          'described as 500 newtons has a mass of about 51 kilograms, and using '
+          '500 as the mass makes it ten times heavier than it is.',
+    ),
+    (
+      'One multiply, or one divide',
+      'Mass to weight, times gravity. Weight to mass, divide by gravity. The '
+          'commonest mistake after using the wrong one is converting something '
+          'that never needed converting.',
+    ),
   ],
-  figure: BriefFigure.weight,
+  spoken: [
+    (
+      'Weight from mass',
+      r'W = mg',
+      'how much stuff, times how hard gravity pulls',
+    ),
+    ('Mass from weight', r'm = \frac{W}{g}', 'the weight, divided by gravity'),
+    (
+      'And gravity is',
+      r'g = 9.81\ \mathrm{m/s^2} = 32.2\ \mathrm{ft/s^2}',
+      'about ten in metric units, about thirty two in US ones',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 105',
 );
 
 const slopeBrief = BriefSection(
-  title: 'Gravity pulls down, and the slope splits it',
-  body:
-      'Draw the free body diagram first: every problem in this lesson is won '
-      'or lost there. On a slope, the weight still points straight down, and '
-      'because the block cannot go straight down it is worth splitting that '
-      'pull into two pieces along the directions that matter. The piece '
-      'running DOWN THE SURFACE, weight times the SINE of the slope, is the '
-      'only one that accelerates the block. The piece pressing INTO the '
-      'surface, weight times the COSINE, is answered exactly by the surface '
-      'pushing back, so it accelerates nothing, though it is what sets the '
-      'friction available. Swapping the two is the named trap. Note where they '
-      'cross: past forty five degrees the driving piece is the bigger of the '
-      'two, and on a frictionless slope the acceleration is g sine theta '
-      'whatever the block weighs.',
-  formulas: [
-    ('Down the slope', r'W\sin\theta = ma'),
-    ('Into the slope', r'N = W\cos\theta'),
-    ('So', r'a = g\sin\theta \text{, whatever the mass}'),
+  title: 'Gravity pulls straight down, and the ramp splits it',
+  picture: slopePicture,
+  steps: [
+    (
+      'Put a block on a ramp',
+      'Gravity still pulls it straight down, the same as always. But the '
+          'block cannot go straight down, because the ramp is in the way. So '
+          'split that downward pull into two pieces the ramp cares about.',
+    ),
+    (
+      'The piece down the slope',
+      'This is the only one that gets the block moving. It is the weight '
+          'times the SINE of the slope angle. Steeper ramp, bigger piece, faster '
+          'slide.',
+    ),
+    (
+      'The piece into the slope',
+      'This one presses the block against the surface, and the surface pushes '
+          'back exactly as hard, so it moves nothing. It is the weight times the '
+          'COSINE, and it is what decides how much friction you get.',
+    ),
+    (
+      'The trap, and a fact worth keeping',
+      'Swapping sine and cosine is the named mistake here. And on a smooth '
+          'ramp the acceleration is gravity times the sine of the angle, whatever '
+          'the block weighs.',
+    ),
   ],
-  figure: BriefFigure.slope,
+  spoken: [
+    (
+      'Down the slope',
+      r'W\sin\theta = ma',
+      'the weight times the sine of the angle is what accelerates it',
+    ),
+    (
+      'Into the slope',
+      r'N = W\cos\theta',
+      'the weight times the cosine is what the surface pushes back with',
+    ),
+    (
+      'So',
+      r'a = g\sin\theta',
+      'on a smooth ramp, gravity times the sine, whatever the weight',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 105',
 );
 
 const twoEquationsBrief = BriefSection(
   title: 'A rigid body has two equations',
-  body:
-      'Forces move the mass center and moments about that center spin the '
-      'body, and a rigid body problem can need either or both. What decides it '
-      'is what is HOLDING the body and where the force LANDS. An axle through '
-      'the middle stops the body moving off, so only the moment equation is '
-      'left. A force whose line passes through the mass center has no arm '
-      'about it, so it spins nothing and only the force equation is left. A '
-      'free body pushed off center does both at once. And a force is not a '
-      'moment until you multiply it by its distance from the center: dropping '
-      'that step is a named trap, and so is reaching for F equals m a on a '
-      'problem where nothing moves off anywhere.',
-  formulas: [
-    ('Forces', r'\sum F = ma_c'),
-    ('Moments about the center', r'\sum M_c = I_c\alpha'),
-    ('A force becomes a moment by', r'M = F d'),
+  picture: twoEquationsPicture,
+  steps: [
+    (
+      'A push can do two things',
+      'It can shove the whole body along, and it can spin the body round. '
+          'Which of the two you get is decided by what is HOLDING the body and '
+          'where the push LANDS.',
+    ),
+    (
+      'Pinned on an axle: it only spins',
+      'The axle stops the body going anywhere, so all that is left is '
+          'turning. Use the moment equation and nothing else.',
+    ),
+    (
+      'Pushed through the middle: it only slides',
+      'A push whose line goes straight through the middle has no arm to turn '
+          'the body with, so it spins nothing. Use the force equation and nothing '
+          'else. Pushed off center and free, it does both at once.',
+    ),
+    (
+      'A force is not a moment yet',
+      'To turn a force into a moment you multiply it by its distance from the '
+          'middle. Forgetting that step is the named trap in this lesson.',
+    ),
   ],
-  figure: BriefFigure.twoEquations,
+  spoken: [
+    (
+      'Forces move the middle',
+      r'\sum F = ma_c',
+      'add the forces up and the middle of the body accelerates',
+    ),
+    (
+      'Moments spin it',
+      r'\sum M_c = I_c\alpha',
+      'add the moments and the body spins up, against how hard it is to spin',
+    ),
+    (
+      'A force becomes a moment by',
+      r'M = F d',
+      'the force, times how far its line misses the middle by',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 105 and 109',
 );
 
 const ledgerBrief = BriefSection(
   title: 'Energy is an account, and it balances',
-  body:
-      'What a thing started with, plus anything put in from outside, minus '
-      'anything rubbed away, is what it ends with. That one sentence is the '
-      'work energy theorem, and the whole skill is reading which of those '
-      'buckets a situation actually has. Height and movement trade with each '
-      'other freely. A SPRING is a store, not a loss: what was squeezed into '
-      'it comes back out. FRICTION and drag take and never return, which is '
-      'the one term that makes the after side smaller than the before. A motor '
-      'or an engine ADDS from outside. When nothing is taken and nothing '
-      'added, the two sides are equal and it is a conservation problem. Energy '
-      'methods are the fast road when you know two positions and a speed and '
-      'do not care about the time between them.',
-  formulas: [
-    ('The full account', r'T_1 + V_1 + U^{nc}_{1\to2} = T_2 + V_2'),
-    ('Moving', r'T = \tfrac{1}{2}mv^2'),
-    ('Height and spring', r'V_g = mgh, \quad V_e = \tfrac{1}{2}ks^2'),
+  picture: ledgerPicture,
+  steps: [
+    (
+      'What it had, plus what you add, minus what is rubbed away',
+      'That is what it ends with. The whole skill is reading which of those '
+          'buckets a situation actually has, then stacking them up on each side.',
+    ),
+    (
+      'Height and movement trade freely',
+      'Being up high and going fast are the same currency. A block sliding '
+          'down a smooth ramp just moves it from one pile to the other, and '
+          'nothing is lost.',
+    ),
+    (
+      'A spring stores, friction takes',
+      'What gets squeezed into a spring comes back out later. What friction '
+          'and drag take never comes back, and that is the only term that makes '
+          'the after side shorter than the before side. A motor adds from outside.',
+    ),
+    (
+      'When to reach for it',
+      'When nothing is taken and nothing added, the two sides are simply '
+          'equal. Energy is the fast road whenever you know two positions and a '
+          'speed and do not care how long it took.',
+    ),
   ],
-  figure: BriefFigure.ledger,
+  spoken: [
+    (
+      'The full account',
+      r'T_1 + V_1 + U^{nc}_{1\to2} = T_2 + V_2',
+      'what it had, plus what was added or taken, equals what it ends with',
+    ),
+    (
+      'Moving',
+      r'T = \tfrac{1}{2}mv^2',
+      'half the mass times the speed squared',
+    ),
+    (
+      'Height and spring',
+      r'V_g = mgh, \quad V_e = \tfrac{1}{2}ks^2',
+      'weight times height, and half the stiffness times the squeeze squared',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 106',
 );
 
 const cancelBrief = BriefSection(
-  title: 'When the mass cancels, and when it does not',
-  body:
-      'Two of this lesson\'s three problems have the mass drop out, and it is '
-      'worth knowing which way a problem will go before starting it. Mass '
-      'cancels when it sits on BOTH sides of an energy balance: a heavier '
-      'block starts with more energy and needs more of it to reach any given '
-      'speed or height, so the speed at the bottom of a ramp, the height of a '
-      'throw and even the stopping distance under friction are the same '
-      'whatever it weighs, since friction scales with weight too. Mass does '
-      'NOT cancel when it appears on one side only: the energy a thing '
-      'carries, the power to lift it, and the speed a spring of fixed squeeze '
-      'can give it. The last one catches people, because a lighter block '
-      'leaves the same spring FASTER.',
-  formulas: [
-    ('Cancels', r'v = \sqrt{2gh}, \quad d = \frac{v^2}{2\mu g}'),
-    ('Does not', r'T = \tfrac{1}{2}mv^2, \quad P = \dot{m}gh'),
-    ('And a spring gives', r'v = \sqrt{\frac{ks^2}{m}}'),
+  title: 'When the weight cancels, and when it does not',
+  picture: cancelPicture,
+  steps: [
+    (
+      'Race a heavy block against a light one',
+      'Down the same smooth ramp they arrive at the bottom at exactly the '
+          'same speed. The heavy one started with more energy AND needs more of '
+          'it to reach any given speed, so the two cancel out.',
+    ),
+    (
+      'Weight drops out when it sits on both sides',
+      'The speed at the bottom of a ramp, the height of a throw, even how far '
+          'a skid takes to stop, since friction grows with weight too. None of '
+          'them care what the thing weighs.',
+    ),
+    (
+      'It stays when it only sits on one side',
+      'How much energy a thing carries, and how much power it takes to lift '
+          'it, both depend on the weight directly. There is nothing on the other '
+          'side to cancel with.',
+    ),
+    (
+      'The one that catches people',
+      'A spring squeezed the same amount gives a LIGHT block more speed than '
+          'a heavy one. The spring has a fixed amount to hand over, and less mass '
+          'turns it into more speed.',
+    ),
   ],
-  figure: BriefFigure.cancel,
+  spoken: [
+    (
+      'Cancels',
+      r'v = \sqrt{2gh}, \quad d = \frac{v^2}{2\mu g}',
+      'the speed off a drop and the length of a skid, with no mass in either',
+    ),
+    (
+      'Does not cancel',
+      r'T = \tfrac{1}{2}mv^2, \quad P = \frac{mgh}{t}',
+      'the energy carried, and the power to lift, both grow with the mass',
+    ),
+    (
+      'And a spring gives',
+      r'v = \sqrt{\frac{ks^2}{m}}',
+      'more speed to a lighter block, since the mass sits underneath',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 106',
 );
 
 const powerBrief = BriefSection(
-  title: 'Power, and the direction efficiency runs',
-  body:
-      'Power is the rate of doing work, and there are two ways to write it '
-      'that mean the same thing: the energy divided by the time it took, or '
-      'the force multiplied by the speed. The second is the one line answer '
-      'whenever something moves steadily against a resistance. Efficiency is '
-      'where the marks go. A machine always takes in MORE than it gives out, '
-      'so the useful output is the input times the efficiency, and the input '
-      'you need is the output DIVIDED by it. Stopping at the useful power when '
-      'the question asked for the motor is the named trap in this lesson, and '
-      'multiplying where you should divide gives an answer smaller than the '
-      'work being done, which is the check that catches it.',
-  formulas: [
-    ('Power', r'P = \frac{dU}{dt} = F v'),
-    ('Efficiency', r'\eta = \frac{P_{out}}{P_{in}} < 1'),
-    ('So the motor needs', r'P_{in} = \frac{P_{out}}{\eta}'),
+  title: 'Power, and which way efficiency runs',
+  picture: powerPicture,
+  steps: [
+    (
+      'Power is work divided by time',
+      'Lifting a crate ten floors takes the same energy whether it takes a '
+          'minute or an hour. Doing it in a minute takes more POWER.',
+    ),
+    (
+      'Or force times speed',
+      'The same thing said another way, and it is the one line answer '
+          'whenever something moves steadily against a resistance: a truck at a '
+          'constant speed, a hoist lifting at a constant rate.',
+    ),
+    (
+      'A machine always leaks',
+      'It takes in more than it gives out, and the difference goes to heat '
+          'and noise. Efficiency is the fraction that survives, and it is always '
+          'less than one.',
+    ),
+    (
+      'So which way do you divide',
+      'Output is input times efficiency. Input is output DIVIDED by it. If '
+          'the question asks what the motor must supply and your answer is '
+          'smaller than the work being done, you multiplied where you should have '
+          'divided.',
+    ),
   ],
-  figure: BriefFigure.power,
+  spoken: [
+    (
+      'Power',
+      r'P = \frac{dU}{dt} = F v',
+      'work per second, which is also the force times the speed',
+    ),
+    (
+      'Efficiency',
+      r'\eta = \frac{P_{out}}{P_{in}} < 1',
+      'what comes out over what went in, always under one',
+    ),
+    (
+      'So the motor needs',
+      r'P_{in} = \frac{P_{out}}{\eta}',
+      'the useful power, divided by the efficiency',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 107',
 );
 
 const impactBrief = BriefSection(
   title: 'Stuck, bounced, or somewhere between',
-  body:
-      'The first thing to read out of a collision problem is the word that '
-      'tells you what kind it is. STUCK together, locked, coupled, embedded, '
-      'buried: all of them mean the coefficient of restitution is nothing, the '
-      'two move off as one, and ONE equation does the whole job, with both '
-      'masses added together on the after side. A perfect bounce is an e of '
-      'one and never quite happens in the world. Anything in between needs TWO '
-      'equations, because there are two unknown speeds: the momentum of the '
-      'pair, and the restitution relation, which compares how fast they '
-      'separate with how fast they closed. Note which velocities that '
-      'comparison uses: the ones square to the surface they hit on, never the '
-      'ones sliding along it.',
-  formulas: [
-    ('Momentum of the pair', r"m_1v_1 + m_2v_2 = m_1v_1' + m_2v_2'"),
-    ('Restitution', r"e = \frac{v_2' - v_1'}{v_1 - v_2}"),
-    ('Stuck together', r"e = 0,\quad v_1' = v_2'"),
-    ('Perfect bounce', r'e = 1'),
+  picture: impactPicture,
+  steps: [
+    (
+      'Read the word that tells you which kind',
+      'Stuck, locked, coupled, embedded, buried: all of them mean the two '
+          'travel on as one lump. Bounced clean off means the opposite. Most '
+          'crashes sit somewhere between the two.',
+    ),
+    (
+      'Stuck together is the easy one',
+      'There is only ONE speed afterwards, so one equation does the whole '
+          'job. Add both masses together on the after side. The bounciness number '
+          'is zero.',
+    ),
+    (
+      'A perfect bounce is the other end',
+      'Bounciness of one, and nothing in the real world quite manages it. '
+          'Anything in between needs TWO equations, because there are two unknown '
+          'speeds to find.',
+    ),
+    (
+      'What the bounciness number compares',
+      'How fast they separate afterwards, against how fast they closed '
+          'before. And it uses only the speeds square to the surface they hit on, '
+          'never the ones sliding along it.',
+    ),
   ],
-  figure: BriefFigure.impact,
+  spoken: [
+    (
+      'Momentum of the pair',
+      r"m_1v_1 + m_2v_2 = m_1v_1' + m_2v_2'",
+      'mass times speed, added up, is the same before and after',
+    ),
+    (
+      'Bounciness',
+      r"e = \frac{v_2' - v_1'}{v_1 - v_2}",
+      'how fast they part, over how fast they came together',
+    ),
+    (
+      'Stuck together',
+      r"e = 0,\quad v_1' = v_2'",
+      'no bounce at all, and one speed for the pair',
+    ),
+    ('Perfect bounce', r'e = 1', 'they part exactly as fast as they closed'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 108',
 );
 
 const survivesBrief = BriefSection(
   title: 'Momentum always, energy almost never',
-  body:
-      'Momentum comes through every collision unchanged, because nothing '
-      'outside is pushing on the pair while the bang lasts. Kinetic energy '
-      'does not: it survives ONLY a perfect bounce, and everything else spends '
-      'some of it on bending, heating and noise. A crash where things stick '
-      'together spends the most, and a bullet burying itself in a block spends '
-      'over ninety nine percent of it. That is why conserving energy in a '
-      'plastic collision is the named trap in this lesson, and why a ballistic '
-      'pendulum is worked with momentum for the impact and energy only for the '
-      'swing that follows. One more thing worth holding: momentum is conserved '
-      'across the PAIR, never by one body on its own.',
-  formulas: [
-    ('Always', r'\sum p \text{ before} = \sum p \text{ after}'),
-    ('Only when e = 1', r'\sum T \text{ before} = \sum T \text{ after}'),
-    ('Sticking together', r'\text{loses the most}'),
+  picture: survivesPicture,
+  steps: [
+    (
+      'Momentum comes through every crash',
+      'While the bang is happening nothing outside is pushing on the pair, so '
+          'the total of mass times speed is exactly the same afterwards as it was '
+          'before. Every time, whatever kind of crash it was.',
+    ),
+    (
+      'Energy does not',
+      'Crashing bends metal, makes heat and makes noise, and all of that is '
+          'energy that has left. It only survives a perfect bounce, which almost '
+          'nothing really is.',
+    ),
+    (
+      'Sticking together spends the most',
+      'A bullet burying itself in a block loses over ninety nine percent of '
+          'the energy. Assuming energy is conserved in a crash like that is the '
+          'named trap in this lesson.',
+    ),
+    (
+      'So a swing problem is two problems',
+      'Use momentum for the instant of the crash. Then, and only then, use '
+          'energy for the smooth swing that follows, where nothing is being lost.',
+    ),
   ],
-  figure: BriefFigure.survives,
+  spoken: [
+    (
+      'Always true',
+      r'\sum p_{\text{before}} = \sum p_{\text{after}}',
+      'the total momentum of the pair is unchanged',
+    ),
+    (
+      'Only in a perfect bounce',
+      r'\sum T_{\text{before}} = \sum T_{\text{after}}',
+      'the total energy is unchanged only when the bounciness is one',
+    ),
+    (
+      'And momentum belongs to',
+      r'\text{the pair, never one body}',
+      'add both bodies up, before and after',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 108',
 );
 
 const impulseBrief = BriefSection(
   title: 'Force times time is the whole of it',
-  body:
-      'Impulse is a force multiplied by how long it acts, and it equals the '
-      'change in momentum exactly. Drawn as force against time, it is the AREA '
-      'under the line. That one sentence explains the safest thing in a '
-      'vehicle: a crash fixes how much momentum has to disappear, so the only '
-      'thing a designer can change is how LONG the stopping takes, and the '
-      'force follows. Twice as long is half as hard, which is a crumple zone, '
-      'an airbag, a catcher drawing their hands back and a run off area. Turn '
-      'it over and you have a pile driver: the same momentum in the shortest '
-      'possible time is the biggest possible force. And if a question gives a '
-      'force and a time, the answer is a momentum, not a force: divide by the '
-      'time only when you want the force back.',
-  formulas: [
-    ('Impulse', r'\int F\,dt = F_{avg}\,\Delta t'),
-    ('Which is', r'F\,\Delta t = m v_2 - m v_1'),
-    ('So a longer stop', r'\text{means a smaller force}'),
+  picture: impulsePicture,
+  steps: [
+    (
+      'A force acting for a while changes momentum',
+      'Multiply how hard by how long and you get exactly the change in mass '
+          'times speed. Drawn as force against time, it is the shaded AREA under '
+          'the line.',
+    ),
+    (
+      'A crash fixes the area',
+      'Stopping a car means a fixed amount of momentum has to disappear. You '
+          'cannot change that. The only thing a designer can change is how LONG '
+          'the stopping takes.',
+    ),
+    (
+      'Twice as long is half as hard',
+      'That is a crumple zone, an airbag, a run off area, and a catcher '
+          'drawing their hands back. Same area, spread over more time, so the '
+          'force is smaller.',
+    ),
+    (
+      'Turn it over and you get a hammer',
+      'The same momentum in the shortest possible time is the biggest '
+          'possible force. And if a question hands you a force and a time, the '
+          'answer is a momentum, not a force.',
+    ),
   ],
-  figure: BriefFigure.impulse,
+  spoken: [
+    (
+      'Impulse',
+      r'\int F\,dt = F_{avg}\,\Delta t',
+      'how hard, times how long, which is the area under the line',
+    ),
+    (
+      'Which equals',
+      r'F\,\Delta t = m v_2 - m v_1',
+      'that area is exactly the change in mass times speed',
+    ),
+    (
+      'So a longer stop',
+      r'F = \frac{m\,\Delta v}{\Delta t}',
+      'the same change in momentum over more time is a smaller force',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 107',
 );
 
@@ -10672,76 +11039,162 @@ const trussRouteBrief = BriefSection(
 );
 
 const naturalBrief = BriefSection(
-  title: 'Stiffness over mass, under a square root',
-  body:
-      'One expression carries this whole page: the natural frequency is the '
-      'square root of the stiffness over the mass. Stiffer is quicker, heavier '
-      'is slower, and the square root softens both, so FOUR times the '
-      'stiffness is only twice the frequency. What it depends on is the RATIO '
-      'of the two, so doubling both changes nothing at all. What it does not '
-      'depend on is how far you pulled it: amplitude appears nowhere in the '
-      'formula, and a big swing simply travels further at the same rate. Watch '
-      'the two units: omega comes out in radians a second and a question '
-      'usually wants hertz, which is omega over two pi. And watch for a WEIGHT '
-      'given where the formula wants a mass. Torsion is the same expression '
-      'with the torsional stiffness on top and the mass moment of inertia '
-      'underneath.',
-  formulas: [
-    ('Natural frequency', r'\omega_n = \sqrt{\frac{k}{m}}'),
-    ('In hertz', r'f_n = \frac{\omega_n}{2\pi}'),
-    ('The period', r'T_n = \frac{1}{f_n}'),
-    ('Twisting', r'\omega_n = \sqrt{\frac{k_t}{I}}'),
+  title: 'Stiffness over weight, under a square root',
+  picture: naturalPicture,
+  steps: [
+    (
+      'Everything springy has a rate it likes',
+      'Pull a block on a spring aside and let go, and it bounces at one '
+          'particular rate. That rate is its own, and it depends on only two '
+          'things.',
+    ),
+    (
+      'Stiffer is quicker, heavier is slower',
+      'A stiff spring snaps back harder, so it bounces faster. A heavy block '
+          'is more sluggish, so it bounces slower. It is the RATIO of the two, so '
+          'doubling both changes nothing.',
+    ),
+    (
+      'The square root softens both',
+      'Four times the stiffness is only twice the rate. Four times the weight '
+          'is half the rate. Nothing about it is proportional.',
+    ),
+    (
+      'How far you pull it does not matter',
+      'A big swing simply travels further at the same rate. And watch the '
+          'units: the formula gives radians per second, while the question often '
+          'wants cycles per second.',
+    ),
   ],
-  figure: BriefFigure.natural,
+  spoken: [
+    (
+      'Its own rate',
+      r'\omega_n = \sqrt{\frac{k}{m}}',
+      'the square root of the stiffness divided by the mass',
+    ),
+    (
+      'In cycles per second',
+      r'f_n = \frac{\omega_n}{2\pi}',
+      'that rate divided by two pi',
+    ),
+    (
+      'The time for one bounce',
+      r'T_n = \frac{1}{f_n}',
+      'one over the cycles per second',
+    ),
+    (
+      'Twisting instead',
+      r'\omega_n = \sqrt{\frac{k_t}{I}}',
+      'the same shape, with twisting stiffness over how hard it is to spin',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 112 to 113',
 );
 
 const resonanceBrief = BriefSection(
   title: 'Resonance is a match, not a property',
-  body:
-      'A structure does not resonate on its own. Resonance is what happens '
-      'when something pushes it AT its natural frequency, so that every push '
-      'arrives in time with the last swing and adds to it, and the amplitude '
-      'climbs until the damping or the structure gives way. That makes the '
-      'design question a comparison: work out the natural frequency, find out '
-      'what is going to be shaking it, and keep the two apart. Far above is '
-      'safe and far below is safe; only the middle is dangerous. Machine '
-      'mountings are deliberately made soft so that the running speed sits '
-      'well above the natural frequency, which does mean the machine passes '
-      'through resonance on its way up to speed. Before comparing anything, '
-      'get both numbers into the same units.',
-  formulas: [
-    ('Resonance when', r'\omega = \omega_n'),
-    ('Same thing in hertz', r'1\ \mathrm{Hz} = 2\pi\ \mathrm{rad/s}'),
-    ('And from a machine plate', r'1\ \mathrm{Hz} = 60\ \mathrm{rpm}'),
+  picture: resonancePicture,
+  steps: [
+    (
+      'Push a swing at the right moments',
+      'Time your pushes to the swing and every one adds to the last, and the '
+          'swing goes higher and higher. Push at the wrong times and you fight it '
+          'and nothing much happens.',
+    ),
+    (
+      'A structure is the same',
+      'Nothing resonates on its own. Resonance is what happens when something '
+          'shakes it AT its own rate, and the swinging climbs until the damping '
+          'or the structure gives way.',
+    ),
+    (
+      'So the design question is a comparison',
+      'Work out the structure\'s own rate, find out what is going to shake '
+          'it, and keep the two apart. Far above is safe, far below is safe, only '
+          'the middle is dangerous.',
+    ),
+    (
+      'Which way engineers aim',
+      'Machine mountings are made deliberately soft so the running speed sits '
+          'well above the natural rate. That does mean the machine passes through '
+          'resonance on its way up to speed.',
+    ),
   ],
-  figure: BriefFigure.resonance,
+  spoken: [
+    (
+      'Resonance when',
+      r'\omega = \omega_n',
+      'the shaking rate matches the structure\'s own rate',
+    ),
+    (
+      'Same thing in other units',
+      r'1\ \mathrm{Hz} = 2\pi\ \mathrm{rad/s}',
+      'one cycle per second is two pi radians per second',
+    ),
+    (
+      'And from a machine plate',
+      r'1\ \mathrm{Hz} = 60\ \mathrm{rpm}',
+      'one cycle per second is sixty turns a minute',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 112',
 );
 
 const dampingBrief = BriefSection(
   title: 'What the damping decides',
-  body:
-      'Pull a system aside, let it go, and the damping ratio decides what '
-      'happens next. UNDER one it swings and dies away inside a shrinking '
-      'envelope, which is almost every real structure: buildings and bridges '
-      'run at a few percent and ring for a long time. AT one, critically '
-      'damped, it returns in the shortest time possible without overshooting '
-      'at all, which is what a door closer, a gun recoil and an instrument '
-      'needle are tuned to. OVER one it still does not swing and it takes '
-      'LONGER, which is the piece people expect to go the other way: past the '
-      'critical point, more damping is slower, not quicker. At ZERO it swings '
-      'forever at the same height, which nothing real does, and every free '
-      'vibration formula on this page, the natural frequency included, is '
-      'written for exactly that undamped ideal.',
-  formulas: [
-    ('Damping ratio', r'\zeta = \frac{c}{2\sqrt{km}} = \frac{c}{c_c}'),
-    ('Swings and never shrinks', r'\zeta = 0'),
-    ('Swings and decays', r'\zeta < 1'),
-    ('Back fastest, no swing', r'\zeta = 1'),
-    ('No swing, slower', r'\zeta > 1'),
+  picture: dampingPicture,
+  steps: [
+    (
+      'Pull it aside and let go',
+      'What happens next is decided by one number: how much the motion is '
+          'being resisted. Four things can happen, and the pictures are worth '
+          'more than the formula.',
+    ),
+    (
+      'A little damping: it swings and fades',
+      'It crosses back and forth inside a shrinking envelope. That is almost '
+          'every real structure: buildings and bridges run at a few percent and '
+          'ring for a long time.',
+    ),
+    (
+      'Just enough: straight back, no overshoot',
+      'The fastest possible return without crossing the line at all. A door '
+          'closer, a gun recoil and an instrument needle are all tuned to sit '
+          'right here.',
+    ),
+    (
+      'Too much is slower, not quicker',
+      'Past that point it still does not swing, but it takes LONGER to get '
+          'back. That is the piece people expect to go the other way. And with '
+          'none at all it swings for ever, which nothing real does.',
+    ),
   ],
-  figure: BriefFigure.damping,
+  spoken: [
+    (
+      'The damping number',
+      r'\zeta = \frac{c}{2\sqrt{km}} = \frac{c}{c_c}',
+      'how much resistance there is, against how much it would take to stop the swinging',
+    ),
+    (
+      'Swings and never shrinks',
+      r'\zeta = 0',
+      'no resistance at all, the ideal every free vibration formula is written for',
+    ),
+    (
+      'Swings and fades',
+      r'\zeta < 1',
+      'a little resistance, almost every real structure',
+    ),
+    (
+      'Straight back, fastest',
+      r'\zeta = 1',
+      'exactly enough to stop it overshooting',
+    ),
+    ('No swing, but slower', r'\zeta > 1', 'more than enough, and it drags'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 112',
 );
 
