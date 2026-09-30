@@ -154,7 +154,7 @@ Widget torricelliPicture() => const ConceptPair(
 Widget reynoldsPicture() => const ConceptPicture(
   painter: _BandsPainter(),
   caption: 'one number, and the band it lands in decides what you do next',
-  height: 190,
+  height: 215,
 );
 
 Widget darcyPicture() => const ConceptPicture(
@@ -177,7 +177,7 @@ Widget deflectionPicture() => const ConceptPicture(
   caption:
       'the same jet at three targets. how far the water is turned is what '
       'sets the push',
-  height: 230,
+  height: 330,
 );
 
 Widget thrustPicture() => const ConceptPicture(
@@ -235,26 +235,46 @@ Widget coefficientPicture() => const ConceptPicture(
 // ---------------------------------------------------------------------------
 // Similitude
 
-Widget similitudePicture() => const ConceptPair(
-  left: BenchPainter(
-    bench: Bench.openChannel,
-    caption: 'water in the open: Froude',
-  ),
-  right: BenchPainter(
-    bench: Bench.closedPipe,
-    caption: 'a full pipe: Reynolds',
-  ),
-  leftCaption: 'a surface you can see: gravity shapes it',
-  rightCaption: 'no surface at all: gravity has nothing to pull against',
-  height: 200,
+Widget similitudePicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: BenchPainter(
+        bench: Bench.openChannel,
+        caption: 'a spillway, open to the air',
+      ),
+      caption: 'a surface you can see: gravity is shaping it, so match Froude',
+      height: 175,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: BenchPainter(
+        bench: Bench.closedPipe,
+        caption: 'a valve in a pipe running full',
+      ),
+      caption:
+          'no surface at all: gravity has nothing to pull against, so match '
+          'Reynolds',
+      height: 175,
+    ),
+  ],
 );
 
-Widget scalingPicture() => const ConceptPair(
-  left: TwinsPainter(twins: Twins(law: Law.froude, model: 1, proto: 25)),
-  right: TwinsPainter(twins: Twins(law: Law.reynolds, model: 1, proto: 10)),
-  leftCaption: 'Froude, a model a 25th the size: run it SLOWER',
-  rightCaption: 'Reynolds, a model a 10th the size: run it FASTER',
-  height: 210,
+Widget scalingPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: TwinsPainter(twins: Twins(law: Law.froude, model: 1, proto: 25)),
+      caption: 'Froude, a model a 25th the size: run it SLOWER, at a fifth',
+      height: 165,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: TwinsPainter(
+        twins: Twins(law: Law.reynolds, model: 1, proto: 10),
+      ),
+      caption: 'Reynolds, a model a 10th the size: run it FASTER, ten times',
+      height: 165,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -373,8 +393,8 @@ class _ZeroPainter extends CustomPainter {
     final vacuum = size.height * 0.84;
     final atmos = size.height * 0.54;
     final point = size.height * 0.24;
-    final left = size.width * 0.20;
-    final right = size.width * 0.80;
+    final left = size.width * 0.05;
+    final right = size.width * 0.97;
 
     void level(double y, String label, Color tone, {bool dashed = false}) {
       final p = _stroke(tone, 2);
@@ -385,45 +405,48 @@ class _ZeroPainter extends CustomPainter {
       } else {
         canvas.drawLine(Offset(left, y), Offset(right, y), p);
       }
-      final t = _text(label, size: 10.5, color: tone);
-      t.paint(canvas, Offset(left, y - t.height - 4));
+      final t = _text(label, size: 10, color: tone);
+      t.paint(canvas, Offset(left, y - t.height - 5));
     }
 
     level(vacuum, 'A PERFECT VACUUM', AppColors.ink3, dashed: true);
     level(atmos, 'THE AIR AROUND US', AppColors.ink2, dashed: true);
     level(point, 'THE POINT IN THE WATER', AppColors.charcoal);
 
-    // gauge: from the air up
+    // both arrows run up the middle, and each label sits beside its own
+    // arrow in a band where the other one has nothing drawn
+    final gaugeX = size.width * 0.62;
+    final absX = size.width * 0.82;
+
     final gauge = _stroke(AppColors.forest, 2.5);
-    _arrow(canvas, Offset(left + 26, atmos), Offset(left + 26, point), gauge);
+    _arrow(canvas, Offset(gaugeX, atmos), Offset(gaugeX, point), gauge);
     final g = _text(
       'gauge',
       size: 11,
       color: AppColors.forest,
       weight: FontWeight.w700,
     );
-    g.paint(canvas, Offset(left + 34, (atmos + point) / 2 - g.height / 2));
+    g.paint(
+      canvas,
+      Offset(gaugeX - g.width - 9, (atmos + point) / 2 - g.height / 2),
+    );
 
-    // absolute: from the vacuum up
     final abs = _stroke(AppColors.ember, 2.5);
-    _arrow(canvas, Offset(right - 26, vacuum), Offset(right - 26, point), abs);
+    _arrow(canvas, Offset(absX, vacuum), Offset(absX, point), abs);
     final a = _text(
       'absolute',
       size: 11,
       color: AppColors.ember,
       weight: FontWeight.w700,
     );
-    a.paint(
-      canvas,
-      Offset(right - 34 - a.width, (vacuum + point) / 2 - a.height / 2),
-    );
+    a.paint(canvas, Offset(absX + 10, (vacuum + atmos) / 2 - a.height / 2));
 
     final gap = _text(
       '101.3 kPa apart, always',
       size: 10,
       color: AppColors.ink2,
     );
-    gap.paint(canvas, Offset(size.width / 2 - gap.width / 2, vacuum + 8));
+    gap.paint(canvas, Offset(left, vacuum + 10));
   }
 
   @override
@@ -442,7 +465,7 @@ class _BandsPainter extends CustomPainter {
     final a = left + (right - left) * 0.34;
     final b = left + (right - left) * 0.58;
 
-    void band(double x0, double x1, Color tone, String name, String what) {
+    void band(double x0, double x1, Color tone, String name) {
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           Rect.fromLTRB(x0, y - 15, x1, y + 15),
@@ -456,25 +479,14 @@ class _BandsPainter extends CustomPainter {
         color: AppColors.charcoal,
         weight: FontWeight.w700,
       );
-      if (n.width < x1 - x0 - 8) {
+      if (n.width < x1 - x0 - 6) {
         n.paint(canvas, Offset((x0 + x1) / 2 - n.width / 2, y - n.height / 2));
       }
-      final w = _text(what, size: 10, color: AppColors.ink2);
-      w.paint(canvas, Offset((x0 + x1) / 2 - w.width / 2, y + 24));
     }
 
-    band(
-      left,
-      a,
-      AppColors.info.withValues(alpha: 0.45),
-      'LAMINAR',
-      'f is 64/Re',
-    );
-    band(a + 3, b, AppColors.butter, '', 'no place to design');
-    band(b + 3, right, AppColors.peach, 'TURBULENT', 'read the Moody chart');
-
-    final mid = _text('in between', size: 10, color: AppColors.ink2);
-    mid.paint(canvas, Offset((a + b) / 2 - mid.width / 2, y - mid.height / 2));
+    band(left, a, AppColors.info.withValues(alpha: 0.45), 'LAMINAR');
+    band(a + 3, b, AppColors.butter, 'IN BETWEEN');
+    band(b + 3, right, AppColors.peach, 'TURBULENT');
 
     for (final (x, label) in [(a, '2,100'), (b, '10,000')]) {
       canvas.drawLine(
@@ -491,17 +503,23 @@ class _BandsPainter extends CustomPainter {
       t.paint(canvas, Offset(x - t.width / 2, y - 22 - t.height - 3));
     }
 
-    final title = _text(
-      'Re',
-      size: 12,
-      color: AppColors.charcoal,
-      weight: FontWeight.w700,
-    );
-    title.paint(canvas, Offset(left, y + 44));
-    final slow = _text('slow, thick, narrow', size: 10, color: AppColors.ink3);
-    slow.paint(canvas, Offset(left + title.width + 10, y + 45));
-    final fast = _text('fast, thin, wide', size: 10, color: AppColors.ink3);
-    fast.paint(canvas, Offset(right - fast.width, y + 45));
+    final slow = _text('slow, thick, narrow', size: 9.5, color: AppColors.ink3);
+    slow.paint(canvas, Offset(left, y - 62));
+    final fast = _text('fast, thin, wide', size: 9.5, color: AppColors.ink3);
+    fast.paint(canvas, Offset(right - fast.width, y - 62));
+
+    // what each band means, one to a line so nothing can collide
+    final rows = <(String, Color)>[
+      ('under 2,100: the factor is just 64 over Re', AppColors.info),
+      ('in between: no place to design', AppColors.ink2),
+      ('over 10,000: read the Moody chart', AppColors.ember),
+    ];
+    var ry = y + 28;
+    for (final (what, tone) in rows) {
+      final w = _text(what, size: 10.5, color: tone);
+      w.paint(canvas, Offset(left, ry));
+      ry += w.height + 4;
+    }
   }
 
   @override
@@ -668,27 +686,27 @@ class _ThreeFacesPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const faces = <(Face, String, double)>[
-      (Face.through, 'nothing', 0),
-      (Face.plate, 'all of it', 1),
-      (Face.cup, 'twice over', 2),
+    const faces = <(Face, String)>[
+      (Face.through, 'nothing'),
+      (Face.plate, 'all of it'),
+      (Face.cup, 'twice over'),
     ];
-    final cell = size.width / 3;
-    for (final (i, (face, words, share)) in faces.indexed) {
+    final row = size.height / faces.length;
+    for (final (i, (face, words)) in faces.indexed) {
       canvas.save();
-      canvas.translate(cell * i, 0);
+      canvas.translate(0, row * i);
       HitPainter(
         hit: Hit(face: face),
         biggest: 2,
         showPush: true,
-      ).paint(canvas, Size(cell, size.height * 0.74));
+      ).paint(canvas, Size(size.width * 0.70, row));
       final t = _text(
         words,
-        size: 11,
-        color: share == 0 ? AppColors.ink2 : AppColors.ember,
+        size: 12,
+        color: i == 0 ? AppColors.ink2 : AppColors.ember,
         weight: FontWeight.w700,
       );
-      t.paint(canvas, Offset(cell / 2 - t.width / 2, size.height * 0.80));
+      t.paint(canvas, Offset(size.width * 0.745, row / 2 - t.height / 2));
       canvas.restore();
     }
   }

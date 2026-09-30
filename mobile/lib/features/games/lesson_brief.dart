@@ -7424,184 +7424,389 @@ const darcyBrief = BriefSection(
 );
 
 const minorBrief = BriefSection(
-  title: 'Add the pipe and the fittings',
-  body:
-      'The total head loss is the pipe friction PLUS every fitting, and each '
-      'fitting is its own coefficient times the same velocity head, because '
-      'the water is going the same speed through all of them. They are called '
-      'minor losses and frequently are not minor: a globe valve at C = 10 can '
-      'cost more than a hundred meters of the pipe it sits in. Three things '
-      'go wrong with the addition, and they are the three wrong answers on '
-      'the lesson\'s own problem: the fittings quoted alone, the friction '
-      'quoted alone, and a total that has had the friction added to it twice. '
-      'Count the fittings off the drawing one at a time, and label every '
-      'number you write down.',
-  formulas: [
-    ('Each fitting', r'h = C \frac{v^2}{2g}'),
-    ('The total', r'h_{total} = h_f + \Sigma C \frac{v^2}{2g}'),
-    ('One velocity head', r'\text{serves them all}'),
+  title: 'Add the pipe and every fitting on it',
+  picture: minorPicture,
+  steps: [
+    (
+      'The pipe is not the only thing costing head',
+      'Every bend, valve and tee the water has to get through costs some too. '
+          'They are called minor losses, and the name is a lie: one globe valve '
+          'can cost more than a hundred meters of the pipe it sits in.',
+    ),
+    (
+      'Each fitting has its own number',
+      'Look up the fitting, get a coefficient, multiply it by the speed head. '
+          'Every fitting on the run uses the SAME speed head, because the water '
+          'is going the same speed through all of them.',
+    ),
+    (
+      'The total is the pipe plus all of them',
+      'One friction loss for the pipe, one term for each fitting, added up '
+          'once. That total is what the pump has to beat.',
+    ),
+    (
+      'Three ways people get it wrong',
+      'Quoting the fittings and forgetting the pipe. Quoting the pipe and '
+          'forgetting the fittings. Or adding the pipe in twice. Count the '
+          'fittings off the drawing one at a time and label every number.',
+    ),
   ],
-  figure: BriefFigure.minor,
+  spoken: [
+    (
+      'Each fitting',
+      r'h = C \frac{v^2}{2g}',
+      'the fitting\'s own number, times the speed head',
+    ),
+    (
+      'The total',
+      r'h_{total} = h_f + \Sigma C \frac{v^2}{2g}',
+      'the pipe friction, plus every fitting added up',
+    ),
+    (
+      'One speed head',
+      r'\text{serves them all}',
+      'the same water speed runs through every fitting on the line',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 182',
 );
 
 const deflectionBrief = BriefSection(
-  title: 'A jet pushes by being turned',
-  body:
-      'A jet delivers force by having its momentum changed, not by arriving '
-      'somewhere. Run it through a sleeve and it leaves the same way at the '
-      'same speed: nothing changed, no force, whatever the pressure or the '
-      'size of the jet. Stop its motion along the jet with a flat plate and '
-      'you take all of it, which is the rho A v squared in the lesson\'s own '
-      'problem. Turn it right back on itself and you take that twice, which '
-      'is where the wrong answer of 4,500 N comes from: correct for a cup, '
-      'and double for a plate. Speed sits in the sum twice over, once in how '
-      'much water arrives each second and once in what each kilogram '
-      'carries, so twice the speed is four times the push. So is twice the '
-      'bore, for the same reason on the area side.',
-  formulas: [
-    ('A jet turned through an angle', r'F = \rho Q v (1 - \cos\alpha)'),
-    ('Flat plate', r'F = \rho A v^2'),
-    ('Turned right back', r'F = 2\rho A v^2'),
+  title: 'A jet pushes by being turned, not by arriving',
+  picture: deflectionPicture,
+  steps: [
+    (
+      'Running through a sleeve pushes nothing',
+      'The water goes in one way and leaves the same way at the same speed. '
+          'Nothing about its motion changed, so it delivered no push, however '
+          'fast or fat the jet was.',
+    ),
+    (
+      'A flat plate takes all of it',
+      'The plate stops the water going the way it was going. All of that '
+          'motion has to be taken away, so the plate feels the full push.',
+    ),
+    (
+      'A cup takes it TWICE',
+      'The cup does not just stop the water, it sends it back the way it '
+          'came. Stopping it is one lot; throwing it back is another. So a cup '
+          'gets double what a plate gets.',
+    ),
+    (
+      'Speed counts twice over',
+      'Faster water means more kilograms arriving each second AND each one '
+          'carrying more. So twice the speed is four times the push. Twice the '
+          'bore is four times too, for the same reason on the area side.',
+    ),
   ],
-  figure: BriefFigure.deflection,
+  spoken: [
+    (
+      'A jet turned through an angle',
+      r'F = \rho Q v (1 - \cos\alpha)',
+      'how much motion was taken away depends on how far the water was turned',
+    ),
+    ('Flat plate', r'F = \rho A v^2', 'turned ninety degrees: the full push'),
+    (
+      'Turned right back',
+      r'F = 2\rho A v^2',
+      'turned a hundred and eighty degrees: double the push',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 186',
 );
 
 const thrustBrief = BriefSection(
-  title: 'Where a main needs holding',
-  body:
-      'Pressure on its own pushes a straight pipe nowhere. It presses '
-      'outward everywhere at once, and along the line those pushes face each '
-      'other off, which is why a plain joint in a straight length of one '
-      'bore needs nothing holding it at any pressure at all. A net force '
-      'turns up only where the water is made to do something different: '
-      'change direction at a bend, change speed at a reducer, or stop at a '
-      'dead end or a shut valve. Those three get thrust blocks or restrained '
-      'joints. The force is the pressure term plus the momentum term, and '
-      'on a water main the pressure term is usually the far bigger of the '
-      'two, which is why the mistake of leaving it out is so expensive.',
-  formulas: [
-    ('Each direction', r'F = PA + \rho Q v'),
-    ('A straight length', r'\text{the two ends cancel}'),
-    ('What leaves a force', r'\text{turn, change of bore, stop}'),
+  title: 'A main only needs holding where it changes',
+  picture: thrustPicture,
+  steps: [
+    (
+      'Pressure alone pushes a straight pipe nowhere',
+      'It presses outward everywhere at once. Along a straight length those '
+          'pushes face each other off, so a plain joint in a straight run needs '
+          'nothing holding it at any pressure at all.',
+    ),
+    (
+      'A force shows up where the water is made to change',
+      'Turn a corner, change bore, or stop dead. In each of those the water '
+          'has to be pushed into doing something different, and it pushes back on '
+          'the pipe.',
+    ),
+    (
+      'Those three places get held down',
+      'A bend, a reducer, and a dead end or shut valve. They get a block of '
+          'concrete behind them or joints that can pull, so the main stays where '
+          'it was laid.',
+    ),
+    (
+      'The pressure part is usually the bigger part',
+      'There are two pieces: one from the pressure on the face, one from the '
+          'moving water. On a water main the pressure piece is far larger, which '
+          'is why forgetting it is such an expensive mistake.',
+    ),
   ],
-  figure: BriefFigure.thrust,
+  spoken: [
+    (
+      'Each direction',
+      r'F = PA + \rho Q v',
+      'the pressure on the face, plus the motion of the water',
+    ),
+    (
+      'A straight length',
+      r'\text{the two ends cancel}',
+      'equal and opposite, so nothing is left over',
+    ),
+    (
+      'What leaves a force',
+      r'\text{a turn, a change of bore, a stop}',
+      'the three places a main gets shoved',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 186',
 );
 
 const blockBrief = BriefSection(
-  title: 'Which way a bend is shoved',
-  body:
-      'Write the bend as vectors and both halves of the force line up the '
-      'same way: the water arriving still wants to carry on the way it came '
-      'in, and the pressure on the inlet face pushes that way too, while the '
-      'outlet leg pushes back along where the water is going. What is left '
-      'runs along the inlet direction minus the outlet direction, and that '
-      'always lands on the OUTSIDE of the turn, splitting the angle the two '
-      'legs make and heading away from the corner. Never along one leg, '
-      'never into the inside of the elbow. On a square bend the two '
-      'components are equal, and the whole push is one of them times the '
-      'root of two, not twice one of them.',
-  formulas: [
-    ('Which way', r'F \propto \hat{u}_{in} - \hat{u}_{out}'),
-    ('A square bend', r'F_x = F_y = PA + \rho Q v'),
-    ('Put together', r'F_R = F_x\sqrt{2}'),
+  title: 'A bend is shoved to the outside of the turn',
+  picture: blockPicture,
+  steps: [
+    (
+      'Think about running round a corner',
+      'You have to lean in, and you push the ground outward. Water in a bend '
+          'does the same: it wants to keep going the way it came, so it shoves '
+          'the pipe toward the OUTSIDE of the corner.',
+    ),
+    (
+      'Both halves of the force agree',
+      'The water arriving still wants to carry on inward. The pressure on the '
+          'inlet face pushes that way too. Neither of them points into the '
+          'inside of the elbow.',
+    ),
+    (
+      'So the block goes on the outside face',
+      'It splits the angle the two legs make and heads away from the corner. '
+          'Never along one leg, never into the inside of the bend.',
+    ),
+    (
+      'On a square bend, do not just double it',
+      'The two parts are equal but at right angles, so they combine like the '
+          'sides of a square: the total is one of them times about 1.41, not '
+          'twice one of them.',
+    ),
   ],
-  figure: BriefFigure.block,
+  spoken: [
+    (
+      'Which way',
+      r'F \propto \hat{u}_{in} - \hat{u}_{out}',
+      'the way in minus the way out, which always lands on the outside of the turn',
+    ),
+    (
+      'A square bend',
+      r'F_x = F_y = PA + \rho Q v',
+      'the two parts are equal on a ninety degree bend',
+    ),
+    (
+      'Put together',
+      r'F_R = F_x\sqrt{2}',
+      'one part times the square root of two, about 1.41',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 186',
 );
 
 const meteringBrief = BriefSection(
-  title: 'Which opening the meter meters on',
-  body:
-      'A venturi and an orifice plate are the same formula with a different '
-      'coefficient in front, and in both of them every area is the SMALL '
-      'one: the throat or the hole. The upstream pipe appears once, inside '
-      'the ratio underneath, and never on its own. Metering on the pipe '
-      'instead is the biggest single mistake in the lesson, and on a meter '
-      'that halves the bore it makes the answer four times too large. The '
-      'way to find the right opening on a drawing is the pair of pressure '
-      'tappings, not the search for the narrowest thing in sight: a reducer '
-      'or a valve can be narrower than the throat and it is measuring '
-      'nothing, because nobody is reading a difference across it. The jet '
-      'squeezes below the hole just past an orifice plate, and that squeeze '
-      'is already paid for by the coefficient.',
-  formulas: [
-    ('Venturi', r'Q = C_v A_2 \sqrt{\frac{2gh}{1 - (A_2/A_1)^2}}'),
-    ('Orifice', r'Q = C A_0 \sqrt{\frac{2gh}{1 - (A_0/A_1)^2}}'),
-    ('The head', r'h = \frac{P_1 - P_2}{\gamma} + z_1 - z_2'),
+  title: 'A meter measures on its small opening',
+  picture: meteringPicture,
+  steps: [
+    (
+      'Squeeze the pipe and read the pressure drop',
+      'That is all a venturi or an orifice plate is. The squeeze speeds the '
+          'water up, the pressure falls, and how far it falls tells you how much '
+          'water is going past.',
+    ),
+    (
+      'Every area in the formula is the SMALL one',
+      'The throat, or the hole in the plate. The big upstream pipe appears '
+          'once, inside a correction underneath, and never on its own.',
+    ),
+    (
+      'Metering on the pipe is the big mistake',
+      'On a meter that halves the bore, using the pipe instead of the throat '
+          'makes your answer four times too large.',
+    ),
+    (
+      'Find it by the pressure taps, not by eye',
+      'The two taps say what is being measured. A valve or a reducer '
+          'somewhere else may be narrower and is measuring nothing, because '
+          'nobody is reading a difference across it.',
+    ),
   ],
-  figure: BriefFigure.metering,
+  spoken: [
+    (
+      'Venturi',
+      r'Q = C_v A_2 \sqrt{\frac{2gh}{1 - (A_2/A_1)^2}}',
+      'the throat area, times the square root of the head, with a correction for the pipe',
+    ),
+    (
+      'Orifice',
+      r'Q = C A_0 \sqrt{\frac{2gh}{1 - (A_0/A_1)^2}}',
+      'the same shape, with the hole area and its own coefficient',
+    ),
+    (
+      'The head',
+      r'h = \frac{P_1 - P_2}{\gamma} + z_1 - z_2',
+      'the pressure difference written as meters, plus any height difference',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 195',
 );
 
 const coefficientBrief = BriefSection(
-  title: 'Which way a slip pushes the answer',
-  body:
-      'You never get to check a meter reading against the truth, so knowing '
-      'which way each mistake moves the number is the whole defense. Every '
-      'coefficient is below one, because it is there to bring the ideal '
-      'formula down to what a real meter passes, so leaving one out or '
-      'putting in a bigger one sends the answer up. So does anything that '
-      'shrinks the correction underneath, since it sits under the line. '
-      'Losing the 2 in front of g sends it down, though only by three tenths, '
-      'because the loss happens under a square root. Leaving pressure in '
-      'kilopascals sends it down by about thirty times, which is far enough '
-      'to look ridiculous and be caught. And on a level meter the elevation '
-      'terms change nothing at all.',
-  formulas: [
-    ('Every coefficient', r'C < 1'),
-    ('Under the line', r'\text{smaller} \Rightarrow \text{bigger } Q'),
-    ('A level meter', r'z_1 - z_2 = 0'),
+  title: 'Know which way each slip moves the answer',
+  picture: coefficientPicture,
+  steps: [
+    (
+      'You never get to check a meter against the truth',
+      'So the defense is knowing which direction each mistake pushes the '
+          'number. Then a wrong answer looks wrong.',
+    ),
+    (
+      'Every coefficient is less than one',
+      'It is there to bring the perfect formula down to what a real meter '
+          'actually passes. Leave it out, or use one too big, and the flow you '
+          'report goes UP.',
+    ),
+    (
+      'Shrinking the bit underneath also sends it up',
+      'It sits under the line, so making it smaller makes the whole thing '
+          'bigger.',
+    ),
+    (
+      'The two that send it down',
+      'Losing the 2 in front of gravity costs about three tenths, softened '
+          'because it is under a square root. Leaving pressure in kilopascals '
+          'costs about thirty times, which is far enough to spot.',
+    ),
   ],
-  figure: BriefFigure.coefficient,
+  spoken: [
+    (
+      'Every coefficient',
+      r'C < 1',
+      'always under one, because a real meter passes less than the ideal',
+    ),
+    (
+      'Under the line',
+      r'\text{smaller} \Rightarrow \text{bigger } Q',
+      'shrink the bottom of a fraction and the answer grows',
+    ),
+    (
+      'A level meter',
+      r'z_1 - z_2 = 0',
+      'with no height change the elevation terms drop out entirely',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 194',
 );
 
 const similitudeBrief = BriefSection(
-  title: 'Froude or Reynolds',
-  body:
-      'Two flows are alike when the numbers that matter to them are alike, '
-      'and which number matters follows from what is shaping the flow. Look '
-      'for a free water surface. If there is one and the thing being studied '
-      'happens at it, gravity is doing the shaping and the Froude number has '
-      'to match: spillways, weirs, rivers, hulls. If there is no surface in '
-      'it, gravity has nothing to pull against, and what is left is '
-      'viscosity against momentum, which is the Reynolds number: pipe '
-      'fittings, valves, submerged bodies, wind tunnels. At the same scale '
-      'in the same fluid you cannot hold both at once, which is why a river '
-      'model is run on Froude and its Reynolds mismatch is simply accepted, '
-      'with the model made big enough to stay turbulent.',
-  formulas: [
-    ('Gravity', r'Fr = \frac{v}{\sqrt{gl}}'),
-    ('Viscosity', r'Re = \frac{\rho v l}{\mu}'),
-    ('Buckingham Pi', r'k = n - r'),
+  title: 'Look for a water surface',
+  picture: similitudePicture,
+  steps: [
+    (
+      'A model only works if it behaves like the real thing',
+      'You cannot just build it smaller and hope. One particular number has '
+          'to come out the same on the model as on the real thing, and you have '
+          'to pick which number.',
+    ),
+    (
+      'A free water surface means gravity is in charge',
+      'Water running over a spillway, down a river, past a hull. Gravity is '
+          'shaping it, so match the FROUDE number, which compares speed against '
+          'gravity.',
+    ),
+    (
+      'No surface means gravity has nothing to pull against',
+      'A pipe running full, a valve, a submerged pipeline, a wind tunnel. '
+          'What is left is stickiness against motion, so match the REYNOLDS '
+          'number.',
+    ),
+    (
+      'You cannot usually have both',
+      'At the same scale in the same fluid the two ask for different speeds. '
+          'A river model is run on Froude and the Reynolds mismatch is simply '
+          'accepted, with the model built big enough to stay turbulent.',
+    ),
   ],
-  figure: BriefFigure.similitude,
+  spoken: [
+    (
+      'Gravity is shaping it',
+      r'Fr = \frac{v}{\sqrt{gl}}',
+      'Froude: speed against gravity and size',
+    ),
+    (
+      'Stickiness is shaping it',
+      r'Re = \frac{\rho v l}{\mu}',
+      'Reynolds: motion against how sticky the fluid is',
+    ),
+    (
+      'How many groups to match',
+      r'k = n - r',
+      'the count of variables less the count of basic dimensions',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 196',
 );
 
 const scalingBrief = BriefSection(
-  title: 'What the law asks of the model',
-  body:
-      'Once the law is chosen it fixes the model speed, and the two laws '
-      'pull opposite ways. Froude has the speed sitting over the square root '
-      'of the length, so the speed follows the size by its square root: a '
-      'model a twenty fifth the size runs at a fifth the speed. Reynolds has '
-      'the speed multiplying the length, so to hold the product still the '
-      'speed goes the other way by the whole ratio: a model a tenth the size '
-      'must run ten times as fast. Neither law means faster or slower by '
-      'itself, it depends which way the size went. And the Reynolds demand '
-      'is often the end of a plan: ten times the speed through a small tank '
-      'may be impossible, which is why those models get built oversized '
-      'instead.',
-  formulas: [
-    ('Froude', r'\frac{v_m}{v_p} = \sqrt{\frac{l_m}{l_p}}'),
-    ('Reynolds, same fluid', r'\frac{v_m}{v_p} = \frac{l_p}{l_m}'),
-    ('At full size', r'\text{both ask the same}'),
+  title: 'The law you picked decides the model speed',
+  picture: scalingPicture,
+  steps: [
+    (
+      'Once you choose the law, the speed is fixed',
+      'You do not get to pick how fast to run the model. Matching the number '
+          'decides it for you, and the two laws pull in opposite directions.',
+    ),
+    (
+      'Froude: a smaller model runs SLOWER',
+      'The speed sits over the square root of the size, so speed follows size '
+          'by its square root. A model a twenty fifth the size runs at a fifth of '
+          'the speed.',
+    ),
+    (
+      'Reynolds: a smaller model runs FASTER',
+      'Here speed multiplies size, so to keep the product the same the speed '
+          'has to go the other way by the whole ratio. A model a tenth the size '
+          'must run ten times as fast.',
+    ),
+    (
+      'Which is often the end of the plan',
+      'Ten times the speed through a small tank may simply be impossible. '
+          'That is why Reynolds models get built oversized instead of shrunk.',
+    ),
   ],
-  figure: BriefFigure.scaling,
+  spoken: [
+    (
+      'Froude',
+      r'\frac{v_m}{v_p} = \sqrt{\frac{l_m}{l_p}}',
+      'the speed ratio is the square root of the size ratio',
+    ),
+    (
+      'Reynolds, same fluid',
+      r'\frac{v_m}{v_p} = \frac{l_p}{l_m}',
+      'the speed ratio is the size ratio turned upside down',
+    ),
+    (
+      'At full size',
+      r'l_m = l_p \Rightarrow v_m = v_p',
+      'with no shrinking, both laws ask for the same speed',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 196',
 );
 
