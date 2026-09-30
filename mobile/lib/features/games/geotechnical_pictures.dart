@@ -10,8 +10,12 @@
 // hides the answer; on a sheet there is no answer to hide, so the drawing
 // shows everything it knows.
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
+import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme.dart';
 import 'bearing_figures.dart';
 import 'compaction_figures.dart';
 import 'consolidation_figures.dart';
@@ -60,16 +64,27 @@ Widget phasePicture() => const ConceptPicture(
   height: 230,
 );
 
-Widget masterPicture() => const ConceptPicture(
-  painter: PhaseDiagramPainter(
-    soil: _sample,
-    over: Phase.water,
-    under: Phase.solids,
-    answered: true,
-  ),
-  caption:
-      'water content is weighed, on the right. Void ratio is measured, on the left',
-  height: 230,
+Widget masterPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: _ScaleAndRulerPainter(),
+      caption:
+          'the same sample, two habits. space is measured with a ruler, '
+          'weight is weighed on a scale, and Gs is the only way across',
+      height: 215,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: PhaseDiagramPainter(
+        soil: _sample,
+        over: Phase.water,
+        under: Phase.solids,
+        answered: true,
+      ),
+      caption: 'water content: the water weighed against the grains weighed',
+      height: 230,
+    ),
+  ],
 );
 
 Widget gammaPicture() => const ConceptPicture(
@@ -380,10 +395,22 @@ Widget footingFixPicture() => _stack(
   height: 210,
 );
 
-Widget allowablePicture() => const ConceptPicture(
-  painter: FootingPainter(footing: _clayFooting, answered: true),
-  caption: 'the pressure this ground FAILS at. Nobody builds to that number',
-  height: 240,
+Widget allowablePicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: _DividePainter(),
+      caption:
+          'the capacity gets divided, never the load. then two pressures are '
+          'compared, and the top bar is not one of them',
+      height: 215,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: FootingPainter(footing: _clayFooting, answered: true),
+      caption: 'where the top bar came from: the pressure this ground fails at',
+      height: 240,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -431,12 +458,27 @@ const _wall = Gravity(
   overturning: 5000,
 );
 
-Widget threeChecksPicture() => _stack(
-  const StabilityPainter(wall: _wall, which: Check.overturning, answered: true),
-  'the push tries to turn the wall about its toe: a contest of moments',
-  const StabilityPainter(wall: _wall, which: Check.sliding, answered: true),
-  'the same push tries to shove it along the base: a contest of forces',
-  height: 215,
+Widget threeChecksPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: _ThreeFailuresPainter(),
+      caption:
+          'three ways the same wall can lose. the faint outline is where it '
+          'started; the blue arrow is the same push every time',
+      height: 215,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: StabilityPainter(
+        wall: _wall,
+        which: Check.overturning,
+        answered: true,
+      ),
+      caption:
+          'the wall itself: the push that tips it, the weight that holds it',
+      height: 215,
+    ),
+  ],
 );
 
 Widget middleThirdPicture() => const ConceptPicture(
@@ -489,11 +531,22 @@ Widget relativeDensityPicture() => const ConceptPicture(
   height: 200,
 );
 
-Widget stabilizerPicture() => const ConceptPicture(
-  painter: StabilizerPainter(ground: _swellingClay, answered: true),
-  caption:
-      'clean gravel at one end, fat clay at the other, and what suits each',
-  height: 210,
+Widget stabilizerPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: _TreatmentPainter(),
+      caption: 'what each one actually does to the ground',
+      height: 200,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: StabilizerPainter(ground: _swellingClay, answered: true),
+      caption:
+          'and which soil each one suits: clean gravel at one end, fat clay '
+          'at the other',
+      height: 210,
+    ),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -567,3 +620,390 @@ const geotechnicalPictures = <String, Widget Function()>{
   'deep': goingDeepPicture,
   'downdrag': downdragPicture,
 };
+
+// ---------------------------------------------------------------------------
+// The painters that exist only for a sheet
+
+TextPainter _text(
+  String s, {
+  double size = 10,
+  Color color = AppColors.ink2,
+  bool bold = false,
+}) {
+  return TextPainter(
+    text: TextSpan(
+      text: s,
+      style: AppTheme.mono(
+        size: size,
+        color: color,
+        weight: bold ? FontWeight.w700 : FontWeight.w500,
+      ),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
+}
+
+Paint _paint(Color c) => Paint()..color = c;
+
+Paint _stroke(Color color, [double width = 2]) => Paint()
+  ..color = color
+  ..style = PaintingStyle.stroke
+  ..strokeWidth = width
+  ..strokeCap = StrokeCap.round
+  ..strokeJoin = StrokeJoin.round;
+
+/// A scale on one side and a ruler on the other, with the bridge between
+/// them. The phase diagram alone cannot say which habit belongs to which
+/// side, and that is the whole of this sheet.
+class _ScaleAndRulerPainter extends CustomPainter {
+  const _ScaleAndRulerPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final mid = size.width / 2;
+    final top = size.height * 0.30;
+    final bottom = size.height * 0.78;
+
+    // the sample: air, water, grains
+    final boxLeft = mid - 34;
+    final boxRight = mid + 34;
+    const parts = [
+      (0.00, 0.22, 'air', AppColors.cream),
+      (0.22, 0.52, 'water', AppColors.info),
+      (0.52, 1.00, 'grains', AppColors.ink2),
+    ];
+    for (final (a, b, name, tone) in parts) {
+      final r = Rect.fromLTRB(
+        boxLeft,
+        top + (bottom - top) * a,
+        boxRight,
+        top + (bottom - top) * b,
+      );
+      canvas
+        ..drawRect(r, _paint(tone.withValues(alpha: name == 'air' ? 1 : 0.45)))
+        ..drawRect(r, _stroke(AppColors.charcoal, 1.2));
+      final t = _text(name, size: 8.5, color: AppColors.charcoal);
+      t.paint(canvas, Offset(mid - t.width / 2, r.center.dy - t.height / 2));
+    }
+
+    // left: a ruler, because volumes are measured
+    final rx = boxLeft - 16;
+    canvas.drawLine(
+      Offset(rx, top),
+      Offset(rx, bottom),
+      _stroke(AppColors.forest, 2),
+    );
+    for (var k = 0; k <= 6; k++) {
+      final y = top + (bottom - top) * k / 6;
+      canvas.drawLine(
+        Offset(rx - (k.isEven ? 7 : 4), y),
+        Offset(rx, y),
+        _stroke(AppColors.forest, 1.4),
+      );
+    }
+    final vol = _text('VOLUME', size: 9, color: AppColors.forest, bold: true);
+    vol.paint(canvas, Offset(rx - vol.width - 6, top - 24));
+    final measured = _text('you MEASURE it', size: 9, color: AppColors.forest);
+    measured.paint(canvas, Offset(4, top - 12));
+
+    // right: a scale pan, because weights are weighed
+    final sx = boxRight + 22;
+    final pan = Rect.fromLTWH(sx - 4, bottom - 18, 46, 10);
+    canvas
+      ..drawRRect(
+        RRect.fromRectAndRadius(pan, const Radius.circular(3)),
+        _paint(AppColors.ember.withValues(alpha: 0.75)),
+      )
+      ..drawLine(
+        Offset(pan.center.dx, pan.top),
+        Offset(pan.center.dx, pan.top - 22),
+        _stroke(AppColors.ember, 2),
+      )
+      ..drawLine(
+        Offset(pan.center.dx - 14, pan.top - 22),
+        Offset(pan.center.dx + 14, pan.top - 22),
+        _stroke(AppColors.ember, 2),
+      );
+    final wt = _text('WEIGHT', size: 9, color: AppColors.ember, bold: true);
+    wt.paint(canvas, Offset(sx, top - 24));
+    final weighed = _text('you WEIGH it', size: 9, color: AppColors.ember);
+    weighed.paint(canvas, Offset(sx, top - 12));
+
+    // the bridge across
+    final y = size.height * 0.90;
+    canvas.drawLine(
+      Offset(rx, y),
+      Offset(sx + 40, y),
+      _stroke(AppColors.charcoal, 1.6),
+    );
+    for (final (x, way) in [(rx, -1.0), (sx + 40, 1.0)]) {
+      final head = Path()
+        ..moveTo(x, y)
+        ..lineTo(x - way * 8, y - 4.5)
+        ..lineTo(x - way * 8, y + 4.5)
+        ..close();
+      canvas.drawPath(head, _paint(AppColors.charcoal));
+    }
+    final bridge = _text(
+      'Gs carries you across',
+      size: 9.5,
+      color: AppColors.charcoal,
+      bold: true,
+    );
+    bridge.paint(canvas, Offset(mid - bridge.width / 2, y - bridge.height - 4));
+  }
+
+  @override
+  bool shouldRepaint(_ScaleAndRulerPainter old) => false;
+}
+
+/// The three ways a wall gives way, drawn as three different failures rather
+/// than one wall relabelled. A ghost shows where it started.
+class _ThreeFailuresPainter extends CustomPainter {
+  const _ThreeFailuresPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final each = size.width / 3;
+
+    void wall(double x0, int mode, String name, String what) {
+      final mid = x0 + each / 2;
+      final base = size.height * 0.68;
+      final w = each * 0.34;
+      final h = size.height * 0.36;
+      final rect = Rect.fromLTWH(mid - w / 2, base - h, w, h);
+
+      // the ground
+      canvas.drawLine(
+        Offset(x0 + 8, base),
+        Offset(x0 + each - 8, base),
+        _stroke(AppColors.charcoal, 1.6),
+      );
+
+      // where it started
+      canvas.drawRect(rect, _stroke(AppColors.ink3.withValues(alpha: 0.5), 1));
+
+      // where it ended up
+      canvas.save();
+      switch (mode) {
+        case 0: // tipped about the toe
+          canvas.translate(rect.left, base);
+          canvas.rotate(-0.30);
+          canvas.translate(-rect.left, -base);
+        case 1: // shoved along the base
+          canvas.translate(-each * 0.13, 0);
+        case 2: // sunk into the ground at the toe
+          canvas.translate(0, 10);
+          canvas.rotate(0.06);
+      }
+      canvas
+        ..drawRect(rect, _paint(AppColors.charcoal.withValues(alpha: 0.8)))
+        ..restore();
+
+      // the push that did it
+      final py = base - h * 0.55;
+      canvas.drawLine(
+        Offset(rect.right + 22, py),
+        Offset(rect.right + 4, py),
+        _stroke(AppColors.info, 2.4),
+      );
+      final head = Path()
+        ..moveTo(rect.right + 3, py)
+        ..lineTo(rect.right + 11, py - 4.5)
+        ..lineTo(rect.right + 11, py + 4.5)
+        ..close();
+      canvas.drawPath(head, _paint(AppColors.info));
+
+      // the toe, which is what it turns about
+      if (mode == 0) {
+        canvas.drawCircle(Offset(rect.left, base), 3, _paint(AppColors.ember));
+      }
+      if (mode == 2) {
+        for (var k = 0; k < 3; k++) {
+          canvas.drawLine(
+            Offset(rect.left + 4 + k * 7, base + 4),
+            Offset(rect.left + 4 + k * 7, base + 12),
+            _stroke(AppColors.error, 1.8),
+          );
+        }
+      }
+
+      final n = _text(name, size: 10.5, color: AppColors.charcoal, bold: true);
+      n.paint(canvas, Offset(mid - n.width / 2, size.height * 0.06));
+      final t = _text(what, size: 8.5, color: AppColors.ink3);
+      t.paint(canvas, Offset(mid - t.width / 2, size.height * 0.84));
+    }
+
+    wall(0, 0, 'it tips', 'moments');
+    wall(each, 1, 'it slides', 'forces');
+    wall(2 * each, 2, 'it sinks', 'pressures');
+
+    for (final x in [each, 2 * each]) {
+      canvas.drawLine(
+        Offset(x, size.height * 0.04),
+        Offset(x, size.height * 0.94),
+        _stroke(AppColors.ink3.withValues(alpha: 0.35), 1),
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_ThreeFailuresPainter old) => false;
+}
+
+/// What each treatment actually does to the ground, rather than a scale of
+/// soil names with one soil standing on it.
+class _TreatmentPainter extends CustomPainter {
+  const _TreatmentPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final each = size.width / 3;
+    final rnd = math.Random(7);
+
+    void panel(double x0, int mode, String name, String does) {
+      final mid = x0 + each / 2;
+      final box = Rect.fromCenter(
+        center: Offset(mid, size.height * 0.46),
+        width: each * 0.66,
+        height: size.height * 0.34,
+      );
+      canvas
+        ..drawRect(box, _paint(AppColors.creamDark))
+        ..drawRect(box, _stroke(AppColors.charcoal, 1.4));
+
+      switch (mode) {
+        case 0: // lime: flaky clay drawn together into crumbs
+          for (var k = 0; k < 7; k++) {
+            final c = Offset(
+              box.left + 10 + rnd.nextDouble() * (box.width - 20),
+              box.top + 8 + rnd.nextDouble() * (box.height - 16),
+            );
+            canvas.drawCircle(
+              c,
+              5,
+              _paint(AppColors.forest.withValues(alpha: 0.6)),
+            );
+          }
+        case 1: // cement: grains with glue between them
+          for (var k = 0; k < 6; k++) {
+            final c = Offset(
+              box.left + 12 + (k % 3) * (box.width - 24) / 2,
+              box.top + 12 + (k ~/ 3) * (box.height - 24),
+            );
+            canvas.drawCircle(
+              c,
+              6,
+              _paint(AppColors.ink2.withValues(alpha: 0.7)),
+            );
+          }
+          canvas.drawRect(
+            box.deflate(8),
+            _stroke(AppColors.ember.withValues(alpha: 0.8), 2.4),
+          );
+        case 2: // drainage: water leaving through the bottom
+          canvas.drawRect(
+            Rect.fromLTRB(box.left, box.top, box.right, box.center.dy),
+            _paint(AppColors.info.withValues(alpha: 0.35)),
+          );
+          for (var k = 0; k < 4; k++) {
+            final x = box.left + 12 + k * (box.width - 24) / 3;
+            canvas.drawLine(
+              Offset(x, box.center.dy),
+              Offset(x, box.bottom + 10),
+              _stroke(AppColors.info, 2),
+            );
+            final head = Path()
+              ..moveTo(x, box.bottom + 12)
+              ..lineTo(x - 4, box.bottom + 4)
+              ..lineTo(x + 4, box.bottom + 4)
+              ..close();
+            canvas.drawPath(head, _paint(AppColors.info));
+          }
+      }
+
+      final n = _text(name, size: 10.5, color: AppColors.charcoal, bold: true);
+      n.paint(canvas, Offset(mid - n.width / 2, size.height * 0.08));
+      final d = _text(does, size: 8.5, color: AppColors.ink3);
+      d.paint(canvas, Offset(mid - d.width / 2, size.height * 0.80));
+    }
+
+    panel(0, 0, 'lime', 'clay clumps');
+    panel(each, 1, 'cement', 'grains glued');
+    panel(2 * each, 2, 'drainage', 'water leaves');
+  }
+
+  @override
+  bool shouldRepaint(_TreatmentPainter old) => false;
+}
+
+/// The dividing itself: the pressure the ground fails at, cut by three, with
+/// what the footing actually puts down beside it.
+class _DividePainter extends CustomPainter {
+  const _DividePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.30;
+    final room = size.width * 0.56;
+    const ultimate = 9000.0;
+    const allow = ultimate / 3;
+    const applied = 2200.0;
+
+    void bar(double y, double value, String name, Color tone, String note) {
+      final w = room * value / ultimate;
+      final r = Rect.fromLTWH(left, y, w, 26);
+      canvas
+        ..drawRect(r, _paint(tone.withValues(alpha: 0.5)))
+        ..drawRect(r, _stroke(AppColors.charcoal, 1.4));
+      final n = _text(name, size: 9.5, color: AppColors.charcoal, bold: true);
+      n.paint(canvas, Offset(size.width * 0.03, y + 1));
+      final v = _text('${value.round()} psf', size: 9, color: tone);
+      v.paint(canvas, Offset(r.right + 6, y + 8));
+      final t = _text(note, size: 8, color: AppColors.ink3);
+      t.paint(canvas, Offset(size.width * 0.03, y + 14));
+    }
+
+    bar(
+      size.height * 0.12,
+      ultimate,
+      'fails at',
+      AppColors.error,
+      'from the formula',
+    );
+    bar(size.height * 0.44, allow, 'allowed', AppColors.forest, 'divided by 3');
+    bar(
+      size.height * 0.74,
+      applied,
+      'you put down',
+      AppColors.info,
+      'load over area',
+    );
+
+    // the division, drawn as the cut
+    final cutX = left + room / 3;
+    canvas.drawLine(
+      Offset(cutX, size.height * 0.10),
+      Offset(cutX, size.height * 0.44),
+      _stroke(AppColors.charcoal, 1.6),
+    );
+    final by3 = _text(
+      'divide by 3',
+      size: 9,
+      color: AppColors.charcoal,
+      bold: true,
+    );
+    by3.paint(canvas, Offset(cutX + 6, size.height * 0.28));
+
+    // the comparison that matters
+    final ok = _text(
+      'compare these two, and only these two',
+      size: 9,
+      color: AppColors.charcoal,
+    );
+    ok.paint(canvas, Offset(size.width * 0.03, size.height - ok.height - 4));
+  }
+
+  @override
+  bool shouldRepaint(_DividePainter old) => false;
+}
