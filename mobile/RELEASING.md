@@ -155,3 +155,4 @@ ever gains another capability, delete and recreate the profile the same way.
 | 863   | The mastery row and page say "Total concept mastery", the website's name for the same number |
 | 874   | The phone rebuilds its map from the account read (GET /api/account/state), the same derived state the website reads; the whole log stays as the fallback |
 | 880   | Games no longer count toward mastery: the tile says "games N of M cleared" beside the number, the mastery page says games here do not count, and the hand-off tile says every game cleared, the ideas are covered, mastery is earned at the desk |
+| 882   | Mechanics of Materials concept sheets read picture first: the game's drawing, three or four short steps for a reader new to the words, each rule read out in words. The first chapter written this way |
