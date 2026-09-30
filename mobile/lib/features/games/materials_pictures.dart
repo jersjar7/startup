@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'aggregate_figures.dart';
+import 'asphalt_figures.dart';
+import 'concrete_figures.dart';
 import 'coupon_figures.dart';
 import 'crack_figures.dart';
 import 'curve_figures.dart';
@@ -201,6 +204,113 @@ Widget tieLinePicture() => const ConceptPicture(
 );
 
 // ---------------------------------------------------------------------------
+// Concrete: the mix, and what exposure costs
+
+Widget mixPicture() => const ConceptPicture(
+  painter: MixPainter(marks: [Mix(wc: 0.40), Mix(wc: 0.80)], showMarks: true),
+  caption:
+      'strength against water over cement. the same materials, wetter, land '
+      'far down the slope',
+  height: 210,
+);
+
+Widget exposurePicture() => const ConceptPicture(
+  painter: MixPainter(
+    marks: [Mix(wc: 0.45), Mix(wc: 0.45, air: 6)],
+    showMarks: true,
+  ),
+  caption:
+      'the same ratio, with and without entrained air. the lower curve is '
+      'the price the air charges',
+  height: 210,
+);
+
+// ---------------------------------------------------------------------------
+// Curing
+
+Widget curingPicture() => const ConceptPicture(
+  painter: _PercentPainter(),
+  caption:
+      'the same slab at seven days and at twenty eight. going left you '
+      'multiply, coming back you divide',
+  height: 200,
+);
+
+Widget fieldPicture() => const ConceptPicture(
+  painter: PourPainter(
+    pours: [
+      Pour(name: 'Mix A', lab: 5400, factor: 0.92, curing: '14 days moist'),
+      Pour(name: 'Mix B', lab: 4600, factor: 0.85, curing: '7 days moist'),
+    ],
+    needs: 4500,
+    answer: [true, false],
+    locked: true,
+  ),
+  caption:
+      'what the lab cylinders reached, and what the curing leaves in the '
+      'slab. the line is what the job needs',
+  height: 210,
+);
+
+// ---------------------------------------------------------------------------
+// Aggregate
+
+Widget weighingPicture() => const ConceptPicture(
+  painter: SamplePainter(
+    sample: Sample(dry: 480, ssd: 500, submerged: 300),
+    answer: Weighing.submerged,
+    locked: true,
+  ),
+  caption:
+      'one stone, weighed three ways: dry, soaked and wiped, and hanging in '
+      'water. every number on the page comes from these',
+  height: 210,
+);
+
+Widget gradingPicture() => const ConceptPair(
+  left: GradingPainter(
+    gradings: [
+      Grading(name: 'coarse', passing: [96, 78, 58, 38, 20, 8, 2]),
+    ],
+  ),
+  right: GradingPainter(
+    gradings: [
+      Grading(name: 'fine', passing: [100, 100, 95, 82, 58, 25, 8]),
+    ],
+  ),
+  leftCaption: 'a coarse sand: less gets through each sieve',
+  rightCaption: 'a fine sand: most of it goes through. its modulus is smaller',
+  height: 200,
+);
+
+// ---------------------------------------------------------------------------
+// Asphalt
+
+Widget voidsPicture() => const ConceptPicture(
+  painter: PuckPainter(
+    puck: Puck(air: 4, binder: 11),
+    answer: Piece2.vma,
+    locked: true,
+  ),
+  caption:
+      'a compacted specimen by volume: stone, then binder, then air. the '
+      'bracket is the space between the stones',
+  height: 220,
+);
+
+Widget checkPicture() => const ConceptPicture(
+  painter: PuckPainter(
+    puck: Puck(air: 4, binder: 11),
+    answer: Piece2.air,
+    locked: true,
+  ),
+  caption:
+      'the air is the thin band marked at the top. the bracket beside it is '
+      'the air AND the binder, so it can only ever be bigger',
+  height: 220,
+);
+
+// ---------------------------------------------------------------------------
 // Painters that exist only for a sheet
 
 TextPainter _label(String s, {double size = 11, Color color = AppColors.ink2}) {
@@ -235,6 +345,85 @@ void _arrow(Canvas canvas, Offset from, Offset to, Paint paint) {
   canvas.drawPath(head, Paint()..color = paint.color);
 }
 
+/// The same concrete at seven days and at twenty eight, as two bars, with
+/// the multiply and the divide drawn as the two directions between them.
+class _PercentPainter extends CustomPainter {
+  const _PercentPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final base = size.height * 0.74;
+    final top = size.height * 0.18;
+    final tall = base - top;
+    final wide = size.width * 0.2;
+    final leftX = size.width * 0.2;
+    final rightX = size.width * 0.62;
+
+    void bar(double x, double share, String head, String foot, Color fill) {
+      final box = Rect.fromLTWH(x, base - tall * share, wide, tall * share);
+      canvas
+        ..drawRect(box, Paint()..color = fill)
+        ..drawRect(box, _stroke(AppColors.charcoal, 1.6));
+      final h = _label(head, size: 12, color: AppColors.charcoal);
+      h.paint(
+        canvas,
+        Offset(x + wide / 2 - h.width / 2, box.top - h.height - 6),
+      );
+      final f = _label(foot, color: AppColors.ink2);
+      f.paint(canvas, Offset(x + wide / 2 - f.width / 2, base + 8));
+    }
+
+    bar(
+      leftX,
+      0.70,
+      '70%',
+      'at 7 days',
+      AppColors.sunbeam.withValues(alpha: 0.4),
+    );
+    bar(
+      rightX,
+      1.0,
+      '100%',
+      'at 28 days',
+      AppColors.forest.withValues(alpha: 0.3),
+    );
+
+    // The two directions: toward the smaller number you multiply, back to the
+    // bigger one you divide.
+    final midY = top + tall * 0.22;
+    _arrow(
+      canvas,
+      Offset(rightX - 6, midY),
+      Offset(leftX + wide + 6, midY),
+      _stroke(AppColors.ember, 2.4),
+    );
+    final down = _label('x 0.70', size: 12, color: AppColors.ember);
+    down.paint(
+      canvas,
+      Offset(
+        (leftX + wide + rightX) / 2 - down.width / 2,
+        midY - down.height - 6,
+      ),
+    );
+
+    final backY = base - tall * 0.16;
+    _arrow(
+      canvas,
+      Offset(leftX + wide + 6, backY),
+      Offset(rightX - 6, backY),
+      _stroke(AppColors.charcoal, 2.4),
+    );
+    final up = _label('divide by 0.70', size: 12, color: AppColors.charcoal);
+    up.paint(
+      canvas,
+      Offset((leftX + wide + rightX) / 2 - up.width / 2, backY + 6),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_PercentPainter old) => false;
+}
+
 /// Every picture on this chapter's sheets, by the contact sheet's card name.
 const materialsPictures = <String, Widget Function()>{
   'underneath': underneathPicture,
@@ -245,4 +434,12 @@ const materialsPictures = <String, Widget Function()>{
   'expand': expandPicture,
   'furnace': furnacePicture,
   'tie-line': tieLinePicture,
+  'mix': mixPicture,
+  'exposure': exposurePicture,
+  'curing': curingPicture,
+  'field': fieldPicture,
+  'weighing': weighingPicture,
+  'grading': gradingPicture,
+  'voids': voidsPicture,
+  'check': checkPicture,
 };

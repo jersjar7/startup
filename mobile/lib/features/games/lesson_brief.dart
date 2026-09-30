@@ -6290,173 +6290,404 @@ const tieLineBrief = BriefSection(
 );
 
 const mixBrief = BriefSection(
-  title: 'Water over cement',
-  body:
-      'One ratio runs this page: the weight of the water divided by the '
-      'weight of the CEMENT. Not the total batch, not the aggregate, and not '
-      'the other way up. Lower is stronger, which is the direction people get '
-      'backwards because more water feels like it ought to help. It does help '
-      'the concrete flow, and that is the trap: about 0.40 reaches something '
-      'near 6,500 psi, and by 0.80 there is only about 2,000 left. So you get '
-      'a smaller ratio by adding cement or by taking water out, and when the '
-      'only problem is that the mix will not pour, the answer is a water '
-      'reducer rather than a hose.',
-  formulas: [
-    ('The ratio', r'W/C = \frac{\text{water}}{\text{cement}}'),
-    ('Low ratio', r'0.40 \approx 6{,}500\ \text{psi}'),
-    ('High ratio', r'0.80 \approx 2{,}000\ \text{psi}'),
+  title: 'Water over cement, and lower is stronger',
+  picture: mixPicture,
+  steps: [
+    (
+      'One ratio runs the whole page',
+      'Weigh the water. Weigh the CEMENT. Divide the first by the second. '
+          'Not the whole batch, not the sand and stone, and not the other way '
+          'up.',
+    ),
+    (
+      'More water is weaker, which surprises people',
+      'Extra water makes the mix easier to pour, so it feels helpful. It is '
+          'not. It leaves tiny channels behind when it dries. Around 0.40 the '
+          'concrete reaches about 6,500 psi; by 0.80 only about 2,000 is left.',
+    ),
+    (
+      'Two ways to get the ratio down',
+      'Add cement, or take water out. Both make the bottom bigger or the top '
+          'smaller, and both land you further up the curve.',
+    ),
+    (
+      'When the only problem is pouring',
+      'If the mix is strong enough but will not flow, the answer is a water '
+          'reducer, not a hose. It buys the workability without moving you down '
+          'the slope.',
+    ),
   ],
-  figure: BriefFigure.mix,
+  spoken: [
+    (
+      'The ratio',
+      r'W/C = \frac{\text{water}}{\text{cement}}',
+      'the weight of water, over the weight of cement',
+    ),
+    (
+      'Low ratio',
+      r'0.40 \approx 6{,}500\ \text{psi}',
+      'a dry, stiff mix reaches a high strength',
+    ),
+    (
+      'High ratio',
+      r'0.80 \approx 2{,}000\ \text{psi}',
+      'a sloppy mix is worth about a third as much',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
 const exposureBrief = BriefSection(
-  title: 'Strength and exposure are two questions',
-  body:
-      'Choosing a mix means answering two things that have nothing to do with '
-      'each other. How strong must it be, which sets the water-cement ratio '
-      'off the curve. And will this piece of concrete freeze while it is wet, '
-      'which decides whether air is entrained, usually four to seven percent. '
-      'Air is not a free upgrade: it buys freeze and thaw durability and it '
-      'costs roughly a fifth of the strength, so a job that needs both has to '
-      'start from a lower ratio to pay for it. Note that the question is '
-      'whether THIS concrete freezes, not whether the city is cold: a garage '
-      'deck and the footing buried under it get different mixes.',
-  formulas: [
-    ('Strength sets', r'W/C'),
-    ('Exposure sets', r'\text{air, } 4\text{ to }7\%'),
-    ('Air costs', r'\approx 20\%\ \text{of the strength}'),
+  title: 'Strength and exposure are two separate questions',
+  picture: exposurePicture,
+  steps: [
+    (
+      'Question one: how strong',
+      'How much load will this concrete carry? That sets the water to cement '
+          'ratio straight off the curve, and nothing else.',
+    ),
+    (
+      'Question two: will it freeze while wet',
+      'Water trapped in concrete expands when it freezes and breaks the '
+          'concrete apart from inside. Tiny bubbles of air deliberately mixed in '
+          'give that water somewhere to go. Four to seven percent is usual.',
+    ),
+    (
+      'Air is not free',
+      'Those bubbles are holes, and holes are not concrete. Entrained air '
+          'costs roughly a fifth of the strength. A job needing both has to '
+          'start from a LOWER ratio to pay for it.',
+    ),
+    (
+      'It is this concrete, not this city',
+      'The question is whether this particular piece freezes while wet. A '
+          'garage deck out in the weather and the footing buried warm beneath it '
+          'get different mixes in the same town.',
+    ),
   ],
-  figure: BriefFigure.exposure,
+  spoken: [
+    (
+      'Strength sets',
+      r'W/C',
+      'how strong it must be decides the water to cement ratio',
+    ),
+    (
+      'Exposure sets',
+      r'\text{air, } 4\text{ to }7\%',
+      'whether it freezes while wet decides how much air goes in',
+    ),
+    (
+      'Air costs',
+      r'\approx 20\%\ \text{of the strength}',
+      'about a fifth of the strength, paid for with a lower ratio',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
 const curingBrief = BriefSection(
   title: 'Which way the percentage goes',
-  body:
-      'All of this page is one percentage applied to one strength, and every '
-      'wrong answer in it is that percentage applied the wrong way round. Two '
-      'habits fix it. First, decide before you touch the number whether the '
-      'answer should come out BIGGER or smaller: going toward the smaller '
-      'figure multiplies, coming back to the bigger one divides. Second, use '
-      'the share you were given and not what is left over: ninety percent '
-      'means multiply by 0.90, never by 0.10. The numbers worth carrying are '
-      'that seven day strength runs near seventy percent of the twenty eight '
-      'day figure, and that concrete allowed to dry early may keep only '
-      'fifty five to sixty five percent of what it could have had.',
-  formulas: [
-    ('Seven days', r'f_{c,7} \approx 0.70\, f_{c,28}'),
-    ('So the later one', r'f_{c,28} = \frac{f_{c,7}}{0.70}'),
-    ('Dried out early', r'0.55 \text{ to } 0.65 \text{ of the best}'),
+  picture: curingPicture,
+  steps: [
+    (
+      'Concrete keeps getting stronger',
+      'It does not set and stop. It carries on hardening for weeks, as long '
+          'as it stays damp. Seven day strength runs near seventy percent of the '
+          'twenty eight day figure.',
+    ),
+    (
+      'Decide the direction before you touch the number',
+      'Ask yourself first: should my answer come out BIGGER or smaller? '
+          'Going toward the smaller figure you multiply. Coming back to the '
+          'bigger one you divide. Every wrong answer on this page is that '
+          'choice made backwards.',
+    ),
+    (
+      'Use the share you were given',
+      'Ninety percent means multiply by 0.90, never by 0.10. The leftover is '
+          'not the answer to anything here.',
+    ),
+    (
+      'And drying early is expensive',
+      'Concrete let dry too soon simply stops gaining. It may keep only '
+          'fifty five to sixty five percent of what it could have had, and it '
+          'never catches up.',
+    ),
   ],
-  figure: BriefFigure.curing,
+  spoken: [
+    (
+      'Seven days',
+      r'f_{c,7} \approx 0.70\, f_{c,28}',
+      'the seven day strength is about seventy percent of the later one',
+    ),
+    (
+      'So the later one',
+      r'f_{c,28} = \frac{f_{c,7}}{0.70}',
+      'going back up to the bigger figure, you divide',
+    ),
+    (
+      'Dried out early',
+      r'0.55 \text{ to } 0.65 \text{ of the best}',
+      'barely more than half of what proper curing would have given',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
 const fieldBrief = BriefSection(
   title: 'The cylinder is not the slab',
-  body:
-      'A test cylinder is cured in a laboratory under water. The structure it '
-      'came from is cured by whoever is on site that week, and the difference '
-      'is worth more than most changes to the mix. So the lab break is never '
-      'the number to hold against the specification: take the curing off '
-      'first, and compare what is LEFT. A pour kept wet for a fortnight might '
-      'keep ninety five percent of its cylinder strength, while one stripped '
-      'at three days into hot wind keeps around sixty. That gap is bigger '
-      'than the gap between a good mix and a mediocre one, which is why '
-      'curing is the cheapest strength on the job and the first thing a tight '
-      'schedule gives away.',
-  formulas: [
-    ('What the slab gets', r'f_{c,\text{field}} = k \, f_{c,\text{lab}}'),
-    ('Cured properly', r'k \approx 0.92 \text{ to } 0.95'),
-    ('Dried out early', r'k \approx 0.60'),
+  picture: fieldPicture,
+  steps: [
+    (
+      'Two pieces of the same concrete',
+      'A test cylinder goes to a laboratory and sits under water at a steady '
+          'temperature. The slab it came from is left to whoever is on site that '
+          'week, in whatever weather turns up.',
+    ),
+    (
+      'So the lab number is not the slab number',
+      'The break test tells you what the mix COULD do. Take the curing off '
+          'first, then compare what is left against the specification. Holding '
+          'the raw lab figure against the spec quietly skips the hardest part '
+          'of the job.',
+    ),
+    (
+      'The gap is bigger than you would guess',
+      'A pour kept wet for a fortnight might keep ninety five percent of its '
+          'cylinder strength. One stripped at three days into hot wind keeps '
+          'around sixty.',
+    ),
+    (
+      'Which is why curing is the cheapest strength there is',
+      'That gap is wider than the gap between a good mix and a mediocre one, '
+          'and it costs almost nothing. It is also the first thing a tight '
+          'schedule gives away.',
+    ),
   ],
-  figure: BriefFigure.field,
+  spoken: [
+    (
+      'What the slab gets',
+      r'f_{c,\text{field}} = k \, f_{c,\text{lab}}',
+      'the lab strength, times whatever the curing left',
+    ),
+    (
+      'Cured properly',
+      r'k \approx 0.92 \text{ to } 0.95',
+      'kept wet for a fortnight, it keeps almost all of it',
+    ),
+    (
+      'Dried out early',
+      r'k \approx 0.60',
+      'stripped early into hot wind, it keeps about three fifths',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 125',
 );
 
 const weighingBrief = BriefSection(
-  title: 'Three weighings, four numbers',
-  body:
-      'An aggregate sample gets weighed three ways: oven dry with the pores '
-      'empty (A), saturated with the surface wiped dry (B), and hanging in '
-      'water (C). Everything on this page is built from those three, and the '
-      'differences matter. B minus C is the water the WHOLE particle pushed '
-      'aside, pores included, which is what makes a specific gravity bulk. A '
-      'minus C leaves the water-filled pores out of the volume, which makes '
-      'it apparent, and apparent always comes out the largest of the three. '
-      'Absorption is the water the pores hold divided by the DRY mass: over '
-      'the saturated weight instead is the slip the lesson names.',
-  formulas: [
-    ('Bulk, oven dry', r'G_{sb} = \frac{A}{B - C}'),
-    ('Bulk, saturated', r'G_{ssd} = \frac{B}{B - C}'),
-    ('Apparent', r'G_{sa} = \frac{A}{A - C}'),
-    ('Absorption', r'\frac{B - A}{A} \times 100'),
+  title: 'Three weighings, and what each one leaves out',
+  picture: weighingPicture,
+  steps: [
+    (
+      'A stone has holes in it',
+      'Aggregate is not solid through. It has pores, and they can be empty '
+          'or full of water. That is why one stone gets weighed three different '
+          'ways.',
+    ),
+    (
+      'The three weighings',
+      'Oven dry, with the pores empty: A. Soaked and then wiped, so the '
+          'pores are full but the outside is dry: B. And hanging in water: C. '
+          'Every number on the page is built from those three.',
+    ),
+    (
+      'Subtracting picks which volume you mean',
+      'B minus C is the water the WHOLE stone pushed aside, pores included, '
+          'which is the bulk volume. A minus C leaves the water-filled pores out '
+          'of the volume, which is the apparent one. A smaller volume means a '
+          'bigger answer, so apparent is always the largest of the three.',
+    ),
+    (
+      'Absorption divides by the dry weight',
+      'It is the water the pores hold as a share of the DRY stone. Dividing '
+          'by the soaked weight instead is the slip this lesson names.',
+    ),
   ],
-  figure: BriefFigure.weighing,
+  spoken: [
+    (
+      'Bulk, oven dry',
+      r'G_{sb} = \frac{A}{B - C}',
+      'the dry weight, over the whole stone volume',
+    ),
+    (
+      'Bulk, saturated',
+      r'G_{ssd} = \frac{B}{B - C}',
+      'the soaked weight, over the same whole volume',
+    ),
+    (
+      'Apparent',
+      r'G_{sa} = \frac{A}{A - C}',
+      'the dry weight, over the volume with the water-filled pores left out',
+    ),
+    (
+      'Absorption',
+      r'\frac{B - A}{A} \times 100',
+      'the water the pores hold, as a percent of the dry weight',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
 const gradingBrief = BriefSection(
   title: 'One number for a whole curve',
-  body:
-      'A sieve analysis reports how much of a sand passes each standard '
-      'sieve, and the fineness modulus squeezes that whole curve into one '
-      'number: add up the CUMULATIVE percent retained on the standard sieves '
-      'and divide by a hundred. Retained, not passing, and cumulative, not '
-      'sieve by sieve. A higher modulus means COARSER, which reads backwards '
-      'off the name, and a concrete sand is normally asked to fall between '
-      '2.3 and 3.1. Remember what one number cannot do: two sands with the '
-      'same modulus can have completely different curves, and a gap in the '
-      'sizes leaves voids that have to be filled with paste.',
-  formulas: [
-    ('The modulus', r'FM = \frac{\sum \text{cumulative \% retained}}{100}'),
-    ('A concrete sand', r'2.3 \le FM \le 3.1'),
-    ('Higher means', r'\text{coarser}'),
+  picture: gradingPicture,
+  steps: [
+    (
+      'Sand is sorted by shaking it',
+      'Stack sieves coarsest on top, pour the sand in, shake. Each sieve '
+          'keeps the grains too big to pass. Now you know how much of the sand '
+          'is each size.',
+    ),
+    (
+      'The fineness modulus squeezes that into one number',
+      'Add up the cumulative percent RETAINED on the standard sieves and '
+          'divide by a hundred. Retained, not passing. Cumulative, not sieve by '
+          'sieve.',
+    ),
+    (
+      'Higher means coarser, which reads backwards',
+      'The name says fineness but the number goes UP for a coarser sand, '
+          'because more is being held back. A concrete sand is normally asked to '
+          'land between 2.3 and 3.1.',
+    ),
+    (
+      'What one number cannot tell you',
+      'Two sands with the same modulus can have completely different curves. '
+          'A sand missing one size in the middle leaves gaps that have to be '
+          'filled with expensive paste, and the modulus will not show it.',
+    ),
   ],
-  figure: BriefFigure.grading,
+  spoken: [
+    (
+      'The modulus',
+      r'FM = \frac{\sum \text{cumulative \% retained}}{100}',
+      'add the cumulative retained percentages and divide by a hundred',
+    ),
+    (
+      'A concrete sand',
+      r'2.3 \le FM \le 3.1',
+      'the usual range for sand going into concrete',
+    ),
+    (
+      'Higher means',
+      r'\text{coarser}',
+      'a bigger number is a coarser sand, not a finer one',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 123',
 );
 
 const voidsBrief = BriefSection(
-  title: 'Three bands and a bracket',
-  body:
-      'A compacted asphalt specimen is stone, binder and air, and every '
-      'number on this page is one of those as a share of something else. Air '
-      'voids are the air against the WHOLE specimen, which is what the two '
-      'gravities give you: how far the compacted mix is from the same mix '
-      'with no air in it. VMA is the air and the binder together, all the '
-      'space between the stones however it is filled, and it is what the '
-      'hundred minus the stone volume leaves. VFA is the binder as a share of '
-      'that space, never of the whole mix. Design sits near four percent air, '
-      'with enough VMA to carry a proper film of binder around every stone.',
-  formulas: [
-    ('Air voids', r'V_a = 100\,\frac{G_{mm} - G_{mb}}{G_{mm}}'),
-    ('Space between stones', r'VMA = 100 - \frac{G_{mb} P_s}{G_{sb}}'),
-    ('Filled with asphalt', r'VFA = 100\,\frac{VMA - V_a}{VMA}'),
+  title: 'Three things in the mix, and what each share is of',
+  picture: voidsPicture,
+  steps: [
+    (
+      'A road surface is three things',
+      'Compacted asphalt is stone, the black binder that glues it, and air. '
+          'Every number on this page is one of those three as a share of '
+          'something else. Getting the something else right is the whole skill.',
+    ),
+    (
+      'Air voids: air against the WHOLE specimen',
+      'How far the compacted mix is from the same mix with no air left in '
+          'it. That is what the two gravities give you, one measured with air '
+          'and one without.',
+    ),
+    (
+      'VMA: all the space between the stones',
+      'The air and the binder together, however that space happens to be '
+          'filled. It is what is left once you take the stone volume away from '
+          'a hundred.',
+    ),
+    (
+      'VFA: the binder as a share of THAT space',
+      'Not of the whole mix. Design sits near four percent air, with enough '
+          'room between the stones to carry a proper film of binder around '
+          'every one.',
+    ),
   ],
-  figure: BriefFigure.voids,
+  spoken: [
+    (
+      'Air voids',
+      r'V_a = 100\,\frac{G_{mm} - G_{mb}}{G_{mm}}',
+      'how far the compacted mix falls short of the airless one',
+    ),
+    (
+      'Space between stones',
+      r'VMA = 100 - \frac{G_{mb} P_s}{G_{sb}}',
+      'a hundred, less the share that is stone',
+    ),
+    (
+      'Filled with asphalt',
+      r'VFA = 100\,\frac{VMA - V_a}{VMA}',
+      'the binder as a percent of the space between the stones',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 124',
 );
 
 const checkBrief = BriefSection(
-  title: 'Four checks, no calculator',
-  body:
-      'Asphalt volumetrics are numbers that must agree with each other, and '
-      'four checks catch nearly every slip before the arithmetic does. The '
-      'theoretical maximum gravity is ALWAYS bigger than the bulk one, '
-      'because it is the same materials with the air taken out, so a negative '
-      'air void means the two were swapped. The VMA is always bigger than the '
-      'air voids, since the air is only part of that space. The VFA is a '
-      'share of the VMA and therefore stops at a hundred. And a VMA up near '
-      'eighty is not void space at all: it is the stone volume, the term the '
-      'formula was supposed to subtract.',
-  formulas: [
-    ('Always', r'G_{mm} > G_{mb}'),
-    ('Always', r'VMA > V_a'),
-    ('And', r'VFA \le 100\%'),
+  title: 'Four checks that need no calculator',
+  picture: checkPicture,
+  steps: [
+    (
+      'These numbers have to agree with each other',
+      'Air, binder and stone are shares of the same specimen, so some things '
+          'can never happen. Four quick looks catch nearly every slip before the '
+          'arithmetic does.',
+    ),
+    (
+      'The airless gravity is always the bigger one',
+      'It is the same materials with the air taken out, so it must be '
+          'denser. A negative air void means the two were swapped.',
+    ),
+    (
+      'VMA is always bigger than the air voids',
+      'The air is only part of the space between the stones; the binder is '
+          'the rest. And VFA is a share of VMA, so it can never pass a hundred.',
+    ),
+    (
+      'A VMA near eighty is the stone',
+      'Space between stones is normally around fifteen percent. If yours is '
+          'up near eighty, you have calculated the stone volume, which is the '
+          'term the formula was supposed to subtract.',
+    ),
   ],
-  figure: BriefFigure.check,
+  spoken: [
+    (
+      'Always',
+      r'G_{mm} > G_{mb}',
+      'the airless gravity is bigger than the compacted one',
+    ),
+    (
+      'Always',
+      r'VMA > V_a',
+      'the space between the stones is bigger than the air in it',
+    ),
+    (
+      'And',
+      r'VFA \le 100\%',
+      'a share of that space cannot be more than all of it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 124',
 );
 
