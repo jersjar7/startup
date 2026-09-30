@@ -14,6 +14,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
 import '../shared/widgets/engineering_grid.dart';
 import 'discriminant_gate_game.dart' show Para, ParaPainter;
+import 'calculus_figures.dart';
 import 'grid_figures.dart';
 import 'mechanics_pictures.dart' show ConceptPicture, ConceptPair;
 import 'oblique_figures.dart';
@@ -329,6 +330,112 @@ Widget completeSquarePicture() => const ConceptPicture(
   caption:
       'x squared plus a strip of x. Cut the strip in two and one corner is missing',
   height: 200,
+);
+
+// ---------------------------------------------------------------------------
+// 07 derivatives
+
+Widget whichRulePicture() => const ConceptPicture(
+  painter: _ShapePainter(),
+  caption:
+      'read the shape before you reach for a rule. Two questions settle it',
+  height: 215,
+);
+
+Widget chainRulePicture() => const ConceptPicture(
+  painter: _NestPainter(),
+  caption:
+      'a function wrapped round another one. Peel the outside, then pay for the inside',
+  height: 200,
+);
+
+Widget quotientOrderPicture() => const ConceptPicture(
+  painter: _QuotientPainter(),
+  caption: 'the bottom goes first. Swap the two and every sign comes out wrong',
+  height: 200,
+);
+
+// ---------------------------------------------------------------------------
+// 08 applications of the derivative
+
+const _hump = Poly([0, -3, 0, 1]); // x cubed minus three x
+
+Widget criticalPointPicture() => const ConceptPicture(
+  painter: CurvePainter(
+    poly: _hump,
+    x0: -2.4,
+    x1: 2.4,
+    yLo: -3.2,
+    yHi: 3.2,
+    markerX: -1,
+    showTangent: true,
+  ),
+  caption:
+      'the slope is flat at the top of the hill and flat at the bottom of the valley',
+  height: 215,
+);
+
+Widget concavityPicture() => const ConceptPicture(
+  painter: _BendPainter(),
+  caption:
+      'a smile holds water, a frown spills it. The bend flips where they meet',
+  height: 200,
+);
+
+Widget askedForPicture() => const ConceptPicture(
+  painter: _WhereOrWhatPainter(),
+  caption:
+      'two different answers from one hilltop: where it is, and how high it is',
+  height: 210,
+);
+
+// ---------------------------------------------------------------------------
+// 09 integrals
+
+Widget substitutionPicture() => const ConceptPicture(
+  painter: _MatchPainter(),
+  caption:
+      'substitution needs a matched pair: an inside, and its own derivative sitting there too',
+  height: 200,
+);
+
+Widget byPartsPicture() => const ConceptPicture(
+  painter: _LiatePainter(),
+  caption:
+      'whichever is higher up the list goes in the u slot and gets differentiated',
+  height: 225,
+);
+
+Widget finishingPicture() => const ConceptPair(
+  left: _FamilyPainter(),
+  right: _AreaPainter(),
+  leftCaption: 'no limits: a whole family of curves, so it ends in plus C',
+  rightCaption: 'with limits: one number, and the C cancels itself',
+  height: 180,
+);
+
+// ---------------------------------------------------------------------------
+// 10 limits and l'Hopital
+
+Widget formCheckPicture() => const ConceptPicture(
+  painter: _FormCheckPainter(),
+  caption: 'put the number in first. Only two answers let you use the rule',
+  height: 215,
+);
+
+Widget separatelyPicture() => const ConceptPicture(
+  painter: _SeparatelyPainter(),
+  caption:
+      'top on its own, bottom on its own. Nothing multiplies and nothing is squared',
+  height: 190,
+);
+
+Widget bothSidesPicture() => const ConceptPair(
+  left: _BlowUpPainter(agree: true),
+  right: _BlowUpPainter(agree: false),
+  leftCaption: 'both sides shoot up: the limit is that infinity',
+  rightCaption: 'one up, one down: there is no limit at all',
+  height: 185,
 );
 
 // ---------------------------------------------------------------------------
@@ -937,6 +1044,734 @@ class _CompleteSquarePainter extends CustomPainter {
   bool shouldRepaint(_CompleteSquarePainter old) => false;
 }
 
+/// Two shapes side by side: something multiplied, and something wrapped.
+class _ShapePainter extends CustomPainter {
+  const _ShapePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width / 2;
+    final y = size.height * 0.3;
+
+    // multiplied
+    _box(
+      canvas,
+      Rect.fromCenter(center: Offset(w * 0.28, y), width: 54, height: 38),
+      'x sq',
+      fill: AppColors.info.withValues(alpha: 0.28),
+    );
+    _at(canvas, 'x', Offset(w * 0.5, y), center: true, size: 14);
+    _box(
+      canvas,
+      Rect.fromCenter(center: Offset(w * 0.72, y), width: 54, height: 38),
+      'sin x',
+      fill: AppColors.info.withValues(alpha: 0.28),
+    );
+    _at(
+      canvas,
+      'two things multiplied',
+      Offset(w * 0.5, y + 34),
+      center: true,
+      size: 11,
+    );
+    _at(
+      canvas,
+      'so: product rule',
+      Offset(w * 0.5, y + 50),
+      center: true,
+      size: 11,
+      color: AppColors.ember,
+    );
+
+    // wrapped
+    final cx = w * 1.5;
+    _box(
+      canvas,
+      Rect.fromCenter(center: Offset(cx, y), width: 120, height: 48),
+      '',
+      fill: AppColors.forest.withValues(alpha: 0.2),
+      radius: 14,
+    );
+    _at(canvas, 'sin(', Offset(cx - 44, y), center: true, size: 13);
+    _box(
+      canvas,
+      Rect.fromCenter(center: Offset(cx + 6, y), width: 56, height: 30),
+      '3x + 5',
+      fill: AppColors.spring.withValues(alpha: 0.55),
+      size: 11.5,
+      radius: 8,
+    );
+    _at(canvas, ')', Offset(cx + 46, y), center: true, size: 13);
+    _at(
+      canvas,
+      'something inside something',
+      Offset(cx, y + 38),
+      center: true,
+      size: 11,
+    );
+    _at(
+      canvas,
+      'so: chain rule',
+      Offset(cx, y + 54),
+      center: true,
+      size: 11,
+      color: AppColors.ember,
+    );
+
+    _at(
+      canvas,
+      'both can be true at once, and usually are',
+      Offset(size.width / 2, size.height - 16),
+      center: true,
+      size: 11.5,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_ShapePainter old) => false;
+}
+
+/// Nested boxes: peel the outer function, then multiply by the inner one.
+class _NestPainter extends CustomPainter {
+  const _NestPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final cx = size.width / 2;
+    final y = size.height * 0.3;
+    final outer = Rect.fromCenter(
+      center: Offset(cx, y),
+      width: math.min(230.0, size.width * 0.78),
+      height: 66,
+    );
+    _box(
+      canvas,
+      outer,
+      '',
+      fill: AppColors.forest.withValues(alpha: 0.18),
+      radius: 18,
+    );
+    _at(
+      canvas,
+      'to the power 4',
+      Offset(outer.right - 80, outer.top - 16),
+      size: 11,
+      color: AppColors.forest,
+    );
+    final inner = Rect.fromCenter(
+      center: Offset(cx, y),
+      width: outer.width * 0.56,
+      height: 36,
+    );
+    _box(
+      canvas,
+      inner,
+      '3x + 5',
+      fill: AppColors.spring.withValues(alpha: 0.6),
+      size: 12.5,
+    );
+
+    _arrow(
+      canvas,
+      Offset(inner.left - 10, y + 44),
+      Offset(inner.left - 10, y + 24),
+      _stroke(AppColors.ember, 2.2),
+    );
+    _at(
+      canvas,
+      'the inside has its own',
+      Offset(cx, y + 56),
+      center: true,
+      size: 11,
+    );
+    _at(
+      canvas,
+      'slope, and you pay for it',
+      Offset(cx, y + 72),
+      center: true,
+      size: 11,
+    );
+    _at(
+      canvas,
+      'peel the outside, then multiply by 3',
+      Offset(cx, size.height - 16),
+      center: true,
+      size: 11.5,
+      color: AppColors.ember,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_NestPainter old) => false;
+}
+
+/// The quotient rule the right way round, and the same thing swapped.
+class _QuotientPainter extends CustomPainter {
+  const _QuotientPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    void row(double y, String text, bool right) {
+      final bar = Rect.fromLTWH(size.width * 0.12, y, size.width * 0.62, 2);
+      _at(
+        canvas,
+        text,
+        Offset(size.width * 0.12, y - 22),
+        size: 12.5,
+        color: right ? AppColors.charcoal : AppColors.error,
+      );
+      canvas.drawRect(
+        bar,
+        Paint()..color = AppColors.charcoal.withValues(alpha: 0.5),
+      );
+      _at(
+        canvas,
+        'bottom, squared',
+        Offset(size.width * 0.12, y + 8),
+        size: 11,
+      );
+      if (right) {
+        _tick(canvas, Offset(size.width * 0.86, y - 6));
+      } else {
+        _cross(canvas, Offset(size.width * 0.86, y - 6));
+      }
+    }
+
+    row(size.height * 0.3, 'bottom x d(top)  -  top x d(bottom)', true);
+    row(size.height * 0.68, 'top x d(bottom)  -  bottom x d(top)', false);
+    _at(
+      canvas,
+      'lo d-hi minus hi d-lo, over lo-lo',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 11.5,
+      color: AppColors.ember,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_QuotientPainter old) => false;
+}
+
+/// A smile and a frown, and the point where one becomes the other.
+class _BendPainter extends CustomPainter {
+  const _BendPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.1, right = size.width * 0.9;
+    final mid = size.height * 0.45;
+    final path = Path();
+    for (var i = 0; i <= 80; i++) {
+      final t = -1.0 + 2 * i / 80;
+      final x = left + (right - left) * (i / 80);
+      final y = mid - (t * t * t - 0) * size.height * 0.2;
+      i == 0 ? path.moveTo(x, y) : path.lineTo(x, y);
+    }
+    canvas.drawPath(path, _stroke(AppColors.ember, 3));
+    final flip = Offset((left + right) / 2, mid);
+    canvas.drawCircle(flip, 5, Paint()..color = AppColors.charcoal);
+    canvas.drawLine(
+      Offset(flip.dx, mid - size.height * 0.26),
+      Offset(flip.dx, mid + size.height * 0.26),
+      _stroke(AppColors.charcoal.withValues(alpha: 0.25), 1.5),
+    );
+
+    _at(
+      canvas,
+      'frown: spills',
+      Offset(left + 4, mid - size.height * 0.3),
+      size: 11,
+      color: AppColors.ink2,
+    );
+    _at(
+      canvas,
+      'smile: holds',
+      Offset(right - 76, mid + size.height * 0.28),
+      size: 11,
+      color: AppColors.ink2,
+    );
+    _at(
+      canvas,
+      'the bend flips HERE',
+      Offset(flip.dx + 8, mid - 16),
+      size: 11,
+      color: AppColors.ember,
+    );
+    _at(
+      canvas,
+      'zero is not enough: it must come out the other way',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 11,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_BendPainter old) => false;
+}
+
+/// One hilltop, two possible answers: where it is, and how high it is.
+class _WhereOrWhatPainter extends CustomPainter {
+  const _WhereOrWhatPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.16, right = size.width * 0.9;
+    final base = size.height * 0.76;
+    final peakX = left + (right - left) * 0.42;
+    final peakY = size.height * 0.22;
+
+    canvas.drawLine(
+      Offset(left, base),
+      Offset(right, base),
+      _stroke(AppColors.charcoal.withValues(alpha: 0.35), 1.5),
+    );
+    canvas.drawLine(
+      Offset(left, base),
+      Offset(left, size.height * 0.12),
+      _stroke(AppColors.charcoal.withValues(alpha: 0.35), 1.5),
+    );
+
+    final path = Path()..moveTo(left + 6, base - 6);
+    path.quadraticBezierTo(peakX, peakY - 46, right - 8, base - 18);
+    canvas.drawPath(path, _stroke(AppColors.ember, 3));
+    canvas.drawCircle(
+      Offset(peakX, peakY),
+      5,
+      Paint()..color = AppColors.charcoal,
+    );
+
+    // where
+    canvas.drawLine(
+      Offset(peakX, peakY),
+      Offset(peakX, base),
+      _stroke(AppColors.info, 2)..strokeCap = StrokeCap.butt,
+    );
+    _at(
+      canvas,
+      'where: x = a',
+      Offset(peakX + 8, base - 20),
+      size: 11,
+      color: AppColors.info,
+    );
+    // how much
+    canvas.drawLine(
+      Offset(peakX, peakY),
+      Offset(left, peakY),
+      _stroke(AppColors.forest, 2)..strokeCap = StrokeCap.butt,
+    );
+    _at(
+      canvas,
+      'how high: f(a)',
+      Offset(left + 6, peakY - 18),
+      size: 11,
+      color: AppColors.forest,
+    );
+
+    _at(
+      canvas,
+      'setting the slope to zero gives the FIRST one only',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 11,
+      color: AppColors.ember,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_WhereOrWhatPainter old) => false;
+}
+
+/// The matched pair substitution needs, and a case with no match.
+class _MatchPainter extends CustomPainter {
+  const _MatchPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final y = size.height * 0.3;
+    _at(canvas, 'the integral of', Offset(size.width * 0.08, y - 34), size: 11);
+    _box(
+      canvas,
+      Rect.fromLTWH(size.width * 0.08, y - 18, size.width * 0.34, 38),
+      'cos(x squared)',
+      fill: AppColors.forest.withValues(alpha: 0.2),
+      size: 11.5,
+    );
+    _at(canvas, 'x', Offset(size.width * 0.445, y), center: true, size: 13);
+    _box(
+      canvas,
+      Rect.fromLTWH(size.width * 0.48, y - 18, size.width * 0.2, 38),
+      '2x',
+      fill: AppColors.spring.withValues(alpha: 0.6),
+      size: 12.5,
+    );
+    _tick(canvas, Offset(size.width * 0.73, y));
+    _at(
+      canvas,
+      'a match',
+      Offset(size.width * 0.77, y - 7),
+      size: 11,
+      color: AppColors.forest,
+    );
+
+    final curve = Path()
+      ..moveTo(size.width * 0.3, y + 24)
+      ..quadraticBezierTo(size.width * 0.44, y + 44, size.width * 0.57, y + 24);
+    canvas.drawPath(curve, _stroke(AppColors.ember, 2));
+    _at(
+      canvas,
+      'the inside is x squared, and its slope 2x is here too',
+      Offset(size.width / 2, y + 58),
+      center: true,
+      size: 10.5,
+    );
+
+    final y2 = size.height * 0.78;
+    _box(
+      canvas,
+      Rect.fromLTWH(size.width * 0.08, y2 - 17, size.width * 0.34, 34),
+      'cos(x squared)',
+      fill: AppColors.cream,
+      size: 11.5,
+    );
+    _at(canvas, 'alone', Offset(size.width * 0.45, y2 - 7), size: 11);
+    _cross(canvas, Offset(size.width * 0.58, y2));
+    _at(
+      canvas,
+      'no 2x, no swap',
+      Offset(size.width * 0.62, y2 - 7),
+      size: 10.5,
+      color: AppColors.error,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_MatchPainter old) => false;
+}
+
+/// The LIATE ladder: the higher one goes in the u slot.
+class _LiatePainter extends CustomPainter {
+  const _LiatePainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const rows = [
+      ('L', 'logs'),
+      ('I', 'inverse trig'),
+      ('A', 'algebra, like x'),
+      ('T', 'trig'),
+      ('E', 'e to the x'),
+    ];
+    final h = (size.height - 54) / rows.length;
+    final x = size.width * 0.3;
+    for (final (i, (letter, name)) in rows.indexed) {
+      final y = 14 + i * h;
+      _box(
+        canvas,
+        Rect.fromLTWH(x, y, 30, h - 6),
+        letter,
+        fill: i == 0
+            ? AppColors.spring.withValues(alpha: 0.6)
+            : AppColors.cream,
+        size: 13,
+      );
+      _at(canvas, name, Offset(x + 40, y + (h - 6) / 2 - 7), size: 11.5);
+    }
+    _arrow(
+      canvas,
+      Offset(x - 12, 14 + 4 * h),
+      Offset(x - 12, 18),
+      _stroke(AppColors.ember, 2.2),
+    );
+    _at(
+      canvas,
+      'higher wins',
+      Offset(2, 14 + 2 * h - 7),
+      size: 10.5,
+      color: AppColors.ember,
+    );
+    _at(
+      canvas,
+      'the winner becomes u and gets differentiated',
+      Offset(size.width / 2, size.height - 16),
+      center: true,
+      size: 11,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_LiatePainter old) => false;
+}
+
+/// A family of parallel curves: the plus C.
+class _FamilyPainter extends CustomPainter {
+  const _FamilyPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.12, right = size.width * 0.88;
+    for (var k = -1; k <= 1; k++) {
+      final path = Path();
+      for (var i = 0; i <= 40; i++) {
+        final t = i / 40;
+        final x = left + (right - left) * t;
+        final y =
+            size.height * 0.62 -
+            t * t * size.height * 0.34 +
+            k * size.height * 0.16;
+        i == 0 ? path.moveTo(x, y) : path.lineTo(x, y);
+      }
+      canvas.drawPath(
+        path,
+        _stroke(
+          k == 0 ? AppColors.ember : AppColors.ember.withValues(alpha: 0.4),
+          k == 0 ? 3 : 2,
+        ),
+      );
+    }
+    _at(
+      canvas,
+      'same slope,',
+      Offset(size.width / 2, size.height - 28),
+      center: true,
+      size: 11,
+    );
+    _at(
+      canvas,
+      'different heights',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 11,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_FamilyPainter old) => false;
+}
+
+/// The area under a curve between two limits.
+class _AreaPainter extends CustomPainter {
+  const _AreaPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.14, right = size.width * 0.86;
+    final base = size.height * 0.68;
+    double yAt(double t) => base - (0.35 + 0.5 * t) * size.height * 0.4;
+
+    final a = left + (right - left) * 0.22;
+    final b = left + (right - left) * 0.78;
+    final fill = Path()..moveTo(a, base);
+    for (var i = 0; i <= 30; i++) {
+      final t = i / 30;
+      fill.lineTo(
+        a + (b - a) * t,
+        yAt((a - left) / (right - left) + t * (b - a) / (right - left)),
+      );
+    }
+    fill
+      ..lineTo(b, base)
+      ..close();
+    canvas.drawPath(
+      fill,
+      Paint()..color = AppColors.spring.withValues(alpha: 0.45),
+    );
+
+    final curve = Path();
+    for (var i = 0; i <= 40; i++) {
+      final t = i / 40;
+      final x = left + (right - left) * t;
+      i == 0 ? curve.moveTo(x, yAt(t)) : curve.lineTo(x, yAt(t));
+    }
+    canvas.drawPath(curve, _stroke(AppColors.ember, 3));
+    canvas.drawLine(
+      Offset(left, base),
+      Offset(right, base),
+      _stroke(AppColors.charcoal.withValues(alpha: 0.35), 1.5),
+    );
+    for (final (x, label) in [(a, 'a'), (b, 'b')]) {
+      canvas.drawLine(
+        Offset(x, base),
+        Offset(x, yAt((x - left) / (right - left))),
+        _stroke(AppColors.charcoal.withValues(alpha: 0.4), 1.5),
+      );
+      _at(canvas, label, Offset(x - 3, base + 6), size: 11);
+    }
+    _at(
+      canvas,
+      'top minus bottom',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 11,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_AreaPainter old) => false;
+}
+
+/// The form check: three possible readings, one of which lets the rule run.
+class _FormCheckPainter extends CustomPainter {
+  const _FormCheckPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const rows = [
+      ('0 over 0', 'the rule applies', true),
+      ('big over big', 'the rule applies', true),
+      ('7 over 2', 'you already have it', false),
+      ('7 over 0', 'it blows up, no rule', false),
+    ];
+    final h = (size.height - 46) / rows.length;
+    for (final (i, (form, verdict, ok)) in rows.indexed) {
+      final y = 14 + i * h;
+      _box(
+        canvas,
+        Rect.fromLTWH(size.width * 0.08, y, size.width * 0.3, h - 8),
+        form,
+        fill: ok ? AppColors.spring.withValues(alpha: 0.5) : AppColors.cream,
+        size: 12,
+      );
+      ok
+          ? _tick(canvas, Offset(size.width * 0.44, y + (h - 8) / 2))
+          : _cross(canvas, Offset(size.width * 0.44, y + (h - 8) / 2));
+      _at(
+        canvas,
+        verdict,
+        Offset(size.width * 0.52, y + (h - 8) / 2 - 7),
+        size: 10.5,
+        color: ok ? AppColors.forest : AppColors.ink2,
+      );
+    }
+    _at(
+      canvas,
+      'put the number in, read the form, then decide',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 11,
+      color: AppColors.ember,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_FormCheckPainter old) => false;
+}
+
+/// Two arrows straight down: the top differentiated, the bottom differentiated.
+class _SeparatelyPainter extends CustomPainter {
+  const _SeparatelyPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final cx = size.width * 0.32;
+    final barY = size.height * 0.46;
+    final w = size.width * 0.34;
+
+    _at(canvas, 'sin x', Offset(cx, barY - 26), center: true, size: 13);
+    canvas.drawRect(
+      Rect.fromLTWH(cx - w / 2, barY - 1, w, 2),
+      Paint()..color = AppColors.charcoal.withValues(alpha: 0.6),
+    );
+    _at(canvas, 'x', Offset(cx, barY + 20), center: true, size: 13);
+
+    _arrow(
+      canvas,
+      Offset(cx + w / 2 + 8, barY - 24),
+      Offset(cx + w * 1.1, barY - 24),
+      _stroke(AppColors.forest, 2.2),
+    );
+    _arrow(
+      canvas,
+      Offset(cx + w / 2 + 8, barY + 22),
+      Offset(cx + w * 1.1, barY + 22),
+      _stroke(AppColors.forest, 2.2),
+    );
+
+    final rx = cx + w * 1.5;
+    _at(
+      canvas,
+      'cos x',
+      Offset(rx, barY - 26),
+      center: true,
+      size: 13,
+      color: AppColors.forest,
+    );
+    canvas.drawRect(
+      Rect.fromLTWH(rx - w / 2, barY - 1, w, 2),
+      Paint()..color = AppColors.charcoal.withValues(alpha: 0.6),
+    );
+    _at(
+      canvas,
+      '1',
+      Offset(rx, barY + 20),
+      center: true,
+      size: 13,
+      color: AppColors.forest,
+    );
+
+    _at(
+      canvas,
+      'not the quotient rule: nothing squared',
+      Offset(size.width / 2, size.height - 14),
+      center: true,
+      size: 10.5,
+      color: AppColors.ember,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_SeparatelyPainter old) => false;
+}
+
+/// A curve blowing up at zero: both branches the same way, or opposite ways.
+class _BlowUpPainter extends CustomPainter {
+  const _BlowUpPainter({required this.agree});
+
+  final bool agree;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final cx = size.width / 2;
+    final mid = size.height * 0.5;
+    final top = size.height * 0.12, bottom = size.height * 0.88;
+
+    canvas.drawLine(
+      Offset(size.width * 0.08, mid),
+      Offset(size.width * 0.92, mid),
+      _stroke(AppColors.charcoal.withValues(alpha: 0.3), 1.5),
+    );
+    canvas.drawLine(
+      Offset(cx, top - 4),
+      Offset(cx, bottom + 4),
+      _stroke(AppColors.charcoal.withValues(alpha: 0.3), 1.5),
+    );
+
+    void branch(bool rightSide, bool up) {
+      final path = Path();
+      for (var i = 1; i <= 34; i++) {
+        final t = i / 34;
+        final dx = (size.width * 0.4) * t;
+        final x = rightSide ? cx + dx : cx - dx;
+        final v = 1 / (t * 3.2 + 0.28);
+        final y = up
+            ? mid - v * size.height * 0.3
+            : mid + v * size.height * 0.3;
+        i == 1
+            ? path.moveTo(x, y.clamp(top, bottom))
+            : path.lineTo(x, y.clamp(top, bottom));
+      }
+      canvas.drawPath(path, _stroke(up ? AppColors.ember : AppColors.info, 3));
+    }
+
+    branch(true, true);
+    branch(false, agree);
+  }
+
+  @override
+  bool shouldRepaint(_BlowUpPainter old) => old.agree != agree;
+}
+
 /// Every picture on this chapter's sheets, by the contact sheet's card name.
 const mathematicsPictures = <String, Widget Function()>{
   'perpendicular': perpendicularPicture,
@@ -957,4 +1792,16 @@ const mathematicsPictures = <String, Widget Function()>{
   'circle-form': circleFormPicture,
   'three-forms': readingConicsPicture,
   'completing-the-square': completeSquarePicture,
+  'which-rule': whichRulePicture,
+  'chain-rule': chainRulePicture,
+  'quotient-order': quotientOrderPicture,
+  'critical-points': criticalPointPicture,
+  'concavity': concavityPicture,
+  'where-or-how-much': askedForPicture,
+  'substitution': substitutionPicture,
+  'by-parts': byPartsPicture,
+  'finishing': finishingPicture,
+  'check-the-form': formCheckPicture,
+  'separately': separatelyPicture,
+  'both-sides': bothSidesPicture,
 };

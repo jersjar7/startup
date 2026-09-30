@@ -1244,56 +1244,130 @@ const completeSquareBrief = BriefSection(
 
 const whichRuleBrief = BriefSection(
   title: 'Which rule, and how many',
-  body:
-      'The handbook has the table; what it cannot tell you is which rule the '
-      'shape of your function calls for. Ask two questions. Is anything '
-      'multiplied or divided? That is the product or quotient rule. Is any '
-      'argument something other than plain x? That is the chain rule. Both '
-      'answers can be yes at once, and on this exam they usually are.',
-  formulas: [
-    ('Product', r'\frac{d}{dx}(uv) = u\frac{dv}{dx} + v\frac{du}{dx}'),
+  picture: whichRulePicture,
+  steps: [
+    (
+      'Read the shape, not the letters',
+      'The handbook has every rule in a table. What it cannot do is tell you '
+          'which one YOUR function needs. That comes from looking at how the '
+          'function is put together.',
+    ),
+    (
+      'Question one: is anything multiplied or divided',
+      'Two separate things stuck together with a times or a divide means the '
+          'product rule or the quotient rule.',
+    ),
+    (
+      'Question two: is anything wrapped inside anything',
+      'If what sits inside a sine, a root or a bracket is anything other '
+          'than plain x, there is a chain rule to pay.',
+    ),
+    (
+      'Both answers can be yes',
+      'On this exam they usually are. Answer both questions before you start '
+          'writing.',
+    ),
+  ],
+  spoken: [
+    (
+      'Product',
+      r'\frac{d}{dx}(uv) = u\frac{dv}{dx} + v\frac{du}{dx}',
+      'first times the slope of the second, plus second times the slope of the first',
+    ),
     (
       'Quotient',
       r'\frac{d}{dx}\!\left(\frac{u}{v}\right) = \frac{v\frac{du}{dx} - u\frac{dv}{dx}}{v^2}',
+      'bottom times the slope of the top, minus top times the slope of the bottom, over bottom squared',
     ),
-    ('Chain', r"\frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)"),
+    (
+      'Chain',
+      r"\frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)",
+      'the slope of the outside, times the slope of the inside',
+    ),
   ],
-  figure: BriefFigure.whichRule,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 49',
 );
 
 const chainRuleBrief = BriefSection(
   title: 'The chain rule, and the factor people drop',
-  body:
-      'If the argument is anything other than plain x, differentiating the '
-      'outside is only half the job: the derivative of the inside multiplies '
-      'it, from outside. It never moves into the argument. Almost every '
-      'derivative on this exam is a chain rule in disguise, and the missing '
-      'inner factor is the single most common wrong answer.',
-  formulas: [
-    ('The rule', r"\frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)"),
-    ('So', r'\frac{d}{dx}(3x+5)^4 = 4(3x+5)^3 \cdot 3'),
+  picture: chainRulePicture,
+  steps: [
+    (
+      'A function inside a function',
+      'Look at the picture: a bracket raised to a power, with 3x plus 5 '
+          'living inside it. Two layers, like a box in a box.',
+    ),
+    (
+      'Peel the outside first',
+      'Treat the whole inside as one lump and differentiate the outer layer '
+          'normally. Power 4 becomes 4 times power 3, with the lump untouched.',
+    ),
+    (
+      'Then pay for the inside',
+      'The inside is changing too, three times as fast as x. So multiply by '
+          'that 3. It goes OUTSIDE as a factor and never moves into the bracket.',
+    ),
+    (
+      'It is nearly always there',
+      'Almost every derivative on this exam has an inside. The missing inner '
+          'factor is the most common wrong answer there is.',
+    ),
   ],
-  figure: BriefFigure.chainRule,
+  spoken: [
+    (
+      'The rule',
+      r"\frac{d}{dx}f(g(x)) = f'(g(x)) \cdot g'(x)",
+      'the slope of the outside, times the slope of the inside',
+    ),
+    (
+      'So',
+      r'\frac{d}{dx}(3x+5)^4 = 4(3x+5)^3 \cdot 3',
+      'four brackets cubed, and then times three for the inside',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 49',
 );
 
 const quotientOrderBrief = BriefSection(
   title: 'Lo d-hi minus hi d-lo',
-  body:
-      'The quotient rule is the biggest generator of sign errors on this '
-      'exam, and the order is the whole reason. The BOTTOM function comes '
-      'first, multiplying the derivative of the top. Swap the two terms and '
-      'the answer comes out with the wrong sign throughout. And the '
-      'denominator is squared, which is the other half people drop.',
-  formulas: [
+  picture: quotientOrderPicture,
+  steps: [
+    (
+      'The order is the whole rule',
+      'The BOTTOM function comes first, multiplying the slope of the top. '
+          'Then you take away the top times the slope of the bottom.',
+    ),
+    (
+      'Swap them and every sign flips',
+      'A minus b is not b minus a. Write the two terms the other way round '
+          'and the answer is exactly the negative of the right one, which still '
+          'looks like a real answer.',
+    ),
+    (
+      'The bottom gets squared',
+      'The denominator is the bottom function times itself. Leaving it as '
+          'just the bottom is the other half people drop.',
+    ),
+    (
+      'Say it out loud while you write',
+      'Lo d-hi, minus hi d-lo, over lo-lo. The rhythm keeps the order.',
+    ),
+  ],
+  spoken: [
     (
       'Quotient rule',
       r'\frac{d}{dx}\!\left(\frac{u}{v}\right) = \frac{v\frac{du}{dx} - u\frac{dv}{dx}}{v^2}',
+      'bottom times slope of top, minus top times slope of bottom, over bottom squared',
     ),
-    ('Said out loud', r'\text{lo d-hi} - \text{hi d-lo, over lo-lo}'),
+    (
+      'Said out loud',
+      r'\text{lo d-hi} - \text{hi d-lo, over lo-lo}',
+      'the bottom always goes first',
+    ),
   ],
-  figure: BriefFigure.quotientOrder,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 49',
 );
 
@@ -1301,109 +1375,259 @@ const quotientOrderBrief = BriefSection(
 
 const criticalPointBrief = BriefSection(
   title: 'Flat first, then which way it bends',
-  body:
-      'A curve is at its highest or lowest where its slope is zero, so the '
-      'first move is always the same: differentiate and set it to zero. That '
-      'alone does not tell you which one you found. The second derivative '
-      'does. Negative means the curve frowns, so you are on a hilltop; '
-      'positive means it smiles, so you are in a valley. A curve can have '
-      'both, and on this exam it often does.',
-  formulas: [
-    ("Maximum", r"f'(a) = 0 \;\text{and}\; f''(a) < 0"),
-    ("Minimum", r"f'(a) = 0 \;\text{and}\; f''(a) > 0"),
+  picture: criticalPointPicture,
+  steps: [
+    (
+      'Tops and bottoms are flat',
+      'Walk along a hill. At the very top you are, for an instant, going '
+          'neither up nor down. Same at the bottom of a valley. So the slope is '
+          'zero at both.',
+    ),
+    (
+      'So the first move is always the same',
+      'Differentiate and set that equal to zero. Solving it gives you every '
+          'place the curve levels off.',
+    ),
+    (
+      'Flat alone does not say which',
+      'Zero slope happens at hilltops AND valley bottoms. You have found the '
+          'places, not the kind.',
+    ),
+    (
+      'The second derivative tells you the kind',
+      'Negative means the curve frowns, so you are on a hilltop. Positive '
+          'means it smiles, so you are in a valley. A curve often has both.',
+    ),
   ],
-  figure: BriefFigure.maxMin,
+  spoken: [
+    (
+      'Maximum',
+      r"f'(a) = 0 \;\text{and}\; f''(a) < 0",
+      'flat, and bending downward: a hilltop',
+    ),
+    (
+      'Minimum',
+      r"f'(a) = 0 \;\text{and}\; f''(a) > 0",
+      'flat, and bending upward: a valley',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 46',
 );
 
 const concavityBrief = BriefSection(
   title: 'Smiles, frowns, and the flip',
-  body:
-      'The second derivative is not about the slope, it is about the bend. '
-      'Positive is concave up, a smile; negative is concave down, a frown. An '
-      'inflection point is where the bend changes, and it takes TWO things: '
-      'the second derivative reaches zero AND it comes out the other side '
-      'with the opposite sign. Reaching zero on its own is not enough, and a '
-      'flat spot is not an inflection point.',
-  formulas: [
-    ('Concave up, a smile', r"f''(x) > 0"),
-    ('Concave down, a frown', r"f''(x) < 0"),
-    ('Inflection point', r"f''(a) = 0 \;\text{and}\; f'' \text{ changes sign}"),
+  picture: concavityPicture,
+  steps: [
+    (
+      'Bend is not slope',
+      'A road can be going uphill and still be flattening out. Slope is '
+          'which way you are heading. Bend is whether the road is curving toward '
+          'the sky or toward the ground.',
+    ),
+    (
+      'Smile up, frown down',
+      'The second derivative measures bend. Positive draws a smile, which '
+          'would hold water. Negative draws a frown, which would spill it.',
+    ),
+    (
+      'An inflection point is where it flips',
+      'It is the spot where a frown becomes a smile. Look at the picture: '
+          'the curve is still climbing right through it, so nothing about the '
+          'slope marks it.',
+    ),
+    (
+      'Reaching zero is not enough',
+      'The second derivative must hit zero AND come out the other side with '
+          'the OPPOSITE sign. A flat moment that goes back the way it came is '
+          'not an inflection point.',
+    ),
   ],
-  figure: BriefFigure.bendFlip,
+  spoken: [
+    ('Concave up, a smile', r"f''(x) > 0", 'bending toward the sky'),
+    ('Concave down, a frown', r"f''(x) < 0", 'bending toward the ground'),
+    (
+      'Inflection point',
+      r"f''(a) = 0 \;\text{and}\; f'' \text{ changes sign}",
+      'zero, and coming out the other side the other way',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 46',
 );
 
 const askedForBrief = BriefSection(
-  title: 'Where it happens, or how much',
-  body:
-      'Setting the derivative to zero gives you a LOCATION. Almost half the '
-      'time the question wants the value there instead, which means putting '
-      'that location back into the original function. Both numbers are on '
-      'your page by then and the exam will offer you both. Read the sentence '
-      'again before you pick one.',
-  formulas: [
-    ('Where it happens', r"f'(a) = 0 \Rightarrow a"),
-    ('How much it is there', r'f(a)'),
+  title: 'Where it happens, or how much it is',
+  picture: askedForPicture,
+  steps: [
+    (
+      'A hilltop has two numbers',
+      'How far along it sits, and how high it is. They are different '
+          'numbers and they answer different questions.',
+    ),
+    (
+      'Setting the slope to zero gives the first one',
+      'It hands you the LOCATION and nothing else. That is the along number, '
+          'the x.',
+    ),
+    (
+      'The height needs one more step',
+      'Put that location back into the original function. Only then do you '
+          'have how high, the y.',
+    ),
+    (
+      'The exam offers you both',
+      'Almost half the time the question wants the height, and the location '
+          'is sitting there in the answer choices to catch you. Read the '
+          'sentence again before you pick.',
+    ),
   ],
-  figure: BriefFigure.whereOrHowMuch,
+  spoken: [
+    (
+      'Where it happens',
+      r"f'(a) = 0 \Rightarrow a",
+      'the slope being zero gives the place',
+    ),
+    (
+      'How much it is there',
+      r'f(a)',
+      'put the place back in to get the height',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 46',
 );
 
 // ── Integral Calculus ───────────────────────────────────────────────────────
 
 const substitutionBrief = BriefSection(
-  title: 'Substitution, and what du has to be',
-  body:
-      'Substitution works on one shape and one shape only: something composed '
-      'with something else, multiplied by the derivative of the inside. Call '
-      'the inside u, and the leftover has to BE du, or du off by a constant '
-      'factor. If the derivative of your u is nowhere in the integrand, '
-      'substitution is not the tool and no amount of rearranging will make it '
-      'one.',
-  formulas: [
-    ('The shape it needs', r"\int f(g(x))\,g'(x)\,dx"),
-    ('Let u be the inside', r"u = g(x) \;\Rightarrow\; du = g'(x)\,dx"),
-    ('And it becomes', r'\int f(u)\,du'),
+  title: 'Substitution needs a matched pair',
+  picture: substitutionPicture,
+  steps: [
+    (
+      'It only works on one shape',
+      'Something wrapped inside something else, AND the slope of that inside '
+          'sitting there too, multiplying it. Both halves, or it does not work.',
+    ),
+    (
+      'Name the inside u',
+      'Whatever is wrapped up becomes u. Then du is the slope of that inside '
+          'times dx, which is exactly the leftover you were hoping for.',
+    ),
+    (
+      'A constant off is still fine',
+      'If the leftover is twice du, or half of it, pull the number out front '
+          'and carry on. Only the shape has to match.',
+    ),
+    (
+      'No match, no substitution',
+      'If the slope of your inside is nowhere in the integral, rearranging '
+          'will not conjure it. Pick a different method.',
+    ),
   ],
-  figure: BriefFigure.substitution,
+  spoken: [
+    (
+      'The shape it needs',
+      r"\int f(g(x))\,g'(x)\,dx",
+      'a function of something, times the slope of that something',
+    ),
+    (
+      'Let u be the inside',
+      r"u = g(x) \;\Rightarrow\; du = g'(x)\,dx",
+      'name the inside u, and its slope times dx is du',
+    ),
+    (
+      'And it becomes',
+      r'\int f(u)\,du',
+      'a plain integral in u, with nothing wrapped',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 50',
 );
 
 const byPartsBrief = BriefSection(
   title: 'By parts, and which one is u',
-  body:
-      'By parts trades the integral you have for a different one. It is worth '
-      'doing only when the trade leaves you better off, and what decides that '
-      'is which factor you put in the u slot: u gets differentiated, dv gets '
-      'integrated. LIATE names the order to prefer, Logs then Inverse trig '
-      'then Algebraic then Trig then Exponential, and the reason is that the '
-      'earlier ones get easier when you differentiate them.',
-  formulas: [
-    ('The rule', r'\int u\,dv = uv - \int v\,du'),
+  picture: byPartsPicture,
+  steps: [
+    (
+      'It is a trade, not a solution',
+      'By parts swaps the integral you have for a different one. It is only '
+          'worth doing if the new one is easier than the old one.',
+    ),
+    (
+      'What decides that is your choice of u',
+      'Whatever you call u gets DIFFERENTIATED. Whatever is left gets '
+          'integrated. So put the thing that gets simpler when you '
+          'differentiate it in the u slot.',
+    ),
+    (
+      'LIATE is that list, in order',
+      'Logs, Inverse trig, Algebra, Trig, Exponential. Whichever of your two '
+          'pieces sits higher up the list becomes u.',
+    ),
+    (
+      'Why that order',
+      'A log or a plain x collapses when you differentiate it. A sine or an '
+          'e to the x never gets any simpler, so it goes in the other slot.',
+    ),
+  ],
+  spoken: [
+    (
+      'The rule',
+      r'\int u\,dv = uv - \int v\,du',
+      'u times v, minus the integral of v times du',
+    ),
     (
       'LIATE, best first',
       r'\text{L} \;\;\text{I} \;\;\text{A} \;\;\text{T} \;\;\text{E}',
+      'logs, inverse trig, algebra, trig, exponential',
     ),
   ],
-  figure: BriefFigure.liate,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 50',
 );
 
 const finishingBrief = BriefSection(
   title: 'Finishing an integral',
-  body:
-      'The antiderivative is most of the work and none of the marks. An '
-      'indefinite integral is a family of functions, so it ends in plus C. A '
-      'definite integral is a number: put in the top limit, subtract the '
-      'bottom one, and the constant cancels itself, so plus C has no business '
-      'being there. And if you substituted, the limits belong to the new '
-      'variable.',
-  formulas: [
-    ('Indefinite, a family', r'\int f(x)\,dx = F(x) + C'),
-    ('Definite, a number', r'\int_a^b f(x)\,dx = F(b) - F(a)'),
+  picture: finishingPicture,
+  steps: [
+    (
+      'Without limits you get a family',
+      'Lots of different curves have exactly the same slope everywhere; they '
+          'just sit at different heights. Look at the picture. You cannot tell '
+          'which one, so you write plus C and mean all of them.',
+    ),
+    (
+      'With limits you get one number',
+      'Put in the top limit, then take away the bottom limit. That is an '
+          'area, and it is a single number.',
+    ),
+    (
+      'So plus C has no business there',
+      'Whatever C is, it appears twice and cancels itself in the '
+          'subtraction. Writing it on a definite integral says you have not '
+          'understood what the limits did.',
+    ),
+    (
+      'If you substituted, the limits change too',
+      'The limits belonged to x. After a substitution they belong to u, so '
+          'convert them or change back before you put them in.',
+    ),
   ],
-  figure: BriefFigure.finishing,
+  spoken: [
+    (
+      'Indefinite, a family',
+      r'\int f(x)\,dx = F(x) + C',
+      'every curve with that slope, at any height',
+    ),
+    (
+      'Definite, a number',
+      r'\int_a^b f(x)\,dx = F(b) - F(a)',
+      'the value at the top limit, take away the value at the bottom',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 50',
 );
 
@@ -1411,60 +1635,122 @@ const finishingBrief = BriefSection(
 
 const formCheckBrief = BriefSection(
   title: 'Check the form before you differentiate',
-  body:
-      'The rule is a loop with a test in the middle of it. Put the value in '
-      'first. Zero over zero or infinity over infinity means the rule applies, '
-      'so differentiate the top and the bottom and put the value in again. A '
-      'real number means you already have the answer and the rule would only '
-      'change it. A nonzero number over zero is not indeterminate at all, it '
-      'is a blow up, and the rule has nothing to say about it.',
-  formulas: [
+  picture: formCheckPicture,
+  steps: [
+    (
+      'Put the number in first',
+      'Before anything else, substitute the value the limit is heading to '
+          'and see what comes out. What you see decides everything.',
+    ),
+    (
+      'Zero over zero, or big over big',
+      'These are the two readings that tell you nothing yet. Both pieces are '
+          'racing to the same place and you cannot see who wins. Now the rule '
+          'is allowed.',
+    ),
+    (
+      'A plain number means you are done',
+      'If it comes out as 7 over 2, that IS the limit. Using the rule from '
+          'there changes a right answer into a wrong one.',
+    ),
+    (
+      'A number over zero is a blow up',
+      'That is not undecided, it is unbounded. The rule has nothing to say '
+          'about it.',
+    ),
+  ],
+  spoken: [
     (
       'The rule, when the form allows it',
       r"\lim_{x \to a}\frac{f(x)}{g(x)} = \lim_{x \to a}\frac{f'(x)}{g'(x)}",
+      'replace top and bottom by their slopes and look again',
     ),
-    ('The two forms that allow it', r'\frac{0}{0} \quad \frac{\infty}{\infty}'),
+    (
+      'The two forms that allow it',
+      r'\frac{0}{0} \quad \frac{\infty}{\infty}',
+      'zero over zero, or endless over endless',
+    ),
   ],
-  figure: BriefFigure.formCheck,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 48',
 );
 
 const separatelyBrief = BriefSection(
   title: 'Top and bottom, separately',
-  body:
-      'This is not the quotient rule. The quotient rule is for the derivative '
-      'of a fraction; this is the limit of one, and they are different jobs '
-      'with different answers. Differentiate the numerator on its own, '
-      'differentiate the denominator on its own, and put the two results back '
-      'over each other. Nothing multiplies, nothing gets squared.',
-  formulas: [
-    ('What the rule does', r"\frac{f}{g} \;\Rightarrow\; \frac{f'}{g'}"),
+  picture: separatelyPicture,
+  steps: [
+    (
+      'Two different jobs, two different rules',
+      'The quotient rule finds the slope OF a fraction. This rule finds the '
+          'limit of one. They look alike on the page and they give different '
+          'answers.',
+    ),
+    (
+      'Differentiate each one on its own',
+      'Slope of the top, written on top. Slope of the bottom, written '
+          'underneath. Look at the picture: two separate arrows straight across.',
+    ),
+    (
+      'Nothing multiplies, nothing is squared',
+      'There is no product term and no squared denominator. If either '
+          'appears in your working you have reached for the wrong rule.',
+    ),
+  ],
+  spoken: [
+    (
+      'What the rule does',
+      r"\frac{f}{g} \;\Rightarrow\; \frac{f'}{g'}",
+      'slope of the top over slope of the bottom',
+    ),
     (
       'What the quotient rule does, which is not this',
       r"\frac{f'g - fg'}{g^2}",
+      'the one with a product and a squared bottom',
     ),
   ],
-  figure: BriefFigure.separately,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 48',
 );
 
 const bothSidesBrief = BriefSection(
   title: 'Both sides have to agree',
-  body:
-      'When the top settles on something other than zero and the bottom goes '
-      'to zero, the fraction blows up. Which way it blows up depends on the '
-      'sign of the bottom, and that can be different on the two sides of the '
-      'point. If both sides run the same way the limit is that infinity. If '
-      'they run opposite ways there is no two-sided limit at all, and the '
-      'answer is that it does not exist, not that it is infinite.',
-  formulas: [
-    ('Sides agree', r'\lim_{x \to 0}\frac{1}{x^2} = +\infty'),
+  picture: bothSidesPicture,
+  steps: [
+    (
+      'When the bottom goes to zero',
+      'A number divided by something tiny is enormous. So if the top settles '
+          'on anything other than zero and the bottom vanishes, the fraction '
+          'blows up.',
+    ),
+    (
+      'Which way it blows up depends on the sign',
+      'A tiny positive bottom sends it up. A tiny negative bottom sends it '
+          'down. And the sign can be different on the two sides of the point.',
+    ),
+    (
+      'Both sides up: that is the limit',
+      'Left branch and right branch both shoot to the sky, so the answer is '
+          'plus infinity.',
+    ),
+    (
+      'One up and one down: no limit',
+      'The two sides disagree, so there is no single value to approach. The '
+          'answer is that the limit does not exist, NOT that it is infinite.',
+    ),
+  ],
+  spoken: [
+    (
+      'Sides agree',
+      r'\lim_{x \to 0}\frac{1}{x^2} = +\infty',
+      'both branches go up, so plus infinity',
+    ),
     (
       'Sides disagree',
       r'\lim_{x \to 0}\frac{1}{x} \;\Rightarrow\; \text{does not exist}',
+      'one branch up and one down, so there is no limit',
     ),
   ],
-  figure: BriefFigure.bothSides,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 48',
 );
 
