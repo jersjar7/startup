@@ -5399,124 +5399,254 @@ const slenderBrief = BriefSection(
 );
 
 const missingBrief = BriefSection(
-  title: 'The equation is chosen by what is absent',
-  body:
-      'Straight line motion at a steady acceleration has five quantities: the '
-      'speed you started at, the speed you ended at, how far, how long, and '
-      'the acceleration. Any three of them give you the other two, and each '
-      'equation leaves exactly ONE of the five out. So the question that picks '
-      'the equation is which quantity the problem never mentions and never '
-      'asks for. No seconds anywhere is the commonest, and it points at v '
-      'squared equals v naught squared plus two a s. Two warnings: slowing '
-      'down means the acceleration is negative, and none of these equations '
-      'is allowed unless the acceleration is CONSTANT.',
-  formulas: [
-    ('No distance', r'v = v_0 + at'),
-    ('No time', r'v^2 = v_0^2 + 2a(s - s_0)'),
-    ('No final speed', r's = s_0 + v_0t + \tfrac{1}{2}at^2'),
-    ('No acceleration', r's = s_0 + \tfrac{1}{2}(v_0 + v)t'),
+  title: 'The equation is picked by what is missing',
+  picture: missingPicture,
+  steps: [
+    (
+      'Five things describe a trip',
+      'A car speeding up steadily has five numbers to its name: the speed it '
+          'started at, the speed it ended at, how far it went, how long it took, '
+          'and how hard it was speeding up.',
+    ),
+    (
+      'Any three give you the rest',
+      'That is what the four equations are for. Each one uses four of the '
+          'five numbers and ignores the fifth completely.',
+    ),
+    (
+      'So find the one nobody mentions',
+      'Read the problem and ask which of the five is never given and never '
+          'asked for. Then use the equation that leaves that one out. No seconds '
+          'anywhere is the commonest, and it points at the one without time.',
+    ),
+    (
+      'Two warnings',
+      'Slowing down means the speeding up number is negative. And none of '
+          'these equations is allowed unless the speeding up stays the same the '
+          'whole way.',
+    ),
   ],
-  figure: BriefFigure.missing,
+  spoken: [
+    (
+      'No distance',
+      r'v = v_0 + at',
+      'end speed is start speed plus how hard, times how long',
+    ),
+    (
+      'No time',
+      r'v^2 = v_0^2 + 2a(s - s_0)',
+      'end speed squared is start speed squared plus twice how hard, times the distance',
+    ),
+    (
+      'No end speed',
+      r's = s_0 + v_0t + \tfrac{1}{2}at^2',
+      'distance from the start speed, the time, and how hard',
+    ),
+    (
+      'No acceleration',
+      r's = s_0 + \tfrac{1}{2}(v_0 + v)t',
+      'distance is the average of the two speeds, times the time',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 104',
 );
 
 const flightBrief = BriefSection(
   title: 'Across and up and down never mix',
-  body:
-      'A projectile is two problems side by side. ACROSS there is no force at '
-      'all once it has left, so that speed never changes for the whole flight: '
-      'it is the same at the launch, at the top and at the landing. UP AND '
-      'DOWN gravity pulls the whole time, so that speed runs steadily downhill '
-      'through zero and out the other side, and the instant it passes zero is '
-      'the top of the arc. That is what makes the top solvable: the vertical '
-      'speed there is nothing, and the lesson\'s own problem is exactly that '
-      'step. Two things people say that are wrong: that the ball stops at the '
-      'top, when it is still traveling across, and that its acceleration is '
-      'less there, when gravity is pulling just as hard as it was at the '
-      'start. Split it into the two directions before anything else, and use '
-      'the vertical PIECE of the launch speed, never the whole of it.',
-  formulas: [
-    ('Across', r'v_x = v_0\cos\theta \text{, unchanging}'),
-    ('Up and down', r'v_y = v_0\sin\theta - gt'),
-    ('At the top', r'v_y = 0'),
-    ('Everywhere', r'a = g \text{, downward}'),
+  picture: flightPicture,
+  steps: [
+    (
+      'Throw a ball',
+      'Once it has left your hand nothing pushes it sideways. Gravity is the '
+          'only thing acting, and gravity only pulls down. So what happens across '
+          'and what happens up and down have nothing to do with each other.',
+    ),
+    (
+      'Across never changes',
+      'The sideways speed at the launch is the sideways speed at the top and '
+          'the sideways speed at the landing. It is the same number for the whole '
+          'flight.',
+    ),
+    (
+      'Up and down runs downhill',
+      'The upward speed shrinks steadily, passes through zero, and comes out '
+          'the other side as a downward speed. The instant it is zero is the top '
+          'of the arc, and that is what makes the top solvable.',
+    ),
+    (
+      'Two things people say that are wrong',
+      'The ball does not stop at the top: it is still travelling across. And '
+          'gravity is not weaker up there: it pulls just as hard as it did at the '
+          'start.',
+    ),
   ],
-  figure: BriefFigure.flight,
+  spoken: [
+    (
+      'Across',
+      r'v_x = v_0\cos\theta',
+      'the sideways piece of the launch speed, and it never changes',
+    ),
+    (
+      'Up and down',
+      r'v_y = v_0\sin\theta - gt',
+      'the upward piece, shrinking by gravity as the seconds pass',
+    ),
+    ('At the top', r'v_y = 0', 'the upward speed is nothing'),
+    (
+      'Everywhere',
+      r'a = g',
+      'gravity pulls down the whole time, by the same amount',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 104',
 );
 
 const bendBrief = BriefSection(
   title: 'Two accelerations at right angles',
-  body:
-      'Anything on a curved path is accelerating in two ways at once. ALONG '
-      'the path, the tangential piece, changes how fast it is going and is the '
-      'only one the speedometer knows about. Square to the path, pointing at '
-      'the middle of the bend, the normal piece changes which way it is going, '
-      'and it is v SQUARED over the radius, so speed counts twice over and a '
-      'tighter bend is worse. The one worth holding on to: something going '
-      'round a bend at a perfectly steady speed IS accelerating, because its '
-      'direction is changing, and that is what the tires and the rails have to '
-      'push against. The two sit at right angles, so the total is the two '
-      'combined as the sides of a right triangle and never the two added up.',
-  formulas: [
-    ('Along the path', r'a_t = \dot{v}'),
-    ('Toward the middle', r'a_n = \frac{v^2}{\rho}'),
-    ('Together', r'a = \sqrt{a_t^2 + a_n^2}'),
-    ('Steady speed', r'a_t = 0 \text{, and } a_n \text{ is still there}'),
+  picture: bendPicture,
+  steps: [
+    (
+      'Drive round a bend',
+      'Two things about you can change: how fast you are going, and which way '
+          'you are pointing. Each gets its own arrow, and the two sit square to '
+          'each other.',
+    ),
+    (
+      'The arrow along the road',
+      'This one changes your speed, and it is the only one the speedometer '
+          'knows about. Hold a steady speed and it is nothing at all.',
+    ),
+    (
+      'The arrow toward the middle of the bend',
+      'This one changes your direction. It is the speed times itself, divided '
+          'by how wide the bend is. So twice the speed needs four times as much, '
+          'and a tighter bend is worse.',
+    ),
+    (
+      'Steady speed is still accelerating',
+      'Round a bend at a constant speed the first arrow is gone and the '
+          'second is still there. That is what the tires have to push against, '
+          'and it is why you feel pulled sideways.',
+    ),
   ],
-  figure: BriefFigure.bend,
+  spoken: [
+    (
+      'Along the road',
+      r'a_t = \dot{v}',
+      'how fast the speed itself is changing',
+    ),
+    (
+      'Toward the middle',
+      r'a_n = \frac{v^2}{\rho}',
+      'speed times speed, over how wide the bend is',
+    ),
+    (
+      'Together',
+      r'a = \sqrt{a_t^2 + a_n^2}',
+      'the two combined like the sides of a right triangle, never added up',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 103',
 );
 
 const spinBrief = BriefSection(
-  title: 'One spin, a speed for every radius',
-  body:
-      'A rigid body has ONE angular velocity: every point on it turns through '
-      'the same angle in the same time, which is what being rigid means. It '
-      'does not have one speed. A point\'s speed is r times omega, so it grows '
-      'straight with the distance out from the axis and the rim of a wheel can '
-      'be doing fifty meters a second while a point near the hub strolls. The '
-      'pull toward the middle grows too, as r omega squared. Neither depends '
-      'on where a point sits AROUND the circle, only on how far out it is. And '
-      'the units trap the lesson names: rpm is not omega. Turns a minute times '
-      'two pi over sixty gets you radians a second, and using rpm straight in '
-      'v equals r omega is out by a factor of about ten.',
-  formulas: [
-    ('Speed of a point', r'v = r\omega'),
-    ('Toward the middle', r'a_n = r\omega^2 = \frac{v^2}{r}'),
-    ('Along the path', r'a_t = r\alpha'),
-    ('From rpm', r'\omega = \text{rpm}\times\frac{2\pi}{60}'),
+  title: 'One spin rate, a different speed at every radius',
+  picture: spinPicture,
+  steps: [
+    (
+      'Everything turns together',
+      'A wheel is rigid, so every dot on it sweeps through the same angle in '
+          'the same time. The whole wheel has ONE spin rate.',
+    ),
+    (
+      'But not one speed',
+      'A dot near the rim has a much bigger circle to get round in that same '
+          'time, so it is travelling faster. A dot near the middle strolls.',
+    ),
+    (
+      'Twice as far out, twice as fast',
+      'Speed is the spin rate times how far out the dot sits, so it grows '
+          'straight with the distance. Where the dot sits AROUND the circle makes '
+          'no difference at all.',
+    ),
+    (
+      'Turns per minute is not the spin rate',
+      'Change it first: times two pi, divided by sixty, and you have radians '
+          'per second. Putting turns per minute straight into the formula is out '
+          'by about ten.',
+    ),
   ],
-  figure: BriefFigure.spin,
+  spoken: [
+    (
+      'Speed of a dot',
+      r'v = r\omega',
+      'how far out it sits, times the spin rate',
+    ),
+    (
+      'Toward the middle',
+      r'a_n = r\omega^2 = \frac{v^2}{r}',
+      'the pull inward, which also grows with the radius',
+    ),
+    (
+      'From turns per minute',
+      r'\omega = \text{rpm}\times\frac{2\pi}{60}',
+      'turns a minute, times two pi, over sixty',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 103',
 );
 
 const spinInertiaBrief = BriefSection(
-  title: 'How hard it is to spin up',
-  body:
-      'Mass moment of inertia is the rotating twin of mass: it is what decides '
-      'how much moment it takes to get something turning. It is not a property '
-      'of the body alone, it belongs to the body AND the axis, and the '
-      'handbook gives the standard shapes so nothing is derived. Read the '
-      'coefficients as a story about where the material sits: a hoop, with '
-      'everything at the rim, is m r squared; a solid disc, with most of it '
-      'closer in, is half that; a sphere, closer in still, is two fifths. A '
-      'rod about its middle is a twelfth of m L squared and about its END it '
-      'is a third, four times more, with nothing about the rod changed. To '
-      'move an axis, add m d squared, and only ever FROM the centroid: going '
-      'between two off-center axes needs two steps through the middle. Once '
-      'the axis is further off than the body is wide, that transfer term is '
-      'the whole answer.',
-  formulas: [
+  title: 'How hard it is to get something spinning',
+  picture: spinInertiaPicture,
+  steps: [
+    (
+      'The spinning twin of weight',
+      'Weight tells you how hard something is to get moving in a straight '
+          'line. Mass moment of inertia tells you how hard it is to get spinning. '
+          'Same idea, different motion.',
+    ),
+    (
+      'Where the material sits is everything',
+      'Two things of exactly the same weight can be very different to spin '
+          'up. Material far from the middle fights back hard. Material near the '
+          'middle barely fights at all.',
+    ),
+    (
+      'Read the table as a story',
+      'A hoop keeps all of its metal at the rim, so it is the worst. A solid '
+          'disc has most of it closer in, and comes out at half. A sphere is '
+          'closer still, at two fifths.',
+    ),
+    (
+      'It belongs to the axis too',
+      'Spin a rod about its middle and it is a twelfth of its weight times '
+          'its length squared. Spin the same rod about its END and it is a third, '
+          'four times more, with nothing about the rod changed.',
+    ),
+  ],
+  spoken: [
     (
       'Hoop, disc, sphere',
       r'mr^2,\quad \tfrac{1}{2}mr^2,\quad \tfrac{2}{5}mr^2',
+      'all at the rim, then half of that, then two fifths',
     ),
-    ('Rod, middle and end', r'\tfrac{1}{12}mL^2,\quad \tfrac{1}{3}mL^2'),
-    ('Moving the axis', r'I = I_c + md^2'),
-    ('Only ever', r'\text{from the centroid outward}'),
+    (
+      'Rod, middle and end',
+      r'\tfrac{1}{12}mL^2,\quad \tfrac{1}{3}mL^2',
+      'four times harder about the end than about the middle',
+    ),
+    (
+      'Moving the axis',
+      r'I = I_c + md^2',
+      'add the weight times how far the axis moved, squared, always starting from the middle',
+    ),
   ],
-  figure: BriefFigure.spinInertia,
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 110 and 114 to 115',
 );
 
