@@ -6,9 +6,12 @@
 // with; see mechanics_pictures.dart for the pattern and the shared
 // ConceptPicture and ConceptPair tiles.
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme.dart';
 import 'beam_figures.dart';
 import 'frame_figures.dart';
 import 'friction_figures.dart';
@@ -22,21 +25,11 @@ import 'truss_figures.dart';
 // Force systems
 
 Widget resolvePicture() => const ConceptPicture(
-  painter: ForceTrianglePainter(
-    dx: 8,
-    dy: 6,
-    angleFrom: AngleFrom.horizontal,
-    angleLabel: '37',
-    xLabel: 'F cos 37',
-    yLabel: 'F sin 37',
-    selected: null,
-    locked: true,
-    truth: 0,
-  ),
+  painter: _SledPainter(),
   caption:
-      'one pull, drawn as the long side of a right triangle. the two short '
-      'sides are what it does sideways and upward',
-  height: 210,
+      'a rope slanting up off a sled. the two short sides of the triangle are '
+      'the two jobs the pull is doing at once',
+  height: 215,
 );
 
 const _crane = Scene(
@@ -68,30 +61,11 @@ Widget momentPicture() => const ConceptPicture(
   height: 220,
 );
 
-const _seesaw = Scene(
-  members: [
-    [Offset(-4, 0), Offset(4, 0)],
-  ],
-  pivot: Offset(0, 0),
-  forces: [
-    StaticForce(Offset(-3, 0), Offset(0, -1), 'A', lineOfAction: false),
-    StaticForce(Offset(3, 0), Offset(0, -1), 'B', lineOfAction: false),
-  ],
-);
-
 Widget sensePicture() => const ConceptPicture(
-  painter: MomentPainter(
-    scene: _seesaw,
-    mode: SceneMode.forces,
-    selected: null,
-    chosen: {},
-    locked: true,
-    truth: -1,
-    truths: {1},
-  ),
+  painter: _TurnPairPainter(),
   caption:
-      'two pushes, both downward, one each side of the pin. they turn the bar '
-      'opposite ways',
+      'the same downward push, one each side of the pin. the curved arrows are '
+      'the turns, and they go opposite ways',
   height: 200,
 );
 
@@ -296,7 +270,7 @@ Widget beltPicture() => const ConceptPicture(
   painter: DrumPainter(
     lap: Lap(
       startDeg: 180,
-      sweepDeg: 180,
+      sweepDeg: 900,
       creep: Creep.counter,
       startLabel: 'you hold this end',
       endLabel: 'the load pulls here',
@@ -304,8 +278,8 @@ Widget beltPicture() => const ConceptPicture(
     locked: true,
   ),
   caption:
-      'a rope over a post. friction adds to the pull the whole way round, so '
-      'one end holds far more than the other',
+      'two and a half turns round a post. friction grips a little more at '
+      'every point of the wrap, and it all multiplies up',
   height: 210,
 );
 
@@ -498,13 +472,21 @@ Widget compositeIPicture() => ConceptPicture(
   painter: ProfilePainter(
     profile: _iBeam,
     markCentroid: true,
-    spotlight: 0,
+    // Both flanges, marked where they sit against the balance line.
+    // Spotlighting one of them made the picture look like it was about that
+    // one flange, when the point is that the pair of them, the same distance
+    // out on either side, carry the section between them.
+    axes: const [
+      Datum(7.5, 'top flange, far out'),
+      Datum(0.5, 'bottom flange, just as far'),
+    ],
     locked: true,
   ),
   caption:
-      'an I beam: fat flanges far out, a thin web in the middle. the flanges '
-      'do nearly all the work',
-  height: 210,
+      'both flanges sit the same distance out from the balance line in the '
+      'middle. that distance is squared, so the pair of them carry the '
+      'section and the thin web adds almost nothing',
+  height: 215,
 );
 
 Widget polarPicture() => ConceptPair(
@@ -551,3 +533,285 @@ const staticsPictures = <String, Widget Function()>{
   'composite-i': compositeIPicture,
   'polar': polarPicture,
 };
+
+// ---------------------------------------------------------------------------
+// The two painters that exist only for a sheet
+
+TextPainter _say(
+  String s, {
+  double size = 11,
+  Color color = AppColors.ink2,
+  FontWeight weight = FontWeight.w500,
+}) => TextPainter(
+  text: TextSpan(
+    text: s,
+    style: AppTheme.mono(size: size, color: color, weight: weight),
+  ),
+  textDirection: TextDirection.ltr,
+)..layout();
+
+void _write(
+  Canvas canvas,
+  String s,
+  Offset at, {
+  double size = 11,
+  Color color = AppColors.ink2,
+  bool center = false,
+  FontWeight weight = FontWeight.w500,
+}) {
+  final tp = _say(s, size: size, color: color, weight: weight);
+  tp.paint(
+    canvas,
+    center ? Offset(at.dx - tp.width / 2, at.dy - tp.height / 2) : at,
+  );
+}
+
+Paint _pen(Color color, [double width = 2.4]) => Paint()
+  ..color = color
+  ..style = PaintingStyle.stroke
+  ..strokeWidth = width
+  ..strokeCap = StrokeCap.round
+  ..strokeJoin = StrokeJoin.round;
+
+void _head(Canvas canvas, Offset at, Offset dir, Color color, [double s = 8]) {
+  final len = dir.distance;
+  if (len < 0.001) return;
+  final u = dir / len;
+  final n = Offset(-u.dy, u.dx);
+  canvas.drawPath(
+    Path()
+      ..moveTo(at.dx, at.dy)
+      ..lineTo(
+        at.dx - u.dx * s + n.dx * s * 0.55,
+        at.dy - u.dy * s + n.dy * s * 0.55,
+      )
+      ..lineTo(
+        at.dx - u.dx * s - n.dx * s * 0.55,
+        at.dy - u.dy * s - n.dy * s * 0.55,
+      )
+      ..close(),
+    Paint()..color = color,
+  );
+}
+
+void _shaft(
+  Canvas canvas,
+  Offset from,
+  Offset to,
+  Color color, [
+  double w = 2.4,
+]) {
+  canvas.drawLine(from, to, _pen(color, w));
+  _head(canvas, to, to - from, color);
+}
+
+/// A sled with a rope slanting up off it, and the right triangle that rope
+/// makes.
+///
+/// The sheet opens by asking the reader to picture dragging a sled, and the
+/// old drawing was a bare triangle with no sled anywhere in it. Drawing the
+/// thing being pulled, with the triangle laid over it, means the everyday
+/// image and the geometry are one picture rather than two.
+class _SledPainter extends CustomPainter {
+  const _SledPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final ground = size.height * 0.72;
+    final corner = Offset(size.width * 0.27, ground);
+    // 37 degrees: 3 up for every 4 along, the shape the sheet works in.
+    const run = 128.0;
+    const rise = 96.0;
+    final tip = Offset(corner.dx + run, corner.dy - rise);
+
+    canvas.drawLine(
+      Offset(10, ground),
+      Offset(size.width - 10, ground),
+      _pen(AppColors.ink3.withValues(alpha: 0.5), 1.4),
+    );
+
+    // the thing being pulled
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTRB(corner.dx - 72, ground - 26, corner.dx, ground),
+        const Radius.circular(5),
+      ),
+      Paint()..color = AppColors.charcoal,
+    );
+    _write(
+      canvas,
+      'the sled',
+      Offset(corner.dx - 36, ground - 13),
+      size: 10,
+      color: AppColors.cream,
+      center: true,
+    );
+
+    // the two jobs, as the two short sides
+    canvas.drawLine(
+      corner,
+      Offset(tip.dx, corner.dy),
+      _pen(AppColors.forest, 3),
+    );
+    canvas.drawLine(Offset(tip.dx, corner.dy), tip, _pen(AppColors.info, 3));
+
+    // the rope, and the pull running along it
+    _shaft(canvas, corner, tip, AppColors.ember, 3.2);
+
+    // the angle, opening from the flat
+    canvas.drawArc(
+      Rect.fromCircle(center: corner, radius: 36),
+      -0.6435,
+      0.6435,
+      false,
+      _pen(AppColors.charcoal, 1.6),
+    );
+    _write(
+      canvas,
+      '37',
+      Offset(corner.dx + 44, corner.dy - 15),
+      color: AppColors.charcoal,
+      weight: FontWeight.w700,
+    );
+
+    _write(
+      canvas,
+      'the pull',
+      Offset(tip.dx + 8, tip.dy - 5),
+      size: 11.5,
+      color: AppColors.ember,
+      weight: FontWeight.w700,
+    );
+    _write(
+      canvas,
+      'drags it forward',
+      Offset((corner.dx + tip.dx) / 2, ground + 15),
+      size: 10.5,
+      color: AppColors.forest,
+      center: true,
+      weight: FontWeight.w700,
+    );
+    _write(
+      canvas,
+      'and lifts',
+      Offset(tip.dx + 8, (corner.dy + tip.dy) / 2 - 8),
+      size: 10.5,
+      color: AppColors.info,
+      weight: FontWeight.w700,
+    );
+    _write(
+      canvas,
+      'a little',
+      Offset(tip.dx + 8, (corner.dy + tip.dy) / 2 + 6),
+      size: 10.5,
+      color: AppColors.info,
+      weight: FontWeight.w700,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_SledPainter old) => false;
+}
+
+/// The same push, either side of the pin, with the turn it causes drawn.
+///
+/// The old picture showed two downward arrows and left the reader to take the
+/// caption's word that they turn the bar opposite ways. The turn is the whole
+/// subject of the sheet, so it is now the thing that is drawn: a curved arrow
+/// round the pin, one way in the left scene and the other way in the right.
+class _TurnPairPainter extends CustomPainter {
+  const _TurnPairPainter();
+
+  void _scene(Canvas canvas, Rect area, bool pushLeft) {
+    final pin = Offset(area.center.dx, area.top + 66);
+    const half = 54.0;
+    final barL = Offset(pin.dx - half, pin.dy);
+    final barR = Offset(pin.dx + half, pin.dy);
+
+    canvas.drawLine(barL, barR, _pen(AppColors.charcoal, 5));
+
+    canvas.drawPath(
+      Path()
+        ..moveTo(pin.dx, pin.dy + 2)
+        ..lineTo(pin.dx - 11, pin.dy + 19)
+        ..lineTo(pin.dx + 11, pin.dy + 19)
+        ..close(),
+      Paint()..color = AppColors.ink2,
+    );
+    canvas.drawLine(
+      Offset(pin.dx - 20, pin.dy + 20),
+      Offset(pin.dx + 20, pin.dy + 20),
+      _pen(AppColors.ink3, 1.6),
+    );
+
+    // the push, downward in both scenes
+    final at = pushLeft ? barL : barR;
+    _shaft(
+      canvas,
+      Offset(at.dx, at.dy - 44),
+      Offset(at.dx, at.dy - 5),
+      AppColors.ember,
+      3,
+    );
+    _write(
+      canvas,
+      'push',
+      Offset(at.dx, at.dy - 54),
+      size: 10.5,
+      color: AppColors.ember,
+      center: true,
+      weight: FontWeight.w700,
+    );
+
+    // The turn, drawn over the top of the bar so both arcs are visible.
+    //
+    // Pushing the left end drops that end: on screen the nine o'clock point
+    // travels toward six o'clock, which is counterclockwise. Pushing the
+    // right end drops the right: three o'clock travels toward six, which is
+    // clockwise. Canvas angles grow clockwise, so the sweep is signed.
+    const r = 38.0;
+    final box = Rect.fromCircle(center: pin, radius: r);
+    final from = pushLeft ? -0.3 : 3.45;
+    final sweep = pushLeft ? -2.1 : 2.1;
+    canvas.drawArc(box, from, sweep, false, _pen(AppColors.forest, 2.6));
+    final endAngle = from + sweep;
+    final endAt = Offset(
+      pin.dx + r * math.cos(endAngle),
+      pin.dy + r * math.sin(endAngle),
+    );
+    // Tangent in the direction of travel, which reverses with the sweep.
+    final way = sweep.isNegative ? -1.0 : 1.0;
+    _head(
+      canvas,
+      endAt,
+      Offset(-math.sin(endAngle) * way, math.cos(endAngle) * way),
+      AppColors.forest,
+      9,
+    );
+
+    _write(
+      canvas,
+      pushLeft ? 'turns this way' : 'turns the other',
+      Offset(area.center.dx, area.bottom - 10),
+      size: 10.5,
+      color: AppColors.forest,
+      center: true,
+      weight: FontWeight.w700,
+    );
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width / 2;
+    _scene(canvas, Rect.fromLTWH(0, 4, w, size.height - 8), true);
+    _scene(canvas, Rect.fromLTWH(w, 4, w, size.height - 8), false);
+    canvas.drawLine(
+      Offset(w, 16),
+      Offset(w, size.height - 28),
+      _pen(AppColors.ink3.withValues(alpha: 0.3), 1),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_TurnPairPainter old) => false;
+}
