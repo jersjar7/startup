@@ -11998,302 +11998,609 @@ const shearLagBrief = BriefSection(
 );
 
 const phaseBrief = BriefSection(
-  title: 'Every property is one part over another',
-  body:
-      'A soil sample is solids, water and air, and the phase diagram draws it '
-      'as three blocks with the VOLUMES down one side and the WEIGHTS down '
-      'the other. Every index property in the lesson is one part of that '
-      'picture divided by another, and the denominators are deliberately not '
-      'all the same. Void ratio is the voids over the SOLIDS, which is why it '
-      'can pass one: squeeze a soil and the voids shrink while the solids do '
-      'not, so the bottom of that fraction never moves. Porosity is the same '
-      'voids over the WHOLE sample, so it cannot reach one at all. Saturation '
-      'is the water over the voids, asking how much of the available space is '
-      'wet. And water content is the odd one out, the only one taken from the '
-      'weight side, water over SOLIDS, which is why a soft clay can hold more '
-      'than 100 per cent.',
-  formulas: [
-    ('Void ratio', r'e = \frac{V_v}{V_s}'),
-    ('Porosity', r'n = \frac{V_v}{V} = \frac{e}{1+e}'),
-    ('Water content', r'\omega = \frac{W_w}{W_s}'),
+  title: 'Every soil number is one part over another',
+  picture: phasePicture,
+  steps: [
+    (
+      'Soil is three things',
+      'Dig up a scoop of soil and it is grains of rock, water, and air in '
+          'the gaps. Nothing else. The drawing stacks them as three blocks so '
+          'you can point at the part you mean.',
+    ),
+    (
+      'Measure it twice',
+      'You can measure each block two ways: how much SPACE it takes up, and '
+          'how much it WEIGHS. That is why the drawing has a left side and a '
+          'right side. Air takes up space and weighs nothing.',
+    ),
+    (
+      'Every property picks two blocks',
+      'Void ratio is the empty space over the SOLID space. Porosity is the '
+          'same empty space over the WHOLE scoop. Saturation is the water over '
+          'the empty space: how full the gaps are.',
+    ),
+    (
+      'Watch which bottom it uses',
+      'Void ratio can pass 1, because the gaps can be bigger than the '
+          'grains. Porosity never can, since a part cannot beat the whole. '
+          'Water content is weighed, not measured, so a soft clay can hold '
+          'more than 100 percent.',
+    ),
   ],
-  figure: BriefFigure.phaseDiagram,
+  spoken: [
+    (
+      'Void ratio',
+      r'e = \frac{V_v}{V_s}',
+      'the space in the gaps, over the space the grains take up',
+    ),
+    (
+      'Porosity',
+      r'n = \frac{V_v}{V}',
+      'the space in the gaps, over the whole scoop',
+    ),
+    (
+      'Water content',
+      r'\omega = \frac{W_w}{W_s}',
+      'the weight of the water, over the weight of the grains',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, soil phase relationships',
 );
 
 const masterBrief = BriefSection(
-  title: 'The line that crosses the diagram',
-  body:
-      'Water content lives on the weight side and void ratio and saturation '
-      'live on the volume side, so something has to carry you between them. '
-      'That something is the specific gravity, and the relationship it sits '
-      'in is S times e equals w times Gs. At FULL saturation the S becomes '
-      'one and the void ratio is simply w times Gs, which unlocks it from two '
-      'numbers any lab reports as a matter of routine. Only then, though: '
-      'with air still in the voids the void ratio is w times Gs divided by S, '
-      'which is LARGER, so assuming saturation the stem never claimed makes '
-      'the answer come out small. Two habits keep it safe. Put the water '
-      'content in as a decimal, since the formula wants 0.20 and the lab '
-      'reports 20. And sanity-check the result: real void ratios run from '
-      'about 0.3 in dense sand to perhaps 3 in a very soft clay.',
-  formulas: [
-    ('The bridge', r'S e = \omega G_s'),
-    ('Saturated', r'e = \omega G_s'),
-    ('Backwards', r'\omega = \frac{e}{G_s} \text{ when } S = 1'),
+  title: 'One line crosses from weighing to measuring',
+  picture: masterPicture,
+  steps: [
+    (
+      'Two sides, two habits',
+      'Water content comes off a scale: you weigh the wet soil, dry it in '
+          'an oven, weigh it again. Void ratio is about space, not weight. A '
+          'lab hands you one and a question asks for the other.',
+    ),
+    (
+      'Specific gravity carries you across',
+      'Gs says how much heavier a grain is than the same amount of water, '
+          'about 2.7 for most soils. Knowing that, a weight of grains tells '
+          'you the space they fill, and the two sides connect.',
+    ),
+    (
+      'One line does the whole job',
+      'S times e equals w times Gs. Saturation times void ratio, on one '
+          'side; water content times specific gravity on the other. Know any '
+          'three and the fourth falls out.',
+    ),
+    (
+      'Only assume full when it says so',
+      'If the soil is fully wet, S is 1 and the void ratio is just w times '
+          'Gs. With air still in the gaps the answer is bigger than that, so '
+          'assuming full when it is not makes your answer too small.',
+    ),
   ],
-  figure: BriefFigure.masterRelation,
+  spoken: [
+    (
+      'The bridge',
+      r'S e = \omega G_s',
+      'saturation times void ratio equals water content times specific gravity',
+    ),
+    (
+      'Fully wet',
+      r'e = \omega G_s',
+      'with no air left, the void ratio is just those two multiplied',
+    ),
+    (
+      'Put it in as a decimal',
+      r'\omega = 0.20 \text{, not } 20',
+      'the formula wants twenty percent written as nought point two',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, soil phase relationships',
 );
 
 const gammaBrief = BriefSection(
-  title: 'One soil, four weights',
-  body:
-      'A problem will name whichever unit weight it likes and they are not '
-      'interchangeable. DRY is the solids alone over the volume the sample '
-      'occupies in the ground, which is why compaction is always specified '
-      'against it: it describes how tightly the grains are packed and does '
-      'not move with the weather. TOTAL is the sample as it stands, with '
-      'whatever water happened to be in it, and dividing it by one plus the '
-      'water content lands you on the dry weight. SATURATED is the heaviest, '
-      'every void full, the same skeleton with its empty spaces filled. '
-      'SUBMERGED is the smallest by far, the saturated weight less the weight '
-      'of water, because below the water table the grains float in their own '
-      'pore water and pass on only what is left. Using the total weight below '
-      'the water table overstates the stress, and the next lesson is built on '
-      'getting this one right.',
-  formulas: [
-    ('From total', r'\gamma_d = \frac{\gamma}{1+\omega}'),
-    ('Saturated', r'\gamma_{sat} = \frac{(G_s + e)\gamma_w}{1+e}'),
-    ('Submerged', r"\gamma' = \gamma_{sat} - \gamma_w"),
+  title: 'One soil, four different weights',
+  picture: gammaPicture,
+  steps: [
+    (
+      'Weigh a bucket of soil',
+      'How heavy is it? It depends what is in the gaps. Wet soil is heavier '
+          'than the same soil dried out, because the water weighs something '
+          'too. So one soil has several answers.',
+    ),
+    (
+      'Dry is the honest one for packing',
+      'Dry weight counts only the grains, spread over the space the scoop '
+          'takes up in the ground. It tells you how tightly packed the grains '
+          'are, and it does not change with the weather. That is why '
+          'compaction is always specified against it.',
+    ),
+    (
+      'Saturated is the heaviest',
+      'Same grains, every gap filled with water. Nothing is heavier than '
+          'that, because air weighs nothing and water weighs something.',
+    ),
+    (
+      'Submerged is much the lightest',
+      'Below the water table, the grains float a little in their own water, '
+          'exactly the way you feel lighter in a swimming pool. What they '
+          'press down with is the saturated weight less the weight of water, '
+          'roughly half. Forget this and every stress below the water table '
+          'comes out too big.',
+    ),
   ],
-  figure: BriefFigure.unitWeights,
+  spoken: [
+    (
+      'Dry, from total',
+      r'\gamma_d = \frac{\gamma}{1+\omega}',
+      'the weight as it stands, divided by one plus the water content',
+    ),
+    (
+      'Saturated',
+      r'\gamma_{sat} = \frac{(G_s + e)\gamma_w}{1+e}',
+      'grains plus full gaps, spread over the whole scoop',
+    ),
+    (
+      'Submerged',
+      r"\gamma' = \gamma_{sat} - \gamma_w",
+      'the saturated weight, less the weight of water it floats in',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, soil phase relationships',
 );
 
 const forkBrief = BriefSection(
   title: 'The first sieve asks the first question',
-  body:
-      'Classification is a decision tree and the marks are lost at the top of '
-      'it. The No. 200 sieve comes first, every time: more than half retained '
-      'and the soil is COARSE, judged on the shape of its grain size curve, '
-      'and otherwise it is FINE, judged on the plasticity chart with its '
-      'coarse grains playing no part at all. The two halves of the tree share '
-      'nothing, so taking the wrong branch makes every careful step after it '
-      'answer a different question. A coarse soil then splits at the No. 4: '
-      'most of the coarse fraction passing makes it a sand, most retained '
-      'makes it a gravel, and that fork matters because a gravel needs a '
-      'uniformity of only 4 where a sand needs 6. Note which side of the '
-      'boundary belongs where: it takes MORE than half retained to be coarse, '
-      'so an even split goes to the plasticity chart.',
-  formulas: [
-    ('First', r'\text{No. 200: coarse or fine}'),
-    ('Then', r'\text{No. 4: gravel or sand}'),
-    ('Fine soils', r'\text{the plasticity chart}'),
+  picture: forkPicture,
+  steps: [
+    (
+      'Shake it through a stack of sieves',
+      'Pour dry soil into a stack of screens, coarse on top, fine at the '
+          'bottom, and shake. Weighing what lands on each screen tells you '
+          'what sizes the soil is made of.',
+    ),
+    (
+      'One screen splits the whole world',
+      'The No 200 screen has holes too small to see. If most of the soil '
+          'stays on top of it, the soil is COARSE: sand and gravel. If most '
+          'goes through, it is FINE: silt and clay.',
+    ),
+    (
+      'The two halves are judged differently',
+      'A coarse soil is judged on the shape of its size curve. A fine soil '
+          'is judged by how it behaves when wet, on a chart of its own. Take '
+          'the wrong branch and every careful step after it answers a '
+          'different question.',
+    ),
+    (
+      'Coarse then splits again',
+      'The No 4 screen is about the size of a pencil lead. Most of the '
+          'coarse part through it means sand; most held back means gravel. '
+          'It matters: a gravel needs a spread of 4 where a sand needs 6.',
+    ),
   ],
-  figure: BriefFigure.uscsTree,
+  spoken: [
+    (
+      'First',
+      r'\text{No 200: coarse or fine}',
+      'more than half held back and the soil is coarse',
+    ),
+    (
+      'Then',
+      r'\text{No 4: gravel or sand}',
+      'most of the coarse part held back and it is gravel',
+    ),
+    (
+      'Fine soils',
+      r'\text{go to the plasticity chart}',
+      'their grain sizes stop mattering from there on',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, soil classification',
 );
 
 const chartBrief = BriefSection(
-  title: 'Two lines, four quarters',
-  body:
-      'A fine-grained soil is classified by where its point lands on the '
-      'plasticity chart, and the chart is only two lines. The A-LINE runs '
-      'across it, clays above and silts below, and that split is a statement '
-      'about behavior rather than a name: a silt drains and settles quickly '
-      'while a clay holds its water and keeps moving for years. The LIQUID '
-      'LIMIT of 50 runs down it, low plasticity to the left and high to the '
-      'right. Four quarters, four symbols: CL, CH, ML, MH. The quarter people '
-      'forget is MH, a soil that holds a great deal of water and is still not '
-      'a clay, because a high liquid limit on its own does not put a point '
-      'above the A-line. Near the line the plasticity index is worth reading '
-      'carefully: seven points can be the difference between a clay and a '
-      'silt at the same liquid limit.',
-  formulas: [
-    ('The A-line', r'PI = 0.73(LL - 20)'),
-    ('Above it', r'\text{clay, C}'),
-    ('Past LL 50', r'\text{high plasticity, H}'),
+  title: 'Two lines, four corners',
+  picture: chartPicture,
+  steps: [
+    (
+      'Two numbers off a wet soil',
+      'Add water to a fine soil and at some point it flows like a liquid: '
+          'that water content is the LIQUID LIMIT. Take water away and at some '
+          'point it stops being mouldable. The gap between the two is the '
+          'PLASTICITY INDEX, how wide a range of wetness it stays like putty '
+          'over.',
+    ),
+    (
+      'Plot the point',
+      'Liquid limit across the bottom, plasticity index up the side. Every '
+          'fine soil in the world is one dot on this chart.',
+    ),
+    (
+      'The sloping line splits clay from silt',
+      'Above it the soil is a CLAY: it grips its water and keeps moving for '
+          'years. Below it the soil is a SILT: it drains and settles fast. '
+          'That line is about behavior, not about names.',
+    ),
+    (
+      'The upright line at 50 splits low from high',
+      'Left of it is low plasticity, right is high. Four corners, four '
+          'symbols: CL, CH, ML, MH. The forgotten one is MH, a soil that '
+          'holds a lot of water and is still not a clay.',
+    ),
   ],
-  figure: BriefFigure.plasticityChart,
+  spoken: [
+    (
+      'The sloping line',
+      r'PI = 0.73(LL - 20)',
+      'the boundary between clay above and silt below',
+    ),
+    ('Above it', r'\text{C, a clay}', 'the first letter of the symbol'),
+    (
+      'Past a liquid limit of 50',
+      r'\text{H, high plasticity}',
+      'the second letter of the symbol',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, soil classification',
 );
 
 const gradationBrief = BriefSection(
-  title: 'Both coefficients, or it is poorly graded',
-  body:
-      'A coarse soil earns its W only if BOTH numbers pass, and the lesson '
-      'says so twice because one of them passing is what tempts people. The '
-      'UNIFORMITY, D60 over D10, asks whether the sample spans a wide range '
-      'of sizes: a gravel needs 4 and a sand needs 6. The CONCAVITY, D30 '
-      'squared over D10 times D60, asks whether the middle of that range is '
-      'actually there, and it has to land between 1 and 3. A soil with a '
-      'huge uniformity and a failing concavity is GAP graded: plenty of '
-      'coarse, plenty of fine, and almost nothing between them, which packs '
-      'like neither half. What both coefficients are really asking is whether '
-      'the small grains can fill the spaces between the big ones, because '
-      'that is what makes a fill compact to something dense and strong.',
-  formulas: [
-    ('Uniformity', r'C_u = \frac{D_{60}}{D_{10}}'),
-    ('Concavity', r'C_c = \frac{D_{30}^2}{D_{10} D_{60}}'),
-    ('Well graded', r'\text{both, or neither counts}'),
+  title: 'Both checks pass, or the soil is poorly graded',
+  picture: gradationPicture,
+  steps: [
+    (
+      'Why a mix of sizes is better',
+      'Fill a jar with marbles and it is mostly gaps. Pour sand in and the '
+          'sand fills the gaps, then dust fills the gaps in the sand. A soil '
+          'with every size in it packs tight and strong. That is what WELL '
+          'GRADED means.',
+    ),
+    (
+      'The first check: is the range wide',
+      'Take the size that 60 percent of the soil is finer than, and divide '
+          'by the size 10 percent is finer than. A big answer means a wide '
+          'spread of sizes. A gravel needs 4, a sand needs 6.',
+    ),
+    (
+      'The second check: is the middle there',
+      'A soil can have big grains and dust and nothing in between. The '
+          'second number catches that, and it has to land between 1 and 3. '
+          'A soil that fails it is GAP graded and packs like neither half.',
+    ),
+    (
+      'One failure is enough',
+      'Both checks must pass. A huge first number is exactly what tempts '
+          'people into calling a soil well graded when its middle is missing.',
+    ),
   ],
-  figure: BriefFigure.gradation,
+  spoken: [
+    (
+      'Is the range wide',
+      r'C_u = \frac{D_{60}}{D_{10}}',
+      'the bigger size divided by the smaller: 4 for gravel, 6 for sand',
+    ),
+    (
+      'Is the middle there',
+      r'C_c = \frac{D_{30}^2}{D_{10} D_{60}}',
+      'the middle size squared, over the other two multiplied: 1 to 3',
+    ),
+    (
+      'Well graded means',
+      r'\text{both, or it counts as neither}',
+      'one pass and one failure is still poorly graded',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, soil classification',
 );
 
 const threeStressBrief = BriefSection(
   title: 'Three stresses at every point',
-  body:
-      'TOTAL stress is the weight of everything above the point: the grains, '
-      'the water in their pores, and anything stacked on the surface. It is '
-      'the easiest of the three to work out and on its own it decides '
-      'nothing. WATER pressure is the height of water above the point times '
-      'the unit weight of water, and the height is measured from the WATER '
-      'TABLE down, not from the ground surface. Above the water table it is '
-      'zero. EFFECTIVE stress is what is left when the water pressure is '
-      'taken off, and it is the one that matters: how strong the soil is and '
-      'how much it settles both follow from it and from nothing else. A '
-      'surcharge shows the difference neatly, since it adds its full weight '
-      'to the total, leaves the water alone, and therefore lands entirely on '
-      'the grains.',
-  formulas: [
-    ('The whole of it', r"\sigma' = \sigma - u"),
-    ('Water pressure', r'u = h_w \gamma_w'),
-    ('Above the table', r"u = 0, \; \sigma' = \sigma"),
+  picture: threeStressPicture,
+  steps: [
+    (
+      'Stand at the bottom of a hole',
+      'Everything above you presses down: the grains, the water in their '
+          'gaps, and anything piled on the surface. Add up all that weight '
+          'over one square foot and you have the TOTAL stress.',
+    ),
+    (
+      'Water pushes back on its own',
+      'Below the water table the pore water has its own pressure, and it '
+          'is just the depth of water above you times how much water weighs. '
+          'Above the water table there is none.',
+    ),
+    (
+      'What is left is what the grains feel',
+      'Take the water pressure off the total and the rest is carried grain '
+          'on grain. That is the EFFECTIVE stress, and it is the one that '
+          'matters: how strong the soil is and how much it settles both '
+          'follow from it and from nothing else.',
+    ),
+    (
+      'A load on top shows the difference',
+      'Pile fill on the surface and the total goes up by its full weight. '
+          'The water pressure does not notice. So all of it lands on the '
+          'grains.',
+    ),
   ],
-  figure: BriefFigure.threeStresses,
+  spoken: [
+    (
+      'The whole of it',
+      r"\sigma' = \sigma - u",
+      'what the grains feel is the total, less the water pressure',
+    ),
+    (
+      'Water pressure',
+      r'u = h_w \gamma_w',
+      'the depth below the water table, times the weight of water',
+    ),
+    (
+      'Above the water table',
+      r"u = 0, \; \sigma' = \sigma",
+      'no water pressure, so the grains carry all of it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, effective stress',
 );
 
 const waterTableBrief = BriefSection(
-  title: 'Move the water, move the stress',
-  body:
-      'Every interesting thing in this lesson is a direction rather than a '
-      'number. Pump the water table DOWN and the water pressure falls while '
-      'the total stress barely moves, so the grains take up the slack and the '
-      'effective stress RISES: that is dewatering, and it is why the ground '
-      'settles and why pumping on one site can crack a building on the next. '
-      'Let the water table RISE and buoyancy takes its share back, the '
-      'effective stress falls, and a slope that stood all summer can go after '
-      'a week of rain. A SURCHARGE adds to the total and nothing to the '
-      'water, so all of it lands on the grains, which is why fill is piled on '
-      'a soft site deliberately and taken away again once the settlement has '
-      'happened. And standing water over an already saturated site changes '
-      'NOTHING, because it adds the same amount to both sides of the '
-      'subtraction.',
-  formulas: [
-    ('Pump it down', r"u \downarrow \Rightarrow \sigma' \uparrow"),
-    ('Surcharge', r"q \Rightarrow \sigma' \uparrow \text{ by } q"),
+  title: 'Move the water and the grains feel it',
+  picture: waterTablePicture,
+  steps: [
     (
-      'Standing water',
-      r"\sigma \uparrow, \; u \uparrow, \; \sigma' \text{ flat}",
+      'Pump the water down',
+      'The weight above hardly changes, but the water pressure drops. The '
+          'grains have to take up the slack, so what they feel goes UP. The '
+          'ground settles. That is why pumping on one site can crack a '
+          'building on the next one.',
+    ),
+    (
+      'Let the water rise',
+      'Now the grains float a little more and what they feel goes DOWN. '
+          'Soil is weaker when the grains press together less, which is why a '
+          'slope that stood all summer can slide after a week of rain.',
+    ),
+    (
+      'Pile something on top',
+      'A surcharge adds its full weight to the total and nothing to the '
+          'water, so every pound of it lands on the grains. Engineers do this '
+          'on purpose: pile fill on soft ground, wait for it to settle, take '
+          'the fill away.',
+    ),
+    (
+      'Flood an already wet site',
+      'Standing water adds the same amount to the total AND to the water '
+          'pressure. The subtraction cancels it out, so the grains feel '
+          'nothing at all.',
     ),
   ],
-  figure: BriefFigure.waterTable,
+  spoken: [
+    (
+      'Pump it down',
+      r"u \text{ falls, } \sigma' \text{ rises}",
+      'less water pressure, so the grains carry more',
+    ),
+    (
+      'A load on top',
+      r"\Delta\sigma' = q",
+      'all of a surcharge lands on the grains',
+    ),
+    (
+      'Standing water over a wet site',
+      r"\Delta\sigma' = 0",
+      'it lifts both sides of the subtraction equally',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, effective stress',
 );
 
 const shortWayBrief = BriefSection(
-  title: 'Walk it down, buoyant below',
-  body:
-      'Two routes reach the same answer. The long one adds up the total '
-      'stress and subtracts the water pressure at the end. The short one '
-      'walks down the profile adding each layer as it goes, using the layer '
-      'own weight ABOVE the water table and the SUBMERGED weight below it, '
-      'which for most soils is roughly half as much. They agree exactly, '
-      'because taking the water pressure off at the end is the same as taking '
-      'a foot of water off every foot of submerged soil on the way down. Two '
-      'rules keep the short way honest. Never buoy a layer that sits above '
-      'the water table: there is no water up there holding anything up, and '
-      'doing it understates the effective stress by 62 pounds a square foot '
-      'for every foot. And a surcharge is never buoyed either, since it '
-      'presses on everything below it and the water pressure does not notice '
-      'it at all.',
-  formulas: [
-    ('Above the table', r'\gamma H'),
-    ('Below it', r"\gamma' H = (\gamma_{sat} - \gamma_w) H"),
-    ('A surcharge', r'q, \text{ in full}'),
+  title: 'Walk down the layers, float the wet ones',
+  picture: shortWayPicture,
+  steps: [
+    (
+      'The long way round',
+      'Add up the weight of everything above to get the total, then work '
+          'out the water pressure, then subtract. It works, and it is two '
+          'sums where one would do.',
+    ),
+    (
+      'The short way',
+      'Walk down layer by layer and add each one straight onto the running '
+          'total. Above the water table use the layer as it weighs. Below it '
+          'use the floating weight, which is about half.',
+    ),
+    (
+      'Why they agree',
+      'Taking the water pressure off at the end is the same as taking one '
+          'foot of water off every foot of drowned soil on the way down. Same '
+          'subtraction, done earlier.',
+    ),
+    (
+      'Two ways to get it wrong',
+      'Never float a layer that sits ABOVE the water table: there is no '
+          'water up there holding anything up. And never float a load piled '
+          'on the surface, because the water does not notice it.',
+    ),
   ],
-  figure: BriefFigure.buoyantWalk,
+  spoken: [
+    (
+      'Above the water table',
+      r'\gamma H',
+      'the layer as it weighs, times how thick it is',
+    ),
+    (
+      'Below it',
+      r"\gamma' H = (\gamma_{sat} - \gamma_w) H",
+      'the floating weight, times how thick it is',
+    ),
+    (
+      'A load on top',
+      r'q \text{, in full}',
+      'never floated, whatever is underneath',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, effective stress',
 );
 
 const caseBrief = BriefSection(
-  title: 'Everything turns on what it remembers',
-  body:
-      'Three settlement formulas sit in the handbook and choosing between '
-      'them is the whole of the hard part. What decides is the PRECONSOLIDATION '
-      'pressure, the largest effective stress the clay has ever carried. If '
-      'the load leaves the clay still under that memory, the whole move is '
-      'recompression and uses the stiff index alone. If the clay is already '
-      'at its memory, which is what NORMALLY CONSOLIDATED means, every pound '
-      'is virgin ground on the soft index. And if the load CROSSES the '
-      'memory, the move has to be split: stiff from where it starts up to the '
-      'memory, soft from the memory to where it ends. Running a crossing move '
-      'on one index alone is the wrong answer the exam offers most often, and '
-      'it is offered in both flavors.',
-  formulas: [
+  title: 'Everything turns on what the clay remembers',
+  picture: casePicture,
+  steps: [
+    (
+      'Clay remembers being squeezed',
+      'Squeeze a clay hard once and it packs down. Take the load off and it '
+          'barely springs back. Put the same load on again and it hardly '
+          'moves, because it has been there before. The biggest squeeze it '
+          'ever had is its memory.',
+    ),
+    (
+      'Three things to line up',
+      'Where the clay is now, what it remembers, and where the new load '
+          'takes it. The drawing puts all three on one line. Everything else '
+          'follows from which side of the memory the load lands on.',
+    ),
+    (
+      'Under the memory, or past it',
+      'Land short of the memory and the whole move is over old ground, so '
+          'use the stiff number. Start at the memory and every pound is new '
+          'ground, so use the soft number, about six times bigger.',
+    ),
+    (
+      'Crossing needs two sums',
+      'If the load starts below the memory and ends above it, split the '
+          'move: stiff up to the memory, soft from there on. Running a '
+          'crossing move on one number alone is the answer the exam offers '
+          'most often.',
+    ),
+  ],
+  spoken: [
     (
       'Under the memory',
       r'\Delta H = \frac{H_0}{1+e_0} C_r \log\frac{p_1}{p_0}',
+      'the stiff index, over the ratio of the two pressures',
     ),
     (
-      'On the virgin line',
+      'Past the memory',
       r'\Delta H = \frac{H_0}{1+e_0} C_c \log\frac{p_1}{p_0}',
+      'the same sum with the soft index instead',
     ),
-    ('Crossing it', r'C_r \log\frac{p_c}{p_0} + C_c \log\frac{p_1}{p_c}'),
+    (
+      'Crossing it',
+      r'C_r \log\frac{p_c}{p_0} + C_c \log\frac{p_1}{p_c}',
+      'stiff up to the memory, then soft the rest of the way',
+    ),
   ],
-  figure: BriefFigure.settlementCase,
+  figure: BriefFigure.none,
   handbook: 'Handbook, consolidation',
 );
 
 const memoryBrief = BriefSection(
   title: 'A shallow line, a corner, a steep one',
-  body:
-      'Plot the void ratio against the log of the stress and a clay draws two '
-      'straight lines with a corner between them. The corner is the largest '
-      'pressure the clay has ever carried. To the left of it the clay is '
-      'being pushed back over ground it has covered before and it goes '
-      'stiffly, on an index about a SIXTH of the other. To the right the clay '
-      'is doing something new and the grains rearrange in earnest. So the '
-      'same load on the same clay can settle six times as much depending only '
-      'on which side of the corner it lands, which is why the '
-      'preconsolidation pressure is worth paying a lab to find. A clay comes '
-      'by its memory honestly: ground that has since been eroded away, ice '
-      'that has melted, or simply drying, which shrinks a clay as fiercely as '
-      'a load. And because the formula takes a log, equal RATIOS settle '
-      'equally: the first few hundred pounds on a lightly loaded clay cost '
-      'far more than the same few hundred added later.',
-  formulas: [
-    ('The two indexes', r'C_r \approx C_c / 6'),
-    ('From the limits', r'C_c \approx 0.009(LL - 10)'),
-    ('Equal ratios', r'\log\frac{2p}{p} = \log\frac{4p}{2p}'),
+  picture: memoryPicture,
+  steps: [
+    (
+      'Squeeze a clay and watch the gaps close',
+      'Plot how much empty space is left against how hard you are pressing. '
+          'A clay draws two straight lines with a sharp corner between them.',
+    ),
+    (
+      'The corner is the memory',
+      'Left of the corner the clay is going back over ground it has covered '
+          'before, and it goes stiffly. Right of it the clay is doing '
+          'something new and the grains shuffle in earnest.',
+    ),
+    (
+      'Six times is the difference',
+      'The soft slope is about six times the stiff one. So the same load on '
+          'the same clay can settle six times as much depending only on which '
+          'side of the corner it lands. That is why a lab test to find the '
+          'corner is worth paying for.',
+    ),
+    (
+      'Equal ratios settle equally',
+      'The sum uses a log, so going from 1 to 2 tons settles as much as '
+          'going from 2 to 4. The first few hundred pounds on a lightly '
+          'loaded clay cost far more than the same few hundred added later.',
+    ),
   ],
-  figure: BriefFigure.clayMemory,
+  spoken: [
+    (
+      'The two slopes',
+      r'C_r \approx C_c / 6',
+      'the stiff one is about a sixth of the soft one',
+    ),
+    (
+      'From the lab limits',
+      r'C_c \approx 0.009(LL - 10)',
+      'an estimate of the soft slope from the liquid limit',
+    ),
+    (
+      'Equal ratios',
+      r'\log\frac{2p}{p} = \log\frac{4p}{2p}',
+      'doubling costs the same settlement wherever you start',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, consolidation',
 );
 
 const drainageBrief = BriefSection(
-  title: 'How far the water has to go',
-  body:
-      'How MUCH a clay settles and how LONG it takes are separate questions '
-      'with separate inputs. The time turns on the drainage path, which is '
-      'the longest journey any squeezed-out water has to make to escape: HALF '
-      'the layer when sand lies above and below, since the unluckiest drop is '
-      'in the middle and can go either way, and the WHOLE layer when one face '
-      'is rock. And the time goes as the SQUARE of that path, so a single '
-      'impermeable boundary makes the wait four times as long, and so does '
-      'doubling the thickness. That square is also why vertical sand drains '
-      'work so well: cut the journey to a tenth and the wait falls to a '
-      'hundredth. What does NOT change the schedule is the size of the load: '
-      'a bigger load settles further, not slower, and half of a large '
-      'settlement arrives on the same day as half of a small one.',
-  formulas: [
-    ('The time', r't = \frac{T_v H_{dr}^2}{c_v}'),
-    ('Both faces drain', r'H_{dr} = H/2'),
-    ('One face only', r'H_{dr} = H, \text{ four times the wait}'),
+  title: 'How far the water has to travel',
+  picture: drainagePicture,
+  steps: [
+    (
+      'Settling is water leaving',
+      'A clay settles by squeezing water out of its gaps. Clay is nearly '
+          'watertight, so the water leaves slowly. How LONG that takes is a '
+          'different question from how MUCH it settles.',
+    ),
+    (
+      'Find the longest journey',
+      'With sand above and below, the unluckiest drop is in the middle and '
+          'can go either way, so it travels half the layer. With rock '
+          'underneath it can only go up, so it travels the whole layer.',
+    ),
+    (
+      'The time goes as the SQUARE',
+      'Double the journey and the wait is four times as long, not twice. So '
+          'one sealed face makes it four times slower, and so does doubling '
+          'the thickness.',
+    ),
+    (
+      'That square is why sand drains work',
+      'Punch vertical sand drains through the clay and the water only has '
+          'to reach the nearest one. Cut the journey to a tenth and the wait '
+          'falls to a hundredth. A bigger load does not change the schedule '
+          'at all: it settles further, not slower.',
+    ),
   ],
-  figure: BriefFigure.drainagePath,
+  spoken: [
+    (
+      'The time',
+      r't = \frac{T_v H_{dr}^2}{c_v}',
+      'the journey squared, over how fast that clay lets water through',
+    ),
+    (
+      'Draining both ways',
+      r'H_{dr} = H/2',
+      'the longest journey is half the layer',
+    ),
+    (
+      'One face sealed',
+      r'H_{dr} = H',
+      'the whole layer, so four times the wait',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, consolidation',
 );
 
