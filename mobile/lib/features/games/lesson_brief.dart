@@ -5652,138 +5652,294 @@ const spinInertiaBrief = BriefSection(
 
 const weightBrief = BriefSection(
   title: 'Kilograms are not newtons',
-  body:
-      'F equals m a wants a FORCE on one side and a MASS on the other, so the '
-      'first job on any dynamics problem is reading which of the two you were '
-      'handed. Kilograms and slugs are mass. Newtons and pounds are force, '
-      'which is to say a weight when gravity is what is causing it. A five '
-      'hundred newton block has a mass of about fifty one kilograms, and using '
-      'the five hundred as a mass makes it nearly ten times heavier than it '
-      'is. Going the other way, a fifty kilogram block weighs four hundred and '
-      'ninety newtons. The conversion is one multiply or one divide by g, '
-      'which is nine point eight one in metric and thirty two point two in US '
-      'units, and the commonest mistake after using the wrong one is doing the '
-      'conversion to something that never needed it.',
-  formulas: [
-    ('Weight from mass', r'W = mg'),
-    ('Mass from weight', r'm = \frac{W}{g}'),
-    ('And', r'g = 9.81\ \mathrm{m/s^2} = 32.2\ \mathrm{ft/s^2}'),
+  picture: weightPicture,
+  steps: [
+    (
+      'Two different questions about one block',
+      'How much stuff is it made of? That is its mass, in kilograms. How hard '
+          'does gravity pull it down? That is its weight, a force, in newtons. '
+          'They are different numbers.',
+    ),
+    (
+      'The equation wants one of each',
+      'Force equals mass times acceleration needs a FORCE on one side and a '
+          'MASS on the other. So the first job in any problem is reading which of '
+          'the two you were handed.',
+    ),
+    (
+      'How to tell which you got',
+      'Kilograms and slugs are mass. Newtons and pounds are force. A block '
+          'described as 500 newtons has a mass of about 51 kilograms, and using '
+          '500 as the mass makes it ten times heavier than it is.',
+    ),
+    (
+      'One multiply, or one divide',
+      'Mass to weight, times gravity. Weight to mass, divide by gravity. The '
+          'commonest mistake after using the wrong one is converting something '
+          'that never needed converting.',
+    ),
   ],
-  figure: BriefFigure.weight,
+  spoken: [
+    (
+      'Weight from mass',
+      r'W = mg',
+      'how much stuff, times how hard gravity pulls',
+    ),
+    ('Mass from weight', r'm = \frac{W}{g}', 'the weight, divided by gravity'),
+    (
+      'And gravity is',
+      r'g = 9.81\ \mathrm{m/s^2} = 32.2\ \mathrm{ft/s^2}',
+      'about ten in metric units, about thirty two in US ones',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 105',
 );
 
 const slopeBrief = BriefSection(
-  title: 'Gravity pulls down, and the slope splits it',
-  body:
-      'Draw the free body diagram first: every problem in this lesson is won '
-      'or lost there. On a slope, the weight still points straight down, and '
-      'because the block cannot go straight down it is worth splitting that '
-      'pull into two pieces along the directions that matter. The piece '
-      'running DOWN THE SURFACE, weight times the SINE of the slope, is the '
-      'only one that accelerates the block. The piece pressing INTO the '
-      'surface, weight times the COSINE, is answered exactly by the surface '
-      'pushing back, so it accelerates nothing, though it is what sets the '
-      'friction available. Swapping the two is the named trap. Note where they '
-      'cross: past forty five degrees the driving piece is the bigger of the '
-      'two, and on a frictionless slope the acceleration is g sine theta '
-      'whatever the block weighs.',
-  formulas: [
-    ('Down the slope', r'W\sin\theta = ma'),
-    ('Into the slope', r'N = W\cos\theta'),
-    ('So', r'a = g\sin\theta \text{, whatever the mass}'),
+  title: 'Gravity pulls straight down, and the ramp splits it',
+  picture: slopePicture,
+  steps: [
+    (
+      'Put a block on a ramp',
+      'Gravity still pulls it straight down, the same as always. But the '
+          'block cannot go straight down, because the ramp is in the way. So '
+          'split that downward pull into two pieces the ramp cares about.',
+    ),
+    (
+      'The piece down the slope',
+      'This is the only one that gets the block moving. It is the weight '
+          'times the SINE of the slope angle. Steeper ramp, bigger piece, faster '
+          'slide.',
+    ),
+    (
+      'The piece into the slope',
+      'This one presses the block against the surface, and the surface pushes '
+          'back exactly as hard, so it moves nothing. It is the weight times the '
+          'COSINE, and it is what decides how much friction you get.',
+    ),
+    (
+      'The trap, and a fact worth keeping',
+      'Swapping sine and cosine is the named mistake here. And on a smooth '
+          'ramp the acceleration is gravity times the sine of the angle, whatever '
+          'the block weighs.',
+    ),
   ],
-  figure: BriefFigure.slope,
+  spoken: [
+    (
+      'Down the slope',
+      r'W\sin\theta = ma',
+      'the weight times the sine of the angle is what accelerates it',
+    ),
+    (
+      'Into the slope',
+      r'N = W\cos\theta',
+      'the weight times the cosine is what the surface pushes back with',
+    ),
+    (
+      'So',
+      r'a = g\sin\theta',
+      'on a smooth ramp, gravity times the sine, whatever the weight',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 105',
 );
 
 const twoEquationsBrief = BriefSection(
   title: 'A rigid body has two equations',
-  body:
-      'Forces move the mass center and moments about that center spin the '
-      'body, and a rigid body problem can need either or both. What decides it '
-      'is what is HOLDING the body and where the force LANDS. An axle through '
-      'the middle stops the body moving off, so only the moment equation is '
-      'left. A force whose line passes through the mass center has no arm '
-      'about it, so it spins nothing and only the force equation is left. A '
-      'free body pushed off center does both at once. And a force is not a '
-      'moment until you multiply it by its distance from the center: dropping '
-      'that step is a named trap, and so is reaching for F equals m a on a '
-      'problem where nothing moves off anywhere.',
-  formulas: [
-    ('Forces', r'\sum F = ma_c'),
-    ('Moments about the center', r'\sum M_c = I_c\alpha'),
-    ('A force becomes a moment by', r'M = F d'),
+  picture: twoEquationsPicture,
+  steps: [
+    (
+      'A push can do two things',
+      'It can shove the whole body along, and it can spin the body round. '
+          'Which of the two you get is decided by what is HOLDING the body and '
+          'where the push LANDS.',
+    ),
+    (
+      'Pinned on an axle: it only spins',
+      'The axle stops the body going anywhere, so all that is left is '
+          'turning. Use the moment equation and nothing else.',
+    ),
+    (
+      'Pushed through the middle: it only slides',
+      'A push whose line goes straight through the middle has no arm to turn '
+          'the body with, so it spins nothing. Use the force equation and nothing '
+          'else. Pushed off center and free, it does both at once.',
+    ),
+    (
+      'A force is not a moment yet',
+      'To turn a force into a moment you multiply it by its distance from the '
+          'middle. Forgetting that step is the named trap in this lesson.',
+    ),
   ],
-  figure: BriefFigure.twoEquations,
+  spoken: [
+    (
+      'Forces move the middle',
+      r'\sum F = ma_c',
+      'add the forces up and the middle of the body accelerates',
+    ),
+    (
+      'Moments spin it',
+      r'\sum M_c = I_c\alpha',
+      'add the moments and the body spins up, against how hard it is to spin',
+    ),
+    (
+      'A force becomes a moment by',
+      r'M = F d',
+      'the force, times how far its line misses the middle by',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 105 and 109',
 );
 
 const ledgerBrief = BriefSection(
   title: 'Energy is an account, and it balances',
-  body:
-      'What a thing started with, plus anything put in from outside, minus '
-      'anything rubbed away, is what it ends with. That one sentence is the '
-      'work energy theorem, and the whole skill is reading which of those '
-      'buckets a situation actually has. Height and movement trade with each '
-      'other freely. A SPRING is a store, not a loss: what was squeezed into '
-      'it comes back out. FRICTION and drag take and never return, which is '
-      'the one term that makes the after side smaller than the before. A motor '
-      'or an engine ADDS from outside. When nothing is taken and nothing '
-      'added, the two sides are equal and it is a conservation problem. Energy '
-      'methods are the fast road when you know two positions and a speed and '
-      'do not care about the time between them.',
-  formulas: [
-    ('The full account', r'T_1 + V_1 + U^{nc}_{1\to2} = T_2 + V_2'),
-    ('Moving', r'T = \tfrac{1}{2}mv^2'),
-    ('Height and spring', r'V_g = mgh, \quad V_e = \tfrac{1}{2}ks^2'),
+  picture: ledgerPicture,
+  steps: [
+    (
+      'What it had, plus what you add, minus what is rubbed away',
+      'That is what it ends with. The whole skill is reading which of those '
+          'buckets a situation actually has, then stacking them up on each side.',
+    ),
+    (
+      'Height and movement trade freely',
+      'Being up high and going fast are the same currency. A block sliding '
+          'down a smooth ramp just moves it from one pile to the other, and '
+          'nothing is lost.',
+    ),
+    (
+      'A spring stores, friction takes',
+      'What gets squeezed into a spring comes back out later. What friction '
+          'and drag take never comes back, and that is the only term that makes '
+          'the after side shorter than the before side. A motor adds from outside.',
+    ),
+    (
+      'When to reach for it',
+      'When nothing is taken and nothing added, the two sides are simply '
+          'equal. Energy is the fast road whenever you know two positions and a '
+          'speed and do not care how long it took.',
+    ),
   ],
-  figure: BriefFigure.ledger,
+  spoken: [
+    (
+      'The full account',
+      r'T_1 + V_1 + U^{nc}_{1\to2} = T_2 + V_2',
+      'what it had, plus what was added or taken, equals what it ends with',
+    ),
+    (
+      'Moving',
+      r'T = \tfrac{1}{2}mv^2',
+      'half the mass times the speed squared',
+    ),
+    (
+      'Height and spring',
+      r'V_g = mgh, \quad V_e = \tfrac{1}{2}ks^2',
+      'weight times height, and half the stiffness times the squeeze squared',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 106',
 );
 
 const cancelBrief = BriefSection(
-  title: 'When the mass cancels, and when it does not',
-  body:
-      'Two of this lesson\'s three problems have the mass drop out, and it is '
-      'worth knowing which way a problem will go before starting it. Mass '
-      'cancels when it sits on BOTH sides of an energy balance: a heavier '
-      'block starts with more energy and needs more of it to reach any given '
-      'speed or height, so the speed at the bottom of a ramp, the height of a '
-      'throw and even the stopping distance under friction are the same '
-      'whatever it weighs, since friction scales with weight too. Mass does '
-      'NOT cancel when it appears on one side only: the energy a thing '
-      'carries, the power to lift it, and the speed a spring of fixed squeeze '
-      'can give it. The last one catches people, because a lighter block '
-      'leaves the same spring FASTER.',
-  formulas: [
-    ('Cancels', r'v = \sqrt{2gh}, \quad d = \frac{v^2}{2\mu g}'),
-    ('Does not', r'T = \tfrac{1}{2}mv^2, \quad P = \dot{m}gh'),
-    ('And a spring gives', r'v = \sqrt{\frac{ks^2}{m}}'),
+  title: 'When the weight cancels, and when it does not',
+  picture: cancelPicture,
+  steps: [
+    (
+      'Race a heavy block against a light one',
+      'Down the same smooth ramp they arrive at the bottom at exactly the '
+          'same speed. The heavy one started with more energy AND needs more of '
+          'it to reach any given speed, so the two cancel out.',
+    ),
+    (
+      'Weight drops out when it sits on both sides',
+      'The speed at the bottom of a ramp, the height of a throw, even how far '
+          'a skid takes to stop, since friction grows with weight too. None of '
+          'them care what the thing weighs.',
+    ),
+    (
+      'It stays when it only sits on one side',
+      'How much energy a thing carries, and how much power it takes to lift '
+          'it, both depend on the weight directly. There is nothing on the other '
+          'side to cancel with.',
+    ),
+    (
+      'The one that catches people',
+      'A spring squeezed the same amount gives a LIGHT block more speed than '
+          'a heavy one. The spring has a fixed amount to hand over, and less mass '
+          'turns it into more speed.',
+    ),
   ],
-  figure: BriefFigure.cancel,
+  spoken: [
+    (
+      'Cancels',
+      r'v = \sqrt{2gh}, \quad d = \frac{v^2}{2\mu g}',
+      'the speed off a drop and the length of a skid, with no mass in either',
+    ),
+    (
+      'Does not cancel',
+      r'T = \tfrac{1}{2}mv^2, \quad P = \dot{m}gh',
+      'the energy carried, and the power to lift, both grow with the mass',
+    ),
+    (
+      'And a spring gives',
+      r'v = \sqrt{\frac{ks^2}{m}}',
+      'more speed to a lighter block, since the mass sits underneath',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 106',
 );
 
 const powerBrief = BriefSection(
-  title: 'Power, and the direction efficiency runs',
-  body:
-      'Power is the rate of doing work, and there are two ways to write it '
-      'that mean the same thing: the energy divided by the time it took, or '
-      'the force multiplied by the speed. The second is the one line answer '
-      'whenever something moves steadily against a resistance. Efficiency is '
-      'where the marks go. A machine always takes in MORE than it gives out, '
-      'so the useful output is the input times the efficiency, and the input '
-      'you need is the output DIVIDED by it. Stopping at the useful power when '
-      'the question asked for the motor is the named trap in this lesson, and '
-      'multiplying where you should divide gives an answer smaller than the '
-      'work being done, which is the check that catches it.',
-  formulas: [
-    ('Power', r'P = \frac{dU}{dt} = F v'),
-    ('Efficiency', r'\eta = \frac{P_{out}}{P_{in}} < 1'),
-    ('So the motor needs', r'P_{in} = \frac{P_{out}}{\eta}'),
+  title: 'Power, and which way efficiency runs',
+  picture: powerPicture,
+  steps: [
+    (
+      'Power is work divided by time',
+      'Lifting a crate ten floors takes the same energy whether it takes a '
+          'minute or an hour. Doing it in a minute takes more POWER.',
+    ),
+    (
+      'Or force times speed',
+      'The same thing said another way, and it is the one line answer '
+          'whenever something moves steadily against a resistance: a truck at a '
+          'constant speed, a hoist lifting at a constant rate.',
+    ),
+    (
+      'A machine always leaks',
+      'It takes in more than it gives out, and the difference goes to heat '
+          'and noise. Efficiency is the fraction that survives, and it is always '
+          'less than one.',
+    ),
+    (
+      'So which way do you divide',
+      'Output is input times efficiency. Input is output DIVIDED by it. If '
+          'the question asks what the motor must supply and your answer is '
+          'smaller than the work being done, you multiplied where you should have '
+          'divided.',
+    ),
   ],
-  figure: BriefFigure.power,
+  spoken: [
+    (
+      'Power',
+      r'P = \frac{dU}{dt} = F v',
+      'work per second, which is also the force times the speed',
+    ),
+    (
+      'Efficiency',
+      r'\eta = \frac{P_{out}}{P_{in}} < 1',
+      'what comes out over what went in, always under one',
+    ),
+    (
+      'So the motor needs',
+      r'P_{in} = \frac{P_{out}}{\eta}',
+      'the useful power, divided by the efficiency',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 107',
 );
 
