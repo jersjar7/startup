@@ -5945,70 +5945,151 @@ const powerBrief = BriefSection(
 
 const impactBrief = BriefSection(
   title: 'Stuck, bounced, or somewhere between',
-  body:
-      'The first thing to read out of a collision problem is the word that '
-      'tells you what kind it is. STUCK together, locked, coupled, embedded, '
-      'buried: all of them mean the coefficient of restitution is nothing, the '
-      'two move off as one, and ONE equation does the whole job, with both '
-      'masses added together on the after side. A perfect bounce is an e of '
-      'one and never quite happens in the world. Anything in between needs TWO '
-      'equations, because there are two unknown speeds: the momentum of the '
-      'pair, and the restitution relation, which compares how fast they '
-      'separate with how fast they closed. Note which velocities that '
-      'comparison uses: the ones square to the surface they hit on, never the '
-      'ones sliding along it.',
-  formulas: [
-    ('Momentum of the pair', r"m_1v_1 + m_2v_2 = m_1v_1' + m_2v_2'"),
-    ('Restitution', r"e = \frac{v_2' - v_1'}{v_1 - v_2}"),
-    ('Stuck together', r"e = 0,\quad v_1' = v_2'"),
-    ('Perfect bounce', r'e = 1'),
+  picture: impactPicture,
+  steps: [
+    (
+      'Read the word that tells you which kind',
+      'Stuck, locked, coupled, embedded, buried: all of them mean the two '
+          'travel on as one lump. Bounced clean off means the opposite. Most '
+          'crashes sit somewhere between the two.',
+    ),
+    (
+      'Stuck together is the easy one',
+      'There is only ONE speed afterwards, so one equation does the whole '
+          'job. Add both masses together on the after side. The bounciness number '
+          'is zero.',
+    ),
+    (
+      'A perfect bounce is the other end',
+      'Bounciness of one, and nothing in the real world quite manages it. '
+          'Anything in between needs TWO equations, because there are two unknown '
+          'speeds to find.',
+    ),
+    (
+      'What the bounciness number compares',
+      'How fast they separate afterwards, against how fast they closed '
+          'before. And it uses only the speeds square to the surface they hit on, '
+          'never the ones sliding along it.',
+    ),
   ],
-  figure: BriefFigure.impact,
+  spoken: [
+    (
+      'Momentum of the pair',
+      r"m_1v_1 + m_2v_2 = m_1v_1' + m_2v_2'",
+      'mass times speed, added up, is the same before and after',
+    ),
+    (
+      'Bounciness',
+      r"e = \frac{v_2' - v_1'}{v_1 - v_2}",
+      'how fast they part, over how fast they came together',
+    ),
+    (
+      'Stuck together',
+      r"e = 0,\quad v_1' = v_2'",
+      'no bounce at all, and one speed for the pair',
+    ),
+    ('Perfect bounce', r'e = 1', 'they part exactly as fast as they closed'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 108',
 );
 
 const survivesBrief = BriefSection(
   title: 'Momentum always, energy almost never',
-  body:
-      'Momentum comes through every collision unchanged, because nothing '
-      'outside is pushing on the pair while the bang lasts. Kinetic energy '
-      'does not: it survives ONLY a perfect bounce, and everything else spends '
-      'some of it on bending, heating and noise. A crash where things stick '
-      'together spends the most, and a bullet burying itself in a block spends '
-      'over ninety nine percent of it. That is why conserving energy in a '
-      'plastic collision is the named trap in this lesson, and why a ballistic '
-      'pendulum is worked with momentum for the impact and energy only for the '
-      'swing that follows. One more thing worth holding: momentum is conserved '
-      'across the PAIR, never by one body on its own.',
-  formulas: [
-    ('Always', r'\sum p \text{ before} = \sum p \text{ after}'),
-    ('Only when e = 1', r'\sum T \text{ before} = \sum T \text{ after}'),
-    ('Sticking together', r'\text{loses the most}'),
+  picture: survivesPicture,
+  steps: [
+    (
+      'Momentum comes through every crash',
+      'While the bang is happening nothing outside is pushing on the pair, so '
+          'the total of mass times speed is exactly the same afterwards as it was '
+          'before. Every time, whatever kind of crash it was.',
+    ),
+    (
+      'Energy does not',
+      'Crashing bends metal, makes heat and makes noise, and all of that is '
+          'energy that has left. It only survives a perfect bounce, which almost '
+          'nothing really is.',
+    ),
+    (
+      'Sticking together spends the most',
+      'A bullet burying itself in a block loses over ninety nine percent of '
+          'the energy. Assuming energy is conserved in a crash like that is the '
+          'named trap in this lesson.',
+    ),
+    (
+      'So a swing problem is two problems',
+      'Use momentum for the instant of the crash. Then, and only then, use '
+          'energy for the smooth swing that follows, where nothing is being lost.',
+    ),
   ],
-  figure: BriefFigure.survives,
+  spoken: [
+    (
+      'Always true',
+      r'\sum p_{\text{before}} = \sum p_{\text{after}}',
+      'the total momentum of the pair is unchanged',
+    ),
+    (
+      'Only in a perfect bounce',
+      r'\sum T_{\text{before}} = \sum T_{\text{after}}',
+      'the total energy is unchanged only when the bounciness is one',
+    ),
+    (
+      'And momentum belongs to',
+      r'\text{the pair, never one body}',
+      'add both bodies up, before and after',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 108',
 );
 
 const impulseBrief = BriefSection(
   title: 'Force times time is the whole of it',
-  body:
-      'Impulse is a force multiplied by how long it acts, and it equals the '
-      'change in momentum exactly. Drawn as force against time, it is the AREA '
-      'under the line. That one sentence explains the safest thing in a '
-      'vehicle: a crash fixes how much momentum has to disappear, so the only '
-      'thing a designer can change is how LONG the stopping takes, and the '
-      'force follows. Twice as long is half as hard, which is a crumple zone, '
-      'an airbag, a catcher drawing their hands back and a run off area. Turn '
-      'it over and you have a pile driver: the same momentum in the shortest '
-      'possible time is the biggest possible force. And if a question gives a '
-      'force and a time, the answer is a momentum, not a force: divide by the '
-      'time only when you want the force back.',
-  formulas: [
-    ('Impulse', r'\int F\,dt = F_{avg}\,\Delta t'),
-    ('Which is', r'F\,\Delta t = m v_2 - m v_1'),
-    ('So a longer stop', r'\text{means a smaller force}'),
+  picture: impulsePicture,
+  steps: [
+    (
+      'A force acting for a while changes momentum',
+      'Multiply how hard by how long and you get exactly the change in mass '
+          'times speed. Drawn as force against time, it is the shaded AREA under '
+          'the line.',
+    ),
+    (
+      'A crash fixes the area',
+      'Stopping a car means a fixed amount of momentum has to disappear. You '
+          'cannot change that. The only thing a designer can change is how LONG '
+          'the stopping takes.',
+    ),
+    (
+      'Twice as long is half as hard',
+      'That is a crumple zone, an airbag, a run off area, and a catcher '
+          'drawing their hands back. Same area, spread over more time, so the '
+          'force is smaller.',
+    ),
+    (
+      'Turn it over and you get a hammer',
+      'The same momentum in the shortest possible time is the biggest '
+          'possible force. And if a question hands you a force and a time, the '
+          'answer is a momentum, not a force.',
+    ),
   ],
-  figure: BriefFigure.impulse,
+  spoken: [
+    (
+      'Impulse',
+      r'\int F\,dt = F_{avg}\,\Delta t',
+      'how hard, times how long, which is the area under the line',
+    ),
+    (
+      'Which equals',
+      r'F\,\Delta t = m v_2 - m v_1',
+      'that area is exactly the change in mass times speed',
+    ),
+    (
+      'So a longer stop',
+      r'\Delta t \uparrow \Rightarrow F \downarrow',
+      'more time to stop means less force, for the same change in momentum',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 107',
 );
 
@@ -10752,76 +10833,162 @@ const trussRouteBrief = BriefSection(
 );
 
 const naturalBrief = BriefSection(
-  title: 'Stiffness over mass, under a square root',
-  body:
-      'One expression carries this whole page: the natural frequency is the '
-      'square root of the stiffness over the mass. Stiffer is quicker, heavier '
-      'is slower, and the square root softens both, so FOUR times the '
-      'stiffness is only twice the frequency. What it depends on is the RATIO '
-      'of the two, so doubling both changes nothing at all. What it does not '
-      'depend on is how far you pulled it: amplitude appears nowhere in the '
-      'formula, and a big swing simply travels further at the same rate. Watch '
-      'the two units: omega comes out in radians a second and a question '
-      'usually wants hertz, which is omega over two pi. And watch for a WEIGHT '
-      'given where the formula wants a mass. Torsion is the same expression '
-      'with the torsional stiffness on top and the mass moment of inertia '
-      'underneath.',
-  formulas: [
-    ('Natural frequency', r'\omega_n = \sqrt{\frac{k}{m}}'),
-    ('In hertz', r'f_n = \frac{\omega_n}{2\pi}'),
-    ('The period', r'T_n = \frac{1}{f_n}'),
-    ('Twisting', r'\omega_n = \sqrt{\frac{k_t}{I}}'),
+  title: 'Stiffness over weight, under a square root',
+  picture: naturalPicture,
+  steps: [
+    (
+      'Everything springy has a rate it likes',
+      'Pull a block on a spring aside and let go, and it bounces at one '
+          'particular rate. That rate is its own, and it depends on only two '
+          'things.',
+    ),
+    (
+      'Stiffer is quicker, heavier is slower',
+      'A stiff spring snaps back harder, so it bounces faster. A heavy block '
+          'is more sluggish, so it bounces slower. It is the RATIO of the two, so '
+          'doubling both changes nothing.',
+    ),
+    (
+      'The square root softens both',
+      'Four times the stiffness is only twice the rate. Four times the weight '
+          'is half the rate. Nothing about it is proportional.',
+    ),
+    (
+      'How far you pull it does not matter',
+      'A big swing simply travels further at the same rate. And watch the '
+          'units: the formula gives radians per second, while the question often '
+          'wants cycles per second.',
+    ),
   ],
-  figure: BriefFigure.natural,
+  spoken: [
+    (
+      'Its own rate',
+      r'\omega_n = \sqrt{\frac{k}{m}}',
+      'the square root of the stiffness divided by the mass',
+    ),
+    (
+      'In cycles per second',
+      r'f_n = \frac{\omega_n}{2\pi}',
+      'that rate divided by two pi',
+    ),
+    (
+      'The time for one bounce',
+      r'T_n = \frac{1}{f_n}',
+      'one over the cycles per second',
+    ),
+    (
+      'Twisting instead',
+      r'\omega_n = \sqrt{\frac{k_t}{I}}',
+      'the same shape, with twisting stiffness over how hard it is to spin',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 112 to 113',
 );
 
 const resonanceBrief = BriefSection(
   title: 'Resonance is a match, not a property',
-  body:
-      'A structure does not resonate on its own. Resonance is what happens '
-      'when something pushes it AT its natural frequency, so that every push '
-      'arrives in time with the last swing and adds to it, and the amplitude '
-      'climbs until the damping or the structure gives way. That makes the '
-      'design question a comparison: work out the natural frequency, find out '
-      'what is going to be shaking it, and keep the two apart. Far above is '
-      'safe and far below is safe; only the middle is dangerous. Machine '
-      'mountings are deliberately made soft so that the running speed sits '
-      'well above the natural frequency, which does mean the machine passes '
-      'through resonance on its way up to speed. Before comparing anything, '
-      'get both numbers into the same units.',
-  formulas: [
-    ('Resonance when', r'\omega = \omega_n'),
-    ('Same thing in hertz', r'1\ \mathrm{Hz} = 2\pi\ \mathrm{rad/s}'),
-    ('And from a machine plate', r'1\ \mathrm{Hz} = 60\ \mathrm{rpm}'),
+  picture: resonancePicture,
+  steps: [
+    (
+      'Push a swing at the right moments',
+      'Time your pushes to the swing and every one adds to the last, and the '
+          'swing goes higher and higher. Push at the wrong times and you fight it '
+          'and nothing much happens.',
+    ),
+    (
+      'A structure is the same',
+      'Nothing resonates on its own. Resonance is what happens when something '
+          'shakes it AT its own rate, and the swinging climbs until the damping '
+          'or the structure gives way.',
+    ),
+    (
+      'So the design question is a comparison',
+      'Work out the structure\'s own rate, find out what is going to shake '
+          'it, and keep the two apart. Far above is safe, far below is safe, only '
+          'the middle is dangerous.',
+    ),
+    (
+      'Which way engineers aim',
+      'Machine mountings are made deliberately soft so the running speed sits '
+          'well above the natural rate. That does mean the machine passes through '
+          'resonance on its way up to speed.',
+    ),
   ],
-  figure: BriefFigure.resonance,
+  spoken: [
+    (
+      'Resonance when',
+      r'\omega = \omega_n',
+      'the shaking rate matches the structure\'s own rate',
+    ),
+    (
+      'Same thing in other units',
+      r'1\ \mathrm{Hz} = 2\pi\ \mathrm{rad/s}',
+      'one cycle per second is two pi radians per second',
+    ),
+    (
+      'And from a machine plate',
+      r'1\ \mathrm{Hz} = 60\ \mathrm{rpm}',
+      'one cycle per second is sixty turns a minute',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 112',
 );
 
 const dampingBrief = BriefSection(
   title: 'What the damping decides',
-  body:
-      'Pull a system aside, let it go, and the damping ratio decides what '
-      'happens next. UNDER one it swings and dies away inside a shrinking '
-      'envelope, which is almost every real structure: buildings and bridges '
-      'run at a few percent and ring for a long time. AT one, critically '
-      'damped, it returns in the shortest time possible without overshooting '
-      'at all, which is what a door closer, a gun recoil and an instrument '
-      'needle are tuned to. OVER one it still does not swing and it takes '
-      'LONGER, which is the piece people expect to go the other way: past the '
-      'critical point, more damping is slower, not quicker. At ZERO it swings '
-      'forever at the same height, which nothing real does, and every free '
-      'vibration formula on this page, the natural frequency included, is '
-      'written for exactly that undamped ideal.',
-  formulas: [
-    ('Damping ratio', r'\zeta = \frac{c}{2\sqrt{km}} = \frac{c}{c_c}'),
-    ('Swings and never shrinks', r'\zeta = 0'),
-    ('Swings and decays', r'\zeta < 1'),
-    ('Back fastest, no swing', r'\zeta = 1'),
-    ('No swing, slower', r'\zeta > 1'),
+  picture: dampingPicture,
+  steps: [
+    (
+      'Pull it aside and let go',
+      'What happens next is decided by one number: how much the motion is '
+          'being resisted. Four things can happen, and the pictures are worth '
+          'more than the formula.',
+    ),
+    (
+      'A little damping: it swings and fades',
+      'It crosses back and forth inside a shrinking envelope. That is almost '
+          'every real structure: buildings and bridges run at a few percent and '
+          'ring for a long time.',
+    ),
+    (
+      'Just enough: straight back, no overshoot',
+      'The fastest possible return without crossing the line at all. A door '
+          'closer, a gun recoil and an instrument needle are all tuned to sit '
+          'right here.',
+    ),
+    (
+      'Too much is slower, not quicker',
+      'Past that point it still does not swing, but it takes LONGER to get '
+          'back. That is the piece people expect to go the other way. And with '
+          'none at all it swings for ever, which nothing real does.',
+    ),
   ],
-  figure: BriefFigure.damping,
+  spoken: [
+    (
+      'The damping number',
+      r'\zeta = \frac{c}{2\sqrt{km}} = \frac{c}{c_c}',
+      'how much resistance there is, against how much it would take to stop the swinging',
+    ),
+    (
+      'Swings and never shrinks',
+      r'\zeta = 0',
+      'no resistance at all, the ideal every free vibration formula is written for',
+    ),
+    (
+      'Swings and fades',
+      r'\zeta < 1',
+      'a little resistance, almost every real structure',
+    ),
+    (
+      'Straight back, fastest',
+      r'\zeta = 1',
+      'exactly enough to stop it overshooting',
+    ),
+    ('No swing, but slower', r'\zeta > 1', 'more than enough, and it drags'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 112',
 );
 
