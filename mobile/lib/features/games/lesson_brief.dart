@@ -3124,357 +3124,814 @@ const lifeCycleBrief = BriefSection(
 
 const factorsBrief = BriefSection(
   title: 'Six factors, one question',
-  body:
-      'Every one of them answers the same question: what have you got, and '
-      'what do you want instead. Money comes in three forms, a single amount '
-      'now or later, and an equal series, and the factor is named for the pair '
-      'it moves between. The two that get swapped are the sinking fund and '
-      'capital recovery. Both connect a series to a single amount, and what '
-      'separates them is whether the known amount is sitting in your hand '
-      'today or waiting at the end.',
-  formulas: [
-    ('Carried forward', r'F = P(1+i)^n'),
-    ('Brought back', r'P = F(1+i)^{-n}'),
-    ('Sinking fund', r'A = F\,\frac{i}{(1+i)^n - 1}'),
-    ('Capital recovery', r'A = P\,\frac{i(1+i)^n}{(1+i)^n - 1}'),
+  picture: factorsPicture,
+  steps: [
+    (
+      'Money changes shape',
+      'Money comes in three shapes: one amount today, one amount later, or '
+          'the same amount every year. A hundred dollars today and a hundred '
+          'dollars in five years are not worth the same, because money can earn '
+          'interest while it waits.',
+    ),
+    (
+      'A factor swaps one shape for another',
+      'Every factor answers the same question: what have you got, and what '
+          'do you want instead? It is named for the pair it moves between. P to '
+          'F carries one amount forward. A to P turns a yearly series into '
+          'today\'s amount.',
+    ),
+    (
+      'The two that get mixed up',
+      'Sinking fund and capital recovery both turn a single amount into a '
+          'yearly series. The difference is WHERE the known amount sits. In your '
+          'hand today: capital recovery. Waiting at the end: sinking fund.',
+    ),
   ],
-  figure: BriefFigure.factors,
+  spoken: [
+    (
+      'Carried forward',
+      r'F = P(1+i)^n',
+      'today\'s amount, grown by the rate, once per year',
+    ),
+    (
+      'Brought back',
+      r'P = F(1+i)^{-n}',
+      'a later amount, shrunk back to today',
+    ),
+    (
+      'Sinking fund',
+      r'A = F\,\frac{i}{(1+i)^n - 1}',
+      'the yearly deposit that builds up to F at the end',
+    ),
+    (
+      'Capital recovery',
+      r'A = P\,\frac{i(1+i)^n}{(1+i)^n - 1}',
+      'the yearly payment that pays off P from today',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 229, tables pp. 232-236',
 );
 
 const ratesBrief = BriefSection(
-  title: 'Three numbers, one label',
-  body:
-      'Twelve percent compounded monthly is three different numbers. The '
-      'PERIODIC rate is one percent, the quoted rate divided by the periods, '
-      'and it is the one that goes beside an n counted in the same units. The '
-      'NOMINAL rate is the twelve on the paperwork, and it answers almost '
-      'nothing. The EFFECTIVE rate is 12.68 percent, what a year actually '
-      'costs once the compounding has happened, and it is the only one worth '
-      'comparing between offers with different compounding. Compounded '
-      'annually all three collapse into the same number.',
-  formulas: [
-    ('Periodic', r'i = \frac{r}{m}'),
-    ('Effective', r'i_e = \left(1 + \frac{r}{m}\right)^m - 1'),
-    ('So', r'12\% \text{ monthly} \;\Rightarrow\; 1\%,\ 12\%,\ 12.68\%'),
+  title: 'Twelve percent a year is three different numbers',
+  picture: ratesPicture,
+  steps: [
+    (
+      'Charged a little at a time',
+      'A loan at 12 percent a year, compounded monthly, does not charge 12 '
+          'percent once. It charges one percent every month, twelve times. That '
+          'one percent is the PERIODIC rate, the quoted rate split into its '
+          'periods.',
+    ),
+    (
+      'Interest on the interest',
+      'After the first month you owe one percent more, and the next month\'s '
+          'one percent is charged on that too. Twelve small steps climb a little '
+          'past the straight line: 12.68 percent, not 12. That is the EFFECTIVE '
+          'rate, what a year really costs.',
+    ),
+    (
+      'The number on the paperwork',
+      'The 12 is the NOMINAL rate. It is the label, and on its own it tells '
+          'you almost nothing. To compare two offers that compound differently, '
+          'compare their effective rates.',
+    ),
+    (
+      'Match the rate to the count',
+      'Use the periodic rate with a number of periods counted the same way: '
+          'one percent with months, 12.68 percent with years. Compounded once a '
+          'year, all three numbers are the same.',
+    ),
   ],
-  figure: BriefFigure.rates,
+  spoken: [
+    (
+      'Periodic',
+      r'i = \frac{r}{m}',
+      'the yearly rate, divided by how many times a year it is charged',
+    ),
+    (
+      'Effective',
+      r'i_e = \left(1 + \frac{r}{m}\right)^m - 1',
+      'one plus the periodic rate, multiplied by itself m times, minus one',
+    ),
+    (
+      'So',
+      r'12\% \text{ monthly} \Rightarrow 1\%,\ 12\%,\ 12.68\%',
+      'periodic one, nominal twelve, effective 12.68',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
 const piecesBrief = BriefSection(
-  title: 'Count the pieces first',
-  body:
-      'A diagram is often more than one cash flow drawn on top of another, and '
-      'each piece takes its own factor. A series that grows by the same step '
-      'every period is a FLAT series plus a TRIANGLE, so it takes two, and '
-      'doing the flat part and stopping is the commonest way to lose the '
-      'question. Anything landing on a single date takes a third. Add the '
-      'pieces up at the end; do not look for one factor that covers a picture '
-      'made of several.',
-  formulas: [
-    ('A single amount', r'P = F(1+i)^{-n}'),
-    ('The flat part', r'P = A\,\frac{(1+i)^n - 1}{i(1+i)^n}'),
-    ('The growing part', r'P = G\,(P/G, i, n)'),
-    ('Together', r'P = A(P/A) + G(P/G)'),
+  title: 'Count the pieces before you pick a factor',
+  picture: piecesPicture,
+  steps: [
+    (
+      'A picture can be two pictures',
+      'A cost that grows by the same step every year looks like one thing. '
+          'It is two: a flat series, the same every year, with a triangle '
+          'stacked on top that grows by one step each year.',
+    ),
+    (
+      'Each piece gets its own factor',
+      'The flat part uses the A factor. The triangle uses the G factor, the '
+          'gradient. Doing the flat part and stopping is the commonest way to '
+          'lose this question.',
+    ),
+    (
+      'Anything on one date is a third piece',
+      'A single amount landing on one year takes a plain single-amount '
+          'factor. Bring each piece to the same date, then add them up. Never '
+          'hunt for one factor that covers the whole picture.',
+    ),
   ],
-  figure: BriefFigure.pieces,
+  spoken: [
+    (
+      'A single amount',
+      r'P = F(1+i)^{-n}',
+      'one later amount, brought back to today',
+    ),
+    (
+      'The flat part',
+      r'P = A\,(P/A, i, n)',
+      'the same amount every year, brought back to today',
+    ),
+    (
+      'The growing part',
+      r'P = G\,(P/G, i, n)',
+      'the triangle, brought back to today',
+    ),
+    ('Together', r'P = A(P/A) + G(P/G)', 'add the pieces at the end'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
 const annualCostBrief = BriefSection(
-  title: 'What owning it costs a year',
-  body:
-      'Spread the purchase across the life with capital recovery, add the '
-      'annual running costs as they are, bring any one-off costs inside the '
-      'life back and spread them too, and SUBTRACT the salvage. That last sign '
-      'is the one the exam watches: money coming back at the end reduces what '
-      'the thing costs you, and it sits at the bottom of the problem next to a '
-      'column of costs waiting to be added by mistake. Anything already spent '
-      'before the decision stays out entirely.',
-  formulas: [
-    ('Annual worth', r'AW = -P(A/P) - A_{\text{op}} + S(A/F)'),
-    ('Not', r'\text{dividing the purchase by } n'),
-    ('A sunk cost', r'\text{is in neither alternative}'),
+  title: 'What owning it costs you each year',
+  picture: annualCostPicture,
+  steps: [
+    (
+      'Spread the purchase out',
+      'A machine bought for a lump sum is used for years. Spread the price '
+          'across those years with the capital recovery factor, not by plain '
+          'division, because the money tied up in it could have earned '
+          'interest.',
+    ),
+    (
+      'Add what it costs to run',
+      'Fuel, repairs, staff: the yearly running costs go in as they are. A '
+          'one-off cost in the middle of its life is brought back to today and '
+          'spread out too.',
+    ),
+    (
+      'Subtract what it sells for',
+      'Money coming back at the end makes the thing cheaper to own, so the '
+          'salvage comes OFF. It sits at the bottom of the problem next to a '
+          'column of costs, waiting to be added by mistake.',
+    ),
+    (
+      'Money already spent stays out',
+      'Anything paid before the decision is gone whatever you choose now. It '
+          'belongs to neither option.',
+    ),
   ],
-  figure: BriefFigure.annualCost,
+  spoken: [
+    (
+      'Annual worth',
+      r'AW = -P(A/P) - A_{\text{op}} + S(A/F)',
+      'the purchase spread out, minus running costs, plus the salvage spread out',
+    ),
+    ('Not', r'\frac{P}{n}', 'never the purchase divided by the years'),
+    (
+      'A sunk cost',
+      r'\text{is in neither alternative}',
+      'already spent, so it cannot change the choice',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
 const studyPeriodBrief = BriefSection(
-  title: 'Over the same amount of time',
-  body:
-      'A present worth prices a PERIOD, so two present worths only compare if '
-      'they cover the same one. Equal lives need nothing. Unequal lives have '
-      'to be repeated until they end together, at the least common multiple, '
-      'or the shorter option looks cheap for the simple reason that it is '
-      'buying less service. Annual worth avoids the whole business: it is '
-      'dollars per year, a rate, and two rates compare directly however long '
-      'each alternative lasts.',
-  formulas: [
-    ('Equal lives', r'\text{compare over the life}'),
-    ('Unequal lives, by PW', r'\text{repeat to the least common multiple}'),
-    ('Unequal lives, by AW', r'\text{nothing to do}'),
+  title: 'Compare over the same amount of time',
+  picture: studyPeriodPicture,
+  steps: [
+    (
+      'A total is only fair over the same stretch',
+      'A present worth is the total cost of a stretch of time. Comparing a '
+          'six year pump with a four year pump by total cost is unfair: the four '
+          'year one looks cheap because it buys less service.',
+    ),
+    (
+      'Repeat them until they end together',
+      'Buy the four year pump three times and the six year pump twice: both '
+          'run twelve years, and now the totals compare. That is the least '
+          'common multiple of the two lives.',
+    ),
+    (
+      'Or compare per year',
+      'Annual worth is dollars per year, a rate. Two rates compare directly '
+          'however long each option lasts, so there is nothing to repeat. Equal '
+          'lives need nothing either way.',
+    ),
   ],
-  figure: BriefFigure.studyPeriod,
+  spoken: [
+    (
+      'Equal lives',
+      r'\text{compare over the life}',
+      'same stretch, fair as it is',
+    ),
+    (
+      'Unequal lives, by PW',
+      r'\text{repeat to the least common multiple}',
+      'run both until they end on the same year',
+    ),
+    (
+      'Unequal lives, by AW',
+      r'\text{nothing to do}',
+      'dollars per year compare as they stand',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
 const methodsAgreeBrief = BriefSection(
-  title: 'One comparison, three clocks',
-  body:
-      'Present worth, future worth and annual worth convert the same cash '
-      'flows to time zero, to the end, and to a rate per year. They are the '
-      'same comparison and for the same alternatives, over the same period, at '
-      'the same rate they cannot rank two options differently. If two methods '
-      'disagree, one of those three was not the same: usually the periods, '
-      'because unequal lives were compared as they stand, and sometimes the '
-      'rate. If all three really were identical, the disagreement is a slip in '
-      'the working.',
-  formulas: [
-    ('Same ranking', r'PW,\ FW,\ AW \text{ agree}'),
-    ('Unless', r'\text{the periods differ}'),
-    ('Or', r'\text{the rate differs}'),
+  title: 'Three views of one comparison',
+  picture: methodsAgreePicture,
+  steps: [
+    (
+      'Same money, three clocks',
+      'Present worth piles every cash flow onto today. Future worth piles '
+          'them onto the last year. Annual worth spreads them evenly, one slice '
+          'per year. It is the same money read three ways.',
+    ),
+    (
+      'So they cannot disagree',
+      'For the same options, over the same stretch of time, at the same '
+          'rate, all three rank the options the same way. Whichever is bigger '
+          'today is bigger at the end and bigger per year.',
+    ),
+    (
+      'If they seem to disagree',
+      'One of those three things was not the same. Usually the stretch of '
+          'time, because unequal lives were compared as they stand. Sometimes '
+          'the rate. If all three really match, it is a slip in the working.',
+    ),
   ],
-  figure: BriefFigure.methodsAgree,
+  spoken: [
+    (
+      'Same ranking',
+      r'PW,\ FW,\ AW \text{ agree}',
+      'present, future and annual worth pick the same winner',
+    ),
+    (
+      'Unless',
+      r'\text{the periods differ}',
+      'the two options were compared over different stretches',
+    ),
+    (
+      'Or',
+      r'\text{the rate differs}',
+      'a different interest rate was used somewhere',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
 const costTypesBrief = BriefSection(
-  title: 'Sort the costs first',
-  body:
-      'FIXED costs do not move with the volume, so they are where a cost line '
-      'starts. VARIABLE costs scale with it, so they are how steeply it rises. '
-      'A SUNK cost is already spent and unrecoverable whatever is decided next, '
-      'and it stays out of the comparison entirely: belonging to one option '
-      'physically does not put it there financially, and depreciating it does '
-      'not either. An OPPORTUNITY cost is what choosing this gives up and '
-      'never appears on an invoice. A MARGINAL cost is the next unit, not the '
-      'average of them all.',
-  formulas: [
-    ('Total cost', r'TC = FC + VC \cdot Q'),
-    ('A sunk cost', r'\text{is in neither alternative}'),
-    ('An opportunity cost', r'\text{is in, invoice or not}'),
+  title: 'Sort the costs before you add them',
+  picture: costTypesPicture,
+  steps: [
+    (
+      'Fixed and variable',
+      'Rent is the same whether you make one thing or a thousand: FIXED. '
+          'Materials cost more the more you make: VARIABLE. On a cost line the '
+          'fixed part is where the line starts and the variable part is how '
+          'steeply it climbs.',
+    ),
+    (
+      'Sunk means gone',
+      'Money already spent that you cannot get back is SUNK. It does not '
+          'change with what you decide next, so it stays out of the comparison. '
+          'Owning the thing does not put it back in, and neither does '
+          'depreciating it.',
+    ),
+    (
+      'Two costs with no invoice',
+      'An OPPORTUNITY cost is what you give up by choosing this, like the '
+          'rent an empty shed could have earned. It counts. A MARGINAL cost is '
+          'what the NEXT one costs to make, not the average of them all.',
+    ),
   ],
-  figure: BriefFigure.costTypes,
+  spoken: [
+    (
+      'Total cost',
+      r'TC = FC + VC \cdot Q',
+      'the fixed cost, plus the variable cost times how many you make',
+    ),
+    (
+      'A sunk cost',
+      r'\text{is in neither alternative}',
+      'spent already, so it cannot tip the choice',
+    ),
+    (
+      'An opportunity cost',
+      r'\text{is in, invoice or not}',
+      'what you gave up counts, even with no bill',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 230-231',
 );
 
 const breakEvenBrief = BriefSection(
-  title: 'Two lines and where they cross',
-  body:
-      'Set the two total costs equal and solve for the volume. The option with '
-      'the cheaper START wins below that volume and the one with the cheaper '
-      'RATE wins above it, which is the whole of the topic. Two things go '
-      'wrong: comparing the per-unit rates on their own, which ignores where '
-      'each line begins, and subtracting the variable costs the wrong way '
-      'round, which produces a negative volume. And when one option starts '
-      'higher AND rises faster the lines never cross, so there is no '
-      'break-even volume to find.',
-  formulas: [
-    ('Break even', r'FC_1 + VC_1 Q = FC_2 + VC_2 Q'),
-    ('So', r'Q = \frac{FC_1 - FC_2}{VC_2 - VC_1}'),
-    ('Below it', r'\text{the cheaper start wins}'),
+  title: 'Two cost lines and where they cross',
+  picture: breakEvenPicture,
+  steps: [
+    (
+      'Each option is a line',
+      'Owning a machine starts expensive and climbs slowly. Renting one '
+          'starts cheap and climbs fast. Draw both against how many you make and '
+          'they cross once.',
+    ),
+    (
+      'The crossing is the break-even',
+      'Below that volume the option with the cheaper START wins. Above it the '
+          'option with the cheaper RATE wins. To find it, set the two total costs '
+          'equal and solve for the volume.',
+    ),
+    (
+      'Two ways to get it wrong',
+      'Comparing only the per-unit rates ignores where each line begins. '
+          'Subtracting the variable costs the wrong way round gives a negative '
+          'volume, which is a sign, not an answer.',
+    ),
+    (
+      'Sometimes they never cross',
+      'If one option starts higher AND climbs faster, it loses at every '
+          'volume. There is no break-even to find.',
+    ),
   ],
-  figure: BriefFigure.breakEven,
+  spoken: [
+    (
+      'Break even',
+      r'FC_1 + VC_1 Q = FC_2 + VC_2 Q',
+      'the two total costs are equal',
+    ),
+    (
+      'So',
+      r'Q = \frac{FC_1 - FC_2}{VC_2 - VC_1}',
+      'the gap in starts, divided by the gap in rates',
+    ),
+    (
+      'Below it',
+      r'\text{the cheaper start wins}',
+      'at small volumes the low starting cost matters most',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 230-231',
 );
 
 const paybackBrief = BriefSection(
   title: 'Only what is left over pays it back',
-  body:
-      'A simple payback is the investment divided by the NET annual saving: '
-      'everything the change brings in, less everything new it costs to run. '
-      'The exam offers the gross saving because it is the larger number and '
-      'the one printed first, and using it makes a seven year payback look '
-      'like five. Only amounts that repeat every year belong underneath; a '
-      'one-off grant comes off the investment instead. And if the new annual '
-      'cost is larger than the saving there is no payback period at all.',
-  formulas: [
+  picture: paybackPicture,
+  steps: [
+    (
+      'Paying back a big bar',
+      'The investment is one big amount. Each year, the change saves some '
+          'money, and that saving pays the bar down. The payback period is how '
+          'many years until the bar is paid.',
+    ),
+    (
+      'Use the net saving',
+      'The new machine also costs something to run. Only what is LEFT after '
+          'those new costs pays the bar down. The exam prints the bigger, gross '
+          'number first, and using it makes a seven year payback look like five.',
+    ),
+    (
+      'What goes where',
+      'Only amounts that repeat every year belong underneath. A one-off grant '
+          'comes off the investment instead. If the new yearly costs are bigger '
+          'than the saving, there is no payback at all.',
+    ),
+  ],
+  spoken: [
     (
       'Simple payback',
       r'n = \frac{\text{investment}}{\text{net annual saving}}',
+      'the investment, divided by what each year really saves',
     ),
-    ('Net saving', r'\text{savings} - \text{new annual costs}'),
-    ('So', r'\frac{1{,}400{,}000}{280{,}000 - 80{,}000} = 7 \text{ years}'),
+    (
+      'Net saving',
+      r'\text{savings} - \text{new annual costs}',
+      'what comes in, minus what the change costs to run',
+    ),
+    (
+      'So',
+      r'\frac{1{,}400{,}000}{280{,}000 - 80{,}000} = 7 \text{ years}',
+      'one point four million, over two hundred thousand a year',
+    ),
   ],
-  figure: BriefFigure.payback,
+  figure: BriefFigure.none,
   handbook: 'Handbook pp. 230-231',
 );
 
 const ratioBrief = BriefSection(
   title: 'Three places a number can land',
-  body:
-      'A benefit-cost ratio is what the project does for the public over what '
-      'it costs the government. Benefits go on top, and so do disbenefits, '
-      'except they come off rather than on. Costs go underneath, and that '
-      'includes every year of operating and maintaining the thing, not only '
-      'the building of it. Harm to the public is the one people misfile: '
-      'moving it into the denominator is a different division and gives a '
-      'different answer. A project stands up when the ratio reaches one.',
-  formulas: [
-    ('Plain', r'B/C = \frac{B}{C}'),
-    ('With disbenefits', r'B/C = \frac{B - D}{C}'),
-    ('Justified when', r'B/C \geq 1'),
+  picture: ratioPicture,
+  steps: [
+    (
+      'What it does over what it costs',
+      'A public project is judged by a fraction: the good it does for people '
+          'on top, what it costs the government underneath. A ratio of one or '
+          'more means it pays its way.',
+    ),
+    (
+      'Harm comes off the top',
+      'Some projects also hurt people, like noise or lost land. That harm is '
+          'a DISBENEFIT: it belongs on top, subtracted from the benefits. Moving '
+          'it underneath is a different division and gives a different answer.',
+    ),
+    (
+      'Every cost goes underneath',
+      'Not just building it. Every year of running and maintaining it counts '
+          'as cost too. Bring everything to the same date before you divide.',
+    ),
   ],
-  figure: BriefFigure.bcRatio,
+  spoken: [
+    ('Plain', r'B/C = \frac{B}{C}', 'benefits over costs'),
+    (
+      'With disbenefits',
+      r'B/C = \frac{B - D}{C}',
+      'benefits minus harm, over costs',
+    ),
+    ('Justified when', r'B/C \geq 1', 'the ratio reaches one'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 231',
 );
 
 const incrementalBrief = BriefSection(
   title: 'Is the step up worth it',
-  body:
-      'With mutually exclusive alternatives you do not pick the highest '
-      'benefit-cost ratio. That number answers a question nobody asked, which '
-      'is how much each dollar returns, and it is blind to how many dollars '
-      'are on offer. Throw out anything that cannot reach one on its own, put '
-      'the survivors in order of cost, and ask of each step up whether the '
-      'extra benefit covers the extra cost. Keep stepping while it does. The '
-      'comparison is always against the last one that survived, not the one '
-      'printed above it.',
-  formulas: [
-    ('Each on its own', r'B/C \geq 1'),
-    ('Then each step', r'\Delta B/C = \frac{B_2 - B_1}{C_2 - C_1}'),
-    ('Step up when', r'\Delta B/C \geq 1'),
+  picture: incrementalPicture,
+  steps: [
+    (
+      'The best ratio is the wrong pick',
+      'When you can only build ONE of several options, the highest '
+          'benefit-cost ratio is not the answer. A ratio says how much each '
+          'dollar returns; it is blind to how many dollars are on offer.',
+    ),
+    (
+      'Line them up by cost',
+      'First throw out anything whose own ratio is under one. Put the '
+          'survivors in order, cheapest first. Then walk up the line one step '
+          'at a time.',
+    ),
+    (
+      'Ask about each step',
+      'Does the EXTRA benefit of this step cover its EXTRA cost? If yes, '
+          'take the step and keep going. If no, stay where you are. The '
+          'comparison is always against the last option that survived, not the '
+          'one printed above it.',
+    ),
   ],
-  figure: BriefFigure.incremental,
+  spoken: [
+    ('Each on its own', r'B/C \geq 1', 'every option must pay its way first'),
+    (
+      'Then each step',
+      r'\Delta B/C = \frac{B_2 - B_1}{C_2 - C_1}',
+      'the extra benefit, over the extra cost',
+    ),
+    (
+      'Step up when',
+      r'\Delta B/C \geq 1',
+      'the extra benefit covers the extra cost',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 231',
 );
 
 const rollbackBrief = BriefSection(
-  title: 'Work a tree backwards',
-  body:
-      'Squares are where you choose and circles are where you do not. Start at '
-      'the endings and work back: a circle is worth its endings weighted by '
-      'how likely each one is, which always lands between the cheapest and the '
-      'dearest and leans toward the likely one. Then stand at the square and '
-      'take the best line, lowest for costs and highest for returns. The '
-      'probabilities at any one circle add to one, so a branch left unlabeled '
-      'carries whatever is left over and still has to be counted.',
-  formulas: [
-    ('At a circle', r'EV = p_1 C_1 + p_2 C_2 + \cdots + p_n C_n'),
-    ('Which sums to', r'\sum p_i = 1'),
-    ('So', r'0.4(10) + 0.6(5) = 7'),
+  title: 'Work a decision tree backwards',
+  picture: rollbackPicture,
+  steps: [
+    (
+      'Squares choose, circles do not',
+      'A square is a decision you make. A circle is chance, where the world '
+          'decides. Each branch out of a circle has a probability, and at any '
+          'one circle they add up to one.',
+    ),
+    (
+      'Start at the ends',
+      'A circle is worth its endings weighted by how likely each is: four '
+          'tenths of ten plus six tenths of five is seven. That always lands '
+          'between the cheapest and dearest ending, leaning toward the likely '
+          'one.',
+    ),
+    (
+      'Then choose at the square',
+      'Once every circle has one number, stand at the square and take the '
+          'best branch: the lowest for costs, the highest for returns.',
+    ),
+    (
+      'An unlabeled branch still counts',
+      'If one branch has no probability written on it, it carries whatever '
+          'is left over to make one. It is not zero.',
+    ),
   ],
-  figure: BriefFigure.rollback,
+  spoken: [
+    (
+      'At a circle',
+      r'EV = p_1 C_1 + p_2 C_2 + \cdots',
+      'each ending times how likely it is, added up',
+    ),
+    (
+      'Which sums to',
+      r'\sum p_i = 1',
+      'the probabilities at one circle add up to one',
+    ),
+    (
+      'So',
+      r'0.4(10) + 0.6(5) = 7',
+      'four tenths of ten plus six tenths of five is seven',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 231',
 );
 
 const irrBrief = BriefSection(
-  title: 'The rate that balances it',
-  body:
-      'The internal rate of return is the interest rate at which everything '
-      'coming in is worth exactly what goes out, which is the same as saying '
-      'net present worth is zero. Nothing else it gets confused with is a rate '
-      'at all: undiscounted profit ignores time entirely, a payback period is '
-      'measured in years, and a salvage value is money. Over a single period '
-      'the return is just the gain over what you PUT IN, so a thousand coming '
-      'back as 1,150 earns fifteen percent, not the thirteen you get by '
-      'dividing by the 1,150.',
-  formulas: [
-    ('At the rate', r'PW_{\text{in}} - PW_{\text{out}} = 0'),
-    ('One period', r'i = \frac{F - P}{P}'),
-    ('So', r'\frac{1{,}150 - 1{,}000}{1{,}000} = 15\%'),
+  title: 'The rate that makes the two sides balance',
+  picture: irrPicture,
+  steps: [
+    (
+      'Money out, money back',
+      'Put a thousand dollars in today and get 1,150 back in a year. The '
+          'return is the gain over what you PUT IN: 150 over 1,000, which is 15 '
+          'percent. Not 150 over 1,150.',
+    ),
+    (
+      'Over more years, find the balance',
+      'With several cash flows, the internal rate of return is the interest '
+          'rate at which everything coming in is worth exactly what went out. '
+          'Try a rate: if the incoming side is heavier, try higher; if lighter, '
+          'try lower.',
+    ),
+    (
+      'It is a rate, not a number of dollars',
+      'Things it gets confused with are not rates at all. Plain profit '
+          'ignores time. A payback period is years. A salvage value is money.',
+    ),
   ],
-  figure: BriefFigure.internalRate,
+  spoken: [
+    (
+      'At the rate',
+      r'PW_{\text{in}} - PW_{\text{out}} = 0',
+      'what comes in and what goes out weigh the same today',
+    ),
+    (
+      'One period',
+      r'i = \frac{F - P}{P}',
+      'the gain, divided by what you put in',
+    ),
+    (
+      'So',
+      r'\frac{1{,}150 - 1{,}000}{1{,}000} = 15\%',
+      '150 over the thousand you put in',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
 const marrBrief = BriefSection(
-  title: 'Over the hurdle or not',
-  body:
-      'Accept a project when its return reaches the minimum the money is '
-      'required to earn, and reject it when it does not. Exactly on the '
-      'hurdle is an acceptance: the project breaks even in time-value terms '
-      'and nothing is lost. A positive return is not the test, a near miss is '
-      'not a pass, and the same project can clear one year and fail the next '
-      'because the hurdle belongs to the money rather than to the project. '
-      'One thing this rule does NOT do is choose between mutually exclusive '
-      'alternatives: for that, take the rate of return on the DIFFERENCE '
-      'between them and put that against the hurdle instead.',
-  formulas: [
-    ('Accept', r'IRR \geq MARR'),
-    ('Reject', r'IRR < MARR'),
-    ('Choosing between two', r'IRR_{\Delta} \geq MARR'),
+  title: 'Over the bar or not',
+  picture: marrPicture,
+  steps: [
+    (
+      'The money has a minimum',
+      'A company will not put money into a project unless it earns at least '
+          'some rate, because the money could earn that elsewhere. That minimum '
+          'is the hurdle, the MARR.',
+    ),
+    (
+      'Compare the return to the bar',
+      'If the project\'s rate of return reaches the hurdle, accept it. If '
+          'not, reject it. Exactly on the bar is a pass: the project breaks even '
+          'and nothing is lost.',
+    ),
+    (
+      'What the test is not',
+      'A positive return is not the test. A near miss is not a pass. The '
+          'same project can pass one year and fail the next, because the hurdle '
+          'belongs to the money, not the project.',
+    ),
+    (
+      'Choosing between two projects',
+      'The hurdle does not pick between two options that both clear it. For '
+          'that, take the rate of return on the DIFFERENCE between them and put '
+          'that against the bar.',
+    ),
   ],
-  figure: BriefFigure.hurdle,
+  spoken: [
+    ('Accept', r'IRR \geq MARR', 'the return reaches the hurdle'),
+    ('Reject', r'IRR < MARR', 'the return falls short'),
+    (
+      'Choosing between two',
+      r'IRR_{\Delta} \geq MARR',
+      'the return on the extra money reaches the hurdle',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
 const timingBrief = BriefSection(
   title: 'A rate is not a total',
-  body:
-      'A return is money per year on the money at risk, so two things move it '
-      'and one thing does not. Money that comes back sooner earns a higher '
-      'rate than the same money later. A smaller stake earning the same '
-      'dollars is a higher rate than a larger one. And multiplying every cash '
-      'flow in a project by the same number leaves the rate exactly where it '
-      'was, which is why the biggest total on the page is so often the lower '
-      'return.',
-  formulas: [
-    ('Sooner', r'\frac{1{,}200}{1{,}000} \text{ in one year} = 20\%'),
-    ('Later', r'\sqrt{\frac{1{,}200}{1{,}000}} - 1 = 9.5\%'),
-    ('Scaled', r'\frac{2{,}300}{2{,}000} = \frac{1{,}150}{1{,}000}'),
+  picture: timingPicture,
+  steps: [
+    (
+      'Sooner earns a higher rate',
+      'The same 1,200 back on a thousand is 20 percent if it arrives in one '
+          'year. If it takes two years, the money earned about 9.5 percent each '
+          'year. Same dollars, half the rate.',
+    ),
+    (
+      'A smaller stake earns a higher rate',
+      'Earning 150 on a thousand is 15 percent. Earning the same 150 on two '
+          'thousand is 7.5 percent. The rate is money per year on the money at '
+          'risk.',
+    ),
+    (
+      'Doubling everything changes nothing',
+      'Multiply every cash flow in a project by the same number and the rate '
+          'stays exactly where it was. That is why the biggest total on the page '
+          'is so often the lower return.',
+    ),
   ],
-  figure: BriefFigure.ratePerYear,
+  spoken: [
+    (
+      'Sooner',
+      r'\frac{1{,}200}{1{,}000} - 1 = 20\%',
+      'a fifth more, in one year',
+    ),
+    (
+      'Later',
+      r'\sqrt{\frac{1{,}200}{1{,}000}} - 1 = 9.5\%',
+      'the same gain spread over two years of compounding',
+    ),
+    (
+      'Scaled',
+      r'\frac{2{,}300}{2{,}000} = \frac{1{,}150}{1{,}000}',
+      'twice the dollars, the same 15 percent',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 229',
 );
 
 const macrsBrief = BriefSection(
   title: 'Read the table, not the name',
-  body:
-      'Straight line spreads the cost evenly and takes the salvage off first. '
-      'MACRS does neither: it front-loads the deduction using percentages the '
-      'handbook prints for you, it depreciates the FULL cost with no salvage '
-      'subtraction, and it runs the book value to zero. The class name is not '
-      'the number of years, because the half-year convention takes half a year '
-      'at each end. Five year property is written off over six years, three '
-      'year over four, seven year over eight. Find the column first, then '
-      'count the rows.',
-  formulas: [
-    ('Straight line', r'D_j = \frac{C - S_n}{n}'),
-    ('MACRS', r'D_j = d_j \times C'),
-    ('So', r'0.32 \times 60{,}000 = 19{,}200'),
+  picture: macrsPicture,
+  steps: [
+    (
+      'Writing a cost off over the years',
+      'A machine loses value as it ages, and the tax rules let a business '
+          'deduct that loss a slice at a time. Straight line takes the salvage '
+          'off first and cuts the rest into equal slices.',
+    ),
+    (
+      'MACRS is front-loaded',
+      'MACRS uses percentages the handbook prints for you: big slices early, '
+          'small ones late. It deducts the FULL cost with no salvage taken off, '
+          'and it runs the value all the way to zero.',
+    ),
+    (
+      'The name is not the number of years',
+      'Five year property is written off over SIX years, because the first '
+          'and last years each get half a year. Three year property takes four; '
+          'seven year takes eight.',
+    ),
+    (
+      'Column first, then row',
+      'Find the column for the property class, then count down the rows to '
+          'the year. Multiply that percentage by the full cost.',
+    ),
   ],
-  figure: BriefFigure.macrs,
+  spoken: [
+    (
+      'Straight line',
+      r'D_j = \frac{C - S_n}{n}',
+      'cost minus salvage, cut into n equal slices',
+    ),
+    (
+      'MACRS',
+      r'D_j = d_j \times C',
+      'the year\'s percentage from the table, times the full cost',
+    ),
+    (
+      'So',
+      r'0.32 \times 60{,}000 = 19{,}200',
+      'year two of five year property, on a sixty thousand machine',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 231, MACRS factors',
 );
 
 const bookValueBrief = BriefSection(
-  title: 'What has not been written off',
-  body:
-      'Book value is the cost less EVERY year of depreciation taken so far, '
-      'not less the current year alone. The number people hand in instead is '
-      'the accumulated depreciation, which is the same subtraction read from '
-      'the wrong end: one is what has gone, the other is what is left, and '
-      'together they come to the cost. Book value is also not what the asset '
-      'would fetch. Under MACRS it walks to zero on a schedule while the thing '
-      'itself may still be worth real money.',
-  formulas: [
-    ('Book value', r'BV_j = C - \sum_{k=1}^{j} D_k'),
-    ('Which means', r'BV_j + \textstyle\sum D = C'),
-    ('So', r'500{,}000 - 281{,}350 = 218{,}650'),
+  title: 'What has not been written off yet',
+  picture: bookValuePicture,
+  steps: [
+    (
+      'The cost is one bar',
+      'Picture what the machine cost as one long bar. Every year of '
+          'depreciation bites a slice off the left end. The book value is the '
+          'part still standing.',
+    ),
+    (
+      'All the years so far, not just this one',
+      'Book value is the cost minus EVERY slice taken so far. The slices '
+          'already gone add up to the accumulated depreciation. What is gone and '
+          'what is left always add back up to the cost.',
+    ),
+    (
+      'Not what it would sell for',
+      'Book value is a number in the accounts. Under MACRS it walks to zero '
+          'on a schedule while the machine may still be worth real money.',
+    ),
   ],
-  figure: BriefFigure.bookValue,
+  spoken: [
+    (
+      'Book value',
+      r'BV_j = C - \sum_{k=1}^{j} D_k',
+      'the cost, minus every year\'s depreciation up to now',
+    ),
+    (
+      'Which means',
+      r'BV_j + \textstyle\sum D = C',
+      'what is left plus what is gone is the cost',
+    ),
+    (
+      'So',
+      r'500{,}000 - 281{,}350 = 218{,}650',
+      'half a million, minus what has gone, is what is left',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 231',
 );
 
 const inflationBrief = BriefSection(
-  title: 'Match the rate to the dollars',
-  body:
-      'Actual dollars are the money that will really change hands and they '
-      'have inflation in them, so they are discounted at the combined rate. '
-      'Constant dollars are stated in today\'s purchasing power with inflation '
-      'stripped out, so they are discounted at the real rate. Using one on the '
-      'other charges for inflation twice or not at all. And the combined rate '
-      'has three terms: adding the two and stopping is close at small rates '
-      'and most of a point out at large ones.',
-  formulas: [
-    ('Combined', r'd = i + f + i f'),
-    ('Actual dollars', r'\text{discount at } d'),
-    ('Constant dollars', r'\text{discount at } i'),
+  title: 'Match the rate to the kind of dollars',
+  picture: inflationPicture,
+  steps: [
+    (
+      'Two kinds of dollars',
+      'Prices creep up over time. ACTUAL dollars are the money that will '
+          'really change hands each year, creeping up with them. CONSTANT '
+          'dollars are priced in today\'s money, with that creep stripped out.',
+    ),
+    (
+      'Each kind has its own rate',
+      'Actual dollars already have inflation inside them, so discount them '
+          'at the combined rate d. Constant dollars do not, so discount them at '
+          'the real rate i. Cross them and you charge for inflation twice, or '
+          'not at all.',
+    ),
+    (
+      'The combined rate has three parts',
+      'Adding the real rate and the inflation rate is close when both are '
+          'small. The third term, their product, is what is missing, and at '
+          'large rates it is most of a point.',
+    ),
   ],
-  figure: BriefFigure.dollarsMatch,
+  spoken: [
+    (
+      'Combined',
+      r'd = i + f + i f',
+      'the real rate, plus inflation, plus the two multiplied',
+    ),
+    (
+      'Actual dollars',
+      r'\text{discount at } d',
+      'money with inflation in it uses the combined rate',
+    ),
+    (
+      'Constant dollars',
+      r'\text{discount at } i',
+      'today\'s money uses the real rate',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 230',
 );
 
@@ -10331,23 +10788,43 @@ const lawsBrief = BriefSection(
 );
 
 const periodBrief = BriefSection(
-  title: 'Which mark it lands on',
-  body:
-      'Unless a problem says otherwise, every payment lands at the END of its '
-      'period. Today is period zero. The beginning of year n is the same '
-      'instant as the end of year n minus one, so it sits on period n minus '
-      'one, and the beginning of year one is today. An ordinary annuity starts '
-      'at the end of the first period rather than now, which is what every '
-      'uniform series factor in the handbook assumes. A gradient is zero in '
-      'the first period by definition and its first step lands at the end of '
-      'period two. Draw the diagram before choosing a factor: a cash flow one '
-      'period out leaves no trace at all in the arithmetic that follows.',
-  formulas: [
-    ('End of year n', r'\text{period } n'),
-    ('Beginning of year n', r'\text{period } n - 1'),
-    ('Today', r'\text{period } 0'),
+  title: 'Which mark a payment lands on',
+  picture: periodPicture,
+  steps: [
+    (
+      'A line of marks',
+      'Draw time as a line with a mark at the end of every year. Today is '
+          'mark 0. The end of year 1 is mark 1, the end of year 2 is mark 2, and '
+          'so on.',
+    ),
+    (
+      'Payments land at the end',
+      'Unless a problem says otherwise, every payment lands at the END of '
+          'its year. A yearly series starts at mark 1, not today. That is what '
+          'every series factor in the handbook assumes.',
+    ),
+    (
+      'The start of a year is the end of the last one',
+      'The beginning of year 3 is the same instant as the end of year 2, so '
+          'it is mark 2. The beginning of year 1 is today, mark 0. A growing '
+          'series has nothing in its first year; its first step lands on mark 2.',
+    ),
+    (
+      'Draw it before you pick a factor',
+      'A payment one mark out of place leaves no trace in the arithmetic. '
+          'The only place to catch it is on the drawing.',
+    ),
   ],
-  figure: BriefFigure.period,
+  spoken: [
+    ('End of year n', r'\text{mark } n', 'the payment sits on mark n'),
+    (
+      'Beginning of year n',
+      r'\text{mark } n - 1',
+      'the same instant as the end of the year before',
+    ),
+    ('Today', r'\text{mark } 0', 'where the line starts'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 230',
 );
 
