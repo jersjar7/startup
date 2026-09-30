@@ -3936,104 +3936,237 @@ const inflationBrief = BriefSection(
 );
 
 const resolveBrief = BriefSection(
-  title: 'Which component gets the cosine',
-  body:
-      'The cosine goes with the axis the angle is measured FROM, and nothing '
-      'else decides it. An angle off the horizontal gives a horizontal '
-      'component of F cos and a vertical one of F sin; an angle off the '
-      'vertical swaps them. When the direction is given as geometry instead of '
-      'an angle there is no trig at all: the horizontal leg over the '
-      'hypotenuse, times the force. Whichever route you take, a component is '
-      'always shorter than the force it came out of, so a component equal to '
-      'the whole force means something was divided by the wrong number.',
-  formulas: [
-    ('From the horizontal', r'F_x = F\cos\theta, \; F_y = F\sin\theta'),
-    ('By geometry', r'F_x = \frac{x}{R} F, \; R = \sqrt{x^2 + y^2}'),
-    ('So', r'\frac{5}{13}(1{,}300) = 500'),
+  title: 'Which part gets the cosine',
+  picture: resolvePicture,
+  steps: [
+    (
+      'A slanted pull does two jobs',
+      'Pull a sled with a rope that slants upward and you drag it forward AND '
+          'lift it a little. Splitting the pull into those two jobs is resolving '
+          'it. Draw it as a right triangle: the pull is the long slanted side, '
+          'the two jobs are the flat side and the upright one.',
+    ),
+    (
+      'The cosine belongs to the axis the angle opens from',
+      'If the angle is measured up from the flat, the flat part gets the '
+          'cosine. If it is measured across from the upright, the upright part '
+          'gets it. Nothing else decides which.',
+    ),
+    (
+      'Given a slope instead, there is no trig at all',
+      'Sometimes you are handed a shape, like 5 across and 12 up. Then the '
+          'flat part is 5 over 13 of the pull and the upright part is 12 over 13. '
+          'Just the sides of the triangle.',
+    ),
+    (
+      'A check that costs nothing',
+      'Each part is always SHORTER than the whole pull, because it is a short '
+          'side of the triangle. A part that comes out equal to the pull means '
+          'something was divided by the wrong number.',
+    ),
   ],
-  figure: BriefFigure.resolve,
+  spoken: [
+    (
+      'Angle up from the flat',
+      r'F_x = F\cos\theta, \; F_y = F\sin\theta',
+      'the flat part is the pull times cosine, the upright part times sine',
+    ),
+    (
+      'Given a slope',
+      r'F_x = \frac{x}{R} F, \; R = \sqrt{x^2 + y^2}',
+      'the flat run over the slanted length, times the pull',
+    ),
+    (
+      'So',
+      r'\frac{5}{13}(1{,}300) = 500',
+      'five thirteenths of thirteen hundred is five hundred',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const momentBrief = BriefSection(
-  title: 'The arm is a perpendicular',
-  body:
-      'A moment is the force times the PERPENDICULAR distance from the point '
-      'to the force\'s line of action. Draw that line first: the arm is '
-      'measured to the line, not to the place the force happens to be applied, '
-      'so the length of the member is almost never the answer. A vertical '
-      'force has a horizontal arm and a horizontal force has a vertical one. '
-      'A force whose line passes through the point makes no moment at all, '
-      'however large it is. Splitting the force into components and taking '
-      'each one\'s moment separately gives the same answer and is usually '
-      'quicker.',
-  formulas: [
-    ('In general', r'M = F d_{\perp}'),
-    ('In two dimensions', r'M_z = x F_y - y F_x'),
-    ('A couple', r'M = F d \text{, about any point}'),
+  title: 'The arm is the shortest distance to the line',
+  picture: momentPicture,
+  steps: [
+    (
+      'A push that turns something',
+      'Push on a door near the hinge and it barely moves. Push at the handle '
+          'and it swings. Same push, different turning effect, because the '
+          'distance changed. That turning effect is a moment: the push times a '
+          'distance.',
+    ),
+    (
+      'Which distance, exactly',
+      'Draw the line the push runs along, stretched out both ways. The arm is '
+          'the SHORTEST distance from the pin to that line, the one that meets it '
+          'square on. Not the distance to where you are pushing.',
+    ),
+    (
+      'So a slanted bar is almost never the answer',
+      'A load hanging off a slanted boom pulls straight down, so its line is '
+          'vertical, and the shortest distance to a vertical line is a FLAT one. '
+          'The boom length is the distance to where the force sits, which is a '
+          'different thing.',
+    ),
+    (
+      'Straight through the pin means nothing happens',
+      'If the line passes through the pin, the arm is zero and the push '
+          'cannot turn it at all, however hard you shove.',
+    ),
   ],
-  figure: BriefFigure.moment,
+  spoken: [
+    (
+      'In general',
+      r'M = F d_{\perp}',
+      'the force, times the shortest distance to its line',
+    ),
+    (
+      'In two dimensions',
+      r'M_z = x F_y - y F_x',
+      'each part of the force times its own distance, one taken from the other',
+    ),
+    (
+      'A couple',
+      r'M = F d',
+      'two equal opposite pushes: the same turn about any point',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const senseBrief = BriefSection(
-  title: 'Pick a direction and hold it',
-  body:
-      'Which way a force turns a body depends on which SIDE of the point it '
-      'acts as well as which way it points: a downward force to the right of a '
-      'pin and an upward force to the left both turn it clockwise. Choose '
-      'clockwise or counterclockwise as positive at the start of a problem and '
-      'do not change your mind halfway, because mixing the two is the fastest '
-      'way to a wrong answer that looks reasonable. A force aimed through the '
-      'point counts as zero, and two equal opposite forces on opposite sides '
-      'add rather than cancel.',
-  formulas: [
-    ('Sense', r'M_z = x F_y - y F_x'),
-    ('Positive', r'\text{counterclockwise, if you choose it so}'),
-    ('Through the point', r'd_{\perp} = 0 \;\Rightarrow\; M = 0'),
+  title: 'Pick a turning direction and keep it',
+  picture: sensePicture,
+  steps: [
+    (
+      'Which side you push on matters',
+      'Sit on a seesaw. Push down on the right end and it turns one way. Push '
+          'down on the LEFT end and it turns the other. Same downward push, '
+          'opposite turns, because they are on opposite sides of the pin.',
+    ),
+    (
+      'Two things decide the turn',
+      'Which way the push points, and which side of the pin it sits on. Flip '
+          'either one and the turn flips. Flip both and it is back where it '
+          'started.',
+    ),
+    (
+      'Choose your positive at the start',
+      'Say clockwise is positive, or say it is negative. Either works. What '
+          'ruins an answer is changing your mind halfway through, because then '
+          'the numbers still add up and the result is wrong.',
+    ),
+    (
+      'Two opposite pushes can add up',
+      'Equal pushes in opposite directions on opposite sides of the pin do '
+          'not cancel. They both turn it the same way, and their turns add.',
+    ),
   ],
-  figure: BriefFigure.sense,
+  spoken: [
+    (
+      'Which way it turns',
+      r'M_z = x F_y - y F_x',
+      'positive is one way round, negative the other',
+    ),
+    (
+      'Positive',
+      r'\text{counterclockwise, if you choose it so}',
+      'your choice, kept for the whole problem',
+    ),
+    (
+      'Through the point',
+      r'd_{\perp} = 0 \;\Rightarrow\; M = 0',
+      'no arm means no turn',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const supportsBrief = BriefSection(
-  title: 'Whatever it prevents, it supplies',
-  body:
-      'A free body diagram takes the thing off its supports and puts back what '
-      'each support was doing. A roller stops one direction and gives one '
-      'force, square to whatever it runs on: on a slope that force is not '
-      'vertical, and on a wall it is horizontal. A pin stops the end going '
-      'anywhere and gives two forces, but the beam can still turn on it, so '
-      'there is no moment. A fixed end stops the turn as well and gives two '
-      'forces and a moment. A cable is a roller that can only pull.',
-  formulas: [
-    ('Roller or cable', r'\text{1 unknown}'),
-    ('Pin', r'\text{2 unknowns}'),
-    ('Fixed', r'\text{3 unknowns}'),
+  title: 'Whatever a support stops, it supplies',
+  picture: supportsPicture,
+  steps: [
+    (
+      'Take the beam off its supports',
+      'To work out the forces, you lift the beam away and draw in what each '
+          'support was doing for it. The rule is simple: whatever movement the '
+          'support was preventing, it must have been pushing to prevent.',
+    ),
+    (
+      'A roller stops one thing, so gives one arrow',
+      'It can roll sideways but not sink, so it pushes square to whatever it '
+          'rolls on. On a slope that push is not vertical, and on a wall it is '
+          'sideways. A cable is the same, except it can only pull.',
+    ),
+    (
+      'A pin stops the end going anywhere, so gives two',
+      'It holds the end in place both ways. But the beam can still swivel on '
+          'it, like a door on a hinge, so there is no turn.',
+    ),
+    (
+      'A fixed end stops the swivel too, so gives three',
+      'Two pushes and a turn. Think of a beam cemented into a wall: the wall '
+          'stops it moving and stops it rotating.',
+    ),
   ],
-  figure: BriefFigure.supports,
+  spoken: [
+    ('Roller or cable', r'\text{1 unknown}', 'one push, square to the surface'),
+    ('Pin', r'\text{2 unknowns}', 'two pushes, no turn'),
+    ('Fixed', r'\text{3 unknowns}', 'two pushes and a turn'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
 const resultantBrief = BriefSection(
-  title: 'A spread load acts at its centroid',
-  body:
-      'Replace a load spread along a member by one force: its size is the area '
-      'of the load shape, and it acts at the centroid of that shape. Uniform '
-      'puts it in the middle of the LOADED part, which is not the middle of '
-      'the member unless the load covers all of it. A triangle puts it a third '
-      'of the way in from the heavy end. Anything in between lands in between. '
-      'Using the far end of the load as the arm is the mistake that doubles a '
-      'cantilever moment.',
-  formulas: [
-    ('Uniform', r'W = wL \text{ at } L/2'),
+  title: 'A spread load acts at its balance point',
+  picture: resultantPicture,
+  steps: [
+    (
+      'Snow on a roof, not a brick on a roof',
+      'Some loads sit at one spot. Others are spread along, like snow or '
+          'water or the weight of the beam itself. To work with a spread load you '
+          'swap it for one single push that does the same job.',
+    ),
+    (
+      'How big, and where',
+      'How big: the AREA of the load shape drawn on the beam. Where: at the '
+          'balance point of that shape.',
+    ),
+    (
+      'Even load: the middle of the part it covers',
+      'Careful, that is the middle of the LOADED stretch, not the middle of '
+          'the beam, unless the load covers all of it.',
+    ),
+    (
+      'Triangle load: a third in from the heavy end',
+      'More load sits at the thick end, so the single push sits closer to '
+          'that end. Using the far tip instead is what doubles a cantilever '
+          'answer.',
+    ),
+  ],
+  spoken: [
+    (
+      'Even',
+      r'W = wL \text{ at } L/2',
+      'load per length times length, acting at the middle',
+    ),
     (
       'Triangle',
-      r'W = \tfrac{1}{2} w L \text{ at } L/3 \text{ from the heavy end}',
+      r'W = \tfrac{1}{2} w L',
+      'half the peak load times the length, acting a third in from the heavy end',
     ),
-    ('So', r'3(4) = 12 \text{ kN at } 2 \text{ m}'),
+    (
+      'So',
+      r'3(4) = 12',
+      'three per meter over four meters is twelve, acting at two meters',
+    ),
   ],
-  figure: BriefFigure.resultant,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
@@ -10910,20 +11043,48 @@ const normalForceBrief = BriefSection(
 
 const determinacyBrief = BriefSection(
   title: 'Three equations, and no more',
-  body:
-      'Two dimensions give you three equations, so three unknown reactions is '
-      'the most equilibrium can find. Count them before starting: one for a '
-      'roller, two for a pin, three for a fixed end. More than three and the '
-      'beam is statically indeterminate, which says nothing against the beam. '
-      'It is usually the stiffer structure, and it needs how much things '
-      'stretch to finish. Loads never add unknowns, couples included: they are '
-      'known, they only have to be carried.',
-  formulas: [
-    ('What you have', r'\sum F_x = 0, \; \sum F_y = 0, \; \sum M = 0'),
-    ('Determinate', r'\text{unknowns} = 3'),
-    ('Indeterminate', r'\text{unknowns} > 3'),
+  picture: determinacyPicture,
+  steps: [
+    (
+      'A flat problem gives you exactly three facts',
+      'Nothing slides sideways. Nothing sinks. Nothing spins. That is three '
+          'equations, and it is everything statics has.',
+    ),
+    (
+      'So count the unknowns first',
+      'One for a roller, two for a pin, three for a fixed end. Add them up. '
+          'Three unknowns and three equations means you can solve it.',
+    ),
+    (
+      'Four or more and statics runs out',
+      'The structure is fine. It is usually the stiffer one. You just need '
+          'extra information about how much things stretch before you can finish, '
+          'which is a later chapter.',
+    ),
+    (
+      'Loads are never unknowns',
+      'A load is given to you. It does not need finding, it only needs '
+          'carrying. That includes a twist applied somewhere along the beam.',
+    ),
   ],
-  figure: BriefFigure.determinacy,
+  spoken: [
+    (
+      'What you have',
+      r'\sum F_x = 0, \; \sum F_y = 0, \; \sum M = 0',
+      'nothing slides, nothing sinks, nothing spins',
+    ),
+    (
+      'Solvable by statics',
+      r'\text{unknowns} = 3',
+      'three unknowns for three equations',
+    ),
+    (
+      'Not solvable by statics alone',
+      r'\text{unknowns} > 3',
+      'more unknowns than equations',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 94',
 );
 
