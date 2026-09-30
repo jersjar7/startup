@@ -7081,160 +7081,345 @@ const gaugeBrief = BriefSection(
 );
 
 const gateBrief = BriefSection(
-  title: 'Two depths, not one',
-  body:
-      'A submerged gate has two depths in play and they are never the same '
-      'one. The FORCE is the pressure at the CENTROID times the area, because '
-      'the pressure at the centroid is the average over the face. But it does '
-      'not act there: the pressure grows with depth, so the push is bottom '
-      'heavy and the resultant sits below the middle, at the center of '
-      'pressure. For a rectangle with its top at the surface that works out '
-      'to two thirds of the way down, which is a result worth knowing by '
-      'heart. The offset is the second moment over the centroid depth times '
-      'the area, so it shrinks as the gate goes deeper: a gate far down is '
-      'very nearly uniformly loaded. Force from the centroid, moment from the '
-      'center of pressure.',
-  formulas: [
-    ('The force', r'F_R = \gamma h_C A'),
-    ('Where it acts', r'y_{CP} = y_C + \frac{I_{xC}}{y_C A}'),
-    ('A rectangle', r'I_{xC} = \frac{bh^3}{12}'),
+  title: 'How hard it pushes, and where it pushes',
+  picture: gatePicture,
+  steps: [
+    (
+      'Water pushes harder the deeper it gets',
+      'On a gate holding a reservoir back, the push at the top edge is almost '
+          'nothing and the push at the bottom edge is the most there is. Drawn '
+          'out, it is a triangle lying on its side.',
+    ),
+    (
+      'How hard: use the middle of the gate',
+      'The pressure halfway down is the average of all of it, so the total '
+          'push is that middle pressure times the area of the gate. That gives '
+          'you the size of the push.',
+    ),
+    (
+      'Where: LOWER than the middle',
+      'Because the bottom half is pushed harder than the top half, the one '
+          'arrow that stands for all of it sits below the middle. For a gate '
+          'reaching the surface it lands two thirds of the way down.',
+    ),
+    (
+      'And it creeps back toward the middle as it sinks',
+      'Sink the same gate deep enough and top and bottom are pushed almost '
+          'equally, so the arrow moves back toward the middle. Size from the '
+          'middle, position from the lower point, every time.',
+    ),
   ],
-  figure: BriefFigure.gate,
+  spoken: [
+    (
+      'The push',
+      r'F_R = \gamma h_C A',
+      'the pressure at the middle of the gate, times the area of the gate',
+    ),
+    (
+      'Where it acts',
+      r'y_{CP} = y_C + \frac{I_{xC}}{y_C A}',
+      'the middle depth, plus a bit more that shrinks as the gate goes deeper',
+    ),
+    (
+      'A rectangle',
+      r'I_{xC} = \frac{bh^3}{12}',
+      'the shape number for a rectangle: width times height cubed, over twelve',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 179',
 );
 
 const buoyancyBrief = BriefSection(
-  title: 'What the water it shoves aside weighs',
-  body:
-      'The push on a submerged body is the weight of the fluid it displaces, '
-      'and nothing else: not what the body is made of, not whether it is '
-      'hollow. Hold that against the body\'s own weight. Push bigger and it '
-      'rises, weight bigger and it sinks, equal and it hangs where it is, '
-      'which is what a floating body has already arranged: it settles until '
-      'it has shoved aside exactly its own weight. Two consequences worth '
-      'carrying. A steel box floats and a steel block does not, because the '
-      'box displaces far more water for the same steel. And an empty buried '
-      'tank in wet ground is pushed UP, which is a real way for tanks to '
-      'leave the ground they were buried in.',
-  formulas: [
-    ('The push', r'F_B = \gamma V_{displaced}'),
-    ('Net', r'F_{net} = F_B - W'),
-    ('Floating', r'F_B = W'),
+  title: 'Weigh the water it shoves out of the way',
+  picture: buoyancyPicture,
+  steps: [
+    (
+      'Get in a bath and the water rises',
+      'You pushed some water out of the way. Whatever that water weighs is '
+          'exactly how hard the water now pushes UP on you. Nothing else is in '
+          'it.',
+    ),
+    (
+      'Then hold that against its own weight',
+      'Push bigger and it rises. Weight bigger and it sinks. Equal and it '
+          'hangs still. A floating thing has already settled at the depth where '
+          'the two match.',
+    ),
+    (
+      'What the object is made of does not matter',
+      'A steel box floats and a solid steel block sinks. Same steel. The box '
+          'shoves aside far more water, so it gets far more push.',
+    ),
+    (
+      'Which is how buried tanks come out of the ground',
+      'An empty tank in wet ground is shoved UP by the groundwater it '
+          'displaces. If it weighs less than that water, it leaves the hole it '
+          'was buried in.',
+    ),
   ],
-  figure: BriefFigure.buoyancy,
+  spoken: [
+    (
+      'The push up',
+      r'F_B = \gamma V_{displaced}',
+      'the weight of the fluid the body shoved aside',
+    ),
+    (
+      'What is left over',
+      r'F_{net} = F_B - W',
+      'the push up minus the weight down: positive rises, negative sinks',
+    ),
+    (
+      'Floating',
+      r'F_B = W',
+      'a floating body has shoved aside exactly its own weight',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 179',
 );
 
 const continuityBrief = BriefSection(
-  title: 'The same water, a smaller hole',
-  body:
-      'Whatever goes in has to come out, so the flow through every section of '
-      'a pipe is the same and the speed rises exactly as much as the opening '
-      'falls. The catch is that an opening goes as the SQUARE of a diameter '
-      'or a side: halve the bore and the area quarters, so the speed '
-      'quadruples, and a third of the bore is nine times the speed. Read the '
-      'question carefully, because a change quoted as an AREA is a speed '
-      'change in direct proportion with no squaring at all. Length never '
-      'enters it: a longer pipe of the same bore carries the same water at '
-      'the same speed, and what the length costs is pressure, through '
-      'friction, which is a different equation.',
-  formulas: [
-    ('Flow', r'Q = Av'),
-    ('Continuity', r'A_1 v_1 = A_2 v_2'),
-    ('For a round pipe', r'\frac{v_2}{v_1} = \left(\frac{D_1}{D_2}\right)^2'),
+  title: 'The same water through a smaller hole',
+  picture: continuityPicture,
+  steps: [
+    (
+      'Put your thumb over a hose',
+      'The same water is still coming, so it has to leave through less space. '
+          'It leaves faster. That is the whole idea, and it has to be true: '
+          'whatever goes in must come out.',
+    ),
+    (
+      'The catch is that area squares',
+      'Halve the diameter and the opening does not halve, it QUARTERS. So the '
+          'speed goes up four times, not two. A third of the bore is nine times '
+          'the speed.',
+    ),
+    (
+      'Read carefully which one you were given',
+      'If the question changes the AREA, the speed changes in step with it, '
+          'no squaring. The squaring only comes in when you are handed a diameter '
+          'or a side.',
+    ),
+    (
+      'Length is not in it at all',
+      'A longer pipe of the same bore carries the same water at the same '
+          'speed. What length costs is pressure, through friction, and that is a '
+          'different equation.',
+    ),
   ],
-  figure: BriefFigure.continuity,
+  spoken: [
+    (
+      'Flow',
+      r'Q = Av',
+      'how much goes past each second is the opening times the speed',
+    ),
+    (
+      'Continuity',
+      r'A_1 v_1 = A_2 v_2',
+      'opening times speed is the same everywhere along the pipe',
+    ),
+    (
+      'For a round pipe',
+      r'\frac{v_2}{v_1} = \left(\frac{D_1}{D_2}\right)^2',
+      'the speed goes up by the diameter ratio SQUARED',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 180',
 );
 
 const bernoulliBrief = BriefSection(
-  title: 'The three heads trade',
-  body:
-      'Bernoulli is an energy statement written in meters: pressure head, '
-      'velocity head and elevation head add to the same total everywhere '
-      'along a streamline, as long as there is no friction. So they trade '
-      'against each other, and the trade is the part that feels backwards. '
-      'Where a pipe narrows the water speeds up, the velocity head grows, and '
-      'the PRESSURE falls. Where it opens out again the water slows and the '
-      'pressure comes back. A venturi is that drop sold as an instrument. Two '
-      'warnings: use continuity to get the velocity BEFORE you use Bernoulli, '
-      'and the moment a problem mentions pipe length, roughness or head loss '
-      'you need the energy equation instead, with its friction term.',
-  formulas: [
+  title: 'Faster water presses less',
+  picture: bernoulliPicture,
+  steps: [
+    (
+      'Water carries its energy three ways',
+      'As pressure, as speed, and as height. Bernoulli says those three add '
+          'up to the same total everywhere along the pipe, as long as friction is '
+          'not eating any of it.',
+    ),
+    (
+      'So they trade against each other',
+      'Squeeze the pipe and the water must speed up. The total cannot change, '
+          'so something has to give, and what gives is the PRESSURE. It falls '
+          'exactly where the water is quickest.',
+    ),
+    (
+      'Open it out again and the pressure comes back',
+      'The water slows down and hands the energy back to pressure. A venturi '
+          'meter is that pressure drop sold as an instrument.',
+    ),
+    (
+      'Two warnings',
+      'Work out the speed with continuity BEFORE you use Bernoulli. And the '
+          'moment a question mentions pipe length, roughness or head loss, you '
+          'need the energy equation with its friction term instead.',
+    ),
+  ],
+  spoken: [
     (
       'Bernoulli',
-      r'\frac{P_1}{\gamma} + \frac{v_1^2}{2g} + z_1 = \frac{P_2}{\gamma} + \frac{v_2^2}{2g} + z_2',
+      r'\frac{P}{\gamma} + \frac{v^2}{2g} + z = \text{the same everywhere}',
+      'pressure, speed and height, each written as meters, always adding to one total',
     ),
-    ('Level pipe', r'P_2 = P_1 + \frac{\rho}{2}(v_1^2 - v_2^2)'),
-    ('With friction', r'\dots + h_f'),
+    (
+      'Level pipe',
+      r'P_2 = P_1 + \frac{\rho}{2}(v_1^2 - v_2^2)',
+      'with no height change, whatever the speed gains the pressure loses',
+    ),
+    (
+      'With friction',
+      r'\dots + h_f',
+      'a real pipe also loses head to rubbing, which never comes back',
+    ),
   ],
-  figure: BriefFigure.bernoulli,
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 180',
 );
 
 const torricelliBrief = BriefSection(
-  title: 'Only the head',
-  body:
-      'A tank open to the air, discharging to the air, with a surface that '
-      'barely moves: the pressures cancel and the surface velocity drops out, '
-      'and Bernoulli collapses to one line. The jet leaves at the root of '
-      'twice g times the head, which is the same speed a stone would reach '
-      'falling that far, and no wonder: it is the same energy trade. What is '
-      'NOT in it is worth more than what is. Not the size of the hole, which '
-      'decides how much comes out and not how fast. Not the width of the '
-      'tank, nor how much water is behind it. A thin tube eight meters tall '
-      'beats a broad pan half a meter deep, four times over. And the square '
-      'root softens the head: four times the depth is twice the jet.',
-  formulas: [
-    ('Torricelli', r'v = \sqrt{2gh}'),
-    ('Which came from', r'z_1 = \frac{v_2^2}{2g}'),
-    ('Four times the head', r'\Rightarrow 2 \times \text{the speed}'),
+  title: 'A hole in a tank: only the depth decides the speed',
+  picture: torricelliPicture,
+  steps: [
+    (
+      'Punch a hole in a full tank',
+      'The water squirts out. How fast depends on one thing: how far the hole '
+          'sits below the surface. That distance is the head.',
+    ),
+    (
+      'It is the same speed as falling',
+      'The jet leaves at exactly the speed a stone would reach if you dropped '
+          'it from the surface down to the hole. Same trade of height for speed, '
+          'so the same answer.',
+    ),
+    (
+      'What is NOT in it matters more',
+      'Not the size of the hole, which decides how MUCH comes out, not how '
+          'fast. Not how wide the tank is. Not how much water sits behind it. A '
+          'thin tall tube beats a broad shallow pan.',
+    ),
+    (
+      'The square root softens it',
+      'Four times the depth is only twice the speed. Nine times the depth is '
+          'three times the speed.',
+    ),
   ],
-  figure: BriefFigure.torricelli,
+  spoken: [
+    (
+      'Torricelli',
+      r'v = \sqrt{2gh}',
+      'the square root of twice gravity times the head',
+    ),
+    (
+      'Which came from',
+      r'z_1 = \frac{v_2^2}{2g}',
+      'the height the water started at, turned entirely into speed',
+    ),
+    (
+      'Four times the head',
+      r'\Rightarrow 2 \times \text{the speed}',
+      'because the head sits under a square root',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 180',
 );
 
 const reynoldsBrief = BriefSection(
-  title: 'Which band the flow is in',
-  body:
-      'The Reynolds number is the speed times the diameter over the kinematic '
-      'viscosity, and what it buys you is not a number but a DECISION. Under '
-      '2,100 the flow is laminar and the friction factor is simply 64 over '
-      'the Reynolds number, with no diagram to read. Over 10,000 it is fully '
-      'turbulent and the factor comes off the Moody diagram or out of '
-      'Colebrook. Between the two it is transitional, uncertain, and no place '
-      'to design. Water is so thin that anything moving at a sensible speed '
-      'in a pipe you could crawl through is deeply turbulent, so a Reynolds '
-      'number in the thousands for a water main usually means the diameter '
-      'went in as millimeters.',
-  formulas: [
-    ('Reynolds', r'Re = \frac{\rho v D}{\mu} = \frac{vD}{\nu}'),
-    ('Laminar', r'Re < 2{,}100 \Rightarrow f = \frac{64}{Re}'),
-    ('Turbulent', r'Re > 10{,}000 \Rightarrow \text{Moody}'),
+  title: 'One number says which kind of flow you have',
+  picture: reynoldsPicture,
+  steps: [
+    (
+      'Water can travel two very different ways',
+      'Slowly, in neat layers that slide over each other, which is LAMINAR. '
+          'Or fast and churning, mixing across itself, which is TURBULENT. Think '
+          'honey pouring against a river in flood.',
+    ),
+    (
+      'One number tells you which',
+      'Take the speed times the pipe diameter and divide by how thick and '
+          'sticky the fluid is. Fast, wide and thin pushes the number up; slow, '
+          'narrow and thick pulls it down.',
+    ),
+    (
+      'The number is a decision, not an answer',
+      'Under 2,100 the flow is laminar, and the friction factor is just 64 '
+          'divided by the number. Over 10,000 it is turbulent, and you read the '
+          'factor off the Moody chart. In between is no place to design.',
+    ),
+    (
+      'A sanity check on water mains',
+      'Water is so thin that any real pipe at any sensible speed is deeply '
+          'turbulent. If you get a few thousand for a water main, the diameter '
+          'probably went in as millimeters.',
+    ),
   ],
-  figure: BriefFigure.reynolds,
+  spoken: [
+    (
+      'Reynolds',
+      r'Re = \frac{\rho v D}{\mu} = \frac{vD}{\nu}',
+      'speed times diameter, divided by how sticky the fluid is',
+    ),
+    (
+      'Laminar',
+      r'Re < 2{,}100 \Rightarrow f = \frac{64}{Re}',
+      'under 2,100 the friction factor is 64 over the number, no chart needed',
+    ),
+    (
+      'Turbulent',
+      r'Re > 10{,}000 \Rightarrow \text{Moody}',
+      'over 10,000 you read the factor off the Moody chart',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 181',
 );
 
 const darcyBrief = BriefSection(
-  title: 'What the friction costs',
-  body:
-      'Darcy-Weisbach is four things multiplied: the friction factor, the '
-      'length over the diameter, and the velocity head. Two of them behave as '
-      'you would guess, since the length and the factor are in direct '
-      'proportion, and two do not. The velocity is SQUARED, so twice the '
-      'speed is four times the loss, which is why pipes are sized by '
-      'velocity. And the diameter does more than the formula shows: at a '
-      'fixed FLOW, doubling the bore quarters the velocity as well as halving '
-      'the L over D, so the loss falls by about thirty times. One pipe size '
-      'up is the cheapest head on any job. The factor here is the DARCY one; '
-      'the Fanning factor is a quarter of it.',
-  formulas: [
-    ('Darcy-Weisbach', r'h_f = f \frac{L}{D} \frac{v^2}{2g}'),
-    ('Laminar factor', r'f = \frac{64}{Re}'),
-    ('At fixed flow', r'2D \Rightarrow \approx \frac{h_f}{32}'),
+  title: 'What rubbing along the pipe costs',
+  picture: darcyPicture,
+  steps: [
+    (
+      'Water rubs against the pipe wall',
+      'Over a long run that rubbing eats pressure. The pressure it eats is '
+          'called head loss, and it is what a pump has to make up.',
+    ),
+    (
+      'Two parts behave as you would guess',
+      'Twice the length is twice the loss. A rougher pipe has a bigger '
+          'friction factor and loses more. Nothing surprising there.',
+    ),
+    (
+      'Speed is SQUARED',
+      'Twice the speed is four times the loss. That is why pipes get sized by '
+          'how fast the water runs through them, not just by whether it fits.',
+    ),
+    (
+      'Which makes one size up the cheapest fix there is',
+      'Double the bore at the same flow and the water slows to a quarter '
+          'speed as well as having half the length-over-diameter. Put together, '
+          'the loss drops about thirty times.',
+    ),
   ],
-  figure: BriefFigure.darcy,
+  spoken: [
+    (
+      'Darcy-Weisbach',
+      r'h_f = f \frac{L}{D} \frac{v^2}{2g}',
+      'the friction factor, times length over diameter, times the speed head',
+    ),
+    (
+      'Laminar factor',
+      r'f = \frac{64}{Re}',
+      'in laminar flow the factor is simply 64 over the Reynolds number',
+    ),
+    (
+      'At a fixed flow',
+      r'2D \Rightarrow \approx \frac{h_f}{32}',
+      'double the bore and the loss falls to about a thirtieth',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 182',
 );
 
