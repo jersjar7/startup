@@ -11991,672 +11991,1325 @@ const efficiencyBrief = BriefSection(
 );
 
 const countBrief = BriefSection(
-  title: 'Two counts, and the joints pick which',
-  body:
-      'Before anything is analyzed a structure has to be classified, and the '
-      'count depends on what the joints do rather than on what the outline '
-      'looks like. PINNED joints throughout carry no moment, so each joint '
-      'gives two equations and the count is m plus r against 2j. RIGID joints '
-      'carry moment, each gives three equations, and the count is 3m plus r '
-      'against 3j plus c, where c is one for every internal hinge or other '
-      'release, because each of those hands you an extra equation for free. A '
-      'triangle with welded corners is a frame, however much it resembles a '
-      'truss. Count the reactions carefully: a roller is one component, a pin '
-      'two, a fixed support three. Short of the requirement is a mechanism, '
-      'exactly it is determinate, and over it is indeterminate by the '
-      'difference, which is how many extra unknowns equilibrium cannot '
-      'reach.',
-  formulas: [
-    ('A truss', r'm + r \text{ vs } 2j'),
-    ('A frame', r'3m + r \text{ vs } 3j + c'),
-    ('The degree', r'\text{supply} - \text{need}'),
-    ('Reactions', r'\text{roller } 1, \text{ pin } 2, \text{ fixed } 3'),
+  title: 'Count the parts, and count what the joints allow',
+  picture: countPicture,
+  steps: [
+    (
+      'Build it out of straws and pins',
+      'Pin some straws together at their ends and you have a truss. Every '
+          'straw can only pull or push along its own length, and every pin is '
+          'free to swivel, so no corner can hold a bend.',
+    ),
+    (
+      'Weld the corners and it is a different thing',
+      'If the corners cannot swivel, a corner can hold a bend. That is a '
+          'frame. A welded triangle is a frame however much it looks like a '
+          'truss, and it gets counted a different way.',
+    ),
+    (
+      'Count what you have against what you can solve',
+      'Add up the bars and the reactions the supports give you: a roller 1, '
+          'a pin 2, a fixed end 3. That is the supply. Each joint hands you a '
+          'couple of equations, and that is what you can solve with.',
+    ),
+    (
+      'Short, exact, or over',
+      'Short of what you need and it is a mechanism, which means it moves. '
+          'Exactly enough and statics alone finishes it. Over and it is '
+          'indeterminate by the difference, so you need more than statics.',
+    ),
   ],
-  figure: BriefFigure.determinacyCount,
+  spoken: [
+    (
+      'A truss',
+      r'm + r \text{ vs } 2j',
+      'bars plus reactions, against two for every joint',
+    ),
+    (
+      'A frame',
+      r'3m + r \text{ vs } 3j + c',
+      'three per member plus reactions, against three per joint plus one for each hinge',
+    ),
+    (
+      'Reactions',
+      r'\text{roller } 1, \; \text{pin } 2, \; \text{fixed } 3',
+      'how many unknowns each kind of support puts in',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const stabilityBrief = BriefSection(
-  title: 'Necessary, and never sufficient',
-  body:
-      'The determinacy count can be satisfied exactly and the structure can '
-      'still fall over, which is the single most examinable idea in this '
-      'lesson. The count sees how many members, joints and reactions there '
-      'are; it cannot see where any of them POINT. Two arrangements give it '
-      'away. Reactions all PARALLEL, three rollers on level ground being the '
-      'usual case, can sum to nothing across their own direction, so any load '
-      'sideways has nothing to react against and the structure slides. '
-      'Reactions all CONCURRENT, passing through a single point, have no '
-      'lever arm about that point, so the structure turns about it as a rigid '
-      'body. Neither is cured by adding more of the same: a structure with '
-      'four parallel reactions is indeterminate by the count and just as '
-      'unstable. Check the count, then look at the picture.',
-  formulas: [
-    ('Necessary', r'm + r \ge 2j'),
+  title: 'The count can be right and the thing still falls over',
+  picture: stabilityPicture,
+  steps: [
     (
-      'Not sufficient',
-      r'\text{parallel or concurrent} \Rightarrow \text{unstable}',
+      'The count is blind',
+      'Counting sees how many bars, joints and supports there are. It cannot '
+          'see which way any of them POINT, and pointing is what decides whether '
+          'the thing stands up.',
+    ),
+    (
+      'All the supports pointing the same way',
+      'Three rollers on flat ground all push straight up. Push the structure '
+          'sideways and nothing is pushing back sideways, so it slides. The '
+          'count says it is fine.',
+    ),
+    (
+      'All the supports aimed at one spot',
+      'If every support line passes through a single point, none of them can '
+          'stop a turn about that point, so the whole thing spins. Again the '
+          'count says nothing.',
+    ),
+    (
+      'More of the same never fixes it',
+      'Adding a fourth roller makes the count look even better and the thing '
+          'is just as unstable. Do the count, then look at the picture and ask '
+          'which way each support pushes.',
     ),
   ],
-  figure: BriefFigure.stability,
+  spoken: [
+    ('Needed', r'm + r \ge 2j', 'enough bars and reactions to go round'),
+    (
+      'Never enough on its own',
+      r'\text{all parallel, or all through one point}',
+      'either arrangement is unstable whatever the count says',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const momentCenterBrief = BriefSection(
-  title: 'Where the pivot goes',
-  body:
-      'A section cut through three members leaves three unknown forces on the '
-      'piece you keep, and three equations to find them with. The moment '
-      'equation is the one worth spending carefully: take moments about the '
-      'point where the TWO MEMBERS YOU DO NOT WANT cross, and neither of them '
-      'has a lever arm about it, so both fall out and the equation has one '
-      'unknown left. The pivot therefore moves with the member you are after: '
-      'the same cut takes a different point for the top chord than for the '
-      'bottom one, and the point can sit outside the piece of truss you are '
-      'holding, because it is a point in space rather than a joint. When the '
-      'two unwanted members are the parallel chords of a parallel chord truss '
-      'they never cross, so no pivot works: use the vertical force equation '
-      'instead, which is why the diagonals of such a truss are said to carry '
-      'the shear.',
-  formulas: [
-    ('The pivot', r'\sum M_{point} = 0'),
-    ('Chords', r'\text{pivot where the other two meet}'),
-    ('Diagonals', r'\sum F_y = 0'),
+  title: 'Put the pivot where the bars you do not want cross',
+  picture: pivotPicture,
+  steps: [
+    (
+      'Cut the truss in half',
+      'Slice straight through it, throw one half away, and hold the other. '
+          'The cut bars are now pulling on the piece you kept, and you have '
+          'three unknown forces to find.',
+    ),
+    (
+      'Pick your pivot on purpose',
+      'A force that goes THROUGH a point cannot turn anything about that '
+          'point, like pushing a door right at its hinge. It just drops out of '
+          'the sum.',
+    ),
+    (
+      'So aim at the crossing',
+      'Take moments about the point where the two bars you are NOT after '
+          'cross. Both go through it, both drop out, and the equation has your '
+          'one bar left in it.',
+    ),
+    (
+      'Unless they never cross',
+      'Top and bottom chords that run parallel never meet, so no pivot '
+          'works. Add up the up-and-down forces instead, which is why the '
+          'diagonals are said to carry the shear.',
+    ),
   ],
-  figure: BriefFigure.momentCenter,
+  spoken: [
+    (
+      'The pivot',
+      r'\sum M_{point} = 0',
+      'everything turning about your chosen point adds up to nothing',
+    ),
+    (
+      'For a chord',
+      r'\text{pivot where the other two meet}',
+      'so those two drop out of the sum',
+    ),
+    (
+      'For a diagonal',
+      r'\sum F_y = 0',
+      'the up and down forces add up to nothing',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const jointForceBrief = BriefSection(
-  title: 'Why the diagonal is the big one',
-  body:
-      'At a joint carrying a vertical load, the only member with anything '
-      'pointing upward is the diagonal, so the whole load has to be carried '
-      'by its vertical COMPONENT. A member is always bigger than its own '
-      'component, so the diagonal force is bigger than the load, every time: '
-      'the load over the sine of the angle. How much bigger is all in the '
-      'geometry. At 75 degrees the factor is 1.04 and the member barely '
-      'notices; at 45 it is 1.41; on the three four five triangle that hides '
-      'in most textbook trusses it is 1.67, with sine 0.6 and cosine 0.8 '
-      'worth knowing by sight; at 10 degrees it is nearly six. The flatter '
-      'the member, the more force it takes to hold the same load, running '
-      'away toward infinity as it approaches horizontal. Steep is efficient, '
-      'which is why depth is worth paying for in a truss.',
-  formulas: [
-    ('The diagonal', r'F = \frac{P}{\sin\theta}'),
-    ('The flat member', r'F\cos\theta'),
-    ('Always', r'F > P'),
+  title: 'The slanted bar is always bigger than the load',
+  picture: jointForcePicture,
+  steps: [
+    (
+      'Only the slanted bar points upward',
+      'At a joint with a weight hanging on it, the flat bars are horizontal '
+          'and hold nothing up. The whole weight has to be carried by the '
+          'slanted one.',
+    ),
+    (
+      'A slanted bar only spends part of itself going up',
+      'Pull a rope at an angle and only some of that pull is lifting; the '
+          'rest is dragging sideways. So the bar has to pull HARDER than the '
+          'weight to get enough lift out of it.',
+    ),
+    (
+      'How much harder is the angle',
+      'A steep bar is nearly all lift, so it barely notices. A flat bar is '
+          'nearly all sideways, so it needs an enormous pull for the same lift. '
+          'At 45 degrees it is about 1.4 times the load.',
+    ),
+    (
+      'Which is why trusses are deep',
+      'Flatten the bar toward horizontal and the force runs away toward '
+          'enormous. Depth costs material and buys steep bars, and steep bars '
+          'work far less hard.',
+    ),
   ],
-  figure: BriefFigure.jointForce,
+  spoken: [
+    (
+      'The slanted bar',
+      r'F = \frac{P}{\sin\theta}',
+      'the load, divided by how much of the bar points upward',
+    ),
+    ('The flat bar', r'F\cos\theta', 'what is left over, pulling sideways'),
+    ('Always', r'F > P', 'the bar force beats the load, every time'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const unitLoadBrief = BriefSection(
-  title: 'The load that asks the question',
-  body:
-      'The unit load is not a load on the structure so much as the question '
-      'written in a form the equation can answer, and three things about it '
-      'are decided before any arithmetic starts. It MATCHES what is wanted: a '
-      'unit force pairs with a movement, a unit moment pairs with a rotation. '
-      'It sits AT the point asked about, not where the real load happens to '
-      'be and not where a handbook table happens to have an entry, and it '
-      'points in the direction being measured, so a sideways answer needs a '
-      'sideways unit load. And it acts ALONE, in a second analysis of the '
-      'same structure with every real load taken off: the real loads give N, '
-      'the unit load by itself gives n, and the formula multiplies the two '
-      'sets together afterward. Adding the unit load on top of the real loads '
-      'produces one set of forces that is neither, and everything after that '
-      'is wasted.',
-  formulas: [
-    ('A truss', r'\delta = \sum \frac{n N L}{A E}'),
-    ('A beam or frame', r'\delta = \int \frac{m M}{E I}\,dx'),
-    ('A rotation', r'\text{unit moment, not a unit force}'),
+  title: 'The pretend load that asks your question',
+  picture: unitLoadPicture,
+  steps: [
+    (
+      'You want to know how far one spot moves',
+      'The structure is already carrying its real load and bending a little. '
+          'The question is how far one particular point has moved.',
+    ),
+    (
+      'Ask by putting a 1 there',
+      'Put a pretend force of exactly 1 at that spot, pointing the way you '
+          'are measuring. It is not a real load. It is the question, written so '
+          'the equation can answer it.',
+    ),
+    (
+      'Match what you are asking for',
+      'Want a movement, use a unit FORCE. Want a turn, use a unit MOMENT. '
+          'Want a sideways answer, point it sideways. A downward 1 will never '
+          'tell you how far something moved sideways.',
+    ),
+    (
+      'Run it on its own',
+      'Take every real load OFF and work the structure again with just the 1 '
+          'on it. Real loads give one set of bar forces, the 1 gives another, '
+          'and the formula multiplies them together afterward.',
+    ),
   ],
-  figure: BriefFigure.unitLoad,
+  spoken: [
+    (
+      'A truss',
+      r'\delta = \sum \frac{n N L}{A E}',
+      'for every bar: the pretend force times the real force times the length, over area times stiffness',
+    ),
+    (
+      'A beam or frame',
+      r'\delta = \int \frac{m M}{E I}\,dx',
+      'the same idea, added up along the length instead of bar by bar',
+    ),
+    (
+      'For a turn',
+      r'\text{a unit moment, not a unit force}',
+      'ask with a twist if you want a twist',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const termSignBrief = BriefSection(
-  title: 'Which terms survive, and which way',
-  body:
-      'The sum has one term per member and most of them can be settled by '
-      'looking. Either factor zero and the term is zero: a member the unit '
-      'load does not reach contributes nothing however hard it is working, '
-      'and a zero-force member in the real structure contributes nothing '
-      'however much the unit load stretches it. Running the unit-load '
-      'analysis first and crossing off every member it leaves at zero often '
-      'halves the work. What is left is decided by the two signs AGREEING, '
-      'not by their being positive: tension with tension and compression with '
-      'compression both give a positive term that moves the joint the way the '
-      'unit load points, and one of each pulls the joint back. Two '
-      'compressions catching people out is the reason to carry the signs '
-      'through rather than the sizes. A total that comes out negative is not '
-      'an error either: it says the joint moved opposite to the direction the '
-      'unit load was pointed.',
-  formulas: [
-    ('One term', r'\frac{n N L}{A E}'),
-    ('Drops out', r'n = 0 \;\text{ or }\; N = 0'),
-    ('Same signs', r'nN > 0 \Rightarrow \text{with the unit load}'),
+  title: 'Most terms are zero, and the signs do the rest',
+  picture: termSignPicture,
+  steps: [
+    (
+      'One line per bar',
+      'The sum has one term for every bar in the truss. That sounds like a '
+          'lot of work, and most of it is not work at all.',
+    ),
+    (
+      'Either zero kills the term',
+      'A bar the pretend load never reaches contributes nothing, however '
+          'hard it is really working. A bar doing nothing in the real structure '
+          'contributes nothing either. Cross both kinds off first.',
+    ),
+    (
+      'What is left is decided by agreement',
+      'If both forces are pulls, or both are pushes, they agree and the term '
+          'adds. One of each disagrees and the term takes away. Two pushes still '
+          'agree, which is the one that catches people.',
+    ),
+    (
+      'A negative total is an answer',
+      'If everything adds up to a negative number, nothing is wrong. It '
+          'means the point moved the OPPOSITE way to the direction you pointed '
+          'your 1.',
+    ),
   ],
-  figure: BriefFigure.termSign,
+  spoken: [
+    (
+      'One term',
+      r'\frac{n N L}{A E}',
+      'pretend force times real force times length, over area times stiffness',
+    ),
+    (
+      'Drops out',
+      r'n = 0 \;\text{ or }\; N = 0',
+      'either force being zero makes the whole term zero',
+    ),
+    ('They agree', r'nN > 0', 'both pulling or both pushing, so the term adds'),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const redundantBrief = BriefSection(
-  title: 'Let one thing go, and pay for it',
-  body:
-      'An indeterminate structure has more unknowns than the three equations '
-      'equilibrium hands out, so something from outside statics has to make '
-      'up the difference, and that something is how far the structure '
-      'actually bends. The method is the same every time. RELEASE as many '
-      'things as the count is over by, choosing releases that leave a stable '
-      'determinate structure behind, and carry each released thing as an '
-      'unknown. Then write the movement the real support would not have '
-      'allowed: release a force and the deflection there has to come back to '
-      'zero, release a moment and the rotation there has to come back to '
-      'zero. That is one equation per release, which is exactly the shortfall. '
-      'Which thing to release is a free choice and the finished forces are '
-      'the same whichever is picked, so pick the one whose deflection is '
-      'easiest to work out. Once the redundant has a number it is an ordinary '
-      'known force and statics finishes the rest.',
-  formulas: [
-    ('The shortfall', r'DSI = (\text{unknowns}) - 3'),
-    ('A released force', r'\delta = 0 \text{ where the support was}'),
-    ('A released moment', r'\theta = 0 \text{ where the wall was}'),
+  title: 'Let one support go, then make it pay its way back',
+  picture: redundantPicture,
+  steps: [
+    (
+      'Too many supports for statics',
+      'Statics gives you three equations. A structure with more unknown '
+          'reactions than that cannot be finished by statics alone, however long '
+          'you stare at it.',
+    ),
+    (
+      'So take one away',
+      'Pick a support and imagine removing it. What is left has to be '
+          'something statics CAN finish, standing up on its own. Carry the '
+          'removed force along as an unknown.',
+    ),
+    (
+      'Then remember what that support was doing',
+      'The real support held that point still. So once you add the unknown '
+          'force back, the movement there has to come out to zero. That is your '
+          'extra equation, and it is exactly the one you were short.',
+    ),
+    (
+      'Any choice works',
+      'You may release whichever support you like and the final answer comes '
+          'out the same, so pick the one whose movement is easiest to work out. '
+          'After that it is ordinary statics.',
+    ),
   ],
-  figure: BriefFigure.redundant,
+  spoken: [
+    (
+      'How many short',
+      r'DSI = (\text{unknowns}) - 3',
+      'the unknowns beyond the three statics gives you',
+    ),
+    (
+      'A released support',
+      r'\delta = 0',
+      'the point it held has to end up where it started',
+    ),
+    (
+      'A released built-in end',
+      r'\theta = 0',
+      'the end it held has to end up with no turn in it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const fixityBrief = BriefSection(
-  title: 'What building an end in changes',
-  body:
-      'Every standard result in this lesson is the same story told with '
-      'numbers, and knowing the direction of each one beats memorizing any of '
-      'them. Building an end in makes it STIFF, and load goes where the '
-      'stiffness is: the propped cantilever gives its prop three eighths of '
-      'the load where a simple support would take a half, and the built-in '
-      'end picks up the other five eighths. Moment moves the same way. A '
-      'simple support carries none, a built-in end carries plenty, and what '
-      'appears at the ends comes out of the middle: a fixed-fixed beam under '
-      'a uniform load carries wL squared over 12 at each support and only wL '
-      'squared over 24 at midspan, against wL squared over 8 in the middle of '
-      'a simple span. The sag drops for the same reason, to a fifth of the '
-      'simply supported value. The one thing fixity does NOT change is the '
-      'vertical split on a symmetric beam: half at each end, built in or not.',
-  formulas: [
-    ('The prop', r'R = \frac{3wL}{8}'),
-    ('A fixed end', r'M = \frac{wL^2}{12}'),
-    ('A simple span', r'M = \frac{wL^2}{8}'),
+  title: 'Stiff ends take a share of everything',
+  picture: fixityPicture,
+  steps: [
+    (
+      'Two ways to hold a beam',
+      'A simple support lets the beam tip freely at its end, like a plank on '
+          'two bricks. A built-in end grips it, so the beam has to leave the '
+          'wall dead level.',
+    ),
+    (
+      'Load goes where the stiffness is',
+      'Gripping an end makes it stiff, and load drifts toward whatever is '
+          'stiff. A propped beam gives its prop three eighths of the load where '
+          'a simple support would take a half.',
+    ),
+    (
+      'Bending moves the same way',
+      'A simple end carries no bending at all. A built-in end carries '
+          'plenty, and every bit it takes comes out of the middle. Build both '
+          'ends in and the middle drops to a third of what a simple span has.',
+    ),
+    (
+      'And it sags far less',
+      'Same load, same span, a fifth of the sag. What fixity does NOT change '
+          'is the up and down split on a symmetric beam: still half at each end.',
+    ),
   ],
-  figure: BriefFigure.fixity,
+  spoken: [
+    (
+      'The prop',
+      r'R = \frac{3wL}{8}',
+      'three eighths of the load, not the half a simple support would take',
+    ),
+    (
+      'A built-in end',
+      r'M = \frac{wL^2}{12}',
+      'load times span squared, over twelve',
+    ),
+    (
+      'A simple span middle',
+      r'M = \frac{wL^2}{8}',
+      'load times span squared, over eight',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const lrfdBrief = BriefSection(
-  title: 'Read the stem before the numbers',
-  body:
-      'There are two ways to buy the same margin and the halves do not mix. '
-      'LRFD multiplies the loads UP, dead by 1.2 because its weight is '
-      'already drawn and well known, floor live by 1.6 because it is a guess '
-      'about how the place will be used, and compares the total with the '
-      'design strength, the nominal strength cut down by a resistance factor. '
-      'Allowable stress design takes the loads exactly as the building sees '
-      'them and divides the STRENGTH instead, by a safety factor. Both are in '
-      'the code and either may be used, and their numbers are not comparable '
-      'with each other. The one real error is taking half of one and half of '
-      'the other: factor the loads AND divide the strength and the member '
-      'pays twice, take service loads against an undivided strength and it '
-      'hardly pays at all.',
-  formulas: [
-    ('LRFD', r'1.2D + 1.6L \le \phi R_n'),
-    ('ASD', r'D + L \le R_n / \Omega'),
-    ('Why 1.2 and 1.6', r'\text{how well the load is known}'),
+  title: 'Two routes to the same safety margin',
+  picture: lrfdPicture,
+  steps: [
+    (
+      'You want a gap between load and strength',
+      'The beam must be stronger than what it carries, with room to spare. '
+          'There are two ways to buy that room, and the codes allow either.',
+    ),
+    (
+      'Push the loads up',
+      'LRFD multiplies the loads bigger before comparing. Dead weight gets '
+          '1.2 because we know it well. Floor live load gets 1.6 because it is a '
+          'guess about how people will use the place.',
+    ),
+    (
+      'Or cut the strength down',
+      'Allowable stress design takes the loads exactly as they come and '
+          'divides the strength instead by a safety factor. Same idea, other '
+          'end.',
+    ),
+    (
+      'Never half of each',
+      'Factor the loads AND divide the strength and the beam pays twice, '
+          'coming out absurdly heavy. Use real loads against an undivided '
+          'strength and it pays nothing. Read the question and pick one route.',
+    ),
   ],
-  figure: BriefFigure.lrfd,
+  spoken: [
+    (
+      'LRFD',
+      r'1.2D + 1.6L \le \phi R_n',
+      'loads pushed up, against the strength cut down',
+    ),
+    (
+      'ASD',
+      r'D + L \le R_n / \Omega',
+      'loads as they come, against the strength divided',
+    ),
+    (
+      'Why 1.2 and 1.6',
+      r'\text{how well the load is known}',
+      'the better we know a load, the smaller its factor',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, design loads',
 );
 
 const controlsBrief = BriefSection(
-  title: 'The big factor follows the big load',
-  body:
-      'Three combinations cover ordinary gravity work and which of them wins '
-      'can be read off the loading before any arithmetic. Combination 2 puts '
-      '1.6 on the FLOOR live load and brings the roof load along at half, so '
-      'it wins whenever the floor live load is the big one, which is most of '
-      'the time. Combination 3 puts 1.6 on the ROOF load, snow or roof live '
-      'or rain, and brings the floor live load along at its face value, so it '
-      'takes over when the roof load is the bigger of the two. Combination 1 '
-      'is 1.4 on the dead load alone, and it only matters when there is '
-      'hardly any live load for the 1.6 to work on, a heavy slab carrying '
-      'next to nothing. Whichever combination points its big factor at the '
-      'load that is actually there is the one to design for.',
-  formulas: [
-    ('Combination 1', r'1.4D'),
-    ('Combination 2', r'1.2D + 1.6L + 0.5S'),
-    ('Combination 3', r'1.2D + 1.6S + L'),
+  title: 'The big multiplier belongs on the big load',
+  picture: controlsPicture,
+  steps: [
+    (
+      'Several recipes, one winner',
+      'The code lists a few combinations of loads and you design for '
+          'whichever comes out biggest. You can usually see which that is '
+          'without adding anything up.',
+    ),
+    (
+      'Each recipe aims its 1.6 somewhere',
+      'One combination puts the 1.6 on the FLOOR live load and takes the '
+          'roof load along at half. Another puts the 1.6 on the ROOF load and '
+          'takes the floor load at face value.',
+    ),
+    (
+      'So look at which load is biggest',
+      'Whichever combination points its 1.6 at the load that is actually the '
+          'large one wins. A busy office floor picks the floor recipe; a snowy '
+          'roof over an empty attic picks the roof one.',
+    ),
+    (
+      'And the dead-only one',
+      'A third recipe is just 1.4 times the dead weight. It only wins when '
+          'there is barely any live load for the 1.6 to work on, like a heavy '
+          'slab carrying almost nothing.',
+    ),
   ],
-  figure: BriefFigure.controls,
+  spoken: [
+    (
+      'Dead only',
+      r'1.4D',
+      'one and four tenths of the weight of the building itself',
+    ),
+    (
+      'Floor load leading',
+      r'1.2D + 1.6L + 0.5S',
+      'the big multiplier on the floor live load',
+    ),
+    (
+      'Roof load leading',
+      r'1.2D + 1.6S + L',
+      'the big multiplier on the snow or roof load instead',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, design loads',
 );
 
 const reductionBrief = BriefSection(
-  title: 'A big floor is never full at once',
-  body:
-      'Live load may be reduced because the chance of every square foot of a '
-      'large floor being loaded to the full at the same moment is small, so '
-      'the more floor a member carries the less of the nominal load it will '
-      'ever see together. The rule multiplies the tributary area by K first, '
-      'which is 4 for a column and 2 for a beam because that is roughly how '
-      'much floor can reach each of them, and a column therefore gets the '
-      'bigger reduction off the same bay. Three things bound it. It never '
-      'becomes an increase, so below 400 for K times the area there is no '
-      'reduction at all. It stops at half the unreduced load for a member '
-      'carrying one floor and at four tenths for one carrying two or more. '
-      'And it touches live load only: the slab weighs what it weighs.',
-  formulas: [
-    ('The rule', r'L = L_o\left(0.25 + \frac{15}{\sqrt{K_{LL} A_T}}\right)'),
-    ('The element factor', r'K_{LL} = 4 \text{ column}, \; 2 \text{ beam}'),
-    ('The floor', r'L \ge 0.50 L_o \text{ for one floor}'),
+  title: 'A big floor is never crowded everywhere at once',
+  picture: reductionPicture,
+  steps: [
+    (
+      'The design load is a crowded-room number',
+      'The code load per square foot assumes that patch of floor is busy. '
+          'One small room really can be that busy all over.',
+    ),
+    (
+      'A whole floor cannot be',
+      'The more floor a beam or column carries, the smaller the chance every '
+          'square foot of it is packed at the same moment. So the code lets you '
+          'take some of the load off.',
+    ),
+    (
+      'A column gets the bigger cut',
+      'The rule multiplies the floor area by 4 for a column and 2 for a '
+          'beam, because that is roughly how much floor can reach each of them. '
+          'Same bay, bigger reduction for the column.',
+    ),
+    (
+      'Three things bound it',
+      'It never becomes an increase. It stops at half the full load for one '
+          'floor, four tenths for several. And it touches live load only: the '
+          'slab still weighs what it weighs.',
+    ),
   ],
-  figure: BriefFigure.reduction,
+  spoken: [
+    (
+      'The rule',
+      r'L = L_o\left(0.25 + \frac{15}{\sqrt{K_{LL} A_T}}\right)',
+      'the full load, cut down by a factor that shrinks as the area grows',
+    ),
+    (
+      'The element factor',
+      r'K_{LL} = 4 \text{ column}, \; 2 \text{ beam}',
+      'four for a column, two for a beam',
+    ),
+    (
+      'The floor under it',
+      r'L \ge 0.50 L_o',
+      'never below half the full load, for a member carrying one floor',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, design loads',
 );
 
 const influenceBrief = BriefSection(
-  title: 'One answer, as the load walks across',
-  body:
-      'An influence line answers a different question from every other '
-      'diagram in the chapter, and looking exactly like them is what makes it '
-      'hard. A shear or moment DIAGRAM is drawn for one fixed set of loads '
-      'and reads across the beam: this is what the beam is carrying, here. An '
-      'influence line is drawn for one fixed PLACE and reads across all the '
-      'positions a moving load might take: this is what that one place feels '
-      'while the load is over there. So the across-axis is where the load is '
-      'standing, and the height is the reaction, shear or moment at the '
-      'marked place while it stands there. The two pictures agree by '
-      'coincidence for a moment at midspan under a single central load, and '
-      'nowhere else. Because the line is built from a UNIT load, a real load '
-      'is simply its own size times the height beneath it, and several loads '
-      'add up.',
-  formulas: [
-    ('Using it', r'R = \sum P_i \, \eta_i'),
-    ('A spread load', r'\text{the area under the line beneath it}'),
-    ('Across', r'\text{where the moving load stands}'),
+  title: 'One spot, watched while a wheel drives past',
+  picture: influencePicture,
+  steps: [
+    (
+      'A truck drives over a bridge',
+      'As it rolls along, the bending at any one point on the bridge goes '
+          'up, peaks, and comes back down. Nothing about the bridge changed. The '
+          'truck just moved.',
+    ),
+    (
+      'So pick one spot and watch it',
+      'An influence line is the record of what THAT one spot feels, for '
+          'every position the wheel could be in. Across the bottom is where the '
+          'wheel is standing. The height is what your spot feels.',
+    ),
+    (
+      'Which is backwards from every other diagram',
+      'A shear or moment diagram fixes the loads and reads along the beam. '
+          'An influence line fixes the SPOT and reads along all the load '
+          'positions. The two look almost identical, which is the trap.',
+    ),
+    (
+      'Reading a real load off it',
+      'The line is drawn for a wheel weighing 1. A real wheel is just its '
+          'own weight times the height under it, and several wheels add up.',
+    ),
   ],
-  figure: BriefFigure.influenceRead,
+  spoken: [
+    (
+      'Using it',
+      r'R = \sum P_i \, \eta_i',
+      'each load times the height of the line beneath it, added up',
+    ),
+    (
+      'A spread load',
+      r'\text{the area under the line beneath it}',
+      'not a height but an area, for a load covering a stretch',
+    ),
+    (
+      'Across the bottom',
+      r'\text{where the moving load stands}',
+      'never where you are measuring',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, influence lines',
 );
 
 const shapesBrief = BriefSection(
-  title: 'Three shapes and no others',
-  body:
-      'On a simply supported span every influence line in the lesson is made '
-      'of straight pieces, and there are only three of them to know. A '
-      'REACTION line runs straight from one, over its own support, down to '
-      'nothing over the other: a load standing on a support is carried '
-      'entirely by it. A MOMENT line at a section is a triangle whose peak '
-      'sits over that section and is worth a times (L minus a) over L, which '
-      'comes to a quarter of the span when the section is at midspan. A SHEAR '
-      'line at a section has two sloping pieces and a STEP of exactly one '
-      'where the section is, because the load crossing the cut changes sides '
-      'all at once. The step is the only sure way to tell a shear line from a '
-      'moment line, since both are drawn about a section, and the two '
-      'reaction lines always add to one at every position, which checks a '
-      'pair of them in a second.',
-  formulas: [
-    ('A reaction', r'\eta = \frac{L - x}{L}'),
-    ('A moment at a', r'\eta_{peak} = \frac{a(L-a)}{L}'),
-    ('A shear at a', r'1 - \frac{a}{L} \text{ and } -\frac{a}{L}'),
+  title: 'Three shapes, and nothing else on a simple span',
+  picture: shapesPicture,
+  steps: [
+    (
+      'They are all made of straight pieces',
+      'On a beam held at both ends every influence line in this lesson is '
+          'straight lines. No curves to remember, and only three shapes in the '
+          'whole lesson.',
+    ),
+    (
+      'A reaction is a ramp',
+      'Stand the wheel right on top of a support and that support carries '
+          'all of it, so the line reads 1 there. Stand it on the far support and '
+          'this one carries none. Straight line between.',
+    ),
+    (
+      'A moment is a triangle',
+      'It peaks over the spot you are watching and falls to nothing at both '
+          'supports. When the spot is the middle, the peak is a quarter of the '
+          'span.',
+    ),
+    (
+      'A shear has a STEP in it',
+      'Two sloping pieces with a sudden jump of exactly 1 where your spot '
+          'is, because the wheel crossing your cut switches sides all at once. '
+          'The step is how you tell a shear line from a moment line.',
+    ),
   ],
-  figure: BriefFigure.influenceShapes,
+  spoken: [
+    (
+      'A reaction',
+      r'\eta = \frac{L - x}{L}',
+      'one at its own support, sloping down to nothing at the other',
+    ),
+    (
+      'A moment at a spot',
+      r'\eta_{peak} = \frac{a(L-a)}{L}',
+      'the two distances to the supports, multiplied, over the span',
+    ),
+    (
+      'A shear at a spot',
+      r'1 - \frac{a}{L} \;\text{ and }\; -\frac{a}{L}',
+      'the two sides of the step, which always differ by exactly one',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, influence lines',
 );
 
 const placeBrief = BriefSection(
-  title: 'Park it where the line is tallest',
-  body:
-      'The exam question is usually not what the line is but where to stand '
-      'the load, and the answer is always the same: on the tallest part of '
-      'the line, because the effect is the load times the height under it. '
-      'For a moment that means on the section itself, wherever the section '
-      'is, and not at midspan out of habit. For a positive shear it means '
-      'just to the RIGHT of the section, since a step to the left of it turns '
-      'the ordinate negative and the same load now works the other way. For a '
-      'reaction it means over the support. When several loads travel together '
-      'they cannot all stand on the peak, so the HEAVIEST one takes it: '
-      'straddling the peak fairly gives every load a middling height and is '
-      'worth less. A load that is spread out contributes the area under the '
-      'line beneath it, so it covers only the ground where the line is on the '
-      'side you want and stops there.',
-  formulas: [
-    ('One load', r'\text{on the peak}'),
-    ('Several', r'\text{the heaviest on the peak}'),
-    ('Spread', r'\text{cover the positive part only}'),
+  title: 'Park the load where the line is tallest',
+  picture: placePicture,
+  steps: [
+    (
+      'The real question is where to stand the truck',
+      'You rarely have to draw the line for its own sake. You have to say '
+          'where the moving load does the most damage, and the line tells you.',
+    ),
+    (
+      'The effect is load times height',
+      'So the worst place is wherever the line is tallest. For a moment that '
+          'means over the spot itself, wherever the spot happens to be, and not '
+          'at midspan out of habit.',
+    ),
+    (
+      'For shear, mind the step',
+      'The line has a jump at your spot. Just to one side the height is '
+          'positive and just to the other it is negative, so a few feet of '
+          'parking decides which way the load works.',
+    ),
+    (
+      'Several loads cannot all have the peak',
+      'Put the HEAVIEST one on the peak and let the rest fall where they '
+          'fall. Sharing the peak fairly gives every load a middling height and '
+          'is worth less than that.',
+    ),
   ],
-  figure: BriefFigure.influencePlace,
+  spoken: [
+    (
+      'One load',
+      r'\text{on the peak}',
+      'right on the tallest point of the line',
+    ),
+    (
+      'Several loads',
+      r'\text{the heaviest on the peak}',
+      'the big one gets the tall spot',
+    ),
+    (
+      'A spread load',
+      r'\text{cover the positive part only}',
+      'stop where the line changes side',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, influence lines',
 );
 
 const whichDepthBrief = BriefSection(
-  title: 'd is not the height of the beam',
-  body:
-      'Every reinforced concrete formula in the lesson leans on d, the '
-      'EFFECTIVE depth, which runs from the top of the beam down to the '
-      'CENTROID of the tension steel. It is the overall height less the clear '
-      'cover, less the stirrup, less half a bar diameter, and it gets shorter '
-      'again when there are two layers of bars. Using the height instead '
-      'overstates the capacity of everything you check, which is why the '
-      'lesson says outright that getting d wrong changes everything. The '
-      'lever arm is shorter still: the beam carries moment as a couple, steel '
-      'pulling low and concrete pushing high, and what counts is the distance '
-      'BETWEEN those two forces, which is d less half the depth of the '
-      'compression block. More steel deepens that block and quietly shortens '
-      'the arm.',
-  formulas: [
-    ('The effective depth', r'd = h - \text{cover} - \text{stirrup} - d_b/2'),
-    ('The block', r'a = \frac{A_s f_y}{0.85 f_c^{\prime} b}'),
-    ('The couple', r'M_n = A_s f_y\left(d - \frac{a}{2}\right)'),
+  title: 'd is not how tall the beam is',
+  picture: whichDepthPicture,
+  steps: [
+    (
+      'Concrete cannot be pulled',
+      'Concrete is strong when squashed and nearly useless when pulled. So '
+          'steel bars are buried near the bottom, where a sagging beam is being '
+          'pulled, and they do the pulling instead.',
+    ),
+    (
+      'What counts is how deep those bars sit',
+      'd runs from the top of the beam down to the middle of the steel. It '
+          'is the height LESS the cover, less the stirrup, less half a bar. Two '
+          'layers of bars make it shorter again.',
+    ),
+    (
+      'Using the height instead flatters everything',
+      'Every capacity you work out comes from d, so reaching for the overall '
+          'height makes the beam look stronger than it is. That is the mistake '
+          'this lesson is about.',
+    ),
+    (
+      'And the lever arm is shorter still',
+      'The beam works like a pair of hands, steel pulling low and concrete '
+          'pushing high. What counts is the gap BETWEEN them, which is d less '
+          'half the squashed block. More steel deepens that block and quietly '
+          'shortens the gap.',
+    ),
   ],
-  figure: BriefFigure.effectiveDepth,
+  spoken: [
+    (
+      'The effective depth',
+      r'd = h - \text{cover} - \text{stirrup} - d_b/2',
+      'the height, less everything sitting above the middle of the bars',
+    ),
+    (
+      'The squashed block',
+      r'a = \frac{A_s f_y}{0.85 f_c^{\prime} b}',
+      'how deep the concrete has to squash to match the pull in the steel',
+    ),
+    (
+      'The pair of hands',
+      r'M_n = A_s f_y\left(d - \frac{a}{2}\right)',
+      'the pull in the steel, times the gap between the two forces',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
 const stirrupBrief = BriefSection(
-  title: 'Four answers on one ladder',
-  body:
-      'The shear question is always which band the section has landed in, and '
-      'the bands are marked off against what the concrete can be leaned on '
-      'for, which is phi times its own capacity and not the capacity itself. '
-      'Below HALF of that, no stirrups are required at all. Between half and '
-      'all of it, minimum stirrups: the concrete could manage, but the code '
-      'wants a cage in there to hold the crack together and to give the beam '
-      'some warning before it goes. Above it, stirrups are sized for what is '
-      'left once the demand has been divided by phi and the concrete taken '
-      'off. And there is a ceiling: ask the stirrups for more than four times '
-      'the concrete\'s own share and the concrete between them crushes '
-      'whatever the spacing, so the section has to grow instead.',
-  formulas: [
-    ('The concrete', r'V_c = 2\lambda\sqrt{f_c^{\prime}}\, b_w d'),
-    ('The stirrups', r'V_s = \frac{V_u}{\phi} - V_c'),
-    ('The spacing', r's = \frac{A_v f_y d}{V_s}'),
+  title: 'One ladder with four rungs',
+  picture: stirrupPicture,
+  steps: [
+    (
+      'Stirrups are the loops round the bars',
+      'They are there for shear, the slicing action near the supports, which '
+          'cracks concrete on a slant. The loops hold the crack together.',
+    ),
+    (
+      'Measure the demand against what concrete alone gives you',
+      'Work out what the concrete can take by itself, then take three '
+          'quarters of it, because that is all you are allowed to lean on. That '
+          'number marks the rungs.',
+    ),
+    (
+      'Four bands, four answers',
+      'Under half of it: no stirrups needed. Between half and all of it: '
+          'minimum stirrups, so the beam gives some warning. Above it: stirrups '
+          'sized for whatever is left over.',
+    ),
+    (
+      'And a ceiling',
+      'Ask the stirrups for more than about four times the concrete share '
+          'and the concrete between them crushes no matter how close you space '
+          'them. At that point the beam has to get bigger.',
+    ),
   ],
-  figure: BriefFigure.stirrupLadder,
+  spoken: [
+    (
+      'What the concrete gives',
+      r'V_c = 2\lambda\sqrt{f_c^{\prime}}\, b_w d',
+      'two times the root of the concrete strength, times the beam width and depth',
+    ),
+    (
+      'What the stirrups carry',
+      r'V_s = \frac{V_u}{\phi} - V_c',
+      'the demand divided by the factor, less the concrete share',
+    ),
+    (
+      'How close they go',
+      r's = \frac{A_v f_y d}{V_s}',
+      'more to carry means tighter spacing',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
 const phiBrief = BriefSection(
   title: 'What it can do, and what you may count on',
-  body:
-      'Every capacity in reinforced concrete comes in two versions and the '
-      'exam hands out marks for telling them apart. The NOMINAL strength is '
-      'what the section can actually reach. The DESIGN strength is nominal '
-      'times phi, and it is all you are allowed to count on. Bending gets '
-      '0.90 and shear gets 0.75, because a properly proportioned beam fails '
-      'in bending slowly and visibly while shear failure arrives without '
-      'notice, and the code leans hardest on the failures that give no '
-      'warning. In the check itself the loads are factored UP and the '
-      'capacity is cut DOWN, so margin is bought at both ends. One '
-      'consequence is worth carrying: when the stirrups are being sized, the '
-      'demand is divided by phi BEFORE the concrete is taken off, because '
-      'both capacities are nominal numbers and phi applies to their sum.',
-  formulas: [
-    ('Bending', r'\phi M_n \ge M_u, \; \phi = 0.90'),
-    ('Shear', r'\phi V_n \ge V_u, \; \phi = 0.75'),
-    ('The stirrups', r'V_s = \frac{V_u}{\phi} - V_c'),
+  picture: phiPicture,
+  steps: [
+    (
+      'Every capacity comes in two versions',
+      'The nominal strength is what the section can really reach on a good '
+          'day. The design strength is that number cut down, and it is the only '
+          'one you are allowed to use.',
+    ),
+    (
+      'How much gets cut depends on the warning',
+      'Bending keeps 90 percent, because a properly built beam sags and '
+          'cracks visibly long before it goes. Shear keeps only 75, because a '
+          'shear failure arrives with no warning at all.',
+    ),
+    (
+      'Margin is bought at both ends',
+      'The loads are pushed UP by their factors and the capacity is pulled '
+          'DOWN by this one. Together that is the gap between what arrives and '
+          'what the beam can take.',
+    ),
+    (
+      'Which is why the stirrup sum is ordered that way',
+      'Both the concrete share and the stirrup share are nominal numbers, so '
+          'divide the demand by the factor FIRST, then take the concrete off. '
+          'Doing it the other way mixes the two scales.',
+    ),
   ],
-  figure: BriefFigure.phiFactors,
+  spoken: [
+    (
+      'Bending',
+      r'\phi M_n \ge M_u, \; \phi = 0.90',
+      'ninety percent of what it can bend, against the factored demand',
+    ),
+    (
+      'Shear',
+      r'\phi V_n \ge V_u, \; \phi = 0.75',
+      'seventy-five percent of what it can shear, because shear gives no warning',
+    ),
+    (
+      'The stirrups',
+      r'V_s = \frac{V_u}{\phi} - V_c',
+      'divide first, then take the concrete share off',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
 const columnFactorBrief = BriefSection(
-  title: 'Two multipliers, doing two jobs',
-  body:
-      'The bracket in the column formula is the squash load of the section, '
-      'the concrete on its own area plus the steel on its own, and TWO things '
-      'multiply it. The first, 0.80 for a tied column, is an allowance for '
-      'eccentricity: no column is really loaded down its middle, floors land '
-      'a little off center and members are built a little out of plumb, so '
-      'rather than ask for a moment nobody can predict the code takes a flat '
-      'fifth off. It belongs to columns alone, and seeing it in a problem '
-      'tells you what you are looking at. The second is phi, and for a tied '
-      'column in compression it is 0.65, the smallest in the code, because a '
-      'column that crushes gives no warning and takes the floors above with '
-      'it. A SPIRAL improves both to 0.85 and 0.75, because a spiral confines '
-      'the core and buys toughness. Dropping either multiplier is the wrong '
-      'answer the exam offers most often.',
-  formulas: [
+  title: 'Two multipliers, doing two different jobs',
+  picture: columnFactorPicture,
+  steps: [
     (
-      'Tied',
-      r'\phi P_n = 0.80\phi\left[0.85f_c^{\prime}(A_g - A_{st}) + A_{st}f_y\right]',
+      'Start with the squash load',
+      'Add up what the concrete can take on its own area and what the steel '
+          'bars can take on theirs. That is the most the column could ever '
+          'carry, loaded perfectly down its middle.',
     ),
-    ('Tied factors', r'0.80 \text{ and } \phi = 0.65'),
-    ('Spiral factors', r'0.85 \text{ and } \phi = 0.75'),
+    (
+      'Nothing is ever loaded down its middle',
+      'Floors land slightly off center and columns are built slightly out of '
+          'plumb. Rather than guess at a bending moment nobody can predict, the '
+          'code takes a flat fifth off. That is the 0.80.',
+    ),
+    (
+      'Then the usual cut for safety',
+      'On top of that comes the resistance factor, 0.65 for a column with '
+          'square ties. It is the smallest in the code, because a column that '
+          'crushes takes the floors above it down too.',
+    ),
+    (
+      'A spiral earns better numbers',
+      'A spiral wound round the bars confines the core so it holds together '
+          'after cracking, which buys warning. Both multipliers improve, to 0.85 '
+          'and 0.75. Dropping either one is the wrong answer offered most often.',
+    ),
   ],
-  figure: BriefFigure.columnFactors,
+  spoken: [
+    (
+      'A tied column',
+      r'\phi P_n = 0.80\phi\left[0.85f_c^{\prime}(A_g - A_{st}) + A_{st}f_y\right]',
+      'the squash load, times the off-center allowance, times the safety factor',
+    ),
+    (
+      'Tied numbers',
+      r'0.80 \text{ and } \phi = 0.65',
+      'a fifth off for being off center, then another third off',
+    ),
+    (
+      'Spiral numbers',
+      r'0.85 \text{ and } \phi = 0.75',
+      'both better, because a spiral holds the core together',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
 const steelWindowBrief = BriefSection(
-  title: 'One per cent to eight',
-  body:
-      'The longitudinal steel in a column has a window round it and both ends '
-      'are there for a reason. Below one per cent the column behaves like '
-      'plain concrete as soon as any bending arrives, and plain concrete '
-      'fails without warning; the minimum also covers creep and shrinkage, '
-      'which quietly hand load from the concrete to whatever steel is there '
-      'to take it. Above eight per cent there is nowhere to put the bars: '
-      'they cannot be lapped, and concrete cannot be got down between them, '
-      'so the cage that was drawn is not the cage that gets built. Both '
-      'limits are INCLUSIVE, so a column landing exactly on one per cent is '
-      'inside. Most real columns sit near two per cent. Check the window '
-      'before working anything out, because a capacity computed for a column '
-      'outside it is not a capacity anybody may use.',
-  formulas: [
-    ('The ratio', r'\rho_g = \frac{A_{st}}{A_g}'),
-    ('The window', r'0.01 \le \rho_g \le 0.08'),
-    ('Where most land', r'\rho_g \approx 0.02'),
+  title: 'Between one per cent and eight',
+  picture: steelWindowPicture,
+  steps: [
+    (
+      'A column needs some steel in it',
+      'Below about one per cent of the concrete area, the column behaves '
+          'like plain concrete the moment any bending arrives, and plain '
+          'concrete fails suddenly with nothing to catch it.',
+    ),
+    (
+      'There is also a reason for the minimum you cannot see',
+      'Concrete slowly shrinks and creeps under long load, quietly handing '
+          'its share over to whatever steel is in there. There has to be enough '
+          'steel to take it.',
+    ),
+    (
+      'And a column can hold too much steel',
+      'Above eight per cent there is nowhere to put the bars. They cannot be '
+          'lapped and wet concrete cannot get down between them, so the cage '
+          'that was drawn is not the cage that gets built.',
+    ),
+    (
+      'Check the window first',
+      'Both ends count as inside, so exactly one per cent is fine. Most real '
+          'columns sit near two. A capacity worked out for a column outside the '
+          'window is not a capacity anybody may use.',
+    ),
   ],
-  figure: BriefFigure.steelWindow,
+  spoken: [
+    (
+      'The ratio',
+      r'\rho_g = \frac{A_{st}}{A_g}',
+      'the steel area as a share of the whole column area',
+    ),
+    (
+      'The window',
+      r'0.01 \le \rho_g \le 0.08',
+      'from one per cent up to eight, both ends allowed',
+    ),
+    (
+      'Where most land',
+      r'\rho_g \approx 0.02',
+      'about two per cent in ordinary work',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, reinforced concrete',
 );
 
 const bracingBrief = BriefSection(
-  title: 'The same beam is worth different amounts',
-  body:
-      'A steel beam\'s bending capacity is not a property of the section on '
-      'its own: it depends on how often the compression flange is held '
-      'against going sideways. Three bands, and each shape brings its own two '
-      'limits from the table. Braced closer together than the first limit, '
-      'the beam reaches its full plastic moment and the whole buckling check '
-      'can be skipped, which is what a problem means when it says fully '
-      'braced or continuously supported. Between the two limits the capacity '
-      'slides down a straight line from the plastic moment toward a lower '
-      'value, interpolating on the unbraced length. Past the second limit the '
-      'flange goes over while the steel is still elastic and the beam never '
-      'gets near yielding. A beam in that last band is being decided by its '
-      'bracing rather than its steel, and another brace is a better answer '
-      'than a heavier section.',
-  formulas: [
-    ('Fully braced', r'L_b \le L_p \Rightarrow M_n = M_p = F_y Z_x'),
-    ('In between', r'L_p < L_b \le L_r \Rightarrow \text{straight line down}'),
-    ('Past it', r'L_b > L_r \Rightarrow \text{elastic buckling}'),
+  title: 'The same beam is worth more when it is held',
+  picture: bracingPicture,
+  steps: [
+    (
+      'A deep beam can flop sideways',
+      'Bend a long ruler on edge and it does not just sag. At some point it '
+          'twists and flips sideways. A steel beam does exactly that, and it '
+          'happens long before the steel is anywhere near its limit.',
+    ),
+    (
+      'Holding it stops that',
+      'Anything that stops the squashed flange from swinging sideways is a '
+          'brace. The closer the braces, the less room the beam has to flop, and '
+          'the more of its strength it actually reaches.',
+    ),
+    (
+      'Three bands',
+      'Braced closer than the first limit, the beam reaches everything it '
+          'has and there is no buckling check at all. Between the two limits the '
+          'capacity slides down a straight line. Past the second, it flops while '
+          'the steel is still springy.',
+    ),
+    (
+      'So the fix is a brace, not a bigger beam',
+      'A beam in that last band is being decided by its bracing rather than '
+          'its steel. Another brace is cheaper and works better than a heavier '
+          'section.',
+    ),
   ],
-  figure: BriefFigure.bracing,
+  spoken: [
+    (
+      'Fully braced',
+      r'L_b \le L_p \Rightarrow M_n = M_p = F_y Z_x',
+      'braced tightly enough, so it reaches its full plastic strength',
+    ),
+    (
+      'In between',
+      r'L_p < L_b \le L_r',
+      'the capacity slides down a straight line as the braces spread out',
+    ),
+    (
+      'Past it',
+      r'L_b > L_r',
+      'it flops sideways while the steel is still springy',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, steel beams',
 );
 
 const modulusBrief = BriefSection(
-  title: 'Two moduli, one shape',
-  body:
-      'Every steel shape carries two section moduli and they are not '
-      'interchangeable. S, the elastic modulus, describes the section when '
-      'its outermost fiber has just reached yield, with the stress varying '
-      'straight across the depth. Z, the plastic modulus, describes the same '
-      'section yielded right through, half of it at yield in tension and half '
-      'in compression, and for a rolled W shape it is the larger by ten to '
-      'fifteen per cent. The plastic moment uses Z, and it does so in BOTH '
-      'design methods: the nominal strength belongs to the member, and the '
-      'methods differ only in what they do with it afterward, 0.90 times in '
-      'LRFD against divided by 1.67 in allowable stress design. S appears '
-      'wherever the steel is still elastic, which in this lesson means inside '
-      'the buckling equation. Using S where Z was wanted costs about a tenth '
-      'of the capacity and looks entirely plausible.',
-  formulas: [
-    ('Yielded through', r'M_p = F_y Z_x'),
-    ('First yield', r'M_y = F_y S_x'),
-    ('The gap', r'Z_x \approx 1.1 \text{ to } 1.15\, S_x'),
+  title: 'Two moduli for one shape, and they are not swappable',
+  picture: modulusPicture,
+  steps: [
+    (
+      'Bend a beam gently and the stress is a wedge',
+      'Nothing in the middle, most at the top and bottom faces, straight '
+          'between. The moment where the outermost fiber just reaches its limit '
+          'uses S, the elastic modulus.',
+    ),
+    (
+      'Keep bending and the yielding spreads inward',
+      'The outside cannot take more, so the inside catches up. Eventually '
+          'the whole depth is at its limit: half pulling, half pushing, in two '
+          'solid blocks instead of a wedge.',
+    ),
+    (
+      'That fully yielded state uses Z',
+      'Z is the plastic modulus and it is the bigger of the two, by ten to '
+          'fifteen per cent on a rolled shape. The plastic moment is Z times the '
+          'yield stress.',
+    ),
+    (
+      'Reaching for the wrong one costs about a tenth',
+      'The plastic moment uses Z in BOTH design methods. S belongs where the '
+          'steel is still springy, which here means inside the buckling check. '
+          'Swapping them looks entirely plausible and is wrong.',
+    ),
   ],
-  figure: BriefFigure.moduli,
+  spoken: [
+    (
+      'Yielded right through',
+      r'M_p = F_y Z_x',
+      'the yield stress times the plastic modulus',
+    ),
+    (
+      'First yield only',
+      r'M_y = F_y S_x',
+      'the yield stress times the elastic modulus',
+    ),
+    (
+      'The gap between them',
+      r'Z_x \approx 1.1 \text{ to } 1.15\, S_x',
+      'Z is about a tenth bigger on a rolled shape',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, steel beams',
 );
 
 const flangeBrief = BriefSection(
   title: 'Hold the flange that is being squashed',
-  body:
-      'Lateral-torsional buckling is the compression flange going over '
-      'sideways and dragging the section into a twist, so a brace only counts '
-      'if it holds THAT flange and stops the twist. Which flange that is '
-      'depends on which way the beam is bending. Sagging in the middle of a '
-      'span, it is the top one, and a slab cast on it braces it continuously '
-      'for nothing. Hogging over an interior support, the bending is the '
-      'other way round and the BOTTOM flange is in compression, with the slab '
-      'sitting uselessly overhead: that region needs bracing underneath, and '
-      'forgetting it is a real mistake rather than an exam trick. A member '
-      'that merely stops the beam moving down is not a brace at all. Shear is '
-      'a separate story and belongs to the web: the whole depth times the web '
-      'thickness, at 0.6 of the yield stress.',
-  formulas: [
-    ('Sagging', r'\text{top flange in compression}'),
-    ('Hogging', r'\text{bottom flange in compression}'),
-    ('Shear', r'V_n = 0.6 F_y A_w'),
+  picture: flangePicture,
+  steps: [
+    (
+      'Only the squashed flange can buckle',
+      'The flange being pulled is fine: pulling straightens things. The one '
+          'being squashed is the one that wants to swing out sideways and drag '
+          'the beam into a twist.',
+    ),
+    (
+      'Which flange that is depends on the bending',
+      'Sagging in the middle of a span, the top is squashed. Over an '
+          'interior support the beam bends the other way, so the BOTTOM is '
+          'squashed.',
+    ),
+    (
+      'So the slab is not always the answer',
+      'A concrete slab cast on the top flange braces it continuously for '
+          'free, which covers the sagging regions. Over a support it sits '
+          'uselessly overhead while the bottom flange needs holding from '
+          'underneath.',
+    ),
+    (
+      'A prop is not a brace',
+      'Something that merely stops the beam moving down does nothing about '
+          'the twist. A brace has to catch the squashed flange sideways.',
+    ),
   ],
-  figure: BriefFigure.flanges,
+  spoken: [
+    (
+      'Sagging',
+      r'\text{top flange squashed}',
+      'in the middle of a span, so the slab braces it',
+    ),
+    (
+      'Hogging',
+      r'\text{bottom flange squashed}',
+      'over a support, so the bracing has to go underneath',
+    ),
+    (
+      'Shear is the web',
+      r'V_n = 0.6 F_y A_w',
+      'six tenths of the yield stress, on the whole depth times the web thickness',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, steel beams',
 );
 
 const axisBrief = BriefSection(
-  title: 'Each axis brings its own length',
-  body:
-      'That a bare column folds about its weak axis is a mechanics of '
-      'materials idea and it holds only while both directions are held the '
-      'same way. In a real frame they rarely are: a wall or a beam catches '
-      'the column partway up in ONE direction and does nothing in the other. '
-      'A brace shortens the free length for the axis it is fitted to and for '
-      'no other, so the two directions have to be worked out separately, each '
-      'with its own radius and its own length, and the LARGER of the two '
-      'slendernesses decides the column. Halving the shallow length divides '
-      'that slenderness by two, so the deep way takes over only when its '
-      'radius is less than twice the shallow one. Stocky shapes chosen as '
-      'columns usually are; deep shapes chosen as beams are not. And once the '
-      'deep way has taken over, further bracing the shallow way buys nothing '
-      'at all.',
-  formulas: [
-    ('Each axis', r'\frac{K L}{r} \text{ with its own } L \text{ and } r'),
-    ('Which wins', r'\text{the larger ratio}'),
-    ('One brace', r'\text{halves } L \text{ for that axis only}'),
+  title: 'Each direction brings its own free length',
+  picture: axisPicture,
+  steps: [
+    (
+      'A bare column folds the shallow way',
+      'Stand a ruler on end and press. It bows the easy way, across its thin '
+          'direction. That is true as long as nothing is holding it, and it is '
+          'where most people stop.',
+    ),
+    (
+      'Real buildings hold columns unevenly',
+      'A wall or a beam catches a column partway up in ONE direction and '
+          'does nothing in the other. A brace shortens the free length for its '
+          'own direction and for no other.',
+    ),
+    (
+      'So work out both, separately',
+      'Each direction gets its own free length and its own thickness '
+          'measure. Whichever comes out with the bigger ratio is the one that '
+          'decides the column.',
+    ),
+    (
+      'Which means bracing can stop helping',
+      'Halving the shallow free length halves that ratio. Do it enough and '
+          'the deep direction takes over, and further bracing the shallow way '
+          'buys nothing at all.',
+    ),
   ],
-  figure: BriefFigure.whichAxis,
+  spoken: [
+    (
+      'Each direction',
+      r'\frac{K L}{r}',
+      'its own free length, over its own thickness measure',
+    ),
+    (
+      'Which one decides',
+      r'\text{the larger ratio}',
+      'the column folds whichever way is slenderest',
+    ),
+    (
+      'One brace',
+      r'\text{halves } L \text{ for that direction only}',
+      'it does nothing for the other way',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, steel columns',
 );
 
 const tableBrief3 = BriefSection(
-  title: 'The table has done the hard part',
-  body:
-      'Two formulas give the critical stress, one for columns stocky enough '
-      'to squash partly before they go and one for those that buckle while '
-      'still elastic, and the exam does not want either worked out: the '
-      'column table gives a DESIGN stress directly for any slenderness, with '
-      'the resistance factor already inside it. So the whole calculation is '
-      'that stress times the gross area, and applying 0.90 a second time '
-      'takes another tenth off a column that has already paid. Two things are '
-      'worth carrying beside it. The yield stress times the area is the '
-      'squash load, the answer for a column of no length at all, and it is '
-      'the wrong answer offered most often. And once a column is slender '
-      'enough to buckle elastically, the stress it goes at depends on '
-      'STIFFNESS rather than strength, so a higher grade of steel buys '
-      'nothing: a stockier shape or another brace is what helps.',
-  formulas: [
-    ('The whole of it', r'\phi_c P_n = (\phi_c F_{cr}) A_g'),
-    ('Zero length', r'F_y A_g'),
-    ('Elastic branch', r'F_e = \frac{\pi^2 E}{(KL/r)^2}'),
+  title: 'The table has already done the hard part',
+  picture: columnTablePicture,
+  steps: [
+    (
+      'There are two formulas, and you need neither',
+      'One covers stocky columns that partly squash before they go, the '
+          'other slender ones that bow while still springy. The exam does not '
+          'want either worked out.',
+    ),
+    (
+      'Look the slenderness up instead',
+      'The column table takes how slender the column is and hands back a '
+          'design stress directly. Multiply by the area of the column and you '
+          'are finished.',
+    ),
+    (
+      'The safety factor is already inside it',
+      'That is the trap. Apply the 0.90 again and you take another tenth off '
+          'a column that has already paid. The table stress is a design number, '
+          'not a raw one.',
+    ),
+    (
+      'Two answers worth recognizing',
+      'The yield stress times the area is the squash load, which is the '
+          'answer for a column of no length, and the wrong answer offered most '
+          'often. And once a column is slender, a stronger grade of steel buys '
+          'nothing: bowing depends on stiffness, not strength.',
+    ),
   ],
-  figure: BriefFigure.columnTable,
+  spoken: [
+    (
+      'The whole of it',
+      r'\phi_c P_n = (\phi_c F_{cr}) A_g',
+      'the design stress from the table, times the area of the column',
+    ),
+    (
+      'A column of no length',
+      r'F_y A_g',
+      'the squash load, which no real column reaches',
+    ),
+    (
+      'The slender branch',
+      r'F_e = \frac{\pi^2 E}{(KL/r)^2}',
+      'depends on stiffness, so a stronger steel does not help',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, steel columns',
 );
 
 const twoLimitsBrief = BriefSection(
-  title: 'Two ways to lose a tension member',
-  body:
-      'A member in tension has two limit states and both are always checked, '
-      'with the smaller design strength deciding what the member is worth. '
-      'YIELDING is the whole bar stretching, so it uses the GROSS area with '
-      'nothing taken off for holes, the yield stress, and a factor of 0.90: a '
-      'few inches of steel yielding beside a bolt hole does not lose anybody '
-      'a building, so the check is made on the section that represents most '
-      'of the length. RUPTURE is a tear across one cross-section, so it uses '
-      'the EFFECTIVE NET area through the line of holes, the ultimate stress, '
-      'and a factor of 0.75, the smaller factor because a fracture arrives '
-      'without warning. The ultimate stress is well above the yield stress, '
-      'which makes people assume yielding always wins; it does not, because '
-      'the holes take area away and the factor is lower, and the two together '
-      'usually swallow the difference.',
-  formulas: [
-    ('Yielding', r'\phi P_n = 0.90 F_y A_g'),
-    ('Rupture', r'\phi P_n = 0.75 F_u A_e'),
-    ('The member', r'\min \text{ of the two}'),
+  title: 'Two ways to lose a bar in tension',
+  picture: twoLimitsPicture,
+  steps: [
+    (
+      'Pull hard on a bolted steel bar',
+      'It can fail in two quite different ways, and both have to be checked. '
+          'Whichever gives the smaller answer is what the bar is worth.',
+    ),
+    (
+      'The whole bar stretches out',
+      'This one uses the FULL width with nothing taken off for holes, '
+          'because a few inches of steel yielding beside a bolt does not lose '
+          'anybody a building. It keeps 90 percent.',
+    ),
+    (
+      'Or it tears straight across the holes',
+      'This one uses only the steel left between the holes, and the higher '
+          'breaking stress. It keeps just 75 percent, because a tear arrives '
+          'with no warning.',
+    ),
+    (
+      'Do not assume the first one wins',
+      'The breaking stress is well above the yield stress, so stretching '
+          'looks like the obvious answer. But the holes take area away and the '
+          'factor is lower, and those two together usually swallow the '
+          'difference.',
+    ),
   ],
-  figure: BriefFigure.twoLimits,
+  spoken: [
+    (
+      'Stretching',
+      r'\phi P_n = 0.90 F_y A_g',
+      'ninety percent, on the full area and the yield stress',
+    ),
+    (
+      'Tearing',
+      r'\phi P_n = 0.75 F_u A_e',
+      'seventy-five percent, on the area left between the holes and the breaking stress',
+    ),
+    (
+      'The bar is worth',
+      r'\min \text{ of the two}',
+      'whichever answer comes out smaller',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, tension members',
 );
 
 const netAreaBrief = BriefSection(
-  title: 'The hole is bigger than the bolt',
-  body:
-      'Three sentences cover the net area and each of them is a wrong answer '
-      'somewhere. First, a hole costs the bolt diameter PLUS an eighth of an '
-      'inch: a sixteenth so the bolt goes in and another sixteenth written '
-      'off because punching tears the steel at the edge. A seven-eighths bolt '
-      'therefore costs a full inch of width. Second, the allowance comes off '
-      'the WIDTH, and the reduced width is multiplied by the thickness '
-      'afterward, so the same bolt costs more area in a thicker plate; '
-      'subtracting it from the area instead is wrong by a factor of the '
-      'thickness. Third, only the holes lying on ONE cross-section come off '
-      'that section, so bolts strung out along the line of pull do not add '
-      'up, which is much of why connections are made long rather than wide. '
-      'None of this touches the gross area that the yielding check uses.',
-  formulas: [
-    ('Each hole', r'd_b + \tfrac{1}{8}\text{ in}'),
-    ('The net area', r'A_n = \left[b_g - \Sigma(d_b + \tfrac{1}{8})\right] t'),
-    ('Where it applies', r'\text{the rupture check only}'),
+  title: 'The hole costs more width than the bolt fills',
+  picture: netAreaPicture,
+  steps: [
+    (
+      'The hole is drilled bigger than the bolt',
+      'A sixteenth of an inch of slack so the bolt actually goes in, and '
+          'another sixteenth written off because punching tears the steel at the '
+          'edge. So a hole costs the bolt size plus an eighth.',
+    ),
+    (
+      'A seven-eighths bolt costs a full inch',
+      'That is the arithmetic in one line, and it is the number most often '
+          'got wrong by forgetting the extra eighth.',
+    ),
+    (
+      'It comes off the WIDTH, not the area',
+      'Subtract the holes from the width first, then multiply by the '
+          'thickness. Take them off the area instead and you are wrong by a '
+          'factor of the thickness.',
+    ),
+    (
+      'Only holes on the same line across count',
+      'Bolts strung out ALONG the pull are on different cross-sections, so '
+          'they do not add up. That is much of why connections are made long '
+          'rather than wide.',
+    ),
   ],
-  figure: BriefFigure.netArea,
+  spoken: [
+    (
+      'Each hole costs',
+      r'd_b + \tfrac{1}{8}\text{ in}',
+      'the bolt diameter plus an eighth of an inch',
+    ),
+    (
+      'The area left',
+      r'A_n = \left[b_g - \Sigma(d_b + \tfrac{1}{8})\right] t',
+      'the width less the holes, all times the thickness',
+    ),
+    (
+      'Where it is used',
+      r'\text{the tearing check only}',
+      'the stretching check still uses the full area',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, tension members',
 );
 
 const shearLagBrief = BriefSection(
-  title: 'Load needs room to spread',
-  body:
-      'When a member is connected through only part of its section, the load '
-      'arrives in the connected part and has to work its way across into the '
-      'rest, and that takes LENGTH. Right at the critical section the '
-      'spreading has hardly begun, so the far-off parts are not yet pulling '
-      'their share and the whole net area is not really working. The factor U '
-      'is how much of it is, and the effective net area is U times the net '
-      'area. Bolted right across the width, as a flat bar is, U is one and '
-      'there is nothing to allow for. Through one leg of an angle, or through '
-      'the flanges of a W with the web left out, U is less than one. The fix '
-      'is a LONGER connection, since U is one less the distance out to the '
-      'centroid divided by the connection length. Bigger bolts do not help: '
-      'their holes take more area away. And the whole idea belongs to the '
-      'rupture check, never to yielding, which happens far from the '
-      'connection where the load has long since spread itself out.',
-  formulas: [
-    ('Effective', r'A_e = U A_n'),
-    ('The factor', r'U = 1 - \bar{x}/L'),
-    ('A flat bar', r'U = 1.0'),
+  title: 'Load needs room to spread across',
+  picture: shearLagPicture,
+  steps: [
+    (
+      'Grab a towel by one corner and pull',
+      'The corner you are holding takes nearly all of it. The far corner '
+          'hangs there doing almost nothing, because the pull has not had room '
+          'to spread across yet.',
+    ),
+    (
+      'Steel does the same',
+      'Bolt an angle through one leg only and the load arrives in that leg. '
+          'Right at the connection the other leg has barely joined in, so the '
+          'whole area is not really working.',
+    ),
+    (
+      'That is what the factor U is for',
+      'U says how much of the area is genuinely pulling. Bolted right across '
+          'the width, like a flat bar, U is 1 and there is nothing to allow for. '
+          'Through one leg it is less.',
+    ),
+    (
+      'A longer connection fixes it, bigger bolts do not',
+      'More length gives the load more room to spread, and U climbs toward '
+          '1. Bigger bolts just take more area away. And this belongs to the '
+          'tearing check only, never to stretching.',
+    ),
   ],
-  figure: BriefFigure.shearLag,
+  spoken: [
+    (
+      'What is really working',
+      r'A_e = U A_n',
+      'the area between the holes, times how much of it has joined in',
+    ),
+    (
+      'The factor',
+      r'U = 1 - \bar{x}/L',
+      'one less the reach out to the middle, over the connection length',
+    ),
+    (
+      'A flat bar bolted across',
+      r'U = 1.0',
+      'all of it pulling, nothing to allow for',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, tension members',
 );
 
@@ -14560,25 +15213,51 @@ const wallForceBrief = BriefSection(
 );
 
 const trussRouteBrief = BriefSection(
-  title: 'Which one is quicker, and what comes first',
-  body:
-      'Both methods work on any determinate truss and the choice is about '
-      'time. ONE member, especially a chord deep in the truss, wants the '
-      'method of SECTIONS: a single cut and a single moment equation against '
-      'four or five joints worked in turn. SEVERAL members at one connection '
-      'want the method of JOINTS, because that joint is exactly the free body '
-      'the question is describing, and near a support it is quicker still '
-      'since the reaction is already sitting there. Whichever is used, the '
-      'support REACTIONS come first, from the whole truss taken as one free '
-      'body: a cut leaves you holding a piece whose other external force is a '
-      'reaction, and a joint at a support IS a reaction. Skipping that step '
-      'is the commonest way to stall.',
-  formulas: [
-    ('One member, deep', r'\text{sections}'),
-    ('A whole connection', r'\text{joints}'),
-    ('Before either', r'\text{the reactions}'),
+  title: 'Cut to one bar, or work round one joint',
+  picture: trussRoutePicture,
+  steps: [
+    (
+      'Both ways work, so pick the quick one',
+      'Every determinate truss can be solved either way. The only question '
+          'is how much arithmetic you sign up for.',
+    ),
+    (
+      'One bar, deep in the middle: cut',
+      'A single slice reaches it directly and one equation finishes it. '
+          'Walking joint by joint to the same bar means four or five joints in a '
+          'row, every one of them a chance to slip.',
+    ),
+    (
+      'Several bars at one corner: joints',
+      'If the question names a connection, that connection IS the free body. '
+          'Near a support it is quicker still, because the reaction is already '
+          'sitting there.',
+    ),
+    (
+      'Reactions first, whichever you choose',
+      'Take the whole truss as one object and find what the ground pushes '
+          'back with. A cut leaves you holding a reaction, and a support joint '
+          'IS one. Skip it and you stall.',
+    ),
   ],
-  figure: BriefFigure.trussRoute,
+  spoken: [
+    (
+      'One bar, deep',
+      r'\text{cut a section}',
+      'slice through and take moments once',
+    ),
+    (
+      'A whole connection',
+      r'\text{work the joint}',
+      'that joint is already the free body asked about',
+    ),
+    (
+      'Before either',
+      r'\text{the reactions}',
+      'what the supports push back with',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
