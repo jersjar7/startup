@@ -1254,8 +1254,9 @@ const whichRuleBrief = BriefSection(
     ),
     (
       'Question one: is anything multiplied or divided',
-      'Two separate things stuck together with a times or a divide means the '
-          'product rule or the quotient rule.',
+      'Two separate things stuck together with a times or a divide. The '
+          'product rule then works in turns: change one and leave the other, '
+          'then swap, and the two go together. The lower picture shows it.',
     ),
     (
       'Question two: is anything wrapped inside anything',
@@ -2088,19 +2089,22 @@ const cofactorBrief = BriefSection(
   picture: cofactorPicture,
   steps: [
     (
-      'Three terms come out',
-      'The cross product is worked out from a three by three grid with i, j '
-          'and k across the top. Expanding it gives one term for each.',
+      'Cover one column at a time',
+      'Write the grid: i, j and k across the top, then each arrow on its own '
+          'row. Cover the i column and two columns are left over. Those two '
+          'make the i term. Do the same for j and for k.',
     ),
     (
-      'The middle one is taken away',
-      'Not added. That single minus sign is the whole of the tip, and it is '
-          'the reason so many moments come out pointing the wrong way.',
+      'The middle one had to jump a gap',
+      'Look at what survives each time. Covering i leaves columns 2 and 3, '
+          'side by side. Covering k leaves 1 and 2, side by side. Covering j '
+          'leaves 1 and 3, with a column jumped between them.',
     ),
     (
-      'A minus in front of a minus',
-      'The bracket it sits in often already holds a negative number. Two '
-          'negatives and a rushed line is exactly where the sign is lost.',
+      'That jump is what the minus pays for',
+      'The j term is the only one out of step, so it is the only one taken '
+          'away. Plus, minus, plus. Get it backwards and the moment points the '
+          'wrong way.',
     ),
     (
       'The answer is still a vector',
@@ -2109,9 +2113,9 @@ const cofactorBrief = BriefSection(
   ],
   spoken: [
     (
-      'Set out as a grid',
-      r'\hat{i},\ \hat{j},\ \hat{k} \;\text{on top, then each arrow on a row}',
-      'the directions on top, then each arrow on its own row',
+      'Cover a column, keep the rest',
+      r'\hat{i}: (A_yB_z - A_zB_y)',
+      'cover the i column and the two that are left make this piece',
     ),
     (
       'Expanded',
