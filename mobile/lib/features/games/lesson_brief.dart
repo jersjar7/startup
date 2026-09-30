@@ -11053,198 +11053,397 @@ const termSignBrief = BriefSection(
 );
 
 const redundantBrief = BriefSection(
-  title: 'Let one thing go, and pay for it',
-  body:
-      'An indeterminate structure has more unknowns than the three equations '
-      'equilibrium hands out, so something from outside statics has to make '
-      'up the difference, and that something is how far the structure '
-      'actually bends. The method is the same every time. RELEASE as many '
-      'things as the count is over by, choosing releases that leave a stable '
-      'determinate structure behind, and carry each released thing as an '
-      'unknown. Then write the movement the real support would not have '
-      'allowed: release a force and the deflection there has to come back to '
-      'zero, release a moment and the rotation there has to come back to '
-      'zero. That is one equation per release, which is exactly the shortfall. '
-      'Which thing to release is a free choice and the finished forces are '
-      'the same whichever is picked, so pick the one whose deflection is '
-      'easiest to work out. Once the redundant has a number it is an ordinary '
-      'known force and statics finishes the rest.',
-  formulas: [
-    ('The shortfall', r'DSI = (\text{unknowns}) - 3'),
-    ('A released force', r'\delta = 0 \text{ where the support was}'),
-    ('A released moment', r'\theta = 0 \text{ where the wall was}'),
+  title: 'Let one support go, then make it pay its way back',
+  picture: redundantPicture,
+  steps: [
+    (
+      'Too many supports for statics',
+      'Statics gives you three equations. A structure with more unknown '
+          'reactions than that cannot be finished by statics alone, however long '
+          'you stare at it.',
+    ),
+    (
+      'So take one away',
+      'Pick a support and imagine removing it. What is left has to be '
+          'something statics CAN finish, standing up on its own. Carry the '
+          'removed force along as an unknown.',
+    ),
+    (
+      'Then remember what that support was doing',
+      'The real support held that point still. So once you add the unknown '
+          'force back, the movement there has to come out to zero. That is your '
+          'extra equation, and it is exactly the one you were short.',
+    ),
+    (
+      'Any choice works',
+      'You may release whichever support you like and the final answer comes '
+          'out the same, so pick the one whose movement is easiest to work out. '
+          'After that it is ordinary statics.',
+    ),
   ],
-  figure: BriefFigure.redundant,
+  spoken: [
+    (
+      'How many short',
+      r'DSI = (\text{unknowns}) - 3',
+      'the unknowns beyond the three statics gives you',
+    ),
+    (
+      'A released support',
+      r'\delta = 0',
+      'the point it held has to end up where it started',
+    ),
+    (
+      'A released built-in end',
+      r'\theta = 0',
+      'the end it held has to end up with no turn in it',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const fixityBrief = BriefSection(
-  title: 'What building an end in changes',
-  body:
-      'Every standard result in this lesson is the same story told with '
-      'numbers, and knowing the direction of each one beats memorizing any of '
-      'them. Building an end in makes it STIFF, and load goes where the '
-      'stiffness is: the propped cantilever gives its prop three eighths of '
-      'the load where a simple support would take a half, and the built-in '
-      'end picks up the other five eighths. Moment moves the same way. A '
-      'simple support carries none, a built-in end carries plenty, and what '
-      'appears at the ends comes out of the middle: a fixed-fixed beam under '
-      'a uniform load carries wL squared over 12 at each support and only wL '
-      'squared over 24 at midspan, against wL squared over 8 in the middle of '
-      'a simple span. The sag drops for the same reason, to a fifth of the '
-      'simply supported value. The one thing fixity does NOT change is the '
-      'vertical split on a symmetric beam: half at each end, built in or not.',
-  formulas: [
-    ('The prop', r'R = \frac{3wL}{8}'),
-    ('A fixed end', r'M = \frac{wL^2}{12}'),
-    ('A simple span', r'M = \frac{wL^2}{8}'),
+  title: 'Stiff ends take a share of everything',
+  picture: fixityPicture,
+  steps: [
+    (
+      'Two ways to hold a beam',
+      'A simple support lets the beam tip freely at its end, like a plank on '
+          'two bricks. A built-in end grips it, so the beam has to leave the '
+          'wall dead level.',
+    ),
+    (
+      'Load goes where the stiffness is',
+      'Gripping an end makes it stiff, and load drifts toward whatever is '
+          'stiff. A propped beam gives its prop three eighths of the load where '
+          'a simple support would take a half.',
+    ),
+    (
+      'Bending moves the same way',
+      'A simple end carries no bending at all. A built-in end carries '
+          'plenty, and every bit it takes comes out of the middle. Build both '
+          'ends in and the middle drops to a third of what a simple span has.',
+    ),
+    (
+      'And it sags far less',
+      'Same load, same span, a fifth of the sag. What fixity does NOT change '
+          'is the up and down split on a symmetric beam: still half at each end.',
+    ),
   ],
-  figure: BriefFigure.fixity,
+  spoken: [
+    (
+      'The prop',
+      r'R = \frac{3wL}{8}',
+      'three eighths of the load, not the half a simple support would take',
+    ),
+    (
+      'A built-in end',
+      r'M = \frac{wL^2}{12}',
+      'load times span squared, over twelve',
+    ),
+    (
+      'A simple span middle',
+      r'M = \frac{wL^2}{8}',
+      'load times span squared, over eight',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook p. 271',
 );
 
 const lrfdBrief = BriefSection(
-  title: 'Read the stem before the numbers',
-  body:
-      'There are two ways to buy the same margin and the halves do not mix. '
-      'LRFD multiplies the loads UP, dead by 1.2 because its weight is '
-      'already drawn and well known, floor live by 1.6 because it is a guess '
-      'about how the place will be used, and compares the total with the '
-      'design strength, the nominal strength cut down by a resistance factor. '
-      'Allowable stress design takes the loads exactly as the building sees '
-      'them and divides the STRENGTH instead, by a safety factor. Both are in '
-      'the code and either may be used, and their numbers are not comparable '
-      'with each other. The one real error is taking half of one and half of '
-      'the other: factor the loads AND divide the strength and the member '
-      'pays twice, take service loads against an undivided strength and it '
-      'hardly pays at all.',
-  formulas: [
-    ('LRFD', r'1.2D + 1.6L \le \phi R_n'),
-    ('ASD', r'D + L \le R_n / \Omega'),
-    ('Why 1.2 and 1.6', r'\text{how well the load is known}'),
+  title: 'Two routes to the same safety margin',
+  picture: lrfdPicture,
+  steps: [
+    (
+      'You want a gap between load and strength',
+      'The beam must be stronger than what it carries, with room to spare. '
+          'There are two ways to buy that room, and the codes allow either.',
+    ),
+    (
+      'Push the loads up',
+      'LRFD multiplies the loads bigger before comparing. Dead weight gets '
+          '1.2 because we know it well. Floor live load gets 1.6 because it is a '
+          'guess about how people will use the place.',
+    ),
+    (
+      'Or cut the strength down',
+      'Allowable stress design takes the loads exactly as they come and '
+          'divides the strength instead by a safety factor. Same idea, other '
+          'end.',
+    ),
+    (
+      'Never half of each',
+      'Factor the loads AND divide the strength and the beam pays twice, '
+          'coming out absurdly heavy. Use real loads against an undivided '
+          'strength and it pays nothing. Read the question and pick one route.',
+    ),
   ],
-  figure: BriefFigure.lrfd,
+  spoken: [
+    (
+      'LRFD',
+      r'1.2D + 1.6L \le \phi R_n',
+      'loads pushed up, against the strength cut down',
+    ),
+    (
+      'ASD',
+      r'D + L \le R_n / \Omega',
+      'loads as they come, against the strength divided',
+    ),
+    (
+      'Why 1.2 and 1.6',
+      r'\text{how well the load is known}',
+      'the better we know a load, the smaller its factor',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, design loads',
 );
 
 const controlsBrief = BriefSection(
-  title: 'The big factor follows the big load',
-  body:
-      'Three combinations cover ordinary gravity work and which of them wins '
-      'can be read off the loading before any arithmetic. Combination 2 puts '
-      '1.6 on the FLOOR live load and brings the roof load along at half, so '
-      'it wins whenever the floor live load is the big one, which is most of '
-      'the time. Combination 3 puts 1.6 on the ROOF load, snow or roof live '
-      'or rain, and brings the floor live load along at its face value, so it '
-      'takes over when the roof load is the bigger of the two. Combination 1 '
-      'is 1.4 on the dead load alone, and it only matters when there is '
-      'hardly any live load for the 1.6 to work on, a heavy slab carrying '
-      'next to nothing. Whichever combination points its big factor at the '
-      'load that is actually there is the one to design for.',
-  formulas: [
-    ('Combination 1', r'1.4D'),
-    ('Combination 2', r'1.2D + 1.6L + 0.5S'),
-    ('Combination 3', r'1.2D + 1.6S + L'),
+  title: 'The big multiplier belongs on the big load',
+  picture: controlsPicture,
+  steps: [
+    (
+      'Several recipes, one winner',
+      'The code lists a few combinations of loads and you design for '
+          'whichever comes out biggest. You can usually see which that is '
+          'without adding anything up.',
+    ),
+    (
+      'Each recipe aims its 1.6 somewhere',
+      'One combination puts the 1.6 on the FLOOR live load and takes the '
+          'roof load along at half. Another puts the 1.6 on the ROOF load and '
+          'takes the floor load at face value.',
+    ),
+    (
+      'So look at which load is biggest',
+      'Whichever combination points its 1.6 at the load that is actually the '
+          'large one wins. A busy office floor picks the floor recipe; a snowy '
+          'roof over an empty attic picks the roof one.',
+    ),
+    (
+      'And the dead-only one',
+      'A third recipe is just 1.4 times the dead weight. It only wins when '
+          'there is barely any live load for the 1.6 to work on, like a heavy '
+          'slab carrying almost nothing.',
+    ),
   ],
-  figure: BriefFigure.controls,
+  spoken: [
+    (
+      'Dead only',
+      r'1.4D',
+      'one and four tenths of the weight of the building itself',
+    ),
+    (
+      'Floor load leading',
+      r'1.2D + 1.6L + 0.5S',
+      'the big multiplier on the floor live load',
+    ),
+    (
+      'Roof load leading',
+      r'1.2D + 1.6S + L',
+      'the big multiplier on the snow or roof load instead',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, design loads',
 );
 
 const reductionBrief = BriefSection(
-  title: 'A big floor is never full at once',
-  body:
-      'Live load may be reduced because the chance of every square foot of a '
-      'large floor being loaded to the full at the same moment is small, so '
-      'the more floor a member carries the less of the nominal load it will '
-      'ever see together. The rule multiplies the tributary area by K first, '
-      'which is 4 for a column and 2 for a beam because that is roughly how '
-      'much floor can reach each of them, and a column therefore gets the '
-      'bigger reduction off the same bay. Three things bound it. It never '
-      'becomes an increase, so below 400 for K times the area there is no '
-      'reduction at all. It stops at half the unreduced load for a member '
-      'carrying one floor and at four tenths for one carrying two or more. '
-      'And it touches live load only: the slab weighs what it weighs.',
-  formulas: [
-    ('The rule', r'L = L_o\left(0.25 + \frac{15}{\sqrt{K_{LL} A_T}}\right)'),
-    ('The element factor', r'K_{LL} = 4 \text{ column}, \; 2 \text{ beam}'),
-    ('The floor', r'L \ge 0.50 L_o \text{ for one floor}'),
+  title: 'A big floor is never crowded everywhere at once',
+  picture: reductionPicture,
+  steps: [
+    (
+      'The design load is a crowded-room number',
+      'The code load per square foot assumes that patch of floor is busy. '
+          'One small room really can be that busy all over.',
+    ),
+    (
+      'A whole floor cannot be',
+      'The more floor a beam or column carries, the smaller the chance every '
+          'square foot of it is packed at the same moment. So the code lets you '
+          'take some of the load off.',
+    ),
+    (
+      'A column gets the bigger cut',
+      'The rule multiplies the floor area by 4 for a column and 2 for a '
+          'beam, because that is roughly how much floor can reach each of them. '
+          'Same bay, bigger reduction for the column.',
+    ),
+    (
+      'Three things bound it',
+      'It never becomes an increase. It stops at half the full load for one '
+          'floor, four tenths for several. And it touches live load only: the '
+          'slab still weighs what it weighs.',
+    ),
   ],
-  figure: BriefFigure.reduction,
+  spoken: [
+    (
+      'The rule',
+      r'L = L_o\left(0.25 + \frac{15}{\sqrt{K_{LL} A_T}}\right)',
+      'the full load, cut down by a factor that shrinks as the area grows',
+    ),
+    (
+      'The element factor',
+      r'K_{LL} = 4 \text{ column}, \; 2 \text{ beam}',
+      'four for a column, two for a beam',
+    ),
+    (
+      'The floor under it',
+      r'L \ge 0.50 L_o',
+      'never below half the full load, for a member carrying one floor',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, design loads',
 );
 
 const influenceBrief = BriefSection(
-  title: 'One answer, as the load walks across',
-  body:
-      'An influence line answers a different question from every other '
-      'diagram in the chapter, and looking exactly like them is what makes it '
-      'hard. A shear or moment DIAGRAM is drawn for one fixed set of loads '
-      'and reads across the beam: this is what the beam is carrying, here. An '
-      'influence line is drawn for one fixed PLACE and reads across all the '
-      'positions a moving load might take: this is what that one place feels '
-      'while the load is over there. So the across-axis is where the load is '
-      'standing, and the height is the reaction, shear or moment at the '
-      'marked place while it stands there. The two pictures agree by '
-      'coincidence for a moment at midspan under a single central load, and '
-      'nowhere else. Because the line is built from a UNIT load, a real load '
-      'is simply its own size times the height beneath it, and several loads '
-      'add up.',
-  formulas: [
-    ('Using it', r'R = \sum P_i \, \eta_i'),
-    ('A spread load', r'\text{the area under the line beneath it}'),
-    ('Across', r'\text{where the moving load stands}'),
+  title: 'One spot, watched while a wheel drives past',
+  picture: influencePicture,
+  steps: [
+    (
+      'A truck drives over a bridge',
+      'As it rolls along, the bending at any one point on the bridge goes '
+          'up, peaks, and comes back down. Nothing about the bridge changed. The '
+          'truck just moved.',
+    ),
+    (
+      'So pick one spot and watch it',
+      'An influence line is the record of what THAT one spot feels, for '
+          'every position the wheel could be in. Across the bottom is where the '
+          'wheel is standing. The height is what your spot feels.',
+    ),
+    (
+      'Which is backwards from every other diagram',
+      'A shear or moment diagram fixes the loads and reads along the beam. '
+          'An influence line fixes the SPOT and reads along all the load '
+          'positions. The two look almost identical, which is the trap.',
+    ),
+    (
+      'Reading a real load off it',
+      'The line is drawn for a wheel weighing 1. A real wheel is just its '
+          'own weight times the height under it, and several wheels add up.',
+    ),
   ],
-  figure: BriefFigure.influenceRead,
+  spoken: [
+    (
+      'Using it',
+      r'R = \sum P_i \, \eta_i',
+      'each load times the height of the line beneath it, added up',
+    ),
+    (
+      'A spread load',
+      r'\text{the area under the line beneath it}',
+      'not a height but an area, for a load covering a stretch',
+    ),
+    (
+      'Across the bottom',
+      r'\text{where the moving load stands}',
+      'never where you are measuring',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, influence lines',
 );
 
 const shapesBrief = BriefSection(
-  title: 'Three shapes and no others',
-  body:
-      'On a simply supported span every influence line in the lesson is made '
-      'of straight pieces, and there are only three of them to know. A '
-      'REACTION line runs straight from one, over its own support, down to '
-      'nothing over the other: a load standing on a support is carried '
-      'entirely by it. A MOMENT line at a section is a triangle whose peak '
-      'sits over that section and is worth a times (L minus a) over L, which '
-      'comes to a quarter of the span when the section is at midspan. A SHEAR '
-      'line at a section has two sloping pieces and a STEP of exactly one '
-      'where the section is, because the load crossing the cut changes sides '
-      'all at once. The step is the only sure way to tell a shear line from a '
-      'moment line, since both are drawn about a section, and the two '
-      'reaction lines always add to one at every position, which checks a '
-      'pair of them in a second.',
-  formulas: [
-    ('A reaction', r'\eta = \frac{L - x}{L}'),
-    ('A moment at a', r'\eta_{peak} = \frac{a(L-a)}{L}'),
-    ('A shear at a', r'1 - \frac{a}{L} \text{ and } -\frac{a}{L}'),
+  title: 'Three shapes, and nothing else on a simple span',
+  picture: shapesPicture,
+  steps: [
+    (
+      'They are all made of straight pieces',
+      'On a beam held at both ends every influence line in this lesson is '
+          'straight lines. No curves to remember, and only three shapes in the '
+          'whole lesson.',
+    ),
+    (
+      'A reaction is a ramp',
+      'Stand the wheel right on top of a support and that support carries '
+          'all of it, so the line reads 1 there. Stand it on the far support and '
+          'this one carries none. Straight line between.',
+    ),
+    (
+      'A moment is a triangle',
+      'It peaks over the spot you are watching and falls to nothing at both '
+          'supports. When the spot is the middle, the peak is a quarter of the '
+          'span.',
+    ),
+    (
+      'A shear has a STEP in it',
+      'Two sloping pieces with a sudden jump of exactly 1 where your spot '
+          'is, because the wheel crossing your cut switches sides all at once. '
+          'The step is how you tell a shear line from a moment line.',
+    ),
   ],
-  figure: BriefFigure.influenceShapes,
+  spoken: [
+    (
+      'A reaction',
+      r'\eta = \frac{L - x}{L}',
+      'one at its own support, sloping down to nothing at the other',
+    ),
+    (
+      'A moment at a spot',
+      r'\eta_{peak} = \frac{a(L-a)}{L}',
+      'the two distances to the supports, multiplied, over the span',
+    ),
+    (
+      'A shear at a spot',
+      r'1 - \frac{a}{L} \;\text{ and }\; -\frac{a}{L}',
+      'the two sides of the step, which always differ by exactly one',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, influence lines',
 );
 
 const placeBrief = BriefSection(
-  title: 'Park it where the line is tallest',
-  body:
-      'The exam question is usually not what the line is but where to stand '
-      'the load, and the answer is always the same: on the tallest part of '
-      'the line, because the effect is the load times the height under it. '
-      'For a moment that means on the section itself, wherever the section '
-      'is, and not at midspan out of habit. For a positive shear it means '
-      'just to the RIGHT of the section, since a step to the left of it turns '
-      'the ordinate negative and the same load now works the other way. For a '
-      'reaction it means over the support. When several loads travel together '
-      'they cannot all stand on the peak, so the HEAVIEST one takes it: '
-      'straddling the peak fairly gives every load a middling height and is '
-      'worth less. A load that is spread out contributes the area under the '
-      'line beneath it, so it covers only the ground where the line is on the '
-      'side you want and stops there.',
-  formulas: [
-    ('One load', r'\text{on the peak}'),
-    ('Several', r'\text{the heaviest on the peak}'),
-    ('Spread', r'\text{cover the positive part only}'),
+  title: 'Park the load where the line is tallest',
+  picture: placePicture,
+  steps: [
+    (
+      'The real question is where to stand the truck',
+      'You rarely have to draw the line for its own sake. You have to say '
+          'where the moving load does the most damage, and the line tells you.',
+    ),
+    (
+      'The effect is load times height',
+      'So the worst place is wherever the line is tallest. For a moment that '
+          'means over the spot itself, wherever the spot happens to be, and not '
+          'at midspan out of habit.',
+    ),
+    (
+      'For shear, mind the step',
+      'The line has a jump at your spot. Just to one side the height is '
+          'positive and just to the other it is negative, so a few feet of '
+          'parking decides which way the load works.',
+    ),
+    (
+      'Several loads cannot all have the peak',
+      'Put the HEAVIEST one on the peak and let the rest fall where they '
+          'fall. Sharing the peak fairly gives every load a middling height and '
+          'is worth less than that.',
+    ),
   ],
-  figure: BriefFigure.influencePlace,
+  spoken: [
+    (
+      'One load',
+      r'\text{on the peak}',
+      'right on the tallest point of the line',
+    ),
+    (
+      'Several loads',
+      r'\text{the heaviest on the peak}',
+      'the big one gets the tall spot',
+    ),
+    (
+      'A spread load',
+      r'\text{cover the positive part only}',
+      'stop where the line changes side',
+    ),
+  ],
+  figure: BriefFigure.none,
   handbook: 'Handbook, influence lines',
 );
 
