@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -116,10 +114,7 @@ class GridPainter extends CustomPainter {
       // drawing even when the center sits in a corner.
       final toLeft = middle.dx > size.width / 2;
       final end = middle + Offset(toLeft ? -1 : 1, 0) * (radius! * g.step);
-      final stop = Offset(
-        end.dx.clamp(14.0, size.width - 14),
-        end.dy,
-      );
+      final stop = Offset(end.dx.clamp(14.0, size.width - 14), end.dy);
       canvas.drawLine(
         middle,
         stop,
@@ -127,11 +122,19 @@ class GridPainter extends CustomPainter {
           ..color = AppColors.forest
           ..strokeWidth = 2,
       );
+      // The label goes on whichever side of the spoke faces AWAY from the x
+      // axis. Always putting it above dropped it straight onto that axis
+      // whenever the center sat just below it, hiding the line and a tick
+      // behind the label's own patch.
+      final axisY = g.toScreen(0, 0).dy;
+      final away = middle.dy > axisY ? 5.0 : -16.0;
+      // Anchored on the middle of the spoke rather than its far end, which
+      // sat the label on top of the y axis ticks whenever the spoke ran left.
       writeOn(
         canvas,
         size,
         'r = ${_plain(radius!)}',
-        Offset(math.min(middle.dx, stop.dx) + 4, middle.dy - 16),
+        Offset((middle.dx + stop.dx) / 2 - 14, middle.dy + away),
         AppColors.forest,
         fontSize: 10,
       );

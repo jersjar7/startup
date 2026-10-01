@@ -239,8 +239,7 @@ class TrianglePainter extends CustomPainter {
     final at2 = at + bisect / bisect.distance * 40;
     // Mono, not the heading face: DM Sans carries no Greek at all, so the
     // theta was drawing as a missing-glyph box on every round.
-    _text(canvas, angleLabel, at2, AppColors.ember, 15,
-        bold: true, mono: true);
+    _text(canvas, angleLabel, at2, AppColors.ember, 15, bold: true, mono: true);
   }
 
   /// Labels sit ALONGSIDE their side, turned to its angle, never across it. A
@@ -270,20 +269,59 @@ class TrianglePainter extends CustomPainter {
     var angle = math.atan2(unit.dy, unit.dx);
     // Never upside down.
     if (angle > math.pi / 2 || angle < -math.pi / 2) angle += math.pi;
+    final alongLine = angle;
     // A label beside a near-vertical line reads better upright than turned on
     // its side; it is clear of the line either way.
-    if ((angle.abs() - math.pi / 2).abs() < 0.26) angle = 0;
+    final nearVertical = (angle.abs() - math.pi / 2).abs() < 0.26;
+    if (nearVertical) angle = 0;
     // A one or two character label gains nothing from being turned and can
     // read as upside down at some angles, so it stays upright. Words follow
     // their line.
     if (text.characters.length <= 2) angle = 0;
 
+    final size = small ? 10.5 : 13.0;
+    if (angle == 0 && nearVertical) {
+      // An upright label beside a near-vertical side is a wide horizontal box,
+      // and pushing it straight out can run it off the panel: on the half
+      // width panels of a concept sheet "Opposite" was centred past the right
+      // edge and cut in half, with its first letter sitting on the line it
+      // names. Upright is still better where it fits, so take it when it does
+      // and turn the label along its own line when it does not. Turned, it is
+      // barely wider than a letter and always has room. The inside of the
+      // triangle is not the answer: the hypotenuse label already lives there.
+      final tp = _layout(text, color, size);
+      final at = mid + normal * (10 + tp.width / 2);
+      const pad = 3.0;
+      final fits =
+          at.dx - tp.width / 2 >= pad &&
+          at.dx + tp.width / 2 <= g.size.width - pad &&
+          at.dy - tp.height / 2 >= pad &&
+          at.dy + tp.height / 2 <= g.size.height - pad;
+      if (fits) {
+        tp.paint(canvas, at - Offset(tp.width / 2, tp.height / 2));
+        return;
+      }
+      angle = alongLine;
+    }
+
     canvas.save();
     canvas.translate(mid.dx + normal.dx * 17, mid.dy + normal.dy * 17);
     canvas.rotate(angle);
-    _text(canvas, text, Offset.zero, color, small ? 10.5 : 13);
+    _text(canvas, text, Offset.zero, color, size);
     canvas.restore();
   }
+
+  TextPainter _layout(String text, Color color, double size) => TextPainter(
+    text: TextSpan(
+      text: text,
+      style: AppTheme.heading(
+        size: size,
+        weight: FontWeight.w600,
+        color: color,
+      ),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
 
   void _text(
     Canvas canvas,
@@ -354,10 +392,7 @@ class ForcePainter extends CustomPainter {
     // width, a steep force left the right half of the box empty with the
     // horizontal axis running out into nothing.
     final axisRun = math.max(reach + 36, size.width * 0.34);
-    final origin = Offset(
-      (size.width - axisRun) / 2,
-      size.height * 0.84,
-    );
+    final origin = Offset((size.width - axisRun) / 2, size.height * 0.84);
     final tip = origin + Offset(reach, -rise);
 
     final axis = Paint()
