@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'dot_plot_figures.dart';
 import 'expectation_figures.dart';
 import 'interval_figures.dart';
@@ -398,7 +399,7 @@ class _OverlapPainter extends CustomPainter {
     FontWeight weight = FontWeight.w500,
   }) {
     final tp = _text(s, size: size, color: color, weight: weight);
-    tp.paint(canvas, Offset(at.dx - tp.width / 2, at.dy - tp.height / 2));
+    inkLabel(canvas, tp, Offset(at.dx - tp.width / 2, at.dy - tp.height / 2));
   }
 
   @override
@@ -536,12 +537,16 @@ class _ReadoutPainter extends CustomPainter {
         );
       }
       final l = _text(label, size: 15, color: tone, weight: FontWeight.w600);
-      l.paint(canvas, Offset(screen.left + 22, y - l.height / 2));
+      inkLabel(canvas, l, Offset(screen.left + 22, y - l.height / 2));
       final v = _text(value, size: 15, color: tone, weight: FontWeight.w600);
-      v.paint(canvas, Offset(screen.right - 22 - v.width, y - v.height / 2));
+      inkLabel(
+        canvas,
+        v,
+        Offset(screen.right - 22 - v.width, y - v.height / 2),
+      );
       if (mark) {
         final note = _text('sample: n - 1', size: 10, color: AppColors.spring);
-        note.paint(canvas, Offset(screen.left + 92, y - note.height / 2));
+        inkLabel(canvas, note, Offset(screen.left + 92, y - note.height / 2));
       }
     }
   }
@@ -579,9 +584,9 @@ class _WeightedBarsPainter extends CustomPainter {
         Paint()..color = n == 10 ? AppColors.ember : AppColors.charcoal,
       );
       final v = _text('${mpa.round()}', size: 10, color: AppColors.cream);
-      v.paint(canvas, Offset(x + w / 2 - v.width / 2, base - h + 4));
+      inkLabel(canvas, v, Offset(x + w / 2 - v.width / 2, base - h + 4));
       final c = _text('$n tested', size: 10, color: AppColors.ink2);
-      c.paint(canvas, Offset(x + w / 2 - c.width / 2, base + 5));
+      inkLabel(canvas, c, Offset(x + w / 2 - c.width / 2, base + 5));
       x += w + gap;
     }
     final mean = weighted / count;
@@ -597,7 +602,7 @@ class _WeightedBarsPainter extends CustomPainter {
       color: AppColors.forest,
       weight: FontWeight.w600,
     );
-    m.paint(canvas, Offset(size.width * 0.1, y - m.height - 3));
+    inkLabel(canvas, m, Offset(size.width * 0.1, y - m.height - 3));
   }
 
   @override
@@ -639,22 +644,22 @@ class _RSquaredPainter extends CustomPainter {
       color: AppColors.cream,
       weight: FontWeight.w600,
     );
-    a.paint(canvas, Offset(left + 12, y - a.height / 2));
+    inkLabel(canvas, a, Offset(left + 12, y - a.height / 2));
     final b = _text('not: 0.15', size: 10, color: AppColors.charcoal);
-    b.paint(canvas, Offset(split + 6, y - b.height / 2));
+    inkLabel(canvas, b, Offset(split + 6, y - b.height / 2));
     final top = _text(
       'r = $r  (it leans down)',
       size: 11,
       color: AppColors.charcoal,
     );
-    top.paint(canvas, Offset(left, y - 16 - top.height - 8));
+    inkLabel(canvas, top, Offset(left, y - 16 - top.height - 8));
     final bottom = _text(
       'r squared = ${r2.toStringAsFixed(2)}  (no sign)',
       size: 11,
       color: AppColors.forest,
       weight: FontWeight.w600,
     );
-    bottom.paint(canvas, Offset(left, y + 16 + 8));
+    inkLabel(canvas, bottom, Offset(left, y + 16 + 8));
   }
 
   @override
@@ -688,11 +693,11 @@ class _PickPainter extends CustomPainter {
         color: AppColors.cream,
         weight: FontWeight.w600,
       );
-      t.paint(canvas, rect.center - Offset(t.width / 2, t.height / 2));
+      inkLabel(canvas, t, rect.center - Offset(t.width / 2, t.height / 2));
     }
     final blockRight = startX + 3 * chipW + 16;
     final head = _text('order matters: 6', size: 11, color: AppColors.charcoal);
-    head.paint(canvas, Offset(startX, y2 + chipH + 8));
+    inkLabel(canvas, head, Offset(startX, y2 + chipH + 8));
     // the bracket and the one group
     final bx = blockRight + 14;
     final midY = (y1 + y2 + chipH) / 2;
@@ -719,14 +724,14 @@ class _PickPainter extends CustomPainter {
       color: AppColors.charcoal,
       weight: FontWeight.w600,
     );
-    g.paint(canvas, group.center - Offset(g.width / 2, g.height / 2));
+    inkLabel(canvas, g, group.center - Offset(g.width / 2, g.height / 2));
     final tail = _text(
       'just a group: 1',
       size: 11,
       color: AppColors.ember,
       weight: FontWeight.w600,
     );
-    tail.paint(canvas, Offset(gx, group.bottom + 8));
+    inkLabel(canvas, tail, Offset(gx, group.bottom + 8));
   }
 
   @override
@@ -754,7 +759,7 @@ class _ThreeFactorsPainter extends CustomPainter {
       );
       canvas.drawCircle(Offset(x, y), r, _stroke(AppColors.charcoal, 1.5));
       final t = _text(hit ? 'yes' : 'no', size: 9, color: AppColors.ink2);
-      t.paint(canvas, Offset(x - t.width / 2, y + r + 4));
+      inkLabel(canvas, t, Offset(x - t.width / 2, y + r + 4));
       x += 2 * r + gap;
     }
     final head = _text(
@@ -762,8 +767,9 @@ class _ThreeFactorsPainter extends CustomPainter {
       size: 11,
       color: AppColors.charcoal,
     );
-    head.paint(
+    inkLabel(
       canvas,
+      head,
       Offset(size.width / 2 - head.width / 2, y - r - head.height - 8),
     );
     // the three factors
@@ -782,7 +788,7 @@ class _ThreeFactorsPainter extends CustomPainter {
         Paint()..color = AppColors.cream,
       );
       final t = _text(f, size: 13, color: tone, weight: FontWeight.w700);
-      t.paint(canvas, Offset(rect.center.dx - t.width / 2, rect.top + 6));
+      inkLabel(canvas, t, Offset(rect.center.dx - t.width / 2, rect.top + 6));
       final w = TextPainter(
         text: TextSpan(
           text: why,
@@ -791,14 +797,16 @@ class _ThreeFactorsPainter extends CustomPainter {
         textDirection: TextDirection.ltr,
         textAlign: TextAlign.center,
       )..layout(maxWidth: boxW);
-      w.paint(
+      inkLabel(
         canvas,
+        w,
         Offset(rect.center.dx - w.width / 2, rect.top + 6 + t.height + 2),
       );
       if (i < 2) {
         final times = _text('×', size: 14, color: AppColors.charcoal);
-        times.paint(
+        inkLabel(
           canvas,
+          times,
           Offset(
             rect.right + 5 - times.width / 2,
             rect.center.dy - times.height / 2,
@@ -844,7 +852,7 @@ class _TwoColumnsPainter extends CustomPainter {
           color: tone,
           weight: total || head ? FontWeight.w600 : FontWeight.w500,
         );
-        t.paint(canvas, Offset(colX[c], y));
+        inkLabel(canvas, t, Offset(colX[c], y));
       }
       if (total) {
         canvas.drawLine(
@@ -875,17 +883,17 @@ class _TwoColumnsPainter extends CustomPainter {
       weight: FontWeight.w700,
     );
     var x = size.width * 0.12;
-    a.paint(canvas, Offset(x, y));
+    inkLabel(canvas, a, Offset(x, y));
     x += a.width;
-    b.paint(canvas, Offset(x, y));
+    inkLabel(canvas, b, Offset(x, y));
     x += b.width;
-    c.paint(canvas, Offset(x, y));
+    inkLabel(canvas, c, Offset(x, y));
     final note = _text(
       'mean of the squares, less the square of the mean',
       size: 10,
       color: AppColors.ink2,
     );
-    note.paint(canvas, Offset(size.width * 0.12, y + a.height + 4));
+    inkLabel(canvas, note, Offset(size.width * 0.12, y + a.height + 4));
   }
 
   @override

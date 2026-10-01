@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'alignment_figures.dart';
 import 'demand_figures.dart';
 import 'earthwork_figures.dart';
@@ -425,7 +426,7 @@ class _QuartersPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    tp.paint(canvas, center ? Offset(at.dx - tp.width / 2, at.dy) : at);
+    inkLabel(canvas, tp, center ? Offset(at.dx - tp.width / 2, at.dy) : at);
   }
 
   @override
@@ -530,7 +531,7 @@ class _GradeBreakPainter extends CustomPainter {
       ),
       textDirection: TextDirection.ltr,
     )..layout();
-    tp.paint(canvas, center ? Offset(at.dx - tp.width / 2, at.dy) : at);
+    inkLabel(canvas, tp, center ? Offset(at.dx - tp.width / 2, at.dy) : at);
   }
 
   @override
@@ -641,7 +642,7 @@ void _say(
   var x = at.dx;
   if (center) x -= tp.width / 2;
   if (right) x -= tp.width;
-  tp.paint(canvas, Offset(x, at.dy));
+  inkLabel(canvas, tp, Offset(x, at.dy));
 }
 
 /// One hourly count walked through its three divisions, each bar as long as

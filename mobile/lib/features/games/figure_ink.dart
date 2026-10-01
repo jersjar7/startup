@@ -21,10 +21,10 @@ enum Looking { elevation, section, plan }
 
 extension LookingWords on Looking {
   String get tag => switch (this) {
-        Looking.elevation => 'ELEVATION',
-        Looking.section => 'SECTION',
-        Looking.plan => 'PLAN',
-      };
+    Looking.elevation => 'ELEVATION',
+    Looking.section => 'SECTION',
+    Looking.plan => 'PLAN',
+  };
 }
 
 /// Says what the drawing is, in the bottom right corner where nothing else
@@ -41,9 +41,9 @@ void viewTag(Canvas canvas, Size size, Looking view, {String? note}) {
   final at = Offset(size.width - painter.width - 7, size.height - 13);
   // A patch behind it, because it often sits over ground hatching.
   canvas.drawRect(
-      Rect.fromLTWH(at.dx - 3, at.dy - 1, painter.width + 6,
-          painter.height + 2),
-      Paint()..color = AppColors.cream.withValues(alpha: 0.92));
+    Rect.fromLTWH(at.dx - 3, at.dy - 1, painter.width + 6, painter.height + 2),
+    Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+  );
   painter.paint(canvas, at);
 }
 
@@ -93,9 +93,11 @@ void groundLine(
   final tick = Paint()
     ..color = (color ?? AppColors.ink2).withValues(alpha: 0.8)
     ..strokeWidth = 1.1;
-  for (var x = math.min(from.dx, to.dx) + 3;
-      x < math.max(from.dx, to.dx);
-      x += step) {
+  for (
+    var x = math.min(from.dx, to.dx) + 3;
+    x < math.max(from.dx, to.dx);
+    x += step
+  ) {
     final t = (x - from.dx) / (to.dx - from.dx == 0 ? 1 : to.dx - from.dx);
     final y = from.dy + (to.dy - from.dy) * t;
     canvas.drawLine(Offset(x, y), Offset(x - 6, y + 7), tick);
@@ -113,11 +115,12 @@ void waterLevel(
 }) {
   final tone = color ?? AppColors.info;
   canvas.drawLine(
-      from,
-      to,
-      Paint()
-        ..color = tone
-        ..strokeWidth = 1.6);
+    from,
+    to,
+    Paint()
+      ..color = tone
+      ..strokeWidth = 1.6,
+  );
   final x = markAt ?? (from.dx + to.dx) / 2;
   final t = (to.dx - from.dx).abs() < 0.001
       ? 0.0
@@ -125,23 +128,24 @@ void waterLevel(
   final y = from.dy + (to.dy - from.dy) * t;
   canvas
     ..drawPath(
-        Path()
-          ..moveTo(x - 5, y - 8)
-          ..lineTo(x + 5, y - 8)
-          ..lineTo(x, y)
-          ..close(),
-        Paint()..color = tone)
+      Path()
+        ..moveTo(x - 5, y - 8)
+        ..lineTo(x + 5, y - 8)
+        ..lineTo(x, y)
+        ..close(),
+      Paint()..color = tone,
+    )
     ..drawLine(
-        Offset(x - 7, y + 3),
-        Offset(x + 7, y + 3),
-        Paint()
-          ..color = tone.withValues(alpha: 0.6)
-          ..strokeWidth = 1.1);
+      Offset(x - 7, y + 3),
+      Offset(x + 7, y + 3),
+      Paint()
+        ..color = tone.withValues(alpha: 0.6)
+        ..strokeWidth = 1.1,
+    );
 }
 
 /// The fill used for water everywhere.
-Paint get waterFill =>
-    Paint()..color = AppColors.info.withValues(alpha: 0.22);
+Paint get waterFill => Paint()..color = AppColors.info.withValues(alpha: 0.22);
 
 /// Where a label can actually go: the offset moved, if it has to be, so the
 /// whole of the text lands inside the panel.
@@ -187,13 +191,57 @@ void writeOn(
   // their last few words to the edge.
   final painter = TextPainter(
     text: TextSpan(
-        text: text, style: AppTheme.mono(size: fontSize, color: color)),
+      text: text,
+      style: AppTheme.mono(size: fontSize, color: color),
+    ),
     textDirection: TextDirection.ltr,
   )..layout(maxWidth: (size.width - 8).clamp(1.0, double.infinity));
   final place = insidePanel(size, painter.size, at);
   final patch = Rect.fromLTWH(
-      place.dx - 2, place.dy - 1, painter.width + 4, painter.height + 2);
+    place.dx - 2,
+    place.dy - 1,
+    painter.width + 4,
+    painter.height + 2,
+  );
   canvas.drawRect(
-      patch, Paint()..color = AppColors.cream.withValues(alpha: 0.92));
+    patch,
+    Paint()..color = AppColors.cream.withValues(alpha: 0.92),
+  );
   painter.paint(canvas, place);
+}
+
+/// Paints a label that has already been laid out, with a patch of the panel
+/// behind it so no line, curve or grid rule runs through the letters.
+///
+/// The figures drawn for the games use [writeOn], which has always done this.
+/// The figures drawn for the CONCEPT SHEETS lay their own text out, so they
+/// bypassed it, and an axis or a grid line could cross a word (owner's catch,
+/// 2026-09-30, on the cosine sheet). Every sheet label goes through here now.
+///
+/// A label in a pale ink is sitting on something dark and solid, where a pale
+/// patch would be the thing that hurts, so it is painted as it is.
+void inkLabel(Canvas canvas, TextPainter text, Offset at, {Color? patch}) {
+  if (!_wantsPatch(text)) {
+    text.paint(canvas, at);
+    return;
+  }
+  final box = RRect.fromRectAndRadius(
+    Rect.fromLTWH(at.dx - 2.5, at.dy - 1, text.width + 5, text.height + 2),
+    const Radius.circular(3),
+  );
+  canvas.drawRRect(
+    box,
+    Paint()..color = (patch ?? AppColors.creamDark).withValues(alpha: 0.93),
+  );
+  text.paint(canvas, at);
+}
+
+/// Pale ink means the label is on a dark fill, where a patch would be worse
+/// than the line it is hiding.
+bool _wantsPatch(TextPainter text) {
+  final span = text.text;
+  final color = span is TextSpan ? span.style?.color : null;
+  if (color == null) return true;
+  final l = (0.2126 * color.r + 0.7152 * color.g + 0.0722 * color.b);
+  return l < 0.72;
 }

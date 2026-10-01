@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'collision_figures.dart';
 import 'energy_figures.dart';
 import 'kinematics_figures.dart';
@@ -360,7 +361,7 @@ class _PinOrFreePainter extends CustomPainter {
     final at = pinned ? mid + Offset(0, -r) : mid;
     _arrow(canvas, at - const Offset(46, 0), at, _stroke(AppColors.ember, 2.6));
     final f = _text('F', color: AppColors.ember);
-    f.paint(canvas, at - Offset(58, f.height / 2));
+    inkLabel(canvas, f, at - Offset(58, f.height / 2));
 
     if (pinned) {
       // A pin support: the bolt through the middle, a bracket down to the
@@ -466,7 +467,7 @@ class _PinOrFreePainter extends CustomPainter {
 
   void _under(Canvas canvas, Rect box, String words) {
     final t = _text(words, size: 9.5, color: AppColors.charcoal);
-    t.paint(canvas, Offset(box.center.dx - t.width / 2, box.bottom - 18));
+    inkLabel(canvas, t, Offset(box.center.dx - t.width / 2, box.bottom - 18));
   }
 
   @override
@@ -512,16 +513,18 @@ class _FiveThingsPainter extends CustomPainter {
         size: 17,
         color: out ? AppColors.ember : AppColors.cream,
       );
-      sym.paint(
+      inkLabel(
         canvas,
+        sym,
         Offset(
           box.center.dx - sym.width / 2,
           box.center.dy - sym.height / 2 - 1,
         ),
       );
       final name = _text(_labels[i].$2, size: 9.5);
-      name.paint(
+      inkLabel(
         canvas,
+        name,
         Offset(box.center.dx - name.width / 2, box.bottom + 7),
       );
       if (out) {
@@ -539,13 +542,17 @@ class _FiveThingsPainter extends CustomPainter {
       }
     }
     final head = _text('the problem gives you four of these', size: 11);
-    head.paint(canvas, Offset(size.width / 2 - head.width / 2, top - 26));
+    inkLabel(canvas, head, Offset(size.width / 2 - head.width / 2, top - 26));
     final foot = _text(
       'this one is never mentioned',
       size: 11,
       color: AppColors.ember,
     );
-    foot.paint(canvas, Offset(size.width / 2 - foot.width / 2, top + w + 30));
+    inkLabel(
+      canvas,
+      foot,
+      Offset(size.width / 2 - foot.width / 2, top + w + 30),
+    );
   }
 
   @override
@@ -562,7 +569,7 @@ class _MassOrWeightPainter extends CustomPainter {
 
     // what it is made of, above it
     final note = _text('how much stuff it is made of', size: 10.5);
-    note.paint(canvas, Offset(x - note.width / 2, size.height * 0.08));
+    inkLabel(canvas, note, Offset(x - note.width / 2, size.height * 0.08));
 
     final box = Rect.fromCenter(
       center: Offset(x, size.height * 0.34),
@@ -574,8 +581,9 @@ class _MassOrWeightPainter extends CustomPainter {
       Paint()..color = AppColors.charcoal,
     );
     final mass = _text('50 kg', size: 17, color: AppColors.cream);
-    mass.paint(
+    inkLabel(
       canvas,
+      mass,
       Offset(box.center.dx - mass.width / 2, box.center.dy - mass.height / 2),
     );
 
@@ -587,13 +595,13 @@ class _MassOrWeightPainter extends CustomPainter {
       _stroke(AppColors.ember, 3),
     );
     final w = _text('490 N', size: 17, color: AppColors.ember);
-    w.paint(canvas, Offset(x + 14, size.height * 0.56));
+    inkLabel(canvas, w, Offset(x + 14, size.height * 0.56));
     final note2 = _text(
       'how hard gravity pulls it down',
       size: 10.5,
       color: AppColors.ember,
     );
-    note2.paint(canvas, Offset(x - note2.width / 2, size.height * 0.83));
+    inkLabel(canvas, note2, Offset(x - note2.width / 2, size.height * 0.83));
   }
 
   @override
@@ -648,7 +656,7 @@ class _SameSpeedPainter extends CustomPainter {
       );
       canvas.restore();
       final t2 = _text(label, size: 10.5);
-      t2.paint(canvas, Offset(c.dx - t2.width / 2, c.dy - side / 2 - 18));
+      inkLabel(canvas, t2, Offset(c.dx - t2.width / 2, c.dy - side / 2 - 18));
     }
 
     block(0.20, 38, 'heavy');
@@ -664,7 +672,7 @@ class _SameSpeedPainter extends CustomPainter {
       size: 11,
       color: AppColors.ember,
     );
-    same.paint(canvas, Offset(right - 74 - same.width - 10, base + 12));
+    inkLabel(canvas, same, Offset(right - 74 - same.width - 10, base + 12));
   }
 
   @override
@@ -688,8 +696,9 @@ class _EfficiencyPainter extends CustomPainter {
       Paint()..color = AppColors.charcoal,
     );
     final name = _text('motor', size: 13, color: AppColors.cream);
-    name.paint(
+    inkLabel(
       canvas,
+      name,
       Offset(box.center.dx - name.width / 2, box.center.dy - name.height / 2),
     );
 
@@ -720,10 +729,11 @@ class _EfficiencyPainter extends CustomPainter {
     );
 
     final inLabel = _text('10 kW in', size: 11.5, color: AppColors.ember);
-    inLabel.paint(canvas, Offset(size.width * 0.06, mid - 32));
+    inkLabel(canvas, inLabel, Offset(size.width * 0.06, mid - 32));
     final outLabel = _text('7 kW out', size: 11.5, color: AppColors.forest);
-    outLabel.paint(
+    inkLabel(
       canvas,
+      outLabel,
       Offset(size.width * 0.94 - outLabel.width, mid - 30),
     );
 
@@ -736,8 +746,9 @@ class _EfficiencyPainter extends CustomPainter {
       lost,
     );
     final lostLabel = _text('3 kW lost as heat', size: 10.5);
-    lostLabel.paint(
+    inkLabel(
       canvas,
+      lostLabel,
       Offset(box.center.dx - lostLabel.width / 2, box.top - 54),
     );
   }
@@ -788,13 +799,13 @@ class _ResonancePainter extends CustomPainter {
     canvas.drawPath(path, _stroke(AppColors.ember, 3));
 
     final own = _text('its own rate', size: 11, color: AppColors.charcoal);
-    own.paint(canvas, Offset(peakX - own.width / 2, top - 20));
+    inkLabel(canvas, own, Offset(peakX - own.width / 2, top - 20));
     final xa = _text('how fast you shake it', size: 10.5);
-    xa.paint(canvas, Offset(right - xa.width, base + 8));
+    inkLabel(canvas, xa, Offset(right - xa.width, base + 8));
     final safeL = _text('safe', size: 10.5);
-    safeL.paint(canvas, Offset(left + 12, base - 24));
+    inkLabel(canvas, safeL, Offset(left + 12, base - 24));
     final safeR = _text('safe', size: 10.5);
-    safeR.paint(canvas, Offset(right - safeR.width - 14, base - 24));
+    inkLabel(canvas, safeR, Offset(right - safeR.width - 14, base - 24));
   }
 
   @override

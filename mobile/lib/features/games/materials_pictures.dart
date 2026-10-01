@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'aggregate_figures.dart';
 import 'asphalt_figures.dart';
 import 'concrete_figures.dart';
@@ -481,12 +482,12 @@ class _SeesawPainter extends CustomPainter {
       final px = at(x);
       canvas.drawCircle(Offset(px, beam), 6, Paint()..color = tone);
       final t = _label(name, color: tone);
-      t.paint(canvas, Offset(px - t.width / 2, beam - 26));
+      inkLabel(canvas, t, Offset(px - t.width / 2, beam - 26));
       final n = _label('${x.round()}', size: 10, color: AppColors.ink3);
-      n.paint(canvas, Offset(px - n.width / 2, beam + 34));
+      inkLabel(canvas, n, Offset(px - n.width / 2, beam + 34));
     }
     final alloy = _label('alloy 30', size: 10, color: AppColors.charcoal);
-    alloy.paint(canvas, Offset(pivotX - alloy.width / 2, beam + 34));
+    inkLabel(canvas, alloy, Offset(pivotX - alloy.width / 2, beam + 34));
 
     // The far arm: the one that weighs the liquid share. Drawn from the
     // pivot BACK toward the solid end, which is the direction that feels
@@ -503,8 +504,9 @@ class _SeesawPainter extends CustomPainter {
       size: 10,
       color: AppColors.ember,
     );
-    arm.paint(
+    inkLabel(
       canvas,
+      arm,
       Offset(
         (at(_solid) + pivotX) / 2 - arm.width / 2 < 4
             ? 4
@@ -567,7 +569,7 @@ class _SieveStackPainter extends CustomPainter {
         );
       }
       final t = _label(name, size: 10, color: AppColors.charcoal);
-      t.paint(canvas, Offset(right + 10, y + gap * 0.18));
+      inkLabel(canvas, t, Offset(right + 10, y + gap * 0.18));
     }
 
     // The sand going in at the top.
@@ -578,14 +580,14 @@ class _SieveStackPainter extends CustomPainter {
       _stroke(AppColors.ember, 2.4),
     );
     final pour = _label('pour it in', size: 10, color: AppColors.ember);
-    pour.paint(canvas, Offset((left + right) / 2 + 10, 4));
+    inkLabel(canvas, pour, Offset((left + right) / 2 + 10, 4));
 
     // Coarse at the top, fine at the bottom: the order the curves are drawn
     // in, stood on its end.
     final down = _label('coarse', size: 9.5, color: AppColors.ink3);
-    down.paint(canvas, Offset(4, top));
+    inkLabel(canvas, down, Offset(4, top));
     final fine = _label('fine', size: 9.5, color: AppColors.ink3);
-    fine.paint(canvas, Offset(4, top + gap * (_rows.length - 1)));
+    inkLabel(canvas, fine, Offset(4, top + gap * (_rows.length - 1)));
   }
 
   @override
@@ -632,12 +634,12 @@ class _GravityPairPainter extends CustomPainter {
           )
           ..drawRect(band, _stroke(AppColors.info, 1.4));
         final a = _label('air', size: 9.5, color: AppColors.info);
-        a.paint(canvas, Offset(x + wide + 5, base - tall - 2));
+        inkLabel(canvas, a, Offset(x + wide + 5, base - tall - 2));
       }
       final t = _label(title, size: 10, color: AppColors.charcoal);
-      t.paint(canvas, Offset(x + wide / 2 - t.width / 2, base + 8));
+      inkLabel(canvas, t, Offset(x + wide / 2 - t.width / 2, base + 8));
       final v = _label(value, size: 12, color: AppColors.ember);
-      v.paint(canvas, Offset(x + wide / 2 - v.width / 2, base + 26));
+      inkLabel(canvas, v, Offset(x + wide / 2 - v.width / 2, base + 26));
     }
 
     final note = _label(
@@ -645,7 +647,7 @@ class _GravityPairPainter extends CustomPainter {
       size: 9.5,
       color: AppColors.ink3,
     );
-    note.paint(canvas, Offset(size.width / 2 - note.width / 2, base + 48));
+    inkLabel(canvas, note, Offset(size.width / 2 - note.width / 2, base + 48));
   }
 
   @override
@@ -704,12 +706,13 @@ class _PercentPainter extends CustomPainter {
         ..drawRect(box, Paint()..color = fill)
         ..drawRect(box, _stroke(AppColors.charcoal, 1.6));
       final h = _label(head, size: 12, color: AppColors.charcoal);
-      h.paint(
+      inkLabel(
         canvas,
+        h,
         Offset(x + wide / 2 - h.width / 2, box.top - h.height - 6),
       );
       final f = _label(foot, color: AppColors.ink2);
-      f.paint(canvas, Offset(x + wide / 2 - f.width / 2, base + 8));
+      inkLabel(canvas, f, Offset(x + wide / 2 - f.width / 2, base + 8));
     }
 
     bar(
@@ -737,8 +740,9 @@ class _PercentPainter extends CustomPainter {
       _stroke(AppColors.ember, 2.4),
     );
     final down = _label('x 0.70', size: 12, color: AppColors.ember);
-    down.paint(
+    inkLabel(
       canvas,
+      down,
       Offset(
         (leftX + wide + rightX) / 2 - down.width / 2,
         midY - down.height - 6,
@@ -753,8 +757,9 @@ class _PercentPainter extends CustomPainter {
       _stroke(AppColors.charcoal, 2.4),
     );
     final up = _label('divide by 0.70', size: 12, color: AppColors.charcoal);
-    up.paint(
+    inkLabel(
       canvas,
+      up,
       Offset((leftX + wide + rightX) / 2 - up.width / 2, backY + 6),
     );
   }
@@ -794,15 +799,16 @@ class _MortarPainter extends CustomPainter {
         )
         ..drawRect(box, _stroke(AppColors.charcoal, 1.6));
       final l = _label(letter, size: 20, color: AppColors.charcoal);
-      l.paint(canvas, Offset(box.center.dx - l.width / 2, box.top + 8));
+      inkLabel(canvas, l, Offset(box.center.dx - l.width / 2, box.top + 8));
       final u = _label(use, size: 9, color: AppColors.ink2);
-      u.paint(canvas, Offset(box.center.dx - u.width / 2, base + 6));
+      inkLabel(canvas, u, Offset(box.center.dx - u.width / 2, base + 6));
     }
     final head = _label('strongest', size: 10, color: AppColors.ink2);
-    head.paint(canvas, Offset(20, top - head.height - 2));
+    inkLabel(canvas, head, Offset(20, top - head.height - 2));
     final tail = _label('weakest', size: 10, color: AppColors.ink2);
-    tail.paint(
+    inkLabel(
       canvas,
+      tail,
       Offset(size.width - 20 - tail.width, top - tail.height - 2),
     );
 
@@ -820,7 +826,7 @@ class _MortarPainter extends CustomPainter {
       ('rK', AppColors.ink3),
     ]) {
       final t = _label(piece, size: 13, color: ink);
-      t.paint(canvas, Offset(x, y));
+      inkLabel(canvas, t, Offset(x, y));
       x += t.width;
     }
   }
@@ -871,16 +877,16 @@ class _DurationPainter extends CustomPainter {
         _stroke(tone.withValues(alpha: 0.85), 9),
       );
       final n = _label(name, size: 10, color: AppColors.charcoal);
-      n.paint(canvas, Offset(left - 8 - n.width, y - n.height / 2));
+      inkLabel(canvas, n, Offset(left - 8 - n.width, y - n.height / 2));
       final v = _label(cd.toStringAsFixed(2), size: 11, color: tone);
-      v.paint(canvas, Offset(xOf(cd) + 6, y - v.height / 2));
+      inkLabel(canvas, v, Offset(xOf(cd) + 6, y - v.height / 2));
     }
     final note = _label(
       'the line is 1.00, what the book value already assumes',
       size: 9.5,
       color: AppColors.ink2,
     );
-    note.paint(canvas, Offset(14, size.height - note.height - 6));
+    inkLabel(canvas, note, Offset(14, size.height - note.height - 6));
   }
 
   @override
@@ -908,8 +914,9 @@ class _TablePainter extends CustomPainter {
 
     for (var c = 0; c < _cols.length; c++) {
       final t = _label(_cols[c], size: 9, color: AppColors.ink2);
-      t.paint(
+      inkLabel(
         canvas,
+        t,
         Offset(left + colW * (c + 0.5) - t.width / 2, top - t.height - 8),
       );
     }
@@ -917,7 +924,7 @@ class _TablePainter extends CustomPainter {
       final (name, flags) = _rows[r];
       final y = top + rowH * (r + 0.5);
       final n = _label(name, size: 11, color: AppColors.charcoal);
-      n.paint(canvas, Offset(left - 10 - n.width, y - n.height / 2));
+      inkLabel(canvas, n, Offset(left - 10 - n.width, y - n.height / 2));
       for (var c = 0; c < flags.length; c++) {
         final x = left + colW * (c + 0.5);
         final ok = flags[c];

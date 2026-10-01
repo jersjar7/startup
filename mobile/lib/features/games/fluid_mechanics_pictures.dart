@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'fluid_figures.dart';
 import 'mechanics_pictures.dart' show ConceptPicture, ConceptPair;
 import 'meter_figures.dart';
@@ -368,9 +369,9 @@ class _BendThrustPainter extends CustomPainter {
     );
     _arrow(canvas, end + Offset(0, leg * 0.7), end + const Offset(0, 4), flow);
     final inLabel = _text('in', color: AppColors.info);
-    inLabel.paint(canvas, start + Offset(leg * 0.24, -18));
+    inkLabel(canvas, inLabel, start + Offset(leg * 0.24, -18));
     final outLabel = _text('out', color: AppColors.info);
-    outLabel.paint(canvas, end + const Offset(10, -4));
+    inkLabel(canvas, outLabel, end + const Offset(10, -4));
 
     // The two directions drawn from one point, and the arrow that closes
     // them. It runs from the way the water LEAVES back to the way it came,
@@ -385,7 +386,7 @@ class _BendThrustPainter extends CustomPainter {
     _arrow(canvas, hub, now, faint);
     _arrow(canvas, now, was, _stroke(AppColors.ember, 3));
     final change = _text('close the gap', size: 10, color: AppColors.ember);
-    change.paint(canvas, hub + const Offset(-20, -54));
+    inkLabel(canvas, change, hub + const Offset(-20, -54));
 
     // The same change, put back on the bend: the pipe is shoved this way.
     final push = Offset(1 / math.sqrt2, 1 / math.sqrt2);
@@ -400,8 +401,9 @@ class _BendThrustPainter extends CustomPainter {
       size: 10,
       color: AppColors.ember,
     );
-    shove.paint(
+    inkLabel(
       canvas,
+      shove,
       Offset(
         math.min(corner.dx + 6, size.width - shove.width - 6),
         corner.dy + leg + 22,
@@ -413,7 +415,7 @@ class _BendThrustPainter extends CustomPainter {
       size: 9.5,
       color: AppColors.ink3,
     );
-    tag.paint(canvas, Offset(size.width - tag.width - 8, 8));
+    inkLabel(canvas, tag, Offset(size.width - tag.width - 8, 8));
   }
 
   @override
@@ -498,8 +500,9 @@ class _CubePainter extends CustomPainter {
     canvas.drawPath(sideFace, edge);
 
     final metre = _text('1 m', size: 10.5, color: AppColors.ink2);
-    metre.paint(
+    inkLabel(
       canvas,
+      metre,
       Offset(front.center.dx - metre.width / 2, front.bottom + 7),
     );
 
@@ -513,9 +516,9 @@ class _CubePainter extends CustomPainter {
     var y = front.top - d + 4;
     for (final (label, value, tone) in rows) {
       final l = _text(label, size: 9.5, color: AppColors.ink3);
-      l.paint(canvas, Offset(x, y));
+      inkLabel(canvas, l, Offset(x, y));
       final v = _text(value, size: 15, color: tone, weight: FontWeight.w700);
-      v.paint(canvas, Offset(x, y + l.height + 2));
+      inkLabel(canvas, v, Offset(x, y + l.height + 2));
       y += l.height + v.height + 14;
     }
   }
@@ -546,7 +549,7 @@ class _ZeroPainter extends CustomPainter {
         canvas.drawLine(Offset(left, y), Offset(right, y), p);
       }
       final t = _text(label, size: 10, color: tone);
-      t.paint(canvas, Offset(left, y - t.height - 5));
+      inkLabel(canvas, t, Offset(left, y - t.height - 5));
     }
 
     level(vacuum, 'A PERFECT VACUUM', AppColors.ink3, dashed: true);
@@ -566,8 +569,9 @@ class _ZeroPainter extends CustomPainter {
       color: AppColors.forest,
       weight: FontWeight.w700,
     );
-    g.paint(
+    inkLabel(
       canvas,
+      g,
       Offset(gaugeX - g.width - 9, (atmos + point) / 2 - g.height / 2),
     );
 
@@ -579,14 +583,14 @@ class _ZeroPainter extends CustomPainter {
       color: AppColors.ember,
       weight: FontWeight.w700,
     );
-    a.paint(canvas, Offset(absX + 10, (vacuum + atmos) / 2 - a.height / 2));
+    inkLabel(canvas, a, Offset(absX + 10, (vacuum + atmos) / 2 - a.height / 2));
 
     final gap = _text(
       '101.3 kPa apart, always',
       size: 10,
       color: AppColors.ink2,
     );
-    gap.paint(canvas, Offset(left, vacuum + 10));
+    inkLabel(canvas, gap, Offset(left, vacuum + 10));
   }
 
   @override
@@ -620,7 +624,11 @@ class _BandsPainter extends CustomPainter {
         weight: FontWeight.w700,
       );
       if (n.width < x1 - x0 - 6) {
-        n.paint(canvas, Offset((x0 + x1) / 2 - n.width / 2, y - n.height / 2));
+        inkLabel(
+          canvas,
+          n,
+          Offset((x0 + x1) / 2 - n.width / 2, y - n.height / 2),
+        );
       }
     }
 
@@ -640,13 +648,13 @@ class _BandsPainter extends CustomPainter {
         color: AppColors.charcoal,
         weight: FontWeight.w700,
       );
-      t.paint(canvas, Offset(x - t.width / 2, y - 22 - t.height - 3));
+      inkLabel(canvas, t, Offset(x - t.width / 2, y - 22 - t.height - 3));
     }
 
     final slow = _text('slow, thick, narrow', size: 9.5, color: AppColors.ink3);
-    slow.paint(canvas, Offset(left, y - 62));
+    inkLabel(canvas, slow, Offset(left, y - 62));
     final fast = _text('fast, thin, wide', size: 9.5, color: AppColors.ink3);
-    fast.paint(canvas, Offset(right - fast.width, y - 62));
+    inkLabel(canvas, fast, Offset(right - fast.width, y - 62));
 
     // what each band means, one to a line so nothing can collide
     final rows = <(String, Color)>[
@@ -657,7 +665,7 @@ class _BandsPainter extends CustomPainter {
     var ry = y + 28;
     for (final (what, tone) in rows) {
       final w = _text(what, size: 10.5, color: tone);
-      w.paint(canvas, Offset(left, ry));
+      inkLabel(canvas, w, Offset(left, ry));
       ry += w.height + 4;
     }
   }
@@ -713,7 +721,7 @@ class _LossPainter extends CustomPainter {
         Paint()..color = tone,
       );
       final t = _text(label, size: 10.5, color: AppColors.ink2);
-      t.paint(canvas, Offset(left, barTop + 15));
+      inkLabel(canvas, t, Offset(left, barTop + 15));
     }
 
     pipe(
@@ -781,7 +789,11 @@ class _AddUpPainter extends CustomPainter {
         Paint()..color = AppColors.ember,
       );
       final l = _text(name, size: 9.5, color: AppColors.charcoal);
-      l.paint(canvas, Offset(x - l.width / 2, y - bore / 2 - 10 - l.height));
+      inkLabel(
+        canvas,
+        l,
+        Offset(x - l.width / 2, y - bore / 2 - 10 - l.height),
+      );
     }
 
     // the total, stacked
@@ -799,7 +811,7 @@ class _AddUpPainter extends CustomPainter {
       canvas.drawRect(Rect.fromLTWH(x, barY, w, 20), Paint()..color = tone);
       final l = _text(name, size: 9.5, color: AppColors.charcoal);
       if (l.width < w - 4) {
-        l.paint(canvas, Offset(x + w / 2 - l.width / 2, barY + 24));
+        inkLabel(canvas, l, Offset(x + w / 2 - l.width / 2, barY + 24));
       }
       x += w;
     }
@@ -813,7 +825,7 @@ class _AddUpPainter extends CustomPainter {
       color: AppColors.charcoal,
       weight: FontWeight.w700,
     );
-    total.paint(canvas, Offset(left, barY - total.height - 6));
+    inkLabel(canvas, total, Offset(left, barY - total.height - 6));
   }
 
   @override
@@ -846,7 +858,7 @@ class _ThreeFacesPainter extends CustomPainter {
         color: i == 0 ? AppColors.ink2 : AppColors.ember,
         weight: FontWeight.w700,
       );
-      t.paint(canvas, Offset(size.width * 0.745, row / 2 - t.height / 2));
+      inkLabel(canvas, t, Offset(size.width * 0.745, row / 2 - t.height / 2));
       canvas.restore();
     }
   }
@@ -873,7 +885,7 @@ class _SlipPainter extends CustomPainter {
     for (final (i, (what, up, says)) in rows.indexed) {
       final y = gap * (i + 0.8);
       final t = _text(what, size: 11, color: AppColors.charcoal);
-      t.paint(canvas, Offset(left, y - t.height / 2));
+      inkLabel(canvas, t, Offset(left, y - t.height / 2));
       final tone = up ? AppColors.ember : AppColors.info;
       _arrow(
         canvas,
@@ -882,7 +894,7 @@ class _SlipPainter extends CustomPainter {
         _stroke(tone, 2.6),
       );
       final s = _text(says, size: 11, color: tone, weight: FontWeight.w700);
-      s.paint(canvas, Offset(arrowX + 14, y - s.height / 2));
+      inkLabel(canvas, s, Offset(arrowX + 14, y - s.height / 2));
     }
   }
 

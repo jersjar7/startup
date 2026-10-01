@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'alignment_figures.dart';
 import 'area_figures.dart';
 import 'cogo_figures.dart';
@@ -453,7 +454,7 @@ class _NamedShotPainter extends CustomPainter {
         _ => spot.dx - t.width / 2,
       };
       x = x.clamp(4.0, size.width - t.width - 4);
-      t.paint(canvas, Offset(x, spot.dy + dy));
+      inkLabel(canvas, t, Offset(x, spot.dy + dy));
     }
   }
 
@@ -521,19 +522,19 @@ class _RootCurvePainter extends CustomPainter {
         ..drawCircle(at, 6, Paint()..color = AppColors.cream)
         ..drawCircle(at, 4.5, Paint()..color = AppColors.ember);
       final m = _tp(label, size: 10, color: AppColors.charcoal);
-      m.paint(canvas, Offset(at.dx - m.width / 2, bottom + 6));
+      inkLabel(canvas, m, Offset(at.dx - m.width / 2, bottom + 6));
       final f = _tp(
         '${feet.toStringAsFixed(2)} ft',
         size: 10,
         color: AppColors.ember,
       );
-      f.paint(canvas, Offset(left - f.width - 6, at.dy - 7));
+      inkLabel(canvas, f, Offset(left - f.width - 6, at.dy - 7));
     }
 
     final side = _tp('allowed to be out by', size: 9.5, color: AppColors.ink3);
-    side.paint(canvas, Offset(left - 4, top - 14));
+    inkLabel(canvas, side, Offset(left - 4, top - 14));
     final along = _tp('miles run', size: 9.5, color: AppColors.ink3);
-    along.paint(canvas, Offset(right - along.width, bottom + 6));
+    inkLabel(canvas, along, Offset(right - along.width, bottom + 6));
   }
 
   @override
@@ -573,7 +574,7 @@ class _WeightsPainter extends CustomPainter {
       );
     }
     final head = _tp('the seven offsets', size: 9.5, color: AppColors.ink3);
-    head.paint(canvas, Offset(left - 10, markY - 18));
+    inkLabel(canvas, head, Offset(left - 10, markY - 18));
 
     for (final (row, (name, weights, tone)) in [
       ('trapezoidal', _trap, AppColors.charcoal),
@@ -581,7 +582,7 @@ class _WeightsPainter extends CustomPainter {
     ].indexed) {
       final y = size.height * (row == 0 ? 0.50 : 0.76);
       final n = _tp(name, size: 10, color: tone);
-      n.paint(canvas, Offset(left - 10, y - 22));
+      inkLabel(canvas, n, Offset(left - 10, y - 22));
       for (var i = 0; i < weights.length; i++) {
         final px = left + step * i;
         final ends = i == 0 || i == weights.length - 1;
@@ -590,7 +591,7 @@ class _WeightsPainter extends CustomPainter {
           size: ends ? 12 : 11,
           color: ends ? tone : AppColors.ink2,
         );
-        t.paint(canvas, Offset(px - t.width / 2, y - 6));
+        inkLabel(canvas, t, Offset(px - t.width / 2, y - 6));
       }
     }
   }
@@ -636,7 +637,7 @@ class _PairPainter extends CustomPainter {
         ),
         textDirection: TextDirection.ltr,
       )..layout();
-      tp.paint(canvas, center ? at - Offset(tp.width / 2, 0) : at);
+      inkLabel(canvas, tp, center ? at - Offset(tp.width / 2, 0) : at);
     }
 
     text('north', Offset(left - 4, top - 16));

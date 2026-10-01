@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'breakeven_figures.dart';
 import 'cash_flow_figures.dart';
 import 'depreciation_figures.dart';
@@ -348,14 +349,14 @@ class _RatesPainter extends CustomPainter {
     }
     canvas.drawPath(path, _stroke(AppColors.ember, 3));
     final eff = _text('112.68 effective', color: AppColors.ember);
-    eff.paint(canvas, Offset(right + 6, y(112.68) - eff.height / 2));
+    inkLabel(canvas, eff, Offset(right + 6, y(112.68) - eff.height / 2));
     final nom = _text('112 nominal');
-    nom.paint(canvas, Offset(right + 6, y(112) + 4));
+    inkLabel(canvas, nom, Offset(right + 6, y(112) + 4));
     final start = _text('100 today', color: AppColors.charcoal);
-    start.paint(canvas, Offset(left, base + 6));
+    inkLabel(canvas, start, Offset(left, base + 6));
     // Kept short so it cannot reach the two labels stacked at the right end.
     final one = _text('one percent a month', color: AppColors.ember);
-    one.paint(canvas, Offset(left + 8, top - 2));
+    inkLabel(canvas, one, Offset(left + 8, top - 2));
   }
 
   @override
@@ -391,12 +392,12 @@ class _PiecesPainter extends CustomPainter {
         );
       }
       final n = _text('${k + 1}');
-      n.paint(canvas, Offset(x + w / 2 - n.width / 2, base + 5));
+      inkLabel(canvas, n, Offset(x + w / 2 - n.width / 2, base + 5));
     }
     final a = _text('the flat part, A', color: AppColors.charcoal);
-    a.paint(canvas, Offset(left, size.height * 0.04));
+    inkLabel(canvas, a, Offset(left, size.height * 0.04));
     final g = _text('the growing part, G', color: AppColors.ember);
-    g.paint(canvas, Offset(left + a.width + 16, size.height * 0.04));
+    inkLabel(canvas, g, Offset(left + a.width + 16, size.height * 0.04));
   }
 
   @override
@@ -445,17 +446,17 @@ class _OwningPainter extends CustomPainter {
       'the purchase, spread over its life',
       color: AppColors.charcoal,
     );
-    b.paint(canvas, Offset(left, mid - h / 2 - b.height - 6));
+    inkLabel(canvas, b, Offset(left, mid - h / 2 - b.height - 6));
     final r = _text('running it', color: AppColors.ink2);
-    r.paint(canvas, Offset(run.left, mid + h / 2 + 6));
+    inkLabel(canvas, r, Offset(run.left, mid + h / 2 + 6));
     final s = _text('minus what it sells for', color: AppColors.forest);
-    s.paint(canvas, Offset(right - s.width, back.bottom + 6));
+    inkLabel(canvas, s, Offset(right - s.width, back.bottom + 6));
     final eq = _text(
       '= what it costs you each year',
       size: 12,
       color: AppColors.charcoal,
     );
-    eq.paint(canvas, Offset(left, size.height - eq.height - 10));
+    inkLabel(canvas, eq, Offset(left, size.height - eq.height - 10));
   }
 
   @override
@@ -498,7 +499,7 @@ class _ThreeClocksPainter extends CustomPainter {
         }
       }
       final t = _text(label, color: AppColors.charcoal);
-      t.paint(canvas, Offset(left, rowH * i + 4));
+      inkLabel(canvas, t, Offset(left, rowH * i + 4));
     }
   }
 
@@ -530,7 +531,11 @@ class _CostLinePainter extends CustomPainter {
       _stroke(AppColors.ember, 2),
     );
     final f = _text('fixed: where it starts', color: AppColors.ember);
-    f.paint(canvas, Offset(left + 22, (base + start.dy) / 2 - f.height / 2));
+    inkLabel(
+      canvas,
+      f,
+      Offset(left + 22, (base + start.dy) / 2 - f.height / 2),
+    );
     // the variable part, a rise over a run
     final x1 = left + (right - left) * 0.55;
     final x2 = left + (right - left) * 0.8;
@@ -549,11 +554,11 @@ class _CostLinePainter extends CustomPainter {
       _stroke(AppColors.info, 1.5),
     );
     final v = _text('variable: how steep', color: AppColors.info);
-    v.paint(canvas, Offset(x1 - 20, yAt(x1) + 6));
+    inkLabel(canvas, v, Offset(x1 - 20, yAt(x1) + 6));
     final q = _text('how many you make');
-    q.paint(canvas, Offset(right - q.width, base + 6));
+    inkLabel(canvas, q, Offset(right - q.width, base + 6));
     final c = _text('total cost');
-    c.paint(canvas, Offset(left + 6, top - c.height - 2));
+    inkLabel(canvas, c, Offset(left + 6, top - c.height - 2));
   }
 
   @override
@@ -577,7 +582,7 @@ class _PaybackPainter extends CustomPainter {
       _stroke(AppColors.charcoal, 2),
     );
     final t = _text('the investment: 1,400,000', color: AppColors.charcoal);
-    t.paint(canvas, Offset(left, top - t.height - 6));
+    inkLabel(canvas, t, Offset(left, top - t.height - 6));
     // seven blocks of 200,000 net saving fill it exactly
     for (var k = 0; k < 7; k++) {
       final block = Rect.fromLTWH(
@@ -591,8 +596,9 @@ class _PaybackPainter extends CustomPainter {
         _fill(AppColors.spring),
       );
       final n = _text('yr ${k + 1}', size: 10, color: AppColors.charcoal);
-      n.paint(
+      inkLabel(
         canvas,
+        n,
         Offset(block.center.dx - n.width / 2, block.center.dy - n.height / 2),
       );
     }
@@ -614,12 +620,12 @@ class _PaybackPainter extends CustomPainter {
       _fill(AppColors.ember),
     );
     final g = _text('one year: 280,000 saved', color: AppColors.forest);
-    g.paint(canvas, Offset(left, y2 + 22));
+    inkLabel(canvas, g, Offset(left, y2 + 22));
     final c = _text(
       'minus 80,000 new costs = 200,000 net',
       color: AppColors.ember,
     );
-    c.paint(canvas, Offset(left, y2 + 22 + g.height + 2));
+    inkLabel(canvas, c, Offset(left, y2 + 22 + g.height + 2));
   }
 
   @override
@@ -665,17 +671,17 @@ class _FractionPainter extends CustomPainter {
       _fill(AppColors.ink2),
     );
     final b = _text('benefits', color: AppColors.forest);
-    b.paint(canvas, Offset(left, ben.top - b.height - 4));
+    inkLabel(canvas, b, Offset(left, ben.top - b.height - 4));
     final d = _text('minus harm', color: AppColors.ember);
-    d.paint(canvas, Offset(dis.right - d.width, ben.top - d.height - 4));
+    inkLabel(canvas, d, Offset(dis.right - d.width, ben.top - d.height - 4));
     final c = _text('building it', color: AppColors.charcoal);
-    c.paint(canvas, Offset(left, run.bottom + 4));
+    inkLabel(canvas, c, Offset(left, run.bottom + 4));
     final r = _text('running it, every year', color: AppColors.ink2);
-    r.paint(canvas, Offset(run.left, run.bottom + 4));
+    inkLabel(canvas, r, Offset(run.left, run.bottom + 4));
     final top = _text('B', size: 16, color: AppColors.charcoal);
-    top.paint(canvas, Offset(left - 34, ben.center.dy - top.height / 2));
+    inkLabel(canvas, top, Offset(left - 34, ben.center.dy - top.height / 2));
     final bot = _text('C', size: 16, color: AppColors.charcoal);
-    bot.paint(canvas, Offset(left - 34, build.center.dy - bot.height / 2));
+    inkLabel(canvas, bot, Offset(left - 34, build.center.dy - bot.height / 2));
   }
 
   @override
@@ -712,7 +718,7 @@ class _StepsPainter extends CustomPainter {
         _fill(AppColors.spring),
       );
       final n = _text(name, size: 12, color: AppColors.charcoal);
-      n.paint(canvas, Offset(x + w + 2 - n.width / 2, base + 5));
+      inkLabel(canvas, n, Offset(x + w + 2 - n.width / 2, base + 5));
       if (i > 0) {
         final prev = options[i - 1];
         final ok = (ben - prev.$3) >= (cost - prev.$2);
@@ -721,13 +727,13 @@ class _StepsPainter extends CustomPainter {
           size: 10,
           color: ok ? AppColors.forest : AppColors.error,
         );
-        t.paint(canvas, Offset(x - slot * 0.2, base - tall - 6));
+        inkLabel(canvas, t, Offset(x - slot * 0.2, base - tall - 6));
       }
     }
     final k1 = _text('cost', color: AppColors.charcoal);
-    k1.paint(canvas, Offset(left, size.height * 0.03));
+    inkLabel(canvas, k1, Offset(left, size.height * 0.03));
     final k2 = _text('benefit', color: AppColors.forest);
-    k2.paint(canvas, Offset(left + k1.width + 14, size.height * 0.03));
+    inkLabel(canvas, k2, Offset(left + k1.width + 14, size.height * 0.03));
   }
 
   @override
@@ -757,13 +763,17 @@ class _HurdlePainter extends CustomPainter {
         _fill(passes ? AppColors.spring : AppColors.ember),
       );
       final n = _text(name, color: AppColors.charcoal);
-      n.paint(canvas, Offset(left - n.width - 8, bar.center.dy - n.height / 2));
+      inkLabel(
+        canvas,
+        n,
+        Offset(left - n.width - 8, bar.center.dy - n.height / 2),
+      );
       final p = _text(
         '${(rate * 100).round()}%',
         size: 10,
         color: AppColors.charcoal,
       );
-      p.paint(canvas, Offset(bar.right + 6, bar.center.dy - p.height / 2));
+      inkLabel(canvas, p, Offset(bar.right + 6, bar.center.dy - p.height / 2));
     }
     _dashed(
       canvas,
@@ -772,7 +782,7 @@ class _HurdlePainter extends CustomPainter {
       _stroke(AppColors.charcoal, 2),
     );
     final m = _text('the hurdle: 10%', color: AppColors.charcoal);
-    m.paint(canvas, Offset(hurdleX - m.width / 2, size.height * 0.84));
+    inkLabel(canvas, m, Offset(hurdleX - m.width / 2, size.height * 0.84));
   }
 
   @override
@@ -807,9 +817,13 @@ class _MacrsPainter extends CustomPainter {
         size: 9,
         color: AppColors.charcoal,
       );
-      p.paint(canvas, Offset(x + w / 2 - p.width / 2, base - h - p.height - 2));
+      inkLabel(
+        canvas,
+        p,
+        Offset(x + w / 2 - p.width / 2, base - h - p.height - 2),
+      );
       final n = _text('${k + 1}', size: 10);
-      n.paint(canvas, Offset(x + w / 2 - n.width / 2, base + 5));
+      inkLabel(canvas, n, Offset(x + w / 2 - n.width / 2, base + 5));
       if (k < 5) {
         // straight line would be 20 percent, five times
         final sl = Rect.fromLTWH(
@@ -825,11 +839,11 @@ class _MacrsPainter extends CustomPainter {
       }
     }
     final a = _text('MACRS, from the table', color: AppColors.charcoal);
-    a.paint(canvas, Offset(left, size.height * 0.03));
+    inkLabel(canvas, a, Offset(left, size.height * 0.03));
     final b = _text('straight line, 20 each', color: AppColors.ember);
-    b.paint(canvas, Offset(left + a.width + 14, size.height * 0.03));
+    inkLabel(canvas, b, Offset(left + a.width + 14, size.height * 0.03));
     final yr = _text('year');
-    yr.paint(canvas, Offset(right - yr.width, base + 5));
+    inkLabel(canvas, yr, Offset(right - yr.width, base + 5));
   }
 
   @override
@@ -860,15 +874,15 @@ class _DollarsPainter extends CustomPainter {
         );
       }
       final t = _text(label, color: color);
-      t.paint(canvas, Offset(8, base - rowH * 0.5));
+      inkLabel(canvas, t, Offset(8, base - rowH * 0.5));
       final r = _text(rate, size: 10, color: color);
-      r.paint(canvas, Offset(8, base - rowH * 0.5 + t.height + 2));
+      inkLabel(canvas, r, Offset(8, base - rowH * 0.5 + t.height + 2));
     }
 
     row(0, 'actual dollars', AppColors.ember, true, 'discount at d');
     row(1, 'constant dollars', AppColors.charcoal, false, 'discount at i');
     final yr = _text('year 1 to 5');
-    yr.paint(canvas, Offset(right - yr.width, size.height - yr.height - 4));
+    inkLabel(canvas, yr, Offset(right - yr.width, size.height - yr.height - 4));
   }
 
   @override

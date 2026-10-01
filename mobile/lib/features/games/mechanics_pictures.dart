@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import '../shared/widgets/engineering_grid.dart';
 import 'axial_figures.dart';
 import 'column_figures.dart';
@@ -591,12 +592,17 @@ class _RulerPainter extends CustomPainter {
       canvas.drawLine(Offset(left, y), Offset(right, y), tick);
     }
     final top = _text('2 m', size: 14, color: AppColors.charcoal);
-    top.paint(
+    inkLabel(
       canvas,
+      top,
       Offset(size.width / 2 - top.width / 2, mid - 30 - top.height - 4),
     );
     final bottom = _text('2000 mm', size: 14, color: AppColors.ember);
-    bottom.paint(canvas, Offset(size.width / 2 - bottom.width / 2, mid + 34));
+    inkLabel(
+      canvas,
+      bottom,
+      Offset(size.width / 2 - bottom.width / 2, mid + 34),
+    );
   }
 
   @override
@@ -690,9 +696,9 @@ class _TwistPainter extends CustomPainter {
     canvas.drawLine(face, tip, _stroke(AppColors.spring, 3.5));
     canvas.drawCircle(face, 3, Paint()..color = AppColors.spring);
     final t = _text('T', size: 13, color: AppColors.charcoal);
-    t.paint(canvas, Offset(right + 36, mid - t.height / 2));
+    inkLabel(canvas, t, Offset(right + 36, mid - t.height / 2));
     final phi = _text('twist', size: 11, color: AppColors.ember);
-    phi.paint(canvas, Offset(right - phi.width - 6, mid + r + 8));
+    inkLabel(canvas, phi, Offset(right - phi.width - 6, mid + r + 8));
   }
 
   @override
@@ -731,13 +737,13 @@ class _PoissonPainter extends CustomPainter {
       pull,
     );
     final a = _text('before', size: 11, color: AppColors.ink2);
-    a.paint(canvas, Offset(left, before.top - a.height - 6));
+    inkLabel(canvas, a, Offset(left, before.top - a.height - 6));
     final b = _text(
       'pulled: longer, thinner',
       size: 11,
       color: AppColors.ember,
     );
-    b.paint(canvas, Offset(left, after.bottom + 8));
+    inkLabel(canvas, b, Offset(left, after.bottom + 8));
   }
 
   @override
@@ -825,9 +831,9 @@ class _JoistPainter extends CustomPainter {
       _stroke(AppColors.ink2, 1.5),
     );
     final a = _text('on edge: stiff', size: 11, color: AppColors.charcoal);
-    a.paint(canvas, Offset(x1 - a.width / 2, base + 10));
+    inkLabel(canvas, a, Offset(x1 - a.width / 2, base + 10));
     final b = _text('flat: bends easily', size: 11, color: AppColors.ember);
-    b.paint(canvas, Offset(x2 - b.width / 2, base + 10));
+    inkLabel(canvas, b, Offset(x2 - b.width / 2, base + 10));
   }
 
   @override
@@ -867,7 +873,7 @@ class _DepthPainter extends CustomPainter {
         load,
       );
       final t = _text(label, size: 11, color: tone);
-      t.paint(canvas, Offset(right - t.width, y + depth + sag * 0.5 + 8));
+      inkLabel(canvas, t, Offset(right - t.width, y + depth + sag * 0.5 + 8));
     }
 
     joist(size.height * 0.22, 10, 22, 'shallow: sags a lot', AppColors.ember);
@@ -926,7 +932,7 @@ class _StressJumpPainter extends CustomPainter {
         size: 11,
         color: jump ? AppColors.ember : AppColors.charcoal,
       );
-      t.paint(canvas, Offset(x0 - t.width / 2, bottom + 6));
+      inkLabel(canvas, t, Offset(x0 - t.width / 2, bottom + 6));
     }
 
     final w = size.width * 0.13;

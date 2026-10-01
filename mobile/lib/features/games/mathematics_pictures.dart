@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import '../shared/widgets/engineering_grid.dart';
 import 'discriminant_gate_game.dart' show Para, ParaPainter;
 import 'calculus_figures.dart';
@@ -101,7 +102,11 @@ void _at(
   FontWeight? weight,
 }) {
   final tp = _text(s, size: size, color: color, mono: mono, weight: weight);
-  tp.paint(c, center ? Offset(o.dx - tp.width / 2, o.dy - tp.height / 2) : o);
+  inkLabel(
+    c,
+    tp,
+    center ? Offset(o.dx - tp.width / 2, o.dy - tp.height / 2) : o,
+  );
 }
 
 Paint _stroke(Color color, [double width = 2.5]) => Paint()
@@ -968,17 +973,22 @@ class _CosineSignPainter extends CustomPainter {
     _at(canvas, '0 deg', Offset(left - 4, mid + amp + 10), size: 10.5);
     _at(canvas, '90', Offset(ninety - 8, mid + amp + 10), size: 10.5);
     _at(canvas, '180', Offset(right - 20, mid + amp + 10), size: 10.5);
+    // Both labels sit in the open ground between the curve and the axis, in
+    // their own half: on the left the curve runs high so the room is below
+    // it, on the right it runs low so the room is above. Neither sits on a
+    // line of the drawing (owner's rule, 2026-09-30: move the text where
+    // there is room; a patch is for when there is none).
     _at(
       canvas,
       'cos is +',
-      Offset(left + 10, mid - amp - 4),
+      Offset(left + 14, mid - amp * 0.42),
       size: 11,
       color: AppColors.forest,
     );
     _at(
       canvas,
       'cos is -',
-      Offset(right - 62, mid + amp - 12),
+      Offset(right - 66, mid + amp * 0.18),
       size: 11,
       color: AppColors.error,
     );

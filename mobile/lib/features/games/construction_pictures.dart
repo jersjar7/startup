@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'cpm_figures.dart';
 import 'delivery_figures.dart';
 import 'earned_value_figures.dart';
@@ -315,7 +316,7 @@ class _TriggerPainter extends CustomPainter {
       canvas.drawLine(Offset(x, trigger), Offset(x + 5, trigger), dash);
     }
     final rule = _text('6 ft, where protection starts', color: AppColors.error);
-    rule.paint(canvas, Offset(16, trigger - rule.height - 3));
+    inkLabel(canvas, rule, Offset(16, trigger - rule.height - 3));
 
     void worker(double centerX, double feet, String label, Color tone) {
       final deck = yOf(feet);
@@ -337,19 +338,24 @@ class _TriggerPainter extends CustomPainter {
           ..strokeWidth = 1.2,
       );
       final t = _text(label, size: 10.5, color: tone);
-      t.paint(canvas, Offset(centerX - t.width / 2, deck - 38));
+      inkLabel(canvas, t, Offset(centerX - t.width / 2, deck - 38));
     }
 
     worker(size.width * 0.27, 5, '5 ft up', AppColors.forest);
     worker(size.width * 0.72, 8, '8 ft up', AppColors.error);
 
     final under = _text('nothing required', color: AppColors.forest);
-    under.paint(
+    inkLabel(
       canvas,
+      under,
       Offset(size.width * 0.27 - under.width / 2, ground + 8),
     );
     final over = _text('rails, net or harness', color: AppColors.error);
-    over.paint(canvas, Offset(size.width * 0.72 - over.width / 2, ground + 8));
+    inkLabel(
+      canvas,
+      over,
+      Offset(size.width * 0.72 - over.width / 2, ground + 8),
+    );
   }
 
   @override
@@ -393,7 +399,7 @@ void _say(
   var x = at.dx;
   if (center) x -= tp.width / 2;
   if (right) x -= tp.width;
-  tp.paint(canvas, Offset(x, at.dy));
+  inkLabel(canvas, tp, Offset(x, at.dy));
 }
 
 /// The network's three routes pulled apart and laid one under another, each

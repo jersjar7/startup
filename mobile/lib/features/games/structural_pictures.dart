@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'beam_figures.dart' show Prop;
 import 'composite_figures.dart' show Spread3, StressBlockPainter;
 import 'determinacy_figures.dart';
@@ -671,7 +672,7 @@ class _TwoRoutesPainter extends CustomPainter {
       final left = x0 + 18;
       final wide = half - 44;
       final head = _text(name, size: 12, color: AppColors.charcoal, bold: true);
-      head.paint(canvas, Offset(left, 14));
+      inkLabel(canvas, head, Offset(left, 14));
 
       // the load bar
       final loadTop = 44.0;
@@ -681,7 +682,7 @@ class _TwoRoutesPainter extends CustomPainter {
         AppColors.ember,
       );
       final l = _text(loadLabel, size: 10.5, color: AppColors.charcoal);
-      l.paint(canvas, Offset(left, loadTop + 27));
+      inkLabel(canvas, l, Offset(left, loadTop + 27));
 
       // the strength bar
       final strengthTop = size.height - 74;
@@ -696,7 +697,7 @@ class _TwoRoutesPainter extends CustomPainter {
         AppColors.charcoal,
       );
       final s = _text(strengthLabel, size: 10.5, color: AppColors.charcoal);
-      s.paint(canvas, Offset(left, strengthTop + 27));
+      inkLabel(canvas, s, Offset(left, strengthTop + 27));
 
       // The gap between where the load ends and where the strength ends IS
       // the margin, and it is the subject of the sheet, so it is shaded and
@@ -728,7 +729,7 @@ class _TwoRoutesPainter extends CustomPainter {
         ..save()
         ..translate((loadEnd + strengthEnd) / 2, (bandTop + bandBottom) / 2)
         ..rotate(-math.pi / 2);
-      gap.paint(canvas, Offset(-gap.width / 2, -gap.height / 2));
+      inkLabel(canvas, gap, Offset(-gap.width / 2, -gap.height / 2));
       canvas.restore();
     }
 
@@ -759,28 +760,29 @@ class _NominalDesignPainter extends CustomPainter {
       _bar(canvas, Rect.fromLTWH(left, y, wide, 26), AppColors.creamDark);
       _bar(canvas, Rect.fromLTWH(left, y, wide * phi, 26), AppColors.charcoal);
       final name = _text(what, size: 11, color: AppColors.charcoal, bold: true);
-      name.paint(canvas, Offset(left, y - 17));
+      inkLabel(canvas, name, Offset(left, y - 17));
       final got = _text(
         'count on ${(phi * 100).round()}%',
         size: 10,
         color: AppColors.cream,
       );
-      got.paint(canvas, Offset(left + 8, y + 7));
+      inkLabel(canvas, got, Offset(left + 8, y + 7));
       // The leftover strip is what you may not lean on. Label it only when
       // the strip is wide enough to hold the words without spilling onto the
       // dark bar beside it.
       final lost = _text('not this', size: 9.5, color: AppColors.ember);
       final strip = wide * (1 - phi);
       if (strip > lost.width + 12) {
-        lost.paint(
+        inkLabel(
           canvas,
+          lost,
           Offset(left + wide * phi + (strip - lost.width) / 2, y + 8),
         );
       }
     }
 
     final cap = _text('what it can really do', size: 10, color: AppColors.ink2);
-    cap.paint(canvas, Offset(left, 12));
+    inkLabel(canvas, cap, Offset(left, 12));
     canvas.drawLine(
       Offset(left, 30),
       Offset(left + wide, 30),
@@ -810,9 +812,9 @@ class _TableRowPainter extends CustomPainter {
     void panel(double cx, String top, String bottom, Color fill, Color ink) {
       _bar(canvas, box(cx), fill, radius: 12);
       final a = _text(top, size: 12, color: ink, bold: true);
-      a.paint(canvas, Offset(cx - a.width / 2, y - 16));
+      inkLabel(canvas, a, Offset(cx - a.width / 2, y - 16));
       final b = _text(bottom, size: 9.5, color: ink);
-      b.paint(canvas, Offset(cx - b.width / 2, y + 2));
+      inkLabel(canvas, b, Offset(cx - b.width / 2, y + 2));
     }
 
     final lx = size.width * 0.18;
@@ -844,8 +846,9 @@ class _TableRowPainter extends CustomPainter {
       size: 10.5,
       color: AppColors.ember,
     );
-    note.paint(
+    inkLabel(
       canvas,
+      note,
       Offset(size.width / 2 - note.width / 2, size.height - 30),
     );
   }
@@ -884,7 +887,7 @@ class _HoleWidthPainter extends CustomPainter {
     canvas.drawCircle(Offset(cx, cy), boltR, _fill(AppColors.charcoal));
 
     final bolt = _text('the bolt', size: 10, color: AppColors.cream);
-    bolt.paint(canvas, Offset(cx - bolt.width / 2, cy - 6));
+    inkLabel(canvas, bolt, Offset(cx - bolt.width / 2, cy - 6));
 
     // what the hole costs, marked across the top
     final markY = cy - holeR - 16;
@@ -906,15 +909,16 @@ class _HoleWidthPainter extends CustomPainter {
       color: AppColors.ember,
       bold: true,
     );
-    cost.paint(canvas, Offset(cx - cost.width / 2, markY - 22));
+    inkLabel(canvas, cost, Offset(cx - cost.width / 2, markY - 22));
 
     final rule = _text(
       'off the WIDTH, then times the thickness',
       size: 10,
       color: AppColors.ink2,
     );
-    rule.paint(
+    inkLabel(
       canvas,
+      rule,
       Offset(size.width / 2 - rule.width / 2, size.height - 24),
     );
   }
@@ -1005,7 +1009,7 @@ class _AgreePainter extends CustomPainter {
         color: AppColors.charcoal,
         bold: true,
       );
-      head.paint(canvas, Offset(mid - head.width / 2, size.height * 0.05));
+      inkLabel(canvas, head, Offset(mid - head.width / 2, size.height * 0.05));
 
       // The SAME bar under each load in turn. Agreeing means the two arrows
       // point the same way, which is something a reader can simply see.
@@ -1021,7 +1025,7 @@ class _AgreePainter extends CustomPainter {
         final y = size.height * (0.34 + i * 0.26);
         bar(left, right, y, pulling, tone);
         final t = _text(label, size: 9, color: AppColors.ink3);
-        t.paint(canvas, Offset(mid - t.width / 2, y + 12));
+        inkLabel(canvas, t, Offset(mid - t.width / 2, y + 12));
       }
 
       final verdict = _text(
@@ -1030,8 +1034,9 @@ class _AgreePainter extends CustomPainter {
         color: agree ? AppColors.forest : AppColors.error,
         bold: true,
       );
-      verdict.paint(
+      inkLabel(
         canvas,
+        verdict,
         Offset(mid - verdict.width / 2, size.height * 0.84),
       );
     }
@@ -1110,19 +1115,23 @@ class _StepZoomPainter extends CustomPainter {
         _stroke(AppColors.ember, 2.4),
       );
     final one = _text('1', size: 20, color: AppColors.ember, bold: true);
-    one.paint(canvas, Offset(x + 12, (aboveAtSpot + belowAtSpot) / 2 - 12));
+    inkLabel(canvas, one, Offset(x + 12, (aboveAtSpot + belowAtSpot) / 2 - 12));
     final exactly = _text('exactly', size: 9.5, color: AppColors.ember);
-    exactly.paint(canvas, Offset(x + 12, (aboveAtSpot + belowAtSpot) / 2 + 10));
+    inkLabel(
+      canvas,
+      exactly,
+      Offset(x + 12, (aboveAtSpot + belowAtSpot) / 2 + 10),
+    );
 
     for (final (at, label) in [
       (left + (spot - left) / 2, 'load left of the spot'),
       (spot + (right - spot) / 2, 'load right of it'),
     ]) {
       final t = _text(label, size: 9, color: AppColors.ink3);
-      t.paint(canvas, Offset(at - t.width / 2, size.height * 0.90));
+      inkLabel(canvas, t, Offset(at - t.width / 2, size.height * 0.90));
     }
     final here = _text('the spot', size: 9.5, color: AppColors.charcoal);
-    here.paint(canvas, Offset(spot - here.width / 2, size.height * 0.06));
+    inkLabel(canvas, here, Offset(spot - here.width / 2, size.height * 0.06));
   }
 
   @override
@@ -1184,15 +1193,15 @@ class _TowelPainter extends CustomPainter {
       color: AppColors.ember,
       bold: true,
     );
-    taut.paint(canvas, Offset(left + 10, top - 15));
+    inkLabel(canvas, taut, Offset(left + 10, top - 15));
     final slack = _text(
       'slack: barely joined in',
       size: 9.5,
       color: AppColors.ink3,
     );
-    slack.paint(canvas, Offset(left + 10, bottom + 6));
+    inkLabel(canvas, slack, Offset(left + 10, bottom + 6));
     final pull = _text('you pull here', size: 9.5, color: AppColors.charcoal);
-    pull.paint(canvas, Offset(size.width * 0.04, grip.dy - 20));
+    inkLabel(canvas, pull, Offset(size.width * 0.04, grip.dy - 20));
   }
 
   @override

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'channel_figures.dart';
 import 'flow_figures.dart';
 import 'aquifer_figures.dart';
@@ -590,8 +591,9 @@ class _RulerPainter extends CustomPainter {
       canvas.drawLine(Offset(right, y - 5), Offset(right, y + 5), tick);
       canvas.drawLine(Offset(left, y), Offset(right, y), tick);
       final t = _text(label, size: 12, color: tone, weight: FontWeight.w700);
-      t.paint(
+      inkLabel(
         canvas,
+        t,
         Offset((left + right) / 2 - t.width / 2, y - t.height - 4),
       );
     }
@@ -602,11 +604,12 @@ class _RulerPainter extends CustomPainter {
       (size.width * 0.74, 'K = 1.0', AppColors.forest),
     ]) {
       final t = _text(label, size: 12, color: tone, weight: FontWeight.w700);
-      t.paint(canvas, Offset(x - t.width / 2, size.height * 0.10));
+      inkLabel(canvas, t, Offset(x - t.width / 2, size.height * 0.10));
     }
     final note = _text('the ruler picks the constant', size: 10.5);
-    note.paint(
+    inkLabel(
       canvas,
+      note,
       Offset(size.width / 2 - note.width / 2, size.height * 0.18),
     );
   }
@@ -636,9 +639,9 @@ class _NotchRowPainter extends CustomPainter {
         color: AppColors.charcoal,
         weight: FontWeight.w700,
       );
-      n.paint(canvas, Offset(each / 2 - n.width / 2, size.height * 0.68));
+      inkLabel(canvas, n, Offset(each / 2 - n.width / 2, size.height * 0.68));
       final p = _text(powers[i], size: 10.5, color: AppColors.ember);
-      p.paint(canvas, Offset(each / 2 - p.width / 2, size.height * 0.80));
+      inkLabel(canvas, p, Offset(each / 2 - p.width / 2, size.height * 0.80));
       canvas.restore();
     }
   }
@@ -752,20 +755,20 @@ class _PeakBarsPainter extends CustomPainter {
         ..drawRect(bar, Paint()..color = tone.withValues(alpha: 0.45))
         ..drawRect(bar, _stroke(AppColors.charcoal, 1.6));
       final label = _text(name, size: 10.5, color: AppColors.charcoal);
-      label.paint(canvas, Offset(left, y - label.height - 3));
+      inkLabel(canvas, label, Offset(left, y - label.height - 3));
       final value = _text(
         '${peak.toStringAsFixed(1)} cfs',
         size: 13,
         color: tone,
         weight: FontWeight.w700,
       );
-      value.paint(canvas, Offset(bar.right + 10, y + 6));
+      inkLabel(canvas, value, Offset(bar.right + 10, y + 6));
       final working = _text(
         'C ${c.toStringAsFixed(1)} x ${acres.toStringAsFixed(0)} ac x 2 in/hr',
         size: 9,
         color: AppColors.ink3,
       );
-      working.paint(canvas, Offset(left, y + 30));
+      inkLabel(canvas, working, Offset(left, y + 30));
       y += 62;
     }
 
@@ -782,7 +785,7 @@ class _PeakBarsPainter extends CustomPainter {
       color: AppColors.charcoal,
       weight: FontWeight.w700,
     );
-    same.paint(canvas, Offset(end + 8, size.height * 0.85 - same.height));
+    inkLabel(canvas, same, Offset(end + 8, size.height * 0.85 - same.height));
   }
 
   @override
@@ -822,7 +825,7 @@ class _MouthsPainter extends CustomPainter {
           _stroke(AppColors.charcoal, 1.6),
         );
       final food = _text('the same food', size: 9.5, color: AppColors.ink2);
-      food.paint(canvas, Offset(mid - food.width / 2, plate.top - 15));
+      inkLabel(canvas, food, Offset(mid - food.width / 2, plate.top - 15));
 
       // the mouths waiting for it
       final cols = mouths <= 3 ? 3 : 5;
@@ -843,11 +846,11 @@ class _MouthsPainter extends CustomPainter {
         color: AppColors.charcoal,
         weight: FontWeight.w700,
       );
-      who.paint(canvas, Offset(mid - who.width / 2, size.height * 0.74));
+      inkLabel(canvas, who, Offset(mid - who.width / 2, size.height * 0.74));
       final got = _text(share, size: 9.5, color: tone);
-      got.paint(canvas, Offset(mid - got.width / 2, size.height * 0.845));
+      inkLabel(canvas, got, Offset(mid - got.width / 2, size.height * 0.845));
       final v = _text(verdict, size: 9, color: AppColors.ink3);
-      v.paint(canvas, Offset(mid - v.width / 2, size.height * 0.925));
+      inkLabel(canvas, v, Offset(mid - v.width / 2, size.height * 0.925));
     }
 
     canvas.drawLine(
@@ -896,7 +899,7 @@ class _ConsequencePainter extends CustomPainter {
       color: AppColors.cream,
       weight: FontWeight.w700,
     );
-    bang.paint(canvas, Offset(gx - bang.width / 2, size.height * 0.195));
+    inkLabel(canvas, bang, Offset(gx - bang.width / 2, size.height * 0.195));
 
     // Right: an aesthetic limit. A stained shirt.
     final sx = each + each / 2;
@@ -929,9 +932,9 @@ class _ConsequencePainter extends CustomPainter {
         color: AppColors.charcoal,
         weight: FontWeight.w700,
       );
-      h.paint(canvas, Offset(x - h.width / 2, size.height * 0.74));
+      inkLabel(canvas, h, Offset(x - h.width / 2, size.height * 0.74));
       final t = _text(tail, size: 10, color: tone, weight: FontWeight.w700);
-      t.paint(canvas, Offset(x - t.width / 2, size.height * 0.86));
+      inkLabel(canvas, t, Offset(x - t.width / 2, size.height * 0.86));
     }
 
     canvas.drawLine(
@@ -975,9 +978,9 @@ class _LighterCountsPainter extends CustomPainter {
         color: AppColors.charcoal,
         weight: FontWeight.w700,
       );
-      label.paint(canvas, Offset(size.width * 0.04, y + 7));
+      inkLabel(canvas, label, Offset(size.width * 0.04, y + 7));
       final n = _text(note, size: 9, color: AppColors.ink3);
-      n.paint(canvas, Offset(left, y + 29));
+      inkLabel(canvas, n, Offset(left, y + 29));
       y += 58;
     }
 
@@ -987,8 +990,9 @@ class _LighterCountsPainter extends CustomPainter {
       color: AppColors.ink2,
       weight: FontWeight.w700,
     );
-    same.paint(
+    inkLabel(
       canvas,
+      same,
       Offset(left + room / 2 - same.width / 2, size.height * 0.11),
     );
     final why = _text(
@@ -996,7 +1000,11 @@ class _LighterCountsPainter extends CustomPainter {
       size: 9.5,
       color: AppColors.charcoal,
     );
-    why.paint(canvas, Offset(size.width * 0.04, size.height - why.height - 8));
+    inkLabel(
+      canvas,
+      why,
+      Offset(size.width * 0.04, size.height - why.height - 8),
+    );
   }
 
   @override

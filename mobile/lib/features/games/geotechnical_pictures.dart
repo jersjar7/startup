@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'bearing_figures.dart';
 import 'compaction_figures.dart';
 import 'consolidation_figures.dart';
@@ -683,7 +684,11 @@ class _ScaleAndRulerPainter extends CustomPainter {
         ..drawRect(r, _paint(tone.withValues(alpha: name == 'air' ? 1 : 0.45)))
         ..drawRect(r, _stroke(AppColors.charcoal, 1.2));
       final t = _text(name, size: 8.5, color: AppColors.charcoal);
-      t.paint(canvas, Offset(mid - t.width / 2, r.center.dy - t.height / 2));
+      inkLabel(
+        canvas,
+        t,
+        Offset(mid - t.width / 2, r.center.dy - t.height / 2),
+      );
     }
 
     // left: a ruler, because volumes are measured
@@ -702,9 +707,9 @@ class _ScaleAndRulerPainter extends CustomPainter {
       );
     }
     final vol = _text('VOLUME', size: 9, color: AppColors.forest, bold: true);
-    vol.paint(canvas, Offset(rx - vol.width - 6, top - 24));
+    inkLabel(canvas, vol, Offset(rx - vol.width - 6, top - 24));
     final measured = _text('you MEASURE it', size: 9, color: AppColors.forest);
-    measured.paint(canvas, Offset(4, top - 12));
+    inkLabel(canvas, measured, Offset(4, top - 12));
 
     // right: a scale pan, because weights are weighed
     final sx = boxRight + 22;
@@ -725,9 +730,9 @@ class _ScaleAndRulerPainter extends CustomPainter {
         _stroke(AppColors.ember, 2),
       );
     final wt = _text('WEIGHT', size: 9, color: AppColors.ember, bold: true);
-    wt.paint(canvas, Offset(sx, top - 24));
+    inkLabel(canvas, wt, Offset(sx, top - 24));
     final weighed = _text('you WEIGH it', size: 9, color: AppColors.ember);
-    weighed.paint(canvas, Offset(sx, top - 12));
+    inkLabel(canvas, weighed, Offset(sx, top - 12));
 
     // the bridge across
     final y = size.height * 0.90;
@@ -750,7 +755,11 @@ class _ScaleAndRulerPainter extends CustomPainter {
       color: AppColors.charcoal,
       bold: true,
     );
-    bridge.paint(canvas, Offset(mid - bridge.width / 2, y - bridge.height - 4));
+    inkLabel(
+      canvas,
+      bridge,
+      Offset(mid - bridge.width / 2, y - bridge.height - 4),
+    );
   }
 
   @override
@@ -829,9 +838,9 @@ class _ThreeFailuresPainter extends CustomPainter {
       }
 
       final n = _text(name, size: 10.5, color: AppColors.charcoal, bold: true);
-      n.paint(canvas, Offset(mid - n.width / 2, size.height * 0.06));
+      inkLabel(canvas, n, Offset(mid - n.width / 2, size.height * 0.06));
       final t = _text(what, size: 8.5, color: AppColors.ink3);
-      t.paint(canvas, Offset(mid - t.width / 2, size.height * 0.84));
+      inkLabel(canvas, t, Offset(mid - t.width / 2, size.height * 0.84));
     }
 
     wall(0, 0, 'it tips', 'moments');
@@ -923,9 +932,9 @@ class _TreatmentPainter extends CustomPainter {
       }
 
       final n = _text(name, size: 10.5, color: AppColors.charcoal, bold: true);
-      n.paint(canvas, Offset(mid - n.width / 2, size.height * 0.08));
+      inkLabel(canvas, n, Offset(mid - n.width / 2, size.height * 0.08));
       final d = _text(does, size: 8.5, color: AppColors.ink3);
-      d.paint(canvas, Offset(mid - d.width / 2, size.height * 0.80));
+      inkLabel(canvas, d, Offset(mid - d.width / 2, size.height * 0.80));
     }
 
     panel(0, 0, 'lime', 'clay clumps');
@@ -957,11 +966,11 @@ class _DividePainter extends CustomPainter {
         ..drawRect(r, _paint(tone.withValues(alpha: 0.5)))
         ..drawRect(r, _stroke(AppColors.charcoal, 1.4));
       final n = _text(name, size: 9.5, color: AppColors.charcoal, bold: true);
-      n.paint(canvas, Offset(size.width * 0.03, y + 1));
+      inkLabel(canvas, n, Offset(size.width * 0.03, y + 1));
       final v = _text('${value.round()} psf', size: 9, color: tone);
-      v.paint(canvas, Offset(r.right + 6, y + 8));
+      inkLabel(canvas, v, Offset(r.right + 6, y + 8));
       final t = _text(note, size: 8, color: AppColors.ink3);
-      t.paint(canvas, Offset(size.width * 0.03, y + 14));
+      inkLabel(canvas, t, Offset(size.width * 0.03, y + 14));
     }
 
     bar(
@@ -993,7 +1002,7 @@ class _DividePainter extends CustomPainter {
       color: AppColors.charcoal,
       bold: true,
     );
-    by3.paint(canvas, Offset(cutX + 6, size.height * 0.28));
+    inkLabel(canvas, by3, Offset(cutX + 6, size.height * 0.28));
 
     // the comparison that matters
     final ok = _text(
@@ -1001,7 +1010,11 @@ class _DividePainter extends CustomPainter {
       size: 9,
       color: AppColors.charcoal,
     );
-    ok.paint(canvas, Offset(size.width * 0.03, size.height - ok.height - 4));
+    inkLabel(
+      canvas,
+      ok,
+      Offset(size.width * 0.03, size.height - ok.height - 4),
+    );
   }
 
   @override

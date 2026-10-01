@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_theme.dart';
+import 'figure_ink.dart';
 import 'contract_figures.dart';
 import 'lifecycle_figures.dart';
 import 'mechanics_pictures.dart' show ConceptPair, ConceptPicture;
@@ -321,9 +322,11 @@ void _box(
         );
   final total = tp.height + (noteTp == null ? 0 : noteTp.height + 3);
   var y = rect.center.dy - total / 2;
-  tp.paint(canvas, Offset(rect.center.dx - tp.width / 2, y));
+  inkLabel(canvas, tp, Offset(rect.center.dx - tp.width / 2, y));
   y += tp.height + 3;
-  noteTp?.paint(canvas, Offset(rect.center.dx - noteTp.width / 2, y));
+  if (noteTp != null) {
+    inkLabel(canvas, noteTp, Offset(rect.center.dx - noteTp.width / 2, y));
+  }
 }
 
 void _check(Canvas canvas, Offset at, {bool ok = true, double r = 8}) {
@@ -387,12 +390,13 @@ class _PodiumPainter extends CustomPainter {
       color: AppColors.forest,
       weight: FontWeight.w600,
     );
-    t.paint(
+    inkLabel(
       canvas,
+      t,
       Offset(16 + w / 2 - t.width / 2, base - tall - t.height - 4),
     );
     final u = _text('everything else', size: 10, color: AppColors.ink2);
-    u.paint(canvas, Offset(size.width - 16 - u.width, base + 6));
+    inkLabel(canvas, u, Offset(size.width - 16 - u.width, base + 6));
   }
 
   @override
@@ -436,7 +440,7 @@ class _LadderPainter extends CustomPainter {
       size: 10,
       color: AppColors.forest,
     );
-    t.paint(canvas, Offset(rects[0].left, rects[0].top - t.height - 6));
+    inkLabel(canvas, t, Offset(rects[0].left, rects[0].top - t.height - 6));
     // the jump straight to the top, crossed out
     final jumpX = size.width * 0.86;
     final jump = _stroke(AppColors.error, 1.5);
@@ -451,7 +455,7 @@ class _LadderPainter extends CustomPainter {
       ok: false,
     );
     final s = _text('skip', size: 9.5, color: AppColors.error);
-    s.paint(canvas, Offset(jumpX - s.width / 2, rects[0].center.dy + 8));
+    inkLabel(canvas, s, Offset(jumpX - s.width / 2, rects[0].center.dy + 8));
   }
 
   @override
@@ -480,22 +484,22 @@ class _DialPainter extends CustomPainter {
     }
     // What each end of the dial is, above the line.
     final e = _text('say nothing', size: 9.5, color: AppColors.ink2);
-    e.paint(canvas, Offset(left + 22 - e.width / 2, y - 26));
+    inkLabel(canvas, e, Offset(left + 22 - e.width / 2, y - 26));
     final f = _text('resign', size: 9.5, color: AppColors.ink2);
-    f.paint(canvas, Offset(right - 22 - f.width / 2, y - 26));
+    inkLabel(canvas, f, Offset(right - 22 - f.width / 2, y - 26));
     final c = _text(
       'the rule',
       size: 11,
       color: AppColors.charcoal,
       weight: FontWeight.w600,
     );
-    c.paint(canvas, Offset(mid - c.width / 2, y - 42));
+    inkLabel(canvas, c, Offset(mid - c.width / 2, y - 42));
 
     // The verdict on each end, below the line.
     final a = _text('too little', size: 10, color: AppColors.error);
-    a.paint(canvas, Offset(left + 22 - a.width / 2, y + 16));
+    inkLabel(canvas, a, Offset(left + 22 - a.width / 2, y + 16));
     final b = _text('too much', size: 10, color: AppColors.error);
-    b.paint(canvas, Offset(right - 22 - b.width / 2, y + 16));
+    inkLabel(canvas, b, Offset(right - 22 - b.width / 2, y + 16));
 
     // What the rule actually asks for, on its own line clear of both.
     final d = _text(
@@ -505,7 +509,7 @@ class _DialPainter extends CustomPainter {
       maxWidth: size.width * 0.9,
       align: TextAlign.center,
     );
-    d.paint(canvas, Offset(mid - d.width / 2, size.height - 26));
+    inkLabel(canvas, d, Offset(mid - d.width / 2, size.height - 26));
   }
 
   @override
@@ -530,7 +534,7 @@ class _SortPainter extends CustomPainter {
       color: AppColors.charcoal,
       weight: FontWeight.w600,
     );
-    q.paint(canvas, Offset(mid - q.width / 2, 8));
+    inkLabel(canvas, q, Offset(mid - q.width / 2, 8));
 
     // The fork.
     const forkTop = 28.0;
@@ -558,9 +562,9 @@ class _SortPainter extends CustomPainter {
       line,
     );
     final yes = _text('tell it', size: 9, color: AppColors.ink2);
-    yes.paint(canvas, Offset(leftC - yes.width - 7, forkTop + 1));
+    inkLabel(canvas, yes, Offset(leftC - yes.width - 7, forkTop + 1));
     final no = _text('keep it quiet', size: 9, color: AppColors.ink2);
-    no.paint(canvas, Offset(rightC + 7, forkTop + 1));
+    inkLabel(canvas, no, Offset(rightC + 7, forkTop + 1));
 
     _box(
       canvas,
@@ -602,7 +606,7 @@ class _SortPainter extends CustomPainter {
       size: 9,
       color: AppColors.ink2,
     );
-    other.paint(canvas, Offset(mid - other.width / 2, divider + 5));
+    inkLabel(canvas, other, Offset(mid - other.width / 2, divider + 5));
 
     _box(
       canvas,
@@ -672,9 +676,13 @@ class _TwoGatesPainter extends CustomPainter {
       color: AppColors.charcoal,
       weight: FontWeight.w700,
     );
-    s.paint(canvas, seal - Offset(s.width / 2, s.height / 2));
+    inkLabel(canvas, s, seal - Offset(s.width / 2, s.height / 2));
     final t = _text('both, or no seal', size: 10, color: AppColors.ink2);
-    t.paint(canvas, Offset(size.width * 0.35 - t.width / 2, y + h / 2 + 12));
+    inkLabel(
+      canvas,
+      t,
+      Offset(size.width * 0.35 - t.width / 2, y + h / 2 + 12),
+    );
   }
 
   @override
@@ -770,27 +778,27 @@ class _ShareOfWorkPainter extends CustomPainter {
       color: AppColors.cream,
       weight: FontWeight.w600,
     );
-    w.paint(canvas, Offset(left + 12, y - w.height / 2));
+    inkLabel(canvas, w, Offset(left + 12, y - w.height / 2));
     final m = _text(
       'your part',
       size: 10,
       color: AppColors.charcoal,
       weight: FontWeight.w600,
     );
-    m.paint(canvas, Offset(mine.center.dx - m.width / 2, y - m.height / 2));
+    inkLabel(canvas, m, Offset(mine.center.dx - m.width / 2, y - m.height / 2));
     final say = _text(
       'say this',
       size: 10,
       color: AppColors.forest,
       weight: FontWeight.w600,
     );
-    say.paint(canvas, Offset(mine.center.dx - say.width / 2, y + 22));
+    inkLabel(canvas, say, Offset(mine.center.dx - say.width / 2, y + 22));
     final not = _text(
       'not "I designed the bridge"',
       size: 10,
       color: AppColors.error,
     );
-    not.paint(canvas, Offset(left + 12, y - 22 - not.height));
+    inkLabel(canvas, not, Offset(left + 12, y - 22 - not.height));
   }
 
   @override
@@ -844,7 +852,7 @@ class _BadgesPainter extends CustomPainter {
       color: AppColors.charcoal,
       weight: FontWeight.w700,
     );
-    s.paint(canvas, seal - Offset(s.width / 2, s.height / 2));
+    inkLabel(canvas, s, seal - Offset(s.width / 2, s.height / 2));
     final line = _stroke(AppColors.ink2, 2);
     _arrow(canvas, Offset(ei.right + 4, y), Offset(pe.left - 4, y), line);
     final t = _text(
@@ -852,9 +860,13 @@ class _BadgesPainter extends CustomPainter {
       size: 9.5,
       color: AppColors.ink2,
     );
-    t.paint(canvas, Offset((ei.right + pe.left) / 2 - t.width / 2, y + 44));
+    inkLabel(canvas, t, Offset((ei.right + pe.left) / 2 - t.width / 2, y + 44));
     final n = _text('no seal', size: 9.5, color: AppColors.error);
-    n.paint(canvas, Offset(ei.center.dx - n.width / 2, ei.top - n.height - 6));
+    inkLabel(
+      canvas,
+      n,
+      Offset(ei.center.dx - n.width / 2, ei.top - n.height - 6),
+    );
   }
 
   @override
@@ -910,16 +922,18 @@ class _ChargePainter extends CustomPainter {
       size: 9.5,
       color: AppColors.forest,
     );
-    a.paint(
+    inkLabel(
       canvas,
+      a,
       Offset(
         size.width * 0.36 - a.width - 8,
         size.height * 0.49 - a.height / 2,
       ),
     );
     final b = _text('the work', size: 9.5, color: AppColors.ink2);
-    b.paint(
+    inkLabel(
       canvas,
+      b,
       Offset(size.width * 0.64 + 8, size.height * 0.49 - b.height / 2),
     );
   }
@@ -968,7 +982,7 @@ class _TwoOffensesPainter extends CustomPainter {
       size: 10,
       color: AppColors.error,
     );
-    t.paint(canvas, Offset(size.width / 2 - t.width / 2, work.bottom + 10));
+    inkLabel(canvas, t, Offset(size.width / 2 - t.width / 2, work.bottom + 10));
   }
 
   @override
@@ -988,7 +1002,7 @@ class _YearsPainter extends CustomPainter {
     for (final (i, (label, years)) in rows.indexed) {
       final y = 10 + i * rowH + rowH / 2;
       final l = _text(label, size: 10, color: AppColors.charcoal);
-      l.paint(canvas, Offset(left - l.width - 10, y - l.height / 2));
+      inkLabel(canvas, l, Offset(left - l.width - 10, y - l.height / 2));
       final bar = Rect.fromLTWH(left, y - 11, unit * years, 22);
       canvas.drawRRect(
         RRect.fromRectAndRadius(bar, const Radius.circular(7)),
@@ -1000,7 +1014,7 @@ class _YearsPainter extends CustomPainter {
         color: AppColors.cream,
         weight: FontWeight.w600,
       );
-      n.paint(canvas, Offset(bar.left + 8, y - n.height / 2));
+      inkLabel(canvas, n, Offset(bar.left + 8, y - n.height / 2));
     }
     final x = left + unit * 4 + 10;
     final pe = Rect.fromLTWH(x, 8, size.width - x - 8, size.height - 16);
@@ -1040,10 +1054,10 @@ class _GroundsPainter extends CustomPainter {
     for (final (i, (label, fel, mis)) in rows.indexed) {
       final y = 48 + i * rowH + rowH / 2;
       final t = _text(label, size: 9.5, color: AppColors.charcoal);
-      t.paint(canvas, Offset(f.left + 24, y - t.height / 2));
+      inkLabel(canvas, t, Offset(f.left + 24, y - t.height / 2));
       _check(canvas, Offset(f.left + 10, y), ok: fel, r: 7);
       final t2 = _text(label, size: 9.5, color: AppColors.charcoal);
-      t2.paint(canvas, Offset(m.left + 24, y - t2.height / 2));
+      inkLabel(canvas, t2, Offset(m.left + 24, y - t2.height / 2));
       _check(canvas, Offset(m.left + 10, y), ok: mis, r: 7);
     }
   }
@@ -1117,7 +1131,7 @@ class _ForkPainter extends CustomPainter {
       line,
     );
     final t = _text('expired or revoked = no', size: 9, color: AppColors.ink2);
-    t.paint(canvas, Offset(no.center.dx - t.width / 2, no.bottom + 3));
+    inkLabel(canvas, t, Offset(no.center.dx - t.width / 2, no.bottom + 3));
   }
 
   @override
@@ -1150,7 +1164,7 @@ class _FiveChecksPainter extends CustomPainter {
         maxWidth: step + 10,
         align: TextAlign.center,
       );
-      t.paint(canvas, Offset(x - t.width / 2, y + 16));
+      inkLabel(canvas, t, Offset(x - t.width / 2, y + 16));
     }
     final bar = Rect.fromCenter(
       center: Offset(size.width / 2, size.height * 0.8),
@@ -1168,7 +1182,7 @@ class _FiveChecksPainter extends CustomPainter {
     final nx = size.width * 0.5;
     final ny = size.height * 0.8;
     final n = _text('a notary', size: 9.5, color: AppColors.error);
-    n.paint(canvas, Offset(nx + 84, ny - n.height / 2));
+    inkLabel(canvas, n, Offset(nx + 84, ny - n.height / 2));
     _check(canvas, Offset(nx + 74, ny), ok: false, r: 7);
   }
 
@@ -1200,11 +1214,15 @@ class _BandPainter extends CustomPainter {
       color: AppColors.charcoal,
       weight: FontWeight.w600,
     );
-    band.paint(canvas, Offset(left + 8, (top + bottom) / 2 - band.height / 2));
+    inkLabel(
+      canvas,
+      band,
+      Offset(left + 8, (top + bottom) / 2 - band.height / 2),
+    );
     void mark(double y, String label, Color color) {
       canvas.drawCircle(Offset(left - 14, y), 6, Paint()..color = color);
       final t = _text(label, size: 9.5, color: color, align: TextAlign.right);
-      t.paint(canvas, Offset(left - 26 - t.width, y - t.height / 2));
+      inkLabel(canvas, t, Offset(left - 26 - t.width, y - t.height / 2));
     }
 
     mark(size.height * 0.14, 'perfect: not owed', AppColors.ink2);
@@ -1239,7 +1257,7 @@ class _ChainPainter extends CustomPainter {
           _stroke(AppColors.error, 2)..strokeCap = StrokeCap.butt,
         );
         final t = _text(label, size: 10, color: AppColors.error);
-        t.paint(canvas, rect.center - Offset(t.width / 2, t.height / 2));
+        inkLabel(canvas, t, rect.center - Offset(t.width / 2, t.height / 2));
       } else {
         _box(canvas, rect, label, radius: 16, size: 10);
       }
@@ -1251,9 +1269,9 @@ class _ChainPainter extends CustomPainter {
       maxWidth: size.width - 24,
       align: TextAlign.center,
     );
-    t.paint(canvas, Offset(size.width / 2 - t.width / 2, y + 26));
+    inkLabel(canvas, t, Offset(size.width / 2 - t.width / 2, y + 26));
     final u = _text('intent is not a link', size: 9.5, color: AppColors.ink2);
-    u.paint(canvas, Offset(size.width / 2 - u.width / 2, y - 40));
+    inkLabel(canvas, u, Offset(size.width / 2 - u.width / 2, y - 40));
   }
 
   @override
