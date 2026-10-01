@@ -14,25 +14,25 @@ enum Made { steel, concrete, timber, aluminum }
 extension MadeFacts on Made {
   /// Modulus of elasticity in megapascals, near enough for comparing.
   double get e => switch (this) {
-        Made.steel => 200000,
-        Made.concrete => 25000,
-        Made.timber => 12000,
-        Made.aluminum => 70000,
-      };
+    Made.steel => 200000,
+    Made.concrete => 25000,
+    Made.timber => 12000,
+    Made.aluminum => 70000,
+  };
 
   String get plain => switch (this) {
-        Made.steel => 'steel',
-        Made.concrete => 'concrete',
-        Made.timber => 'timber',
-        Made.aluminum => 'aluminum',
-      };
+    Made.steel => 'steel',
+    Made.concrete => 'concrete',
+    Made.timber => 'timber',
+    Made.aluminum => 'aluminum',
+  };
 
   Color get tone => switch (this) {
-        Made.steel => AppColors.info,
-        Made.concrete => AppColors.ink3,
-        Made.timber => AppColors.sunbeam,
-        Made.aluminum => AppColors.forest,
-      };
+    Made.steel => AppColors.info,
+    Made.concrete => AppColors.ink3,
+    Made.timber => AppColors.sunbeam,
+    Made.aluminum => AppColors.forest,
+  };
 }
 
 /// One rectangle of one material, in world units with y running up.
@@ -86,11 +86,9 @@ class Composite {
       final widen = towardSofter ? s.made == stiffer : s.made == softer;
       final w = widen ? s.size.width * k : s.size.width;
       final mid = s.at.dx + s.size.width / 2;
-      pieces.add(Piece(
-        Slab.box,
-        Offset(mid - w / 2, s.at.dy),
-        Size(w, s.size.height),
-      ));
+      pieces.add(
+        Piece(Slab.box, Offset(mid - w / 2, s.at.dy), Size(w, s.size.height)),
+      );
     }
     return Profile(pieces);
   }
@@ -141,18 +139,18 @@ class MadePainter extends CustomPainter {
   final String label;
 
   Profile get _drawn => Profile([
-        for (var i = 0; i < slices.length; i++)
-          Piece(
-            Slab.box,
-            Offset(
-              slices[i].at.dx +
-                  slices[i].size.width / 2 -
-                  (widths?[i] ?? slices[i].size.width) / 2,
-              slices[i].at.dy,
-            ),
-            Size(widths?[i] ?? slices[i].size.width, slices[i].size.height),
-          ),
-      ]);
+    for (var i = 0; i < slices.length; i++)
+      Piece(
+        Slab.box,
+        Offset(
+          slices[i].at.dx +
+              slices[i].size.width / 2 -
+              (widths?[i] ?? slices[i].size.width) / 2,
+          slices[i].at.dy,
+        ),
+        Size(widths?[i] ?? slices[i].size.width, slices[i].size.height),
+      ),
+  ]);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -162,7 +160,10 @@ class MadePainter extends CustomPainter {
       final box = shown.pieces[i].box;
       final a = ProfilePainter.toScreen(ruler, Offset(box.left, box.top), size);
       final b = ProfilePainter.toScreen(
-          ruler, Offset(box.right, box.top + box.height), size);
+        ruler,
+        Offset(box.right, box.top + box.height),
+        size,
+      );
       final rect = Rect.fromPoints(a, b);
       canvas
         ..drawRect(
@@ -180,9 +181,15 @@ class MadePainter extends CustomPainter {
 
     if (join != null) {
       final left = ProfilePainter.toScreen(
-          ruler, Offset(shown.bounds.left, join!), size);
+        ruler,
+        Offset(shown.bounds.left, join!),
+        size,
+      );
       final right = ProfilePainter.toScreen(
-          ruler, Offset(shown.bounds.right, join!), size);
+        ruler,
+        Offset(shown.bounds.right, join!),
+        size,
+      );
       canvas.drawLine(
         Offset(left.dx - 6, left.dy),
         Offset(right.dx + 6, right.dy),
@@ -194,12 +201,12 @@ class MadePainter extends CustomPainter {
 
     if (label.isNotEmpty) {
       TextPainter(
-        text: TextSpan(
-          text: label,
-          style: AppTheme.mono(size: 10, color: AppColors.ink3),
-        ),
-        textDirection: TextDirection.ltr,
-      )
+          text: TextSpan(
+            text: label,
+            style: AppTheme.mono(size: 10, color: AppColors.ink3),
+          ),
+          textDirection: TextDirection.ltr,
+        )
         ..layout(maxWidth: size.width - 8)
         ..paint(canvas, const Offset(4, 2));
     }
@@ -252,11 +259,11 @@ enum Spread3 {
 
 extension SpreadWords on Spread3 {
   String get plain => switch (this) {
-        Spread3.elastic => 'nothing has yielded yet',
-        Spread3.firstYield => 'the outside fibers have just yielded',
-        Spread3.partly => 'yielded in from both faces, elastic in the middle',
-        Spread3.fully => 'yielded the whole way through',
-      };
+    Spread3.elastic => 'nothing has yielded yet',
+    Spread3.firstYield => 'the outside fibers have just yielded',
+    Spread3.partly => 'yielded in from both faces, elastic in the middle',
+    Spread3.fully => 'yielded the whole way through',
+  };
 }
 
 /// The stress running through the depth of a section at some stage of
@@ -274,11 +281,11 @@ class StressBlockPainter extends CustomPainter {
 
   /// How much of the half depth is still elastic at each stage.
   double get core => switch (state) {
-        Spread3.elastic => 1,
-        Spread3.firstYield => 1,
-        Spread3.partly => 0.4,
-        Spread3.fully => 0,
-      };
+    Spread3.elastic => 1,
+    Spread3.firstYield => 1,
+    Spread3.partly => 0.4,
+    Spread3.fully => 0,
+  };
 
   /// How much of yield the outermost fiber has reached.
   double get reach => state == Spread3.elastic ? 0.55 : 1;
@@ -301,11 +308,20 @@ class StressBlockPainter extends CustomPainter {
     final x0 = size.width * 0.64;
     final room = size.width * 0.30;
     final top = ProfilePainter.toScreen(
-        profile, Offset(profile.bounds.left, profile.crown), box);
+      profile,
+      Offset(profile.bounds.left, profile.crown),
+      box,
+    );
     final bottom = ProfilePainter.toScreen(
-        profile, Offset(profile.bounds.left, profile.baseline), box);
+      profile,
+      Offset(profile.bounds.left, profile.baseline),
+      box,
+    );
     final axis = ProfilePainter.toScreen(
-        profile, Offset(profile.bounds.left, profile.centroid.dy), box);
+      profile,
+      Offset(profile.bounds.left, profile.centroid.dy),
+      box,
+    );
 
     /// One lobe of the diagram, from the neutral axis out to a face. Drawn as
     /// its own closed shape: a single path through both lobes crosses itself
@@ -365,15 +381,22 @@ class StressBlockPainter extends CustomPainter {
         );
       }
     }
-    TextPainter(
+    // Centred under the yield tick, but kept inside the panel: the tick sits
+    // at 94 percent of the width, so on a half-width panel the word ran off
+    // the edge and read "yiel".
+    final yieldTag = TextPainter(
       text: TextSpan(
         text: 'yield',
         style: AppTheme.mono(size: 9, color: AppColors.ink3),
       ),
       textDirection: TextDirection.ltr,
-    )
-      ..layout()
-      ..paint(canvas, Offset(x0 + room - 12, bottom.dy + 2));
+    )..layout();
+    var tagX = x0 + room - yieldTag.width / 2;
+    if (tagX + yieldTag.width > size.width - 2) {
+      tagX = size.width - 2 - yieldTag.width;
+    }
+    if (tagX < 2) tagX = 2;
+    yieldTag.paint(canvas, Offset(tagX, bottom.dy + 2));
   }
 
   double _y(double worldY, Size box) =>
