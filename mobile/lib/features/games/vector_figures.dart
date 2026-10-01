@@ -43,12 +43,21 @@ class Arrow {
     this.color = AppColors.charcoal,
     this.label,
     this.faint = false,
+    this.labelAtMiddle = false,
   });
 
   final Vec from;
   final Vec to;
   final Color color;
   final String? label;
+
+  /// Put the label beside the middle of the arrow rather than past its head.
+  ///
+  /// Two arrows that FINISH in the same place, which is exactly what a head to
+  /// tail sum looks like, both write their label into the same corner and the
+  /// two tangle. Their middles are nowhere near each other, so labelling there
+  /// separates them. Off by default: an arrow is normally named at its head.
+  final bool labelAtMiddle;
 
   /// Drawn thin and pale: a working line rather than a statement.
   final bool faint;
@@ -349,7 +358,9 @@ class VectorPainter extends CustomPainter {
     final flat = unit.dy.abs() < 0.35;
     final upright = unit.dx.abs() < 0.35;
     final Offset place;
-    if (flat) {
+    if (a.labelAtMiddle) {
+      place = (from + to) / 2 + left * (tp.width / 2 + 8);
+    } else if (flat) {
       place = to + unit * 7 + Offset(0, -tp.height - 5);
     } else if (upright) {
       place = to + Offset(tp.width / 2 + 10, unit.dy * 7);

@@ -463,8 +463,16 @@ Widget bothSidesPicture() => const ConceptPair(
 Widget vectorAddPicture() => const ConceptPicture(
   painter: VectorPainter(
     arrows: [
-      Arrow(Vec(3, 1), label: 'A', color: AppColors.info),
-      Arrow(Vec(4, 4), from: Vec(3, 1), label: 'B', color: AppColors.forest),
+      // A and B are named at their middles: both the green B and the orange sum
+      // finish at (4, 4), so two labels past the head piled into one corner.
+      Arrow(Vec(3, 1), label: 'A', color: AppColors.info, labelAtMiddle: true),
+      Arrow(
+        Vec(4, 4),
+        from: Vec(3, 1),
+        label: 'B',
+        color: AppColors.forest,
+        labelAtMiddle: true,
+      ),
       Arrow(Vec(4, 4), label: 'A + B', color: AppColors.ember),
     ],
     span: 5,
@@ -1588,11 +1596,11 @@ class _QuotientPainter extends CustomPainter {
         Offset(size.width * 0.12, y + 8),
         size: 11,
       );
-      if (right) {
-        _tick(canvas, Offset(size.width * 0.86, y - 6));
-      } else {
-        _cross(canvas, Offset(size.width * 0.86, y - 6));
-      }
+      // Beside the short denominator rather than beside the long numerator,
+      // which the mark was landing on top of: the numerator runs the width of
+      // the panel and the line under it does not.
+      final mark = Offset(size.width * 0.86, y + 14);
+      right ? _tick(canvas, mark) : _cross(canvas, mark);
     }
 
     row(size.height * 0.3, 'bottom x d(top)  -  top x d(bottom)', true);
@@ -1649,10 +1657,12 @@ class _BendPainter extends CustomPainter {
       size: 11,
       color: AppColors.ink2,
     );
+    // Above the curve's highest point rather than 16 up from the flip, which
+    // laid the words straight along the curve just past the dot.
     _at(
       canvas,
       'the bend flips HERE',
-      Offset(flip.dx + 8, mid - 16),
+      Offset(flip.dx + 8, mid - size.height * 0.30),
       size: 11,
       color: AppColors.ember,
     );
