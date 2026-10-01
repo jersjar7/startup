@@ -848,7 +848,14 @@ class _DepthPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final left = size.width * 0.1;
     final right = size.width * 0.9;
-    void joist(double y, double depth, double sag, String label, Color tone) {
+    void joist(
+      double y,
+      double depth,
+      double sag,
+      String label,
+      Color tone, {
+      bool labelAbove = false,
+    }) {
       final path = Path()..moveTo(left, y);
       path.quadraticBezierTo((left + right) / 2, y + sag * 2, right, y);
       path.lineTo(right, y + depth);
@@ -872,11 +879,28 @@ class _DepthPainter extends CustomPainter {
         Offset(size.width / 2, y + sag - 3),
         load,
       );
+      // Each name stays with its own joist. The shallow one sags so far that
+      // anything under it lands in the next joist's load arrow, so it takes
+      // the clear ground above its beam, left of the arrow. The deep one
+      // barely moves, so under it is clear.
       final t = _text(label, size: 11, color: tone);
-      inkLabel(canvas, t, Offset(right - t.width, y + depth + sag * 0.5 + 8));
+      inkLabel(
+        canvas,
+        t,
+        labelAbove
+            ? Offset(left, y - 17)
+            : Offset(right - t.width, y + depth + sag * 2 + 7),
+      );
     }
 
-    joist(size.height * 0.22, 10, 22, 'shallow: sags a lot', AppColors.ember);
+    joist(
+      size.height * 0.22,
+      10,
+      22,
+      'shallow: sags a lot',
+      AppColors.ember,
+      labelAbove: true,
+    );
     joist(
       size.height * 0.64,
       22,

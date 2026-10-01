@@ -38,7 +38,9 @@ void viewTag(Canvas canvas, Size size, Looking view, {String? note}) {
     ),
     textDirection: TextDirection.ltr,
   )..layout();
-  final at = Offset(size.width - painter.width - 7, size.height - 13);
+  // Clear of the panel's rounded corner. Tucked tighter than this the last
+  // letter lost its bottom right to the clip: "PLAN" came out "PLAM".
+  final at = Offset(size.width - painter.width - 10, size.height - 17);
   // A patch behind it, because it often sits over ground hatching.
   canvas.drawRect(
     Rect.fromLTWH(at.dx - 3, at.dy - 1, painter.width + 6, painter.height + 2),

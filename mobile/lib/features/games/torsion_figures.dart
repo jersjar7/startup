@@ -49,8 +49,7 @@ class Shaft {
 
   /// The POLAR second moment. Not the area one: that is half this, and using
   /// it halves the stress.
-  double get j =>
-      math.pi * (math.pow(outerD, 4) - math.pow(innerD, 4)) / 32;
+  double get j => math.pi * (math.pow(outerD, 4) - math.pow(innerD, 4)) / 32;
 
   /// The area second moment, for comparison. J is exactly twice it.
   double get i => j / 2;
@@ -98,11 +97,26 @@ class ShaftPainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2.2,
       );
-      _across(canvas, mid, inner, 'inner ${shaft.innerD.round()}',
-          AppColors.ink3, size, below: true);
+      _across(
+        canvas,
+        mid,
+        inner,
+        'inner ${shaft.innerD.round()}',
+        AppColors.ink3,
+        size,
+        r,
+        below: true,
+      );
     }
-    _across(canvas, mid, r, 'outer ${shaft.outerD.round()}',
-        AppColors.charcoal, size);
+    _across(
+      canvas,
+      mid,
+      r,
+      'outer ${shaft.outerD.round()}',
+      AppColors.charcoal,
+      size,
+      r,
+    );
 
     if (markC) {
       // The radius, drawn as the thing it is, because half this lesson's
@@ -117,15 +131,38 @@ class ShaftPainter extends CustomPainter {
           ..strokeCap = StrokeCap.round,
       );
       canvas.drawCircle(mid, 3, Paint()..color = AppColors.forest);
-      _write(canvas, 'c = ${shaft.c.round()}',
-          mid + Offset(r * 0.36, -r * 0.55), AppColors.forest, size);
+      // Past the tip of the radius rather than along it: halfway up the line
+      // the label sat on the line it names.
+      _write(
+        canvas,
+        'c = ${shaft.c.round()}',
+        mid + Offset(r * 0.92, -r * 0.88),
+        AppColors.forest,
+        size,
+      );
     }
   }
 
   /// A diameter drawn across the circle with its value on it.
-  void _across(Canvas canvas, Offset mid, double r, String label, Color color,
-      Size size, {bool below = false}) {
-    final y = mid.dy + (below ? 0 : 0);
+  ///
+  /// The value goes OUTSIDE the circle, above for the outer diameter and
+  /// below for the bore. Inside there is no room: on a hollow shaft the bore
+  /// is about as wide as the words, so a label centred in it lands on the
+  /// bore's own arc, on the diameter arrow and on the radius all at once.
+  /// The panel is far wider than the circle, so the clear ground is the band
+  /// above it and the band below it. [outer] is the outer radius, which is
+  /// what both labels have to clear.
+  void _across(
+    Canvas canvas,
+    Offset mid,
+    double r,
+    String label,
+    Color color,
+    Size size,
+    double outer, {
+    bool below = false,
+  }) {
+    final y = mid.dy;
     final from = Offset(mid.dx - r, y);
     final to = Offset(mid.dx + r, y);
     final ink = Paint()
@@ -142,22 +179,34 @@ class ShaftPainter extends CustomPainter {
         Paint()..color = color,
       );
     }
-    _write(canvas, label, Offset(mid.dx, y + (below ? 4 : -17)), color, size);
+    _write(
+      canvas,
+      label,
+      Offset(mid.dx, below ? mid.dy + outer + 7 : mid.dy - outer - 20),
+      color,
+      size,
+    );
   }
 
   void _write(Canvas canvas, String text, Offset at, Color color, Size size) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 11, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 11, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx - tp.width / 2;
     if (x < 2) x = 2;
     if (x + tp.width > size.width - 2) x = size.width - 2 - tp.width;
+    var y = at.dy;
+    if (y < 2) y = 2;
+    if (y + tp.height > size.height - 2) y = size.height - 2 - tp.height;
     canvas.drawRect(
-      Rect.fromLTWH(x - 3, at.dy, tp.width + 6, tp.height),
+      Rect.fromLTWH(x - 3, y, tp.width + 6, tp.height),
       Paint()..color = AppColors.cream.withValues(alpha: 0.94),
     );
-    tp.paint(canvas, Offset(x, at.dy));
+    tp.paint(canvas, Offset(x, y));
   }
 
   @override
@@ -206,17 +255,17 @@ class Tube {
 
   /// The area the formula wants: enclosed by the middle of the wall.
   double get medianArea => switch (shape) {
-        TubeShape.round => math.pi * math.pow((width - wall) / 2, 2).toDouble(),
-        _ => (width - wall) * (height - wall),
-      };
+    TubeShape.round => math.pi * math.pow((width - wall) / 2, 2).toDouble(),
+    _ => (width - wall) * (height - wall),
+  };
 
   /// The area of the metal, which is what people reach for instead.
   double get materialArea => switch (shape) {
-        TubeShape.round => math.pi *
-            (math.pow(width / 2, 2) - math.pow(width / 2 - wall, 2))
-                .toDouble(),
-        _ => width * height - (width - 2 * wall) * (height - 2 * wall),
-      };
+    TubeShape.round =>
+      math.pi *
+          (math.pow(width / 2, 2) - math.pow(width / 2 - wall, 2)).toDouble(),
+    _ => width * height - (width - 2 * wall) * (height - 2 * wall),
+  };
 
   /// Thin enough for the thin-walled formula to be worth using.
   bool get thin => wall < 0.1 * width / 2;
@@ -238,9 +287,9 @@ class TubePainter extends CustomPainter {
   /// same tube the same way. Public because the test measures with it rather
   /// than assuming what the painter did.
   static double scaleFor(Tube tube, Size size) => math.min(
-        (size.width - 22) / tube.width,
-        (size.height - 22) / tube.height,
-      );
+    (size.width - 22) / tube.width,
+    (size.height - 22) / tube.height,
+  );
 
   /// The wall AS DRAWN, which is not always the wall as measured.
   ///
@@ -269,12 +318,13 @@ class TubePainter extends CustomPainter {
       final r = (tube.width / 2 - inset) * scale;
       return Path()..addOval(Rect.fromCircle(center: mid, radius: r));
     }
-    return Path()
-      ..addRect(Rect.fromCenter(
+    return Path()..addRect(
+      Rect.fromCenter(
         center: mid,
         width: (tube.width - 2 * inset) * scale,
         height: (tube.height - 2 * inset) * scale,
-      ));
+      ),
+    );
   }
 
   Path _at(Size size, double inset) => outlineAt(tube, size, inset);
@@ -288,8 +338,7 @@ class TubePainter extends CustomPainter {
 
     // The region this panel is offering.
     final shaded = switch (region) {
-      Region.material =>
-        Path.combine(PathOperation.difference, outer, inner),
+      Region.material => Path.combine(PathOperation.difference, outer, inner),
       Region.outer => outer,
       Region.median => median,
       Region.inner => inner,

@@ -10,18 +10,18 @@ enum Mark { proportional, yieldPoint, ultimate, fracture }
 
 extension MarkNames on Mark {
   String get plain => switch (this) {
-        Mark.proportional => 'the proportional limit',
-        Mark.yieldPoint => 'the yield point',
-        Mark.ultimate => 'the ultimate strength',
-        Mark.fracture => 'the fracture point',
-      };
+    Mark.proportional => 'the proportional limit',
+    Mark.yieldPoint => 'the yield point',
+    Mark.ultimate => 'the ultimate strength',
+    Mark.fracture => 'the fracture point',
+  };
 
   String get short => switch (this) {
-        Mark.proportional => 'proportional limit',
-        Mark.yieldPoint => 'yield',
-        Mark.ultimate => 'ultimate',
-        Mark.fracture => 'fracture',
-      };
+    Mark.proportional => 'proportional limit',
+    Mark.yieldPoint => 'yield',
+    Mark.ultimate => 'ultimate',
+    Mark.fracture => 'fracture',
+  };
 }
 
 /// One material's tensile test, described by the numbers a test report would
@@ -115,16 +115,17 @@ class Specimen {
   /// The same test read against the bar as it is at that instant, which is
   /// the true stress. Plotted against the same engineering strain, so the two
   /// curves can be held beside each other.
-  List<Offset> get trueTrace =>
-      [for (final p in trace) Offset(p.dx, p.dy / areaShareAt(p.dx))];
+  List<Offset> get trueTrace => [
+    for (final p in trace) Offset(p.dx, p.dy / areaShareAt(p.dx)),
+  ];
 
   /// Strain and stress of a named point.
   Offset pointAt(Mark mark) => switch (mark) {
-        Mark.proportional => Offset(proportionalStrain, proportionalStress),
-        Mark.yieldPoint => Offset(yieldStrain, yieldStress),
-        Mark.ultimate => Offset(ultimateStrain, ultimate),
-        Mark.fracture => Offset(fractureStrain, fractureStress),
-      };
+    Mark.proportional => Offset(proportionalStrain, proportionalStress),
+    Mark.yieldPoint => Offset(yieldStrain, yieldStress),
+    Mark.ultimate => Offset(ultimateStrain, ultimate),
+    Mark.fracture => Offset(fractureStrain, fractureStress),
+  };
 
   /// The curve itself, in strain and stress, start to break.
   List<Offset> get trace {
@@ -137,7 +138,8 @@ class Specimen {
     for (var i = 1; i <= 8; i++) {
       final t = i / 8;
       final x = proportionalStrain + (yieldStrain - proportionalStrain) * t;
-      final y = proportionalStress +
+      final y =
+          proportionalStress +
           (yieldStress - proportionalStress) * math.sin(t * math.pi / 2);
       out.add(Offset(x, y));
     }
@@ -150,8 +152,8 @@ class Specimen {
       for (var i = 1; i <= 14; i++) {
         final t = i / 14;
         final x = plateauEnd + (ultimateStrain - plateauEnd) * t;
-        final y = yieldStress +
-            (ultimate - yieldStress) * math.sin(t * math.pi / 2);
+        final y =
+            yieldStress + (ultimate - yieldStress) * math.sin(t * math.pi / 2);
         out.add(Offset(x, y));
       }
     }
@@ -228,13 +230,13 @@ class Frame {
   factory Frame.comparing(List<Specimen> all) => Frame._of(all, 0.12, 0.08);
 
   factory Frame._of(List<Specimen> all, double elastic, double knee) => Frame(
-        prop: all.map((s) => s.proportionalStrain).reduce(math.max),
-        knee: all.map((s) => s.yieldStrain).reduce(math.max),
-        maxStrain: all.map((s) => s.fractureStrain).reduce(math.max) * 1.12,
-        maxStress: all.map((s) => s.ultimate).reduce(math.max) * 1.18,
-        elasticShare: elastic,
-        kneeShare: knee,
-      );
+    prop: all.map((s) => s.proportionalStrain).reduce(math.max),
+    knee: all.map((s) => s.yieldStrain).reduce(math.max),
+    maxStrain: all.map((s) => s.fractureStrain).reduce(math.max) * 1.12,
+    maxStress: all.map((s) => s.ultimate).reduce(math.max) * 1.18,
+    elasticShare: elastic,
+    kneeShare: knee,
+  );
 
   /// Where the straight run ends and where the knee ends.
   final double prop;
@@ -290,12 +292,8 @@ class TensilePainter extends CustomPainter {
   final bool axes;
 
   /// The axes box, inside the room the labels need.
-  static Rect plot(Size size) => Rect.fromLTRB(
-        34,
-        18,
-        size.width - 10,
-        size.height - 24,
-      );
+  static Rect plot(Size size) =>
+      Rect.fromLTRB(34, 18, size.width - 10, size.height - 24);
 
   /// Where a strain and a stress land on the canvas.
   static Offset at(Frame frame, Size size, Offset point) {
@@ -313,7 +311,8 @@ class TensilePainter extends CustomPainter {
     } else if (s <= frame.knee) {
       on = a + b * (s - frame.prop) / (frame.knee - frame.prop);
     } else {
-      on = a +
+      on =
+          a +
           b +
           (1 - a - b) * (s - frame.knee) / (frame.maxStrain - frame.knee);
     }
@@ -385,10 +384,20 @@ class TensilePainter extends CustomPainter {
     // Where it breaks, on the curve, so a short brittle curve still reads as
     // having ended rather than as having been cut off.
     final end = at(frame, size, specimen.pointAt(Mark.fracture));
-    canvas.drawLine(end + const Offset(-4, -4), end + const Offset(4, 4),
-        Paint()..color = tone..strokeWidth = 1.8);
-    canvas.drawLine(end + const Offset(4, -4), end + const Offset(-4, 4),
-        Paint()..color = tone..strokeWidth = 1.8);
+    canvas.drawLine(
+      end + const Offset(-4, -4),
+      end + const Offset(4, 4),
+      Paint()
+        ..color = tone
+        ..strokeWidth = 1.8,
+    );
+    canvas.drawLine(
+      end + const Offset(4, -4),
+      end + const Offset(-4, 4),
+      Paint()
+        ..color = tone
+        ..strokeWidth = 1.8,
+    );
 
     for (final m in dotted) {
       _dot(canvas, markAt(specimen, frame, size, m), tone);
@@ -400,7 +409,13 @@ class TensilePainter extends CustomPainter {
     for (final m in labelled) {
       final at_ = markAt(specimen, frame, size, m);
       _dot(canvas, at_, AppColors.forest);
-      _tag(canvas, m.short, at_, size);
+      // The four points sit close together along one rising line, so putting
+      // every name above its dot ran the wide ones into the next dot along.
+      // These two take the clear ground under their dot instead: below the
+      // proportional limit the curve has not arrived yet, and below the
+      // break there is nothing at all.
+      final below = m == Mark.proportional || m == Mark.fracture;
+      _tag(canvas, m.short, at_, size, below: below);
     }
   }
 
@@ -413,9 +428,15 @@ class TensilePainter extends CustomPainter {
     canvas.drawLine(box.bottomLeft, box.topLeft, axis);
     _head(canvas, box.bottomRight, const Offset(1, 0));
     _head(canvas, box.topLeft, const Offset(0, -1));
-    _write(canvas, 'strain', Offset(box.right - 34, box.bottom + 5),
-        AppColors.ink3);
-    _write(canvas, 'stress', const Offset(2, 0), AppColors.ink3);
+    _write(
+      canvas,
+      'strain',
+      Offset(box.right - 34, box.bottom + 5),
+      AppColors.ink3,
+    );
+    // Clear of the panel's rounded corner, which was cutting the first letter
+    // off, and clear of the arrow head on the axis below it.
+    _write(canvas, 'stress', Offset(box.left + 6, 1), AppColors.ink3);
   }
 
   void _dot(Canvas canvas, Offset at, Color color) {
@@ -425,19 +446,36 @@ class TensilePainter extends CustomPainter {
   }
 
   /// A name beside a point, kept inside the panel and away from the curve.
-  void _tag(Canvas canvas, String text, Offset at, Size size) {
+  void _tag(
+    Canvas canvas,
+    String text,
+    Offset at,
+    Size size, {
+    bool below = false,
+  }) {
     final painter = TextPainter(
       text: TextSpan(
-          text: text, style: AppTheme.mono(size: 10, color: AppColors.forest)),
+        text: text,
+        style: AppTheme.mono(size: 10, color: AppColors.forest),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx - painter.width / 2;
-    var y = at.dy - painter.height - 9;
+    var y = below ? at.dy + 9 : at.dy - painter.height - 9;
     if (y < 0) y = at.dy + 9;
+    if (y + painter.height > size.height - 1) y = at.dy - painter.height - 9;
     if (x < 1) x = 1;
     if (x + painter.width > size.width - 1) x = size.width - 1 - painter.width;
-    final patch = Rect.fromLTWH(x - 2, y - 1, painter.width + 4, painter.height + 2);
-    canvas.drawRect(patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
+    final patch = Rect.fromLTWH(
+      x - 2,
+      y - 1,
+      painter.width + 4,
+      painter.height + 2,
+    );
+    canvas.drawRect(
+      patch,
+      Paint()..color = AppColors.cream.withValues(alpha: 0.9),
+    );
     painter.paint(canvas, Offset(x, y));
   }
 
@@ -454,9 +492,12 @@ class TensilePainter extends CustomPainter {
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
-      textDirection: TextDirection.ltr,
-    )
+        text: TextSpan(
+          text: text,
+          style: AppTheme.mono(size: 10, color: color),
+        ),
+        textDirection: TextDirection.ltr,
+      )
       ..layout()
       ..paint(canvas, at);
   }
@@ -480,8 +521,11 @@ class PairPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final f = frame ?? Frame.comparing([left, right]);
-    TensilePainter(specimen: left, frame: f, tone: AppColors.info)
-        .paint(canvas, size);
+    TensilePainter(
+      specimen: left,
+      frame: f,
+      tone: AppColors.info,
+    ).paint(canvas, size);
     TensilePainter(
       specimen: right,
       frame: f,
@@ -491,8 +535,7 @@ class PairPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(PairPainter old) =>
-      old.left != left || old.right != right;
+  bool shouldRepaint(PairPainter old) => old.left != left || old.right != right;
 }
 
 /// The engineering curve and the true curve of ONE test, on one set of axes.
@@ -543,8 +586,13 @@ class BothPainter extends CustomPainter {
   ///
   /// Where the two lie on top of each other there is no honest answer, and
   /// the round that asks about that stretch offers a third choice instead.
-  static int? nearest(Specimen s, Frame frame, Size size, Offset tap,
-      {double within = 26}) {
+  static int? nearest(
+    Specimen s,
+    Frame frame,
+    Size size,
+    Offset tap, {
+    double within = 26,
+  }) {
     int? best;
     var bestGap = within;
     for (final which in [engineering, truth]) {
@@ -576,8 +624,11 @@ class BothPainter extends CustomPainter {
     // The engineering curve carries the axes, and the true one is laid over
     // it, since the true one is the one that leaves the top of the page in a
     // real test and this frame is sized to hold it.
-    TensilePainter(specimen: specimen, frame: frame, tone: _toneOf(engineering))
-        .paint(canvas, size);
+    TensilePainter(
+      specimen: specimen,
+      frame: frame,
+      tone: _toneOf(engineering),
+    ).paint(canvas, size);
 
     final path = Path();
     final points = pointsOf(specimen, frame, size, truth);
@@ -625,57 +676,85 @@ class BothPainter extends CustomPainter {
   void _band(Canvas canvas, Size size) {
     final box = TensilePainter.plot(size);
     final edge = TensilePainter.at(
-        frame, size, Offset(specimen.yieldStrain, 0));
+      frame,
+      size,
+      Offset(specimen.yieldStrain, 0),
+    );
     canvas.drawRect(
       Rect.fromLTRB(box.left, box.top, edge.dx, box.bottom),
       Paint()..color = AppColors.forest.withValues(alpha: 0.08),
     );
-    _write(canvas, 'springs back', Offset(box.left + 3, box.top + 2),
-        AppColors.forest);
+    _write(
+      canvas,
+      'springs back',
+      Offset(box.left + 3, box.top + 2),
+      AppColors.forest,
+    );
   }
 
   /// Where the bar starts to draw down, which is the top of the engineering
   /// curve and the point every question about necking is asking around.
   void _waist(Canvas canvas, Size size) {
     final box = TensilePainter.plot(size);
-    final at = TensilePainter.at(
-        frame, size, specimen.pointAt(Mark.ultimate));
+    final at = TensilePainter.at(frame, size, specimen.pointAt(Mark.ultimate));
     final paint = Paint()
       ..color = AppColors.ink3
       ..strokeWidth = 1;
     for (var y = box.top; y < box.bottom; y += 9) {
       canvas.drawLine(Offset(at.dx, y), Offset(at.dx, y + 5), paint);
     }
-    _write(canvas, 'waist starts', Offset(at.dx - 62, box.bottom - 13),
-        AppColors.ink3);
+    _write(
+      canvas,
+      'waist starts',
+      Offset(at.dx - 62, box.bottom - 13),
+      AppColors.ink3,
+    );
   }
 
   void _write(Canvas canvas, String text, Offset at, Color color) {
     final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 9.5, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 9.5, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     final patch = Rect.fromLTWH(
-        at.dx - 2, at.dy - 1, painter.width + 4, painter.height + 2);
+      at.dx - 2,
+      at.dy - 1,
+      painter.width + 4,
+      painter.height + 2,
+    );
     canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.85));
+      patch,
+      Paint()..color = AppColors.cream.withValues(alpha: 0.85),
+    );
     painter.paint(canvas, at);
   }
 
   /// A curve's name at its own end, patched so the grid does not read through.
   void _name(Canvas canvas, Size size, String text, Offset at, Color tone) {
     final painter = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: tone)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: tone),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     var x = at.dx - painter.width - 6;
     var y = at.dy - painter.height - 6;
     if (x < 2) x = 2;
     if (y < 1) y = at.dy + 6;
-    final patch =
-        Rect.fromLTWH(x - 2, y - 1, painter.width + 4, painter.height + 2);
+    final patch = Rect.fromLTWH(
+      x - 2,
+      y - 1,
+      painter.width + 4,
+      painter.height + 2,
+    );
     canvas.drawRect(
-        patch, Paint()..color = AppColors.cream.withValues(alpha: 0.9));
+      patch,
+      Paint()..color = AppColors.cream.withValues(alpha: 0.9),
+    );
     painter.paint(canvas, Offset(x, y));
   }
 
