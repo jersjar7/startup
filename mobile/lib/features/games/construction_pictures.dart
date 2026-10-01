@@ -56,18 +56,6 @@ const _fiveTask = Network(
   ],
 );
 
-/// Three routes from one start: fifteen days through B and D, twelve through
-/// C and D, ten through C and E.
-const _threePaths = Network(
-  tasks: [
-    Task(name: 'A', days: 4),
-    Task(name: 'B', days: 6, after: ['A']),
-    Task(name: 'C', days: 3, after: ['A']),
-    Task(name: 'D', days: 5, after: ['B', 'C']),
-    Task(name: 'E', days: 3, after: ['C']),
-  ],
-);
-
 // ---------------------------------------------------------------------------
 // Scheduling
 
@@ -171,15 +159,11 @@ Widget floatPicture() => const Column(
 );
 
 Widget criticalPathPicture() => const ConceptPicture(
-  painter: NetworkPainter(
-    network: _threePaths,
-    showLate: false,
-    answered: true,
-  ),
+  painter: _RoutesPainter(),
   caption:
-      'three ways through. the marked one is the longest, and it is the one '
-      'with no room anywhere along it',
-  height: 235,
+      'the same network, pulled apart into its three routes. the longest one '
+      'is the finish date',
+  height: 215,
 );
 
 // ---------------------------------------------------------------------------
@@ -189,28 +173,38 @@ Widget criticalPathPicture() => const ConceptPicture(
 /// 480k has gone out of the door.
 const _weekTen = Progress(planned: 500000, earned: 420000, actual: 480000);
 
-/// The same job with a budget, running at eighty cents on the dollar.
-const _overspending = Progress(
-  planned: 700000,
-  earned: 600000,
-  actual: 750000,
-  budget: 2000000,
-);
+/// The same date on a job that is behind but spending carefully: less got
+/// done than the plan asked for, and still less money went out than the work
+/// was worth. The two gaps point opposite ways, which is why they are
+/// reported as two numbers and not one.
+const _shortHanded = Progress(planned: 500000, earned: 420000, actual: 380000);
 
-Widget earnedValuePicture() => const ConceptPicture(
-  painter: ValuePainter(progress: _weekTen, answered: true),
-  caption:
-      'one date, three bars: what was planned, what got done, what was '
-      'spent. both gaps are measured from the middle bar',
-  height: 215,
+Widget earnedValuePicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: ValuePainter(progress: _weekTen, answered: true),
+      caption:
+          'behind and over budget: less got done than planned, and it cost '
+          'more than it was worth',
+      height: 195,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: ValuePainter(progress: _shortHanded, answered: true),
+      caption:
+          'behind and UNDER budget: the same work done, on less money. one '
+          'gap each way, which is why there are two numbers',
+      height: 195,
+    ),
+  ],
 );
 
 Widget forecastPicture() => const ConceptPicture(
-  painter: ForecastPainter(progress: _overspending, answered: true),
+  painter: _StretchPainter(),
   caption:
-      'the whole budget as one bar, with what has been spent and what that '
-      'money bought. the forecast runs past the end of it',
-  height: 215,
+      'dividing by a rate under one makes the bar LONGER. that is the step '
+      'people turn upside down',
+  height: 252,
 );
 
 // ---------------------------------------------------------------------------
@@ -375,3 +369,232 @@ const constructionPictures = <String, Widget Function()>{
   'height': fallProtectionPicture,
   'fit': deliveryFitPicture,
 };
+
+// ---------------------------------------------------------------------------
+// The painters written for a sheet, where the game's own drawing could not
+// carry the idea (second pass, 2026-09-30).
+
+void _say(
+  Canvas canvas,
+  String text,
+  Offset at, {
+  Color color = AppColors.ink2,
+  double size = 10,
+  bool center = false,
+  bool right = false,
+}) {
+  final tp = TextPainter(
+    text: TextSpan(
+      text: text,
+      style: AppTheme.mono(size: size, color: color),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
+  var x = at.dx;
+  if (center) x -= tp.width / 2;
+  if (right) x -= tp.width;
+  tp.paint(canvas, Offset(x, at.dy));
+}
+
+/// The network's three routes pulled apart and laid one under another, each
+/// as long as the days it takes.
+///
+/// The game draws the network as a network, which is right for playing it:
+/// you have to trace the routes yourself. A sheet that is ABOUT the longest
+/// route should not make you trace anything, so this lays the three routes
+/// out and lets their lengths answer the question.
+class _RoutesPainter extends CustomPainter {
+  const _RoutesPainter();
+
+  // A 4, B 6, C 3, D 5, E 3. B and C follow A; D follows B and C; E follows C.
+  static const _routes = <(List<(String, int)>, int)>[
+    ([('A', 4), ('B', 6), ('D', 5)], 15),
+    ([('A', 4), ('C', 3), ('D', 5)], 12),
+    ([('A', 4), ('C', 3), ('E', 3)], 10),
+  ];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const left = 14.0;
+    final right = size.width - 68;
+    const perDay = 0.0;
+    final scale = (right - left) / 15 + perDay;
+    const top = 34.0;
+    final gap = (size.height - top - 34) / _routes.length;
+
+    _say(
+      canvas,
+      'every way from the start to the finish',
+      Offset(left, 12),
+      size: 9.5,
+      color: AppColors.charcoal,
+    );
+
+    for (var r = 0; r < _routes.length; r++) {
+      final (chain, total) = _routes[r];
+      final longest = r == 0;
+      final y = top + r * gap;
+      var x = left;
+      for (final (name, days) in chain) {
+        final w = days * scale;
+        final box = Rect.fromLTWH(x, y, w - 2, 20);
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(box, const Radius.circular(3)),
+          Paint()
+            ..color = longest
+                ? AppColors.ember
+                : AppColors.ink3.withValues(alpha: 0.35),
+        );
+        _say(
+          canvas,
+          '$name $days',
+          Offset(box.center.dx, y + 4),
+          center: true,
+          size: 9.5,
+          color: longest ? AppColors.cream : AppColors.ink2,
+        );
+        x += w;
+      }
+      _say(
+        canvas,
+        '$total days',
+        Offset(x + 6, y + 4),
+        size: 10,
+        color: longest ? AppColors.ember : AppColors.ink2,
+      );
+      if (longest) {
+        _say(
+          canvas,
+          'the longest: no room to slip anywhere on it',
+          Offset(left, y + 24),
+          size: 9,
+          color: AppColors.ember,
+        );
+      }
+    }
+
+    _say(
+      canvas,
+      'the job takes 15 days, whatever the other routes do',
+      Offset(left, size.height - 16),
+      size: 9,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_RoutesPainter old) => false;
+}
+
+/// Work still to do, and the same work after it is divided by a rate under
+/// one: the second bar is LONGER, which is the step the sheet is about.
+class _StretchPainter extends CustomPainter {
+  const _StretchPainter();
+
+  // Budget 2.00M, earned 0.60M, spent 0.75M, so the rate is 0.80.
+  // Still to do 1.40M; at 0.80 that costs 1.75M; plus 0.75M spent = 2.50M.
+  @override
+  void paint(Canvas canvas, Size size) {
+    const left = 14.0;
+    final right = size.width - 60;
+    final scale = (right - left) / 2.5;
+    const barH = 17.0;
+
+    void bar(double y, double millions, Color tone, String label, String note) {
+      final r = Rect.fromLTWH(left, y, millions * scale, barH);
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(r, const Radius.circular(3)),
+        Paint()..color = tone,
+      );
+      _say(
+        canvas,
+        '${millions.toStringAsFixed(2)}M',
+        Offset(r.right + 6, y + 2),
+        size: 10,
+        color: tone == AppColors.ink3 ? AppColors.ink2 : tone,
+      );
+      _say(canvas, label, Offset(left, y - 13), size: 9, color: AppColors.ink2);
+      if (note.isNotEmpty) {
+        _say(
+          canvas,
+          note,
+          Offset(left, y + barH + 3),
+          size: 9,
+          color: AppColors.ember,
+        );
+      }
+    }
+
+    bar(
+      33,
+      1.40,
+      AppColors.ink3.withValues(alpha: 0.5),
+      'the work still to do, priced at budget',
+      '',
+    );
+
+    // The division, drawn as the thing that lengthens the bar.
+    const arrowY = 58.0;
+    canvas.drawLine(
+      Offset(left + 20, arrowY),
+      Offset(left + 20, arrowY + 14),
+      Paint()
+        ..color = AppColors.ember
+        ..strokeWidth = 1.6
+        ..strokeCap = StrokeCap.round,
+    );
+    canvas.drawPath(
+      Path()
+        ..moveTo(left + 20, arrowY + 17)
+        ..lineTo(left + 16.5, arrowY + 11)
+        ..lineTo(left + 23.5, arrowY + 11)
+        ..close(),
+      Paint()..color = AppColors.ember,
+    );
+    _say(
+      canvas,
+      'divide by the rate, 0.80',
+      Offset(left + 30, arrowY + 1),
+      size: 9,
+      color: AppColors.ember,
+    );
+
+    bar(
+      97,
+      1.75,
+      AppColors.ember,
+      'so the rest will really cost',
+      'under one, so the bar got LONGER',
+    );
+
+    bar(
+      152,
+      0.75,
+      AppColors.ink3.withValues(alpha: 0.5),
+      'and this much is already gone',
+      '',
+    );
+
+    bar(207, 2.50, AppColors.charcoal, 'the whole job, forecast', '');
+
+    // The original budget, as the line the forecast runs past.
+    final budgetX = left + 2.0 * scale;
+    canvas.drawLine(
+      Offset(budgetX, 201),
+      Offset(budgetX, 207 + barH + 4),
+      Paint()
+        ..color = AppColors.error
+        ..strokeWidth = 1.4,
+    );
+    _say(
+      canvas,
+      'budget 2.00M',
+      Offset(budgetX + 4, 207 + barH + 6),
+      size: 9,
+      color: AppColors.error,
+      right: true,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_StretchPainter old) => false;
+}
