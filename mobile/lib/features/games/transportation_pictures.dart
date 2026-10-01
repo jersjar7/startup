@@ -198,33 +198,31 @@ Widget heavyVehiclePicture() => const ConceptPair(
   height: 200,
 );
 
-const _lessonFreeway = Freeway(
-  volume: 4500,
-  peakHourFactor: 0.92,
-  lanes: 3,
-  mix: TruckMix(trucks: 0.10, equivalent: 2.0),
-);
-
 Widget demandFlowPicture() => const ConceptPicture(
-  painter: LosPainter(road: _lessonFreeway, answered: true),
+  painter: _DivisionChainPainter(),
   caption:
-      'one hourly count, divided three times to reach cars per hour per lane',
-  height: 240,
+      'one hourly count through its three divisions. two raise the number, '
+      'one lowers it',
+  height: 215,
 );
 
 Widget levelOfServicePicture() => const ConceptPicture(
-  painter: LosPainter(road: _lessonFreeway, showSteps: false, answered: true),
-  caption: 'the six bands, and where this freeway lands on them',
-  height: 230,
+  painter: _DensityPainter(),
+  caption:
+      'density is cars packed into a mile of one lane. the letter is read '
+      'off that',
+  height: 225,
 );
 
 // ---------------------------------------------------------------------------
 // 124 Travel demand
 
 Widget fourStepPicture() => const ConceptPicture(
-  painter: StepsPainter(highlight: Forecast.distribution, answered: true),
-  caption: 'the four models, each one fed by the one before it',
-  height: 210,
+  painter: _TripFlowPainter(),
+  caption:
+      'the same thousand trips down the page. each step splits what the one '
+      'above it made',
+  height: 225,
 );
 
 const _twoZones = Spread(
@@ -295,15 +293,10 @@ Widget signCategoryPicture() => const ConceptPair(
 );
 
 Widget warrantPicture() => const ConceptPicture(
-  painter: WarrantPainter(
-    crossing: Junction(
-      description: 'a quiet crossroads, a few dozen vehicles an hour',
-      warrantMet: null,
-      note: 'a signal here would add delay and rear-end crashes',
-    ),
-    answered: true,
-  ),
-  caption: 'the list a crossing has to meet before it earns a signal',
+  painter: _CrashTradePainter(),
+  caption:
+      'what a signal buys and what it costs: fewer crashes from the side, '
+      'more from behind',
   height: 225,
 );
 
@@ -325,24 +318,11 @@ Widget structuralNumberPicture() => const ConceptPicture(
 );
 
 Widget layerThicknessPicture() => const ConceptPicture(
-  painter: PavementPainter(
-    pavement: Pavement(
-      courses: [
-        Course(name: 'asphalt', coefficient: 0.44, thickness: 3),
-        Course(name: 'base', coefficient: 0.14, thickness: 8),
-        Course(
-          name: 'subbase',
-          coefficient: 0.11,
-          thickness: 10,
-          drainage: 0.80,
-        ),
-      ],
-      required_: 4.5,
-    ),
-    answered: true,
-  ),
-  caption: 'the same road with a subbase that drains badly, and the gap left',
-  height: 225,
+  painter: _GapPainter(),
+  caption:
+      'the fixed layers stacked against the target. the hatched space is '
+      'what the missing layer has to fill',
+  height: 230,
 );
 
 Widget esalPicture() => const ConceptPicture(
@@ -636,3 +616,597 @@ const transportationPictures = <String, Widget Function()>{
   'support': subgradeReactionPicture,
   'yards': yardsPicture,
 };
+
+// ---------------------------------------------------------------------------
+// The painters written for a sheet, where the game's own drawing could not
+// carry the idea (second pass, 2026-09-30).
+
+/// Shared text helper for the sheet-only painters below.
+void _say(
+  Canvas canvas,
+  String text,
+  Offset at, {
+  Color color = AppColors.ink2,
+  double size = 10,
+  bool center = false,
+  bool right = false,
+}) {
+  final tp = TextPainter(
+    text: TextSpan(
+      text: text,
+      style: AppTheme.mono(size: size, color: color),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
+  var x = at.dx;
+  if (center) x -= tp.width / 2;
+  if (right) x -= tp.width;
+  tp.paint(canvas, Offset(x, at.dy));
+}
+
+/// One hourly count walked through its three divisions, each bar as long as
+/// the number it holds, so the two that RAISE it and the one that lowers it
+/// are visible rather than asserted.
+class _DivisionChainPainter extends CustomPainter {
+  const _DivisionChainPainter();
+
+  // 4,500 an hour; peak factor 0.92; 3 lanes; 10 per cent trucks at 2 cars.
+  // Each row is (what this step divides by, the number it leaves, which way
+  // that moved it). The first row is the count you start with.
+  static const _rows = <(String, double, String)>[
+    ('the count on the road, one hour', 4500, ''),
+    ('divide by the peak factor 0.92', 4891, 'up'),
+    ('divide by the 3 lanes', 1630, 'down'),
+    ('divide by the truck factor 0.91', 1793, 'up'),
+  ];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const left = 14.0;
+    final right = size.width - 62;
+    const top = 30.0;
+    final gap = (size.height - top - 24) / _rows.length;
+    const widest = 4891.0;
+
+    for (var i = 0; i < _rows.length; i++) {
+      final (label, value, way) = _rows[i];
+      final y = top + i * gap;
+      final w = (right - left) * value / widest;
+      final bar = Rect.fromLTWH(left, y, w, 13);
+      final last = i == _rows.length - 1;
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(bar, const Radius.circular(3)),
+        Paint()
+          ..color = last
+              ? AppColors.ember
+              : AppColors.ink3.withValues(alpha: 0.45),
+      );
+      final shown = value
+          .toStringAsFixed(0)
+          .replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+$)'), (m) => '${m[1]},');
+      _say(
+        canvas,
+        shown,
+        Offset(bar.right + 6, y - 1),
+        color: last ? AppColors.ember : AppColors.ink2,
+        size: 11,
+      );
+
+      // What this step did, written above its own bar.
+      final tone = way.isEmpty
+          ? AppColors.ink2
+          : (way == 'up' ? AppColors.ember : AppColors.info);
+      _say(
+        canvas,
+        way.isEmpty
+            ? label
+            : '$label, ${way == 'up' ? 'raises it' : 'lowers it'}',
+        Offset(left, y - 13),
+        size: 9,
+        color: tone,
+      );
+
+      // The step from the bar above to this one.
+      if (way.isNotEmpty) {
+        final x = left + 5;
+        final to = Offset(x, y - 16);
+        final paint = Paint()
+          ..color = tone
+          ..strokeWidth = 1.5
+          ..strokeCap = StrokeCap.round;
+        canvas.drawLine(Offset(x, y - gap + 15), to, paint);
+        canvas.drawPath(
+          Path()
+            ..moveTo(to.dx, to.dy + 2)
+            ..lineTo(to.dx - 3.2, to.dy - 3)
+            ..lineTo(to.dx + 3.2, to.dy - 3)
+            ..close(),
+          Paint()..color = tone,
+        );
+      }
+    }
+
+    _say(
+      canvas,
+      'cars an hour in one lane, at the busiest quarter hour rate',
+      Offset(left, size.height - 15),
+      size: 9,
+      color: AppColors.ember,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_DivisionChainPainter old) => false;
+}
+
+/// Density drawn as what it is: cars packed into one mile of one lane. Two
+/// strips carrying the same length of road and very different numbers of
+/// cars, with the letter each one earns.
+class _DensityPainter extends CustomPainter {
+  const _DensityPainter();
+
+  void _lane(
+    Canvas canvas,
+    Rect box,
+    int cars,
+    String label,
+    String letter,
+    Color tone,
+  ) {
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(box, const Radius.circular(4)),
+      Paint()..color = AppColors.creamDark,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(box, const Radius.circular(4)),
+      Paint()
+        ..color = AppColors.ink3
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1,
+    );
+    const carW = 8.0;
+    final slot = (box.width - 10) / cars;
+    for (var i = 0; i < cars; i++) {
+      final x = box.left + 5 + i * slot + (slot - carW) / 2;
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTWH(x, box.center.dy - 4, carW, 8),
+          const Radius.circular(1.5),
+        ),
+        Paint()..color = tone,
+      );
+    }
+    _say(canvas, label, Offset(box.left, box.top - 13), size: 9, color: tone);
+    _say(
+      canvas,
+      letter,
+      Offset(box.right + 8, box.center.dy - 7),
+      size: 13,
+      color: tone,
+    );
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.06;
+    final right = size.width - 32;
+    _lane(
+      canvas,
+      Rect.fromLTRB(left, 28, right, 50),
+      10,
+      'a mile of one lane, 10 cars in it',
+      'A',
+      AppColors.forest,
+    );
+    _lane(
+      canvas,
+      Rect.fromLTRB(left, 84, right, 106),
+      30,
+      'the same mile, 30 cars in it',
+      'D',
+      AppColors.ember,
+    );
+    _say(
+      canvas,
+      'same road, same mile. how packed it is, is the question',
+      Offset(left, 116),
+      size: 9,
+    );
+
+    // The bands the count is read against.
+    final bandTop = size.height - 52;
+    const bands = ['A', 'B', 'C', 'D', 'E', 'F'];
+    const edges = [11, 18, 26, 35, 45];
+    final w = (right - left) / bands.length;
+    for (var i = 0; i < bands.length; i++) {
+      final box = Rect.fromLTWH(left + i * w, bandTop, w - 2, 16);
+      canvas.drawRect(
+        box,
+        Paint()
+          ..color = i == 3
+              ? AppColors.ember.withValues(alpha: 0.3)
+              : AppColors.ink3.withValues(alpha: 0.18),
+      );
+      _say(
+        canvas,
+        bands[i],
+        Offset(box.center.dx, bandTop + 3),
+        center: true,
+        size: 10,
+      );
+      if (i < edges.length) {
+        _say(
+          canvas,
+          '${edges[i]}',
+          Offset(box.right - 1, bandTop + 19),
+          center: true,
+          size: 8.5,
+        );
+      }
+    }
+    _say(
+      canvas,
+      'cars to a mile of lane: the letter is read off this',
+      Offset(left, bandTop + 31),
+      size: 9,
+      color: AppColors.ink3,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_DensityPainter old) => false;
+}
+
+/// The four steps as the trips themselves, not as four labeled boxes: the
+/// same ten dots carried down the page, split differently at each stage, so
+/// "each step eats what the one before made" is something you can follow.
+class _TripFlowPainter extends CustomPainter {
+  const _TripFlowPainter();
+
+  void _dots(Canvas canvas, Offset start, int n, Color tone) {
+    for (var i = 0; i < n; i++) {
+      canvas.drawCircle(
+        Offset(start.dx + i * 10.5, start.dy),
+        3.2,
+        Paint()..color = tone,
+      );
+    }
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final left = size.width * 0.33;
+    final rowGap = (size.height - 30) / 4;
+    const names = ['GENERATION', 'DISTRIBUTION', 'MODE CHOICE', 'ASSIGNMENT'];
+    const asides = [
+      'ten dots: a thousand trips made',
+      'six downtown, four to the mall',
+      'of those, eight drive and two ride',
+      'the drivers pick: five the highway, three through town',
+    ];
+
+    for (var r = 0; r < 4; r++) {
+      final y = 22 + r * rowGap;
+      _say(
+        canvas,
+        names[r],
+        Offset(left - 12, y - 5),
+        right: true,
+        size: 8.5,
+        color: AppColors.charcoal,
+      );
+      _say(
+        canvas,
+        asides[r],
+        Offset(left + 2, y + 11),
+        size: 8.5,
+        color: AppColors.ink3,
+      );
+
+      switch (r) {
+        case 0:
+          _dots(canvas, Offset(left + 8, y), 10, AppColors.charcoal);
+        case 1:
+          _dots(canvas, Offset(left + 8, y), 6, AppColors.ember);
+          _dots(canvas, Offset(left + 8 + 6 * 10.5 + 9, y), 4, AppColors.info);
+        case 2:
+          _dots(canvas, Offset(left + 8, y), 8, AppColors.charcoal);
+          _dots(
+            canvas,
+            Offset(left + 8 + 8 * 10.5 + 9, y),
+            2,
+            AppColors.forest,
+          );
+        case 3:
+          // Two roads, each carrying the trips routed onto it.
+          final road = Paint()
+            ..color = AppColors.ink3
+            ..strokeWidth = 1.2;
+          canvas.drawLine(
+            Offset(left + 3, y + 6),
+            Offset(left + 8 + 4 * 10.5 + 3, y + 6),
+            road,
+          );
+          canvas.drawLine(
+            Offset(left + 8 + 5 * 10.5 + 4, y + 6),
+            Offset(left + 8 + 7 * 10.5 + 4, y + 6),
+            road,
+          );
+          _dots(canvas, Offset(left + 8, y), 5, AppColors.ember);
+          _dots(canvas, Offset(left + 8 + 5 * 10.5 + 9, y), 3, AppColors.info);
+      }
+
+      if (r < 3) {
+        final x = left - 24;
+        canvas.drawLine(
+          Offset(x, y + 4),
+          Offset(x, y + rowGap - 13),
+          Paint()
+            ..color = AppColors.ink3
+            ..strokeWidth = 1.4,
+        );
+        canvas.drawPath(
+          Path()
+            ..moveTo(x, y + rowGap - 8)
+            ..lineTo(x - 3.5, y + rowGap - 14)
+            ..lineTo(x + 3.5, y + rowGap - 14)
+            ..close(),
+          Paint()..color = AppColors.ink3,
+        );
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_TripFlowPainter old) => false;
+}
+
+/// The trade a signal makes, which is the whole reason it needs a warrant:
+/// the crashes that hurt people go down, the ones that usually do not go up.
+class _CrashTradePainter extends CustomPainter {
+  const _CrashTradePainter();
+
+  /// Two cars meeting at right angles, or nose to tail.
+  void _cars(
+    Canvas canvas,
+    Offset at, {
+    required bool angle,
+    required Color tone,
+  }) {
+    final body = Paint()..color = AppColors.charcoal;
+    final road = Paint()
+      ..color = AppColors.ink3.withValues(alpha: 0.5)
+      ..strokeWidth = 1.2;
+    if (angle) {
+      // Two roads crossing, and a car coming along each.
+      canvas.drawLine(
+        Offset(at.dx - 46, at.dy),
+        Offset(at.dx + 46, at.dy),
+        road,
+      );
+      canvas.drawLine(
+        Offset(at.dx, at.dy - 26),
+        Offset(at.dx, at.dy + 26),
+        road,
+      );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTWH(at.dx - 32, at.dy - 5, 22, 10),
+          const Radius.circular(2),
+        ),
+        body,
+      );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTWH(at.dx - 5, at.dy - 26, 10, 20),
+          const Radius.circular(2),
+        ),
+        body,
+      );
+    } else {
+      // One road, two cars nose to tail.
+      canvas.drawLine(
+        Offset(at.dx - 46, at.dy),
+        Offset(at.dx + 46, at.dy),
+        road,
+      );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTWH(at.dx - 34, at.dy - 5, 22, 10),
+          const Radius.circular(2),
+        ),
+        body,
+      );
+      canvas.drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTWH(at.dx - 4, at.dy - 5, 22, 10),
+          const Radius.circular(2),
+        ),
+        body,
+      );
+    }
+    canvas.drawCircle(at, 5.5, Paint()..color = tone.withValues(alpha: 0.75));
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final midX = size.width / 2;
+    final left = size.width * 0.07;
+    final right = size.width - left;
+    final lc = left + (midX - 12 - left) / 2;
+    final rc = midX + 12 + (right - midX - 12) / 2;
+
+    _say(
+      canvas,
+      'no signal',
+      Offset(lc, 14),
+      center: true,
+      size: 10,
+      color: AppColors.charcoal,
+    );
+    _say(
+      canvas,
+      'with a signal',
+      Offset(rc, 14),
+      center: true,
+      size: 10,
+      color: AppColors.charcoal,
+    );
+
+    _cars(canvas, Offset(lc, 62), angle: true, tone: AppColors.error);
+    _cars(canvas, Offset(rc, 62), angle: false, tone: AppColors.sunbeam);
+
+    canvas.drawLine(
+      Offset(midX, 8),
+      Offset(midX, size.height - 22),
+      Paint()
+        ..color = AppColors.line
+        ..strokeWidth = 1,
+    );
+
+    // How often each kind happens, before and after.
+    final base = size.height - 32;
+    const top = 100.0;
+    void bar(double cx, double share, Color tone, String label) {
+      final h = (base - top) * share;
+      final r = Rect.fromLTWH(cx - 12, base - h, 24, h);
+      canvas.drawRRect(
+        RRect.fromRectAndCorners(
+          r,
+          topLeft: const Radius.circular(2),
+          topRight: const Radius.circular(2),
+        ),
+        Paint()..color = tone,
+      );
+      _say(canvas, label, Offset(cx, base + 4), center: true, size: 8.5);
+    }
+
+    bar(lc - 19, 1.0, AppColors.error, 'side');
+    bar(lc + 19, 0.25, AppColors.sunbeam, 'rear');
+    bar(rc - 19, 0.3, AppColors.error, 'side');
+    bar(rc + 19, 0.75, AppColors.sunbeam, 'rear');
+
+    _say(
+      canvas,
+      'from the side hurts people. from behind usually does not',
+      Offset(10, size.height - 15),
+      size: 8.5,
+      color: AppColors.ink2,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_CrashTradePainter old) => false;
+}
+
+/// The design target as a column, what the fixed layers already give, and
+/// the gap left over, which is the thing this sheet is actually about.
+class _GapPainter extends CustomPainter {
+  const _GapPainter();
+
+  // Target 4.5. Asphalt 0.44 x 3 = 1.32. Subbase 0.11 x 10 x 0.80 = 0.88.
+  // Left to find: 2.30, at 0.14 an inch = 16.4 inches of base.
+  @override
+  void paint(Canvas canvas, Size size) {
+    const target = 4.5;
+    const asphalt = 1.32;
+    const subbase = 0.88;
+    const gapValue = target - asphalt - subbase;
+
+    final left = size.width * 0.12;
+    const colW = 66.0;
+    final base = size.height - 32;
+    const top = 32.0;
+    double yFor(double v) => base - (base - top) * v / target;
+
+    final whole = Rect.fromLTRB(left, top, left + colW, base);
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(whole, const Radius.circular(4)),
+      Paint()
+        ..color = AppColors.charcoal
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.6,
+    );
+    _say(
+      canvas,
+      'the target: 4.5',
+      Offset(left, top - 16),
+      size: 10,
+      color: AppColors.charcoal,
+    );
+
+    void slab(double from, double to, Color tone, String label) {
+      final r = Rect.fromLTRB(left + 2, yFor(to), left + colW - 2, yFor(from));
+      canvas.drawRect(r, Paint()..color = tone);
+      _say(
+        canvas,
+        label,
+        Offset(left + colW + 10, r.center.dy - 5),
+        size: 9,
+        color: tone == AppColors.ink3 ? AppColors.ink2 : tone,
+      );
+    }
+
+    slab(0, subbase, AppColors.ink3, 'subbase gives 0.88');
+    slab(subbase, subbase + asphalt, AppColors.charcoal, 'asphalt gives 1.32');
+
+    // The gap, hatched so it reads as empty rather than as another layer.
+    final gapRect = Rect.fromLTRB(
+      left + 2,
+      yFor(target),
+      left + colW - 2,
+      yFor(subbase + asphalt),
+    );
+    canvas.save();
+    canvas.clipRect(gapRect);
+    final hatch = Paint()
+      ..color = AppColors.ember.withValues(alpha: 0.5)
+      ..strokeWidth = 1.2;
+    for (var x = gapRect.left - gapRect.height; x < gapRect.right; x += 7) {
+      canvas.drawLine(
+        Offset(x, gapRect.bottom),
+        Offset(x + gapRect.height, gapRect.top),
+        hatch,
+      );
+    }
+    canvas.restore();
+    canvas.drawRect(
+      gapRect,
+      Paint()
+        ..color = AppColors.ember
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.4,
+    );
+    _say(
+      canvas,
+      'the gap left: ${gapValue.toStringAsFixed(2)}',
+      Offset(left + colW + 10, gapRect.center.dy - 20),
+      size: 10,
+      color: AppColors.ember,
+    );
+    _say(
+      canvas,
+      'divide by 0.14 an inch',
+      Offset(left + colW + 10, gapRect.center.dy - 6),
+      size: 9,
+      color: AppColors.ember,
+    );
+    _say(
+      canvas,
+      'gives 16.4 in of base',
+      Offset(left + colW + 10, gapRect.center.dy + 8),
+      size: 10,
+      color: AppColors.ember,
+    );
+
+    _say(
+      canvas,
+      'what the fixed layers give, and what is still missing',
+      Offset(10, size.height - 20),
+      size: 9,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_GapPainter old) => false;
+}
