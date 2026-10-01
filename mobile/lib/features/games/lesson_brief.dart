@@ -3580,18 +3580,18 @@ const standingBrief = BriefSection(
       'The second badge',
       'Pass the PE exam too, with the years behind you, and the board '
           'LICENSES you as a Professional Engineer. The seal is an act of that '
-          'licence and nothing else.',
+          'license and nothing else.',
     ),
     (
       'Nothing lends a seal',
       'Not being good at the work. Not a licensed colleague reading your '
           'drawing afterwards. Not writing "intern" beside your name. Either you '
-          'hold the licence or the seal is not yours to use.',
+          'hold the license or the seal is not yours to use.',
     ),
     (
-      'Most engineering needs no licence',
-      'A great deal of real work is done by people with no licence at all, '
-          'under a licensed engineer. The licence is about the seal.',
+      'Most engineering needs no license',
+      'A great deal of real work is done by people with no license at all, '
+          'under a licensed engineer. The license is about the seal.',
     ),
   ],
   spoken: [
@@ -3608,7 +3608,7 @@ const standingBrief = BriefSection(
     (
       'The seal',
       r'\text{only a licensed PE signs and seals}',
-      'a seal is an act of a licence; nobody else can use one',
+      'a seal is an act of a license; nobody else can use one',
     ),
   ],
   figure: BriefFigure.none,
@@ -3665,7 +3665,7 @@ const holdingOutBrief = BriefSection(
       'Offense one: doing the work',
       'Any service that takes engineering training and judgment and '
           'reaches the public\'s safety is the practice of engineering. Doing it '
-          'without a licence is a violation.',
+          'without a license is a violation.',
     ),
     (
       'The medium does not matter',
@@ -3738,7 +3738,7 @@ const ladderBrief = BriefSection(
     (
       'Comity',
       r'\text{licensed elsewhere} \to \text{licensed here, if it matches}',
-      'a licence from another state carries over when its requirements meet ours',
+      'a license from another state carries over when its requirements meet ours',
     ),
   ],
   figure: BriefFigure.none,
@@ -3751,7 +3751,7 @@ const disciplineBrief = BriefSection(
   steps: [
     (
       'The list',
-      'Lying to get the licence. Negligence or incompetence. Working outside '
+      'Lying to get the license. Negligence or incompetence. Working outside '
           'your field. Breaking a board rule. And being convicted of a felony.',
     ),
     (
@@ -3778,14 +3778,14 @@ const disciplineBrief = BriefSection(
       'a felony conviction is always grounds for discipline',
     ),
     (
-      'A misdemeanour',
+      'A misdemeanor',
       r'\text{grounds only if dishonesty, or the practice}',
       'a lesser offense counts only when it involves a lie or the engineering work',
     ),
     (
       'Also',
       r'\text{fraud, negligence, incompetence, a board rule}',
-      'lying for the licence, careless or incompetent work, or breaking a board rule',
+      'lying for the license, careless or incompetent work, or breaking a board rule',
     ),
   ],
   figure: BriefFigure.none,
@@ -3793,17 +3793,17 @@ const disciplineBrief = BriefSection(
 );
 
 const sectionsBrief = BriefSection(
-  title: 'Ask first: do they hold a licence',
+  title: 'Ask first: do they hold a license',
   picture: sectionsPicture,
   steps: [
     (
       'Two roads',
       'The penalties come in two lists, and which list applies depends on '
-          'one thing: does this person hold a licence right now.',
+          'one thing: does this person hold a license right now.',
     ),
     (
       'A licensee',
-      'The board can suspend the licence, revoke it, fine them, or '
+      'The board can suspend the license, revoke it, fine them, or '
           'reprimand them.',
     ),
     (
@@ -3816,24 +3816,24 @@ const sectionsBrief = BriefSection(
     (
       'Expired means not licensed',
       'Revoked, suspended and expired all land on the second road. There is '
-          'no licence to act against, so the fines apply.',
+          'no license to act against, so the fines apply.',
     ),
   ],
   spoken: [
     (
       '150.10, a licensee',
       r'\text{suspend, revoke, fine, reprimand}',
-      'the board acts on the licence itself',
+      'the board acts on the license itself',
     ),
     (
       '150.30, not licensed',
       r'\text{a fine, each day counted again}',
-      'no licence to touch, so a fine, repeated for every day it goes on',
+      'no license to touch, so a fine, repeated for every day it goes on',
     ),
     (
       'And',
       r'\text{revoked or expired} \Rightarrow \text{not licensed}',
-      'a licence that is gone puts you on the second road',
+      'a license that is gone puts you on the second road',
     ),
   ],
   figure: BriefFigure.none,

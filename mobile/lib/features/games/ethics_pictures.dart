@@ -65,7 +65,7 @@ Widget escalationPicture() => const ConceptPicture(
 Widget proportionPicture() => const ConceptPicture(
   painter: _DialPainter(),
   caption: 'the rule asks for one exact amount. Both sides of it are wrong',
-  height: 170,
+  height: 195,
 );
 
 // ---------------------------------------------------------------------------
@@ -127,14 +127,14 @@ Widget ladderPicture() => const ConceptPicture(
 Widget disciplinePicture() => const ConceptPicture(
   painter: _GroundsPainter(),
   caption:
-      'a felony always counts. A misdemeanour counts only if it involves dishonesty or the practice',
+      'a felony always counts. A misdemeanor counts only if it involves dishonesty or the practice',
   height: 200,
 );
 
 Widget sectionsPicture() => const ConceptPicture(
   painter: _ForkPainter(),
   caption:
-      'the first question is whether they hold a licence. The two roads have different penalties',
+      'the first question is whether they hold a license. The two roads have different penalties',
   height: 200,
 );
 
@@ -208,17 +208,11 @@ Widget clocksPicture() => const ConceptPicture(
 // Intellectual property and sustainability
 
 Widget propertyPicture() => const ConceptPicture(
-  painter: _FourBoxesPainter(
-    titles: ['patent', 'trade secret', 'trademark', 'copyright'],
-    notes: [
-      'published, 20 years',
-      'kept quiet, no clock',
-      'the name',
-      'the words',
-    ],
-  ),
-  caption: 'four protections. Each one guards a different thing',
-  height: 190,
+  painter: _SortPainter(),
+  caption:
+      'one question splits the first two. the other two guard something else '
+      'again',
+  height: 230,
 );
 
 Widget portfolioPicture() => const ConceptPicture(
@@ -470,7 +464,7 @@ class _DialPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final y = size.height * 0.48;
+    final y = size.height * 0.42;
     final left = size.width * 0.1;
     final right = size.width * 0.9;
     canvas.drawLine(
@@ -484,33 +478,163 @@ class _DialPainter extends CustomPainter {
     for (final x in [left + 22, right - 22]) {
       canvas.drawCircle(Offset(x, y), 7, Paint()..color = AppColors.error);
     }
-    final a = _text('too little', size: 10, color: AppColors.error);
-    a.paint(canvas, Offset(left + 22 - a.width / 2, y + 16));
-    final b = _text('too much', size: 10, color: AppColors.error);
-    b.paint(canvas, Offset(right - 22 - b.width / 2, y + 16));
+    // What each end of the dial is, above the line.
+    final e = _text('say nothing', size: 9.5, color: AppColors.ink2);
+    e.paint(canvas, Offset(left + 22 - e.width / 2, y - 26));
+    final f = _text('resign', size: 9.5, color: AppColors.ink2);
+    f.paint(canvas, Offset(right - 22 - f.width / 2, y - 26));
     final c = _text(
       'the rule',
       size: 11,
       color: AppColors.charcoal,
       weight: FontWeight.w600,
     );
-    c.paint(canvas, Offset(mid - c.width / 2, y - 40));
+    c.paint(canvas, Offset(mid - c.width / 2, y - 42));
+
+    // The verdict on each end, below the line.
+    final a = _text('too little', size: 10, color: AppColors.error);
+    a.paint(canvas, Offset(left + 22 - a.width / 2, y + 16));
+    final b = _text('too much', size: 10, color: AppColors.error);
+    b.paint(canvas, Offset(right - 22 - b.width / 2, y + 16));
+
+    // What the rule actually asks for, on its own line clear of both.
     final d = _text(
-      'disclose, step out of that one decision',
+      'disclose it, and step out of that one decision',
       size: 9.5,
       color: AppColors.forest,
-      maxWidth: size.width * 0.5,
+      maxWidth: size.width * 0.9,
       align: TextAlign.center,
     );
-    d.paint(canvas, Offset(mid - d.width / 2, y + 22));
-    final e = _text('say nothing', size: 9.5, color: AppColors.ink2);
-    e.paint(canvas, Offset(left + 22 - e.width / 2, y - 26));
-    final f = _text('resign', size: 9.5, color: AppColors.ink2);
-    f.paint(canvas, Offset(right - 22 - f.width / 2, y - 26));
+    d.paint(canvas, Offset(mid - d.width / 2, size.height - 26));
   }
 
   @override
   bool shouldRepaint(_DialPainter old) => false;
+}
+
+/// The question that sorts a patent from a trade secret, drawn as the fork
+/// it is, with the two protections that answer a different question again
+/// underneath.
+///
+/// The sheet is titled for that one question, so four boxes in a grid left
+/// the title's promise unkept.
+class _SortPainter extends CustomPainter {
+  const _SortPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final mid = size.width / 2;
+    final q = _text(
+      'do you tell the world, or keep it quiet?',
+      size: 10.5,
+      color: AppColors.charcoal,
+      weight: FontWeight.w600,
+    );
+    q.paint(canvas, Offset(mid - q.width / 2, 8));
+
+    // The fork.
+    const forkTop = 28.0;
+    const boxTop = 56.0;
+    final boxW = size.width * 0.42;
+    final leftC = mid - boxW / 2 - 8;
+    final rightC = mid + boxW / 2 + 8;
+    final line = _stroke(AppColors.ink3, 1.4);
+    canvas.drawLine(Offset(mid, forkTop), Offset(mid, forkTop + 10), line);
+    canvas.drawLine(
+      Offset(leftC, forkTop + 10),
+      Offset(rightC, forkTop + 10),
+      line,
+    );
+    _arrow(
+      canvas,
+      Offset(leftC, forkTop + 10),
+      Offset(leftC, boxTop - 2),
+      line,
+    );
+    _arrow(
+      canvas,
+      Offset(rightC, forkTop + 10),
+      Offset(rightC, boxTop - 2),
+      line,
+    );
+    final yes = _text('tell it', size: 9, color: AppColors.ink2);
+    yes.paint(canvas, Offset(leftC - yes.width - 7, forkTop + 1));
+    final no = _text('keep it quiet', size: 9, color: AppColors.ink2);
+    no.paint(canvas, Offset(rightC + 7, forkTop + 1));
+
+    _box(
+      canvas,
+      Rect.fromCenter(
+        center: Offset(leftC, boxTop + 24),
+        width: boxW,
+        height: 48,
+      ),
+      'patent',
+      note: 'published, 20 years',
+    );
+    final secret = Rect.fromCenter(
+      center: Offset(rightC, boxTop + 24),
+      width: boxW,
+      height: 48,
+    );
+    _box(
+      canvas,
+      secret,
+      'trade secret',
+      fill: AppColors.cream,
+      ink: AppColors.charcoal,
+      note: 'kept quiet, no clock',
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(secret, const Radius.circular(10)),
+      _stroke(AppColors.charcoal, 1.5),
+    );
+
+    // The other two answer a different question.
+    final divider = size.height - 74;
+    canvas.drawLine(
+      Offset(size.width * 0.06, divider),
+      Offset(size.width * 0.94, divider),
+      _stroke(AppColors.line, 1),
+    );
+    final other = _text(
+      'these two guard what it is CALLED and what is WRITTEN',
+      size: 9,
+      color: AppColors.ink2,
+    );
+    other.paint(canvas, Offset(mid - other.width / 2, divider + 5));
+
+    _box(
+      canvas,
+      Rect.fromCenter(
+        center: Offset(leftC, size.height - 26),
+        width: boxW,
+        height: 40,
+      ),
+      'trademark',
+      note: 'the name',
+    );
+    final words = Rect.fromCenter(
+      center: Offset(rightC, size.height - 26),
+      width: boxW,
+      height: 40,
+    );
+    _box(
+      canvas,
+      words,
+      'copyright',
+      fill: AppColors.cream,
+      ink: AppColors.charcoal,
+      note: 'the words',
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(words, const Radius.circular(10)),
+      _stroke(AppColors.charcoal, 1.5),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_SortPainter old) => false;
 }
 
 /// Two gates in a row that both have to be open before the seal.
@@ -895,7 +1019,7 @@ class _YearsPainter extends CustomPainter {
   bool shouldRepaint(_YearsPainter old) => false;
 }
 
-/// Felony against misdemeanour: what counts and what does not.
+/// Felony against misdemeanor: what counts and what does not.
 class _GroundsPainter extends CustomPainter {
   const _GroundsPainter();
 
@@ -905,7 +1029,7 @@ class _GroundsPainter extends CustomPainter {
     final f = Rect.fromLTWH(size.width * 0.04, 8, colW, 30);
     final m = Rect.fromLTWH(size.width * 0.52, 8, colW, 30);
     _box(canvas, f, 'a felony', radius: 8);
-    _box(canvas, m, 'a misdemeanour', radius: 8);
+    _box(canvas, m, 'a misdemeanor', radius: 8);
     final rows = [
       ('anything at all', true, false),
       ('a lie, or fraud', true, true),
@@ -942,7 +1066,7 @@ class _ForkPainter extends CustomPainter {
     _box(
       canvas,
       q,
-      'do they hold a licence?',
+      'do they hold a license?',
       fill: AppColors.spring,
       ink: AppColors.charcoal,
       size: 10,
