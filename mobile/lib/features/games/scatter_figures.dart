@@ -119,10 +119,18 @@ class ScatterPainter extends CustomPainter {
         fine,
       );
     }
-    _label(canvas, 'x', _at(size, xTo.toDouble(), 0) + const Offset(6, 12),
-        size: size);
-    _label(canvas, 'y', _at(size, 0, yTo.toDouble()) + const Offset(-14, -6),
-        size: size);
+    _label(
+      canvas,
+      'x',
+      _at(size, xTo.toDouble(), 0) + const Offset(6, 12),
+      size: size,
+    );
+    _label(
+      canvas,
+      'y',
+      _at(size, 0, yTo.toDouble()) + const Offset(-14, -6),
+      size: size,
+    );
 
     final residual = residualsFor;
     if (residual != null) {
@@ -160,20 +168,50 @@ class ScatterPainter extends CustomPainter {
       );
       final label = line.label;
       if (label != null) {
-        // At the end of the line, on whichever side has room. A line that
-        // leaves through the TOP ends within a few points of the panel edge,
-        // so a label placed above it is cut in half by the rounded box the
-        // figure sits in: the reader gets the bottom of a letter. Those go
-        // below the end and off to the left instead, clear of the line.
-        final at = _at(size, to, line.at(to));
-        final leavesRight = to >= xTo - 0.01;
-        _label(
-          canvas,
-          label,
-          at + (leavesRight ? const Offset(8, 0) : const Offset(-11, 10)),
-          color: color,
-          size: size,
-        );
+        // A line that leaves through the RIGHT ends hard against the panel
+        // edge, so a label set beside that end is pushed back inside and lands
+        // on the line itself, or on a data point. Those are set along the line
+        // instead, short of the end, and pushed clear of it: the topmost line
+        // at that place takes the room above, every other line the room below.
+        // A line that leaves through the top still ends within a few points of
+        // the panel edge, so its label goes below and to the left as before.
+        // A letter fits beside the end of its line and is how the game names
+        // its candidates; a phrase does not, and is what a concept sheet uses.
+        final leavesRight = to >= xTo - 0.01 && label.length > 3;
+        if (leavesRight) {
+          final middle = from + (to - from) * 0.5;
+          final highest = lines
+              .where((l) => l.label != null)
+              .every((l) => l.at(middle) <= line.at(middle) + 1e-9);
+          // Pushed square to the line rather than straight up, or a climbing
+          // line walks back through the end of its own label. The cloud of
+          // readings hugs the fit, so the two open corners are above the line
+          // early on and below it late on: the top line takes the first, every
+          // other line the second, which also keeps two labels apart.
+          final anchorX = from + (to - from) * (highest ? 0.26 : 0.78);
+          final p1 = _at(size, from, line.at(from));
+          final p2 = _at(size, to, line.at(to));
+          final d = (p2 - p1) / (p2 - p1).distance;
+          var n = Offset(-d.dy, d.dx);
+          if (highest ? n.dy > 0 : n.dy < 0) n = -n;
+          _label(
+            canvas,
+            label,
+            _at(size, anchorX, line.at(anchorX)) + n * 16,
+            color: color,
+            size: size,
+          );
+        } else {
+          final at = _at(size, to, line.at(to));
+          _label(
+            canvas,
+            label,
+            at +
+                (to >= xTo - 0.01 ? const Offset(8, 0) : const Offset(-11, 10)),
+            color: color,
+            size: size,
+          );
+        }
       }
     }
 
@@ -212,8 +250,13 @@ class ScatterPainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2.5,
       );
-      _label(canvas, 'means', at + const Offset(0, -17),
-          color: const Color(0xFFB07C0C), size: size);
+      _label(
+        canvas,
+        'means',
+        at + const Offset(0, -17),
+        color: const Color(0xFFB07C0C),
+        size: size,
+      );
     }
   }
 
@@ -228,7 +271,10 @@ class ScatterPainter extends CustomPainter {
     required Size size,
   }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: AppTheme.mono(size: 10, color: color)),
+      text: TextSpan(
+        text: text,
+        style: AppTheme.mono(size: 10, color: color),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     paintInside(canvas, size, tp, at - Offset(tp.width / 2, tp.height / 2));
