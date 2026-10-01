@@ -28,11 +28,11 @@ class Span {
 
   /// How many reaction components the two ends hand over.
   int get reactions => switch (ends) {
-        Ends.pinRoller => 3,
-        Ends.fixedRoller => 4,
-        Ends.fixedFixed => 6,
-        Ends.fixedFree => 3,
-      };
+    Ends.pinRoller => 3,
+    Ends.fixedRoller => 4,
+    Ends.fixedFixed => 6,
+    Ends.fixedFree => 3,
+  };
 
   /// How many unknowns equilibrium cannot reach.
   int get extra => reactions - 3;
@@ -58,50 +58,92 @@ class ReleasePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (!answered) {
-      _beam(canvas, size, Rect.fromLTWH(0, 20, size.width, size.height - 30),
-          span.ends, loaded: true, freed: Release.none);
-      writeOn(canvas, size, 'as it stands', const Offset(8, 6), AppColors.ink3,
-          fontSize: 9.5);
+      _beam(
+        canvas,
+        size,
+        Rect.fromLTWH(0, 20, size.width, size.height - 30),
+        span.ends,
+        loaded: true,
+        freed: Release.none,
+      );
+      writeOn(
+        canvas,
+        size,
+        'as it stands',
+        const Offset(8, 6),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     } else {
       final half = (size.height - 20) / 2;
-      writeOn(canvas, size, 'as it stands', const Offset(8, 4), AppColors.ink3,
-          fontSize: 9.5);
-      _beam(canvas, size, Rect.fromLTWH(0, 18, size.width, half - 14),
-          span.ends, loaded: true, freed: Release.none);
-      writeOn(canvas, size, _freedLabel, Offset(8, half + 10), AppColors.forest,
-          fontSize: 9.5);
-      _beam(canvas, size, Rect.fromLTWH(0, half + 24, size.width, half - 14),
-          _endsAfter, loaded: true, freed: release);
+      writeOn(
+        canvas,
+        size,
+        'as it stands',
+        const Offset(8, 4),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
+      _beam(
+        canvas,
+        size,
+        Rect.fromLTWH(0, 18, size.width, half - 14),
+        span.ends,
+        loaded: true,
+        freed: Release.none,
+      );
+      writeOn(
+        canvas,
+        size,
+        _freedLabel,
+        Offset(8, half + 10),
+        AppColors.forest,
+        fontSize: 9.5,
+      );
+      _beam(
+        canvas,
+        size,
+        Rect.fromLTWH(0, half + 24, size.width, half - 14),
+        _endsAfter,
+        loaded: true,
+        freed: release,
+      );
     }
     viewTag(canvas, size, Looking.elevation);
   }
 
   String get _freedLabel => switch (release) {
-        Release.none => 'nothing let go',
-        Release.theProp => 'the prop let go, its force carried as the unknown',
-        Release.theFixedMoment =>
-          'the end moment let go, carried as the unknown',
-      };
+    Release.none => 'nothing let go',
+    Release.theProp => 'the prop let go, its force carried as the unknown',
+    Release.theFixedMoment => 'the end moment let go, carried as the unknown',
+  };
 
   /// What the beam becomes once the round's release has been made.
   Ends get _endsAfter => switch (release) {
-        Release.none => span.ends,
-        Release.theProp => Ends.fixedFree,
-        Release.theFixedMoment =>
-          span.ends == Ends.fixedFixed ? Ends.fixedRoller : Ends.pinRoller,
-      };
+    Release.none => span.ends,
+    Release.theProp => Ends.fixedFree,
+    Release.theFixedMoment =>
+      span.ends == Ends.fixedFixed ? Ends.fixedRoller : Ends.pinRoller,
+  };
 
-  void _beam(Canvas canvas, Size size, Rect box, Ends ends,
-      {required bool loaded, required Release freed}) {
+  void _beam(
+    Canvas canvas,
+    Size size,
+    Rect box,
+    Ends ends, {
+    required bool loaded,
+    required Release freed,
+  }) {
     final left = box.left + 42;
     final right = box.right - 42;
     final y = box.top + box.height * 0.56;
     canvas.drawLine(
-        Offset(left, y),
-        Offset(right, y),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 3);
+      Offset(left, y),
+      Offset(right, y),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 3,
+    );
 
     switch (ends) {
       case Ends.pinRoller:
@@ -145,16 +187,23 @@ class ReleasePainter extends CustomPainter {
       p.dy + 22,
     );
     canvas.drawRect(
-        rect,
-        Paint()
-          ..color = AppColors.ink2
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.4);
+      rect,
+      Paint()
+        ..color = AppColors.ink2
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.4,
+    );
     hatchIn(canvas, Path()..addRect(rect), step: 6, slope: out.toDouble());
   }
 
   void _spread(
-      Canvas canvas, Size size, double left, double right, double y, String label) {
+    Canvas canvas,
+    Size size,
+    double left,
+    double right,
+    double y,
+    String label,
+  ) {
     final top = y - 26;
     final ink = Paint()
       ..color = AppColors.charcoal
@@ -164,53 +213,79 @@ class ReleasePainter extends CustomPainter {
       canvas
         ..drawLine(Offset(x, top), Offset(x, y - 8), ink)
         ..drawPath(
-            Path()
-              ..moveTo(x, y - 3)
-              ..lineTo(x - 3.2, y - 10)
-              ..lineTo(x + 3.2, y - 10)
-              ..close(),
-            Paint()..color = AppColors.charcoal);
+          Path()
+            ..moveTo(x, y - 3)
+            ..lineTo(x - 3.2, y - 10)
+            ..lineTo(x + 3.2, y - 10)
+            ..close(),
+          Paint()..color = AppColors.charcoal,
+        );
     }
-    writeOn(canvas, size, label, Offset((left + right) / 2 - 4, top - 13),
-        AppColors.charcoal, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      label,
+      Offset((left + right) / 2 - 4, top - 13),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
   }
 
   void _point(Canvas canvas, Size size, Offset at, String label) {
     canvas
       ..drawLine(
-          at + const Offset(0, -34),
-          at + const Offset(0, -6),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 2.4)
+        at + const Offset(0, -34),
+        at + const Offset(0, -6),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 2.4,
+      )
       ..drawPath(
-          Path()
-            ..moveTo(at.dx, at.dy - 1)
-            ..lineTo(at.dx - 4.5, at.dy - 10)
-            ..lineTo(at.dx + 4.5, at.dy - 10)
-            ..close(),
-          Paint()..color = AppColors.charcoal);
-    writeOn(canvas, size, label, at + const Offset(6, -36), AppColors.charcoal,
-        fontSize: 9.5);
+        Path()
+          ..moveTo(at.dx, at.dy - 1)
+          ..lineTo(at.dx - 4.5, at.dy - 10)
+          ..lineTo(at.dx + 4.5, at.dy - 10)
+          ..close(),
+        Paint()..color = AppColors.charcoal,
+      );
+    writeOn(
+      canvas,
+      size,
+      label,
+      at + const Offset(6, -36),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
   }
 
   void _up(Canvas canvas, Size size, Offset at, String label) {
     canvas
       ..drawLine(
-          at + const Offset(0, 34),
-          at + const Offset(0, 6),
-          Paint()
-            ..color = AppColors.forest
-            ..strokeWidth = 2.6)
+        at + const Offset(0, 34),
+        at + const Offset(0, 6),
+        Paint()
+          ..color = AppColors.forest
+          ..strokeWidth = 2.6,
+      )
       ..drawPath(
-          Path()
-            ..moveTo(at.dx, at.dy + 1)
-            ..lineTo(at.dx - 4.5, at.dy + 10)
-            ..lineTo(at.dx + 4.5, at.dy + 10)
-            ..close(),
-          Paint()..color = AppColors.forest);
-    writeOn(canvas, size, label, at + const Offset(-70, 22), AppColors.forest,
-        fontSize: 9.5);
+        Path()
+          ..moveTo(at.dx, at.dy + 1)
+          ..lineTo(at.dx - 4.5, at.dy + 10)
+          ..lineTo(at.dx + 4.5, at.dy + 10)
+          ..close(),
+        Paint()..color = AppColors.forest,
+      );
+    // Beside the arrow rather than under it: under it is the bottom right
+    // corner, where the view tag lives, and the two ran together.
+    final box = labelSize(label, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      label,
+      at + Offset(-box.width - 12, 14),
+      AppColors.forest,
+      fontSize: 9.5,
+    );
   }
 
   void _couple(Canvas canvas, Size size, Offset at, String label) {
@@ -233,8 +308,14 @@ class ReleasePainter extends CustomPainter {
         ..close(),
       Paint()..color = AppColors.forest,
     );
-    writeOn(canvas, size, label, at + const Offset(10, 16), AppColors.forest,
-        fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      label,
+      at + const Offset(10, 16),
+      AppColors.forest,
+      fontSize: 9.5,
+    );
   }
 
   @override
@@ -269,34 +350,57 @@ class SplitPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final half = (size.height - 16) / 2;
-    writeOn(canvas, size, 'simply supported', const Offset(8, 4),
-        AppColors.ink3, fontSize: 9.5);
-    _one(canvas, size, Rect.fromLTWH(0, 16, size.width, half - 12),
-        Ends.pinRoller, topNote);
-    writeOn(canvas, size, _name, Offset(8, half + 8), AppColors.ink3,
-        fontSize: 9.5);
-    _one(canvas, size, Rect.fromLTWH(0, half + 20, size.width, half - 12), ends,
-        bottomNote);
+    writeOn(
+      canvas,
+      size,
+      'simply supported',
+      const Offset(8, 4),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    _one(
+      canvas,
+      size,
+      Rect.fromLTWH(0, 16, size.width, half - 12),
+      Ends.pinRoller,
+      topNote,
+    );
+    writeOn(
+      canvas,
+      size,
+      _name,
+      Offset(8, half + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    _one(
+      canvas,
+      size,
+      Rect.fromLTWH(0, half + 20, size.width, half - 12),
+      ends,
+      bottomNote,
+    );
     viewTag(canvas, size, Looking.elevation);
   }
 
   String get _name => switch (ends) {
-        Ends.pinRoller => 'simply supported',
-        Ends.fixedRoller => 'built in at one end, propped at the other',
-        Ends.fixedFixed => 'built in at both ends',
-        Ends.fixedFree => 'built in at one end only',
-      };
+    Ends.pinRoller => 'simply supported',
+    Ends.fixedRoller => 'built in at one end, propped at the other',
+    Ends.fixedFixed => 'built in at both ends',
+    Ends.fixedFree => 'built in at one end only',
+  };
 
   void _one(Canvas canvas, Size size, Rect box, Ends ends, String note) {
     final left = box.left + 44;
     final right = box.right - 44;
     final y = box.top + box.height * 0.54;
     canvas.drawLine(
-        Offset(left, y),
-        Offset(right, y),
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 3);
+      Offset(left, y),
+      Offset(right, y),
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 3,
+    );
 
     switch (ends) {
       case Ends.pinRoller:
@@ -325,8 +429,14 @@ class SplitPainter extends CustomPainter {
     _mark(canvas, size, left, right, y, note);
   }
 
-  void _mark(Canvas canvas, Size size, double left, double right, double y,
-      String note) {
+  void _mark(
+    Canvas canvas,
+    Size size,
+    double left,
+    double right,
+    double y,
+    String note,
+  ) {
     final ember = Paint()
       ..color = AppColors.ember
       ..style = PaintingStyle.stroke
@@ -336,38 +446,63 @@ class SplitPainter extends CustomPainter {
       case Marked.rightEnd:
         // Nudged just inboard of the support so the arrow is not drawn over
         // the hatching of a built-in end.
-        final at =
-            Offset(marked == Marked.leftEnd ? left + 6 : right - 6, y);
+        final at = Offset(marked == Marked.leftEnd ? left + 6 : right - 6, y);
         canvas
-          ..drawLine(at + const Offset(0, 30), at + const Offset(0, 6),
-              Paint()
-                ..color = AppColors.ember
-                ..strokeWidth = 2.4)
+          ..drawLine(
+            at + const Offset(0, 30),
+            at + const Offset(0, 6),
+            Paint()
+              ..color = AppColors.ember
+              ..strokeWidth = 2.4,
+          )
           ..drawPath(
-              Path()
-                ..moveTo(at.dx, at.dy + 1)
-                ..lineTo(at.dx - 4.5, at.dy + 10)
-                ..lineTo(at.dx + 4.5, at.dy + 10)
-                ..close(),
-              Paint()..color = AppColors.ember);
+            Path()
+              ..moveTo(at.dx, at.dy + 1)
+              ..lineTo(at.dx - 4.5, at.dy + 10)
+              ..lineTo(at.dx + 4.5, at.dy + 10)
+              ..close(),
+            Paint()..color = AppColors.ember,
+          );
         if (answered && note.isNotEmpty) {
-          writeOn(canvas, size, note, at + const Offset(6, 22),
-              AppColors.ember, fontSize: 9.5);
+          writeOn(
+            canvas,
+            size,
+            note,
+            at + const Offset(6, 22),
+            AppColors.ember,
+            fontSize: 9.5,
+          );
         }
       case Marked.endMoment:
         canvas.drawArc(
-            Rect.fromCircle(center: Offset(left + 14, y), radius: 13),
-            -math.pi * 0.85, math.pi * 1.35, false, ember);
+          Rect.fromCircle(center: Offset(left + 14, y), radius: 13),
+          -math.pi * 0.85,
+          math.pi * 1.35,
+          false,
+          ember,
+        );
         if (answered && note.isNotEmpty) {
-          writeOn(canvas, size, note, Offset(left + 24, y + 14),
-              AppColors.ember, fontSize: 9.5);
+          writeOn(
+            canvas,
+            size,
+            note,
+            Offset(left + 24, y + 14),
+            AppColors.ember,
+            fontSize: 9.5,
+          );
         }
       case Marked.midMoment:
         final at = Offset((left + right) / 2, y);
         canvas.drawCircle(at, 8, ember);
         if (answered && note.isNotEmpty) {
-          writeOn(canvas, size, note, at + const Offset(10, 4), AppColors.ember,
-              fontSize: 9.5);
+          writeOn(
+            canvas,
+            size,
+            note,
+            at + const Offset(10, 4),
+            AppColors.ember,
+            fontSize: 9.5,
+          );
         }
       case Marked.midSag:
         // A place to measure, not a shape: drawing a deflected beam here
@@ -377,22 +512,30 @@ class SplitPainter extends CustomPainter {
         canvas.drawCircle(at, 7, ember);
         for (var d = 10.0; d < 30; d += 7) {
           canvas.drawLine(
-              Offset(at.dx, at.dy + d),
-              Offset(at.dx, at.dy + d + 4),
-              Paint()
-                ..color = AppColors.ember
-                ..strokeWidth = 1.6);
+            Offset(at.dx, at.dy + d),
+            Offset(at.dx, at.dy + d + 4),
+            Paint()
+              ..color = AppColors.ember
+              ..strokeWidth = 1.6,
+          );
         }
         canvas.drawPath(
-            Path()
-              ..moveTo(at.dx, at.dy + 36)
-              ..lineTo(at.dx - 4, at.dy + 28)
-              ..lineTo(at.dx + 4, at.dy + 28)
-              ..close(),
-            Paint()..color = AppColors.ember);
+          Path()
+            ..moveTo(at.dx, at.dy + 36)
+            ..lineTo(at.dx - 4, at.dy + 28)
+            ..lineTo(at.dx + 4, at.dy + 28)
+            ..close(),
+          Paint()..color = AppColors.ember,
+        );
         if (answered && note.isNotEmpty) {
-          writeOn(canvas, size, note, Offset(at.dx + 8, at.dy + 22),
-              AppColors.ember, fontSize: 9.5);
+          writeOn(
+            canvas,
+            size,
+            note,
+            Offset(at.dx + 8, at.dy + 22),
+            AppColors.ember,
+            fontSize: 9.5,
+          );
         }
     }
   }
@@ -405,11 +548,12 @@ class SplitPainter extends CustomPainter {
       p.dy + 18,
     );
     canvas.drawRect(
-        rect,
-        Paint()
-          ..color = AppColors.ink2
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.4);
+      rect,
+      Paint()
+        ..color = AppColors.ink2
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.4,
+    );
     hatchIn(canvas, Path()..addRect(rect), step: 6, slope: toTheLeft ? -1 : 1);
   }
 

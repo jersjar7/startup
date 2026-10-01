@@ -10,11 +10,7 @@ import 'figure_ink.dart';
 /// slowly, which is the shape every real one has.
 @immutable
 class Wave {
-  const Wave({
-    required this.peak,
-    required this.toPeak,
-    required this.base,
-  });
+  const Wave({required this.peak, required this.toPeak, required this.base});
 
   /// The highest discharge the storm produces, in cubic feet a second.
   final double peak;
@@ -92,18 +88,15 @@ class HydrographPainter extends CustomPainter {
   static const _top = 18.0;
   static const _right = 12.0;
 
-  double get _span =>
-      hours ?? waves.map((w) => w.base).reduce(math.max) * 1.05;
+  double get _span => hours ?? waves.map((w) => w.base).reduce(math.max) * 1.05;
 
   double get _tallest =>
       topFlow ?? waves.map((w) => w.peak).reduce(math.max) * 1.18;
 
   Offset _at(Size size, double hour, double flow) => Offset(
-        _left + (size.width - _left - _right) * hour / _span,
-        size.height -
-            _bottom -
-            (size.height - _bottom - _top) * flow / _tallest,
-      );
+    _left + (size.width - _left - _right) * hour / _span,
+    size.height - _bottom - (size.height - _bottom - _top) * flow / _tallest,
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -111,15 +104,32 @@ class HydrographPainter extends CustomPainter {
       ..color = AppColors.ink3
       ..strokeWidth = 1.2;
     canvas
-      ..drawLine(Offset(_left, _top), Offset(_left, size.height - _bottom),
-          axis)
-      ..drawLine(Offset(_left, size.height - _bottom),
-          Offset(size.width - _right, size.height - _bottom), axis);
-    writeOn(canvas, size, 'cfs', const Offset(6, 10), AppColors.ink3,
-        fontSize: 9);
-    writeOn(canvas, size, 'hours',
-        Offset(size.width - 46, size.height - 15), AppColors.ink3,
-        fontSize: 9);
+      ..drawLine(
+        Offset(_left, _top),
+        Offset(_left, size.height - _bottom),
+        axis,
+      )
+      ..drawLine(
+        Offset(_left, size.height - _bottom),
+        Offset(size.width - _right, size.height - _bottom),
+        axis,
+      );
+    writeOn(
+      canvas,
+      size,
+      'cfs',
+      const Offset(6, 10),
+      AppColors.ink3,
+      fontSize: 9,
+    );
+    writeOn(
+      canvas,
+      size,
+      'hours',
+      Offset(size.width - 46, size.height - 15),
+      AppColors.ink3,
+      fontSize: 9,
+    );
 
     for (var i = 0; i < waves.length; i++) {
       final wave = waves[i];
@@ -135,15 +145,27 @@ class HydrographPainter extends CustomPainter {
         }
       }
       canvas.drawPath(
-          path,
-          Paint()
-            ..color = tone
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2.4);
+        path,
+        Paint()
+          ..color = tone
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2.4,
+      );
       if (i < names.length) {
         final top = _at(size, wave.toPeak, wave.peak);
-        writeOn(canvas, size, names[i], top + const Offset(4, -14), tone,
-            fontSize: 9.5);
+        // A name sits above its own peak. On the lower curve of a pair
+        // there is nowhere on this panel a line of this length does not
+        // cross something: left of the peak is the rise of the curve above,
+        // right of it is that curve's fall, under it is its own fall. The
+        // patch behind the text is what carries this one.
+        writeOn(
+          canvas,
+          size,
+          names[i],
+          top + const Offset(4, -14),
+          tone,
+          fontSize: 9.5,
+        );
       }
     }
 
@@ -151,25 +173,44 @@ class HydrographPainter extends CustomPainter {
       final x = _at(size, markAt!, 0).dx;
       for (var y = _top; y < size.height - _bottom; y += 8) {
         canvas.drawLine(
-            Offset(x, y),
-            Offset(x, y + 4),
-            Paint()
-              ..color = AppColors.ember
-              ..strokeWidth = 1.4);
+          Offset(x, y),
+          Offset(x, y + 4),
+          Paint()
+            ..color = AppColors.ember
+            ..strokeWidth = 1.4,
+        );
       }
       if (markLabel != null) {
-        writeOn(canvas, size, markLabel!, Offset(x + 4, _top), AppColors.ember,
-            fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          markLabel!,
+          Offset(x + 4, _top),
+          AppColors.ember,
+          fontSize: 9.5,
+        );
       }
     }
 
     if (note != null) {
-      writeOn(canvas, size, note!, const Offset(_left + 6, 4), AppColors.ink2,
-          fontSize: 9);
+      writeOn(
+        canvas,
+        size,
+        note!,
+        const Offset(_left + 6, 4),
+        AppColors.ink2,
+        fontSize: 9,
+      );
     }
     // Top right, because the bottom right belongs to the time axis label.
-    writeOn(canvas, size, 'HYDROGRAPH', Offset(size.width, 4), AppColors.ink3,
-        fontSize: 8.5);
+    writeOn(
+      canvas,
+      size,
+      'HYDROGRAPH',
+      Offset(size.width, 4),
+      AppColors.ink3,
+      fontSize: 8.5,
+    );
   }
 
   @override
@@ -225,71 +266,107 @@ class PondPainter extends CustomPainter {
     double inset(double y) => run * (bedY - y) / rise;
 
     // The ground, cut open for the basin.
-    groundLine(canvas, const Offset(0, groundY),
-        Offset(bedLeft - run, groundY));
-    groundLine(canvas, Offset(bedRight + run, groundY),
-        Offset(size.width, groundY));
+    groundLine(
+      canvas,
+      const Offset(0, groundY),
+      Offset(bedLeft - run, groundY),
+    );
+    groundLine(
+      canvas,
+      Offset(bedRight + run, groundY),
+      Offset(size.width, groundY),
+    );
     canvas.drawPath(
-        Path()
-          ..moveTo(bedLeft - run, groundY)
-          ..lineTo(bedLeft, bedY)
-          ..lineTo(bedRight, bedY)
-          ..lineTo(bedRight + run, groundY),
-        Paint()
-          ..color = AppColors.ink2
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.8);
+      Path()
+        ..moveTo(bedLeft - run, groundY)
+        ..lineTo(bedLeft, bedY)
+        ..lineTo(bedRight, bedY)
+        ..lineTo(bedRight + run, groundY),
+      Paint()
+        ..color = AppColors.ink2
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.8,
+    );
 
     // The pool, with its surface ending exactly on the banks.
     final waterY = groundY + 34;
     final left = bedLeft - inset(waterY);
     final right = bedRight + inset(waterY);
     canvas.drawPath(
-        Path()
-          ..moveTo(left, waterY)
-          ..lineTo(bedLeft, bedY)
-          ..lineTo(bedRight, bedY)
-          ..lineTo(right, waterY)
-          ..close(),
-        waterFill);
-    waterLevel(canvas, Offset(left, waterY), Offset(right, waterY),
-        markAt: left + 22);
+      Path()
+        ..moveTo(left, waterY)
+        ..lineTo(bedLeft, bedY)
+        ..lineTo(bedRight, bedY)
+        ..lineTo(right, waterY)
+        ..close(),
+      waterFill,
+    );
+    waterLevel(
+      canvas,
+      Offset(left, waterY),
+      Offset(right, waterY),
+      markAt: left + 22,
+    );
 
     void pipe(double y, double from, double to, Color tone, String text) {
       // Nothing arriving is drawn as nothing, not as a stub with an
       // arrowhead on it.
       if ((to - from).abs() < 1) {
-        writeOn(canvas, size, text, Offset(math.min(from, to) + 2, y + 6),
-            tone, fontSize: 9.5);
+        writeOn(
+          canvas,
+          size,
+          text,
+          Offset(math.min(from, to) + 2, y + 6),
+          tone,
+          fontSize: 9.5,
+        );
         return;
       }
       canvas.drawLine(
-          Offset(from, y),
-          Offset(to, y),
-          Paint()
-            ..color = tone
-            ..strokeWidth = 3.4);
+        Offset(from, y),
+        Offset(to, y),
+        Paint()
+          ..color = tone
+          ..strokeWidth = 3.4,
+      );
       final back = to > from ? -8.0 : 8.0;
       canvas.drawPath(
-          Path()
-            ..moveTo(to, y)
-            ..lineTo(to + back, y - 5)
-            ..lineTo(to + back, y + 5)
-            ..close(),
-          Paint()..color = tone);
+        Path()
+          ..moveTo(to, y)
+          ..lineTo(to + back, y - 5)
+          ..lineTo(to + back, y + 5)
+          ..close(),
+        Paint()..color = tone,
+      );
       // Under the pipe, not over it: over it the inflow label sat in the
       // ground hatching.
-      writeOn(canvas, size, text, Offset(math.min(from, to) + 2, y + 6),
-          tone, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        text,
+        Offset(math.min(from, to) + 2, y + 6),
+        tone,
+        fontSize: 9.5,
+      );
     }
 
     // Arrow lengths to one scale, so the drawing says which is bigger.
     final most = math.max(math.max(pond.inflow, pond.outflow), 1);
     const room = 62.0;
-    pipe(groundY + 14, 6, 6 + room * pond.inflow / most, AppColors.info,
-        'in ${_num(pond.inflow)} cfs');
-    pipe(bedY - 16, bedRight + 6, bedRight + 6 + room * pond.outflow / most,
-        AppColors.ink2, 'out ${_num(pond.outflow)} cfs');
+    pipe(
+      groundY + 14,
+      6,
+      6 + room * pond.inflow / most,
+      AppColors.info,
+      'in ${_num(pond.inflow)} cfs',
+    );
+    pipe(
+      bedY - 16,
+      bedRight + 6,
+      bedRight + 6 + room * pond.outflow / most,
+      AppColors.ink2,
+      'out ${_num(pond.outflow)} cfs',
+    );
 
     if (answered) {
       final rising = pond.change > 0;
@@ -302,29 +379,32 @@ class PondPainter extends CustomPainter {
         final tail = waterY + (rising ? 22 : -6);
         canvas
           ..drawLine(
-              Offset(middle, tail),
-              Offset(middle, tip + (rising ? 8 : -8)),
-              Paint()
-                ..color = tone
-                ..strokeWidth = 2.6)
+            Offset(middle, tail),
+            Offset(middle, tip + (rising ? 8 : -8)),
+            Paint()
+              ..color = tone
+              ..strokeWidth = 2.6,
+          )
           ..drawPath(
-              Path()
-                ..moveTo(middle, tip)
-                ..lineTo(middle - 5, tip + (rising ? 8 : -8))
-                ..lineTo(middle + 5, tip + (rising ? 8 : -8))
-                ..close(),
-              Paint()..color = tone);
+            Path()
+              ..moveTo(middle, tip)
+              ..lineTo(middle - 5, tip + (rising ? 8 : -8))
+              ..lineTo(middle + 5, tip + (rising ? 8 : -8))
+              ..close(),
+            Paint()..color = tone,
+          );
       }
       writeOn(
-          canvas,
-          size,
-          pond.change == 0
-              ? 'the level holds'
-              : '${rising ? 'filling' : 'emptying'} at '
+        canvas,
+        size,
+        pond.change == 0
+            ? 'the level holds'
+            : '${rising ? 'filling' : 'emptying'} at '
                   '${pond.change.abs().toStringAsFixed(0)} cfs',
-          Offset(middle + 12, waterY + 4),
-          tone,
-          fontSize: 9.5);
+        Offset(middle + 12, waterY + 4),
+        tone,
+        fontSize: 9.5,
+      );
     }
 
     viewTag(canvas, size, Looking.section, note: 'through the pond');
@@ -352,8 +432,7 @@ class Basin {
   /// The fraction of the watershed contributing at the moment the storm
   /// ends. Below the time of concentration the far ground has not reported
   /// in yet.
-  double get contributing =>
-      math.min(stormMinutes / travelTime, 1).toDouble();
+  double get contributing => math.min(stormMinutes / travelTime, 1).toDouble();
 
   bool get tooShort => stormMinutes < travelTime - 0.01;
 
@@ -377,15 +456,20 @@ class BasinPainter extends CustomPainter {
     for (var i = bands; i >= 1; i--) {
       final wedge = Path()
         ..moveTo(outlet.dx, outlet.dy)
-        ..arcTo(Rect.fromCircle(center: outlet, radius: reach * i / bands),
-            math.pi * 1.15, math.pi * 0.7, false)
+        ..arcTo(
+          Rect.fromCircle(center: outlet, radius: reach * i / bands),
+          math.pi * 1.15,
+          math.pi * 0.7,
+          false,
+        )
         ..close();
       canvas.drawPath(
-          wedge,
-          Paint()
-            ..color = AppColors.ink3
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1);
+        wedge,
+        Paint()
+          ..color = AppColors.ink3
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1,
+      );
     }
 
     // The ground that is contributing: everything whose travel time is
@@ -397,49 +481,72 @@ class BasinPainter extends CustomPainter {
       final filled = Path()
         ..moveTo(outlet.dx, outlet.dy)
         ..arcTo(
-            Rect.fromCircle(
-                center: outlet, radius: reach * basin.contributing),
-            math.pi * 1.15,
-            math.pi * 0.7,
-            false)
+          Rect.fromCircle(center: outlet, radius: reach * basin.contributing),
+          math.pi * 1.15,
+          math.pi * 0.7,
+          false,
+        )
         ..close();
-      canvas.drawPath(filled,
-          Paint()..color = AppColors.info.withValues(alpha: 0.28));
+      canvas.drawPath(
+        filled,
+        Paint()..color = AppColors.info.withValues(alpha: 0.28),
+      );
     }
 
     // The outlet everything drains to.
     canvas.drawCircle(outlet, 5, Paint()..color = AppColors.info);
-    writeOn(canvas, size, 'outlet', outlet + const Offset(8, 2),
-        AppColors.info, fontSize: 9);
+    writeOn(
+      canvas,
+      size,
+      'outlet',
+      outlet + const Offset(8, 2),
+      AppColors.info,
+      fontSize: 9,
+    );
 
     // The longest path, which is what the time of concentration measures.
     final far = Offset(outlet.dx - reach * 0.80, outlet.dy - reach * 0.58);
     canvas.drawLine(
-        far,
-        outlet,
-        Paint()
-          ..color = AppColors.ember
-          ..strokeWidth = 1.8);
-    writeOn(canvas, size, 'the far corner: ${_num(basin.travelTime)} min',
-        far + const Offset(-6, -14), AppColors.ember, fontSize: 9);
-
-    writeOn(canvas, size, 'storm ${_num(basin.stormMinutes)} min',
-        const Offset(8, 8), AppColors.ink2, fontSize: 9.5);
+      far,
+      outlet,
+      Paint()
+        ..color = AppColors.ember
+        ..strokeWidth = 1.8,
+    );
     writeOn(
-        canvas,
-        size,
-        basin.contributing >= 0.999
-            ? 'all of it is contributing'
-            : 'only the ground within ${_num(basin.stormMinutes)} min of the '
+      canvas,
+      size,
+      'the far corner: ${_num(basin.travelTime)} min',
+      far + const Offset(-6, -14),
+      AppColors.ember,
+      fontSize: 9,
+    );
+
+    writeOn(
+      canvas,
+      size,
+      'storm ${_num(basin.stormMinutes)} min',
+      const Offset(8, 8),
+      AppColors.ink2,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      basin.contributing >= 0.999
+          ? 'all of it is contributing'
+          : 'only the ground within ${_num(basin.stormMinutes)} min of the '
                 'outlet is in',
-        const Offset(8, 22),
-        basin.contributing >= 0.999 ? AppColors.forest : AppColors.ink2,
-        fontSize: 9.5);
+      const Offset(8, 22),
+      basin.contributing >= 0.999 ? AppColors.forest : AppColors.ink2,
+      fontSize: 9.5,
+    );
     viewTag(canvas, size, Looking.plan, note: 'bands of equal travel time');
   }
 
   @override
   bool shouldRepaint(BasinPainter old) => old.basin != basin;
 }
+
 String _num(double v) =>
     v == v.roundToDouble() ? v.round().toString() : v.toString();

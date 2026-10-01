@@ -31,7 +31,8 @@ class Flume {
   /// The depth at which the specific energy is least. It depends on the
   /// flow per unit width and on nothing else: not the slope, not the
   /// lining, not how long the channel is.
-  double get criticalDepth => math.pow(unitFlow * unitFlow / _g, 1 / 3) as double;
+  double get criticalDepth =>
+      math.pow(unitFlow * unitFlow / _g, 1 / 3) as double;
 
   /// The energy measured from the channel bed.
   double get energy => depth + unitFlow * unitFlow / (2 * _g * depth * depth);
@@ -80,9 +81,9 @@ class EnergyCurvePainter extends CustomPainter {
   static const _right = 14.0;
 
   Offset _at(Size size, double energy, double depth) => Offset(
-        _left + (size.width - _left - _right) * energy / _rightEnergy,
-        size.height - _bottom - (size.height - _bottom - _top) * depth / _topDepth,
-      );
+    _left + (size.width - _left - _right) * energy / _rightEnergy,
+    size.height - _bottom - (size.height - _bottom - _top) * depth / _topDepth,
+  );
 
   void _curve(Canvas canvas, Size size, Flume f, Paint ink) {
     final path = Path();
@@ -113,13 +114,32 @@ class EnergyCurvePainter extends CustomPainter {
       ..color = AppColors.ink3
       ..strokeWidth = 1.2;
     canvas
-      ..drawLine(Offset(_left, _top), Offset(_left, size.height - _bottom), axis)
-      ..drawLine(Offset(_left, size.height - _bottom),
-          Offset(size.width - _right, size.height - _bottom), axis);
-    writeOn(canvas, size, 'depth y', const Offset(6, 6), AppColors.ink3,
-        fontSize: 9);
-    writeOn(canvas, size, 'specific energy E',
-        Offset(_left + 8, size.height - 14), AppColors.ink3, fontSize: 9);
+      ..drawLine(
+        Offset(_left, _top),
+        Offset(_left, size.height - _bottom),
+        axis,
+      )
+      ..drawLine(
+        Offset(_left, size.height - _bottom),
+        Offset(size.width - _right, size.height - _bottom),
+        axis,
+      );
+    writeOn(
+      canvas,
+      size,
+      'depth y',
+      const Offset(6, 6),
+      AppColors.ink3,
+      fontSize: 9,
+    );
+    writeOn(
+      canvas,
+      size,
+      'specific energy E',
+      Offset(_left + 8, size.height - 14),
+      AppColors.ink3,
+      fontSize: 9,
+    );
 
     // The line E = y, which the deep arm creeps toward and never reaches.
     final far = math.min(_topDepth, _rightEnergy);
@@ -127,36 +147,49 @@ class EnergyCurvePainter extends CustomPainter {
     final to = _at(size, far, far);
     for (var t = 0.0; t < 1; t += 0.06) {
       canvas.drawLine(
-          Offset.lerp(run, to, t)!,
-          Offset.lerp(run, to, math.min(t + 0.03, 1))!,
-          Paint()
-            ..color = AppColors.ink3.withValues(alpha: 0.55)
-            ..strokeWidth = 1);
+        Offset.lerp(run, to, t)!,
+        Offset.lerp(run, to, math.min(t + 0.03, 1))!,
+        Paint()
+          ..color = AppColors.ink3.withValues(alpha: 0.55)
+          ..strokeWidth = 1,
+      );
     }
-    writeOn(canvas, size, 'E = y', _at(size, far, far) + const Offset(-34, -14),
-        AppColors.ink3, fontSize: 9);
+    writeOn(
+      canvas,
+      size,
+      'E = y',
+      _at(size, far, far) + const Offset(-34, -14),
+      AppColors.ink3,
+      fontSize: 9,
+    );
 
     // The curve that was there before anything changed.
     _curve(
-        canvas,
-        size,
-        flume,
-        Paint()
-          ..color = after == null ? AppColors.charcoal : AppColors.ink3
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = after == null ? 2.6 : 1.8);
-    _nose(canvas, size, flume,
-        after == null ? AppColors.ember : AppColors.ink3);
+      canvas,
+      size,
+      flume,
+      Paint()
+        ..color = after == null ? AppColors.charcoal : AppColors.ink3
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = after == null ? 2.6 : 1.8,
+    );
+    _nose(
+      canvas,
+      size,
+      flume,
+      after == null ? AppColors.ember : AppColors.ink3,
+    );
 
     if (after != null) {
       _curve(
-          canvas,
-          size,
-          after!,
-          Paint()
-            ..color = AppColors.forest
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2.6);
+        canvas,
+        size,
+        after!,
+        Paint()
+          ..color = AppColors.forest
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2.6,
+      );
       _nose(canvas, size, after!, AppColors.forest);
     }
 
@@ -165,33 +198,61 @@ class EnergyCurvePainter extends CustomPainter {
       canvas
         ..drawCircle(p, 6, Paint()..color = AppColors.cream)
         ..drawCircle(
-            p,
-            5,
-            Paint()
-              ..color = AppColors.info
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2.4);
-      writeOn(canvas, size, 'the flow', p + const Offset(9, -6),
-          AppColors.info, fontSize: 9);
+          p,
+          5,
+          Paint()
+            ..color = AppColors.info
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2.4,
+        );
+      writeOn(
+        canvas,
+        size,
+        'the flow',
+        p + const Offset(9, -6),
+        AppColors.info,
+        fontSize: 9,
+      );
     }
 
     if (label != null) {
       // Under the axis name, never beside it: the two ran together once.
-      writeOn(canvas, size, label!, const Offset(6, 20), AppColors.ink2,
-          fontSize: 9);
+      writeOn(
+        canvas,
+        size,
+        label!,
+        const Offset(6, 20),
+        AppColors.ink2,
+        fontSize: 9,
+      );
     }
     // Not a view of anything, so it gets no view tag: a specific energy
     // diagram is a graph, and calling it an elevation would be a lie about
     // what the reader is looking at.
-    writeOn(canvas, size, 'SPECIFIC ENERGY DIAGRAM',
-        Offset(size.width, size.height - 13), AppColors.ink3, fontSize: 8.5);
+    writeOn(
+      canvas,
+      size,
+      'SPECIFIC ENERGY DIAGRAM',
+      Offset(size.width, size.height - 13),
+      AppColors.ink3,
+      fontSize: 8.5,
+    );
   }
 
   void _nose(Canvas canvas, Size size, Flume f, Color tone) {
     final p = _at(size, f.leastEnergy, f.criticalDepth);
     canvas.drawCircle(p, 3.5, Paint()..color = tone);
-    writeOn(canvas, size, 'y crit ${f.criticalDepth.toStringAsFixed(2)}',
-        p + const Offset(-64, -7), tone, fontSize: 9);
+    // Below the nose, not above it: the dashed E = y line runs up to the
+    // left and the label used to sit across it. Nothing is drawn left of
+    // the nose, so the room is there.
+    writeOn(
+      canvas,
+      size,
+      'y crit ${f.criticalDepth.toStringAsFixed(2)}',
+      p + const Offset(-64, 6),
+      tone,
+      fontSize: 9,
+    );
   }
 
   @override
@@ -235,8 +296,12 @@ class RipplePainter extends CustomPainter {
     // The channel: bed hatched, water filled, surface marked as a surface.
     canvas.drawRect(Rect.fromLTRB(left, surfaceY, right, bedY), waterFill);
     groundLine(canvas, Offset(left, bedY), Offset(right, bedY));
-    waterLevel(canvas, Offset(left, surfaceY), Offset(right, surfaceY),
-        markAt: left + 30);
+    waterLevel(
+      canvas,
+      Offset(left, surfaceY),
+      Offset(right, surfaceY),
+      markAt: left + 30,
+    );
 
     // The two speeds, drawn to one scale in a clear band above the water
     // so that neither arrow has to sit inside the flow it describes.
@@ -246,41 +311,68 @@ class RipplePainter extends CustomPainter {
       final from = Offset(stoneX, y);
       final to = Offset(stoneX + (forward ? length : -length), y);
       canvas.drawLine(
-          from,
-          to,
-          Paint()
-            ..color = tone
-            ..strokeWidth = 2.4);
+        from,
+        to,
+        Paint()
+          ..color = tone
+          ..strokeWidth = 2.4,
+      );
       final head = forward ? -7.0 : 7.0;
       canvas.drawPath(
-          Path()
-            ..moveTo(to.dx, to.dy)
-            ..lineTo(to.dx + head, to.dy - 4.5)
-            ..lineTo(to.dx + head, to.dy + 4.5)
-            ..close(),
-          Paint()..color = tone);
-      writeOn(canvas, size, text,
-          Offset(forward ? from.dx + 8 : to.dx + 2, y - 15), tone,
-          fontSize: 9.5);
+        Path()
+          ..moveTo(to.dx, to.dy)
+          ..lineTo(to.dx + head, to.dy - 4.5)
+          ..lineTo(to.dx + head, to.dy + 4.5)
+          ..close(),
+        Paint()..color = tone,
+      );
+      writeOn(
+        canvas,
+        size,
+        text,
+        Offset(forward ? from.dx + 8 : to.dx + 2, y - 15),
+        tone,
+        fontSize: 9.5,
+      );
     }
 
-    arrow(54, flume.speed, AppColors.info,
-        'the water, ${flume.speed.toStringAsFixed(1)} m/s', true);
-    arrow(84, flume.waveSpeed, AppColors.ember,
-        'a ripple, ${flume.waveSpeed.toStringAsFixed(1)} m/s', false);
+    arrow(
+      54,
+      flume.speed,
+      AppColors.info,
+      'the water, ${flume.speed.toStringAsFixed(1)} m/s',
+      true,
+    );
+    arrow(
+      84,
+      flume.waveSpeed,
+      AppColors.ember,
+      'a ripple, ${flume.waveSpeed.toStringAsFixed(1)} m/s',
+      false,
+    );
 
     // Where the stone went in, tying the two arrows to a place in the flow.
     canvas
       ..drawLine(
-          Offset(stoneX, 92),
-          Offset(stoneX, surfaceY),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1)
+        Offset(stoneX, 92),
+        Offset(stoneX, surfaceY),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      )
       ..drawCircle(
-          Offset(stoneX, surfaceY - 4), 3.5, Paint()..color = AppColors.ink2);
-    writeOn(canvas, size, 'a stone goes in', Offset(stoneX - 40, 26),
-        AppColors.ink2, fontSize: 9.5);
+        Offset(stoneX, surfaceY - 4),
+        3.5,
+        Paint()..color = AppColors.ink2,
+      );
+    writeOn(
+      canvas,
+      size,
+      'a stone goes in',
+      Offset(stoneX - 40, 26),
+      AppColors.ink2,
+      fontSize: 9.5,
+    );
 
     if (answered) {
       // Where the upstream edge of the ring actually gets to: the two
@@ -292,33 +384,42 @@ class RipplePainter extends CustomPainter {
       final reach = room * net / _scale;
       final y = (surfaceY + bedY) / 2;
       canvas.drawLine(
-          Offset(stoneX, y),
-          Offset(stoneX + reach, y),
-          Paint()
-            ..color = tone
-            ..strokeWidth = 3.4
-            ..strokeCap = StrokeCap.round);
+        Offset(stoneX, y),
+        Offset(stoneX + reach, y),
+        Paint()
+          ..color = tone
+          ..strokeWidth = 3.4
+          ..strokeCap = StrokeCap.round,
+      );
       writeOn(
-          canvas,
-          size,
-          net.abs() < 0.06
-              ? 'the ring holds still'
-              : (net < 0 ? 'the ring works upstream' : 'swept downstream'),
-          Offset(stoneX + (reach < 0 ? reach - 6 : 8), y - 16),
-          tone,
-          fontSize: 9.5);
-    }
-
-    writeOn(canvas, size, 'flow  >', Offset(right - 52, surfaceY - 15),
-        AppColors.ink3, fontSize: 9);
-    writeOn(
         canvas,
         size,
-        'q ${flume.unitFlow.toStringAsFixed(1)} m2/s   depth '
-            '${flume.depth.toStringAsFixed(2)} m',
-        const Offset(8, 8),
-        AppColors.ink3,
-        fontSize: 9);
+        net.abs() < 0.06
+            ? 'the ring holds still'
+            : (net < 0 ? 'the ring works upstream' : 'swept downstream'),
+        Offset(stoneX + (reach < 0 ? reach - 6 : 8), y - 16),
+        tone,
+        fontSize: 9.5,
+      );
+    }
+
+    writeOn(
+      canvas,
+      size,
+      'flow  >',
+      Offset(right - 52, surfaceY - 15),
+      AppColors.ink3,
+      fontSize: 9,
+    );
+    writeOn(
+      canvas,
+      size,
+      'q ${flume.unitFlow.toStringAsFixed(1)} m2/s   depth '
+      '${flume.depth.toStringAsFixed(2)} m',
+      const Offset(8, 8),
+      AppColors.ink3,
+      fontSize: 9,
+    );
     viewTag(canvas, size, Looking.elevation, note: 'along the channel');
   }
 
@@ -364,14 +465,14 @@ enum Carried { discharge, depth, speed, energy, momentum, froude, bed }
 
 extension CarriedWords on Carried {
   String get plain => switch (this) {
-        Carried.discharge => 'the discharge',
-        Carried.depth => 'the depth of water',
-        Carried.speed => 'the velocity',
-        Carried.energy => 'the specific energy',
-        Carried.momentum => 'the momentum function',
-        Carried.froude => 'the Froude number',
-        Carried.bed => 'the elevation of the channel bed',
-      };
+    Carried.discharge => 'the discharge',
+    Carried.depth => 'the depth of water',
+    Carried.speed => 'the velocity',
+    Carried.energy => 'the specific energy',
+    Carried.momentum => 'the momentum function',
+    Carried.froude => 'the Froude number',
+    Carried.bed => 'the elevation of the channel bed',
+  };
 
   /// How the quantity is marked on the drawing, on each side.
   String reading(Surge s, bool upstream) {
@@ -418,7 +519,9 @@ class JumpPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final bedY = size.height - 34;
     final scale = math.min(
-        (size.height - 74) / math.max(surge.afterDepth, 0.05), 70.0);
+      (size.height - 74) / math.max(surge.afterDepth, 0.05),
+      70.0,
+    );
     final left = 16.0;
     final right = size.width - 16;
     final jumpAt = left + (right - left) * 0.42;
@@ -430,8 +533,14 @@ class JumpPainter extends CustomPainter {
     final water = Path()
       ..moveTo(left, up)
       ..lineTo(jumpAt, up)
-      ..cubicTo(jumpAt + (jumpEnd - jumpAt) * 0.4, up,
-          jumpAt + (jumpEnd - jumpAt) * 0.6, down, jumpEnd, down)
+      ..cubicTo(
+        jumpAt + (jumpEnd - jumpAt) * 0.4,
+        up,
+        jumpAt + (jumpEnd - jumpAt) * 0.6,
+        down,
+        jumpEnd,
+        down,
+      )
       ..lineTo(right, down)
       ..lineTo(right, bedY)
       ..lineTo(left, bedY)
@@ -440,16 +549,23 @@ class JumpPainter extends CustomPainter {
     groundLine(canvas, Offset(left, bedY), Offset(right, bedY));
 
     canvas.drawPath(
-        Path()
-          ..moveTo(left, up)
-          ..lineTo(jumpAt, up)
-          ..cubicTo(jumpAt + (jumpEnd - jumpAt) * 0.4, up,
-              jumpAt + (jumpEnd - jumpAt) * 0.6, down, jumpEnd, down)
-          ..lineTo(right, down),
-        Paint()
-          ..color = AppColors.info
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.8);
+      Path()
+        ..moveTo(left, up)
+        ..lineTo(jumpAt, up)
+        ..cubicTo(
+          jumpAt + (jumpEnd - jumpAt) * 0.4,
+          up,
+          jumpAt + (jumpEnd - jumpAt) * 0.6,
+          down,
+          jumpEnd,
+          down,
+        )
+        ..lineTo(right, down),
+      Paint()
+        ..color = AppColors.info
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.8,
+    );
 
     // The roller: the churn that throws the energy away.
     for (var i = 0; i < 5; i++) {
@@ -457,14 +573,15 @@ class JumpPainter extends CustomPainter {
       final x = jumpAt + (jumpEnd - jumpAt) * t;
       final y = up + (down - up) * t;
       canvas.drawArc(
-          Rect.fromCircle(center: Offset(x + 3, y + 5), radius: 5 + i.toDouble()),
-          -2.4,
-          4.2,
-          false,
-          Paint()
-            ..color = AppColors.info.withValues(alpha: 0.8)
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.2);
+        Rect.fromCircle(center: Offset(x + 3, y + 5), radius: 5 + i.toDouble()),
+        -2.4,
+        4.2,
+        false,
+        Paint()
+          ..color = AppColors.info.withValues(alpha: 0.8)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.2,
+      );
     }
 
     // Which way the water is going, which the reader is never asked to
@@ -472,33 +589,65 @@ class JumpPainter extends CustomPainter {
     final arrowY = bedY - 8;
     canvas
       ..drawLine(
-          Offset(left + 6, arrowY),
-          Offset(left + 46, arrowY),
-          Paint()
-            ..color = AppColors.ink2
-            ..strokeWidth = 1.6)
+        Offset(left + 6, arrowY),
+        Offset(left + 46, arrowY),
+        Paint()
+          ..color = AppColors.ink2
+          ..strokeWidth = 1.6,
+      )
       ..drawPath(
-          Path()
-            ..moveTo(left + 52, arrowY)
-            ..lineTo(left + 44, arrowY - 4)
-            ..lineTo(left + 44, arrowY + 4)
-            ..close(),
-          Paint()..color = AppColors.ink2);
+        Path()
+          ..moveTo(left + 52, arrowY)
+          ..lineTo(left + 44, arrowY - 4)
+          ..lineTo(left + 44, arrowY + 4)
+          ..close(),
+        Paint()..color = AppColors.ink2,
+      );
 
-    writeOn(canvas, size, 'coming in', Offset(left + 2, up - 28),
-        AppColors.ink3, fontSize: 9);
-    writeOn(canvas, size, 'going out', Offset(right - 60, down - 28),
-        AppColors.ink3, fontSize: 9);
+    writeOn(
+      canvas,
+      size,
+      'coming in',
+      Offset(left + 2, up - 28),
+      AppColors.ink3,
+      fontSize: 9,
+    );
+    writeOn(
+      canvas,
+      size,
+      'going out',
+      Offset(right - 60, down - 28),
+      AppColors.ink3,
+      fontSize: 9,
+    );
 
     // What the round is asking about, read off each side.
     final tone = answered ? AppColors.forest : AppColors.charcoal;
-    writeOn(canvas, size, asked.reading(surge, true),
-        Offset(left + 2, up - 16), tone, fontSize: 10);
-    writeOn(canvas, size, asked.reading(surge, false),
-        Offset(right - 60, down - 16), tone, fontSize: 10);
+    writeOn(
+      canvas,
+      size,
+      asked.reading(surge, true),
+      Offset(left + 2, up - 16),
+      tone,
+      fontSize: 10,
+    );
+    writeOn(
+      canvas,
+      size,
+      asked.reading(surge, false),
+      Offset(right - 60, down - 16),
+      tone,
+      fontSize: 10,
+    );
 
-    writeOn(canvas, size, asked.plain, const Offset(8, 8), AppColors.ember,
-        fontSize: 9);
+    writeOn(
+      canvas,
+      size,
+      asked.plain,
+      const Offset(8, 8),
+      AppColors.ember,
+      fontSize: 9,
+    );
     viewTag(canvas, size, Looking.elevation, note: 'along the channel');
   }
 

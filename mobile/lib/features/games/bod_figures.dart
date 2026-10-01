@@ -20,8 +20,7 @@ class Demand {
 
   /// How much oxygen has been taken by day t. This is BOD exerted, and it
   /// is what a laboratory BOD test measures.
-  double exertedAt(double days) =>
-      ultimate * (1 - math.exp(-rate * days));
+  double exertedAt(double days) => ultimate * (1 - math.exp(-rate * days));
 
   /// What is left to take. Exerted plus remaining is always the ultimate.
   double remainingAt(double days) => ultimate * math.exp(-rate * days);
@@ -33,9 +32,9 @@ class Demand {
   /// the RATE changes and the ultimate does not: the same organic matter
   /// still needs the same oxygen in the end.
   Demand atTemperature(double celsius, {double theta = 1.056}) => Demand(
-        ultimate: ultimate,
-        rate: rate * math.pow(theta, celsius - 20).toDouble(),
-      );
+    ultimate: ultimate,
+    rate: rate * math.pow(theta, celsius - 20).toDouble(),
+  );
 }
 
 /// The BOD curve: oxygen taken, climbing toward the ultimate and never
@@ -71,11 +70,11 @@ class BodPainter extends CustomPainter {
   double get _days => math.max(day * 3, 12);
 
   Offset _at(Size size, double days, double mg) => Offset(
-        _left + (size.width - _left - _right) * days / _days,
-        size.height -
-            _bottom -
-            (size.height - _bottom - _top) * mg / (demand.ultimate * 1.12),
-      );
+    _left + (size.width - _left - _right) * days / _days,
+    size.height -
+        _bottom -
+        (size.height - _bottom - _top) * mg / (demand.ultimate * 1.12),
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -83,27 +82,52 @@ class BodPainter extends CustomPainter {
       ..color = AppColors.ink3
       ..strokeWidth = 1.2;
     canvas
-      ..drawLine(Offset(_left, _top), Offset(_left, size.height - _bottom),
-          axis)
-      ..drawLine(Offset(_left, size.height - _bottom),
-          Offset(size.width - _right + 30, size.height - _bottom), axis);
-    writeOn(canvas, size, 'mg/L', const Offset(6, 12), AppColors.ink3,
-        fontSize: 9);
-    writeOn(canvas, size, 'days', Offset(size.width - _right - 4,
-        size.height - 14), AppColors.ink3, fontSize: 9);
+      ..drawLine(
+        Offset(_left, _top),
+        Offset(_left, size.height - _bottom),
+        axis,
+      )
+      ..drawLine(
+        Offset(_left, size.height - _bottom),
+        Offset(size.width - _right + 30, size.height - _bottom),
+        axis,
+      );
+    writeOn(
+      canvas,
+      size,
+      'mg/L',
+      const Offset(6, 12),
+      AppColors.ink3,
+      fontSize: 9,
+    );
+    writeOn(
+      canvas,
+      size,
+      'days',
+      Offset(size.width - _right - 4, size.height - 14),
+      AppColors.ink3,
+      fontSize: 9,
+    );
 
     // The ultimate, which the curve approaches and never reaches.
     final top = _at(size, 0, demand.ultimate).dy;
     for (var x = _left; x < size.width - _right + 30; x += 9) {
       canvas.drawLine(
-          Offset(x, top),
-          Offset(x + 5, top),
-          Paint()
-            ..color = AppColors.ink2
-            ..strokeWidth = 1.2);
+        Offset(x, top),
+        Offset(x + 5, top),
+        Paint()
+          ..color = AppColors.ink2
+          ..strokeWidth = 1.2,
+      );
     }
-    writeOn(canvas, size, 'ultimate ${_num(demand.ultimate)}',
-        Offset(_left + 6, top - 14), AppColors.ink2, fontSize: 9);
+    writeOn(
+      canvas,
+      size,
+      'ultimate ${_num(demand.ultimate)}',
+      Offset(_left + 6, top - 17),
+      AppColors.ink2,
+      fontSize: 9,
+    );
 
     void curve(Demand d, Color tone, double width) {
       final path = Path();
@@ -117,11 +141,12 @@ class BodPainter extends CustomPainter {
         }
       }
       canvas.drawPath(
-          path,
-          Paint()
-            ..color = tone
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = width);
+        path,
+        Paint()
+          ..color = tone
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = width,
+      );
     }
 
     if (warmer != null) curve(warmer!, AppColors.error, 2.2);
@@ -131,14 +156,26 @@ class BodPainter extends CustomPainter {
     final x = _at(size, day, 0).dx;
     for (var y = _top; y < size.height - _bottom; y += 8) {
       canvas.drawLine(
-          Offset(x, y),
-          Offset(x, y + 4),
-          Paint()
-            ..color = AppColors.ember
-            ..strokeWidth = 1.2);
+        Offset(x, y),
+        Offset(x, y + 4),
+        Paint()
+          ..color = AppColors.ember
+          ..strokeWidth = 1.2,
+      );
     }
-    writeOn(canvas, size, 'day ${_num(day)}', Offset(x + 3, _top - 14),
-        AppColors.ember, fontSize: 9);
+    // Along the top beside the rate, never on top of it: when the day being
+    // read is early the marker stands close to the axis and the two labels
+    // used to land on each other.
+    final rateText = note ?? 'k ${demand.rate} per day';
+    final clearOfRate = _left + 6 + labelSize(rateText, fontSize: 9).width + 12;
+    writeOn(
+      canvas,
+      size,
+      'day ${_num(day)}',
+      Offset(math.max(x + 3, clearOfRate), _top - 14),
+      AppColors.ember,
+      fontSize: 9,
+    );
 
     if (showSplit) {
       // The ultimate split at that day into what the bugs have taken and
@@ -147,26 +184,55 @@ class BodPainter extends CustomPainter {
       final used = _at(size, 0, demand.exertedAt(day)).dy;
       final base = _at(size, 0, 0).dy;
       canvas
-        ..drawRect(Rect.fromLTRB(barX, used, barX + 20, base),
-            Paint()..color = AppColors.info.withValues(alpha: 0.55))
-        ..drawRect(Rect.fromLTRB(barX, top, barX + 20, used),
-            Paint()..color = AppColors.ink3.withValues(alpha: 0.22))
         ..drawRect(
-            Rect.fromLTRB(barX, top, barX + 20, base),
-            Paint()
-              ..color = AppColors.ink2
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.2);
-      writeOn(canvas, size, 'left', Offset(barX + 24, (top + used) / 2 - 6),
-          AppColors.ink2, fontSize: 9);
-      writeOn(canvas, size, 'used', Offset(barX + 24, (used + base) / 2 - 6),
-          AppColors.info, fontSize: 9);
+          Rect.fromLTRB(barX, used, barX + 20, base),
+          Paint()..color = AppColors.info.withValues(alpha: 0.55),
+        )
+        ..drawRect(
+          Rect.fromLTRB(barX, top, barX + 20, used),
+          Paint()..color = AppColors.ink3.withValues(alpha: 0.22),
+        )
+        ..drawRect(
+          Rect.fromLTRB(barX, top, barX + 20, base),
+          Paint()
+            ..color = AppColors.ink2
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.2,
+        );
+      writeOn(
+        canvas,
+        size,
+        'left',
+        Offset(barX + 24, (top + used) / 2 - 6),
+        AppColors.ink2,
+        fontSize: 9,
+      );
+      writeOn(
+        canvas,
+        size,
+        'used',
+        Offset(barX + 24, (used + base) / 2 - 6),
+        AppColors.info,
+        fontSize: 9,
+      );
     }
 
-    writeOn(canvas, size, note ?? 'k ${demand.rate} per day',
-        Offset(_left + 6, 4), AppColors.ink3, fontSize: 9);
-    writeOn(canvas, size, 'BOD CURVE', Offset(size.width, 4), AppColors.ink3,
-        fontSize: 8.5);
+    writeOn(
+      canvas,
+      size,
+      rateText,
+      Offset(_left + 6, 4),
+      AppColors.ink3,
+      fontSize: 9,
+    );
+    writeOn(
+      canvas,
+      size,
+      'BOD CURVE',
+      Offset(size.width, 4),
+      AppColors.ink3,
+      fontSize: 8.5,
+    );
   }
 
   @override

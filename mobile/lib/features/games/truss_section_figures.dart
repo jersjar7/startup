@@ -45,8 +45,11 @@ class SectionPointsPainter extends CustomPainter {
   final bool locked;
 
   Offset _at(Size size, Offset world) => TrussPainter.toScreen(
-      truss, world, size,
-      cuts: cut == null ? const [] : [cut!]);
+    truss,
+    world,
+    size,
+    cuts: cut == null ? const [] : [cut!],
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -55,11 +58,12 @@ class SectionPointsPainter extends CustomPainter {
       final (a, b) = truss.members[m];
       final lit = m == target;
       canvas.drawLine(
-          _at(size, truss.joints[a].at),
-          _at(size, truss.joints[b].at),
-          Paint()
-            ..color = lit ? AppColors.ember : AppColors.charcoal
-            ..strokeWidth = lit ? 4.4 : 2.2);
+        _at(size, truss.joints[a].at),
+        _at(size, truss.joints[b].at),
+        Paint()
+          ..color = lit ? AppColors.ember : AppColors.charcoal
+          ..strokeWidth = lit ? 4.4 : 2.2,
+      );
     }
 
     // The joints.
@@ -68,36 +72,48 @@ class SectionPointsPainter extends CustomPainter {
       canvas
         ..drawCircle(p, 3.6, Paint()..color = AppColors.cream)
         ..drawCircle(
-            p,
-            3.6,
-            Paint()
-              ..color = AppColors.charcoal
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.4);
+          p,
+          3.6,
+          Paint()
+            ..color = AppColors.charcoal
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1.4,
+        );
     }
 
     // What holds the truss up. It is not needed to pick a moment center,
     // but a truss floating free reads as a mistake.
     for (final e in truss.supports.entries) {
-      TrussPainter.supportMark(canvas, _at(size, truss.joints[e.key].at),
-          e.value);
+      TrussPainter.supportMark(
+        canvas,
+        _at(size, truss.joints[e.key].at),
+        e.value,
+      );
     }
 
     // The cut, dashed, so it reads as a construction and not a member.
     if (cut != null) {
-    final from = _at(size, cut!.from);
-    final to = _at(size, cut!.to);
-    final run = to - from;
-    final unit = run / run.distance;
-    for (var d = 0.0; d < run.distance; d += 9) {
-      canvas.drawLine(from + unit * d, from + unit * math.min(d + 5,
-          run.distance),
+      final from = _at(size, cut!.from);
+      final to = _at(size, cut!.to);
+      final run = to - from;
+      final unit = run / run.distance;
+      for (var d = 0.0; d < run.distance; d += 9) {
+        canvas.drawLine(
+          from + unit * d,
+          from + unit * math.min(d + 5, run.distance),
           Paint()
             ..color = AppColors.info
-            ..strokeWidth = 2);
-    }
-    writeOn(canvas, size, 'the cut', to + const Offset(-18, -14),
-        AppColors.info, fontSize: 9.5);
+            ..strokeWidth = 2,
+        );
+      }
+      writeOn(
+        canvas,
+        size,
+        'the cut',
+        to + const Offset(-18, -14),
+        AppColors.info,
+        fontSize: 9.5,
+      );
     }
 
     // The candidate moment centers.
@@ -114,18 +130,31 @@ class SectionPointsPainter extends CustomPainter {
       canvas
         ..drawCircle(p, 9, Paint()..color = AppColors.cream)
         ..drawCircle(
-            p,
-            9,
-            Paint()
-              ..color = tone
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 2);
-      writeOn(canvas, size, anchors[i].name, p + const Offset(-3, -6), tone,
-          fontSize: 9.5);
+          p,
+          9,
+          Paint()
+            ..color = tone
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2,
+        );
+      writeOn(
+        canvas,
+        size,
+        anchors[i].name,
+        p + const Offset(-3, -6),
+        tone,
+        fontSize: 9.5,
+      );
     }
 
-    writeOn(canvas, size, 'the member wanted is in orange',
-        const Offset(8, 8), AppColors.ember, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'the member wanted is in orange',
+      const Offset(8, 8),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
     viewTag(canvas, size, Looking.elevation, note: 'the truss');
   }
 
@@ -191,55 +220,87 @@ class CornerPainter extends CustomPainter {
     // The two members leaving the joint.
     final along = Offset(math.cos(corner.radians), -math.sin(corner.radians));
     canvas.drawLine(
-        at,
-        at + along * reach,
-        Paint()
-          ..color = AppColors.charcoal
-          ..strokeWidth = 3.4);
-    writeOn(canvas, size, 'the diagonal', at + along * reach + const Offset(4, -12),
-        AppColors.charcoal, fontSize: 9.5);
+      at,
+      at + along * reach,
+      Paint()
+        ..color = AppColors.charcoal
+        ..strokeWidth = 3.4,
+    );
+    writeOn(
+      canvas,
+      size,
+      'the diagonal',
+      at + along * reach + const Offset(4, -12),
+      AppColors.charcoal,
+      fontSize: 9.5,
+    );
     if (corner.horizontal) {
       canvas.drawLine(
-          at,
-          at + Offset(-reach, 0),
-          Paint()
-            ..color = AppColors.charcoal
-            ..strokeWidth = 3.4);
-      writeOn(canvas, size, 'the flat member',
-          at + Offset(-reach, 6), AppColors.charcoal, fontSize: 9.5);
+        at,
+        at + Offset(-reach, 0),
+        Paint()
+          ..color = AppColors.charcoal
+          ..strokeWidth = 3.4,
+      );
+      writeOn(
+        canvas,
+        size,
+        'the flat member',
+        at + Offset(-reach, 6),
+        AppColors.charcoal,
+        fontSize: 9.5,
+      );
     }
 
     // The load.
     canvas
       ..drawLine(
-          at,
-          at + const Offset(0, 52),
-          Paint()
-            ..color = AppColors.info
-            ..strokeWidth = 3)
+        at,
+        at + const Offset(0, 52),
+        Paint()
+          ..color = AppColors.info
+          ..strokeWidth = 3,
+      )
       ..drawPath(
-          Path()
-            ..moveTo(at.dx, at.dy + 58)
-            ..lineTo(at.dx - 5, at.dy + 48)
-            ..lineTo(at.dx + 5, at.dy + 48)
-            ..close(),
-          Paint()..color = AppColors.info);
-    writeOn(canvas, size, '${_num(corner.load)} down',
-        at + const Offset(8, 34), AppColors.info, fontSize: 9.5);
+        Path()
+          ..moveTo(at.dx, at.dy + 58)
+          ..lineTo(at.dx - 5, at.dy + 48)
+          ..lineTo(at.dx + 5, at.dy + 48)
+          ..close(),
+        Paint()..color = AppColors.info,
+      );
+    writeOn(
+      canvas,
+      size,
+      '${_num(corner.load)} down',
+      at + const Offset(8, 34),
+      AppColors.info,
+      fontSize: 9.5,
+    );
 
     // The joint itself.
     canvas
       ..drawCircle(at, 5, Paint()..color = AppColors.cream)
       ..drawCircle(
-          at,
-          5,
-          Paint()
-            ..color = AppColors.charcoal
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2);
+        at,
+        5,
+        Paint()
+          ..color = AppColors.charcoal
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 2,
+      );
 
-    writeOn(canvas, size, '${_num(corner.degrees)} degrees',
-        at + const Offset(16, -18), AppColors.ink3, fontSize: 9.5);
+    // In the wedge the angle actually measures, on the far side of the
+    // joint from the force triangle. Up and to the right it sat under the
+    // triangle's own label, which is long and reaches back across.
+    writeOn(
+      canvas,
+      size,
+      '${_num(corner.degrees)} degrees',
+      at + const Offset(-52, -22),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     if (answered) {
       // The force triangle: the load up, the diagonal's line, and the
@@ -261,15 +322,24 @@ class CornerPainter extends CustomPainter {
         ..drawLine(base, base + Offset(0, -up), ink)
         ..drawLine(base + Offset(0, -up), base + Offset(-across, -up), ink)
         ..drawLine(base + Offset(-across, -up), base, ink);
-      writeOn(canvas, size, 'load', base + Offset(4, -up / 2),
-          AppColors.forest, fontSize: 9);
       writeOn(
-          canvas,
-          size,
-          'diagonal, ${corner.ratio.toStringAsFixed(2)} times the load',
-          base + Offset(-across, -up - 15),
-          AppColors.forest,
-          fontSize: 9);
+        canvas,
+        size,
+        'load',
+        base + Offset(4, -up / 2),
+        AppColors.forest,
+        fontSize: 9,
+      );
+      writeOn(
+        canvas,
+        size,
+        'diagonal, ${corner.ratio.toStringAsFixed(2)} times the load',
+        // Never back past the joint: a shallow diagonal makes a long
+        // triangle and the label used to start on top of the joint itself.
+        Offset(math.max(base.dx - across, at.dx + 22), base.dy - up - 15),
+        AppColors.forest,
+        fontSize: 9,
+      );
     }
     viewTag(canvas, size, Looking.elevation, note: 'one joint, free');
   }

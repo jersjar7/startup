@@ -43,7 +43,9 @@ Widget gradeSignPicture() => const ConceptPicture(
     answered: true,
   ),
   caption: 'the same car and speed, going downhill and going uphill',
-  height: 210,
+  // Two roads, each carrying four rows of labels. At 210 the name of the
+  // second road landed on the first road's own numbers.
+  height: 280,
 );
 
 Widget peakHourPicture() => const ConceptPicture(
@@ -240,30 +242,41 @@ Widget gravityPicture() => const ConceptPicture(
   height: 215,
 );
 
-Widget frictionPicture() => const ConceptPair(
-  left: GravityPainter(
-    spread: Spread(
-      produced: 1000,
-      destinations: [
-        Destination(name: 'near', attractions: 250, friction: 0.6),
-        Destination(name: 'far', attractions: 250, friction: 0.15),
-      ],
+// Stacked: this painter writes three lines of numbers against each
+// destination, and at half width they ran across each other and across the
+// places they belong to.
+Widget frictionPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: GravityPainter(
+        spread: Spread(
+          produced: 1000,
+          destinations: [
+            Destination(name: 'near', attractions: 250, friction: 0.6),
+            Destination(name: 'far', attractions: 250, friction: 0.15),
+          ],
+        ),
+        answered: true,
+      ),
+      caption: 'same size, one further away: the near one wins',
+      height: 200,
     ),
-    answered: true,
-  ),
-  right: GravityPainter(
-    spread: Spread(
-      produced: 1000,
-      destinations: [
-        Destination(name: 'near', attractions: 250, friction: 0.6),
-        Destination(name: 'far', attractions: 1200, friction: 0.15),
-      ],
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: GravityPainter(
+        spread: Spread(
+          produced: 1000,
+          destinations: [
+            Destination(name: 'near', attractions: 250, friction: 0.6),
+            Destination(name: 'far', attractions: 1200, friction: 0.15),
+          ],
+        ),
+        answered: true,
+      ),
+      caption: 'the far one five times bigger: now it wins anyway',
+      height: 200,
     ),
-    answered: true,
-  ),
-  leftCaption: 'same size, one further away: the near one wins',
-  rightCaption: 'the far one five times bigger: now it wins anyway',
-  height: 210,
+  ],
 );
 
 // ---------------------------------------------------------------------------

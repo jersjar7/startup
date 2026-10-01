@@ -161,7 +161,7 @@ Paint get waterFill => Paint()..color = AppColors.info.withValues(alpha: 0.22);
 /// Clamping is the floor, not the fix. A label shoved back inside can land
 /// on top of the thing it names, so a painter that knows it is near an edge
 /// should choose the other side first and let this catch what it missed.
-Offset insidePanel(Size size, Size text, Offset at, {double pad = 2}) {
+Offset insidePanel(Size size, Size text, Offset at, {double pad = 7}) {
   var x = at.dx;
   var y = at.dy;
   if (x + text.width > size.width - pad) x = size.width - pad - text.width;
@@ -179,13 +179,14 @@ void paintInside(Canvas canvas, Size size, TextPainter text, Offset at) {
 
 /// A small label written on a figure, kept inside the panel and given a
 /// patch of background so it never sits on top of a line.
-void writeOn(
+Size writeOn(
   Canvas canvas,
   Size size,
   String text,
   Offset at,
   Color color, {
   double fontSize = 10,
+  double? maxWidth,
 }) {
   // Laid out against the panel width, so a sentence longer than the drawing
   // wraps onto a second line instead of running off the side and being cut.
@@ -197,7 +198,7 @@ void writeOn(
       style: AppTheme.mono(size: fontSize, color: color),
     ),
     textDirection: TextDirection.ltr,
-  )..layout(maxWidth: (size.width - 8).clamp(1.0, double.infinity));
+  )..layout(maxWidth: (maxWidth ?? size.width - 8).clamp(1.0, double.infinity));
   final place = insidePanel(size, painter.size, at);
   final patch = Rect.fromLTWH(
     place.dx - 2,
@@ -210,6 +211,20 @@ void writeOn(
     Paint()..color = AppColors.cream.withValues(alpha: 0.92),
   );
   painter.paint(canvas, place);
+  return painter.size;
+}
+
+/// How big a label will be before it is drawn, for a painter that has to
+/// place it against something: to the left of a peak, under the line above
+/// it, inside a box of its own.
+Size labelSize(String text, {double fontSize = 10}) {
+  return (TextPainter(
+    text: TextSpan(
+      text: text,
+      style: AppTheme.mono(size: fontSize),
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout()).size;
 }
 
 /// Paints a label that has already been laid out, with a patch of the panel

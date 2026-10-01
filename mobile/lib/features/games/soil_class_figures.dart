@@ -67,8 +67,8 @@ class SizeCurvePainter extends CustomPainter {
     final bottom = size.height - 30;
 
     double xOf(double mm) {
-      final t = (math.log(_from) - math.log(mm)) /
-          (math.log(_from) - math.log(_to));
+      final t =
+          (math.log(_from) - math.log(mm)) / (math.log(_from) - math.log(_to));
       return left + t * (right - left);
     }
 
@@ -77,39 +77,72 @@ class SizeCurvePainter extends CustomPainter {
     // The frame.
     canvas
       ..drawLine(
-          Offset(left, top),
-          Offset(left, bottom),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1.2)
+        Offset(left, top),
+        Offset(left, bottom),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.2,
+      )
       ..drawLine(
-          Offset(left, bottom),
-          Offset(right, bottom),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1.2);
-    writeOn(canvas, size, 'percent passing', Offset(2, top - 14),
-        AppColors.ink3, fontSize: 9.5);
-    writeOn(canvas, size, 'coarse', Offset(left + 2, bottom + 8),
-        AppColors.ink3, fontSize: 9.5);
-    writeOn(canvas, size, 'fine', Offset(right - 22, bottom + 8),
-        AppColors.ink3, fontSize: 9.5);
-    writeOn(canvas, size, 'grain size, log scale',
-        Offset(left + 46, bottom + 8), AppColors.ink3, fontSize: 9.5);
+        Offset(left, bottom),
+        Offset(right, bottom),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.2,
+      );
+    writeOn(
+      canvas,
+      size,
+      'percent passing',
+      Offset(2, top - 14),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'coarse',
+      Offset(left + 2, bottom + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'fine',
+      Offset(right - 22, bottom + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'grain size, log scale',
+      Offset(left + 46, bottom + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
 
     // The two sieves that decide the first two forks.
     for (final (mm, name) in [(4.75, 'No 4'), (0.075, 'No 200')]) {
       final x = xOf(mm);
       for (var y = top; y < bottom; y += 8) {
         canvas.drawLine(
-            Offset(x, y),
-            Offset(x, math.min(y + 4, bottom)),
-            Paint()
-              ..color = AppColors.info
-              ..strokeWidth = 1.2);
+          Offset(x, y),
+          Offset(x, math.min(y + 4, bottom)),
+          Paint()
+            ..color = AppColors.info
+            ..strokeWidth = 1.2,
+        );
       }
-      writeOn(canvas, size, name, Offset(x - 14, top - 14), AppColors.info,
-          fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        name,
+        Offset(x - 14, top - 14),
+        AppColors.info,
+        fontSize: 9.5,
+      );
     }
 
     // The curve itself, through the three named sizes and the two sieves.
@@ -126,11 +159,12 @@ class SizeCurvePainter extends CustomPainter {
       path.lineTo(p.dx, p.dy);
     }
     canvas.drawPath(
-        path,
-        Paint()
-          ..color = AppColors.ember
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.4);
+      path,
+      Paint()
+        ..color = AppColors.ember
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.4,
+    );
 
     // The three sizes the coefficients are built from.
     for (final (mm, percent, name) in [
@@ -140,8 +174,14 @@ class SizeCurvePainter extends CustomPainter {
     ]) {
       final at = Offset(xOf(mm), yOf(percent));
       canvas.drawCircle(at, 3.4, Paint()..color = AppColors.ember);
-      writeOn(canvas, size, '$name ${_mm(mm)}', at + const Offset(6, -12),
-          AppColors.ember, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        '$name ${_mm(mm)}',
+        at + const Offset(6, -12),
+        AppColors.ember,
+        fontSize: 9.5,
+      );
     }
   }
 
@@ -194,59 +234,104 @@ class PlasticityPainter extends CustomPainter {
 
     canvas
       ..drawLine(
-          Offset(left, top),
-          Offset(left, bottom),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1.2)
+        Offset(left, top),
+        Offset(left, bottom),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.2,
+      )
       ..drawLine(
-          Offset(left, bottom),
-          Offset(right, bottom),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1.2);
-    writeOn(canvas, size, 'plasticity index', Offset(2, top - 16),
-        AppColors.ink3, fontSize: 9.5);
-    writeOn(canvas, size, 'liquid limit', Offset(left + 30, bottom + 8),
-        AppColors.ink3, fontSize: 9.5);
+        Offset(left, bottom),
+        Offset(right, bottom),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1.2,
+      );
+    // Both axis names clear of their own tick numbers: the index sat on the
+    // 60 and the limit sat on the 20.
+    writeOn(
+      canvas,
+      size,
+      'plasticity index',
+      Offset(left - 2, top - 16),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
+    writeOn(
+      canvas,
+      size,
+      'liquid limit',
+      Offset(xOf(62), bottom + 8),
+      AppColors.ink3,
+      fontSize: 9.5,
+    );
     for (final ll in [20.0, 50.0, 100.0]) {
-      writeOn(canvas, size, ll.toStringAsFixed(0),
-          Offset(xOf(ll) - 6, bottom + 8), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        ll.toStringAsFixed(0),
+        Offset(xOf(ll) - 6, bottom + 8),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
     }
     // The other axis needs a scale too, or how far the point sits off the
     // A-line cannot be read at all.
     for (final pi in [20.0, 40.0, 60.0]) {
-      writeOn(canvas, size, pi.toStringAsFixed(0),
-          Offset(4, yOf(pi) - 6), AppColors.ink3, fontSize: 9.5);
+      writeOn(
+        canvas,
+        size,
+        pi.toStringAsFixed(0),
+        Offset(4, yOf(pi) - 6),
+        AppColors.ink3,
+        fontSize: 9.5,
+      );
       canvas.drawLine(
-          Offset(left - 3, yOf(pi)),
-          Offset(left + 3, yOf(pi)),
-          Paint()
-            ..color = AppColors.ink3
-            ..strokeWidth = 1);
+        Offset(left - 3, yOf(pi)),
+        Offset(left + 3, yOf(pi)),
+        Paint()
+          ..color = AppColors.ink3
+          ..strokeWidth = 1,
+      );
     }
 
     // The A-line, from where it leaves the axis at LL 20.
     canvas.drawLine(
-        Offset(xOf(20), yOf(0)),
-        Offset(xOf(100), yOf(0.73 * 80)),
-        Paint()
-          ..color = AppColors.info
-          ..strokeWidth = 2);
-    writeOn(canvas, size, 'the A-line', Offset(xOf(72), yOf(0.73 * 52) - 16),
-        AppColors.info, fontSize: 9.5);
+      Offset(xOf(20), yOf(0)),
+      Offset(xOf(100), yOf(0.73 * 80)),
+      Paint()
+        ..color = AppColors.info
+        ..strokeWidth = 2,
+    );
+    // Under the line out at the far end, where no zone name is written. Over
+    // it at LL 72 the label sat on CH.
+    writeOn(
+      canvas,
+      size,
+      'the A-line',
+      Offset(xOf(85), yOf(0.73 * 65) + 6),
+      AppColors.info,
+      fontSize: 9.5,
+    );
 
     // The high plasticity boundary.
     for (var y = top; y < bottom; y += 8) {
       canvas.drawLine(
-          Offset(xOf(50), y),
-          Offset(xOf(50), math.min(y + 4, bottom)),
-          Paint()
-            ..color = AppColors.info
-            ..strokeWidth = 1.2);
+        Offset(xOf(50), y),
+        Offset(xOf(50), math.min(y + 4, bottom)),
+        Paint()
+          ..color = AppColors.info
+          ..strokeWidth = 1.2,
+      );
     }
-    writeOn(canvas, size, 'LL 50', Offset(xOf(50) - 12, top - 14),
-        AppColors.info, fontSize: 9.5);
+    writeOn(
+      canvas,
+      size,
+      'LL 50',
+      Offset(xOf(50) - 12, top - 14),
+      AppColors.info,
+      fontSize: 9.5,
+    );
 
     // How high the point sits above the A-line, or below it, drawn as a
     // short connector. Without it a sample four points off the line is a
@@ -255,31 +340,34 @@ class PlasticityPainter extends CustomPainter {
     final at = Offset(xOf(fines.liquidLimit), yOf(fines.plasticityIndex));
     final onLine = Offset(at.dx, yOf(fines.aLine));
     canvas.drawLine(
-        at,
-        onLine,
-        Paint()
-          ..color = AppColors.ember.withValues(alpha: 0.6)
-          ..strokeWidth = 1.2);
+      at,
+      onLine,
+      Paint()
+        ..color = AppColors.ember.withValues(alpha: 0.6)
+        ..strokeWidth = 1.2,
+    );
 
     // The sample itself, small enough not to swallow the line it is being
     // compared with.
     canvas
       ..drawCircle(at, 3, Paint()..color = AppColors.ember)
       ..drawCircle(
-          at,
-          6.5,
-          Paint()
-            ..color = AppColors.ember
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 1.4);
+        at,
+        6.5,
+        Paint()
+          ..color = AppColors.ember
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.4,
+      );
     writeOn(
-        canvas,
-        size,
-        'LL ${fines.liquidLimit.toStringAsFixed(0)}, '
-            'PI ${fines.plasticityIndex.toStringAsFixed(0)}',
-        at + const Offset(10, -18),
-        AppColors.ember,
-        fontSize: 9.5);
+      canvas,
+      size,
+      'LL ${fines.liquidLimit.toStringAsFixed(0)}, '
+      'PI ${fines.plasticityIndex.toStringAsFixed(0)}',
+      at + const Offset(10, -18),
+      AppColors.ember,
+      fontSize: 9.5,
+    );
 
     if (answered) {
       for (final (ll, pi, name) in [
@@ -288,8 +376,14 @@ class PlasticityPainter extends CustomPainter {
         (33.0, 5.0, 'ML'),
         (74.0, 17.0, 'MH'),
       ]) {
-        writeOn(canvas, size, name, Offset(xOf(ll), yOf(pi)), AppColors.forest,
-            fontSize: 10);
+        writeOn(
+          canvas,
+          size,
+          name,
+          Offset(xOf(ll), yOf(pi)),
+          AppColors.forest,
+          fontSize: 10,
+        );
       }
     }
   }
