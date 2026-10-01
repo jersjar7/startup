@@ -583,7 +583,14 @@ class _ZeroPainter extends CustomPainter {
       color: AppColors.ember,
       weight: FontWeight.w700,
     );
-    inkLabel(canvas, a, Offset(absX + 10, (vacuum + atmos) / 2 - a.height / 2));
+    // Left of its arrow, the way the gauge label sits: to the right it ran
+    // into the panel edge and lost its last letter. The band it sits in is
+    // below where the gauge arrow reaches, so nothing else is there.
+    inkLabel(
+      canvas,
+      a,
+      Offset(absX - a.width - 9, (vacuum + atmos) / 2 - a.height / 2),
+    );
 
     final gap = _text(
       '101.3 kPa apart, always',
