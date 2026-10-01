@@ -583,19 +583,28 @@ Widget flangePicture() => const ConceptPair(
 // ---------------------------------------------------------------------------
 // 104 Steel columns
 
-Widget axisPicture() => const ConceptPair(
-  left: steel.AxisPainter(
-    post: steel.Post(height: 24, rx: 6.0, ry: 2.5),
-    answered: true,
-  ),
-  right: steel.AxisPainter(
-    post: steel.Post(height: 24, rx: 6.0, ry: 2.5, weakBraces: 2),
-    answered: true,
-  ),
-  leftCaption: 'free both ways: it folds the shallow way, as it always does',
-  rightCaption:
-      'braced halfway the shallow way: now the deep way may take over',
-  height: 220,
+// Stacked: each panel already holds two columns of its own, and at half
+// width the name of one ran into the name of the other.
+Widget axisPicture() => const Column(
+  children: [
+    ConceptPicture(
+      painter: steel.AxisPainter(
+        post: steel.Post(height: 24, rx: 6.0, ry: 2.5),
+        answered: true,
+      ),
+      caption: 'free both ways: it folds the shallow way, as it always does',
+      height: 200,
+    ),
+    SizedBox(height: 12),
+    ConceptPicture(
+      painter: steel.AxisPainter(
+        post: steel.Post(height: 24, rx: 6.0, ry: 2.5, weakBraces: 2),
+        answered: true,
+      ),
+      caption: 'braced halfway the shallow way: now the deep way may take over',
+      height: 200,
+    ),
+  ],
 );
 
 Widget columnTablePicture() => const ConceptPicture(
