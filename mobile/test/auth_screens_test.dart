@@ -86,7 +86,16 @@ void main() {
     _phone(tester);
     await tester.pumpWidget(_app(const SplashScreen()));
     await _settle(tester);
-    expect(find.text('FE for Raccoons'), findsOneWidget);
+    // The website's wordmark, so the app reads as the same platform. The
+    // iOS launch screen draws the same file on the same ground.
+    expect(
+      tester.widget<Image>(find.byType(Image)).image,
+      isA<AssetImage>().having(
+        (i) => i.assetName,
+        'assetName',
+        'assets/brand/wordmark.png',
+      ),
+    );
     await _golden(tester, 'splash');
   });
 

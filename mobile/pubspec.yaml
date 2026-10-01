@@ -71,6 +71,10 @@ flutter:
     # The lesson node artwork, built from mobile/rive/lesson_node with the
     # Rive CLI (see docs/mobile/lesson-node-rive.md).
     - assets/rive/
+    # The website's wordmark, shown at launch so the app reads as the same
+    # platform (owner's call, 2026-10-01). The same file the iOS launch
+    # screen uses, so the two cannot drift apart.
+    - assets/brand/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
